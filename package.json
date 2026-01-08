@@ -1,0 +1,29 @@
+{
+  "name": "plenya",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema de Prontuário Médico Eletrônico (EMR)",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "generate": "bash scripts/generate-all.sh",
+    "generate:migrations": "cd apps/api && atlas migrate diff --dev-url 'docker://postgres/17/plenya_dev' --to 'file://internal/models' --dir 'file://database/migrations'",
+    "generate:openapi": "cd apps/api && swag init -g cmd/server/main.go -o docs",
+    "generate:types": "cd packages/types && npx openapi-typescript ../../apps/api/docs/swagger.json -o src/generated/api-types.ts",
+    "generate:zod": "cd packages/types && npx openapi-zod-client ../../apps/api/docs/swagger.json -o src/generated/api-schemas.ts --export-schemas"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "turbo": "^2.3.3",
+    "openapi-typescript": "^7.4.4",
+    "openapi-zod-client": "^1.18.2"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.15.0"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

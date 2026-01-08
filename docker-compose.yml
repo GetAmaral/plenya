@@ -1,0 +1,81 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: plenya-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: plenya_user
+      POSTGRES_PASSWORD: plenya_dev_password
+      POSTGRES_DB: plenya_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U plenya_user -d plenya_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - plenya-network
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.dev
+    container_name: plenya-api
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - ENVIRONMENT=development
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=plenya_user
+      - DB_PASSWORD=plenya_dev_password
+      - DB_NAME=plenya_db
+      - DB_SSL_MODE=disable
+      - JWT_SECRET=dev_jwt_secret_plenya_emr_2026_change_in_production
+      - JWT_ACCESS_EXPIRY=15m
+      - JWT_REFRESH_EXPIRY=168h
+      - ENCRYPTION_KEY=dev_plenya_emr_2026_change_prod!
+      - CORS_ORIGIN=http://localhost:3000
+      - RATE_LIMIT_REQUESTS=100
+      - RATE_LIMIT_WINDOW=60
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./apps/api:/app
+    networks:
+      - plenya-network
+
+  web:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile.dev
+    container_name: plenya-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - NODE_ENV=development
+    depends_on:
+      - api
+    volumes:
+      - ./apps/web:/app/apps/web
+      - ./packages:/app/packages
+      - /app/node_modules
+      - /app/apps/web/node_modules
+      - /app/apps/web/.next
+    networks:
+      - plenya-network
+
+volumes:
+  pgdata:
+
+networks:
+  plenya-network:
+    driver: bridge

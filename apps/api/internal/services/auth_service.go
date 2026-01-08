@@ -1,0 +1,180 @@
+package services
+
+import (
+	"errors"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
+
+	"github.com/plenya/api/internal/config"
+	"github.com/plenya/api/internal/dto"
+	"github.com/plenya/api/internal/models"
+)
+
+var (
+	ErrInvalidCredentials = errors.New("invalid credentials")
+	ErrUserAlreadyExists  = errors.New("user already exists")
+	ErrInvalidToken       = errors.New("invalid token")
+)
+
+type AuthService struct {
+	db  *gorm.DB
+	cfg *config.Config
+}
+
+func NewAuthService(db *gorm.DB, cfg *config.Config) *AuthService {
+	return &AuthService{db: db, cfg: cfg}
+}
+
+// JWTClaims representa os claims do JWT
+type JWTClaims struct {
+	UserID string           `json:"userId"`
+	Email  string           `json:"email"`
+	Role   models.UserRole  `json:"role"`
+	jwt.RegisteredClaims
+}
+
+// Register cria um novo usuário
+func (s *AuthService) Register(req *dto.RegisterRequest) (*dto.AuthResponse, error) {
+	// Verificar se usuário já existe
+	var existingUser models.User
+	if err := s.db.Where("email = ?", req.Email).First(&existingUser).Error; err == nil {
+		return nil, ErrUserAlreadyExists
+	}
+
+	// Hash da senha
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, err
+	}
+
+	// Criar usuário
+	user := models.User{
+		Email:        req.Email,
+		PasswordHash: string(hashedPassword),
+		Role:         req.Role,
+	}
+
+	if err := s.db.Create(&user).Error; err != nil {
+		return nil, err
+	}
+
+	// Gerar tokens
+	return s.generateAuthResponse(&user)
+}
+
+// Login autentica um usuário
+func (s *AuthService) Login(req *dto.LoginRequest) (*dto.AuthResponse, error) {
+	// Buscar usuário
+	var user models.User
+	if err := s.db.Where("email = ?", req.Email).First(&user).Error; err != nil {
+		return nil, ErrInvalidCredentials
+	}
+
+	// Verificar senha
+	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {
+		return nil, ErrInvalidCredentials
+	}
+
+	// Gerar tokens
+	return s.generateAuthResponse(&user)
+}
+
+// RefreshToken gera um novo access token a partir do refresh token
+func (s *AuthService) RefreshToken(refreshToken string) (*dto.AuthResponse, error) {
+	// Validar refresh token
+	claims, err := s.validateToken(refreshToken)
+	if err != nil {
+		return nil, err
+	}
+
+	// Buscar usuário
+	userID, err := uuid.Parse(claims.UserID)
+	if err != nil {
+		return nil, ErrInvalidToken
+	}
+
+	var user models.User
+	if err := s.db.First(&user, userID).Error; err != nil {
+		return nil, ErrInvalidCredentials
+	}
+
+	// Gerar novos tokens
+	return s.generateAuthResponse(&user)
+}
+
+// generateAuthResponse gera access token, refresh token e resposta
+func (s *AuthService) generateAuthResponse(user *models.User) (*dto.AuthResponse, error) {
+	// Parse access expiry
+	accessExpiry, err := time.ParseDuration(s.cfg.JWT.AccessExpiry)
+	if err != nil {
+		return nil, errors.New("invalid access expiry configuration")
+	}
+
+	// Parse refresh expiry
+	refreshExpiry, err := time.ParseDuration(s.cfg.JWT.RefreshExpiry)
+	if err != nil {
+		return nil, errors.New("invalid refresh expiry configuration")
+	}
+
+	// Gerar access token
+	accessToken, err := s.generateToken(user, accessExpiry)
+	if err != nil {
+		return nil, err
+	}
+
+	// Gerar refresh token
+	refreshToken, err := s.generateToken(user, refreshExpiry)
+	if err != nil {
+		return nil, err
+	}
+
+	return &dto.AuthResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		User: dto.UserDTO{
+			ID:               user.ID.String(),
+			Email:            user.Email,
+			Role:             user.Role,
+			TwoFactorEnabled: user.TwoFactorEnabled,
+			CreatedAt:        user.CreatedAt.Format(time.RFC3339),
+		},
+	}, nil
+}
+
+// generateToken gera um JWT token
+func (s *AuthService) generateToken(user *models.User, expiry time.Duration) (string, error) {
+	claims := JWTClaims{
+		UserID: user.ID.String(),
+		Email:  user.Email,
+		Role:   user.Role,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(expiry)),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			Issuer:    "plenya-emr",
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(s.cfg.JWT.Secret))
+}
+
+// validateToken valida um JWT token e retorna os claims
+func (s *AuthService) validateToken(tokenString string) (*JWTClaims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(s.cfg.JWT.Secret), nil
+	})
+
+	if err != nil {
+		return nil, ErrInvalidToken
+	}
+
+	if claims, ok := token.Claims.(*JWTClaims); ok && token.Valid {
+		return claims, nil
+	}
+
+	return nil, ErrInvalidToken
+}

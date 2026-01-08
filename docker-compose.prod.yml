@@ -1,0 +1,67 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    image: plenya-api:latest
+    container_name: plenya-api-prod
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_ACCESS_EXPIRY=${JWT_ACCESS_EXPIRY:-15m}
+      - JWT_REFRESH_EXPIRY=${JWT_REFRESH_EXPIRY:-168h}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - ENVIRONMENT=production
+      - PORT=3001
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - plenya-network
+    labels:
+      - "coolify.managed=true"
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    image: plenya-web:latest
+    container_name: plenya-web-prod
+    restart: unless-stopped
+    environment:
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - NODE_ENV=production
+    networks:
+      - plenya-network
+    labels:
+      - "coolify.managed=true"
+
+  db:
+    image: postgres:17-alpine
+    container_name: plenya-db-prod
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - plenya-network
+
+volumes:
+  pgdata:
+
+networks:
+  plenya-network:
+    driver: bridge

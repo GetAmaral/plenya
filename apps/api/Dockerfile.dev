@@ -1,0 +1,16 @@
+FROM golang:1.23-alpine
+
+WORKDIR /app
+
+# Instalar dependências do sistema
+RUN apk add --no-cache git make
+
+# Copiar entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Expor porta
+EXPOSE 3001
+
+# Usar entrypoint para rodar go mod tidy antes de iniciar
+ENTRYPOINT ["/entrypoint.sh"]
