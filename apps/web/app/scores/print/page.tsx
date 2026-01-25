@@ -154,7 +154,7 @@ export default function ScorePrintPage() {
                           {subgroup.items
                             .filter(item => !item.parentItemId) // Apenas itens raiz
                             .map((item) => (
-                              <div key={item.id} className="break-inside-avoid">
+                              <div key={item.id}>
                                 {/* Item */}
                                 <div className="border rounded-lg print:rounded-none print:border-gray-300">
                                   <div className="bg-card px-2 py-1.5 border-b print:px-1.5 print:py-1">
