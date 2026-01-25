@@ -13,6 +13,10 @@ type ScoreItem struct {
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
 
+	// Código único para identificação programática (opcional)
+	// @example HGB_M, GLUCOSE_FASTING, IMC, BREASTFEEDING_DURATION
+	Code *string `gorm:"type:varchar(100);unique;index" json:"code,omitempty" validate:"omitempty,max=100"`
+
 	// @minLength 2
 	// @maxLength 300
 	// @example Hemoglobina - Homens
