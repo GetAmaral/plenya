@@ -156,6 +156,51 @@ useFormNavigation({
 - [ ] Cadastro de Anamnese
 - [ ] Cadastro de Exame Laboratorial
 
+## Prevenção de Duplo Submit
+
+**CRÍTICO:** Todos os botões de submit DEVEM estar disabled durante processamento.
+
+### Padrão Recomendado
+
+```tsx
+// Com React Hook Form + TanStack Query
+const {
+  handleSubmit,
+  formState: { errors, isDirty }
+} = useForm();
+
+const mutation = useMutation({
+  mutationFn: async (data) => apiClient.post('/endpoint', data),
+  onSuccess: () => { /* ... */ }
+});
+
+const onSubmit = (data) => {
+  mutation.mutate(data);
+};
+
+// No JSX:
+<Button
+  type="submit"
+  disabled={mutation.isPending || Object.keys(errors).length > 0}
+>
+  {mutation.isPending ? (
+    <>
+      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      Salvando...
+    </>
+  ) : (
+    "Salvar"
+  )}
+</Button>
+```
+
+### Checklist de Submit
+
+- ✅ `disabled={mutation.isPending}` ou `disabled={isLoading}`
+- ✅ Mostrar spinner/loading state quando disabled
+- ✅ Mudar texto do botão (ex: "Salvando..." ao invés de "Salvar")
+- ✅ Cursor `not-allowed` quando disabled (já configurado no CSS global)
+
 ## Notas Importantes
 
 1. **Sempre adicione o ref ao form**: Sem o ref, o hook não funciona
@@ -163,6 +208,7 @@ useFormNavigation({
 3. **Funciona com shadcn/ui**: Testado com todos os componentes
 4. **Performance**: Zero impacto, apenas um event listener por formulário
 5. **Acessibilidade**: Não interfere com leitores de tela ou navegação por teclado
+6. **Previna duplo submit**: SEMPRE use disabled={isPending} nos botões de submit
 
 ## Troubleshooting
 

@@ -144,9 +144,6 @@ export function ScoreLevelBadge({
             <p className="font-semibold">
               Nível {level.level}: {style.label}
             </p>
-            {level.definition && (
-              <p className="text-xs text-muted-foreground">{level.definition}</p>
-            )}
             {(level.lowerLimit || level.upperLimit) && (
               <p className="text-xs font-mono">
                 {level.operator === 'between' && level.lowerLimit && level.upperLimit

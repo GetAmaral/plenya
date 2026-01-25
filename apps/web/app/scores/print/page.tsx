@@ -105,81 +105,71 @@ export default function ScorePrintPage() {
       </div>
 
       {/* Cabeçalho da impressão (visível apenas na impressão) */}
-      <div className="hidden print:block mb-8">
-        <div className="text-center border-b pb-4">
-          <h1 className="text-3xl font-bold">Escore Plenya</h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Sistema de Pontuação de Saúde Funcional e Longevidade
-          </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            Gerado em: {new Date().toLocaleDateString('pt-BR', {
-              day: '2-digit',
-              month: 'long',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })}
+      <div className="hidden print:block mb-1">
+        <div className="text-center border-b pb-0.5">
+          <h1 className="text-sm font-bold">Escore Plenya - Sistema de Pontuação de Saúde</h1>
+          <p className="text-[7pt] text-muted-foreground">
+            Gerado em: {new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
           </p>
         </div>
       </div>
 
       {/* Conteúdo Principal */}
       <div className="container mx-auto px-4 py-8 print:px-0 print:py-0">
-        <div className="space-y-8">
+        <div className="space-y-2 print:space-y-1">
           {groups.map((group, groupIndex) => (
             <div key={group.id} className="break-inside-avoid">
               {/* Grupo */}
-              <div className="mb-4">
-                <div className="bg-primary text-primary-foreground rounded-lg px-6 py-4 print:rounded-none">
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-foreground/20 text-sm font-bold">
+              <div className="mb-1 print:mb-0.5">
+                <div className="bg-primary text-primary-foreground rounded-lg px-3 py-1.5 print:rounded-none print:px-2 print:py-1">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-center w-5 h-5 rounded-full bg-primary-foreground/20 text-[10px] font-bold print:w-4 print:h-4">
                       {groupIndex + 1}
                     </div>
-                    <h2 className="text-xl font-bold">{group.name}</h2>
+                    <h2 className="text-base font-bold print:text-sm">{group.name}</h2>
                   </div>
                 </div>
               </div>
 
               {/* Subgrupos */}
               {group.subgroups && group.subgroups.length > 0 && (
-                <div className="space-y-6 ml-4 print:ml-2">
+                <div className="space-y-3 ml-2 print:space-y-1 print:ml-1">
                   {group.subgroups.map((subgroup, subgroupIndex) => (
                     <div key={subgroup.id} className="break-inside-avoid">
                       {/* Subgrupo */}
-                      <div className="mb-3">
-                        <div className="bg-muted rounded-lg px-5 py-3 print:rounded-none border-l-4 border-primary">
-                          <div className="flex items-center gap-2">
-                            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                      <div className="mb-1 print:mb-0.5">
+                        <div className="bg-muted rounded-lg px-3 py-1.5 print:rounded-none border-l-2 border-primary print:px-2 print:py-1">
+                          <div className="flex items-center gap-1.5">
+                            <div className="flex items-center justify-center w-4 h-4 rounded-full bg-primary/10 text-[9px] font-semibold text-primary print:w-3 print:h-3">
                               {groupIndex + 1}.{subgroupIndex + 1}
                             </div>
-                            <h3 className="text-lg font-semibold">{subgroup.name}</h3>
+                            <h3 className="text-sm font-semibold print:text-xs">{subgroup.name}</h3>
                           </div>
                         </div>
                       </div>
 
                       {/* Itens */}
                       {subgroup.items && subgroup.items.length > 0 && (
-                        <div className="space-y-4 ml-4 print:ml-2">
+                        <div className="space-y-2 ml-2 print:space-y-1 print:ml-1">
                           {subgroup.items
                             .filter(item => !item.parentItemId) // Apenas itens raiz
                             .map((item) => (
                               <div key={item.id} className="break-inside-avoid">
                                 {/* Item */}
-                                <div className="border rounded-lg print:rounded-none">
-                                  <div className="bg-card px-4 py-3 border-b">
-                                    <div className="flex items-start justify-between gap-4">
+                                <div className="border rounded-lg print:rounded-none print:border-gray-300">
+                                  <div className="bg-card px-2 py-1.5 border-b print:px-1.5 print:py-1">
+                                    <div className="flex items-start justify-between gap-2">
                                       <div className="flex-1">
-                                        <h4 className="font-medium text-sm leading-tight">{item.name}</h4>
+                                        <h4 className="font-medium text-xs leading-tight print:text-[9pt]">{item.name}</h4>
                                         {item.unit && (
-                                          <p className="text-xs text-muted-foreground mt-1">
-                                            Unidade: {item.unit}
-                                            {item.unitConversion && ` | ${item.unitConversion}`}
+                                          <p className="text-[10px] text-muted-foreground mt-0.5 print:text-[7pt]">
+                                            {item.unit}{item.unitConversion && ` | ${item.unitConversion}`}
                                           </p>
                                         )}
                                       </div>
                                       <div className="text-right shrink-0">
-                                        <div className="text-sm font-bold text-primary">
-                                          {item.points} pts
+                                        <div className="text-[10px] font-bold text-primary print:text-[8pt]">
+                                          {item.points}pt
                                         </div>
                                       </div>
                                     </div>
@@ -187,8 +177,8 @@ export default function ScorePrintPage() {
 
                                   {/* Níveis */}
                                   {item.levels && item.levels.length > 0 && (
-                                    <div className="p-3 bg-muted/30">
-                                      <div className="flex flex-wrap gap-2">
+                                    <div className="p-2 bg-muted/30 print:p-1">
+                                      <div className="flex flex-wrap gap-1 print:gap-0.5">
                                         {item.levels
                                           .sort((a, b) => a.level - b.level)
                                           .map((level) => {
@@ -199,14 +189,14 @@ export default function ScorePrintPage() {
                                             return (
                                               <div
                                                 key={level.id}
-                                                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium ${style.bg} ${style.text} ${style.border}`}
+                                                className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium ${style.bg} ${style.text} ${style.border} print:px-1.5 print:py-0 print:text-[7pt]`}
                                                 title={`${level.name}${range ? ` (${range})` : ''}${level.definition ? ` - ${level.definition}` : ''}`}
                                               >
                                                 <span className="font-bold">N{level.level}:</span>
                                                 {hasValues ? (
-                                                  <span className="font-mono text-[10px]">{range}</span>
+                                                  <span className="font-mono text-[9px] print:text-[6.5pt]">{range}</span>
                                                 ) : (
-                                                  <span>{level.name}</span>
+                                                  <span className="print:text-[6.5pt]">{level.name}</span>
                                                 )}
                                               </div>
                                             )
@@ -218,20 +208,20 @@ export default function ScorePrintPage() {
                                   {/* Itens Filhos (hierárquicos) */}
                                   {item.childItems && item.childItems.length > 0 && (
                                     <div className="border-t bg-muted/10">
-                                      <div className="p-3 space-y-3">
+                                      <div className="p-1.5 space-y-1.5 print:p-1 print:space-y-1">
                                         {item.childItems.map((childItem) => (
-                                          <div key={childItem.id} className="pl-3 border-l-2 border-primary/30">
-                                            <div className="mb-2">
+                                          <div key={childItem.id} className="pl-2 border-l-2 border-primary/30 print:pl-1.5">
+                                            <div className="mb-1 print:mb-0.5">
                                               <div className="flex items-start justify-between gap-2">
-                                                <h5 className="font-medium text-xs text-muted-foreground">
+                                                <h5 className="font-medium text-[10px] text-muted-foreground print:text-[8pt]">
                                                   {childItem.name}
                                                 </h5>
-                                                <span className="text-xs font-semibold text-primary shrink-0">
-                                                  {childItem.points} pts
+                                                <span className="text-[10px] font-semibold text-primary shrink-0 print:text-[8pt]">
+                                                  {childItem.points}pt
                                                 </span>
                                               </div>
                                               {childItem.unit && (
-                                                <p className="text-xs text-muted-foreground/80 mt-0.5">
+                                                <p className="text-[9px] text-muted-foreground/80 mt-0.5 print:text-[7pt]">
                                                   {childItem.unit}
                                                 </p>
                                               )}
@@ -239,7 +229,7 @@ export default function ScorePrintPage() {
 
                                             {/* Níveis do item filho */}
                                             {childItem.levels && childItem.levels.length > 0 && (
-                                              <div className="flex flex-wrap gap-1.5">
+                                              <div className="flex flex-wrap gap-1 print:gap-0.5">
                                                 {childItem.levels
                                                   .sort((a, b) => a.level - b.level)
                                                   .map((level) => {
@@ -250,14 +240,14 @@ export default function ScorePrintPage() {
                                                     return (
                                                       <div
                                                         key={level.id}
-                                                        className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${style.bg} ${style.text} ${style.border}`}
+                                                        className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium ${style.bg} ${style.text} ${style.border} print:px-1.5 print:py-0 print:text-[7pt]`}
                                                         title={`${level.name}${range ? ` (${range})` : ''}${level.definition ? ` - ${level.definition}` : ''}`}
                                                       >
                                                         <span className="font-bold">N{level.level}:</span>
                                                         {hasValues ? (
-                                                          <span className="font-mono text-[9px]">{range}</span>
+                                                          <span className="font-mono text-[9px] print:text-[6.5pt]">{range}</span>
                                                         ) : (
-                                                          <span>{level.name}</span>
+                                                          <span className="print:text-[6.5pt]">{level.name}</span>
                                                         )}
                                                       </div>
                                                     )
@@ -284,9 +274,9 @@ export default function ScorePrintPage() {
       </div>
 
       {/* Rodapé (visível apenas na impressão) */}
-      <div className="hidden print:block mt-8 pt-4 border-t text-center text-xs text-muted-foreground">
+      <div className="hidden print:block mt-2 pt-1 border-t text-center text-[8pt] text-muted-foreground">
         <p>Plenya - Sistema de Prontuário Médico Eletrônico</p>
-        <p className="mt-1">Este documento contém informações confidenciais e deve ser tratado de acordo com a LGPD</p>
+        <p className="mt-0.5">Este documento contém informações confidenciais e deve ser tratado de acordo com a LGPD</p>
       </div>
     </div>
   )

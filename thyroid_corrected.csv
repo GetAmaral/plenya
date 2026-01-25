@@ -1,0 +1,6 @@
+Nome;Unidade | Conversão;20;Nível 0;Nível 1;Nível 2;Nível 3;Nível 4;Nível 5
+TSH;mIU/L | 1 mIU/L = 1 µIU/mL;20;>10.0;<0.1;4.6 a 10.0;2.6 a 4.5;2.0 a 2.5;0.45 a 2.0
+T3 Livre (FT3);pg/mL | 1 pg/mL = 1.54 pmol/L;20;<2.0;>4.4;2.0 a 2.4;3.5 a 4.4;2.5 a 2.9;3.0 a 3.5
+T4 Livre (FT4);ng/dL | 1 ng/dL = 12.87 pmol/L;20;<0.7;>1.8;0.7 a 0.81;1.51 a 1.8;0.82 a 0.99;1.0 a 1.5
+T3 Reverso (rT3);ng/dL | 1 ng/dL = 0.0154 nmol/L;20;>25.0;<8.0;20.1 a 25.0;8.0 a 9.9;15.1 a 20.0;10.0 a 15.0
+Relação T3 Livre:T3 Reverso;ratio | FT3 (pg/mL) ÷ rT3 (ng/dL);20;<6.0;>30;6.0 a 9.9;20.1 a 30;10.0 a 14.9;15.0 a 20.0

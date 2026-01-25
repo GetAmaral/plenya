@@ -1,0 +1,57 @@
+# Node modules
+node_modules
+**/node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Build artifacts
+.next
+.turbo
+dist
+build
+out
+.cache
+
+# Go build artifacts
+apps/api/bin
+apps/api/tmp
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test coverage
+coverage
+*.coverprofile
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment files
+.env.local
+.env.*.local
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Logs
+*.log
+logs
+
+# Temporary files
+tmp
+temp
+*.tmp

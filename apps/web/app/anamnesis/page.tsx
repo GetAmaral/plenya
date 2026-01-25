@@ -23,6 +23,7 @@ import {
   ChevronRight,
   Heart,
   Activity,
+  XCircle,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -65,7 +66,7 @@ export default function AnamnesisPage() {
     pageSize: 10,
   });
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["anamnesis", pagination.pageIndex, pagination.pageSize],
     queryFn: async () => {
       const offset = pagination.pageIndex * pagination.pageSize;
@@ -288,67 +289,83 @@ export default function AnamnesisPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="rounded-md border">
-                <table className="w-full">
-                  <thead className="bg-muted/50">
-                    {table.getHeaderGroups().map((headerGroup) => (
-                      <tr key={headerGroup.id}>
-                        {headerGroup.headers.map((header) => (
-                          <th
-                            key={header.id}
-                            className="px-4 py-3 text-left text-sm font-semibold"
+              {error ? (
+                <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-8 text-center">
+                  <XCircle className="mx-auto h-12 w-12 text-destructive mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">Erro ao carregar anamneses</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {error instanceof Error ? error.message : "Não foi possível conectar ao servidor"}
+                  </p>
+                  <Button
+                    variant="outline"
+                    onClick={() => window.location.reload()}
+                  >
+                    Tentar novamente
+                  </Button>
+                </div>
+              ) : (
+                <div className="rounded-md border">
+                  <table className="w-full">
+                    <thead className="bg-muted/50">
+                      {table.getHeaderGroups().map((headerGroup) => (
+                        <tr key={headerGroup.id}>
+                          {headerGroup.headers.map((header) => (
+                            <th
+                              key={header.id}
+                              className="px-4 py-3 text-left text-sm font-semibold"
+                            >
+                              {header.isPlaceholder
+                                ? null
+                                : flexRender(
+                                    header.column.columnDef.header,
+                                    header.getContext()
+                                  )}
+                            </th>
+                          ))}
+                        </tr>
+                      ))}
+                    </thead>
+                    <tbody className="divide-y">
+                      {isLoading ? (
+                        Array.from({ length: 5 }).map((_, i) => (
+                          <tr key={i}>
+                            {Array.from({ length: 6 }).map((_, j) => (
+                              <td key={j} className="px-4 py-3">
+                                <Skeleton className="h-6 w-full" />
+                              </td>
+                            ))}
+                          </tr>
+                        ))
+                      ) : table.getRowModel().rows?.length ? (
+                        table.getRowModel().rows.map((row) => (
+                          <tr
+                            key={row.id}
+                            className="transition-colors hover:bg-muted/50"
                           >
-                            {header.isPlaceholder
-                              ? null
-                              : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext()
+                            {row.getVisibleCells().map((cell) => (
+                              <td key={cell.id} className="px-4 py-3">
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
                                 )}
-                          </th>
-                        ))}
-                      </tr>
-                    ))}
-                  </thead>
-                  <tbody className="divide-y">
-                    {isLoading ? (
-                      Array.from({ length: 5 }).map((_, i) => (
-                        <tr key={i}>
-                          {Array.from({ length: 6 }).map((_, j) => (
-                            <td key={j} className="px-4 py-3">
-                              <Skeleton className="h-6 w-full" />
-                            </td>
-                          ))}
+                              </td>
+                            ))}
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan={columns.length}
+                            className="px-4 py-8 text-center text-muted-foreground"
+                          >
+                            Nenhuma anamnese encontrada.
+                          </td>
                         </tr>
-                      ))
-                    ) : table.getRowModel().rows?.length ? (
-                      table.getRowModel().rows.map((row) => (
-                        <tr
-                          key={row.id}
-                          className="transition-colors hover:bg-muted/50"
-                        >
-                          {row.getVisibleCells().map((cell) => (
-                            <td key={cell.id} className="px-4 py-3">
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
-                            </td>
-                          ))}
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td
-                          colSpan={columns.length}
-                          className="px-4 py-8 text-center text-muted-foreground"
-                        >
-                          Nenhuma anamnese encontrada.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
 
               {/* Pagination */}
               <div className="mt-4 flex items-center justify-between">

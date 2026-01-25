@@ -1,0 +1,16 @@
+Nome;Unidade | Conversão;20;Nível 0;Nível 1;Nível 2;Nível 3;Nível 4;Nível 5
+JAK2 V617F (Allele Burden);% | percentual de alelos mutantes;20;≥50;30 a 49;10 a 29;0.1 a 9.9;Negativo (<0.014);
+Leptina - Homens;ng/mL | 1 ng/mL = 1000 pg/mL;20;<1.0;>24;12 a 24;6 a 12;1.0 a 6.0;
+Leptina - Mulheres;ng/mL | 1 ng/mL = 1000 pg/mL;20;<3.0;>40;24 a 40;20 a 24;3.0 a 10;10 a 20
+Lipoproteína A (Lp(a));nmol/L | NÃO converter para mg/dL;20;>450;250 a 450;125 a 250;75 a 125;30 a 75;<30
+LDL Oxidada (oxLDL);U/L | varia por ensaio;20;≥100;70 a 99;60 a 69;48 a 59;<48;
+LH - Mulheres Fase Folicular;mIU/mL | 1 mIU/mL = 1 IU/L;20;<1.0;>20;1.0 a 2.0 ou 15 a 20;2.0 a 2.5 ou 12 a 15;2.5 a 12;
+LH - Mulheres Ovulação;mIU/mL | 1 mIU/mL = 1 IU/L;20;<12;12 a 20;20 a 50;50 a 100;;
+LH - Mulheres Fase Lútea;mIU/mL | 1 mIU/mL = 1 IU/L;20;<0.5;>20;0.5 a 1.0 ou 15 a 20;1.0 a 2.0 ou 12 a 15;2.0 a 12;
+LH - Mulheres Pós-Menopausa;mIU/mL | 1 mIU/mL = 1 IU/L;20;<10;>120;10 a 20;20 a 100;;
+LH - Homens;mIU/mL | 1 mIU/mL = 1 IU/L;20;<1.0;>15;1.0 a 1.5 ou 10 a 15;1.5 a 2.0 ou 9 a 10;2.0 a 9.0;
+Magnésio RBC;mg/dL | 1 mg/dL = 0.41 mmol/L;20;<4.5;>7.5;4.5 a 5.99;6.81 a 7.5;6.0 a 6.8;
+Manganês (Sangue Total);µg/L | 1 µg/L = 18.2 nmol/L;20;<5.0;>15.0;5.0 a 8.1;11.3 a 15.0;8.2 a 9.5;9.6 a 11.2
+Mercúrio (Sangue Total);µg/L | 1 µg/L = 5 nmol/L;20;>20;10 a 20;5 a 10;2 a 5;<2;
+Microalbuminúria/Creatininúria (ACR);mg/g | 1 mg/g = 0.113 mg/mmol;20;≥300;100 a 299;30 a 99;15 a 29;10 a 14;<10
+

@@ -1,0 +1,11 @@
+Nome;Unidade | Conversão;20;Nível 0;Nível 1;Nível 2;Nível 3;Nível 4;Nível 5;Nível 6
+Reticulócitos;% | percentual de hemácias;20;<0.5;>5.0;0.5 a 0.9;2.6 a 5.0;1.6 a 2.5;1.0 a 1.5;
+Densidade Urinária (USG);specific gravity | 1.000 = água pura;20;<1.003;>1.030;1.003 a 1.009;1.026 a 1.030;1.021 a 1.025;1.010 a 1.020;
+pH Urinário;unidade | 1 unidade = 1 pH;20;<5.0;>8.0;<5.0 a 5.5;7.6 a 8.0;5.5 a 5.9;6.0 a 6.5;6.6 a 7.5
+Albumina Urinária (UACR);mg/g | 1 mg/g = 0.113 mg/mmol;20;≥300;100 a 299;30 a 99;16 a 29;8 a 15;<8;
+Selênio;µg/L | 1 µg/L = 0.1 µg/dL = 0.01267 nmol/L;20;<40;≥150;40 a 69;131 a 149;70 a 89;90 a 130;
+SHBG - Homens;nmol/L | 1 nmol/L;20;<15;>65;15 a 19;56 a 65;20 a 24;50 a 55;25 a 29;40 a 49;30 a 40
+SHBG - Mulheres;nmol/L | 1 nmol/L;20;<30;>120;30 a 39;101 a 120;40 a 49;91 a 100;50 a 59;81 a 90;60 a 80
+Sódio;mEq/L | 1 mEq/L = 1 mmol/L;20;<120;≥160;120 a 124;150 a 159;125 a 129;146 a 149;130 a 137;143 a 145;138 a 142
+DHEA-S - Homens (40-60 anos);µg/dL | 1 µg/dL = 0.027 µmol/L;20;<40;>600;40 a 99;501 a 600;100 a 159;401 a 500;160 a 279;280 a 400
+DHEA-S - Mulheres (40-60 anos);µg/dL | 1 µg/dL = 0.027 µmol/L;20;<15;>400;15 a 34;301 a 400;35 a 69;201 a 300;70 a 139;140 a 200

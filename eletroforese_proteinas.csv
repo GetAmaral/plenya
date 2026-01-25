@@ -1,0 +1,18 @@
+Nome;Unidade | Conversão;20;Nível 0;Nível 1;Nível 2;Nível 3;Nível 4;Nível 5
+Proteínas Totais;g/dL | 1 g/dL = 10 g/L;20;<6.0;>8.5;6.0 a 6.4;8.1 a 8.5;6.5 a 7.0;7.0 a 8.0
+Albumina;g/dL | 1 g/dL = 10 g/L;20;<3.5;>5.0;3.5 a 3.9;4.0 a 4.49;4.50 a 5.00;
+Albumina (%);;20;<50;50 a 52;52 a 60;60 a 65;;
+Globulinas Totais;g/dL | 1 g/dL = 10 g/L;20;<1.9;>3.1;1.9 a 2.0;2.81 a 3.1;2.0 a 2.39;2.40 a 2.80
+Alfa-1 Globulina;g/dL | 1 g/dL = 100 mg/dL;20;<0.80;>2.50;0.80 a 1.00;2.20 a 2.50;1.00 a 2.20;
+Alfa-1 Globulina (%);;20;<2.5;>6.5;2.5 a 3.0;5.8 a 6.5;3.0 a 5.8;
+Alfa-2 Globulina;g/dL | 1 g/dL = 10 g/L;20;>1.20;1.01 a 1.20;0.81 a 1.00;0.50 a 0.80;;
+Alfa-2 Globulina (%);;20;>13.0;11.1 a 13.0;9.1 a 11.0;7.0 a 9.0;;
+Beta Globulina;g/dL | 1 g/dL = 10 g/L;20;<0.60;>1.30;0.60 a 0.69;1.10 a 1.30;0.70 a 1.10;
+Beta-1 Globulina (%);;20;<4.0;>8.5;4.0 a 5.0;7.5 a 8.5;5.0 a 7.5;
+Beta-2 Globulina (%);;20;>5.0;4.1 a 5.0;3.1 a 4.0;2.0 a 3.0;;
+Gama Globulina;g/dL | 1 g/dL = 10 g/L;20;<0.60;>2.50;0.60 a 0.69;1.61 a 2.50;0.70 a 1.20;1.20 a 1.60
+Gama Globulina (%);;20;<10;>25;10 a 11;20 a 25;11 a 15;15 a 20
+Relação A/G;Ratio | Albumina ÷ Globulinas;20;<0.9;0.9 a 1.0;1.0 a 1.2;1.2 a 1.7;1.7 a 2.2;
+IgG;mg/dL | 1 mg/dL = 0.01 g/dL;20;<400;>1700;400 a 599;1601 a 1700;600 a 1600;
+IgA;mg/dL | 1 mg/dL = 0.01 g/dL;20;<40;>400;40 a 59;310 a 400;60 a 310;
+IgM;mg/dL | 1 mg/dL = 0.01 g/dL;20;<30;>250;30 a 49;200 a 250;50 a 200;

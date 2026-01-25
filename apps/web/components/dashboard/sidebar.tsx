@@ -12,6 +12,7 @@ import {
   Microscope,
   LogOut,
   Stethoscope,
+  Network,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -25,6 +26,7 @@ const navigation = [
   { name: "Anamnesis", href: "/anamnesis", icon: Stethoscope },
   { name: "Prescrições", href: "/prescriptions", icon: FileText },
   { name: "Exames", href: "/lab-results", icon: Microscope },
+  { name: "Escores", href: "/scores", icon: Network },
 ];
 
 export function Sidebar() {

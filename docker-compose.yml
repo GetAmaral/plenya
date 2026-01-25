@@ -47,7 +47,10 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - ./apps/api:/app
+      # Sincronização completa do código fonte
+      - ./apps/api:/app:cached
+      # Excluir node_modules do Go (não aplicável, mas mantém padrão)
+      - /app/bin
     networks:
       - plenya-network
 
@@ -62,14 +65,27 @@ services:
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:3001
       - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
     depends_on:
       - api
     volumes:
-      - ./apps/web:/app/apps/web
-      - ./packages:/app/packages
+      # Sincronização completa do monorepo
+      - .:/app:cached
+      # Excluir node_modules (mantidos no container)
       - /app/node_modules
       - /app/apps/web/node_modules
+      - /app/apps/api/node_modules
+      - /app/packages/types/node_modules
+      - /app/packages/ui/node_modules
+      - /app/packages/api-client/node_modules
+      # Excluir build artifacts
       - /app/apps/web/.next
+      - /app/apps/web/.turbo
+      - /app/.turbo
+      # Excluir arquivos temporários
+      - /app/.git
+      - /app/apps/api/bin
     networks:
       - plenya-network
 

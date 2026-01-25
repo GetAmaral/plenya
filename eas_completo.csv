@@ -1,0 +1,22 @@
+Nome;Unidade | Conversão;20;Nível 0;Nível 1;Nível 2;Nível 3;Nível 4;Nível 5
+Cor da Urina;Descritivo | Coloração;20;Vermelho-escuro/Marrom/Preto;Laranja-escuro;Laranja/Âmbar-escuro;Âmbar;Amarelo-claro;Amarelo-palha/Incolor
+Aspecto da Urina (Turbidez);Descritivo | Claridade;20;Turvo intenso/Purulento;Turvo;Levemente turvo;Ligeiramente turvo;Translúcido;Límpido/Cristalino
+Densidade Urinária (USG);specific gravity | 1.000 = água pura;20;<1.003;>1.030;1.003 a 1.009;1.026 a 1.030;1.021 a 1.025;1.010 a 1.020
+pH Urinário;unidade | 1 unidade = 1 pH;20;<5.0;>8.0;5.0 a 5.5;7.6 a 8.0;5.5 a 5.9;6.0 a 7.5
+Proteínas (Qualitativo);mg/dL | trace/1+/2+/3+/4+;20;≥300 (3+ a 4+);100 a 299 (2+);30 a 99 (1+);10 a 29 (Traços);Negativo (<10);;
+Glicose Urinária;mg/dL | 1 mg/dL;20;≥1000 (4+);500 a 999 (3+);250 a 499 (2+);100 a 249 (1+);15 a 99;Negativo (<15)
+Corpos Cetônicos;mg/dL | acetoacetato;20;≥80 (4+);40 a 79 (3+);15 a 39 (2+);5 a 14 (1+);Traços (<5);Negativo
+Bilirrubina;Qualitativo | small/moderate/large;20;Large (3+);Moderate (2+);Small (1+);Traços;Negativo;;
+Urobilinogênio;mg/dL | unidades Ehrlich;20;<0.1 (Ausente);>4.0 (4+);2.1 a 4.0 (2+ a 3+);1.1 a 2.0 (1+);0.1 a 0.5;0.6 a 1.0
+Sangue Oculto (Hemoglobina);Qualitativo | RBC lysis;20;Large (3+);Moderate (2+);Small (1+);Traços;Negativo;;
+Nitrito;Qualitativo | Reagente/Não-reagente;20;Positivo (Forte);Positivo (Moderado);Positivo (Fraco);Traços;Negativo;;
+Leucócito Esterase;Leu/µL | leucócitos lisados;20;≥500 (3+);250 a 499 (2+);100 a 249 (1+);25 a 99 (Traços);Negativo (<25);;
+Hemácias (RBC) - Sedimento;células/campo | por HPF (400x);20;>100;51 a 100;21 a 50;6 a 20;3 a 5;0 a 2
+Leucócitos (WBC) - Sedimento;células/campo | por HPF (400x);20;>100;51 a 100;21 a 50;6 a 20;3 a 5;0 a 2
+Células Epiteliais - Sedimento;células/campo | por HPF (400x);20;>50 (Contaminação);26 a 50;16 a 25;6 a 15;3 a 5;0 a 2
+Cilindros Hialinos;cilindros/campo | por LPF (100x);20;>10;6 a 10;3 a 5;1 a 2;Raros (0-1);Ausentes
+Cilindros Patológicos;cilindros/campo | granulosos/hemáticos/leucocitários;20;Abundantes (>10/LPF);Muitos (6-10/LPF);Moderados (3-5/LPF);Raros (1-2/LPF);Ausentes;;
+Cristais Patológicos;Descritivo | tipo e quantidade;20;Abundantes (cistina/leucina/tirosina);Muitos (ác. úrico/oxalato);Moderados (oxalato/úrico);Raros (fosfato/urato);Ausentes;;
+Bactérias - Sedimento;Descritivo | quantidade;20;Abundantes (4+);Muitas (3+);Moderadas (2+);Raras (1+);Ausentes;;
+Leveduras - Sedimento;Descritivo | quantidade;20;Abundantes (4+);Muitas (3+);Moderadas (2+);Raras (1+);Ausentes;;
+Muco - Sedimento;Descritivo | quantidade;20;Abundante (4+);Muito (3+);Moderado (2+);Raro (1+);Ausente;;

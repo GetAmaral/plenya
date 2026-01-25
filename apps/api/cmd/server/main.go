@@ -6,6 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -15,6 +16,7 @@ import (
 	"github.com/plenya/api/internal/database"
 	"github.com/plenya/api/internal/handlers"
 	"github.com/plenya/api/internal/middleware"
+	"github.com/plenya/api/internal/repository"
 	"github.com/plenya/api/internal/services"
 )
 
@@ -108,6 +110,9 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	// Health check
 	app.Get("/health", healthCheck)
 
+	// Inicializar repositories
+	scoreRepo := repository.NewScoreRepository(database.DB)
+
 	// Inicializar services
 	authService := services.NewAuthService(database.DB, cfg)
 	patientService := services.NewPatientService(database.DB)
@@ -115,6 +120,10 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	appointmentService := services.NewAppointmentService(database.DB)
 	prescriptionService := services.NewPrescriptionService(database.DB)
 	labResultService := services.NewLabResultService(database.DB)
+	scoreService := services.NewScoreService(scoreRepo)
+
+	// Inicializar validator
+	validate := validator.New()
 
 	// Inicializar handlers
 	authHandler := handlers.NewAuthHandler(authService)
@@ -123,6 +132,7 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
 	prescriptionHandler := handlers.NewPrescriptionHandler(prescriptionService)
 	labResultHandler := handlers.NewLabResultHandler(labResultService)
+	scoreHandler := handlers.NewScoreHandler(scoreService, validate)
 
 	// API v1
 	v1 := app.Group("/api/v1")
@@ -197,6 +207,64 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	labResults.Get("/:id", labResultHandler.GetByID)
 	labResults.Put("/:id", labResultHandler.Update)
 	labResults.Delete("/:id", middleware.RequireAdmin(), labResultHandler.Delete)
+
+	// Score Groups routes (todas protegidas - dados proprietários)
+	scoreGroups := v1.Group("/score-groups")
+	scoreGroups.Use(middleware.Auth(cfg))
+	scoreGroups.Use(middleware.AuditLog(database.DB))
+
+	// Rotas de leitura (todos usuários autenticados)
+	scoreGroups.Get("/", scoreHandler.GetAllScoreGroups)
+	scoreGroups.Get("/tree", scoreHandler.GetAllScoreGroupTrees)
+	scoreGroups.Get("/:id", scoreHandler.GetScoreGroupByID)
+	scoreGroups.Get("/:id/tree", scoreHandler.GetScoreGroupTree)
+	scoreGroups.Get("/:groupId/subgroups", scoreHandler.GetSubgroupsByGroupID)
+
+	// Rotas de escrita (admin only)
+	scoreGroups.Post("/", middleware.RequireAdmin(), scoreHandler.CreateScoreGroup)
+	scoreGroups.Put("/:id", middleware.RequireAdmin(), scoreHandler.UpdateScoreGroup)
+	scoreGroups.Delete("/:id", middleware.RequireAdmin(), scoreHandler.DeleteScoreGroup)
+
+	// Score Subgroups routes (todas protegidas)
+	scoreSubgroups := v1.Group("/score-subgroups")
+	scoreSubgroups.Use(middleware.Auth(cfg))
+	scoreSubgroups.Use(middleware.AuditLog(database.DB))
+
+	// Rotas de leitura (todos usuários autenticados)
+	scoreSubgroups.Get("/:id", scoreHandler.GetScoreSubgroupByID)
+	scoreSubgroups.Get("/:subgroupId/items", scoreHandler.GetItemsBySubgroupID)
+
+	// Rotas de escrita (admin only)
+	scoreSubgroups.Post("/", middleware.RequireAdmin(), scoreHandler.CreateScoreSubgroup)
+	scoreSubgroups.Put("/:id", middleware.RequireAdmin(), scoreHandler.UpdateScoreSubgroup)
+	scoreSubgroups.Delete("/:id", middleware.RequireAdmin(), scoreHandler.DeleteScoreSubgroup)
+
+	// Score Items routes (todas protegidas)
+	scoreItems := v1.Group("/score-items")
+	scoreItems.Use(middleware.Auth(cfg))
+	scoreItems.Use(middleware.AuditLog(database.DB))
+
+	// Rotas de leitura (todos usuários autenticados)
+	scoreItems.Get("/:id", scoreHandler.GetScoreItemByID)
+	scoreItems.Get("/:itemId/levels", scoreHandler.GetLevelsByItemID)
+
+	// Rotas de escrita (admin only)
+	scoreItems.Post("/", middleware.RequireAdmin(), scoreHandler.CreateScoreItem)
+	scoreItems.Put("/:id", middleware.RequireAdmin(), scoreHandler.UpdateScoreItem)
+	scoreItems.Delete("/:id", middleware.RequireAdmin(), scoreHandler.DeleteScoreItem)
+
+	// Score Levels routes (todas protegidas)
+	scoreLevels := v1.Group("/score-levels")
+	scoreLevels.Use(middleware.Auth(cfg))
+	scoreLevels.Use(middleware.AuditLog(database.DB))
+
+	// Rotas de leitura (todos usuários autenticados)
+	scoreLevels.Get("/:id", scoreHandler.GetScoreLevelByID)
+
+	// Rotas de escrita (admin only)
+	scoreLevels.Post("/", middleware.RequireAdmin(), scoreHandler.CreateScoreLevel)
+	scoreLevels.Put("/:id", middleware.RequireAdmin(), scoreHandler.UpdateScoreLevel)
+	scoreLevels.Delete("/:id", middleware.RequireAdmin(), scoreHandler.DeleteScoreLevel)
 }
 
 // healthCheck verifica se a API está funcionando

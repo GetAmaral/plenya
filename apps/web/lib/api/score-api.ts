@@ -6,7 +6,6 @@ export interface ScoreLevel {
   id: string
   level: number
   name: string
-  definition?: string
   lowerLimit?: string
   upperLimit?: string
   operator: '=' | '>' | '>=' | '<' | '<=' | 'between'
@@ -92,7 +91,6 @@ export interface UpdateScoreItemDTO {
 export interface CreateScoreLevelDTO {
   level: number
   name: string
-  definition?: string
   lowerLimit?: string
   upperLimit?: string
   operator: '=' | '>' | '>=' | '<' | '<=' | 'between'
@@ -102,7 +100,6 @@ export interface CreateScoreLevelDTO {
 export interface UpdateScoreLevelDTO {
   level?: number
   name?: string
-  definition?: string
   lowerLimit?: string
   upperLimit?: string
   operator?: '=' | '>' | '>=' | '<' | '<=' | 'between'

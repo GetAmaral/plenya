@@ -227,7 +227,7 @@ button[type="submit"]:disabled {
   /* Tamanho da página */
   @page {
     size: A4;
-    margin: 1.5cm;
+    margin: 1cm;
   }
 
   /* Quebras de página */
@@ -321,7 +321,6 @@ button[type="submit"]:disabled {
 
   /* Esconder elementos de UI interativos */
   button:not(.print-show),
-  .print\\:hidden,
   [role="dialog"],
   [role="alertdialog"],
   [data-sonner-toaster],
@@ -335,5 +334,38 @@ button[type="submit"]:disabled {
   [class*="ReactQueryDevtools"],
   [id*="react-query-devtools"] {
     display: none !important;
+  }
+
+  /* Otimizações adicionais de espaçamento para impressão */
+  * {
+    line-height: 1.2 !important;
+  }
+
+  /* Reduzir espaçamento vertical máximo */
+  .space-y-2 > * + * {
+    margin-top: 0.25rem !important;
+  }
+
+  .space-y-3 > * + * {
+    margin-top: 0.5rem !important;
+  }
+
+  /* Otimizar padding e margin para impressão */
+  .p-1\.5 {
+    padding: 0.25rem !important;
+  }
+
+  .p-2 {
+    padding: 0.375rem !important;
+  }
+
+  .px-2 {
+    padding-left: 0.375rem !important;
+    padding-right: 0.375rem !important;
+  }
+
+  .py-1\.5 {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
   }
 }

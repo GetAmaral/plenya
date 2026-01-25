@@ -82,7 +82,6 @@ export function ScoreLevelDialog({
     defaultValues: {
       level: level?.level ?? 5,
       name: level?.name || '',
-      definition: level?.definition || '',
       lowerLimit: level?.lowerLimit || '',
       upperLimit: level?.upperLimit || '',
       operator: level?.operator || 'between',
@@ -98,7 +97,6 @@ export function ScoreLevelDialog({
       reset({
         level: level.level,
         name: level.name,
-        definition: level.definition || '',
         lowerLimit: level.lowerLimit || '',
         upperLimit: level.upperLimit || '',
         operator: level.operator,
@@ -109,7 +107,6 @@ export function ScoreLevelDialog({
       reset({
         level: 5,
         name: '',
-        definition: '',
         lowerLimit: '',
         upperLimit: '',
         operator: 'between',
@@ -124,7 +121,6 @@ export function ScoreLevelDialog({
       // Convert empty strings to undefined for optional fields
       const payload = {
         ...data,
-        definition: data.definition || undefined,
         lowerLimit: data.lowerLimit || undefined,
         upperLimit: data.upperLimit || undefined,
       }
@@ -135,7 +131,6 @@ export function ScoreLevelDialog({
           data: {
             level: payload.level,
             name: payload.name,
-            definition: payload.definition,
             lowerLimit: payload.lowerLimit,
             upperLimit: payload.upperLimit,
             operator: payload.operator,
@@ -245,19 +240,6 @@ export function ScoreLevelDialog({
             {errors.name && (
               <p className="text-sm text-destructive">{errors.name.message}</p>
             )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="definition">Definição Clínica</Label>
-            <Textarea
-              id="definition"
-              placeholder="Ex: Faixa ótima para função cardíaca - menor mortalidade CV"
-              rows={3}
-              {...register('definition')}
-            />
-            <p className="text-xs text-muted-foreground">
-              Explicação opcional sobre o significado clínico deste nível
-            </p>
           </div>
 
           {showBothLimits && (

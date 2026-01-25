@@ -1,0 +1,7 @@
+Nome;Unidade | Conversão;20;Nível 0;Nível 1;Nível 2;Nível 3;Nível 4;Nível 5
+ECG - Intervalo PR;ms | milissegundos;20;>300;<100;201 a 300;100 a 119;120 a 139;140 a 200
+ECG - Duração QRS;ms | milissegundos;20;≥150;<70;120 a 149;70 a 79;110 a 119;80 a 109
+ECG - Sokolow-Lyon (S V1 + R V5/V6);mm | milímetros;20;≥50;<15;40 a 49;15 a 24;35 a 39;25 a 34
+ECG - Cornell Voltage - Homens (R aVL + S V3);mm | milímetros;20;≥40;<10;31 a 39;10 a 19;28 a 30;20 a 27
+ECG - Cornell Voltage - Mulheres (R aVL + S V3);mm | milímetros;20;≥35;<8;24 a 34;8 a 14;20 a 23;15 a 19
+ECG - Eixo Cardíaco;graus | ° (QRS frontal);20;-90 a -180 ou +150 a +180;+120 a +149;-60 a -89;+91 a +119;-30 a -59;-29 a +90
