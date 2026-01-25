@@ -160,18 +160,22 @@ export default function ScorePrintPage() {
                                   <div className="bg-card px-2 py-1.5 border-b print:px-1.5 print:py-1">
                                     <div className="flex items-start justify-between gap-2">
                                       <div className="flex-1">
-                                        <h4 className="font-medium text-xs leading-tight print:text-[9pt]">{item.name}</h4>
-                                        {item.unit && (
-                                          <p className="text-[10px] text-muted-foreground mt-0.5 print:text-[7pt]">
-                                            {item.unit}{item.unitConversion && ` | ${item.unitConversion}`}
-                                          </p>
-                                        )}
+                                        <h4 className="font-medium text-xs leading-tight print:text-[9pt]">
+                                          {item.name}
+                                          {item.unit && (
+                                            <span className="text-[10px] text-muted-foreground ml-1.5 print:text-[7pt]">
+                                              ({item.unit}{item.unitConversion && ` | ${item.unitConversion}`})
+                                            </span>
+                                          )}
+                                        </h4>
                                       </div>
-                                      <div className="text-right shrink-0">
-                                        <div className="text-[10px] font-bold text-primary print:text-[8pt]">
-                                          {item.points}pt
+                                      {item.points > 0 && (
+                                        <div className="text-right shrink-0">
+                                          <div className="text-[10px] font-bold text-primary print:text-[8pt]">
+                                            {item.points}pt
+                                          </div>
                                         </div>
-                                      </div>
+                                      )}
                                     </div>
                                   </div>
 
@@ -215,16 +219,18 @@ export default function ScorePrintPage() {
                                               <div className="flex items-start justify-between gap-2">
                                                 <h5 className="font-medium text-[10px] text-muted-foreground print:text-[8pt]">
                                                   {childItem.name}
+                                                  {childItem.unit && (
+                                                    <span className="text-[9px] text-muted-foreground/80 ml-1.5 print:text-[7pt]">
+                                                      ({childItem.unit})
+                                                    </span>
+                                                  )}
                                                 </h5>
-                                                <span className="text-[10px] font-semibold text-primary shrink-0 print:text-[8pt]">
-                                                  {childItem.points}pt
-                                                </span>
+                                                {childItem.points > 0 && (
+                                                  <span className="text-[10px] font-semibold text-primary shrink-0 print:text-[8pt]">
+                                                    {childItem.points}pt
+                                                  </span>
+                                                )}
                                               </div>
-                                              {childItem.unit && (
-                                                <p className="text-[9px] text-muted-foreground/80 mt-0.5 print:text-[7pt]">
-                                                  {childItem.unit}
-                                                </p>
-                                              )}
                                             </div>
 
                                             {/* Níveis do item filho */}
