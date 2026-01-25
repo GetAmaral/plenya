@@ -65,6 +65,7 @@ func AutoMigrate() error {
 		&models.LabResult{},
 		&models.Prescription{},
 		&models.Appointment{},
+		&models.Article{},
 	)
 }
 

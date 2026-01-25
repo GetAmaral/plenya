@@ -112,6 +112,8 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 
 	// Inicializar repositories
 	scoreRepo := repository.NewScoreRepository(database.DB)
+	labTestDefRepo := repository.NewLabTestDefinitionRepository(database.DB)
+	labResultValueRepo := repository.NewLabResultValueRepository(database.DB)
 
 	// Inicializar services
 	authService := services.NewAuthService(database.DB, cfg)
@@ -121,6 +123,9 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	prescriptionService := services.NewPrescriptionService(database.DB)
 	labResultService := services.NewLabResultService(database.DB)
 	scoreService := services.NewScoreService(scoreRepo)
+	labTestDefService := services.NewLabTestDefinitionService(labTestDefRepo)
+	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
+	articleService := services.NewArticleService(database.DB, "./uploads/articles")
 
 	// Inicializar validator
 	validate := validator.New()
@@ -133,6 +138,9 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	prescriptionHandler := handlers.NewPrescriptionHandler(prescriptionService)
 	labResultHandler := handlers.NewLabResultHandler(labResultService)
 	scoreHandler := handlers.NewScoreHandler(scoreService, validate)
+	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
+	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
+	articleHandler := handlers.NewArticleHandler(articleService)
 
 	// API v1
 	v1 := app.Group("/api/v1")
@@ -265,6 +273,85 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	scoreLevels.Post("/", middleware.RequireAdmin(), scoreHandler.CreateScoreLevel)
 	scoreLevels.Put("/:id", middleware.RequireAdmin(), scoreHandler.UpdateScoreLevel)
 	scoreLevels.Delete("/:id", middleware.RequireAdmin(), scoreHandler.DeleteScoreLevel)
+
+	// Articles routes (todas protegidas - compartilhadas entre médicos)
+	articles := v1.Group("/articles")
+	articles.Use(middleware.Auth(cfg))
+	articles.Use(middleware.AuditLog(database.DB))
+
+	// CRUD básico
+	articles.Post("/", middleware.RequireMedicalStaff(), articleHandler.CreateArticle)
+	articles.Get("/", articleHandler.ListArticles)
+	articles.Get("/search", articleHandler.SearchArticles)
+	articles.Get("/favorites", articleHandler.GetFavorites)
+	articles.Get("/stats", articleHandler.GetStatistics)
+	articles.Get("/:id", articleHandler.GetArticle)
+	articles.Put("/:id", middleware.RequireMedicalStaff(), articleHandler.UpdateArticle)
+	articles.Delete("/:id", middleware.RequireMedicalStaff(), articleHandler.DeleteArticle)
+
+	// Upload de PDF
+	articles.Post("/upload", middleware.RequireMedicalStaff(), articleHandler.UploadPDF)
+
+	// Lab Test Definitions routes (todas protegidas)
+	labTests := v1.Group("/lab-tests")
+	labTests.Use(middleware.Auth(cfg))
+	labTests.Use(middleware.AuditLog(database.DB))
+
+	// Rotas de leitura (todos usuários autenticados)
+	labTests.Get("/requestable", labTestDefHandler.GetRequestableLabTests)
+	labTests.Get("/definitions", labTestDefHandler.GetAllLabTestDefinitions)
+	labTests.Get("/definitions/search", labTestDefHandler.SearchLabTestDefinitions)
+	labTests.Get("/definitions/:id", labTestDefHandler.GetLabTestDefinitionByID)
+	labTests.Get("/definitions/code/:code", labTestDefHandler.GetLabTestDefinitionByCode)
+	labTests.Get("/definitions/:id/sub-tests", labTestDefHandler.GetSubTests)
+	labTests.Get("/definitions/:id/score-mappings", labTestDefHandler.GetMappingsForLabTest)
+	labTests.Get("/definitions/:id/reference-ranges", labTestDefHandler.GetReferenceRangesForLabTest)
+
+	// Rotas de escrita (admin only)
+	labTests.Post("/definitions", middleware.RequireAdmin(), labTestDefHandler.CreateLabTestDefinition)
+	labTests.Put("/definitions/:id", middleware.RequireAdmin(), labTestDefHandler.UpdateLabTestDefinition)
+	labTests.Delete("/definitions/:id", middleware.RequireAdmin(), labTestDefHandler.DeleteLabTestDefinition)
+
+	// Score Mappings routes (admin only)
+	labTests.Post("/score-mappings", middleware.RequireAdmin(), labTestDefHandler.CreateLabTestScoreMapping)
+	labTests.Get("/score-mappings/:id", labTestDefHandler.GetLabTestScoreMappingByID)
+	labTests.Put("/score-mappings/:id", middleware.RequireAdmin(), labTestDefHandler.UpdateLabTestScoreMapping)
+	labTests.Delete("/score-mappings/:id", middleware.RequireAdmin(), labTestDefHandler.DeleteLabTestScoreMapping)
+
+	// Reference Ranges routes (admin only)
+	labTests.Post("/reference-ranges", middleware.RequireAdmin(), labTestDefHandler.CreateLabTestReferenceRange)
+	labTests.Get("/reference-ranges/:id", labTestDefHandler.GetLabTestReferenceRangeByID)
+	labTests.Put("/reference-ranges/:id", middleware.RequireAdmin(), labTestDefHandler.UpdateLabTestReferenceRange)
+	labTests.Delete("/reference-ranges/:id", middleware.RequireAdmin(), labTestDefHandler.DeleteLabTestReferenceRange)
+
+	// Lab Result Values routes (protegidas - doctors)
+	labResultValues := v1.Group("/lab-results")
+	labResultValues.Use(middleware.Auth(cfg))
+	labResultValues.Use(middleware.AuditLog(database.DB))
+
+	// Rotas de valores (doctors podem criar/editar)
+	labResultValues.Post("/values", middleware.RequireMedicalStaff(), labResultValueHandler.CreateLabResultValue)
+	labResultValues.Post("/values/batch", middleware.RequireMedicalStaff(), labResultValueHandler.CreateLabResultValues)
+	labResultValues.Get("/values/:id", labResultValueHandler.GetLabResultValueByID)
+	labResultValues.Get("/:id/values", labResultValueHandler.GetValuesByLabResult)
+	labResultValues.Put("/values/:id", middleware.RequireMedicalStaff(), labResultValueHandler.UpdateLabResultValue)
+	labResultValues.Delete("/values/:id", middleware.RequireAdmin(), labResultValueHandler.DeleteLabResultValue)
+
+	// Rotas específicas do paciente (dentro de /patients/:patientId)
+	patients.Get("/:patientId/lab-values", labResultValueHandler.GetValuesByPatient)
+	patients.Get("/:patientId/lab-values/abnormal", labResultValueHandler.GetAbnormalValues)
+	patients.Get("/:patientId/lab-values/critical", labResultValueHandler.GetCriticalValues)
+	patients.Get("/:patientId/lab-values/test/:testId/latest", labResultValueHandler.GetLatestValueForTest)
+
+	// Favorito e rating (todos usuários autenticados podem usar)
+	articles.Patch("/:id/favorite", articleHandler.ToggleFavorite)
+	articles.Patch("/:id/rating", articleHandler.SetRating)
+
+	// Download de PDF
+	articles.Get("/:id/download", articleHandler.DownloadPDF)
+
+	// Servir arquivos estáticos (uploads)
+	app.Static("/uploads", "./uploads")
 }
 
 // healthCheck verifica se a API está funcionando
