@@ -170,11 +170,11 @@ export function ScoreSearch({ scoreGroups, isOpen, onClose, onResultClick }: Sco
       {/* Results */}
       <div className="max-h-[500px] overflow-y-auto">
         {searchQuery.trim() === '' ? (
-          <div className="p-8 text-center text-sm text-muted-foreground">
+          <div className="p-6 text-center text-sm text-muted-foreground">
             Digite para buscar em todos os níveis...
           </div>
         ) : searchResults.length === 0 ? (
-          <div className="p-8 text-center text-sm text-muted-foreground">
+          <div className="p-6 text-center text-sm text-muted-foreground">
             Nenhum resultado encontrado para "{searchQuery}"
           </div>
         ) : (

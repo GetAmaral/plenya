@@ -13,7 +13,7 @@ Sistema EMR completo com web app, mobile apps e backend Go. Foco em segurança L
 ## Stack Técnica
 
 **Frontend**
-- Web: Next.js 15.1 + React 19
+- Web: Next.js 16.1 + React 19.2
 - Mobile: React Native 0.77 + Expo SDK 56
 - UI: Tailwind CSS + shadcn/ui
 - Charts: Recharts + Tremor Raw
@@ -21,8 +21,8 @@ Sistema EMR completo com web app, mobile apps e backend Go. Foco em segurança L
 - State: TanStack Query + Zustand
 
 **Backend**
-- Language: Go 1.23
-- Framework: Fiber v2.53
+- Language: Go 1.25
+- Framework: Fiber v2.52.10
 - ORM: GORM v1.25
 - Migrations: Atlas (gerado dos Go models)
 - Auth: JWT (golang-jwt/jwt v5)
@@ -33,7 +33,9 @@ Sistema EMR completo com web app, mobile apps e backend Go. Foco em segurança L
 - Extensions: pgcrypto (criptografia), uuid-ossp
 
 **Infraestrutura**
-- Monorepo: Turborepo 2.3 + pnpm 9.15
+- Monorepo: Turborepo 2.7.5 + pnpm 10.28.1
+- Node.js: 24 LTS (Krypton)
+- TypeScript: 5.9.3
 - Containers: Docker 27
 - VPS: Hetzner CPX31 (4 vCPU, 8GB, ~R$50/mês)
 - PaaS: Coolify 4.0
@@ -83,7 +85,7 @@ git diff
 ```
 plenya/
 ├── apps/
-│   ├── web/              # Next.js 15.1
+│   ├── web/              # Next.js 16.1
 │   ├── mobile/           # Expo SDK 56
 │   └── api/              # Go backend
 │       ├── cmd/server/
@@ -249,22 +251,36 @@ AuditLogs (rastreabilidade)
 
 ### Desenvolvimento
 
+**IMPORTANTE: Todo desenvolvimento é feito via Docker. Não rodar comandos diretamente no host.**
+
 ```bash
-# Instalar dependências
-pnpm install
+# Iniciar todos os serviços (PostgreSQL, API Go, Web Next.js)
+docker compose up -d
 
-# Gerar código (migrations, types, schemas)
-pnpm generate
+# Reconstruir imagens (necessário quando mudar Dockerfile ou dependências)
+docker compose up -d --build
 
-# Desenvolvimento
-pnpm dev                    # Todos os apps
-pnpm dev --filter web       # Apenas web
-pnpm dev --filter mobile    # Apenas mobile
+# Ver logs
+docker compose logs -f          # Todos os serviços
+docker compose logs -f web      # Apenas web
+docker compose logs -f api      # Apenas API
+docker compose logs -f db       # Apenas database
 
-# Database
-docker compose up -d        # Iniciar PostgreSQL 17
-docker compose logs -f db   # Ver logs
+# Parar serviços
+docker compose down
+
+# Instalar dependência no web (exemplo)
+docker compose exec web pnpm add <pacote> --filter web
+docker compose restart web      # Reinicia para aplicar
+
+# Rodar comandos no container
+docker compose exec web pnpm dev --filter web
+docker compose exec api go mod tidy
 ```
+
+**Hot Reload:** O código é sincronizado via volumes Docker. Mudanças em arquivos `.ts`, `.tsx`, `.go` são detectadas automaticamente.
+
+**Dependências:** O entrypoint verifica automaticamente se `package.json` mudou e reinstala dependências.
 
 ### Backend (após Fase 2)
 

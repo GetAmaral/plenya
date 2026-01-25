@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Network, Search } from 'lucide-react'
+import { Plus, Network, Search, Printer } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAllScoreGroupTrees } from '@/lib/api/score-api'
 import { ScoreTreeView } from '@/components/scores/ScoreTreeView'
@@ -77,10 +77,10 @@ export default function ScoresPage() {
 
   if (error) {
     return (
-      <div className="container mx-auto py-8">
-        <div className="rounded-lg border border-destructive bg-destructive/10 p-4">
+      <div className="container mx-auto py-4">
+        <div className="rounded-lg border border-destructive bg-destructive/10 p-3">
           <h3 className="font-semibold text-destructive">Erro ao carregar escores</h3>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-0.5">
             {error instanceof Error ? error.message : 'Erro desconhecido'}
           </p>
         </div>
@@ -89,17 +89,17 @@ export default function ScoresPage() {
   }
 
   return (
-    <div className="container mx-auto py-8 space-y-6">
+    <div className="container mx-auto py-4 space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between border-b pb-3">
         <div>
-          <h1 className="text-3xl font-bold">Gestão de Escores</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className="text-2xl font-bold">Gestão de Escores</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">
             Gerencie os critérios de estratificação de risco
           </p>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-1.5">
           <Button onClick={handleSearchToggle} variant="outline">
             <Search className="mr-2 h-4 w-4" />
             Procurar
@@ -114,6 +114,14 @@ export default function ScoresPage() {
           >
             <Network className="mr-2 h-4 w-4" />
             Visualizar Mindmap
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={() => router.push('/scores/print')}
+          >
+            <Printer className="mr-2 h-4 w-4" />
+            Versão Impressão
           </Button>
 
           <Button onClick={() => setIsCreateDialogOpen(true)}>
@@ -133,18 +141,19 @@ export default function ScoresPage() {
 
       {/* Content */}
       {isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+        <div className="flex items-center justify-center py-8">
+          <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-primary" />
         </div>
       ) : !scoreGroups || scoreGroups.length === 0 ? (
-        <div className="rounded-lg border border-dashed p-12 text-center">
-          <h3 className="text-lg font-semibold">Nenhum grupo de escores cadastrado</h3>
+        <div className="rounded-lg border border-dashed bg-muted/30 p-8 text-center">
+          <h3 className="text-base font-semibold">Nenhum grupo de escores cadastrado</h3>
           <p className="text-sm text-muted-foreground mt-1">
             Comece criando um novo grupo de escores
           </p>
           <Button
             onClick={() => setIsCreateDialogOpen(true)}
-            className="mt-4"
+            className="mt-3"
+            size="sm"
           >
             <Plus className="mr-2 h-4 w-4" />
             Criar Primeiro Grupo

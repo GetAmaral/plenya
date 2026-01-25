@@ -1,26 +1,16 @@
-FROM node:22-alpine
+FROM node:24-alpine
 
 WORKDIR /app
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
+RUN corepack enable && corepack prepare pnpm@10.28.1 --activate
 
-# Copy workspace files
-COPY package.json pnpm-lock.yaml ./
-COPY pnpm-workspace.yaml ./
-COPY turbo.json ./
-
-# Copy web app
-COPY apps/web ./apps/web
-
-# Copy packages if any
-COPY packages ./packages
-
-# Install dependencies
-RUN pnpm install --frozen-lockfile
+# Copy entrypoint
+COPY apps/web/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Expose port
 EXPOSE 3000
 
-# Start dev server
-CMD ["pnpm", "dev", "--filter", "@plenya/web"]
+# Use entrypoint to handle dependencies and start server
+ENTRYPOINT ["/entrypoint.sh"]

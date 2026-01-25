@@ -72,24 +72,24 @@ export function ScoreTreeView({ groups, expandedNodes = {} }: ScoreTreeViewProps
 
   return (
     <>
-      <div className="space-y-4">
+      <div className="space-y-3">
         {groups.map((group) => (
           <div key={group.id} id={`group-${group.id}`} className="rounded-lg border transition-all">
             {/* Group Header */}
-            <div className="flex items-center justify-between p-4 bg-muted/50">
+            <div className="flex items-center justify-between p-3 bg-muted/50">
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-semibold">{group.name}</h2>
+                  <h2 className="text-base font-semibold">{group.name}</h2>
                   <Badge variant="secondary" className="text-xs">
                     Ordem: {group.order}
                   </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-sm text-muted-foreground mt-0.5">
                   {group.subgroups?.length || 0} subgrupos
                 </p>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-1.5">
                 <Button
                   variant="outline"
                   size="sm"
@@ -117,7 +117,7 @@ export function ScoreTreeView({ groups, expandedNodes = {} }: ScoreTreeViewProps
 
             {/* Subgroups */}
             {group.subgroups && group.subgroups.length > 0 && (
-              <div className="p-4">
+              <div className="p-3">
                 <Accordion
                   type="multiple"
                   className="space-y-2"
@@ -136,8 +136,8 @@ export function ScoreTreeView({ groups, expandedNodes = {} }: ScoreTreeViewProps
                       id={`subgroup-${subgroup.id}`}
                       className="border rounded-md transition-all"
                     >
-                      <div className="flex items-center px-4">
-                        <AccordionTrigger className="flex-1 hover:no-underline py-4">
+                      <div className="flex items-center px-3">
+                        <AccordionTrigger className="flex-1 hover:no-underline py-3">
                           <div className="flex items-center gap-2">
                             <span className="font-medium">{subgroup.name}</span>
                             <Badge variant="outline" className="text-xs">
@@ -174,7 +174,7 @@ export function ScoreTreeView({ groups, expandedNodes = {} }: ScoreTreeViewProps
                         </div>
                       </div>
 
-                      <AccordionContent className="px-4 pb-4">
+                      <AccordionContent className="px-3 pb-3">
                         {subgroup.items && subgroup.items.length > 0 ? (
                           <div className="space-y-2 mt-2">
                             {subgroup.items.map((item) => (
@@ -187,7 +187,7 @@ export function ScoreTreeView({ groups, expandedNodes = {} }: ScoreTreeViewProps
                             ))}
                           </div>
                         ) : (
-                          <div className="text-sm text-muted-foreground text-center py-4">
+                          <div className="text-sm text-muted-foreground text-center py-3">
                             Nenhum item cadastrado
                           </div>
                         )}
@@ -199,7 +199,7 @@ export function ScoreTreeView({ groups, expandedNodes = {} }: ScoreTreeViewProps
             )}
 
             {(!group.subgroups || group.subgroups.length === 0) && (
-              <div className="p-4 text-center text-sm text-muted-foreground">
+              <div className="p-3 text-center text-sm text-muted-foreground">
                 Nenhum subgrupo cadastrado
               </div>
             )}

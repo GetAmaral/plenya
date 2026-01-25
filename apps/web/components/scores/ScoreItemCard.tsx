@@ -57,14 +57,14 @@ export function ScoreItemCard({ item, isExpanded }: ScoreItemCardProps) {
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <h4 className="font-semibold">{item.name}</h4>
+                <h4 className="text-sm font-semibold">{item.name}</h4>
                 {item.unit && (
                   <Badge variant="secondary" className="text-xs">
                     {item.unit}
                   </Badge>
                 )}
               </div>
-              <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
+              <div className="flex items-center gap-4 mt-0.5 text-sm text-muted-foreground">
                 <span>{item.points} pontos</span>
                 {item.unitConversion && (
                   <span className="text-xs">{item.unitConversion}</span>
