@@ -118,7 +118,7 @@ export default function ScorePrintPage() {
       <div className="container mx-auto px-4 py-8 print:px-0 print:py-0">
         <div className="space-y-2 print:space-y-1">
           {groups.map((group, groupIndex) => (
-            <div key={group.id} className="break-inside-avoid">
+            <div key={group.id}>
               {/* Grupo */}
               <div className="mb-1 print:mb-0.5">
                 <div className="bg-primary text-primary-foreground rounded-lg px-3 py-1.5 print:rounded-none print:px-2 print:py-1">
@@ -135,7 +135,7 @@ export default function ScorePrintPage() {
               {group.subgroups && group.subgroups.length > 0 && (
                 <div className="space-y-3 ml-2 print:space-y-1 print:ml-1">
                   {group.subgroups.map((subgroup, subgroupIndex) => (
-                    <div key={subgroup.id} className="break-inside-avoid">
+                    <div key={subgroup.id}>
                       {/* Subgrupo */}
                       <div className="mb-1 print:mb-0.5">
                         <div className="bg-muted rounded-lg px-3 py-1.5 print:rounded-none border-l-2 border-primary print:px-2 print:py-1">
