@@ -194,6 +194,7 @@ export default function ScorePrintPage() {
                                           .map((level) => {
                                             const style = LEVEL_STYLES[level.level as keyof typeof LEVEL_STYLES] || LEVEL_STYLES[6]
                                             const range = formatLevelRange(level)
+                                            const hasValues = level.lowerLimit != null || level.upperLimit != null
 
                                             return (
                                               <div
@@ -202,11 +203,10 @@ export default function ScorePrintPage() {
                                                 title={`${level.name}${range ? ` (${range})` : ''}${level.definition ? ` - ${level.definition}` : ''}`}
                                               >
                                                 <span className="font-bold">N{level.level}:</span>
-                                                <span>{level.name}</span>
-                                                {range && (
-                                                  <span className="font-mono text-[10px] opacity-75">
-                                                    {range}
-                                                  </span>
+                                                {hasValues ? (
+                                                  <span className="font-mono text-[10px]">{range}</span>
+                                                ) : (
+                                                  <span>{level.name}</span>
                                                 )}
                                               </div>
                                             )
@@ -245,6 +245,7 @@ export default function ScorePrintPage() {
                                                   .map((level) => {
                                                     const style = LEVEL_STYLES[level.level as keyof typeof LEVEL_STYLES] || LEVEL_STYLES[6]
                                                     const range = formatLevelRange(level)
+                                                    const hasValues = level.lowerLimit != null || level.upperLimit != null
 
                                                     return (
                                                       <div
@@ -253,11 +254,10 @@ export default function ScorePrintPage() {
                                                         title={`${level.name}${range ? ` (${range})` : ''}${level.definition ? ` - ${level.definition}` : ''}`}
                                                       >
                                                         <span className="font-bold">N{level.level}:</span>
-                                                        <span>{level.name}</span>
-                                                        {range && (
-                                                          <span className="font-mono text-[9px] opacity-75">
-                                                            {range}
-                                                          </span>
+                                                        {hasValues ? (
+                                                          <span className="font-mono text-[9px]">{range}</span>
+                                                        ) : (
+                                                          <span>{level.name}</span>
                                                         )}
                                                       </div>
                                                     )
