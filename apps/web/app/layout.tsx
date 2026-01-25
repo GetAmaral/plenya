@@ -4,6 +4,8 @@ import "./globals.css";
 import { QueryProvider } from "@/lib/query-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { CommandPalette } from "@/components/command-palette";
+import { NavigationProgress } from "@/components/navigation-progress";
+import { Suspense } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,9 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" data-scroll-behavior="smooth">
       <body className={`${inter.variable} font-sans antialiased`}>
         <QueryProvider>
+          <Suspense fallback={null}>
+            <NavigationProgress />
+          </Suspense>
           {children}
           <CommandPalette />
           <Toaster />
