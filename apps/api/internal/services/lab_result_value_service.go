@@ -46,16 +46,6 @@ func (s *LabResultValueService) GetLatestValueForTest(patientID uuid.UUID, labTe
 	return s.repo.GetLatestValueForTest(patientID, labTestDefID)
 }
 
-// GetAbnormalValues retrieves all abnormal values for a patient
-func (s *LabResultValueService) GetAbnormalValues(patientID uuid.UUID) ([]models.LabResultValue, error) {
-	return s.repo.GetAbnormalValues(patientID)
-}
-
-// GetCriticalValues retrieves all critical values for a patient
-func (s *LabResultValueService) GetCriticalValues(patientID uuid.UUID) ([]models.LabResultValue, error) {
-	return s.repo.GetCriticalValues(patientID)
-}
-
 // UpdateLabResultValue updates an existing lab result value
 func (s *LabResultValueService) UpdateLabResultValue(id uuid.UUID, value *models.LabResultValue) error {
 	existing, err := s.repo.GetLabResultValueByID(id)
@@ -69,9 +59,6 @@ func (s *LabResultValueService) UpdateLabResultValue(id uuid.UUID, value *models
 	existing.TextValue = value.TextValue
 	existing.BooleanValue = value.BooleanValue
 	existing.Unit = value.Unit
-	existing.ReferenceRange = value.ReferenceRange
-	existing.IsAbnormal = value.IsAbnormal
-	existing.IsCritical = value.IsCritical
 	existing.Notes = value.Notes
 
 	return s.repo.UpdateLabResultValue(existing)

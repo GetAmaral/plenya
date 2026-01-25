@@ -305,7 +305,6 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	labTests.Get("/definitions/code/:code", labTestDefHandler.GetLabTestDefinitionByCode)
 	labTests.Get("/definitions/:id/sub-tests", labTestDefHandler.GetSubTests)
 	labTests.Get("/definitions/:id/score-mappings", labTestDefHandler.GetMappingsForLabTest)
-	labTests.Get("/definitions/:id/reference-ranges", labTestDefHandler.GetReferenceRangesForLabTest)
 
 	// Rotas de escrita (admin only)
 	labTests.Post("/definitions", middleware.RequireAdmin(), labTestDefHandler.CreateLabTestDefinition)
@@ -317,12 +316,6 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	labTests.Get("/score-mappings/:id", labTestDefHandler.GetLabTestScoreMappingByID)
 	labTests.Put("/score-mappings/:id", middleware.RequireAdmin(), labTestDefHandler.UpdateLabTestScoreMapping)
 	labTests.Delete("/score-mappings/:id", middleware.RequireAdmin(), labTestDefHandler.DeleteLabTestScoreMapping)
-
-	// Reference Ranges routes (admin only)
-	labTests.Post("/reference-ranges", middleware.RequireAdmin(), labTestDefHandler.CreateLabTestReferenceRange)
-	labTests.Get("/reference-ranges/:id", labTestDefHandler.GetLabTestReferenceRangeByID)
-	labTests.Put("/reference-ranges/:id", middleware.RequireAdmin(), labTestDefHandler.UpdateLabTestReferenceRange)
-	labTests.Delete("/reference-ranges/:id", middleware.RequireAdmin(), labTestDefHandler.DeleteLabTestReferenceRange)
 
 	// Lab Result Values routes (protegidas - doctors)
 	labResultValues := v1.Group("/lab-results")
@@ -339,8 +332,6 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 
 	// Rotas específicas do paciente (dentro de /patients/:patientId)
 	patients.Get("/:patientId/lab-values", labResultValueHandler.GetValuesByPatient)
-	patients.Get("/:patientId/lab-values/abnormal", labResultValueHandler.GetAbnormalValues)
-	patients.Get("/:patientId/lab-values/critical", labResultValueHandler.GetCriticalValues)
 	patients.Get("/:patientId/lab-values/test/:testId/latest", labResultValueHandler.GetLatestValueForTest)
 
 	// Favorito e rating (todos usuários autenticados podem usar)

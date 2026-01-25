@@ -39,9 +39,6 @@ func (r *LabTestDefinitionRepository) GetLabTestDefinitionByID(id uuid.UUID) (*m
 		Preload("ScoreMappings", func(db *gorm.DB) *gorm.DB {
 			return db.Where("is_active = ?", true)
 		}).
-		Preload("ReferenceRanges", func(db *gorm.DB) *gorm.DB {
-			return db.Where("is_active = ?", true)
-		}).
 		First(&def, "id = ?", id).Error
 
 	if err != nil {
@@ -62,9 +59,6 @@ func (r *LabTestDefinitionRepository) GetLabTestDefinitionByCode(code string) (*
 			return db.Where("is_active = ?", true).Order("display_order ASC, name ASC")
 		}).
 		Preload("ScoreMappings", func(db *gorm.DB) *gorm.DB {
-			return db.Where("is_active = ?", true)
-		}).
-		Preload("ReferenceRanges", func(db *gorm.DB) *gorm.DB {
 			return db.Where("is_active = ?", true)
 		}).
 		First(&def, "code = ?", code).Error
@@ -106,9 +100,6 @@ func (r *LabTestDefinitionRepository) GetSubTests(parentID uuid.UUID) ([]models.
 	var defs []models.LabTestDefinition
 	err := r.db.
 		Where("parent_test_id = ? AND is_active = ?", parentID, true).
-		Preload("ReferenceRanges", func(db *gorm.DB) *gorm.DB {
-			return db.Where("is_active = ?", true)
-		}).
 		Order("display_order ASC, name ASC").
 		Find(&defs).Error
 	return defs, err
@@ -215,77 +206,6 @@ func (r *LabTestDefinitionRepository) DeleteLabTestScoreMapping(id uuid.UUID) er
 	}
 	if result.RowsAffected == 0 {
 		return errors.New("lab test score mapping not found")
-	}
-	return nil
-}
-
-// ============================================================
-// LabTestReferenceRange Operations
-// ============================================================
-
-// CreateLabTestReferenceRange creates a new reference range
-func (r *LabTestDefinitionRepository) CreateLabTestReferenceRange(refRange *models.LabTestReferenceRange) error {
-	return r.db.Create(refRange).Error
-}
-
-// GetLabTestReferenceRangeByID retrieves a reference range by ID
-func (r *LabTestDefinitionRepository) GetLabTestReferenceRangeByID(id uuid.UUID) (*models.LabTestReferenceRange, error) {
-	var refRange models.LabTestReferenceRange
-	err := r.db.
-		Preload("LabTest").
-		First(&refRange, "id = ?", id).Error
-
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("lab test reference range not found")
-		}
-		return nil, err
-	}
-	return &refRange, nil
-}
-
-// GetReferenceRangesForLabTest retrieves all reference ranges for a lab test
-func (r *LabTestDefinitionRepository) GetReferenceRangesForLabTest(labTestID uuid.UUID) ([]models.LabTestReferenceRange, error) {
-	var refRanges []models.LabTestReferenceRange
-	err := r.db.
-		Where("lab_test_id = ? AND is_active = ?", labTestID, true).
-		Order("gender ASC, min_age ASC").
-		Find(&refRanges).Error
-	return refRanges, err
-}
-
-// GetReferenceRangeForPatient retrieves the appropriate reference range for a specific patient
-func (r *LabTestDefinitionRepository) GetReferenceRangeForPatient(labTestID uuid.UUID, gender models.Gender, age int) (*models.LabTestReferenceRange, error) {
-	var refRange models.LabTestReferenceRange
-	err := r.db.
-		Where("lab_test_id = ? AND is_active = ?", labTestID, true).
-		Where("(gender IS NULL OR gender = ?)", gender).
-		Where("(min_age IS NULL OR min_age <= ?)", age).
-		Where("(max_age IS NULL OR max_age >= ?)", age).
-		First(&refRange).Error
-
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("no matching reference range found for patient")
-		}
-		return nil, err
-	}
-	return &refRange, nil
-}
-
-// UpdateLabTestReferenceRange updates a reference range
-func (r *LabTestDefinitionRepository) UpdateLabTestReferenceRange(refRange *models.LabTestReferenceRange) error {
-	return r.db.Save(refRange).Error
-}
-
-// DeleteLabTestReferenceRange soft deletes a reference range
-func (r *LabTestDefinitionRepository) DeleteLabTestReferenceRange(id uuid.UUID) error {
-	result := r.db.Delete(&models.LabTestReferenceRange{}, "id = ?", id)
-	if result.Error != nil {
-		return result.Error
-	}
-	if result.RowsAffected == 0 {
-		return errors.New("lab test reference range not found")
 	}
 	return nil
 }

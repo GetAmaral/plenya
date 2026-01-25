@@ -32,15 +32,6 @@ type LabResultValue struct {
 	// Unidade de medida do valor (pode sobrescrever a unidade padrão)
 	Unit *string `gorm:"type:varchar(50)" json:"unit,omitempty"`
 
-	// Faixa de referência aplicável (texto)
-	ReferenceRange *string `gorm:"type:varchar(200)" json:"referenceRange,omitempty"`
-
-	// Indica se o valor está fora da faixa de referência
-	IsAbnormal bool `gorm:"type:boolean;not null;default:false" json:"isAbnormal"`
-
-	// Indica se o valor é crítico (requer atenção imediata)
-	IsCritical bool `gorm:"type:boolean;not null;default:false" json:"isCritical"`
-
 	// Observações sobre o valor
 	Notes *string `gorm:"type:text" json:"notes,omitempty"`
 

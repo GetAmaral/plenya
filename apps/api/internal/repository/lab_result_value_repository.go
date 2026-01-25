@@ -98,34 +98,6 @@ func (r *LabResultValueRepository) GetLatestValueForTest(patientID uuid.UUID, la
 	return &value, nil
 }
 
-// GetAbnormalValues retrieves all abnormal values for a patient
-func (r *LabResultValueRepository) GetAbnormalValues(patientID uuid.UUID) ([]models.LabResultValue, error) {
-	var values []models.LabResultValue
-	err := r.db.
-		Joins("JOIN lab_results ON lab_results.id = lab_result_values.lab_result_id").
-		Where("lab_results.patient_id = ?", patientID).
-		Where("lab_result_values.is_abnormal = ?", true).
-		Preload("LabResult").
-		Preload("LabTestDefinition").
-		Order("lab_result_values.is_critical DESC, lab_result_values.created_at DESC").
-		Find(&values).Error
-	return values, err
-}
-
-// GetCriticalValues retrieves all critical values for a patient
-func (r *LabResultValueRepository) GetCriticalValues(patientID uuid.UUID) ([]models.LabResultValue, error) {
-	var values []models.LabResultValue
-	err := r.db.
-		Joins("JOIN lab_results ON lab_results.id = lab_result_values.lab_result_id").
-		Where("lab_results.patient_id = ?", patientID).
-		Where("lab_result_values.is_critical = ?", true).
-		Preload("LabResult").
-		Preload("LabTestDefinition").
-		Order("lab_result_values.created_at DESC").
-		Find(&values).Error
-	return values, err
-}
-
 // UpdateLabResultValue updates an existing lab result value
 func (r *LabResultValueRepository) UpdateLabResultValue(value *models.LabResultValue) error {
 	return r.db.Save(value).Error

@@ -187,60 +187,6 @@ func (h *LabResultValueHandler) GetLatestValueForTest(c *fiber.Ctx) error {
 	return c.JSON(value)
 }
 
-// GetAbnormalValues retrieves all abnormal values for a patient
-// @Summary Get abnormal values for patient
-// @Tags LabResults
-// @Produce json
-// @Param patientId path string true "Patient ID"
-// @Success 200 {array} models.LabResultValue
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
-// @Router /api/v1/patients/{patientId}/lab-values/abnormal [get]
-func (h *LabResultValueHandler) GetAbnormalValues(c *fiber.Ctx) error {
-	id, err := uuid.Parse(c.Params("patientId"))
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
-			Error: "Invalid ID format",
-		})
-	}
-
-	values, err := h.service.GetAbnormalValues(id)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
-			Error: err.Error(),
-		})
-	}
-
-	return c.JSON(values)
-}
-
-// GetCriticalValues retrieves all critical values for a patient
-// @Summary Get critical values for patient
-// @Tags LabResults
-// @Produce json
-// @Param patientId path string true "Patient ID"
-// @Success 200 {array} models.LabResultValue
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
-// @Router /api/v1/patients/{patientId}/lab-values/critical [get]
-func (h *LabResultValueHandler) GetCriticalValues(c *fiber.Ctx) error {
-	id, err := uuid.Parse(c.Params("patientId"))
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
-			Error: "Invalid ID format",
-		})
-	}
-
-	values, err := h.service.GetCriticalValues(id)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
-			Error: err.Error(),
-		})
-	}
-
-	return c.JSON(values)
-}
-
 // UpdateLabResultValue updates an existing lab result value
 // @Summary Update lab result value
 // @Tags LabResults

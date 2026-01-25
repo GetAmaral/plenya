@@ -115,9 +115,6 @@ type LabTestDefinition struct {
 
 	// Mapeamentos para itens do escore
 	ScoreMappings []LabTestScoreMapping `gorm:"foreignKey:LabTestID;constraint:OnDelete:CASCADE" json:"scoreMappings,omitempty"`
-
-	// Faixas de referência (podem variar por sexo, idade, etc.)
-	ReferenceRanges []LabTestReferenceRange `gorm:"foreignKey:LabTestID;constraint:OnDelete:CASCADE" json:"referenceRanges,omitempty"`
 }
 
 // TableName especifica o nome da tabela
@@ -173,58 +170,4 @@ type LabTestScoreMapping struct {
 // TableName especifica o nome da tabela
 func (LabTestScoreMapping) TableName() string {
 	return "lab_test_score_mappings"
-}
-
-// LabTestReferenceRange define faixas de referência para um exame
-// @Description Faixas de valores de referência (podem variar por sexo, idade, etc.)
-type LabTestReferenceRange struct {
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
-
-	// ID do exame laboratorial
-	LabTestID uuid.UUID `gorm:"type:uuid;not null;index" json:"labTestId" validate:"required"`
-
-	// Especificação de gênero (se aplicável)
-	// @enum male, female, null (ambos)
-	Gender *Gender `gorm:"type:varchar(10)" json:"gender,omitempty"`
-
-	// Faixa etária mínima (em anos)
-	MinAge *int `gorm:"type:integer" json:"minAge,omitempty"`
-
-	// Faixa etária máxima (em anos)
-	MaxAge *int `gorm:"type:integer" json:"maxAge,omitempty"`
-
-	// Limite inferior
-	LowerLimit *float64 `gorm:"type:double precision" json:"lowerLimit,omitempty"`
-
-	// Limite superior
-	UpperLimit *float64 `gorm:"type:double precision" json:"upperLimit,omitempty"`
-
-	// Valor de referência para resultados textuais
-	TextReference *string `gorm:"type:varchar(200)" json:"textReference,omitempty"`
-
-	// Unidade (pode sobrescrever a unidade padrão do exame)
-	Unit *string `gorm:"type:varchar(50)" json:"unit,omitempty"`
-
-	// Descrição/contexto da faixa
-	Description *string `gorm:"type:text" json:"description,omitempty"`
-
-	// Fonte da faixa de referência
-	// @example Laboratório XYZ, Diretriz ABC 2024
-	Source *string `gorm:"type:varchar(200)" json:"source,omitempty"`
-
-	// Status
-	IsActive bool `gorm:"type:boolean;not null;default:true" json:"isActive"`
-
-	// Timestamps
-	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
-	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
-	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
-
-	// Relacionamentos
-	LabTest LabTestDefinition `gorm:"foreignKey:LabTestID" json:"labTest,omitempty"`
-}
-
-// TableName especifica o nome da tabela
-func (LabTestReferenceRange) TableName() string {
-	return "lab_test_reference_ranges"
 }
