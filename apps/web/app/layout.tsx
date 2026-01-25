@@ -26,12 +26,16 @@ export default function RootLayout({
     <html lang="pt-BR" data-scroll-behavior="smooth">
       <body className={`${inter.variable} font-sans antialiased`}>
         <QueryProvider>
-          <Suspense fallback={null}>
-            <NavigationProgress />
-          </Suspense>
+          <div className="print:hidden">
+            <Suspense fallback={null}>
+              <NavigationProgress />
+            </Suspense>
+          </div>
           {children}
-          <CommandPalette />
-          <Toaster />
+          <div className="print:hidden">
+            <CommandPalette />
+            <Toaster />
+          </div>
         </QueryProvider>
       </body>
     </html>
