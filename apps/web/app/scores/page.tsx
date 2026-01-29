@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Network, Search, Printer } from 'lucide-react'
+import { Plus, Network, Search, Printer, FileImage } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAllScoreGroupTrees } from '@/lib/api/score-api'
 import { ScoreTreeView } from '@/components/scores/ScoreTreeView'
@@ -122,6 +122,14 @@ export default function ScoresPage() {
           >
             <Printer className="mr-2 h-4 w-4" />
             Versão Impressão
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={() => router.push('/scores/poster')}
+          >
+            <FileImage className="mr-2 h-4 w-4" />
+            Pôster 60x300cm
           </Button>
 
           <Button onClick={() => setIsCreateDialogOpen(true)}>
