@@ -17,12 +17,12 @@ export function ArticleScoreItems({ scoreItems }: ArticleScoreItemsProps) {
 
   // Agrupar items por grupo e subgrupo
   const groupedItems = scoreItems.reduce((acc, item) => {
-    if (!item.scoreSubgroup) return acc
+    if (!item.subgroup) return acc
 
-    const groupId = item.scoreSubgroup.scoreGroup?.id || 'ungrouped'
-    const groupName = item.scoreSubgroup.scoreGroup?.name || 'Sem Grupo'
-    const subgroupId = item.scoreSubgroup.id
-    const subgroupName = item.scoreSubgroup.name
+    const groupId = item.subgroup.group?.id || 'ungrouped'
+    const groupName = item.subgroup.group?.name || 'Sem Grupo'
+    const subgroupId = item.subgroup.id
+    const subgroupName = item.subgroup.name
 
     if (!acc[groupId]) {
       acc[groupId] = {

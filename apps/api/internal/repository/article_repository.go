@@ -31,8 +31,7 @@ func (r *ArticleRepository) Create(article *models.Article) (*models.Article, er
 func (r *ArticleRepository) FindByID(id uuid.UUID) (*models.Article, error) {
 	var article models.Article
 	if err := r.db.
-		Preload("ScoreItems.ScoreSubgroup.ScoreGroup").
-		Preload("ScoreItems.ScoreSubgroup").
+		Preload("ScoreItems.Subgroup.Group").
 		First(&article, "id = ?", id).Error; err != nil {
 		return nil, err
 	}

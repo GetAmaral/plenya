@@ -14,7 +14,7 @@ export interface ScoreSubgroup {
   id: string
   name: string
   description?: string
-  scoreGroup?: ScoreGroup
+  group?: ScoreGroup
 }
 
 export interface ScoreItem {
@@ -23,7 +23,7 @@ export interface ScoreItem {
   description?: string
   unit?: string
   points: number
-  scoreSubgroup?: ScoreSubgroup
+  subgroup?: ScoreSubgroup
 }
 
 export interface Article {
