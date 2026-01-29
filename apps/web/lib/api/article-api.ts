@@ -1,9 +1,31 @@
 'use client'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { apiClient } from './api-client'
+import { apiClient } from '../api-client'
 
 // Types
+export interface ScoreGroup {
+  id: string
+  name: string
+  description?: string
+}
+
+export interface ScoreSubgroup {
+  id: string
+  name: string
+  description?: string
+  scoreGroup?: ScoreGroup
+}
+
+export interface ScoreItem {
+  id: string
+  name: string
+  description?: string
+  unit?: string
+  points: number
+  scoreSubgroup?: ScoreSubgroup
+}
+
 export interface Article {
   id: string
   title: string
@@ -31,6 +53,7 @@ export interface Article {
   lastAccessedAt?: string
   createdBy?: string
   updatedBy?: string
+  scoreItems?: ScoreItem[]
   createdAt: string
   updatedAt: string
 }
@@ -146,31 +169,27 @@ export const articleApi = {
     if (filters?.publishedBefore)
       params.append('publishedBefore', filters.publishedBefore)
 
-    const response = await apiClient.get(`/articles?${params.toString()}`)
-    return response.data
+    return apiClient.get<PaginatedArticles>(`/api/v1/articles?${params.toString()}`)
   },
 
   // Get article by ID
   getById: async (id: string): Promise<Article> => {
-    const response = await apiClient.get(`/articles/${id}`)
-    return response.data
+    return apiClient.get<Article>(`/api/v1/articles/${id}`)
   },
 
   // Create article
   create: async (data: CreateArticleDTO): Promise<Article> => {
-    const response = await apiClient.post('/articles', data)
-    return response.data
+    return apiClient.post<Article>('/api/v1/articles', data)
   },
 
   // Update article
   update: async (id: string, data: UpdateArticleDTO): Promise<Article> => {
-    const response = await apiClient.put(`/articles/${id}`, data)
-    return response.data
+    return apiClient.put<Article>(`/api/v1/articles/${id}`, data)
   },
 
   // Delete article
   delete: async (id: string): Promise<void> => {
-    await apiClient.delete(`/articles/${id}`)
+    await apiClient.delete(`/api/v1/articles/${id}`)
   },
 
   // Upload PDF
@@ -178,12 +197,7 @@ export const articleApi = {
     const formData = new FormData()
     formData.append('file', file)
 
-    const response = await apiClient.post('/articles/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    return response.data
+    return apiClient.post<Article>('/api/v1/articles/upload', formData)
   },
 
   // Search articles
@@ -198,8 +212,7 @@ export const articleApi = {
       pageSize: pageSize.toString(),
     })
 
-    const response = await apiClient.get(`/articles/search?${params.toString()}`)
-    return response.data
+    return apiClient.get<PaginatedArticles>(`/api/v1/articles/search?${params.toString()}`)
   },
 
   // Get favorites
@@ -209,20 +222,17 @@ export const articleApi = {
       pageSize: pageSize.toString(),
     })
 
-    const response = await apiClient.get(`/articles/favorites?${params.toString()}`)
-    return response.data
+    return apiClient.get<PaginatedArticles>(`/api/v1/articles/favorites?${params.toString()}`)
   },
 
   // Toggle favorite
   toggleFavorite: async (id: string): Promise<Article> => {
-    const response = await apiClient.patch(`/articles/${id}/favorite`)
-    return response.data
+    return apiClient.patch<Article>(`/api/v1/articles/${id}/favorite`)
   },
 
   // Set rating
   setRating: async (id: string, rating: number): Promise<Article> => {
-    const response = await apiClient.patch(`/articles/${id}/rating`, { rating })
-    return response.data
+    return apiClient.patch<Article>(`/api/v1/articles/${id}/rating`, { rating })
   },
 
   // Get download URL

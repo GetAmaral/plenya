@@ -1,8 +1,9 @@
 'use client'
 
-import { use } from 'react'
+import { use, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Button } from '@/components/ui/button'
@@ -24,6 +25,24 @@ import {
   ARTICLE_TYPES,
   articleApi,
 } from '@/lib/api/article-api'
+import { ArticleScoreItems } from '@/components/articles/ArticleScoreItems'
+
+// Dynamically import PDFViewer with no SSR to avoid DOMMatrix errors
+const PDFViewer = dynamic(
+  () => import('@/components/articles/PDFViewer').then((mod) => mod.PDFViewer),
+  {
+    ssr: false,
+    loading: () => (
+      <Card className="w-full">
+        <CardContent className="py-12">
+          <div className="flex items-center justify-center">
+            <Skeleton className="h-[600px] w-full" />
+          </div>
+        </CardContent>
+      </Card>
+    ),
+  }
+)
 import {
   ArrowLeft,
   Heart,
@@ -37,6 +56,8 @@ import {
   FileText,
   Hash,
   Tag,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
@@ -62,6 +83,7 @@ export default function ArticleDetailPage({ params }: PageProps) {
   const toggleFavorite = useToggleFavorite()
   const setRating = useSetRating()
   const deleteArticle = useDeleteArticle()
+  const [isFullContentExpanded, setIsFullContentExpanded] = useState(false)
 
   const handleToggleFavorite = async () => {
     if (!article) return
@@ -275,6 +297,17 @@ export default function ArticleDetailPage({ params }: PageProps) {
 
       <Separator className="my-8" />
 
+      {/* PDF Viewer */}
+      {article.internalLink && (
+        <>
+          <PDFViewer
+            url={articleApi.getDownloadUrl(article.id)}
+            title={article.title}
+          />
+          <Separator className="my-8" />
+        </>
+      )}
+
       {/* Content */}
       <div className="space-y-8">
         {/* Authors */}
@@ -339,6 +372,11 @@ export default function ArticleDetailPage({ params }: PageProps) {
           </Card>
         )}
 
+        {/* Score Items Vinculados */}
+        {article.scoreItems && article.scoreItems.length > 0 && (
+          <ArticleScoreItems scoreItems={article.scoreItems} />
+        )}
+
         {/* Notes */}
         {article.notes && (
           <Card>
@@ -351,20 +389,53 @@ export default function ArticleDetailPage({ params }: PageProps) {
           </Card>
         )}
 
-        {/* Full Content Preview (if available) */}
+        {/* Full Content (if available) */}
         {article.fullContent && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Texto Completo (Preview)</CardTitle>
-              <CardDescription>
-                Primeiras 1000 caracteres extraídos do PDF
-              </CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg">Texto Completo Extraído do PDF</CardTitle>
+                  <CardDescription>
+                    {article.fullContent.length.toLocaleString()} caracteres extraídos
+                  </CardDescription>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsFullContentExpanded(!isFullContentExpanded)}
+                >
+                  {isFullContentExpanded ? (
+                    <>
+                      <ChevronUp className="mr-2 h-4 w-4" />
+                      Colapsar
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="mr-2 h-4 w-4" />
+                      Expandir Texto Completo
+                    </>
+                  )}
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
-              <p className="whitespace-pre-wrap text-sm text-muted-foreground">
-                {article.fullContent.substring(0, 1000)}
-                {article.fullContent.length > 1000 && '...'}
-              </p>
+              {isFullContentExpanded ? (
+                <div className="max-h-[600px] overflow-y-auto border rounded-md p-4 bg-muted/30">
+                  <p className="whitespace-pre-wrap text-sm font-mono">
+                    {article.fullContent}
+                  </p>
+                </div>
+              ) : (
+                <div className="border rounded-md p-4 bg-muted/30">
+                  <p className="whitespace-pre-wrap text-sm font-mono text-muted-foreground">
+                    {article.fullContent.substring(0, 500)}...
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Mostrando primeiros 500 caracteres. Clique em "Expandir" para ver o texto completo.
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}

@@ -30,7 +30,10 @@ func (r *ArticleRepository) Create(article *models.Article) (*models.Article, er
 // FindByID busca um artigo por ID
 func (r *ArticleRepository) FindByID(id uuid.UUID) (*models.Article, error) {
 	var article models.Article
-	if err := r.db.First(&article, "id = ?", id).Error; err != nil {
+	if err := r.db.
+		Preload("ScoreItems.ScoreSubgroup.ScoreGroup").
+		Preload("ScoreItems.ScoreSubgroup").
+		First(&article, "id = ?", id).Error; err != nil {
 		return nil, err
 	}
 	return &article, nil
@@ -303,4 +306,56 @@ func (r *ArticleRepository) GetArticlesBySpecialty(specialty string, page, pageS
 	}
 
 	return articles, total, nil
+}
+
+// AddScoreItems adiciona itens de escore a um artigo (many-to-many)
+func (r *ArticleRepository) AddScoreItems(articleID uuid.UUID, scoreItemIDs []uuid.UUID) error {
+	var article models.Article
+	if err := r.db.First(&article, articleID).Error; err != nil {
+		return err
+	}
+
+	// Buscar os ScoreItems pelos IDs
+	var scoreItems []models.ScoreItem
+	if err := r.db.Find(&scoreItems, scoreItemIDs).Error; err != nil {
+		return err
+	}
+
+	// Adicionar associação usando GORM Association
+	return r.db.Model(&article).Association("ScoreItems").Append(&scoreItems)
+}
+
+// RemoveScoreItems remove itens de escore de um artigo (many-to-many)
+func (r *ArticleRepository) RemoveScoreItems(articleID uuid.UUID, scoreItemIDs []uuid.UUID) error {
+	var article models.Article
+	if err := r.db.First(&article, articleID).Error; err != nil {
+		return err
+	}
+
+	// Buscar os ScoreItems pelos IDs
+	var scoreItems []models.ScoreItem
+	if err := r.db.Find(&scoreItems, scoreItemIDs).Error; err != nil {
+		return err
+	}
+
+	// Remover associação usando GORM Association
+	return r.db.Model(&article).Association("ScoreItems").Delete(&scoreItems)
+}
+
+// GetScoreItemsForArticle retorna todos os itens de escore associados a um artigo
+func (r *ArticleRepository) GetScoreItemsForArticle(articleID uuid.UUID) ([]models.ScoreItem, error) {
+	var article models.Article
+	if err := r.db.Preload("ScoreItems").First(&article, articleID).Error; err != nil {
+		return nil, err
+	}
+
+	return article.ScoreItems, nil
+}
+
+// UpdateScoreItemsLastReview atualiza o campo last_review dos ScoreItems especificados
+func (r *ArticleRepository) UpdateScoreItemsLastReview(scoreItemIDs []uuid.UUID) error {
+	now := time.Now()
+	return r.db.Model(&models.ScoreItem{}).
+		Where("id IN ?", scoreItemIDs).
+		Update("last_review", now).Error
 }
