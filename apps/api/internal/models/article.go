@@ -64,10 +64,10 @@ type Article struct {
 	ArticleType string `gorm:"type:varchar(50);not null;default:'research_article';check:article_type IN ('research_article','review','meta_analysis','case_study','clinical_trial','editorial','letter','protocol','lecture')" json:"articleType" validate:"required,oneof=research_article review meta_analysis case_study clinical_trial editorial letter protocol lecture"`
 
 	// @items.type string
-	Keywords []string `gorm:"type:jsonb" json:"keywords,omitempty"`
+	Keywords []string `gorm:"type:text;serializer:json" json:"keywords,omitempty"`
 
 	// @items.type string
-	MeshTerms []string `gorm:"type:jsonb" json:"meshTerms,omitempty"`
+	MeshTerms []string `gorm:"type:text;serializer:json" json:"meshTerms,omitempty"`
 
 	// @example Cardiology
 	// @maxLength 200
@@ -96,6 +96,10 @@ type Article struct {
 	// Audit
 	CreatedBy *uuid.UUID `gorm:"type:uuid" json:"createdBy,omitempty"` // User ID que criou
 	UpdatedBy *uuid.UUID `gorm:"type:uuid" json:"updatedBy,omitempty"` // User ID que atualizou
+
+	// Relationships
+	// @items.type object
+	ScoreItems []ScoreItem `gorm:"many2many:article_score_items;" json:"scoreItems,omitempty"`
 
 	// Timestamps
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
