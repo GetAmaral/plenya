@@ -37,20 +37,17 @@ export interface UpdateLabRequestInput {
 
 // Create lab request
 export async function createLabRequest(data: CreateLabRequestInput): Promise<LabRequest> {
-  const response = await apiClient.post('/lab-requests', data)
-  return response.data
+  return apiClient.post<LabRequest>('/api/v1/lab-requests', data)
 }
 
 // Get lab request by ID
 export async function getLabRequestById(id: string): Promise<LabRequest> {
-  const response = await apiClient.get(`/lab-requests/${id}`)
-  return response.data
+  return apiClient.get<LabRequest>(`/api/v1/lab-requests/${id}`)
 }
 
 // Get lab requests by patient ID
 export async function getLabRequestsByPatientId(patientId: string): Promise<LabRequest[]> {
-  const response = await apiClient.get(`/patients/${patientId}/lab-requests`)
-  return response.data
+  return apiClient.get<LabRequest[]>(`/api/v1/patients/${patientId}/lab-requests`)
 }
 
 // Get all lab requests (paginated)
@@ -63,33 +60,30 @@ export async function getAllLabRequests(params?: {
   limit: number
   offset: number
 }> {
-  const response = await apiClient.get('/lab-requests', { params })
-  return response.data
+  return apiClient.get<{
+    data: LabRequest[]
+    total: number
+    limit: number
+    offset: number
+  }>('/api/v1/lab-requests', { params } as any)
 }
 
 // Get lab requests by date
 export async function getLabRequestsByDate(date: string): Promise<LabRequest[]> {
-  const response = await apiClient.get('/lab-requests/by-date', {
-    params: { date }
-  })
-  return response.data
+  return apiClient.get<LabRequest[]>(`/api/v1/lab-requests/by-date?date=${encodeURIComponent(date)}`)
 }
 
 // Get lab requests by date range
 export async function getLabRequestsByDateRange(startDate: string, endDate: string): Promise<LabRequest[]> {
-  const response = await apiClient.get('/lab-requests/by-date-range', {
-    params: { startDate, endDate }
-  })
-  return response.data
+  return apiClient.get<LabRequest[]>(`/api/v1/lab-requests/by-date-range?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`)
 }
 
 // Update lab request
 export async function updateLabRequest(id: string, data: UpdateLabRequestInput): Promise<LabRequest> {
-  const response = await apiClient.put(`/lab-requests/${id}`, data)
-  return response.data
+  return apiClient.put<LabRequest>(`/api/v1/lab-requests/${id}`, data)
 }
 
 // Delete lab request
 export async function deleteLabRequest(id: string): Promise<void> {
-  await apiClient.delete(`/lab-requests/${id}`)
+  return apiClient.delete<void>(`/api/v1/lab-requests/${id}`)
 }
