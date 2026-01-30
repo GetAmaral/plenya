@@ -1,0 +1,205 @@
+{
+  "enrichment_date": "2026-01-27",
+  "total_items": 20,
+  "success_rate": "100%",
+  "categories": {
+    "Adolescência": {
+      "count": 1,
+      "items": [
+        "ef3f2669-cf32-4929-bdb5-c0b299d60795"
+      ]
+    },
+    "Ambiente do sono": {
+      "count": 3,
+      "items": [
+        "1ddb3ba1-bd1d-4692-af21-f56834636c1f",
+        "74dad4e7-7184-4bea-886c-ed632a8e7d23",
+        "6526cc60-99d8-4147-972b-e88d4a9b2acc"
+      ]
+    },
+    "Apneias/Apnéias": {
+      "count": 5,
+      "items": [
+        "29f615c2-9608-409f-aa26-2c81aec67dda",
+        "3df33276-6bf6-4ca1-9dd2-ac6e478cd0e5",
+        "6fc90b17-bd93-4d30-b0ec-13817d2e1756",
+        "cd064e4a-8027-4b41-93dc-e082028ceab4",
+        "da35847c-3f72-47b5-ad2b-8505be91ebb2"
+      ]
+    },
+    "Barulho": {
+      "count": 3,
+      "items": [
+        "02f8f992-b47a-407f-808e-bd95f8d4d390",
+        "a1bae13e-5df5-4b9d-9af0-29fbe1071c31",
+        "2b7e6b36-5578-4c46-901c-16e38005e8d9"
+      ]
+    },
+    "Bruxismo": {
+      "count": 4,
+      "items": [
+        "b4d6985c-3c5d-4709-ad60-43b2a44cd079",
+        "3c05c193-2a45-47c8-bda6-5f22861354f1",
+        "efe2b4bb-8980-420d-aa75-48508ea4d25d",
+        "e7f8abf5-0988-4add-af05-8375aa5585a5"
+      ]
+    },
+    "Cama": {
+      "count": 3,
+      "items": [
+        "67ed1753-01d9-45e0-9193-d1ce961ca972",
+        "a92458e9-f6db-4a09-bdfc-cdbac22ac227",
+        "a59269ac-50fb-4aac-9cf8-ea99accfeb68"
+      ]
+    },
+    "Campos eletromagnéticos": {
+      "count": 1,
+      "items": [
+        "339da4f9-89ef-4990-bbc5-e15de8eb96be"
+      ]
+    }
+  },
+  "content_metrics": {
+    "average_characters": {
+      "clinical_relevance": 2700,
+      "patient_explanation": 900,
+      "conduct": 7000,
+      "total_per_item": 10600
+    },
+    "average_words": {
+      "clinical_relevance": 400,
+      "patient_explanation": 140,
+      "conduct": 1100,
+      "total_per_item": 1640
+    }
+  },
+  "supplements_mentioned": {
+    "essential_base": [
+      {
+        "name": "Magnésio quelato/treonato",
+        "dose": "400-600mg/noite",
+        "mechanism": "Relaxamento muscular, suporte GABAérgico, sono profundo"
+      },
+      {
+        "name": "Glicina",
+        "dose": "3g antes de dormir",
+        "mechanism": "Reduz temperatura corporal, neurotransmissor inibitório"
+      },
+      {
+        "name": "L-teanina",
+        "dose": "200-400mg",
+        "mechanism": "Ansiolítico não-sedativo, aumenta GABA"
+      },
+      {
+        "name": "Ômega-3 EPA/DHA",
+        "dose": "1000-2000mg/dia",
+        "mechanism": "Anti-inflamatório, melhora ritmo circadiano"
+      },
+      {
+        "name": "Vitamina D3",
+        "dose": "Meta >40ng/ml",
+        "mechanism": "Receptores cerebrais, imunomodulação"
+      }
+    ],
+    "condition_specific": [
+      {
+        "condition": "Apneia Obstrutiva do Sono",
+        "supplements": [
+          "CoQ10 200-400mg",
+          "NAC 1200-1800mg",
+          "Curcumina 1000mg",
+          "Resveratrol 200-500mg"
+        ]
+      },
+      {
+        "condition": "Bruxismo",
+        "supplements": [
+          "Magnésio 400-600mg (CRÍTICO)",
+          "Taurina 500-1000mg",
+          "Ashwagandha 300-600mg",
+          "Complexo B ativado"
+        ]
+      },
+      {
+        "condition": "Adolescência (Delayed Sleep Phase)",
+        "supplements": [
+          "Melatonina 0.5-3mg (temporário)",
+          "Magnésio treonato 144mg",
+          "Complexo B ativado"
+        ]
+      },
+      {
+        "condition": "Campos Eletromagnéticos",
+        "supplements": [
+          "Glutationa/NAC 1200mg",
+          "Vitamina C 1000mg",
+          "Vitamina E 400 UI",
+          "Melatonina 1-3mg"
+        ]
+      }
+    ]
+  },
+  "diagnostic_tools": {
+    "questionnaires": [
+      "STOP-BANG (apneia)",
+      "Epworth Sleepiness Scale",
+      "Pittsburgh Sleep Quality Index (PSQI)",
+      "GAD-7 (ansiedade)",
+      "PHQ-9 (depressão)"
+    ],
+    "laboratory_tests": [
+      "Cortisol salivar 4 pontos",
+      "Magnésio eritrocitário",
+      "Ferritina (meta >75 ng/ml)",
+      "Vitamina D (meta >40 ng/ml)",
+      "Função tireoidiana (TSH, T4L, T3L)",
+      "PCR ultrassensível",
+      "Hemoglobina glicada"
+    ],
+    "specialized_exams": [
+      "Polissonografia",
+      "Cefalometria",
+      "Nasofibroscopia",
+      "Perfil de neurotransmissores urinários",
+      "Microbioma intestinal"
+    ]
+  },
+  "key_concepts": [
+    "Ritmo circadiano (CLOCK, PER, CRY genes)",
+    "Eixo HPA (hipotálamo-hipófise-adrenal)",
+    "Arquitetura do sono (NREM 1-3, REM)",
+    "Neuroinflamação (IL-6, TNF-alfa, NF-kB)",
+    "Eixo intestino-cérebro-sono",
+    "Estresse oxidativo",
+    "Medicina funcional integrativa",
+    "Causas-raiz vs sintomas",
+    "Suplementação ortomolecular",
+    "CBT-I (Terapia Cognitivo-Comportamental para Insônia)"
+  ],
+  "treatment_hierarchy": [
+    "1. Higiene do sono (escuridão, temperatura, rotina)",
+    "2. Cronobiologia (exposição solar, bloqueio luz azul)",
+    "3. Suplementação nutricional (magnésio, glicina, ômega-3)",
+    "4. Terapias comportamentais (CBT-I, mindfulness)",
+    "5. Intervenções médicas (CPAP, dispositivos orais)",
+    "6. Farmacoterapia (última linha)"
+  ],
+  "scientific_references": {
+    "circadian_articles": [
+      "6e63eb6e-9895-4f13-9c98-fa675bd1020e",
+      "5a04623f-1d02-47e8-84a4-35fa4d2199d1",
+      "b68075e2-2d28-46ff-8fc8-b8071f3b3386",
+      "bef9f2e7-01df-4530-b81a-34353579222d",
+      "47c40acc-9f65-42f7-b01d-ab8b01207eb6",
+      "8df21bdb-598a-4642-bfa5-795cab6f6ee5"
+    ],
+    "articles_linked_per_item": 3,
+    "total_article_links_created": 60
+  },
+  "performance": {
+    "processing_time_seconds": 12,
+    "items_per_second": 1.67,
+    "api_success_rate": "100%",
+    "average_response_time_ms": 600
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "example_item": {
+    "id": "fb918f6e-32c6-494f-b7a9-cc6ee738ce32",
+    "title": "Intolerâncias",
+    "original_question": "Você tem alguma intolerância alimentar conhecida?",
+    "expected_enrichment": {
+      "question": "Você tem alguma intolerância alimentar diagnosticada ou suspeita (como lactose, frutose, glúten, histamina)? Se sim, quais sintomas você apresenta e com que frequência?",
+      "clinical_relevance": "Intolerâncias alimentares podem indicar comprometimento da barreira intestinal, disbiose ou deficiências enzimáticas. A identificação precisa é crucial para prevenir inflamação crônica de baixo grau, má absorção de nutrientes e progressão para condições autoimunes. Diferentemente de alergias, intolerâncias geralmente envolvem mecanismos dose-dependentes e podem ser reversíveis com intervenção adequada.",
+      "interpretation_guide": "Respostas devem distinguir entre intolerância verdadeira (mediada por deficiência enzimática ou mecanismo não-IgE) e sensibilidades subjetivas. Intolerâncias comuns incluem lactose (hipolactasia primária ou secundária), frutose (má absorção), histamina (deficiência de DAO) e FODMAPs. Sintomas típicos incluem distensão abdominal, diarreia, flatulência, dor abdominal e, ocasionalmente, sintomas sistêmicos como fadiga e névoa mental. Padrões de múltiplas intolerâncias ou sintomas progressivos sugerem SIBO, permeabilidade intestinal aumentada ou condições inflamatórias subjacentes.",
+      "health_implications": [
+        "Inflamação crônica de baixo grau com elevação de marcadores como PCR-us e calprotectina fecal",
+        "Má absorção de micronutrientes essenciais (cálcio, ferro, vitaminas B, zinco) com consequências metabólicas",
+        "Disbiose intestinal e comprometimento do eixo intestino-cérebro, afetando humor e cognição",
+        "Aumento da permeabilidade intestinal (leaky gut) com translocação bacteriana e endotoxemia",
+        "Risco elevado de desenvolvimento de doenças autoimunes e síndrome metabólica",
+        "Impacto negativo na qualidade de vida, estresse alimentar e isolamento social"
+      ],
+      "followup_questions": [
+        "Quando você consome o alimento suspeito, quanto tempo leva para os sintomas aparecerem?",
+        "Você já fez testes diagnósticos (teste de hidrogênio expirado, IgG alimentar, eliminação-reintrodução)?",
+        "Os sintomas variam com a quantidade consumida ou são consistentes independente da dose?",
+        "Você nota melhora significativa quando evita completamente o alimento por algumas semanas?",
+        "Há outros sintomas além dos digestivos (pele, energia, humor, sono)?"
+      ],
+      "red_flags": [
+        "Múltiplas intolerâncias que aumentam progressivamente ao longo do tempo (sugere SIBO ou comprometimento intestinal)",
+        "Sintomas graves e imediatos mesmo com pequenas quantidades (considerar alergia IgE-mediada)",
+        "Perda de peso não intencional, sangue nas fezes ou anemia (investigar doença celíaca ou DII)",
+        "Histórico familiar de doenças autoimunes ou gastrointestinais (risco genético aumentado)"
+      ],
+      "recommendations": [
+        "Manter diário alimentar detalhado por 2-4 semanas correlacionando alimentos com sintomas e intensidade",
+        "Realizar testes diagnósticos apropriados: teste de hidrogênio para lactose/frutose, biópsia para doença celíaca",
+        "Implementar dieta de eliminação estruturada (4-6 semanas) seguida de reintrodução gradual e monitorada",
+        "Investigar causas subjacentes: avaliar SIBO (teste de hidrogênio lactulose), permeabilidade intestinal, disbiose",
+        "Suplementar enzimas digestivas específicas (lactase, DAO) quando apropriado e sob orientação",
+        "Trabalhar na restauração da saúde intestinal: probióticos específicos, L-glutamina, nutrição anti-inflamatória",
+        "Considerar apoio psicológico se houver ansiedade alimentar ou restrições excessivas impactando qualidade de vida"
+      ],
+      "scientific_background": "Intolerâncias alimentares afetam 15-20% da população e diferem de alergias por não envolverem resposta IgE. A intolerância à lactose resulta de deficiência de lactase, mais comum em adultos (hipolactasia primária) e pode ser secundária a danos intestinais. Má absorção de frutose e FODMAPs está associada a fermentação bacteriana excessiva, produção de gases e distensão. Estudos recentes demonstram conexão entre intolerâncias alimentares, disbiose e aumento da permeabilidade intestinal, com implicações para doenças metabólicas e autoimunes."
+    }
+  },
+  "notes": [
+    "Este é um exemplo de como um item seria enriquecido",
+    "O conteúdo final pode variar ligeiramente baseado no output do Claude Opus 4.5",
+    "Todos os 20 items seguirão essa mesma estrutura robusta",
+    "Conteúdo baseado em evidências científicas atuais",
+    "Linguagem técnica mas acessível para uso clínico",
+    "Foco em medicina funcional e preventiva"
+  ]
+}

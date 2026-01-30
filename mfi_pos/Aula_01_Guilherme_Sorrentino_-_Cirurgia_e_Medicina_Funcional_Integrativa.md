@@ -1,0 +1,71 @@
+# Aula 01_Guilherme Sorrentino - Cirurgia e Medicina Funcional Integrativa
+
+**Source:** https://web.plaud.ai/share/1d5d1767377464866::YXdzOnVzLXdlc3QtMg
+
+---
+
+# A Abordagem Funcional e Integrativa na Avaliação Pré-Operatória
+
+O Dr. Guilherme Sorrentino apresenta uma abordagem funcional e integrativa para avaliação e preparo pré-operatório, defendendo uma preabilitação sistemática com foco em estado nutricional, perfil inflamatório e função orgânica para reduzir riscos, prevenir complicações e acelerar a recuperação. Ele estrutura a análise em sete pilares, amplia o escopo de exames laboratoriais e descreve condutas práticas para otimização personalizada antes e durante a cirurgia.
+------------
+## Introdução à Cirurgia Funcional e Integrativa
+
+A apresentação abre com a defesa da medicina funcional integrativa como uma evolução necessária na prática cirúrgica. Segundo o Dr. Sorrentino, a tecnologia e o avanço do conhecimento recolocaram no centro da avaliação clínica dimensões que já eram valorizadas por abordagens anteriores, agora aplicadas com maior precisão: a análise ampla do paciente, seus fatores nutricionais e inflamatórios, e a prevenção proativa de complicações. Ele contextualiza sua experiência como cirurgião plástico e de trauma, adiantando que a aula focará na avaliação pré-operatória e na suplementação aplicada a pacientes cirúrgicos, com ênfase em decisões compartilhadas e em uma visão interdisciplinar que transcende a técnica operatória isolada.
+
+------------
+## A Necessidade da Preabilitação e o Impacto no Desfecho Cirúrgico
+
+O palestrante compara o preparo para a cirurgia a um jogo de xadrez: o melhor resultado exige estratégia antes do primeiro movimento. A preabilitação—preparo ativo físico, nutricional e psicológico—modula a intensidade da resposta ao estresse cirúrgico e, por consequência, melhora cicatrização, imunidade e qualidade de vida pós-operatória. Com base em publicações e diagramas comparativos, ele descreve dois trajetos: o paciente preabilitado (“linha roxa”), que mantém resiliência frente ao estresse metabólico e inflamatório do ato operatório, e o paciente sem preparo (“linha azul”), mais suscetível a quedas de imunidade, recuperação lenta e complicações. Em cirurgias eletivas, o tempo de preparo varia; mesmo com janelas curtas (1–2 semanas), cabe ao cirurgião considerar o momento ideal, em decisão compartilhada com paciente e família, ponderando aptidão física, estado nutricional, bem-estar psicológico e indicação técnica da cirurgia, com eventual adiamento quando o risco é modificável.
+
+------------
+## Pilares da Avaliação Pré-Operatória Integrativa
+
+O método do Dr. Sorrentino organiza-se em sete pilares interdependentes: porte cirúrgico, risco cardíaco, função renal, função hepática, estado nutricional, coagulação e perfil inflamatório. A avaliação expande-se além dos exames tradicionais (hemograma, ureia, creatinina, glicemia de jejum, TP, KTTP), incorporando marcadores que refinam o entendimento bioquímico e o risco individual: insulina em jejum, dímero-D, proteína C reativa ultrassensível, homocisteína, e, conforme necessidade, TNF-alfa, CPK e testes relacionados à acidez gástrica e ao metabolismo intestinal. Para o rim, não basta ureia e creatinina—é necessário considerar a reserva muscular (que afeta creatinina e risco cardiovascular). Para o fígado, a leitura vai além de TGO/TGP/bilirrubinas, avaliando capacidade de detoxificação e suporte ao metabolismo de fármacos, cicatrização e enzimas alimentares. O estado nutricional é descrito como fator transversal que impacta todos os demais. A coagulação deve ser mapeada tanto para sangramento intraoperatório quanto para trombose no pós-operatório. O perfil inflamatório é eixo crítico de decisão; o cirurgião relata não operar sem ferritina, pelo menos, e defende uma prescrição pré-cirúrgica que inclua suplementação, orientação nutricional e, quando indicado, adiamento planejado. Há, ainda, a meta de reduzir a necessidade e duração de antibióticos e anti-inflamatórios, mitigando efeitos em microbiota e acidez gástrica, sem negar sua importância clínica quando necessários.
+
+------------
+## Análise do Risco de Sangramento e Anemia
+
+O porte cirúrgico é determinado por risco potencial de sangramento, tempo operatório e tecnologias adjacentes—por exemplo, dispositivos de retração cutânea via calor que intensificam a resposta inflamatória e elevam o porte. Medidas intraoperatórias críticas incluem não exceder significativamente 6 horas de tempo cirúrgico, evitar excesso de fluidos (sem benefício e com aumento de risco) e manejar cuidadosamente a termorregulação, dado que o paciente costuma resfriar-se por infiltrações e exposição, apesar do ambiente quente para a equipe. A compreensão e otimização da anemia pré-operatória recebe destaque: há deficiência global de vitamina B12—marcante na América Central, subcontinente indiano, América do Sul e áreas da África—e elevada prevalência de deficiência de ferro em mulheres (ciclos menstruais, gestação), impactando hemoglobina, transporte de oxigênio e função celular (citocromos, globinas). O diagrama citado orienta condutas: hemoglobina abaixo de 13, mesmo em mulheres, requer investigação de ferro; ferritina abaixo de 30 define deficiência e indica reposição (inclusive via endovenosa em urgências). Entre 30 e 100, avaliam-se saturação de transferrina (<20) e proteína C reativa (>5), pois a anemia pode ser decorrente de inflamação, com ferro sequestrado em ferritina e macrófagos. Ferritina acima de 100, com transferrina <20% e PCR alta, sugere inflamação crônica. B12 e folato também são causas de anemia. Na gestão do sangramento, conhecer e identificar o choque hipovolêmico é crucial, apoiando-se na classificação do ABC do trauma (ACLS): menos de 750 ml (sem sintomas), 750–1.500 ml (taquicardia, catecolaminas), 1.500–2.000 ml (queda da pressão sistólica) e mais de 2 litros (choque grau 4, instabilidade e hipoxigenação). A frequência cardíaca é a bússola mais sensível—taquicardia progressiva, mesmo com reposição de fluidos, sinaliza perda oculta de sangue; valores acima de 120 exigem resposta imediata. Em cenários de sangramento excessivo, o controle de danos (pausar o procedimento e estabilizar) é aplicável inclusive em plástica, por exemplo, abortando etapas subsequentes programadas após lipoaspiração.
+
+------------
+## O Impacto do Estresse e da Resposta Metabólica na Cirurgia
+
+O estresse crônico—seja psicológico, cirúrgico ou patológico—desregula imunidade inata e adaptativa, eleva morbidade e mortalidade e envolve o cérebro tanto como órgão afetado quanto como mediador da resposta inflamatória. A cascata neuroendócrina ativa o eixo hipotálamo-hipófise-adrenal (liberação de corticoides) e o sistema nervoso simpático (adrenalina e noradrenalina), instaurando um estado de luta ou fuga em que o corpo passa a utilizar gordura como combustível. O glicogênio hepático e muscular se esgota em 4 a 5 horas e, se o estresse perdurar, instala-se cetogênese com lipólise e beta-oxidação. Preparar o paciente para esse cenário, inclusive com estratégias nutricionais (jejum intermitente, dietas cetogênicas quando indicadas) conduzidas por nutricionista, facilita a transição metabólica. A mitocôndria ocupa papel central: demanda aumentada de ATP implica maior produção de radicais livres, exigindo antioxidantes, coenzimas e cofatores para sustentar a bioenergética sem colapsar cicatrização. Ureia elevada pode sinalizar catabolismo/estresse prévio. A insuficiência na produção energética mitocondrial compromete reparo tecidual e intensifica estresse oxidativo. Entre os marcadores de risco cardiovascular, a homocisteína merece avaliação rotineira: quedas em B6, B9, B12 e betaína prejudicam metilação, elevando homocisteína (objetivo: valores abaixo de 10).
+
+------------
+## Avaliação da Função Orgânica e do Perfil Inflamatório Sistêmico
+
+A inflamação sistêmica do contexto cirúrgico impacta diversos sistemas. Renalmente, há maior demanda funcional, redução de eritropoetina e alterações que, junto ao aumento de hepsidina hepática, prejudicam absorção e uso do ferro, promovendo retenção em macrófagos e ferritina. O fígado é descrito como maestro metabólico: conduz gliconeogênese, produz proteínas de fase aguda, sustenta detoxificação e gestão energética. Observa-se, na prática atual, TGO/TGP frequentemente entre 35, 40, 45, 60, indicativos de sobrecarga hepática em muitos pacientes por dieta, infecções ou inflamação crônica—daí a necessidade de aproximar o fígado da homeostase antes de operar. No pós-operatório, o paciente tipicamente apresenta hiperglicemia, acidose láctica, edema/retenção líquida, resistência periférica à insulina e replanejamento da oferta de glicose a órgãos prioritários (cérebro, coração, rins). A inflamação ultrapassa a barreira cutânea, alcançando intestino e barreira hematoencefálica; vias como NF-κB e o inflamassoma NLRP3 são ativadas, com liberação de citocinas (IL-1, IL-6, TNF-α). A musculatura assume papel imunológico por ser o reservatório de aminoácidos para síntese de células de defesa e componentes estruturais da resposta inflamatória, justificando o foco em composição corporal adequada (bioimpedância, identificação de “falso magro” e gordura visceral, que é mais inflamatória). A avaliação nutricional é eixo-chave: muitos pacientes—principalmente mulheres—apresentam intestino com funcionamento subótimo, intolerâncias alimentares (laticínios, glúten) e sensibilidade a FODMAPs (fermentação, gases), constipação, diarreia, permeabilidade aumentada e disbiose. Nesses casos, nutricionistas e gastroenterologistas com experiência em metabolômica podem ser decisivos; exames avançados (p.ex., GI-MAP, gut check, nutrigenética) podem elucidar causas de evolução desfavorável em cirurgias maiores. Na sepse, a perda da homeostase intestinal favorece proliferação de patógenos e agrava inflamação sistêmica, dificultando recuperação—por isso, nutrir e restaurar o intestino é parte da estratégia de cura. O objetivo clínico é abreviar o estado catabólico, fornecendo macro e micronutrientes (e, em casos selecionados, discutindo uso de hormônios anabólicos como testosterona) para proteger massa muscular e acelerar retorno à homeostase.
+
+------------
+## Fatores Adicionais de Risco: Coagulação e Hiperglicemia
+
+A coagulação é mapeada com ferramentas como o score de Caprini, ainda que o cenário pós-pandemia tenha aumentado o risco de trombose por disfunção endotelial, exigindo atenção ampliada—incluindo homocisteína como fator trombogênico, com meta abaixo de 10. A hiperglicemia pré-operatória associa-se consistentemente a piores desfechos: além da inflamação vascular, forma produtos finais de glicação (AGEs) que alteram proteínas críticas da cicatrização (fibroblastos, colágeno, células imunológicas), promovendo excesso de oxidação e complicações como vasculopatia, retinopatia, neuropatia e nefropatia. Tais achados reforçam a necessidade de avaliação personalizada, com seleção de exames e intervenções conforme o histórico e os achados iniciais de cada paciente.
+
+------------
+## Itens de Ação
+
+- Cirurgião
+  - [ ] Solicitar ferritina para todo paciente antes de operar; não conduzir cirurgia sem esse exame – Pré-operatório imediato
+  - [ ] Estratificar anemia: se hemoglobina <13 (incluindo mulheres), ampliar ferritina, saturação de transferrina, proteína C reativa – Pré-operatório imediato
+  - [ ] Em ferritina <30, iniciar reposição de ferro; considerar ferro endovenoso em urgências/transoperatório – Antes da data da cirurgia ou intraoperatório em urgência
+  - [ ] Se ferritina 30–100 com transferrina <20% ou PCR >5, manejar anemia/inflamação e considerar adiar cirurgia eletiva – Decisão até o agendamento final
+  - [ ] Incluir exames ampliados conforme caso: insulina de jejum, dímero-D, proteína C reativa ultrassensível, homocisteína, TNF-alfa, CPK, testes de acidez gástrica/metabolismo intestinal – Pré-operatório imediato
+  - [ ] Avaliar risco cardíaco com ênfase em estresse subclínico e composição corporal (incluindo reserva muscular) – Pré-operatório
+  - [ ] Mapear coagulação e risco de trombose; aplicar score de Caprini e considerar fatores pós-pandemia – Pré-operatório
+  - [ ] Monitorar intraoperatório para sangramento: usar frequência cardíaca como guia; intervir se >120 e progressiva apesar de reposição – Intraoperatório contínuo
+  - [ ] Evitar exceder 6 horas de tempo cirúrgico e evitar excesso de fluidos – Planejamento e intraoperatório
+  - [ ] Assegurar termorregulação do paciente (mantas térmicas, soluções aquecidas quando possível) – Intraoperatório
+  - [ ] Aplicar controle de danos e pausar etapas quando sangramento for acima do esperado (p.ex., interromper mastopexia após lipoaspiração com sangramento elevado) – Decisão intraoperatória
+  - [ ] Reduzir duração de antibióticos/anti-inflamatórios quando clinicamente seguro; priorizar suplementação e medidas naturais adjuntas – Pós-operatório inicial
+
+- Equipe Multidisciplinar (Nutricionista, Gastroenterologista, Anestesia)
+  - [ ] Nutricionista: planejar preabilitação dietética (p.ex., jejum intermitente, dieta cetogênica quando indicada, dieta anti-inflamatória/antifermentativa) – Início imediato e ao longo do pré-operatório
+  - [ ] Nutricionista: realizar bioimpedância para mapear composição corporal, detectar “falso magro” e gordura visceral – Pré-operatório
+  - [ ] Gastroenterologista: avaliar função digestiva (suco gástrico, enzimas pancreáticas), intolerâncias (laticínios, glúten) e sensibilidade a FODMAPs – Pré-operatório
+  - [ ] Gastroenterologista: considerar exames avançados (GI-MAP, gut check, nutrigenética) em cirurgias maiores ou casos complexos – Antes da definição do plano cirúrgico
+  - [ ] Anestesia: planejar manejo do estresse cirúrgico, manter normotermia e ajustar hemodinâmica visando evitar hipoperfusão e excesso de fluidos – Intraoperatório
+
+- Paciente
+  - [ ] Participar da decisão compartilhada sobre timing cirúrgico e aderir ao plano de preabilitação (nutrição, suplementação, manejo do estresse) – Antes do agendamento final
+  - [ ] Seguir orientações para otimização metabólica (adesão às estratégias dietéticas e suplementação prescritas) – Pré-operatório contínuo

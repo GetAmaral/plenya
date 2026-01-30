@@ -1,0 +1,226 @@
+{
+  "group": "Exames Laboratoriais",
+  "total": 44,
+  "items": [
+    {
+      "id": "3348de39-de90-4792-832b-80ec942db408",
+      "name": "VDRL",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "ee1942f1-25f7-4b6e-8b43-fed81edd14af",
+      "name": "Piridoxal-5-fosfato (PLP) por HPLC em sangue total",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "d1f27505-2fe7-48aa-a54e-67723b8c035d",
+      "name": "Zinco",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "80ffc2b2-545b-4389-891f-b6aba1f7865c",
+      "name": "Vitamina E (Alfa-Tocoferol)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "dfa58a95-7d7a-491f-b7c5-d2fe8c694daa",
+      "name": "Triglicerídeos",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "7eb8dd18-6c21-4691-8c19-0f4d785af63e",
+      "name": "Alfa-2 Globulina",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "a14322a8-07d5-480c-9131-cfdd3f0b7c21",
+      "name": "VCM (MCV)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "5e465089-1492-44c4-9e7b-6696731a56a3",
+      "name": "Progesterona - Homens",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "ccfde47c-b3ca-4465-91d2-cab643ae08d2",
+      "name": "Gama GT",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "60c5b79e-7a16-4043-b25f-bf00c43a928a",
+      "name": "Progesterona - Mulheres Gestação 2º Trimestre",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "9d9f1270-d24d-4236-8694-5e28d8748475",
+      "name": "Ferritina - Mulheres Pós-Menopausa",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "a6742c97-a610-4bd4-b9de-87e91ecc8d34",
+      "name": "DHEA-S - Homens (20-29 anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "0726b373-4b78-4cb8-91a9-0916681aef61",
+      "name": "FSH - Mulheres Fase Lútea",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "c76becd2-8a0c-40b7-bb09-7ce24db94bb1",
+      "name": "Magnésio RBC",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "161dcbd1-6694-4175-958b-2b260ae48a40",
+      "name": "Sódio",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "32037968-f263-4e7d-ab85-ea83efd61c7b",
+      "name": "Hematócrito - Mulheres",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "053644b3-09b9-48cd-a31c-51ae7fe31131",
+      "name": "Interleucina-6 (IL-6)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "915bc591-b263-4fd2-a64d-4a04b38c97f7",
+      "name": "FSH - Mulheres Ovulação",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "7ec43763-493a-481b-9865-4f793840ab20",
+      "name": "Urocultura com contagem de colônias e antibiograma automatizado",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "c0269b3c-2098-4f71-a999-d20fc4ce7cdd",
+      "name": "Muco - Sedimento",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "eab8daae-3a2c-463b-bd03-d98434f27605",
+      "name": "Hepatite B - HbsAg",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "b4c93736-6f7e-4fd8-bb97-9e0d4e857845",
+      "name": "Proteínas Totais",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "23b012f9-ce8b-4a1d-95f4-cfe9183295e0",
+      "name": "USG Próstata - Volume Prostático",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "317acc85-3ce9-4f97-8e14-799354166f5e",
+      "name": "USG Próstata - Densidade PSA (PSAD)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "dd6e920c-b203-4d40-b230-55f2074ac613",
+      "name": "TC Tórax - Maior Nódulo Sólido",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "4f6e007b-dcc2-4e51-aaad-b7359717f297",
+      "name": "Endoscopia Alta - Esofagite (LA Classification)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "66a4571d-f9e2-4f94-96cf-15145ef62499",
+      "name": "Endoscopia Alta - Barrett Esophagus (Prague C)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "dbbb0258-ebcb-4bb2-ace3-73d0d7b93a52",
+      "name": "Fundoscopia - Retinopatia Diabética",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "30af9809-7316-47e6-b363-8279c7bd3a69",
+      "name": "USG Transvaginal - Espessura Endometrial Pós-Menopausa",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "afdd9d67-3f42-4e6e-a77d-0e75475ca72d",
+      "name": "USG Transvaginal - Volume Ovariano",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "3a0d7e6b-c53d-47de-a50c-d7774e542835",
+      "name": "ECG - QTc (Bazett) - Homens",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "2e3c06ce-bcb6-4649-984e-8c30a92e26f4",
+      "name": "ECG - QTc (Bazett) - Mulheres",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "b2dd0c76-7bce-4beb-a8e2-52d70d467241",
+      "name": "ECG - Intervalo PR",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "631f2baf-49e4-4c5b-bea0-13bf3f2a4fbb",
+      "name": "ECG - Sokolow-Lyon (S V1 + R V5/V6)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "6e542cb0-6982-42e8-93dc-40f139652223",
+      "name": "Ecodopplercardiograma - FEVE Homens",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "c8795e89-b10a-4d51-b940-463ab5e89c3e",
+      "name": "Ecodopplercardiograma - FEVE Mulheres",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "fb5c484c-bb3c-4017-b4da-866d96d9cb20",
+      "name": "Ecodopplercardiograma - GLS",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "83e85e7b-ad24-431c-bf8b-d65eaec835d6",
+      "name": "QUICKI",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "ccdbe4b8-43eb-4b94-8e72-dc35cd889b1d",
+      "name": "Ecodopplercardiograma - TAPSE",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "3e67c010-1164-4e0f-b23f-109557d6d51d",
+      "name": "Metano expirado",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "a92d20ce-702f-4b15-8817-098b9539c0f0",
+      "name": "Metano Basal (CH₄ Jejum)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "210eedab-08e7-4f47-ae6a-37aecea9bc16",
+      "name": "Hidrogênio Pico (H₂ Máximo)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "b87387b4-d024-4dbb-be70-84778ca2dce0",
+      "name": "Sulfeto de Hidrogênio Pico (H₂S Máximo)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "dd3bb9b1-26c1-4fc3-a85d-c83bf6d0fdfb",
+      "name": "Fundoscopia - Retinopatia Hipertensiva",
+      "subgroup": "Imagem"
+    }
+  ]
+}

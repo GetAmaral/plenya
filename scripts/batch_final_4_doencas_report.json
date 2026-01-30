@@ -1,0 +1,208 @@
+{
+  "batch": "final_4_doencas",
+  "group": "Histórico de Doenças",
+  "total_items": 40,
+  "generated_at": "2026-01-28T08:23:37.225593",
+  "items": [
+    {
+      "id": "1176540d-cefa-4d2c-b5e2-4a992060de4d",
+      "name": "Outros sintomas",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "360d1e6a-84c5-4763-a743-0fce76fe2686",
+      "name": "Segmento torácico",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "adcb06a3-4791-4ce2-ae05-c01f8fef9ead",
+      "name": "Eructação",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "65a28dbf-9466-4a23-9410-9d6034c3e141",
+      "name": "Hemorróidas",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "b7370158-c34e-449f-8305-537a8fb85d98",
+      "name": "Disúria",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "e24dae19-4cb0-4d83-a6db-9571aabf9bde",
+      "name": "Dor lombar",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "a7fdd0e5-9aa7-4604-b5ae-731c05c90af0",
+      "name": "Segmentos apendiculares",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "40837ae0-790a-4a1a-a7ea-fb9d0cc21878",
+      "name": "Cãimbras",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "b4cda178-b5a9-4193-b496-afe7ce51ed91",
+      "name": "Claudicação",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "deb8e2ee-27a7-4ac0-a743-d6cb400f4b27",
+      "name": "Dores articulares",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "fdb0c742-1db1-48ba-95bc-91e454256d84",
+      "name": "Lesão muscular",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "e375191b-d8be-4044-9d59-b71fa222cbaa",
+      "name": "Lesão ligamentar/tendínea",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "44f501b3-6c1d-4a31-b8c9-0f54b201dbcb",
+      "name": "Fraturas",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "14881a00-579e-4297-bd6d-4c83d8081d2d",
+      "name": "Edema",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "a7698447-ddbf-4bee-92b4-81a1559562ad",
+      "name": "Pele e tegumento",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "76578167-9f69-4981-b73d-46aa7c71ec6b",
+      "name": "Enfraquecimento capilar",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "23b90c6c-6f44-481a-8255-108158a64239",
+      "name": "Queda capilar",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "4d1372ee-5bee-4ce8-845a-a4e176109ad2",
+      "name": "Enfraquecimento ungueal",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "fe938ed9-3cf9-4ddf-a1ae-2f67c03e54a4",
+      "name": "Genitália masculina",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "5ddc4af9-dd19-4ea1-8117-3d3e30377dab",
+      "name": "Prepúcio / glande",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "e010b2a7-6e9e-4b42-9d37-487e91411a18",
+      "name": "Escroto / epidídimos",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "933b7816-fe10-4e35-94d7-0d232cc258ce",
+      "name": "Testículos",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "2b01e2f0-76c7-4616-8f7b-33b1c9d11279",
+      "name": "Genitália feminina",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "33ffce34-e1fb-4e31-b393-f2783549d874",
+      "name": "Trofismo Urogenital",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "f54dbfaa-599a-40ee-907a-28431ce4858a",
+      "name": "Suporte Pélvico",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "30a7764c-4c11-4078-b942-860ee56136a4",
+      "name": "Vulva e Estruturas Externas",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "1ff1e7f8-5b15-4f0c-b76b-806c1d6ff1fd",
+      "name": "Vagina e Colo Uterino",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "4511ae8d-2ad3-40e0-a47d-2cef065d39e9",
+      "name": "Registrar quaisquer cirurgias realizadas",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "cbb42389-9a9d-48fe-a64a-61215107d5e3",
+      "name": "Cirurgias que interferem diretamente no escore",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "e65c56dc-5c07-4270-8a8b-017b293ca147",
+      "name": "Mastectomia",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "ad36ad5d-e587-43a8-b1ae-3e27305e25d8",
+      "name": "Prostatectomia",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "8115cf13-eab0-4db2-9844-d04c37701d92",
+      "name": "Tireoidectomia",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "19b1c83e-f2a7-47e9-9045-5c994cfcbf94",
+      "name": "Histerectomia",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "fca251a2-5aa2-42f9-b93c-0f0a852d9d51",
+      "name": "Ooforectomia",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "925c2474-689e-486a-a6b1-3e1b4ca8cc6e",
+      "name": "Orquiectomia",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "e5ea8f41-05e0-48e0-b6a8-2323b3896449",
+      "name": "Nefrectomia",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "f691cda1-bd2d-449e-9e66-045319ceaaa3",
+      "name": "Hepatectomia parcial",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "ec0bbb80-873a-4946-bf90-bc759eddb080",
+      "name": "Lobectomia/pneumectomia",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "53dbbf23-25bf-4b91-9670-b17fab93c6e9",
+      "name": "Craniotomia",
+      "subgroup": "Cirurgias já realizadas"
+    },
+    {
+      "id": "8c2456de-1ba1-4a1f-ab7c-964f8c8114e6",
+      "name": "Cirurgia de epilepsia",
+      "subgroup": "Cirurgias já realizadas"
+    }
+  ]
+}

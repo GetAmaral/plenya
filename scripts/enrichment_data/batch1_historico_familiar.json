@@ -1,0 +1,21 @@
+{
+  "group": "Histórico Familiar de Doenças",
+  "total": 3,
+  "items": [
+    {
+      "id": "56fd5913-4b41-4d56-976a-b6339b4482a6",
+      "name": "Perguntar ativamente sobre principais doenças crônicas",
+      "subgroup": "Parentes próximos (pais, irmãos, tios, avós, filhos, netos)"
+    },
+    {
+      "id": "4dc130ae-9c84-4f5f-9813-561389776254",
+      "name": "Perguntar sobre quaisquer outras doenças que possam ter correlação hereditária",
+      "subgroup": "Parentes próximos (pais, irmãos, tios, avós, filhos, netos)"
+    },
+    {
+      "id": "6a95547f-bb0c-4093-ad0d-3e4b7709e99f",
+      "name": "Registrar se houver alguma doença familiar importante",
+      "subgroup": "Parentes mais distantes"
+    }
+  ]
+}

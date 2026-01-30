@@ -1,0 +1,51 @@
+{
+  "processed": [
+    {
+      "id": "6d272987-00de-4f8d-a3d8-abd729dc24f7",
+      "name": "GLICOSE 0 MIN (JEJUM)",
+      "success": false,
+      "error": "No generator for type: glicose_jejum"
+    },
+    {
+      "id": "cf39e4a8-e1ec-4e94-a2a1-596a2a3cdf44",
+      "name": "GLICOSE 120 MIN",
+      "success": false,
+      "error": "No generator for type: glicose_120"
+    },
+    {
+      "id": "498a8637-8bf5-45e0-891b-a0c51a47ccc1",
+      "name": "Colesterol Total",
+      "success": true,
+      "texts_generated": true
+    },
+    {
+      "id": "55787b95-d165-48d6-8eb4-e496bd62d509",
+      "name": "HDL Colesterol",
+      "success": true,
+      "texts_generated": true
+    },
+    {
+      "id": "d55af9e8-4358-4cfa-a75c-05dfcd1bfb4d",
+      "name": "LDL Colesterol",
+      "success": true,
+      "texts_generated": true
+    },
+    {
+      "id": "dfa58a95-7d7a-491f-b7c5-d2fe8c694daa",
+      "name": "Triglicerídeos",
+      "success": true,
+      "texts_generated": true
+    },
+    {
+      "id": "8234724e-f5d6-4862-9fde-84e78e136f88",
+      "name": "Creatinina",
+      "success": true,
+      "texts_generated": true
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "success": 5,
+    "failed": 2
+  }
+}
