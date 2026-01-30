@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, startTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Network, Search, Printer, FileImage, ChevronsDown, ChevronsUp, Minimize2 } from 'lucide-react'
+import { Plus, Network, Search, Printer, FileImage, ChevronsDown, ChevronsUp, Minimize2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAllScoreGroupTrees } from '@/lib/api/score-api'
 import { ScoreTreeView } from '@/components/scores/ScoreTreeView'
@@ -15,6 +15,7 @@ export default function ScoresPage() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({})
   const [expandClinicalTexts, setExpandClinicalTexts] = useState(false)
+  const [isExpanding, setIsExpanding] = useState(false)
 
   const { data: scoreGroups, isLoading, error } = useAllScoreGroupTrees()
 
@@ -78,55 +79,89 @@ export default function ScoresPage() {
 
   // Expandir tudo (com textos clínicos)
   const handleExpandAll = useCallback(() => {
-    if (!scoreGroups) return
+    if (!scoreGroups || isExpanding) return
 
-    const allNodes: Record<string, boolean> = {}
+    setIsExpanding(true)
 
-    scoreGroups.forEach(group => {
-      // Expandir grupo (sempre visível, mas guardamos para consistência)
-      allNodes[`group-${group.id}`] = true
+    // Use setTimeout to allow UI to update (show spinner)
+    setTimeout(() => {
+      startTransition(() => {
+        const allNodes: Record<string, boolean> = {}
 
-      // Expandir todos os subgrupos
-      group.subgroups?.forEach(subgroup => {
-        allNodes[`subgroup-${subgroup.id}`] = true
+        scoreGroups.forEach(group => {
+          // Expandir grupo (sempre visível, mas guardamos para consistência)
+          allNodes[`group-${group.id}`] = true
 
-        // Expandir todos os items
-        subgroup.items?.forEach(item => {
-          allNodes[`item-${item.id}`] = true
+          // Expandir todos os subgrupos
+          group.subgroups?.forEach(subgroup => {
+            allNodes[`subgroup-${subgroup.id}`] = true
+
+            // Expandir todos os items
+            subgroup.items?.forEach(item => {
+              allNodes[`item-${item.id}`] = true
+            })
+          })
         })
-      })
-    })
 
-    setExpandedNodes(allNodes)
-    setExpandClinicalTexts(true)
-  }, [scoreGroups])
+        setExpandedNodes(allNodes)
+        setExpandClinicalTexts(true)
+
+        // Small delay to allow rendering
+        setTimeout(() => {
+          setIsExpanding(false)
+        }, 100)
+      })
+    }, 50)
+  }, [scoreGroups, isExpanding])
 
   // Expandir tudo (sem textos clínicos)
   const handleExpandAllWithoutTexts = useCallback(() => {
-    if (!scoreGroups) return
+    if (!scoreGroups || isExpanding) return
 
-    const allNodes: Record<string, boolean> = {}
+    setIsExpanding(true)
 
-    scoreGroups.forEach(group => {
-      allNodes[`group-${group.id}`] = true
+    setTimeout(() => {
+      startTransition(() => {
+        const allNodes: Record<string, boolean> = {}
 
-      // Expandir todos os subgrupos
-      group.subgroups?.forEach(subgroup => {
-        allNodes[`subgroup-${subgroup.id}`] = true
+        scoreGroups.forEach(group => {
+          allNodes[`group-${group.id}`] = true
 
-        // NÃO expandir items (textos clínicos)
+          // Expandir todos os subgrupos
+          group.subgroups?.forEach(subgroup => {
+            allNodes[`subgroup-${subgroup.id}`] = true
+
+            // NÃO expandir items (textos clínicos)
+          })
+        })
+
+        setExpandedNodes(allNodes)
+        setExpandClinicalTexts(false)
+
+        setTimeout(() => {
+          setIsExpanding(false)
+        }, 100)
       })
-    })
-
-    setExpandedNodes(allNodes)
-    setExpandClinicalTexts(false)
-  }, [scoreGroups])
+    }, 50)
+  }, [scoreGroups, isExpanding])
 
   // Recolher tudo
   const handleCollapseAll = useCallback(() => {
-    setExpandedNodes({})
-    setExpandClinicalTexts(false)
-  }, [])
+    if (isExpanding) return
+
+    setIsExpanding(true)
+
+    setTimeout(() => {
+      startTransition(() => {
+        setExpandedNodes({})
+        setExpandClinicalTexts(false)
+
+        setTimeout(() => {
+          setIsExpanding(false)
+        }, 100)
+      })
+    }, 50)
+  }, [isExpanding])
 
   if (error) {
     return (
@@ -142,7 +177,17 @@ export default function ScoresPage() {
   }
 
   return (
-    <div className="container mx-auto py-4 space-y-4">
+    <div className="container mx-auto py-4 space-y-4" style={{ cursor: isExpanding ? 'wait' : 'default' }}>
+      {/* Loading Overlay */}
+      {isExpanding && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-3 rounded-lg bg-card p-6 shadow-lg border">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-sm font-medium">Processando...</p>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between border-b pb-3">
         <div>
@@ -160,8 +205,13 @@ export default function ScoresPage() {
               variant="outline"
               size="sm"
               title="Expandir todos os grupos, subgrupos e textos clínicos"
+              disabled={isExpanding || isLoading}
             >
-              <ChevronsDown className="h-4 w-4 mr-1.5" />
+              {isExpanding ? (
+                <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+              ) : (
+                <ChevronsDown className="h-4 w-4 mr-1.5" />
+              )}
               Expandir Tudo
             </Button>
             <Button
@@ -169,8 +219,13 @@ export default function ScoresPage() {
               variant="outline"
               size="sm"
               title="Expandir grupos e subgrupos, mas manter textos clínicos recolhidos"
+              disabled={isExpanding || isLoading}
             >
-              <ChevronsUp className="h-4 w-4 mr-1.5" />
+              {isExpanding ? (
+                <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+              ) : (
+                <ChevronsUp className="h-4 w-4 mr-1.5" />
+              )}
               Expandir (sem textos)
             </Button>
             <Button
@@ -178,8 +233,13 @@ export default function ScoresPage() {
               variant="outline"
               size="sm"
               title="Recolher tudo"
+              disabled={isExpanding || isLoading}
             >
-              <Minimize2 className="h-4 w-4 mr-1.5" />
+              {isExpanding ? (
+                <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+              ) : (
+                <Minimize2 className="h-4 w-4 mr-1.5" />
+              )}
               Recolher Tudo
             </Button>
           </div>
