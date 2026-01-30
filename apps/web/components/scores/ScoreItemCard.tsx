@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, memo } from 'react'
+import { useState, memo, useEffect } from 'react'
 import { Edit, Trash2, Plus, Info, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -32,9 +32,17 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [editingLevel, setEditingLevel] = useState<ScoreLevel | null>(null)
   const [deletingLevel, setDeletingLevel] = useState<ScoreLevel | null>(null)
+  const [accordionValue, setAccordionValue] = useState<string | undefined>(undefined)
 
   const deleteItem = useDeleteScoreItem()
   const deleteLevel = useDeleteScoreLevel()
+
+  // Sync accordion state with expandClinicalTexts prop
+  useEffect(() => {
+    if (expandClinicalTexts) {
+      setAccordionValue('clinical-info')
+    }
+  }, [expandClinicalTexts])
 
   const handleDeleteItem = async () => {
     try {
@@ -144,7 +152,8 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
               type="single"
               collapsible
               className="border-t"
-              value={expandClinicalTexts ? "clinical-info" : undefined}
+              value={accordionValue}
+              onValueChange={setAccordionValue}
             >
               <AccordionItem value="clinical-info" className="border-0">
                 <AccordionTrigger className="py-2 text-sm hover:no-underline">
