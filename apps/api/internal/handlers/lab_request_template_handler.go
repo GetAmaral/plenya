@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"strings"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/plenya/api/internal/dto"
@@ -37,6 +39,12 @@ func (h *LabRequestTemplateHandler) CreateLabRequestTemplate(c *fiber.Ctx) error
 	}
 
 	if err := h.service.CreateLabRequestTemplate(&template); err != nil {
+		// Check if it's a duplicate key error (unique constraint violation)
+		if strings.Contains(err.Error(), "duplicate key") || strings.Contains(err.Error(), "SQLSTATE 23505") {
+			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+				Error: "Já existe um template com este nome",
+			})
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
