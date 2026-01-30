@@ -1,9 +1,10 @@
 'use client'
 
-import { use, useState, useEffect } from 'react'
+import { use, useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useForm, Controller } from 'react-hook-form'
+import { useFormNavigation } from '@/lib/use-form-navigation'
 import { format } from 'date-fns'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -48,6 +49,9 @@ export default function EditArticlePage({ params }: PageProps) {
 
   const [selectedScoreItemIds, setSelectedScoreItemIds] = useState<string[]>([])
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
+  const formRef = useRef<HTMLFormElement>(null)
+  useFormNavigation({ formRef })
 
   // Atualizar selectedScoreItemIds quando article mudar
   useEffect(() => {
@@ -233,7 +237,7 @@ export default function EditArticlePage({ params }: PageProps) {
       />
 
       {/* Form */}
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Basic Information */}
         <Card>
           <CardHeader>

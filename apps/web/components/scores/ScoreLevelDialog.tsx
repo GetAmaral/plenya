@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { useFormNavigation } from '@/lib/use-form-navigation'
 import { toast } from 'sonner'
 import {
   Dialog,
@@ -63,6 +64,9 @@ export function ScoreLevelDialog({
   level,
 }: ScoreLevelDialogProps) {
   const isEditing = !!level
+
+  const formRef = useRef<HTMLFormElement>(null)
+  useFormNavigation({ formRef })
 
   const createLevel = useCreateScoreLevel()
   const updateLevel = useUpdateScoreLevel()
@@ -185,7 +189,7 @@ export function ScoreLevelDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="level">Nível *</Label>

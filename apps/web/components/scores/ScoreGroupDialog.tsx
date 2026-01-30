@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { useFormNavigation } from '@/lib/use-form-navigation'
 import { toast } from 'sonner'
 import {
   Dialog,
@@ -34,6 +35,9 @@ export function ScoreGroupDialog({
   group,
 }: ScoreGroupDialogProps) {
   const isEditing = !!group
+
+  const formRef = useRef<HTMLFormElement>(null)
+  useFormNavigation({ formRef })
 
   const createGroup = useCreateScoreGroup()
   const updateGroup = useUpdateScoreGroup()
@@ -102,7 +106,7 @@ export function ScoreGroupDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Nome do Grupo *</Label>
             <Input
