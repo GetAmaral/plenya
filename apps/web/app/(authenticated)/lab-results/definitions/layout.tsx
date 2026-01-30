@@ -3,20 +3,17 @@
 import { useRequireAuth } from "@/lib/use-auth";
 import { Sidebar } from "@/components/dashboard/sidebar";
 
-export default function DashboardLayout({
+export default function LabTestDefinitionsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Proteger rota - redireciona para login se não autenticado
   useRequireAuth();
 
   return (
     <div className="min-h-screen bg-background">
       <Sidebar />
-      <main className="pl-64">
-        {children}
-      </main>
+      <main className="pl-64">{children}</main>
     </div>
   );
 }

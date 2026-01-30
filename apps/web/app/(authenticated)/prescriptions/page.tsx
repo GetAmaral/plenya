@@ -16,13 +16,13 @@ import {
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
-  ClipboardList,
+  FileText,
   Search,
   Plus,
   ChevronLeft,
   ChevronRight,
-  Heart,
-  Activity,
+  Clock,
+  CheckCircle2,
   XCircle,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,32 +32,46 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiClient } from "@/lib/api-client";
 import { useRequireAuth } from "@/lib/use-auth";
+import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
+import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
 
-interface Anamnesis {
+interface Prescription {
   id: string;
   patientId: string;
   doctorId: string;
-  chiefComplaint: string;
-  historyOfPresentIllness: string;
-  pastMedicalHistory: string;
-  familyHistory: string;
-  allergies: string;
-  medications: string;
-  socialHistory: string;
-  reviewOfSystems: string;
+  medication: string;
+  dosage: string;
+  frequency: string;
+  duration: string;
+  status: "active" | "completed" | "cancelled";
+  notes?: string;
   createdAt: string;
-  updatedAt: string;
 }
 
-interface AnamnesisResponse {
-  data: Anamnesis[];
+interface PrescriptionsResponse {
+  data: Prescription[];
   total: number;
   page: number;
   limit: number;
 }
 
-export default function AnamnesisPage() {
+const statusConfig = {
+  active: { label: "Ativa", variant: "default" as const, icon: Clock },
+  completed: {
+    label: "Concluída",
+    variant: "stable" as const,
+    icon: CheckCircle2,
+  },
+  cancelled: {
+    label: "Cancelada",
+    variant: "destructive" as const,
+    icon: XCircle,
+  },
+};
+
+export default function PrescriptionsPage() {
   useRequireAuth();
+  useRequireSelectedPatient();
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -67,11 +81,11 @@ export default function AnamnesisPage() {
   });
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["anamnesis", pagination.pageIndex, pagination.pageSize],
+    queryKey: ["prescriptions", pagination.pageIndex, pagination.pageSize],
     queryFn: async () => {
       const offset = pagination.pageIndex * pagination.pageSize;
-      const result = await apiClient.get<Anamnesis[] | AnamnesisResponse>(
-        `/api/v1/anamnesis?limit=${pagination.pageSize}&offset=${offset}`
+      const result = await apiClient.get<Prescription[] | PrescriptionsResponse>(
+        `/api/v1/prescriptions?limit=${pagination.pageSize}&offset=${offset}`
       );
 
       if (Array.isArray(result)) {
@@ -87,42 +101,48 @@ export default function AnamnesisPage() {
     },
   });
 
-  const columns: ColumnDef<Anamnesis>[] = [
+  const columns: ColumnDef<Prescription>[] = [
     {
-      accessorKey: "chiefComplaint",
-      header: "Queixa Principal",
+      accessorKey: "medication",
+      header: "Medicamento",
       cell: ({ row }) => (
-        <div className="max-w-md truncate font-medium">
-          {row.getValue("chiefComplaint")}
+        <div className="font-medium">{row.getValue("medication")}</div>
+      ),
+    },
+    {
+      accessorKey: "dosage",
+      header: "Dosagem",
+      cell: ({ row }) => <div className="text-sm">{row.getValue("dosage")}</div>,
+    },
+    {
+      accessorKey: "frequency",
+      header: "Frequência",
+      cell: ({ row }) => (
+        <div className="text-sm text-muted-foreground">
+          {row.getValue("frequency")}
         </div>
       ),
     },
     {
-      accessorKey: "allergies",
-      header: "Alergias",
-      cell: ({ row }) => {
-        const allergies = row.getValue("allergies") as string;
-        return allergies ? (
-          <Badge variant="outline" className="gap-1">
-            <Heart className="h-3 w-3" />
-            {allergies.split(",").length} alergia(s)
-          </Badge>
-        ) : (
-          <span className="text-sm text-muted-foreground">Nenhuma</span>
-        );
-      },
+      accessorKey: "duration",
+      header: "Duração",
+      cell: ({ row }) => (
+        <Badge variant="outline">{row.getValue("duration")}</Badge>
+      ),
     },
     {
-      accessorKey: "medications",
-      header: "Medicamentos",
+      accessorKey: "status",
+      header: "Status",
       cell: ({ row }) => {
-        const medications = row.getValue("medications") as string;
-        return medications ? (
-          <div className="max-w-xs truncate text-sm">
-            {medications}
-          </div>
-        ) : (
-          <span className="text-sm text-muted-foreground">Nenhum</span>
+        const status = row.getValue("status") as keyof typeof statusConfig;
+        const config = statusConfig[status];
+        const Icon = config.icon;
+
+        return (
+          <Badge variant={config.variant} className="gap-1">
+            <Icon className="h-3 w-3" />
+            {config.label}
+          </Badge>
         );
       },
     },
@@ -139,37 +159,25 @@ export default function AnamnesisPage() {
       },
     },
     {
-      accessorKey: "updatedAt",
-      header: "Atualizado",
-      cell: ({ row }) => {
-        const date = new Date(row.getValue("updatedAt"));
-        return (
-          <div className="text-sm text-muted-foreground">
-            {format(date, "dd/MM/yyyy", { locale: ptBR })}
-          </div>
-        );
-      },
-    },
-    {
       id: "actions",
       cell: ({ row }) => {
-        const anamnesis = row.original;
+        const prescription = row.original;
 
         return (
           <div className="flex gap-2">
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => console.log("Ver", anamnesis.id)}
+              onClick={() => console.log("Ver", prescription.id)}
             >
               Ver
             </Button>
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => console.log("Editar", anamnesis.id)}
+              onClick={() => console.log("Imprimir", prescription.id)}
             >
-              Editar
+              Imprimir
             </Button>
           </div>
         );
@@ -194,28 +202,6 @@ export default function AnamnesisPage() {
     },
   });
 
-  const stats = [
-    {
-      label: "Total de Anamneses",
-      value: data?.total || 0,
-      icon: ClipboardList,
-    },
-    {
-      label: "Com Alergias",
-      value:
-        data?.data?.filter((a) => a.allergies && a.allergies.trim() !== "")
-          .length || 0,
-      icon: Heart,
-    },
-    {
-      label: "Em Medicação",
-      value:
-        data?.data?.filter((a) => a.medications && a.medications.trim() !== "")
-          .length || 0,
-      icon: Activity,
-    },
-  ];
-
   return (
     <div className="min-h-screen p-6">
       <div className="mx-auto max-w-7xl">
@@ -227,18 +213,21 @@ export default function AnamnesisPage() {
         >
           <div>
             <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-              <ClipboardList className="h-8 w-8 text-blue-600" />
-              Anamnese
+              <FileText className="h-8 w-8 text-amber-600" />
+              Prescrições
             </h1>
             <p className="mt-2 text-muted-foreground">
-              Gerencie o histórico médico dos pacientes
+              Gerencie as prescrições médicas
             </p>
           </div>
           <Button className="gap-2">
             <Plus className="h-4 w-4" />
-            Nova Anamnese
+            Nova Prescrição
           </Button>
         </motion.div>
+
+        {/* Selected Patient Header */}
+        <SelectedPatientHeader />
 
         {/* Stats */}
         <motion.div
@@ -247,17 +236,19 @@ export default function AnamnesisPage() {
           transition={{ delay: 0.1 }}
           className="mb-6 grid gap-4 md:grid-cols-3"
         >
-          {stats.map((stat) => {
-            const Icon = stat.icon;
+          {Object.entries(statusConfig).map(([key, config]) => {
+            const Icon = config.icon;
             return (
-              <Card key={stat.label} className="border-0 shadow-sm">
+              <Card key={key} className="border-0 shadow-sm">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-muted-foreground">
-                        {stat.label}
+                        {config.label}
                       </p>
-                      <p className="text-2xl font-bold">{stat.value}</p>
+                      <p className="text-2xl font-bold">
+                        {data?.data?.filter((p) => p.status === key).length || 0}
+                      </p>
                     </div>
                     <Icon className="h-8 w-8 text-muted-foreground" />
                   </div>
@@ -276,11 +267,11 @@ export default function AnamnesisPage() {
           <Card className="border-0 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                <span>Lista de Anamneses</span>
+                <span>Lista de Prescrições</span>
                 <div className="relative w-64">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
-                    placeholder="Buscar anamneses..."
+                    placeholder="Buscar prescrições..."
                     value={globalFilter ?? ""}
                     onChange={(e) => setGlobalFilter(e.target.value)}
                     className="pl-9"
@@ -292,7 +283,7 @@ export default function AnamnesisPage() {
               {error ? (
                 <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-8 text-center">
                   <XCircle className="mx-auto h-12 w-12 text-destructive mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">Erro ao carregar anamneses</h3>
+                  <h3 className="text-lg font-semibold mb-2">Erro ao carregar prescrições</h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     {error instanceof Error ? error.message : "Não foi possível conectar ao servidor"}
                   </p>
@@ -329,7 +320,7 @@ export default function AnamnesisPage() {
                       {isLoading ? (
                         Array.from({ length: 5 }).map((_, i) => (
                           <tr key={i}>
-                            {Array.from({ length: 6 }).map((_, j) => (
+                            {Array.from({ length: 7 }).map((_, j) => (
                               <td key={j} className="px-4 py-3">
                                 <Skeleton className="h-6 w-full" />
                               </td>
@@ -358,7 +349,7 @@ export default function AnamnesisPage() {
                             colSpan={columns.length}
                             className="px-4 py-8 text-center text-muted-foreground"
                           >
-                            Nenhuma anamnese encontrada.
+                            Nenhuma prescrição encontrada.
                           </td>
                         </tr>
                       )}
@@ -376,7 +367,7 @@ export default function AnamnesisPage() {
                     (pagination.pageIndex + 1) * pagination.pageSize,
                     data?.total || 0
                   )}{" "}
-                  de {data?.total || 0} anamneses
+                  de {data?.total || 0} prescrições
                 </div>
                 <div className="flex gap-2">
                   <Button

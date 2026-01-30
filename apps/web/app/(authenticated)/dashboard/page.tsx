@@ -120,7 +120,7 @@ const patientStatusData = [
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen p-6">
+    <div className="w-full">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <motion.div

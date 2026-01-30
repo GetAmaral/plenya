@@ -16,7 +16,7 @@ import {
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
-  FileText,
+  Calendar,
   Search,
   Plus,
   ChevronLeft,
@@ -24,6 +24,7 @@ import {
   Clock,
   CheckCircle2,
   XCircle,
+  CalendarCheck,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -32,43 +33,46 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiClient } from "@/lib/api-client";
 import { useRequireAuth } from "@/lib/use-auth";
+import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
+import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
 
-interface Prescription {
+interface Appointment {
   id: string;
   patientId: string;
   doctorId: string;
-  medication: string;
-  dosage: string;
-  frequency: string;
-  duration: string;
-  status: "active" | "completed" | "cancelled";
-  notes?: string;
+  scheduledAt: string;
+  durationMinutes: number;
+  type: string;
+  status: "scheduled" | "confirmed" | "completed" | "cancelled";
+  reason: string;
   createdAt: string;
 }
 
-interface PrescriptionsResponse {
-  data: Prescription[];
+interface AppointmentsResponse {
+  data: Appointment[];
   total: number;
   page: number;
   limit: number;
 }
 
 const statusConfig = {
-  active: { label: "Ativa", variant: "default" as const, icon: Clock },
-  completed: {
-    label: "Concluída",
-    variant: "stable" as const,
-    icon: CheckCircle2,
+  scheduled: { label: "Agendado", variant: "outline" as const, icon: Clock },
+  confirmed: {
+    label: "Confirmado",
+    variant: "default" as const,
+    icon: CalendarCheck,
   },
+  completed: { label: "Concluído", variant: "stable" as const, icon: CheckCircle2 },
   cancelled: {
-    label: "Cancelada",
+    label: "Cancelado",
     variant: "destructive" as const,
     icon: XCircle,
   },
 };
 
-export default function PrescriptionsPage() {
+export default function AppointmentsPage() {
   useRequireAuth();
+  useRequireSelectedPatient();
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -77,14 +81,15 @@ export default function PrescriptionsPage() {
     pageSize: 10,
   });
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["prescriptions", pagination.pageIndex, pagination.pageSize],
+  const { data, isLoading } = useQuery({
+    queryKey: ["appointments", pagination.pageIndex, pagination.pageSize],
     queryFn: async () => {
       const offset = pagination.pageIndex * pagination.pageSize;
-      const result = await apiClient.get<Prescription[] | PrescriptionsResponse>(
-        `/api/v1/prescriptions?limit=${pagination.pageSize}&offset=${offset}`
+      const result = await apiClient.get<Appointment[] | AppointmentsResponse>(
+        `/api/v1/appointments?limit=${pagination.pageSize}&offset=${offset}`
       );
 
+      // Se a API retornar um array direto, converter para o formato esperado
       if (Array.isArray(result)) {
         return {
           data: result,
@@ -98,33 +103,45 @@ export default function PrescriptionsPage() {
     },
   });
 
-  const columns: ColumnDef<Prescription>[] = [
+  const columns: ColumnDef<Appointment>[] = [
     {
-      accessorKey: "medication",
-      header: "Medicamento",
+      accessorKey: "scheduledAt",
+      header: "Data/Hora",
+      cell: ({ row }) => {
+        const date = new Date(row.getValue("scheduledAt"));
+        return (
+          <div>
+            <div className="font-medium">
+              {format(date, "dd/MM/yyyy", { locale: ptBR })}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {format(date, "HH:mm", { locale: ptBR })}
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "type",
+      header: "Tipo",
       cell: ({ row }) => (
-        <div className="font-medium">{row.getValue("medication")}</div>
+        <Badge variant="outline">{row.getValue("type")}</Badge>
       ),
     },
     {
-      accessorKey: "dosage",
-      header: "Dosagem",
-      cell: ({ row }) => <div className="text-sm">{row.getValue("dosage")}</div>,
-    },
-    {
-      accessorKey: "frequency",
-      header: "Frequência",
+      accessorKey: "reason",
+      header: "Motivo",
       cell: ({ row }) => (
-        <div className="text-sm text-muted-foreground">
-          {row.getValue("frequency")}
+        <div className="max-w-md truncate text-sm">
+          {row.getValue("reason")}
         </div>
       ),
     },
     {
-      accessorKey: "duration",
+      accessorKey: "durationMinutes",
       header: "Duração",
       cell: ({ row }) => (
-        <Badge variant="outline">{row.getValue("duration")}</Badge>
+        <div className="text-sm">{row.getValue("durationMinutes")} min</div>
       ),
     },
     {
@@ -144,38 +161,28 @@ export default function PrescriptionsPage() {
       },
     },
     {
-      accessorKey: "createdAt",
-      header: "Data",
-      cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
-        return (
-          <div className="text-sm text-muted-foreground">
-            {format(date, "dd/MM/yyyy", { locale: ptBR })}
-          </div>
-        );
-      },
-    },
-    {
       id: "actions",
       cell: ({ row }) => {
-        const prescription = row.original;
+        const appointment = row.original;
 
         return (
           <div className="flex gap-2">
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => console.log("Ver", prescription.id)}
+              onClick={() => console.log("Ver", appointment.id)}
             >
               Ver
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => console.log("Imprimir", prescription.id)}
-            >
-              Imprimir
-            </Button>
+            {appointment.status === "scheduled" && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => console.log("Confirmar", appointment.id)}
+              >
+                Confirmar
+              </Button>
+            )}
           </div>
         );
       },
@@ -210,25 +217,28 @@ export default function PrescriptionsPage() {
         >
           <div>
             <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-              <FileText className="h-8 w-8 text-amber-600" />
-              Prescrições
+              <Calendar className="h-8 w-8 text-emerald-600" />
+              Consultas
             </h1>
             <p className="mt-2 text-muted-foreground">
-              Gerencie as prescrições médicas
+              Gerencie o agendamento de consultas
             </p>
           </div>
           <Button className="gap-2">
             <Plus className="h-4 w-4" />
-            Nova Prescrição
+            Nova Consulta
           </Button>
         </motion.div>
+
+        {/* Selected Patient Header */}
+        <SelectedPatientHeader />
 
         {/* Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mb-6 grid gap-4 md:grid-cols-3"
+          className="mb-6 grid gap-4 md:grid-cols-4"
         >
           {Object.entries(statusConfig).map(([key, config]) => {
             const Icon = config.icon;
@@ -241,7 +251,7 @@ export default function PrescriptionsPage() {
                         {config.label}
                       </p>
                       <p className="text-2xl font-bold">
-                        {data?.data?.filter((p) => p.status === key).length || 0}
+                        {data?.data?.filter((a) => a.status === key).length || 0}
                       </p>
                     </div>
                     <Icon className="h-8 w-8 text-muted-foreground" />
@@ -261,11 +271,11 @@ export default function PrescriptionsPage() {
           <Card className="border-0 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                <span>Lista de Prescrições</span>
+                <span>Lista de Consultas</span>
                 <div className="relative w-64">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
-                    placeholder="Buscar prescrições..."
+                    placeholder="Buscar consultas..."
                     value={globalFilter ?? ""}
                     onChange={(e) => setGlobalFilter(e.target.value)}
                     className="pl-9"
@@ -274,83 +284,67 @@ export default function PrescriptionsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {error ? (
-                <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-8 text-center">
-                  <XCircle className="mx-auto h-12 w-12 text-destructive mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">Erro ao carregar prescrições</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {error instanceof Error ? error.message : "Não foi possível conectar ao servidor"}
-                  </p>
-                  <Button
-                    variant="outline"
-                    onClick={() => window.location.reload()}
-                  >
-                    Tentar novamente
-                  </Button>
-                </div>
-              ) : (
-                <div className="rounded-md border">
-                  <table className="w-full">
-                    <thead className="bg-muted/50">
-                      {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id}>
-                          {headerGroup.headers.map((header) => (
-                            <th
-                              key={header.id}
-                              className="px-4 py-3 text-left text-sm font-semibold"
-                            >
-                              {header.isPlaceholder
-                                ? null
-                                : flexRender(
-                                    header.column.columnDef.header,
-                                    header.getContext()
-                                  )}
-                            </th>
+              <div className="rounded-md border">
+                <table className="w-full">
+                  <thead className="bg-muted/50">
+                    {table.getHeaderGroups().map((headerGroup) => (
+                      <tr key={headerGroup.id}>
+                        {headerGroup.headers.map((header) => (
+                          <th
+                            key={header.id}
+                            className="px-4 py-3 text-left text-sm font-semibold"
+                          >
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                          </th>
+                        ))}
+                      </tr>
+                    ))}
+                  </thead>
+                  <tbody className="divide-y">
+                    {isLoading ? (
+                      Array.from({ length: 5 }).map((_, i) => (
+                        <tr key={i}>
+                          {Array.from({ length: 6 }).map((_, j) => (
+                            <td key={j} className="px-4 py-3">
+                              <Skeleton className="h-6 w-full" />
+                            </td>
                           ))}
                         </tr>
-                      ))}
-                    </thead>
-                    <tbody className="divide-y">
-                      {isLoading ? (
-                        Array.from({ length: 5 }).map((_, i) => (
-                          <tr key={i}>
-                            {Array.from({ length: 7 }).map((_, j) => (
-                              <td key={j} className="px-4 py-3">
-                                <Skeleton className="h-6 w-full" />
-                              </td>
-                            ))}
-                          </tr>
-                        ))
-                      ) : table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row) => (
-                          <tr
-                            key={row.id}
-                            className="transition-colors hover:bg-muted/50"
-                          >
-                            {row.getVisibleCells().map((cell) => (
-                              <td key={cell.id} className="px-4 py-3">
-                                {flexRender(
-                                  cell.column.columnDef.cell,
-                                  cell.getContext()
-                                )}
-                              </td>
-                            ))}
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td
-                            colSpan={columns.length}
-                            className="px-4 py-8 text-center text-muted-foreground"
-                          >
-                            Nenhuma prescrição encontrada.
-                          </td>
+                      ))
+                    ) : table.getRowModel().rows?.length ? (
+                      table.getRowModel().rows.map((row) => (
+                        <tr
+                          key={row.id}
+                          className="transition-colors hover:bg-muted/50"
+                        >
+                          {row.getVisibleCells().map((cell) => (
+                            <td key={cell.id} className="px-4 py-3">
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </td>
+                          ))}
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={columns.length}
+                          className="px-4 py-8 text-center text-muted-foreground"
+                        >
+                          Nenhuma consulta encontrada.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
 
               {/* Pagination */}
               <div className="mt-4 flex items-center justify-between">
@@ -361,7 +355,7 @@ export default function PrescriptionsPage() {
                     (pagination.pageIndex + 1) * pagination.pageSize,
                     data?.total || 0
                   )}{" "}
-                  de {data?.total || 0} prescrições
+                  de {data?.total || 0} consultas
                 </div>
                 <div className="flex gap-2">
                   <Button

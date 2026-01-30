@@ -32,19 +32,28 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiClient } from "@/lib/api-client";
-import { useRequireAuth } from "@/lib/use-auth";
+import { useRequireAuth, useAuth } from "@/lib/use-auth";
+import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
+import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
+import Link from "next/link";
+import { Settings } from "lucide-react";
+import { LabResultEntryDialog } from "@/components/lab-tests/LabResultEntryDialog";
 
 interface LabResult {
   id: string;
   patientId: string;
   doctorId: string;
+  testName: string;
   testType: string;
-  testDate: string;
-  results: string;
-  normalRange: string;
-  status: "pending" | "completed" | "reviewed";
-  notes?: string;
+  orderedAt: string;
+  performedAt?: string;
+  status: "pending" | "in_progress" | "completed" | "cancelled";
+  result?: string;
+  unit?: string;
+  referenceRange?: string;
+  interpretation?: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 interface LabResultsResponse {
@@ -56,20 +65,27 @@ interface LabResultsResponse {
 
 const statusConfig = {
   pending: { label: "Pendente", variant: "outline" as const, icon: Minus },
+  in_progress: {
+    label: "Em Andamento",
+    variant: "secondary" as const,
+    icon: TrendingUp,
+  },
   completed: {
     label: "Concluído",
     variant: "default" as const,
     icon: TrendingUp,
   },
-  reviewed: {
-    label: "Revisado",
-    variant: "stable" as const,
-    icon: TrendingDown,
+  cancelled: {
+    label: "Cancelado",
+    variant: "destructive" as const,
+    icon: Minus,
   },
 };
 
 export default function LabResultsPage() {
   useRequireAuth();
+  useRequireSelectedPatient();
+  const { user } = useAuth();
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -77,6 +93,7 @@ export default function LabResultsPage() {
     pageIndex: 0,
     pageSize: 10,
   });
+  const [entryDialogOpen, setEntryDialogOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["lab-results", pagination.pageIndex, pagination.pageSize],
@@ -101,39 +118,63 @@ export default function LabResultsPage() {
 
   const columns: ColumnDef<LabResult>[] = [
     {
-      accessorKey: "testType",
-      header: "Tipo de Exame",
+      accessorKey: "testName",
+      header: "Nome do Exame",
       cell: ({ row }) => (
-        <div className="font-medium">{row.getValue("testType")}</div>
+        <div className="font-medium">{row.getValue("testName")}</div>
       ),
     },
     {
-      accessorKey: "testDate",
-      header: "Data do Exame",
+      accessorKey: "testType",
+      header: "Tipo",
+      cell: ({ row }) => (
+        <div className="text-sm text-muted-foreground">
+          {row.getValue("testType")}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "orderedAt",
+      header: "Data da Solicitação",
       cell: ({ row }) => {
-        const date = new Date(row.getValue("testDate"));
+        const dateStr = row.getValue("orderedAt") as string;
+        if (!dateStr) return <div className="text-sm text-muted-foreground">-</div>;
+        try {
+          const date = new Date(dateStr);
+          return (
+            <div className="text-sm text-muted-foreground">
+              {format(date, "dd/MM/yyyy", { locale: ptBR })}
+            </div>
+          );
+        } catch {
+          return <div className="text-sm text-muted-foreground">-</div>;
+        }
+      },
+    },
+    {
+      accessorKey: "result",
+      header: "Resultado",
+      cell: ({ row }) => {
+        const result = row.getValue("result") as string | undefined;
+        const unit = row.original.unit;
         return (
-          <div className="text-sm text-muted-foreground">
-            {format(date, "dd/MM/yyyy", { locale: ptBR })}
+          <div className="max-w-xs truncate text-sm">
+            {result ? `${result}${unit ? ` ${unit}` : ""}` : "-"}
           </div>
         );
       },
     },
     {
-      accessorKey: "results",
-      header: "Resultado",
-      cell: ({ row }) => (
-        <div className="max-w-xs truncate text-sm">
-          {row.getValue("results")}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "normalRange",
+      accessorKey: "referenceRange",
       header: "Valores de Referência",
-      cell: ({ row }) => (
-        <Badge variant="outline">{row.getValue("normalRange")}</Badge>
-      ),
+      cell: ({ row }) => {
+        const range = row.getValue("referenceRange") as string | undefined;
+        return range ? (
+          <Badge variant="outline">{range}</Badge>
+        ) : (
+          <span className="text-muted-foreground">-</span>
+        );
+      },
     },
     {
       accessorKey: "status",
@@ -225,11 +266,24 @@ export default function LabResultsPage() {
               Gerencie resultados de exames laboratoriais
             </p>
           </div>
-          <Button className="gap-2">
-            <Plus className="h-4 w-4" />
-            Novo Resultado
-          </Button>
+          <div className="flex gap-2">
+            {user?.role === "admin" && (
+              <Link href="/lab-results/definitions">
+                <Button variant="outline" className="gap-2">
+                  <Settings className="h-4 w-4" />
+                  Definições de Exames
+                </Button>
+              </Link>
+            )}
+            <Button className="gap-2" onClick={() => setEntryDialogOpen(true)}>
+              <Plus className="h-4 w-4" />
+              Novo Resultado
+            </Button>
+          </div>
         </motion.div>
+
+        {/* Selected Patient Header */}
+        <SelectedPatientHeader />
 
         {/* Stats */}
         <motion.div
@@ -377,6 +431,13 @@ export default function LabResultsPage() {
             </CardContent>
           </Card>
         </motion.div>
+
+        {/* Lab Result Entry Dialog */}
+        <LabResultEntryDialog
+          open={entryDialogOpen}
+          onOpenChange={setEntryDialogOpen}
+          currentUserId={user?.id || ""}
+        />
       </div>
     </div>
   );
