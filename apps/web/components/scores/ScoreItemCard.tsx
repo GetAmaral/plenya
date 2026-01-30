@@ -32,7 +32,10 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [editingLevel, setEditingLevel] = useState<ScoreLevel | null>(null)
   const [deletingLevel, setDeletingLevel] = useState<ScoreLevel | null>(null)
-  const [accordionValue, setAccordionValue] = useState<string | undefined>(undefined)
+  // Initialize with empty string to keep it controlled from the start
+  const [accordionValue, setAccordionValue] = useState<string>(
+    expandClinicalTexts ? 'clinical-info' : ''
+  )
 
   const deleteItem = useDeleteScoreItem()
   const deleteLevel = useDeleteScoreLevel()
@@ -41,6 +44,9 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
   useEffect(() => {
     if (expandClinicalTexts) {
       setAccordionValue('clinical-info')
+    } else {
+      // When collapsing all, close the accordion
+      setAccordionValue('')
     }
   }, [expandClinicalTexts])
 
