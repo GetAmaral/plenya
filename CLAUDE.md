@@ -157,6 +157,53 @@ type Patient struct {
 
 ---
 
+## UX Frontend (OBRIGATÓRIO)
+
+**CRÍTICO: Navegação de Formulário com Enter**
+
+**TODOS os formulários DEVEM usar `useFormNavigation`**. Sem exceções.
+
+```tsx
+import { useFormNavigation } from '@/lib/use-form-navigation'
+
+function MyForm() {
+  const formRef = useRef<HTMLFormElement>(null)
+
+  // OBRIGATÓRIO: aplicar em todos os forms
+  useFormNavigation({ formRef, disabled: !isDialogOpen }) // disabled se for Dialog
+
+  return (
+    <form ref={formRef} onSubmit={handleSubmit}>
+      <Input name="field1" />
+      <Input name="field2" />
+      <button type="submit">Salvar</button>
+    </form>
+  )
+}
+```
+
+**Comportamento esperado:**
+- Enter em input → Foca próximo campo
+- Enter no último campo → Submete formulário
+- Tab continua funcionando normalmente
+- Textareas permitem quebra de linha (Enter não navega)
+
+**Regras:**
+1. **Sempre** criar `formRef` com `useRef<HTMLFormElement>(null)`
+2. **Sempre** passar `ref={formRef}` no `<form>`
+3. **Sempre** chamar `useFormNavigation({ formRef })`
+4. Se o form está em Dialog/Sheet: `disabled: !isOpen`
+5. Se o form delega para outro componente (ex: `MyFormComponent`), aplicar o hook NO componente do form, não no Dialog
+
+**Verificação:**
+```bash
+# Encontrar forms sem o hook (deve retornar vazio)
+grep -r "onSubmit" apps/web/app --include="*.tsx" | \
+  grep -v "useFormNavigation"
+```
+
+---
+
 ## Segurança EMR/LGPD (CRÍTICO)
 
 **Obrigatório implementar:**

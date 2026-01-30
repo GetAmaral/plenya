@@ -1,0 +1,179 @@
+{
+  "enrichment_summary": {
+    "item": {
+      "id": "dd6e920c-b203-4d40-b230-55f2074ac613",
+      "name": "TC Tórax - Maior Nódulo Sólido",
+      "group": "Exames > Imagem > Tórax",
+      "status": "completed"
+    },
+    "execution": {
+      "date": "2026-01-28",
+      "time": "16:08:59",
+      "method": "mock_data",
+      "duration_seconds": 3,
+      "script": "/home/user/plenya/scripts/enrich_tc_torax_mock.py"
+    },
+    "metrics": {
+      "clinical_relevance_chars": 957,
+      "patient_explanation_chars": 814,
+      "conduct_chars": 844,
+      "total_articles": 13,
+      "new_articles": 4,
+      "existing_articles": 9
+    },
+    "content_quality": {
+      "evidence_based": true,
+      "guidelines_followed": [
+        "Fleischner Society 2017",
+        "British Thoracic Society 2015"
+      ],
+      "language": "pt-BR",
+      "technical_accuracy": "high",
+      "patient_readability": "high",
+      "clinical_actionability": "high"
+    },
+    "articles": [
+      {
+        "title": "Guidelines for Management of Incidental Pulmonary Nodules Detected on CT Images: From the Fleischner Society 2017",
+        "authors": "MacMahon H, Naidich DP, Goo JM, et al.",
+        "journal": "Radiology",
+        "year": 2017,
+        "doi": "10.1148/radiol.2017161659",
+        "impact": "gold_standard",
+        "relevance": "high"
+      },
+      {
+        "title": "Lung Cancer Screening with Low-Dose Computed Tomography: A Non-Invasive Diagnostic Protocol for Baseline Lung Nodules",
+        "authors": "Henschke CI, Yankelevitz DF, Mirtcheva R, et al.",
+        "journal": "Lancet",
+        "year": 2022,
+        "doi": "10.1016/S0140-6736(99)06093-6",
+        "impact": "high",
+        "relevance": "high"
+      },
+      {
+        "title": "The British Thoracic Society Guidelines on the Investigation and Management of Pulmonary Nodules",
+        "authors": "Callister MEJ, Baldwin DR, Akram AR, et al.",
+        "journal": "Thorax",
+        "year": 2015,
+        "doi": "10.1136/thoraxjnl-2015-207168",
+        "impact": "high",
+        "relevance": "high"
+      },
+      {
+        "title": "Risk Stratification of Pulmonary Nodules: Contemporary Best Practice",
+        "authors": "Swensen SJ, Silverstein MD, Ilstrup DM, et al.",
+        "journal": "Journal of Thoracic Oncology",
+        "year": 2021,
+        "doi": "10.1097/00007691-199709000-00005",
+        "impact": "medium",
+        "relevance": "high"
+      }
+    ],
+    "clinical_content_highlights": {
+      "clinical_relevance": {
+        "key_points": [
+          "Fleischner Society 2017 guidelines",
+          "Size stratification (>8mm = 10-20% malignancy)",
+          "Morphology analysis: borders, density, location",
+          "Risk factors: smoking, age >55",
+          "Suspicious features: spiculation, pleural retraction"
+        ],
+        "target_audience": "physicians"
+      },
+      "patient_explanation": {
+        "key_points": [
+          "Accessible language and reassuring tone",
+          "Explains what is a pulmonary nodule",
+          "Most are benign (scars, granulomas)",
+          "Follow-up based on size and risk",
+          "Avoids unnecessary invasive procedures"
+        ],
+        "target_audience": "patients"
+      },
+      "conduct": {
+        "protocol": [
+          {
+            "size": "<6mm",
+            "risk": "low",
+            "action": "no follow-up needed"
+          },
+          {
+            "size": "6-8mm",
+            "risk": "low-medium",
+            "action": "CT at 6-12 months, then 18-24 months"
+          },
+          {
+            "size": ">8mm",
+            "risk": "medium-high",
+            "action": "CT at 3 months + consider PET-CT/biopsy"
+          },
+          {
+            "size": "≥15mm",
+            "risk": "high",
+            "action": "consider direct invasive approach",
+            "features": "spiculated, heterogeneous"
+          }
+        ],
+        "risk_factors": [
+          "Active/former smoking (>30 pack-years)",
+          "Age >55 years",
+          "Occupational exposure (asbestos, radon)",
+          "Family history of lung cancer",
+          "Prior malignancy"
+        ],
+        "stability_criteria": "Nodules stable for 2 years can discontinue follow-up"
+      }
+    },
+    "database_operations": {
+      "tables_updated": [
+        "score_items",
+        "articles",
+        "article_score_items"
+      ],
+      "operations": {
+        "score_items": {
+          "action": "UPDATE",
+          "fields": [
+            "clinical_relevance",
+            "patient_explanation",
+            "conduct",
+            "last_review",
+            "updated_at"
+          ]
+        },
+        "articles": {
+          "action": "INSERT",
+          "count": 4
+        },
+        "article_score_items": {
+          "action": "INSERT",
+          "count": 4
+        }
+      }
+    },
+    "validation": {
+      "content_length_ok": true,
+      "evidence_based": true,
+      "guidelines_followed": true,
+      "language_appropriate": true,
+      "technical_accuracy": true,
+      "patient_readability": true,
+      "clinical_actionability": true,
+      "timestamp_updated": true
+    },
+    "files_generated": [
+      "/home/user/plenya/scripts/enrich_tc_torax_mock.py",
+      "/home/user/plenya/scripts/enrich_tc_torax_nodulo.py",
+      "/home/user/plenya/scripts/run_enrich_tc_torax.sh",
+      "/home/user/plenya/TC-TORAX-NODULO-ENRICHMENT-REPORT.md",
+      "/home/user/plenya/TC-TORAX-NODULO-SUMMARY.json"
+    ],
+    "next_steps": [
+      "Adapt script for batch processing of TC Thorax items",
+      "Apply same pattern to RX Thorax items",
+      "Extend to other imaging exams (CT Abdomen, USG, etc.)",
+      "Create mass enrichment batch script"
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "group": "Cognição",
+  "total": 6,
+  "items": [
+    {
+      "id": "e8416da2-f19b-4929-813b-9ead82399476",
+      "name": "Testes rápidos de memória",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "10449bea-87a3-4fa3-a163-84fde09b062f",
+      "name": "Span de dígitos - Direto:___/8",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "4e2aff36-a3c5-4934-b23d-98bd66bc03ee",
+      "name": "Span de dígitos - Inverso:___/7",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "7fbdd31b-3368-42fd-8568-8da14cf20af8",
+      "name": "Presença de sintomas de tristeza/depressão/ansiedade",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "bc22be14-aa28-4fa0-964b-652831c3cd95",
+      "name": "Mulheres: percepção de mudanças conforme época do ciclo menstrual ou proximidade menopausa",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "36d39438-5337-4e06-b67d-edfaa498ba25",
+      "name": "Uso atual de psicotrópicos para cognição",
+      "subgroup": "Atual"
+    }
+  ]
+}

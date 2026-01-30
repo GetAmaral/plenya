@@ -47,7 +47,7 @@ export default function LabRequestTemplatesPage() {
   const [deleteConfirm, setDeleteConfirm] = useState<LabRequestTemplate | null>(null)
 
   const createFormRef = useRef<HTMLFormElement>(null)
-  useFormNavigation({ formRef: createFormRef })
+  useFormNavigation({ formRef: createFormRef, disabled: !isCreateDialogOpen })
 
   const queryClient = useQueryClient()
 

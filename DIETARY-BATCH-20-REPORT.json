@@ -1,0 +1,202 @@
+[
+  {
+    "item_id": "dc29ca47-3fa1-4ada-8cb0-85e83bcd38eb",
+    "name": "Gluten",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2057,
+      "patient_explanation": 1007,
+      "conduct": 3457
+    }
+  },
+  {
+    "item_id": "503b91b1-50d5-41f8-bc2d-772822096033",
+    "name": "Gluten",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2057,
+      "patient_explanation": 1007,
+      "conduct": 3457
+    }
+  },
+  {
+    "item_id": "a4bd778b-63f1-4b5f-9435-08411b954ffe",
+    "name": "Gluten",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2057,
+      "patient_explanation": 1007,
+      "conduct": 3457
+    }
+  },
+  {
+    "item_id": "21128901-d9bb-422f-8a95-5d4f2202fa49",
+    "name": "Histamina",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2609,
+      "patient_explanation": 1160,
+      "conduct": 4860
+    }
+  },
+  {
+    "item_id": "e76cf533-e63a-4602-98ff-5dbfa54c6079",
+    "name": "Histamina",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2609,
+      "patient_explanation": 1160,
+      "conduct": 4860
+    }
+  },
+  {
+    "item_id": "2436e6d5-945f-4646-885d-8c2df6ed6da7",
+    "name": "Histamina",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2609,
+      "patient_explanation": 1160,
+      "conduct": 4860
+    }
+  },
+  {
+    "item_id": "2a12cebb-111e-492a-8388-55222be9c346",
+    "name": "Histórico familiar de alimentação (pais, irmãos, avós...)",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2698,
+      "patient_explanation": 1199,
+      "conduct": 4805
+    }
+  },
+  {
+    "item_id": "64f67026-3778-461f-b5eb-4674bbb46c58",
+    "name": "Histórico familiar de alimentação (pais, irmãos, avós...)",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2698,
+      "patient_explanation": 1199,
+      "conduct": 4805
+    }
+  },
+  {
+    "item_id": "207b3a03-01a4-4165-9b48-a1fd0c42ae35",
+    "name": "Histórico familiar de alimentação (pais, irmãos, avós...)",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2698,
+      "patient_explanation": 1199,
+      "conduct": 4805
+    }
+  },
+  {
+    "item_id": "2a2e420e-1a0c-44b4-bb86-67d46e33c572",
+    "name": "Hábitos e vícios da mãe na época (tabagismo, etilismo, uso de drogas)",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 3421,
+      "patient_explanation": 1208,
+      "conduct": 6427
+    }
+  },
+  {
+    "item_id": "73050428-0624-4b9b-8ebe-f920606d2335",
+    "name": "Hábitos e vícios da mãe na época (tabagismo, etilismo, uso de drogas)",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 3421,
+      "patient_explanation": 1208,
+      "conduct": 6427
+    }
+  },
+  {
+    "item_id": "f946af49-7962-4371-b56e-794fcfb1d505",
+    "name": "Hábitos e vícios da mãe na época (tabagismo, etilismo, uso de drogas)",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 3421,
+      "patient_explanation": 1208,
+      "conduct": 6427
+    }
+  },
+  {
+    "item_id": "b8401d7b-edb1-4c06-8dbd-dfa3e8754e41",
+    "name": "Hábitos e vícios do pai na época (tabagismo, etilismo, uso de drogas)",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 3421,
+      "patient_explanation": 1208,
+      "conduct": 6427
+    }
+  },
+  {
+    "item_id": "92df69af-cf17-43fc-8a18-251bc6b8ebdf",
+    "name": "Hábitos e vícios do pai na época (tabagismo, etilismo, uso de drogas)",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 3421,
+      "patient_explanation": 1208,
+      "conduct": 6427
+    }
+  },
+  {
+    "item_id": "8f4bbe8c-41ee-45c0-8455-c758fcc22bb0",
+    "name": "Hábitos e vícios do pai na época (tabagismo, etilismo, uso de drogas)",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 3421,
+      "patient_explanation": 1208,
+      "conduct": 6427
+    }
+  },
+  {
+    "item_id": "2cf7a504-b4ce-4b50-9471-30fe89b19758",
+    "name": "Identificar problemas alimentares que podem ter influenciado na vida do paciente",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2698,
+      "patient_explanation": 1199,
+      "conduct": 4805
+    }
+  },
+  {
+    "item_id": "e75bec23-9bc7-4fdc-9911-c9c9a2f48411",
+    "name": "Identificar problemas alimentares que podem ter influenciado na vida do paciente",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2698,
+      "patient_explanation": 1199,
+      "conduct": 4805
+    }
+  },
+  {
+    "item_id": "f267b2b2-8a63-4801-9029-166aabb83176",
+    "name": "Identificar problemas alimentares que podem ter influenciado na vida do paciente",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2698,
+      "patient_explanation": 1199,
+      "conduct": 4805
+    }
+  },
+  {
+    "item_id": "1daa1598-27a4-4750-9330-dc9967c345c6",
+    "name": "Identificar qualidade da alimentação dos parentes próximos",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2698,
+      "patient_explanation": 1199,
+      "conduct": 4805
+    }
+  },
+  {
+    "item_id": "b781e715-372d-4f05-b01e-4db68c05d8db",
+    "name": "Identificar qualidade da alimentação dos parentes próximos",
+    "status": "success",
+    "content_sizes": {
+      "clinical_relevance": 2698,
+      "patient_explanation": 1199,
+      "conduct": 4805
+    }
+  }
+]

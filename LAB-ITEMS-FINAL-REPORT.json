@@ -1,0 +1,182 @@
+{
+  "project": "Plenya EMR - Score Items Enrichment",
+  "task": "Processar Score Items de Exames Laboratoriais Comuns",
+  "date": "2026-01-25",
+  "approach": "Simplificada via consulta direta ao PostgreSQL + API REST",
+  "evidence_sources": [
+    "/home/user/plenya/mfi_pos/Resistência_Insulínica.md",
+    "/home/user/plenya/mfi_pos/Dislipdemia.md",
+    "/home/user/plenya/mfi_pos/Cardiologia_I.md",
+    "/home/user/plenya/mfi_pos/Cardiologia_II.md"
+  ],
+  "processed_items": [
+    {
+      "id": "a99ff9aa-b39c-46aa-a042-39537a83eb81",
+      "name": "Hemoglobina - Homens",
+      "unit": "g/dL",
+      "success": true,
+      "texts_generated": true,
+      "articles_linked": 0,
+      "clinical_focus": [
+        "Transporte de oxigênio",
+        "Valores funcionais ideais: 14,5-16,5 g/dL",
+        "Investigação de anemia funcional",
+        "Suplementação: ferro bisglicinato, B12, folato"
+      ]
+    },
+    {
+      "id": "bdd1777f-2da3-4c20-879e-21446040170e",
+      "name": "Hemoglobina - Mulheres",
+      "unit": "g/dL",
+      "success": true,
+      "texts_generated": true,
+      "articles_linked": 0,
+      "clinical_focus": [
+        "Transporte de oxigênio",
+        "Valores funcionais ideais: 13,5-15,5 g/dL",
+        "Investigação de anemia funcional",
+        "Suplementação: ferro bisglicinato, B12, folato"
+      ]
+    },
+    {
+      "id": "660be9ac-31cd-4255-a15a-f049c099b68b",
+      "name": "Hemoglobina glicada",
+      "unit": "%",
+      "success": true,
+      "texts_generated": true,
+      "articles_linked": 0,
+      "clinical_focus": [
+        "Média glicêmica 2-3 meses",
+        "Meta funcional ideal: <5,3%",
+        "Marcador de glicação/envelhecimento",
+        "Manejo: dieta low carb, jejum intermitente, berberina"
+      ]
+    },
+    {
+      "id": "498a8637-8bf5-45e0-891b-a0c51a47ccc1",
+      "name": "Colesterol Total",
+      "unit": "mg/dL",
+      "success": true,
+      "texts_generated": true,
+      "articles_linked": 0,
+      "clinical_focus": [
+        "Paradigma funcional: qualidade > quantidade",
+        "Menor mortalidade: 200-240 mg/dL",
+        "Avaliar ApoB/ApoA1, subtipos, CAC",
+        "Muito baixo (<160) associado a risco"
+      ]
+    },
+    {
+      "id": "55787b95-d165-48d6-8eb4-e496bd62d509",
+      "name": "HDL Colesterol",
+      "unit": "mg/dL",
+      "success": true,
+      "texts_generated": true,
+      "articles_linked": 0,
+      "clinical_focus": [
+        "Transporte reverso de colesterol",
+        "Ideal: 50-70 (homens), 60-90 (mulheres)",
+        "HDL >90 pode ser disfuncional",
+        "Aumentar: exercício, ômega-3, gorduras saudáveis"
+      ]
+    },
+    {
+      "id": "d55af9e8-4358-4cfa-a75c-05dfcd1bfb4d",
+      "name": "LDL Colesterol",
+      "unit": "mg/dL",
+      "success": true,
+      "texts_generated": true,
+      "articles_linked": 0,
+      "clinical_focus": [
+        "Foco em qualidade: padrão A (grande) vs B (pequeno)",
+        "LDL oxidado/glicado é o verdadeiro vilão",
+        "Aterosclerose: doença da 'porta aberta' endotelial",
+        "CAC=0: estatina raramente indicada",
+        "Suplementos: bergamota, Red Yeast Rice, ômega-3"
+      ]
+    },
+    {
+      "id": "dfa58a95-7d7a-491f-b7c5-d2fe8c694daa",
+      "name": "Triglicerídeos",
+      "unit": "mg/dL",
+      "success": true,
+      "texts_generated": true,
+      "articles_linked": 0,
+      "clinical_focus": [
+        "Marcador precoce de resistência insulínica",
+        "Ideal: <80-100 mg/dL",
+        "Relação TG/HDL: ideal <2",
+        "Principal causa: excesso de carboidratos/frutose",
+        "Manejo: low carb, ômega-3 2-4g/dia"
+      ]
+    },
+    {
+      "id": "8234724e-f5d6-4862-9fde-84e78e136f88",
+      "name": "Creatinina",
+      "unit": "mg/dL",
+      "success": true,
+      "texts_generated": true,
+      "articles_linked": 0,
+      "clinical_focus": [
+        "Marcador de função renal",
+        "Limita marcação: elevação tardia (perda 40-50% TFG)",
+        "Avaliar TFGe, cistatina C, microalbuminúria",
+        "Proteção renal: controle glicêmico/pressórico, magnésio, ômega-3"
+      ]
+    }
+  ],
+  "summary": {
+    "total_items_processed": 8,
+    "successful": 8,
+    "failed": 0,
+    "texts_generated": 8,
+    "articles_linked_total": 0
+  },
+  "deliverables": {
+    "clinical_texts": {
+      "clinicalRelevance": "200-400 palavras em português-BR, fundamentado em MFI",
+      "patientExplanation": "100-200 palavras em linguagem acessível",
+      "conduct": "150-300 palavras com abordagem terapêutica funcional"
+    },
+    "api_integration": "Atualização via PUT /api/v1/score-items/{id}",
+    "authentication": "JWT via import@plenya.com"
+  },
+  "key_clinical_principles": [
+    "Valores funcionais ideais diferem de referências laboratoriais convencionais",
+    "Avaliar contexto metabólico completo, não marcadores isolados",
+    "Resistência insulínica é base comum de disfunções (glicose, TG, HDL baixo)",
+    "Qualidade das partículas lipídicas > quantidade absoluta",
+    "Intervenção nutricional (low carb) é pilar central em disfunção metabólica",
+    "Suplementação direcionada (ômega-3, berberina, magnésio) potencializa resultados",
+    "Exercício (musculação + HIIT) é não-negociável",
+    "Correção de disbiose e permeabilidade intestinal essencial"
+  ],
+  "evidence_based_supplements": {
+    "Ômega-3_EPA_DHA": "2-4g/dia - anti-inflamatório, reduz TG 20-50%, melhora partículas",
+    "Berberina": "500mg 2-3x/dia - melhora resistência insulínica (equivale metformina)",
+    "Bergamota_Vasguard": "1.000mg/dia - reduz LDL ~30%, aumenta HDL, melhora subtipos",
+    "Red_Yeast_Rice": "600-1.200mg/dia + CoQ10 100mg - reduz LDL naturalmente",
+    "Magnésio_bisglicinato": "400-600mg/dia - cofator metabólico, função renal",
+    "Cromo_picolinato": "200-400mcg/dia - sensibilidade insulínica",
+    "NAC": "600-1.200mg/dia - antioxidante, reduz LDL oxidado"
+  },
+  "nutrition_strategies": {
+    "primary": "Dieta Low Carb ou Cetogênica (<50-100g carboidratos/dia)",
+    "timing": "Jejum Intermitente 16/8 - ativa mitofagia, reduz carga glicêmica",
+    "eliminate": "Açúcares adicionados, ultraprocessados, farináceos refinados",
+    "prioritize": "Proteínas qualidade, gorduras saudáveis (azeite, abacate, oleaginosas, peixes), vegetais não-amiláceos",
+    "rapid_response_TG": "Redução 50-70% triglicerídeos em 8-12 semanas com low carb + ômega-3"
+  },
+  "scripts_created": [
+    "/home/user/plenya/scripts/process_lab_items.py",
+    "/home/user/plenya/scripts/lab_content_generators.py",
+    "/home/user/plenya/scripts/lab_generators_extra.py",
+    "/home/user/plenya/scripts/process_all_lab_items.py"
+  ],
+  "reports_generated": [
+    "/home/user/plenya/lab_items_report.json",
+    "/home/user/plenya/lab_items_complete_report.json",
+    "/home/user/plenya/LAB-ITEMS-FINAL-REPORT.json"
+  ],
+  "conclusion": "Processamento concluído com sucesso. 8 Score Items de exames laboratoriais comuns foram enriquecidos com conteúdo clínico de alta qualidade baseado em Medicina Funcional Integrativa, utilizando evidências das lectures MFI (Resistência Insulínica, Dislipdemia, Cardiologia) e conhecimento especializado. Todos os textos foram salvos no banco de dados via API REST."
+}

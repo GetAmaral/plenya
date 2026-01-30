@@ -1,0 +1,231 @@
+{
+  "group": "Exames Laboratoriais",
+  "total": 45,
+  "items": [
+    {
+      "id": "bf77b326-caa5-46fd-b607-70a089918780",
+      "name": "Urobilinogênio",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "1aa25d4b-a972-40db-a288-9cbe506de99e",
+      "name": "Nitrito",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "814d923f-cdfa-4388-9ba1-42b23dcd8d6d",
+      "name": "Hemácias (RBC) - Sedimento",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "09577ef1-c3ad-461b-b2ad-59fab2c193d5",
+      "name": "Células Epiteliais - Sedimento",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "ebcc36fd-d285-4754-adf7-50c7b130b286",
+      "name": "Cristais Patológicos",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "1fcd3bbc-920e-4d3b-bfe3-0dd0e376f346",
+      "name": "Leveduras - Sedimento",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "fe938255-6b7a-4fbd-ac8f-8f3ba0c2d291",
+      "name": "SHBG - Homens",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "c21ccec2-66b2-49e3-911a-8d0944eda087",
+      "name": "SHBG - Mulheres",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "66256f14-1775-4501-b85e-a4ffd71ccc7a",
+      "name": "DHEA-S - Homens (40-49 anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "bc896c78-c530-4dd6-ad03-6da22ffd7fea",
+      "name": "DHEA-S - Homens (50-59 anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "9c5ef523-046b-4647-abd4-719937d54eb6",
+      "name": "DHEA-S - Homens (60-69 anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "447746dd-949b-449b-bd0e-c2f226330a10",
+      "name": "DHEA-S - Homens (70+ anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "22952700-63e3-422d-b4b2-179c0785a20e",
+      "name": "DHEA-S - Mulheres (60-69 anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "e622f011-e92d-459e-9f4a-af435f26ea74",
+      "name": "DHEA-S - Mulheres (70+ anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "34af6e5c-3847-46d8-874e-a7364c014877",
+      "name": "TSH",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "d164eacf-a0d7-48f2-899d-3f0d57ec7cc3",
+      "name": "T3 Livre",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "4159c2e3-97e2-4ffc-922d-4513fdbc82aa",
+      "name": "T3 Reverso",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "459b1285-86d6-408f-9735-029dd00e67b6",
+      "name": "Tempo de Protrombina (INR)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "b6944c49-1b25-45c6-bad3-8dff164c977a",
+      "name": "Testosterona Total - Mulheres Pré-Menopausa",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "bb8e93f4-97f3-45de-8446-e138235953f0",
+      "name": "Testosterona Livre - Mulheres Pré-Menopausa",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "3bb82be7-cda4-49bc-8bd1-bf28a1359a6f",
+      "name": "TRAb (Anticorpos Anti-Receptor de TSH)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "910354c8-083c-4302-bf07-5ec62b78567b",
+      "name": "Transaminase oxalacética (AST)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "247a9b99-ec59-4dd7-b7a3-b5482b1dd553",
+      "name": "Troponina I Ultrassensível - Mulheres",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "6111a95b-6b98-4534-b623-80601070d80d",
+      "name": "Ureia",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "80ffc2b2-545b-4389-891f-b6aba1f7865c",
+      "name": "Vitamina E (Alfa-Tocoferol)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "7eb8dd18-6c21-4691-8c19-0f4d785af63e",
+      "name": "Alfa-2 Globulina",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "a14322a8-07d5-480c-9131-cfdd3f0b7c21",
+      "name": "VCM (MCV)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "5e465089-1492-44c4-9e7b-6696731a56a3",
+      "name": "Progesterona - Homens",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "ccfde47c-b3ca-4465-91d2-cab643ae08d2",
+      "name": "Gama GT",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "60c5b79e-7a16-4043-b25f-bf00c43a928a",
+      "name": "Progesterona - Mulheres Gestação 2º Trimestre",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "9d9f1270-d24d-4236-8694-5e28d8748475",
+      "name": "Ferritina - Mulheres Pós-Menopausa",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "a6742c97-a610-4bd4-b9de-87e91ecc8d34",
+      "name": "DHEA-S - Homens (20-29 anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "0726b373-4b78-4cb8-91a9-0916681aef61",
+      "name": "FSH - Mulheres Fase Lútea",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "161dcbd1-6694-4175-958b-2b260ae48a40",
+      "name": "Sódio",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "32037968-f263-4e7d-ab85-ea83efd61c7b",
+      "name": "Hematócrito - Mulheres",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "915bc591-b263-4fd2-a64d-4a04b38c97f7",
+      "name": "FSH - Mulheres Ovulação",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "7ec43763-493a-481b-9865-4f793840ab20",
+      "name": "Urocultura com contagem de colônias e antibiograma automatizado",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "c0269b3c-2098-4f71-a999-d20fc4ce7cdd",
+      "name": "Muco - Sedimento",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "eab8daae-3a2c-463b-bd03-d98434f27605",
+      "name": "Hepatite B - HbsAg",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "b4c93736-6f7e-4fd8-bb97-9e0d4e857845",
+      "name": "Proteínas Totais",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "23b012f9-ce8b-4a1d-95f4-cfe9183295e0",
+      "name": "USG Próstata - Volume Prostático",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "317acc85-3ce9-4f97-8e14-799354166f5e",
+      "name": "USG Próstata - Densidade PSA (PSAD)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "dd6e920c-b203-4d40-b230-55f2074ac613",
+      "name": "TC Tórax - Maior Nódulo Sólido",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "4f6e007b-dcc2-4e51-aaad-b7359717f297",
+      "name": "Endoscopia Alta - Esofagite (LA Classification)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "66a4571d-f9e2-4f94-96cf-15145ef62499",
+      "name": "Endoscopia Alta - Barrett Esophagus (Prague C)",
+      "subgroup": "Imagem"
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "group": "Exames Laboratoriais",
+  "total": 45,
+  "items": [
+    {
+      "id": "341946e7-5833-48bc-b316-71e29954eedd",
+      "name": "Mamografia - Densidade Mamária",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "348fc460-9959-4648-9d0d-6acafd2f9700",
+      "name": "Hidrogênio expirado",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "579a961c-e160-417f-9371-418284386f35",
+      "name": "Doppler Carótidas - Estenose Carotídea",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "9c82bd47-38c3-4118-a779-d328ee6e2831",
+      "name": "Ecodopplercardiograma - LAVI",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "5745d2f7-7b96-4329-9692-6d7cd8bb92c6",
+      "name": "DHEA-S - Mulheres (40-49 anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "932f426c-7a98-437d-8de5-e0f1c1b29e7a",
+      "name": "Doppler Carótidas - PSV Carótida Interna",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "f3792ebc-d50c-448d-97af-8b43a9ac41a6",
+      "name": "SatO2 Venosa",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "b7c85ad4-ece5-4a21-b23d-8edf321f7874",
+      "name": "Doppler Aorta - RAR (Renal-Aortic Ratio)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "84eb71ad-4e32-4bd8-adb0-8b19fd925bd0",
+      "name": "USG Transvaginal - O-RADS",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "4ae093c8-b6ac-4ac1-b242-dcd64194e6ad",
+      "name": "Densitometria - T-Score Colo Femoral",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "7e80a2d9-895c-4a73-bd66-aeb35ff300b8",
+      "name": "Testosterona Total - Mulheres Pós-Menopausa",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "325b61c6-11f6-49af-b3c9-b211d8bd6c28",
+      "name": "Progesterona - Mulheres Pós-Menopausa",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "2208d693-f4b8-4332-8030-53e795aa5ef4",
+      "name": "Estradiol - Mulheres Fase Folicular Inicial (Dias 1-7)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "73f6f0f6-1794-484a-8fdd-1245aa35701e",
+      "name": "Densitometria - T-Score Coluna Lombar",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "06241683-bc19-4d56-b9a8-dade736e674f",
+      "name": "Transaminase pirúvica (ALT)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "d2680d82-892e-4be4-b841-fd96cecabb8e",
+      "name": "LDL oxidada",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "9064aa05-9f21-402f-9c36-49887d2b8ec9",
+      "name": "CIMT Carótidas (Espessura Íntima-Média)",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "59585a72-8bc9-4ab7-a81f-2cf21706bcee",
+      "name": "Colonoscopia - Mayo Score UC",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "79a44be5-fa22-4ecf-8900-9cb51f007292",
+      "name": "ECG - Frequência Cardíaca",
+      "subgroup": "Imagem"
+    },
+    {
+      "id": "cbd75469-ca59-4b12-ab18-9b6b202f54fc",
+      "name": "IGF-1 (20-30 anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "039f1542-7596-4671-8ed0-049b3b41cfc4",
+      "name": "IGF-1 (Somatomedina C)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "56350a39-c589-4ed5-b757-0424399b7a61",
+      "name": "Leucócitos Totais (WBC)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "c8d0d878-43a0-4788-834e-62578a4c5657",
+      "name": "LH - Mulheres Fase Folicular",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "6eb3a909-6c91-4b72-a5d6-bfa546d8de8d",
+      "name": "Homocisteína",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "8e402940-afe1-40eb-b4d7-0afbd8f4916e",
+      "name": "LH - Homens",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "7dc53f7b-5ae3-49cb-ad5c-1e1afd3fcbe8",
+      "name": "LH - Mulheres Ovulação",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "31436e15-994d-4a39-b1c5-ae6cf494dacb",
+      "name": "LH - Mulheres Fase Lútea",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "2813e3c1-a2d0-464d-ad05-35aec75a3d7d",
+      "name": "Magnésio Sérico",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "613ec0ea-13dc-44ba-a0a5-918beeca4374",
+      "name": "Manganês",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "7998e69e-a0e0-488b-bcc3-9da32e59adfb",
+      "name": "NT-proBNP (50-75 anos)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "0bf9b295-6384-4401-8c83-7a09665eb36a",
+      "name": "Lipoproteína A",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "73411e66-c180-46ad-8f5b-7d67b26ef877",
+      "name": "Hepatite C - Anti-HCV",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "bf18b584-1f48-46aa-b345-c98a82fb6709",
+      "name": "RDW",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "501fd84a-a440-4c13-9b11-35e2f69017d1",
+      "name": "Hemácias - Mulheres",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "6d18335b-09d8-41b6-a5d1-db49a4fa62fa",
+      "name": "Leptina - Mulheres",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "778a3c03-9a5c-475d-9f9f-4dd424cd9862",
+      "name": "Leptina - Homens",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "b3cb69e0-98fd-48ca-82ae-9eee62a8218e",
+      "name": "Hepatite B - Anti-Hbc",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "a03fa6c4-da56-4969-86b7-57a11e7d6907",
+      "name": "Densidade Urinária (USG)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "99985045-0d9c-4454-bd86-0518136f4675",
+      "name": "JAK2 - pesquisa da variante genética c.1849G>T (p.V617F)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "df525b04-d0b4-4b11-a5e1-198374bf32e1",
+      "name": "Cor da Urina",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "50f927c0-6838-4ff3-953a-16a773f59078",
+      "name": "PTH",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "11549b67-2a95-43ae-b854-faed2b237b11",
+      "name": "Proteínas (Qualitativo)",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "7ef0ca1b-e7d8-4ac5-82fa-dbc495c54fd0",
+      "name": "Corpos Cetônicos",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "6c62052e-e3b3-42d2-a0f3-08435f27e265",
+      "name": "Bilirrubina",
+      "subgroup": "Laboratoriais"
+    },
+    {
+      "id": "50b7bdd2-8b09-4c53-aef1-5d36ccd30ebc",
+      "name": "Imunoglobulina M (IgM)",
+      "subgroup": "Laboratoriais"
+    }
+  ]
+}

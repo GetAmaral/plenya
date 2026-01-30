@@ -1,0 +1,51 @@
+{
+  "group": "Social",
+  "total": 9,
+  "items": [
+    {
+      "id": "b2edeb6b-4855-45a9-bc40-692bbb4c010c",
+      "name": "Situação familiar",
+      "subgroup": "Histórico"
+    },
+    {
+      "id": "c8ac45bc-f7fa-48e2-9cdc-b892a703c6d5",
+      "name": "Laser / hobbies",
+      "subgroup": "Histórico"
+    },
+    {
+      "id": "da38d7a5-f201-4801-bb58-5cf2e4209288",
+      "name": "Condições de moradia",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "7e4167cb-509e-4901-b3ce-42d6d870fe8c",
+      "name": "Qualidade do Ar Interior",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "cd6b1f77-00a3-4817-9a38-3e34313af80b",
+      "name": "Exposição Ambiental Externa",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "91e450db-29df-4a78-8741-441f89630ff7",
+      "name": "Ambiente Sonoro",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "bdd9ed17-65fc-4357-8bc3-70a48b490520",
+      "name": "Qualidade da Água",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "b7736f9d-5498-4ae7-8a07-f92d9edccc4d",
+      "name": "Espaço para Movimento",
+      "subgroup": "Atual"
+    },
+    {
+      "id": "f335cb3d-df6b-4f37-822d-377fdaaf2fca",
+      "name": "Hobbies",
+      "subgroup": "Atual"
+    }
+  ]
+}

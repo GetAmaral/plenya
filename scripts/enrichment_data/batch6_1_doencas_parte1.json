@@ -1,0 +1,206 @@
+{
+  "group": "Histórico de Doenças",
+  "total": 40,
+  "items": [
+    {
+      "id": "3f26c7c9-88e6-4fcc-9a3c-886a6fb709a6",
+      "name": "LES",
+      "subgroup": "Doenças crônicas (Questionar ativamente as doenças crônicas mais comuns, perguntar sobre duração, grau de controle e tratamentos utilizados no passado e atualmente)"
+    },
+    {
+      "id": "697adbc6-3a8b-4039-889b-d9b18025392e",
+      "name": "Esclerodermia",
+      "subgroup": "Doenças crônicas (Questionar ativamente as doenças crônicas mais comuns, perguntar sobre duração, grau de controle e tratamentos utilizados no passado e atualmente)"
+    },
+    {
+      "id": "76985c39-f90a-45f2-8485-f9d26e4e1369",
+      "name": "Chron",
+      "subgroup": "Doenças crônicas (Questionar ativamente as doenças crônicas mais comuns, perguntar sobre duração, grau de controle e tratamentos utilizados no passado e atualmente)"
+    },
+    {
+      "id": "94b650ab-27b5-429d-a9df-4b53569231dc",
+      "name": "RCU",
+      "subgroup": "Doenças crônicas (Questionar ativamente as doenças crônicas mais comuns, perguntar sobre duração, grau de controle e tratamentos utilizados no passado e atualmente)"
+    },
+    {
+      "id": "4fbb0fe3-a93b-402c-9375-02d892ce7440",
+      "name": "Doença celíaca",
+      "subgroup": "Doenças crônicas (Questionar ativamente as doenças crônicas mais comuns, perguntar sobre duração, grau de controle e tratamentos utilizados no passado e atualmente)"
+    },
+    {
+      "id": "8557eaca-88d8-4186-b669-ed5f667eb1c8",
+      "name": "Questionar sobre qualquer outra doença crônica",
+      "subgroup": "Doenças crônicas (Questionar ativamente as doenças crônicas mais comuns, perguntar sobre duração, grau de controle e tratamentos utilizados no passado e atualmente)"
+    },
+    {
+      "id": "40cf97e4-e3da-4ece-b1af-2aecca8ded54",
+      "name": "Doenças infecciosas",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "817ceb1a-a06f-4829-b9ee-dda47b6b55d4",
+      "name": "Tuberculose",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "7678a313-d0a4-4f2e-b0b3-72f23851469f",
+      "name": "Herpes simples",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "09558858-1545-483f-94a6-86102fae8ca4",
+      "name": "Herpes zoster",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "dae8d555-ef69-444f-810c-40fa736da05f",
+      "name": "Varicela",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "736c482e-2e1b-40b0-be6d-b11e371fd6ee",
+      "name": "CMV",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "9e9a6233-fd9e-416b-8327-11c00851402e",
+      "name": "EBV",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "881f7ba9-820f-4ebc-8831-6a3925345344",
+      "name": "Dengue",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "5be4bc08-7625-4422-a5ee-e02540370f7a",
+      "name": "Zika",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "d13e641d-fec0-4b50-8794-1fb5c541e43a",
+      "name": "Chicungunia",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "58ca1231-3f26-434a-aef8-dfd8a07933e8",
+      "name": "COVID",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "11fad7bc-dff2-4e01-8bd5-06b3ae60e8ec",
+      "name": "Sarampo",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "fa53a419-0431-40ff-b7c5-b9ae4e7eec42",
+      "name": "Outra doença infecciosa",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "954177a6-dc1f-4591-983a-1ac670c3da1d",
+      "name": "Doenças alérgicas",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "5bb1e630-8119-4b1b-a647-6bf4f6458d30",
+      "name": "Rinite",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "8769d938-4036-4afd-b8ea-10aa7638fecb",
+      "name": "Sinusite",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "994b578e-9322-4d1a-b92b-c36dc8335f00",
+      "name": "Urticária",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "85705fa1-9534-459a-8089-fcceffcaa4a5",
+      "name": "Outras doenças alérgicas",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "bc08657d-5ed0-4a61-8855-bcbd3dd8b4fe",
+      "name": "Segmento cefálico",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "3f6d97ea-273d-4cf5-a8e2-7be010e0ad5e",
+      "name": "Cefaléia",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "799b847f-3228-4817-8c4f-d399bafe461f",
+      "name": "Tontura",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "9776d2e9-f044-4988-ac94-7be0c7725a14",
+      "name": "Zumbidos",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "86794b20-a41f-420d-a74a-b2c873931143",
+      "name": "Sintomas visuais",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "1176540d-cefa-4d2c-b5e2-4a992060de4d",
+      "name": "Outros sintomas",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "360d1e6a-84c5-4763-a743-0fce76fe2686",
+      "name": "Segmento torácico",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "b8b48bed-dc0f-4f0a-b7d9-5d22d7a40484",
+      "name": "Palpitação",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "e8790b09-f964-41ae-8f72-8330e3072647",
+      "name": "Dispnéia",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "b60bc6e0-1120-4ad3-9340-a962ffb32c58",
+      "name": "Mamas",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "7bb2e100-a0ca-44d4-b3f7-a89665d3bd8f",
+      "name": "Segmento abdominal",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "eb2690e4-2ebb-4314-9051-e9b12c5626eb",
+      "name": "Náuseas/vômitos",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "36ec186b-5710-451d-b2c8-1ef3913bf002",
+      "name": "Obstipação",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "b638f7a7-36d1-465b-b291-f80f9dce057b",
+      "name": "Dores abdominais / cólicas",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "087fdc36-d003-4044-b745-1313acc819d3",
+      "name": "Flatulência",
+      "subgroup": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):"
+    },
+    {
+      "id": "f01569de-d6f6-4f95-b152-ddf14d0ce398",
+      "name": "Doenças auto-imunes",
+      "subgroup": "Doenças crônicas (Questionar ativamente as doenças crônicas mais comuns, perguntar sobre duração, grau de controle e tratamentos utilizados no passado e atualmente)"
+    }
+  ]
+}

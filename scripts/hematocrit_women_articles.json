@@ -1,0 +1,63 @@
+[
+  {
+    "title": "The relationship between heavy menstrual bleeding, iron deficiency, and iron deficiency anemia",
+    "authors": "Multiple authors",
+    "journal": "PubMed Central",
+    "year": 2023,
+    "doi": "PMID: 36706856",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/36706856/",
+    "article_type": "review",
+    "relevance": "Este artigo de revisão estabelece a relação direta entre sangramento menstrual intenso (>80 mL/ciclo), deficiência de ferro e anemia ferropriva em mulheres, fornecendo base científica para a investigação de hematócrito baixo em mulheres em idade reprodutiva.",
+    "keywords": ["menstrual blood loss", "iron deficiency", "anemia", "hematocrit", "women"],
+    "abstract": "Heavy menstrual bleeding is highly prevalent in reproductive-aged women and a major contributor to iron deficiency and iron deficiency anemia. This review examines the clinical relationship between menstrual blood loss, iron stores, and hematological parameters in women."
+  },
+  {
+    "title": "The sex difference in haemoglobin levels in adults — Mechanisms, causes, and consequences",
+    "authors": "Murphy WG",
+    "journal": "Blood Reviews",
+    "year": 2014,
+    "doi": "10.1016/j.blre.2013.12.003",
+    "pmid": "24491804",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/24491804/",
+    "article_type": "review",
+    "relevance": "Revisão abrangente sobre as diferenças de hemoglobina e hematócrito entre sexos, explicando os mecanismos hormonais (estrogênios, testosterona) e fisiológicos (perda menstrual) que resultam em valores 12% menores em mulheres.",
+    "keywords": ["sex differences", "hematocrit", "hemoglobin", "hormones", "erythropoiesis"],
+    "abstract": "Women have mean hemoglobin levels approximately 12% lower than men. This difference is attributed to sex hormones (estrogen and androgens), menstrual blood loss, and their effects on erythropoiesis and renal microvascular function."
+  },
+  {
+    "title": "A Review of Clinical Guidelines on the Management of Iron Deficiency and Iron-Deficiency Anemia in Women with Heavy Menstrual Bleeding",
+    "authors": "Multiple authors",
+    "journal": "Advances in Therapy",
+    "year": 2020,
+    "doi": "10.1007/s12325-020-01564-y",
+    "pmid": "33247314",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7695235/",
+    "article_type": "review",
+    "relevance": "Revisão sistemática das diretrizes clínicas para manejo de deficiência de ferro e anemia ferropriva em mulheres com sangramento menstrual intenso, fornecendo protocolos de investigação e tratamento aplicáveis à interpretação de hematócrito baixo.",
+    "keywords": ["iron deficiency anemia", "heavy menstrual bleeding", "management", "guidelines", "women"],
+    "abstract": "This review synthesizes current clinical guidelines for managing iron deficiency and iron-deficiency anemia in women with heavy menstrual bleeding, including diagnostic algorithms and treatment protocols."
+  },
+  {
+    "title": "Severe anemia from heavy menstrual bleeding requires heightened attention",
+    "authors": "Multiple authors",
+    "journal": "American Journal of Obstetrics and Gynecology",
+    "year": 2015,
+    "pmid": "25935784",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/25935784/",
+    "article_type": "research_article",
+    "relevance": "Estudo sobre anemia severa (hemoglobina <5 g/dL) causada por sangramento menstrual excessivo em 149 mulheres, demonstrando a importância da investigação precoce de hematócrito baixo em mulheres com menorragia.",
+    "keywords": ["severe anemia", "menstrual bleeding", "hemoglobin", "hematocrit", "women"],
+    "abstract": "149 women had 168 episodes with hemoglobin levels below 5 g/dL attributed to chronic excessive menstrual bleeding, with mean corpuscular volume of 62.2 fL indicating severe microcytic hypochromic anemia."
+  },
+  {
+    "title": "Hematocrit Test: Reference Ranges and Clinical Interpretation",
+    "authors": "Cleveland Clinic",
+    "journal": "Cleveland Clinic Health Library",
+    "year": 2024,
+    "url": "https://my.clevelandclinic.org/health/diagnostics/17683-hematocrit",
+    "article_type": "clinical_guideline",
+    "relevance": "Guia clínico atualizado sobre teste de hematócrito, valores de referência para mulheres (36-48%), interpretação de resultados alterados e orientações sobre quando procurar avaliação médica.",
+    "keywords": ["hematocrit", "reference range", "women", "clinical interpretation", "anemia"],
+    "abstract": "Comprehensive clinical guide on hematocrit testing, including normal reference ranges for women (36-48%), causes of abnormal results, and clinical decision-making for follow-up testing."
+  }
+]
