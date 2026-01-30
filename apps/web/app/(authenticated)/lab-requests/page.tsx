@@ -18,10 +18,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Plus, FileText, Calendar } from 'lucide-react'
+import { Plus, FileText, Calendar, Pencil } from 'lucide-react'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   getAllLabRequests,
   createLabRequest,
+  updateLabRequest,
   type LabRequest
 } from '@/lib/api/lab-requests'
 import {
@@ -37,6 +40,7 @@ export default function LabRequestsPage() {
   const router = useRouter()
   const { selectedPatient, isLoading: patientLoading } = useRequireSelectedPatient()
   const [showCreateForm, setShowCreateForm] = useState(false)
+  const [editingRequest, setEditingRequest] = useState<LabRequest | null>(null)
 
   // Fetch lab requests (backend filtra automaticamente pelo selectedPatient)
   const { data: requestsData, isLoading: requestsLoading } = useQuery({
@@ -73,6 +77,14 @@ export default function LabRequestsPage() {
         <CreateLabRequestForm onSuccess={() => setShowCreateForm(false)} />
       )}
 
+      {editingRequest && (
+        <EditLabRequestForm
+          request={editingRequest}
+          onSuccess={() => setEditingRequest(null)}
+          onCancel={() => setEditingRequest(null)}
+        />
+      )}
+
       {requestsLoading ? (
         <div className="text-center py-12">Carregando pedidos...</div>
       ) : requests.length === 0 ? (
@@ -87,7 +99,11 @@ export default function LabRequestsPage() {
       ) : (
         <div className="grid gap-4">
           {requests.map((request) => (
-            <LabRequestCard key={request.id} request={request} />
+            <LabRequestCard
+              key={request.id}
+              request={request}
+              onEdit={() => setEditingRequest(request)}
+            />
           ))}
         </div>
       )}
@@ -173,74 +189,287 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
   return (
     <Card className="p-6 mb-6">
       <h2 className="text-xl font-semibold mb-4">Novo Pedido de Exames</h2>
-      <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Label>Data *</Label>
-          <Input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-          />
-        </div>
+      <form ref={formRef} onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Coluna Principal - Formulário */}
+          <div className="lg:col-span-2 space-y-4">
+            <div>
+              <Label>Data *</Label>
+              <Input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+              />
+            </div>
 
-        <div>
-          <Label>Template (opcional)</Label>
-          <Select value={selectedTemplateId || undefined} onValueChange={handleTemplateSelect}>
-            <SelectTrigger>
-              <SelectValue placeholder="Selecione um template ou digite manualmente" />
-            </SelectTrigger>
-            <SelectContent>
-              {sortedTemplates.map((template) => (
-                <SelectItem key={template.id} value={template.id}>
-                  {template.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <p className="text-xs text-muted-foreground mt-1">
-            {selectedTemplateId ? 'Os exames do template serão inseridos no campo abaixo em ordem alfabética' : 'Nenhum template selecionado - digite os exames manualmente'}
-          </p>
-        </div>
+            <div>
+              <Label>Exames Solicitados * (um por linha)</Label>
+              <Textarea
+                value={exams}
+                onChange={(e) => setExams(e.target.value)}
+                placeholder="Digite os nomes dos exames, um por linha. Exemplo:&#10;Hemograma Completo&#10;Glicemia de Jejum&#10;Colesterol Total"
+                rows={16}
+                required
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                {exams.split('\n').filter(line => line.trim()).length} exame(s)
+              </p>
+            </div>
 
-        <div>
-          <Label>Exames Solicitados * (um por linha)</Label>
-          <Textarea
-            value={exams}
-            onChange={(e) => setExams(e.target.value)}
-            placeholder="Digite os nomes dos exames, um por linha. Exemplo:&#10;Hemograma Completo&#10;Glicemia de Jejum&#10;Colesterol Total"
-            rows={12}
-            required
-          />
-          <p className="text-xs text-muted-foreground mt-1">
-            {exams.split('\n').filter(line => line.trim()).length} exame(s)
-          </p>
-        </div>
+            <div>
+              <Label>Observações (opcional)</Label>
+              <Textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Observações adicionais..."
+                rows={3}
+              />
+            </div>
 
-        <div>
-          <Label>Observações (opcional)</Label>
-          <Textarea
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Observações adicionais..."
-            rows={3}
-          />
-        </div>
+            <div className="flex justify-end gap-2 pt-4 border-t">
+              <Button type="button" variant="outline" onClick={onSuccess}>
+                Cancelar
+              </Button>
+              <Button type="submit" disabled={createMutation.isPending}>
+                {createMutation.isPending ? 'Criando...' : 'Criar Pedido'}
+              </Button>
+            </div>
+          </div>
 
-        <div className="flex justify-end gap-2 pt-4 border-t">
-          <Button type="button" variant="outline" onClick={onSuccess}>
-            Cancelar
-          </Button>
-          <Button type="submit" disabled={createMutation.isPending}>
-            {createMutation.isPending ? 'Criando...' : 'Criar Pedido'}
-          </Button>
+          {/* Coluna Lateral - Templates */}
+          <div className="lg:col-span-1">
+            <Label className="mb-3 block">Templates (opcional)</Label>
+            <ScrollArea className="h-[600px] pr-4">
+              <RadioGroup value={selectedTemplateId} onValueChange={handleTemplateSelect}>
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2 p-3 rounded-md hover:bg-accent cursor-pointer border border-transparent hover:border-border">
+                    <RadioGroupItem value="" id="no-template" />
+                    <Label
+                      htmlFor="no-template"
+                      className="flex-1 cursor-pointer font-normal"
+                    >
+                      Nenhum template
+                    </Label>
+                  </div>
+                  {sortedTemplates.map((template) => (
+                    <div
+                      key={template.id}
+                      className="flex items-center space-x-2 p-3 rounded-md hover:bg-accent cursor-pointer border border-transparent hover:border-border"
+                    >
+                      <RadioGroupItem value={template.id} id={`template-${template.id}`} />
+                      <Label
+                        htmlFor={`template-${template.id}`}
+                        className="flex-1 cursor-pointer font-normal"
+                      >
+                        <div>
+                          <div className="font-medium">{template.name}</div>
+                          {template.description && (
+                            <div className="text-xs text-muted-foreground mt-1">
+                              {template.description}
+                            </div>
+                          )}
+                        </div>
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </RadioGroup>
+            </ScrollArea>
+            {selectedTemplateId && (
+              <p className="text-xs text-muted-foreground mt-3">
+                Os exames do template foram inseridos acima em ordem alfabética
+              </p>
+            )}
+          </div>
         </div>
       </form>
     </Card>
   )
 }
 
-function LabRequestCard({ request }: { request: LabRequest }) {
+function EditLabRequestForm({
+  request,
+  onSuccess,
+  onCancel
+}: {
+  request: LabRequest
+  onSuccess: () => void
+  onCancel: () => void
+}) {
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>('')
+  const [date, setDate] = useState(format(new Date(request.date), 'yyyy-MM-dd'))
+  const [exams, setExams] = useState(request.exams)
+  const [notes, setNotes] = useState(request.notes || '')
+
+  const formRef = useRef<HTMLFormElement>(null)
+  useFormNavigation({ formRef })
+
+  const queryClient = useQueryClient()
+
+  // Fetch templates (sorted alphabetically)
+  const { data: templates = [] } = useQuery({
+    queryKey: ['lab-request-templates'],
+    queryFn: () => getAllLabRequestTemplates(false)
+  })
+
+  const sortedTemplates = [...templates].sort((a, b) => a.name.localeCompare(b.name))
+
+  // Update mutation
+  const updateMutation = useMutation({
+    mutationFn: (data: { date: string; exams: string; notes?: string }) =>
+      updateLabRequest(request.id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lab-requests'] })
+      toast.success('Pedido atualizado com sucesso!')
+      onSuccess()
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.error || 'Erro ao atualizar pedido')
+    }
+  })
+
+  // Handle template selection
+  const handleTemplateSelect = async (templateId: string) => {
+    if (!templateId) {
+      setSelectedTemplateId('')
+      return
+    }
+
+    setSelectedTemplateId(templateId)
+
+    try {
+      const template = await getLabRequestTemplateById(templateId)
+      if (template.labTests && template.labTests.length > 0) {
+        const sortedTests = [...template.labTests].sort((a, b) =>
+          a.name.localeCompare(b.name)
+        )
+        const examsText = sortedTests.map(test => test.name).join('\n')
+        setExams(examsText)
+      }
+    } catch (error) {
+      toast.error('Erro ao carregar template')
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!exams.trim()) {
+      toast.error('Adicione pelo menos um exame')
+      return
+    }
+
+    updateMutation.mutate({
+      date,
+      exams: exams.trim(),
+      notes: notes.trim() || undefined
+    })
+  }
+
+  return (
+    <Card className="p-6 mb-6">
+      <h2 className="text-xl font-semibold mb-4">Editar Pedido de Exames</h2>
+      <form ref={formRef} onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Coluna Principal - Formulário */}
+          <div className="lg:col-span-2 space-y-4">
+            <div>
+              <Label>Data *</Label>
+              <Input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <Label>Exames Solicitados * (um por linha)</Label>
+              <Textarea
+                value={exams}
+                onChange={(e) => setExams(e.target.value)}
+                placeholder="Digite os nomes dos exames, um por linha. Exemplo:&#10;Hemograma Completo&#10;Glicemia de Jejum&#10;Colesterol Total"
+                rows={16}
+                required
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                {exams.split('\n').filter(line => line.trim()).length} exame(s)
+              </p>
+            </div>
+
+            <div>
+              <Label>Observações (opcional)</Label>
+              <Textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Observações adicionais..."
+                rows={3}
+              />
+            </div>
+
+            <div className="flex justify-end gap-2 pt-4 border-t">
+              <Button type="button" variant="outline" onClick={onCancel}>
+                Cancelar
+              </Button>
+              <Button type="submit" disabled={updateMutation.isPending}>
+                {updateMutation.isPending ? 'Salvando...' : 'Salvar Alterações'}
+              </Button>
+            </div>
+          </div>
+
+          {/* Coluna Lateral - Templates */}
+          <div className="lg:col-span-1">
+            <Label className="mb-3 block">Templates (opcional)</Label>
+            <ScrollArea className="h-[600px] pr-4">
+              <RadioGroup value={selectedTemplateId} onValueChange={handleTemplateSelect}>
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2 p-3 rounded-md hover:bg-accent cursor-pointer border border-transparent hover:border-border">
+                    <RadioGroupItem value="" id="edit-no-template" />
+                    <Label
+                      htmlFor="edit-no-template"
+                      className="flex-1 cursor-pointer font-normal"
+                    >
+                      Nenhum template
+                    </Label>
+                  </div>
+                  {sortedTemplates.map((template) => (
+                    <div
+                      key={template.id}
+                      className="flex items-center space-x-2 p-3 rounded-md hover:bg-accent cursor-pointer border border-transparent hover:border-border"
+                    >
+                      <RadioGroupItem value={template.id} id={`edit-template-${template.id}`} />
+                      <Label
+                        htmlFor={`edit-template-${template.id}`}
+                        className="flex-1 cursor-pointer font-normal"
+                      >
+                        <div>
+                          <div className="font-medium">{template.name}</div>
+                          {template.description && (
+                            <div className="text-xs text-muted-foreground mt-1">
+                              {template.description}
+                            </div>
+                          )}
+                        </div>
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </RadioGroup>
+            </ScrollArea>
+            {selectedTemplateId && (
+              <p className="text-xs text-muted-foreground mt-3">
+                Os exames do template foram inseridos acima em ordem alfabética
+              </p>
+            )}
+          </div>
+        </div>
+      </form>
+    </Card>
+  )
+}
+
+function LabRequestCard({ request, onEdit }: { request: LabRequest; onEdit: () => void }) {
   const examsCount = request.exams.split('\n').filter(line => line.trim()).length
 
   return (
@@ -269,9 +498,14 @@ function LabRequestCard({ request }: { request: LabRequest }) {
           )}
         </div>
 
-        <Button variant="outline" size="sm">
-          <FileText className="h-4 w-4" />
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={onEdit}>
+            <Pencil className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="sm">
+            <FileText className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       <details className="mt-4">
