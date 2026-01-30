@@ -25,11 +25,12 @@ import {
   useUpdateArticle,
   useAddScoreItems,
   useRemoveScoreItems,
+  useUploadArticle,
   ARTICLE_TYPES,
   UpdateArticleDTO,
 } from '@/lib/api/article-api'
 import { ArticleScoreItemsSelector } from '@/components/articles/ArticleScoreItemsSelector'
-import { ArrowLeft, Save, Loader2 } from 'lucide-react'
+import { ArrowLeft, Save, Loader2, Upload, FileText, X } from 'lucide-react'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -42,8 +43,10 @@ export default function EditArticlePage({ params }: PageProps) {
   const updateMutation = useUpdateArticle()
   const addScoreItemsMutation = useAddScoreItems()
   const removeScoreItemsMutation = useRemoveScoreItems()
+  const uploadMutation = useUploadArticle()
 
   const [selectedScoreItemIds, setSelectedScoreItemIds] = useState<string[]>([])
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   // Atualizar selectedScoreItemIds quando article mudar
   useEffect(() => {
@@ -143,6 +146,21 @@ export default function EditArticlePage({ params }: PageProps) {
 
       // Atualizar artigo
       await updateMutation.mutateAsync({ id, data: cleanData })
+
+      // Upload de novo PDF se selecionado
+      if (selectedFile) {
+        const formData = new FormData()
+        formData.append('file', selectedFile)
+        // Adicionar metadados básicos ao FormData
+        formData.append('title', data.title)
+        formData.append('authors', data.authors)
+        formData.append('journal', data.journal)
+        formData.append('publishDate', publishDate || '')
+        formData.append('language', data.language)
+        formData.append('articleType', data.articleType)
+
+        await uploadMutation.mutateAsync(formData)
+      }
 
       // Atualizar score items se houve mudanças
       const originalItemIds = article?.scoreItems?.map((item) => item.id) || []
@@ -428,6 +446,86 @@ export default function EditArticlePage({ params }: PageProps) {
                   maxLength: { value: 2048, message: 'Máximo 2048 caracteres' },
                 })}
               />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* PDF Upload */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Arquivo PDF</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {/* Current PDF Info */}
+            {article.internalLink && !selectedFile && (
+              <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg border">
+                <FileText className="h-8 w-8 text-primary" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium">PDF atual</p>
+                  <p className="text-xs text-muted-foreground">
+                    {article.fileSize
+                      ? `${(article.fileSize / (1024 * 1024)).toFixed(2)} MB`
+                      : 'Tamanho desconhecido'}
+                  </p>
+                </div>
+                <Badge variant="secondary">Disponível</Badge>
+              </div>
+            )}
+
+            {/* New File Selected */}
+            {selectedFile && (
+              <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-lg border border-primary">
+                <Upload className="h-8 w-8 text-primary" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium">Novo arquivo selecionado</p>
+                  <p className="text-xs text-muted-foreground">
+                    {selectedFile.name} ({(selectedFile.size / (1024 * 1024)).toFixed(2)} MB)
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSelectedFile(null)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+
+            {/* Upload Button */}
+            <div className="space-y-2">
+              <Label htmlFor="pdfFile">
+                {article.internalLink ? 'Substituir PDF' : 'Upload de PDF'}
+              </Label>
+              <div className="flex gap-2">
+                <Input
+                  id="pdfFile"
+                  type="file"
+                  accept=".pdf,application/pdf"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) {
+                      if (file.type !== 'application/pdf') {
+                        toast.error('Apenas arquivos PDF são permitidos')
+                        e.target.value = ''
+                        return
+                      }
+                      if (file.size > 50 * 1024 * 1024) {
+                        toast.error('Arquivo muito grande. Máximo: 50MB')
+                        e.target.value = ''
+                        return
+                      }
+                      setSelectedFile(file)
+                    }
+                  }}
+                  className="cursor-pointer"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Formato: PDF | Tamanho máximo: 50MB
+                {article.internalLink && ' | Substituir o arquivo atual'}
+              </p>
             </div>
           </CardContent>
         </Card>
