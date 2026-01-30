@@ -291,12 +291,16 @@ function TemplateEditDialog({
 
   // Update template info
   const updateInfoMutation = useMutation({
-    mutationFn: (data: { name: string; description?: string }) =>
+    mutationFn: (data: { name: string; description?: string; isActive: boolean }) =>
       updateLabRequestTemplate(template.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['lab-request-templates'] })
       queryClient.invalidateQueries({ queryKey: ['lab-request-template', template.id] })
-      toast.success('Template atualizado!')
+      toast.success('Alterações salvas!')
+      onClose() // Fechar dialog após salvar
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.error || 'Erro ao atualizar template')
     }
   })
 
@@ -306,20 +310,23 @@ function TemplateEditDialog({
       updateLabRequestTemplateTests(template.id, testIds),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['lab-request-template', template.id] })
-      toast.success('Exames atualizados!')
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.error || 'Erro ao atualizar exames')
     }
   })
 
-  const handleSave = () => {
-    // Update basic info
+  const handleSave = async () => {
+    // Update tests first
+    const testIds = selectedTests.map(t => t.id)
+    await updateTestsMutation.mutateAsync(testIds)
+
+    // Then update basic info (this will close the dialog on success)
     updateInfoMutation.mutate({
       name,
-      description: description || undefined
+      description: description || undefined,
+      isActive: true // CRITICAL: preserve isActive status
     })
-
-    // Update tests
-    const testIds = selectedTests.map(t => t.id)
-    updateTestsMutation.mutate(testIds)
   }
 
   return (
