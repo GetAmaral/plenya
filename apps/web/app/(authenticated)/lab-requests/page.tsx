@@ -206,12 +206,11 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
 
         <div>
           <Label>Template (opcional)</Label>
-          <Select value={selectedTemplateId} onValueChange={handleTemplateSelect}>
+          <Select value={selectedTemplateId || undefined} onValueChange={handleTemplateSelect}>
             <SelectTrigger>
               <SelectValue placeholder="Selecione um template ou digite manualmente" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Nenhum template</SelectItem>
               {sortedTemplates.map((template) => (
                 <SelectItem key={template.id} value={template.id}>
                   {template.name}
@@ -220,7 +219,7 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
             </SelectContent>
           </Select>
           <p className="text-xs text-muted-foreground mt-1">
-            Os exames do template serão inseridos no campo abaixo em ordem alfabética
+            {selectedTemplateId ? 'Os exames do template serão inseridos no campo abaixo em ordem alfabética' : 'Nenhum template selecionado - digite os exames manualmente'}
           </p>
         </div>
 
