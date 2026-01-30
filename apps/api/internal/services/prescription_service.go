@@ -25,10 +25,32 @@ func NewPrescriptionService(db *gorm.DB) *PrescriptionService {
 
 // Create cria uma nova prescrição
 func (s *PrescriptionService) Create(doctorID uuid.UUID, req *dto.CreatePrescriptionRequest) (*dto.PrescriptionResponse, error) {
-	// Parse patient ID
-	patientID, err := uuid.Parse(req.PatientID)
-	if err != nil {
-		return nil, errors.New("invalid patient id")
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, doctorID).Error; err != nil {
+		return nil, err
+	}
+
+	// If no selected patient, cannot create prescription
+	if user.SelectedPatientID == nil {
+		return nil, errors.New("no patient selected - please select a patient first")
+	}
+
+	// Parse patient ID from request
+	var patientID uuid.UUID
+	if req.PatientID != "" {
+		pid, err := uuid.Parse(req.PatientID)
+		if err != nil {
+			return nil, errors.New("invalid patient id")
+		}
+		// SECURITY: Validate that patientID matches selectedPatient
+		if pid != *user.SelectedPatientID {
+			return nil, errors.New("patient id does not match selected patient")
+		}
+		patientID = pid
+	} else {
+		// Auto-fill with selectedPatient
+		patientID = *user.SelectedPatientID
 	}
 
 	// Verificar se o paciente existe
@@ -91,17 +113,20 @@ func (s *PrescriptionService) Create(doctorID uuid.UUID, req *dto.CreatePrescrip
 
 // GetByID busca uma prescrição por ID
 func (s *PrescriptionService) GetByID(prescriptionID, userID uuid.UUID, userRole models.UserRole) (*dto.PrescriptionResponse, error) {
-	var prescription models.Prescription
-	query := s.db.Where("id = ?", prescriptionID)
-
-	// Pacientes só podem ver suas próprias prescrições
-	if userRole == models.RolePatient {
-		var patient models.Patient
-		if err := s.db.Where("user_id = ?", userID).First(&patient).Error; err != nil {
-			return nil, ErrUnauthorized
-		}
-		query = query.Where("patient_id = ?", patient.ID)
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return nil, err
 	}
+
+	// If no selected patient, cannot access any prescription
+	if user.SelectedPatientID == nil {
+		return nil, ErrPrescriptionNotFound
+	}
+
+	// ALWAYS filter by selectedPatient (all roles including admin)
+	var prescription models.Prescription
+	query := s.db.Where("id = ?", prescriptionID).Where("patient_id = ?", *user.SelectedPatientID)
 
 	if err := query.First(&prescription).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -115,19 +140,21 @@ func (s *PrescriptionService) GetByID(prescriptionID, userID uuid.UUID, userRole
 
 // List lista prescrições com filtros
 func (s *PrescriptionService) List(userID uuid.UUID, userRole models.UserRole, patientID *uuid.UUID, status *models.PrescriptionStatus, limit, offset int) ([]dto.PrescriptionResponse, error) {
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+
+	// If no selected patient, return empty list (security measure)
+	if user.SelectedPatientID == nil {
+		return []dto.PrescriptionResponse{}, nil
+	}
+
+	// ALWAYS filter by selectedPatient (all roles including admin)
 	var prescriptions []models.Prescription
 	query := s.db.Limit(limit).Offset(offset).Order("prescription_date DESC")
-
-	// Pacientes só podem ver suas próprias prescrições
-	if userRole == models.RolePatient {
-		var patient models.Patient
-		if err := s.db.Where("user_id = ?", userID).First(&patient).Error; err != nil {
-			return nil, ErrUnauthorized
-		}
-		query = query.Where("patient_id = ?", patient.ID)
-	} else if patientID != nil {
-		query = query.Where("patient_id = ?", *patientID)
-	}
+	query = query.Where("patient_id = ?", *user.SelectedPatientID)
 
 	// Filtro por status
 	if status != nil {

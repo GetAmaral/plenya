@@ -33,6 +33,22 @@ type ScoreLevel struct {
 	// @example between
 	Operator string `gorm:"type:varchar(10);not null;check:operator IN ('=','>','>=','<','<=','between');default:'between'" json:"operator" validate:"required,oneof== > >= < <= between"`
 
+	// Relevância clínica - explicação técnica para profissionais de saúde
+	// @example FEVE entre 55-70% indica função cardíaca normal. Redução abaixo de 50% sugere disfunção sistólica leve, com risco aumentado de insuficiência cardíaca
+	ClinicalRelevance *string `gorm:"type:text" json:"clinicalRelevance,omitempty"`
+
+	// Explicação para o paciente - linguagem simples e acessível
+	// @example Seu coração está bombeando sangue de forma eficiente. Este é um resultado normal e saudável
+	PatientExplanation *string `gorm:"type:text" json:"patientExplanation,omitempty"`
+
+	// Conduta clínica recomendada
+	// @example Manter acompanhamento regular. Otimizar controle de fatores de risco cardiovascular (pressão arterial, diabetes, colesterol). Considerar ecocardiograma de controle em 12 meses
+	Conduct *string `gorm:"type:text" json:"conduct,omitempty"`
+
+	// Data da última revisão dos campos clínicos
+	// @example 2026-01-25T10:30:00Z
+	LastReview *time.Time `gorm:"type:timestamp" json:"lastReview,omitempty"`
+
 	// Foreign Keys
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	ItemID uuid.UUID `gorm:"type:uuid;not null;index:idx_score_level_item" json:"itemId" validate:"required"`
@@ -55,6 +71,18 @@ func (ScoreLevel) TableName() string {
 func (sl *ScoreLevel) BeforeCreate(tx *gorm.DB) error {
 	if sl.ID == uuid.Nil {
 		sl.ID = uuid.Must(uuid.NewV7())
+	}
+	return nil
+}
+
+// BeforeUpdate hook to update LastReview when clinical fields change
+func (sl *ScoreLevel) BeforeUpdate(tx *gorm.DB) error {
+	// Check if any clinical field was changed
+	if tx.Statement.Changed("ClinicalRelevance") ||
+		tx.Statement.Changed("PatientExplanation") ||
+		tx.Statement.Changed("Conduct") {
+		now := time.Now()
+		sl.LastReview = &now
 	}
 	return nil
 }

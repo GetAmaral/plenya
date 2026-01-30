@@ -94,6 +94,18 @@ type LabTestDefinition struct {
 	// Indicações clínicas principais
 	ClinicalIndications *string `gorm:"type:text" json:"clinicalIndications,omitempty"`
 
+	// Significância clínica detalhada (200-400 palavras)
+	// Mecanismos fisiológicos, aplicações clínicas, interpretação de valores alterados
+	ClinicalSignificance *string `gorm:"type:text" json:"clinicalSignificance,omitempty"`
+
+	// Contexto de longevidade (100-200 palavras)
+	// Relação com envelhecimento saudável, marcadores de longevidade, implicações preventivas
+	LongevityContext *string `gorm:"type:text" json:"longevityContext,omitempty"`
+
+	// Recomendações clínicas (150-300 palavras)
+	// Quando solicitar, interpretação de resultados, fatores que afetam valores, intervenções
+	ClinicalRecommendations *string `gorm:"type:text" json:"clinicalRecommendations,omitempty"`
+
 	// Ordem de exibição (para organizar parâmetros de um exame)
 	DisplayOrder int `gorm:"type:integer;not null;default:0" json:"displayOrder"`
 

@@ -28,6 +28,22 @@ type ScoreItem struct {
 	// @example 1 g/dL = 10 g/L
 	UnitConversion *string `gorm:"type:text" json:"unitConversion,omitempty"`
 
+	// Relevância clínica - explicação técnica para profissionais de saúde
+	// @example Valores baixos de hemoglobina indicam anemia, que pode estar associada a fadiga, redução da capacidade funcional e aumento do risco cardiovascular
+	ClinicalRelevance *string `gorm:"type:text" json:"clinicalRelevance,omitempty"`
+
+	// Explicação para o paciente - linguagem simples e acessível
+	// @example Hemoglobina é a proteína que transporta oxigênio no sangue. Valores baixos podem causar cansaço e falta de ar
+	PatientExplanation *string `gorm:"type:text" json:"patientExplanation,omitempty"`
+
+	// Conduta clínica recomendada
+	// @example Investigar causa da anemia (deficiência de ferro, B12, folato, doença crônica). Suplementação conforme indicação. Encaminhar ao hematologista se Hb < 10 g/dL ou causa não esclarecida
+	Conduct *string `gorm:"type:text" json:"conduct,omitempty"`
+
+	// Data da última revisão dos campos clínicos ou artigos associados
+	// @example 2026-01-25T10:30:00Z
+	LastReview *time.Time `gorm:"type:timestamp" json:"lastReview,omitempty"`
+
 	// @minimum 0
 	// @maximum 100
 	// @example 20
@@ -52,6 +68,10 @@ type ScoreItem struct {
 	ChildItems []ScoreItem    `gorm:"foreignKey:ParentItemID;constraint:OnDelete:SET NULL" json:"childItems,omitempty"`
 	Levels     []ScoreLevel   `gorm:"foreignKey:ItemID;constraint:OnDelete:CASCADE" json:"levels,omitempty"`
 
+	// Many-to-many relationship with Articles
+	// @items.type object
+	Articles []Article `gorm:"many2many:article_score_items;" json:"articles,omitempty"`
+
 	// Timestamps
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
@@ -67,6 +87,18 @@ func (ScoreItem) TableName() string {
 func (si *ScoreItem) BeforeCreate(tx *gorm.DB) error {
 	if si.ID == uuid.Nil {
 		si.ID = uuid.Must(uuid.NewV7())
+	}
+	return nil
+}
+
+// BeforeUpdate hook to update LastReview when clinical fields change
+func (si *ScoreItem) BeforeUpdate(tx *gorm.DB) error {
+	// Check if any clinical field was changed
+	if tx.Statement.Changed("ClinicalRelevance") ||
+		tx.Statement.Changed("PatientExplanation") ||
+		tx.Statement.Changed("Conduct") {
+		now := time.Now()
+		si.LastReview = &now
 	}
 	return nil
 }

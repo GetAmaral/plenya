@@ -25,10 +25,32 @@ func NewLabResultService(db *gorm.DB) *LabResultService {
 
 // Create cria um novo resultado de exame
 func (s *LabResultService) Create(doctorID uuid.UUID, req *dto.CreateLabResultRequest) (*dto.LabResultResponse, error) {
-	// Parse patient ID
-	patientID, err := uuid.Parse(req.PatientID)
-	if err != nil {
-		return nil, errors.New("invalid patient id")
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, doctorID).Error; err != nil {
+		return nil, err
+	}
+
+	// If no selected patient, cannot create lab result
+	if user.SelectedPatientID == nil {
+		return nil, errors.New("no patient selected - please select a patient first")
+	}
+
+	// Parse patient ID from request
+	var patientID uuid.UUID
+	if req.PatientID != "" {
+		pid, err := uuid.Parse(req.PatientID)
+		if err != nil {
+			return nil, errors.New("invalid patient id")
+		}
+		// SECURITY: Validate that patientID matches selectedPatient
+		if pid != *user.SelectedPatientID {
+			return nil, errors.New("patient id does not match selected patient")
+		}
+		patientID = pid
+	} else {
+		// Auto-fill with selectedPatient
+		patientID = *user.SelectedPatientID
 	}
 
 	// Verificar se paciente existe
@@ -78,17 +100,20 @@ func (s *LabResultService) Create(doctorID uuid.UUID, req *dto.CreateLabResultRe
 
 // GetByID busca um resultado de exame por ID
 func (s *LabResultService) GetByID(labResultID, userID uuid.UUID, userRole models.UserRole) (*dto.LabResultResponse, error) {
-	var labResult models.LabResult
-	query := s.db.Where("id = ?", labResultID)
-
-	// Pacientes só podem ver seus próprios resultados
-	if userRole == models.RolePatient {
-		var patient models.Patient
-		if err := s.db.Where("user_id = ?", userID).First(&patient).Error; err != nil {
-			return nil, ErrUnauthorized
-		}
-		query = query.Where("patient_id = ?", patient.ID)
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return nil, err
 	}
+
+	// If no selected patient, cannot access any lab result
+	if user.SelectedPatientID == nil {
+		return nil, ErrLabResultNotFound
+	}
+
+	// ALWAYS filter by selectedPatient (all roles including admin)
+	var labResult models.LabResult
+	query := s.db.Where("id = ?", labResultID).Where("patient_id = ?", *user.SelectedPatientID)
 
 	if err := query.First(&labResult).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -102,25 +127,21 @@ func (s *LabResultService) GetByID(labResultID, userID uuid.UUID, userRole model
 
 // List lista resultados de exames com filtros
 func (s *LabResultService) List(userID uuid.UUID, userRole models.UserRole, patientID *uuid.UUID, limit, offset int) ([]dto.LabResultResponse, error) {
-	var labResults []models.LabResult
-	query := s.db.Limit(limit).Offset(offset).Order("ordered_at DESC")
-
-	// Filtros baseados em role
-	if userRole == models.RolePatient {
-		var patient models.Patient
-		if err := s.db.Where("user_id = ?", userID).First(&patient).Error; err != nil {
-			return nil, ErrUnauthorized
-		}
-		query = query.Where("patient_id = ?", patient.ID)
-	} else if userRole == models.RoleDoctor {
-		// Doctors veem seus próprios exames solicitados
-		query = query.Where("doctor_id = ?", userID)
-	} else {
-		// Admin/Nurse podem filtrar por paciente
-		if patientID != nil {
-			query = query.Where("patient_id = ?", *patientID)
-		}
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return nil, err
 	}
+
+	// If no selected patient, return empty list (security measure)
+	if user.SelectedPatientID == nil {
+		return []dto.LabResultResponse{}, nil
+	}
+
+	// ALWAYS filter by selectedPatient (all roles including admin)
+	var labResults []models.LabResult
+	query := s.db.Limit(limit).Offset(offset).Order("request_date DESC")
+	query = query.Where("patient_id = ?", *user.SelectedPatientID)
 
 	if err := query.Find(&labResults).Error; err != nil {
 		return nil, err

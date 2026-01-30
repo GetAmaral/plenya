@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"mime/multipart"
 	"strconv"
 	"time"
@@ -515,4 +516,147 @@ func (h *ArticleHandler) DownloadPDF(c *fiber.Ctx) error {
 
 	// Retornar arquivo
 	return c.SendFile(*article.InternalLink)
+}
+
+// AddScoreItemsToArticle godoc
+// @Summary Adicionar itens de escore a um artigo
+// @Description Cria associação many-to-many entre artigo e itens de escore
+// @Tags articles
+// @Accept json
+// @Produce json
+// @Param id path string true "ID do artigo"
+// @Param scoreItemIds body []string true "Array de IDs dos itens de escore"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Security BearerAuth
+// @Router /articles/{id}/score-items [post]
+func (h *ArticleHandler) AddScoreItemsToArticle(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	articleID, err := uuid.Parse(idParam)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "ID inválido",
+		})
+	}
+
+	var request struct {
+		ScoreItemIDs []string `json:"scoreItemIds" validate:"required,min=1"`
+	}
+
+	if err := c.BodyParser(&request); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Dados inválidos",
+		})
+	}
+
+	// Converter strings para UUIDs
+	scoreItemIDs := make([]uuid.UUID, len(request.ScoreItemIDs))
+	for i, idStr := range request.ScoreItemIDs {
+		id, err := uuid.Parse(idStr)
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": fmt.Sprintf("ID inválido: %s", idStr),
+			})
+		}
+		scoreItemIDs[i] = id
+	}
+
+	if err := h.service.AddScoreItemsToArticle(articleID, scoreItemIDs); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Erro ao adicionar itens de escore: " + err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Itens de escore adicionados com sucesso",
+	})
+}
+
+// RemoveScoreItemsFromArticle godoc
+// @Summary Remover itens de escore de um artigo
+// @Description Remove associação many-to-many entre artigo e itens de escore
+// @Tags articles
+// @Accept json
+// @Produce json
+// @Param id path string true "ID do artigo"
+// @Param scoreItemIds body []string true "Array de IDs dos itens de escore"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Security BearerAuth
+// @Router /articles/{id}/score-items [delete]
+func (h *ArticleHandler) RemoveScoreItemsFromArticle(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	articleID, err := uuid.Parse(idParam)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "ID inválido",
+		})
+	}
+
+	var request struct {
+		ScoreItemIDs []string `json:"scoreItemIds" validate:"required,min=1"`
+	}
+
+	if err := c.BodyParser(&request); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Dados inválidos",
+		})
+	}
+
+	// Converter strings para UUIDs
+	scoreItemIDs := make([]uuid.UUID, len(request.ScoreItemIDs))
+	for i, idStr := range request.ScoreItemIDs {
+		id, err := uuid.Parse(idStr)
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": fmt.Sprintf("ID inválido: %s", idStr),
+			})
+		}
+		scoreItemIDs[i] = id
+	}
+
+	if err := h.service.RemoveScoreItemsFromArticle(articleID, scoreItemIDs); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Erro ao remover itens de escore: " + err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Itens de escore removidos com sucesso",
+	})
+}
+
+// GetScoreItemsForArticle godoc
+// @Summary Listar itens de escore de um artigo
+// @Description Retorna todos os itens de escore associados a um artigo
+// @Tags articles
+// @Produce json
+// @Param id path string true "ID do artigo"
+// @Success 200 {array} models.ScoreItem
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Security BearerAuth
+// @Router /articles/{id}/score-items [get]
+func (h *ArticleHandler) GetScoreItemsForArticle(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	articleID, err := uuid.Parse(idParam)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "ID inválido",
+		})
+	}
+
+	scoreItems, err := h.service.GetScoreItemsForArticle(articleID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Erro ao buscar itens de escore: " + err.Error(),
+		})
+	}
+
+	return c.JSON(scoreItems)
 }

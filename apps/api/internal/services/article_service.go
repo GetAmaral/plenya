@@ -303,7 +303,7 @@ func (s *ArticleService) UploadPDF(fileReader io.Reader, filename string, userID
 
 	// Criar artigo no banco de dados
 	fileSize := int64(len(fileBytes))
-	internalLink := "/uploads/articles/" + newFilename
+	internalLink := "./uploads/articles/" + newFilename
 
 	// Valores padrão se extração falhar
 	title := metadata.Title
@@ -493,4 +493,29 @@ func (s *ArticleService) SearchArticles(query string, page, pageSize int) ([]*mo
 // UpdateLastAccessed atualiza o timestamp de último acesso
 func (s *ArticleService) UpdateLastAccessed(id uuid.UUID) error {
 	return s.repo.UpdateLastAccessed(id)
+}
+
+// AddScoreItemsToArticle adiciona itens de escore a um artigo (many-to-many)
+func (s *ArticleService) AddScoreItemsToArticle(articleID uuid.UUID, scoreItemIDs []uuid.UUID) error {
+	if err := s.repo.AddScoreItems(articleID, scoreItemIDs); err != nil {
+		return err
+	}
+
+	// Atualizar LastReview dos ScoreItems afetados
+	return s.repo.UpdateScoreItemsLastReview(scoreItemIDs)
+}
+
+// RemoveScoreItemsFromArticle remove itens de escore de um artigo (many-to-many)
+func (s *ArticleService) RemoveScoreItemsFromArticle(articleID uuid.UUID, scoreItemIDs []uuid.UUID) error {
+	if err := s.repo.RemoveScoreItems(articleID, scoreItemIDs); err != nil {
+		return err
+	}
+
+	// Atualizar LastReview dos ScoreItems afetados
+	return s.repo.UpdateScoreItemsLastReview(scoreItemIDs)
+}
+
+// GetScoreItemsForArticle retorna todos os itens de escore associados a um artigo
+func (s *ArticleService) GetScoreItemsForArticle(articleID uuid.UUID) ([]models.ScoreItem, error) {
+	return s.repo.GetScoreItemsForArticle(articleID)
 }

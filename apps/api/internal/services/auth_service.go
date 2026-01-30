@@ -178,3 +178,88 @@ func (s *AuthService) validateToken(tokenString string) (*JWTClaims, error) {
 
 	return nil, ErrInvalidToken
 }
+
+// GetUserByID busca um usuário por ID incluindo paciente selecionado
+func (s *AuthService) GetUserByID(userID uuid.UUID) (*dto.UserDTO, error) {
+	var user models.User
+	if err := s.db.Preload("SelectedPatient").First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+
+	return s.userToDTO(&user), nil
+}
+
+// UpdateSelectedPatient atualiza o paciente selecionado do usuário
+func (s *AuthService) UpdateSelectedPatient(userID, patientID uuid.UUID) (*dto.UserDTO, error) {
+	// Verificar se paciente existe (Select apenas ID para evitar carregar relações)
+	var exists bool
+	if err := s.db.Model(&models.Patient{}).
+		Select("1").
+		Where("id = ?", patientID).
+		Where("deleted_at IS NULL").
+		Limit(1).
+		Find(&exists).Error; err != nil {
+		return nil, err
+	}
+
+	// Se não encontrou o paciente
+	var count int64
+	if err := s.db.Model(&models.Patient{}).
+		Where("id = ?", patientID).
+		Where("deleted_at IS NULL").
+		Count(&count).Error; err != nil {
+		return nil, err
+	}
+
+	if count == 0 {
+		return nil, ErrPatientNotFound
+	}
+
+	// Atualizar usuário usando UpdateColumn para evitar hooks de validação
+	if err := s.db.Model(&models.User{}).Where("id = ?", userID).UpdateColumn("selected_patient_id", patientID).Error; err != nil {
+		return nil, err
+	}
+
+	// Buscar usuário atualizado com relação
+	return s.GetUserByID(userID)
+}
+
+// userToDTO converte User para UserDTO incluindo selectedPatient
+func (s *AuthService) userToDTO(user *models.User) *dto.UserDTO {
+	userDTO := &dto.UserDTO{
+		ID:               user.ID.String(),
+		Email:            user.Email,
+		Role:             user.Role,
+		TwoFactorEnabled: user.TwoFactorEnabled,
+		CreatedAt:        user.CreatedAt.Format(time.RFC3339),
+	}
+
+	// Adicionar selectedPatientId se existir
+	if user.SelectedPatientID != nil {
+		selectedPatientIDStr := user.SelectedPatientID.String()
+		userDTO.SelectedPatientID = &selectedPatientIDStr
+	}
+
+	// Adicionar selectedPatient se foi carregado
+	if user.SelectedPatient != nil {
+		userDTO.SelectedPatient = &dto.PatientResponse{
+			ID:           user.SelectedPatient.ID.String(),
+			UserID:       user.SelectedPatient.UserID.String(),
+			Name:         user.SelectedPatient.Name,
+			BirthDate:    user.SelectedPatient.BirthDate.Format("2006-01-02"),
+			Gender:       user.SelectedPatient.Gender,
+			Phone:        user.SelectedPatient.Phone,
+			Address:      user.SelectedPatient.Address,
+			Municipality: user.SelectedPatient.Municipality,
+			State:        user.SelectedPatient.State,
+			MotherName:   user.SelectedPatient.MotherName,
+			FatherName:   user.SelectedPatient.FatherName,
+			Height:       user.SelectedPatient.Height,
+			Weight:       user.SelectedPatient.Weight,
+			CreatedAt:    user.SelectedPatient.CreatedAt.Format(time.RFC3339),
+			UpdatedAt:    user.SelectedPatient.UpdatedAt.Format(time.RFC3339),
+		}
+	}
+
+	return userDTO
+}

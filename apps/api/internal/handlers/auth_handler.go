@@ -2,11 +2,14 @@ package handlers
 
 import (
 	"errors"
+	"log"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 
 	"github.com/plenya/api/internal/dto"
+	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/services"
 )
 
@@ -174,6 +177,90 @@ func (h *AuthHandler) Logout(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "logged out successfully",
 	})
+}
+
+// GetMe godoc
+// @Summary Get current user
+// @Description Retorna informações do usuário autenticado incluindo paciente selecionado
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} dto.UserDTO
+// @Failure 401 {object} dto.ErrorResponse
+// @Router /users/me [get]
+func (h *AuthHandler) GetMe(c *fiber.Ctx) error {
+	userID := middleware.GetUserID(c)
+
+	user, err := h.authService.GetUserByID(userID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(user)
+}
+
+// UpdateSelectedPatient godoc
+// @Summary Update selected patient
+// @Description Atualiza o paciente selecionado para o usuário autenticado
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body dto.UpdateSelectedPatientRequest true "Patient ID"
+// @Success 200 {object} dto.UserDTO
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Router /users/me/selected-patient [put]
+func (h *AuthHandler) UpdateSelectedPatient(c *fiber.Ctx) error {
+	var req dto.UpdateSelectedPatientRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid request body",
+			Message: err.Error(),
+		})
+	}
+
+	// Validar request
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+
+	// Parse patient ID
+	patientID, err := uuid.Parse(req.PatientID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid patient id",
+			Message: "patient id must be a valid UUID",
+		})
+	}
+
+	userID := middleware.GetUserID(c)
+
+	user, err := h.authService.UpdateSelectedPatient(userID, patientID)
+	if err != nil {
+		// Log the error for debugging
+		log.Printf("[ERROR] UpdateSelectedPatient failed: %v", err)
+
+		if errors.Is(err, services.ErrPatientNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error:   "patient not found",
+				Message: "no patient found with the given id",
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(user)
 }
 
 // formatValidationErrors formata erros de validação

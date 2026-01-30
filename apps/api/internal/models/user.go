@@ -41,6 +41,10 @@ type User struct {
 	// Secret do 2FA (nunca exposto no JSON)
 	TwoFactorSecret string `gorm:"type:text" json:"-"`
 
+	// ID do paciente selecionado (contexto atual de trabalho)
+	// @example 550e8400-e29b-41d4-a716-446655440000
+	SelectedPatientID *uuid.UUID `gorm:"type:uuid;index" json:"selectedPatientId,omitempty"`
+
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 
@@ -49,6 +53,9 @@ type User struct {
 
 	// Data de deleção (soft delete)
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
+
+	// Relações
+	SelectedPatient *Patient `gorm:"foreignKey:SelectedPatientID;constraint:OnDelete:SET NULL" json:"selectedPatient,omitempty"`
 }
 
 // TableName especifica o nome da tabela

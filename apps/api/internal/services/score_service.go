@@ -3,6 +3,7 @@ package services
 import (
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -62,11 +63,15 @@ type CreateScoreItemDTO struct {
 
 // UpdateScoreItemDTO represents the request to update a score item
 type UpdateScoreItemDTO struct {
-	Name           *string  `json:"name,omitempty" validate:"omitempty,min=2,max=300"`
-	Unit           *string  `json:"unit,omitempty" validate:"omitempty,max=50"`
-	UnitConversion *string  `json:"unitConversion,omitempty"`
-	Points         *float64 `json:"points,omitempty" validate:"omitempty,gte=0,lte=100"`
-	Order          *int     `json:"order,omitempty" validate:"omitempty,gte=0,lte=9999"`
+	Name               *string     `json:"name,omitempty" validate:"omitempty,min=2,max=300"`
+	Unit               *string     `json:"unit,omitempty" validate:"omitempty,max=50"`
+	UnitConversion     *string     `json:"unitConversion,omitempty"`
+	Points             *float64    `json:"points,omitempty" validate:"omitempty,gte=0,lte=100"`
+	Order              *int        `json:"order,omitempty" validate:"omitempty,gte=0,lte=9999"`
+	ClinicalRelevance  *string     `json:"clinicalRelevance,omitempty"`
+	PatientExplanation *string     `json:"patientExplanation,omitempty"`
+	Conduct            *string     `json:"conduct,omitempty"`
+	LastReview         *time.Time  `json:"lastReview,omitempty"`
 }
 
 // CreateScoreLevelDTO represents the request to create a score level
@@ -329,6 +334,18 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 	}
 	if dto.Order != nil {
 		item.Order = *dto.Order
+	}
+	if dto.ClinicalRelevance != nil {
+		item.ClinicalRelevance = dto.ClinicalRelevance
+	}
+	if dto.PatientExplanation != nil {
+		item.PatientExplanation = dto.PatientExplanation
+	}
+	if dto.Conduct != nil {
+		item.Conduct = dto.Conduct
+	}
+	if dto.LastReview != nil {
+		item.LastReview = dto.LastReview
 	}
 
 	if err := s.repo.UpdateScoreItem(item); err != nil {
