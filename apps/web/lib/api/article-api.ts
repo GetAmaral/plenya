@@ -239,6 +239,19 @@ export const articleApi = {
   getDownloadUrl: (id: string): string => {
     return `${process.env.NEXT_PUBLIC_API_URL}/api/v1/articles/${id}/download`
   },
+
+  // Score Items management
+  addScoreItems: async (id: string, scoreItemIds: string[]): Promise<void> => {
+    return apiClient.post(`/api/v1/articles/${id}/score-items`, { scoreItemIds })
+  },
+
+  removeScoreItems: async (id: string, scoreItemIds: string[]): Promise<void> => {
+    return apiClient.delete(`/api/v1/articles/${id}/score-items`, { scoreItemIds })
+  },
+
+  getScoreItems: async (id: string): Promise<ScoreItem[]> => {
+    return apiClient.get<ScoreItem[]>(`/api/v1/articles/${id}/score-items`)
+  },
 }
 
 // React Query Hooks
@@ -358,3 +371,29 @@ export function useSetRating() {
     },
   })
 }
+
+// Manage Score Items
+export function useAddScoreItems() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, scoreItemIds }: { id: string; scoreItemIds: string[] }) =>
+      articleApi.addScoreItems(id, scoreItemIds),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["articles", variables.id] })
+    },
+  })
+}
+
+export function useRemoveScoreItems() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, scoreItemIds }: { id: string; scoreItemIds: string[] }) =>
+      articleApi.removeScoreItems(id, scoreItemIds),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["articles", variables.id] })
+    },
+  })
+}
+
