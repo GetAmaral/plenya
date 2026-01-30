@@ -9,6 +9,10 @@ export interface ScoreLevel {
   lowerLimit?: string
   upperLimit?: string
   operator: '=' | '>' | '>=' | '<' | '<=' | 'between'
+  clinicalRelevance?: string
+  patientExplanation?: string
+  conduct?: string
+  lastReview?: string
   itemId: string
   createdAt: string
   updatedAt: string
@@ -19,6 +23,10 @@ export interface ScoreItem {
   name: string
   unit?: string
   unitConversion?: string
+  clinicalRelevance?: string
+  patientExplanation?: string
+  conduct?: string
+  lastReview?: string
   points: number
   order: number
   subgroupId: string
@@ -74,6 +82,9 @@ export interface CreateScoreItemDTO {
   name: string
   unit?: string
   unitConversion?: string
+  clinicalRelevance?: string
+  patientExplanation?: string
+  conduct?: string
   points: number
   subgroupId: string
   parentItemId?: string
@@ -84,6 +95,9 @@ export interface UpdateScoreItemDTO {
   name?: string
   unit?: string
   unitConversion?: string
+  clinicalRelevance?: string
+  patientExplanation?: string
+  conduct?: string
   points?: number
   order?: number
 }
@@ -94,6 +108,9 @@ export interface CreateScoreLevelDTO {
   lowerLimit?: string
   upperLimit?: string
   operator: '=' | '>' | '>=' | '<' | '<=' | 'between'
+  clinicalRelevance?: string
+  patientExplanation?: string
+  conduct?: string
   itemId: string
 }
 
@@ -103,6 +120,9 @@ export interface UpdateScoreLevelDTO {
   lowerLimit?: string
   upperLimit?: string
   operator?: '=' | '>' | '>=' | '<' | '<=' | 'between'
+  clinicalRelevance?: string
+  patientExplanation?: string
+  conduct?: string
 }
 
 // Query keys

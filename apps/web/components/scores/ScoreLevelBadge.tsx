@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
-import { Edit, Trash2 } from 'lucide-react'
+import { Edit, Trash2, Calendar } from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,
@@ -17,6 +17,8 @@ import {
   ContextMenuSeparator,
 } from '@/components/ui/context-menu'
 import { ScoreLevel } from '@/lib/api/score-api'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 interface ScoreLevelBadgeProps {
   level: ScoreLevel
@@ -139,8 +141,8 @@ export function ScoreLevelBadge({
         <TooltipTrigger asChild>
           <div>{badge}</div>
         </TooltipTrigger>
-        <TooltipContent className="max-w-xs">
-          <div className="space-y-1">
+        <TooltipContent className="max-w-md">
+          <div className="space-y-2">
             <p className="font-semibold">
               Nível {level.level}: {style.label}
             </p>
@@ -160,6 +162,31 @@ export function ScoreLevelBadge({
                   ? `≤ ${level.upperLimit || level.lowerLimit}`
                   : `${level.lowerLimit || ''} ${level.upperLimit || ''}`}
               </p>
+            )}
+            {level.lastReview && (
+              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <Calendar className="h-3 w-3" />
+                <span>Revisado em {format(new Date(level.lastReview), "dd/MM/yyyy", { locale: ptBR })}</span>
+              </div>
+            )}
+            {level.patientExplanation && (
+              <div className="pt-1 border-t">
+                <p className="text-xs text-muted-foreground">
+                  {level.patientExplanation.length > 150
+                    ? `${level.patientExplanation.substring(0, 150)}...`
+                    : level.patientExplanation}
+                </p>
+              </div>
+            )}
+            {level.clinicalRelevance && (
+              <div className="pt-1 border-t">
+                <p className="text-xs font-medium mb-0.5">Relevância Clínica:</p>
+                <p className="text-xs text-muted-foreground">
+                  {level.clinicalRelevance.length > 150
+                    ? `${level.clinicalRelevance.substring(0, 150)}...`
+                    : level.clinicalRelevance}
+                </p>
+              </div>
             )}
           </div>
         </TooltipContent>

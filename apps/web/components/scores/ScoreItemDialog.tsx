@@ -51,6 +51,9 @@ export function ScoreItemDialog({
       name: item?.name || '',
       unit: item?.unit || '',
       unitConversion: item?.unitConversion || '',
+      clinicalRelevance: item?.clinicalRelevance || '',
+      patientExplanation: item?.patientExplanation || '',
+      conduct: item?.conduct || '',
       points: item?.points || 0,
       order: item?.order || 0,
       subgroupId: subgroupId,
@@ -64,6 +67,9 @@ export function ScoreItemDialog({
         name: item.name,
         unit: item.unit || '',
         unitConversion: item.unitConversion || '',
+        clinicalRelevance: item.clinicalRelevance || '',
+        patientExplanation: item.patientExplanation || '',
+        conduct: item.conduct || '',
         points: item.points,
         order: item.order,
         subgroupId: item.subgroupId,
@@ -73,6 +79,9 @@ export function ScoreItemDialog({
         name: '',
         unit: '',
         unitConversion: '',
+        clinicalRelevance: '',
+        patientExplanation: '',
+        conduct: '',
         points: 0,
         order: 0,
         subgroupId: subgroupId,
@@ -87,6 +96,9 @@ export function ScoreItemDialog({
         ...data,
         unit: data.unit || undefined,
         unitConversion: data.unitConversion || undefined,
+        clinicalRelevance: data.clinicalRelevance || undefined,
+        patientExplanation: data.patientExplanation || undefined,
+        conduct: data.conduct || undefined,
       }
 
       if (isEditing) {
@@ -96,6 +108,9 @@ export function ScoreItemDialog({
             name: payload.name,
             unit: payload.unit,
             unitConversion: payload.unitConversion,
+            clinicalRelevance: payload.clinicalRelevance,
+            patientExplanation: payload.patientExplanation,
+            conduct: payload.conduct,
             points: payload.points,
             order: payload.order,
           } as UpdateScoreItemDTO,
@@ -234,6 +249,51 @@ export function ScoreItemDialog({
             <p className="text-xs text-muted-foreground">
               Deixe 0 para ordenação automática
             </p>
+          </div>
+
+          <div className="border-t pt-4 space-y-4">
+            <h3 className="text-sm font-semibold text-muted-foreground">
+              Informações Clínicas (Opcional)
+            </h3>
+
+            <div className="space-y-2">
+              <Label htmlFor="clinicalRelevance">Relevância Clínica</Label>
+              <Textarea
+                id="clinicalRelevance"
+                placeholder="Explicação técnica para profissionais de saúde..."
+                rows={3}
+                {...register('clinicalRelevance')}
+              />
+              <p className="text-xs text-muted-foreground">
+                Explicação técnica da relevância clínica deste parâmetro
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="patientExplanation">Explicação para o Paciente</Label>
+              <Textarea
+                id="patientExplanation"
+                placeholder="Explicação em linguagem simples e acessível..."
+                rows={3}
+                {...register('patientExplanation')}
+              />
+              <p className="text-xs text-muted-foreground">
+                Explicação em linguagem simples para o paciente entender
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="conduct">Conduta Clínica</Label>
+              <Textarea
+                id="conduct"
+                placeholder="Orientações de conduta clínica recomendada..."
+                rows={3}
+                {...register('conduct')}
+              />
+              <p className="text-xs text-muted-foreground">
+                Orientações de conduta clínica baseadas em evidências
+              </p>
+            </div>
           </div>
 
           <DialogFooter>

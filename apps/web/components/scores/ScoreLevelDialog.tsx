@@ -85,6 +85,9 @@ export function ScoreLevelDialog({
       lowerLimit: level?.lowerLimit || '',
       upperLimit: level?.upperLimit || '',
       operator: level?.operator || 'between',
+      clinicalRelevance: level?.clinicalRelevance || '',
+      patientExplanation: level?.patientExplanation || '',
+      conduct: level?.conduct || '',
       itemId: itemId,
     },
   })
@@ -100,6 +103,9 @@ export function ScoreLevelDialog({
         lowerLimit: level.lowerLimit || '',
         upperLimit: level.upperLimit || '',
         operator: level.operator,
+        clinicalRelevance: level.clinicalRelevance || '',
+        patientExplanation: level.patientExplanation || '',
+        conduct: level.conduct || '',
         itemId: level.itemId,
       })
       setSelectedOperator(level.operator)
@@ -110,6 +116,9 @@ export function ScoreLevelDialog({
         lowerLimit: '',
         upperLimit: '',
         operator: 'between',
+        clinicalRelevance: '',
+        patientExplanation: '',
+        conduct: '',
         itemId: itemId,
       })
       setSelectedOperator('between')
@@ -123,6 +132,9 @@ export function ScoreLevelDialog({
         ...data,
         lowerLimit: data.lowerLimit || undefined,
         upperLimit: data.upperLimit || undefined,
+        clinicalRelevance: data.clinicalRelevance || undefined,
+        patientExplanation: data.patientExplanation || undefined,
+        conduct: data.conduct || undefined,
       }
 
       if (isEditing) {
@@ -134,6 +146,9 @@ export function ScoreLevelDialog({
             lowerLimit: payload.lowerLimit,
             upperLimit: payload.upperLimit,
             operator: payload.operator,
+            clinicalRelevance: payload.clinicalRelevance,
+            patientExplanation: payload.patientExplanation,
+            conduct: payload.conduct,
           } as UpdateScoreLevelDTO,
         })
         toast.success('Nível atualizado com sucesso')
@@ -277,6 +292,51 @@ export function ScoreLevelDialog({
               </p>
             </div>
           )}
+
+          <div className="border-t pt-4 space-y-4">
+            <h3 className="text-sm font-semibold text-muted-foreground">
+              Informações Clínicas (Opcional)
+            </h3>
+
+            <div className="space-y-2">
+              <Label htmlFor="clinicalRelevance">Relevância Clínica</Label>
+              <Textarea
+                id="clinicalRelevance"
+                placeholder="Explicação técnica para profissionais de saúde sobre este nível..."
+                rows={3}
+                {...register('clinicalRelevance')}
+              />
+              <p className="text-xs text-muted-foreground">
+                Explicação técnica da relevância clínica deste nível de risco
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="patientExplanation">Explicação para o Paciente</Label>
+              <Textarea
+                id="patientExplanation"
+                placeholder="Explicação em linguagem simples sobre o que este resultado significa..."
+                rows={3}
+                {...register('patientExplanation')}
+              />
+              <p className="text-xs text-muted-foreground">
+                Explicação em linguagem simples para o paciente entender este resultado
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="conduct">Conduta Clínica</Label>
+              <Textarea
+                id="conduct"
+                placeholder="Orientações de conduta para este nível de resultado..."
+                rows={3}
+                {...register('conduct')}
+              />
+              <p className="text-xs text-muted-foreground">
+                Orientações de conduta clínica recomendada para este nível
+              </p>
+            </div>
+          </div>
 
           <DialogFooter>
             <Button

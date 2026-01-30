@@ -13,6 +13,9 @@ import {
   LogOut,
   Stethoscope,
   Network,
+  BookOpen,
+  ClipboardList,
+  LayoutTemplate,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -26,7 +29,10 @@ const navigation = [
   { name: "Anamnesis", href: "/anamnesis", icon: Stethoscope },
   { name: "Prescrições", href: "/prescriptions", icon: FileText },
   { name: "Exames", href: "/lab-results", icon: Microscope },
+  { name: "Pedidos de Exames", href: "/lab-requests", icon: ClipboardList },
+  { name: "Templates de Exames", href: "/lab-request-templates", icon: LayoutTemplate },
   { name: "Escores", href: "/scores", icon: Network },
+  { name: "Artigos", href: "/articles", icon: BookOpen },
 ];
 
 export function Sidebar() {
