@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -38,11 +39,14 @@ func (h *LabRequestTemplateHandler) CreateLabRequestTemplate(c *fiber.Ctx) error
 		})
 	}
 
+	// Set IsActive to true by default (BodyParser sets to false if not provided)
+	template.IsActive = true
+
 	if err := h.service.CreateLabRequestTemplate(&template); err != nil {
 		// Check if it's a duplicate key error (unique constraint violation)
 		if strings.Contains(err.Error(), "duplicate key") || strings.Contains(err.Error(), "SQLSTATE 23505") {
 			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
-				Error: "Já existe um template com este nome",
+				Error: fmt.Sprintf("Já existe um template com o nome '%s'. Utilize um nome diferente.", template.Name),
 			})
 		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
