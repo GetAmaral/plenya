@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { useFormNavigation } from '@/lib/use-form-navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -92,6 +93,9 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
   const [exams, setExams] = useState('')
   const [notes, setNotes] = useState('')
 
+  const formRef = useRef<HTMLFormElement>(null)
+  useFormNavigation({ formRef })
+
   const queryClient = useQueryClient()
 
   // Fetch patients
@@ -171,7 +175,7 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
   return (
     <Card className="p-6 mb-6">
       <h2 className="text-xl font-semibold mb-4">Novo Pedido de Exames</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
             <Label>Paciente *</Label>

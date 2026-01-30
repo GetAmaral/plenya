@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useFormNavigation } from '@/lib/use-form-navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -44,6 +45,9 @@ export default function LabRequestTemplatesPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [editingTemplate, setEditingTemplate] = useState<LabRequestTemplate | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<LabRequestTemplate | null>(null)
+
+  const createFormRef = useRef<HTMLFormElement>(null)
+  useFormNavigation({ formRef: createFormRef })
 
   const queryClient = useQueryClient()
 
@@ -121,7 +125,7 @@ export default function LabRequestTemplatesPage() {
               Crie um template e depois adicione exames a ele
             </DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleCreate} className="space-y-4">
+          <form ref={createFormRef} onSubmit={handleCreate} className="space-y-4">
             <div>
               <label className="text-sm font-medium">Nome</label>
               <Input
@@ -264,6 +268,9 @@ function TemplateEditDialog({
   availableTests: LabTestDefinition[]
   onClose: () => void
 }) {
+  const editFormRef = useRef<HTMLFormElement>(null)
+  useFormNavigation({ formRef: editFormRef })
+
   const queryClient = useQueryClient()
   const [name, setName] = useState(template.name)
   const [description, setDescription] = useState(template.description || '')

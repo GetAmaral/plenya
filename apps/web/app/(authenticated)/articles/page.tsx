@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { useFormNavigation } from '@/lib/use-form-navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -41,6 +42,9 @@ export default function ArticlesPage() {
   const [pageSize, setPageSize] = useState(20)
   const [filters, setFilters] = useState<Filters>({})
   const [showUploadDialog, setShowUploadDialog] = useState(false)
+
+  const searchFormRef = useRef<HTMLFormElement>(null)
+  useFormNavigation({ formRef: searchFormRef })
 
   // Query baseado no modo
   const articlesQuery = useArticles(page, pageSize, filters)
@@ -108,7 +112,7 @@ export default function ArticlesPage() {
         {/* Search & Filters Bar */}
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Search */}
-          <form onSubmit={handleSearch} className="flex-1">
+          <form ref={searchFormRef} onSubmit={handleSearch} className="flex-1">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
