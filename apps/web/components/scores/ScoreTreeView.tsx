@@ -16,9 +16,10 @@ import { toast } from 'sonner'
 interface ScoreTreeViewProps {
   groups: ScoreGroup[]
   expandedNodes?: Record<string, boolean>
+  expandClinicalTexts?: boolean
 }
 
-export function ScoreTreeView({ groups, expandedNodes = {} }: ScoreTreeViewProps) {
+export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts = false }: ScoreTreeViewProps) {
   const [editingGroup, setEditingGroup] = useState<ScoreGroup | null>(null)
   const [creatingSubgroupFor, setCreatingSubgroupFor] = useState<string | null>(null)
   const [editingSubgroup, setEditingSubgroup] = useState<ScoreSubgroup | null>(null)
@@ -182,6 +183,7 @@ export function ScoreTreeView({ groups, expandedNodes = {} }: ScoreTreeViewProps
                                 <ScoreItemCard
                                   item={item}
                                   isExpanded={expandedNodes[`item-${item.id}`]}
+                                  expandClinicalTexts={expandClinicalTexts}
                                 />
                               </div>
                             ))}

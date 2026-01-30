@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Network, Search, Printer, FileImage } from 'lucide-react'
+import { Plus, Network, Search, Printer, FileImage, ChevronsDown, ChevronsUp, Minimize2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAllScoreGroupTrees } from '@/lib/api/score-api'
 import { ScoreTreeView } from '@/components/scores/ScoreTreeView'
@@ -14,6 +14,7 @@ export default function ScoresPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({})
+  const [expandClinicalTexts, setExpandClinicalTexts] = useState(false)
 
   const { data: scoreGroups, isLoading, error } = useAllScoreGroupTrees()
 
@@ -75,6 +76,58 @@ export default function ScoresPage() {
     setSearchOpen(prev => !prev)
   }, [])
 
+  // Expandir tudo (com textos clínicos)
+  const handleExpandAll = useCallback(() => {
+    if (!scoreGroups) return
+
+    const allNodes: Record<string, boolean> = {}
+
+    scoreGroups.forEach(group => {
+      // Expandir grupo (sempre visível, mas guardamos para consistência)
+      allNodes[`group-${group.id}`] = true
+
+      // Expandir todos os subgrupos
+      group.subgroups?.forEach(subgroup => {
+        allNodes[`subgroup-${subgroup.id}`] = true
+
+        // Expandir todos os items
+        subgroup.items?.forEach(item => {
+          allNodes[`item-${item.id}`] = true
+        })
+      })
+    })
+
+    setExpandedNodes(allNodes)
+    setExpandClinicalTexts(true)
+  }, [scoreGroups])
+
+  // Expandir tudo (sem textos clínicos)
+  const handleExpandAllWithoutTexts = useCallback(() => {
+    if (!scoreGroups) return
+
+    const allNodes: Record<string, boolean> = {}
+
+    scoreGroups.forEach(group => {
+      allNodes[`group-${group.id}`] = true
+
+      // Expandir todos os subgrupos
+      group.subgroups?.forEach(subgroup => {
+        allNodes[`subgroup-${subgroup.id}`] = true
+
+        // NÃO expandir items (textos clínicos)
+      })
+    })
+
+    setExpandedNodes(allNodes)
+    setExpandClinicalTexts(false)
+  }, [scoreGroups])
+
+  // Recolher tudo
+  const handleCollapseAll = useCallback(() => {
+    setExpandedNodes({})
+    setExpandClinicalTexts(false)
+  }, [])
+
   if (error) {
     return (
       <div className="container mx-auto py-4">
@@ -99,7 +152,38 @@ export default function ScoresPage() {
           </p>
         </div>
 
-        <div className="flex gap-1.5">
+        <div className="flex gap-1.5 flex-wrap">
+          {/* Expansion Controls */}
+          <div className="flex gap-1 mr-2">
+            <Button
+              onClick={handleExpandAll}
+              variant="outline"
+              size="sm"
+              title="Expandir todos os grupos, subgrupos e textos clínicos"
+            >
+              <ChevronsDown className="h-4 w-4 mr-1.5" />
+              Expandir Tudo
+            </Button>
+            <Button
+              onClick={handleExpandAllWithoutTexts}
+              variant="outline"
+              size="sm"
+              title="Expandir grupos e subgrupos, mas manter textos clínicos recolhidos"
+            >
+              <ChevronsUp className="h-4 w-4 mr-1.5" />
+              Expandir (sem textos)
+            </Button>
+            <Button
+              onClick={handleCollapseAll}
+              variant="outline"
+              size="sm"
+              title="Recolher tudo"
+            >
+              <Minimize2 className="h-4 w-4 mr-1.5" />
+              Recolher Tudo
+            </Button>
+          </div>
+
           <Button onClick={handleSearchToggle} variant="outline">
             <Search className="mr-2 h-4 w-4" />
             Procurar
@@ -168,7 +252,11 @@ export default function ScoresPage() {
           </Button>
         </div>
       ) : (
-        <ScoreTreeView groups={scoreGroups} expandedNodes={expandedNodes} />
+        <ScoreTreeView
+          groups={scoreGroups}
+          expandedNodes={expandedNodes}
+          expandClinicalTexts={expandClinicalTexts}
+        />
       )}
 
       {/* Create Group Dialog */}
