@@ -128,7 +128,7 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	scoreService := services.NewScoreService(scoreRepo)
 	labTestDefService := services.NewLabTestDefinitionService(labTestDefRepo)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
-	labRequestService := services.NewLabRequestService(labRequestRepo)
+	labRequestService := services.NewLabRequestService(labRequestRepo, database.DB)
 	labRequestTemplateService := services.NewLabRequestTemplateService(labRequestTemplateRepo)
 	articleService := services.NewArticleService(database.DB, "./uploads/articles")
 

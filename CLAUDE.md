@@ -204,6 +204,116 @@ grep -r "onSubmit" apps/web/app --include="*.tsx" | \
 
 ---
 
+## Contexto de Paciente (OBRIGATÓRIO)
+
+**CRÍTICO: Selected Patient**
+
+**TODAS as páginas relacionadas a dados de paciente DEVEM usar `useRequireSelectedPatient`**. Sem exceções.
+
+### Conceito Fundamental
+
+O sistema EMR opera no contexto de UM paciente por vez. O médico/profissional seleciona um paciente e então todas as telas mostram apenas dados desse paciente.
+
+**Entidades que pertencem a um paciente:**
+- Anamnesis (histórico médico)
+- Lab Requests (pedidos de exames)
+- Lab Results (resultados de exames)
+- Prescriptions (prescrições)
+- Appointments (consultas)
+- Health Scores (scores calculados)
+
+### Implementação Obrigatória
+
+**1. Hook de redirecionamento:**
+```tsx
+import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient'
+import { SelectedPatientHeader } from '@/components/patients/SelectedPatientHeader'
+
+export default function MyPatientDataPage() {
+  const { selectedPatient, isLoading } = useRequireSelectedPatient()
+
+  // Se não tiver selectedPatient, o hook redireciona automaticamente
+  // para /patients/select e salva a URL atual para voltar depois
+
+  return (
+    <div>
+      <SelectedPatientHeader /> {/* Mostra qual paciente está selecionado */}
+
+      {/* Seus dados aqui - já filtrados pelo selectedPatient */}
+    </div>
+  )
+}
+```
+
+**2. Backend automático:**
+O backend usa middleware `WithSelectedPatient()` que:
+- Lê o `selectedPatient` do token JWT
+- Preenche automaticamente `patientId` nas criações
+- Filtra automaticamente queries pelo `patientId`
+
+```go
+// Backend já filtra automaticamente
+router.Get("/api/v1/lab-requests",
+  middleware.WithSelectedPatient(), // Middleware obrigatório
+  handler.GetLabRequests)
+```
+
+**3. Formulários NÃO devem ter select de paciente:**
+
+❌ **ERRADO:**
+```tsx
+<Select value={patientId} onChange={setPatientId}>
+  <SelectItem value="123">João Silva</SelectItem>
+  <SelectItem value="456">Maria Santos</SelectItem>
+</Select>
+```
+
+✅ **CORRETO:**
+```tsx
+// Paciente já está selecionado no contexto global
+// Formulário só precisa dos campos específicos
+<Input name="chiefComplaint" placeholder="Queixa principal" />
+<Textarea name="notes" placeholder="Observações" />
+```
+
+### Fluxo de Uso
+
+1. **Usuário acessa** `/lab-requests`
+2. **Sistema verifica:** Tem `selectedPatient`?
+   - ❌ Não → Redireciona para `/patients/select`
+   - ✅ Sim → Mostra página com dados filtrados
+3. **Usuário seleciona paciente** em `/patients/select`
+4. **Sistema salva** `selectedPatient` no Zustand + localStorage
+5. **Sistema redireciona** de volta para `/lab-requests` (URL salva em sessionStorage)
+6. **Página carrega** dados apenas do paciente selecionado
+
+### Verificação
+
+```bash
+# Páginas que DEVEM usar useRequireSelectedPatient:
+# - app/(authenticated)/anamnesis/page.tsx ✅
+# - app/(authenticated)/lab-requests/page.tsx
+# - app/(authenticated)/lab-results/page.tsx
+# - app/(authenticated)/prescriptions/page.tsx
+# - app/(authenticated)/appointments/page.tsx
+
+# Verificar se todas usam:
+grep -L "useRequireSelectedPatient" \
+  app/\(authenticated\)/{anamnesis,lab-requests,lab-results,prescriptions,appointments}/page.tsx
+```
+
+### Exceções
+
+Páginas que NÃO precisam de selectedPatient:
+- `/patients` - Lista de todos os pacientes
+- `/patients/select` - Seleção de paciente
+- `/patients/[id]/edit` - Edição de paciente específico
+- `/articles` - Artigos científicos (não são de paciente)
+- `/lab-test-definitions` - Definições de exames (template)
+- `/lab-request-templates` - Templates de pedidos
+
+---
+
 ## Segurança EMR/LGPD (CRÍTICO)
 
 **Obrigatório implementar:**
