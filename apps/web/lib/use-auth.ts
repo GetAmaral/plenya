@@ -1,17 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "./auth-store";
 
 export function useRequireAuth() {
   const router = useRouter();
   const { user, accessToken } = useAuthStore();
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Wait for zustand to hydrate from localStorage
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
-    // Se não houver usuário ou token, redirecionar para login
-    if (!user || !accessToken) {
+    // Only redirect after hydration is complete
+    if (isHydrated && (!user || !accessToken)) {
       router.push("/login");
     }
-  }, [user, accessToken, router]);
+  }, [isHydrated, user, accessToken, router]);
 
   return { user, accessToken, isAuthenticated: !!user && !!accessToken };
 }

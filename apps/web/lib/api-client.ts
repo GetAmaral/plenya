@@ -65,9 +65,14 @@ class APIClient {
     const { accessToken } = useAuthStore.getState();
 
     const headers: Record<string, string> = {
-      "Content-Type": "application/json",
       ...(options.headers as Record<string, string>),
     };
+
+    // Don't set Content-Type for FormData - let browser handle it
+    const isFormData = options.body instanceof FormData;
+    if (!isFormData && !headers["Content-Type"]) {
+      headers["Content-Type"] = "application/json";
+    }
 
     if (accessToken) {
       headers.Authorization = `Bearer ${accessToken}`;
@@ -131,17 +136,30 @@ class APIClient {
     return this.request<T>(endpoint, { method: "GET" });
   }
 
-  async post<T>(endpoint: string, data?: unknown): Promise<T> {
+  async post<T>(endpoint: string, data?: unknown, options?: RequestInit): Promise<T> {
+    const isFormData = data instanceof FormData;
     return this.request<T>(endpoint, {
       method: "POST",
-      body: data ? JSON.stringify(data) : undefined,
+      body: isFormData ? data : (data ? JSON.stringify(data) : undefined),
+      ...options,
     });
   }
 
-  async put<T>(endpoint: string, data?: unknown): Promise<T> {
+  async put<T>(endpoint: string, data?: unknown, options?: RequestInit): Promise<T> {
+    const isFormData = data instanceof FormData;
     return this.request<T>(endpoint, {
       method: "PUT",
-      body: data ? JSON.stringify(data) : undefined,
+      body: isFormData ? data : (data ? JSON.stringify(data) : undefined),
+      ...options,
+    });
+  }
+
+  async patch<T>(endpoint: string, data?: unknown, options?: RequestInit): Promise<T> {
+    const isFormData = data instanceof FormData;
+    return this.request<T>(endpoint, {
+      method: "PATCH",
+      body: isFormData ? data : (data ? JSON.stringify(data) : undefined),
+      ...options,
     });
   }
 

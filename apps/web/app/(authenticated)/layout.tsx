@@ -23,7 +23,7 @@ export default function AuthenticatedLayout({
         }}
       >
         {/* Extra padding-top on mobile to avoid menu button overlap */}
-        <div className="p-4 pt-16 sm:p-6 lg:p-8 lg:pt-8">
+        <div className="p-4 pt-24 sm:p-6 sm:pt-8 lg:p-8">
           {children}
         </div>
       </main>

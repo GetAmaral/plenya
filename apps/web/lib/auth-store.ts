@@ -3,11 +3,31 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 export type UserRole = "admin" | "doctor" | "nurse" | "patient";
 
+export interface Patient {
+  id: string;
+  userId: string;
+  name: string;
+  birthDate: string;
+  gender: "male" | "female" | "other";
+  phone?: string;
+  address?: string;
+  municipality?: string;
+  state?: string;
+  motherName?: string;
+  fatherName?: string;
+  height?: number;
+  weight?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface User {
   id: string;
   email: string;
   role: UserRole;
   twoFactorEnabled: boolean;
+  selectedPatientId?: string;
+  selectedPatient?: Patient;
   createdAt: string;
 }
 
@@ -18,6 +38,7 @@ interface AuthState {
   setAuth: (user: User, accessToken: string, refreshToken: string) => void;
   clearAuth: () => void;
   updateAccessToken: (accessToken: string) => void;
+  updateUser: (user: User) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -30,6 +51,7 @@ export const useAuthStore = create<AuthState>()(
         set({ user, accessToken, refreshToken }),
       clearAuth: () => set({ user: null, accessToken: null, refreshToken: null }),
       updateAccessToken: (accessToken) => set({ accessToken }),
+      updateUser: (user) => set({ user }),
     }),
     {
       name: "plenya-auth",

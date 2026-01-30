@@ -134,9 +134,10 @@ export function CollapsibleSidebar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="fixed top-4 left-4 z-50 flex items-center justify-center h-10 w-10 rounded-lg bg-primary text-primary-foreground shadow-lg lg:hidden"
+          className="fixed top-4 left-4 z-50 flex items-center justify-center h-12 w-12 rounded-lg bg-primary text-primary-foreground shadow-lg lg:hidden hover:bg-primary/90 transition-colors"
+          aria-label={isMobileOpen ? "Fechar menu" : "Abrir menu"}
         >
-          {isMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {isMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
 
         {/* Overlay */}
