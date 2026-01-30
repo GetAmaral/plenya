@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { Edit, Trash2, Plus, Info, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -26,7 +26,7 @@ interface ScoreItemCardProps {
   expandClinicalTexts?: boolean
 }
 
-export function ScoreItemCard({ item, isExpanded, expandClinicalTexts = false }: ScoreItemCardProps) {
+function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false }: ScoreItemCardProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isAddLevelDialogOpen, setIsAddLevelDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
@@ -248,3 +248,13 @@ export function ScoreItemCard({ item, isExpanded, expandClinicalTexts = false }:
     </>
   )
 }
+
+// Memoize component to prevent unnecessary re-renders during expansion
+export const ScoreItemCard = memo(ScoreItemCardComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.item.id === nextProps.item.id &&
+    prevProps.isExpanded === nextProps.isExpanded &&
+    prevProps.expandClinicalTexts === nextProps.expandClinicalTexts &&
+    prevProps.item.lastReview === nextProps.item.lastReview
+  )
+})
