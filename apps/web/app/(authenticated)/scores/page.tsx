@@ -263,7 +263,6 @@ export default function ScoresPage() {
             )}
             Recolher Tudo
           </Button>
-        </div>
       </PageHeader>
 
       {/* Search Component */}
