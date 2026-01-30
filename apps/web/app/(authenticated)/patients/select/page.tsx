@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Users, Search, MapPin, Calendar, Phone, Loader2 } from "lucide-react";
+import { PageHeader } from "@/components/layout/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -93,21 +94,10 @@ export default function PatientSelectPage() {
     <div className="min-h-screen p-6 bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="flex items-center gap-3 mb-2">
-            <Users className="h-10 w-10 text-blue-600" />
-            <h1 className="text-4xl font-bold tracking-tight">
-              Selecionar Paciente
-            </h1>
-          </div>
-          <p className="text-muted-foreground text-lg">
-            Escolha um paciente para visualizar e gerenciar seus registros médicos
-          </p>
-        </motion.div>
+        <PageHeader
+          title="Selecionar Paciente"
+          description="Escolha um paciente para visualizar e gerenciar seus registros médicos"
+        />
 
         {/* Filters */}
         <motion.div

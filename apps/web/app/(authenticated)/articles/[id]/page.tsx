@@ -26,6 +26,7 @@ import {
   articleApi,
 } from '@/lib/api/article-api'
 import { ArticleScoreItems } from '@/components/articles/ArticleScoreItems'
+import { PageHeader } from '@/components/layout/page-header'
 
 // Dynamically import PDFViewer with no SSR to avoid DOMMatrix errors
 const PDFViewer = dynamic(
@@ -159,15 +160,86 @@ export default function ArticleDetailPage({ params }: PageProps) {
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-4xl">
-      {/* Back Button */}
-      <Button variant="ghost" asChild className="mb-6">
-        <Link href="/articles">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Voltar para artigos
-        </Link>
-      </Button>
-
       {/* Header */}
+      <PageHeader
+        title={article.title}
+        description={`${article.journal} • ${format(publishDate, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}`}
+        breadcrumbs={[
+          { label: "Artigos", href: "/articles" },
+          { label: article.title }
+        ]}
+        actions={
+          <>
+            <div className="flex flex-wrap items-center gap-3">
+            <Button
+              variant={article.favorite ? 'default' : 'outline'}
+              onClick={handleToggleFavorite}
+              disabled={toggleFavorite.isPending}
+            >
+              <Heart
+                className={`mr-2 h-4 w-4 ${article.favorite ? 'fill-current' : ''}`}
+              />
+              {article.favorite ? 'Favorito' : 'Adicionar aos favoritos'}
+            </Button>
+
+            {article.internalLink && (
+              <Button variant="outline" onClick={handleDownload}>
+                <Download className="mr-2 h-4 w-4" />
+                Download PDF
+              </Button>
+            )}
+
+            {article.originalLink && (
+              <Button variant="outline" asChild>
+                <a
+                  href={article.originalLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  Ver publicação original
+                </a>
+              </Button>
+            )}
+
+            <Button variant="outline" asChild>
+              <Link href={`/articles/${article.id}/edit`}>
+                <Edit className="mr-2 h-4 w-4" />
+                Editar
+              </Link>
+            </Button>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" className="text-destructive">
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Deletar
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Tem certeza que deseja deletar este artigo? Esta ação não pode ser
+                    desfeita e o arquivo PDF será removido permanentemente.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleDelete}
+                    className="bg-destructive hover:bg-destructive/90"
+                  >
+                    {deleteArticle.isPending ? 'Deletando...' : 'Deletar'}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+          </>
+        }
+      />
+
       <div className="mb-8">
         <div className="flex flex-wrap items-center gap-2 mb-4">
           <Badge variant="outline">{articleType?.label || article.articleType}</Badge>
@@ -184,91 +256,13 @@ export default function ArticleDetailPage({ params }: PageProps) {
           )}
         </div>
 
-        <h1 className="text-3xl font-bold mb-4">{article.title}</h1>
-
         <div className="flex flex-wrap items-center gap-4 text-muted-foreground mb-6">
-          <span className="flex items-center gap-1.5">
-            <BookOpen className="h-4 w-4" />
-            {article.journal}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <Calendar className="h-4 w-4" />
-            {format(publishDate, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
-          </span>
           {article.fileSize && (
             <span className="flex items-center gap-1.5">
               <FileText className="h-4 w-4" />
               {(article.fileSize / (1024 * 1024)).toFixed(1)} MB
             </span>
           )}
-        </div>
-
-        {/* Actions */}
-        <div className="flex flex-wrap items-center gap-3">
-          <Button
-            variant={article.favorite ? 'default' : 'outline'}
-            onClick={handleToggleFavorite}
-            disabled={toggleFavorite.isPending}
-          >
-            <Heart
-              className={`mr-2 h-4 w-4 ${article.favorite ? 'fill-current' : ''}`}
-            />
-            {article.favorite ? 'Favorito' : 'Adicionar aos favoritos'}
-          </Button>
-
-          {article.internalLink && (
-            <Button variant="outline" onClick={handleDownload}>
-              <Download className="mr-2 h-4 w-4" />
-              Download PDF
-            </Button>
-          )}
-
-          {article.originalLink && (
-            <Button variant="outline" asChild>
-              <a
-                href={article.originalLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ExternalLink className="mr-2 h-4 w-4" />
-                Ver publicação original
-              </a>
-            </Button>
-          )}
-
-          <Button variant="outline" asChild>
-            <Link href={`/articles/${article.id}/edit`}>
-              <Edit className="mr-2 h-4 w-4" />
-              Editar
-            </Link>
-          </Button>
-
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="outline" className="text-destructive">
-                <Trash2 className="mr-2 h-4 w-4" />
-                Deletar
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Tem certeza que deseja deletar este artigo? Esta ação não pode ser
-                  desfeita e o arquivo PDF será removido permanentemente.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={handleDelete}
-                  className="bg-destructive hover:bg-destructive/90"
-                >
-                  {deleteArticle.isPending ? 'Deletando...' : 'Deletar'}
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
         </div>
 
         {/* Rating */}

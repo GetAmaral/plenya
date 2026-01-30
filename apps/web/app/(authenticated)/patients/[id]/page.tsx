@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiClient } from "@/lib/api-client";
 import { useRequireAuth } from "@/lib/use-auth";
+import { PageHeader } from "@/components/layout/page-header";
 
 interface Patient {
   id: string;
@@ -86,37 +87,25 @@ export default function PatientDetailPage() {
     <div className="min-h-screen p-6">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center justify-between"
-        >
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => router.push("/patients")}
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-                <User className="h-8 w-8 text-blue-600" />
-                {patient.name}
-              </h1>
-              <p className="mt-2 text-muted-foreground">
-                Detalhes do paciente
-              </p>
-            </div>
-          </div>
-          <Button
-            onClick={() => router.push(`/patients/${patientId}/edit`)}
-            className="gap-2"
-          >
-            <Edit className="h-4 w-4" />
-            Editar
-          </Button>
-        </motion.div>
+        <PageHeader
+          title={patient.name}
+          description="Detalhes do paciente"
+          breadcrumbs={[
+            { label: "Pacientes", href: "/patients" },
+            { label: patient.name }
+          ]}
+          actions={
+            <>
+              <Button
+                onClick={() => router.push(`/patients/${patientId}/edit`)}
+                className="gap-2"
+              >
+                <Edit className="h-4 w-4" />
+                Editar
+              </Button>
+            </>
+          }
+        />
 
         {/* Patient Info */}
         <motion.div

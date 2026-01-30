@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AreaChart, BarChart, DonutChart } from "@tremor/react";
+import { PageHeader } from "@/components/layout/page-header";
 
 // Animation variants
 const container = {
@@ -123,18 +124,10 @@ export default function DashboardPage() {
     <div className="w-full">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Dashboard
-          </h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Bem-vindo de volta! Aqui está um resumo do seu dia.
-          </p>
-        </motion.div>
+        <PageHeader
+          title="Dashboard"
+          description="Bem-vindo de volta! Aqui está um resumo do seu dia."
+        />
 
         {/* Stats Grid - Bento Layout */}
         <motion.div
