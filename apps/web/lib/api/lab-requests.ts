@@ -20,11 +20,11 @@ export interface LabRequest {
 }
 
 export interface CreateLabRequestInput {
-  patientId: string
+  patientId?: string // Optional - backend preenche automaticamente do selectedPatient
   date: string
   exams: string
   notes?: string
-  doctorId?: string
+  doctorId?: string // Optional - backend preenche automaticamente do currentUser
 }
 
 export interface UpdateLabRequestInput {

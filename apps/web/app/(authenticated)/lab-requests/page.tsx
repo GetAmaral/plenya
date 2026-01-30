@@ -4,6 +4,8 @@ import { useState, useRef } from 'react'
 import { useFormNavigation } from '@/lib/use-form-navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
+import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient'
+import { SelectedPatientHeader } from '@/components/patients/SelectedPatientHeader'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -27,25 +29,32 @@ import {
   getLabRequestTemplateById,
   type LabRequestTemplate
 } from '@/lib/api/lab-request-templates'
-import { getPatients, type Patient } from '@/lib/api/patients'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
 import { PageHeader } from '@/components/layout/page-header'
 
 export default function LabRequestsPage() {
   const router = useRouter()
+  const { selectedPatient, isLoading: patientLoading } = useRequireSelectedPatient()
   const [showCreateForm, setShowCreateForm] = useState(false)
 
-  // Fetch lab requests
+  // Fetch lab requests (backend filtra automaticamente pelo selectedPatient)
   const { data: requestsData, isLoading: requestsLoading } = useQuery({
-    queryKey: ['lab-requests'],
-    queryFn: () => getAllLabRequests({ limit: 50, offset: 0 })
+    queryKey: ['lab-requests', selectedPatient?.id],
+    queryFn: () => getAllLabRequests({ limit: 50, offset: 0 }),
+    enabled: !!selectedPatient // Só busca quando tiver paciente selecionado
   })
 
   const requests = requestsData?.data || []
 
+  if (patientLoading) {
+    return <div className="container mx-auto py-8">Carregando...</div>
+  }
+
   return (
     <div className="container mx-auto py-8 space-y-8">
+      <SelectedPatientHeader />
+
       <PageHeader
         breadcrumbs={[{ label: 'Pedidos de Exames' }]}
         title="Pedidos de Exames"
@@ -87,7 +96,6 @@ export default function LabRequestsPage() {
 }
 
 function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
-  const [selectedPatientId, setSelectedPatientId] = useState('')
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>('')
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'))
   const [exams, setExams] = useState('')
@@ -97,12 +105,6 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
   useFormNavigation({ formRef })
 
   const queryClient = useQueryClient()
-
-  // Fetch patients
-  const { data: patients = [] } = useQuery({
-    queryKey: ['patients'],
-    queryFn: () => getPatients()
-  })
 
   // Fetch templates (sorted alphabetically)
   const { data: templates = [] } = useQuery({
@@ -129,6 +131,7 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
   const handleTemplateSelect = async (templateId: string) => {
     if (!templateId) {
       setExams('')
+      setSelectedTemplateId('')
       return
     }
 
@@ -154,18 +157,13 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!selectedPatientId) {
-      toast.error('Selecione um paciente')
-      return
-    }
-
     if (!exams.trim()) {
       toast.error('Adicione pelo menos um exame')
       return
     }
 
+    // Backend pega patientId automaticamente do selectedPatient no JWT
     createMutation.mutate({
-      patientId: selectedPatientId,
       date,
       exams: exams.trim(),
       notes: notes.trim() || undefined
@@ -176,32 +174,14 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
     <Card className="p-6 mb-6">
       <h2 className="text-xl font-semibold mb-4">Novo Pedido de Exames</h2>
       <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label>Paciente *</Label>
-            <Select value={selectedPatientId} onValueChange={setSelectedPatientId}>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione o paciente" />
-              </SelectTrigger>
-              <SelectContent>
-                {patients.map((patient) => (
-                  <SelectItem key={patient.id} value={patient.id}>
-                    {patient.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Label>Data *</Label>
-            <Input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              required
-            />
-          </div>
+        <div>
+          <Label>Data *</Label>
+          <Input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
+          />
         </div>
 
         <div>

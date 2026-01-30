@@ -1,9 +1,12 @@
 package services
 
 import (
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
+
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/repository"
 )
@@ -11,15 +14,45 @@ import (
 // LabRequestService handles business logic for lab requests
 type LabRequestService struct {
 	repo *repository.LabRequestRepository
+	db   *gorm.DB
 }
 
 // NewLabRequestService creates a new lab request service
-func NewLabRequestService(repo *repository.LabRequestRepository) *LabRequestService {
-	return &LabRequestService{repo: repo}
+func NewLabRequestService(repo *repository.LabRequestRepository, db *gorm.DB) *LabRequestService {
+	return &LabRequestService{
+		repo: repo,
+		db:   db,
+	}
 }
 
 // CreateLabRequest creates a new lab request
-func (s *LabRequestService) CreateLabRequest(req *models.LabRequest) error {
+func (s *LabRequestService) CreateLabRequest(userID uuid.UUID, req *models.LabRequest) error {
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return err
+	}
+
+	// If no selected patient, cannot create lab request
+	if user.SelectedPatientID == nil {
+		return errors.New("no patient selected - please select a patient first")
+	}
+
+	// If patientID is provided, validate it matches selectedPatient
+	if req.PatientID != uuid.Nil {
+		if req.PatientID != *user.SelectedPatientID {
+			return errors.New("patient id does not match selected patient")
+		}
+	} else {
+		// Auto-fill with selectedPatient
+		req.PatientID = *user.SelectedPatientID
+	}
+
+	// Auto-fill doctorID if not provided
+	if req.DoctorID == nil {
+		req.DoctorID = &userID
+	}
+
 	return s.repo.CreateLabRequest(req)
 }
 

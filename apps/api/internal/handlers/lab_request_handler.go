@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/plenya/api/internal/dto"
+	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
 )
@@ -38,7 +39,22 @@ func (h *LabRequestHandler) CreateLabRequest(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := h.service.CreateLabRequest(&req); err != nil {
+	// Get user ID from JWT (middleware.AuthMiddleware sets this)
+	userID := middleware.GetUserID(c)
+
+	// Create lab request (service will auto-fill patientID from selectedPatient)
+	if err := h.service.CreateLabRequest(userID, &req); err != nil {
+		// Check for specific errors
+		if err.Error() == "no patient selected - please select a patient first" {
+			return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+				Error: "Nenhum paciente selecionado. Por favor, selecione um paciente primeiro.",
+			})
+		}
+		if err.Error() == "patient id does not match selected patient" {
+			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{
+				Error: "O paciente especificado não corresponde ao paciente selecionado.",
+			})
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
