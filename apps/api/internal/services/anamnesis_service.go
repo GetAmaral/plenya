@@ -25,10 +25,32 @@ func NewAnamnesisService(db *gorm.DB) *AnamnesisService {
 
 // Create cria uma nova anamnese
 func (s *AnamnesisService) Create(doctorID uuid.UUID, req *dto.CreateAnamnesisRequest) (*dto.AnamnesisResponse, error) {
-	// Parse patient ID
-	patientID, err := uuid.Parse(req.PatientID)
-	if err != nil {
-		return nil, errors.New("invalid patient id")
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, doctorID).Error; err != nil {
+		return nil, err
+	}
+
+	// If no selected patient, cannot create anamnesis
+	if user.SelectedPatientID == nil {
+		return nil, errors.New("no patient selected - please select a patient first")
+	}
+
+	// Parse patient ID from request
+	var patientID uuid.UUID
+	if req.PatientID != "" {
+		pid, err := uuid.Parse(req.PatientID)
+		if err != nil {
+			return nil, errors.New("invalid patient id")
+		}
+		// SECURITY: Validate that patientID matches selectedPatient
+		if pid != *user.SelectedPatientID {
+			return nil, errors.New("patient id does not match selected patient")
+		}
+		patientID = pid
+	} else {
+		// Auto-fill with selectedPatient
+		patientID = *user.SelectedPatientID
 	}
 
 	// Verificar se o paciente existe
@@ -74,18 +96,20 @@ func (s *AnamnesisService) Create(doctorID uuid.UUID, req *dto.CreateAnamnesisRe
 
 // GetByID busca uma anamnese por ID
 func (s *AnamnesisService) GetByID(anamnesisID, userID uuid.UUID, userRole models.UserRole) (*dto.AnamnesisResponse, error) {
-	var anamnesis models.Anamnesis
-	query := s.db.Where("id = ?", anamnesisID)
-
-	// Pacientes só podem ver suas próprias anamneses
-	if userRole == models.RolePatient {
-		// Buscar patient ID do usuário
-		var patient models.Patient
-		if err := s.db.Where("user_id = ?", userID).First(&patient).Error; err != nil {
-			return nil, ErrUnauthorized
-		}
-		query = query.Where("patient_id = ?", patient.ID)
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return nil, err
 	}
+
+	// If no selected patient, cannot access any anamnesis
+	if user.SelectedPatientID == nil {
+		return nil, ErrAnamnesisNotFound
+	}
+
+	// ALWAYS filter by selectedPatient (all roles including admin)
+	var anamnesis models.Anamnesis
+	query := s.db.Where("id = ?", anamnesisID).Where("patient_id = ?", *user.SelectedPatientID)
 
 	if err := query.First(&anamnesis).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -99,20 +123,21 @@ func (s *AnamnesisService) GetByID(anamnesisID, userID uuid.UUID, userRole model
 
 // List lista anamneses com filtros
 func (s *AnamnesisService) List(userID uuid.UUID, userRole models.UserRole, patientID *uuid.UUID, limit, offset int) ([]dto.AnamnesisResponse, error) {
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+
+	// If no selected patient, return empty list (security measure)
+	if user.SelectedPatientID == nil {
+		return []dto.AnamnesisResponse{}, nil
+	}
+
+	// ALWAYS filter by selectedPatient (all roles including admin)
 	var anamneses []models.Anamnesis
 	query := s.db.Limit(limit).Offset(offset).Order("consultation_date DESC")
-
-	// Pacientes só podem ver suas próprias anamneses
-	if userRole == models.RolePatient {
-		var patient models.Patient
-		if err := s.db.Where("user_id = ?", userID).First(&patient).Error; err != nil {
-			return nil, ErrUnauthorized
-		}
-		query = query.Where("patient_id = ?", patient.ID)
-	} else if patientID != nil {
-		// Médicos/staff podem filtrar por paciente
-		query = query.Where("patient_id = ?", *patientID)
-	}
+	query = query.Where("patient_id = ?", *user.SelectedPatientID)
 
 	if err := query.Find(&anamneses).Error; err != nil {
 		return nil, err

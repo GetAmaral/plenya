@@ -25,11 +25,33 @@ func NewAppointmentService(db *gorm.DB) *AppointmentService {
 }
 
 // Create cria uma nova consulta
-func (s *AppointmentService) Create(req *dto.CreateAppointmentRequest) (*dto.AppointmentResponse, error) {
-	// Parse IDs
-	patientID, err := uuid.Parse(req.PatientID)
-	if err != nil {
-		return nil, errors.New("invalid patient id")
+func (s *AppointmentService) Create(userID uuid.UUID, req *dto.CreateAppointmentRequest) (*dto.AppointmentResponse, error) {
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+
+	// If no selected patient, cannot create appointment
+	if user.SelectedPatientID == nil {
+		return nil, errors.New("no patient selected - please select a patient first")
+	}
+
+	// Parse patient ID from request
+	var patientID uuid.UUID
+	if req.PatientID != "" {
+		pid, err := uuid.Parse(req.PatientID)
+		if err != nil {
+			return nil, errors.New("invalid patient id")
+		}
+		// SECURITY: Validate that patientID matches selectedPatient
+		if pid != *user.SelectedPatientID {
+			return nil, errors.New("patient id does not match selected patient")
+		}
+		patientID = pid
+	} else {
+		// Auto-fill with selectedPatient
+		patientID = *user.SelectedPatientID
 	}
 
 	doctorID, err := uuid.Parse(req.DoctorID)
@@ -98,17 +120,20 @@ func (s *AppointmentService) Create(req *dto.CreateAppointmentRequest) (*dto.App
 
 // GetByID busca uma consulta por ID
 func (s *AppointmentService) GetByID(appointmentID, userID uuid.UUID, userRole models.UserRole) (*dto.AppointmentResponse, error) {
-	var appointment models.Appointment
-	query := s.db.Where("id = ?", appointmentID)
-
-	// Pacientes só podem ver suas próprias consultas
-	if userRole == models.RolePatient {
-		var patient models.Patient
-		if err := s.db.Where("user_id = ?", userID).First(&patient).Error; err != nil {
-			return nil, ErrUnauthorized
-		}
-		query = query.Where("patient_id = ?", patient.ID)
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return nil, err
 	}
+
+	// If no selected patient, cannot access any appointment
+	if user.SelectedPatientID == nil {
+		return nil, ErrAppointmentNotFound
+	}
+
+	// ALWAYS filter by selectedPatient (all roles including admin)
+	var appointment models.Appointment
+	query := s.db.Where("id = ?", appointmentID).Where("patient_id = ?", *user.SelectedPatientID)
 
 	if err := query.First(&appointment).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -122,28 +147,21 @@ func (s *AppointmentService) GetByID(appointmentID, userID uuid.UUID, userRole m
 
 // List lista consultas com filtros
 func (s *AppointmentService) List(userID uuid.UUID, userRole models.UserRole, patientID, doctorID *uuid.UUID, status *models.AppointmentStatus, limit, offset int) ([]dto.AppointmentResponse, error) {
+	// CRITICAL SECURITY: Get user's selected patient
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+
+	// If no selected patient, return empty list (security measure)
+	if user.SelectedPatientID == nil {
+		return []dto.AppointmentResponse{}, nil
+	}
+
+	// ALWAYS filter by selectedPatient (all roles including admin)
 	var appointments []models.Appointment
 	query := s.db.Limit(limit).Offset(offset).Order("scheduled_at DESC")
-
-	// Filtros baseados em role
-	if userRole == models.RolePatient {
-		var patient models.Patient
-		if err := s.db.Where("user_id = ?", userID).First(&patient).Error; err != nil {
-			return nil, ErrUnauthorized
-		}
-		query = query.Where("patient_id = ?", patient.ID)
-	} else if userRole == models.RoleDoctor {
-		// Doctors veem suas próprias consultas
-		query = query.Where("doctor_id = ?", userID)
-	} else {
-		// Admin/Nurse podem filtrar por paciente ou médico
-		if patientID != nil {
-			query = query.Where("patient_id = ?", *patientID)
-		}
-		if doctorID != nil {
-			query = query.Where("doctor_id = ?", *doctorID)
-		}
-	}
+	query = query.Where("patient_id = ?", *user.SelectedPatientID)
 
 	// Filtro por status
 	if status != nil {

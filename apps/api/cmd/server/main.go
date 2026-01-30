@@ -72,6 +72,7 @@ func main() {
 		AppName:      "Plenya EMR API",
 		ServerHeader: "Plenya",
 		ErrorHandler: customErrorHandler,
+		BodyLimit:    50 * 1024 * 1024, // 50MB para permitir upload de PDFs grandes
 	})
 
 	// Middlewares globais
@@ -114,6 +115,8 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	scoreRepo := repository.NewScoreRepository(database.DB)
 	labTestDefRepo := repository.NewLabTestDefinitionRepository(database.DB)
 	labResultValueRepo := repository.NewLabResultValueRepository(database.DB)
+	labRequestRepo := repository.NewLabRequestRepository(database.DB)
+	labRequestTemplateRepo := repository.NewLabRequestTemplateRepository(database.DB)
 
 	// Inicializar services
 	authService := services.NewAuthService(database.DB, cfg)
@@ -125,6 +128,8 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	scoreService := services.NewScoreService(scoreRepo)
 	labTestDefService := services.NewLabTestDefinitionService(labTestDefRepo)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
+	labRequestService := services.NewLabRequestService(labRequestRepo)
+	labRequestTemplateService := services.NewLabRequestTemplateService(labRequestTemplateRepo)
 	articleService := services.NewArticleService(database.DB, "./uploads/articles")
 
 	// Inicializar validator
@@ -140,6 +145,8 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	scoreHandler := handlers.NewScoreHandler(scoreService, validate)
 	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
 	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
+	labRequestHandler := handlers.NewLabRequestHandler(labRequestService)
+	labRequestTemplateHandler := handlers.NewLabRequestTemplateHandler(labRequestTemplateService)
 	articleHandler := handlers.NewArticleHandler(articleService)
 
 	// API v1
@@ -159,6 +166,12 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	auth.Post("/login", authHandler.Login)
 	auth.Post("/refresh", authHandler.Refresh)
 	auth.Post("/logout", middleware.Auth(cfg), authHandler.Logout)
+
+	// User routes (protegidas)
+	users := v1.Group("/users")
+	users.Use(middleware.Auth(cfg))
+	users.Get("/me", authHandler.GetMe)
+	users.Put("/me/selected-patient", authHandler.UpdateSelectedPatient)
 
 	// Patients routes (protegidas)
 	patients := v1.Group("/patients")
@@ -215,6 +228,40 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	labResults.Get("/:id", labResultHandler.GetByID)
 	labResults.Put("/:id", labResultHandler.Update)
 	labResults.Delete("/:id", middleware.RequireAdmin(), labResultHandler.Delete)
+
+	// Lab Requests routes (protegidas - medical staff)
+	labRequests := v1.Group("/lab-requests")
+	labRequests.Use(middleware.Auth(cfg))
+	labRequests.Use(middleware.AuditLog(database.DB))
+
+	labRequests.Post("/", middleware.RequireMedicalStaff(), labRequestHandler.CreateLabRequest)
+	labRequests.Get("/", labRequestHandler.GetAllLabRequests)
+	labRequests.Get("/:id", labRequestHandler.GetLabRequestByID)
+	labRequests.Get("/by-date", labRequestHandler.GetLabRequestsByDate)
+	labRequests.Get("/by-date-range", labRequestHandler.GetLabRequestsByDateRange)
+	labRequests.Put("/:id", middleware.RequireMedicalStaff(), labRequestHandler.UpdateLabRequest)
+	labRequests.Delete("/:id", middleware.RequireAdmin(), labRequestHandler.DeleteLabRequest)
+
+	// Lab Requests routes dentro de patients
+	patients.Get("/:patientId/lab-requests", labRequestHandler.GetLabRequestsByPatientID)
+
+	// Lab Request Templates routes (protegidas - medical staff)
+	labRequestTemplates := v1.Group("/lab-request-templates")
+	labRequestTemplates.Use(middleware.Auth(cfg))
+	labRequestTemplates.Use(middleware.AuditLog(database.DB))
+
+	// Rotas de leitura (todos usuários autenticados)
+	labRequestTemplates.Get("/", labRequestTemplateHandler.GetAllLabRequestTemplates)
+	labRequestTemplates.Get("/search", labRequestTemplateHandler.SearchLabRequestTemplates)
+	labRequestTemplates.Get("/:id", labRequestTemplateHandler.GetLabRequestTemplateByID)
+
+	// Rotas de escrita (medical staff)
+	labRequestTemplates.Post("/", middleware.RequireMedicalStaff(), labRequestTemplateHandler.CreateLabRequestTemplate)
+	labRequestTemplates.Put("/:id", middleware.RequireMedicalStaff(), labRequestTemplateHandler.UpdateLabRequestTemplate)
+	labRequestTemplates.Put("/:id/tests", middleware.RequireMedicalStaff(), labRequestTemplateHandler.UpdateLabRequestTemplateTests)
+	labRequestTemplates.Post("/:id/tests", middleware.RequireMedicalStaff(), labRequestTemplateHandler.AddLabTestToTemplate)
+	labRequestTemplates.Delete("/:id/tests/:testId", middleware.RequireMedicalStaff(), labRequestTemplateHandler.RemoveLabTestFromTemplate)
+	labRequestTemplates.Delete("/:id", middleware.RequireAdmin(), labRequestTemplateHandler.DeleteLabRequestTemplate)
 
 	// Score Groups routes (todas protegidas - dados proprietários)
 	scoreGroups := v1.Group("/score-groups")
@@ -340,6 +387,11 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 
 	// Download de PDF
 	articles.Get("/:id/download", articleHandler.DownloadPDF)
+
+	// Many-to-many relationship with ScoreItems
+	articles.Post("/:id/score-items", middleware.RequireMedicalStaff(), articleHandler.AddScoreItemsToArticle)
+	articles.Delete("/:id/score-items", middleware.RequireMedicalStaff(), articleHandler.RemoveScoreItemsFromArticle)
+	articles.Get("/:id/score-items", articleHandler.GetScoreItemsForArticle)
 
 	// Servir arquivos estáticos (uploads)
 	app.Static("/uploads", "./uploads")

@@ -43,7 +43,8 @@ func (h *AppointmentHandler) Create(c *fiber.Ctx) error {
 		})
 	}
 
-	resp, err := h.appointmentService.Create(&req)
+	userID := middleware.GetUserID(c)
+	resp, err := h.appointmentService.Create(userID, &req)
 	if err != nil {
 		if errors.Is(err, services.ErrPatientNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{

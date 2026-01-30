@@ -41,16 +41,19 @@ func (s *PatientService) Create(userID uuid.UUID, req *dto.CreatePatientRequest)
 
 	// Criar paciente
 	patient := models.Patient{
-		UserID:     userID,
-		Name:       req.Name,
-		CPF:        req.CPF, // Será criptografado pelo hook
-		BirthDate:  birthDate,
-		Gender:     req.Gender,
-		Phone:      req.Phone,
-		MotherName: req.MotherName,
-		FatherName: req.FatherName,
-		Height:     req.Height,
-		Weight:     req.Weight,
+		UserID:       userID,
+		Name:         req.Name,
+		CPF:          req.CPF, // Será criptografado pelo hook
+		BirthDate:    birthDate,
+		Gender:       req.Gender,
+		Phone:        req.Phone,
+		Address:      req.Address,
+		Municipality: req.Municipality,
+		State:        req.State,
+		MotherName:   req.MotherName,
+		FatherName:   req.FatherName,
+		Height:       req.Height,
+		Weight:       req.Weight,
 	}
 
 	if err := s.db.Create(&patient).Error; err != nil {
@@ -136,6 +139,15 @@ func (s *PatientService) Update(patientID, userID uuid.UUID, userRole models.Use
 	if req.Phone != nil {
 		patient.Phone = req.Phone
 	}
+	if req.Address != nil {
+		patient.Address = req.Address
+	}
+	if req.Municipality != nil {
+		patient.Municipality = req.Municipality
+	}
+	if req.State != nil {
+		patient.State = req.State
+	}
 	if req.MotherName != nil {
 		patient.MotherName = req.MotherName
 	}
@@ -180,17 +192,20 @@ func (s *PatientService) Delete(patientID, userID uuid.UUID, userRole models.Use
 // toDTO converte Patient para PatientResponse
 func (s *PatientService) toDTO(patient *models.Patient) *dto.PatientResponse {
 	return &dto.PatientResponse{
-		ID:         patient.ID.String(),
-		UserID:     patient.UserID.String(),
-		Name:       patient.Name,
-		BirthDate:  patient.BirthDate.Format("2006-01-02"),
-		Gender:     patient.Gender,
-		Phone:      patient.Phone,
-		MotherName: patient.MotherName,
-		FatherName: patient.FatherName,
-		Height:     patient.Height,
-		Weight:     patient.Weight,
-		CreatedAt:  patient.CreatedAt.Format(time.RFC3339),
-		UpdatedAt:  patient.UpdatedAt.Format(time.RFC3339),
+		ID:           patient.ID.String(),
+		UserID:       patient.UserID.String(),
+		Name:         patient.Name,
+		BirthDate:    patient.BirthDate.Format("2006-01-02"),
+		Gender:       patient.Gender,
+		Phone:        patient.Phone,
+		Address:      patient.Address,
+		Municipality: patient.Municipality,
+		State:        patient.State,
+		MotherName:   patient.MotherName,
+		FatherName:   patient.FatherName,
+		Height:       patient.Height,
+		Weight:       patient.Weight,
+		CreatedAt:    patient.CreatedAt.Format(time.RFC3339),
+		UpdatedAt:    patient.UpdatedAt.Format(time.RFC3339),
 	}
 }

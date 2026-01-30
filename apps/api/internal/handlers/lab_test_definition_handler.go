@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
 )
@@ -34,13 +35,13 @@ func NewLabTestDefinitionHandler(service *services.LabTestDefinitionService) *La
 func (h *LabTestDefinitionHandler) CreateLabTestDefinition(c *fiber.Ctx) error {
 	var def models.LabTestDefinition
 	if err := c.BodyParser(&def); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid request body",
 		})
 	}
 
 	if err := h.service.CreateLabTestDefinition(&def); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -60,14 +61,14 @@ func (h *LabTestDefinitionHandler) CreateLabTestDefinition(c *fiber.Ctx) error {
 func (h *LabTestDefinitionHandler) GetLabTestDefinitionByID(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	def, err := h.service.GetLabTestDefinitionByID(id)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(ErrorResponse{
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -88,7 +89,7 @@ func (h *LabTestDefinitionHandler) GetLabTestDefinitionByCode(c *fiber.Ctx) erro
 
 	def, err := h.service.GetLabTestDefinitionByCode(code)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(ErrorResponse{
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -106,7 +107,7 @@ func (h *LabTestDefinitionHandler) GetLabTestDefinitionByCode(c *fiber.Ctx) erro
 func (h *LabTestDefinitionHandler) GetAllLabTestDefinitions(c *fiber.Ctx) error {
 	defs, err := h.service.GetAllLabTestDefinitions()
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -131,7 +132,7 @@ func (h *LabTestDefinitionHandler) GetRequestableLabTests(c *fiber.Ctx) error {
 
 	defs, err := h.service.GetRequestableLabTests(category)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -151,14 +152,14 @@ func (h *LabTestDefinitionHandler) GetRequestableLabTests(c *fiber.Ctx) error {
 func (h *LabTestDefinitionHandler) GetSubTests(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	defs, err := h.service.GetSubTests(id)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -177,14 +178,14 @@ func (h *LabTestDefinitionHandler) GetSubTests(c *fiber.Ctx) error {
 func (h *LabTestDefinitionHandler) SearchLabTestDefinitions(c *fiber.Ctx) error {
 	searchTerm := c.Query("q")
 	if searchTerm == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Search term is required",
 		})
 	}
 
 	defs, err := h.service.SearchLabTestDefinitions(searchTerm)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -207,20 +208,20 @@ func (h *LabTestDefinitionHandler) SearchLabTestDefinitions(c *fiber.Ctx) error 
 func (h *LabTestDefinitionHandler) UpdateLabTestDefinition(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	var def models.LabTestDefinition
 	if err := c.BodyParser(&def); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid request body",
 		})
 	}
 
 	if err := h.service.UpdateLabTestDefinition(id, &def); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -240,13 +241,13 @@ func (h *LabTestDefinitionHandler) UpdateLabTestDefinition(c *fiber.Ctx) error {
 func (h *LabTestDefinitionHandler) DeleteLabTestDefinition(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	if err := h.service.DeleteLabTestDefinition(id); err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(ErrorResponse{
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -271,13 +272,13 @@ func (h *LabTestDefinitionHandler) DeleteLabTestDefinition(c *fiber.Ctx) error {
 func (h *LabTestDefinitionHandler) CreateLabTestScoreMapping(c *fiber.Ctx) error {
 	var mapping models.LabTestScoreMapping
 	if err := c.BodyParser(&mapping); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid request body",
 		})
 	}
 
 	if err := h.service.CreateLabTestScoreMapping(&mapping); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -297,14 +298,14 @@ func (h *LabTestDefinitionHandler) CreateLabTestScoreMapping(c *fiber.Ctx) error
 func (h *LabTestDefinitionHandler) GetLabTestScoreMappingByID(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	mapping, err := h.service.GetLabTestScoreMappingByID(id)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(ErrorResponse{
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -324,14 +325,14 @@ func (h *LabTestDefinitionHandler) GetLabTestScoreMappingByID(c *fiber.Ctx) erro
 func (h *LabTestDefinitionHandler) GetMappingsForLabTest(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	mappings, err := h.service.GetMappingsForLabTest(id)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -353,20 +354,20 @@ func (h *LabTestDefinitionHandler) GetMappingsForLabTest(c *fiber.Ctx) error {
 func (h *LabTestDefinitionHandler) UpdateLabTestScoreMapping(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	var mapping models.LabTestScoreMapping
 	if err := c.BodyParser(&mapping); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid request body",
 		})
 	}
 
 	if err := h.service.UpdateLabTestScoreMapping(id, &mapping); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -386,13 +387,13 @@ func (h *LabTestDefinitionHandler) UpdateLabTestScoreMapping(c *fiber.Ctx) error
 func (h *LabTestDefinitionHandler) DeleteLabTestScoreMapping(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	if err := h.service.DeleteLabTestScoreMapping(id); err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(ErrorResponse{
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}

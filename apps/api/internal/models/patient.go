@@ -56,6 +56,14 @@ type Patient struct {
 	// Endereço residencial (opcional)
 	Address *string `gorm:"type:varchar(500)" json:"address,omitempty"`
 
+	// Município de residência (opcional)
+	// @example São Paulo
+	Municipality *string `gorm:"type:varchar(100);index" json:"municipality,omitempty"`
+
+	// Estado/UF de residência (opcional)
+	// @example SP
+	State *string `gorm:"type:varchar(2);index" json:"state,omitempty" validate:"omitempty,len=2"`
+
 	// Nome da mãe (opcional)
 	// @example Maria da Silva
 	MotherName *string `gorm:"type:varchar(200)" json:"motherName,omitempty"`

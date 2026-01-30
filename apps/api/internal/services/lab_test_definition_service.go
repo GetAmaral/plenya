@@ -79,6 +79,9 @@ func (s *LabTestDefinitionService) UpdateLabTestDefinition(id uuid.UUID, def *mo
 	existing.SpecimenType = def.SpecimenType
 	existing.Description = def.Description
 	existing.ClinicalIndications = def.ClinicalIndications
+	existing.ClinicalSignificance = def.ClinicalSignificance
+	existing.LongevityContext = def.LongevityContext
+	existing.ClinicalRecommendations = def.ClinicalRecommendations
 	existing.DisplayOrder = def.DisplayOrder
 	existing.IsActive = def.IsActive
 

@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
 )
@@ -24,19 +25,19 @@ func NewLabResultValueHandler(service *services.LabResultValueService) *LabResul
 // @Produce json
 // @Param value body models.LabResultValue true "Lab result value data"
 // @Success 201 {object} models.LabResultValue
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-results/values [post]
 func (h *LabResultValueHandler) CreateLabResultValue(c *fiber.Ctx) error {
 	var value models.LabResultValue
 	if err := c.BodyParser(&value); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid request body",
 		})
 	}
 
 	if err := h.service.CreateLabResultValue(&value); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -51,19 +52,19 @@ func (h *LabResultValueHandler) CreateLabResultValue(c *fiber.Ctx) error {
 // @Produce json
 // @Param values body []models.LabResultValue true "Array of lab result values"
 // @Success 201 {array} models.LabResultValue
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-results/values/batch [post]
 func (h *LabResultValueHandler) CreateLabResultValues(c *fiber.Ctx) error {
 	var values []models.LabResultValue
 	if err := c.BodyParser(&values); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid request body",
 		})
 	}
 
 	if err := h.service.CreateLabResultValues(values); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -77,20 +78,20 @@ func (h *LabResultValueHandler) CreateLabResultValues(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Lab result value ID"
 // @Success 200 {object} models.LabResultValue
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/lab-results/values/{id} [get]
 func (h *LabResultValueHandler) GetLabResultValueByID(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	value, err := h.service.GetLabResultValueByID(id)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(ErrorResponse{
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -104,20 +105,20 @@ func (h *LabResultValueHandler) GetLabResultValueByID(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Lab result ID"
 // @Success 200 {array} models.LabResultValue
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-results/{id}/values [get]
 func (h *LabResultValueHandler) GetValuesByLabResult(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	values, err := h.service.GetValuesByLabResult(id)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -131,20 +132,20 @@ func (h *LabResultValueHandler) GetValuesByLabResult(c *fiber.Ctx) error {
 // @Produce json
 // @Param patientId path string true "Patient ID"
 // @Success 200 {array} models.LabResultValue
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/patients/{patientId}/lab-values [get]
 func (h *LabResultValueHandler) GetValuesByPatient(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("patientId"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	values, err := h.service.GetValuesByPatient(id)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -159,27 +160,27 @@ func (h *LabResultValueHandler) GetValuesByPatient(c *fiber.Ctx) error {
 // @Param patientId path string true "Patient ID"
 // @Param testId path string true "Lab test definition ID"
 // @Success 200 {object} models.LabResultValue
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/patients/{patientId}/lab-values/test/{testId}/latest [get]
 func (h *LabResultValueHandler) GetLatestValueForTest(c *fiber.Ctx) error {
 	patientID, err := uuid.Parse(c.Params("patientId"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid patient ID format",
 		})
 	}
 
 	testID, err := uuid.Parse(c.Params("testId"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid test ID format",
 		})
 	}
 
 	value, err := h.service.GetLatestValueForTest(patientID, testID)
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(ErrorResponse{
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -195,27 +196,27 @@ func (h *LabResultValueHandler) GetLatestValueForTest(c *fiber.Ctx) error {
 // @Param id path string true "Lab result value ID"
 // @Param value body models.LabResultValue true "Updated lab result value data"
 // @Success 200 {object} models.LabResultValue
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-results/values/{id} [put]
 func (h *LabResultValueHandler) UpdateLabResultValue(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	var value models.LabResultValue
 	if err := c.BodyParser(&value); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid request body",
 		})
 	}
 
 	if err := h.service.UpdateLabResultValue(id, &value); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(ErrorResponse{
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
@@ -229,19 +230,19 @@ func (h *LabResultValueHandler) UpdateLabResultValue(c *fiber.Ctx) error {
 // @Tags LabResults
 // @Param id path string true "Lab result value ID"
 // @Success 204
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/lab-results/values/{id} [delete]
 func (h *LabResultValueHandler) DeleteLabResultValue(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(ErrorResponse{
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid ID format",
 		})
 	}
 
 	if err := h.service.DeleteLabResultValue(id); err != nil {
-		return c.Status(fiber.StatusNotFound).JSON(ErrorResponse{
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
 	}
