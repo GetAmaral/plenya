@@ -34,6 +34,7 @@ import { apiClient } from "@/lib/api-client";
 import { useRequireAuth } from "@/lib/use-auth";
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
 import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
+import { PageHeader } from "@/components/layout/page-header";
 
 interface Anamnesis {
   id: string;
@@ -221,27 +222,21 @@ export default function AnamnesisPage() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl space-y-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center justify-between"
-        >
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-              <ClipboardList className="h-8 w-8 text-blue-600" />
-              Anamnese
-            </h1>
-            <p className="mt-2 text-muted-foreground">
-              Gerencie o histórico médico dos pacientes
-            </p>
-          </div>
-          <Button className="gap-2">
-            <Plus className="h-4 w-4" />
-            Nova Anamnese
-          </Button>
-        </motion.div>
+        <PageHeader
+          breadcrumbs={[{ label: 'Anamnese' }]}
+          title="Anamnese"
+          description={`${data?.total || 0} registros de anamnese`}
+          actions={[
+            {
+              label: 'Novo',
+              icon: <Plus className="h-4 w-4" />,
+              onClick: () => console.log('Nova anamnese'),
+              variant: 'default',
+            },
+          ]}
+        />
 
         {/* Selected Patient Header */}
         <SelectedPatientHeader />

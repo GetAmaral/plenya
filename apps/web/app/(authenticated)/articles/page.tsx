@@ -29,6 +29,7 @@ import {
   Heart,
 } from 'lucide-react'
 import Link from 'next/link'
+import { PageHeader } from '@/components/layout/page-header'
 
 type ViewMode = 'all' | 'favorites' | 'search'
 
@@ -82,22 +83,27 @@ export default function ArticlesPage() {
   const totalPages = currentQuery.data?.pagination.totalPages || 0
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="container mx-auto py-8 px-4 space-y-8">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-bold">Artigos Científicos</h1>
-            <p className="text-muted-foreground mt-1">
-              Gerencie sua biblioteca de artigos médicos
-            </p>
-          </div>
+      <PageHeader
+        breadcrumbs={[{ label: 'Artigos' }]}
+        title="Artigos Científicos"
+        description={
+          articlesQuery.data
+            ? `${articlesQuery.data.pagination.total} artigos na biblioteca`
+            : 'Gerencie sua biblioteca de artigos médicos'
+        }
+        actions={[
+          {
+            label: 'Importar',
+            icon: <Upload className="h-4 w-4" />,
+            onClick: () => setShowUploadDialog(true),
+            variant: 'default',
+          },
+        ]}
+      />
 
-          <Button onClick={() => setShowUploadDialog(true)}>
-            <Upload className="mr-2 h-4 w-4" />
-            Importar PDF
-          </Button>
-        </div>
+      <div>
 
         {/* Search & Filters Bar */}
         <div className="flex flex-col lg:flex-row gap-4">

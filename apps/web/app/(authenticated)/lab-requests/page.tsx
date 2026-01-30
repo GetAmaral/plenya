@@ -29,6 +29,7 @@ import {
 import { getPatients, type Patient } from '@/lib/api/patients'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
+import { PageHeader } from '@/components/layout/page-header'
 
 export default function LabRequestsPage() {
   const router = useRouter()
@@ -43,19 +44,20 @@ export default function LabRequestsPage() {
   const requests = requestsData?.data || []
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">Pedidos de Exames</h1>
-          <p className="text-muted-foreground mt-1">
-            Crie e gerencie pedidos de exames laboratoriais
-          </p>
-        </div>
-        <Button onClick={() => setShowCreateForm(!showCreateForm)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Novo Pedido
-        </Button>
-      </div>
+    <div className="container mx-auto py-8 space-y-8">
+      <PageHeader
+        breadcrumbs={[{ label: 'Pedidos de Exames' }]}
+        title="Pedidos de Exames"
+        description={`${requests.length} pedido${requests.length !== 1 ? 's' : ''} de exames`}
+        actions={[
+          {
+            label: 'Novo',
+            icon: <Plus className="h-4 w-4" />,
+            onClick: () => setShowCreateForm(!showCreateForm),
+            variant: 'default',
+          },
+        ]}
+      />
 
       {showCreateForm && (
         <CreateLabRequestForm onSuccess={() => setShowCreateForm(false)} />

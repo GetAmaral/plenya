@@ -34,6 +34,7 @@ import { apiClient } from "@/lib/api-client";
 import { useRequireAuth } from "@/lib/use-auth";
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
 import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
+import { PageHeader } from "@/components/layout/page-header";
 
 interface Prescription {
   id: string;
@@ -204,27 +205,21 @@ export default function PrescriptionsPage() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl space-y-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center justify-between"
-        >
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-              <FileText className="h-8 w-8 text-amber-600" />
-              Prescrições
-            </h1>
-            <p className="mt-2 text-muted-foreground">
-              Gerencie as prescrições médicas
-            </p>
-          </div>
-          <Button className="gap-2">
-            <Plus className="h-4 w-4" />
-            Nova Prescrição
-          </Button>
-        </motion.div>
+        <PageHeader
+          breadcrumbs={[{ label: 'Prescrições' }]}
+          title="Prescrições"
+          description={`${data?.total || 0} prescrições registradas`}
+          actions={[
+            {
+              label: 'Novo',
+              icon: <Plus className="h-4 w-4" />,
+              onClick: () => console.log('Nova prescrição'),
+              variant: 'default',
+            },
+          ]}
+        />
 
         {/* Selected Patient Header */}
         <SelectedPatientHeader />

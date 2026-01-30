@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   flexRender,
@@ -38,6 +39,7 @@ import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHead
 import Link from "next/link";
 import { Settings } from "lucide-react";
 import { LabResultEntryDialog } from "@/components/lab-tests/LabResultEntryDialog";
+import { PageHeader } from "@/components/layout/page-header";
 
 interface LabResult {
   id: string;
@@ -86,6 +88,7 @@ export default function LabResultsPage() {
   useRequireAuth();
   useRequireSelectedPatient();
   const { user } = useAuth();
+  const router = useRouter();
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -250,37 +253,27 @@ export default function LabResultsPage() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl space-y-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center justify-between"
-        >
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-              <TestTube className="h-8 w-8 text-purple-600" />
-              Exames Laboratoriais
-            </h1>
-            <p className="mt-2 text-muted-foreground">
-              Gerencie resultados de exames laboratoriais
-            </p>
-          </div>
-          <div className="flex gap-2">
-            {user?.role === "admin" && (
-              <Link href="/lab-results/definitions">
-                <Button variant="outline" className="gap-2">
-                  <Settings className="h-4 w-4" />
-                  Definições de Exames
-                </Button>
-              </Link>
-            )}
-            <Button className="gap-2" onClick={() => setEntryDialogOpen(true)}>
-              <Plus className="h-4 w-4" />
-              Novo Resultado
-            </Button>
-          </div>
-        </motion.div>
+        <PageHeader
+          breadcrumbs={[{ label: 'Exames' }]}
+          title="Exames Laboratoriais"
+          description={`${data?.total || 0} resultados de exames`}
+          actions={[
+            ...(user?.role === "admin" ? [{
+              label: 'Definições',
+              icon: <Settings className="h-4 w-4" />,
+              onClick: () => router.push('/lab-results/definitions'),
+              variant: 'outline' as const,
+            }] : []),
+            {
+              label: 'Novo',
+              icon: <Plus className="h-4 w-4" />,
+              onClick: () => setEntryDialogOpen(true),
+              variant: 'default' as const,
+            },
+          ]}
+        />
 
         {/* Selected Patient Header */}
         <SelectedPatientHeader />

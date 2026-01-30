@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -38,6 +38,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { toast } from 'sonner'
+import { PageHeader } from '@/components/layout/page-header'
 
 export default function LabRequestTemplatesPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
@@ -97,61 +98,61 @@ export default function LabRequestTemplatesPage() {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">Templates de Pedidos de Exames</h1>
-          <p className="text-muted-foreground mt-1">
-            Crie e gerencie templates pré-configurados com listas de exames
-          </p>
-        </div>
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Novo Template
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Criar Novo Template</DialogTitle>
-              <DialogDescription>
-                Crie um template e depois adicione exames a ele
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleCreate} className="space-y-4">
-              <div>
-                <label className="text-sm font-medium">Nome</label>
-                <Input
-                  name="name"
-                  placeholder="Ex: Check-up Anual, Perfil Tireoidiano"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Descrição (opcional)</label>
-                <Textarea
-                  name="description"
-                  placeholder="Descrição do template..."
-                  rows={3}
-                />
-              </div>
-              <div className="flex justify-end gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsCreateDialogOpen(false)}
-                >
-                  Cancelar
-                </Button>
-                <Button type="submit" disabled={createMutation.isPending}>
-                  {createMutation.isPending ? 'Criando...' : 'Criar Template'}
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
+    <div className="container mx-auto py-8 space-y-8">
+      <PageHeader
+        breadcrumbs={[{ label: 'Templates de Pedidos' }]}
+        title="Templates de Pedidos"
+        description={`${templates.length} template${templates.length !== 1 ? 's' : ''} configurado${templates.length !== 1 ? 's' : ''}`}
+        actions={[
+          {
+            label: 'Novo',
+            icon: <Plus className="h-4 w-4" />,
+            onClick: () => setIsCreateDialogOpen(true),
+            variant: 'default',
+          },
+        ]}
+      />
+
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Criar Novo Template</DialogTitle>
+            <DialogDescription>
+              Crie um template e depois adicione exames a ele
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleCreate} className="space-y-4">
+            <div>
+              <label className="text-sm font-medium">Nome</label>
+              <Input
+                name="name"
+                placeholder="Ex: Check-up Anual, Perfil Tireoidiano"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Descrição (opcional)</label>
+              <Textarea
+                name="description"
+                placeholder="Descrição do template..."
+                rows={3}
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsCreateDialogOpen(false)}
+              >
+                Cancelar
+              </Button>
+              <Button type="submit" disabled={createMutation.isPending}>
+                {createMutation.isPending ? 'Criando...' : 'Criar Template'}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {templatesLoading ? (
         <div className="text-center py-12">Carregando templates...</div>
@@ -271,13 +272,15 @@ function TemplateEditDialog({
   // Fetch template with tests
   const { data: templateWithTests, isLoading } = useQuery({
     queryKey: ['lab-request-template', template.id],
-    queryFn: () => getLabRequestTemplateById(template.id),
-    onSuccess: (data) => {
-      if (data.labTests) {
-        setSelectedTests(data.labTests)
-      }
-    }
+    queryFn: () => getLabRequestTemplateById(template.id)
   })
+
+  // Update selected tests when template data loads
+  useEffect(() => {
+    if (templateWithTests?.labTests) {
+      setSelectedTests(templateWithTests.labTests)
+    }
+  }, [templateWithTests])
 
   // Update template info
   const updateInfoMutation = useMutation({

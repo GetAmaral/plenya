@@ -2,8 +2,7 @@
 
 import { useState, useEffect, useCallback, startTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Network, Search, Printer, FileImage, ChevronsDown, ChevronsUp, Minimize2, Loader2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Plus, Network, Search, Printer, FileImage, ChevronsDown, ChevronsUp, Minimize2, Loader2, Eye } from 'lucide-react'
 import { useAllScoreGroupTrees } from '@/lib/api/score-api'
 import { ScoreTreeView } from '@/components/scores/ScoreTreeView'
 import { ScoreGroupDialog } from '@/components/scores/ScoreGroupDialog'
@@ -37,17 +36,14 @@ export default function ScoresPage() {
   const handleSearchResultClick = useCallback((result: SearchResult) => {
     const nodesToExpand: Record<string, boolean> = { ...expandedNodes }
 
-    // Expandir grupo
     if (result.groupId) {
       nodesToExpand[`group-${result.groupId}`] = true
     }
 
-    // Expandir subgrupo
     if (result.subgroupId) {
       nodesToExpand[`subgroup-${result.subgroupId}`] = true
     }
 
-    // Expandir item
     if (result.itemId) {
       nodesToExpand[`item-${result.itemId}`] = true
     }
@@ -55,21 +51,14 @@ export default function ScoresPage() {
     setExpandedNodes(nodesToExpand)
     setSearchOpen(false)
 
-    // Aguardar um pouco mais para garantir que o accordion expandiu
     setTimeout(() => {
       const element = document.getElementById(result.id)
       if (element) {
-        // Scroll suave até o elemento
         element.scrollIntoView({ behavior: 'smooth', block: 'center' })
-
-        // Highlight temporário com transição
         element.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'transition-all')
-
         setTimeout(() => {
           element.classList.remove('ring-2', 'ring-primary', 'ring-offset-2')
         }, 2000)
-      } else {
-        console.warn('Elemento não encontrado:', result.id)
       }
     }, 300)
   }, [expandedNodes])
@@ -81,96 +70,87 @@ export default function ScoresPage() {
   // Expandir tudo (com textos clínicos)
   const handleExpandAll = useCallback(() => {
     if (!scoreGroups || isExpanding) return
-
     setIsExpanding(true)
 
-    // Use setTimeout to allow UI to update (show spinner)
     setTimeout(() => {
       startTransition(() => {
         const allNodes: Record<string, boolean> = {}
-
         scoreGroups.forEach(group => {
-          // Expandir grupo (sempre visível, mas guardamos para consistência)
           allNodes[`group-${group.id}`] = true
-
-          // Expandir todos os subgrupos
           group.subgroups?.forEach(subgroup => {
             allNodes[`subgroup-${subgroup.id}`] = true
-
-            // Expandir todos os items
             subgroup.items?.forEach(item => {
               allNodes[`item-${item.id}`] = true
             })
           })
         })
-
         setExpandedNodes(allNodes)
         setExpandClinicalTexts(true)
-
-        // Small delay to allow rendering
-        setTimeout(() => {
-          setIsExpanding(false)
-        }, 100)
       })
-    }, 50)
+
+      setTimeout(() => {
+        setIsExpanding(false)
+      }, 500)
+    }, 100)
   }, [scoreGroups, isExpanding])
 
   // Expandir tudo (sem textos clínicos)
   const handleExpandAllWithoutTexts = useCallback(() => {
     if (!scoreGroups || isExpanding) return
-
     setIsExpanding(true)
 
     setTimeout(() => {
       startTransition(() => {
         const allNodes: Record<string, boolean> = {}
-
         scoreGroups.forEach(group => {
           allNodes[`group-${group.id}`] = true
-
-          // Expandir todos os subgrupos
           group.subgroups?.forEach(subgroup => {
             allNodes[`subgroup-${subgroup.id}`] = true
-
-            // NÃO expandir items (textos clínicos)
+            subgroup.items?.forEach(item => {
+              allNodes[`item-${item.id}`] = true
+            })
           })
         })
-
         setExpandedNodes(allNodes)
         setExpandClinicalTexts(false)
-
-        setTimeout(() => {
-          setIsExpanding(false)
-        }, 100)
       })
-    }, 50)
+
+      setTimeout(() => {
+        setIsExpanding(false)
+      }, 300)
+    }, 100)
   }, [scoreGroups, isExpanding])
 
   // Recolher tudo
   const handleCollapseAll = useCallback(() => {
     if (isExpanding) return
-
     setIsExpanding(true)
 
     setTimeout(() => {
       startTransition(() => {
         setExpandedNodes({})
         setExpandClinicalTexts(false)
-
-        setTimeout(() => {
-          setIsExpanding(false)
-        }, 100)
       })
+      setTimeout(() => {
+        setIsExpanding(false)
+      }, 100)
     }, 50)
   }, [isExpanding])
 
+  const totalGroups = scoreGroups?.length || 0
+  const totalItems = scoreGroups?.reduce((acc, group) => {
+    return acc + (group.subgroups?.reduce((subAcc, subgroup) => {
+      return subAcc + (subgroup.items?.length || 0)
+    }, 0) || 0)
+  }, 0) || 0
+
   if (error) {
     return (
-      <div className="container mx-auto py-4">
-        <div className="rounded-lg border border-destructive bg-destructive/10 p-3">
-          <h3 className="font-semibold text-destructive">Erro ao carregar escores</h3>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            {error instanceof Error ? error.message : 'Erro desconhecido'}
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <p className="text-destructive">Erro ao carregar escores</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            {error.message || 'Erro desconhecido'}
           </p>
         </div>
       </div>
@@ -178,122 +158,94 @@ export default function ScoresPage() {
   }
 
   return (
-    <div className="space-y-6" style={{ cursor: isExpanding ? 'wait' : 'default' }}>
-      {/* Loading Overlay */}
-      {isExpanding && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
-          <div className="flex flex-col items-center gap-3 rounded-lg bg-card p-6 shadow-lg border">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm font-medium">Processando...</p>
+    <div className="space-y-8">
+      {/* Search Modal */}
+      {searchOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center pt-20">
+          <div className="w-full max-w-2xl">
+            <ScoreSearch
+              scoreGroups={scoreGroups || []}
+              onResultClick={handleSearchResultClick}
+              onClose={() => setSearchOpen(false)}
+            />
           </div>
         </div>
       )}
 
-      {/* Header */}
+      {/* Page Header */}
       <PageHeader
-        title="Gestão de Escores"
-        description="Gerencie os critérios de estratificação de risco"
-        primaryAction={{
-          label: 'Novo Grupo',
-          icon: <Plus className="mr-2 h-4 w-4" />,
-          onClick: () => setIsCreateDialogOpen(true),
-        }}
-        secondaryActions={[
+        breadcrumbs={[{ label: 'Escores' }]}
+        title="Escores de Saúde"
+        description={`${totalGroups} grupos · ${totalItems} critérios de avaliação`}
+        actions={[
           {
-            label: 'Procurar',
-            icon: <Search className="mr-2 h-4 w-4" />,
+            label: 'Expandir',
+            icon: isExpanding ? <Loader2 className="h-4 w-4 animate-spin" /> : <ChevronsDown className="h-4 w-4" />,
+            disabled: isExpanding || isLoading,
+            items: [
+              {
+                label: 'Expandir Tudo',
+                icon: <ChevronsDown className="h-4 w-4" />,
+                onClick: handleExpandAll,
+                disabled: isExpanding || isLoading,
+              },
+              {
+                label: 'Sem Textos',
+                icon: <ChevronsUp className="h-4 w-4" />,
+                onClick: handleExpandAllWithoutTexts,
+                disabled: isExpanding || isLoading,
+              },
+              {
+                label: 'Recolher',
+                icon: <Minimize2 className="h-4 w-4" />,
+                onClick: handleCollapseAll,
+                disabled: isExpanding || isLoading,
+              },
+            ],
+          },
+          {
+            label: 'Buscar',
+            icon: <Search className="h-4 w-4" />,
             onClick: handleSearchToggle,
           },
           {
-            label: 'Visualizar Mindmap',
-            icon: <Network className="mr-2 h-4 w-4" />,
-            onClick: () => router.push('/scores/mindmap'),
+            label: 'Visualizar',
+            icon: <Eye className="h-4 w-4" />,
+            items: [
+              {
+                label: 'Mindmap',
+                icon: <Network className="h-4 w-4" />,
+                onClick: () => router.push('/scores/mindmap'),
+              },
+              {
+                label: 'Impressão',
+                icon: <Printer className="h-4 w-4" />,
+                onClick: () => router.push('/scores/print'),
+              },
+              {
+                label: 'Pôster',
+                icon: <FileImage className="h-4 w-4" />,
+                onClick: () => router.push('/scores/poster'),
+              },
+            ],
           },
           {
-            label: 'Versão Impressão',
-            icon: <Printer className="mr-2 h-4 w-4" />,
-            onClick: () => router.push('/scores/print'),
-          },
-          {
-            label: 'Pôster 60x300cm',
-            icon: <FileImage className="mr-2 h-4 w-4" />,
-            onClick: () => router.push('/scores/poster'),
+            label: 'Novo',
+            icon: <Plus className="h-4 w-4" />,
+            onClick: () => setIsCreateDialogOpen(true),
+            variant: 'default',
           },
         ]}
-      >
-          <Button
-            onClick={handleExpandAll}
-            variant="outline"
-            size="sm"
-            title="Expandir todos os grupos, subgrupos e textos clínicos"
-            disabled={isExpanding || isLoading}
-          >
-            {isExpanding ? (
-              <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
-            ) : (
-              <ChevronsDown className="h-4 w-4 mr-1.5" />
-            )}
-            Expandir Tudo
-          </Button>
-          <Button
-            onClick={handleExpandAllWithoutTexts}
-            variant="outline"
-            size="sm"
-            title="Expandir grupos e subgrupos, mas manter textos clínicos recolhidos"
-            disabled={isExpanding || isLoading}
-          >
-            {isExpanding ? (
-              <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
-            ) : (
-              <ChevronsUp className="h-4 w-4 mr-1.5" />
-            )}
-            Expandir (sem textos)
-          </Button>
-          <Button
-            onClick={handleCollapseAll}
-            variant="outline"
-            size="sm"
-            title="Recolher tudo"
-            disabled={isExpanding || isLoading}
-          >
-            {isExpanding ? (
-              <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
-            ) : (
-              <Minimize2 className="h-4 w-4 mr-1.5" />
-            )}
-            Recolher Tudo
-          </Button>
-      </PageHeader>
-
-      {/* Search Component */}
-      <ScoreSearch
-        scoreGroups={scoreGroups || []}
-        isOpen={searchOpen}
-        onClose={() => setSearchOpen(false)}
-        onResultClick={handleSearchResultClick}
       />
 
       {/* Content */}
-      {isLoading ? (
-        <div className="flex items-center justify-center py-8">
-          <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-primary" />
+      {isLoading && (
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
-      ) : !scoreGroups || scoreGroups.length === 0 ? (
-        <div className="rounded-lg border border-dashed bg-muted/30 p-8 text-center">
-          <h3 className="text-base font-semibold">Nenhum grupo de escores cadastrado</h3>
-          <p className="text-sm text-muted-foreground mt-1">
-            Comece criando um novo grupo de escores
-          </p>
-          <Button
-            onClick={() => setIsCreateDialogOpen(true)}
-            className="mt-3"
-            size="sm"
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            Criar Primeiro Grupo
-          </Button>
-        </div>
-      ) : (
+      )}
+
+      {!isLoading && scoreGroups && scoreGroups.length > 0 && (
         <ScoreTreeView
           groups={scoreGroups}
           expandedNodes={expandedNodes}
@@ -301,10 +253,27 @@ export default function ScoresPage() {
         />
       )}
 
-      {/* Create Group Dialog */}
+      {!isLoading && (!scoreGroups || scoreGroups.length === 0) && (
+        <div className="flex flex-col items-center justify-center h-96 text-center">
+          <Network className="h-16 w-16 text-muted-foreground mb-4" />
+          <h3 className="text-lg font-semibold mb-2">Nenhum escore cadastrado</h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            Comece criando seu primeiro grupo de escores
+          </p>
+          <Button onClick={() => setIsCreateDialogOpen(true)} className="gap-2">
+            <Plus className="h-4 w-4" />
+            Criar Primeiro Grupo
+          </Button>
+        </div>
+      )}
+
+      {/* Create Dialog */}
       <ScoreGroupDialog
         open={isCreateDialogOpen}
         onOpenChange={setIsCreateDialogOpen}
+        onSuccess={() => {
+          setIsCreateDialogOpen(false)
+        }}
       />
     </div>
   )

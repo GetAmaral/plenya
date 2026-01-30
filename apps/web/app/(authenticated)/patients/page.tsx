@@ -32,6 +32,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiClient } from "@/lib/api-client";
 import { useRequireAuth } from "@/lib/use-auth";
+import { PageHeader } from "@/components/layout/page-header";
 
 interface Patient {
   id: string;
@@ -198,35 +199,24 @@ export default function PatientsPage() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl space-y-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center justify-between"
-        >
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-              <Users className="h-8 w-8 text-blue-600" />
-              Pacientes
-            </h1>
-            <p className="mt-2 text-muted-foreground">
-              Gerencie os pacientes cadastrados no sistema
-            </p>
-          </div>
-          <Button className="gap-2">
-            <Plus className="h-4 w-4" />
-            Novo Paciente
-          </Button>
-        </motion.div>
+        <PageHeader
+          breadcrumbs={[{ label: 'Pacientes' }]}
+          title="Pacientes"
+          description={`${data?.total || 0} pacientes cadastrados no sistema`}
+          actions={[
+            {
+              label: 'Novo',
+              icon: <Plus className="h-4 w-4" />,
+              onClick: () => router.push('/patients/new'),
+              variant: 'default',
+            },
+          ]}
+        />
 
         {/* Table Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <Card className="border-0 shadow-lg">
+        <Card className="border-0 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>Lista de Pacientes</span>
@@ -337,7 +327,6 @@ export default function PatientsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
       </div>
     </div>
   );
