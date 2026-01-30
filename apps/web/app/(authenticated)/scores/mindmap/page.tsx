@@ -59,6 +59,7 @@ import { ScoreItemDialog } from '@/components/scores/ScoreItemDialog'
 import { ScoreLevelDialog } from '@/components/scores/ScoreLevelDialog'
 import { buildMindmapLayout } from '@/components/scores/mindmap/useMindmapLayout'
 import { exportMindmapToPNG } from '@/components/scores/mindmap/exportMindmap'
+import { PageHeader } from '@/components/layout/page-header'
 
 const nodeTypes = {
   groupNode: GroupNode,

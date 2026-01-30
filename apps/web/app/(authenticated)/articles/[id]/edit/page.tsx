@@ -31,6 +31,7 @@ import {
 } from '@/lib/api/article-api'
 import { ArticleScoreItemsSelector } from '@/components/articles/ArticleScoreItemsSelector'
 import { ArrowLeft, Save, Loader2, Upload, FileText, X } from 'lucide-react'
+import { PageHeader } from '@/components/layout/page-header'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -221,19 +222,15 @@ export default function EditArticlePage({ params }: PageProps) {
   return (
     <div className="container mx-auto py-8 px-4 max-w-4xl">
       {/* Header */}
-      <Button variant="ghost" asChild className="mb-6">
-        <Link href={`/articles/${id}`}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Voltar para detalhes
-        </Link>
-      </Button>
-
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Editar Artigo</h1>
-        <p className="text-muted-foreground">
-          Atualize as informações do artigo científico
-        </p>
-      </div>
+      <PageHeader
+        title="Editar Artigo"
+        description="Atualize as informações do artigo científico"
+        breadcrumbs={[
+          { label: "Artigos", href: "/articles" },
+          { label: article.title, href: `/articles/${id}` },
+          { label: "Editar" }
+        ]}
+      />
 
       {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

@@ -49,6 +49,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { PageHeader } from "@/components/layout/page-header";
 
 export default function LabTestDefinitionsPage() {
   useRequireAuth();
@@ -296,25 +297,18 @@ export default function LabTestDefinitionsPage() {
     <div className="min-h-screen p-6">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center justify-between"
-        >
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-              <TestTube2 className="h-8 w-8 text-purple-600" />
-              Definições de Exames
-            </h1>
-            <p className="mt-2 text-muted-foreground">
-              Gerencie catálogo de exames laboratoriais e parâmetros
-            </p>
-          </div>
-          <Button className="gap-2" onClick={handleCreate}>
-            <Plus className="h-4 w-4" />
-            Nova Definição
-          </Button>
-        </motion.div>
+        <PageHeader
+          title="Definições de Exames"
+          description="Gerencie catálogo de exames laboratoriais e parâmetros"
+          actions={
+            <>
+              <Button className="gap-2" onClick={handleCreate}>
+                <Plus className="h-4 w-4" />
+                Nova Definição
+              </Button>
+            </>
+          }
+        />
 
         {/* Stats */}
         <motion.div
