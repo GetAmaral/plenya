@@ -74,30 +74,29 @@ func (r *LabRequestTemplateRepository) UpdateLabRequestTemplate(template *models
 
 // UpdateLabRequestTemplateTests updates the lab tests associated with a template
 func (r *LabRequestTemplateRepository) UpdateLabRequestTemplateTests(templateID uuid.UUID, testIDs []uuid.UUID) error {
-	// Start transaction
+	// Use a simpler approach to avoid deadlocks
 	return r.db.Transaction(func(tx *gorm.DB) error {
-		// Get template
-		var template models.LabRequestTemplate
-		if err := tx.First(&template, "id = ?", templateID).Error; err != nil {
+		// Delete all existing associations for this template
+		if err := tx.Exec("DELETE FROM lab_request_template_tests WHERE lab_request_template_id = ?", templateID).Error; err != nil {
 			return err
 		}
 
-		// Clear existing associations
-		if err := tx.Model(&template).Association("LabTests").Clear(); err != nil {
-			return err
-		}
-
-		// Add new associations
+		// Insert new associations if any
 		if len(testIDs) > 0 {
-			var tests []models.LabTestDefinition
-			if err := tx.Where("id IN ? AND is_active = ? AND is_requestable = ?", testIDs, true, true).
-				Find(&tests).Error; err != nil {
-				return err
+			// Build values for bulk insert
+			for _, testID := range testIDs {
+				if err := tx.Exec(
+					"INSERT INTO lab_request_template_tests (lab_request_template_id, lab_test_definition_id) VALUES (?, ?) ON CONFLICT DO NOTHING",
+					templateID, testID,
+				).Error; err != nil {
+					return err
+				}
 			}
+		}
 
-			if err := tx.Model(&template).Association("LabTests").Append(tests); err != nil {
-				return err
-			}
+		// Update template's updated_at timestamp
+		if err := tx.Exec("UPDATE lab_request_templates SET updated_at = NOW() WHERE id = ?", templateID).Error; err != nil {
+			return err
 		}
 
 		return nil
