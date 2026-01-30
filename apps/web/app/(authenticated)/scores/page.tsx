@@ -8,6 +8,7 @@ import { useAllScoreGroupTrees } from '@/lib/api/score-api'
 import { ScoreTreeView } from '@/components/scores/ScoreTreeView'
 import { ScoreGroupDialog } from '@/components/scores/ScoreGroupDialog'
 import { ScoreSearch, SearchResult } from '@/components/scores/ScoreSearch'
+import { PageHeader } from '@/components/layout/page-header'
 
 export default function ScoresPage() {
   const router = useRouter()
@@ -177,7 +178,7 @@ export default function ScoresPage() {
   }
 
   return (
-    <div className="container mx-auto py-4 space-y-4" style={{ cursor: isExpanding ? 'wait' : 'default' }}>
+    <div className="space-y-6" style={{ cursor: isExpanding ? 'wait' : 'default' }}>
       {/* Loading Overlay */}
       {isExpanding && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
@@ -189,99 +190,81 @@ export default function ScoresPage() {
       )}
 
       {/* Header */}
-      <div className="flex items-center justify-between border-b pb-3">
-        <div>
-          <h1 className="text-2xl font-bold">Gestão de Escores</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Gerencie os critérios de estratificação de risco
-          </p>
-        </div>
-
-        <div className="flex gap-1.5 flex-wrap">
-          {/* Expansion Controls */}
-          <div className="flex gap-1 mr-2">
-            <Button
-              onClick={handleExpandAll}
-              variant="outline"
-              size="sm"
-              title="Expandir todos os grupos, subgrupos e textos clínicos"
-              disabled={isExpanding || isLoading}
-            >
-              {isExpanding ? (
-                <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
-              ) : (
-                <ChevronsDown className="h-4 w-4 mr-1.5" />
-              )}
-              Expandir Tudo
-            </Button>
-            <Button
-              onClick={handleExpandAllWithoutTexts}
-              variant="outline"
-              size="sm"
-              title="Expandir grupos e subgrupos, mas manter textos clínicos recolhidos"
-              disabled={isExpanding || isLoading}
-            >
-              {isExpanding ? (
-                <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
-              ) : (
-                <ChevronsUp className="h-4 w-4 mr-1.5" />
-              )}
-              Expandir (sem textos)
-            </Button>
-            <Button
-              onClick={handleCollapseAll}
-              variant="outline"
-              size="sm"
-              title="Recolher tudo"
-              disabled={isExpanding || isLoading}
-            >
-              {isExpanding ? (
-                <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
-              ) : (
-                <Minimize2 className="h-4 w-4 mr-1.5" />
-              )}
-              Recolher Tudo
-            </Button>
-          </div>
-
-          <Button onClick={handleSearchToggle} variant="outline">
-            <Search className="mr-2 h-4 w-4" />
-            Procurar
-            <kbd className="ml-2 pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-              Ctrl+F
-            </kbd>
-          </Button>
-
+      <PageHeader
+        title="Gestão de Escores"
+        description="Gerencie os critérios de estratificação de risco"
+        primaryAction={{
+          label: 'Novo Grupo',
+          icon: <Plus className="mr-2 h-4 w-4" />,
+          onClick: () => setIsCreateDialogOpen(true),
+        }}
+        secondaryActions={[
+          {
+            label: 'Procurar',
+            icon: <Search className="mr-2 h-4 w-4" />,
+            onClick: handleSearchToggle,
+          },
+          {
+            label: 'Visualizar Mindmap',
+            icon: <Network className="mr-2 h-4 w-4" />,
+            onClick: () => router.push('/scores/mindmap'),
+          },
+          {
+            label: 'Versão Impressão',
+            icon: <Printer className="mr-2 h-4 w-4" />,
+            onClick: () => router.push('/scores/print'),
+          },
+          {
+            label: 'Pôster 60x300cm',
+            icon: <FileImage className="mr-2 h-4 w-4" />,
+            onClick: () => router.push('/scores/poster'),
+          },
+        ]}
+      >
           <Button
+            onClick={handleExpandAll}
             variant="outline"
-            onClick={() => router.push('/scores/mindmap')}
+            size="sm"
+            title="Expandir todos os grupos, subgrupos e textos clínicos"
+            disabled={isExpanding || isLoading}
           >
-            <Network className="mr-2 h-4 w-4" />
-            Visualizar Mindmap
+            {isExpanding ? (
+              <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+            ) : (
+              <ChevronsDown className="h-4 w-4 mr-1.5" />
+            )}
+            Expandir Tudo
           </Button>
-
           <Button
+            onClick={handleExpandAllWithoutTexts}
             variant="outline"
-            onClick={() => router.push('/scores/print')}
+            size="sm"
+            title="Expandir grupos e subgrupos, mas manter textos clínicos recolhidos"
+            disabled={isExpanding || isLoading}
           >
-            <Printer className="mr-2 h-4 w-4" />
-            Versão Impressão
+            {isExpanding ? (
+              <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+            ) : (
+              <ChevronsUp className="h-4 w-4 mr-1.5" />
+            )}
+            Expandir (sem textos)
           </Button>
-
           <Button
+            onClick={handleCollapseAll}
             variant="outline"
-            onClick={() => router.push('/scores/poster')}
+            size="sm"
+            title="Recolher tudo"
+            disabled={isExpanding || isLoading}
           >
-            <FileImage className="mr-2 h-4 w-4" />
-            Pôster 60x300cm
-          </Button>
-
-          <Button onClick={() => setIsCreateDialogOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
-            Novo Grupo
+            {isExpanding ? (
+              <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+            ) : (
+              <Minimize2 className="h-4 w-4 mr-1.5" />
+            )}
+            Recolher Tudo
           </Button>
         </div>
-      </div>
+      </PageHeader>
 
       {/* Search Component */}
       <ScoreSearch
