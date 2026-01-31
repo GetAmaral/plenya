@@ -24,6 +24,20 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { Check, ChevronsUpDown } from 'lucide-react'
+import {
   ScoreItem,
   CreateScoreItemDTO,
   UpdateScoreItemDTO,
@@ -32,12 +46,19 @@ import {
   useAllScoreGroupTrees,
   useScoreSubgroup,
 } from '@/lib/api/score-api'
+import { cn } from '@/lib/utils'
 
 interface ScoreItemDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   subgroupId: string
   item?: ScoreItem
+}
+
+// Helper to truncate text
+const truncateText = (text: string, maxLength: number = 60) => {
+  if (text.length <= maxLength) return text
+  return text.substring(0, maxLength - 3) + '...'
 }
 
 export function ScoreItemDialog({
@@ -60,6 +81,7 @@ export function ScoreItemDialog({
   // State for selected subgroup
   const [selectedSubgroupId, setSelectedSubgroupId] = useState(item?.subgroupId || subgroupId)
   const [selectedParentItemId, setSelectedParentItemId] = useState(item?.parentItemId || '')
+  const [parentItemComboboxOpen, setParentItemComboboxOpen] = useState(false)
 
   // Fetch current subgroup to get group info
   const { data: currentSubgroup } = useScoreSubgroup(selectedSubgroupId)
@@ -229,36 +251,80 @@ export function ScoreItemDialog({
               </SelectTrigger>
               <SelectContent>
                 {allGroups?.map((group) =>
-                  group.subgroups?.map((subgroup) => (
-                    <SelectItem key={subgroup.id} value={subgroup.id}>
-                      {group.name} &gt; {subgroup.name}
-                    </SelectItem>
-                  ))
+                  group.subgroups?.map((subgroup) => {
+                    const label = `${group.name} > ${subgroup.name}`
+                    return (
+                      <SelectItem key={subgroup.id} value={subgroup.id}>
+                        {truncateText(label, 60)}
+                      </SelectItem>
+                    )
+                  })
                 )}
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="parentItem">Item Pai (opcional)</Label>
-            <Select
-              value={selectedParentItemId}
-              onValueChange={setSelectedParentItemId}
-            >
-              <SelectTrigger id="parentItem">
-                <SelectValue placeholder="Nenhum (item raiz)" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">Nenhum (item raiz)</SelectItem>
-                {availableParentItems.map((parentItem) => (
-                  <SelectItem key={parentItem.id} value={parentItem.id}>
-                    {parentItem.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="flex items-center justify-between">
+              <Label>Item Pai (opcional)</Label>
+              {selectedParentItemId && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSelectedParentItemId('')}
+                  className="h-6 px-2 text-xs"
+                >
+                  Limpar
+                </Button>
+              )}
+            </div>
+            <Popover open={parentItemComboboxOpen} onOpenChange={setParentItemComboboxOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={parentItemComboboxOpen}
+                  className="w-full justify-between"
+                >
+                  {selectedParentItemId
+                    ? availableParentItems.find((item) => item.id === selectedParentItemId)?.name || 'Item não encontrado'
+                    : 'Nenhum (item raiz)'}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                <Command>
+                  <CommandInput placeholder="Buscar item pai..." />
+                  <CommandList>
+                    <CommandEmpty>Nenhum item encontrado.</CommandEmpty>
+                    <CommandGroup>
+                      {availableParentItems.map((parentItem) => (
+                        <CommandItem
+                          key={parentItem.id}
+                          value={parentItem.name}
+                          onSelect={() => {
+                            setSelectedParentItemId(parentItem.id)
+                            setParentItemComboboxOpen(false)
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              selectedParentItemId === parentItem.id ? 'opacity-100' : 'opacity-0'
+                            )}
+                          />
+                          {parentItem.name}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
             <p className="text-xs text-muted-foreground">
-              Selecione um item pai para criar uma hierarquia
+              Selecione um item pai para criar uma hierarquia. Digite para buscar.
             </p>
           </div>
 
@@ -319,7 +385,7 @@ export function ScoreItemDialog({
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="points">Pontos Máximos *</Label>
+            <Label htmlFor="points">Pontos Máximos</Label>
             <Input
               id="points"
               type="number"
@@ -327,7 +393,6 @@ export function ScoreItemDialog({
               placeholder="0"
               {...register('points', {
                 valueAsNumber: true,
-                required: 'Pontos é obrigatório',
                 min: {
                   value: 0,
                   message: 'Pontos deve ser maior ou igual a 0',
@@ -341,6 +406,9 @@ export function ScoreItemDialog({
             {errors.points && (
               <p className="text-sm text-destructive">{errors.points.message}</p>
             )}
+            <p className="text-xs text-muted-foreground">
+              Deixe vazio se não aplicável
+            </p>
           </div>
 
           <div className="space-y-2">

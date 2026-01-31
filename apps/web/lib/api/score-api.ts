@@ -27,7 +27,7 @@ export interface ScoreItem {
   patientExplanation?: string
   conduct?: string
   lastReview?: string
-  points: number
+  points?: number
   order: number
   subgroupId: string
   parentItemId?: string
@@ -85,7 +85,7 @@ export interface CreateScoreItemDTO {
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
-  points: number
+  points?: number
   subgroupId: string
   parentItemId?: string
   order?: number
@@ -313,11 +313,48 @@ export function useUpdateScoreItem() {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateScoreItemDTO }) =>
       apiClient.put<ScoreItem>(`/api/v1/score-items/${id}`, data),
-    onSuccess: (data, { id }) => {
-      queryClient.invalidateQueries({ queryKey: scoreKeys.item(id) })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.itemsBySubgroup(data.subgroupId) })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.groups() })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
+    onSuccess: (updatedItem, { id }) => {
+      // Update the item in cache
+      queryClient.setQueryData(scoreKeys.item(id), updatedItem)
+
+      // Update the item in the allGroupTrees cache optimistically
+      queryClient.setQueryData<ScoreGroup[]>(
+        scoreKeys.allGroupTrees(),
+        (oldData) => {
+          if (!oldData) return oldData
+
+          // Deep clone and update
+          return oldData.map(group => {
+            if (!group.subgroups) return group
+
+            const hasItemInGroup = group.subgroups.some(sg =>
+              sg.items?.some(item => item.id === id)
+            )
+
+            if (!hasItemInGroup) return group
+
+            return {
+              ...group,
+              subgroups: group.subgroups.map(subgroup => {
+                if (!subgroup.items) return subgroup
+
+                const hasItem = subgroup.items.some(item => item.id === id)
+                if (!hasItem) return subgroup
+
+                return {
+                  ...subgroup,
+                  items: subgroup.items.map(item =>
+                    item.id === id ? updatedItem : item
+                  )
+                }
+              })
+            }
+          })
+        }
+      )
+
+      // Invalidate related queries
+      queryClient.invalidateQueries({ queryKey: scoreKeys.itemsBySubgroup(updatedItem.subgroupId) })
     },
   })
 }
