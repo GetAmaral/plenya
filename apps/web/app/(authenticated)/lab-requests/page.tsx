@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
+import { Badge } from '@/components/ui/badge'
 import {
   Select,
   SelectContent,
@@ -18,13 +19,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Plus, FileText, Calendar, Pencil } from 'lucide-react'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Plus, FileText, Calendar, Pencil, Check, Copy } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { cn } from '@/lib/utils'
 import {
   getAllLabRequests,
   createLabRequest,
   updateLabRequest,
+  generateLabRequestPdf,
   type LabRequest
 } from '@/lib/api/lab-requests'
 import {
@@ -41,6 +43,7 @@ export default function LabRequestsPage() {
   const { selectedPatient, isLoading: patientLoading } = useRequireSelectedPatient()
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [editingRequest, setEditingRequest] = useState<LabRequest | null>(null)
+  const [duplicatingRequest, setDuplicatingRequest] = useState<LabRequest | null>(null)
 
   // Fetch lab requests (backend filtra automaticamente pelo selectedPatient)
   const { data: requestsData, isLoading: requestsLoading } = useQuery({
@@ -85,6 +88,14 @@ export default function LabRequestsPage() {
         />
       )}
 
+      {duplicatingRequest && (
+        <DuplicateLabRequestForm
+          request={duplicatingRequest}
+          onSuccess={() => setDuplicatingRequest(null)}
+          onCancel={() => setDuplicatingRequest(null)}
+        />
+      )}
+
       {requestsLoading ? (
         <div className="text-center py-12">Carregando pedidos...</div>
       ) : requests.length === 0 ? (
@@ -103,6 +114,7 @@ export default function LabRequestsPage() {
               key={request.id}
               request={request}
               onEdit={() => setEditingRequest(request)}
+              onDuplicate={() => setDuplicatingRequest(request)}
             />
           ))}
         </div>
@@ -178,12 +190,17 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
       return
     }
 
-    // Backend pega patientId automaticamente do selectedPatient no JWT
-    createMutation.mutate({
+    const payload = {
       date,
       exams: exams.trim(),
-      notes: notes.trim() || undefined
-    })
+      notes: notes.trim() || undefined,
+      labRequestTemplateId: selectedTemplateId || undefined
+    }
+
+    console.log('Creating lab request with:', payload)
+
+    // Backend pega patientId automaticamente do selectedPatient no JWT
+    createMutation.mutate(payload)
   }
 
   return (
@@ -241,40 +258,52 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
           <div className="lg:col-span-1">
             <Label className="mb-3 block">Templates (opcional)</Label>
             <ScrollArea className="h-[600px] pr-4">
-              <RadioGroup value={selectedTemplateId} onValueChange={handleTemplateSelect}>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2 p-3 rounded-md hover:bg-accent cursor-pointer border border-transparent hover:border-border">
-                    <RadioGroupItem value="" id="no-template" />
-                    <Label
-                      htmlFor="no-template"
-                      className="flex-1 cursor-pointer font-normal"
-                    >
-                      Nenhum template
-                    </Label>
+              <div className="space-y-2">
+                <div
+                  onClick={() => handleTemplateSelect('')}
+                  className={cn(
+                    "relative p-3 rounded-lg cursor-pointer transition-all",
+                    "border-2",
+                    selectedTemplateId === ''
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/50 hover:bg-accent"
+                  )}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-sm">Nenhum template</span>
+                    {selectedTemplateId === '' && (
+                      <Check className="h-4 w-4 text-primary" />
+                    )}
                   </div>
-                  {sortedTemplates.map((template) => (
-                    <div
-                      key={template.id}
-                      className="flex items-center space-x-2 p-3 rounded-md hover:bg-accent cursor-pointer border border-transparent hover:border-border"
-                    >
-                      <RadioGroupItem value={template.id} id={`template-${template.id}`} />
-                      <Label
-                        htmlFor={`template-${template.id}`}
-                        className="flex-1 cursor-pointer font-normal"
-                      >
-                        <div>
-                          <div className="font-medium">{template.name}</div>
-                          {template.description && (
-                            <div className="text-xs text-muted-foreground mt-1">
-                              {template.description}
-                            </div>
-                          )}
-                        </div>
-                      </Label>
-                    </div>
-                  ))}
                 </div>
-              </RadioGroup>
+                {sortedTemplates.map((template) => (
+                  <div
+                    key={template.id}
+                    onClick={() => handleTemplateSelect(template.id)}
+                    className={cn(
+                      "relative p-3 rounded-lg cursor-pointer transition-all",
+                      "border-2",
+                      selectedTemplateId === template.id
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary/50 hover:bg-accent"
+                    )}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1">
+                        <div className="font-medium text-sm">{template.name}</div>
+                        {template.description && (
+                          <div className="text-xs text-muted-foreground mt-1">
+                            {template.description}
+                          </div>
+                        )}
+                      </div>
+                      {selectedTemplateId === template.id && (
+                        <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </ScrollArea>
             {selectedTemplateId && (
               <p className="text-xs text-muted-foreground mt-3">
@@ -297,7 +326,9 @@ function EditLabRequestForm({
   onSuccess: () => void
   onCancel: () => void
 }) {
-  const [selectedTemplateId, setSelectedTemplateId] = useState<string>('')
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
+    request.labRequestTemplateId || ''
+  )
   const [date, setDate] = useState(format(new Date(request.date), 'yyyy-MM-dd'))
   const [exams, setExams] = useState(request.exams)
   const [notes, setNotes] = useState(request.notes || '')
@@ -360,11 +391,16 @@ function EditLabRequestForm({
       return
     }
 
-    updateMutation.mutate({
+    const payload = {
       date,
       exams: exams.trim(),
-      notes: notes.trim() || undefined
-    })
+      notes: notes.trim() || undefined,
+      labRequestTemplateId: selectedTemplateId || undefined
+    }
+
+    console.log('Updating lab request with:', payload)
+
+    updateMutation.mutate(payload)
   }
 
   return (
@@ -422,40 +458,52 @@ function EditLabRequestForm({
           <div className="lg:col-span-1">
             <Label className="mb-3 block">Templates (opcional)</Label>
             <ScrollArea className="h-[600px] pr-4">
-              <RadioGroup value={selectedTemplateId} onValueChange={handleTemplateSelect}>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2 p-3 rounded-md hover:bg-accent cursor-pointer border border-transparent hover:border-border">
-                    <RadioGroupItem value="" id="edit-no-template" />
-                    <Label
-                      htmlFor="edit-no-template"
-                      className="flex-1 cursor-pointer font-normal"
-                    >
-                      Nenhum template
-                    </Label>
+              <div className="space-y-2">
+                <div
+                  onClick={() => handleTemplateSelect('')}
+                  className={cn(
+                    "relative p-3 rounded-lg cursor-pointer transition-all",
+                    "border-2",
+                    selectedTemplateId === ''
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/50 hover:bg-accent"
+                  )}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-sm">Nenhum template</span>
+                    {selectedTemplateId === '' && (
+                      <Check className="h-4 w-4 text-primary" />
+                    )}
                   </div>
-                  {sortedTemplates.map((template) => (
-                    <div
-                      key={template.id}
-                      className="flex items-center space-x-2 p-3 rounded-md hover:bg-accent cursor-pointer border border-transparent hover:border-border"
-                    >
-                      <RadioGroupItem value={template.id} id={`edit-template-${template.id}`} />
-                      <Label
-                        htmlFor={`edit-template-${template.id}`}
-                        className="flex-1 cursor-pointer font-normal"
-                      >
-                        <div>
-                          <div className="font-medium">{template.name}</div>
-                          {template.description && (
-                            <div className="text-xs text-muted-foreground mt-1">
-                              {template.description}
-                            </div>
-                          )}
-                        </div>
-                      </Label>
-                    </div>
-                  ))}
                 </div>
-              </RadioGroup>
+                {sortedTemplates.map((template) => (
+                  <div
+                    key={template.id}
+                    onClick={() => handleTemplateSelect(template.id)}
+                    className={cn(
+                      "relative p-3 rounded-lg cursor-pointer transition-all",
+                      "border-2",
+                      selectedTemplateId === template.id
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary/50 hover:bg-accent"
+                    )}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1">
+                        <div className="font-medium text-sm">{template.name}</div>
+                        {template.description && (
+                          <div className="text-xs text-muted-foreground mt-1">
+                            {template.description}
+                          </div>
+                        )}
+                      </div>
+                      {selectedTemplateId === template.id && (
+                        <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </ScrollArea>
             {selectedTemplateId && (
               <p className="text-xs text-muted-foreground mt-3">
@@ -469,53 +517,327 @@ function EditLabRequestForm({
   )
 }
 
-function LabRequestCard({ request, onEdit }: { request: LabRequest; onEdit: () => void }) {
+function DuplicateLabRequestForm({
+  request,
+  onSuccess,
+  onCancel
+}: {
+  request: LabRequest
+  onSuccess: () => void
+  onCancel: () => void
+}) {
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
+    request.labRequestTemplateId || ''
+  )
+  const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd')) // Today's date
+  const [exams, setExams] = useState(request.exams)
+  const [notes, setNotes] = useState(request.notes || '')
+
+  const formRef = useRef<HTMLFormElement>(null)
+  useFormNavigation({ formRef })
+
+  const queryClient = useQueryClient()
+
+  // Fetch templates (sorted alphabetically)
+  const { data: templates = [] } = useQuery({
+    queryKey: ['lab-request-templates'],
+    queryFn: () => getAllLabRequestTemplates(false)
+  })
+
+  const sortedTemplates = [...templates].sort((a, b) => a.name.localeCompare(b.name))
+
+  // Create mutation (duplicate is a create operation)
+  const createMutation = useMutation({
+    mutationFn: createLabRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lab-requests'] })
+      toast.success('Pedido duplicado com sucesso!')
+      onSuccess()
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.error || 'Erro ao duplicar pedido')
+    }
+  })
+
+  // Handle template selection
+  const handleTemplateSelect = async (templateId: string) => {
+    if (!templateId) {
+      setSelectedTemplateId('')
+      return
+    }
+
+    setSelectedTemplateId(templateId)
+
+    try {
+      const template = await getLabRequestTemplateById(templateId)
+      if (template.labTests && template.labTests.length > 0) {
+        const sortedTests = [...template.labTests].sort((a, b) =>
+          a.name.localeCompare(b.name)
+        )
+        const examsText = sortedTests.map(test => test.name).join('\n')
+        setExams(examsText)
+      }
+    } catch (error) {
+      toast.error('Erro ao carregar template')
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!exams.trim()) {
+      toast.error('Adicione pelo menos um exame')
+      return
+    }
+
+    const payload = {
+      date,
+      exams: exams.trim(),
+      notes: notes.trim() || undefined,
+      labRequestTemplateId: selectedTemplateId || undefined
+    }
+
+    console.log('Duplicating lab request with:', payload)
+
+    createMutation.mutate(payload)
+  }
+
+  return (
+    <Card className="p-6 mb-6 border-blue-200 bg-blue-50/50">
+      <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+        <Copy className="h-5 w-5 text-blue-600" />
+        Duplicar Pedido de Exames
+      </h2>
+      <form ref={formRef} onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Coluna Principal - Formulário */}
+          <div className="lg:col-span-2 space-y-4">
+            <div>
+              <Label>Data *</Label>
+              <Input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <Label>Exames Solicitados * (um por linha)</Label>
+              <Textarea
+                value={exams}
+                onChange={(e) => setExams(e.target.value)}
+                placeholder="Digite os nomes dos exames, um por linha. Exemplo:&#10;Hemograma Completo&#10;Glicemia de Jejum&#10;Colesterol Total"
+                rows={16}
+                required
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                {exams.split('\n').filter(line => line.trim()).length} exame(s)
+              </p>
+            </div>
+
+            <div>
+              <Label>Observações (opcional)</Label>
+              <Textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Observações adicionais..."
+                rows={3}
+              />
+            </div>
+
+            <div className="flex justify-end gap-2 pt-4 border-t">
+              <Button type="button" variant="outline" onClick={onCancel}>
+                Cancelar
+              </Button>
+              <Button type="submit" disabled={createMutation.isPending}>
+                {createMutation.isPending ? 'Duplicando...' : 'Criar Cópia'}
+              </Button>
+            </div>
+          </div>
+
+          {/* Coluna Lateral - Templates */}
+          <div className="lg:col-span-1">
+            <Label className="mb-3 block">Templates (opcional)</Label>
+            <ScrollArea className="h-[600px] pr-4">
+              <div className="space-y-2">
+                <div
+                  onClick={() => handleTemplateSelect('')}
+                  className={cn(
+                    "relative p-3 rounded-lg cursor-pointer transition-all",
+                    "border-2",
+                    selectedTemplateId === ''
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/50 hover:bg-accent"
+                  )}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-sm">Nenhum template</span>
+                    {selectedTemplateId === '' && (
+                      <Check className="h-4 w-4 text-primary" />
+                    )}
+                  </div>
+                </div>
+                {sortedTemplates.map((template) => (
+                  <div
+                    key={template.id}
+                    onClick={() => handleTemplateSelect(template.id)}
+                    className={cn(
+                      "relative p-3 rounded-lg cursor-pointer transition-all",
+                      "border-2",
+                      selectedTemplateId === template.id
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary/50 hover:bg-accent"
+                    )}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1">
+                        <div className="font-medium text-sm">{template.name}</div>
+                        {template.description && (
+                          <div className="text-xs text-muted-foreground mt-1">
+                            {template.description}
+                          </div>
+                        )}
+                      </div>
+                      {selectedTemplateId === template.id && (
+                        <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+            {selectedTemplateId && (
+              <p className="text-xs text-muted-foreground mt-3">
+                Os exames do template foram inseridos acima em ordem alfabética
+              </p>
+            )}
+          </div>
+        </div>
+      </form>
+    </Card>
+  )
+}
+
+function LabRequestCard({
+  request,
+  onEdit,
+  onDuplicate
+}: {
+  request: LabRequest
+  onEdit: () => void
+  onDuplicate: () => void
+}) {
   const examsCount = request.exams.split('\n').filter(line => line.trim()).length
+  const queryClient = useQueryClient()
+
+  // Parse exams into array
+  const examsArray = request.exams
+    .split('\n')
+    .filter(line => line.trim())
+    .map(line => line.trim())
+
+  const generatePdfMutation = useMutation({
+    mutationFn: () => generateLabRequestPdf(request.id),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['lab-requests'] })
+      toast.success('PDF gerado com sucesso!')
+
+      // Automatically open PDF in new tab
+      if (data.pdfUrl) {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+        window.open(`${apiUrl}${data.pdfUrl}`, '_blank')
+      }
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.error || 'Erro ao gerar PDF')
+    }
+  })
+
+  const handleGeneratePdf = () => {
+    if (request.pdfUrl) {
+      // Open PDF in new tab (add API URL prefix)
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+      window.open(`${apiUrl}${request.pdfUrl}`, '_blank')
+    } else {
+      // Generate PDF
+      generatePdfMutation.mutate()
+    }
+  }
 
   return (
     <Card className="p-4">
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-2">
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-3 mb-3">
+            <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+            <span className="text-sm font-medium">
               {format(new Date(request.date), 'dd/MM/yyyy')}
             </span>
+            {request.pdfUrl && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-800">
+                <Check className="h-3 w-3" />
+                PDF Gerado
+              </span>
+            )}
           </div>
 
-          <h3 className="font-semibold">
-            {request.patient?.name || 'Paciente'}
-          </h3>
+          <div className="space-y-2">
+            <div>
+              <span className="text-sm font-medium text-foreground mb-2 block">
+                {examsCount} exame{examsCount !== 1 ? 's' : ''}:
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {examsArray.map((exam, index) => (
+                  <Badge
+                    key={index}
+                    variant="secondary"
+                    className="bg-gray-100 text-gray-700 hover:bg-gray-200 font-normal"
+                  >
+                    {exam}
+                  </Badge>
+                ))}
+              </div>
+            </div>
 
-          <p className="text-sm text-muted-foreground mt-2">
-            {examsCount} exame{examsCount !== 1 ? 's' : ''} solicitado{examsCount !== 1 ? 's' : ''}
-          </p>
-
-          {request.notes && (
-            <p className="text-sm text-muted-foreground mt-2 italic">
-              {request.notes}
-            </p>
-          )}
+            {request.notes && (
+              <p className="text-sm text-muted-foreground italic border-l-2 border-muted pl-3">
+                {request.notes}
+              </p>
+            )}
+          </div>
         </div>
 
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={onEdit}>
-            <Pencil className="h-4 w-4" />
+        <div className="flex gap-2 flex-shrink-0">
+          {!request.pdfUrl && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onEdit}
+              title="Editar pedido"
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+          )}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onDuplicate}
+            title="Duplicar pedido"
+          >
+            <Copy className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="sm">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleGeneratePdf}
+            disabled={generatePdfMutation.isPending}
+            title={request.pdfUrl ? 'Visualizar PDF' : 'Gerar PDF'}
+          >
             <FileText className="h-4 w-4" />
           </Button>
         </div>
       </div>
-
-      <details className="mt-4">
-        <summary className="cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground">
-          Ver exames solicitados
-        </summary>
-        <div className="mt-2 p-3 bg-muted rounded-md">
-          <pre className="text-sm whitespace-pre-wrap">{request.exams}</pre>
-        </div>
-      </details>
     </Card>
   )
 }
