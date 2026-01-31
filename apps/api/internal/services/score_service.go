@@ -68,6 +68,7 @@ type UpdateScoreItemDTO struct {
 	UnitConversion     *string     `json:"unitConversion,omitempty"`
 	Points             *float64    `json:"points,omitempty" validate:"omitempty,gte=0,lte=100"`
 	Order              *int        `json:"order,omitempty" validate:"omitempty,gte=0,lte=9999"`
+	SubgroupID         *uuid.UUID  `json:"subgroupId,omitempty"`
 	ClinicalRelevance  *string     `json:"clinicalRelevance,omitempty"`
 	PatientExplanation *string     `json:"patientExplanation,omitempty"`
 	Conduct            *string     `json:"conduct,omitempty"`
@@ -334,6 +335,9 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 	}
 	if dto.Order != nil {
 		item.Order = *dto.Order
+	}
+	if dto.SubgroupID != nil {
+		item.SubgroupID = *dto.SubgroupID
 	}
 	if dto.ClinicalRelevance != nil {
 		item.ClinicalRelevance = dto.ClinicalRelevance
