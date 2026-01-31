@@ -51,6 +51,8 @@ services:
       - ./apps/api:/app:cached
       # Excluir node_modules do Go (não aplicável, mas mantém padrão)
       - /app/bin
+      # Volume para PDFs gerados (persistido no host)
+      - ./uploads:/app/uploads:cached
     networks:
       - plenya-network
 

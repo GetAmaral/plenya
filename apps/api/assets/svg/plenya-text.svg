@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- PLENYA text - elegant serif font -->
+  <text x="100" y="40"
+        font-family="Georgia, serif"
+        font-size="32"
+        font-weight="300"
+        letter-spacing="8"
+        fill="#6B6B6B"
+        text-anchor="middle">PLENYA</text>
+</svg>

@@ -252,39 +252,38 @@ export default function LabResultsPage() {
   });
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-7xl space-y-8">
-        {/* Header */}
-        <PageHeader
-          breadcrumbs={[{ label: 'Exames' }]}
-          title="Exames Laboratoriais"
-          description={`${data?.total || 0} resultados de exames`}
-          actions={[
-            ...(user?.role === "admin" ? [{
-              label: 'Definições',
-              icon: <Settings className="h-4 w-4" />,
-              onClick: () => router.push('/lab-results/definitions'),
-              variant: 'outline' as const,
-            }] : []),
-            {
-              label: 'Novo',
-              icon: <Plus className="h-4 w-4" />,
-              onClick: () => setEntryDialogOpen(true),
-              variant: 'default' as const,
-            },
-          ]}
-        />
+    <div className="container mx-auto py-8 space-y-8">
+      {/* Selected Patient Header */}
+      <SelectedPatientHeader />
 
-        {/* Selected Patient Header */}
-        <SelectedPatientHeader />
+      {/* Header */}
+      <PageHeader
+        breadcrumbs={[{ label: 'Exames' }]}
+        title="Exames Laboratoriais"
+        description={`${data?.total || 0} resultados de exames`}
+        actions={[
+          ...(user?.role === "admin" ? [{
+            label: 'Definições',
+            icon: <Settings className="h-4 w-4" />,
+            onClick: () => router.push('/lab-results/definitions'),
+            variant: 'outline' as const,
+          }] : []),
+          {
+            label: 'Novo',
+            icon: <Plus className="h-4 w-4" />,
+            onClick: () => setEntryDialogOpen(true),
+            variant: 'default' as const,
+          },
+        ]}
+      />
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-6 grid gap-4 md:grid-cols-3"
-        >
+      {/* Stats */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="grid gap-4 md:grid-cols-3"
+      >
           {Object.entries(statusConfig).map(([key, config]) => {
             const Icon = config.icon;
             return (
@@ -305,10 +304,10 @@ export default function LabResultsPage() {
               </Card>
             );
           })}
-        </motion.div>
+      </motion.div>
 
-        {/* Table */}
-        <motion.div
+      {/* Table */}
+      <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -423,15 +422,14 @@ export default function LabResultsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+      </motion.div>
 
-        {/* Lab Result Entry Dialog */}
-        <LabResultEntryDialog
-          open={entryDialogOpen}
-          onOpenChange={setEntryDialogOpen}
-          currentUserId={user?.id || ""}
-        />
-      </div>
+      {/* Lab Result Entry Dialog */}
+      <LabResultEntryDialog
+        open={entryDialogOpen}
+        onOpenChange={setEntryDialogOpen}
+        currentUserId={user?.id || ""}
+      />
     </div>
   );
 }

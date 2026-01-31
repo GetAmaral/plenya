@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Large watermark - infinity symbol -->
+  <path d="M 60,100 C 60,60 80,40 120,40 C 160,40 180,60 200,100 C 220,60 240,40 280,40 C 320,40 340,60 340,100 C 340,140 320,160 280,160 C 240,160 220,140 200,100 C 180,140 160,160 120,160 C 80,160 60,140 60,100 Z"
+        fill="none"
+        stroke="#E8E8E8"
+        stroke-width="3"
+        opacity="0.15"/>
+</svg>

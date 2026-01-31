@@ -208,25 +208,24 @@ export default function AppointmentsPage() {
   });
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-7xl space-y-8">
-        {/* Header */}
-        <PageHeader
-          breadcrumbs={[{ label: 'Consultas' }]}
-          title="Consultas"
-          description={`${data?.total || 0} consultas agendadas`}
-          actions={[
-            {
-              label: 'Novo',
-              icon: <Plus className="h-4 w-4" />,
-              onClick: () => console.log('Nova consulta'),
-              variant: 'default',
-            },
-          ]}
-        />
+    <div className="container mx-auto py-8 space-y-8">
+      {/* Selected Patient Header */}
+      <SelectedPatientHeader />
 
-        {/* Selected Patient Header */}
-        <SelectedPatientHeader />
+      {/* Header */}
+      <PageHeader
+        breadcrumbs={[{ label: 'Consultas' }]}
+        title="Consultas"
+        description={`${data?.total || 0} consultas agendadas`}
+        actions={[
+          {
+            label: 'Novo',
+            icon: <Plus className="h-4 w-4" />,
+            onClick: () => console.log('Nova consulta'),
+            variant: 'default',
+          },
+        ]}
+      />
 
         {/* Stats */}
         <motion.div
@@ -373,8 +372,7 @@ export default function AppointmentsPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
-      </div>
+      </motion.div>
     </div>
   );
 }

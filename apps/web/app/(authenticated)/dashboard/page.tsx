@@ -121,8 +121,7 @@ const patientStatusData = [
 
 export default function DashboardPage() {
   return (
-    <div className="w-full">
-      <div className="mx-auto max-w-7xl">
+    <div className="container mx-auto py-8 space-y-8">
         {/* Header */}
         <PageHeader
           title="Dashboard"
@@ -387,8 +386,7 @@ export default function DashboardPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
-      </div>
+      </motion.div>
     </div>
   );
 }

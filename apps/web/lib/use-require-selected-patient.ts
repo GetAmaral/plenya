@@ -3,21 +3,37 @@
  * Redirects to /patients/select if no patient is selected
  */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSelectedPatient } from "./use-selected-patient";
+import { useAuthStore } from "./auth-store";
 
 export function useRequireSelectedPatient() {
   const router = useRouter();
   const pathname = usePathname();
   const { selectedPatient, isLoading } = useSelectedPatient();
+  const { user } = useAuthStore();
+  const [hasMounted, setHasMounted] = useState(false);
+
+  // Wait for component to mount before checking (prevents hydration issues)
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
-    // Don't redirect while loading
-    if (isLoading) return;
+    // Don't redirect if:
+    // 1. Component hasn't mounted yet (hydration)
+    // 2. Still loading mutation
+    // 3. User is not authenticated yet
+    if (!hasMounted || isLoading || !user) {
+      return;
+    }
 
-    // If no selected patient, save current path and redirect to selection
-    if (!selectedPatient) {
+    // Check store directly (it's synchronous and always up-to-date)
+    const hasSelectedPatient = !!user.selectedPatient || !!user.selectedPatientId;
+
+    // Only redirect if we're absolutely sure there's no selected patient
+    if (!hasSelectedPatient) {
       // Save the intended destination in sessionStorage
       if (typeof window !== "undefined") {
         sessionStorage.setItem("plenya-redirect-after-patient-select", pathname);
@@ -25,11 +41,11 @@ export function useRequireSelectedPatient() {
 
       router.push("/patients/select");
     }
-  }, [selectedPatient, isLoading, router, pathname]);
+  }, [hasMounted, selectedPatient, isLoading, user, router, pathname]);
 
   return {
     selectedPatient,
-    isLoading,
+    isLoading: !hasMounted || isLoading,
     hasSelectedPatient: !!selectedPatient,
   };
 }

@@ -198,8 +198,7 @@ export default function PatientsPage() {
   });
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-7xl space-y-8">
+    <div className="container mx-auto py-8 space-y-8">
         {/* Header */}
         <PageHeader
           breadcrumbs={[{ label: 'Pacientes' }]}
@@ -327,7 +326,6 @@ export default function PatientsPage() {
               </div>
             </CardContent>
           </Card>
-      </div>
     </div>
   );
 }

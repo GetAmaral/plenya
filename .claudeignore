@@ -1,0 +1,13 @@
+node_modules/
+.pnpm-store/
+dist/
+build/
+.next/
+.turbo/
+coverage/
+apps/mobile/ios/Pods/
+apps/mobile/android/build/
+*.sql
+uploads/
+pgdata/
+.git/

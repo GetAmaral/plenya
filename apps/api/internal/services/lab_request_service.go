@@ -13,15 +13,17 @@ import (
 
 // LabRequestService handles business logic for lab requests
 type LabRequestService struct {
-	repo *repository.LabRequestRepository
-	db   *gorm.DB
+	repo       *repository.LabRequestRepository
+	db         *gorm.DB
+	pdfService *PDFService
 }
 
 // NewLabRequestService creates a new lab request service
 func NewLabRequestService(repo *repository.LabRequestRepository, db *gorm.DB) *LabRequestService {
 	return &LabRequestService{
-		repo: repo,
-		db:   db,
+		repo:       repo,
+		db:         db,
+		pdfService: NewPDFService(),
 	}
 }
 
@@ -94,6 +96,8 @@ func (s *LabRequestService) UpdateLabRequest(id uuid.UUID, req *models.LabReques
 	existing.Exams = req.Exams
 	existing.Notes = req.Notes
 	existing.DoctorID = req.DoctorID
+	existing.LabRequestTemplateID = req.LabRequestTemplateID
+	existing.PdfURL = req.PdfURL
 
 	return s.repo.UpdateLabRequest(existing)
 }
@@ -101,4 +105,21 @@ func (s *LabRequestService) UpdateLabRequest(id uuid.UUID, req *models.LabReques
 // DeleteLabRequest soft deletes a lab request
 func (s *LabRequestService) DeleteLabRequest(id uuid.UUID) error {
 	return s.repo.DeleteLabRequest(id)
+}
+
+// GenerateLabRequestPDF generates a PDF for the lab request
+func (s *LabRequestService) GenerateLabRequestPDF(id uuid.UUID) (string, error) {
+	// Get lab request with all relationships (Patient, Doctor)
+	req, err := s.repo.GetLabRequestByID(id)
+	if err != nil {
+		return "", err
+	}
+
+	// Generate PDF
+	pdfURL, err := s.pdfService.GenerateLabRequestPDF(req)
+	if err != nil {
+		return "", err
+	}
+
+	return pdfURL, nil
 }
