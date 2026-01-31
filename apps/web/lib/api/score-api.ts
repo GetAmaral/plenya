@@ -100,6 +100,7 @@ export interface UpdateScoreItemDTO {
   conduct?: string
   points?: number
   order?: number
+  subgroupId?: string
 }
 
 export interface CreateScoreLevelDTO {

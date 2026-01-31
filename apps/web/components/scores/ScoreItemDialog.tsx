@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useFormNavigation } from '@/lib/use-form-navigation'
 import { toast } from 'sonner'
@@ -17,11 +17,20 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   ScoreItem,
   CreateScoreItemDTO,
   UpdateScoreItemDTO,
   useCreateScoreItem,
   useUpdateScoreItem,
+  useAllScoreGroupTrees,
+  useScoreSubgroup,
 } from '@/lib/api/score-api'
 
 interface ScoreItemDialogProps {
@@ -45,10 +54,48 @@ export function ScoreItemDialog({
   const createItem = useCreateScoreItem()
   const updateItem = useUpdateScoreItem()
 
+  // Fetch all groups with subgroups
+  const { data: allGroups } = useAllScoreGroupTrees()
+
+  // State for selected subgroup
+  const [selectedSubgroupId, setSelectedSubgroupId] = useState(item?.subgroupId || subgroupId)
+  const [selectedParentItemId, setSelectedParentItemId] = useState(item?.parentItemId || '')
+
+  // Fetch current subgroup to get group info
+  const { data: currentSubgroup } = useScoreSubgroup(selectedSubgroupId)
+
+  // Get current group name
+  const currentGroupName = useMemo(() => {
+    if (!allGroups || !currentSubgroup) return ''
+    const group = allGroups.find(g => g.id === currentSubgroup.groupId)
+    return group?.name || ''
+  }, [allGroups, currentSubgroup])
+
+  // Check if current group is "Exames"
+  const isExamsGroup = currentGroupName === 'Exames'
+
+  // Get all available items for parentItem selection (from the same subgroup, excluding current item)
+  const availableParentItems = useMemo(() => {
+    if (!allGroups) return []
+
+    // Find the selected subgroup
+    for (const group of allGroups) {
+      if (!group.subgroups) continue
+      for (const subgroup of group.subgroups) {
+        if (subgroup.id === selectedSubgroupId) {
+          // Return items excluding the current item being edited
+          return (subgroup.items || []).filter(i => !item || i.id !== item.id)
+        }
+      }
+    }
+    return []
+  }, [allGroups, selectedSubgroupId, item])
+
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<CreateScoreItemDTO>({
     defaultValues: {
@@ -60,13 +107,16 @@ export function ScoreItemDialog({
       conduct: item?.conduct || '',
       points: item?.points || 0,
       order: item?.order || 0,
-      subgroupId: subgroupId,
+      subgroupId: selectedSubgroupId,
+      parentItemId: item?.parentItemId,
     },
   })
 
   // Reset form when item changes
   useEffect(() => {
     if (item) {
+      setSelectedSubgroupId(item.subgroupId)
+      setSelectedParentItemId(item.parentItemId || '')
       reset({
         name: item.name,
         unit: item.unit || '',
@@ -77,8 +127,11 @@ export function ScoreItemDialog({
         points: item.points,
         order: item.order,
         subgroupId: item.subgroupId,
+        parentItemId: item.parentItemId,
       })
     } else {
+      setSelectedSubgroupId(subgroupId)
+      setSelectedParentItemId('')
       reset({
         name: '',
         unit: '',
@@ -89,9 +142,20 @@ export function ScoreItemDialog({
         points: 0,
         order: 0,
         subgroupId: subgroupId,
+        parentItemId: undefined,
       })
     }
   }, [item, subgroupId, reset])
+
+  // Update form value when selectedSubgroupId changes
+  useEffect(() => {
+    setValue('subgroupId', selectedSubgroupId)
+  }, [selectedSubgroupId, setValue])
+
+  // Update form value when selectedParentItemId changes
+  useEffect(() => {
+    setValue('parentItemId', selectedParentItemId || undefined)
+  }, [selectedParentItemId, setValue])
 
   const onSubmit = async (data: CreateScoreItemDTO) => {
     try {
@@ -117,11 +181,15 @@ export function ScoreItemDialog({
             conduct: payload.conduct,
             points: payload.points,
             order: payload.order,
+            subgroupId: selectedSubgroupId,
           } as UpdateScoreItemDTO,
         })
         toast.success('Item atualizado com sucesso')
       } else {
-        await createItem.mutateAsync(payload)
+        await createItem.mutateAsync({
+          ...payload,
+          subgroupId: selectedSubgroupId,
+        })
         toast.success('Item criado com sucesso')
       }
       onOpenChange(false)
@@ -151,6 +219,50 @@ export function ScoreItemDialog({
 
         <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
+            <Label htmlFor="subgroup">Subgrupo *</Label>
+            <Select
+              value={selectedSubgroupId}
+              onValueChange={setSelectedSubgroupId}
+            >
+              <SelectTrigger id="subgroup">
+                <SelectValue placeholder="Selecione o subgrupo" />
+              </SelectTrigger>
+              <SelectContent>
+                {allGroups?.map((group) =>
+                  group.subgroups?.map((subgroup) => (
+                    <SelectItem key={subgroup.id} value={subgroup.id}>
+                      {group.name} &gt; {subgroup.name}
+                    </SelectItem>
+                  ))
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="parentItem">Item Pai (opcional)</Label>
+            <Select
+              value={selectedParentItemId}
+              onValueChange={setSelectedParentItemId}
+            >
+              <SelectTrigger id="parentItem">
+                <SelectValue placeholder="Nenhum (item raiz)" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">Nenhum (item raiz)</SelectItem>
+                {availableParentItems.map((parentItem) => (
+                  <SelectItem key={parentItem.id} value={parentItem.id}>
+                    {parentItem.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">
+              Selecione um item pai para criar uma hierarquia
+            </p>
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="name">Nome do Parâmetro *</Label>
             <Input
               id="name"
@@ -172,61 +284,63 @@ export function ScoreItemDialog({
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="unit">Unidade de Medida</Label>
-              <Input
-                id="unit"
-                placeholder="Ex: g/dL"
-                {...register('unit', {
-                  maxLength: {
-                    value: 50,
-                    message: 'Unidade deve ter no máximo 50 caracteres',
-                  },
-                })}
-              />
-              {errors.unit && (
-                <p className="text-sm text-destructive">{errors.unit.message}</p>
-              )}
-            </div>
+          {isExamsGroup && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="unit">Unidade de Medida</Label>
+                <Input
+                  id="unit"
+                  placeholder="Ex: g/dL"
+                  {...register('unit', {
+                    maxLength: {
+                      value: 50,
+                      message: 'Unidade deve ter no máximo 50 caracteres',
+                    },
+                  })}
+                />
+                {errors.unit && (
+                  <p className="text-sm text-destructive">{errors.unit.message}</p>
+                )}
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="points">Pontos Máximos *</Label>
-              <Input
-                id="points"
-                type="number"
-                step="0.1"
-                placeholder="0"
-                {...register('points', {
-                  valueAsNumber: true,
-                  required: 'Pontos é obrigatório',
-                  min: {
-                    value: 0,
-                    message: 'Pontos deve ser maior ou igual a 0',
-                  },
-                  max: {
-                    value: 100,
-                    message: 'Pontos deve ser menor ou igual a 100',
-                  },
-                })}
-              />
-              {errors.points && (
-                <p className="text-sm text-destructive">{errors.points.message}</p>
-              )}
-            </div>
-          </div>
+              <div className="space-y-2">
+                <Label htmlFor="unitConversion">Conversão de Unidade</Label>
+                <Textarea
+                  id="unitConversion"
+                  placeholder="Ex: 1 g/dL = 10 g/L"
+                  rows={2}
+                  {...register('unitConversion')}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Informação opcional sobre conversão entre unidades
+                </p>
+              </div>
+            </>
+          )}
 
           <div className="space-y-2">
-            <Label htmlFor="unitConversion">Conversão de Unidade</Label>
-            <Textarea
-              id="unitConversion"
-              placeholder="Ex: 1 g/dL = 10 g/L"
-              rows={2}
-              {...register('unitConversion')}
+            <Label htmlFor="points">Pontos Máximos *</Label>
+            <Input
+              id="points"
+              type="number"
+              step="0.1"
+              placeholder="0"
+              {...register('points', {
+                valueAsNumber: true,
+                required: 'Pontos é obrigatório',
+                min: {
+                  value: 0,
+                  message: 'Pontos deve ser maior ou igual a 0',
+                },
+                max: {
+                  value: 100,
+                  message: 'Pontos deve ser menor ou igual a 100',
+                },
+              })}
             />
-            <p className="text-xs text-muted-foreground">
-              Informação opcional sobre conversão entre unidades
-            </p>
+            {errors.points && (
+              <p className="text-sm text-destructive">{errors.points.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
