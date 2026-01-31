@@ -55,7 +55,7 @@ type CreateScoreItemDTO struct {
 	Name           string     `json:"name" validate:"required,min=2,max=300"`
 	Unit           *string    `json:"unit,omitempty" validate:"omitempty,max=50"`
 	UnitConversion *string    `json:"unitConversion,omitempty"`
-	Points         float64    `json:"points" validate:"gte=0,lte=100"`
+	Points         *float64   `json:"points,omitempty" validate:"omitempty,gte=0,lte=100"`
 	SubgroupID     uuid.UUID  `json:"subgroupId" validate:"required"`
 	ParentItemID   *uuid.UUID `json:"parentItemId,omitempty"`
 	Order          *int       `json:"order,omitempty"`

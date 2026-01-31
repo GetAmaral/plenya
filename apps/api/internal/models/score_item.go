@@ -47,7 +47,7 @@ type ScoreItem struct {
 	// @minimum 0
 	// @maximum 100
 	// @example 20
-	Points float64 `gorm:"type:double precision;not null;default:0" json:"points" validate:"gte=0,lte=100"`
+	Points *float64 `gorm:"type:double precision" json:"points,omitempty" validate:"omitempty,gte=0,lte=100"`
 
 	// @minimum 0
 	// @maximum 9999

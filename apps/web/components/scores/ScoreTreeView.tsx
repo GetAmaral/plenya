@@ -31,24 +31,33 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
   const deleteGroup = useDeleteScoreGroup()
   const deleteSubgroup = useDeleteScoreSubgroup()
 
-  // Sincronizar accordionValues com expandedNodes vindos de fora
+  // Sincroniza accordionValues apenas quando expandedNodes muda (ex: busca, expandir tudo)
   useEffect(() => {
-    const newAccordionValues: Record<string, string[]> = {}
+    // Se não há expandedNodes externos, não fazer nada (usar estado interno)
+    if (Object.keys(expandedNodes).length === 0) return
 
-    groups.forEach(group => {
-      const groupKey = group.id
-      const expandedSubgroups: string[] = []
+    setAccordionValues(prev => {
+      const newAccordionValues: Record<string, string[]> = { ...prev }
 
-      group.subgroups?.forEach(subgroup => {
-        if (expandedNodes[`subgroup-${subgroup.id}`]) {
-          expandedSubgroups.push(subgroup.id)
-        }
+      groups.forEach(group => {
+        const groupKey = group.id
+        const expandedSubgroupsFromProps: string[] = []
+
+        group.subgroups?.forEach(subgroup => {
+          if (expandedNodes[`subgroup-${subgroup.id}`]) {
+            expandedSubgroupsFromProps.push(subgroup.id)
+          }
+        })
+
+        // Mescla expandidos de props com os já expandidos manualmente
+        const currentExpanded = prev[groupKey] || []
+        newAccordionValues[groupKey] = Array.from(
+          new Set([...currentExpanded, ...expandedSubgroupsFromProps])
+        )
       })
 
-      newAccordionValues[groupKey] = expandedSubgroups
+      return newAccordionValues
     })
-
-    setAccordionValues(newAccordionValues)
   }, [expandedNodes, groups])
 
   const handleDeleteGroup = async (group: ScoreGroup) => {

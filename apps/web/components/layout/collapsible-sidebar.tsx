@@ -160,14 +160,12 @@ export function CollapsibleSidebar() {
           <div className="flex h-full flex-col">
             {/* Logo and Close Button */}
             <div className="flex h-16 items-center border-b border-border px-4 gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center">
+              <div className="relative flex h-10 w-10 shrink-0 items-center justify-center">
                 <Image
                   src="/logo_infinity.svg"
                   alt="Plenya Logo"
-                  width={40}
-                  height={40}
+                  fill
                   className="object-contain"
-                  priority
                 />
               </div>
               <div className="flex-1 min-w-0">
@@ -260,14 +258,12 @@ export function CollapsibleSidebar() {
       <div className="flex h-full flex-col">
         {/* Logo and Toggle */}
         <div className="flex h-16 items-center border-b border-border px-4 gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center">
+          <div className="relative flex h-10 w-10 shrink-0 items-center justify-center">
             <Image
               src="/logo_infinity.svg"
               alt="Plenya Logo"
-              width={40}
-              height={40}
+              fill
               className="object-contain"
-              priority
             />
           </div>
           {!isCollapsed && (

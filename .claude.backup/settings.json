@@ -1,0 +1,9 @@
+{
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": false,
+    "github@claude-plugins-official": false,
+    "typescript-lsp@claude-plugins-official": false,
+    "context7@claude-plugins-official": false,
+    "superpowers@claude-plugins-official": false
+  }
+}
