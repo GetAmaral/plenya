@@ -68,9 +68,9 @@ func (s *AuthService) Register(req *dto.RegisterRequest) (*dto.AuthResponse, err
 
 // Login autentica um usuário
 func (s *AuthService) Login(req *dto.LoginRequest) (*dto.AuthResponse, error) {
-	// Buscar usuário
+	// Buscar usuário com paciente selecionado
 	var user models.User
-	if err := s.db.Where("email = ?", req.Email).First(&user).Error; err != nil {
+	if err := s.db.Preload("SelectedPatient").Where("email = ?", req.Email).First(&user).Error; err != nil {
 		return nil, ErrInvalidCredentials
 	}
 
@@ -91,14 +91,14 @@ func (s *AuthService) RefreshToken(refreshToken string) (*dto.AuthResponse, erro
 		return nil, err
 	}
 
-	// Buscar usuário
+	// Buscar usuário com paciente selecionado
 	userID, err := uuid.Parse(claims.UserID)
 	if err != nil {
 		return nil, ErrInvalidToken
 	}
 
 	var user models.User
-	if err := s.db.First(&user, userID).Error; err != nil {
+	if err := s.db.Preload("SelectedPatient").First(&user, userID).Error; err != nil {
 		return nil, ErrInvalidCredentials
 	}
 
@@ -135,13 +135,7 @@ func (s *AuthService) generateAuthResponse(user *models.User) (*dto.AuthResponse
 	return &dto.AuthResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
-		User: dto.UserDTO{
-			ID:               user.ID.String(),
-			Email:            user.Email,
-			Role:             user.Role,
-			TwoFactorEnabled: user.TwoFactorEnabled,
-			CreatedAt:        user.CreatedAt.Format(time.RFC3339),
-		},
+		User:         *s.userToDTO(user),
 	}, nil
 }
 
