@@ -86,6 +86,9 @@ func main() {
 		AllowMethods: "GET, POST, PUT, DELETE, OPTIONS",
 	}))
 
+	// Serve static files (PDFs)
+	app.Static("/uploads", "/app/uploads")
+
 	// Rotas
 	setupRoutes(app, cfg)
 
@@ -241,6 +244,7 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	labRequests.Get("/by-date-range", labRequestHandler.GetLabRequestsByDateRange)
 	labRequests.Put("/:id", middleware.RequireMedicalStaff(), labRequestHandler.UpdateLabRequest)
 	labRequests.Delete("/:id", middleware.RequireAdmin(), labRequestHandler.DeleteLabRequest)
+	labRequests.Post("/:id/generate-pdf", middleware.RequireMedicalStaff(), labRequestHandler.GeneratePDF)
 
 	// Lab Requests routes dentro de patients
 	patients.Get("/:patientId/lab-requests", labRequestHandler.GetLabRequestsByPatientID)

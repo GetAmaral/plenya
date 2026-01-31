@@ -7,6 +7,8 @@ export interface LabRequest {
   exams: string
   notes?: string
   doctorId?: string
+  labRequestTemplateId?: string
+  pdfUrl?: string
   createdAt: string
   updatedAt: string
   patient?: {
@@ -25,6 +27,7 @@ export interface CreateLabRequestInput {
   exams: string
   notes?: string
   doctorId?: string // Optional - backend preenche automaticamente do currentUser
+  labRequestTemplateId?: string
 }
 
 export interface UpdateLabRequestInput {
@@ -33,6 +36,7 @@ export interface UpdateLabRequestInput {
   exams?: string
   notes?: string
   doctorId?: string
+  labRequestTemplateId?: string
 }
 
 // Create lab request
@@ -86,4 +90,9 @@ export async function updateLabRequest(id: string, data: UpdateLabRequestInput):
 // Delete lab request
 export async function deleteLabRequest(id: string): Promise<void> {
   return apiClient.delete<void>(`/api/v1/lab-requests/${id}`)
+}
+
+// Generate PDF for lab request
+export async function generateLabRequestPdf(id: string): Promise<LabRequest> {
+  return apiClient.post<LabRequest>(`/api/v1/lab-requests/${id}/generate-pdf`, {})
 }

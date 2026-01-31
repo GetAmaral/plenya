@@ -221,25 +221,24 @@ export default function AnamnesisPage() {
   ];
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-7xl space-y-8">
-        {/* Header */}
-        <PageHeader
-          breadcrumbs={[{ label: 'Anamnese' }]}
-          title="Anamnese"
-          description={`${data?.total || 0} registros de anamnese`}
-          actions={[
-            {
-              label: 'Novo',
-              icon: <Plus className="h-4 w-4" />,
-              onClick: () => console.log('Nova anamnese'),
-              variant: 'default',
-            },
-          ]}
-        />
+    <div className="container mx-auto py-8 space-y-8">
+      {/* Selected Patient Header */}
+      <SelectedPatientHeader />
 
-        {/* Selected Patient Header */}
-        <SelectedPatientHeader />
+      {/* Header */}
+      <PageHeader
+        breadcrumbs={[{ label: 'Anamnese' }]}
+        title="Anamnese"
+        description={`${data?.total || 0} registros de anamnese`}
+        actions={[
+          {
+            label: 'Novo',
+            icon: <Plus className="h-4 w-4" />,
+            onClick: () => console.log('Nova anamnese'),
+            variant: 'default',
+          },
+        ]}
+      />
 
         {/* Stats */}
         <motion.div
@@ -400,8 +399,7 @@ export default function AnamnesisPage() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
-      </div>
+      </motion.div>
     </div>
   );
 }

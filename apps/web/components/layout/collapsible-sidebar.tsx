@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  Activity,
   Calendar,
   FileText,
   Home,
@@ -131,14 +131,16 @@ export function CollapsibleSidebar() {
   if (isMobile) {
     return (
       <>
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="fixed top-4 left-4 z-50 flex items-center justify-center h-12 w-12 rounded-lg bg-primary text-primary-foreground shadow-lg lg:hidden hover:bg-primary/90 transition-colors"
-          aria-label={isMobileOpen ? "Fechar menu" : "Abrir menu"}
-        >
-          {isMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        {/* Mobile Menu Button - Only show when sidebar is closed */}
+        {!isMobileOpen && (
+          <button
+            onClick={() => setIsMobileOpen(true)}
+            className="fixed top-4 left-4 z-50 flex items-center justify-center h-12 w-12 rounded-lg bg-primary text-primary-foreground shadow-lg lg:hidden hover:bg-primary/90 transition-colors"
+            aria-label="Abrir menu"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+        )}
 
         {/* Overlay */}
         {isMobileOpen && (
@@ -151,20 +153,34 @@ export function CollapsibleSidebar() {
         {/* Mobile Sidebar */}
         <aside
           className={cn(
-            "fixed left-0 top-0 z-40 h-screen w-64 border-r border-border bg-card shadow-lg transition-transform duration-300 lg:hidden",
+            "fixed left-0 top-0 z-50 h-screen w-64 border-r border-border bg-card shadow-lg transition-transform duration-300 lg:hidden",
             isMobileOpen ? "translate-x-0" : "-translate-x-full"
           )}
         >
           <div className="flex h-full flex-col">
-            {/* Logo */}
-            <div className="flex h-16 items-center gap-3 border-b border-border px-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-md">
-                <Activity className="h-5 w-5 text-white" />
+            {/* Logo and Close Button */}
+            <div className="flex h-16 items-center border-b border-border px-4 gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center">
+                <Image
+                  src="/logo_infinity.svg"
+                  alt="Plenya Logo"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                  priority
+                />
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <h1 className="text-lg font-bold">Plenya EMR</h1>
                 <p className="text-xs text-muted-foreground">Medical System</p>
               </div>
+              <button
+                onClick={() => setIsMobileOpen(false)}
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg hover:bg-accent transition-colors"
+                aria-label="Fechar menu"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
 
             {/* Navigation */}
@@ -243,23 +259,29 @@ export function CollapsibleSidebar() {
     >
       <div className="flex h-full flex-col">
         {/* Logo and Toggle */}
-        <div className="flex h-16 items-center justify-between border-b border-border px-4">
-          <div className="flex items-center gap-3 overflow-hidden">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-md">
-              <Activity className="h-5 w-5 text-white" />
-            </div>
-            {!isCollapsed && (
-              <div>
-                <h1 className="whitespace-nowrap text-lg font-bold">Plenya EMR</h1>
-                <p className="whitespace-nowrap text-xs text-muted-foreground">
-                  Medical System
-                </p>
-              </div>
-            )}
+        <div className="flex h-16 items-center border-b border-border px-4 gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center">
+            <Image
+              src="/logo_infinity.svg"
+              alt="Plenya Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+              priority
+            />
           </div>
+          {!isCollapsed && (
+            <div className="flex-1 min-w-0">
+              <h1 className="whitespace-nowrap text-lg font-bold">Plenya EMR</h1>
+              <p className="whitespace-nowrap text-xs text-muted-foreground">
+                Medical System
+              </p>
+            </div>
+          )}
           <button
             onClick={toggleCollapse}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg hover:bg-accent transition-colors"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg hover:bg-accent transition-colors ml-auto"
+            title={isCollapsed ? "Expandir sidebar" : "Recolher sidebar"}
           >
             {isCollapsed ? (
               <ChevronRight className="h-4 w-4" />

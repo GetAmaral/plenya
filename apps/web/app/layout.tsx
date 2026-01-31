@@ -15,6 +15,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Plenya EMR - Sistema de Prontuário Médico Eletrônico",
   description: "Sistema completo de prontuário eletrônico com web app, mobile apps e backend Go",
+  icons: {
+    icon: '/logo_infinity.svg',
+    apple: '/logo_infinity.svg',
+  },
 };
 
 export default function RootLayout({

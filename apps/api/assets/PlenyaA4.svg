@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="210mm" height="297mm" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- A4 Background -->
+  <rect width="210" height="297" fill="#FFFFFF"/>
+
+  <!-- Page border -->
+  <rect x="2" y="2" width="206" height="293"
+        fill="none"
+        stroke="#D0D0D0"
+        stroke-width="0.3"
+        opacity="0.5"/>
+
+  <!-- Header section -->
+  <g id="header" transform="translate(105, 15)">
+    <!-- Infinity logo -->
+    <g transform="translate(-12.5, 0)">
+      <path d="M 3.75,6.25 C 3.75,3.75 5,2.5 7.5,2.5 C 10,2.5 11.25,3.75 12.5,6.25 C 13.75,3.75 15,2.5 17.5,2.5 C 20,2.5 21.25,3.75 21.25,6.25 C 21.25,8.75 20,10 17.5,10 C 15,10 13.75,8.75 12.5,6.25 C 11.25,8.75 10,10 7.5,10 C 5,10 3.75,8.75 3.75,6.25 Z"
+            fill="none"
+            stroke="#B8977C"
+            stroke-width="0.4"
+            stroke-linecap="round"/>
+    </g>
+
+    <!-- PLENYA text -->
+    <text x="0" y="22"
+          font-family="Georgia, serif"
+          font-size="8"
+          font-weight="300"
+          letter-spacing="2"
+          fill="#6B6B6B"
+          text-anchor="middle">PLENYA</text>
+
+    <!-- Tagline -->
+    <text x="0" y="28"
+          font-family="Georgia, serif"
+          font-size="2.8"
+          font-style="italic"
+          font-weight="300"
+          letter-spacing="0.4"
+          fill="#999999"
+          text-anchor="middle">Saúde, Performance e Longevidade</text>
+  </g>
+
+  <!-- Header line -->
+  <line x1="15" y1="47" x2="195" y2="47"
+        stroke="#B8977C"
+        stroke-width="0.15"
+        opacity="0.6"/>
+
+  <!-- Large watermark (center) -->
+  <g transform="translate(55, 95)" opacity="0.08">
+    <path d="M 15,25 C 15,15 20,10 30,10 C 40,10 45,15 50,25 C 55,15 60,10 70,10 C 80,10 85,15 85,25 C 85,35 80,40 70,40 C 60,40 55,35 50,25 C 45,35 40,40 30,40 C 20,40 15,35 15,25 Z"
+          fill="none"
+          stroke="#B8977C"
+          stroke-width="0.8"/>
+  </g>
+
+  <!-- Footer section -->
+  <g id="footer" transform="translate(105, 280)">
+    <!-- Footer line -->
+    <line x1="-90" y1="0" x2="90" y2="0"
+          stroke="#B8977C"
+          stroke-width="0.15"
+          opacity="0.6"/>
+
+    <!-- Footer text -->
+    <text x="0" y="6"
+          font-family="Arial, sans-serif"
+          font-size="2.3"
+          font-weight="300"
+          fill="#AAAAAA"
+          text-anchor="middle">Av. Duque de Caxias, 1371 – Londrina – PR - (43) 99638-0044</text>
+
+    <text x="0" y="10.5"
+          font-family="Arial, sans-serif"
+          font-size="2.3"
+          font-weight="300"
+          fill="#AAAAAA"
+          text-anchor="middle">www.plenya.com.br - contato@plenya.com.br</text>
+  </g>
+</svg>

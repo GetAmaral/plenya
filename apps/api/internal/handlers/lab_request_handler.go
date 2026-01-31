@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -26,24 +27,47 @@ func NewLabRequestHandler(service *services.LabRequestService) *LabRequestHandle
 // @Tags LabRequests
 // @Accept json
 // @Produce json
-// @Param request body models.LabRequest true "Lab request data"
+// @Param request body dto.CreateLabRequestRequest true "Lab request data"
 // @Success 201 {object} models.LabRequest
 // @Failure 400 {object} ErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Router /api/v1/lab-requests [post]
 func (h *LabRequestHandler) CreateLabRequest(c *fiber.Ctx) error {
-	var req models.LabRequest
-	if err := c.BodyParser(&req); err != nil {
+	var reqDTO dto.CreateLabRequestRequest
+	if err := c.BodyParser(&reqDTO); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid request body",
+		})
+	}
+
+	// Parse date from string to time.Time
+	date, err := time.Parse("2006-01-02", reqDTO.Date)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error: "Invalid date format. Expected YYYY-MM-DD",
 		})
 	}
 
 	// Get user ID from JWT (middleware.AuthMiddleware sets this)
 	userID := middleware.GetUserID(c)
 
+	// Build lab request model
+	req := &models.LabRequest{
+		Date:  date,
+		Exams: reqDTO.Exams,
+		Notes: reqDTO.Notes,
+	}
+
+	// Parse template ID if provided
+	if reqDTO.LabRequestTemplateID != nil && *reqDTO.LabRequestTemplateID != "" {
+		templateID, err := uuid.Parse(*reqDTO.LabRequestTemplateID)
+		if err == nil {
+			req.LabRequestTemplateID = &templateID
+		}
+	}
+
 	// Create lab request (service will auto-fill patientID from selectedPatient)
-	if err := h.service.CreateLabRequest(userID, &req); err != nil {
+	if err := h.service.CreateLabRequest(userID, req); err != nil {
 		// Check for specific errors
 		if err.Error() == "no patient selected - please select a patient first" {
 			return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
@@ -230,7 +254,7 @@ func (h *LabRequestHandler) GetAllLabRequests(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param id path string true "Lab request ID"
-// @Param request body models.LabRequest true "Updated lab request data"
+// @Param request body dto.UpdateLabRequestRequest true "Updated lab request data"
 // @Success 200 {object} models.LabRequest
 // @Failure 400 {object} ErrorResponse
 // @Failure 404 {object} ErrorResponse
@@ -244,14 +268,61 @@ func (h *LabRequestHandler) UpdateLabRequest(c *fiber.Ctx) error {
 		})
 	}
 
-	var req models.LabRequest
-	if err := c.BodyParser(&req); err != nil {
+	var reqDTO dto.UpdateLabRequestRequest
+	if err := c.BodyParser(&reqDTO); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid request body",
 		})
 	}
 
-	if err := h.service.UpdateLabRequest(id, &req); err != nil {
+	// Get existing lab request
+	existing, err := h.service.GetLabRequestByID(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+			Error: "Lab request not found",
+		})
+	}
+
+	// Block editing if PDF was already generated
+	if existing.PdfURL != nil && *existing.PdfURL != "" {
+		return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{
+			Error: "Não é possível editar um pedido que já teve PDF gerado",
+		})
+	}
+
+	// Update fields if provided
+	if reqDTO.Date != nil {
+		date, err := time.Parse("2006-01-02", *reqDTO.Date)
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+				Error: "Invalid date format. Expected YYYY-MM-DD",
+			})
+		}
+		existing.Date = date
+	}
+
+	if reqDTO.Exams != nil {
+		existing.Exams = *reqDTO.Exams
+	}
+
+	if reqDTO.Notes != nil {
+		existing.Notes = reqDTO.Notes
+	}
+
+	if reqDTO.LabRequestTemplateID != nil {
+		if *reqDTO.LabRequestTemplateID == "" {
+			// Clear template
+			existing.LabRequestTemplateID = nil
+		} else {
+			// Update template
+			templateID, err := uuid.Parse(*reqDTO.LabRequestTemplateID)
+			if err == nil {
+				existing.LabRequestTemplateID = &templateID
+			}
+		}
+	}
+
+	if err := h.service.UpdateLabRequest(id, existing); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
 		})
@@ -291,4 +362,66 @@ func (h *LabRequestHandler) DeleteLabRequest(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(fiber.StatusNoContent)
+}
+
+// GeneratePDF generates a PDF for the lab request
+// @Summary Generate PDF for lab request
+// @Tags LabRequests
+// @Produce json
+// @Param id path string true "Lab request ID"
+// @Success 200 {object} models.LabRequest
+// @Failure 400 {object} ErrorResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /api/v1/lab-requests/{id}/generate-pdf [post]
+func (h *LabRequestHandler) GeneratePDF(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error: "Invalid ID format",
+		})
+	}
+
+	// Get lab request
+	req, err := h.service.GetLabRequestByID(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+			Error: "Lab request not found",
+		})
+	}
+
+	// Check if PDF already exists
+	if req.PdfURL != nil && *req.PdfURL != "" {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error: "PDF já foi gerado para este pedido",
+		})
+	}
+
+	// Generate PDF
+	pdfURL, err := h.service.GenerateLabRequestPDF(id)
+	if err != nil {
+		// Log the error for debugging
+		fmt.Printf("[ERROR] Failed to generate PDF for lab request %s: %v\n", id, err)
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error: fmt.Sprintf("Erro ao gerar PDF: %v", err),
+		})
+	}
+
+	// Update lab request with PDF URL
+	req.PdfURL = &pdfURL
+	if err := h.service.UpdateLabRequest(id, req); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error: err.Error(),
+		})
+	}
+
+	// Return updated request
+	updated, err := h.service.GetLabRequestByID(id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error: err.Error(),
+		})
+	}
+
+	return c.JSON(updated)
 }

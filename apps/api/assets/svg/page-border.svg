@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="210mm" height="297mm" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg">
+  <!-- A4 page border -->
+  <rect x="2" y="2" width="206" height="293"
+        fill="none"
+        stroke="#D0D0D0"
+        stroke-width="0.3"
+        opacity="0.5"/>
+</svg>

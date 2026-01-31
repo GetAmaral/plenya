@@ -31,14 +31,21 @@ type LabRequest struct {
 	// ID do médico solicitante (opcional)
 	DoctorID *uuid.UUID `gorm:"type:uuid;index" json:"doctorId,omitempty"`
 
+	// ID do template utilizado (opcional)
+	LabRequestTemplateID *uuid.UUID `gorm:"type:uuid;index" json:"labRequestTemplateId,omitempty"`
+
+	// URL do PDF gerado (quando gerado, o pedido fica bloqueado para edição)
+	PdfURL *string `gorm:"type:text" json:"pdfUrl,omitempty"`
+
 	// Timestamps
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 
 	// Relacionamentos
-	Patient *Patient `gorm:"foreignKey:PatientID;constraint:OnDelete:CASCADE" json:"patient,omitempty"`
-	Doctor  *User    `gorm:"foreignKey:DoctorID;constraint:OnDelete:SET NULL" json:"doctor,omitempty"`
+	Patient             *Patient             `gorm:"foreignKey:PatientID;constraint:OnDelete:CASCADE" json:"patient,omitempty"`
+	Doctor              *User                `gorm:"foreignKey:DoctorID;constraint:OnDelete:SET NULL" json:"doctor,omitempty"`
+	LabRequestTemplate  *LabRequestTemplate  `gorm:"foreignKey:LabRequestTemplateID;constraint:OnDelete:SET NULL" json:"labRequestTemplate,omitempty"`
 }
 
 // TableName especifica o nome da tabela
