@@ -24,10 +24,10 @@ func NewAnamnesisService(db *gorm.DB) *AnamnesisService {
 }
 
 // Create cria uma nova anamnese
-func (s *AnamnesisService) Create(doctorID uuid.UUID, req *dto.CreateAnamnesisRequest) (*dto.AnamnesisResponse, error) {
+func (s *AnamnesisService) Create(authorID uuid.UUID, req *dto.CreateAnamnesisRequest) (*dto.AnamnesisResponse, error) {
 	// CRITICAL SECURITY: Get user's selected patient
 	var user models.User
-	if err := s.db.Select("selected_patient_id").First(&user, doctorID).Error; err != nil {
+	if err := s.db.Select("selected_patient_id").First(&user, authorID).Error; err != nil {
 		return nil, err
 	}
 
@@ -68,26 +68,69 @@ func (s *AnamnesisService) Create(doctorID uuid.UUID, req *dto.CreateAnamnesisRe
 		return nil, errors.New("invalid consultation date format, expected RFC3339")
 	}
 
-	// Criar anamnese
-	anamnesis := models.Anamnesis{
-		PatientID:               patientID,
-		DoctorID:                doctorID,
-		ChiefComplaint:          req.ChiefComplaint,
-		HistoryOfPresentIllness: req.HistoryOfPresentIllness,
-		PastMedicalHistory:      req.PastMedicalHistory,
-		CurrentMedications:      req.CurrentMedications,
-		Allergies:               req.Allergies,
-		FamilyHistory:           req.FamilyHistory,
-		SocialHistory:           req.SocialHistory,
-		ReviewOfSystems:         req.ReviewOfSystems,
-		PhysicalExamination:     req.PhysicalExamination,
-		Assessment:              req.Assessment,
-		Plan:                    req.Plan,
-		ConsultationDate:        consultationDate,
-		Notes:                   req.Notes,
+	// Parse anamnesis template ID if provided
+	var anamnesisTemplateID *uuid.UUID
+	if req.AnamnesisTemplateID != nil && *req.AnamnesisTemplateID != "" {
+		templateID, err := uuid.Parse(*req.AnamnesisTemplateID)
+		if err != nil {
+			return nil, errors.New("invalid anamnesis template id")
+		}
+		anamnesisTemplateID = &templateID
 	}
 
-	if err := s.db.Create(&anamnesis).Error; err != nil {
+	// Criar anamnese
+	anamnesis := models.Anamnesis{
+		PatientID:           patientID,
+		AuthorID:            authorID,
+		AnamnesisTemplateID: anamnesisTemplateID,
+		ConsultationDate:    consultationDate,
+		Content:             req.Content,
+		Summary:             req.Summary,
+		Visibility:          models.AnamnesisVisibility(req.Visibility),
+		Notes:               req.Notes,
+	}
+
+	// Start transaction
+	tx := s.db.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	if err := tx.Create(&anamnesis).Error; err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	// Create anamnesis items
+	if len(req.Items) > 0 {
+		items := make([]models.AnamnesisItem, len(req.Items))
+		for i, itemReq := range req.Items {
+			scoreItemID, err := uuid.Parse(itemReq.ScoreItemID)
+			if err != nil {
+				tx.Rollback()
+				return nil, errors.New("invalid score item id")
+			}
+
+			items[i] = models.AnamnesisItem{
+				AnamnesisID:  anamnesis.ID,
+				ScoreItemID:  scoreItemID,
+				TextValue:    itemReq.TextValue,
+				NumericValue: itemReq.NumericValue,
+				Order:        itemReq.Order,
+			}
+		}
+
+		if err := tx.Create(&items).Error; err != nil {
+			tx.Rollback()
+			return nil, err
+		}
+
+		anamnesis.Items = items
+	}
+
+	if err := tx.Commit().Error; err != nil {
 		return nil, err
 	}
 
@@ -109,7 +152,9 @@ func (s *AnamnesisService) GetByID(anamnesisID, userID uuid.UUID, userRole model
 
 	// ALWAYS filter by selectedPatient (all roles including admin)
 	var anamnesis models.Anamnesis
-	query := s.db.Where("id = ?", anamnesisID).Where("patient_id = ?", *user.SelectedPatientID)
+	query := s.db.Preload("Items", func(db *gorm.DB) *gorm.DB {
+		return db.Order("\"order\" ASC")
+	}).Where("id = ?", anamnesisID).Where("patient_id = ?", *user.SelectedPatientID)
 
 	if err := query.First(&anamnesis).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -136,7 +181,9 @@ func (s *AnamnesisService) List(userID uuid.UUID, userRole models.UserRole, pati
 
 	// ALWAYS filter by selectedPatient (all roles including admin)
 	var anamneses []models.Anamnesis
-	query := s.db.Limit(limit).Offset(offset).Order("consultation_date DESC")
+	query := s.db.Preload("Items", func(db *gorm.DB) *gorm.DB {
+		return db.Order("\"order\" ASC")
+	}).Limit(limit).Offset(offset).Order("consultation_date DESC")
 	query = query.Where("patient_id = ?", *user.SelectedPatientID)
 
 	if err := query.Find(&anamneses).Error; err != nil {
@@ -152,13 +199,13 @@ func (s *AnamnesisService) List(userID uuid.UUID, userRole models.UserRole, pati
 }
 
 // Update atualiza uma anamnese
-func (s *AnamnesisService) Update(anamnesisID, doctorID uuid.UUID, userRole models.UserRole, req *dto.UpdateAnamnesisRequest) (*dto.AnamnesisResponse, error) {
+func (s *AnamnesisService) Update(anamnesisID, authorID uuid.UUID, userRole models.UserRole, req *dto.UpdateAnamnesisRequest) (*dto.AnamnesisResponse, error) {
 	var anamnesis models.Anamnesis
 	query := s.db.Where("id = ?", anamnesisID)
 
-	// Apenas o médico que criou pode editar (ou admin)
+	// Apenas o autor que criou pode editar (ou admin)
 	if userRole != models.RoleAdmin {
-		query = query.Where("doctor_id = ?", doctorID)
+		query = query.Where("author_id = ?", authorID)
 	}
 
 	if err := query.First(&anamnesis).Error; err != nil {
@@ -168,52 +215,97 @@ func (s *AnamnesisService) Update(anamnesisID, doctorID uuid.UUID, userRole mode
 		return nil, err
 	}
 
+	// Start transaction
+	tx := s.db.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
 	// Atualizar campos
-	if req.ChiefComplaint != nil {
-		anamnesis.ChiefComplaint = *req.ChiefComplaint
-	}
-	if req.HistoryOfPresentIllness != nil {
-		anamnesis.HistoryOfPresentIllness = *req.HistoryOfPresentIllness
-	}
-	if req.PastMedicalHistory != nil {
-		anamnesis.PastMedicalHistory = req.PastMedicalHistory
-	}
-	if req.CurrentMedications != nil {
-		anamnesis.CurrentMedications = req.CurrentMedications
-	}
-	if req.Allergies != nil {
-		anamnesis.Allergies = req.Allergies
-	}
-	if req.FamilyHistory != nil {
-		anamnesis.FamilyHistory = req.FamilyHistory
-	}
-	if req.SocialHistory != nil {
-		anamnesis.SocialHistory = req.SocialHistory
-	}
-	if req.ReviewOfSystems != nil {
-		anamnesis.ReviewOfSystems = req.ReviewOfSystems
-	}
-	if req.PhysicalExamination != nil {
-		anamnesis.PhysicalExamination = req.PhysicalExamination
-	}
-	if req.Assessment != nil {
-		anamnesis.Assessment = req.Assessment
-	}
-	if req.Plan != nil {
-		anamnesis.Plan = req.Plan
+	if req.AnamnesisTemplateID != nil {
+		if *req.AnamnesisTemplateID == "" {
+			anamnesis.AnamnesisTemplateID = nil
+		} else {
+			templateID, err := uuid.Parse(*req.AnamnesisTemplateID)
+			if err != nil {
+				tx.Rollback()
+				return nil, errors.New("invalid anamnesis template id")
+			}
+			anamnesis.AnamnesisTemplateID = &templateID
+		}
 	}
 	if req.ConsultationDate != nil {
 		consultationDate, err := time.Parse(time.RFC3339, *req.ConsultationDate)
 		if err != nil {
+			tx.Rollback()
 			return nil, errors.New("invalid consultation date format, expected RFC3339")
 		}
 		anamnesis.ConsultationDate = consultationDate
+	}
+	if req.Content != nil {
+		anamnesis.Content = req.Content
+	}
+	if req.Summary != nil {
+		anamnesis.Summary = req.Summary
+	}
+	if req.Visibility != nil {
+		anamnesis.Visibility = models.AnamnesisVisibility(*req.Visibility)
 	}
 	if req.Notes != nil {
 		anamnesis.Notes = req.Notes
 	}
 
-	if err := s.db.Save(&anamnesis).Error; err != nil {
+	if err := tx.Save(&anamnesis).Error; err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	// Update items (replace all)
+	if req.Items != nil {
+		// Delete old items
+		if err := tx.Where("anamnesis_id = ?", anamnesisID).Delete(&models.AnamnesisItem{}).Error; err != nil {
+			tx.Rollback()
+			return nil, err
+		}
+
+		// Create new items
+		if len(req.Items) > 0 {
+			items := make([]models.AnamnesisItem, len(req.Items))
+			for i, itemReq := range req.Items {
+				scoreItemID, err := uuid.Parse(itemReq.ScoreItemID)
+				if err != nil {
+					tx.Rollback()
+					return nil, errors.New("invalid score item id")
+				}
+
+				items[i] = models.AnamnesisItem{
+					AnamnesisID:  anamnesis.ID,
+					ScoreItemID:  scoreItemID,
+					TextValue:    itemReq.TextValue,
+					NumericValue: itemReq.NumericValue,
+					Order:        itemReq.Order,
+				}
+			}
+
+			if err := tx.Create(&items).Error; err != nil {
+				tx.Rollback()
+				return nil, err
+			}
+
+			anamnesis.Items = items
+		}
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return nil, err
+	}
+
+	// Reload with items
+	if err := s.db.Preload("Items", func(db *gorm.DB) *gorm.DB {
+		return db.Order("\"order\" ASC")
+	}).First(&anamnesis, anamnesisID).Error; err != nil {
 		return nil, err
 	}
 
@@ -221,12 +313,12 @@ func (s *AnamnesisService) Update(anamnesisID, doctorID uuid.UUID, userRole mode
 }
 
 // Delete faz soft delete de uma anamnese
-func (s *AnamnesisService) Delete(anamnesisID, doctorID uuid.UUID, userRole models.UserRole) error {
+func (s *AnamnesisService) Delete(anamnesisID, authorID uuid.UUID, userRole models.UserRole) error {
 	query := s.db.Where("id = ?", anamnesisID)
 
-	// Apenas o médico que criou pode deletar (ou admin)
+	// Apenas o autor que criou pode deletar (ou admin)
 	if userRole != models.RoleAdmin {
-		query = query.Where("doctor_id = ?", doctorID)
+		query = query.Where("author_id = ?", authorID)
 	}
 
 	result := query.Delete(&models.Anamnesis{})
@@ -243,24 +335,40 @@ func (s *AnamnesisService) Delete(anamnesisID, doctorID uuid.UUID, userRole mode
 
 // toDTO converte Anamnesis para AnamnesisResponse
 func (s *AnamnesisService) toDTO(anamnesis *models.Anamnesis) *dto.AnamnesisResponse {
-	return &dto.AnamnesisResponse{
-		ID:                      anamnesis.ID.String(),
-		PatientID:               anamnesis.PatientID.String(),
-		DoctorID:                anamnesis.DoctorID.String(),
-		ChiefComplaint:          anamnesis.ChiefComplaint,
-		HistoryOfPresentIllness: anamnesis.HistoryOfPresentIllness,
-		PastMedicalHistory:      anamnesis.PastMedicalHistory,
-		CurrentMedications:      anamnesis.CurrentMedications,
-		Allergies:               anamnesis.Allergies,
-		FamilyHistory:           anamnesis.FamilyHistory,
-		SocialHistory:           anamnesis.SocialHistory,
-		ReviewOfSystems:         anamnesis.ReviewOfSystems,
-		PhysicalExamination:     anamnesis.PhysicalExamination,
-		Assessment:              anamnesis.Assessment,
-		Plan:                    anamnesis.Plan,
-		ConsultationDate:        anamnesis.ConsultationDate.Format(time.RFC3339),
-		Notes:                   anamnesis.Notes,
-		CreatedAt:               anamnesis.CreatedAt.Format(time.RFC3339),
-		UpdatedAt:               anamnesis.UpdatedAt.Format(time.RFC3339),
+	response := &dto.AnamnesisResponse{
+		ID:               anamnesis.ID.String(),
+		PatientID:        anamnesis.PatientID.String(),
+		AuthorID:         anamnesis.AuthorID.String(),
+		ConsultationDate: anamnesis.ConsultationDate.Format(time.RFC3339),
+		Content:          anamnesis.Content,
+		Summary:          anamnesis.Summary,
+		Visibility:       string(anamnesis.Visibility),
+		Notes:            anamnesis.Notes,
+		CreatedAt:        anamnesis.CreatedAt.Format(time.RFC3339),
+		UpdatedAt:        anamnesis.UpdatedAt.Format(time.RFC3339),
 	}
+
+	// Add template ID if present
+	if anamnesis.AnamnesisTemplateID != nil {
+		templateID := anamnesis.AnamnesisTemplateID.String()
+		response.AnamnesisTemplateID = &templateID
+	}
+
+	// Convert items
+	if len(anamnesis.Items) > 0 {
+		response.Items = make([]dto.AnamnesisItemResponse, len(anamnesis.Items))
+		for i, item := range anamnesis.Items {
+			response.Items[i] = dto.AnamnesisItemResponse{
+				ID:           item.ID.String(),
+				ScoreItemID:  item.ScoreItemID.String(),
+				TextValue:    item.TextValue,
+				NumericValue: item.NumericValue,
+				Order:        item.Order,
+				CreatedAt:    item.CreatedAt.Format(time.RFC3339),
+				UpdatedAt:    item.UpdatedAt.Format(time.RFC3339),
+			}
+		}
+	}
+
+	return response
 }
