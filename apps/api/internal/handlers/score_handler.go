@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
@@ -803,4 +804,33 @@ func (h *ScoreHandler) DeleteScoreLevel(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(http.StatusNoContent)
+}
+
+// ============================================================
+// PDF Generation
+// ============================================================
+
+// GeneratePosterPDF godoc
+// @Summary Generate score poster PDF
+// @Description Generate a PDF poster (60cm x 300cm) with all scores
+// @Tags Score Groups
+// @Produce application/pdf
+// @Success 200 {file} binary
+// @Failure 500 {object} map[string]interface{}
+// @Security BearerAuth
+// @Router /api/v1/score-groups/poster-pdf [get]
+func (h *ScoreHandler) GeneratePosterPDF(c *fiber.Ctx) error {
+	// Generate PDF
+	pdfBytes, err := h.service.GeneratePosterPDF()
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"error": fmt.Sprintf("Failed to generate PDF: %v", err),
+		})
+	}
+
+	// Set headers for PDF download
+	c.Set("Content-Type", "application/pdf")
+	c.Set("Content-Disposition", "attachment; filename=escore-plenya-poster.pdf")
+
+	return c.Send(pdfBytes)
 }

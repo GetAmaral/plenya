@@ -1,9 +1,47 @@
 'use client'
 
-import { useAllScoreGroupTrees } from '@/lib/api/score-api'
+import { useAllScoreGroupTrees, ScoreItem } from '@/lib/api/score-api'
 import { Button } from '@/components/ui/button'
 import { Printer, Loader2, Download, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useAuthStore } from '@/lib/auth-store'
+
+// Helper para organizar itens em hierarquia
+interface ItemWithChildren extends ScoreItem {
+  children?: ItemWithChildren[]
+}
+
+function organizeItemsHierarchy(items: ScoreItem[]): ItemWithChildren[] {
+  const itemMap = new Map<string, ItemWithChildren>()
+  const rootItems: ItemWithChildren[] = []
+
+  // Primeiro, cria um map de todos os itens
+  items.forEach(item => {
+    itemMap.set(item.id, { ...item, children: [] })
+  })
+
+  // Depois, organiza a hierarquia
+  items.forEach(item => {
+    const itemWithChildren = itemMap.get(item.id)!
+
+    if (item.parentItemId) {
+      // Se tem parent, adiciona como filho
+      const parent = itemMap.get(item.parentItemId)
+      if (parent) {
+        parent.children = parent.children || []
+        parent.children.push(itemWithChildren)
+      } else {
+        // Parent não encontrado, adiciona como raiz
+        rootItems.push(itemWithChildren)
+      }
+    } else {
+      // Sem parent, é item raiz
+      rootItems.push(itemWithChildren)
+    }
+  })
+
+  return rootItems
+}
 
 const LEVEL_STYLES = {
   0: {
@@ -67,6 +105,7 @@ function formatLevelRange(level: any) {
 
 export default function ScorePosterPage() {
   const { data: groups = [], isLoading } = useAllScoreGroupTrees()
+  const { accessToken } = useAuthStore()
   const [zoom, setZoom] = useState(100)
 
   useEffect(() => {
@@ -77,8 +116,38 @@ export default function ScorePosterPage() {
     window.print()
   }
 
-  const handleSavePDF = () => {
-    window.print()
+  const handleSavePDF = async () => {
+    if (!accessToken) {
+      alert('Você precisa estar autenticado para gerar o PDF.')
+      return
+    }
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/score-groups/poster-pdf`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate PDF')
+      }
+
+      // Download PDF
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'escore-plenya-poster.pdf'
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+    } catch (error) {
+      console.error('Error generating PDF:', error)
+      alert('Erro ao gerar PDF. Tente novamente.')
+    }
   }
 
   const handleZoomIn = () => {
@@ -192,6 +261,77 @@ export default function ScorePosterPage() {
 }
 
 function PosterContent({ groups }: { groups: any[] }) {
+  // Função recursiva para renderizar item e seus filhos
+  const renderItemWithChildren = (item: ItemWithChildren, depth: number): JSX.Element => {
+    return (
+      <div key={item.id} style={{ marginLeft: `${depth * 20}px` }}>
+        <div className="border-2 rounded-lg overflow-hidden bg-white shadow-sm" style={{
+          borderLeft: depth > 0 ? '4px solid hsl(var(--primary))' : undefined,
+          paddingLeft: depth > 0 ? '12px' : undefined,
+        }}>
+          {/* Cabeçalho do Item */}
+          <div className="bg-card px-3 py-2 border-b-2 border-muted">
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex-1">
+                <h4 className="font-bold text-[16px] leading-tight">
+                  {item.name}
+                </h4>
+                {item.unit && (
+                  <span className="text-[13px] text-muted-foreground mt-1 block">
+                    {item.unit}{item.unitConversion && ` | ${item.unitConversion}`}
+                  </span>
+                )}
+              </div>
+              {item.points != null && item.points > 0 && (
+                <div className="shrink-0 bg-primary/10 rounded-full px-3 py-1">
+                  <div className="text-[16px] font-black text-primary">
+                    {item.points}pt
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Níveis */}
+          {item.levels && item.levels.length > 0 && (
+            <div className="p-3 bg-muted/20">
+              <div className="flex flex-wrap gap-2">
+                {item.levels
+                  .sort((a: any, b: any) => a.level - b.level)
+                  .map((level: any) => {
+                    const style = LEVEL_STYLES[level.level as keyof typeof LEVEL_STYLES] || LEVEL_STYLES[6]
+                    const range = formatLevelRange(level)
+                    const hasValues = level.lowerLimit != null || level.upperLimit != null
+
+                    return (
+                      <div
+                        key={level.id}
+                        className={`inline-flex items-center gap-1.5 rounded-full border-2 px-3 py-1 text-[14px] font-bold ${style.bg} ${style.text} ${style.border} shadow-sm`}
+                      >
+                        <span className="font-black">N{level.level}:</span>
+                        {hasValues ? (
+                          <span className="font-mono text-[13px]">{range}</span>
+                        ) : (
+                          <span className="text-[13px]">{level.name}</span>
+                        )}
+                      </div>
+                    )
+                  })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Renderizar filhos recursivamente */}
+        {item.children && item.children.length > 0 && (
+          <div className="mt-2 space-y-2">
+            {item.children.map(child => renderItemWithChildren(child, depth + 1))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className="print-container bg-white" style={{ width: '3000mm', height: '600mm' }}>
       {/* Header do pôster */}
@@ -253,117 +393,9 @@ function PosterContent({ groups }: { groups: any[] }) {
                       {/* Itens */}
                       {subgroup.items && subgroup.items.length > 0 && (
                         <div className="space-y-3">
-                          {subgroup.items
-                            .filter((item: any) => !item.parentItemId)
-                            .map((item: any) => (
-                              <div key={item.id} className="border-2 rounded-lg overflow-hidden bg-white shadow-sm">
-                                {/* Cabeçalho do Item */}
-                                <div className="bg-card px-3 py-2 border-b-2 border-muted">
-                                  <div className="flex items-start justify-between gap-2">
-                                    <div className="flex-1">
-                                      <h4 className="font-bold text-[16px] leading-tight">
-                                        {item.name}
-                                      </h4>
-                                      {item.unit && (
-                                        <span className="text-[13px] text-muted-foreground mt-1 block">
-                                          {item.unit}{item.unitConversion && ` | ${item.unitConversion}`}
-                                        </span>
-                                      )}
-                                    </div>
-                                    {item.points > 0 && (
-                                      <div className="shrink-0 bg-primary/10 rounded-full px-3 py-1">
-                                        <div className="text-[16px] font-black text-primary">
-                                          {item.points}pt
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-
-                                {/* Níveis */}
-                                {item.levels && item.levels.length > 0 && (
-                                  <div className="p-3 bg-muted/20">
-                                    <div className="flex flex-wrap gap-2">
-                                      {item.levels
-                                        .sort((a: any, b: any) => a.level - b.level)
-                                        .map((level: any) => {
-                                          const style = LEVEL_STYLES[level.level as keyof typeof LEVEL_STYLES] || LEVEL_STYLES[6]
-                                          const range = formatLevelRange(level)
-                                          const hasValues = level.lowerLimit != null || level.upperLimit != null
-
-                                          return (
-                                            <div
-                                              key={level.id}
-                                              className={`inline-flex items-center gap-1.5 rounded-full border-2 px-3 py-1 text-[14px] font-bold ${style.bg} ${style.text} ${style.border} shadow-sm`}
-                                            >
-                                              <span className="font-black">N{level.level}:</span>
-                                              {hasValues ? (
-                                                <span className="font-mono text-[13px]">{range}</span>
-                                              ) : (
-                                                <span className="text-[13px]">{level.name}</span>
-                                              )}
-                                            </div>
-                                          )
-                                        })}
-                                    </div>
-                                  </div>
-                                )}
-
-                                {/* Itens Filhos */}
-                                {item.childItems && item.childItems.length > 0 && (
-                                  <div className="border-t-2 bg-muted/10">
-                                    <div className="p-2 space-y-2">
-                                      {item.childItems.map((childItem: any) => (
-                                        <div key={childItem.id} className="pl-3 border-l-4 border-primary/30">
-                                          <div className="flex items-start justify-between gap-2 mb-1">
-                                            <h5 className="font-semibold text-[14px] text-muted-foreground">
-                                              {childItem.name}
-                                              {childItem.unit && (
-                                                <span className="text-[12px] text-muted-foreground/80 ml-1.5">
-                                                  ({childItem.unit})
-                                                </span>
-                                              )}
-                                            </h5>
-                                            {childItem.points > 0 && (
-                                              <span className="text-[14px] font-bold text-primary shrink-0">
-                                                {childItem.points}pt
-                                              </span>
-                                            )}
-                                          </div>
-
-                                          {/* Níveis do item filho */}
-                                          {childItem.levels && childItem.levels.length > 0 && (
-                                            <div className="flex flex-wrap gap-1.5">
-                                              {childItem.levels
-                                                .sort((a: any, b: any) => a.level - b.level)
-                                                .map((level: any) => {
-                                                  const style = LEVEL_STYLES[level.level as keyof typeof LEVEL_STYLES] || LEVEL_STYLES[6]
-                                                  const range = formatLevelRange(level)
-                                                  const hasValues = level.lowerLimit != null || level.upperLimit != null
-
-                                                  return (
-                                                    <div
-                                                      key={level.id}
-                                                      className={`inline-flex items-center gap-1 rounded-full border-2 px-2.5 py-0.5 text-[13px] font-bold ${style.bg} ${style.text} ${style.border}`}
-                                                    >
-                                                      <span className="font-black">N{level.level}:</span>
-                                                      {hasValues ? (
-                                                        <span className="font-mono text-[12px]">{range}</span>
-                                                      ) : (
-                                                        <span className="text-[12px]">{level.name}</span>
-                                                      )}
-                                                    </div>
-                                                  )
-                                                })}
-                                            </div>
-                                          )}
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            ))}
+                          {organizeItemsHierarchy(subgroup.items).map((item: any) =>
+                            renderItemWithChildren(item, 0)
+                          )}
                         </div>
                       )}
                     </div>

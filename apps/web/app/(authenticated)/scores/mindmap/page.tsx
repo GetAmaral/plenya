@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useCallback, useEffect } from 'react'
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import ReactFlow, {
   Background,
@@ -15,7 +15,6 @@ import ReactFlow, {
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import {
-  ArrowLeft,
   Download,
   ZoomIn,
   ZoomOut,
@@ -24,6 +23,8 @@ import {
   ChevronDown,
   ChevronRight,
   Search,
+  Maximize,
+  Minimize,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -48,11 +49,9 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { toast } from 'sonner'
-import { GroupNode } from '@/components/scores/mindmap/GroupNode'
-import { SubgroupNode } from '@/components/scores/mindmap/SubgroupNode'
-import { ItemNode } from '@/components/scores/mindmap/ItemNode'
-import { LevelNode } from '@/components/scores/mindmap/LevelNode'
+import { nodeTypes } from '@/components/scores/mindmap/nodeTypes'
 import { MindmapSearch } from '@/components/scores/mindmap/MindmapSearch'
+import { useMindmapViewport } from '@/components/scores/mindmap/useMindmapViewport'
 import { ScoreGroupDialog } from '@/components/scores/ScoreGroupDialog'
 import { ScoreSubgroupDialog } from '@/components/scores/ScoreSubgroupDialog'
 import { ScoreItemDialog } from '@/components/scores/ScoreItemDialog'
@@ -61,23 +60,40 @@ import { buildMindmapLayout } from '@/components/scores/mindmap/useMindmapLayout
 import { exportMindmapToPNG } from '@/components/scores/mindmap/exportMindmap'
 import { PageHeader } from '@/components/layout/page-header'
 
-const nodeTypes = {
-  groupNode: GroupNode,
-  subgroupNode: SubgroupNode,
-  itemNode: ItemNode,
-  levelNode: LevelNode,
-}
-
 function MindmapContent() {
   const router = useRouter()
   const { data: scoreGroups, isLoading, error } = useAllScoreGroupTrees()
   const { zoomIn, zoomOut, fitView, setViewport, getZoom, getNodes } = useReactFlow()
+  const canvasRef = useRef<HTMLDivElement>(null)
+
+  // Hook para salvar/carregar viewport e expanded nodes automaticamente
+  const { onViewportChange, onExpandedNodesChange, initialViewport, initialExpandedNodes } = useMindmapViewport()
+
+  // Memoize ReactFlow options to prevent recreation
+  const fitViewOptions = useMemo(() => ({
+    padding: 0.2,
+    minZoom: 0.5,
+    maxZoom: 1.0,
+  }), [])
+
+  const defaultEdgeOptions = useMemo(() => ({
+    type: 'smoothstep' as const,
+    animated: true,
+    style: { strokeWidth: 2 },
+  }), [])
+
+  // Usar viewport salvo ou padrão
+  const defaultViewport = useMemo(() =>
+    initialViewport || { x: 0, y: 0, zoom: 0.7 },
+    [initialViewport]
+  )
 
   // Estado de expansão: { nodeId: boolean }
   const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({})
   const [zoomLevel, setZoomLevel] = useState(0.6)
   const [initialized, setInitialized] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   // Estado para dialogs de edição
   const [editingGroup, setEditingGroup] = useState<ScoreGroup | null>(null)
@@ -96,25 +112,41 @@ function MindmapContent() {
   const [deletingItem, setDeletingItem] = useState<ScoreItem | null>(null)
   const [deletingLevel, setDeletingLevel] = useState<ScoreLevel | null>(null)
 
-  // Inicializar com todos os grupos expandidos quando carregar
+  // Inicializar com nodes expandidos salvos ou todos os grupos expandidos
   useEffect(() => {
     if (scoreGroups && scoreGroups.length > 0 && !initialized) {
-      const initial: Record<string, boolean> = {}
-      scoreGroups.forEach(group => {
-        initial[`group-${group.id}`] = true // Grupos expandidos por padrão
-      })
-      setExpandedNodes(initial)
+      // Se há nodes expandidos salvos, usar eles
+      if (Object.keys(initialExpandedNodes).length > 0) {
+        setExpandedNodes(initialExpandedNodes)
+      } else {
+        // Senão, expandir todos os grupos por padrão
+        const initial: Record<string, boolean> = {}
+        scoreGroups.forEach(group => {
+          initial[`group-${group.id}`] = true
+        })
+        setExpandedNodes(initial)
+      }
       setInitialized(true)
     }
-  }, [scoreGroups, initialized])
+  }, [scoreGroups, initialized, initialExpandedNodes])
+
+  // Atualizar expanded nodes e salvar automaticamente
+  const updateExpandedNodes = useCallback((updater: Record<string, boolean> | ((prev: Record<string, boolean>) => Record<string, boolean>)) => {
+    setExpandedNodes(prev => {
+      const newExpandedNodes = typeof updater === 'function' ? updater(prev) : updater
+      // Salvar no backend com debounce
+      onExpandedNodesChange(newExpandedNodes)
+      return newExpandedNodes
+    })
+  }, [onExpandedNodesChange])
 
   // Toggle expansão de um node
   const toggleNode = useCallback((nodeId: string) => {
-    setExpandedNodes(prev => ({
+    updateExpandedNodes(prev => ({
       ...prev,
       [nodeId]: !prev[nodeId]
     }))
-  }, [])
+  }, [updateExpandedNodes])
 
   // Handlers para edição via context menu
   const handleEditGroup = useCallback((group: ScoreGroup) => {
@@ -338,12 +370,12 @@ function MindmapContent() {
         })
       })
     })
-    setExpandedNodes(allExpanded)
-  }, [scoreGroups])
+    updateExpandedNodes(allExpanded)
+  }, [scoreGroups, updateExpandedNodes])
 
   const handleCollapseAll = useCallback(() => {
-    setExpandedNodes({})
-  }, [])
+    updateExpandedNodes({})
+  }, [updateExpandedNodes])
 
   const handleExport = useCallback(() => {
     exportMindmapToPNG()
@@ -365,6 +397,26 @@ function MindmapContent() {
     setViewport({ x: 0, y: 0, zoom: 0.6 }, { duration: 300 })
   }, [setViewport])
 
+  const handleToggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement && canvasRef.current) {
+      canvasRef.current.requestFullscreen()
+      setIsFullscreen(true)
+    } else if (document.fullscreenElement) {
+      document.exitFullscreen()
+      setIsFullscreen(false)
+    }
+  }, [])
+
+  // Detectar quando sai de tela cheia via ESC
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  }, [])
+
   // Expandir e focar em resultado de busca
   const handleSearchResultClick = useCallback((result: any) => {
     const nodesToExpand: Record<string, boolean> = { ...expandedNodes }
@@ -384,7 +436,7 @@ function MindmapContent() {
       nodesToExpand[`item-${result.itemId}`] = true
     }
 
-    setExpandedNodes(nodesToExpand)
+    updateExpandedNodes(nodesToExpand)
 
     // Aguardar renderização e então centralizar no node
     setTimeout(() => {
@@ -395,14 +447,18 @@ function MindmapContent() {
         // Centralizar viewport no node
         const x = -targetNode.position.x + window.innerWidth / 2 - 168 // 168 = metade da largura do card
         const y = -targetNode.position.y + window.innerHeight / 2 - 50  // 50 = metade da altura aproximada
+        const newViewport = { x, y, zoom: 1.0 }
 
-        setViewport({ x, y, zoom: 1.0 }, { duration: 500 })
+        setViewport(newViewport, { duration: 500 })
+
+        // Salvar viewport após mudar programaticamente
+        onViewportChange(newViewport)
       }
 
       // Fechar busca
       setSearchOpen(false)
     }, 100)
-  }, [expandedNodes, getNodes, setViewport])
+  }, [expandedNodes, updateExpandedNodes, getNodes, setViewport, onViewportChange])
 
   const handleSearchToggle = useCallback(() => {
     setSearchOpen(prev => !prev)
@@ -458,47 +514,46 @@ function MindmapContent() {
   return (
     <div className="h-screen flex flex-col">
       {/* Header */}
-      <div className="border-b bg-background px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => router.push('/scores')}
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Voltar
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold">Mindmap de Escores</h1>
-              <p className="text-sm text-muted-foreground">
-                Visualização hierárquica de {scoreGroups.length} grupos · Zoom: {Math.round(zoomLevel * 100)}%
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-2">
-            <Button onClick={handleSearchToggle} variant="outline" size="sm">
-              <Search className="mr-2 h-4 w-4" />
-              Procurar
-              <kbd className="ml-2 pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                Ctrl+F
-              </kbd>
-            </Button>
-            <Button onClick={handleExpandAll} variant="outline" size="sm">
-              <ChevronDown className="mr-2 h-4 w-4" />
-              Expandir Tudo
-            </Button>
-            <Button onClick={handleCollapseAll} variant="outline" size="sm">
-              <ChevronRight className="mr-2 h-4 w-4" />
-              Recolher Tudo
-            </Button>
-            <Button onClick={handleExport} variant="outline" size="sm">
-              <Download className="mr-2 h-4 w-4" />
-              Exportar PNG
-            </Button>
-          </div>
-        </div>
+      <div className="border-b bg-background px-6 py-6">
+        <PageHeader
+          breadcrumbs={[
+            { label: 'Escores', href: '/scores' },
+            { label: 'Mindmap' },
+          ]}
+          title="Mindmap de Escores"
+          description={`Visualização hierárquica de ${scoreGroups.length} grupos · Zoom: ${Math.round(zoomLevel * 100)}%`}
+          actions={[
+            {
+              label: 'Buscar',
+              icon: <Search className="h-4 w-4" />,
+              onClick: handleSearchToggle,
+              variant: 'outline',
+            },
+            {
+              label: 'Expandir',
+              icon: <ChevronDown className="h-4 w-4" />,
+              variant: 'outline',
+              items: [
+                {
+                  label: 'Expandir Tudo',
+                  icon: <ChevronDown className="h-4 w-4" />,
+                  onClick: handleExpandAll,
+                },
+                {
+                  label: 'Recolher Tudo',
+                  icon: <ChevronRight className="h-4 w-4" />,
+                  onClick: handleCollapseAll,
+                },
+              ],
+            },
+            {
+              label: 'Exportar',
+              icon: <Download className="h-4 w-4" />,
+              onClick: handleExport,
+              variant: 'outline',
+            },
+          ]}
+        />
       </div>
 
       {/* Search Box */}
@@ -510,27 +565,18 @@ function MindmapContent() {
       />
 
       {/* React Flow Canvas */}
-      <div className="flex-1 relative">
+      <div ref={canvasRef} className="flex-1 relative bg-background">
         <ReactFlow
           nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
+          onMove={(_event, viewport) => onViewportChange(viewport)}
           nodeTypes={nodeTypes}
-          fitView
-          fitViewOptions={{
-            padding: 0.2,
-            minZoom: 0.5,  // Zoom mínimo do fitView = 50%
-            maxZoom: 1.0,  // Zoom máximo do fitView = 100%
-          }}
           minZoom={0.1}
           maxZoom={2.5}
-          defaultViewport={{ x: 0, y: 0, zoom: 0.7 }}
-          defaultEdgeOptions={{
-            type: 'smoothstep',
-            animated: true,
-            style: { strokeWidth: 2 },
-          }}
+          defaultViewport={defaultViewport}
+          defaultEdgeOptions={defaultEdgeOptions}
         >
           <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
           <MiniMap
@@ -574,6 +620,15 @@ function MindmapContent() {
             title="Reposicionar"
           >
             <Minimize2 className="h-4 w-4" />
+          </Button>
+          <div className="h-px bg-border my-1" />
+          <Button
+            variant="secondary"
+            size="icon"
+            onClick={handleToggleFullscreen}
+            title={isFullscreen ? "Sair de tela cheia" : "Tela cheia"}
+          >
+            {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
           </Button>
         </div>
 

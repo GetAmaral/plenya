@@ -13,12 +13,16 @@ import (
 
 // ScoreService handles business logic for score operations
 type ScoreService struct {
-	repo *repository.ScoreRepository
+	repo       *repository.ScoreRepository
+	pdfService *ScorePDFService
 }
 
 // NewScoreService creates a new score service instance
 func NewScoreService(repo *repository.ScoreRepository) *ScoreService {
-	return &ScoreService{repo: repo}
+	return &ScoreService{
+		repo:       repo,
+		pdfService: NewScorePDFService(),
+	}
 }
 
 // ============================================================
@@ -69,6 +73,7 @@ type UpdateScoreItemDTO struct {
 	Points             *float64    `json:"points,omitempty" validate:"omitempty,gte=0,lte=100"`
 	Order              *int        `json:"order,omitempty" validate:"omitempty,gte=0,lte=9999"`
 	SubgroupID         *uuid.UUID  `json:"subgroupId,omitempty"`
+	ParentItemID       *uuid.UUID  `json:"parentItemId,omitempty"`
 	ClinicalRelevance  *string     `json:"clinicalRelevance,omitempty"`
 	PatientExplanation *string     `json:"patientExplanation,omitempty"`
 	Conduct            *string     `json:"conduct,omitempty"`
@@ -331,13 +336,16 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 		item.UnitConversion = dto.UnitConversion
 	}
 	if dto.Points != nil {
-		item.Points = *dto.Points
+		item.Points = dto.Points
 	}
 	if dto.Order != nil {
 		item.Order = *dto.Order
 	}
 	if dto.SubgroupID != nil {
 		item.SubgroupID = *dto.SubgroupID
+	}
+	if dto.ParentItemID != nil {
+		item.ParentItemID = dto.ParentItemID
 	}
 	if dto.ClinicalRelevance != nil {
 		item.ClinicalRelevance = dto.ClinicalRelevance
@@ -471,4 +479,20 @@ func (s *ScoreService) validateLevelLimits(operator string, lowerLimit, upperLim
 		return fmt.Errorf("invalid operator: %s", operator)
 	}
 	return nil
+}
+
+// ============================================================
+// PDF Generation
+// ============================================================
+
+// GeneratePosterPDF generates a PDF poster (60cm x 300cm) for all scores
+func (s *ScoreService) GeneratePosterPDF() ([]byte, error) {
+	// Get all score groups with complete tree
+	groups, err := s.repo.GetAllScoreGroupTrees()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get score groups: %v", err)
+	}
+
+	// Generate PDF using dedicated PDF service
+	return s.pdfService.GeneratePosterPDF(groups)
 }

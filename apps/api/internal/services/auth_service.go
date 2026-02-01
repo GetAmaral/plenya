@@ -1,6 +1,7 @@
 package services
 
 import (
+	"encoding/json"
 	"errors"
 	"time"
 
@@ -218,6 +219,17 @@ func (s *AuthService) UpdateSelectedPatient(userID, patientID uuid.UUID) (*dto.U
 	return s.GetUserByID(userID)
 }
 
+// UpdatePreferences atualiza as preferências do usuário
+func (s *AuthService) UpdatePreferences(userID uuid.UUID, preferences map[string]interface{}) (*dto.UserDTO, error) {
+	// Atualizar preferências usando UpdateColumn
+	if err := s.db.Model(&models.User{}).Where("id = ?", userID).UpdateColumn("preferences", preferences).Error; err != nil {
+		return nil, err
+	}
+
+	// Buscar usuário atualizado
+	return s.GetUserByID(userID)
+}
+
 // userToDTO converte User para UserDTO incluindo selectedPatient
 func (s *AuthService) userToDTO(user *models.User) *dto.UserDTO {
 	userDTO := &dto.UserDTO{
@@ -252,6 +264,14 @@ func (s *AuthService) userToDTO(user *models.User) *dto.UserDTO {
 			Weight:       user.SelectedPatient.Weight,
 			CreatedAt:    user.SelectedPatient.CreatedAt.Format(time.RFC3339),
 			UpdatedAt:    user.SelectedPatient.UpdatedAt.Format(time.RFC3339),
+		}
+	}
+
+	// Adicionar preferences se existir
+	if len(user.Preferences) > 0 {
+		var prefs map[string]interface{}
+		if err := json.Unmarshal(user.Preferences, &prefs); err == nil {
+			userDTO.Preferences = prefs
 		}
 	}
 

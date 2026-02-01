@@ -148,7 +148,7 @@ export function ScoreSearch({ scoreGroups, isOpen, onClose, onResultClick }: Sco
   }
 
   return (
-    <div className="absolute top-24 left-4 z-50 w-[520px] bg-background border rounded-lg shadow-2xl">
+    <div className="w-full bg-background border rounded-lg shadow-2xl">
       {/* Header */}
       <div className="flex items-center gap-2 p-3 border-b">
         <Search className="h-4 w-4 text-muted-foreground" />

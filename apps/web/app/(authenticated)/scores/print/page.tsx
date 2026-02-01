@@ -1,9 +1,46 @@
 'use client'
 
-import { useAllScoreGroupTrees } from '@/lib/api/score-api'
+import { useAllScoreGroupTrees, ScoreItem } from '@/lib/api/score-api'
 import { Button } from '@/components/ui/button'
 import { Printer, Loader2 } from 'lucide-react'
 import { useEffect } from 'react'
+
+// Helper para organizar itens em hierarquia
+interface ItemWithChildren extends ScoreItem {
+  children?: ItemWithChildren[]
+}
+
+function organizeItemsHierarchy(items: ScoreItem[]): ItemWithChildren[] {
+  const itemMap = new Map<string, ItemWithChildren>()
+  const rootItems: ItemWithChildren[] = []
+
+  // Primeiro, cria um map de todos os itens
+  items.forEach(item => {
+    itemMap.set(item.id, { ...item, children: [] })
+  })
+
+  // Depois, organiza a hierarquia
+  items.forEach(item => {
+    const itemWithChildren = itemMap.get(item.id)!
+
+    if (item.parentItemId) {
+      // Se tem parent, adiciona como filho
+      const parent = itemMap.get(item.parentItemId)
+      if (parent) {
+        parent.children = parent.children || []
+        parent.children.push(itemWithChildren)
+      } else {
+        // Parent não encontrado, adiciona como raiz
+        rootItems.push(itemWithChildren)
+      }
+    } else {
+      // Sem parent, é item raiz
+      rootItems.push(itemWithChildren)
+    }
+  })
+
+  return rootItems
+}
 
 const LEVEL_STYLES = {
   0: {
@@ -151,12 +188,37 @@ export default function ScorePrintPage() {
                       {/* Itens */}
                       {subgroup.items && subgroup.items.length > 0 && (
                         <div className="space-y-2 ml-2 print:space-y-1 print:ml-1">
-                          {subgroup.items
-                            .filter(item => !item.parentItemId) // Apenas itens raiz
-                            .map((item) => (
-                              <div key={item.id}>
-                                {/* Item */}
-                                <div className="border rounded-lg print:rounded-none print:border-gray-300">
+                          {organizeItemsHierarchy(subgroup.items).map((item) =>
+                            renderItemWithChildren(item, 0)
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Rodapé (visível apenas na impressão) */}
+      <div className="hidden print:block mt-2 pt-1 border-t text-center text-[8pt] text-muted-foreground">
+        <p>Plenya - Sistema de Prontuário Médico Eletrônico</p>
+        <p className="mt-0.5">Este documento contém informações confidenciais e deve ser tratado de acordo com a LGPD</p>
+      </div>
+    </div>
+  )
+
+  // Função recursiva para renderizar item e seus filhos
+  function renderItemWithChildren(item: ItemWithChildren, depth: number): JSX.Element {
+    return (
+      <div key={item.id} style={{ marginLeft: `${depth * 16}px` }}>
+        {/* Item */}
+        <div className="border rounded-lg print:rounded-none print:border-gray-300" style={{
+          borderLeft: depth > 0 ? '3px solid hsl(var(--primary))' : undefined,
+          paddingLeft: depth > 0 ? '8px' : undefined,
+        }}>
                                   <div className="bg-card px-2 py-1.5 border-b print:px-1.5 print:py-1">
                                     <div className="flex items-start justify-between gap-2">
                                       <div className="flex-1">
@@ -209,81 +271,15 @@ export default function ScorePrintPage() {
                                     </div>
                                   )}
 
-                                  {/* Itens Filhos (hierárquicos) */}
-                                  {item.childItems && item.childItems.length > 0 && (
-                                    <div className="border-t bg-muted/10">
-                                      <div className="p-1.5 space-y-1.5 print:p-1 print:space-y-1">
-                                        {item.childItems.map((childItem) => (
-                                          <div key={childItem.id} className="pl-2 border-l-2 border-primary/30 print:pl-1.5">
-                                            <div className="mb-1 print:mb-0.5">
-                                              <div className="flex items-start justify-between gap-2">
-                                                <h5 className="font-medium text-[10px] text-muted-foreground print:text-[8pt]">
-                                                  {childItem.name}
-                                                  {childItem.unit && (
-                                                    <span className="text-[9px] text-muted-foreground/80 ml-1.5 print:text-[7pt]">
-                                                      ({childItem.unit})
-                                                    </span>
-                                                  )}
-                                                </h5>
-                                                {childItem.points > 0 && (
-                                                  <span className="text-[10px] font-semibold text-primary shrink-0 print:text-[8pt]">
-                                                    {childItem.points}pt
-                                                  </span>
-                                                )}
-                                              </div>
-                                            </div>
-
-                                            {/* Níveis do item filho */}
-                                            {childItem.levels && childItem.levels.length > 0 && (
-                                              <div className="flex flex-wrap gap-1 print:gap-0.5">
-                                                {childItem.levels
-                                                  .sort((a, b) => a.level - b.level)
-                                                  .map((level) => {
-                                                    const style = LEVEL_STYLES[level.level as keyof typeof LEVEL_STYLES] || LEVEL_STYLES[6]
-                                                    const range = formatLevelRange(level)
-                                                    const hasValues = level.lowerLimit != null || level.upperLimit != null
-
-                                                    return (
-                                                      <div
-                                                        key={level.id}
-                                                        className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium ${style.bg} ${style.text} ${style.border} print:px-1.5 print:py-0 print:text-[7pt]`}
-                                                        title={`${level.name}${range ? ` (${range})` : ''}${level.definition ? ` - ${level.definition}` : ''}`}
-                                                      >
-                                                        <span className="font-bold">N{level.level}:</span>
-                                                        {hasValues ? (
-                                                          <span className="font-mono text-[9px] print:text-[6.5pt]">{range}</span>
-                                                        ) : (
-                                                          <span className="print:text-[6.5pt]">{level.name}</span>
-                                                        )}
-                                                      </div>
-                                                    )
-                                                  })}
-                                              </div>
-                                            )}
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
         </div>
-      </div>
 
-      {/* Rodapé (visível apenas na impressão) */}
-      <div className="hidden print:block mt-2 pt-1 border-t text-center text-[8pt] text-muted-foreground">
-        <p>Plenya - Sistema de Prontuário Médico Eletrônico</p>
-        <p className="mt-0.5">Este documento contém informações confidenciais e deve ser tratado de acordo com a LGPD</p>
+        {/* Renderizar filhos recursivamente */}
+        {item.children && item.children.length > 0 && (
+          <div className="mt-1.5 space-y-1.5 print:mt-1 print:space-y-1">
+            {item.children.map(child => renderItemWithChildren(child, depth + 1))}
+          </div>
+        )}
       </div>
-    </div>
-  )
+    )
+  }
 }

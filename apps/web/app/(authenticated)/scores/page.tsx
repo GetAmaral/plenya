@@ -8,14 +8,17 @@ import { ScoreTreeView } from '@/components/scores/ScoreTreeView'
 import { ScoreGroupDialog } from '@/components/scores/ScoreGroupDialog'
 import { ScoreSearch, SearchResult } from '@/components/scores/ScoreSearch'
 import { PageHeader } from '@/components/layout/page-header'
+import { useAuthStore } from '@/lib/auth-store'
 
 export default function ScoresPage() {
   const router = useRouter()
+  const { accessToken } = useAuthStore()
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({})
   const [expandClinicalTexts, setExpandClinicalTexts] = useState(false)
   const [isExpanding, setIsExpanding] = useState(false)
+  const [isDownloadingPoster, setIsDownloadingPoster] = useState(false)
 
   const { data: scoreGroups, isLoading, error } = useAllScoreGroupTrees()
 
@@ -137,6 +140,40 @@ export default function ScoresPage() {
     }, 50)
   }, [isExpanding])
 
+  // Download Poster PDF
+  const handleDownloadPoster = useCallback(async () => {
+    if (!accessToken || isDownloadingPoster) return
+
+    setIsDownloadingPoster(true)
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/score-groups/poster-pdf`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error('Erro ao gerar PDF')
+      }
+
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'escore-plenya-poster.pdf'
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+    } catch (error) {
+      console.error('Erro ao baixar PDF:', error)
+      alert('Erro ao gerar PDF. Tente novamente.')
+    } finally {
+      setIsDownloadingPoster(false)
+    }
+  }, [accessToken, isDownloadingPoster])
+
   const totalGroups = scoreGroups?.length || 0
   const totalItems = scoreGroups?.reduce((acc, group) => {
     return acc + (group.subgroups?.reduce((subAcc, subgroup) => {
@@ -165,6 +202,7 @@ export default function ScoresPage() {
           <div className="w-full max-w-2xl">
             <ScoreSearch
               scoreGroups={scoreGroups || []}
+              isOpen={searchOpen}
               onResultClick={handleSearchResultClick}
               onClose={() => setSearchOpen(false)}
             />
@@ -223,9 +261,10 @@ export default function ScoresPage() {
                 onClick: () => router.push('/scores/print'),
               },
               {
-                label: 'Pôster',
-                icon: <FileImage className="h-4 w-4" />,
-                onClick: () => router.push('/scores/poster'),
+                label: isDownloadingPoster ? 'Gerando...' : 'Pôster',
+                icon: isDownloadingPoster ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileImage className="h-4 w-4" />,
+                onClick: handleDownloadPoster,
+                disabled: isDownloadingPoster,
               },
             ],
           },

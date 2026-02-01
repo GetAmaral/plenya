@@ -28,6 +28,7 @@ export interface User {
   twoFactorEnabled: boolean;
   selectedPatientId?: string;
   selectedPatient?: Patient;
+  preferences?: Record<string, any>;
   createdAt: string;
 }
 

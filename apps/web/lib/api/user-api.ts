@@ -21,4 +21,11 @@ export const userApi = {
       patientId,
     });
   },
+
+  /**
+   * Update user preferences (viewport, settings, etc.)
+   */
+  updatePreferences: async (preferences: Record<string, any>): Promise<User> => {
+    return apiClient.patch<User>("/api/v1/users/me/preferences", preferences);
+  },
 };

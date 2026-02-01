@@ -20,8 +20,8 @@ export const SubgroupNode = memo(({ data }: NodeProps) => {
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <div className="w-[336px] px-4 py-3 rounded-md bg-card border-2 border-primary/30 shadow-md">
-          <Handle type="target" position={Position.Left} className="w-3 h-3" />
-          <Handle type="source" position={Position.Right} className="w-3 h-3" />
+          <Handle type="target" position={Position.Left} id="left" className="w-3 h-3" />
+          <Handle type="source" position={Position.Right} id="right" className="w-3 h-3" />
 
           <div className="space-y-1.5">
             <div className="flex items-start gap-2">

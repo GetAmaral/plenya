@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
@@ -44,6 +45,10 @@ type User struct {
 	// ID do paciente selecionado (contexto atual de trabalho)
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	SelectedPatientID *uuid.UUID `gorm:"type:uuid;index" json:"selectedPatientId,omitempty"`
+
+	// Preferências do usuário (viewport do mindmap, etc.)
+	// @example {"mindmapViewport":{"x":0,"y":0,"zoom":0.7}}
+	Preferences datatypes.JSON `gorm:"type:jsonb;default:'{}'" json:"preferences,omitempty"`
 
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`

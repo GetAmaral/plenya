@@ -34,7 +34,7 @@ export const LevelNode = memo(({ data }: NodeProps) => {
             colorClass
           )}
         >
-          <Handle type="target" position={Position.Left} className="w-2 h-2" />
+          <Handle type="target" position={Position.Left} id="left" className="w-2 h-2" />
 
           <div className="space-y-1">
             <div className="flex items-center justify-between gap-2">
