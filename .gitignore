@@ -84,3 +84,7 @@ apps/mobile/ios/build/
 apps/mobile/android/build/
 apps/mobile/android/.gradle/
 .pnpm-store/
+
+# Backups e dados temporários
+backups/
+data/
