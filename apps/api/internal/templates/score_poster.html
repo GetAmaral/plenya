@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escore Plenya - Pôster</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: 600mm 3000mm; /* 60cm x 300cm */
+            margin: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: white;
+            width: 600mm;
+            padding: 10mm;
+            padding-bottom: 5mm;
+            color: #09090b;
+            line-height: 1.4;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #e4e4e7;
+            padding-bottom: 5mm;
+            margin-bottom: 5mm;
+        }
+
+        .header-logo {
+            width: 50mm;
+            height: auto;
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: center;
+            padding: 0 10mm;
+        }
+
+        .header h1 {
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 1pt;
+            margin: 0;
+            color: #4a4a4a;
+        }
+
+        .header .title-escore {
+            font-size: 20pt;
+            font-weight: 400;
+        }
+
+        .header .title-plenya {
+            font-size: 36pt;
+            font-weight: 700;
+        }
+
+        .header-date {
+            font-size: 10pt;
+            color: #71717a;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        /* Content */
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 3mm;
+            margin-bottom: 0;
+        }
+
+        /* Group */
+        .group {
+            margin-bottom: 2mm;
+        }
+
+        .group-header {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border-radius: 3mm;
+            padding: 3mm 5mm;
+            margin-bottom: 2mm;
+        }
+
+        .group-header-inner {
+            display: flex;
+            align-items: center;
+            gap: 3mm;
+        }
+
+        .group-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 8mm;
+            height: 8mm;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            font-size: 10pt;
+            font-weight: 700;
+        }
+
+        .group-name {
+            font-size: 14pt;
+            font-weight: 700;
+        }
+
+        /* Subgroups */
+        .subgroups {
+            display: flex;
+            flex-direction: column;
+            gap: 4mm;
+            margin-left: 3mm;
+        }
+
+        .subgroup {
+            margin-bottom: 2mm;
+        }
+
+        .subgroup-header {
+            background: #f4f4f5;
+            border-radius: 3mm;
+            padding: 2.5mm 4mm;
+            border-left: 3px solid #2563eb;
+            margin-bottom: 2mm;
+        }
+
+        .subgroup-header-inner {
+            display: flex;
+            align-items: center;
+            gap: 2mm;
+        }
+
+        .subgroup-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 6mm;
+            height: 6mm;
+            border-radius: 50%;
+            background: rgba(37, 99, 235, 0.1);
+            font-size: 9pt;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .subgroup-name {
+            font-size: 12pt;
+            font-weight: 600;
+        }
+
+        /* Items */
+        .items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5mm;
+            margin-left: 3mm;
+        }
+
+        .item {
+            border: 1px solid #e4e4e7;
+            border-radius: 3mm;
+            background: #fafafa;
+            padding: 1mm 3mm;
+            position: relative;
+        }
+
+        .item-row {
+            display: grid;
+            grid-template-columns: 15% 10% 3% 72%;
+            gap: 3mm;
+            align-items: center;
+        }
+
+        /* Quando não tem unidade */
+        .item-row.no-unit {
+            grid-template-columns: 25% 0% 3% 72%;
+        }
+
+        /* Quando não tem unidade nem pontos */
+        .item-row.no-unit.no-points {
+            grid-template-columns: 28% 0% 0% 72%;
+        }
+
+        /* Quando não tem unidade, pontos nem levels */
+        .item-row.no-unit.no-points.no-levels {
+            grid-template-columns: 100% 0% 0% 0%;
+        }
+
+        /* Quando tem unidade mas não tem pontos */
+        .item-row.no-points:not(.no-unit) {
+            grid-template-columns: 15% 10% 0% 75%;
+        }
+
+        /* Quando tem unidade mas não tem pontos nem levels */
+        .item-row.no-points.no-levels:not(.no-unit) {
+            grid-template-columns: 25% 0% 0% 0%;
+        }
+
+        /* Quando tem pontos mas não tem levels */
+        .item-row.no-levels:not(.no-points) {
+            grid-template-columns: 15% 10% 3% 0%;
+        }
+
+        .item-row.no-unit.no-levels:not(.no-points) {
+            grid-template-columns: 25% 0% 3% 0%;
+        }
+
+        .item-name {
+            font-size: 10pt;
+            font-weight: 500;
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        .item-unit {
+            font-size: 9pt;
+            color: #71717a;
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        .item-points {
+            text-align: left;
+        }
+
+        .points-value {
+            font-size: 9pt;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        /* Levels */
+        .levels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5mm;
+            justify-content: flex-start;
+        }
+
+        .level {
+            display: inline-flex;
+            align-items: center;
+            gap: 1mm;
+            border-radius: 10mm;
+            border: 1px solid;
+            padding: 1mm 2.5mm;
+            font-size: 9pt;
+            font-weight: 500;
+        }
+
+        .level-number {
+            font-weight: 700;
+        }
+
+        .level-range {
+            font-family: 'Courier New', monospace;
+            font-size: 8pt;
+        }
+
+        /* Level Colors */
+        .level-0 { background: #fee2e2; color: #991b1b; border-color: #ef4444; }
+        .level-1 { background: #fed7aa; color: #9a3412; border-color: #f97316; }
+        .level-2 { background: #fef3c7; color: #92400e; border-color: #f59e0b; }
+        .level-3 { background: #dbeafe; color: #1e3a8a; border-color: #3b82f6; }
+        .level-4 { background: #dcfce7; color: #14532d; border-color: #22c55e; }
+        .level-5 { background: #d1fae5; color: #064e3b; border-color: #10b981; }
+        .level-6 { background: #f1f5f9; color: #1e293b; border-color: #64748b; }
+
+        /* Child items indentation - only affects name column */
+        .item.depth-1 {
+            background: transparent;
+            border: none;
+        }
+
+        .item.depth-1::before {
+            content: '';
+            position: absolute;
+            left: 8mm;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: #fafafa;
+            border: 1px solid #e4e4e7;
+            border-left: 3px solid #2563eb;
+            border-radius: 3mm;
+            z-index: -1;
+        }
+
+        .item.depth-1 .item-name {
+            padding-left: 8mm;
+        }
+
+        .item.depth-2 {
+            background: transparent;
+            border: none;
+        }
+
+        .item.depth-2::before {
+            content: '';
+            position: absolute;
+            left: 16mm;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: #fafafa;
+            border: 1px solid #e4e4e7;
+            border-left: 3px solid #2563eb;
+            border-radius: 3mm;
+            z-index: -1;
+        }
+
+        .item.depth-2 .item-name {
+            padding-left: 16mm;
+        }
+
+        .item.depth-3 {
+            background: transparent;
+            border: none;
+        }
+
+        .item.depth-3::before {
+            content: '';
+            position: absolute;
+            left: 24mm;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: #fafafa;
+            border: 1px solid #e4e4e7;
+            border-left: 3px solid #2563eb;
+            border-radius: 3mm;
+            z-index: -1;
+        }
+
+        .item.depth-3 .item-name {
+            padding-left: 24mm;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <!-- Logo -->
+        <img src="/app/internal/templates/logo_infinity.svg" alt="Plenya" class="header-logo">
+
+        <!-- Título -->
+        <div class="header-title">
+            <h1><span class="title-escore">Escore</span> <span class="title-plenya">PLENYA</span></h1>
+        </div>
+
+        <!-- Data -->
+        <div class="header-date">{{.GeneratedAt}}</div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        {{range $groupIndex, $group := .Groups}}
+        <div class="group">
+            <!-- Group Header -->
+            <div class="group-header">
+                <div class="group-header-inner">
+                    <div class="group-number">{{add $groupIndex 1}}</div>
+                    <div class="group-name">{{$group.Name}}</div>
+                </div>
+            </div>
+
+            <!-- Subgroups -->
+            {{if $group.Subgroups}}
+            <div class="subgroups">
+                {{range $subgroupIndex, $subgroup := $group.Subgroups}}
+                <div class="subgroup">
+                    <!-- Subgroup Header -->
+                    <div class="subgroup-header">
+                        <div class="subgroup-header-inner">
+                            <div class="subgroup-number">{{add $groupIndex 1}}.{{add $subgroupIndex 1}}</div>
+                            <div class="subgroup-name">{{$subgroup.Name}}</div>
+                        </div>
+                    </div>
+
+                    <!-- Items -->
+                    {{if $subgroup.Items}}
+                    <div class="items">
+                        {{template "renderItems" $subgroup.Items}}
+                    </div>
+                    {{end}}
+                </div>
+                {{end}}
+            </div>
+            {{end}}
+        </div>
+        {{end}}
+    </div>
+</body>
+</html>
+
+{{define "renderItems"}}
+    {{range .}}
+        {{if not .ParentItemID}}
+        <div class="item">
+            <div class="item-row{{if not .Unit}} no-unit{{end}}{{if not (gt .Points 0)}} no-points{{end}}{{if not .Levels}} no-levels{{end}}">
+                <!-- Coluna 1: Nome -->
+                <div class="item-name">{{.Name}}</div>
+
+                <!-- Coluna 2: Unidade e Conversão -->
+                <div class="item-unit">
+                    {{if .Unit}}
+                    {{.Unit}}{{if .UnitConversion}} | {{.UnitConversion}}{{end}}
+                    {{end}}
+                </div>
+
+                <!-- Coluna 3: Pontos -->
+                <div class="item-points">
+                    {{if gt .Points 0}}
+                    <div class="points-value">{{.Points}}pt</div>
+                    {{end}}
+                </div>
+
+                <!-- Coluna 4: Levels -->
+                <div class="levels">
+                    {{if .Levels}}
+                    {{range .Levels}}
+                    <div class="level level-{{.Level}}">
+                        <span class="level-number">N{{.Level}}:</span>
+                        {{if or .LowerLimit .UpperLimit}}
+                        <span class="level-range">{{formatLevelRange .}}</span>
+                        {{else}}
+                        <span>{{.Name}}</span>
+                        {{end}}
+                    </div>
+                    {{end}}
+                    {{end}}
+                </div>
+            </div>
+        </div>
+
+        {{/* Render children recursively */}}
+        {{if .ChildItems}}
+        {{template "renderChildItems" dict "items" .ChildItems "depth" 1}}
+        {{end}}
+        {{end}}
+    {{end}}
+{{end}}
+
+{{define "renderChildItems"}}
+    {{range .items}}
+    <div class="item depth-{{$.depth}}">
+        <div class="item-row{{if not .Unit}} no-unit{{end}}{{if not (gt .Points 0)}} no-points{{end}}{{if not .Levels}} no-levels{{end}}">
+            <!-- Coluna 1: Nome -->
+            <div class="item-name">{{.Name}}</div>
+
+            <!-- Coluna 2: Unidade e Conversão -->
+            <div class="item-unit">
+                {{if .Unit}}
+                {{.Unit}}{{if .UnitConversion}} | {{.UnitConversion}}{{end}}
+                {{end}}
+            </div>
+
+            <!-- Coluna 3: Pontos -->
+            <div class="item-points">
+                {{if gt .Points 0}}
+                <div class="points-value">{{.Points}}pt</div>
+                {{end}}
+            </div>
+
+            <!-- Coluna 4: Levels -->
+            <div class="levels">
+                {{if .Levels}}
+                {{range .Levels}}
+                <div class="level level-{{.Level}}">
+                    <span class="level-number">N{{.Level}}:</span>
+                    {{if or .LowerLimit .UpperLimit}}
+                    <span class="level-range">{{formatLevelRange .}}</span>
+                    {{else}}
+                    <span>{{.Name}}</span>
+                    {{end}}
+                </div>
+                {{end}}
+                {{end}}
+            </div>
+        </div>
+    </div>
+
+    {{/* Render nested children */}}
+    {{if .ChildItems}}
+    {{template "renderChildItems" dict "items" .ChildItems "depth" (add $.depth 1)}}
+    {{end}}
+    {{end}}
+{{end}}

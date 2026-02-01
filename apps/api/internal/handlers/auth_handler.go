@@ -263,6 +263,41 @@ func (h *AuthHandler) UpdateSelectedPatient(c *fiber.Ctx) error {
 	return c.JSON(user)
 }
 
+// UpdatePreferences godoc
+// @Summary Update user preferences
+// @Description Atualiza as preferências do usuário autenticado (viewport do mindmap, etc.)
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body map[string]interface{} true "Preferences JSON"
+// @Success 200 {object} dto.UserDTO
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
+// @Router /users/me/preferences [patch]
+func (h *AuthHandler) UpdatePreferences(c *fiber.Ctx) error {
+	var preferences map[string]interface{}
+	if err := c.BodyParser(&preferences); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid request body",
+			Message: err.Error(),
+		})
+	}
+
+	userID := middleware.GetUserID(c)
+
+	user, err := h.authService.UpdatePreferences(userID, preferences)
+	if err != nil {
+		log.Printf("[ERROR] UpdatePreferences failed: %v", err)
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(user)
+}
+
 // formatValidationErrors formata erros de validação
 func formatValidationErrors(err error) map[string]string {
 	errors := make(map[string]string)

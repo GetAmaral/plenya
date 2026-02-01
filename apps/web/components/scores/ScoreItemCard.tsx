@@ -83,14 +83,14 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <h4 className="text-sm font-semibold">{item.name}</h4>
+                <h4 className="text-sm font-semibold text-left">{item.name}</h4>
                 {item.unit && (
                   <Badge variant="secondary" className="text-xs">
                     {item.unit}
                   </Badge>
                 )}
               </div>
-              <div className="flex items-center gap-4 mt-0.5 text-sm text-muted-foreground">
+              <div className="flex items-center gap-4 mt-0.5 text-sm text-muted-foreground text-left">
                 <span>{item.points} pontos</span>
                 {item.unitConversion && (
                   <span className="text-xs">{item.unitConversion}</span>
@@ -146,7 +146,7 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
 
         {sortedLevels.length === 0 && (
           <CardContent className="pt-0">
-            <p className="text-sm text-muted-foreground text-center py-2">
+            <p className="text-sm text-muted-foreground text-left py-2">
               Nenhum nível cadastrado
             </p>
           </CardContent>
@@ -162,7 +162,7 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
               onValueChange={setAccordionValue}
             >
               <AccordionItem value="clinical-info" className="border-0">
-                <AccordionTrigger className="py-2 text-sm hover:no-underline">
+                <AccordionTrigger className="py-2 text-sm hover:no-underline text-left">
                   <div className="flex items-center gap-2">
                     <Info className="h-4 w-4" />
                     <span>Informações Clínicas</span>

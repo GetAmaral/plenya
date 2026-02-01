@@ -141,6 +141,7 @@ export function PageHeader({
                           key={itemIndex}
                           onClick={item.onClick}
                           disabled={item.disabled}
+                          className="cursor-pointer"
                         >
                           {item.icon && <span className="mr-2">{item.icon}</span>}
                           {item.label}

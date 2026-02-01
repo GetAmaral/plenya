@@ -1,9 +1,46 @@
 import { Node, Edge } from 'reactflow'
-import { ScoreGroup } from '@/lib/api/score-api'
+import { ScoreGroup, ScoreItem } from '@/lib/api/score-api'
 
 interface LayoutResult {
   nodes: Node[]
   edges: Edge[]
+}
+
+// Helper para organizar itens em hierarquia
+interface ItemWithChildren extends ScoreItem {
+  children?: ItemWithChildren[]
+}
+
+function organizeItemsHierarchy(items: ScoreItem[]): ItemWithChildren[] {
+  const itemMap = new Map<string, ItemWithChildren>()
+  const rootItems: ItemWithChildren[] = []
+
+  // Primeiro, cria um map de todos os itens
+  items.forEach(item => {
+    itemMap.set(item.id, { ...item, children: [] })
+  })
+
+  // Depois, organiza a hierarquia
+  items.forEach(item => {
+    const itemWithChildren = itemMap.get(item.id)!
+
+    if (item.parentItemId) {
+      // Se tem parent, adiciona como filho
+      const parent = itemMap.get(item.parentItemId)
+      if (parent) {
+        parent.children = parent.children || []
+        parent.children.push(itemWithChildren)
+      } else {
+        // Parent não encontrado, adiciona como raiz
+        rootItems.push(itemWithChildren)
+      }
+    } else {
+      // Sem parent, é item raiz
+      rootItems.push(itemWithChildren)
+    }
+  })
+
+  return rootItems
 }
 
 // Espaçamento entre nodes - UNIFORME para todos os níveis
@@ -126,18 +163,22 @@ export function buildMindmapLayout(
 
         if (shouldShowItems) {
           let itemY = subgroupY
+          const rootItems = organizeItemsHierarchy(subgroup.items)
 
-          subgroup.items.forEach((item) => {
+          // Função recursiva para processar item e seus filhos
+          const processItemWithChildren = (item: ItemWithChildren, depth: number, parentId: string): number => {
             const itemId = `item-${item.id}`
             const itemExpanded = expandedNodes[itemId]
-
-            // Estimar altura do card do item
             const itemCardHeight = estimateCardHeight(item.name, 'item')
+
+            // Posição X baseada na profundidade (depth)
+            // depth 0 = item raiz, depth 1 = filho, depth 2 = neto, etc.
+            const itemX = SPACING.horizontal * 2 + (depth * 180) // 180px de indentação por nível
 
             nodes.push({
               id: itemId,
               type: 'itemNode',
-              position: { x: SPACING.horizontal * 2, y: itemY },
+              position: { x: itemX, y: itemY },
               data: {
                 ...item,
                 subgroupId: subgroup.id,
@@ -146,20 +187,26 @@ export function buildMindmapLayout(
               },
             })
 
+            // Se o parent é um item (item-*), conectar de baixo→esquerda
+            // Se o parent é um subgrupo (subgroup-*), conectar de direita→esquerda
+            const isParentItem = parentId.startsWith('item-')
+
             edges.push({
-              id: `${subgroupId}-${itemId}`,
-              source: subgroupId,
+              id: `${parentId}-${itemId}`,
+              source: parentId,
               target: itemId,
               type: 'smoothstep',
               animated: true,
+              sourcePosition: isParentItem ? 'bottom' : 'right',
+              targetPosition: 'left',
+              sourceHandle: isParentItem ? 'bottom' : 'right',
+              targetHandle: 'left',
             })
 
             let itemHeight = itemCardHeight
+            let maxItemY = itemY
 
-            // Mostrar níveis se:
-            // 1. Zoom permite (>= 1.0) OU
-            // 2. Item está expandido manualmente (usuário clicou no chevron)
-            // Lógica: Se o usuário expandiu manualmente, mostrar independente do zoom
+            // Mostrar níveis
             const shouldShowLevels = (showLevels || itemExpanded) && itemExpanded && item.levels && item.levels.length > 0
 
             if (shouldShowLevels) {
@@ -167,16 +214,14 @@ export function buildMindmapLayout(
               let levelY = itemY
               let totalLevelsHeight = 0
 
-              sortedLevels.forEach((level, levelIndex) => {
+              sortedLevels.forEach((level) => {
                 const levelId = `level-${level.id}`
-
-                // Estimar altura do card do nível
                 const levelCardHeight = estimateCardHeight(level.name, 'level')
 
                 nodes.push({
                   id: levelId,
                   type: 'levelNode',
-                  position: { x: SPACING.horizontal * 3, y: levelY },
+                  position: { x: itemX + SPACING.horizontal, y: levelY },
                   data: {
                     ...level,
                     itemId: item.id,
@@ -189,13 +234,16 @@ export function buildMindmapLayout(
                   target: levelId,
                   type: 'smoothstep',
                   animated: true,
+                  sourcePosition: 'right',
+                  targetPosition: 'left',
+                  sourceHandle: 'right',
+                  targetHandle: 'left',
                   style: {
                     stroke: getLevelColor(level.level),
                     strokeWidth: 2,
                   },
                 })
 
-                // Próximo nível posicionado abaixo: altura do card atual + espaçamento mínimo
                 const nextLevelY = levelCardHeight + SPACING.level
                 levelY += nextLevelY
                 totalLevelsHeight += nextLevelY
@@ -204,8 +252,26 @@ export function buildMindmapLayout(
               itemHeight = Math.max(itemHeight, totalLevelsHeight)
             }
 
-            // Próximo item: altura atual do item + espaçamento mínimo
+            // Avançar itemY para próximo item
             itemY += itemHeight + SPACING.item
+            maxItemY = itemY
+
+            // Processar filhos recursivamente
+            if (item.children && item.children.length > 0) {
+              item.children.forEach(child => {
+                const childEndY = processItemWithChildren(child, depth + 1, itemId)
+                maxItemY = Math.max(maxItemY, childEndY)
+                itemY = maxItemY
+              })
+            }
+
+            return maxItemY
+          }
+
+          // Processar itens raiz
+          rootItems.forEach((item) => {
+            const endY = processItemWithChildren(item, 0, subgroupId)
+            itemY = endY
           })
 
           subgroupHeight = Math.max(subgroupHeight, itemY - subgroupY)

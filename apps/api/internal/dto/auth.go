@@ -29,13 +29,14 @@ type AuthResponse struct {
 
 // UserDTO representa um usuário na resposta
 type UserDTO struct {
-	ID                string           `json:"id"`
-	Email             string           `json:"email"`
-	Role              models.UserRole  `json:"role"`
-	TwoFactorEnabled  bool             `json:"twoFactorEnabled"`
-	SelectedPatientID *string          `json:"selectedPatientId,omitempty"`
-	SelectedPatient   *PatientResponse `json:"selectedPatient,omitempty"`
-	CreatedAt         string           `json:"createdAt"`
+	ID                string                 `json:"id"`
+	Email             string                 `json:"email"`
+	Role              models.UserRole        `json:"role"`
+	TwoFactorEnabled  bool                   `json:"twoFactorEnabled"`
+	SelectedPatientID *string                `json:"selectedPatientId,omitempty"`
+	SelectedPatient   *PatientResponse       `json:"selectedPatient,omitempty"`
+	Preferences       map[string]interface{} `json:"preferences,omitempty"`
+	CreatedAt         string                 `json:"createdAt"`
 }
 
 // UpdateSelectedPatientRequest representa o payload para atualizar paciente selecionado

@@ -204,6 +204,7 @@ export function ScoreItemDialog({
             points: payload.points,
             order: payload.order,
             subgroupId: selectedSubgroupId,
+            parentItemId: selectedParentItemId || undefined,
           } as UpdateScoreItemDTO,
         })
         toast.success('Item atualizado com sucesso')

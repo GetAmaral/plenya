@@ -83,7 +83,7 @@ func main() {
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: cfg.Server.CORSOrigin,
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
-		AllowMethods: "GET, POST, PUT, DELETE, OPTIONS",
+		AllowMethods: "GET, POST, PUT, PATCH, DELETE, OPTIONS",
 	}))
 
 	// Serve static files (PDFs)
@@ -175,6 +175,7 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	users.Use(middleware.Auth(cfg))
 	users.Get("/me", authHandler.GetMe)
 	users.Put("/me/selected-patient", authHandler.UpdateSelectedPatient)
+	users.Patch("/me/preferences", authHandler.UpdatePreferences)
 
 	// Patients routes (protegidas)
 	patients := v1.Group("/patients")
@@ -275,6 +276,7 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	// Rotas de leitura (todos usuários autenticados)
 	scoreGroups.Get("/", scoreHandler.GetAllScoreGroups)
 	scoreGroups.Get("/tree", scoreHandler.GetAllScoreGroupTrees)
+	scoreGroups.Get("/poster-pdf", scoreHandler.GeneratePosterPDF)
 	scoreGroups.Get("/:id", scoreHandler.GetScoreGroupByID)
 	scoreGroups.Get("/:id/tree", scoreHandler.GetScoreGroupTree)
 	scoreGroups.Get("/:groupId/subgroups", scoreHandler.GetSubgroupsByGroupID)

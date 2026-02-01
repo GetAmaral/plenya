@@ -20,8 +20,10 @@ export const ItemNode = memo(({ data }: NodeProps) => {
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <div className="w-[336px] px-4 py-3 rounded-md bg-accent border shadow">
-          <Handle type="target" position={Position.Left} className="w-2 h-2" />
-          <Handle type="source" position={Position.Right} className="w-2 h-2" />
+          {/* Handles: left (entrada), right (saída para levels), bottom (saída para filhos) */}
+          <Handle type="target" position={Position.Left} id="left" className="w-2 h-2" />
+          <Handle type="source" position={Position.Right} id="right" className="w-2 h-2" />
+          <Handle type="source" position={Position.Bottom} id="bottom" className="w-2 h-2" />
 
           <div className="space-y-1.5">
             <div className="flex items-start gap-2">
