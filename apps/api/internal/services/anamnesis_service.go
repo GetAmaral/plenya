@@ -85,7 +85,9 @@ func (s *AnamnesisService) Create(authorID uuid.UUID, req *dto.CreateAnamnesisRe
 		AnamnesisTemplateID: anamnesisTemplateID,
 		ConsultationDate:    consultationDate,
 		Content:             req.Content,
+		ContentHtml:         req.ContentHtml,
 		Summary:             req.Summary,
+		SummaryHtml:         req.SummaryHtml,
 		Visibility:          models.AnamnesisVisibility(req.Visibility),
 		Notes:               req.Notes,
 	}
@@ -247,8 +249,14 @@ func (s *AnamnesisService) Update(anamnesisID, authorID uuid.UUID, userRole mode
 	if req.Content != nil {
 		anamnesis.Content = req.Content
 	}
+	if req.ContentHtml != nil {
+		anamnesis.ContentHtml = req.ContentHtml
+	}
 	if req.Summary != nil {
 		anamnesis.Summary = req.Summary
+	}
+	if req.SummaryHtml != nil {
+		anamnesis.SummaryHtml = req.SummaryHtml
 	}
 	if req.Visibility != nil {
 		anamnesis.Visibility = models.AnamnesisVisibility(*req.Visibility)
@@ -341,7 +349,9 @@ func (s *AnamnesisService) toDTO(anamnesis *models.Anamnesis) *dto.AnamnesisResp
 		AuthorID:         anamnesis.AuthorID.String(),
 		ConsultationDate: anamnesis.ConsultationDate.Format(time.RFC3339),
 		Content:          anamnesis.Content,
+		ContentHtml:      anamnesis.ContentHtml,
 		Summary:          anamnesis.Summary,
+		SummaryHtml:      anamnesis.SummaryHtml,
 		Visibility:       string(anamnesis.Visibility),
 		Notes:            anamnesis.Notes,
 		CreatedAt:        anamnesis.CreatedAt.Format(time.RFC3339),

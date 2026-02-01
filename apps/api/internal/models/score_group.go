@@ -11,7 +11,7 @@ import (
 // @Description Grupo de escores clínicos - categoria principal
 type ScoreGroup struct {
 	// @example 550e8400-e29b-41d4-a716-446655440000
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// @minLength 2
 	// @maxLength 200

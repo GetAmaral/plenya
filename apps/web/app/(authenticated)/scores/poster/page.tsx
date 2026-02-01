@@ -107,6 +107,7 @@ export default function ScorePosterPage() {
   const { data: groups = [], isLoading } = useAllScoreGroupTrees()
   const { accessToken } = useAuthStore()
   const [zoom, setZoom] = useState(100)
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
 
   useEffect(() => {
     document.title = 'Escore Plenya - Pôster 60x300cm'
@@ -122,6 +123,9 @@ export default function ScorePosterPage() {
       return
     }
 
+    if (isGeneratingPDF) return
+
+    setIsGeneratingPDF(true)
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/score-groups/poster-pdf`, {
         method: 'GET',
@@ -147,6 +151,8 @@ export default function ScorePosterPage() {
     } catch (error) {
       console.error('Error generating PDF:', error)
       alert('Erro ao gerar PDF. Tente novamente.')
+    } finally {
+      setIsGeneratingPDF(false)
     }
   }
 
@@ -175,6 +181,21 @@ export default function ScorePosterPage() {
 
   return (
     <>
+      {/* Loading Overlay durante geração de PDF */}
+      {isGeneratingPDF && (
+        <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-16 w-16 animate-spin text-primary" />
+            <div className="text-center">
+              <p className="text-xl font-semibold">Gerando PDF do Pôster</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Isso pode levar alguns segundos...
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <style jsx global>{`
         /* Configurações para impressão em papel 60x300cm */
         @page {
@@ -233,9 +254,18 @@ export default function ScorePosterPage() {
                 <Maximize2 className="h-4 w-4" />
               </Button>
             </div>
-            <Button onClick={handleSavePDF} size="lg" variant="default">
-              <Download className="mr-2 h-5 w-5" />
-              Salvar PDF
+            <Button onClick={handleSavePDF} size="lg" variant="default" disabled={isGeneratingPDF}>
+              {isGeneratingPDF ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Gerando PDF...
+                </>
+              ) : (
+                <>
+                  <Download className="mr-2 h-5 w-5" />
+                  Salvar PDF
+                </>
+              )}
             </Button>
             <Button onClick={handlePrint} size="lg" variant="outline">
               <Printer className="mr-2 h-5 w-5" />

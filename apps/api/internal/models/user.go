@@ -23,7 +23,7 @@ const (
 type User struct {
 	// ID único do usuário
 	// @example 550e8400-e29b-41d4-a716-446655440000
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// Email único do usuário
 	// @example usuario@example.com
@@ -66,6 +66,14 @@ type User struct {
 // TableName especifica o nome da tabela
 func (User) TableName() string {
 	return "users"
+}
+
+// BeforeCreate hook to generate UUID v7
+func (u *User) BeforeCreate(tx *gorm.DB) error {
+	if u.ID == uuid.Nil {
+		u.ID = uuid.Must(uuid.NewV7())
+	}
+	return nil
 }
 
 // BeforeSave hook executado antes de salvar

@@ -21,7 +21,7 @@ const (
 // @Description Resultado de exame laboratorial com dados do exame e interpretação
 type LabResult struct {
 	// ID único do resultado
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// ID do paciente
 	PatientID uuid.UUID `gorm:"type:uuid;not null;index" json:"patientId"`
@@ -82,4 +82,12 @@ type LabResult struct {
 // TableName especifica o nome da tabela
 func (LabResult) TableName() string {
 	return "lab_results"
+}
+
+// BeforeCreate hook to generate UUID v7
+func (lr *LabResult) BeforeCreate(tx *gorm.DB) error {
+	if lr.ID == uuid.Nil {
+		lr.ID = uuid.Must(uuid.NewV7())
+	}
+	return nil
 }

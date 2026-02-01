@@ -21,7 +21,7 @@ const (
 type Anamnesis struct {
 	// ID único da anamnese
 	// @example 550e8400-e29b-41d4-a716-446655440000
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// ID do paciente
 	// @example 550e8400-e29b-41d4-a716-446655440000
@@ -39,13 +39,21 @@ type Anamnesis struct {
 	// @example 2026-01-25T14:30:00Z
 	ConsultationDate time.Time `gorm:"type:timestamp;not null;index:idx_anamnesis_consultation_date" json:"consultationDate" validate:"required"`
 
-	// Conteúdo completo da anamnese
+	// Conteúdo completo da anamnese (texto plano para busca/indexação)
 	// @example Paciente do sexo masculino, 45 anos, comparece à consulta com queixa de...
 	Content *string `gorm:"type:text" json:"content,omitempty"`
 
-	// Resumo da anamnese
+	// Conteúdo completo da anamnese (HTML formatado para exibição)
+	// @example <p>Paciente do sexo <strong>masculino</strong>, 45 anos...</p>
+	ContentHtml *string `gorm:"type:text" json:"contentHtml,omitempty"`
+
+	// Resumo da anamnese (texto plano para busca/indexação)
 	// @example Paciente com hipertensão controlada, busca avaliação para dor torácica
 	Summary *string `gorm:"type:text" json:"summary,omitempty"`
+
+	// Resumo da anamnese (HTML formatado para exibição)
+	// @example <p>Paciente com <strong>hipertensão</strong> controlada...</p>
+	SummaryHtml *string `gorm:"type:text" json:"summaryHtml,omitempty"`
 
 	// Visibilidade da anamnese
 	// @enum all,medicalOnly,psychOnly

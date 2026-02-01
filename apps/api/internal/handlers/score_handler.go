@@ -473,6 +473,27 @@ func (h *ScoreHandler) GetItemsBySubgroupID(c *fiber.Ctx) error {
 	return c.JSON(items)
 }
 
+// GetAllScoreItems godoc
+// @Summary Get all score items
+// @Description Get all score items ordered by name
+// @Tags Score Items
+// @Accept json
+// @Produce json
+// @Success 200 {array} models.ScoreItem
+// @Failure 500 {object} map[string]interface{}
+// @Security BearerAuth
+// @Router /api/v1/score-items [get]
+func (h *ScoreHandler) GetAllScoreItems(c *fiber.Ctx) error {
+	items, err := h.service.GetAllScoreItems()
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to retrieve score items",
+		})
+	}
+
+	return c.Status(http.StatusOK).JSON(items)
+}
+
 // GetScoreItemByID godoc
 // @Summary Get score item by ID
 // @Description Get a single score item by ID with levels

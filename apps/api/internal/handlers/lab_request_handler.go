@@ -29,8 +29,8 @@ func NewLabRequestHandler(service *services.LabRequestService) *LabRequestHandle
 // @Produce json
 // @Param request body dto.CreateLabRequestRequest true "Lab request data"
 // @Success 201 {object} models.LabRequest
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-requests [post]
 func (h *LabRequestHandler) CreateLabRequest(c *fiber.Ctx) error {
 	var reqDTO dto.CreateLabRequestRequest
@@ -93,8 +93,8 @@ func (h *LabRequestHandler) CreateLabRequest(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Lab request ID"
 // @Success 200 {object} models.LabRequest
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/lab-requests/{id} [get]
 func (h *LabRequestHandler) GetLabRequestByID(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -120,8 +120,8 @@ func (h *LabRequestHandler) GetLabRequestByID(c *fiber.Ctx) error {
 // @Produce json
 // @Param patientId path string true "Patient ID"
 // @Success 200 {array} models.LabRequest
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/patients/{patientId}/lab-requests [get]
 func (h *LabRequestHandler) GetLabRequestsByPatientID(c *fiber.Ctx) error {
 	patientID, err := uuid.Parse(c.Params("patientId"))
@@ -147,8 +147,8 @@ func (h *LabRequestHandler) GetLabRequestsByPatientID(c *fiber.Ctx) error {
 // @Produce json
 // @Param date query string true "Date (YYYY-MM-DD)"
 // @Success 200 {array} models.LabRequest
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-requests/by-date [get]
 func (h *LabRequestHandler) GetLabRequestsByDate(c *fiber.Ctx) error {
 	dateStr := c.Query("date")
@@ -182,8 +182,8 @@ func (h *LabRequestHandler) GetLabRequestsByDate(c *fiber.Ctx) error {
 // @Param startDate query string true "Start date (YYYY-MM-DD)"
 // @Param endDate query string true "End date (YYYY-MM-DD)"
 // @Success 200 {array} models.LabRequest
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-requests/by-date-range [get]
 func (h *LabRequestHandler) GetLabRequestsByDateRange(c *fiber.Ctx) error {
 	startDateStr := c.Query("startDate")
@@ -225,9 +225,9 @@ func (h *LabRequestHandler) GetLabRequestsByDateRange(c *fiber.Ctx) error {
 // @Produce json
 // @Param limit query int false "Limit" default(50)
 // @Param offset query int false "Offset" default(0)
-// @Success 200 {object} PaginatedResponse{data=[]models.LabRequest}
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Success 200 {object} dto.PaginatedResponse{data=[]models.LabRequest}
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-requests [get]
 func (h *LabRequestHandler) GetAllLabRequests(c *fiber.Ctx) error {
 	limit := c.QueryInt("limit", 50)
@@ -256,9 +256,9 @@ func (h *LabRequestHandler) GetAllLabRequests(c *fiber.Ctx) error {
 // @Param id path string true "Lab request ID"
 // @Param request body dto.UpdateLabRequestRequest true "Updated lab request data"
 // @Success 200 {object} models.LabRequest
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-requests/{id} [put]
 func (h *LabRequestHandler) UpdateLabRequest(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -343,9 +343,9 @@ func (h *LabRequestHandler) UpdateLabRequest(c *fiber.Ctx) error {
 // @Tags LabRequests
 // @Param id path string true "Lab request ID"
 // @Success 204
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-requests/{id} [delete]
 func (h *LabRequestHandler) DeleteLabRequest(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -370,9 +370,9 @@ func (h *LabRequestHandler) DeleteLabRequest(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Lab request ID"
 // @Success 200 {object} models.LabRequest
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-requests/{id}/generate-pdf [post]
 func (h *LabRequestHandler) GeneratePDF(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))

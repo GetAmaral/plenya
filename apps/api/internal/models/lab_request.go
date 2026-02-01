@@ -11,7 +11,7 @@ import (
 // @Description Pedido de exames laboratoriais para um paciente
 type LabRequest struct {
 	// ID único do pedido
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// ID do paciente
 	// @required

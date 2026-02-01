@@ -11,7 +11,7 @@ import (
 // @Description Template de anamnese com itens pré-configurados para uma área específica
 type AnamnesisTemplate struct {
 	// @example 550e8400-e29b-41d4-a716-446655440000
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// Nome do template
 	// @minLength 2

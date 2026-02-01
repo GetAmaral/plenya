@@ -32,7 +32,7 @@ const (
 // @Description Consulta médica com data, hora, médico e paciente
 type Appointment struct {
 	// ID único da consulta
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// ID do paciente
 	PatientID uuid.UUID `gorm:"type:uuid;not null;index" json:"patientId"`
@@ -97,4 +97,12 @@ type Appointment struct {
 // TableName especifica o nome da tabela
 func (Appointment) TableName() string {
 	return "appointments"
+}
+
+// BeforeCreate hook to generate UUID v7
+func (a *Appointment) BeforeCreate(tx *gorm.DB) error {
+	if a.ID == uuid.Nil {
+		a.ID = uuid.Must(uuid.NewV7())
+	}
+	return nil
 }

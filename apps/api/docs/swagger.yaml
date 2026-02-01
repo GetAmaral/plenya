@@ -1,0 +1,4724 @@
+basePath: /api/v1
+definitions:
+  dto.AuthResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+      user:
+        $ref: '#/definitions/dto.UserDTO'
+    type: object
+  dto.CreateLabRequestRequest:
+    properties:
+      date:
+        description: 'Formato: "2006-01-02"'
+        type: string
+      exams:
+        type: string
+      labRequestTemplateId:
+        description: ID do template usado
+        type: string
+      notes:
+        type: string
+    required:
+    - date
+    - exams
+    type: object
+  dto.CreatePatientRequest:
+    properties:
+      address:
+        maxLength: 500
+        type: string
+      birthDate:
+        description: 'formato: YYYY-MM-DD'
+        type: string
+      cpf:
+        type: string
+      fatherName:
+        maxLength: 200
+        minLength: 3
+        type: string
+      gender:
+        allOf:
+        - $ref: '#/definitions/models.Gender'
+        enum:
+        - male
+        - female
+        - other
+      height:
+        type: number
+      motherName:
+        maxLength: 200
+        minLength: 3
+        type: string
+      municipality:
+        maxLength: 100
+        type: string
+      name:
+        maxLength: 200
+        minLength: 3
+        type: string
+      phone:
+        maxLength: 20
+        minLength: 10
+        type: string
+      state:
+        type: string
+      weight:
+        type: number
+    required:
+    - birthDate
+    - cpf
+    - gender
+    - name
+    type: object
+  dto.ErrorResponse:
+    properties:
+      details:
+        additionalProperties:
+          type: string
+        description: Para erros de validação
+        type: object
+      error:
+        type: string
+      message:
+        type: string
+    type: object
+  dto.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.PaginatedResponse:
+    properties:
+      data: {}
+      limit:
+        type: integer
+      offset:
+        type: integer
+      total:
+        type: integer
+    type: object
+  dto.PatientResponse:
+    properties:
+      address:
+        type: string
+      birthDate:
+        type: string
+      createdAt:
+        type: string
+      fatherName:
+        type: string
+      gender:
+        $ref: '#/definitions/models.Gender'
+      height:
+        type: number
+      id:
+        type: string
+      motherName:
+        type: string
+      municipality:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      state:
+        type: string
+      updatedAt:
+        type: string
+      userId:
+        type: string
+      weight:
+        type: number
+    type: object
+  dto.RefreshRequest:
+    properties:
+      refreshToken:
+        type: string
+    required:
+    - refreshToken
+    type: object
+  dto.RegisterRequest:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 8
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/models.UserRole'
+        enum:
+        - admin
+        - doctor
+        - nurse
+        - patient
+    required:
+    - email
+    - password
+    - role
+    type: object
+  dto.UpdateLabRequestRequest:
+    properties:
+      date:
+        type: string
+      exams:
+        type: string
+      labRequestTemplateId:
+        type: string
+      notes:
+        type: string
+    type: object
+  dto.UpdatePatientRequest:
+    properties:
+      address:
+        maxLength: 500
+        type: string
+      birthDate:
+        description: 'formato: YYYY-MM-DD'
+        type: string
+      fatherName:
+        maxLength: 200
+        minLength: 3
+        type: string
+      gender:
+        allOf:
+        - $ref: '#/definitions/models.Gender'
+        enum:
+        - male
+        - female
+        - other
+      height:
+        type: number
+      motherName:
+        maxLength: 200
+        minLength: 3
+        type: string
+      municipality:
+        maxLength: 100
+        type: string
+      name:
+        maxLength: 200
+        minLength: 3
+        type: string
+      phone:
+        maxLength: 20
+        minLength: 10
+        type: string
+      state:
+        type: string
+      weight:
+        type: number
+    type: object
+  dto.UpdateSelectedPatientRequest:
+    properties:
+      patientId:
+        type: string
+    required:
+    - patientId
+    type: object
+  dto.UserDTO:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      preferences:
+        additionalProperties: true
+        type: object
+      role:
+        $ref: '#/definitions/models.UserRole'
+      selectedPatient:
+        $ref: '#/definitions/dto.PatientResponse'
+      selectedPatientId:
+        type: string
+      twoFactorEnabled:
+        type: boolean
+    type: object
+  handlers.AddLabTestToTemplateRequest:
+    properties:
+      testId:
+        type: string
+    required:
+    - testId
+    type: object
+  handlers.UpdateLabRequestTemplateTestsRequest:
+    properties:
+      testIds:
+        items:
+          type: string
+        type: array
+    required:
+    - testIds
+    type: object
+  models.Article:
+    properties:
+      abstract:
+        description: Conteúdo
+        type: string
+      articleType:
+        description: |-
+          Classificação
+          @enum research_article,review,meta_analysis,case_study,clinical_trial,editorial,letter,protocol,lecture
+        enum:
+        - research_article
+        - review
+        - meta_analysis
+        - case_study
+        - clinical_trial
+        - editorial
+        - letter
+        - protocol
+        - lecture
+        type: string
+      authors:
+        description: |-
+          @minLength 1
+          @maxLength 2000
+        maxLength: 2000
+        minLength: 1
+        type: string
+      createdAt:
+        description: Timestamps
+        type: string
+      createdBy:
+        description: Audit
+        type: string
+      doi:
+        description: |-
+          Identificadores Únicos
+          @example 10.1038/s41586-024-07146-0
+          @maxLength 255
+        maxLength: 255
+        type: string
+      favorite:
+        description: Gestão Pessoal
+        type: boolean
+      fileHash:
+        description: |-
+          Arquivo
+          @example a1b2c3d4e5f6...
+          @maxLength 64
+        type: string
+      fileSize:
+        description: '@example 2457600'
+        minimum: 0
+        type: integer
+      fullContent:
+        type: string
+      id:
+        description: |-
+          Primary Key
+          @example 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      indexedAt:
+        description: Metadados do Sistema
+        type: string
+      internalLink:
+        description: '@example /uploads/articles/550e8400-e29b-41d4-a716-446655440000.pdf'
+        maxLength: 2048
+        type: string
+      issn:
+        description: |-
+          @example 0028-0836
+          @maxLength 20
+        maxLength: 20
+        type: string
+      journal:
+        description: |-
+          @minLength 1
+          @maxLength 500
+        maxLength: 500
+        minLength: 1
+        type: string
+      keywords:
+        description: '@items.type string'
+        items:
+          type: string
+        type: array
+      language:
+        description: |-
+          @minLength 2
+          @maxLength 10
+          @example en
+        maxLength: 10
+        minLength: 2
+        type: string
+      lastAccessedAt:
+        type: string
+      meshTerms:
+        description: '@items.type string'
+        items:
+          type: string
+        type: array
+      notes:
+        description: Notas pessoais do médico
+        type: string
+      originalLink:
+        description: |-
+          Links
+          @example https://www.nature.com/articles/s41586-024-07146-0
+        maxLength: 2048
+        type: string
+      pmid:
+        description: |-
+          @example 38355808
+          @maxLength 50
+        maxLength: 50
+        type: string
+      publishDate:
+        description: '@example 2024-03-15'
+        type: string
+      rating:
+        description: |-
+          @minimum 0
+          @maximum 5
+          @example 4
+        maximum: 5
+        minimum: 0
+        type: integer
+      scoreItems:
+        description: |-
+          Relationships
+          @items.type object
+        items:
+          $ref: '#/definitions/models.ScoreItem'
+        type: array
+      specialty:
+        description: |-
+          @example Cardiology
+          @maxLength 200
+        maxLength: 200
+        type: string
+      title:
+        description: |-
+          Metadados Bibliográficos Essenciais
+          @minLength 3
+          @maxLength 1000
+        maxLength: 1000
+        minLength: 3
+        type: string
+      updatedAt:
+        type: string
+      updatedBy:
+        description: User ID que atualizou
+        type: string
+    required:
+    - articleType
+    - authors
+    - journal
+    - language
+    - publishDate
+    - title
+    type: object
+  models.Gender:
+    enum:
+    - male
+    - female
+    - other
+    type: string
+    x-enum-varnames:
+    - GenderMale
+    - GenderFemale
+    - GenderOther
+  models.LabRequest:
+    description: Pedido de exames laboratoriais para um paciente
+    properties:
+      createdAt:
+        description: Timestamps
+        type: string
+      date:
+        description: |-
+          Data do pedido
+          @required
+        type: string
+      doctor:
+        $ref: '#/definitions/models.User'
+      doctorId:
+        description: ID do médico solicitante (opcional)
+        type: string
+      exams:
+        description: |-
+          Lista de exames solicitados (texto livre, um exame por linha)
+          @example "Hemograma Completo\nGlicemia de Jejum\nColesterol Total"
+        type: string
+      id:
+        description: ID único do pedido
+        type: string
+      labRequestTemplate:
+        $ref: '#/definitions/models.LabRequestTemplate'
+      labRequestTemplateId:
+        description: ID do template utilizado (opcional)
+        type: string
+      notes:
+        description: Observações do médico (opcional)
+        type: string
+      patient:
+        allOf:
+        - $ref: '#/definitions/models.Patient'
+        description: Relacionamentos
+      patientId:
+        description: |-
+          ID do paciente
+          @required
+        type: string
+      pdfUrl:
+        description: URL do PDF gerado (quando gerado, o pedido fica bloqueado para
+          edição)
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - date
+    - exams
+    - patientId
+    type: object
+  models.LabRequestTemplate:
+    description: Template pré-configurado com lista de exames para facilitar solicitações
+    properties:
+      createdAt:
+        description: Timestamps
+        type: string
+      description:
+        description: |-
+          Descrição do template
+          @example "Exames de rotina para check-up anual geral"
+        type: string
+      displayOrder:
+        description: Ordem de exibição/prioridade
+        type: integer
+      id:
+        description: ID único do template
+        type: string
+      isActive:
+        description: Status (ativo/inativo)
+        type: boolean
+      labTests:
+        description: Exames incluídos neste template (many-to-many)
+        items:
+          $ref: '#/definitions/models.LabTestDefinition'
+        type: array
+      name:
+        description: |-
+          Nome do template
+          @example "Check-up Anual", "Avaliação Cardíaca", "Perfil Tireoidiano"
+          @required
+        maxLength: 200
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - name
+    type: object
+  models.LabResult:
+    description: Resultado de exame laboratorial com dados do exame e interpretação
+    properties:
+      attachments:
+        description: Anexos (PDFs, imagens) - armazenar URLs ou paths
+        type: string
+      collectionDate:
+        description: Data da coleta
+        type: string
+      createdAt:
+        description: Data de criação
+        type: string
+      id:
+        description: ID único do resultado
+        type: string
+      interpretation:
+        description: Interpretação/Observações do médico
+        type: string
+      laboratory:
+        description: Laboratório que realizou o exame
+        type: string
+      patient:
+        allOf:
+        - $ref: '#/definitions/models.Patient'
+        description: Relações
+      patientId:
+        description: ID do paciente
+        type: string
+      referenceRange:
+        description: Valores de referência
+        type: string
+      requestDate:
+        description: Data da solicitação
+        type: string
+      requestingDoctor:
+        $ref: '#/definitions/models.User'
+      requestingDoctorId:
+        description: ID do médico solicitante
+        type: string
+      result:
+        description: Resultado (pode ser JSON estruturado ou texto)
+        type: string
+      resultDate:
+        description: Data do resultado
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/models.LabResultStatus'
+        description: Status do resultado
+      testName:
+        description: Nome do exame
+        type: string
+      testType:
+        description: 'Tipo de exame (ex: hemograma, glicemia, etc)'
+        type: string
+      unit:
+        description: Unidade de medida
+        type: string
+      updatedAt:
+        description: Data de atualização
+        type: string
+    required:
+    - testName
+    - testType
+    type: object
+  models.LabResultStatus:
+    enum:
+    - pending
+    - completed
+    - cancelled
+    - in_progress
+    type: string
+    x-enum-comments:
+      LabResultCancelled: Cancelado
+      LabResultCompleted: Resultado disponível
+      LabResultInProgress: Em andamento
+      LabResultPending: Aguardando resultado
+    x-enum-descriptions:
+    - Aguardando resultado
+    - Resultado disponível
+    - Cancelado
+    - Em andamento
+    x-enum-varnames:
+    - LabResultPending
+    - LabResultCompleted
+    - LabResultCancelled
+    - LabResultInProgress
+  models.LabResultValue:
+    description: Valor estruturado de um parâmetro de exame laboratorial
+    properties:
+      booleanValue:
+        description: Valor booleano (para resultados sim/não)
+        type: boolean
+      createdAt:
+        description: Timestamps
+        type: string
+      id:
+        description: ID único do valor
+        type: string
+      labResult:
+        allOf:
+        - $ref: '#/definitions/models.LabResult'
+        description: Relacionamentos
+      labResultId:
+        description: ID do resultado laboratorial (LabResult)
+        type: string
+      labTestDefinition:
+        $ref: '#/definitions/models.LabTestDefinition'
+      labTestDefinitionId:
+        description: ID da definição do teste (LabTestDefinition)
+        type: string
+      notes:
+        description: Observações sobre o valor
+        type: string
+      numericValue:
+        description: Valor numérico (para resultados quantitativos)
+        type: number
+      textValue:
+        description: |-
+          Valor textual (para resultados qualitativos)
+          @example Negativo, Positivo, Reagente, Não Reagente
+        type: string
+      unit:
+        description: Unidade de medida do valor (pode sobrescrever a unidade padrão)
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - labResultId
+    - labTestDefinitionId
+    type: object
+  models.LabTestCategory:
+    enum:
+    - hematology
+    - biochemistry
+    - hormones
+    - immunology
+    - microbiology
+    - urine
+    - imaging
+    - functional
+    - genetics
+    - other
+    type: string
+    x-enum-comments:
+      LabTestCategoryBiochemistry: Glicose, ureia, creatinina
+      LabTestCategoryFunctional: Medicina funcional
+      LabTestCategoryGenetics: Testes genéticos
+      LabTestCategoryHematology: Hemograma, coagulação
+      LabTestCategoryHormones: TSH, T4, testosterona
+      LabTestCategoryImaging: Raio-X, TC, RM
+      LabTestCategoryImmunology: Sorologias, autoimunes
+      LabTestCategoryMicrobiology: Culturas, antibiogramas
+      LabTestCategoryOther: Outros
+      LabTestCategoryUrine: EAS, urocultura
+    x-enum-descriptions:
+    - Hemograma, coagulação
+    - Glicose, ureia, creatinina
+    - TSH, T4, testosterona
+    - Sorologias, autoimunes
+    - Culturas, antibiogramas
+    - EAS, urocultura
+    - Raio-X, TC, RM
+    - Medicina funcional
+    - Testes genéticos
+    - Outros
+    x-enum-varnames:
+    - LabTestCategoryHematology
+    - LabTestCategoryBiochemistry
+    - LabTestCategoryHormones
+    - LabTestCategoryImmunology
+    - LabTestCategoryMicrobiology
+    - LabTestCategoryUrine
+    - LabTestCategoryImaging
+    - LabTestCategoryFunctional
+    - LabTestCategoryGenetics
+    - LabTestCategoryOther
+  models.LabTestDefinition:
+    description: Definição estruturada de exames e seus parâmetros
+    properties:
+      category:
+        allOf:
+        - $ref: '#/definitions/models.LabTestCategory'
+        description: |-
+          Categoria do exame
+          @enum hematology,biochemistry,hormones,immunology,microbiology,urine,imaging,functional,genetics,other
+      clinicalIndications:
+        description: Indicações clínicas principais
+        type: string
+      clinicalRecommendations:
+        description: |-
+          Recomendações clínicas (150-300 palavras)
+          Quando solicitar, interpretação de resultados, fatores que afetam valores, intervenções
+        type: string
+      clinicalSignificance:
+        description: |-
+          Significância clínica detalhada (200-400 palavras)
+          Mecanismos fisiológicos, aplicações clínicas, interpretação de valores alterados
+        type: string
+      code:
+        description: |-
+          Código interno único (usado para referência programática)
+          @example HEMOGRAMA_COMPLETO, HGB, GLUCOSE_FASTING
+        maxLength: 100
+        type: string
+      collectionMethod:
+        description: |-
+          Método de coleta/realização
+          @example Sangue venoso com jejum de 8-12h
+        type: string
+      createdAt:
+        description: Timestamps
+        type: string
+      description:
+        description: Descrição/observações sobre o exame
+        type: string
+      displayOrder:
+        description: Ordem de exibição (para organizar parâmetros de um exame)
+        type: integer
+      fastingHours:
+        description: Tempo de jejum necessário (em horas)
+        type: integer
+      id:
+        description: ID único da definição
+        type: string
+      isActive:
+        description: Status (ativo/inativo)
+        type: boolean
+      isRequestable:
+        description: |-
+          Indica se o exame pode ser solicitado individualmente
+          true: pode ser solicitado (ex: Hemograma Completo, Glicemia)
+          false: só aparece como resultado de outro exame (ex: Hemoglobina, Bilirrubina Indireta)
+        type: boolean
+      loincCode:
+        description: |-
+          Código LOINC (Logical Observation Identifiers Names and Codes)
+          Padrão internacional para identificação de exames
+          @example 718-7 (Hemoglobin)
+        type: string
+      longevityContext:
+        description: |-
+          Contexto de longevidade (100-200 palavras)
+          Relação com envelhecimento saudável, marcadores de longevidade, implicações preventivas
+        type: string
+      name:
+        description: |-
+          Nome do exame/parâmetro
+          @example Hemograma Completo, Hemoglobina, Glicemia de Jejum
+        maxLength: 300
+        type: string
+      parentTest:
+        allOf:
+        - $ref: '#/definitions/models.LabTestDefinition'
+        description: Exame pai (se for um parâmetro/subexame)
+      parentTestId:
+        description: |-
+          ID do exame pai (hierarquia)
+          Ex: Hemoglobina tem parentTestId = Hemograma Completo
+          Ex: Bilirrubina Indireta tem parentTestId = Bilirrubina Total e Frações
+        type: string
+      resultType:
+        description: |-
+          Tipo de resultado
+          @enum numeric, text, boolean, categorical
+        type: string
+      scoreMappings:
+        description: Mapeamentos para itens do escore
+        items:
+          $ref: '#/definitions/models.LabTestScoreMapping'
+        type: array
+      shortName:
+        description: |-
+          Nome curto/abreviação (opcional)
+          @example Hemograma, Hb, Gli
+        type: string
+      specimenType:
+        description: |-
+          Material biológico
+          @example Sangue total, Soro, Urina, Fezes
+        type: string
+      subTests:
+        description: Subexames/parâmetros (se for um exame composto)
+        items:
+          $ref: '#/definitions/models.LabTestDefinition'
+        type: array
+      tussCode:
+        description: |-
+          Código TUSS (Terminologia Unificada da Saúde Suplementar)
+          Usado para faturamento e solicitação no Brasil
+          @example 40304485
+        type: string
+      unit:
+        description: |-
+          Unidade de medida padrão
+          @example g/dL, mg/dL, mU/L, %
+        type: string
+      unitConversion:
+        description: |-
+          Fórmula de conversão entre unidades (se aplicável)
+          @example 1 g/dL = 10 g/L
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - category
+    - code
+    - name
+    - resultType
+    type: object
+  models.LabTestScoreMapping:
+    description: Mapeamento entre exame e item do escore Plenya
+    properties:
+      createdAt:
+        description: Timestamps
+        type: string
+      gender:
+        allOf:
+        - $ref: '#/definitions/models.Gender'
+        description: |-
+          Especificação de gênero (se o mapeamento for específico)
+          @enum male, female, null (ambos)
+      id:
+        type: string
+      isActive:
+        description: Status
+        type: boolean
+      labTest:
+        allOf:
+        - $ref: '#/definitions/models.LabTestDefinition'
+        description: Relacionamentos
+      labTestId:
+        description: ID do exame laboratorial
+        type: string
+      maxAge:
+        description: Faixa etária máxima (em anos)
+        type: integer
+      minAge:
+        description: Faixa etária mínima (em anos)
+        type: integer
+      notes:
+        description: Observações sobre o mapeamento
+        type: string
+      scoreItem:
+        $ref: '#/definitions/models.ScoreItem'
+      scoreItemId:
+        description: ID do item do escore
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - labTestId
+    - scoreItemId
+    type: object
+  models.Patient:
+    description: Paciente com dados pessoais e médicos
+    properties:
+      address:
+        description: Endereço residencial (opcional)
+        type: string
+      birthDate:
+        description: |-
+          Data de nascimento
+          @example 1990-01-01
+        type: string
+      createdAt:
+        description: Data de criação
+        type: string
+      fatherName:
+        description: |-
+          Nome do pai (opcional)
+          @example José da Silva
+        type: string
+      gender:
+        allOf:
+        - $ref: '#/definitions/models.Gender'
+        description: |-
+          Gênero do paciente
+          @enum male,female,other
+          @example male
+        enum:
+        - male
+        - female
+        - other
+      height:
+        description: |-
+          Altura em centímetros (opcional)
+          @example 180.0
+        type: number
+      id:
+        description: |-
+          ID único do paciente
+          @example 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      motherName:
+        description: |-
+          Nome da mãe (opcional)
+          @example Maria da Silva
+        type: string
+      municipality:
+        description: |-
+          Município de residência (opcional)
+          @example São Paulo
+        type: string
+      name:
+        description: |-
+          Nome completo do paciente
+          @minLength 3
+          @maxLength 200
+          @example João da Silva
+        maxLength: 200
+        minLength: 3
+        type: string
+      phone:
+        description: |-
+          Telefone de contato (opcional)
+          @example (11) 98765-4321
+        minLength: 10
+        type: string
+      state:
+        description: |-
+          Estado/UF de residência (opcional)
+          @example SP
+        type: string
+      updatedAt:
+        description: Data de atualização
+        type: string
+      user:
+        allOf:
+        - $ref: '#/definitions/models.User'
+        description: Relações
+      userId:
+        description: ID do usuário associado
+        type: string
+      weight:
+        description: |-
+          Peso em kilogramas (opcional)
+          @example 68.6
+        type: number
+    required:
+    - birthDate
+    - gender
+    - name
+    type: object
+  models.ScoreGroup:
+    description: Grupo de escores clínicos - categoria principal
+    properties:
+      createdAt:
+        description: Timestamps
+        type: string
+      id:
+        description: '@example 550e8400-e29b-41d4-a716-446655440000'
+        type: string
+      name:
+        description: |-
+          @minLength 2
+          @maxLength 200
+          @example Hemograma Completo
+        maxLength: 200
+        minLength: 2
+        type: string
+      order:
+        description: |-
+          @minimum 0
+          @maximum 9999
+          @example 1
+        maximum: 9999
+        minimum: 0
+        type: integer
+      subgroups:
+        description: Relationships
+        items:
+          $ref: '#/definitions/models.ScoreSubgroup'
+        type: array
+      updatedAt:
+        type: string
+    required:
+    - name
+    type: object
+  models.ScoreItem:
+    description: Item de escore - parâmetro clínico específico
+    properties:
+      articles:
+        description: |-
+          Many-to-many relationship with Articles
+          @items.type object
+        items:
+          $ref: '#/definitions/models.Article'
+        type: array
+      childItems:
+        items:
+          $ref: '#/definitions/models.ScoreItem'
+        type: array
+      clinicalRelevance:
+        description: |-
+          Relevância clínica - explicação técnica para profissionais de saúde
+          @example Valores baixos de hemoglobina indicam anemia, que pode estar associada a fadiga, redução da capacidade funcional e aumento do risco cardiovascular
+        type: string
+      code:
+        description: |-
+          Código único para identificação programática (opcional)
+          @example HGB_M, GLUCOSE_FASTING, IMC, BREASTFEEDING_DURATION
+        maxLength: 100
+        type: string
+      conduct:
+        description: |-
+          Conduta clínica recomendada
+          @example Investigar causa da anemia (deficiência de ferro, B12, folato, doença crônica). Suplementação conforme indicação. Encaminhar ao hematologista se Hb < 10 g/dL ou causa não esclarecida
+        type: string
+      createdAt:
+        description: Timestamps
+        type: string
+      id:
+        description: '@example 550e8400-e29b-41d4-a716-446655440000'
+        type: string
+      lastReview:
+        description: |-
+          Data da última revisão dos campos clínicos ou artigos associados
+          @example 2026-01-25T10:30:00Z
+        type: string
+      levels:
+        items:
+          $ref: '#/definitions/models.ScoreLevel'
+        type: array
+      name:
+        description: |-
+          @minLength 2
+          @maxLength 300
+          @example Hemoglobina - Homens
+        maxLength: 300
+        minLength: 2
+        type: string
+      order:
+        description: |-
+          @minimum 0
+          @maximum 9999
+          @example 1
+        maximum: 9999
+        minimum: 0
+        type: integer
+      parentItem:
+        $ref: '#/definitions/models.ScoreItem'
+      parentItemId:
+        description: |-
+          Self-referencing for hierarchical items (optional)
+          @example 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      patientExplanation:
+        description: |-
+          Explicação para o paciente - linguagem simples e acessível
+          @example Hemoglobina é a proteína que transporta oxigênio no sangue. Valores baixos podem causar cansaço e falta de ar
+        type: string
+      points:
+        description: |-
+          @minimum 0
+          @maximum 100
+          @example 20
+        maximum: 100
+        minimum: 0
+        type: number
+      subgroup:
+        allOf:
+        - $ref: '#/definitions/models.ScoreSubgroup'
+        description: Relationships
+      subgroupId:
+        description: |-
+          Foreign Keys
+          @example 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      unit:
+        description: '@example g/dL'
+        maxLength: 50
+        type: string
+      unitConversion:
+        description: '@example 1 g/dL = 10 g/L'
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - name
+    - subgroupId
+    type: object
+  models.ScoreLevel:
+    description: Nível de estratificação de risco para um item de escore
+    properties:
+      clinicalRelevance:
+        description: |-
+          Relevância clínica - explicação técnica para profissionais de saúde
+          @example FEVE entre 55-70% indica função cardíaca normal. Redução abaixo de 50% sugere disfunção sistólica leve, com risco aumentado de insuficiência cardíaca
+        type: string
+      conduct:
+        description: |-
+          Conduta clínica recomendada
+          @example Manter acompanhamento regular. Otimizar controle de fatores de risco cardiovascular (pressão arterial, diabetes, colesterol). Considerar ecocardiograma de controle em 12 meses
+        type: string
+      createdAt:
+        description: Timestamps
+        type: string
+      id:
+        description: '@example 550e8400-e29b-41d4-a716-446655440000'
+        type: string
+      item:
+        allOf:
+        - $ref: '#/definitions/models.ScoreItem'
+        description: Relationships
+      itemId:
+        description: |-
+          Foreign Keys
+          @example 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      lastReview:
+        description: |-
+          Data da última revisão dos campos clínicos
+          @example 2026-01-25T10:30:00Z
+        type: string
+      level:
+        description: |-
+          @minimum 0
+          @maximum 6
+          @example 5
+        maximum: 6
+        minimum: 0
+        type: integer
+      lowerLimit:
+        description: '@example <40'
+        maxLength: 50
+        type: string
+      name:
+        description: |-
+          @minLength 1
+          @maxLength 500
+          @example 55 a 70 (Ótimo)
+        maxLength: 500
+        minLength: 1
+        type: string
+      operator:
+        description: |-
+          @enum =,>,>=,<,<=,between
+          @example between
+        type: string
+      patientExplanation:
+        description: |-
+          Explicação para o paciente - linguagem simples e acessível
+          @example Seu coração está bombeando sangue de forma eficiente. Este é um resultado normal e saudável
+        type: string
+      updatedAt:
+        type: string
+      upperLimit:
+        description: '@example 49.9'
+        maxLength: 50
+        type: string
+    required:
+    - itemId
+    - level
+    - name
+    - operator
+    type: object
+  models.ScoreSubgroup:
+    description: Subgrupo de escores - subcategoria dentro de um grupo
+    properties:
+      createdAt:
+        description: Timestamps
+        type: string
+      group:
+        allOf:
+        - $ref: '#/definitions/models.ScoreGroup'
+        description: Relationships
+      groupId:
+        description: |-
+          Foreign Keys
+          @example 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      id:
+        description: '@example 550e8400-e29b-41d4-a716-446655440000'
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/models.ScoreItem'
+        type: array
+      name:
+        description: |-
+          @minLength 2
+          @maxLength 200
+          @example Série Vermelha
+        maxLength: 200
+        minLength: 2
+        type: string
+      order:
+        description: |-
+          @minimum 0
+          @maximum 9999
+          @example 1
+        maximum: 9999
+        minimum: 0
+        type: integer
+      updatedAt:
+        type: string
+    required:
+    - groupId
+    - name
+    type: object
+  models.User:
+    description: Usuário base do sistema (profissionais e pacientes)
+    properties:
+      createdAt:
+        description: Data de criação
+        type: string
+      email:
+        description: |-
+          Email único do usuário
+          @example usuario@example.com
+        type: string
+      id:
+        description: |-
+          ID único do usuário
+          @example 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      preferences:
+        description: |-
+          Preferências do usuário (viewport do mindmap, etc.)
+          @example {"mindmapViewport":{"x":0,"y":0,"zoom":0.7}}
+        items:
+          type: integer
+        type: array
+      role:
+        allOf:
+        - $ref: '#/definitions/models.UserRole'
+        description: |-
+          Role do usuário no sistema
+          @enum admin,doctor,nurse,patient
+        enum:
+        - admin
+        - doctor
+        - nurse
+        - patient
+      selectedPatient:
+        allOf:
+        - $ref: '#/definitions/models.Patient'
+        description: Relações
+      selectedPatientId:
+        description: |-
+          ID do paciente selecionado (contexto atual de trabalho)
+          @example 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      twoFactorEnabled:
+        description: Se 2FA está habilitado
+        type: boolean
+      updatedAt:
+        description: Data de atualização
+        type: string
+    required:
+    - email
+    - role
+    type: object
+  models.UserRole:
+    enum:
+    - admin
+    - doctor
+    - nurse
+    - patient
+    type: string
+    x-enum-varnames:
+    - RoleAdmin
+    - RoleDoctor
+    - RoleNurse
+    - RolePatient
+  services.CreateArticleDTO:
+    properties:
+      abstract:
+        type: string
+      articleType:
+        enum:
+        - research_article
+        - review
+        - meta_analysis
+        - case_study
+        - clinical_trial
+        - editorial
+        - letter
+        - protocol
+        - lecture
+        type: string
+      authors:
+        maxLength: 2000
+        minLength: 1
+        type: string
+      doi:
+        maxLength: 255
+        type: string
+      favorite:
+        type: boolean
+      fullContent:
+        type: string
+      internalLink:
+        maxLength: 2048
+        type: string
+      issn:
+        maxLength: 20
+        type: string
+      journal:
+        maxLength: 500
+        minLength: 1
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      language:
+        maxLength: 10
+        minLength: 2
+        type: string
+      meshTerms:
+        items:
+          type: string
+        type: array
+      notes:
+        type: string
+      originalLink:
+        maxLength: 2048
+        type: string
+      pmid:
+        maxLength: 50
+        type: string
+      publishDate:
+        type: string
+      rating:
+        maximum: 5
+        minimum: 0
+        type: integer
+      specialty:
+        maxLength: 200
+        type: string
+      title:
+        maxLength: 1000
+        minLength: 3
+        type: string
+    required:
+    - articleType
+    - authors
+    - journal
+    - language
+    - publishDate
+    - title
+    type: object
+  services.CreateScoreGroupDTO:
+    properties:
+      name:
+        maxLength: 200
+        minLength: 2
+        type: string
+      order:
+        type: integer
+    required:
+    - name
+    type: object
+  services.CreateScoreItemDTO:
+    properties:
+      name:
+        maxLength: 300
+        minLength: 2
+        type: string
+      order:
+        type: integer
+      parentItemId:
+        type: string
+      points:
+        maximum: 100
+        minimum: 0
+        type: number
+      subgroupId:
+        type: string
+      unit:
+        maxLength: 50
+        type: string
+      unitConversion:
+        type: string
+    required:
+    - name
+    - subgroupId
+    type: object
+  services.CreateScoreLevelDTO:
+    properties:
+      itemId:
+        type: string
+      level:
+        maximum: 6
+        minimum: 0
+        type: integer
+      lowerLimit:
+        maxLength: 50
+        type: string
+      name:
+        maxLength: 500
+        minLength: 1
+        type: string
+      operator:
+        type: string
+      upperLimit:
+        maxLength: 50
+        type: string
+    required:
+    - itemId
+    - level
+    - name
+    - operator
+    type: object
+  services.CreateScoreSubgroupDTO:
+    properties:
+      groupId:
+        type: string
+      name:
+        maxLength: 200
+        minLength: 2
+        type: string
+      order:
+        type: integer
+    required:
+    - groupId
+    - name
+    type: object
+  services.UpdateArticleDTO:
+    properties:
+      abstract:
+        type: string
+      articleType:
+        enum:
+        - research_article
+        - review
+        - meta_analysis
+        - case_study
+        - clinical_trial
+        - editorial
+        - letter
+        - protocol
+        - lecture
+        type: string
+      authors:
+        maxLength: 2000
+        minLength: 1
+        type: string
+      doi:
+        maxLength: 255
+        type: string
+      favorite:
+        type: boolean
+      fullContent:
+        type: string
+      issn:
+        maxLength: 20
+        type: string
+      journal:
+        maxLength: 500
+        minLength: 1
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      language:
+        maxLength: 10
+        minLength: 2
+        type: string
+      meshTerms:
+        items:
+          type: string
+        type: array
+      notes:
+        type: string
+      originalLink:
+        maxLength: 2048
+        type: string
+      pmid:
+        maxLength: 50
+        type: string
+      publishDate:
+        type: string
+      rating:
+        maximum: 5
+        minimum: 0
+        type: integer
+      specialty:
+        maxLength: 200
+        type: string
+      title:
+        maxLength: 1000
+        minLength: 3
+        type: string
+    type: object
+  services.UpdateScoreGroupDTO:
+    properties:
+      name:
+        maxLength: 200
+        minLength: 2
+        type: string
+      order:
+        maximum: 9999
+        minimum: 0
+        type: integer
+    type: object
+  services.UpdateScoreItemDTO:
+    properties:
+      clinicalRelevance:
+        type: string
+      conduct:
+        type: string
+      lastReview:
+        type: string
+      name:
+        maxLength: 300
+        minLength: 2
+        type: string
+      order:
+        maximum: 9999
+        minimum: 0
+        type: integer
+      parentItemId:
+        type: string
+      patientExplanation:
+        type: string
+      points:
+        maximum: 100
+        minimum: 0
+        type: number
+      subgroupId:
+        type: string
+      unit:
+        maxLength: 50
+        type: string
+      unitConversion:
+        type: string
+    type: object
+  services.UpdateScoreLevelDTO:
+    properties:
+      level:
+        maximum: 6
+        minimum: 0
+        type: integer
+      lowerLimit:
+        maxLength: 50
+        type: string
+      name:
+        maxLength: 500
+        minLength: 1
+        type: string
+      operator:
+        type: string
+      upperLimit:
+        maxLength: 50
+        type: string
+    type: object
+  services.UpdateScoreSubgroupDTO:
+    properties:
+      name:
+        maxLength: 200
+        minLength: 2
+        type: string
+      order:
+        maximum: 9999
+        minimum: 0
+        type: integer
+    type: object
+host: localhost:3001
+info:
+  contact:
+    email: suporte@plenya.com.br
+    name: API Support
+  description: Sistema de Prontuário Médico Eletrônico
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: Plenya EMR API
+  version: "1.0"
+paths:
+  /api/v1/lab-request-templates:
+    get:
+      parameters:
+      - default: false
+        description: Include lab tests
+        in: query
+        name: withTests
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabRequestTemplate'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get all lab request templates
+      tags:
+      - LabRequestTemplates
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab request template data
+        in: body
+        name: template
+        required: true
+        schema:
+          $ref: '#/definitions/models.LabRequestTemplate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LabRequestTemplate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create lab request template
+      tags:
+      - LabRequestTemplates
+  /api/v1/lab-request-templates/{id}:
+    delete:
+      parameters:
+      - description: Lab request template ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete lab request template
+      tags:
+      - LabRequestTemplates
+    get:
+      parameters:
+      - description: Lab request template ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabRequestTemplate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get lab request template by ID
+      tags:
+      - LabRequestTemplates
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab request template ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated lab request template data
+        in: body
+        name: template
+        required: true
+        schema:
+          $ref: '#/definitions/models.LabRequestTemplate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabRequestTemplate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update lab request template
+      tags:
+      - LabRequestTemplates
+  /api/v1/lab-request-templates/{id}/tests:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab request template ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Test ID
+        in: body
+        name: test
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.AddLabTestToTemplateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabRequestTemplate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Add lab test to template
+      tags:
+      - LabRequestTemplates
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab request template ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Test IDs
+        in: body
+        name: tests
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateLabRequestTemplateTestsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabRequestTemplate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update lab request template tests
+      tags:
+      - LabRequestTemplates
+  /api/v1/lab-request-templates/{id}/tests/{testId}:
+    delete:
+      parameters:
+      - description: Lab request template ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Test ID to remove
+        in: path
+        name: testId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabRequestTemplate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Remove lab test from template
+      tags:
+      - LabRequestTemplates
+  /api/v1/lab-request-templates/search:
+    get:
+      parameters:
+      - description: Search term
+        in: query
+        name: q
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabRequestTemplate'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Search lab request templates
+      tags:
+      - LabRequestTemplates
+  /api/v1/lab-requests:
+    get:
+      parameters:
+      - default: 50
+        description: Limit
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.PaginatedResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.LabRequest'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get all lab requests
+      tags:
+      - LabRequests
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab request data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateLabRequestRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LabRequest'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create lab request
+      tags:
+      - LabRequests
+  /api/v1/lab-requests/{id}:
+    delete:
+      parameters:
+      - description: Lab request ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete lab request
+      tags:
+      - LabRequests
+    get:
+      parameters:
+      - description: Lab request ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabRequest'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get lab request by ID
+      tags:
+      - LabRequests
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab request ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated lab request data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateLabRequestRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabRequest'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update lab request
+      tags:
+      - LabRequests
+  /api/v1/lab-requests/{id}/generate-pdf:
+    post:
+      parameters:
+      - description: Lab request ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabRequest'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Generate PDF for lab request
+      tags:
+      - LabRequests
+  /api/v1/lab-requests/by-date:
+    get:
+      parameters:
+      - description: Date (YYYY-MM-DD)
+        in: query
+        name: date
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabRequest'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get lab requests by date
+      tags:
+      - LabRequests
+  /api/v1/lab-requests/by-date-range:
+    get:
+      parameters:
+      - description: Start date (YYYY-MM-DD)
+        in: query
+        name: startDate
+        required: true
+        type: string
+      - description: End date (YYYY-MM-DD)
+        in: query
+        name: endDate
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabRequest'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get lab requests by date range
+      tags:
+      - LabRequests
+  /api/v1/lab-results/{id}/values:
+    get:
+      parameters:
+      - description: Lab result ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabResultValue'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get values for lab result
+      tags:
+      - LabResults
+  /api/v1/lab-results/values:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab result value data
+        in: body
+        name: value
+        required: true
+        schema:
+          $ref: '#/definitions/models.LabResultValue'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LabResultValue'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create lab result value
+      tags:
+      - LabResults
+  /api/v1/lab-results/values/{id}:
+    delete:
+      parameters:
+      - description: Lab result value ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete lab result value
+      tags:
+      - LabResults
+    get:
+      parameters:
+      - description: Lab result value ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabResultValue'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get lab result value by ID
+      tags:
+      - LabResults
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab result value ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated lab result value data
+        in: body
+        name: value
+        required: true
+        schema:
+          $ref: '#/definitions/models.LabResultValue'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabResultValue'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update lab result value
+      tags:
+      - LabResults
+  /api/v1/lab-results/values/batch:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Array of lab result values
+        in: body
+        name: values
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.LabResultValue'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/models.LabResultValue'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create multiple lab result values
+      tags:
+      - LabResults
+  /api/v1/lab-tests/definitions:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabTestDefinition'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get all lab test definitions
+      tags:
+      - LabTests
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab test definition data
+        in: body
+        name: definition
+        required: true
+        schema:
+          $ref: '#/definitions/models.LabTestDefinition'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LabTestDefinition'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create lab test definition
+      tags:
+      - LabTests
+  /api/v1/lab-tests/definitions/{id}:
+    delete:
+      parameters:
+      - description: Lab test definition ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete lab test definition
+      tags:
+      - LabTests
+    get:
+      parameters:
+      - description: Lab test definition ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabTestDefinition'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get lab test definition by ID
+      tags:
+      - LabTests
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab test definition ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated lab test definition data
+        in: body
+        name: definition
+        required: true
+        schema:
+          $ref: '#/definitions/models.LabTestDefinition'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabTestDefinition'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update lab test definition
+      tags:
+      - LabTests
+  /api/v1/lab-tests/definitions/{id}/score-mappings:
+    get:
+      parameters:
+      - description: Lab test ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabTestScoreMapping'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get mappings for lab test
+      tags:
+      - LabTests
+  /api/v1/lab-tests/definitions/{id}/sub-tests:
+    get:
+      parameters:
+      - description: Parent test ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabTestDefinition'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get sub-tests
+      tags:
+      - LabTests
+  /api/v1/lab-tests/definitions/code/{code}:
+    get:
+      parameters:
+      - description: Lab test code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabTestDefinition'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get lab test definition by code
+      tags:
+      - LabTests
+  /api/v1/lab-tests/definitions/search:
+    get:
+      parameters:
+      - description: Search term
+        in: query
+        name: q
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabTestDefinition'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Search lab tests
+      tags:
+      - LabTests
+  /api/v1/lab-tests/requestable:
+    get:
+      parameters:
+      - description: Filter by category
+        in: query
+        name: category
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabTestDefinition'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get requestable lab tests
+      tags:
+      - LabTests
+  /api/v1/lab-tests/score-mappings:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Mapping data
+        in: body
+        name: mapping
+        required: true
+        schema:
+          $ref: '#/definitions/models.LabTestScoreMapping'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LabTestScoreMapping'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create lab test score mapping
+      tags:
+      - LabTests
+  /api/v1/lab-tests/score-mappings/{id}:
+    delete:
+      parameters:
+      - description: Mapping ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete lab test score mapping
+      tags:
+      - LabTests
+    get:
+      parameters:
+      - description: Mapping ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabTestScoreMapping'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get lab test score mapping by ID
+      tags:
+      - LabTests
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Mapping ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated mapping data
+        in: body
+        name: mapping
+        required: true
+        schema:
+          $ref: '#/definitions/models.LabTestScoreMapping'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabTestScoreMapping'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update lab test score mapping
+      tags:
+      - LabTests
+  /api/v1/patients/{patientId}/lab-requests:
+    get:
+      parameters:
+      - description: Patient ID
+        in: path
+        name: patientId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabRequest'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get lab requests by patient ID
+      tags:
+      - LabRequests
+  /api/v1/patients/{patientId}/lab-values:
+    get:
+      parameters:
+      - description: Patient ID
+        in: path
+        name: patientId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabResultValue'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get lab values for patient
+      tags:
+      - LabResults
+  /api/v1/patients/{patientId}/lab-values/test/{testId}/latest:
+    get:
+      parameters:
+      - description: Patient ID
+        in: path
+        name: patientId
+        required: true
+        type: string
+      - description: Lab test definition ID
+        in: path
+        name: testId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabResultValue'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get latest value for test
+      tags:
+      - LabResults
+  /api/v1/score-groups:
+    get:
+      consumes:
+      - application/json
+      description: Get all score groups ordered by order field
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ScoreGroup'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List all score groups
+      tags:
+      - Score Groups
+    post:
+      consumes:
+      - application/json
+      description: Create a new score group (admin only)
+      parameters:
+      - description: Score Group Data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/services.CreateScoreGroupDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ScoreGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a new score group
+      tags:
+      - Score Groups
+  /api/v1/score-groups/{groupId}/subgroups:
+    get:
+      consumes:
+      - application/json
+      description: Get all subgroups for a specific group
+      parameters:
+      - description: Score Group ID (UUID)
+        in: path
+        name: groupId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ScoreSubgroup'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get subgroups by group ID
+      tags:
+      - Score Subgroups
+  /api/v1/score-groups/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Soft delete a score group (admin only)
+      parameters:
+      - description: Score Group ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a score group
+      tags:
+      - Score Groups
+    get:
+      consumes:
+      - application/json
+      description: Get a single score group by ID
+      parameters:
+      - description: Score Group ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ScoreGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get score group by ID
+      tags:
+      - Score Groups
+    put:
+      consumes:
+      - application/json
+      description: Update an existing score group (admin only)
+      parameters:
+      - description: Score Group ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Score Group Update Data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/services.UpdateScoreGroupDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ScoreGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a score group
+      tags:
+      - Score Groups
+  /api/v1/score-groups/{id}/tree:
+    get:
+      consumes:
+      - application/json
+      description: Get a score group with all subgroups, items, and levels
+      parameters:
+      - description: Score Group ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ScoreGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get score group with nested data
+      tags:
+      - Score Groups
+  /api/v1/score-groups/poster-pdf:
+    get:
+      description: Generate a PDF poster (60cm x 300cm) with all scores
+      produces:
+      - application/pdf
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Generate score poster PDF
+      tags:
+      - Score Groups
+  /api/v1/score-groups/tree:
+    get:
+      consumes:
+      - application/json
+      description: Get all score groups with subgroups, items, and levels (full hierarchy
+        for mindmap)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ScoreGroup'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get all score groups with nested data
+      tags:
+      - Score Groups
+  /api/v1/score-items:
+    post:
+      consumes:
+      - application/json
+      description: Create a new score item (admin only)
+      parameters:
+      - description: Score Item Data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/services.CreateScoreItemDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ScoreItem'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a new score item
+      tags:
+      - Score Items
+  /api/v1/score-items/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Soft delete a score item (admin only)
+      parameters:
+      - description: Score Item ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a score item
+      tags:
+      - Score Items
+    get:
+      consumes:
+      - application/json
+      description: Get a single score item by ID with levels
+      parameters:
+      - description: Score Item ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ScoreItem'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get score item by ID
+      tags:
+      - Score Items
+    put:
+      consumes:
+      - application/json
+      description: Update an existing score item (admin only)
+      parameters:
+      - description: Score Item ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Score Item Update Data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/services.UpdateScoreItemDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ScoreItem'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a score item
+      tags:
+      - Score Items
+  /api/v1/score-items/{itemId}/levels:
+    get:
+      consumes:
+      - application/json
+      description: Get all levels for a specific item
+      parameters:
+      - description: Score Item ID (UUID)
+        in: path
+        name: itemId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ScoreLevel'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get levels by item ID
+      tags:
+      - Score Levels
+  /api/v1/score-levels:
+    post:
+      consumes:
+      - application/json
+      description: Create a new score level (admin only)
+      parameters:
+      - description: Score Level Data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/services.CreateScoreLevelDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ScoreLevel'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a new score level
+      tags:
+      - Score Levels
+  /api/v1/score-levels/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Soft delete a score level (admin only)
+      parameters:
+      - description: Score Level ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a score level
+      tags:
+      - Score Levels
+    get:
+      consumes:
+      - application/json
+      description: Get a single score level by ID
+      parameters:
+      - description: Score Level ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ScoreLevel'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get score level by ID
+      tags:
+      - Score Levels
+    put:
+      consumes:
+      - application/json
+      description: Update an existing score level (admin only)
+      parameters:
+      - description: Score Level ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Score Level Update Data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/services.UpdateScoreLevelDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ScoreLevel'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a score level
+      tags:
+      - Score Levels
+  /api/v1/score-subgroups:
+    post:
+      consumes:
+      - application/json
+      description: Create a new score subgroup (admin only)
+      parameters:
+      - description: Score Subgroup Data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/services.CreateScoreSubgroupDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ScoreSubgroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a new score subgroup
+      tags:
+      - Score Subgroups
+  /api/v1/score-subgroups/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Soft delete a score subgroup (admin only)
+      parameters:
+      - description: Score Subgroup ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a score subgroup
+      tags:
+      - Score Subgroups
+    get:
+      consumes:
+      - application/json
+      description: Get a single score subgroup by ID
+      parameters:
+      - description: Score Subgroup ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ScoreSubgroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get score subgroup by ID
+      tags:
+      - Score Subgroups
+    put:
+      consumes:
+      - application/json
+      description: Update an existing score subgroup (admin only)
+      parameters:
+      - description: Score Subgroup ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Score Subgroup Update Data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/services.UpdateScoreSubgroupDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ScoreSubgroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a score subgroup
+      tags:
+      - Score Subgroups
+  /api/v1/score-subgroups/{subgroupId}/items:
+    get:
+      consumes:
+      - application/json
+      description: Get all items for a specific subgroup
+      parameters:
+      - description: Score Subgroup ID (UUID)
+        in: path
+        name: subgroupId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ScoreItem'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get items by subgroup ID
+      tags:
+      - Score Items
+  /articles:
+    get:
+      description: Lista artigos com paginação e filtros
+      parameters:
+      - default: 1
+        description: Página
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Itens por página
+        in: query
+        name: pageSize
+        type: integer
+      - description: Filtrar por revista
+        in: query
+        name: journal
+        type: string
+      - description: Filtrar por especialidade
+        in: query
+        name: specialty
+        type: string
+      - description: Filtrar por tipo
+        in: query
+        name: articleType
+        type: string
+      - description: Filtrar favoritos
+        in: query
+        name: favorite
+        type: boolean
+      - description: Filtrar por rating
+        in: query
+        name: rating
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Listar artigos
+      tags:
+      - articles
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo artigo científico manualmente
+      parameters:
+      - description: Dados do artigo
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/services.CreateArticleDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Article'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Criar artigo
+      tags:
+      - articles
+  /articles/{id}:
+    delete:
+      description: Remove um artigo do sistema (soft delete)
+      parameters:
+      - description: ID do artigo
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Deletar artigo
+      tags:
+      - articles
+    get:
+      description: Retorna os detalhes de um artigo específico
+      parameters:
+      - description: ID do artigo
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Article'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Buscar artigo por ID
+      tags:
+      - articles
+    put:
+      consumes:
+      - application/json
+      description: Atualiza os dados de um artigo
+      parameters:
+      - description: ID do artigo
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Dados a atualizar
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/services.UpdateArticleDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Article'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Atualizar artigo
+      tags:
+      - articles
+  /articles/{id}/download:
+    get:
+      description: Faz download do arquivo PDF de um artigo
+      parameters:
+      - description: ID do artigo
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/pdf
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Download de PDF
+      tags:
+      - articles
+  /articles/{id}/favorite:
+    patch:
+      description: Alterna o status de favorito de um artigo
+      parameters:
+      - description: ID do artigo
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Article'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Marcar/desmarcar favorito
+      tags:
+      - articles
+  /articles/{id}/rating:
+    patch:
+      consumes:
+      - application/json
+      description: Define a avaliação (0-5 estrelas) de um artigo
+      parameters:
+      - description: ID do artigo
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Rating (0-5)
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties:
+            type: integer
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Article'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Definir rating
+      tags:
+      - articles
+  /articles/{id}/score-items:
+    delete:
+      consumes:
+      - application/json
+      description: Remove associação many-to-many entre artigo e itens de escore
+      parameters:
+      - description: ID do artigo
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Array de IDs dos itens de escore
+        in: body
+        name: scoreItemIds
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Remover itens de escore de um artigo
+      tags:
+      - articles
+    get:
+      description: Retorna todos os itens de escore associados a um artigo
+      parameters:
+      - description: ID do artigo
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ScoreItem'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Listar itens de escore de um artigo
+      tags:
+      - articles
+    post:
+      consumes:
+      - application/json
+      description: Cria associação many-to-many entre artigo e itens de escore
+      parameters:
+      - description: ID do artigo
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Array de IDs dos itens de escore
+        in: body
+        name: scoreItemIds
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Adicionar itens de escore a um artigo
+      tags:
+      - articles
+  /articles/favorites:
+    get:
+      description: Lista artigos marcados como favoritos
+      parameters:
+      - default: 1
+        description: Página
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Itens por página
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Listar favoritos
+      tags:
+      - articles
+  /articles/search:
+    get:
+      description: Busca artigos por texto (título, autores, abstract, revista)
+      parameters:
+      - description: Texto de busca
+        in: query
+        name: q
+        required: true
+        type: string
+      - default: 1
+        description: Página
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Itens por página
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Buscar artigos
+      tags:
+      - articles
+  /articles/stats:
+    get:
+      description: Retorna estatísticas gerais sobre artigos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Estatísticas
+      tags:
+      - articles
+  /articles/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Faz upload de um PDF e extrai metadados automaticamente
+      parameters:
+      - description: Arquivo PDF
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Article'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Upload de PDF
+      tags:
+      - articles
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Autentica um usuário e retorna tokens JWT
+      parameters:
+      - description: Credenciais
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Login
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Invalida o token atual (placeholder - implementar blacklist futuramente)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Logout
+      tags:
+      - auth
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Gera um novo access token a partir do refresh token
+      parameters:
+      - description: Refresh token
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Refresh token
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo usuário no sistema
+      parameters:
+      - description: Dados de registro
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Registrar novo usuário
+      tags:
+      - auth
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Verifica se a API e o banco de dados estão funcionais
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Health Check
+      tags:
+      - health
+  /patients:
+    get:
+      consumes:
+      - application/json
+      description: Retorna lista de pacientes com paginação
+      parameters:
+      - default: 20
+        description: Limite de resultados
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Offset para paginação
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.PatientResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Listar pacientes
+      tags:
+      - patients
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo paciente para o usuário autenticado
+      parameters:
+      - description: Dados do paciente
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreatePatientRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.PatientResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Criar paciente
+      tags:
+      - patients
+  /patients/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Faz soft delete de um paciente (apenas admin/doctor/nurse)
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Deletar paciente
+      tags:
+      - patients
+    get:
+      consumes:
+      - application/json
+      description: Retorna um paciente específico
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.PatientResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Buscar paciente por ID
+      tags:
+      - patients
+    put:
+      consumes:
+      - application/json
+      description: Atualiza dados de um paciente
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Dados para atualização
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdatePatientRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.PatientResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Atualizar paciente
+      tags:
+      - patients
+  /users/me:
+    get:
+      consumes:
+      - application/json
+      description: Retorna informações do usuário autenticado incluindo paciente selecionado
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserDTO'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get current user
+      tags:
+      - auth
+  /users/me/preferences:
+    patch:
+      consumes:
+      - application/json
+      description: Atualiza as preferências do usuário autenticado (viewport do mindmap,
+        etc.)
+      parameters:
+      - description: Preferences JSON
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update user preferences
+      tags:
+      - auth
+  /users/me/selected-patient:
+    put:
+      consumes:
+      - application/json
+      description: Atualiza o paciente selecionado para o usuário autenticado
+      parameters:
+      - description: Patient ID
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateSelectedPatientRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update selected patient
+      tags:
+      - auth
+securityDefinitions:
+  BearerAuth:
+    description: Digite 'Bearer' seguido do token JWT
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

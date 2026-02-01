@@ -24,7 +24,7 @@ const (
 type Patient struct {
 	// ID único do paciente
 	// @example 550e8400-e29b-41d4-a716-446655440000
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// ID do usuário associado
 	UserID uuid.UUID `gorm:"type:uuid;not null;unique;index" json:"userId"`
@@ -120,6 +120,14 @@ func (p *Patient) BeforeSave(tx *gorm.DB) error {
 		p.CPF = encrypted
 	}
 
+	return nil
+}
+
+// BeforeCreate hook to generate UUID v7
+func (p *Patient) BeforeCreate(tx *gorm.DB) error {
+	if p.ID == uuid.Nil {
+		p.ID = uuid.Must(uuid.NewV7())
+	}
 	return nil
 }
 

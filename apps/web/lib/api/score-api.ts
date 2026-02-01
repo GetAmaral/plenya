@@ -31,6 +31,7 @@ export interface ScoreItem {
   order: number
   subgroupId: string
   parentItemId?: string
+  subgroup?: ScoreSubgroup
   levels?: ScoreLevel[]
   childItems?: ScoreItem[]
   createdAt: string
@@ -42,6 +43,7 @@ export interface ScoreSubgroup {
   name: string
   order: number
   groupId: string
+  group?: ScoreGroup
   items?: ScoreItem[]
   createdAt: string
   updatedAt: string

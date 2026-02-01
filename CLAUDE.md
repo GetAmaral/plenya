@@ -118,9 +118,9 @@ plenya/
 // apps/api/internal/models/patient.go
 
 type Patient struct {
-    // Annotations para OpenAPI
-    // @example 550e8400-e29b-41d4-a716-446655440000
-    ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+    // UUID v7 (time-ordered) - SEM default PostgreSQL
+    // @example 019c1a1e-0579-7f3b-a1bd-4767008e844c
+    ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
     // @minLength 3
     // @maxLength 200
@@ -138,6 +138,14 @@ type Patient struct {
     UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updatedAt"`
     DeletedAt gorm.DeletedAt `gorm:"index" json:"-"` // Soft delete
 }
+
+// OBRIGATÓRIO: BeforeCreate para UUID v7
+func (p *Patient) BeforeCreate(tx *gorm.DB) error {
+    if p.ID == uuid.Nil {
+        p.ID = uuid.Must(uuid.NewV7())
+    }
+    return nil
+}
 ```
 
 **Tags essenciais:**
@@ -154,6 +162,107 @@ type Patient struct {
 - `// @minLength 3` → Validação mínima
 - `// @enum a,b,c` → Enum values
 - `// @items.type string` → Tipo de array
+
+---
+
+## UUID v7 Standard (RFC 9562) - OBRIGATÓRIO
+
+**CRÍTICO: TODOS os models DEVEM usar UUID v7 (time-ordered) em vez de UUID v4 (random).**
+
+### Por que UUID v7?
+
+1. **Time-ordered:** Sortable por criação (primeiros 48 bits = Unix timestamp ms)
+2. **Performance:** Melhor em B-tree indexes (~20-30% menos fragmentação)
+3. **Rastreabilidade:** Facilita debug cronológico em sistema EMR
+4. **RFC 9562:** Padrão oficial IETF (2024)
+
+### Implementação Obrigatória
+
+**Go Application (Primary):**
+
+TODOS os models TÊM `BeforeCreate` hook:
+
+```go
+func (m *Model) BeforeCreate(tx *gorm.DB) error {
+    if m.ID == uuid.Nil {
+        m.ID = uuid.Must(uuid.NewV7())
+    }
+    return nil
+}
+```
+
+**Tags GORM (sem default PostgreSQL):**
+```go
+ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
+// ❌ NÃO usar: default:gen_random_uuid()
+// ✅ Aplicação SEMPRE gera o ID via BeforeCreate
+```
+
+**PostgreSQL (Fallback):**
+
+Database tem função `uuid_generate_v7()` para operações manuais:
+
+```sql
+-- Função disponível via init.sql (auto-executado)
+SELECT uuid_generate_v7();  -- Gera UUID v7
+
+-- Inserir registro (ID gerado pela aplicação)
+INSERT INTO patients (id, name, ...)
+VALUES (uuid_generate_v7(), 'João', ...);
+```
+
+### Estrutura UUID v7
+
+```
+019c1a1e-0579-7f3b-a1bd-4767008e844c
+└─timestamp─┘ └v7┘
+```
+
+- **Primeiros 48 bits:** Unix timestamp ms (ordenável)
+- **4 bits:** Version (0111 = v7)
+- **74 bits:** Randomness (único globalmente)
+
+### Validação
+
+```sql
+-- Verificar version (deve ser 7)
+SELECT (get_byte(uuid_send(id), 6) >> 4) AS version FROM users LIMIT 1;
+
+-- Verificar ordenação cronológica
+SELECT id, created_at FROM patients ORDER BY id;
+-- IDs devem estar ordenados por created_at
+```
+
+### Adicionando Novo Model
+
+**Template obrigatório:**
+
+```go
+type MyNewModel struct {
+    // ID: sempre UUID v7, SEM default PostgreSQL
+    ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
+
+    Name string `gorm:"type:varchar(200);not null" json:"name"`
+
+    CreatedAt time.Time `gorm:"autoCreateTime" json:"createdAt"`
+    UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updatedAt"`
+    DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
+}
+
+// ✅ OBRIGATÓRIO: BeforeCreate hook
+func (m *MyNewModel) BeforeCreate(tx *gorm.DB) error {
+    if m.ID == uuid.Nil {
+        m.ID = uuid.Must(uuid.NewV7())
+    }
+    return nil
+}
+```
+
+**Regras:**
+- ❌ NUNCA usar `default:gen_random_uuid()` nas tags GORM
+- ✅ SEMPRE implementar `BeforeCreate` hook
+- ✅ PostgreSQL `uuid_generate_v7()` é apenas fallback
+- ✅ Aplicação SEMPRE controla geração de IDs
 
 ---
 

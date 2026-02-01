@@ -11,7 +11,7 @@ import (
 // @Description Nível de estratificação de risco para um item de escore
 type ScoreLevel struct {
 	// @example 550e8400-e29b-41d4-a716-446655440000
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// @minimum 0
 	// @maximum 6

@@ -217,6 +217,22 @@ func (r *ScoreRepository) GetItemsBySubgroupID(subgroupID uuid.UUID) ([]models.S
 	return items, err
 }
 
+// GetAllScoreItems retrieves all score items with group/subgroup info, ordered by hierarchy
+func (r *ScoreRepository) GetAllScoreItems() ([]models.ScoreItem, error) {
+	var items []models.ScoreItem
+	err := r.db.
+		Preload("Subgroup").
+		Preload("Subgroup.Group").
+		Joins("LEFT JOIN score_subgroups ON score_items.subgroup_id = score_subgroups.id").
+		Joins("LEFT JOIN score_groups ON score_subgroups.group_id = score_groups.id").
+		Order("score_groups.\"order\" ASC").
+		Order("score_subgroups.\"order\" ASC").
+		Order("score_items.\"order\" ASC").
+		Order("score_items.name ASC").
+		Find(&items).Error
+	return items, err
+}
+
 // UpdateScoreItem updates an existing score item
 func (r *ScoreRepository) UpdateScoreItem(item *models.ScoreItem) error {
 	return r.db.Save(item).Error

@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 // AuditAction define as ações rastreáveis
@@ -34,7 +35,7 @@ const (
 type AuditLog struct {
 	// ID único do log
 	// @example 550e8400-e29b-41d4-a716-446655440000
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// ID do usuário que executou a ação
 	UserID uuid.UUID `gorm:"type:uuid;not null;index" json:"userId"`
@@ -72,4 +73,12 @@ type AuditLog struct {
 // TableName especifica o nome da tabela
 func (AuditLog) TableName() string {
 	return "audit_logs"
+}
+
+// BeforeCreate hook to generate UUID v7
+func (al *AuditLog) BeforeCreate(tx *gorm.DB) error {
+	if al.ID == uuid.Nil {
+		al.ID = uuid.Must(uuid.NewV7())
+	}
+	return nil
 }

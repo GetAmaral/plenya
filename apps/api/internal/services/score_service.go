@@ -319,6 +319,11 @@ func (s *ScoreService) GetItemsBySubgroupID(subgroupID uuid.UUID) ([]models.Scor
 	return s.repo.GetItemsBySubgroupID(subgroupID)
 }
 
+// GetAllScoreItems retrieves all score items
+func (s *ScoreService) GetAllScoreItems() ([]models.ScoreItem, error) {
+	return s.repo.GetAllScoreItems()
+}
+
 // UpdateItem updates an existing score item
 func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models.ScoreItem, error) {
 	item, err := s.repo.GetScoreItemByID(id)
@@ -326,14 +331,9 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 		return nil, err
 	}
 
+	// Update required fields
 	if dto.Name != nil {
 		item.Name = *dto.Name
-	}
-	if dto.Unit != nil {
-		item.Unit = dto.Unit
-	}
-	if dto.UnitConversion != nil {
-		item.UnitConversion = dto.UnitConversion
 	}
 	if dto.Points != nil {
 		item.Points = dto.Points
@@ -344,18 +344,17 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 	if dto.SubgroupID != nil {
 		item.SubgroupID = *dto.SubgroupID
 	}
-	if dto.ParentItemID != nil {
-		item.ParentItemID = dto.ParentItemID
-	}
-	if dto.ClinicalRelevance != nil {
-		item.ClinicalRelevance = dto.ClinicalRelevance
-	}
-	if dto.PatientExplanation != nil {
-		item.PatientExplanation = dto.PatientExplanation
-	}
-	if dto.Conduct != nil {
-		item.Conduct = dto.Conduct
-	}
+
+	// Always update optional fields (allows clearing them with null)
+	// Frontend sends null to clear, backend updates even if nil
+	item.Unit = dto.Unit
+	item.UnitConversion = dto.UnitConversion
+	item.ParentItemID = dto.ParentItemID
+	item.ClinicalRelevance = dto.ClinicalRelevance
+	item.PatientExplanation = dto.PatientExplanation
+	item.Conduct = dto.Conduct
+
+	// LastReview is optional but not typically cleared
 	if dto.LastReview != nil {
 		item.LastReview = dto.LastReview
 	}
