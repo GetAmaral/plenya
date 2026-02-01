@@ -17,6 +17,7 @@ interface ScoreTreeViewProps {
   groups: ScoreGroup[]
   expandedNodes?: Record<string, boolean>
   expandClinicalTexts?: boolean
+  openSubgroups?: string[] // IDs de subgrupos que devem estar abertos
 }
 
 // Helper para organizar itens em hierarquia
@@ -56,7 +57,7 @@ function organizeItemsHierarchy(items: ScoreItem[]): ItemWithChildren[] {
   return rootItems
 }
 
-export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts = false }: ScoreTreeViewProps) {
+export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts = false, openSubgroups = [] }: ScoreTreeViewProps) {
   const [editingGroup, setEditingGroup] = useState<ScoreGroup | null>(null)
   const [creatingSubgroupFor, setCreatingSubgroupFor] = useState<string | null>(null)
   const [editingSubgroup, setEditingSubgroup] = useState<ScoreSubgroup | null>(null)
@@ -68,10 +69,10 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
   const deleteGroup = useDeleteScoreGroup()
   const deleteSubgroup = useDeleteScoreSubgroup()
 
-  // Sincroniza accordionValues apenas quando expandedNodes muda (ex: busca, expandir tudo)
+  // Sincroniza accordionValues quando expandedNodes ou openSubgroups muda (ex: busca, expandir tudo)
   useEffect(() => {
-    // Se não há expandedNodes externos, não fazer nada (usar estado interno)
-    if (Object.keys(expandedNodes).length === 0) return
+    // Se não há expandedNodes externos nem openSubgroups, não fazer nada (usar estado interno)
+    if (Object.keys(expandedNodes).length === 0 && openSubgroups.length === 0) return
 
     setAccordionValues(prev => {
       const newAccordionValues: Record<string, string[]> = { ...prev }
@@ -81,7 +82,8 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
         const expandedSubgroupsFromProps: string[] = []
 
         group.subgroups?.forEach(subgroup => {
-          if (expandedNodes[`subgroup-${subgroup.id}`]) {
+          // Abrir se está em expandedNodes OU em openSubgroups
+          if (expandedNodes[`subgroup-${subgroup.id}`] || openSubgroups.includes(subgroup.id)) {
             expandedSubgroupsFromProps.push(subgroup.id)
           }
         })
@@ -95,7 +97,7 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
 
       return newAccordionValues
     })
-  }, [expandedNodes, groups])
+  }, [expandedNodes, openSubgroups, groups])
 
   const handleDeleteGroup = async (group: ScoreGroup) => {
     try {

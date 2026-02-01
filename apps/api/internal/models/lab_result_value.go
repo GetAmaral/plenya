@@ -11,7 +11,7 @@ import (
 // @Description Valor estruturado de um parâmetro de exame laboratorial
 type LabResultValue struct {
 	// ID único do valor
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// ID do resultado laboratorial (LabResult)
 	LabResultID uuid.UUID `gorm:"type:uuid;not null;index:idx_lab_result_value_result" json:"labResultId" validate:"required"`

@@ -181,14 +181,15 @@ export function ScoreItemDialog({
 
   const onSubmit = async (data: CreateScoreItemDTO) => {
     try {
-      // Convert empty strings to undefined for optional fields
+      // Convert empty strings to null (not undefined) for optional fields
+      // This ensures the backend receives the field and clears it in the database
       const payload = {
         ...data,
-        unit: data.unit || undefined,
-        unitConversion: data.unitConversion || undefined,
-        clinicalRelevance: data.clinicalRelevance || undefined,
-        patientExplanation: data.patientExplanation || undefined,
-        conduct: data.conduct || undefined,
+        unit: data.unit || null,
+        unitConversion: data.unitConversion || null,
+        clinicalRelevance: data.clinicalRelevance || null,
+        patientExplanation: data.patientExplanation || null,
+        conduct: data.conduct || null,
       }
 
       if (isEditing) {
@@ -204,7 +205,7 @@ export function ScoreItemDialog({
             points: payload.points,
             order: payload.order,
             subgroupId: selectedSubgroupId,
-            parentItemId: selectedParentItemId || undefined,
+            parentItemId: selectedParentItemId || null,
           } as UpdateScoreItemDTO,
         })
         toast.success('Item atualizado com sucesso')

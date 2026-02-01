@@ -13,8 +13,10 @@ type CreateAnamnesisRequest struct {
 	PatientID           string                 `json:"patientId,omitempty" validate:"omitempty,uuid"`                         // Optional - will use selectedPatient if not provided
 	AnamnesisTemplateID *string                `json:"anamnesisTemplateId,omitempty" validate:"omitempty,uuid"`               // Template utilizado (opcional)
 	ConsultationDate    string                 `json:"consultationDate" validate:"required"`                                  // formato: RFC3339
-	Content             *string                `json:"content,omitempty"`                                                     // Conteúdo completo da anamnese
-	Summary             *string                `json:"summary,omitempty"`                                                     // Resumo da anamnese
+	Content             *string                `json:"content,omitempty"`                                                     // Conteúdo completo da anamnese (texto plano)
+	ContentHtml         *string                `json:"contentHtml,omitempty"`                                                 // Conteúdo completo da anamnese (HTML)
+	Summary             *string                `json:"summary,omitempty"`                                                     // Resumo da anamnese (texto plano)
+	SummaryHtml         *string                `json:"summaryHtml,omitempty"`                                                 // Resumo da anamnese (HTML)
 	Visibility          string                 `json:"visibility" validate:"required,oneof=all medicalOnly psychOnly"`        // all, medicalOnly, psychOnly
 	Notes               *string                `json:"notes,omitempty"`                                                       // Observações gerais
 	Items               []AnamnesisItemRequest `json:"items,omitempty"`                                                       // Items de anamnese vinculados a ScoreItems
@@ -24,8 +26,10 @@ type CreateAnamnesisRequest struct {
 type UpdateAnamnesisRequest struct {
 	AnamnesisTemplateID *string                `json:"anamnesisTemplateId,omitempty" validate:"omitempty,uuid"`               // Template utilizado (opcional)
 	ConsultationDate    *string                `json:"consultationDate,omitempty"`                                            // formato: RFC3339
-	Content             *string                `json:"content,omitempty"`                                                     // Conteúdo completo da anamnese
-	Summary             *string                `json:"summary,omitempty"`                                                     // Resumo da anamnese
+	Content             *string                `json:"content,omitempty"`                                                     // Conteúdo completo da anamnese (texto plano)
+	ContentHtml         *string                `json:"contentHtml,omitempty"`                                                 // Conteúdo completo da anamnese (HTML)
+	Summary             *string                `json:"summary,omitempty"`                                                     // Resumo da anamnese (texto plano)
+	SummaryHtml         *string                `json:"summaryHtml,omitempty"`                                                 // Resumo da anamnese (HTML)
 	Visibility          *string                `json:"visibility,omitempty" validate:"omitempty,oneof=all medicalOnly psychOnly"` // all, medicalOnly, psychOnly
 	Notes               *string                `json:"notes,omitempty"`                                                       // Observações gerais
 	Items               []AnamnesisItemRequest `json:"items,omitempty"`                                                       // Substitui todos os items existentes
@@ -50,7 +54,9 @@ type AnamnesisResponse struct {
 	AnamnesisTemplateID *string                 `json:"anamnesisTemplateId,omitempty"`
 	ConsultationDate    string                  `json:"consultationDate"`
 	Content             *string                 `json:"content,omitempty"`
+	ContentHtml         *string                 `json:"contentHtml,omitempty"`
 	Summary             *string                 `json:"summary,omitempty"`
+	SummaryHtml         *string                 `json:"summaryHtml,omitempty"`
 	Visibility          string                  `json:"visibility"`
 	Notes               *string                 `json:"notes,omitempty"`
 	Items               []AnamnesisItemResponse `json:"items,omitempty"`

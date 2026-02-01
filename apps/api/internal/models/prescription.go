@@ -21,7 +21,7 @@ const (
 // @Description Prescrição médica com medicamentos, dosagem e instruções
 type Prescription struct {
 	// ID único da prescrição
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// ID do paciente
 	PatientID uuid.UUID `gorm:"type:uuid;not null;index" json:"patientId"`
@@ -85,4 +85,12 @@ type Prescription struct {
 // TableName especifica o nome da tabela
 func (Prescription) TableName() string {
 	return "prescriptions"
+}
+
+// BeforeCreate hook to generate UUID v7
+func (p *Prescription) BeforeCreate(tx *gorm.DB) error {
+	if p.ID == uuid.Nil {
+		p.ID = uuid.Must(uuid.NewV7())
+	}
+	return nil
 }

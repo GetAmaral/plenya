@@ -16,6 +16,7 @@ export default function ScoresPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({})
+  const [openSubgroups, setOpenSubgroups] = useState<string[]>([]) // Para abrir accordions na busca
   const [expandClinicalTexts, setExpandClinicalTexts] = useState(false)
   const [isExpanding, setIsExpanding] = useState(false)
   const [isDownloadingPoster, setIsDownloadingPoster] = useState(false)
@@ -45,6 +46,8 @@ export default function ScoresPage() {
 
     if (result.subgroupId) {
       nodesToExpand[`subgroup-${result.subgroupId}`] = true
+      // Também abrir o accordion do subgrupo
+      setOpenSubgroups(prev => [...prev, result.subgroupId!])
     }
 
     if (result.itemId) {
@@ -54,16 +57,45 @@ export default function ScoresPage() {
     setExpandedNodes(nodesToExpand)
     setSearchOpen(false)
 
-    setTimeout(() => {
-      const element = document.getElementById(result.id)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        element.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'transition-all')
-        setTimeout(() => {
-          element.classList.remove('ring-2', 'ring-primary', 'ring-offset-2')
-        }, 2000)
-      }
-    }, 300)
+    // Aguardar React processar as mudanças de estado ANTES de iniciar scroll
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // Agora o React já processou os estados e começou a renderizar
+
+        // Função helper para fazer scroll e destacar elemento
+        const scrollToElement = (el: HTMLElement) => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          el.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'transition-all')
+          setTimeout(() => {
+            el.classList.remove('ring-2', 'ring-primary', 'ring-offset-2')
+          }, 2000)
+        }
+
+        // Aguardar abertura do accordion com retry
+        const tryScrollToElement = (attempts = 0, maxAttempts = 15) => {
+          const element = document.getElementById(result.id)
+
+          if (element) {
+            // Verificar se o elemento está realmente visível (accordion aberto)
+            const rect = element.getBoundingClientRect()
+            const isVisible = rect.height > 0 && rect.width > 0
+
+            if (isVisible) {
+              scrollToElement(element)
+            } else if (attempts < maxAttempts) {
+              // Elemento existe mas ainda não está visível (accordion abrindo)
+              setTimeout(() => tryScrollToElement(attempts + 1, maxAttempts), 100)
+            }
+          } else if (attempts < maxAttempts) {
+            // Elemento ainda não existe no DOM
+            setTimeout(() => tryScrollToElement(attempts + 1, maxAttempts), 100)
+          }
+        }
+
+        // Pequeno delay adicional para garantir que accordion começou a abrir
+        setTimeout(() => tryScrollToElement(), 300)
+      })
+    })
   }, [expandedNodes])
 
   const handleSearchToggle = useCallback(() => {
@@ -196,6 +228,21 @@ export default function ScoresPage() {
 
   return (
     <div className="space-y-8">
+      {/* Loading Overlay durante geração de PDF */}
+      {isDownloadingPoster && (
+        <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-16 w-16 animate-spin text-primary" />
+            <div className="text-center">
+              <p className="text-xl font-semibold">Gerando PDF do Pôster</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Isso pode levar alguns segundos...
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Search Modal */}
       {searchOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center pt-20">
@@ -289,6 +336,7 @@ export default function ScoresPage() {
           groups={scoreGroups}
           expandedNodes={expandedNodes}
           expandClinicalTexts={expandClinicalTexts}
+          openSubgroups={openSubgroups}
         />
       )}
 

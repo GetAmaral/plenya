@@ -21,6 +21,7 @@ import {
   ChevronRight,
   Menu,
   X,
+  FileCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -31,7 +32,8 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
   { name: "Pacientes", href: "/patients", icon: Users },
   { name: "Consultas", href: "/appointments", icon: Calendar },
-  { name: "Anamnesis", href: "/anamnesis", icon: Stethoscope },
+  { name: "Anamneses", href: "/anamnesis", icon: Stethoscope },
+  { name: "Templates de Anamnese", href: "/anamnesis-templates", icon: FileCheck },
   { name: "Prescrições", href: "/prescriptions", icon: FileText },
   { name: "Exames", href: "/lab-results", icon: Microscope },
   { name: "Pedidos de Exames", href: "/lab-requests", icon: ClipboardList },
@@ -170,7 +172,7 @@ export function CollapsibleSidebar() {
               </div>
               <div className="flex-1 min-w-0">
                 <h1 className="text-lg font-bold">Plenya EMR</h1>
-                <p className="text-xs text-muted-foreground">Medical System</p>
+                <p className="text-xs text-muted-foreground">Sistema Médico</p>
               </div>
               <button
                 onClick={() => setIsMobileOpen(false)}
@@ -185,7 +187,7 @@ export function CollapsibleSidebar() {
             <nav className="flex-1 space-y-1 overflow-y-auto p-4">
               {navigation.map((item) => {
                 const Icon = item.icon;
-                const isActive = pathname.startsWith(item.href);
+                const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
 
                 return (
                   <Link key={item.name} href={item.href}>
@@ -270,7 +272,7 @@ export function CollapsibleSidebar() {
             <div className="flex-1 min-w-0">
               <h1 className="whitespace-nowrap text-lg font-bold">Plenya EMR</h1>
               <p className="whitespace-nowrap text-xs text-muted-foreground">
-                Medical System
+                Sistema Médico
               </p>
             </div>
           )}
@@ -291,7 +293,7 @@ export function CollapsibleSidebar() {
         <nav className="flex-1 space-y-1 overflow-y-auto p-4">
           {navigation.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname.startsWith(item.href);
+            const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
 
             return (
               <Link key={item.name} href={item.href}>

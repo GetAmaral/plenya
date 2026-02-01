@@ -3,7 +3,14 @@ FROM golang:1.25-alpine
 WORKDIR /app
 
 # Instalar dependências do sistema
-RUN apk add --no-cache git make
+RUN apk add --no-cache git make \
+    # Dependências do Chromium para geração de PDF
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont
 
 # Copiar entrypoint
 COPY entrypoint.sh /entrypoint.sh

@@ -11,6 +11,8 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      # UUID v7 initialization script (auto-executed on first DB creation)
+      - ./apps/api/database/init.sql:/docker-entrypoint-initdb.d/01_uuid_v7.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U plenya_user -d plenya_db"]
       interval: 10s

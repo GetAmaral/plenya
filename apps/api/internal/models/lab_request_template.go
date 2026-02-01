@@ -11,7 +11,7 @@ import (
 // @Description Template pré-configurado com lista de exames para facilitar solicitações
 type LabRequestTemplate struct {
 	// ID único do template
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// Nome do template
 	// @example "Check-up Anual", "Avaliação Cardíaca", "Perfil Tireoidiano"

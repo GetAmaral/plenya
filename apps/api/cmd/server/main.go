@@ -120,11 +120,13 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	labResultValueRepo := repository.NewLabResultValueRepository(database.DB)
 	labRequestRepo := repository.NewLabRequestRepository(database.DB)
 	labRequestTemplateRepo := repository.NewLabRequestTemplateRepository(database.DB)
+	anamnesisTemplateRepo := repository.NewAnamnesisTemplateRepository(database.DB)
 
 	// Inicializar services
 	authService := services.NewAuthService(database.DB, cfg)
 	patientService := services.NewPatientService(database.DB)
 	anamnesisService := services.NewAnamnesisService(database.DB)
+	anamnesisTemplateService := services.NewAnamnesisTemplateService(anamnesisTemplateRepo)
 	appointmentService := services.NewAppointmentService(database.DB)
 	prescriptionService := services.NewPrescriptionService(database.DB)
 	labResultService := services.NewLabResultService(database.DB)
@@ -142,6 +144,7 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	authHandler := handlers.NewAuthHandler(authService)
 	patientHandler := handlers.NewPatientHandler(patientService)
 	anamnesisHandler := handlers.NewAnamnesisHandler(anamnesisService)
+	anamnesisTemplateHandler := handlers.NewAnamnesisTemplateHandler(anamnesisTemplateService)
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
 	prescriptionHandler := handlers.NewPrescriptionHandler(prescriptionService)
 	labResultHandler := handlers.NewLabResultHandler(labResultService)
@@ -188,16 +191,29 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	patients.Put("/:id", patientHandler.Update)
 	patients.Delete("/:id", middleware.RequireMedicalStaff(), patientHandler.Delete)
 
-	// Anamnesis routes (protegidas - apenas doctors)
+	// Anamnesis routes (protegidas - profissionais autenticados)
 	anamnesis := v1.Group("/anamnesis")
 	anamnesis.Use(middleware.Auth(cfg))
 	anamnesis.Use(middleware.AuditLog(database.DB))
 
 	anamnesis.Get("/", anamnesisHandler.List)
-	anamnesis.Post("/", middleware.RequireDoctor(), anamnesisHandler.Create)
+	anamnesis.Post("/", anamnesisHandler.Create) // Qualquer profissional autenticado pode criar
 	anamnesis.Get("/:id", anamnesisHandler.GetByID)
 	anamnesis.Put("/:id", anamnesisHandler.Update)
 	anamnesis.Delete("/:id", anamnesisHandler.Delete)
+
+	// Anamnesis Templates routes (protegidas)
+	anamnesisTemplates := v1.Group("/anamnesis-templates")
+	anamnesisTemplates.Use(middleware.Auth(cfg))
+	anamnesisTemplates.Use(middleware.AuditLog(database.DB))
+
+	anamnesisTemplates.Get("/", anamnesisTemplateHandler.GetAll)
+	anamnesisTemplates.Get("/search", anamnesisTemplateHandler.Search)
+	anamnesisTemplates.Get("/:id", anamnesisTemplateHandler.GetByID)
+	anamnesisTemplates.Post("/", middleware.RequireMedicalStaff(), anamnesisTemplateHandler.Create)
+	anamnesisTemplates.Put("/:id", middleware.RequireMedicalStaff(), anamnesisTemplateHandler.Update)
+	anamnesisTemplates.Put("/:id/items", middleware.RequireMedicalStaff(), anamnesisTemplateHandler.UpdateItems)
+	anamnesisTemplates.Delete("/:id", middleware.RequireAdmin(), anamnesisTemplateHandler.Delete)
 
 	// Appointments routes (protegidas)
 	appointments := v1.Group("/appointments")
@@ -306,6 +322,7 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	scoreItems.Use(middleware.AuditLog(database.DB))
 
 	// Rotas de leitura (todos usuários autenticados)
+	scoreItems.Get("/", scoreHandler.GetAllScoreItems)
 	scoreItems.Get("/:id", scoreHandler.GetScoreItemByID)
 	scoreItems.Get("/:itemId/levels", scoreHandler.GetLevelsByItemID)
 

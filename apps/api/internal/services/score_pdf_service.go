@@ -151,10 +151,21 @@ func (s *ScorePDFService) renderPosterHTML(groups []models.ScoreGroup) (string, 
 // generatePDFFromHTML converts HTML to PDF using Rod (Headless Chrome)
 func (s *ScorePDFService) generatePDFFromHTML(html string) ([]byte, error) {
 	fmt.Println("[PDF] Launching browser...")
-	// Launch browser
-	path, _ := launcher.LookPath()
-	fmt.Printf("[PDF] Browser path: %s\n", path)
-	u := launcher.New().Bin(path).MustLaunch()
+
+	// Use Chromium from Alpine Linux if available, otherwise auto-detect
+	chromiumPath := "/usr/bin/chromium-browser"
+	if _, err := os.Stat(chromiumPath); os.IsNotExist(err) {
+		// Fallback to auto-detection
+		chromiumPath, _ = launcher.LookPath()
+	}
+	fmt.Printf("[PDF] Browser path: %s\n", chromiumPath)
+
+	// Launch browser with explicit path and headless mode
+	u := launcher.New().
+		Bin(chromiumPath).
+		Headless(true).
+		NoSandbox(true). // Required for Docker/Alpine
+		MustLaunch()
 	fmt.Printf("[PDF] Browser launched at: %s\n", u)
 	browser := rod.New().ControlURL(u).MustConnect()
 	defer browser.MustClose()

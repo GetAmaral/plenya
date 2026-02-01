@@ -29,8 +29,8 @@ func NewLabTestDefinitionHandler(service *services.LabTestDefinitionService) *La
 // @Produce json
 // @Param definition body models.LabTestDefinition true "Lab test definition data"
 // @Success 201 {object} models.LabTestDefinition
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/definitions [post]
 func (h *LabTestDefinitionHandler) CreateLabTestDefinition(c *fiber.Ctx) error {
 	var def models.LabTestDefinition
@@ -55,8 +55,8 @@ func (h *LabTestDefinitionHandler) CreateLabTestDefinition(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Lab test definition ID"
 // @Success 200 {object} models.LabTestDefinition
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/definitions/{id} [get]
 func (h *LabTestDefinitionHandler) GetLabTestDefinitionByID(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -82,7 +82,7 @@ func (h *LabTestDefinitionHandler) GetLabTestDefinitionByID(c *fiber.Ctx) error 
 // @Produce json
 // @Param code path string true "Lab test code"
 // @Success 200 {object} models.LabTestDefinition
-// @Failure 404 {object} ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/definitions/code/{code} [get]
 func (h *LabTestDefinitionHandler) GetLabTestDefinitionByCode(c *fiber.Ctx) error {
 	code := c.Params("code")
@@ -102,7 +102,7 @@ func (h *LabTestDefinitionHandler) GetLabTestDefinitionByCode(c *fiber.Ctx) erro
 // @Tags LabTests
 // @Produce json
 // @Success 200 {array} models.LabTestDefinition
-// @Failure 500 {object} ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/definitions [get]
 func (h *LabTestDefinitionHandler) GetAllLabTestDefinitions(c *fiber.Ctx) error {
 	defs, err := h.service.GetAllLabTestDefinitions()
@@ -121,7 +121,7 @@ func (h *LabTestDefinitionHandler) GetAllLabTestDefinitions(c *fiber.Ctx) error 
 // @Produce json
 // @Param category query string false "Filter by category"
 // @Success 200 {array} models.LabTestDefinition
-// @Failure 500 {object} ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/requestable [get]
 func (h *LabTestDefinitionHandler) GetRequestableLabTests(c *fiber.Ctx) error {
 	var category *models.LabTestCategory
@@ -146,8 +146,8 @@ func (h *LabTestDefinitionHandler) GetRequestableLabTests(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Parent test ID"
 // @Success 200 {array} models.LabTestDefinition
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/definitions/{id}/sub-tests [get]
 func (h *LabTestDefinitionHandler) GetSubTests(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -173,7 +173,7 @@ func (h *LabTestDefinitionHandler) GetSubTests(c *fiber.Ctx) error {
 // @Produce json
 // @Param q query string true "Search term"
 // @Success 200 {array} models.LabTestDefinition
-// @Failure 500 {object} ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/definitions/search [get]
 func (h *LabTestDefinitionHandler) SearchLabTestDefinitions(c *fiber.Ctx) error {
 	searchTerm := c.Query("q")
@@ -201,9 +201,9 @@ func (h *LabTestDefinitionHandler) SearchLabTestDefinitions(c *fiber.Ctx) error 
 // @Param id path string true "Lab test definition ID"
 // @Param definition body models.LabTestDefinition true "Updated lab test definition data"
 // @Success 200 {object} models.LabTestDefinition
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/definitions/{id} [put]
 func (h *LabTestDefinitionHandler) UpdateLabTestDefinition(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -235,8 +235,8 @@ func (h *LabTestDefinitionHandler) UpdateLabTestDefinition(c *fiber.Ctx) error {
 // @Tags LabTests
 // @Param id path string true "Lab test definition ID"
 // @Success 204
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/definitions/{id} [delete]
 func (h *LabTestDefinitionHandler) DeleteLabTestDefinition(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -266,8 +266,8 @@ func (h *LabTestDefinitionHandler) DeleteLabTestDefinition(c *fiber.Ctx) error {
 // @Produce json
 // @Param mapping body models.LabTestScoreMapping true "Mapping data"
 // @Success 201 {object} models.LabTestScoreMapping
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/score-mappings [post]
 func (h *LabTestDefinitionHandler) CreateLabTestScoreMapping(c *fiber.Ctx) error {
 	var mapping models.LabTestScoreMapping
@@ -292,8 +292,8 @@ func (h *LabTestDefinitionHandler) CreateLabTestScoreMapping(c *fiber.Ctx) error
 // @Produce json
 // @Param id path string true "Mapping ID"
 // @Success 200 {object} models.LabTestScoreMapping
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/score-mappings/{id} [get]
 func (h *LabTestDefinitionHandler) GetLabTestScoreMappingByID(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -319,8 +319,8 @@ func (h *LabTestDefinitionHandler) GetLabTestScoreMappingByID(c *fiber.Ctx) erro
 // @Produce json
 // @Param id path string true "Lab test ID"
 // @Success 200 {array} models.LabTestScoreMapping
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/definitions/{id}/score-mappings [get]
 func (h *LabTestDefinitionHandler) GetMappingsForLabTest(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -348,8 +348,8 @@ func (h *LabTestDefinitionHandler) GetMappingsForLabTest(c *fiber.Ctx) error {
 // @Param id path string true "Mapping ID"
 // @Param mapping body models.LabTestScoreMapping true "Updated mapping data"
 // @Success 200 {object} models.LabTestScoreMapping
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/score-mappings/{id} [put]
 func (h *LabTestDefinitionHandler) UpdateLabTestScoreMapping(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -381,8 +381,8 @@ func (h *LabTestDefinitionHandler) UpdateLabTestScoreMapping(c *fiber.Ctx) error
 // @Tags LabTests
 // @Param id path string true "Mapping ID"
 // @Success 204
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/lab-tests/score-mappings/{id} [delete]
 func (h *LabTestDefinitionHandler) DeleteLabTestScoreMapping(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))

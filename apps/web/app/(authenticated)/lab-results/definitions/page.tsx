@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, Fragment } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import {
@@ -419,9 +419,8 @@ export default function LabTestDefinitionsPage() {
                     ) : table.getRowModel().rows?.length ? (
                       <>
                         {table.getRowModel().rows.map((row) => (
-                          <>
+                          <Fragment key={row.id}>
                             <tr
-                              key={row.id}
                               className="transition-colors hover:bg-muted/50"
                             >
                               {row.getVisibleCells().map((cell) => (
@@ -470,7 +469,7 @@ export default function LabTestDefinitionsPage() {
                                   </td>
                                 </tr>
                               )}
-                          </>
+                          </Fragment>
                         ))}
                       </>
                     ) : (

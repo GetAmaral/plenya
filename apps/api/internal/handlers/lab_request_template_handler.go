@@ -28,8 +28,8 @@ func NewLabRequestTemplateHandler(service *services.LabRequestTemplateService) *
 // @Produce json
 // @Param template body models.LabRequestTemplate true "Lab request template data"
 // @Success 201 {object} models.LabRequestTemplate
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-request-templates [post]
 func (h *LabRequestTemplateHandler) CreateLabRequestTemplate(c *fiber.Ctx) error {
 	var template models.LabRequestTemplate
@@ -63,8 +63,8 @@ func (h *LabRequestTemplateHandler) CreateLabRequestTemplate(c *fiber.Ctx) error
 // @Produce json
 // @Param id path string true "Lab request template ID"
 // @Success 200 {object} models.LabRequestTemplate
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
 // @Router /api/v1/lab-request-templates/{id} [get]
 func (h *LabRequestTemplateHandler) GetLabRequestTemplateByID(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -90,7 +90,7 @@ func (h *LabRequestTemplateHandler) GetLabRequestTemplateByID(c *fiber.Ctx) erro
 // @Produce json
 // @Param withTests query bool false "Include lab tests" default(false)
 // @Success 200 {array} models.LabRequestTemplate
-// @Failure 500 {object} ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-request-templates [get]
 func (h *LabRequestTemplateHandler) GetAllLabRequestTemplates(c *fiber.Ctx) error {
 	withTests := c.QueryBool("withTests", false)
@@ -121,9 +121,9 @@ func (h *LabRequestTemplateHandler) GetAllLabRequestTemplates(c *fiber.Ctx) erro
 // @Param id path string true "Lab request template ID"
 // @Param template body models.LabRequestTemplate true "Updated lab request template data"
 // @Success 200 {object} models.LabRequestTemplate
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-request-templates/{id} [put]
 func (h *LabRequestTemplateHandler) UpdateLabRequestTemplate(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -169,9 +169,9 @@ type UpdateLabRequestTemplateTestsRequest struct {
 // @Param id path string true "Lab request template ID"
 // @Param tests body UpdateLabRequestTemplateTestsRequest true "Test IDs"
 // @Success 200 {object} models.LabRequestTemplate
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-request-templates/{id}/tests [put]
 func (h *LabRequestTemplateHandler) UpdateLabRequestTemplateTests(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -217,9 +217,9 @@ type AddLabTestToTemplateRequest struct {
 // @Param id path string true "Lab request template ID"
 // @Param test body AddLabTestToTemplateRequest true "Test ID"
 // @Success 200 {object} models.LabRequestTemplate
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-request-templates/{id}/tests [post]
 func (h *LabRequestTemplateHandler) AddLabTestToTemplate(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -258,9 +258,9 @@ func (h *LabRequestTemplateHandler) AddLabTestToTemplate(c *fiber.Ctx) error {
 // @Param id path string true "Lab request template ID"
 // @Param testId path string true "Test ID to remove"
 // @Success 200 {object} models.LabRequestTemplate
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-request-templates/{id}/tests/{testId} [delete]
 func (h *LabRequestTemplateHandler) RemoveLabTestFromTemplate(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -298,9 +298,9 @@ func (h *LabRequestTemplateHandler) RemoveLabTestFromTemplate(c *fiber.Ctx) erro
 // @Tags LabRequestTemplates
 // @Param id path string true "Lab request template ID"
 // @Success 204
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-request-templates/{id} [delete]
 func (h *LabRequestTemplateHandler) DeleteLabRequestTemplate(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
@@ -325,8 +325,8 @@ func (h *LabRequestTemplateHandler) DeleteLabRequestTemplate(c *fiber.Ctx) error
 // @Produce json
 // @Param q query string true "Search term"
 // @Success 200 {array} models.LabRequestTemplate
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/lab-request-templates/search [get]
 func (h *LabRequestTemplateHandler) SearchLabRequestTemplates(c *fiber.Ctx) error {
 	searchTerm := c.Query("q")

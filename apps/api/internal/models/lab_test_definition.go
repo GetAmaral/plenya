@@ -27,7 +27,7 @@ const (
 // @Description Definição estruturada de exames e seus parâmetros
 type LabTestDefinition struct {
 	// ID único da definição
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// Código interno único (usado para referência programática)
 	// @example HEMOGRAMA_COMPLETO, HGB, GLUCOSE_FASTING
@@ -145,7 +145,7 @@ func (ltd *LabTestDefinition) BeforeCreate(tx *gorm.DB) error {
 // LabTestScoreMapping mapeia um exame laboratorial para um item do escore
 // @Description Mapeamento entre exame e item do escore Plenya
 type LabTestScoreMapping struct {
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// ID do exame laboratorial
 	LabTestID uuid.UUID `gorm:"type:uuid;not null;index:idx_lab_test_score" json:"labTestId" validate:"required"`

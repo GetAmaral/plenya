@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { CommandPalette } from "@/components/command-palette";
 import { NavigationProgress } from "@/components/navigation-progress";
 import { Suspense } from "react";
+import "@/lib/suppress-dev-logs"; // Suppress verbose development logs
 
 const inter = Inter({
   subsets: ["latin"],

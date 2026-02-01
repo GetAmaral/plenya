@@ -11,7 +11,7 @@ import (
 type Article struct {
 	// Primary Key
 	// @example 550e8400-e29b-41d4-a716-446655440000
-	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// Metadados Bibliográficos Essenciais
 	// @minLength 3
@@ -115,7 +115,7 @@ func (Article) TableName() string {
 // BeforeCreate hook - executado antes de criar registro
 func (a *Article) BeforeCreate(tx *gorm.DB) error {
 	if a.ID == uuid.Nil {
-		a.ID = uuid.New()
+		a.ID = uuid.Must(uuid.NewV7())
 	}
 	return nil
 }
