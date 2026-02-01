@@ -42,9 +42,9 @@ func (h *AnamnesisHandler) Create(c *fiber.Ctx) error {
 		})
 	}
 
-	doctorID := middleware.GetUserID(c)
+	authorID := middleware.GetUserID(c)
 
-	resp, err := h.anamnesisService.Create(doctorID, &req)
+	resp, err := h.anamnesisService.Create(authorID, &req)
 	if err != nil {
 		if errors.Is(err, services.ErrPatientNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
@@ -159,10 +159,10 @@ func (h *AnamnesisHandler) Update(c *fiber.Ctx) error {
 		})
 	}
 
-	doctorID := middleware.GetUserID(c)
+	authorID := middleware.GetUserID(c)
 	userRole := middleware.GetUserRole(c)
 
-	resp, err := h.anamnesisService.Update(anamnesisID, doctorID, userRole, &req)
+	resp, err := h.anamnesisService.Update(anamnesisID, authorID, userRole, &req)
 	if err != nil {
 		if errors.Is(err, services.ErrAnamnesisNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
@@ -189,10 +189,10 @@ func (h *AnamnesisHandler) Delete(c *fiber.Ctx) error {
 		})
 	}
 
-	doctorID := middleware.GetUserID(c)
+	authorID := middleware.GetUserID(c)
 	userRole := middleware.GetUserRole(c)
 
-	err = h.anamnesisService.Delete(anamnesisID, doctorID, userRole)
+	err = h.anamnesisService.Delete(anamnesisID, authorID, userRole)
 	if err != nil {
 		if errors.Is(err, services.ErrAnamnesisNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
