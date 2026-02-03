@@ -121,6 +121,7 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	labRequestRepo := repository.NewLabRequestRepository(database.DB)
 	labRequestTemplateRepo := repository.NewLabRequestTemplateRepository(database.DB)
 	anamnesisTemplateRepo := repository.NewAnamnesisTemplateRepository(database.DB)
+	labResultViewRepo := repository.NewLabResultViewRepository(database.DB)
 
 	// Inicializar services
 	authService := services.NewAuthService(database.DB, cfg)
@@ -130,11 +131,13 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	appointmentService := services.NewAppointmentService(database.DB)
 	prescriptionService := services.NewPrescriptionService(database.DB)
 	labResultService := services.NewLabResultService(database.DB)
+	labResultBatchService := services.NewLabResultBatchService(database.DB)
 	scoreService := services.NewScoreService(scoreRepo)
 	labTestDefService := services.NewLabTestDefinitionService(labTestDefRepo)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
 	labRequestService := services.NewLabRequestService(labRequestRepo, database.DB)
 	labRequestTemplateService := services.NewLabRequestTemplateService(labRequestTemplateRepo)
+	labResultViewService := services.NewLabResultViewService(labResultViewRepo)
 	articleService := services.NewArticleService(database.DB, "./uploads/articles")
 
 	// Inicializar validator
@@ -148,11 +151,13 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
 	prescriptionHandler := handlers.NewPrescriptionHandler(prescriptionService)
 	labResultHandler := handlers.NewLabResultHandler(labResultService)
+	labResultBatchHandler := handlers.NewLabResultBatchHandler(labResultBatchService)
 	scoreHandler := handlers.NewScoreHandler(scoreService, validate)
 	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
 	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
 	labRequestHandler := handlers.NewLabRequestHandler(labRequestService)
 	labRequestTemplateHandler := handlers.NewLabRequestTemplateHandler(labRequestTemplateService)
+	labResultViewHandler := handlers.NewLabResultViewHandler(labResultViewService)
 	articleHandler := handlers.NewArticleHandler(articleService)
 
 	// API v1
@@ -249,6 +254,22 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	labResults.Put("/:id", labResultHandler.Update)
 	labResults.Delete("/:id", middleware.RequireAdmin(), labResultHandler.Delete)
 
+	// Lab Result Batches routes (protegidas - doctors)
+	labResultBatches := v1.Group("/lab-result-batches")
+	labResultBatches.Use(middleware.Auth(cfg))
+	labResultBatches.Use(middleware.AuditLog(database.DB))
+
+	labResultBatches.Get("/", labResultBatchHandler.List)
+	labResultBatches.Post("/", middleware.RequireMedicalStaff(), labResultBatchHandler.Create)
+	labResultBatches.Get("/:id", labResultBatchHandler.GetByID)
+	labResultBatches.Put("/:id", middleware.RequireMedicalStaff(), labResultBatchHandler.Update)
+	labResultBatches.Delete("/:id", middleware.RequireAdmin(), labResultBatchHandler.Delete)
+
+	// Nested routes para results dentro de batch
+	labResultBatches.Post("/:id/results", middleware.RequireMedicalStaff(), labResultBatchHandler.AddResult)
+	labResultBatches.Put("/:batchId/results/:resultId", middleware.RequireMedicalStaff(), labResultBatchHandler.UpdateResult)
+	labResultBatches.Delete("/:batchId/results/:resultId", middleware.RequireAdmin(), labResultBatchHandler.DeleteResult)
+
 	// Lab Requests routes (protegidas - medical staff)
 	labRequests := v1.Group("/lab-requests")
 	labRequests.Use(middleware.Auth(cfg))
@@ -283,6 +304,24 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	labRequestTemplates.Post("/:id/tests", middleware.RequireMedicalStaff(), labRequestTemplateHandler.AddLabTestToTemplate)
 	labRequestTemplates.Delete("/:id/tests/:testId", middleware.RequireMedicalStaff(), labRequestTemplateHandler.RemoveLabTestFromTemplate)
 	labRequestTemplates.Delete("/:id", middleware.RequireAdmin(), labRequestTemplateHandler.DeleteLabRequestTemplate)
+
+	// Lab Result Views routes (protegidas - medical staff)
+	labResultViews := v1.Group("/lab-result-views")
+	labResultViews.Use(middleware.Auth(cfg))
+	labResultViews.Use(middleware.AuditLog(database.DB))
+
+	// Leitura (todos autenticados)
+	labResultViews.Get("/", labResultViewHandler.GetAll)
+	labResultViews.Get("/search", labResultViewHandler.Search)
+	labResultViews.Get("/:id", labResultViewHandler.GetByID)
+
+	// Escrita (medical staff)
+	labResultViews.Post("/", middleware.RequireMedicalStaff(), labResultViewHandler.Create)
+	labResultViews.Put("/:id", middleware.RequireMedicalStaff(), labResultViewHandler.Update)
+	labResultViews.Put("/:id/items", middleware.RequireMedicalStaff(), labResultViewHandler.UpdateItems)
+
+	// Deleção (admin)
+	labResultViews.Delete("/:id", middleware.RequireAdmin(), labResultViewHandler.Delete)
 
 	// Score Groups routes (todas protegidas - dados proprietários)
 	scoreGroups := v1.Group("/score-groups")

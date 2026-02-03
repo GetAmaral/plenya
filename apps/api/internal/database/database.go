@@ -58,16 +58,38 @@ func Connect(cfg *config.Config) error {
 // NOTA: Em produção, usaremos Atlas para migrations
 func AutoMigrate() error {
 	return DB.AutoMigrate(
+		// Core
 		&models.User{},
 		&models.Patient{},
 		&models.AuditLog{},
+
+		// Anamnesis
 		&models.AnamnesisTemplate{},
 		&models.AnamnesisTemplateItem{},
 		&models.Anamnesis{},
 		&models.AnamnesisItem{},
-		&models.LabResult{},
-		&models.Prescription{},
+
+		// Appointments & Prescriptions
 		&models.Appointment{},
+		&models.Prescription{},
+
+		// Lab Tests & Results
+		&models.LabTestDefinition{},
+		&models.LabRequest{},
+		&models.LabRequestTemplate{},
+		&models.LabResult{},
+		&models.LabResultBatch{},
+		&models.LabResultValue{},
+		&models.LabResultView{},
+		&models.LabResultViewItem{},
+
+		// Scores
+		&models.ScoreGroup{},
+		&models.ScoreSubgroup{},
+		&models.ScoreItem{},
+		&models.ScoreLevel{},
+
+		// Articles
 		&models.Article{},
 	)
 }
