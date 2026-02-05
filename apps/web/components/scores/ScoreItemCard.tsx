@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, memo, useEffect } from 'react'
-import { Edit, Trash2, Plus, Info, Calendar } from 'lucide-react'
+import { Edit, Trash2, Plus, Info, Calendar, Copy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { ScoreItem, ScoreLevel, useDeleteScoreItem, useDeleteScoreLevel } from '@/lib/api/score-api'
+import { ScoreItem, ScoreLevel, useDeleteScoreItem, useDeleteScoreLevel, useCreateScoreItem } from '@/lib/api/score-api'
 import { ScoreLevelBadge } from './ScoreLevelBadge'
 import { ScoreItemDialog } from './ScoreItemDialog'
 import { ScoreLevelDialog } from './ScoreLevelDialog'
@@ -39,6 +39,7 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
 
   const deleteItem = useDeleteScoreItem()
   const deleteLevel = useDeleteScoreLevel()
+  const createItem = useCreateScoreItem()
 
   // Sync accordion state with expandClinicalTexts prop
   useEffect(() => {
@@ -49,6 +50,26 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
       setAccordionValue('')
     }
   }, [expandClinicalTexts])
+
+  const handleDuplicate = async () => {
+    try {
+      await createItem.mutateAsync({
+        name: `${item.name} (Cópia)`,
+        unit: item.unit,
+        unitConversion: item.unitConversion,
+        clinicalRelevance: item.clinicalRelevance,
+        patientExplanation: item.patientExplanation,
+        conduct: item.conduct,
+        points: item.points,
+        order: item.order + 1,
+        subgroupId: item.subgroupId,
+        parentItemId: item.parentItemId,
+      })
+      toast.success('Item duplicado com sucesso')
+    } catch (error) {
+      toast.error('Erro ao duplicar item')
+    }
+  }
 
   const handleDeleteItem = async () => {
     try {
@@ -104,14 +125,26 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
                 size="sm"
                 onClick={() => setIsAddLevelDialogOpen(true)}
                 className="h-8 w-8 p-0"
+                title="Adicionar nível"
               >
                 <Plus className="h-4 w-4" />
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
+                onClick={handleDuplicate}
+                className="h-8 w-8 p-0"
+                disabled={createItem.isPending}
+                title="Duplicar item"
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => setIsEditDialogOpen(true)}
                 className="h-8 w-8 p-0"
+                title="Editar item"
               >
                 <Edit className="h-4 w-4" />
               </Button>
@@ -120,6 +153,7 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
                 size="sm"
                 onClick={() => setIsDeleteDialogOpen(true)}
                 className="h-8 w-8 p-0"
+                title="Excluir item"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
