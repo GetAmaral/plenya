@@ -398,10 +398,50 @@ export function useCreateScoreLevel() {
   return useMutation({
     mutationFn: (data: CreateScoreLevelDTO) =>
       apiClient.post<ScoreLevel>('/api/v1/score-levels', data),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: scoreKeys.levelsByItem(data.itemId) })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.groups() })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
+    onSuccess: (newLevel) => {
+      // Update the allGroupTrees cache optimistically by adding the new level
+      queryClient.setQueryData<ScoreGroup[]>(
+        scoreKeys.allGroupTrees(),
+        (oldData) => {
+          if (!oldData) return oldData
+
+          // Deep clone and update
+          return oldData.map(group => {
+            if (!group.subgroups) return group
+
+            const hasItemInGroup = group.subgroups.some(sg =>
+              sg.items?.some(item => item.id === newLevel.itemId)
+            )
+
+            if (!hasItemInGroup) return group
+
+            return {
+              ...group,
+              subgroups: group.subgroups.map(subgroup => {
+                if (!subgroup.items) return subgroup
+
+                const hasItem = subgroup.items.some(item => item.id === newLevel.itemId)
+                if (!hasItem) return subgroup
+
+                return {
+                  ...subgroup,
+                  items: subgroup.items.map(item => {
+                    if (item.id !== newLevel.itemId) return item
+
+                    return {
+                      ...item,
+                      levels: [...(item.levels || []), newLevel]
+                    }
+                  })
+                }
+              })
+            }
+          })
+        }
+      )
+
+      // Invalidate related queries
+      queryClient.invalidateQueries({ queryKey: scoreKeys.levelsByItem(newLevel.itemId) })
     },
   })
 }
@@ -411,11 +451,61 @@ export function useUpdateScoreLevel() {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateScoreLevelDTO }) =>
       apiClient.put<ScoreLevel>(`/api/v1/score-levels/${id}`, data),
-    onSuccess: (data, { id }) => {
-      queryClient.invalidateQueries({ queryKey: scoreKeys.level(id) })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.levelsByItem(data.itemId) })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.groups() })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
+    onSuccess: (updatedLevel, { id }) => {
+      // Update the level in cache
+      queryClient.setQueryData(scoreKeys.level(id), updatedLevel)
+
+      // Update the level in the allGroupTrees cache optimistically
+      queryClient.setQueryData<ScoreGroup[]>(
+        scoreKeys.allGroupTrees(),
+        (oldData) => {
+          if (!oldData) return oldData
+
+          // Deep clone and update
+          return oldData.map(group => {
+            if (!group.subgroups) return group
+
+            const hasLevelInGroup = group.subgroups.some(sg =>
+              sg.items?.some(item => item.levels?.some(level => level.id === id))
+            )
+
+            if (!hasLevelInGroup) return group
+
+            return {
+              ...group,
+              subgroups: group.subgroups.map(subgroup => {
+                if (!subgroup.items) return subgroup
+
+                const hasLevelInSubgroup = subgroup.items.some(item =>
+                  item.levels?.some(level => level.id === id)
+                )
+
+                if (!hasLevelInSubgroup) return subgroup
+
+                return {
+                  ...subgroup,
+                  items: subgroup.items.map(item => {
+                    if (!item.levels) return item
+
+                    const hasLevel = item.levels.some(level => level.id === id)
+                    if (!hasLevel) return item
+
+                    return {
+                      ...item,
+                      levels: item.levels.map(level =>
+                        level.id === id ? updatedLevel : level
+                      )
+                    }
+                  })
+                }
+              })
+            }
+          })
+        }
+      )
+
+      // Invalidate related queries
+      queryClient.invalidateQueries({ queryKey: scoreKeys.levelsByItem(updatedLevel.itemId) })
     },
   })
 }
@@ -424,10 +514,54 @@ export function useDeleteScoreLevel() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (id: string) => apiClient.delete(`/api/v1/score-levels/${id}`),
+    onMutate: async (id) => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: scoreKeys.allGroupTrees() })
+
+      // Snapshot the previous value
+      const previousData = queryClient.getQueryData<ScoreGroup[]>(scoreKeys.allGroupTrees())
+
+      // Optimistically update by removing the level
+      queryClient.setQueryData<ScoreGroup[]>(
+        scoreKeys.allGroupTrees(),
+        (oldData) => {
+          if (!oldData) return oldData
+
+          return oldData.map(group => {
+            if (!group.subgroups) return group
+
+            return {
+              ...group,
+              subgroups: group.subgroups.map(subgroup => {
+                if (!subgroup.items) return subgroup
+
+                return {
+                  ...subgroup,
+                  items: subgroup.items.map(item => {
+                    if (!item.levels) return item
+
+                    return {
+                      ...item,
+                      levels: item.levels.filter(level => level.id !== id)
+                    }
+                  })
+                }
+              })
+            }
+          })
+        }
+      )
+
+      return { previousData }
+    },
+    onError: (_err, _id, context) => {
+      // Rollback on error
+      if (context?.previousData) {
+        queryClient.setQueryData(scoreKeys.allGroupTrees(), context.previousData)
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: scoreKeys.levels() })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.groups() })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
     },
   })
 }
