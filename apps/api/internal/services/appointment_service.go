@@ -76,7 +76,7 @@ func (s *AppointmentService) Create(userID uuid.UUID, req *dto.CreateAppointment
 		}
 		return nil, err
 	}
-	if doctor.Role != models.RoleDoctor {
+	if !doctor.IsGranted(models.RoleDoctor) {
 		return nil, errors.New("user is not a doctor")
 	}
 
@@ -119,7 +119,7 @@ func (s *AppointmentService) Create(userID uuid.UUID, req *dto.CreateAppointment
 }
 
 // GetByID busca uma consulta por ID
-func (s *AppointmentService) GetByID(appointmentID, userID uuid.UUID, userRole models.UserRole) (*dto.AppointmentResponse, error) {
+func (s *AppointmentService) GetByID(appointmentID, userID uuid.UUID, userRole models.Role) (*dto.AppointmentResponse, error) {
 	// CRITICAL SECURITY: Get user's selected patient
 	var user models.User
 	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
@@ -146,7 +146,7 @@ func (s *AppointmentService) GetByID(appointmentID, userID uuid.UUID, userRole m
 }
 
 // List lista consultas com filtros
-func (s *AppointmentService) List(userID uuid.UUID, userRole models.UserRole, patientID, doctorID *uuid.UUID, status *models.AppointmentStatus, limit, offset int) ([]dto.AppointmentResponse, error) {
+func (s *AppointmentService) List(userID uuid.UUID, userRole models.Role, patientID, doctorID *uuid.UUID, status *models.AppointmentStatus, limit, offset int) ([]dto.AppointmentResponse, error) {
 	// CRITICAL SECURITY: Get user's selected patient
 	var user models.User
 	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
@@ -181,7 +181,7 @@ func (s *AppointmentService) List(userID uuid.UUID, userRole models.UserRole, pa
 }
 
 // Update atualiza uma consulta
-func (s *AppointmentService) Update(appointmentID, userID uuid.UUID, userRole models.UserRole, req *dto.UpdateAppointmentRequest) (*dto.AppointmentResponse, error) {
+func (s *AppointmentService) Update(appointmentID, userID uuid.UUID, userRole models.Role, req *dto.UpdateAppointmentRequest) (*dto.AppointmentResponse, error) {
 	var appointment models.Appointment
 	query := s.db.Where("id = ?", appointmentID)
 
@@ -249,7 +249,7 @@ func (s *AppointmentService) Update(appointmentID, userID uuid.UUID, userRole mo
 }
 
 // Cancel cancela uma consulta
-func (s *AppointmentService) Cancel(appointmentID, userID uuid.UUID, userRole models.UserRole, req *dto.CancelAppointmentRequest) (*dto.AppointmentResponse, error) {
+func (s *AppointmentService) Cancel(appointmentID, userID uuid.UUID, userRole models.Role, req *dto.CancelAppointmentRequest) (*dto.AppointmentResponse, error) {
 	var appointment models.Appointment
 	if err := s.db.Where("id = ?", appointmentID).First(&appointment).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -285,7 +285,7 @@ func (s *AppointmentService) Cancel(appointmentID, userID uuid.UUID, userRole mo
 }
 
 // Delete faz soft delete de uma consulta
-func (s *AppointmentService) Delete(appointmentID uuid.UUID, userRole models.UserRole) error {
+func (s *AppointmentService) Delete(appointmentID uuid.UUID, userRole models.Role) error {
 	if userRole != models.RoleAdmin {
 		return ErrUnauthorized
 	}

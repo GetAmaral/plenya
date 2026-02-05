@@ -26,7 +26,11 @@ func (r *AnamnesisTemplateRepository) GetByID(id uuid.UUID, withItems bool) (*mo
 
 	if withItems {
 		query = query.Preload("Items", func(db *gorm.DB) *gorm.DB {
-			return db.Order("\"order\" ASC").Preload("ScoreItem")
+			return db.Order("\"order\" ASC").
+				Preload("ScoreItem.Subgroup.Group").
+				Preload("ScoreItem.Levels", func(db *gorm.DB) *gorm.DB {
+					return db.Order("level ASC")
+				})
 		})
 	}
 
@@ -44,7 +48,11 @@ func (r *AnamnesisTemplateRepository) GetAll(withItems bool) ([]models.Anamnesis
 
 	if withItems {
 		query = query.Preload("Items", func(db *gorm.DB) *gorm.DB {
-			return db.Order("\"order\" ASC").Preload("ScoreItem")
+			return db.Order("\"order\" ASC").
+				Preload("ScoreItem.Subgroup.Group").
+				Preload("ScoreItem.Levels", func(db *gorm.DB) *gorm.DB {
+					return db.Order("level ASC")
+				})
 		})
 	}
 

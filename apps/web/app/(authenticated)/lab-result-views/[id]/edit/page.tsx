@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { labResultViewApi } from '@/lib/api/lab-result-view-api'
-import { labTestDefinitionApi } from '@/lib/api/lab-test-definition-api'
+import { getRequestableLabTests } from '@/lib/api/lab-request-templates'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -73,9 +73,9 @@ export default function LabResultViewEditPage({
 
   // Buscar todos os testes disponíveis
   const { data: allTests = [], isLoading: isLoadingTests } = useQuery({
-    queryKey: ['lab-test-definitions'],
+    queryKey: ['requestable-lab-tests'],
     queryFn: async () => {
-      const tests = await labTestDefinitionApi.getAllLabTestDefinitions()
+      const tests = await getRequestableLabTests()
       return tests.map((test) => ({
         id: test.id,
         name: test.name,
@@ -237,7 +237,7 @@ export default function LabResultViewEditPage({
                   <FormItem>
                     <FormLabel>Nome</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: Hemograma Completo" {...field} />
+                      <Input placeholder="Ex: View padrão" {...field} />
                     </FormControl>
                     <FormDescription>
                       Nome descritivo da view.

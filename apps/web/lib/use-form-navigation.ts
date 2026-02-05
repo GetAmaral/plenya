@@ -17,12 +17,19 @@ interface UseFormNavigationOptions {
    * Se não fornecido, faz submit automático do formulário
    */
   onLastFieldEnter?: () => void;
+
+  /**
+   * Se true, foca automaticamente no primeiro campo quando o formulário carrega
+   * @default true
+   */
+  autoFocus?: boolean;
 }
 
 /**
  * Hook para navegação de formulário com Enter
  *
  * Comportamento:
+ * - Auto-focus no primeiro campo quando o formulário carrega (padrão)
  * - Enter em qualquer campo (exceto textarea) move para o próximo campo
  * - Enter no último campo faz submit do formulário
  * - Tab continua funcionando normalmente
@@ -45,7 +52,41 @@ export function useFormNavigation({
   formRef,
   disabled = false,
   onLastFieldEnter,
+  autoFocus = true,
 }: UseFormNavigationOptions) {
+  // Auto-focus no primeiro campo quando o formulário carrega
+  useEffect(() => {
+    if (disabled || !formRef.current || !autoFocus) return;
+
+    const form = formRef.current;
+
+    // Pequeno delay para garantir que o DOM foi renderizado
+    const timeoutId = setTimeout(() => {
+      // Pega o primeiro elemento focável do formulário
+      const firstFocusableElement = form.querySelector<HTMLElement>(
+        'input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [role="combobox"]:not([disabled])'
+      );
+
+      if (firstFocusableElement) {
+        firstFocusableElement.focus();
+
+        // Se for input de texto, seleciona o conteúdo
+        if (
+          firstFocusableElement instanceof HTMLInputElement &&
+          (firstFocusableElement.type === "text" ||
+            firstFocusableElement.type === "email" ||
+            firstFocusableElement.type === "tel" ||
+            firstFocusableElement.type === "number")
+        ) {
+          firstFocusableElement.select();
+        }
+      }
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [formRef, disabled, autoFocus]);
+
+  // Navegação com Enter entre campos
   useEffect(() => {
     if (disabled || !formRef.current) return;
 

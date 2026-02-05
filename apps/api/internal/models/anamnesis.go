@@ -14,6 +14,7 @@ const (
 	VisibilityAll         AnamnesisVisibility = "all"
 	VisibilityMedicalOnly AnamnesisVisibility = "medicalOnly"
 	VisibilityPsychOnly   AnamnesisVisibility = "psychOnly"
+	VisibilityAuthorOnly  AnamnesisVisibility = "authorOnly"
 )
 
 // Anamnesis representa uma anamnese (histórico médico) do paciente
@@ -56,9 +57,9 @@ type Anamnesis struct {
 	SummaryHtml *string `gorm:"type:text" json:"summaryHtml,omitempty"`
 
 	// Visibilidade da anamnese
-	// @enum all,medicalOnly,psychOnly
+	// @enum all,medicalOnly,psychOnly,authorOnly
 	// @example all
-	Visibility AnamnesisVisibility `gorm:"type:varchar(20);not null;default:'all';check:visibility IN ('all','medicalOnly','psychOnly')" json:"visibility" validate:"required,oneof=all medicalOnly psychOnly"`
+	Visibility AnamnesisVisibility `gorm:"type:varchar(20);not null;default:'all';check:visibility IN ('all','medicalOnly','psychOnly','authorOnly')" json:"visibility" validate:"required,oneof=all medicalOnly psychOnly authorOnly"`
 
 	// Observações gerais (opcional)
 	// @example Paciente colaborativo, anamnese detalhada

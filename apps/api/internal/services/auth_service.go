@@ -32,9 +32,9 @@ func NewAuthService(db *gorm.DB, cfg *config.Config) *AuthService {
 
 // JWTClaims representa os claims do JWT
 type JWTClaims struct {
-	UserID string           `json:"userId"`
-	Email  string           `json:"email"`
-	Role   models.UserRole  `json:"role"`
+	UserID string   `json:"userId"`
+	Email  string   `json:"email"`
+	Roles  []string `json:"roles"`
 	jwt.RegisteredClaims
 }
 
@@ -51,12 +51,17 @@ func (s *AuthService) Register(req *dto.RegisterRequest) (*dto.AuthResponse, err
 	if err != nil {
 		return nil, err
 	}
+	passwordStr := string(hashedPassword)
 
 	// Criar usuário
 	user := models.User{
 		Email:        req.Email,
-		PasswordHash: string(hashedPassword),
-		Role:         req.Role,
+		PasswordHash: &passwordStr,
+	}
+
+	// Set roles
+	if err := user.SetRoles(req.Roles); err != nil {
+		return nil, err
 	}
 
 	if err := s.db.Create(&user).Error; err != nil {
@@ -75,8 +80,17 @@ func (s *AuthService) Login(req *dto.LoginRequest) (*dto.AuthResponse, error) {
 		return nil, ErrInvalidCredentials
 	}
 
+	// Verificar se é usuário OAuth (sem senha)
+	if user.PasswordHash == nil {
+		provider := "OAuth"
+		if user.OAuthProvider != nil {
+			provider = *user.OAuthProvider
+		}
+		return nil, errors.New("esta conta usa login " + provider + " - use o botão OAuth")
+	}
+
 	// Verificar senha
-	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(*user.PasswordHash), []byte(req.Password)); err != nil {
 		return nil, ErrInvalidCredentials
 	}
 
@@ -145,7 +159,7 @@ func (s *AuthService) generateToken(user *models.User, expiry time.Duration) (st
 	claims := JWTClaims{
 		UserID: user.ID.String(),
 		Email:  user.Email,
-		Role:   user.Role,
+		Roles:  user.GetRoles(),
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(expiry)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -234,8 +248,10 @@ func (s *AuthService) UpdatePreferences(userID uuid.UUID, preferences map[string
 func (s *AuthService) userToDTO(user *models.User) *dto.UserDTO {
 	userDTO := &dto.UserDTO{
 		ID:               user.ID.String(),
+		Name:             user.Name,
 		Email:            user.Email,
-		Role:             user.Role,
+		CPF:              user.CPF,
+		Roles:            user.GetRoles(),
 		TwoFactorEnabled: user.TwoFactorEnabled,
 		CreatedAt:        user.CreatedAt.Format(time.RFC3339),
 	}
@@ -276,4 +292,9 @@ func (s *AuthService) userToDTO(user *models.User) *dto.UserDTO {
 	}
 
 	return userDTO
+}
+
+// GenerateAuthResponse gera JWT tokens para um user (público para uso em OAuthService)
+func (s *AuthService) GenerateAuthResponse(user *models.User) (*dto.AuthResponse, error) {
+	return s.generateAuthResponse(user)
 }

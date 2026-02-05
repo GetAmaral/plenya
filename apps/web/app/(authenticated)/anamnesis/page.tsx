@@ -31,7 +31,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { getAllAnamnesis, type Anamnesis } from "@/lib/api/anamnesis";
 import { CreateAnamnesisForm, EditAnamnesisForm } from "@/components/anamnesis/AnamnesisForm";
 
-type AnamnesisVisibility = "all" | "medicalOnly" | "psychOnly";
+type AnamnesisVisibility = "all" | "medicalOnly" | "psychOnly" | "authorOnly";
 
 export default function AnamnesisPage() {
   useRequireAuth();
@@ -62,9 +62,15 @@ export default function AnamnesisPage() {
         return "Apenas Médicos";
       case "psychOnly":
         return "Apenas Psicólogos";
+      case "authorOnly":
+        return "Apenas Autor";
       default:
         return visibility;
     }
+  };
+
+  const isContentRestricted = (anamnesis: Anamnesis) => {
+    return anamnesis.summary === "Conteúdo restrito" || anamnesis.content === "Conteúdo restrito";
   };
 
   const getVisibilityIcon = (visibility: AnamnesisVisibility) => {
@@ -217,18 +223,12 @@ export default function AnamnesisPage() {
                   <CardHeader>
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 space-y-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <div
-                            className="html-content font-semibold"
-                            dangerouslySetInnerHTML={{
-                              __html: anamnesis.summaryHtml || anamnesis.summary || "Sem resumo"
-                            }}
-                          />
-                          <Badge variant="outline" className="gap-1">
-                            <VisibilityIcon className="h-3 w-3" />
-                            {getVisibilityLabel(anamnesis.visibility)}
-                          </Badge>
-                        </div>
+                        <div
+                          className="html-content font-semibold"
+                          dangerouslySetInnerHTML={{
+                            __html: anamnesis.summaryHtml || anamnesis.summary || "Sem resumo"
+                          }}
+                        />
                         <CardDescription className="flex items-center gap-4 flex-wrap text-sm">
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
@@ -243,44 +243,161 @@ export default function AnamnesisPage() {
                           {anamnesis.author && (
                             <span className="flex items-center gap-1">
                               <User className="h-3 w-3" />
-                              {anamnesis.author.email}
+                              {anamnesis.author.name}
                             </span>
                           )}
                         </CardDescription>
                       </div>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setEditingAnamnesis(anamnesis)}
-                        >
-                          Editar
-                        </Button>
+                      <div className="flex items-center gap-2">
+                        {anamnesis.visibility !== "all" && (
+                          <Badge variant="outline" className="gap-1">
+                            <VisibilityIcon className="h-3 w-3" />
+                            {getVisibilityLabel(anamnesis.visibility)}
+                          </Badge>
+                        )}
+                        {!isContentRestricted(anamnesis) && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setEditingAnamnesis(anamnesis)}
+                          >
+                            Editar
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </CardHeader>
-                  {(anamnesis.contentHtml || anamnesis.content || anamnesis.notes) && (
+                  {(anamnesis.contentHtml || anamnesis.content || anamnesis.notes || (anamnesis.items && anamnesis.items.length > 0)) && (
                     <CardContent className="space-y-3">
-                      {(anamnesis.contentHtml || anamnesis.content) && (
-                        <div>
-                          <h4 className="text-sm font-medium mb-1">Conteúdo:</h4>
-                          <div
-                            className="text-sm text-muted-foreground line-clamp-3 html-content"
-                            style={{ whiteSpace: 'pre-wrap' }}
-                            dangerouslySetInnerHTML={{
-                              __html: anamnesis.contentHtml || anamnesis.content || ''
-                            }}
-                          />
-                        </div>
-                      )}
-                      {anamnesis.notes && (
-                        <div>
-                          <h4 className="text-sm font-medium mb-1">Observações:</h4>
-                          <p className="text-sm text-muted-foreground line-clamp-2 whitespace-pre-wrap">
-                            {anamnesis.notes}
+                      {isContentRestricted(anamnesis) ? (
+                        <div className="flex items-center gap-2 p-3 rounded-md bg-muted/50 border border-muted">
+                          <Lock className="h-4 w-4 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground italic">
+                            Conteúdo restrito
                           </p>
                         </div>
+                      ) : (
+                        <>
+                          {(anamnesis.contentHtml || anamnesis.content) && (
+                            <div>
+                              <h4 className="text-sm font-medium mb-1">Conteúdo:</h4>
+                              <div
+                                className="text-sm text-muted-foreground line-clamp-3 html-content"
+                                style={{ whiteSpace: 'pre-wrap' }}
+                                dangerouslySetInnerHTML={{
+                                  __html: anamnesis.contentHtml || anamnesis.content || ''
+                                }}
+                              />
+                            </div>
+                          )}
+                          {anamnesis.notes && (
+                            <div>
+                              <h4 className="text-sm font-medium mb-1">Observações:</h4>
+                              <p className="text-sm text-muted-foreground line-clamp-2 whitespace-pre-wrap">
+                                {anamnesis.notes}
+                              </p>
+                            </div>
+                          )}
+                        </>
                       )}
+                      {anamnesis.items && anamnesis.items.length > 0 && (() => {
+                        // Organize items by group and subgroup
+                        const itemsByGroup = new Map<string, {
+                          group: any,
+                          subgroups: Map<string, {
+                            subgroup: any,
+                            items: any[]
+                          }>
+                        }>();
+
+                        anamnesis.items
+                          .filter(item => item.scoreItem?.subgroup?.group)
+                          .forEach(item => {
+                            const group = item.scoreItem!.subgroup!.group!;
+                            const subgroup = item.scoreItem!.subgroup!;
+
+                            if (!itemsByGroup.has(group.id)) {
+                              itemsByGroup.set(group.id, {
+                                group,
+                                subgroups: new Map()
+                              });
+                            }
+
+                            const groupData = itemsByGroup.get(group.id)!;
+
+                            if (!groupData.subgroups.has(subgroup.id)) {
+                              groupData.subgroups.set(subgroup.id, {
+                                subgroup,
+                                items: []
+                              });
+                            }
+
+                            groupData.subgroups.get(subgroup.id)!.items.push(item);
+                          });
+
+                        const LEVEL_STYLES = {
+                          0: { bg: 'bg-red-100', text: 'text-red-900', border: 'border-red-500' },
+                          1: { bg: 'bg-orange-100', text: 'text-orange-900', border: 'border-orange-500' },
+                          2: { bg: 'bg-yellow-100', text: 'text-yellow-900', border: 'border-yellow-500' },
+                          3: { bg: 'bg-blue-100', text: 'text-blue-900', border: 'border-blue-500' },
+                          4: { bg: 'bg-green-100', text: 'text-green-900', border: 'border-green-500' },
+                          5: { bg: 'bg-emerald-100', text: 'text-emerald-900', border: 'border-emerald-500' },
+                          6: { bg: 'bg-gray-100', text: 'text-gray-900', border: 'border-gray-500' },
+                        };
+
+                        return (
+                          <div>
+                            <h4 className="text-sm font-medium mb-3">Items Preenchidos:</h4>
+                            <div className="space-y-3">
+                              {Array.from(itemsByGroup.values()).map(({ group, subgroups }) => (
+                                <Card key={group.id} className="overflow-hidden border-gray-200">
+                                  <CardHeader className="bg-gray-50 pb-2">
+                                    <CardTitle className="text-sm font-semibold text-gray-900">
+                                      {group.name}
+                                    </CardTitle>
+                                  </CardHeader>
+                                  <CardContent className="pt-3 space-y-3">
+                                    {Array.from(subgroups.values()).map(({ subgroup, items }) => (
+                                      <div key={subgroup.id} className="space-y-2">
+                                        <h5 className="text-xs font-medium text-muted-foreground">
+                                          {subgroup.name}
+                                        </h5>
+                                        <div className="space-y-2">
+                                          {items.map((item: any) => {
+                                            const scoreItem = item.scoreItem;
+                                            const selectedLevel = scoreItem.levels?.find((l: any) => l.level === item.numericValue);
+                                            const levelStyle = selectedLevel ? LEVEL_STYLES[selectedLevel.level as keyof typeof LEVEL_STYLES] || LEVEL_STYLES[6] : null;
+
+                                            return (
+                                              <div key={item.id} className="text-xs border rounded-md p-2 bg-card">
+                                                <div className="flex items-start gap-2">
+                                                  <div className="flex-1">
+                                                    <span className="font-semibold">{scoreItem.name}</span>
+                                                    {item.textValue && (
+                                                      <span className="font-normal text-muted-foreground">
+                                                        {': '}{item.textValue}
+                                                      </span>
+                                                    )}
+                                                  </div>
+                                                  {selectedLevel && levelStyle && (
+                                                    <span className={`text-xs px-2 py-0.5 rounded-full border-2 font-bold whitespace-nowrap ${levelStyle.bg} ${levelStyle.text} ${levelStyle.border}`}>
+                                                      N{selectedLevel.level}: {selectedLevel.name}
+                                                    </span>
+                                                  )}
+                                                </div>
+                                              </div>
+                                            );
+                                          })}
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </CardContent>
+                                </Card>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })()}
                     </CardContent>
                   )}
                 </Card>

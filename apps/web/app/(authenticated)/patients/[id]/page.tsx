@@ -14,6 +14,8 @@ import {
   Ruler,
   Weight as WeightIcon,
   Edit,
+  MapPin,
+  CreditCard,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -27,9 +29,13 @@ interface Patient {
   id: string;
   userId: string;
   name: string;
+  cpf?: string;
   birthDate: string;
   gender: "male" | "female" | "other";
   phone?: string;
+  address?: string;
+  municipality?: string;
+  state?: string;
   motherName?: string;
   fatherName?: string;
   height?: number;
@@ -83,6 +89,13 @@ export default function PatientDetailPage() {
       (1000 * 60 * 60 * 24 * 365.25)
   );
 
+  // Formatar CPF: 12345678900 -> 123.456.789-00
+  const formatCPF = (cpf: string) => {
+    const cleaned = cpf.replace(/\D/g, "");
+    if (cleaned.length !== 11) return cpf;
+    return `${cleaned.slice(0, 3)}.${cleaned.slice(3, 6)}.${cleaned.slice(6, 9)}-${cleaned.slice(9)}`;
+  };
+
   return (
     <div className="min-h-screen p-6">
       <div className="mx-auto max-w-4xl">
@@ -125,6 +138,16 @@ export default function PatientDetailPage() {
                 <p className="font-medium">{patient.name}</p>
               </div>
 
+              {patient.cpf && (
+                <div>
+                  <p className="text-sm text-muted-foreground">CPF</p>
+                  <div className="flex items-center gap-2">
+                    <CreditCard className="h-4 w-4 text-muted-foreground" />
+                    <p className="font-medium font-mono">{formatCPF(patient.cpf)}</p>
+                  </div>
+                </div>
+              )}
+
               <div>
                 <p className="text-sm text-muted-foreground">
                   Data de Nascimento
@@ -153,6 +176,30 @@ export default function PatientDetailPage() {
                   <div className="flex items-center gap-2">
                     <Phone className="h-4 w-4 text-muted-foreground" />
                     <p className="font-medium">{patient.phone}</p>
+                  </div>
+                </div>
+              )}
+
+              {patient.address && (
+                <div>
+                  <p className="text-sm text-muted-foreground">Endereço</p>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <p className="font-medium">{patient.address}</p>
+                  </div>
+                </div>
+              )}
+
+              {(patient.municipality || patient.state) && (
+                <div>
+                  <p className="text-sm text-muted-foreground">Localização</p>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <p className="font-medium">
+                      {patient.municipality && patient.municipality}
+                      {patient.municipality && patient.state && " - "}
+                      {patient.state && patient.state}
+                    </p>
                   </div>
                 </div>
               )}

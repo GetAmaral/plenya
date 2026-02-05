@@ -12,7 +12,8 @@ import (
 )
 
 var (
-	ErrAnamnesisNotFound = errors.New("anamnesis not found")
+	ErrAnamnesisNotFound   = errors.New("anamnesis not found")
+	ErrAnamnesisRestricted = errors.New("you don't have permission to view this anamnesis content")
 )
 
 type AnamnesisService struct {
@@ -21,6 +22,29 @@ type AnamnesisService struct {
 
 func NewAnamnesisService(db *gorm.DB) *AnamnesisService {
 	return &AnamnesisService{db: db}
+}
+
+// CanViewFullContent verifica se o usuário tem permissão para ver o conteúdo completo da anamnese
+func (s *AnamnesisService) CanViewFullContent(anamnesis *models.Anamnesis, userID uuid.UUID, userRole models.Role) bool {
+	// Admin sempre tem acesso total
+	if userRole == models.RoleAdmin {
+		return true
+	}
+
+	switch anamnesis.Visibility {
+	case models.VisibilityAll:
+		return true
+	case models.VisibilityAuthorOnly:
+		return anamnesis.AuthorID == userID
+	case models.VisibilityMedicalOnly:
+		return userRole == models.RoleDoctor
+	case models.VisibilityPsychOnly:
+		// TODO: Adicionar RolePsychologist quando implementado
+		// Por enquanto, ninguém além de admin pode ver (admin já retornou true acima)
+		return false
+	default:
+		return false
+	}
 }
 
 // Create cria uma nova anamnese
@@ -136,11 +160,11 @@ func (s *AnamnesisService) Create(authorID uuid.UUID, req *dto.CreateAnamnesisRe
 		return nil, err
 	}
 
-	return s.toDTO(&anamnesis), nil
+	return s.toDTO(&anamnesis, false), nil
 }
 
 // GetByID busca uma anamnese por ID
-func (s *AnamnesisService) GetByID(anamnesisID, userID uuid.UUID, userRole models.UserRole) (*dto.AnamnesisResponse, error) {
+func (s *AnamnesisService) GetByID(anamnesisID, userID uuid.UUID, userRole models.Role) (*dto.AnamnesisResponse, error) {
 	// CRITICAL SECURITY: Get user's selected patient
 	var user models.User
 	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
@@ -154,9 +178,14 @@ func (s *AnamnesisService) GetByID(anamnesisID, userID uuid.UUID, userRole model
 
 	// ALWAYS filter by selectedPatient (all roles including admin)
 	var anamnesis models.Anamnesis
-	query := s.db.Preload("Items", func(db *gorm.DB) *gorm.DB {
-		return db.Order("\"order\" ASC")
-	}).Where("id = ?", anamnesisID).Where("patient_id = ?", *user.SelectedPatientID)
+	query := s.db.
+		Preload("Author").
+		Preload("AnamnesisTemplate").
+		Preload("Items", func(db *gorm.DB) *gorm.DB {
+			return db.Order("\"order\" ASC")
+		}).
+		Where("id = ?", anamnesisID).
+		Where("patient_id = ?", *user.SelectedPatientID)
 
 	if err := query.First(&anamnesis).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -165,11 +194,17 @@ func (s *AnamnesisService) GetByID(anamnesisID, userID uuid.UUID, userRole model
 		return nil, err
 	}
 
-	return s.toDTO(&anamnesis), nil
+	// Check if user has permission to view full content
+	// For GetByID (detail/edit), deny access if restricted
+	if !s.CanViewFullContent(&anamnesis, userID, userRole) {
+		return nil, ErrAnamnesisRestricted
+	}
+
+	return s.toDTO(&anamnesis, false), nil
 }
 
 // List lista anamneses com filtros
-func (s *AnamnesisService) List(userID uuid.UUID, userRole models.UserRole, patientID *uuid.UUID, limit, offset int) ([]dto.AnamnesisResponse, error) {
+func (s *AnamnesisService) List(userID uuid.UUID, userRole models.Role, patientID *uuid.UUID, limit, offset int) ([]dto.AnamnesisResponse, error) {
 	// CRITICAL SECURITY: Get user's selected patient
 	var user models.User
 	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
@@ -183,10 +218,20 @@ func (s *AnamnesisService) List(userID uuid.UUID, userRole models.UserRole, pati
 
 	// ALWAYS filter by selectedPatient (all roles including admin)
 	var anamneses []models.Anamnesis
-	query := s.db.Preload("Items", func(db *gorm.DB) *gorm.DB {
-		return db.Order("\"order\" ASC")
-	}).Limit(limit).Offset(offset).Order("consultation_date DESC")
-	query = query.Where("patient_id = ?", *user.SelectedPatientID)
+	query := s.db.
+		Preload("Author").
+		Preload("AnamnesisTemplate").
+		Preload("Items", func(db *gorm.DB) *gorm.DB {
+			return db.Order("\"order\" ASC").
+				Preload("ScoreItem.Subgroup.Group").
+				Preload("ScoreItem.Levels", func(db *gorm.DB) *gorm.DB {
+					return db.Order("level ASC")
+				})
+		}).
+		Limit(limit).
+		Offset(offset).
+		Order("consultation_date DESC").
+		Where("patient_id = ?", *user.SelectedPatientID)
 
 	if err := query.Find(&anamneses).Error; err != nil {
 		return nil, err
@@ -194,14 +239,16 @@ func (s *AnamnesisService) List(userID uuid.UUID, userRole models.UserRole, pati
 
 	result := make([]dto.AnamnesisResponse, len(anamneses))
 	for i, a := range anamneses {
-		result[i] = *s.toDTO(&a)
+		// Check if content should be restricted
+		restricted := !s.CanViewFullContent(&a, userID, userRole)
+		result[i] = *s.toDTO(&a, restricted)
 	}
 
 	return result, nil
 }
 
 // Update atualiza uma anamnese
-func (s *AnamnesisService) Update(anamnesisID, authorID uuid.UUID, userRole models.UserRole, req *dto.UpdateAnamnesisRequest) (*dto.AnamnesisResponse, error) {
+func (s *AnamnesisService) Update(anamnesisID, authorID uuid.UUID, userRole models.Role, req *dto.UpdateAnamnesisRequest) (*dto.AnamnesisResponse, error) {
 	var anamnesis models.Anamnesis
 	query := s.db.Where("id = ?", anamnesisID)
 
@@ -317,11 +364,11 @@ func (s *AnamnesisService) Update(anamnesisID, authorID uuid.UUID, userRole mode
 		return nil, err
 	}
 
-	return s.toDTO(&anamnesis), nil
+	return s.toDTO(&anamnesis, false), nil
 }
 
 // Delete faz soft delete de uma anamnese
-func (s *AnamnesisService) Delete(anamnesisID, authorID uuid.UUID, userRole models.UserRole) error {
+func (s *AnamnesisService) Delete(anamnesisID, authorID uuid.UUID, userRole models.Role) error {
 	query := s.db.Where("id = ?", anamnesisID)
 
 	// Apenas o autor que criou pode deletar (ou admin)
@@ -342,33 +389,72 @@ func (s *AnamnesisService) Delete(anamnesisID, authorID uuid.UUID, userRole mode
 }
 
 // toDTO converte Anamnesis para AnamnesisResponse
-func (s *AnamnesisService) toDTO(anamnesis *models.Anamnesis) *dto.AnamnesisResponse {
+// Se restricted=true, oculta conteúdo sensível
+func (s *AnamnesisService) toDTO(anamnesis *models.Anamnesis, restricted bool) *dto.AnamnesisResponse {
 	response := &dto.AnamnesisResponse{
 		ID:               anamnesis.ID.String(),
 		PatientID:        anamnesis.PatientID.String(),
 		AuthorID:         anamnesis.AuthorID.String(),
 		ConsultationDate: anamnesis.ConsultationDate.Format(time.RFC3339),
-		Content:          anamnesis.Content,
-		ContentHtml:      anamnesis.ContentHtml,
-		Summary:          anamnesis.Summary,
-		SummaryHtml:      anamnesis.SummaryHtml,
 		Visibility:       string(anamnesis.Visibility),
-		Notes:            anamnesis.Notes,
 		CreatedAt:        anamnesis.CreatedAt.Format(time.RFC3339),
 		UpdatedAt:        anamnesis.UpdatedAt.Format(time.RFC3339),
 	}
 
-	// Add template ID if present
-	if anamnesis.AnamnesisTemplateID != nil {
+	// If content is restricted, hide sensitive data
+	if restricted {
+		restrictedMsg := "Conteúdo restrito"
+		response.Content = &restrictedMsg
+		response.ContentHtml = &restrictedMsg
+		response.Summary = &restrictedMsg
+		response.SummaryHtml = &restrictedMsg
+		response.Notes = nil
+		// Don't include items for restricted content
+	} else {
+		response.Content = anamnesis.Content
+		response.ContentHtml = anamnesis.ContentHtml
+		response.Summary = anamnesis.Summary
+		response.SummaryHtml = anamnesis.SummaryHtml
+		response.Notes = anamnesis.Notes
+	}
+
+	// Add template ID if present (only if not restricted)
+	if !restricted && anamnesis.AnamnesisTemplateID != nil {
 		templateID := anamnesis.AnamnesisTemplateID.String()
 		response.AnamnesisTemplateID = &templateID
 	}
 
-	// Convert items
-	if len(anamnesis.Items) > 0 {
+	// Add Author if preloaded
+	if anamnesis.Author.ID != uuid.Nil {
+		// Get primary role (first one or most privileged)
+		roles := anamnesis.Author.GetRoles()
+		primaryRole := ""
+		if len(roles) > 0 {
+			primaryRole = roles[0]
+		}
+
+		response.Author = &dto.AuthorBrief{
+			ID:    anamnesis.Author.ID.String(),
+			Name:  anamnesis.Author.Name,
+			Email: anamnesis.Author.Email,
+			Role:  primaryRole,
+		}
+	}
+
+	// Add AnamnesisTemplate if preloaded (only if not restricted)
+	if !restricted && anamnesis.AnamnesisTemplate != nil && anamnesis.AnamnesisTemplate.ID != uuid.Nil {
+		response.AnamnesisTemplate = &dto.AnamnesisTemplateBrief{
+			ID:   anamnesis.AnamnesisTemplate.ID.String(),
+			Name: anamnesis.AnamnesisTemplate.Name,
+			Area: string(anamnesis.AnamnesisTemplate.Area),
+		}
+	}
+
+	// Convert items (only if not restricted)
+	if !restricted && len(anamnesis.Items) > 0 {
 		response.Items = make([]dto.AnamnesisItemResponse, len(anamnesis.Items))
 		for i, item := range anamnesis.Items {
-			response.Items[i] = dto.AnamnesisItemResponse{
+			itemResponse := dto.AnamnesisItemResponse{
 				ID:           item.ID.String(),
 				ScoreItemID:  item.ScoreItemID.String(),
 				TextValue:    item.TextValue,
@@ -377,6 +463,91 @@ func (s *AnamnesisService) toDTO(anamnesis *models.Anamnesis) *dto.AnamnesisResp
 				CreatedAt:    item.CreatedAt.Format(time.RFC3339),
 				UpdatedAt:    item.UpdatedAt.Format(time.RFC3339),
 			}
+
+			// Include ScoreItem if preloaded
+			if item.ScoreItem != nil {
+				scoreItem := &dto.ScoreItemBrief{
+					ID:                 item.ScoreItem.ID.String(),
+					Name:               item.ScoreItem.Name,
+					Unit:               item.ScoreItem.Unit,
+					UnitConversion:     item.ScoreItem.UnitConversion,
+					ClinicalRelevance:  item.ScoreItem.ClinicalRelevance,
+					PatientExplanation: item.ScoreItem.PatientExplanation,
+					Conduct:            item.ScoreItem.Conduct,
+					Points:             item.ScoreItem.Points,
+					Order:              item.ScoreItem.Order,
+					SubgroupID:         item.ScoreItem.SubgroupID.String(),
+					CreatedAt:          item.ScoreItem.CreatedAt.Format(time.RFC3339),
+					UpdatedAt:          item.ScoreItem.UpdatedAt.Format(time.RFC3339),
+				}
+
+				if item.ScoreItem.LastReview != nil {
+					lr := item.ScoreItem.LastReview.Format(time.RFC3339)
+					scoreItem.LastReview = &lr
+				}
+
+				if item.ScoreItem.ParentItemID != nil {
+					pid := item.ScoreItem.ParentItemID.String()
+					scoreItem.ParentItemID = &pid
+				}
+
+				// Include Subgroup if preloaded
+				if item.ScoreItem.Subgroup != nil {
+					subgroup := &dto.ScoreSubgroupBrief{
+						ID:        item.ScoreItem.Subgroup.ID.String(),
+						Name:      item.ScoreItem.Subgroup.Name,
+						Order:     item.ScoreItem.Subgroup.Order,
+						GroupID:   item.ScoreItem.Subgroup.GroupID.String(),
+						CreatedAt: item.ScoreItem.Subgroup.CreatedAt.Format(time.RFC3339),
+						UpdatedAt: item.ScoreItem.Subgroup.UpdatedAt.Format(time.RFC3339),
+					}
+
+					// Include Group if preloaded
+					if item.ScoreItem.Subgroup.Group != nil {
+						subgroup.Group = &dto.ScoreGroupBrief{
+							ID:        item.ScoreItem.Subgroup.Group.ID.String(),
+							Name:      item.ScoreItem.Subgroup.Group.Name,
+							Order:     item.ScoreItem.Subgroup.Group.Order,
+							CreatedAt: item.ScoreItem.Subgroup.Group.CreatedAt.Format(time.RFC3339),
+							UpdatedAt: item.ScoreItem.Subgroup.Group.UpdatedAt.Format(time.RFC3339),
+						}
+					}
+
+					scoreItem.Subgroup = subgroup
+				}
+
+				// Include Levels if preloaded
+				if len(item.ScoreItem.Levels) > 0 {
+					scoreItem.Levels = make([]dto.ScoreLevelBrief, len(item.ScoreItem.Levels))
+					for j, level := range item.ScoreItem.Levels {
+						levelBrief := dto.ScoreLevelBrief{
+							ID:           level.ID.String(),
+							Level:        level.Level,
+							Name:         level.Name,
+							LowerLimit:   level.LowerLimit,
+							UpperLimit:   level.UpperLimit,
+							Operator:     level.Operator,
+							ClinicalRelevance: level.ClinicalRelevance,
+							PatientExplanation: level.PatientExplanation,
+							Conduct:      level.Conduct,
+							ItemID:       level.ItemID.String(),
+							CreatedAt:    level.CreatedAt.Format(time.RFC3339),
+							UpdatedAt:    level.UpdatedAt.Format(time.RFC3339),
+						}
+
+						if level.LastReview != nil {
+							lr := level.LastReview.Format(time.RFC3339)
+							levelBrief.LastReview = &lr
+						}
+
+						scoreItem.Levels[j] = levelBrief
+					}
+				}
+
+				itemResponse.ScoreItem = scoreItem
+			}
+
+			response.Items[i] = itemResponse
 		}
 	}
 

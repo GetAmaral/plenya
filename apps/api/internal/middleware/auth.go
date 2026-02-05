@@ -13,9 +13,9 @@ import (
 
 // AuthClaims representa os claims do JWT
 type AuthClaims struct {
-	UserID string           `json:"userId"`
-	Email  string           `json:"email"`
-	Role   models.UserRole  `json:"role"`
+	UserID string   `json:"userId"`
+	Email  string   `json:"email"`
+	Roles  []string `json:"roles"`
 	jwt.RegisteredClaims
 }
 
@@ -69,7 +69,7 @@ func Auth(cfg *config.Config) fiber.Handler {
 		// Armazenar informações do usuário no contexto
 		c.Locals("userID", userID)
 		c.Locals("userEmail", claims.Email)
-		c.Locals("userRole", claims.Role)
+		c.Locals("userRoles", claims.Roles)
 
 		return c.Next()
 	}
@@ -85,7 +85,48 @@ func GetUserEmail(c *fiber.Ctx) string {
 	return c.Locals("userEmail").(string)
 }
 
-// GetUserRole retorna a role do usuário do contexto
-func GetUserRole(c *fiber.Ctx) models.UserRole {
-	return c.Locals("userRole").(models.UserRole)
+// GetUserRoles retorna as roles do usuário do contexto
+func GetUserRoles(c *fiber.Ctx) []string {
+	return c.Locals("userRoles").([]string)
+}
+
+// HasRole verifica se o usuário tem uma role específica
+func HasRole(c *fiber.Ctx, role models.Role) bool {
+	roles := GetUserRoles(c)
+	for _, r := range roles {
+		if r == string(role) {
+			return true
+		}
+	}
+	return false
+}
+
+// GetPrimaryRole retorna o role mais privilegiado do usuário (para compatibilidade)
+// Ordem de privilégio: admin > manager > doctor > psychologist > nutritionist > physicalEducator > nurse > secretary > patient
+func GetPrimaryRole(c *fiber.Ctx) models.Role {
+	roles := GetUserRoles(c)
+
+	// Ordem de prioridade
+	priorityOrder := []models.Role{
+		models.RoleAdmin,
+		models.RoleManager,
+		models.RoleDoctor,
+		models.RolePsychologist,
+		models.RoleNutritionist,
+		models.RolePhysicalEducator,
+		models.RoleNurse,
+		models.RoleSecretary,
+		models.RolePatient,
+	}
+
+	for _, priority := range priorityOrder {
+		for _, userRole := range roles {
+			if userRole == string(priority) {
+				return priority
+			}
+		}
+	}
+
+	// Fallback (nunca deve acontecer)
+	return models.RolePatient
 }

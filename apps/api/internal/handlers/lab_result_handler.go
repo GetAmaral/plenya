@@ -72,9 +72,8 @@ func (h *LabResultHandler) GetByID(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
 
-	resp, err := h.labResultService.GetByID(labResultID, userID, userRole)
+	resp, err := h.labResultService.GetByID(labResultID, userID)
 	if err != nil {
 		if errors.Is(err, services.ErrLabResultNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
@@ -106,18 +105,8 @@ func (h *LabResultHandler) List(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
 
-	// Parse optional patient ID filter
-	var patientID *uuid.UUID
-	if patientIDStr := c.Query("patientId"); patientIDStr != "" {
-		pid, err := uuid.Parse(patientIDStr)
-		if err == nil {
-			patientID = &pid
-		}
-	}
-
-	resp, err := h.labResultService.List(userID, userRole, patientID, limit, offset)
+	resp, err := h.labResultService.List(userID, limit, offset)
 	if err != nil {
 		if errors.Is(err, services.ErrUnauthorized) {
 			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{
@@ -160,9 +149,8 @@ func (h *LabResultHandler) Update(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
 
-	resp, err := h.labResultService.Update(labResultID, userID, userRole, &req)
+	resp, err := h.labResultService.Update(labResultID, userID, &req)
 	if err != nil {
 		if errors.Is(err, services.ErrLabResultNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
@@ -196,7 +184,7 @@ func (h *LabResultHandler) Delete(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := string(middleware.GetPrimaryRole(c))
 
 	err = h.labResultService.Delete(labResultID, userID, userRole)
 	if err != nil {

@@ -63,6 +63,15 @@ func (s *LabRequestService) GetLabRequestByID(id uuid.UUID) (*models.LabRequest,
 	return s.repo.GetLabRequestByID(id)
 }
 
+// GetLabRequestWithRelations retrieves a lab request with Patient and Doctor relationships
+func (s *LabRequestService) GetLabRequestWithRelations(id uuid.UUID) (*models.LabRequest, error) {
+	var req models.LabRequest
+	if err := s.db.Preload("Patient").Preload("Doctor").First(&req, id).Error; err != nil {
+		return nil, err
+	}
+	return &req, nil
+}
+
 // GetLabRequestsByPatientID retrieves all lab requests for a patient
 func (s *LabRequestService) GetLabRequestsByPatientID(patientID uuid.UUID) ([]models.LabRequest, error) {
 	return s.repo.GetLabRequestsByPatientID(patientID)
@@ -98,6 +107,12 @@ func (s *LabRequestService) UpdateLabRequest(id uuid.UUID, req *models.LabReques
 	existing.DoctorID = req.DoctorID
 	existing.LabRequestTemplateID = req.LabRequestTemplateID
 	existing.PdfURL = req.PdfURL
+
+	// Campos de assinatura digital
+	existing.SignedPDFPath = req.SignedPDFPath
+	existing.SignedPDFHash = req.SignedPDFHash
+	existing.QRCodeData = req.QRCodeData
+	existing.SignedAt = req.SignedAt
 
 	return s.repo.UpdateLabRequest(existing)
 }

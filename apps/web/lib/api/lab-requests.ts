@@ -9,6 +9,9 @@ export interface LabRequest {
   doctorId?: string
   labRequestTemplateId?: string
   pdfUrl?: string
+  signedPdfHash?: string
+  signedAt?: string
+  qrCodeData?: string
   createdAt: string
   updatedAt: string
   patient?: {

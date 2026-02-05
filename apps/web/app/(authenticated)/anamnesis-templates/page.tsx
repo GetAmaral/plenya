@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { usePatientGuard } from '@/lib/use-patient-guard'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -55,6 +56,7 @@ import { AnamnesisTemplateItemSelector } from '@/components/anamnesis/anamnesis-
 const AREAS: AnamnesisTemplateArea[] = ['Medicina', 'Nutricao', 'Psicologia', 'Educacao Fisica']
 
 export default function AnamnesisTemplatesPage() {
+  usePatientGuard(); // Restrict access to staff only
   const queryClient = useQueryClient()
 
   // State

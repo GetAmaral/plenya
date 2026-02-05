@@ -23,26 +23,49 @@ import {
   Menu,
   X,
   FileCheck,
+  Shield,
+  User as UserIcon,
+  Pill,
+  ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
+import { isGranted, type UserRole } from "@/lib/auth-store";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { ROLES, ROLE_BADGE_COLORS, getRoleColor, getRoleLabel } from "@/lib/roles";
 
-const navigation = [
+type NavigationItem = {
+  name: string;
+  href: string;
+  icon: any;
+  adminOnly?: boolean;
+  staffOnly?: boolean; // Restritas a profissionais (não patients)
+};
+
+const navigation: NavigationItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
-  { name: "Pacientes", href: "/patients", icon: Users },
+  { name: "Pacientes", href: "/patients", icon: Users, staffOnly: true },
   { name: "Consultas", href: "/appointments", icon: Calendar },
   { name: "Anamneses", href: "/anamnesis", icon: Stethoscope },
-  { name: "Templates de Anamnese", href: "/anamnesis-templates", icon: FileCheck },
+  { name: "Templates de Anamnese", href: "/anamnesis-templates", icon: FileCheck, staffOnly: true },
   { name: "Prescrições", href: "/prescriptions", icon: FileText },
   { name: "Exames", href: "/lab-results", icon: Microscope },
-  { name: "Views de Resultados", href: "/lab-result-views", icon: LayoutList },
-  { name: "Pedidos de Exames", href: "/lab-requests", icon: ClipboardList },
-  { name: "Template de Pedido de Exame", href: "/lab-request-templates", icon: LayoutTemplate },
-  { name: "Escores", href: "/scores", icon: Network },
+  { name: "Views de Resultados", href: "/lab-result-views", icon: LayoutList, staffOnly: true },
+  { name: "Pedidos de Exames", href: "/lab-requests", icon: ClipboardList, staffOnly: true },
+  { name: "Template de Pedido de Exame", href: "/lab-request-templates", icon: LayoutTemplate, staffOnly: true },
+  { name: "Escores", href: "/scores", icon: Network, staffOnly: true },
   { name: "Artigos", href: "/articles", icon: BookOpen },
+  { name: "Usuários", href: "/admin/users", icon: Shield, adminOnly: true },
+  { name: "Definições de Medicamentos", href: "/admin/medication-definitions", icon: Pill, adminOnly: true },
+  { name: "Certificados Digitais", href: "/admin/certificates", icon: ShieldCheck, adminOnly: true },
 ];
+
+// Helper: check if user is patient-only (only has patient role, no other roles)
+const isPatientOnly = (user: any) => {
+  if (!user?.roles || !Array.isArray(user.roles)) return false;
+  return user.roles.includes("patient") && user.roles.length === 1;
+};
 
 export function CollapsibleSidebar() {
   const pathname = usePathname();
@@ -50,6 +73,12 @@ export function CollapsibleSidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Wait for Zustand hydration before showing admin-only items
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   // Detect mobile
   useEffect(() => {
@@ -99,35 +128,6 @@ export function CollapsibleSidebar() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isCollapsed, isMobile]);
 
-  const getRoleColor = (role: string) => {
-    switch (role) {
-      case "admin":
-        return "destructive";
-      case "doctor":
-        return "default";
-      case "nurse":
-        return "secondary";
-      case "patient":
-        return "outline";
-      default:
-        return "outline";
-    }
-  };
-
-  const getRoleLabel = (role: string) => {
-    switch (role) {
-      case "admin":
-        return "Administrador";
-      case "doctor":
-        return "Médico";
-      case "nurse":
-        return "Enfermeiro";
-      case "patient":
-        return "Paciente";
-      default:
-        return role;
-    }
-  };
 
   const sidebarWidth = isCollapsed ? 80 : 256;
 
@@ -187,56 +187,78 @@ export function CollapsibleSidebar() {
 
             {/* Navigation */}
             <nav className="flex-1 space-y-1 overflow-y-auto p-4">
-              {navigation.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+              {navigation
+                .filter((item) => {
+                  // Filter admin-only items
+                  if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) {
+                    return false;
+                  }
+                  // Filter staff-only items for patient-only users
+                  if (item.staffOnly && isHydrated && isPatientOnly(user)) {
+                    return false;
+                  }
+                  return true;
+                })
+                .map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
 
-                return (
-                  <Link key={item.name} href={item.href}>
-                    <div
-                      className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                        isActive
-                          ? "bg-primary text-primary-foreground shadow-sm"
-                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                      )}
-                    >
-                      <Icon className="h-5 w-5 shrink-0" />
-                      <span>{item.name}</span>
-                    </div>
-                  </Link>
-                );
-              })}
+                  return (
+                    <Link key={item.name} href={item.href}>
+                      <div
+                        className={cn(
+                          "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                          isActive
+                            ? "bg-primary text-primary-foreground shadow-sm"
+                            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                        )}
+                      >
+                        <Icon className="h-5 w-5 shrink-0" />
+                        <span>{item.name}</span>
+                      </div>
+                    </Link>
+                  );
+                })}
             </nav>
 
             {/* User section */}
             <div className="border-t border-border p-4">
-              <div className="flex items-center gap-3 rounded-lg bg-accent/50 p-3">
-                <Avatar className="h-10 w-10 shrink-0">
-                  <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
-                    {user?.email.substring(0, 2).toUpperCase() || "US"}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 overflow-hidden">
-                  <p className="truncate text-sm font-medium">
-                    {user?.email || "Usuário"}
-                  </p>
-                  {user?.role && (
-                    <Badge
-                      variant={
-                        getRoleColor(user.role) as
-                          | "default"
-                          | "secondary"
-                          | "destructive"
-                          | "outline"
-                      }
-                      className="mt-1 text-xs"
-                    >
-                      {getRoleLabel(user.role)}
-                    </Badge>
-                  )}
+              <Link href="/profile">
+                <div className="flex items-center gap-3 rounded-lg bg-accent/50 p-3 cursor-pointer hover:bg-accent transition-colors">
+                  <Avatar className="h-10 w-10 shrink-0">
+                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
+                      {user?.name?.substring(0, 2).toUpperCase() || user?.email.substring(0, 2).toUpperCase() || "US"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 overflow-hidden">
+                    <p className="truncate text-sm font-medium">
+                      {user?.name || user?.email || "Usuário"}
+                    </p>
+                    {user?.roles && user.roles.length > 0 && (
+                      <div className="mt-1 flex flex-wrap gap-1">
+                        {(() => {
+                          const primaryRole = user.roles[0];
+                          const colorScheme = getRoleColor(primaryRole as UserRole);
+                          const badgeClasses = ROLE_BADGE_COLORS[colorScheme as keyof typeof ROLE_BADGE_COLORS];
+                          return (
+                            <Badge
+                              variant="outline"
+                              className={cn("text-xs border", badgeClasses.active, badgeClasses.border)}
+                            >
+                              {getRoleLabel(primaryRole as UserRole)}
+                            </Badge>
+                          );
+                        })()}
+                        {user.roles.length > 1 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{user.roles.length - 1}
+                          </Badge>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </Link>
 
               <button
                 onClick={logout}
@@ -293,60 +315,82 @@ export function CollapsibleSidebar() {
 
         {/* Navigation */}
         <nav className="flex-1 space-y-1 overflow-y-auto p-4">
-          {navigation.map((item) => {
-            const Icon = item.icon;
-            const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+          {navigation
+            .filter((item) => {
+              // Filter admin-only items
+              if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) {
+                return false;
+              }
+              // Filter staff-only items for patient-only users
+              if (item.staffOnly && isHydrated && isPatientOnly(user)) {
+                return false;
+              }
+              return true;
+            })
+            .map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
 
-            return (
-              <Link key={item.name} href={item.href}>
-                <div
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-                    isCollapsed && "justify-center"
-                  )}
-                  title={isCollapsed ? item.name : undefined}
-                >
-                  <Icon className="h-5 w-5 shrink-0" />
-                  {!isCollapsed && <span>{item.name}</span>}
-                </div>
-              </Link>
-            );
-          })}
+              return (
+                <Link key={item.name} href={item.href}>
+                  <div
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                      isCollapsed && "justify-center"
+                    )}
+                    title={isCollapsed ? item.name : undefined}
+                  >
+                    <Icon className="h-5 w-5 shrink-0" />
+                    {!isCollapsed && <span>{item.name}</span>}
+                  </div>
+                </Link>
+              );
+            })}
         </nav>
 
         {/* User Section */}
         <div className="border-t border-border p-4">
           {!isCollapsed ? (
             <>
-              <div className="flex items-center gap-3 rounded-lg bg-accent/50 p-3">
-                <Avatar className="h-10 w-10 shrink-0">
-                  <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
-                    {user?.email.substring(0, 2).toUpperCase() || "US"}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 overflow-hidden">
-                  <p className="truncate text-sm font-medium">
-                    {user?.email || "Usuário"}
-                  </p>
-                  {user?.role && (
-                    <Badge
-                      variant={
-                        getRoleColor(user.role) as
-                          | "default"
-                          | "secondary"
-                          | "destructive"
-                          | "outline"
-                      }
-                      className="mt-1 text-xs"
-                    >
-                      {getRoleLabel(user.role)}
-                    </Badge>
-                  )}
+              <Link href="/profile">
+                <div className="flex items-center gap-3 rounded-lg bg-accent/50 p-3 cursor-pointer hover:bg-accent transition-colors">
+                  <Avatar className="h-10 w-10 shrink-0">
+                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
+                      {user?.name?.substring(0, 2).toUpperCase() || user?.email.substring(0, 2).toUpperCase() || "US"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 overflow-hidden">
+                    <p className="truncate text-sm font-medium">
+                      {user?.name || user?.email || "Usuário"}
+                    </p>
+                    {user?.roles && user.roles.length > 0 && (
+                      <div className="mt-1 flex flex-wrap gap-1">
+                        {(() => {
+                          const primaryRole = user.roles[0];
+                          const colorScheme = getRoleColor(primaryRole as UserRole);
+                          const badgeClasses = ROLE_BADGE_COLORS[colorScheme as keyof typeof ROLE_BADGE_COLORS];
+                          return (
+                            <Badge
+                              variant="outline"
+                              className={cn("text-xs border", badgeClasses.active, badgeClasses.border)}
+                            >
+                              {getRoleLabel(primaryRole as UserRole)}
+                            </Badge>
+                          );
+                        })()}
+                        {user.roles.length > 1 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{user.roles.length - 1}
+                          </Badge>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </Link>
 
               <button
                 onClick={logout}
@@ -366,11 +410,13 @@ export function CollapsibleSidebar() {
             </>
           ) : (
             <div className="flex flex-col items-center gap-2">
-              <Avatar className="h-10 w-10">
-                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
-                  {user?.email.substring(0, 2).toUpperCase() || "US"}
-                </AvatarFallback>
-              </Avatar>
+              <Link href="/profile" title="Meu Perfil">
+                <Avatar className="h-10 w-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all">
+                  <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
+                    {user?.name?.substring(0, 2).toUpperCase() || user?.email.substring(0, 2).toUpperCase() || "US"}
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
 
               <button
                 onClick={logout}

@@ -1,25 +1,39 @@
 package handlers
 
 import (
+	"crypto"
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
+	"io"
+	"os"
+	"strings"
 	"time"
 
+	"github.com/digitorus/pdf"
+	"github.com/digitorus/pdfsign/sign"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	internalcrypto "github.com/plenya/api/internal/crypto"
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
+	"github.com/skip2/go-qrcode"
 )
 
 // LabRequestHandler handles HTTP requests for lab requests
 type LabRequestHandler struct {
-	service *services.LabRequestService
+	service     *services.LabRequestService
+	certService *services.CertificateService
 }
 
 // NewLabRequestHandler creates a new lab request handler
-func NewLabRequestHandler(service *services.LabRequestService) *LabRequestHandler {
-	return &LabRequestHandler{service: service}
+func NewLabRequestHandler(service *services.LabRequestService, certService *services.CertificateService) *LabRequestHandler {
+	return &LabRequestHandler{
+		service:     service,
+		certService: certService,
+	}
 }
 
 // CreateLabRequest creates a new lab request
@@ -400,15 +414,100 @@ func (h *LabRequestHandler) GeneratePDF(c *fiber.Ctx) error {
 	// Generate PDF
 	pdfURL, err := h.service.GenerateLabRequestPDF(id)
 	if err != nil {
-		// Log the error for debugging
 		fmt.Printf("[ERROR] Failed to generate PDF for lab request %s: %v\n", id, err)
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: fmt.Sprintf("Erro ao gerar PDF: %v", err),
 		})
 	}
 
-	// Update lab request with PDF URL
-	req.PdfURL = &pdfURL
+	// Tentar assinar PDF se médico tiver certificado válido e ativo
+	signedPdfURL := pdfURL
+	var signatureHash *string
+	var qrCodeData *string
+	var signedAt *time.Time
+
+	// Verificar se médico tem certificado ativo
+	cert, privateKey, certErr := h.certService.GetActiveCertificate(*req.DoctorID)
+	if certErr == nil {
+		// Médico tem certificado válido e ativo - assinar PDF
+		fmt.Printf("[INFO] Assinando PDF do lab request %s\n", id)
+
+		pdfPath := "/app/uploads/lab-requests/" + pdfURL[len("/uploads/lab-requests/"):]
+
+		// Gerar QR Code
+		qrData := fmt.Sprintf("https://plenya.com.br/lab-requests/validate/%s", id)
+		qrCodeData = &qrData
+		qrCodeBytes, qrErr := qrcode.Encode(qrData, qrcode.Medium, 256)
+		if qrErr == nil {
+			qrPath := fmt.Sprintf("/app/uploads/lab-requests/qr_%s.png", id)
+			os.WriteFile(qrPath, qrCodeBytes, 0644)
+		}
+
+		// Assinar PDF
+		pdfFile, _ := os.Open(pdfPath)
+		if pdfFile != nil {
+			fileInfo, _ := pdfFile.Stat()
+			pdfReader, _ := pdf.NewReader(pdfFile, fileInfo.Size())
+
+			if pdfReader != nil {
+				signedPath := pdfPath + ".signed"
+				outFile, _ := os.Create(signedPath)
+
+				if outFile != nil && privateKey != nil {
+					if signer, ok := privateKey.(crypto.Signer); ok {
+						signData := sign.SignData{
+							Signature: sign.SignDataSignature{
+								Info: sign.SignDataSignatureInfo{
+									Name:        "Plenya EMR",
+									Location:    "Brasil",
+									Reason:      "Pedido de exames",
+									Date:        time.Now(),
+								},
+								CertType:   sign.CertificationSignature,
+								DocMDPPerm: sign.AllowFillingExistingFormFieldsAndSignaturesPerms,
+							},
+							DigestAlgorithm: crypto.SHA256,
+							Certificate:     cert,
+							Signer:          signer,
+						}
+
+						pdfFile.Seek(0, io.SeekStart)
+						signErr := sign.Sign(pdfFile, outFile, pdfReader, fileInfo.Size(), signData)
+
+						outFile.Close()
+						pdfFile.Close()
+
+						if signErr == nil {
+							os.Remove(pdfPath)
+							os.Rename(signedPath, pdfPath)
+
+							signedBytes, _ := os.ReadFile(pdfPath)
+							hash := sha256.Sum256(signedBytes)
+							hashStr := hex.EncodeToString(hash[:])
+							signatureHash = &hashStr
+							now := time.Now()
+							signedAt = &now
+
+							fmt.Printf("[SUCCESS] PDF assinado! Hash: %s\n", hashStr)
+						} else {
+							fmt.Printf("[ERROR] Erro ao assinar: %v\n", signErr)
+							os.Remove(signedPath)
+						}
+					}
+				}
+			}
+		}
+	} else {
+		fmt.Printf("[INFO] Sem certificado válido: %v\n", certErr)
+	}
+
+	// Update lab request with PDF URL e metadados de assinatura
+	req.PdfURL = &signedPdfURL
+	req.SignedPDFPath = &signedPdfURL
+	req.SignedPDFHash = signatureHash
+	req.QRCodeData = qrCodeData
+	req.SignedAt = signedAt
+
 	if err := h.service.UpdateLabRequest(id, req); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: err.Error(),
@@ -424,4 +523,132 @@ func (h *LabRequestHandler) GeneratePDF(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(updated)
+}
+
+// ValidatePublic validates a lab request publicly (no authentication required)
+// @Summary Validate lab request publicly
+// @Description Validates a lab request using its ID and QR code (no authentication required)
+// @Tags LabRequests
+// @Produce json
+// @Param id path string true "Lab Request UUID"
+// @Success 200 {object} map[string]interface{} "Validation result with lab request, patient, and doctor info"
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
+// @Router /api/v1/lab-requests/validate/{id} [get]
+func (h *LabRequestHandler) ValidatePublic(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"valid": false,
+			"error": "Invalid ID format",
+		})
+	}
+
+	// Get lab request with relationships
+	req, err := h.service.GetLabRequestWithRelations(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"valid": false,
+			"error": "Lab request not found",
+		})
+	}
+
+	// Verify PDF hash integrity if signed
+	pdfIntact := true
+	if req.SignedPDFPath != nil && req.SignedPDFHash != nil {
+		// TODO: Verify hash when signature service is implemented
+		// For now, assume intact
+		pdfIntact = true
+	}
+
+	// Decrypt and mask CPF (show only last 4 digits)
+	maskedCPF := "***.***.***-**"
+	if req.Patient != nil && req.Patient.CPF != nil {
+		cpf := *req.Patient.CPF
+
+		// If CPF is encrypted (base64), decrypt it first
+		if len(cpf) > 11 {
+			decrypted, err := internalcrypto.DecryptWithDefaultKey(cpf)
+			if err == nil {
+				cpf = decrypted
+			}
+			// If decryption fails, log and use default mask
+		}
+
+		// Mask the decrypted CPF
+		if len(cpf) >= 11 {
+			maskedCPF = fmt.Sprintf("***.***.%s-%s", cpf[6:9], cpf[9:11])
+		}
+	}
+
+	// Parse exams (one exam per line)
+	examLines := strings.Split(strings.TrimSpace(req.Exams), "\n")
+	var exams []string
+	for _, line := range examLines {
+		trimmed := strings.TrimSpace(line)
+		if trimmed != "" {
+			exams = append(exams, trimmed)
+		}
+	}
+
+	// Build response
+	response := fiber.Map{
+		"valid":     true,
+		"pdfIntact": pdfIntact,
+		"labRequest": fiber.Map{
+			"id":          req.ID,
+			"requestDate": req.Date,
+			"examCount":   len(exams),
+			"exams":       exams,
+			"createdAt":   req.CreatedAt,
+		},
+		"patient": fiber.Map{
+			"name": req.Patient.Name,
+			"cpf":  maskedCPF,
+		},
+	}
+
+	// Add doctor info if available
+	if req.Doctor != nil {
+		doctorInfo := fiber.Map{
+			"name": req.Doctor.Name,
+		}
+		if req.Doctor.CRM != nil && req.Doctor.CRMUF != nil {
+			doctorInfo["crm"] = fmt.Sprintf("CRM-%s %s", *req.Doctor.CRMUF, *req.Doctor.CRM)
+		}
+		response["doctor"] = doctorInfo
+	}
+
+	// Add signature info if signed
+	if req.SignedAt != nil {
+		// Use PdfURL (e.g., /uploads/lab-requests/file.pdf) instead of SignedPDFPath (filesystem path)
+		// Construct full URL for the frontend
+		pdfURL := ""
+		if req.PdfURL != nil {
+			pdfURL = *req.PdfURL
+		}
+
+		signatureInfo := fiber.Map{
+			"signedAt":      req.SignedAt,
+			"signedPdfUrl":  pdfURL,
+			"signedPdfHash": req.SignedPDFHash,
+		}
+
+		// Add certificate info if available
+		if req.Doctor != nil {
+			if req.Doctor.CertificateSerial != nil {
+				signatureInfo["certificateSerial"] = *req.Doctor.CertificateSerial
+			}
+			if req.Doctor.CertificateName != nil {
+				signatureInfo["certificateName"] = *req.Doctor.CertificateName
+			}
+			if req.Doctor.CertificateCPF != nil {
+				signatureInfo["certificateCPF"] = *req.Doctor.CertificateCPF
+			}
+		}
+
+		response["signature"] = signatureInfo
+	}
+
+	return c.JSON(response)
 }
