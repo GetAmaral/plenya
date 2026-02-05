@@ -48,6 +48,7 @@ import {
 } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TagsInput } from "@/components/ui/tags-input";
 import type { LabTestDefinition } from "@/lib/api/lab-test-api";
 
 interface LabTestDefinitionFormProps {
@@ -184,6 +185,27 @@ export function LabTestDefinitionForm({
                 )}
               />
             </div>
+
+            <FormField
+              control={form.control}
+              name="altNames"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nomes Alternativos</FormLabel>
+                  <FormControl>
+                    <TagsInput
+                      value={field.value || []}
+                      onChange={field.onChange}
+                      placeholder="Digite variações do nome e pressione Enter"
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Variações do nome encontradas em laudos (serão normalizados: lower + sem acentos)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <div className="grid grid-cols-2 gap-4">
               <FormField

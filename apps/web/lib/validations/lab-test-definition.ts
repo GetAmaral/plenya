@@ -25,6 +25,11 @@ export const labTestDefinitionSchema = z.object({
     .optional()
     .or(z.literal("")),
 
+  altNames: z
+    .array(z.string().min(1, "Nome alternativo não pode ser vazio"))
+    .optional()
+    .default([]),
+
   tussCode: z
     .string()
     .max(20, "Código TUSS deve ter no máximo 20 caracteres")
@@ -108,6 +113,7 @@ export const getDefaultValues = (): LabTestDefinitionFormValues => ({
   code: "",
   name: "",
   shortName: "",
+  altNames: [],
   tussCode: "",
   loincCode: "",
   category: "biochemistry",
@@ -130,35 +136,57 @@ export const getDefaultValues = (): LabTestDefinitionFormValues => ({
  */
 export const apiToFormValues = (
   data: any
-): LabTestDefinitionFormValues => ({
-  code: data.code || "",
-  name: data.name || "",
-  shortName: data.shortName || "",
-  tussCode: data.tussCode || "",
-  loincCode: data.loincCode || "",
-  category: data.category,
-  isRequestable: data.isRequestable ?? true,
-  parentTestId: data.parentTestId || "",
-  unit: data.unit || "",
-  unitConversion: data.unitConversion || "",
-  resultType: data.resultType,
-  collectionMethod: data.collectionMethod || "",
-  fastingHours: data.fastingHours ?? null,
-  specimenType: data.specimenType || "",
-  description: data.description || "",
-  clinicalIndications: data.clinicalIndications || "",
-  displayOrder: data.displayOrder ?? 0,
-  isActive: data.isActive ?? true,
-});
+): LabTestDefinitionFormValues => {
+  // Parse altNames from JSON string to array
+  let altNames: string[] = [];
+  if (data.altNames) {
+    try {
+      altNames = typeof data.altNames === "string"
+        ? JSON.parse(data.altNames)
+        : data.altNames;
+    } catch (e) {
+      console.error("Failed to parse altNames:", e);
+      altNames = [];
+    }
+  }
+
+  return {
+    code: data.code || "",
+    name: data.name || "",
+    shortName: data.shortName || "",
+    altNames: altNames,
+    tussCode: data.tussCode || "",
+    loincCode: data.loincCode || "",
+    category: data.category,
+    isRequestable: data.isRequestable ?? true,
+    parentTestId: data.parentTestId || "",
+    unit: data.unit || "",
+    unitConversion: data.unitConversion || "",
+    resultType: data.resultType,
+    collectionMethod: data.collectionMethod || "",
+    fastingHours: data.fastingHours ?? null,
+    specimenType: data.specimenType || "",
+    description: data.description || "",
+    clinicalIndications: data.clinicalIndications || "",
+    displayOrder: data.displayOrder ?? 0,
+    isActive: data.isActive ?? true,
+  };
+};
 
 /**
  * Convert form values to API payload
  */
 export const formToApiValues = (values: LabTestDefinitionFormValues) => {
+  // Convert altNames array to JSON string for backend
+  const altNamesJson = values.altNames && values.altNames.length > 0
+    ? JSON.stringify(values.altNames)
+    : undefined;
+
   return {
     code: values.code,
     name: values.name,
     shortName: values.shortName || undefined,
+    altNames: altNamesJson,
     tussCode: values.tussCode || undefined,
     loincCode: values.loincCode || undefined,
     category: values.category,

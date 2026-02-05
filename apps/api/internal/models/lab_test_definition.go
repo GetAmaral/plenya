@@ -1,9 +1,15 @@
 package models
 
 import (
+	"encoding/json"
+	"strings"
 	"time"
+	"unicode"
 
 	"github.com/google/uuid"
+	"golang.org/x/text/runes"
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 	"gorm.io/gorm"
 )
 
@@ -37,9 +43,15 @@ type LabTestDefinition struct {
 	// @example Hemograma Completo, Hemoglobina, Glicemia de Jejum
 	Name string `gorm:"type:varchar(300);not null" json:"name" validate:"required,max=300"`
 
-	// Nome curto/abreviação (opcional)
+	// Nome curto/abreviação (opcional) - usado para exibição
 	// @example Hemograma, Hb, Gli
 	ShortName *string `gorm:"type:varchar(50)" json:"shortName,omitempty"`
+
+	// Nomes alternativos para matching em PDFs (sempre inclui Name também)
+	// Array de strings com variações do nome encontradas em laudos
+	// NUNCA incluir siglas (siglas vão em ShortName)
+	// @example ["Hemoglobina", "Hemoglobina total", "Hemoglobina - Homens", "Hemoglobina - Mulheres"]
+	AltNames *string `gorm:"type:jsonb" json:"altNames,omitempty"`
 
 	// Código TUSS (Terminologia Unificada da Saúde Suplementar)
 	// Usado para faturamento e solicitação no Brasil
@@ -140,6 +152,65 @@ func (ltd *LabTestDefinition) BeforeCreate(tx *gorm.DB) error {
 		ltd.ID = uuid.Must(uuid.NewV7())
 	}
 	return nil
+}
+
+// BeforeSave hook to normalize AltNames (lower + unaccent)
+func (ltd *LabTestDefinition) BeforeSave(tx *gorm.DB) error {
+	// Normalizar AltNames se não for nil
+	if ltd.AltNames != nil && *ltd.AltNames != "" && *ltd.AltNames != "null" {
+		normalized, err := normalizeAltNames(*ltd.AltNames)
+		if err == nil {
+			ltd.AltNames = &normalized
+		}
+	}
+	return nil
+}
+
+// normalizeAltNames aplica lower() e unaccent() em cada item do array JSON
+func normalizeAltNames(altNamesJSON string) (string, error) {
+	// Parse JSON array
+	var altNames []string
+	if err := json.Unmarshal([]byte(altNamesJSON), &altNames); err != nil {
+		return altNamesJSON, err // Retorna original se não for JSON válido
+	}
+
+	// Normalizar cada item
+	normalized := make([]string, 0, len(altNames))
+	for _, name := range altNames {
+		normalizedName := normalizeString(name)
+		if normalizedName != "" {
+			normalized = append(normalized, normalizedName)
+		}
+	}
+
+	// Converter de volta para JSON
+	result, err := json.Marshal(normalized)
+	if err != nil {
+		return altNamesJSON, err
+	}
+
+	return string(result), nil
+}
+
+// normalizeString aplica trim + lower + unaccent em uma string
+func normalizeString(s string) string {
+	// 1. Trim espaços
+	s = strings.TrimSpace(s)
+
+	// 2. Lower case
+	s = strings.ToLower(s)
+
+	// 3. Unaccent (remover acentos)
+	s = removeAccents(s)
+
+	return s
+}
+
+// removeAccents remove acentos de uma string (equivalente ao unaccent do PostgreSQL)
+func removeAccents(s string) string {
+	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
+	result, _, _ := transform.String(t, s)
+	return result
 }
 
 // LabTestScoreMapping mapeia um exame laboratorial para um item do escore

@@ -72,7 +72,7 @@ func (h *AnamnesisHandler) GetByID(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	resp, err := h.anamnesisService.GetByID(anamnesisID, userID, userRole)
 	if err != nil {
@@ -106,7 +106,7 @@ func (h *AnamnesisHandler) List(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	// Parse optional patient ID filter
 	var patientID *uuid.UUID
@@ -160,7 +160,7 @@ func (h *AnamnesisHandler) Update(c *fiber.Ctx) error {
 	}
 
 	authorID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	resp, err := h.anamnesisService.Update(anamnesisID, authorID, userRole, &req)
 	if err != nil {
@@ -190,7 +190,7 @@ func (h *AnamnesisHandler) Delete(c *fiber.Ctx) error {
 	}
 
 	authorID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	err = h.anamnesisService.Delete(anamnesisID, authorID, userRole)
 	if err != nil {

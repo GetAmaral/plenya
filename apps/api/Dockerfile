@@ -10,10 +10,18 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /server ./cmd/server
 
-# Runtime (imagem final ~15MB)
+# Runtime (imagem final com OCR dependencies)
 FROM alpine:3.21
 
-RUN apk --no-cache add ca-certificates tzdata
+# Instalar dependências de sistema para OCR e processamento de PDF
+RUN apk --no-cache add \
+    ca-certificates \
+    tzdata \
+    poppler-utils \
+    tesseract-ocr \
+    tesseract-ocr-data-por \
+    imagemagick
+
 WORKDIR /app
 
 COPY --from=builder /server .

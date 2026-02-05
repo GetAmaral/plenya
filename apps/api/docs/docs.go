@@ -23,6 +23,323 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/anamnesis-templates": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AnamnesisTemplates"
+                ],
+                "summary": "Get all anamnesis templates",
+                "parameters": [
+                    {
+                        "type": "boolean",
+                        "description": "Include items",
+                        "name": "withItems",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.AnamnesisTemplate"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AnamnesisTemplates"
+                ],
+                "summary": "Create anamnesis template",
+                "parameters": [
+                    {
+                        "description": "Template data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateAnamnesisTemplateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.AnamnesisTemplate"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/anamnesis-templates/search": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AnamnesisTemplates"
+                ],
+                "summary": "Search anamnesis templates",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Search query",
+                        "name": "q",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.AnamnesisTemplate"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/anamnesis-templates/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AnamnesisTemplates"
+                ],
+                "summary": "Get anamnesis template by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AnamnesisTemplate"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AnamnesisTemplates"
+                ],
+                "summary": "Update anamnesis template",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Template data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateAnamnesisTemplateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AnamnesisTemplate"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "AnamnesisTemplates"
+                ],
+                "summary": "Delete anamnesis template",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/anamnesis-templates/{id}/items": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AnamnesisTemplates"
+                ],
+                "summary": "Update template items",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Template ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Items data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateAnamnesisTemplateItemsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/lab-request-templates": {
             "get": {
                 "produces": [
@@ -817,6 +1134,693 @@ const docTemplate = `{
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/lab-result-batches": {
+            "get": {
+                "description": "Lista lotes de resultados do paciente selecionado",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Listar lotes de resultados",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filtro por status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 50,
+                        "description": "Limite de resultados",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "Offset de resultados",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.LabResultBatchResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Cria um lote de resultados laboratoriais com múltiplos resultados",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Criar lote de resultados",
+                "parameters": [
+                    {
+                        "description": "Lote de resultados",
+                        "name": "batch",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateLabResultBatchRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LabResultBatchDetailResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/lab-result-batches/{batchId}/results/{resultId}": {
+            "put": {
+                "description": "Atualiza um resultado individual dentro de um lote",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Atualizar resultado",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID do lote",
+                        "name": "batchId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID do resultado",
+                        "name": "resultId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Dados para atualização",
+                        "name": "result",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateLabResultInBatchRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LabResultInBatchResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Soft delete de um resultado (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Deletar resultado",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID do lote",
+                        "name": "batchId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID do resultado",
+                        "name": "resultId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/lab-result-batches/{id}": {
+            "get": {
+                "description": "Busca um lote de resultados por ID com todos os resultados",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Buscar lote por ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID do lote",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LabResultBatchDetailResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Atualiza metadados de um lote de resultados",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Atualizar lote",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID do lote",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Dados para atualização",
+                        "name": "batch",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateLabResultBatchRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LabResultBatchResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Soft delete de um lote de resultados (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Deletar lote",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID do lote",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/lab-result-batches/{id}/results": {
+            "post": {
+                "description": "Adiciona um novo resultado a um lote existente",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Adicionar resultado ao lote",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID do lote",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Resultado",
+                        "name": "result",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateLabResultInBatchRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LabResultInBatchResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/lab-result-views": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lab-result-views"
+                ],
+                "summary": "Lista todas as views de resultados laboratoriais",
+                "parameters": [
+                    {
+                        "type": "boolean",
+                        "description": "Incluir items",
+                        "name": "withItems",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Incluir inativas",
+                        "name": "includeInactive",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.LabResultView"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lab-result-views"
+                ],
+                "summary": "Cria uma nova view",
+                "parameters": [
+                    {
+                        "description": "View data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateLabResultViewRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.LabResultView"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/lab-result-views/search": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lab-result-views"
+                ],
+                "summary": "Busca views por nome ou descrição",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Query de busca",
+                        "name": "q",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Incluir items",
+                        "name": "withItems",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.LabResultView"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/lab-result-views/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lab-result-views"
+                ],
+                "summary": "Busca uma view por ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "View ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.LabResultView"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lab-result-views"
+                ],
+                "summary": "Atualiza uma view",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "View ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "View data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateLabResultViewRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.LabResultView"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lab-result-views"
+                ],
+                "summary": "Deleta uma view",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "View ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/v1/lab-result-views/{id}/items": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lab-result-views"
+                ],
+                "summary": "Atualiza os items de uma view",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "View ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Items data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateLabResultViewItemsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
@@ -1781,6 +2785,57 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/profile": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "profile"
+                ],
+                "summary": "Get current user profile",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "profile"
+                ],
+                "summary": "Update current user profile",
+                "parameters": [
+                    {
+                        "description": "Profile data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateProfileRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/score-groups": {
             "get": {
                 "security": [
@@ -2306,6 +3361,42 @@ const docTemplate = `{
             }
         },
         "/api/v1/score-items": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get all score items ordered by name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Score Items"
+                ],
+                "summary": "Get all score items",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ScoreItem"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -3256,6 +4347,295 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "description": "Get all users with optional filters",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "List users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by role",
+                        "name": "role",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserListResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create user",
+                "parameters": [
+                    {
+                        "description": "User data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/{id}": {
+            "get": {
+                "description": "Get a single user by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Soft delete a user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
                         }
                     }
                 }
@@ -4810,6 +6190,22 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.AnamnesisTemplateItemData": {
+            "type": "object",
+            "required": [
+                "scoreItemId"
+            ],
+            "properties": {
+                "order": {
+                    "type": "integer",
+                    "maximum": 9999,
+                    "minimum": 0
+                },
+                "scoreItemId": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.AuthResponse": {
             "type": "object",
             "properties": {
@@ -4821,6 +6217,29 @@ const docTemplate = `{
                 },
                 "user": {
                     "$ref": "#/definitions/dto.UserDTO"
+                }
+            }
+        },
+        "dto.CreateAnamnesisTemplateRequest": {
+            "type": "object",
+            "required": [
+                "area",
+                "name"
+            ],
+            "properties": {
+                "area": {
+                    "type": "string",
+                    "enum": [
+                        "Medicina",
+                        "Nutricao",
+                        "Psicologia",
+                        "Educacao Fisica"
+                    ]
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 2
                 }
             }
         },
@@ -4844,6 +6263,120 @@ const docTemplate = `{
                 },
                 "notes": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.CreateLabResultBatchRequest": {
+            "type": "object",
+            "required": [
+                "collectionDate",
+                "labResults",
+                "laboratoryName",
+                "status"
+            ],
+            "properties": {
+                "attachments": {
+                    "type": "string"
+                },
+                "collectionDate": {
+                    "description": "RFC3339",
+                    "type": "string"
+                },
+                "labRequestId": {
+                    "description": "patientId vem do selectedPatient (context)",
+                    "type": "string"
+                },
+                "labResults": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/dto.CreateLabResultInBatchRequest"
+                    }
+                },
+                "laboratoryName": {
+                    "type": "string",
+                    "maxLength": 200
+                },
+                "observations": {
+                    "type": "string"
+                },
+                "requestingDoctorId": {
+                    "type": "string"
+                },
+                "resultDate": {
+                    "description": "RFC3339",
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/models.LabResultBatchStatus"
+                }
+            }
+        },
+        "dto.CreateLabResultInBatchRequest": {
+            "type": "object",
+            "required": [
+                "status",
+                "testName",
+                "testType"
+            ],
+            "properties": {
+                "interpretation": {
+                    "type": "string"
+                },
+                "labTestDefinitionId": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "referenceRange": {
+                    "type": "string"
+                },
+                "resultNumeric": {
+                    "type": "number"
+                },
+                "resultText": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "pending",
+                        "completed",
+                        "cancelled"
+                    ]
+                },
+                "testName": {
+                    "type": "string",
+                    "maxLength": 200
+                },
+                "testType": {
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "unit": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateLabResultViewRequest": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "displayOrder": {
+                    "type": "integer",
+                    "maximum": 9999,
+                    "minimum": 0
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 2
                 }
             }
         },
@@ -4914,6 +6447,38 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.CreateUserRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password",
+                "roles"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 3
+                },
+                "password": {
+                    "description": "bcrypt max 72 bytes",
+                    "type": "string",
+                    "maxLength": 72,
+                    "minLength": 8
+                },
+                "roles": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "dto.ErrorResponse": {
             "type": "object",
             "properties": {
@@ -4929,6 +6494,163 @@ const docTemplate = `{
                 },
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.LabResultBatchDetailResponse": {
+            "type": "object",
+            "properties": {
+                "attachments": {
+                    "type": "string"
+                },
+                "collectionDate": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "labRequestId": {
+                    "type": "string"
+                },
+                "labResults": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.LabResultInBatchResponse"
+                    }
+                },
+                "laboratoryName": {
+                    "type": "string"
+                },
+                "observations": {
+                    "type": "string"
+                },
+                "patientId": {
+                    "type": "string"
+                },
+                "requestingDoctorId": {
+                    "type": "string"
+                },
+                "resultCount": {
+                    "type": "integer"
+                },
+                "resultDate": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/models.LabResultBatchStatus"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.LabResultBatchResponse": {
+            "type": "object",
+            "properties": {
+                "attachments": {
+                    "type": "string"
+                },
+                "collectionDate": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "labRequestId": {
+                    "type": "string"
+                },
+                "laboratoryName": {
+                    "type": "string"
+                },
+                "observations": {
+                    "type": "string"
+                },
+                "patientId": {
+                    "type": "string"
+                },
+                "requestingDoctorId": {
+                    "type": "string"
+                },
+                "resultCount": {
+                    "type": "integer"
+                },
+                "resultDate": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/models.LabResultBatchStatus"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.LabResultInBatchResponse": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "interpretation": {
+                    "type": "string"
+                },
+                "labResultBatchId": {
+                    "type": "string"
+                },
+                "labTestDefinitionId": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "referenceRange": {
+                    "type": "string"
+                },
+                "resultNumeric": {
+                    "type": "number"
+                },
+                "resultText": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "testName": {
+                    "type": "string"
+                },
+                "testType": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.LabResultViewItemData": {
+            "type": "object",
+            "required": [
+                "labTestDefinitionId"
+            ],
+            "properties": {
+                "labTestDefinitionId": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer",
+                    "maximum": 9999,
+                    "minimum": 0
                 }
             }
         },
@@ -5028,7 +6750,7 @@ const docTemplate = `{
             "required": [
                 "email",
                 "password",
-                "role"
+                "roles"
             ],
             "properties": {
                 "email": {
@@ -5038,18 +6760,45 @@ const docTemplate = `{
                     "type": "string",
                     "minLength": 8
                 },
-                "role": {
+                "roles": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "dto.UpdateAnamnesisTemplateItemsRequest": {
+            "type": "object",
+            "required": [
+                "items"
+            ],
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.AnamnesisTemplateItemData"
+                    }
+                }
+            }
+        },
+        "dto.UpdateAnamnesisTemplateRequest": {
+            "type": "object",
+            "properties": {
+                "area": {
+                    "type": "string",
                     "enum": [
-                        "admin",
-                        "doctor",
-                        "nurse",
-                        "patient"
-                    ],
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/models.UserRole"
-                        }
+                        "Medicina",
+                        "Nutricao",
+                        "Psicologia",
+                        "Educacao Fisica"
                     ]
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 2
                 }
             }
         },
@@ -5067,6 +6816,122 @@ const docTemplate = `{
                 },
                 "notes": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.UpdateLabResultBatchRequest": {
+            "type": "object",
+            "properties": {
+                "attachments": {
+                    "type": "string"
+                },
+                "collectionDate": {
+                    "description": "RFC3339",
+                    "type": "string"
+                },
+                "labRequestId": {
+                    "type": "string"
+                },
+                "labResults": {
+                    "description": "Nested results sync",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.UpdateLabResultInBatchRequest"
+                    }
+                },
+                "laboratoryName": {
+                    "type": "string",
+                    "maxLength": 200
+                },
+                "observations": {
+                    "type": "string"
+                },
+                "requestingDoctorId": {
+                    "type": "string"
+                },
+                "resultDate": {
+                    "description": "RFC3339",
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/models.LabResultBatchStatus"
+                }
+            }
+        },
+        "dto.UpdateLabResultInBatchRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Se presente, faz update; se ausente, cria novo",
+                    "type": "string"
+                },
+                "interpretation": {
+                    "type": "string"
+                },
+                "labTestDefinitionId": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "referenceRange": {
+                    "type": "string"
+                },
+                "resultNumeric": {
+                    "type": "number"
+                },
+                "resultText": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "testName": {
+                    "type": "string",
+                    "maxLength": 200
+                },
+                "testType": {
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "unit": {
+                    "type": "string",
+                    "maxLength": 50
+                }
+            }
+        },
+        "dto.UpdateLabResultViewItemsRequest": {
+            "type": "object",
+            "required": [
+                "items"
+            ],
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.LabResultViewItemData"
+                    }
+                }
+            }
+        },
+        "dto.UpdateLabResultViewRequest": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "displayOrder": {
+                    "type": "integer",
+                    "maximum": 9999,
+                    "minimum": 0
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 2
                 }
             }
         },
@@ -5128,6 +6993,38 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.UpdateProfileRequest": {
+            "type": "object",
+            "properties": {
+                "crm": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "crmUF": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 3
+                },
+                "professionalAddress": {
+                    "type": "string"
+                },
+                "professionalPhone": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "rqe": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "specialty": {
+                    "type": "string",
+                    "maxLength": 100
+                }
+            }
+        },
         "dto.UpdateSelectedPatientRequest": {
             "type": "object",
             "required": [
@@ -5136,6 +7033,31 @@ const docTemplate = `{
             "properties": {
                 "patientId": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.UpdateUserRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 3
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 72,
+                    "minLength": 8
+                },
+                "roles": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -5155,8 +7077,11 @@ const docTemplate = `{
                     "type": "object",
                     "additionalProperties": true
                 },
-                "role": {
-                    "$ref": "#/definitions/models.UserRole"
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "selectedPatient": {
                     "$ref": "#/definitions/dto.PatientResponse"
@@ -5166,6 +7091,73 @@ const docTemplate = `{
                 },
                 "twoFactorEnabled": {
                     "type": "boolean"
+                }
+            }
+        },
+        "dto.UserListResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.UserResponse"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.UserResponse": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "crm": {
+                    "type": "string"
+                },
+                "crmUF": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "professionalAddress": {
+                    "type": "string"
+                },
+                "professionalPhone": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "rqe": {
+                    "type": "string"
+                },
+                "specialty": {
+                    "type": "string"
+                },
+                "twoFactorEnabled": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         },
@@ -5191,6 +7183,91 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "models.AnamnesisTemplate": {
+            "description": "Template de anamnese com itens pré-configurados para uma área específica",
+            "type": "object",
+            "required": [
+                "area",
+                "name"
+            ],
+            "properties": {
+                "area": {
+                    "description": "Área de aplicação do template\n@example Clínica Médica, Psicologia, Pediatria, Cardiologia",
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "createdAt": {
+                    "description": "Timestamps",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "@example 550e8400-e29b-41d4-a716-446655440000",
+                    "type": "string"
+                },
+                "items": {
+                    "description": "Relationships",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.AnamnesisTemplateItem"
+                    }
+                },
+                "name": {
+                    "description": "Nome do template\n@minLength 2\n@maxLength 200\n@example Anamnese Clínica Geral",
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 2
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.AnamnesisTemplateItem": {
+            "description": "Item de template de anamnese vinculado a um ScoreItem",
+            "type": "object",
+            "required": [
+                "anamnesisTemplateId",
+                "scoreItemId"
+            ],
+            "properties": {
+                "anamnesisTemplate": {
+                    "description": "Relationships",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.AnamnesisTemplate"
+                        }
+                    ]
+                },
+                "anamnesisTemplateId": {
+                    "description": "Foreign key to AnamnesisTemplate\n@example 550e8400-e29b-41d4-a716-446655440000",
+                    "type": "string"
+                },
+                "createdAt": {
+                    "description": "Timestamps",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "@example 550e8400-e29b-41d4-a716-446655440000",
+                    "type": "string"
+                },
+                "order": {
+                    "description": "Order for display (within the template)\n@minimum 0\n@maximum 9999\n@example 1",
+                    "type": "integer",
+                    "maximum": 9999,
+                    "minimum": 0
+                },
+                "scoreItem": {
+                    "$ref": "#/definitions/models.ScoreItem"
+                },
+                "scoreItemId": {
+                    "description": "Foreign key to ScoreItem\n@example 550e8400-e29b-41d4-a716-446655440000",
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         },
@@ -5379,6 +7456,10 @@ const docTemplate = `{
                 "patientId"
             ],
             "properties": {
+                "certificateSerial": {
+                    "description": "Número de série do certificado usado na assinatura\n@example 1234567890ABCDEF",
+                    "type": "string"
+                },
                 "createdAt": {
                     "description": "Timestamps",
                     "type": "string"
@@ -5427,6 +7508,22 @@ const docTemplate = `{
                 },
                 "pdfUrl": {
                     "description": "URL do PDF gerado (quando gerado, o pedido fica bloqueado para edição)",
+                    "type": "string"
+                },
+                "qrCodeData": {
+                    "description": "Dados do QR Code (URL de validação)\n@example https://plenya.com.br/lab-requests/validate/550e8400...",
+                    "type": "string"
+                },
+                "signedAt": {
+                    "description": "Data/hora da assinatura digital",
+                    "type": "string"
+                },
+                "signedPdfHash": {
+                    "description": "Hash SHA-256 do PDF assinado (integridade)\n@example a1b2c3d4e5f6...",
+                    "type": "string"
+                },
+                "signedPdfPath": {
+                    "description": "Caminho do PDF assinado\n@example /app/uploads/lab-requests/lab_request_550e8400_signed.pdf",
                     "type": "string"
                 },
                 "updatedAt": {
@@ -5479,21 +7576,14 @@ const docTemplate = `{
             }
         },
         "models.LabResult": {
-            "description": "Resultado de exame laboratorial com dados do exame e interpretação",
+            "description": "Resultado individual de um exame dentro de um lote (batch)",
             "type": "object",
             "required": [
+                "labResultBatchId",
                 "testName",
                 "testType"
             ],
             "properties": {
-                "attachments": {
-                    "description": "Anexos (PDFs, imagens) - armazenar URLs ou paths",
-                    "type": "string"
-                },
-                "collectionDate": {
-                    "description": "Data da coleta",
-                    "type": "string"
-                },
                 "createdAt": {
                     "description": "Data de criação",
                     "type": "string"
@@ -5503,55 +7593,49 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "interpretation": {
-                    "description": "Interpretação/Observações do médico",
+                    "description": "Interpretação/Observações específicas deste teste",
                     "type": "string"
                 },
-                "laboratory": {
-                    "description": "Laboratório que realizou o exame",
-                    "type": "string"
-                },
-                "patient": {
+                "labResultBatch": {
                     "description": "Relações",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/models.Patient"
+                            "$ref": "#/definitions/models.LabResultBatch"
                         }
                     ]
                 },
-                "patientId": {
-                    "description": "ID do paciente",
+                "labResultBatchId": {
+                    "description": "ID do lote de resultados (obrigatório)",
                     "type": "string"
+                },
+                "labResultValues": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.LabResultValue"
+                    }
+                },
+                "labTestDefinition": {
+                    "$ref": "#/definitions/models.LabTestDefinition"
+                },
+                "labTestDefinitionId": {
+                    "description": "ID da definição do teste (opcional - FK para LabTestDefinition)",
+                    "type": "string"
+                },
+                "level": {
+                    "description": "Nível/Prioridade do resultado (opcional)",
+                    "type": "integer"
                 },
                 "referenceRange": {
                     "description": "Valores de referência",
                     "type": "string"
                 },
-                "requestDate": {
-                    "description": "Data da solicitação",
+                "resultNumeric": {
+                    "description": "Resultado numérico (para exames quantitativos)",
+                    "type": "number"
+                },
+                "resultText": {
+                    "description": "Resultado em texto (para exames qualitativos)",
                     "type": "string"
-                },
-                "requestingDoctor": {
-                    "$ref": "#/definitions/models.User"
-                },
-                "requestingDoctorId": {
-                    "description": "ID do médico solicitante",
-                    "type": "string"
-                },
-                "result": {
-                    "description": "Resultado (pode ser JSON estruturado ou texto)",
-                    "type": "string"
-                },
-                "resultDate": {
-                    "description": "Data do resultado",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "Status do resultado",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/models.LabResultStatus"
-                        }
-                    ]
                 },
                 "testName": {
                     "description": "Nome do exame",
@@ -5571,31 +7655,111 @@ const docTemplate = `{
                 }
             }
         },
-        "models.LabResultStatus": {
+        "models.LabResultBatch": {
+            "description": "Agrupa resultados de uma mesma coleta/laboratório",
+            "type": "object",
+            "required": [
+                "collectionDate",
+                "laboratoryName",
+                "status"
+            ],
+            "properties": {
+                "attachments": {
+                    "description": "Anexos (PDFs/scans do lote completo) - JSON array de URLs",
+                    "type": "string"
+                },
+                "collectionDate": {
+                    "description": "Data da coleta",
+                    "type": "string"
+                },
+                "createdAt": {
+                    "description": "Data de criação",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "ID único do lote",
+                    "type": "string"
+                },
+                "labRequest": {
+                    "$ref": "#/definitions/models.LabRequest"
+                },
+                "labRequestId": {
+                    "description": "ID do pedido laboratorial (opcional - pode ser entrada manual)",
+                    "type": "string"
+                },
+                "labResults": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.LabResult"
+                    }
+                },
+                "laboratoryName": {
+                    "description": "Nome do laboratório\n@example Laboratório São Paulo, Fleury, Dasa",
+                    "type": "string",
+                    "maxLength": 200
+                },
+                "observations": {
+                    "description": "Observações gerais do lote",
+                    "type": "string"
+                },
+                "patient": {
+                    "description": "Relacionamentos",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.Patient"
+                        }
+                    ]
+                },
+                "patientId": {
+                    "description": "ID do paciente",
+                    "type": "string"
+                },
+                "requestingDoctor": {
+                    "$ref": "#/definitions/models.User"
+                },
+                "requestingDoctorId": {
+                    "description": "ID do médico solicitante (opcional)",
+                    "type": "string"
+                },
+                "resultDate": {
+                    "description": "Data de disponibilização dos resultados",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Status do lote\n@enum pending,partial,completed",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.LabResultBatchStatus"
+                        }
+                    ]
+                },
+                "updatedAt": {
+                    "description": "Data de atualização",
+                    "type": "string"
+                }
+            }
+        },
+        "models.LabResultBatchStatus": {
             "type": "string",
             "enum": [
                 "pending",
-                "completed",
-                "cancelled",
-                "in_progress"
+                "partial",
+                "completed"
             ],
             "x-enum-comments": {
-                "LabResultCancelled": "Cancelado",
-                "LabResultCompleted": "Resultado disponível",
-                "LabResultInProgress": "Em andamento",
-                "LabResultPending": "Aguardando resultado"
+                "LabResultBatchCompleted": "Completo",
+                "LabResultBatchPartial": "Parcial",
+                "LabResultBatchPending": "Aguardando"
             },
             "x-enum-descriptions": [
-                "Aguardando resultado",
-                "Resultado disponível",
-                "Cancelado",
-                "Em andamento"
+                "Aguardando",
+                "Parcial",
+                "Completo"
             ],
             "x-enum-varnames": [
-                "LabResultPending",
-                "LabResultCompleted",
-                "LabResultCancelled",
-                "LabResultInProgress"
+                "LabResultBatchPending",
+                "LabResultBatchPartial",
+                "LabResultBatchCompleted"
             ]
         },
         "models.LabResultValue": {
@@ -5652,6 +7816,90 @@ const docTemplate = `{
                 "unit": {
                     "description": "Unidade de medida do valor (pode sobrescrever a unidade padrão)",
                     "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LabResultView": {
+            "description": "View customizada para ordenação de exames na tabela pivot",
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "displayOrder": {
+                    "description": "@minimum 0\n@maximum 9999",
+                    "type": "integer",
+                    "maximum": 9999,
+                    "minimum": 0
+                },
+                "id": {
+                    "description": "@example 019c1a1e-0579-7f3b-a1bd-4767008e844c",
+                    "type": "string"
+                },
+                "isActive": {
+                    "description": "@example true",
+                    "type": "boolean"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.LabResultViewItem"
+                    }
+                },
+                "name": {
+                    "description": "@minLength 2\n@maxLength 200",
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 2
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LabResultViewItem": {
+            "description": "Item de exame com ordem específica dentro de uma view",
+            "type": "object",
+            "required": [
+                "labResultViewId",
+                "labTestDefinitionId"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "description": "@example 019c1a1e-0579-7f3b-a1bd-4767008e844c",
+                    "type": "string"
+                },
+                "labResultView": {
+                    "$ref": "#/definitions/models.LabResultView"
+                },
+                "labResultViewId": {
+                    "description": "@example 019c1a1e-0579-7f3b-a1bd-4767008e844c",
+                    "type": "string"
+                },
+                "labTestDefinition": {
+                    "$ref": "#/definitions/models.LabTestDefinition"
+                },
+                "labTestDefinitionId": {
+                    "description": "@example 019c1a1e-0579-7f3b-a1bd-4767008e844c",
+                    "type": "string"
+                },
+                "order": {
+                    "description": "@minimum 0\n@maximum 9999",
+                    "type": "integer",
+                    "maximum": 9999,
+                    "minimum": 0
                 },
                 "updatedAt": {
                     "type": "string"
@@ -6277,11 +8525,28 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "role"
+                "name"
             ],
             "properties": {
+                "certificateExpiry": {
+                    "description": "Data de expiração do certificado A1\n@example 2027-12-31T23:59:59Z",
+                    "type": "string"
+                },
+                "certificateSerial": {
+                    "description": "Número de série do certificado A1\n@example 1234567890ABCDEF",
+                    "type": "string"
+                },
                 "createdAt": {
                     "description": "Data de criação",
+                    "type": "string"
+                },
+                "crm": {
+                    "description": "Dados profissionais (obrigatórios para role doctor)\nNúmero do CRM\n@example 123456",
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "crmUF": {
+                    "description": "UF do CRM\n@example SP",
                     "type": "string"
                 },
                 "email": {
@@ -6292,6 +8557,12 @@ const docTemplate = `{
                     "description": "ID único do usuário\n@example 550e8400-e29b-41d4-a716-446655440000",
                     "type": "string"
                 },
+                "name": {
+                    "description": "Nome completo do usuário\n@minLength 3\n@maxLength 200\n@example Dr. João da Silva",
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 3
+                },
                 "preferences": {
                     "description": "Preferências do usuário (viewport do mindmap, etc.)\n@example {\"mindmapViewport\":{\"x\":0,\"y\":0,\"zoom\":0.7}}",
                     "type": "array",
@@ -6299,19 +8570,24 @@ const docTemplate = `{
                         "type": "integer"
                     }
                 },
-                "role": {
-                    "description": "Role do usuário no sistema\n@enum admin,doctor,nurse,patient",
-                    "enum": [
-                        "admin",
-                        "doctor",
-                        "nurse",
-                        "patient"
-                    ],
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/models.UserRole"
-                        }
-                    ]
+                "professionalAddress": {
+                    "description": "Endereço profissional completo\n@example Rua das Flores, 123 - Centro - São Paulo/SP - CEP 01234-567",
+                    "type": "string"
+                },
+                "professionalPhone": {
+                    "description": "Telefone profissional\n@example (11) 98765-4321",
+                    "type": "string"
+                },
+                "roles": {
+                    "description": "Roles do usuário no sistema (array JSON)\n@example [\"doctor\",\"nutritionist\"]",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "rqe": {
+                    "description": "Registro de Qualificação de Especialista\n@example RQE-12345",
+                    "type": "string"
                 },
                 "selectedPatient": {
                     "description": "Relações",
@@ -6325,6 +8601,10 @@ const docTemplate = `{
                     "description": "ID do paciente selecionado (contexto atual de trabalho)\n@example 550e8400-e29b-41d4-a716-446655440000",
                     "type": "string"
                 },
+                "specialty": {
+                    "description": "Especialidade médica\n@example Cardiologia",
+                    "type": "string"
+                },
                 "twoFactorEnabled": {
                     "description": "Se 2FA está habilitado",
                     "type": "boolean"
@@ -6334,21 +8614,6 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
-        },
-        "models.UserRole": {
-            "type": "string",
-            "enum": [
-                "admin",
-                "doctor",
-                "nurse",
-                "patient"
-            ],
-            "x-enum-varnames": [
-                "RoleAdmin",
-                "RoleDoctor",
-                "RoleNurse",
-                "RolePatient"
-            ]
         },
         "services.CreateArticleDTO": {
             "type": "object",

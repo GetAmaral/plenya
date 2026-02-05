@@ -78,7 +78,7 @@ func (h *AppointmentHandler) GetByID(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	resp, err := h.appointmentService.GetByID(appointmentID, userID, userRole)
 	if err != nil {
@@ -112,7 +112,7 @@ func (h *AppointmentHandler) List(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	// Parse optional filters
 	var patientID, doctorID *uuid.UUID
@@ -178,7 +178,7 @@ func (h *AppointmentHandler) Update(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	resp, err := h.appointmentService.Update(appointmentID, userID, userRole, &req)
 	if err != nil {
@@ -229,7 +229,7 @@ func (h *AppointmentHandler) Cancel(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	resp, err := h.appointmentService.Cancel(appointmentID, userID, userRole, &req)
 	if err != nil {
@@ -264,7 +264,7 @@ func (h *AppointmentHandler) Delete(c *fiber.Ctx) error {
 		})
 	}
 
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	err = h.appointmentService.Delete(appointmentID, userRole)
 	if err != nil {

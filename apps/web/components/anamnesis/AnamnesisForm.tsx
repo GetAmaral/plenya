@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useFormNavigation } from '@/lib/use-form-navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Check } from 'lucide-react'
+import { Check, Type, Sparkles } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import {
@@ -33,6 +33,7 @@ import { toast } from 'sonner'
 import { format } from 'date-fns'
 import { RichTextEditor } from '@/components/ui/rich-text-editor'
 import { htmlToPlainText, hasTextContent } from '@/lib/html-utils'
+import { AnamnesisTemplateItemsForm, type AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
 
 interface CreateAnamnesisFormProps {
   onSuccess: () => void
@@ -40,18 +41,35 @@ interface CreateAnamnesisFormProps {
 
 export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>('')
+  const [selectedTemplate, setSelectedTemplate] = useState<AnamnesisTemplate | null>(null)
   const [consultationDate, setConsultationDate] = useState(
     format(new Date(), "yyyy-MM-dd'T'HH:mm")
   )
   const [summary, setSummary] = useState('')
   const [content, setContent] = useState('')
-  const [visibility, setVisibility] = useState<'all' | 'medicalOnly' | 'psychOnly'>('all')
+  const [visibility, setVisibility] = useState<'all' | 'medicalOnly' | 'psychOnly' | 'authorOnly'>('all')
   const [notes, setNotes] = useState('')
+  const [templateItems, setTemplateItems] = useState<AnamnesisItemFormValue[]>([])
+
+  // Rich text editor toggle (single toggle for both fields)
+  const [richTextEnabled, setRichTextEnabled] = useState(false)
 
   const formRef = useRef<HTMLFormElement>(null)
   useFormNavigation({ formRef })
 
   const queryClient = useQueryClient()
+
+  // Toggle rich text for both fields
+  const toggleRichText = () => {
+    if (richTextEnabled) {
+      // Converting from rich text to plain text for both fields
+      setSummary(htmlToPlainText(summary))
+      if (content) {
+        setContent(htmlToPlainText(content))
+      }
+    }
+    setRichTextEnabled(!richTextEnabled)
+  }
 
   // Fetch templates
   const { data: templates = [] } = useQuery({
@@ -70,7 +88,11 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
       onSuccess()
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Erro ao criar anamnese')
+      if (error.response?.status === 403) {
+        toast.error('Você não tem permissão para criar esta anamnese')
+      } else {
+        toast.error(error.response?.data?.error || 'Erro ao criar anamnese')
+      }
     },
   })
 
@@ -80,52 +102,56 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
       setSummary('')
       setContent('')
       setSelectedTemplateId('')
+      setSelectedTemplate(null)
+      setTemplateItems([])
       return
     }
 
     setSelectedTemplateId(templateId)
 
     try {
-      const template = await getAnamnesisTemplateById(templateId)
+      const template = await getAnamnesisTemplateById(templateId, true) // withItems = true
+      setSelectedTemplate(template)
       // Set summary with template name
       if (!summary) {
         setSummary(`Anamnese - ${template.name}`)
       }
-      // You could also pre-fill content based on template items if needed
     } catch (error) {
+      console.error('Erro ao carregar template:', error)
       toast.error('Erro ao carregar template')
+      setSelectedTemplate(null)
     }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Validate that there's actual text content
-    if (!hasTextContent(summary)) {
-      toast.error('O resumo é obrigatório')
-      return
-    }
-
     // Convert to RFC3339 format
     const dateObj = new Date(consultationDate)
     const rfc3339Date = dateObj.toISOString()
 
-    // Extract plain text from HTML for search/indexing
-    const summaryPlain = htmlToPlainText(summary)
-    const contentPlain = content ? htmlToPlainText(content) : undefined
+    // Prepare data based on whether rich text is enabled
+    const summaryPlain = richTextEnabled ? htmlToPlainText(summary) : summary
+    const summaryHtml = richTextEnabled ? summary.trim() : undefined
+    const contentPlain = content ? (richTextEnabled ? htmlToPlainText(content) : content) : undefined
+    const contentHtml = richTextEnabled ? content.trim() : undefined
 
     const payload: CreateAnamnesisRequest = {
       consultationDate: rfc3339Date,
       summary: summaryPlain || undefined, // Plain text
-      summaryHtml: summary.trim() || undefined, // HTML
+      summaryHtml: summaryHtml || undefined, // HTML (only if rich text enabled)
       content: contentPlain || undefined, // Plain text
-      contentHtml: content.trim() || undefined, // HTML
+      contentHtml: contentHtml || undefined, // HTML (only if rich text enabled)
       visibility,
       notes: notes.trim() || undefined,
       anamnesisTemplateId: selectedTemplateId || undefined,
+      items: templateItems.length > 0 ? templateItems.map((item) => ({
+        scoreItemId: item.scoreItemId,
+        numericValue: item.numericValue,
+        textValue: item.textValue,
+        order: item.order,
+      })) : undefined,
     }
-
-    console.log('Creating anamnesis with:', payload)
 
     // Backend gets patientId automatically from selectedPatient in JWT
     createMutation.mutate(payload)
@@ -133,7 +159,19 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
 
   return (
     <Card className="p-6 mb-6">
-      <h2 className="text-xl font-semibold mb-4">Nova Anamnese</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold">Nova Anamnese</h2>
+        <Button
+          type="button"
+          variant={richTextEnabled ? "default" : "outline"}
+          size="sm"
+          onClick={toggleRichText}
+          className="gap-2"
+        >
+          <Sparkles className="h-4 w-4" />
+          {richTextEnabled ? 'Formatação Ativada' : 'Ativar Formatação'}
+        </Button>
+      </div>
       <form ref={formRef} onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Column - Form */}
@@ -149,28 +187,50 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
             </div>
 
             <div>
-              <Label>Resumo *</Label>
-              <RichTextEditor
-                value={summary}
-                onChange={setSummary}
-                placeholder="Resumo breve da anamnese..."
-                minHeight="120px"
-              />
+              <Label>Resumo (opcional)</Label>
+              {richTextEnabled ? (
+                <RichTextEditor editorId="create-summary"
+                  value={summary}
+                  onChange={setSummary}
+                  placeholder="Resumo breve da anamnese..."
+                  minHeight="120px"
+                />
+              ) : (
+                <Textarea
+                  value={summary}
+                  onChange={(e) => setSummary(e.target.value)}
+                  placeholder="Resumo breve da anamnese..."
+                  rows={4}
+                />
+              )}
               <p className="text-xs text-muted-foreground mt-1">
-                Resumo formatado da anamnese (obrigatório)
+                {richTextEnabled
+                  ? 'Resumo formatado da anamnese'
+                  : 'Resumo em texto simples'}
               </p>
             </div>
 
             <div>
               <Label>Conteúdo Detalhado (opcional)</Label>
-              <RichTextEditor
-                value={content}
-                onChange={setContent}
-                placeholder="Conteúdo detalhado da anamnese com formatação completa..."
-                minHeight="300px"
-              />
+              {richTextEnabled ? (
+                <RichTextEditor editorId="create-content"
+                  value={content}
+                  onChange={setContent}
+                  placeholder="Conteúdo detalhado da anamnese com formatação completa..."
+                  minHeight="300px"
+                />
+              ) : (
+                <Textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="Conteúdo detalhado da anamnese com formatação completa..."
+                  rows={8}
+                />
+              )}
               <p className="text-xs text-muted-foreground mt-1">
-                Anamnese completa com formatação rica
+                {richTextEnabled
+                  ? 'Anamnese completa com formatação rica'
+                  : 'Anamnese completa em texto simples'}
               </p>
             </div>
 
@@ -184,6 +244,7 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
                   <SelectItem value="all">Todos os Profissionais</SelectItem>
                   <SelectItem value="medicalOnly">Apenas Médicos</SelectItem>
                   <SelectItem value="psychOnly">Apenas Psicólogos</SelectItem>
+                  <SelectItem value="authorOnly">Apenas Autor</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -197,6 +258,21 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
                 rows={3}
               />
             </div>
+
+            {/* Template Items Form */}
+            {selectedTemplate && selectedTemplate.items && selectedTemplate.items.length > 0 && (
+              <div className="pt-4 border-t">
+                <h3 className="text-lg font-semibold mb-4">
+                  Items do Template: {selectedTemplate.name}
+                </h3>
+                <AnamnesisTemplateItemsForm
+                  key={selectedTemplate.id}
+                  template={selectedTemplate}
+                  initialValues={templateItems}
+                  onChange={setTemplateItems}
+                />
+              </div>
+            )}
 
             <div className="flex justify-end gap-2 pt-4 border-t">
               <Button type="button" variant="outline" onClick={onSuccess}>
@@ -275,21 +351,56 @@ export function EditAnamnesisForm({ anamnesis, onSuccess, onCancel }: EditAnamne
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
     anamnesis.anamnesisTemplateId || ''
   )
+  const [selectedTemplate, setSelectedTemplate] = useState<AnamnesisTemplate | null>(null)
   const [consultationDate, setConsultationDate] = useState(
     format(new Date(anamnesis.consultationDate), "yyyy-MM-dd'T'HH:mm")
   )
   // Use HTML for editing (fallback to plain text for backward compatibility)
   const [summary, setSummary] = useState(anamnesis.summaryHtml || anamnesis.summary || '')
   const [content, setContent] = useState(anamnesis.contentHtml || anamnesis.content || '')
-  const [visibility, setVisibility] = useState<'all' | 'medicalOnly' | 'psychOnly'>(
+  const [visibility, setVisibility] = useState<'all' | 'medicalOnly' | 'psychOnly' | 'authorOnly'>(
     anamnesis.visibility
   )
   const [notes, setNotes] = useState(anamnesis.notes || '')
+
+  // Initialize template items from existing anamnesis
+  const [templateItems, setTemplateItems] = useState<AnamnesisItemFormValue[]>(
+    anamnesis.items?.map(item => ({
+      scoreItemId: item.scoreItemId,
+      numericValue: item.numericValue,
+      textValue: item.textValue,
+      order: item.order,
+    })) || []
+  )
+
+  // Rich text editor toggle - initialize based on whether HTML exists
+  const [richTextEnabled, setRichTextEnabled] = useState(!!anamnesis.summaryHtml || !!anamnesis.contentHtml)
 
   const formRef = useRef<HTMLFormElement>(null)
   useFormNavigation({ formRef })
 
   const queryClient = useQueryClient()
+
+  // Load template on mount if template is selected
+  useEffect(() => {
+    if (anamnesis.anamnesisTemplateId) {
+      getAnamnesisTemplateById(anamnesis.anamnesisTemplateId, true)
+        .then(setSelectedTemplate)
+        .catch(() => toast.error('Erro ao carregar template'))
+    }
+  }, [anamnesis.anamnesisTemplateId])
+
+  // Toggle rich text for both fields
+  const toggleRichText = () => {
+    if (richTextEnabled) {
+      // Converting from rich text to plain text for both fields
+      setSummary(htmlToPlainText(summary))
+      if (content) {
+        setContent(htmlToPlainText(content))
+      }
+    }
+    setRichTextEnabled(!richTextEnabled)
+  }
 
   // Fetch templates
   const { data: templates = [] } = useQuery({
@@ -308,7 +419,11 @@ export function EditAnamnesisForm({ anamnesis, onSuccess, onCancel }: EditAnamne
       onSuccess()
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Erro ao atualizar anamnese')
+      if (error.response?.status === 403) {
+        toast.error('Você não tem permissão para editar esta anamnese')
+      } else {
+        toast.error(error.response?.data?.error || 'Erro ao atualizar anamnese')
+      }
     },
   })
 
@@ -316,58 +431,84 @@ export function EditAnamnesisForm({ anamnesis, onSuccess, onCancel }: EditAnamne
   const handleTemplateSelect = async (templateId: string) => {
     if (!templateId) {
       setSelectedTemplateId('')
+      setSelectedTemplate(null)
+      // Preserve existing items when deselecting template
       return
     }
 
     setSelectedTemplateId(templateId)
 
     try {
-      const template = await getAnamnesisTemplateById(templateId)
+      const template = await getAnamnesisTemplateById(templateId, true) // withItems = true
+      setSelectedTemplate(template)
+
       // Update summary if empty
       if (!summary) {
         setSummary(`Anamnese - ${template.name}`)
       }
+
+      // Preserve existing items and merge with new template
+      // Items from new template go first (in order), then existing items not in template
+      if (template.items) {
+        const templateScoreItemIds = new Set(template.items.map(ti => ti.scoreItemId))
+        const preservedItems = templateItems.filter(item => !templateScoreItemIds.has(item.scoreItemId))
+        // Keep existing values, new template items will be empty initially
+        setTemplateItems([...templateItems.filter(item => templateScoreItemIds.has(item.scoreItemId)), ...preservedItems])
+      }
     } catch (error) {
       toast.error('Erro ao carregar template')
+      setSelectedTemplate(null)
     }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Validate that there's actual text content
-    if (!hasTextContent(summary)) {
-      toast.error('O resumo é obrigatório')
-      return
-    }
-
     // Convert to RFC3339 format
     const dateObj = new Date(consultationDate)
     const rfc3339Date = dateObj.toISOString()
 
-    // Extract plain text from HTML for search/indexing
-    const summaryPlain = htmlToPlainText(summary)
-    const contentPlain = content ? htmlToPlainText(content) : undefined
+    // Prepare data based on whether rich text is enabled
+    const summaryPlain = richTextEnabled ? htmlToPlainText(summary) : summary
+    const summaryHtml = richTextEnabled ? summary.trim() : undefined
+    const contentPlain = content ? (richTextEnabled ? htmlToPlainText(content) : content) : undefined
+    const contentHtml = richTextEnabled ? content.trim() : undefined
 
     const payload = {
       consultationDate: rfc3339Date,
       summary: summaryPlain || undefined, // Plain text
-      summaryHtml: summary.trim() || undefined, // HTML
+      summaryHtml: summaryHtml || undefined, // HTML (only if rich text enabled)
       content: contentPlain || undefined, // Plain text
-      contentHtml: content.trim() || undefined, // HTML
+      contentHtml: contentHtml || undefined, // HTML (only if rich text enabled)
       visibility,
       notes: notes.trim() || undefined,
       anamnesisTemplateId: selectedTemplateId || undefined,
+      items: templateItems.length > 0 ? templateItems.map((item) => ({
+        scoreItemId: item.scoreItemId,
+        numericValue: item.numericValue,
+        textValue: item.textValue,
+        order: item.order,
+      })) : undefined,
     }
-
-    console.log('Updating anamnesis with:', payload)
 
     updateMutation.mutate(payload)
   }
 
   return (
     <Card className="p-6 mb-6">
-      <h2 className="text-xl font-semibold mb-4">Editar Anamnese</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold">Editar Anamnese</h2>
+        <Button
+          type="button"
+          variant={richTextEnabled ? "default" : "outline"}
+          size="sm"
+          onClick={toggleRichText}
+          className="gap-2"
+        >
+          <Sparkles className="h-4 w-4" />
+          {richTextEnabled ? 'Formatação Ativada' : 'Ativar Formatação'}
+        </Button>
+      </div>
       <form ref={formRef} onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Column - Form */}
@@ -383,28 +524,50 @@ export function EditAnamnesisForm({ anamnesis, onSuccess, onCancel }: EditAnamne
             </div>
 
             <div>
-              <Label>Resumo *</Label>
-              <RichTextEditor
-                value={summary}
-                onChange={setSummary}
-                placeholder="Resumo breve da anamnese..."
-                minHeight="120px"
-              />
+              <Label>Resumo (opcional)</Label>
+              {richTextEnabled ? (
+                <RichTextEditor editorId="edit-summary"
+                  value={summary}
+                  onChange={setSummary}
+                  placeholder="Resumo breve da anamnese..."
+                  minHeight="120px"
+                />
+              ) : (
+                <Textarea
+                  value={summary}
+                  onChange={(e) => setSummary(e.target.value)}
+                  placeholder="Resumo breve da anamnese..."
+                  rows={4}
+                />
+              )}
               <p className="text-xs text-muted-foreground mt-1">
-                Resumo formatado da anamnese (obrigatório)
+                {richTextEnabled
+                  ? 'Resumo formatado da anamnese'
+                  : 'Resumo em texto simples'}
               </p>
             </div>
 
             <div>
               <Label>Conteúdo Detalhado (opcional)</Label>
-              <RichTextEditor
-                value={content}
-                onChange={setContent}
-                placeholder="Conteúdo detalhado da anamnese com formatação completa..."
-                minHeight="300px"
-              />
+              {richTextEnabled ? (
+                <RichTextEditor editorId="edit-content"
+                  value={content}
+                  onChange={setContent}
+                  placeholder="Conteúdo detalhado da anamnese com formatação completa..."
+                  minHeight="300px"
+                />
+              ) : (
+                <Textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="Conteúdo detalhado da anamnese com formatação completa..."
+                  rows={8}
+                />
+              )}
               <p className="text-xs text-muted-foreground mt-1">
-                Anamnese completa com formatação rica
+                {richTextEnabled
+                  ? 'Anamnese completa com formatação rica'
+                  : 'Anamnese completa em texto simples'}
               </p>
             </div>
 
@@ -418,6 +581,7 @@ export function EditAnamnesisForm({ anamnesis, onSuccess, onCancel }: EditAnamne
                   <SelectItem value="all">Todos os Profissionais</SelectItem>
                   <SelectItem value="medicalOnly">Apenas Médicos</SelectItem>
                   <SelectItem value="psychOnly">Apenas Psicólogos</SelectItem>
+                  <SelectItem value="authorOnly">Apenas Autor</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -431,6 +595,21 @@ export function EditAnamnesisForm({ anamnesis, onSuccess, onCancel }: EditAnamne
                 rows={3}
               />
             </div>
+
+            {/* Template Items Form */}
+            {selectedTemplate && selectedTemplate.items && selectedTemplate.items.length > 0 && (
+              <div className="pt-4 border-t">
+                <h3 className="text-lg font-semibold mb-4">
+                  Items do Template: {selectedTemplate.name}
+                </h3>
+                <AnamnesisTemplateItemsForm
+                  key={selectedTemplate.id}
+                  template={selectedTemplate}
+                  initialValues={templateItems}
+                  onChange={setTemplateItems}
+                />
+              </div>
+            )}
 
             <div className="flex justify-end gap-2 pt-4 border-t">
               <Button type="button" variant="outline" onClick={onCancel}>

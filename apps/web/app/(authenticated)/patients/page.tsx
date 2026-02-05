@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { usePatientGuard } from "@/lib/use-patient-guard";
 import { motion } from "framer-motion";
 import {
   flexRender,
@@ -54,6 +55,7 @@ interface PatientsResponse {
 
 export default function PatientsPage() {
   useRequireAuth();
+  usePatientGuard(); // Restrict access to staff only
   const router = useRouter();
 
   const [sorting, setSorting] = useState<SortingState>([]);

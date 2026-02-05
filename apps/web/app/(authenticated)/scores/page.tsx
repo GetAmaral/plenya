@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, startTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { usePatientGuard } from '@/lib/use-patient-guard'
 import { Plus, Network, Search, Printer, FileImage, ChevronsDown, ChevronsUp, Minimize2, Loader2, Eye } from 'lucide-react'
 import { useAllScoreGroupTrees } from '@/lib/api/score-api'
 import { ScoreTreeView } from '@/components/scores/ScoreTreeView'
@@ -11,6 +12,7 @@ import { PageHeader } from '@/components/layout/page-header'
 import { useAuthStore } from '@/lib/auth-store'
 
 export default function ScoresPage() {
+  usePatientGuard(); // Restrict access to staff only
   const router = useRouter()
   const { accessToken } = useAuthStore()
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)

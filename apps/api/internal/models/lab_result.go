@@ -7,27 +7,17 @@ import (
 	"gorm.io/gorm"
 )
 
-// LabResultStatus define os status possíveis de um resultado laboratorial
-type LabResultStatus string
-
-const (
-	LabResultPending    LabResultStatus = "pending"    // Aguardando resultado
-	LabResultCompleted  LabResultStatus = "completed"  // Resultado disponível
-	LabResultCancelled  LabResultStatus = "cancelled"  // Cancelado
-	LabResultInProgress LabResultStatus = "in_progress" // Em andamento
-)
-
-// LabResult representa um resultado de exame laboratorial
-// @Description Resultado de exame laboratorial com dados do exame e interpretação
+// LabResult representa um resultado de exame laboratorial individual
+// @Description Resultado individual de um exame dentro de um lote (batch)
 type LabResult struct {
 	// ID único do resultado
 	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
-	// ID do paciente
-	PatientID uuid.UUID `gorm:"type:uuid;not null;index" json:"patientId"`
+	// ID do lote de resultados (obrigatório)
+	LabResultBatchID uuid.UUID `gorm:"type:uuid;not null;index:idx_result_batch" json:"labResultBatchId" validate:"required"`
 
-	// ID do médico solicitante
-	RequestingDoctorID uuid.UUID `gorm:"type:uuid;not null;index" json:"requestingDoctorId"`
+	// ID da definição do teste (opcional - FK para LabTestDefinition)
+	LabTestDefinitionID *uuid.UUID `gorm:"type:uuid;index:idx_result_test_def" json:"labTestDefinitionId,omitempty"`
 
 	// Nome do exame
 	TestName string `gorm:"type:varchar(200);not null" json:"testName" validate:"required"`
@@ -35,35 +25,27 @@ type LabResult struct {
 	// Tipo de exame (ex: hemograma, glicemia, etc)
 	TestType string `gorm:"type:varchar(100);not null;index" json:"testType" validate:"required"`
 
-	// Status do resultado
-	Status LabResultStatus `gorm:"type:varchar(20);not null;default:'pending';check:status IN ('pending','completed','cancelled','in_progress')" json:"status"`
+	// Resultado em texto (para exames qualitativos)
+	ResultText *string `gorm:"type:text" json:"resultText,omitempty"`
 
-	// Data da solicitação
-	RequestDate time.Time `gorm:"type:timestamp;not null;index" json:"requestDate"`
-
-	// Data da coleta
-	CollectionDate *time.Time `gorm:"type:timestamp" json:"collectionDate,omitempty"`
-
-	// Data do resultado
-	ResultDate *time.Time `gorm:"type:timestamp;index" json:"resultDate,omitempty"`
-
-	// Resultado (pode ser JSON estruturado ou texto)
-	Result *string `gorm:"type:text" json:"result,omitempty"`
-
-	// Valores de referência
-	ReferenceRange *string `gorm:"type:text" json:"referenceRange,omitempty"`
+	// Resultado numérico (para exames quantitativos)
+	ResultNumeric *float64 `gorm:"type:decimal(12,4)" json:"resultNumeric,omitempty"`
 
 	// Unidade de medida
 	Unit *string `gorm:"type:varchar(50)" json:"unit,omitempty"`
 
-	// Interpretação/Observações do médico
+	// Valores de referência
+	ReferenceRange *string `gorm:"type:text" json:"referenceRange,omitempty"`
+
+	// Interpretação/Observações específicas deste teste
 	Interpretation *string `gorm:"type:text" json:"interpretation,omitempty"`
 
-	// Laboratório que realizou o exame
-	Laboratory *string `gorm:"type:varchar(200)" json:"laboratory,omitempty"`
+	// Nível/Prioridade do resultado (opcional)
+	Level *int `gorm:"type:integer" json:"level,omitempty"`
 
-	// Anexos (PDFs, imagens) - armazenar URLs ou paths
-	Attachments *string `gorm:"type:text" json:"attachments,omitempty"` // JSON array de URLs
+	// Indica se o exame foi matched com uma definição catalogada
+	// true = matched com LabTestDefinition, false = extraído mas não catalogado
+	Matched bool `gorm:"type:boolean;not null;default:true;index" json:"matched"`
 
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
@@ -75,8 +57,9 @@ type LabResult struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 
 	// Relações
-	Patient          Patient `gorm:"foreignKey:PatientID;constraint:OnDelete:CASCADE" json:"patient,omitempty"`
-	RequestingDoctor User    `gorm:"foreignKey:RequestingDoctorID;constraint:OnDelete:RESTRICT" json:"requestingDoctor,omitempty"`
+	LabResultBatch    LabResultBatch     `gorm:"foreignKey:LabResultBatchID;constraint:OnDelete:CASCADE" json:"labResultBatch,omitempty"`
+	LabTestDefinition *LabTestDefinition `gorm:"foreignKey:LabTestDefinitionID;constraint:OnDelete:SET NULL" json:"labTestDefinition,omitempty"`
+	LabResultValues   []LabResultValue   `gorm:"foreignKey:LabResultID;constraint:OnDelete:CASCADE" json:"labResultValues,omitempty"`
 }
 
 // TableName especifica o nome da tabela

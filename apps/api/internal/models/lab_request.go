@@ -37,6 +37,27 @@ type LabRequest struct {
 	// URL do PDF gerado (quando gerado, o pedido fica bloqueado para edição)
 	PdfURL *string `gorm:"type:text" json:"pdfUrl,omitempty"`
 
+	// Assinatura Digital ICP-Brasil (para pedidos de exames)
+
+	// Caminho do PDF assinado
+	// @example /app/uploads/lab-requests/lab_request_550e8400_signed.pdf
+	SignedPDFPath *string `gorm:"type:varchar(500)" json:"signedPdfPath,omitempty"`
+
+	// Hash SHA-256 do PDF assinado (integridade)
+	// @example a1b2c3d4e5f6...
+	SignedPDFHash *string `gorm:"type:varchar(64)" json:"signedPdfHash,omitempty"`
+
+	// Dados do QR Code (URL de validação)
+	// @example https://plenya.com.br/lab-requests/validate/550e8400...
+	QRCodeData *string `gorm:"type:text" json:"qrCodeData,omitempty"`
+
+	// Data/hora da assinatura digital
+	SignedAt *time.Time `gorm:"type:timestamp" json:"signedAt,omitempty"`
+
+	// Número de série do certificado usado na assinatura
+	// @example 1234567890ABCDEF
+	CertificateSerial *string `gorm:"type:varchar(100)" json:"certificateSerial,omitempty"`
+
 	// Timestamps
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`

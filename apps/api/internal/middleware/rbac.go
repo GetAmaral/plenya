@@ -6,15 +6,17 @@ import (
 	"github.com/plenya/api/internal/models"
 )
 
-// RequireRole middleware verifica se o usuário tem uma das roles permitidas
-func RequireRole(allowedRoles ...models.UserRole) fiber.Handler {
+// RequireRole middleware verifica se o usuário tem pelo menos uma das roles permitidas
+func RequireRole(allowedRoles ...models.Role) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		userRole := GetUserRole(c)
+		userRoles := GetUserRoles(c)
 
-		// Verificar se a role do usuário está na lista de roles permitidas
-		for _, role := range allowedRoles {
-			if userRole == role {
-				return c.Next()
+		// Verificar se o usuário tem pelo menos uma das roles permitidas
+		for _, userRole := range userRoles {
+			for _, allowedRole := range allowedRoles {
+				if userRole == string(allowedRole) {
+					return c.Next()
+				}
 			}
 		}
 
@@ -24,12 +26,12 @@ func RequireRole(allowedRoles ...models.UserRole) fiber.Handler {
 	}
 }
 
-// RequireAdmin middleware permite apenas admins
+// RequireAdmin middleware permite apenas usuários com role admin
 func RequireAdmin() fiber.Handler {
 	return RequireRole(models.RoleAdmin)
 }
 
-// RequireDoctor middleware permite apenas doctors
+// RequireDoctor middleware permite apenas usuários com role doctor
 func RequireDoctor() fiber.Handler {
 	return RequireRole(models.RoleDoctor)
 }

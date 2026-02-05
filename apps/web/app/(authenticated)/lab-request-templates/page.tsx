@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useFormNavigation } from '@/lib/use-form-navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { usePatientGuard } from '@/lib/use-patient-guard'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -42,6 +43,7 @@ import { toast } from 'sonner'
 import { PageHeader } from '@/components/layout/page-header'
 
 export default function LabRequestTemplatesPage() {
+  usePatientGuard(); // Restrict access to staff only
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [editingTemplate, setEditingTemplate] = useState<LabRequestTemplate | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<LabRequestTemplate | null>(null)

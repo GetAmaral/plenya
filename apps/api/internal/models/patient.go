@@ -35,10 +35,10 @@ type Patient struct {
 	// @example João da Silva
 	Name string `gorm:"type:varchar(200);not null" json:"name" validate:"required,min=3,max=200"`
 
-	// CPF do paciente (será criptografado antes de salvar)
+	// CPF do paciente (NULLABLE - pode ser preenchido depois)
 	// @pattern ^\d{3}\.\d{3}\.\d{3}-\d{2}$
 	// @example 123.456.789-00
-	CPF string `gorm:"type:text;not null;unique" json:"-" validate:"required"`
+	CPF *string `gorm:"type:text;unique" json:"-"`
 
 	// Data de nascimento
 	// @example 1990-01-01
@@ -111,13 +111,13 @@ func (p *Patient) BeforeSave(tx *gorm.DB) error {
 		return gorm.ErrInvalidData
 	}
 
-	// Criptografar CPF se ainda não estiver criptografado
-	if p.CPF != "" && !isEncrypted(p.CPF) {
-		encrypted, err := crypto.Encrypt(p.CPF)
+	// Criptografar CPF se fornecido e não criptografado
+	if p.CPF != nil && *p.CPF != "" && !isEncrypted(*p.CPF) {
+		encrypted, err := crypto.EncryptWithDefaultKey(*p.CPF)
 		if err != nil {
 			return err
 		}
-		p.CPF = encrypted
+		p.CPF = &encrypted
 	}
 
 	return nil
@@ -134,14 +134,14 @@ func (p *Patient) BeforeCreate(tx *gorm.DB) error {
 // AfterFind hook - descriptografa o CPF após buscar do banco
 func (p *Patient) AfterFind(tx *gorm.DB) error {
 	// Descriptografar CPF se estiver criptografado
-	if p.CPF != "" && isEncrypted(p.CPF) {
-		decrypted, err := crypto.Decrypt(p.CPF)
+	if p.CPF != nil && *p.CPF != "" && isEncrypted(*p.CPF) {
+		decrypted, err := crypto.DecryptWithDefaultKey(*p.CPF)
 		if err != nil {
 			// Se falhar ao descriptografar, manter criptografado
 			// Isso evita erros se o formato mudar
 			return nil
 		}
-		p.CPF = decrypted
+		p.CPF = &decrypted
 	}
 
 	return nil

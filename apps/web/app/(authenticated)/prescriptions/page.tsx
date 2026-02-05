@@ -1,390 +1,380 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useQuery } from '@tanstack/react-query'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import {
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  type ColumnDef,
-  type SortingState,
-} from "@tanstack/react-table";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import {
-  FileText,
-  Search,
   Plus,
-  ChevronLeft,
-  ChevronRight,
-  Clock,
+  FileText,
+  Download,
+  Edit,
+  Copy,
+  Trash2,
+  Eye,
+  AlertCircle,
   CheckCircle2,
+  Clock,
   XCircle,
-} from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { apiClient } from "@/lib/api-client";
-import { useRequireAuth } from "@/lib/use-auth";
-import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
-import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
-import { PageHeader } from "@/components/layout/page-header";
+} from 'lucide-react'
 
-interface Prescription {
-  id: string;
-  patientId: string;
-  doctorId: string;
-  medication: string;
-  dosage: string;
-  frequency: string;
-  duration: string;
-  status: "active" | "completed" | "cancelled";
-  notes?: string;
-  createdAt: string;
-}
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
-interface PrescriptionsResponse {
-  data: Prescription[];
-  total: number;
-  page: number;
-  limit: number;
-}
-
-const statusConfig = {
-  active: { label: "Ativa", variant: "default" as const, icon: Clock },
-  completed: {
-    label: "Concluída",
-    variant: "stable" as const,
-    icon: CheckCircle2,
-  },
-  cancelled: {
-    label: "Cancelada",
-    variant: "destructive" as const,
-    icon: XCircle,
-  },
-};
+import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient'
+import { SelectedPatientHeader } from '@/components/patients/SelectedPatientHeader'
+import { listPrescriptions } from '@/lib/api/prescriptions'
+import type { Prescription, PrescriptionStatus } from '@/lib/api/prescriptions'
 
 export default function PrescriptionsPage() {
-  useRequireAuth();
-  useRequireSelectedPatient();
+  const router = useRouter()
+  const { selectedPatient, isLoading: loadingPatient } = useRequireSelectedPatient()
+  const [statusFilter, setStatusFilter] = useState<PrescriptionStatus | 'all'>('all')
 
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = useState("");
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  // Query prescriptions
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ['prescriptions', selectedPatient?.id, statusFilter],
+    queryFn: () =>
+      listPrescriptions({
+        patientId: selectedPatient?.id,
+        status: statusFilter === 'all' ? undefined : statusFilter,
+        limit: 100,
+      }),
+    enabled: !!selectedPatient?.id,
+  })
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["prescriptions", pagination.pageIndex, pagination.pageSize],
-    queryFn: async () => {
-      const offset = pagination.pageIndex * pagination.pageSize;
-      const result = await apiClient.get<Prescription[] | PrescriptionsResponse>(
-        `/api/v1/prescriptions?limit=${pagination.pageSize}&offset=${offset}`
-      );
-
-      if (Array.isArray(result)) {
-        return {
-          data: result,
-          total: result.length,
-          page: pagination.pageIndex + 1,
-          limit: pagination.pageSize,
-        };
-      }
-
-      return result;
-    },
-  });
-
-  const columns: ColumnDef<Prescription>[] = [
-    {
-      accessorKey: "medication",
-      header: "Medicamento",
-      cell: ({ row }) => (
-        <div className="font-medium">{row.getValue("medication")}</div>
-      ),
-    },
-    {
-      accessorKey: "dosage",
-      header: "Dosagem",
-      cell: ({ row }) => <div className="text-sm">{row.getValue("dosage")}</div>,
-    },
-    {
-      accessorKey: "frequency",
-      header: "Frequência",
-      cell: ({ row }) => (
-        <div className="text-sm text-muted-foreground">
-          {row.getValue("frequency")}
+  if (loadingPatient || isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center space-y-4">
+          <FileText className="h-12 w-12 animate-pulse text-muted-foreground mx-auto" />
+          <p className="text-muted-foreground">Carregando prescrições...</p>
         </div>
-      ),
-    },
-    {
-      accessorKey: "duration",
-      header: "Duração",
-      cell: ({ row }) => (
-        <Badge variant="outline">{row.getValue("duration")}</Badge>
-      ),
-    },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => {
-        const status = row.getValue("status") as keyof typeof statusConfig;
-        const config = statusConfig[status];
-        const Icon = config.icon;
+      </div>
+    )
+  }
 
-        return (
-          <Badge variant={config.variant} className="gap-1">
-            <Icon className="h-3 w-3" />
-            {config.label}
-          </Badge>
-        );
-      },
-    },
-    {
-      accessorKey: "createdAt",
-      header: "Data",
-      cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
-        return (
-          <div className="text-sm text-muted-foreground">
-            {format(date, "dd/MM/yyyy", { locale: ptBR })}
-          </div>
-        );
-      },
-    },
-    {
-      id: "actions",
-      cell: ({ row }) => {
-        const prescription = row.original;
-
-        return (
-          <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => console.log("Ver", prescription.id)}
-            >
-              Ver
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => console.log("Imprimir", prescription.id)}
-            >
-              Imprimir
-            </Button>
-          </div>
-        );
-      },
-    },
-  ];
-
-  const table = useReactTable({
-    data: data?.data || [],
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onSortingChange: setSorting,
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPagination,
-    state: {
-      sorting,
-      globalFilter,
-      pagination,
-    },
-  });
+  const prescriptions = data?.data || []
+  const hasSignedPrescriptions = prescriptions.some((p) => p.signedPDFPath)
 
   return (
-    <div className="container mx-auto py-8 space-y-8">
-      {/* Selected Patient Header */}
+    <div className="container mx-auto py-8">
       <SelectedPatientHeader />
 
-      {/* Header */}
-      <PageHeader
-        breadcrumbs={[{ label: 'Prescrições' }]}
-        title="Prescrições"
-        description={`${data?.total || 0} prescrições registradas`}
-        actions={[
-          {
-            label: 'Novo',
-            icon: <Plus className="h-4 w-4" />,
-            onClick: () => console.log('Nova prescrição'),
-            variant: 'default',
-          },
-        ]}
-      />
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-3xl font-bold">Prescrições Digitais</h1>
+          <p className="text-muted-foreground mt-1">
+            {prescriptions.length} prescrição(ões) encontrada(s)
+          </p>
+        </div>
+        <Button onClick={() => router.push('/prescriptions/new')}>
+          <Plus className="mr-2 h-4 w-4" />
+          Nova Prescrição
+        </Button>
+      </div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-6 grid gap-4 md:grid-cols-3"
-        >
-          {Object.entries(statusConfig).map(([key, config]) => {
-            const Icon = config.icon;
-            return (
-              <Card key={key} className="border-0 shadow-sm">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">
-                        {config.label}
-                      </p>
-                      <p className="text-2xl font-bold">
-                        {data?.data?.filter((p) => p.status === key).length || 0}
-                      </p>
-                    </div>
-                    <Icon className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </motion.div>
+      {/* Info Alert */}
+      {hasSignedPrescriptions && (
+        <Alert className="mb-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Prescrições Assinadas</AlertTitle>
+          <AlertDescription>
+            Prescrições com PDF assinado não podem ser editadas. Para fazer alterações, use a
+            função "Duplicar" e edite a cópia.
+          </AlertDescription>
+        </Alert>
+      )}
 
-        {/* Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Lista de Prescrições</span>
-                <div className="relative w-64">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    placeholder="Buscar prescrições..."
-                    value={globalFilter ?? ""}
-                    onChange={(e) => setGlobalFilter(e.target.value)}
-                    className="pl-9"
-                  />
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {error ? (
-                <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-8 text-center">
-                  <XCircle className="mx-auto h-12 w-12 text-destructive mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">Erro ao carregar prescrições</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {error instanceof Error ? error.message : "Não foi possível conectar ao servidor"}
-                  </p>
-                  <Button
-                    variant="outline"
-                    onClick={() => window.location.reload()}
-                  >
-                    Tentar novamente
-                  </Button>
-                </div>
-              ) : (
-                <div className="rounded-md border">
-                  <table className="w-full">
-                    <thead className="bg-muted/50">
-                      {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id}>
-                          {headerGroup.headers.map((header) => (
-                            <th
-                              key={header.id}
-                              className="px-4 py-3 text-left text-sm font-semibold"
-                            >
-                              {header.isPlaceholder
-                                ? null
-                                : flexRender(
-                                    header.column.columnDef.header,
-                                    header.getContext()
-                                  )}
-                            </th>
-                          ))}
-                        </tr>
-                      ))}
-                    </thead>
-                    <tbody className="divide-y">
-                      {isLoading ? (
-                        Array.from({ length: 5 }).map((_, i) => (
-                          <tr key={i}>
-                            {Array.from({ length: 7 }).map((_, j) => (
-                              <td key={j} className="px-4 py-3">
-                                <Skeleton className="h-6 w-full" />
-                              </td>
-                            ))}
-                          </tr>
-                        ))
-                      ) : table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row) => (
-                          <tr
-                            key={row.id}
-                            className="transition-colors hover:bg-muted/50"
-                          >
-                            {row.getVisibleCells().map((cell) => (
-                              <td key={cell.id} className="px-4 py-3">
-                                {flexRender(
-                                  cell.column.columnDef.cell,
-                                  cell.getContext()
-                                )}
-                              </td>
-                            ))}
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td
-                            colSpan={columns.length}
-                            className="px-4 py-8 text-center text-muted-foreground"
-                          >
-                            Nenhuma prescrição encontrada.
-                          </td>
-                        </tr>
+      {/* Filters */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Filtros</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-4">
+            <div className="w-64">
+              <Select
+                value={statusFilter}
+                onValueChange={(value) => setStatusFilter(value as any)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="active">Ativos</SelectItem>
+                  <SelectItem value="expired">Expirados</SelectItem>
+                  <SelectItem value="used">Usados</SelectItem>
+                  <SelectItem value="cancelled">Cancelados</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Table */}
+      {prescriptions.length === 0 ? (
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-12">
+            <FileText className="h-12 w-12 text-muted-foreground mb-4" />
+            <p className="text-muted-foreground text-center">
+              Nenhuma prescrição encontrada para este paciente.
+            </p>
+            <Button onClick={() => router.push('/prescriptions/new')} className="mt-4">
+              <Plus className="mr-2 h-4 w-4" />
+              Criar Primeira Prescrição
+            </Button>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Medicamentos</TableHead>
+                <TableHead>Categorias</TableHead>
+                <TableHead>Data</TableHead>
+                <TableHead>Validade</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>PDF</TableHead>
+                <TableHead className="text-right">Ações</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {prescriptions.map((prescription) => {
+                const medicationCount = prescription.medications?.length || 0
+                const uniqueCategories = Array.from(
+                  new Set(prescription.medications?.map((m) => m.category) || [])
+                )
+
+                return (
+                  <TableRow key={prescription.id}>
+                    {/* Medications */}
+                    <TableCell>
+                      <div className="font-medium">
+                        {medicationCount} {medicationCount === 1 ? 'medicamento' : 'medicamentos'}
+                      </div>
+                      {prescription.medications && prescription.medications.length > 0 && (
+                        <div className="text-sm text-muted-foreground mt-1">
+                          {prescription.medications
+                            .slice(0, 2)
+                            .map((m) => m.medicationName)
+                            .join(', ')}
+                          {prescription.medications.length > 2 && '...'}
+                        </div>
                       )}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+                    </TableCell>
 
-              {/* Pagination */}
-              <div className="mt-4 flex items-center justify-between">
-                <div className="text-sm text-muted-foreground">
-                  Mostrando{" "}
-                  {pagination.pageIndex * pagination.pageSize + 1} até{" "}
-                  {Math.min(
-                    (pagination.pageIndex + 1) * pagination.pageSize,
-                    data?.total || 0
-                  )}{" "}
-                  de {data?.total || 0} prescrições
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-      </motion.div>
+                    {/* Categories */}
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {uniqueCategories.map((category) => (
+                          <CategoryBadge key={category} category={category} />
+                        ))}
+                      </div>
+                    </TableCell>
+
+                    {/* Date */}
+                    <TableCell>
+                      {format(new Date(prescription.prescriptionDate), 'dd/MM/yyyy', {
+                        locale: ptBR,
+                      })}
+                    </TableCell>
+
+                    {/* Valid Until */}
+                    <TableCell>
+                      {format(new Date(prescription.validUntil), 'dd/MM/yyyy', { locale: ptBR })}
+                    </TableCell>
+
+                    {/* Status */}
+                    <TableCell>
+                      <StatusBadge
+                        status={prescription.status}
+                        isUsed={prescription.isUsed}
+                        validUntil={prescription.validUntil}
+                      />
+                    </TableCell>
+
+                    {/* PDF Status */}
+                    <TableCell>
+                      {prescription.signedPDFPath ? (
+                        <Badge variant="outline" className="bg-green-50 text-green-700">
+                          <CheckCircle2 className="mr-1 h-3 w-3" />
+                          Assinado
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="bg-gray-50">
+                          <Clock className="mr-1 h-3 w-3" />
+                          Rascunho
+                        </Badge>
+                      )}
+                    </TableCell>
+
+                    {/* Actions */}
+                    <TableCell className="text-right">
+                      <PrescriptionActions
+                        prescription={prescription}
+                        onRefetch={refetch}
+                        router={router}
+                      />
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </Card>
+      )}
     </div>
-  );
+  )
+}
+
+function CategoryBadge({ category }: { category: string }) {
+  const variants: Record<string, { label: string; className: string }> = {
+    simple: { label: 'Simples', className: 'bg-blue-50 text-blue-700' },
+    c1: { label: 'C1', className: 'bg-orange-50 text-orange-700' },
+    c5: { label: 'C5', className: 'bg-red-50 text-red-700' },
+    antibiotic: { label: 'Antibiótico', className: 'bg-purple-50 text-purple-700' },
+    glp1: { label: 'GLP-1', className: 'bg-green-50 text-green-700' },
+  }
+
+  const variant = variants[category] || variants.simple
+
+  return (
+    <Badge variant="outline" className={variant.className}>
+      {variant.label}
+    </Badge>
+  )
+}
+
+function StatusBadge({
+  status,
+  isUsed,
+  validUntil,
+}: {
+  status: string
+  isUsed: boolean
+  validUntil: string
+}) {
+  const isExpired = new Date(validUntil) < new Date()
+
+  if (isUsed) {
+    return (
+      <Badge variant="outline" className="bg-gray-50">
+        <CheckCircle2 className="mr-1 h-3 w-3" />
+        Dispensado
+      </Badge>
+    )
+  }
+
+  if (isExpired) {
+    return (
+      <Badge variant="outline" className="bg-red-50 text-red-700">
+        <XCircle className="mr-1 h-3 w-3" />
+        Expirado
+      </Badge>
+    )
+  }
+
+  if (status === 'cancelled') {
+    return (
+      <Badge variant="outline" className="bg-gray-50">
+        <XCircle className="mr-1 h-3 w-3" />
+        Cancelado
+      </Badge>
+    )
+  }
+
+  return (
+    <Badge variant="outline" className="bg-green-50 text-green-700">
+      <CheckCircle2 className="mr-1 h-3 w-3" />
+      Ativo
+    </Badge>
+  )
+}
+
+function PrescriptionActions({
+  prescription,
+  onRefetch,
+  router,
+}: {
+  prescription: Prescription
+  onRefetch: () => void
+  router: any
+}) {
+  const isSigned = !!prescription.signedPDFPath
+  const canEdit = !isSigned
+
+  return (
+    <div className="flex items-center justify-end gap-2">
+      {/* View/Details */}
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => router.push(`/prescriptions/${prescription.id}`)}
+      >
+        <Eye className="h-4 w-4" />
+      </Button>
+
+      {/* Download PDF (if signed) */}
+      {isSigned && prescription.signedPDFPath && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => window.open(prescription.signedPDFPath!, '_blank')}
+        >
+          <Download className="h-4 w-4" />
+        </Button>
+      )}
+
+      {/* Edit (if not signed) */}
+      {canEdit && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => router.push(`/prescriptions/${prescription.id}/edit`)}
+        >
+          <Edit className="h-4 w-4" />
+        </Button>
+      )}
+
+      {/* Duplicate (if signed) */}
+      {isSigned && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => router.push(`/prescriptions/${prescription.id}/duplicate`)}
+        >
+          <Copy className="h-4 w-4" />
+        </Button>
+      )}
+
+      {/* Delete (only if not signed) */}
+      {canEdit && (
+        <Button variant="ghost" size="sm" className="text-destructive">
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      )}
+    </div>
+  )
 }

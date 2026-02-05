@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -67,6 +68,20 @@ func main() {
 		log.Println("✅ Auto migrations completed")
 	}
 
+	// Initialize processing services early (needed by background worker)
+	labTestDefRepo := repository.NewLabTestDefinitionRepository(database.DB)
+	labTestDefService := services.NewLabTestDefinitionService(labTestDefRepo)
+	labResultBatchService := services.NewLabResultBatchService(database.DB)
+	ocrService := services.NewOCRService()
+	aiService := services.NewAIService(cfg)
+	processingJobService := services.NewProcessingJobService(
+		database.DB,
+		ocrService,
+		aiService,
+		labTestDefService,
+		labResultBatchService,
+	)
+
 	// Criar app Fiber
 	app := fiber.New(fiber.Config{
 		AppName:      "Plenya EMR API",
@@ -90,7 +105,7 @@ func main() {
 	app.Static("/uploads", "/app/uploads")
 
 	// Rotas
-	setupRoutes(app, cfg)
+	setupRoutes(app, cfg, processingJobService, labTestDefService, labResultBatchService)
 
 	// Graceful shutdown
 	c := make(chan os.Signal, 1)
@@ -102,6 +117,9 @@ func main() {
 		_ = app.Shutdown()
 	}()
 
+	// Iniciar worker de processamento (background)
+	go startProcessingWorker(processingJobService)
+
 	// Iniciar servidor
 	log.Printf("🚀 Server starting on port %s (environment: %s)", cfg.Server.Port, cfg.Server.Environment)
 	if err := app.Listen(":" + cfg.Server.Port); err != nil {
@@ -110,13 +128,18 @@ func main() {
 }
 
 // setupRoutes configura as rotas da API
-func setupRoutes(app *fiber.App, cfg *config.Config) {
+func setupRoutes(
+	app *fiber.App,
+	cfg *config.Config,
+	processingJobService *services.ProcessingJobService,
+	labTestDefService *services.LabTestDefinitionService,
+	labResultBatchService *services.LabResultBatchService,
+) {
 	// Health check
 	app.Get("/health", healthCheck)
 
 	// Inicializar repositories
 	scoreRepo := repository.NewScoreRepository(database.DB)
-	labTestDefRepo := repository.NewLabTestDefinitionRepository(database.DB)
 	labResultValueRepo := repository.NewLabResultValueRepository(database.DB)
 	labRequestRepo := repository.NewLabRequestRepository(database.DB)
 	labRequestTemplateRepo := repository.NewLabRequestTemplateRepository(database.DB)
@@ -131,34 +154,60 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	appointmentService := services.NewAppointmentService(database.DB)
 	prescriptionService := services.NewPrescriptionService(database.DB)
 	labResultService := services.NewLabResultService(database.DB)
-	labResultBatchService := services.NewLabResultBatchService(database.DB)
 	scoreService := services.NewScoreService(scoreRepo)
-	labTestDefService := services.NewLabTestDefinitionService(labTestDefRepo)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
 	labRequestService := services.NewLabRequestService(labRequestRepo, database.DB)
 	labRequestTemplateService := services.NewLabRequestTemplateService(labRequestTemplateRepo)
 	labResultViewService := services.NewLabResultViewService(labResultViewRepo)
 	articleService := services.NewArticleService(database.DB, "./uploads/articles")
+	userService := services.NewUserService(database.DB)
+	profileService := services.NewProfileService(database.DB)
+	medicationDefinitionService := services.NewMedicationDefinitionService(database.DB)
+
+	// Digital prescription services (Phase 4)
+	certificateService := services.NewCertificateService(database.DB, cfg.Security.EncryptionKey)
+	signatureService := services.NewSignatureService(certificateService)
+	sncrConfig := services.SNCRConfig{
+		Enabled:        cfg.SNCR.Enabled,
+		ProductionMode: cfg.SNCR.ProductionMode,
+		APIURL:         cfg.SNCR.APIURL,
+		APIKey:         cfg.SNCR.APIKey,
+	}
+	sncrService := services.NewSNCRService(sncrConfig, database.DB)
+	prescriptionPDFService := services.NewPrescriptionPDFService(
+		database.DB,
+		signatureService,
+		sncrService,
+		"/app/uploads",
+	)
+	// TODO: labRequestPDFService will be integrated later for signed lab requests
 
 	// Inicializar validator
 	validate := validator.New()
 
 	// Inicializar handlers
 	authHandler := handlers.NewAuthHandler(authService)
+	oauthService := services.NewOAuthService(database.DB, cfg, authService)
+	oauthHandler := handlers.NewOAuthHandler(oauthService)
 	patientHandler := handlers.NewPatientHandler(patientService)
 	anamnesisHandler := handlers.NewAnamnesisHandler(anamnesisService)
 	anamnesisTemplateHandler := handlers.NewAnamnesisTemplateHandler(anamnesisTemplateService)
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
-	prescriptionHandler := handlers.NewPrescriptionHandler(prescriptionService)
+	prescriptionHandler := handlers.NewPrescriptionHandler(prescriptionService, prescriptionPDFService)
 	labResultHandler := handlers.NewLabResultHandler(labResultService)
-	labResultBatchHandler := handlers.NewLabResultBatchHandler(labResultBatchService)
+	labResultBatchHandler := handlers.NewLabResultBatchHandler(labResultBatchService, processingJobService)
+	processingJobHandler := handlers.NewProcessingJobHandler(processingJobService)
 	scoreHandler := handlers.NewScoreHandler(scoreService, validate)
 	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
 	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
-	labRequestHandler := handlers.NewLabRequestHandler(labRequestService)
+	labRequestHandler := handlers.NewLabRequestHandler(labRequestService, certificateService)
 	labRequestTemplateHandler := handlers.NewLabRequestTemplateHandler(labRequestTemplateService)
 	labResultViewHandler := handlers.NewLabResultViewHandler(labResultViewService)
 	articleHandler := handlers.NewArticleHandler(articleService)
+	userHandler := handlers.NewUserHandler(userService)
+	profileHandler := handlers.NewProfileHandler(profileService)
+	certificateHandler := handlers.NewCertificateHandler(database.DB, certificateService)
+	medicationDefHandler := handlers.NewMedicationDefinitionHandler(medicationDefinitionService)
 
 	// API v1
 	v1 := app.Group("/api/v1")
@@ -178,12 +227,34 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	auth.Post("/refresh", authHandler.Refresh)
 	auth.Post("/logout", middleware.Auth(cfg), authHandler.Logout)
 
+	// OAuth routes (públicas, com rate limiting)
+	oauthLimiter := middleware.NewRateLimiter(5, time.Minute) // 5 req/min
+	auth.Post("/oauth/google", oauthLimiter.Middleware(), oauthHandler.GoogleCallback)
+	auth.Post("/oauth/apple", oauthLimiter.Middleware(), oauthHandler.AppleCallback)
+
 	// User routes (protegidas)
 	users := v1.Group("/users")
 	users.Use(middleware.Auth(cfg))
 	users.Get("/me", authHandler.GetMe)
 	users.Put("/me/selected-patient", authHandler.UpdateSelectedPatient)
 	users.Patch("/me/preferences", authHandler.UpdatePreferences)
+
+	// Profile routes (protegidas)
+	profile := v1.Group("/profile")
+	profile.Use(middleware.Auth(cfg))
+	profile.Get("/", profileHandler.GetProfile)
+	profile.Put("/", profileHandler.UpdateProfile)
+
+	// Admin users management (admin only)
+	adminUsers := v1.Group("/admin/users")
+	adminUsers.Use(middleware.Auth(cfg))
+	adminUsers.Use(middleware.RequireAdmin())
+	adminUsers.Use(middleware.AuditLog(database.DB))
+	adminUsers.Get("/", userHandler.GetUsers)
+	adminUsers.Get("/:id", userHandler.GetUser)
+	adminUsers.Post("/", userHandler.CreateUser)
+	adminUsers.Put("/:id", userHandler.UpdateUser)
+	adminUsers.Delete("/:id", userHandler.DeleteUser)
 
 	// Patients routes (protegidas)
 	patients := v1.Group("/patients")
@@ -242,6 +313,40 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	prescriptions.Get("/:id", prescriptionHandler.GetByID)
 	prescriptions.Put("/:id", prescriptionHandler.Update)
 	prescriptions.Delete("/:id", prescriptionHandler.Delete)
+	prescriptions.Post("/:id/sign", middleware.RequireDoctor(), prescriptionHandler.SignAndGenerate)
+
+	// Validation routes (public - no auth)
+	v1.Get("/prescriptions/validate/:id", prescriptionHandler.ValidatePublic)
+	v1.Get("/lab-requests/validate/:id", labRequestHandler.ValidatePublic)
+
+	// Certificates routes (admin only)
+	adminCertificates := v1.Group("/admin/certificates")
+	adminCertificates.Use(middleware.Auth(cfg))
+	adminCertificates.Use(middleware.RequireAdmin())
+	adminCertificates.Use(middleware.AuditLog(database.DB))
+	adminCertificates.Post("/upload", certificateHandler.UploadCertificate)
+	adminCertificates.Patch("/:userId/toggle", certificateHandler.ToggleCertificateActive)
+
+	// Certificate routes (authenticated users)
+	certificates := v1.Group("/certificates")
+	certificates.Use(middleware.Auth(cfg))
+	certificates.Get("/", certificateHandler.ListCertificates)
+	certificates.Get("/status", certificateHandler.GetCertificateStatus)
+	certificates.Delete("/:userId", certificateHandler.DeleteCertificate)
+
+	// Medication Definitions routes
+	medicationDefs := v1.Group("/medication-definitions")
+	medicationDefs.Use(middleware.Auth(cfg))
+
+	// Read routes (all authenticated users)
+	medicationDefs.Get("/", medicationDefHandler.List)
+	medicationDefs.Get("/search", medicationDefHandler.Search)
+	medicationDefs.Get("/:id", medicationDefHandler.GetByID)
+
+	// Write routes (admin only)
+	medicationDefs.Post("/", middleware.RequireAdmin(), middleware.AuditLog(database.DB), medicationDefHandler.Create)
+	medicationDefs.Put("/:id", middleware.RequireAdmin(), middleware.AuditLog(database.DB), medicationDefHandler.Update)
+	medicationDefs.Delete("/:id", middleware.RequireAdmin(), middleware.AuditLog(database.DB), medicationDefHandler.Delete)
 
 	// Lab Results routes (protegidas - apenas doctors)
 	labResults := v1.Group("/lab-results")
@@ -269,6 +374,14 @@ func setupRoutes(app *fiber.App, cfg *config.Config) {
 	labResultBatches.Post("/:id/results", middleware.RequireMedicalStaff(), labResultBatchHandler.AddResult)
 	labResultBatches.Put("/:batchId/results/:resultId", middleware.RequireMedicalStaff(), labResultBatchHandler.UpdateResult)
 	labResultBatches.Delete("/:batchId/results/:resultId", middleware.RequireAdmin(), labResultBatchHandler.DeleteResult)
+
+	// PDF upload route
+	labResultBatches.Post("/:batchId/upload-pdf", middleware.RequireMedicalStaff(), labResultBatchHandler.UploadPDF)
+
+	// Processing Jobs routes (protegidas)
+	processingJobs := v1.Group("/processing-jobs")
+	processingJobs.Use(middleware.Auth(cfg))
+	processingJobs.Get("/:id", processingJobHandler.GetByID)
 
 	// Lab Requests routes (protegidas - medical staff)
 	labRequests := v1.Group("/lab-requests")
@@ -501,4 +614,18 @@ func customErrorHandler(c *fiber.Ctx, err error) error {
 	return c.Status(code).JSON(fiber.Map{
 		"error": err.Error(),
 	})
+}
+
+// startProcessingWorker inicia goroutine de processamento de jobs
+func startProcessingWorker(service *services.ProcessingJobService) {
+	ticker := time.NewTicker(3 * time.Second)
+	defer ticker.Stop()
+
+	log.Println("🤖 Processing worker started (polling every 3s)")
+
+	for range ticker.C {
+		if err := service.PollAndProcess(); err != nil {
+			log.Printf("⚠️  Worker error: %v", err)
+		}
+	}
 }

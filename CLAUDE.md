@@ -292,6 +292,7 @@ function MyForm() {
 ```
 
 **Comportamento esperado:**
+- **Auto-focus:** Foca automaticamente no primeiro campo quando o formulário carrega (padrão)
 - Enter em input → Foca próximo campo
 - Enter no último campo → Submete formulário
 - Tab continua funcionando normalmente
@@ -303,6 +304,7 @@ function MyForm() {
 3. **Sempre** chamar `useFormNavigation({ formRef })`
 4. Se o form está em Dialog/Sheet: `disabled: !isOpen`
 5. Se o form delega para outro componente (ex: `MyFormComponent`), aplicar o hook NO componente do form, não no Dialog
+6. Para desabilitar auto-focus (raro): `useFormNavigation({ formRef, autoFocus: false })`
 
 **Verificação:**
 ```bash

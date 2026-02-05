@@ -57,8 +57,10 @@ export async function getAllAnamnesisTemplates(withItems = false): Promise<Anamn
 /**
  * Get anamnesis template by ID
  */
-export async function getAnamnesisTemplateById(id: string): Promise<AnamnesisTemplate> {
-  return apiClient.get<AnamnesisTemplate>(`/api/v1/anamnesis-templates/${id}`)
+export async function getAnamnesisTemplateById(id: string, withItems = true): Promise<AnamnesisTemplate> {
+  return apiClient.get<AnamnesisTemplate>(
+    `/api/v1/anamnesis-templates/${id}?withItems=${withItems}`
+  )
 }
 
 /**

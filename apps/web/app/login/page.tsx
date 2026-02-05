@@ -15,6 +15,8 @@ import { apiClient } from "@/lib/api-client";
 import { useAuthStore } from "@/lib/auth-store";
 import { useFormNavigation } from "@/lib/use-form-navigation";
 import { Activity, ArrowRight, Loader2 } from "lucide-react";
+import { GoogleOAuthButton } from "@/components/auth/GoogleOAuthButton";
+import { AppleOAuthButton } from "@/components/auth/AppleOAuthButton";
 
 const loginSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -29,7 +31,7 @@ interface LoginResponse {
   user: {
     id: string;
     email: string;
-    role: "admin" | "doctor" | "nurse" | "patient";
+    roles: string[];
     twoFactorEnabled: boolean;
     createdAt: string;
   };
@@ -148,12 +150,35 @@ export default function LoginPage() {
               </motion.p>
             </div>
 
+            {/* OAuth Login Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="space-y-3 mb-6"
+            >
+              <GoogleOAuthButton />
+              <AppleOAuthButton />
+
+              {/* Divider */}
+              <div className="relative my-6">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-border" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">
+                    Ou continue com email
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+
             {/* Login form */}
             <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 }}
+                transition={{ delay: 0.6 }}
                 className="space-y-2"
               >
                 <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">
@@ -176,7 +201,7 @@ export default function LoginPage() {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 }}
+                transition={{ delay: 0.7 }}
                 className="space-y-2"
               >
                 <Label htmlFor="password" className="text-gray-700 dark:text-gray-300">

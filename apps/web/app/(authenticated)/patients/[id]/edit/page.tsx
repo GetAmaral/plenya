@@ -28,9 +28,13 @@ interface Patient {
   id: string;
   userId: string;
   name: string;
+  cpf?: string;
   birthDate: string;
   gender: "male" | "female" | "other";
   phone?: string;
+  address?: string;
+  municipality?: string;
+  state?: string;
   motherName?: string;
   fatherName?: string;
   height?: number;
@@ -41,9 +45,13 @@ interface Patient {
 
 interface UpdatePatientForm {
   name: string;
+  cpf?: string;
   birthDate: string;
   gender: "male" | "female" | "other";
   phone?: string;
+  address?: string;
+  municipality?: string;
+  state?: string;
   motherName?: string;
   fatherName?: string;
   height?: number;
@@ -77,9 +85,13 @@ export default function EditPatientPage() {
   } = useForm<UpdatePatientForm>({
     defaultValues: {
       name: patient?.name || "",
+      cpf: patient?.cpf || "",
       birthDate: patient?.birthDate || "",
       gender: patient?.gender || "male",
       phone: patient?.phone || "",
+      address: patient?.address || "",
+      municipality: patient?.municipality || "",
+      state: patient?.state || "",
       motherName: patient?.motherName || "",
       fatherName: patient?.fatherName || "",
       height: patient?.height || undefined,
@@ -91,9 +103,13 @@ export default function EditPatientPage() {
   React.useEffect(() => {
     if (patient) {
       setValue("name", patient.name, { shouldDirty: false });
+      setValue("cpf", patient.cpf || "", { shouldDirty: false });
       setValue("birthDate", patient.birthDate, { shouldDirty: false });
       setValue("gender", patient.gender, { shouldDirty: false });
       setValue("phone", patient.phone || "", { shouldDirty: false });
+      setValue("address", patient.address || "", { shouldDirty: false });
+      setValue("municipality", patient.municipality || "", { shouldDirty: false });
+      setValue("state", patient.state || "", { shouldDirty: false });
       setValue("motherName", patient.motherName || "", { shouldDirty: false });
       setValue("fatherName", patient.fatherName || "", { shouldDirty: false });
       setValue("height", patient.height, { shouldDirty: false });
@@ -117,12 +133,26 @@ export default function EditPatientPage() {
   });
 
   const onSubmit = (data: UpdatePatientForm) => {
+    // Limpar CPF (remover formatação: apenas dígitos)
+    let cleanCPF: string | undefined = undefined;
+    if (data.cpf && data.cpf.trim() !== "") {
+      cleanCPF = data.cpf.replace(/\D/g, ""); // Remove tudo que não é dígito
+      if (cleanCPF.length !== 11) {
+        toast.error("CPF deve ter exatamente 11 dígitos");
+        return;
+      }
+    }
+
     // Limpar campos vazios (enviar undefined ao invés de string vazia)
     const cleanData = {
       name: data.name,
+      cpf: cleanCPF,
       birthDate: data.birthDate,
       gender: data.gender,
       phone: data.phone && data.phone.trim() !== "" ? data.phone : undefined,
+      address: data.address && data.address.trim() !== "" ? data.address : undefined,
+      municipality: data.municipality && data.municipality.trim() !== "" ? data.municipality : undefined,
+      state: data.state && data.state.trim() !== "" ? data.state?.toUpperCase() : undefined,
       motherName: data.motherName && data.motherName.trim() !== "" ? data.motherName : undefined,
       fatherName: data.fatherName && data.fatherName.trim() !== "" ? data.fatherName : undefined,
       height: data.height && data.height > 0 ? data.height : undefined,
@@ -243,25 +273,113 @@ export default function EditPatientPage() {
                   </div>
                 </div>
 
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="cpf">CPF</Label>
+                    <Input
+                      id="cpf"
+                      {...register("cpf", {
+                        validate: (value) => {
+                          if (!value || value.trim() === "") return true;
+                          // Remove formatting
+                          const cleanCPF = value.replace(/\D/g, "");
+                          if (cleanCPF.length !== 11) return "CPF deve ter 11 dígitos";
+                          return true;
+                        },
+                      })}
+                      placeholder="000.000.000-00"
+                      maxLength={14}
+                    />
+                    {errors.cpf && (
+                      <p className="text-sm text-destructive">
+                        {errors.cpf.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Telefone</Label>
+                    <Input
+                      id="phone"
+                      {...register("phone", {
+                        validate: (value) => {
+                          if (!value || value.trim() === "") return true;
+                          if (value.length < 10) return "Telefone deve ter pelo menos 10 caracteres";
+                          if (value.length > 20) return "Telefone não pode ter mais de 20 caracteres";
+                          return true;
+                        },
+                      })}
+                      placeholder="(11) 98765-4321"
+                    />
+                    {errors.phone && (
+                      <p className="text-sm text-destructive">
+                        {errors.phone.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Telefone</Label>
+                  <Label htmlFor="address">Endereço</Label>
                   <Input
-                    id="phone"
-                    {...register("phone", {
+                    id="address"
+                    {...register("address", {
                       validate: (value) => {
                         if (!value || value.trim() === "") return true;
-                        if (value.length < 10) return "Telefone deve ter pelo menos 10 caracteres";
-                        if (value.length > 20) return "Telefone não pode ter mais de 20 caracteres";
+                        if (value.length > 500) return "Endereço não pode ter mais de 500 caracteres";
                         return true;
                       },
                     })}
-                    placeholder="(11) 98765-4321"
+                    placeholder="Rua Exemplo, 123 - Bairro"
                   />
-                  {errors.phone && (
+                  {errors.address && (
                     <p className="text-sm text-destructive">
-                      {errors.phone.message}
+                      {errors.address.message}
                     </p>
                   )}
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="municipality">Município</Label>
+                    <Input
+                      id="municipality"
+                      {...register("municipality", {
+                        validate: (value) => {
+                          if (!value || value.trim() === "") return true;
+                          if (value.length > 100) return "Município não pode ter mais de 100 caracteres";
+                          return true;
+                        },
+                      })}
+                      placeholder="São Paulo"
+                    />
+                    {errors.municipality && (
+                      <p className="text-sm text-destructive">
+                        {errors.municipality.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="state">Estado (UF)</Label>
+                    <Input
+                      id="state"
+                      {...register("state", {
+                        validate: (value) => {
+                          if (!value || value.trim() === "") return true;
+                          if (value.length !== 2) return "UF deve ter 2 caracteres (ex: SP)";
+                          return true;
+                        },
+                      })}
+                      placeholder="SP"
+                      maxLength={2}
+                    />
+                    {errors.state && (
+                      <p className="text-sm text-destructive">
+                        {errors.state.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>

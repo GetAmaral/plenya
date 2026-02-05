@@ -98,7 +98,7 @@ func (h *PatientHandler) GetByID(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	resp, err := h.patientService.GetByID(patientID, userID, userRole)
 	if err != nil {
@@ -140,7 +140,7 @@ func (h *PatientHandler) List(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	resp, err := h.patientService.List(userID, userRole, limit, offset)
 	if err != nil {
@@ -193,7 +193,7 @@ func (h *PatientHandler) Update(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	resp, err := h.patientService.Update(patientID, userID, userRole, &req)
 	if err != nil {
@@ -236,7 +236,7 @@ func (h *PatientHandler) Delete(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
-	userRole := middleware.GetUserRole(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	err = h.patientService.Delete(patientID, userID, userRole)
 	if err != nil {

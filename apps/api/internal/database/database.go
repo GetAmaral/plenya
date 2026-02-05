@@ -72,6 +72,7 @@ func AutoMigrate() error {
 		// Appointments & Prescriptions
 		&models.Appointment{},
 		&models.Prescription{},
+		&models.PrescriptionMedication{},
 
 		// Lab Tests & Results
 		&models.LabTestDefinition{},

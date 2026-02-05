@@ -13,6 +13,9 @@ type Config struct {
 	Database DatabaseConfig
 	JWT      JWTConfig
 	Security SecurityConfig
+	OAuth    OAuthConfig
+	SNCR     SNCRConfig
+	Claude   ClaudeConfig
 }
 
 type ServerConfig struct {
@@ -40,6 +43,27 @@ type SecurityConfig struct {
 	EncryptionKey   string
 	RateLimitReqs   int
 	RateLimitWindow int
+}
+
+type OAuthConfig struct {
+	GoogleClientID     string
+	GoogleClientSecret string
+	AppleClientID      string
+	AppleTeamID        string
+	AppleKeyID         string
+	ApplePrivateKey    string
+}
+
+type SNCRConfig struct {
+	Enabled        bool
+	ProductionMode bool
+	APIURL         string
+	APIKey         string
+}
+
+type ClaudeConfig struct {
+	APIKey string
+	Model  string
 }
 
 // Load carrega as configurações do ambiente
@@ -70,6 +94,24 @@ func Load() (*Config, error) {
 			EncryptionKey:   getEnv("ENCRYPTION_KEY", ""),
 			RateLimitReqs:   getEnvAsInt("RATE_LIMIT_REQUESTS", 100),
 			RateLimitWindow: getEnvAsInt("RATE_LIMIT_WINDOW", 60),
+		},
+		OAuth: OAuthConfig{
+			GoogleClientID:     getEnv("OAUTH_GOOGLE_CLIENT_ID", ""),
+			GoogleClientSecret: getEnv("OAUTH_GOOGLE_CLIENT_SECRET", ""),
+			AppleClientID:      getEnv("OAUTH_APPLE_CLIENT_ID", ""),
+			AppleTeamID:        getEnv("OAUTH_APPLE_TEAM_ID", ""),
+			AppleKeyID:         getEnv("OAUTH_APPLE_KEY_ID", ""),
+			ApplePrivateKey:    getEnv("OAUTH_APPLE_PRIVATE_KEY", ""),
+		},
+		SNCR: SNCRConfig{
+			Enabled:        getEnvAsBool("SNCR_ENABLED", true),
+			ProductionMode: getEnvAsBool("SNCR_PRODUCTION_MODE", false),
+			APIURL:         getEnv("SNCR_API_URL", "https://sncr.anvisa.gov.br/api/v1"),
+			APIKey:         getEnv("SNCR_API_KEY", ""),
+		},
+		Claude: ClaudeConfig{
+			APIKey: getEnv("CLAUDE_API_KEY", ""),
+			Model:  getEnv("CLAUDE_MODEL", "claude-sonnet-4-5-20250929"),
 		},
 	}
 
@@ -119,6 +161,16 @@ func getEnvAsInt(key string, defaultValue int) int {
 	if value := os.Getenv(key); value != "" {
 		if intValue, err := strconv.Atoi(value); err == nil {
 			return intValue
+		}
+	}
+	return defaultValue
+}
+
+// getEnvAsBool obtém variável de ambiente como bool ou retorna valor padrão
+func getEnvAsBool(key string, defaultValue bool) bool {
+	if value := os.Getenv(key); value != "" {
+		if boolValue, err := strconv.ParseBool(value); err == nil {
+			return boolValue
 		}
 	}
 	return defaultValue

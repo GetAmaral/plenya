@@ -10,7 +10,12 @@ RUN apk add --no-cache git make \
     freetype \
     harfbuzz \
     ca-certificates \
-    ttf-freefont
+    ttf-freefont \
+    # Dependências para OCR e processamento de PDF
+    poppler-utils \
+    tesseract-ocr \
+    tesseract-ocr-data-por \
+    imagemagick
 
 # Copiar entrypoint
 COPY entrypoint.sh /entrypoint.sh

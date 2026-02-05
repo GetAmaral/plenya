@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useMemo } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { Underline } from '@tiptap/extension-underline'
@@ -47,6 +48,7 @@ interface RichTextEditorProps {
   placeholder?: string
   className?: string
   minHeight?: string
+  editorId?: string // Unique ID to prevent extension conflicts
 }
 
 export function RichTextEditor({
@@ -55,25 +57,27 @@ export function RichTextEditor({
   placeholder = 'Digite aqui...',
   className,
   minHeight = '200px',
+  editorId,
 }: RichTextEditorProps) {
+  // Memoize extensions to prevent recreation and duplicates
+  const extensions = useMemo(() => [
+    StarterKit.configure({
+      // Explicitly disable any potential underline from StarterKit
+      underline: false,
+    }),
+    Underline,
+    TextAlign.configure({
+      types: ['heading', 'paragraph'],
+    }),
+    TextStyle,
+    Color,
+    Highlight.configure({
+      multicolor: true,
+    }),
+  ], [])
+
   const editor = useEditor({
     immediatelyRender: false, // Fix SSR hydration issues in Next.js
-    extensions: [
-      StarterKit, // Already includes: bold, italic, strike, heading, paragraph, lists, etc.
-      Underline, // Add underline (not in StarterKit by default)
-      TextAlign.configure({
-        types: ['heading', 'paragraph'],
-      }),
-      TextStyle,
-      Color,
-      Highlight.configure({
-        multicolor: true,
-      }),
-    ],
-    content: value,
-    onUpdate: ({ editor }) => {
-      onChange(editor.getHTML())
-    },
     editorProps: {
       attributes: {
         class: cn(
@@ -82,9 +86,31 @@ export function RichTextEditor({
           className
         ),
         style: `min-height: ${minHeight}`,
+        ...(editorId && { 'data-editor-id': editorId }),
       },
     },
+    extensions,
+    content: value,
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML())
+    },
   })
+
+  // Sync external value changes
+  useEffect(() => {
+    if (editor && value !== editor.getHTML()) {
+      editor.commands.setContent(value, false)
+    }
+  }, [value, editor])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (editor && !editor.isDestroyed) {
+        editor.destroy()
+      }
+    }
+  }, [])
 
   if (!editor) {
     return null

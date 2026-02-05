@@ -1,5 +1,16 @@
 basePath: /api/v1
 definitions:
+  dto.AnamnesisTemplateItemData:
+    properties:
+      order:
+        maximum: 9999
+        minimum: 0
+        type: integer
+      scoreItemId:
+        type: string
+    required:
+    - scoreItemId
+    type: object
   dto.AuthResponse:
     properties:
       accessToken:
@@ -8,6 +19,23 @@ definitions:
         type: string
       user:
         $ref: '#/definitions/dto.UserDTO'
+    type: object
+  dto.CreateAnamnesisTemplateRequest:
+    properties:
+      area:
+        enum:
+        - Medicina
+        - Nutricao
+        - Psicologia
+        - Educacao Fisica
+        type: string
+      name:
+        maxLength: 200
+        minLength: 2
+        type: string
+    required:
+    - area
+    - name
     type: object
   dto.CreateLabRequestRequest:
     properties:
@@ -24,6 +52,87 @@ definitions:
     required:
     - date
     - exams
+    type: object
+  dto.CreateLabResultBatchRequest:
+    properties:
+      attachments:
+        type: string
+      collectionDate:
+        description: RFC3339
+        type: string
+      labRequestId:
+        description: patientId vem do selectedPatient (context)
+        type: string
+      labResults:
+        items:
+          $ref: '#/definitions/dto.CreateLabResultInBatchRequest'
+        minItems: 1
+        type: array
+      laboratoryName:
+        maxLength: 200
+        type: string
+      observations:
+        type: string
+      requestingDoctorId:
+        type: string
+      resultDate:
+        description: RFC3339
+        type: string
+      status:
+        $ref: '#/definitions/models.LabResultBatchStatus'
+    required:
+    - collectionDate
+    - labResults
+    - laboratoryName
+    - status
+    type: object
+  dto.CreateLabResultInBatchRequest:
+    properties:
+      interpretation:
+        type: string
+      labTestDefinitionId:
+        type: string
+      level:
+        type: integer
+      referenceRange:
+        type: string
+      resultNumeric:
+        type: number
+      resultText:
+        type: string
+      status:
+        enum:
+        - pending
+        - completed
+        - cancelled
+        type: string
+      testName:
+        maxLength: 200
+        type: string
+      testType:
+        maxLength: 100
+        type: string
+      unit:
+        type: string
+    required:
+    - status
+    - testName
+    - testType
+    type: object
+  dto.CreateLabResultViewRequest:
+    properties:
+      description:
+        type: string
+      displayOrder:
+        maximum: 9999
+        minimum: 0
+        type: integer
+      name:
+        maxLength: 200
+        minLength: 2
+        type: string
+    required:
+    - name
     type: object
   dto.CreatePatientRequest:
     properties:
@@ -73,6 +182,30 @@ definitions:
     - gender
     - name
     type: object
+  dto.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      name:
+        maxLength: 200
+        minLength: 3
+        type: string
+      password:
+        description: bcrypt max 72 bytes
+        maxLength: 72
+        minLength: 8
+        type: string
+      roles:
+        items:
+          type: string
+        minItems: 1
+        type: array
+    required:
+    - email
+    - name
+    - password
+    - roles
+    type: object
   dto.ErrorResponse:
     properties:
       details:
@@ -84,6 +217,110 @@ definitions:
         type: string
       message:
         type: string
+    type: object
+  dto.LabResultBatchDetailResponse:
+    properties:
+      attachments:
+        type: string
+      collectionDate:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      labRequestId:
+        type: string
+      labResults:
+        items:
+          $ref: '#/definitions/dto.LabResultInBatchResponse'
+        type: array
+      laboratoryName:
+        type: string
+      observations:
+        type: string
+      patientId:
+        type: string
+      requestingDoctorId:
+        type: string
+      resultCount:
+        type: integer
+      resultDate:
+        type: string
+      status:
+        $ref: '#/definitions/models.LabResultBatchStatus'
+      updatedAt:
+        type: string
+    type: object
+  dto.LabResultBatchResponse:
+    properties:
+      attachments:
+        type: string
+      collectionDate:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      labRequestId:
+        type: string
+      laboratoryName:
+        type: string
+      observations:
+        type: string
+      patientId:
+        type: string
+      requestingDoctorId:
+        type: string
+      resultCount:
+        type: integer
+      resultDate:
+        type: string
+      status:
+        $ref: '#/definitions/models.LabResultBatchStatus'
+      updatedAt:
+        type: string
+    type: object
+  dto.LabResultInBatchResponse:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: string
+      interpretation:
+        type: string
+      labResultBatchId:
+        type: string
+      labTestDefinitionId:
+        type: string
+      level:
+        type: integer
+      referenceRange:
+        type: string
+      resultNumeric:
+        type: number
+      resultText:
+        type: string
+      status:
+        type: string
+      testName:
+        type: string
+      testType:
+        type: string
+      unit:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  dto.LabResultViewItemData:
+    properties:
+      labTestDefinitionId:
+        type: string
+      order:
+        maximum: 9999
+        minimum: 0
+        type: integer
+    required:
+    - labTestDefinitionId
     type: object
   dto.LoginRequest:
     properties:
@@ -152,18 +389,38 @@ definitions:
       password:
         minLength: 8
         type: string
-      role:
-        allOf:
-        - $ref: '#/definitions/models.UserRole'
-        enum:
-        - admin
-        - doctor
-        - nurse
-        - patient
+      roles:
+        items:
+          type: string
+        minItems: 1
+        type: array
     required:
     - email
     - password
-    - role
+    - roles
+    type: object
+  dto.UpdateAnamnesisTemplateItemsRequest:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/dto.AnamnesisTemplateItemData'
+        type: array
+    required:
+    - items
+    type: object
+  dto.UpdateAnamnesisTemplateRequest:
+    properties:
+      area:
+        enum:
+        - Medicina
+        - Nutricao
+        - Psicologia
+        - Educacao Fisica
+        type: string
+      name:
+        maxLength: 200
+        minLength: 2
+        type: string
     type: object
   dto.UpdateLabRequestRequest:
     properties:
@@ -174,6 +431,86 @@ definitions:
       labRequestTemplateId:
         type: string
       notes:
+        type: string
+    type: object
+  dto.UpdateLabResultBatchRequest:
+    properties:
+      attachments:
+        type: string
+      collectionDate:
+        description: RFC3339
+        type: string
+      labRequestId:
+        type: string
+      labResults:
+        description: Nested results sync
+        items:
+          $ref: '#/definitions/dto.UpdateLabResultInBatchRequest'
+        type: array
+      laboratoryName:
+        maxLength: 200
+        type: string
+      observations:
+        type: string
+      requestingDoctorId:
+        type: string
+      resultDate:
+        description: RFC3339
+        type: string
+      status:
+        $ref: '#/definitions/models.LabResultBatchStatus'
+    type: object
+  dto.UpdateLabResultInBatchRequest:
+    properties:
+      id:
+        description: Se presente, faz update; se ausente, cria novo
+        type: string
+      interpretation:
+        type: string
+      labTestDefinitionId:
+        type: string
+      level:
+        type: integer
+      referenceRange:
+        type: string
+      resultNumeric:
+        type: number
+      resultText:
+        type: string
+      status:
+        type: string
+      testName:
+        maxLength: 200
+        type: string
+      testType:
+        maxLength: 100
+        type: string
+      unit:
+        maxLength: 50
+        type: string
+    type: object
+  dto.UpdateLabResultViewItemsRequest:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/dto.LabResultViewItemData'
+        type: array
+    required:
+    - items
+    type: object
+  dto.UpdateLabResultViewRequest:
+    properties:
+      description:
+        type: string
+      displayOrder:
+        maximum: 9999
+        minimum: 0
+        type: integer
+      isActive:
+        type: boolean
+      name:
+        maxLength: 200
+        minLength: 2
         type: string
     type: object
   dto.UpdatePatientRequest:
@@ -217,12 +554,53 @@ definitions:
       weight:
         type: number
     type: object
+  dto.UpdateProfileRequest:
+    properties:
+      crm:
+        maxLength: 20
+        type: string
+      crmUF:
+        type: string
+      name:
+        maxLength: 200
+        minLength: 3
+        type: string
+      professionalAddress:
+        type: string
+      professionalPhone:
+        maxLength: 20
+        type: string
+      rqe:
+        maxLength: 20
+        type: string
+      specialty:
+        maxLength: 100
+        type: string
+    type: object
   dto.UpdateSelectedPatientRequest:
     properties:
       patientId:
         type: string
     required:
     - patientId
+    type: object
+  dto.UpdateUserRequest:
+    properties:
+      email:
+        type: string
+      name:
+        maxLength: 200
+        minLength: 3
+        type: string
+      password:
+        maxLength: 72
+        minLength: 8
+        type: string
+      roles:
+        items:
+          type: string
+        minItems: 1
+        type: array
     type: object
   dto.UserDTO:
     properties:
@@ -235,14 +613,60 @@ definitions:
       preferences:
         additionalProperties: true
         type: object
-      role:
-        $ref: '#/definitions/models.UserRole'
+      roles:
+        items:
+          type: string
+        type: array
       selectedPatient:
         $ref: '#/definitions/dto.PatientResponse'
       selectedPatientId:
         type: string
       twoFactorEnabled:
         type: boolean
+    type: object
+  dto.UserListResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.UserResponse'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total:
+        type: integer
+    type: object
+  dto.UserResponse:
+    properties:
+      createdAt:
+        type: string
+      crm:
+        type: string
+      crmUF:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      professionalAddress:
+        type: string
+      professionalPhone:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+      rqe:
+        type: string
+      specialty:
+        type: string
+      twoFactorEnabled:
+        type: boolean
+      updatedAt:
+        type: string
     type: object
   handlers.AddLabTestToTemplateRequest:
     properties:
@@ -259,6 +683,81 @@ definitions:
         type: array
     required:
     - testIds
+    type: object
+  models.AnamnesisTemplate:
+    description: Template de anamnese com itens pré-configurados para uma área específica
+    properties:
+      area:
+        description: |-
+          Área de aplicação do template
+          @example Clínica Médica, Psicologia, Pediatria, Cardiologia
+        maxLength: 100
+        type: string
+      createdAt:
+        description: Timestamps
+        type: string
+      id:
+        description: '@example 550e8400-e29b-41d4-a716-446655440000'
+        type: string
+      items:
+        description: Relationships
+        items:
+          $ref: '#/definitions/models.AnamnesisTemplateItem'
+        type: array
+      name:
+        description: |-
+          Nome do template
+          @minLength 2
+          @maxLength 200
+          @example Anamnese Clínica Geral
+        maxLength: 200
+        minLength: 2
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - area
+    - name
+    type: object
+  models.AnamnesisTemplateItem:
+    description: Item de template de anamnese vinculado a um ScoreItem
+    properties:
+      anamnesisTemplate:
+        allOf:
+        - $ref: '#/definitions/models.AnamnesisTemplate'
+        description: Relationships
+      anamnesisTemplateId:
+        description: |-
+          Foreign key to AnamnesisTemplate
+          @example 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      createdAt:
+        description: Timestamps
+        type: string
+      id:
+        description: '@example 550e8400-e29b-41d4-a716-446655440000'
+        type: string
+      order:
+        description: |-
+          Order for display (within the template)
+          @minimum 0
+          @maximum 9999
+          @example 1
+        maximum: 9999
+        minimum: 0
+        type: integer
+      scoreItem:
+        $ref: '#/definitions/models.ScoreItem'
+      scoreItemId:
+        description: |-
+          Foreign key to ScoreItem
+          @example 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - anamnesisTemplateId
+    - scoreItemId
     type: object
   models.Article:
     properties:
@@ -433,6 +932,11 @@ definitions:
   models.LabRequest:
     description: Pedido de exames laboratoriais para um paciente
     properties:
+      certificateSerial:
+        description: |-
+          Número de série do certificado usado na assinatura
+          @example 1234567890ABCDEF
+        type: string
       createdAt:
         description: Timestamps
         type: string
@@ -474,6 +978,24 @@ definitions:
       pdfUrl:
         description: URL do PDF gerado (quando gerado, o pedido fica bloqueado para
           edição)
+        type: string
+      qrCodeData:
+        description: |-
+          Dados do QR Code (URL de validação)
+          @example https://plenya.com.br/lab-requests/validate/550e8400...
+        type: string
+      signedAt:
+        description: Data/hora da assinatura digital
+        type: string
+      signedPdfHash:
+        description: |-
+          Hash SHA-256 do PDF assinado (integridade)
+          @example a1b2c3d4e5f6...
+        type: string
+      signedPdfPath:
+        description: |-
+          Caminho do PDF assinado
+          @example /app/uploads/lab-requests/lab_request_550e8400_signed.pdf
         type: string
       updatedAt:
         type: string
@@ -520,14 +1042,8 @@ definitions:
     - name
     type: object
   models.LabResult:
-    description: Resultado de exame laboratorial com dados do exame e interpretação
+    description: Resultado individual de um exame dentro de um lote (batch)
     properties:
-      attachments:
-        description: Anexos (PDFs, imagens) - armazenar URLs ou paths
-        type: string
-      collectionDate:
-        description: Data da coleta
-        type: string
       createdAt:
         description: Data de criação
         type: string
@@ -535,39 +1051,36 @@ definitions:
         description: ID único do resultado
         type: string
       interpretation:
-        description: Interpretação/Observações do médico
+        description: Interpretação/Observações específicas deste teste
         type: string
-      laboratory:
-        description: Laboratório que realizou o exame
-        type: string
-      patient:
+      labResultBatch:
         allOf:
-        - $ref: '#/definitions/models.Patient'
+        - $ref: '#/definitions/models.LabResultBatch'
         description: Relações
-      patientId:
-        description: ID do paciente
+      labResultBatchId:
+        description: ID do lote de resultados (obrigatório)
         type: string
+      labResultValues:
+        items:
+          $ref: '#/definitions/models.LabResultValue'
+        type: array
+      labTestDefinition:
+        $ref: '#/definitions/models.LabTestDefinition'
+      labTestDefinitionId:
+        description: ID da definição do teste (opcional - FK para LabTestDefinition)
+        type: string
+      level:
+        description: Nível/Prioridade do resultado (opcional)
+        type: integer
       referenceRange:
         description: Valores de referência
         type: string
-      requestDate:
-        description: Data da solicitação
+      resultNumeric:
+        description: Resultado numérico (para exames quantitativos)
+        type: number
+      resultText:
+        description: Resultado em texto (para exames qualitativos)
         type: string
-      requestingDoctor:
-        $ref: '#/definitions/models.User'
-      requestingDoctorId:
-        description: ID do médico solicitante
-        type: string
-      result:
-        description: Resultado (pode ser JSON estruturado ou texto)
-        type: string
-      resultDate:
-        description: Data do resultado
-        type: string
-      status:
-        allOf:
-        - $ref: '#/definitions/models.LabResultStatus'
-        description: Status do resultado
       testName:
         description: Nome do exame
         type: string
@@ -581,31 +1094,90 @@ definitions:
         description: Data de atualização
         type: string
     required:
+    - labResultBatchId
     - testName
     - testType
     type: object
-  models.LabResultStatus:
+  models.LabResultBatch:
+    description: Agrupa resultados de uma mesma coleta/laboratório
+    properties:
+      attachments:
+        description: Anexos (PDFs/scans do lote completo) - JSON array de URLs
+        type: string
+      collectionDate:
+        description: Data da coleta
+        type: string
+      createdAt:
+        description: Data de criação
+        type: string
+      id:
+        description: ID único do lote
+        type: string
+      labRequest:
+        $ref: '#/definitions/models.LabRequest'
+      labRequestId:
+        description: ID do pedido laboratorial (opcional - pode ser entrada manual)
+        type: string
+      labResults:
+        items:
+          $ref: '#/definitions/models.LabResult'
+        type: array
+      laboratoryName:
+        description: |-
+          Nome do laboratório
+          @example Laboratório São Paulo, Fleury, Dasa
+        maxLength: 200
+        type: string
+      observations:
+        description: Observações gerais do lote
+        type: string
+      patient:
+        allOf:
+        - $ref: '#/definitions/models.Patient'
+        description: Relacionamentos
+      patientId:
+        description: ID do paciente
+        type: string
+      requestingDoctor:
+        $ref: '#/definitions/models.User'
+      requestingDoctorId:
+        description: ID do médico solicitante (opcional)
+        type: string
+      resultDate:
+        description: Data de disponibilização dos resultados
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/models.LabResultBatchStatus'
+        description: |-
+          Status do lote
+          @enum pending,partial,completed
+      updatedAt:
+        description: Data de atualização
+        type: string
+    required:
+    - collectionDate
+    - laboratoryName
+    - status
+    type: object
+  models.LabResultBatchStatus:
     enum:
     - pending
+    - partial
     - completed
-    - cancelled
-    - in_progress
     type: string
     x-enum-comments:
-      LabResultCancelled: Cancelado
-      LabResultCompleted: Resultado disponível
-      LabResultInProgress: Em andamento
-      LabResultPending: Aguardando resultado
+      LabResultBatchCompleted: Completo
+      LabResultBatchPartial: Parcial
+      LabResultBatchPending: Aguardando
     x-enum-descriptions:
-    - Aguardando resultado
-    - Resultado disponível
-    - Cancelado
-    - Em andamento
+    - Aguardando
+    - Parcial
+    - Completo
     x-enum-varnames:
-    - LabResultPending
-    - LabResultCompleted
-    - LabResultCancelled
-    - LabResultInProgress
+    - LabResultBatchPending
+    - LabResultBatchPartial
+    - LabResultBatchCompleted
   models.LabResultValue:
     description: Valor estruturado de um parâmetro de exame laboratorial
     properties:
@@ -648,6 +1220,73 @@ definitions:
         type: string
     required:
     - labResultId
+    - labTestDefinitionId
+    type: object
+  models.LabResultView:
+    description: View customizada para ordenação de exames na tabela pivot
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      displayOrder:
+        description: |-
+          @minimum 0
+          @maximum 9999
+        maximum: 9999
+        minimum: 0
+        type: integer
+      id:
+        description: '@example 019c1a1e-0579-7f3b-a1bd-4767008e844c'
+        type: string
+      isActive:
+        description: '@example true'
+        type: boolean
+      items:
+        items:
+          $ref: '#/definitions/models.LabResultViewItem'
+        type: array
+      name:
+        description: |-
+          @minLength 2
+          @maxLength 200
+        maxLength: 200
+        minLength: 2
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - name
+    type: object
+  models.LabResultViewItem:
+    description: Item de exame com ordem específica dentro de uma view
+    properties:
+      createdAt:
+        type: string
+      id:
+        description: '@example 019c1a1e-0579-7f3b-a1bd-4767008e844c'
+        type: string
+      labResultView:
+        $ref: '#/definitions/models.LabResultView'
+      labResultViewId:
+        description: '@example 019c1a1e-0579-7f3b-a1bd-4767008e844c'
+        type: string
+      labTestDefinition:
+        $ref: '#/definitions/models.LabTestDefinition'
+      labTestDefinitionId:
+        description: '@example 019c1a1e-0579-7f3b-a1bd-4767008e844c'
+        type: string
+      order:
+        description: |-
+          @minimum 0
+          @maximum 9999
+        maximum: 9999
+        minimum: 0
+        type: integer
+      updatedAt:
+        type: string
+    required:
+    - labResultViewId
     - labTestDefinitionId
     type: object
   models.LabTestCategory:
@@ -1223,8 +1862,30 @@ definitions:
   models.User:
     description: Usuário base do sistema (profissionais e pacientes)
     properties:
+      certificateExpiry:
+        description: |-
+          Data de expiração do certificado A1
+          @example 2027-12-31T23:59:59Z
+        type: string
+      certificateSerial:
+        description: |-
+          Número de série do certificado A1
+          @example 1234567890ABCDEF
+        type: string
       createdAt:
         description: Data de criação
+        type: string
+      crm:
+        description: |-
+          Dados profissionais (obrigatórios para role doctor)
+          Número do CRM
+          @example 123456
+        maxLength: 20
+        type: string
+      crmUF:
+        description: |-
+          UF do CRM
+          @example SP
         type: string
       email:
         description: |-
@@ -1236,6 +1897,15 @@ definitions:
           ID único do usuário
           @example 550e8400-e29b-41d4-a716-446655440000
         type: string
+      name:
+        description: |-
+          Nome completo do usuário
+          @minLength 3
+          @maxLength 200
+          @example Dr. João da Silva
+        maxLength: 200
+        minLength: 3
+        type: string
       preferences:
         description: |-
           Preferências do usuário (viewport do mindmap, etc.)
@@ -1243,17 +1913,28 @@ definitions:
         items:
           type: integer
         type: array
-      role:
-        allOf:
-        - $ref: '#/definitions/models.UserRole'
+      professionalAddress:
         description: |-
-          Role do usuário no sistema
-          @enum admin,doctor,nurse,patient
-        enum:
-        - admin
-        - doctor
-        - nurse
-        - patient
+          Endereço profissional completo
+          @example Rua das Flores, 123 - Centro - São Paulo/SP - CEP 01234-567
+        type: string
+      professionalPhone:
+        description: |-
+          Telefone profissional
+          @example (11) 98765-4321
+        type: string
+      roles:
+        description: |-
+          Roles do usuário no sistema (array JSON)
+          @example ["doctor","nutritionist"]
+        items:
+          type: integer
+        type: array
+      rqe:
+        description: |-
+          Registro de Qualificação de Especialista
+          @example RQE-12345
+        type: string
       selectedPatient:
         allOf:
         - $ref: '#/definitions/models.Patient'
@@ -1263,6 +1944,11 @@ definitions:
           ID do paciente selecionado (contexto atual de trabalho)
           @example 550e8400-e29b-41d4-a716-446655440000
         type: string
+      specialty:
+        description: |-
+          Especialidade médica
+          @example Cardiologia
+        type: string
       twoFactorEnabled:
         description: Se 2FA está habilitado
         type: boolean
@@ -1271,20 +1957,8 @@ definitions:
         type: string
     required:
     - email
-    - role
+    - name
     type: object
-  models.UserRole:
-    enum:
-    - admin
-    - doctor
-    - nurse
-    - patient
-    type: string
-    x-enum-varnames:
-    - RoleAdmin
-    - RoleDoctor
-    - RoleNurse
-    - RolePatient
   services.CreateArticleDTO:
     properties:
       abstract:
@@ -1593,6 +2267,213 @@ info:
   title: Plenya EMR API
   version: "1.0"
 paths:
+  /api/v1/anamnesis-templates:
+    get:
+      parameters:
+      - description: Include items
+        in: query
+        name: withItems
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.AnamnesisTemplate'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get all anamnesis templates
+      tags:
+      - AnamnesisTemplates
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Template data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateAnamnesisTemplateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.AnamnesisTemplate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create anamnesis template
+      tags:
+      - AnamnesisTemplates
+  /api/v1/anamnesis-templates/{id}:
+    delete:
+      parameters:
+      - description: Template ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete anamnesis template
+      tags:
+      - AnamnesisTemplates
+    get:
+      parameters:
+      - description: Template ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AnamnesisTemplate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get anamnesis template by ID
+      tags:
+      - AnamnesisTemplates
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Template ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Template data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateAnamnesisTemplateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AnamnesisTemplate'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update anamnesis template
+      tags:
+      - AnamnesisTemplates
+  /api/v1/anamnesis-templates/{id}/items:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Template ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Items data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateAnamnesisTemplateItemsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update template items
+      tags:
+      - AnamnesisTemplates
+  /api/v1/anamnesis-templates/search:
+    get:
+      parameters:
+      - description: Search query
+        in: query
+        name: q
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.AnamnesisTemplate'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Search anamnesis templates
+      tags:
+      - AnamnesisTemplates
   /api/v1/lab-request-templates:
     get:
       parameters:
@@ -2114,6 +2995,459 @@ paths:
       summary: Get lab requests by date range
       tags:
       - LabRequests
+  /api/v1/lab-result-batches:
+    get:
+      consumes:
+      - application/json
+      description: Lista lotes de resultados do paciente selecionado
+      parameters:
+      - description: Filtro por status
+        in: query
+        name: status
+        type: string
+      - default: 50
+        description: Limite de resultados
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Offset de resultados
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.LabResultBatchResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Listar lotes de resultados
+      tags:
+      - LabResultBatch
+    post:
+      consumes:
+      - application/json
+      description: Cria um lote de resultados laboratoriais com múltiplos resultados
+      parameters:
+      - description: Lote de resultados
+        in: body
+        name: batch
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateLabResultBatchRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.LabResultBatchDetailResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Criar lote de resultados
+      tags:
+      - LabResultBatch
+  /api/v1/lab-result-batches/{batchId}/results/{resultId}:
+    delete:
+      consumes:
+      - application/json
+      description: Soft delete de um resultado (admin only)
+      parameters:
+      - description: ID do lote
+        in: path
+        name: batchId
+        required: true
+        type: string
+      - description: ID do resultado
+        in: path
+        name: resultId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Deletar resultado
+      tags:
+      - LabResultBatch
+    put:
+      consumes:
+      - application/json
+      description: Atualiza um resultado individual dentro de um lote
+      parameters:
+      - description: ID do lote
+        in: path
+        name: batchId
+        required: true
+        type: string
+      - description: ID do resultado
+        in: path
+        name: resultId
+        required: true
+        type: string
+      - description: Dados para atualização
+        in: body
+        name: result
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateLabResultInBatchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LabResultInBatchResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Atualizar resultado
+      tags:
+      - LabResultBatch
+  /api/v1/lab-result-batches/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Soft delete de um lote de resultados (admin only)
+      parameters:
+      - description: ID do lote
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Deletar lote
+      tags:
+      - LabResultBatch
+    get:
+      consumes:
+      - application/json
+      description: Busca um lote de resultados por ID com todos os resultados
+      parameters:
+      - description: ID do lote
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LabResultBatchDetailResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Buscar lote por ID
+      tags:
+      - LabResultBatch
+    put:
+      consumes:
+      - application/json
+      description: Atualiza metadados de um lote de resultados
+      parameters:
+      - description: ID do lote
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Dados para atualização
+        in: body
+        name: batch
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateLabResultBatchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LabResultBatchResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Atualizar lote
+      tags:
+      - LabResultBatch
+  /api/v1/lab-result-batches/{id}/results:
+    post:
+      consumes:
+      - application/json
+      description: Adiciona um novo resultado a um lote existente
+      parameters:
+      - description: ID do lote
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Resultado
+        in: body
+        name: result
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateLabResultInBatchRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.LabResultInBatchResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Adicionar resultado ao lote
+      tags:
+      - LabResultBatch
+  /api/v1/lab-result-views:
+    get:
+      parameters:
+      - description: Incluir items
+        in: query
+        name: withItems
+        type: boolean
+      - description: Incluir inativas
+        in: query
+        name: includeInactive
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabResultView'
+            type: array
+      summary: Lista todas as views de resultados laboratoriais
+      tags:
+      - lab-result-views
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: View data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateLabResultViewRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LabResultView'
+      summary: Cria uma nova view
+      tags:
+      - lab-result-views
+  /api/v1/lab-result-views/{id}:
+    delete:
+      parameters:
+      - description: View ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Deleta uma view
+      tags:
+      - lab-result-views
+    get:
+      parameters:
+      - description: View ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabResultView'
+      summary: Busca uma view por ID
+      tags:
+      - lab-result-views
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: View ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: View data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateLabResultViewRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LabResultView'
+      summary: Atualiza uma view
+      tags:
+      - lab-result-views
+  /api/v1/lab-result-views/{id}/items:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: View ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Items data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateLabResultViewItemsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Atualiza os items de uma view
+      tags:
+      - lab-result-views
+  /api/v1/lab-result-views/search:
+    get:
+      parameters:
+      - description: Query de busca
+        in: query
+        name: q
+        required: true
+        type: string
+      - description: Incluir items
+        in: query
+        name: withItems
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.LabResultView'
+            type: array
+      summary: Busca views por nome ou descrição
+      tags:
+      - lab-result-views
   /api/v1/lab-results/{id}/values:
     get:
       parameters:
@@ -2739,6 +4073,36 @@ paths:
       summary: Get latest value for test
       tags:
       - LabResults
+  /api/v1/profile:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserResponse'
+      security:
+      - BearerAuth: []
+      summary: Get current user profile
+      tags:
+      - profile
+    put:
+      parameters:
+      - description: Profile data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateProfileRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserResponse'
+      security:
+      - BearerAuth: []
+      summary: Update current user profile
+      tags:
+      - profile
   /api/v1/score-groups:
     get:
       consumes:
@@ -3086,6 +4450,29 @@ paths:
       tags:
       - Score Groups
   /api/v1/score-items:
+    get:
+      consumes:
+      - application/json
+      description: Get all score items ordered by name
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ScoreItem'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get all score items
+      tags:
+      - Score Items
     post:
       consumes:
       - application/json
@@ -3720,6 +5107,198 @@ paths:
       summary: Get items by subgroup ID
       tags:
       - Score Items
+  /api/v1/users:
+    get:
+      consumes:
+      - application/json
+      description: Get all users with optional filters
+      parameters:
+      - description: Filter by role
+        in: query
+        name: role
+        type: string
+      - default: 20
+        description: Limit
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserListResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: List users
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create user
+      tags:
+      - Users
+  /api/v1/users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Soft delete a user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete user
+      tags:
+      - Users
+    get:
+      consumes:
+      - application/json
+      description: Get a single user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get user by ID
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Update an existing user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update user
+      tags:
+      - Users
   /articles:
     get:
       description: Lista artigos com paginação e filtros

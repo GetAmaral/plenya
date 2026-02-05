@@ -1,8 +1,10 @@
 import { apiClient } from '../api-client'
+import type { ScoreItem } from './score-api'
 
 export interface AnamnesisItem {
   id: string
   scoreItemId: string
+  scoreItem?: ScoreItem
   textValue?: string
   numericValue?: number
   order: number
@@ -27,7 +29,7 @@ export interface Anamnesis {
   contentHtml?: string // HTML for display
   summary?: string // Plain text for search/indexing
   summaryHtml?: string // HTML for display
-  visibility: 'all' | 'medicalOnly' | 'psychOnly'
+  visibility: 'all' | 'medicalOnly' | 'psychOnly' | 'authorOnly'
   notes?: string
   items?: AnamnesisItem[]
   createdAt: string
@@ -39,6 +41,7 @@ export interface Anamnesis {
   }
   author?: {
     id: string
+    name: string
     email: string
     role: string
   }
@@ -52,7 +55,7 @@ export interface CreateAnamnesisRequest {
   contentHtml?: string // HTML
   summary?: string // Plain text
   summaryHtml?: string // HTML
-  visibility: 'all' | 'medicalOnly' | 'psychOnly'
+  visibility: 'all' | 'medicalOnly' | 'psychOnly' | 'authorOnly'
   notes?: string
   items?: AnamnesisItemRequest[]
 }

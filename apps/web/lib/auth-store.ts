@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-export type UserRole = "admin" | "doctor" | "nurse" | "patient";
+export type UserRole = "admin" | "doctor" | "nurse" | "patient" | "nutritionist" | "psychologist" | "physicalEducator" | "secretary" | "manager";
 
 export interface Patient {
   id: string;
@@ -23,13 +23,20 @@ export interface Patient {
 
 export interface User {
   id: string;
+  name?: string;
   email: string;
-  role: UserRole;
+  roles: UserRole[];
   twoFactorEnabled: boolean;
   selectedPatientId?: string;
   selectedPatient?: Patient;
   preferences?: Record<string, any>;
   createdAt: string;
+}
+
+// Helper function para verificar se usuário tem role específico
+export function isGranted(user: User | null, role: UserRole): boolean {
+  if (!user) return false;
+  return user.roles.includes(role);
 }
 
 interface AuthState {

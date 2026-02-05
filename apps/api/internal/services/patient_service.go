@@ -64,7 +64,7 @@ func (s *PatientService) Create(userID uuid.UUID, req *dto.CreatePatientRequest)
 }
 
 // GetByID busca um paciente por ID
-func (s *PatientService) GetByID(patientID, userID uuid.UUID, userRole models.UserRole) (*dto.PatientResponse, error) {
+func (s *PatientService) GetByID(patientID, userID uuid.UUID, userRole models.Role) (*dto.PatientResponse, error) {
 	var patient models.Patient
 	query := s.db.Where("id = ?", patientID)
 
@@ -84,7 +84,7 @@ func (s *PatientService) GetByID(patientID, userID uuid.UUID, userRole models.Us
 }
 
 // List lista todos os pacientes (com paginação)
-func (s *PatientService) List(userID uuid.UUID, userRole models.UserRole, limit, offset int) ([]dto.PatientResponse, error) {
+func (s *PatientService) List(userID uuid.UUID, userRole models.Role, limit, offset int) ([]dto.PatientResponse, error) {
 	var patients []models.Patient
 	query := s.db.Limit(limit).Offset(offset).Order("created_at DESC")
 
@@ -106,7 +106,7 @@ func (s *PatientService) List(userID uuid.UUID, userRole models.UserRole, limit,
 }
 
 // Update atualiza um paciente
-func (s *PatientService) Update(patientID, userID uuid.UUID, userRole models.UserRole, req *dto.UpdatePatientRequest) (*dto.PatientResponse, error) {
+func (s *PatientService) Update(patientID, userID uuid.UUID, userRole models.Role, req *dto.UpdatePatientRequest) (*dto.PatientResponse, error) {
 	var patient models.Patient
 	query := s.db.Where("id = ?", patientID)
 
@@ -125,6 +125,9 @@ func (s *PatientService) Update(patientID, userID uuid.UUID, userRole models.Use
 	// Atualizar campos
 	if req.Name != nil {
 		patient.Name = *req.Name
+	}
+	if req.CPF != nil {
+		patient.CPF = req.CPF
 	}
 	if req.BirthDate != nil {
 		birthDate, err := time.Parse("2006-01-02", *req.BirthDate)
@@ -169,7 +172,7 @@ func (s *PatientService) Update(patientID, userID uuid.UUID, userRole models.Use
 }
 
 // Delete faz soft delete de um paciente
-func (s *PatientService) Delete(patientID, userID uuid.UUID, userRole models.UserRole) error {
+func (s *PatientService) Delete(patientID, userID uuid.UUID, userRole models.Role) error {
 	query := s.db.Where("id = ?", patientID)
 
 	// Pacientes não podem deletar seus próprios dados
@@ -195,6 +198,7 @@ func (s *PatientService) toDTO(patient *models.Patient) *dto.PatientResponse {
 		ID:           patient.ID.String(),
 		UserID:       patient.UserID.String(),
 		Name:         patient.Name,
+		CPF:          patient.CPF, // Já foi descriptografado pelo AfterFind hook
 		BirthDate:    patient.BirthDate.Format("2006-01-02"),
 		Gender:       patient.Gender,
 		Phone:        patient.Phone,

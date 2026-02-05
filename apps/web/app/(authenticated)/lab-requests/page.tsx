@@ -5,6 +5,7 @@ import { useFormNavigation } from '@/lib/use-form-navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient'
+import { usePatientGuard } from '@/lib/use-patient-guard'
 import { SelectedPatientHeader } from '@/components/patients/SelectedPatientHeader'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -19,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Plus, FileText, Calendar, Pencil, Check, Copy } from 'lucide-react'
+import { Plus, FileText, Calendar, Pencil, Check, Copy, Shield } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import {
@@ -39,6 +40,7 @@ import { format } from 'date-fns'
 import { PageHeader } from '@/components/layout/page-header'
 
 export default function LabRequestsPage() {
+  usePatientGuard(); // Restrict access to staff only
   const router = useRouter()
   const { selectedPatient, isLoading: patientLoading } = useRequireSelectedPatient()
   const [showCreateForm, setShowCreateForm] = useState(false)
@@ -775,10 +777,18 @@ function LabRequestCard({
               {format(new Date(request.date), 'dd/MM/yyyy')}
             </span>
             {request.pdfUrl && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-800">
-                <Check className="h-3 w-3" />
-                PDF Gerado
-              </span>
+              <div className="flex gap-2">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-800">
+                  <Check className="h-3 w-3" />
+                  PDF Gerado
+                </span>
+                {request.signedAt && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
+                    <Shield className="h-3 w-3" />
+                    Assinado Digitalmente
+                  </span>
+                )}
+              </div>
             )}
           </div>
 

@@ -17,69 +17,89 @@ const (
 	PrescriptionExpired   PrescriptionStatus = "expired"   // Expirada
 )
 
-// Prescription representa uma prescrição médica
-// @Description Prescrição médica com medicamentos, dosagem e instruções
+// Prescription representa uma prescrição médica digital
+// @Description Prescrição médica digital com assinatura ICP-Brasil e SNCR
 type Prescription struct {
 	// ID único da prescrição
+	// @example 550e8400-e29b-41d4-a716-446655440000
 	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
+	// Dados Básicos
+
 	// ID do paciente
-	PatientID uuid.UUID `gorm:"type:uuid;not null;index" json:"patientId"`
+	// @required
+	PatientID uuid.UUID `gorm:"type:uuid;not null;index" json:"patientId" validate:"required"`
 
 	// ID do médico prescritor
-	DoctorID uuid.UUID `gorm:"type:uuid;not null;index" json:"doctorId"`
+	// @required
+	DoctorID uuid.UUID `gorm:"type:uuid;not null;index" json:"doctorId" validate:"required"`
 
-	// Nome do medicamento
-	MedicationName string `gorm:"type:varchar(200);not null" json:"medicationName" validate:"required"`
+	// Instruções gerais da prescrição (aplicam-se a todos os medicamentos)
+	// @example Tomar durante as refeições
+	GeneralInstructions *string `gorm:"type:text" json:"generalInstructions,omitempty"`
 
-	// Princípio ativo
-	ActiveIngredient *string `gorm:"type:varchar(200)" json:"activeIngredient,omitempty"`
-
-	// Dosagem (ex: 500mg, 10ml, etc)
-	Dosage string `gorm:"type:varchar(100);not null" json:"dosage" validate:"required"`
-
-	// Frequência (ex: 8/8h, 12/12h, etc)
-	Frequency string `gorm:"type:varchar(100);not null" json:"frequency" validate:"required"`
-
-	// Via de administração (ex: oral, intravenosa, tópica, etc)
-	Route string `gorm:"type:varchar(50);not null" json:"route" validate:"required"`
-
-	// Duração do tratamento (ex: 7 dias, 30 dias, contínuo)
-	Duration *string `gorm:"type:varchar(100)" json:"duration,omitempty"`
-
-	// Quantidade prescrita
-	Quantity *string `gorm:"type:varchar(100)" json:"quantity,omitempty"`
-
-	// Instruções especiais
-	Instructions *string `gorm:"type:text" json:"instructions,omitempty"`
-
-	// Status da prescrição
-	Status PrescriptionStatus `gorm:"type:varchar(20);not null;default:'active';check:status IN ('active','completed','cancelled','expired')" json:"status"`
+	// Datas
 
 	// Data da prescrição
-	PrescriptionDate time.Time `gorm:"type:timestamp;not null;index" json:"prescriptionDate"`
+	// @required
+	PrescriptionDate time.Time `gorm:"type:timestamp;not null;index" json:"prescriptionDate" validate:"required"`
 
-	// Data de início do tratamento
-	StartDate *time.Time `gorm:"type:date" json:"startDate,omitempty"`
+	// Data de validade (calculada automaticamente baseada na categoria)
+	// @required
+	ValidUntil time.Time `gorm:"type:date;not null;index" json:"validUntil" validate:"required"`
 
-	// Data de término do tratamento
-	EndDate *time.Time `gorm:"type:date" json:"endDate,omitempty"`
+	// SNCR (Sistema Nacional de Controle de Receitas)
 
-	// Observações adicionais
-	Notes *string `gorm:"type:text" json:"notes,omitempty"`
+	// Número SNCR (gerado pela ANVISA ou stub)
+	// @example BR-STUB-2026-00000001
+	SNCRNumber *string `gorm:"type:varchar(50);unique;index" json:"sncrNumber,omitempty"`
 
-	// Data de criação
-	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
+	// Status no SNCR
+	// @enum active,used,cancelled
+	SNCRStatus *string `gorm:"type:varchar(20)" json:"sncrStatus,omitempty"`
 
-	// Data de atualização
-	UpdatedAt time.Time `gorm:"not null;autoUpdateTime" json:"updatedAt"`
+	// Assinatura Digital ICP-Brasil
 
-	// Data de deleção (soft delete)
+	// Caminho do PDF assinado
+	// @example /app/uploads/prescriptions/prescription_550e8400_signed.pdf
+	SignedPDFPath *string `gorm:"type:varchar(500)" json:"signedPdfPath,omitempty"`
+
+	// Hash SHA-256 do PDF assinado (integridade)
+	// @example a1b2c3d4e5f6...
+	SignedPDFHash *string `gorm:"type:varchar(64)" json:"signedPdfHash,omitempty"`
+
+	// Dados do QR Code (URL de validação)
+	// @example https://plenya.com.br/prescriptions/validate/550e8400...
+	QRCodeData *string `gorm:"type:text" json:"qrCodeData,omitempty"`
+
+	// Data/hora da assinatura digital
+	SignedAt *time.Time `gorm:"type:timestamp" json:"signedAt,omitempty"`
+
+	// Número de série do certificado usado na assinatura
+	// @example 1234567890ABCDEF
+	CertificateSerial *string `gorm:"type:varchar(100)" json:"certificateSerial,omitempty"`
+
+	// Status e Controle
+
+	// Status da prescrição
+	// @enum active,completed,cancelled,expired
+	Status PrescriptionStatus `gorm:"type:varchar(20);not null;default:'active';check:status IN ('active','completed','cancelled','expired')" json:"status" validate:"required,oneof=active completed cancelled expired"`
+
+	// Se a prescrição foi dispensada
+	IsUsed bool `gorm:"type:boolean;not null;default:false;index" json:"isUsed"`
+
+	// Data/hora da dispensação
+	DispensedAt *time.Time `gorm:"type:timestamp" json:"dispensedAt,omitempty"`
+
+	// Timestamps
+	CreatedAt time.Time      `gorm:"not null;autoCreateTime" json:"createdAt"`
+	UpdatedAt time.Time      `gorm:"not null;autoUpdateTime" json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 
 	// Relações
-	Patient Patient `gorm:"foreignKey:PatientID;constraint:OnDelete:CASCADE" json:"patient,omitempty"`
-	Doctor  User    `gorm:"foreignKey:DoctorID;constraint:OnDelete:RESTRICT" json:"doctor,omitempty"`
+	Patient     Patient                  `gorm:"foreignKey:PatientID;constraint:OnDelete:CASCADE" json:"patient,omitempty"`
+	Doctor      User                     `gorm:"foreignKey:DoctorID;constraint:OnDelete:RESTRICT" json:"doctor,omitempty"`
+	Medications []PrescriptionMedication `gorm:"foreignKey:PrescriptionID;constraint:OnDelete:CASCADE" json:"medications,omitempty"`
 }
 
 // TableName especifica o nome da tabela
