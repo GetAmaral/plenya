@@ -100,70 +100,70 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
   return (
     <>
       <Card>
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-2 pt-2.5 px-3">
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <h4 className="text-sm font-semibold text-left">{item.name}</h4>
+                <h4 className="text-xs font-semibold text-left">{item.name}</h4>
                 {item.unit && (
-                  <Badge variant="secondary" className="text-xs">
+                  <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
                     {item.unit}
                   </Badge>
                 )}
               </div>
-              <div className="flex items-center gap-4 mt-0.5 text-sm text-muted-foreground text-left">
-                <span>{item.points} pontos</span>
+              <div className="flex items-center gap-3 mt-0.5 text-xs text-muted-foreground text-left">
+                <span>{item.points} pts</span>
                 {item.unitConversion && (
-                  <span className="text-xs">{item.unitConversion}</span>
+                  <span className="text-[10px]">{item.unitConversion}</span>
                 )}
               </div>
             </div>
 
-            <div className="flex gap-1">
+            <div className="flex gap-0.5">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsAddLevelDialogOpen(true)}
-                className="h-8 w-8 p-0"
+                className="h-6 w-6 p-0"
                 title="Adicionar nível"
               >
-                <Plus className="h-4 w-4" />
+                <Plus className="h-3 w-3" />
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleDuplicate}
-                className="h-8 w-8 p-0"
+                className="h-6 w-6 p-0"
                 disabled={createItem.isPending}
                 title="Duplicar item"
               >
-                <Copy className="h-4 w-4" />
+                <Copy className="h-3 w-3" />
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsEditDialogOpen(true)}
-                className="h-8 w-8 p-0"
+                className="h-6 w-6 p-0"
                 title="Editar item"
               >
-                <Edit className="h-4 w-4" />
+                <Edit className="h-3 w-3" />
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsDeleteDialogOpen(true)}
-                className="h-8 w-8 p-0"
+                className="h-6 w-6 p-0"
                 title="Excluir item"
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-3 w-3" />
               </Button>
             </div>
           </div>
         </CardHeader>
 
         {sortedLevels.length > 0 && (
-          <CardContent className="pt-0">
-            <div className="flex flex-wrap gap-2">
+          <CardContent className="pt-0 px-3 pb-2">
+            <div className="flex flex-wrap gap-1.5">
               {sortedLevels.map((level) => (
                 <div key={level.id} id={`level-${level.id}`} className="rounded transition-all">
                   <ScoreLevelBadge
@@ -179,15 +179,15 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
         )}
 
         {sortedLevels.length === 0 && (
-          <CardContent className="pt-0">
-            <p className="text-sm text-muted-foreground text-left py-2">
+          <CardContent className="pt-0 px-3 pb-2">
+            <p className="text-xs text-muted-foreground text-left py-1">
               Nenhum nível cadastrado
             </p>
           </CardContent>
         )}
 
         {hasClinicalInfo && (
-          <CardContent className="pt-0">
+          <CardContent className="pt-0 px-3 pb-2">
             <Accordion
               type="single"
               collapsible
@@ -196,20 +196,20 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
               onValueChange={setAccordionValue}
             >
               <AccordionItem value="clinical-info" className="border-0">
-                <AccordionTrigger className="py-2 text-sm hover:no-underline text-left">
+                <AccordionTrigger className="py-1.5 text-xs hover:no-underline text-left">
                   <div className="flex items-center gap-2">
-                    <Info className="h-4 w-4" />
+                    <Info className="h-3 w-3" />
                     <span>Informações Clínicas</span>
                     {item.lastReview && (
-                      <Badge variant="outline" className="ml-auto mr-4 text-xs">
-                        <Calendar className="h-3 w-3 mr-1" />
-                        Revisado em {format(new Date(item.lastReview), "dd/MM/yyyy", { locale: ptBR })}
+                      <Badge variant="outline" className="ml-auto mr-4 text-[10px] px-1.5 py-0">
+                        <Calendar className="h-2.5 w-2.5 mr-0.5" />
+                        {format(new Date(item.lastReview), "dd/MM/yy", { locale: ptBR })}
                       </Badge>
                     )}
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <div className="space-y-3 text-sm">
+                  <div className="space-y-2 text-xs">
                     {item.clinicalRelevance && (
                       <div>
                         <h4 className="font-semibold mb-1 text-foreground">
