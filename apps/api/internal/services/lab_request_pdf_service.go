@@ -46,67 +46,87 @@ func (s *LabRequestPDFService) GenerateSignedLabRequestPDF(
 		return "", err
 	}
 
-	// 2. Gerar PDF base usando PDFService existente
+	// 2. Verificar se o médico tem certificado ativo ANTES de gerar o PDF
+	var willBeDigitallySigned bool
+	if labRequest.Doctor != nil && labRequest.Doctor.CertificateActive {
+		// Médico tem certificado ativo - PDF será assinado digitalmente
+		willBeDigitallySigned = true
+
+		// Pré-configurar metadados da assinatura ANTES de gerar o PDF
+		now := time.Now()
+		labRequest.SignedAt = &now
+
+		// Copiar informações do certificado do médico para o lab request
+		if labRequest.Doctor.CertificateSerial != nil {
+			labRequest.CertificateSerial = labRequest.Doctor.CertificateSerial
+		}
+	}
+
+	// 3. Gerar QR Code data
+	qrCodeData := fmt.Sprintf("https://plenya.com.br/lab-requests/validate/%s", labRequestID)
+	labRequest.QRCodeData = &qrCodeData
+
+	// 4. Gerar PDF (agora com SignedAt já configurado se for assinado digitalmente)
 	pdfURL, err = s.pdfService.GenerateLabRequestPDF(&labRequest)
 	if err != nil {
 		return "", fmt.Errorf("erro ao gerar PDF: %v", err)
 	}
 
-	// 3. Ler PDF gerado
+	// 5. Se será assinado digitalmente, ler PDF e assinar
 	pdfPath := fmt.Sprintf("/app/uploads/lab-requests/%s", pdfURL[len("/uploads/lab-requests/"):])
-	unsignedPDF, err := os.ReadFile(pdfPath)
-	if err != nil {
-		return "", fmt.Errorf("erro ao ler PDF: %v", err)
-	}
 
-	// 4. Gerar QR Code
-	qrCodeData := fmt.Sprintf("https://plenya.com.br/lab-requests/validate/%s", labRequestID)
-	labRequest.QRCodeData = &qrCodeData
+	if willBeDigitallySigned {
+		unsignedPDF, err := os.ReadFile(pdfPath)
+		if err != nil {
+			return "", fmt.Errorf("erro ao ler PDF: %v", err)
+		}
 
-	// 5. Adicionar QR Code ao PDF (temporariamente salvamos sem QR, 
-	//    em uma versão futura podemos integrar diretamente no PDFService)
-	// Por enquanto, vamos apenas salvar o QR code data e assinatura
-
-	// 6. Assinar PDF (se médico tiver certificado)
-	var signedPDF []byte
-	var signatureHash string
-
-	if labRequest.DoctorID != nil {
-		signedPDF, signatureHash, err = s.signatureService.SignPrescriptionPDF(
+		// Assinar PDF com certificado do médico
+		signedPDF, signatureHash, err := s.signatureService.SignPrescriptionPDF(
 			unsignedPDF,
 			*labRequest.DoctorID,
 		)
 		if err != nil {
-			// Se falhar assinatura (médico sem certificado), usa PDF não assinado
-			signedPDF = unsignedPDF
-			// Calcula hash do PDF não assinado
+			// Se falhar assinatura, reverter SignedAt e gerar PDF sem assinatura
+			labRequest.SignedAt = nil
+			labRequest.CertificateSerial = nil
+
+			// Regerar PDF sem assinatura digital
+			pdfURL, err = s.pdfService.GenerateLabRequestPDF(&labRequest)
+			if err != nil {
+				return "", fmt.Errorf("erro ao gerar PDF sem assinatura: %v", err)
+			}
+
+			// Calcular hash do PDF não assinado
 			hash := sha256.Sum256(unsignedPDF)
 			signatureHash = hex.EncodeToString(hash[:])
+
+			labRequest.SignedPDFPath = &pdfPath
+			labRequest.SignedPDFHash = &signatureHash
 		} else {
 			// Sobrescrever PDF com versão assinada
 			if err := os.WriteFile(pdfPath, signedPDF, 0644); err != nil {
 				return "", fmt.Errorf("erro ao salvar PDF assinado: %v", err)
 			}
+
+			labRequest.SignedPDFPath = &pdfPath
+			labRequest.SignedPDFHash = &signatureHash
 		}
 	} else {
-		signedPDF = unsignedPDF
-		hash := sha256.Sum256(unsignedPDF)
-		signatureHash = hex.EncodeToString(hash[:])
+		// PDF não assinado - calcular hash do arquivo
+		unsignedPDF, err := os.ReadFile(pdfPath)
+		if err == nil {
+			hash := sha256.Sum256(unsignedPDF)
+			signatureHash := hex.EncodeToString(hash[:])
+			labRequest.SignedPDFPath = &pdfPath
+			labRequest.SignedPDFHash = &signatureHash
+		}
 	}
 
-	// 7. Atualizar LabRequest com metadados
-	now := time.Now()
-	labRequest.SignedPDFPath = &pdfPath
-	labRequest.SignedPDFHash = &signatureHash
-	labRequest.SignedAt = &now
-
-	// Atualizar PdfURL também
+	// 6. Atualizar PdfURL
 	labRequest.PdfURL = &pdfURL
 
-	if labRequest.Doctor != nil && labRequest.Doctor.CertificateSerial != nil {
-		labRequest.CertificateSerial = labRequest.Doctor.CertificateSerial
-	}
-
+	// 7. Salvar metadados no banco
 	if err := s.db.Save(&labRequest).Error; err != nil {
 		return "", fmt.Errorf("erro ao atualizar lab request: %v", err)
 	}

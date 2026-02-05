@@ -315,38 +315,64 @@ export function useUpdateScoreItem() {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateScoreItemDTO }) =>
       apiClient.put<ScoreItem>(`/api/v1/score-items/${id}`, data),
-    onSuccess: (updatedItem, { id }) => {
-      // Update the item in cache
-      queryClient.setQueryData(scoreKeys.item(id), updatedItem)
+    onMutate: async ({ id, data }) => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: scoreKeys.allGroupTrees() })
 
-      // Update the item in the allGroupTrees cache optimistically
+      // Snapshot previous value
+      const previousData = queryClient.getQueryData<ScoreGroup[]>(scoreKeys.allGroupTrees())
+
+      // Optimistically update cache
       queryClient.setQueryData<ScoreGroup[]>(
         scoreKeys.allGroupTrees(),
         (oldData) => {
           if (!oldData) return oldData
 
-          // Deep clone and update
           return oldData.map(group => {
             if (!group.subgroups) return group
-
-            const hasItemInGroup = group.subgroups.some(sg =>
-              sg.items?.some(item => item.id === id)
-            )
-
-            if (!hasItemInGroup) return group
 
             return {
               ...group,
               subgroups: group.subgroups.map(subgroup => {
                 if (!subgroup.items) return subgroup
 
+                // Se o item mudou de subgrupo, remover do antigo e adicionar no novo
+                if (data.subgroupId && data.subgroupId !== subgroup.id) {
+                  // Remover do subgrupo atual se estiver nele
+                  const hasItem = subgroup.items.some(item => item.id === id)
+                  if (hasItem) {
+                    return {
+                      ...subgroup,
+                      items: subgroup.items.filter(item => item.id !== id)
+                    }
+                  }
+
+                  // Adicionar ao novo subgrupo se for ele
+                  if (subgroup.id === data.subgroupId) {
+                    const itemToMove = previousData
+                      ?.flatMap(g => g.subgroups || [])
+                      .flatMap(sg => sg.items || [])
+                      .find(item => item.id === id)
+
+                    if (itemToMove) {
+                      return {
+                        ...subgroup,
+                        items: [...subgroup.items, { ...itemToMove, ...data, subgroupId: data.subgroupId }]
+                      }
+                    }
+                  }
+
+                  return subgroup
+                }
+
+                // Atualizar item no mesmo subgrupo
                 const hasItem = subgroup.items.some(item => item.id === id)
                 if (!hasItem) return subgroup
 
                 return {
                   ...subgroup,
                   items: subgroup.items.map(item =>
-                    item.id === id ? updatedItem : item
+                    item.id === id ? { ...item, ...data } : item
                   )
                 }
               })
@@ -355,8 +381,21 @@ export function useUpdateScoreItem() {
         }
       )
 
-      // Invalidate related queries
+      return { previousData }
+    },
+    onError: (_err, _variables, context) => {
+      // Rollback on error
+      if (context?.previousData) {
+        queryClient.setQueryData(scoreKeys.allGroupTrees(), context.previousData)
+      }
+    },
+    onSuccess: (updatedItem, { id }) => {
+      // Update the item in cache
+      queryClient.setQueryData(scoreKeys.item(id), updatedItem)
+
+      // Invalidate related queries to refetch from server
       queryClient.invalidateQueries({ queryKey: scoreKeys.itemsBySubgroup(updatedItem.subgroupId) })
+      queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
     },
   })
 }

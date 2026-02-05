@@ -130,9 +130,31 @@ func (s *LabRequestService) GenerateLabRequestPDF(id uuid.UUID) (string, error) 
 		return "", err
 	}
 
-	// Generate PDF
+	// CRÍTICO: Verificar se o médico tem certificado ativo ANTES de gerar o PDF
+	// Isso determina se o PDF terá seção de assinatura digital ou manual
+	if req.Doctor != nil && req.Doctor.CertificateActive {
+		// Médico tem certificado ativo - marcar para assinatura digital
+		now := time.Now()
+		req.SignedAt = &now
+
+		// Copiar serial do certificado
+		if req.Doctor.CertificateSerial != nil {
+			req.CertificateSerial = req.Doctor.CertificateSerial
+		}
+	} else {
+		// Garantir que SignedAt está nil para PDF sem assinatura digital
+		req.SignedAt = nil
+		req.CertificateSerial = nil
+	}
+
+	// Generate PDF (agora com SignedAt correto)
 	pdfURL, err := s.pdfService.GenerateLabRequestPDF(req)
 	if err != nil {
+		return "", err
+	}
+
+	// Atualizar lab request no banco com os metadados
+	if err := s.repo.UpdateLabRequest(req); err != nil {
 		return "", err
 	}
 

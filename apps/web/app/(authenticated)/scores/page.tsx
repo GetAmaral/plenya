@@ -229,7 +229,7 @@ export default function ScoresPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       {/* Loading Overlay durante geração de PDF */}
       {isDownloadingPoster && (
         <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex items-center justify-center">

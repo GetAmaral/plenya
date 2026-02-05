@@ -70,7 +70,7 @@ export function PageHeader({
   const router = useRouter()
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       {/* Breadcrumbs - Acima do header principal */}
       {breadcrumbs && breadcrumbs.length > 0 && (
         <nav className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -106,12 +106,12 @@ export function PageHeader({
       )}
 
       {/* Header Principal - Layout Distribuído Esquerda-Direita */}
-      <div className="flex items-center justify-between gap-8">
+      <div className="flex items-center justify-between gap-4">
         {/* LEFT SIDE - Título e Contexto */}
         <div className="flex-1 min-w-0">
-          <h1 className="text-4xl font-bold tracking-tight">{title}</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
           {description && (
-            <p className="text-muted-foreground mt-2">{description}</p>
+            <p className="text-sm text-muted-foreground mt-1">{description}</p>
           )}
         </div>
 
