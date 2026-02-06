@@ -55,9 +55,10 @@ type PDFTextCleaner struct {
 	pageNumberPattern *regexp.Regexp // Pág/Página/Folha + número
 
 	// === NOTAS EXPLICATIVAS ===
-	notaBlockPattern  *regexp.Regexp // Blocos NOTA/NOTAS
-	notaInlinePattern *regexp.Regexp // Notas inline numeradas
-	referenciasPattern *regexp.Regexp // Seções de referências bibliográficas
+	// DISABLED: notaBlockPattern and referenciasPattern were removing 95%+ of document content
+	// because the patterns matched from NOTAS:/REFERÊNCIAS: to end of file when no blank line followed
+	// These sections contain clinically relevant information for AI interpretation
+	notaInlinePattern *regexp.Regexp // Notas inline numeradas (kept - only removes single lines)
 
 	// === FORMATAÇÃO E LIMPEZA ===
 	dotsPattern           *regexp.Regexp // Sequências de pontos
@@ -196,14 +197,15 @@ func NewPDFTextCleaner() *PDFTextCleaner {
 		// NOTAS EXPLICATIVAS
 		// =============================================================
 
-		// Blocos NOTA/NOTAS com conteúdo multilinhas
-		notaBlockPattern: regexp.MustCompile(`(?msi)^NOTAS?\s*:?\s*\n(?:.*\n)*?(?:\n\s*\n|$)`),
+		// DISABLED: notaBlockPattern - was removing 95%+ of content
+		// Pattern `(?msi)^NOTAS?\s*:?\s*\n(?:.*\n)*?(?:\n\s*\n|$)` with 's' flag
+		// caused `.` to match newlines, consuming from NOTAS: to end of file
 
-		// Notas inline numeradas (Nota 1:, Nota 2:, etc)
+		// Notas inline numeradas (Nota 1:, Nota 2:, etc) - safe single-line pattern
 		notaInlinePattern: regexp.MustCompile(`(?mi)^Nota\s*\d+\s*:\s*.+$`),
 
-		// Seções de referências bibliográficas
-		referenciasPattern: regexp.MustCompile(`(?msi)^(?:REFER[EÊ]NCIAS?|BIBLIOGRAFIA)\s*:?\s*\n(?:.*\n)*?(?:\n\s*\n|$)`),
+		// DISABLED: referenciasPattern - was removing 85%+ of content
+		// Same issue as notaBlockPattern
 
 		// =============================================================
 		// FORMATAÇÃO E LIMPEZA
@@ -303,9 +305,9 @@ func (c *PDFTextCleaner) CleanText(fullText string) string {
 	// =================================================================
 	// FASE 10: Notas explicativas (MÉDIA PRIORIDADE)
 	// =================================================================
-	text = c.notaBlockPattern.ReplaceAllString(text, "")
-	text = c.notaInlinePattern.ReplaceAllString(text, "")
-	text = c.referenciasPattern.ReplaceAllString(text, "")
+	// DISABLED: notaBlockPattern and referenciasPattern (removed 95%+ of content)
+	// These patterns had dangerous multiline matching that consumed entire documents
+	text = c.notaInlinePattern.ReplaceAllString(text, "") // Safe: only removes single lines
 
 	// =================================================================
 	// FASE 11: Paginação, separadores, URLs (BAIXA PRIORIDADE)

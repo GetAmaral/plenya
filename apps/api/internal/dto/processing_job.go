@@ -33,15 +33,26 @@ type AILabResultExtractionResponse struct {
 // AIExtractedLabResult - resultado individual extraído pela IA
 // @Description Resultado de exame laboratorial interpretado pela IA
 type AIExtractedLabResult struct {
-	LabTestDefinitionID *uuid.UUID `json:"labTestDefinitionId,omitempty" example:"019c1a1e-0579-7f3b-a1bd-4767008e844c"` // null se não matched
-	TestName            string     `json:"testName" example:"Glicemia de Jejum"`
-	TestType            string     `json:"testType" example:"biochemistry"`
-	ResultNumeric       *float64   `json:"resultNumeric,omitempty" example:"95.5"`
-	ResultText          *string    `json:"resultText,omitempty" example:"Normal"`
-	Unit                *string    `json:"unit,omitempty" example:"mg/dL"`
-	ReferenceRange      *string    `json:"referenceRange,omitempty" example:"70-100 mg/dL"`
-	Interpretation      *string    `json:"interpretation,omitempty" example:"Dentro dos valores normais"`
-	Matched             bool       `json:"matched" example:"true"` // true se encontrou match com definição catalogada
+	LabTestDefinitionID *string  `json:"labTestDefinitionId,omitempty" example:"019c1a1e-0579-7f3b-a1bd-4767008e844c"` // string para aceitar valores inválidos da IA
+	TestName            string   `json:"testName" example:"Glicemia de Jejum"`
+	TestType            string   `json:"testType" example:"biochemistry"`
+	ResultNumeric       *float64 `json:"resultNumeric,omitempty" example:"95.5"`
+	ResultText          *string  `json:"resultText,omitempty" example:"Normal"`
+	Unit                *string  `json:"unit,omitempty" example:"mg/dL"`
+	Interpretation      *string  `json:"interpretation,omitempty" example:"Dentro dos valores normais"`
+	Matched             bool     `json:"matched" example:"true"` // true se encontrou match com definição catalogada
+}
+
+// GetLabTestDefinitionUUID valida e retorna o UUID, ou nil se inválido
+func (r *AIExtractedLabResult) GetLabTestDefinitionUUID() *uuid.UUID {
+	if r.LabTestDefinitionID == nil || *r.LabTestDefinitionID == "" {
+		return nil
+	}
+	parsed, err := uuid.Parse(*r.LabTestDefinitionID)
+	if err != nil {
+		return nil // UUID inválido retornado pela IA
+	}
+	return &parsed
 }
 
 // LabTestSummary - resumo de definição de exame para enviar no prompt da IA

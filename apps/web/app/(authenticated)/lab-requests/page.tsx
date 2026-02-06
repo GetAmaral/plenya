@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useFormNavigation } from '@/lib/use-form-navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
@@ -36,7 +36,7 @@ import {
   type LabRequestTemplate
 } from '@/lib/api/lab-request-templates'
 import { toast } from 'sonner'
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { PageHeader } from '@/components/layout/page-header'
 
 export default function LabRequestsPage() {
@@ -199,8 +199,6 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
       labRequestTemplateId: selectedTemplateId || undefined
     }
 
-    console.log('Creating lab request with:', payload)
-
     // Backend pega patientId automaticamente do selectedPatient no JWT
     createMutation.mutate(payload)
   }
@@ -331,7 +329,8 @@ function EditLabRequestForm({
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
     request.labRequestTemplateId || ''
   )
-  const [date, setDate] = useState(format(new Date(request.date), 'yyyy-MM-dd'))
+  // Extrair apenas a data (antes do T) para evitar problemas de timezone
+  const [date, setDate] = useState(request.date.split('T')[0])
   const [exams, setExams] = useState(request.exams)
   const [notes, setNotes] = useState(request.notes || '')
 
@@ -399,8 +398,6 @@ function EditLabRequestForm({
       notes: notes.trim() || undefined,
       labRequestTemplateId: selectedTemplateId || undefined
     }
-
-    console.log('Updating lab request with:', payload)
 
     updateMutation.mutate(payload)
   }
@@ -531,9 +528,15 @@ function DuplicateLabRequestForm({
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
     request.labRequestTemplateId || ''
   )
-  const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd')) // Today's date
+  // Always use today's date when form is shown (not when component mounts)
+  const [date, setDate] = useState(() => format(new Date(), 'yyyy-MM-dd'))
   const [exams, setExams] = useState(request.exams)
   const [notes, setNotes] = useState(request.notes || '')
+
+  // Reset date to today whenever the form is shown
+  useEffect(() => {
+    setDate(format(new Date(), 'yyyy-MM-dd'))
+  }, [request.id])
 
   const formRef = useRef<HTMLFormElement>(null)
   useFormNavigation({ formRef })
@@ -598,8 +601,6 @@ function DuplicateLabRequestForm({
       notes: notes.trim() || undefined,
       labRequestTemplateId: selectedTemplateId || undefined
     }
-
-    console.log('Duplicating lab request with:', payload)
 
     createMutation.mutate(payload)
   }
@@ -774,7 +775,11 @@ function LabRequestCard({
           <div className="flex items-center gap-3 mb-3">
             <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
             <span className="text-sm font-medium">
-              {format(new Date(request.date), 'dd/MM/yyyy')}
+              {(() => {
+                // Extrair apenas a data (antes do T) para evitar problemas de timezone
+                const dateOnly = request.date.split('T')[0]
+                return format(parseISO(dateOnly), 'dd/MM/yyyy')
+              })()}
             </span>
             {request.pdfUrl && (
               <div className="flex gap-2">

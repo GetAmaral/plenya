@@ -15,7 +15,6 @@ export const labResultInBatchSchema = z.object({
   resultText: z.string().optional(),
   resultNumeric: z.number().optional(),
   unit: z.string().max(50).optional(),
-  referenceRange: z.string().optional(),
   interpretation: z.string().optional(),
   level: z.number().int().optional(),
   matched: z.boolean().optional(), // true se matched com LabTestDefinition, false se extraído mas não catalogado
@@ -83,7 +82,6 @@ export const formToApiValues = (values: LabResultBatchFormValues) => {
       resultText: result.resultText,
       resultNumeric: result.resultNumeric,
       unit: result.unit,
-      referenceRange: result.referenceRange,
       interpretation: result.interpretation,
       level: result.level,
     })),
@@ -99,7 +97,6 @@ export const apiToFormValues = (batch: any): LabResultBatchFormValues => {
     resultText: result.resultText,
     resultNumeric: result.resultNumeric,
     unit: result.unit,
-    referenceRange: result.referenceRange,
     interpretation: result.interpretation,
     level: result.level,
   }));

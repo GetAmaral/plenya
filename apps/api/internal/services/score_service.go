@@ -331,6 +331,9 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 		return nil, err
 	}
 
+	// DEBUG: Log parentItemId before and after
+	fmt.Printf("🟡 SERVICE UpdateItem BEFORE: id=%s, item.ParentItemID=%v, dto.ParentItemID=%v\n", id, item.ParentItemID, dto.ParentItemID)
+
 	// Update required fields
 	if dto.Name != nil {
 		item.Name = *dto.Name
@@ -358,6 +361,9 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 	if dto.LastReview != nil {
 		item.LastReview = dto.LastReview
 	}
+
+	// DEBUG: Log before saving
+	fmt.Printf("🟢 SERVICE UpdateItem AFTER UPDATE: item.ParentItemID=%v (isNil=%v)\n", item.ParentItemID, item.ParentItemID == nil)
 
 	if err := s.repo.UpdateScoreItem(item); err != nil {
 		return nil, err

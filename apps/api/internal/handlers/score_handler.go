@@ -595,6 +595,9 @@ func (h *ScoreHandler) UpdateScoreItem(c *fiber.Ctx) error {
 		})
 	}
 
+	// DEBUG: Log received parentItemId
+	fmt.Printf("🔵 HANDLER UpdateScoreItem: id=%s, dto.ParentItemID=%v (isNil=%v)\n", id, dto.ParentItemID, dto.ParentItemID == nil)
+
 	if err := h.validator.Struct(dto); err != nil {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
 			"error": err.Error(),

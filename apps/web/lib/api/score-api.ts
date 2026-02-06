@@ -103,6 +103,7 @@ export interface UpdateScoreItemDTO {
   points?: number
   order?: number
   subgroupId?: string
+  parentItemId?: string | null
 }
 
 export interface CreateScoreLevelDTO {
@@ -179,6 +180,8 @@ export function useAllScoreGroupTrees() {
     queryKey: scoreKeys.allGroupTrees(),
     queryFn: () => apiClient.get<ScoreGroup[]>('/api/v1/score-groups/tree'),
     staleTime: 5 * 60 * 1000, // 5 minutes
+    notifyOnChangeProps: 'all', // Força re-render em qualquer mudança
+    structuralSharing: false, // Desabilita otimização que pode impedir re-render
   })
 }
 
@@ -241,10 +244,12 @@ export function useSubgroupsByGroup(groupId: string) {
 export function useCreateScoreSubgroup() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (data: CreateScoreSubgroupDTO) =>
-      apiClient.post<ScoreSubgroup>('/api/v1/score-subgroups', data),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: scoreKeys.subgroupsByGroup(data.groupId) })
+    mutationFn: async (data: CreateScoreSubgroupDTO) => {
+      const response = await apiClient.post<ScoreSubgroup>('/api/v1/score-subgroups', data)
+      return response as any
+    },
+    onSuccess: (subgroup) => {
+      queryClient.invalidateQueries({ queryKey: scoreKeys.subgroupsByGroup(subgroup.groupId) })
       queryClient.invalidateQueries({ queryKey: scoreKeys.groups() })
       queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
     },
@@ -254,11 +259,13 @@ export function useCreateScoreSubgroup() {
 export function useUpdateScoreSubgroup() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateScoreSubgroupDTO }) =>
-      apiClient.put<ScoreSubgroup>(`/api/v1/score-subgroups/${id}`, data),
-    onSuccess: (data, { id }) => {
+    mutationFn: async ({ id, data }: { id: string; data: UpdateScoreSubgroupDTO }) => {
+      const response = await apiClient.put<ScoreSubgroup>(`/api/v1/score-subgroups/${id}`, data)
+      return response as any
+    },
+    onSuccess: (subgroup, { id }) => {
       queryClient.invalidateQueries({ queryKey: scoreKeys.subgroup(id) })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.subgroupsByGroup(data.groupId) })
+      queryClient.invalidateQueries({ queryKey: scoreKeys.subgroupsByGroup(subgroup.groupId) })
       queryClient.invalidateQueries({ queryKey: scoreKeys.groups() })
       queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
     },
@@ -300,10 +307,12 @@ export function useItemsBySubgroup(subgroupId: string) {
 export function useCreateScoreItem() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (data: CreateScoreItemDTO) =>
-      apiClient.post<ScoreItem>('/api/v1/score-items', data),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: scoreKeys.itemsBySubgroup(data.subgroupId) })
+    mutationFn: async (data: CreateScoreItemDTO) => {
+      const response = await apiClient.post<ScoreItem>('/api/v1/score-items', data)
+      return response as any
+    },
+    onSuccess: (item) => {
+      queryClient.invalidateQueries({ queryKey: scoreKeys.itemsBySubgroup(item.subgroupId) })
       queryClient.invalidateQueries({ queryKey: scoreKeys.groups() })
       queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
     },
@@ -313,89 +322,27 @@ export function useCreateScoreItem() {
 export function useUpdateScoreItem() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateScoreItemDTO }) =>
-      apiClient.put<ScoreItem>(`/api/v1/score-items/${id}`, data),
-    onMutate: async ({ id, data }) => {
-      // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: scoreKeys.allGroupTrees() })
-
-      // Snapshot previous value
-      const previousData = queryClient.getQueryData<ScoreGroup[]>(scoreKeys.allGroupTrees())
-
-      // Optimistically update cache
+    mutationFn: async ({ id, data }: { id: string; data: UpdateScoreItemDTO }) => {
+      const response = await apiClient.put<ScoreItem>(`/api/v1/score-items/${id}`, data)
+      return response as any
+    },
+    onSuccess: (updatedItem) => {
       queryClient.setQueryData<ScoreGroup[]>(
         scoreKeys.allGroupTrees(),
-        (oldData) => {
-          if (!oldData) return oldData
+        (old) => {
+          if (!old) return old
 
-          return oldData.map(group => {
-            if (!group.subgroups) return group
-
-            return {
-              ...group,
-              subgroups: group.subgroups.map(subgroup => {
-                if (!subgroup.items) return subgroup
-
-                // Se o item mudou de subgrupo, remover do antigo e adicionar no novo
-                if (data.subgroupId && data.subgroupId !== subgroup.id) {
-                  // Remover do subgrupo atual se estiver nele
-                  const hasItem = subgroup.items.some(item => item.id === id)
-                  if (hasItem) {
-                    return {
-                      ...subgroup,
-                      items: subgroup.items.filter(item => item.id !== id)
-                    }
-                  }
-
-                  // Adicionar ao novo subgrupo se for ele
-                  if (subgroup.id === data.subgroupId) {
-                    const itemToMove = previousData
-                      ?.flatMap(g => g.subgroups || [])
-                      .flatMap(sg => sg.items || [])
-                      .find(item => item.id === id)
-
-                    if (itemToMove) {
-                      return {
-                        ...subgroup,
-                        items: [...subgroup.items, { ...itemToMove, ...data, subgroupId: data.subgroupId }]
-                      }
-                    }
-                  }
-
-                  return subgroup
-                }
-
-                // Atualizar item no mesmo subgrupo
-                const hasItem = subgroup.items.some(item => item.id === id)
-                if (!hasItem) return subgroup
-
-                return {
-                  ...subgroup,
-                  items: subgroup.items.map(item =>
-                    item.id === id ? { ...item, ...data } : item
-                  )
-                }
-              })
-            }
-          })
+          return old.map(g => ({
+            ...g,
+            subgroups: g.subgroups?.map(sg => ({
+              ...sg,
+              items: sg.items?.map(item =>
+                item.id === updatedItem.id ? { ...item, ...updatedItem } : item
+              )
+            }))
+          }))
         }
       )
-
-      return { previousData }
-    },
-    onError: (_err, _variables, context) => {
-      // Rollback on error
-      if (context?.previousData) {
-        queryClient.setQueryData(scoreKeys.allGroupTrees(), context.previousData)
-      }
-    },
-    onSuccess: (updatedItem, { id }) => {
-      // Update the item in cache
-      queryClient.setQueryData(scoreKeys.item(id), updatedItem)
-
-      // Invalidate related queries to refetch from server
-      queryClient.invalidateQueries({ queryKey: scoreKeys.itemsBySubgroup(updatedItem.subgroupId) })
-      queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
     },
   })
 }
@@ -435,52 +382,13 @@ export function useLevelsByItem(itemId: string) {
 export function useCreateScoreLevel() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (data: CreateScoreLevelDTO) =>
-      apiClient.post<ScoreLevel>('/api/v1/score-levels', data),
-    onSuccess: (newLevel) => {
-      // Update the allGroupTrees cache optimistically by adding the new level
-      queryClient.setQueryData<ScoreGroup[]>(
-        scoreKeys.allGroupTrees(),
-        (oldData) => {
-          if (!oldData) return oldData
-
-          // Deep clone and update
-          return oldData.map(group => {
-            if (!group.subgroups) return group
-
-            const hasItemInGroup = group.subgroups.some(sg =>
-              sg.items?.some(item => item.id === newLevel.itemId)
-            )
-
-            if (!hasItemInGroup) return group
-
-            return {
-              ...group,
-              subgroups: group.subgroups.map(subgroup => {
-                if (!subgroup.items) return subgroup
-
-                const hasItem = subgroup.items.some(item => item.id === newLevel.itemId)
-                if (!hasItem) return subgroup
-
-                return {
-                  ...subgroup,
-                  items: subgroup.items.map(item => {
-                    if (item.id !== newLevel.itemId) return item
-
-                    return {
-                      ...item,
-                      levels: [...(item.levels || []), newLevel]
-                    }
-                  })
-                }
-              })
-            }
-          })
-        }
-      )
-
-      // Invalidate related queries
-      queryClient.invalidateQueries({ queryKey: scoreKeys.levelsByItem(newLevel.itemId) })
+    mutationFn: async (data: CreateScoreLevelDTO) => {
+      const response = await apiClient.post<ScoreLevel>('/api/v1/score-levels', data)
+      return response as any
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
+      queryClient.invalidateQueries({ queryKey: scoreKeys.groups() })
     },
   })
 }
@@ -488,63 +396,31 @@ export function useCreateScoreLevel() {
 export function useUpdateScoreLevel() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateScoreLevelDTO }) =>
-      apiClient.put<ScoreLevel>(`/api/v1/score-levels/${id}`, data),
-    onSuccess: (updatedLevel, { id }) => {
-      // Update the level in cache
-      queryClient.setQueryData(scoreKeys.level(id), updatedLevel)
-
-      // Update the level in the allGroupTrees cache optimistically
+    mutationFn: async ({ id, data }: { id: string; data: UpdateScoreLevelDTO }) => {
+      const response = await apiClient.put<ScoreLevel>(`/api/v1/score-levels/${id}`, data)
+      return response as any
+    },
+    onSuccess: (updatedLevel) => {
       queryClient.setQueryData<ScoreGroup[]>(
         scoreKeys.allGroupTrees(),
-        (oldData) => {
-          if (!oldData) return oldData
+        (old) => {
+          if (!old) return old
 
-          // Deep clone and update
-          return oldData.map(group => {
-            if (!group.subgroups) return group
-
-            const hasLevelInGroup = group.subgroups.some(sg =>
-              sg.items?.some(item => item.levels?.some(level => level.id === id))
-            )
-
-            if (!hasLevelInGroup) return group
-
-            return {
-              ...group,
-              subgroups: group.subgroups.map(subgroup => {
-                if (!subgroup.items) return subgroup
-
-                const hasLevelInSubgroup = subgroup.items.some(item =>
-                  item.levels?.some(level => level.id === id)
+          // Atualizar apenas o level específico
+          return old.map(g => ({
+            ...g,
+            subgroups: g.subgroups?.map(sg => ({
+              ...sg,
+              items: sg.items?.map(item => ({
+                ...item,
+                levels: item.levels?.map(lv =>
+                  lv.id === updatedLevel.id ? updatedLevel : lv
                 )
-
-                if (!hasLevelInSubgroup) return subgroup
-
-                return {
-                  ...subgroup,
-                  items: subgroup.items.map(item => {
-                    if (!item.levels) return item
-
-                    const hasLevel = item.levels.some(level => level.id === id)
-                    if (!hasLevel) return item
-
-                    return {
-                      ...item,
-                      levels: item.levels.map(level =>
-                        level.id === id ? updatedLevel : level
-                      )
-                    }
-                  })
-                }
-              })
-            }
-          })
+              }))
+            }))
+          }))
         }
       )
-
-      // Invalidate related queries
-      queryClient.invalidateQueries({ queryKey: scoreKeys.levelsByItem(updatedLevel.itemId) })
     },
   })
 }

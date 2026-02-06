@@ -111,7 +111,7 @@ func Load() (*Config, error) {
 		},
 		Claude: ClaudeConfig{
 			APIKey: getEnv("CLAUDE_API_KEY", ""),
-			Model:  getEnv("CLAUDE_MODEL", "claude-sonnet-4-5-20250929"),
+			Model:  getEnv("CLAUDE_MODEL", "claude-3-5-haiku-20241022"),
 		},
 	}
 

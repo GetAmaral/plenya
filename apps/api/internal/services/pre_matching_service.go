@@ -29,7 +29,6 @@ type PreMatchingService struct {
 	resultWithUnitPattern  *regexp.Regexp
 	resultTextPattern      *regexp.Regexp
 	unitPattern            *regexp.Regexp
-	referenceRangePattern  *regexp.Regexp
 	labNamePattern         *regexp.Regexp
 	collectionDatePattern  *regexp.Regexp
 	collectionDatePattern2 *regexp.Regexp
@@ -42,7 +41,6 @@ type MatchedTest struct {
 	ResultNumeric       *float64
 	ResultText          *string
 	Unit                *string
-	ReferenceRange      *string
 	StartPos            int // Posição inicial no texto
 	EndPos              int // Posição final no texto
 	MatchLength         int // Comprimento do match (para priorizar matches mais longos)
@@ -78,10 +76,6 @@ func NewPreMatchingService(db *gorm.DB) *PreMatchingService {
 
 		// Unidade: captura unidades comuns (expandido para labs brasileiros)
 		unitPattern: regexp.MustCompile(`(?i)\b(g/dL|mg/dL|mU/L|U/L|UI/L|UI/mL|mmol/L|umol/L|µmol/L|ng/mL|ng/dL|pg/mL|pg/dL|mcg/dL|ug/dL|µg/dL|mEq/L|mmHg|%|/mm[³3]|mil/mm[³3]|x10[³3]/[uµ]L|fL|pg|mm/h|seg|segundos|min|mL/min|mL/min/1,73m2)\b`),
-
-		// Faixa de referência: vários formatos brasileiros
-		// Ex: "13,5 a 17,5", "70 - 100", "Inferior a 190", "Superior a 40", "VR: 13,5 a 17,5"
-		referenceRangePattern: regexp.MustCompile(`(?i)(?:V\.?R\.?|Ref(?:er[eê]ncia)?|Valores?\s+de\s+Refer[eê]ncia)?[:\s]*(\d+[.,]?\d*)\s*(?:a|[-–])\s*(\d+[.,]?\d*)|(?:Inferior|Menor|<)\s*(?:a|que)?\s*(\d+[.,]?\d*)|(?:Superior|Maior|>)\s*(?:a|que)?\s*(\d+[.,]?\d*)`),
 
 		// Nome do laboratório - padrões específicos conhecidos + genérico
 		labNamePattern: regexp.MustCompile(`(?i)(?:Laborat[oó]rio|Lab\.?)[:\s]+([A-Za-zÀ-ÿ\s\-\.]+?)(?:\n|$)|(?:SABIN|LDB|LABMED|LABIMAGEM|OSWALDO\s*CRUZ|CLINILAB|CLINIMAGEM|UNIMED)`),
@@ -242,85 +236,270 @@ func (s *PreMatchingService) loadTestDefinitions() ([]models.LabTestDefinition, 
 	return defs, err
 }
 
+// findOriginalPosition encontra a posição real no texto original
+// dado um altName e uma posição aproximada do texto normalizado
+func (s *PreMatchingService) findOriginalPosition(text string, altName string, approxPos int) int {
+	// Buscar em uma janela ao redor da posição aproximada
+	windowSize := 200 // caracteres antes e depois
+	searchStart := approxPos - windowSize
+	if searchStart < 0 {
+		searchStart = 0
+	}
+	searchEnd := approxPos + windowSize + len(altName)
+	if searchEnd > len(text) {
+		searchEnd = len(text)
+	}
+
+	searchRegion := text[searchStart:searchEnd]
+	normalizedRegion := s.normalizeText(searchRegion)
+
+	// Encontrar altName na região normalizada
+	idx := strings.Index(normalizedRegion, altName)
+	if idx >= 0 {
+		// Mapear de volta para o texto original
+		// Contar caracteres no texto original até chegar na mesma posição lógica
+		originalIdx := 0
+		normalizedIdx := 0
+		for originalIdx < len(searchRegion) && normalizedIdx < idx {
+			// Avançar um rune no original
+			_, size := getRuneAt(searchRegion, originalIdx)
+			originalIdx += size
+			// O normalizado avança 1 char (sem acentos)
+			normalizedIdx++
+		}
+		return searchStart + originalIdx
+	}
+
+	return approxPos // fallback
+}
+
+// getRuneAt retorna o rune e seu tamanho em bytes na posição dada
+func getRuneAt(s string, pos int) (rune, int) {
+	for i, r := range s {
+		if i == pos {
+			return r, len(string(r))
+		}
+		if i > pos {
+			break
+		}
+	}
+	return 0, 1
+}
+
 // extractTestData - extrai dados do exame a partir da posição do match
+// ESTRATÉGIA: Priorizar padrões mais específicos primeiro
+// 1. RESULTADO: valor unidade (linha dedicada) - MAIOR PRIORIDADE
+// 2. NOME: valor unidade (inline com : logo após nome)
+// 3. NOME valor unidade refs (tabular hemograma)
 func (s *PreMatchingService) extractTestData(
 	text string,
 	testDef models.LabTestDefinition,
 	matchedName string,
 	startPos int,
 ) *MatchedTest {
-	// Garantir que startPos está dentro do texto
-	if startPos >= len(text) {
+	// IMPORTANTE: startPos vem do texto normalizado, precisamos encontrar
+	// a posição real no texto original
+	originalPos := s.findOriginalPosition(text, matchedName, startPos)
+	if originalPos >= len(text) {
 		return nil
 	}
 
-	// Extrair linha completa onde o exame foi encontrado (+ próximas 3 linhas)
-	// Alguns labs colocam o resultado em linhas separadas
-	lines := strings.Split(text[startPos:], "\n")
+	// Encontrar início da linha onde o match ocorreu
+	lineStart := originalPos
+	for lineStart > 0 && text[lineStart-1] != '\n' {
+		lineStart--
+	}
+
+	// Extrair as próximas 8 linhas a partir do início da linha do match
+	lines := strings.Split(text[lineStart:], "\n")
 	if len(lines) == 0 {
 		return nil
 	}
 
-	// Buscar resultado na linha e próximas 3
-	maxLines := 4
+	// Limitar a 8 linhas para busca
+	maxLines := 8
 	if len(lines) < maxLines {
 		maxLines = len(lines)
 	}
-	searchText := strings.Join(lines[:maxLines], "\n")
 
-	// Tentar extrair resultado numérico COM unidade (mais preciso)
 	var resultNumeric *float64
 	var unit *string
+	var resultText *string
+	endPos := originalPos + len(matchedName)
 
-	if matches := s.resultWithUnitPattern.FindStringSubmatch(searchText); len(matches) >= 3 {
-		// Converter número brasileiro (1.234,56 -> 1234.56)
-		numStr := s.parseNumber(matches[1])
-		var val float64
-		if _, err := fmt.Sscanf(numStr, "%f", &val); err == nil {
-			resultNumeric = &val
-			unitStr := matches[2]
-			unit = &unitStr
-		}
-	}
-
-	// Fallback: tentar resultado numérico sem unidade específica
-	if resultNumeric == nil {
-		if matches := s.resultNumericPattern.FindStringSubmatch(searchText); len(matches) >= 2 {
+	// ============================================================
+	// PADRÃO 1: Buscar "Resultado: valor unidade" nas próximas linhas
+	// Formato: Resultado: 78 µg/dL ou Resultado: 86 mg/dL Jejum:
+	// IMPORTANTE: Parar no primeiro valor após "Resultado:", antes de qualquer outro ":"
+	// ============================================================
+	resultadoPattern := regexp.MustCompile(`(?i)Resultado:\s*(\d+[.,]?\d*)\s*([a-zA-Zµμ/%³²]+(?:/[a-zA-Z0-9µμ.,³²m]+)?)`)
+	for i := 0; i < maxLines; i++ {
+		line := lines[i]
+		if matches := resultadoPattern.FindStringSubmatch(line); len(matches) >= 3 {
 			numStr := s.parseNumber(matches[1])
 			var val float64
 			if _, err := fmt.Sscanf(numStr, "%f", &val); err == nil {
 				resultNumeric = &val
+				unitStr := matches[2]
+				unit = &unitStr
+				endPos = lineStart + s.findLineEnd(lines, i)
+				break
+			}
+		}
+	}
 
-				// Tentar encontrar unidade separadamente
-				if unitMatch := s.unitPattern.FindStringSubmatch(searchText); len(unitMatch) >= 2 {
-					unit = &unitMatch[1]
+	// ============================================================
+	// PADRÃO 1B: "Resultado: Inferior a X" ou "Resultado: Acima de X"
+	// Formato: Resultado: Inferior a 0,10 mg/dL ou Resultado: Acima de 60 mL/min
+	// ============================================================
+	if resultNumeric == nil {
+		resultadoQualPattern := regexp.MustCompile(`(?i)Resultado:\s*(Inferior|Acima|Menor|Maior)\s*(?:a|de|que)?\s*(\d+[.,]?\d*)\s*([a-zA-Zµμ/%³²]+(?:/[a-zA-Z0-9µμ.,³²m]+)?)`)
+		for i := 0; i < maxLines; i++ {
+			line := lines[i]
+			if matches := resultadoQualPattern.FindStringSubmatch(line); len(matches) >= 4 {
+				qualifier := matches[1]
+				numStr := s.parseNumber(matches[2])
+				var val float64
+				if _, err := fmt.Sscanf(numStr, "%f", &val); err == nil {
+					resultNumeric = &val
+					unitStr := matches[3]
+					unit = &unitStr
+					// Guardar o qualificador no resultText
+					qualText := strings.ToLower(qualifier)
+					if qualText == "inferior" || qualText == "menor" {
+						qualText = "<"
+					} else {
+						qualText = ">"
+					}
+					resultText = &qualText
+					endPos = lineStart + s.findLineEnd(lines, i)
+					break
 				}
 			}
 		}
 	}
 
-	// Se não achou numérico, tentar texto
-	var resultText *string
+	// ============================================================
+	// PADRÃO 2: "NOME: valor unidade" na mesma linha do match
+	// Formato: Hemácias: 4,13 milhões/mm ou COLESTEROL TOTAL: 205 mg/dL
+	// Também suporta: Hemoglobina.........: 12,30 g/dL
+	// IMPORTANTE: EXIGE ":" (possivelmente precedido de pontos) após o nome
+	// ============================================================
 	if resultNumeric == nil {
-		if matches := s.resultTextPattern.FindStringSubmatch(searchText); len(matches) >= 2 {
-			resultText = &matches[1]
+		firstLine := lines[0]
+		normalizedLine := s.normalizeText(firstLine)
+		normalizedName := s.normalizeText(matchedName)
+		nameIdx := strings.Index(normalizedLine, normalizedName)
+
+		if nameIdx >= 0 {
+			// Calcular posição após o nome no texto original
+			afterNamePos := nameIdx + len(normalizedName)
+			if afterNamePos < len(firstLine) {
+				afterName := firstLine[afterNamePos:]
+				// Padrão: permite pontos antes de ":" seguido de espaços e número
+				// ^[.]*:\s* aceita ":" ou ".....:" após o nome
+				inlinePattern := regexp.MustCompile(`^[.]*:\s+(\d+[.,]?\d*)\s*([a-zA-Zµμ/%³²]+(?:/[a-zA-Z0-9µμ.,³²m]+)?)`)
+				if matches := inlinePattern.FindStringSubmatch(afterName); len(matches) >= 3 {
+					numStr := s.parseNumber(matches[1])
+					var val float64
+					if _, err := fmt.Sscanf(numStr, "%f", &val); err == nil {
+						resultNumeric = &val
+						unitStr := matches[2]
+						unit = &unitStr
+						endPos = lineStart + len(firstLine)
+					}
+				}
+			}
 		}
 	}
 
-	// Se não achou nem numérico nem texto, pular
+	// ============================================================
+	// PADRÃO 3: Tabular (hemograma PDF1) - "NOME valor unidade refs..."
+	// Formato: HEMOGLOBINA 12,2 g/dL 13,0 a 16,5...
+	// O valor está LOGO APÓS o nome do exame na mesma linha (SEM :)
+	// Verifica que não há ":" entre o nome e o valor
+	// ============================================================
+	if resultNumeric == nil {
+		firstLine := lines[0]
+		normalizedLine := s.normalizeText(firstLine)
+		normalizedName := s.normalizeText(matchedName)
+		nameIdx := strings.Index(normalizedLine, normalizedName)
+		if nameIdx >= 0 {
+			// Pegar texto após o nome
+			afterNamePos := nameIdx + len(normalizedName)
+			if afterNamePos < len(firstLine) {
+				afterName := firstLine[afterNamePos:]
+				// Verificar que NÃO começa com ":" (senão seria Padrão 2)
+				if len(afterName) > 0 && afterName[0] != ':' {
+					// Buscar espaço(s) seguido de número com unidade
+					tabularPattern := regexp.MustCompile(`^\s+(\d+[.,]?\d*)\s*([a-zA-Zµμ/%³²]+(?:/[a-zA-Z0-9µμ.,³²m]+)?)`)
+					if matches := tabularPattern.FindStringSubmatch(afterName); len(matches) >= 3 {
+						numStr := s.parseNumber(matches[1])
+						var val float64
+						if _, err := fmt.Sscanf(numStr, "%f", &val); err == nil {
+							resultNumeric = &val
+							unitStr := matches[2]
+							unit = &unitStr
+							endPos = lineStart + len(firstLine)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// ============================================================
+	// PADRÃO 4: HOMA e similares - "NOME: valor" ou "NOME valor" em linha curta
+	// Formato: HOMA IR: 0,8 ou Glicemia média estimada: 105 mg/dL
+	// IMPORTANTE: Só aplica se a linha for curta (sem referências longas)
+	// ============================================================
+	if resultNumeric == nil {
+		firstLine := lines[0]
+		normalizedLine := s.normalizeText(firstLine)
+		normalizedName := s.normalizeText(matchedName)
+		nameIdx := strings.Index(normalizedLine, normalizedName)
+
+		if nameIdx >= 0 {
+			// Pegar texto após o nome
+			afterNamePos := nameIdx + len(normalizedName)
+			if afterNamePos < len(firstLine) {
+				afterName := firstLine[afterNamePos:]
+				// Só aplicar se afterName for curto (< 50 chars) - evita pegar de linhas com referências
+				if len(strings.TrimSpace(afterName)) < 50 {
+					// Buscar número próximo do início do afterName (não no final da linha)
+					homaPattern := regexp.MustCompile(`^[:\s]+(\d+[.,]?\d*)\s*([a-zA-Zµμ/%³²]*(?:/[a-zA-Z0-9µμ.,³²m]*)?)`)
+					if matches := homaPattern.FindStringSubmatch(afterName); len(matches) >= 2 {
+						numStr := s.parseNumber(matches[1])
+						var val float64
+						if _, err := fmt.Sscanf(numStr, "%f", &val); err == nil {
+							resultNumeric = &val
+							if len(matches) >= 3 && matches[2] != "" {
+								unitStr := matches[2]
+								unit = &unitStr
+							}
+							endPos = lineStart + len(firstLine)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Se não encontrou numérico, tentar texto qualitativo
+	if resultNumeric == nil && resultText == nil {
+		for i := 0; i < min(3, maxLines); i++ {
+			if matches := s.resultTextPattern.FindStringSubmatch(lines[i]); len(matches) >= 2 {
+				resultText = &matches[1]
+				endPos = lineStart + s.findLineEnd(lines, i)
+				break
+			}
+		}
+	}
+
+	// Se não encontrou nada, retornar nil
 	if resultNumeric == nil && resultText == nil {
 		return nil
 	}
-
-	// Tentar extrair faixa de referência
-	var refRange *string
-	if matches := s.referenceRangePattern.FindString(searchText); matches != "" {
-		refRange = &matches
-	}
-
-	// Calcular endPos (final da seção)
-	// Encontrar o fim da seção deste exame (próxima linha em branco ou próximo exame)
-	endPos := startPos + len(searchText)
 
 	return &MatchedTest{
 		LabTestDefinitionID: testDef.ID,
@@ -328,10 +507,50 @@ func (s *PreMatchingService) extractTestData(
 		ResultNumeric:       resultNumeric,
 		ResultText:          resultText,
 		Unit:                unit,
-		ReferenceRange:      refRange,
-		StartPos:            startPos,
+		StartPos:            originalPos,
 		EndPos:              endPos,
 	}
+}
+
+// findLineEnd retorna a posição final da linha i no slice de linhas
+func (s *PreMatchingService) findLineEnd(lines []string, lineIdx int) int {
+	pos := 0
+	for i := 0; i <= lineIdx && i < len(lines); i++ {
+		pos += len(lines[i])
+		if i < lineIdx {
+			pos++ // +1 para o \n
+		}
+	}
+	return pos
+}
+
+// isGraphLine detecta linhas que são dados de gráficos históricos (a ignorar)
+// Exemplos: "250", "97 98 78", "07/02/24 27/03/25", "08:45:26 09:54:38"
+func (s *PreMatchingService) isGraphLine(line string) bool {
+	line = strings.TrimSpace(line)
+	if line == "" {
+		return true
+	}
+
+	// Linha contém apenas números e espaços (valores de gráfico)
+	onlyNumbersSpaces := regexp.MustCompile(`^[\d\s.,]+$`)
+	if onlyNumbersSpaces.MatchString(line) {
+		return true
+	}
+
+	// Linha contém datas no formato dd/mm/yy ou dd/mm/yyyy
+	datePattern := regexp.MustCompile(`^\d{2}/\d{2}/\d{2,4}(\s+\d{2}/\d{2}/\d{2,4})*\s*$`)
+	if datePattern.MatchString(line) {
+		return true
+	}
+
+	// Linha contém horários no formato hh:mm:ss
+	timePattern := regexp.MustCompile(`^\d{2}:\d{2}:\d{2}(\s+\d{2}:\d{2}:\d{2})*\s*$`)
+	if timePattern.MatchString(line) {
+		return true
+	}
+
+	return false
 }
 
 // parseNumber converte número brasileiro para formato parseável
