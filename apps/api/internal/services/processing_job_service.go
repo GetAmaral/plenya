@@ -1,7 +1,7 @@
 package services
 
 import (
-	"encoding/json"
+	_ "encoding/json" // TEMP: unused while AI is disabled
 	"errors"
 	"fmt"
 	"strings"
@@ -190,6 +190,13 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 		return nil
 	}
 
+	// TEMPORÁRIO: Desativar IA para teste de processamento local
+	fmt.Printf("🚫 [Job %s] AI DISABLED - Only local processing. Would send %d chars (%d estimated tests)\n",
+		job.ID, len(textForAI), preMatchResult.RemainingTestsEst)
+	fmt.Printf("✅ [Job %s] Processing completed (local only)\n", job.ID)
+	return nil
+
+	/* AI DESATIVADA TEMPORARIAMENTE
 	fmt.Printf("📊 [Job %s] Sending to AI: %d chars (%d estimated tests)\n",
 		job.ID, len(textForAI), preMatchResult.RemainingTestsEst)
 
@@ -225,19 +232,30 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 	fmt.Printf("📋 [Job %s] Loaded %d common test definitions (filtered from %d total)\n",
 		job.ID, len(testSummaries), len(testDefs))
 
-	// 3. Claude API: interpretar laudo (usando texto que precisa de IA)
-	fmt.Printf("🤖 [Job %s] Calling Claude API for interpretation...\n", job.ID)
+	// 3. Claude API: interpretar laudo (extrair dados brutos)
+	fmt.Printf("🤖 [Job %s] Calling Claude API for extraction...\n", job.ID)
 	aiResp, err := s.aiService.InterpretLabResult(textForAI, testSummaries)
 	if err != nil {
 		return fmt.Errorf("AI interpretation failed: %v", err)
 	}
+	fmt.Printf("✅ [Job %s] AI extracted %d lab results\n", job.ID, len(aiResp.LabResults))
+
+	// 3.1. Matching local: associar resultados extraídos com definições de exames
+	fmt.Printf("🔗 [Job %s] Matching results with test definitions...\n", job.ID)
+	s.aiService.MatchResultsWithDefinitions(aiResp, testSummaries)
+	matchedCount := 0
+	for _, r := range aiResp.LabResults {
+		if r.Matched {
+			matchedCount++
+		}
+	}
+	fmt.Printf("✅ [Job %s] Matched %d/%d results with definitions\n", job.ID, matchedCount, len(aiResp.LabResults))
 
 	// Salvar resposta da IA (JSON)
 	aiRespJSON, _ := json.Marshal(aiResp)
 	aiRespStr := string(aiRespJSON)
 	job.AIResponse = &aiRespStr
 	s.db.Save(job)
-	fmt.Printf("✅ [Job %s] AI extracted %d lab results\n", job.ID, len(aiResp.LabResults))
 
 	// 4. Salvar resultados no batch
 	fmt.Printf("💾 [Job %s] Saving results to batch...\n", job.ID)
@@ -247,6 +265,7 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 
 	fmt.Printf("✅ [Job %s] Processing completed successfully\n", job.ID)
 	return nil
+	AI DESATIVADA TEMPORARIAMENTE */
 }
 
 // savePDFContentToBatch - salva textos full e cleaned no batch
@@ -267,15 +286,9 @@ func (s *ProcessingJobService) savePreMatchedTests(
 	batchID uuid.UUID,
 	preMatchResult *PreMatchingResult,
 ) error {
-	// Buscar batch para obter userID
-	var batch models.LabResultBatch
-	if err := s.db.Preload("Patient").First(&batch, batchID).Error; err != nil {
-		return err
-	}
+	savedCount := 0
 
-	userID := batch.PatientID
-
-	// Criar LabResult para cada match
+	// Criar LabResult para cada match (usando método interno sem verificação de usuário)
 	for _, match := range preMatchResult.MatchedTests {
 		idStr := match.LabTestDefinitionID.String()
 		matched := true
@@ -283,20 +296,22 @@ func (s *ProcessingJobService) savePreMatchedTests(
 		createReq := &dto.CreateLabResultInBatchRequest{
 			LabTestDefinitionID: &idStr,
 			TestName:            match.TestName,
-			TestType:            "pending", // Será atualizado
+			TestType:            "biochemistry", // Default, será atualizado se necessário
 			ResultNumeric:       match.ResultNumeric,
 			ResultText:          match.ResultText,
 			Unit:                match.Unit,
-			ReferenceRange:      match.ReferenceRange,
 			Matched:             &matched,
 		}
 
-		if _, err := s.labResultBatchService.AddResult(batchID, userID, createReq); err != nil {
+		if _, err := s.labResultBatchService.AddResultInternal(batchID, createReq); err != nil {
 			fmt.Printf("⚠️  Failed to save pre-matched test '%s': %v\n", match.TestName, err)
 			// Continua salvando os outros
+		} else {
+			savedCount++
 		}
 	}
 
+	fmt.Printf("💾 [Batch %s] Saved %d/%d pre-matched tests\n", batchID, savedCount, len(preMatchResult.MatchedTests))
 	return nil
 }
 
@@ -372,33 +387,29 @@ func (s *ProcessingJobService) saveResultsToBatch(
 		s.db.Save(&batch)
 	}
 
-	// O userID é o mesmo que o patientID (patients são users)
-	userID := batch.PatientID
-
 	// Limpar resultados existentes antes de adicionar os novos do PDF
 	// (remove placeholders ou resultados antigos)
 	s.db.Where("lab_result_batch_id = ?", batchID).Delete(&models.LabResult{})
 
+	// Criar resultados diretamente (sem passar por AddResult que faz verificação de user/selectedPatient)
+	// Isso é seguro porque o batch já foi criado pelo usuário autenticado
 	for _, aiResult := range aiResp.LabResults {
-		var labTestDefIDStr *string
-		if aiResult.LabTestDefinitionID != nil {
-			idStr := aiResult.LabTestDefinitionID.String()
-			labTestDefIDStr = &idStr
-		}
+		// Usa método que valida UUID e retorna nil se inválido (IA às vezes retorna IDs inventados)
+		labTestDefID := aiResult.GetLabTestDefinitionUUID()
 
-		createReq := &dto.CreateLabResultInBatchRequest{
-			LabTestDefinitionID: labTestDefIDStr,
+		result := models.LabResult{
+			LabResultBatchID:    batchID,
+			LabTestDefinitionID: labTestDefID,
 			TestName:            aiResult.TestName,
 			TestType:            aiResult.TestType,
 			ResultText:          aiResult.ResultText,
 			ResultNumeric:       aiResult.ResultNumeric,
 			Unit:                aiResult.Unit,
-			ReferenceRange:      aiResult.ReferenceRange,
 			Interpretation:      aiResult.Interpretation,
-			Matched:             &aiResult.Matched,
+			Matched:             aiResult.Matched,
 		}
 
-		if _, err := s.labResultBatchService.AddResult(batchID, userID, createReq); err != nil {
+		if err := s.db.Create(&result).Error; err != nil {
 			return fmt.Errorf("failed to add result '%s': %v", aiResult.TestName, err)
 		}
 	}

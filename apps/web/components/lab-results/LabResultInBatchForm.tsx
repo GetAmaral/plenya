@@ -50,22 +50,10 @@ export function LabResultInBatchForm({
       if (test.unit) {
         form.setValue(`labResults.${index}.unit`, test.unit);
       }
-
-      // Referência padrão baseada no tipo
-      const defaultReference = getDefaultReferenceRange(test.category);
-      if (defaultReference) {
-        form.setValue(`labResults.${index}.referenceRange`, defaultReference);
-      }
     } else {
       // Limpar seleção
       form.setValue(`labResults.${index}.labTestDefinitionId`, undefined);
     }
-  };
-
-  // Valores de referência padrão por categoria (pode ser customizado)
-  const getDefaultReferenceRange = (category: string): string | undefined => {
-    // Aqui você pode adicionar valores padrão por categoria se necessário
-    return undefined;
   };
 
   return (
@@ -251,25 +239,6 @@ export function LabResultInBatchForm({
             )}
           />
         </div>
-
-        {/* Valores de Referência */}
-        <FormField
-          control={form.control}
-          name={`labResults.${index}.referenceRange`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Valores de Referência</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Ex: 12-16 g/dL"
-                  value={field.value || ""}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         {/* Nível */}
         <FormField

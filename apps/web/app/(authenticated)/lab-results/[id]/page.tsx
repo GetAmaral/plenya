@@ -41,11 +41,6 @@ const statusConfig = {
   completed: { label: "Concluído", variant: "default" as const, icon: TrendingUp },
 };
 
-const resultStatusConfig = {
-  pending: { label: "Pendente", variant: "outline" as const },
-  completed: { label: "Concluído", variant: "default" as const },
-  cancelled: { label: "Cancelado", variant: "destructive" as const },
-};
 
 export default function LabResultBatchDetailPage() {
   useRequireAuth();
@@ -213,8 +208,6 @@ export default function LabResultBatchDetailPage() {
                   <TableHead>Exame</TableHead>
                   <TableHead>Tipo</TableHead>
                   <TableHead>Resultado</TableHead>
-                  <TableHead>Valores de Referência</TableHead>
-                  <TableHead>Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -224,9 +217,6 @@ export default function LabResultBatchDetailPage() {
                       result.resultNumeric !== undefined && result.resultNumeric !== null
                         ? `${result.resultNumeric}${result.unit ? ` ${result.unit}` : ""}`
                         : result.resultText || "-";
-
-                    const resultStatusBadge =
-                      resultStatusConfig[result.status as keyof typeof resultStatusConfig];
 
                     return (
                       <TableRow key={result.id}>
@@ -246,20 +236,12 @@ export default function LabResultBatchDetailPage() {
                             )}
                           </div>
                         </TableCell>
-                        <TableCell className="text-sm text-muted-foreground">
-                          {result.referenceRange || "-"}
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={resultStatusBadge?.variant || "outline"}>
-                            {resultStatusBadge?.label || result.status}
-                          </Badge>
-                        </TableCell>
                       </TableRow>
                     );
                   })
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                    <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
                       Nenhum resultado encontrado
                     </TableCell>
                   </TableRow>

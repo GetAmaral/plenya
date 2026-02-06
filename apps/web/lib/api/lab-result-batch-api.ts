@@ -23,12 +23,11 @@ export interface LabResultInBatchResponse {
   labTestDefinitionId?: string
   testName: string
   testType: string
-  status: 'pending' | 'completed' | 'cancelled'
   resultText?: string
   resultNumeric?: number
   unit?: string
-  referenceRange?: string
   interpretation?: string
+  level?: number
   createdAt: string
   updatedAt: string
 }
@@ -41,12 +40,12 @@ export interface CreateLabResultInBatchRequest {
   labTestDefinitionId?: string
   testName: string
   testType: string
-  status: 'pending' | 'completed' | 'cancelled'
   resultText?: string
   resultNumeric?: number
   unit?: string
-  referenceRange?: string
   interpretation?: string
+  level?: number
+  matched?: boolean
 }
 
 export interface CreateLabResultBatchRequest {
@@ -76,36 +75,48 @@ export interface UpdateLabResultInBatchRequest {
   labTestDefinitionId?: string
   testName?: string
   testType?: string
-  status?: 'pending' | 'completed' | 'cancelled'
   resultText?: string
   resultNumeric?: number
   unit?: string
-  referenceRange?: string
   interpretation?: string
+  level?: number
 }
 
 export const labResultBatchApi = {
-  list: async (params?: { status?: string; limit?: number; offset?: number }) =>
-    apiClient.get<LabResultBatchDetailResponse[]>('/api/v1/lab-result-batches', { params }),
+  list: async (params?: { status?: string; limit?: number; offset?: number }): Promise<LabResultBatchDetailResponse[]> => {
+    const queryParams = new URLSearchParams()
+    if (params?.status) queryParams.append('status', params.status)
+    if (params?.limit) queryParams.append('limit', params.limit.toString())
+    if (params?.offset) queryParams.append('offset', params.offset.toString())
+    const query = queryParams.toString()
+    return apiClient.get<LabResultBatchDetailResponse[]>(`/api/v1/lab-result-batches${query ? `?${query}` : ''}`)
+  },
 
-  getById: async (id: string) =>
-    apiClient.get<LabResultBatchDetailResponse>(`/api/v1/lab-result-batches/${id}`),
+  getById: async (id: string): Promise<LabResultBatchDetailResponse> => {
+    return apiClient.get<LabResultBatchDetailResponse>(`/api/v1/lab-result-batches/${id}`)
+  },
 
-  create: async (data: CreateLabResultBatchRequest) =>
-    apiClient.post<LabResultBatchDetailResponse>('/api/v1/lab-result-batches', data),
+  create: async (data: CreateLabResultBatchRequest): Promise<LabResultBatchDetailResponse> => {
+    return apiClient.post<LabResultBatchDetailResponse>('/api/v1/lab-result-batches', data)
+  },
 
-  update: async (id: string, data: UpdateLabResultBatchRequest) =>
-    apiClient.put<LabResultBatchResponse>(`/api/v1/lab-result-batches/${id}`, data),
+  update: async (id: string, data: UpdateLabResultBatchRequest): Promise<LabResultBatchResponse> => {
+    return apiClient.put<LabResultBatchResponse>(`/api/v1/lab-result-batches/${id}`, data)
+  },
 
-  delete: async (id: string) =>
-    apiClient.delete(`/api/v1/lab-result-batches/${id}`),
+  delete: async (id: string): Promise<void> => {
+    await apiClient.delete(`/api/v1/lab-result-batches/${id}`)
+  },
 
-  addResult: async (batchId: string, data: CreateLabResultInBatchRequest) =>
-    apiClient.post<LabResultInBatchResponse>(`/api/v1/lab-result-batches/${batchId}/results`, data),
+  addResult: async (batchId: string, data: CreateLabResultInBatchRequest): Promise<LabResultInBatchResponse> => {
+    return apiClient.post<LabResultInBatchResponse>(`/api/v1/lab-result-batches/${batchId}/results`, data)
+  },
 
-  updateResult: async (batchId: string, resultId: string, data: UpdateLabResultInBatchRequest) =>
-    apiClient.put<LabResultInBatchResponse>(`/api/v1/lab-result-batches/${batchId}/results/${resultId}`, data),
+  updateResult: async (batchId: string, resultId: string, data: UpdateLabResultInBatchRequest): Promise<LabResultInBatchResponse> => {
+    return apiClient.put<LabResultInBatchResponse>(`/api/v1/lab-result-batches/${batchId}/results/${resultId}`, data)
+  },
 
-  deleteResult: async (batchId: string, resultId: string) =>
-    apiClient.delete(`/api/v1/lab-result-batches/${batchId}/results/${resultId}`),
+  deleteResult: async (batchId: string, resultId: string): Promise<void> => {
+    await apiClient.delete(`/api/v1/lab-result-batches/${batchId}/results/${resultId}`)
+  },
 }

@@ -9,7 +9,6 @@ type CreateLabResultRequest struct {
 	PerformedAt    *string `json:"performedAt,omitempty"`         // formato: RFC3339
 	Result         *string `json:"result,omitempty"`
 	Unit           *string `json:"unit,omitempty"`
-	ReferenceRange *string `json:"referenceRange,omitempty"`
 	Interpretation *string `json:"interpretation,omitempty"`
 }
 
@@ -18,7 +17,6 @@ type UpdateLabResultRequest struct {
 	PerformedAt    *string `json:"performedAt,omitempty"` // formato: RFC3339
 	Result         *string `json:"result,omitempty"`
 	Unit           *string `json:"unit,omitempty"`
-	ReferenceRange *string `json:"referenceRange,omitempty"`
 	Interpretation *string `json:"interpretation,omitempty"`
 }
 
@@ -33,7 +31,6 @@ type LabResultResponse struct {
 	PerformedAt    *string `json:"performedAt,omitempty"`
 	Result         *string `json:"result,omitempty"`
 	Unit           *string `json:"unit,omitempty"`
-	ReferenceRange *string `json:"referenceRange,omitempty"`
 	Interpretation *string `json:"interpretation,omitempty"`
 	CreatedAt      string  `json:"createdAt"`
 	UpdatedAt      string  `json:"updatedAt"`

@@ -43,7 +43,6 @@ interface PivotCell {
   value: string;
   batchId: string;
   resultId: string;
-  status: string;
   unit?: string;
   level?: number; // Nível para coloração
   createdAt: string; // Para ordenação quando múltiplos lotes na mesma data
@@ -147,7 +146,6 @@ export default function LabResultsPage() {
           value,
           batchId: batch.id,
           resultId: result.id,
-          status: result.status,
           unit: result.unit,
           level: result.level,
           createdAt: batch.createdAt,

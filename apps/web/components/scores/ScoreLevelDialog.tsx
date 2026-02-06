@@ -162,10 +162,10 @@ export function ScoreLevelDialog({
       }
       onOpenChange(false)
       reset()
-    } catch (error) {
-      toast.error(
-        isEditing ? 'Erro ao atualizar nível' : 'Erro ao criar nível'
-      )
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.error || error?.message || (isEditing ? 'Erro ao atualizar nível' : 'Erro ao criar nível')
+      console.error('Erro no formulário de nível:', error)
+      toast.error(errorMessage)
     }
   }
 

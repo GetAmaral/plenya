@@ -129,7 +129,6 @@ export function LabResultTableForm({
                 <TableHead className="min-w-[80px] px-2 py-2 text-xs">Valor</TableHead>
                 <TableHead className="min-w-[70px] px-2 py-2 text-xs">Unid.</TableHead>
                 <TableHead className="min-w-[200px] px-2 py-2 text-xs">Texto</TableHead>
-                <TableHead className="min-w-[100px] px-2 py-2 text-xs">Referência</TableHead>
                 <TableHead className="min-w-[85px] px-2 py-2 text-xs">Nível</TableHead>
                 <TableHead className="min-w-[160px] px-2 py-2 text-xs">Interpretação</TableHead>
                 <TableHead className="w-[50px] px-2 py-2 text-xs">Ações</TableHead>
@@ -283,27 +282,6 @@ export function LabResultTableForm({
                             <Input
                               {...field}
                               placeholder="Negativo"
-                              className="h-8 text-sm"
-                              value={field.value || ""}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </TableCell>
-
-                  {/* Valores de Referência */}
-                  <TableCell className="px-2 py-1.5">
-                    <FormField
-                      control={form.control}
-                      name={`labResults.${index}.referenceRange`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              placeholder="12-16"
                               className="h-8 text-sm"
                               value={field.value || ""}
                             />

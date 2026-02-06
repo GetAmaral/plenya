@@ -121,7 +121,6 @@ func (s *LabResultBatchService) Create(userID uuid.UUID, req *dto.CreateLabResul
 				ResultText:          resReq.ResultText,
 				ResultNumeric:       resReq.ResultNumeric,
 				Unit:                resReq.Unit,
-				ReferenceRange:      resReq.ReferenceRange,
 				Interpretation:      resReq.Interpretation,
 				Level:               resReq.Level,
 			}
@@ -333,9 +332,6 @@ func (s *LabResultBatchService) Update(batchID, userID uuid.UUID, req *dto.Updat
 					if reqResult.Unit != nil {
 						existingResult.Unit = reqResult.Unit
 					}
-					if reqResult.ReferenceRange != nil {
-						existingResult.ReferenceRange = reqResult.ReferenceRange
-					}
 					if reqResult.Interpretation != nil {
 						existingResult.Interpretation = reqResult.Interpretation
 					}
@@ -357,7 +353,6 @@ func (s *LabResultBatchService) Update(batchID, userID uuid.UUID, req *dto.Updat
 						ResultText:       reqResult.ResultText,
 						ResultNumeric:    reqResult.ResultNumeric,
 						Unit:             reqResult.Unit,
-						ReferenceRange:   reqResult.ReferenceRange,
 						Interpretation:   reqResult.Interpretation,
 						Level:            reqResult.Level,
 					}
@@ -419,6 +414,42 @@ func (s *LabResultBatchService) Delete(batchID, userID uuid.UUID, userRole strin
 	return s.db.Delete(&batch).Error
 }
 
+// AddResultInternal adiciona um result a um batch (uso interno, sem verificação de usuário)
+// IMPORTANTE: Usar apenas em contextos de processamento em background (jobs)
+func (s *LabResultBatchService) AddResultInternal(batchID uuid.UUID, req *dto.CreateLabResultInBatchRequest) (*dto.LabResultInBatchResponse, error) {
+	var labTestDefID *uuid.UUID
+	if req.LabTestDefinitionID != nil {
+		parsed, err := uuid.Parse(*req.LabTestDefinitionID)
+		if err != nil {
+			return nil, errors.New("invalid lab test definition id")
+		}
+		labTestDefID = &parsed
+	}
+
+	matched := true
+	if req.Matched != nil {
+		matched = *req.Matched
+	}
+
+	result := models.LabResult{
+		LabResultBatchID:    batchID,
+		LabTestDefinitionID: labTestDefID,
+		TestName:            req.TestName,
+		TestType:            req.TestType,
+		ResultText:          req.ResultText,
+		ResultNumeric:       req.ResultNumeric,
+		Unit:                req.Unit,
+		Interpretation:      req.Interpretation,
+		Matched:             matched,
+	}
+
+	if err := s.db.Create(&result).Error; err != nil {
+		return nil, err
+	}
+
+	return s.toLabResultResponse(&result), nil
+}
+
 // AddResult adiciona um result a um batch existente
 func (s *LabResultBatchService) AddResult(batchID, userID uuid.UUID, req *dto.CreateLabResultInBatchRequest) (*dto.LabResultInBatchResponse, error) {
 	// CRITICAL SECURITY: Get user's selected patient
@@ -467,7 +498,6 @@ func (s *LabResultBatchService) AddResult(batchID, userID uuid.UUID, req *dto.Cr
 		ResultText:          req.ResultText,
 		ResultNumeric:       req.ResultNumeric,
 		Unit:                req.Unit,
-		ReferenceRange:      req.ReferenceRange,
 		Interpretation:      req.Interpretation,
 		Matched:             matched,
 	}
@@ -534,9 +564,6 @@ func (s *LabResultBatchService) UpdateResult(batchID, resultID, userID uuid.UUID
 	}
 	if req.Unit != nil {
 		result.Unit = req.Unit
-	}
-	if req.ReferenceRange != nil {
-		result.ReferenceRange = req.ReferenceRange
 	}
 	if req.Interpretation != nil {
 		result.Interpretation = req.Interpretation
@@ -643,7 +670,6 @@ func (s *LabResultBatchService) toLabResultResponse(result *models.LabResult) *d
 		ResultText:          result.ResultText,
 		ResultNumeric:       result.ResultNumeric,
 		Unit:                result.Unit,
-		ReferenceRange:      result.ReferenceRange,
 		Interpretation:      result.Interpretation,
 		Level:               result.Level,
 		CreatedAt:           result.CreatedAt.Format(time.RFC3339),

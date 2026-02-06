@@ -235,7 +235,25 @@ func (r *ScoreRepository) GetAllScoreItems() ([]models.ScoreItem, error) {
 
 // UpdateScoreItem updates an existing score item
 func (r *ScoreRepository) UpdateScoreItem(item *models.ScoreItem) error {
-	return r.db.Save(item).Error
+	// GORM Updates() ignores nil pointer fields even with Select("*")
+	// Use map to explicitly set all fields including nil
+	// CRITICAL: Don't pass item to Model(), only ID - otherwise GORM uses loaded relations
+	updates := map[string]interface{}{
+		"name":                item.Name,
+		"code":                item.Code,
+		"unit":                item.Unit,
+		"unit_conversion":     item.UnitConversion,
+		"clinical_relevance":  item.ClinicalRelevance,
+		"patient_explanation": item.PatientExplanation,
+		"conduct":             item.Conduct,
+		"last_review":         item.LastReview,
+		"points":              item.Points,
+		"order":               item.Order,
+		"subgroup_id":         item.SubgroupID,
+		"parent_item_id":      item.ParentItemID, // This will be nil for unindent
+	}
+
+	return r.db.Model(&models.ScoreItem{}).Where("id = ?", item.ID).Updates(updates).Error
 }
 
 // DeleteScoreItem soft deletes a score item

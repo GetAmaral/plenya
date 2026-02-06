@@ -26,7 +26,6 @@ type CreateLabResultInBatchRequest struct {
 	ResultText          *string  `json:"resultText,omitempty"`
 	ResultNumeric       *float64 `json:"resultNumeric,omitempty"`
 	Unit                *string  `json:"unit,omitempty"`
-	ReferenceRange      *string  `json:"referenceRange,omitempty"`
 	Interpretation      *string  `json:"interpretation,omitempty"`
 	Level               *int     `json:"level,omitempty"`
 	Matched             *bool    `json:"matched,omitempty"` // true se matched com definição catalogada
@@ -54,7 +53,6 @@ type UpdateLabResultInBatchRequest struct {
 	ResultText          *string  `json:"resultText,omitempty"`
 	ResultNumeric       *float64 `json:"resultNumeric,omitempty"`
 	Unit                *string  `json:"unit,omitempty" validate:"omitempty,max=50"`
-	ReferenceRange      *string  `json:"referenceRange,omitempty"`
 	Interpretation      *string  `json:"interpretation,omitempty"`
 	Level               *int     `json:"level,omitempty"`
 }
@@ -104,7 +102,6 @@ type LabResultInBatchResponse struct {
 	ResultText          *string  `json:"resultText,omitempty"`
 	ResultNumeric       *float64 `json:"resultNumeric,omitempty"`
 	Unit                *string  `json:"unit,omitempty"`
-	ReferenceRange      *string  `json:"referenceRange,omitempty"`
 	Interpretation      *string  `json:"interpretation,omitempty"`
 	Level               *int     `json:"level,omitempty"`
 	CreatedAt           string   `json:"createdAt"`

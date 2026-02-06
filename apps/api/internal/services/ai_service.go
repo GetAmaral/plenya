@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/plenya/api/internal/config"
@@ -45,8 +46,8 @@ func (s *AIService) InterpretLabResult(
 
 	payload := map[string]interface{}{
 		"model":       s.model,
-		"max_tokens":  4000,
-		"temperature": 0.2, // Baixa temperatura para extração factual
+		"max_tokens":  8192, // Máximo permitido pelo Haiku (8192)
+		"temperature": 0.2,   // Baixa temperatura para extração factual
 		"messages": []map[string]string{
 			{"role": "user", "content": prompt},
 		},
@@ -93,6 +94,12 @@ func (s *AIService) InterpretLabResult(
 			Type  string          `json:"type"`
 			Input json.RawMessage `json:"input"`
 		} `json:"content"`
+		Usage struct {
+			InputTokens  int `json:"input_tokens"`
+			OutputTokens int `json:"output_tokens"`
+		} `json:"usage"`
+		Model string `json:"model"`
+		ID    string `json:"id"`
 	}
 
 	// Ler body inteiro para debug
@@ -108,14 +115,50 @@ func (s *AIService) InterpretLabResult(
 		return nil, fmt.Errorf("failed to decode response: %v", err)
 	}
 
+	// Log token usage for cost tracking
+	fmt.Printf("💰 Token Usage - Model: %s, Input: %d tokens, Output: %d tokens, Total: %d tokens\n",
+		apiResp.Model, apiResp.Usage.InputTokens, apiResp.Usage.OutputTokens,
+		apiResp.Usage.InputTokens+apiResp.Usage.OutputTokens)
+
 	// Extrair resultado do tool_use
-	var result dto.AILabResultExtractionResponse
 	for _, content := range apiResp.Content {
 		if content.Type == "tool_use" {
 			fmt.Printf("🔍 Tool use input (first 500 chars): %s\n", string(content.Input[:min(500, len(content.Input))]))
+
+			// Tentar parse direto primeiro
+			var result dto.AILabResultExtractionResponse
 			if err := json.Unmarshal(content.Input, &result); err != nil {
-				return nil, fmt.Errorf("failed to parse tool input: %v", err)
+				// Se falhar, pode ser que labResults veio como string JSON
+				// Tentar parse com struct intermediária
+				var rawResult struct {
+					LaboratoryName string          `json:"laboratoryName"`
+					CollectionDate string          `json:"collectionDate"`
+					ResultDate     string          `json:"resultDate"`
+					LabResults     json.RawMessage `json:"labResults"`
+				}
+				if err2 := json.Unmarshal(content.Input, &rawResult); err2 != nil {
+					return nil, fmt.Errorf("failed to parse tool input: %v (also tried raw: %v)", err, err2)
+				}
+
+				result.LaboratoryName = rawResult.LaboratoryName
+				result.CollectionDate = rawResult.CollectionDate
+				result.ResultDate = rawResult.ResultDate
+
+				// labResults pode ser array ou string com JSON
+				labResultsBytes := []byte(rawResult.LabResults)
+				// Se começa com aspas, é uma string JSON que precisa ser unescaped
+				if len(labResultsBytes) > 0 && labResultsBytes[0] == '"' {
+					var labResultsStr string
+					if err := json.Unmarshal(labResultsBytes, &labResultsStr); err != nil {
+						return nil, fmt.Errorf("failed to unmarshal labResults string: %v", err)
+					}
+					labResultsBytes = []byte(labResultsStr)
+				}
+				if err := json.Unmarshal(labResultsBytes, &result.LabResults); err != nil {
+					return nil, fmt.Errorf("failed to parse labResults array: %v", err)
+				}
 			}
+
 			fmt.Printf("✅ Parsed result: laboratoryName=%s, labResults count=%d\n", result.LaboratoryName, len(result.LabResults))
 			return &result, nil
 		}
@@ -125,54 +168,44 @@ func (s *AIService) InterpretLabResult(
 }
 
 // buildPrompt - prompt otimizado para extração médica estruturada
+// NÃO envia definições de exames - apenas extrai dados brutos do OCR
 func (s *AIService) buildPrompt(ocrText string, tests []dto.LabTestSummary) string {
-	testsJSON, _ := json.MarshalIndent(tests, "", "  ")
+	// Ignoramos tests - matching será feito localmente após extração
+	_ = tests
 
-	return fmt.Sprintf(`# TAREFA: Extração de Resultados Laboratoriais
+	return fmt.Sprintf(`# TAREFA: Extrair TODOS os Resultados de Exames Laboratoriais
 
-Você receberá o texto OCR de um laudo médico em PDF. Extraia os dados estruturados seguindo as instruções abaixo.
+Analise o texto OCR abaixo e extraia TODOS os resultados de exames encontrados.
 
 ## TEXTO OCR DO LAUDO
 %s
 
-## DEFINIÇÕES DE EXAMES DISPONÍVEIS (catálogo do sistema)
-%s
+## INSTRUÇÕES CRÍTICAS
 
-## INSTRUÇÕES DETALHADAS
+1. **EXTRAIA ABSOLUTAMENTE TODOS OS EXAMES** - não pule nenhum resultado
+2. **Informações gerais do laudo:**
+   - laboratoryName: nome do laboratório (procure no cabeçalho)
+   - collectionDate: data de coleta (formato YYYY-MM-DD)
+   - resultDate: data do resultado (formato YYYY-MM-DD)
 
-1. **Extrair informações gerais:**
-   - Nome do laboratório
-   - Data de coleta (formato ISO 8601: YYYY-MM-DD)
-   - Data do resultado (formato ISO 8601: YYYY-MM-DD)
+3. **Para CADA exame encontrado, extraia:**
+   - testName: nome exato do exame como aparece no laudo
+   - testType: biochemistry, hematology, hormones, immunology, urinalysis, microbiology, ou other
+   - resultNumeric: valor numérico (ex: 95.5) - use ponto decimal, não vírgula
+   - resultText: resultado textual para exames qualitativos (ex: "Negativo", "Normal")
+   - unit: unidade de medida (ex: "mg/dL", "g/dL", "mEq/L", "%%")
+   - referenceRange: faixa de referência como texto (ex: "70-100 mg/dL")
+   - interpretation: interpretação se houver (ex: "Normal", "Alterado")
+   - matched: sempre false (matching será feito depois)
+   - labTestDefinitionId: sempre null (será preenchido depois)
 
-2. **Para cada resultado de exame:**
-   - Extraia: nome do exame, tipo, resultado (numérico e/ou texto), unidade, faixa de referência, interpretação
-   - Tente fazer MATCH com as definições do catálogo acima usando:
-     * Nome do exame (case-insensitive, ignore acentos)
-     * Código TUSS (se disponível no laudo)
-     * Código LOINC (se disponível no laudo)
-   - Se encontrar match: use o labTestDefinitionId correspondente e marque matched=true
-   - Se NÃO encontrar match: deixe labTestDefinitionId=null e marque matched=false
-
-3. **REGRAS IMPORTANTES:**
-   - NUNCA invente dados que não estão no OCR
-   - Se um campo não estiver presente no laudo, use null
-   - Matching deve ser CASE-INSENSITIVE e tolerante a variações
-   - Priorize matching por códigos (TUSS/LOINC) quando disponíveis
-   - Se houver múltiplas variações de nome (ex: "Glicemia", "Glicose"), considere match
-   - Para resultados qualitativos (ex: "Negativo", "Positivo"), use resultText
-   - Para resultados quantitativos (ex: "95.5"), use resultNumeric
-   - Mantenha a unidade original (ex: "mg/dL", "g/dL", "mmol/L")
-
-4. **Tipos de exame (testType):**
-   - biochemistry: exames bioquímicos (glicemia, ureia, creatinina, etc)
-   - hematology: hemograma, coagulograma
-   - immunology: sorologias, marcadores tumorais
-   - microbiology: culturas, antibiogramas
-   - urinalysis: urina tipo 1, urocultura
-   - other: outros tipos
-
-Retorne JSON estruturado conforme o schema fornecido.`, ocrText, string(testsJSON))
+4. **IMPORTANTE:**
+   - Extraia TODOS os exames, mesmo que pareçam repetidos
+   - Hemograma inclui múltiplos parâmetros: Hemácias, Hemoglobina, Hematócrito, VCM, HCM, CHCM, RDW, Leucócitos, Plaquetas, etc - extraia CADA UM separadamente
+   - Perfil Lipídico inclui: Colesterol Total, HDL, LDL, VLDL, Triglicerídeos - extraia CADA UM
+   - Exames hormonais: TSH, T4, T3, Testosterona, Estradiol, Cortisol, etc
+   - Números brasileiros usam vírgula como decimal (1,5 = 1.5)
+   - NUNCA invente dados - extraia apenas o que está no texto`, ocrText)
 }
 
 // buildJSONSchema - schema JSON para structured output (tool calling)
@@ -197,51 +230,118 @@ func (s *AIService) buildJSONSchema() map[string]interface{} {
 			},
 			"labResults": map[string]interface{}{
 				"type":        "array",
-				"description": "Lista de resultados de exames extraídos",
+				"description": "Lista de TODOS os resultados de exames extraídos do laudo",
 				"items": map[string]interface{}{
 					"type":     "object",
-					"required": []string{"testName", "testType", "matched"},
+					"required": []string{"testName", "testType"},
 					"properties": map[string]interface{}{
-						"labTestDefinitionId": map[string]interface{}{
-							"type":        []string{"string", "null"},
-							"format":      "uuid",
-							"description": "UUID da definição do exame (null se não matched)",
-						},
 						"testName": map[string]string{
 							"type":        "string",
 							"description": "Nome do exame conforme aparece no laudo",
 						},
 						"testType": map[string]string{
 							"type":        "string",
-							"description": "Tipo do exame: biochemistry, hematology, immunology, microbiology, urinalysis, other",
+							"description": "Tipo: biochemistry, hematology, hormones, immunology, microbiology, urinalysis, other",
 						},
 						"resultNumeric": map[string]interface{}{
 							"type":        []string{"number", "null"},
-							"description": "Resultado numérico (para exames quantitativos)",
+							"description": "Valor numérico (use ponto decimal: 95.5, não 95,5)",
 						},
 						"resultText": map[string]interface{}{
 							"type":        []string{"string", "null"},
-							"description": "Resultado em texto (para exames qualitativos)",
+							"description": "Resultado textual (Negativo, Normal, Reagente, etc)",
 						},
 						"unit": map[string]interface{}{
 							"type":        []string{"string", "null"},
-							"description": "Unidade de medida (ex: mg/dL, g/dL)",
+							"description": "Unidade (mg/dL, g/dL, mEq/L, UI/mL, etc)",
 						},
 						"referenceRange": map[string]interface{}{
 							"type":        []string{"string", "null"},
-							"description": "Faixa de referência conforme laudo",
-						},
-						"interpretation": map[string]interface{}{
-							"type":        []string{"string", "null"},
-							"description": "Interpretação ou observações do resultado",
-						},
-						"matched": map[string]string{
-							"type":        "boolean",
-							"description": "true se foi encontrado match com definição catalogada, false caso contrário",
+							"description": "Faixa de referência completa",
 						},
 					},
 				},
 			},
 		},
 	}
+}
+
+// MatchResultsWithDefinitions - faz matching local dos resultados extraídos com definições de exames
+// Usa normalização de texto e altNames para matching flexível
+func (s *AIService) MatchResultsWithDefinitions(
+	results *dto.AILabResultExtractionResponse,
+	testDefs []dto.LabTestSummary,
+) {
+	// Criar mapa de nomes normalizados para definições
+	nameToDefID := make(map[string]string)
+	for _, def := range testDefs {
+		// Nome principal
+		normalizedName := normalizeForMatching(def.Name)
+		nameToDefID[normalizedName] = def.ID.String()
+
+		// ShortName
+		if def.ShortName != nil && *def.ShortName != "" {
+			nameToDefID[normalizeForMatching(*def.ShortName)] = def.ID.String()
+		}
+
+		// Code
+		if def.Code != "" {
+			nameToDefID[normalizeForMatching(def.Code)] = def.ID.String()
+		}
+	}
+
+	// Tentar match para cada resultado
+	for i := range results.LabResults {
+		result := &results.LabResults[i]
+		normalizedTestName := normalizeForMatching(result.TestName)
+
+		// Busca direta
+		if defID, found := nameToDefID[normalizedTestName]; found {
+			result.LabTestDefinitionID = &defID
+			result.Matched = true
+			continue
+		}
+
+		// Busca parcial (contém)
+		for defName, defID := range nameToDefID {
+			if strings.Contains(normalizedTestName, defName) || strings.Contains(defName, normalizedTestName) {
+				// Só faz match se tiver pelo menos 5 caracteres em comum
+				if len(defName) >= 5 || len(normalizedTestName) >= 5 {
+					result.LabTestDefinitionID = &defID
+					result.Matched = true
+					break
+				}
+			}
+		}
+	}
+}
+
+// normalizeForMatching - normaliza texto para matching
+func normalizeForMatching(text string) string {
+	// Lowercase
+	text = strings.ToLower(text)
+
+	// Remove acentos (simplificado)
+	replacer := strings.NewReplacer(
+		"á", "a", "à", "a", "ã", "a", "â", "a",
+		"é", "e", "è", "e", "ê", "e",
+		"í", "i", "ì", "i", "î", "i",
+		"ó", "o", "ò", "o", "õ", "o", "ô", "o",
+		"ú", "u", "ù", "u", "û", "u",
+		"ç", "c",
+	)
+	text = replacer.Replace(text)
+
+	// Remove caracteres especiais
+	text = strings.Map(func(r rune) rune {
+		if (r >= 'a' && r <= 'z') || (r >= '0' && r <= '9') || r == ' ' {
+			return r
+		}
+		return -1
+	}, text)
+
+	// Remove espaços extras
+	text = strings.Join(strings.Fields(text), " ")
+
+	return text
 }

@@ -118,6 +118,159 @@ func drawLetterhead(pdf *gofpdf.Fpdf) {
 	pdf.SetDrawColor(0, 0, 0)
 }
 
+// addSignatureSection adiciona a seção de assinatura digital ou manual em uma posição Y específica
+func addSignatureSection(pdf *gofpdf.Fpdf, req *models.LabRequest, startY float64, formattedDate string, hasDigitalSignature bool) {
+	currentY := startY
+
+	// Data
+	pdf.SetFont("OpenSans", "", 9)
+	pdf.SetXY(25, currentY)
+	pdf.Cell(125, 4, formattedDate)
+	currentY += 6
+
+	if hasDigitalSignature {
+		// ============================================
+		// ASSINATURA DIGITAL (CFM 2.299/2021)
+		// ============================================
+
+		// Largura máxima para textos: 125mm (deixa espaço para QR/selo à direita)
+		textWidth := 125.0
+
+		// Título verde principal
+		pdf.SetFont("OpenSans", "B", 9)
+		pdf.SetXY(25, currentY)
+		pdf.SetTextColor(0, 120, 0)
+		pdf.Cell(textWidth, 4, "DOCUMENTO ASSINADO DIGITALMENTE")
+		pdf.SetTextColor(0, 0, 0)
+		currentY += 5
+
+		// Plataforma emissora (legislação)
+		pdf.SetFont("OpenSans", "", 8)
+		pdf.SetXY(25, currentY)
+		pdf.Cell(textWidth, 3, "Certificado ICP-Brasil (PAdES) - Plenya Sistema de Prescricao Digital")
+		currentY += 4
+
+		// Informações do certificado
+		if req.Doctor != nil {
+			// Titular
+			if req.Doctor.CertificateName != nil && *req.Doctor.CertificateName != "" {
+				pdf.SetXY(25, currentY)
+				pdf.SetFont("OpenSans", "", 8)
+				pdf.Cell(textWidth, 3, "Titular: "+*req.Doctor.CertificateName)
+				currentY += 3
+			}
+
+			// Conselho profissional (CRM-UF: número)
+			if req.Doctor.CRM != nil && req.Doctor.CRMUF != nil {
+				pdf.SetXY(25, currentY)
+				pdf.SetFont("OpenSans", "", 8)
+				crmLine := "CRM-" + *req.Doctor.CRMUF + ": " + *req.Doctor.CRM
+				pdf.Cell(textWidth, 3, crmLine)
+				currentY += 3
+			}
+
+			// Serie e CPF na mesma linha separados por |
+			certInfoLine := ""
+			if req.Doctor.CertificateSerial != nil && *req.Doctor.CertificateSerial != "" {
+				certInfoLine = "Serie: " + *req.Doctor.CertificateSerial
+			}
+			if req.Doctor.CertificateCPF != nil && *req.Doctor.CertificateCPF != "" {
+				if certInfoLine != "" {
+					certInfoLine += " | "
+				}
+				certInfoLine += "CPF: " + *req.Doctor.CertificateCPF
+			}
+			if certInfoLine != "" {
+				pdf.SetXY(25, currentY)
+				pdf.SetFont("OpenSans", "", 8)
+				pdf.Cell(textWidth, 3, certInfoLine)
+				currentY += 3
+			}
+		}
+
+		currentY += 2
+
+		// Links de validação (em 2 linhas para não encavalar)
+		pdf.SetFont("OpenSans", "", 8)
+		pdf.SetXY(25, currentY)
+		pdf.Cell(textWidth, 3, "Validar documento:")
+		currentY += 3
+
+		pdf.SetXY(25, currentY)
+		fullValidationURL := "https://plenya.com.br/lab-requests/validate/" + req.ID.String()
+		pdf.Cell(textWidth, 3, fullValidationURL)
+		currentY += 4
+
+		pdf.SetXY(25, currentY)
+		pdf.Cell(textWidth, 3, "Verificar assinatura: https://validar.iti.gov.br")
+		currentY += 4
+
+		// Nota sobre validade legal
+		pdf.SetFont("OpenSans", "", 8)
+		pdf.SetTextColor(60, 60, 60)
+		pdf.SetXY(25, currentY)
+		pdf.MultiCell(textWidth, 3, "Este documento foi assinado digitalmente com certificado ICP-Brasil, "+
+			"conforme Resolucao CFM 2.299/2021 e RDC ANVISA 1.000/2025. "+
+			"Possui validade juridica equivalente ao documento fisico.", "", "L", false)
+		pdf.SetTextColor(0, 0, 0)
+
+		// QR CODE E SELO
+		qrX := 155.0
+		qrSize := 30.0
+		qrStartY := startY
+
+		// Selo ICP-Brasil
+		sealWidth := 20.0
+		sealHeight := sealWidth * (247.0 / 204.0)
+
+		pdf.ImageOptions(
+			"/app/icp-brasil-seal.png",
+			qrX, qrStartY, sealWidth, sealHeight,
+			false,
+			gofpdf.ImageOptions{ImageType: "PNG"},
+			0, "",
+		)
+		qrStartY += sealHeight + 2
+
+		// QR Code
+		qrCodeURL := fmt.Sprintf("https://plenya.com.br/lab-requests/validate/%s", req.ID)
+		qrCodePath := fmt.Sprintf("/tmp/qr_lab_%s.png", req.ID)
+
+		qrCode, qrErr := qrcode.Encode(qrCodeURL, qrcode.Medium, 256)
+		if qrErr == nil {
+			os.WriteFile(qrCodePath, qrCode, 0644)
+
+			pdf.ImageOptions(
+				qrCodePath,
+				qrX, qrStartY, qrSize, qrSize,
+				false,
+				gofpdf.ImageOptions{ImageType: "PNG"},
+				0, "",
+			)
+
+			pdf.SetFont("OpenSans", "", 7)
+			pdf.SetXY(qrX-2, qrStartY+qrSize+1)
+			pdf.MultiCell(qrSize+4, 2.5, "Escaneie para\nvalidar", "", "C", false)
+
+			os.Remove(qrCodePath)
+		}
+
+	} else {
+		// ============================================
+		// ASSINATURA MANUAL (sem certificado digital)
+		// ============================================
+
+		currentY += 8
+
+		// Linha para assinatura manual
+		pdf.Line(60, currentY, 150, currentY)
+
+		pdf.SetFont("OpenSans", "", 9)
+		pdf.SetXY(25, currentY+2)
+		pdf.Cell(120, 5, "Assinatura e Carimbo do Medico Solicitante")
+	}
+}
+
 // GenerateLabRequestPDF generates a PDF for a lab request
 func (s *PDFService) GenerateLabRequestPDF(req *models.LabRequest) (string, error) {
 	// Create PDF (A4 portrait) with UTF-8 encoding support
@@ -207,66 +360,6 @@ func (s *PDFService) GenerateLabRequestPDF(req *models.LabRequest) (string, erro
 	pdf.CellFormat(160, 8, "Solicitação de Exames", "", 0, "C", false, 0, "")
 	currentY += 14
 
-	// MÉDICO SOLICITANTE - Dados profissionais (CFM 2.299/2021)
-	if req.Doctor != nil {
-		pdf.SetFont("OpenSans", "B", 10)
-		pdf.SetXY(25, currentY)
-		pdf.Cell(160, 5, "MÉDICO SOLICITANTE")
-		currentY += 6
-
-		pdf.SetFont("OpenSans", "", 9)
-
-		// Nome do médico
-		doctorInfo := req.Doctor.Name
-
-		// CRM e UF
-		if req.Doctor.CRM != nil && req.Doctor.CRMUF != nil {
-			doctorInfo += " - CRM-" + *req.Doctor.CRMUF + " " + *req.Doctor.CRM
-		}
-
-		// RQE se tiver
-		if req.Doctor.RQE != nil && *req.Doctor.RQE != "" {
-			doctorInfo += " / RQE: " + *req.Doctor.RQE
-		}
-
-		pdf.SetXY(25, currentY)
-		pdf.Cell(160, 4, doctorInfo)
-		currentY += 5
-
-		// Especialidade
-		if req.Doctor.Specialty != nil && *req.Doctor.Specialty != "" {
-			pdf.SetXY(25, currentY)
-			pdf.Cell(160, 4, "Especialidade: "+*req.Doctor.Specialty)
-			currentY += 5
-		}
-
-		// Endereço profissional
-		if req.Doctor.ProfessionalAddress != nil && *req.Doctor.ProfessionalAddress != "" {
-			pdf.SetXY(25, currentY)
-			pdf.Cell(160, 4, "End: "+*req.Doctor.ProfessionalAddress)
-			currentY += 5
-		}
-
-		// Telefone e Email
-		contactLine := ""
-		if req.Doctor.ProfessionalPhone != nil && *req.Doctor.ProfessionalPhone != "" {
-			contactLine = "Tel: " + *req.Doctor.ProfessionalPhone
-		}
-		if req.Doctor.Email != "" {
-			if contactLine != "" {
-				contactLine += " / "
-			}
-			contactLine += "Email: " + req.Doctor.Email
-		}
-		if contactLine != "" {
-			pdf.SetXY(25, currentY)
-			pdf.Cell(160, 4, contactLine)
-			currentY += 5
-		}
-
-		currentY += 3 // Espaçamento
-	}
-
 	// PACIENTE
 	pdf.SetFont("OpenSans", "B", 10)
 	pdf.SetXY(25, currentY)
@@ -322,114 +415,88 @@ func (s *PDFService) GenerateLabRequestPDF(req *models.LabRequest) (string, erro
 	pdf.Cell(160, 6, "Exames Solicitados")
 	currentY += 8
 
-	// Exams list - adaptive layout based on number of items
+	// Exams list - adaptive layout based on ALTURA (não número de itens)
 	pdf.SetFont("OpenSans", "", 10)
-	totalExams := len(exams)
-	useTwoColumns := totalExams > 20
-	itemsPerPage := 20
-	if useTwoColumns {
-		itemsPerPage = 40 // 20 per column
-	}
+
+	// Preparar variável para assinatura (usada no loop e no final)
+	hasDigitalSignature := req.SignedAt != nil
+
+	// Altura máxima para container de exames (deixa espaço para assinatura em Y=200mm)
+	maxExamContainerY := 185.0 // Container termina em 185mm
 
 	// Column dimensions
 	leftColX := 25.0
 	rightColX := 110.0
 	colWidth := 75.0
-	if !useTwoColumns {
-		colWidth = 153.0 // Full width for single column
-	}
 
 	columnY := currentY
-	startY := currentY // Save starting Y position for right column
-	leftColumnEndY := currentY // Track where left column ends
+	startY := currentY // Save starting Y position for columns
+	currentColumn := 1 // 1 = esquerda, 2 = direita
 
-	for i, exam := range exams {
-		// Check if we need a new page
-		if i > 0 && i%itemsPerPage == 0 {
-			pdf.AddPage()
+	for _, exam := range exams {
+		// Verificar se precisa trocar de coluna ou página ANTES de adicionar item
+		estimatedHeight := 6.0 // Altura estimada por item
 
-			// Draw letterhead on new page
-			pdf.ImageOptions(
-			"/app/PlenyaA4-150dpi.png",
-			0, 0, 210, 297,
-			false,
-			gofpdf.ImageOptions{ImageType: "PNG"},
-			0, "",
-		)
-
-			// Reset position for new page
-			columnY = 50.0
-			startY = 50.0
-
-			// Add section title again on new page - Bold
-			pdf.SetFont("OpenSans", "B", 11)
-			pdf.SetXY(25, columnY)
-			if useTwoColumns {
-				pdf.Cell(160, 6, "Exames Solicitados (continuação)")
-			} else {
-				pdf.Cell(160, 6, "Exames Solicitados (continuação)")
-			}
-			columnY += 8
-			pdf.SetFont("OpenSans", "", 10)
-		}
-
-		// Determine X position based on column and item index
-		var xPos float64
-		if useTwoColumns {
-			// Calculate which column this item should be in
-			pageItemIndex := i % itemsPerPage // Position within current page
-			if pageItemIndex < 20 {
-				// First 20 items: left column
-				xPos = leftColX
-			} else {
-				// Next 20 items: right column
-				xPos = rightColX
-			}
-		} else {
-			xPos = leftColX
-		}
-
-		// Add exam number and text
-		pdf.SetXY(xPos, columnY)
-		pdf.Cell(5, 5, fmt.Sprintf("%d.", i+1))
-		pdf.SetXY(xPos+7, columnY)
-
-		// Use Cell instead of MultiCell for two-column layout to prevent overflow
-		if useTwoColumns {
-			// Truncate long names if needed
-			examText := exam
-			if len(examText) > 45 {
-				examText = examText[:42] + "..."
-			}
-			pdf.Cell(colWidth-7, 5, examText)
-			// Move to next row (fixed height for single-line)
-			columnY += 6
-		} else {
-			// Full width with MultiCell for single column
-			pdf.MultiCell(colWidth-7, 5, exam, "", "L", false)
-			// Capture actual Y position after MultiCell (handles multi-line text)
-			columnY = pdf.GetY() + 1 // Add 1mm spacing between items
-		}
-
-		// Reset to top for right column when switching from item 19 to 20
-		if useTwoColumns {
-			pageItemIndex := i % itemsPerPage
-			if pageItemIndex == 19 {
-				// Save left column end position before switching
-				leftColumnEndY = columnY
-				// Moving to right column, reset to top
+		if columnY + estimatedHeight > maxExamContainerY {
+			if currentColumn == 1 {
+				// Coluna 1 cheia -> passar para coluna 2
 				columnY = startY
+				currentColumn = 2
+			} else {
+				// Coluna 2 cheia -> Adicionar assinatura na página ATUAL antes de sair
+				addSignatureSection(pdf, req, 200.0, formattedDate, hasDigitalSignature)
+
+				// Agora criar nova página
+				pdf.AddPage()
+
+				// Draw letterhead on new page
+				pdf.ImageOptions(
+					"/app/PlenyaA4-150dpi.png",
+					0, 0, 210, 297,
+					false,
+					gofpdf.ImageOptions{ImageType: "PNG"},
+					0, "",
+				)
+
+				// Reset position for new page
+				columnY = 50.0
+				startY = 50.0
+				currentColumn = 1
+
+				// Add section title again on new page
+				pdf.SetFont("OpenSans", "B", 11)
+				pdf.SetXY(25, columnY)
+				pdf.Cell(160, 6, "Exames Solicitados (continuação)")
+				columnY += 8
+				startY = columnY
+				pdf.SetFont("OpenSans", "", 10)
 			}
 		}
+
+		// Determine X position based on current column
+		xPos := leftColX
+		if currentColumn == 2 {
+			xPos = rightColX
+		}
+
+		// Add bullet and exam text
+		pdf.SetXY(xPos, columnY)
+		pdf.Cell(5, 5, "•")
+		pdf.SetXY(xPos+5, columnY)
+
+		// Truncate long names if needed
+		examText := exam
+		if len(examText) > 45 {
+			examText = examText[:42] + "..."
+		}
+		pdf.Cell(colWidth-5, 5, examText)
+
+		// Move to next row
+		columnY += 6
 	}
 
-	// Update currentY to the last position used
-	// For two columns, use the lower (higher Y value) of both columns
-	if useTwoColumns && leftColumnEndY > columnY {
-		currentY = leftColumnEndY
-	} else {
-		currentY = columnY
-	}
+	// Update currentY to fixed position (após container de exames)
+	currentY = maxExamContainerY + 5 // Adiciona pequeno espaçamento
 
 	// Notes section
 	if req.Notes != nil && *req.Notes != "" {
@@ -444,12 +511,8 @@ func (s *PDFService) GenerateLabRequestPDF(req *models.LabRequest) (string, erro
 		pdf.MultiCell(160, 5, *req.Notes, "", "L", false)
 	}
 
-	// Verificar se há assinatura digital
-	hasDigitalSignature := req.SignedAt != nil
-
-	// ASSINATURA: Posicionar no final mas com espaço suficiente
-	// Check if we need a new page for signature area (precisa de ~60mm de espaço)
-	if currentY > 210.0 {
+	// ASSINATURA: Verificar se precisa nova página (precisa de ~70mm de espaço)
+	if currentY > 220.0 {
 		pdf.AddPage()
 
 		// Draw letterhead on new page
@@ -467,7 +530,7 @@ func (s *PDFService) GenerateLabRequestPDF(req *models.LabRequest) (string, erro
 	// Adiciona espaçamento antes da assinatura
 	currentY += 10
 
-	// Garantir posição mínima para assinatura (mas não forçar ao final)
+	// Garantir posição mínima para assinatura
 	if currentY < 200.0 {
 		currentY = 200.0
 	}
@@ -475,146 +538,7 @@ func (s *PDFService) GenerateLabRequestPDF(req *models.LabRequest) (string, erro
 	// ========================================
 	// SEÇÃO DE ASSINATURA (CFM 2.299/2021 e RDC 1.000/2025)
 	// ========================================
-
-	// Data
-	pdf.SetFont("OpenSans", "", 9)
-	pdf.SetXY(25, currentY)
-	pdf.Cell(120, 4, formattedDate)
-	currentY += 6
-
-	if hasDigitalSignature {
-		// ============================================
-		// ASSINATURA DIGITAL (CFM 2.299/2021)
-		// ============================================
-
-		// Título verde principal
-		pdf.SetFont("OpenSans", "B", 9)
-		pdf.SetXY(25, currentY)
-		pdf.SetTextColor(0, 120, 0)
-		pdf.Cell(120, 4, "DOCUMENTO ASSINADO DIGITALMENTE")
-		pdf.SetTextColor(0, 0, 0)
-		currentY += 5
-
-		// Padrão de assinatura e plataforma emissora (legislação)
-		pdf.SetFont("OpenSans", "", 7)
-		pdf.SetXY(25, currentY)
-		pdf.Cell(120, 3, "Certificado ICP-Brasil (PAdES) - Plenya Sistema de Prescricao Digital")
-		currentY += 4
-
-		// Informações do certificado
-		if req.Doctor != nil {
-			if req.Doctor.CertificateName != nil && *req.Doctor.CertificateName != "" {
-				pdf.SetXY(25, currentY)
-				pdf.SetFont("OpenSans", "", 7)
-				pdf.Cell(120, 3, "Titular do Certificado: "+*req.Doctor.CertificateName)
-				currentY += 3
-			}
-			if req.Doctor.CertificateSerial != nil && *req.Doctor.CertificateSerial != "" {
-				pdf.SetXY(25, currentY)
-				pdf.SetFont("OpenSans", "", 6)
-				pdf.Cell(120, 3, "Numero de Serie: "+*req.Doctor.CertificateSerial)
-				currentY += 3
-			}
-			if req.Doctor.CertificateCPF != nil && *req.Doctor.CertificateCPF != "" {
-				pdf.SetXY(25, currentY)
-				pdf.SetFont("OpenSans", "", 6)
-				pdf.Cell(120, 3, "CPF do Titular: "+*req.Doctor.CertificateCPF)
-				currentY += 3
-			}
-		}
-
-		currentY += 2
-
-		// Links de validação
-		pdf.SetFont("OpenSans", "", 6)
-		pdf.SetXY(25, currentY)
-		fullValidationURL := "https://plenya.com.br/lab-requests/validate/" + req.ID.String()
-		pdf.Cell(120, 2.5, "Validar documento: "+fullValidationURL)
-		currentY += 2.5
-
-		pdf.SetXY(25, currentY)
-		pdf.Cell(120, 2.5, "Verificar assinatura ICP-Brasil: https://validar.iti.gov.br")
-		currentY += 4
-
-		// Texto da assinatura digital
-		pdf.SetFont("OpenSans", "B", 9)
-		pdf.SetXY(25, currentY)
-		pdf.Cell(120, 4, "Assinatura Digital do Medico Solicitante")
-		currentY += 5
-
-		// Nota sobre validade legal
-		pdf.SetFont("OpenSans", "", 6)
-		pdf.SetTextColor(60, 60, 60)
-		pdf.SetXY(25, currentY)
-		pdf.MultiCell(120, 2.5, "Este documento foi assinado digitalmente com certificado ICP-Brasil, "+
-			"conforme Resolucao CFM 2.299/2021 e RDC ANVISA 1.000/2025. "+
-			"Possui validade juridica equivalente ao documento fisico.", "", "L", false)
-		pdf.SetTextColor(0, 0, 0)
-
-	} else {
-		// ============================================
-		// ASSINATURA MANUAL (sem certificado digital)
-		// ============================================
-
-		currentY += 8
-
-		// Linha para assinatura manual
-		pdf.Line(60, currentY, 150, currentY)
-
-		pdf.SetFont("OpenSans", "", 9)
-		pdf.SetXY(25, currentY+2)
-		pdf.Cell(120, 5, "Assinatura e Carimbo do Medico Solicitante")
-	}
-
-	// ========================================
-	// QR CODE E SELO - Apenas para documentos assinados digitalmente
-	// ========================================
-	if hasDigitalSignature {
-		qrStartY := currentY - 8 // Alinha com início da seção de assinatura
-		qrX := 155.0
-		qrSize := 30.0 // Tamanho do QR code em mm
-
-		// Selo ICP-Brasil oficial (imagem PNG)
-		sealHeight := 8.0 // Altura do selo em mm
-		sealWidth := qrSize // Mesma largura do QR code
-
-		pdf.ImageOptions(
-			"/app/icp-brasil-seal.png",
-			qrX, qrStartY, sealWidth, sealHeight,
-			false,
-			gofpdf.ImageOptions{ImageType: "PNG"},
-			0, "",
-		)
-		qrStartY += sealHeight + 2 // Adiciona 2mm de espaçamento
-
-		// Generate QR Code for this lab request
-		qrCodeURL := fmt.Sprintf("https://plenya.com.br/lab-requests/validate/%s", req.ID)
-		qrCodePath := fmt.Sprintf("/tmp/qr_lab_%s.png", req.ID)
-
-		// Generate QR code image
-		qrCode, qrErr := qrcode.Encode(qrCodeURL, qrcode.Medium, 256)
-		if qrErr == nil {
-			// Save QR code temporarily
-			os.WriteFile(qrCodePath, qrCode, 0644)
-
-			// Add QR code to PDF
-			pdf.ImageOptions(
-				qrCodePath,
-				qrX, qrStartY, qrSize, qrSize,
-				false,
-				gofpdf.ImageOptions{ImageType: "PNG"},
-				0, "",
-			)
-
-			// Add validation text below QR code
-			pdf.SetFont("OpenSans", "", 6)
-			pdf.SetXY(qrX-2, qrStartY+qrSize+1)
-			pdf.MultiCell(qrSize+4, 2.5, "Escaneie para\nvalidar", "", "C", false)
-
-			// Clean up temp file
-			os.Remove(qrCodePath)
-		}
-	}
+	addSignatureSection(pdf, req, currentY, formattedDate, hasDigitalSignature)
 
 	// Generate filename: InitialsUppercase_labRequest_YYYY-MM-DD_hash.pdf
 	initials := getInitials(patientName)

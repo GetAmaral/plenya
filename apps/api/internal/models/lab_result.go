@@ -34,9 +34,6 @@ type LabResult struct {
 	// Unidade de medida
 	Unit *string `gorm:"type:varchar(50)" json:"unit,omitempty"`
 
-	// Valores de referência
-	ReferenceRange *string `gorm:"type:text" json:"referenceRange,omitempty"`
-
 	// Interpretação/Observações específicas deste teste
 	Interpretation *string `gorm:"type:text" json:"interpretation,omitempty"`
 

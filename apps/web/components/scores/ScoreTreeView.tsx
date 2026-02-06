@@ -166,6 +166,18 @@ function organizeItemsHierarchy(items: ScoreItem[]): ItemWithChildren[] {
     }
   })
 
+  // Ordena todos os níveis por 'order'
+  const sortItemsRecursive = (items: ItemWithChildren[]) => {
+    items.sort((a, b) => a.order - b.order)
+    items.forEach(item => {
+      if (item.children && item.children.length > 0) {
+        sortItemsRecursive(item.children)
+      }
+    })
+  }
+
+  sortItemsRecursive(rootItems)
+
   return rootItems
 }
 
@@ -260,15 +272,40 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
 
     const itemAbove = sameParentItems[currentIndex - 1]
 
+    // Encontrar filhos do item atual
+    const children = allItems.filter(i => i.parentItemId === itemId)
+
     try {
       // Atualizar o item para ser filho do item acima
-      await updateItem.mutateAsync({
-        id: itemId,
-        data: {
-          parentItemId: itemAbove.id,
-        },
-      })
-      toast.success('Item indentado')
+      const updatePromises = [
+        updateItem.mutateAsync({
+          id: itemId,
+          data: {
+            parentItemId: itemAbove.id,
+          },
+        })
+      ]
+
+      // Se tem filhos, eles também viram filhos do item acima (não do item atual)
+      if (children.length > 0) {
+        const childrenPromises = children.map(child =>
+          updateItem.mutateAsync({
+            id: child.id,
+            data: {
+              parentItemId: itemAbove.id,
+            },
+          })
+        )
+        updatePromises.push(...childrenPromises)
+      }
+
+      await Promise.all(updatePromises)
+
+      if (children.length > 0) {
+        toast.success(`Item e ${children.length} filho(s) indentados`)
+      } else {
+        toast.success('Item indentado')
+      }
     } catch (error) {
       toast.error('Erro ao indentar item')
     }
@@ -282,17 +319,21 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
     if (!parentItem) return
 
     try {
-      // Encontrar irmãos abaixo dele (outros filhos do mesmo pai)
+      // Encontrar irmãos abaixo dele (outros filhos do mesmo pai, excluindo o próprio item)
       const siblings = allItems
-        .filter(i => i.parentItemId === currentItem.parentItemId && i.order > currentItem.order)
+        .filter(i =>
+          i.id !== itemId && // Não incluir o próprio item
+          i.parentItemId === currentItem.parentItemId &&
+          i.order >= currentItem.order // >= para pegar itens com mesmo order também
+        )
         .sort((a, b) => a.order - b.order)
 
-      // Atualizar o item para ser filho do avô (ou raiz)
+      // Atualizar o item para ser filho do avô (ou raiz = null)
+      const newParentId = parentItem.parentItemId || null
+
       await updateItem.mutateAsync({
         id: itemId,
-        data: {
-          parentItemId: parentItem.parentItemId || undefined,
-        },
+        data: { parentItemId: newParentId },
       })
 
       // Se tem irmãos abaixo, torná-los filhos do item desindentado
@@ -307,7 +348,7 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
             })
           )
         )
-        toast.success(`Item desindentado e ${siblings.length} filho(s) capturado(s)`)
+        toast.success(`Desindentado e capturou ${siblings.length} filho(s)`)
       } else {
         toast.success('Item desindentado')
       }
@@ -332,7 +373,6 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
-    const draggedItemId = activeId
     setActiveId(null)
 
     if (!over || active.id === over.id) return
@@ -340,9 +380,8 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
     // Encontrar o item sendo arrastado e o item sobre o qual foi solto
     let draggedItem: ScoreItem | null = null
     let targetItem: ScoreItem | null = null
-    let sourceSubgroupId: string | null = null
-    let targetSubgroupId: string | null = null
-    let allSourceItems: ScoreItem[] = []
+    let subgroupId: string | null = null
+    let allSubgroupItems: ScoreItem[] = []
 
     // Buscar nos subgrupos
     for (const group of groups) {
@@ -352,14 +391,13 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
         const dragged = items.find(item => item.id === active.id)
         if (dragged) {
           draggedItem = dragged
-          sourceSubgroupId = subgroup.id
-          allSourceItems = items
+          subgroupId = subgroup.id
+          allSubgroupItems = items
         }
 
         const target = items.find(item => item.id === over.id)
         if (target) {
           targetItem = target
-          targetSubgroupId = subgroup.id
         }
 
         if (draggedItem && targetItem) break
@@ -367,43 +405,52 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
       if (draggedItem && targetItem) break
     }
 
-    if (!draggedItem || !targetItem || !sourceSubgroupId || !targetSubgroupId) return
+    if (!draggedItem || !targetItem || !subgroupId) return
 
-    // Coletar todos os descendentes do item arrastado
-    const descendants = collectDescendants(draggedItem.id, allSourceItems)
-    const allItemsToMove = [draggedItem, ...descendants]
+    // Normalizar parentItemId (tratar null e undefined como equivalentes)
+    const normalizeParentId = (id: string | null | undefined) => id || null
+    const draggedParentId = normalizeParentId(draggedItem.parentItemId)
+    const targetParentId = normalizeParentId(targetItem.parentItemId)
 
-    // Atualizar ordem e subgrupo do item principal
+    // Verificar se estão no mesmo nível hierárquico (mesmo parentItemId)
+    if (draggedParentId !== targetParentId) {
+      toast.error('Não é possível reordenar itens de níveis hierárquicos diferentes')
+      return
+    }
+
+    // Obter todos os irmãos (items com o mesmo parentItemId) ordenados
+    const siblings = allSubgroupItems
+      .filter(item => normalizeParentId(item.parentItemId) === draggedParentId)
+      .sort((a, b) => a.order - b.order)
+
+    // Se não houver mudança real de posição, cancelar
+    const currentIndex = siblings.findIndex(item => item.id === draggedItem.id)
+    const targetIndex = siblings.findIndex(item => item.id === targetItem.id)
+
+    if (currentIndex === targetIndex) return
+
+    // Remover o item arrastado da lista
+    const reorderedSiblings = siblings.filter(item => item.id !== draggedItem.id)
+
+    // Inserir na nova posição
+    reorderedSiblings.splice(targetIndex, 0, draggedItem)
+
+    // RECALCULAR TODOS OS ORDERS DO SUBGRUPO INTEIRO (não só siblings)
+    // Isso garante que não haverá orders duplicados ou gaps
     try {
-      // Atualizar item pai com update otimista
-      const updatePromise = updateItem.mutateAsync({
-        id: draggedItem.id,
-        data: {
-          order: targetItem.order,
-          subgroupId: targetSubgroupId,
-        },
+      // 1. Reassignar orders para os siblings reordenados
+      const siblingUpdates = reorderedSiblings.map((item, index) => {
+        const newOrder = index + 1
+        return updateItem.mutateAsync({
+          id: item.id,
+          data: { order: newOrder },
+        })
       })
 
-      // Se o subgrupo mudou E tem descendentes, atualizar todos os filhos
-      if (sourceSubgroupId !== targetSubgroupId && descendants.length > 0) {
-        // Atualizar todos os descendentes para o novo subgrupo em paralelo
-        const descendantPromises = descendants.map(descendant =>
-          updateItem.mutateAsync({
-            id: descendant.id,
-            data: {
-              subgroupId: targetSubgroupId,
-            },
-          })
-        )
-
-        await Promise.all([updatePromise, ...descendantPromises])
-        toast.success(`Item e ${descendants.length} filho(s) movidos`)
-      } else {
-        await updatePromise
-        toast.success('Item reordenado')
-      }
+      await Promise.all(siblingUpdates)
+      toast.success('Itens reordenados')
     } catch (error) {
-      toast.error('Erro ao mover item')
+      toast.error('Erro ao reordenar itens')
     }
   }
 
@@ -417,8 +464,10 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
     const elements: JSX.Element[] = []
 
     // Determinar se pode indentar ou desindentar
+    // Tratar null e undefined como equivalentes para parentItemId
+    const normalizeParentId = (id: string | null | undefined) => id || null
     const sameParentItems = allItems
-      .filter(i => i.parentItemId === item.parentItemId)
+      .filter(i => normalizeParentId(i.parentItemId) === normalizeParentId(item.parentItemId))
       .sort((a, b) => a.order - b.order)
     const currentIndex = sameParentItems.findIndex(i => i.id === item.id)
 
@@ -426,9 +475,10 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
     const canOutdent = !!item.parentItemId // Tem parent
 
     // Renderiza o item atual com indentação (agora com drag and drop)
+    // Key inclui parentItemId para forçar re-render quando hierarquia muda
     elements.push(
       <SortableItem
-        key={item.id}
+        key={`${item.id}-${item.parentItemId || 'root'}`}
         item={item}
         depth={depth}
         expandedNodes={expandedNodes}
