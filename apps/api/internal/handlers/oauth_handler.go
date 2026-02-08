@@ -28,10 +28,10 @@ func NewOAuthHandler(service *services.OAuthService) *OAuthHandler {
 // @Produce json
 // @Param request body dto.GoogleOAuthRequest true "Google ID Token"
 // @Success 200 {object} dto.AuthResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 409 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 401 {object} dto.ErrorResponse
+// @Failure 409 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/auth/oauth/google [post]
 func (h *OAuthHandler) GoogleCallback(c *fiber.Ctx) error {
 	var req dto.GoogleOAuthRequest
@@ -85,10 +85,10 @@ func (h *OAuthHandler) GoogleCallback(c *fiber.Ctx) error {
 // @Produce json
 // @Param request body dto.AppleOAuthRequest true "Apple ID Token"
 // @Success 200 {object} dto.AuthResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 401 {object} ErrorResponse
-// @Failure 409 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 401 {object} dto.ErrorResponse
+// @Failure 409 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/auth/oauth/apple [post]
 func (h *OAuthHandler) AppleCallback(c *fiber.Ctx) error {
 	var req dto.AppleOAuthRequest

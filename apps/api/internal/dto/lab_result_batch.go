@@ -94,18 +94,28 @@ type LabResultBatchDetailResponse struct {
 	UpdatedAt          string                       `json:"updatedAt"`
 }
 
+// LabTestDefinitionResponse representa os dados essenciais de uma definição de exame
+type LabTestDefinitionResponse struct {
+	ID       string  `json:"id"`
+	Name     string  `json:"name"`
+	Code     string  `json:"code"`
+	Category string  `json:"category"`
+	Unit     *string `json:"unit,omitempty"`
+}
+
 // LabResultInBatchResponse representa um resultado individual dentro de um batch
 type LabResultInBatchResponse struct {
-	ID                  string   `json:"id"`
-	LabResultBatchID    string   `json:"labResultBatchId"`
-	LabTestDefinitionID *string  `json:"labTestDefinitionId,omitempty"`
-	TestName            string   `json:"testName"`
-	TestType            string   `json:"testType"`
-	ResultText          *string  `json:"resultText,omitempty"`
-	ResultNumeric       *float64 `json:"resultNumeric,omitempty"`
-	Unit                *string  `json:"unit,omitempty"`
-	Interpretation      *string  `json:"interpretation,omitempty"`
-	Level               *int     `json:"level,omitempty"`
-	CreatedAt           string   `json:"createdAt"`
-	UpdatedAt           string   `json:"updatedAt"`
+	ID                  string                     `json:"id"`
+	LabResultBatchID    string                     `json:"labResultBatchId"`
+	LabTestDefinitionID *string                    `json:"labTestDefinitionId,omitempty"`
+	LabTestDefinition   *LabTestDefinitionResponse `json:"labTestDefinition,omitempty"` // Objeto preloaded
+	TestName            string                     `json:"testName"`
+	TestType            string                     `json:"testType"`
+	ResultText          *string                    `json:"resultText,omitempty"`
+	ResultNumeric       *float64                   `json:"resultNumeric,omitempty"`
+	Unit                *string                    `json:"unit,omitempty"`
+	Interpretation      *string                    `json:"interpretation,omitempty"`
+	Level               *int                       `json:"level,omitempty"`
+	CreatedAt           string                     `json:"createdAt"`
+	UpdatedAt           string                     `json:"updatedAt"`
 }

@@ -154,7 +154,7 @@ func (s *LabResultBatchService) GetByID(batchID, userID uuid.UUID) (*dto.LabResu
 	}
 
 	var batch models.LabResultBatch
-	err := s.db.Preload("LabResults").First(&batch, batchID).Error
+	err := s.db.Preload("LabResults.LabTestDefinition").First(&batch, batchID).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, ErrLabResultBatchNotFound
@@ -186,7 +186,7 @@ func (s *LabResultBatchService) List(userID uuid.UUID, status *string, limit, of
 
 	query := s.db.Model(&models.LabResultBatch{}).
 		Where("patient_id = ?", *user.SelectedPatientID).
-		Preload("LabResults")
+		Preload("LabResults.LabTestDefinition")
 
 	if status != nil && *status != "" {
 		query = query.Where("status = ?", *status)
@@ -663,10 +663,23 @@ func (s *LabResultBatchService) toLabResultResponse(result *models.LabResult) *d
 		labTestDefID = &id
 	}
 
+	// Incluir objeto LabTestDefinition se estiver preloaded
+	var labTestDef *dto.LabTestDefinitionResponse
+	if result.LabTestDefinition != nil {
+		labTestDef = &dto.LabTestDefinitionResponse{
+			ID:       result.LabTestDefinition.ID.String(),
+			Name:     result.LabTestDefinition.Name,
+			Code:     result.LabTestDefinition.Code,
+			Category: string(result.LabTestDefinition.Category),
+			Unit:     result.LabTestDefinition.Unit,
+		}
+	}
+
 	return &dto.LabResultInBatchResponse{
 		ID:                  result.ID.String(),
 		LabResultBatchID:    result.LabResultBatchID.String(),
 		LabTestDefinitionID: labTestDefID,
+		LabTestDefinition:   labTestDef,
 		TestName:            result.TestName,
 		TestType:            result.TestType,
 		ResultText:          result.ResultText,

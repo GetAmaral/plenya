@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/base64"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -10,7 +11,7 @@ import (
 	"github.com/plenya/api/internal/crypto"
 )
 
-// Gender define os gêneros disponíveis
+// Gender define os gêneros disponíveis (sexo biológico)
 type Gender string
 
 const (
@@ -18,6 +19,45 @@ const (
 	GenderFemale Gender = "female"
 	GenderOther  Gender = "other"
 )
+
+// SocialGender define a identidade de gênero social
+type SocialGender string
+
+const (
+	SocialGenderMale       SocialGender = "male"
+	SocialGenderFemale     SocialGender = "female"
+	SocialGenderNonBinary  SocialGender = "non_binary"
+	SocialGenderTransMale  SocialGender = "trans_male"
+	SocialGenderTransFemale SocialGender = "trans_female"
+	SocialGenderOther      SocialGender = "other"
+	SocialGenderPreferNotToSay SocialGender = "prefer_not_to_say"
+)
+
+// BloodType define os tipos sanguíneos
+type BloodType string
+
+const (
+	BloodTypeAPositive  BloodType = "A+"
+	BloodTypeANegative  BloodType = "A-"
+	BloodTypeBPositive  BloodType = "B+"
+	BloodTypeBNegative  BloodType = "B-"
+	BloodTypeABPositive BloodType = "AB+"
+	BloodTypeABNegative BloodType = "AB-"
+	BloodTypeOPositive  BloodType = "O+"
+	BloodTypeONegative  BloodType = "O-"
+)
+
+// MaritalStatus define os estados civis
+type MaritalStatus string
+
+const (
+	MaritalStatusSingle   MaritalStatus = "single"
+	MaritalStatusMarried  MaritalStatus = "married"
+	MaritalStatusDivorced MaritalStatus = "divorced"
+	MaritalStatusWidowed  MaritalStatus = "widowed"
+	MaritalStatusOther    MaritalStatus = "other"
+)
+
 
 // Patient representa um paciente no sistema
 // @Description Paciente com dados pessoais e médicos
@@ -44,10 +84,23 @@ type Patient struct {
 	// @example 1990-01-01
 	BirthDate time.Time `gorm:"type:date;not null" json:"birthDate" validate:"required"`
 
-	// Gênero do paciente
+	// Gênero biológico do paciente
 	// @enum male,female,other
 	// @example male
 	Gender Gender `gorm:"type:varchar(10);not null;check:gender IN ('male','female','other')" json:"gender" validate:"required,oneof=male female other"`
+
+	// Identidade de gênero social (opcional)
+	// @enum male,female,non_binary,trans_male,trans_female,other,prefer_not_to_say
+	// @example female
+	SocialGender *SocialGender `gorm:"type:varchar(20);check:social_gender IN ('male','female','non_binary','trans_male','trans_female','other','prefer_not_to_say')" json:"socialGender,omitempty" validate:"omitempty,oneof=male female non_binary trans_male trans_female other prefer_not_to_say"`
+
+	// Idade em anos (calculado automaticamente)
+	// @example 35
+	Age int `gorm:"type:int;not null;default:0" json:"age"`
+
+	// Idade formatada (calculado automaticamente)
+	// @example 35a6m15d
+	AgeText string `gorm:"type:varchar(20);not null;default:''" json:"ageText"`
 
 	// Telefone de contato (opcional)
 	// @example (11) 98765-4321
@@ -80,6 +133,36 @@ type Patient struct {
 	// @example 68.6
 	Weight *float64 `gorm:"type:decimal(5,2)" json:"weight,omitempty"`
 
+	// RG - Registro Geral (opcional, criptografado)
+	// @example 12.345.678-9
+	RG *string `gorm:"type:text" json:"-"`
+
+	// Email pessoal (opcional)
+	// @example joao@email.com
+	Email *string `gorm:"type:varchar(200)" json:"email,omitempty" validate:"omitempty,email"`
+
+	// Tipo sanguíneo (opcional)
+	// @enum A+,A-,B+,B-,AB+,AB-,O+,O-
+	// @example A+
+	BloodType *BloodType `gorm:"type:varchar(3);check:blood_type IN ('A+','A-','B+','B-','AB+','AB-','O+','O-')" json:"bloodType,omitempty" validate:"omitempty,oneof=A+ A- B+ B- AB+ AB- O+ O-"`
+
+	// Estado civil (opcional)
+	// @enum single,married,divorced,widowed,other
+	// @example married
+	MaritalStatus *MaritalStatus `gorm:"type:varchar(10);check:marital_status IN ('single','married','divorced','widowed','other')" json:"maritalStatus,omitempty" validate:"omitempty,oneof=single married divorced widowed other"`
+
+	// Profissão/ocupação (opcional)
+	// @example Engenheiro
+	Occupation *string `gorm:"type:varchar(200)" json:"occupation,omitempty"`
+
+	// Nome do contato de emergência (opcional)
+	// @example Maria da Silva
+	EmergencyContact *string `gorm:"type:varchar(200)" json:"emergencyContact,omitempty"`
+
+	// Telefone do contato de emergência (opcional)
+	// @example (11) 99999-9999
+	EmergencyPhone *string `gorm:"type:varchar(20)" json:"emergencyPhone,omitempty" validate:"omitempty,min=10"`
+
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 
@@ -98,7 +181,47 @@ func (Patient) TableName() string {
 	return "patients"
 }
 
-// BeforeSave hook - criptografa o CPF antes de salvar
+// CalculateAge calcula a idade em anos, meses e dias
+func (p *Patient) CalculateAge() {
+	now := time.Now()
+	birthDate := p.BirthDate
+
+	// Calcula anos completos
+	years := now.Year() - birthDate.Year()
+
+	// Ajusta se ainda não fez aniversário este ano
+	if now.Month() < birthDate.Month() ||
+		(now.Month() == birthDate.Month() && now.Day() < birthDate.Day()) {
+		years--
+	}
+
+	// Calcula meses completos
+	months := int(now.Month()) - int(birthDate.Month())
+	if months < 0 {
+		months += 12
+	}
+	if now.Day() < birthDate.Day() {
+		months--
+		if months < 0 {
+			months += 12
+		}
+	}
+
+	// Calcula dias completos
+	days := now.Day() - birthDate.Day()
+	if days < 0 {
+		// Pega o número de dias do mês anterior
+		prevMonth := now.AddDate(0, -1, 0)
+		daysInPrevMonth := time.Date(prevMonth.Year(), prevMonth.Month()+1, 0, 0, 0, 0, 0, time.UTC).Day()
+		days += daysInPrevMonth
+	}
+
+	// Atualiza campos
+	p.Age = years
+	p.AgeText = fmt.Sprintf("%da%dm%dd", years, months, days)
+}
+
+// BeforeSave hook - criptografa o CPF e recalcula idade
 func (p *Patient) BeforeSave(tx *gorm.DB) error {
 	// Validar gender
 	validGenders := map[Gender]bool{
@@ -111,6 +234,23 @@ func (p *Patient) BeforeSave(tx *gorm.DB) error {
 		return gorm.ErrInvalidData
 	}
 
+	// Validar socialGender se fornecido
+	if p.SocialGender != nil {
+		validSocialGenders := map[SocialGender]bool{
+			SocialGenderMale:           true,
+			SocialGenderFemale:         true,
+			SocialGenderNonBinary:      true,
+			SocialGenderTransMale:      true,
+			SocialGenderTransFemale:    true,
+			SocialGenderOther:          true,
+			SocialGenderPreferNotToSay: true,
+		}
+
+		if !validSocialGenders[*p.SocialGender] {
+			return gorm.ErrInvalidData
+		}
+	}
+
 	// Criptografar CPF se fornecido e não criptografado
 	if p.CPF != nil && *p.CPF != "" && !isEncrypted(*p.CPF) {
 		encrypted, err := crypto.EncryptWithDefaultKey(*p.CPF)
@@ -120,6 +260,51 @@ func (p *Patient) BeforeSave(tx *gorm.DB) error {
 		p.CPF = &encrypted
 	}
 
+	// Criptografar RG se fornecido e não criptografado
+	if p.RG != nil && *p.RG != "" && !isEncrypted(*p.RG) {
+		encrypted, err := crypto.EncryptWithDefaultKey(*p.RG)
+		if err != nil {
+			return err
+		}
+		p.RG = &encrypted
+	}
+
+	// Validar BloodType se fornecido
+	if p.BloodType != nil {
+		validBloodTypes := map[BloodType]bool{
+			BloodTypeAPositive:  true,
+			BloodTypeANegative:  true,
+			BloodTypeBPositive:  true,
+			BloodTypeBNegative:  true,
+			BloodTypeABPositive: true,
+			BloodTypeABNegative: true,
+			BloodTypeOPositive:  true,
+			BloodTypeONegative:  true,
+		}
+
+		if !validBloodTypes[*p.BloodType] {
+			return gorm.ErrInvalidData
+		}
+	}
+
+	// Validar MaritalStatus se fornecido
+	if p.MaritalStatus != nil {
+		validMaritalStatuses := map[MaritalStatus]bool{
+			MaritalStatusSingle:   true,
+			MaritalStatusMarried:  true,
+			MaritalStatusDivorced: true,
+			MaritalStatusWidowed:  true,
+			MaritalStatusOther:    true,
+		}
+
+		if !validMaritalStatuses[*p.MaritalStatus] {
+			return gorm.ErrInvalidData
+		}
+	}
+
+	// Recalcula idade antes de salvar
+	p.CalculateAge()
+
 	return nil
 }
 
@@ -128,10 +313,12 @@ func (p *Patient) BeforeCreate(tx *gorm.DB) error {
 	if p.ID == uuid.Nil {
 		p.ID = uuid.Must(uuid.NewV7())
 	}
+	// Calcula idade inicial
+	p.CalculateAge()
 	return nil
 }
 
-// AfterFind hook - descriptografa o CPF após buscar do banco
+// AfterFind hook - descriptografa o CPF e RG após buscar do banco
 func (p *Patient) AfterFind(tx *gorm.DB) error {
 	// Descriptografar CPF se estiver criptografado
 	if p.CPF != nil && *p.CPF != "" && isEncrypted(*p.CPF) {
@@ -142,6 +329,16 @@ func (p *Patient) AfterFind(tx *gorm.DB) error {
 			return nil
 		}
 		p.CPF = &decrypted
+	}
+
+	// Descriptografar RG se estiver criptografado
+	if p.RG != nil && *p.RG != "" && isEncrypted(*p.RG) {
+		decrypted, err := crypto.DecryptWithDefaultKey(*p.RG)
+		if err != nil {
+			// Se falhar ao descriptografar, manter criptografado
+			return nil
+		}
+		p.RG = &decrypted
 	}
 
 	return nil

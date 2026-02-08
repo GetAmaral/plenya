@@ -148,30 +148,23 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
   });
 
   const onSubmit = async (values: LabResultBatchFormValues) => {
-    console.log("🚀 onSubmit called", { tempBatchId, batchId, isEditMode, values });
-
     // Se já criou batch temporário via upload, atualizar em vez de criar
     if (tempBatchId) {
-      console.log("📝 Updating temp batch", tempBatchId);
       setIsManualSubmitting(true);
       try {
         const apiData = formToApiValues(values);
-        console.log("📤 Sending data to API", apiData);
         await labResultBatchApi.update(tempBatchId, apiData as any);
         toast.success("Lote de resultados salvo com sucesso!");
         queryClient.invalidateQueries({ queryKey: ["lab-result-batches"] });
         router.push("/lab-results");
       } catch (error: any) {
-        console.error("❌ Error saving batch", error);
         toast.error(error?.response?.data?.message || "Erro ao salvar lote");
       } finally {
         setIsManualSubmitting(false);
       }
     } else if (isEditMode) {
-      console.log("✏️ Edit mode - updating batch", batchId);
       updateMutation.mutate(values);
     } else {
-      console.log("➕ Create mode - creating new batch");
       createMutation.mutate(values);
     }
   };
@@ -235,13 +228,34 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
       <form
         ref={formRef}
         onSubmit={form.handleSubmit(
-          (values) => {
-            console.log("✅ Form valid, calling onSubmit");
-            onSubmit(values);
-          },
+          onSubmit,
           (errors) => {
-            console.error("❌ Form validation failed:", errors);
-            toast.error("Preencha todos os campos obrigatórios corretamente");
+            console.log("❌ Validation errors:", errors);
+
+            // Find first error and show specific message
+            if (errors.laboratoryName) {
+              toast.error("Nome do laboratório é obrigatório");
+            } else if (errors.collectionDate) {
+              toast.error("Data da coleta é obrigatória");
+            } else if (errors.status) {
+              toast.error("Status do lote é obrigatório");
+            } else if (errors.labResults) {
+              const resultErrors = errors.labResults as any;
+              if (Array.isArray(resultErrors)) {
+                const firstError = resultErrors.find(e => e);
+                if (firstError?.testName) {
+                  toast.error("Preencha o nome do exame ou vincule a uma definição do catálogo");
+                } else if (firstError?.testType) {
+                  toast.error("Preencha o tipo do exame ou vincule a uma definição do catálogo");
+                } else {
+                  toast.error("Verifique os dados dos resultados");
+                }
+              } else {
+                toast.error(resultErrors.message || "Adicione pelo menos um resultado");
+              }
+            } else {
+              toast.error("Preencha todos os campos obrigatórios");
+            }
           }
         )}
         className="space-y-6"

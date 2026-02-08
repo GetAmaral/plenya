@@ -23,6 +23,138 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/admin/certificates/upload": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Admin uploads certificate A1 (.pfx) for a doctor with password",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "summary": "Upload digital certificate A1 for doctor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Doctor UUID",
+                        "name": "doctorId",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Certificate password",
+                        "name": "password",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Certificate file (.pfx or .p12)",
+                        "name": "certificate",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success and message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden - admin only",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/certificates/{userId}/toggle": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Ativa ou desativa o certificado de um usuário (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "summary": "Toggle certificate active status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/anamnesis-templates": {
             "get": {
                 "produces": [
@@ -327,6 +459,122 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/oauth/apple": {
+            "post": {
+                "description": "Autentica usuário via Apple Sign In",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Login com Apple",
+                "parameters": [
+                    {
+                        "description": "Apple ID Token",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.AppleOAuthRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AuthResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/oauth/google": {
+            "post": {
+                "description": "Autentica usuário via Google OAuth 2.0",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Login com Google",
+                "parameters": [
+                    {
+                        "description": "Google ID Token",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.GoogleOAuthRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AuthResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
                         "schema": {
                             "$ref": "#/definitions/dto.ErrorResponse"
                         }
@@ -959,6 +1207,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/lab-requests/validate/{id}": {
+            "get": {
+                "description": "Validates a lab request using its ID and QR code (no authentication required)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabRequests"
+                ],
+                "summary": "Validate lab request publicly",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Lab Request UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Validation result with lab request, patient, and doctor info",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/lab-requests/{id}": {
             "get": {
                 "produces": [
@@ -1354,6 +1644,69 @@ const docTemplate = `{
                     },
                     "403": {
                         "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/lab-result-batches/{batchId}/upload-pdf": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Upload de PDF de laudo médico para interpretação automática via IA",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Upload de PDF de laudo médico",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Batch ID (UUID)",
+                        "name": "batchId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "PDF file (max 20MB)",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "PDF uploaded and job created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/dto.ErrorResponse"
                         }
@@ -2363,49 +2716,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/lab-tests/definitions/{id}/score-mappings": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "LabTests"
-                ],
-                "summary": "Get mappings for lab test",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Lab test ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.LabTestScoreMapping"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/lab-tests/definitions/{id}/sub-tests": {
             "get": {
                 "produces": [
@@ -2478,173 +2788,6 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/lab-tests/score-mappings": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "LabTests"
-                ],
-                "summary": "Create lab test score mapping",
-                "parameters": [
-                    {
-                        "description": "Mapping data",
-                        "name": "mapping",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.LabTestScoreMapping"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/models.LabTestScoreMapping"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/lab-tests/score-mappings/{id}": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "LabTests"
-                ],
-                "summary": "Get lab test score mapping by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Mapping ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.LabTestScoreMapping"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "LabTests"
-                ],
-                "summary": "Update lab test score mapping",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Mapping ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Updated mapping data",
-                        "name": "mapping",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.LabTestScoreMapping"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.LabTestScoreMapping"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "LabTests"
-                ],
-                "summary": "Delete lab test score mapping",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Mapping ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/dto.ErrorResponse"
                         }
@@ -2780,6 +2923,70 @@ const docTemplate = `{
                         "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/processing-jobs/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Busca informações e status atual de um job de processamento assíncrono (ex: extração de PDF)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ProcessingJobs"
+                ],
+                "summary": "Buscar status de job de processamento",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Job ID (UUID)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProcessingJobResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
@@ -5746,6 +5953,144 @@ const docTemplate = `{
                 }
             }
         },
+        "/certificates": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Admin sees all certificates, doctors see only their own",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "summary": "List all certificates",
+                "responses": {
+                    "200": {
+                        "description": "List of certificates",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/certificates/status": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns certificate expiry and validity status for the authenticated doctor",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "summary": "Get certificate status for logged-in doctor",
+                "responses": {
+                    "200": {
+                        "description": "hasCertificate, validUntil, daysUntilExpiry, needsRenewal",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/certificates/{userId}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Admin can delete any certificate, doctors can delete only their own",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "summary": "Delete certificate",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/health": {
             "get": {
                 "description": "Verifica se a API e o banco de dados estão funcionais",
@@ -5765,6 +6110,311 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/medication-definitions": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get all medication definitions with optional category filter",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MedicationDefinitions"
+                ],
+                "summary": "List medication definitions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by category (simple, c1, c5, antibiotic, glp1)",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data, total, page, limit",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new medication definition (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MedicationDefinitions"
+                ],
+                "summary": "Create medication definition",
+                "parameters": [
+                    {
+                        "description": "Medication definition data",
+                        "name": "medication",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.MedicationDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.MedicationDefinition"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/medication-definitions/search": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Search medications by name or active ingredient (autocomplete)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MedicationDefinitions"
+                ],
+                "summary": "Search medication definitions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Search query",
+                        "name": "q",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.MedicationDefinition"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/medication-definitions/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a single medication definition",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MedicationDefinitions"
+                ],
+                "summary": "Get medication definition by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Medication Definition UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MedicationDefinition"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing medication definition (admin only)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MedicationDefinitions"
+                ],
+                "summary": "Update medication definition",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Medication Definition UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Medication definition data",
+                        "name": "medication",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.MedicationDefinition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MedicationDefinition"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Soft delete a medication definition (admin only)",
+                "tags": [
+                    "MedicationDefinitions"
+                ],
+                "summary": "Delete medication definition",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Medication Definition UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
                         }
                     }
                 }
@@ -6051,6 +6701,96 @@ const docTemplate = `{
                 }
             }
         },
+        "/prescriptions/validate/{id}": {
+            "get": {
+                "description": "Public endpoint for validating prescription authenticity via QR code",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prescriptions"
+                ],
+                "summary": "Validate prescription (public - no auth)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Prescription UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "validation result with prescription details",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prescriptions/{id}/sign": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Signs prescription with doctor's digital certificate and generates PDF with QR code",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prescriptions"
+                ],
+                "summary": "Sign prescription and generate signed PDF",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Prescription UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "signedPdfUrl, sncrNumber",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/users/me": {
             "get": {
                 "security": [
@@ -6206,6 +6946,39 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.AppleOAuthRequest": {
+            "type": "object",
+            "required": [
+                "idToken"
+            ],
+            "properties": {
+                "idToken": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/dto.AppleUser"
+                }
+            }
+        },
+        "dto.AppleUser": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "$ref": "#/definitions/dto.AppleUserName"
+                }
+            }
+        },
+        "dto.AppleUserName": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.AuthResponse": {
             "type": "object",
             "properties": {
@@ -6315,7 +7088,6 @@ const docTemplate = `{
         "dto.CreateLabResultInBatchRequest": {
             "type": "object",
             "required": [
-                "status",
                 "testName",
                 "testType"
             ],
@@ -6329,22 +7101,15 @@ const docTemplate = `{
                 "level": {
                     "type": "integer"
                 },
-                "referenceRange": {
-                    "type": "string"
+                "matched": {
+                    "description": "true se matched com definição catalogada",
+                    "type": "boolean"
                 },
                 "resultNumeric": {
                     "type": "number"
                 },
                 "resultText": {
                     "type": "string"
-                },
-                "status": {
-                    "type": "string",
-                    "enum": [
-                        "pending",
-                        "completed",
-                        "cancelled"
-                    ]
                 },
                 "testName": {
                     "type": "string",
@@ -6384,7 +7149,6 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "birthDate",
-                "cpf",
                 "gender",
                 "name"
             ],
@@ -6397,8 +7161,39 @@ const docTemplate = `{
                     "description": "formato: YYYY-MM-DD",
                     "type": "string"
                 },
+                "bloodType": {
+                    "enum": [
+                        "A+",
+                        "A-",
+                        "B+",
+                        "B-",
+                        "AB+",
+                        "AB-",
+                        "O+",
+                        "O-"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.BloodType"
+                        }
+                    ]
+                },
                 "cpf": {
                     "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "maxLength": 200
+                },
+                "emergencyContact": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 3
+                },
+                "emergencyPhone": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 10
                 },
                 "fatherName": {
                     "type": "string",
@@ -6420,6 +7215,20 @@ const docTemplate = `{
                 "height": {
                     "type": "number"
                 },
+                "maritalStatus": {
+                    "enum": [
+                        "single",
+                        "married",
+                        "divorced",
+                        "widowed",
+                        "other"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.MaritalStatus"
+                        }
+                    ]
+                },
                 "motherName": {
                     "type": "string",
                     "maxLength": 200,
@@ -6434,10 +7243,34 @@ const docTemplate = `{
                     "maxLength": 200,
                     "minLength": 3
                 },
+                "occupation": {
+                    "type": "string",
+                    "maxLength": 200
+                },
                 "phone": {
                     "type": "string",
                     "maxLength": 20,
                     "minLength": 10
+                },
+                "rg": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "socialGender": {
+                    "enum": [
+                        "male",
+                        "female",
+                        "non_binary",
+                        "trans_male",
+                        "trans_female",
+                        "other",
+                        "prefer_not_to_say"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.SocialGender"
+                        }
+                    ]
                 },
                 "state": {
                     "type": "string"
@@ -6456,6 +7289,10 @@ const docTemplate = `{
                 "roles"
             ],
             "properties": {
+                "cpf": {
+                    "description": "Formato: 123.456.789-00 ou sem formatação",
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
@@ -6497,6 +7334,17 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.GoogleOAuthRequest": {
+            "type": "object",
+            "required": [
+                "idToken"
+            ],
+            "properties": {
+                "idToken": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.LabResultBatchDetailResponse": {
             "type": "object",
             "properties": {
@@ -6528,6 +7376,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "patientId": {
+                    "type": "string"
+                },
+                "pdfContentJson": {
                     "type": "string"
                 },
                 "requestingDoctorId": {
@@ -6574,6 +7425,9 @@ const docTemplate = `{
                 "patientId": {
                     "type": "string"
                 },
+                "pdfContentJson": {
+                    "type": "string"
+                },
                 "requestingDoctorId": {
                     "type": "string"
                 },
@@ -6612,16 +7466,10 @@ const docTemplate = `{
                 "level": {
                     "type": "integer"
                 },
-                "referenceRange": {
-                    "type": "string"
-                },
                 "resultNumeric": {
                     "type": "number"
                 },
                 "resultText": {
-                    "type": "string"
-                },
-                "status": {
                     "type": "string"
                 },
                 "testName": {
@@ -6690,10 +7538,32 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
+                "age": {
+                    "type": "integer"
+                },
+                "ageText": {
+                    "type": "string"
+                },
                 "birthDate": {
                     "type": "string"
                 },
+                "bloodType": {
+                    "$ref": "#/definitions/models.BloodType"
+                },
+                "cpf": {
+                    "description": "Retornado descriptografado para profissionais de saúde",
+                    "type": "string"
+                },
                 "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "emergencyContact": {
+                    "type": "string"
+                },
+                "emergencyPhone": {
                     "type": "string"
                 },
                 "fatherName": {
@@ -6708,6 +7578,9 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "maritalStatus": {
+                    "$ref": "#/definitions/models.MaritalStatus"
+                },
                 "motherName": {
                     "type": "string"
                 },
@@ -6717,8 +7590,18 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "occupation": {
+                    "type": "string"
+                },
                 "phone": {
                     "type": "string"
+                },
+                "rg": {
+                    "description": "Retornado descriptografado para profissionais de saúde",
+                    "type": "string"
+                },
+                "socialGender": {
+                    "$ref": "#/definitions/models.SocialGender"
                 },
                 "state": {
                     "type": "string"
@@ -6731,6 +7614,70 @@ const docTemplate = `{
                 },
                 "weight": {
                     "type": "number"
+                }
+            }
+        },
+        "dto.ProcessingJobResponse": {
+            "description": "Resposta com status do processamento assíncrono",
+            "type": "object",
+            "properties": {
+                "attempts": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "completedAt": {
+                    "type": "string",
+                    "example": "2024-01-20T15:05:00Z"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "example": "2024-01-20T15:04:05Z"
+                },
+                "errorMessage": {
+                    "type": "string",
+                    "example": "OCR extraction failed"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "019c1a1e-0579-7f3b-a1bd-4767008e844c"
+                },
+                "labResultBatchId": {
+                    "type": "string",
+                    "example": "019c1a1e-0579-7f3b-a1bd-4767008e844c"
+                },
+                "progressMessage": {
+                    "type": "string",
+                    "example": "Extraindo conteúdo do PDF para texto"
+                },
+                "progressStep": {
+                    "type": "integer",
+                    "example": 3
+                },
+                "startedAt": {
+                    "type": "string",
+                    "example": "2024-01-20T15:04:10Z"
+                },
+                "status": {
+                    "enum": [
+                        "pending",
+                        "processing",
+                        "completed",
+                        "failed"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.ProcessingJobStatus"
+                        }
+                    ],
+                    "example": "processing"
+                },
+                "type": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.ProcessingJobType"
+                        }
+                    ],
+                    "example": "pdf_extraction"
                 }
             }
         },
@@ -6874,16 +7821,10 @@ const docTemplate = `{
                 "level": {
                     "type": "integer"
                 },
-                "referenceRange": {
-                    "type": "string"
-                },
                 "resultNumeric": {
                     "type": "number"
                 },
                 "resultText": {
-                    "type": "string"
-                },
-                "status": {
                     "type": "string"
                 },
                 "testName": {
@@ -6946,6 +7887,40 @@ const docTemplate = `{
                     "description": "formato: YYYY-MM-DD",
                     "type": "string"
                 },
+                "bloodType": {
+                    "enum": [
+                        "A+",
+                        "A-",
+                        "B+",
+                        "B-",
+                        "AB+",
+                        "AB-",
+                        "O+",
+                        "O-"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.BloodType"
+                        }
+                    ]
+                },
+                "cpf": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "maxLength": 200
+                },
+                "emergencyContact": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 3
+                },
+                "emergencyPhone": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 10
+                },
                 "fatherName": {
                     "type": "string",
                     "maxLength": 200,
@@ -6966,6 +7941,20 @@ const docTemplate = `{
                 "height": {
                     "type": "number"
                 },
+                "maritalStatus": {
+                    "enum": [
+                        "single",
+                        "married",
+                        "divorced",
+                        "widowed",
+                        "other"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.MaritalStatus"
+                        }
+                    ]
+                },
                 "motherName": {
                     "type": "string",
                     "maxLength": 200,
@@ -6980,10 +7969,34 @@ const docTemplate = `{
                     "maxLength": 200,
                     "minLength": 3
                 },
+                "occupation": {
+                    "type": "string",
+                    "maxLength": 200
+                },
                 "phone": {
                     "type": "string",
                     "maxLength": 20,
                     "minLength": 10
+                },
+                "rg": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "socialGender": {
+                    "enum": [
+                        "male",
+                        "female",
+                        "non_binary",
+                        "trans_male",
+                        "trans_female",
+                        "other",
+                        "prefer_not_to_say"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.SocialGender"
+                        }
+                    ]
                 },
                 "state": {
                     "type": "string"
@@ -6996,6 +8009,10 @@ const docTemplate = `{
         "dto.UpdateProfileRequest": {
             "type": "object",
             "properties": {
+                "cpf": {
+                    "description": "Formato: 123.456.789-00 ou sem formatação",
+                    "type": "string"
+                },
                 "crm": {
                     "type": "string",
                     "maxLength": 20
@@ -7039,6 +8056,10 @@ const docTemplate = `{
         "dto.UpdateUserRequest": {
             "type": "object",
             "properties": {
+                "cpf": {
+                    "description": "Formato: 123.456.789-00 ou sem formatação",
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
@@ -7064,6 +8085,9 @@ const docTemplate = `{
         "dto.UserDTO": {
             "type": "object",
             "properties": {
+                "cpf": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -7071,6 +8095,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 },
                 "preferences": {
@@ -7117,6 +8144,9 @@ const docTemplate = `{
         "dto.UserResponse": {
             "type": "object",
             "properties": {
+                "cpf": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -7434,6 +8464,29 @@ const docTemplate = `{
                 }
             }
         },
+        "models.BloodType": {
+            "type": "string",
+            "enum": [
+                "A+",
+                "A-",
+                "B+",
+                "B-",
+                "AB+",
+                "AB-",
+                "O+",
+                "O-"
+            ],
+            "x-enum-varnames": [
+                "BloodTypeAPositive",
+                "BloodTypeANegative",
+                "BloodTypeBPositive",
+                "BloodTypeBNegative",
+                "BloodTypeABPositive",
+                "BloodTypeABNegative",
+                "BloodTypeOPositive",
+                "BloodTypeONegative"
+            ]
+        },
         "models.Gender": {
             "type": "string",
             "enum": [
@@ -7625,9 +8678,9 @@ const docTemplate = `{
                     "description": "Nível/Prioridade do resultado (opcional)",
                     "type": "integer"
                 },
-                "referenceRange": {
-                    "description": "Valores de referência",
-                    "type": "string"
+                "matched": {
+                    "description": "Indica se o exame foi matched com uma definição catalogada\ntrue = matched com LabTestDefinition, false = extraído mas não catalogado",
+                    "type": "boolean"
                 },
                 "resultNumeric": {
                     "description": "Resultado numérico (para exames quantitativos)",
@@ -7712,6 +8765,22 @@ const docTemplate = `{
                 },
                 "patientId": {
                     "description": "ID do paciente",
+                    "type": "string"
+                },
+                "pdfContentFull": {
+                    "description": "Conteúdo completo extraído do PDF via OCR (texto bruto)",
+                    "type": "string"
+                },
+                "pdfContentJson": {
+                    "description": "Conteúdo processado pela IA em formato JSON estruturado",
+                    "type": "string"
+                },
+                "pdfContentNeedAi": {
+                    "description": "Conteúdo que precisa de IA (após remover exames já matched via pré-matching)",
+                    "type": "string"
+                },
+                "pdfContentShort": {
+                    "description": "Conteúdo processado/limpo do PDF (removendo ruído)",
                     "type": "string"
                 },
                 "requestingDoctor": {
@@ -7967,6 +9036,13 @@ const docTemplate = `{
                 "resultType"
             ],
             "properties": {
+                "altNames": {
+                    "description": "Nomes alternativos para matching em PDFs (sempre inclui Name também)\nArray de strings com variações do nome encontradas em laudos\nNUNCA incluir siglas (siglas vão em ShortName)\n@example [\"Hemoglobina\", \"Hemoglobina total\", \"Hemoglobina - Homens\", \"Hemoglobina - Mulheres\"]",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "category": {
                     "description": "Categoria do exame\n@enum hematology,biochemistry,hormones,immunology,microbiology,urine,imaging,functional,genetics,other",
                     "allOf": [
@@ -8053,15 +9129,15 @@ const docTemplate = `{
                     "description": "Tipo de resultado\n@enum numeric, text, boolean, categorical",
                     "type": "string"
                 },
-                "scoreMappings": {
-                    "description": "Mapeamentos para itens do escore",
+                "scoreItems": {
+                    "description": "ScoreItems relacionados via código (oneToMany: labTestDefinition.code -\u003e scoreItem.labTestCode)\nMúltiplos ScoreItems podem ter o mesmo código (ex: variantes por gênero/idade)",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.LabTestScoreMapping"
+                        "$ref": "#/definitions/models.ScoreItem"
                     }
                 },
                 "shortName": {
-                    "description": "Nome curto/abreviação (opcional)\n@example Hemograma, Hb, Gli",
+                    "description": "Nome curto/abreviação (opcional) - usado para exibição\n@example Hemograma, Hb, Gli",
                     "type": "string"
                 },
                 "specimenType": {
@@ -8092,66 +9168,133 @@ const docTemplate = `{
                 }
             }
         },
-        "models.LabTestScoreMapping": {
-            "description": "Mapeamento entre exame e item do escore Plenya",
+        "models.MaritalStatus": {
+            "type": "string",
+            "enum": [
+                "single",
+                "married",
+                "divorced",
+                "widowed",
+                "other"
+            ],
+            "x-enum-varnames": [
+                "MaritalStatusSingle",
+                "MaritalStatusMarried",
+                "MaritalStatusDivorced",
+                "MaritalStatusWidowed",
+                "MaritalStatusOther"
+            ]
+        },
+        "models.MedicationCategory": {
+            "type": "string",
+            "enum": [
+                "simple",
+                "c1",
+                "c5",
+                "antibiotic",
+                "glp1"
+            ],
+            "x-enum-comments": {
+                "MedCategoryAntibiotic": "Antimicrobianos (RDC 471)",
+                "MedCategoryC1": "Controle Especial (Lista C1)",
+                "MedCategoryC5": "Psicotrópicos (Lista C5)",
+                "MedCategoryGLP1": "GLP-1 agonistas",
+                "MedCategorySimple": "Receita simples"
+            },
+            "x-enum-descriptions": [
+                "Receita simples",
+                "Controle Especial (Lista C1)",
+                "Psicotrópicos (Lista C5)",
+                "Antimicrobianos (RDC 471)",
+                "GLP-1 agonistas"
+            ],
+            "x-enum-varnames": [
+                "MedCategorySimple",
+                "MedCategoryC1",
+                "MedCategoryC5",
+                "MedCategoryAntibiotic",
+                "MedCategoryGLP1"
+            ]
+        },
+        "models.MedicationDefinition": {
+            "description": "Definição de medicamento com regras regulatórias (ANVISA)",
             "type": "object",
             "required": [
-                "labTestId",
-                "scoreItemId"
+                "activeIngredient",
+                "category",
+                "commonName",
+                "maxPerPrescription",
+                "maxTreatmentDays",
+                "validityDays"
             ],
             "properties": {
+                "activeIngredient": {
+                    "description": "Princípio ativo (DCB - Denominação Comum Brasileira)\n@minLength 3\n@maxLength 500\n@example Cloridrato de Fluoxetina",
+                    "type": "string",
+                    "maxLength": 500,
+                    "minLength": 3
+                },
+                "anvisaCode": {
+                    "description": "Código ANVISA do medicamento\n@example 1234567890123",
+                    "type": "string"
+                },
+                "category": {
+                    "description": "Categoria regulatória do medicamento\n@enum simple,c1,c5,antibiotic,glp1",
+                    "enum": [
+                        "simple",
+                        "c1",
+                        "c5",
+                        "antibiotic",
+                        "glp1"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.MedicationCategory"
+                        }
+                    ]
+                },
+                "commonName": {
+                    "description": "Nome comercial comum do medicamento\n@minLength 3\n@maxLength 500\n@example Fluoxetina 20mg",
+                    "type": "string",
+                    "maxLength": 500,
+                    "minLength": 3
+                },
                 "createdAt": {
                     "description": "Timestamps",
                     "type": "string"
                 },
-                "gender": {
-                    "description": "Especificação de gênero (se o mapeamento for específico)\n@enum male, female, null (ambos)",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/models.Gender"
-                        }
-                    ]
-                },
                 "id": {
+                    "description": "ID único da definição\n@example 550e8400-e29b-41d4-a716-446655440000",
                     "type": "string"
                 },
-                "isActive": {
-                    "description": "Status",
+                "maxPerPrescription": {
+                    "description": "Máximo de substâncias por prescrição\n@example 3\nC1: máximo 3 substâncias",
+                    "type": "integer",
+                    "maximum": 100,
+                    "minimum": 1
+                },
+                "maxTreatmentDays": {
+                    "description": "Duração máxima do tratamento em dias\n@example 60\nC1: 60 dias, Anticonvulsivantes: 180 dias",
+                    "type": "integer",
+                    "maximum": 365,
+                    "minimum": 1
+                },
+                "requiresDigitalSignature": {
+                    "description": "Requer assinatura digital ICP-Brasil\ntrue para medicamentos controlados (C1, C5)",
                     "type": "boolean"
                 },
-                "labTest": {
-                    "description": "Relacionamentos",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/models.LabTestDefinition"
-                        }
-                    ]
-                },
-                "labTestId": {
-                    "description": "ID do exame laboratorial",
-                    "type": "string"
-                },
-                "maxAge": {
-                    "description": "Faixa etária máxima (em anos)",
-                    "type": "integer"
-                },
-                "minAge": {
-                    "description": "Faixa etária mínima (em anos)",
-                    "type": "integer"
-                },
-                "notes": {
-                    "description": "Observações sobre o mapeamento",
-                    "type": "string"
-                },
-                "scoreItem": {
-                    "$ref": "#/definitions/models.ScoreItem"
-                },
-                "scoreItemId": {
-                    "description": "ID do item do escore",
-                    "type": "string"
+                "requiresSNCR": {
+                    "description": "Requer registro no SNCR (Sistema Nacional de Controle de Receitas)\ntrue para medicamentos controlados",
+                    "type": "boolean"
                 },
                 "updatedAt": {
                     "type": "string"
+                },
+                "validityDays": {
+                    "description": "Dias de validade da prescrição\n@example 30\nC1: 30 dias, Antibióticos: 10 dias, GLP1: 90 dias, Simples: 30 dias",
+                    "type": "integer",
+                    "maximum": 365,
+                    "minimum": 1
                 }
             }
         },
@@ -8168,20 +9311,59 @@ const docTemplate = `{
                     "description": "Endereço residencial (opcional)",
                     "type": "string"
                 },
+                "age": {
+                    "description": "Idade em anos (calculado automaticamente)\n@example 35",
+                    "type": "integer"
+                },
+                "ageText": {
+                    "description": "Idade formatada (calculado automaticamente)\n@example 35a6m15d",
+                    "type": "string"
+                },
                 "birthDate": {
                     "description": "Data de nascimento\n@example 1990-01-01",
                     "type": "string"
                 },
+                "bloodType": {
+                    "description": "Tipo sanguíneo (opcional)\n@enum A+,A-,B+,B-,AB+,AB-,O+,O-\n@example A+",
+                    "enum": [
+                        "A+",
+                        "A-",
+                        "B+",
+                        "B-",
+                        "AB+",
+                        "AB-",
+                        "O+",
+                        "O-"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.BloodType"
+                        }
+                    ]
+                },
                 "createdAt": {
                     "description": "Data de criação",
                     "type": "string"
+                },
+                "email": {
+                    "description": "Email pessoal (opcional)\n@example joao@email.com",
+                    "type": "string"
+                },
+                "emergencyContact": {
+                    "description": "Nome do contato de emergência (opcional)\n@example Maria da Silva",
+                    "type": "string"
+                },
+                "emergencyPhone": {
+                    "description": "Telefone do contato de emergência (opcional)\n@example (11) 99999-9999",
+                    "type": "string",
+                    "minLength": 10
                 },
                 "fatherName": {
                     "description": "Nome do pai (opcional)\n@example José da Silva",
                     "type": "string"
                 },
                 "gender": {
-                    "description": "Gênero do paciente\n@enum male,female,other\n@example male",
+                    "description": "Gênero biológico do paciente\n@enum male,female,other\n@example male",
                     "enum": [
                         "male",
                         "female",
@@ -8201,6 +9383,21 @@ const docTemplate = `{
                     "description": "ID único do paciente\n@example 550e8400-e29b-41d4-a716-446655440000",
                     "type": "string"
                 },
+                "maritalStatus": {
+                    "description": "Estado civil (opcional)\n@enum single,married,divorced,widowed,other\n@example married",
+                    "enum": [
+                        "single",
+                        "married",
+                        "divorced",
+                        "widowed",
+                        "other"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.MaritalStatus"
+                        }
+                    ]
+                },
                 "motherName": {
                     "description": "Nome da mãe (opcional)\n@example Maria da Silva",
                     "type": "string"
@@ -8215,10 +9412,31 @@ const docTemplate = `{
                     "maxLength": 200,
                     "minLength": 3
                 },
+                "occupation": {
+                    "description": "Profissão/ocupação (opcional)\n@example Engenheiro",
+                    "type": "string"
+                },
                 "phone": {
                     "description": "Telefone de contato (opcional)\n@example (11) 98765-4321",
                     "type": "string",
                     "minLength": 10
+                },
+                "socialGender": {
+                    "description": "Identidade de gênero social (opcional)\n@enum male,female,non_binary,trans_male,trans_female,other,prefer_not_to_say\n@example female",
+                    "enum": [
+                        "male",
+                        "female",
+                        "non_binary",
+                        "trans_male",
+                        "trans_female",
+                        "other",
+                        "prefer_not_to_say"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.SocialGender"
+                        }
+                    ]
                 },
                 "state": {
                     "description": "Estado/UF de residência (opcional)\n@example SP",
@@ -8245,6 +9463,30 @@ const docTemplate = `{
                     "type": "number"
                 }
             }
+        },
+        "models.ProcessingJobStatus": {
+            "type": "string",
+            "enum": [
+                "pending",
+                "processing",
+                "completed",
+                "failed"
+            ],
+            "x-enum-varnames": [
+                "ProcessingJobPending",
+                "ProcessingJobProcessing",
+                "ProcessingJobCompleted",
+                "ProcessingJobFailed"
+            ]
+        },
+        "models.ProcessingJobType": {
+            "type": "string",
+            "enum": [
+                "pdf_extraction"
+            ],
+            "x-enum-varnames": [
+                "ProcessingJobTypePDFExtraction"
+            ]
         },
         "models.ScoreGroup": {
             "description": "Grupo de escores clínicos - categoria principal",
@@ -8310,11 +9552,6 @@ const docTemplate = `{
                     "description": "Relevância clínica - explicação técnica para profissionais de saúde\n@example Valores baixos de hemoglobina indicam anemia, que pode estar associada a fadiga, redução da capacidade funcional e aumento do risco cardiovascular",
                     "type": "string"
                 },
-                "code": {
-                    "description": "Código único para identificação programática (opcional)\n@example HGB_M, GLUCOSE_FASTING, IMC, BREASTFEEDING_DURATION",
-                    "type": "string",
-                    "maxLength": 100
-                },
                 "conduct": {
                     "description": "Conduta clínica recomendada\n@example Investigar causa da anemia (deficiência de ferro, B12, folato, doença crônica). Suplementação conforme indicação. Encaminhar ao hematologista se Hb \u003c 10 g/dL ou causa não esclarecida",
                     "type": "string"
@@ -8326,6 +9563,11 @@ const docTemplate = `{
                 "id": {
                     "description": "@example 550e8400-e29b-41d4-a716-446655440000",
                     "type": "string"
+                },
+                "labTestCode": {
+                    "description": "Código de referência para LabTestDefinition (pode ser compartilhado entre múltiplos score_items)\nLiga ao lab_test_definitions.code para associar resultados de exames\n@example PLN585CE3E3, PLNF66C0E48, GLUCOSE_FASTING",
+                    "type": "string",
+                    "maxLength": 100
                 },
                 "lastReview": {
                     "description": "Data da última revisão dos campos clínicos ou artigos associados\n@example 2026-01-25T10:30:00Z",
@@ -8520,6 +9762,27 @@ const docTemplate = `{
                 }
             }
         },
+        "models.SocialGender": {
+            "type": "string",
+            "enum": [
+                "male",
+                "female",
+                "non_binary",
+                "trans_male",
+                "trans_female",
+                "other",
+                "prefer_not_to_say"
+            ],
+            "x-enum-varnames": [
+                "SocialGenderMale",
+                "SocialGenderFemale",
+                "SocialGenderNonBinary",
+                "SocialGenderTransMale",
+                "SocialGenderTransFemale",
+                "SocialGenderOther",
+                "SocialGenderPreferNotToSay"
+            ]
+        },
         "models.User": {
             "description": "Usuário base do sistema (profissionais e pacientes)",
             "type": "object",
@@ -8528,8 +9791,20 @@ const docTemplate = `{
                 "name"
             ],
             "properties": {
+                "certificateActive": {
+                    "description": "Se o certificado está ativo (desativa automaticamente se CPF do usuário mudar)\n@example true",
+                    "type": "boolean"
+                },
+                "certificateCPF": {
+                    "description": "CPF do titular do certificado (extraído do certificado ICP-Brasil)\n@example 123.456.789-00",
+                    "type": "string"
+                },
                 "certificateExpiry": {
                     "description": "Data de expiração do certificado A1\n@example 2027-12-31T23:59:59Z",
+                    "type": "string"
+                },
+                "certificateName": {
+                    "description": "Nome do titular do certificado (extraído do certificado ICP-Brasil)\n@example João da Silva",
                     "type": "string"
                 },
                 "certificateSerial": {
@@ -8562,6 +9837,10 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 200,
                     "minLength": 3
+                },
+                "oauthPictureURL": {
+                    "description": "OAuth profile picture URL",
+                    "type": "string"
                 },
                 "preferences": {
                     "description": "Preferências do usuário (viewport do mindmap, etc.)\n@example {\"mindmapViewport\":{\"x\":0,\"y\":0,\"zoom\":0.7}}",

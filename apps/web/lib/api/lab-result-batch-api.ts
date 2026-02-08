@@ -21,6 +21,13 @@ export interface LabResultInBatchResponse {
   id: string
   labResultBatchId: string
   labTestDefinitionId?: string
+  labTestDefinition?: {
+    id: string
+    name: string
+    code: string
+    category: string
+    unit?: string
+  }
   testName: string
   testType: string
   resultText?: string
