@@ -119,6 +119,7 @@ export function ScoreItemDialog({
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<CreateScoreItemDTO>({
     defaultValues: {
@@ -128,6 +129,7 @@ export function ScoreItemDialog({
       gender: item?.gender || 'not_applicable',
       ageRangeMin: item?.ageRangeMin,
       ageRangeMax: item?.ageRangeMax,
+      postMenopause: item?.postMenopause,
       clinicalRelevance: item?.clinicalRelevance || '',
       patientExplanation: item?.patientExplanation || '',
       conduct: item?.conduct || '',
@@ -151,6 +153,7 @@ export function ScoreItemDialog({
         gender: item.gender || 'not_applicable',
         ageRangeMin: item.ageRangeMin,
         ageRangeMax: item.ageRangeMax,
+        postMenopause: item.postMenopause,
         clinicalRelevance: item.clinicalRelevance || '',
         patientExplanation: item.patientExplanation || '',
         conduct: item.conduct || '',
@@ -170,6 +173,7 @@ export function ScoreItemDialog({
         gender: 'not_applicable',
         ageRangeMin: undefined,
         ageRangeMax: undefined,
+        postMenopause: undefined,
         clinicalRelevance: '',
         patientExplanation: '',
         conduct: '',
@@ -207,6 +211,7 @@ export function ScoreItemDialog({
         gender: data.gender || 'not_applicable',
         ageRangeMin: data.ageRangeMin || null,
         ageRangeMax: data.ageRangeMax || null,
+        postMenopause: data.postMenopause ?? null,
         clinicalRelevance: data.clinicalRelevance || null,
         patientExplanation: data.patientExplanation || null,
         conduct: data.conduct || null,
@@ -222,6 +227,7 @@ export function ScoreItemDialog({
             gender: payload.gender,
             ageRangeMin: payload.ageRangeMin,
             ageRangeMax: payload.ageRangeMax,
+            postMenopause: payload.postMenopause,
             clinicalRelevance: payload.clinicalRelevance,
             patientExplanation: payload.patientExplanation,
             conduct: payload.conduct,
@@ -479,6 +485,30 @@ export function ScoreItemDialog({
           <p className="text-xs text-muted-foreground">
             Defina a faixa etária aplicável (deixe vazio se não aplicável)
           </p>
+
+          {selectedGender === 'female' && (
+            <div className="space-y-2">
+              <Label htmlFor="postMenopause">Pós-Menopausa</Label>
+              <Select
+                value={watch('postMenopause') === undefined ? 'undefined' : watch('postMenopause') ? 'true' : 'false'}
+                onValueChange={(value) => {
+                  setValue('postMenopause', value === 'undefined' ? undefined : value === 'true')
+                }}
+              >
+                <SelectTrigger id="postMenopause">
+                  <SelectValue placeholder="Selecione" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="undefined">Não se aplica</SelectItem>
+                  <SelectItem value="true">Apenas pós-menopausa</SelectItem>
+                  <SelectItem value="false">Apenas pré-menopausa</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Defina se este item é específico para mulheres pós ou pré-menopausa
+              </p>
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="points">Pontos Máximos</Label>
