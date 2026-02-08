@@ -32,6 +32,7 @@ interface Patient {
   cpf?: string;
   birthDate: string;
   gender: "male" | "female" | "other";
+  menopause?: boolean;
   phone?: string;
   address?: string;
   municipality?: string;
@@ -169,6 +170,15 @@ export default function PatientDetailPage() {
                 <p className="text-sm text-muted-foreground">Gênero</p>
                 <Badge variant="outline">{genderLabel}</Badge>
               </div>
+
+              {patient.gender === "female" && patient.menopause !== undefined && (
+                <div>
+                  <p className="text-sm text-muted-foreground">Menopausa</p>
+                  <Badge variant={patient.menopause ? "default" : "secondary"}>
+                    {patient.menopause ? "Sim" : "Não"}
+                  </Badge>
+                </div>
+              )}
 
               {patient.phone && (
                 <div>

@@ -29,6 +29,27 @@ type ScoreItem struct {
 	// @example 1 g/dL = 10 g/L
 	UnitConversion *string `gorm:"type:text" json:"unitConversion,omitempty"`
 
+	// Gênero aplicável (not_applicable, male, female)
+	// @enum not_applicable,male,female
+	// @example male
+	Gender *string `gorm:"type:varchar(20);default:'not_applicable';check:gender IN ('not_applicable','male','female')" json:"gender,omitempty" validate:"omitempty,oneof=not_applicable male female"`
+
+	// Idade mínima aplicável (anos)
+	// @minimum 0
+	// @maximum 150
+	// @example 18
+	AgeRangeMin *int `gorm:"type:integer;check:age_range_min >= 0 AND age_range_min <= 150" json:"ageRangeMin,omitempty" validate:"omitempty,gte=0,lte=150"`
+
+	// Idade máxima aplicável (anos)
+	// @minimum 0
+	// @maximum 150
+	// @example 65
+	AgeRangeMax *int `gorm:"type:integer;check:age_range_max >= 0 AND age_range_max <= 150" json:"ageRangeMax,omitempty" validate:"omitempty,gte=0,lte=150"`
+
+	// Indica se o score_item é aplicável apenas para mulheres pós-menopausa
+	// @example true
+	PostMenopause *bool `gorm:"type:boolean" json:"postMenopause,omitempty"`
+
 	// Relevância clínica - explicação técnica para profissionais de saúde
 	// @example Valores baixos de hemoglobina indicam anemia, que pode estar associada a fadiga, redução da capacidade funcional e aumento do risco cardiovascular
 	ClinicalRelevance *string `gorm:"type:text" json:"clinicalRelevance,omitempty"`

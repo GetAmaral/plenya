@@ -1,0 +1,125 @@
+# Exemplos de Score Items para Testar Age Range Detection
+
+Este arquivo contém exemplos de nomes de scoreItems reais e esperados do sistema Plenya.
+Use para validar manualmente se os padrões estão sendo detectados corretamente.
+
+## Formato
+Nome do Item → min-max esperado
+
+## Ranges Exatos (X-Y anos)
+
+Hemoglobina - Adultos 18-65 anos → 18-65
+Colesterol LDL - 20 a 60 anos → 20-60
+TSH adultos (30-70 anos) → 30-70
+Glicose jejum 18-65 anos → 18-65
+Vitamina D (adultos 20 a 70 anos) → 20-70
+Ferro sérico - 18-50 anos → 18-50
+
+## Menor Que (< X anos)
+
+Hemoglobina < 18 anos → 0-18
+Glicose pediátrica menor que 12 anos → 0-12
+TSH crianças abaixo de 10 anos → 0-10
+Colesterol < 20 anos → 0-20
+Cálcio sérico <18 anos → 0-18
+
+## Maior Que (> X anos)
+
+PSA > 50 anos → 50-150
+Colesterol maior que 60 anos → 60-150
+Glicose acima de 65 anos → 65-150
+TSH idosos >70 anos → 70-150
+Vitamina B12 > 60 anos → 60-150
+
+## Mais de (X+ anos)
+
+Mamografia 40+ anos → 40-150
+Colonoscopia 50+ → 50-150
+PSA screening 45 + anos → 45-150
+Densitometria óssea 65+ → 65-150
+CA 125 50+ anos → 50-150
+
+## DEVE IGNORAR (Fases Fisiológicas)
+
+Estradiol - Pré-menopausa → null
+Progesterona - Pós-menopausa → null
+hCG - Gestação → null
+Prolactina - Lactante → null
+FSH - Fase folicular → null
+LH - Fase lútea → null
+Estradiol - Ovulatório → null
+Progesterona - Gestante → null
+
+## SEM Range (Geral)
+
+Hemoglobina - Homens → null
+Hemoglobina - Mulheres → null
+Glicose em jejum → null
+Colesterol Total → null
+TSH → null
+FEVE (Fração de Ejeção) → null
+Creatinina → null
+Ureia → null
+
+## Casos Especiais
+
+PSA - Homens 50+ anos → 50-999
+Mamografia - Mulheres 40-69 anos → 40-69
+Colonoscopia screening (45+ anos) → 45-999
+Densitometria - Mulheres pós-menopausa → null (ignorar pós-menopausa)
+Testosterona - Homens adultos 18-70 anos → 18-70
+
+## Edge Cases para Testar
+
+Hemoglobina 80-20 anos → null (inválido: min > max)
+Glicose 200-300 anos → null (inválido: idade > 150)
+Colesterol anos → null (sem número)
+TSH 18 65 anos → null (sem separador válido)
+Vitamina D < > anos → null (padrão malformado)
+
+## Verificação Manual
+
+Para verificar se um padrão foi detectado corretamente:
+
+1. Adicione o nome do item no array de testes (main_test.go)
+2. Rode: make test-age-range
+3. Ou teste manualmente:
+
+```go
+result := detectAgeRange("Hemoglobina - Adultos 18-65 anos")
+fmt.Printf("Min: %v, Max: %v, Detected: %v\n", result.Min, result.Max, result.Detected)
+// Esperado: Min: 18, Max: 65, Detected: true
+```
+
+## Casos Reais do Banco (Exemplos)
+
+Estes são exemplos de scoreItems que podem existir no banco de dados:
+
+1. "Hemoglobina - Homens" → null (sem idade)
+2. "Hemoglobina - Mulheres" → null (sem idade)
+3. "Hemoglobina - Adultos 18-65 anos" → 18-65
+4. "PSA - Homens > 50 anos" → 50-150
+5. "Mamografia - Mulheres 40-69 anos" → 40-69
+6. "Colesterol LDL < 20 anos" → 0-20
+7. "Glicose em jejum" → null (sem idade)
+8. "FEVE (Fração de Ejeção do Ventrículo Esquerdo)" → null (sem idade)
+9. "Estradiol - Pré-menopausa" → null (ignorar)
+10. "TSH - Gestante" → null (ignorar)
+
+## Validação
+
+Após rodar o script, valide os resultados:
+
+```sql
+-- Ver todos os ranges detectados
+SELECT name, age_range_min, age_range_max
+FROM score_items
+WHERE age_range_min IS NOT NULL
+ORDER BY age_range_min;
+
+-- Verificar se algum padrão não foi detectado
+SELECT name
+FROM score_items
+WHERE name ~ '(\d+)\s*[-a]\s*(\d+)\s*anos?'
+  AND age_range_min IS NULL;
+```

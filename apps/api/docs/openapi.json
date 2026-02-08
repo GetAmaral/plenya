@@ -10908,6 +10908,10 @@
                             }
                         ]
                     },
+                    "menopause": {
+                        "description": "Indica se a paciente está na menopausa (apenas para gender=female)\n@example true",
+                        "type": "boolean"
+                    },
                     "motherName": {
                         "description": "Nome da mãe (opcional)\n@example Maria da Silva",
                         "type": "string"
