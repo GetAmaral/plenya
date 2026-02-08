@@ -11,6 +11,27 @@ definitions:
     required:
     - scoreItemId
     type: object
+  dto.AppleOAuthRequest:
+    properties:
+      idToken:
+        type: string
+      user:
+        $ref: '#/definitions/dto.AppleUser'
+    required:
+    - idToken
+    type: object
+  dto.AppleUser:
+    properties:
+      name:
+        $ref: '#/definitions/dto.AppleUserName'
+    type: object
+  dto.AppleUserName:
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+    type: object
   dto.AuthResponse:
     properties:
       accessToken:
@@ -94,17 +115,12 @@ definitions:
         type: string
       level:
         type: integer
-      referenceRange:
-        type: string
+      matched:
+        description: true se matched com definição catalogada
+        type: boolean
       resultNumeric:
         type: number
       resultText:
-        type: string
-      status:
-        enum:
-        - pending
-        - completed
-        - cancelled
         type: string
       testName:
         maxLength: 200
@@ -115,7 +131,6 @@ definitions:
       unit:
         type: string
     required:
-    - status
     - testName
     - testType
     type: object
@@ -142,7 +157,30 @@ definitions:
       birthDate:
         description: 'formato: YYYY-MM-DD'
         type: string
+      bloodType:
+        allOf:
+        - $ref: '#/definitions/models.BloodType'
+        enum:
+        - A+
+        - A-
+        - B+
+        - B-
+        - AB+
+        - AB-
+        - O+
+        - O-
       cpf:
+        type: string
+      email:
+        maxLength: 200
+        type: string
+      emergencyContact:
+        maxLength: 200
+        minLength: 3
+        type: string
+      emergencyPhone:
+        maxLength: 20
+        minLength: 10
         type: string
       fatherName:
         maxLength: 200
@@ -157,6 +195,15 @@ definitions:
         - other
       height:
         type: number
+      maritalStatus:
+        allOf:
+        - $ref: '#/definitions/models.MaritalStatus'
+        enum:
+        - single
+        - married
+        - divorced
+        - widowed
+        - other
       motherName:
         maxLength: 200
         minLength: 3
@@ -168,22 +215,41 @@ definitions:
         maxLength: 200
         minLength: 3
         type: string
+      occupation:
+        maxLength: 200
+        type: string
       phone:
         maxLength: 20
         minLength: 10
         type: string
+      rg:
+        maxLength: 20
+        type: string
+      socialGender:
+        allOf:
+        - $ref: '#/definitions/models.SocialGender'
+        enum:
+        - male
+        - female
+        - non_binary
+        - trans_male
+        - trans_female
+        - other
+        - prefer_not_to_say
       state:
         type: string
       weight:
         type: number
     required:
     - birthDate
-    - cpf
     - gender
     - name
     type: object
   dto.CreateUserRequest:
     properties:
+      cpf:
+        description: 'Formato: 123.456.789-00 ou sem formatação'
+        type: string
       email:
         type: string
       name:
@@ -218,6 +284,13 @@ definitions:
       message:
         type: string
     type: object
+  dto.GoogleOAuthRequest:
+    properties:
+      idToken:
+        type: string
+    required:
+    - idToken
+    type: object
   dto.LabResultBatchDetailResponse:
     properties:
       attachments:
@@ -239,6 +312,8 @@ definitions:
       observations:
         type: string
       patientId:
+        type: string
+      pdfContentJson:
         type: string
       requestingDoctorId:
         type: string
@@ -269,6 +344,8 @@ definitions:
         type: string
       patientId:
         type: string
+      pdfContentJson:
+        type: string
       requestingDoctorId:
         type: string
       resultCount:
@@ -294,13 +371,9 @@ definitions:
         type: string
       level:
         type: integer
-      referenceRange:
-        type: string
       resultNumeric:
         type: number
       resultText:
-        type: string
-      status:
         type: string
       testName:
         type: string
@@ -346,9 +419,24 @@ definitions:
     properties:
       address:
         type: string
+      age:
+        type: integer
+      ageText:
+        type: string
       birthDate:
         type: string
+      bloodType:
+        $ref: '#/definitions/models.BloodType'
+      cpf:
+        description: Retornado descriptografado para profissionais de saúde
+        type: string
       createdAt:
+        type: string
+      email:
+        type: string
+      emergencyContact:
+        type: string
+      emergencyPhone:
         type: string
       fatherName:
         type: string
@@ -358,14 +446,23 @@ definitions:
         type: number
       id:
         type: string
+      maritalStatus:
+        $ref: '#/definitions/models.MaritalStatus'
       motherName:
         type: string
       municipality:
         type: string
       name:
         type: string
+      occupation:
+        type: string
       phone:
         type: string
+      rg:
+        description: Retornado descriptografado para profissionais de saúde
+        type: string
+      socialGender:
+        $ref: '#/definitions/models.SocialGender'
       state:
         type: string
       updatedAt:
@@ -374,6 +471,50 @@ definitions:
         type: string
       weight:
         type: number
+    type: object
+  dto.ProcessingJobResponse:
+    description: Resposta com status do processamento assíncrono
+    properties:
+      attempts:
+        example: 1
+        type: integer
+      completedAt:
+        example: "2024-01-20T15:05:00Z"
+        type: string
+      createdAt:
+        example: "2024-01-20T15:04:05Z"
+        type: string
+      errorMessage:
+        example: OCR extraction failed
+        type: string
+      id:
+        example: 019c1a1e-0579-7f3b-a1bd-4767008e844c
+        type: string
+      labResultBatchId:
+        example: 019c1a1e-0579-7f3b-a1bd-4767008e844c
+        type: string
+      progressMessage:
+        example: Extraindo conteúdo do PDF para texto
+        type: string
+      progressStep:
+        example: 3
+        type: integer
+      startedAt:
+        example: "2024-01-20T15:04:10Z"
+        type: string
+      status:
+        allOf:
+        - $ref: '#/definitions/models.ProcessingJobStatus'
+        enum:
+        - pending
+        - processing
+        - completed
+        - failed
+        example: processing
+      type:
+        allOf:
+        - $ref: '#/definitions/models.ProcessingJobType'
+        example: pdf_extraction
     type: object
   dto.RefreshRequest:
     properties:
@@ -471,13 +612,9 @@ definitions:
         type: string
       level:
         type: integer
-      referenceRange:
-        type: string
       resultNumeric:
         type: number
       resultText:
-        type: string
-      status:
         type: string
       testName:
         maxLength: 200
@@ -521,6 +658,31 @@ definitions:
       birthDate:
         description: 'formato: YYYY-MM-DD'
         type: string
+      bloodType:
+        allOf:
+        - $ref: '#/definitions/models.BloodType'
+        enum:
+        - A+
+        - A-
+        - B+
+        - B-
+        - AB+
+        - AB-
+        - O+
+        - O-
+      cpf:
+        type: string
+      email:
+        maxLength: 200
+        type: string
+      emergencyContact:
+        maxLength: 200
+        minLength: 3
+        type: string
+      emergencyPhone:
+        maxLength: 20
+        minLength: 10
+        type: string
       fatherName:
         maxLength: 200
         minLength: 3
@@ -534,6 +696,15 @@ definitions:
         - other
       height:
         type: number
+      maritalStatus:
+        allOf:
+        - $ref: '#/definitions/models.MaritalStatus'
+        enum:
+        - single
+        - married
+        - divorced
+        - widowed
+        - other
       motherName:
         maxLength: 200
         minLength: 3
@@ -545,10 +716,27 @@ definitions:
         maxLength: 200
         minLength: 3
         type: string
+      occupation:
+        maxLength: 200
+        type: string
       phone:
         maxLength: 20
         minLength: 10
         type: string
+      rg:
+        maxLength: 20
+        type: string
+      socialGender:
+        allOf:
+        - $ref: '#/definitions/models.SocialGender'
+        enum:
+        - male
+        - female
+        - non_binary
+        - trans_male
+        - trans_female
+        - other
+        - prefer_not_to_say
       state:
         type: string
       weight:
@@ -556,6 +744,9 @@ definitions:
     type: object
   dto.UpdateProfileRequest:
     properties:
+      cpf:
+        description: 'Formato: 123.456.789-00 ou sem formatação'
+        type: string
       crm:
         maxLength: 20
         type: string
@@ -586,6 +777,9 @@ definitions:
     type: object
   dto.UpdateUserRequest:
     properties:
+      cpf:
+        description: 'Formato: 123.456.789-00 ou sem formatação'
+        type: string
       email:
         type: string
       name:
@@ -604,11 +798,15 @@ definitions:
     type: object
   dto.UserDTO:
     properties:
+      cpf:
+        type: string
       createdAt:
         type: string
       email:
         type: string
       id:
+        type: string
+      name:
         type: string
       preferences:
         additionalProperties: true
@@ -639,6 +837,8 @@ definitions:
     type: object
   dto.UserResponse:
     properties:
+      cpf:
+        type: string
       createdAt:
         type: string
       crm:
@@ -919,6 +1119,26 @@ definitions:
     - publishDate
     - title
     type: object
+  models.BloodType:
+    enum:
+    - A+
+    - A-
+    - B+
+    - B-
+    - AB+
+    - AB-
+    - O+
+    - O-
+    type: string
+    x-enum-varnames:
+    - BloodTypeAPositive
+    - BloodTypeANegative
+    - BloodTypeBPositive
+    - BloodTypeBNegative
+    - BloodTypeABPositive
+    - BloodTypeABNegative
+    - BloodTypeOPositive
+    - BloodTypeONegative
   models.Gender:
     enum:
     - male
@@ -1072,9 +1292,11 @@ definitions:
       level:
         description: Nível/Prioridade do resultado (opcional)
         type: integer
-      referenceRange:
-        description: Valores de referência
-        type: string
+      matched:
+        description: |-
+          Indica se o exame foi matched com uma definição catalogada
+          true = matched com LabTestDefinition, false = extraído mas não catalogado
+        type: boolean
       resultNumeric:
         description: Resultado numérico (para exames quantitativos)
         type: number
@@ -1137,6 +1359,19 @@ definitions:
         description: Relacionamentos
       patientId:
         description: ID do paciente
+        type: string
+      pdfContentFull:
+        description: Conteúdo completo extraído do PDF via OCR (texto bruto)
+        type: string
+      pdfContentJson:
+        description: Conteúdo processado pela IA em formato JSON estruturado
+        type: string
+      pdfContentNeedAi:
+        description: Conteúdo que precisa de IA (após remover exames já matched via
+          pré-matching)
+        type: string
+      pdfContentShort:
+        description: Conteúdo processado/limpo do PDF (removendo ruído)
         type: string
       requestingDoctor:
         $ref: '#/definitions/models.User'
@@ -1338,6 +1573,15 @@ definitions:
   models.LabTestDefinition:
     description: Definição estruturada de exames e seus parâmetros
     properties:
+      altNames:
+        description: |-
+          Nomes alternativos para matching em PDFs (sempre inclui Name também)
+          Array de strings com variações do nome encontradas em laudos
+          NUNCA incluir siglas (siglas vão em ShortName)
+          @example ["Hemoglobina", "Hemoglobina total", "Hemoglobina - Homens", "Hemoglobina - Mulheres"]
+        items:
+          type: string
+        type: array
       category:
         allOf:
         - $ref: '#/definitions/models.LabTestCategory'
@@ -1424,14 +1668,16 @@ definitions:
           Tipo de resultado
           @enum numeric, text, boolean, categorical
         type: string
-      scoreMappings:
-        description: Mapeamentos para itens do escore
+      scoreItems:
+        description: |-
+          ScoreItems relacionados via código (oneToMany: labTestDefinition.code -> scoreItem.labTestCode)
+          Múltiplos ScoreItems podem ter o mesmo código (ex: variantes por gênero/idade)
         items:
-          $ref: '#/definitions/models.LabTestScoreMapping'
+          $ref: '#/definitions/models.ScoreItem'
         type: array
       shortName:
         description: |-
-          Nome curto/abreviação (opcional)
+          Nome curto/abreviação (opcional) - usado para exibição
           @example Hemograma, Hb, Gli
         type: string
       specimenType:
@@ -1468,49 +1714,135 @@ definitions:
     - name
     - resultType
     type: object
-  models.LabTestScoreMapping:
-    description: Mapeamento entre exame e item do escore Plenya
+  models.MaritalStatus:
+    enum:
+    - single
+    - married
+    - divorced
+    - widowed
+    - other
+    type: string
+    x-enum-varnames:
+    - MaritalStatusSingle
+    - MaritalStatusMarried
+    - MaritalStatusDivorced
+    - MaritalStatusWidowed
+    - MaritalStatusOther
+  models.MedicationCategory:
+    enum:
+    - simple
+    - c1
+    - c5
+    - antibiotic
+    - glp1
+    type: string
+    x-enum-comments:
+      MedCategoryAntibiotic: Antimicrobianos (RDC 471)
+      MedCategoryC1: Controle Especial (Lista C1)
+      MedCategoryC5: Psicotrópicos (Lista C5)
+      MedCategoryGLP1: GLP-1 agonistas
+      MedCategorySimple: Receita simples
+    x-enum-descriptions:
+    - Receita simples
+    - Controle Especial (Lista C1)
+    - Psicotrópicos (Lista C5)
+    - Antimicrobianos (RDC 471)
+    - GLP-1 agonistas
+    x-enum-varnames:
+    - MedCategorySimple
+    - MedCategoryC1
+    - MedCategoryC5
+    - MedCategoryAntibiotic
+    - MedCategoryGLP1
+  models.MedicationDefinition:
+    description: Definição de medicamento com regras regulatórias (ANVISA)
     properties:
+      activeIngredient:
+        description: |-
+          Princípio ativo (DCB - Denominação Comum Brasileira)
+          @minLength 3
+          @maxLength 500
+          @example Cloridrato de Fluoxetina
+        maxLength: 500
+        minLength: 3
+        type: string
+      anvisaCode:
+        description: |-
+          Código ANVISA do medicamento
+          @example 1234567890123
+        type: string
+      category:
+        allOf:
+        - $ref: '#/definitions/models.MedicationCategory'
+        description: |-
+          Categoria regulatória do medicamento
+          @enum simple,c1,c5,antibiotic,glp1
+        enum:
+        - simple
+        - c1
+        - c5
+        - antibiotic
+        - glp1
+      commonName:
+        description: |-
+          Nome comercial comum do medicamento
+          @minLength 3
+          @maxLength 500
+          @example Fluoxetina 20mg
+        maxLength: 500
+        minLength: 3
+        type: string
       createdAt:
         description: Timestamps
         type: string
-      gender:
-        allOf:
-        - $ref: '#/definitions/models.Gender'
-        description: |-
-          Especificação de gênero (se o mapeamento for específico)
-          @enum male, female, null (ambos)
       id:
+        description: |-
+          ID único da definição
+          @example 550e8400-e29b-41d4-a716-446655440000
         type: string
-      isActive:
-        description: Status
+      maxPerPrescription:
+        description: |-
+          Máximo de substâncias por prescrição
+          @example 3
+          C1: máximo 3 substâncias
+        maximum: 100
+        minimum: 1
+        type: integer
+      maxTreatmentDays:
+        description: |-
+          Duração máxima do tratamento em dias
+          @example 60
+          C1: 60 dias, Anticonvulsivantes: 180 dias
+        maximum: 365
+        minimum: 1
+        type: integer
+      requiresDigitalSignature:
+        description: |-
+          Requer assinatura digital ICP-Brasil
+          true para medicamentos controlados (C1, C5)
         type: boolean
-      labTest:
-        allOf:
-        - $ref: '#/definitions/models.LabTestDefinition'
-        description: Relacionamentos
-      labTestId:
-        description: ID do exame laboratorial
-        type: string
-      maxAge:
-        description: Faixa etária máxima (em anos)
-        type: integer
-      minAge:
-        description: Faixa etária mínima (em anos)
-        type: integer
-      notes:
-        description: Observações sobre o mapeamento
-        type: string
-      scoreItem:
-        $ref: '#/definitions/models.ScoreItem'
-      scoreItemId:
-        description: ID do item do escore
-        type: string
+      requiresSNCR:
+        description: |-
+          Requer registro no SNCR (Sistema Nacional de Controle de Receitas)
+          true para medicamentos controlados
+        type: boolean
       updatedAt:
         type: string
+      validityDays:
+        description: |-
+          Dias de validade da prescrição
+          @example 30
+          C1: 30 dias, Antibióticos: 10 dias, GLP1: 90 dias, Simples: 30 dias
+        maximum: 365
+        minimum: 1
+        type: integer
     required:
-    - labTestId
-    - scoreItemId
+    - activeIngredient
+    - category
+    - commonName
+    - maxPerPrescription
+    - maxTreatmentDays
+    - validityDays
     type: object
   models.Patient:
     description: Paciente com dados pessoais e médicos
@@ -1518,13 +1850,55 @@ definitions:
       address:
         description: Endereço residencial (opcional)
         type: string
+      age:
+        description: |-
+          Idade em anos (calculado automaticamente)
+          @example 35
+        type: integer
+      ageText:
+        description: |-
+          Idade formatada (calculado automaticamente)
+          @example 35a6m15d
+        type: string
       birthDate:
         description: |-
           Data de nascimento
           @example 1990-01-01
         type: string
+      bloodType:
+        allOf:
+        - $ref: '#/definitions/models.BloodType'
+        description: |-
+          Tipo sanguíneo (opcional)
+          @enum A+,A-,B+,B-,AB+,AB-,O+,O-
+          @example A+
+        enum:
+        - A+
+        - A-
+        - B+
+        - B-
+        - AB+
+        - AB-
+        - O+
+        - O-
       createdAt:
         description: Data de criação
+        type: string
+      email:
+        description: |-
+          Email pessoal (opcional)
+          @example joao@email.com
+        type: string
+      emergencyContact:
+        description: |-
+          Nome do contato de emergência (opcional)
+          @example Maria da Silva
+        type: string
+      emergencyPhone:
+        description: |-
+          Telefone do contato de emergência (opcional)
+          @example (11) 99999-9999
+        minLength: 10
         type: string
       fatherName:
         description: |-
@@ -1535,7 +1909,7 @@ definitions:
         allOf:
         - $ref: '#/definitions/models.Gender'
         description: |-
-          Gênero do paciente
+          Gênero biológico do paciente
           @enum male,female,other
           @example male
         enum:
@@ -1552,6 +1926,19 @@ definitions:
           ID único do paciente
           @example 550e8400-e29b-41d4-a716-446655440000
         type: string
+      maritalStatus:
+        allOf:
+        - $ref: '#/definitions/models.MaritalStatus'
+        description: |-
+          Estado civil (opcional)
+          @enum single,married,divorced,widowed,other
+          @example married
+        enum:
+        - single
+        - married
+        - divorced
+        - widowed
+        - other
       motherName:
         description: |-
           Nome da mãe (opcional)
@@ -1571,12 +1958,32 @@ definitions:
         maxLength: 200
         minLength: 3
         type: string
+      occupation:
+        description: |-
+          Profissão/ocupação (opcional)
+          @example Engenheiro
+        type: string
       phone:
         description: |-
           Telefone de contato (opcional)
           @example (11) 98765-4321
         minLength: 10
         type: string
+      socialGender:
+        allOf:
+        - $ref: '#/definitions/models.SocialGender'
+        description: |-
+          Identidade de gênero social (opcional)
+          @enum male,female,non_binary,trans_male,trans_female,other,prefer_not_to_say
+          @example female
+        enum:
+        - male
+        - female
+        - non_binary
+        - trans_male
+        - trans_female
+        - other
+        - prefer_not_to_say
       state:
         description: |-
           Estado/UF de residência (opcional)
@@ -1602,6 +2009,24 @@ definitions:
     - gender
     - name
     type: object
+  models.ProcessingJobStatus:
+    enum:
+    - pending
+    - processing
+    - completed
+    - failed
+    type: string
+    x-enum-varnames:
+    - ProcessingJobPending
+    - ProcessingJobProcessing
+    - ProcessingJobCompleted
+    - ProcessingJobFailed
+  models.ProcessingJobType:
+    enum:
+    - pdf_extraction
+    type: string
+    x-enum-varnames:
+    - ProcessingJobTypePDFExtraction
   models.ScoreGroup:
     description: Grupo de escores clínicos - categoria principal
     properties:
@@ -1656,12 +2081,6 @@ definitions:
           Relevância clínica - explicação técnica para profissionais de saúde
           @example Valores baixos de hemoglobina indicam anemia, que pode estar associada a fadiga, redução da capacidade funcional e aumento do risco cardiovascular
         type: string
-      code:
-        description: |-
-          Código único para identificação programática (opcional)
-          @example HGB_M, GLUCOSE_FASTING, IMC, BREASTFEEDING_DURATION
-        maxLength: 100
-        type: string
       conduct:
         description: |-
           Conduta clínica recomendada
@@ -1672,6 +2091,13 @@ definitions:
         type: string
       id:
         description: '@example 550e8400-e29b-41d4-a716-446655440000'
+        type: string
+      labTestCode:
+        description: |-
+          Código de referência para LabTestDefinition (pode ser compartilhado entre múltiplos score_items)
+          Liga ao lab_test_definitions.code para associar resultados de exames
+          @example PLN585CE3E3, PLNF66C0E48, GLUCOSE_FASTING
+        maxLength: 100
         type: string
       lastReview:
         description: |-
@@ -1859,13 +2285,46 @@ definitions:
     - groupId
     - name
     type: object
+  models.SocialGender:
+    enum:
+    - male
+    - female
+    - non_binary
+    - trans_male
+    - trans_female
+    - other
+    - prefer_not_to_say
+    type: string
+    x-enum-varnames:
+    - SocialGenderMale
+    - SocialGenderFemale
+    - SocialGenderNonBinary
+    - SocialGenderTransMale
+    - SocialGenderTransFemale
+    - SocialGenderOther
+    - SocialGenderPreferNotToSay
   models.User:
     description: Usuário base do sistema (profissionais e pacientes)
     properties:
+      certificateActive:
+        description: |-
+          Se o certificado está ativo (desativa automaticamente se CPF do usuário mudar)
+          @example true
+        type: boolean
+      certificateCPF:
+        description: |-
+          CPF do titular do certificado (extraído do certificado ICP-Brasil)
+          @example 123.456.789-00
+        type: string
       certificateExpiry:
         description: |-
           Data de expiração do certificado A1
           @example 2027-12-31T23:59:59Z
+        type: string
+      certificateName:
+        description: |-
+          Nome do titular do certificado (extraído do certificado ICP-Brasil)
+          @example João da Silva
         type: string
       certificateSerial:
         description: |-
@@ -1905,6 +2364,9 @@ definitions:
           @example Dr. João da Silva
         maxLength: 200
         minLength: 3
+        type: string
+      oauthPictureURL:
+        description: OAuth profile picture URL
         type: string
       preferences:
         description: |-
@@ -2267,6 +2729,92 @@ info:
   title: Plenya EMR API
   version: "1.0"
 paths:
+  /admin/certificates/{userId}/toggle:
+    patch:
+      consumes:
+      - application/json
+      description: Ativa ou desativa o certificado de um usuário (admin only)
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success message
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Toggle certificate active status
+      tags:
+      - Certificates
+  /admin/certificates/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Admin uploads certificate A1 (.pfx) for a doctor with password
+      parameters:
+      - description: Doctor UUID
+        in: formData
+        name: doctorId
+        required: true
+        type: string
+      - description: Certificate password
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: Certificate file (.pfx or .p12)
+        in: formData
+        name: certificate
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success and message
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden - admin only
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Upload digital certificate A1 for doctor
+      tags:
+      - Certificates
   /api/v1/anamnesis-templates:
     get:
       parameters:
@@ -2474,6 +3022,82 @@ paths:
       summary: Search anamnesis templates
       tags:
       - AnamnesisTemplates
+  /api/v1/auth/oauth/apple:
+    post:
+      consumes:
+      - application/json
+      description: Autentica usuário via Apple Sign In
+      parameters:
+      - description: Apple ID Token
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AppleOAuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Login com Apple
+      tags:
+      - auth
+  /api/v1/auth/oauth/google:
+    post:
+      consumes:
+      - application/json
+      description: Autentica usuário via Google OAuth 2.0
+      parameters:
+      - description: Google ID Token
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GoogleOAuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Login com Google
+      tags:
+      - auth
   /api/v1/lab-request-templates:
     get:
       parameters:
@@ -2995,6 +3619,35 @@ paths:
       summary: Get lab requests by date range
       tags:
       - LabRequests
+  /api/v1/lab-requests/validate/{id}:
+    get:
+      description: Validates a lab request using its ID and QR code (no authentication
+        required)
+      parameters:
+      - description: Lab Request UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Validation result with lab request, patient, and doctor info
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Validate lab request publicly
+      tags:
+      - LabRequests
   /api/v1/lab-result-batches:
     get:
       consumes:
@@ -3149,6 +3802,48 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorResponse'
       summary: Atualizar resultado
+      tags:
+      - LabResultBatch
+  /api/v1/lab-result-batches/{batchId}/upload-pdf:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload de PDF de laudo médico para interpretação automática via
+        IA
+      parameters:
+      - description: Batch ID (UUID)
+        in: path
+        name: batchId
+        required: true
+        type: string
+      - description: PDF file (max 20MB)
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: PDF uploaded and job created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Upload de PDF de laudo médico
       tags:
       - LabResultBatch
   /api/v1/lab-result-batches/{id}:
@@ -3752,34 +4447,6 @@ paths:
       summary: Update lab test definition
       tags:
       - LabTests
-  /api/v1/lab-tests/definitions/{id}/score-mappings:
-    get:
-      parameters:
-      - description: Lab test ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.LabTestScoreMapping'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dto.ErrorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dto.ErrorResponse'
-      summary: Get mappings for lab test
-      tags:
-      - LabTests
   /api/v1/lab-tests/definitions/{id}/sub-tests:
     get:
       parameters:
@@ -3877,115 +4544,6 @@ paths:
       summary: Get requestable lab tests
       tags:
       - LabTests
-  /api/v1/lab-tests/score-mappings:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: Mapping data
-        in: body
-        name: mapping
-        required: true
-        schema:
-          $ref: '#/definitions/models.LabTestScoreMapping'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/models.LabTestScoreMapping'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dto.ErrorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dto.ErrorResponse'
-      summary: Create lab test score mapping
-      tags:
-      - LabTests
-  /api/v1/lab-tests/score-mappings/{id}:
-    delete:
-      parameters:
-      - description: Mapping ID
-        in: path
-        name: id
-        required: true
-        type: string
-      responses:
-        "204":
-          description: No Content
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dto.ErrorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dto.ErrorResponse'
-      summary: Delete lab test score mapping
-      tags:
-      - LabTests
-    get:
-      parameters:
-      - description: Mapping ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.LabTestScoreMapping'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dto.ErrorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dto.ErrorResponse'
-      summary: Get lab test score mapping by ID
-      tags:
-      - LabTests
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: Mapping ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: Updated mapping data
-        in: body
-        name: mapping
-        required: true
-        schema:
-          $ref: '#/definitions/models.LabTestScoreMapping'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.LabTestScoreMapping'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dto.ErrorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/dto.ErrorResponse'
-      summary: Update lab test score mapping
-      tags:
-      - LabTests
   /api/v1/patients/{patientId}/lab-requests:
     get:
       parameters:
@@ -4073,6 +4631,48 @@ paths:
       summary: Get latest value for test
       tags:
       - LabResults
+  /api/v1/processing-jobs/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 'Busca informações e status atual de um job de processamento assíncrono
+        (ex: extração de PDF)'
+      parameters:
+      - description: Job ID (UUID)
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProcessingJobResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Buscar status de job de processamento
+      tags:
+      - ProcessingJobs
   /api/v1/profile:
     get:
       responses:
@@ -6011,6 +6611,96 @@ paths:
       summary: Registrar novo usuário
       tags:
       - auth
+  /certificates:
+    get:
+      description: Admin sees all certificates, doctors see only their own
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of certificates
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List all certificates
+      tags:
+      - Certificates
+  /certificates/{userId}:
+    delete:
+      description: Admin can delete any certificate, doctors can delete only their
+        own
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success message
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete certificate
+      tags:
+      - Certificates
+  /certificates/status:
+    get:
+      description: Returns certificate expiry and validity status for the authenticated
+        doctor
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: hasCertificate, validUntil, daysUntilExpiry, needsRenewal
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get certificate status for logged-in doctor
+      tags:
+      - Certificates
   /health:
     get:
       consumes:
@@ -6027,6 +6717,201 @@ paths:
       summary: Health Check
       tags:
       - health
+  /medication-definitions:
+    get:
+      description: Get all medication definitions with optional category filter
+      parameters:
+      - description: Filter by category (simple, c1, c5, antibiotic, glp1)
+        in: query
+        name: category
+        type: string
+      - default: 20
+        description: Limit
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data, total, page, limit
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List medication definitions
+      tags:
+      - MedicationDefinitions
+    post:
+      consumes:
+      - application/json
+      description: Create a new medication definition (admin only)
+      parameters:
+      - description: Medication definition data
+        in: body
+        name: medication
+        required: true
+        schema:
+          $ref: '#/definitions/models.MedicationDefinition'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.MedicationDefinition'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create medication definition
+      tags:
+      - MedicationDefinitions
+  /medication-definitions/{id}:
+    delete:
+      description: Soft delete a medication definition (admin only)
+      parameters:
+      - description: Medication Definition UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete medication definition
+      tags:
+      - MedicationDefinitions
+    get:
+      description: Get a single medication definition
+      parameters:
+      - description: Medication Definition UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MedicationDefinition'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get medication definition by ID
+      tags:
+      - MedicationDefinitions
+    put:
+      consumes:
+      - application/json
+      description: Update an existing medication definition (admin only)
+      parameters:
+      - description: Medication Definition UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Medication definition data
+        in: body
+        name: medication
+        required: true
+        schema:
+          $ref: '#/definitions/models.MedicationDefinition'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MedicationDefinition'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update medication definition
+      tags:
+      - MedicationDefinitions
+  /medication-definitions/search:
+    get:
+      description: Search medications by name or active ingredient (autocomplete)
+      parameters:
+      - description: Search query
+        in: query
+        name: q
+        required: true
+        type: string
+      - default: 10
+        description: Limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.MedicationDefinition'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Search medication definitions
+      tags:
+      - MedicationDefinitions
   /patients:
     get:
       consumes:
@@ -6207,6 +7092,67 @@ paths:
       summary: Atualizar paciente
       tags:
       - patients
+  /prescriptions/{id}/sign:
+    post:
+      description: Signs prescription with doctor's digital certificate and generates
+        PDF with QR code
+      parameters:
+      - description: Prescription UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: signedPdfUrl, sncrNumber
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Sign prescription and generate signed PDF
+      tags:
+      - Prescriptions
+  /prescriptions/validate/{id}:
+    get:
+      description: Public endpoint for validating prescription authenticity via QR
+        code
+      parameters:
+      - description: Prescription UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: validation result with prescription details
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Validate prescription (public - no auth)
+      tags:
+      - Prescriptions
   /users/me:
     get:
       consumes:

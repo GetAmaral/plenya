@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { ArrowLeft, Save, User } from "lucide-react";
+import { ArrowLeft, Save, User, Heart, AlertCircle } from "lucide-react";
 import { useFormNavigation } from "@/lib/use-form-navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,9 @@ interface Patient {
   cpf?: string;
   birthDate: string;
   gender: "male" | "female" | "other";
+  socialGender?: "male" | "female" | "non_binary" | "trans_male" | "trans_female" | "other" | "prefer_not_to_say";
+  age: number;
+  ageText: string;
   phone?: string;
   address?: string;
   municipality?: string;
@@ -39,6 +42,13 @@ interface Patient {
   fatherName?: string;
   height?: number;
   weight?: number;
+  rg?: string;
+  email?: string;
+  bloodType?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+  maritalStatus?: "single" | "married" | "divorced" | "widowed" | "other";
+  occupation?: string;
+  emergencyContact?: string;
+  emergencyPhone?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -46,8 +56,11 @@ interface Patient {
 interface UpdatePatientForm {
   name: string;
   cpf?: string;
+  rg?: string;
   birthDate: string;
   gender: "male" | "female" | "other";
+  socialGender?: "male" | "female" | "non_binary" | "trans_male" | "trans_female" | "other" | "prefer_not_to_say";
+  email?: string;
   phone?: string;
   address?: string;
   municipality?: string;
@@ -56,6 +69,11 @@ interface UpdatePatientForm {
   fatherName?: string;
   height?: number;
   weight?: number;
+  bloodType?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+  maritalStatus?: "single" | "married" | "divorced" | "widowed" | "other";
+  occupation?: string;
+  emergencyContact?: string;
+  emergencyPhone?: string;
 }
 
 export default function EditPatientPage() {
@@ -86,8 +104,11 @@ export default function EditPatientPage() {
     defaultValues: {
       name: patient?.name || "",
       cpf: patient?.cpf || "",
+      rg: patient?.rg || "",
       birthDate: patient?.birthDate || "",
       gender: patient?.gender || "male",
+      socialGender: patient?.socialGender || undefined,
+      email: patient?.email || "",
       phone: patient?.phone || "",
       address: patient?.address || "",
       municipality: patient?.municipality || "",
@@ -96,6 +117,11 @@ export default function EditPatientPage() {
       fatherName: patient?.fatherName || "",
       height: patient?.height || undefined,
       weight: patient?.weight || undefined,
+      bloodType: patient?.bloodType || undefined,
+      maritalStatus: patient?.maritalStatus || undefined,
+      occupation: patient?.occupation || "",
+      emergencyContact: patient?.emergencyContact || "",
+      emergencyPhone: patient?.emergencyPhone || "",
     },
   });
 
@@ -104,8 +130,11 @@ export default function EditPatientPage() {
     if (patient) {
       setValue("name", patient.name, { shouldDirty: false });
       setValue("cpf", patient.cpf || "", { shouldDirty: false });
+      setValue("rg", patient.rg || "", { shouldDirty: false });
       setValue("birthDate", patient.birthDate, { shouldDirty: false });
       setValue("gender", patient.gender, { shouldDirty: false });
+      setValue("socialGender", patient.socialGender, { shouldDirty: false });
+      setValue("email", patient.email || "", { shouldDirty: false });
       setValue("phone", patient.phone || "", { shouldDirty: false });
       setValue("address", patient.address || "", { shouldDirty: false });
       setValue("municipality", patient.municipality || "", { shouldDirty: false });
@@ -114,6 +143,11 @@ export default function EditPatientPage() {
       setValue("fatherName", patient.fatherName || "", { shouldDirty: false });
       setValue("height", patient.height, { shouldDirty: false });
       setValue("weight", patient.weight, { shouldDirty: false });
+      setValue("bloodType", patient.bloodType, { shouldDirty: false });
+      setValue("maritalStatus", patient.maritalStatus, { shouldDirty: false });
+      setValue("occupation", patient.occupation || "", { shouldDirty: false });
+      setValue("emergencyContact", patient.emergencyContact || "", { shouldDirty: false });
+      setValue("emergencyPhone", patient.emergencyPhone || "", { shouldDirty: false });
     }
   }, [patient, setValue]);
 
@@ -136,19 +170,28 @@ export default function EditPatientPage() {
     // Limpar CPF (remover formatação: apenas dígitos)
     let cleanCPF: string | undefined = undefined;
     if (data.cpf && data.cpf.trim() !== "") {
-      cleanCPF = data.cpf.replace(/\D/g, ""); // Remove tudo que não é dígito
+      cleanCPF = data.cpf.replace(/\D/g, "");
       if (cleanCPF.length !== 11) {
         toast.error("CPF deve ter exatamente 11 dígitos");
         return;
       }
     }
 
+    // Limpar RG (remover formatação: apenas dígitos e letras)
+    let cleanRG: string | undefined = undefined;
+    if (data.rg && data.rg.trim() !== "") {
+      cleanRG = data.rg.replace(/[^\dA-Za-z]/g, "");
+    }
+
     // Limpar campos vazios (enviar undefined ao invés de string vazia)
     const cleanData = {
       name: data.name,
       cpf: cleanCPF,
+      rg: cleanRG,
       birthDate: data.birthDate,
       gender: data.gender,
+      socialGender: data.socialGender,
+      email: data.email && data.email.trim() !== "" ? data.email : undefined,
       phone: data.phone && data.phone.trim() !== "" ? data.phone : undefined,
       address: data.address && data.address.trim() !== "" ? data.address : undefined,
       municipality: data.municipality && data.municipality.trim() !== "" ? data.municipality : undefined,
@@ -157,6 +200,11 @@ export default function EditPatientPage() {
       fatherName: data.fatherName && data.fatherName.trim() !== "" ? data.fatherName : undefined,
       height: data.height && data.height > 0 ? data.height : undefined,
       weight: data.weight && data.weight > 0 ? data.weight : undefined,
+      bloodType: data.bloodType,
+      maritalStatus: data.maritalStatus,
+      occupation: data.occupation && data.occupation.trim() !== "" ? data.occupation : undefined,
+      emergencyContact: data.emergencyContact && data.emergencyContact.trim() !== "" ? data.emergencyContact : undefined,
+      emergencyPhone: data.emergencyPhone && data.emergencyPhone.trim() !== "" ? data.emergencyPhone : undefined,
     };
 
     updateMutation.mutate(cleanData);
@@ -184,6 +232,9 @@ export default function EditPatientPage() {
   }
 
   const selectedGender = watch("gender");
+  const selectedSocialGender = watch("socialGender");
+  const selectedBloodType = watch("bloodType");
+  const selectedMaritalStatus = watch("maritalStatus");
 
   return (
     <div className="min-h-screen p-6">
@@ -273,6 +324,51 @@ export default function EditPatientPage() {
                   </div>
                 </div>
 
+                <div className="space-y-2">
+                  <Label htmlFor="socialGender">Gênero Social</Label>
+                  <Select
+                    value={selectedSocialGender}
+                    onValueChange={(value) =>
+                      setValue("socialGender", value as "male" | "female" | "non_binary" | "trans_male" | "trans_female" | "other" | "prefer_not_to_say")
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione o gênero social" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="male">Masculino</SelectItem>
+                      <SelectItem value="female">Feminino</SelectItem>
+                      <SelectItem value="non_binary">Não-binário</SelectItem>
+                      <SelectItem value="trans_male">Homem Trans</SelectItem>
+                      <SelectItem value="trans_female">Mulher Trans</SelectItem>
+                      <SelectItem value="other">Outro</SelectItem>
+                      <SelectItem value="prefer_not_to_say">Prefiro não dizer</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="email">E-mail</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    {...register("email", {
+                      validate: (value) => {
+                        if (!value || value.trim() === "") return true;
+                        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+                          return "E-mail inválido";
+                        return true;
+                      },
+                    })}
+                    placeholder="joao@example.com"
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-destructive">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
+
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="cpf">CPF</Label>
@@ -298,6 +394,28 @@ export default function EditPatientPage() {
                   </div>
 
                   <div className="space-y-2">
+                    <Label htmlFor="rg">RG</Label>
+                    <Input
+                      id="rg"
+                      {...register("rg", {
+                        validate: (value) => {
+                          if (!value || value.trim() === "") return true;
+                          if (value.length > 20) return "RG não pode ter mais de 20 caracteres";
+                          return true;
+                        },
+                      })}
+                      placeholder="00.000.000-0"
+                    />
+                    {errors.rg && (
+                      <p className="text-sm text-destructive">
+                        {errors.rg.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
                     <Label htmlFor="phone">Telefone</Label>
                     <Input
                       id="phone"
@@ -317,6 +435,47 @@ export default function EditPatientPage() {
                       </p>
                     )}
                   </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="maritalStatus">Estado Civil</Label>
+                    <Select
+                      value={selectedMaritalStatus}
+                      onValueChange={(value) =>
+                        setValue("maritalStatus", value as "single" | "married" | "divorced" | "widowed" | "other")
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o estado civil" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="single">Solteiro(a)</SelectItem>
+                        <SelectItem value="married">Casado(a)</SelectItem>
+                        <SelectItem value="divorced">Divorciado(a)</SelectItem>
+                        <SelectItem value="widowed">Viúvo(a)</SelectItem>
+                        <SelectItem value="other">Outro</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="occupation">Ocupação</Label>
+                  <Input
+                    id="occupation"
+                    {...register("occupation", {
+                      validate: (value) => {
+                        if (!value || value.trim() === "") return true;
+                        if (value.length > 100) return "Ocupação não pode ter mais de 100 caracteres";
+                        return true;
+                      },
+                    })}
+                    placeholder="Engenheiro de Software"
+                  />
+                  {errors.occupation && (
+                    <p className="text-sm text-destructive">
+                      {errors.occupation.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -434,6 +593,62 @@ export default function EditPatientPage() {
               </CardContent>
             </Card>
 
+            {/* Informações de Saúde */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader className="flex flex-row items-center gap-2">
+                <Heart className="h-5 w-5 text-muted-foreground" />
+                <CardTitle>Informações de Saúde</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="age">Idade</Label>
+                    <Input
+                      id="age"
+                      type="number"
+                      value={patient.age}
+                      readOnly
+                      className="bg-muted"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="ageText">Idade Detalhada</Label>
+                    <Input
+                      id="ageText"
+                      value={patient.ageText}
+                      readOnly
+                      className="bg-muted"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="bloodType">Tipo Sanguíneo</Label>
+                  <Select
+                    value={selectedBloodType}
+                    onValueChange={(value) =>
+                      setValue("bloodType", value as "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-")
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione o tipo sanguíneo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="A+">A+</SelectItem>
+                      <SelectItem value="A-">A-</SelectItem>
+                      <SelectItem value="B+">B+</SelectItem>
+                      <SelectItem value="B-">B-</SelectItem>
+                      <SelectItem value="AB+">AB+</SelectItem>
+                      <SelectItem value="AB-">AB-</SelectItem>
+                      <SelectItem value="O+">O+</SelectItem>
+                      <SelectItem value="O-">O-</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Medidas */}
             <Card className="border-0 shadow-lg">
               <CardHeader>
@@ -484,6 +699,58 @@ export default function EditPatientPage() {
                   {errors.weight && (
                     <p className="text-sm text-destructive">
                       {errors.weight.message}
+                    </p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Contato de Emergência */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader className="flex flex-row items-center gap-2">
+                <AlertCircle className="h-5 w-5 text-muted-foreground" />
+                <CardTitle>Contato de Emergência</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="emergencyContact">Nome do Contato</Label>
+                  <Input
+                    id="emergencyContact"
+                    {...register("emergencyContact", {
+                      validate: (value) => {
+                        if (!value || value.trim() === "") return true;
+                        if (value.length < 3) return "Nome deve ter pelo menos 3 caracteres";
+                        if (value.length > 200) return "Nome não pode ter mais de 200 caracteres";
+                        return true;
+                      },
+                    })}
+                    placeholder="Maria da Silva"
+                  />
+                  {errors.emergencyContact && (
+                    <p className="text-sm text-destructive">
+                      {errors.emergencyContact.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="emergencyPhone">Telefone de Emergência</Label>
+                  <Input
+                    id="emergencyPhone"
+                    type="tel"
+                    {...register("emergencyPhone", {
+                      validate: (value) => {
+                        if (!value || value.trim() === "") return true;
+                        if (value.length < 10) return "Telefone deve ter pelo menos 10 caracteres";
+                        if (value.length > 20) return "Telefone não pode ter mais de 20 caracteres";
+                        return true;
+                      },
+                    })}
+                    placeholder="(11) 98765-4321"
+                  />
+                  {errors.emergencyPhone && (
+                    <p className="text-sm text-destructive">
+                      {errors.emergencyPhone.message}
                     </p>
                   )}
                 </div>

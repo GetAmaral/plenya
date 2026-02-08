@@ -18,6 +18,7 @@ import (
 	"github.com/plenya/api/internal/handlers"
 	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/repository"
+	"github.com/plenya/api/internal/scheduler"
 	"github.com/plenya/api/internal/services"
 )
 
@@ -119,6 +120,10 @@ func main() {
 
 	// Iniciar worker de processamento (background)
 	go startProcessingWorker(processingJobService)
+
+	// Iniciar scheduler de atualização de idade dos pacientes
+	patientAgeJob := scheduler.NewPatientAgeJob(database.DB)
+	patientAgeJob.Start()
 
 	// Iniciar servidor
 	log.Printf("🚀 Server starting on port %s (environment: %s)", cfg.Server.Port, cfg.Server.Environment)

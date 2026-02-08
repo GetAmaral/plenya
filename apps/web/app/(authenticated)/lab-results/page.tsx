@@ -122,12 +122,40 @@ export default function LabResultsPage() {
       if (!batch.labResults || batch.labResults.length === 0) return;
 
       batch.labResults.forEach((result) => {
-        const key = `${result.testType}::${result.testName}`;
+        // DEBUG: Log para HOMA BETA
+        if (result.testName?.toLowerCase().includes('homa') && result.testName?.toLowerCase().includes('beta')) {
+          console.log('🔍 HOMA BETA found:', {
+            testName: result.testName,
+            labTestDefinitionId: result.labTestDefinitionId,
+            hasLabTestDefinition: !!result.labTestDefinition,
+            labTestDefinition: result.labTestDefinition,
+          });
+        }
+
+        // Se tem link com definição, usar dados da definição
+        // Senão, usar dados manuais do resultado
+        let key: string;
+        let displayName: string;
+        let displayType: string;
+
+        if (result.labTestDefinitionId && result.labTestDefinition) {
+          // IMPORTANTE: Agrupar pelo ID da definição quando há link
+          key = `def::${result.labTestDefinitionId}`;
+          displayName = result.labTestDefinition.name;
+          displayType = result.labTestDefinition.category || "other";
+        } else {
+          // Sem link: agrupar pelo nome manual
+          key = `manual::${result.testType}::${result.testName}`;
+          displayName = result.testName;
+          displayType = result.testType;
+        }
+
+        console.log('🔑 Key generated:', { testName: result.testName, key, displayName });
 
         if (!rowsMap.has(key)) {
           rowsMap.set(key, {
-            testType: result.testType,
-            testName: result.testName,
+            testType: displayType,
+            testName: displayName,
             dates: new Map(),
           });
         }

@@ -40,6 +40,8 @@ interface Patient {
   userId: string;
   name: string;
   birthDate: string;
+  age: number;
+  ageText: string;
   gender: "male" | "female" | "other";
   phone: string;
   createdAt: string;
@@ -110,12 +112,16 @@ export default function PatientsPage() {
     },
     {
       accessorKey: "birthDate",
-      header: "Data de Nascimento",
+      header: "Idade / Nascimento",
       cell: ({ row }) => {
         const date = new Date(row.getValue("birthDate"));
+        const age = row.original.age;
         return (
-          <div className="text-sm text-muted-foreground">
-            {format(date, "dd/MM/yyyy", { locale: ptBR })}
+          <div className="text-sm">
+            <span className="font-medium">{age}</span>
+            <span className="text-muted-foreground">
+              {" "}({format(date, "dd/MM/yyyy", { locale: ptBR })})
+            </span>
           </div>
         );
       },

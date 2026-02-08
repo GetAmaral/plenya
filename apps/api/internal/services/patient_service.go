@@ -41,19 +41,27 @@ func (s *PatientService) Create(userID uuid.UUID, req *dto.CreatePatientRequest)
 
 	// Criar paciente
 	patient := models.Patient{
-		UserID:       userID,
-		Name:         req.Name,
-		CPF:          req.CPF, // Será criptografado pelo hook
-		BirthDate:    birthDate,
-		Gender:       req.Gender,
-		Phone:        req.Phone,
-		Address:      req.Address,
-		Municipality: req.Municipality,
-		State:        req.State,
-		MotherName:   req.MotherName,
-		FatherName:   req.FatherName,
-		Height:       req.Height,
-		Weight:       req.Weight,
+		UserID:           userID,
+		Name:             req.Name,
+		CPF:              req.CPF,              // Será criptografado pelo hook
+		RG:               req.RG,               // Será criptografado pelo hook
+		BirthDate:        birthDate,
+		Gender:           req.Gender,
+		SocialGender:     req.SocialGender,
+		Email:            req.Email,
+		Phone:            req.Phone,
+		Address:          req.Address,
+		Municipality:     req.Municipality,
+		State:            req.State,
+		MotherName:       req.MotherName,
+		FatherName:       req.FatherName,
+		Height:           req.Height,
+		Weight:           req.Weight,
+		BloodType:        req.BloodType,
+		MaritalStatus:    req.MaritalStatus,
+		Occupation:       req.Occupation,
+		EmergencyContact: req.EmergencyContact,
+		EmergencyPhone:   req.EmergencyPhone,
 	}
 
 	if err := s.db.Create(&patient).Error; err != nil {
@@ -129,6 +137,9 @@ func (s *PatientService) Update(patientID, userID uuid.UUID, userRole models.Rol
 	if req.CPF != nil {
 		patient.CPF = req.CPF
 	}
+	if req.RG != nil {
+		patient.RG = req.RG
+	}
 	if req.BirthDate != nil {
 		birthDate, err := time.Parse("2006-01-02", *req.BirthDate)
 		if err != nil {
@@ -138,6 +149,12 @@ func (s *PatientService) Update(patientID, userID uuid.UUID, userRole models.Rol
 	}
 	if req.Gender != nil {
 		patient.Gender = *req.Gender
+	}
+	if req.SocialGender != nil {
+		patient.SocialGender = req.SocialGender
+	}
+	if req.Email != nil {
+		patient.Email = req.Email
 	}
 	if req.Phone != nil {
 		patient.Phone = req.Phone
@@ -162,6 +179,21 @@ func (s *PatientService) Update(patientID, userID uuid.UUID, userRole models.Rol
 	}
 	if req.Weight != nil {
 		patient.Weight = req.Weight
+	}
+	if req.BloodType != nil {
+		patient.BloodType = req.BloodType
+	}
+	if req.MaritalStatus != nil {
+		patient.MaritalStatus = req.MaritalStatus
+	}
+	if req.Occupation != nil {
+		patient.Occupation = req.Occupation
+	}
+	if req.EmergencyContact != nil {
+		patient.EmergencyContact = req.EmergencyContact
+	}
+	if req.EmergencyPhone != nil {
+		patient.EmergencyPhone = req.EmergencyPhone
 	}
 
 	if err := s.db.Save(&patient).Error; err != nil {
@@ -195,21 +227,31 @@ func (s *PatientService) Delete(patientID, userID uuid.UUID, userRole models.Rol
 // toDTO converte Patient para PatientResponse
 func (s *PatientService) toDTO(patient *models.Patient) *dto.PatientResponse {
 	return &dto.PatientResponse{
-		ID:           patient.ID.String(),
-		UserID:       patient.UserID.String(),
-		Name:         patient.Name,
-		CPF:          patient.CPF, // Já foi descriptografado pelo AfterFind hook
-		BirthDate:    patient.BirthDate.Format("2006-01-02"),
-		Gender:       patient.Gender,
-		Phone:        patient.Phone,
-		Address:      patient.Address,
-		Municipality: patient.Municipality,
-		State:        patient.State,
-		MotherName:   patient.MotherName,
-		FatherName:   patient.FatherName,
-		Height:       patient.Height,
-		Weight:       patient.Weight,
-		CreatedAt:    patient.CreatedAt.Format(time.RFC3339),
-		UpdatedAt:    patient.UpdatedAt.Format(time.RFC3339),
+		ID:               patient.ID.String(),
+		UserID:           patient.UserID.String(),
+		Name:             patient.Name,
+		CPF:              patient.CPF,              // Já foi descriptografado pelo AfterFind hook
+		RG:               patient.RG,               // Já foi descriptografado pelo AfterFind hook
+		BirthDate:        patient.BirthDate.Format("2006-01-02"),
+		Gender:           patient.Gender,
+		SocialGender:     patient.SocialGender,
+		Age:              patient.Age,
+		AgeText:          patient.AgeText,
+		Email:            patient.Email,
+		Phone:            patient.Phone,
+		Address:          patient.Address,
+		Municipality:     patient.Municipality,
+		State:            patient.State,
+		MotherName:       patient.MotherName,
+		FatherName:       patient.FatherName,
+		Height:           patient.Height,
+		Weight:           patient.Weight,
+		BloodType:        patient.BloodType,
+		MaritalStatus:    patient.MaritalStatus,
+		Occupation:       patient.Occupation,
+		EmergencyContact: patient.EmergencyContact,
+		EmergencyPhone:   patient.EmergencyPhone,
+		CreatedAt:        patient.CreatedAt.Format(time.RFC3339),
+		UpdatedAt:        patient.UpdatedAt.Format(time.RFC3339),
 	}
 }

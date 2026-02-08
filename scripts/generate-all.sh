@@ -41,9 +41,9 @@ echo ""
 # 3. Gerar TypeScript types do OpenAPI
 echo "📦 [3/4] Gerando TypeScript types do OpenAPI..."
 cd packages/types
-if [ -f "../../apps/api/docs/swagger.json" ]; then
+if [ -f "../../apps/api/docs/openapi.json" ]; then
     mkdir -p src/generated
-    npx openapi-typescript ../../apps/api/docs/swagger.json -o src/generated/api-types.ts
+    npx openapi-typescript ../../apps/api/docs/openapi.json -o src/generated/api-types.ts
     echo "✅ TypeScript types gerados"
 else
     echo "⚠️  OpenAPI spec não encontrado. Execute generate:openapi primeiro."
@@ -54,8 +54,8 @@ echo ""
 # 4. Gerar Zod schemas do OpenAPI
 echo "✨ [4/4] Gerando Zod schemas do OpenAPI..."
 cd packages/types
-if [ -f "../../apps/api/docs/swagger.json" ]; then
-    npx openapi-zod-client ../../apps/api/docs/swagger.json \
+if [ -f "../../apps/api/docs/openapi.json" ]; then
+    npx openapi-zod-client ../../apps/api/docs/openapi.json \
         -o src/generated/api-schemas.ts \
         --export-schemas
     echo "✅ Zod schemas gerados"
@@ -71,7 +71,7 @@ echo "╚═══════════════════════�
 echo ""
 echo "Arquivos gerados automaticamente:"
 echo "  📁 apps/api/database/migrations/*.sql        ← SQL gerado do Go"
-echo "  📁 apps/api/docs/swagger.json                ← OpenAPI do Go"
+echo "  📁 apps/api/docs/openapi.json                ← OpenAPI 3.0 do Go"
 echo "  📁 packages/types/src/generated/api-types.ts ← TS do OpenAPI"
 echo "  📁 packages/types/src/generated/api-schemas.ts ← Zod do OpenAPI"
 echo ""
