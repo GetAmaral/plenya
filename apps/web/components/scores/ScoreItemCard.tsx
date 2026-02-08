@@ -299,18 +299,7 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
 }
 
 // Memoize component to prevent unnecessary re-renders during expansion
-export const ScoreItemCard = memo(ScoreItemCardComponent, (prevProps, nextProps) => {
-  // Return true if props are equal (don't re-render), false otherwise (re-render)
-  return (
-    prevProps.item.id === nextProps.item.id &&
-    prevProps.item.name === nextProps.item.name &&
-    prevProps.item.points === nextProps.item.points &&
-    prevProps.item.unit === nextProps.item.unit &&
-    prevProps.item.unitConversion === nextProps.item.unitConversion &&
-    prevProps.item.order === nextProps.item.order &&
-    prevProps.item.updatedAt === nextProps.item.updatedAt &&
-    prevProps.isExpanded === nextProps.isExpanded &&
-    prevProps.expandClinicalTexts === nextProps.expandClinicalTexts &&
-    prevProps.item.lastReview === nextProps.item.lastReview
-  )
-})
+// CRITICAL: We use default shallow comparison now because the custom comparison
+// was not checking item.levels array, causing badges to not update when levels changed.
+// Default shallow comparison checks all top-level properties including object/array references.
+export const ScoreItemCard = memo(ScoreItemCardComponent)

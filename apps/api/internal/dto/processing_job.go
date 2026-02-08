@@ -14,6 +14,8 @@ type ProcessingJobResponse struct {
 	LabResultBatchID uuid.UUID                    `json:"labResultBatchId" example:"019c1a1e-0579-7f3b-a1bd-4767008e844c"`
 	Type             models.ProcessingJobType     `json:"type" example:"pdf_extraction"`
 	Status           models.ProcessingJobStatus   `json:"status" example:"processing" enums:"pending,processing,completed,failed"`
+	ProgressStep     *int                         `json:"progressStep,omitempty" example:"3"`
+	ProgressMessage  *string                      `json:"progressMessage,omitempty" example:"Extraindo conteúdo do PDF para texto"`
 	ErrorMessage     *string                      `json:"errorMessage,omitempty" example:"OCR extraction failed"`
 	Attempts         int                          `json:"attempts" example:"1"`
 	CreatedAt        time.Time                    `json:"createdAt" example:"2024-01-20T15:04:05Z"`

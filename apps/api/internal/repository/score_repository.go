@@ -240,7 +240,7 @@ func (r *ScoreRepository) UpdateScoreItem(item *models.ScoreItem) error {
 	// CRITICAL: Don't pass item to Model(), only ID - otherwise GORM uses loaded relations
 	updates := map[string]interface{}{
 		"name":                item.Name,
-		"code":                item.Code,
+		"lab_test_code":       item.LabTestCode,
 		"unit":                item.Unit,
 		"unit_conversion":     item.UnitConversion,
 		"clinical_relevance":  item.ClinicalRelevance,

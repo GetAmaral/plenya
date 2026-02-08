@@ -38,11 +38,11 @@ func NewAIService(cfg *config.Config) *AIService {
 }
 
 // InterpretLabResult - interpreta laudo médico via Claude API com structured output
+// Retorna JSON string diretamente com exames extraídos
 func (s *AIService) InterpretLabResult(
 	ocrText string,
-	availableTests []dto.LabTestSummary,
-) (*dto.AILabResultExtractionResponse, error) {
-	prompt := s.buildPrompt(ocrText, availableTests)
+) (string, error) {
+	prompt := s.buildPrompt(ocrText, nil)
 
 	payload := map[string]interface{}{
 		"model":       s.model,
@@ -66,12 +66,12 @@ func (s *AIService) InterpretLabResult(
 
 	jsonPayload, err := json.Marshal(payload)
 	if err != nil {
-		return nil, fmt.Errorf("failed to marshal payload: %v", err)
+		return "", fmt.Errorf("failed to marshal payload: %v", err)
 	}
 
 	req, err := http.NewRequest("POST", "https://api.anthropic.com/v1/messages", bytes.NewBuffer(jsonPayload))
 	if err != nil {
-		return nil, fmt.Errorf("failed to create request: %v", err)
+		return "", fmt.Errorf("failed to create request: %v", err)
 	}
 
 	req.Header.Set("Content-Type", "application/json")
@@ -80,13 +80,13 @@ func (s *AIService) InterpretLabResult(
 
 	resp, err := s.httpClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to call Claude API: %v", err)
+		return "", fmt.Errorf("failed to call Claude API: %v", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
 		body, _ := io.ReadAll(resp.Body)
-		return nil, fmt.Errorf("claude api error %d: %s", resp.StatusCode, string(body))
+		return "", fmt.Errorf("claude api error %d: %s", resp.StatusCode, string(body))
 	}
 
 	var apiResp struct {
@@ -105,14 +105,14 @@ func (s *AIService) InterpretLabResult(
 	// Ler body inteiro para debug
 	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read response body: %v", err)
+		return "", fmt.Errorf("failed to read response body: %v", err)
 	}
 
 	// Debug: log resposta completa do Claude
 	fmt.Printf("🤖 Claude API Response (first 2000 chars): %s\n", string(bodyBytes[:min(2000, len(bodyBytes))]))
 
 	if err := json.Unmarshal(bodyBytes, &apiResp); err != nil {
-		return nil, fmt.Errorf("failed to decode response: %v", err)
+		return "", fmt.Errorf("failed to decode response: %v", err)
 	}
 
 	// Log token usage for cost tracking
@@ -125,139 +125,165 @@ func (s *AIService) InterpretLabResult(
 		if content.Type == "tool_use" {
 			fmt.Printf("🔍 Tool use input (first 500 chars): %s\n", string(content.Input[:min(500, len(content.Input))]))
 
-			// Tentar parse direto primeiro
-			var result dto.AILabResultExtractionResponse
-			if err := json.Unmarshal(content.Input, &result); err != nil {
-				// Se falhar, pode ser que labResults veio como string JSON
-				// Tentar parse com struct intermediária
-				var rawResult struct {
-					LaboratoryName string          `json:"laboratoryName"`
-					CollectionDate string          `json:"collectionDate"`
-					ResultDate     string          `json:"resultDate"`
-					LabResults     json.RawMessage `json:"labResults"`
-				}
-				if err2 := json.Unmarshal(content.Input, &rawResult); err2 != nil {
-					return nil, fmt.Errorf("failed to parse tool input: %v (also tried raw: %v)", err, err2)
-				}
-
-				result.LaboratoryName = rawResult.LaboratoryName
-				result.CollectionDate = rawResult.CollectionDate
-				result.ResultDate = rawResult.ResultDate
-
-				// labResults pode ser array ou string com JSON
-				labResultsBytes := []byte(rawResult.LabResults)
-				// Se começa com aspas, é uma string JSON que precisa ser unescaped
-				if len(labResultsBytes) > 0 && labResultsBytes[0] == '"' {
-					var labResultsStr string
-					if err := json.Unmarshal(labResultsBytes, &labResultsStr); err != nil {
-						return nil, fmt.Errorf("failed to unmarshal labResults string: %v", err)
-					}
-					labResultsBytes = []byte(labResultsStr)
-				}
-				if err := json.Unmarshal(labResultsBytes, &result.LabResults); err != nil {
-					return nil, fmt.Errorf("failed to parse labResults array: %v", err)
-				}
-			}
-
-			fmt.Printf("✅ Parsed result: laboratoryName=%s, labResults count=%d\n", result.LaboratoryName, len(result.LabResults))
-			return &result, nil
+			// Retornar JSON diretamente como string
+			return string(content.Input), nil
 		}
 	}
 
-	return nil, fmt.Errorf("no tool_use in response")
+	return "", fmt.Errorf("no tool_use in response")
 }
 
 // buildPrompt - prompt otimizado para extração médica estruturada
 // NÃO envia definições de exames - apenas extrai dados brutos do OCR
 func (s *AIService) buildPrompt(ocrText string, tests []dto.LabTestSummary) string {
-	// Ignoramos tests - matching será feito localmente após extração
+	// Ignorar tests - não fazemos matching
 	_ = tests
 
-	return fmt.Sprintf(`# TAREFA: Extrair TODOS os Resultados de Exames Laboratoriais
+	return fmt.Sprintf(`# TAREFA: Extrair Dados de Exames Laboratoriais
 
-Analise o texto OCR abaixo e extraia TODOS os resultados de exames encontrados.
+Analise o texto OCR abaixo e extraia TODOS os exames em formato JSON.
 
 ## TEXTO OCR DO LAUDO
 %s
 
-## INSTRUÇÕES CRÍTICAS
+## INSTRUÇÕES
 
-1. **EXTRAIA ABSOLUTAMENTE TODOS OS EXAMES** - não pule nenhum resultado
-2. **Informações gerais do laudo:**
-   - laboratoryName: nome do laboratório (procure no cabeçalho)
-   - collectionDate: data de coleta (formato YYYY-MM-DD)
-   - resultDate: data do resultado (formato YYYY-MM-DD)
+Para CADA exame encontrado, extraia estes campos:
 
-3. **Para CADA exame encontrado, extraia:**
-   - testName: nome exato do exame como aparece no laudo
-   - testType: biochemistry, hematology, hormones, immunology, urinalysis, microbiology, ou other
-   - resultNumeric: valor numérico (ex: 95.5) - use ponto decimal, não vírgula
-   - resultText: resultado textual para exames qualitativos (ex: "Negativo", "Normal")
-   - unit: unidade de medida (ex: "mg/dL", "g/dL", "mEq/L", "%%")
-   - referenceRange: faixa de referência como texto (ex: "70-100 mg/dL")
-   - interpretation: interpretação se houver (ex: "Normal", "Alterado")
-   - matched: sempre false (matching será feito depois)
-   - labTestDefinitionId: sempre null (será preenchido depois)
+**Obrigatórios:**
+1. **nomeExame**: nome do exame como aparece no laudo
+2. **resultado**: valor do resultado (número ou texto)
 
-4. **IMPORTANTE:**
-   - Extraia TODOS os exames, mesmo que pareçam repetidos
-   - Hemograma inclui múltiplos parâmetros: Hemácias, Hemoglobina, Hematócrito, VCM, HCM, CHCM, RDW, Leucócitos, Plaquetas, etc - extraia CADA UM separadamente
-   - Perfil Lipídico inclui: Colesterol Total, HDL, LDL, VLDL, Triglicerídeos - extraia CADA UM
-   - Exames hormonais: TSH, T4, T3, Testosterona, Estradiol, Cortisol, etc
-   - Números brasileiros usam vírgula como decimal (1,5 = 1.5)
-   - NUNCA invente dados - extraia apenas o que está no texto`, ocrText)
+**Opcionais (OMITIR se não encontrar):**
+3. **unidade**: unidade de medida (mg/dL, g/dL, etc)
+4. **material**: material biológico (Soro, Sangue, Urina, etc)
+5. **metodo**: método usado (Enzimático, ELISA, etc)
+
+## REGRAS CRÍTICAS
+
+- Extraia TODOS os exames (Hemograma completo = múltiplos exames separados)
+- **OMITA campos opcionais se não encontrar** (não envie campo vazio para economizar tokens)
+- Descarte valores de referência, interpretações, notas
+- Números brasileiros: use ponto decimal (1.5 não 1,5)
+- NUNCA invente dados
+
+## ELETROFORESE DE PROTEÍNAS - REGRA ESPECIAL
+
+Se encontrar "ELETROFORESE DE PROTEÍNAS" ou "PROTEIN ELECTROPHORESIS", extraia CADA fração como exame separado:
+
+**IMPORTANTE:** Cada fração possui dois valores: percentual (%%) e concentração absoluta (g/dL).
+**EXTRAIA APENAS o valor em g/dL** (ignore o valor em %%).
+
+Exemplo no laudo:
+
+    Albumina...............: 62,1 %%
+    Albumina g/dL..........: 4,04 g/dL
+    Alfa-1-globulina.......: 3,6 %%
+    Alfa-1-globulina g/dL..: 0,23 g/dL
+
+Deve extrair:
+
+    [
+      {"nomeExame": "Albumina", "resultado": "4.04", "unidade": "g/dL"},
+      {"nomeExame": "Alfa-1-globulina", "resultado": "0.23", "unidade": "g/dL"}
+    ]
+
+**Frações a extrair (APENAS valores g/dL):**
+- Albumina (g/dL)
+- Alfa-1-globulina (g/dL) ou Alfa 1 (g/dL)
+- Alfa-2-globulina (g/dL) ou Alfa 2 (g/dL)
+- Beta-1-globulina (g/dL) ou Beta 1 (g/dL)
+- Beta-2-globulina (g/dL) ou Beta 2 (g/dL)
+- Gama-globulina (g/dL) ou Gama (g/dL)
+- Relação A/G (valor numérico sem unidade)
+- Proteínas totais (g/dL)
+
+## MICROALBUMINÚRIA - REGRA ESPECIAL
+
+Se encontrar "MICROALBUMINÚRIA" ou "MICROALBUMINURIA", extraia APENAS a relação calculada:
+
+**IMPORTANTE:** O laudo geralmente apresenta 3 valores:
+1. Microalbuminúria (valor absoluto em mg/L)
+2. Creatinina urinária (valor absoluto em g/L ou mg/dL)
+3. Relação Microalbuminuria/Creatinina (mg/g) ← **ESTE É O VALOR CLÍNICO IMPORTANTE**
+
+**EXTRAIA APENAS a Relação Microalbuminuria/Creatinina** (ignore os valores individuais).
+
+Exemplo no laudo:
+
+    Microalbuminúria...........: 12,5 mg/L
+    Creatinina urinária........: 200 mg/dL
+    Relação Microalbuminuria/Creatinina: 0,625 mg/g
+
+Deve extrair:
+
+    [
+      {"nomeExame": "Relação Microalbuminuria/Creatinina", "resultado": "0.625", "unidade": "mg/g"}
+    ]
+
+**NÃO extrair** os valores individuais de Microalbuminúria e Creatinina quando estiver no contexto do exame de Microalbuminúria (esses valores sozinhos não têm valor clínico para este exame específico).
+
+## EXEMPLO DE SAÍDA
+
+[
+  {
+    "nomeExame": "Glicose",
+    "resultado": "95",
+    "unidade": "mg/dL",
+    "material": "Soro",
+    "metodo": "Enzimático"
+  },
+  {
+    "nomeExame": "Hemoglobina",
+    "resultado": "14.5",
+    "unidade": "g/dL"
+  },
+  {
+    "nomeExame": "Albumina",
+    "resultado": "4.04",
+    "unidade": "g/dL",
+    "material": "Soro"
+  },
+  {
+    "nomeExame": "Alfa-1-globulina",
+    "resultado": "0.23",
+    "unidade": "g/dL"
+  }
+]`, ocrText)
 }
 
 // buildJSONSchema - schema JSON para structured output (tool calling)
 func (s *AIService) buildJSONSchema() map[string]interface{} {
 	return map[string]interface{}{
 		"type":     "object",
-		"required": []string{"laboratoryName", "collectionDate", "labResults"},
+		"required": []string{"exames"},
 		"properties": map[string]interface{}{
-			"laboratoryName": map[string]string{
-				"type":        "string",
-				"description": "Nome do laboratório que realizou os exames",
-			},
-			"collectionDate": map[string]interface{}{
-				"type":        "string",
-				"pattern":     "^\\d{4}-\\d{2}-\\d{2}$",
-				"description": "Data de coleta no formato ISO 8601 (YYYY-MM-DD)",
-			},
-			"resultDate": map[string]interface{}{
-				"type":        "string",
-				"pattern":     "^\\d{4}-\\d{2}-\\d{2}$",
-				"description": "Data do resultado no formato ISO 8601 (YYYY-MM-DD)",
-			},
-			"labResults": map[string]interface{}{
+			"exames": map[string]interface{}{
 				"type":        "array",
-				"description": "Lista de TODOS os resultados de exames extraídos do laudo",
+				"description": "Lista de TODOS os exames extraídos do laudo",
 				"items": map[string]interface{}{
 					"type":     "object",
-					"required": []string{"testName", "testType"},
+					"required": []string{"nomeExame", "resultado"},
 					"properties": map[string]interface{}{
-						"testName": map[string]string{
+						"nomeExame": map[string]string{
 							"type":        "string",
-							"description": "Nome do exame conforme aparece no laudo",
+							"description": "Nome do exame conforme aparece no laudo (OBRIGATÓRIO)",
 						},
-						"testType": map[string]string{
+						"resultado": map[string]string{
 							"type":        "string",
-							"description": "Tipo: biochemistry, hematology, hormones, immunology, microbiology, urinalysis, other",
+							"description": "Valor do resultado (número ou texto) (OBRIGATÓRIO)",
 						},
-						"resultNumeric": map[string]interface{}{
-							"type":        []string{"number", "null"},
-							"description": "Valor numérico (use ponto decimal: 95.5, não 95,5)",
+						"unidade": map[string]string{
+							"type":        "string",
+							"description": "Unidade de medida (mg/dL, g/dL, etc) - OMITIR se não encontrar",
 						},
-						"resultText": map[string]interface{}{
-							"type":        []string{"string", "null"},
-							"description": "Resultado textual (Negativo, Normal, Reagente, etc)",
+						"material": map[string]string{
+							"type":        "string",
+							"description": "Material biológico (Soro, Sangue, Urina, etc) - OMITIR se não encontrar",
 						},
-						"unit": map[string]interface{}{
-							"type":        []string{"string", "null"},
-							"description": "Unidade (mg/dL, g/dL, mEq/L, UI/mL, etc)",
-						},
-						"referenceRange": map[string]interface{}{
-							"type":        []string{"string", "null"},
-							"description": "Faixa de referência completa",
+						"metodo": map[string]string{
+							"type":        "string",
+							"description": "Método usado (Enzimático, ELISA, etc) - OMITIR se não encontrar",
 						},
 					},
 				},

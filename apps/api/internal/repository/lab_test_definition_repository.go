@@ -36,9 +36,6 @@ func (r *LabTestDefinitionRepository) GetLabTestDefinitionByID(id uuid.UUID) (*m
 		Preload("SubTests", func(db *gorm.DB) *gorm.DB {
 			return db.Where("is_active = ?", true).Order("display_order ASC, name ASC")
 		}).
-		Preload("ScoreMappings", func(db *gorm.DB) *gorm.DB {
-			return db.Where("is_active = ?", true)
-		}).
 		First(&def, "id = ?", id).Error
 
 	if err != nil {
@@ -57,9 +54,6 @@ func (r *LabTestDefinitionRepository) GetLabTestDefinitionByCode(code string) (*
 		Preload("ParentTest").
 		Preload("SubTests", func(db *gorm.DB) *gorm.DB {
 			return db.Where("is_active = ?", true).Order("display_order ASC, name ASC")
-		}).
-		Preload("ScoreMappings", func(db *gorm.DB) *gorm.DB {
-			return db.Where("is_active = ?", true)
 		}).
 		First(&def, "code = ?", code).Error
 
@@ -134,78 +128,3 @@ func (r *LabTestDefinitionRepository) DeleteLabTestDefinition(id uuid.UUID) erro
 	return nil
 }
 
-// ============================================================
-// LabTestScoreMapping Operations
-// ============================================================
-
-// CreateLabTestScoreMapping creates a new mapping
-func (r *LabTestDefinitionRepository) CreateLabTestScoreMapping(mapping *models.LabTestScoreMapping) error {
-	return r.db.Create(mapping).Error
-}
-
-// GetLabTestScoreMappingByID retrieves a mapping by ID
-func (r *LabTestDefinitionRepository) GetLabTestScoreMappingByID(id uuid.UUID) (*models.LabTestScoreMapping, error) {
-	var mapping models.LabTestScoreMapping
-	err := r.db.
-		Preload("LabTest").
-		Preload("ScoreItem").
-		First(&mapping, "id = ?", id).Error
-
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("lab test score mapping not found")
-		}
-		return nil, err
-	}
-	return &mapping, nil
-}
-
-// GetMappingsForLabTest retrieves all score mappings for a lab test
-func (r *LabTestDefinitionRepository) GetMappingsForLabTest(labTestID uuid.UUID) ([]models.LabTestScoreMapping, error) {
-	var mappings []models.LabTestScoreMapping
-	err := r.db.
-		Where("lab_test_id = ? AND is_active = ?", labTestID, true).
-		Preload("ScoreItem").
-		Find(&mappings).Error
-	return mappings, err
-}
-
-// GetMappingForPatient retrieves the appropriate mapping for a specific patient
-func (r *LabTestDefinitionRepository) GetMappingForPatient(labTestID uuid.UUID, gender models.Gender, age int) (*models.LabTestScoreMapping, error) {
-	var mapping models.LabTestScoreMapping
-	err := r.db.
-		Where("lab_test_id = ? AND is_active = ?", labTestID, true).
-		Where("(gender IS NULL OR gender = ?)", gender).
-		Where("(min_age IS NULL OR min_age <= ?)", age).
-		Where("(max_age IS NULL OR max_age >= ?)", age).
-		Preload("ScoreItem").
-		Preload("ScoreItem.Levels", func(db *gorm.DB) *gorm.DB {
-			return db.Order("level ASC")
-		}).
-		First(&mapping).Error
-
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("no matching score mapping found for patient")
-		}
-		return nil, err
-	}
-	return &mapping, nil
-}
-
-// UpdateLabTestScoreMapping updates a mapping
-func (r *LabTestDefinitionRepository) UpdateLabTestScoreMapping(mapping *models.LabTestScoreMapping) error {
-	return r.db.Save(mapping).Error
-}
-
-// DeleteLabTestScoreMapping soft deletes a mapping
-func (r *LabTestDefinitionRepository) DeleteLabTestScoreMapping(id uuid.UUID) error {
-	result := r.db.Delete(&models.LabTestScoreMapping{}, "id = ?", id)
-	if result.Error != nil {
-		return result.Error
-	}
-	if result.RowsAffected == 0 {
-		return errors.New("lab test score mapping not found")
-	}
-	return nil
-}

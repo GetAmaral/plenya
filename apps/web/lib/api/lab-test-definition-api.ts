@@ -5,6 +5,7 @@ export interface LabTestDefinition {
   code: string
   name: string
   shortName?: string
+  altNames?: string[]
   category: string
   isRequestable: boolean
   unit?: string
@@ -15,6 +16,10 @@ export interface LabTestDefinition {
 }
 
 export const labTestDefinitionApi = {
+  // Busca TODOS os exames (para edição de resultados)
+  getAll: async () =>
+    apiClient.get<LabTestDefinition[]>('/api/v1/lab-tests/definitions'),
+
   // Busca apenas exames que podem ser solicitados (para formulários)
   getRequestable: async () =>
     apiClient.get<LabTestDefinition[]>('/api/v1/lab-tests/requestable'),

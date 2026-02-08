@@ -2,6 +2,7 @@
 
 import { useRequireAuth } from "@/lib/use-auth";
 import { CollapsibleSidebar, useSidebarWidth } from "@/components/layout/collapsible-sidebar";
+import { GlobalProcessingMonitor } from "@/components/processing/GlobalProcessingMonitor";
 
 export default function AuthenticatedLayout({
   children,
@@ -16,6 +17,7 @@ export default function AuthenticatedLayout({
   return (
     <div className="min-h-screen bg-background">
       <CollapsibleSidebar />
+      <GlobalProcessingMonitor />
       <main
         className="min-h-screen transition-all duration-300 ease-in-out"
         style={{

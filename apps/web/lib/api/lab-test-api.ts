@@ -49,20 +49,6 @@ export interface LabTestDefinition {
   updatedAt: string;
   parentTest?: LabTestDefinition;
   subTests?: LabTestDefinition[];
-  scoreMappings?: LabTestScoreMapping[];
-}
-
-export interface LabTestScoreMapping {
-  id: string;
-  labTestId: string;
-  scoreItemId: string;
-  gender?: Gender;
-  minAge?: number;
-  maxAge?: number;
-  notes?: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface LabResultValue {
@@ -110,15 +96,6 @@ export interface CreateLabResultValueDTO {
   notes?: string;
 }
 
-export interface CreateLabTestScoreMappingDTO {
-  labTestId: string;
-  scoreItemId: string;
-  gender?: Gender;
-  minAge?: number;
-  maxAge?: number;
-  notes?: string;
-  isActive?: boolean;
-}
 
 // ============================================================
 // Lab Test Definitions API
@@ -213,17 +190,6 @@ export const labTestDefinitionsApi = {
   delete: async (id: string): Promise<void> => {
     return apiClient.delete(`/api/v1/lab-tests/definitions/${id}`);
   },
-
-  /**
-   * Get score mappings for a lab test
-   */
-  getScoreMappings: async (
-    labTestId: string
-  ): Promise<LabTestScoreMapping[]> => {
-    return apiClient.get<LabTestScoreMapping[]>(
-      `/api/v1/lab-tests/definitions/${labTestId}/score-mappings`
-    );
-  },
 };
 
 // ============================================================
@@ -308,52 +274,6 @@ export const labResultValuesApi = {
   },
 };
 
-// ============================================================
-// Lab Test Score Mappings API
-// ============================================================
-
-export const labTestScoreMappingsApi = {
-  /**
-   * Create score mapping (admin only)
-   */
-  create: async (
-    data: CreateLabTestScoreMappingDTO
-  ): Promise<LabTestScoreMapping> => {
-    return apiClient.post<LabTestScoreMapping>(
-      "/api/v1/lab-tests/score-mappings",
-      data
-    );
-  },
-
-  /**
-   * Get score mapping by ID
-   */
-  getById: async (id: string): Promise<LabTestScoreMapping> => {
-    return apiClient.get<LabTestScoreMapping>(
-      `/api/v1/lab-tests/score-mappings/${id}`
-    );
-  },
-
-  /**
-   * Update score mapping (admin only)
-   */
-  update: async (
-    id: string,
-    data: Partial<CreateLabTestScoreMappingDTO>
-  ): Promise<LabTestScoreMapping> => {
-    return apiClient.put<LabTestScoreMapping>(
-      `/api/v1/lab-tests/score-mappings/${id}`,
-      data
-    );
-  },
-
-  /**
-   * Delete score mapping (admin only)
-   */
-  delete: async (id: string): Promise<void> => {
-    return apiClient.delete(`/api/v1/lab-tests/score-mappings/${id}`);
-  },
-};
 
 // ============================================================
 // Lab Results API (Parent Container)

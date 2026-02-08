@@ -1,7 +1,6 @@
 package services
 
 import (
-	"encoding/json"
 	"fmt"
 	"regexp"
 	"sort"
@@ -146,12 +145,7 @@ func (s *PreMatchingService) PreMatch(text string) (*PreMatchingResult, error) {
 	var candidates []matchCandidate
 
 	for _, testDef := range testDefs {
-		var altNames []string
-		if testDef.AltNames != nil && *testDef.AltNames != "" {
-			json.Unmarshal([]byte(*testDef.AltNames), &altNames)
-		}
-
-		for _, altName := range altNames {
+		for _, altName := range testDef.AltNames {
 			// altNames já estão normalizados no banco (BeforeSave hook)
 			candidates = append(candidates, matchCandidate{
 				altName: altName,

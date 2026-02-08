@@ -526,18 +526,11 @@ func setupRoutes(
 	labTests.Get("/definitions/:id", labTestDefHandler.GetLabTestDefinitionByID)
 	labTests.Get("/definitions/code/:code", labTestDefHandler.GetLabTestDefinitionByCode)
 	labTests.Get("/definitions/:id/sub-tests", labTestDefHandler.GetSubTests)
-	labTests.Get("/definitions/:id/score-mappings", labTestDefHandler.GetMappingsForLabTest)
 
 	// Rotas de escrita (admin only)
 	labTests.Post("/definitions", middleware.RequireAdmin(), labTestDefHandler.CreateLabTestDefinition)
 	labTests.Put("/definitions/:id", middleware.RequireAdmin(), labTestDefHandler.UpdateLabTestDefinition)
 	labTests.Delete("/definitions/:id", middleware.RequireAdmin(), labTestDefHandler.DeleteLabTestDefinition)
-
-	// Score Mappings routes (admin only)
-	labTests.Post("/score-mappings", middleware.RequireAdmin(), labTestDefHandler.CreateLabTestScoreMapping)
-	labTests.Get("/score-mappings/:id", labTestDefHandler.GetLabTestScoreMappingByID)
-	labTests.Put("/score-mappings/:id", middleware.RequireAdmin(), labTestDefHandler.UpdateLabTestScoreMapping)
-	labTests.Delete("/score-mappings/:id", middleware.RequireAdmin(), labTestDefHandler.DeleteLabTestScoreMapping)
 
 	// Lab Result Values routes (protegidas - doctors)
 	labResultValues := v1.Group("/lab-results")

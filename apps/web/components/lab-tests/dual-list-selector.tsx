@@ -8,6 +8,16 @@ import { Search, ChevronRight, ChevronLeft, X } from 'lucide-react'
 import { LabTestDefinition } from '@/lib/api/lab-request-templates'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
+// Remove accents from string (unaccent)
+function removeAccents(str: string): string {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+
+// Normalize string for search (lowercase + remove accents)
+function normalizeForSearch(str: string): string {
+  return removeAccents(str.toLowerCase())
+}
+
 interface DualListSelectorProps {
   availableTests: LabTestDefinition[]
   selectedTests: LabTestDefinition[]
@@ -24,29 +34,43 @@ export function DualListSelector({
   const [highlightedLeft, setHighlightedLeft] = useState<string | null>(null)
   const [highlightedRight, setHighlightedRight] = useState<string | null>(null)
 
-  // Filter tests that are NOT yet selected
+  // Filter tests that are NOT yet selected (sorted alphabetically)
   const unselectedTests = useMemo(() => {
     const selectedIds = new Set(selectedTests.map(t => t.id))
-    return availableTests.filter(t => !selectedIds.has(t.id))
+    return availableTests
+      .filter(t => !selectedIds.has(t.id))
+      .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
   }, [availableTests, selectedTests])
 
-  // Filter by search
+  // Filter by search (case-insensitive, unaccent, search in name, shortName, altNames)
   const filteredLeft = useMemo(() => {
     if (!searchLeft) return unselectedTests
-    const search = searchLeft.toLowerCase()
-    return unselectedTests.filter(t =>
-      t.name.toLowerCase().includes(search) ||
-      t.code.toLowerCase().includes(search)
-    )
+    const search = normalizeForSearch(searchLeft)
+    return unselectedTests.filter(t => {
+      // Search in name
+      if (normalizeForSearch(t.name).includes(search)) return true
+      // Search in shortName
+      if (t.shortName && normalizeForSearch(t.shortName).includes(search)) return true
+      // Search in altNames
+      if (t.altNames && t.altNames.some(alt => normalizeForSearch(alt).includes(search))) return true
+      return false
+    })
   }, [unselectedTests, searchLeft])
 
+  // Filter selected tests (sorted alphabetically)
   const filteredRight = useMemo(() => {
-    if (!searchRight) return selectedTests
-    const search = searchRight.toLowerCase()
-    return selectedTests.filter(t =>
-      t.name.toLowerCase().includes(search) ||
-      t.code.toLowerCase().includes(search)
-    )
+    const sorted = [...selectedTests].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
+    if (!searchRight) return sorted
+    const search = normalizeForSearch(searchRight)
+    return sorted.filter(t => {
+      // Search in name
+      if (normalizeForSearch(t.name).includes(search)) return true
+      // Search in shortName
+      if (t.shortName && normalizeForSearch(t.shortName).includes(search)) return true
+      // Search in altNames
+      if (t.altNames && t.altNames.some(alt => normalizeForSearch(alt).includes(search))) return true
+      return false
+    })
   }, [selectedTests, searchRight])
 
   // Add test to selected

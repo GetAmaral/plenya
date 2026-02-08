@@ -24,6 +24,16 @@ const (
 	ProcessingJobTypePDFExtraction ProcessingJobType = "pdf_extraction"
 )
 
+// ProcessingJobStep representa as etapas do processamento
+const (
+	StepUploadingPDF    = 1 // Enviando PDF ao servidor
+	StepUploadComplete  = 2 // Upload completo
+	StepExtractingText  = 3 // Extraindo conteúdo do PDF para texto
+	StepAnalyzingWithAI = 4 // Analisando conteúdo com IA
+	StepAIComplete      = 5 // Conteúdo analisado pela IA - X exames identificados
+	StepSavingResults   = 6 // Salvando resultados no prontuário
+)
+
 // ProcessingJob representa um job de processamento assíncrono (ex: extração de PDF)
 // @Description Job de processamento assíncrono com queue em PostgreSQL
 type ProcessingJob struct {
@@ -56,6 +66,12 @@ type ProcessingJob struct {
 
 	// Máximo de tentativas permitidas
 	MaxAttempts int `gorm:"type:integer;not null;default:3" json:"maxAttempts"`
+
+	// Etapa atual do processamento (1-6)
+	ProgressStep *int `gorm:"type:integer" json:"progressStep,omitempty"`
+
+	// Mensagem descritiva da etapa atual
+	ProgressMessage *string `gorm:"type:text" json:"progressMessage,omitempty"`
 
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime;index:idx_job_created" json:"createdAt"`

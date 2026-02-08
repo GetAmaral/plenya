@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,6 +44,7 @@ import {
   type LabResultBatchFormValues,
 } from "@/lib/validations/lab-result-batch";
 import { labResultBatchApi } from "@/lib/api/lab-result-batch-api";
+import { useProcessingJobStore } from "@/lib/processing-job-store";
 import { LabResultTableForm } from "./LabResultTableForm";
 import { PDFUploadZone } from "./PDFUploadZone";
 import { ProcessingStatus } from "./ProcessingStatus";
@@ -58,11 +59,13 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
   const queryClient = useQueryClient();
   const formRef = useRef<HTMLFormElement>(null);
   const isEditMode = !!batchId;
+  const { addJob } = useProcessingJobStore();
 
   // PDF processing states
   const [processingJobId, setProcessingJobId] = useState<string | null>(null);
   const [processingStatus, setProcessingStatus] = useState<"idle" | "processing" | "completed" | "failed">("idle");
   const [tempBatchId, setTempBatchId] = useState<string | null>(null); // Batch temporário criado no upload
+  const [isManualSubmitting, setIsManualSubmitting] = useState(false); // Loading state for manual save
 
   useFormNavigation({ formRef });
 
@@ -71,6 +74,7 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
     defaultValues: initialValues || getDefaultBatchValues(),
     mode: "onBlur",
   });
+
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -85,7 +89,7 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
     onSuccess: (data) => {
       toast.success("Lote de resultados criado com sucesso!");
       queryClient.invalidateQueries({ queryKey: ["lab-result-batches"] });
-      router.push(`/lab-results/${data.id}`);
+      router.push("/lab-results");
     },
     onError: (error: any) => {
       toast.error(
@@ -134,7 +138,7 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
       toast.success("Lote de resultados atualizado com sucesso!");
       queryClient.invalidateQueries({ queryKey: ["lab-result-batches"] });
       queryClient.invalidateQueries({ queryKey: ["lab-result-batch", batchId] });
-      router.push(`/lab-results/${batchId}`);
+      router.push("/lab-results");
     },
     onError: (error: any) => {
       toast.error(
@@ -143,22 +147,31 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
     },
   });
 
-  const onSubmit = (values: LabResultBatchFormValues) => {
+  const onSubmit = async (values: LabResultBatchFormValues) => {
+    console.log("🚀 onSubmit called", { tempBatchId, batchId, isEditMode, values });
+
     // Se já criou batch temporário via upload, atualizar em vez de criar
     if (tempBatchId) {
-      const apiData = formToApiValues(values);
-      labResultBatchApi.update(tempBatchId, apiData as any)
-        .then(() => {
-          toast.success("Lote de resultados salvo com sucesso!");
-          queryClient.invalidateQueries({ queryKey: ["lab-result-batches"] });
-          router.push(`/lab-results/${tempBatchId}`);
-        })
-        .catch((error: any) => {
-          toast.error(error?.response?.data?.message || "Erro ao salvar lote");
-        });
+      console.log("📝 Updating temp batch", tempBatchId);
+      setIsManualSubmitting(true);
+      try {
+        const apiData = formToApiValues(values);
+        console.log("📤 Sending data to API", apiData);
+        await labResultBatchApi.update(tempBatchId, apiData as any);
+        toast.success("Lote de resultados salvo com sucesso!");
+        queryClient.invalidateQueries({ queryKey: ["lab-result-batches"] });
+        router.push("/lab-results");
+      } catch (error: any) {
+        console.error("❌ Error saving batch", error);
+        toast.error(error?.response?.data?.message || "Erro ao salvar lote");
+      } finally {
+        setIsManualSubmitting(false);
+      }
     } else if (isEditMode) {
+      console.log("✏️ Edit mode - updating batch", batchId);
       updateMutation.mutate(values);
     } else {
+      console.log("➕ Create mode - creating new batch");
       createMutation.mutate(values);
     }
   };
@@ -166,6 +179,12 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
   const handleUploadSuccess = (jobId: string) => {
     setProcessingJobId(jobId);
     setProcessingStatus("processing");
+
+    // Add to global processing store for background monitoring
+    const effectiveBatchId = batchId || tempBatchId;
+    if (effectiveBatchId) {
+      addJob(jobId, effectiveBatchId);
+    }
   };
 
   const handleProcessingCompleted = async () => {
@@ -193,11 +212,10 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
         }
 
         queryClient.invalidateQueries({ queryKey: ["lab-result-batch", effectiveBatchId] });
+        queryClient.invalidateQueries({ queryKey: ["lab-result-batches"] });
 
-        // Se estava em modo de criação e criou batch temporário, redirecionar para edição
-        if (!batchId && tempBatchId) {
-          router.push(`/lab-results/${tempBatchId}/edit`);
-        }
+        // Após sucesso no processamento, redirecionar para a lista
+        router.push("/lab-results");
       } catch (error) {
         console.error("Failed to refresh batch data:", error);
         toast.error("Erro ao carregar dados do batch");
@@ -210,13 +228,22 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
     toast.error("Falha na interpretação", { description: error });
   };
 
-  const isSubmitting = createMutation.isPending || updateMutation.isPending;
+  const isSubmitting = createMutation.isPending || updateMutation.isPending || isManualSubmitting;
 
   return (
     <Form {...form}>
       <form
         ref={formRef}
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(
+          (values) => {
+            console.log("✅ Form valid, calling onSubmit");
+            onSubmit(values);
+          },
+          (errors) => {
+            console.error("❌ Form validation failed:", errors);
+            toast.error("Preencha todos os campos obrigatórios corretamente");
+          }
+        )}
         className="space-y-6"
       >
         <div className="space-y-6">
