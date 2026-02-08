@@ -94,6 +94,10 @@ type Patient struct {
 	// @example female
 	SocialGender *SocialGender `gorm:"type:varchar(20);check:social_gender IN ('male','female','non_binary','trans_male','trans_female','other','prefer_not_to_say')" json:"socialGender,omitempty" validate:"omitempty,oneof=male female non_binary trans_male trans_female other prefer_not_to_say"`
 
+	// Indica se a paciente está na menopausa (apenas para gender=female)
+	// @example true
+	Menopause *bool `gorm:"type:boolean" json:"menopause,omitempty"`
+
 	// Idade em anos (calculado automaticamente)
 	// @example 35
 	Age int `gorm:"type:int;not null;default:0" json:"age"`

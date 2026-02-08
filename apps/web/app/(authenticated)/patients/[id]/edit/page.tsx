@@ -32,6 +32,7 @@ interface Patient {
   birthDate: string;
   gender: "male" | "female" | "other";
   socialGender?: "male" | "female" | "non_binary" | "trans_male" | "trans_female" | "other" | "prefer_not_to_say";
+  menopause?: boolean;
   age: number;
   ageText: string;
   phone?: string;
@@ -60,6 +61,7 @@ interface UpdatePatientForm {
   birthDate: string;
   gender: "male" | "female" | "other";
   socialGender?: "male" | "female" | "non_binary" | "trans_male" | "trans_female" | "other" | "prefer_not_to_say";
+  menopause?: boolean;
   email?: string;
   phone?: string;
   address?: string;
@@ -108,6 +110,7 @@ export default function EditPatientPage() {
       birthDate: patient?.birthDate || "",
       gender: patient?.gender || "male",
       socialGender: patient?.socialGender || undefined,
+      menopause: patient?.menopause || undefined,
       email: patient?.email || "",
       phone: patient?.phone || "",
       address: patient?.address || "",
@@ -134,6 +137,7 @@ export default function EditPatientPage() {
       setValue("birthDate", patient.birthDate, { shouldDirty: false });
       setValue("gender", patient.gender, { shouldDirty: false });
       setValue("socialGender", patient.socialGender, { shouldDirty: false });
+      setValue("menopause", patient.menopause, { shouldDirty: false });
       setValue("email", patient.email || "", { shouldDirty: false });
       setValue("phone", patient.phone || "", { shouldDirty: false });
       setValue("address", patient.address || "", { shouldDirty: false });
@@ -191,6 +195,7 @@ export default function EditPatientPage() {
       birthDate: data.birthDate,
       gender: data.gender,
       socialGender: data.socialGender,
+      menopause: data.menopause,
       email: data.email && data.email.trim() !== "" ? data.email : undefined,
       phone: data.phone && data.phone.trim() !== "" ? data.phone : undefined,
       address: data.address && data.address.trim() !== "" ? data.address : undefined,
@@ -346,6 +351,27 @@ export default function EditPatientPage() {
                     </SelectContent>
                   </Select>
                 </div>
+
+                {selectedGender === "female" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="menopause">Menopausa</Label>
+                    <Select
+                      value={watch("menopause") === undefined ? "undefined" : watch("menopause") ? "true" : "false"}
+                      onValueChange={(value) =>
+                        setValue("menopause", value === "undefined" ? undefined : value === "true")
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="undefined">Não informado</SelectItem>
+                        <SelectItem value="true">Sim</SelectItem>
+                        <SelectItem value="false">Não</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
 
                 <div className="space-y-2">
                   <Label htmlFor="email">E-mail</Label>

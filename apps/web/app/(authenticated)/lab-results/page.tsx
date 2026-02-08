@@ -122,16 +122,6 @@ export default function LabResultsPage() {
       if (!batch.labResults || batch.labResults.length === 0) return;
 
       batch.labResults.forEach((result) => {
-        // DEBUG: Log para HOMA BETA
-        if (result.testName?.toLowerCase().includes('homa') && result.testName?.toLowerCase().includes('beta')) {
-          console.log('🔍 HOMA BETA found:', {
-            testName: result.testName,
-            labTestDefinitionId: result.labTestDefinitionId,
-            hasLabTestDefinition: !!result.labTestDefinition,
-            labTestDefinition: result.labTestDefinition,
-          });
-        }
-
         // Se tem link com definição, usar dados da definição
         // Senão, usar dados manuais do resultado
         let key: string;
@@ -149,8 +139,6 @@ export default function LabResultsPage() {
           displayName = result.testName;
           displayType = result.testType;
         }
-
-        console.log('🔑 Key generated:', { testName: result.testName, key, displayName });
 
         if (!rowsMap.has(key)) {
           rowsMap.set(key, {

@@ -47,3 +47,16 @@ docker-build: ## Build da imagem Docker
 
 docker-run: ## Rodar container Docker
 	docker run -p 3001:3001 --env-file .env plenya-api:latest
+
+# Scripts utilitários
+update-gender: ## Atualizar campo gender em score_items baseado no nome
+	go run cmd/update-score-item-gender/main.go
+
+test-gender: ## Testar lógica de detecção de gênero
+	go test -v ./cmd/update-score-item-gender/
+
+update-age-range: ## Atualizar campos ageRangeMin/Max em score_items baseado no nome
+	go run cmd/update-score-item-age-range/main.go
+
+test-age-range: ## Testar lógica de detecção de faixa etária
+	go test -v ./cmd/update-score-item-age-range/

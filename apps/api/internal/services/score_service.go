@@ -59,6 +59,9 @@ type CreateScoreItemDTO struct {
 	Name           string     `json:"name" validate:"required,min=2,max=300"`
 	Unit           *string    `json:"unit,omitempty" validate:"omitempty,max=50"`
 	UnitConversion *string    `json:"unitConversion,omitempty"`
+	Gender         *string    `json:"gender,omitempty" validate:"omitempty,oneof=not_applicable male female"`
+	AgeRangeMin    *int       `json:"ageRangeMin,omitempty" validate:"omitempty,gte=0,lte=150"`
+	AgeRangeMax    *int       `json:"ageRangeMax,omitempty" validate:"omitempty,gte=0,lte=150"`
 	Points         *float64   `json:"points,omitempty" validate:"omitempty,gte=0,lte=100"`
 	SubgroupID     uuid.UUID  `json:"subgroupId" validate:"required"`
 	ParentItemID   *uuid.UUID `json:"parentItemId,omitempty"`
@@ -70,6 +73,9 @@ type UpdateScoreItemDTO struct {
 	Name               *string     `json:"name,omitempty" validate:"omitempty,min=2,max=300"`
 	Unit               *string     `json:"unit,omitempty" validate:"omitempty,max=50"`
 	UnitConversion     *string     `json:"unitConversion,omitempty"`
+	Gender             *string     `json:"gender,omitempty" validate:"omitempty,oneof=not_applicable male female"`
+	AgeRangeMin        *int        `json:"ageRangeMin,omitempty" validate:"omitempty,gte=0,lte=150"`
+	AgeRangeMax        *int        `json:"ageRangeMax,omitempty" validate:"omitempty,gte=0,lte=150"`
 	Points             *float64    `json:"points,omitempty" validate:"omitempty,gte=0,lte=100"`
 	Order              *int        `json:"order,omitempty" validate:"omitempty,gte=0,lte=9999"`
 	SubgroupID         *uuid.UUID  `json:"subgroupId,omitempty"`
@@ -290,6 +296,9 @@ func (s *ScoreService) CreateItem(dto CreateScoreItemDTO) (*models.ScoreItem, er
 		Name:           dto.Name,
 		Unit:           dto.Unit,
 		UnitConversion: dto.UnitConversion,
+		Gender:         dto.Gender,
+		AgeRangeMin:    dto.AgeRangeMin,
+		AgeRangeMax:    dto.AgeRangeMax,
 		Points:         dto.Points,
 		SubgroupID:     dto.SubgroupID,
 		ParentItemID:   dto.ParentItemID,
@@ -354,6 +363,15 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 	}
 	if dto.UnitConversion != nil {
 		item.UnitConversion = dto.UnitConversion
+	}
+	if dto.Gender != nil {
+		item.Gender = dto.Gender
+	}
+	if dto.AgeRangeMin != nil {
+		item.AgeRangeMin = dto.AgeRangeMin
+	}
+	if dto.AgeRangeMax != nil {
+		item.AgeRangeMax = dto.AgeRangeMax
 	}
 	if dto.ClinicalRelevance != nil {
 		item.ClinicalRelevance = dto.ClinicalRelevance

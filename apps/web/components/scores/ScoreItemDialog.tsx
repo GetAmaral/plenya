@@ -81,6 +81,7 @@ export function ScoreItemDialog({
   // State for selected subgroup
   const [selectedSubgroupId, setSelectedSubgroupId] = useState(item?.subgroupId || subgroupId)
   const [selectedParentItemId, setSelectedParentItemId] = useState(item?.parentItemId || '')
+  const [selectedGender, setSelectedGender] = useState<'not_applicable' | 'male' | 'female'>(item?.gender || 'not_applicable')
   const [parentItemComboboxOpen, setParentItemComboboxOpen] = useState(false)
 
   // Fetch current subgroup to get group info
@@ -124,6 +125,9 @@ export function ScoreItemDialog({
       name: item?.name || '',
       unit: item?.unit || '',
       unitConversion: item?.unitConversion || '',
+      gender: item?.gender || 'not_applicable',
+      ageRangeMin: item?.ageRangeMin,
+      ageRangeMax: item?.ageRangeMax,
       clinicalRelevance: item?.clinicalRelevance || '',
       patientExplanation: item?.patientExplanation || '',
       conduct: item?.conduct || '',
@@ -139,10 +143,14 @@ export function ScoreItemDialog({
     if (item) {
       setSelectedSubgroupId(item.subgroupId)
       setSelectedParentItemId(item.parentItemId || '')
+      setSelectedGender(item.gender || 'not_applicable')
       reset({
         name: item.name,
         unit: item.unit || '',
         unitConversion: item.unitConversion || '',
+        gender: item.gender || 'not_applicable',
+        ageRangeMin: item.ageRangeMin,
+        ageRangeMax: item.ageRangeMax,
         clinicalRelevance: item.clinicalRelevance || '',
         patientExplanation: item.patientExplanation || '',
         conduct: item.conduct || '',
@@ -154,10 +162,14 @@ export function ScoreItemDialog({
     } else {
       setSelectedSubgroupId(subgroupId)
       setSelectedParentItemId('')
+      setSelectedGender('not_applicable')
       reset({
         name: '',
         unit: '',
         unitConversion: '',
+        gender: 'not_applicable',
+        ageRangeMin: undefined,
+        ageRangeMax: undefined,
         clinicalRelevance: '',
         patientExplanation: '',
         conduct: '',
@@ -179,6 +191,11 @@ export function ScoreItemDialog({
     setValue('parentItemId', selectedParentItemId || undefined)
   }, [selectedParentItemId, setValue])
 
+  // Update form value when selectedGender changes
+  useEffect(() => {
+    setValue('gender', selectedGender)
+  }, [selectedGender, setValue])
+
   const onSubmit = async (data: CreateScoreItemDTO) => {
     try {
       // Convert empty strings to null (not undefined) for optional fields
@@ -187,6 +204,9 @@ export function ScoreItemDialog({
         ...data,
         unit: data.unit || null,
         unitConversion: data.unitConversion || null,
+        gender: data.gender || 'not_applicable',
+        ageRangeMin: data.ageRangeMin || null,
+        ageRangeMax: data.ageRangeMax || null,
         clinicalRelevance: data.clinicalRelevance || null,
         patientExplanation: data.patientExplanation || null,
         conduct: data.conduct || null,
@@ -199,6 +219,9 @@ export function ScoreItemDialog({
             name: payload.name,
             unit: payload.unit,
             unitConversion: payload.unitConversion,
+            gender: payload.gender,
+            ageRangeMin: payload.ageRangeMin,
+            ageRangeMax: payload.ageRangeMax,
             clinicalRelevance: payload.clinicalRelevance,
             patientExplanation: payload.patientExplanation,
             conduct: payload.conduct,
@@ -385,6 +408,77 @@ export function ScoreItemDialog({
               </div>
             </>
           )}
+
+          <div className="space-y-2">
+            <Label htmlFor="gender">Gênero Aplicável</Label>
+            <Select
+              value={selectedGender}
+              onValueChange={(value) => setSelectedGender(value as 'not_applicable' | 'male' | 'female')}
+            >
+              <SelectTrigger id="gender">
+                <SelectValue placeholder="Selecione o gênero" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="not_applicable">Não se aplica</SelectItem>
+                <SelectItem value="male">Homem</SelectItem>
+                <SelectItem value="female">Mulher</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">
+              Selecione se este item aplica apenas a um gênero específico
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="ageRangeMin">Idade Mínima (anos)</Label>
+              <Input
+                id="ageRangeMin"
+                type="number"
+                placeholder="Ex: 18"
+                {...register('ageRangeMin', {
+                  valueAsNumber: true,
+                  min: {
+                    value: 0,
+                    message: 'Idade mínima deve ser maior ou igual a 0',
+                  },
+                  max: {
+                    value: 150,
+                    message: 'Idade mínima deve ser menor ou igual a 150',
+                  },
+                })}
+              />
+              {errors.ageRangeMin && (
+                <p className="text-sm text-destructive">{errors.ageRangeMin.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="ageRangeMax">Idade Máxima (anos)</Label>
+              <Input
+                id="ageRangeMax"
+                type="number"
+                placeholder="Ex: 65"
+                {...register('ageRangeMax', {
+                  valueAsNumber: true,
+                  min: {
+                    value: 0,
+                    message: 'Idade máxima deve ser maior ou igual a 0',
+                  },
+                  max: {
+                    value: 150,
+                    message: 'Idade máxima deve ser menor ou igual a 150',
+                  },
+                })}
+              />
+              {errors.ageRangeMax && (
+                <p className="text-sm text-destructive">{errors.ageRangeMax.message}</p>
+              )}
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Defina a faixa etária aplicável (deixe vazio se não aplicável)
+          </p>
 
           <div className="space-y-2">
             <Label htmlFor="points">Pontos Máximos</Label>
