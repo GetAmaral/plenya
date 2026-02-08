@@ -88,3 +88,6 @@ apps/mobile/android/.gradle/
 # Backups e dados temporários
 backups/
 data/
+
+# Uploads de usuários
+uploads/
