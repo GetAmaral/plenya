@@ -11122,6 +11122,10 @@
                         "maximum": 100,
                         "minimum": 0
                     },
+                    "postMenopause": {
+                        "description": "Indica se o score_item é aplicável apenas para mulheres pós-menopausa\n@example true",
+                        "type": "boolean"
+                    },
                     "subgroup": {
                         "description": "Relationships",
                         "allOf": [
