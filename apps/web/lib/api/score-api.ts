@@ -20,6 +20,7 @@ export interface ScoreLevel {
 
 export interface ScoreItem {
   id: string
+  labTestCode?: string
   name: string
   unit?: string
   unitConversion?: string
@@ -326,24 +327,7 @@ export function useUpdateScoreItem() {
       const response = await apiClient.put<ScoreItem>(`/api/v1/score-items/${id}`, data)
       return response as any
     },
-    onSuccess: (updatedItem) => {
-      queryClient.setQueryData<ScoreGroup[]>(
-        scoreKeys.allGroupTrees(),
-        (old) => {
-          if (!old) return old
-
-          return old.map(g => ({
-            ...g,
-            subgroups: g.subgroups?.map(sg => ({
-              ...sg,
-              items: sg.items?.map(item =>
-                item.id === updatedItem.id ? { ...item, ...updatedItem } : item
-              )
-            }))
-          }))
-        }
-      )
-    },
+    // NO onSuccess - let calling code handle invalidation to avoid race conditions
   })
 }
 
@@ -387,6 +371,7 @@ export function useCreateScoreLevel() {
       return response as any
     },
     onSuccess: () => {
+      // Invalidate all related queries to force refetch with new level
       queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
       queryClient.invalidateQueries({ queryKey: scoreKeys.groups() })
     },
@@ -401,26 +386,37 @@ export function useUpdateScoreLevel() {
       return response as any
     },
     onSuccess: (updatedLevel) => {
+      // Update cache optimistically with NEW object references at every level
+      // This ensures React's shallow comparison detects changes
       queryClient.setQueryData<ScoreGroup[]>(
         scoreKeys.allGroupTrees(),
         (old) => {
           if (!old) return old
 
-          // Atualizar apenas o level específico
+          // Create new array and object references throughout the tree
           return old.map(g => ({
             ...g,
             subgroups: g.subgroups?.map(sg => ({
               ...sg,
-              items: sg.items?.map(item => ({
-                ...item,
-                levels: item.levels?.map(lv =>
-                  lv.id === updatedLevel.id ? updatedLevel : lv
-                )
-              }))
+              items: sg.items?.map(item => {
+                // Only create new item object if this item contains the updated level
+                const hasUpdatedLevel = item.levels?.some(lv => lv.id === updatedLevel.id)
+                if (!hasUpdatedLevel) return item
+
+                return {
+                  ...item,
+                  levels: item.levels?.map(lv =>
+                    lv.id === updatedLevel.id ? { ...updatedLevel } : lv
+                  )
+                }
+              })
             }))
           }))
         }
       )
+
+      // Invalidate to ensure consistency and trigger re-render
+      queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
     },
   })
 }

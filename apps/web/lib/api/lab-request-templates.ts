@@ -5,6 +5,7 @@ export interface LabTestDefinition {
   code: string
   name: string
   shortName?: string
+  altNames?: string[]
   tussCode?: string
   category: string
   isRequestable: boolean

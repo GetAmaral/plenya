@@ -1,13 +1,18 @@
 package services
 
 import (
-	_ "encoding/json" // TEMP: unused while AI is disabled
+	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
+	"unicode"
 
 	"github.com/google/uuid"
+	"golang.org/x/text/runes"
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 
@@ -49,11 +54,16 @@ func NewProcessingJobService(
 
 // Create cria um novo job de processamento
 func (s *ProcessingJobService) Create(batchID uuid.UUID, pdfPath string) (*dto.ProcessingJobResponse, error) {
+	step := models.StepUploadingPDF
+	message := "Enviando PDF ao nosso servidor"
+
 	job := &models.ProcessingJob{
 		LabResultBatchID: batchID,
 		Type:             models.ProcessingJobTypePDFExtraction,
 		PDFPath:          pdfPath,
 		Status:           models.ProcessingJobPending,
+		ProgressStep:     &step,
+		ProgressMessage:  &message,
 		Attempts:         0,
 		MaxAttempts:      3,
 	}
@@ -122,9 +132,21 @@ func (s *ProcessingJobService) PollAndProcess() error {
 	return nil
 }
 
+// updateProgress - atualiza step e mensagem do job (para comunicação com frontend)
+func (s *ProcessingJobService) updateProgress(job *models.ProcessingJob, step int, message string) {
+	job.ProgressStep = &step
+	job.ProgressMessage = &message
+	s.db.Save(job)
+	fmt.Printf("📊 [Job %s] Step %d: %s\n", job.ID, step, message)
+}
+
 // processJob - workflow completo: OCR → IA → Save
 func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
-	// 1. OCR: extrair texto do PDF
+	// Step 2: Upload completo (Step 1 seria no handler de upload)
+	s.updateProgress(job, models.StepUploadComplete, "Upload completo")
+
+	// Step 3: Extraindo texto do PDF
+	s.updateProgress(job, models.StepExtractingText, "Extraindo conteúdo do PDF para texto")
 	fmt.Printf("🔍 [Job %s] Starting OCR extraction...\n", job.ID)
 	ocrText, err := s.ocrService.ExtractText(job.PDFPath)
 	if err != nil {
@@ -136,136 +158,58 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 	s.db.Save(job)
 	fmt.Printf("✅ [Job %s] OCR extracted %d chars\n", job.ID, len(ocrText))
 
-	// 1.5. Limpar e processar o texto (remover ruído)
+	// Limpar e processar o texto (remover ruído)
 	fmt.Printf("🧹 [Job %s] Cleaning extracted text...\n", job.ID)
 	cleanedText := s.textCleaner.CleanText(ocrText)
 	stats := s.textCleaner.GetCompressionStats(ocrText, cleanedText)
 	fmt.Printf("✅ [Job %s] Text cleaned: %d → %d chars (%.1f%% reduction)\n",
 		job.ID, stats["originalChars"], stats["cleanedChars"], stats["reductionPct"])
 
-	// 1.6. Salvar textos full e cleaned no batch
+	// Salvar textos full e cleaned no batch
 	if err := s.savePDFContentToBatch(job.LabResultBatchID, ocrText, cleanedText); err != nil {
 		fmt.Printf("⚠️  [Job %s] Failed to save PDF content to batch: %v\n", job.ID, err)
 		// Não falha o job, apenas loga o erro
 	}
 
-	// 1.7. PRÉ-MATCHING: Identificar e extrair exames conhecidos (sem IA)
-	fmt.Printf("🔍 [Job %s] Pre-matching tests with altNames...\n", job.ID)
-	preMatchResult, err := s.preMatchingService.PreMatch(cleanedText)
-	if err != nil {
-		fmt.Printf("⚠️  [Job %s] Pre-matching failed: %v\n", job.ID, err)
-		// Continua sem pre-matching
-		preMatchResult = &PreMatchingResult{
-			RemainingText: cleanedText,
-		}
-	} else {
-		fmt.Printf("✅ [Job %s] Pre-matched: %d tests found, %d estimated remaining\n",
-			job.ID, preMatchResult.MatchedCount, preMatchResult.RemainingTestsEst)
-
-		// Salvar exames matched (sem passar pela IA)
-		if len(preMatchResult.MatchedTests) > 0 {
-			if err := s.savePreMatchedTests(job.LabResultBatchID, preMatchResult); err != nil {
-				fmt.Printf("⚠️  [Job %s] Failed to save pre-matched tests: %v\n", job.ID, err)
-			}
-		}
-
-		// Atualizar metadata do batch (lab name, dates) se encontrado
-		if preMatchResult.LaboratoryName != "" || preMatchResult.CollectionDate != "" {
-			s.updateBatchMetadata(job.LabResultBatchID, preMatchResult)
-		}
-	}
-
-	// Usar texto restante (após pre-matching) para IA
-	textForAI := preMatchResult.RemainingText
-
-	// Salvar pdfContentNeedAI no batch
-	s.db.Model(&models.LabResultBatch{}).
-		Where("id = ?", job.LabResultBatchID).
-		Update("pdf_content_need_ai", textForAI)
-
-	// Se não restou nada para IA (tudo foi matched), finalizar aqui
-	if strings.TrimSpace(textForAI) == "" || preMatchResult.RemainingTestsEst == 0 {
-		fmt.Printf("✅ [Job %s] All tests pre-matched! No AI needed.\n", job.ID)
-		fmt.Printf("✅ [Job %s] Processing completed successfully\n", job.ID)
-		return nil
-	}
-
-	// TEMPORÁRIO: Desativar IA para teste de processamento local
-	fmt.Printf("🚫 [Job %s] AI DISABLED - Only local processing. Would send %d chars (%d estimated tests)\n",
-		job.ID, len(textForAI), preMatchResult.RemainingTestsEst)
-	fmt.Printf("✅ [Job %s] Processing completed (local only)\n", job.ID)
-	return nil
-
-	/* AI DESATIVADA TEMPORARIAMENTE
-	fmt.Printf("📊 [Job %s] Sending to AI: %d chars (%d estimated tests)\n",
-		job.ID, len(textForAI), preMatchResult.RemainingTestsEst)
-
-	// 2. Buscar definições de exames para matching
-	// OTIMIZAÇÃO: Enviar apenas exames mais comuns para reduzir tamanho do prompt
-	fmt.Printf("📋 [Job %s] Loading common lab test definitions...\n", job.ID)
-	testDefs, err := s.labTestDefService.GetAllLabTestDefinitions()
-	if err != nil {
-		return fmt.Errorf("failed to load test definitions: %v", err)
-	}
-
-	// Filtrar apenas exames comuns (hematologia, bioquímica) para reduzir tamanho
-	// Isso reduz de 311 para ~100 exames mais relevantes
-	testSummaries := make([]dto.LabTestSummary, 0, len(testDefs))
-	for _, def := range testDefs {
-		// Incluir apenas categorias mais comuns em laudos médicos
-		category := string(def.Category)
-		if category == "hematology" || category == "biochemistry" ||
-		   category == "immunology" || category == "urinalysis" ||
-		   category == "hormones" {
-			testSummaries = append(testSummaries, dto.LabTestSummary{
-				ID:        def.ID,
-				Code:      def.Code,
-				Name:      def.Name,
-				ShortName: def.ShortName,
-				TussCode:  def.TussCode,
-				LoincCode: def.LoincCode,
-				Category:  category,
-				Unit:      def.Unit,
-			})
-		}
-	}
-	fmt.Printf("📋 [Job %s] Loaded %d common test definitions (filtered from %d total)\n",
-		job.ID, len(testSummaries), len(testDefs))
-
-	// 3. Claude API: interpretar laudo (extrair dados brutos)
+	// Step 4: Analisando com IA
+	s.updateProgress(job, models.StepAnalyzingWithAI, "Analisando conteúdo com IA")
 	fmt.Printf("🤖 [Job %s] Calling Claude API for extraction...\n", job.ID)
-	aiResp, err := s.aiService.InterpretLabResult(textForAI, testSummaries)
+	jsonStr, err := s.aiService.InterpretLabResult(cleanedText)
 	if err != nil {
 		return fmt.Errorf("AI interpretation failed: %v", err)
 	}
-	fmt.Printf("✅ [Job %s] AI extracted %d lab results\n", job.ID, len(aiResp.LabResults))
+	fmt.Printf("✅ [Job %s] AI extracted data (JSON length: %d chars)\n", job.ID, len(jsonStr))
 
-	// 3.1. Matching local: associar resultados extraídos com definições de exames
-	fmt.Printf("🔗 [Job %s] Matching results with test definitions...\n", job.ID)
-	s.aiService.MatchResultsWithDefinitions(aiResp, testSummaries)
-	matchedCount := 0
-	for _, r := range aiResp.LabResults {
-		if r.Matched {
-			matchedCount++
-		}
+	// Step 5: Análise concluída - contar exames
+	var parsed struct {
+		Exames []interface{} `json:"exames"`
 	}
-	fmt.Printf("✅ [Job %s] Matched %d/%d results with definitions\n", job.ID, matchedCount, len(aiResp.LabResults))
+	if err := json.Unmarshal([]byte(jsonStr), &parsed); err == nil {
+		examCount := len(parsed.Exames)
+		message := fmt.Sprintf("Conteúdo analisado pela IA - %d exames identificados", examCount)
+		s.updateProgress(job, models.StepAIComplete, message)
+	} else {
+		s.updateProgress(job, models.StepAIComplete, "Conteúdo analisado pela IA")
+	}
 
-	// Salvar resposta da IA (JSON)
-	aiRespJSON, _ := json.Marshal(aiResp)
-	aiRespStr := string(aiRespJSON)
-	job.AIResponse = &aiRespStr
-	s.db.Save(job)
+	// Step 6: Salvando resultados
+	s.updateProgress(job, models.StepSavingResults, "Salvando resultados no prontuário")
+	if err := s.savePDFContentJSON(job.LabResultBatchID, jsonStr); err != nil {
+		return fmt.Errorf("failed to save PDF content JSON: %v", err)
+	}
 
-	// 4. Salvar resultados no batch
-	fmt.Printf("💾 [Job %s] Saving results to batch...\n", job.ID)
-	if err := s.saveResultsToBatch(job.LabResultBatchID, aiResp); err != nil {
-		return fmt.Errorf("failed to save results: %v", err)
+	// Criar LabResults a partir do JSON extraído
+	fmt.Printf("🔗 [Job %s] Creating lab results from extracted data...\n", job.ID)
+	matchedCount, unmatchedCount, err := s.createLabResultsFromJSON(job.LabResultBatchID, jsonStr)
+	if err != nil {
+		fmt.Printf("⚠️  [Job %s] Failed to create lab results: %v\n", job.ID, err)
+		// Não falha o job, apenas loga o erro
+	} else {
+		fmt.Printf("✅ [Job %s] Created %d matched + %d unmatched lab results\n", job.ID, matchedCount, unmatchedCount)
 	}
 
 	fmt.Printf("✅ [Job %s] Processing completed successfully\n", job.ID)
 	return nil
-	AI DESATIVADA TEMPORARIAMENTE */
 }
 
 // savePDFContentToBatch - salva textos full e cleaned no batch
@@ -281,140 +225,217 @@ func (s *ProcessingJobService) savePDFContentToBatch(
 		}).Error
 }
 
-// savePreMatchedTests - salva exames identificados no pré-matching
-func (s *ProcessingJobService) savePreMatchedTests(
+// savePDFContentJSON - salva JSON extraído pela IA no batch
+func (s *ProcessingJobService) savePDFContentJSON(
 	batchID uuid.UUID,
-	preMatchResult *PreMatchingResult,
+	jsonContent string,
 ) error {
-	savedCount := 0
-
-	// Criar LabResult para cada match (usando método interno sem verificação de usuário)
-	for _, match := range preMatchResult.MatchedTests {
-		idStr := match.LabTestDefinitionID.String()
-		matched := true
-
-		createReq := &dto.CreateLabResultInBatchRequest{
-			LabTestDefinitionID: &idStr,
-			TestName:            match.TestName,
-			TestType:            "biochemistry", // Default, será atualizado se necessário
-			ResultNumeric:       match.ResultNumeric,
-			ResultText:          match.ResultText,
-			Unit:                match.Unit,
-			Matched:             &matched,
-		}
-
-		if _, err := s.labResultBatchService.AddResultInternal(batchID, createReq); err != nil {
-			fmt.Printf("⚠️  Failed to save pre-matched test '%s': %v\n", match.TestName, err)
-			// Continua salvando os outros
-		} else {
-			savedCount++
-		}
-	}
-
-	fmt.Printf("💾 [Batch %s] Saved %d/%d pre-matched tests\n", batchID, savedCount, len(preMatchResult.MatchedTests))
-	return nil
+	return s.db.Model(&models.LabResultBatch{}).
+		Where("id = ?", batchID).
+		Update("pdf_content_json", jsonContent).Error
 }
 
-// updateBatchMetadata - atualiza metadata do batch com info extraída
-func (s *ProcessingJobService) updateBatchMetadata(
+// createLabResultsFromJSON - cria LabResults a partir do JSON extraído pela IA
+// Retorna: (matchedCount, unmatchedCount, error)
+func (s *ProcessingJobService) createLabResultsFromJSON(
 	batchID uuid.UUID,
-	preMatchResult *PreMatchingResult,
-) error {
-	updates := make(map[string]interface{})
-
-	if preMatchResult.LaboratoryName != "" {
-		updates["laboratory_name"] = preMatchResult.LaboratoryName
+	jsonContent string,
+) (int, int, error) {
+	// Parse JSON
+	var extracted dto.PDFExtractionResponse
+	if err := json.Unmarshal([]byte(jsonContent), &extracted); err != nil {
+		return 0, 0, fmt.Errorf("failed to parse JSON: %v", err)
 	}
 
-	if preMatchResult.CollectionDate != "" {
-		// Parse ISO date
-		if collDate, err := time.Parse("2006-01-02", preMatchResult.CollectionDate); err == nil {
-			updates["collection_date"] = collDate
-		}
+	// Buscar todas as definições de testes para matching
+	var testDefinitions []models.LabTestDefinition
+	if err := s.db.Find(&testDefinitions).Error; err != nil {
+		return 0, 0, fmt.Errorf("failed to load test definitions: %v", err)
 	}
 
-	if len(updates) > 0 {
-		return s.db.Model(&models.LabResultBatch{}).
-			Where("id = ?", batchID).
-			Updates(updates).Error
-	}
+	// Criar mapa para busca rápida
+	testDefMap := s.buildTestDefinitionMap(testDefinitions)
 
-	return nil
-}
+	matchedCount := 0
+	unmatchedCount := 0
 
-// saveResultsToBatch - salva resultados interpretados no batch
-func (s *ProcessingJobService) saveResultsToBatch(
-	batchID uuid.UUID,
-	aiResp *dto.AILabResultExtractionResponse,
-) error {
-	// Buscar batch para obter userID (owner)
-	var batch models.LabResultBatch
-	if err := s.db.Preload("Patient.User").First(&batch, batchID).Error; err != nil {
-		return fmt.Errorf("batch not found: %v", err)
-	}
-
-	// Parse datas
-	collectionDate, err := time.Parse("2006-01-02", aiResp.CollectionDate)
-	if err != nil {
-		return fmt.Errorf("invalid collection date: %v", err)
-	}
-
-	var resultDate *time.Time
-	if aiResp.ResultDate != "" {
-		rd, err := time.Parse("2006-01-02", aiResp.ResultDate)
-		if err != nil {
-			return fmt.Errorf("invalid result date: %v", err)
-		}
-		resultDate = &rd
-	}
-
-	// Atualizar metadata do batch (se ainda não preenchido)
-	updateBatch := false
-	if batch.LaboratoryName == "" {
-		batch.LaboratoryName = aiResp.LaboratoryName
-		updateBatch = true
-	}
-	if batch.CollectionDate.IsZero() {
-		batch.CollectionDate = collectionDate
-		updateBatch = true
-	}
-	if batch.ResultDate == nil && resultDate != nil {
-		batch.ResultDate = resultDate
-		updateBatch = true
-	}
-
-	if updateBatch {
-		s.db.Save(&batch)
-	}
-
-	// Limpar resultados existentes antes de adicionar os novos do PDF
-	// (remove placeholders ou resultados antigos)
+	// Deletar resultados existentes do batch (se houver)
 	s.db.Where("lab_result_batch_id = ?", batchID).Delete(&models.LabResult{})
 
-	// Criar resultados diretamente (sem passar por AddResult que faz verificação de user/selectedPatient)
-	// Isso é seguro porque o batch já foi criado pelo usuário autenticado
-	for _, aiResult := range aiResp.LabResults {
-		// Usa método que valida UUID e retorna nil se inválido (IA às vezes retorna IDs inventados)
-		labTestDefID := aiResult.GetLabTestDefinitionUUID()
+	// Criar LabResult para cada exame extraído
+	for _, exam := range extracted.Exames {
+		// Tentar fazer match com definição de teste
+		testDefID := s.matchTestDefinition(exam.NomeExame, testDefMap)
 
-		result := models.LabResult{
-			LabResultBatchID:    batchID,
-			LabTestDefinitionID: labTestDefID,
-			TestName:            aiResult.TestName,
-			TestType:            aiResult.TestType,
-			ResultText:          aiResult.ResultText,
-			ResultNumeric:       aiResult.ResultNumeric,
-			Unit:                aiResult.Unit,
-			Interpretation:      aiResult.Interpretation,
-			Matched:             aiResult.Matched,
+		// Tentar converter resultado para numérico primeiro
+		var resultNumeric *float64
+		var resultText *string
+		if numeric, err := parseNumericResult(exam.Resultado); err == nil {
+			// Se for numérico, salvar apenas como numérico (não duplicar no texto)
+			resultNumeric = &numeric
+			resultText = nil
+		} else {
+			// Se NÃO for numérico, salvar apenas como texto
+			resultText = &exam.Resultado
+			resultNumeric = nil
 		}
 
-		if err := s.db.Create(&result).Error; err != nil {
-			return fmt.Errorf("failed to add result '%s': %v", aiResult.TestName, err)
+		// Se tiver match com definição, deixar TestName e TestType vazios
+		testName := exam.NomeExame
+		testType := "other"
+		if testDefID != nil {
+			testName = "" // Vazio quando linkado
+			testType = "" // Vazio quando linkado
+		}
+
+		// Criar LabResult
+		labResult := models.LabResult{
+			LabResultBatchID:    batchID,
+			LabTestDefinitionID: testDefID,
+			TestName:            testName,
+			TestType:            testType,
+			ResultNumeric:       resultNumeric,
+			ResultText:          resultText,
+			Unit:                exam.Unidade,
+			Matched:             testDefID != nil,
+		}
+
+		// Salvar no banco
+		if err := s.db.Create(&labResult).Error; err != nil {
+			fmt.Printf("⚠️  Failed to create lab result for '%s': %v\n", exam.NomeExame, err)
+			continue
+		}
+
+		if testDefID != nil {
+			matchedCount++
+		} else {
+			unmatchedCount++
+		}
+	}
+
+	return matchedCount, unmatchedCount, nil
+}
+
+// buildTestDefinitionMap - cria mapa de nomes normalizados para IDs de definições
+func (s *ProcessingJobService) buildTestDefinitionMap(testDefs []models.LabTestDefinition) map[string]uuid.UUID {
+	defMap := make(map[string]uuid.UUID)
+
+	for _, def := range testDefs {
+		// Adicionar nome principal
+		normalizedName := normalizeTestName(def.Name)
+		defMap[normalizedName] = def.ID
+
+		// Adicionar nome curto
+		if def.ShortName != nil && *def.ShortName != "" {
+			normalizedShort := normalizeTestName(*def.ShortName)
+			defMap[normalizedShort] = def.ID
+		}
+
+		// Adicionar nomes alternativos (altNames)
+		for _, altName := range def.AltNames {
+			if altName != "" {
+				normalizedAlt := normalizeTestName(altName)
+				defMap[normalizedAlt] = def.ID
+			}
+		}
+	}
+
+	return defMap
+}
+
+// matchTestDefinition - busca definição de teste usando nome normalizado
+func (s *ProcessingJobService) matchTestDefinition(
+	examName string,
+	defMap map[string]uuid.UUID,
+) *uuid.UUID {
+	normalizedName := normalizeTestName(examName)
+
+	// Busca exata
+	if id, found := defMap[normalizedName]; found {
+		return &id
+	}
+
+	// Busca parcial (se nome tem pelo menos 5 caracteres)
+	if len(normalizedName) >= 5 {
+		for defName, id := range defMap {
+			// Se o nome do exame contém o nome da definição OU vice-versa
+			if len(defName) >= 5 && (containsSubstring(normalizedName, defName) || containsSubstring(defName, normalizedName)) {
+				return &id
+			}
 		}
 	}
 
 	return nil
+}
+
+// normalizeTestName - normaliza nome de teste para matching
+func normalizeTestName(name string) string {
+	// Converter para minúsculas
+	name = strings.ToLower(name)
+
+	// Remover acentos
+	name = removeAccentsFromString(name)
+
+	// Substituir hífens, vírgulas e outros separadores por espaços ANTES de remover caracteres especiais
+	name = strings.Map(func(r rune) rune {
+		if r == '-' || r == ',' || r == '/' || r == '(' || r == ')' || r == ':' {
+			return ' '
+		}
+		return r
+	}, name)
+
+	// Remover caracteres especiais mantendo apenas letras, dígitos e espaços
+	name = strings.Map(func(r rune) rune {
+		if unicode.IsLetter(r) || unicode.IsDigit(r) || r == ' ' {
+			return r
+		}
+		return -1
+	}, name)
+
+	// Remover espaços duplicados e normalizar
+	name = strings.Join(strings.Fields(name), " ")
+
+	return strings.TrimSpace(name)
+}
+
+// removeAccentsFromString - remove acentos de uma string
+func removeAccentsFromString(s string) string {
+	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
+	result, _, _ := transform.String(t, s)
+	return result
+}
+
+// containsSubstring - verifica se s contém substr (ambos já normalizados)
+func containsSubstring(s, substr string) bool {
+	return len(s) > 0 && len(substr) > 0 && len(s) >= len(substr) &&
+		(s == substr ||
+		 strings.HasPrefix(s, substr) ||
+		 strings.HasSuffix(s, substr) ||
+		 strings.Contains(s, substr))
+}
+
+// parseNumericResult - tenta converter resultado textual para numérico
+func parseNumericResult(result string) (float64, error) {
+	// Remover espaços
+	result = strings.TrimSpace(result)
+
+	// Substituir vírgula por ponto (padrão brasileiro)
+	result = strings.ReplaceAll(result, ",", ".")
+
+	// Remover caracteres não numéricos (exceto ponto e sinal)
+	cleaned := ""
+	for _, r := range result {
+		if unicode.IsDigit(r) || r == '.' || r == '-' || r == '+' {
+			cleaned += string(r)
+		}
+	}
+
+	// Tentar parsear
+	if cleaned == "" {
+		return 0, fmt.Errorf("no numeric value found")
+	}
+
+	return strconv.ParseFloat(cleaned, 64)
 }
 
 // markJobCompleted - marca job como concluído
@@ -453,6 +474,8 @@ func (s *ProcessingJobService) toDTO(job *models.ProcessingJob) *dto.ProcessingJ
 		LabResultBatchID: job.LabResultBatchID,
 		Type:             job.Type,
 		Status:           job.Status,
+		ProgressStep:     job.ProgressStep,
+		ProgressMessage:  job.ProgressMessage,
 		ErrorMessage:     job.ErrorMessage,
 		Attempts:         job.Attempts,
 		CreatedAt:        job.CreatedAt,

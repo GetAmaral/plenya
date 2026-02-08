@@ -334,7 +334,7 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 	// DEBUG: Log parentItemId before and after
 	fmt.Printf("🟡 SERVICE UpdateItem BEFORE: id=%s, item.ParentItemID=%v, dto.ParentItemID=%v\n", id, item.ParentItemID, dto.ParentItemID)
 
-	// Update required fields
+	// Update fields only if provided in DTO
 	if dto.Name != nil {
 		item.Name = *dto.Name
 	}
@@ -348,14 +348,34 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 		item.SubgroupID = *dto.SubgroupID
 	}
 
-	// Always update optional fields (allows clearing them with null)
-	// Frontend sends null to clear, backend updates even if nil
-	item.Unit = dto.Unit
-	item.UnitConversion = dto.UnitConversion
-	item.ParentItemID = dto.ParentItemID
-	item.ClinicalRelevance = dto.ClinicalRelevance
-	item.PatientExplanation = dto.PatientExplanation
-	item.Conduct = dto.Conduct
+	// Optional fields that can be updated or cleared
+	if dto.Unit != nil {
+		item.Unit = dto.Unit
+	}
+	if dto.UnitConversion != nil {
+		item.UnitConversion = dto.UnitConversion
+	}
+	if dto.ClinicalRelevance != nil {
+		item.ClinicalRelevance = dto.ClinicalRelevance
+	}
+	if dto.PatientExplanation != nil {
+		item.PatientExplanation = dto.PatientExplanation
+	}
+	if dto.Conduct != nil {
+		item.Conduct = dto.Conduct
+	}
+
+	// CRITICAL: ParentItemID handling
+	// When order is being updated (reorder/indent/outdent), frontend ALWAYS sends parentItemId
+	// So if order is in DTO, we can safely update parentItemId (even if nil = root)
+	// For other updates (name, points, etc.), don't touch parentItemId
+	if dto.Order != nil {
+		// Order is being updated, so parentItemId was also sent (even if nil)
+		item.ParentItemID = dto.ParentItemID
+	} else if dto.ParentItemID != nil {
+		// ParentItemID sent without order (rare case)
+		item.ParentItemID = dto.ParentItemID
+	}
 
 	// LastReview is optional but not typically cleared
 	if dto.LastReview != nil {
@@ -366,6 +386,13 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 	fmt.Printf("🟢 SERVICE UpdateItem AFTER UPDATE: item.ParentItemID=%v (isNil=%v)\n", item.ParentItemID, item.ParentItemID == nil)
 
 	if err := s.repo.UpdateScoreItem(item); err != nil {
+		return nil, err
+	}
+
+	// CRITICAL: Reload item with all relations (levels, child items, etc.)
+	// Otherwise frontend cache loses levels data when updating order during drag-drop
+	item, err = s.repo.GetScoreItemByID(item.ID)
+	if err != nil {
 		return nil, err
 	}
 

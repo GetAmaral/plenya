@@ -21,11 +21,22 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { labTestDefinitionApi, type LabTestDefinition } from "@/lib/api/lab-test-definition-api";
 
+// Remove accents from string (unaccent)
+function removeAccents(str: string): string {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+
+// Normalize string for search (lowercase + remove accents)
+function normalizeForSearch(str: string): string {
+  return removeAccents(str.toLowerCase())
+}
+
 interface LabTestDefinitionSelectProps {
   value?: string;
   onSelect: (test: LabTestDefinition | null) => void;
   disabled?: boolean;
   autoFocus?: boolean;
+  showAll?: boolean; // Se true, mostra todos os exames (não apenas requestable)
 }
 
 const categoryLabels: Record<string, string> = {
@@ -59,6 +70,7 @@ export function LabTestDefinitionSelect({
   onSelect,
   disabled,
   autoFocus = false,
+  showAll = false,
 }: LabTestDefinitionSelectProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -73,8 +85,8 @@ export function LabTestDefinitionSelect({
   }, [autoFocus]);
 
   const { data: tests, isLoading } = useQuery({
-    queryKey: ["lab-test-definitions-requestable"],
-    queryFn: () => labTestDefinitionApi.getRequestable(),
+    queryKey: showAll ? ["lab-test-definitions-all"] : ["lab-test-definitions-requestable"],
+    queryFn: () => showAll ? labTestDefinitionApi.getAll() : labTestDefinitionApi.getRequestable(),
   });
 
   // Agrupar por categoria
@@ -90,28 +102,31 @@ export function LabTestDefinitionSelect({
       grouped.get(test.category)!.push(test);
     });
 
-    // Ordenar cada grupo por nome
+    // Ordenar cada grupo por nome (alfabético pt-BR)
     grouped.forEach((group) => {
-      group.sort((a, b) => a.name.localeCompare(b.name));
+      group.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
     });
 
     return grouped;
   }, [tests]);
 
-  // Filtrar por busca
+  // Filtrar por busca (case-insensitive, unaccent, search in name, shortName, altNames)
   const filteredGroups = useMemo(() => {
     if (!search.trim()) return groupedTests;
 
     const filtered = new Map<string, LabTestDefinition[]>();
-    const searchLower = search.toLowerCase();
+    const searchNormalized = normalizeForSearch(search);
 
     groupedTests.forEach((tests, category) => {
-      const matchingTests = tests.filter(
-        (test) =>
-          test.name.toLowerCase().includes(searchLower) ||
-          test.code.toLowerCase().includes(searchLower) ||
-          (test.shortName && test.shortName.toLowerCase().includes(searchLower))
-      );
+      const matchingTests = tests.filter((test) => {
+        // Search in name
+        if (normalizeForSearch(test.name).includes(searchNormalized)) return true;
+        // Search in shortName
+        if (test.shortName && normalizeForSearch(test.shortName).includes(searchNormalized)) return true;
+        // Search in altNames
+        if (test.altNames && test.altNames.some(alt => normalizeForSearch(alt).includes(searchNormalized))) return true;
+        return false;
+      });
 
       if (matchingTests.length > 0) {
         filtered.set(category, matchingTests);
@@ -173,7 +188,7 @@ export function LabTestDefinitionSelect({
       <PopoverContent className="w-[500px] p-0" align="start">
         <Command shouldFilter={false}>
           <CommandInput
-            placeholder="Buscar exame por nome, código..."
+            placeholder="Buscar por nome, sigla ou sinônimo..."
             value={search}
             onValueChange={setSearch}
           />
@@ -237,24 +252,15 @@ export function LabTestDefinitionSelect({
                                 : "opacity-0"
                             )}
                           />
-                          <div className="flex flex-col min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium truncate">
-                                {test.name}
+                          <div className="flex items-center gap-1 min-w-0">
+                            <span className="font-medium truncate">
+                              {test.name}
+                            </span>
+                            {(test.shortName || test.unit) && (
+                              <span className="text-xs text-muted-foreground whitespace-nowrap">
+                                ({[test.shortName, test.unit].filter(Boolean).join(' | ')})
                               </span>
-                              {test.shortName && (
-                                <span className="text-xs text-muted-foreground">
-                                  ({test.shortName})
-                                </span>
-                              )}
-                            </div>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                              <span>Código: {test.code}</span>
-                              {test.unit && <span>• Unidade: {test.unit}</span>}
-                              {test.fastingHours && (
-                                <span>• Jejum: {test.fastingHours}h</span>
-                              )}
-                            </div>
+                            )}
                           </div>
                         </div>
                       </CommandItem>

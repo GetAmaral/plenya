@@ -13,9 +13,10 @@ type ScoreItem struct {
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
-	// Código para identificação programática (pode ser compartilhado entre múltiplos score_items)
-	// @example HGB_M, GLUCOSE_FASTING, IMC, BREASTFEEDING_DURATION
-	Code *string `gorm:"type:varchar(100);index" json:"code,omitempty" validate:"omitempty,max=100"`
+	// Código de referência para LabTestDefinition (pode ser compartilhado entre múltiplos score_items)
+	// Liga ao lab_test_definitions.code para associar resultados de exames
+	// @example PLN585CE3E3, PLNF66C0E48, GLUCOSE_FASTING
+	LabTestCode *string `gorm:"type:varchar(100);index;column:lab_test_code" json:"labTestCode,omitempty" validate:"omitempty,max=100"`
 
 	// @minLength 2
 	// @maxLength 300

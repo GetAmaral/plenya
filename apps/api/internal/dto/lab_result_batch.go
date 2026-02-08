@@ -69,6 +69,7 @@ type LabResultBatchResponse struct {
 	Status             models.LabResultBatchStatus  `json:"status"`
 	Observations       *string                      `json:"observations,omitempty"`
 	Attachments        *string                      `json:"attachments,omitempty"`
+	PDFContentJSON     *string                      `json:"pdfContentJson,omitempty"`
 	ResultCount        int                          `json:"resultCount"`
 	CreatedAt          string                       `json:"createdAt"`
 	UpdatedAt          string                       `json:"updatedAt"`
@@ -86,6 +87,7 @@ type LabResultBatchDetailResponse struct {
 	Status             models.LabResultBatchStatus  `json:"status"`
 	Observations       *string                      `json:"observations,omitempty"`
 	Attachments        *string                      `json:"attachments,omitempty"`
+	PDFContentJSON     *string                      `json:"pdfContentJson,omitempty"`
 	ResultCount        int                          `json:"resultCount"`
 	LabResults         []LabResultInBatchResponse   `json:"labResults"`
 	CreatedAt          string                       `json:"createdAt"`

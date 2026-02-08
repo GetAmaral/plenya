@@ -93,6 +93,7 @@ export function LabResultInBatchForm({
                 <LabTestDefinitionSelect
                   value={field.value}
                   onSelect={handleTestSelect}
+                  showAll={true}
                 />
               </FormControl>
               <FormDescription>

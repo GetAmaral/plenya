@@ -5,7 +5,8 @@ import { Edit, Trash2, Plus, GripVertical, ChevronRight, ChevronLeft } from 'luc
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { ScoreGroup, ScoreSubgroup, ScoreItem, useDeleteScoreGroup, useDeleteScoreSubgroup, useUpdateScoreItem } from '@/lib/api/score-api'
+import { ScoreGroup, ScoreSubgroup, ScoreItem, useDeleteScoreGroup, useDeleteScoreSubgroup, useUpdateScoreItem, scoreKeys } from '@/lib/api/score-api'
+import { useQueryClient } from '@tanstack/react-query'
 import { ScoreGroupDialog } from './ScoreGroupDialog'
 import { ScoreSubgroupDialog } from './ScoreSubgroupDialog'
 import { ScoreItemDialog } from './ScoreItemDialog'
@@ -191,6 +192,7 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
   const [accordionValues, setAccordionValues] = useState<Record<string, string[]>>({})
   const [activeId, setActiveId] = useState<string | null>(null)
 
+  const queryClient = useQueryClient()
   const deleteGroup = useDeleteScoreGroup()
   const deleteSubgroup = useDeleteScoreSubgroup()
   const updateItem = useUpdateScoreItem()
@@ -262,9 +264,12 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
     const currentItem = allItems.find(i => i.id === itemId)
     if (!currentItem) return
 
+    // Normalizar parentItemId
+    const normalizeParentId = (id: string | null | undefined) => id || null
+
     // Encontrar o item imediatamente acima (mesmo parent level)
     const sameParentItems = allItems
-      .filter(i => i.parentItemId === currentItem.parentItemId)
+      .filter(i => normalizeParentId(i.parentItemId) === normalizeParentId(currentItem.parentItemId))
       .sort((a, b) => a.order - b.order)
 
     const currentIndex = sameParentItems.findIndex(i => i.id === itemId)
@@ -272,40 +277,30 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
 
     const itemAbove = sameParentItems[currentIndex - 1]
 
-    // Encontrar filhos do item atual
-    const children = allItems.filter(i => i.parentItemId === itemId)
+    // Determinar o novo pai:
+    // Se item acima é filho de alguém, herda o mesmo pai
+    // Se item acima é raiz, torna-se filho dele
+    const newParentId = itemAbove.parentItemId || itemAbove.id
+
+    // Encontrar max order dos filhos do novo pai
+    const siblingsOfNewParent = allItems.filter(i => normalizeParentId(i.parentItemId) === normalizeParentId(newParentId))
+    const maxOrder = siblingsOfNewParent.length > 0
+      ? Math.max(...siblingsOfNewParent.map(i => i.order))
+      : 0
 
     try {
-      // Atualizar o item para ser filho do item acima
-      const updatePromises = [
-        updateItem.mutateAsync({
-          id: itemId,
-          data: {
-            parentItemId: itemAbove.id,
-          },
-        })
-      ]
+      // Atualizar o item para ser filho do novo pai com order correto
+      await updateItem.mutateAsync({
+        id: itemId,
+        data: {
+          parentItemId: newParentId,
+          order: maxOrder + 1,
+        },
+      })
 
-      // Se tem filhos, eles também viram filhos do item acima (não do item atual)
-      if (children.length > 0) {
-        const childrenPromises = children.map(child =>
-          updateItem.mutateAsync({
-            id: child.id,
-            data: {
-              parentItemId: itemAbove.id,
-            },
-          })
-        )
-        updatePromises.push(...childrenPromises)
-      }
-
-      await Promise.all(updatePromises)
-
-      if (children.length > 0) {
-        toast.success(`Item e ${children.length} filho(s) indentados`)
-      } else {
-        toast.success('Item indentado')
-      }
+      // Invalidate queries manually
+      await queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
+      toast.success('Item indentado')
     } catch (error) {
       toast.error('Erro ao indentar item')
     }
@@ -318,36 +313,78 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
     const parentItem = allItems.find(i => i.id === currentItem.parentItemId)
     if (!parentItem) return
 
+    // Normalizar parentItemId
+    const normalizeParentId = (id: string | null | undefined) => id || null
+
     try {
       // Encontrar irmãos abaixo dele (outros filhos do mesmo pai, excluindo o próprio item)
       const siblings = allItems
         .filter(i =>
           i.id !== itemId && // Não incluir o próprio item
-          i.parentItemId === currentItem.parentItemId &&
-          i.order >= currentItem.order // >= para pegar itens com mesmo order também
+          normalizeParentId(i.parentItemId) === normalizeParentId(currentItem.parentItemId) &&
+          i.order > currentItem.order // Apenas items com order maior
         )
         .sort((a, b) => a.order - b.order)
 
       // Atualizar o item para ser filho do avô (ou raiz = null)
       const newParentId = parentItem.parentItemId || null
 
-      await updateItem.mutateAsync({
-        id: itemId,
-        data: { parentItemId: newParentId },
+      // Nova ordem: ordem do antigo pai + 1
+      const newOrder = parentItem.order + 1
+
+      // Encontrar todos items no novo nível que precisam ser movidos para dar espaço
+      const itemsInNewLevel = allItems
+        .filter(i =>
+          normalizeParentId(i.parentItemId) === normalizeParentId(newParentId) &&
+          i.order >= newOrder &&
+          i.id !== itemId
+        )
+        .sort((a, b) => a.order - b.order)
+
+      // Executar TODAS as mutations ANTES de invalidar
+      const mutations: Promise<any>[] = []
+
+      // 1. Incrementar orders dos items que estão no caminho
+      itemsInNewLevel.forEach(item => {
+        mutations.push(
+          updateItem.mutateAsync({
+            id: item.id,
+            data: { order: item.order + 1 },
+          })
+        )
       })
 
-      // Se tem irmãos abaixo, torná-los filhos do item desindentado
-      if (siblings.length > 0) {
-        await Promise.all(
-          siblings.map(sibling =>
-            updateItem.mutateAsync({
-              id: sibling.id,
-              data: {
-                parentItemId: itemId,
-              },
-            })
-          )
+      // 2. Atualizar o item desindentado
+      mutations.push(
+        updateItem.mutateAsync({
+          id: itemId,
+          data: {
+            parentItemId: newParentId,
+            order: newOrder,
+          },
+        })
+      )
+
+      // 3. Tornar irmãos abaixo em filhos do item desindentado
+      siblings.forEach((sibling, index) => {
+        mutations.push(
+          updateItem.mutateAsync({
+            id: sibling.id,
+            data: {
+              parentItemId: itemId,
+              order: index + 1,
+            },
+          })
         )
+      })
+
+      // Executar todas em paralelo
+      await Promise.all(mutations)
+
+      // Invalidate uma única vez no final
+      await queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
+
+      if (siblings.length > 0) {
         toast.success(`Desindentado e capturou ${siblings.length} filho(s)`)
       } else {
         toast.success('Item desindentado')
@@ -435,20 +472,33 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
     // Inserir na nova posição
     reorderedSiblings.splice(targetIndex, 0, draggedItem)
 
-    // RECALCULAR TODOS OS ORDERS DO SUBGRUPO INTEIRO (não só siblings)
-    // Isso garante que não haverá orders duplicados ou gaps
+    // RECALCULAR ORDERS DOS SIBLINGS
+    // Apenas atualiza items cujo order realmente mudou para evitar mutations desnecessárias
     try {
-      // 1. Reassignar orders para os siblings reordenados
-      const siblingUpdates = reorderedSiblings.map((item, index) => {
-        const newOrder = index + 1
-        return updateItem.mutateAsync({
-          id: item.id,
-          data: { order: newOrder },
+      const updates = reorderedSiblings
+        .map((item, index) => {
+          const newOrder = index + 1
+          // Só atualizar se order mudou
+          if (item.order !== newOrder) {
+            return updateItem.mutateAsync({
+              id: item.id,
+              data: {
+                order: newOrder,
+                // CRITICAL: Always send parentItemId to prevent backend from clearing it
+                parentItemId: item.parentItemId || null,
+              },
+            })
+          }
+          return null
         })
-      })
+        .filter(Boolean) as Promise<any>[]
 
-      await Promise.all(siblingUpdates)
-      toast.success('Itens reordenados')
+      if (updates.length > 0) {
+        await Promise.all(updates)
+        // Invalidate uma única vez no final
+        await queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
+        toast.success('Itens reordenados')
+      }
     } catch (error) {
       toast.error('Erro ao reordenar itens')
     }

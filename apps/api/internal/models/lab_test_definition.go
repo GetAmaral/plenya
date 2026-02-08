@@ -1,7 +1,6 @@
 package models
 
 import (
-	"encoding/json"
 	"strings"
 	"time"
 	"unicode"
@@ -51,7 +50,7 @@ type LabTestDefinition struct {
 	// Array de strings com variações do nome encontradas em laudos
 	// NUNCA incluir siglas (siglas vão em ShortName)
 	// @example ["Hemoglobina", "Hemoglobina total", "Hemoglobina - Homens", "Hemoglobina - Mulheres"]
-	AltNames *string `gorm:"type:jsonb" json:"altNames,omitempty"`
+	AltNames []string `gorm:"type:jsonb;serializer:json" json:"altNames,omitempty"`
 
 	// Código TUSS (Terminologia Unificada da Saúde Suplementar)
 	// Usado para faturamento e solicitação no Brasil
@@ -137,8 +136,9 @@ type LabTestDefinition struct {
 	// Subexames/parâmetros (se for um exame composto)
 	SubTests []LabTestDefinition `gorm:"foreignKey:ParentTestID;constraint:OnDelete:SET NULL" json:"subTests,omitempty"`
 
-	// Mapeamentos para itens do escore
-	ScoreMappings []LabTestScoreMapping `gorm:"foreignKey:LabTestID;constraint:OnDelete:CASCADE" json:"scoreMappings,omitempty"`
+	// ScoreItems relacionados via código (oneToMany: labTestDefinition.code -> scoreItem.labTestCode)
+	// Múltiplos ScoreItems podem ter o mesmo código (ex: variantes por gênero/idade)
+	ScoreItems []ScoreItem `gorm:"foreignKey:LabTestCode;references:Code" json:"scoreItems,omitempty"`
 }
 
 // TableName especifica o nome da tabela
@@ -156,40 +156,18 @@ func (ltd *LabTestDefinition) BeforeCreate(tx *gorm.DB) error {
 
 // BeforeSave hook to normalize AltNames (lower + unaccent)
 func (ltd *LabTestDefinition) BeforeSave(tx *gorm.DB) error {
-	// Normalizar AltNames se não for nil
-	if ltd.AltNames != nil && *ltd.AltNames != "" && *ltd.AltNames != "null" {
-		normalized, err := normalizeAltNames(*ltd.AltNames)
-		if err == nil {
-			ltd.AltNames = &normalized
+	// Normalizar AltNames se não for nil/vazio
+	if len(ltd.AltNames) > 0 {
+		normalized := make([]string, 0, len(ltd.AltNames))
+		for _, name := range ltd.AltNames {
+			normalizedName := normalizeString(name)
+			if normalizedName != "" {
+				normalized = append(normalized, normalizedName)
+			}
 		}
+		ltd.AltNames = normalized
 	}
 	return nil
-}
-
-// normalizeAltNames aplica lower() e unaccent() em cada item do array JSON
-func normalizeAltNames(altNamesJSON string) (string, error) {
-	// Parse JSON array
-	var altNames []string
-	if err := json.Unmarshal([]byte(altNamesJSON), &altNames); err != nil {
-		return altNamesJSON, err // Retorna original se não for JSON válido
-	}
-
-	// Normalizar cada item
-	normalized := make([]string, 0, len(altNames))
-	for _, name := range altNames {
-		normalizedName := normalizeString(name)
-		if normalizedName != "" {
-			normalized = append(normalized, normalizedName)
-		}
-	}
-
-	// Converter de volta para JSON
-	result, err := json.Marshal(normalized)
-	if err != nil {
-		return altNamesJSON, err
-	}
-
-	return string(result), nil
 }
 
 // normalizeString aplica trim + lower + unaccent em uma string
@@ -213,44 +191,4 @@ func removeAccents(s string) string {
 	return result
 }
 
-// LabTestScoreMapping mapeia um exame laboratorial para um item do escore
-// @Description Mapeamento entre exame e item do escore Plenya
-type LabTestScoreMapping struct {
-	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
-	// ID do exame laboratorial
-	LabTestID uuid.UUID `gorm:"type:uuid;not null;index:idx_lab_test_score" json:"labTestId" validate:"required"`
-
-	// ID do item do escore
-	ScoreItemID uuid.UUID `gorm:"type:uuid;not null;index:idx_lab_test_score" json:"scoreItemId" validate:"required"`
-
-	// Especificação de gênero (se o mapeamento for específico)
-	// @enum male, female, null (ambos)
-	Gender *Gender `gorm:"type:varchar(10)" json:"gender,omitempty"`
-
-	// Faixa etária mínima (em anos)
-	MinAge *int `gorm:"type:integer" json:"minAge,omitempty"`
-
-	// Faixa etária máxima (em anos)
-	MaxAge *int `gorm:"type:integer" json:"maxAge,omitempty"`
-
-	// Observações sobre o mapeamento
-	Notes *string `gorm:"type:text" json:"notes,omitempty"`
-
-	// Status
-	IsActive bool `gorm:"type:boolean;not null;default:true" json:"isActive"`
-
-	// Timestamps
-	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
-	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
-	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
-
-	// Relacionamentos
-	LabTest   LabTestDefinition `gorm:"foreignKey:LabTestID" json:"labTest,omitempty"`
-	ScoreItem ScoreItem         `gorm:"foreignKey:ScoreItemID" json:"scoreItem,omitempty"`
-}
-
-// TableName especifica o nome da tabela
-func (LabTestScoreMapping) TableName() string {
-	return "lab_test_score_mappings"
-}

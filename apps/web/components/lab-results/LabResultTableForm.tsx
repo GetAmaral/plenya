@@ -158,6 +158,7 @@ export function LabResultTableForm({
                                     value={field.value}
                                     onSelect={(test) => handleTestSelect(index, test)}
                                     autoFocus={index === lastAddedIndex}
+                                    showAll={true}
                                   />
                                 </FormControl>
                                 <FormMessage />

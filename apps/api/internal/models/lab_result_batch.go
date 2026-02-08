@@ -60,6 +60,9 @@ type LabResultBatch struct {
 	// Conteúdo que precisa de IA (após remover exames já matched via pré-matching)
 	PDFContentNeedAI *string `gorm:"type:text" json:"pdfContentNeedAi,omitempty"`
 
+	// Conteúdo processado pela IA em formato JSON estruturado
+	PDFContentJSON *string `gorm:"type:text" json:"pdfContentJson,omitempty"`
+
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 

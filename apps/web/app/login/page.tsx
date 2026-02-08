@@ -16,7 +16,6 @@ import { useAuthStore } from "@/lib/auth-store";
 import { useFormNavigation } from "@/lib/use-form-navigation";
 import { Activity, ArrowRight, Loader2 } from "lucide-react";
 import { GoogleOAuthButton } from "@/components/auth/GoogleOAuthButton";
-import { AppleOAuthButton } from "@/components/auth/AppleOAuthButton";
 
 const loginSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -158,7 +157,6 @@ export default function LoginPage() {
               className="space-y-3 mb-6"
             >
               <GoogleOAuthButton />
-              <AppleOAuthButton />
 
               {/* Divider */}
               <div className="relative my-6">
