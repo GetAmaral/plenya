@@ -367,11 +367,19 @@ definitions:
         type: string
       labResultBatchId:
         type: string
+      labTestDefinition:
+        allOf:
+        - $ref: '#/definitions/dto.LabTestDefinitionResponse'
+        description: Objeto preloaded
       labTestDefinitionId:
         type: string
       level:
         type: integer
       resultNumeric:
+        description: Valor CONVERTIDO
+        type: number
+      resultNumericOriginal:
+        description: Valor ORIGINAL
         type: number
       resultText:
         type: string
@@ -380,6 +388,10 @@ definitions:
       testType:
         type: string
       unit:
+        description: Unidade CONVERTIDA
+        type: string
+      unitOriginal:
+        description: Unidade ORIGINAL
         type: string
       updatedAt:
         type: string
@@ -394,6 +406,19 @@ definitions:
         type: integer
     required:
     - labTestDefinitionId
+    type: object
+  dto.LabTestDefinitionResponse:
+    properties:
+      category:
+        type: string
+      code:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      unit:
+        type: string
     type: object
   dto.LoginRequest:
     properties:
@@ -1298,7 +1323,11 @@ definitions:
           true = matched com LabTestDefinition, false = extraído mas não catalogado
         type: boolean
       resultNumeric:
-        description: Resultado numérico (para exames quantitativos)
+        description: Resultado numérico (para exames quantitativos) - CONVERTIDO para
+          unidade padrão
+        type: number
+      resultNumericOriginal:
+        description: Resultado numérico ORIGINAL (antes da conversão de unidade)
         type: number
       resultText:
         description: Resultado em texto (para exames qualitativos)
@@ -1310,7 +1339,10 @@ definitions:
         description: 'Tipo de exame (ex: hemograma, glicemia, etc)'
         type: string
       unit:
-        description: Unidade de medida
+        description: Unidade de medida - CONVERTIDA para unidade padrão
+        type: string
+      unitOriginal:
+        description: Unidade ORIGINAL (antes da conversão)
         type: string
       updatedAt:
         description: Data de atualização
@@ -1939,6 +1971,11 @@ definitions:
         - divorced
         - widowed
         - other
+      menopause:
+        description: |-
+          Indica se a paciente está na menopausa (apenas para gender=female)
+          @example true
+        type: boolean
       motherName:
         description: |-
           Nome da mãe (opcional)
@@ -2065,6 +2102,24 @@ definitions:
   models.ScoreItem:
     description: Item de escore - parâmetro clínico específico
     properties:
+      ageRangeMax:
+        description: |-
+          Idade máxima aplicável (anos)
+          @minimum 0
+          @maximum 150
+          @example 65
+        maximum: 150
+        minimum: 0
+        type: integer
+      ageRangeMin:
+        description: |-
+          Idade mínima aplicável (anos)
+          @minimum 0
+          @maximum 150
+          @example 18
+        maximum: 150
+        minimum: 0
+        type: integer
       articles:
         description: |-
           Many-to-many relationship with Articles
@@ -2088,6 +2143,16 @@ definitions:
         type: string
       createdAt:
         description: Timestamps
+        type: string
+      gender:
+        description: |-
+          Gênero aplicável (not_applicable, male, female)
+          @enum not_applicable,male,female
+          @example male
+        enum:
+        - not_applicable
+        - male
+        - female
         type: string
       id:
         description: '@example 550e8400-e29b-41d4-a716-446655440000'
@@ -2144,6 +2209,11 @@ definitions:
         maximum: 100
         minimum: 0
         type: number
+      postMenopause:
+        description: |-
+          Indica se o score_item é aplicável apenas para mulheres pós-menopausa
+          @example true
+        type: boolean
       subgroup:
         allOf:
         - $ref: '#/definitions/models.ScoreSubgroup'
@@ -2512,6 +2582,20 @@ definitions:
     type: object
   services.CreateScoreItemDTO:
     properties:
+      ageRangeMax:
+        maximum: 150
+        minimum: 0
+        type: integer
+      ageRangeMin:
+        maximum: 150
+        minimum: 0
+        type: integer
+      gender:
+        enum:
+        - not_applicable
+        - male
+        - female
+        type: string
       name:
         maxLength: 300
         minLength: 2
@@ -2656,9 +2740,23 @@ definitions:
     type: object
   services.UpdateScoreItemDTO:
     properties:
+      ageRangeMax:
+        maximum: 150
+        minimum: 0
+        type: integer
+      ageRangeMin:
+        maximum: 150
+        minimum: 0
+        type: integer
       clinicalRelevance:
         type: string
       conduct:
+        type: string
+      gender:
+        enum:
+        - not_applicable
+        - male
+        - female
         type: string
       lastReview:
         type: string
@@ -3949,6 +4047,41 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorResponse'
       summary: Atualizar lote
+      tags:
+      - LabResultBatch
+  /api/v1/lab-result-batches/{id}/classify:
+    post:
+      consumes:
+      - application/json
+      description: Re-classifica automaticamente os resultados de um batch baseado
+        nos ScoreItems configurados
+      parameters:
+      - description: ID do lote
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Classification completed
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Re-classificar resultados do lote
       tags:
       - LabResultBatch
   /api/v1/lab-result-batches/{id}/results:

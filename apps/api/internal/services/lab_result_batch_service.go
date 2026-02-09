@@ -125,6 +125,11 @@ func (s *LabResultBatchService) Create(userID uuid.UUID, req *dto.CreateLabResul
 				Level:               resReq.Level,
 			}
 
+			// Aplicar conversão de unidade ANTES de criar
+			if err := s.applyUnitConversion(&result); err != nil {
+				// Log error mas não falha
+			}
+
 			if err := tx.Create(&result).Error; err != nil {
 				return err
 			}
@@ -135,6 +140,12 @@ func (s *LabResultBatchService) Create(userID uuid.UUID, req *dto.CreateLabResul
 
 	if err != nil {
 		return nil, err
+	}
+
+	// Classificar resultados automaticamente
+	if err := s.ClassifyBatchResults(batch.ID); err != nil {
+		// Log error mas não falha a criação do batch
+		// TODO: Log warning
 	}
 
 	// Retornar com preload
@@ -310,12 +321,14 @@ func (s *LabResultBatchService) Update(batchID, userID uuid.UUID, req *dto.Updat
 					}
 
 					// Atualizar campos
+					needsConversion := false
 					if reqResult.LabTestDefinitionID != nil {
 						parsed, err := uuid.Parse(*reqResult.LabTestDefinitionID)
 						if err != nil {
 							return errors.New("invalid lab test definition id")
 						}
 						existingResult.LabTestDefinitionID = &parsed
+						needsConversion = true
 					}
 					if reqResult.TestName != nil {
 						existingResult.TestName = *reqResult.TestName
@@ -328,15 +341,24 @@ func (s *LabResultBatchService) Update(batchID, userID uuid.UUID, req *dto.Updat
 					}
 					if reqResult.ResultNumeric != nil {
 						existingResult.ResultNumeric = reqResult.ResultNumeric
+						needsConversion = true
 					}
 					if reqResult.Unit != nil {
 						existingResult.Unit = reqResult.Unit
+						needsConversion = true
 					}
 					if reqResult.Interpretation != nil {
 						existingResult.Interpretation = reqResult.Interpretation
 					}
 					if reqResult.Level != nil {
 						existingResult.Level = reqResult.Level
+					}
+
+					// Aplicar conversão de unidade se mudou valor/unidade/definição
+					if needsConversion {
+						if err := s.applyUnitConversion(existingResult); err != nil {
+							// Log error mas não falha
+						}
 					}
 
 					if err := tx.Save(existingResult).Error; err != nil {
@@ -365,6 +387,11 @@ func (s *LabResultBatchService) Update(batchID, userID uuid.UUID, req *dto.Updat
 						newResult.LabTestDefinitionID = &parsed
 					}
 
+					// Aplicar conversão de unidade ANTES de criar
+					if err := s.applyUnitConversion(&newResult); err != nil {
+						// Log error mas não falha
+					}
+
 					if err := tx.Create(&newResult).Error; err != nil {
 						return err
 					}
@@ -386,6 +413,12 @@ func (s *LabResultBatchService) Update(batchID, userID uuid.UUID, req *dto.Updat
 
 	if err != nil {
 		return nil, err
+	}
+
+	// Classificar resultados automaticamente após update
+	if err := s.ClassifyBatchResults(batchID); err != nil {
+		// Log error mas não falha o update
+		// TODO: Log warning
 	}
 
 	// Recarregar batch com resultados atualizados
@@ -441,6 +474,11 @@ func (s *LabResultBatchService) AddResultInternal(batchID uuid.UUID, req *dto.Cr
 		Unit:                req.Unit,
 		Interpretation:      req.Interpretation,
 		Matched:             matched,
+	}
+
+	// Aplicar conversão de unidade ANTES de criar
+	if err := s.applyUnitConversion(&result); err != nil {
+		// Log error mas não falha
 	}
 
 	if err := s.db.Create(&result).Error; err != nil {
@@ -502,6 +540,11 @@ func (s *LabResultBatchService) AddResult(batchID, userID uuid.UUID, req *dto.Cr
 		Matched:             matched,
 	}
 
+	// Aplicar conversão de unidade ANTES de criar
+	if err := s.applyUnitConversion(&result); err != nil {
+		// Log error mas não falha
+	}
+
 	if err := s.db.Create(&result).Error; err != nil {
 		return nil, err
 	}
@@ -543,12 +586,14 @@ func (s *LabResultBatchService) UpdateResult(batchID, resultID, userID uuid.UUID
 	}
 
 	// Update fields
+	needsConversion := false
 	if req.LabTestDefinitionID != nil {
 		parsed, err := uuid.Parse(*req.LabTestDefinitionID)
 		if err != nil {
 			return nil, errors.New("invalid lab test definition id")
 		}
 		result.LabTestDefinitionID = &parsed
+		needsConversion = true
 	}
 	if req.TestName != nil {
 		result.TestName = *req.TestName
@@ -561,12 +606,21 @@ func (s *LabResultBatchService) UpdateResult(batchID, resultID, userID uuid.UUID
 	}
 	if req.ResultNumeric != nil {
 		result.ResultNumeric = req.ResultNumeric
+		needsConversion = true
 	}
 	if req.Unit != nil {
 		result.Unit = req.Unit
+		needsConversion = true
 	}
 	if req.Interpretation != nil {
 		result.Interpretation = req.Interpretation
+	}
+
+	// Aplicar conversão de unidade se mudou valor/unidade/definição
+	if needsConversion {
+		if err := s.applyUnitConversion(&result); err != nil {
+			// Log error mas não falha
+		}
 	}
 
 	if err := s.db.Save(&result).Error; err != nil {
@@ -594,6 +648,52 @@ func (s *LabResultBatchService) DeleteResult(batchID, resultID, userID uuid.UUID
 }
 
 // Helper functions
+
+// applyUnitConversion aplica conversão de unidade se disponível
+// Armazena valores originais e converte para unidade padrão
+func (s *LabResultBatchService) applyUnitConversion(result *models.LabResult) error {
+	// Se não tiver valor numérico ou unidade, skip
+	if result.ResultNumeric == nil || result.Unit == nil {
+		return nil
+	}
+
+	// Se não tiver LabTestDefinitionID, skip (sem como fazer conversão)
+	if result.LabTestDefinitionID == nil {
+		return nil
+	}
+
+	// 1. Armazenar valores ORIGINAIS
+	result.ResultNumericOriginal = result.ResultNumeric
+	result.UnitOriginal = result.Unit
+
+	// 2. Buscar LabTestDefinition
+	var labTestDef models.LabTestDefinition
+	if err := s.db.First(&labTestDef, *result.LabTestDefinitionID).Error; err != nil {
+		// Se não encontrou, manter original (não falhar)
+		return nil
+	}
+
+	// 3. Tentar converter
+	convertedValue, convertedUnit, wasConverted, err := labTestDef.ConvertToMainUnit(
+		s.db,
+		*result.ResultNumeric,
+		*result.Unit,
+	)
+
+	if err != nil {
+		// Se erro na conversão, manter original (não falhar)
+		return nil
+	}
+
+	// 4. Se converteu, atualizar campos convertidos
+	if wasConverted {
+		result.ResultNumeric = &convertedValue
+		result.Unit = &convertedUnit
+	}
+	// Se não converteu (wasConverted = false), mantém valores originais
+
+	return nil
+}
 
 func (s *LabResultBatchService) toResponse(batch *models.LabResultBatch) dto.LabResultBatchResponse {
 	var labRequestID, requestingDoctorID, resultDate *string
@@ -676,19 +776,21 @@ func (s *LabResultBatchService) toLabResultResponse(result *models.LabResult) *d
 	}
 
 	return &dto.LabResultInBatchResponse{
-		ID:                  result.ID.String(),
-		LabResultBatchID:    result.LabResultBatchID.String(),
-		LabTestDefinitionID: labTestDefID,
-		LabTestDefinition:   labTestDef,
-		TestName:            result.TestName,
-		TestType:            result.TestType,
-		ResultText:          result.ResultText,
-		ResultNumeric:       result.ResultNumeric,
-		Unit:                result.Unit,
-		Interpretation:      result.Interpretation,
-		Level:               result.Level,
-		CreatedAt:           result.CreatedAt.Format(time.RFC3339),
-		UpdatedAt:           result.UpdatedAt.Format(time.RFC3339),
+		ID:                    result.ID.String(),
+		LabResultBatchID:      result.LabResultBatchID.String(),
+		LabTestDefinitionID:   labTestDefID,
+		LabTestDefinition:     labTestDef,
+		TestName:              result.TestName,
+		TestType:              result.TestType,
+		ResultText:            result.ResultText,
+		ResultNumeric:         result.ResultNumeric,
+		Unit:                  result.Unit,
+		ResultNumericOriginal: result.ResultNumericOriginal,
+		UnitOriginal:          result.UnitOriginal,
+		Interpretation:        result.Interpretation,
+		Level:                 result.Level,
+		CreatedAt:             result.CreatedAt.Format(time.RFC3339),
+		UpdatedAt:             result.UpdatedAt.Format(time.RFC3339),
 	}
 }
 
@@ -697,4 +799,107 @@ func (s *LabResultBatchService) UpdateAttachments(batchID uuid.UUID, attachments
 	return s.db.Model(&models.LabResultBatch{}).
 		Where("id = ?", batchID).
 		Update("attachments", attachments).Error
+}
+
+// ClassifyBatchResults classifica automaticamente os resultados de um batch baseado nos ScoreItems
+// Esta função roda após salvamento de batch (manual ou importação de PDF)
+func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
+	// 1. Buscar batch com LabResults e LabTestDefinitions preloaded
+	var batch models.LabResultBatch
+	if err := s.db.Preload("LabResults.LabTestDefinition").First(&batch, batchID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return ErrLabResultBatchNotFound
+		}
+		return err
+	}
+
+	// 2. Buscar paciente
+	var patient models.Patient
+	if err := s.db.First(&patient, batch.PatientID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return ErrPatientNotFound
+		}
+		return err
+	}
+
+	// 3. Para cada LabResult
+	for i := range batch.LabResults {
+		result := &batch.LabResults[i]
+
+		// Se não tiver LabTestDefinitionID, skip
+		if result.LabTestDefinitionID == nil {
+			continue
+		}
+
+		// Se não tiver ResultNumeric, skip (não há como classificar)
+		if result.ResultNumeric == nil {
+			continue
+		}
+
+		// Buscar LabTestDefinition se não estiver preloaded
+		if result.LabTestDefinition == nil {
+			var labTestDef models.LabTestDefinition
+			if err := s.db.First(&labTestDef, *result.LabTestDefinitionID).Error; err != nil {
+				// Log error mas não falha - continua para próximo result
+				continue
+			}
+			result.LabTestDefinition = &labTestDef
+		}
+
+		// 4. Buscar ScoreItems relacionados ao LabTestDefinition.Code
+		var scoreItems []models.ScoreItem
+		if err := s.db.
+			Preload("Levels", func(db *gorm.DB) *gorm.DB {
+				return db.Order("level ASC") // Ordenar por level (0-5)
+			}).
+			Where("lab_test_code = ?", result.LabTestDefinition.Code).
+			Find(&scoreItems).Error; err != nil {
+			// Log error mas não falha
+			continue
+		}
+
+		if len(scoreItems) == 0 {
+			// Nenhum ScoreItem configurado para este exame - skip
+			continue
+		}
+
+		// 5. Filtrar ScoreItems por patient (gender, age, menopause)
+		var applicableItems []models.ScoreItem
+		for _, item := range scoreItems {
+			if item.AppliesToPatient(&patient) {
+				applicableItems = append(applicableItems, item)
+			}
+		}
+
+		if len(applicableItems) == 0 {
+			// Nenhum ScoreItem se aplica a este paciente - skip
+			continue
+		}
+
+		// Se sobrar mais de 1, pegar o primeiro (já filtrado)
+		selectedItem := applicableItems[0]
+
+		// 6. Avaliar níveis (0-5) até encontrar o que satisfaz
+		foundLevel := false
+		for _, level := range selectedItem.Levels {
+			if level.EvaluatesTrue(*result.ResultNumeric) {
+				// Encontrou o nível! Salvar no LabResult
+				result.Level = &level.Level
+				if err := s.db.Model(result).Update("level", level.Level).Error; err != nil {
+					// Log error mas não falha
+					continue
+				}
+				foundLevel = true
+				break
+			}
+		}
+
+		// 7. Se nenhum nível satisfez, warning (erro de logística dos níveis)
+		if !foundLevel && len(selectedItem.Levels) > 0 {
+			// TODO: Log warning - nenhum level satisfez o valor (erro de configuração)
+			// Por ora, deixar Level como nil (não forçar 0)
+		}
+	}
+
+	return nil
 }

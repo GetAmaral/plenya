@@ -191,4 +191,44 @@ func removeAccents(s string) string {
 	return result
 }
 
+// ConvertToMainUnit converte um valor de uma unidade original para a unidade padrão do exame
+// Se a unidade original já for a unidade padrão, retorna o valor sem conversão
+// Se não houver conversão cadastrada, retorna o valor original sem erro
+func (ltd *LabTestDefinition) ConvertToMainUnit(
+	db *gorm.DB,
+	originalValue float64,
+	originalUnit string,
+) (convertedValue float64, mainUnit string, wasConverted bool, err error) {
+	// 1. Normalizar unidades (trim + lowercase)
+	normalizedOriginalUnit := strings.TrimSpace(strings.ToLower(originalUnit))
+	normalizedMainUnit := ""
+	if ltd.Unit != nil {
+		normalizedMainUnit = strings.TrimSpace(strings.ToLower(*ltd.Unit))
+	}
+
+	// 2. Se já está na unidade principal, retornar sem conversão
+	if normalizedMainUnit != "" && normalizedOriginalUnit == normalizedMainUnit {
+		return originalValue, *ltd.Unit, false, nil
+	}
+
+	// 3. Buscar LabTestUnitConversion no banco
+	var conversion LabTestUnitConversion
+	err = db.Where(
+		"lab_test_definition_id = ? AND LOWER(TRIM(secondary_unit)) = ? AND deleted_at IS NULL",
+		ltd.ID,
+		normalizedOriginalUnit,
+	).First(&conversion).Error
+
+	// 4. Se não encontrou: retornar valor original (SEM ERRO)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return originalValue, originalUnit, false, nil
+		}
+		return originalValue, originalUnit, false, err
+	}
+
+	// 5. Se encontrou: aplicar conversão e retornar
+	convertedValue = conversion.ConvertToMain(originalValue)
+	return convertedValue, conversion.MainUnit, true, nil
+}
 

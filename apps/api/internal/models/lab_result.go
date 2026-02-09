@@ -28,11 +28,17 @@ type LabResult struct {
 	// Resultado em texto (para exames qualitativos)
 	ResultText *string `gorm:"type:text" json:"resultText,omitempty"`
 
-	// Resultado numérico (para exames quantitativos)
+	// Resultado numérico (para exames quantitativos) - CONVERTIDO para unidade padrão
 	ResultNumeric *float64 `gorm:"type:decimal(12,4)" json:"resultNumeric,omitempty"`
 
-	// Unidade de medida
+	// Unidade de medida - CONVERTIDA para unidade padrão
 	Unit *string `gorm:"type:varchar(50)" json:"unit,omitempty"`
+
+	// Resultado numérico ORIGINAL (antes da conversão de unidade)
+	ResultNumericOriginal *float64 `gorm:"type:decimal(12,4)" json:"resultNumericOriginal,omitempty"`
+
+	// Unidade ORIGINAL (antes da conversão)
+	UnitOriginal *string `gorm:"type:varchar(50)" json:"unitOriginal,omitempty"`
 
 	// Interpretação/Observações específicas deste teste
 	Interpretation *string `gorm:"type:text" json:"interpretation,omitempty"`
