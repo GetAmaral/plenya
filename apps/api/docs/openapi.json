@@ -2348,6 +2348,69 @@
                 }
             }
         },
+        "/api/v1/lab-result-batches/{id}/classify": {
+            "post": {
+                "description": "Re-classifica automaticamente os resultados de um batch baseado nos ScoreItems configurados",
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Re-classificar resultados do lote",
+                "parameters": [
+                    {
+                        "description": "ID do lote",
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Classification completed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/dto.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/dto.ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/dto.ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/lab-result-batches/{id}/results": {
             "post": {
                 "description": "Adiciona um novo resultado a um lote existente",
@@ -8970,6 +9033,14 @@
                     "labResultBatchId": {
                         "type": "string"
                     },
+                    "labTestDefinition": {
+                        "description": "Objeto preloaded",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/dto.LabTestDefinitionResponse"
+                            }
+                        ]
+                    },
                     "labTestDefinitionId": {
                         "type": "string"
                     },
@@ -8977,6 +9048,11 @@
                         "type": "integer"
                     },
                     "resultNumeric": {
+                        "description": "Valor CONVERTIDO",
+                        "type": "number"
+                    },
+                    "resultNumericOriginal": {
+                        "description": "Valor ORIGINAL",
                         "type": "number"
                     },
                     "resultText": {
@@ -8989,6 +9065,11 @@
                         "type": "string"
                     },
                     "unit": {
+                        "description": "Unidade CONVERTIDA",
+                        "type": "string"
+                    },
+                    "unitOriginal": {
+                        "description": "Unidade ORIGINAL",
                         "type": "string"
                     },
                     "updatedAt": {
@@ -9009,6 +9090,26 @@
                         "type": "integer",
                         "maximum": 9999,
                         "minimum": 0
+                    }
+                }
+            },
+            "dto.LabTestDefinitionResponse": {
+                "type": "object",
+                "properties": {
+                    "category": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "unit": {
+                        "type": "string"
                     }
                 }
             },
@@ -10193,7 +10294,11 @@
                         "type": "boolean"
                     },
                     "resultNumeric": {
-                        "description": "Resultado numérico (para exames quantitativos)",
+                        "description": "Resultado numérico (para exames quantitativos) - CONVERTIDO para unidade padrão",
+                        "type": "number"
+                    },
+                    "resultNumericOriginal": {
+                        "description": "Resultado numérico ORIGINAL (antes da conversão de unidade)",
                         "type": "number"
                     },
                     "resultText": {
@@ -10209,7 +10314,11 @@
                         "type": "string"
                     },
                     "unit": {
-                        "description": "Unidade de medida",
+                        "description": "Unidade de medida - CONVERTIDA para unidade padrão",
+                        "type": "string"
+                    },
+                    "unitOriginal": {
+                        "description": "Unidade ORIGINAL (antes da conversão)",
                         "type": "string"
                     },
                     "updatedAt": {
@@ -11049,6 +11158,18 @@
                     "subgroupId"
                 ],
                 "properties": {
+                    "ageRangeMax": {
+                        "description": "Idade máxima aplicável (anos)\n@minimum 0\n@maximum 150\n@example 65",
+                        "type": "integer",
+                        "maximum": 150,
+                        "minimum": 0
+                    },
+                    "ageRangeMin": {
+                        "description": "Idade mínima aplicável (anos)\n@minimum 0\n@maximum 150\n@example 18",
+                        "type": "integer",
+                        "maximum": 150,
+                        "minimum": 0
+                    },
                     "articles": {
                         "description": "Many-to-many relationship with Articles\n@items.type object",
                         "type": "array",
@@ -11073,6 +11194,15 @@
                     "createdAt": {
                         "description": "Timestamps",
                         "type": "string"
+                    },
+                    "gender": {
+                        "description": "Gênero aplicável (not_applicable, male, female)\n@enum not_applicable,male,female\n@example male",
+                        "type": "string",
+                        "enum": [
+                            "not_applicable",
+                            "male",
+                            "female"
+                        ]
                     },
                     "id": {
                         "description": "@example 550e8400-e29b-41d4-a716-446655440000",
@@ -11538,6 +11668,24 @@
                     "subgroupId"
                 ],
                 "properties": {
+                    "ageRangeMax": {
+                        "type": "integer",
+                        "maximum": 150,
+                        "minimum": 0
+                    },
+                    "ageRangeMin": {
+                        "type": "integer",
+                        "maximum": 150,
+                        "minimum": 0
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "not_applicable",
+                            "male",
+                            "female"
+                        ]
+                    },
                     "name": {
                         "type": "string",
                         "maxLength": 300,
@@ -11730,11 +11878,29 @@
             "services.UpdateScoreItemDTO": {
                 "type": "object",
                 "properties": {
+                    "ageRangeMax": {
+                        "type": "integer",
+                        "maximum": 150,
+                        "minimum": 0
+                    },
+                    "ageRangeMin": {
+                        "type": "integer",
+                        "maximum": 150,
+                        "minimum": 0
+                    },
                     "clinicalRelevance": {
                         "type": "string"
                     },
                     "conduct": {
                         "type": "string"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "not_applicable",
+                            "male",
+                            "female"
+                        ]
                     },
                     "lastReview": {
                         "type": "string"

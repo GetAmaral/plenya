@@ -15,6 +15,7 @@ import {
   TrendingUp,
   Minus,
   Package,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -218,6 +219,9 @@ export default function LabResultBatchDetailPage() {
                         ? `${result.resultNumeric}${result.unit ? ` ${result.unit}` : ""}`
                         : result.resultText || "-";
 
+                    const wasConverted = result.resultNumericOriginal !== undefined &&
+                                        result.resultNumericOriginal !== null;
+
                     return (
                       <TableRow key={result.id}>
                         <TableCell className="font-medium">
@@ -229,6 +233,14 @@ export default function LabResultBatchDetailPage() {
                         <TableCell>
                           <div>
                             <div className="font-medium">{resultValue}</div>
+                            {wasConverted && (
+                              <div className="flex items-center gap-1.5 mt-1 text-xs text-blue-600">
+                                <ArrowRight className="h-3 w-3" />
+                                <span>
+                                  Convertido de {result.resultNumericOriginal} {result.unitOriginal}
+                                </span>
+                              </div>
+                            )}
                             {result.interpretation && (
                               <div className="text-xs text-muted-foreground mt-1">
                                 {result.interpretation}

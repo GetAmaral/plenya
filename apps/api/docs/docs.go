@@ -1884,6 +1884,57 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/lab-result-batches/{id}/classify": {
+            "post": {
+                "description": "Re-classifica automaticamente os resultados de um batch baseado nos ScoreItems configurados",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LabResultBatch"
+                ],
+                "summary": "Re-classificar resultados do lote",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID do lote",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Classification completed",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/lab-result-batches/{id}/results": {
             "post": {
                 "description": "Adiciona um novo resultado a um lote existente",
@@ -7460,6 +7511,14 @@ const docTemplate = `{
                 "labResultBatchId": {
                     "type": "string"
                 },
+                "labTestDefinition": {
+                    "description": "Objeto preloaded",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/dto.LabTestDefinitionResponse"
+                        }
+                    ]
+                },
                 "labTestDefinitionId": {
                     "type": "string"
                 },
@@ -7467,6 +7526,11 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "resultNumeric": {
+                    "description": "Valor CONVERTIDO",
+                    "type": "number"
+                },
+                "resultNumericOriginal": {
+                    "description": "Valor ORIGINAL",
                     "type": "number"
                 },
                 "resultText": {
@@ -7479,6 +7543,11 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "unit": {
+                    "description": "Unidade CONVERTIDA",
+                    "type": "string"
+                },
+                "unitOriginal": {
+                    "description": "Unidade ORIGINAL",
                     "type": "string"
                 },
                 "updatedAt": {
@@ -7499,6 +7568,26 @@ const docTemplate = `{
                     "type": "integer",
                     "maximum": 9999,
                     "minimum": 0
+                }
+            }
+        },
+        "dto.LabTestDefinitionResponse": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
                 }
             }
         },
@@ -8683,7 +8772,11 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "resultNumeric": {
-                    "description": "Resultado numérico (para exames quantitativos)",
+                    "description": "Resultado numérico (para exames quantitativos) - CONVERTIDO para unidade padrão",
+                    "type": "number"
+                },
+                "resultNumericOriginal": {
+                    "description": "Resultado numérico ORIGINAL (antes da conversão de unidade)",
                     "type": "number"
                 },
                 "resultText": {
@@ -8699,7 +8792,11 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "unit": {
-                    "description": "Unidade de medida",
+                    "description": "Unidade de medida - CONVERTIDA para unidade padrão",
+                    "type": "string"
+                },
+                "unitOriginal": {
+                    "description": "Unidade ORIGINAL (antes da conversão)",
                     "type": "string"
                 },
                 "updatedAt": {
@@ -9398,6 +9495,10 @@ const docTemplate = `{
                         }
                     ]
                 },
+                "menopause": {
+                    "description": "Indica se a paciente está na menopausa (apenas para gender=female)\n@example true",
+                    "type": "boolean"
+                },
                 "motherName": {
                     "description": "Nome da mãe (opcional)\n@example Maria da Silva",
                     "type": "string"
@@ -9535,6 +9636,18 @@ const docTemplate = `{
                 "subgroupId"
             ],
             "properties": {
+                "ageRangeMax": {
+                    "description": "Idade máxima aplicável (anos)\n@minimum 0\n@maximum 150\n@example 65",
+                    "type": "integer",
+                    "maximum": 150,
+                    "minimum": 0
+                },
+                "ageRangeMin": {
+                    "description": "Idade mínima aplicável (anos)\n@minimum 0\n@maximum 150\n@example 18",
+                    "type": "integer",
+                    "maximum": 150,
+                    "minimum": 0
+                },
                 "articles": {
                     "description": "Many-to-many relationship with Articles\n@items.type object",
                     "type": "array",
@@ -9559,6 +9672,15 @@ const docTemplate = `{
                 "createdAt": {
                     "description": "Timestamps",
                     "type": "string"
+                },
+                "gender": {
+                    "description": "Gênero aplicável (not_applicable, male, female)\n@enum not_applicable,male,female\n@example male",
+                    "type": "string",
+                    "enum": [
+                        "not_applicable",
+                        "male",
+                        "female"
+                    ]
                 },
                 "id": {
                     "description": "@example 550e8400-e29b-41d4-a716-446655440000",
@@ -9607,6 +9729,10 @@ const docTemplate = `{
                     "type": "number",
                     "maximum": 100,
                     "minimum": 0
+                },
+                "postMenopause": {
+                    "description": "Indica se o score_item é aplicável apenas para mulheres pós-menopausa\n@example true",
+                    "type": "boolean"
                 },
                 "subgroup": {
                     "description": "Relationships",
@@ -10020,6 +10146,24 @@ const docTemplate = `{
                 "subgroupId"
             ],
             "properties": {
+                "ageRangeMax": {
+                    "type": "integer",
+                    "maximum": 150,
+                    "minimum": 0
+                },
+                "ageRangeMin": {
+                    "type": "integer",
+                    "maximum": 150,
+                    "minimum": 0
+                },
+                "gender": {
+                    "type": "string",
+                    "enum": [
+                        "not_applicable",
+                        "male",
+                        "female"
+                    ]
+                },
                 "name": {
                     "type": "string",
                     "maxLength": 300,
@@ -10212,11 +10356,29 @@ const docTemplate = `{
         "services.UpdateScoreItemDTO": {
             "type": "object",
             "properties": {
+                "ageRangeMax": {
+                    "type": "integer",
+                    "maximum": 150,
+                    "minimum": 0
+                },
+                "ageRangeMin": {
+                    "type": "integer",
+                    "maximum": 150,
+                    "minimum": 0
+                },
                 "clinicalRelevance": {
                     "type": "string"
                 },
                 "conduct": {
                     "type": "string"
+                },
+                "gender": {
+                    "type": "string",
+                    "enum": [
+                        "not_applicable",
+                        "male",
+                        "female"
+                    ]
                 },
                 "lastReview": {
                     "type": "string"

@@ -76,6 +76,7 @@ func AutoMigrate() error {
 
 		// Lab Tests & Results
 		&models.LabTestDefinition{},
+		&models.LabTestUnitConversion{},
 		&models.LabRequest{},
 		&models.LabRequestTemplate{},
 		&models.LabResult{},
