@@ -252,6 +252,11 @@ export const articleApi = {
   getScoreItems: async (id: string): Promise<ScoreItem[]> => {
     return apiClient.get<ScoreItem[]>(`/api/v1/articles/${id}/score-items`)
   },
+
+  // Get articles for a score item (inverse relationship)
+  getArticlesForScoreItem: async (scoreItemId: string): Promise<Article[]> => {
+    return apiClient.get<Article[]>(`/api/v1/score-items/${scoreItemId}/articles`)
+  },
 }
 
 // React Query Hooks
@@ -394,6 +399,15 @@ export function useRemoveScoreItems() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["articles", variables.id] })
     },
+  })
+}
+
+// Get articles for a score item (inverse relationship)
+export function useArticlesForScoreItem(scoreItemId: string, enabled = true) {
+  return useQuery({
+    queryKey: ['score-items', scoreItemId, 'articles'],
+    queryFn: () => articleApi.getArticlesForScoreItem(scoreItemId),
+    enabled: !!scoreItemId && enabled,
   })
 }
 

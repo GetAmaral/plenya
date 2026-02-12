@@ -519,3 +519,8 @@ func (s *ArticleService) RemoveScoreItemsFromArticle(articleID uuid.UUID, scoreI
 func (s *ArticleService) GetScoreItemsForArticle(articleID uuid.UUID) ([]models.ScoreItem, error) {
 	return s.repo.GetScoreItemsForArticle(articleID)
 }
+
+// GetArticlesForScoreItem retorna todos os artigos associados a um item de escore
+func (s *ArticleService) GetArticlesForScoreItem(scoreItemID uuid.UUID) ([]models.Article, error) {
+	return s.repo.GetArticlesForScoreItem(scoreItemID)
+}

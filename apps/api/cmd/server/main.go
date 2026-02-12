@@ -383,6 +383,9 @@ func setupRoutes(
 	// PDF upload route
 	labResultBatches.Post("/:batchId/upload-pdf", middleware.RequireMedicalStaff(), labResultBatchHandler.UploadPDF)
 
+	// Classification route - re-classifica resultados do batch
+	labResultBatches.Post("/:id/classify", middleware.RequireMedicalStaff(), labResultBatchHandler.Classify)
+
 	// Processing Jobs routes (protegidas)
 	processingJobs := v1.Group("/processing-jobs")
 	processingJobs.Use(middleware.Auth(cfg))
@@ -482,6 +485,9 @@ func setupRoutes(
 	scoreItems.Get("/", scoreHandler.GetAllScoreItems)
 	scoreItems.Get("/:id", scoreHandler.GetScoreItemByID)
 	scoreItems.Get("/:itemId/levels", scoreHandler.GetLevelsByItemID)
+
+	// Inverse relationship: ScoreItems -> Articles
+	scoreItems.Get("/:id/articles", articleHandler.GetArticlesForScoreItem)
 
 	// Rotas de escrita (admin only)
 	scoreItems.Post("/", middleware.RequireAdmin(), scoreHandler.CreateScoreItem)

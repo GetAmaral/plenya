@@ -660,3 +660,34 @@ func (h *ArticleHandler) GetScoreItemsForArticle(c *fiber.Ctx) error {
 
 	return c.JSON(scoreItems)
 }
+
+// GetArticlesForScoreItem godoc
+// @Summary Listar artigos de um item de escore
+// @Description Retorna todos os artigos associados a um item de escore
+// @Tags score-items
+// @Produce json
+// @Param id path string true "ID do item de escore"
+// @Success 200 {array} models.Article
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Security BearerAuth
+// @Router /score-items/{id}/articles [get]
+func (h *ArticleHandler) GetArticlesForScoreItem(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	scoreItemID, err := uuid.Parse(idParam)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "ID inválido",
+		})
+	}
+
+	articles, err := h.service.GetArticlesForScoreItem(scoreItemID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Erro ao buscar artigos: " + err.Error(),
+		})
+	}
+
+	return c.JSON(articles)
+}
