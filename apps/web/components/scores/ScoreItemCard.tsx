@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, memo, useEffect } from 'react'
-import { Edit, Trash2, Plus, Info, Calendar, Copy } from 'lucide-react'
+import { Edit, Trash2, Plus, Info, Calendar, Copy, FileText, MoreVertical } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -11,11 +11,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { ScoreItem, ScoreLevel, useDeleteScoreItem, useDeleteScoreLevel, useCreateScoreItem } from '@/lib/api/score-api'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { ScoreItem, ScoreLevel, useDeleteScoreItem, useDeleteScoreLevel, useCreateScoreItem, useCreateScoreLevel } from '@/lib/api/score-api'
 import { ScoreLevelBadge } from './ScoreLevelBadge'
 import { ScoreItemDialog } from './ScoreItemDialog'
 import { ScoreLevelDialog } from './ScoreLevelDialog'
 import { DeleteConfirmDialog } from './DeleteConfirmDialog'
+import { ScoreItemArticlesSheet } from './ScoreItemArticlesSheet'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -30,6 +38,7 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isAddLevelDialogOpen, setIsAddLevelDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [isArticlesSheetOpen, setIsArticlesSheetOpen] = useState(false)
   const [editingLevel, setEditingLevel] = useState<ScoreLevel | null>(null)
   const [deletingLevel, setDeletingLevel] = useState<ScoreLevel | null>(null)
   // Initialize with empty string to keep it controlled from the start
@@ -40,6 +49,7 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
   const deleteItem = useDeleteScoreItem()
   const deleteLevel = useDeleteScoreLevel()
   const createItem = useCreateScoreItem()
+  const createLevel = useCreateScoreLevel()
 
   // Sync accordion state with expandClinicalTexts prop
   useEffect(() => {
@@ -53,7 +63,8 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
 
   const handleDuplicate = async () => {
     try {
-      await createItem.mutateAsync({
+      // Criar o item duplicado
+      const newItem = await createItem.mutateAsync({
         name: `${item.name} (Cópia)`,
         unit: item.unit,
         unitConversion: item.unitConversion,
@@ -65,7 +76,26 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
         subgroupId: item.subgroupId,
         parentItemId: item.parentItemId,
       })
-      toast.success('Item duplicado com sucesso')
+
+      // Duplicar os níveis se existirem
+      if (item.levels && item.levels.length > 0) {
+        for (const level of item.levels) {
+          await createLevel.mutateAsync({
+            itemId: newItem.id,
+            level: level.level,
+            name: level.name,
+            lowerLimit: level.lowerLimit,
+            upperLimit: level.upperLimit,
+            operator: level.operator,
+            clinicalRelevance: level.clinicalRelevance,
+            patientExplanation: level.patientExplanation,
+            conduct: level.conduct,
+          })
+        }
+        toast.success(`Item e ${item.levels.length} ${item.levels.length === 1 ? 'nível duplicado' : 'níveis duplicados'} com sucesso`)
+      } else {
+        toast.success('Item duplicado com sucesso')
+      }
     } catch (error) {
       toast.error('Erro ao duplicar item')
     }
@@ -112,14 +142,29 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
                 )}
               </div>
               <div className="flex items-center gap-3 mt-0.5 text-xs text-muted-foreground text-left">
-                <span>{item.points} pts</span>
+                {item.points !== undefined && item.points > 0 && (
+                  <span>{item.points} pts</span>
+                )}
                 {item.unitConversion && (
                   <span className="text-[10px]">{item.unitConversion}</span>
                 )}
               </div>
             </div>
 
-            <div className="flex gap-0.5">
+            <div className="flex gap-1">
+              {/* Editar - Ação primária destacada */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsEditDialogOpen(true)}
+                className="h-6 px-2 text-xs"
+                title="Editar item"
+              >
+                <Edit className="h-3 w-3 mr-1" />
+                Editar
+              </Button>
+
+              {/* Adicionar nível - Ação secundária */}
               <Button
                 variant="ghost"
                 size="sm"
@@ -129,34 +174,41 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
               >
                 <Plus className="h-3 w-3" />
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleDuplicate}
-                className="h-6 w-6 p-0"
-                disabled={createItem.isPending}
-                title="Duplicar item"
-              >
-                <Copy className="h-3 w-3" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsEditDialogOpen(true)}
-                className="h-6 w-6 p-0"
-                title="Editar item"
-              >
-                <Edit className="h-3 w-3" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsDeleteDialogOpen(true)}
-                className="h-6 w-6 p-0"
-                title="Excluir item"
-              >
-                <Trash2 className="h-3 w-3" />
-              </Button>
+
+              {/* Dropdown com outras ações */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0"
+                    title="Mais opções"
+                  >
+                    <MoreVertical className="h-3 w-3" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => setIsArticlesSheetOpen(true)}>
+                    <FileText className="h-4 w-4 mr-2" />
+                    Ver artigos científicos
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={handleDuplicate}
+                    disabled={createItem.isPending}
+                  >
+                    <Copy className="h-4 w-4 mr-2" />
+                    Duplicar item
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => setIsDeleteDialogOpen(true)}
+                    className="text-destructive focus:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Excluir item
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </CardHeader>
@@ -178,13 +230,6 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
           </CardContent>
         )}
 
-        {sortedLevels.length === 0 && (
-          <CardContent className="pt-0 px-3 pb-2">
-            <p className="text-xs text-muted-foreground text-left py-1">
-              Nenhum nível cadastrado
-            </p>
-          </CardContent>
-        )}
 
         {hasClinicalInfo && (
           <CardContent className="pt-0 px-3 pb-2">
@@ -294,6 +339,14 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
           isLoading={deleteLevel.isPending}
         />
       )}
+
+      {/* Articles Sheet */}
+      <ScoreItemArticlesSheet
+        scoreItemId={item.id}
+        scoreItemName={item.name}
+        open={isArticlesSheetOpen}
+        onOpenChange={setIsArticlesSheetOpen}
+      />
     </>
   )
 }

@@ -351,6 +351,16 @@ func (r *ArticleRepository) GetScoreItemsForArticle(articleID uuid.UUID) ([]mode
 	return article.ScoreItems, nil
 }
 
+// GetArticlesForScoreItem retorna todos os artigos associados a um item de escore
+func (r *ArticleRepository) GetArticlesForScoreItem(scoreItemID uuid.UUID) ([]models.Article, error) {
+	var scoreItem models.ScoreItem
+	if err := r.db.Preload("Articles").First(&scoreItem, scoreItemID).Error; err != nil {
+		return nil, err
+	}
+
+	return scoreItem.Articles, nil
+}
+
 // UpdateScoreItemsLastReview atualiza o campo last_review dos ScoreItems especificados
 func (r *ArticleRepository) UpdateScoreItemsLastReview(scoreItemIDs []uuid.UUID) error {
 	now := time.Now()
