@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:17-alpine
+    image: pgvector/pgvector:pg17
     container_name: plenya-db
     restart: unless-stopped
     environment:
@@ -48,6 +48,9 @@ services:
       - RATE_LIMIT_REQUESTS=100
       - RATE_LIMIT_WINDOW=60
       - CLAUDE_API_KEY=${CLAUDE_API_KEY:-your_claude_api_key_here}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-your_openai_api_key_here}
+      - OPENAI_EMBEDDING_MODEL=text-embedding-3-large
+      - OPENAI_API_URL=https://api.openai.com/v1
     depends_on:
       db:
         condition: service_healthy

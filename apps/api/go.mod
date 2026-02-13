@@ -13,6 +13,8 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/jung-kurt/gofpdf/v2 v2.17.3
 	github.com/ledongthuc/pdf v0.0.0-20250511090121-5959a4027728
+	github.com/pgvector/pgvector-go v0.1.1
+	github.com/sashabaranov/go-openai v1.41.2
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 	github.com/swaggo/swag v1.16.7-0.20260115081809-ed325734c604
 	golang.org/x/crypto v0.47.0
