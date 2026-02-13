@@ -18,10 +18,12 @@ import (
 	"github.com/plenya/api/internal/database"
 	"github.com/plenya/api/internal/handlers"
 	"github.com/plenya/api/internal/middleware"
+	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/repository"
 	"github.com/plenya/api/internal/scheduler"
 	"github.com/plenya/api/internal/services"
 	"github.com/plenya/api/internal/workers"
+	"gorm.io/gorm"
 )
 
 // @title Plenya EMR API
@@ -159,6 +161,11 @@ func setupRoutes(
 ) {
 	// Health check
 	app.Get("/health", healthCheck)
+
+	// RAG/Embeddings health check
+	app.Get("/health/rag", func(c *fiber.Ctx) error {
+		return ragHealthCheck(c, database.DB)
+	})
 
 	// Inicializar repositories
 	scoreRepo := repository.NewScoreRepository(database.DB)
@@ -646,6 +653,56 @@ func healthCheck(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"status":   "ok",
 		"database": "connected",
+	})
+}
+
+// ragHealthCheck verifica status do sistema RAG/Embeddings
+// @Summary RAG Health Check
+// @Description Verifica status do sistema de embeddings (queue, OpenAI, pgvector)
+// @Tags health
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /health/rag [get]
+func ragHealthCheck(c *fiber.Ctx, db *gorm.DB) error {
+	type QueueStats struct {
+		Pending    int64 `json:"pending"`
+		Processing int64 `json:"processing"`
+		Completed  int64 `json:"completed"`
+		Failed     int64 `json:"failed"`
+	}
+
+	stats := QueueStats{}
+
+	// Count queue by status
+	db.Model(&models.EmbeddingQueue{}).Where("status = 'pending'").Count(&stats.Pending)
+	db.Model(&models.EmbeddingQueue{}).Where("status = 'processing'").Count(&stats.Processing)
+	db.Model(&models.EmbeddingQueue{}).Where("status = 'completed'").Count(&stats.Completed)
+	db.Model(&models.EmbeddingQueue{}).Where("status = 'failed'").Count(&stats.Failed)
+
+	// Check pgvector extension
+	var pgvectorInstalled bool
+	db.Raw("SELECT EXISTS(SELECT 1 FROM pg_extension WHERE extname = 'vector')").Scan(&pgvectorInstalled)
+
+	// Count embeddings
+	var embeddingCount int64
+	db.Model(&models.ArticleEmbedding{}).Count(&embeddingCount)
+
+	// Determine overall status
+	status := "healthy"
+	if stats.Failed > 100 {
+		status = "degraded"
+	}
+	if !pgvectorInstalled {
+		status = "error"
+	}
+
+	return c.JSON(fiber.Map{
+		"status":            status,
+		"pgvector":          pgvectorInstalled,
+		"embeddings_count":  embeddingCount,
+		"queue":             stats,
+		"queue_depth":       stats.Pending + stats.Processing,
 	})
 }
 
