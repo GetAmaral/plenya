@@ -83,10 +83,10 @@ export function ScoreGroupDialog({
       }
       onOpenChange(false)
       reset()
-    } catch (error) {
-      toast.error(
-        isEditing ? 'Erro ao atualizar grupo' : 'Erro ao criar grupo'
-      )
+    } catch (error: any) {
+      // Extract error message from API error
+      const errorMessage = error?.message || (isEditing ? 'Erro ao atualizar grupo' : 'Erro ao criar grupo')
+      toast.error(errorMessage)
     }
   }
 

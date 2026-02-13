@@ -100,33 +100,30 @@ export function ScoreLevelDialog({
 
   // Reset form when level changes
   useEffect(() => {
-    if (level) {
-      reset({
-        level: level.level,
-        name: level.name,
-        lowerLimit: level.lowerLimit || '',
-        upperLimit: level.upperLimit || '',
-        operator: level.operator,
-        clinicalRelevance: level.clinicalRelevance || '',
-        patientExplanation: level.patientExplanation || '',
-        conduct: level.conduct || '',
-        itemId: level.itemId,
-      })
-      setSelectedOperator(level.operator)
-    } else {
-      reset({
-        level: 5,
-        name: '',
-        lowerLimit: '',
-        upperLimit: '',
-        operator: 'between',
-        clinicalRelevance: '',
-        patientExplanation: '',
-        conduct: '',
-        itemId: itemId,
-      })
-      setSelectedOperator('between')
+    const defaultValues = level ? {
+      level: level.level,
+      name: level.name,
+      lowerLimit: level.lowerLimit || '',
+      upperLimit: level.upperLimit || '',
+      operator: level.operator,
+      clinicalRelevance: level.clinicalRelevance || '',
+      patientExplanation: level.patientExplanation || '',
+      conduct: level.conduct || '',
+      itemId: level.itemId,
+    } : {
+      level: 5,
+      name: '',
+      lowerLimit: '',
+      upperLimit: '',
+      operator: 'between' as const,
+      clinicalRelevance: '',
+      patientExplanation: '',
+      conduct: '',
+      itemId: itemId,
     }
+
+    reset(defaultValues)
+    setSelectedOperator(level?.operator || 'between')
   }, [level, itemId, reset])
 
   const onSubmit = async (data: CreateScoreLevelDTO) => {
@@ -163,8 +160,8 @@ export function ScoreLevelDialog({
       onOpenChange(false)
       reset()
     } catch (error: any) {
-      const errorMessage = error?.response?.data?.error || error?.message || (isEditing ? 'Erro ao atualizar nível' : 'Erro ao criar nível')
-      console.error('Erro no formulário de nível:', error)
+      // Extract error message from API error
+      const errorMessage = error?.message || (isEditing ? 'Erro ao atualizar nível' : 'Erro ao criar nível')
       toast.error(errorMessage)
     }
   }
@@ -190,12 +187,14 @@ export function ScoreLevelDialog({
         </DialogHeader>
 
         <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <input type="hidden" {...register('itemId')} />
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="level">Nível *</Label>
+              <input type="hidden" {...register('level', { valueAsNumber: true })} />
               <Select
                 value={watch('level')?.toString()}
-                onValueChange={(value) => setValue('level', parseInt(value))}
+                onValueChange={(value) => setValue('level', parseInt(value), { shouldValidate: true })}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione o nível" />
@@ -215,10 +214,11 @@ export function ScoreLevelDialog({
 
             <div className="space-y-2">
               <Label htmlFor="operator">Operador *</Label>
+              <input type="hidden" {...register('operator')} />
               <Select
                 value={watchOperator}
                 onValueChange={(value) => {
-                  setValue('operator', value as any)
+                  setValue('operator', value as any, { shouldValidate: true })
                   setSelectedOperator(value)
                 }}
               >

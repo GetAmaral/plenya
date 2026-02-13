@@ -1,0 +1,5 @@
+{
+	"devDependencies": {
+		"swagger2openapi": "^7.0.8"
+	}
+}

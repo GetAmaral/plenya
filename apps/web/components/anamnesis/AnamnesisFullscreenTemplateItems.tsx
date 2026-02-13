@@ -1,33 +1,26 @@
 'use client'
 
 import type { AnamnesisTemplate } from '@/lib/api/anamnesis-templates'
+import type { AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
 import { AnamnesisTemplateItemsRenderer } from './AnamnesisTemplateItemsRenderer'
 
-// Type for the form values
-export interface AnamnesisItemFormValue {
-  scoreItemId: string
-  numericValue?: number
-  textValue?: string
-  order: number
-}
-
-interface AnamnesisTemplateItemsFormProps {
+interface AnamnesisFullscreenTemplateItemsProps {
   template: AnamnesisTemplate
   initialValues?: AnamnesisItemFormValue[]
   onChange: (values: AnamnesisItemFormValue[]) => void
 }
 
-export function AnamnesisTemplateItemsForm({
+export function AnamnesisFullscreenTemplateItems({
   template,
   initialValues = [],
   onChange,
-}: AnamnesisTemplateItemsFormProps) {
+}: AnamnesisFullscreenTemplateItemsProps) {
   return (
     <AnamnesisTemplateItemsRenderer
       template={template}
       initialValues={initialValues}
       onChange={onChange}
-      compact={true}
+      compact={false}
     />
   )
 }

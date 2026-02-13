@@ -1,7 +1,0 @@
-Nome;Unidade | Conversão;20;Nível 0;Nível 1;Nível 2;Nível 3;Nível 4;Nível 5
-Estradiol - Homens;pg/mL | 1 pg/mL = 3.671 pmol/L;20;<10;10 a 19;20 a 40;41 a 50;51 a 60;>60
-Estradiol - Mulheres Fase Folicular Inicial (Dias 1-7);pg/mL | 1 pg/mL = 3.671 pmol/L;20;<20;20 a 29;30 a 60;61 a 80;81 a 100;>100
-Estradiol - Mulheres Fase Ovulatória (Pico Meio do Ciclo);pg/mL | 1 pg/mL = 3.671 pmol/L;20;<100;100 a 199;200 a 400;401 a 500;501 a 600;>600
-Estradiol - Mulheres Fase Lútea (Dias 19-21);pg/mL | 1 pg/mL = 3.671 pmol/L;20;<40;40 a 79;80 a 150;151 a 200;201 a 250;>250
-Estradiol - Mulheres Pós-Menopausa (Sem TRH);pg/mL | 1 pg/mL = 3.671 pmol/L;20;>60;40 a 60;25 a 39;10 a 24;5 a 9;<5
-Estradiol - Mulheres Pós-Menopausa (Com TRH);pg/mL | 1 pg/mL = 3.671 pmol/L;20;<30;30 a 59;60 a 150;151 a 200;201 a 250;>250

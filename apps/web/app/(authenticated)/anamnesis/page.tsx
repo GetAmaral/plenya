@@ -18,6 +18,7 @@ import {
   Calendar,
   FileText,
   User,
+  Maximize2,
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -30,12 +31,14 @@ import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHead
 import { PageHeader } from "@/components/layout/page-header";
 import { getAllAnamnesis, type Anamnesis } from "@/lib/api/anamnesis";
 import { CreateAnamnesisForm, EditAnamnesisForm } from "@/components/anamnesis/AnamnesisForm";
+import { useRouter } from "next/navigation";
 
 type AnamnesisVisibility = "all" | "medicalOnly" | "psychOnly" | "authorOnly";
 
 export default function AnamnesisPage() {
   useRequireAuth();
   const { selectedPatient } = useRequireSelectedPatient();
+  const router = useRouter();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -107,6 +110,12 @@ export default function AnamnesisPage() {
         title="Anamneses"
         description={`${data?.total || 0} ${data?.total === 1 ? 'anamnese registrada' : 'anamneses registradas'}`}
         actions={[
+          {
+            label: 'Modo Tablet',
+            icon: <Maximize2 className="h-4 w-4" />,
+            onClick: () => router.push('/anamnesis/fullscreen'),
+            variant: 'outline',
+          },
           {
             label: 'Nova Anamnese',
             icon: <Plus className="h-4 w-4" />,

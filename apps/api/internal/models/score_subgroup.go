@@ -23,6 +23,12 @@ type ScoreSubgroup struct {
 	// @example 1
 	Order int `gorm:"type:integer;not null;default:0;index:idx_score_subgroup_order" json:"order" validate:"gte=0,lte=9999"`
 
+	// Número máximo de itens que podem ser selecionados (0 = não se aplica, multi-select ilimitado)
+	// @minimum 0
+	// @maximum 100
+	// @example 0
+	MaxSelect int `gorm:"type:integer;not null;default:0" json:"maxSelect" validate:"gte=0,lte=100"`
+
 	// Foreign Keys
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	GroupID uuid.UUID `gorm:"type:uuid;not null;index:idx_score_subgroup_group" json:"groupId" validate:"required"`

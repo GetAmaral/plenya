@@ -43,15 +43,17 @@ type UpdateScoreGroupDTO struct {
 
 // CreateScoreSubgroupDTO represents the request to create a score subgroup
 type CreateScoreSubgroupDTO struct {
-	Name    string    `json:"name" validate:"required,min=2,max=200"`
-	GroupID uuid.UUID `json:"groupId" validate:"required"`
-	Order   *int      `json:"order,omitempty"`
+	Name      string    `json:"name" validate:"required,min=2,max=200"`
+	GroupID   uuid.UUID `json:"groupId" validate:"required"`
+	Order     *int      `json:"order,omitempty"`
+	MaxSelect *int      `json:"maxSelect,omitempty" validate:"omitempty,gte=0,lte=100"`
 }
 
 // UpdateScoreSubgroupDTO represents the request to update a score subgroup
 type UpdateScoreSubgroupDTO struct {
-	Name  *string `json:"name,omitempty" validate:"omitempty,min=2,max=200"`
-	Order *int    `json:"order,omitempty" validate:"omitempty,gte=0,lte=9999"`
+	Name      *string `json:"name,omitempty" validate:"omitempty,min=2,max=200"`
+	Order     *int    `json:"order,omitempty" validate:"omitempty,gte=0,lte=9999"`
+	MaxSelect *int    `json:"maxSelect,omitempty" validate:"omitempty,gte=0,lte=100"`
 }
 
 // CreateScoreItemDTO represents the request to create a score item
@@ -88,7 +90,7 @@ type UpdateScoreItemDTO struct {
 
 // CreateScoreLevelDTO represents the request to create a score level
 type CreateScoreLevelDTO struct {
-	Level      int        `json:"level" validate:"required,gte=0,lte=6"`
+	Level      int        `json:"level" validate:"gte=0,lte=6"`
 	Name       string     `json:"name" validate:"required,min=1,max=500"`
 	LowerLimit *string    `json:"lowerLimit,omitempty" validate:"omitempty,max=50"`
 	UpperLimit *string    `json:"upperLimit,omitempty" validate:"omitempty,max=50"`
@@ -205,10 +207,16 @@ func (s *ScoreService) CreateSubgroup(dto CreateScoreSubgroupDTO) (*models.Score
 		order = maxOrder + 1
 	}
 
+	maxSelect := 0
+	if dto.MaxSelect != nil {
+		maxSelect = *dto.MaxSelect
+	}
+
 	subgroup := &models.ScoreSubgroup{
-		Name:    dto.Name,
-		GroupID: dto.GroupID,
-		Order:   order,
+		Name:      dto.Name,
+		GroupID:   dto.GroupID,
+		Order:     order,
+		MaxSelect: maxSelect,
 	}
 
 	if err := s.repo.CreateScoreSubgroup(subgroup); err != nil {
@@ -246,6 +254,9 @@ func (s *ScoreService) UpdateSubgroup(id uuid.UUID, dto UpdateScoreSubgroupDTO) 
 	}
 	if dto.Order != nil {
 		subgroup.Order = *dto.Order
+	}
+	if dto.MaxSelect != nil {
+		subgroup.MaxSelect = *dto.MaxSelect
 	}
 
 	if err := s.repo.UpdateScoreSubgroup(subgroup); err != nil {

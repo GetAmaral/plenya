@@ -609,6 +609,70 @@ func (h *LabResultBatchHandler) UploadPDF(c *fiber.Ctx) error {
 	})
 }
 
+// Classify re-classifica todos os resultados de um batch baseado nos ScoreItems
+// @Summary Re-classificar resultados do lote
+// @Description Re-classifica automaticamente os resultados de um batch baseado nos ScoreItems configurados
+// @Tags LabResultBatch
+// @Accept json
+// @Produce json
+// @Param id path string true "ID do lote"
+// @Success 200 {object} map[string]interface{} "Classification completed"
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
+// @Router /api/v1/lab-result-batches/{id}/classify [post]
+func (h *LabResultBatchHandler) Classify(c *fiber.Ctx) error {
+	batchID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid batch id",
+			Message: err.Error(),
+		})
+	}
+
+	userID := middleware.GetUserID(c)
+
+	// Validar ownership do batch
+	_, err = h.labResultBatchService.GetByID(batchID, userID)
+	if err != nil {
+		if errors.Is(err, services.ErrLabResultBatchNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error:   "lab result batch not found",
+				Message: err.Error(),
+			})
+		}
+		if errors.Is(err, services.ErrNoPatientSelected) {
+			return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+				Error:   "no patient selected",
+				Message: err.Error(),
+			})
+		}
+		if errors.Is(err, services.ErrPatientMismatch) {
+			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{
+				Error:   "access denied",
+				Message: err.Error(),
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to get lab result batch",
+			Message: err.Error(),
+		})
+	}
+
+	// Re-classificar resultados
+	if err := h.labResultBatchService.ClassifyBatchResults(batchID); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to classify batch results",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Batch results classified successfully",
+		"batchId": batchID.String(),
+	})
+}
+
 // ensureDir cria diretório se não existir
 func ensureDir(dir string) error {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {

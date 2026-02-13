@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -85,4 +86,60 @@ func (sl *ScoreLevel) BeforeUpdate(tx *gorm.DB) error {
 		sl.LastReview = &now
 	}
 	return nil
+}
+
+// EvaluatesTrue verifica se um valor numérico satisfaz o condicional deste level
+func (sl *ScoreLevel) EvaluatesTrue(value float64) bool {
+	parseFloat := func(s *string) float64 {
+		if s == nil {
+			return 0
+		}
+		var result float64
+		// Ignora erro, retorna 0 se parsing falhar
+		_, _ = fmt.Sscanf(*s, "%f", &result)
+		return result
+	}
+
+	switch sl.Operator {
+	case "=":
+		if sl.LowerLimit == nil {
+			return false
+		}
+		return value == parseFloat(sl.LowerLimit)
+
+	case ">":
+		if sl.LowerLimit == nil {
+			return false
+		}
+		return value > parseFloat(sl.LowerLimit)
+
+	case ">=":
+		if sl.LowerLimit == nil {
+			return false
+		}
+		return value >= parseFloat(sl.LowerLimit)
+
+	case "<":
+		if sl.LowerLimit == nil {
+			return false
+		}
+		return value < parseFloat(sl.LowerLimit)
+
+	case "<=":
+		if sl.LowerLimit == nil {
+			return false
+		}
+		return value <= parseFloat(sl.LowerLimit)
+
+	case "between":
+		if sl.LowerLimit == nil || sl.UpperLimit == nil {
+			return false
+		}
+		lower := parseFloat(sl.LowerLimit)
+		upper := parseFloat(sl.UpperLimit)
+		return value >= lower && value <= upper
+
+	default:
+		return false
+	}
 }

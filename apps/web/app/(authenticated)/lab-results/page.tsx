@@ -37,6 +37,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { labResultBatchApi } from "@/lib/api/lab-result-batch-api";
 import { labResultViewApi } from "@/lib/api/lab-result-view-api";
 import { useLabResultViewPreference } from "@/hooks/useLabResultViewPreference";
+import { UnclassifiedResultsAlert } from "@/components/lab-results/UnclassifiedResultsAlert";
 
 // Tipos para a estrutura pivot
 interface PivotCell {
@@ -378,6 +379,9 @@ export default function LabResultsPage() {
           },
         ]}
       />
+
+      {/* Alert de resultados não classificados */}
+      {batches && <UnclassifiedResultsAlert batches={batches} />}
 
       {/* Tabela Pivot */}
       <motion.div

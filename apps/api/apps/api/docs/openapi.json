@@ -11405,12 +11405,6 @@
                         "maximum": 9999,
                         "minimum": 0
                     },
-                    "maxSelect": {
-                        "description": "Número máximo de itens que podem ser selecionados (0 = não se aplica, multi-select ilimitado)\n@minimum 0\n@maximum 100\n@example 0",
-                        "type": "integer",
-                        "maximum": 100,
-                        "minimum": 0
-                    },
                     "updatedAt": {
                         "type": "string"
                     }
@@ -11772,11 +11766,6 @@
                     },
                     "order": {
                         "type": "integer"
-                    },
-                    "maxSelect": {
-                        "type": "integer",
-                        "maximum": 100,
-                        "minimum": 0
                     }
                 }
             },
@@ -11986,11 +11975,6 @@
                     "order": {
                         "type": "integer",
                         "maximum": 9999,
-                        "minimum": 0
-                    },
-                    "maxSelect": {
-                        "type": "integer",
-                        "maximum": 100,
                         "minimum": 0
                     }
                 }
