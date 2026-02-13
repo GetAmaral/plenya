@@ -3,7 +3,8 @@
 import { useParams, useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { useRequireAuth } from "@/lib/use-auth"
-import { useHealthScoreDetail } from "@/lib/api/health-score-api"
+import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient"
+import { useHealthScoreDetail, useCalculateHealthScore } from "@/lib/api/health-score-api"
 import type { PatientScoreItemResult } from "@/lib/api/health-score-api"
 import { PageHeader } from "@/components/layout/page-header"
 import { Button } from "@/components/ui/button"
@@ -19,9 +20,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { ArrowLeft, Activity, CheckCircle2, XCircle, MinusCircle, AlertCircle, FlaskConical } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { ArrowLeft, Activity, CheckCircle2, XCircle, MinusCircle, AlertCircle, FlaskConical, MoreVertical, Edit, RefreshCw } from "lucide-react"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { toast } from "sonner"
 
 // Estilos de cor por nível (igual à página de anamnese)
 const LEVEL_STYLES = {
@@ -91,12 +99,32 @@ function organizeItemsHierarchy(items: ItemWithChildren[]): ItemWithChildren[] {
 
 export default function HealthScoreDetailPage() {
   useRequireAuth()
+  const { selectedPatient } = useRequireSelectedPatient()
   const params = useParams()
   const router = useRouter()
   const snapshotId = params.id as string
   const [showOnlyEvaluated, setShowOnlyEvaluated] = useState(true)
 
   const { data: snapshot, isLoading, error } = useHealthScoreDetail(snapshotId)
+  const calculateMutation = useCalculateHealthScore()
+
+  const handleRecalculate = async () => {
+    if (!selectedPatient) return
+
+    try {
+      toast.info("Recalculando score...")
+      const newSnapshot = await calculateMutation.mutateAsync({
+        patientId: selectedPatient.id,
+        notes: `Recálculo após edição de dados - ${format(new Date(), "dd/MM/yyyy HH:mm", { locale: ptBR })}`,
+      })
+      toast.success("Score recalculado com sucesso!")
+      // Navigate to the new snapshot
+      router.push(`/health-scores/${newSnapshot.id}`)
+    } catch (error) {
+      console.error("Failed to recalculate score:", error)
+      toast.error("Erro ao recalcular score")
+    }
+  }
 
   // Organize items by group → subgroup → items with hierarchy
   const itemsByGroup = useMemo(() => {
@@ -235,6 +263,21 @@ export default function HealthScoreDetailPage() {
       .filter((item): item is ItemWithChildren => item !== null)
   }
 
+  // Get edit link based on data source
+  const getEditLink = (item: ItemWithChildren): string | null => {
+    if (item.status !== "evaluated") return null
+
+    if (item.dataSource === "lab_result" && item.labResult?.labResultBatch?.id) {
+      return `/lab-results/${item.labResult.labResultBatch.id}/edit`
+    }
+
+    if (item.dataSource === "anamnesis_item") {
+      return `/anamnesis`
+    }
+
+    return null
+  }
+
   // Render item with children recursively (with indentation - exactly like ScoreTreeView)
   const renderItemWithChildren = (item: ItemWithChildren, depth: number = 0): JSX.Element[] => {
     const elements: JSX.Element[] = []
@@ -284,40 +327,62 @@ export default function HealthScoreDetailPage() {
               </div>
 
               {/* Badges column - aligned right with fixed width */}
-              <div className="flex flex-col items-end gap-1 w-16 flex-shrink-0">
-                {/* Parent score badge (if has children) - smallest size */}
-                {parentScore && (
-                  <Badge className={`${getScoreColor(parentScore.percentage)} text-[9px] whitespace-nowrap`}>
-                    {parentScore.percentage.toFixed(1)}%
-                  </Badge>
-                )}
-                {/* Item evaluation badges */}
-                {item.status === "evaluated" && levelStyle && (
-                  <>
-                    {item.dataSource === "anamnesis_item" ? (
-                      // Anamnesis: Show level badge
-                      <span className={`text-xs px-2 py-0.5 rounded-full border-2 font-bold whitespace-nowrap ${levelStyle.bg} ${levelStyle.text} ${levelStyle.border}`}>
-                        N{item.levelNumber}: {item.levelMatched?.name}
-                      </span>
-                    ) : (
-                      // Lab Result: Show numeric value with color based on level
-                      <span className={`text-xs px-2 py-0.5 rounded-full border-2 font-bold whitespace-nowrap ${levelStyle.bg} ${levelStyle.text} ${levelStyle.border} flex items-center gap-1`}>
-                        <FlaskConical className="h-3 w-3" />
-                        {item.valueUsed?.toFixed(2)} {item.item?.unit}
-                      </span>
-                    )}
-                  </>
-                )}
-                {item.status === "not_applicable" && (
-                  <Badge variant="outline" className="bg-gray-100 text-gray-600 border-gray-300 text-xs">
-                    Não aplicável
-                  </Badge>
-                )}
-                {/* Only show "Sem dados" badge if item has points (maxPoints > 0) */}
-                {item.status === "no_data_available" && item.maxPoints > 0 && (
-                  <Badge variant="outline" className="bg-orange-100 text-orange-800 border-orange-300 text-xs">
-                    Sem dados
-                  </Badge>
+              <div className="flex items-start gap-1 flex-shrink-0">
+                <div className="flex flex-col items-end gap-1 w-16">
+                  {/* Parent score badge (if has children) - smallest size */}
+                  {parentScore && (
+                    <Badge className={`${getScoreColor(parentScore.percentage)} text-[9px] whitespace-nowrap`}>
+                      {parentScore.percentage.toFixed(1)}%
+                    </Badge>
+                  )}
+                  {/* Item evaluation badges */}
+                  {item.status === "evaluated" && levelStyle && (
+                    <>
+                      {item.dataSource === "anamnesis_item" ? (
+                        // Anamnesis: Show level badge
+                        <span className={`text-xs px-2 py-0.5 rounded-full border-2 font-bold whitespace-nowrap ${levelStyle.bg} ${levelStyle.text} ${levelStyle.border}`}>
+                          N{item.levelNumber}: {item.levelMatched?.name}
+                        </span>
+                      ) : (
+                        // Lab Result: Show numeric value with color based on level
+                        <span className={`text-xs px-2 py-0.5 rounded-full border-2 font-bold whitespace-nowrap ${levelStyle.bg} ${levelStyle.text} ${levelStyle.border} flex items-center gap-1`}>
+                          <FlaskConical className="h-3 w-3" />
+                          {item.valueUsed?.toFixed(2)} {item.item?.unit}
+                        </span>
+                      )}
+                    </>
+                  )}
+                  {item.status === "not_applicable" && (
+                    <Badge variant="outline" className="bg-gray-100 text-gray-600 border-gray-300 text-xs">
+                      Não aplicável
+                    </Badge>
+                  )}
+                  {/* Only show "Sem dados" badge if item has points (maxPoints > 0) */}
+                  {item.status === "no_data_available" && item.maxPoints > 0 && (
+                    <Badge variant="outline" className="bg-orange-100 text-orange-800 border-orange-300 text-xs">
+                      Sem dados
+                    </Badge>
+                  )}
+                </div>
+
+                {/* Edit menu button (only for evaluated items) */}
+                {getEditLink(item) && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                        <MoreVertical className="h-3 w-3" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        onClick={() => router.push(getEditLink(item)!)}
+                        className="cursor-pointer"
+                      >
+                        <Edit className="mr-2 h-4 w-4" />
+                        Editar
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 )}
               </div>
             </div>
@@ -373,10 +438,20 @@ export default function HealthScoreDetailPage() {
         title="Detalhes do Snapshot"
         description={`Calculado em ${format(new Date(snapshot.calculatedAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}`}
       >
-        <Button variant="outline" onClick={() => router.back()}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Voltar
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            onClick={handleRecalculate}
+            disabled={calculateMutation.isPending}
+          >
+            <RefreshCw className={`mr-2 h-4 w-4 ${calculateMutation.isPending ? 'animate-spin' : ''}`} />
+            Recalcular Score
+          </Button>
+          <Button variant="outline" onClick={() => router.back()}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Voltar
+          </Button>
+        </div>
       </PageHeader>
 
       {/* Summary Cards */}

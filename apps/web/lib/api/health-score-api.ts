@@ -81,6 +81,21 @@ export interface PatientScoreItemResult {
     level: number
     name: string
   }
+  labResult?: {
+    id: string
+    labResultBatchId?: string
+    testName?: string
+    labResultBatch?: {
+      id: string
+    }
+  }
+  anamnesisItem?: {
+    id: string
+    anamnesisId?: string
+    anamnesis?: {
+      id: string
+    }
+  }
   createdAt: string
   updatedAt: string
 }
