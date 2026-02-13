@@ -135,7 +135,15 @@ export default function ScorePosterPage() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to generate PDF')
+        // Tenta ler a mensagem de erro do backend
+        let errorMessage = 'Erro ao gerar PDF'
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch {
+          errorMessage = `Erro ${response.status}: ${response.statusText}`
+        }
+        throw new Error(errorMessage)
       }
 
       // Download PDF
@@ -150,7 +158,8 @@ export default function ScorePosterPage() {
       document.body.removeChild(a)
     } catch (error) {
       console.error('Error generating PDF:', error)
-      alert('Erro ao gerar PDF. Tente novamente.')
+      const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido'
+      alert(`Erro ao gerar PDF:\n\n${errorMessage}`)
     } finally {
       setIsGeneratingPDF(false)
     }
@@ -295,12 +304,12 @@ function PosterContent({ groups }: { groups: any[] }) {
   const renderItemWithChildren = (item: ItemWithChildren, depth: number): JSX.Element => {
     return (
       <div key={item.id} style={{ marginLeft: `${depth * 20}px` }}>
-        <div className="border-2 rounded-lg overflow-hidden bg-white shadow-sm" style={{
+        <div className="border-2 rounded-lg overflow-hidden shadow-sm" style={{
           borderLeft: depth > 0 ? '4px solid hsl(var(--primary))' : undefined,
           paddingLeft: depth > 0 ? '12px' : undefined,
         }}>
           {/* Cabeçalho do Item */}
-          <div className="bg-card px-3 py-2 border-b-2 border-muted">
+          <div className="px-3 py-2 border-b-2 border-muted">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1">
                 <h4 className="font-bold text-[16px] leading-tight">
@@ -324,7 +333,7 @@ function PosterContent({ groups }: { groups: any[] }) {
 
           {/* Níveis */}
           {item.levels && item.levels.length > 0 && (
-            <div className="p-3 bg-muted/20">
+            <div className="p-3">
               <div className="flex flex-wrap gap-2">
                 {item.levels
                   .sort((a: any, b: any) => a.level - b.level)
@@ -409,7 +418,7 @@ function PosterContent({ groups }: { groups: any[] }) {
               {group.subgroups && group.subgroups.length > 0 && (
                 <>
                   {group.subgroups.map((subgroup: any, subgroupIndex: number) => (
-                    <div key={subgroup.id} className="bg-gradient-to-br from-muted to-muted/50 rounded-xl p-4 border-2 border-primary/20 shadow-md">
+                    <div key={subgroup.id} className="rounded-xl p-4 border-2 border-primary/20 shadow-md">
                       {/* Cabeçalho do Subgrupo */}
                       <div className="mb-3 pb-2 border-b-2 border-primary/30">
                         <div className="flex items-center gap-2">

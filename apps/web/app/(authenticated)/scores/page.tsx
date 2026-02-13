@@ -22,8 +22,14 @@ export default function ScoresPage() {
   const [expandClinicalTexts, setExpandClinicalTexts] = useState(false)
   const [isExpanding, setIsExpanding] = useState(false)
   const [isDownloadingPoster, setIsDownloadingPoster] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   const { data: scoreGroups, isLoading, error } = useAllScoreGroupTrees()
+
+  // Prevenir hydration errors - montar apenas no cliente
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Atalho Ctrl+F para abrir busca
   useEffect(() => {
@@ -188,7 +194,15 @@ export default function ScoresPage() {
       })
 
       if (!response.ok) {
-        throw new Error('Erro ao gerar PDF')
+        // Tenta ler a mensagem de erro do backend
+        let errorMessage = 'Erro ao gerar PDF'
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch {
+          errorMessage = `Erro ${response.status}: ${response.statusText}`
+        }
+        throw new Error(errorMessage)
       }
 
       const blob = await response.blob()
@@ -202,7 +216,8 @@ export default function ScoresPage() {
       document.body.removeChild(a)
     } catch (error) {
       console.error('Erro ao baixar PDF:', error)
-      alert('Erro ao gerar PDF. Tente novamente.')
+      const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido'
+      alert(`Erro ao gerar PDF:\n\n${errorMessage}`)
     } finally {
       setIsDownloadingPoster(false)
     }
@@ -264,7 +279,7 @@ export default function ScoresPage() {
         breadcrumbs={[{ label: 'Escores' }]}
         title="Escores de Saúde"
         description={`${totalGroups} grupos · ${totalItems} critérios de avaliação`}
-        actions={[
+        actions={isMounted ? [
           {
             label: 'Expandir',
             icon: isExpanding ? <Loader2 className="h-4 w-4 animate-spin" /> : <ChevronsDown className="h-4 w-4" />,
@@ -323,7 +338,7 @@ export default function ScoresPage() {
             onClick: () => setIsCreateDialogOpen(true),
             variant: 'default',
           },
-        ]}
+        ] : []}
       />
 
       {/* Content */}

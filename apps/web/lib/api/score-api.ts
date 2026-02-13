@@ -43,6 +43,7 @@ export interface ScoreSubgroup {
   id: string
   name: string
   order: number
+  maxSelect: number
   groupId: string
   group?: ScoreGroup
   items?: ScoreItem[]
@@ -74,11 +75,13 @@ export interface CreateScoreSubgroupDTO {
   name: string
   groupId: string
   order?: number
+  maxSelect?: number
 }
 
 export interface UpdateScoreSubgroupDTO {
   name?: string
   order?: number
+  maxSelect?: number
 }
 
 export interface CreateScoreItemDTO {

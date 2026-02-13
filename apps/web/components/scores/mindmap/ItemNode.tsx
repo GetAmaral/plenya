@@ -52,7 +52,9 @@ export const ItemNode = memo(({ data }: NodeProps) => {
                   {data.unit}
                 </Badge>
               )}
-              <span className="text-muted-foreground">{data.points} pts</span>
+              {data.points !== undefined && data.points > 0 && (
+                <span className="text-muted-foreground">{data.points} pts</span>
+              )}
               {hasChildren && (
                 <span className="text-muted-foreground">
                   · {data.levelCount} nível{data.levelCount !== 1 ? 'is' : ''}

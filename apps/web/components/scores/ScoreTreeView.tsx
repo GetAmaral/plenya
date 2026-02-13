@@ -656,7 +656,7 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
                       </div>
 
                       <AccordionContent className="px-2.5 pb-2">
-                        {subgroup.items && subgroup.items.length > 0 ? (
+                        {subgroup.items && subgroup.items.length > 0 && (
                           <SortableContext
                             items={subgroup.items.map(item => item.id)}
                             strategy={verticalListSortingStrategy}
@@ -667,10 +667,6 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
                               )}
                             </div>
                           </SortableContext>
-                        ) : (
-                          <div className="text-xs text-muted-foreground text-left py-2">
-                            Nenhum item cadastrado
-                          </div>
                         )}
                       </AccordionContent>
                     </AccordionItem>

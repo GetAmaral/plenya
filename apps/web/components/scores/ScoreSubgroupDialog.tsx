@@ -16,6 +16,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   ScoreSubgroup,
   CreateScoreSubgroupDTO,
   UpdateScoreSubgroupDTO,
@@ -48,11 +55,14 @@ export function ScoreSubgroupDialog({
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<CreateScoreSubgroupDTO>({
     defaultValues: {
       name: subgroup?.name || '',
       order: subgroup?.order || 0,
+      maxSelect: subgroup?.maxSelect || 0,
       groupId: groupId,
     },
   })
@@ -63,12 +73,14 @@ export function ScoreSubgroupDialog({
       reset({
         name: subgroup.name,
         order: subgroup.order,
+        maxSelect: subgroup.maxSelect || 0,
         groupId: subgroup.groupId,
       })
     } else {
       reset({
         name: '',
         order: 0,
+        maxSelect: 0,
         groupId: groupId,
       })
     }
@@ -82,6 +94,7 @@ export function ScoreSubgroupDialog({
           data: {
             name: data.name,
             order: data.order,
+            maxSelect: data.maxSelect,
           } as UpdateScoreSubgroupDTO,
         })
         toast.success('Subgrupo atualizado com sucesso')
@@ -91,10 +104,10 @@ export function ScoreSubgroupDialog({
       }
       onOpenChange(false)
       reset()
-    } catch (error) {
-      toast.error(
-        isEditing ? 'Erro ao atualizar subgrupo' : 'Erro ao criar subgrupo'
-      )
+    } catch (error: any) {
+      // Extract error message from API error
+      const errorMessage = error?.message || (isEditing ? 'Erro ao atualizar subgrupo' : 'Erro ao criar subgrupo')
+      toast.error(errorMessage)
     }
   }
 
@@ -160,6 +173,37 @@ export function ScoreSubgroupDialog({
             )}
             <p className="text-xs text-muted-foreground">
               Deixe 0 para ordenação automática
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="maxSelect">Máximo de Itens Selecionáveis</Label>
+            <Select
+              value={String(watch('maxSelect') || 0)}
+              onValueChange={(value) =>
+                setValue('maxSelect', Number(value), { shouldValidate: true })
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0">Não se aplica</SelectItem>
+                <SelectItem value="1">1</SelectItem>
+                <SelectItem value="2">2</SelectItem>
+                <SelectItem value="3">3</SelectItem>
+                <SelectItem value="4">4</SelectItem>
+                <SelectItem value="5">5</SelectItem>
+                <SelectItem value="6">6</SelectItem>
+              </SelectContent>
+            </Select>
+            {errors.maxSelect && (
+              <p className="text-sm text-destructive">
+                {errors.maxSelect.message}
+              </p>
+            )}
+            <p className="text-xs text-muted-foreground">
+              0 = multi-select ilimitado. 1+ = limite de seleções permitidas
             </p>
           </div>
 

@@ -37,6 +37,7 @@ interface ScoreItemCardProps {
 function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false }: ScoreItemCardProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isAddLevelDialogOpen, setIsAddLevelDialogOpen] = useState(false)
+  const [isAddChildItemDialogOpen, setIsAddChildItemDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [isArticlesSheetOpen, setIsArticlesSheetOpen] = useState(false)
   const [editingLevel, setEditingLevel] = useState<ScoreLevel | null>(null)
@@ -96,8 +97,10 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
       } else {
         toast.success('Item duplicado com sucesso')
       }
-    } catch (error) {
-      toast.error('Erro ao duplicar item')
+    } catch (error: any) {
+      // Extract error message from API error
+      const errorMessage = error?.message || 'Erro ao duplicar item'
+      toast.error(errorMessage)
     }
   }
 
@@ -106,8 +109,10 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
       await deleteItem.mutateAsync(item.id)
       toast.success('Item excluído com sucesso')
       setIsDeleteDialogOpen(false)
-    } catch (error) {
-      toast.error('Erro ao excluir item')
+    } catch (error: any) {
+      // Extract error message from API error
+      const errorMessage = error?.message || 'Erro ao excluir item'
+      toast.error(errorMessage)
     }
   }
 
@@ -116,8 +121,10 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
       await deleteLevel.mutateAsync(level.id)
       toast.success('Nível excluído com sucesso')
       setDeletingLevel(null)
-    } catch (error) {
-      toast.error('Erro ao excluir nível')
+    } catch (error: any) {
+      // Extract error message from API error
+      const errorMessage = error?.message || 'Erro ao excluir nível'
+      toast.error(errorMessage)
     }
   }
 
@@ -174,6 +181,20 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
               >
                 <Plus className="h-3 w-3" />
               </Button>
+
+              {/* Adicionar item filho - Só aparece em itens raiz (sem pai) */}
+              {!item.parentItemId && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsAddChildItemDialogOpen(true)}
+                  className="h-6 px-2 text-xs"
+                  title="Adicionar item filho"
+                >
+                  <Plus className="h-3 w-3 mr-0.5" />
+                  Item
+                </Button>
+              )}
 
               {/* Dropdown com outras ações */}
               <DropdownMenu>
@@ -306,6 +327,14 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
         open={isAddLevelDialogOpen}
         onOpenChange={setIsAddLevelDialogOpen}
         itemId={item.id}
+      />
+
+      {/* Add Child Item Dialog */}
+      <ScoreItemDialog
+        open={isAddChildItemDialogOpen}
+        onOpenChange={setIsAddChildItemDialogOpen}
+        subgroupId={item.subgroupId}
+        initialParentItemId={item.id}
       />
 
       {/* Edit Level Dialog */}

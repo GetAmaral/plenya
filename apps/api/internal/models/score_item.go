@@ -124,3 +124,37 @@ func (si *ScoreItem) BeforeUpdate(tx *gorm.DB) error {
 	}
 	return nil
 }
+
+// AppliesToPatient verifica se este ScoreItem se aplica ao paciente baseado em gênero, idade e menopausa
+func (si *ScoreItem) AppliesToPatient(patient *Patient) bool {
+	// Filtro de gênero
+	if si.Gender != nil && *si.Gender != "not_applicable" {
+		if *si.Gender != string(patient.Gender) {
+			return false
+		}
+	}
+
+	// Filtro de idade mínima
+	if si.AgeRangeMin != nil && patient.Age < *si.AgeRangeMin {
+		return false
+	}
+
+	// Filtro de idade máxima
+	if si.AgeRangeMax != nil && patient.Age > *si.AgeRangeMax {
+		return false
+	}
+
+	// Filtro de pós-menopausa (apenas para mulheres)
+	if patient.Gender == "female" && si.PostMenopause != nil {
+		// Se o paciente não tem informação de menopausa, não pode aplicar
+		if patient.Menopause == nil {
+			return false
+		}
+		// O scoreItem requer status específico de menopausa
+		if *si.PostMenopause != *patient.Menopause {
+			return false
+		}
+	}
+
+	return true
+}

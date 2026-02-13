@@ -62,6 +62,9 @@ func (s *ScorePDFService) renderPosterHTML(groups []models.ScoreGroup) (string, 
 		"add": func(a, b int) int {
 			return a + b
 		},
+		"gtInt": func(a, b int) bool {
+			return a > b
+		},
 		"dict": func(values ...interface{}) (map[string]interface{}, error) {
 			if len(values)%2 != 0 {
 				return nil, fmt.Errorf("dict requires an even number of arguments")
@@ -195,9 +198,9 @@ func (s *ScorePDFService) generatePDFFromHTML(html string) ([]byte, error) {
 	page.MustNavigate(fileURL).MustWaitLoad()
 	fmt.Println("[PDF] Page loaded")
 
-	// Configure PDF options (60cm x 300cm = 600mm x 3000mm)
+	// Configure PDF options (60cm x 200cm = 600mm x 2000mm)
 	paperWidth := 23.62  // 600mm in inches (600 / 25.4)
-	paperHeight := 118.11 // 3000mm in inches (3000 / 25.4)
+	paperHeight := 78.74 // 2000mm in inches (2000 / 25.4)
 	marginZero := 0.0
 	scale := 1.0
 

@@ -45,14 +45,17 @@ import {
   useUpdateScoreItem,
   useAllScoreGroupTrees,
   useScoreSubgroup,
+  scoreKeys,
 } from '@/lib/api/score-api'
 import { cn } from '@/lib/utils'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface ScoreItemDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   subgroupId: string
   item?: ScoreItem
+  initialParentItemId?: string // Para criar item filho
 }
 
 // Helper to truncate text
@@ -66,12 +69,14 @@ export function ScoreItemDialog({
   onOpenChange,
   subgroupId,
   item,
+  initialParentItemId,
 }: ScoreItemDialogProps) {
   const isEditing = !!item
 
   const formRef = useRef<HTMLFormElement>(null)
   useFormNavigation({ formRef })
 
+  const queryClient = useQueryClient()
   const createItem = useCreateScoreItem()
   const updateItem = useUpdateScoreItem()
 
@@ -80,7 +85,7 @@ export function ScoreItemDialog({
 
   // State for selected subgroup
   const [selectedSubgroupId, setSelectedSubgroupId] = useState(item?.subgroupId || subgroupId)
-  const [selectedParentItemId, setSelectedParentItemId] = useState(item?.parentItemId || '')
+  const [selectedParentItemId, setSelectedParentItemId] = useState(item?.parentItemId || initialParentItemId || '')
   const [selectedGender, setSelectedGender] = useState<'not_applicable' | 'male' | 'female'>(item?.gender || 'not_applicable')
   const [parentItemComboboxOpen, setParentItemComboboxOpen] = useState(false)
 
@@ -164,7 +169,7 @@ export function ScoreItemDialog({
       })
     } else {
       setSelectedSubgroupId(subgroupId)
-      setSelectedParentItemId('')
+      setSelectedParentItemId(initialParentItemId || '')
       setSelectedGender('not_applicable')
       reset({
         name: '',
@@ -180,10 +185,10 @@ export function ScoreItemDialog({
         points: 0,
         order: 0,
         subgroupId: subgroupId,
-        parentItemId: undefined,
+        parentItemId: initialParentItemId || undefined,
       })
     }
-  }, [item, subgroupId, reset])
+  }, [item, subgroupId, initialParentItemId, reset])
 
   // Update form value when selectedSubgroupId changes
   useEffect(() => {
@@ -237,6 +242,13 @@ export function ScoreItemDialog({
             parentItemId: selectedParentItemId || null,
           } as UpdateScoreItemDTO,
         })
+
+        // Invalidate queries to refresh the UI
+        queryClient.invalidateQueries({ queryKey: scoreKeys.itemsBySubgroup(item.subgroupId) })
+        queryClient.invalidateQueries({ queryKey: scoreKeys.itemsBySubgroup(selectedSubgroupId) })
+        queryClient.invalidateQueries({ queryKey: scoreKeys.groups() })
+        queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
+
         toast.success('Item atualizado com sucesso')
       } else {
         await createItem.mutateAsync({
@@ -247,10 +259,10 @@ export function ScoreItemDialog({
       }
       onOpenChange(false)
       reset()
-    } catch (error) {
-      toast.error(
-        isEditing ? 'Erro ao atualizar item' : 'Erro ao criar item'
-      )
+    } catch (error: any) {
+      // Extract error message from API error
+      const errorMessage = error?.message || (isEditing ? 'Erro ao atualizar item' : 'Erro ao criar item')
+      toast.error(errorMessage)
     }
   }
 

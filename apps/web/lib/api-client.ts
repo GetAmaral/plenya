@@ -121,7 +121,14 @@ class APIClient {
         error: "Unknown error",
         message: response.statusText,
       }));
-      throw new Error(error.message || error.error);
+      // Extract error message from various backend response formats
+      const errorMessage = error.error || error.message || response.statusText || "Unknown error";
+
+      // Create error object with the message
+      const apiError = new Error(errorMessage);
+      // Attach original error data for debugging
+      (apiError as any).data = error;
+      throw apiError;
     }
 
     // Handle 204 No Content (common for DELETE operations)

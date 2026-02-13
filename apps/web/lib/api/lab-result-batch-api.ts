@@ -126,4 +126,8 @@ export const labResultBatchApi = {
   deleteResult: async (batchId: string, resultId: string): Promise<void> => {
     await apiClient.delete(`/api/v1/lab-result-batches/${batchId}/results/${resultId}`)
   },
+
+  classify: async (batchId: string): Promise<{ message: string; batchId: string }> => {
+    return apiClient.post<{ message: string; batchId: string }>(`/api/v1/lab-result-batches/${batchId}/classify`, {})
+  },
 }

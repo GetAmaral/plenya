@@ -288,20 +288,24 @@ func (s *ProcessingJobService) createLabResultsFromJSON(
 			testType = "" // Vazio quando linkado
 		}
 
-		// Criar LabResult
-		labResult := models.LabResult{
-			LabResultBatchID:    batchID,
-			LabTestDefinitionID: testDefID,
-			TestName:            testName,
-			TestType:            testType,
-			ResultNumeric:       resultNumeric,
-			ResultText:          resultText,
-			Unit:                exam.Unidade,
-			Matched:             testDefID != nil,
+		// Criar LabResult usando AddResultInternal para aplicar conversão de unidades
+		matched := testDefID != nil
+		req := &dto.CreateLabResultInBatchRequest{
+			TestName:      testName,
+			TestType:      testType,
+			ResultNumeric: resultNumeric,
+			ResultText:    resultText,
+			Unit:          exam.Unidade,
+			Matched:       &matched,
 		}
 
-		// Salvar no banco
-		if err := s.db.Create(&labResult).Error; err != nil {
+		if testDefID != nil {
+			testDefIDStr := testDefID.String()
+			req.LabTestDefinitionID = &testDefIDStr
+		}
+
+		// Usar AddResultInternal que aplica conversão automática
+		if _, err := s.labResultBatchService.AddResultInternal(batchID, req); err != nil {
 			fmt.Printf("⚠️  Failed to create lab result for '%s': %v\n", exam.NomeExame, err)
 			continue
 		}
