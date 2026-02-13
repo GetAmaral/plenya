@@ -3,7 +3,9 @@ package workers
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
+	"unicode/utf8"
 
 	"github.com/google/uuid"
 	"github.com/plenya/api/internal/models"
@@ -19,6 +21,32 @@ type EmbeddingWorker struct {
 	chunkingService  *services.ChunkingService
 	interval         time.Duration // Intervalo entre polls (default: 10s)
 	maxConcurrent    int           // Max jobs simultâneos (default: 5)
+}
+
+// sanitizeUTF8Text remove caracteres inválidos UTF-8 do texto
+// CRÍTICO para evitar erros de encoding ao salvar no PostgreSQL
+func sanitizeUTF8Text(s string) string {
+	if utf8.ValidString(s) {
+		return s
+	}
+
+	// Remove caracteres inválidos
+	var cleaned strings.Builder
+	cleaned.Grow(len(s))
+
+	for i := 0; i < len(s); {
+		r, size := utf8.DecodeRuneInString(s[i:])
+		if r == utf8.RuneError && size == 1 {
+			// Caractere inválido - substitui por espaço
+			cleaned.WriteRune(' ')
+			i++
+			continue
+		}
+		cleaned.WriteRune(r)
+		i += size
+	}
+
+	return cleaned.String()
 }
 
 // NewEmbeddingWorker cria nova instância do worker
@@ -201,10 +229,13 @@ func (w *EmbeddingWorker) processArticle(ctx context.Context, articleID uuid.UUI
 
 		// Inserir novos embeddings
 		for i, chunk := range chunks {
+			// Sanitizar texto novamente para garantir UTF-8 válido
+			cleanText := sanitizeUTF8Text(chunk.Text)
+
 			embedding := &models.ArticleEmbedding{
 				ArticleID:     articleID,
 				ChunkIndex:    chunk.Index,
-				ChunkText:     chunk.Text,
+				ChunkText:     cleanText,
 				ChunkMetadata: chunk.Metadata,
 			}
 

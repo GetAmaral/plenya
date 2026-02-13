@@ -94,7 +94,7 @@ export default function HealthScoreDetailPage() {
   const params = useParams()
   const router = useRouter()
   const snapshotId = params.id as string
-  const [showOnlyEvaluated, setShowOnlyEvaluated] = useState(false)
+  const [showOnlyEvaluated, setShowOnlyEvaluated] = useState(true)
 
   const { data: snapshot, isLoading, error } = useHealthScoreDetail(snapshotId)
 
@@ -161,9 +161,12 @@ export default function HealthScoreDetailPage() {
       })
     })
 
-    return Array.from(groups.values()).sort((a, b) =>
-      a.groupName.localeCompare(b.groupName)
-    )
+    // Convert groups to array and sort by group.order ASC (same as ScoreTreeView)
+    return Array.from(groups.values()).sort((a, b) => {
+      const orderA = snapshot.groupResults?.find(gr => gr.groupId === a.groupId)?.group?.order ?? 0
+      const orderB = snapshot.groupResults?.find(gr => gr.groupId === b.groupId)?.group?.order ?? 0
+      return orderA - orderB
+    })
   }, [snapshot])
 
   const getScoreColor = (percentage: number) => {
@@ -282,6 +285,13 @@ export default function HealthScoreDetailPage() {
 
               {/* Badges column - aligned right with fixed width */}
               <div className="flex flex-col items-end gap-1 w-16 flex-shrink-0">
+                {/* Parent score badge (if has children) - smallest size */}
+                {parentScore && (
+                  <Badge className={`${getScoreColor(parentScore.percentage)} text-[9px] whitespace-nowrap`}>
+                    {parentScore.percentage.toFixed(1)}%
+                  </Badge>
+                )}
+                {/* Item evaluation badges */}
                 {item.status === "evaluated" && levelStyle && (
                   <>
                     {item.dataSource === "anamnesis_item" ? (
@@ -443,82 +453,107 @@ export default function HealthScoreDetailPage() {
       )}
 
       {/* Results by Group → Subgroup → Items (same structure as ScoreTreeView) */}
-      <div className="space-y-2">
+      <Accordion type="multiple" className="space-y-2">
         {itemsByGroup.map((group, index) => (
-          <div key={group.groupId} className="rounded-lg border transition-all">
-            {/* Group Header */}
-            <div className="flex items-center px-3 py-2 bg-muted/50 gap-3">
-              <div className="flex-1">
-                <h2 className="text-sm font-semibold text-left">{group.groupName}</h2>
-                <p className="text-xs text-muted-foreground mt-0.5 text-left">
-                  {group.subgroups.size} subgrupos • {Array.from(group.subgroups.values()).reduce((acc, sg) => acc + sg.items.length, 0)} itens
-                </p>
-              </div>
-
-              {/* Show only evaluated switch (only on first group, controls all) */}
-              {index === 0 && (
-                <div className="flex items-center gap-2">
-                  <Label htmlFor="show-only-evaluated" className="text-xs cursor-pointer whitespace-nowrap">
-                    {showOnlyEvaluated ? "Apenas calculados" : "Exibir todos"}
-                  </Label>
-                  <Switch
-                    id="show-only-evaluated"
-                    checked={showOnlyEvaluated}
-                    onCheckedChange={setShowOnlyEvaluated}
-                  />
+          <AccordionItem
+            key={group.groupId}
+            value={group.groupId}
+            className="rounded-lg border transition-all"
+          >
+            {/* Group Header - now collapsible with relative positioning */}
+            <div className="relative bg-muted/50">
+              <AccordionTrigger className="hover:no-underline py-2 px-3 [&>svg]:order-last w-full">
+                <div className="flex items-center gap-3 flex-1" style={{ paddingRight: index === 0 ? '240px' : '120px' }}>
+                  {/* Group name - takes remaining space */}
+                  <div className="flex-1">
+                    <h2 className="text-sm font-semibold text-left">{group.groupName}</h2>
+                    <p className="text-xs text-muted-foreground mt-0.5 text-left">
+                      {group.subgroups.size} subgrupos • {
+                        (() => {
+                          const totalItems = Array.from(group.subgroups.values()).reduce((acc, sg) => acc + sg.items.length, 0)
+                          const evaluatedItems = snapshot.itemResults?.filter(ir => ir.groupId === group.groupId && ir.status === "evaluated").length || 0
+                          return `${evaluatedItems}/${totalItems} itens calculados`
+                        })()
+                      }
+                    </p>
+                  </div>
                 </div>
-              )}
+              </AccordionTrigger>
 
-              {/* Group score badge - aligned right with fixed width */}
-              <div className="w-16 flex justify-end">
-                <Badge className={`${getScoreColor(group.groupScore)} text-sm`}>
+              {/* Controls positioned absolutely - OUTSIDE button, with space for chevron */}
+              <div className="absolute right-10 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
+                {/* Show only evaluated switch (only on first group, controls all) */}
+                {index === 0 && (
+                  <div className="flex items-center gap-2 pointer-events-auto">
+                    <Label htmlFor="show-only-evaluated" className="text-xs cursor-pointer whitespace-nowrap">
+                      {showOnlyEvaluated ? "Apenas calculados" : "Exibir todos"}
+                    </Label>
+                    <Switch
+                      id="show-only-evaluated"
+                      checked={showOnlyEvaluated}
+                      onCheckedChange={setShowOnlyEvaluated}
+                    />
+                  </div>
+                )}
+
+                {/* Group score badge - before the expand arrow */}
+                <Badge className={`${getScoreColor(group.groupScore)} text-sm pointer-events-auto`}>
                   {group.groupScore.toFixed(1)}%
                 </Badge>
               </div>
             </div>
 
             {/* Subgroups */}
-            {group.subgroups.size > 0 && (
-              <div className="p-2">
-                <Accordion type="multiple" className="space-y-1.5">
-                  {Array.from(group.subgroups.values()).map((subgroup) => (
-                    <AccordionItem
-                      key={subgroup.subgroupId}
-                      value={subgroup.subgroupId}
-                      className="border rounded-md transition-all"
-                    >
-                      <AccordionTrigger className="hover:no-underline py-2 px-2.5 text-left">
-                        <div className="flex items-center w-full pr-4">
-                          <div className="flex items-center gap-2 flex-1">
-                            <span className="text-sm font-medium text-left">{subgroup.subgroupName}</span>
-                            <Badge variant="outline" className="text-[10px] px-1.5 py-0">
-                              {subgroup.items.length}
-                            </Badge>
-                          </div>
-                          {/* Subgroup score badge - aligned right with fixed width */}
-                          <div className="w-16 flex justify-end">
-                            {subgroup.subgroupScore > 0 && (
-                              <Badge className={`${getScoreColor(subgroup.subgroupScore)} text-xs`}>
-                                {subgroup.subgroupScore.toFixed(1)}%
+            <AccordionContent className="px-0 pb-0">
+              {group.subgroups.size > 0 && (
+                <div className="p-2">
+                  <Accordion type="multiple" className="space-y-1.5">
+                    {Array.from(group.subgroups.values())
+                      .sort((a, b) => {
+                        // Get subgroup order from first item's subgroup
+                        const orderA = a.items[0]?.item?.subgroup?.order ?? 0
+                        const orderB = b.items[0]?.item?.subgroup?.order ?? 0
+                        return orderA - orderB
+                      })
+                      .map((subgroup) => (
+                      <AccordionItem
+                        key={subgroup.subgroupId}
+                        value={subgroup.subgroupId}
+                        className="border rounded-md transition-all"
+                      >
+                        <AccordionTrigger className="hover:no-underline py-2 px-2.5 text-left">
+                          <div className="flex items-center w-full pr-4">
+                            <div className="flex items-center gap-2 flex-1">
+                              <span className="text-sm font-medium text-left">{subgroup.subgroupName}</span>
+                              <Badge variant="outline" className="text-[10px] px-1.5 py-0">
+                                {subgroup.items.length}
                               </Badge>
-                            )}
+                            </div>
+                            {/* Subgroup score badge - aligned right with fixed width */}
+                            <div className="w-16 flex justify-end">
+                              {subgroup.subgroupScore > 0 && (
+                                <Badge className={`${getScoreColor(subgroup.subgroupScore)} text-xs`}>
+                                  {subgroup.subgroupScore.toFixed(1)}%
+                                </Badge>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </AccordionTrigger>
+                        </AccordionTrigger>
 
-                      <AccordionContent className="px-2.5 pb-2">
-                        <div className="space-y-1.5 mt-1">
-                          {filterItemsRecursive(subgroup.items).map((item) => renderItemWithChildren(item, 0))}
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </div>
-            )}
-          </div>
+                        <AccordionContent className="px-2.5 pb-2">
+                          <div className="space-y-1.5 mt-1">
+                            {filterItemsRecursive(subgroup.items).map((item) => renderItemWithChildren(item, 0))}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </div>
+              )}
+            </AccordionContent>
+          </AccordionItem>
         ))}
-      </div>
+      </Accordion>
     </div>
   )
 }

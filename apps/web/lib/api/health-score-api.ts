@@ -42,6 +42,7 @@ export interface PatientScoreGroupResult {
     id: string
     name: string
     description?: string
+    order?: number
   }
   createdAt: string
   updatedAt: string
@@ -66,6 +67,14 @@ export interface PatientScoreItemResult {
     id: string
     name: string
     unit?: string
+    order?: number
+    parentItemId?: string | null
+    subgroupId?: string
+    subgroup?: {
+      id: string
+      name: string
+      order?: number
+    }
   }
   levelMatched?: {
     id: string
