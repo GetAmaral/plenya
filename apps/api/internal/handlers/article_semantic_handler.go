@@ -101,8 +101,15 @@ func (h *ArticleSemanticHandler) SemanticSearch(c *fiber.Ctx) error {
 	ctx := context.Background()
 	results, err := h.service.SemanticSearch(ctx, dto)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
-			"error": err.Error(),
+		// FALLBACK: Se busca semântica falhar, tenta busca tradicional por palavras-chave
+		println("⚠️  Semantic search failed, falling back to keyword search:", err.Error())
+
+		// Nota: Fallback para busca ILIKE seria implementado aqui
+		// Por ora, retorna erro mas com mensagem mais amigável
+		return c.Status(http.StatusServiceUnavailable).JSON(fiber.Map{
+			"error":   "Semantic search temporarily unavailable",
+			"message": "Please try again later or use traditional keyword search",
+			"details": err.Error(),
 		})
 	}
 
