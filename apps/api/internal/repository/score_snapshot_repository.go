@@ -50,7 +50,9 @@ func (r *ScoreSnapshotRepository) GetByIDWithRelations(id uuid.UUID) (*models.Pa
 		Preload("ItemResults.Group").
 		Preload("ItemResults.LevelMatched").
 		Preload("ItemResults.LabResult").
+		Preload("ItemResults.LabResult.LabResultBatch").
 		Preload("ItemResults.AnamnesisItem").
+		Preload("ItemResults.AnamnesisItem.Anamnesis").
 		First(&snapshot, "id = ?", id).Error
 
 	if err != nil {
@@ -92,7 +94,9 @@ func (r *ScoreSnapshotRepository) GetLatestByPatientID(patientID uuid.UUID) (*mo
 		Preload("ItemResults.Group").
 		Preload("ItemResults.LevelMatched").
 		Preload("ItemResults.LabResult").
+		Preload("ItemResults.LabResult.LabResultBatch").
 		Preload("ItemResults.AnamnesisItem").
+		Preload("ItemResults.AnamnesisItem.Anamnesis").
 		Order("calculated_at DESC").
 		First(&snapshot).Error
 
