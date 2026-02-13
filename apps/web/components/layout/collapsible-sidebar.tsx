@@ -27,6 +27,7 @@ import {
   User as UserIcon,
   Pill,
   ShieldCheck,
+  Activity,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -49,6 +50,7 @@ const navigation: NavigationItem[] = [
   { name: "Consultas", href: "/appointments", icon: Calendar },
   { name: "Anamneses", href: "/anamnesis", icon: Stethoscope },
   { name: "Templates de Anamnese", href: "/anamnesis-templates", icon: FileCheck, staffOnly: true },
+  { name: "Escores de Saúde", href: "/health-scores", icon: Activity },
   { name: "Prescrições", href: "/prescriptions", icon: FileText },
   { name: "Exames", href: "/lab-results", icon: Microscope },
   { name: "Views de Resultados", href: "/lab-result-views", icon: LayoutList, staffOnly: true },

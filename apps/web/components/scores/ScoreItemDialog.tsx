@@ -47,6 +47,7 @@ import {
   useScoreSubgroup,
   scoreKeys,
 } from '@/lib/api/score-api'
+import { ArticleRecommendations } from '@/components/scores/ArticleRecommendations'
 import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -619,6 +620,17 @@ export function ScoreItemDialog({
               </p>
             </div>
           </div>
+
+          {/* Article Recommendations (RAG Semantic Search) */}
+          {isEditing && item?.id && (
+            <div className="border-t pt-4">
+              <ArticleRecommendations
+                scoreItemId={item.id}
+                scoreItemName={item.name}
+                limit={3}
+              />
+            </div>
+          )}
 
           <DialogFooter>
             <Button

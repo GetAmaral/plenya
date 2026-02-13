@@ -7,6 +7,7 @@
 -- Enable required extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE EXTENSION IF NOT EXISTS "vector"; -- pgvector for RAG semantic search
 
 -- Create UUID v7 generation function (RFC 9562)
 CREATE OR REPLACE FUNCTION uuid_generate_v7()

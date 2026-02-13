@@ -26,13 +26,15 @@ import (
 type ArticleService struct {
 	repo         *repository.ArticleRepository
 	uploadFolder string
+	queueService *EmbeddingQueueService
 }
 
 // NewArticleService cria uma nova instância do serviço
-func NewArticleService(db *gorm.DB, uploadFolder string) *ArticleService {
+func NewArticleService(db *gorm.DB, uploadFolder string, queueService *EmbeddingQueueService) *ArticleService {
 	return &ArticleService{
 		repo:         repository.NewArticleRepository(db),
 		uploadFolder: uploadFolder,
+		queueService: queueService,
 	}
 }
 
@@ -118,7 +120,18 @@ func (s *ArticleService) CreateArticle(dto *CreateArticleDTO, userID uuid.UUID) 
 		UpdatedBy:    &userID,
 	}
 
-	return s.repo.Create(article)
+	// Criar artigo
+	article, err := s.repo.Create(article)
+	if err != nil {
+		return nil, err
+	}
+
+	// Auto-queue para embedding (assíncrono, não bloqueia request)
+	if s.queueService != nil {
+		go s.queueService.QueueArticle(article.ID)
+	}
+
+	return article, nil
 }
 
 // GetArticleByID busca um artigo por ID

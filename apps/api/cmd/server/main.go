@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 	"os/signal"
@@ -20,6 +21,7 @@ import (
 	"github.com/plenya/api/internal/repository"
 	"github.com/plenya/api/internal/scheduler"
 	"github.com/plenya/api/internal/services"
+	"github.com/plenya/api/internal/workers"
 )
 
 // @title Plenya EMR API
@@ -83,6 +85,16 @@ func main() {
 		labResultBatchService,
 	)
 
+	// Initialize RAG embedding services (Phase 3)
+	embeddingService := services.NewEmbeddingService(cfg, database.DB)
+	chunkingService := services.NewChunkingService()
+	embeddingQueueService := services.NewEmbeddingQueueService(database.DB)
+	embeddingWorker := workers.NewEmbeddingWorker(database.DB, embeddingService, chunkingService)
+
+	// Initialize RAG semantic search services (Phase 4)
+	vectorRepo := repository.NewArticleVectorRepository(database.DB)
+	semanticService := services.NewArticleSemanticService(vectorRepo, embeddingService)
+
 	// Criar app Fiber
 	app := fiber.New(fiber.Config{
 		AppName:      "Plenya EMR API",
@@ -106,7 +118,7 @@ func main() {
 	app.Static("/uploads", "/app/uploads")
 
 	// Rotas
-	setupRoutes(app, cfg, processingJobService, labTestDefService, labResultBatchService)
+	setupRoutes(app, cfg, processingJobService, labTestDefService, labResultBatchService, embeddingQueueService, semanticService)
 
 	// Graceful shutdown
 	c := make(chan os.Signal, 1)
@@ -120,6 +132,9 @@ func main() {
 
 	// Iniciar worker de processamento (background)
 	go startProcessingWorker(processingJobService)
+
+	// Iniciar embedding worker (RAG background processing)
+	go startEmbeddingWorker(embeddingWorker)
 
 	// Iniciar scheduler de atualização de idade dos pacientes
 	patientAgeJob := scheduler.NewPatientAgeJob(database.DB)
@@ -139,6 +154,8 @@ func setupRoutes(
 	processingJobService *services.ProcessingJobService,
 	labTestDefService *services.LabTestDefinitionService,
 	labResultBatchService *services.LabResultBatchService,
+	embeddingQueueService *services.EmbeddingQueueService,
+	semanticService *services.ArticleSemanticService,
 ) {
 	// Health check
 	app.Get("/health", healthCheck)
@@ -150,6 +167,9 @@ func setupRoutes(
 	labRequestTemplateRepo := repository.NewLabRequestTemplateRepository(database.DB)
 	anamnesisTemplateRepo := repository.NewAnamnesisTemplateRepository(database.DB)
 	labResultViewRepo := repository.NewLabResultViewRepository(database.DB)
+	scoreSnapshotRepo := repository.NewScoreSnapshotRepository(database.DB)
+	labResultRepo := repository.NewLabResultRepository(database.DB)
+	anamnesisRepo := repository.NewAnamnesisRepository(database.DB)
 
 	// Inicializar services
 	authService := services.NewAuthService(database.DB, cfg)
@@ -160,11 +180,12 @@ func setupRoutes(
 	prescriptionService := services.NewPrescriptionService(database.DB)
 	labResultService := services.NewLabResultService(database.DB)
 	scoreService := services.NewScoreService(scoreRepo)
+	scoreSnapshotService := services.NewScoreSnapshotService(scoreSnapshotRepo, scoreRepo, labResultRepo, anamnesisRepo, database.DB)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
 	labRequestService := services.NewLabRequestService(labRequestRepo, database.DB)
 	labRequestTemplateService := services.NewLabRequestTemplateService(labRequestTemplateRepo)
 	labResultViewService := services.NewLabResultViewService(labResultViewRepo)
-	articleService := services.NewArticleService(database.DB, "./uploads/articles")
+	articleService := services.NewArticleService(database.DB, "./uploads/articles", embeddingQueueService)
 	userService := services.NewUserService(database.DB)
 	profileService := services.NewProfileService(database.DB)
 	medicationDefinitionService := services.NewMedicationDefinitionService(database.DB)
@@ -203,12 +224,14 @@ func setupRoutes(
 	labResultBatchHandler := handlers.NewLabResultBatchHandler(labResultBatchService, processingJobService)
 	processingJobHandler := handlers.NewProcessingJobHandler(processingJobService)
 	scoreHandler := handlers.NewScoreHandler(scoreService, validate)
+	scoreSnapshotHandler := handlers.NewScoreSnapshotHandler(scoreSnapshotService)
 	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
 	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
 	labRequestHandler := handlers.NewLabRequestHandler(labRequestService, certificateService)
 	labRequestTemplateHandler := handlers.NewLabRequestTemplateHandler(labRequestTemplateService)
 	labResultViewHandler := handlers.NewLabResultViewHandler(labResultViewService)
 	articleHandler := handlers.NewArticleHandler(articleService)
+	articleSemanticHandler := handlers.NewArticleSemanticHandler(semanticService, validate)
 	userHandler := handlers.NewUserHandler(userService)
 	profileHandler := handlers.NewProfileHandler(profileService)
 	certificateHandler := handlers.NewCertificateHandler(database.DB, certificateService)
@@ -518,12 +541,20 @@ func setupRoutes(
 	articles.Get("/search", articleHandler.SearchArticles)
 	articles.Get("/favorites", articleHandler.GetFavorites)
 	articles.Get("/stats", articleHandler.GetStatistics)
-	articles.Get("/:id", articleHandler.GetArticle)
-	articles.Put("/:id", middleware.RequireMedicalStaff(), articleHandler.UpdateArticle)
-	articles.Delete("/:id", middleware.RequireMedicalStaff(), articleHandler.DeleteArticle)
 
 	// Upload de PDF
 	articles.Post("/upload", middleware.RequireMedicalStaff(), articleHandler.UploadPDF)
+
+	// RAG Semantic Search routes (Phase 4) - MUST BE BEFORE /:id
+	articles.Get("/semantic-search", articleSemanticHandler.SemanticSearch)
+	articles.Get("/recommend", articleSemanticHandler.RecommendForScoreItem)
+	articles.Get("/embedding-stats", articleSemanticHandler.GetEmbeddingStats)
+
+	// Generic ID routes - MUST BE LAST to avoid capturing specific paths
+	articles.Get("/:id", articleHandler.GetArticle)
+	articles.Get("/:id/related-score-items", articleSemanticHandler.DiscoverRelatedScoreItems)
+	articles.Put("/:id", middleware.RequireMedicalStaff(), articleHandler.UpdateArticle)
+	articles.Delete("/:id", middleware.RequireMedicalStaff(), articleHandler.DeleteArticle)
 
 	// Lab Test Definitions routes (todas protegidas)
 	labTests := v1.Group("/lab-tests")
@@ -559,6 +590,17 @@ func setupRoutes(
 	// Rotas específicas do paciente (dentro de /patients/:patientId)
 	patients.Get("/:patientId/lab-values", labResultValueHandler.GetValuesByPatient)
 	patients.Get("/:patientId/lab-values/test/:testId/latest", labResultValueHandler.GetLatestValueForTest)
+
+	// Score Snapshots routes (patient-scoped)
+	patients.Post("/:id/score-snapshots", scoreSnapshotHandler.CalculateSnapshot)
+	patients.Get("/:id/score-snapshots", scoreSnapshotHandler.GetSnapshotsByPatientID)
+	patients.Get("/:id/score-snapshots/latest", scoreSnapshotHandler.GetLatestSnapshotByPatientID)
+
+	// Score Snapshots routes (global)
+	scoreSnapshots := v1.Group("/score-snapshots")
+	scoreSnapshots.Use(middleware.Auth(cfg))
+	scoreSnapshots.Get("/:id", scoreSnapshotHandler.GetSnapshotByID)
+	scoreSnapshots.Delete("/:id", middleware.RequireRole("admin", "doctor"), middleware.AuditLog(database.DB), scoreSnapshotHandler.DeleteSnapshot)
 
 	// Favorito e rating (todos usuários autenticados podem usar)
 	articles.Patch("/:id/favorite", articleHandler.ToggleFavorite)
@@ -631,5 +673,14 @@ func startProcessingWorker(service *services.ProcessingJobService) {
 		if err := service.PollAndProcess(); err != nil {
 			log.Printf("⚠️  Worker error: %v", err)
 		}
+	}
+}
+
+// startEmbeddingWorker inicia goroutine de processamento de embeddings (RAG)
+func startEmbeddingWorker(worker *workers.EmbeddingWorker) {
+	ctx := context.Background()
+
+	if err := worker.Start(ctx); err != nil {
+		log.Printf("❌ Embedding worker stopped: %v", err)
 	}
 }

@@ -26,6 +26,7 @@ import {
   articleApi,
 } from '@/lib/api/article-api'
 import { ArticleScoreItems } from '@/components/articles/ArticleScoreItems'
+import { RelatedScoreItems } from '@/components/articles/RelatedScoreItems'
 import { PageHeader } from '@/components/layout/page-header'
 
 // Dynamically import PDFViewer with no SSR to avoid DOMMatrix errors
@@ -370,6 +371,13 @@ export default function ArticleDetailPage({ params }: PageProps) {
         {article.scoreItems && article.scoreItems.length > 0 && (
           <ArticleScoreItems scoreItems={article.scoreItems} />
         )}
+
+        {/* Related Score Items (RAG Discovery) */}
+        <RelatedScoreItems
+          articleId={article.id}
+          articleTitle={article.title}
+          limit={10}
+        />
 
         {/* Notes */}
         {article.notes && (

@@ -20,6 +20,7 @@ import {
 import { ArticleCard } from '@/components/articles/ArticleCard'
 import { ArticleUploadDialog } from '@/components/articles/ArticleUploadDialog'
 import { ArticleFilters } from '@/components/articles/ArticleFilters'
+import { SemanticSearchDialog } from '@/components/articles/SemanticSearchDialog'
 import {
   Upload,
   Search,
@@ -28,13 +29,16 @@ import {
   ChevronRight,
   FileText,
   Heart,
+  Sparkles,
 } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { PageHeader } from '@/components/layout/page-header'
 
 type ViewMode = 'all' | 'favorites' | 'search'
 
 export default function ArticlesPage() {
+  const router = useRouter()
   const [viewMode, setViewMode] = useState<ViewMode>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [searchInput, setSearchInput] = useState('')
@@ -42,6 +46,7 @@ export default function ArticlesPage() {
   const [pageSize, setPageSize] = useState(20)
   const [filters, setFilters] = useState<Filters>({})
   const [showUploadDialog, setShowUploadDialog] = useState(false)
+  const [showSemanticSearchDialog, setShowSemanticSearchDialog] = useState(false)
 
   const searchFormRef = useRef<HTMLFormElement>(null)
   useFormNavigation({ formRef: searchFormRef })
@@ -134,7 +139,7 @@ export default function ArticlesPage() {
           </form>
 
           {/* View Mode Tabs */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Button
               variant={viewMode === 'all' ? 'default' : 'outline'}
               onClick={() => {
@@ -162,6 +167,15 @@ export default function ArticlesPage() {
             >
               <Heart className="h-4 w-4" />
               Favoritos
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => setShowSemanticSearchDialog(true)}
+              className="flex items-center gap-2 border-purple-300 text-purple-700 hover:bg-purple-50 hover:text-purple-800"
+            >
+              <Sparkles className="h-4 w-4" />
+              Busca Semântica (RAG)
             </Button>
           </div>
         </div>
@@ -322,6 +336,13 @@ export default function ArticlesPage() {
           )}
         </div>
       </div>
+
+      {/* Semantic Search Dialog */}
+      <SemanticSearchDialog
+        open={showSemanticSearchDialog}
+        onOpenChange={setShowSemanticSearchDialog}
+        onSelectArticle={(articleId) => router.push(`/articles/${articleId}`)}
+      />
 
       {/* Upload Dialog */}
       <ArticleUploadDialog

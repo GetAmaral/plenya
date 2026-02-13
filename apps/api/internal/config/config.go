@@ -16,6 +16,7 @@ type Config struct {
 	OAuth    OAuthConfig
 	SNCR     SNCRConfig
 	Claude   ClaudeConfig
+	OpenAI   OpenAIConfig
 }
 
 type ServerConfig struct {
@@ -66,6 +67,12 @@ type ClaudeConfig struct {
 	Model  string
 }
 
+type OpenAIConfig struct {
+	APIKey         string
+	EmbeddingModel string
+	APIURL         string
+}
+
 // Load carrega as configurações do ambiente
 func Load() (*Config, error) {
 	// Tentar carregar .env (ignora erro se não existir em produção)
@@ -112,6 +119,11 @@ func Load() (*Config, error) {
 		Claude: ClaudeConfig{
 			APIKey: getEnv("CLAUDE_API_KEY", ""),
 			Model:  getEnv("CLAUDE_MODEL", "claude-3-5-haiku-20241022"),
+		},
+		OpenAI: OpenAIConfig{
+			APIKey:         getEnv("OPENAI_API_KEY", ""),
+			EmbeddingModel: getEnv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-large"),
+			APIURL:         getEnv("OPENAI_API_URL", "https://api.openai.com/v1"),
 		},
 	}
 
