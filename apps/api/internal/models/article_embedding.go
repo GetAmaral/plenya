@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/pgvector/pgvector-go"
+	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
@@ -28,7 +29,7 @@ type ArticleEmbedding struct {
 	ChunkText string `gorm:"type:text;not null" json:"chunkText" validate:"required,min=1"`
 
 	// Metadata estruturado: {section: "abstract|methods|results", page_range: [1,3], word_count: 250}
-	ChunkMetadata map[string]interface{} `gorm:"type:jsonb;default:'{}'" json:"chunkMetadata,omitempty"`
+	ChunkMetadata datatypes.JSONMap `gorm:"type:jsonb;default:'{}'" json:"chunkMetadata,omitempty"`
 
 	// Vector embedding (OpenAI text-embedding-3-large: 1024 dimensões)
 	// Stored as pgvector type for efficient similarity search

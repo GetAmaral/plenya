@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"unicode/utf8"
 )
 
 // Chunk representa um pedaço de texto para embedding
@@ -31,11 +32,40 @@ func NewChunkingService() *ChunkingService {
 	}
 }
 
+// sanitizeUTF8 remove caracteres inválidos UTF-8 do texto
+// Importante para PDFs que podem conter bytes inválidos
+func sanitizeUTF8(s string) string {
+	if utf8.ValidString(s) {
+		return s
+	}
+
+	// Remove caracteres inválidos
+	var cleaned strings.Builder
+	cleaned.Grow(len(s))
+
+	for i := 0; i < len(s); {
+		r, size := utf8.DecodeRuneInString(s[i:])
+		if r == utf8.RuneError && size == 1 {
+			// Caractere inválido - pula
+			i++
+			continue
+		}
+		cleaned.WriteRune(r)
+		i += size
+	}
+
+	return cleaned.String()
+}
+
 // ChunkArticle divide artigo em chunks semânticos
 // Estratégia:
 //   - Chunk 0: Abstract (sempre separado)
 //   - Chunks 1+: Full content com sliding window
 func (s *ChunkingService) ChunkArticle(fullContent, abstract string) ([]Chunk, error) {
+	// Sanitizar inputs para remover caracteres UTF-8 inválidos
+	fullContent = sanitizeUTF8(fullContent)
+	abstract = sanitizeUTF8(abstract)
+
 	chunks := []Chunk{}
 
 	// Chunk 0: Abstract (se fornecido)
