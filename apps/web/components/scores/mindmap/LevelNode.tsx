@@ -4,6 +4,7 @@ import { memo } from 'react'
 import { Handle, Position, NodeProps } from 'reactflow'
 import { Edit, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { getScoreLevelColorFull } from '@/lib/utils/score-level-colors'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -12,18 +13,8 @@ import {
   ContextMenuSeparator,
 } from '@/components/ui/context-menu'
 
-const LEVEL_COLORS = {
-  0: 'bg-red-100 dark:bg-red-950 border-red-500 text-red-900 dark:text-red-100',
-  1: 'bg-orange-100 dark:bg-orange-950 border-orange-500 text-orange-900 dark:text-orange-100',
-  2: 'bg-yellow-100 dark:bg-yellow-950 border-yellow-500 text-yellow-900 dark:text-yellow-100',
-  3: 'bg-blue-100 dark:bg-blue-950 border-blue-500 text-blue-900 dark:text-blue-100',
-  4: 'bg-green-100 dark:bg-green-950 border-green-500 text-green-900 dark:text-green-100',
-  5: 'bg-emerald-100 dark:bg-emerald-950 border-emerald-500 text-emerald-900 dark:text-emerald-100',
-  6: 'bg-gray-100 dark:bg-gray-950 border-gray-500 text-gray-900 dark:text-gray-100',
-}
-
 export const LevelNode = memo(({ data }: NodeProps) => {
-  const colorClass = LEVEL_COLORS[data.level as keyof typeof LEVEL_COLORS] || LEVEL_COLORS[6]
+  const colorClass = getScoreLevelColorFull(data.level)
 
   return (
     <ContextMenu>
