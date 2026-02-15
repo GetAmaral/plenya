@@ -108,6 +108,7 @@ export interface CreateMethodDTO {
   version?: string
   color?: string
   order: number
+  isDefault: boolean
 }
 
 export interface UpdateMethodDTO {
@@ -117,6 +118,7 @@ export interface UpdateMethodDTO {
   version?: string
   color?: string
   order?: number
+  isDefault?: boolean
 }
 
 export function useCreateMethod() {

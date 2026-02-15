@@ -121,11 +121,18 @@ export default function MethodsListPage() {
                 <CardHeader>
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">
-                      <div className="flex items-start justify-between">
+                      <div className="flex items-start justify-between gap-2">
                         <CardTitle style={{ color: method.color || undefined }}>
                           {method.shortName}
                         </CardTitle>
-                        <Badge variant="outline">v{method.version || '1.0'}</Badge>
+                        <div className="flex gap-1.5">
+                          {method.isDefault && (
+                            <Badge variant="default" className="bg-primary">
+                              Padrão
+                            </Badge>
+                          )}
+                          <Badge variant="outline">v{method.version || '1.0'}</Badge>
+                        </div>
                       </div>
                       <CardDescription className="text-base font-medium mt-1">
                         {method.name}

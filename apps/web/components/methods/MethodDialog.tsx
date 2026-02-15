@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { Checkbox } from '@/components/ui/checkbox'
 import type { Method } from '@plenya/types'
 import {
   CreateMethodDTO,
@@ -47,6 +48,8 @@ export function MethodDialog({
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<CreateMethodDTO>({
     defaultValues: {
@@ -56,6 +59,7 @@ export function MethodDialog({
       version: method?.version || '1.0',
       color: method?.color || '#6366F1',
       order: method?.order || 0,
+      isDefault: method?.isDefault || false,
     },
   })
 
@@ -69,6 +73,7 @@ export function MethodDialog({
         version: method.version || '1.0',
         color: method.color || '#6366F1',
         order: method.order,
+        isDefault: method.isDefault || false,
       })
     } else {
       reset({
@@ -78,6 +83,7 @@ export function MethodDialog({
         version: '1.0',
         color: '#6366F1',
         order: 0,
+        isDefault: false,
       })
     }
   }, [method, reset])
@@ -258,6 +264,25 @@ export function MethodDialog({
               {errors.order && (
                 <p className="text-sm text-destructive">{errors.order.message}</p>
               )}
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-2 p-4 bg-muted/50 rounded-lg">
+            <Checkbox
+              id="isDefault"
+              checked={watch('isDefault')}
+              onCheckedChange={(checked) => setValue('isDefault', checked as boolean)}
+            />
+            <div className="grid gap-1.5 leading-none">
+              <Label
+                htmlFor="isDefault"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+              >
+                Metodologia Padrão
+              </Label>
+              <p className="text-sm text-muted-foreground">
+                Ao marcar como padrão, todas as outras metodologias serão desmarcadas automaticamente
+              </p>
             </div>
           </div>
 

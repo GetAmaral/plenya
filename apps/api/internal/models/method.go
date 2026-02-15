@@ -43,6 +43,10 @@ type Method struct {
 	// @maximum 9999
 	Order int `gorm:"type:integer;not null;default:0;index:idx_method_order" json:"order" validate:"gte=0,lte=9999"`
 
+	// Metodologia padrão do sistema (apenas uma pode ser default)
+	// @example true
+	IsDefault bool `gorm:"type:boolean;not null;default:false;index:idx_method_is_default" json:"isDefault"`
+
 	// Relationships
 	Letters []MethodLetter `gorm:"foreignKey:MethodID;constraint:OnDelete:CASCADE" json:"letters,omitempty"`
 
@@ -59,6 +63,21 @@ func (Method) TableName() string {
 func (m *Method) BeforeCreate(tx *gorm.DB) error {
 	if m.ID == uuid.Nil {
 		m.ID = uuid.Must(uuid.NewV7())
+	}
+	return nil
+}
+
+// BeforeSave ensures only one method can be default at a time
+func (m *Method) BeforeSave(tx *gorm.DB) error {
+	// If this method is being set as default, unset all other defaults
+	if m.IsDefault {
+		// Update all other methods to IsDefault=false
+		if err := tx.Model(&Method{}).
+			Where("id != ?", m.ID).
+			Where("is_default = ?", true).
+			Update("is_default", false).Error; err != nil {
+			return err
+		}
 	}
 	return nil
 }
