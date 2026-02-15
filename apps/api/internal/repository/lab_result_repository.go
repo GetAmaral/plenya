@@ -67,11 +67,11 @@ func (r *LabResultRepository) GetHistoricalResultsByLabTestCode(patientID uuid.U
 		return nil, err
 	}
 
-	// Preload LabTestDefinition for each result to get the code
+	// Preload LabTestDefinition for each result to get the code (excluding soft-deleted)
 	for i := range results {
 		if results[i].LabTestDefinitionID != nil {
 			var labTestDef models.LabTestDefinition
-			if err := r.db.First(&labTestDef, "id = ?", *results[i].LabTestDefinitionID).Error; err == nil {
+			if err := r.db.Where("deleted_at IS NULL").First(&labTestDef, "id = ?", *results[i].LabTestDefinitionID).Error; err == nil {
 				results[i].LabTestDefinition = &labTestDef
 			}
 		}

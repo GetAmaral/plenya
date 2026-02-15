@@ -52,9 +52,10 @@ import { ProcessingStatus } from "./ProcessingStatus";
 interface LabResultBatchFormProps {
   batchId?: string;
   initialValues?: LabResultBatchFormValues;
+  focusLabResultId?: string | null;
 }
 
-export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFormProps = {}) {
+export function LabResultBatchForm({ batchId, initialValues, focusLabResultId }: LabResultBatchFormProps = {}) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const formRef = useRef<HTMLFormElement>(null);
@@ -67,7 +68,8 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
   const [tempBatchId, setTempBatchId] = useState<string | null>(null); // Batch temporário criado no upload
   const [isManualSubmitting, setIsManualSubmitting] = useState(false); // Loading state for manual save
 
-  useFormNavigation({ formRef });
+  // Disable auto-focus if we need to focus on a specific lab result
+  useFormNavigation({ formRef, autoFocus: !focusLabResultId });
 
   const form = useForm<LabResultBatchFormValues>({
     resolver: zodResolver(labResultBatchSchema),
@@ -473,6 +475,7 @@ export function LabResultBatchForm({ batchId, initialValues }: LabResultBatchFor
                   append={append}
                   remove={remove}
                   getDefaultResultValues={getDefaultResultValues}
+                  focusLabResultId={focusLabResultId}
                 />
               </CardContent>
             </Card>

@@ -5,6 +5,8 @@ import { UseFormReturn } from "react-hook-form";
 import { Trash2, Plus, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { getScoreLevelColorSimple } from "@/lib/utils/score-level-colors";
 import {
   FormControl,
   FormField,
@@ -37,16 +39,8 @@ interface LabResultTableFormProps {
   append: (value: any) => void;
   remove: (index: number) => void;
   getDefaultResultValues: () => any;
+  focusLabResultId?: string | null;
 }
-
-const levelColors = {
-  0: "bg-red-100 border-red-500",
-  1: "bg-orange-100 border-orange-500",
-  2: "bg-yellow-100 border-yellow-500",
-  3: "bg-blue-100 border-blue-500",
-  4: "bg-green-100 border-green-500",
-  5: "bg-emerald-100 border-emerald-500",
-};
 
 export function LabResultTableForm({
   form,
@@ -54,13 +48,18 @@ export function LabResultTableForm({
   append,
   remove,
   getDefaultResultValues,
+  focusLabResultId,
 }: LabResultTableFormProps) {
   // Estado para controlar se cada linha está em modo manual (true) ou seleção (false)
   const [manualModeRows, setManualModeRows] = useState<Record<number, boolean>>({});
   // Estado para rastrear qual linha acabou de ser adicionada (para auto-focus)
   const [lastAddedIndex, setLastAddedIndex] = useState<number | null>(null);
+  // Estado para rastrear qual linha está com foco (para highlight)
+  const [focusedRowIndex, setFocusedRowIndex] = useState<number | null>(null);
   // Refs para os inputs de resultado (para focar após seleção)
   const resultInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  // Flag to prevent multiple focus attempts
+  const hasFocused = useRef(false);
 
   const handleAddResult = () => {
     append(getDefaultResultValues());
@@ -83,6 +82,37 @@ export function LabResultTableForm({
       append(getDefaultResultValues());
     }
   }, [fields.length, append, getDefaultResultValues]);
+
+  // Auto-scroll and focus on specific lab result when coming from health score edit
+  useEffect(() => {
+    if (focusLabResultId && fields.length > 0 && !hasFocused.current) {
+      const formValues = form.getValues();
+      const fieldIndex = formValues.labResults.findIndex((result: any) => result.id === focusLabResultId);
+
+      if (fieldIndex !== -1) {
+        hasFocused.current = true;
+
+        setTimeout(() => {
+          if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+          }
+
+          const input = resultInputRefs.current[fieldIndex];
+          if (input) {
+            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            setTimeout(() => {
+              input.focus({ preventScroll: true });
+              input.select();
+              setFocusedRowIndex(fieldIndex); // Set highlighted row
+            }, 400);
+          } else {
+            hasFocused.current = false;
+          }
+        }, 600);
+      }
+    }
+  }, [focusLabResultId, fields, form]);
 
   const handleTestSelect = (index: number, test: LabTestDefinition | null) => {
     if (test) {
@@ -136,7 +166,15 @@ export function LabResultTableForm({
             </TableHeader>
             <TableBody>
               {fields.map((field, index) => (
-                <TableRow key={field.id} className="even:bg-muted/30">
+                <TableRow
+                  key={field.id}
+                  className={cn(
+                    "even:bg-muted/30 transition-colors",
+                    focusedRowIndex === index && "bg-blue-50 dark:bg-blue-950/30 ring-2 ring-blue-500/50"
+                  )}
+                  onFocus={() => setFocusedRowIndex(index)}
+                  onBlur={() => setFocusedRowIndex(null)}
+                >
                   {/* Número */}
                   <TableCell className="px-2 py-1.5 text-center text-muted-foreground font-mono text-xs">
                     {index + 1}
@@ -315,7 +353,7 @@ export function LabResultTableForm({
                               {[0, 1, 2, 3, 4, 5].map((level) => (
                                 <SelectItem key={level} value={level.toString()}>
                                   <div className="flex items-center gap-1.5">
-                                    <div className={`w-2.5 h-2.5 rounded border ${levelColors[level as keyof typeof levelColors]}`} />
+                                    <div className={`w-2.5 h-2.5 rounded border ${getScoreLevelColorSimple(level)}`} />
                                     <span className="text-xs">N{level}</span>
                                   </div>
                                 </SelectItem>
