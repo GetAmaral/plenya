@@ -41,18 +41,20 @@ func (r *ScoreSnapshotRepository) GetByIDWithRelations(id uuid.UUID) (*models.Pa
 		Preload("GroupResults", func(db *gorm.DB) *gorm.DB {
 			return db.Order("score_percentage DESC")
 		}).
-		Preload("GroupResults.Group").
+		Preload("GroupResults.Group", "deleted_at IS NULL").
 		Preload("ItemResults", func(db *gorm.DB) *gorm.DB {
 			return db.Order("actual_points DESC")
 		}).
-		Preload("ItemResults.Item").
-		Preload("ItemResults.Item.Subgroup").
-		Preload("ItemResults.Group").
-		Preload("ItemResults.LevelMatched").
-		Preload("ItemResults.LabResult").
-		Preload("ItemResults.LabResult.LabResultBatch").
-		Preload("ItemResults.AnamnesisItem").
-		Preload("ItemResults.AnamnesisItem.Anamnesis").
+		Preload("ItemResults.Item", "deleted_at IS NULL").
+		Preload("ItemResults.Item.Subgroup", "deleted_at IS NULL").
+		Preload("ItemResults.Group", "deleted_at IS NULL").
+		Preload("ItemResults.LevelMatched", "deleted_at IS NULL").
+		Preload("ItemResults.LabResult", "deleted_at IS NULL").
+		Preload("ItemResults.LabResult.LabResultBatch", "deleted_at IS NULL").
+		Preload("ItemResults.AnamnesisItem", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped() // Load even if soft deleted (historical data)
+		}).
+		Preload("ItemResults.AnamnesisItem.Anamnesis", "deleted_at IS NULL"). // Filter Anamnesis - only load if not deleted
 		First(&snapshot, "id = ?", id).Error
 
 	if err != nil {
@@ -85,24 +87,43 @@ func (r *ScoreSnapshotRepository) GetLatestByPatientID(patientID uuid.UUID) (*mo
 		Preload("GroupResults", func(db *gorm.DB) *gorm.DB {
 			return db.Order("score_percentage DESC")
 		}).
-		Preload("GroupResults.Group").
+		Preload("GroupResults.Group", "deleted_at IS NULL").
 		Preload("ItemResults", func(db *gorm.DB) *gorm.DB {
 			return db.Order("actual_points DESC")
 		}).
-		Preload("ItemResults.Item").
-		Preload("ItemResults.Item.Subgroup").
-		Preload("ItemResults.Group").
-		Preload("ItemResults.LevelMatched").
-		Preload("ItemResults.LabResult").
-		Preload("ItemResults.LabResult.LabResultBatch").
-		Preload("ItemResults.AnamnesisItem").
-		Preload("ItemResults.AnamnesisItem.Anamnesis").
+		Preload("ItemResults.Item", "deleted_at IS NULL").
+		Preload("ItemResults.Item.Subgroup", "deleted_at IS NULL").
+		Preload("ItemResults.Group", "deleted_at IS NULL").
+		Preload("ItemResults.LevelMatched", "deleted_at IS NULL").
+		Preload("ItemResults.LabResult", "deleted_at IS NULL").
+		Preload("ItemResults.LabResult.LabResultBatch", "deleted_at IS NULL").
+		Preload("ItemResults.AnamnesisItem", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped() // Load even if soft deleted (historical data)
+		}).
+		Preload("ItemResults.AnamnesisItem.Anamnesis", "deleted_at IS NULL"). // Filter Anamnesis - only load if not deleted
 		Order("calculated_at DESC").
 		First(&snapshot).Error
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.New("no snapshots found for patient")
+		}
+		return nil, err
+	}
+	return &snapshot, nil
+}
+
+// GetTodaySnapshotByPatientID retrieves the snapshot for today (if exists)
+func (r *ScoreSnapshotRepository) GetTodaySnapshotByPatientID(patientID uuid.UUID) (*models.PatientScoreSnapshot, error) {
+	var snapshot models.PatientScoreSnapshot
+	err := r.db.
+		Where("patient_id = ?", patientID).
+		Where("DATE(calculated_at) = CURRENT_DATE").
+		First(&snapshot).Error
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil // Return nil, nil if not found (not an error)
 		}
 		return nil, err
 	}

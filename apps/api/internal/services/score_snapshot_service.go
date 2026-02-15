@@ -53,6 +53,7 @@ type CalculateSnapshotDTO struct {
 // ============================================================
 
 // CalculateSnapshot calculates a new score snapshot for a patient
+// If a snapshot already exists for today, it will be updated instead of creating a new one
 func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calculatedByUserID uuid.UUID) (*models.PatientScoreSnapshot, error) {
 	// 1. Load patient and validate existence
 	var patient models.Patient
@@ -63,13 +64,19 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 		return nil, err
 	}
 
-	// 2. Load complete score structure (all groups with subgroups, items, and levels)
+	// 2. Check if snapshot already exists for today
+	existingSnapshot, err := s.snapshotRepo.GetTodaySnapshotByPatientID(dto.PatientID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to check for existing snapshot: %w", err)
+	}
+
+	// 3. Load complete score structure (all groups with subgroups, items, and levels)
 	scoreGroups, err := s.scoreRepo.GetAllScoreGroupTrees()
 	if err != nil {
 		return nil, fmt.Errorf("failed to load score structure: %w", err)
 	}
 
-	// 3. Load patient's historical data (ENTIRE HISTORY - most recent values)
+	// 4. Load patient's historical data (ENTIRE HISTORY - most recent values)
 	labResultsByCode, err := s.labResultRepo.GetHistoricalResultsByLabTestCode(dto.PatientID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load lab results: %w", err)
@@ -80,20 +87,45 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 		return nil, fmt.Errorf("failed to load anamnesis items: %w", err)
 	}
 
-	// 4. Create snapshot in transaction
+	// 5. Create or update snapshot in transaction
 	var snapshot *models.PatientScoreSnapshot
 	err = s.db.Transaction(func(tx *gorm.DB) error {
-		// Initialize snapshot
-		snapshot = &models.PatientScoreSnapshot{
-			PatientID:              dto.PatientID,
-			CalculatedByUserID:     calculatedByUserID,
-			CalculatedAt:           time.Now(),
-			TotalActualPoints:      0,
-			TotalPossiblePoints:    0,
-			TotalScorePercentage:   0,
-			ItemsEvaluatedCount:    0,
-			ItemsNotEvaluatedCount: 0,
-			Notes:                  dto.Notes,
+		// If snapshot exists for today, reuse it and delete old results
+		if existingSnapshot != nil {
+			snapshot = existingSnapshot
+
+			// Hard delete old group results (Unscoped to bypass soft delete)
+			if err := tx.Unscoped().Where("snapshot_id = ?", snapshot.ID).Delete(&models.PatientScoreGroupResult{}).Error; err != nil {
+				return fmt.Errorf("failed to delete old group results: %w", err)
+			}
+
+			// Hard delete old item results (Unscoped to bypass soft delete)
+			if err := tx.Unscoped().Where("snapshot_id = ?", snapshot.ID).Delete(&models.PatientScoreItemResult{}).Error; err != nil {
+				return fmt.Errorf("failed to delete old item results: %w", err)
+			}
+
+			// Reset snapshot values
+			snapshot.CalculatedByUserID = calculatedByUserID
+			snapshot.CalculatedAt = time.Now()
+			snapshot.TotalActualPoints = 0
+			snapshot.TotalPossiblePoints = 0
+			snapshot.TotalScorePercentage = 0
+			snapshot.ItemsEvaluatedCount = 0
+			snapshot.ItemsNotEvaluatedCount = 0
+			snapshot.Notes = dto.Notes
+		} else {
+			// Initialize new snapshot
+			snapshot = &models.PatientScoreSnapshot{
+				PatientID:              dto.PatientID,
+				CalculatedByUserID:     calculatedByUserID,
+				CalculatedAt:           time.Now(),
+				TotalActualPoints:      0,
+				TotalPossiblePoints:    0,
+				TotalScorePercentage:   0,
+				ItemsEvaluatedCount:    0,
+				ItemsNotEvaluatedCount: 0,
+				Notes:                  dto.Notes,
+			}
 		}
 
 		// Maps to aggregate by group
@@ -179,9 +211,17 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 			snapshot.TotalScorePercentage = (snapshot.TotalActualPoints / snapshot.TotalPossiblePoints) * 100
 		}
 
-		// Save snapshot
-		if err := tx.Create(snapshot).Error; err != nil {
-			return fmt.Errorf("failed to create snapshot: %w", err)
+		// Save snapshot (create new or update existing)
+		if existingSnapshot != nil {
+			// Update existing snapshot
+			if err := tx.Save(snapshot).Error; err != nil {
+				return fmt.Errorf("failed to update snapshot: %w", err)
+			}
+		} else {
+			// Create new snapshot
+			if err := tx.Create(snapshot).Error; err != nil {
+				return fmt.Errorf("failed to create snapshot: %w", err)
+			}
 		}
 
 		// Save group results
