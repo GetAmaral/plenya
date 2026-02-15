@@ -11,7 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { apiClient } from '@/lib/api/client'
+import { apiClient } from '@/lib/api-client'
 
 interface ValidationData {
   valid: boolean
@@ -41,8 +41,7 @@ interface ValidationData {
 }
 
 async function validateLabRequest(id: string): Promise<ValidationData> {
-  const response = await apiClient.get<ValidationData>(`/api/v1/lab-requests/validate/${id}`)
-  return response.data
+  return await apiClient.get<ValidationData>(`/api/v1/lab-requests/validate/${id}`)
 }
 
 export default function ValidateLabRequestPage({ params }: { params: Promise<{ id: string }> }) {
