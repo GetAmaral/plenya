@@ -1,11 +1,12 @@
 "use client"
 
 import { useParams, useRouter } from "next/navigation"
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect, useRef } from "react"
 import { useRequireAuth } from "@/lib/use-auth"
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient"
 import { useHealthScoreDetail, useCalculateHealthScore } from "@/lib/api/health-score-api"
 import type { PatientScoreItemResult } from "@/lib/api/health-score-api"
+import { useHealthScoreViewPreferences } from "@/lib/use-health-score-view-preferences"
 import { PageHeader } from "@/components/layout/page-header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -103,10 +104,25 @@ export default function HealthScoreDetailPage() {
   const params = useParams()
   const router = useRouter()
   const snapshotId = params.id as string
-  const [showOnlyEvaluated, setShowOnlyEvaluated] = useState(true)
+
+  // Preferências de visualização persistidas
+  const {
+    openGroups,
+    setOpenGroups,
+    openSubgroups,
+    setOpenSubgroups,
+    selectedItemId,
+    setSelectedItemId,
+    showOnlyEvaluated,
+    setShowOnlyEvaluated,
+  } = useHealthScoreViewPreferences(snapshotId)
 
   const { data: snapshot, isLoading, error } = useHealthScoreDetail(snapshotId)
   const calculateMutation = useCalculateHealthScore()
+
+  // Refs for scrolling to selected item
+  const itemRefs = useRef<Map<string, HTMLDivElement>>(new Map())
+  const hasScrolledToItem = useRef(false)
 
   const handleRecalculate = async () => {
     if (!selectedPatient) return
@@ -124,6 +140,45 @@ export default function HealthScoreDetailPage() {
       console.error("Failed to recalculate score:", error)
       toast.error("Erro ao recalcular score")
     }
+  }
+
+  // Auto-open groups/subgroups that contain the selected item
+  useEffect(() => {
+    if (selectedItemId && snapshot?.itemResults) {
+      const selectedItem = snapshot.itemResults.find(ir => ir.id === selectedItemId)
+      if (selectedItem) {
+        const groupId = selectedItem.groupId
+        const subgroupId = selectedItem.item?.subgroupId
+
+        // Open group if not already open
+        if (groupId && !openGroups.includes(groupId)) {
+          setOpenGroups(prev => [...prev, groupId])
+        }
+
+        // Open subgroup if not already open
+        if (subgroupId && !openSubgroups.includes(subgroupId)) {
+          setOpenSubgroups(prev => [...prev, subgroupId])
+        }
+      }
+    }
+  }, [selectedItemId, snapshot, openGroups, openSubgroups, setOpenGroups, setOpenSubgroups])
+
+  // Auto-scroll to selected item when page loads
+  useEffect(() => {
+    if (selectedItemId && !hasScrolledToItem.current && itemRefs.current.size > 0) {
+      const itemElement = itemRefs.current.get(selectedItemId)
+      if (itemElement) {
+        hasScrolledToItem.current = true
+        setTimeout(() => {
+          itemElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }, 500) // Increased delay to allow accordion to open first
+      }
+    }
+  }, [selectedItemId, itemRefs.current.size])
+
+  // Toggle item selection
+  const handleItemClick = (itemId: string) => {
+    setSelectedItemId(prev => prev === itemId ? null : itemId)
   }
 
   // Organize items by group → subgroup → items with hierarchy
@@ -268,14 +323,40 @@ export default function HealthScoreDetailPage() {
     if (item.status !== "evaluated") return null
 
     if (item.dataSource === "lab_result" && item.labResult?.labResultBatch?.id) {
-      return `/lab-results/${item.labResult.labResultBatch.id}/edit`
+      // Include lab result ID as hash to scroll and focus on that specific field
+      return `/lab-results/${item.labResult.labResultBatch.id}/edit#${item.labResultId}`
     }
 
-    if (item.dataSource === "anamnesis_item") {
-      return `/anamnesis`
+    if (item.dataSource === "anamnesis_item" && item.anamnesisItem?.anamnesis?.id && item.itemId) {
+      // Include anamnesis ID and score item ID as query params
+      return `/anamnesis?edit=${item.anamnesisItem.anamnesis.id}&focusItem=${item.itemId}`
     }
 
     return null
+  }
+
+  // Handle edit click - save item as selected and ensure groups/subgroups are open
+  const handleEditClick = (item: ItemWithChildren) => {
+    // Save item as selected
+    setSelectedItemId(item.id)
+
+    // Ensure group and subgroup are open
+    const groupId = item.groupId
+    const subgroupId = item.item?.subgroupId
+
+    if (groupId && !openGroups.includes(groupId)) {
+      setOpenGroups(prev => [...prev, groupId])
+    }
+
+    if (subgroupId && !openSubgroups.includes(subgroupId)) {
+      setOpenSubgroups(prev => [...prev, subgroupId])
+    }
+
+    // Navigate to edit page
+    const editLink = getEditLink(item)
+    if (editLink) {
+      router.push(editLink)
+    }
   }
 
   // Render item with children recursively (with indentation - exactly like ScoreTreeView)
@@ -295,16 +376,27 @@ export default function HealthScoreDetailPage() {
     // Calculate parent score if item has children
     const parentScore = calculateParentScore(item)
 
+    // Check if this item is selected
+    const isSelected = selectedItemId === item.id
+
     // Render current item (use unique PatientScoreItemResult.id as key)
     elements.push(
       <div
         key={item.id}
+        ref={(el) => {
+          if (el) itemRefs.current.set(item.id, el)
+        }}
         style={style}
         className="rounded-lg transition-all flex items-start gap-1"
       >
         {/* Card with item content */}
         <div className="flex-1 min-w-0">
-          <div className="text-sm border rounded-md p-2.5 bg-card">
+          <div
+            className={`text-sm border rounded-md p-2.5 bg-card cursor-pointer transition-all ${
+              isSelected ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'hover:border-primary/50'
+            }`}
+            onClick={() => handleItemClick(item.id)}
+          >
             <div className="flex items-start gap-2">
               <div className="flex-1 min-w-0">
                 <span className="font-semibold">{item.item?.name}</span>
@@ -375,7 +467,7 @@ export default function HealthScoreDetailPage() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
-                        onClick={() => router.push(getEditLink(item)!)}
+                        onClick={() => handleEditClick(item)}
                         className="cursor-pointer"
                       >
                         <Edit className="mr-2 h-4 w-4" />
@@ -528,7 +620,12 @@ export default function HealthScoreDetailPage() {
       )}
 
       {/* Results by Group → Subgroup → Items (same structure as ScoreTreeView) */}
-      <Accordion type="multiple" className="space-y-2">
+      <Accordion
+        type="multiple"
+        className="space-y-2"
+        value={openGroups}
+        onValueChange={setOpenGroups}
+      >
         {itemsByGroup.map((group, index) => (
           <AccordionItem
             key={group.groupId}
@@ -572,9 +669,13 @@ export default function HealthScoreDetailPage() {
                 )}
 
                 {/* Group score badge - before the expand arrow */}
-                <Badge className={`${getScoreColor(group.groupScore)} text-sm pointer-events-auto`}>
-                  {group.groupScore.toFixed(1)}%
-                </Badge>
+                {group.groupScore === 0 ? (
+                  <span className="text-red-500 font-bold text-lg pointer-events-auto">—</span>
+                ) : (
+                  <Badge className={`${getScoreColor(group.groupScore)} text-sm pointer-events-auto`}>
+                    {group.groupScore.toFixed(1)}%
+                  </Badge>
+                )}
               </div>
             </div>
 
@@ -582,7 +683,12 @@ export default function HealthScoreDetailPage() {
             <AccordionContent className="px-0 pb-0">
               {group.subgroups.size > 0 && (
                 <div className="p-2">
-                  <Accordion type="multiple" className="space-y-1.5">
+                  <Accordion
+                    type="multiple"
+                    className="space-y-1.5"
+                    value={openSubgroups}
+                    onValueChange={setOpenSubgroups}
+                  >
                     {Array.from(group.subgroups.values())
                       .sort((a, b) => {
                         // Get subgroup order from first item's subgroup
