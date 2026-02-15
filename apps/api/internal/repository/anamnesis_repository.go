@@ -57,10 +57,10 @@ func (r *AnamnesisRepository) GetHistoricalItemsByScoreItemID(patientID uuid.UUI
 		return nil, err
 	}
 
-	// Preload ScoreItem for each item
+	// Preload ScoreItem for each item (excluding soft-deleted)
 	for i := range items {
 		var scoreItem models.ScoreItem
-		if err := r.db.First(&scoreItem, "id = ?", items[i].ScoreItemID).Error; err == nil {
+		if err := r.db.Where("deleted_at IS NULL").First(&scoreItem, "id = ?", items[i].ScoreItemID).Error; err == nil {
 			items[i].ScoreItem = &scoreItem
 		}
 	}

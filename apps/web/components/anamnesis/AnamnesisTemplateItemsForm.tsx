@@ -15,12 +15,14 @@ interface AnamnesisTemplateItemsFormProps {
   template: AnamnesisTemplate
   initialValues?: AnamnesisItemFormValue[]
   onChange: (values: AnamnesisItemFormValue[]) => void
+  focusScoreItemId?: string | null
 }
 
 export function AnamnesisTemplateItemsForm({
   template,
   initialValues = [],
   onChange,
+  focusScoreItemId,
 }: AnamnesisTemplateItemsFormProps) {
   return (
     <AnamnesisTemplateItemsRenderer
@@ -28,6 +30,7 @@ export function AnamnesisTemplateItemsForm({
       initialValues={initialValues}
       onChange={onChange}
       compact={true}
+      focusScoreItemId={focusScoreItemId}
     />
   )
 }
