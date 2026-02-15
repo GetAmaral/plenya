@@ -169,6 +169,7 @@ func setupRoutes(
 
 	// Inicializar repositories
 	scoreRepo := repository.NewScoreRepository(database.DB)
+	methodRepo := repository.NewMethodRepository(database.DB)
 	labResultValueRepo := repository.NewLabResultValueRepository(database.DB)
 	labRequestRepo := repository.NewLabRequestRepository(database.DB)
 	labRequestTemplateRepo := repository.NewLabRequestTemplateRepository(database.DB)
@@ -187,6 +188,7 @@ func setupRoutes(
 	prescriptionService := services.NewPrescriptionService(database.DB)
 	labResultService := services.NewLabResultService(database.DB)
 	scoreService := services.NewScoreService(scoreRepo)
+	methodService := services.NewMethodService(methodRepo)
 	scoreSnapshotService := services.NewScoreSnapshotService(scoreSnapshotRepo, scoreRepo, labResultRepo, anamnesisRepo, database.DB)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
 	labRequestService := services.NewLabRequestService(labRequestRepo, database.DB)
@@ -231,6 +233,7 @@ func setupRoutes(
 	labResultBatchHandler := handlers.NewLabResultBatchHandler(labResultBatchService, processingJobService)
 	processingJobHandler := handlers.NewProcessingJobHandler(processingJobService)
 	scoreHandler := handlers.NewScoreHandler(scoreService, validate)
+	methodHandler := handlers.NewMethodHandler(methodService)
 	scoreSnapshotHandler := handlers.NewScoreSnapshotHandler(scoreSnapshotService)
 	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
 	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
@@ -513,6 +516,11 @@ func setupRoutes(
 
 	// Rotas de leitura (todos usuários autenticados)
 	scoreItems.Get("/", scoreHandler.GetAllScoreItems)
+
+	// Score Items with Method associations (must be before /:id routes)
+	scoreItems.Get("/unassigned", methodHandler.GetUnassignedScoreItems)
+	scoreItems.Get("/with-pillars", methodHandler.GetAllScoreItemsWithPillars)
+
 	scoreItems.Get("/:id", scoreHandler.GetScoreItemByID)
 	scoreItems.Get("/:itemId/levels", scoreHandler.GetLevelsByItemID)
 
@@ -536,6 +544,54 @@ func setupRoutes(
 	scoreLevels.Post("/", middleware.RequireAdmin(), scoreHandler.CreateScoreLevel)
 	scoreLevels.Put("/:id", middleware.RequireAdmin(), scoreHandler.UpdateScoreLevel)
 	scoreLevels.Delete("/:id", middleware.RequireAdmin(), scoreHandler.DeleteScoreLevel)
+
+	// Methods routes (clinical methodologies like AGIR)
+	methods := v1.Group("/methods")
+	methods.Use(middleware.Auth(cfg))
+	methods.Use(middleware.AuditLog(database.DB))
+
+	// Read routes (all authenticated users)
+	methods.Get("/", methodHandler.GetAllMethods)
+	methods.Get("/tree", methodHandler.GetAllMethodsWithTree)
+	methods.Get("/:id", methodHandler.GetMethodByID)
+	methods.Get("/:id/tree", methodHandler.GetMethodTree)
+	methods.Get("/:id/letters", methodHandler.GetMethodLetters)
+
+	// Write routes (admin only)
+	methods.Post("/", middleware.RequireAdmin(), methodHandler.CreateMethod)
+	methods.Put("/:id", middleware.RequireAdmin(), methodHandler.UpdateMethod)
+	methods.Delete("/:id", middleware.RequireAdmin(), methodHandler.DeleteMethod)
+	methods.Post("/:id/letters", middleware.RequireAdmin(), methodHandler.CreateMethodLetter)
+
+	// Method Letters routes
+	methodLetters := v1.Group("/method-letters")
+	methodLetters.Use(middleware.Auth(cfg))
+	methodLetters.Use(middleware.AuditLog(database.DB))
+
+	// Read routes (all authenticated users)
+	methodLetters.Get("/:id", methodHandler.GetMethodLetterByID)
+	methodLetters.Get("/:id/pillars", methodHandler.GetLetterPillars)
+
+	// Write routes (admin only)
+	methodLetters.Post("/:id/pillars", middleware.RequireAdmin(), methodHandler.CreateMethodPillar)
+	methodLetters.Put("/:id", middleware.RequireAdmin(), methodHandler.UpdateMethodLetter)
+	methodLetters.Delete("/:id", middleware.RequireAdmin(), methodHandler.DeleteMethodLetter)
+
+	// Method Pillars routes
+	methodPillars := v1.Group("/method-pillars")
+	methodPillars.Use(middleware.Auth(cfg))
+	methodPillars.Use(middleware.AuditLog(database.DB))
+
+	// Read routes (all authenticated users)
+	methodPillars.Get("/:id", methodHandler.GetMethodPillarByID)
+
+	// Write routes (admin only)
+	methodPillars.Put("/:id", middleware.RequireAdmin(), methodHandler.UpdateMethodPillar)
+	methodPillars.Delete("/:id", middleware.RequireAdmin(), methodHandler.DeleteMethodPillar)
+
+	// Score Item assignment routes (admin only)
+	methodPillars.Post("/:id/assign-item", middleware.RequireAdmin(), methodHandler.AssignScoreItemToPillar)
+	methodPillars.Delete("/:id/unassign-item", middleware.RequireAdmin(), methodHandler.UnassignScoreItemFromPillar)
 
 	// Articles routes (todas protegidas - compartilhadas entre médicos)
 	articles := v1.Group("/articles")

@@ -94,6 +94,10 @@ type ScoreItem struct {
 	// @items.type object
 	Articles []Article `gorm:"many2many:article_score_items;" json:"articles,omitempty"`
 
+	// Many-to-many relationship with MethodPillars
+	// @items.type object
+	MethodPillars []MethodPillar `gorm:"many2many:score_item_method_pillars;" json:"methodPillars,omitempty"`
+
 	// Timestamps
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
