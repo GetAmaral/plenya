@@ -15,6 +15,7 @@ type CreateMethodDTO struct {
 	Version     *string `json:"version,omitempty"`
 	Color       *string `json:"color,omitempty" validate:"omitempty,hexcolor"`
 	Order       int     `json:"order" validate:"gte=0,lte=9999"`
+	IsDefault   bool    `json:"isDefault"`
 }
 
 type UpdateMethodDTO struct {
@@ -24,6 +25,7 @@ type UpdateMethodDTO struct {
 	Version     *string `json:"version,omitempty"`
 	Color       *string `json:"color,omitempty" validate:"omitempty,hexcolor"`
 	Order       *int    `json:"order,omitempty" validate:"omitempty,gte=0,lte=9999"`
+	IsDefault   *bool   `json:"isDefault,omitempty"`
 }
 
 type CreateMethodLetterDTO struct {
@@ -105,6 +107,7 @@ func (s *MethodService) CreateMethod(dto *CreateMethodDTO) (*models.Method, erro
 		Version:     dto.Version,
 		Color:       dto.Color,
 		Order:       dto.Order,
+		IsDefault:   dto.IsDefault,
 	}
 
 	if err := s.repo.CreateMethod(method); err != nil {
@@ -137,6 +140,9 @@ func (s *MethodService) UpdateMethod(methodID string, dto *UpdateMethodDTO) (*mo
 	}
 	if dto.Order != nil {
 		method.Order = *dto.Order
+	}
+	if dto.IsDefault != nil {
+		method.IsDefault = *dto.IsDefault
 	}
 
 	if err := s.repo.UpdateMethod(method); err != nil {
