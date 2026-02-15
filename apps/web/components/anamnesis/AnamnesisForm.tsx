@@ -50,6 +50,7 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
   const [visibility, setVisibility] = useState<'all' | 'medicalOnly' | 'psychOnly' | 'authorOnly'>('all')
   const [notes, setNotes] = useState('')
   const [templateItems, setTemplateItems] = useState<AnamnesisItemFormValue[]>([])
+  const focusScoreItemId: string | null | undefined = undefined // Not used in create form
 
   // Rich text editor toggle (single toggle for both fields)
   const [richTextEnabled, setRichTextEnabled] = useState(false)
@@ -270,6 +271,7 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
                   template={selectedTemplate}
                   initialValues={templateItems}
                   onChange={setTemplateItems}
+                  focusScoreItemId={focusScoreItemId}
                 />
               </div>
             )}
@@ -343,11 +345,12 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
 
 interface EditAnamnesisFormProps {
   anamnesis: Anamnesis
+  focusScoreItemId?: string | null
   onSuccess: () => void
   onCancel: () => void
 }
 
-export function EditAnamnesisForm({ anamnesis, onSuccess, onCancel }: EditAnamnesisFormProps) {
+export function EditAnamnesisForm({ anamnesis, focusScoreItemId, onSuccess, onCancel }: EditAnamnesisFormProps) {
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
     anamnesis.anamnesisTemplateId || ''
   )
@@ -607,6 +610,7 @@ export function EditAnamnesisForm({ anamnesis, onSuccess, onCancel }: EditAnamne
                   template={selectedTemplate}
                   initialValues={templateItems}
                   onChange={setTemplateItems}
+                  focusScoreItemId={focusScoreItemId}
                 />
               </div>
             )}

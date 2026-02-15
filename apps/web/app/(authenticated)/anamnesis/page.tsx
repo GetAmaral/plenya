@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -29,7 +30,7 @@ import { useRequireAuth } from "@/lib/use-auth";
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
 import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
 import { PageHeader } from "@/components/layout/page-header";
-import { getAllAnamnesis, type Anamnesis } from "@/lib/api/anamnesis";
+import { getAllAnamnesis, getAnamnesisById, type Anamnesis } from "@/lib/api/anamnesis";
 import { CreateAnamnesisForm, EditAnamnesisForm } from "@/components/anamnesis/AnamnesisForm";
 import { useRouter } from "next/navigation";
 
@@ -39,10 +40,13 @@ export default function AnamnesisPage() {
   useRequireAuth();
   const { selectedPatient } = useRequireSelectedPatient();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingAnamnesis, setEditingAnamnesis] = useState<Anamnesis | null>(null);
+  const [focusScoreItemId, setFocusScoreItemId] = useState<string | null>(null);
+  const [cameFromHealthScore, setCameFromHealthScore] = useState(false);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
@@ -56,6 +60,31 @@ export default function AnamnesisPage() {
     }),
     enabled: !!selectedPatient,
   });
+
+  // Auto-open edit form when coming from health score detail
+  useEffect(() => {
+    const editId = searchParams.get('edit');
+    const focusItem = searchParams.get('focusItem');
+
+    if (editId && !editingAnamnesis) {
+      // Mark that we came from health score if focusItem is present
+      if (focusItem) {
+        setCameFromHealthScore(true);
+      }
+
+      // Fetch the anamnesis and open edit form
+      getAnamnesisById(editId)
+        .then((anamnesis) => {
+          setEditingAnamnesis(anamnesis);
+          if (focusItem) {
+            setFocusScoreItemId(focusItem);
+          }
+        })
+        .catch((error) => {
+          console.error('Failed to load anamnesis:', error);
+        });
+    }
+  }, [searchParams, editingAnamnesis]);
 
   const getVisibilityLabel = (visibility: AnamnesisVisibility) => {
     switch (visibility) {
@@ -134,8 +163,33 @@ export default function AnamnesisPage() {
       {editingAnamnesis && (
         <EditAnamnesisForm
           anamnesis={editingAnamnesis}
-          onSuccess={() => setEditingAnamnesis(null)}
-          onCancel={() => setEditingAnamnesis(null)}
+          focusScoreItemId={focusScoreItemId}
+          onSuccess={() => {
+            setEditingAnamnesis(null);
+            setFocusScoreItemId(null);
+
+            // If came from health score, go back in history
+            // Otherwise, stay on anamnesis list
+            if (cameFromHealthScore) {
+              setCameFromHealthScore(false);
+              router.back();
+            } else {
+              router.replace('/anamnesis');
+            }
+          }}
+          onCancel={() => {
+            setEditingAnamnesis(null);
+            setFocusScoreItemId(null);
+
+            // If came from health score, go back in history
+            // Otherwise, stay on anamnesis list
+            if (cameFromHealthScore) {
+              setCameFromHealthScore(false);
+              router.back();
+            } else {
+              router.replace('/anamnesis');
+            }
+          }}
         />
       )}
 
