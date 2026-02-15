@@ -28,6 +28,7 @@ import {
   Pill,
   ShieldCheck,
   Activity,
+  Target,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -57,6 +58,7 @@ const navigation: NavigationItem[] = [
   { name: "Pedidos de Exames", href: "/lab-requests", icon: ClipboardList, staffOnly: true },
   { name: "Template de Pedido de Exame", href: "/lab-request-templates", icon: LayoutTemplate, staffOnly: true },
   { name: "Escores", href: "/scores", icon: Network, staffOnly: true },
+  { name: "Metodologias", href: "/methods", icon: Target, staffOnly: true },
   { name: "Artigos", href: "/articles", icon: BookOpen },
   { name: "Usuários", href: "/admin/users", icon: Shield, adminOnly: true },
   { name: "Definições de Medicamentos", href: "/admin/medication-definitions", icon: Pill, adminOnly: true },
