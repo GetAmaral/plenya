@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -35,11 +36,20 @@ export default function EditLabResultBatchPage() {
   useRequireSelectedPatient();
   const params = useParams();
   const batchId = params.id as string;
+  const [focusLabResultId, setFocusLabResultId] = useState<string | null>(null);
 
   const { data: batch, isLoading } = useQuery({
     queryKey: ["lab-result-batch", batchId],
     queryFn: () => labResultBatchApi.getById(batchId),
   });
+
+  // Detect lab result ID from URL hash (for auto-scroll and focus)
+  useEffect(() => {
+    const hash = window.location.hash.slice(1); // Remove '#' prefix
+    if (hash) {
+      setFocusLabResultId(hash);
+    }
+  }, []);
 
   if (isLoading) {
     return (
@@ -91,7 +101,11 @@ export default function EditLabResultBatchPage() {
         description={`Editando lote: ${batch.laboratoryName}`}
       />
 
-      <LabResultBatchForm batchId={batchId} initialValues={initialValues} />
+      <LabResultBatchForm
+        batchId={batchId}
+        initialValues={initialValues}
+        focusLabResultId={focusLabResultId}
+      />
     </div>
   );
 }
