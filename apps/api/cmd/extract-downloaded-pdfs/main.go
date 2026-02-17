@@ -42,7 +42,8 @@ func main() {
 	fmt.Println("✅ Connected to database\n")
 
 	// Criar article service (reutilizar ExtractPDFMetadata)
-	articleService := services.NewArticleService(db, "./uploads/articles", nil)
+	aiService := services.NewAIService(cfg)
+	articleService := services.NewArticleService(db, "./uploads/articles", nil, aiService)
 
 	// Buscar artigos com PDF mas sem fullContent/abstract
 	var articles []models.Article

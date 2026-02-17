@@ -371,3 +371,198 @@ func normalizeForMatching(text string) string {
 
 	return text
 }
+
+// ExtractArticleMetadata - extrai metadados de artigo científico da primeira página
+// Usa Claude Haiku para extração estruturada inteligente
+func (s *AIService) ExtractArticleMetadata(firstPageText string) (map[string]interface{}, error) {
+	if s.apiKey == "" {
+		return nil, fmt.Errorf("Claude API key not configured")
+	}
+
+	prompt := fmt.Sprintf(`# TAREFA: Extrair Metadados de Artigo Científico
+
+Analise o texto da primeira página do PDF abaixo e extraia os metadados bibliográficos.
+
+## TEXTO DA PRIMEIRA PÁGINA
+%s
+
+## INSTRUÇÕES
+
+Extraia os seguintes campos (omita campos que não encontrar):
+
+**Obrigatórios:**
+1. **title**: Título completo do artigo
+2. **authors**: Nomes dos autores (formato: "Sobrenome A, Sobrenome B, Sobrenome C")
+3. **journal**: Nome da revista/journal
+
+**Opcionais:**
+4. **publicationDate**: Data de publicação (formato YYYY-MM-DD, ou apenas YYYY se não tiver mês/dia)
+5. **doi**: DOI do artigo (apenas o identificador, ex: "10.1038/s41586-024-07146-0")
+6. **pmid**: PubMed ID (apenas números)
+7. **issn**: ISSN da revista
+8. **abstract**: Resumo/abstract do artigo (se presente na primeira página)
+9. **keywords**: Array de palavras-chave (se presentes)
+10. **articleType**: Tipo do artigo - escolha entre:
+    - "research_article" (artigo de pesquisa original)
+    - "review" (revisão narrativa)
+    - "meta_analysis" (meta-análise, revisão sistemática)
+    - "case_study" (estudo de caso, relato de caso)
+    - "clinical_trial" (ensaio clínico)
+    - "editorial" (editorial, comentário)
+    - "letter" (carta, correspondência)
+
+## REGRAS CRÍTICAS
+
+- **NUNCA invente dados** - omita campos se não encontrar
+- Para **authors**: se houver muitos autores, liste até 10 principais + "et al."
+- Para **doi**: extraia apenas o identificador (sem URL completa)
+- Para **publicationDate**: tente inferir o ano mesmo que não esteja explícito
+- Para **articleType**: analise o conteúdo e tipo de estudo para classificar
+- Se o texto estiver em português, traduza title/abstract para inglês se possível
+
+Retorne um JSON com os campos encontrados.`, firstPageText)
+
+	payload := map[string]interface{}{
+		"model":       s.model,
+		"max_tokens":  4096,
+		"temperature": 0.2,
+		"messages": []map[string]string{
+			{"role": "user", "content": prompt},
+		},
+		"tools": []map[string]interface{}{
+			{
+				"name":         "extract_article_metadata",
+				"description":  "Extract bibliographic metadata from scientific article first page",
+				"input_schema": s.buildArticleMetadataSchema(),
+			},
+		},
+		"tool_choice": map[string]string{
+			"type": "tool",
+			"name": "extract_article_metadata",
+		},
+	}
+
+	jsonPayload, err := json.Marshal(payload)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal payload: %v", err)
+	}
+
+	req, err := http.NewRequest("POST", "https://api.anthropic.com/v1/messages", bytes.NewBuffer(jsonPayload))
+	if err != nil {
+		return nil, fmt.Errorf("failed to create request: %v", err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("x-api-key", s.apiKey)
+	req.Header.Set("anthropic-version", "2023-06-01")
+
+	resp, err := s.httpClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to call Claude API: %v", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("claude api error %d: %s", resp.StatusCode, string(body))
+	}
+
+	var apiResp struct {
+		Content []struct {
+			Type  string          `json:"type"`
+			Input json.RawMessage `json:"input"`
+		} `json:"content"`
+		Usage struct {
+			InputTokens  int `json:"input_tokens"`
+			OutputTokens int `json:"output_tokens"`
+		} `json:"usage"`
+		Model string `json:"model"`
+	}
+
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read response body: %v", err)
+	}
+
+	if err := json.Unmarshal(bodyBytes, &apiResp); err != nil {
+		return nil, fmt.Errorf("failed to decode response: %v", err)
+	}
+
+	fmt.Printf("💰 Article Metadata Extraction - Model: %s, Input: %d tokens, Output: %d tokens\n",
+		apiResp.Model, apiResp.Usage.InputTokens, apiResp.Usage.OutputTokens)
+
+	// Extrair resultado do tool_use
+	for _, content := range apiResp.Content {
+		if content.Type == "tool_use" {
+			var result map[string]interface{}
+			if err := json.Unmarshal(content.Input, &result); err != nil {
+				return nil, fmt.Errorf("failed to parse tool input: %v", err)
+			}
+			return result, nil
+		}
+	}
+
+	return nil, fmt.Errorf("no tool_use in response")
+}
+
+// buildArticleMetadataSchema - schema JSON para extração de metadados de artigos
+func (s *AIService) buildArticleMetadataSchema() map[string]interface{} {
+	return map[string]interface{}{
+		"type":     "object",
+		"required": []string{"title", "authors", "journal"},
+		"properties": map[string]interface{}{
+			"title": map[string]string{
+				"type":        "string",
+				"description": "Full article title",
+			},
+			"authors": map[string]string{
+				"type":        "string",
+				"description": "Authors in format: 'LastName A, LastName B, LastName C' or 'LastName A, et al.'",
+			},
+			"journal": map[string]string{
+				"type":        "string",
+				"description": "Journal/publication name",
+			},
+			"publicationDate": map[string]string{
+				"type":        "string",
+				"description": "Publication date in YYYY-MM-DD format (or YYYY if only year available)",
+			},
+			"doi": map[string]string{
+				"type":        "string",
+				"description": "DOI identifier (without URL prefix)",
+			},
+			"pmid": map[string]string{
+				"type":        "string",
+				"description": "PubMed ID (numbers only)",
+			},
+			"issn": map[string]string{
+				"type":        "string",
+				"description": "ISSN of the journal",
+			},
+			"abstract": map[string]string{
+				"type":        "string",
+				"description": "Article abstract/summary if present on first page",
+			},
+			"keywords": map[string]interface{}{
+				"type":        "array",
+				"description": "Keywords if present",
+				"items": map[string]string{
+					"type": "string",
+				},
+			},
+			"articleType": map[string]interface{}{
+				"type": "string",
+				"enum": []string{
+					"research_article",
+					"review",
+					"meta_analysis",
+					"case_study",
+					"clinical_trial",
+					"editorial",
+					"letter",
+				},
+				"description": "Type of article based on content",
+			},
+		},
+	}
+}

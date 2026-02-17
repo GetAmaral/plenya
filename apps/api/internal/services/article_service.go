@@ -9,10 +9,12 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
+	"unicode/utf8"
 
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/repository"
@@ -27,14 +29,45 @@ type ArticleService struct {
 	repo         *repository.ArticleRepository
 	uploadFolder string
 	queueService *EmbeddingQueueService
+	aiService    *AIService
+}
+
+// sanitizeUTF8Text remove caracteres inválidos UTF-8 e NULL bytes do texto
+// CRÍTICO para evitar erros de encoding ao salvar no PostgreSQL
+func sanitizeUTF8Text(s string) string {
+	// Primeiro, remover NULL bytes (0x00) que são inválidos no PostgreSQL
+	s = strings.ReplaceAll(s, "\x00", "")
+
+	// Se já é UTF-8 válido, retornar
+	if utf8.ValidString(s) {
+		return s
+	}
+
+	// Remove caracteres UTF-8 inválidos
+	var cleaned strings.Builder
+	cleaned.Grow(len(s))
+
+	for i := 0; i < len(s); {
+		r, size := utf8.DecodeRuneInString(s[i:])
+		if r == utf8.RuneError && size == 1 {
+			// Caractere inválido - pula
+			i++
+			continue
+		}
+		cleaned.WriteRune(r)
+		i += size
+	}
+
+	return cleaned.String()
 }
 
 // NewArticleService cria uma nova instância do serviço
-func NewArticleService(db *gorm.DB, uploadFolder string, queueService *EmbeddingQueueService) *ArticleService {
+func NewArticleService(db *gorm.DB, uploadFolder string, queueService *EmbeddingQueueService, aiService *AIService) *ArticleService {
 	return &ArticleService{
 		repo:         repository.NewArticleRepository(db),
 		uploadFolder: uploadFolder,
 		queueService: queueService,
+		aiService:    aiService,
 	}
 }
 
@@ -332,15 +365,21 @@ func (s *ArticleService) UploadPDF(fileReader io.Reader, filename string, userID
 	journal := "Revista não identificada"
 	publishDate := time.Now()
 
+	// Sanitizar texto para evitar erros de encoding UTF-8
+	cleanAbstract := sanitizeUTF8Text(metadata.Abstract)
+	cleanFullContent := sanitizeUTF8Text(metadata.FullContent)
+	cleanTitle := sanitizeUTF8Text(title)
+	cleanAuthors := sanitizeUTF8Text(authors)
+
 	article := &models.Article{
 		ID:           articleID,
-		Title:        title,
-		Authors:      authors,
+		Title:        cleanTitle,
+		Authors:      cleanAuthors,
 		Journal:      journal,
 		PublishDate:  publishDate,
 		Language:     "en",
-		Abstract:     &metadata.Abstract,
-		FullContent:  &metadata.FullContent,
+		Abstract:     &cleanAbstract,
+		FullContent:  &cleanFullContent,
 		ArticleType:  "research_article",
 		InternalLink: &internalLink,
 		FileHash:     &fileHash,
@@ -359,42 +398,146 @@ func (s *ArticleService) UploadPDF(fileReader io.Reader, filename string, userID
 		article.Keywords = metadata.Keywords
 	}
 
-	return s.repo.Create(article)
+	// Criar artigo
+	article, err = s.repo.Create(article)
+	if err != nil {
+		return nil, err
+	}
+
+	// Auto-queue para embedding (assíncrono, não bloqueia request)
+	if s.queueService != nil {
+		go s.queueService.QueueArticle(article.ID)
+	}
+
+	return article, nil
 }
 
 // ExtractPDFMetadata extrai metadados de um arquivo PDF
 func (s *ArticleService) ExtractPDFMetadata(filepath string) (*PDFMetadata, error) {
-	file, reader, err := pdf.Open(filepath)
-	if err != nil {
-		return nil, fmt.Errorf("erro ao abrir PDF: %w", err)
-	}
-	defer file.Close()
-
 	metadata := &PDFMetadata{
 		Keywords: []string{},
 	}
 
-	// Extrair texto completo do PDF
-	var fullText strings.Builder
-	numPages := reader.NumPage()
+	var content string
+	var extractedWithGo bool
 
-	for pageNum := 1; pageNum <= numPages; pageNum++ {
-		page := reader.Page(pageNum)
-		if page.V.IsNull() {
-			continue
+	// TENTATIVA 1: Extrair com biblioteca Go (ledongthuc/pdf)
+	file, reader, err := pdf.Open(filepath)
+	if err == nil {
+		defer file.Close()
+
+		// Extrair texto completo do PDF
+		var fullText strings.Builder
+		numPages := reader.NumPage()
+
+		for pageNum := 1; pageNum <= numPages; pageNum++ {
+			page := reader.Page(pageNum)
+			if page.V.IsNull() {
+				continue
+			}
+
+			text, err := page.GetPlainText(nil)
+			if err != nil {
+				continue
+			}
+
+			fullText.WriteString(text)
+			fullText.WriteString("\n")
 		}
 
-		text, err := page.GetPlainText(nil)
-		if err != nil {
-			continue
-		}
-
-		fullText.WriteString(text)
-		fullText.WriteString("\n")
+		content = strings.TrimSpace(fullText.String())
+		extractedWithGo = true
+	} else {
+		fmt.Printf("⚠️  Biblioteca Go falhou ao abrir PDF: %v\n", err)
 	}
 
-	content := fullText.String()
-	metadata.FullContent = strings.TrimSpace(content)
+	// FALLBACK: Se biblioteca Go falhou OU extraiu pouco conteúdo, usar pdftotext
+	if !extractedWithGo || len(content) < 100 {
+		if extractedWithGo {
+			fmt.Printf("⚠️  Biblioteca Go extraiu apenas %d chars, tentando pdftotext...\n", len(content))
+		} else {
+			fmt.Println("⚙️  Tentando extração com pdftotext...")
+		}
+
+		cmd := exec.Command("pdftotext", filepath, "-")
+		output, err := cmd.Output()
+
+		if err == nil && len(output) > 100 {
+			content = strings.TrimSpace(string(output))
+			fmt.Printf("✅ pdftotext extraiu %d caracteres com sucesso\n", len(content))
+		} else {
+			// Ambos falharam
+			if err != nil {
+				fmt.Printf("⚠️  pdftotext também falhou: %v\n", err)
+			} else {
+				fmt.Printf("⚠️  pdftotext extraiu apenas %d chars\n", len(output))
+			}
+
+			// Se nenhum método funcionou, retornar erro
+			if len(content) < 100 {
+				return nil, fmt.Errorf("falha ao extrair texto do PDF (Go e pdftotext falharam)")
+			}
+		}
+	}
+
+	metadata.FullContent = content
+
+	// EXTRAÇÃO INTELIGENTE: Usar Claude para extrair metadados da primeira página
+	firstPageText := s.extractFirstPage(content)
+
+	if s.aiService != nil && len(firstPageText) > 500 {
+		fmt.Println("🤖 Usando Claude Haiku para extração inteligente de metadados...")
+
+		aiMetadata, err := s.aiService.ExtractArticleMetadata(firstPageText)
+		if err != nil {
+			fmt.Printf("⚠️  Extração com Claude falhou: %v\n", err)
+			fmt.Println("   Usando fallback regex...")
+		} else {
+			// Aplicar metadados extraídos pelo Claude
+			if title, ok := aiMetadata["title"].(string); ok && title != "" {
+				metadata.Title = title
+				fmt.Printf("   ✓ Title: %s\n", truncateString(title, 80))
+			}
+
+			if authors, ok := aiMetadata["authors"].(string); ok && authors != "" {
+				metadata.Authors = authors
+				fmt.Printf("   ✓ Authors: %s\n", truncateString(authors, 80))
+			}
+
+			if doi, ok := aiMetadata["doi"].(string); ok && doi != "" {
+				metadata.DOI = doi
+				fmt.Printf("   ✓ DOI: %s\n", doi)
+			}
+
+			if pmid, ok := aiMetadata["pmid"].(string); ok && pmid != "" {
+				metadata.PMID = pmid
+				fmt.Printf("   ✓ PMID: %s\n", pmid)
+			}
+
+			if abstract, ok := aiMetadata["abstract"].(string); ok && abstract != "" {
+				metadata.Abstract = abstract
+				fmt.Printf("   ✓ Abstract: %d chars\n", len(abstract))
+			}
+
+			if keywords, ok := aiMetadata["keywords"].([]interface{}); ok && len(keywords) > 0 {
+				metadata.Keywords = make([]string, len(keywords))
+				for i, kw := range keywords {
+					if kwStr, ok := kw.(string); ok {
+						metadata.Keywords[i] = kwStr
+					}
+				}
+				fmt.Printf("   ✓ Keywords: %d found\n", len(metadata.Keywords))
+			}
+
+			// Se Claude extraiu metadados, retornar agora (pular regex fallback)
+			if metadata.Title != "" && metadata.Authors != "" {
+				return metadata, nil
+			}
+		}
+	}
+
+	// FALLBACK REGEX: Se Claude não disponível ou falhou, usar extração regex
+	fmt.Println("🔍 Usando extração regex (fallback)...")
 
 	// Extrair DOI usando regex
 	doiRegex := regexp.MustCompile(`(?i)doi[:\s]*([10]\.\d{4,}/[^\s]+)`)
@@ -409,25 +552,46 @@ func (s *ArticleService) ExtractPDFMetadata(filepath string) (*PDFMetadata, erro
 	}
 
 	// Tentar extrair título (primeira linha significativa)
-	lines := strings.Split(content, "\n")
-	for _, line := range lines {
-		trimmed := strings.TrimSpace(line)
-		if len(trimmed) > 20 && len(trimmed) < 500 {
-			metadata.Title = trimmed
-			break
+	if metadata.Title == "" {
+		lines := strings.Split(content, "\n")
+		for _, line := range lines {
+			trimmed := strings.TrimSpace(line)
+			if len(trimmed) > 20 && len(trimmed) < 500 {
+				metadata.Title = trimmed
+				break
+			}
 		}
 	}
 
 	// Tentar extrair abstract (texto após palavra "abstract")
-	abstractRegex := regexp.MustCompile(`(?is)abstract[:\s]+(.*?)(?:introduction|keywords|background|\n\n)`)
-	if matches := abstractRegex.FindStringSubmatch(content); len(matches) > 1 {
-		abstract := strings.TrimSpace(matches[1])
-		if len(abstract) > 50 {
-			metadata.Abstract = abstract
+	if metadata.Abstract == "" {
+		abstractRegex := regexp.MustCompile(`(?is)abstract[:\s]+(.*?)(?:introduction|keywords|background|\n\n)`)
+		if matches := abstractRegex.FindStringSubmatch(content); len(matches) > 1 {
+			abstract := strings.TrimSpace(matches[1])
+			if len(abstract) > 50 {
+				metadata.Abstract = abstract
+			}
 		}
 	}
 
 	return metadata, nil
+}
+
+// extractFirstPage - extrai aproximadamente a primeira página do texto (primeiros 4000 chars)
+func (s *ArticleService) extractFirstPage(fullText string) string {
+	maxChars := 4000
+	if len(fullText) < maxChars {
+		return fullText
+	}
+	return fullText[:maxChars]
+}
+
+// truncateString - trunca string para exibição
+func truncateString(s string, maxLen int) string {
+	if len(s) <= maxLen {
+		return s
+	}
+	return s[:maxLen-3] + "..."
 }
 
 // PubMedMetadata representa dados do PubMed API
