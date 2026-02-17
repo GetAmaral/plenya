@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+const DEV_BYPASS_AUTH = process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === 'true';
+
 export type UserRole = "admin" | "doctor" | "nurse" | "patient" | "nutritionist" | "psychologist" | "physicalEducator" | "secretary" | "manager";
 
 export interface Patient {
@@ -49,15 +51,39 @@ interface AuthState {
   updateUser: (user: User) => void;
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
+const initialState = DEV_BYPASS_AUTH
+  ? {
+      user: {
+        id: 'dev-admin-placeholder',
+        email: 'admin@plenya.com',
+        name: 'Dev Admin',
+        roles: ['admin'] as UserRole[],
+        twoFactorEnabled: false,
+        createdAt: new Date().toISOString(),
+      },
+      accessToken: 'dev-bypass-token',
+      refreshToken: 'dev-bypass-token',
+    }
+  : {
       user: null,
       accessToken: null,
       refreshToken: null,
+    };
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      ...initialState,
       setAuth: (user, accessToken, refreshToken) =>
         set({ user, accessToken, refreshToken }),
-      clearAuth: () => set({ user: null, accessToken: null, refreshToken: null }),
+      clearAuth: () => {
+        // Com bypass ativo, apenas recarregar (não limpar store)
+        if (DEV_BYPASS_AUTH) {
+          window.location.href = '/';
+          return;
+        }
+        set({ user: null, accessToken: null, refreshToken: null });
+      },
       updateAccessToken: (accessToken) => set({ accessToken }),
       updateUser: (user) => set({ user }),
     }),

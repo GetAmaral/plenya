@@ -1,5 +1,14 @@
 # Domain - Security & LGPD
 
+## ⚠️ Dev Bypass Auth
+
+**CRÍTICO:** Em desenvolvimento, existe modo de bypass de autenticação (`DEV_BYPASS_AUTH=true`) que injeta automaticamente `admin@plenya.com`.
+
+- ✅ **Usar apenas em dev local**
+- ❌ **NUNCA ativar em staging/produção**
+- ❌ **NUNCA commitar .env com bypass=true**
+- 📖 Ver: [dev-bypass-auth.md](../workflows/dev-bypass-auth.md)
+
 ## Autenticação
 
 ### JWT Tokens

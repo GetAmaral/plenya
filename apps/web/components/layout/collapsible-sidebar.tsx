@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+
+const DEV_BYPASS_AUTH = process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === 'true';
 import {
   Calendar,
   FileText,
@@ -29,6 +31,7 @@ import {
   ShieldCheck,
   Activity,
   Target,
+  CreditCard,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -59,6 +62,8 @@ const navigation: NavigationItem[] = [
   { name: "Template de Pedido de Exame", href: "/lab-request-templates", icon: LayoutTemplate, staffOnly: true },
   { name: "Escores", href: "/scores", icon: Network, staffOnly: true },
   { name: "Metodologias", href: "/methods", icon: Target, staffOnly: true },
+  { name: "Planos de Assinatura", href: "/admin/subscription-plans", icon: LayoutList, adminOnly: true },
+  { name: "Assinaturas", href: "/admin/subscriptions", icon: CreditCard, adminOnly: true },
   { name: "Artigos", href: "/articles", icon: BookOpen },
   { name: "Usuários", href: "/admin/users", icon: Shield, adminOnly: true },
   { name: "Definições de Medicamentos", href: "/admin/medication-definitions", icon: Pill, adminOnly: true },
@@ -396,12 +401,21 @@ export function CollapsibleSidebar() {
                 </div>
               </Link>
 
+              {DEV_BYPASS_AUTH && (
+                <div className="mt-2 rounded-lg bg-amber-500/10 border border-amber-500/20 p-2">
+                  <p className="text-xs font-semibold text-amber-600 dark:text-amber-400 text-center">
+                    ⚠️ DEV BYPASS MODE
+                  </p>
+                </div>
+              )}
+
               <button
                 onClick={logout}
                 className="mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+                title={DEV_BYPASS_AUTH ? "Recarregar página (DEV MODE)" : "Sair do sistema"}
               >
                 <LogOut className="h-4 w-4" />
-                Sair
+                {DEV_BYPASS_AUTH ? "Reload" : "Sair"}
               </button>
 
               <div className="mt-3 text-center">
@@ -414,6 +428,12 @@ export function CollapsibleSidebar() {
             </>
           ) : (
             <div className="flex flex-col items-center gap-2">
+              {DEV_BYPASS_AUTH && (
+                <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center" title="DEV BYPASS MODE">
+                  <span className="text-amber-600 dark:text-amber-400 text-xs font-bold">⚠️</span>
+                </div>
+              )}
+
               <Link href="/profile" title="Meu Perfil">
                 <Avatar className="h-10 w-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all">
                   <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
@@ -425,7 +445,7 @@ export function CollapsibleSidebar() {
               <button
                 onClick={logout}
                 className="flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
-                title="Sair"
+                title={DEV_BYPASS_AUTH ? "Reload (DEV MODE)" : "Sair"}
               >
                 <LogOut className="h-4 w-4" />
               </button>

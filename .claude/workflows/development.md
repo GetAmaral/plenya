@@ -32,6 +32,25 @@ docker compose logs -f
 # Swagger: http://localhost:3001/swagger/index.html
 ```
 
+### Dev Bypass Auth (Opcional)
+
+Para desenvolvimento rápido sem login manual, ative o bypass auth que injeta automaticamente `admin@plenya.com`:
+
+```bash
+# apps/api/.env
+DEV_BYPASS_AUTH=true
+
+# apps/web/.env.local
+NEXT_PUBLIC_DEV_BYPASS_AUTH=true
+
+# Restart
+docker compose restart api web
+```
+
+**Ver documentação completa:** [dev-bypass-auth.md](./dev-bypass-auth.md)
+
+⚠️ **NUNCA ativar em produção!**
+
 ### Verificar Status
 
 ```bash
