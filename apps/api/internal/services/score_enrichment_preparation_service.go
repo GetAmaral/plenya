@@ -26,8 +26,86 @@ func NewScoreEnrichmentPreparationService(db *gorm.DB) *ScoreEnrichmentPreparati
 	}
 }
 
+// PrepareChunksAdaptive busca chunks com threshold adaptativo (fallback progressivo)
+// Garante pelo menos 15 chunks ou usa o threshold mais baixo possível
+func (s *ScoreEnrichmentPreparationService) PrepareChunksAdaptive(
+	scoreItemID uuid.UUID,
+) (*models.ScoreItemEnrichmentPreparation, error) {
+	targetChunks := 20  // Alvo mínimo ideal
+	maxLimit := 50      // Buscar até 50 chunks
+
+	// Tentativas progressivas de threshold (do mais rigoroso ao mais permissivo)
+	thresholds := []struct {
+		value float64
+		label string
+	}{
+		{0.35, "normal"},
+		{0.30, "permissivo"},
+		{0.25, "muito permissivo"},
+		{0.20, "extremo"},
+		{0.15, "fallback final"},
+	}
+
+	var bestChunks []repository.ChunkSearchResult
+	var usedThreshold float64
+	var thresholdLabel string
+
+	// Validar que score_item existe
+	var scoreItem models.ScoreItem
+	err := s.db.Preload("Subgroup.Group").First(&scoreItem, "id = ?", scoreItemID).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, fmt.Errorf("score_item not found: %s", scoreItemID)
+		}
+		return nil, fmt.Errorf("failed to fetch score_item: %w", err)
+	}
+
+	// Tentar cada threshold até encontrar >= targetChunks
+	for _, t := range thresholds {
+		chunks, err := s.vectorRepo.FindTopChunksForScoreItem(scoreItemID, maxLimit, t.value)
+		if err != nil {
+			continue
+		}
+
+		if len(chunks) >= targetChunks {
+			bestChunks = chunks
+			usedThreshold = t.value
+			thresholdLabel = t.label
+			break
+		}
+
+		// Guardar o melhor resultado mesmo se < targetChunks
+		if len(chunks) > len(bestChunks) {
+			bestChunks = chunks
+			usedThreshold = t.value
+			thresholdLabel = t.label
+		}
+	}
+
+	if len(bestChunks) == 0 {
+		return nil, fmt.Errorf("no chunks found even with threshold 0.15")
+	}
+
+	// Limitar chunks ao máximo desejado (30 para qualidade)
+	finalLimit := 30
+	if usedThreshold >= 0.30 {
+		finalLimit = 30 // Threshold bom, 30 chunks suficientes
+	} else if usedThreshold >= 0.20 {
+		finalLimit = 35 // Threshold mais baixo, incluir mais chunks
+	} else {
+		finalLimit = 40 // Fallback extremo, incluir ainda mais
+	}
+
+	if len(bestChunks) > finalLimit {
+		bestChunks = bestChunks[:finalLimit]
+	}
+
+	return s.savePreparation(scoreItemID, bestChunks, usedThreshold, thresholdLabel)
+}
+
 // PrepareChunks busca chunks relevantes via RAG e salva no banco (SEM IA)
 // Retorna preparation criado ou erro
+// DEPRECATED: Use PrepareChunksAdaptive para melhor qualidade
 func (s *ScoreEnrichmentPreparationService) PrepareChunks(
 	scoreItemID uuid.UUID,
 	limit int,              // Total de chunks (default: 20)
@@ -61,11 +139,27 @@ func (s *ScoreEnrichmentPreparationService) PrepareChunks(
 		return nil, fmt.Errorf("no chunks found with similarity >= %.2f", minSimilarity)
 	}
 
-	// 2. Converter chunks para JSON structure
+	// Delegar para savePreparation com threshold usado
+	return s.savePreparation(scoreItemID, chunks, minSimilarity, "manual")
+}
+
+// savePreparation extrai lógica comum de salvar preparation (com metadata enriquecido)
+func (s *ScoreEnrichmentPreparationService) savePreparation(
+	scoreItemID uuid.UUID,
+	chunks []repository.ChunkSearchResult,
+	usedThreshold float64,
+	thresholdLabel string,
+) (*models.ScoreItemEnrichmentPreparation, error) {
+	// 1. Converter chunks para JSON structure
 	chunksData := make([]map[string]interface{}, len(chunks))
 	articleIDs := make(map[uuid.UUID]bool)
 	sectionsCount := make(map[string]int)
+	yearStats := make([]int, 0, len(chunks))
+
 	var totalSimilarity float64
+	var totalWordCount int
+	minSimilarity := 1.0
+	maxSimilarity := 0.0
 
 	for i, chunk := range chunks {
 		chunksData[i] = map[string]interface{}{
@@ -87,13 +181,58 @@ func (s *ScoreEnrichmentPreparationService) PrepareChunks(
 		articleIDs[chunk.ArticleID] = true
 		sectionsCount[chunk.Section]++
 		totalSimilarity += chunk.Similarity
+		totalWordCount += chunk.WordCount
+
+		// Track min/max similarity
+		if chunk.Similarity < minSimilarity {
+			minSimilarity = chunk.Similarity
+		}
+		if chunk.Similarity > maxSimilarity {
+			maxSimilarity = chunk.Similarity
+		}
+
+		// Track years for recency stats
+		if chunk.ArticleYear > 0 {
+			yearStats = append(yearStats, chunk.ArticleYear)
+		}
 	}
 
-	// 3. Calcular metadata
+	// 2. Calcular metadata enriquecido
 	avgSimilarity := totalSimilarity / float64(len(chunks))
+	avgChunkLength := 0
+	if len(chunks) > 0 {
+		avgChunkLength = totalWordCount / len(chunks)
+	}
 
-	// 4. Criar preparation usando datatypes.JSONMap (map[string]interface{})
-	// SelectedChunks precisa ser wrapped em um objeto porque datatypes.JSONMap é map
+	// Recency stats
+	newestYear := 0
+	oldestYear := 9999
+	var totalYear int
+	for _, year := range yearStats {
+		if year > newestYear {
+			newestYear = year
+		}
+		if year < oldestYear {
+			oldestYear = year
+		}
+		totalYear += year
+	}
+	avgYear := 0
+	if len(yearStats) > 0 {
+		avgYear = totalYear / len(yearStats)
+	}
+
+	// Quality grade
+	qualityGrade := "poor"
+	if len(chunks) >= 25 && avgSimilarity >= 0.6 {
+		qualityGrade = "excellent"
+	} else if len(chunks) >= 20 && avgSimilarity >= 0.5 {
+		qualityGrade = "good"
+	} else if len(chunks) >= 15 && avgSimilarity >= 0.4 {
+		qualityGrade = "fair"
+	}
+
+	// 3. Criar preparation com metadata enriquecido
 	chunksInterface := make([]interface{}, len(chunksData))
 	for i, chunk := range chunksData {
 		chunksInterface[i] = chunk
@@ -109,18 +248,30 @@ func (s *ScoreEnrichmentPreparationService) PrepareChunks(
 			"total_chunks":          len(chunks),
 			"articles_count":        len(articleIDs),
 			"avg_similarity":        avgSimilarity,
+			"min_similarity":        minSimilarity,
+			"max_similarity":        maxSimilarity,
 			"sections_distribution": sectionsCount,
+			"total_word_count":      totalWordCount,
+			"avg_chunk_length":      avgChunkLength,
+			"recency_stats": map[string]interface{}{
+				"newest_year": newestYear,
+				"oldest_year": oldestYear,
+				"avg_year":    avgYear,
+			},
+			"quality_grade":  qualityGrade,
+			"threshold_used": usedThreshold,
+			"threshold_type": thresholdLabel,
 		},
 		Status: "ready",
 	}
 
-	// 6. Salvar no banco (upsert)
-	err = s.prepRepo.Create(prep)
+	// 4. Salvar no banco (upsert)
+	err := s.prepRepo.Create(prep)
 	if err != nil {
 		return nil, fmt.Errorf("failed to save preparation: %w", err)
 	}
 
-	// 7. Recarregar com ScoreItem preloaded
+	// 5. Recarregar com ScoreItem preloaded
 	prep, err = s.prepRepo.FindByScoreItemID(scoreItemID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to reload preparation: %w", err)
