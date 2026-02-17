@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "./auth-store";
 
+const DEV_BYPASS_AUTH = process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === 'true';
+
 export function useRequireAuth() {
+  // DEV BYPASS: pula toda verificação
+  if (DEV_BYPASS_AUTH) {
+    const { user, accessToken } = useAuthStore();
+    return { user, accessToken, isAuthenticated: true };
+  }
+
   const router = useRouter();
   const { user, accessToken } = useAuthStore();
   const [isHydrated, setIsHydrated] = useState(false);

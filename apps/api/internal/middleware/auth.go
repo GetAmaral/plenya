@@ -22,6 +22,14 @@ type AuthClaims struct {
 // Auth middleware valida JWT token
 func Auth(cfg *config.Config) fiber.Handler {
 	return func(c *fiber.Ctx) error {
+		// DEV BYPASS: pula validação JWT e injeta admin
+		if cfg.Dev.BypassAuth {
+			c.Locals("userID", cfg.Dev.AdminUserID)
+			c.Locals("userEmail", cfg.Dev.AdminEmail)
+			c.Locals("userRoles", cfg.Dev.AdminRoles)
+			return c.Next()
+		}
+
 		// Extrair token do header Authorization
 		authHeader := c.Get("Authorization")
 		if authHeader == "" {

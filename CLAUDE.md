@@ -67,6 +67,7 @@ apps/api/internal/models/*.go  ← EDITAR AQUI
 - [**development.md**](.claude/workflows/development.md) - Como desenvolver
 - [**🔥 database-ops.md**](.claude/workflows/database-ops.md) - **OPERAÇÕES DIRETAS NO BANCO**
 - [**adding-features.md**](.claude/workflows/adding-features.md) - Adicionar features
+- [**dev-bypass-auth.md**](.claude/workflows/dev-bypass-auth.md) - Bypass auth (dev only)
 
 ## 🛠 Comandos Essenciais
 

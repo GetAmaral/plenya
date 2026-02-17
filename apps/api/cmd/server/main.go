@@ -73,6 +73,19 @@ func main() {
 		log.Println("✅ Auto migrations completed")
 	}
 
+	// DEV BYPASS AUTH: Carregar admin user após DB init
+	if cfg.Dev.BypassAuth {
+		log.Println("⚠️  DEV_BYPASS_AUTH habilitado — autenticação desativada!")
+		var adminUser models.User
+		if err := database.DB.Where("email = ?", "admin@plenya.com").First(&adminUser).Error; err != nil {
+			log.Fatalf("DEV_BYPASS_AUTH requer usuário admin@plenya.com no banco: %v", err)
+		}
+		cfg.Dev.AdminUserID = adminUser.ID
+		cfg.Dev.AdminEmail = adminUser.Email
+		cfg.Dev.AdminRoles = adminUser.GetRoles()
+		log.Printf("⚠️  DEV bypass ativo como: %s (%s)", adminUser.Email, adminUser.ID)
+	}
+
 	// Initialize processing services early (needed by background worker)
 	labTestDefRepo := repository.NewLabTestDefinitionRepository(database.DB)
 	labTestDefService := services.NewLabTestDefinitionService(labTestDefRepo)
@@ -178,6 +191,9 @@ func setupRoutes(
 	scoreSnapshotRepo := repository.NewScoreSnapshotRepository(database.DB)
 	labResultRepo := repository.NewLabResultRepository(database.DB)
 	anamnesisRepo := repository.NewAnamnesisRepository(database.DB)
+	subscriptionRepo := repository.NewSubscriptionRepository(database.DB)
+	subscriptionPlanRepo := repository.NewSubscriptionPlanRepository(database.DB)
+	notificationRepo := repository.NewNotificationRepository(database.DB)
 
 	// Inicializar services
 	authService := services.NewAuthService(database.DB, cfg)
@@ -189,6 +205,9 @@ func setupRoutes(
 	labResultService := services.NewLabResultService(database.DB)
 	scoreService := services.NewScoreService(scoreRepo)
 	methodService := services.NewMethodService(methodRepo)
+	subscriptionService := services.NewSubscriptionService(subscriptionRepo)
+	subscriptionPlanService := services.NewSubscriptionPlanService(subscriptionPlanRepo)
+	notificationService := services.NewNotificationService(notificationRepo, subscriptionRepo)
 	scoreSnapshotService := services.NewScoreSnapshotService(scoreSnapshotRepo, scoreRepo, labResultRepo, anamnesisRepo, database.DB)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
 	labRequestService := services.NewLabRequestService(labRequestRepo, database.DB)
@@ -234,6 +253,9 @@ func setupRoutes(
 	processingJobHandler := handlers.NewProcessingJobHandler(processingJobService)
 	scoreHandler := handlers.NewScoreHandler(scoreService, validate)
 	methodHandler := handlers.NewMethodHandler(methodService)
+	subscriptionHandler := handlers.NewSubscriptionHandler(subscriptionService)
+	subscriptionPlanHandler := handlers.NewSubscriptionPlanHandler(subscriptionPlanService)
+	notificationHandler := handlers.NewNotificationHandler(notificationService)
 	scoreSnapshotHandler := handlers.NewScoreSnapshotHandler(scoreSnapshotService)
 	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
 	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
@@ -665,6 +687,51 @@ func setupRoutes(
 	scoreSnapshots.Get("/:id", scoreSnapshotHandler.GetSnapshotByID)
 	scoreSnapshots.Delete("/:id", middleware.RequireRole("admin", "doctor"), middleware.AuditLog(database.DB), scoreSnapshotHandler.DeleteSnapshot)
 
+	// Patient Subscriptions routes (patient-scoped)
+	patients.Get("/:id/subscriptions", subscriptionHandler.GetPatientSubscriptions)
+	patients.Get("/:id/subscriptions/active", subscriptionHandler.GetActivePatientSubscription)
+	patients.Post("/:id/subscriptions", middleware.RequireMedicalStaff(), middleware.AuditLog(database.DB), subscriptionHandler.CreateSubscription)
+
+	// Subscriptions routes (global)
+	subscriptions := v1.Group("/subscriptions")
+	subscriptions.Use(middleware.Auth(cfg))
+	subscriptions.Get("/", middleware.RequireRole("admin", "doctor"), subscriptionHandler.GetAllSubscriptions)
+	subscriptions.Get("/active", middleware.RequireMedicalStaff(), subscriptionHandler.GetActiveSubscriptions)
+	subscriptions.Get("/:id", subscriptionHandler.GetSubscriptionByID)
+	subscriptions.Put("/:id", middleware.RequireMedicalStaff(), middleware.AuditLog(database.DB), subscriptionHandler.UpdateSubscription)
+	subscriptions.Delete("/:id", middleware.RequireRole("admin", "doctor"), middleware.AuditLog(database.DB), subscriptionHandler.DeleteSubscription)
+	subscriptions.Post("/:id/cancel", middleware.AuditLog(database.DB), subscriptionHandler.CancelSubscription) // Paciente pode auto-cancelar
+	subscriptions.Post("/:id/renew", middleware.RequireMedicalStaff(), middleware.AuditLog(database.DB), subscriptionHandler.RenewSubscription)
+	subscriptions.Post("/:id/suspend", middleware.RequireMedicalStaff(), middleware.AuditLog(database.DB), subscriptionHandler.SuspendSubscription)
+	subscriptions.Post("/:id/activate", middleware.RequireMedicalStaff(), middleware.AuditLog(database.DB), subscriptionHandler.ActivateSubscription)
+
+	// Subscription Plans routes
+	subscriptionPlans := v1.Group("/subscription-plans")
+	subscriptionPlans.Use(middleware.Auth(cfg))
+
+	// Read routes (all authenticated users can view active plans)
+	subscriptionPlans.Get("/active", subscriptionPlanHandler.GetActivePlans)
+	subscriptionPlans.Get("/:id", subscriptionPlanHandler.GetPlanByID)
+
+	// Admin routes (admin only)
+	subscriptionPlans.Get("/", middleware.RequireAdmin(), subscriptionPlanHandler.GetAllPlans)
+	subscriptionPlans.Post("/", middleware.RequireAdmin(), middleware.AuditLog(database.DB), subscriptionPlanHandler.CreatePlan)
+	subscriptionPlans.Put("/:id", middleware.RequireAdmin(), middleware.AuditLog(database.DB), subscriptionPlanHandler.UpdatePlan)
+	subscriptionPlans.Delete("/:id", middleware.RequireAdmin(), middleware.AuditLog(database.DB), subscriptionPlanHandler.DeletePlan)
+	subscriptionPlans.Post("/:id/activate", middleware.RequireAdmin(), middleware.AuditLog(database.DB), subscriptionPlanHandler.ActivatePlan)
+	subscriptionPlans.Post("/:id/deactivate", middleware.RequireAdmin(), middleware.AuditLog(database.DB), subscriptionPlanHandler.DeactivatePlan)
+
+	// Notifications routes (protegidas - usuários autenticados)
+	notifications := v1.Group("/notifications")
+	notifications.Use(middleware.Auth(cfg))
+	notifications.Get("/", notificationHandler.GetUserNotifications)
+	notifications.Get("/unread", notificationHandler.GetUnreadNotifications)
+	notifications.Get("/unread/count", notificationHandler.GetUnreadCount)
+	notifications.Post("/read-all", notificationHandler.MarkAllAsRead)
+	notifications.Post("/:id/read", notificationHandler.MarkAsRead)
+	notifications.Delete("/:id", notificationHandler.DeleteNotification)
+	notifications.Delete("/", notificationHandler.DeleteAllNotifications)
+
 	// Favorito e rating (todos usuários autenticados podem usar)
 	articles.Patch("/:id/favorite", articleHandler.ToggleFavorite)
 	articles.Patch("/:id/rating", articleHandler.SetRating)
@@ -679,6 +746,10 @@ func setupRoutes(
 
 	// Servir arquivos estáticos (uploads)
 	app.Static("/uploads", "./uploads")
+
+	// Iniciar notification worker (subscription notifications)
+	notificationWorker := workers.NewNotificationWorker(notificationService, 24*time.Hour) // Check every 24 hours
+	notificationWorker.Start()
 }
 
 // healthCheck verifica se a API está funcionando

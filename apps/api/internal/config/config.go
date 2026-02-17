@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 )
 
@@ -17,6 +18,8 @@ type Config struct {
 	SNCR     SNCRConfig
 	Claude   ClaudeConfig
 	OpenAI   OpenAIConfig
+	VoyageAI VoyageAIConfig
+	Dev      DevConfig
 }
 
 type ServerConfig struct {
@@ -73,6 +76,19 @@ type OpenAIConfig struct {
 	APIURL         string
 }
 
+type VoyageAIConfig struct {
+	APIKey string
+	Model  string // Default: voyage-multilingual-2
+	APIURL string // Default: https://api.voyageai.com/v1
+}
+
+type DevConfig struct {
+	BypassAuth  bool      // DEV_BYPASS_AUTH
+	AdminUserID uuid.UUID // Populated at runtime after DB init
+	AdminEmail  string    // Populated at runtime after DB init
+	AdminRoles  []string  // Populated at runtime after DB init
+}
+
 // Load carrega as configurações do ambiente
 func Load() (*Config, error) {
 	// Tentar carregar .env (ignora erro se não existir em produção)
@@ -124,6 +140,14 @@ func Load() (*Config, error) {
 			APIKey:         getEnv("OPENAI_API_KEY", ""),
 			EmbeddingModel: getEnv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-large"),
 			APIURL:         getEnv("OPENAI_API_URL", "https://api.openai.com/v1"),
+		},
+		VoyageAI: VoyageAIConfig{
+			APIKey: getEnv("VOYAGE_API_KEY", ""),
+			Model:  getEnv("VOYAGE_MODEL", "voyage-multilingual-2"),
+			APIURL: getEnv("VOYAGE_API_URL", "https://api.voyageai.com/v1"),
+		},
+		Dev: DevConfig{
+			BypassAuth: getEnvAsBool("DEV_BYPASS_AUTH", false),
 		},
 	}
 
