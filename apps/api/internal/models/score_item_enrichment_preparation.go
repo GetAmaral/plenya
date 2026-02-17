@@ -29,10 +29,23 @@ type ScoreItemEnrichmentPreparation struct {
 	// @example {"total_chunks":20, "articles_count":5, "avg_similarity":0.83}
 	Metadata datatypes.JSONMap `gorm:"type:jsonb;default:'{}'" json:"metadata,omitempty"`
 
+	// Prompts prontos para Claude (gerados a partir dos chunks)
+	// Prompt para gerar clinical_relevance (1200-1800 chars)
+	PromptClinicalRelevance *string `gorm:"type:text" json:"promptClinicalRelevance,omitempty"`
+
+	// Prompt para gerar patient_explanation (600-900 chars)
+	PromptPatientExplanation *string `gorm:"type:text" json:"promptPatientExplanation,omitempty"`
+
+	// Prompt para gerar conduct (1000-1500 chars)
+	PromptConduct *string `gorm:"type:text" json:"promptConduct,omitempty"`
+
+	// Prompt para gerar max_points (0-50)
+	PromptMaxPoints *string `gorm:"type:text" json:"promptMaxPoints,omitempty"`
+
 	// Status do processamento
-	// @enum ready,processing,completed,failed
+	// @enum ready,processing,completed,failed,stale
 	// @example ready
-	Status string `gorm:"type:varchar(20);not null;default:'ready';check:status IN ('ready','processing','completed','failed')" json:"status" validate:"required,oneof=ready processing completed failed"`
+	Status string `gorm:"type:varchar(20);not null;default:'ready';check:status IN ('ready','processing','completed','failed','stale')" json:"status" validate:"required,oneof=ready processing completed failed stale"`
 
 	// Mensagem de erro (se status = failed)
 	// @example Failed to fetch chunks: connection timeout
