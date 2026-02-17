@@ -18,7 +18,7 @@ export interface ScoreItemSimilarity {
 export interface SemanticSearchParams {
   q: string // Query de busca (min 3 chars)
   limit?: number // Default: 20
-  minSimilarity?: number // Default: 0.6
+  minSimilarity?: number // Default: 0.4
 }
 
 export interface RecommendArticlesParams {
@@ -84,7 +84,7 @@ export function useSemanticSearch(
     enabled?: boolean
   }
 ) {
-  const { limit = 20, minSimilarity = 0.6, enabled = true } = options || {}
+  const { limit = 20, minSimilarity = 0.4, enabled = true } = options || {}
 
   return useQuery({
     queryKey: semanticSearchKeys.search(query),

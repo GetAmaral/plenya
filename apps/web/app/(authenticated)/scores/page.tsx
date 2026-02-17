@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, startTransition } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { usePatientGuard } from '@/lib/use-patient-guard'
 import { Plus, Network, Search, Printer, FileImage, ChevronsDown, ChevronsUp, Minimize2, Loader2, Eye } from 'lucide-react'
 import { useAllScoreGroupTrees } from '@/lib/api/score-api'
@@ -14,6 +14,7 @@ import { useAuthStore } from '@/lib/auth-store'
 export default function ScoresPage() {
   usePatientGuard(); // Restrict access to staff only
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { accessToken } = useAuthStore()
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -30,6 +31,70 @@ export default function ScoresPage() {
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  // Auto-focus em item quando vem da URL (?item=xxx)
+  useEffect(() => {
+    const itemId = searchParams.get('item')
+    if (!itemId || !scoreGroups || !isMounted) return
+
+    // Encontrar o item nos dados
+    let foundItem: any = null
+    let foundSubgroup: any = null
+    let foundGroup: any = null
+
+    for (const group of scoreGroups) {
+      for (const subgroup of group.subgroups || []) {
+        const item = subgroup.items?.find((i: any) => i.id === itemId)
+        if (item) {
+          foundItem = item
+          foundSubgroup = subgroup
+          foundGroup = group
+          break
+        }
+      }
+      if (foundItem) break
+    }
+
+    if (foundItem && foundSubgroup && foundGroup) {
+      // Expandir todos os nodes necessários
+      const nodesToExpand: Record<string, boolean> = {
+        [`group-${foundGroup.id}`]: true,
+        [`subgroup-${foundSubgroup.id}`]: true,
+        [`item-${foundItem.id}`]: true,
+      }
+
+      setExpandedNodes(nodesToExpand)
+      setOpenSubgroups([foundSubgroup.id])
+
+      // Scroll para o elemento
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const tryScrollToElement = (attempts = 0, maxAttempts = 15) => {
+            const element = document.getElementById(`item-${itemId}`)
+
+            if (element) {
+              const rect = element.getBoundingClientRect()
+              const isVisible = rect.height > 0 && rect.width > 0
+
+              if (isVisible) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                element.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'transition-all')
+                setTimeout(() => {
+                  element.classList.remove('ring-2', 'ring-primary', 'ring-offset-2')
+                }, 3000)
+              } else if (attempts < maxAttempts) {
+                setTimeout(() => tryScrollToElement(attempts + 1, maxAttempts), 100)
+              }
+            } else if (attempts < maxAttempts) {
+              setTimeout(() => tryScrollToElement(attempts + 1, maxAttempts), 100)
+            }
+          }
+
+          setTimeout(() => tryScrollToElement(), 300)
+        })
+      })
+    }
+  }, [searchParams, scoreGroups, isMounted])
 
   // Atalho Ctrl+F para abrir busca
   useEffect(() => {

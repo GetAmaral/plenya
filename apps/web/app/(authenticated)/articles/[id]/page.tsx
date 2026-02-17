@@ -60,6 +60,11 @@ import {
   Tag,
   ChevronDown,
   ChevronUp,
+  Database,
+  CheckCircle2,
+  Clock,
+  XCircle,
+  Loader2,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
@@ -366,6 +371,82 @@ export default function ArticleDetailPage({ params }: PageProps) {
             </CardContent>
           </Card>
         )}
+
+        {/* Embedding Status */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Database className="h-5 w-5" />
+              Status de Embedding (RAG)
+            </CardTitle>
+            <CardDescription>
+              Processamento vetorial para busca semântica
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">Status:</span>
+              <div className="flex items-center gap-2">
+                {(article as any).embeddingStatus === 'completed' && (
+                  <>
+                    <CheckCircle2 className="h-4 w-4 text-green-600" />
+                    <Badge variant="default" className="bg-green-600">Completo</Badge>
+                  </>
+                )}
+                {(article as any).embeddingStatus === 'processing' && (
+                  <>
+                    <Loader2 className="h-4 w-4 text-blue-600 animate-spin" />
+                    <Badge variant="default" className="bg-blue-600">Processando</Badge>
+                  </>
+                )}
+                {(article as any).embeddingStatus === 'failed' && (
+                  <>
+                    <XCircle className="h-4 w-4 text-red-600" />
+                    <Badge variant="destructive">Falhou</Badge>
+                  </>
+                )}
+                {(article as any).embeddingStatus === 'pending' && (
+                  <>
+                    <Clock className="h-4 w-4 text-yellow-600" />
+                    <Badge variant="secondary">Pendente</Badge>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {(article as any).chunkCount > 0 && (
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Chunks gerados:</span>
+                <Badge variant="outline">{(article as any).chunkCount} chunks</Badge>
+              </div>
+            )}
+
+            {(article as any).lastEmbeddedAt && (
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Processado em:</span>
+                <span className="text-sm text-muted-foreground">
+                  {format(new Date((article as any).lastEmbeddedAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                </span>
+              </div>
+            )}
+
+            {(article as any).embeddingStatus === 'completed' && (
+              <div className="pt-2 border-t">
+                <p className="text-xs text-muted-foreground">
+                  Este artigo foi processado e está disponível para busca semântica via RAG (Retrieval-Augmented Generation).
+                </p>
+              </div>
+            )}
+
+            {(article as any).embeddingStatus === 'failed' && (
+              <div className="pt-2 border-t">
+                <p className="text-xs text-destructive">
+                  Ocorreu um erro ao processar este artigo. Tente reprocessá-lo ou entre em contato com o suporte.
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Score Items Vinculados */}
         {article.scoreItems && article.scoreItems.length > 0 && (

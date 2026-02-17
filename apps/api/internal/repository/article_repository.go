@@ -118,16 +118,21 @@ func (r *ArticleRepository) Delete(id uuid.UUID) error {
 	return r.db.Delete(&models.Article{}, "id = ?", id).Error
 }
 
-// Search busca artigos por texto (full-text search)
+// Search busca artigos por texto com suporte a acentos (unaccent + pg_trgm)
+// Ignora acentos em ambas as direções: "nutrição" encontra "nutricao" e vice-versa
 func (r *ArticleRepository) Search(query string, page, pageSize int) ([]*models.Article, int64, error) {
 	var articles []*models.Article
 	var total int64
 
-	// PostgreSQL full-text search usando ILIKE para busca simples
-	// TODO: Implementar ts_vector para busca mais sofisticada
+	// Usa immutable_unaccent para ignorar acentos na query e nos campos
+	// Mantém ILIKE para compatibilidade, mas agora accent-insensitive
+	normalizedQuery := "%" + query + "%"
 	searchQuery := r.db.Model(&models.Article{}).Where(
-		"title ILIKE ? OR authors ILIKE ? OR abstract ILIKE ? OR journal ILIKE ?",
-		"%"+query+"%", "%"+query+"%", "%"+query+"%", "%"+query+"%",
+		`lower(immutable_unaccent(title)) ILIKE lower(immutable_unaccent(?))
+		OR lower(immutable_unaccent(authors)) ILIKE lower(immutable_unaccent(?))
+		OR lower(immutable_unaccent(COALESCE(abstract, ''))) ILIKE lower(immutable_unaccent(?))
+		OR lower(immutable_unaccent(journal)) ILIKE lower(immutable_unaccent(?))`,
+		normalizedQuery, normalizedQuery, normalizedQuery, normalizedQuery,
 	)
 
 	// Contar total

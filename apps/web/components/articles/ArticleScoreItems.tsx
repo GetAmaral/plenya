@@ -104,9 +104,10 @@ export function ArticleScoreItems({ scoreItems }: ArticleScoreItemsProps) {
                     {/* Items */}
                     <div className="ml-3 space-y-1.5">
                       {subgroup.items.map((item) => (
-                        <div
+                        <Link
                           key={item.id}
-                          className="flex items-center justify-between py-2 px-3 rounded-md hover:bg-muted/50 transition-colors border border-transparent hover:border-muted"
+                          href={`/scores?item=${item.id}`}
+                          className="flex items-center justify-between py-2 px-3 rounded-md hover:bg-muted/50 transition-colors border border-transparent hover:border-muted cursor-pointer"
                         >
                           <div className="flex items-center gap-3">
                             <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50" />
@@ -125,11 +126,9 @@ export function ArticleScoreItems({ scoreItems }: ArticleScoreItemsProps) {
                                 {item.unit}
                               </Badge>
                             )}
-                            <Badge variant="default" className="text-xs">
-                              {item.points}pt
-                            </Badge>
+                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
                           </div>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -137,17 +136,6 @@ export function ArticleScoreItems({ scoreItems }: ArticleScoreItemsProps) {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Link para mindmap */}
-        <div className="mt-6 pt-4 border-t">
-          <Link
-            href="/scores/mindmap"
-            className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
-          >
-            <Network className="h-4 w-4" />
-            Visualizar no Mindmap de Escores
-          </Link>
         </div>
       </CardContent>
     </Card>

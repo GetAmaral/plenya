@@ -75,6 +75,26 @@ export interface PatientScoreItemResult {
       name: string
       order?: number
     }
+    methodPillars?: Array<{
+      id: string
+      letterId: string
+      name: string
+      order: number
+      letter?: {
+        id: string
+        methodId: string
+        code: string
+        name: string
+        order: number
+        icon?: string
+        color?: string
+        method?: {
+          id: string
+          name: string
+          shortName: string
+        }
+      }
+    }>
   }
   levelMatched?: {
     id: string

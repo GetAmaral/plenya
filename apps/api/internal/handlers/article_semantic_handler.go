@@ -35,7 +35,7 @@ func NewArticleSemanticHandler(
 // @Produce json
 // @Param q query string true "Query de busca (min 3 chars)" minlength(3) maxlength(1000)
 // @Param limit query int false "Limite de resultados (1-100)" minimum(1) maximum(100) default(20)
-// @Param minSimilarity query number false "Threshold de similaridade (0.0-1.0)" minimum(0) maximum(1) default(0.6)
+// @Param minSimilarity query number false "Threshold de similaridade (0.0-1.0)" minimum(0) maximum(1) default(0.4)
 // @Success 200 {array} repository.ArticleSearchResult
 // @Failure 400 {object} map[string]interface{} "Invalid query parameters"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
@@ -71,7 +71,7 @@ func (h *ArticleSemanticHandler) SemanticSearch(c *fiber.Ctx) error {
 	limit := c.QueryInt("limit", 20)
 
 	// Parse minSimilarity manually (QueryFloat doesn't exist in Fiber v2)
-	minSimilarity := 0.6
+	minSimilarity := 0.4
 	if minSimStr := c.Query("minSimilarity"); minSimStr != "" {
 		if parsed, err := strconv.ParseFloat(minSimStr, 64); err == nil {
 			minSimilarity = parsed

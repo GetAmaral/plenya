@@ -6,6 +6,7 @@ import { useRequireAuth } from "@/lib/use-auth"
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient"
 import { useHealthScoreDetail, useCalculateHealthScore } from "@/lib/api/health-score-api"
 import type { PatientScoreItemResult } from "@/lib/api/health-score-api"
+import { useActivePatientSubscription } from "@/lib/api/subscription-api"
 import { useHealthScoreViewPreferences } from "@/lib/use-health-score-view-preferences"
 import { PageHeader } from "@/components/layout/page-header"
 import { Button } from "@/components/ui/button"
@@ -27,6 +28,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { ArrowLeft, Activity, CheckCircle2, XCircle, MinusCircle, AlertCircle, FlaskConical, MoreVertical, Edit, RefreshCw } from "lucide-react"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
@@ -118,7 +120,15 @@ export default function HealthScoreDetailPage() {
   } = useHealthScoreViewPreferences(snapshotId)
 
   const { data: snapshot, isLoading, error } = useHealthScoreDetail(snapshotId)
+  const { data: activeSubscription } = useActivePatientSubscription(selectedPatient?.id)
   const calculateMutation = useCalculateHealthScore()
+
+  // View mode state (methodology vs traditional)
+  const [viewMode, setViewMode] = useState<'traditional' | 'methodology'>('methodology')
+
+  // States for methodology view accordions
+  const [openLetters, setOpenLetters] = useState<string[]>([])
+  const [openPillars, setOpenPillars] = useState<string[]>([])
 
   // Refs for scrolling to selected item
   const itemRefs = useRef<Map<string, HTMLDivElement>>(new Map())
@@ -142,7 +152,227 @@ export default function HealthScoreDetailPage() {
     }
   }
 
-  // Auto-open groups/subgroups that contain the selected item
+  // Organize items by Method → Letter → Pillar → Group → Subgroup hierarchy
+  const itemsByMethodology = useMemo(() => {
+    if (!snapshot?.itemResults || !activeSubscription?.subscriptionPlan?.method) {
+      return null
+    }
+
+    const method = activeSubscription.subscriptionPlan.method
+    if (!method.letters || method.letters.length === 0) return null
+
+    // Map to track which items have been assigned to pillars
+    const itemsInPillars = new Set<string>()
+
+    // Build regular letters structure
+    const regularLetters = method.letters.map(letter => {
+      const letterPillars = (letter.pillars || []).map(pillar => {
+        // Find all items that belong to this pillar
+        const pillarItems = snapshot.itemResults.filter(itemResult =>
+          itemResult.item?.methodPillars?.some(mp => mp.id === pillar.id)
+        )
+
+        // Track these items as assigned
+        pillarItems.forEach(item => itemsInPillars.add(item.id))
+
+        // Group by ScoreGroup → ScoreSubgroup
+        const groups = new Map<string, {
+          groupId: string
+          groupName: string
+          groupScore: number
+          groupOrder: number
+          subgroups: Map<string, {
+            subgroupId: string
+            subgroupName: string
+            subgroupScore: number
+            subgroupOrder: number
+            items: ItemWithChildren[]
+          }>
+        }>()
+
+        pillarItems.forEach(item => {
+          const groupResult = snapshot.groupResults?.find(gr => gr.groupId === item.groupId)
+          const subgroupId = item.item?.subgroupId || "unknown"
+          const subgroupName = item.item?.subgroup?.name || "Sem subgrupo"
+
+          if (!groups.has(item.groupId)) {
+            groups.set(item.groupId, {
+              groupId: item.groupId,
+              groupName: groupResult?.group?.name || "Sem grupo",
+              groupScore: groupResult?.scorePercentage || 0,
+              groupOrder: groupResult?.group?.order ?? 9999,
+              subgroups: new Map(),
+            })
+          }
+
+          const group = groups.get(item.groupId)!
+
+          if (!group.subgroups.has(subgroupId)) {
+            group.subgroups.set(subgroupId, {
+              subgroupId,
+              subgroupName,
+              subgroupScore: 0,
+              subgroupOrder: item.item?.subgroup?.order ?? 9999,
+              items: [],
+            })
+          }
+
+          group.subgroups.get(subgroupId)!.items.push(item as ItemWithChildren)
+        })
+
+        // Organize hierarchies and calculate subgroup scores
+        groups.forEach(group => {
+          group.subgroups.forEach(subgroup => {
+            subgroup.items = organizeItemsHierarchy(subgroup.items)
+
+            const evaluatedItems = pillarItems.filter(
+              item => item.item?.subgroupId === subgroup.subgroupId && item.status === "evaluated"
+            )
+
+            if (evaluatedItems.length > 0) {
+              const totalActual = evaluatedItems.reduce((sum, item) => sum + item.actualPoints, 0)
+              const totalMax = evaluatedItems.reduce((sum, item) => sum + item.maxPoints, 0)
+              subgroup.subgroupScore = totalMax > 0 ? (totalActual / totalMax) * 100 : 0
+            }
+          })
+        })
+
+        // Calculate pillar score (items can be in multiple pillars, so count for each)
+        const pillarEvaluatedItems = pillarItems.filter(item => item.status === "evaluated")
+        const pillarScore = pillarEvaluatedItems.length > 0
+          ? (pillarEvaluatedItems.reduce((sum, item) => sum + item.actualPoints, 0) /
+             pillarEvaluatedItems.reduce((sum, item) => sum + item.maxPoints, 0)) * 100
+          : 0
+
+        return {
+          pillar,
+          pillarScore,
+          itemCount: pillarItems.length,
+          evaluatedCount: pillarEvaluatedItems.length,
+          groups: Array.from(groups.values())
+            .sort((a, b) => a.groupOrder - b.groupOrder)
+            .map(g => ({
+              ...g,
+              subgroups: Array.from(g.subgroups.values()).sort((a, b) => a.subgroupOrder - b.subgroupOrder)
+            })),
+        }
+      }).filter(p => p.groups.length > 0)
+
+      return {
+        letter,
+        pillars: letterPillars,
+      }
+    }).filter(l => l.pillars.length > 0)
+
+    // Build virtual "Outros" letter for unassigned items
+    const unassignedItems = snapshot.itemResults.filter(item => !itemsInPillars.has(item.id))
+
+    let virtualLetter = null
+    if (unassignedItems.length > 0) {
+      // Group unassigned items by Group → Subgroup
+      const groups = new Map<string, {
+        groupId: string
+        groupName: string
+        groupScore: number
+        groupOrder: number
+        subgroups: Map<string, {
+          subgroupId: string
+          subgroupName: string
+          subgroupScore: number
+          subgroupOrder: number
+          items: ItemWithChildren[]
+        }>
+      }>()
+
+      unassignedItems.forEach(item => {
+        const groupResult = snapshot.groupResults?.find(gr => gr.groupId === item.groupId)
+        const subgroupId = item.item?.subgroupId || "unknown"
+        const subgroupName = item.item?.subgroup?.name || "Sem subgrupo"
+
+        if (!groups.has(item.groupId)) {
+          groups.set(item.groupId, {
+            groupId: item.groupId,
+            groupName: groupResult?.group?.name || "Sem grupo",
+            groupScore: groupResult?.scorePercentage || 0,
+            groupOrder: groupResult?.group?.order ?? 9999,
+            subgroups: new Map(),
+          })
+        }
+
+        const group = groups.get(item.groupId)!
+
+        if (!group.subgroups.has(subgroupId)) {
+          group.subgroups.set(subgroupId, {
+            subgroupId,
+            subgroupName,
+            subgroupScore: 0,
+            subgroupOrder: item.item?.subgroup?.order ?? 9999,
+            items: [],
+          })
+        }
+
+        group.subgroups.get(subgroupId)!.items.push(item as ItemWithChildren)
+      })
+
+      // Organize hierarchies and calculate scores
+      groups.forEach(group => {
+        group.subgroups.forEach(subgroup => {
+          subgroup.items = organizeItemsHierarchy(subgroup.items)
+
+          const evaluatedItems = unassignedItems.filter(
+            item => item.item?.subgroupId === subgroup.subgroupId && item.status === "evaluated"
+          )
+
+          if (evaluatedItems.length > 0) {
+            const totalActual = evaluatedItems.reduce((sum, item) => sum + item.actualPoints, 0)
+            const totalMax = evaluatedItems.reduce((sum, item) => sum + item.maxPoints, 0)
+            subgroup.subgroupScore = totalMax > 0 ? (totalActual / totalMax) * 100 : 0
+          }
+        })
+      })
+
+      const evaluatedUnassigned = unassignedItems.filter(item => item.status === "evaluated")
+      const virtualPillarScore = evaluatedUnassigned.length > 0
+        ? (evaluatedUnassigned.reduce((sum, item) => sum + item.actualPoints, 0) /
+           evaluatedUnassigned.reduce((sum, item) => sum + item.maxPoints, 0)) * 100
+        : 0
+
+      virtualLetter = {
+        letter: {
+          id: 'virtual-outros',
+          code: '•',
+          name: 'Outros',
+          order: 9999,
+        },
+        pillars: [{
+          pillar: {
+            id: 'virtual-unassigned',
+            name: 'Items não incluídos nos pilares do método',
+            order: 0,
+          },
+          pillarScore: virtualPillarScore,
+          itemCount: unassignedItems.length,
+          evaluatedCount: evaluatedUnassigned.length,
+          groups: Array.from(groups.values())
+            .sort((a, b) => a.groupOrder - b.groupOrder)
+            .map(g => ({
+              ...g,
+              subgroups: Array.from(g.subgroups.values()).sort((a, b) => a.subgroupOrder - b.subgroupOrder)
+            })),
+        }],
+      }
+    }
+
+    return {
+      method,
+      letters: virtualLetter ? [...regularLetters, virtualLetter] : regularLetters,
+    }
+  }, [snapshot, activeSubscription])
+
+  // Decide which view to show
+  const shouldShowMethodologyView = viewMode === 'methodology' && itemsByMethodology !== null
+
+  // Auto-open all levels that contain the selected item
   useEffect(() => {
     if (selectedItemId && snapshot?.itemResults) {
       const selectedItem = snapshot.itemResults.find(ir => ir.id === selectedItemId)
@@ -150,18 +380,41 @@ export default function HealthScoreDetailPage() {
         const groupId = selectedItem.groupId
         const subgroupId = selectedItem.item?.subgroupId
 
-        // Open group if not already open
+        // Traditional view - open group and subgroup
         if (groupId && !openGroups.includes(groupId)) {
           setOpenGroups(prev => [...prev, groupId])
         }
-
-        // Open subgroup if not already open
         if (subgroupId && !openSubgroups.includes(subgroupId)) {
           setOpenSubgroups(prev => [...prev, subgroupId])
         }
+
+        // Methodology view - also open letter and pillar
+        if (shouldShowMethodologyView && itemsByMethodology) {
+          // Find which letter and pillar contain this item
+          itemsByMethodology.letters.forEach(letterData => {
+            letterData.pillars.forEach(pillarData => {
+              const hasItem = pillarData.groups.some(g =>
+                g.subgroups.some(sg =>
+                  sg.items.some(item => item.id === selectedItemId)
+                )
+              )
+
+              if (hasItem) {
+                // Open letter
+                if (!openLetters.includes(letterData.letter.id)) {
+                  setOpenLetters(prev => [...prev, letterData.letter.id])
+                }
+                // Open pillar
+                if (!openPillars.includes(pillarData.pillar.id)) {
+                  setOpenPillars(prev => [...prev, pillarData.pillar.id])
+                }
+              }
+            })
+          })
+        }
       }
     }
-  }, [selectedItemId, snapshot, openGroups, openSubgroups, setOpenGroups, setOpenSubgroups])
+  }, [selectedItemId, snapshot, shouldShowMethodologyView, itemsByMethodology, openGroups, openSubgroups, openLetters, openPillars, setOpenGroups, setOpenSubgroups])
 
   // Auto-scroll to selected item when page loads
   useEffect(() => {
@@ -619,8 +872,183 @@ export default function HealthScoreDetailPage() {
         </Card>
       )}
 
-      {/* Results by Group → Subgroup → Items (same structure as ScoreTreeView) */}
-      <Accordion
+      {/* View Mode Toggle - only show if methodology view is available */}
+      {itemsByMethodology && (
+        <Card className="bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold">
+                  {itemsByMethodology.method.name}
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Metodologia clínica vinculada à sua assinatura
+                </p>
+              </div>
+
+              <div className="flex items-center gap-4">
+                {/* Show only evaluated switch */}
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="show-only-evaluated-detail" className="text-xs cursor-pointer whitespace-nowrap">
+                    {showOnlyEvaluated ? "Apenas calculados" : "Exibir todos"}
+                  </Label>
+                  <Switch
+                    id="show-only-evaluated-detail"
+                    checked={showOnlyEvaluated}
+                    onCheckedChange={setShowOnlyEvaluated}
+                  />
+                </div>
+
+                <ToggleGroup type="single" value={viewMode} onValueChange={(v) => v && setViewMode(v as any)}>
+                  <ToggleGroupItem value="methodology" aria-label="Visualização por Metodologia">
+                    <span className="text-xs">Por Metodologia</span>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="traditional" aria-label="Visualização Tradicional">
+                    <span className="text-xs">Tradicional</span>
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Conditional Rendering: Methodology vs Traditional */}
+      {shouldShowMethodologyView ? (
+        // METHODOLOGY VIEW
+        <Accordion type="multiple" className="space-y-3" value={openLetters} onValueChange={setOpenLetters}>
+          {itemsByMethodology!.letters.map((letterData) => (
+            <AccordionItem
+              key={letterData.letter.id}
+              value={letterData.letter.id}
+              className="rounded-lg border-2 transition-all"
+              style={{ borderColor: (letterData.letter as any).color || 'hsl(var(--border))' }}
+            >
+              {/* LETTER HEADER */}
+              <div className="relative bg-gradient-to-r from-primary/10 to-primary/5 rounded-t-lg">
+                <AccordionTrigger className="py-4 px-4 hover:no-underline">
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="text-left">
+                      <h2 className="text-xl font-bold">
+                        {(letterData.letter as any).code} - {(letterData.letter as any).name}
+                      </h2>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {letterData.pillars.length} {letterData.pillars.length === 1 ? 'pilar' : 'pilares'}
+                      </p>
+                    </div>
+                  </div>
+                </AccordionTrigger>
+              </div>
+
+              {/* PILLARS */}
+              <AccordionContent className="px-2 pb-2 pt-2">
+                <Accordion type="multiple" className="space-y-2" value={openPillars} onValueChange={setOpenPillars}>
+                  {letterData.pillars.map((pillarData) => (
+                    <AccordionItem
+                      key={pillarData.pillar.id}
+                      value={pillarData.pillar.id}
+                      className="border-2 rounded-md transition-all ml-4"
+                    >
+                      {/* PILLAR HEADER */}
+                      <div className="relative bg-muted/30">
+                        <AccordionTrigger className="py-3 px-3 hover:no-underline">
+                          <div className="flex items-center w-full pr-4">
+                            <div className="flex items-center gap-2 flex-1">
+                              <span className="text-base font-semibold">{pillarData.pillar.name}</span>
+                              <Badge variant="outline" className="text-xs">
+                                {pillarData.evaluatedCount}/{pillarData.itemCount}
+                              </Badge>
+                            </div>
+                            <div className="w-20 flex justify-end">
+                              {pillarData.pillarScore > 0 && (
+                                <Badge className={`${getScoreColor(pillarData.pillarScore)} text-sm`}>
+                                  {pillarData.pillarScore.toFixed(1)}%
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                        </AccordionTrigger>
+                      </div>
+
+                      {/* GROUPS within PILLAR */}
+                      <AccordionContent className="px-2 pb-2">
+                        <Accordion type="multiple" className="space-y-1.5" value={openGroups} onValueChange={setOpenGroups}>
+                          {pillarData.groups.map((group) => (
+                            <AccordionItem
+                              key={group.groupId}
+                              value={group.groupId}
+                              className="border rounded-md transition-all ml-2"
+                            >
+                              {/* GROUP HEADER */}
+                              <div className="relative bg-muted/50">
+                                <AccordionTrigger className="py-2 px-3 hover:no-underline">
+                                  <div className="flex items-center w-full pr-4">
+                                    <span className="text-sm font-medium flex-1 text-left">{group.groupName}</span>
+                                    <div className="w-16 flex justify-end">
+                                      {group.groupScore > 0 && (
+                                        <Badge className={`${getScoreColor(group.groupScore)} text-xs`}>
+                                          {group.groupScore.toFixed(1)}%
+                                        </Badge>
+                                      )}
+                                    </div>
+                                  </div>
+                                </AccordionTrigger>
+                              </div>
+
+                              {/* SUBGROUPS */}
+                              <AccordionContent className="px-2 pb-2">
+                                <Accordion type="multiple" className="space-y-1" value={openSubgroups} onValueChange={setOpenSubgroups}>
+                                  {group.subgroups.map((subgroup) => (
+                                    <AccordionItem
+                                      key={subgroup.subgroupId}
+                                      value={subgroup.subgroupId}
+                                      className="border rounded-sm transition-all ml-2"
+                                    >
+                                      {/* SUBGROUP HEADER */}
+                                      <AccordionTrigger className="py-2 px-2.5 text-left hover:no-underline">
+                                        <div className="flex items-center w-full pr-4">
+                                          <div className="flex items-center gap-2 flex-1">
+                                            <span className="text-sm font-medium text-left">{subgroup.subgroupName}</span>
+                                            <Badge variant="outline" className="text-[10px] px-1.5 py-0">
+                                              {subgroup.items.length}
+                                            </Badge>
+                                          </div>
+                                          <div className="w-16 flex justify-end">
+                                            {subgroup.subgroupScore > 0 && (
+                                              <Badge className={`${getScoreColor(subgroup.subgroupScore)} text-xs`}>
+                                                {subgroup.subgroupScore.toFixed(1)}%
+                                              </Badge>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </AccordionTrigger>
+
+                                      {/* ITEMS */}
+                                      <AccordionContent className="px-2.5 pb-2">
+                                        <div className="space-y-1.5 mt-1">
+                                          {filterItemsRecursive(subgroup.items).map((item) =>
+                                            renderItemWithChildren(item, 0)
+                                          )}
+                                        </div>
+                                      </AccordionContent>
+                                    </AccordionItem>
+                                  ))}
+                                </Accordion>
+                              </AccordionContent>
+                            </AccordionItem>
+                          ))}
+                        </Accordion>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      ) : (
+        // TRADITIONAL VIEW
+        <Accordion
         type="multiple"
         className="space-y-2"
         value={openGroups}
@@ -652,23 +1080,8 @@ export default function HealthScoreDetailPage() {
                 </div>
               </AccordionTrigger>
 
-              {/* Controls positioned absolutely - OUTSIDE button, with space for chevron */}
+              {/* Group score badge - positioned absolutely before the expand arrow */}
               <div className="absolute right-10 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
-                {/* Show only evaluated switch (only on first group, controls all) */}
-                {index === 0 && (
-                  <div className="flex items-center gap-2 pointer-events-auto">
-                    <Label htmlFor="show-only-evaluated" className="text-xs cursor-pointer whitespace-nowrap">
-                      {showOnlyEvaluated ? "Apenas calculados" : "Exibir todos"}
-                    </Label>
-                    <Switch
-                      id="show-only-evaluated"
-                      checked={showOnlyEvaluated}
-                      onCheckedChange={setShowOnlyEvaluated}
-                    />
-                  </div>
-                )}
-
-                {/* Group score badge - before the expand arrow */}
                 {group.groupScore === 0 ? (
                   <span className="text-red-500 font-bold text-lg pointer-events-auto">—</span>
                 ) : (
@@ -735,6 +1148,7 @@ export default function HealthScoreDetailPage() {
           </AccordionItem>
         ))}
       </Accordion>
+      )}
     </div>
   )
 }
