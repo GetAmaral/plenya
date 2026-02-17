@@ -66,6 +66,7 @@ apps/api/internal/models/*.go  ← EDITAR AQUI
 ### Workflows
 - [**development.md**](.claude/workflows/development.md) - Como desenvolver
 - [**🔥 database-ops.md**](.claude/workflows/database-ops.md) - **OPERAÇÕES DIRETAS NO BANCO**
+- [**🤖 enrichment-automation.md**](.claude/workflows/enrichment-automation.md) - **ENRICHMENT CIENTÍFICO AUTOMATIZADO**
 - [**adding-features.md**](.claude/workflows/adding-features.md) - Adicionar features
 - [**dev-bypass-auth.md**](.claude/workflows/dev-bypass-auth.md) - Bypass auth (dev only)
 
@@ -91,6 +92,37 @@ docker compose exec db psql -U plenya_user -d plenya_db -c "\d score_items"
 pnpm generate  # Gera: migrations, OpenAPI, TypeScript types, Zod schemas
 ```
 
+### Enrichment Científico Automatizado (RAG + Claude)
+
+**Scripts prontos em `scripts/enrichment/`:**
+
+```bash
+cd ~/plenya/scripts/enrichment
+
+# Pipeline COMPLETO (3 etapas automatizadas)
+./RUN-ALL.sh
+
+# OU individual:
+./1-regenerate-embeddings.sh  # Regenera embeddings stale
+./2-auto-link.sh              # Cria links Articles ↔ ScoreItems
+./3-prepare-with-prompts.sh   # Gera 4 prompts por ScoreItem
+```
+
+**Resultado:**
+- ✅ 878/878 ScoreItems preparados
+- ✅ 11,188 auto-links criados (99.8% cobertura)
+- ✅ 4 prompts prontos por item (~32KB cada)
+- ✅ FullName incluído (Group - Subgroup - Name)
+- ✅ 30 chunks científicos completos por prompt
+
+**Estrutura dos prompts:**
+- `prompt_clinical_relevance` - 1200-1800 chars (técnico)
+- `prompt_patient_explanation` - 600-900 chars (simples)
+- `prompt_conduct` - 1000-1500 chars (Markdown)
+- `prompt_max_points` - 0-50 (pontuação)
+
+Ver detalhes: [enrichment-automation.md](.claude/workflows/enrichment-automation.md)
+
 ### Docker
 
 ```bash
@@ -109,6 +141,10 @@ docker compose up -d --build
 
 ### Vou manipular dados manualmente (adicionar/editar score items, etc.)
 1. 🔥 [Database Operations](.claude/workflows/database-ops.md)
+2. 🎯 [Sistema de Escores](.claude/domain/score-system.md)
+
+### Vou enriquecer score items com textos científicos (RAG + Claude)
+1. 🤖 [Enrichment Automation](.claude/workflows/enrichment-automation.md)
 2. 🎯 [Sistema de Escores](.claude/domain/score-system.md)
 
 ### Vou adicionar um novo model/feature
