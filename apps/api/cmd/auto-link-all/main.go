@@ -203,11 +203,11 @@ func processItem(
 	minSimilarityForSingle := 0.85
 
 	if existingCount == 0 {
-		// Cold-start: redução moderada do threshold (balanço entre qualidade e cobertura)
-		threshold = baseThreshold - 0.10       // Ex: 0.70 → 0.60 (mais permissivo que 0.55)
-		chunkLimit = 40                        // Buscar mais chunks para compensar
-		minChunksRequired = 2                  // Exigir pelo menos 2 chunks
-		minSimilarityForSingle = baseThreshold - 0.05 // Ex: 0.70 → 0.65 (mais permissivo)
+		// Cold-start: IGUAL AO ORIGINAL - não quebrar o que funciona!
+		threshold = 0.2                        // Original (mantém ~3900+ links)
+		chunkLimit = 50                        // Buscar muitos chunks
+		minChunksRequired = 1                  // Aceita 1 chunk (original)
+		minSimilarityForSingle = 0.4           // Original (permissivo)
 	}
 
 	chunks, err := vectorRepo.FindTopChunksForScoreItem(item.ID, chunkLimit, threshold)
