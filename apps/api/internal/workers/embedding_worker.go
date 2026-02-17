@@ -287,12 +287,16 @@ func (w *EmbeddingWorker) processScoreItem(ctx context.Context, scoreItemID uuid
 	// 2. Computar FullName com contexto hierárquico
 	fullName := scoreItem.GetFullName()
 
-	// 3. Gerar texto combinado usando FullName (inclui Group/Subgroup/Parent)
+	// 3. Gerar texto combinado usando FullName (inclui Group/Subgroup/Parent + demografia)
 	textSource := w.chunkingService.ChunkScoreItem(
 		fullName,
 		scoreItem.ClinicalRelevance,
 		scoreItem.PatientExplanation,
 		scoreItem.Conduct,
+		scoreItem.Gender,
+		scoreItem.AgeRangeMin,
+		scoreItem.AgeRangeMax,
+		scoreItem.PostMenopause,
 	)
 
 	if textSource == "" {
