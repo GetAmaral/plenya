@@ -157,6 +157,11 @@ func (si *ScoreItem) BeforeUpdate(tx *gorm.DB) error {
 		tx.Exec(`
 			SELECT invalidate_embedding('score_item', ?, 'Field update via BeforeUpdate hook', 0)
 		`, si.ID)
+
+		// Invalidate preparation (delete for re-preparation with new data)
+		tx.Exec(`
+			SELECT invalidate_preparation(?, 'ScoreItem field update')
+		`, si.ID)
 	}
 
 	return nil

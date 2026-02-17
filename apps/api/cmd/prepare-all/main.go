@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"github.com/plenya/api/internal/config"
 	"github.com/plenya/api/internal/models"
-	"github.com/plenya/api/internal/repository"
 	"github.com/plenya/api/internal/services"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -29,10 +27,9 @@ func main() {
 
 	prepService := services.NewScoreEnrichmentPreparationService(db)
 
-	// Buscar score items tier rewrite (sem enrichment)
+	// Buscar TODOS os score items
 	var scoreItems []models.ScoreItem
-	db.Where("clinical_relevance IS NULL OR LENGTH(clinical_relevance) < 500").
-		Order("(unit IS NOT NULL) DESC, created_at ASC").
+	db.Order("(unit IS NOT NULL) DESC, created_at ASC").
 		Find(&scoreItems)
 
 	fmt.Printf("🔬 Preparing chunks for %d score items...\n", len(scoreItems))
@@ -48,8 +45,8 @@ func main() {
 			continue
 		}
 
-		// Preparar chunks
-		_, err := prepService.PrepareChunks(item.ID, 20, 0.65)
+		// Preparar chunks com threshold adaptativo e limite maior
+		_, err := prepService.PrepareChunksAdaptive(item.ID)
 		if err != nil {
 			// Skip silenciosamente se não encontrar chunks
 			continue
