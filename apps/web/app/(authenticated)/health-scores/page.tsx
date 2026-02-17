@@ -14,6 +14,7 @@ import { ScoreHistoryTable } from "@/components/health-scores/ScoreHistoryTable"
 import { CalculateScoreDialog } from "@/components/health-scores/CalculateScoreDialog"
 import { ScoreRadarChart } from "@/components/health-scores/ScoreRadarChart"
 import { ScoreEvolutionChart } from "@/components/health-scores/ScoreEvolutionChart"
+import { ScoreMethodologyAccordion } from "@/components/health-scores/ScoreMethodologyAccordion"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
@@ -68,15 +69,18 @@ export default function HealthScoresPage() {
         </Alert>
       ) : latestSnapshot ? (
         <>
-          <ScoreSnapshotSummary snapshot={latestSnapshot} />
-
-          {/* Charts */}
-          <div className="grid gap-6 md:grid-cols-2">
-            {snapshots && snapshots.length > 1 && (
-              <ScoreEvolutionChart snapshots={snapshots} />
-            )}
+          {/* Card de Score Total (sem os cards de detalhes) */}
+          <ScoreSnapshotSummary snapshot={latestSnapshot} showDetailCards={false}>
             <ScoreRadarChart snapshot={latestSnapshot} />
-          </div>
+          </ScoreSnapshotSummary>
+
+          {/* Accordion de metodologia (igual à página de detalhes) */}
+          <ScoreMethodologyAccordion snapshot={latestSnapshot} />
+
+          {/* Evolution Chart */}
+          {snapshots && snapshots.length > 1 && (
+            <ScoreEvolutionChart snapshots={snapshots} />
+          )}
         </>
       ) : null}
 

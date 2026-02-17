@@ -3,6 +3,7 @@
 import { useRequireAuth } from "@/lib/use-auth";
 import { CollapsibleSidebar, useSidebarWidth } from "@/components/layout/collapsible-sidebar";
 import { GlobalProcessingMonitor } from "@/components/processing/GlobalProcessingMonitor";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 
 export default function AuthenticatedLayout({
   children,
@@ -24,8 +25,19 @@ export default function AuthenticatedLayout({
           marginLeft: `${sidebarWidth}px`,
         }}
       >
+        {/* Header with notifications */}
+        <div
+          className="sticky top-0 z-30 flex h-16 items-center justify-end border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6 lg:px-8"
+          style={{
+            marginLeft: sidebarWidth === 0 ? '0' : `-${sidebarWidth}px`,
+            paddingLeft: sidebarWidth === 0 ? '0' : `${sidebarWidth + 16}px`,
+          }}
+        >
+          <NotificationBell />
+        </div>
+
         {/* Extra padding-top on mobile to avoid menu button overlap */}
-        <div className="p-4 pt-24 sm:p-6 sm:pt-8 lg:p-8">
+        <div className="p-4 pt-6 sm:p-6 lg:p-8">
           {children}
         </div>
       </main>

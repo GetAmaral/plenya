@@ -49,7 +49,7 @@ func (s *ArticleSemanticService) SemanticSearch(
 		dto.Limit = 20
 	}
 	if dto.MinSimilarity <= 0 {
-		dto.MinSimilarity = 0.6 // Threshold padrão para busca geral
+		dto.MinSimilarity = 0.4 // Threshold padrão para busca geral
 	}
 
 	// 1. Gerar embedding da query

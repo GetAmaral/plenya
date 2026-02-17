@@ -30,7 +30,7 @@ type ArticleSearchResult struct {
 // SemanticSearch busca artigos por similaridade vetorial
 // queryEmbedding: vetor de embedding da query (1024 dims)
 // limit: quantidade máxima de resultados
-// minSimilarity: threshold de similaridade (0.0 - 1.0), recomendado: 0.6
+// minSimilarity: threshold de similaridade (0.0 - 1.0), recomendado: 0.4
 func (r *ArticleVectorRepository) SemanticSearch(
 	queryEmbedding []float32,
 	limit int,
@@ -46,7 +46,7 @@ func (r *ArticleVectorRepository) SemanticSearch(
 	}
 
 	if minSimilarity < 0 || minSimilarity > 1 {
-		minSimilarity = 0.6 // Default
+		minSimilarity = 0.4 // Default
 	}
 
 	// Converter []float32 para pgvector.Vector
@@ -68,16 +68,22 @@ func (r *ArticleVectorRepository) SemanticSearch(
 
 	// Raw SQL query usando pgvector <=> operator (cosine distance)
 	// DISTINCT ON garante apenas 1 resultado por artigo (o chunk mais similar)
+	// Usa CTE para primeiro fazer DISTINCT ON e depois ordenar por similaridade
 	err := r.db.Raw(`
-		SELECT DISTINCT ON (article_id)
-			article_id,
-			1 - (embedding <=> ?::vector) AS similarity,
-			chunk_text
-		FROM article_embeddings
-		WHERE 1 - (embedding <=> ?::vector) >= ?
-		ORDER BY article_id, similarity DESC
+		WITH ranked_chunks AS (
+			SELECT DISTINCT ON (article_id)
+				article_id,
+				1 - (embedding <=> ?::vector) AS similarity,
+				chunk_text
+			FROM article_embeddings
+			WHERE 1 - (embedding <=> ?::vector) >= ?
+			ORDER BY article_id, similarity DESC
+		)
+		SELECT article_id, similarity, chunk_text
+		FROM ranked_chunks
+		ORDER BY similarity DESC
 		LIMIT ?
-	`, vector, vector, minSimilarity, limit*2).Scan(&results).Error
+	`, vector, vector, minSimilarity, limit).Scan(&results).Error
 
 	if err != nil {
 		return nil, fmt.Errorf("semantic search query failed: %w", err)
@@ -246,19 +252,24 @@ func (r *ArticleVectorRepository) FindSimilarArticlesForScoreItem(
 	// 1. Buscar embedding do score item
 	// 2. Comparar com article_embeddings
 	// 3. Agrupar por article_id (DISTINCT ON - chunk mais similar)
-	// 4. Retornar top N artigos
+	// 4. Retornar top N artigos ordenados por similaridade
 	err := r.db.Raw(`
-		SELECT DISTINCT ON (ae.article_id)
-			ae.article_id,
-			1 - (ae.embedding <=> sie.embedding) AS similarity,
-			ae.chunk_text
-		FROM article_embeddings ae
-		CROSS JOIN score_item_embeddings sie
-		WHERE sie.score_item_id = ?
-		  AND 1 - (ae.embedding <=> sie.embedding) >= ?
-		ORDER BY ae.article_id, similarity DESC
+		WITH ranked_chunks AS (
+			SELECT DISTINCT ON (ae.article_id)
+				ae.article_id,
+				1 - (ae.embedding <=> sie.embedding) AS similarity,
+				ae.chunk_text
+			FROM article_embeddings ae
+			CROSS JOIN score_item_embeddings sie
+			WHERE sie.score_item_id = ?
+			  AND 1 - (ae.embedding <=> sie.embedding) >= ?
+			ORDER BY ae.article_id, similarity DESC
+		)
+		SELECT article_id, similarity, chunk_text
+		FROM ranked_chunks
+		ORDER BY similarity DESC
 		LIMIT ?
-	`, scoreItemID, minSimilarity, limit*2).Scan(&results).Error
+	`, scoreItemID, minSimilarity, limit).Scan(&results).Error
 
 	if err != nil {
 		return nil, fmt.Errorf("find similar articles query failed: %w", err)

@@ -87,5 +87,65 @@ export interface ScoreLevel {
   updatedAt: string
 }
 
+export interface SubscriptionPlan {
+  id: string
+  name: string
+  description: string
+  features: string // JSON string
+  price: number
+  currency: string
+  billingCycle: 'monthly' | 'quarterly' | 'yearly' | 'one_time'
+  methodId?: string
+  method?: Method
+  isActive: boolean
+  trialPeriodDays: number
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface PatientSubscription {
+  id: string
+  patientId: string
+  subscriptionPlanId: string
+  planSnapshot: string // JSON string with plan data at subscription time
+  status: 'active' | 'inactive' | 'cancelled' | 'expired' | 'suspended' | 'trial'
+  autoRenew: boolean
+  startDate: string
+  endDate?: string
+  trialEndDate?: string
+  nextBillingDate?: string
+  cancelledAt?: string
+  discountPercent: number
+  discountReason?: string
+  customPrice?: number
+  customTrialDays?: number
+  cancellationReason?: string
+  notes?: string
+  renewalCount: number
+  createdAt: string
+  updatedAt: string
+  patient?: Patient
+  subscriptionPlan?: SubscriptionPlan
+}
+
+export interface Notification {
+  id: string
+  userId: string
+  patientId?: string
+  subscriptionId?: string
+  type: 'trial_expiring' | 'renewal_upcoming' | 'subscription_expired' | 'payment_pending' | 'general'
+  title: string
+  message: string
+  actionUrl?: string
+  actionText?: string
+  read: boolean
+  readAt?: string
+  createdAt: string
+  updatedAt: string
+  patient?: Patient
+  subscription?: PatientSubscription
+}
+
 // Re-export generated schemas if needed
 export * from './generated/api-schemas'

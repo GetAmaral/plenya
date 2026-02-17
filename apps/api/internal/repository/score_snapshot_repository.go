@@ -47,6 +47,11 @@ func (r *ScoreSnapshotRepository) GetByIDWithRelations(id uuid.UUID) (*models.Pa
 		}).
 		Preload("ItemResults.Item", "deleted_at IS NULL").
 		Preload("ItemResults.Item.Subgroup", "deleted_at IS NULL").
+		Preload("ItemResults.Item.MethodPillars", func(db *gorm.DB) *gorm.DB {
+			return db.Where("deleted_at IS NULL").Order("\"order\" ASC")
+		}).
+		Preload("ItemResults.Item.MethodPillars.Letter", "deleted_at IS NULL").
+		Preload("ItemResults.Item.MethodPillars.Letter.Method", "deleted_at IS NULL").
 		Preload("ItemResults.Group", "deleted_at IS NULL").
 		Preload("ItemResults.LevelMatched", "deleted_at IS NULL").
 		Preload("ItemResults.LabResult", "deleted_at IS NULL").
@@ -93,6 +98,11 @@ func (r *ScoreSnapshotRepository) GetLatestByPatientID(patientID uuid.UUID) (*mo
 		}).
 		Preload("ItemResults.Item", "deleted_at IS NULL").
 		Preload("ItemResults.Item.Subgroup", "deleted_at IS NULL").
+		Preload("ItemResults.Item.MethodPillars", func(db *gorm.DB) *gorm.DB {
+			return db.Where("deleted_at IS NULL").Order("\"order\" ASC")
+		}).
+		Preload("ItemResults.Item.MethodPillars.Letter", "deleted_at IS NULL").
+		Preload("ItemResults.Item.MethodPillars.Letter.Method", "deleted_at IS NULL").
 		Preload("ItemResults.Group", "deleted_at IS NULL").
 		Preload("ItemResults.LevelMatched", "deleted_at IS NULL").
 		Preload("ItemResults.LabResult", "deleted_at IS NULL").
