@@ -76,6 +76,18 @@ func (r *ScoreRepository) GetScoreGroupTree(id uuid.UUID) (*models.ScoreGroup, e
 		}
 		return nil, err
 	}
+
+	// Populate FullName for all nested items
+	for i := range group.Subgroups {
+		for j := range group.Subgroups[i].Items {
+			group.Subgroups[i].Items[j].FullName = group.Subgroups[i].Items[j].GetFullName()
+			// Populate FullName for child items too
+			for k := range group.Subgroups[i].Items[j].ChildItems {
+				group.Subgroups[i].Items[j].ChildItems[k].FullName = group.Subgroups[i].Items[j].ChildItems[k].GetFullName()
+			}
+		}
+	}
+
 	return &group, nil
 }
 
@@ -102,7 +114,24 @@ func (r *ScoreRepository) GetAllScoreGroupTrees() ([]models.ScoreGroup, error) {
 		Order("\"order\" ASC, name ASC").
 		Find(&groups).Error
 
-	return groups, err
+	if err != nil {
+		return nil, err
+	}
+
+	// Populate FullName for all nested items in all groups
+	for g := range groups {
+		for i := range groups[g].Subgroups {
+			for j := range groups[g].Subgroups[i].Items {
+				groups[g].Subgroups[i].Items[j].FullName = groups[g].Subgroups[i].Items[j].GetFullName()
+				// Populate FullName for child items too
+				for k := range groups[g].Subgroups[i].Items[j].ChildItems {
+					groups[g].Subgroups[i].Items[j].ChildItems[k].FullName = groups[g].Subgroups[i].Items[j].ChildItems[k].GetFullName()
+				}
+			}
+		}
+	}
+
+	return groups, nil
 }
 
 // UpdateScoreGroup updates an existing score group
@@ -199,6 +228,10 @@ func (r *ScoreRepository) GetScoreItemByID(id uuid.UUID) (*models.ScoreItem, err
 		}
 		return nil, err
 	}
+
+	// Populate FullName
+	item.FullName = item.GetFullName()
+
 	return &item, nil
 }
 
@@ -207,6 +240,8 @@ func (r *ScoreRepository) GetItemsBySubgroupID(subgroupID uuid.UUID) ([]models.S
 	var items []models.ScoreItem
 	err := r.db.
 		Where("subgroup_id = ?", subgroupID).
+		Preload("Subgroup").
+		Preload("Subgroup.Group").
 		Preload("Levels", func(db *gorm.DB) *gorm.DB {
 			return db.Order("level ASC")
 		}).
@@ -214,7 +249,17 @@ func (r *ScoreRepository) GetItemsBySubgroupID(subgroupID uuid.UUID) ([]models.S
 		Preload("ChildItems").
 		Order("\"order\" ASC, name ASC").
 		Find(&items).Error
-	return items, err
+
+	if err != nil {
+		return nil, err
+	}
+
+	// Populate FullName for each item
+	for i := range items {
+		items[i].FullName = items[i].GetFullName()
+	}
+
+	return items, nil
 }
 
 // GetAllScoreItems retrieves all score items with group/subgroup info, ordered by hierarchy
@@ -223,6 +268,7 @@ func (r *ScoreRepository) GetAllScoreItems() ([]models.ScoreItem, error) {
 	err := r.db.
 		Preload("Subgroup").
 		Preload("Subgroup.Group").
+		Preload("ParentItem").
 		Joins("LEFT JOIN score_subgroups ON score_items.subgroup_id = score_subgroups.id").
 		Joins("LEFT JOIN score_groups ON score_subgroups.group_id = score_groups.id").
 		Order("score_groups.\"order\" ASC").
@@ -230,7 +276,17 @@ func (r *ScoreRepository) GetAllScoreItems() ([]models.ScoreItem, error) {
 		Order("score_items.\"order\" ASC").
 		Order("score_items.name ASC").
 		Find(&items).Error
-	return items, err
+
+	if err != nil {
+		return nil, err
+	}
+
+	// Populate FullName for each item
+	for i := range items {
+		items[i].FullName = items[i].GetFullName()
+	}
+
+	return items, nil
 }
 
 // UpdateScoreItem updates an existing score item

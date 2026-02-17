@@ -23,6 +23,10 @@ type ScoreItem struct {
 	// @example Hemoglobina - Homens
 	Name string `gorm:"type:varchar(300);not null" json:"name" validate:"required,min=2,max=300"`
 
+	// Nome completo computado (Group - Subgroup - ParentItem - Name)
+	// @example Hemograma - Série Vermelha - Hemoglobina - Homens
+	FullName string `gorm:"-" json:"fullName,omitempty"`
+
 	// @example g/dL
 	Unit *string `gorm:"type:varchar(50)" json:"unit,omitempty" validate:"omitempty,max=50"`
 
@@ -161,4 +165,25 @@ func (si *ScoreItem) AppliesToPatient(patient *Patient) bool {
 	}
 
 	return true
+}
+
+// GetFullName retorna o nome completo do ScoreItem no formato:
+// "ItemName (Group - Subgroup - ParentItem)" (se houver parent e relações carregadas)
+// "ItemName (Group - Subgroup)" (se não houver parent mas relações carregadas)
+// "ItemName" (se as relações não estiverem carregadas)
+func (si *ScoreItem) GetFullName() string {
+	// Se as relações não estiverem carregadas, retorna apenas o nome do item
+	if si.Subgroup == nil || si.Subgroup.Group == nil {
+		return si.Name
+	}
+
+	groupName := si.Subgroup.Group.Name
+	subgroupName := si.Subgroup.Name
+
+	// Se houver ParentItem, inclui no nome
+	if si.ParentItemID != nil && si.ParentItem != nil {
+		return si.Name + " (" + groupName + " - " + subgroupName + " - " + si.ParentItem.Name + ")"
+	}
+
+	return si.Name + " (" + groupName + " - " + subgroupName + ")"
 }
