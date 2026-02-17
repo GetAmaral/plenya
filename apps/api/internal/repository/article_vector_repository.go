@@ -27,6 +27,21 @@ type ArticleSearchResult struct {
 	ChunkText  string          `json:"chunkText"`  // Texto do chunk que teve match
 }
 
+// ChunkSearchResult representa um chunk individual (não artigo completo)
+// Usado para enrichment científico de alta precisão
+type ChunkSearchResult struct {
+	ArticleID     uuid.UUID `json:"articleId"`
+	ArticleTitle  string    `json:"articleTitle"`
+	ArticleYear   int       `json:"articleYear"`
+	Journal       string    `json:"journal"`
+	ChunkIndex    int       `json:"chunkIndex"`
+	ChunkText     string    `json:"chunkText"`
+	Section       string    `json:"section"`       // results, discussion, methods, introduction, etc
+	Similarity    float64   `json:"similarity"`    // 0.0-1.0 (weighted with section boost)
+	WordCount     int       `json:"wordCount"`
+	PageRange     *string   `json:"pageRange,omitempty"`
+}
+
 // SemanticSearch busca artigos por similaridade vetorial
 // queryEmbedding: vetor de embedding da query (1024 dims)
 // limit: quantidade máxima de resultados
@@ -348,4 +363,112 @@ func (r *ArticleVectorRepository) GetEmbeddingStats() (map[string]interface{}, e
 	}
 
 	return stats, nil
+}
+
+// FindTopChunksForScoreItem busca os chunks mais relevantes para enrichment científico
+// Retorna múltiplos chunks por artigo (remove DISTINCT ON)
+// Aplica boost por seção (results: +10%, discussion: +5%, methods: +2%, introduction: +1%)
+// scoreItemID: ID do score item a enriquecer
+// limit: Total de chunks (ex: 20)
+// minSimilarity: Threshold mínimo (0.65 mais permissivo para pegar mais contexto)
+func (r *ArticleVectorRepository) FindTopChunksForScoreItem(
+	scoreItemID uuid.UUID,
+	limit int,
+	minSimilarity float64,
+) ([]ChunkSearchResult, error) {
+	if limit <= 0 || limit > 100 {
+		limit = 20 // Default
+	}
+
+	if minSimilarity < 0 || minSimilarity > 1 {
+		minSimilarity = 0.65 // Mais permissivo que FindSimilarArticlesForScoreItem (0.7)
+	}
+
+	type queryResult struct {
+		ArticleID    uuid.UUID
+		ArticleTitle string
+		ArticleYear  int
+		Journal      string
+		ChunkIndex   int
+		ChunkText    string
+		Section      string
+		Similarity   float64
+		WordCount    int
+		PageRange    *string
+	}
+
+	var results []queryResult
+
+	// SQL com boost por seção (priorizar results e discussion)
+	// Usa COALESCE para seção default 'other' se metadata não tiver section
+	err := r.db.Raw(`
+		WITH scored_chunks AS (
+			SELECT
+				ae.article_id,
+				a.title AS article_title,
+				EXTRACT(YEAR FROM a.publish_date)::int AS article_year,
+				a.journal,
+				ae.chunk_index,
+				ae.chunk_text,
+				COALESCE(ae.chunk_metadata->>'section', 'other') AS section,
+				COALESCE((ae.chunk_metadata->>'word_count')::int, 0) AS word_count,
+				ae.chunk_metadata->>'page_range' AS page_range,
+				1 - (ae.embedding <=> sie.embedding) AS base_similarity,
+				-- Boost por seção (priorizar results e discussion para dados científicos)
+				CASE COALESCE(ae.chunk_metadata->>'section', 'other')
+					WHEN 'results' THEN 1.10      -- +10% (dados quantitativos)
+					WHEN 'discussion' THEN 1.05   -- +5% (interpretação clínica)
+					WHEN 'methods' THEN 1.02      -- +2% (protocolos)
+					WHEN 'introduction' THEN 1.01 -- +1% (contexto)
+					ELSE 1.0
+				END AS section_weight
+			FROM article_embeddings ae
+			JOIN articles a ON ae.article_id = a.id
+			CROSS JOIN score_item_embeddings sie
+			WHERE sie.score_item_id = ?
+			  AND a.deleted_at IS NULL
+			  AND 1 - (ae.embedding <=> sie.embedding) >= ?
+		)
+		SELECT
+			article_id,
+			article_title,
+			article_year,
+			journal,
+			chunk_index,
+			chunk_text,
+			section,
+			word_count,
+			page_range,
+			base_similarity * section_weight AS similarity
+		FROM scored_chunks
+		ORDER BY similarity DESC
+		LIMIT ?
+	`, scoreItemID, minSimilarity, limit).Scan(&results).Error
+
+	if err != nil {
+		return nil, fmt.Errorf("find top chunks failed: %w", err)
+	}
+
+	if len(results) == 0 {
+		return []ChunkSearchResult{}, nil
+	}
+
+	// Converter para ChunkSearchResult
+	chunks := make([]ChunkSearchResult, len(results))
+	for i, r := range results {
+		chunks[i] = ChunkSearchResult{
+			ArticleID:    r.ArticleID,
+			ArticleTitle: r.ArticleTitle,
+			ArticleYear:  r.ArticleYear,
+			Journal:      r.Journal,
+			ChunkIndex:   r.ChunkIndex,
+			ChunkText:    r.ChunkText,
+			Section:      r.Section,
+			Similarity:   r.Similarity,
+			WordCount:    r.WordCount,
+			PageRange:    r.PageRange,
+		}
+	}
+
+	return chunks, nil
 }

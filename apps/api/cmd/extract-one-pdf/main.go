@@ -32,7 +32,8 @@ func main() {
 		log.Fatalf("❌ Erro: %v", err)
 	}
 
-	articleService := services.NewArticleService(db, "./uploads/articles", nil)
+	aiService := services.NewAIService(cfg)
+	articleService := services.NewArticleService(db, "./uploads/articles", nil, aiService)
 
 	// Buscar PRÓXIMO artigo com PDF mas sem fullContent
 	var article models.Article

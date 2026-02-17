@@ -227,18 +227,19 @@ func (s *ChunkingService) inferSection(text string) string {
 }
 
 // ChunkScoreItem gera texto combinado de ScoreItem para embedding
-// Combina: name + clinical_relevance + patient_explanation + conduct
+// Combina: fullName (com contexto hierárquico) + clinical_relevance + patient_explanation + conduct
+// O fullName deve incluir Group/Subgroup/Parent para melhor contexto semântico
 func (s *ChunkingService) ChunkScoreItem(
-	name string,
+	fullName string,
 	clinicalRelevance *string,
 	patientExplanation *string,
 	conduct *string,
 ) string {
 	parts := []string{}
 
-	// Nome (obrigatório)
-	if name != "" {
-		parts = append(parts, fmt.Sprintf("Parâmetro: %s", name))
+	// Nome completo com contexto hierárquico (obrigatório)
+	if fullName != "" {
+		parts = append(parts, fmt.Sprintf("Parâmetro: %s", fullName))
 	}
 
 	// Relevância clínica

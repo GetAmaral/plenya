@@ -133,7 +133,7 @@ func main() {
 	app.Static("/uploads", "/app/uploads")
 
 	// Rotas
-	setupRoutes(app, cfg, processingJobService, labTestDefService, labResultBatchService, embeddingQueueService, semanticService)
+	setupRoutes(app, cfg, processingJobService, labTestDefService, labResultBatchService, embeddingQueueService, semanticService, aiService)
 
 	// Graceful shutdown
 	c := make(chan os.Signal, 1)
@@ -171,6 +171,7 @@ func setupRoutes(
 	labResultBatchService *services.LabResultBatchService,
 	embeddingQueueService *services.EmbeddingQueueService,
 	semanticService *services.ArticleSemanticService,
+	aiService *services.AIService,
 ) {
 	// Health check
 	app.Get("/health", healthCheck)
@@ -213,7 +214,7 @@ func setupRoutes(
 	labRequestService := services.NewLabRequestService(labRequestRepo, database.DB)
 	labRequestTemplateService := services.NewLabRequestTemplateService(labRequestTemplateRepo)
 	labResultViewService := services.NewLabResultViewService(labResultViewRepo)
-	articleService := services.NewArticleService(database.DB, "./uploads/articles", embeddingQueueService)
+	articleService := services.NewArticleService(database.DB, "./uploads/articles", embeddingQueueService, aiService)
 	userService := services.NewUserService(database.DB)
 	profileService := services.NewProfileService(database.DB)
 	medicationDefinitionService := services.NewMedicationDefinitionService(database.DB)
@@ -268,6 +269,7 @@ func setupRoutes(
 	profileHandler := handlers.NewProfileHandler(profileService)
 	certificateHandler := handlers.NewCertificateHandler(database.DB, certificateService)
 	medicationDefHandler := handlers.NewMedicationDefinitionHandler(medicationDefinitionService)
+	enrichmentPrepHandler := handlers.NewScoreEnrichmentPreparationHandler(database.DB)
 
 	// API v1
 	v1 := app.Group("/api/v1")
@@ -553,6 +555,12 @@ func setupRoutes(
 	scoreItems.Post("/", middleware.RequireAdmin(), scoreHandler.CreateScoreItem)
 	scoreItems.Put("/:id", middleware.RequireAdmin(), scoreHandler.UpdateScoreItem)
 	scoreItems.Delete("/:id", middleware.RequireAdmin(), scoreHandler.DeleteScoreItem)
+
+	// Enrichment Preparation routes (admin only - ETAPA 1 do plano científico)
+	scoreItems.Post("/:id/prepare-enrichment", middleware.RequireAdmin(), enrichmentPrepHandler.PrepareEnrichment)
+	scoreItems.Get("/:id/prepare-enrichment", middleware.RequireAdmin(), enrichmentPrepHandler.GetPreparation)
+	scoreItems.Delete("/:id/prepare-enrichment", middleware.RequireAdmin(), enrichmentPrepHandler.DeletePreparation)
+	v1.Get("/score-items/enrichment/stats", middleware.Auth(cfg), enrichmentPrepHandler.GetStats)
 
 	// Score Levels routes (todas protegidas)
 	scoreLevels := v1.Group("/score-levels")

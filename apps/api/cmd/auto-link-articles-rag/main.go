@@ -14,19 +14,22 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-// Auto-Link Articles Script - Conecta artigos a ScoreItems via similaridade semântica (RAG)
-// Usa FindSimilarArticlesForScoreItem() com threshold 0.7 para auto-linking
+// Auto-Link Articles Script v2 - Conecta artigos a ScoreItems via chunks RAG (melhorado)
 //
-// Uso: go run cmd/auto-link-articles-rag/main.go [--threshold 0.7] [--limit 30] [--dry-run]
+// MELHORIAS vs v1:
+// - Usa FindTopChunksForScoreItem() em vez de FindSimilarArticlesForScoreItem()
+// - Threshold adaptativo baseado nas características do score item
+// - Requer ≥2 chunks por artigo OU 1 chunk muito similar (≥0.85) para aumentar confiança
+// - Score item embeddings JÁ usam fullName (Group - Subgroup - Parent - Name)
+//
+// Uso: go run cmd/auto-link-articles-rag/main.go [--dry-run]
 
 func main() {
-	fmt.Println("🔗 Auto-Link Articles via RAG - Plenya System")
-	fmt.Println("=" + string(make([]byte, 60)))
+	fmt.Println("🔗 Auto-Link Articles via RAG v2 (Chunk-Based) - Plenya System")
+	fmt.Println(string(make([]byte, 70)) + "=")
 
-	// Configurar threshold e limite
-	threshold := 0.7  // Mínimo de similaridade (cosine similarity)
-	limit := 30       // Máximo de artigos por ScoreItem
-	dryRun := false   // Se true, apenas simula sem criar links
+	// Configuração
+	dryRun := false // Se true, apenas simula sem criar links
 
 	// Parse flags simples (opcional)
 	// TODO: Adicionar flag parsing se necessário
@@ -56,15 +59,13 @@ func main() {
 	// Criar repository vetorial
 	vectorRepo := repository.NewArticleVectorRepository(db)
 
-	// Buscar todos ScoreItems ativos
+	// Buscar todos ScoreItems ativos com relationships (para fullName)
 	var scoreItems []models.ScoreItem
-	if err := db.Find(&scoreItems).Error; err != nil {
+	if err := db.Preload("Subgroup.Group").Preload("ParentItem").Find(&scoreItems).Error; err != nil {
 		log.Fatalf("❌ Failed to fetch score items: %v", err)
 	}
 
 	fmt.Printf("📊 Found %d score items to process\n", len(scoreItems))
-	fmt.Printf("⚙️  Similarity threshold: %.2f\n", threshold)
-	fmt.Printf("⚙️  Max articles per item: %d\n", limit)
 	if dryRun {
 		fmt.Println("🧪 DRY RUN MODE - No links will be created")
 	}
@@ -75,33 +76,83 @@ func main() {
 	itemsWithNewLinks := 0
 	itemsSkipped := 0
 	itemsWithErrors := 0
+	thresholdStats := make(map[string]int) // Contar por threshold usado
 
 	// Processar cada ScoreItem
 	for i, item := range scoreItems {
-		fmt.Printf("[%d/%d] Processing: %s\n", i+1, len(scoreItems), item.Name)
+		fullName := item.GetFullName()
+		fmt.Printf("[%d/%d] Processing: %s\n", i+1, len(scoreItems), fullName)
 
-		// 1. Buscar artigos similares via RAG
-		results, err := vectorRepo.FindSimilarArticlesForScoreItem(
+		// 1. Determinar threshold adaptativo baseado nas características do item
+		threshold := determineThreshold(&item)
+		fmt.Printf("   ⚙️  Adaptive threshold: %.2f (based on specificity)\n", threshold)
+
+		thresholdKey := fmt.Sprintf("%.2f", threshold)
+		thresholdStats[thresholdKey]++
+
+		// 2. Buscar chunks via RAG (30 chunks, threshold adaptativo)
+		chunks, err := vectorRepo.FindTopChunksForScoreItem(
 			item.ID,
-			limit,
+			30, // Buscar mais chunks para ter melhor cobertura
 			threshold,
 		)
 
 		if err != nil {
-			fmt.Printf("   ❌ Error finding similar articles: %v\n", err)
+			fmt.Printf("   ❌ Error finding chunks: %v\n", err)
 			itemsWithErrors++
 			continue
 		}
 
-		if len(results) == 0 {
-			fmt.Printf("   ⚠️  No similar articles found (threshold=%.2f)\n", threshold)
+		if len(chunks) == 0 {
+			fmt.Printf("   ⚠️  No chunks found (threshold=%.2f)\n", threshold)
 			itemsSkipped++
 			continue
 		}
 
-		fmt.Printf("   🔍 Found %d similar articles (similarity ≥ %.2f)\n", len(results), threshold)
+		fmt.Printf("   🔍 Found %d chunks from articles (similarity ≥ %.2f)\n", len(chunks), threshold)
 
-		// 2. Buscar artigos JÁ linkados a este ScoreItem
+		// 3. Agrupar chunks por artigo e calcular estatísticas
+		articleChunks := make(map[uuid.UUID][]repository.ChunkSearchResult)
+		for _, chunk := range chunks {
+			articleChunks[chunk.ArticleID] = append(articleChunks[chunk.ArticleID], chunk)
+		}
+
+		fmt.Printf("   📚 Chunks distributed across %d unique articles\n", len(articleChunks))
+
+		// 4. Filtrar artigos com confiança suficiente:
+		//    - ≥2 chunks relevantes (múltiplas evidências) OU
+		//    - 1 chunk com similaridade muito alta (≥0.85)
+		qualifiedArticles := make(map[uuid.UUID]float64) // articleID -> avgSimilarity
+
+		for articleID, articleChunkList := range articleChunks {
+			chunkCount := len(articleChunkList)
+
+			// Calcular max e avg similarity
+			var totalSim float64
+			maxSim := 0.0
+			for _, chunk := range articleChunkList {
+				totalSim += chunk.Similarity
+				if chunk.Similarity > maxSim {
+					maxSim = chunk.Similarity
+				}
+			}
+			avgSim := totalSim / float64(chunkCount)
+
+			// Critério de qualificação
+			if chunkCount >= 2 || maxSim >= 0.85 {
+				qualifiedArticles[articleID] = avgSim
+			}
+		}
+
+		if len(qualifiedArticles) == 0 {
+			fmt.Printf("   ⚠️  No articles meet confidence criteria (≥2 chunks or sim≥0.85)\n")
+			itemsSkipped++
+			continue
+		}
+
+		fmt.Printf("   ✓ %d articles qualified (meet confidence criteria)\n", len(qualifiedArticles))
+
+		// 5. Buscar artigos JÁ linkados a este ScoreItem
 		var existingLinks []struct {
 			ArticleID uuid.UUID
 		}
@@ -122,41 +173,46 @@ func main() {
 			existingIDs[link.ArticleID] = true
 		}
 
-		// 3. Filtrar artigos novos (não linkados)
-		newArticles := []repository.ArticleSearchResult{}
-		for _, result := range results {
-			if !existingIDs[result.Article.ID] {
-				newArticles = append(newArticles, result)
+		// 6. Filtrar artigos novos (não linkados)
+		newArticles := make(map[uuid.UUID]float64)
+		for articleID, avgSim := range qualifiedArticles {
+			if !existingIDs[articleID] {
+				newArticles[articleID] = avgSim
 			}
 		}
 
 		if len(newArticles) == 0 {
-			fmt.Printf("   ✓ All similar articles already linked (%d existing)\n", len(existingLinks))
+			fmt.Printf("   ✓ All qualified articles already linked (%d existing)\n", len(existingLinks))
 			itemsSkipped++
 			continue
 		}
 
 		fmt.Printf("   📎 Will create %d new links (%d already exist)\n", len(newArticles), len(existingLinks))
 
-		// 4. Criar links (ou apenas simular se dry-run)
+		// 7. Criar links (ou apenas simular se dry-run)
 		if !dryRun {
 			linksCreated := 0
-			for _, result := range newArticles {
+			for articleID, avgSim := range newArticles {
 				// Insert direto SQL (tabela join GORM)
 				err := db.Exec(`
 					INSERT INTO article_score_items
 					(score_item_id, article_id, confidence_score, auto_linked, linked_at, linked_by)
 					VALUES (?, ?, ?, true, NOW(), NULL)
 					ON CONFLICT (score_item_id, article_id) DO NOTHING
-				`, item.ID, result.Article.ID, result.Similarity).Error
+				`, item.ID, articleID, avgSim).Error
 
 				if err != nil {
 					fmt.Printf("   ⚠️  Failed to link article %s: %v\n",
-						result.Article.ID.String()[:8], err)
+						articleID.String()[:8], err)
 					continue
 				}
 
 				linksCreated++
+
+				// Mostrar detalhes do link criado
+				chunkCount := len(articleChunks[articleID])
+				fmt.Printf("      ✓ Linked article %s (chunks: %d, avg_sim: %.3f)\n",
+					articleID.String()[:8], chunkCount, avgSim)
 			}
 
 			if linksCreated > 0 {
@@ -166,9 +222,10 @@ func main() {
 			}
 		} else {
 			// Dry run - apenas mostrar
-			for _, result := range newArticles {
-				fmt.Printf("      [DRY RUN] Would link: %s (similarity: %.3f)\n",
-					result.Article.Title[:60], result.Similarity)
+			for articleID, avgSim := range newArticles {
+				chunkCount := len(articleChunks[articleID])
+				fmt.Printf("      [DRY RUN] Would link article %s (chunks: %d, avg_sim: %.3f)\n",
+					articleID.String()[:8], chunkCount, avgSim)
 			}
 			totalLinksCreated += len(newArticles)
 			itemsWithNewLinks++
@@ -178,7 +235,7 @@ func main() {
 	}
 
 	// Relatório final
-	fmt.Println("=" + string(make([]byte, 60)))
+	fmt.Println(string(make([]byte, 70)) + "=")
 	fmt.Println("📊 Auto-Linking Summary:")
 	fmt.Printf("   Total ScoreItems processed: %d\n", len(scoreItems))
 	fmt.Printf("   Items with new links: %d\n", itemsWithNewLinks)
@@ -187,6 +244,14 @@ func main() {
 	fmt.Printf("   Total links created: %d\n", totalLinksCreated)
 	if dryRun {
 		fmt.Println("   ⚠️  DRY RUN - No changes were saved")
+	}
+	fmt.Println()
+
+	// Mostrar distribuição de thresholds usados
+	fmt.Println("📈 Threshold Distribution:")
+	for threshold, count := range thresholdStats {
+		fmt.Printf("   %.2s: %d items (%.1f%%)\n",
+			threshold, count, float64(count)/float64(len(scoreItems))*100)
 	}
 	fmt.Println()
 
@@ -230,7 +295,42 @@ func main() {
 	if !dryRun {
 		fmt.Println("\n💡 Next steps:")
 		fmt.Println("   1. Review coverage: SELECT COUNT(*) FROM article_score_items WHERE auto_linked = true;")
-		fmt.Println("   2. Check items with <7 articles (may need PubMed search)")
-		fmt.Println("   3. Validate similarity scores are reasonable (avg ≥ 0.75)")
+		fmt.Println("   2. Check confidence distribution: SELECT AVG(confidence_score), MIN(confidence_score) FROM article_score_items;")
+		fmt.Println("   3. Validate items with <3 articles (may need PubMed search)")
 	}
+	fmt.Println("\n🎯 Key improvements in v2:")
+	fmt.Println("   - Chunk-based matching (multiple evidences per article)")
+	fmt.Println("   - Adaptive thresholds (0.65-0.75 based on specificity)")
+	fmt.Println("   - Higher confidence (≥2 chunks or sim≥0.85 required)")
+	fmt.Println("   - Uses fullName (Group-Subgroup-Parent-Name) for better context")
+}
+
+// determineThreshold calcula threshold adaptativo baseado nas características do score item
+// Lógica:
+// - Score items ESPECÍFICOS (nome curto + tem unidade + bem definido) → threshold ALTO (0.75)
+// - Score items GENÉRICOS (nome longo + sem unidade) → threshold MODERADO (0.65)
+// - Padrão → 0.70
+func determineThreshold(item *models.ScoreItem) float64 {
+	nameLen := len(item.Name)
+	hasUnit := item.Unit != nil && *item.Unit != ""
+	hasClinicalRelevance := item.ClinicalRelevance != nil && len(*item.ClinicalRelevance) > 500
+
+	// CATEGORIA 1: Score items muito específicos (ex: "Hemoglobina Glicada (HbA1c)", "Vitamina D")
+	// - Nome curto (<= 30 chars)
+	// - Tem unidade definida
+	// - Tem clinical relevance bem desenvolvido
+	// → Threshold ALTO para evitar falsos positivos
+	if nameLen <= 30 && hasUnit && hasClinicalRelevance {
+		return 0.75
+	}
+
+	// CATEGORIA 2: Score items genéricos ou procedimentos (ex: "Endoscopia digestiva alta", "Exame Físico Completo")
+	// - Nome longo (> 50 chars) ou sem unidade
+	// → Threshold MODERADO para capturar mais contextos
+	if nameLen > 50 || !hasUnit {
+		return 0.65
+	}
+
+	// CATEGORIA 3: Padrão (maioria dos casos)
+	return 0.70
 }

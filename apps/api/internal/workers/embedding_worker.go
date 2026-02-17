@@ -275,15 +275,21 @@ func (w *EmbeddingWorker) processArticle(ctx context.Context, articleID uuid.UUI
 
 // processScoreItem gera embedding para um score item
 func (w *EmbeddingWorker) processScoreItem(ctx context.Context, scoreItemID uuid.UUID) error {
-	// 1. Buscar score item
+	// 1. Buscar score item com relações (necessárias para FullName)
 	var scoreItem models.ScoreItem
-	if err := w.db.First(&scoreItem, "id = ?", scoreItemID).Error; err != nil {
+	if err := w.db.
+		Preload("Subgroup.Group").
+		Preload("ParentItem").
+		First(&scoreItem, "id = ?", scoreItemID).Error; err != nil {
 		return fmt.Errorf("score item not found: %w", err)
 	}
 
-	// 2. Gerar texto combinado
+	// 2. Computar FullName com contexto hierárquico
+	fullName := scoreItem.GetFullName()
+
+	// 3. Gerar texto combinado usando FullName (inclui Group/Subgroup/Parent)
 	textSource := w.chunkingService.ChunkScoreItem(
-		scoreItem.Name,
+		fullName,
 		scoreItem.ClinicalRelevance,
 		scoreItem.PatientExplanation,
 		scoreItem.Conduct,
@@ -293,9 +299,9 @@ func (w *EmbeddingWorker) processScoreItem(ctx context.Context, scoreItemID uuid
 		return fmt.Errorf("failed to generate text for score item (empty)")
 	}
 
-	fmt.Printf("   🎯 ScoreItem text generated (%d chars)\n", len(textSource))
+	fmt.Printf("   🎯 ScoreItem text generated (%d chars) - FullName: %s\n", len(textSource), fullName)
 
-	// 3. Gerar embedding
+	// 4. Gerar embedding
 	embedding, err := w.embeddingService.GenerateEmbedding(ctx, textSource)
 	if err != nil {
 		return fmt.Errorf("failed to generate embedding: %w", err)
@@ -303,7 +309,7 @@ func (w *EmbeddingWorker) processScoreItem(ctx context.Context, scoreItemID uuid
 
 	fmt.Printf("   🧠 Embedding generated (%d dims)\n", len(embedding))
 
-	// 4. Salvar embedding no banco (upsert)
+	// 5. Salvar embedding no banco (upsert)
 	err = w.db.Transaction(func(tx *gorm.DB) error {
 		// Verificar se já existe
 		var existing models.ScoreItemEmbedding
