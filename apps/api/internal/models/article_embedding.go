@@ -35,6 +35,9 @@ type ArticleEmbedding struct {
 	// Stored as pgvector type for efficient similarity search
 	Embedding pgvector.Vector `gorm:"type:vector(1024)" json:"-"` // Não expor no JSON (muito grande)
 
+	// Flag indicando se embedding está desatualizado (true = precisa regenerar)
+	IsStale bool `gorm:"type:boolean;default:false;not null" json:"isStale"`
+
 	// Relationships
 	Article *Article `gorm:"foreignKey:ArticleID;constraint:OnDelete:CASCADE" json:"article,omitempty"`
 

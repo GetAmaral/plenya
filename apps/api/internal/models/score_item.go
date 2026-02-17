@@ -121,15 +121,44 @@ func (si *ScoreItem) BeforeCreate(tx *gorm.DB) error {
 	return nil
 }
 
-// BeforeUpdate hook to update LastReview when clinical fields change
+// BeforeUpdate hook to update LastReview and invalidate embeddings when relevant fields change
 func (si *ScoreItem) BeforeUpdate(tx *gorm.DB) error {
-	// Check if any clinical field was changed
+	// Update LastReview when clinical fields change
 	if tx.Statement.Changed("ClinicalRelevance") ||
 		tx.Statement.Changed("PatientExplanation") ||
 		tx.Statement.Changed("Conduct") {
 		now := time.Now()
 		si.LastReview = &now
 	}
+
+	// Invalidate embedding when any field that affects semantic meaning changes
+	embeddingFields := []string{
+		"Name", "ClinicalRelevance", "PatientExplanation", "Conduct",
+		"Gender", "AgeRangeMin", "AgeRangeMax", "PostMenopause", "Unit",
+	}
+
+	needsReembedding := false
+	for _, field := range embeddingFields {
+		if tx.Statement.Changed(field) {
+			needsReembedding = true
+			break
+		}
+	}
+
+	if needsReembedding {
+		// Mark embedding as stale
+		tx.Exec(`
+			UPDATE score_item_embeddings
+			SET is_stale = true
+			WHERE score_item_id = ?
+		`, si.ID)
+
+		// Queue for regeneration using helper function
+		tx.Exec(`
+			SELECT invalidate_embedding('score_item', ?, 'Field update via BeforeUpdate hook', 0)
+		`, si.ID)
+	}
+
 	return nil
 }
 

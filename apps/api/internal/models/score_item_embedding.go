@@ -27,6 +27,9 @@ type ScoreItemEmbedding struct {
 	// @minLength 1
 	TextSource string `gorm:"type:text;not null" json:"textSource" validate:"required,min=1"`
 
+	// Flag indicando se embedding está desatualizado (true = precisa regenerar)
+	IsStale bool `gorm:"type:boolean;default:false;not null" json:"isStale"`
+
 	// Relationships
 	ScoreItem *ScoreItem `gorm:"foreignKey:ScoreItemID;constraint:OnDelete:CASCADE" json:"scoreItem,omitempty"`
 

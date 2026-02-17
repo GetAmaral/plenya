@@ -227,19 +227,30 @@ func (s *ChunkingService) inferSection(text string) string {
 }
 
 // ChunkScoreItem gera texto combinado de ScoreItem para embedding
-// Combina: fullName (com contexto hierárquico) + clinical_relevance + patient_explanation + conduct
+// Combina: fullName + demographic context + clinical_relevance + patient_explanation + conduct
 // O fullName deve incluir Group/Subgroup/Parent para melhor contexto semântico
+// Contexto demográfico melhora matching de artigos para população correta
 func (s *ChunkingService) ChunkScoreItem(
 	fullName string,
 	clinicalRelevance *string,
 	patientExplanation *string,
 	conduct *string,
+	gender *string,
+	ageRangeMin *int,
+	ageRangeMax *int,
+	postMenopause *bool,
 ) string {
 	parts := []string{}
 
 	// Nome completo com contexto hierárquico (obrigatório)
 	if fullName != "" {
 		parts = append(parts, fmt.Sprintf("Parâmetro: %s", fullName))
+	}
+
+	// Contexto demográfico (NOVO) - adicionar logo após nome para melhor embedding
+	demographics := s.formatDemographicContext(gender, ageRangeMin, ageRangeMax, postMenopause)
+	if demographics != "" {
+		parts = append(parts, demographics)
 	}
 
 	// Relevância clínica
@@ -261,6 +272,59 @@ func (s *ChunkingService) ChunkScoreItem(
 	combined := strings.Join(parts, "\n\n")
 
 	return combined
+}
+
+// formatDemographicContext formata informações demográficas para inclusão no embedding
+// Retorna string vazia se nenhum filtro demográfico está definido
+func (s *ChunkingService) formatDemographicContext(
+	gender *string,
+	ageRangeMin *int,
+	ageRangeMax *int,
+	postMenopause *bool,
+) string {
+	demographicParts := []string{}
+
+	// Gênero
+	if gender != nil && *gender != "not_applicable" {
+		genderLabel := map[string]string{
+			"male":   "Aplicável a homens",
+			"female": "Aplicável a mulheres",
+		}[*gender]
+		if genderLabel != "" {
+			demographicParts = append(demographicParts, genderLabel)
+		}
+	}
+
+	// Faixa etária
+	if ageRangeMin != nil || ageRangeMax != nil {
+		ageRange := formatAgeRangeForEmbedding(ageRangeMin, ageRangeMax)
+		demographicParts = append(demographicParts, fmt.Sprintf("Faixa etária: %s", ageRange))
+	}
+
+	// Pós-menopausa
+	if postMenopause != nil && *postMenopause {
+		demographicParts = append(demographicParts, "Específico para mulheres pós-menopausa")
+	}
+
+	if len(demographicParts) == 0 {
+		return ""
+	}
+
+	return "População-alvo: " + strings.Join(demographicParts, "; ")
+}
+
+// formatAgeRangeForEmbedding formata faixa etária para texto legível no embedding
+func formatAgeRangeForEmbedding(min *int, max *int) string {
+	if min != nil && max != nil {
+		return fmt.Sprintf("%d a %d anos", *min, *max)
+	}
+	if min != nil {
+		return fmt.Sprintf("%d anos ou mais", *min)
+	}
+	if max != nil {
+		return fmt.Sprintf("até %d anos", *max)
+	}
+	return "todas as idades"
 }
 
 // countWords conta palavras em um texto
