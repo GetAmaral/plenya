@@ -505,6 +505,94 @@ Retorne um JSON com os campos encontrados.`, firstPageText)
 	return nil, fmt.Errorf("no tool_use in response")
 }
 
+// ExtractTableOfContents extrai títulos de capítulos de um sumário de livro via Claude Haiku
+// Retorna lista de títulos de capítulos encontrados no texto
+func (s *AIService) ExtractTableOfContents(text string) ([]string, error) {
+	if s.apiKey == "" {
+		return nil, fmt.Errorf("Claude API key not configured")
+	}
+
+	prompt := fmt.Sprintf(`Analise o texto abaixo que pode conter um sumário ou índice de livro.
+
+Extraia os títulos dos capítulos principais (não subseções, não sub-capítulos — apenas capítulos de nível 1).
+
+TEXTO:
+%s
+
+Retorne apenas os títulos dos capítulos como array JSON de strings.
+Se não houver sumário ou capítulos identificáveis, retorne um array vazio [].
+Retorne no mínimo 3 capítulos para ser útil.
+
+Exemplo de formato: ["Capítulo 1: Introdução", "Capítulo 2: Metabolismo", "Capítulo 3: Conclusão"]
+
+Retorne APENAS o JSON, sem explicações.`, text)
+
+	payload := map[string]interface{}{
+		"model":       "claude-haiku-4-5-20251001",
+		"max_tokens":  1024,
+		"temperature": 0.1,
+		"messages": []map[string]string{
+			{"role": "user", "content": prompt},
+		},
+	}
+
+	jsonPayload, err := json.Marshal(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", "https://api.anthropic.com/v1/messages", bytes.NewBuffer(jsonPayload))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("x-api-key", s.apiKey)
+	req.Header.Set("anthropic-version", "2023-06-01")
+
+	resp, err := s.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("claude api error %d: %s", resp.StatusCode, string(bodyBytes))
+	}
+
+	var apiResp struct {
+		Content []struct {
+			Type string `json:"type"`
+			Text string `json:"text"`
+		} `json:"content"`
+	}
+
+	if err := json.Unmarshal(bodyBytes, &apiResp); err != nil {
+		return nil, err
+	}
+
+	for _, c := range apiResp.Content {
+		if c.Type == "text" {
+			// Extrair array JSON do texto
+			start := strings.Index(c.Text, "[")
+			end := strings.LastIndex(c.Text, "]")
+			if start >= 0 && end > start {
+				jsonStr := c.Text[start : end+1]
+				var titles []string
+				if err := json.Unmarshal([]byte(jsonStr), &titles); err == nil {
+					return titles, nil
+				}
+			}
+		}
+	}
+
+	return nil, fmt.Errorf("resposta Claude sem array JSON válido")
+}
+
 // buildArticleMetadataSchema - schema JSON para extração de metadados de artigos
 func (s *AIService) buildArticleMetadataSchema() map[string]interface{} {
 	return map[string]interface{}{

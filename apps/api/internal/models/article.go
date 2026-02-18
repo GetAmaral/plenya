@@ -107,6 +107,26 @@ type Article struct {
 	// @items.type object
 	ScoreItems []ScoreItem `gorm:"many2many:article_score_items;" json:"scoreItems,omitempty"`
 
+	// Hierarquia Livro/Capítulo (auto-referencial)
+	// @enum article,book,book_chapter
+	SourceType string `gorm:"type:varchar(20);default:'article';not null" json:"sourceType"`
+
+	// Para book_chapter: aponta para o Article pai (livro)
+	ParentArticleID *uuid.UUID `gorm:"type:uuid;index" json:"parentArticleId,omitempty"`
+
+	// Número do capítulo dentro do livro (1-based)
+	ChapterNumber *int `gorm:"type:smallint" json:"chapterNumber,omitempty"`
+
+	// Título do capítulo ("Capítulo 3: Metabolismo Lipídico")
+	ChapterTitle *string `gorm:"type:varchar(500)" json:"chapterTitle,omitempty"`
+
+	// Total de capítulos — preenchido apenas no record do livro pai
+	TotalChapters *int `gorm:"type:smallint" json:"totalChapters,omitempty"`
+
+	// Auto-referential relationships
+	ParentArticle *Article  `gorm:"foreignKey:ParentArticleID" json:"parentArticle,omitempty"`
+	Chapters      []Article `gorm:"foreignKey:ParentArticleID" json:"chapters,omitempty"`
+
 	// Timestamps
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
