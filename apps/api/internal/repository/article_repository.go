@@ -366,6 +366,18 @@ func (r *ArticleRepository) GetArticlesForScoreItem(scoreItemID uuid.UUID) ([]mo
 	return scoreItem.Articles, nil
 }
 
+// GetChaptersByBookID retorna os capítulos de um livro, ordenados por chapter_number
+func (r *ArticleRepository) GetChaptersByBookID(bookID uuid.UUID) ([]*models.Article, error) {
+	var chapters []*models.Article
+	if err := r.db.
+		Where("parent_article_id = ? AND source_type = 'book_chapter'", bookID).
+		Order("chapter_number ASC").
+		Find(&chapters).Error; err != nil {
+		return nil, err
+	}
+	return chapters, nil
+}
+
 // UpdateScoreItemsLastReview atualiza o campo last_review dos ScoreItems especificados
 func (r *ArticleRepository) UpdateScoreItemsLastReview(scoreItemIDs []uuid.UUID) error {
 	now := time.Now()

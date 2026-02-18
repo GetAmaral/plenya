@@ -3,7 +3,9 @@ package handlers
 import (
 	"fmt"
 	"mime/multipart"
+	"path/filepath"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/plenya/api/internal/services"
@@ -230,20 +232,20 @@ func (h *ArticleHandler) DeleteArticle(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusNoContent)
 }
 
-// UploadPDF godoc
-// @Summary Upload de PDF
-// @Description Faz upload de um PDF e extrai metadados automaticamente
+// UploadFile godoc
+// @Summary Upload de artigo ou livro
+// @Description Faz upload de um arquivo (PDF, EPUB, TXT ou MD). Use ?type=book para importar como livro com capítulos.
 // @Tags articles
 // @Accept multipart/form-data
 // @Produce json
-// @Param file formData file true "Arquivo PDF"
+// @Param file formData file true "Arquivo PDF, EPUB, TXT ou MD"
+// @Param type query string false "Tipo de importação: 'book' para dividir em capítulos"
 // @Success 201 {object} models.Article
 // @Failure 400 {object} map[string]string
 // @Failure 500 {object} map[string]string
 // @Security BearerAuth
 // @Router /articles/upload [post]
-func (h *ArticleHandler) UploadPDF(c *fiber.Ctx) error {
-	// Parse multipart form
+func (h *ArticleHandler) UploadFile(c *fiber.Ctx) error {
 	file, err := c.FormFile("file")
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -251,22 +253,38 @@ func (h *ArticleHandler) UploadPDF(c *fiber.Ctx) error {
 		})
 	}
 
-	// Validar tipo de arquivo
-	if file.Header.Get("Content-Type") != "application/pdf" {
+	ext := strings.ToLower(filepath.Ext(file.Filename))
+	allowedExts := map[string]bool{
+		".pdf":  true,
+		".epub": true,
+		".txt":  true,
+		".md":   true,
+	}
+	if !allowedExts[ext] {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Apenas arquivos PDF são permitidos",
+			"error": "Formato não suportado. Formatos aceitos: PDF, EPUB, TXT, MD",
 		})
 	}
 
-	// Validar tamanho (max 50MB)
+	// Detectar se é importação como livro (?type=book)
+	isBook := c.Query("type") == "book"
+
+	// Limites de tamanho: 50MB para artigos, 200MB para livros
 	maxSize := int64(50 * 1024 * 1024)
+	if isBook {
+		maxSize = int64(200 * 1024 * 1024)
+	}
 	if file.Size > maxSize {
+		if isBook {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": fmt.Sprintf("Arquivo muito grande (máximo 200MB para livros, atual: %s)", formatBytes(file.Size)),
+			})
+		}
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Arquivo muito grande (máximo 50MB)",
+			"error": fmt.Sprintf("Arquivo muito grande (máximo 50MB, atual: %s)", formatBytes(file.Size)),
 		})
 	}
 
-	// Abrir arquivo
 	fileReader, err := file.Open()
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -279,15 +297,71 @@ func (h *ArticleHandler) UploadPDF(c *fiber.Ctx) error {
 
 	userID := c.Locals("userID").(uuid.UUID)
 
-	// Upload e extrair metadados
-	article, err := h.service.UploadPDF(fileReader, file.Filename, userID)
+	if isBook {
+		bookArticle, bookErr := h.service.UploadBook(fileReader, file.Filename, userID)
+		if bookErr != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": "Erro ao processar livro: " + bookErr.Error(),
+			})
+		}
+		return c.Status(fiber.StatusCreated).JSON(bookArticle)
+	}
+
+	regularArticle, err := h.service.UploadFile(fileReader, file.Filename, userID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Erro ao processar PDF: " + err.Error(),
+			"error": "Erro ao processar arquivo: " + err.Error(),
 		})
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(article)
+	return c.Status(fiber.StatusCreated).JSON(regularArticle)
+}
+
+// formatBytes formata bytes para exibição legível
+func formatBytes(bytes int64) string {
+	const unit = 1024
+	if bytes < unit {
+		return fmt.Sprintf("%d B", bytes)
+	}
+	div, exp := int64(unit), 0
+	for n := bytes / unit; n >= unit; n /= unit {
+		div *= unit
+		exp++
+	}
+	return fmt.Sprintf("%.1f %cB", float64(bytes)/float64(div), "KMGTPE"[exp])
+}
+
+// GetChapters godoc
+// @Summary Listar capítulos de um livro
+// @Description Retorna a lista ordenada de capítulos de um livro (source_type=book)
+// @Tags articles
+// @Produce json
+// @Param id path string true "ID do livro"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Security BearerAuth
+// @Router /articles/{id}/chapters [get]
+func (h *ArticleHandler) GetChapters(c *fiber.Ctx) error {
+	idParam := c.Params("id")
+	id, err := uuid.Parse(idParam)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "ID inválido",
+		})
+	}
+
+	chapters, err := h.service.GetChaptersByBookID(id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Erro ao buscar capítulos: " + err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"chapters": chapters,
+		"total":    len(chapters),
+	})
 }
 
 // SearchArticles godoc

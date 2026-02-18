@@ -1,6 +1,7 @@
 package services
 
 import (
+	"archive/zip"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -114,6 +115,13 @@ type UpdateArticleDTO struct {
 	Specialty    *string    `json:"specialty,omitempty" validate:"omitempty,max=200"`
 	Favorite     *bool      `json:"favorite,omitempty"`
 	Rating       *int       `json:"rating,omitempty" validate:"omitempty,min=0,max=5"`
+}
+
+// ChapterContent representa o conteúdo de um capítulo extraído de um livro
+type ChapterContent struct {
+	Number  int
+	Title   string
+	Content string
 }
 
 // PDFMetadata representa metadados extraídos de um PDF
@@ -268,8 +276,8 @@ func (s *ArticleService) DeleteArticle(id uuid.UUID) error {
 	return s.repo.Delete(id)
 }
 
-// UploadPDF faz upload de um PDF e extrai metadados automaticamente
-func (s *ArticleService) UploadPDF(fileReader io.Reader, filename string, userID uuid.UUID) (*models.Article, error) {
+// UploadFile faz upload de um arquivo (PDF, EPUB, TXT, MD) e extrai metadados automaticamente
+func (s *ArticleService) UploadFile(fileReader io.Reader, filename string, userID uuid.UUID) (*models.Article, error) {
 	// Criar pasta de uploads se não existir
 	if err := os.MkdirAll(s.uploadFolder, 0755); err != nil {
 		return nil, fmt.Errorf("erro ao criar pasta de uploads: %w", err)
@@ -281,8 +289,8 @@ func (s *ArticleService) UploadPDF(fileReader io.Reader, filename string, userID
 	newFilename := articleID.String() + ext
 	filePath := filepath.Join(s.uploadFolder, newFilename)
 
-	// Criar arquivo temporário para salvar
-	tempFile, err := os.CreateTemp("", "article-*.pdf")
+	// Criar arquivo temporário preservando a extensão (necessário para detecção de formato)
+	tempFile, err := os.CreateTemp("", "article-*"+ext)
 	if err != nil {
 		return nil, fmt.Errorf("erro ao criar arquivo temporário: %w", err)
 	}
@@ -306,11 +314,11 @@ func (s *ArticleService) UploadPDF(fileReader io.Reader, filename string, userID
 	// Verificar se já existe artigo com este hash (anti-duplicação)
 	existingArticle, _ := s.repo.FindByFileHash(fileHash)
 	if existingArticle != nil {
-		return nil, errors.New("este arquivo PDF já foi importado anteriormente")
+		return nil, errors.New("este arquivo já foi importado anteriormente")
 	}
 
-	// Extrair metadados do PDF
-	metadata, err := s.ExtractPDFMetadata(tempFile.Name())
+	// Extrair metadados do arquivo
+	metadata, err := s.ExtractFileMetadata(tempFile.Name())
 	if err != nil {
 		// Continua mesmo se extração falhar
 		metadata = &PDFMetadata{}
@@ -412,21 +420,597 @@ func (s *ArticleService) UploadPDF(fileReader io.Reader, filename string, userID
 	return article, nil
 }
 
-// ExtractPDFMetadata extrai metadados de um arquivo PDF
-func (s *ArticleService) ExtractPDFMetadata(filepath string) (*PDFMetadata, error) {
-	metadata := &PDFMetadata{
-		Keywords: []string{},
+// UploadPDF mantém compatibilidade com scripts existentes
+func (s *ArticleService) UploadPDF(fileReader io.Reader, filename string, userID uuid.UUID) (*models.Article, error) {
+	return s.UploadFile(fileReader, filename, userID)
+}
+
+// UploadBook faz upload de um arquivo como livro, dividindo em capítulos automaticamente
+func (s *ArticleService) UploadBook(fileReader io.Reader, filename string, userID uuid.UUID) (*models.Article, error) {
+	if err := os.MkdirAll(s.uploadFolder, 0755); err != nil {
+		return nil, fmt.Errorf("erro ao criar pasta de uploads: %w", err)
 	}
 
+	bookID := uuid.New()
+	ext := filepath.Ext(filename)
+	newFilename := bookID.String() + ext
+	filePath := filepath.Join(s.uploadFolder, newFilename)
+
+	tempFile, err := os.CreateTemp("", "book-*"+ext)
+	if err != nil {
+		return nil, fmt.Errorf("erro ao criar arquivo temporário: %w", err)
+	}
+	defer os.Remove(tempFile.Name())
+	defer tempFile.Close()
+
+	fileBytes, err := io.ReadAll(fileReader)
+	if err != nil {
+		return nil, fmt.Errorf("erro ao ler arquivo: %w", err)
+	}
+	if _, err := tempFile.Write(fileBytes); err != nil {
+		return nil, fmt.Errorf("erro ao escrever arquivo temporário: %w", err)
+	}
+
+	hash := sha256.Sum256(fileBytes)
+	fileHash := hex.EncodeToString(hash[:])
+
+	existingArticle, _ := s.repo.FindByFileHash(fileHash)
+	if existingArticle != nil {
+		return nil, errors.New("este arquivo já foi importado anteriormente")
+	}
+
+	var chapters []ChapterContent
+	extLower := strings.ToLower(ext)
+	switch extLower {
+	case ".epub":
+		fmt.Println("📚 Dividindo EPUB em capítulos...")
+		chapters, err = s.splitEPUBIntoChapters(tempFile.Name())
+	case ".pdf":
+		fmt.Println("📚 Dividindo PDF em capítulos...")
+		chapters, err = s.splitPDFChapters(tempFile.Name())
+	case ".txt", ".md":
+		fmt.Println("📚 Dividindo texto em capítulos...")
+		var content string
+		content, err = s.extractTextFileContent(tempFile.Name())
+		if err == nil {
+			chapters, err = s.splitTextIntoChapters(content)
+		}
+	default:
+		return nil, fmt.Errorf("formato não suportado para importação como livro: %s", ext)
+	}
+
+	if err != nil {
+		return nil, fmt.Errorf("erro ao dividir arquivo em capítulos: %w", err)
+	}
+	if len(chapters) == 0 {
+		return nil, fmt.Errorf("nenhum capítulo encontrado no arquivo")
+	}
+
+	// Extrair metadados do livro a partir do início do conteúdo
+	var bookTitle, bookAuthors string
+	firstContent := ""
+	if len(chapters) > 0 {
+		firstContent = chapters[0].Content
+		if len(firstContent) > 4000 {
+			firstContent = firstContent[:4000]
+		}
+	}
+	if s.aiService != nil && len(firstContent) > 500 {
+		fmt.Println("🤖 Extraindo metadados do livro via Claude...")
+		aiMetadata, metaErr := s.aiService.ExtractArticleMetadata(firstContent)
+		if metaErr == nil {
+			if title, ok := aiMetadata["title"].(string); ok && title != "" {
+				bookTitle = title
+			}
+			if authors, ok := aiMetadata["authors"].(string); ok && authors != "" {
+				bookAuthors = authors
+			}
+		}
+	}
+	if bookTitle == "" {
+		bookTitle = strings.TrimSuffix(filename, ext)
+	}
+	if bookAuthors == "" {
+		bookAuthors = "Autor desconhecido"
+	}
+
+	destFile, err := os.Create(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("erro ao criar arquivo de destino: %w", err)
+	}
+	defer destFile.Close()
+	if _, err := destFile.Write(fileBytes); err != nil {
+		os.Remove(filePath)
+		return nil, fmt.Errorf("erro ao salvar arquivo: %w", err)
+	}
+
+	fileSize := int64(len(fileBytes))
+	internalLink := "./uploads/articles/" + newFilename
+	totalChapters := len(chapters)
+	sourceTypeBook := "book"
+
+	cleanTitle := sanitizeUTF8Text(bookTitle)
+	cleanAuthors := sanitizeUTF8Text(bookAuthors)
+
+	bookArticle := &models.Article{
+		ID:            bookID,
+		Title:         cleanTitle,
+		Authors:       cleanAuthors,
+		Journal:       "Livro",
+		PublishDate:   time.Now(),
+		Language:      "pt",
+		ArticleType:   "research_article",
+		SourceType:    sourceTypeBook,
+		TotalChapters: &totalChapters,
+		InternalLink:  &internalLink,
+		FileHash:      &fileHash,
+		FileSize:      &fileSize,
+		CreatedBy:     &userID,
+		UpdatedBy:     &userID,
+	}
+
+	bookArticle, err = s.repo.Create(bookArticle)
+	if err != nil {
+		os.Remove(filePath)
+		return nil, fmt.Errorf("erro ao criar registro do livro: %w", err)
+	}
+
+	fmt.Printf("📖 Criando %d capítulos...\n", len(chapters))
+	sourceTypeChapter := "book_chapter"
+
+	for i, chapter := range chapters {
+		chapterNum := chapter.Number
+		cleanContent := sanitizeUTF8Text(chapter.Content)
+
+		chapterTitle := chapter.Title
+		if chapterTitle == "" {
+			chapterTitle = fmt.Sprintf("Capítulo %d", chapter.Number)
+		}
+		cleanChapterTitle := sanitizeUTF8Text(chapterTitle)
+
+		chapterArticleTitle := fmt.Sprintf("%s — %s", cleanTitle, cleanChapterTitle)
+		if len(chapterArticleTitle) > 1000 {
+			chapterArticleTitle = chapterArticleTitle[:997] + "..."
+		}
+
+		chapterArticle := &models.Article{
+			Title:           chapterArticleTitle,
+			Authors:         cleanAuthors,
+			Journal:         "Livro",
+			PublishDate:     time.Now(),
+			Language:        "pt",
+			ArticleType:     "research_article",
+			SourceType:      sourceTypeChapter,
+			ParentArticleID: &bookArticle.ID,
+			ChapterNumber:   &chapterNum,
+			ChapterTitle:    &cleanChapterTitle,
+			FullContent:     &cleanContent,
+			CreatedBy:       &userID,
+			UpdatedBy:       &userID,
+		}
+
+		chapterArticle, err = s.repo.Create(chapterArticle)
+		if err != nil {
+			fmt.Printf("⚠️  Erro ao criar capítulo %d: %v\n", i+1, err)
+			continue
+		}
+
+		if s.queueService != nil {
+			go s.queueService.QueueArticle(chapterArticle.ID)
+		}
+	}
+
+	fmt.Printf("✅ Livro importado: %d capítulos criados\n", len(chapters))
+	return bookArticle, nil
+}
+
+// splitEPUBIntoChapters extrai capítulos de um arquivo EPUB (um spine item = um capítulo)
+func (s *ArticleService) splitEPUBIntoChapters(filePath string) ([]ChapterContent, error) {
+	r, err := zip.OpenReader(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("falha ao abrir EPUB: %w", err)
+	}
+	defer r.Close()
+
+	fileIndex := map[string]*zip.File{}
+	for _, f := range r.File {
+		fileIndex[f.Name] = f
+	}
+
+	// Localizar OPF
+	opfPath := ""
+	for _, f := range r.File {
+		if strings.HasSuffix(f.Name, "container.xml") {
+			rc, err := f.Open()
+			if err != nil {
+				continue
+			}
+			data, _ := io.ReadAll(rc)
+			rc.Close()
+			re := regexp.MustCompile(`full-path="([^"]+)"`)
+			if m := re.FindSubmatch(data); len(m) > 1 {
+				opfPath = string(m[1])
+			}
+			break
+		}
+	}
+
+	// Parsear OPF para obter spine
+	var contentOrder []string
+	if opfPath != "" {
+		if opfFile, ok := fileIndex[opfPath]; ok {
+			rc, err := opfFile.Open()
+			if err == nil {
+				data, _ := io.ReadAll(rc)
+				rc.Close()
+
+				opfDir := ""
+				if idx := strings.LastIndex(opfPath, "/"); idx >= 0 {
+					opfDir = opfPath[:idx]
+				}
+
+				manifestMap := map[string]string{}
+				itemRe := regexp.MustCompile(`(?s)<item\s([^>]+)>`)
+				idAttrRe := regexp.MustCompile(`\bid="([^"]+)"`)
+				hrefAttrRe := regexp.MustCompile(`\bhref="([^"]+)"`)
+				for _, m := range itemRe.FindAllSubmatch(data, -1) {
+					attrs := string(m[1])
+					idM := idAttrRe.FindStringSubmatch(attrs)
+					hrefM := hrefAttrRe.FindStringSubmatch(attrs)
+					if len(idM) > 1 && len(hrefM) > 1 {
+						manifestMap[idM[1]] = hrefM[1]
+					}
+				}
+
+				spineRe := regexp.MustCompile(`<itemref\s[^>]*\bidref="([^"]+)"`)
+				for _, m := range spineRe.FindAllSubmatch(data, -1) {
+					idref := string(m[1])
+					if href, ok := manifestMap[idref]; ok {
+						if opfDir != "" {
+							contentOrder = append(contentOrder, opfDir+"/"+href)
+						} else {
+							contentOrder = append(contentOrder, href)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Fallback: todos os XHTML exceto TOC/nav
+	if len(contentOrder) == 0 {
+		for _, f := range r.File {
+			name := strings.ToLower(f.Name)
+			if (strings.HasSuffix(name, ".html") || strings.HasSuffix(name, ".xhtml") || strings.HasSuffix(name, ".htm")) &&
+				!strings.Contains(name, "toc") && !strings.Contains(name, "nav") {
+				contentOrder = append(contentOrder, f.Name)
+			}
+		}
+	}
+
+	var chapters []ChapterContent
+	chapterNum := 0
+	for _, path := range contentOrder {
+		f, ok := fileIndex[path]
+		if !ok {
+			continue
+		}
+		rc, err := f.Open()
+		if err != nil {
+			continue
+		}
+		data, _ := io.ReadAll(rc)
+		rc.Close()
+
+		title := extractHTMLTitle(string(data))
+		text := strings.TrimSpace(stripHTMLTags(string(data)))
+
+		// Ignorar spine items muito pequenos (TOC, copyright pages, etc.)
+		if len(text) < 200 {
+			continue
+		}
+
+		chapterNum++
+		chapters = append(chapters, ChapterContent{
+			Number:  chapterNum,
+			Title:   title,
+			Content: text,
+		})
+	}
+
+	if len(chapters) == 0 {
+		return nil, fmt.Errorf("nenhum capítulo encontrado no EPUB")
+	}
+	return chapters, nil
+}
+
+// extractHTMLTitle extrai o título principal de um arquivo XHTML (h1 > h2 > title)
+func extractHTMLTitle(html string) string {
+	h1Re := regexp.MustCompile(`(?i)<h1[^>]*>([^<]{1,300})</h1>`)
+	if m := h1Re.FindStringSubmatch(html); len(m) > 1 {
+		if t := strings.TrimSpace(m[1]); len(t) > 0 {
+			return t
+		}
+	}
+	h2Re := regexp.MustCompile(`(?i)<h2[^>]*>([^<]{1,300})</h2>`)
+	if m := h2Re.FindStringSubmatch(html); len(m) > 1 {
+		if t := strings.TrimSpace(m[1]); len(t) > 0 {
+			return t
+		}
+	}
+	titleRe := regexp.MustCompile(`(?i)<title[^>]*>([^<]{1,300})</title>`)
+	if m := titleRe.FindStringSubmatch(html); len(m) > 1 {
+		if t := strings.TrimSpace(m[1]); len(t) > 0 {
+			return t
+		}
+	}
+	return ""
+}
+
+// splitPDFChapters divide um PDF em capítulos usando 3 estratégias em cascata
+func (s *ArticleService) splitPDFChapters(filePath string) ([]ChapterContent, error) {
+	fullText, err := s.extractPDFContent(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("falha ao extrair texto PDF: %w", err)
+	}
+
+	// ESTRATÉGIA 1: Claude Haiku — extrai títulos do sumário e localiza no texto
+	if s.aiService != nil && len(fullText) > 1000 {
+		firstPart := fullText
+		if len(firstPart) > 6000 {
+			firstPart = fullText[:6000]
+		}
+		titles, tocErr := s.aiService.ExtractTableOfContents(firstPart)
+		if tocErr == nil && len(titles) >= 3 {
+			chapters := s.splitTextByTitles(fullText, titles)
+			if len(chapters) >= 3 {
+				fmt.Printf("✅ PDF split por TOC Claude: %d capítulos\n", len(chapters))
+				return chapters, nil
+			}
+		}
+	}
+
+	// ESTRATÉGIA 2: Regex heading patterns
+	chapters := s.splitByHeadingRegex(fullText)
+	if len(chapters) >= 3 {
+		fmt.Printf("✅ PDF split por regex: %d capítulos\n", len(chapters))
+		return chapters, nil
+	}
+
+	// ESTRATÉGIA 3: Split por tamanho fixo (50K chars por parte)
+	chapters = s.splitByFixedSize(fullText, 50000)
+	fmt.Printf("✅ PDF split por tamanho fixo: %d partes\n", len(chapters))
+	return chapters, nil
+}
+
+// splitTextIntoChapters divide arquivo TXT/MD em capítulos
+func (s *ArticleService) splitTextIntoChapters(content string) ([]ChapterContent, error) {
+	// Tentar headings Markdown nível 1
+	if strings.Contains(content, "\n# ") || strings.HasPrefix(content, "# ") {
+		chapters := s.splitByMarkdownHeadings(content)
+		if len(chapters) >= 2 {
+			return chapters, nil
+		}
+	}
+	// Tentar separadores ---
+	if strings.Contains(content, "\n---\n") {
+		chapters := s.splitBySeparator(content, "\n---\n")
+		if len(chapters) >= 2 {
+			return chapters, nil
+		}
+	}
+	// Fallback: tamanho fixo
+	return s.splitByFixedSize(content, 50000), nil
+}
+
+// splitByMarkdownHeadings divide texto MD por headings # ou ##
+func (s *ArticleService) splitByMarkdownHeadings(content string) []ChapterContent {
+	headingRe := regexp.MustCompile(`(?m)^#{1,2}\s+(.+)$`)
+	matches := headingRe.FindAllStringIndex(content, -1)
+	if len(matches) < 2 {
+		return nil
+	}
+
+	var chapters []ChapterContent
+	for i, match := range matches {
+		titleMatch := headingRe.FindStringSubmatch(content[match[0]:match[1]])
+		if len(titleMatch) < 2 {
+			continue
+		}
+		title := strings.TrimSpace(titleMatch[1])
+
+		start := match[1]
+		end := len(content)
+		if i+1 < len(matches) {
+			end = matches[i+1][0]
+		}
+
+		text := strings.TrimSpace(content[start:end])
+		if len(text) < 200 {
+			continue
+		}
+
+		chapters = append(chapters, ChapterContent{
+			Number:  len(chapters) + 1,
+			Title:   title,
+			Content: text,
+		})
+	}
+	return chapters
+}
+
+// splitBySeparator divide texto por um separador explícito
+func (s *ArticleService) splitBySeparator(content, separator string) []ChapterContent {
+	parts := strings.Split(content, separator)
+	var chapters []ChapterContent
+	for i, part := range parts {
+		part = strings.TrimSpace(part)
+		if len(part) < 200 {
+			continue
+		}
+		lines := strings.SplitN(part, "\n", 2)
+		title := fmt.Sprintf("Parte %d", i+1)
+		body := part
+		if len(lines) > 1 && len(lines[0]) < 200 {
+			title = strings.TrimSpace(lines[0])
+			body = strings.TrimSpace(lines[1])
+		}
+		chapters = append(chapters, ChapterContent{
+			Number:  len(chapters) + 1,
+			Title:   title,
+			Content: body,
+		})
+	}
+	return chapters
+}
+
+// splitByHeadingRegex divide texto por padrões de heading típicos de PDFs
+func (s *ArticleService) splitByHeadingRegex(content string) []ChapterContent {
+	patterns := []*regexp.Regexp{
+		regexp.MustCompile(`(?im)^(cap[íi]tulo|chapter)\s+(\d+|[IVXLC]+)[.:]\s*(.+)$`),
+		regexp.MustCompile(`(?im)^(parte|part)\s+(\d+|[IVXLC]+)[.:]\s*(.+)$`),
+		regexp.MustCompile(`(?m)^\d{1,2}\s{2,}[A-ZÁÀÂÃÉÊÍÓÔÕÚ][^\n.]{10,80}$`),
+	}
+
+	type matchPos struct {
+		start int
+		title string
+	}
+	var allMatches []matchPos
+
+	for _, re := range patterns {
+		for _, m := range re.FindAllStringIndex(content, -1) {
+			title := strings.TrimSpace(content[m[0]:m[1]])
+			allMatches = append(allMatches, matchPos{start: m[0], title: title})
+		}
+	}
+
+	if len(allMatches) < 3 {
+		return nil
+	}
+
+	// Ordenar por posição
+	for i := 0; i < len(allMatches); i++ {
+		for j := i + 1; j < len(allMatches); j++ {
+			if allMatches[j].start < allMatches[i].start {
+				allMatches[i], allMatches[j] = allMatches[j], allMatches[i]
+			}
+		}
+	}
+
+	var chapters []ChapterContent
+	for i, m := range allMatches {
+		start := m.start
+		end := len(content)
+		if i+1 < len(allMatches) {
+			end = allMatches[i+1].start
+		}
+		text := strings.TrimSpace(content[start:end])
+		if len(text) < 200 {
+			continue
+		}
+		chapters = append(chapters, ChapterContent{
+			Number:  len(chapters) + 1,
+			Title:   m.title,
+			Content: text,
+		})
+	}
+	return chapters
+}
+
+// splitByFixedSize divide texto em partes de tamanho fixo
+func (s *ArticleService) splitByFixedSize(content string, chunkSize int) []ChapterContent {
+	var chapters []ChapterContent
+	total := len(content)
+	partNum := 0
+	for start := 0; start < total; start += chunkSize {
+		end := start + chunkSize
+		if end > total {
+			end = total
+		}
+		part := strings.TrimSpace(content[start:end])
+		if len(part) < 100 {
+			continue
+		}
+		partNum++
+		chapters = append(chapters, ChapterContent{
+			Number:  partNum,
+			Title:   fmt.Sprintf("Parte %d", partNum),
+			Content: part,
+		})
+	}
+	return chapters
+}
+
+// splitTextByTitles divide texto usando títulos como âncoras (após extração via Claude)
+func (s *ArticleService) splitTextByTitles(content string, titles []string) []ChapterContent {
+	type titlePos struct {
+		title string
+		pos   int
+	}
+
+	var positions []titlePos
+	contentLower := strings.ToLower(content)
+
+	for _, title := range titles {
+		searchTitle := strings.ToLower(strings.TrimSpace(title))
+		if len(searchTitle) < 5 {
+			continue
+		}
+		idx := strings.Index(contentLower, searchTitle)
+		if idx >= 0 {
+			positions = append(positions, titlePos{title: title, pos: idx})
+		}
+	}
+
+	if len(positions) < 3 {
+		return nil
+	}
+
+	// Ordenar por posição
+	for i := 0; i < len(positions); i++ {
+		for j := i + 1; j < len(positions); j++ {
+			if positions[j].pos < positions[i].pos {
+				positions[i], positions[j] = positions[j], positions[i]
+			}
+		}
+	}
+
+	var chapters []ChapterContent
+	for i, pos := range positions {
+		start := pos.pos
+		end := len(content)
+		if i+1 < len(positions) {
+			end = positions[i+1].pos
+		}
+		text := strings.TrimSpace(content[start:end])
+		if len(text) < 200 {
+			continue
+		}
+		chapters = append(chapters, ChapterContent{
+			Number:  len(chapters) + 1,
+			Title:   pos.title,
+			Content: text,
+		})
+	}
+	return chapters
+}
+
+// GetChaptersByBookID retorna os capítulos de um livro
+func (s *ArticleService) GetChaptersByBookID(bookID uuid.UUID) ([]*models.Article, error) {
+	return s.repo.GetChaptersByBookID(bookID)
+}
+
+// extractPDFContent extrai texto bruto de um PDF usando biblioteca Go + pdftotext como fallback
+func (s *ArticleService) extractPDFContent(filePath string) (string, error) {
 	var content string
 	var extractedWithGo bool
 
 	// TENTATIVA 1: Extrair com biblioteca Go (ledongthuc/pdf)
-	file, reader, err := pdf.Open(filepath)
+	file, reader, err := pdf.Open(filePath)
 	if err == nil {
 		defer file.Close()
 
-		// Extrair texto completo do PDF
 		var fullText strings.Builder
 		numPages := reader.NumPage()
 
@@ -435,12 +1019,10 @@ func (s *ArticleService) ExtractPDFMetadata(filepath string) (*PDFMetadata, erro
 			if page.V.IsNull() {
 				continue
 			}
-
 			text, err := page.GetPlainText(nil)
 			if err != nil {
 				continue
 			}
-
 			fullText.WriteString(text)
 			fullText.WriteString("\n")
 		}
@@ -451,7 +1033,7 @@ func (s *ArticleService) ExtractPDFMetadata(filepath string) (*PDFMetadata, erro
 		fmt.Printf("⚠️  Biblioteca Go falhou ao abrir PDF: %v\n", err)
 	}
 
-	// FALLBACK: Se biblioteca Go falhou OU extraiu pouco conteúdo, usar pdftotext
+	// FALLBACK: pdftotext
 	if !extractedWithGo || len(content) < 100 {
 		if extractedWithGo {
 			fmt.Printf("⚠️  Biblioteca Go extraiu apenas %d chars, tentando pdftotext...\n", len(content))
@@ -459,30 +1041,215 @@ func (s *ArticleService) ExtractPDFMetadata(filepath string) (*PDFMetadata, erro
 			fmt.Println("⚙️  Tentando extração com pdftotext...")
 		}
 
-		cmd := exec.Command("pdftotext", filepath, "-")
+		cmd := exec.Command("pdftotext", filePath, "-")
 		output, err := cmd.Output()
 
 		if err == nil && len(output) > 100 {
 			content = strings.TrimSpace(string(output))
 			fmt.Printf("✅ pdftotext extraiu %d caracteres com sucesso\n", len(content))
 		} else {
-			// Ambos falharam
 			if err != nil {
 				fmt.Printf("⚠️  pdftotext também falhou: %v\n", err)
 			} else {
 				fmt.Printf("⚠️  pdftotext extraiu apenas %d chars\n", len(output))
 			}
-
-			// Se nenhum método funcionou, retornar erro
 			if len(content) < 100 {
-				return nil, fmt.Errorf("falha ao extrair texto do PDF (Go e pdftotext falharam)")
+				return "", fmt.Errorf("falha ao extrair texto do PDF (Go e pdftotext falharam)")
 			}
 		}
 	}
 
+	return content, nil
+}
+
+// extractEPUBContent extrai texto de um arquivo EPUB (ZIP com XHTML)
+func (s *ArticleService) extractEPUBContent(filePath string) (string, error) {
+	r, err := zip.OpenReader(filePath)
+	if err != nil {
+		return "", fmt.Errorf("falha ao abrir EPUB: %w", err)
+	}
+	defer r.Close()
+
+	// Indexar todos os arquivos do ZIP
+	fileIndex := map[string]*zip.File{}
+	for _, f := range r.File {
+		fileIndex[f.Name] = f
+	}
+
+	// Passo 1: localizar OPF via META-INF/container.xml
+	opfPath := ""
+	for _, f := range r.File {
+		if strings.HasSuffix(f.Name, "container.xml") {
+			rc, err := f.Open()
+			if err != nil {
+				continue
+			}
+			data, _ := io.ReadAll(rc)
+			rc.Close()
+			re := regexp.MustCompile(`full-path="([^"]+)"`)
+			if m := re.FindSubmatch(data); len(m) > 1 {
+				opfPath = string(m[1])
+			}
+			break
+		}
+	}
+
+	// Passo 2: parsear OPF para obter ordem de leitura (spine)
+	var contentOrder []string
+	if opfPath != "" {
+		if opfFile, ok := fileIndex[opfPath]; ok {
+			rc, err := opfFile.Open()
+			if err == nil {
+				data, _ := io.ReadAll(rc)
+				rc.Close()
+
+				// Base dir do OPF para resolver paths relativos
+				opfDir := ""
+				if idx := strings.LastIndex(opfPath, "/"); idx >= 0 {
+					opfDir = opfPath[:idx]
+				}
+
+				// Mapear id → href do manifest (atributos em qualquer ordem)
+				manifestMap := map[string]string{}
+				itemRe := regexp.MustCompile(`(?s)<item\s([^>]+)>`)
+				idAttrRe := regexp.MustCompile(`\bid="([^"]+)"`)
+				hrefAttrRe := regexp.MustCompile(`\bhref="([^"]+)"`)
+				for _, m := range itemRe.FindAllSubmatch(data, -1) {
+					attrs := string(m[1])
+					idM := idAttrRe.FindStringSubmatch(attrs)
+					hrefM := hrefAttrRe.FindStringSubmatch(attrs)
+					if len(idM) > 1 && len(hrefM) > 1 {
+						manifestMap[idM[1]] = hrefM[1]
+					}
+				}
+
+				// Extrair spine em ordem
+				spineRe := regexp.MustCompile(`<itemref\s[^>]*\bidref="([^"]+)"`)
+				for _, m := range spineRe.FindAllSubmatch(data, -1) {
+					idref := string(m[1])
+					if href, ok := manifestMap[idref]; ok {
+						if opfDir != "" {
+							contentOrder = append(contentOrder, opfDir+"/"+href)
+						} else {
+							contentOrder = append(contentOrder, href)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Passo 3: extrair texto na ordem correta
+	var content strings.Builder
+	if len(contentOrder) > 0 {
+		for _, path := range contentOrder {
+			f, ok := fileIndex[path]
+			if !ok {
+				continue
+			}
+			rc, err := f.Open()
+			if err != nil {
+				continue
+			}
+			data, _ := io.ReadAll(rc)
+			rc.Close()
+			content.WriteString(stripHTMLTags(string(data)))
+			content.WriteString("\n\n")
+		}
+	} else {
+		// Fallback: extrair todos os HTML/XHTML (exceto nav/toc)
+		for _, f := range r.File {
+			name := strings.ToLower(f.Name)
+			if !strings.HasSuffix(name, ".html") && !strings.HasSuffix(name, ".xhtml") && !strings.HasSuffix(name, ".htm") {
+				continue
+			}
+			if strings.Contains(name, "toc") || strings.Contains(name, "nav") {
+				continue
+			}
+			rc, err := f.Open()
+			if err != nil {
+				continue
+			}
+			data, _ := io.ReadAll(rc)
+			rc.Close()
+			content.WriteString(stripHTMLTags(string(data)))
+			content.WriteString("\n\n")
+		}
+	}
+
+	result := strings.TrimSpace(content.String())
+	if len(result) < 100 {
+		return "", fmt.Errorf("EPUB extraiu apenas %d caracteres (conteúdo insuficiente)", len(result))
+	}
+	return result, nil
+}
+
+// extractTextFileContent lê conteúdo bruto de arquivos TXT ou MD
+func (s *ArticleService) extractTextFileContent(filePath string) (string, error) {
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return "", fmt.Errorf("falha ao ler arquivo: %w", err)
+	}
+	content := strings.TrimSpace(string(data))
+	if len(content) < 10 {
+		return "", fmt.Errorf("arquivo vazio ou muito pequeno")
+	}
+	return content, nil
+}
+
+// stripHTMLTags remove tags HTML/XML e decodifica entidades básicas
+func stripHTMLTags(s string) string {
+	tagRe := regexp.MustCompile(`<[^>]+>`)
+	text := tagRe.ReplaceAllString(s, " ")
+	text = strings.ReplaceAll(text, "&amp;", "&")
+	text = strings.ReplaceAll(text, "&lt;", "<")
+	text = strings.ReplaceAll(text, "&gt;", ">")
+	text = strings.ReplaceAll(text, "&nbsp;", " ")
+	text = strings.ReplaceAll(text, "&quot;", "\"")
+	text = strings.ReplaceAll(text, "&#39;", "'")
+	text = strings.ReplaceAll(text, "&#160;", " ")
+	spaceRe := regexp.MustCompile(`[ \t]+`)
+	text = spaceRe.ReplaceAllString(text, " ")
+	text = strings.ReplaceAll(text, "\r\n", "\n")
+	text = strings.ReplaceAll(text, "\r", "\n")
+	blankRe := regexp.MustCompile(`\n{3,}`)
+	text = blankRe.ReplaceAllString(text, "\n\n")
+	return strings.TrimSpace(text)
+}
+
+// ExtractFileMetadata extrai metadados de um arquivo (PDF, EPUB, TXT ou MD)
+func (s *ArticleService) ExtractFileMetadata(filePath string) (*PDFMetadata, error) {
+	metadata := &PDFMetadata{
+		Keywords: []string{},
+	}
+
+	ext := strings.ToLower(filepath.Ext(filePath))
+	var content string
+	var err error
+
+	switch ext {
+	case ".epub":
+		fmt.Println("📖 Extraindo conteúdo de EPUB...")
+		content, err = s.extractEPUBContent(filePath)
+	case ".txt", ".md":
+		fmt.Printf("📄 Lendo arquivo %s...\n", strings.ToUpper(strings.TrimPrefix(ext, ".")))
+		content, err = s.extractTextFileContent(filePath)
+	default:
+		fmt.Println("📄 Extraindo conteúdo de PDF...")
+		content, err = s.extractPDFContent(filePath)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	if len(content) < 100 {
+		return nil, fmt.Errorf("conteúdo extraído muito pequeno (%d chars)", len(content))
+	}
+
 	metadata.FullContent = content
 
-	// EXTRAÇÃO INTELIGENTE: Usar Claude para extrair metadados da primeira página
+	// EXTRAÇÃO INTELIGENTE: Usar Claude para extrair metadados da primeira parte do texto
 	firstPageText := s.extractFirstPage(content)
 
 	if s.aiService != nil && len(firstPageText) > 500 {
@@ -493,32 +1260,26 @@ func (s *ArticleService) ExtractPDFMetadata(filepath string) (*PDFMetadata, erro
 			fmt.Printf("⚠️  Extração com Claude falhou: %v\n", err)
 			fmt.Println("   Usando fallback regex...")
 		} else {
-			// Aplicar metadados extraídos pelo Claude
 			if title, ok := aiMetadata["title"].(string); ok && title != "" {
 				metadata.Title = title
 				fmt.Printf("   ✓ Title: %s\n", truncateString(title, 80))
 			}
-
 			if authors, ok := aiMetadata["authors"].(string); ok && authors != "" {
 				metadata.Authors = authors
 				fmt.Printf("   ✓ Authors: %s\n", truncateString(authors, 80))
 			}
-
 			if doi, ok := aiMetadata["doi"].(string); ok && doi != "" {
 				metadata.DOI = doi
 				fmt.Printf("   ✓ DOI: %s\n", doi)
 			}
-
 			if pmid, ok := aiMetadata["pmid"].(string); ok && pmid != "" {
 				metadata.PMID = pmid
 				fmt.Printf("   ✓ PMID: %s\n", pmid)
 			}
-
 			if abstract, ok := aiMetadata["abstract"].(string); ok && abstract != "" {
 				metadata.Abstract = abstract
 				fmt.Printf("   ✓ Abstract: %d chars\n", len(abstract))
 			}
-
 			if keywords, ok := aiMetadata["keywords"].([]interface{}); ok && len(keywords) > 0 {
 				metadata.Keywords = make([]string, len(keywords))
 				for i, kw := range keywords {
@@ -528,30 +1289,26 @@ func (s *ArticleService) ExtractPDFMetadata(filepath string) (*PDFMetadata, erro
 				}
 				fmt.Printf("   ✓ Keywords: %d found\n", len(metadata.Keywords))
 			}
-
-			// Se Claude extraiu metadados, retornar agora (pular regex fallback)
+			// Se Claude extraiu metadados suficientes, pular regex
 			if metadata.Title != "" && metadata.Authors != "" {
 				return metadata, nil
 			}
 		}
 	}
 
-	// FALLBACK REGEX: Se Claude não disponível ou falhou, usar extração regex
+	// FALLBACK REGEX
 	fmt.Println("🔍 Usando extração regex (fallback)...")
 
-	// Extrair DOI usando regex
 	doiRegex := regexp.MustCompile(`(?i)doi[:\s]*([10]\.\d{4,}/[^\s]+)`)
 	if matches := doiRegex.FindStringSubmatch(content); len(matches) > 1 {
 		metadata.DOI = strings.TrimSpace(matches[1])
 	}
 
-	// Extrair PMID
 	pmidRegex := regexp.MustCompile(`(?i)pmid[:\s]*(\d{7,})`)
 	if matches := pmidRegex.FindStringSubmatch(content); len(matches) > 1 {
 		metadata.PMID = strings.TrimSpace(matches[1])
 	}
 
-	// Tentar extrair título (primeira linha significativa)
 	if metadata.Title == "" {
 		lines := strings.Split(content, "\n")
 		for _, line := range lines {
@@ -563,7 +1320,6 @@ func (s *ArticleService) ExtractPDFMetadata(filepath string) (*PDFMetadata, erro
 		}
 	}
 
-	// Tentar extrair abstract (texto após palavra "abstract")
 	if metadata.Abstract == "" {
 		abstractRegex := regexp.MustCompile(`(?is)abstract[:\s]+(.*?)(?:introduction|keywords|background|\n\n)`)
 		if matches := abstractRegex.FindStringSubmatch(content); len(matches) > 1 {
@@ -575,6 +1331,11 @@ func (s *ArticleService) ExtractPDFMetadata(filepath string) (*PDFMetadata, erro
 	}
 
 	return metadata, nil
+}
+
+// ExtractPDFMetadata mantém compatibilidade com scripts existentes
+func (s *ArticleService) ExtractPDFMetadata(filePath string) (*PDFMetadata, error) {
+	return s.ExtractFileMetadata(filePath)
 }
 
 // extractFirstPage - extrai aproximadamente a primeira página do texto (primeiros 4000 chars)
