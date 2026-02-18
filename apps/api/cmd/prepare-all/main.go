@@ -36,6 +36,8 @@ func main() {
 
 	prepared := 0
 	skipped := 0
+	failed := 0
+	var failedItems []string
 
 	for i, item := range scoreItems {
 		// Verificar se já tem preparation
@@ -45,10 +47,11 @@ func main() {
 			continue
 		}
 
-		// Preparar chunks com threshold adaptativo e limite maior
+		// Preparar chunks com threshold adaptativo
 		_, err := prepService.PrepareChunksAdaptive(item.ID)
 		if err != nil {
-			// Skip silenciosamente se não encontrar chunks
+			failed++
+			failedItems = append(failedItems, fmt.Sprintf("  - %s (%s)", item.Name, err.Error()))
 			continue
 		}
 
@@ -59,5 +62,12 @@ func main() {
 		}
 	}
 
-	fmt.Printf("✅ Prepared: %d | Skipped: %d\n", prepared, skipped)
+	fmt.Printf("✅ Prepared: %d | Skipped (já existia): %d | Failed: %d\n", prepared, skipped, failed)
+
+	if len(failedItems) > 0 {
+		fmt.Printf("\n⚠️  Items que falharam (%d):\n", len(failedItems))
+		for _, f := range failedItems {
+			fmt.Println(f)
+		}
+	}
 }
