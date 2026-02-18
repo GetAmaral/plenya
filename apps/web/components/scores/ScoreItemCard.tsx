@@ -3,6 +3,7 @@
 import { useState, memo, useEffect } from 'react'
 import { Edit, Trash2, Plus, Info, Calendar, Copy, FileText, MoreVertical } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { MarkdownContent } from '@/components/ui/markdown-content'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import {
@@ -301,9 +302,7 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
                         <h4 className="font-semibold mb-1 text-foreground">
                           Conduta Clínica
                         </h4>
-                        <p className="text-muted-foreground whitespace-pre-wrap">
-                          {item.conduct}
-                        </p>
+                        <MarkdownContent content={item.conduct} />
                       </div>
                     )}
                   </div>
