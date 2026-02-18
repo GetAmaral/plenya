@@ -115,7 +115,7 @@ func main() {
 		AppName:      "Plenya EMR API",
 		ServerHeader: "Plenya",
 		ErrorHandler: customErrorHandler,
-		BodyLimit:    50 * 1024 * 1024, // 50MB para permitir upload de PDFs grandes
+		BodyLimit:    200 * 1024 * 1024, // 200MB para permitir upload de livros grandes
 	})
 
 	// Middlewares globais
@@ -635,8 +635,8 @@ func setupRoutes(
 	articles.Get("/favorites", articleHandler.GetFavorites)
 	articles.Get("/stats", articleHandler.GetStatistics)
 
-	// Upload de PDF
-	articles.Post("/upload", middleware.RequireMedicalStaff(), articleHandler.UploadPDF)
+	// Upload de artigo (PDF, EPUB, TXT, MD)
+	articles.Post("/upload", middleware.RequireMedicalStaff(), articleHandler.UploadFile)
 
 	// RAG Semantic Search routes (Phase 4) - MUST BE BEFORE /:id
 	articles.Get("/semantic-search", articleSemanticHandler.SemanticSearch)
@@ -645,6 +645,7 @@ func setupRoutes(
 
 	// Generic ID routes - MUST BE LAST to avoid capturing specific paths
 	articles.Get("/:id", articleHandler.GetArticle)
+	articles.Get("/:id/chapters", articleHandler.GetChapters)
 	articles.Get("/:id/related-score-items", articleSemanticHandler.DiscoverRelatedScoreItems)
 	articles.Put("/:id", middleware.RequireMedicalStaff(), articleHandler.UpdateArticle)
 	articles.Delete("/:id", middleware.RequireMedicalStaff(), articleHandler.DeleteArticle)

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -129,8 +130,18 @@ func main() {
 		if metadata.Abstract != "" {
 			updates["abstract"] = metadata.Abstract
 		}
+		// Keywords precisa ser convertido para JSON para PostgreSQL
 		if len(metadata.Keywords) > 0 {
-			updates["keywords"] = metadata.Keywords
+			// Usar raw SQL para keywords por causa do tipo array
+			err = db.Exec(`
+				UPDATE articles
+				SET keywords = ?::jsonb
+				WHERE id = ?
+			`, fmt.Sprintf("[%s]", joinQuoted(metadata.Keywords)), article.ID).Error
+
+			if err != nil {
+				fmt.Printf("   ⚠️  Erro ao atualizar keywords: %v\n", err)
+			}
 		}
 
 		if len(updates) == 0 {
@@ -180,4 +191,12 @@ func truncate(s string, maxLen int) string {
 		return s
 	}
 	return s[:maxLen-3] + "..."
+}
+
+func joinQuoted(arr []string) string {
+	quoted := make([]string, len(arr))
+	for i, s := range arr {
+		quoted[i] = fmt.Sprintf(`"%s"`, s)
+	}
+	return strings.Join(quoted, ",")
 }
