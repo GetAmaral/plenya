@@ -26,6 +26,8 @@ export interface ScoreItem {
   subgroup?: ScoreSubgroup
 }
 
+export type SourceType = 'article' | 'book' | 'book_chapter'
+
 export interface Article {
   id: string
   title: string
@@ -54,6 +56,14 @@ export interface Article {
   createdBy?: string
   updatedBy?: string
   scoreItems?: ScoreItem[]
+  // Hierarquia livro/capítulo
+  sourceType: SourceType
+  parentArticleId?: string
+  chapterNumber?: number
+  chapterTitle?: string
+  totalChapters?: number
+  chapters?: Article[]
+  parentArticle?: Article
   createdAt: string
   updatedAt: string
 }
@@ -192,12 +202,21 @@ export const articleApi = {
     await apiClient.delete(`/api/v1/articles/${id}`)
   },
 
-  // Upload PDF
-  upload: async (file: File): Promise<Article> => {
+  // Upload PDF/EPUB/TXT/MD (artigo ou livro)
+  upload: async (file: File, asBook?: boolean): Promise<Article> => {
     const formData = new FormData()
     formData.append('file', file)
+    const url = asBook
+      ? '/api/v1/articles/upload?type=book'
+      : '/api/v1/articles/upload'
+    return apiClient.post<Article>(url, formData)
+  },
 
-    return apiClient.post<Article>('/api/v1/articles/upload', formData)
+  // Listar capítulos de um livro
+  getChapters: async (bookId: string): Promise<{ chapters: Article[]; total: number }> => {
+    return apiClient.get<{ chapters: Article[]; total: number }>(
+      `/api/v1/articles/${bookId}/chapters`
+    )
   },
 
   // Search articles
@@ -337,15 +356,25 @@ export function useDeleteArticle() {
   })
 }
 
-// Upload PDF
+// Upload PDF/EPUB/TXT/MD (artigo ou livro)
 export function useUploadArticle() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: articleApi.upload,
+    mutationFn: ({ file, asBook }: { file: File; asBook?: boolean }) =>
+      articleApi.upload(file, asBook),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['articles'] })
     },
+  })
+}
+
+// Listar capítulos de um livro
+export function useBookChapters(bookId: string, enabled = true) {
+  return useQuery({
+    queryKey: ['articles', bookId, 'chapters'],
+    queryFn: () => articleApi.getChapters(bookId),
+    enabled: !!bookId && enabled,
   })
 }
 

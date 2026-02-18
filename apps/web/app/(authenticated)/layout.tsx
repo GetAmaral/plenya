@@ -3,7 +3,12 @@
 import { useRequireAuth } from "@/lib/use-auth";
 import { CollapsibleSidebar, useSidebarWidth } from "@/components/layout/collapsible-sidebar";
 import { GlobalProcessingMonitor } from "@/components/processing/GlobalProcessingMonitor";
-import { NotificationBell } from "@/components/notifications/NotificationBell";
+import dynamic from "next/dynamic";
+
+const NotificationBell = dynamic(
+  () => import("@/components/notifications/NotificationBell").then((m) => m.NotificationBell),
+  { ssr: false }
+);
 
 export default function AuthenticatedLayout({
   children,
