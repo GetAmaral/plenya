@@ -22,17 +22,21 @@ export default function AuthenticatedLayout({
 
   return (
     <div className="min-h-screen bg-background">
-      <CollapsibleSidebar />
-      <GlobalProcessingMonitor />
+      <div className="print:hidden">
+        <CollapsibleSidebar />
+      </div>
+      <div className="print:hidden">
+        <GlobalProcessingMonitor />
+      </div>
       <main
-        className="min-h-screen transition-all duration-300 ease-in-out"
+        className="min-h-screen transition-all duration-300 ease-in-out print:ml-0"
         style={{
           marginLeft: `${sidebarWidth}px`,
         }}
       >
         {/* Header with notifications */}
         <div
-          className="sticky top-0 z-30 flex h-16 items-center justify-end border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6 lg:px-8"
+          className="print:hidden sticky top-0 z-30 flex h-16 items-center justify-end border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6 lg:px-8"
           style={{
             marginLeft: sidebarWidth === 0 ? '0' : `-${sidebarWidth}px`,
             paddingLeft: sidebarWidth === 0 ? '0' : `${sidebarWidth + 16}px`,
@@ -42,7 +46,7 @@ export default function AuthenticatedLayout({
         </div>
 
         {/* Extra padding-top on mobile to avoid menu button overlap */}
-        <div className="p-4 pt-6 sm:p-6 lg:p-8">
+        <div className="p-4 pt-6 sm:p-6 lg:p-8 print:p-0">
           {children}
         </div>
       </main>

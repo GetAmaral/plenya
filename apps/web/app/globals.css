@@ -368,6 +368,11 @@ button[type="submit"]:disabled {
     padding-top: 0.25rem !important;
     padding-bottom: 0.25rem !important;
   }
+
+  /* Layout: remover margem do sidebar e padding do container na impressão */
+  main {
+    margin-left: 0 !important;
+  }
 }
 
 /* Tiptap Editor Styles */

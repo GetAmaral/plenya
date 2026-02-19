@@ -22,6 +22,7 @@ import {
   X,
   CheckCircle2,
   AlertCircle,
+  AlertTriangle,
   BookOpen,
   Loader2,
 } from 'lucide-react'
@@ -29,7 +30,7 @@ import { articleApi } from '@/lib/api/article-api'
 
 // ─── tipos ────────────────────────────────────────────────────────────────────
 
-type FileStatus = 'pending' | 'uploading' | 'done' | 'error'
+type FileStatus = 'pending' | 'uploading' | 'done' | 'duplicate' | 'error'
 
 interface FileEntry {
   id: string
@@ -39,6 +40,7 @@ interface FileEntry {
   progress: number
   error?: string
   chapterCount?: number
+  existingTitle?: string // para status 'duplicate'
 }
 
 interface ArticleUploadDialogProps {
@@ -149,6 +151,7 @@ export function ArticleUploadDialog({ open, onOpenChange }: ArticleUploadDialogP
 
     setIsProcessing(true)
     let successCount = 0
+    let duplicateCount = 0
     let errorCount = 0
 
     for (const entry of pending) {
@@ -178,23 +181,42 @@ export function ArticleUploadDialog({ open, onOpenChange }: ArticleUploadDialogP
         successCount++
       } catch (err: any) {
         clearInterval(interval)
-        const msg = err.response?.data?.error || err.message || 'Erro desconhecido'
-        updateFile(entry.id, { status: 'error', progress: 0, error: msg })
-        errorCount++
+        // 409 = arquivo duplicado (não é um erro real, é um aviso)
+        if (err.message === 'DUPLICATE_FILE' || (err as any).data?.error === 'DUPLICATE_FILE') {
+          updateFile(entry.id, {
+            status: 'duplicate',
+            progress: 0,
+            existingTitle: (err as any).data?.existingTitle,
+          })
+          duplicateCount++
+        } else {
+          const msg = err.message || 'Erro desconhecido'
+          updateFile(entry.id, { status: 'error', progress: 0, error: msg })
+          errorCount++
+        }
       }
     }
 
     queryClient.invalidateQueries({ queryKey: ['articles'] })
     setIsProcessing(false)
 
-    if (errorCount === 0) {
+    // Toast de resumo — só mostra se houve algo novo
+    if (successCount > 0 && errorCount === 0 && duplicateCount === 0) {
       toast.success(
         successCount === 1
           ? '1 arquivo importado com sucesso!'
           : `${successCount} arquivos importados com sucesso!`,
       )
-    } else {
-      toast.warning(`${successCount} importado(s), ${errorCount} falhou`)
+    } else if (successCount > 0 || errorCount > 0 || duplicateCount > 0) {
+      const parts: string[] = []
+      if (successCount > 0) parts.push(`${successCount} importado(s)`)
+      if (duplicateCount > 0) parts.push(`${duplicateCount} já existia(m)`)
+      if (errorCount > 0) parts.push(`${errorCount} com erro`)
+      if (errorCount > 0) {
+        toast.warning(parts.join(' • '))
+      } else {
+        toast.info(parts.join(' • '))
+      }
     }
   }
 
@@ -208,8 +230,8 @@ export function ArticleUploadDialog({ open, onOpenChange }: ArticleUploadDialogP
 
   const pendingCount = files.filter(e => e.status === 'pending').length
   const doneCount = files.filter(e => e.status === 'done').length
-  const allFinished =
-    files.length > 0 && files.every(e => e.status === 'done' || e.status === 'error')
+  const isTerminal = (s: FileStatus) => s === 'done' || s === 'error' || s === 'duplicate'
+  const allFinished = files.length > 0 && files.every(e => isTerminal(e.status))
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -339,6 +361,7 @@ function FileEntryRow({ entry, isProcessing, onRemove, onToggleBook }: FileEntry
       className={`
         border rounded-lg p-3 transition-colors
         ${status === 'done' ? 'border-green-200 bg-green-50/50 dark:border-green-800 dark:bg-green-950/20' : ''}
+        ${status === 'duplicate' ? 'border-amber-200 bg-amber-50/50 dark:border-amber-800 dark:bg-amber-950/20' : ''}
         ${status === 'error' ? 'border-destructive/30 bg-destructive/5' : ''}
       `}
     >
@@ -347,6 +370,8 @@ function FileEntryRow({ entry, isProcessing, onRemove, onToggleBook }: FileEntry
         <div className="flex-shrink-0 mt-0.5">
           {status === 'done' ? (
             <CheckCircle2 className="h-5 w-5 text-green-600" />
+          ) : status === 'duplicate' ? (
+            <AlertTriangle className="h-5 w-5 text-amber-500" />
           ) : status === 'error' ? (
             <AlertCircle className="h-5 w-5 text-destructive" />
           ) : status === 'uploading' ? (
@@ -413,7 +438,15 @@ function FileEntryRow({ entry, isProcessing, onRemove, onToggleBook }: FileEntry
             </div>
           )}
 
-          {/* Mensagem de erro */}
+          {/* Aviso de duplicata */}
+          {status === 'duplicate' && (
+            <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">
+              Já importado
+              {entry.existingTitle ? ` como "${entry.existingTitle}"` : ' anteriormente'}
+            </p>
+          )}
+
+          {/* Mensagem de erro real */}
           {status === 'error' && error && (
             <p className="text-xs text-destructive mt-1 truncate" title={error}>
               {error}

@@ -123,9 +123,9 @@ type Article struct {
 	// Total de capítulos — preenchido apenas no record do livro pai
 	TotalChapters *int `gorm:"type:smallint" json:"totalChapters,omitempty"`
 
-	// Auto-referential relationships
-	ParentArticle *Article  `gorm:"foreignKey:ParentArticleID" json:"parentArticle,omitempty"`
-	Chapters      []Article `gorm:"foreignKey:ParentArticleID" json:"chapters,omitempty"`
+	// Auto-referential relationships (swaggerignore para evitar recursão na doc)
+	ParentArticle *Article  `gorm:"foreignKey:ParentArticleID" json:"parentArticle,omitempty" swaggerignore:"true"`
+	Chapters      []Article `gorm:"foreignKey:ParentArticleID" json:"chapters,omitempty" swaggerignore:"true"`
 
 	// Timestamps
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
