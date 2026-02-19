@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 	"unicode/utf8"
@@ -1137,11 +1138,118 @@ func splitBySectionNumbering(pages []string) []ChapterContent {
 	return chapters
 }
 
+// splitByChapterTitleHeading detecta capítulos onde "CHAPTER N" é o heading principal
+// da primeira página do capítulo (não um running header repetido em cada página).
+// Livros como "Biomechanics and Exercise Physiology" (Johnson, 1991) usam esse padrão:
+//
+//	"CHAPTER 1\n\nExercise Limitations\n..."
+//	"361\n\nCHAPTER 5\n\nThermal Responses\n..." (precedido por número de página)
+func splitByChapterTitleHeading(pages []string) []ChapterContent {
+	headingRe := regexp.MustCompile(`(?i)^CHAPTER\s+(\d+)\s*$`)
+	pageNumRe := regexp.MustCompile(`^\d{1,4}$`)
+
+	type chapFound struct {
+		pageIdx int
+		num     int
+		title   string
+	}
+	var found []chapFound
+
+	for i, page := range pages {
+		lines := strings.Split(strings.TrimSpace(page), "\n")
+		start := 0
+		for start < len(lines) && strings.TrimSpace(lines[start]) == "" {
+			start++
+		}
+		if start >= len(lines) {
+			continue
+		}
+		first := strings.TrimSpace(lines[start])
+
+		var chapterLine string
+		var titleStart int
+
+		if headingRe.MatchString(first) {
+			// "CHAPTER N" é a primeira linha não-vazia
+			chapterLine = first
+			titleStart = start + 1
+		} else if pageNumRe.MatchString(first) {
+			// Primeira linha é número de página; verifica segunda linha não-vazia
+			for j := start + 1; j < len(lines); j++ {
+				candidate := strings.TrimSpace(lines[j])
+				if candidate == "" {
+					continue
+				}
+				if headingRe.MatchString(candidate) {
+					chapterLine = candidate
+					titleStart = j + 1
+				}
+				break
+			}
+		}
+
+		if chapterLine == "" {
+			continue
+		}
+
+		m := headingRe.FindStringSubmatch(chapterLine)
+		if m == nil {
+			continue
+		}
+		num, _ := strconv.Atoi(m[1])
+
+		// Título: primeira linha não-vazia após "CHAPTER N"
+		title := ""
+		for j := titleStart; j < len(lines); j++ {
+			t := strings.TrimSpace(lines[j])
+			if t != "" {
+				title = t
+				break
+			}
+		}
+
+		found = append(found, chapFound{i, num, title})
+	}
+
+	if len(found) < 2 {
+		return nil
+	}
+
+	// Verificar que capítulos são sequenciais (1, 2, 3...)
+	for i := 1; i < len(found); i++ {
+		if found[i].num != found[i-1].num+1 {
+			return nil
+		}
+	}
+
+	// Construir capítulos
+	var result []ChapterContent
+	for i, f := range found {
+		end := len(pages)
+		if i+1 < len(found) {
+			end = found[i+1].pageIdx
+		}
+		var sb strings.Builder
+		for _, p := range pages[f.pageIdx:end] {
+			sb.WriteString(p)
+			sb.WriteString("\n")
+		}
+		result = append(result, ChapterContent{
+			Number:  f.num,
+			Title:   f.title,
+			Content: strings.TrimSpace(sb.String()),
+		})
+	}
+	return result
+}
+
 // splitPDFChapters divide um PDF em capítulos usando estratégias em cascata.
 //
 // Estratégias (em ordem de preferência):
-//  1. Form-feed + running header ("Chapter N" / "CAPÍTULO N" no topo de cada página)
-//  2. Form-feed + marcador de objetivos ("OBJETIVOS DO CAPÍTULO" / "CHAPTER OBJECTIVES")
+//  1a. Form-feed + running header ("Chapter N" / "CAPÍTULO N" no topo de cada página)
+//  1b. Form-feed + marcador de objetivos ("OBJETIVOS DO CAPÍTULO" / "CHAPTER OBJECTIVES")
+//  1c. Form-feed + transição de numeração de seções (N.M como linha isolada)
+//  1d. Form-feed + "CHAPTER N" como heading isolado na primeira página do capítulo
 //  3. Claude Haiku extrai TOC do início e localiza títulos no texto
 //  4. Regex com padrões de heading comuns em PDFs acadêmicos
 //  5. Split por tamanho fixo (50K chars por parte) — último recurso
@@ -1190,6 +1298,16 @@ func (s *ArticleService) splitPDFChapters(filePath string) ([]ChapterContent, er
 	if len(pages) >= 5 {
 		if chapters := splitBySectionNumbering(pages); len(chapters) >= 3 {
 			fmt.Printf("✅ PDF split por numeração de seções: %d capítulos\n", len(chapters))
+			return chapters, nil
+		}
+	}
+
+	// ESTRATÉGIA 1d: Heading "CHAPTER N" isolado no início da página (uma vez por capítulo)
+	// Diferente do running header (1a), aqui "CHAPTER N" aparece apenas na primeira página
+	// do capítulo como título principal. Ex: Biomechanics and Exercise Physiology (Johnson 1991).
+	if len(pages) >= 5 {
+		if chapters := splitByChapterTitleHeading(pages); len(chapters) >= 2 {
+			fmt.Printf("✅ PDF split por chapter title heading: %d capítulos\n", len(chapters))
 			return chapters, nil
 		}
 	}
