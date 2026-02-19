@@ -768,8 +768,8 @@ func cleanPDFText(text string) string {
 	)
 	text = ligReplacer.Replace(text)
 
-	// Soft hyphens
-	text = strings.ReplaceAll(text, "\xad", "")
+	// Soft hyphens: substituir por hífen real (não remover, evita palavras grudadas)
+	text = strings.ReplaceAll(text, "\xad", "-")
 
 	// Remover caracteres da Private Use Area (garbled PDF artifacts)
 	var cleaned strings.Builder
@@ -791,6 +791,24 @@ func splitByRunningHeader(pages []string) []ChapterContent {
 	// Padrão: "Chapter 3" ou "CAPÍTULO 3" como primeira linha da página
 	headerRe := regexp.MustCompile(`(?im)^(?:chapter|cap[íi]tulo)\s+(\d+)\s*$`)
 
+	// Identificar páginas de TOC: páginas com ≥3 capítulos diferentes no cabeçalho
+	// são provavelmente sumários, não conteúdo real
+	isTOCPage := make([]bool, len(pages))
+	for i, p := range pages {
+		matches := headerRe.FindAllStringSubmatch(p, -1)
+		chapNums := map[int]bool{}
+		for _, m := range matches {
+			n := 0
+			fmt.Sscanf(m[1], "%d", &n)
+			if n > 0 {
+				chapNums[n] = true
+			}
+		}
+		if len(chapNums) >= 3 {
+			isTOCPage[i] = true
+		}
+	}
+
 	type pageInfo struct {
 		text      string
 		chapterNo int // 0 = não detectado
@@ -801,6 +819,10 @@ func splitByRunningHeader(pages []string) []ChapterContent {
 	detected := 0
 
 	for i, p := range pages {
+		if isTOCPage[i] {
+			infos[i] = pageInfo{text: p, chapterNo: 0}
+			continue
+		}
 		head := p
 		if len(head) > 120 {
 			head = head[:120]
@@ -1002,6 +1024,119 @@ func splitByObjectivesMarker(pages []string) []ChapterContent {
 	return chapters
 }
 
+// splitBySectionNumbering detecta capítulos em livros com seções numeradas no formato N.M.
+// Quando o número do capítulo (N) muda em linhas isoladas como "1.1", "2.3", "10.2",
+// isso indica uma nova fronteira de capítulo.
+// Exemplo: "Bioquímica Básica" (Marzzoco) — 22 capítulos com seções 1.1–22.x.
+//
+// Para evitar falso-positivos do sumário, identifica páginas de TOC pela
+// presença de múltiplos capítulos diferentes na mesma página.
+func splitBySectionNumbering(pages []string) []ChapterContent {
+	// Linha com exatamente "N.M" (número de capítulo.número de seção)
+	secLineRe := regexp.MustCompile(`(?m)^(\d{1,2})\.(\d{1,2})$`)
+
+	// Identificar páginas de TOC: página com ≥3 capítulos diferentes = sumário
+	isTOCPage := make([]bool, len(pages))
+	for i, p := range pages {
+		matches := secLineRe.FindAllStringSubmatch(p, -1)
+		chapNums := map[int]bool{}
+		for _, m := range matches {
+			ch := 0
+			fmt.Sscanf(m[1], "%d", &ch)
+			if ch > 0 {
+				chapNums[ch] = true
+			}
+		}
+		if len(chapNums) >= 3 {
+			isTOCPage[i] = true
+		}
+	}
+
+	// Coletar primeira ocorrência de cada capítulo fora de páginas de TOC
+	type chStart struct {
+		chapterNo int
+		pageIdx   int
+	}
+	var chStarts []chStart
+	seenChapter := map[int]bool{}
+	lastCh := 0
+
+	for i, p := range pages {
+		if isTOCPage[i] {
+			continue
+		}
+		for _, m := range secLineRe.FindAllStringSubmatch(p, -1) {
+			ch, sec := 0, 0
+			fmt.Sscanf(m[1], "%d", &ch)
+			fmt.Sscanf(m[2], "%d", &sec)
+			if ch < 1 || ch > 30 || sec < 1 || sec > 30 {
+				continue
+			}
+			if ch != lastCh && !seenChapter[ch] {
+				seenChapter[ch] = true
+				chStarts = append(chStarts, chStart{chapterNo: ch, pageIdx: i})
+				lastCh = ch
+			}
+		}
+	}
+
+	if len(chStarts) < 3 {
+		return nil
+	}
+
+	// Verificar que os capítulos formam uma sequência razoável (sem saltos grandes)
+	for i := 1; i < len(chStarts); i++ {
+		if chStarts[i].chapterNo-chStarts[i-1].chapterNo > 5 {
+			return nil // muito espaçado — provavelmente falso-positivo
+		}
+	}
+
+	// Calcular tocSkip baseado na primeira detecção válida (para boundary de startPg)
+	firstValidPage := 0
+	if len(chStarts) > 0 {
+		firstValidPage = chStarts[0].pageIdx
+	}
+
+	var chapters []ChapterContent
+	for i, cs := range chStarts {
+		endPg := len(pages)
+		if i+1 < len(chStarts) {
+			endPg = chStarts[i+1].pageIdx
+		}
+
+		// Incluir uma página antes (pode conter o separador/título do capítulo)
+		startPg := cs.pageIdx
+		if startPg > firstValidPage {
+			startPg--
+		}
+
+		chPages := pages[startPg:endPg]
+		combined := cleanPDFText(strings.Join(chPages, "\n"))
+
+		// Limpar linhas de número de página isolado
+		lines := strings.Split(combined, "\n")
+		var kept []string
+		for _, l := range lines {
+			if regexp.MustCompile(`^\s*\d{1,4}\s*$`).MatchString(l) {
+				continue
+			}
+			kept = append(kept, l)
+		}
+		combined = strings.TrimSpace(strings.Join(kept, "\n"))
+
+		if len(combined) < 300 {
+			continue
+		}
+
+		chapters = append(chapters, ChapterContent{
+			Number:  cs.chapterNo,
+			Title:   fmt.Sprintf("Capítulo %d", cs.chapterNo),
+			Content: combined,
+		})
+	}
+	return chapters
+}
+
 // splitPDFChapters divide um PDF em capítulos usando estratégias em cascata.
 //
 // Estratégias (em ordem de preferência):
@@ -1045,6 +1180,16 @@ func (s *ArticleService) splitPDFChapters(filePath string) ([]ChapterContent, er
 	if len(pages) >= 5 {
 		if chapters := splitByObjectivesMarker(pages); len(chapters) >= 3 {
 			fmt.Printf("✅ PDF split por marcador de objetivos: %d capítulos\n", len(chapters))
+			return chapters, nil
+		}
+	}
+
+	// ESTRATÉGIA 1c: Transição de numeração de seções (N.M como linha isolada)
+	// Detecta capítulos em livros acadêmicos com seções numeradas como "1.1", "2.3"
+	// quando o número do capítulo (N) muda, detectamos nova fronteira.
+	if len(pages) >= 5 {
+		if chapters := splitBySectionNumbering(pages); len(chapters) >= 3 {
+			fmt.Printf("✅ PDF split por numeração de seções: %d capítulos\n", len(chapters))
 			return chapters, nil
 		}
 	}
