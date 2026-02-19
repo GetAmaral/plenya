@@ -756,18 +756,304 @@ func extractHTMLTitle(html string) string {
 	return ""
 }
 
-// splitPDFChapters divide um PDF em capítulos usando 3 estratégias em cascata
-func (s *ArticleService) splitPDFChapters(filePath string) ([]ChapterContent, error) {
-	fullText, err := s.extractPDFContent(filePath)
-	if err != nil {
-		return nil, fmt.Errorf("falha ao extrair texto PDF: %w", err)
+// cleanPDFText limpa artefatos comuns de encoding de PDF:
+// - Liga­duras Unicode (ﬁ→fi, ﬀ→ff, etc.)
+// - Soft hyphens (\xad)
+// - Caracteres da Private Use Area (U+E000–U+F8FF) que não têm mapeamento
+func cleanPDFText(text string) string {
+	// Ligaduras padrão Unicode
+	ligReplacer := strings.NewReplacer(
+		"ﬁ", "fi", "ﬀ", "ff", "ﬂ", "fl", "ﬃ", "ffi", "ﬄ", "ffl",
+		"\ufb0b", "fi", "\ufb0c", "fi",
+	)
+	text = ligReplacer.Replace(text)
+
+	// Soft hyphens
+	text = strings.ReplaceAll(text, "\xad", "")
+
+	// Remover caracteres da Private Use Area (garbled PDF artifacts)
+	var cleaned strings.Builder
+	cleaned.Grow(len(text))
+	for _, r := range text {
+		if (r >= 0xE000 && r <= 0xF8FF) || (r >= 0xE0000 && r <= 0xEFFFF) {
+			continue
+		}
+		cleaned.WriteRune(r)
+	}
+	return cleaned.String()
+}
+
+// splitByRunningHeader detecta capítulos via cabeçalho repetido em cada página.
+// Livros como "Functional Medicine Laboratory" têm "Chapter N" no topo de toda página.
+// Estratégia: split em páginas (form feed \x0c), detecta o número do capítulo
+// nos primeiros 80 chars de cada página, propaga para páginas sem cabeçalho.
+func splitByRunningHeader(pages []string) []ChapterContent {
+	// Padrão: "Chapter 3" ou "CAPÍTULO 3" como primeira linha da página
+	headerRe := regexp.MustCompile(`(?im)^(?:chapter|cap[íi]tulo)\s+(\d+)\s*$`)
+
+	type pageInfo struct {
+		text      string
+		chapterNo int // 0 = não detectado
 	}
 
-	// ESTRATÉGIA 1: Claude Haiku — extrai títulos do sumário e localiza no texto
+	infos := make([]pageInfo, len(pages))
+	lastChapter := 0
+	detected := 0
+
+	for i, p := range pages {
+		head := p
+		if len(head) > 120 {
+			head = head[:120]
+		}
+		if m := headerRe.FindStringSubmatch(head); len(m) > 1 {
+			num := 0
+			fmt.Sscanf(m[1], "%d", &num)
+			if num > 0 && num != lastChapter {
+				lastChapter = num
+				detected++
+			}
+		}
+		infos[i] = pageInfo{text: p, chapterNo: lastChapter}
+	}
+
+	if detected < 3 {
+		return nil
+	}
+
+	// Agrupar páginas por capítulo
+	type chGroup struct {
+		num   int
+		pages []string
+	}
+	var groups []chGroup
+	for _, info := range infos {
+		if info.chapterNo == 0 {
+			continue
+		}
+		if len(groups) == 0 || groups[len(groups)-1].num != info.chapterNo {
+			groups = append(groups, chGroup{num: info.chapterNo})
+		}
+		groups[len(groups)-1].pages = append(groups[len(groups)-1].pages, info.text)
+	}
+
+	var chapters []ChapterContent
+	for _, g := range groups {
+		combined := cleanPDFText(strings.Join(g.pages, "\n"))
+		// Remover números de página isolados e linhas muito curtas
+		lines := strings.Split(combined, "\n")
+		var kept []string
+		for _, l := range lines {
+			stripped := strings.TrimSpace(l)
+			if regexp.MustCompile(`^\d{1,4}$`).MatchString(stripped) {
+				continue
+			}
+			kept = append(kept, l)
+		}
+		combined = strings.TrimSpace(strings.Join(kept, "\n"))
+		if len(combined) < 500 {
+			continue
+		}
+
+		// Título: primeira linha não-vazia depois do cabeçalho "Chapter N"
+		title := fmt.Sprintf("Capítulo %d", g.num)
+		if len(g.pages) > 0 {
+			firstPageLines := strings.Split(strings.TrimSpace(g.pages[0]), "\n")
+			for _, l := range firstPageLines {
+				l = strings.TrimSpace(l)
+				if l == "" {
+					continue
+				}
+				// Pular o próprio cabeçalho "Chapter N"
+				if headerRe.MatchString(l) {
+					continue
+				}
+				if len(l) > 5 && len(l) < 200 {
+					title = l
+					break
+				}
+			}
+		}
+
+		chapters = append(chapters, ChapterContent{
+			Number:  g.num,
+			Title:   title,
+			Content: combined,
+		})
+	}
+	return chapters
+}
+
+// splitByObjectivesMarker detecta capítulos via marcador de objetivos no início.
+// Livros como McArdle usam "OBJETIVOS DO CAPÍTULO" ou "CHAPTER OBJECTIVES"
+// nos primeiros parágrafos de cada capítulo.
+func splitByObjectivesMarker(pages []string) []ChapterContent {
+	// Marcadores em PT e EN (case-insensitive)
+	markerRe := regexp.MustCompile(`(?i)OBJETIVOS\s+DO\s+CAP[ÍI]TULO|CHAPTER\s+OBJECTIVES|LEARNING\s+OBJECTIVES`)
+
+	type chapterStart struct {
+		pageIdx   int
+		title     string
+		chapterNo int
+	}
+	var starts []chapterStart
+
+	for i, p := range pages {
+		head := p
+		if len(head) > 600 {
+			head = p[:600]
+		}
+		if !markerRe.MatchString(head) {
+			continue
+		}
+
+		// Título: primeira linha não-vazia da página atual (se não for o marcador),
+		// ou última linha significativa da página anterior
+		title := ""
+		pageLines := strings.Split(strings.TrimSpace(p), "\n")
+		firstMeaningful := ""
+		for _, l := range pageLines {
+			l = strings.TrimSpace(l)
+			if l == "" {
+				continue
+			}
+			if markerRe.MatchString(l) {
+				break // chegou no marcador antes de achar título
+			}
+			if len(l) > 5 {
+				firstMeaningful = l
+				break
+			}
+		}
+
+		if firstMeaningful != "" {
+			title = firstMeaningful
+		} else if i > 0 {
+			// Título está na página anterior
+			prevLines := strings.Split(strings.TrimSpace(pages[i-1]), "\n")
+			for j := len(prevLines) - 1; j >= 0; j-- {
+				l := strings.TrimSpace(prevLines[j])
+				if len(l) > 5 && len(l) < 300 {
+					title = l
+					break
+				}
+			}
+		}
+
+		if title == "" {
+			title = fmt.Sprintf("Capítulo %d", len(starts)+1)
+		}
+
+		starts = append(starts, chapterStart{
+			pageIdx:   i,
+			title:     title,
+			chapterNo: len(starts) + 1,
+		})
+	}
+
+	if len(starts) < 3 {
+		return nil
+	}
+
+	var chapters []ChapterContent
+	for i, s := range starts {
+		endPage := len(pages)
+		if i+1 < len(starts) {
+			// O capítulo seguinte começa na página do marcador ou na anterior (onde está o título)
+			endPage = starts[i+1].pageIdx
+			if endPage > 0 && starts[i+1].pageIdx > 0 {
+				// Incluir a página de título do próximo capítulo no slice do próximo
+				endPage = starts[i+1].pageIdx
+			}
+		}
+
+		// Incluir página com o título (pode ser i-1 quando título está na prev page)
+		startPage := s.pageIdx
+		if startPage > 0 {
+			prevTitle := strings.TrimSpace(pages[startPage-1])
+			if strings.Contains(prevTitle, s.title) {
+				startPage = startPage - 1
+			}
+		}
+
+		chPages := pages[startPage:endPage]
+		combined := cleanPDFText(strings.Join(chPages, "\n"))
+
+		// Remover linhas com apenas números de página
+		lines := strings.Split(combined, "\n")
+		var kept []string
+		for _, l := range lines {
+			if regexp.MustCompile(`^\s*\d{1,4}\s*$`).MatchString(l) {
+				continue
+			}
+			kept = append(kept, l)
+		}
+		combined = strings.TrimSpace(strings.Join(kept, "\n"))
+
+		if len(combined) < 500 {
+			continue
+		}
+
+		chapters = append(chapters, ChapterContent{
+			Number:  s.chapterNo,
+			Title:   s.title,
+			Content: combined,
+		})
+	}
+	return chapters
+}
+
+// splitPDFChapters divide um PDF em capítulos usando estratégias em cascata.
+//
+// Estratégias (em ordem de preferência):
+//  1. Form-feed + running header ("Chapter N" / "CAPÍTULO N" no topo de cada página)
+//  2. Form-feed + marcador de objetivos ("OBJETIVOS DO CAPÍTULO" / "CHAPTER OBJECTIVES")
+//  3. Claude Haiku extrai TOC do início e localiza títulos no texto
+//  4. Regex com padrões de heading comuns em PDFs acadêmicos
+//  5. Split por tamanho fixo (50K chars por parte) — último recurso
+func (s *ArticleService) splitPDFChapters(filePath string) ([]ChapterContent, error) {
+	// Usar pdftotext diretamente para preservar os form feeds (\x0c) entre páginas.
+	// A biblioteca Go (ledongthuc/pdf) não preserva separadores de página.
+	var pages []string
+	var fullText string
+
+	cmd := exec.Command("pdftotext", filePath, "-")
+	if output, err := cmd.Output(); err == nil && len(output) > 100 {
+		rawText := string(output)
+		pages = strings.Split(rawText, "\x0c")
+		fullText = cleanPDFText(rawText)
+	}
+
+	// Se pdftotext falhou, extrair com a biblioteca Go (sem form feeds)
+	if fullText == "" {
+		var err error
+		fullText, err = s.extractPDFContent(filePath)
+		if err != nil {
+			return nil, fmt.Errorf("falha ao extrair texto PDF: %w", err)
+		}
+		fullText = cleanPDFText(fullText)
+	}
+
+	// ESTRATÉGIA 1a: Running header em cada página ("Chapter N" / "CAPÍTULO N")
+	if len(pages) >= 5 {
+		if chapters := splitByRunningHeader(pages); len(chapters) >= 3 {
+			fmt.Printf("✅ PDF split por running header: %d capítulos\n", len(chapters))
+			return chapters, nil
+		}
+	}
+
+	// ESTRATÉGIA 1b: Marcador de objetivos por página
+	if len(pages) >= 5 {
+		if chapters := splitByObjectivesMarker(pages); len(chapters) >= 3 {
+			fmt.Printf("✅ PDF split por marcador de objetivos: %d capítulos\n", len(chapters))
+			return chapters, nil
+		}
+	}
+
+	// ESTRATÉGIA 2: Claude Haiku — extrai títulos do sumário e localiza no texto
 	if s.aiService != nil && len(fullText) > 1000 {
 		firstPart := fullText
-		if len(firstPart) > 6000 {
-			firstPart = fullText[:6000]
+		if len(firstPart) > 8000 {
+			firstPart = fullText[:8000]
 		}
 		titles, tocErr := s.aiService.ExtractTableOfContents(firstPart)
 		if tocErr == nil && len(titles) >= 3 {
@@ -779,14 +1065,14 @@ func (s *ArticleService) splitPDFChapters(filePath string) ([]ChapterContent, er
 		}
 	}
 
-	// ESTRATÉGIA 2: Regex heading patterns
+	// ESTRATÉGIA 3: Regex heading patterns
 	chapters := s.splitByHeadingRegex(fullText)
 	if len(chapters) >= 3 {
 		fmt.Printf("✅ PDF split por regex: %d capítulos\n", len(chapters))
 		return chapters, nil
 	}
 
-	// ESTRATÉGIA 3: Split por tamanho fixo (50K chars por parte)
+	// ESTRATÉGIA 4: Split por tamanho fixo (50K chars por parte)
 	chapters = s.splitByFixedSize(fullText, 50000)
 	fmt.Printf("✅ PDF split por tamanho fixo: %d partes\n", len(chapters))
 	return chapters, nil
