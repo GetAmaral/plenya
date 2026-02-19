@@ -57,6 +57,10 @@ func (r *ArticleRepository) List(page, pageSize int, filters map[string]interfac
 
 	query := r.db.Model(&models.Article{})
 
+	// Por padrão, esconde capítulos de livro da listagem principal
+	// Capítulos são exibidos via GET /articles/:id/chapters
+	query = query.Where("source_type != 'book_chapter'")
+
 	// Aplicar filtros
 	if journal, ok := filters["journal"].(string); ok && journal != "" {
 		query = query.Where("journal ILIKE ?", "%"+journal+"%")
@@ -126,8 +130,11 @@ func (r *ArticleRepository) Search(query string, page, pageSize int) ([]*models.
 
 	// Usa immutable_unaccent para ignorar acentos na query e nos campos
 	// Mantém ILIKE para compatibilidade, mas agora accent-insensitive
+	// Exclui capítulos de livro — busca retorna artigos e livros apenas
 	normalizedQuery := "%" + query + "%"
-	searchQuery := r.db.Model(&models.Article{}).Where(
+	searchQuery := r.db.Model(&models.Article{}).
+		Where("source_type != 'book_chapter'").
+		Where(
 		`lower(immutable_unaccent(title)) ILIKE lower(immutable_unaccent(?))
 		OR lower(immutable_unaccent(authors)) ILIKE lower(immutable_unaccent(?))
 		OR lower(immutable_unaccent(COALESCE(abstract, ''))) ILIKE lower(immutable_unaccent(?))
@@ -202,7 +209,9 @@ func (r *ArticleRepository) GetFavorites(page, pageSize int) ([]*models.Article,
 	var articles []*models.Article
 	var total int64
 
-	query := r.db.Model(&models.Article{}).Where("favorite = ?", true)
+	query := r.db.Model(&models.Article{}).
+		Where("source_type != 'book_chapter'").
+		Where("favorite = ?", true)
 
 	// Contar total
 	if err := query.Count(&total).Error; err != nil {

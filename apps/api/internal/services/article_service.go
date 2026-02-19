@@ -5,7 +5,6 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -115,6 +114,16 @@ type UpdateArticleDTO struct {
 	Specialty    *string    `json:"specialty,omitempty" validate:"omitempty,max=200"`
 	Favorite     *bool      `json:"favorite,omitempty"`
 	Rating       *int       `json:"rating,omitempty" validate:"omitempty,min=0,max=5"`
+}
+
+// DuplicateFileError é retornado quando o arquivo já foi importado (mesmo SHA-256)
+type DuplicateFileError struct {
+	ExistingTitle string
+	ExistingID    uuid.UUID
+}
+
+func (e *DuplicateFileError) Error() string {
+	return "arquivo já importado: " + e.ExistingTitle
 }
 
 // ChapterContent representa o conteúdo de um capítulo extraído de um livro
@@ -314,7 +323,7 @@ func (s *ArticleService) UploadFile(fileReader io.Reader, filename string, userI
 	// Verificar se já existe artigo com este hash (anti-duplicação)
 	existingArticle, _ := s.repo.FindByFileHash(fileHash)
 	if existingArticle != nil {
-		return nil, errors.New("este arquivo já foi importado anteriormente")
+		return nil, &DuplicateFileError{ExistingTitle: existingArticle.Title, ExistingID: existingArticle.ID}
 	}
 
 	// Extrair metadados do arquivo
@@ -456,7 +465,7 @@ func (s *ArticleService) UploadBook(fileReader io.Reader, filename string, userI
 
 	existingArticle, _ := s.repo.FindByFileHash(fileHash)
 	if existingArticle != nil {
-		return nil, errors.New("este arquivo já foi importado anteriormente")
+		return nil, &DuplicateFileError{ExistingTitle: existingArticle.Title, ExistingID: existingArticle.ID}
 	}
 
 	var chapters []ChapterContent

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"mime/multipart"
 	"path/filepath"
@@ -300,6 +301,15 @@ func (h *ArticleHandler) UploadFile(c *fiber.Ctx) error {
 	if isBook {
 		bookArticle, bookErr := h.service.UploadBook(fileReader, file.Filename, userID)
 		if bookErr != nil {
+			var dupErr *services.DuplicateFileError
+			if errors.As(bookErr, &dupErr) {
+				return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+					"error":         "DUPLICATE_FILE",
+					"message":       "Este arquivo já foi importado anteriormente",
+					"existingTitle": dupErr.ExistingTitle,
+					"existingId":    dupErr.ExistingID.String(),
+				})
+			}
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": "Erro ao processar livro: " + bookErr.Error(),
 			})
@@ -309,6 +319,15 @@ func (h *ArticleHandler) UploadFile(c *fiber.Ctx) error {
 
 	regularArticle, err := h.service.UploadFile(fileReader, file.Filename, userID)
 	if err != nil {
+		var dupErr *services.DuplicateFileError
+		if errors.As(err, &dupErr) {
+			return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+				"error":         "DUPLICATE_FILE",
+				"message":       "Este arquivo já foi importado anteriormente",
+				"existingTitle": dupErr.ExistingTitle,
+				"existingId":    dupErr.ExistingID.String(),
+			})
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Erro ao processar arquivo: " + err.Error(),
 		})

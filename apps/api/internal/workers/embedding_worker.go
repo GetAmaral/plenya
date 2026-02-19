@@ -322,6 +322,7 @@ func (w *EmbeddingWorker) processScoreItem(ctx context.Context, scoreItemID uuid
 		if err == nil {
 			// Já existe - atualizar
 			existing.TextSource = textSource
+			existing.IsStale = false
 			if err := existing.SetEmbeddingFromSlice(embedding); err != nil {
 				return fmt.Errorf("failed to set embedding: %w", err)
 			}

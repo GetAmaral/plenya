@@ -7,6 +7,7 @@ import { ptBR } from 'date-fns/locale'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +21,7 @@ import {
   useToggleFavorite,
   useSetRating,
   useDeleteArticle,
+  useBookChapters,
   articleApi,
 } from '@/lib/api/article-api'
 import {
@@ -33,6 +35,9 @@ import {
   FileText,
   Calendar,
   BookOpen,
+  ChevronDown,
+  ChevronUp,
+  List,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
@@ -50,23 +55,82 @@ interface ArticleCardProps {
   article: Article
 }
 
+// ─── sub-componente: lista de capítulos ───────────────────────────────────────
+
+function ChapterList({ bookId }: { bookId: string }) {
+  const [showAll, setShowAll] = useState(false)
+  const { data, isLoading, isError } = useBookChapters(bookId)
+
+  if (isLoading) {
+    return (
+      <div className="space-y-1.5 mt-1">
+        {[1, 2, 3].map((i) => (
+          <Skeleton key={i} className="h-5 w-full" />
+        ))}
+      </div>
+    )
+  }
+
+  if (isError || !data?.chapters?.length) {
+    return (
+      <p className="text-xs text-muted-foreground mt-1 italic">
+        Nenhum capítulo encontrado.
+      </p>
+    )
+  }
+
+  const chapters = data.chapters
+  const visible = showAll ? chapters : chapters.slice(0, 5)
+
+  return (
+    <div className="mt-1 space-y-0.5">
+      {visible.map((ch) => (
+        <Link
+          key={ch.id}
+          href={`/articles/${ch.id}`}
+          className="flex items-start gap-2 rounded px-1 py-0.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors group/ch"
+        >
+          <span className="flex-shrink-0 tabular-nums text-muted-foreground/60 group-hover/ch:text-muted-foreground w-5 text-right">
+            {ch.chapterNumber}.
+          </span>
+          <span className="line-clamp-1 flex-1">
+            {ch.chapterTitle || ch.title}
+          </span>
+        </Link>
+      ))}
+
+      {chapters.length > 5 && (
+        <button
+          onClick={(e) => { e.preventDefault(); setShowAll(!showAll) }}
+          className="mt-1 text-xs text-primary hover:underline pl-7"
+        >
+          {showAll
+            ? 'Ver menos'
+            : `+ ${chapters.length - 5} capítulo${chapters.length - 5 !== 1 ? 's' : ''}`}
+        </button>
+      )}
+    </div>
+  )
+}
+
+// ─── card principal ───────────────────────────────────────────────────────────
+
 export function ArticleCard({ article }: ArticleCardProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [showChapters, setShowChapters] = useState(false)
+
   const toggleFavorite = useToggleFavorite()
   const setRating = useSetRating()
   const deleteArticle = useDeleteArticle()
 
+  const isBook = article.sourceType === 'book'
   const articleType = ARTICLE_TYPES.find((t) => t.value === article.articleType)
 
   const handleToggleFavorite = async () => {
     try {
       await toggleFavorite.mutateAsync(article.id)
-      toast.success(
-        article.favorite
-          ? 'Removido dos favoritos'
-          : 'Adicionado aos favoritos'
-      )
-    } catch (error: any) {
+      toast.success(article.favorite ? 'Removido dos favoritos' : 'Adicionado aos favoritos')
+    } catch {
       toast.error('Erro ao atualizar favorito')
     }
   }
@@ -75,18 +139,18 @@ export function ArticleCard({ article }: ArticleCardProps) {
     try {
       await setRating.mutateAsync({ id: article.id, rating })
       toast.success(`Avaliação: ${rating} estrela${rating !== 1 ? 's' : ''}`)
-    } catch (error: any) {
-      toast.error('Erro ao avaliar artigo')
+    } catch {
+      toast.error('Erro ao avaliar')
     }
   }
 
   const handleDelete = async () => {
     try {
       await deleteArticle.mutateAsync(article.id)
-      toast.success('Artigo deletado com sucesso')
+      toast.success(isBook ? 'Livro deletado com sucesso' : 'Artigo deletado com sucesso')
       setShowDeleteDialog(false)
-    } catch (error: any) {
-      toast.error('Erro ao deletar artigo')
+    } catch {
+      toast.error('Erro ao deletar')
     }
   }
 
@@ -103,7 +167,13 @@ export function ArticleCard({ article }: ArticleCardProps) {
 
   return (
     <>
-      <Card className="group hover:shadow-lg transition-all duration-200">
+      <Card
+        className={`group hover:shadow-lg transition-all duration-200 ${
+          isBook
+            ? 'border-primary/20 bg-primary/[0.02] hover:border-primary/40'
+            : ''
+        }`}
+      >
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1 min-w-0">
@@ -111,32 +181,58 @@ export function ArticleCard({ article }: ArticleCardProps) {
                 href={`/articles/${article.id}`}
                 className="block group-hover:text-primary transition-colors"
               >
+                {/* Ícone de livro antes do título */}
+                {isBook && (
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <BookOpen className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span className="text-xs font-medium text-primary uppercase tracking-wide">
+                      Livro
+                    </span>
+                  </div>
+                )}
                 <h3 className="font-semibold text-base line-clamp-2 leading-tight">
                   {article.title}
                 </h3>
               </Link>
 
               <div className="flex flex-wrap items-center gap-2 mt-2">
-                <Badge variant="outline" className="font-normal">
-                  {articleType?.label || article.articleType}
-                </Badge>
-
-                {article.specialty && (
-                  <Badge variant="secondary" className="font-normal">
-                    {article.specialty}
-                  </Badge>
-                )}
-
-                {article.doi && (
-                  <Badge variant="outline" className="font-mono text-xs">
-                    DOI
-                  </Badge>
-                )}
-
-                {article.pmid && (
-                  <Badge variant="outline" className="font-mono text-xs">
-                    PMID
-                  </Badge>
+                {isBook ? (
+                  <>
+                    <Badge
+                      variant="outline"
+                      className="font-normal border-primary/30 text-primary"
+                    >
+                      <BookOpen className="h-3 w-3 mr-1" />
+                      Livro
+                    </Badge>
+                    {article.totalChapters && (
+                      <Badge variant="secondary" className="font-normal">
+                        <List className="h-3 w-3 mr-1" />
+                        {article.totalChapters} capítulo{article.totalChapters !== 1 ? 's' : ''}
+                      </Badge>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Badge variant="outline" className="font-normal">
+                      {articleType?.label || article.articleType}
+                    </Badge>
+                    {article.specialty && (
+                      <Badge variant="secondary" className="font-normal">
+                        {article.specialty}
+                      </Badge>
+                    )}
+                    {article.doi && (
+                      <Badge variant="outline" className="font-mono text-xs">
+                        DOI
+                      </Badge>
+                    )}
+                    {article.pmid && (
+                      <Badge variant="outline" className="font-mono text-xs">
+                        PMID
+                      </Badge>
+                    )}
+                  </>
                 )}
               </div>
             </div>
@@ -149,9 +245,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
                 disabled={toggleFavorite.isPending}
                 className={article.favorite ? 'text-red-500' : 'text-muted-foreground'}
               >
-                <Heart
-                  className={`h-4 w-4 ${article.favorite ? 'fill-current' : ''}`}
-                />
+                <Heart className={`h-4 w-4 ${article.favorite ? 'fill-current' : ''}`} />
               </Button>
 
               <DropdownMenu>
@@ -178,7 +272,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
                   {article.internalLink && (
                     <DropdownMenuItem onClick={handleDownload}>
                       <Download className="mr-2 h-4 w-4" />
-                      Download PDF
+                      {isBook ? 'Download do arquivo' : 'Download PDF'}
                     </DropdownMenuItem>
                   )}
 
@@ -211,16 +305,20 @@ export function ArticleCard({ article }: ArticleCardProps) {
         </CardHeader>
 
         <CardContent className="pb-3">
-          {/* Authors & Journal */}
+          {/* Authors & Journal/Date */}
           <div className="space-y-1 text-sm text-muted-foreground mb-3">
-            <p className="line-clamp-1">
-              <span className="font-medium">Autores:</span> {article.authors}
-            </p>
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1.5">
-                <BookOpen className="h-3.5 w-3.5" />
-                {article.journal}
-              </span>
+            {article.authors && article.authors !== 'Desconhecido' && (
+              <p className="line-clamp-1">
+                <span className="font-medium">Autores:</span> {article.authors}
+              </p>
+            )}
+            <div className="flex items-center gap-4 flex-wrap">
+              {!isBook && (
+                <span className="flex items-center gap-1.5">
+                  <BookOpen className="h-3.5 w-3.5" />
+                  {article.journal}
+                </span>
+              )}
               <span className="flex items-center gap-1.5">
                 <Calendar className="h-3.5 w-3.5" />
                 {formattedDate}
@@ -235,15 +333,11 @@ export function ArticleCard({ article }: ArticleCardProps) {
             </p>
           )}
 
-          {/* Keywords */}
-          {article.keywords && article.keywords.length > 0 && (
+          {/* Keywords (somente artigos) */}
+          {!isBook && article.keywords && article.keywords.length > 0 && (
             <div className="flex flex-wrap gap-1 mt-3">
               {article.keywords.slice(0, 5).map((keyword, idx) => (
-                <Badge
-                  key={idx}
-                  variant="secondary"
-                  className="text-xs font-normal"
-                >
+                <Badge key={idx} variant="secondary" className="text-xs font-normal">
                   {keyword}
                 </Badge>
               ))}
@@ -251,6 +345,29 @@ export function ArticleCard({ article }: ArticleCardProps) {
                 <Badge variant="secondary" className="text-xs font-normal">
                   +{article.keywords.length - 5}
                 </Badge>
+              )}
+            </div>
+          )}
+
+          {/* Seção de capítulos para livros */}
+          {isBook && article.totalChapters && article.totalChapters > 0 && (
+            <div className="mt-3">
+              <button
+                onClick={() => setShowChapters(!showChapters)}
+                className="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+              >
+                {showChapters ? (
+                  <ChevronUp className="h-3.5 w-3.5" />
+                ) : (
+                  <ChevronDown className="h-3.5 w-3.5" />
+                )}
+                {showChapters ? 'Ocultar capítulos' : `Ver ${article.totalChapters} capítulo${article.totalChapters !== 1 ? 's' : ''}`}
+              </button>
+
+              {showChapters && (
+                <div className="mt-2 border-l-2 border-primary/20 pl-3">
+                  <ChapterList bookId={article.id} />
+                </div>
               )}
             </div>
           )}
@@ -294,9 +411,20 @@ export function ArticleCard({ article }: ArticleCardProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
             <AlertDialogDescription>
-              Tem certeza que deseja deletar o artigo "<strong>{article.title}</strong>"?
-              Esta ação não pode ser desfeita e o arquivo PDF será removido
-              permanentemente.
+              {isBook ? (
+                <>
+                  Tem certeza que deseja deletar o livro{' '}
+                  <strong>"{article.title}"</strong>? Todos os{' '}
+                  {article.totalChapters} capítulos também serão removidos
+                  permanentemente.
+                </>
+              ) : (
+                <>
+                  Tem certeza que deseja deletar o artigo{' '}
+                  <strong>"{article.title}"</strong>? Esta ação não pode ser
+                  desfeita e o arquivo PDF será removido permanentemente.
+                </>
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

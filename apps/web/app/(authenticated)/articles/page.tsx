@@ -99,8 +99,8 @@ export default function ArticlesPage() {
         title="Artigos Científicos"
         description={
           articlesQuery.data
-            ? `${articlesQuery.data.pagination.total} artigos na biblioteca`
-            : 'Gerencie sua biblioteca de artigos médicos'
+            ? `${articlesQuery.data.pagination.total} itens na biblioteca`
+            : 'Gerencie sua biblioteca de artigos e livros médicos'
         }
         actions={[
           {
@@ -253,9 +253,7 @@ export default function ArticlesPage() {
               {/* Results Count */}
               <div className="mb-4 flex items-center justify-between">
                 <p className="text-sm text-muted-foreground">
-                  {currentQuery.data.pagination.total} artigo
-                  {currentQuery.data.pagination.total !== 1 ? 's' : ''} encontrado
-                  {currentQuery.data.pagination.total !== 1 ? 's' : ''}
+                  {currentQuery.data.pagination.total} item{currentQuery.data.pagination.total !== 1 ? 's' : ''} encontrado{currentQuery.data.pagination.total !== 1 ? 's' : ''}
                 </p>
 
                 <Select
