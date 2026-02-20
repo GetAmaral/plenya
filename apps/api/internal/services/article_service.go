@@ -15,6 +15,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 	"unicode/utf8"
 
 	"github.com/plenya/api/internal/models"
@@ -1243,6 +1244,112 @@ func splitByChapterTitleHeading(pages []string) []ChapterContent {
 	return result
 }
 
+// splitByNumberedChapterWithAuthor detecta capítulos onde a primeira página tem:
+//
+//	CHAPTER_NUM\n
+//	Título do Capítulo (1+ linhas)\n
+//	Nome do Autor, PhD/DPE/etc.\n
+//
+// Sem a palavra "CHAPTER" — apenas o número seguido do título e credenciais do autor.
+// Encontrado em livros da série NSCA (ex: "NSCA's Guide to Tests and Assessments").
+//
+// O sinal-chave é a AUSÊNCIA de linha vazia entre o número e o título
+// (páginas regulares numeradas têm \n\n após o número, capítulos têm \n).
+func splitByNumberedChapterWithAuthor(pages []string) []ChapterContent {
+	credRe := regexp.MustCompile(`(?i)\b(PhD|DPE|EdD|MD|DSc|DrPH|CSCS|FNSCA|ATC)\b`)
+	numRe := regexp.MustCompile(`^\d{1,2}$`)
+
+	type chapFound struct {
+		pageIdx int
+		num     int
+		title   string
+	}
+	var found []chapFound
+
+	for i, page := range pages {
+		lines := strings.Split(strings.TrimSpace(page), "\n")
+		if len(lines) < 3 {
+			continue
+		}
+
+		// Primeira linha: número do capítulo (1-50)
+		first := strings.TrimSpace(lines[0])
+		if !numRe.MatchString(first) {
+			continue
+		}
+		num, _ := strconv.Atoi(first)
+		if num < 1 || num > 50 {
+			continue
+		}
+
+		// Segunda linha: DEVE ser não-vazia e começar com maiúscula
+		// (páginas com número de página têm \n\n, portanto lines[1] seria vazia)
+		second := ""
+		if len(lines) > 1 {
+			second = strings.TrimSpace(lines[1])
+		}
+		if second == "" {
+			continue
+		}
+		firstRune := []rune(second)
+		if len(firstRune) == 0 || !unicode.IsUpper(firstRune[0]) {
+			continue
+		}
+
+		// Deve ter credencial acadêmica nos primeiros 400 chars
+		preview := page
+		if len(preview) > 400 {
+			preview = preview[:400]
+		}
+		if !credRe.MatchString(preview) {
+			continue
+		}
+
+		// Coletar título (linhas entre o número e a linha de credencial)
+		var titleParts []string
+		for _, l := range lines[1:] {
+			l = strings.TrimSpace(l)
+			if credRe.MatchString(l) || l == "" {
+				break
+			}
+			titleParts = append(titleParts, l)
+		}
+		title := strings.Join(titleParts, " ")
+
+		found = append(found, chapFound{i, num, title})
+	}
+
+	if len(found) < 2 {
+		return nil
+	}
+
+	// Verificar sequência 1, 2, 3...
+	for i := 1; i < len(found); i++ {
+		if found[i].num != found[i-1].num+1 {
+			return nil
+		}
+	}
+
+	var result []ChapterContent
+	for i, f := range found {
+		end := len(pages)
+		if i+1 < len(found) {
+			end = found[i+1].pageIdx
+		}
+		var sb strings.Builder
+		for _, p := range pages[f.pageIdx:end] {
+			sb.WriteString(p)
+			sb.WriteString("\n")
+		}
+		result = append(result, ChapterContent{
+			Number:  f.num,
+			Title:   f.title,
+			Content: strings.TrimSpace(sb.String()),
+		})
+	}
+	return result
+}
+
 // splitPDFChapters divide um PDF em capítulos usando estratégias em cascata.
 //
 // Estratégias (em ordem de preferência):
@@ -1250,6 +1357,7 @@ func splitByChapterTitleHeading(pages []string) []ChapterContent {
 //  1b. Form-feed + marcador de objetivos ("OBJETIVOS DO CAPÍTULO" / "CHAPTER OBJECTIVES")
 //  1c. Form-feed + transição de numeração de seções (N.M como linha isolada)
 //  1d. Form-feed + "CHAPTER N" como heading isolado na primeira página do capítulo
+//  1e. Form-feed + número + título + credencial acadêmica (PhD, DPE, etc.)
 //  3. Claude Haiku extrai TOC do início e localiza títulos no texto
 //  4. Regex com padrões de heading comuns em PDFs acadêmicos
 //  5. Split por tamanho fixo (50K chars por parte) — último recurso
@@ -1308,6 +1416,16 @@ func (s *ArticleService) splitPDFChapters(filePath string) ([]ChapterContent, er
 	if len(pages) >= 5 {
 		if chapters := splitByChapterTitleHeading(pages); len(chapters) >= 2 {
 			fmt.Printf("✅ PDF split por chapter title heading: %d capítulos\n", len(chapters))
+			return chapters, nil
+		}
+	}
+
+	// ESTRATÉGIA 1e: Número + Título + Credencial acadêmica (PhD, DPE, etc.)
+	// Detecta livros com capítulos numerados sem a palavra "CHAPTER", onde cada página de
+	// capítulo começa com: N\nTítulo\nNome Autor, PhD. Ex: NSCA's Guide to Tests and Assessments.
+	if len(pages) >= 5 {
+		if chapters := splitByNumberedChapterWithAuthor(pages); len(chapters) >= 2 {
+			fmt.Printf("✅ PDF split por número+título+credencial: %d capítulos\n", len(chapters))
 			return chapters, nil
 		}
 	}
