@@ -907,12 +907,41 @@ func splitByRunningHeader(pages []string) []ChapterContent {
 	return chapters
 }
 
+// extractTOCTitles analisa as primeiras páginas em busca de um sumário (TOC).
+// Padrão: número isolado na linha, seguido de linha em branco, seguido do título.
+// Usado para livros onde o título NÃO aparece na página do capítulo (ex: Biomecânica Básica).
+func extractTOCTitles(pages []string) map[int]string {
+	titles := map[int]string{}
+	// Só olha as primeiras 20 páginas (onde o sumário está)
+	tocLimit := 20
+	if tocLimit > len(pages) {
+		tocLimit = len(pages)
+	}
+	tocText := strings.Join(pages[:tocLimit], "\n")
+	// Padrão: ^N\n+ Title_line  (N é número, linha em branco opcional, depois título)
+	tocRe := regexp.MustCompile(`(?m)^(\d{1,2})\s*\n\s*\n\s*([^\n]{5,100})$`)
+	for _, m := range tocRe.FindAllStringSubmatch(tocText, -1) {
+		n, _ := strconv.Atoi(m[1])
+		title := strings.TrimSpace(m[2])
+		if n >= 1 && n <= 50 && title != "" {
+			if _, exists := titles[n]; !exists { // primeiro match vence
+				titles[n] = title
+			}
+		}
+	}
+	return titles
+}
+
 // splitByObjectivesMarker detecta capítulos via marcador de objetivos no início.
-// Livros como McArdle usam "OBJETIVOS DO CAPÍTULO" ou "CHAPTER OBJECTIVES"
-// nos primeiros parágrafos de cada capítulo.
+// Livros como McArdle usam "OBJETIVOS DO CAPÍTULO" ou "CHAPTER OBJECTIVES";
+// livros brasileiros como Biomecânica Básica (Hall) usam "Ao término deste capítulo".
 func splitByObjectivesMarker(pages []string) []ChapterContent {
 	// Marcadores em PT e EN (case-insensitive)
-	markerRe := regexp.MustCompile(`(?i)OBJETIVOS\s+DO\s+CAP[ÍI]TULO|CHAPTER\s+OBJECTIVES|LEARNING\s+OBJECTIVES`)
+	markerRe := regexp.MustCompile(`(?i)OBJETIVOS\s+DO\s+CAP[ÍI]TULO|CHAPTER\s+OBJECTIVES|LEARNING\s+OBJECTIVES|Ao\s+t[eé]rmino\s+deste\s+cap[íi]tulo`)
+
+	// Extrair títulos do sumário antecipadamente (fallback para livros onde o
+	// título não aparece na página do capítulo, ex: Biomecânica Básica - Hall)
+	tocTitles := extractTOCTitles(pages)
 
 	type chapterStart struct {
 		pageIdx   int
@@ -964,7 +993,13 @@ func splitByObjectivesMarker(pages []string) []ChapterContent {
 		}
 
 		if title == "" {
-			title = fmt.Sprintf("Capítulo %d", len(starts)+1)
+			// Fallback: buscar título no sumário pelo número sequencial do capítulo
+			chNo := len(starts) + 1
+			if tocTitle, ok := tocTitles[chNo]; ok {
+				title = tocTitle
+			} else {
+				title = fmt.Sprintf("Capítulo %d", chNo)
+			}
 		}
 
 		starts = append(starts, chapterStart{
