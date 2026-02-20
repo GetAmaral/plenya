@@ -122,6 +122,11 @@ func (r *ArticleRepository) Delete(id uuid.UUID) error {
 	return r.db.Delete(&models.Article{}, "id = ?", id).Error
 }
 
+// DeleteChaptersByBookID soft-deleta todos os capítulos de um livro
+func (r *ArticleRepository) DeleteChaptersByBookID(bookID uuid.UUID) error {
+	return r.db.Where("parent_article_id = ?", bookID).Delete(&models.Article{}).Error
+}
+
 // Search busca artigos por texto com suporte a acentos (unaccent + pg_trgm)
 // Ignora acentos em ambas as direções: "nutrição" encontra "nutricao" e vice-versa
 func (r *ArticleRepository) Search(query string, page, pageSize int) ([]*models.Article, int64, error) {
