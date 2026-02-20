@@ -243,6 +243,34 @@ interface GroupedItems {
   }[]
 }
 
+// Produz lista plana respeitando hierarquia pai→filho:
+// items raiz ordenados por order, filhos de cada pai inseridos logo após ele (também por order)
+function flattenItemsHierarchy(items: ScoreItem[]): ScoreItem[] {
+  const childrenMap = new Map<string, ScoreItem[]>()
+  const rootItems: ScoreItem[] = []
+
+  items.forEach((item) => {
+    if (item.parentItemId) {
+      const children = childrenMap.get(item.parentItemId) || []
+      children.push(item)
+      childrenMap.set(item.parentItemId, children)
+    } else {
+      rootItems.push(item)
+    }
+  })
+
+  childrenMap.forEach((children) => {
+    children.sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))
+  })
+
+  rootItems.sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))
+
+  const flatten = (list: ScoreItem[]): ScoreItem[] =>
+    list.flatMap((item) => [item, ...flatten(childrenMap.get(item.id) || [])])
+
+  return flatten(rootItems)
+}
+
 function organizeItemsByHierarchy(items: ScoreItem[]): GroupedItems[] {
   const grouped = new Map<string, GroupedItems>()
 
@@ -280,7 +308,7 @@ function organizeItemsByHierarchy(items: ScoreItem[]): GroupedItems[] {
     subgroup.items.push(item)
   })
 
-  // Ordena grupos, subgrupos e items
+  // Ordena grupos, subgrupos e items (respeitando hierarquia pai→filho)
   return Array.from(grouped.values())
     .sort((a, b) => a.groupOrder - b.groupOrder)
     .map((group) => ({
@@ -289,11 +317,7 @@ function organizeItemsByHierarchy(items: ScoreItem[]): GroupedItems[] {
         .sort((a, b) => a.subgroupOrder - b.subgroupOrder)
         .map((subgroup) => ({
           ...subgroup,
-          items: subgroup.items.sort((a, b) => {
-            // Ordena por order, depois por name
-            if (a.order !== b.order) return a.order - b.order
-            return a.name.localeCompare(b.name)
-          }),
+          items: flattenItemsHierarchy(subgroup.items),
         })),
     }))
 }
@@ -340,14 +364,22 @@ export function AnamnesisTemplateItemSelector({
   }, [selectedScoreItems, searchSelected])
 
   const addItem = (item: ScoreItem) => {
-    // Adicionar o item e todos os seus filhos
-    const itemsToAdd = [item]
+    const itemsToAdd: ScoreItem[] = []
 
-    // Buscar filhos manualmente dos availableScoreItems
+    // Se for filho, garantir que o pai seja adicionado primeiro
+    if (item.parentItemId) {
+      const parent = availableScoreItems.find((i) => i.id === item.parentItemId)
+      if (parent && !selectedScoreItems.some((s) => s.id === parent.id)) {
+        itemsToAdd.push(parent)
+      }
+    }
+
+    itemsToAdd.push(item)
+
+    // Buscar filhos do item (se for pai)
     const children = availableScoreItems.filter(
       (availableItem) => availableItem.parentItemId === item.id
     )
-
     if (children.length > 0) {
       itemsToAdd.push(...children)
     }
