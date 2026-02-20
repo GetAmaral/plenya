@@ -271,17 +271,25 @@ func (s *ArticleService) UpdateArticle(id uuid.UUID, dto *UpdateArticleDTO, user
 	return s.repo.Update(article)
 }
 
-// DeleteArticle deleta um artigo (soft delete)
+// DeleteArticle deleta um artigo (soft delete).
+// Se o artigo for um livro (source_type="book"), deleta os capítulos em cascata.
 func (s *ArticleService) DeleteArticle(id uuid.UUID) error {
 	article, err := s.repo.FindByID(id)
 	if err != nil {
 		return err
 	}
 
-	// Deletar arquivo PDF se existir
+	// Deletar arquivo PDF/EPUB se existir
 	if article.InternalLink != nil && *article.InternalLink != "" {
 		filePath := filepath.Join(s.uploadFolder, filepath.Base(*article.InternalLink))
 		os.Remove(filePath) // Ignora erro se arquivo não existir
+	}
+
+	// Cascata: se for livro, soft-deleta todos os capítulos filhos
+	if article.SourceType == "book" {
+		if err := s.repo.DeleteChaptersByBookID(id); err != nil {
+			return err
+		}
 	}
 
 	return s.repo.Delete(id)
