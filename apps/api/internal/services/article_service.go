@@ -701,6 +701,15 @@ func (s *ArticleService) splitEPUBIntoChapters(filePath string) ([]ChapterConten
 
 	var chapters []ChapterContent
 	chapterNum := 0
+
+	// Pre-compile filtros para detecção de capítulos EPUB
+	epubSkipRe := regexp.MustCompile(`(?i)^(contents|table of contents|index|glossary|appendix|preface|foreword|acknowledgment|dedication|about the|commonly used|symbols|abbreviations|bibliography|references)`)
+	singleNumRe := regexp.MustCompile(`^\d{1,2}$`)
+	// Padrão Wolters Kluwer / LWW: id="toc30_CHAPTER_1__The_Warm-Up"
+	chDivIDRe := regexp.MustCompile(`(?i)id="[^"]*CHAPTER[_\s]+\d+[_\s]+([^"]{3,120})"`)
+	multiSpaceRe := regexp.MustCompile(`\s{2,}`)
+	objRe := regexp.MustCompile(`(?i)^(OBJECTIVES|After studying|After completing)`)
+
 	for _, path := range contentOrder {
 		f, ok := fileIndex[path]
 		if !ok {
@@ -713,12 +722,77 @@ func (s *ArticleService) splitEPUBIntoChapters(filePath string) ([]ChapterConten
 		data, _ := io.ReadAll(rc)
 		rc.Close()
 
-		title := extractHTMLTitle(string(data))
-		text := strings.TrimSpace(stripHTMLTags(string(data)))
+		// Usar smartStripHTML: preserva continuidade de palavras partidas por spans de página
+		text := smartStripHTML(string(data))
 
-		// Ignorar spine items muito pequenos (TOC, copyright pages, etc.)
-		if len(text) < 200 {
+		// 1. Skip se muito pequeno (unit dividers ~800ch, cover pages, etc.)
+		if len(text) < 5000 {
 			continue
+		}
+
+		// 2. Skip se a primeira linha indica front/back matter
+		firstLine := ""
+		for _, l := range strings.Split(text, "\n") {
+			if l = strings.TrimSpace(l); l != "" {
+				firstLine = l
+				break
+			}
+		}
+		if epubSkipRe.MatchString(firstLine) {
+			continue
+		}
+
+		// 3. Extrair título — três abordagens em cascata
+		// 3a. h1/h2 padrão (funciona para EPUBs bem estruturados)
+		title := extractHTMLTitle(string(data))
+
+		// 3b. div ID com padrão CHAPTER_N__Title (Wolters Kluwer/LWW)
+		// Ex: id="toc30_CHAPTER_1__The_Warm-Up" → "The Warm-Up"
+		if title == "" {
+			if m := chDivIDRe.FindSubmatch(data); len(m) > 1 {
+				t := strings.ReplaceAll(string(m[1]), "_", " ")
+				t = multiSpaceRe.ReplaceAllString(t, ": ") // __ → ":" (títulos com colon)
+				title = strings.TrimRight(strings.TrimSpace(t), ": ")
+			}
+		}
+
+		// 3c. "número\ntítulo" no início do texto (capítulos sem div ID explícito)
+		// Merge de fragmentos curtos causados por spans de página:
+		// ex: "Productio\nn" (span quebrou "Production") → "Production"
+		if title == "" {
+			lines := strings.Split(text, "\n")
+			numFound, titleLine := "", ""
+			for _, l := range lines {
+				l = strings.TrimSpace(l)
+				if l == "" {
+					continue
+				}
+				if numFound == "" {
+					if singleNumRe.MatchString(l) {
+						numFound = l
+					} else {
+						break // primeira linha não é número → não é capítulo numerado
+					}
+				} else if titleLine == "" {
+					if objRe.MatchString(l) {
+						break
+					}
+					titleLine = l
+				} else {
+					// Merge fragmento de ≤4 chars (artefato de span de página)
+					if len([]rune(l)) <= 4 && !singleNumRe.MatchString(l) {
+						titleLine += l
+					}
+					break
+				}
+			}
+			if titleLine != "" {
+				title = titleLine
+			}
+		}
+
+		if title == "" {
+			title = fmt.Sprintf("Chapter %d", chapterNum+1)
 		}
 
 		chapterNum++
@@ -735,27 +809,60 @@ func (s *ArticleService) splitEPUBIntoChapters(filePath string) ([]ChapterConten
 	return chapters, nil
 }
 
-// extractHTMLTitle extrai o título principal de um arquivo XHTML (h1 > h2 > title)
+// extractHTMLTitle extrai o título principal de um arquivo XHTML (h1 > h2 > title).
+// Suporta h1/h2 com inner HTML (spans, etc.) e rejeita títulos genéricos "partNNNN".
 func extractHTMLTitle(html string) string {
-	h1Re := regexp.MustCompile(`(?i)<h1[^>]*>([^<]{1,300})</h1>`)
+	// h1 com possível HTML interno — strip inner tags para extrair texto puro
+	h1Re := regexp.MustCompile(`(?is)<h1[^>]*>(.*?)</h1>`)
 	if m := h1Re.FindStringSubmatch(html); len(m) > 1 {
-		if t := strings.TrimSpace(m[1]); len(t) > 0 {
+		if t := strings.TrimSpace(stripHTMLTags(m[1])); len(t) > 0 {
 			return t
 		}
 	}
-	h2Re := regexp.MustCompile(`(?i)<h2[^>]*>([^<]{1,300})</h2>`)
+	h2Re := regexp.MustCompile(`(?is)<h2[^>]*>(.*?)</h2>`)
 	if m := h2Re.FindStringSubmatch(html); len(m) > 1 {
-		if t := strings.TrimSpace(m[1]); len(t) > 0 {
+		if t := strings.TrimSpace(stripHTMLTags(m[1])); len(t) > 0 {
 			return t
 		}
 	}
+	// <title> apenas se não for genérico "partNNNN" (comum em EPUBs convertidos)
 	titleRe := regexp.MustCompile(`(?i)<title[^>]*>([^<]{1,300})</title>`)
 	if m := titleRe.FindStringSubmatch(html); len(m) > 1 {
-		if t := strings.TrimSpace(m[1]); len(t) > 0 {
+		t := strings.TrimSpace(m[1])
+		if len(t) > 0 && !regexp.MustCompile(`^part\d+$`).MatchString(t) {
 			return t
 		}
 	}
 	return ""
+}
+
+// smartStripHTML extrai texto de HTML para EPUB, preservando continuidade de palavras.
+// Diferente de stripHTMLTags (que converte TODOS os tags em espaço), esta função:
+//   - Remove o <head> (evita <title>partNNNN de poluir o texto)
+//   - Converte tags de bloco (div, p, h*, br...) em \n
+//   - Remove tags inline (span, a, em...) SEM espaço (preserva palavras partidas por
+//     spans de número de página, ex: "Productio<span id='page_25'></span>n" → "Production")
+func smartStripHTML(html string) string {
+	// Remove seção <head>
+	headRe := regexp.MustCompile(`(?is)<head[^>]*>.*?</head>`)
+	html = headRe.ReplaceAllString(html, "")
+	// Tags de bloco → newline
+	blockRe := regexp.MustCompile(`(?i)</?(?:p|div|h[1-6]|br|li|tr|td|th|table|ul|ol|blockquote|section|article|header|footer|nav|main)[^>]*>`)
+	html = blockRe.ReplaceAllString(html, "\n")
+	// Tags restantes (inline: span, a, em, etc.) → string vazia (preserva continuidade)
+	html = regexp.MustCompile(`<[^>]+>`).ReplaceAllString(html, "")
+	// Decodificar entidades HTML
+	html = strings.ReplaceAll(html, "&amp;", "&")
+	html = strings.ReplaceAll(html, "&lt;", "<")
+	html = strings.ReplaceAll(html, "&gt;", ">")
+	html = strings.ReplaceAll(html, "&nbsp;", " ")
+	html = strings.ReplaceAll(html, "&#160;", " ")
+	html = strings.ReplaceAll(html, "&quot;", "\"")
+	html = strings.ReplaceAll(html, "&#39;", "'")
+	// Colapsar espaços horizontais e múltiplas linhas em branco
+	html = regexp.MustCompile(`[ \t]+`).ReplaceAllString(html, " ")
+	html = regexp.MustCompile(`\n{3,}`).ReplaceAllString(html, "\n\n")
+	return strings.TrimSpace(html)
 }
 
 // cleanPDFText limpa artefatos comuns de encoding de PDF:
