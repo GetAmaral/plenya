@@ -934,10 +934,15 @@ func extractTOCTitles(pages []string) map[int]string {
 
 // splitByObjectivesMarker detecta capítulos via marcador de objetivos no início.
 // Livros como McArdle usam "OBJETIVOS DO CAPÍTULO" ou "CHAPTER OBJECTIVES";
-// livros brasileiros como Biomecânica Básica (Hall) usam "Ao término deste capítulo".
+// livros brasileiros como Biomecânica Básica (Hall) usam "Ao término deste capítulo";
+// livros como NSCA Essentials usam "After completing this chapter, you will be able to".
 func splitByObjectivesMarker(pages []string) []ChapterContent {
 	// Marcadores em PT e EN (case-insensitive)
-	markerRe := regexp.MustCompile(`(?i)OBJETIVOS\s+DO\s+CAP[ÍI]TULO|CHAPTER\s+OBJECTIVES|LEARNING\s+OBJECTIVES|Ao\s+t[eé]rmino\s+deste\s+cap[íi]tulo`)
+	markerRe := regexp.MustCompile(`(?i)OBJETIVOS\s+DO\s+CAP[ÍI]TULO|CHAPTER\s+OBJECTIVES|LEARNING\s+OBJECTIVES|Ao\s+t[eé]rmino\s+deste\s+cap[íi]tulo|After\s+completing\s+this\s+chapter`)
+
+	// Linha de credencial/autor — encerra a extração do título quando encontrada.
+	// Cobre formatos como "N. Travis Triplett, PhD", "Marie Spano, MS, RD", "Andrea Hudy, MA".
+	credLineRe := regexp.MustCompile(`\b(PhD|EdD|MS|RD|PT|ATC|BS|CSCS|FNSCA|MA)\b`)
 
 	// Extrair títulos do sumário antecipadamente (fallback para livros onde o
 	// título não aparece na página do capítulo, ex: Biomecânica Básica - Hall)
@@ -959,11 +964,12 @@ func splitByObjectivesMarker(pages []string) []ChapterContent {
 			continue
 		}
 
-		// Título: primeira linha não-vazia da página atual (se não for o marcador),
-		// ou última linha significativa da página anterior
+		// Título: coletar linhas antes da linha de credencial/autor ou do marcador.
+		// Suporta títulos multi-linha (ex: "Structure and Function\nof Body Systems")
+		// como nos livros NSCA Essentials e similares (Human Kinetics, 2-column layout).
 		title := ""
 		pageLines := strings.Split(strings.TrimSpace(p), "\n")
-		firstMeaningful := ""
+		var titleParts []string
 		for _, l := range pageLines {
 			l = strings.TrimSpace(l)
 			if l == "" {
@@ -972,16 +978,23 @@ func splitByObjectivesMarker(pages []string) []ChapterContent {
 			if markerRe.MatchString(l) {
 				break // chegou no marcador antes de achar título
 			}
+			if credLineRe.MatchString(l) {
+				break // chegou na linha do autor com credencial (PhD, EdD, etc.)
+			}
+			if len(titleParts) > 0 && len(l) > 80 {
+				break // linha de corpo longo após já ter começado o título
+			}
 			if len(l) > 5 {
-				firstMeaningful = l
+				titleParts = append(titleParts, l)
+			}
+			if len(titleParts) >= 5 {
 				break
 			}
 		}
+		title = strings.Join(titleParts, " ")
 
-		if firstMeaningful != "" {
-			title = firstMeaningful
-		} else if i > 0 {
-			// Título está na página anterior
+		if title == "" && i > 0 {
+			// Título está na página anterior (fallback)
 			prevLines := strings.Split(strings.TrimSpace(pages[i-1]), "\n")
 			for j := len(prevLines) - 1; j >= 0; j-- {
 				l := strings.TrimSpace(prevLines[j])
