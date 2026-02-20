@@ -1199,13 +1199,29 @@ func splitByChapterTitleHeading(pages []string) []ChapterContent {
 		}
 		num, _ := strconv.Atoi(m[1])
 
-		// Título: primeira linha não-vazia após "CHAPTER N"
-		title := ""
-		for j := titleStart; j < len(lines); j++ {
+		// Título: coleta linhas curtas após "CHAPTER N" até linha em branco ou linha de corpo.
+		// Linhas < 40 chars = parte do título (texto de capa, tipicamente centralizado).
+		// Linhas >= 40 chars = início do corpo do capítulo. Max 5 linhas.
+		// Fallback: usa primeira linha mesmo se longa.
+		var titleParts []string
+		for j := titleStart; j < len(lines) && len(titleParts) < 5; j++ {
 			t := strings.TrimSpace(lines[j])
-			if t != "" {
-				title = t
-				break
+			if t == "" {
+				break // linha em branco separa título do corpo
+			}
+			if len(t) >= 40 {
+				break // linha longa = corpo do texto
+			}
+			titleParts = append(titleParts, t)
+		}
+		title := strings.Join(titleParts, " ")
+		if title == "" {
+			// fallback: primeira linha não-vazia mesmo que longa
+			for j := titleStart; j < len(lines); j++ {
+				if t := strings.TrimSpace(lines[j]); t != "" {
+					title = t
+					break
+				}
 			}
 		}
 
