@@ -124,6 +124,9 @@ func (h *ArticleHandler) ListArticles(c *fiber.Ctx) error {
 	if articleType := c.Query("articleType"); articleType != "" {
 		filters["articleType"] = articleType
 	}
+	if sourceType := c.Query("sourceType"); sourceType != "" {
+		filters["sourceType"] = sourceType
+	}
 	if favorite := c.Query("favorite"); favorite != "" {
 		filters["favorite"] = favorite == "true"
 	}
