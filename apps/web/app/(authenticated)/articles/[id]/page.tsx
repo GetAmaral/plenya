@@ -3,7 +3,7 @@
 import { use, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import dynamic from 'next/dynamic'
+
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Button } from '@/components/ui/button'
@@ -29,20 +29,7 @@ import {
 import { ArticleScoreItems } from '@/components/articles/ArticleScoreItems'
 import { RelatedScoreItems } from '@/components/articles/RelatedScoreItems'
 import { PageHeader } from '@/components/layout/page-header'
-
-const PDFViewer = dynamic(
-  () => import('@/components/articles/PDFViewer').then((mod) => mod.PDFViewer),
-  {
-    ssr: false,
-    loading: () => (
-      <Card className="w-full">
-        <CardContent className="py-12">
-          <Skeleton className="h-[600px] w-full" />
-        </CardContent>
-      </Card>
-    ),
-  }
-)
+import { FileViewer } from '@/components/articles/FileViewer'
 
 import {
   ArrowLeft,
@@ -427,12 +414,14 @@ export default function ArticleDetailPage({ params }: PageProps) {
         </div>
       )}
 
-      {/* PDF Viewer — artigos e livros com arquivo anexado */}
+      {/* File Viewer — PDF, EPUB, TXT, MD (artigos e livros, não capítulos) */}
       {article.internalLink && !isChapter && (
         <>
-          <PDFViewer
-            url={articleApi.getDownloadUrl(article.id)}
+          <FileViewer
+            internalLink={article.internalLink}
+            downloadUrl={articleApi.getDownloadUrl(article.id)}
             title={article.title}
+            fullContent={article.fullContent ?? undefined}
           />
           <Separator className="my-8" />
         </>
