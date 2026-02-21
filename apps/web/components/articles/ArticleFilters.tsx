@@ -31,6 +31,7 @@ export function ArticleFilters({
     filters.journal ||
     filters.specialty ||
     filters.articleType ||
+    filters.sourceType ||
     filters.favorite !== undefined ||
     filters.rating !== undefined ||
     filters.publishedAfter ||
@@ -111,6 +112,29 @@ export function ArticleFilters({
                 })
               }
             />
+          </div>
+
+          {/* Source Type */}
+          <div className="space-y-2">
+            <Label htmlFor="filter-source">Tipo de Fonte</Label>
+            <Select
+              value={filters.sourceType || 'all'}
+              onValueChange={(value) =>
+                onFiltersChange({
+                  ...filters,
+                  sourceType: value === 'all' ? undefined : (value as 'article' | 'book'),
+                })
+              }
+            >
+              <SelectTrigger id="filter-source">
+                <SelectValue placeholder="Todos" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="article">Artigos</SelectItem>
+                <SelectItem value="book">Livros</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Article Type */}

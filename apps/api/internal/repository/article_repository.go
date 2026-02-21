@@ -57,9 +57,14 @@ func (r *ArticleRepository) List(page, pageSize int, filters map[string]interfac
 
 	query := r.db.Model(&models.Article{})
 
-	// Por padrão, esconde capítulos de livro da listagem principal
-	// Capítulos são exibidos via GET /articles/:id/chapters
-	query = query.Where("source_type != 'book_chapter'")
+	// Filtro por source_type: book, article, ou padrão (tudo exceto capítulos)
+	if sourceType, ok := filters["sourceType"].(string); ok && sourceType != "" {
+		query = query.Where("source_type = ?", sourceType)
+	} else {
+		// Por padrão, esconde capítulos de livro da listagem principal
+		// Capítulos são exibidos via GET /articles/:id/chapters
+		query = query.Where("source_type != 'book_chapter'")
+	}
 
 	// Aplicar filtros
 	if journal, ok := filters["journal"].(string); ok && journal != "" {

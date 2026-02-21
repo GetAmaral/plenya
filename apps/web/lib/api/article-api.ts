@@ -138,6 +138,7 @@ export interface ArticleFilters {
   journal?: string
   specialty?: string
   articleType?: ArticleType
+  sourceType?: 'article' | 'book'
   favorite?: boolean
   rating?: number
   publishedAfter?: string
@@ -170,6 +171,7 @@ export const articleApi = {
     if (filters?.journal) params.append('journal', filters.journal)
     if (filters?.specialty) params.append('specialty', filters.specialty)
     if (filters?.articleType) params.append('articleType', filters.articleType)
+    if (filters?.sourceType) params.append('sourceType', filters.sourceType)
     if (filters?.favorite !== undefined)
       params.append('favorite', filters.favorite.toString())
     if (filters?.rating !== undefined)
