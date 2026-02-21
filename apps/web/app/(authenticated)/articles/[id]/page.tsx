@@ -427,8 +427,8 @@ export default function ArticleDetailPage({ params }: PageProps) {
         </div>
       )}
 
-      {/* PDF Viewer (apenas artigos com link interno, não livros) */}
-      {article.internalLink && !isBook && (
+      {/* PDF Viewer — artigos e livros com arquivo anexado */}
+      {article.internalLink && !isChapter && (
         <>
           <PDFViewer
             url={articleApi.getDownloadUrl(article.id)}
