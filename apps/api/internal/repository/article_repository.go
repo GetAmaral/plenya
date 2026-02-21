@@ -127,6 +127,23 @@ func (r *ArticleRepository) DeleteChaptersByBookID(bookID uuid.UUID) error {
 	return r.db.Where("parent_article_id = ?", bookID).Delete(&models.Article{}).Error
 }
 
+// GetChapterIDsByBookID retorna os IDs de todos os capítulos de um livro
+func (r *ArticleRepository) GetChapterIDsByBookID(bookID uuid.UUID) ([]uuid.UUID, error) {
+	var ids []uuid.UUID
+	err := r.db.Model(&models.Article{}).
+		Where("parent_article_id = ? AND deleted_at IS NULL", bookID).
+		Pluck("id", &ids).Error
+	return ids, err
+}
+
+// DeleteEmbeddingsByArticleIDs remove (hard-delete) os embeddings dos artigos indicados
+func (r *ArticleRepository) DeleteEmbeddingsByArticleIDs(articleIDs []uuid.UUID) error {
+	if len(articleIDs) == 0 {
+		return nil
+	}
+	return r.db.Where("article_id IN ?", articleIDs).Delete(&models.ArticleEmbedding{}).Error
+}
+
 // Search busca artigos por texto com suporte a acentos (unaccent + pg_trgm)
 // Ignora acentos em ambas as direções: "nutrição" encontra "nutricao" e vice-versa
 func (r *ArticleRepository) Search(query string, page, pageSize int) ([]*models.Article, int64, error) {

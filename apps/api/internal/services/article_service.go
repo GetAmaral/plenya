@@ -272,7 +272,7 @@ func (s *ArticleService) UpdateArticle(id uuid.UUID, dto *UpdateArticleDTO, user
 }
 
 // DeleteArticle deleta um artigo (soft delete).
-// Se o artigo for um livro (source_type="book"), deleta os capítulos em cascata.
+// Se o artigo for um livro (source_type="book"), deleta capítulos e embeddings em cascata.
 func (s *ArticleService) DeleteArticle(id uuid.UUID) error {
 	article, err := s.repo.FindByID(id)
 	if err != nil {
@@ -285,11 +285,23 @@ func (s *ArticleService) DeleteArticle(id uuid.UUID) error {
 		os.Remove(filePath) // Ignora erro se arquivo não existir
 	}
 
-	// Cascata: se for livro, soft-deleta todos os capítulos filhos
 	if article.SourceType == "book" {
-		if err := s.repo.DeleteChaptersByBookID(id); err != nil {
+		// Cascata: buscar IDs dos capítulos, remover embeddings e soft-deletar capítulos
+		chapterIDs, err := s.repo.GetChapterIDsByBookID(id)
+		if err != nil {
 			return err
 		}
+		if len(chapterIDs) > 0 {
+			if err := s.repo.DeleteEmbeddingsByArticleIDs(chapterIDs); err != nil {
+				return err
+			}
+			if err := s.repo.DeleteChaptersByBookID(id); err != nil {
+				return err
+			}
+		}
+	} else {
+		// Artigo/capítulo avulso: remove embeddings do próprio artigo
+		s.repo.DeleteEmbeddingsByArticleIDs([]uuid.UUID{id})
 	}
 
 	return s.repo.Delete(id)
