@@ -56,6 +56,9 @@ export default function ArticlesPage() {
   const favoritesQuery = useArticles(page, pageSize, { ...filters, favorite: true })
   const searchQuery_result = useSearchArticles(searchQuery, page, pageSize)
 
+  // Contagem de capítulos (excluídos da lista principal, indexados nos livros)
+  const chaptersCountQuery = useArticles(1, 1, { sourceType: 'book_chapter' as any })
+
   const currentQuery =
     viewMode === 'search'
       ? searchQuery_result
@@ -99,7 +102,13 @@ export default function ArticlesPage() {
         title="Artigos Científicos"
         description={
           articlesQuery.data
-            ? `${articlesQuery.data.pagination.total} itens na biblioteca`
+            ? (() => {
+                const total = articlesQuery.data.pagination.total
+                const chapters = chaptersCountQuery.data?.pagination.total
+                return chapters
+                  ? `${total} artigos e livros · ${chapters} capítulos indexados`
+                  : `${total} itens na biblioteca`
+              })()
             : 'Gerencie sua biblioteca de artigos e livros médicos'
         }
         actions={[
