@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   // Otimizações de performance
   reactStrictMode: true,
 
+  // Transpile ESM-only packages
+  transpilePackages: ['react-reader'],
+
   // Otimizar imagens
   images: {
     formats: ['image/avif', 'image/webp'],
