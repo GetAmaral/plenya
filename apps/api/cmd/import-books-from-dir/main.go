@@ -68,7 +68,7 @@ var books = []BookDef{
 		Language: "en",
 		Year:     1991,
 		ChapDir:  "chapters_biomechanics",
-		OrigFile: "Biomechanics and Exercise Physiology -- Arthur T_ Johnson -- 1, 1991 -- A Wiley-Interscience Publication John Wiley & Sons -- 9780471853985 -- b18885ed77ea49b80c0c05ce026af3a2 -- Anna's Archive (1).pdf",
+		OrigFile: "Biomechanics and Exercise Physiology -- Arthur T_ Johnson -- 1, 1991 -- A Wiley-Interscience Publication John Wiley & Sons -- 9780471853985 -- b18885ed77ea49b80c0c05ce026af3a2 -- Anna\u2019s Archive (1).pdf",
 	},
 	{
 		Title:    "NSCA's Guide to Tests and Assessments",
@@ -86,7 +86,7 @@ var books = []BookDef{
 		Language: "en",
 		Year:     2019,
 		ChapDir:  "chapters_price",
-		OrigFile: "The biomechanics method for corrective exercise -- (Personal trainer) Justin Price -- 1, Champaign, IL, 2019 -- Human Kinetics Human Kinetics -- 9781492545668 -- ba4e4964ccf99a058fd02506a03465cb -- Anna's Archive.pdf",
+		OrigFile: "The biomechanics method for corrective exercise -- (Personal trainer) Justin Price -- 1, Champaign, IL, 2019 -- Human Kinetics Human Kinetics -- 9781492545668 -- ba4e4964ccf99a058fd02506a03465cb -- Anna\u2019s Archive.pdf",
 	},
 	{
 		Title:    "Biomecânica Básica",
@@ -217,12 +217,8 @@ func importBook(db *gorm.DB, qSvc *services.EmbeddingQueueService, basePath stri
 		return fmt.Errorf("nenhum capítulo encontrado em %s", chapDir)
 	}
 
-	// Montar InternalLink para o arquivo original
-	var internalLink *string
-	if _, statErr := os.Stat(origFile); statErr == nil {
-		link := origFile
-		internalLink = &link
-	}
+	// Montar InternalLink para o arquivo original (sempre usa o path, sem verificar existência)
+	internalLink := &origFile
 
 	// Publish date
 	publishDate := time.Date(book.Year, 1, 1, 0, 0, 0, 0, time.UTC)
