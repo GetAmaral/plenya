@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -65,6 +66,9 @@ type Anamnesis struct {
 	// @example Paciente colaborativo, anamnese detalhada
 	Notes *string `gorm:"type:text" json:"notes,omitempty"`
 
+	// Título computado para exibição no frontend (não persistido)
+	DisplayTitle string `gorm:"-" json:"displayTitle"`
+
 	// Timestamps
 	CreatedAt time.Time      `gorm:"not null;autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"not null;autoUpdateTime" json:"updatedAt"`
@@ -80,6 +84,20 @@ type Anamnesis struct {
 // TableName especifica o nome da tabela
 func (Anamnesis) TableName() string {
 	return "anamnesis"
+}
+
+// GetTitle retorna um título legível para a anamnese
+func (a *Anamnesis) GetTitle() string {
+	if a.Summary != nil && *a.Summary != "" {
+		return *a.Summary
+	}
+	return fmt.Sprintf("Anamnese - %s", a.ConsultationDate.Format("02/01/2006 15:04"))
+}
+
+// AfterFind popula DisplayTitle após carregar do banco
+func (a *Anamnesis) AfterFind(tx *gorm.DB) error {
+	a.DisplayTitle = a.GetTitle()
+	return nil
 }
 
 // BeforeCreate hook to generate UUID v7

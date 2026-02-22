@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -55,6 +56,9 @@ type PatientScoreSnapshot struct {
 	// @example Primeira avaliação após diagnóstico
 	Notes *string `gorm:"type:text" json:"notes,omitempty"`
 
+	// Título computado para exibição no frontend (não persistido)
+	DisplayTitle string `gorm:"-" json:"displayTitle"`
+
 	// Timestamps
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
@@ -70,6 +74,19 @@ type PatientScoreSnapshot struct {
 // TableName specifies the table name for PatientScoreSnapshot
 func (PatientScoreSnapshot) TableName() string {
 	return "patient_score_snapshots"
+}
+
+// GetTitle retorna um título legível para o snapshot
+func (pss *PatientScoreSnapshot) GetTitle() string {
+	return fmt.Sprintf("Snapshot %s - %.1f%%",
+		pss.CalculatedAt.Format("02/01/2006 15:04"),
+		pss.TotalScorePercentage)
+}
+
+// AfterFind popula DisplayTitle após carregar do banco
+func (pss *PatientScoreSnapshot) AfterFind(tx *gorm.DB) error {
+	pss.DisplayTitle = pss.GetTitle()
+	return nil
 }
 
 // BeforeCreate hook to generate UUID v7

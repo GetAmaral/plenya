@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { Search } from "lucide-react";
 
 const DEV_BYPASS_AUTH = process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === 'true';
 import {
@@ -83,6 +84,7 @@ export function CollapsibleSidebar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Wait for Zustand hydration before showing admin-only items
   useEffect(() => {
@@ -117,9 +119,10 @@ export function CollapsibleSidebar() {
     localStorage.setItem("sidebar-collapsed", newState.toString());
   };
 
-  // Close mobile menu when route changes
+  // Close mobile menu and clear search when route changes
   useEffect(() => {
     setIsMobileOpen(false);
+    setSearchQuery("");
   }, [pathname]);
 
   // Keyboard shortcut: Cmd/Ctrl + B to toggle (desktop only)
@@ -194,18 +197,27 @@ export function CollapsibleSidebar() {
               </button>
             </div>
 
+            {/* Search */}
+            <div className="px-4 pb-2 pt-3">
+              <div className="relative">
+                <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Filtrar menu..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full rounded-md border border-input bg-background py-1.5 pl-8 pr-3 text-sm outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
+                />
+              </div>
+            </div>
+
             {/* Navigation */}
-            <nav className="flex-1 space-y-1 overflow-y-auto p-4">
+            <nav className="flex-1 space-y-1 overflow-y-auto p-4 pt-1">
               {navigation
                 .filter((item) => {
-                  // Filter admin-only items
-                  if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) {
-                    return false;
-                  }
-                  // Filter staff-only items for patient-only users
-                  if (item.staffOnly && isHydrated && isPatientOnly(user)) {
-                    return false;
-                  }
+                  if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) return false;
+                  if (item.staffOnly && isHydrated && isPatientOnly(user)) return false;
+                  if (searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
                   return true;
                 })
                 .map((item) => {
@@ -322,18 +334,29 @@ export function CollapsibleSidebar() {
           </button>
         </div>
 
+        {/* Search (desktop, only when expanded) */}
+        {!isCollapsed && (
+          <div className="px-4 pb-2 pt-3">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Filtrar menu..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full rounded-md border border-input bg-background py-1.5 pl-8 pr-3 text-sm outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
+              />
+            </div>
+          </div>
+        )}
+
         {/* Navigation */}
-        <nav className="flex-1 space-y-1 overflow-y-auto p-4">
+        <nav className="flex-1 space-y-1 overflow-y-auto p-4 pt-1">
           {navigation
             .filter((item) => {
-              // Filter admin-only items
-              if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) {
-                return false;
-              }
-              // Filter staff-only items for patient-only users
-              if (item.staffOnly && isHydrated && isPatientOnly(user)) {
-                return false;
-              }
+              if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) return false;
+              if (item.staffOnly && isHydrated && isPatientOnly(user)) return false;
+              if (!isCollapsed && searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
               return true;
             })
             .map((item) => {

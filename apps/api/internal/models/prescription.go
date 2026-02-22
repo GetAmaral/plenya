@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -91,6 +92,9 @@ type Prescription struct {
 	// Data/hora da dispensação
 	DispensedAt *time.Time `gorm:"type:timestamp" json:"dispensedAt,omitempty"`
 
+	// Título computado para exibição no frontend (não persistido)
+	DisplayTitle string `gorm:"-" json:"displayTitle"`
+
 	// Timestamps
 	CreatedAt time.Time      `gorm:"not null;autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"not null;autoUpdateTime" json:"updatedAt"`
@@ -105,6 +109,27 @@ type Prescription struct {
 // TableName especifica o nome da tabela
 func (Prescription) TableName() string {
 	return "prescriptions"
+}
+
+// GetTitle retorna um título legível para a prescrição
+func (p *Prescription) GetTitle() string {
+	statusLabels := map[PrescriptionStatus]string{
+		PrescriptionActive:    "Ativa",
+		PrescriptionCompleted: "Concluída",
+		PrescriptionCancelled: "Cancelada",
+		PrescriptionExpired:   "Expirada",
+	}
+	label, ok := statusLabels[p.Status]
+	if !ok {
+		label = string(p.Status)
+	}
+	return fmt.Sprintf("Prescrição %s · %s", label, p.PrescriptionDate.Format("02/01/2006"))
+}
+
+// AfterFind popula DisplayTitle após carregar do banco
+func (p *Prescription) AfterFind(tx *gorm.DB) error {
+	p.DisplayTitle = p.GetTitle()
+	return nil
 }
 
 // BeforeCreate hook to generate UUID v7

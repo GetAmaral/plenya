@@ -16,6 +16,7 @@ export interface PatientScoreSnapshot {
   itemsEvaluatedCount: number
   itemsNotEvaluatedCount: number
   notes?: string
+  displayTitle?: string
   groupResults?: PatientScoreGroupResult[]
   itemResults?: PatientScoreItemResult[]
   calculatedByUser?: {
