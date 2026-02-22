@@ -127,6 +127,9 @@ type Article struct {
 	ParentArticle *Article  `gorm:"foreignKey:ParentArticleID" json:"parentArticle,omitempty" swaggerignore:"true"`
 	Chapters      []Article `gorm:"foreignKey:ParentArticleID" json:"chapters,omitempty" swaggerignore:"true"`
 
+	// Título computado para exibição no frontend (não persistido)
+	DisplayTitle string `gorm:"-" json:"displayTitle"`
+
 	// Timestamps
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
@@ -136,6 +139,17 @@ type Article struct {
 // TableName especifica o nome da tabela no banco de dados
 func (Article) TableName() string {
 	return "articles"
+}
+
+// GetTitle retorna o título do artigo
+func (a *Article) GetTitle() string {
+	return a.Title
+}
+
+// AfterFind popula DisplayTitle após carregar do banco
+func (a *Article) AfterFind(tx *gorm.DB) error {
+	a.DisplayTitle = a.GetTitle()
+	return nil
 }
 
 // BeforeCreate hook - executado antes de criar registro

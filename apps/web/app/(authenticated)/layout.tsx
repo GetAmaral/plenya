@@ -3,53 +3,49 @@
 import { useRequireAuth } from "@/lib/use-auth";
 import { CollapsibleSidebar, useSidebarWidth } from "@/components/layout/collapsible-sidebar";
 import { GlobalProcessingMonitor } from "@/components/processing/GlobalProcessingMonitor";
-import dynamic from "next/dynamic";
-
-const NotificationBell = dynamic(
-  () => import("@/components/notifications/NotificationBell").then((m) => m.NotificationBell),
-  { ssr: false }
-);
+import { TopBar } from "@/components/layout/top-bar";
+import { PatientContextBar } from "@/components/layout/patient-context-bar";
+import { PageHeaderProvider } from "@/lib/page-context";
 
 export default function AuthenticatedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Protect route - redirect to login if not authenticated
   useRequireAuth();
-
   const sidebarWidth = useSidebarWidth();
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="print:hidden">
-        <CollapsibleSidebar />
-      </div>
-      <div className="print:hidden">
-        <GlobalProcessingMonitor />
-      </div>
-      <main
-        className="min-h-screen transition-all duration-300 ease-in-out print:ml-0"
-        style={{
-          marginLeft: `${sidebarWidth}px`,
-        }}
-      >
-        {/* Header with notifications */}
-        <div
-          className="print:hidden sticky top-0 z-30 flex h-16 items-center justify-end border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6 lg:px-8"
-          style={{
-            marginLeft: sidebarWidth === 0 ? '0' : `-${sidebarWidth}px`,
-            paddingLeft: sidebarWidth === 0 ? '0' : `${sidebarWidth + 16}px`,
-          }}
+    <PageHeaderProvider>
+      <div className="min-h-screen bg-background">
+        <div className="print:hidden">
+          <CollapsibleSidebar />
+        </div>
+        <div className="print:hidden">
+          <GlobalProcessingMonitor />
+        </div>
+        <main
+          className="min-h-screen transition-all duration-300 ease-in-out print:ml-0"
+          style={{ marginLeft: `${sidebarWidth}px` }}
         >
-          <NotificationBell />
-        </div>
+          {/* Sticky header: TopBar + PatientContextBar */}
+          <div
+            className="print:hidden sticky top-0 z-30 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+            style={{
+              marginLeft: sidebarWidth === 0 ? "0" : `-${sidebarWidth}px`,
+              paddingLeft: sidebarWidth === 0 ? "0" : `${sidebarWidth}px`,
+            }}
+          >
+            <TopBar />
+            <PatientContextBar />
+          </div>
 
-        {/* Extra padding-top on mobile to avoid menu button overlap */}
-        <div className="p-4 pt-6 sm:p-6 lg:p-8 print:p-0">
-          {children}
-        </div>
-      </main>
-    </div>
+          {/* Page content */}
+          <div className="p-4 pt-6 sm:p-6 lg:p-8 print:p-0">
+            {children}
+          </div>
+        </main>
+      </div>
+    </PageHeaderProvider>
   );
 }

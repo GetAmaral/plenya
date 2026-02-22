@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -63,6 +64,9 @@ type LabResultBatch struct {
 	// Conteúdo processado pela IA em formato JSON estruturado
 	PDFContentJSON *string `gorm:"type:text" json:"pdfContentJson,omitempty"`
 
+	// Título computado para exibição no frontend (não persistido)
+	DisplayTitle string `gorm:"-" json:"displayTitle"`
+
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 
@@ -82,6 +86,17 @@ type LabResultBatch struct {
 // TableName especifica o nome da tabela
 func (LabResultBatch) TableName() string {
 	return "lab_result_batches"
+}
+
+// GetTitle retorna um título legível para o lote de resultados
+func (lrb *LabResultBatch) GetTitle() string {
+	return fmt.Sprintf("%s - %s", lrb.LaboratoryName, lrb.CollectionDate.Format("02/01/2006"))
+}
+
+// AfterFind popula DisplayTitle após carregar do banco
+func (lrb *LabResultBatch) AfterFind(tx *gorm.DB) error {
+	lrb.DisplayTitle = lrb.GetTitle()
+	return nil
 }
 
 // BeforeCreate hook to generate UUID v7 (OBRIGATÓRIO)

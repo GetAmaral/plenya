@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -79,6 +80,9 @@ type Appointment struct {
 	// Motivo do cancelamento
 	CancellationReason *string `gorm:"type:text" json:"cancellationReason,omitempty"`
 
+	// Título computado para exibição no frontend (não persistido)
+	DisplayTitle string `gorm:"-" json:"displayTitle"`
+
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 
@@ -97,6 +101,27 @@ type Appointment struct {
 // TableName especifica o nome da tabela
 func (Appointment) TableName() string {
 	return "appointments"
+}
+
+// GetTitle retorna um título legível para a consulta
+func (a *Appointment) GetTitle() string {
+	typeLabels := map[AppointmentType]string{
+		AppointmentRoutine:   "Rotina",
+		AppointmentFollowUp:  "Retorno",
+		AppointmentUrgent:    "Urgência",
+		AppointmentEmergency: "Emergência",
+	}
+	label, ok := typeLabels[a.Type]
+	if !ok {
+		label = "Consulta"
+	}
+	return fmt.Sprintf("%s - %s", label, a.ScheduledAt.Format("02/01/2006 15:04"))
+}
+
+// AfterFind popula DisplayTitle após carregar do banco
+func (a *Appointment) AfterFind(tx *gorm.DB) error {
+	a.DisplayTitle = a.GetTitle()
+	return nil
 }
 
 // BeforeCreate hook to generate UUID v7

@@ -780,8 +780,8 @@ export default function HealthScoreDetailPage() {
     <div className="flex flex-col gap-6">
       {/* Header */}
       <PageHeader
-        title="Detalhes do Snapshot"
-        description={`Calculado em ${format(new Date(snapshot.calculatedAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}`}
+        title={snapshot.displayTitle ?? `Snapshot - ${format(new Date(snapshot.calculatedAt), "dd/MM/yyyy HH:mm", { locale: ptBR })}`}
+        breadcrumbs={[{ label: "Escores de Saúde", href: "/health-scores" }]}
       >
         <div className="flex items-center gap-2">
           <Button
