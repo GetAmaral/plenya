@@ -18,6 +18,12 @@ type ScoreItem struct {
 	// @example PLN585CE3E3, PLNF66C0E48, GLUCOSE_FASTING
 	LabTestCode *string `gorm:"type:varchar(100);index;column:lab_test_code" json:"labTestCode,omitempty" validate:"omitempty,max=100"`
 
+	// Código para hardcoding de AnamneseItem - gerado automaticamente a partir do nome
+	// Apenas preenchido quando lab_test_code é NULL (itens de anamnese, não de exame laboratorial)
+	// Facilita referência estável por código em vez de UUID
+	// @example ALTURA_CM, PESO_KG, TABAGISMO_ATUAL, COXA_CM_HOMEM
+	AnamneseItemCode *string `gorm:"type:varchar(200);index;column:anamnese_item_code" json:"anamneseItemCode,omitempty" validate:"omitempty,max=200"`
+
 	// @minLength 2
 	// @maxLength 300
 	// @example Hemoglobina - Homens

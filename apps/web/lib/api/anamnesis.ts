@@ -7,6 +7,7 @@ export interface AnamnesisItem {
   scoreItem?: ScoreItem
   textValue?: string
   numericValue?: number
+  selectedLevel?: number
   order: number
   createdAt: string
   updatedAt: string
@@ -16,6 +17,7 @@ export interface AnamnesisItemRequest {
   scoreItemId: string
   textValue?: string
   numericValue?: number
+  selectedLevel?: number
   order: number
 }
 

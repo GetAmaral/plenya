@@ -14,6 +14,61 @@ import { toast } from 'sonner'
 import type { AnamnesisTemplate, AnamnesisTemplateItem } from '@/lib/api/anamnesis-templates'
 import type { ScoreGroup, ScoreSubgroup, ScoreItem, ScoreLevel } from '@/lib/api/score-api'
 import type { AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
+import type { Patient } from '@/lib/auth-store'
+
+// Evaluates whether a numeric value satisfies a ScoreLevel's operator/limits
+function evaluatesTrue(value: number, level: ScoreLevel): boolean {
+  const lower = level.lowerLimit != null ? parseFloat(level.lowerLimit) : null
+  const upper = level.upperLimit != null ? parseFloat(level.upperLimit) : null
+  switch (level.operator) {
+    case '=':       return lower !== null && value === lower
+    case '>':       return lower !== null && value > lower
+    case '>=':      return lower !== null && value >= lower
+    case '<':       return lower !== null && value < lower
+    case '<=':      return lower !== null && value <= lower
+    case 'between': return lower !== null && upper !== null && value >= lower && value <= upper
+    default: return false
+  }
+}
+
+// Returns the level number that matches a numeric value, or undefined if none
+function detectLevel(value: number, levels: ScoreLevel[]): number | undefined {
+  return levels.find(l => evaluatesTrue(value, l))?.level
+}
+
+// Calcula idade a partir da data de nascimento
+function calculateAge(birthDate: string): number {
+  const birth = new Date(birthDate)
+  const today = new Date()
+  let age = today.getFullYear() - birth.getFullYear()
+  const m = today.getMonth() - birth.getMonth()
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
+  return age
+}
+
+// Verifica se um ScoreItem é aplicável ao paciente atual
+function itemAppliesToPatient(scoreItem: ScoreItem, patient: Patient | null | undefined): boolean {
+  if (!patient) return true
+
+  const age = patient.age || calculateAge(patient.birthDate)
+
+  // Filtro de gênero
+  if (scoreItem.gender && scoreItem.gender !== 'not_applicable') {
+    if (scoreItem.gender !== patient.gender) return false
+  }
+
+  // Filtro de faixa etária
+  if (scoreItem.ageRangeMin !== undefined && age < scoreItem.ageRangeMin) return false
+  if (scoreItem.ageRangeMax !== undefined && age > scoreItem.ageRangeMax) return false
+
+  // Filtro de pós-menopausa (apenas para mulheres com dado disponível)
+  if (scoreItem.postMenopause !== undefined) {
+    if (patient.gender !== 'female') return false
+    if (patient.menopause !== undefined && scoreItem.postMenopause !== patient.menopause) return false
+  }
+
+  return true
+}
 
 interface AnamnesisTemplateItemsRendererProps {
   template: AnamnesisTemplate
@@ -21,6 +76,7 @@ interface AnamnesisTemplateItemsRendererProps {
   onChange: (values: AnamnesisItemFormValue[]) => void
   compact?: boolean // For regular form (smaller UI)
   focusScoreItemId?: string | null
+  patient?: Patient | null
 }
 
 // Score level color classes - must be complete strings for Tailwind to detect them
@@ -67,7 +123,7 @@ interface OrganizedData {
   }>
 }
 
-function organizeTemplateItems(template: AnamnesisTemplate): OrganizedData {
+function organizeTemplateItems(template: AnamnesisTemplate, patient?: Patient | null): OrganizedData {
   const groups = new Map()
 
   if (!template.items) {
@@ -76,10 +132,31 @@ function organizeTemplateItems(template: AnamnesisTemplate): OrganizedData {
 
   const sortedItems = [...template.items].sort((a, b) => a.order - b.order)
 
+  // Primeiro pass: identificar quais parentItemIds têm filhos no template
+  // (pais com filhos presentes não devem aparecer — só os filhos corretos)
+  const parentIdsWithChildrenInTemplate = new Set<string>()
+  sortedItems.forEach((templateItem) => {
+    const parentId = templateItem.scoreItem?.parentItemId
+    if (parentId) {
+      parentIdsWithChildrenInTemplate.add(parentId)
+    }
+  })
+
   sortedItems.forEach((templateItem) => {
     const scoreItem = templateItem.scoreItem
 
     if (!scoreItem || !scoreItem.subgroup) {
+      return
+    }
+
+    // Suprimir o item pai se ele tiver filhos no template (exibir apenas os filhos)
+    if (parentIdsWithChildrenInTemplate.has(scoreItem.id)) {
+      return
+    }
+
+    // Para itens filhos (com parentItemId): aplicar filtro demográfico
+    // Para itens sem hierarquia: sempre exibir (filtro demográfico também se aplicar)
+    if (!itemAppliesToPatient(scoreItem, patient)) {
       return
     }
 
@@ -119,6 +196,7 @@ export function AnamnesisTemplateItemsRenderer({
   onChange,
   compact = false,
   focusScoreItemId,
+  patient,
 }: AnamnesisTemplateItemsRendererProps) {
   const [values, setValues] = useState<Map<string, AnamnesisItemFormValue>>(() => {
     const newValues = new Map<string, AnamnesisItemFormValue>()
@@ -129,7 +207,7 @@ export function AnamnesisTemplateItemsRenderer({
   })
   const [focusedItemId, setFocusedItemId] = useState<string | null>(null)
 
-  const organized = organizeTemplateItems(template)
+  const organized = organizeTemplateItems(template, patient)
   const itemRefs = useRef<Map<string, HTMLDivElement>>(new Map())
   const hasFocused = useRef(false)
 
@@ -166,17 +244,18 @@ export function AnamnesisTemplateItemsRenderer({
       const newValues = new Map(prev)
       const existing = newValues.get(scoreItemId)
 
-      if (existing && existing.numericValue === level.level) {
+      if (existing && existing.selectedLevel === level.level) {
         // Deselect if clicking the same level
-        if (!existing.textValue) {
+        if (!existing.textValue && existing.numericValue === undefined) {
           newValues.delete(scoreItemId)
         } else {
-          newValues.set(scoreItemId, { ...existing, numericValue: undefined })
+          newValues.set(scoreItemId, { ...existing, selectedLevel: undefined })
         }
       } else {
         newValues.set(scoreItemId, {
           scoreItemId,
-          numericValue: level.level,
+          numericValue: existing?.numericValue,
+          selectedLevel: level.level,
           textValue: existing?.textValue,
           order,
         })
@@ -196,12 +275,13 @@ export function AnamnesisTemplateItemsRenderer({
       const newValues = new Map(prev)
       const existing = newValues.get(scoreItemId)
 
-      if (!text && !existing?.numericValue) {
+      if (!text && existing?.numericValue === undefined && existing?.selectedLevel === undefined) {
         newValues.delete(scoreItemId)
       } else {
         newValues.set(scoreItemId, {
           scoreItemId,
           numericValue: existing?.numericValue,
+          selectedLevel: existing?.selectedLevel,
           textValue: text || undefined,
           order,
         })
@@ -231,9 +311,9 @@ export function AnamnesisTemplateItemsRenderer({
       const subgroupItemIds = items.map(({ scoreItem }) => scoreItem.id)
       const selectedInSubgroup = Array.from(newValues.entries())
         .filter(([id]) => subgroupItemIds.includes(id))
-        .filter(([, val]) => val.numericValue !== undefined)
+        .filter(([, val]) => val.selectedLevel !== undefined)
 
-      if (existing && existing.numericValue !== undefined) {
+      if (existing && existing.selectedLevel !== undefined) {
         // Deselect
         newValues.delete(scoreItemId)
       } else {
@@ -245,10 +325,10 @@ export function AnamnesisTemplateItemsRenderer({
           })
           return prev
         }
-        // Select with numericValue = 1 (represents "selected")
+        // Select with selectedLevel = 1 (represents "selected")
         newValues.set(scoreItemId, {
           scoreItemId,
-          numericValue: 1,
+          selectedLevel: 1,
           textValue: existing?.textValue,
           order,
         })
@@ -258,6 +338,29 @@ export function AnamnesisTemplateItemsRenderer({
         onChange(Array.from(newValues.values()))
       })
 
+      return newValues
+    })
+  }
+
+  // Handle numeric input change (for items with unit — real measured value)
+  const handleNumericChange = (scoreItemId: string, raw: string, order: number, levels: ScoreLevel[]) => {
+    const num = raw === '' ? undefined : parseFloat(raw)
+    const autoLevel = num !== undefined && !isNaN(num) ? detectLevel(num, levels) : undefined
+    setValues((prev) => {
+      const newValues = new Map(prev)
+      const existing = newValues.get(scoreItemId)
+      if (num === undefined && !existing?.textValue && existing?.selectedLevel === undefined) {
+        newValues.delete(scoreItemId)
+      } else {
+        newValues.set(scoreItemId, {
+          scoreItemId,
+          numericValue: num,
+          selectedLevel: autoLevel ?? existing?.selectedLevel,
+          textValue: existing?.textValue,
+          order,
+        })
+      }
+      requestAnimationFrame(() => onChange(Array.from(newValues.values())))
       return newValues
     })
   }
@@ -295,7 +398,7 @@ export function AnamnesisTemplateItemsRenderer({
                 // Count selected items in this subgroup
                 const selectedInSubgroup = items.filter(({ scoreItem }) => {
                   const val = values.get(scoreItem.id)
-                  return val?.numericValue !== undefined
+                  return val?.selectedLevel !== undefined
                 })
                 const selectedCount = selectedInSubgroup.length
 
@@ -326,8 +429,9 @@ export function AnamnesisTemplateItemsRenderer({
                       {items.map(({ templateItem, scoreItem }) => {
                         const currentValue = values.get(scoreItem.id)
                         const levels = scoreItem.levels || []
-                        const hasLevelSelected = currentValue?.numericValue !== undefined
-                        const isFilled = !!(hasLevelSelected || currentValue?.textValue)
+                        const hasLevelSelected = currentValue?.selectedLevel !== undefined
+                        const hasNumericValue = currentValue?.numericValue !== undefined
+                        const isFilled = !!(hasLevelSelected || hasNumericValue || currentValue?.textValue)
                         const isSelected = hasMaxSelect && hasLevelSelected
 
                         // Compact layout for maxSelect items
@@ -444,17 +548,36 @@ export function AnamnesisTemplateItemsRenderer({
                                 )}
                               </div>
 
+                              {/* Numeric input for items with unit */}
+                              {scoreItem.unit && (
+                                <div className="space-y-1">
+                                  <Label className="text-xs font-medium text-muted-foreground">
+                                    Valor medido ({scoreItem.unit}):
+                                  </Label>
+                                  <Input
+                                    type="number"
+                                    step="any"
+                                    value={currentValue?.numericValue ?? ''}
+                                    onChange={(e) => handleNumericChange(scoreItem.id, e.target.value, templateItem.order, levels)}
+                                    placeholder={`Digite em ${scoreItem.unit}`}
+                                    className={cn(compact ? 'h-9 text-sm' : 'h-10')}
+                                  />
+                                </div>
+                              )}
+
                               {/* Levels */}
                               {levels.length > 0 && (
                                 <div className="space-y-2">
                                   <Label className="text-xs font-medium text-muted-foreground">
-                                    {compact ? 'Níveis (opcional):' : 'Selecione o nível:'}
+                                    {scoreItem.unit
+                                      ? (compact ? 'Nível (auto ou manual):' : 'Nível (auto-detectado ou selecione manualmente):')
+                                      : (compact ? 'Níveis (opcional):' : 'Selecione o nível:')}
                                   </Label>
                                   <div className={cn(
                                     compact ? 'flex flex-wrap gap-2' : 'grid grid-cols-2 sm:grid-cols-3 gap-3'
                                   )}>
                                     {levels.map((level) => {
-                                      const isLevelSelected = currentValue?.numericValue === level.level
+                                      const isLevelSelected = currentValue?.selectedLevel === level.level
                                       const selectedClass = LEVEL_SELECTED_CLASSES[level.level] || LEVEL_SELECTED_CLASSES[6]
                                       const hoverClass = LEVEL_HOVER_CLASSES[level.level] || LEVEL_HOVER_CLASSES[6]
                                       const compactSelectedClass = LEVEL_COMPACT_SELECTED_CLASSES[level.level] || LEVEL_COMPACT_SELECTED_CLASSES[6]
@@ -516,10 +639,17 @@ export function AnamnesisTemplateItemsRenderer({
 
                               {/* Status badges */}
                               {isFilled && (
-                                <div className="flex gap-2 pt-2 border-t">
-                                  {currentValue.numericValue !== undefined && (
+                                <div className="flex gap-2 flex-wrap pt-2 border-t">
+                                  {currentValue.selectedLevel !== undefined && (
                                     <Badge variant={compact ? 'secondary' : 'default'} className="text-xs">
-                                      {compact ? `Nível: ${currentValue.numericValue}` : `Nível selecionado: ${currentValue.numericValue}`}
+                                      {compact ? `Nível: ${currentValue.selectedLevel}` : `Nível selecionado: ${currentValue.selectedLevel}`}
+                                    </Badge>
+                                  )}
+                                  {currentValue.numericValue !== undefined && (
+                                    <Badge variant="secondary" className="text-xs">
+                                      {compact
+                                        ? `${currentValue.numericValue} ${scoreItem.unit ?? ''}`
+                                        : `Valor: ${currentValue.numericValue} ${scoreItem.unit ?? ''}`}
                                     </Badge>
                                   )}
                                   {currentValue.textValue && (

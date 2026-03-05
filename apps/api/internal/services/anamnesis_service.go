@@ -140,11 +140,12 @@ func (s *AnamnesisService) Create(authorID uuid.UUID, req *dto.CreateAnamnesisRe
 			}
 
 			items[i] = models.AnamnesisItem{
-				AnamnesisID:  anamnesis.ID,
-				ScoreItemID:  scoreItemID,
-				TextValue:    itemReq.TextValue,
-				NumericValue: itemReq.NumericValue,
-				Order:        itemReq.Order,
+				AnamnesisID:   anamnesis.ID,
+				ScoreItemID:   scoreItemID,
+				TextValue:     itemReq.TextValue,
+				NumericValue:  itemReq.NumericValue,
+				SelectedLevel: itemReq.SelectedLevel,
+				Order:         itemReq.Order,
 			}
 		}
 
@@ -336,11 +337,12 @@ func (s *AnamnesisService) Update(anamnesisID, authorID uuid.UUID, userRole mode
 				}
 
 				items[i] = models.AnamnesisItem{
-					AnamnesisID:  anamnesis.ID,
-					ScoreItemID:  scoreItemID,
-					TextValue:    itemReq.TextValue,
-					NumericValue: itemReq.NumericValue,
-					Order:        itemReq.Order,
+					AnamnesisID:   anamnesis.ID,
+					ScoreItemID:   scoreItemID,
+					TextValue:     itemReq.TextValue,
+					NumericValue:  itemReq.NumericValue,
+					SelectedLevel: itemReq.SelectedLevel,
+					Order:         itemReq.Order,
 				}
 			}
 
@@ -455,13 +457,14 @@ func (s *AnamnesisService) toDTO(anamnesis *models.Anamnesis, restricted bool) *
 		response.Items = make([]dto.AnamnesisItemResponse, len(anamnesis.Items))
 		for i, item := range anamnesis.Items {
 			itemResponse := dto.AnamnesisItemResponse{
-				ID:           item.ID.String(),
-				ScoreItemID:  item.ScoreItemID.String(),
-				TextValue:    item.TextValue,
-				NumericValue: item.NumericValue,
-				Order:        item.Order,
-				CreatedAt:    item.CreatedAt.Format(time.RFC3339),
-				UpdatedAt:    item.UpdatedAt.Format(time.RFC3339),
+				ID:            item.ID.String(),
+				ScoreItemID:   item.ScoreItemID.String(),
+				TextValue:     item.TextValue,
+				NumericValue:  item.NumericValue,
+				SelectedLevel: item.SelectedLevel,
+				Order:         item.Order,
+				CreatedAt:     item.CreatedAt.Format(time.RFC3339),
+				UpdatedAt:     item.UpdatedAt.Format(time.RFC3339),
 			}
 
 			// Include ScoreItem if preloaded
