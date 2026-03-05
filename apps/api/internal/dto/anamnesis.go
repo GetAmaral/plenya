@@ -59,10 +59,11 @@ type ScoreLevelBrief struct {
 
 // AnamnesisItemRequest representa um item de anamnese
 type AnamnesisItemRequest struct {
-	ScoreItemID  string   `json:"scoreItemId" validate:"required,uuid"`
-	TextValue    *string  `json:"textValue,omitempty"`
-	NumericValue *float64 `json:"numericValue,omitempty"`
-	Order        int      `json:"order" validate:"gte=0,lte=9999"`
+	ScoreItemID   string   `json:"scoreItemId" validate:"required,uuid"`
+	TextValue     *string  `json:"textValue,omitempty"`
+	NumericValue  *float64 `json:"numericValue,omitempty"`
+	SelectedLevel *int     `json:"selectedLevel,omitempty"`
+	Order         int      `json:"order" validate:"gte=0,lte=9999"`
 }
 
 // CreateAnamnesisRequest representa o payload de criação de anamnese
@@ -94,14 +95,15 @@ type UpdateAnamnesisRequest struct {
 
 // AnamnesisItemResponse representa um item de anamnese na resposta
 type AnamnesisItemResponse struct {
-	ID           string          `json:"id"`
-	ScoreItemID  string          `json:"scoreItemId"`
-	ScoreItem    *ScoreItemBrief `json:"scoreItem,omitempty"`
-	TextValue    *string         `json:"textValue,omitempty"`
-	NumericValue *float64        `json:"numericValue,omitempty"`
-	Order        int             `json:"order"`
-	CreatedAt    string          `json:"createdAt"`
-	UpdatedAt    string          `json:"updatedAt"`
+	ID            string          `json:"id"`
+	ScoreItemID   string          `json:"scoreItemId"`
+	ScoreItem     *ScoreItemBrief `json:"scoreItem,omitempty"`
+	TextValue     *string         `json:"textValue,omitempty"`
+	NumericValue  *float64        `json:"numericValue,omitempty"`
+	SelectedLevel *int            `json:"selectedLevel,omitempty"`
+	Order         int             `json:"order"`
+	CreatedAt     string          `json:"createdAt"`
+	UpdatedAt     string          `json:"updatedAt"`
 }
 
 // AnamnesisTemplateBrief representa um AnamnesisTemplate na resposta

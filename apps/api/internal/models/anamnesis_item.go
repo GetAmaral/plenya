@@ -25,9 +25,13 @@ type AnamnesisItem struct {
 	// @example Paciente relata dor torácica intensa há 2 horas
 	TextValue *string `gorm:"type:text" json:"textValue,omitempty"`
 
-	// Numeric value for quantitative data
+	// Numeric value for quantitative data (real measurement, e.g. 82.3 kg)
 	// @example 120.5
 	NumericValue *float64 `gorm:"type:double precision" json:"numericValue,omitempty" validate:"omitempty"`
+
+	// Selected level (classified level 0-6), auto-detected or manually selected
+	// @example 3
+	SelectedLevel *int `gorm:"type:integer" json:"selectedLevel,omitempty"`
 
 	// Order for display (within the anamnesis)
 	// @minimum 0

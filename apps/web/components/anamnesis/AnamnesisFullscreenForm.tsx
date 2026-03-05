@@ -61,6 +61,7 @@ import { RichTextEditor } from '@/components/ui/rich-text-editor'
 import { htmlToPlainText } from '@/lib/html-utils'
 import { AnamnesisFullscreenTemplateItems } from './AnamnesisFullscreenTemplateItems'
 import type { AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
+import { useSelectedPatient } from '@/lib/use-selected-patient'
 
 interface AnamnesisFullscreenFormProps {
   onSuccess: () => void
@@ -68,6 +69,7 @@ interface AnamnesisFullscreenFormProps {
 }
 
 export function AnamnesisFullscreenForm({ onSuccess, onCancel }: AnamnesisFullscreenFormProps) {
+  const { selectedPatient } = useSelectedPatient()
   // Form state
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>('')
   const [selectedTemplate, setSelectedTemplate] = useState<AnamnesisTemplate | null>(null)
@@ -181,6 +183,7 @@ export function AnamnesisFullscreenForm({ onSuccess, onCancel }: AnamnesisFullsc
       items: templateItems.length > 0 ? templateItems.map((item) => ({
         scoreItemId: item.scoreItemId,
         numericValue: item.numericValue,
+        selectedLevel: item.selectedLevel,
         textValue: item.textValue,
         order: item.order,
       })) : undefined,
@@ -521,6 +524,7 @@ export function AnamnesisFullscreenForm({ onSuccess, onCancel }: AnamnesisFullsc
                       template={selectedTemplate}
                       initialValues={templateItems}
                       onChange={setTemplateItems}
+                      patient={selectedPatient}
                     />
                   </CardContent>
                 </CollapsibleContent>

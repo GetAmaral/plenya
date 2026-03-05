@@ -428,7 +428,7 @@ export default function AnamnesisPage() {
                                         <div className="space-y-2">
                                           {items.map((item: any) => {
                                             const scoreItem = item.scoreItem;
-                                            const selectedLevel = scoreItem.levels?.find((l: any) => l.level === item.numericValue);
+                                            const selectedLevel = scoreItem.levels?.find((l: any) => l.level === item.selectedLevel);
                                             const levelStyle = selectedLevel ? LEVEL_STYLES[selectedLevel.level as keyof typeof LEVEL_STYLES] || LEVEL_STYLES[6] : null;
 
                                             return (
@@ -436,6 +436,11 @@ export default function AnamnesisPage() {
                                                 <div className="flex items-start gap-2">
                                                   <div className="flex-1">
                                                     <span className="font-semibold">{scoreItem.name}</span>
+                                                    {item.numericValue != null && (
+                                                      <span className="font-normal text-muted-foreground ml-1">
+                                                        ({item.numericValue}{scoreItem.unit ? ` ${scoreItem.unit}` : ''})
+                                                      </span>
+                                                    )}
                                                     {item.textValue && (
                                                       <span className="font-normal text-muted-foreground">
                                                         {': '}{item.textValue}

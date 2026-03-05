@@ -34,12 +34,14 @@ import { format } from 'date-fns'
 import { RichTextEditor } from '@/components/ui/rich-text-editor'
 import { htmlToPlainText, hasTextContent } from '@/lib/html-utils'
 import { AnamnesisTemplateItemsForm, type AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
+import { useSelectedPatient } from '@/lib/use-selected-patient'
 
 interface CreateAnamnesisFormProps {
   onSuccess: () => void
 }
 
 export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
+  const { selectedPatient } = useSelectedPatient()
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>('')
   const [selectedTemplate, setSelectedTemplate] = useState<AnamnesisTemplate | null>(null)
   const [consultationDate, setConsultationDate] = useState(
@@ -149,6 +151,7 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
       items: templateItems.length > 0 ? templateItems.map((item) => ({
         scoreItemId: item.scoreItemId,
         numericValue: item.numericValue,
+        selectedLevel: item.selectedLevel,
         textValue: item.textValue,
         order: item.order,
       })) : undefined,
@@ -272,6 +275,7 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
                   initialValues={templateItems}
                   onChange={setTemplateItems}
                   focusScoreItemId={focusScoreItemId}
+                  patient={selectedPatient}
                 />
               </div>
             )}
@@ -351,6 +355,7 @@ interface EditAnamnesisFormProps {
 }
 
 export function EditAnamnesisForm({ anamnesis, focusScoreItemId, onSuccess, onCancel }: EditAnamnesisFormProps) {
+  const { selectedPatient } = useSelectedPatient()
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
     anamnesis.anamnesisTemplateId || ''
   )
@@ -371,6 +376,7 @@ export function EditAnamnesisForm({ anamnesis, focusScoreItemId, onSuccess, onCa
     anamnesis.items?.map(item => ({
       scoreItemId: item.scoreItemId,
       numericValue: item.numericValue,
+      selectedLevel: item.selectedLevel,
       textValue: item.textValue,
       order: item.order,
     })) || []
@@ -489,6 +495,7 @@ export function EditAnamnesisForm({ anamnesis, focusScoreItemId, onSuccess, onCa
       items: templateItems.length > 0 ? templateItems.map((item) => ({
         scoreItemId: item.scoreItemId,
         numericValue: item.numericValue,
+        selectedLevel: item.selectedLevel,
         textValue: item.textValue,
         order: item.order,
       })) : undefined,
@@ -611,6 +618,7 @@ export function EditAnamnesisForm({ anamnesis, focusScoreItemId, onSuccess, onCa
                   initialValues={templateItems}
                   onChange={setTemplateItems}
                   focusScoreItemId={focusScoreItemId}
+                  patient={selectedPatient}
                 />
               </div>
             )}
