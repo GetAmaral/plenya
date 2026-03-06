@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/google/uuid"
@@ -37,6 +38,8 @@ type BatchResult struct {
 const BATCH_SIZE = 50
 
 // Auto-Link ALL - Linkador automático com batch processing e rollback
+// Usage: go run cmd/auto-link-all/main.go [uuid1 uuid2 ...]
+// Sem args: processa TODOS. Com args: processa apenas os IDs especificados.
 func main() {
 	godotenv.Load()
 	cfg, _ := config.Load()
@@ -50,8 +53,23 @@ func main() {
 
 	vectorRepo := repository.NewArticleVectorRepository(db)
 
+	// Parse optional specific IDs from args
+	var specificIDs []uuid.UUID
+	for _, arg := range os.Args[1:] {
+		id, err := uuid.Parse(arg)
+		if err != nil {
+			log.Fatalf("❌ ID inválido: %s (%v)", arg, err)
+		}
+		specificIDs = append(specificIDs, id)
+	}
+
 	var scoreItems []models.ScoreItem
-	db.Preload("Subgroup.Group").Preload("ParentItem").Find(&scoreItems)
+	q := db.Preload("Subgroup.Group").Preload("ParentItem")
+	if len(specificIDs) > 0 {
+		q = q.Where("id IN ?", specificIDs)
+		fmt.Printf("🔗 Auto-linking %d score items específicos...\n", len(specificIDs))
+	}
+	q.Find(&scoreItems)
 
 	fmt.Printf("🔗 Auto-linking %d score items (batch size: %d)...\n", len(scoreItems), BATCH_SIZE)
 
