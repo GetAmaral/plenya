@@ -753,12 +753,72 @@ func setupRoutes(
 	articles.Delete("/:id/score-items", middleware.RequireMedicalStaff(), articleHandler.RemoveScoreItemsFromArticle)
 	articles.Get("/:id/score-items", articleHandler.GetScoreItemsForArticle)
 
+	// === Training Module ===
+	registerTrainingRoutes(v1, cfg)
+
 	// Servir arquivos estáticos (uploads)
 	app.Static("/uploads", "./uploads")
 
 	// Iniciar notification worker (subscription notifications)
 	notificationWorker := workers.NewNotificationWorker(notificationService, 24*time.Hour) // Check every 24 hours
 	notificationWorker.Start()
+}
+
+// registerTrainingRoutes registra as rotas do módulo de treinamento
+func registerTrainingRoutes(v1 fiber.Router, cfg *config.Config) {
+	// Services
+	exerciseService := services.NewExerciseService(database.DB)
+	physicalAssessmentService := services.NewPhysicalAssessmentService(database.DB)
+	workoutPlanService := services.NewWorkoutPlanService(database.DB)
+	periodizationService := services.NewPeriodizationService(database.DB)
+
+	// Handlers
+	exerciseHandler := handlers.NewExerciseHandler(exerciseService)
+	physicalAssessmentHandler := handlers.NewPhysicalAssessmentHandler(physicalAssessmentService)
+	workoutPlanHandler := handlers.NewWorkoutPlanHandler(workoutPlanService)
+	periodizationHandler := handlers.NewPeriodizationHandler(periodizationService)
+
+	// Public routes (no auth)
+	v1.Get("/workout-plans/public/:code", workoutPlanHandler.GetByPublicCode)
+
+	// NSCA reference data (no auth needed)
+	v1.Get("/training/nsca-reference", func(c *fiber.Ctx) error {
+		return c.JSON(services.NSCAReferenceData)
+	})
+
+	// Exercises (authenticated)
+	exercises := v1.Group("/exercises")
+	exercises.Use(middleware.Auth(cfg))
+	exercises.Get("/", exerciseHandler.List)
+	exercises.Get("/:id", exerciseHandler.GetByID)
+
+	// Physical Assessments (authenticated, patient-scoped)
+	assessments := v1.Group("/physical-assessments")
+	assessments.Use(middleware.Auth(cfg))
+	assessments.Use(middleware.AuditLog(database.DB))
+	assessments.Get("/", physicalAssessmentHandler.List)
+	assessments.Post("/", middleware.RequireMedicalStaff(), physicalAssessmentHandler.Create)
+	assessments.Get("/:id", physicalAssessmentHandler.GetByID)
+	assessments.Delete("/:id", middleware.RequireAdmin(), physicalAssessmentHandler.Delete)
+
+	// Workout Plans (authenticated, patient-scoped)
+	workoutPlans := v1.Group("/workout-plans")
+	workoutPlans.Use(middleware.Auth(cfg))
+	workoutPlans.Use(middleware.AuditLog(database.DB))
+	workoutPlans.Get("/", workoutPlanHandler.List)
+	workoutPlans.Post("/", middleware.RequireMedicalStaff(), workoutPlanHandler.Create)
+	workoutPlans.Get("/:id", workoutPlanHandler.GetByID)
+	workoutPlans.Put("/:id", middleware.RequireMedicalStaff(), workoutPlanHandler.Update)
+	workoutPlans.Delete("/:id", middleware.RequireAdmin(), workoutPlanHandler.Delete)
+
+	// Periodizations (authenticated, patient-scoped)
+	periodizations := v1.Group("/periodizations")
+	periodizations.Use(middleware.Auth(cfg))
+	periodizations.Use(middleware.AuditLog(database.DB))
+	periodizations.Get("/", periodizationHandler.List)
+	periodizations.Post("/", middleware.RequireMedicalStaff(), periodizationHandler.Create)
+	periodizations.Get("/:id", periodizationHandler.GetByID)
+	periodizations.Delete("/:id", middleware.RequireAdmin(), periodizationHandler.Delete)
 }
 
 // healthCheck verifica se a API está funcionando

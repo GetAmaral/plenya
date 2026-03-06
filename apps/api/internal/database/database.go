@@ -93,6 +93,15 @@ func AutoMigrate() error {
 
 		// Articles
 		&models.Article{},
+
+		// Training
+		&models.Exercise{},
+		&models.WorkoutPlan{},
+		&models.WorkoutPlanSession{},
+		&models.WorkoutSessionExercise{},
+		&models.PhysicalAssessment{},
+		&models.WorkoutPeriodization{},
+		&models.WorkoutMesocycle{},
 	)
 }
 
