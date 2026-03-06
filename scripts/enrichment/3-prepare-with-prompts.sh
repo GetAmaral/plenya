@@ -29,9 +29,13 @@ set -e
 echo "🔬 SCRIPT 3: Prepare ScoreItems com Prompts"
 echo "============================================"
 echo ""
+echo "Usage: $0 [uuid1 uuid2 ...]"
+echo "  Sem args: processa todos sem preparation (incremental)"
+echo "  Com args: força reprocessamento dos IDs especificados"
+echo ""
 
 # Verificar Docker
-if ! docker compose ps | grep -q "api.*running"; then
+if ! docker compose ps | grep -q "api.*Up"; then
     echo "❌ Erro: Docker não está rodando!"
     exit 1
 fi
@@ -49,28 +53,34 @@ EOSQL
 
 echo ""
 
-# Opções
-echo "Opções:"
-echo "  1) Preparar apenas items SEM preparation (incremental)"
-echo "  2) RE-PREPARAR TODOS (deleta e recria - recomendado após mudanças)"
-echo ""
-read -p "Escolha (1/2): " -n 1 -r OPTION
-echo ""
+if [ "$#" -gt 0 ]; then
+    # IDs específicos: reprocessa direto, sem interação
+    echo "🎯 Modo específico: reprocessando $# item(s) fornecido(s)..."
+    echo ""
+else
+    # Modo interativo para todos
+    echo "Opções:"
+    echo "  1) Preparar apenas items SEM preparation (incremental)"
+    echo "  2) RE-PREPARAR TODOS (deleta e recria - recomendado após mudanças)"
+    echo ""
+    read -p "Escolha (1/2): " -n 1 -r OPTION
+    echo ""
 
-if [[ $OPTION == "2" ]]; then
-    echo ""
-    read -p "⚠️  Isto vai DELETAR todas preparations existentes. Confirma? (s/N): " -n 1 -r
-    echo ""
-    if [[ ! $REPLY =~ ^[Ss]$ ]]; then
-        echo "❌ Cancelado"
-        exit 0
+    if [[ $OPTION == "2" ]]; then
+        echo ""
+        read -p "⚠️  Isto vai DELETAR todas preparations existentes. Confirma? (s/N): " -n 1 -r
+        echo ""
+        if [[ ! $REPLY =~ ^[Ss]$ ]]; then
+            echo "❌ Cancelado"
+            exit 0
+        fi
+
+        echo "🗑️  Deletando preparations antigas..."
+        docker compose exec -T db psql -U plenya_user -d plenya_db -c \
+            "DELETE FROM score_item_enrichment_preparation"
+        echo "✅ Deletado"
+        echo ""
     fi
-
-    echo "🗑️  Deletando preparations antigas..."
-    docker compose exec -T db psql -U plenya_user -d plenya_db -c \
-        "DELETE FROM score_item_enrichment_preparation"
-    echo "✅ Deletado"
-    echo ""
 fi
 
 echo "🚀 Executando prepare-all com threshold adaptativo..."
@@ -78,8 +88,8 @@ echo "   Gerando 4 prompts por ScoreItem (CR, PE, Conduct, Points)"
 echo "   Incluindo fullName e 30 chunks científicos completos"
 echo ""
 
-# Executar prepare (com progresso)
-docker compose exec api go run /app/cmd/prepare-all/main.go 2>&1 | \
+# Executar prepare (passa IDs se fornecidos)
+docker compose exec api go run /app/cmd/prepare-all/main.go $@ 2>&1 | \
     grep -E "(Preparing|Processed|Prepared|Skipped|Progress)" | \
     while read line; do
         echo "   $line"

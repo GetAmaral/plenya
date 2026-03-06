@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
+	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"github.com/plenya/api/internal/config"
 	"github.com/plenya/api/internal/models"
@@ -14,6 +16,8 @@ import (
 )
 
 // Prepare ALL - Prepara chunks para todos score items (sem interação)
+// Usage: go run cmd/prepare-all/main.go [uuid1 uuid2 ...]
+// Sem args: processa todos sem preparation. Com args: força reprocessamento dos IDs especificados.
 func main() {
 	godotenv.Load()
 	cfg, _ := config.Load()
@@ -27,10 +31,25 @@ func main() {
 
 	prepService := services.NewScoreEnrichmentPreparationService(db)
 
-	// Buscar TODOS os score items
+	// Parse optional specific IDs from args
+	var specificIDs []uuid.UUID
+	for _, arg := range os.Args[1:] {
+		id, err := uuid.Parse(arg)
+		if err != nil {
+			log.Fatalf("❌ ID inválido: %s (%v)", arg, err)
+		}
+		specificIDs = append(specificIDs, id)
+	}
+
 	var scoreItems []models.ScoreItem
-	db.Order("(unit IS NOT NULL) DESC, created_at ASC").
-		Find(&scoreItems)
+	q := db.Order("(unit IS NOT NULL) DESC, created_at ASC")
+	if len(specificIDs) > 0 {
+		q = q.Where("id IN ?", specificIDs)
+		fmt.Printf("🔬 Preparando %d score items específicos (forçando reprocessamento)...\n", len(specificIDs))
+		// Deletar preparations existentes para forçar reprocessamento
+		db.Exec("DELETE FROM score_item_enrichment_preparation WHERE score_item_id IN ?", specificIDs)
+	}
+	q.Find(&scoreItems)
 
 	fmt.Printf("🔬 Preparing chunks for %d score items...\n", len(scoreItems))
 

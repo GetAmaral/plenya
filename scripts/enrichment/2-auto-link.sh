@@ -25,9 +25,13 @@ set -e
 echo "🔗 SCRIPT 2: Auto-Link Articles ↔ ScoreItems"
 echo "=============================================="
 echo ""
+echo "Usage: $0 [uuid1 uuid2 ...]"
+echo "  Sem args: processa TODOS os score items"
+echo "  Com args: processa apenas os IDs especificados"
+echo ""
 
 # Verificar Docker
-if ! docker compose ps | grep -q "api.*running"; then
+if ! docker compose ps | grep -q "api.*Up"; then
     echo "❌ Erro: Docker não está rodando!"
     exit 1
 fi
@@ -56,9 +60,9 @@ echo ""
 echo "🚀 Executando auto-link-all (com batch processing)..."
 echo ""
 
-# Executar auto-link
-docker compose exec api go run /app/cmd/auto-link-all/main.go 2>&1 | \
-    grep -E "(Auto-linking|Batch|completed|Total|✅)"
+# Executar auto-link (passa IDs se fornecidos)
+docker compose exec api go run /app/cmd/auto-link-all/main.go $@ 2>&1 | \
+    grep -E "(Auto-linking|específicos|Batch|completed|Total|✅)"
 
 echo ""
 echo "🔗 Executando link-orphans (ScoreItems sem links)..."
