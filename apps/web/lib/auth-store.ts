@@ -11,6 +11,8 @@ export interface Patient {
   name: string;
   birthDate: string;
   gender: "male" | "female" | "other";
+  age?: number;
+  menopause?: boolean;
   phone?: string;
   address?: string;
   municipality?: string;
