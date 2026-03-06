@@ -754,7 +754,7 @@ func setupRoutes(
 	articles.Get("/:id/score-items", articleHandler.GetScoreItemsForArticle)
 
 	// === Training Module ===
-	registerTrainingRoutes(v1, cfg)
+	registerTrainingRoutes(v1, cfg, semanticService)
 
 	// Servir arquivos estáticos (uploads)
 	app.Static("/uploads", "./uploads")
@@ -765,18 +765,22 @@ func setupRoutes(
 }
 
 // registerTrainingRoutes registra as rotas do módulo de treinamento
-func registerTrainingRoutes(v1 fiber.Router, cfg *config.Config) {
+func registerTrainingRoutes(v1 fiber.Router, cfg *config.Config, semanticService *services.ArticleSemanticService) {
 	// Services
+	clinicalDataService := services.NewClinicalDataService(database.DB)
 	exerciseService := services.NewExerciseService(database.DB)
-	physicalAssessmentService := services.NewPhysicalAssessmentService(database.DB)
+	physicalAssessmentService := services.NewPhysicalAssessmentService(database.DB, clinicalDataService)
 	workoutPlanService := services.NewWorkoutPlanService(database.DB)
-	periodizationService := services.NewPeriodizationService(database.DB)
+	workoutHtmlService := services.NewWorkoutHtmlService(database.DB, "./uploads")
+	trainingAIService := services.NewTrainingAIService(database.DB, cfg, semanticService)
+	periodizationService := services.NewPeriodizationService(database.DB, trainingAIService)
 
 	// Handlers
 	exerciseHandler := handlers.NewExerciseHandler(exerciseService)
 	physicalAssessmentHandler := handlers.NewPhysicalAssessmentHandler(physicalAssessmentService)
-	workoutPlanHandler := handlers.NewWorkoutPlanHandler(workoutPlanService)
+	workoutPlanHandler := handlers.NewWorkoutPlanHandler(workoutPlanService, workoutHtmlService)
 	periodizationHandler := handlers.NewPeriodizationHandler(periodizationService)
+	trainingAIHandler := handlers.NewTrainingAIHandler(trainingAIService)
 
 	// Public routes (no auth)
 	v1.Get("/workout-plans/public/:code", workoutPlanHandler.GetByPublicCode)
@@ -809,6 +813,7 @@ func registerTrainingRoutes(v1 fiber.Router, cfg *config.Config) {
 	workoutPlans.Post("/", middleware.RequireMedicalStaff(), workoutPlanHandler.Create)
 	workoutPlans.Get("/:id", workoutPlanHandler.GetByID)
 	workoutPlans.Put("/:id", middleware.RequireMedicalStaff(), workoutPlanHandler.Update)
+	workoutPlans.Post("/:id/generate-html", middleware.RequireMedicalStaff(), workoutPlanHandler.GenerateHTML)
 	workoutPlans.Delete("/:id", middleware.RequireAdmin(), workoutPlanHandler.Delete)
 
 	// Periodizations (authenticated, patient-scoped)
@@ -817,8 +822,15 @@ func registerTrainingRoutes(v1 fiber.Router, cfg *config.Config) {
 	periodizations.Use(middleware.AuditLog(database.DB))
 	periodizations.Get("/", periodizationHandler.List)
 	periodizations.Post("/", middleware.RequireMedicalStaff(), periodizationHandler.Create)
+	periodizations.Post("/generate", middleware.RequireMedicalStaff(), periodizationHandler.Generate)
 	periodizations.Get("/:id", periodizationHandler.GetByID)
 	periodizations.Delete("/:id", middleware.RequireAdmin(), periodizationHandler.Delete)
+
+	// Training AI (authenticated)
+	trainingAI := v1.Group("/training/ai")
+	trainingAI.Use(middleware.Auth(cfg))
+	trainingAI.Post("/chat", trainingAIHandler.Chat)
+	trainingAI.Post("/recommendations", trainingAIHandler.Recommendations)
 }
 
 // healthCheck verifica se a API está funcionando

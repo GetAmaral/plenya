@@ -25,8 +25,7 @@ export default function ExercisesPage() {
     <div className="space-y-6">
       <PageHeader
         title="Exercícios"
-        subtitle={`${data?.total ?? 0} exercícios disponíveis`}
-        icon={Library}
+        description={`${data?.total ?? 0} exercícios disponíveis`}
       />
 
       <div className="flex gap-4">

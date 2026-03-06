@@ -43,16 +43,14 @@ export default function PeriodizationPage() {
       <SelectedPatientHeader />
       <PageHeader
         title="Periodização"
-        subtitle="Macrociclos e mesociclos de treinamento"
-        icon={Timer}
-        actions={
-          <Link href="/training/periodization/new">
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Nova Periodização
-            </Button>
-          </Link>
-        }
+        description="Macrociclos e mesociclos de treinamento"
+        actions={[
+          {
+            label: "Nova Periodização",
+            icon: <Plus className="h-4 w-4" />,
+            onClick: () => window.location.assign("/training/periodization/new"),
+          },
+        ]}
       />
 
       {isLoading ? (

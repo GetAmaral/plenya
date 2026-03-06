@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Activity, Dumbbell, Timer, Library } from "lucide-react";
+import { Activity, Dumbbell, Timer, Library, Bot } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useRequireAuth } from "@/lib/use-auth";
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
@@ -33,6 +33,12 @@ const modules = [
     href: "/training/exercises",
     icon: Library,
   },
+  {
+    title: "Agente IA",
+    description: "Chat com IA especializada em fisiologia do exercício e treinamento",
+    href: "/training/ai-agent",
+    icon: Bot,
+  },
 ];
 
 export default function TrainingDashboardPage() {
@@ -44,8 +50,7 @@ export default function TrainingDashboardPage() {
       <SelectedPatientHeader />
       <PageHeader
         title="Treinamento"
-        subtitle="Módulo de avaliação física e prescrição de treinos"
-        icon={Dumbbell}
+        description="Módulo de avaliação física e prescrição de treinos"
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

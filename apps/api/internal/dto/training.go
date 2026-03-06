@@ -112,47 +112,109 @@ type WorkoutSessionExerciseResponse struct {
 
 type CreatePhysicalAssessmentRequest struct {
 	PatientID      string `json:"patientId,omitempty"`
-	AnamnesisID    string `json:"anamnesisId" validate:"required,uuid"`
 	AssessmentDate string `json:"assessmentDate" validate:"required"` // format: 2006-01-02
+
+	// Antropometria
+	Weight             *float64 `json:"weight"`
+	Height             *float64 `json:"height"`
+	WaistCircumference *float64 `json:"waistCircumference"`
+
+	// Composição corporal (opcional, calculado se não fornecido)
+	BodyFatPercent *float64 `json:"bodyFatPercent"`
+	LeanMass       *float64 `json:"leanMass"`
+
+	// Cardiovascular
+	SystolicBP       *int `json:"systolicBp"`
+	DiastolicBP      *int `json:"diastolicBp"`
+	RestingHeartRate *int `json:"restingHeartRate"`
+
+	// Laboratorial (preenchido automaticamente do último LabResult se não fornecido)
+	LDL              *float64 `json:"ldl"`
+	HDL              *float64 `json:"hdl"`
+	TotalCholesterol *float64 `json:"totalCholesterol"`
+	Triglycerides    *float64 `json:"triglycerides"`
+	FastingGlucose   *float64 `json:"fastingGlucose"`
+	HbA1c            *float64 `json:"hbA1c"`
+
+	// Histórico
+	FamilyHistory         *bool   `json:"familyHistory"`
+	SmokingStatus         *string `json:"smokingStatus" validate:"omitempty,oneof=never former current"`
+	PhysicalActivityLevel *string `json:"physicalActivityLevel" validate:"omitempty,oneof=sedentary insufficient moderate active"`
+
+	// Condições
+	CardiovascularDisease *bool   `json:"cardiovascularDisease"`
+	DiabetesType          *string `json:"diabetesType"`
+	Symptoms              *string `json:"symptoms"`
+	ClinicalAlert         *bool   `json:"clinicalAlert"`
+
+	// Fotos
+	FrontPhotoURL *string `json:"frontPhotoUrl"`
+	SidePhotoURL  *string `json:"sidePhotoUrl"`
 }
 
 type PhysicalAssessmentResponse struct {
-	ID                    string         `json:"id"`
-	PatientID             string         `json:"patientId"`
-	CreatedByID           string         `json:"createdById"`
-	AssessmentDate        string         `json:"assessmentDate"`
-	AnamnesisID           string         `json:"anamnesisId"`
-	ACSMRiskLevel         *string        `json:"acsmRiskLevel"`
-	ACSMRiskFactorsCount  int            `json:"acsmRiskFactorsCount"`
-	ACSMRiskFactors       []string       `json:"acsmRiskFactors"`
-	ACSMProtectiveFactors []string       `json:"acsmProtectiveFactors"`
-	ACSMRecommendation    *string        `json:"acsmRecommendation"`
-	ACSMTags              []string       `json:"acsmTags"`
-	FrontPhotoURL         *string        `json:"frontPhotoUrl"`
-	SidePhotoURL          *string        `json:"sidePhotoUrl"`
-	AIRecommendation      *string        `json:"aiRecommendation"`
-	DisplayTitle          string         `json:"displayTitle"`
-	ResolvedData          *ResolvedData  `json:"resolvedData,omitempty"`
-	CreatedAt             string         `json:"createdAt"`
-	UpdatedAt             string         `json:"updatedAt"`
-}
+	ID             string `json:"id"`
+	PatientID      string `json:"patientId"`
+	CreatedByID    string `json:"createdById"`
+	AssessmentDate string `json:"assessmentDate"`
 
-// ResolvedData contém dados resolvidos de AnamnesisItems e LabResults (campos computados, não persistidos)
-type ResolvedData struct {
-	Weight         *float64 `json:"weight"`
-	Height         *float64 `json:"height"`
+	// Antropometria
+	Weight             *float64 `json:"weight"`
+	Height             *float64 `json:"height"`
+	WaistCircumference *float64 `json:"waistCircumference"`
+
+	// Composição corporal
 	BMI            *float64 `json:"bmi"`
 	BRI            *float64 `json:"bri"`
-	WaistCm        *float64 `json:"waistCm"`
 	BodyFatPercent *float64 `json:"bodyFatPercent"`
-	LDL            *float64 `json:"ldl"`
-	HDL            *float64 `json:"hdl"`
-	TotalChol      *float64 `json:"totalChol"`
-	Triglycerides  *float64 `json:"triglycerides"`
-	FastingGlucose *float64 `json:"fastingGlucose"`
-	HbA1c          *float64 `json:"hbA1c"`
-	MaxHR          *int     `json:"maxHr"`
-	HRZones        []HRZone `json:"hrZones,omitempty"`
+	LeanMass       *float64 `json:"leanMass"`
+
+	// Cardiovascular
+	SystolicBP       *int `json:"systolicBp"`
+	DiastolicBP      *int `json:"diastolicBp"`
+	RestingHeartRate *int `json:"restingHeartRate"`
+
+	// Laboratorial
+	LDL              *float64 `json:"ldl"`
+	HDL              *float64 `json:"hdl"`
+	TotalCholesterol *float64 `json:"totalCholesterol"`
+	Triglycerides    *float64 `json:"triglycerides"`
+	FastingGlucose   *float64 `json:"fastingGlucose"`
+	HbA1c            *float64 `json:"hbA1c"`
+
+	// Histórico
+	FamilyHistory         *bool   `json:"familyHistory"`
+	SmokingStatus         *string `json:"smokingStatus"`
+	PhysicalActivityLevel *string `json:"physicalActivityLevel"`
+
+	// Condições
+	CardiovascularDisease *bool   `json:"cardiovascularDisease"`
+	DiabetesType          *string `json:"diabetesType"`
+	Symptoms              *string `json:"symptoms"`
+	ClinicalAlert         *bool   `json:"clinicalAlert"`
+
+	// ACSM
+	ACSMRiskLevel         *string  `json:"acsmRiskLevel"`
+	ACSMRiskFactorsCount  int      `json:"acsmRiskFactorsCount"`
+	ACSMRiskFactors       []string `json:"acsmRiskFactors"`
+	ACSMProtectiveFactors []string `json:"acsmProtectiveFactors"`
+	ACSMRecommendation    *string  `json:"acsmRecommendation"`
+	ACSMTags              []string `json:"acsmTags"`
+
+	// Fotos
+	FrontPhotoURL *string `json:"frontPhotoUrl"`
+	SidePhotoURL  *string `json:"sidePhotoUrl"`
+
+	// IA
+	AIRecommendation *string `json:"aiRecommendation"`
+
+	// Zonas FC (calculado, não persistido)
+	MaxHR   *int     `json:"maxHr"`
+	HRZones []HRZone `json:"hrZones,omitempty"`
+
+	DisplayTitle string `json:"displayTitle"`
+	CreatedAt    string `json:"createdAt"`
+	UpdatedAt    string `json:"updatedAt"`
 }
 
 type HRZone struct {

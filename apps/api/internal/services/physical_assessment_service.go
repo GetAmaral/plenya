@@ -3,8 +3,6 @@ package services
 import (
 	"errors"
 	"math"
-	"strconv"
-	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -14,76 +12,21 @@ import (
 	"github.com/plenya/api/internal/models"
 )
 
-// LabTestDefinition.Code constants (fonte: lab_test_definitions.code)
-const (
-	LabCodeLDL             = "PLNACA1492A"
-	LabCodeHDL             = "PLN53A449CA"
-	LabCodeColesterolTotal = "PLN919303A4"
-	LabCodeTriglicerideos  = "PLNA0C5545F"
-	LabCodeGlicemiaJejum   = "PLN9AF0BCF5"
-	LabCodeHbA1c           = "PLN3FC5EDA6"
-)
-
-// ScoreItem.AnamneseItemCode constants (fonte: score_items.anamnese_item_code)
-const (
-	AnamCodePeso            = "PESO"
-	AnamCodeAltura          = "ALTURA"
-	AnamCodeIMC             = "IMC"
-	AnamCodeBRI             = "BRI"
-	AnamCodeAbdominalHomem  = "ABDOMINAL_HOMEM"
-	AnamCodeAbdominalMulher = "ABDOMINAL_MULHER"
-	AnamCodeGorduraHomem    = "GORDURA_CORPORAL_HOMEM"
-	AnamCodeGorduraMulher   = "GORDURA_CORPORAL_MULHER"
-	AnamCodeMassaMuscular   = "MASSA_MUSCULAR_ESQUELETICA"
-	AnamCodeTaxaMetabolica  = "TAXA_METABOLICA_BASAL"
-
-	AnamCodeTabaco                       = "TABACO"
-	AnamCodeDoencaCV                     = "DOENCA_CARDIOVASCULAR"
-	AnamCodeDoencaCVFamiliar             = "DOENCA_CARDIOVASCULAR_2"
-	AnamCodeHistFamiliarComposicao       = "HISTORICO_FAMILIAR_DE_COMPOSICAO_CORPORAL"
-	AnamCodeSintomas                     = "OUTROS_SINTOMAS"
-	AnamCodeAtividadeFisica              = "ATIVIDADE_FISICA"
-	AnamCodeExercicioFisico              = "EXERCICIO_FISICO"
-)
-
 var (
 	ErrPhysicalAssessmentNotFound = errors.New("physical assessment not found")
 )
 
-// ACSMInputData contém dados coletados para cálculo ACSM
-type ACSMInputData struct {
-	Age              int
-	Gender           models.Gender
-	Weight           *float64
-	Height           *float64
-	BMI              *float64
-	BRI              *float64
-	WaistCm          *float64
-	BodyFatPercent   *float64
-	LDL              *float64
-	HDL              *float64
-	TotalChol        *float64
-	Triglycerides    *float64
-	FastingGlucose   *float64
-	HbA1c            *float64
-	SmokingStatus    string
-	ActivityLevel    string
-	FamilyHistoryCV  string
-	PersonalCV       string
-	Symptoms         string
-}
-
 type PhysicalAssessmentService struct {
-	db *gorm.DB
+	db       *gorm.DB
+	clinical *ClinicalDataService
 }
 
-func NewPhysicalAssessmentService(db *gorm.DB) *PhysicalAssessmentService {
-	return &PhysicalAssessmentService{db: db}
+func NewPhysicalAssessmentService(db *gorm.DB, clinical *ClinicalDataService) *PhysicalAssessmentService {
+	return &PhysicalAssessmentService{db: db, clinical: clinical}
 }
 
-// Create cria uma avaliação física e calcula ACSM automaticamente
+// Create cria uma avaliação física com dados diretos e calcula ACSM automaticamente
 func (s *PhysicalAssessmentService) Create(userID uuid.UUID, req *dto.CreatePhysicalAssessmentRequest) (*dto.PhysicalAssessmentResponse, error) {
-	// Get selected patient
 	var user models.User
 	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
 		return nil, err
@@ -103,17 +46,11 @@ func (s *PhysicalAssessmentService) Create(userID uuid.UUID, req *dto.CreatePhys
 		}
 	}
 
-	anamnesisID, err := uuid.Parse(req.AnamnesisID)
-	if err != nil {
-		return nil, errors.New("invalid anamnesis id")
-	}
-
 	assessmentDate, err := time.Parse("2006-01-02", req.AssessmentDate)
 	if err != nil {
 		return nil, errors.New("invalid assessment date, expected YYYY-MM-DD")
 	}
 
-	// Verify patient exists
 	var patient models.Patient
 	if err := s.db.First(&patient, patientID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -121,48 +58,66 @@ func (s *PhysicalAssessmentService) Create(userID uuid.UUID, req *dto.CreatePhys
 		}
 		return nil, err
 	}
-
-	// Verify anamnesis exists and belongs to patient
-	var anamnesis models.Anamnesis
-	if err := s.db.Preload("Items").Preload("Items.ScoreItem").
-		Where("id = ? AND patient_id = ?", anamnesisID, patientID).
-		First(&anamnesis).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, ErrAnamnesisNotFound
-		}
-		return nil, err
-	}
-
-	// Gather ACSM data from existing sources
-	data := s.gatherACSMData(&patient, anamnesis.Items)
-
-	// Calculate ACSM risk
-	riskLevel, riskCount, riskFactors, protectiveFactors := CalculateACSMRisk(data)
-
-	// Compute tags
-	tags := ComputeACSMTags(data)
-
-	// Generate recommendation text
-	recommendation := generateACSMRecommendation(riskLevel, riskFactors, protectiveFactors)
+	patient.CalculateAge()
 
 	assessment := models.PhysicalAssessment{
-		PatientID:             patientID,
-		CreatedByID:           userID,
-		AssessmentDate:        assessmentDate,
-		AnamnesisID:           anamnesisID,
-		ACSMRiskLevel:         &riskLevel,
-		ACSMRiskFactorsCount:  riskCount,
-		ACSMRiskFactors:       riskFactors,
-		ACSMProtectiveFactors: protectiveFactors,
-		ACSMRecommendation:    &recommendation,
-		ACSMTags:              tags,
+		PatientID:      patientID,
+		CreatedByID:    userID,
+		AssessmentDate: assessmentDate,
+
+		Weight:             req.Weight,
+		Height:             req.Height,
+		WaistCircumference: req.WaistCircumference,
+		BodyFatPercent:     req.BodyFatPercent,
+		LeanMass:           req.LeanMass,
+		SystolicBP:         req.SystolicBP,
+		DiastolicBP:        req.DiastolicBP,
+		RestingHeartRate:    req.RestingHeartRate,
+		LDL:                req.LDL,
+		HDL:                req.HDL,
+		TotalCholesterol:   req.TotalCholesterol,
+		Triglycerides:      req.Triglycerides,
+		FastingGlucose:     req.FastingGlucose,
+		HbA1c:              req.HbA1c,
+		FamilyHistory:      req.FamilyHistory,
+		CardiovascularDisease: req.CardiovascularDisease,
+		DiabetesType:       req.DiabetesType,
+		Symptoms:           req.Symptoms,
+		ClinicalAlert:      req.ClinicalAlert,
+		FrontPhotoURL:      req.FrontPhotoURL,
+		SidePhotoURL:       req.SidePhotoURL,
 	}
+
+	if req.SmokingStatus != nil {
+		ss := models.SmokingStatus(*req.SmokingStatus)
+		assessment.SmokingStatus = &ss
+	}
+	if req.PhysicalActivityLevel != nil {
+		pal := models.PhysicalActivityLevel(*req.PhysicalActivityLevel)
+		assessment.PhysicalActivityLevel = &pal
+	}
+
+	// Auto-fill campos não fornecidos a partir da anamnese e labs
+	s.autoFill(&assessment, patientID, patient.Gender)
+
+	// Cálculos derivados
+	s.computeDerived(&assessment)
+
+	// ACSM
+	riskLevel, riskCount, riskFactors, protectiveFactors := calculateACSMRisk(&assessment, &patient)
+	assessment.ACSMRiskLevel = &riskLevel
+	assessment.ACSMRiskFactorsCount = riskCount
+	assessment.ACSMRiskFactors = riskFactors
+	assessment.ACSMProtectiveFactors = protectiveFactors
+	recommendation := generateACSMRecommendation(riskLevel)
+	assessment.ACSMRecommendation = &recommendation
+	assessment.ACSMTags = computeACSMTags(&assessment, &patient)
 
 	if err := s.db.Create(&assessment).Error; err != nil {
 		return nil, err
 	}
 
-	return s.toDTO(&assessment, &data), nil
+	return s.toDTO(&assessment, patient.Age), nil
 }
 
 // GetByID busca uma avaliação física por ID
@@ -184,16 +139,11 @@ func (s *PhysicalAssessmentService) GetByID(id, userID uuid.UUID) (*dto.Physical
 		return nil, err
 	}
 
-	// Load patient and anamnesis for resolved data
 	var patient models.Patient
 	s.db.First(&patient, assessment.PatientID)
+	patient.CalculateAge()
 
-	var anamnesis models.Anamnesis
-	s.db.Preload("Items").Preload("Items.ScoreItem").First(&anamnesis, assessment.AnamnesisID)
-
-	data := s.gatherACSMData(&patient, anamnesis.Items)
-
-	return s.toDTO(&assessment, &data), nil
+	return s.toDTO(&assessment, patient.Age), nil
 }
 
 // List lista avaliações físicas do paciente selecionado
@@ -214,9 +164,13 @@ func (s *PhysicalAssessmentService) List(userID uuid.UUID, limit, offset int) ([
 		return nil, err
 	}
 
+	var patient models.Patient
+	s.db.First(&patient, *user.SelectedPatientID)
+	patient.CalculateAge()
+
 	result := make([]dto.PhysicalAssessmentResponse, len(assessments))
 	for i, a := range assessments {
-		result[i] = *s.toDTO(&a, nil)
+		result[i] = *s.toDTO(&a, patient.Age)
 	}
 	return result, nil
 }
@@ -236,275 +190,241 @@ func (s *PhysicalAssessmentService) Delete(id uuid.UUID, userRole models.Role) e
 	return nil
 }
 
-// gatherACSMData coleta dados de AnamnesisItems e LabResults
-func (s *PhysicalAssessmentService) gatherACSMData(patient *models.Patient, anamnesisItems []models.AnamnesisItem) ACSMInputData {
-	data := ACSMInputData{
-		Age:    patient.Age,
-		Gender: patient.Gender,
+// autoFill preenche campos não fornecidos a partir da anamnese e labs do paciente
+func (s *PhysicalAssessmentService) autoFill(a *models.PhysicalAssessment, patientID uuid.UUID, gender models.Gender) {
+	c := s.clinical
+
+	// Antropometria (da anamnese)
+	if a.Weight == nil {
+		a.Weight = c.LatestAnamnesisNumeric(patientID, models.AnamCodePeso)
+	}
+	if a.Height == nil {
+		a.Height = c.LatestAnamnesisNumeric(patientID, models.AnamCodeAltura)
+	}
+	if a.WaistCircumference == nil {
+		code := models.AnamCodeAbdominalHomem
+		if gender == models.GenderFemale {
+			code = models.AnamCodeAbdominalMulher
+		}
+		a.WaistCircumference = c.LatestAnamnesisNumeric(patientID, code)
+	}
+	if a.BodyFatPercent == nil {
+		code := models.AnamCodeGorduraHomem
+		if gender == models.GenderFemale {
+			code = models.AnamCodeGorduraMulher
+		}
+		a.BodyFatPercent = c.LatestAnamnesisNumeric(patientID, code)
+	}
+	if a.LeanMass == nil {
+		a.LeanMass = c.LatestAnamnesisNumeric(patientID, models.AnamCodeMassaMuscular)
 	}
 
-	// From AnamnesisItems via ScoreItem.AnamneseItemCode
-	for _, item := range anamnesisItems {
-		if item.ScoreItem == nil || item.ScoreItem.AnamneseItemCode == nil {
-			continue
-		}
-		code := *item.ScoreItem.AnamneseItemCode
-
-		switch code {
-		case AnamCodePeso:
-			data.Weight = item.NumericValue
-		case AnamCodeAltura:
-			data.Height = item.NumericValue
-		case AnamCodeIMC:
-			data.BMI = item.NumericValue
-		case AnamCodeBRI:
-			data.BRI = item.NumericValue
-		case AnamCodeAbdominalHomem:
-			if patient.Gender == models.GenderMale {
-				data.WaistCm = item.NumericValue
-			}
-		case AnamCodeAbdominalMulher:
-			if patient.Gender == models.GenderFemale {
-				data.WaistCm = item.NumericValue
-			}
-		case AnamCodeGorduraHomem:
-			if patient.Gender == models.GenderMale {
-				data.BodyFatPercent = item.NumericValue
-			}
-		case AnamCodeGorduraMulher:
-			if patient.Gender == models.GenderFemale {
-				data.BodyFatPercent = item.NumericValue
-			}
-		case AnamCodeTabaco:
-			if item.TextValue != nil {
-				data.SmokingStatus = *item.TextValue
-			}
-		case AnamCodeAtividadeFisica, AnamCodeExercicioFisico:
-			if item.TextValue != nil {
-				data.ActivityLevel = *item.TextValue
-			}
-		case AnamCodeDoencaCVFamiliar:
-			if item.TextValue != nil {
-				data.FamilyHistoryCV = *item.TextValue
-			}
-		case AnamCodeDoencaCV:
-			if item.TextValue != nil {
-				data.PersonalCV = *item.TextValue
-			}
-		case AnamCodeSintomas:
-			if item.TextValue != nil {
-				data.Symptoms = *item.TextValue
-			}
+	// Fatores de risco (da anamnese via selected_level)
+	if a.SmokingStatus == nil {
+		if level := c.LatestAnamnesisLevel(patientID, models.AnamCodeTabaco); level != nil {
+			ss := SmokingStatusFromLevel(*level)
+			a.SmokingStatus = &ss
 		}
 	}
-
-	// Calculate BMI if not provided
-	if data.BMI == nil && data.Weight != nil && data.Height != nil && *data.Height > 0 {
-		bmi := CalculateBMI(*data.Weight, *data.Height)
-		data.BMI = &bmi
+	if a.PhysicalActivityLevel == nil {
+		if level := c.LatestAnamnesisLevel(patientID, models.AnamCodeAtividadeFisica); level != nil {
+			pal := ActivityLevelFromLevel(*level)
+			a.PhysicalActivityLevel = &pal
+		}
+	}
+	if a.FamilyHistory == nil {
+		if level := c.LatestAnamnesisLevel(patientID, models.AnamCodeDoencaCVFamiliar); level != nil {
+			has := BoolFromRiskLevel(*level, 2)
+			a.FamilyHistory = &has
+		}
+	}
+	if a.CardiovascularDisease == nil {
+		if level := c.LatestAnamnesisLevel(patientID, models.AnamCodeDoencaCV); level != nil {
+			has := BoolFromRiskLevel(*level, 3)
+			a.CardiovascularDisease = &has
+		}
+	}
+	if a.Symptoms == nil {
+		if level := c.LatestAnamnesisLevel(patientID, models.AnamCodeSintomas); level != nil && *level <= 2 {
+			text := c.LatestAnamnesisText(patientID, models.AnamCodeSintomas)
+			if text != nil {
+				a.Symptoms = text
+			} else {
+				fallback := "Sintomas presentes"
+				a.Symptoms = &fallback
+			}
+		}
 	}
 
-	// Calculate BRI if not provided
-	if data.BRI == nil && data.WaistCm != nil && data.Height != nil && *data.Height > 0 {
-		bri := CalculateBRI(*data.WaistCm, *data.Height)
-		data.BRI = &bri
+	// Laboratorial (dos LabResults)
+	if a.LDL == nil {
+		a.LDL = c.LatestLabNumeric(patientID, models.LabCodeLDL)
 	}
-
-	// From LabResults via LabTestDefinition.Code (most recent per code)
-	s.loadLatestLabValue(patient.ID, LabCodeLDL, &data.LDL)
-	s.loadLatestLabValue(patient.ID, LabCodeHDL, &data.HDL)
-	s.loadLatestLabValue(patient.ID, LabCodeColesterolTotal, &data.TotalChol)
-	s.loadLatestLabValue(patient.ID, LabCodeTriglicerideos, &data.Triglycerides)
-	s.loadLatestLabValue(patient.ID, LabCodeGlicemiaJejum, &data.FastingGlucose)
-	s.loadLatestLabValue(patient.ID, LabCodeHbA1c, &data.HbA1c)
-
-	return data
-}
-
-// loadLatestLabValue busca o valor mais recente de um lab test por código
-func (s *PhysicalAssessmentService) loadLatestLabValue(patientID uuid.UUID, labTestCode string, target **float64) {
-	var result struct {
-		ResultNumeric *float64
+	if a.HDL == nil {
+		a.HDL = c.LatestLabNumeric(patientID, models.LabCodeHDL)
 	}
-	err := s.db.Raw(`
-		SELECT lr.result_numeric
-		FROM lab_results lr
-		JOIN lab_test_definitions ltd ON lr.lab_test_definition_id = ltd.id
-		JOIN lab_result_batches lrb ON lr.lab_result_batch_id = lrb.id
-		WHERE lrb.patient_id = ? AND ltd.code = ? AND lr.result_numeric IS NOT NULL AND lr.deleted_at IS NULL
-		ORDER BY lrb.collection_date DESC
-		LIMIT 1
-	`, patientID, labTestCode).Scan(&result).Error
-
-	if err == nil && result.ResultNumeric != nil {
-		*target = result.ResultNumeric
+	if a.TotalCholesterol == nil {
+		a.TotalCholesterol = c.LatestLabNumeric(patientID, models.LabCodeColesterolTotal)
+	}
+	if a.Triglycerides == nil {
+		a.Triglycerides = c.LatestLabNumeric(patientID, models.LabCodeTriglicerideos)
+	}
+	if a.FastingGlucose == nil {
+		a.FastingGlucose = c.LatestLabNumeric(patientID, models.LabCodeGlicemiaJejum)
+	}
+	if a.HbA1c == nil {
+		a.HbA1c = c.LatestLabNumeric(patientID, models.LabCodeHbA1c)
 	}
 }
 
-// CalculateACSMRisk calcula a estratificação de risco ACSM 2018
-func CalculateACSMRisk(data ACSMInputData) (models.ACSMRiskLevel, int, []string, []string) {
+// computeDerived calcula BMI, BRI e massa magra a partir dos dados disponíveis
+func (s *PhysicalAssessmentService) computeDerived(a *models.PhysicalAssessment) {
+	if a.Weight != nil && a.Height != nil && *a.Height > 0 {
+		bmi := CalculateBMI(*a.Weight, *a.Height)
+		a.BMI = &bmi
+	}
+	if a.WaistCircumference != nil && a.Height != nil && *a.Height > 0 {
+		bri := CalculateBRI(*a.WaistCircumference, *a.Height)
+		a.BRI = &bri
+	}
+	if a.LeanMass == nil && a.BodyFatPercent != nil && a.Weight != nil {
+		lm := *a.Weight * (1 - *a.BodyFatPercent/100)
+		a.LeanMass = &lm
+	}
+}
+
+// --- ACSM ---
+
+func calculateACSMRisk(a *models.PhysicalAssessment, patient *models.Patient) (models.ACSMRiskLevel, int, []string, []string) {
 	riskFactors := []string{}
 	protectiveFactors := []string{}
 
 	// 1. Idade (M>=45, F>=55)
-	if (data.Gender == models.GenderMale && data.Age >= 45) ||
-		(data.Gender == models.GenderFemale && data.Age >= 55) {
+	if (patient.Gender == models.GenderMale && patient.Age >= 45) ||
+		(patient.Gender == models.GenderFemale && patient.Age >= 55) {
 		riskFactors = append(riskFactors, "idade")
 	}
-
 	// 2. Histórico familiar CV
-	if hasPositiveValue(data.FamilyHistoryCV) {
+	if a.FamilyHistory != nil && *a.FamilyHistory {
 		riskFactors = append(riskFactors, "historico_familiar_cv")
 	}
-
 	// 3. Tabagismo
-	if hasPositiveValue(data.SmokingStatus) {
+	if a.SmokingStatus != nil && *a.SmokingStatus == models.SmokingCurrent {
 		riskFactors = append(riskFactors, "tabagismo")
 	}
-
 	// 4. Sedentarismo
-	if isSedentary(data.ActivityLevel) {
+	if a.PhysicalActivityLevel != nil &&
+		(*a.PhysicalActivityLevel == models.ActivitySedentary || *a.PhysicalActivityLevel == models.ActivityInsufficient) {
 		riskFactors = append(riskFactors, "sedentarismo")
 	}
-
 	// 5. Obesidade (BMI >= 30 ou cintura M>102/F>88)
-	isObese := false
-	if data.BMI != nil && *data.BMI >= 30 {
-		isObese = true
-	}
-	if data.WaistCm != nil {
-		if (data.Gender == models.GenderMale && *data.WaistCm > 102) ||
-			(data.Gender == models.GenderFemale && *data.WaistCm > 88) {
+	isObese := (a.BMI != nil && *a.BMI >= 30)
+	if a.WaistCircumference != nil {
+		if (patient.Gender == models.GenderMale && *a.WaistCircumference > 102) ||
+			(patient.Gender == models.GenderFemale && *a.WaistCircumference > 88) {
 			isObese = true
 		}
 	}
 	if isObese {
 		riskFactors = append(riskFactors, "obesidade")
 	}
-
 	// 6. Dislipidemia (LDL >= 130 ou HDL < 40)
-	isDyslipidemic := false
-	if data.LDL != nil && *data.LDL >= 130 {
-		isDyslipidemic = true
-	}
-	if data.HDL != nil && *data.HDL < 40 {
-		isDyslipidemic = true
-	}
-	if isDyslipidemic {
+	if (a.LDL != nil && *a.LDL >= 130) || (a.HDL != nil && *a.HDL < 40) {
 		riskFactors = append(riskFactors, "dislipidemia")
 	}
-
 	// 7. Pré-diabetes (Glicemia >= 100 ou HbA1c >= 5.7)
-	isPreDiabetic := false
-	if data.FastingGlucose != nil && *data.FastingGlucose >= 100 {
-		isPreDiabetic = true
-	}
-	if data.HbA1c != nil && *data.HbA1c >= 5.7 {
-		isPreDiabetic = true
-	}
-	if isPreDiabetic {
+	if (a.FastingGlucose != nil && *a.FastingGlucose >= 100) || (a.HbA1c != nil && *a.HbA1c >= 5.7) {
 		riskFactors = append(riskFactors, "pre_diabetes")
 	}
-
 	// Fator protetor: HDL >= 60
-	if data.HDL != nil && *data.HDL >= 60 {
+	if a.HDL != nil && *a.HDL >= 60 {
 		protectiveFactors = append(protectiveFactors, "hdl_alto")
 	}
 
-	// Net risk count
 	riskCount := len(riskFactors) - len(protectiveFactors)
 	if riskCount < 0 {
 		riskCount = 0
 	}
 
-	// High: sintomas ou doença CV pessoal
-	if hasPositiveValue(data.Symptoms) || hasPositiveValue(data.PersonalCV) {
+	// Alto: sintomas ou doença CV pessoal
+	hasSymptoms := a.Symptoms != nil && *a.Symptoms != ""
+	hasCV := a.CardiovascularDisease != nil && *a.CardiovascularDisease
+	if hasSymptoms || hasCV {
 		return models.ACSMRiskHigh, riskCount, riskFactors, protectiveFactors
 	}
-
-	// Low: <=1 | Moderate: >=2
 	if riskCount <= 1 {
 		return models.ACSMRiskLow, riskCount, riskFactors, protectiveFactors
 	}
 	return models.ACSMRiskModerate, riskCount, riskFactors, protectiveFactors
 }
 
-// ComputeACSMTags replica funcoes_tags_v2.py
-func ComputeACSMTags(data ACSMInputData) []string {
+func computeACSMTags(a *models.PhysicalAssessment, patient *models.Patient) []string {
 	tags := []string{}
 
-	// Age bracket
 	switch {
-	case data.Age < 18:
+	case patient.Age < 18:
 		tags = append(tags, "<18 anos")
-	case data.Age <= 29:
+	case patient.Age <= 29:
 		tags = append(tags, "18-29 anos")
-	case data.Age <= 39:
+	case patient.Age <= 39:
 		tags = append(tags, "30-39 anos")
-	case data.Age <= 49:
+	case patient.Age <= 49:
 		tags = append(tags, "40-49 anos")
-	case data.Age <= 59:
+	case patient.Age <= 59:
 		tags = append(tags, "50-59 anos")
 	default:
 		tags = append(tags, "60+ anos")
 	}
 
-	// Gender
-	switch data.Gender {
+	switch patient.Gender {
 	case models.GenderMale:
 		tags = append(tags, "MASCULINO")
 	case models.GenderFemale:
 		tags = append(tags, "FEMININO")
 	}
 
-	// Risk matrix (RY/NY x RH/NH)
-	hasRiskFactors := false
-	_, riskCount, _, _ := CalculateACSMRisk(data)
-	if riskCount >= 2 {
-		hasRiskFactors = true
-	}
-	hasSymptoms := hasPositiveValue(data.Symptoms) || hasPositiveValue(data.PersonalCV)
+	hasSymptoms := a.Symptoms != nil && *a.Symptoms != ""
+	hasCV := a.CardiovascularDisease != nil && *a.CardiovascularDisease
+	hasRiskFactors := a.ACSMRiskFactorsCount >= 2
 
 	switch {
-	case hasRiskFactors && hasSymptoms:
+	case hasRiskFactors && (hasSymptoms || hasCV):
 		tags = append(tags, "RYSH")
-	case hasRiskFactors && !hasSymptoms:
+	case hasRiskFactors:
 		tags = append(tags, "RYNH")
-	case !hasRiskFactors && hasSymptoms:
+	case hasSymptoms || hasCV:
 		tags = append(tags, "NYSH")
 	default:
 		tags = append(tags, "NYNH")
 	}
 
-	// Activity level
-	if isSedentary(data.ActivityLevel) {
+	if a.PhysicalActivityLevel != nil &&
+		(*a.PhysicalActivityLevel == models.ActivitySedentary || *a.PhysicalActivityLevel == models.ActivityInsufficient) {
 		tags = append(tags, "SEDENTARIO")
 	} else {
 		tags = append(tags, "ATIVO")
 	}
 
-	// BMI class
-	if data.BMI != nil {
+	if a.BMI != nil {
 		switch {
-		case *data.BMI < 18.5:
+		case *a.BMI < 18.5:
 			tags = append(tags, "BAIXO_PESO")
-		case *data.BMI < 25:
+		case *a.BMI < 25:
 			tags = append(tags, "PESO_NORMAL")
-		case *data.BMI < 30:
+		case *a.BMI < 30:
 			tags = append(tags, "SOBREPESO")
-		case *data.BMI < 35:
+		case *a.BMI < 35:
 			tags = append(tags, "OBESIDADE_I")
-		case *data.BMI < 40:
+		case *a.BMI < 40:
 			tags = append(tags, "OBESIDADE_II")
 		default:
 			tags = append(tags, "OBESIDADE_III")
 		}
 	}
 
-	// BF% class
-	if data.BodyFatPercent != nil {
-		bf := *data.BodyFatPercent
-		if data.Gender == models.GenderMale {
+	if a.BodyFatPercent != nil {
+		bf := *a.BodyFatPercent
+		if patient.Gender == models.GenderMale {
 			switch {
 			case bf < 6:
 				tags = append(tags, "GC_ESSENCIAL")
@@ -533,21 +453,22 @@ func ComputeACSMTags(data ACSMInputData) []string {
 		}
 	}
 
-	// Final risk badge
-	riskLevel, _, _, _ := CalculateACSMRisk(data)
-	switch riskLevel {
-	case models.ACSMRiskLow:
-		tags = append(tags, "RISCO_BAIXO")
-	case models.ACSMRiskModerate:
-		tags = append(tags, "RISCO_MODERADO")
-	case models.ACSMRiskHigh:
-		tags = append(tags, "RISCO_ALTO")
+	if a.ACSMRiskLevel != nil {
+		switch *a.ACSMRiskLevel {
+		case models.ACSMRiskLow:
+			tags = append(tags, "RISCO_BAIXO")
+		case models.ACSMRiskModerate:
+			tags = append(tags, "RISCO_MODERADO")
+		case models.ACSMRiskHigh:
+			tags = append(tags, "RISCO_ALTO")
+		}
 	}
 
 	return tags
 }
 
-// CalculateBMI calcula o IMC
+// --- Fórmulas ---
+
 func CalculateBMI(weightKg, heightCm float64) float64 {
 	heightM := heightCm / 100
 	if heightM <= 0 {
@@ -556,7 +477,6 @@ func CalculateBMI(weightKg, heightCm float64) float64 {
 	return weightKg / (heightM * heightM)
 }
 
-// CalculateBRI calcula o Body Roundness Index
 func CalculateBRI(waistCm, heightCm float64) float64 {
 	waistM := waistCm / 100
 	heightM := heightCm / 100
@@ -571,15 +491,13 @@ func CalculateBRI(waistCm, heightCm float64) float64 {
 	return 364.2 - 365.5*math.Sqrt(inner)
 }
 
-// CalculateMaxHR calcula a frequência cardíaca máxima
 func CalculateMaxHR(age int) int {
 	return 220 - age
 }
 
-// CalculateKarvonenZones calcula as zonas de FC pelo método Karvonen
 func CalculateKarvonenZones(maxHR, restHR int) []dto.HRZone {
 	reserve := maxHR - restHR
-	zones := []dto.HRZone{
+	return []dto.HRZone{
 		{Zone: 1, Name: "Recuperação", Percent: "50-60%",
 			MinBPM: restHR + int(float64(reserve)*0.50),
 			MaxBPM: restHR + int(float64(reserve)*0.60)},
@@ -596,17 +514,37 @@ func CalculateKarvonenZones(maxHR, restHR int) []dto.HRZone {
 			MinBPM: restHR + int(float64(reserve)*0.90),
 			MaxBPM: maxHR},
 	}
-	return zones
 }
 
-// toDTO converte PhysicalAssessment para PhysicalAssessmentResponse
-func (s *PhysicalAssessmentService) toDTO(pa *models.PhysicalAssessment, data *ACSMInputData) *dto.PhysicalAssessmentResponse {
+// --- DTO ---
+
+func (s *PhysicalAssessmentService) toDTO(pa *models.PhysicalAssessment, patientAge int) *dto.PhysicalAssessmentResponse {
 	resp := &dto.PhysicalAssessmentResponse{
 		ID:                    pa.ID.String(),
 		PatientID:             pa.PatientID.String(),
 		CreatedByID:           pa.CreatedByID.String(),
 		AssessmentDate:        pa.AssessmentDate.Format("2006-01-02"),
-		AnamnesisID:           pa.AnamnesisID.String(),
+		Weight:                pa.Weight,
+		Height:                pa.Height,
+		WaistCircumference:    pa.WaistCircumference,
+		BMI:                   pa.BMI,
+		BRI:                   pa.BRI,
+		BodyFatPercent:        pa.BodyFatPercent,
+		LeanMass:              pa.LeanMass,
+		SystolicBP:            pa.SystolicBP,
+		DiastolicBP:           pa.DiastolicBP,
+		RestingHeartRate:       pa.RestingHeartRate,
+		LDL:                   pa.LDL,
+		HDL:                   pa.HDL,
+		TotalCholesterol:      pa.TotalCholesterol,
+		Triglycerides:         pa.Triglycerides,
+		FastingGlucose:        pa.FastingGlucose,
+		HbA1c:                 pa.HbA1c,
+		FamilyHistory:         pa.FamilyHistory,
+		CardiovascularDisease: pa.CardiovascularDisease,
+		DiabetesType:          pa.DiabetesType,
+		Symptoms:              pa.Symptoms,
+		ClinicalAlert:         pa.ClinicalAlert,
 		ACSMRiskFactorsCount:  pa.ACSMRiskFactorsCount,
 		ACSMRiskFactors:       pa.ACSMRiskFactors,
 		ACSMProtectiveFactors: pa.ACSMProtectiveFactors,
@@ -624,71 +562,27 @@ func (s *PhysicalAssessmentService) toDTO(pa *models.PhysicalAssessment, data *A
 		level := string(*pa.ACSMRiskLevel)
 		resp.ACSMRiskLevel = &level
 	}
-
-	// Resolved data (computed, not persisted)
-	if data != nil {
-		resolved := &dto.ResolvedData{
-			Weight:         data.Weight,
-			Height:         data.Height,
-			BMI:            data.BMI,
-			BRI:            data.BRI,
-			WaistCm:        data.WaistCm,
-			BodyFatPercent: data.BodyFatPercent,
-			LDL:            data.LDL,
-			HDL:            data.HDL,
-			TotalChol:      data.TotalChol,
-			Triglycerides:  data.Triglycerides,
-			FastingGlucose: data.FastingGlucose,
-			HbA1c:          data.HbA1c,
-		}
-
-		maxHR := CalculateMaxHR(data.Age)
-		resolved.MaxHR = &maxHR
-
-		// Default rest HR of 70 if not available
-		resolved.HRZones = CalculateKarvonenZones(maxHR, 70)
-
-		resp.ResolvedData = resolved
+	if pa.SmokingStatus != nil {
+		ss := string(*pa.SmokingStatus)
+		resp.SmokingStatus = &ss
 	}
+	if pa.PhysicalActivityLevel != nil {
+		pal := string(*pa.PhysicalActivityLevel)
+		resp.PhysicalActivityLevel = &pal
+	}
+
+	maxHR := CalculateMaxHR(patientAge)
+	resp.MaxHR = &maxHR
+	restHR := 70
+	if pa.RestingHeartRate != nil {
+		restHR = *pa.RestingHeartRate
+	}
+	resp.HRZones = CalculateKarvonenZones(maxHR, restHR)
 
 	return resp
 }
 
-// Helpers
-
-func hasPositiveValue(s string) bool {
-	if s == "" {
-		return false
-	}
-	lower := strings.ToLower(s)
-	positives := []string{"sim", "yes", "true", "1", "positivo", "presente", "ativo", "fumante"}
-	for _, p := range positives {
-		if strings.Contains(lower, p) {
-			return true
-		}
-	}
-	// Check if numeric value > 0
-	if v, err := strconv.ParseFloat(s, 64); err == nil && v > 0 {
-		return true
-	}
-	return false
-}
-
-func isSedentary(activityLevel string) bool {
-	if activityLevel == "" {
-		return true // Default to sedentary if unknown
-	}
-	lower := strings.ToLower(activityLevel)
-	sedentaryTerms := []string{"sedentario", "sedentário", "inativo", "nenhum", "não", "nao", "never", "0"}
-	for _, t := range sedentaryTerms {
-		if strings.Contains(lower, t) {
-			return true
-		}
-	}
-	return false
-}
-
-func generateACSMRecommendation(level models.ACSMRiskLevel, riskFactors, protectiveFactors []string) string {
+func generateACSMRecommendation(level models.ACSMRiskLevel) string {
 	switch level {
 	case models.ACSMRiskLow:
 		return "Risco baixo. Paciente pode iniciar programa de exercícios de intensidade leve a moderada sem necessidade de avaliação médica prévia. Recomendado acompanhamento periódico."

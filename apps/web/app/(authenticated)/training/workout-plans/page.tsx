@@ -50,16 +50,14 @@ export default function WorkoutPlansPage() {
       <SelectedPatientHeader />
       <PageHeader
         title="Planos de Treino"
-        subtitle="Gerencie planos de treino do paciente"
-        icon={Dumbbell}
-        actions={
-          <Link href="/training/workout-plans/new">
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Novo Plano
-            </Button>
-          </Link>
-        }
+        description="Gerencie planos de treino do paciente"
+        actions={[
+          {
+            label: "Novo Plano",
+            icon: <Plus className="h-4 w-4" />,
+            onClick: () => window.location.assign("/training/workout-plans/new"),
+          },
+        ]}
       />
 
       {isLoading ? (

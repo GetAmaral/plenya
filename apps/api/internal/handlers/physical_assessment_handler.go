@@ -50,12 +50,6 @@ func (h *PhysicalAssessmentHandler) Create(c *fiber.Ctx) error {
 				Error: "patient not found",
 			})
 		}
-		if errors.Is(err, services.ErrAnamnesisNotFound) {
-			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
-				Error:   "anamnesis not found",
-				Message: "anamnesis not found or does not belong to patient",
-			})
-		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error:   "internal server error",
 			Message: err.Error(),

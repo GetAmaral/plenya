@@ -74,3 +74,14 @@ export function useCreatePeriodization() {
     },
   })
 }
+
+export function useGeneratePeriodization() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (data: CreatePeriodizationDTO) =>
+      apiClient.post<Periodization>('/api/v1/periodizations/generate', data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: periodizationKeys.all })
+    },
+  })
+}
