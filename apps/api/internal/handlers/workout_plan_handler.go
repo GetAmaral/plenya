@@ -14,14 +14,16 @@ import (
 )
 
 type WorkoutPlanHandler struct {
-	service   *services.WorkoutPlanService
-	validator *validator.Validate
+	service    *services.WorkoutPlanService
+	htmlService *services.WorkoutHtmlService
+	validator  *validator.Validate
 }
 
-func NewWorkoutPlanHandler(service *services.WorkoutPlanService) *WorkoutPlanHandler {
+func NewWorkoutPlanHandler(service *services.WorkoutPlanService, htmlService *services.WorkoutHtmlService) *WorkoutPlanHandler {
 	return &WorkoutPlanHandler{
-		service:   service,
-		validator: validator.New(),
+		service:    service,
+		htmlService: htmlService,
+		validator:  validator.New(),
 	}
 }
 
@@ -159,6 +161,27 @@ func (h *WorkoutPlanHandler) Update(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(resp)
+}
+
+// GenerateHTML gera HTML do plano com GIFs base64 inline
+func (h *WorkoutPlanHandler) GenerateHTML(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid plan id",
+			Message: "plan id must be a valid UUID",
+		})
+	}
+
+	html, err := h.htmlService.GenerateHTML(id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "html generation failed",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{"html": html})
 }
 
 // Delete deleta um plano de treino

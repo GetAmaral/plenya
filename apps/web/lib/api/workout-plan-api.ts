@@ -139,3 +139,14 @@ export function useUpdateWorkoutPlan() {
     },
   })
 }
+
+export function useGenerateHtml() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) =>
+      apiClient.post<{ html: string }>(`/api/v1/workout-plans/${id}/generate-html`, {}),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: workoutPlanKeys.all })
+    },
+  })
+}

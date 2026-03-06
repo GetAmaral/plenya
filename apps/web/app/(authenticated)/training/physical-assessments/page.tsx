@@ -38,16 +38,14 @@ export default function PhysicalAssessmentsPage() {
       <SelectedPatientHeader />
       <PageHeader
         title="Avaliações Físicas"
-        subtitle="Estratificação de risco ACSM"
-        icon={Activity}
-        actions={
-          <Link href="/training/physical-assessments/new">
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Nova Avaliação
-            </Button>
-          </Link>
-        }
+        description="Estratificação de risco ACSM"
+        actions={[
+          {
+            label: "Nova Avaliação",
+            icon: <Plus className="h-4 w-4" />,
+            onClick: () => window.location.assign("/training/physical-assessments/new"),
+          },
+        ]}
       />
 
       {isLoading ? (

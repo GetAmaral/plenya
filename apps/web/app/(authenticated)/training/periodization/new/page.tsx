@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-import { ArrowLeft, Timer } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,8 +14,7 @@ import { useRequireAuth } from "@/lib/use-auth";
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
 import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
 import { PageHeader } from "@/components/layout/page-header";
-import { useCreatePeriodization, type PeriodizationFramework } from "@/lib/api/periodization-api";
-import Link from "next/link";
+import { useCreatePeriodization, useGeneratePeriodization, type PeriodizationFramework } from "@/lib/api/periodization-api";
 
 export default function NewPeriodizationPage() {
   useRequireAuth();
@@ -28,54 +27,46 @@ export default function NewPeriodizationPage() {
   const [objective, setObjective] = useState("");
 
   const createMutation = useCreatePeriodization();
+  const generateMutation = useGeneratePeriodization();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, useAI: boolean) => {
     e.preventDefault();
     if (!objective) {
-      toast.error("Objetivo é obrigatório");
+      toast.error("Objetivo e obrigatorio");
       return;
     }
 
+    const data = { framework, startDate, totalWeeks, objective };
+
     try {
-      const result = await createMutation.mutateAsync({
-        framework,
-        startDate,
-        totalWeeks,
-        objective,
-      });
-      toast.success("Periodização criada com sucesso!");
-      router.push("/training/periodization");
+      const mutation = useAI ? generateMutation : createMutation;
+      const result = await mutation.mutateAsync(data);
+      toast.success(useAI ? "Periodizacao gerada com IA!" : "Periodizacao criada!");
+      router.push(`/training/periodization/${result.id}`);
     } catch (error: any) {
-      toast.error(error?.message || "Erro ao criar periodização");
+      toast.error(error?.message || "Erro ao criar periodizacao");
     }
   };
+
+  const isPending = createMutation.isPending || generateMutation.isPending;
 
   return (
     <div className="space-y-6">
       <SelectedPatientHeader />
       <PageHeader
-        title="Nova Periodização"
-        subtitle="Configure o macrociclo de treinamento"
-        icon={Timer}
-        actions={
-          <Link href="/training/periodization">
-            <Button variant="outline">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Voltar
-            </Button>
-          </Link>
-        }
+        title="Nova Periodizacao"
+        description="Configure o macrociclo de treinamento"
       />
 
       <Card className="max-w-xl">
         <CardHeader>
-          <CardTitle>Dados da Periodização</CardTitle>
+          <CardTitle>Dados da Periodizacao</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={(e) => handleSubmit(e, false)} className="space-y-4">
             <div className="space-y-2">
               <Label>Objetivo</Label>
-              <Input value={objective} onChange={(e) => setObjective(e.target.value)} placeholder="Ex: Hipertrofia para competição" required />
+              <Input value={objective} onChange={(e) => setObjective(e.target.value)} placeholder="Ex: Hipertrofia para competicao" required />
             </div>
 
             <div className="space-y-2">
@@ -85,7 +76,7 @@ export default function NewPeriodizationPage() {
                 <SelectContent>
                   <SelectItem value="bompa">Bompa</SelectItem>
                   <SelectItem value="linear">Linear</SelectItem>
-                  <SelectItem value="undulating">Ondulatória</SelectItem>
+                  <SelectItem value="undulating">Ondulatoria</SelectItem>
                   <SelectItem value="block">Bloco</SelectItem>
                 </SelectContent>
               </Select>
@@ -93,7 +84,7 @@ export default function NewPeriodizationPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Data de Início</Label>
+                <Label>Data de Inicio</Label>
                 <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
               </div>
               <div className="space-y-2">
@@ -102,9 +93,21 @@ export default function NewPeriodizationPage() {
               </div>
             </div>
 
-            <Button type="submit" disabled={createMutation.isPending} className="w-full">
-              {createMutation.isPending ? "Criando..." : "Criar Periodização"}
-            </Button>
+            <div className="flex gap-2">
+              <Button type="submit" disabled={isPending} className="flex-1">
+                {createMutation.isPending ? "Criando..." : "Criar Manual"}
+              </Button>
+              <Button
+                type="button"
+                disabled={isPending}
+                variant="default"
+                className="flex-1"
+                onClick={(e) => handleSubmit(e, true)}
+              >
+                <Sparkles className="h-4 w-4 mr-2" />
+                {generateMutation.isPending ? "Gerando com IA..." : "Gerar com IA"}
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>

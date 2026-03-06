@@ -1,18 +1,18 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Link from "next/link";
-import { ArrowLeft, Dumbbell, Copy } from "lucide-react";
+
+import { ArrowLeft, Copy, FileText, Pencil } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRequireAuth } from "@/lib/use-auth";
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
 import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
 import { PageHeader } from "@/components/layout/page-header";
-import { useWorkoutPlan } from "@/lib/api/workout-plan-api";
+import { useWorkoutPlan, useGenerateHtml } from "@/lib/api/workout-plan-api";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
@@ -36,7 +36,18 @@ export default function WorkoutPlanDetailPage() {
   const params = useParams();
   const id = params.id as string;
 
-  const { data: plan, isLoading } = useWorkoutPlan(id);
+  const { data: plan, isLoading, refetch } = useWorkoutPlan(id);
+  const generateHtml = useGenerateHtml();
+
+  const handleGenerateHtml = async () => {
+    try {
+      await generateHtml.mutateAsync(id);
+      toast.success("HTML gerado com sucesso!");
+      refetch();
+    } catch (error: any) {
+      toast.error(error?.message || "Erro ao gerar HTML");
+    }
+  };
 
   if (isLoading) {
     return <Skeleton className="h-96" />;
@@ -56,22 +67,35 @@ export default function WorkoutPlanDetailPage() {
       <SelectedPatientHeader />
       <PageHeader
         title={plan.name}
-        subtitle={plan.displayTitle}
-        icon={Dumbbell}
-        actions={
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={copyLink}>
-              <Copy className="h-4 w-4 mr-2" />
-              Copiar Link
-            </Button>
-            <Link href="/training/workout-plans">
-              <Button variant="outline" size="sm">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Voltar
-              </Button>
-            </Link>
-          </div>
-        }
+        description={plan.displayTitle}
+        actions={[
+          {
+            label: "Editar",
+            icon: <Pencil className="h-4 w-4" />,
+            onClick: () => window.location.assign(`/training/workout-plans/${id}/edit`),
+            variant: "outline",
+          },
+          {
+            label: generateHtml.isPending ? "Gerando..." : "Gerar HTML",
+            icon: <FileText className="h-4 w-4" />,
+            onClick: handleGenerateHtml,
+            variant: "outline",
+            disabled: generateHtml.isPending,
+            loading: generateHtml.isPending,
+          },
+          {
+            label: "Copiar Link",
+            icon: <Copy className="h-4 w-4" />,
+            onClick: copyLink,
+            variant: "outline",
+          },
+          {
+            label: "Voltar",
+            icon: <ArrowLeft className="h-4 w-4" />,
+            onClick: () => window.location.assign("/training/workout-plans"),
+            variant: "outline",
+          },
+        ]}
       />
 
       {plan.sessions?.map((session) => (

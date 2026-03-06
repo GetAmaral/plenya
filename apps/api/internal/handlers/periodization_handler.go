@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"errors"
 	"strconv"
 
@@ -99,6 +100,35 @@ func (h *PeriodizationHandler) List(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(resp)
+}
+
+// Generate creates a periodization with AI-generated mesocycles
+func (h *PeriodizationHandler) Generate(c *fiber.Ctx) error {
+	var req dto.CreatePeriodizationRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid request body",
+			Message: err.Error(),
+		})
+	}
+
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+
+	userID := middleware.GetUserID(c)
+	resp, err := h.service.GenerateWithAI(context.Background(), userID, &req)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "ai generation failed",
+			Message: err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(resp)
 }
 
 // Delete deleta uma periodização

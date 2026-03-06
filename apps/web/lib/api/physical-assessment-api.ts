@@ -9,48 +9,111 @@ export interface HRZone {
   percent: string
 }
 
-export interface ResolvedData {
-  weight?: number
-  height?: number
-  bmi?: number
-  bri?: number
-  waistCm?: number
-  bodyFatPercent?: number
-  ldl?: number
-  hdl?: number
-  totalChol?: number
-  triglycerides?: number
-  fastingGlucose?: number
-  hbA1c?: number
-  maxHr?: number
-  hrZones?: HRZone[]
-}
-
 export interface PhysicalAssessment {
   id: string
   patientId: string
   createdById: string
   assessmentDate: string
-  anamnesisId: string
+
+  // Antropometria
+  weight?: number
+  height?: number
+  waistCircumference?: number
+
+  // Composição corporal
+  bmi?: number
+  bri?: number
+  bodyFatPercent?: number
+  leanMass?: number
+
+  // Cardiovascular
+  systolicBp?: number
+  diastolicBp?: number
+  restingHeartRate?: number
+
+  // Laboratorial
+  ldl?: number
+  hdl?: number
+  totalCholesterol?: number
+  triglycerides?: number
+  fastingGlucose?: number
+  hbA1c?: number
+
+  // Histórico
+  familyHistory?: boolean
+  smokingStatus?: 'never' | 'former' | 'current'
+  physicalActivityLevel?: 'sedentary' | 'insufficient' | 'moderate' | 'active'
+
+  // Condições
+  cardiovascularDisease?: boolean
+  diabetesType?: string
+  symptoms?: string
+  clinicalAlert?: boolean
+
+  // ACSM
   acsmRiskLevel?: string
   acsmRiskFactorsCount: number
   acsmRiskFactors: string[]
   acsmProtectiveFactors: string[]
   acsmRecommendation?: string
   acsmTags: string[]
+
+  // Fotos
   frontPhotoUrl?: string
   sidePhotoUrl?: string
+
+  // IA
   aiRecommendation?: string
+
+  // FC (calculado)
+  maxHr?: number
+  hrZones?: HRZone[]
+
   displayTitle: string
-  resolvedData?: ResolvedData
   createdAt: string
   updatedAt: string
 }
 
 export interface CreatePhysicalAssessmentDTO {
   patientId?: string
-  anamnesisId: string
   assessmentDate: string
+
+  // Antropometria
+  weight?: number
+  height?: number
+  waistCircumference?: number
+
+  // Composição corporal
+  bodyFatPercent?: number
+  leanMass?: number
+
+  // Cardiovascular
+  systolicBp?: number
+  diastolicBp?: number
+  restingHeartRate?: number
+
+  // Laboratorial
+  ldl?: number
+  hdl?: number
+  totalCholesterol?: number
+  triglycerides?: number
+  fastingGlucose?: number
+  hbA1c?: number
+
+  // Histórico
+  familyHistory?: boolean
+  smokingStatus?: 'never' | 'former' | 'current'
+  physicalActivityLevel?: 'sedentary' | 'insufficient' | 'moderate' | 'active'
+
+  // Condições
+  cardiovascularDisease?: boolean
+  diabetesType?: string
+  symptoms?: string
+  clinicalAlert?: boolean
+
+  // Fotos
+  frontPhotoUrl?: string
+  sidePhotoUrl?: string
 }
 
 // Query key factory

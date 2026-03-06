@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"errors"
 	"time"
 
@@ -14,11 +15,12 @@ import (
 var ErrPeriodizationNotFound = errors.New("periodization not found")
 
 type PeriodizationService struct {
-	db *gorm.DB
+	db        *gorm.DB
+	aiService *TrainingAIService
 }
 
-func NewPeriodizationService(db *gorm.DB) *PeriodizationService {
-	return &PeriodizationService{db: db}
+func NewPeriodizationService(db *gorm.DB, aiService *TrainingAIService) *PeriodizationService {
+	return &PeriodizationService{db: db, aiService: aiService}
 }
 
 // Create cria uma periodização com mesociclos
@@ -110,6 +112,86 @@ func (s *PeriodizationService) List(userID uuid.UUID, limit, offset int) ([]dto.
 		result[i] = *s.toDTO(&p)
 	}
 	return result, nil
+}
+
+// GenerateWithAI creates a periodization with AI-generated mesocycles
+func (s *PeriodizationService) GenerateWithAI(ctx context.Context, userID uuid.UUID, req *dto.CreatePeriodizationRequest) (*dto.PeriodizationResponse, error) {
+	if s.aiService == nil {
+		return nil, errors.New("AI service not configured")
+	}
+
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+	if user.SelectedPatientID == nil {
+		return nil, errors.New("no patient selected")
+	}
+
+	patientID := *user.SelectedPatientID
+
+	// Load patient for context
+	var patient models.Patient
+	s.db.First(&patient, patientID)
+	patient.CalculateAge()
+
+	patientCtx := &PatientContext{
+		Name:   patient.Name,
+		Age:    patient.Age,
+		Gender: string(patient.Gender),
+	}
+
+	startDate, err := time.Parse("2006-01-02", req.StartDate)
+	if err != nil {
+		return nil, errors.New("invalid start date")
+	}
+
+	// Generate mesocycles via AI
+	mesocycles, justification, err := s.aiService.GenerateMesocycles(
+		ctx, patientCtx, string(req.Framework), req.TotalWeeks, req.Objective,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	// Create periodization with generated mesocycles
+	periodization := models.WorkoutPeriodization{
+		PatientID:               patientID,
+		CreatedByID:             userID,
+		Framework:               req.Framework,
+		StartDate:               startDate,
+		TotalWeeks:              req.TotalWeeks,
+		Objective:               req.Objective,
+		ScientificJustification: &justification,
+	}
+
+	if err := s.db.Create(&periodization).Error; err != nil {
+		return nil, err
+	}
+
+	// Create mesocycles with calculated dates
+	currentDate := startDate
+	for i, m := range mesocycles {
+		endDate := currentDate.AddDate(0, 0, m.DurationWeeks*7-1)
+		mesocycle := models.WorkoutMesocycle{
+			PeriodizationID:    periodization.ID,
+			Order:              i,
+			Phase:              models.MesocyclePhase(m.Phase),
+			DurationWeeks:      m.DurationWeeks,
+			VolumePercent:      m.VolumePercent,
+			IntensityPercent:   m.IntensityPercent,
+			PhysiologicalFocus: m.PhysiologicalFocus,
+			StartDate:          currentDate,
+			EndDate:            endDate,
+		}
+		if err := s.db.Create(&mesocycle).Error; err != nil {
+			return nil, err
+		}
+		periodization.Mesocycles = append(periodization.Mesocycles, mesocycle)
+		currentDate = endDate.AddDate(0, 0, 1)
+	}
+
+	return s.toDTO(&periodization), nil
 }
 
 // Delete faz soft delete de uma periodização
