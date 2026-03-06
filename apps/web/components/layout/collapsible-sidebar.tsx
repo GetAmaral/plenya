@@ -33,6 +33,9 @@ import {
   Activity,
   Target,
   CreditCard,
+  Dumbbell,
+  Library,
+  Timer,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -65,6 +68,10 @@ const navigation: NavigationItem[] = [
   { name: "Metodologias", href: "/methods", icon: Target, staffOnly: true },
   { name: "Planos de Assinatura", href: "/admin/subscription-plans", icon: LayoutList, adminOnly: true },
   { name: "Assinaturas", href: "/admin/subscriptions", icon: CreditCard, adminOnly: true },
+  { name: "Avaliação Física", href: "/training/physical-assessments", icon: Activity, staffOnly: true },
+  { name: "Planos de Treino", href: "/training/workout-plans", icon: Dumbbell, staffOnly: true },
+  { name: "Periodização", href: "/training/periodization", icon: Timer, staffOnly: true },
+  { name: "Exercícios", href: "/training/exercises", icon: Library, staffOnly: true },
   { name: "Artigos", href: "/articles", icon: BookOpen },
   { name: "Usuários", href: "/admin/users", icon: Shield, adminOnly: true },
   { name: "Definições de Medicamentos", href: "/admin/medication-definitions", icon: Pill, adminOnly: true },
