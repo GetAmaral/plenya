@@ -62,6 +62,7 @@ type PatientResponse struct {
 	SocialGender     *models.SocialGender  `json:"socialGender,omitempty"`
 	Age              int                   `json:"age"`
 	AgeText          string                `json:"ageText"`
+	Menopause        *bool                 `json:"menopause,omitempty"`
 	Email            *string               `json:"email,omitempty"`
 	Phone            *string               `json:"phone,omitempty"`
 	Address          *string               `json:"address,omitempty"`

@@ -24,6 +24,10 @@ export interface ScoreItem {
   name: string
   unit?: string
   unitConversion?: string
+  gender?: 'not_applicable' | 'male' | 'female'
+  ageRangeMin?: number
+  ageRangeMax?: number
+  postMenopause?: boolean
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
