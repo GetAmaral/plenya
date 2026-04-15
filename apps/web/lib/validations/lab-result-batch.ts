@@ -38,10 +38,10 @@ export const labResultBatchSchema = z.preprocess(
         .string()
         .min(2, "Nome do laboratório deve ter no mínimo 2 caracteres")
         .max(200, "Nome do laboratório deve ter no máximo 200 caracteres"),
-      collectionDate: z.date({ required_error: "Data da coleta é obrigatória" }),
+      collectionDate: z.date({ error: "Data da coleta é obrigatória" }),
       resultDate: z.date().optional(),
       status: z.enum(["pending", "partial", "completed"] as const, {
-        required_error: "Status do lote é obrigatório",
+        error: "Status do lote é obrigatório",
       }),
       observations: z.string().optional(),
       attachments: z.string().optional(),

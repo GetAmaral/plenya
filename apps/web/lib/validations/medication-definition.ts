@@ -10,7 +10,7 @@ export const medicationDefinitionSchema = z.object({
     .min(3, 'Princípio ativo deve ter no mínimo 3 caracteres')
     .max(500, 'Princípio ativo deve ter no máximo 500 caracteres'),
   category: z.enum(['simple', 'c1', 'c5', 'antibiotic', 'glp1'], {
-    required_error: 'Selecione uma categoria',
+    error: 'Selecione uma categoria',
   }),
   validityDays: z.coerce
     .number()

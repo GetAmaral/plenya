@@ -54,7 +54,7 @@ export const labTestDefinitionSchema = z.object({
     "genetics",
     "other",
   ] as const, {
-    required_error: "Categoria é obrigatória",
+    error: "Categoria é obrigatória",
   }),
 
   isRequestable: z.boolean().default(true),
@@ -70,7 +70,7 @@ export const labTestDefinitionSchema = z.object({
   unitConversion: z.string().optional().or(z.literal("")),
 
   resultType: z.enum(["numeric", "text", "boolean", "categorical"] as const, {
-    required_error: "Tipo de resultado é obrigatório",
+    error: "Tipo de resultado é obrigatório",
   }),
 
   collectionMethod: z.string().optional().or(z.literal("")),

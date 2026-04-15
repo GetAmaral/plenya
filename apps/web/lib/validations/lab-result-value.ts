@@ -19,13 +19,13 @@ export const labResultValueEntrySchema = z.object({
 export const labResultValuesBatchSchema = z.object({
   patientId: z.string().uuid().optional(),
   doctorId: z.string().uuid({
-    required_error: "Médico é obrigatório",
+    error: "Médico é obrigatório",
   }),
   testDate: z.date({
-    required_error: "Data do exame é obrigatória",
+    error: "Data do exame é obrigatória",
   }),
   selectedTestId: z.string().uuid({
-    required_error: "Exame é obrigatório",
+    error: "Exame é obrigatório",
   }),
   notes: z.string().optional(),
   values: z.array(labResultValueEntrySchema).min(1, "Pelo menos um valor é obrigatório"),
@@ -41,10 +41,7 @@ export const createDynamicFieldSchema = (resultType: string) => {
   switch (resultType) {
     case "numeric":
       return z.object({
-        value: z.number({
-          required_error: "Valor é obrigatório",
-          invalid_type_error: "Deve ser um número",
-        }),
+        value: z.number({ error: "Valor é obrigatório" }),
         unit: z.string().optional(),
         notes: z.string().optional(),
       });
@@ -58,7 +55,7 @@ export const createDynamicFieldSchema = (resultType: string) => {
     case "boolean":
       return z.object({
         value: z.boolean({
-          required_error: "Valor é obrigatório",
+          error: "Valor é obrigatório",
         }),
         notes: z.string().optional(),
       });
