@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
@@ -54,6 +55,11 @@ type Exercise struct {
 
 	// URL do GIF fallback (CDN original)
 	GifUrlFallback string `gorm:"type:text" json:"gifUrlFallback"`
+
+	// NSCA Enrichment (JSONB)
+	BiomechanicsData datatypes.JSON `gorm:"type:jsonb" json:"biomechanicsData,omitempty"`
+	ProgramDesign    datatypes.JSON `gorm:"type:jsonb" json:"programDesign,omitempty"`
+	NSCAReferences   datatypes.JSON `gorm:"type:jsonb" json:"nscaReferences,omitempty"`
 
 	// Ativo
 	IsActive bool `gorm:"not null;default:true" json:"isActive"`

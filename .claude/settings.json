@@ -1,3 +1,31 @@
 {
-  "enabledPlugins": {}
+  "enabledPlugins": {},
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_FILE_PATH\" | grep -qE 'internal/models/.*\\.go$'; then echo '⚠️  Model Go editado! Lembre de rodar: pnpm generate' >&2; fi"
+          },
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_FILE_PATH\" | grep -qE '(database/migrations/|packages/types/src/generated/)'; then echo 'BLOQUEADO: Este arquivo é gerado automaticamente. Edite o model Go em apps/api/internal/models/' >&2; exit 2; fi"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "notify-send 'Claude Code' \"$CLAUDE_NOTIFICATION\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
 }

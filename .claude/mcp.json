@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://plenya_user:plenya_dev_password@localhost:5432/plenya_db"
+      ]
+    }
+  }
+}

@@ -152,6 +152,13 @@ type CreatePhysicalAssessmentRequest struct {
 	SidePhotoURL  *string `json:"sidePhotoUrl"`
 }
 
+// ACSMTagDTO representa uma tag ACSM estruturada na resposta da API
+type ACSMTagDTO struct {
+	Label    string `json:"label"`
+	Category string `json:"category"`
+	Color    string `json:"color"`
+}
+
 type PhysicalAssessmentResponse struct {
 	ID             string `json:"id"`
 	PatientID      string `json:"patientId"`
@@ -199,11 +206,15 @@ type PhysicalAssessmentResponse struct {
 	ACSMRiskFactors       []string `json:"acsmRiskFactors"`
 	ACSMProtectiveFactors []string `json:"acsmProtectiveFactors"`
 	ACSMRecommendation    *string  `json:"acsmRecommendation"`
-	ACSMTags              []string `json:"acsmTags"`
+	ACSMTags              []string         `json:"acsmTags"`
+	ACSMTagsStructured    []ACSMTagDTO     `json:"acsmTagsStructured"`
 
 	// Fotos
 	FrontPhotoURL *string `json:"frontPhotoUrl"`
 	SidePhotoURL  *string `json:"sidePhotoUrl"`
+
+	// HTML Report
+	HtmlContent *string `json:"htmlContent,omitempty"`
 
 	// IA
 	AIRecommendation *string `json:"aiRecommendation"`
@@ -261,4 +272,87 @@ type MesocycleResponse struct {
 	PhysiologicalFocus string                 `json:"physiologicalFocus"`
 	StartDate          string                 `json:"startDate"`
 	EndDate            string                 `json:"endDate"`
+}
+
+// === Fitness Test DTOs ===
+
+type CreateFitnessTestRequest struct {
+	PatientID      string  `json:"patientId,omitempty"`
+	AssessmentDate string  `json:"assessmentDate" validate:"required"`
+	AbdominalReps  *int    `json:"abdominalReps"`
+	PushupReps     *int    `json:"pushupReps"`
+	PlankSeconds   *int    `json:"plankSeconds"`
+	BurpeeCycles   *int    `json:"burpeeCycles"`
+	FRTReps        *int    `json:"frtReps"`
+	Notes          *string `json:"notes"`
+}
+
+type FitnessTestResponse struct {
+	ID             string `json:"id"`
+	PatientID      string `json:"patientId"`
+	CreatedByID    string `json:"createdById"`
+	AssessmentDate string `json:"assessmentDate"`
+
+	// Raw
+	AbdominalReps *int `json:"abdominalReps"`
+	PushupReps    *int `json:"pushupReps"`
+	PlankSeconds  *int `json:"plankSeconds"`
+	BurpeeCycles  *int `json:"burpeeCycles"`
+	FRTReps       *int `json:"frtReps"`
+
+	// Levels
+	AbdominalLevel *string `json:"abdominalLevel"`
+	PushupLevel    *string `json:"pushupLevel"`
+	PlankLevel     *string `json:"plankLevel"`
+	BurpeeLevel    *string `json:"burpeeLevel"`
+	FRTLevel       *string `json:"frtLevel"`
+
+	// Overall
+	OverallScore          int    `json:"overallScore"`
+	OverallClassification string `json:"overallClassification"`
+
+	Notes     *string `json:"notes"`
+	CreatedAt string  `json:"createdAt"`
+	UpdatedAt string  `json:"updatedAt"`
+}
+
+// === Postural Assessment DTOs ===
+
+type CreatePosturalAssessmentRequest struct {
+	PatientID            string   `json:"patientId,omitempty"`
+	AssessmentDate       string   `json:"assessmentDate" validate:"required"`
+	PhysicalAssessmentID *string  `json:"physicalAssessmentId"`
+	ViewType             string   `json:"viewType" validate:"required,oneof=front side_left side_right back"`
+	ShoulderDeviation    *float64 `json:"shoulderDeviation"`
+	HipDeviation         *float64 `json:"hipDeviation"`
+	HeadLateralDeviation *float64 `json:"headLateralDeviation"`
+	FHP                  *float64 `json:"fhp"`
+	ThoracicKyphosis     *float64 `json:"thoracicKyphosis"`
+	LumbarLordosis       *float64 `json:"lumbarLordosis"`
+	KneeAngle            *float64 `json:"kneeAngle"`
+	PhotoURL             *string  `json:"photoUrl"`
+	Notes                *string  `json:"notes"`
+}
+
+type PosturalAssessmentResponse struct {
+	ID                     string   `json:"id"`
+	PatientID              string   `json:"patientId"`
+	CreatedByID            string   `json:"createdById"`
+	AssessmentDate         string   `json:"assessmentDate"`
+	PhysicalAssessmentID   *string  `json:"physicalAssessmentId"`
+	ViewType               string   `json:"viewType"`
+	ShoulderDeviation      *float64 `json:"shoulderDeviation"`
+	HipDeviation           *float64 `json:"hipDeviation"`
+	HeadLateralDeviation   *float64 `json:"headLateralDeviation"`
+	FHP                    *float64 `json:"fhp"`
+	ThoracicKyphosis       *float64 `json:"thoracicKyphosis"`
+	LumbarLordosis         *float64 `json:"lumbarLordosis"`
+	KneeAngle              *float64 `json:"kneeAngle"`
+	PhotoURL               *string  `json:"photoUrl"`
+	PosturalScore          int      `json:"posturalScore"`
+	PosturalClassification string   `json:"posturalClassification"`
+	SevereDeviations       int      `json:"severeDeviations"`
+	Notes                  *string  `json:"notes"`
+	CreatedAt              string   `json:"createdAt"`
+	UpdatedAt              string   `json:"updatedAt"`
 }

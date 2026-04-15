@@ -8,6 +8,25 @@ import (
 	"gorm.io/gorm"
 )
 
+// ACSMTagCategory define as categorias de tags ACSM estruturadas
+type ACSMTagCategory string
+
+const (
+	TagCatDemographic ACSMTagCategory = "demographic"
+	TagCatRisk        ACSMTagCategory = "risk"
+	TagCatActivity    ACSMTagCategory = "activity"
+	TagCatBody        ACSMTagCategory = "body"
+	TagCatCardio      ACSMTagCategory = "cardio"
+	TagCatMedication  ACSMTagCategory = "medication"
+)
+
+// ACSMTag representa uma tag ACSM estruturada com categoria e cor
+type ACSMTag struct {
+	Label    string          `json:"label"`
+	Category ACSMTagCategory `json:"category"`
+	Color    string          `json:"color"`
+}
+
 // ACSMRiskLevel define os níveis de risco ACSM
 type ACSMRiskLevel string
 
@@ -87,10 +106,14 @@ type PhysicalAssessment struct {
 	ACSMProtectiveFactors []string      `gorm:"type:jsonb;serializer:json" json:"acsmProtectiveFactors"`
 	ACSMRecommendation   *string        `gorm:"type:text" json:"acsmRecommendation"`
 	ACSMTags             []string       `gorm:"type:jsonb;serializer:json" json:"acsmTags"`
+	ACSMTagsStructured   []ACSMTag      `gorm:"type:jsonb;serializer:json" json:"acsmTagsStructured"`
 
 	// Fotos
 	FrontPhotoURL *string `gorm:"type:text" json:"frontPhotoUrl"`
 	SidePhotoURL  *string `gorm:"type:text" json:"sidePhotoUrl"`
+
+	// HTML Report
+	HtmlContent *string `gorm:"type:text" json:"htmlContent,omitempty"`
 
 	// IA
 	AIRecommendation *string `gorm:"type:text" json:"aiRecommendation"`

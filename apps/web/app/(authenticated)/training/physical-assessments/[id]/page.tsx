@@ -1,17 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Heart, Scale, Ruler, Droplets } from "lucide-react";
+import { Heart, Scale, Ruler, Droplets, FileText } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRequireAuth } from "@/lib/use-auth";
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
 import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
 import { PageHeader } from "@/components/layout/page-header";
-import { usePhysicalAssessment } from "@/lib/api/physical-assessment-api";
+import { usePhysicalAssessment, useGenerateAssessmentHTML } from "@/lib/api/physical-assessment-api";
 
 const riskColors: Record<string, string> = {
   low: "bg-green-100 text-green-800 border-green-200",
@@ -63,6 +66,18 @@ export default function PhysicalAssessmentDetailPage() {
   const id = params.id as string;
 
   const { data: a, isLoading } = usePhysicalAssessment(id);
+  const generateHtml = useGenerateAssessmentHTML();
+  const [htmlPreview, setHtmlPreview] = useState<string | null>(null);
+
+  const handleGenerateHTML = async () => {
+    try {
+      const result = await generateHtml.mutateAsync(id);
+      setHtmlPreview(result.html);
+      toast.success("Relatorio HTML gerado com sucesso!");
+    } catch (error: any) {
+      toast.error(error?.message || "Erro ao gerar relatorio");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -210,8 +225,30 @@ export default function PhysicalAssessmentDetailPage() {
         </Card>
       )}
 
-      {/* ACSM Tags */}
-      {a.acsmTags?.length > 0 && (
+      {/* ACSM Tags (Structured) */}
+      {a.acsmTagsStructured?.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Tags ACSM</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2">
+              {a.acsmTagsStructured.map((tag, i) => (
+                <Badge
+                  key={`${tag.label}-${i}`}
+                  variant="outline"
+                  style={{ borderColor: tag.color, color: tag.color }}
+                >
+                  {tag.label}
+                </Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* ACSM Tags (fallback for old data without structured tags) */}
+      {(!a.acsmTagsStructured || a.acsmTagsStructured.length === 0) && a.acsmTags?.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Tags ACSM</CardTitle>
@@ -249,6 +286,39 @@ export default function PhysicalAssessmentDetailPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Generate HTML Report */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Relatorio HTML</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <Button
+            onClick={handleGenerateHTML}
+            disabled={generateHtml.isPending}
+            variant="outline"
+            className="w-full"
+          >
+            <FileText className="h-4 w-4 mr-2" />
+            {generateHtml.isPending ? "Gerando..." : a.htmlContent ? "Regenerar Relatorio" : "Gerar Relatorio"}
+          </Button>
+          {(htmlPreview || a.htmlContent) && (
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={() => {
+                const w = window.open("", "_blank");
+                if (w) {
+                  w.document.write(htmlPreview || a.htmlContent || "");
+                  w.document.close();
+                }
+              }}
+            >
+              Visualizar Relatorio
+            </Button>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

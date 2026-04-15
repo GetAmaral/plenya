@@ -28,6 +28,14 @@ const (
 	AnamCodeDoencaCV         AnamneseItemCode = "DOENCA_CARDIOVASCULAR"
 	AnamCodeDoencaCVFamiliar AnamneseItemCode = "DOENCA_CARDIOVASCULAR_2"
 	AnamCodeSintomas         AnamneseItemCode = "OUTROS_SINTOMAS"
+
+	// Medicações
+	AnamCodeMedicacaoHipertensao AnamneseItemCode = "MEDICACAO_HIPERTENSAO"
+	AnamCodeMedicacaoDiabetes    AnamneseItemCode = "MEDICACAO_DIABETES"
+	AnamCodeMedicacaoColesterol  AnamneseItemCode = "MEDICACAO_COLESTEROL"
+
+	// Condições cardiovasculares
+	AnamCodeCondicoesCardio AnamneseItemCode = "CONDICOES_CARDIOVASCULARES"
 )
 
 // LabTestCode — fonte única de verdade para lab_test_definitions.code

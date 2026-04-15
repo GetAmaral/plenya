@@ -9,6 +9,12 @@ export interface HRZone {
   percent: string
 }
 
+export interface ACSMTagDTO {
+  label: string
+  category: string
+  color: string
+}
+
 export interface PhysicalAssessment {
   id: string
   patientId: string
@@ -57,10 +63,14 @@ export interface PhysicalAssessment {
   acsmProtectiveFactors: string[]
   acsmRecommendation?: string
   acsmTags: string[]
+  acsmTagsStructured?: ACSMTagDTO[]
 
   // Fotos
   frontPhotoUrl?: string
   sidePhotoUrl?: string
+
+  // HTML Report
+  htmlContent?: string
 
   // IA
   aiRecommendation?: string
@@ -145,6 +155,17 @@ export function useCreatePhysicalAssessment() {
   return useMutation({
     mutationFn: (data: CreatePhysicalAssessmentDTO) =>
       apiClient.post<PhysicalAssessment>('/api/v1/physical-assessments', data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: physicalAssessmentKeys.all })
+    },
+  })
+}
+
+export function useGenerateAssessmentHTML() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) =>
+      apiClient.post<{ html: string }>(`/api/v1/physical-assessments/${id}/generate-html`, {}),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: physicalAssessmentKeys.all })
     },

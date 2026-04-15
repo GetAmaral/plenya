@@ -70,6 +70,8 @@ const navigation: NavigationItem[] = [
   { name: "Planos de Assinatura", href: "/admin/subscription-plans", icon: LayoutList, adminOnly: true },
   { name: "Assinaturas", href: "/admin/subscriptions", icon: CreditCard, adminOnly: true },
   { name: "Avaliação Física", href: "/training/physical-assessments", icon: Activity, staffOnly: true },
+  { name: "Testes de Fitness", href: "/training/fitness-tests", icon: Target, staffOnly: true },
+  { name: "Avaliação Postural", href: "/training/posture", icon: UserIcon, staffOnly: true },
   { name: "Planos de Treino", href: "/training/workout-plans", icon: Dumbbell, staffOnly: true },
   { name: "Periodização", href: "/training/periodization", icon: Timer, staffOnly: true },
   { name: "Exercícios", href: "/training/exercises", icon: Library, staffOnly: true },

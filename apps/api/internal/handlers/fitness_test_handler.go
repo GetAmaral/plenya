@@ -13,23 +13,21 @@ import (
 	"github.com/plenya/api/internal/services"
 )
 
-type PhysicalAssessmentHandler struct {
-	service     *services.PhysicalAssessmentService
-	htmlService *services.AssessmentHTMLService
-	validator   *validator.Validate
+type FitnessTestHandler struct {
+	service   *services.FitnessTestService
+	validator *validator.Validate
 }
 
-func NewPhysicalAssessmentHandler(service *services.PhysicalAssessmentService, htmlService *services.AssessmentHTMLService) *PhysicalAssessmentHandler {
-	return &PhysicalAssessmentHandler{
-		service:     service,
-		htmlService: htmlService,
-		validator:   validator.New(),
+func NewFitnessTestHandler(service *services.FitnessTestService) *FitnessTestHandler {
+	return &FitnessTestHandler{
+		service:   service,
+		validator: validator.New(),
 	}
 }
 
-// Create cria uma avaliação física
-func (h *PhysicalAssessmentHandler) Create(c *fiber.Ctx) error {
-	var req dto.CreatePhysicalAssessmentRequest
+// Create cria um resultado de teste de fitness
+func (h *FitnessTestHandler) Create(c *fiber.Ctx) error {
+	var req dto.CreateFitnessTestRequest
 	if err := c.BodyParser(&req); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error:   "invalid request body",
@@ -61,22 +59,22 @@ func (h *PhysicalAssessmentHandler) Create(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(resp)
 }
 
-// GetByID busca uma avaliação por ID
-func (h *PhysicalAssessmentHandler) GetByID(c *fiber.Ctx) error {
+// GetByID busca um teste de fitness por ID
+func (h *FitnessTestHandler) GetByID(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
-			Error:   "invalid assessment id",
-			Message: "assessment id must be a valid UUID",
+			Error:   "invalid fitness test id",
+			Message: "fitness test id must be a valid UUID",
 		})
 	}
 
 	userID := middleware.GetUserID(c)
 	resp, err := h.service.GetByID(id, userID)
 	if err != nil {
-		if errors.Is(err, services.ErrPhysicalAssessmentNotFound) {
+		if errors.Is(err, services.ErrFitnessTestNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
-				Error: "physical assessment not found",
+				Error: "fitness test not found",
 			})
 		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
@@ -88,8 +86,8 @@ func (h *PhysicalAssessmentHandler) GetByID(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
-// List lista avaliações físicas do paciente selecionado
-func (h *PhysicalAssessmentHandler) List(c *fiber.Ctx) error {
+// List lista testes de fitness do paciente selecionado
+func (h *FitnessTestHandler) List(c *fiber.Ctx) error {
 	limit, _ := strconv.Atoi(c.Query("limit", "20"))
 	offset, _ := strconv.Atoi(c.Query("offset", "0"))
 	if limit > 100 {
@@ -108,22 +106,22 @@ func (h *PhysicalAssessmentHandler) List(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
-// Delete deleta uma avaliação física
-func (h *PhysicalAssessmentHandler) Delete(c *fiber.Ctx) error {
+// Delete deleta um teste de fitness
+func (h *FitnessTestHandler) Delete(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
-			Error:   "invalid assessment id",
-			Message: "assessment id must be a valid UUID",
+			Error:   "invalid fitness test id",
+			Message: "fitness test id must be a valid UUID",
 		})
 	}
 
 	userRole := middleware.GetPrimaryRole(c)
 	err = h.service.Delete(id, userRole)
 	if err != nil {
-		if errors.Is(err, services.ErrPhysicalAssessmentNotFound) {
+		if errors.Is(err, services.ErrFitnessTestNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
-				Error: "physical assessment not found",
+				Error: "fitness test not found",
 			})
 		}
 		if errors.Is(err, services.ErrUnauthorized) {
@@ -138,30 +136,4 @@ func (h *PhysicalAssessmentHandler) Delete(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(fiber.StatusNoContent)
-}
-
-// GenerateHTML gera relatório HTML para uma avaliação física
-func (h *PhysicalAssessmentHandler) GenerateHTML(c *fiber.Ctx) error {
-	id, err := uuid.Parse(c.Params("id"))
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
-			Error:   "invalid assessment id",
-			Message: "assessment id must be a valid UUID",
-		})
-	}
-
-	html, err := h.htmlService.GenerateHTML(id)
-	if err != nil {
-		if errors.Is(err, services.ErrPhysicalAssessmentNotFound) {
-			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
-				Error: "physical assessment not found",
-			})
-		}
-		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
-			Error:   "internal server error",
-			Message: err.Error(),
-		})
-	}
-
-	return c.JSON(fiber.Map{"html": html})
 }

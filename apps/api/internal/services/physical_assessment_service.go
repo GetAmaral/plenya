@@ -112,6 +112,7 @@ func (s *PhysicalAssessmentService) Create(userID uuid.UUID, req *dto.CreatePhys
 	recommendation := generateACSMRecommendation(riskLevel)
 	assessment.ACSMRecommendation = &recommendation
 	assessment.ACSMTags = computeACSMTags(&assessment, &patient)
+	assessment.ACSMTagsStructured = computeStructuredACSMTags(&assessment, &patient, s.clinical, patientID)
 
 	if err := s.db.Create(&assessment).Error; err != nil {
 		return nil, err
@@ -467,6 +468,172 @@ func computeACSMTags(a *models.PhysicalAssessment, patient *models.Patient) []st
 	return tags
 }
 
+func computeStructuredACSMTags(a *models.PhysicalAssessment, patient *models.Patient, clinical *ClinicalDataService, patientID uuid.UUID) []models.ACSMTag {
+	tags := []models.ACSMTag{}
+
+	// Age bracket (demographic)
+	ageLabel := ""
+	switch {
+	case patient.Age < 18:
+		ageLabel = "<18 anos"
+	case patient.Age <= 29:
+		ageLabel = "18-29 anos"
+	case patient.Age <= 39:
+		ageLabel = "30-39 anos"
+	case patient.Age <= 49:
+		ageLabel = "40-49 anos"
+	case patient.Age <= 59:
+		ageLabel = "50-59 anos"
+	default:
+		ageLabel = "60+ anos"
+	}
+	tags = append(tags, models.ACSMTag{Label: ageLabel, Category: models.TagCatDemographic, Color: "#6366f1"})
+
+	// Gender (demographic)
+	genderLabel := "MASCULINO"
+	if patient.Gender == models.GenderFemale {
+		genderLabel = "FEMININO"
+	}
+	tags = append(tags, models.ACSMTag{Label: genderLabel, Category: models.TagCatDemographic, Color: "#6366f1"})
+
+	// Risk classification (risk)
+	hasSymptoms := a.Symptoms != nil && *a.Symptoms != ""
+	hasCV := a.CardiovascularDisease != nil && *a.CardiovascularDisease
+	hasRiskFactors := a.ACSMRiskFactorsCount >= 2
+
+	riskTag := "NYNH"
+	riskColor := "#22c55e"
+	switch {
+	case hasRiskFactors && (hasSymptoms || hasCV):
+		riskTag = "RYSH"
+		riskColor = "#ef4444"
+	case hasRiskFactors:
+		riskTag = "RYNH"
+		riskColor = "#f59e0b"
+	case hasSymptoms || hasCV:
+		riskTag = "NYSH"
+		riskColor = "#ef4444"
+	}
+	tags = append(tags, models.ACSMTag{Label: riskTag, Category: models.TagCatRisk, Color: riskColor})
+
+	// CV disease (cardio)
+	if hasCV {
+		tags = append(tags, models.ACSMTag{Label: "SCAR", Category: models.TagCatCardio, Color: "#ec4899"})
+	} else {
+		tags = append(tags, models.ACSMTag{Label: "NCAR", Category: models.TagCatCardio, Color: "#22c55e"})
+	}
+
+	// Activity level (activity)
+	if a.PhysicalActivityLevel != nil {
+		if *a.PhysicalActivityLevel == models.ActivitySedentary || *a.PhysicalActivityLevel == models.ActivityInsufficient {
+			tags = append(tags, models.ACSMTag{Label: "SEDENTARIO", Category: models.TagCatActivity, Color: "#ef4444"})
+		} else {
+			tags = append(tags, models.ACSMTag{Label: "ATIVO", Category: models.TagCatActivity, Color: "#22c55e"})
+		}
+	}
+
+	// BMI (body)
+	if a.BMI != nil {
+		bmiLabel := ""
+		bmiColor := "#f59e0b"
+		switch {
+		case *a.BMI < 18.5:
+			bmiLabel = "BAIXO_PESO"
+		case *a.BMI < 25:
+			bmiLabel = "PESO_NORMAL"
+			bmiColor = "#22c55e"
+		case *a.BMI < 30:
+			bmiLabel = "SOBREPESO"
+		case *a.BMI < 35:
+			bmiLabel = "OBESIDADE_I"
+			bmiColor = "#ef4444"
+		case *a.BMI < 40:
+			bmiLabel = "OBESIDADE_II"
+			bmiColor = "#ef4444"
+		default:
+			bmiLabel = "OBESIDADE_III"
+			bmiColor = "#ef4444"
+		}
+		tags = append(tags, models.ACSMTag{Label: bmiLabel, Category: models.TagCatBody, Color: bmiColor})
+	}
+
+	// Body fat (body)
+	if a.BodyFatPercent != nil {
+		bf := *a.BodyFatPercent
+		bfLabel := ""
+		bfColor := "#f59e0b"
+		if patient.Gender == models.GenderMale {
+			switch {
+			case bf < 6:
+				bfLabel = "GC_ESSENCIAL"
+				bfColor = "#ef4444"
+			case bf < 14:
+				bfLabel = "GC_ATLETICO"
+				bfColor = "#22c55e"
+			case bf < 18:
+				bfLabel = "GC_FITNESS"
+				bfColor = "#22c55e"
+			case bf < 25:
+				bfLabel = "GC_ACEITAVEL"
+			default:
+				bfLabel = "GC_OBESIDADE"
+				bfColor = "#ef4444"
+			}
+		} else {
+			switch {
+			case bf < 14:
+				bfLabel = "GC_ESSENCIAL"
+				bfColor = "#ef4444"
+			case bf < 21:
+				bfLabel = "GC_ATLETICO"
+				bfColor = "#22c55e"
+			case bf < 25:
+				bfLabel = "GC_FITNESS"
+				bfColor = "#22c55e"
+			case bf < 32:
+				bfLabel = "GC_ACEITAVEL"
+			default:
+				bfLabel = "GC_OBESIDADE"
+				bfColor = "#ef4444"
+			}
+		}
+		tags = append(tags, models.ACSMTag{Label: bfLabel, Category: models.TagCatBody, Color: bfColor})
+	}
+
+	// Risk level (risk)
+	if a.ACSMRiskLevel != nil {
+		rLabel := ""
+		rColor := ""
+		switch *a.ACSMRiskLevel {
+		case models.ACSMRiskLow:
+			rLabel = "RISCO_BAIXO"
+			rColor = "#22c55e"
+		case models.ACSMRiskModerate:
+			rLabel = "RISCO_MODERADO"
+			rColor = "#f59e0b"
+		case models.ACSMRiskHigh:
+			rLabel = "RISCO_ALTO"
+			rColor = "#ef4444"
+		}
+		tags = append(tags, models.ACSMTag{Label: rLabel, Category: models.TagCatRisk, Color: rColor})
+	}
+
+	// Medication tags (medication)
+	if clinical != nil {
+		if level := clinical.LatestAnamnesisLevel(patientID, models.AnamCodeMedicacaoHipertensao); level != nil && *level <= 2 {
+			tags = append(tags, models.ACSMTag{Label: "MH", Category: models.TagCatMedication, Color: "#8b5cf6"})
+		}
+		if level := clinical.LatestAnamnesisLevel(patientID, models.AnamCodeMedicacaoDiabetes); level != nil && *level <= 2 {
+			tags = append(tags, models.ACSMTag{Label: "MD", Category: models.TagCatMedication, Color: "#8b5cf6"})
+		}
+		if level := clinical.LatestAnamnesisLevel(patientID, models.AnamCodeMedicacaoColesterol); level != nil && *level <= 2 {
+			tags = append(tags, models.ACSMTag{Label: "MC", Category: models.TagCatMedication, Color: "#8b5cf6"})
+		}
+	}
+
+	return tags
+}
+
 // --- Fórmulas ---
 
 func CalculateBMI(weightKg, heightCm float64) float64 {
@@ -550,8 +717,10 @@ func (s *PhysicalAssessmentService) toDTO(pa *models.PhysicalAssessment, patient
 		ACSMProtectiveFactors: pa.ACSMProtectiveFactors,
 		ACSMRecommendation:    pa.ACSMRecommendation,
 		ACSMTags:              pa.ACSMTags,
+		ACSMTagsStructured:    toACSMTagDTOs(pa.ACSMTagsStructured),
 		FrontPhotoURL:         pa.FrontPhotoURL,
 		SidePhotoURL:          pa.SidePhotoURL,
+		HtmlContent:           pa.HtmlContent,
 		AIRecommendation:      pa.AIRecommendation,
 		DisplayTitle:          pa.DisplayTitle,
 		CreatedAt:             pa.CreatedAt.Format(time.RFC3339),
@@ -580,6 +749,21 @@ func (s *PhysicalAssessmentService) toDTO(pa *models.PhysicalAssessment, patient
 	resp.HRZones = CalculateKarvonenZones(maxHR, restHR)
 
 	return resp
+}
+
+func toACSMTagDTOs(tags []models.ACSMTag) []dto.ACSMTagDTO {
+	if len(tags) == 0 {
+		return nil
+	}
+	out := make([]dto.ACSMTagDTO, len(tags))
+	for i, t := range tags {
+		out[i] = dto.ACSMTagDTO{
+			Label:    t.Label,
+			Category: string(t.Category),
+			Color:    t.Color,
+		}
+	}
+	return out
 }
 
 func generateACSMRecommendation(level models.ACSMRiskLevel) string {

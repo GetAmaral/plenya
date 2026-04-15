@@ -102,6 +102,8 @@ func AutoMigrate() error {
 		&models.PhysicalAssessment{},
 		&models.WorkoutPeriodization{},
 		&models.WorkoutMesocycle{},
+		&models.FitnessTestResult{},
+		&models.PosturalAssessment{},
 	)
 }
 
