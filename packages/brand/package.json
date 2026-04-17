@@ -1,0 +1,30 @@
+{
+  "name": "@plenya/brand",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plenya brand tokens, fonts and logo assets",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens": "./src/tokens/index.ts",
+    "./tailwind-preset": "./src/tailwind-preset.ts",
+    "./logo": "./src/logo/index.ts",
+    "./logo/PlenyaSymbol": "./src/logo/PlenyaSymbol.tsx",
+    "./logo/PlenyaWordmark": "./src/logo/PlenyaWordmark.tsx"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.7",
+    "react": "^19.2.0",
+    "tailwindcss": "^3.4.18",
+    "typescript": "^6.0.2"
+  }
+}

@@ -107,6 +107,41 @@ services:
     networks:
       - plenya-network
 
+  site:
+    build:
+      context: .
+      dockerfile: ./apps/site/Dockerfile.dev
+    container_name: plenya-site
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      - TZ=${TZ:-America/Sao_Paulo}
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3002
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - NEXT_PUBLIC_PLAUSIBLE_DOMAIN=plenyasaude.com.br
+      - NEXT_PUBLIC_WHATSAPP_NUMBER=5543999999999
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - .:/app:cached
+      - /app/node_modules
+      - /app/apps/site/node_modules
+      - /app/apps/web/node_modules
+      - /app/apps/api/node_modules
+      - /app/packages/types/node_modules
+      - /app/packages/ui/node_modules
+      - /app/packages/brand/node_modules
+      - /app/packages/api-client/node_modules
+      - /app/apps/site/.next
+      - /app/apps/site/.turbo
+      - /app/.turbo
+      - /app/.git
+    networks:
+      - plenya-network
+
 volumes:
   pgdata:
 

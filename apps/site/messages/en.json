@@ -1,0 +1,45 @@
+{
+  "site": {
+    "name": "Plenya",
+    "tagline": "Health, Performance & Longevity",
+    "claim": "Live well. Live more."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "team": "Team",
+    "plans": "Plans",
+    "blog": "Blog",
+    "contact": "Contact",
+    "patientArea": "Patient Area",
+    "drGetulio": "Dr. Getúlio"
+  },
+  "cta": {
+    "scheduleConsultation": "Schedule consultation",
+    "knowTeam": "Meet our team",
+    "knowPlans": "See plans",
+    "talkToTeam": "Talk to the Plenya team",
+    "whatsapp": "Chat on WhatsApp"
+  },
+  "home": {
+    "heroTitle": "Living well is the reflection of what you choose every day.",
+    "heroSubtitle": "Fullness is not a destination. It is a continuous line.",
+    "agirTitle": "AGIR Method",
+    "agirSubtitle": "Four interdependent pillars for health that sustains over time.",
+    "scoreTitle": "Plenya Score",
+    "scoreSubtitle": "A structured assessment of your health, translated into goals and a care plan."
+  },
+  "footer": {
+    "navigation": "Navigation",
+    "services": "Services",
+    "content": "Content",
+    "contact": "Contact",
+    "legal": "Legal",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "professionals": "Plenya professional access",
+    "newsletter": "Plenya Newsletter",
+    "rights": "All rights reserved.",
+    "privacyBadge": "Cookie-free analytics. 100% LGPD compliant."
+  }
+}

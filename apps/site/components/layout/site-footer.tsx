@@ -1,0 +1,64 @@
+import { useTranslations } from 'next-intl';
+import { brand } from '@plenya/brand';
+import { Link } from '@/lib/i18n/navigation';
+
+export function SiteFooter() {
+  const t = useTranslations('footer');
+  const tNav = useTranslations('nav');
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="bg-petrol text-cream/80">
+      <div className="site-container py-20 grid gap-12 md:grid-cols-2 lg:grid-cols-5">
+        <div className="lg:col-span-2 space-y-4">
+          <span className="font-heading text-cream text-xl tracking-[0.35em] uppercase">PLENYA</span>
+          <p className="text-cream/50 text-sm leading-relaxed max-w-xs">
+            Clínica premium de saúde funcional integrativa. Cuidado contínuo para viver bem em todas as fases da vida.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <p className="label-upper text-gold">{t('navigation')}</p>
+          <nav className="flex flex-col gap-2.5 text-sm">
+            <Link href="/" className="hover:text-cream transition">{tNav('home')}</Link>
+            <Link href="/a-plenya" className="hover:text-cream transition">{tNav('about')}</Link>
+            <Link href="/equipe" className="hover:text-cream transition">{tNav('team')}</Link>
+            <Link href="/dr-getulio" className="hover:text-cream transition">{tNav('drGetulio')}</Link>
+            <Link href="/blog" className="hover:text-cream transition">{tNav('blog')}</Link>
+            <Link href="/depoimentos" className="hover:text-cream transition">Depoimentos</Link>
+          </nav>
+        </div>
+
+        <div className="space-y-3">
+          <p className="label-upper text-gold">{t('services')}</p>
+          <nav className="flex flex-col gap-2.5 text-sm">
+            <Link href="/metodo-agir" className="hover:text-cream transition">Método AGIR</Link>
+            <Link href="/escore-plenya" className="hover:text-cream transition">Escore Plenya</Link>
+            <Link href="/planos" className="hover:text-cream transition">{tNav('plans')}</Link>
+            <Link href="/contato" className="hover:text-cream transition">{tNav('contact')}</Link>
+            <a href={brand.appUrl} className="hover:text-cream transition">{t('professionals')}</a>
+          </nav>
+        </div>
+
+        <div className="space-y-3">
+          <p className="label-upper text-gold">{t('contact')}</p>
+          <div className="flex flex-col gap-2.5 text-sm">
+            <a href={`mailto:${brand.email}`} className="hover:text-cream transition">{brand.email}</a>
+            <a href={brand.social.instagram} target="_blank" rel="noreferrer" className="hover:text-cream transition">@drGetulioAmaralFilho</a>
+            <span className="text-cream/40">Londrina · PR</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-cream/10">
+        <div className="site-container py-6 flex flex-col md:flex-row justify-between gap-4 text-cream/40 text-xs">
+          <span>© {year} {brand.legalName}. Todos os direitos reservados.</span>
+          <div className="flex gap-6">
+            <Link href="/privacidade" className="hover:text-cream/70 transition">{t('privacy')}</Link>
+            <Link href="/termos" className="hover:text-cream/70 transition">{t('terms')}</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

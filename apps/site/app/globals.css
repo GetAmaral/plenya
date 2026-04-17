@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-cream text-petrol;
+  }
+  ::selection {
+    @apply bg-gold/25 text-petrol;
+  }
+  p { text-wrap: pretty; }
+  h1, h2, h3 { text-wrap: balance; }
+}
+
+@layer components {
+  /* Containers */
+  .site-container { @apply mx-auto max-w-[1200px] px-6 md:px-10; }
+  .site-narrow   { @apply mx-auto max-w-[720px] px-6 md:px-10; }
+
+  /* Section spacing — generous */
+  .section { @apply py-24 md:py-32; }
+
+  /* Typography */
+  .heading-hero {
+    font-family: var(--font-heading), 'Cormorant Garamond', serif;
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+  .heading-section {
+    font-family: var(--font-heading), 'Cormorant Garamond', serif;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .label-upper {
+    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* Buttons */
+  .btn-gold {
+    @apply inline-flex items-center justify-center bg-gold text-petrol px-10 py-4 rounded-full transition-all duration-300;
+    font-family: var(--font-heading), 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .btn-gold:hover {
+    @apply bg-gold-600 -translate-y-px shadow-lg shadow-gold/20;
+  }
+  .btn-outline-dark {
+    @apply inline-flex items-center justify-center border border-petrol/30 text-petrol px-8 py-3 rounded-full transition-all duration-300;
+    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .btn-outline-dark:hover {
+    @apply border-petrol bg-petrol text-cream;
+  }
+
+  /* Nav pills — matching mockup */
+  .nav-pill {
+    @apply inline-flex items-center justify-center border border-cream/50 text-cream/90 px-5 py-1.5 rounded-full transition-all duration-300;
+    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .nav-pill:hover, .nav-pill[data-active="true"] {
+    @apply bg-cream/15 border-cream/80 text-cream;
+  }
+
+  /* Form inputs */
+  .form-input {
+    @apply w-full bg-paper border border-petrol/15 px-5 py-3.5 text-petrol text-sm transition;
+  }
+  .form-input:focus {
+    @apply outline-none border-gold;
+  }
+  .form-input::placeholder {
+    @apply text-petrol/40;
+  }
+
+  /* Post card */
+  .post-card-featured {
+    @apply border-t border-petrol/15 pt-10 pb-6;
+  }
+  .post-card {
+    @apply border-t border-petrol/10 py-8;
+  }
+}

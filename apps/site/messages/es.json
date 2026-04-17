@@ -1,0 +1,45 @@
+{
+  "site": {
+    "name": "Plenya",
+    "tagline": "Salud, Rendimiento y Longevidad",
+    "claim": "Vive bien. Vive más."
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "La Plenya",
+    "team": "Equipo",
+    "plans": "Planes",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "patientArea": "Área del Paciente",
+    "drGetulio": "Dr. Getúlio"
+  },
+  "cta": {
+    "scheduleConsultation": "Agendar consulta",
+    "knowTeam": "Conocer al equipo",
+    "knowPlans": "Conocer los planes",
+    "talkToTeam": "Hablar con el equipo Plenya",
+    "whatsapp": "Hablar por WhatsApp"
+  },
+  "home": {
+    "heroTitle": "Vivir bien es el reflejo de lo que eliges todos los días.",
+    "heroSubtitle": "La plenitud no es un punto de llegada. Es una línea continua.",
+    "agirTitle": "Método AGIR",
+    "agirSubtitle": "Cuatro pilares interdependientes para una salud que se sostiene en el tiempo.",
+    "scoreTitle": "Score Plenya",
+    "scoreSubtitle": "Diagnóstico estructurado de tu salud, traducido en metas y un plan de cuidado."
+  },
+  "footer": {
+    "navigation": "Navegación",
+    "services": "Servicios",
+    "content": "Contenido",
+    "contact": "Contacto",
+    "legal": "Legal",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "professionals": "Acceso profesionales Plenya",
+    "newsletter": "Boletín Plenya",
+    "rights": "Todos los derechos reservados.",
+    "privacyBadge": "Analytics sin cookies. 100% LGPD."
+  }
+}
