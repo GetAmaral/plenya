@@ -1,9 +1,6 @@
 # ANTES
 ## A janela silenciosa entre o "normal" e o ótimo — por que viver bem e viver mais começa antes
 
-### Edição internacional
-**BEFORE** · *The Silent Window Between "Normal" and Optimal — Why Living Well and Living Longer Begins Before*
-
 **Série PLENYA — E-book 1 · Performance e Longevidade**
 
 ---

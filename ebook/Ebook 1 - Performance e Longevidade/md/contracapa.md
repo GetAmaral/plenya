@@ -1,10 +1,10 @@
 # Contracapa
 
-Texto pronto para diagramação. Versões PT e EN em paridade de estrutura e de peso.
+Texto pronto para diagramação.
 
 ---
 
-## Edição brasileira
+## Texto final
 
 > *Ricardo fez o check-up anual. "Está tudo normal", disse o médico. Oito meses depois, quase morreu num estacionamento.*
 >
@@ -17,22 +17,6 @@ Texto pronto para diagramação. Versões PT e EN em paridade de estrutura e de 
 > *Porque viver bem e viver mais não começa depois do diagnóstico. Começa antes.*
 
 **Contagem:** ~155 palavras · 6 parágrafos · cadência: hook curto → problema → promessa → conteúdo → fechamento-mantra
-
----
-
-## International edition
-
-> *Ricardo had his annual check-up. "Everything is normal," his doctor said. Eight months later, he nearly died in a parking lot.*
->
-> *What no one had investigated: between the "normal" on your lab printout and the optimal your body could reach, there is a silent window. Ten, fifteen, twenty years in which disease grows, invisible to routine exams. This is where longevity is built — or lost.*
->
-> *This book is the map of that window.*
->
-> *Written by a Brazilian physician who practices precision preventive medicine every day, it lays out the expanded biomarker panel your check-up doesn't include, the AGIR Method — four pillars of real prevention — and a quarterly scorecard for tracking your own trajectory. With six real clinical cases running through the entire book.*
->
-> *Because living well and living longer doesn't start after the diagnosis. It starts before.*
-
-**Word count:** ~150 words · 6 paragraphs · mirrors PT cadence exactly
 
 ---
 
@@ -63,7 +47,7 @@ Texto pronto para diagramação. Versões PT e EN em paridade de estrutura e de 
 ### Alternativo A — provocação direta ao leitor
 > *O seu último check-up disse que está tudo normal. Provavelmente está — dentro das faixas que o laboratório imprime. O problema é o que essas faixas não medem.*
 
-- **Vantagem:** leitor é o sujeito desde a primeira linha. Personal, direto.
+- **Vantagem:** leitor é o sujeito desde a primeira linha. Pessoal, direto.
 - **Risco:** perde o drama cinematográfico do estacionamento.
 
 ### Alternativo B — caso Marcos (estatina sob controle)
@@ -78,7 +62,7 @@ Texto pronto para diagramação. Versões PT e EN em paridade de estrutura e de 
 - **Vantagem:** pergunta que obriga a responder.
 - **Risco:** mais abstrato, menos cinematográfico.
 
-**Recomendação:** manter o hook Ricardo (principal). É o mais viscerar e funciona em paridade PT/EN. Os alternativos ficam como opções caso a edição queira A/B.
+**Recomendação:** manter o hook Ricardo (principal). É o mais visceral.
 
 ---
 
@@ -86,11 +70,7 @@ Texto pronto para diagramação. Versões PT e EN em paridade de estrutura e de 
 
 Se houver orelha (sobrecapa interna), sugestão de texto breve:
 
-**PT:**
 > *Se você tem 40, 50 ou 60 anos e não está disposto a esperar um diagnóstico para agir, este livro é para você. Não é self-help. Não é manual de receitas. É o trabalho de um médico que há décadas acompanha pacientes que, exatamente como você, recebem exames "normais" enquanto o corpo conta outra história.*
-
-**EN:**
-> *If you're in your 40s, 50s or 60s and not willing to wait for a diagnosis to act, this book is for you. It is not self-help. It is not a recipe manual. It is the work of a physician who for decades has followed patients who, exactly like you, receive "normal" lab results while their bodies tell another story.*
 
 ---
 
