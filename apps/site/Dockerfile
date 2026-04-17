@@ -13,8 +13,6 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY apps/site/package.json ./apps/site/
 COPY packages/brand/package.json ./packages/brand/
 COPY packages/types/package.json ./packages/types/
-COPY packages/ui/package.json ./packages/ui/
-COPY packages/api-client/package.json ./packages/api-client/
 RUN pnpm install --frozen-lockfile --filter "@plenya/site..."
 
 ###
