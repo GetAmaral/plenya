@@ -71,6 +71,19 @@ apps/api/import-score-enrich
 /screen.png
 /GaudencioVps.*
 
+# Reference articles/textbooks (large PDF/EPUB — não devem ir pro git)
+apps/api/examples/articles/*.pdf
+apps/api/examples/articles/*.epub
+apps/api/examples/articles/*.mobi
+
+# User uploads (runtime, não vai pro git)
+uploads/
+apps/api/uploads/
+
+# Database backups
+backup_*.sql
+*.sql.bak
+
 # Database
 *.db
 *.sqlite
