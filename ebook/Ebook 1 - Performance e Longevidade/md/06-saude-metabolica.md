@@ -1,0 +1,167 @@
+# PARTE II — O MAPA
+
+## Capítulo 6 — Saúde Metabólica: A Fundação Invisível
+
+Você já conhece Fernanda. No Capítulo 4, ela era a paciente de 41 anos com todos os exames "normais" — e todos longe do ótimo. Insulina de jejum de 13. HOMA-IR de 3,0. ApoB de 108. PCR de 1,9. Relação TG/HDL de 3,9.
+
+Você viu os números. Agora vamos ver o que eles significavam — o que estava acontecendo dentro do corpo dela para produzir esse padrão, por que o check-up convencional não conseguia enxergar, e por que a reversão que ela conseguiu em seis meses não foi sorte — foi biologia.
+
+Quando pedi um ultrassom abdominal como parte da avaliação ampliada, o resultado não surpreendeu: esteatose hepática grau I. Fígado gorduroso leve. E a GGT era 34 U/L — dentro da referência do laboratório para mulheres (até 40), mas acima do que consideramos ótimo (abaixo de 30).
+
+Fernanda não bebia álcool. Não era obesa. Fazia exercício. Comia "bem". E tinha gordura no fígado. Quando contei a ela, a reação foi de genuína confusão:
+
+> "Fígado gorduroso? Mas eu não sou gorda. Eu nem bebo."
+
+É exatamente essa confusão que precisamos resolver.
+
+![Figura 6.1 — Fígado Normal vs. Esteatose. Dois painéis de ultrassom lado a lado: fígado saudável com ecotextura uniforme versus esteatose grau I com hiperecogenicidade difusa e contraste aumentado com o rim adjacente.](../Cap06%20Fig01.PNG)
+
+*Figura 6.1 — A esteatose é visível antes de qualquer sintoma — e antes de qualquer alteração nos exames de sangue convencionais. Quando mais de 5% dos hepatócitos contêm gordura, a textura do fígado no ultrassom fica mais brilhante que a do rim adjacente. O mesmo exame, seis meses depois, mostrou o fígado de Fernanda sem esteatose.*
+
+---
+
+### O Fígado: Onde a Disfunção Metabólica Se Materializa
+
+Se existe um órgão que resume a saúde metabólica de uma pessoa, é o fígado. Ele processa a insulina. Fabrica o colesterol. Regula os triglicerídeos. Armazena e libera glicose. Quando o metabolismo funciona bem, o fígado opera em equilíbrio silencioso. Quando a resistência insulínica se instala, o fígado é um dos primeiros órgãos a acusar o impacto.
+
+A hiperinsulinemia crônica — aquela insulina persistentemente elevada que o check-up não mede — ativa no fígado um processo chamado *lipogênese de novo*: a fabricação de gordura a partir de carboidratos. O fígado passa a produzir mais triglicerídeos do que consegue exportar. Os ácidos graxos se acumulam dentro das células hepáticas. Quando mais de 5% dos hepatócitos contêm gordura, o diagnóstico é esteatose.
+
+Essa condição — hoje chamada **MASLD** (doença hepática esteatótica associada a disfunção metabólica, a nomenclatura que substituiu "fígado gorduroso não alcoólico" em 2023) — afeta aproximadamente 38% da população adulta mundial. A projeção é que ultrapasse 55% até 2040. É a doença hepática mais comum do planeta.
+
+Mas o dado mais revelador não é a prevalência — é o que a esteatose significa para o resto do corpo. A causa mais comum de morte em pacientes com MASLD não é doença hepática — é doença cardiovascular. O fígado gorduroso não é um problema isolado de fígado. É a manifestação hepática de uma disfunção metabólica sistêmica que está, simultaneamente, inflamando artérias, alimentando aterosclerose e criando o terreno para diabetes.
+
+É exatamente o que estava acontecendo com Fernanda. O fígado gorduroso dela não era a doença. Era o sinal de alarme mais visível de um processo que já estava em andamento havia anos — o mesmo processo que levou o pai dela a um infarto aos 58 e a mãe ao diagnóstico de diabetes aos 62.
+
+E a parte mais cruel: até 20% das pessoas com peso normal desenvolvem esteatose. Fernanda, com IMC de 23 — magra por qualquer critério convencional —, era uma delas.
+
+---
+
+### Por Que o IMC Mente — e O Que Medir no Lugar
+
+O caso de Fernanda expõe uma falha que vai além dos exames de sangue: a forma como medimos o corpo também está errada.
+
+O IMC — índice de massa corporal — divide o peso pela altura ao quadrado. É a métrica mais usada do mundo para classificar peso. E é profundamente enganosa. O IMC não distingue gordura de músculo. Não diferencia gordura subcutânea (a que fica sob a pele, relativamente inofensiva) de gordura visceral (a que se deposita ao redor dos órgãos e produz inflamação crônica). Um atleta musculoso pode ter IMC de "sobrepeso" sem nenhum excesso de gordura. Uma mulher magra como Fernanda pode ter IMC "normal" com gordura visceral acumulada ao redor do fígado e do pâncreas. O IMC classifica os dois incorretamente.
+
+![Figura 6.2 — Mesmo IMC, Corpos Diferentes. Dois cortes transversais abdominais com IMC idêntico (24): à esquerda, gordura predominantemente subcutânea (anel externo, órgãos livres); à direita, padrão TOFI com gordura visceral depositada entre os órgãos.](../Cap06%20Fig02.PNG)
+
+*Figura 6.2 — O IMC é idêntico. O risco é radicalmente diferente. A balança não distingue os dois. Até 20% das pessoas com IMC "normal" se encaixam no padrão TOFI — Thin Outside, Fat Inside — com gordura visceral acumulada ao redor dos órgãos internos, produzindo inflamação e resistência insulínica enquanto o espelho e a balança dizem que está tudo bem.*
+
+Existe uma métrica melhor, mais simples e mais preditiva: **a relação cintura/estatura**. Divida sua circunferência abdominal pela sua altura, ambas em centímetros. Se o resultado for maior que 0,5 — ou seja, se sua cintura mede mais que metade da sua altura —, o risco cardiometabólico está aumentado.
+
+Uma meta-análise com mais de 300.000 adultos demonstrou que a relação cintura/estatura é superior ao IMC para predizer diabetes, hipertensão, dislipidemia e síndrome metabólica. A mensagem é tão simples que cabe num post-it: **mantenha sua cintura abaixo da metade da sua altura**. Funciona para homens e mulheres, para jovens e idosos, para qualquer etnia — sem precisar de tabelas de referência por sexo ou idade.
+
+A circunferência abdominal sozinha também é útil. Os limiares de risco mais usados são: acima de 90 cm para homens e 80 cm para mulheres na população latino-americana. Mas como proxy para gordura visceral, a relação cintura/estatura é mais precisa.
+
+Para quem quer ir além, a **DEXA** (absorciometria de dupla energia por raios X) é o exame mais preciso disponível para composição corporal: quantifica gordura total, gordura visceral, massa muscular e densidade óssea numa única avaliação. Não é essencial para todos — mas para pacientes como Fernanda, onde o IMC diz "normal" e o corpo conta outra história, a DEXA revela exatamente onde a gordura está e quanto músculo existe para proteger o metabolismo.
+
+Uma alternativa mais acessível é a **bioimpedância** — presente em muitas balanças domésticas e em consultórios. Ela estima percentual de gordura e massa magra, mas é menos precisa que a DEXA e varia com hidratação, horário e alimentação recente. Seu valor está no acompanhamento de tendências: se o percentual de gordura sobe ou desce ao longo dos meses, a direção é confiável mesmo que o número absoluto não seja.
+
+---
+
+### A Timeline: Onde Fernanda Estava — e Para Onde Estava Indo
+
+A disfunção metabólica não começa com diabetes. Ela começa com resistência insulínica — e entre as duas pode haver uma década ou mais de deterioração silenciosa que o check-up convencional não detecta.
+
+A sequência é previsível:
+
+![Figura 6.3 — Da Resistência Insulínica ao Diabetes: A Timeline que o Check-up Não Vê. Barra de progressão com 4 fases (RI compensada → disfunção manifesta → pré-diabetes → diabetes tipo 2) mostrando o que acontece no corpo versus o que o check-up convencional diz em cada fase. Janela de intervenção destacada em verde sobre as Fases 1 e 2.](../Cap06%20Fig03.PNG)
+
+*Figura 6.3 — A disfunção metabólica progride por fases identificáveis — mas o check-up convencional só começa a enxergar na Fase 3 (pré-diabetes). Entre a Fase 1 (insulina já elevada, glicose normal) e a Fase 3, existe uma janela de intervenção de 5 a 10 anos. Fernanda estava na transição entre as Fases 1 e 2. A doença já estava lá. O diagnóstico é que chegou tarde.*
+
+**Fase 1 — Resistência insulínica compensada.** As células musculares, hepáticas e adiposas começam a responder menos à insulina. O pâncreas compensa produzindo mais. A insulina de jejum sobe — para 10, 12, 15 µIU/mL. Mas a glicose permanece normal. Nenhum exame convencional detecta o problema. Essa fase pode durar anos.
+
+**Fase 2 — Disfunção metabólica manifesta.** A hiperinsulinemia crônica começa a causar efeitos sistêmicos: triglicerídeos sobem, HDL cai, pressão arterial aumenta discretamente, gordura visceral se acumula, o fígado começa a acumular gordura. A GGT sobe. A PCR sobe. Mas a glicemia de jejum ainda está entre 90 e 105 — "limítrofe, acompanhar". Essa fase dura mais anos.
+
+**Fase 3 — Pré-diabetes.** O pâncreas começa a perder a capacidade de compensar. A HbA1c cruza 5,7%. O diagnóstico de pré-diabetes aparece. Mas o processo já está em andamento há 5 a 10 anos.
+
+**Fase 4 — Diabetes tipo 2.** A HbA1c ultrapassa 6,5%. O diagnóstico formal chega como "surpresa". Mas a doença já estava lá havia uma década ou mais.
+
+O que torna essa timeline tão perigosa é que em cada fase, a disfunção metabólica não fica confinada ao metabolismo da glicose. Ela irradia para todos os outros sistemas — simultaneamente. Na Fase 1, quando a insulina já está alta mas a glicose ainda é "normal", o ApoB já pode estar subindo, as artérias já estão sendo bombardeadas por partículas aterogênicas, a inflamação crônica já está se instalando, e o fígado já está acumulando gordura.
+
+No Capítulo 2, descrevemos como a resistência insulínica conecta os quatro assassinos silenciosos. Agora, com os biomarcadores do Capítulo 4 e o escore de cálcio do Capítulo 5, você tem as ferramentas para detectar cada estágio dessa cascata — e para intervir antes que ela se transforme em diagnóstico.
+
+Fernanda estava na transição entre as fases 1 e 2. Insulina de 13. HOMA-IR de 3,0. Glicemia de 94 — perfeitamente "normal". HbA1c de 5,5 — a duas décimas de pré-diabetes. Triglicerídeos de 180, HDL de 46, TG/HDL de 3,9 — todos sinais de que o metabolismo lipídico já estava sendo distorcido pela hiperinsulinemia. Esteatose leve no ultrassom. PCR de 1,9 confirmando que a inflamação já acompanhava o processo.
+
+Se ninguém intervisse, a trajetória provável era a da mãe dela: pré-diabetes aos 50 e poucos, diabetes aos 60. Com o agravante de que a dislipidemia aterogênica — ApoB elevado, partículas densas de LDL — aumentava simultaneamente o risco cardiovascular. O mesmo caminho do pai, que infartou aos 58.
+
+Fernanda estava carregando a herança metabólica dos dois lados da família. Mas herança não é destino — é predisposição. E predisposição, quando identificada, pode ser enfrentada.
+
+---
+
+### Por Que o Check-up Não Vê — e O Que Vê Tarde Demais
+
+A síndrome metabólica é definida pela presença de três ou mais dos seguintes: circunferência abdominal elevada, triglicerídeos acima de 150 mg/dL, HDL abaixo de 50 mg/dL em mulheres, pressão arterial acima de 130/85, e glicemia de jejum acima de 100.
+
+Fernanda não preenchia os critérios. A circunferência abdominal estava no limite. A glicemia era 94 — abaixo de 100. A pressão era 118/76. Pelos critérios convencionais, ela não tinha síndrome metabólica.
+
+Mas a resistência insulínica que alimenta tudo isso começou anos antes de qualquer critério ser atingido. Os critérios de síndrome metabólica são limiares de doença, não de risco. É como exigir que o nível da água chegue ao telhado para declarar inundação — ignorando todo o período em que o porão já estava alagado.
+
+Os biomarcadores precoces do Capítulo 4 — insulina de jejum, HOMA-IR, relação TG/HDL, GGT — medem o nível do porão. E todos eles estavam elevados no caso de Fernanda. Cada um "normal" pelo laboratório. Nenhum ótimo. Em conjunto, inequívocos.
+
+---
+
+### Quando o Jejum Mente: O Caso André
+
+Fernanda foi pega pelos marcadores de jejum — insulina de 13, HOMA-IR de 3,0. Mas nem sempre o jejum conta a verdade completa.
+
+André, que conhecemos no Capítulo 3, chegou ao consultório com insulina de jejum de 8,5 µIU/mL e HOMA-IR de 1,9. Pelos critérios convencionais, ambos normais. O laboratório imprimiu os resultados em verde. Qualquer médico que olhasse apenas esses números diria que o metabolismo da glicose estava preservado.
+
+Mas André tinha PCR de 2,1 e homocisteína de 14 — sinais de inflamação crônica que não combinavam com alguém que se exercitava dez horas por semana e não comia ultraprocessados. Algo estava fora do lugar. Pedi um teste oral de tolerância à glicose com curva insulinêmica — o TOTG com dosagem de insulina em quatro tempos: jejum, 30, 60 e 120 minutos após uma carga de 75 g de glicose.
+
+O resultado foi revelador. A glicemia em jejum era 92 — normal. Aos 30 minutos, 148. Aos 60 minutos, 162. Aos 90 minutos, 154. Aos 120 minutos, 131. A glicose tinha voltado a descer, mas lentamente, e o pico aos 60 minutos já era maior que o limite preventivo. A maioria dos médicos olharia só jejum e 120 min e diria: tolerância à glicose preservada. Mas a curva de insulina contava outra história. Insulina em jejum: 8,5. Aos 30 minutos: 78. Aos 60 minutos: 124. Aos 90 minutos: 118. Aos 120 minutos: 89. O pico era tardio, excessivo, a curva não voltava ao basal e os 90 minutos mostravam que o pâncreas continuava a bombear insulina quando já deveria estar em queda.
+
+Em linguagem técnica, André tinha um padrão Kraft tipo III — pico de insulina retardado com hiperinsulinemia compensatória significativa. O pâncreas dele estava trabalhando três a quatro vezes mais do que deveria para manter a glicose sob controle. A glicemia parecia normal porque a insulina estava gritando. E como ninguém havia medido o grito, ninguém sabia.
+
+O trabalho de Joseph Kraft, que analisou mais de 14.000 testes ao longo de décadas, demonstrou que 75% das pessoas com glicose normal no TOTG tinham padrões de insulina anormais. Kraft chamou isso de "diabetes in-situ" — a doença metabólica já instalada, com a glicemia ainda mascarada pela hiperinsulinemia compensatória. A resistência insulínica é, desde o início, um distúrbio pós-prandial. O corpo lida com o problema depois de comer, não em jejum. Quando o distúrbio aparece no sangue em jejum — como no caso de Fernanda, com insulina de 13 —, o processo já tem anos. André estava num estágio onde o jejum ainda escondia o problema. Só a provocação com glicose revelou a verdade.
+
+Não peço TOTG com curva insulinêmica para todos os pacientes. Mas peço quando o jejum levanta suspeita sem confirmar — insulina entre 6 e 10, HOMA-IR entre 1,5 e 2,5, mas com outros marcadores discordantes (PCR elevada, TG/HDL subindo, histórico familiar forte, ou simplesmente um paciente que "faz tudo certo" e os números não fecham). André era o caso clássico. E sem a curva, teríamos perdido anos de janela de intervenção.
+
+---
+
+### O Que Fizemos — e Por Que Funcionou
+
+No Capítulo 4, mencionei que em seis meses Fernanda reverteu os marcadores: insulina de 13 para 7, PCR de 1,9 para 0,8, vitamina D de 22 para 48. Mas não expliquei o porquê. Agora, com o mapa metabólico em mãos, podemos entender a lógica. A intervenção atacou a raiz — a resistência insulínica —, não os galhos.
+
+**Alimentação reestruturada.** Não uma "dieta" temporária, mas uma reorganização do padrão alimentar permanente. Redução de ultraprocessados e frutose adicionada — os principais motores da lipogênese hepática que estava enchendo o fígado de Fernanda de gordura. Aumento de proteína de qualidade, vegetais, fibras e gorduras monoinsaturadas. Janela alimentar de 10 horas alinhada à fase ativa do dia, o que por si só melhora a sensibilidade insulínica hepática e reduz triglicerídeos — mesmo sem redução calórica.
+
+**Treino de força adicionado.** Fernanda fazia exercício — mas era cardio leve. Incluímos três sessões semanais de musculação. O músculo esquelético é o maior consumidor de glicose do corpo. Quanto mais músculo funcional, maior a capacidade de captação de glicose sem depender de insulina elevada. Treino de força melhora a sensibilidade insulínica por um mecanismo direto: aumenta a translocação de transportadores GLUT4 para a membrana das células musculares. Em termos simples: mais músculo significa menos insulina necessária para fazer o mesmo trabalho.
+
+**Vitamina D corrigida.** Fernanda tinha 22 ng/mL — "suficiente" pelo laboratório, mas longe do ótimo. Como vimos no Capítulo 4, quando a vitamina D está abaixo de 40 ng/mL, o paratormônio (PTH) permanece cronicamente elevado para compensar a absorção deficiente de cálcio. Esse PTH elevado não apenas compromete a saúde óssea, mas também está associado em estudos observacionais a maior resistência insulínica e pior função das células beta do pâncreas. Ao corrigir a vitamina D para 48 ng/mL, o PTH se suprime, o cálcio se estabiliza e um fator agravante da resistência insulínica é removido. Não é a intervenção principal — mas é uma peça que faltava.
+
+**Sono e estresse avaliados.** Fernanda dormia em média seis horas por noite e descreveu seu nível de estresse como "normal para quem trabalha e tem dois filhos". Sono insuficiente e estresse crônico elevam o cortisol — e o cortisol cronicamente alto piora diretamente a sensibilidade insulínica, promove acúmulo de gordura visceral e aumenta a inflamação. Não são variáveis "emocionais" — são variáveis metabólicas. Serão aprofundadas nos capítulos seguintes.
+
+Nenhuma medicação foi necessária. O protocolo era estilo de vida — mas estilo de vida com precisão, orientado por biomarcadores e monitorado a cada quatro meses.
+
+Em seis meses, os números contaram uma história diferente. A insulina caiu de 13 para 7 — dentro da faixa ótima. O HOMA-IR de 3,0 para 1,7. Os triglicerídeos de 180 para 108. O HDL subiu de 46 para 54. A relação TG/HDL caiu de 3,9 para 2,0. A PCR de 1,9 para 0,8. A GGT normalizou para 22 U/L. O ultrassom de controle: sem esteatose.
+
+Fernanda reverteu o processo. Seis anos antes de qualquer diagnóstico convencional. Sem metformina. Sem cirurgia. Diferente do pai. Diferente da mãe. Porque alguém olhou antes.
+
+---
+
+### E Se Fosse Com Você?
+
+Se alguém um dia lhe disse que seu fígado "está um pouco gorduroso" e recomendou "perder peso e evitar fritura" — sem pedir insulina de jejum, sem calcular HOMA-IR, sem olhar TG/HDL, sem medir GGT com faixa ótima — a investigação ficou pela metade. E a metade que faltou é a que conta a história real.
+
+A disfunção metabólica não avisa com sintomas. Não dói. Não coça. Não incomoda — até o dia em que se manifesta como diabetes, como infarto, como esteatose avançada, ou como um diagnóstico que poderia ter sido evitado.
+
+A pergunta certa não é "eu sou diabético?" A pergunta certa é: meu metabolismo está funcionando — ou está compensando?
+
+Os biomarcadores do Capítulo 4 respondem a essa pergunta. E a resposta, como Fernanda demonstrou, pode chegar uma década antes do diagnóstico convencional.
+
+---
+
+### O Essencial em 60 Segundos
+
+- A disfunção metabólica é a fundação sobre a qual se constroem as doenças crônicas. A resistência insulínica é o evento central — e começa anos ou décadas antes do diagnóstico de diabetes.
+
+- O fígado gorduroso (MASLD) afeta 38% da população adulta mundial e é a manifestação hepática da resistência insulínica. Não é um problema de fígado — é sinal de disfunção metabólica sistêmica. A principal causa de morte nesses pacientes é cardiovascular.
+
+- O check-up convencional detecta a disfunção tarde demais. Os critérios de síndrome metabólica são limiares de doença, não de risco. A insulina de jejum e o HOMA-IR detectam o problema 5 a 10 anos antes da glicemia sair da faixa.
+
+- A disfunção metabólica é reversível quando identificada cedo. Alimentação, treino de força, correção de vitamina D, sono e gestão do estresse atuam em sinergia sobre a mesma raiz — a resistência insulínica.
+
+- Fernanda reverteu todos os marcadores em seis meses, incluindo a esteatose. Sem medicação.
+
+---
+
+> Agora você tem o mapa completo: sabe o que está acontecendo no sangue, nas artérias e no metabolismo. A próxima pergunta é prática: o que fazer com essa informação? Os próximos capítulos transformam conhecimento em protocolo — organizado em quatro pilares que cobrem alimentação, gestão metabólica, saúde mental e sono.
