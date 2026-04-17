@@ -1,0 +1,66 @@
+name: Site CI
+
+on:
+  push:
+    branches: [master, staging]
+    paths:
+      - 'apps/site/**'
+      - 'packages/brand/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'turbo.json'
+      - '.github/workflows/site-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/site/**'
+      - 'packages/brand/**'
+
+jobs:
+  lint-and-type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm --filter @plenya/site exec tsc --noEmit
+
+      - name: Lint
+        run: pnpm --filter @plenya/site lint
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://plenyasaude.com.br
+          NEXT_PUBLIC_APP_URL: https://app.plenyasaude.com.br
+          NEXT_PUBLIC_API_URL: https://api.plenyasaude.com.br
+          NEXT_PUBLIC_PLAUSIBLE_DOMAIN: plenyasaude.com.br
+          NEXT_PUBLIC_WHATSAPP_NUMBER: '5543999999999'
+        run: pnpm --filter @plenya/site build
