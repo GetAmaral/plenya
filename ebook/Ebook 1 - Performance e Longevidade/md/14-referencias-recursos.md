@@ -29,7 +29,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 3 — Seu Corpo Está Envelhecendo
+### Capítulo 3 — A Idade Que Seu Corpo Realmente Tem
 
 - **López-Otín, C. et al.** (2023). "Hallmarks of Aging: An Expanding Universe." *Cell*, 186(2):243–278. — Atualização dos 12 hallmarks do envelhecimento. Artigo seminal com mais de 3.000 citações.
 - **Horvath, S.** (2013). "DNA Methylation Age of Human Tissues and Cell Types." *Genome Biology*, 14:R115. — Primeiro relógio epigenético pan-tecido.
@@ -37,7 +37,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 4 — O Mapa dos Biomarcadores
+### Capítulo 4 — O Painel Ampliado
 
 - **Smith, A.D. & Refsum, H.** (2021). "Homocysteine — From Disease Biomarker to Disease Prevention." *Journal of Internal Medicine*, 290(4):826–854. — Mais de 100 doenças associadas a homocisteína elevada. Alvo recomendado ≤ 10 µmol/L.
 - **Kraft, J.R.** (2008). *Diabetes Epidemic & You*. — Análise de mais de 14.000 testes orais de tolerância à glicose com curva insulinêmica. Conceito de "diabetes in-situ": 75% das pessoas com glicose normal no TOTG tinham padrões de insulina anormais.
@@ -45,7 +45,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 5 — Seu Coração Está Falando
+### Capítulo 5 — As Artérias Saem do Silêncio
 
 - **Agatston, A.S. et al.** (1990). "Quantification of Coronary Artery Calcium Using Ultrafast Computed Tomography." *JACC*, 15(4):827–832. — Descrição original do método Agatston para escore de cálcio coronariano.
 - **Budoff, M.J. et al.** (2018). "Ten-year Association of Coronary Artery Calcium with Atherosclerotic Cardiovascular Disease Events: The Multi-Ethnic Study of Atherosclerosis (MESA)." *JACC*, 71(15):1622–1636. — Valor preditivo do CAC ao longo de 10 anos.

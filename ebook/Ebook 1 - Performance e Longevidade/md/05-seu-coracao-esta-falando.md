@@ -1,8 +1,8 @@
 # PARTE II — O MAPA
 
-## Capítulo 5 — Seu Coração Está Falando — Você Está Ouvindo?
+## Capítulo 5 — As Artérias Saem do Silêncio
 
-Marcos tinha 57 anos, era engenheiro, e se considerava um paciente exemplar. Tomava rosuvastatina 20 mg por dia havia seis anos. Seu LDL de 148 mg/dL tinha caído para 78. Colesterol total de 240 para 168. O cardiologista estava satisfeito. Marcos também.
+Marcos tinha 57 anos, era engenheiro, e se considerava um paciente exemplar. Tomava rosuvastatina 10 mg por dia havia seis anos. Seu LDL de 148 mg/dL tinha caído para 78. Colesterol total de 240 para 168. O cardiologista estava satisfeito. Marcos também.
 
 Quando o encaminhei para uma tomografia de coronárias sem contraste — o escore de cálcio coronariano, um exame que ele nunca havia feito —, Marcos não entendeu a necessidade. *"Mas meu colesterol está controlado, doutor. A estatina resolveu."*
 
@@ -95,6 +95,18 @@ O escore de cálcio coronariano é a fotografia mais potente da prevenção card
 **O segundo é o ecocardiograma transtorácico com Doppler.** Enquanto o CAC fotografa as artérias, o ecocardiograma fotografa o próprio coração — câmaras, válvulas, paredes, função contrátil, pressões de enchimento. O parâmetro central é a fração de ejeção do ventrículo esquerdo (FEVE), que normalmente deveria estar entre 55% e 70%. Mas há medidas ainda mais sensíveis: o *strain* longitudinal global (GLS), que detecta disfunção contrátil antes da FEVE cair, e a relação E/e' média, que revela disfunção diastólica — a forma mais precoce e mais comum de insuficiência cardíaca em pacientes com hipertensão, diabetes e síndrome metabólica. Um paciente com FEVE de 62% pode ter GLS alterado em -16% e E/e' em 13, indicando que o coração está endurecendo e perdendo capacidade de relaxar — mesmo antes de qualquer sintoma. É o equivalente cardíaco do que a insulina de jejum faz pelo metabolismo: detectar o problema anos antes do diagnóstico convencional aparecer.
 
 **O terceiro é o eletrocardiograma de 12 derivações.** O ECG parece um exame banal — é barato, rápido, disponível em qualquer posto de saúde. Mas quando interpretado com atenção aos detalhes, revela informações valiosas: o intervalo QT corrigido (QTc) identifica vulnerabilidade a arritmias graves; a duração do QRS e alterações no segmento ST sinalizam problemas de condução ou isquemia silenciosa; os critérios de Sokolow-Lyon e Cornell detectam hipertrofia ventricular esquerda — consequência silenciosa da hipertensão de longa data. E, claro, o ECG é a forma mais direta de identificar fibrilação atrial, arritmia comum em adultos acima de 50 anos e que multiplica o risco de AVC quando não tratada. Em um check-up preventivo, o ECG não é redundância. É informação barata que merece leitura cuidadosa.
+
+### Um Sinal Vascular Que o Paciente Sente Antes do Médico
+
+Existe uma informação cardiovascular que chega ao homem antes de qualquer imagem, e que quando aparece tem poder preditivo comparável aos melhores marcadores do painel: a **disfunção erétil**.
+
+O pênis é um órgão vascular. A ereção depende de vasodilatação do corpo cavernoso, que depende de endotélio funcionante, que depende dos mesmos mecanismos que mantêm as coronárias saudáveis — óxido nítrico, função endotelial, ausência de inflamação crônica. A rede vascular peniana é mais fina que a coronariana. Quando a disfunção endotelial sistêmica começa, o pênis sinaliza antes. Meta-análises consolidadas mostram que disfunção erétil precede eventos cardiovasculares em média em 3 a 5 anos em homens de 40 a 70 anos. Em homens com DE de início recente e sem causa óbvia — sem medicamento, sem trauma local, sem depressão manifesta —, o risco de infarto nos 10 anos seguintes é comparável ao do tabagismo ativo.
+
+A implicação clínica é direta: disfunção erétil em homem abaixo de 70 anos, sem explicação local, é indicação formal para avaliação cardiovascular ampliada — painel completo, escore de cálcio coronariano, e às vezes ergoespirometria. Não é vaidade nem queixa de consultório secundário. É sintoma sentinela.
+
+No consultório, essa é uma das perguntas que aprendi a fazer com espaço de conversa — não de passagem. Homens frequentemente minimizam ("é da idade", "é estresse"), e a resposta honesta só vem quando há tempo e confidencialidade. Quando vem, reconfigura o plano inteiro: um paciente que chegou com dúvida sobre estatina e sai com CAC score marcado é outro paciente.
+
+A contraparte feminina — disfunção sexual feminina avaliada pelo *Female Sexual Function Index* (FSFI) — tem literatura menos robusta na correlação vascular, mas existe. Em mulheres na transição menopausal, o que frequentemente é atribuído apenas a "queda hormonal" pode ser combinação de fatores hormonais, vasculares e psicológicos tratáveis. A função sexual é biomarcador do endotélio inteiro, não só do genital.
 
 **A leitura integrada** é onde a medicina de prevenção real acontece:
 

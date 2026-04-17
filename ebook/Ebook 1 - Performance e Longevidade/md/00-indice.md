@@ -1,5 +1,8 @@
-# The Longevity Protocol
-## A Physician's Practical Guide to Living Longer and Better After 40
+# ANTES
+## A janela silenciosa entre o "normal" e o ótimo — por que viver bem e viver mais começa antes
+
+### Edição internacional
+**BEFORE** · *The Silent Window Between "Normal" and Optimal — Why Living Well and Living Longer Begins Before*
 
 **Série PLENYA — E-book 1 · Performance e Longevidade**
 
@@ -21,20 +24,20 @@
 
 ### PARTE I — O DESPERTAR
 
-- [Capítulo 1 — O Homem que Morreu Saudável](01-homem-que-morreu-saudavel.md)
-- [Capítulo 2 — Os Quatro Assassinos Silenciosos](02-quatro-assassinos-silenciosos.md)
-- [Capítulo 3 — Seu Corpo Está Envelhecendo Mais Rápido do Que Você Pensa](03-seu-corpo-esta-envelhecendo.md)
+- [Capítulo 1 — O Homem que Quase Morreu Saudável](01-homem-que-morreu-saudavel.md)
+- [Capítulo 2 — Os Quatro Que Matam no Silêncio](02-quatro-assassinos-silenciosos.md)
+- [Capítulo 3 — A Idade Que Seu Corpo Realmente Tem](03-seu-corpo-esta-envelhecendo.md)
 
 ### PARTE II — O MAPA
 
-- [Capítulo 4 — O Mapa dos Biomarcadores: Os Números que Salvam Vidas](04-mapa-dos-biomarcadores.md)
-- [Capítulo 5 — Seu Coração Está Falando — Você Está Ouvindo?](05-seu-coracao-esta-falando.md)
+- [Capítulo 4 — O Painel Ampliado: O Mapa Que o Check-up Básico Não Entrega](04-mapa-dos-biomarcadores.md)
+- [Capítulo 5 — As Artérias Saem do Silêncio](05-seu-coracao-esta-falando.md)
 - [Capítulo 6 — Saúde Metabólica: A Fundação Invisível](06-saude-metabolica.md)
 
 ### PARTE III — O MÉTODO AGIR
 
 - [Introdução ao Método AGIR](06b-parte-iii-intro.md)
-- [Capítulo 7 — A: Alimentação, Atividade Física e Suplementação — Os Três Motores](07-alimentacao-atividade-suplementacao.md)
+- [Capítulo 7 — A: Alimentação, Atividade Física e Suplementação — Os Três Motores Que Nenhuma Medicação Substitui](07-alimentacao-atividade-suplementacao.md)
 - [Capítulo 8 — G: Gestão Metabólica — Seu Painel de Controle Interno](08-gestao-metabolica.md)
 - [Capítulo 9 — I: Integração Corpo-Mente — O Pilar Que Ninguém Prescreve](09-integracao-corpo-mente.md)
 - [Capítulo 10 — R: Ritmo Circadiano e Repouso — O Maestro Invisível](10-ritmo-circadiano-e-repouso.md)

@@ -1,6 +1,6 @@
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 7 — A: Alimentação, Atividade Física e Suplementação — Os Três Motores
+## Capítulo 7 — A: Alimentação, Atividade Física e Suplementação — Os Três Motores Que Nenhuma Medicação Substitui
 
 No final do Capítulo 5, com o painel completo de Marcos em mãos — CAC de 412, ApoB de 82, insulina de 11, PCR de 1,6 —, ajustamos a estratégia: intensificamos a estatina, adicionamos ezetimiba, e começamos a monitorar a cada quatro meses. Mas a farmacologia era apenas uma parte do plano. A frase que usei na consulta foi: *"A medicação vai cuidar do ApoB. Agora precisamos cuidar de tudo que a medicação não alcança."*
 

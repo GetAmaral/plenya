@@ -1,6 +1,6 @@
 # PARTE II — O MAPA
 
-## Capítulo 4 — O Mapa dos Biomarcadores: Os Números que Salvam Vidas
+## Capítulo 4 — O Painel Ampliado: O Mapa Que o Check-up Básico Não Entrega
 
 Fernanda tinha 41 anos quando veio ao consultório por insistência do marido. Não tinha queixas. Não tinha histórico de nenhuma doença crônica. Fazia exercício três vezes por semana, comia "bem para os padrões brasileiros" e dormia razoavelmente. O check-up mais recente, feito seis meses antes, havia voltado "tudo normal". O marido, que já era meu paciente, tinha uma preocupação específica: o pai de Fernanda havia tido um infarto aos 58 anos, e a mãe dela tinha sido diagnosticada com diabetes tipo 2 aos 62.
 
@@ -23,6 +23,7 @@ Até aqui, o médico anterior estava certo — tudo dentro da faixa. Mas a hist�
 - hs-CRP: 1,9 mg/L. Abaixo do limite de "risco alto".
 - Homocisteína: 12,4 µmol/L. Normal.
 - Vitamina D: 22 ng/mL. "Suficiente" pelo laboratório.
+- Triglicerídeos: 180 mg/dL. HDL: 46 mg/dL. Relação TG/HDL: 3,9 — acima do limite de 3,5.
 
 Todos normais. Todos dentro da faixa. E todos contando uma história que ninguém estava ouvindo.
 
@@ -58,7 +59,7 @@ Abaixo está o painel que uso no consultório — os biomarcadores que, em conju
 
 ![Figura 4.1 — Biomarcadores para Longevidade: Faixas Normais vs. Ótimas. Tabela clínica de referência com 11 biomarcadores no painel principal (HbA1c, ApoB, ApoB/ApoA1, hs-CRP, homocisteína, insulina, TG/HDL, Lp(a), vitamina D, ferritina, TFGe cistatina C) e 2 complementares (GGT, ácido úrico).](../Cap04%20Fig01.PNG)
 
-*Figura 4.1 — Painel de biomarcadores para longevidade: faixas "normais" do laboratório versus faixas ótimas derivadas de estudos longitudinais. A coluna "Faixa Ótima" é o que deveria guiar a interpretação. Os dois ratios (ApoB/ApoA1 e TG/HDL) não têm referência padrão de laboratório — porque simplesmente não existem na medicina convencional.*
+*Figura 4.1 — Painel principal de biomarcadores para longevidade: os 11 mais subpedidos em conjunto, acompanhados dos 2 complementares (GGT, ácido úrico) que raramente são interpretados com as faixas certas. Outros marcadores relevantes — microalbuminúria, albumina sérica, colesterol não-HDL, troponina I ultrassensível e NT-proBNP — são discutidos em detalhe no texto deste capítulo. A coluna "Faixa Ótima" é o que deveria guiar a interpretação. Os dois ratios (ApoB/ApoA1 e TG/HDL) não têm referência padrão de laboratório — porque simplesmente não existem na medicina convencional.*
 
 **HbA1c (hemoglobina glicada)**
 Normal de laboratório: < 6,5%. Faixa ótima: ≤ 5,4% (ideal 4,8–5,2%). O que revela: saúde metabólica de longo prazo. Estudos com centenários mostram valores consistentemente abaixo de 5,2%. A diferença entre 5,5% e 5,0% parece mínima — ao longo de décadas, não é.
@@ -107,10 +108,13 @@ Normal de laboratório: 3,5–5,2 g/dL. Faixa ótima: ≥ 4,5 g/dL. O que revela
 Faixa ótima: < 100 mg/dL. Acima de 130: atenção; acima de 160: risco. O que revela: toda a fração aterogênica do colesterol num único número. Subtraia o HDL do colesterol total — o que sobra é não-HDL, e esse valor inclui LDL, VLDL, IDL e remanescentes de quilomícrons. É um marcador particularmente útil para pacientes com triglicerídeos elevados, onde o cálculo do LDL pela fórmula de Friedewald perde precisão. Já está no seu lipidograma — basta fazer a subtração.
 
 **Troponina I ultrassensível**
-Normal de laboratório: < 60 ng/L (mulheres) / < 100 ng/L (homens). Faixa ótima: < 7 ng/L. O que revela: lesão miocárdica subclínica. A troponina é tradicionalmente associada ao diagnóstico de infarto agudo, mas os ensaios ultrassensíveis modernos detectam valores vinte a cinquenta vezes menores que o ponto de corte para infarto. E a pesquisa mostrou algo importante: valores elevados dentro da faixa "normal" predizem eventos cardiovasculares futuros. Em coortes populacionais, troponina US na faixa alta do normal associa-se a maior risco de infarto, insuficiência cardíaca e mortalidade em três a cinco anos. É um marcador que está começando a ser incorporado na avaliação de risco preventivo — e faz diferença em pacientes que já têm outros sinais de dano vascular acumulado.
+Normal de laboratório: varia por ensaio (hs-cTnI Abbott: < 16 ng/L mulheres / < 34 ng/L homens; hs-cTnT Roche: < 14 ng/L). Faixa ótima preventiva: < 6 ng/L em qualquer ensaio. O que revela: lesão miocárdica subclínica. A troponina é tradicionalmente associada ao diagnóstico de infarto agudo, mas os ensaios ultrassensíveis modernos detectam valores muito menores que o ponto de corte para infarto. E a pesquisa mostrou algo importante: valores elevados dentro da faixa "normal" predizem eventos cardiovasculares futuros. Em coortes populacionais, troponina US na faixa alta do normal associa-se a maior risco de infarto, insuficiência cardíaca e mortalidade em três a cinco anos. É um marcador que está começando a ser incorporado na avaliação de risco preventivo — e faz diferença em pacientes que já têm outros sinais de dano vascular acumulado.
 
 **NT-proBNP**
 Normal de laboratório: depende da idade. Faixa ótima: < 50 pg/mL (< 50 anos), < 75 pg/mL (50-75 anos). O que revela: estresse da parede cardíaca, sobrecarga de volume, disfunção ventricular precoce. O BNP (peptídeo natriurético cerebral) é liberado pelo coração quando as câmaras estão sob pressão ou volume excessivo. Em pacientes com hipertensão, obesidade, apneia do sono ou disfunção diastólica incipiente, o NT-proBNP sobe anos antes dos sintomas de insuficiência cardíaca aparecerem. Como marcador preventivo, é subpedido e altamente informativo — especialmente em pacientes com múltiplos fatores de risco cardiometabólico.
+
+**Uma nota sobre adiponectina, leptina e outros marcadores da mídia de longevidade.**
+Esses biomarcadores aparecem com frequência crescente em painéis de medicina funcional e em portais de conteúdo de longevidade — e é razoável que o leitor se pergunte sobre eles. A resposta honesta exige desconforto: apesar da fisiologia seduzir (adiponectina como marcador da "gordura saudável", leptina como sinalizador de saciedade), nenhum dos dois passa nos três critérios que este capítulo usa para validar um biomarcador de rotina. **Primeiro**, a padronização entre laboratórios é incompleta — valores de um laboratório podem não ser comparáveis a outro, e a faixa ótima não é consensual. **Segundo**, a interpretação é contexto-dependente de forma problemática: em pacientes com doença cardiovascular estabelecida ou em idosos, adiponectina *elevada* prediz **piores** desfechos (o chamado "paradoxo da adiponectina"), invertendo a lógica aplicável a populações mais jovens e metabolicamente saudáveis. **Terceiro**, e talvez o mais decisivo para o leitor: não há ação clínica clara a partir de um resultado alterado. Tratar "resistência à leptina" não tem protocolo farmacológico validado; elevar adiponectina não tem estratégia direta. Isso os mantém, por enquanto, como **marcadores *research-forward*** — interessantes para pesquisa e para o médico que acompanha a literatura, mas fora do painel que uso na rotina preventiva. Se chegarem às diretrizes formais nos próximos anos, entrarão no painel. Até lá, não entram.
 
 ---
 
@@ -123,6 +127,20 @@ Normal de laboratório: < 60 U/L (homens), < 40 U/L (mulheres). Faixa ótima: < 
 
 **Ácido úrico**
 Normal de laboratório: 3,5–7,2 mg/dL (homens), 2,6–6,0 mg/dL (mulheres). Faixa ótima: < 5,5 mg/dL. O que revela: estresse metabólico. Níveis elevados estão associados a hipertensão, doença renal crônica, síndrome metabólica e risco cardiovascular. O mecanismo inclui inibição do óxido nítrico endotelial e ativação de vias inflamatórias. Uma nota de transparência: a associação é robusta, mas o debate sobre causalidade direta ainda está em andamento. O que é claro é que ácido úrico persistentemente acima de 6,0 mg/dL em pacientes sem gota merece atenção — especialmente se acompanhado de outros sinais de disfunção metabólica.
+
+---
+
+### O Corpo Também Fala — Sinais Que Você Lê no Espelho
+
+Biomarcadores não vivem apenas no tubo de ensaio. Parte da informação mais valiosa sobre saúde sistêmica está no espelho, na escova de dentes e no vaso sanitário — em sinais que o paciente atento observa todos os dias e que o médico de olho treinado interpreta em segundos. Não substituem o painel laboratorial. Mas somam a ele, e frequentemente chegam antes.
+
+**A boca é um biomarcador.** Periodontite crônica — aquela gengiva que sangra ao escovar, aquele hálito persistente, aquele dente que começou a mobilizar — é muito mais do que um problema dentário. É uma fonte ativa de inflamação sistêmica. Estudos de coorte demonstram que pacientes com periodontite moderada a grave têm hs-CRP mais alta, ApoB mais elevado e maior risco cardiovascular em 10 anos. O mecanismo vai além: bactérias como *Porphyromonas gingivalis* já foram identificadas em placas de beta-amiloide em cérebros de pacientes com Alzheimer. Tratar periodontite com um periodontista — não apenas com dentista clínico — reduz PCR de forma comparável a algumas medicações anti-inflamatórias. Se sua gengiva sangra regularmente, seu painel inflamatório está sendo alimentado todos os dias por uma fonte que nenhum exame de sangue vai tratar.
+
+**Pele, cabelo e unhas também falam.** Cabelo que quebra com facilidade, unhas com sulcos longitudinais e queda capilar difusa em mulheres — descartadas causas hormonais — costumam bater com ferritina abaixo de 40 ng/mL ou deficiência de zinco. Pele ressecada e descamativa aponta para ômega-3 ou vitamina A baixos. E há um sinal cutâneo particularmente subestimado: acne persistente em mulheres adultas frequentemente indica resistência insulínica subclínica, porque hiperinsulinemia estimula a produção androgênica ovariana. São pistas — não diagnósticos — que, somadas ao painel laboratorial, ajudam a enxergar o quadro antes que ele se escancare.
+
+**A urina é o próximo exame.** Cor, aparência e espuma são observáveis sem custo. Persistentemente espumosa pode indicar proteinúria — cruza direto com a microalbuminúria que discutimos antes. Muito escura fora de contexto de desidratação sugere concentração de pigmentos hepáticos. Turva, merece investigação. O exame básico de urina tipo 1 continua sendo um dos mais subvalorizados da medicina preventiva — custa pouco, detecta problemas renais precoces, infecções ocultas e alterações metabólicas que nenhum outro exame vai flagrar. Como nefrologista, é um exame que quase nunca deixo de pedir.
+
+Observar o corpo não substitui o painel. Soma informação — a que o espelho entrega de graça.
 
 ---
 

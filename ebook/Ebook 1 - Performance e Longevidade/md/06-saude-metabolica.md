@@ -26,13 +26,13 @@ Se existe um órgão que resume a saúde metabólica de uma pessoa, é o fígado
 
 A hiperinsulinemia crônica — aquela insulina persistentemente elevada que o check-up não mede — ativa no fígado um processo chamado *lipogênese de novo*: a fabricação de gordura a partir de carboidratos. O fígado passa a produzir mais triglicerídeos do que consegue exportar. Os ácidos graxos se acumulam dentro das células hepáticas. Quando mais de 5% dos hepatócitos contêm gordura, o diagnóstico é esteatose.
 
-Essa condição — hoje chamada **MASLD** (doença hepática esteatótica associada a disfunção metabólica, a nomenclatura que substituiu "fígado gorduroso não alcoólico" em 2023) — afeta aproximadamente 38% da população adulta mundial. A projeção é que ultrapasse 55% até 2040. É a doença hepática mais comum do planeta.
+Essa condição — hoje chamada **MASLD** (*Metabolic dysfunction-Associated Steatotic Liver Disease*, em português "doença hepática esteatótica associada a disfunção metabólica", a nomenclatura adotada formalmente pela AASLD, EASL e ALEH em junho de 2023, substituindo "fígado gorduroso não alcoólico") — afeta aproximadamente 38% da população adulta mundial. A projeção é que ultrapasse 55% até 2040. É a doença hepática mais comum do planeta.
 
 Mas o dado mais revelador não é a prevalência — é o que a esteatose significa para o resto do corpo. A causa mais comum de morte em pacientes com MASLD não é doença hepática — é doença cardiovascular. O fígado gorduroso não é um problema isolado de fígado. É a manifestação hepática de uma disfunção metabólica sistêmica que está, simultaneamente, inflamando artérias, alimentando aterosclerose e criando o terreno para diabetes.
 
 É exatamente o que estava acontecendo com Fernanda. O fígado gorduroso dela não era a doença. Era o sinal de alarme mais visível de um processo que já estava em andamento havia anos — o mesmo processo que levou o pai dela a um infarto aos 58 e a mãe ao diagnóstico de diabetes aos 62.
 
-E a parte mais cruel: até 20% das pessoas com peso normal desenvolvem esteatose. Fernanda, com IMC de 23 — magra por qualquer critério convencional —, era uma delas.
+E a parte mais cruel: até 20% das pessoas com peso normal desenvolvem esteatose — o mesmo fenótipo TOFI do Capítulo 2, agora manifesto no fígado. Fernanda, com IMC de 23 — magra por qualquer critério convencional —, era uma delas.
 
 ---
 
@@ -108,13 +108,25 @@ André, que conhecemos no Capítulo 3, chegou ao consultório com insulina de je
 
 Mas André tinha PCR de 2,1 e homocisteína de 14 — sinais de inflamação crônica que não combinavam com alguém que se exercitava dez horas por semana e não comia ultraprocessados. Algo estava fora do lugar. Pedi um teste oral de tolerância à glicose com curva insulinêmica — o TOTG com dosagem de insulina em quatro tempos: jejum, 30, 60 e 120 minutos após uma carga de 75 g de glicose.
 
-O resultado foi revelador. A glicemia em jejum era 92 — normal. Aos 30 minutos, 148. Aos 60 minutos, 162. Aos 90 minutos, 154. Aos 120 minutos, 131. A glicose tinha voltado a descer, mas lentamente, e o pico aos 60 minutos já era maior que o limite preventivo. A maioria dos médicos olharia só jejum e 120 min e diria: tolerância à glicose preservada. Mas a curva de insulina contava outra história. Insulina em jejum: 8,5. Aos 30 minutos: 78. Aos 60 minutos: 124. Aos 90 minutos: 118. Aos 120 minutos: 89. O pico era tardio, excessivo, a curva não voltava ao basal e os 90 minutos mostravam que o pâncreas continuava a bombear insulina quando já deveria estar em queda.
+O resultado foi revelador. A glicemia em jejum era 92 — normal. Aos 30 minutos, 148. Aos 60 minutos, 162. Aos 90 minutos, 145. Aos 120 minutos, 128. A glicose tinha voltado a descer, e o 120 min estava dentro do esperado. A maioria dos médicos olharia só jejum e 120 min e diria: tolerância à glicose preservada. Mas a curva de insulina contava outra história. Insulina em jejum: 8,5. Aos 30 minutos: 68. Aos 60 minutos: 98. Aos 90 minutos: 120. Aos 120 minutos: **132 — e ainda subindo**. O pico de insulina estava deslocado para depois dos 120 minutos, a curva não voltava ao basal, e o pâncreas continuava a bombear insulina quando já deveria estar em queda há uma hora.
 
-Em linguagem técnica, André tinha um padrão Kraft tipo III — pico de insulina retardado com hiperinsulinemia compensatória significativa. O pâncreas dele estava trabalhando três a quatro vezes mais do que deveria para manter a glicose sob controle. A glicemia parecia normal porque a insulina estava gritando. E como ninguém havia medido o grito, ninguém sabia.
+Em linguagem técnica, André tinha um padrão **Kraft tipo III** — pico de insulina retardado (para além dos 120 minutos) com hiperinsulinemia compensatória significativa. O pâncreas dele estava trabalhando três a quatro vezes mais do que deveria para manter a glicose sob controle. A glicemia parecia normal porque a insulina estava gritando. E como ninguém havia medido o grito, ninguém sabia.
 
 O trabalho de Joseph Kraft, que analisou mais de 14.000 testes ao longo de décadas, demonstrou que 75% das pessoas com glicose normal no TOTG tinham padrões de insulina anormais. Kraft chamou isso de "diabetes in-situ" — a doença metabólica já instalada, com a glicemia ainda mascarada pela hiperinsulinemia compensatória. A resistência insulínica é, desde o início, um distúrbio pós-prandial. O corpo lida com o problema depois de comer, não em jejum. Quando o distúrbio aparece no sangue em jejum — como no caso de Fernanda, com insulina de 13 —, o processo já tem anos. André estava num estágio onde o jejum ainda escondia o problema. Só a provocação com glicose revelou a verdade.
 
 Não peço TOTG com curva insulinêmica para todos os pacientes. Mas peço quando o jejum levanta suspeita sem confirmar — insulina entre 6 e 10, HOMA-IR entre 1,5 e 2,5, mas com outros marcadores discordantes (PCR elevada, TG/HDL subindo, histórico familiar forte, ou simplesmente um paciente que "faz tudo certo" e os números não fecham). André era o caso clássico. E sem a curva, teríamos perdido anos de janela de intervenção.
+
+---
+
+### Quando o Problema Está no Intestino — Um Diagnóstico Subestimado
+
+Há ainda um grupo de pacientes com painel metabólico razoável, alimentação cuidadosa, e mesmo assim sintomas persistentes — distensão pós-prandial, fadiga depois de comer, nevoeiro cognitivo após refeições, alterações de ritmo intestinal que não se encaixam em intolerância alimentar clara. Quando descartadas as causas habituais, um diagnóstico a considerar é o **supercrescimento bacteriano do intestino delgado** — SIBO, na sigla inglesa.
+
+O intestino delgado normalmente tem uma densidade bacteriana muito menor que o cólon. Quando esse equilíbrio se quebra, bactérias colônicas migram para o intestino delgado e fermentam ali os carboidratos que deveriam ser apenas absorvidos. As causas mais comuns são uso prolongado de inibidores de bomba de prótons (hipocloridria), motilidade intestinal reduzida, pós-cirurgia bariátrica e disbiose crônica depois de antibióticos repetidos. O resultado são gases — hidrogênio, metano, às vezes sulfeto de hidrogênio —, inflamação local de baixo grau e uma interferência metabólica que transborda para inflamação sistêmica. Mais uma contribuição para a PCR persistente que este livro tem tratado.
+
+O diagnóstico é simples e acessível: **teste respiratório de hidrogênio e metano expirado**, com ingesta de lactulose ou glicose. A cada 15 a 20 minutos durante duas a três horas, coletas do ar expirado medem H₂ e CH₄. Picos acima dos pontos de corte (ΔH₂ > 20 ppm em até 90 minutos, ou CH₄ basal > 10 ppm) fecham o diagnóstico. O tratamento costuma ser antibiótico direcionado — rifaximina, às vezes associada a neomicina — somado a estratégias para restabelecer motilidade e função da barreira intestinal.
+
+SIBO não é diagnóstico de moda. É fronteira onde a gastroenterologia encontra a medicina metabólica. Em paciente com sintomas GI persistentes, PCR que resiste a intervenções no prato, e histórico de uso prolongado de antiácidos, é investigação que vale ser feita antes de acrescentar o décimo suplemento.
 
 ---
 

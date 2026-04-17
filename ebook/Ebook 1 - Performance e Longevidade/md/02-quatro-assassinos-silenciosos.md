@@ -1,6 +1,6 @@
 # PARTE I — O DESPERTAR
 
-## Capítulo 2 — Os Quatro Assassinos Silenciosos
+## Capítulo 2 — Os Quatro Que Matam no Silêncio
 
 No capítulo anterior, você conheceu Ricardo — o executivo de 52 anos que fazia check-up todo ano e sofreu um infarto com todos os exames "normais". A história dele revelou uma falha no modelo: a medicina convencional procura doenças já instaladas, não riscos em formação.
 

@@ -1,6 +1,6 @@
 # PARTE I — O DESPERTAR
 
-## Capítulo 3 — Seu Corpo Está Envelhecendo Mais Rápido do Que Você Pensa
+## Capítulo 3 — A Idade Que Seu Corpo Realmente Tem
 
 "Eu tenho 45 anos." Essa foi a primeira coisa que André disse quando se sentou. Executivo de uma multinacional, triatleta amador, vegetariano há seis anos, meditação diária. Veio ao consultório não por estar doente, mas por querer "otimizar tudo". Trouxe um dossiê de exames e um relógio que media variabilidade cardíaca em tempo real. Parecia ter 40. André tinha tudo sob controle — ou achava que tinha.
 
@@ -98,7 +98,7 @@ A notícia mais importante deste hallmark: ao contrário das mutações no DNA, 
 
 ---
 
-### A Mensagem que Este Capítulo Quer Deixar
+### A Mensagem Central
 
 Existe uma ideia profundamente enraizada na cultura popular de que envelhecer é inevitável, fixo, genético — algo sobre o qual não temos controle. "É da família", dizemos. "É a idade."
 
@@ -113,6 +113,12 @@ Cada um dos cinco hallmarks que discutimos é influenciado por fatores modificá
 Lembra de Ricardo? O infarto dele aos 52 anos não foi apenas o resultado de artérias entupidas. Foi o desfecho de uma década de inflammaging silencioso, de disfunção mitocondrial progressiva, de um metabolismo que acelerava o envelhecimento biológico enquanto a idade cronológica avançava normalmente. Se alguém tivesse medido a idade biológica dele aos 42 — dez anos antes do evento — provavelmente teria encontrado um corpo envelhecendo muito mais rápido que o calendário. E teria tido uma década para intervir.
 
 Envelhecimento não é destino. É um processo modificável. E modificar esse processo começa com uma pergunta muito simples: onde eu estou agora?
+
+---
+
+### E Se Fosse Com Você?
+
+Pegue sua última PCR ultrassensível. Se estiver acima de 1,0 mg/L, o inflammaging já está operando dentro de você agora. Pegue sua última vitamina D. Se estiver abaixo de 40 ng/mL, um dos moduladores mais básicos da sua função imune e muscular está aquém do ótimo. Se você nunca mediu idade biológica por relógio epigenético, não significa que ela seja ruim — significa que você não sabe onde está. Em cada um dos cinco hallmarks existe uma pergunta que você pode fazer hoje. E uma ação que você pode começar esta semana.
 
 ---
 

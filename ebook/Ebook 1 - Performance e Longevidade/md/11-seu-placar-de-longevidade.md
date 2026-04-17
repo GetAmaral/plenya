@@ -88,6 +88,24 @@ Quando o pilar R está bem trabalhado, os outros pilares trabalham com mais efei
 
 ---
 
+### Conhece-te a Ti Mesmo — O Perfil de Adesão Muda a Estratégia
+
+Antes de escolher os dois focos do trimestre, há uma pergunta que precede e que afeta toda a execução: **que tipo de paciente você é quando o assunto é aderir ao plano?**
+
+Ao longo dos anos de consultório aprendi a reconhecer quatro perfis que, apesar das variações individuais, aparecem com frequência suficiente para ajudar a calibrar a estratégia desde o início.
+
+**O paciente muito disciplinado** executa o plano com rigor independentemente de acompanhamento próximo. Faz o checklist, mede o progresso, revisa sozinho. Com esse perfil, meu trabalho é evitar o excesso — a tentação de mudar dez coisas ao mesmo tempo porque a capacidade existe. Paradoxalmente, a Regra dos Dois protege esse paciente de si mesmo.
+
+**O paciente disciplinado em áreas específicas** tem execução perfeita em alguns domínios e execução zero em outros. Pode ser o atleta que treina rigorosamente e come qualquer coisa, o executivo que cuida da alimentação e não dorme, a pessoa que fez terapia por anos mas não moveu um marcador metabólico. Com esse perfil, a estratégia é priorizar **sempre o domínio negligenciado** — porque é ali que mora o ganho marginal maior.
+
+**O paciente moderadamente disciplinado** começa bem e perde tração depois de 4 a 6 semanas. Com esse perfil, a solução é estrutural: retornos mais frequentes no início (a cada 4 a 6 semanas), metas explicitamente menores ("dois treinos de força por semana" em vez de "quatro"), e checagens curtas por mensagem entre consultas. O problema não é falta de vontade; é que a distância entre um retorno e outro é grande demais para sustentar o hábito em formação.
+
+**O paciente que precisa que alguém "pegue na mão"** não consegue executar sozinho por motivos que vão da sobrecarga mental à dificuldade genuína de autorregulação. Para esse perfil, um plano ambicioso e autônomo está condenado antes de começar. O que funciona é um ecossistema de apoio: nutricionista com contato regular, personal trainer presente, *coach* ou mentor de hábitos, grupo de apoio, família engajada. Reconhecer esse perfil cedo — em si mesmo — economiza meses de frustração.
+
+A pergunta a se fazer, com honestidade brutal: dos quatro perfis acima, qual é mais próximo de mim *na prática*, não na autoimagem? A resposta determina não apenas o que escolher como foco, mas como se organizar para executar.
+
+---
+
 ### A Regra dos Dois
 
 Aqui é onde o placar deixa de ser checklist e vira plano.
@@ -116,7 +134,7 @@ A composição do placar muda de peso conforme a década, mesmo quando os itens 
 
 **Dos 40 aos 49**, o placar é principalmente uma ferramenta de **detecção precoce**. É a janela em que intervenção tem maior retorno e menor custo, porque os assassinos silenciosos do Capítulo 2 já estão operando mas a maioria deles ainda é reversível com trabalho consistente. Fernanda, no Capítulo 6, é o exemplo claro: aos 41 anos, com insulina de 13, esteatose, ApoB de 108 e vitamina D de 22, reverteu todos os marcadores em seis meses sem uma única prescrição farmacológica. Essa janela de reversibilidade é regra nesta década, não exceção. Os exames-âncora a garantir aqui: painel ampliado completo anual; ApoB e Lp(a); composição corporal por bioimpedância de qualidade ou DEXA; CAC entre 40 e 45 anos se houver risco intermediário ou história familiar de doença cardiovascular precoce; colonoscopia a partir dos 45 (recomendação atualizada pela ACS em 2018 e pela USPSTF em 2021); mamografia anual a partir dos 40 nas mulheres conforme prática brasileira; rastreamento básico de saúde mental.
 
-**Dos 50 aos 59**, o placar passa a ser ferramenta de **ação máxima**. Aproximadamente metade das mortes cardiovasculares prematuras ocorre nesta faixa. O que se conserva aqui pode ser preservado pelas décadas seguintes; o que se perde aqui é mais difícil de recuperar. Marcos, com 57 anos no Capítulo 5, é o paciente-tipo desta década — quando o CAC de 412 forçou reconhecimento de que prevenção primária já não era a categoria certa, a estratégia inteira mudou. Aos itens da década anterior, acrescentam-se: CAC se ainda não feito; densitometria óssea (mulheres pós-menopausa rotineiramente; homens com história sugestiva); TC de tórax de baixa dose anualmente em adultos de 50 a 80 anos com carga tabágica de pelo menos 20 maços-ano que sejam fumantes atuais ou tenham parado há menos de 15 anos (recomendação USPSTF 2021); painel hormonal completo com atenção à transição menopáusica nas mulheres e à queda de testosterona nos homens; avaliação cognitiva *baseline* para comparação futura; fundoscopia a cada um a dois anos; ultrassonografia transvaginal conforme orientação ginecológica.
+**Dos 50 aos 59**, o placar passa a ser ferramenta de **ação máxima**. Aproximadamente metade das mortes cardiovasculares prematuras ocorre nesta faixa. O que se conserva aqui pode ser preservado pelas décadas seguintes; o que se perde aqui é mais difícil de recuperar. Marcos, com 57 anos no Capítulo 5, é o paciente-tipo desta década — quando o CAC de 412 forçou reconhecimento de que prevenção primária já não era a categoria certa, a estratégia inteira mudou. Aos itens da década anterior, acrescentam-se: CAC se ainda não feito; densitometria óssea (mulheres pós-menopausa rotineiramente; homens com história sugestiva — uso prolongado de corticoide, hipogonadismo, terapia antiandrogênica para câncer de próstata, ou fratura por trauma mínimo); TC de tórax de baixa dose anualmente em adultos de 50 a 80 anos com carga tabágica de pelo menos 20 maços-ano que sejam fumantes atuais ou tenham parado há menos de 15 anos (recomendação USPSTF 2021); painel hormonal completo com atenção à transição menopáusica nas mulheres e à queda de testosterona nos homens; avaliação cognitiva *baseline* para comparação futura; fundoscopia a cada um a dois anos; ultrassonografia transvaginal conforme orientação ginecológica.
 
 **Dos 60 em diante**, o placar muda de eixo: de prevenir doença, passa a **preservar função**. Todos os itens anteriores continuam aplicáveis, mas a ênfase específica desta década é na avaliação funcional — sentar e levantar da cadeira, velocidade de marcha, força de preensão palmar com dinamômetro, todos com pontos de corte validados para idade. Composição corporal com atenção especial à sarcopenia: ASMI assume prioridade. Densitometria óssea regular, anual ou bianual, dependendo de T-score inicial e tratamento. Reavaliação cognitiva periódica. Controle rigoroso do sono, porque apneia é mais prevalente e mais frequentemente subdiagnosticada nesta faixa etária. Rastreamento de distúrbios de audição e visão, porque ambos impactam cognição e equilíbrio. Avaliação periódica de risco de quedas, com revisão da medicação em uso para retirar o que seja desnecessariamente sedativo ou hipotensor.
 
@@ -149,6 +167,30 @@ Para todos esses, o placar não vale. Vale procurar avaliação especializada ag
 - Existem sinais que não esperam o próximo placar — dor torácica nova aos esforços, síncope, déficits neurológicos súbitos, sangramento não explicado, alterações cutâneas pelo critério ABCDE, ideação suicida, entre outros. Para esses, a regra é simples: se você está em dúvida sobre a gravidade, a dúvida já é a resposta.
 
 - Quem chegou a este ponto do livro tem o vocabulário e o contexto para ler o próprio painel. O que falta é o hábito — revisitar o placar a cada três meses, escolher dois pontos, e trabalhar exatamente esses dois.
+
+---
+
+### Anexo — Autotriagens Que Você Pode Fazer Esta Semana
+
+O leitor que chega a este ponto pode aplicar o placar com os dados que já tem. Mas há um conjunto de instrumentos de triagem **validados, gratuitos e aplicáveis em casa** que complementa o placar com medidas padronizadas — as mesmas que uso no consultório para pontuar domínios específicos. Nenhum substitui avaliação profissional. Todos fornecem ponto de partida concreto para uma conversa melhor com quem te acompanha.
+
+**PHQ-9 — rastreio de depressão.** Nove perguntas, menos de três minutos. Cada item pontua de 0 (nada) a 3 (quase todos os dias). Soma: 0–4 mínima; 5–9 leve; 10–14 moderada; 15–19 moderada-grave; 20–27 grave. A partir de 10 é recomendação formal de conversa com profissional de saúde mental. Acima de 15, é prioridade.
+
+**GAD-7 — rastreio de ansiedade generalizada.** Sete perguntas, formato idêntico ao PHQ-9. Soma: 0–4 mínima; 5–9 leve; 10–14 moderada; 15–21 grave. Acima de 10 pede investigação profissional. Alta sensibilidade para transtorno de ansiedade generalizada — é um dos instrumentos que coloca em números, objetivamente, o que uma boa conversa já revelou. Pacientes com perfil parecido com o de Ana frequentemente se reconhecem nos resultados.
+
+**Escala de Sonolência de Epworth — apneia e qualidade de sono.** Oito situações cotidianas (ler, assistir TV, estar parado como passageiro, conversar após almoço, dirigir no trânsito), cada uma pontuada de 0 a 3 pela probabilidade de cochilar. Soma: ≤ 10 normal; 11–14 leve; 15–17 moderada; ≥ 18 grave. Acima de 10 em paciente que ronca ou tem fadiga inexplicada, polissonografia é indicação formal.
+
+**5 Palavras de Dubois — rastreio cognitivo breve.** Peça a alguém que leia cinco palavras semanticamente distintas (por exemplo: limão, chave, bola, flor, trem). Faça uma distração (conversa ou cálculo mental por cinco minutos). Depois, recorde as cinco palavras. Recordação ≥ 4 é normal; ≤ 3 merece avaliação cognitiva formal. É o teste de memória declarativa mais usado em triagem de consultório.
+
+**Span de Dígitos — atenção e memória de trabalho.** Alguém recita uma sequência de números (ex.: 7-3-9-4-1), você repete. Começar com 3 e ir aumentando. Normal: ≥ 6 dígitos diretos, ≥ 4 inversos. Abaixo disso, pode refletir déficit de atenção, sono inadequado, ou comprometimento cognitivo precoce.
+
+**IIEF-5 — função erétil (homens).** Cinco perguntas sobre os últimos seis meses. Soma: 5–7 grave; 8–11 moderada; 12–16 leve-moderada; 17–21 leve; 22–25 sem disfunção. Como discutimos no Capítulo 5, DE de início recente abaixo dos 70 anos, sem causa medicamentosa ou traumática, é indicação de avaliação cardiovascular ampliada — o endotélio peniano sinalizou antes do coração.
+
+**FSFI — função sexual feminina.** Questionário de 19 itens cobrindo desejo, excitação, lubrificação, orgasmo, satisfação e dor. Ponto de corte para disfunção em torno de 26,55. Em transição menopausal, a queda é frequentemente atribuída apenas a "idade" quando reflete combinação de queda hormonal, alterações vasculares e componente psicológico — todos tratáveis.
+
+**Onde encontrar em português:** PHQ-9, GAD-7 e Epworth têm versões validadas em português brasileiro disponíveis em portais oficiais (Ministério da Saúde, Associação Brasileira de Psiquiatria, Sociedade Brasileira de Sono). IIEF-5 e FSFI são acessíveis em sites de sociedades médicas (Sociedade Brasileira de Urologia, Febrasgo). Os testes cognitivos (Dubois, span de dígitos) precisam ser aplicados por alguém, mas esse alguém pode ser um familiar.
+
+O valor desses instrumentos não está no número exato — está em registrar o ponto de partida. Responder hoje, guardar a pontuação, repetir em seis meses. A trajetória diz mais do que a foto.
 
 ---
 
