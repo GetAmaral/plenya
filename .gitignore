@@ -58,6 +58,19 @@ apps/api/tmp/
 *.out
 apps/api/vendor/
 
+# Go compiled binaries (build artifacts)
+apps/api/server
+apps/api/main
+apps/api/fill-anamnese-codes
+apps/api/import-books-from-dir
+apps/api/import-exercises
+apps/api/import-score-enrich
+
+# Screenshots e arquivos temporários no root
+/q*.png
+/screen.png
+/GaudencioVps.*
+
 # Database
 *.db
 *.sqlite
