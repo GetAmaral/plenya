@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { brand } from '@plenya/brand';
-import { PlenyaWordmark } from '@plenya/brand/logo';
+import { PlenyaWordmark, PlenyaSymbol } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
 
 export function SiteFooter() {
@@ -9,8 +9,14 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-petrol text-cream/80">
-      <div className="site-container py-20 grid gap-12 md:grid-cols-2 lg:grid-cols-5">
+    <footer className="bg-petrol text-cream/80 relative overflow-hidden">
+      {/* P watermark — selo da marca no canto inferior direito */}
+      <PlenyaSymbol
+        aria-hidden="true"
+        focusable="false"
+        className="hidden md:block absolute -bottom-10 -right-10 h-72 w-auto text-cream/[0.03] pointer-events-none"
+      />
+      <div className="relative site-container py-20 grid gap-12 md:grid-cols-2 lg:grid-cols-5">
         <div className="lg:col-span-2 space-y-4">
           <PlenyaWordmark className="h-6 w-auto text-cream" />
           <p className="text-cream/50 text-sm leading-relaxed max-w-xs">
@@ -51,7 +57,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t border-cream/10">
+      <div className="relative border-t border-cream/10">
         <div className="site-container py-6 flex flex-col md:flex-row justify-between gap-4 text-cream/40 text-xs">
           <span>© {year} {brand.legalName}. Todos os direitos reservados.</span>
           <div className="flex gap-6">

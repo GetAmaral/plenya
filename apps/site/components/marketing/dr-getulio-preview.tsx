@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { PlenyaSymbol } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
 
 export function DrGetulioPreview() {
@@ -19,7 +20,10 @@ export function DrGetulioPreview() {
         </div>
 
         <div className="space-y-8">
-          <p className="label-upper text-gold">Direção Clínica</p>
+          <div className="flex items-center gap-4">
+            <PlenyaSymbol aria-hidden="true" className="h-7 w-auto text-gold" />
+            <p className="label-upper text-gold">Direção Clínica</p>
+          </div>
 
           <h2 className="heading-section text-petrol text-4xl md:text-5xl">
             Dr. Getúlio Amaral Filho

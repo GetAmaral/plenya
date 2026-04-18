@@ -18,11 +18,11 @@ export function ManifestoSection() {
   return (
     <section className="bg-petrol text-cream relative overflow-hidden">
       <div className="site-container section relative z-10">
-        <div className="max-w-3xl mx-auto text-center space-y-8">
+        <div className="max-w-3xl space-y-8">
           <PlenyaInfinity
             aria-hidden="true"
             focusable="false"
-            className="h-14 md:h-20 w-auto text-gold mx-auto"
+            className="h-14 md:h-20 w-auto text-gold"
           />
 
           <p className="label-upper text-gold">Manifesto</p>

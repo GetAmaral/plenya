@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import { PlenyaSymbol } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
 
 const plans = [
@@ -10,9 +11,18 @@ const plans = [
 export function PlansPreview() {
   const tCta = useTranslations('cta');
   return (
-    <section className="bg-paper">
-      <div className="site-container section">
-        <p className="label-upper text-gold mb-6">Planos</p>
+    <section className="bg-paper relative overflow-hidden">
+      {/* P watermark — selo discreto da marca no canto superior direito */}
+      <PlenyaSymbol
+        aria-hidden="true"
+        focusable="false"
+        className="hidden md:block absolute -top-6 right-8 lg:right-20 h-40 lg:h-56 w-auto text-petrol/[0.06] pointer-events-none"
+      />
+      <div className="relative site-container section">
+        <div className="flex items-center gap-4 mb-6">
+          <PlenyaSymbol aria-hidden="true" className="h-7 w-auto text-gold" />
+          <p className="label-upper text-gold">Planos</p>
+        </div>
         <h2 className="heading-section text-petrol text-3xl md:text-5xl max-w-xl mb-16">
           Como você pode começar.
         </h2>
