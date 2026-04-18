@@ -8,6 +8,7 @@ const RADAR_CY = 200;
 const RADAR_MAX = 150;
 const ARC_RADIUS = RADAR_MAX + 18;
 const LETTER_LABEL_RADIUS = ARC_RADIUS + 18;
+const VIEWBOX = 400;
 
 type LetterCode = 'A' | 'G' | 'I' | 'R';
 
@@ -90,6 +91,29 @@ type Hovered =
   | { type: 'letter'; letter: LetterCode }
   | { type: 'pillar'; index: number };
 
+// Posição do tooltip em coordenadas SVG (0..400) → percentual no container
+function tooltipPosition(hovered: Hovered) {
+  if (hovered.type === 'letter') {
+    const arc = letterArcs.find((a) => a.letter === hovered.letter)!;
+    const p = polar(arc.midAngle, LETTER_LABEL_RADIUS);
+    return { x: p.x, y: p.y };
+  }
+  if (hovered.type === 'pillar') {
+    const p = radarPoints[hovered.index];
+    return { x: p.x, y: p.y };
+  }
+  return null;
+}
+
+// Determinar lado do tooltip pra não sair do container
+function tooltipPlacement(svgX: number, svgY: number) {
+  // x: center, left, right baseado em qual quadrante
+  // y: top ou bottom baseado em qual metade
+  const horizontal = svgX < 130 ? 'right' : svgX > 270 ? 'left' : 'center';
+  const vertical = svgY < 200 ? 'bottom' : 'top';
+  return { horizontal, vertical };
+}
+
 export function RadarAgir() {
   const [hovered, setHovered] = useState<Hovered>({ type: 'none' });
 
@@ -97,195 +121,234 @@ export function RadarAgir() {
     (hovered.type === 'letter' && hovered.letter === l) ||
     (hovered.type === 'pillar' && radarPoints[hovered.index].letter === l);
 
+  const ttPos = tooltipPosition(hovered);
+  const placement = ttPos ? tooltipPlacement(ttPos.x, ttPos.y) : null;
+
+  // Conteúdo do tooltip
+  const tooltipContent = (() => {
+    if (hovered.type === 'letter') {
+      const m = letterMeta[hovered.letter];
+      return (
+        <>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-2 h-2 rounded-full" style={{ background: letterColors[hovered.letter] }} />
+            <span className="label-upper text-[9px]" style={{ color: letterColors[hovered.letter] }}>
+              Letra {hovered.letter}
+            </span>
+          </div>
+          <p className="heading-section text-petrol text-base leading-tight max-w-[24ch]">{m.full}</p>
+          <p className="font-mono text-petrol/60 text-xs mt-1.5">
+            {m.score} <span className="text-petrol/35">/ 100</span>
+          </p>
+          <p className="text-petrol/50 text-[11px] italic mt-1.5 max-w-[28ch] leading-snug">{m.territory}</p>
+        </>
+      );
+    }
+    if (hovered.type === 'pillar') {
+      const p = radarPoints[hovered.index];
+      return (
+        <>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-2 h-2 rounded-full" style={{ background: letterColors[p.letter] }} />
+            <span className="label-upper text-[9px]" style={{ color: letterColors[p.letter] }}>
+              Pilar · letra {p.letter}
+            </span>
+          </div>
+          <p className="heading-section text-petrol text-base leading-tight max-w-[24ch]">{p.name}</p>
+          <p className="font-mono text-petrol/60 text-xs mt-1.5">
+            {p.score} <span className="text-petrol/35">/ 100</span>
+          </p>
+        </>
+      );
+    }
+    return null;
+  })();
+
+  // Estilo de posicionamento do tooltip
+  const tooltipStyle: React.CSSProperties = (() => {
+    if (!ttPos || !placement) return {};
+    const left = (ttPos.x / VIEWBOX) * 100;
+    const top = (ttPos.y / VIEWBOX) * 100;
+    const offsetPx = 14; // distância da bolinha/letra
+
+    let translateX = '-50%';
+    let translateY = '0';
+    let marginLeft = '0';
+    let marginTop = '0';
+
+    if (placement.horizontal === 'left') {
+      translateX = '-100%';
+      marginLeft = `-${offsetPx}px`;
+    } else if (placement.horizontal === 'right') {
+      translateX = '0';
+      marginLeft = `${offsetPx}px`;
+    }
+
+    if (placement.vertical === 'top') {
+      translateY = '-100%';
+      marginTop = `-${offsetPx}px`;
+    } else {
+      translateY = '0';
+      marginTop = `${offsetPx}px`;
+    }
+
+    return {
+      left: `${left}%`,
+      top: `${top}%`,
+      transform: `translate(${translateX}, ${translateY})`,
+      marginLeft,
+      marginTop,
+    };
+  })();
+
   return (
     <figure className="flex flex-col items-center gap-5 select-none">
-      <svg
-        viewBox="0 0 400 400"
-        className="w-80 h-80 md:w-[26rem] md:h-[26rem]"
-        role="img"
-        aria-label="Exemplo de Escore Plenya: 22 pilares organizados em 4 letras AGIR. Score global 78."
-      >
-        {/* Anéis concêntricos de fundo — escala 25/50/75/100 */}
-        {[37.5, 75, 112.5, 150].map((r) => (
-          <circle key={r} cx={RADAR_CX} cy={RADAR_CY} r={r} fill="none" stroke="#063b4f" strokeOpacity="0.07" strokeWidth="1" />
-        ))}
-
-        {/* Eixos cardinais sutis */}
-        <line x1={RADAR_CX} y1={RADAR_CY - RADAR_MAX} x2={RADAR_CX} y2={RADAR_CY + RADAR_MAX} stroke="#063b4f" strokeOpacity="0.06" strokeWidth="1" />
-        <line x1={RADAR_CX - RADAR_MAX} y1={RADAR_CY} x2={RADAR_CX + RADAR_MAX} y2={RADAR_CY} stroke="#063b4f" strokeOpacity="0.06" strokeWidth="1" />
-
-        {/* Polígono ligando os 22 vértices */}
-        <polygon
-          points={polygonStr}
-          fill="#b38645"
-          fillOpacity="0.16"
-          stroke="#b38645"
-          strokeOpacity="0.85"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-          pointerEvents="none"
-        />
-
-        {/* Anel externo colorido por letra — interativo */}
-        {letterArcs.map((arc) => {
-          const active = isLetterActive(arc.letter);
-          return (
-            <path
-              key={`arc-${arc.letter}`}
-              d={arcPath(arc.start + 2, arc.end - 2, ARC_RADIUS)}
-              fill="none"
-              stroke={letterColors[arc.letter]}
-              strokeWidth={active ? 10 : 7}
-              strokeLinecap="round"
-              opacity={hovered.type === 'none' ? 0.85 : active ? 1 : 0.35}
-              onMouseEnter={() => setHovered({ type: 'letter', letter: arc.letter })}
-              onMouseLeave={() => setHovered({ type: 'none' })}
-              style={{ transition: 'stroke-width 180ms, opacity 180ms', cursor: 'pointer' }}
-            />
-          );
-        })}
-
-        {/* Pontos por pilar (com hit area expandida) */}
-        {radarPoints.map((p, i) => {
-          const isPointHovered = hovered.type === 'pillar' && hovered.index === i;
-          const isInActiveLetter = hovered.type === 'letter' && hovered.letter === p.letter;
-          const dimmed = hovered.type !== 'none' && !isPointHovered && !isInActiveLetter;
-          const radius = isPointHovered ? 6.5 : isInActiveLetter ? 5 : 3.5;
-          return (
-            <g key={`pt-${i}`}>
-              {/* Linha do centro até o ponto quando hover */}
-              {isPointHovered && (
-                <line
-                  x1={RADAR_CX}
-                  y1={RADAR_CY}
-                  x2={p.x}
-                  y2={p.y}
-                  stroke={letterColors[p.letter]}
-                  strokeOpacity="0.4"
-                  strokeWidth="1"
-                  strokeDasharray="2 2"
-                  pointerEvents="none"
-                />
-              )}
-              {/* Hit area invisível — maior que o ponto pra facilitar hover */}
-              <circle
-                cx={p.x}
-                cy={p.y}
-                r="14"
-                fill="transparent"
-                onMouseEnter={() => setHovered({ type: 'pillar', index: i })}
-                onMouseLeave={() => setHovered({ type: 'none' })}
-                style={{ cursor: 'pointer' }}
-              />
-              {/* Ponto visível */}
-              <circle
-                cx={p.x}
-                cy={p.y}
-                r={radius}
-                fill={letterColors[p.letter]}
-                stroke="#fbfaf6"
-                strokeWidth="1.2"
-                opacity={dimmed ? 0.4 : 1}
-                pointerEvents="none"
-                style={{ transition: 'r 180ms, opacity 180ms' }}
-              />
-            </g>
-          );
-        })}
-
-        {/* Labels A G I R nos pontos cardinais — interativos */}
-        {letterArcs.map((arc) => {
-          const p = polar(arc.midAngle, LETTER_LABEL_RADIUS);
-          const active = isLetterActive(arc.letter);
-          return (
-            <text
-              key={`label-${arc.letter}`}
-              x={p.x}
-              y={p.y + 8}
-              textAnchor="middle"
-              fontFamily="'Cormorant Garamond', serif"
-              fontSize="26"
-              fontWeight="500"
-              fill={active ? letterColors[arc.letter] : '#063b4f'}
-              opacity={hovered.type === 'none' ? 1 : active ? 1 : 0.4}
-              onMouseEnter={() => setHovered({ type: 'letter', letter: arc.letter })}
-              onMouseLeave={() => setHovered({ type: 'none' })}
-              style={{ transition: 'fill 180ms, opacity 180ms', cursor: 'pointer' }}
-            >
-              {arc.letter}
-            </text>
-          );
-        })}
-
-        {/* Score global no centro */}
-        <circle cx={RADAR_CX} cy={RADAR_CY} r="34" fill="#fbfaf6" stroke="#063b4f" strokeOpacity="0.18" strokeWidth="1.5" pointerEvents="none" />
-        <text
-          x={RADAR_CX}
-          y={RADAR_CY + 11}
-          textAnchor="middle"
-          fontFamily="'Cormorant Garamond', serif"
-          fontSize="34"
-          fill="#063b4f"
-          letterSpacing="-1"
-          pointerEvents="none"
+      <div className="relative w-80 h-80 md:w-[26rem] md:h-[26rem]">
+        <svg
+          viewBox={`0 0 ${VIEWBOX} ${VIEWBOX}`}
+          className="w-full h-full"
+          role="img"
+          aria-label="Exemplo de Escore Plenya: 22 pilares organizados em 4 letras AGIR. Score global 78."
         >
-          78
-        </text>
-      </svg>
+          {/* Anéis concêntricos de fundo */}
+          {[37.5, 75, 112.5, 150].map((r) => (
+            <circle key={r} cx={RADAR_CX} cy={RADAR_CY} r={r} fill="none" stroke="#063b4f" strokeOpacity="0.07" strokeWidth="1" />
+          ))}
 
-      {/* Painel de info — alterna conforme hover */}
-      <div className="min-h-[6.5rem] w-full max-w-sm flex flex-col items-center justify-center text-center px-4">
-        {hovered.type === 'none' && (
-          <div className="space-y-1.5 animate-fade-in">
-            <p className="label-upper text-petrol/40 text-[10px]">Escore global</p>
-            <p className="heading-section text-petrol text-2xl">
-              78 <span className="text-petrol/40 text-base font-mono">/ 100</span>
-            </p>
-            <p className="text-petrol/45 text-xs italic">
-              Passe o mouse sobre uma letra ou ponto.
-            </p>
-          </div>
-        )}
+          {/* Eixos cardinais sutis */}
+          <line x1={RADAR_CX} y1={RADAR_CY - RADAR_MAX} x2={RADAR_CX} y2={RADAR_CY + RADAR_MAX} stroke="#063b4f" strokeOpacity="0.06" strokeWidth="1" />
+          <line x1={RADAR_CX - RADAR_MAX} y1={RADAR_CY} x2={RADAR_CX + RADAR_MAX} y2={RADAR_CY} stroke="#063b4f" strokeOpacity="0.06" strokeWidth="1" />
 
-        {hovered.type === 'letter' && (
-          <div className="space-y-1.5 animate-fade-in">
-            <p
-              className="label-upper text-[10px]"
-              style={{ color: letterColors[hovered.letter] }}
-            >
-              Letra {hovered.letter}
-            </p>
-            <p className="heading-section text-petrol text-lg leading-tight">
-              {letterMeta[hovered.letter].full}
-            </p>
-            <p className="font-mono text-petrol/60 text-sm">
-              {letterMeta[hovered.letter].score} <span className="text-petrol/40">/ 100</span>
-            </p>
-            <p className="text-petrol/50 text-xs italic max-w-[24ch] mx-auto">
-              {letterMeta[hovered.letter].territory}
-            </p>
-          </div>
-        )}
+          {/* Polígono ligando os 22 vértices */}
+          <polygon
+            points={polygonStr}
+            fill="#b38645"
+            fillOpacity="0.16"
+            stroke="#b38645"
+            strokeOpacity="0.85"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+            pointerEvents="none"
+          />
 
-        {hovered.type === 'pillar' && (
-          <div className="space-y-1.5 animate-fade-in">
-            <p
-              className="label-upper text-[10px]"
-              style={{ color: letterColors[radarPoints[hovered.index].letter] }}
-            >
-              Pilar · letra {radarPoints[hovered.index].letter}
-            </p>
-            <p className="heading-section text-petrol text-lg leading-tight">
-              {radarPoints[hovered.index].name}
-            </p>
-            <p className="font-mono text-petrol/60 text-sm">
-              {radarPoints[hovered.index].score} <span className="text-petrol/40">/ 100</span>
-            </p>
+          {/* Anel externo colorido por letra — interativo */}
+          {letterArcs.map((arc) => {
+            const active = isLetterActive(arc.letter);
+            return (
+              <path
+                key={`arc-${arc.letter}`}
+                d={arcPath(arc.start + 2, arc.end - 2, ARC_RADIUS)}
+                fill="none"
+                stroke={letterColors[arc.letter]}
+                strokeWidth={active ? 10 : 7}
+                strokeLinecap="round"
+                opacity={hovered.type === 'none' ? 0.85 : active ? 1 : 0.3}
+                onMouseEnter={() => setHovered({ type: 'letter', letter: arc.letter })}
+                onMouseLeave={() => setHovered({ type: 'none' })}
+                style={{ transition: 'stroke-width 180ms, opacity 180ms', cursor: 'pointer' }}
+              />
+            );
+          })}
+
+          {/* Pontos por pilar */}
+          {radarPoints.map((p, i) => {
+            const isPointHovered = hovered.type === 'pillar' && hovered.index === i;
+            const isInActiveLetter = hovered.type === 'letter' && hovered.letter === p.letter;
+            const dimmed = hovered.type !== 'none' && !isPointHovered && !isInActiveLetter;
+            const radius = isPointHovered ? 6.5 : isInActiveLetter ? 5 : 3.5;
+            return (
+              <g key={`pt-${i}`}>
+                {isPointHovered && (
+                  <line
+                    x1={RADAR_CX}
+                    y1={RADAR_CY}
+                    x2={p.x}
+                    y2={p.y}
+                    stroke={letterColors[p.letter]}
+                    strokeOpacity="0.4"
+                    strokeWidth="1"
+                    strokeDasharray="2 2"
+                    pointerEvents="none"
+                  />
+                )}
+                <circle
+                  cx={p.x}
+                  cy={p.y}
+                  r="14"
+                  fill="transparent"
+                  onMouseEnter={() => setHovered({ type: 'pillar', index: i })}
+                  onMouseLeave={() => setHovered({ type: 'none' })}
+                  style={{ cursor: 'pointer' }}
+                />
+                <circle
+                  cx={p.x}
+                  cy={p.y}
+                  r={radius}
+                  fill={letterColors[p.letter]}
+                  stroke="#fbfaf6"
+                  strokeWidth="1.2"
+                  opacity={dimmed ? 0.35 : 1}
+                  pointerEvents="none"
+                  style={{ transition: 'r 180ms, opacity 180ms' }}
+                />
+              </g>
+            );
+          })}
+
+          {/* Labels A G I R */}
+          {letterArcs.map((arc) => {
+            const p = polar(arc.midAngle, LETTER_LABEL_RADIUS);
+            const active = isLetterActive(arc.letter);
+            return (
+              <text
+                key={`label-${arc.letter}`}
+                x={p.x}
+                y={p.y + 8}
+                textAnchor="middle"
+                fontFamily="'Cormorant Garamond', serif"
+                fontSize="26"
+                fontWeight="500"
+                fill={active ? letterColors[arc.letter] : '#063b4f'}
+                opacity={hovered.type === 'none' ? 1 : active ? 1 : 0.35}
+                onMouseEnter={() => setHovered({ type: 'letter', letter: arc.letter })}
+                onMouseLeave={() => setHovered({ type: 'none' })}
+                style={{ transition: 'fill 180ms, opacity 180ms', cursor: 'pointer' }}
+              >
+                {arc.letter}
+              </text>
+            );
+          })}
+
+          {/* Score global no centro */}
+          <circle cx={RADAR_CX} cy={RADAR_CY} r="34" fill="#fbfaf6" stroke="#063b4f" strokeOpacity="0.18" strokeWidth="1.5" pointerEvents="none" />
+          <text
+            x={RADAR_CX}
+            y={RADAR_CY + 11}
+            textAnchor="middle"
+            fontFamily="'Cormorant Garamond', serif"
+            fontSize="34"
+            fill="#063b4f"
+            letterSpacing="-1"
+            pointerEvents="none"
+          >
+            78
+          </text>
+        </svg>
+
+        {/* Tooltip flutuante */}
+        {tooltipContent && (
+          <div
+            className="absolute z-10 pointer-events-none animate-fade-in"
+            style={tooltipStyle}
+          >
+            <div className="bg-paper border border-petrol/15 shadow-xl shadow-petrol/10 rounded-md px-4 py-3 min-w-[160px]">
+              {tooltipContent}
+            </div>
           </div>
         )}
       </div>
 
-      {/* Legenda das cores por letra (visível sempre) */}
+      {/* Legenda das cores por letra (sempre visível) */}
       <div className="flex gap-4 md:gap-6 font-mono text-[11px] uppercase tracking-[0.2em]">
         {(['A', 'G', 'I', 'R'] as LetterCode[]).map((l) => (
           <span key={l} className="flex items-center gap-2 text-petrol/70">
@@ -296,7 +359,7 @@ export function RadarAgir() {
       </div>
 
       <p className="label-upper text-petrol/40 text-center text-[10px]">
-        Exemplo · 22 pilares · escala 0–100
+        Exemplo · 22 pilares · escala 0–100 · passe o mouse para detalhes
       </p>
     </figure>
   );
