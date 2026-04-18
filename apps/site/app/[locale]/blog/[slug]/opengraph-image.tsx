@@ -20,7 +20,7 @@ export default async function PostOg({ params }: { params: Promise<{ locale: str
           display: 'flex',
           flexDirection: 'column',
           background: '#FAFAF7',
-          color: '#0E3B4F',
+          color: '#063b4f',
           padding: '72px',
           justifyContent: 'space-between',
           fontFamily: 'serif',
@@ -31,7 +31,7 @@ export default async function PostOg({ params }: { params: Promise<{ locale: str
             fontFamily: 'monospace',
             fontSize: 18,
             letterSpacing: 6,
-            color: '#A08456',
+            color: '#b38645',
             textTransform: 'uppercase',
           }}
         >
@@ -51,7 +51,7 @@ export default async function PostOg({ params }: { params: Promise<{ locale: str
             alignItems: 'flex-end',
             fontFamily: 'monospace',
             fontSize: 16,
-            color: '#0E3B4Faa',
+            color: '#063b4faa',
             textTransform: 'uppercase',
             letterSpacing: 4,
           }}

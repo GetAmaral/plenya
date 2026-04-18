@@ -72,11 +72,11 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
       <section className="bg-cream-100">
         <div className="site-container section flex justify-center">
           <svg viewBox="0 0 300 300" className="w-64 h-64 md:w-80 md:h-80" aria-hidden>
-            <circle cx="150" cy="150" r="140" stroke="#0E3B4F" strokeOpacity="0.08" strokeWidth="1" fill="none" />
-            <circle cx="150" cy="150" r="110" stroke="#0E3B4F" strokeOpacity="0.12" strokeWidth="1" fill="none" />
-            <circle cx="150" cy="150" r="80" stroke="#0E3B4F" strokeOpacity="0.16" strokeWidth="1" fill="none" />
-            <path d="M 150 10 A 140 140 0 1 1 40 260" stroke="#A08456" strokeWidth="2" fill="none" strokeLinecap="round" />
-            <text x="150" y="160" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="56" fill="#0E3B4F" letterSpacing="-2">78</text>
+            <circle cx="150" cy="150" r="140" stroke="#063b4f" strokeOpacity="0.08" strokeWidth="1" fill="none" />
+            <circle cx="150" cy="150" r="110" stroke="#063b4f" strokeOpacity="0.12" strokeWidth="1" fill="none" />
+            <circle cx="150" cy="150" r="80" stroke="#063b4f" strokeOpacity="0.16" strokeWidth="1" fill="none" />
+            <path d="M 150 10 A 140 140 0 1 1 40 260" stroke="#b38645" strokeWidth="2" fill="none" strokeLinecap="round" />
+            <text x="150" y="160" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="56" fill="#063b4f" letterSpacing="-2">78</text>
           </svg>
         </div>
       </section>
