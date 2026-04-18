@@ -187,7 +187,7 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
                 </blockquote>
 
                 <div className="space-y-4">
-                  <p className="label-upper text-petrol/55">O que monitoramos</p>
+                  <p className="label-upper text-petrol/55">O que monitoramos · exemplos</p>
                   <ul className="grid sm:grid-cols-2 gap-x-10 gap-y-3 max-w-3xl">
                     {pilar.monitoramos.map((item) => (
                       <li key={item} className="flex gap-3 text-petrol/80 text-base">
@@ -196,6 +196,10 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
                       </li>
                     ))}
                   </ul>
+                  <p className="text-petrol/50 text-sm pt-2 max-w-3xl">
+                    Lista parcial — o monitoramento real cobre dezenas de marcadores adicionais
+                    por pilar, ajustados ao seu caso. <a href="/escore-plenya" className="text-gold hover:underline">Ver o painel completo do Escore Plenya →</a>
+                  </p>
                 </div>
               </div>
             </article>
