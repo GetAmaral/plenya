@@ -158,32 +158,6 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
         </div>
       </section>
 
-      {/* Bridge — Escore x AGIR */}
-      <section className="bg-paper border-y border-petrol/10">
-        <div className="site-container py-16 md:py-20">
-          <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-            <div className="space-y-3 border-l-4 border-petrol/30 pl-6">
-              <p className="label-upper text-petrol/60">Escore Plenya</p>
-              <h3 className="heading-section text-petrol text-2xl md:text-3xl">Mostra onde você está.</h3>
-              <p className="text-petrol/70 leading-relaxed">
-                Diagnóstico de mais de 800 itens, organizados nos 13 pilares clínicos do AGIR.
-              </p>
-              <Link href="/escore-plenya" className="label-upper text-gold inline-block pt-2 hover:underline">
-                Conhecer o Escore →
-              </Link>
-            </div>
-            <div className="space-y-3 border-l-4 border-gold pl-6">
-              <p className="label-upper text-gold">Método AGIR</p>
-              <h3 className="heading-section text-petrol text-2xl md:text-3xl">Para onde vamos.</h3>
-              <p className="text-petrol/70 leading-relaxed">
-                O caminho. Toma o que o Escore revela e organiza o cuidado em quatro frentes
-                interdependentes — com equipe e plano único.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Os 4 pilares — em profundidade */}
       <section className="bg-paper">
         <div className="site-container section space-y-24 md:space-y-32">
@@ -258,7 +232,7 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
                   </ul>
                   <p className="text-petrol/50 text-sm pt-2 max-w-3xl">
                     Lista parcial — o monitoramento real cobre dezenas de marcadores adicionais
-                    por pilar, ajustados ao seu caso. <a href="/escore-plenya" className="text-gold hover:underline">Ver o painel completo do Escore Plenya →</a>
+                    por pilar, ajustados ao seu caso.
                   </p>
                 </div>
               </div>
