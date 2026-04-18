@@ -109,3 +109,13 @@
     @apply border-t border-petrol/10 py-8;
   }
 }
+
+@layer utilities {
+  @keyframes plenya-fade-in {
+    from { opacity: 0; transform: translateY(2px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: plenya-fade-in 220ms ease-out;
+  }
+}
