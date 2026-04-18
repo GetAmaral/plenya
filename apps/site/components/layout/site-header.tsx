@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
-import { brand } from '@plenya/brand';
+import { brand, PlenyaWordmark } from '@plenya/brand';
 import { Link, usePathname } from '@/lib/i18n/navigation';
 import { LocaleSwitcher } from './locale-switcher';
 import { cn } from '@/lib/cn';
@@ -61,16 +60,9 @@ export function SiteHeader() {
         )}
       >
         <div className="site-container flex items-center justify-between py-5">
-          {/* Wordmark — official brand asset */}
-          <Link href="/" aria-label="Plenya" className="block">
-            <Image
-              src="/brand/wordmark/cream.png"
-              alt="Plenya"
-              width={140}
-              height={22}
-              priority
-              className="h-5 w-auto md:h-6"
-            />
+          {/* Wordmark — vector from official brandbook */}
+          <Link href="/" aria-label="Plenya" className="block text-cream">
+            <PlenyaWordmark className="h-5 w-auto md:h-6" />
           </Link>
 
           {/* 4 pills — desktop only */}
@@ -113,7 +105,7 @@ export function SiteHeader() {
           {/* Panel */}
           <aside className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-sm bg-petrol shadow-2xl overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b border-cream/10">
-              <Image src="/brand/wordmark/cream.png" alt="Plenya" width={120} height={18} className="h-5 w-auto" />
+              <PlenyaWordmark className="h-5 w-auto text-cream" />
               <button onClick={() => setOpen(false)} className="text-cream hover:text-gold transition">
                 <X size={22} />
               </button>

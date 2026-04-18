@@ -1,18 +1,30 @@
 import * as React from 'react';
 
-type WordmarkProps = React.HTMLAttributes<HTMLSpanElement> & {
-  withTagline?: boolean;
+type WordmarkProps = React.SVGAttributes<SVGSVGElement> & {
+  title?: string;
 };
 
-export function PlenyaWordmark({ withTagline = false, className, ...props }: WordmarkProps) {
+/**
+ * Plenya wordmark — vector geometry extracted from the official brandbook PDF.
+ * Six filled paths (P, L, E, N, Y, A). Renders as currentColor so callers
+ * control the fill via Tailwind text-* classes.
+ */
+export function PlenyaWordmark({ title = 'Plenya', ...props }: WordmarkProps) {
   return (
-    <span className={['inline-flex flex-col leading-none', className].filter(Boolean).join(' ')} {...props}>
-      <span className="font-heading text-2xl tracking-[0.4em] uppercase">PLENYA</span>
-      {withTagline ? (
-        <span className="font-mono text-[10px] tracking-[0.25em] uppercase mt-1 text-current/70">
-          Saúde, Performance &amp; Longevidade
-        </span>
-      ) : null}
-    </span>
+    <svg
+      viewBox="0 0 504.125 74.4561"
+      fill="currentColor"
+      role="img"
+      aria-label={title}
+      {...props}
+    >
+      <title>{title}</title>
+      <path d="M 42.703125 21.476562 C 42.703125 12.273438 38.136719 2.210938 23.226562 2.210938 L 7.316406 2.210938 L 7.316406 40.738281 L 23.226562 40.738281 C 38.136719 40.738281 42.703125 30.75 42.703125 21.476562 M 1.394531 73.914062 L 1.394531 0 L 23.226562 0 C 34.5 0 48.554688 3.710938 48.554688 21.476562 C 48.554688 39.242188 34.5 42.949219 23.226562 42.949219 L 7.316406 42.949219 L 7.316406 73.914062 Z M 1.394531 73.914062 " />
+      <path d="M 88.773438 73.917969 L 88.773438 0 L 94.695312 3.851562 L 94.695312 71.703125 L 136.503906 71.703125 L 136.503906 73.917969 Z M 88.773438 73.917969 " />
+      <path d="M 173.371094 73.917969 L 173.371094 0 L 221.101562 0 L 221.101562 2.210938 L 179.292969 2.210938 L 179.292969 35.886719 L 214.109375 35.886719 L 214.109375 38.101562 L 179.292969 38.101562 L 179.292969 71.703125 L 221.101562 71.703125 L 221.101562 73.917969 Z M 173.371094 73.917969 " />
+      <path d="M 307.554688 73.917969 L 262.675781 4.707031 L 262.675781 73.917969 L 260.464844 73.917969 L 260.464844 0 L 266.597656 0 L 312.40625 70.492188 L 312.40625 0 L 314.617188 0 L 314.617188 73.917969 Z M 307.554688 73.917969 " />
+      <path d="M 380.734375 73.917969 L 380.734375 45.164062 L 349.34375 0 L 355.765625 0 L 385.800781 42.167969 L 415.054688 0 L 417.410156 0 L 386.585938 44.449219 L 386.585938 73.917969 Z M 380.734375 73.917969 " />
+      <path d="M 465.832031 4.136719 L 445.996094 50.941406 L 485.664062 50.941406 Z M 495.441406 73.917969 L 486.664062 53.152344 L 444.996094 53.152344 L 436.222656 73.917969 L 433.796875 73.917969 L 465.1875 0 L 470.46875 0 L 501.863281 73.917969 Z M 495.441406 73.917969 " />
+    </svg>
   );
 }
