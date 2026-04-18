@@ -1,5 +1,5 @@
 import { manifesto } from '@plenya/brand';
-import { PlenyaInfinity } from '@plenya/brand/logo/PlenyaInfinity';
+import { PlenyaInfinity } from '@plenya/brand/logo';
 
 /**
  * Manifesto section — direct rendering of the brandbook manifesto (page 10).

@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { PlenyaInfinity } from '@plenya/brand/logo/PlenyaInfinity';
+import { PlenyaInfinity } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
 
 export function HomeHero() {

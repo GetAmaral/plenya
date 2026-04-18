@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { agirPillars, brandEssence } from '@plenya/brand';
-import { PlenyaInfinity } from '@plenya/brand/logo/PlenyaInfinity';
+import { PlenyaInfinity } from '@plenya/brand/logo';
 
 export const metadata: Metadata = {
   title: 'A Plenya — Manifesto, Propósito e Método',

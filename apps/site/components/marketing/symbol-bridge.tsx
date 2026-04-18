@@ -1,4 +1,4 @@
-import { PlenyaInfinity } from '@plenya/brand/logo/PlenyaInfinity';
+import { PlenyaInfinity } from '@plenya/brand/logo';
 
 /**
  * Symbol bridge — mirrors brandbook page 22 mockup exactly.
