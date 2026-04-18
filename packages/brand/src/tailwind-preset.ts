@@ -7,6 +7,7 @@ const preset: Partial<Config> = {
       colors: {
         gold: colors.gold,
         petrol: colors.petrol,
+        ocean: colors.ocean,
         sage: colors.sage,
         cream: colors.cream,
         ink: colors.ink,

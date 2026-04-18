@@ -4,13 +4,18 @@ type SymbolProps = React.SVGAttributes<SVGSVGElement> & {
   title?: string;
 };
 
+/**
+ * Plenya monogram — the official "P" symbol from the brandbook.
+ * Vertical spine with descender, horizontal cross, rounded bowl on the right.
+ * Renders as currentColor so callers control the fill via Tailwind text-* classes.
+ */
 export function PlenyaSymbol({ title = 'Plenya', ...props }: SymbolProps) {
   return (
     <svg
-      viewBox="0 0 120 60"
+      viewBox="0 0 100 100"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      strokeWidth={5}
       strokeLinecap="round"
       strokeLinejoin="round"
       role="img"
@@ -18,10 +23,9 @@ export function PlenyaSymbol({ title = 'Plenya', ...props }: SymbolProps) {
       {...props}
     >
       <title>{title}</title>
-      <path d="M30 30 m -22 0 a 22 22 0 1 0 44 0 a 22 22 0 1 0 -44 0" />
-      <path d="M90 30 m -22 0 a 22 22 0 1 0 44 0 a 22 22 0 1 0 -44 0" />
-      <path d="M30 12 L30 48" />
-      <path d="M52 30 L68 30" />
+      <line x1="32" y1="6" x2="32" y2="94" />
+      <line x1="4" y1="62" x2="96" y2="62" />
+      <path d="M32 6 H58 A28 28 0 0 1 58 62 H32" />
     </svg>
   );
 }
