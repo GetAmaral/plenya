@@ -67,6 +67,16 @@
   .btn-outline-dark:hover {
     @apply border-petrol bg-petrol text-cream;
   }
+  .btn-outline-light {
+    @apply inline-flex items-center justify-center border border-cream/40 text-cream px-8 py-3 rounded-full transition-all duration-300;
+    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .btn-outline-light:hover {
+    @apply border-cream bg-cream text-petrol;
+  }
 
   /* Nav pills — matching mockup */
   .nav-pill {

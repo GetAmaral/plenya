@@ -36,6 +36,7 @@ const pilares = [
       'ApoB, lipoproteína(a), CAC quando indicado',
       'Insulina, HOMA-IR, HbA1c, peptídeo C',
       'PCR ultrassensível, homocisteína, ferritina',
+      'Marcadores genéticos quando indicados — medicina de precisão',
     ],
     quote:
       'Pedir TSH isolado é como medir a pressão na torneira sem verificar se a água está saindo. A gestão metabólica começa em pedir o exame certo.',
@@ -51,6 +52,7 @@ const pilares = [
       'PCR e marcadores inflamatórios',
       'Variabilidade da frequência cardíaca (HRV)',
       'Triagem de ansiedade, depressão e burnout',
+      'Qualidade dos relacionamentos e suporte social',
     ],
     quote:
       'Ana otimizou tudo o que a bioquímica permitia. A PCR não descia. O que precisava de tratamento era a ansiedade que ela chamava de personalidade.',

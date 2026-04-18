@@ -35,9 +35,10 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           <h1 className="heading-hero text-[clamp(2.5rem,6vw,5rem)] text-cream max-w-xl">
             Escore Plenya
           </h1>
-          <p className="text-cream/70 text-lg mt-6 max-w-lg">
-            O Escore Plenya traduz dados clínicos, laboratoriais e de comportamento em um diagnóstico
-            estruturado de saúde — base para definir metas e construir seu plano de cuidado.
+          <p className="text-cream/70 text-lg mt-6 max-w-xl">
+            <strong className="text-cream">Mais de 800 itens avaliados</strong> — exames, composição
+            corporal, sintomas, histórico e estilo de vida — traduzidos em uma pontuação única e
+            evolutiva. A base para definir metas e construir seu plano de cuidado.
           </p>
         </div>
       </section>
@@ -47,9 +48,10 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           <div className="space-y-8">
             <p className="label-upper text-gold">Como funciona</p>
             <p className="text-petrol/80 text-lg leading-relaxed">
-              O escore avalia múltiplas dimensões da saúde — metabólica, cardiovascular, funcional,
-              hormonal, comportamental — e integra em uma pontuação única que evolui ao longo do tempo.
-              Não é uma nota de aprovação: é um mapa de onde você está e para onde pode ir.
+              O escore consolida mais de 800 itens em sete dimensões — metabólica, cardiovascular,
+              funcional, hormonal, comportamental, emocional e de estilo de vida — em uma pontuação
+              única que evolui ao longo do tempo. Não é uma nota de aprovação: é um mapa de onde
+              você está e para onde pode ir.
             </p>
             <p className="text-petrol/80 text-lg leading-relaxed">
               A cada reavaliação, o escore reflete as mudanças reais no seu corpo e nos seus hábitos.

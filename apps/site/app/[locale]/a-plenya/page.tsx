@@ -48,9 +48,39 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
+      {/* Origem — 40 anos de Nefroclínica → Plenya */}
+      <section className="bg-cream">
+        <div className="site-container section">
+          <div className="grid lg:grid-cols-[1fr_2fr] gap-12 lg:gap-20 items-start max-w-5xl">
+            <div className="space-y-3">
+              <p className="label-upper text-gold">Origem</p>
+              <p className="heading-section text-petrol text-6xl md:text-7xl leading-none">40</p>
+              <p className="label-upper text-petrol/60">anos de história</p>
+            </div>
+            <div className="space-y-6 text-petrol/80 text-lg leading-relaxed">
+              <p>
+                A Plenya é a evolução da <strong className="text-petrol">Nefroclínica</strong>,
+                fundada há quatro décadas em Londrina pelo Dr. Getúlio Amaral. Em 40 anos, a
+                clínica viu a medicina salvar vidas em quadros graves — e viu, em paralelo, pessoas
+                vivendo mais e vivendo pior, fragmentadas entre cinco, seis profissionais que não
+                conversavam entre si.
+              </p>
+              <p>
+                A Plenya nasce dessa percepção. Não como troca de nome — como mudança de modelo.
+                Do reativo para o antecipatório. Do isolado para o integrado. Com um foco claro:
+                <strong className="text-petrol"> saúde, performance e longevidade</strong>.
+              </p>
+              <p className="heading-section text-petrol text-2xl md:text-3xl pt-2">
+                Porque viver mais já não é suficiente. O que importa é como você vive.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Imagem da clínica */}
       <section className="bg-cream">
-        <div className="site-container pt-16">
+        <div className="site-container pt-4">
           <figure className="space-y-4">
             <div className="relative aspect-[3/2] overflow-hidden">
               <Image
