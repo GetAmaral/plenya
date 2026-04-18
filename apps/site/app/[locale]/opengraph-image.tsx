@@ -23,8 +23,8 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          background: '#0E3B4F',
-          color: '#E6E1D8',
+          background: '#063b4f',
+          color: '#eae7da',
           padding: '80px',
           justifyContent: 'space-between',
           fontFamily: 'serif',
@@ -35,7 +35,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
             fontFamily: 'monospace',
             fontSize: 22,
             letterSpacing: 8,
-            color: '#A08456',
+            color: '#b38645',
             textTransform: 'uppercase',
           }}
         >
@@ -49,7 +49,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
               fontFamily: 'monospace',
               fontSize: 22,
               letterSpacing: 6,
-              color: '#A08456',
+              color: '#b38645',
               textTransform: 'uppercase',
             }}
           >
@@ -64,7 +64,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
             alignItems: 'flex-end',
             fontFamily: 'monospace',
             fontSize: 18,
-            color: '#E6E1D8aa',
+            color: '#eae7daaa',
           }}
         >
           <span>{brand.domain}</span>

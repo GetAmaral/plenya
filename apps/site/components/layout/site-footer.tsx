@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { brand } from '@plenya/brand';
 import { Link } from '@/lib/i18n/navigation';
 
@@ -11,7 +12,7 @@ export function SiteFooter() {
     <footer className="bg-petrol text-cream/80">
       <div className="site-container py-20 grid gap-12 md:grid-cols-2 lg:grid-cols-5">
         <div className="lg:col-span-2 space-y-4">
-          <span className="font-heading text-cream text-xl tracking-[0.35em] uppercase">PLENYA</span>
+          <Image src="/brand/wordmark/cream.png" alt="Plenya" width={160} height={24} className="h-6 w-auto" />
           <p className="text-cream/50 text-sm leading-relaxed max-w-xs">
             Clínica premium de saúde funcional integrativa. Cuidado contínuo para viver bem em todas as fases da vida.
           </p>

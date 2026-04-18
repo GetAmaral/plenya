@@ -9,7 +9,7 @@ export function SymbolBridge() {
             Ter mais energia e disposição no dia a dia.
           </p>
 
-          <PlenyaSymbol className="w-24 h-12 text-petrol mx-auto md:mx-0" />
+          <PlenyaSymbol className="h-16 w-16 text-gold mx-auto" />
 
           <p className="heading-section text-petrol text-xl md:text-2xl max-w-xs">
             Sentir controle e clareza sobre a própria saúde.

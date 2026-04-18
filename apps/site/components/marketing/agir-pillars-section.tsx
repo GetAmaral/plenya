@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { agirPillars } from '@plenya/brand';
 import { Link } from '@/lib/i18n/navigation';
@@ -7,8 +8,18 @@ export function AgirPillarsSection() {
   const locale = useLocale();
 
   return (
-    <section className="bg-petrol text-cream">
-      <div className="site-container section">
+    <section className="relative bg-petrol text-cream overflow-hidden">
+      {/* Brand estampa — decorative pattern fades into the right edge */}
+      <Image
+        src="/brand/pattern/p-block.png"
+        alt=""
+        aria-hidden="true"
+        width={1400}
+        height={990}
+        className="hidden lg:block absolute -right-40 -top-20 w-[55%] max-w-[760px] opacity-[0.18] pointer-events-none select-none"
+      />
+
+      <div className="relative site-container section">
         <p className="label-upper text-gold mb-6">{t('agirTitle')}</p>
         <h2 className="heading-section text-cream text-3xl md:text-5xl max-w-2xl mb-6">
           {t('agirSubtitle')}
