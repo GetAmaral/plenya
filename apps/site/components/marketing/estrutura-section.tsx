@@ -31,9 +31,9 @@ export function EstruturaSection() {
             </p>
 
             <p className="text-cream/70 text-lg leading-relaxed max-w-2xl">
-              <strong className="text-cream">Normal não é o mesmo que ótimo.</strong> Atendemos
-              quem não está doente, mas também não está bem — quem ouviu que os exames
-              estavam &ldquo;normais&rdquo; e mesmo assim sente que algo não fecha.
+              <strong className="text-cream">Normal não é o mesmo que ótimo.</strong> Nosso olhar
+              não para no diagnóstico. Cuidamos do que já está doente — e também de quem ouviu
+              que os exames estavam &ldquo;normais&rdquo; e mesmo assim sente que algo não fecha.
               Antecipar é mais inteligente que reagir.
             </p>
 
