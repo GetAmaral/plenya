@@ -123,34 +123,170 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
-      {/* GAUGE EXEMPLO — peça visual central */}
+      {/* PONTUAÇÃO — radar AGIR como peça visual central */}
       <section className="bg-cream">
-        <div className="site-container section grid lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-6">
+        <div className="site-container section grid lg:grid-cols-[1fr_auto] gap-16 items-center">
+          <div className="space-y-6 max-w-xl">
             <p className="label-upper text-gold">Pontuação</p>
-            <h2 className="heading-section text-petrol text-3xl md:text-4xl">
-              Um número que diz onde você está. Uma curva que diz para onde está indo.
+            <h2 className="heading-section text-petrol text-3xl md:text-5xl leading-tight">
+              Não é uma nota. <em className="not-italic text-gold">É um mapa.</em>
             </h2>
             <p className="text-petrol/80 text-lg leading-relaxed">
-              A pontuação global resume o estado atual em uma escala de 0 a 100. As
-              pontuações por letra mostram em quais frentes você está mais forte e
-              quais precisam de atenção. A cada reavaliação, a curva no tempo torna o
-              progresso (ou a estagnação) impossível de ignorar.
+              Você recebe uma pontuação global e quatro pontuações por letra do AGIR.
+              Juntas, elas formam uma constelação — onde está concentrada a força,
+              onde mora a lacuna.
+            </p>
+            <p className="text-petrol/70 leading-relaxed">
+              Quando o radar é simétrico, o cuidado está distribuído. Quando uma ponta
+              afunda, é ali que a próxima intervenção entra.
             </p>
           </div>
 
-          <div className="flex flex-col items-center gap-4">
-            <svg viewBox="0 0 300 300" className="w-64 h-64 md:w-80 md:h-80" aria-label="Exemplo de pontuação do Escore Plenya: 78">
-              <circle cx="150" cy="150" r="140" stroke="#063b4f" strokeOpacity="0.08" strokeWidth="1" fill="none" />
-              <circle cx="150" cy="150" r="110" stroke="#063b4f" strokeOpacity="0.12" strokeWidth="1" fill="none" />
-              <circle cx="150" cy="150" r="80" stroke="#063b4f" strokeOpacity="0.16" strokeWidth="1" fill="none" />
-              <path d="M 150 10 A 140 140 0 1 1 40 260" stroke="#b38645" strokeWidth="2" fill="none" strokeLinecap="round" />
-              <text x="150" y="160" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="56" fill="#063b4f" letterSpacing="-2">78</text>
+          {/* Radar AGIR — exemplo */}
+          <figure className="flex flex-col items-center gap-5">
+            <svg viewBox="0 0 360 360" className="w-72 h-72 md:w-96 md:h-96" aria-label="Exemplo de Escore Plenya por letra AGIR: A 82, G 75, I 68, R 85">
+              {/* Anéis concêntricos — escala 25/50/75/100 */}
+              {[40, 80, 120, 160].map((r) => (
+                <circle key={r} cx="180" cy="180" r={r} fill="none" stroke="#063b4f" strokeOpacity="0.08" strokeWidth="1" />
+              ))}
+              {/* Eixos AGIR */}
+              <line x1="180" y1="20" x2="180" y2="340" stroke="#063b4f" strokeOpacity="0.12" strokeWidth="1" />
+              <line x1="20" y1="180" x2="340" y2="180" stroke="#063b4f" strokeOpacity="0.12" strokeWidth="1" />
+              {/* Polígono de exemplo (A=82, G=75, I=68, R=85, escala 0..100 → 0..160) */}
+              <polygon
+                points="180,48.8 300,180 180,288.8 44,180"
+                fill="#b38645"
+                fillOpacity="0.18"
+                stroke="#b38645"
+                strokeWidth="1.5"
+                strokeLinejoin="round"
+              />
+              {/* Pontos nos vértices */}
+              {[
+                { x: 180, y: 48.8 },
+                { x: 300, y: 180 },
+                { x: 180, y: 288.8 },
+                { x: 44, y: 180 },
+              ].map((p, i) => (
+                <circle key={i} cx={p.x} cy={p.y} r="4" fill="#b38645" />
+              ))}
+              {/* Labels A G I R */}
+              <text x="180" y="14" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="22" fill="#063b4f" fontWeight="500">A</text>
+              <text x="350" y="186" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="22" fill="#063b4f" fontWeight="500">G</text>
+              <text x="180" y="354" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="22" fill="#063b4f" fontWeight="500">I</text>
+              <text x="10" y="186" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="22" fill="#063b4f" fontWeight="500">R</text>
+              {/* Score global no centro */}
+              <circle cx="180" cy="180" r="34" fill="#fbfaf6" stroke="#063b4f" strokeOpacity="0.2" strokeWidth="1" />
+              <text x="180" y="190" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="32" fill="#063b4f" letterSpacing="-1">78</text>
             </svg>
-            <p className="label-upper text-petrol/50 text-center text-xs">
+
+            <div className="flex gap-5 text-petrol/70 font-mono text-xs uppercase tracking-widest">
+              <span>A 82</span>
+              <span>G 75</span>
+              <span>I 68</span>
+              <span>R 85</span>
+            </div>
+            <p className="label-upper text-petrol/40 text-center text-[10px]">
               Exemplo · escala 0–100
             </p>
+          </figure>
+        </div>
+      </section>
+
+      {/* FAIXAS — legenda semântica */}
+      <section className="bg-paper border-y border-petrol/10">
+        <div className="site-container py-16 md:py-20">
+          <div className="max-w-3xl mb-10 space-y-3">
+            <p className="label-upper text-gold">Como ler</p>
+            <h2 className="heading-section text-petrol text-2xl md:text-3xl">
+              Cinco faixas. Direção, não punição.
+            </h2>
           </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 max-w-5xl">
+            {[
+              { label: 'Crítico',  range: '0–30',   color: 'bg-[#c1542d]' },
+              { label: 'Atenção',  range: '31–50',  color: 'bg-[#d89345]' },
+              { label: 'Regular',  range: '51–70',  color: 'bg-[#caa54a]' },
+              { label: 'Bom',      range: '71–85',  color: 'bg-[#7ba07a]' },
+              { label: 'Ótimo',    range: '86–100', color: 'bg-[#3f7d6e]' },
+            ].map((f) => (
+              <div key={f.label} className="flex items-center gap-3 p-4 border border-petrol/10 rounded-sm">
+                <span className={`w-3 h-10 rounded-sm ${f.color} flex-shrink-0`} aria-hidden />
+                <div>
+                  <p className="heading-section text-petrol text-base leading-tight">{f.label}</p>
+                  <p className="font-mono text-xs text-petrol/50 mt-0.5">{f.range}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-petrol/60 leading-relaxed mt-8 max-w-3xl">
+            A faixa não é veredito — é o ponto de partida da próxima conversa clínica.
+            Um <strong className="text-petrol">71% em queda</strong> de 85% conta uma história
+            diferente de um <strong className="text-petrol">71% subindo</strong> de 60%.
+          </p>
+        </div>
+      </section>
+
+      {/* EVOLUÇÃO — gráfico simbólico */}
+      <section className="bg-cream">
+        <div className="site-container section grid lg:grid-cols-[1fr_auto] gap-16 items-center">
+          <div className="space-y-6 max-w-xl">
+            <p className="label-upper text-gold">Evolução</p>
+            <h2 className="heading-section text-petrol text-3xl md:text-4xl">
+              A curva que mostra se o cuidado está funcionando.
+            </h2>
+            <p className="text-petrol/80 text-lg leading-relaxed">
+              A cada reavaliação, um novo ponto entra na curva. O médico, a equipe e
+              você veem o mesmo gráfico: progresso real, estagnação ou queda — sem
+              espaço para opinião.
+            </p>
+          </div>
+
+          <figure className="flex flex-col items-center gap-3">
+            <svg viewBox="0 0 420 220" className="w-full max-w-md md:max-w-lg" aria-label="Exemplo de curva de evolução do Escore Plenya">
+              {/* Grid horizontal */}
+              {[40, 90, 140, 190].map((y) => (
+                <line key={y} x1="40" y1={y} x2="400" y2={y} stroke="#063b4f" strokeOpacity="0.06" strokeWidth="1" />
+              ))}
+              {/* Eixo Y labels */}
+              {[
+                { y: 40, v: '100' },
+                { y: 90, v: '75' },
+                { y: 140, v: '50' },
+                { y: 190, v: '25' },
+              ].map((t) => (
+                <text key={t.v} x="32" y={t.y + 4} textAnchor="end" fontFamily="monospace" fontSize="10" fill="#063b4f" fillOpacity="0.4">{t.v}</text>
+              ))}
+              {/* Linha de tendência exemplo */}
+              <polyline
+                points="60,160 140,140 220,110 300,85 380,68"
+                fill="none"
+                stroke="#b38645"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              {/* Pontos */}
+              {[
+                { x: 60, y: 160 },
+                { x: 140, y: 140 },
+                { x: 220, y: 110 },
+                { x: 300, y: 85 },
+                { x: 380, y: 68 },
+              ].map((p, i) => (
+                <circle key={i} cx={p.x} cy={p.y} r="4" fill="#063b4f" stroke="#fbfaf6" strokeWidth="2" />
+              ))}
+              {/* Eixo X labels */}
+              {['T0', '3m', '6m', '9m', '12m'].map((label, i) => (
+                <text key={label} x={60 + i * 80} y="210" textAnchor="middle" fontFamily="monospace" fontSize="10" fill="#063b4f" fillOpacity="0.4">{label}</text>
+              ))}
+            </svg>
+            <p className="label-upper text-petrol/40 text-center text-[10px]">
+              Exemplo · 12 meses de acompanhamento
+            </p>
+          </figure>
         </div>
       </section>
 
