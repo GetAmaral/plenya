@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
-import { agirPillars, brandEssence } from '@plenya/brand';
+import { agirPillars } from '@plenya/brand';
+import { brandEssence } from '@plenya/brand/brand';
 import { PlenyaInfinity } from '@plenya/brand/logo';
 
 export const metadata: Metadata = {

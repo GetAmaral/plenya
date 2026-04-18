@@ -1,4 +1,4 @@
-import { manifesto } from '@plenya/brand';
+import { manifesto } from '@plenya/brand/brand';
 import { PlenyaInfinity } from '@plenya/brand/logo';
 
 /**
