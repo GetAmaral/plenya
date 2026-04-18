@@ -177,9 +177,9 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
             </div>
             <div className="space-y-3 border-l-4 border-gold pl-6">
               <p className="label-upper text-gold">Método AGIR</p>
-              <h3 className="heading-section text-petrol text-2xl md:text-3xl">Define como vamos agir.</h3>
+              <h3 className="heading-section text-petrol text-2xl md:text-3xl">Para onde vamos.</h3>
               <p className="text-petrol/70 leading-relaxed">
-                Toma o que o Escore revela e organiza o cuidado em quatro frentes
+                O caminho. Toma o que o Escore revela e organiza o cuidado em quatro frentes
                 interdependentes — com equipe e plano único.
               </p>
             </div>

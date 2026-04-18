@@ -106,7 +106,7 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
             </div>
             <div className="space-y-3 border-l-4 border-petrol/30 pl-6">
               <p className="label-upper text-petrol/60">Método AGIR</p>
-              <h2 className="heading-section text-petrol text-2xl md:text-3xl">Como vamos agir.</h2>
+              <h2 className="heading-section text-petrol text-2xl md:text-3xl">Para onde vamos.</h2>
               <p className="text-petrol/75 leading-relaxed">
                 O framework de atuação. Toma o diagnóstico do Escore e organiza o cuidado em
                 quatro frentes interdependentes — Alimentação e Atividade Física, Gestão
