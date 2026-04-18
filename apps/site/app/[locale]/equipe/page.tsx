@@ -25,9 +25,9 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
           <h1 className="heading-hero text-[clamp(2.5rem,6vw,5rem)] text-cream max-w-xl">
             Equipe Plenya
           </h1>
-          <p className="text-cream/70 text-lg mt-6 max-w-lg">
-            Médicos e profissionais multidisciplinares. Cuidado integrado com método, proximidade e
-            responsabilidade compartilhada.
+          <p className="text-cream/70 text-lg mt-6 max-w-xl">
+            Médico, nutricionista, psicólogo e educador físico — falando a mesma língua, com plano
+            único de cuidado para cada paciente.
           </p>
         </div>
       </section>

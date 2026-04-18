@@ -49,6 +49,10 @@ export function HomeHero() {
             {tCta('knowTeam')}
           </Link>
         </div>
+
+        <p className="mt-12 label-upper text-cream/60 tracking-[0.3em]">
+          Plenya · Viva bem, viva mais.
+        </p>
       </div>
     </section>
   );

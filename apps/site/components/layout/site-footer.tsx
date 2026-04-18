@@ -20,7 +20,7 @@ export function SiteFooter() {
         <div className="lg:col-span-2 space-y-4">
           <PlenyaWordmark className="h-6 w-auto text-cream" />
           <p className="text-cream/50 text-sm leading-relaxed max-w-xs">
-            Clínica premium de saúde funcional integrativa. Cuidado contínuo para viver bem em todas as fases da vida.
+            Medicina que antecipa. Saúde, performance e longevidade.
           </p>
         </div>
 

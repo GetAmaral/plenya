@@ -7,7 +7,7 @@ export const contentType = 'image/png';
 export default async function OpengraphImage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const claim =
-    locale === 'en' ? 'Live well. Live more.' : locale === 'es' ? 'Vive bien. Vive más.' : 'Viva bem. Viva mais.';
+    locale === 'en' ? 'Live well, live more.' : locale === 'es' ? 'Vive bien, vive más.' : 'Viva bem, viva mais.';
   const tag =
     locale === 'en'
       ? 'Health · Performance · Longevity'

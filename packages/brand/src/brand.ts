@@ -2,7 +2,7 @@ export const brand = {
   name: 'Plenya',
   legalName: 'Plenya Saúde',
   tagline: 'Saúde, Performance & Longevidade',
-  claim: 'Viva bem. Viva mais.',
+  claim: 'Viva bem, viva mais.',
   domain: 'plenyasaude.com.br',
   url: 'https://plenyasaude.com.br',
   appUrl: 'https://app.plenyasaude.com.br',
