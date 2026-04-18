@@ -5,7 +5,7 @@ import { Link } from '@/lib/i18n/navigation';
 
 export const metadata: Metadata = {
   title: 'Escore Plenya',
-  description: 'Diagnóstico estruturado da sua saúde — base para meta e plano de cuidado personalizado.',
+  description: 'O diagnóstico estruturado que mostra onde sua saúde está — 800+ itens organizados em 13 pilares clínicos dentro do Método AGIR.',
 };
 
 const tiers = [
@@ -23,31 +23,42 @@ const tiers = [
   },
 ];
 
-const areas = [
-  { n: '01', name: 'Objetivos', desc: 'O que você quer alcançar nos próximos 6 meses, 5, 10 e 30 anos. Disciplina e perfil comportamental.' },
-  { n: '02', name: 'Alimentação', desc: 'Histórico desde o pré-natal até hoje. Padrão atual, intolerâncias, hidratação, suplementação.' },
-  { n: '03', name: 'Movimento e atividade física', desc: 'Histórico de exercício, modalidades atuais, força, flexibilidade, capacidade aeróbia.' },
-  { n: '04', name: 'Sono', desc: 'Duração, eficiência, arquitetura, cronotipo e exposição à luz.' },
-  { n: '05', name: 'Cognição', desc: 'Memória, foco, clareza mental — passado e presente.' },
-  { n: '06', name: 'Stress', desc: 'Carga, mecanismos de regulação, sintomas físicos e emocionais.' },
-  { n: '07', name: 'Vida sexual', desc: 'Função, libido, satisfação, evolução ao longo da vida.' },
-  { n: '08', name: 'Composição corporal', desc: 'Peso, percentual de gordura, massa magra, distribuição visceral.' },
-  { n: '09', name: 'Histórico de doenças', desc: 'Doenças crônicas, cirurgias, medicamentos, vícios, saúde bucal, acompanhamentos.' },
-  { n: '10', name: 'Histórico familiar', desc: 'Pais, irmãos, avós e parentes mais distantes — predisposições e padrões.' },
-  { n: '11', name: 'Social', desc: 'Relacionamentos, suporte, ambiente, propósito.' },
-  { n: '12', name: 'Exames', desc: 'Mais de 150 marcadores laboratoriais e exames de imagem.' },
-  { n: '13', name: 'Genética', desc: 'Sete painéis: metabolismo, cardiovascular, neurodegeneração, detoxificação, imunidade, performance, outros.' },
+const agirStructure = [
+  {
+    code: 'A',
+    name: 'Alimentação e Atividade Física',
+    color: 'bg-gold/10 border-gold/30',
+    pillars: ['Avaliação Nutricional', 'Prescrição de Exercícios', 'Composição Corporal'],
+  },
+  {
+    code: 'G',
+    name: 'Gestão Metabólica',
+    color: 'bg-ocean/10 border-ocean/30',
+    pillars: ['Controle Glicêmico', 'Perfil Lipídico', 'Função Hepática', 'Função Renal'],
+  },
+  {
+    code: 'I',
+    name: 'Integração Mente-Corpo',
+    color: 'bg-sage/10 border-sage/30',
+    pillars: ['Avaliação Psicológica', 'Técnicas de Relaxamento', 'Função Cognitiva'],
+  },
+  {
+    code: 'R',
+    name: 'Ritmo Circadiano',
+    color: 'bg-petrol/5 border-petrol/20',
+    pillars: ['Qualidade do Sono', 'Cronobiologia', 'Exposição à Luz'],
+  },
 ];
 
 const labCategories = [
-  { title: 'Hematologia', items: 'Hemograma completo, reticulócitos, ferritina, B12, folato, IgA, IgG, IgM, IgE.' },
+  { title: 'Hematologia', items: 'Hemograma completo, reticulócitos, ferritina, B12, folato, imunoglobulinas (IgA, IgG, IgM, IgE).' },
   { title: 'Metabolismo', items: 'Glicemia, insulina, HOMA-IR, HbA1c, peptídeo C, leptina, IGF-1 ajustado por faixa etária.' },
   { title: 'Lipídios e cardiovascular', items: 'Perfil lipídico completo, ApoB, lipoproteína(a), LDL oxidada, NT-proBNP, PCR ultrassensível, IL-6.' },
   { title: 'Hormônios', items: 'Painel completo: testosterona livre, SHBG, estradiol, progesterona, DHEA-S, cortisol, LH, FSH, prolactina, tireoide, PTH, PSA.' },
   { title: 'Vitaminas e minerais', items: 'Vitamina D, B12, ferro, magnésio sérico e RBC, selênio, manganês, zinco, ômega-3.' },
   { title: 'Função renal e urinária', items: 'Microalbuminúria, ureia, creatinina, sódio, potássio, urinálise completa com sedimento.' },
   { title: 'Toxicidade', items: 'Mercúrio e outros metais pesados quando indicado.' },
-  { title: 'Imagem', items: 'CAC (escore de cálcio coronariano), bioimpedância, e outros exames de imagem conforme indicação clínica.' },
+  { title: 'Imagem', items: 'CAC (escore de cálcio coronariano), bioimpedância e outros exames conforme indicação clínica.' },
 ];
 
 const geneticPanels = [
@@ -69,32 +80,58 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32">
           <p className="label-upper text-gold mb-6">Diagnóstico</p>
-          <h1 className="heading-hero text-[clamp(2.5rem,6vw,5rem)] text-cream max-w-xl">
+          <h1 className="heading-hero text-[clamp(2.5rem,6vw,5rem)] text-cream max-w-2xl">
             Escore Plenya
           </h1>
           <p className="text-cream/70 text-lg mt-6 max-w-2xl">
-            <strong className="text-cream">Mais de 800 itens avaliados</strong> em 13 áreas — do
-            histórico pré-natal até hoje, do laboratório à genética. Tudo consolidado em uma
-            pontuação única e evolutiva. A base para definir metas e construir seu plano de cuidado.
+            <strong className="text-cream">Mais de 800 itens avaliados</strong> — organizados nos
+            13 pilares clínicos do Método AGIR. O diagnóstico estruturado que mostra onde sua
+            saúde está hoje e define para onde ir.
           </p>
         </div>
       </section>
 
-      {/* Como funciona — texto + foto */}
+      {/* Escore x AGIR — diferenciação conceitual */}
       <section className="bg-cream">
+        <div className="site-container section">
+          <div className="grid md:grid-cols-2 gap-10 max-w-4xl">
+            <div className="space-y-3 border-l-4 border-gold pl-6">
+              <p className="label-upper text-gold">Escore Plenya</p>
+              <h2 className="heading-section text-petrol text-2xl md:text-3xl">Onde você está.</h2>
+              <p className="text-petrol/75 leading-relaxed">
+                A ferramenta de diagnóstico. Mapeia 800+ itens ao longo de toda sua trajetória —
+                do histórico familiar ao DNA, do sono à bioquímica — e traduz em uma pontuação
+                que mostra o estado atual e o quanto você pode evoluir.
+              </p>
+            </div>
+            <div className="space-y-3 border-l-4 border-petrol/30 pl-6">
+              <p className="label-upper text-petrol/60">Método AGIR</p>
+              <h2 className="heading-section text-petrol text-2xl md:text-3xl">Como vamos agir.</h2>
+              <p className="text-petrol/75 leading-relaxed">
+                O framework de atuação. Toma o diagnóstico do Escore e organiza o cuidado em
+                quatro frentes interdependentes — Alimentação e Atividade Física, Gestão
+                Metabólica, Integração Mente-Corpo e Ritmo Circadiano.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Como funciona — texto + foto */}
+      <section className="bg-paper">
         <div className="site-container section grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
             <p className="label-upper text-gold">Como funciona</p>
             <p className="text-petrol/80 text-lg leading-relaxed">
-              O escore consolida cada item em sete dimensões da saúde — metabólica, cardiovascular,
-              funcional, hormonal, comportamental, emocional e estilo de vida — em uma pontuação
-              única que evolui ao longo do tempo. Não é uma nota de aprovação: é um mapa de onde
-              você está e para onde pode ir.
+              Cada um dos 800+ itens pertence a um dos 13 pilares clínicos, e cada pilar a uma
+              das quatro letras do AGIR. O Escore produz uma pontuação global <em>e</em> uma
+              pontuação por letra — A, G, I, R — revelando em qual frente você está mais forte e
+              qual precisa de atenção.
             </p>
             <p className="text-petrol/80 text-lg leading-relaxed">
               A cada reavaliação, o escore reflete as mudanças reais no seu corpo e nos seus
-              hábitos. É o jeito Plenya de medir evolução — e de mostrar que o cuidado está
-              funcionando.
+              hábitos. Não é uma nota de aprovação: é um mapa de onde você está e para onde pode
+              ir — atualizado em tempo real ao longo do acompanhamento.
             </p>
           </div>
 
@@ -110,43 +147,53 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
-      {/* As 13 áreas avaliadas */}
-      <section className="bg-paper">
+      {/* 13 pilares organizados em AGIR */}
+      <section className="bg-cream">
         <div className="site-container section">
           <div className="max-w-3xl mb-12 space-y-4">
-            <p className="label-upper text-gold">As 13 áreas avaliadas</p>
+            <p className="label-upper text-gold">13 pilares em 4 letras</p>
             <h2 className="heading-section text-petrol text-3xl md:text-4xl">
-              Saúde inteira, examinada do começo ao fim.
+              Os pilares que o Escore mede.
             </h2>
             <p className="text-petrol/70 leading-relaxed">
-              Da gestação da sua mãe até hoje. Do sono ao DNA. Cada área puxa um conjunto de itens
-              concretos — não um questionário genérico.
+              Cada item avaliado se encaixa em um pilar específico, e cada pilar em uma das letras
+              do AGIR. Você recebe um score por pilar, por letra e no total — vendo com precisão
+              onde estão as forças e as lacunas.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-petrol/15 border-y border-petrol/15">
-            {areas.map((area) => (
-              <div key={area.n} className="bg-paper p-6 space-y-2">
-                <span className="label-upper text-petrol/40">{area.n}</span>
-                <h3 className="heading-section text-petrol text-lg">{area.name}</h3>
-                <p className="text-petrol/65 text-sm leading-relaxed">{area.desc}</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {agirStructure.map((letter) => (
+              <div key={letter.code} className={`p-6 border rounded-sm ${letter.color} space-y-4`}>
+                <div className="space-y-1">
+                  <span className="heading-section text-petrol text-5xl block leading-none">{letter.code}</span>
+                  <h3 className="heading-section text-petrol text-base pt-3">{letter.name}</h3>
+                </div>
+                <ul className="space-y-2 pt-2 border-t border-petrol/10">
+                  {letter.pillars.map((p) => (
+                    <li key={p} className="text-petrol/75 text-sm leading-snug flex gap-2">
+                      <span className="text-gold">—</span>
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Painel laboratorial — amostra */}
-      <section className="bg-cream">
+      {/* Painel laboratorial */}
+      <section className="bg-paper">
         <div className="site-container section">
           <div className="max-w-3xl mb-12 space-y-4">
             <p className="label-upper text-gold">Painel laboratorial</p>
             <h2 className="heading-section text-petrol text-3xl md:text-4xl">
-              Mais de 150 marcadores específicos.
+              Mais de 150 marcadores alimentam o Escore.
             </h2>
             <p className="text-petrol/70 leading-relaxed">
-              Não é o painel básico que você vê no check-up de plano. É medicina antecipatória:
-              biomarcadores que mostram o que está acontecendo dez anos antes do diagnóstico.
+              Não é o painel básico do check-up de plano. São biomarcadores que revelam o que
+              está acontecendo dez anos antes do diagnóstico — distribuídos pelos pilares do AGIR.
             </p>
           </div>
 
@@ -160,7 +207,7 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           </dl>
 
           <p className="label-upper text-petrol/50 mt-12 max-w-3xl">
-            Lista parcial · marcadores adicionados conforme indicação clínica de cada caso.
+            Lista parcial · marcadores adicionados conforme indicação clínica.
           </p>
         </div>
       </section>
@@ -175,7 +222,7 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
             </h2>
             <p className="text-cream/70 leading-relaxed">
               A genética não é destino — é direção. Saber suas predisposições muda como
-              monitoramos, prevenimos e intervimos.
+              monitoramos, prevenimos e intervimos em cada pilar do AGIR.
             </p>
           </div>
 
@@ -201,7 +248,7 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
             <text x="150" y="160" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="56" fill="#063b4f" letterSpacing="-2">78</text>
           </svg>
           <p className="label-upper text-petrol/50 text-center">
-            Exemplo de pontuação · escala 0–100
+            Exemplo de pontuação global · escala 0–100
           </p>
         </div>
       </section>
@@ -225,13 +272,13 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
       {/* Cross-links */}
       <section className="bg-cream">
         <div className="site-container section grid md:grid-cols-2 gap-8">
+          <Link href="/metodo-agir" className="border-t border-petrol/15 pt-8 space-y-3 group">
+            <p className="label-upper text-gold">Método</p>
+            <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Como agimos a partir do Escore →</p>
+          </Link>
           <Link href="/planos" className="border-t border-petrol/15 pt-8 space-y-3 group">
             <p className="label-upper text-gold">Planos</p>
             <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Comece seu acompanhamento →</p>
-          </Link>
-          <Link href="/metodo-agir" className="border-t border-petrol/15 pt-8 space-y-3 group">
-            <p className="label-upper text-gold">Método</p>
-            <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Conheça o Método AGIR →</p>
           </Link>
         </div>
       </section>

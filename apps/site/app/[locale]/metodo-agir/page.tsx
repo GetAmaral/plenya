@@ -16,6 +16,7 @@ const pilares = [
     territory: 'Os três motores que nenhuma medicação substitui',
     intro:
       'Comida não é combustível — é informação. Cada refeição instrui genes, modula hormônios e alimenta o microbioma. O exercício é o medicamento mais poderoso disponível. A suplementação corrige o que o laboratório mostra que falta. Os três motores trabalham juntos.',
+    subPillars: ['Avaliação Nutricional', 'Prescrição de Exercícios', 'Composição Corporal'],
     monitoramos: [
       'Composição corporal e VO₂ max',
       'Padrão alimentar e janela alimentar',
@@ -31,6 +32,7 @@ const pilares = [
     territory: 'O painel de controle interno',
     intro:
       'Hormônios, biomarcadores, farmacologia guiada por dados. A parte do trabalho em que o médico deixa de ser conselheiro de estilo de vida e passa a ser piloto de um painel de dados — testar, intervir, retestar, ajustar.',
+    subPillars: ['Controle Glicêmico', 'Perfil Lipídico', 'Função Hepática', 'Função Renal'],
     monitoramos: [
       'Painel hormonal completo (testosterona livre, SHBG, estradiol, DHEA-S, cortisol, tireoide)',
       'ApoB, lipoproteína(a), CAC quando indicado',
@@ -43,10 +45,11 @@ const pilares = [
   },
   {
     code: 'I',
-    name: 'Integração Corpo-Mente',
+    name: 'Integração Mente-Corpo',
     territory: 'O pilar que ninguém prescreve',
     intro:
       'O eixo entre psicologia, sistema imune e inflamação. Estados psicológicos alteram diretamente a função imune, hormonal e inflamatória — não como metáfora, como mecanismo. Quando o eixo HPA está em alerta crônico, nenhum outro pilar funciona plenamente.',
+    subPillars: ['Avaliação Psicológica', 'Técnicas de Relaxamento', 'Função Cognitiva'],
     monitoramos: [
       'Cortisol matinal e padrão diário',
       'PCR e marcadores inflamatórios',
@@ -59,10 +62,11 @@ const pilares = [
   },
   {
     code: 'R',
-    name: 'Ritmo Circadiano e Repouso',
+    name: 'Ritmo Circadiano',
     territory: 'O substrato sobre o qual os outros pilares operam',
     intro:
       'Sono, cronobiologia, sincronização dos relógios biológicos. O núcleo supraquiasmático é o maestro; cada célula tem seu relógio. Quando os sinais chegam em horários imprevisíveis, a orquestra desafina — e o nome disso é cronodisrupção.',
+    subPillars: ['Qualidade do Sono', 'Cronobiologia', 'Exposição à Luz'],
     monitoramos: [
       'Duração, eficiência e arquitetura do sono',
       'Sintomas e triagem para apneia obstrutiva',
@@ -157,6 +161,32 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
         </div>
       </section>
 
+      {/* Bridge — Escore x AGIR */}
+      <section className="bg-paper border-y border-petrol/10">
+        <div className="site-container py-16 md:py-20">
+          <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+            <div className="space-y-3 border-l-4 border-petrol/30 pl-6">
+              <p className="label-upper text-petrol/60">Escore Plenya</p>
+              <h3 className="heading-section text-petrol text-2xl md:text-3xl">Mostra onde você está.</h3>
+              <p className="text-petrol/70 leading-relaxed">
+                Diagnóstico de mais de 800 itens, organizados nos 13 pilares clínicos do AGIR.
+              </p>
+              <Link href="/escore-plenya" className="label-upper text-gold inline-block pt-2 hover:underline">
+                Conhecer o Escore →
+              </Link>
+            </div>
+            <div className="space-y-3 border-l-4 border-gold pl-6">
+              <p className="label-upper text-gold">Método AGIR</p>
+              <h3 className="heading-section text-petrol text-2xl md:text-3xl">Define como vamos agir.</h3>
+              <p className="text-petrol/70 leading-relaxed">
+                Toma o que o Escore revela e organiza o cuidado em quatro frentes
+                interdependentes — com equipe e plano único.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Os 4 pilares — em profundidade */}
       <section className="bg-paper">
         <div className="site-container section space-y-24 md:space-y-32">
@@ -185,6 +215,20 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
                 <blockquote className="border-l-2 border-gold pl-6 py-2 text-petrol/80 text-lg italic max-w-2xl">
                   "{pilar.quote}"
                 </blockquote>
+
+                <div className="space-y-4">
+                  <p className="label-upper text-petrol/55">Pilares clínicos desta letra</p>
+                  <div className="flex flex-wrap gap-3">
+                    {pilar.subPillars.map((sp) => (
+                      <span
+                        key={sp}
+                        className="inline-flex items-center px-4 py-2 rounded-full border border-petrol/20 text-petrol/80 text-sm"
+                      >
+                        {sp}
+                      </span>
+                    ))}
+                  </div>
+                </div>
 
                 <div className="space-y-4">
                   <p className="label-upper text-petrol/55">O que monitoramos · exemplos</p>
