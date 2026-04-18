@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
+import { agirLetters } from '@/lib/agir-structure';
 
 export const metadata: Metadata = {
   title: 'Método AGIR',
@@ -16,7 +17,6 @@ const pilares = [
     territory: 'Os três motores que nenhuma medicação substitui',
     intro:
       'Comida não é combustível — é informação. Cada refeição instrui genes, modula hormônios e alimenta o microbioma. O exercício é o medicamento mais poderoso disponível. A suplementação corrige o que o laboratório mostra que falta. Os três motores trabalham juntos.',
-    subPillars: ['Avaliação Nutricional', 'Prescrição de Exercícios', 'Composição Corporal'],
     monitoramos: [
       'Composição corporal e VO₂ max',
       'Padrão alimentar e janela alimentar',
@@ -32,7 +32,6 @@ const pilares = [
     territory: 'O painel de controle interno',
     intro:
       'Hormônios, biomarcadores, farmacologia guiada por dados. A parte do trabalho em que o médico deixa de ser conselheiro de estilo de vida e passa a ser piloto de um painel de dados — testar, intervir, retestar, ajustar.',
-    subPillars: ['Controle Glicêmico', 'Perfil Lipídico', 'Função Hepática', 'Função Renal'],
     monitoramos: [
       'Painel hormonal completo (testosterona livre, SHBG, estradiol, DHEA-S, cortisol, tireoide)',
       'ApoB, lipoproteína(a), CAC quando indicado',
@@ -49,7 +48,6 @@ const pilares = [
     territory: 'O pilar que ninguém prescreve',
     intro:
       'O eixo entre psicologia, sistema imune e inflamação. Estados psicológicos alteram diretamente a função imune, hormonal e inflamatória — não como metáfora, como mecanismo. Quando o eixo HPA está em alerta crônico, nenhum outro pilar funciona plenamente.',
-    subPillars: ['Avaliação Psicológica', 'Técnicas de Relaxamento', 'Função Cognitiva'],
     monitoramos: [
       'Cortisol matinal e padrão diário',
       'PCR e marcadores inflamatórios',
@@ -66,7 +64,6 @@ const pilares = [
     territory: 'O substrato sobre o qual os outros pilares operam',
     intro:
       'Sono, cronobiologia, sincronização dos relógios biológicos. O núcleo supraquiasmático é o maestro; cada célula tem seu relógio. Quando os sinais chegam em horários imprevisíveis, a orquestra desafina — e o nome disso é cronodisrupção.',
-    subPillars: ['Qualidade do Sono', 'Cronobiologia', 'Exposição à Luz'],
     monitoramos: [
       'Duração, eficiência e arquitetura do sono',
       'Sintomas e triagem para apneia obstrutiva',
@@ -216,19 +213,38 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
                   "{pilar.quote}"
                 </blockquote>
 
-                <div className="space-y-4">
-                  <p className="label-upper text-petrol/55">Pilares clínicos desta letra</p>
-                  <div className="flex flex-wrap gap-3">
-                    {pilar.subPillars.map((sp) => (
-                      <span
-                        key={sp}
-                        className="inline-flex items-center px-4 py-2 rounded-full border border-petrol/20 text-petrol/80 text-sm"
-                      >
-                        {sp}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                {(() => {
+                  const letter = agirLetters.find((l) => l.code === pilar.code);
+                  if (!letter) return null;
+                  return (
+                    <div className="space-y-4">
+                      <p className="label-upper text-petrol/55">
+                        {letter.pillarCount} pilares clínicos
+                      </p>
+                      <div className="space-y-5">
+                        {letter.groups.map((group, gi) => (
+                          <div key={gi} className="space-y-2">
+                            {group.label && (
+                              <p className="label-upper text-petrol/40 text-[10px]">
+                                {group.label}
+                              </p>
+                            )}
+                            <div className="flex flex-wrap gap-2">
+                              {group.pillars.map((sp) => (
+                                <span
+                                  key={sp}
+                                  className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-petrol/20 text-petrol/85 text-[13px]"
+                                >
+                                  {sp}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
 
                 <div className="space-y-4">
                   <p className="label-upper text-petrol/55">O que monitoramos · exemplos</p>
