@@ -11,7 +11,8 @@
     "./tailwind-preset": "./src/tailwind-preset.ts",
     "./logo": "./src/logo/index.ts",
     "./logo/PlenyaSymbol": "./src/logo/PlenyaSymbol.tsx",
-    "./logo/PlenyaWordmark": "./src/logo/PlenyaWordmark.tsx"
+    "./logo/PlenyaWordmark": "./src/logo/PlenyaWordmark.tsx",
+    "./logo/PlenyaInfinity": "./src/logo/PlenyaInfinity.tsx"
   },
   "scripts": {
     "lint": "eslint . --ext .ts",

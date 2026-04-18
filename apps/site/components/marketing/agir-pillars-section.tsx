@@ -33,6 +33,9 @@ export function AgirPillarsSection() {
                 <span className="heading-section text-gold text-5xl block leading-none">{pillar.code}</span>
                 <h3 className="heading-section text-cream text-xl">{name}</h3>
                 <p className="text-cream/70 text-sm leading-relaxed">{pillar.idea}</p>
+                <p className="label-upper text-gold/70 text-[10px] tracking-[0.25em] pt-2 border-t border-cream/10">
+                  {pillar.territory}
+                </p>
               </div>
             );
           })}

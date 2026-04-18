@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { PlenyaSymbol } from '@plenya/brand/logo/PlenyaSymbol';
+import { PlenyaInfinity } from '@plenya/brand/logo/PlenyaInfinity';
 import { Link } from '@/lib/i18n/navigation';
 
 export function HomeHero() {
@@ -21,11 +21,11 @@ export function HomeHero() {
       {/* Warm overlay for text legibility */}
       <div className="absolute inset-0 bg-gradient-to-b from-petrol/50 via-petrol/20 to-petrol/60" />
 
-      {/* Decorative P monogram — top-right watermark */}
-      <PlenyaSymbol
+      {/* Decorative infinity-P watermark — símbolo de continuidade do cuidado */}
+      <PlenyaInfinity
         aria-hidden="true"
         focusable="false"
-        className="hidden md:block absolute top-32 right-12 lg:right-24 w-40 lg:w-56 h-40 lg:h-56 text-gold/20 pointer-events-none"
+        className="hidden md:block absolute top-28 right-8 lg:right-20 w-56 lg:w-80 h-auto text-gold/20 pointer-events-none"
       />
 
       <div className="relative site-container py-40 text-cream">

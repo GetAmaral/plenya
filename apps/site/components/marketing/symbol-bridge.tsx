@@ -1,5 +1,9 @@
-import { PlenyaSymbol } from '@plenya/brand/logo/PlenyaSymbol';
+import { PlenyaInfinity } from '@plenya/brand/logo/PlenyaInfinity';
 
+/**
+ * Symbol bridge — mirrors brandbook page 22 mockup exactly.
+ * Two pain/desire columns flanking the infinity P (continuidade do cuidado).
+ */
 export function SymbolBridge() {
   return (
     <section className="bg-cream">
@@ -9,7 +13,7 @@ export function SymbolBridge() {
             Ter mais energia e disposição no dia a dia.
           </p>
 
-          <PlenyaSymbol className="h-16 w-16 text-gold mx-auto" />
+          <PlenyaInfinity className="h-12 md:h-16 w-auto text-gold mx-auto" />
 
           <p className="heading-section text-petrol text-xl md:text-2xl max-w-xs">
             Sentir controle e clareza sobre a própria saúde.

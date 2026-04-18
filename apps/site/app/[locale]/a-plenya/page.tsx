@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
-import { agirPillars } from '@plenya/brand';
+import { agirPillars, brandEssence } from '@plenya/brand';
+import { PlenyaInfinity } from '@plenya/brand/logo/PlenyaInfinity';
 
 export const metadata: Metadata = {
   title: 'A Plenya — Manifesto, Propósito e Método',
@@ -79,6 +80,35 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
+      {/* Círculo de Ouro — por quê / como / o quê (brandbook page 2) */}
+      <section className="bg-petrol text-cream">
+        <div className="site-container section">
+          <div className="grid lg:grid-cols-[auto_1fr] gap-12 lg:gap-20 items-start">
+            <div className="space-y-4">
+              <PlenyaInfinity className="h-14 w-auto text-gold" />
+              <p className="label-upper text-gold">Círculo de Ouro</p>
+              <h2 className="heading-section text-cream text-3xl md:text-5xl max-w-md">
+                Por que existimos. Como cuidamos. O que entregamos.
+              </h2>
+            </div>
+            <dl className="space-y-10">
+              <div>
+                <dt className="heading-section text-gold text-xl mb-3">Por que</dt>
+                <dd className="text-cream/80 text-lg leading-relaxed">{brandEssence.goldenCircle.why}</dd>
+              </div>
+              <div>
+                <dt className="heading-section text-gold text-xl mb-3">Como</dt>
+                <dd className="text-cream/80 text-lg leading-relaxed">{brandEssence.goldenCircle.how}</dd>
+              </div>
+              <div>
+                <dt className="heading-section text-gold text-xl mb-3">O quê</dt>
+                <dd className="text-cream/80 text-lg leading-relaxed">{brandEssence.goldenCircle.what}</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
       {/* Método AGIR — preview com link para página completa */}
       <section className="bg-paper">
         <div className="site-container section">
@@ -97,6 +127,9 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 <span className="heading-section text-gold text-5xl block leading-none">{pillar.code}</span>
                 <h3 className="heading-section text-petrol text-xl">{pillar.name}</h3>
                 <p className="text-petrol/70 text-sm leading-relaxed">{pillar.idea}</p>
+                <p className="label-upper text-petrol/50 text-[10px] tracking-[0.25em] pt-2 border-t border-petrol/10">
+                  {pillar.territory}
+                </p>
               </div>
             ))}
           </div>

@@ -4,6 +4,7 @@ import { SymbolBridge } from '@/components/marketing/symbol-bridge';
 import { LifestyleGrid } from '@/components/marketing/lifestyle-grid';
 import { DrGetulioPreview } from '@/components/marketing/dr-getulio-preview';
 import { AgirPillarsSection } from '@/components/marketing/agir-pillars-section';
+import { ManifestoSection } from '@/components/marketing/manifesto-section';
 import { ScoreSection } from '@/components/marketing/score-section';
 import { PlansPreview } from '@/components/marketing/plans-preview';
 import { TestimonialsSection } from '@/components/testimonials/testimonials-section';
@@ -18,6 +19,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <LifestyleGrid />
       <DrGetulioPreview />
       <AgirPillarsSection />
+      <ManifestoSection />
       <ScoreSection />
       <TestimonialsSection />
       <PlansPreview />
