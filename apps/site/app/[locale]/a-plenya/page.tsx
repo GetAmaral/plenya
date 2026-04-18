@@ -3,8 +3,13 @@ import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { agirPillars } from '@plenya/brand';
-import { brandEssence } from '@plenya/brand/brand';
 import { PlenyaInfinity } from '@plenya/brand/logo';
+
+const goldenCircle = {
+  why: 'Porque as pessoas estão vivendo mais, mas não necessariamente melhor — e seguem sendo tratadas em partes, não como um todo. Ninguém deveria chegar à fase mais importante da vida limitado pelas escolhas que fez antes.',
+  how: 'Através de um acompanhamento integrado, contínuo e personalizado, que conecta diferentes áreas da saúde em um único plano estruturado, com dados, proximidade e responsabilidade compartilhada.',
+  what: 'Um programa de saúde e longevidade que combina equipe multidisciplinar, método próprio (AGIR) e acompanhamento próximo para transformar hábitos, corpo e mente de forma sustentável.',
+} as const;
 
 export const metadata: Metadata = {
   title: 'A Plenya — Manifesto, Propósito e Método',
@@ -95,15 +100,15 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             <dl className="space-y-10">
               <div>
                 <dt className="heading-section text-gold text-xl mb-3">Por que</dt>
-                <dd className="text-cream/80 text-lg leading-relaxed">{brandEssence.goldenCircle.why}</dd>
+                <dd className="text-cream/80 text-lg leading-relaxed">{goldenCircle.why}</dd>
               </div>
               <div>
                 <dt className="heading-section text-gold text-xl mb-3">Como</dt>
-                <dd className="text-cream/80 text-lg leading-relaxed">{brandEssence.goldenCircle.how}</dd>
+                <dd className="text-cream/80 text-lg leading-relaxed">{goldenCircle.how}</dd>
               </div>
               <div>
                 <dt className="heading-section text-gold text-xl mb-3">O quê</dt>
-                <dd className="text-cream/80 text-lg leading-relaxed">{brandEssence.goldenCircle.what}</dd>
+                <dd className="text-cream/80 text-lg leading-relaxed">{goldenCircle.what}</dd>
               </div>
             </dl>
           </div>
