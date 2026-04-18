@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
-import { brand, PlenyaWordmark } from '@plenya/brand';
+import { brand } from '@plenya/brand';
+import { PlenyaWordmark } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
 
 export function SiteFooter() {

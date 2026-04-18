@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Menu, X } from 'lucide-react';
-import { brand, PlenyaWordmark } from '@plenya/brand';
+import { brand } from '@plenya/brand';
+import { PlenyaWordmark } from '@plenya/brand/logo';
 import { Link, usePathname } from '@/lib/i18n/navigation';
 import { LocaleSwitcher } from './locale-switcher';
 import { cn } from '@/lib/cn';
