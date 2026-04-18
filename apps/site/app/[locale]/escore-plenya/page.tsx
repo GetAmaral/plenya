@@ -9,6 +9,81 @@ export const metadata: Metadata = {
     'Mais de 800 itens em uma pontuação clara, evolutiva e personalizada. Histórico, bioquímica e genética traduzidos em uma medida única do seu estado de saúde.',
 };
 
+// ── Radar AGIR — 22 pilares distribuídos em 4 setores de 90° ──────────
+// Replica o display do EMR: vértices por pilar + anel externo colorido por letra.
+const RADAR_CX = 200;
+const RADAR_CY = 200;
+const RADAR_MAX = 150;
+
+const letterColors: Record<'A' | 'G' | 'I' | 'R', string> = {
+  A: '#92b8b4', // sage
+  G: '#b38645', // gold
+  I: '#caa56b', // gold suave
+  R: '#417e8e', // ocean
+};
+
+const radarPillars: { letter: 'A' | 'G' | 'I' | 'R'; angle: number; score: number }[] = [
+  // A — top quadrant (-45° → +45°), 4 pilares
+  { letter: 'A', angle: -33.75, score: 82 },
+  { letter: 'A', angle: -11.25, score: 78 },
+  { letter: 'A', angle:  11.25, score: 86 },
+  { letter: 'A', angle:  33.75, score: 74 },
+  // G — right quadrant (45° → 135°), 10 pilares
+  { letter: 'G', angle:  49.5, score: 76 },
+  { letter: 'G', angle:  58.5, score: 70 },
+  { letter: 'G', angle:  67.5, score: 80 },
+  { letter: 'G', angle:  76.5, score: 72 },
+  { letter: 'G', angle:  85.5, score: 84 },
+  { letter: 'G', angle:  94.5, score: 78 },
+  { letter: 'G', angle: 103.5, score: 71 },
+  { letter: 'G', angle: 112.5, score: 82 },
+  { letter: 'G', angle: 121.5, score: 76 },
+  { letter: 'G', angle: 130.5, score: 73 },
+  // I — bottom quadrant (135° → 225°), 5 pilares
+  { letter: 'I', angle: 144, score: 68 },
+  { letter: 'I', angle: 162, score: 72 },
+  { letter: 'I', angle: 180, score: 75 },
+  { letter: 'I', angle: 198, score: 70 },
+  { letter: 'I', angle: 216, score: 74 },
+  // R — left quadrant (225° → 315°), 3 pilares
+  { letter: 'R', angle: 240, score: 84 },
+  { letter: 'R', angle: 270, score: 88 },
+  { letter: 'R', angle: 300, score: 80 },
+];
+
+// Helper: angulo em graus (0 = norte, sentido horário) → coordenada cartesiana
+function polar(angleDeg: number, radius: number) {
+  const rad = ((angleDeg - 90) * Math.PI) / 180;
+  return {
+    x: RADAR_CX + radius * Math.cos(rad),
+    y: RADAR_CY + radius * Math.sin(rad),
+  };
+}
+
+const radarPoints = radarPillars.map((p) => {
+  const r = (p.score / 100) * RADAR_MAX;
+  return { ...p, ...polar(p.angle, r) };
+});
+
+const polygonStr = radarPoints.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+
+// Arco externo colorido (uma path por letra)
+const ARC_RADIUS = RADAR_MAX + 18;
+function arcPath(startAngle: number, endAngle: number, radius: number) {
+  const s = polar(startAngle, radius);
+  const e = polar(endAngle, radius);
+  return `M ${s.x.toFixed(1)} ${s.y.toFixed(1)} A ${radius} ${radius} 0 0 1 ${e.x.toFixed(1)} ${e.y.toFixed(1)}`;
+}
+
+const letterArcs: { letter: 'A' | 'G' | 'I' | 'R'; start: number; end: number; midAngle: number }[] = [
+  { letter: 'A', start: -45, end:  45, midAngle:   0 },
+  { letter: 'G', start:  45, end: 135, midAngle:  90 },
+  { letter: 'I', start: 135, end: 225, midAngle: 180 },
+  { letter: 'R', start: 225, end: 315, midAngle: 270 },
+];
+
+const LETTER_LABEL_RADIUS = ARC_RADIUS + 18;
+
 const steps = [
   {
     n: '01',
@@ -142,52 +217,87 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
             </p>
           </div>
 
-          {/* Radar AGIR — exemplo */}
+          {/* Radar AGIR — 22 pilares com anéis externos coloridos por letra */}
           <figure className="flex flex-col items-center gap-5">
-            <svg viewBox="0 0 360 360" className="w-72 h-72 md:w-96 md:h-96" aria-label="Exemplo de Escore Plenya por letra AGIR: A 82, G 75, I 68, R 85">
-              {/* Anéis concêntricos — escala 25/50/75/100 */}
-              {[40, 80, 120, 160].map((r) => (
-                <circle key={r} cx="180" cy="180" r={r} fill="none" stroke="#063b4f" strokeOpacity="0.08" strokeWidth="1" />
+            <svg viewBox="0 0 400 400" className="w-80 h-80 md:w-[26rem] md:h-[26rem]" aria-label="Exemplo de Escore Plenya: 22 pilares organizados em A 80 · G 76 · I 72 · R 84, total 78">
+              {/* Anéis concêntricos de fundo — 25/50/75/100 */}
+              {[37.5, 75, 112.5, 150].map((r) => (
+                <circle key={r} cx={RADAR_CX} cy={RADAR_CY} r={r} fill="none" stroke="#063b4f" strokeOpacity="0.07" strokeWidth="1" />
               ))}
-              {/* Eixos AGIR */}
-              <line x1="180" y1="20" x2="180" y2="340" stroke="#063b4f" strokeOpacity="0.12" strokeWidth="1" />
-              <line x1="20" y1="180" x2="340" y2="180" stroke="#063b4f" strokeOpacity="0.12" strokeWidth="1" />
-              {/* Polígono de exemplo (A=82, G=75, I=68, R=85, escala 0..100 → 0..160) */}
+
+              {/* Eixos cardinais sutis */}
+              <line x1={RADAR_CX} y1={RADAR_CY - RADAR_MAX} x2={RADAR_CX} y2={RADAR_CY + RADAR_MAX} stroke="#063b4f" strokeOpacity="0.06" strokeWidth="1" />
+              <line x1={RADAR_CX - RADAR_MAX} y1={RADAR_CY} x2={RADAR_CX + RADAR_MAX} y2={RADAR_CY} stroke="#063b4f" strokeOpacity="0.06" strokeWidth="1" />
+
+              {/* Polígono ligando os 22 vértices (fill suave gold) */}
               <polygon
-                points="180,48.8 300,180 180,288.8 44,180"
+                points={polygonStr}
                 fill="#b38645"
-                fillOpacity="0.18"
+                fillOpacity="0.16"
                 stroke="#b38645"
+                strokeOpacity="0.85"
                 strokeWidth="1.5"
                 strokeLinejoin="round"
               />
-              {/* Pontos nos vértices */}
-              {[
-                { x: 180, y: 48.8 },
-                { x: 300, y: 180 },
-                { x: 180, y: 288.8 },
-                { x: 44, y: 180 },
-              ].map((p, i) => (
-                <circle key={i} cx={p.x} cy={p.y} r="4" fill="#b38645" />
+
+              {/* Pontos por pilar — cor do setor (letra) */}
+              {radarPoints.map((p, i) => (
+                <circle key={i} cx={p.x} cy={p.y} r="3.5" fill={letterColors[p.letter]} stroke="#fbfaf6" strokeWidth="1.2" />
               ))}
-              {/* Labels A G I R */}
-              <text x="180" y="14" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="22" fill="#063b4f" fontWeight="500">A</text>
-              <text x="350" y="186" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="22" fill="#063b4f" fontWeight="500">G</text>
-              <text x="180" y="354" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="22" fill="#063b4f" fontWeight="500">I</text>
-              <text x="10" y="186" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="22" fill="#063b4f" fontWeight="500">R</text>
+
+              {/* Anel externo colorido — uma path por letra */}
+              {letterArcs.map((arc) => (
+                <path
+                  key={arc.letter}
+                  d={arcPath(arc.start + 2, arc.end - 2, ARC_RADIUS)}
+                  fill="none"
+                  stroke={letterColors[arc.letter]}
+                  strokeWidth="7"
+                  strokeLinecap="round"
+                  opacity="0.9"
+                />
+              ))}
+
+              {/* Labels A G I R nos pontos cardinais externos */}
+              {letterArcs.map((arc) => {
+                const p = polar(arc.midAngle, LETTER_LABEL_RADIUS);
+                return (
+                  <text
+                    key={`label-${arc.letter}`}
+                    x={p.x}
+                    y={p.y + 8}
+                    textAnchor="middle"
+                    fontFamily="'Cormorant Garamond', serif"
+                    fontSize="26"
+                    fontWeight="500"
+                    fill="#063b4f"
+                  >
+                    {arc.letter}
+                  </text>
+                );
+              })}
+
               {/* Score global no centro */}
-              <circle cx="180" cy="180" r="34" fill="#fbfaf6" stroke="#063b4f" strokeOpacity="0.2" strokeWidth="1" />
-              <text x="180" y="190" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="32" fill="#063b4f" letterSpacing="-1">78</text>
+              <circle cx={RADAR_CX} cy={RADAR_CY} r="34" fill="#fbfaf6" stroke="#063b4f" strokeOpacity="0.18" strokeWidth="1.5" />
+              <text x={RADAR_CX} y={RADAR_CY + 11} textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="34" fill="#063b4f" letterSpacing="-1">78</text>
             </svg>
 
-            <div className="flex gap-5 text-petrol/70 font-mono text-xs uppercase tracking-widest">
-              <span>A 82</span>
-              <span>G 75</span>
-              <span>I 68</span>
-              <span>R 85</span>
+            {/* Legenda de scores por letra */}
+            <div className="flex gap-4 md:gap-6 font-mono text-[11px] uppercase tracking-[0.2em]">
+              {[
+                { l: 'A', score: 80 },
+                { l: 'G', score: 76 },
+                { l: 'I', score: 72 },
+                { l: 'R', score: 84 },
+              ].map((s) => (
+                <span key={s.l} className="flex items-center gap-2 text-petrol/70">
+                  <span className="w-2 h-2 rounded-full" style={{ background: letterColors[s.l as 'A' | 'G' | 'I' | 'R'] }} />
+                  <span>{s.l} {s.score}</span>
+                </span>
+              ))}
             </div>
             <p className="label-upper text-petrol/40 text-center text-[10px]">
-              Exemplo · escala 0–100
+              Exemplo · 22 pilares · escala 0–100
             </p>
           </figure>
         </div>
