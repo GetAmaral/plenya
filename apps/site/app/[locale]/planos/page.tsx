@@ -8,15 +8,15 @@ export const metadata: Metadata = {
 };
 
 const offers = [
-  { title: 'Consulta Presencial', desc: 'Avaliação clínica completa em nossa clínica em Londrina.', price: 'A partir de R$ ___' },
-  { title: 'Consulta Online', desc: 'Atendimento por telemedicina, mesma profundidade clínica.', price: 'A partir de R$ ___' },
+  { title: 'Consulta Presencial', desc: 'Avaliação clínica completa em nossa clínica em Londrina.', price: 'Sob consulta' },
+  { title: 'Consulta Online', desc: 'Atendimento por telemedicina, mesma profundidade clínica.', price: 'Sob consulta' },
   { title: 'Consulta com Dr. Getúlio', desc: 'Atendimento direto com a direção clínica Plenya.', price: 'Sob consulta' },
 ];
 
 const agir = [
-  { name: 'Trimestral', period: '3 meses', price: 'R$ ___' },
-  { name: 'Semestral', period: '6 meses', price: 'R$ ___', highlight: true },
-  { name: 'Anual', period: '12 meses', price: 'R$ ___' },
+  { name: 'Trimestral', period: '3 meses', price: 'Sob consulta' },
+  { name: 'Semestral', period: '6 meses', price: 'Sob consulta', highlight: true },
+  { name: 'Anual', period: '12 meses', price: 'Sob consulta' },
 ];
 
 export default async function PlansPage({ params }: { params: Promise<{ locale: string }> }) {

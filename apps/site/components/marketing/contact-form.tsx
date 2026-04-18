@@ -69,7 +69,7 @@ export function ContactForm() {
           <option value="outro">Outro</option>
         </select>
       </Field>
-      <Field label="Quando preferiria ser contactado?" error={errors.window?.message}>
+      <Field label="Melhor horário para contato" error={errors.window?.message}>
         <input {...register('window')} placeholder="Ex: manhã, tarde, fins de semana" className="form-input" />
       </Field>
       <button type="submit" disabled={status === 'sending'} className="btn-gold w-full">

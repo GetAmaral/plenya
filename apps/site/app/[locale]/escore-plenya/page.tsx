@@ -70,14 +70,17 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
       </section>
 
       <section className="bg-cream-100">
-        <div className="site-container section flex justify-center">
-          <svg viewBox="0 0 300 300" className="w-64 h-64 md:w-80 md:h-80" aria-hidden>
+        <div className="site-container section flex flex-col items-center gap-4">
+          <svg viewBox="0 0 300 300" className="w-64 h-64 md:w-80 md:h-80" aria-label="Exemplo de pontuação do Escore Plenya: 78">
             <circle cx="150" cy="150" r="140" stroke="#063b4f" strokeOpacity="0.08" strokeWidth="1" fill="none" />
             <circle cx="150" cy="150" r="110" stroke="#063b4f" strokeOpacity="0.12" strokeWidth="1" fill="none" />
             <circle cx="150" cy="150" r="80" stroke="#063b4f" strokeOpacity="0.16" strokeWidth="1" fill="none" />
             <path d="M 150 10 A 140 140 0 1 1 40 260" stroke="#b38645" strokeWidth="2" fill="none" strokeLinecap="round" />
             <text x="150" y="160" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="56" fill="#063b4f" letterSpacing="-2">78</text>
           </svg>
+          <p className="label-upper text-petrol/50 text-center">
+            Exemplo de pontuação · escala 0–100
+          </p>
         </div>
       </section>
 

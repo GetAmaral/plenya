@@ -11,6 +11,9 @@ export function LocaleSwitcher() {
   const current = useLocale() as Locale;
   const [isPending, startTransition] = useTransition();
 
+  // Não renderizar quando há apenas um idioma disponível.
+  if (locales.length <= 1) return null;
+
   return (
     <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest">
       {locales.map((l) => (
