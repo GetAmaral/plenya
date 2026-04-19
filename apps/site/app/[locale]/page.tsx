@@ -7,7 +7,6 @@ import { AgirPillarsSection } from '@/components/marketing/agir-pillars-section'
 import { EstruturaSection } from '@/components/marketing/estrutura-section';
 import { ScoreSection } from '@/components/marketing/score-section';
 import { PlansPreview } from '@/components/marketing/plans-preview';
-import { TestimonialsSection } from '@/components/testimonials/testimonials-section';
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -21,7 +20,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <AgirPillarsSection />
       <EstruturaSection />
       <ScoreSection />
-      <TestimonialsSection />
       <PlansPreview />
     </>
   );

@@ -31,24 +31,6 @@ const steps = [
   },
 ];
 
-const lensColumns = [
-  {
-    title: 'Histórico',
-    body:
-      'Pré-natal, infância, adolescência, vida adulta. Doenças crônicas, cirurgias, medicamentos, vícios. Histórico familiar em três gerações.',
-  },
-  {
-    title: 'Bioquímica',
-    body:
-      'Hormônios completos (testosterona livre, estradiol, tireoide, cortisol), metabolismo (insulina, HOMA-IR, ApoB), inflamação (PCR-us, IL-6), vitaminas e minerais, e exames de imagem como CAC e densitometria.',
-  },
-  {
-    title: 'Genética',
-    body:
-      'Cerca de 80 variantes integradas ao pilar clínico correspondente — APOE no risco cardiovascular, MTHFR no controle glicêmico, ALDH2 na função hepática, ACTN3 na prescrição de exercícios.',
-  },
-];
-
 const tiers = [
   {
     title: 'Versão Completa',
@@ -241,35 +223,6 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
               Exemplo · 12 meses de acompanhamento
             </p>
           </figure>
-        </div>
-      </section>
-
-      {/* O QUE O ESCORE ENXERGA — 3 lentes */}
-      <section className="bg-paper">
-        <div className="site-container section">
-          <div className="max-w-3xl mb-12 space-y-4">
-            <p className="label-upper text-gold">O que o Escore enxerga</p>
-            <h2 className="heading-section text-petrol text-3xl md:text-4xl">
-              Três lentes sobre uma vida inteira.
-            </h2>
-            <p className="text-petrol/70 leading-relaxed">
-              Para cada pilar do Método AGIR, o Escore combina três dimensões de evidência —
-              não apenas o exame do dia.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-10 max-w-5xl">
-            {lensColumns.map((col) => (
-              <div key={col.title} className="space-y-4 border-t-2 border-gold pt-6">
-                <h3 className="heading-section text-petrol text-xl">{col.title}</h3>
-                <p className="text-petrol/75 leading-relaxed">{col.body}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className="label-upper text-petrol/50 mt-12 text-xs max-w-3xl">
-            Lista parcial — a versão completa cobre 800+ marcadores específicos por caso.
-          </p>
         </div>
       </section>
 

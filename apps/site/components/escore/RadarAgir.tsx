@@ -57,11 +57,15 @@ const radarPillars: Pillar[] = [
   { letter: 'R', angle: 300, score: 80, name: 'Exposição à Luz' },
 ];
 
+// round1: arredonda para 1 decimal e devolve number "estável" (evita
+// hydration mismatch entre SSR/CSR causado por floats com muitos dígitos).
+const round1 = (n: number) => Math.round(n * 10) / 10;
+
 function polar(angleDeg: number, radius: number) {
   const rad = ((angleDeg - 90) * Math.PI) / 180;
   return {
-    x: RADAR_CX + radius * Math.cos(rad),
-    y: RADAR_CY + radius * Math.sin(rad),
+    x: round1(RADAR_CX + radius * Math.cos(rad)),
+    y: round1(RADAR_CY + radius * Math.sin(rad)),
   };
 }
 
@@ -70,12 +74,12 @@ const radarPoints = radarPillars.map((p) => {
   return { ...p, ...polar(p.angle, r) };
 });
 
-const polygonStr = radarPoints.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+const polygonStr = radarPoints.map((p) => `${p.x},${p.y}`).join(' ');
 
 function arcPath(startAngle: number, endAngle: number, radius: number) {
   const s = polar(startAngle, radius);
   const e = polar(endAngle, radius);
-  return `M ${s.x.toFixed(1)} ${s.y.toFixed(1)} A ${radius} ${radius} 0 0 1 ${e.x.toFixed(1)} ${e.y.toFixed(1)}`;
+  return `M ${s.x} ${s.y} A ${radius} ${radius} 0 0 1 ${e.x} ${e.y}`;
 }
 
 const letterArcs: { letter: LetterCode; start: number; end: number; midAngle: number }[] = [
@@ -105,13 +109,19 @@ function tooltipPosition(hovered: Hovered) {
   return null;
 }
 
-// Determinar lado do tooltip pra não sair do container
-function tooltipPlacement(svgX: number, svgY: number) {
-  // x: center, left, right baseado em qual quadrante
-  // y: top ou bottom baseado em qual metade
-  const horizontal = svgX < 130 ? 'right' : svgX > 270 ? 'left' : 'center';
-  const vertical = svgY < 200 ? 'bottom' : 'top';
-  return { horizontal, vertical };
+// Placement do tooltip determinado pela LETRA (não pela posição em pixels) —
+// estável para todos os pilares dentro do mesmo setor, evita flips quando
+// o mouse pula entre pontos adjacentes próximos do limite de quadrante.
+function tooltipPlacementForLetter(letter: LetterCode): {
+  horizontal: 'left' | 'right' | 'center';
+  vertical: 'top' | 'bottom' | 'center';
+} {
+  switch (letter) {
+    case 'A': return { horizontal: 'center', vertical: 'bottom' }; // topo → tooltip abaixo
+    case 'G': return { horizontal: 'left',   vertical: 'center' }; // direita → tooltip à esquerda
+    case 'I': return { horizontal: 'center', vertical: 'top'    }; // base → tooltip acima
+    case 'R': return { horizontal: 'right',  vertical: 'center' }; // esquerda → tooltip à direita
+  }
 }
 
 export function RadarAgir() {
@@ -122,7 +132,11 @@ export function RadarAgir() {
     (hovered.type === 'pillar' && radarPoints[hovered.index].letter === l);
 
   const ttPos = tooltipPosition(hovered);
-  const placement = ttPos ? tooltipPlacement(ttPos.x, ttPos.y) : null;
+  const hoveredLetter: LetterCode | null =
+    hovered.type === 'letter' ? hovered.letter :
+    hovered.type === 'pillar' ? radarPoints[hovered.index].letter :
+    null;
+  const placement = hoveredLetter ? tooltipPlacementForLetter(hoveredLetter) : null;
 
   // Conteúdo do tooltip
   const tooltipContent = (() => {
@@ -169,10 +183,10 @@ export function RadarAgir() {
     if (!ttPos || !placement) return {};
     const left = (ttPos.x / VIEWBOX) * 100;
     const top = (ttPos.y / VIEWBOX) * 100;
-    const offsetPx = 14; // distância da bolinha/letra
+    const offsetPx = 14;
 
     let translateX = '-50%';
-    let translateY = '0';
+    let translateY = '-50%';
     let marginLeft = '0';
     let marginTop = '0';
 
@@ -187,7 +201,7 @@ export function RadarAgir() {
     if (placement.vertical === 'top') {
       translateY = '-100%';
       marginTop = `-${offsetPx}px`;
-    } else {
+    } else if (placement.vertical === 'bottom') {
       translateY = '0';
       marginTop = `${offsetPx}px`;
     }
@@ -203,7 +217,10 @@ export function RadarAgir() {
 
   return (
     <figure className="flex flex-col items-center gap-5 select-none">
-      <div className="relative w-80 h-80 md:w-[26rem] md:h-[26rem]">
+      <div
+        className="relative w-80 h-80 md:w-[26rem] md:h-[26rem]"
+        onMouseLeave={() => setHovered({ type: 'none' })}
+      >
         <svg
           viewBox={`0 0 ${VIEWBOX} ${VIEWBOX}`}
           className="w-full h-full"
@@ -244,7 +261,6 @@ export function RadarAgir() {
                 strokeLinecap="round"
                 opacity={hovered.type === 'none' ? 0.85 : active ? 1 : 0.3}
                 onMouseEnter={() => setHovered({ type: 'letter', letter: arc.letter })}
-                onMouseLeave={() => setHovered({ type: 'none' })}
                 style={{ transition: 'stroke-width 180ms, opacity 180ms', cursor: 'pointer' }}
               />
             );
@@ -277,7 +293,6 @@ export function RadarAgir() {
                   r="14"
                   fill="transparent"
                   onMouseEnter={() => setHovered({ type: 'pillar', index: i })}
-                  onMouseLeave={() => setHovered({ type: 'none' })}
                   style={{ cursor: 'pointer' }}
                 />
                 <circle
@@ -311,7 +326,6 @@ export function RadarAgir() {
                 fill={active ? letterColors[arc.letter] : '#063b4f'}
                 opacity={hovered.type === 'none' ? 1 : active ? 1 : 0.35}
                 onMouseEnter={() => setHovered({ type: 'letter', letter: arc.letter })}
-                onMouseLeave={() => setHovered({ type: 'none' })}
                 style={{ transition: 'fill 180ms, opacity 180ms', cursor: 'pointer' }}
               >
                 {arc.letter}
@@ -335,17 +349,20 @@ export function RadarAgir() {
           </text>
         </svg>
 
-        {/* Tooltip flutuante */}
-        {tooltipContent && (
-          <div
-            className="absolute z-10 pointer-events-none animate-fade-in"
-            style={tooltipStyle}
-          >
-            <div className="bg-paper border border-petrol/15 shadow-xl shadow-petrol/10 rounded-md px-4 py-3 min-w-[160px]">
-              {tooltipContent}
-            </div>
+        {/* Tooltip flutuante — sempre montado, opacity controla visibilidade
+            (evita re-disparar animação a cada mudança de hover) */}
+        <div
+          className="absolute z-10 pointer-events-none transition-opacity duration-150"
+          style={{
+            ...tooltipStyle,
+            opacity: tooltipContent ? 1 : 0,
+            visibility: tooltipContent ? 'visible' : 'hidden',
+          }}
+        >
+          <div className="bg-paper border border-petrol/15 shadow-xl shadow-petrol/10 rounded-md px-4 py-3 w-[200px]">
+            {tooltipContent}
           </div>
-        )}
+        </div>
       </div>
 
       {/* Legenda das cores por letra (sempre visível) */}
