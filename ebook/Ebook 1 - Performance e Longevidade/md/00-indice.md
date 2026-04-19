@@ -1,7 +1,9 @@
 # ANTES
-## A janela silenciosa entre o "normal" e o ótimo — por que viver bem e viver mais começa antes
+## A janela silenciosa entre o normal e o ótimo — onde a saúde é decidida.
 
 **Série PLENYA — E-book 1 · Performance e Longevidade**
+
+**Edição internacional:** *BEFORE — The silent window between normal and optimal — where health is decided.*
 
 ---
 
@@ -77,6 +79,35 @@ O eixo psicológico que sabota todos os outros pilares quando ignorado.
 
 **R — Ritmo Circadiano e Repouso** · Cap. 10
 O solo em que os outros três pilares se sustentam.
+
+---
+
+## ACTS Method (International Edition) — The Four Practices
+
+For English-language editions, **AGIR** is translated as **ACTS** — preserving the acronym's imperative meaning and the integrity of the four-pillar structure.
+
+> *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four practices that, together, protect the decades of health that standard medicine gives up on.*
+
+**A — Alimentation, Activity & Adjuncts** · Ch. 7
+The three engines of lifestyle that no medication can replace.
+
+**C — Clinical Optimization** · Ch. 8
+Biomarker-guided optimization across all clinical systems — hormones, pharmacology, precision medicine.
+
+**T — Tending Body & Mind** · Ch. 9
+The integration of psychology, immunity and inflammation — the pillar fragmented medicine ignores.
+
+**S — Sleep & Circadian Rhythm** · Ch. 10
+The biological tempo that makes all other pillars work.
+
+### Mapping PT → EN
+
+| Letra | AGIR (PT) | ACTS (EN) |
+|---|---|---|
+| **A** | Alimentação, Atividade Física & Suplementação | Alimentation, Activity & Adjuncts |
+| **G → C** | Gestão Metabólica | Clinical Optimization |
+| **I → T** | Integração Corpo-Mente | Tending Body & Mind |
+| **R → S** | Ritmo Circadiano & Repouso | Sleep & Circadian Rhythm |
 
 ---
 

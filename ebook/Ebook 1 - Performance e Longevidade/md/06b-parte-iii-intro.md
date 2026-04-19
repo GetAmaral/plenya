@@ -15,3 +15,16 @@ Ao longo dos anos de prática clínica, organizei as intervenções que prescrev
 Os quatro pilares não funcionam isolados. Alimentação sem exercício é incompleta. Exercício sem sono é *overtraining*. Gestão hormonal sem saúde mental é otimização sobre areia. A força do método está na integração — e na personalização de cada pilar conforme o que os biomarcadores de cada paciente exigem.
 
 > Começamos pelo pilar que mais depende de você.
+
+---
+
+### Nota para edições internacionais — The ACTS Method
+
+Em inglês, o acrônimo equivalente é **ACTS** — preservando o sentido imperativo (*to act*) e a estrutura de quatro práticas:
+
+- **A — Alimentation, Activity & Adjuncts** (Ch. 7)
+- **C — Clinical Optimization** (Ch. 8)
+- **T — Tending Body & Mind** (Ch. 9)
+- **S — Sleep & Circadian Rhythm** (Ch. 10)
+
+> *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four practices that, together, protect the decades of health that standard medicine gives up on.*
