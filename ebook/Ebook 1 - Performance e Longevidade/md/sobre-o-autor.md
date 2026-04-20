@@ -4,31 +4,35 @@ Bio oficial em três comprimentos. Composta a partir das credenciais reais de Dr
 
 ---
 
-## Versão padrão — para orelha do livro, programas de palestra, perfis editoriais (~105 palavras)
+## Versão padrão — para orelha do livro, programas de palestra, perfis editoriais (~130 palavras)
 
-**Dr. Getúlio José Mattos do Amaral Filho** é médico nefrologista e clínico, formado em Medicina pela Universidade Estadual de Londrina em 2004. Especializou-se em Clínica Médica (2006) e em Nefrologia (2008) pela Santa Casa de Londrina, onde hoje coordena a Residência Médica de Nefrologia e fundou a Residência de Clínica Médica. É Responsável Técnico da DaVita Intra-hospitalar de Londrina e concluiu em 2026 pós-graduação em Medicina Funcional Integrativa pela ABMFI. Membro das Sociedades Brasileira e Paranaense de Nefrologia, é palestrante em saúde, performance e longevidade — temas que pratica no consultório todos os dias. É dessa prática que nasce este livro.
+**Dr. Getúlio José Mattos do Amaral Filho** é médico nefrologista e clínico com mais de 20 anos de prática, formado em Medicina pela Universidade Estadual de Londrina em 2004. Especializou-se em Clínica Médica (2006) e em Nefrologia (2008) pela Santa Casa de Londrina, onde hoje coordena a Residência Médica de Nefrologia e fundou a Residência de Clínica Médica. É Responsável Técnico da DaVita Intra-hospitalar de Londrina e concluiu em 2026 pós-graduação em Medicina Funcional Integrativa pela ABMFI.
+
+É **palestrante nacional em saúde, nefrologia e longevidade**, traduzindo ciência complexa em linguagem acessível para público leigo e médico. Ao longo de duas décadas atendeu milhares de pacientes — e foi dessa prática que nasceram o Método AGIR e a convicção de que a saúde se decide na janela silenciosa entre o normal e o ótimo. É dessa mesma prática que nasce este livro.
 
 **CRM-PR 21.876 · RQE 16.038 · @drGetulioAmaralFilho**
 
 ---
 
-## Versão micro — para Amazon, press release, header de entrevistas (~40 palavras)
+## Versão micro — para Amazon, press release, header de entrevistas (~55 palavras)
 
-**Dr. Getúlio Amaral Filho** é médico nefrologista e clínico formado pela UEL (2004), especialista pela Santa Casa de Londrina. Coordena a Residência Médica de Nefrologia da Santa Casa e é Responsável Técnico da DaVita-Londrina. Atende medicina preventiva e de longevidade desde o consultório até a palestra.
+**Dr. Getúlio Amaral Filho** é médico nefrologista e clínico com mais de 20 anos de prática, formado pela UEL (2004) e especialista pela Santa Casa de Londrina. Coordena a Residência de Nefrologia da Santa Casa, é Responsável Técnico da DaVita-Londrina e **palestrante nacional em saúde, nefrologia e longevidade** — temas que atende no consultório todos os dias.
 
 ---
 
-## Versão estendida — para press kit, materiais institucionais, apresentações aprofundadas (~200 palavras)
+## Versão estendida — para press kit, materiais institucionais, apresentações aprofundadas (~240 palavras)
 
-**Dr. Getúlio José Mattos do Amaral Filho** é médico nefrologista e clínico. Formou-se em Medicina pela Universidade Estadual de Londrina (UEL) em 2004, concluiu Residência em Clínica Médica pela Santa Casa de Londrina em 2006 e Especialização em Nefrologia pela mesma instituição em 2008.
+**Dr. Getúlio José Mattos do Amaral Filho** é médico nefrologista e clínico com mais de 20 anos de prática. Formou-se em Medicina pela Universidade Estadual de Londrina (UEL) em 2004, concluiu Residência em Clínica Médica pela Santa Casa de Londrina em 2006 e Especialização em Nefrologia pela mesma instituição em 2008.
 
 Na Santa Casa de Londrina, é **Coordenador da Residência Médica de Nefrologia** — programa cuja estrutura ajudou a consolidar — e foi **fundador da Residência Médica de Clínica Médica**. Atuou como professor do curso de Medicina da PUC-Londrina (2013–2014). É **Responsável Técnico da DaVita Intra-hospitalar de Londrina**, cargo que ocupa atualmente.
 
 Sua formação segue em expansão: em 2026 concluiu pós-graduação em **Medicina Funcional Integrativa** pela Associação Brasileira de Medicina Funcional Integrativa (ABMFI), integrando medicina de precisão, biomarcadores ampliados e protocolos de longevidade à prática clínica.
 
-É membro da **Sociedade Brasileira de Nefrologia (SBN)** e da **Sociedade Paranaense de Nefrologia**. Atua como palestrante nacional em **saúde, performance e longevidade**, traduzindo ciência complexa em linguagem acessível para público leigo e médico.
+É membro da **Sociedade Brasileira de Nefrologia (SBN)** e da **Sociedade Paranaense de Nefrologia**. Atua como **palestrante nacional em saúde, nefrologia e longevidade**, traduzindo ciência complexa em linguagem acessível para público leigo e médico.
 
-Este livro nasce da sua prática clínica cotidiana — do paciente que pede "apenas uma revisão" e sai do consultório com um mapa novo sobre o próprio corpo.
+Em duas décadas de atendimento, observou o mesmo padrão milhares de vezes: pacientes com exames "normais" que já estão adoecendo em silêncio. Dessa observação clínica nasceu o **Método AGIR** que estrutura este livro — quatro pilares para agir antes, enquanto a janela ainda está aberta.
+
+Atualmente conduz sua prática clínica na **Plenya**, clínica de medicina integrada em saúde, performance e longevidade, onde o método é aplicado diariamente.
 
 **CRM-PR 21.876 · RQE 16.038**
 **Instagram: @drGetulioAmaralFilho**
@@ -46,14 +50,26 @@ Este livro nasce da sua prática clínica cotidiana — do paciente que pede "ap
 
 ---
 
-## Pendências para discussão
+## Fotos oficiais
 
-1. **Menção à Plenya (clínica de medicina de precisão)**: o posicionamento editorial do livro (Cap 14) menciona que o autor "dirige uma clínica de medicina de precisão". A informação da bio enviada não incluiu a Plenya explicitamente. **Vale adicionar?** Se sim, sugiro incluir na versão estendida uma linha como *"É fundador/diretor da Plenya, clínica de medicina de precisão focada em longevidade e performance"* (ajustar conforme a realidade jurídica e seu papel ali).
+Pasta: `../fotos/`
 
-2. **Foto**: bios de orelha do livro geralmente vêm com foto do autor. Sugiro foto em **preto-e-branco**, **meio corpo**, **fundo neutro**, vestindo jaleco ou camisa formal (sem gravata — o tom é acessível). Foto de atendimento no consultório funciona se tiver. Evitar foto muito "estúdio corporativo" — destoa do tom do livro.
+| Arquivo | Dimensão | Uso |
+|---|---|---|
+| `getulio_bw_halfbody_1000.jpg` | 1000×1339 · P&B | **Página "Sobre o Autor" no EPUB/livro** |
+| `getulio_bw_halfbody_fullres.jpg` | 1508×2020 · P&B | Orelha / contracapa versão impressa |
+| `getulio_color_halfbody_1200.jpg` | 1200×1607 · Cor | Author Central Amazon (perfil) |
+| `getulio_color_square_1200.jpg` | 1200×1200 · Cor | Avatar / redes sociais |
+| `getulio_color_fullbody.jpg` | 2148×3223 · Cor | Material institucional / press kit |
 
-3. **Professor de direito eleitoral e conselheiro fiscal** (mencionados no Cap 13 Manifesto): não incluí na bio por serem fora do escopo médico. Mas **se quiser sinalizar a pluralidade de atuação**, posso adicionar uma linha na versão estendida.
+Foto-base: `docs/site/images/Getulio01.png` (corpo inteiro, terno azul marinho, camisa branca sem gravata, corredor de fundo neutro desfocado). Processamento aplicado: crop meio-corpo (cintura para cima), conversão P&B com curva editorial suave, unsharp mask discreto, DPI 300, sRGB embutido.
 
 ---
 
-*Bio oficial composta a partir das credenciais fornecidas em 2026-04-17. Última atualização: 2026-04-17.*
+## Pendências para discussão
+
+1. **Professor de direito eleitoral e conselheiro fiscal** (mencionados no Cap 13 Manifesto): não incluí na bio por serem fora do escopo médico. Mas **se quiser sinalizar a pluralidade de atuação**, posso adicionar uma linha na versão estendida.
+
+---
+
+*Bio oficial composta a partir das credenciais fornecidas em 2026-04-17. Última atualização: 2026-04-19.*

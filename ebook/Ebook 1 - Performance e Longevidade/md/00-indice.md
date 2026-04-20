@@ -21,6 +21,11 @@
 
 ## Sumário
 
+### ABERTURA
+
+- [Página de créditos / Copyright](00a-creditos.md)
+- [Introdução — Por que este livro](00b-introducao.md)
+
 ### PARTE I — O DESPERTAR
 
 - [Capítulo 1 — O Homem que Quase Morreu Saudável](01-homem-que-morreu-saudavel.md)
