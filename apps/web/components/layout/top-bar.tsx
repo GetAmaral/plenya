@@ -124,7 +124,7 @@ function BreadcrumbTrail({ crumbs }: { crumbs: PageBreadcrumb[] }) {
               <span
                 className={
                   isLast
-                    ? "font-semibold text-foreground text-[1.5em] truncate"
+                    ? "heading-section text-foreground text-[1.5em] truncate"
                     : "text-muted-foreground whitespace-nowrap"
                 }
                 title={isLast && crumb.label.length > 40 ? crumb.label : undefined}

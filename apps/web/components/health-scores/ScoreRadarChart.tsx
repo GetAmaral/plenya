@@ -15,6 +15,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts"
+import { RadarAgir, type RadarLetter, type RadarPillar } from "./RadarAgir"
 
 interface ScoreRadarChartProps {
   snapshot: PatientScoreSnapshot
@@ -135,7 +136,29 @@ export function ScoreRadarChart({ snapshot }: ScoreRadarChartProps) {
       })
     })
 
-    return { chartData, letterPositions }
+    // Dados para o novo RadarAgir (SVG puro)
+    const radarLetters: RadarLetter[] = []
+    const radarPillars: RadarPillar[] = []
+    letterScores.forEach((letterData) => {
+      const letterScore = letterData.totalPossiblePoints > 0
+        ? (letterData.totalActualPoints / letterData.totalPossiblePoints) * 100
+        : 0
+      radarLetters.push({
+        code: letterData.letterCode,
+        name: letterData.letterName,
+        score: parseFloat(letterScore.toFixed(1)),
+        color: letterData.letterColor,
+      })
+      letterData.pillars.forEach((p) => {
+        radarPillars.push({
+          letter: letterData.letterCode,
+          name: p.pillarName,
+          score: p.score,
+        })
+      })
+    })
+
+    return { chartData, letterPositions, radarLetters, radarPillars }
   }, [snapshot, activeSubscription])
 
   const isMethodologyView = viewMode === 'methodology' && methodologyChartData
@@ -211,282 +234,13 @@ export function ScoreRadarChart({ snapshot }: ScoreRadarChartProps) {
             Nenhum dado disponível
           </div>
         ) : isMethodologyView && methodologyChartData ? (
-          /* Methodology View - Um único radar com labels de letras externas */
-          <div className="w-full h-[500px] px-4 relative">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart
-                data={methodologyChartData.chartData}
-                margin={{ top: 60, right: 120, bottom: 60, left: 120 }}
-              >
-                <PolarGrid stroke="#e5e7eb" />
-
-                {/* Labels dos pilares (alinhamento dinâmico) */}
-                <PolarAngleAxis
-                  dataKey="axis"
-                  tick={(props) => {
-                    const { x, y, payload, index, cx, cy } = props
-                    const data = methodologyChartData.chartData[index]
-
-                    // Calcular ângulo do pilar em relação ao centro
-                    const dx = x - cx
-                    const dy = y - cy
-                    const angle = Math.atan2(dy, dx) * (180 / Math.PI)
-
-                    // Normalizar ângulo para 0-360
-                    const normalizedAngle = (angle + 360) % 360
-
-                    // Estimar largura do texto (fontSize 14 = ~8px por char)
-                    const textLength = payload.value.length
-                    const rectWidth = Math.max(textLength * 8 + 16, 60)
-                    const rectHeight = 28
-
-                    // Determinar posição do badge baseado no ângulo
-                    // O badge deve ficar FORA do radar, não sobrepor
-                    let badgeCenterX = x
-                    let badgeCenterY = y
-
-                    if (normalizedAngle >= 45 && normalizedAngle < 135) {
-                      // Embaixo - badge.top alinhado ao ponto
-                      badgeCenterY = y + rectHeight / 2 + 8
-                    } else if (normalizedAngle >= 135 && normalizedAngle < 225) {
-                      // Esquerda - badge.right alinhado ao ponto
-                      badgeCenterX = x - rectWidth / 2 - 8
-                    } else if (normalizedAngle >= 225 && normalizedAngle < 315) {
-                      // Topo - badge.bottom alinhado ao ponto
-                      badgeCenterY = y - rectHeight / 2 - 8
-                    } else {
-                      // Direita - badge.left alinhado ao ponto
-                      badgeCenterX = x + rectWidth / 2 + 8
-                    }
-
-                    const rectX = badgeCenterX - rectWidth / 2
-                    const rectY = badgeCenterY - rectHeight / 2
-
-                    return (
-                      <g>
-                        {/* Fundo com mesma cor, transparente */}
-                        <rect
-                          x={rectX}
-                          y={rectY}
-                          width={rectWidth}
-                          height={rectHeight}
-                          fill={data.letterColor}
-                          opacity={0.15}
-                          stroke={data.letterColor}
-                          strokeWidth={2}
-                          rx={4}
-                        />
-                        {/* Texto sempre centralizado no badge */}
-                        <text
-                          x={badgeCenterX}
-                          y={badgeCenterY + 1}
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                          fill={data.letterColor}
-                          fontSize={14}
-                          fontWeight="600"
-                        >
-                          {payload.value}
-                        </text>
-                        {/* Área invisível por cima para capturar hover (deve ser último) */}
-                        <rect
-                          x={rectX - 4}
-                          y={rectY - 4}
-                          width={rectWidth + 8}
-                          height={rectHeight + 8}
-                          fill="transparent"
-                          style={{ cursor: 'default' }}
-                          onMouseEnter={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect()
-                            setHoveredPillar({
-                              name: payload.value,
-                              score: data.pillarScore,
-                              x: rect.left + rect.width / 2,
-                              y: rect.top - 10
-                            })
-                          }}
-                          onMouseLeave={() => setHoveredPillar(null)}
-                        />
-                      </g>
-                    )
-                  }}
-                  tickLine={false}
-                />
-
-                <PolarRadiusAxis
-                  angle={90}
-                  domain={[0, 100]}
-                  tick={{ fill: "#6b7280", fontSize: 10 }}
-                  tickLine={false}
-                />
-
-                {/* Um único radar com os scores dos pilares */}
-                <Radar
-                  name="Score do Pilar"
-                  dataKey="pillarScore"
-                  stroke={getScoreColor(avgScore)}
-                  fill={getScoreColor(avgScore)}
-                  fillOpacity={0.5}
-                  strokeWidth={2}
-                />
-
-
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "white",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: "8px",
-                    padding: "8px 12px",
-                  }}
-                  formatter={(value: number) => [`${value.toFixed(1)}%`, "Score"]}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-
-            {/* SVG Overlay para badges das letras e áreas coloridas */}
-            <svg
-              className="absolute inset-0 pointer-events-none"
-              style={{ width: '100%', height: '100%' }}
-              viewBox="0 0 100 100"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              {/* Áreas coloridas de fundo para cada letra */}
-              {Array.from(methodologyChartData.letterPositions.entries()).map(([letterCode, letterData]) => {
-                const centerX = 50
-                const centerY = 50
-                const innerRadius = 35 // Raio interno (toca o grid do radar)
-                const outerRadius = 52 // Raio externo (bem além do radar)
-                const startAngle = -Math.PI / 2
-                const anglePerItem = (2 * Math.PI) / methodologyChartData.chartData.length
-
-                // Calcular ângulos de início e fim desta letra
-                const minIndex = Math.min(...letterData.indices)
-                const maxIndex = Math.max(...letterData.indices)
-
-                // Ângulo do centro do primeiro pilar
-                const startPillarAngle = startAngle + (minIndex * anglePerItem)
-                // Ângulo do centro do último pilar
-                const endPillarAngle = startAngle + (maxIndex * anglePerItem)
-
-                // Expandir um pouco além do centro dos pilares (meio ângulo para cada lado)
-                const segmentStartAngle = startPillarAngle - (anglePerItem / 2)
-                const segmentEndAngle = endPillarAngle + (anglePerItem / 2)
-
-                // Calcular pontos do arco
-                const x1Inner = centerX + innerRadius * Math.cos(segmentStartAngle)
-                const y1Inner = centerY + innerRadius * Math.sin(segmentStartAngle)
-                const x1Outer = centerX + outerRadius * Math.cos(segmentStartAngle)
-                const y1Outer = centerY + outerRadius * Math.sin(segmentStartAngle)
-
-                const x2Outer = centerX + outerRadius * Math.cos(segmentEndAngle)
-                const y2Outer = centerY + outerRadius * Math.sin(segmentEndAngle)
-                const x2Inner = centerX + innerRadius * Math.cos(segmentEndAngle)
-                const y2Inner = centerY + innerRadius * Math.sin(segmentEndAngle)
-
-                // Determinar se o arco é maior que 180 graus
-                const angleDiff = segmentEndAngle - segmentStartAngle
-                const largeArcFlag = angleDiff > Math.PI ? 1 : 0
-
-                // Criar path do segmento (anel parcial)
-                const pathData = [
-                  `M ${x1Inner} ${y1Inner}`, // Mover para ponto interno inicial
-                  `L ${x1Outer} ${y1Outer}`, // Linha para ponto externo inicial
-                  `A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${x2Outer} ${y2Outer}`, // Arco externo
-                  `L ${x2Inner} ${y2Inner}`, // Linha para ponto interno final
-                  `A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${x1Inner} ${y1Inner}`, // Arco interno (reverso)
-                  'Z' // Fechar path
-                ].join(' ')
-
-                return (
-                  <path
-                    key={`area-${letterCode}`}
-                    d={pathData}
-                    fill={letterData.letterColor}
-                    opacity={0.15}
-                    stroke={letterData.letterColor}
-                    strokeWidth={0.3}
-                  />
-                )
-              })}
-
-              {/* Círculos e letras por cima das áreas - no centro da área colorida */}
-              {Array.from(methodologyChartData.letterPositions.entries()).map(([letterCode, letterData]) => {
-                const angle = calculateLetterAngle(letterData.indices, methodologyChartData.chartData.length)
-
-                // Centro do container (50%, 50%)
-                const centerX = 50
-                const centerY = 50
-                const innerRadius = 35
-                const outerRadius = 52
-                const letterRadius = (innerRadius + outerRadius) / 2 // Centro da área colorida = 43.5
-
-                // Calcular posição x, y baseado no ângulo
-                const x = centerX + letterRadius * Math.cos(angle)
-                const y = centerY + letterRadius * Math.sin(angle)
-
-                return (
-                  <g key={letterCode} style={{ zIndex: 1000 }}>
-                    {/* Círculo de fundo - branco semi-opaco para garantir legibilidade */}
-                    <circle
-                      cx={x}
-                      cy={y}
-                      r="4.5"
-                      fill="white"
-                      opacity={0.9}
-                      stroke={letterData.letterColor}
-                      strokeWidth={0.5}
-                    />
-                    {/* Letra */}
-                    <text
-                      x={x}
-                      y={y}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fill={letterData.letterColor}
-                      fontSize="3.5"
-                      fontWeight="bold"
-                      style={{ paintOrder: 'stroke', stroke: 'white', strokeWidth: '0.3px' }}
-                    >
-                      {letterData.letterCode}
-                    </text>
-                  </g>
-                )
-              })}
-            </svg>
-
-            {/* Tooltip customizado - mesmo CSS do Recharts */}
-            {hoveredPillar && (
-              <div
-                className="recharts-default-tooltip"
-                style={{
-                  position: 'fixed',
-                  left: hoveredPillar.x,
-                  top: hoveredPillar.y,
-                  transform: 'translate(-50%, -100%)',
-                  backgroundColor: 'white',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '8px',
-                  padding: '8px 12px',
-                  pointerEvents: 'none',
-                  zIndex: 1000,
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                <p className="recharts-tooltip-label" style={{ margin: 0 }}>
-                  {hoveredPillar.name}
-                </p>
-                <ul className="recharts-tooltip-item-list" style={{ margin: 0, padding: 0 }}>
-                  <li
-                    className="recharts-tooltip-item"
-                    style={{ color: getScoreColor(hoveredPillar.score), display: 'block', paddingTop: 4, paddingBottom: 4 }}
-                  >
-                    <span className="recharts-tooltip-item-name">Score</span>
-                    <span className="recharts-tooltip-item-separator"> : </span>
-                    <span className="recharts-tooltip-item-value">{hoveredPillar.score.toFixed(1)}%</span>
-                  </li>
-                </ul>
-              </div>
-            )}
+          /* Methodology View - RadarAgir (SVG puro, igual ao site) */
+          <div className="w-full px-4 py-6 flex justify-center">
+            <RadarAgir
+              letters={methodologyChartData.radarLetters}
+              pillars={methodologyChartData.radarPillars}
+              globalScore={avgScore}
+            />
           </div>
         ) : (
           /* Traditional View - Grupos */

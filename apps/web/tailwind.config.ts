@@ -1,7 +1,9 @@
 import type { Config } from "tailwindcss";
+import plenyaPreset from "@plenya/brand/tailwind-preset";
 
 export default {
   darkMode: ["class"],
+  presets: [plenyaPreset as Partial<Config>],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -71,6 +73,8 @@ export default {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        heading: ["var(--font-cormorant)", "Cormorant Garamond", "serif"],
+        mono: ["var(--font-mono)", "IBM Plex Mono", "monospace"],
       },
       keyframes: {
         "accordion-down": {
