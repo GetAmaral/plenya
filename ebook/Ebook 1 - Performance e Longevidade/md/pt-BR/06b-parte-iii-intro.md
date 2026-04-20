@@ -1,3 +1,11 @@
+---
+id: 06b
+language: pt-BR
+title: "Introdução à Parte III — O Método AGIR"
+title_en_suggested: "Introduction to Part III — The AGIR Method"
+translation_status: source
+last_reviewed: 2026-04-20
+---
 # PARTE III — O MÉTODO AGIR
 
 Nos seis capítulos anteriores, construímos o mapa: o que está matando as pessoas depois dos 40, como o corpo envelhece por dentro, quais números realmente importam, o que as artérias e o metabolismo revelam quando se sabe onde olhar. A partir de agora, o livro muda de diagnóstico para ação.

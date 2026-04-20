@@ -1,3 +1,15 @@
+---
+id: 07
+language: pt-BR
+title: "A: Alimentação, Atividade Física e Suplementação"
+title_en_suggested: "A: Alimentation, Activity and Adjuncts"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap07_Fig01
+  - Cap07_Fig02
+  - Cap07_Fig03
+---
 # PARTE III — O MÉTODO AGIR
 
 ## Capítulo 7 — A: Alimentação, Atividade Física e Suplementação — Os Três Motores Que Nenhuma Medicação Substitui

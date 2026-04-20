@@ -1,0 +1,253 @@
+# Glossário terminológico ANTES
+#
+# Fonte de verdade dos termos-chave do livro e suas traduções oficiais.
+# Todo tradutor deve seguir este glossário para garantir consistência entre versões.
+#
+# Convenções:
+#   - pt-BR é a língua-fonte
+#   - Campo "source" = texto original a ser traduzido
+#   - Campo "translations" = versões aprovadas por idioma
+#   - Campo "keep_original" = true para termos que NUNCA se traduzem (marcas, siglas internacionais, nomes próprios)
+#   - Campo "note" = orientação editorial para o tradutor
+#
+# Uso recomendado: passar este YAML junto com o capítulo para tradutor
+# humano ou como system prompt para pipeline de tradução automatizada.
+
+version: 1
+source_language: pt-BR
+target_languages: [en, es, fr, de]
+last_updated: 2026-04-19
+
+# ============================================================
+# CONCEITOS CENTRAIS DO LIVRO
+# ============================================================
+
+concepts:
+  - source: "janela silenciosa"
+    translations:
+      en: "silent window"
+      es: "ventana silenciosa"
+      fr: "fenêtre silencieuse"
+      de: "stilles Fenster"
+    note: "Conceito central do livro. Manter minúscula exceto em início de frase ou título."
+
+  - source: "entre o normal e o ótimo"
+    translations:
+      en: "between normal and optimal"
+      es: "entre lo normal y lo óptimo"
+      fr: "entre le normal et l'optimal"
+      de: "zwischen normal und optimal"
+    note: "Parte do subtítulo. Tradução literal ok — evite perífrases."
+
+  - source: "onde a saúde é decidida"
+    translations:
+      en: "where health is decided"
+      es: "donde se decide la salud"
+      fr: "où la santé se décide"
+      de: "wo Gesundheit entschieden wird"
+
+  - source: "Começa antes."
+    translations:
+      en: "It begins before."
+      es: "Comienza antes."
+      fr: "Cela commence avant."
+      de: "Es beginnt vorher."
+    note: "Mantra de fechamento. Ponto final obrigatório. Tipografia em negrito ou destaque."
+
+  - source: "painel ampliado de biomarcadores"
+    translations:
+      en: "expanded biomarker panel"
+      es: "panel ampliado de biomarcadores"
+      fr: "panel élargi de biomarqueurs"
+      de: "erweitertes Biomarker-Panel"
+
+  - source: "placar de longevidade"
+    translations:
+      en: "longevity scorecard"
+      es: "marcador de longevidad"
+      fr: "tableau de longévité"
+      de: "Langlebigkeitsbewertung"
+
+  - source: "Os Quatro que Matam no Silêncio"
+    translations:
+      en: "The Four That Kill in Silence"
+      es: "Los Cuatro que Matan en Silencio"
+      fr: "Les Quatre qui Tuent en Silence"
+      de: "Die Vier, die im Stillen töten"
+    note: "Título do Cap 2. Capitalização editorial estilo título."
+
+  - source: "check-up ampliado"
+    translations:
+      en: "expanded check-up"
+      es: "chequeo ampliado"
+      fr: "check-up élargi"
+      de: "erweiterte Vorsorgeuntersuchung"
+
+# ============================================================
+# NUNCA TRADUZIR — MARCAS E NOMES PRÓPRIOS
+# ============================================================
+
+keep_original:
+  - term: "ANTES"
+    note: "Título do livro em pt-BR. Em outras línguas será traduzido por equivalente local (BEFORE / ANTES ES / AVANT / VORHER), mas no corpo do texto quando mencionar o título original em pt-BR, manter ANTES."
+
+  - term: "Plenya"
+    note: "Marca. Nome da clínica do autor. Nunca traduzir."
+
+  - term: "Método AGIR"
+    note: "Marca conceitual do método. Em pt manter AGIR. Em outras línguas tem adaptação oficial — ver seção 'method_names' abaixo."
+
+  - term: "Dr. Getúlio José Mattos do Amaral Filho"
+    note: "Nome do autor. Adaptar título médico: Dr./Dra./Doctor/Médecin conforme língua, mas nome próprio imutável."
+
+  - term: "Londrina"
+    note: "Cidade. Nunca traduzir."
+
+# ============================================================
+# NOME DO MÉTODO POR IDIOMA
+# ============================================================
+
+method_names:
+  pt-BR:
+    name: "AGIR"
+    stands_for: "Alimentação, Atividade física e Suplementação; Gestão metabólica; Integração corpo-mente; Ritmo circadiano e Repouso"
+    imperative_meaning: "Verbo 'agir' (to act)"
+  en:
+    name: "ACTS"
+    stands_for: "Alimentation, Activity & Adjuncts; Clinical optimization; Tending body & mind; Sleep & circadian rhythm"
+    imperative_meaning: "'Acts' as verb/imperative — preserves 'to act' sense"
+  es:
+    name: "AGIR"
+    note: "Mantém o nome original — funciona como sigla pois 'actuar' em espanhol não forma acrônimo equivalente. Explicar na introdução como método do autor."
+  fr:
+    name: "AGIR"
+    note: "Mantém — 'agir' é o mesmo verbo em francês, com mesmo sentido imperativo. Vantagem linguística."
+  de:
+    name: "AGIR"
+    note: "Mantém como marca. Traduzir o significado dos pilares individualmente."
+
+# ============================================================
+# BIOMARCADORES E SIGLAS MÉDICAS INTERNACIONAIS
+# ============================================================
+# Essas siglas são universais na literatura científica — nunca traduzir
+
+never_translate:
+  biomarkers:
+    - "HbA1c"          # hemoglobina glicada
+    - "PCR-us"         # PCR ultrassensível (high-sensitivity C-reactive protein — em EN usar "hs-CRP")
+    - "ApoB"           # apolipoproteína B
+    - "Lp(a)"          # lipoproteína (a)
+    - "LDL-c"
+    - "HDL-c"
+    - "TG/HDL"         # razão triglicérides/HDL
+    - "TOTG"           # teste oral de tolerância à glicose (em EN usar "OGTT")
+    - "CAC score"      # calcium score coronariano
+    - "NT-proBNP"
+    - "TSH"
+    - "T3, T4"
+    - "VO2 max"
+    - "HRV"            # heart rate variability
+  exceptions_by_language:
+    en:
+      - original: "PCR-us"
+        translation: "hs-CRP"
+        note: "Padrão internacional em inglês"
+      - original: "TOTG"
+        translation: "OGTT"
+        note: "Oral glucose tolerance test — sigla internacional em inglês"
+
+  proper_names:
+    # Personagens dos casos clínicos — manter nome brasileiro
+    - "Ricardo"
+    - "Fernanda"
+    - "André"
+    - "Marcos"
+    - "Paulo"
+    - "Ana"
+    note: "Personagens-âncora. Preservar identidade cultural brasileira. Não anglicizar para Richard, Fernandez, Andrew etc."
+
+# ============================================================
+# INSTITUIÇÕES
+# ============================================================
+
+institutions:
+  - source: "Santa Casa de Londrina"
+    translations:
+      all: "Santa Casa de Londrina"
+    note: "Nome próprio institucional. Manter sempre."
+
+  - source: "Universidade Estadual de Londrina (UEL)"
+    translations:
+      en: "State University of Londrina (UEL)"
+      es: "Universidad Estatal de Londrina (UEL)"
+      fr: "Université d'État de Londrina (UEL)"
+      de: "Staatliche Universität Londrina (UEL)"
+    note: "Manter sigla UEL em todas as línguas."
+
+  - source: "CRM-PR"
+    translations:
+      all: "CRM-PR"
+    note: "Conselho Regional de Medicina do Paraná. Explicar em nota de rodapé na tradução. Nunca traduzir a sigla."
+
+  - source: "Associação Brasileira de Medicina Funcional Integrativa (ABMFI)"
+    translations:
+      en: "Brazilian Association of Integrative Functional Medicine (ABMFI)"
+      es: "Asociación Brasileña de Medicina Funcional Integrativa (ABMFI)"
+      fr: "Association Brésilienne de Médecine Fonctionnelle Intégrative (ABMFI)"
+      de: "Brasilianische Vereinigung für Funktionelle Integrative Medizin (ABMFI)"
+
+# ============================================================
+# ESTILO E TOM
+# ============================================================
+
+style_guide:
+  tone: "Clínico mas acessível. Autoritativo sem ser arrogante. Caloroso sem ser paternalista. Imperativo curto nas conclusões, explicativo longo nos desenvolvimentos."
+  avoid:
+    - "Jargão guru-de-bem-estar (wellness, holistic, mindful, healing journey)"
+    - "Palavras vagas (things, stuff, essentially, basically)"
+    - "Exclamações em texto corrido"
+    - "Adjetivos de autopromoção ('renowned', 'leading', 'celebrated')"
+  prefer:
+    - "Verbos concretos em vez de substantivos abstratos"
+    - "Casos clínicos antes de estatísticas"
+    - "Números precisos em vez de 'muitos' ou 'vários'"
+    - "Primeira pessoa singular quando o autor opina"
+  reading_level: "8º ao 10º ano escolar (padrão trade nonfiction internacional)"
+
+# ============================================================
+# FIGURAS E LEGENDAS
+# ============================================================
+
+figures:
+  policy: "Todas as figuras têm texto em pt-BR e devem ser regeradas no idioma de cada tradução."
+  storage: "figuras/<lang-code>/Cap<NN>_Fig<MM>.png"
+  captions:
+    location: "Incluídas no próprio markdown do capítulo, não embutidas na imagem."
+    reason: "Caption fora da imagem facilita tradução — só a figura precisa ser regerada, a legenda traduz junto com o texto."
+  tools_notes:
+    - "Usar mesma fonte (Fraunces para títulos de figura, Inter para corpo)"
+    - "Mesma paleta de cores em todos os idiomas (identidade visual consistente)"
+    - "Mesmas proporções e dimensões — um livro publicado em 5 idiomas deve parecer o mesmo livro"
+
+# ============================================================
+# NUMERAÇÃO E FORMATOS
+# ============================================================
+
+formats:
+  decimal_separator:
+    pt-BR: ","
+    en: "."
+    es: ","
+    fr: ","
+    de: ","
+  thousands_separator:
+    pt-BR: "."
+    en: ","
+    es: "."
+    fr: " " # espaço fino
+    de: "."
+  example: "12.345,67 (pt/es/de) · 12,345.67 (en) · 12 345,67 (fr)"
+  units:
+    note: "Sempre SI (kg, cm, mmHg, mg/dL). Não converter para sistema imperial mesmo em EN."
+  dates:
+    format_recommended: "ISO 8601 (2026-04-19) em contextos técnicos; data por extenso em prosa."

@@ -1,3 +1,13 @@
+---
+id: 11
+language: pt-BR
+title: "Seu Placar de Longevidade"
+title_en_suggested: "Your Longevity Scorecard"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap11_Fig01
+---
 # PARTE IV — O PLANO
 
 Nos dez capítulos anteriores, construímos duas coisas. Primeiro, o mapa: o que está matando as pessoas depois dos 40, como o corpo envelhece por dentro, quais números importam, o que as artérias e o metabolismo revelam. Depois, o método: os quatro pilares do AGIR — alimentação, atividade física e suplementação; gestão metabólica; integração corpo-mente; ritmo circadiano e repouso.

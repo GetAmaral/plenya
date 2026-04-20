@@ -1,3 +1,11 @@
+---
+id: 00a
+language: pt-BR
+title: "Página de Créditos"
+title_en_suggested: "Copyright Page"
+translation_status: source
+last_reviewed: 2026-04-20
+---
 # Página de Créditos / Copyright
 
 Posicionamento: **página iv** (verso da folha de rosto), antes da dedicatória.
@@ -10,7 +18,6 @@ Texto pronto para diagramação. Substituir placeholders `[ISBN]` e `[data_publi
 
 **ANTES**
 A janela silenciosa entre o normal e o ótimo — onde a saúde é decidida.
-Série PLENYA · Volume 1 — Performance e Longevidade
 
 Copyright © 2026 Getúlio José Mattos do Amaral Filho
 
@@ -47,7 +54,6 @@ O autor, a editora e os colaboradores não se responsabilizam por danos, prejuí
 ### Contato e mais informações
 
 **Instagram:** @drGetulioAmaralFilho
-**Série PLENYA** — próximos volumes em preparação.
 
 ---
 
@@ -61,13 +67,13 @@ A485a    Amaral Filho, Getúlio José Mattos do
          e o ótimo — onde a saúde é decidida / Getúlio
          José Mattos do Amaral Filho. — 1. ed. —
          Londrina, PR : Edição do Autor, 2026.
-            [n] p. — (Plenya ; v. 1)
+            [n] p.
 
             ISBN [número]
 
             1. Medicina preventiva. 2. Longevidade.
          3. Biomarcadores. 4. Saúde integrativa.
-         I. Título. II. Série.
+         I. Título.
 
                                         CDD — 613
 ```
@@ -84,9 +90,7 @@ A485a    Amaral Filho, Getúlio José Mattos do
 
 4. **CIP (Catalogação na Publicação)** — opcional no digital, obrigatória no impresso. A CBL gera a ficha junto com o ISBN. Incluí o modelo preenchido com CDD 613 (Medicina Preventiva), que é a classificação correta para o gênero.
 
-5. **Menção à série Plenya** — posiciona desde a página iv que este é o primeiro de vários volumes. Útil para SEO de busca no Amazon ("livros da série Plenya") e para leitores que queiram acompanhar os próximos.
-
-6. **Placeholders claramente marcados** — `[ISBN]`, `[mês]`, `[nome do designer]`, `[nome do revisor]`, `[nome do designer da capa]` ficam em colchetes para que o diagramador saiba exatamente o que preencher. Evita ficha publicada com campos em branco ou com `XXX`.
+5. **Placeholders claramente marcados** — `[ISBN]`, `[mês]`, `[nome do designer]`, `[nome do revisor]`, `[nome do designer da capa]` ficam em colchetes para que o diagramador saiba exatamente o que preencher. Evita ficha publicada com campos em branco ou com `XXX`.
 
 ---
 

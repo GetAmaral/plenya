@@ -1,3 +1,11 @@
+---
+id: bm2
+language: pt-BR
+title: "Sobre o Autor"
+title_en_suggested: "About the Author"
+translation_status: source
+last_reviewed: 2026-04-20
+---
 # Sobre o Autor
 
 Bio oficial em três comprimentos. Composta a partir das credenciais reais de Dr. Getúlio José Mattos do Amaral Filho.

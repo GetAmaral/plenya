@@ -1,3 +1,11 @@
+---
+id: 00b
+language: pt-BR
+title: "Introdução — Por que este livro"
+title_en_suggested: "Introduction — Why this book"
+translation_status: source
+last_reviewed: 2026-04-20
+---
 # Introdução
 
 ## Por que este livro

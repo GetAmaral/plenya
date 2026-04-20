@@ -1,3 +1,11 @@
+---
+id: 14
+language: pt-BR
+title: "Referências, Recursos e Próximos Passos"
+title_en_suggested: "References, Resources and Next Steps"
+translation_status: source
+last_reviewed: 2026-04-20
+---
 # PARTE V — ENCERRAMENTO
 
 ## Capítulo 14 — Referências, Recursos e Próximos Passos

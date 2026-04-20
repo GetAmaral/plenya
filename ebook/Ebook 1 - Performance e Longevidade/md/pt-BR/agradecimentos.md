@@ -1,3 +1,11 @@
+---
+id: bm1
+language: pt-BR
+title: "Agradecimentos"
+title_en_suggested: "Acknowledgments"
+translation_status: source
+last_reviewed: 2026-04-20
+---
 # Agradecimentos
 
 Texto pronto para diagramação. Posicionamento sugerido: **última peça de texto do livro**, depois do Capítulo 14 (Referências) e antes da contracapa interna/biografia.

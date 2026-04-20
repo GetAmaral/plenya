@@ -1,3 +1,14 @@
+---
+id: 05
+language: pt-BR
+title: "As Artérias Saem do Silêncio"
+title_en_suggested: "The Arteries Break Their Silence"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap05_Fig01
+  - Cap05_Fig02
+---
 # PARTE II — O MAPA
 
 ## Capítulo 5 — As Artérias Saem do Silêncio

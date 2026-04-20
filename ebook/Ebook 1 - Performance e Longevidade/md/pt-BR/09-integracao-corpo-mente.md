@@ -1,3 +1,14 @@
+---
+id: 09
+language: pt-BR
+title: "I: Integração Corpo-Mente"
+title_en_suggested: "T: Tending Body & Mind"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap09_Fig01
+  - Cap09_Fig02
+---
 # PARTE III — O MÉTODO AGIR
 
 ## Capítulo 9 — I: Integração Corpo-Mente — O Pilar Que Ninguém Prescreve

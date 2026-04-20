@@ -1,8 +1,6 @@
 # ANTES
 ## A janela silenciosa entre o normal e o ótimo — onde a saúde é decidida.
 
-**Série PLENYA — E-book 1 · Performance e Longevidade**
-
 **Edição internacional:** *BEFORE — The silent window between normal and optimal — where health is decided.*
 
 ---

@@ -1,3 +1,15 @@
+---
+id: 02
+language: pt-BR
+title: "Os Quatro que Matam no Silêncio"
+title_en_suggested: "The Four That Kill in Silence"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap02_Fig01
+  - Cap02_Fig02
+  - Cap02_Fig03
+---
 # PARTE I — O DESPERTAR
 
 ## Capítulo 2 — Os Quatro Que Matam no Silêncio

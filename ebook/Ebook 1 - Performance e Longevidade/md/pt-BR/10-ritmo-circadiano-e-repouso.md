@@ -1,3 +1,14 @@
+---
+id: 10
+language: pt-BR
+title: "R: Ritmo Circadiano e Repouso"
+title_en_suggested: "S: Sleep & Circadian Rhythm"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap10_Fig01
+  - Cap10_Fig02
+---
 # PARTE III — O MÉTODO AGIR
 
 ## Capítulo 10 — R: Ritmo Circadiano e Repouso — O Maestro Invisível

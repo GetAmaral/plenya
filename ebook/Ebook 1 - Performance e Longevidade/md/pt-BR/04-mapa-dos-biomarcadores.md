@@ -1,3 +1,14 @@
+---
+id: 04
+language: pt-BR
+title: "O Painel Ampliado"
+title_en_suggested: "The Expanded Panel"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap04_Fig01
+  - Cap04_Fig02
+---
 # PARTE II — O MAPA
 
 ## Capítulo 4 — O Painel Ampliado: O Mapa Que o Check-up Básico Não Entrega

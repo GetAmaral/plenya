@@ -1,3 +1,11 @@
+---
+id: fm1
+language: pt-BR
+title: "Dedicatória e Epígrafe"
+title_en_suggested: "Dedication and Epigraph"
+translation_status: source
+last_reviewed: 2026-04-20
+---
 # Front Matter
 
 Elementos que abrem o livro, em ordem de aparição no volume físico:

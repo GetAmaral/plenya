@@ -1,3 +1,14 @@
+---
+id: 01
+language: pt-BR
+title: "O Homem que Quase Morreu Saudável"
+title_en_suggested: "The Man Who Almost Died Healthy"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap01_Fig01
+  - Cap01_Fig02
+---
 # PARTE I — O DESPERTAR
 
 ## Capítulo 1 — O Homem que Quase Morreu Saudável

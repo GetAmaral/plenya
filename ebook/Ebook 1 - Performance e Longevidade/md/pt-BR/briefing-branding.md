@@ -1,6 +1,5 @@
 # Briefing do Livro — Equipe de Branding
 
-**Série:** PLENYA · Performance e Longevidade — E-book 1
 **Título:** ANTES
 **Subtítulo:** *A janela silenciosa entre o normal e o ótimo — onde a saúde é decidida.*
 **Autor:** Dr. Getúlio José Mattos do Amaral Filho
@@ -232,13 +231,9 @@ Cada personagem encarna uma tese. Juntos, eles dão **tecido humano** ao que ser
 - Resolve o conflito gramatical que "Do normal ao ótimo" gerava após "ANTES"
 - Assinatura tipográfica do tier Outlive / FSG / Penguin Press — subtítulo literário, não keywords empilhadas
 
-### Série PLENYA — como posicionar visualmente
-
-Este é o volume 1 de uma série de 5 livros Plenya. Precisa haver **signatura visual consistente** que identifique a série sem engessar cada volume. Questão: **quão forte a identidade-série** vs **quão autônoma cada capa**?
-
 ### Identidade de marca Plenya x livro
 
-- A Plenya é a clínica do autor
+- A Plenya é a clínica do autor, mencionada discretamente na bio do autor — não é editora nem selo
 - O livro deve funcionar como **funil orgânico** para a clínica sem parecer **brochura corporativa**
 - Como tratar a marca Plenya na capa/spine/contracapa? (atualmente zero visibilidade na capa — só no cabeçalho interno)
 
@@ -261,8 +256,7 @@ Este é o volume 1 de uma série de 5 livros Plenya. Precisa haver **signatura v
 1. **Decisão final de título** — ANTES vs AGIR (ou variação emergente da discussão)
 2. **Palette primária** — 3 cores principais, hex codes, aplicações
 3. **Sistema tipográfico** — hierarquia tipográfica aplicada ao livro, ao site, aos materiais de divulgação
-4. **Identidade da série PLENYA** — elementos que se repetem nos volumes 1-5
-5. **Versão capa final** — Kindle (2560×1600), paperback com lombada (via KDP Cover Calculator), IG feed (1080×1350), IG story (1080×1920), share card LinkedIn/X (1200×630)
+4. **Versão capa final** — Kindle (2560×1600), paperback com lombada (via KDP Cover Calculator), IG feed (1080×1350), IG story (1080×1920), share card LinkedIn/X (1200×630)
 6. **Sistema de divulgação** — posts de pré-lançamento, reels com citações do livro, landing page de captação
 
 ---

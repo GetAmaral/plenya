@@ -1,3 +1,15 @@
+---
+id: 08
+language: pt-BR
+title: "G: Gestão Metabólica"
+title_en_suggested: "C: Clinical Optimization"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap08_Fig01
+  - Cap08_Fig02
+  - Cap08_Fig03
+---
 # PARTE III — O MÉTODO AGIR
 
 ## Capítulo 8 — G: Gestão Metabólica — Seu Painel de Controle Interno

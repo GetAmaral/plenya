@@ -1,3 +1,11 @@
+---
+id: bm3
+language: pt-BR
+title: "Contracapa"
+title_en_suggested: "Back Cover"
+translation_status: source
+last_reviewed: 2026-04-20
+---
 # Contracapa
 
 Texto pronto para diagramação.

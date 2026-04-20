@@ -1,3 +1,11 @@
+---
+id: 13
+language: pt-BR
+title: "Manifesto AGIR: Uma Carta ao Meu Eu do Futuro"
+title_en_suggested: "AGIR Manifesto: A Letter to My Future Self"
+translation_status: source
+last_reviewed: 2026-04-20
+---
 # PARTE V — ENCERRAMENTO
 
 ## Capítulo 13 — Manifesto AGIR: Uma Carta ao Meu Eu do Futuro

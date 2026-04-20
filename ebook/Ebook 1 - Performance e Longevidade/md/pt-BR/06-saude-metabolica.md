@@ -1,3 +1,15 @@
+---
+id: 06
+language: pt-BR
+title: "Saúde Metabólica: A Fundação Invisível"
+title_en_suggested: "Metabolic Health: The Invisible Foundation"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap06_Fig01
+  - Cap06_Fig02
+  - Cap06_Fig03
+---
 # PARTE II — O MAPA
 
 ## Capítulo 6 — Saúde Metabólica: A Fundação Invisível

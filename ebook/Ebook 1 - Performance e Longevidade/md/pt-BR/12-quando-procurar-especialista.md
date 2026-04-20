@@ -1,3 +1,13 @@
+---
+id: 12
+language: pt-BR
+title: "Quando Procurar um Especialista"
+title_en_suggested: "When to See a Specialist"
+translation_status: source
+last_reviewed: 2026-04-20
+figures:
+  - Cap12_Fig01
+---
 # PARTE IV — O PLANO
 
 ## Capítulo 12 — Quando Procurar um Especialista — E o Que Perguntar

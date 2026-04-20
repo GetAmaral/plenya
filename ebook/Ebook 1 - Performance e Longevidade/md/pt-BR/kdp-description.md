@@ -27,7 +27,7 @@ O que ninguém havia investigado: entre o "normal" que o laboratório imprime e 
 Se você tem 40, 50 ou 60 anos e não está disposto a esperar um diagnóstico para agir, este livro é para você. Não é self-help. Não é manual de receitas. É o trabalho de um médico que há décadas acompanha pacientes que, exatamente como você, recebem exames "normais" enquanto o corpo conta outra história.
 <br><br>
 <h4>Sobre o autor:</h4>
-<b>Dr. Getulio Amaral Filho</b> é nefrologista brasileiro e atende pacientes de medicina preventiva todos os dias. Este é o primeiro volume da série <i>Plenya</i>.
+<b>Dr. Getulio Amaral Filho</b> é médico nefrologista brasileiro com mais de 20 anos de prática clínica. Atende pacientes de medicina preventiva e longevidade todos os dias e é palestrante nacional em saúde, nefrologia e longevidade.
 <br><br>
 <i>Porque viver bem e viver mais não começa depois do diagnóstico. Começa antes.</i>
 ```
