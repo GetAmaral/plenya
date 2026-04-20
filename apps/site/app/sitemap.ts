@@ -10,6 +10,7 @@ const staticRoutes = [
   '/a-plenya',
   '/metodo-agir',
   '/equipe',
+  '/consultas',
   '/planos',
   '/blog',
   '/contato',

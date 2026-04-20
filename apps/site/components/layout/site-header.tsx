@@ -12,6 +12,7 @@ import { cn } from '@/lib/cn';
 const headerNav = [
   { href: '/', key: 'home' },
   { href: '/a-plenya', key: 'about' },
+  { href: '/consultas', key: 'consultations' },
   { href: '/planos', key: 'plans' },
   { href: '/contato', key: 'contact' },
 ] as const;
@@ -23,6 +24,7 @@ const fullNav = [
   { href: '/equipe', key: 'team' },
   { href: '/metodo-agir', label: 'Método AGIR' },
   { href: '/escore-plenya', label: 'Escore Plenya' },
+  { href: '/consultas', key: 'consultations' },
   { href: '/planos', key: 'plans' },
   { href: '/depoimentos', label: 'Depoimentos' },
   { href: '/blog', key: 'blog' },

@@ -8,7 +8,8 @@
     "home": "Home",
     "about": "A Plenya",
     "team": "Equipe",
-    "plans": "Planos",
+    "consultations": "Consultas",
+    "plans": "Acompanhamento",
     "blog": "Blog",
     "contact": "Contato",
     "patientArea": "Área do Paciente",
@@ -17,7 +18,8 @@
   "cta": {
     "scheduleConsultation": "Agendar consulta",
     "knowTeam": "Conhecer a nossa equipe",
-    "knowPlans": "Conhecer os planos",
+    "knowConsultations": "Conhecer as consultas",
+    "knowPlans": "Conhecer o acompanhamento",
     "talkToTeam": "Conversar com a equipe Plenya",
     "whatsapp": "Falar no WhatsApp"
   },

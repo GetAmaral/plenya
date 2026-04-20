@@ -41,6 +41,7 @@ export function SiteFooter() {
           <nav className="flex flex-col gap-2.5 text-sm">
             <Link href="/metodo-agir" className="hover:text-cream transition">Método AGIR</Link>
             <Link href="/escore-plenya" className="hover:text-cream transition">Escore Plenya</Link>
+            <Link href="/consultas" className="hover:text-cream transition">{tNav('consultations')}</Link>
             <Link href="/planos" className="hover:text-cream transition">{tNav('plans')}</Link>
             <Link href="/contato" className="hover:text-cream transition">{tNav('contact')}</Link>
             <a href={brand.appUrl} className="hover:text-cream transition">{t('professionals')}</a>
