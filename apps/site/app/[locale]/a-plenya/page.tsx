@@ -204,9 +204,9 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             <p className="label-upper text-gold">Diagnóstico</p>
             <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Escore Plenya →</p>
           </Link>
-          <Link href="/planos" className="border-t border-petrol/15 pt-8 space-y-3 group">
-            <p className="label-upper text-gold">Planos</p>
-            <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Como começar →</p>
+          <Link href="/continuum" className="border-t border-petrol/15 pt-8 space-y-3 group">
+            <p className="label-upper text-gold">Continuum</p>
+            <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Continuum Plenya →</p>
           </Link>
         </div>
       </section>

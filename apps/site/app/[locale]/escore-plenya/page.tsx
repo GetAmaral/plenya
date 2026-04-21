@@ -7,7 +7,7 @@ import { RadarAgir } from '@/components/escore/RadarAgir';
 export const metadata: Metadata = {
   title: 'Escore Plenya — instrumento de medida do Método AGIR',
   description:
-    'Mais de 800 itens em uma pontuação clara, evolutiva e personalizada. Histórico, bioquímica e genética traduzidos em uma medida única do seu estado de saúde.',
+    'Mais de 800 itens — história, sintomas, exames, hábitos e medicamentos — traduzidos em uma pontuação clara, evolutiva e personalizada. A medida única do seu estado de saúde.',
 };
 
 const steps = [
@@ -15,13 +15,13 @@ const steps = [
     n: '01',
     title: 'Avaliação ampla',
     body:
-      'Mais de 800 itens são levantados — do histórico pré-natal e familiar aos exames laboratoriais e marcadores genéticos. Não há pergunta solta: cada item alimenta uma decisão clínica.',
+      'Mais de 800 itens são levantados — história clínica e familiar, sintomas atuais, exames laboratoriais, hábitos de vida, medicamentos em uso, marcadores genéticos. Não há pergunta solta: cada item alimenta uma decisão clínica.',
   },
   {
     n: '02',
     title: 'Organização AGIR',
     body:
-      'Cada item entra em um pilar clínico do Método AGIR — agrupado em uma das quatro letras: Alimentação e Atividade Física, Gestão Metabólica, Integração Mente-Corpo, Ritmo Circadiano.',
+      'Cada item entra em um pilar clínico do Método AGIR — agrupado em uma das quatro letras: Atividade Física, Alimentação e Suplementação Inteligente; Gestão Clínica e Metabólica; Integração Mente-Corpo; Ritmo Circadiano e Repouso.',
   },
   {
     n: '03',
@@ -31,18 +31,23 @@ const steps = [
   },
 ];
 
-const tiers = [
+const tiers: Array<{ title: string; anchor: string; href?: string; desc: string }> = [
   {
     title: 'Versão Completa',
-    desc: 'Aplicada pela equipe Plenya durante o acompanhamento. Avaliação clínica, laboratorial, comportamental e funcional integrais. Gera relatório detalhado com metas e plano personalizado.',
+    anchor: 'Continuum Plenya',
+    href: '/continuum',
+    desc: 'Aplicada pela equipe Plenya ao longo do programa de acompanhamento contínuo. Avaliação clínica, laboratorial, comportamental e funcional integrais. Gera relatório detalhado com metas e plano personalizado — reavaliado a cada ciclo.',
   },
   {
     title: 'Versão Intermediária',
-    desc: 'Disponível após a primeira consulta. Recorte focado nas metas prioritárias identificadas pela equipe.',
+    anchor: 'Consulta Plenya',
+    href: '/consultas',
+    desc: 'Aplicada pelo médico na consulta avulsa, presencial ou online. Recorte focado nas metas prioritárias identificadas na conduta clínica, com base no painel ampliado de exames.',
   },
   {
     title: 'Versão Light',
-    desc: 'Disponível online em breve. Permite começar a entender sua saúde de forma acessível, sem necessidade de consulta prévia.',
+    anchor: 'Online — em breve',
+    desc: 'Disponível online sem necessidade de consulta prévia. Permite entender, em primeira leitura, onde a sua saúde está — e qual o caminho mais adequado para aprofundar.',
   },
 ];
 
@@ -60,8 +65,9 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
             Escore Plenya
           </h1>
           <p className="text-cream/75 text-xl md:text-2xl mt-8 max-w-2xl leading-relaxed font-light">
-            O instrumento de medida do Método AGIR. Mais de 800 itens em uma
-            pontuação clara, evolutiva e personalizada do seu estado de saúde.
+            O instrumento de medida do Método AGIR. Mais de 800 itens — história,
+            sintomas, exames, hábitos e medicamentos — em uma pontuação clara,
+            evolutiva e personalizada do seu estado de saúde.
           </p>
         </div>
       </section>
@@ -252,9 +258,20 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {tiers.map((tier, i) => (
-              <div key={tier.title} className="border-t border-petrol/15 pt-8 space-y-4">
+              <div key={tier.title} className="border-t border-petrol/15 pt-8 space-y-3">
                 <span className="label-upper text-petrol/40">0{i + 1}</span>
                 <h3 className="heading-section text-petrol text-2xl">{tier.title}</h3>
+                {tier.href ? (
+                  <Link
+                    href={tier.href}
+                    className="inline-flex items-center gap-1 text-gold text-base font-medium underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
+                  >
+                    {tier.anchor}
+                    <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+                  </Link>
+                ) : (
+                  <p className="text-petrol/50 text-base italic">{tier.anchor}</p>
+                )}
                 <p className="text-petrol/70 leading-relaxed">{tier.desc}</p>
               </div>
             ))}

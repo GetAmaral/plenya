@@ -2,10 +2,20 @@ import { useTranslations } from 'next-intl';
 import { PlenyaSymbol } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
 
-const plans = [
-  { title: 'Consulta', desc: 'Presencial ou online, com a equipe médica Plenya.' },
-  { title: 'Consulta Dr. Getúlio', desc: 'Atendimento direto com a direção clínica.' },
-  { title: 'Acompanhamento AGIR', desc: 'Trimestral, semestral ou anual. Cuidado integrado contínuo.' },
+const offers = [
+  {
+    label: 'Avulso',
+    title: 'Consulta Plenya',
+    desc: 'Presencial em Londrina ou online, com a equipe médica Plenya. Escuta longa e leitura cuidadosa dos dados.',
+    href: '/consultas',
+  },
+  {
+    label: 'Programa contínuo',
+    title: 'Continuum Plenya',
+    desc: 'Programa semestral ou anual, 100% online. Médico, nutricionista, psicólogo e educador físico em um plano único, mensurado pelo Escore Plenya.',
+    href: '/continuum',
+    highlight: true,
+  },
 ];
 
 export function PlansPreview() {
@@ -21,23 +31,32 @@ export function PlansPreview() {
       <div className="relative site-container section">
         <div className="flex items-center gap-4 mb-6">
           <PlenyaSymbol aria-hidden="true" className="h-7 w-auto text-gold" />
-          <p className="label-upper text-gold">Planos</p>
+          <p className="label-upper text-gold">Como começar</p>
         </div>
-        <h2 className="heading-section text-petrol text-3xl md:text-5xl max-w-xl mb-16">
-          Como você pode começar.
+        <h2 className="heading-section text-petrol text-3xl md:text-5xl max-w-2xl mb-16">
+          Dois caminhos para entrar na medicina Plenya.
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {plans.map((p) => (
-            <div key={p.title} className="border-t border-petrol/15 pt-8 space-y-4">
-              <h3 className="heading-section text-petrol text-2xl">{p.title}</h3>
-              <p className="text-petrol/70 leading-relaxed">{p.desc}</p>
-            </div>
+        <div className="grid md:grid-cols-2 gap-10">
+          {offers.map((o) => (
+            <Link
+              key={o.title}
+              href={o.href}
+              className={`group block pt-8 space-y-4 border-t-2 transition ${
+                o.highlight ? 'border-gold' : 'border-petrol/20'
+              }`}
+            >
+              <p className="label-upper text-gold">{o.label}</p>
+              <h3 className="heading-section text-petrol text-2xl md:text-3xl group-hover:text-gold transition">
+                {o.title} →
+              </h3>
+              <p className="text-petrol/70 leading-relaxed">{o.desc}</p>
+            </Link>
           ))}
         </div>
 
         <div className="mt-16">
-          <Link href="/planos" className="btn-gold">{tCta('knowPlans')}</Link>
+          <Link href="/continuum" className="btn-gold">{tCta('knowPlans')}</Link>
         </div>
       </div>
     </section>

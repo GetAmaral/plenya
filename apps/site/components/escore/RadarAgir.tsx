@@ -20,10 +20,10 @@ const letterColors: Record<LetterCode, string> = {
 };
 
 const letterMeta: Record<LetterCode, { full: string; score: number; territory: string }> = {
-  A: { full: 'Alimentação e Atividade Física', score: 80, territory: 'Os motores que nenhuma medicação substitui' },
-  G: { full: 'Gestão Metabólica', score: 76, territory: 'O painel de controle interno' },
+  A: { full: 'Atividade Física, Alimentação e Suplementação Inteligente', score: 80, territory: 'Os motores que nenhuma medicação substitui' },
+  G: { full: 'Gestão Clínica e Metabólica', score: 76, territory: 'O painel de controle interno' },
   I: { full: 'Integração Mente-Corpo', score: 72, territory: 'O eixo psicologia, sistema imune e inflamação' },
-  R: { full: 'Ritmo Circadiano', score: 84, territory: 'O substrato sobre o qual os outros pilares operam' },
+  R: { full: 'Ritmo Circadiano e Repouso', score: 84, territory: 'O substrato sobre o qual os outros pilares operam' },
 };
 
 type Pillar = { letter: LetterCode; angle: number; score: number; name: string };

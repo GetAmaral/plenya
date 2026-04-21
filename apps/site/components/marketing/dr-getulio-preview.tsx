@@ -34,9 +34,15 @@ export function DrGetulioPreview() {
           </p>
 
           <p className="text-petrol/80 text-lg leading-relaxed max-w-lg">
-            Médico desde 2004. Especialista em nefrologia e clínica médica pela Santa Casa de
-            Londrina, onde coordena a residência médica em nefrologia. Concluiu pós-graduação
-            em medicina funcional integrativa pela ABMFI em 2026.
+            Médico formado pela Universidade Estadual de Londrina em 2004.
+            Especialista em nefrologia e clínica médica pela Santa Casa de
+            Londrina, onde coordena a residência em nefrologia, e responsável
+            técnico pela DaVita Intra Hospitalar de Londrina.
+          </p>
+          <p className="text-petrol/70 leading-relaxed max-w-lg">
+            A pós em medicina funcional integrativa pela ABMFI sustenta o
+            posicionamento da Plenya: o mesmo rigor clínico do ambiente
+            hospitalar, aplicado anos antes do diagnóstico se impor.
           </p>
 
           <div className="flex flex-wrap gap-5 pt-2">

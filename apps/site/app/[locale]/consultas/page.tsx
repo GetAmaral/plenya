@@ -56,8 +56,8 @@ export default async function ConsultasPage({ params }: { params: Promise<{ loca
             <p>
               É uma consulta médica avulsa. Para quem busca acompanhamento
               estruturado e contínuo, com equipe completa, existe o{' '}
-              <Link href="/planos" className="underline decoration-gold/60 underline-offset-4 hover:text-petrol transition">
-                Plano de Acompanhamento Plenya
+              <Link href="/continuum" className="underline decoration-gold/60 underline-offset-4 hover:text-petrol transition">
+                Continuum Plenya
               </Link>
               .
             </p>
@@ -195,10 +195,10 @@ export default async function ConsultasPage({ params }: { params: Promise<{ loca
           </div>
 
           <div className="md:col-span-6 grid sm:grid-cols-2 gap-6 content-end">
-            <Link href="/planos" className="border-t border-petrol/15 pt-6 space-y-2 group">
+            <Link href="/continuum" className="border-t border-petrol/15 pt-6 space-y-2 group">
               <p className="label-upper text-gold">Continuidade</p>
               <p className="heading-section text-petrol text-lg group-hover:text-gold transition">
-                Plano de Acompanhamento →
+                Continuum Plenya →
               </p>
             </Link>
             <Link href="/escore-plenya" className="border-t border-petrol/15 pt-6 space-y-2 group">

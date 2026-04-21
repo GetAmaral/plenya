@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
-import { PlenyaSymbol } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
+import { RadarAgir } from '@/components/escore/RadarAgir';
 
 export function ScoreSection() {
   const t = useTranslations('home');
@@ -15,15 +15,38 @@ export function ScoreSection() {
           <ul className="space-y-4 text-petrol/70">
             <li className="flex gap-4 items-start">
               <span className="text-gold text-lg leading-none mt-0.5">—</span>
-              <span>Versão Completa — aplicada pela equipe Plenya</span>
+              <span>
+                <strong className="text-petrol">Versão Completa</strong> — aplicada
+                pela equipe no{' '}
+                <Link
+                  href="/continuum"
+                  className="text-gold underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
+                >
+                  Continuum Plenya
+                </Link>
+                , ao longo do acompanhamento.
+              </span>
             </li>
             <li className="flex gap-4 items-start">
               <span className="text-gold text-lg leading-none mt-0.5">—</span>
-              <span>Versão Intermediária — após primeira consulta</span>
+              <span>
+                <strong className="text-petrol">Versão Intermediária</strong> — aplicada
+                pelo médico na{' '}
+                <Link
+                  href="/consultas"
+                  className="text-gold underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
+                >
+                  consulta avulsa
+                </Link>
+                .
+              </span>
             </li>
             <li className="flex gap-4 items-start">
               <span className="text-gold text-lg leading-none mt-0.5">—</span>
-              <span>Versão Light — disponível online em breve</span>
+              <span>
+                <strong className="text-petrol">Versão Light</strong> — online
+                em breve, sem consulta prévia.
+              </span>
             </li>
           </ul>
 
@@ -32,18 +55,8 @@ export function ScoreSection() {
           </Link>
         </div>
 
-        <div className="relative flex items-center justify-center">
-          <svg viewBox="0 0 300 300" className="w-64 h-64 md:w-80 md:h-80" aria-hidden>
-            <circle cx="150" cy="150" r="140" stroke="#063b4f" strokeOpacity="0.08" strokeWidth="1" fill="none" />
-            <circle cx="150" cy="150" r="110" stroke="#063b4f" strokeOpacity="0.12" strokeWidth="1" fill="none" />
-            <circle cx="150" cy="150" r="80" stroke="#063b4f" strokeOpacity="0.16" strokeWidth="1" fill="none" />
-            <path d="M 150 10 A 140 140 0 1 1 40 260" stroke="#b38645" strokeWidth="2" fill="none" strokeLinecap="round" />
-          </svg>
-          <PlenyaSymbol
-            aria-hidden="true"
-            focusable="false"
-            className="absolute h-20 w-20 md:h-24 md:w-24 text-petrol"
-          />
+        <div className="flex items-center justify-center">
+          <RadarAgir />
         </div>
       </div>
     </section>

@@ -7,13 +7,13 @@ import { agirLetters } from '@/lib/agir-structure';
 export const metadata: Metadata = {
   title: 'Método AGIR',
   description:
-    'O Método AGIR organiza o cuidado clínico Plenya em quatro pilares interdependentes — Alimentação e Atividade Física, Gestão Metabólica, Integração Corpo-Mente e Ritmo Circadiano. Medicina antecipatória com profundidade.',
+    'O Método AGIR organiza o cuidado clínico Plenya em quatro pilares interdependentes — Atividade Física, Alimentação e Suplementação Inteligente; Gestão Clínica e Metabólica; Integração Mente-Corpo; Ritmo Circadiano e Repouso. Medicina antecipatória com profundidade.',
 };
 
 const pilares = [
   {
     code: 'A',
-    name: 'Alimentação, Atividade Física e Suplementação',
+    name: 'Atividade Física, Alimentação e Suplementação Inteligente',
     territory: 'Os três motores que nenhuma medicação substitui',
     intro:
       'Comida não é combustível — é informação. Cada refeição instrui genes, modula hormônios e alimenta o microbioma. O exercício é o medicamento mais poderoso disponível. A suplementação corrige o que o laboratório mostra que falta. Os três motores trabalham juntos.',
@@ -28,7 +28,7 @@ const pilares = [
   },
   {
     code: 'G',
-    name: 'Gestão Metabólica',
+    name: 'Gestão Clínica e Metabólica',
     territory: 'O painel de controle interno',
     intro:
       'Hormônios, biomarcadores, farmacologia guiada por dados. A parte do trabalho em que o médico deixa de ser conselheiro de estilo de vida e passa a ser piloto de um painel de dados — testar, intervir, retestar, ajustar.',
@@ -60,7 +60,7 @@ const pilares = [
   },
   {
     code: 'R',
-    name: 'Ritmo Circadiano',
+    name: 'Ritmo Circadiano e Repouso',
     territory: 'O substrato sobre o qual os outros pilares operam',
     intro:
       'Sono, cronobiologia, sincronização dos relógios biológicos. O núcleo supraquiasmático é o maestro; cada célula tem seu relógio. Quando os sinais chegam em horários imprevisíveis, a orquestra desafina — e o nome disso é cronodisrupção.',
@@ -293,8 +293,8 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
             <Link href="/escore-plenya" className="btn-outline-dark w-full sm:w-auto">
               Conhecer o Escore Plenya
             </Link>
-            <Link href="/planos" className="btn-gold w-full sm:w-auto sm:ml-3">
-              Comece seu acompanhamento
+            <Link href="/continuum" className="btn-gold w-full sm:w-auto sm:ml-3">
+              Conhecer o Continuum Plenya
             </Link>
           </div>
         </div>

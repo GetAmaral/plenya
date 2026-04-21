@@ -19,7 +19,7 @@ export type AgirLetter = {
 export const agirLetters: AgirLetter[] = [
   {
     code: 'A',
-    name: 'Alimentação e Atividade Física',
+    name: 'Atividade Física, Alimentação e Suplementação Inteligente',
     pillarCount: 4,
     itemCount: 120,
     groups: [
@@ -35,7 +35,7 @@ export const agirLetters: AgirLetter[] = [
   },
   {
     code: 'G',
-    name: 'Gestão Metabólica',
+    name: 'Gestão Clínica e Metabólica',
     pillarCount: 10,
     itemCount: 480,
     groups: [
@@ -80,7 +80,7 @@ export const agirLetters: AgirLetter[] = [
   },
   {
     code: 'R',
-    name: 'Ritmo Circadiano',
+    name: 'Ritmo Circadiano e Repouso',
     pillarCount: 3,
     itemCount: 50,
     groups: [
