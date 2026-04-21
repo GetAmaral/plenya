@@ -14,13 +14,13 @@ Nos seis capítulos anteriores, construímos o mapa: o que está matando as pess
 
 Ao longo dos anos de prática clínica, organizei as intervenções que prescrevo em quatro pilares — e percebi que, juntos, formavam um acrônimo que resumia exatamente o que peço a cada paciente: **AGIR**.
 
-**A — Atividade Física, Alimentação e Suplementação Inteligente.** Os três motores do estilo de vida que nenhuma medicação substitui. Capítulo 7.
+**A — Atividade Física, Alimentação e Suplementação Inteligente.** Os motores do estilo de vida que nenhuma medicação substitui — e a camada visível (pele, cabelo, unhas) que traduz, por fora, a saúde que se constrói por dentro. Capítulos 7 e 8.
 
-**G — Gestão Clínica e Metabólica.** Hormônios, genômica, farmacologia guiada por biomarcadores — o painel de controle que transforma dados em decisão clínica. Capítulo 8.
+**G — Gestão Clínica e Metabólica.** Três camadas. Os sistemas cardio-reno-hepático-metabólicos lidos como uma rede única (Cap. 9). Os painéis bioquímicos e hormonais que antecedem o sintoma (Cap. 10). A genômica, a epigenética e as exposições ambientais silenciosas (Cap. 11).
 
-**I — Integração Mente-Corpo.** O eixo entre psicologia, sistema imune e inflamação — o pilar que a medicina fragmentada ignora e que, quando não é tratado, sabota todos os outros. Capítulo 9.
+**I — Integração Mente-Corpo.** O eixo entre psicologia, sistema imune, inflamação, vida sexual e vínculos sociais — o pilar que a medicina fragmentada ignora e que, quando não é tratado, sabota todos os outros. Capítulo 12.
 
-**R — Ritmo Circadiano e Repouso.** Sono, cronobiologia e os relógios internos que sincronizam tudo — da sensibilidade insulínica à consolidação de memória. Capítulo 10.
+**R — Ritmo Circadiano e Repouso.** Sono, cronobiologia e os relógios internos que sincronizam tudo — da sensibilidade insulínica à consolidação de memória. Capítulo 13.
 
 Os quatro pilares não funcionam isolados. Alimentação sem exercício é incompleta. Exercício sem sono é *overtraining*. Gestão hormonal sem saúde mental é otimização sobre areia. A força do método está na integração — e na personalização de cada pilar conforme o que os biomarcadores de cada paciente exigem.
 
@@ -34,9 +34,9 @@ Os quatro pilares não funcionam isolados. Alimentação sem exercício é incom
 
 Em inglês, o acrônimo equivalente é **ACTS** — preservando o sentido imperativo (*to act*) e a estrutura de quatro práticas:
 
-- **A — Activity, Alimentation & Smart Adjuncts** (Ch. 7)
-- **C — Clinical Optimization** (Ch. 8)
-- **T — Tending Mind & Body** (Ch. 9)
-- **S — Sleep & Circadian Rhythm** (Ch. 10)
+- **A — Activity, Alimentation & Smart Adjuncts** (Chs. 7–8)
+- **C — Clinical Optimization** (Chs. 9–11)
+- **T — Tending Mind & Body** (Ch. 12)
+- **S — Sleep & Circadian Rhythm** (Ch. 13)
 
 > *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four practices that, together, protect the decades of health that standard medicine gives up on.*

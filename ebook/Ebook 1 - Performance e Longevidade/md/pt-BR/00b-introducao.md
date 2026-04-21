@@ -56,17 +56,17 @@ Este livro **é** um mapa. Um mapa clínico da janela silenciosa: como detectá-
 
 ## Como o livro está organizado
 
-O livro tem cinco partes e quatorze capítulos.
+O livro tem cinco partes e dezessete capítulos.
 
 **Parte I — O Despertar** (caps. 1 a 3). Por que o check-up básico falha, quais são os quatro grupos de doenças que matam em silêncio, e como saber a verdadeira idade biológica do seu corpo — distinta da idade no seu RG.
 
 **Parte II — O Mapa** (caps. 4 a 6). O painel ampliado de biomarcadores que o check-up convencional não inclui, o que cada um deles significa, e como ler os seus próprios exames. Aqui está o conjunto de números que, juntos, definem a sua posição na janela.
 
-**Parte III — O Método AGIR** (caps. 7 a 10). Quatro pilares de ação — **A**tividade física, alimentação e suplementação inteligente; **G**estão clínica e metabólica; **I**ntegração mente-corpo; **R**itmo circadiano e repouso. Cada pilar é um capítulo, com protocolos práticos, dosagens, metas de biomarcadores e erros comuns a evitar.
+**Parte III — O Método AGIR** (caps. 7 a 13). Quatro pilares de ação — **A**tividade física, alimentação e suplementação inteligente; **G**estão clínica e metabólica; **I**ntegração mente-corpo; **R**itmo circadiano e repouso. O pilar A se divide em dois capítulos (atividade física; alimentação, suplementação e camada visível). O pilar G se divide em três capítulos (sistemas cardio-reno-hepático-metabólicos; painéis bioquímicos e hormônios; genômica, epigenética e exposições). Os pilares I e R têm um capítulo cada.
 
-**Parte IV — O Plano** (caps. 11 a 12). O placar trimestral de longevidade, para você acompanhar a própria trajetória ao longo do tempo. E um capítulo sobre quando — e como — procurar um especialista, com as perguntas certas para fazer.
+**Parte IV — O Plano** (caps. 14 a 15). O placar trimestral de longevidade, para você acompanhar a própria trajetória ao longo do tempo. E um capítulo sobre quando — e como — procurar um especialista, com as perguntas certas para fazer.
 
-**Parte V — Encerramento** (caps. 13 a 14). Uma carta ao seu próprio futuro, as referências científicas que sustentam o livro, e indicações do que fazer depois que a última página se fechar.
+**Parte V — Encerramento** (caps. 16 a 17). Uma carta ao seu próprio futuro, as referências científicas que sustentam o livro, e indicações do que fazer depois que a última página se fechar.
 
 Atravessando todos os capítulos, há seis pacientes — **Ricardo, Fernanda, André, Marcos, Paulo e Ana**. Nomes trocados, casos reais, tirados de duas décadas de consultório. São eles que dão rosto à ciência. Se alguma vez a matéria parecer técnica demais, volte para eles: a história deles é o ponto.
 
@@ -76,9 +76,9 @@ Atravessando todos os capítulos, há seis pacientes — **Ricardo, Fernanda, An
 
 Você pode ler do começo ao fim — e essa é minha recomendação — porque cada parte prepara a próxima. O mapa só faz sentido depois do despertar. Os pilares só funcionam depois do mapa.
 
-Mas você também pode usá-lo como referência. Recebeu um exame novo e quer entender o que significa? Vá direto ao Capítulo 4. Quer começar a agir pela alimentação? Capítulo 7. Acabou de ter uma pressão alta medida e não sabe se é preocupação séria? Capítulo 5. O índice remissivo no fim do volume ajuda a navegar.
+Mas você também pode usá-lo como referência. Recebeu um exame novo e quer entender o que significa? Vá direto ao Capítulo 4. Quer começar a agir pela alimentação? Capítulo 8. Acabou de ter uma pressão alta medida e não sabe se é preocupação séria? Capítulo 5. O índice remissivo no fim do volume ajuda a navegar.
 
-Uma advertência importante: **este livro não substitui consulta médica**. Ele te ajuda a fazer as perguntas certas, interpretar o que já foi medido, pedir o que ainda falta. Mas a decisão clínica — que medicamento, que suplemento, que intervenção — pertence à consulta, não ao livro. O Capítulo 12 explica como conduzir essa consulta.
+Uma advertência importante: **este livro não substitui consulta médica**. Ele te ajuda a fazer as perguntas certas, interpretar o que já foi medido, pedir o que ainda falta. Mas a decisão clínica — que medicamento, que suplemento, que intervenção — pertence à consulta, não ao livro. O Capítulo 15 explica como conduzir essa consulta.
 
 Se você tiver 40, 50 ou 60 anos e nunca fez um painel ampliado de biomarcadores, este livro é para você. Se você é mais novo e quer construir a base agora, também. Se você já recebeu um diagnóstico e quer entender o que poderia ter feito antes — e o que ainda pode fazer daqui para frente — também.
 

@@ -148,11 +148,47 @@ No Capítulo 4, mencionei que em seis meses Fernanda reverteu os marcadores: ins
 
 **Sono e estresse avaliados.** Fernanda dormia em média seis horas por noite e descreveu seu nível de estresse como "normal para quem trabalha e tem dois filhos". Sono insuficiente e estresse crônico elevam o cortisol — e o cortisol cronicamente alto piora diretamente a sensibilidade insulínica, promove acúmulo de gordura visceral e aumenta a inflamação. Não são variáveis "emocionais" — são variáveis metabólicas. Serão aprofundadas nos capítulos seguintes.
 
-O plano combinou reestruturação de estilo de vida com suplementação inteligente guiada por biomarcador — vitamina D corrigida ao ótimo, ômega-3 em dose de suplemento e magnésio na forma glicinato, itens que o Capítulo 7 vai detalhar e que entraram desde o primeiro mês. Tudo monitorado a cada três meses. O protocolo era estilo de vida — mas estilo de vida com precisão.
+O plano combinou reestruturação de estilo de vida com suplementação inteligente guiada por biomarcador — vitamina D corrigida ao ótimo, ômega-3 em dose de suplemento e magnésio na forma glicinato, itens que o Capítulo 8 vai detalhar e que entraram desde o primeiro mês. Tudo monitorado a cada três meses. O protocolo era estilo de vida — mas estilo de vida com precisão.
 
 Em seis meses, os números contaram uma história diferente. A insulina caiu de 13 para 7 — dentro da faixa ótima. O HOMA-IR de 3,0 para 1,7. Os triglicerídeos de 180 para 108. O HDL subiu de 46 para 54. A relação TG/HDL caiu de 3,9 para 2,0. A PCR de 1,9 para 0,8. A GGT normalizou para 22 U/L. O ultrassom de controle: sem esteatose.
 
 Fernanda reverteu o processo. Seis anos antes de qualquer diagnóstico convencional. Sem cirurgia. Diferente do pai. Diferente da mãe. Porque alguém olhou antes.
+
+---
+
+### Adjuvantes para Quem o Lifestyle Não Bastou
+
+Fernanda reverteu seus marcadores metabólicos em seis meses só com estilo de vida. É o protagonismo que este livro defende — e com bom motivo, porque para a maioria dos pacientes na fase inicial de resistência insulínica é o que funciona de fato. Mas há casos em que o trabalho estruturado de alimentação, treino e sono reduz os marcadores parcialmente, sem trazê-los ao alvo. Para esses pacientes, existem algumas ferramentas suplementares com evidência razoável de acrescentar efeito — adjuvantes, não substitutos do trabalho estruturado.
+
+**Berberina.** É o nutracêutico com o pacote de evidência mais robusto nessa frente. Ativa uma enzima celular chamada AMPK pelo mesmo caminho que a metformina utiliza — por isso alguns autores já se referem à berberina como "metformina natural". Meta-análises recentes mostram redução de HbA1c na ordem de 0,5 a 0,7% em pacientes com resistência insulínica ou diabetes leve, com magnitude comparável a doses baixas de metformina em alguns estudos. Também reduz LDL e triglicerídeos de forma modesta. O calcanhar de Aquiles é a biodisponibilidade da berberina pura, que é péssima — por isso só faz sentido em formulações com absorção validada: **dihidroberberina** ou **berberina-fitossoma**. Dose habitual: 500 mg duas vezes ao dia. Efeitos adversos mais frequentes são gastrointestinais (desconforto, alteração intestinal) e costumam diminuir com ajuste de dose. **Alerta importante no consultório nefrológico:** a berberina interage pelo CYP3A4 com imunossupressores como tacrolimus e ciclosporina, e com estatinas — combinação que pede avaliação antes do início em paciente transplantado ou polimedicado.
+
+**Inositol.** Aqui o contexto é mais específico. O inositol — na combinação mio-inositol + D-chiro-inositol em proporção de 40 para 1 — tem evidência sólida em síndrome dos ovários policísticos (SOP), onde reduz HOMA-IR e melhora ovulação em meta-análises. Em resistência insulínica sem SOP, a evidência é mais modesta. É de segurança bem estabelecida. Dose habitual: 2 g de mio-inositol + 50 mg de D-chiro-inositol duas vezes ao dia. Ferramenta especialmente útil em mulheres com RI e padrão hormonal alterado. Vale notar uma sinergia clínica razoável: o magnésio — já parte da suplementação básica do Capítulo 8 — é cofator do receptor de insulina, enquanto o inositol atua como segundo mensageiro da mesma via. Ensaios diretos dessa combinação específica ainda são escassos, mas a lógica biológica é sólida e o perfil de segurança permite a associação em paciente selecionada.
+
+**Silimarina (cardo mariano).** É o hepatoprotetor mais estudado em esteatose hepática associada a disfunção metabólica. Meta-análises mostram redução de ALT em torno de 9 U/L em estudos controlados. Não é milagre, mas pode funcionar como adjuvante de estilo de vida em quem tem elevação leve de enzimas hepáticas — e como ponte econômica enquanto o resmetirom não chega ao Brasil. Dose padrão é baseada em silibina, o componente ativo, em torno de 140 mg duas a três vezes ao dia.
+
+Três outras ferramentas valem menção breve. A **N-acetilcisteína** (NAC) é precursora da glutationa, o principal antioxidante intracelular do corpo. Estudos menores mostram redução de ALT em esteatose; dose habitual 600 a 1.200 mg por dia. O **ácido alfa-lipoico** tem evidência consolidada em neuropatia diabética periférica; no espaço da resistência insulínica propriamente dita, os dados são modestos. Dose de 600 mg ao dia, preferencialmente em jejum. A **taurina**, aminoácido cujos níveis caem com a idade, ganhou atenção após um estudo publicado na *Science* em 2023 mostrando associação entre níveis baixos e aceleração do envelhecimento biológico em modelos animais e observacional em humanos. A evidência humana dura ainda é fraca — cabe na categoria "fronteira promissora", não no repertório clínico rotineiro.
+
+A **curcumina** também pertence a essa conversa metabólica — reduz enzimas hepáticas em esteatose em estudos pequenos e melhora sensibilidade à insulina em meta-análises modestas. Mas como já foi discutida no Capítulo 5, no território da inflamação cardiovascular, aqui apenas reitero os dois alertas principais: formulações com absorção validada (Theracurmin, Meriva, Longvida) e o cuidado com a interação pelo fígado com imunossupressores quando combinada com piperina.
+
+A lógica geral desse arsenal é a mesma lógica do resto do livro. Nenhum desses substitui a reestruturação alimentar, o treino de força, a correção do sono, a gestão do estresse. Mas em paciente selecionado, guiado por biomarcador, com o trabalho de estilo de vida já em andamento e marcadores ainda fora do alvo, são adjuvantes legítimos — a caixa de ferramentas da medicina de precisão inclui esses itens, com critério.
+
+---
+
+### Quando a Reversão Não Chega a Tempo
+
+Fernanda chegou cedo. O fígado dela tinha gordura, mas ainda não estava inflamado ao ponto de começar a cicatrizar. Essa etapa — quando as células do fígado, saturadas por anos, começam a ser substituídas por tecido cicatricial — tem nome próprio: **MASH**, de esteato-hepatite associada a disfunção metabólica. É o fígado gorduroso que virou doença ativa.
+
+Nem todos chegam a tempo. O mesmo processo que Fernanda reverteu em seis meses, num paciente que só descobre dez ou quinze anos depois, já passou do ponto em que a alimentação e o exercício sozinhos dão conta. A gordura estacionou, o fígado inflamou, começou a ficar cicatrizado. Nesse ponto, perder peso continua sendo essencial — mas pode não bastar para desfazer o dano já feito.
+
+Até março de 2024, não existia nenhum medicamento aprovado especificamente para tratar MASH. Nenhum. A conduta era tratar em volta — a resistência insulínica, o peso, a glicemia, o colesterol — e torcer para que a cicatrização parasse de avançar.
+
+Nesse mês, o FDA aprovou o **resmetirom** (nome comercial Rezdiffra), o primeiro medicamento da história para MASH em fase intermediária a avançada de cicatrização. No estudo que deu base à aprovação — quase mil pacientes, biópsia antes e depois — entre um quarto e um terço das pessoas resolveu a inflamação hepática, e um quarto melhorou pelo menos um grau de cicatrização, contra cerca de 10% com placebo.
+
+No Brasil, em 2026, o resmetirom ainda não tem registro da Anvisa. A única forma de acesso é importação individual com prescrição e documentação específica, a custo alto.
+
+Mesmo quando chegar, o resmetirom não será primeira linha para todos. Para quem está no começo do processo, como Fernanda, a intervenção continua sendo a mesma que você acaba de ler: alimentação reestruturada, treino de força, correção do que estiver deficiente, sono, gestão do estresse. Para quem tem resistência insulínica com peso elevado, os análogos de GLP-1 que serão discutidos no Capítulo 9 — semaglutida e tirzepatida — também reduzem a esteatose de forma significativa, e já estão disponíveis. O resmetirom entra depois: para o paciente cuja cicatrização já começou, em que a reversão pelo estilo de vida perdeu parte do seu poder, e em que uma terapia específica para o fígado finalmente existe.
+
+Por décadas, quem chegava tarde ao fígado recebia o mesmo recado: "perca peso, volte em seis meses". Era honesto, mas insuficiente. Pela primeira vez, existe um segundo recado.
 
 ---
 
@@ -179,6 +215,10 @@ Os biomarcadores do Capítulo 4 respondem a essa pergunta. E a resposta, como Fe
 - A disfunção metabólica é reversível quando identificada cedo. Alimentação, treino de força, correção de vitamina D, sono e gestão do estresse atuam em sinergia sobre a mesma raiz — a resistência insulínica.
 
 - Fernanda reverteu todos os marcadores em seis meses — incluindo a esteatose — por meio de mudanças estruturadas de estilo de vida.
+
+- Para quem já iniciou o trabalho de estilo de vida mas os marcadores ainda não cederam ao alvo, existem adjuvantes nutracêuticos com evidência razoável. Berberina (em formulação com absorção validada) é o item mais robusto — reduz HbA1c em magnitude comparável a doses baixas de metformina. Inositol é particularmente útil em mulheres com SOP, com sinergia clínica razoável com o magnésio. Silimarina ajuda na esteatose leve. Nenhum substitui o trabalho estruturado.
+
+- Quando a esteatose progride para MASH (fígado inflamado e começando a cicatrizar), o estilo de vida continua central, mas a reversão fica mais difícil. Desde março de 2024, o resmetirom (Rezdiffra) é o primeiro medicamento do mundo aprovado especificamente para MASH em fibrose moderada a avançada — ainda não no Brasil. Análogos de GLP-1 (semaglutida, tirzepatida) também reduzem esteatose e já estão disponíveis.
 
 ---
 

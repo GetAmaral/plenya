@@ -1,22 +1,22 @@
 ---
-id: 11
+id: 14
 language: pt-BR
 title: "Seu Placar de Longevidade"
 title_en_suggested: "Your Longevity Scorecard"
 translation_status: source
-last_reviewed: 2026-04-20
+last_reviewed: 2026-04-21
 figures:
-  - Cap11_Fig01
+  - Cap14_Fig01
 ---
 # PARTE IV — O PLANO
 
-Nos dez capítulos anteriores, construímos duas coisas. Primeiro, o mapa: o que está matando as pessoas depois dos 40, como o corpo envelhece por dentro, quais números importam, o que as artérias e o metabolismo revelam. Depois, o método: os quatro pilares do AGIR — atividade física, alimentação e suplementação inteligente; gestão clínica e metabólica; integração mente-corpo; ritmo circadiano e repouso.
+Nos treze capítulos anteriores, construímos duas coisas. Primeiro, o mapa: o que está matando as pessoas depois dos 40, como o corpo envelhece por dentro, quais números importam, o que as artérias e o metabolismo revelam. Depois, o método: os quatro pilares do AGIR — atividade física, alimentação e suplementação inteligente; gestão clínica e metabólica; integração mente-corpo; ritmo circadiano e repouso.
 
-Mas mapa e método não bastam. Falta o gesto que esta parte do livro existe para provocar — o leitor sair do papel passivo de quem lê sobre prevenção e assumir o papel ativo de quem aplica. Os dois capítulos a seguir tratam dessa transição. O Capítulo 11 mostra como ler o próprio painel. O Capítulo 12 trata de como avaliar um profissional de medicina preventiva e o que perguntar na primeira consulta.
+Mas mapa e método não bastam. Falta o gesto que esta parte do livro existe para provocar — o leitor sair do papel passivo de quem lê sobre prevenção e assumir o papel ativo de quem aplica. Os dois capítulos a seguir tratam dessa transição. O Capítulo 14 mostra como ler o próprio painel. O Capítulo 15 trata de como avaliar um profissional de medicina preventiva e o que perguntar na primeira consulta.
 
 ---
 
-## Capítulo 11 — Seu Placar de Longevidade: Onde Você Está?
+## Capítulo 14 — Seu Placar de Longevidade: Onde Você Está?
 
 Cinco anos depois do infarto, Ricardo voltou ao consultório com uma pasta. Não era a pasta de exames de rotina — era a pasta dele, de cinco anos, com o histórico inteiro: cada lipidograma, cada PCR, cada vitamina D, cada CAC, cada MAPA. Tinha 57 anos. Estava bem. E queria, naquela consulta, fazer uma coisa diferente.
 
@@ -42,7 +42,7 @@ Antes de detalhar o placar, vale fixar três princípios sem os quais ele vira p
 
 **Hábitos e números conversam.** Ao longo do livro, vimos pacientes em que a contradição entre hábito aparente e marcador real revelou o problema. André treinava dez horas por semana, comia sem ultraprocessados, e ainda assim tinha PCR de 2,1 e homocisteína de 14 — porque o treino estava mal estruturado e a suplementação que o vegetarianismo dele exigia nunca tinha sido prescrita. Fernanda comia "bem para os padrões brasileiros", fazia exercício, e tinha insulina de 13 e fígado gorduroso. Quando hábito aparente e marcador real não conversam, é o marcador que está dizendo a verdade — e o hábito que precisa de revisão.
 
-**Ação concentrada vence ação dispersa.** Tentar mudar dez coisas ao mesmo tempo é a forma mais previsível de não mudar nenhuma. Marcos, no Capítulo 7, mudou alimentação, treino, suplementação e sono em paralelo — mas com um plano que respeitava a ordem das prioridades clínicas, não dez frentes simultâneas competindo por atenção. Foi por isso que funcionou.
+**Ação concentrada vence ação dispersa.** Tentar mudar dez coisas ao mesmo tempo é a forma mais previsível de não mudar nenhuma. Marcos, nos Capítulos 7 e 8, mudou treino, alimentação, suplementação e sono em paralelo — mas com um plano que respeitava a ordem das prioridades clínicas, não dez frentes simultâneas competindo por atenção. Foi por isso que funcionou.
 
 Com esses três princípios em mente, o resto do capítulo é a aplicação.
 
@@ -56,7 +56,7 @@ A forma que uso no consultório organiza o placar como **quatro perguntas simple
 
 Em uma frase: **seu corpo está sendo construído ou está sendo desgastado pela rotina dos seus últimos seis meses?**
 
-A resposta está em três marcadores objetivos e três comportamentos. Os marcadores são os do Capítulo 4 que dependem mais do estilo de vida: PCR ultrassensível (alvo abaixo de 1,0 mg/L), insulina de jejum (alvo abaixo de 8 µIU/mL) e vitamina D (alvo entre 40 e 60 ng/mL). Os comportamentos são os do Capítulo 7: padrão alimentar consistente baseado em comida de verdade, treino estruturado nos quatro domínios complementares (zona 2, força progressiva, alta intensidade curta, mobilidade) e suplementação individualizada por biomarcador, não por modismo.
+A resposta está em três marcadores objetivos e três comportamentos. Os marcadores são os do Capítulo 4 que dependem mais do estilo de vida: PCR ultrassensível (alvo abaixo de 1,0 mg/L), insulina de jejum (alvo abaixo de 8 µIU/mL) e vitamina D (alvo entre 40 e 60 ng/mL). Os comportamentos são os dos Capítulos 7 e 8: treino estruturado nos quatro domínios complementares (zona 2, força progressiva, alta intensidade curta, mobilidade), padrão alimentar consistente baseado em comida de verdade, e suplementação individualizada por biomarcador, não por modismo.
 
 A leitura honesta deste pilar é a mais simples do placar. Se os três marcadores estão em zona ótima e os três comportamentos estão estabelecidos, este pilar está saudável. Se alguma das duas colunas está em alerta — marcador alterado ou comportamento ausente —, este é um lugar para concentrar atenção no próximo trimestre. Quando os dois lados estão em alerta simultâneo, o pilar A é provavelmente onde o leitor precisa começar, antes de qualquer outro.
 
@@ -66,7 +66,7 @@ Composição corporal entra como leitura complementar, e aqui vale a pena ser es
 
 Em uma frase: **o que o seu painel ampliado está dizendo, e há quanto tempo você não o mediu?**
 
-O Capítulo 4 estabeleceu o que precisa estar nesse painel. O Capítulo 8 mostrou como ler hormônios, farmacologia e genômica como sistema integrado. A pergunta do placar G é direta: você tem, dos últimos doze meses, ApoB, PCR ultrassensível, HbA1c, insulina de jejum, perfil hormonal completo (testosterona total e livre com SHBG em homens; estradiol, progesterona e FSH conforme estágio reprodutivo em mulheres), TSH com T3 e T4 livres, cortisol matinal, IGF-1, vitamina D, B12, ferritina, homocisteína, e função renal com cistatina C e microalbuminúria? E, dos exames feitos uma vez na vida, você já tem Lp(a), MTHFR e APOE?
+O Capítulo 4 estabeleceu o que precisa estar nesse painel. Os Capítulos 9 a 11 mostraram como ler sistemas, hormônios, farmacologia e genômica como sistema integrado. A pergunta do placar G é direta: você tem, dos últimos doze meses, ApoB, PCR ultrassensível, HbA1c, insulina de jejum, perfil hormonal completo (testosterona total e livre com SHBG em homens; estradiol, progesterona e FSH conforme estágio reprodutivo em mulheres), TSH com T3 e T4 livres, cortisol matinal, IGF-1, vitamina D, B12, ferritina, homocisteína, e função renal com cistatina C e microalbuminúria? E, dos exames feitos uma vez na vida, você já tem Lp(a), MTHFR e APOE?
 
 Se a resposta for não para mais da metade dos itens, o pilar G é onde o trabalho começa — porque sem o painel você está agindo no escuro nos outros pilares também. Se a resposta for sim para a maioria, a pergunta seguinte é se as faixas-alvo do livro estão sendo aplicadas (a relação ApoB/ApoA1 abaixo de 0,6, a homocisteína abaixo de 8, o TSH na faixa funcional de 1,0 a 2,5, a testosterona livre acima de 9 pg/mL em homens, a Lp(a) em valor que define se a meta de ApoB precisa ser ainda mais agressiva) ou se você está se contentando com a faixa "normal" do laboratório, que é a média de uma população que inclui muita gente em formação de doença.
 
@@ -76,7 +76,7 @@ Imagem entra como complemento essencial. Se você tem entre 40 e 75 anos, com ri
 
 Em uma frase: **quando seu corpo grita inflamação ou cortisol e os outros pilares estão razoavelmente endereçados, você está olhando para a dimensão psicológica?**
 
-Este foi o pilar que Ana, no Capítulo 9, descobriu por último — e que mudou tudo o que os outros pilares não tinham conseguido mover. Por isso o placar I tem uma estrutura específica: ele não é uma pergunta isolada, é uma pergunta que você faz quando uma combinação aparece.
+Este foi o pilar que Ana, no Capítulo 12, descobriu por último — e que mudou tudo o que os outros pilares não tinham conseguido mover. Por isso o placar I tem uma estrutura específica: ele não é uma pergunta isolada, é uma pergunta que você faz quando uma combinação aparece.
 
 A combinação clássica é PCR persistentemente acima de 1,5 mg/L e cortisol matinal acima de 20 µg/dL apesar de pilares A, G e R razoavelmente trabalhados. Quando esse padrão aparece, é hora de olhar para o que o corpo está dizendo do outro lado: como anda seu nível médio de estresse percebido nos últimos meses; como está a qualidade do seu sono em termos subjetivos (acorda descansado ou acorda já com o dia pesando); quantas pessoas você tem com quem pode contar em uma crise real e essas pessoas sabem disso; quando foi a última vez que conversou com profissional de saúde mental, mesmo preventivamente; e se existe prática regular de regulação do sistema nervoso (respiração estruturada, MBSR, exercício físico, exposição à natureza) ou se essa parte está na lista do "um dia eu começo".
 
@@ -86,7 +86,7 @@ A leitura honesta deste pilar costuma ser desconfortável — e essa é a funç�
 
 Em uma frase: **o solo em que os outros três pilares se sustentam está estável?**
 
-O Capítulo 10 estabeleceu por que esta é a pergunta certa. Sono não é um pilar como os outros — é o substrato. Quando o substrato cede, os outros três cedem com ele, mesmo que pareçam em ordem por meses ou anos. Foi o que regrediu silenciosamente em Paulo dos doze aos dezoito meses depois da primeira consulta, e foi o que se recuperou — e ultrapassou o pico anterior — quando a apneia foi finalmente identificada e tratada.
+O Capítulo 13 estabeleceu por que esta é a pergunta certa. Sono não é um pilar como os outros — é o substrato. Quando o substrato cede, os outros três cedem com ele, mesmo que pareçam em ordem por meses ou anos. Foi o que regrediu silenciosamente em Paulo dos doze aos dezoito meses depois da primeira consulta, e foi o que se recuperou — e ultrapassou o pico anterior — quando a apneia foi finalmente identificada e tratada.
 
 A leitura do pilar R combina três níveis. O primeiro é de hábito: você dorme e acorda em horários consistentes, com variação menor que sessenta minutos entre dias úteis e fim de semana? Tem exposição à luz solar nos primeiros sessenta minutos depois de acordar? Reduz luz de telas nas duas horas antes de dormir? Quarto fresco e escuro? Última refeição duas a três horas antes de deitar? Cafeína contida à primeira metade do dia?
 
@@ -124,13 +124,13 @@ A pergunta que o leitor deve se fazer ao terminar a leitura dos quatro pilares n
 
 Dois. Não dez.
 
-Marcos chegou ao consultório no Capítulo 5 com um painel inteiro em zona de alerta — CAC de 412 já era prevenção secundária funcional, ApoB de 82 ainda alto apesar da estatina em dose baixa, insulina de 11, PCR de 1,6, vitamina D de 28, padrão alimentar disperso, treino sem estrutura, e um sono que ele não sabia que era ruim (cinco horas e meia em média, com dois despertares por madrugada). Se eu tivesse entregado a ele uma lista de quinze coisas para mudar, três meses depois ele teria mudado nada. O que fizemos no Capítulo 7 foi o oposto: **dois ataques principais**. Ataque farmacológico no ApoB, com intensificação da estatina, adição de ezetimiba, e alvo abaixo de 60. Ataque comportamental nos três motores do pilar A (alimentação mediterrânea com janela alimentar, treino estruturado nos quatro domínios, correção específica de vitamina D e introdução de magnésio treonato para o sono). Oito meses depois, ApoB em 58, insulina em 6, PCR em 0,6, vitamina D em 52, ergometria com ganho de 1,8 MET, composição corporal transformada. O CAC de 412 não mudou — cálcio depositado não se dissolve. O que mudou foi a velocidade do processo daqui em diante.
+Marcos chegou ao consultório no Capítulo 5 com um painel inteiro em zona de alerta — CAC de 412 já era prevenção secundária funcional, ApoB de 82 ainda alto apesar da estatina em dose baixa, insulina de 11, PCR de 1,6, vitamina D de 28, padrão alimentar disperso, treino sem estrutura, e um sono que ele não sabia que era ruim (cinco horas e meia em média, com dois despertares por madrugada). Se eu tivesse entregado a ele uma lista de quinze coisas para mudar, três meses depois ele teria mudado nada. O que fizemos nos Capítulos 7 e 8 foi o oposto: **dois ataques principais**. Ataque farmacológico no ApoB, com intensificação da estatina, adição de ezetimiba, e alvo abaixo de 60. Ataque comportamental nos três motores do pilar A (alimentação mediterrânea com janela alimentar, treino estruturado nos quatro domínios, correção específica de vitamina D e introdução de magnésio treonato para o sono). Oito meses depois, ApoB em 58, insulina em 6, PCR em 0,6, vitamina D em 52, ergometria com ganho de 1,8 MET, composição corporal transformada. O CAC de 412 não mudou — cálcio depositado não se dissolve. O que mudou foi a velocidade do processo daqui em diante.
 
-![Figura 11.1 — Trajetória de Marcos: painel antes e depois de oito meses. Dot plot horizontal com sete marcadores (ApoB 82→58, insulina 11→6, PCR 1,6→0,6, vitamina D 28→52, +1,8 MET, −5 kg gordura / +2 kg massa magra, CAC 412 inalterado).](../Cap11%20Fig01.PNG)
+![Figura 14.1 — Trajetória de Marcos: painel antes e depois de oito meses. Dot plot horizontal com sete marcadores (ApoB 82→58, insulina 11→6, PCR 1,6→0,6, vitamina D 28→52, +1,8 MET, −5 kg gordura / +2 kg massa magra, CAC 412 inalterado).](../Cap14%20Fig01.PNG)
 
-Ana, no Capítulo 9, quando finalmente endereçamos o pilar I, seguiu a mesma lógica em outra direção. Tudo o que dependia de corpo biológico já tinha sido otimizado nos dezoito meses anteriores, e os ganhos estavam documentados — vitamina D, insulina, ApoB, homocisteína, todos em faixa ótima. O que faltava era uma frente nova: tratamento estruturado da dimensão psicológica, com psicoterapia cognitivo-comportamental como trilho principal e prática diária de regulação do sistema nervoso (MBSR e vinte minutos de mindfulness matinal) como trilho paralelo. O antidepressivo em dose baixa por seis meses entrou como decisão compartilhada com a psiquiatra, apoiando as duas frentes. Seis meses depois, a PCR caiu de 1,8 para 0,7 e o cortisol matinal de 22 para 14. O que mudou foi o pilar que estava faltando — e a lógica ali não foi acrescentar dez intervenções psicológicas ao mesmo tempo. Foi endereçar o pilar I com foco, enquanto os outros pilares já trabalhados continuaram trabalhados.
+Ana, no Capítulo 12, quando finalmente endereçamos o pilar I, seguiu a mesma lógica em outra direção. Tudo o que dependia de corpo biológico já tinha sido otimizado nos dezoito meses anteriores, e os ganhos estavam documentados — vitamina D, insulina, ApoB, homocisteína, todos em faixa ótima. O que faltava era uma frente nova: tratamento estruturado da dimensão psicológica, com psicoterapia cognitivo-comportamental como trilho principal e prática diária de regulação do sistema nervoso (MBSR e vinte minutos de mindfulness matinal) como trilho paralelo. O antidepressivo em dose baixa por seis meses entrou como decisão compartilhada com a psiquiatra, apoiando as duas frentes. Seis meses depois, a PCR caiu de 1,8 para 0,7 e o cortisol matinal de 22 para 14. O que mudou foi o pilar que estava faltando — e a lógica ali não foi acrescentar dez intervenções psicológicas ao mesmo tempo. Foi endereçar o pilar I com foco, enquanto os outros pilares já trabalhados continuaram trabalhados.
 
-Paulo, no Capítulo 10, quando a apneia foi identificada, também começou com duas frentes: CPAP titulado e protocolo circadiano completo (regularidade rígida de horário, luz matinal, janela alimentar, redução de cafeína e álcool). Tudo o mais — alimentação, treino, suplementação — continuou como estava. Duas frentes no pilar que faltava recuperaram a trajetória inteira em seis meses e levaram a testosterona a 540 ng/dL, acima do pico anterior.
+Paulo, no Capítulo 13, quando a apneia foi identificada, também começou com duas frentes: CPAP titulado e protocolo circadiano completo (regularidade rígida de horário, luz matinal, janela alimentar, redução de cafeína e álcool). Tudo o mais — alimentação, treino, suplementação — continuou como estava. Duas frentes no pilar que faltava recuperaram a trajetória inteira em seis meses e levaram a testosterona a 540 ng/dL, acima do pico anterior.
 
 A mensagem é a mesma nos três casos: ação concentrada em dois pontos por trimestre é o que produz movimento mensurável. Ação dispersa em dez frentes é o que produz frustração. Quando você revisita seu placar a cada três meses e identifica os dois pontos a trabalhar, anote em algum lugar (uma página de caderno serve, um arquivo de bloco de notas serve), defina como vai medir o resultado em três meses, e foque. Os outros pontos do placar continuam ali, esperando seu trimestre. Não somem.
 
@@ -150,6 +150,28 @@ A composição do placar muda de peso conforme a década, mesmo quando os itens 
 
 ---
 
+### Vacinação: o Calendário Adulto que Ninguém Entrega
+
+Existe uma categoria de intervenção preventiva que combina duas características raras: evidência populacional robusta e adesão abaixo do razoável. É a vacinação adulta.
+
+O calendário infantil brasileiro é um dos mais completos do mundo, e a maioria dos leitores passou por ele. O calendário adulto, por outro lado, é quase invisível. Nenhum paciente meu chegou ao consultório nos últimos anos com o calendário adulto em dia sem que eu tivesse puxado a pergunta — e a reação é quase sempre a mesma frase: *"Vacina? Eu não sabia que precisava."*
+
+Precisa. Há quatro vacinas que fazem diferença mensurável na trajetória de prevenção de um adulto acima dos 40 — e uma delas merece destaque específico.
+
+**Herpes zoster (Shingrix).** O que essa vacina previne de forma direta já era conhecido: a herpes zoster (popularmente "cobreiro") e a neuralgia pós-herpética, dor neuropática que pode durar meses ou anos. Mas estudos recentes mostraram algo inesperado: **quem toma Shingrix tem risco significativamente menor de desenvolver demência** — redução entre 20% e 30% em dois grandes estudos publicados em 2024 e 2025. O mecanismo ainda é discutido, mas a magnitude do achado colocou a Shingrix em outra categoria: não é só prevenção de uma dor incapacitante, é uma das ferramentas com melhor sinal disponível hoje para redução de risco cognitivo. No Brasil, está aprovada pela Anvisa desde 2022.
+
+As outras três do calendário adulto que importam:
+
+**Influenza em dose alta**, recomendada a partir dos 65 anos — reduz hospitalização e mortalidade pós-influenza numa faixa em que infecção viral grave pode desencadear infarto, AVC e declínio funcional.
+
+**Pneumocócica conjugada 20 (Prevnar 20)**, dose única em adultos acima de 50 anos — reduz pneumonia grave e bacteremia pneumocócica em faixa etária em que esses eventos frequentemente viram hospitalização prolongada.
+
+**Vírus sincicial respiratório (RSV)**, aprovada em 2023 para adultos acima de 60 anos — previne pneumonia viral que antes era confundida com gripe severa e que em muitos casos exigia internação.
+
+Se o seu placar tem tudo em verde mas seu calendário de vacinas está em 2018, falta peça.
+
+---
+
 ### Os Sinais Que Não Esperam
 
 Existe uma categoria de sintoma que tira o leitor do modo placar trimestral e o leva ao modo "ligar agora". Vale separar com clareza.
@@ -166,11 +188,13 @@ Para todos esses, o placar não vale. Vale procurar avaliação especializada ag
 
 - Hábitos e marcadores conversam: quando aparente bom hábito convive com marcador alterado, é o marcador que está dizendo a verdade — e o hábito que precisa de revisão. Foi a lição clínica de André no Capítulo 3 e de Fernanda no Capítulo 6.
 
-- A regra prática que organiza ação é a regra dos dois: a cada trimestre, escolha os dois itens em zona de alerta com maior potencial de mover trajetória — e foque exatamente neles. Foi assim que o tratamento de Marcos no Capítulo 7, de Ana no Capítulo 9 e de Paulo no Capítulo 10 funcionou. Ação concentrada vence ação dispersa.
+- A regra prática que organiza ação é a regra dos dois: a cada trimestre, escolha os dois itens em zona de alerta com maior potencial de mover trajetória — e foque exatamente neles. Foi assim que o tratamento de Marcos nos Capítulos 7 e 8, de Ana no Capítulo 12 e de Paulo no Capítulo 13 funcionou. Ação concentrada vence ação dispersa.
 
 - A composição do placar muda de peso conforme a década: dos 40 aos 49 é detecção precoce na janela de máxima reversibilidade; dos 50 aos 59 é ação máxima na janela em que mais mortes precoces podem ser evitadas; dos 60 em diante é preservação funcional, com ênfase em força, mobilidade, composição corporal e cognição.
 
 - Existem sinais que não esperam o próximo placar — dor torácica nova aos esforços, síncope, déficits neurológicos súbitos, sangramento não explicado, alterações cutâneas pelo critério ABCDE, ideação suicida, entre outros. Para esses, a regra é simples: se você está em dúvida sobre a gravidade, a dúvida já é a resposta.
+
+- A vacinação adulta é uma das intervenções preventivas mais eficazes e mais negligenciadas. A Shingrix (herpes zoster), além de prevenir cobreiro, acumulou evidência recente de redução de risco cognitivo. Influenza em dose alta, Prevnar 20 e vacina contra RSV completam o calendário essencial depois dos 50-60 anos.
 
 - Quem chegou a este ponto do livro tem o vocabulário e o contexto para ler o próprio painel. O que falta é o hábito — revisitar o placar a cada três meses, escolher dois pontos, e trabalhar exatamente esses dois.
 
@@ -200,4 +224,4 @@ O valor desses instrumentos não está no número exato — está em registrar o
 
 ---
 
-> O placar é a ferramenta. Mas ferramenta sem parceria clínica para os pontos que exigem decisão técnica — interpretação contextualizada de painel hormonal, ajuste de farmacologia guiada por biomarcador, conduta diante de imagem alterada — produz só metade do resultado possível. A pergunta seguinte, e última antes do epílogo, é como avaliar um profissional de medicina preventiva e o que perguntar na primeira consulta. É o tema do Capítulo 12.
+> O placar é a ferramenta. Mas ferramenta sem parceria clínica para os pontos que exigem decisão técnica — interpretação contextualizada de painel hormonal, ajuste de farmacologia guiada por biomarcador, conduta diante de imagem alterada — produz só metade do resultado possível. A pergunta seguinte, e última antes do epílogo, é como avaliar um profissional de medicina preventiva e o que perguntar na primeira consulta. É o tema do Capítulo 15.

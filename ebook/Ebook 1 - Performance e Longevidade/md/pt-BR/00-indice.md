@@ -42,20 +42,35 @@
 ### PARTE III — O MÉTODO AGIR
 
 - [Introdução ao Método AGIR](06b-parte-iii-intro.md)
-- [Capítulo 7 — A: Atividade Física, Alimentação e Suplementação Inteligente — Os Três Motores Que Nenhuma Medicação Substitui](07-atividade-alimentacao-suplementacao.md)
-- [Capítulo 8 — G: Gestão Clínica e Metabólica — Seu Painel de Controle Interno](08-gestao-metabolica.md)
-- [Capítulo 9 — I: Integração Mente-Corpo — O Pilar Que Ninguém Prescreve](09-integracao-mente-corpo.md)
-- [Capítulo 10 — R: Ritmo Circadiano e Repouso — O Maestro Invisível](10-ritmo-circadiano-e-repouso.md)
+
+**Pilar A — Atividade Física, Alimentação e Suplementação Inteligente**
+
+- [Capítulo 7 — A1: Atividade Física — O Medicamento Mais Poderoso Que Existe](07-atividade-fisica.md)
+- [Capítulo 8 — A2: Alimentação, Suplementação e a Camada Visível](08-alimentacao-suplementacao.md)
+
+**Pilar G — Gestão Clínica e Metabólica**
+
+- [Capítulo 9 — G1: Sistemas — Coração, Rim, Fígado e Metabolismo como um Só](09-sistemas-cardio-renal-hepatico.md)
+- [Capítulo 10 — G2: Painéis Bioquímicos e Hormônios — O Que o Sangue Conta Antes do Sintoma](10-paineis-bioquimicos.md)
+- [Capítulo 11 — G3: Genômica, Epigenética e Exposições Ambientais](11-genomica-exposicoes.md)
+
+**Pilar I — Integração Mente-Corpo**
+
+- [Capítulo 12 — I: Integração Mente-Corpo — O Pilar Que Ninguém Prescreve](12-integracao-mente-corpo.md)
+
+**Pilar R — Ritmo Circadiano e Repouso**
+
+- [Capítulo 13 — R: Ritmo Circadiano e Repouso — O Maestro Invisível](13-ritmo-circadiano-e-repouso.md)
 
 ### PARTE IV — O PLANO
 
-- [Capítulo 11 — Seu Placar de Longevidade: Onde Você Está?](11-seu-placar-de-longevidade.md)
-- [Capítulo 12 — Quando Procurar um Especialista — E o Que Perguntar](12-quando-procurar-especialista.md)
+- [Capítulo 14 — Seu Placar de Longevidade: Onde Você Está?](14-seu-placar-de-longevidade.md)
+- [Capítulo 15 — Quando Procurar um Especialista — E o Que Perguntar](15-quando-procurar-especialista.md)
 
 ### PARTE V — ENCERRAMENTO
 
-- [Capítulo 13 — Manifesto AGIR: Uma Carta ao Meu Eu do Futuro](13-manifesto-agir.md)
-- [Capítulo 14 — Referências, Recursos e Próximos Passos](14-referencias-recursos.md)
+- [Capítulo 16 — Manifesto AGIR: Uma Carta ao Meu Eu do Futuro](16-manifesto-agir.md)
+- [Capítulo 17 — Referências, Recursos e Próximos Passos](17-referencias-recursos.md)
 
 ---
 
@@ -63,27 +78,27 @@
 
 | Personagem | Idade | Caso | Aparece em |
 |---|---|---|---|
-| **Ricardo** | 52 | Infarto com check-up "normal" — o poder do painel ampliado | Caps. 1, 4, 11, 13 |
-| **Fernanda** | 41 | Insulina de 13 e esteatose com IMC normal — reversão metabólica em 6 meses | Caps. 4, 6, 11 |
-| **André** | 45 | Triatleta com PCR elevada e hiperinsulinemia oculta no TOTG | Caps. 3, 6, 7, 8 |
-| **Marcos** | 57 | CAC de 412 sob estatina — a Regra dos Dois em ação | Caps. 5, 7, 11 |
-| **Paulo** | 48 | Testosterona baixa que regrediu por apneia não diagnosticada | Caps. 8, 10 |
-| **Ana** | 44 | PCR resistente apesar de pilares biológicos otimizados — o pilar I | Cap. 9 |
+| **Ricardo** | 52 | Infarto com check-up "normal" — o poder do painel ampliado | Caps. 1, 4, 14, 16 |
+| **Fernanda** | 41 | Insulina de 13 e esteatose com IMC normal — reversão metabólica em 6 meses | Caps. 4, 6, 10, 14 |
+| **André** | 45 | Triatleta com PCR elevada e hiperinsulinemia oculta no TOTG | Caps. 3, 6, 7, 11 |
+| **Marcos** | 57 | CAC de 412 sob estatina — a Regra dos Dois em ação | Caps. 5, 8, 9, 14 |
+| **Paulo** | 48 | Testosterona baixa que regrediu por apneia não diagnosticada | Caps. 10, 11, 13 |
+| **Ana** | 44 | PCR resistente apesar de pilares biológicos otimizados — o pilar I | Cap. 12 |
 
 ---
 
 ## Método AGIR — Os Quatro Pilares
 
-**A — Atividade Física, Alimentação e Suplementação Inteligente** · Cap. 7
-Os três motores do estilo de vida que nenhuma medicação substitui.
+**A — Atividade Física, Alimentação e Suplementação Inteligente** · Caps. 7–8
+Os motores do estilo de vida que nenhuma medicação substitui — incluindo a camada visível (pele, cabelo, unhas).
 
-**G — Gestão Clínica e Metabólica** · Cap. 8
-Hormônios, genômica, farmacologia guiada por biomarcadores.
+**G — Gestão Clínica e Metabólica** · Caps. 9–11
+Três camadas: sistemas cardio-reno-hepático-metabólicos lidos como um só; painéis bioquímicos e hormônios; genômica, epigenética e exposições ambientais.
 
-**I — Integração Mente-Corpo** · Cap. 9
-O eixo psicológico que sabota todos os outros pilares quando ignorado.
+**I — Integração Mente-Corpo** · Cap. 12
+O eixo psicológico, a vida sexual e os vínculos sociais — os pilares que sabotam os demais quando ignorados.
 
-**R — Ritmo Circadiano e Repouso** · Cap. 10
+**R — Ritmo Circadiano e Repouso** · Cap. 13
 O solo em que os outros três pilares se sustentam.
 
 ---
@@ -94,16 +109,16 @@ For English-language editions, **AGIR** is translated as **ACTS** — preserving
 
 > *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four practices that, together, protect the decades of health that standard medicine gives up on.*
 
-**A — Activity, Alimentation & Smart Adjuncts** · Ch. 7
-The three engines of lifestyle that no medication can replace.
+**A — Activity, Alimentation & Smart Adjuncts** · Chs. 7–8
+The engines of lifestyle that no medication can replace — including the visible layer (skin, hair, nails).
 
-**C — Clinical Optimization** · Ch. 8
-Biomarker-guided optimization across all clinical systems — hormones, pharmacology, precision medicine.
+**C — Clinical Optimization** · Chs. 9–11
+Three layers: systems (cardio-renal-hepatic-metabolic) read as one; biochemical and hormonal panels; genomics, epigenetics and environmental exposures.
 
-**T — Tending Mind & Body** · Ch. 9
-The integration of psychology, immunity and inflammation — the pillar fragmented medicine ignores.
+**T — Tending Mind & Body** · Ch. 12
+The psychology, sexual life and social bonds pillars — the ones fragmented medicine ignores.
 
-**S — Sleep & Circadian Rhythm** · Ch. 10
+**S — Sleep & Circadian Rhythm** · Ch. 13
 The biological tempo that makes all other pillars work.
 
 ### Mapping PT → EN
