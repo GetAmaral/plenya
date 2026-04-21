@@ -49,18 +49,36 @@ export default async function DrGetulioPage({ params }: { params: Promise<{ loca
               CRM-PR 21.876 · RQE 16.038
             </p>
             <p className="text-cream/85 text-lg leading-relaxed max-w-lg">
-              Médico desde 2004. Especialista em nefrologia e clínica médica pela Santa Casa
-              de Londrina. Pós-graduado em medicina funcional integrativa pela ABMFI.
+              Médico formado pela Universidade Estadual de Londrina em 2004.
+              Especialista em nefrologia e clínica médica pela Santa Casa de
+              Londrina, com Título de Especialista pela Sociedade Brasileira de
+              Nefrologia. Coordena a residência em nefrologia da Santa Casa e
+              responde tecnicamente pela DaVita Intra Hospitalar de Londrina.
             </p>
-            <div className="flex flex-wrap gap-5 pt-4">
+            <p className="text-cream/70 leading-relaxed max-w-lg">
+              A pós-graduação em medicina funcional integrativa pela ABMFI
+              sustenta o posicionamento da Plenya: o mesmo rigor clínico do
+              ambiente hospitalar, aplicado anos antes do diagnóstico se impor.
+            </p>
+            <div className="pt-4">
               <Link href="/contato" className="btn-gold">Agendar consulta</Link>
+            </div>
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-6 text-sm">
               <a
                 href="https://instagram.com/drGetulioAmaralFilho"
                 target="_blank"
                 rel="noreferrer"
-                className="btn-outline-dark border-cream/40 text-cream"
+                className="text-cream/55 hover:text-cream transition underline-offset-4 hover:underline decoration-gold/40"
               >
                 @drGetulioAmaralFilho
+              </a>
+              <a
+                href="https://drGetulioAmaralFilho.com.br"
+                target="_blank"
+                rel="noreferrer"
+                className="text-cream/55 hover:text-cream transition underline-offset-4 hover:underline decoration-gold/40"
+              >
+                drGetulioAmaralFilho.com.br
               </a>
             </div>
           </div>
@@ -83,19 +101,23 @@ export default async function DrGetulioPage({ params }: { params: Promise<{ loca
           <div className="space-y-6 text-petrol/85 text-lg leading-relaxed">
             <p className="label-upper text-gold">Sobre a prática</p>
             <p>
-              Trabalho com medicina interna e nefrologia há 22 anos, parte significativa em
-              ambiente hospitalar. Atendi muitos pacientes em estágios avançados de doença renal
-              e cardiovascular — quadros em que boa parte do que se vê poderia ter sido modificado
-              anos antes, em decisões de rotina e em monitoramento mais cuidadoso.
+              Mais de duas décadas em medicina interna e nefrologia, com parte
+              expressiva da atividade dentro do ambiente hospitalar. O dia a
+              dia foi acompanhar pacientes em estágios avançados de doença
+              renal e cardiovascular — quadros em que, com frequência, a
+              trajetória poderia ter sido modificada anos antes, em decisões
+              de rotina e em monitoramento mais cuidadoso.
             </p>
             <p>
-              A medicina funcional integrativa não é uma alternativa à medicina convencional. É uma
-              forma de organizar o cuidado preventivo com o mesmo rigor que se aplica ao cuidado
-              hospitalar — exames, dados, decisão estruturada — mas voltada para o que vem antes
-              da doença.
+              A medicina funcional integrativa não é alternativa à medicina
+              convencional. É uma forma de organizar o cuidado preventivo com
+              o mesmo rigor que se aplica ao cuidado hospitalar — exames,
+              dados, decisão estruturada — voltada para o que precede a
+              doença.
             </p>
             <p>
-              É essa medicina que ofereço na Plenya, junto com a equipe que reunimos para isso.
+              É essa medicina que conduzo na Plenya, ao lado da equipe que se
+              reuniu para isso.
             </p>
           </div>
 
@@ -158,9 +180,9 @@ export default async function DrGetulioPage({ params }: { params: Promise<{ loca
             <p className="label-upper text-gold">Equipe</p>
             <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Equipe Plenya →</p>
           </Link>
-          <Link href="/planos" className="border-t border-petrol/15 pt-8 space-y-3 group">
-            <p className="label-upper text-gold">Planos</p>
-            <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Planos e acompanhamento →</p>
+          <Link href="/continuum" className="border-t border-petrol/15 pt-8 space-y-3 group">
+            <p className="label-upper text-gold">Continuum</p>
+            <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Continuum Plenya →</p>
           </Link>
         </div>
       </section>

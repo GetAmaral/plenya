@@ -28,6 +28,7 @@ const frontmatterSchema = z.object({
   photo: z.string().optional(),
   instagram: z.string().url().optional(),
   linkedin: z.string().url().optional(),
+  website: z.string().url().optional(),
   featured: z.boolean().default(false),
 });
 

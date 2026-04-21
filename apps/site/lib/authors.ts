@@ -5,7 +5,7 @@ export type Author = {
   credentials: string;
   bio: string;
   photo?: string;
-  social?: { instagram?: string; linkedin?: string };
+  social?: { instagram?: string; linkedin?: string; website?: string };
 };
 
 export const authors: Record<string, Author> = {
@@ -16,7 +16,10 @@ export const authors: Record<string, Author> = {
     credentials: 'CRM-PR 21.876 · RQE 16.038',
     bio: 'Médico desde 2004. Especialista em nefrologia e clínica médica pela Santa Casa de Londrina, onde coordena a residência médica em nefrologia. Pós-graduado em medicina funcional integrativa pela ABMFI. Direção clínica da Plenya.',
     photo: '/images/dr-getulio.jpg',
-    social: { instagram: 'https://instagram.com/drGetulioAmaralFilho' },
+    social: {
+      instagram: 'https://instagram.com/drGetulioAmaralFilho',
+      website: 'https://drGetulioAmaralFilho.com.br',
+    },
   },
 };
 

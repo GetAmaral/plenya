@@ -17,7 +17,7 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
             src={doctor.photo}
             alt={doctor.name}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+            className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
             sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
           />
         ) : (
@@ -29,7 +29,9 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
         <h3 className="heading-section text-petrol text-xl group-hover:text-gold transition">
           {doctor.name}
         </h3>
-        <p className="label-upper text-petrol/50">{doctor.credentials}</p>
+        <p className="label-upper text-petrol/50">
+          {doctor.credentials}{doctor.rqe ? ` · RQE ${doctor.rqe}` : ''}
+        </p>
         <p className="text-petrol/70 text-sm leading-relaxed pt-1">{doctor.shortBio}</p>
       </div>
     </Link>

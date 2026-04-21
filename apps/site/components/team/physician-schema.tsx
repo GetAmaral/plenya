@@ -15,7 +15,7 @@ export function PhysicianSchema({ doctor }: { doctor: Doctor }) {
     },
     medicalSpecialty: isMedico ? doctor.specialties : undefined,
     identifier: doctor.credentials,
-    sameAs: [doctor.instagram, doctor.linkedin].filter(Boolean),
+    sameAs: [doctor.instagram, doctor.linkedin, doctor.website].filter(Boolean),
     url: `${brand.url}/equipe/${doctor.slug}`,
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;

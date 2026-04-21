@@ -103,9 +103,9 @@ export default async function DoctorPage({ params }: { params: Promise<{ locale:
             <p className="label-upper text-gold">Método</p>
             <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Conheça o Método AGIR →</p>
           </Link>
-          <Link href="/planos" className="border-t border-petrol/15 pt-8 space-y-3 group">
-            <p className="label-upper text-gold">Planos</p>
-            <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Comece seu acompanhamento →</p>
+          <Link href="/continuum" className="border-t border-petrol/15 pt-8 space-y-3 group">
+            <p className="label-upper text-gold">Continuum</p>
+            <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Continuum Plenya →</p>
           </Link>
         </div>
       </section>
