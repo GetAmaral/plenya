@@ -16,7 +16,7 @@
 version: 1
 source_language: pt-BR
 target_languages: [en, es, fr, de]
-last_updated: 2026-04-19
+last_updated: 2026-04-21
 
 # ============================================================
 # CONCEITOS CENTRAIS DO LIVRO
@@ -83,6 +83,175 @@ concepts:
       fr: "check-up élargi"
       de: "erweiterte Vorsorgeuntersuchung"
 
+  - source: "camada visível"
+    translations:
+      en: "visible layer"
+      es: "capa visible"
+      fr: "couche visible"
+      de: "sichtbare Schicht"
+    note: "Cap 8 A2 — se refere à pele, cabelo e unhas como superfície de reflexo sistêmico."
+
+  - source: "janela (na TRH)"
+    translations:
+      en: "window (in HRT)"
+      es: "ventana (en la TRH)"
+      fr: "fenêtre (dans le THS)"
+      de: "Fenster (in der HRT)"
+    note: "Cap 10 — hipótese da janela: período de ~10 anos pós-menopausa em que o estradiol protege. 'Na janela' / 'fora da janela' são frases-chave."
+
+  - source: "eixo cardio-reno-metabólico"
+    translations:
+      en: "cardio-renal-metabolic axis"
+      es: "eje cardio-renal-metabólico"
+      fr: "axe cardio-rénal-métabolique"
+      de: "kardio-renal-metabolische Achse"
+    note: "Cap 9 G1 — conceito que unifica as três classes (SGLT2, finerenona, GLP-1) como proteção transversal."
+
+  - source: "trabalho interno"
+    translations:
+      en: "inner work"
+      es: "trabajo interior"
+      fr: "travail intérieur"
+      de: "innere Arbeit"
+    note: "Cap 12 I1 — título do capítulo: 'O Trabalho Que Só Você Faz'."
+
+  - source: "corpo estendido ao mundo"
+    translations:
+      en: "the body extended into the world"
+      es: "el cuerpo extendido al mundo"
+      fr: "le corps étendu au monde"
+      de: "der Körper, der sich in die Welt erstreckt"
+    note: "Cap 13 I2 — subtítulo: a dimensão relacional e existencial do pilar I."
+
+  - source: "reserva cognitiva"
+    translations:
+      en: "cognitive reserve"
+      es: "reserva cognitiva"
+      fr: "réserve cognitive"
+      de: "kognitive Reserve"
+    note: "Cap 12 — conceito de Yaakov Stern. Capacidade do cérebro de compensar dano através de redes alternativas."
+
+  - source: "declínio cognitivo subjetivo"
+    translations:
+      en: "subjective cognitive decline (SCD)"
+      es: "deterioro cognitivo subjetivo"
+      fr: "déclin cognitif subjectif"
+      de: "subjektiver kognitiver Abbau"
+    note: "Cap 12 — antecedente de MCI. Sigla internacional SCD pode ser mantida em parênteses."
+
+  - source: "comprometimento cognitivo leve"
+    translations:
+      en: "mild cognitive impairment (MCI)"
+      es: "deterioro cognitivo leve (MCI)"
+      fr: "trouble cognitif léger (MCI)"
+      de: "leichte kognitive Störung (MCI)"
+    note: "Cap 12 — sigla MCI é internacional e deve ser introduzida entre parênteses."
+
+  - source: "fronteira da geromedicina"
+    translations:
+      en: "the geromedicine frontier"
+      es: "la frontera de la geromedicina"
+      fr: "la frontière de la géromédecine"
+      de: "die Grenze der Geromedizin"
+    note: "Cap 9 — seção sobre rapamicina, senolíticos, NAD+, urolitina A, espermidina, Akkermansia."
+
+  - source: "terapia endovenosa de longevidade"
+    translations:
+      en: "IV longevity therapy"
+      es: "terapia endovenosa de longevidad"
+      fr: "thérapie intraveineuse de longévité"
+      de: "intravenöse Longevity-Therapie"
+    note: "Cap 9 — também chamado de 'drips'. Anglicismo 'drip' aparece entre aspas no texto pt-BR; manter o uso aproximado em outras línguas."
+
+  - source: "síndrome pós-finasterida"
+    translations:
+      en: "post-finasteride syndrome (PFS)"
+      es: "síndrome post-finasteride (PFS)"
+      fr: "syndrome post-finastéride (PFS)"
+      de: "Post-Finasterid-Syndrom (PFS)"
+    note: "Cap 8 — posicionamento clínico do autor. Sigla PFS deve ser introduzida. Reconhecimento EMA 2025, FDA 2022."
+
+  - source: "alopecia androgenética"
+    translations:
+      en: "androgenetic alopecia"
+      es: "alopecia androgenética"
+      fr: "alopécie androgénétique"
+      de: "androgenetische Alopezie"
+
+  - source: "vale de erosão silenciosa"
+    translations:
+      en: "silent valley of erosion"
+      es: "valle de erosión silenciosa"
+      fr: "vallée d'érosion silencieuse"
+      de: "stilles Tal der Erosion"
+    note: "Cap 13 — metáfora do autor para a meia-idade como período de deterioração de vínculos sociais."
+
+  - source: "o ritual"
+    translations:
+      en: "the ritual"
+      es: "el ritual"
+      fr: "le rituel"
+      de: "das Ritual"
+    note: "Cap 13 — modo como Ricardo e Marina chamam a caminhada silenciosa de domingo. Minúscula e entre aspas no original."
+
+  - source: "vínculos sociais"
+    translations:
+      en: "social bonds"
+      es: "vínculos sociales"
+      fr: "liens sociaux"
+      de: "soziale Bindungen"
+    note: "Cap 13 — sub-pilar. Preferir 'vínculos sociais' a 'conexão social' (mais forte, mais preciso)."
+
+  - source: "sobrecarga do cuidador"
+    translations:
+      en: "caregiver strain"
+      es: "sobrecarga del cuidador"
+      fr: "épuisement de l'aidant"
+      de: "Angehörigenbelastung"
+    note: "Cap 13 — síndrome do cuidador, com biologia documentada (cortisol, PCR, telômeros)."
+
+  - source: "atenção fragmentada"
+    translations:
+      en: "fragmented attention"
+      es: "atención fragmentada"
+      fr: "attention fragmentée"
+      de: "fragmentierte Aufmerksamkeit"
+    note: "Cap 13 — diagnóstico contemporâneo derivado da pesquisa de Gloria Mark (UC Irvine)."
+
+  - source: "doomscrolling"
+    translations:
+      en: "doomscrolling"
+      es: "doomscrolling"
+      fr: "doomscrolling"
+      de: "Doomscrolling"
+    note: "Cap 13 — anglicismo consolidado. Manter em itálico na primeira ocorrência e adicionar nota curta em rodapé se necessário."
+
+  - source: "bem-estar eudaimônico"
+    translations:
+      en: "eudaimonic well-being"
+      es: "bienestar eudaimónico"
+      fr: "bien-être eudémonique"
+      de: "eudaimonisches Wohlbefinden"
+    note: "Cap 13 — conceito de Andrew Steptoe, distinguindo bem-estar ligado a propósito (eudaimônico) de bem-estar ligado a prazer (hedônico)."
+
+  - source: "ikigai"
+    translations:
+      all: "ikigai"
+    note: "Cap 13 — palavra japonesa. Manter em todas as línguas. Explicar como 'aquilo pelo qual vale levantar de manhã'."
+
+  - source: "plan de vida"
+    translations:
+      all: "plan de vida"
+    note: "Cap 13 — expressão usada na Blue Zone de Nicoya (Costa Rica). Manter em espanhol em todas as línguas."
+
+  - source: "prática contemplativa laica"
+    translations:
+      en: "secular contemplative practice"
+      es: "práctica contemplativa laica"
+      fr: "pratique contemplative laïque"
+      de: "säkulare kontemplative Praxis"
+    note: "Cap 13 — termo que descreve meditação, journaling e silêncio deliberado em paciente sem filiação religiosa."
+
 # ============================================================
 # NUNCA TRADUZIR — MARCAS E NOMES PRÓPRIOS
 # ============================================================
@@ -147,6 +316,33 @@ never_translate:
     - "T3, T4"
     - "VO2 max"
     - "HRV"            # heart rate variability
+    - "SHBG"           # globulina ligadora de hormônios sexuais
+    - "DHEA-S"         # dehidroepiandrosterona sulfato
+    - "IGF-1"          # fator de crescimento insulina-símile 1
+    - "p-tau217"       # biomarcador plasmático de Alzheimer (Cap 12)
+    - "PHQ-9"          # Patient Health Questionnaire — triagem de depressão
+    - "GAD-7"          # Generalized Anxiety Disorder — triagem de ansiedade
+    - "AUDIT"          # Alcohol Use Disorders Identification Test
+    - "PCL-5"          # PTSD Checklist for DSM-5
+    - "MoCA"           # Montreal Cognitive Assessment
+    - "MCI"            # mild cognitive impairment
+    - "SCD"            # subjective cognitive decline
+    - "PDE5"           # inibidores de fosfodiesterase 5 (sildenafila, tadalafila, vardenafila)
+    - "APOE4"          # variante do gene APOE
+    - "MTHFR"          # metilenotetrahidrofolato redutase
+    - "ACE score"      # Adverse Childhood Experiences score (Cap 12)
+    - "MBSR"           # Mindfulness-Based Stress Reduction
+    - "TCC"            # terapia cognitivo-comportamental (em EN usar "CBT")
+    - "EMDR"           # Eye Movement Desensitization and Reprocessing
+    - "IAH"            # índice de apneia-hipopneia (em EN usar "AHI")
+    - "CPAP"
+    - "TRH"            # terapia de reposição hormonal (em EN usar "HRT")
+    - "HSDD"           # transtorno de desejo sexual hipoativo
+    - "PFS"            # síndrome pós-finasterida (post-finasteride syndrome)
+    - "CID-11"         # Classificação Internacional de Doenças v11 (em EN usar "ICD-11")
+    - "FDA"            # agência dos EUA — não traduzir
+    - "EMA"            # agência europeia — não traduzir
+    - "Anvisa"         # agência brasileira — manter
   exceptions_by_language:
     en:
       - original: "PCR-us"
@@ -155,6 +351,18 @@ never_translate:
       - original: "TOTG"
         translation: "OGTT"
         note: "Oral glucose tolerance test — sigla internacional em inglês"
+      - original: "TCC"
+        translation: "CBT"
+        note: "Cognitive Behavioral Therapy"
+      - original: "IAH"
+        translation: "AHI"
+        note: "Apnea-Hypopnea Index"
+      - original: "TRH"
+        translation: "HRT"
+        note: "Hormone Replacement Therapy"
+      - original: "CID-11"
+        translation: "ICD-11"
+        note: "International Classification of Diseases"
 
   proper_names:
     # Personagens dos casos clínicos — manter nome brasileiro
@@ -164,6 +372,7 @@ never_translate:
     - "Marcos"
     - "Paulo"
     - "Ana"
+    - "Marina"  # esposa de Ricardo (Cap 13 — I2)
     note: "Personagens-âncora. Preservar identidade cultural brasileira. Não anglicizar para Richard, Fernandez, Andrew etc."
 
 # ============================================================

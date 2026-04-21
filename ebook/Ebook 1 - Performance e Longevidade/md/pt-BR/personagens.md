@@ -4,27 +4,27 @@
 
 ---
 
-## Tabela-síntese
+## Tabela-síntese (livro em 18 capítulos)
 
 | # | Personagem | Idade | Porta de entrada | Pilar demonstrado | Arco | Aparições |
 |---|---|---|---|---|---|---|
-| 1 | **Ricardo** | 52 → 57 | Pós-infarto (3m após stent) | Painel ampliado · Autoavaliação | Sobrevivente → coautor | Caps 1, 2, 4, 11, 12, 13 |
-| 2 | **Fernanda** | 41 | Insistência do marido | Metabolismo · Reversão sem fármaco | Magra com disfunção oculta → revertida | Caps 4, 6, 11, 12 |
-| 3 | **André** | 45 | Aspiracional ("otimizar tudo") | TOTG + MTHFR · Ajuste de treino | Triatleta inflamado → rebalanceado | Caps 3, 6, 7, 8, 11 |
-| 4 | **Marcos** | 57 | Encaminhado | CAC + Regra dos Dois | "Estatina controlou" → prevenção secundária | Caps 5, 7, 11, 13 |
-| 5 | **Paulo** | 48 → 50 | Aspiracional | Gestão hormonal · Apneia oculta | Testo baixa → pico restaurado após CPAP | Caps 8, 10, 11 |
-| 6 | **Ana** | 44 | Decidida a otimizar | Corpo-mente · HPA | 18m biológicos sem mover PCR → TCC resolve | Caps 9, 11 |
+| 1 | **Ricardo** | 52 → 57 | Pós-infarto (3m após stent) | Painel ampliado · I2 pós-evento · Autoavaliação | Sobrevivente → coautor | Caps 1, 2, 4, 13, 15, 16, 17 |
+| 2 | **Fernanda** | 41 → 44 | Insistência do marido | Metabolismo · TRH na janela | Magra com disfunção oculta → revertida → TRH bem conduzida | Caps 4, 6, 10, 15, 16 |
+| 3 | **André** | 45 | Aspiracional ("otimizar tudo") | TOTG + MTHFR · Ajuste de treino | Triatleta inflamado → rebalanceado | Caps 3, 6, 7, 11, 15 |
+| 4 | **Marcos** | 57 | Encaminhado | CAC + Regra dos Dois | "Estatina controlou" → prevenção secundária | Caps 5, 7, 8, 9, 15, 17 |
+| 5 | **Paulo** | 48 → 50 | Aspiracional | G2 (painel hormonal) · G3 (Paulo 6m) · R (apneia) | Testo baixa → pico restaurado após CPAP | Caps 10, 11, 14, 15 |
+| 6 | **Ana** | 44 | Decidida a otimizar | I1 (avaliação + regulação + função cognitiva) · I2 (vínculos · cuidador) | 18m biológicos sem mover PCR → TCC+MBSR+AD resolve | Caps 12, 13, 15, 16 |
 
 ---
 
 ## 1. Ricardo — "O homem que morreu saudável"
 
-**O paciente-título do livro.** Infarto com check-up "normal" 8 meses antes. Abre o livro e o fecha.
+**O paciente-título do livro.** Infarto com check-up "normal" 8 meses antes. Abre o livro e fecha o pilar I (Cap 13 — dimensão relacional e existencial pós-evento).
 
 ### Demografia
-- 52 anos (Cap 1) → 57 anos (Cap 11, 5 anos depois)
-- Diretor financeiro de empresa de tecnologia em São Paulo
-- Casado (não detalhado)
+- 52 anos (Cap 1) → 53 anos no Cap 13 (I2, 18 meses pós-infarto) → ~54 no Cap 13 fechamento (30 meses pós) → 57 anos (Cap 15, 5 anos pós-infarto)
+- Executivo de empresa de tecnologia em São Paulo (cargo de diretoria)
+- Casado com Marina (nome introduzido no Cap 13); três filhos adultos
 
 ### Perfil pré-evento
 - Corria 3x/semana no parque ("ativo, não atleta")
@@ -32,6 +32,7 @@
 - Bebia socialmente
 - Dormia "razoavelmente bem, considerando a rotina de executivo"
 - **"Saudável por qualquer critério informal"**
+- Retrospectivamente identificado no Cap 13: queixa de ereções mais fracas nos 2 anos antes do infarto, normalizada como "cansaço do trabalho"
 
 ### Check-up convencional (8 meses antes do infarto)
 - Colesterol total: dentro da faixa
@@ -60,32 +61,41 @@
 
 > Observação de revisão: Cap 1 descreve o exame como *"angiotomografia"* mas cita o equivalente em escore de cálcio. Cap 5 chama de *"CAC score de 187 descoberto durante a internação"*. Tecnicamente são exames diferentes — nota para decisão editorial.
 
-### Arco (5 anos)
-- **Cap 1:** infarto → primeiros exames ampliados → "diagnóstico tardio do que já estava lá"
-- **Cap 11:** 5 anos depois, volta com pasta de histórico completo. **Momento-chave:** pede para ler os próprios exames com o médico. Torna-se coautor do próprio plano.
-- **Cap 12:** abertura do capítulo com pergunta sobre como teria encontrado medicina preventiva antes do infarto.
-- **Cap 13:** rememorado no Manifesto.
+### Arco pós-infarto
+- **T+3m (Cap 1 / Cap 4):** infarto → primeiros exames ampliados → "diagnóstico tardio do que já estava lá"
+- **T+12m (Cap 9 / Cap 10):** programa estruturado (estatina + ezetimiba + PCSK9; painel hormonal; reabilitação cardíaca)
+- **T+18m (Cap 13 abertura — I2):** painel biológico em ordem, mas dimensão relacional-existencial em colapso. Vida sexual zerada há 8 meses, amigos sumiram, celular compulsivo, ambição esvaziada, perguntas existenciais sem lugar para aparecer.
+- **T+21m (Cap 13 meio):** intervenções iniciadas — tadalafila 5mg diária, terapia de casal com Marina, três telefonemas a amigos sumidos, celular fora do quarto, grayscale no celular, bloqueio automático de apps financeiros noturno.
+- **T+30m (Cap 13 fechamento):** vida sexual restabelecida com qualidade relacional maior que a pré-infarto; três amigos reconectados em ciclo regular; 10 meses sem celular no quarto; mentoria voluntária semanal a jovens executivos; ritual de caminhada silenciosa de domingo de manhã com Marina. PCR 0,6; cortisol 15.
+- **T+5 anos (Cap 15 — Placar):** volta com pasta de histórico completo. Momento-chave: pede para ler os próprios exames com o médico. Torna-se coautor do próprio plano.
+- **Cap 16 (Especialista):** pergunta sobre como teria encontrado medicina preventiva antes do infarto.
+- **Cap 17 (Manifesto):** rememorado em voz do autor.
 
 ### Falas diretas
 - Cap 1: *"Doutor, como é possível? Eu fazia check-up todo ano."*
-- Cap 11: *"Doutor, eu hoje quero fazer eu mesmo. O senhor me orienta, mas quero ler meus exames. Quero entender o que cada número diz e o que cada número manda eu fazer."*
-- Cap 12: *"Doutor, se eu tivesse querido procurar um médico como o senhor antes do infarto [...] como é que eu teria achado? Eu nem sabia que isso existia."*
+- Cap 13 abertura: *"Doutor, os exames estão bons. Eu não estou."*
+- Cap 13 sobre trabalho: *"Para quê, doutor? Eu quase morri para conseguir essa promoção. Se eu tivesse morrido, ninguém ia dizer na minha missa 'pena, ele estava tão perto do conselho.' Ninguém."*
+- Cap 13 sobre espiritualidade: *"Eu quase fui. E depois voltei. E o que fica disso? Eu ainda não sei para onde olhar quando essa pergunta aparece."*
+- Cap 13 fechamento: *"Doutor, eu achei que ia sair dessa história mais frágil. Eu acho que saí mais inteiro."*
+- Cap 15: *"Doutor, eu hoje quero fazer eu mesmo. O senhor me orienta, mas quero ler meus exames. Quero entender o que cada número diz e o que cada número manda eu fazer."*
+- Cap 16: *"Doutor, se eu tivesse querido procurar um médico como o senhor antes do infarto [...] como é que eu teria achado? Eu nem sabia que isso existia."*
 
-### Figuras associadas
-- **Fig 1.2:** Ricardo — todos os números "normais", nenhum ótimo (espelho visual do livro; retomado como contraste em Fig 7.3 de Marcos e Fig 8.3 de Paulo)
+### Figuras associadas (nova numeração)
+- **Fig 1.2:** Ricardo — todos os números "normais", nenhum ótimo (espelho visual do livro)
 - **Fig 5.1 e 5.2:** Ricardo posicionado na escala do CAC (187) e na idade arterial (52 → 68)
+- **Fig 13.2:** Ricardo em 3 tempos do pilar I2 (T+18m → T+21m → T+30m) — a criar
 
 ---
 
 ## 2. Fernanda — "A reversão metabólica em 6 meses"
 
-**A paciente magra com tudo "normal" e fígado gorduroso.** Caso-tipo do fenótipo TOFI (*Thin Outside, Fat Inside*) e da reversão sem fármaco.
+**A paciente magra com tudo "normal" e fígado gorduroso.** Caso-tipo do fenótipo TOFI (*Thin Outside, Fat Inside*) e da reversão sem fármaco. Em Cap 10 reaparece 3 anos depois, no início da transição menopausal, com decisão de TRH na janela.
 
 ### Demografia
-- 41 anos
+- 41 anos (Cap 4/6) → 44 anos (Cap 10 — TRH na janela)
 - Mulher, IMC 23 (magra)
 - Casada (marido era paciente prévio do autor — pessoa-chave na indicação)
-- Dois filhos (implícito — Cap 6 menciona no contexto de sono/estresse)
+- Dois filhos
 
 ### Perfil
 - Exercício 3x/semana (cardio leve)
@@ -95,13 +105,9 @@
 
 ### História familiar (relevante)
 - Pai: infarto aos 58 anos
-- Mãe: diabetes tipo 2 aos 62 anos
+- Mãe: diabetes tipo 2 aos 62 anos; **menopausa aos 42** (relevante para arco do Cap 10 — herança reprodutiva)
 
-### Porta de entrada
-- Insistência do marido (já paciente do autor, tinha visto o caso de Ricardo)
-- Fala do marido: *"Ela fala que está tudo bem porque o exame disse que está tudo bem. Mas eu já vi o que 'tudo bem' significou no caso do Ricardo."*
-
-### Baseline (primeira consulta)
+### Baseline (primeira consulta, aos 41)
 | Categoria | Marcador | Valor | Leitura |
 |---|---|---|---|
 | **Convencional** | Glicemia jejum | 94 mg/dL | Normal |
@@ -129,13 +135,9 @@
 *"Fígado gorduroso? Mas eu não sou gorda. Eu nem bebo."*
 
 ### Intervenções (6 meses, **estilo de vida + suplementação inteligente, sem fármaco prescrito**)
-1. **Alimentação reestruturada:**
-   - Padrão mediterrâneo
-   - Redução de ultraprocessados e frutose adicionada
-   - Janela alimentar de 10 horas alinhada à fase ativa
-2. **Treino de força:** 3 sessões semanais de musculação adicionadas ao cardio existente
-3. **Vitamina D corrigida**
-4. **Sono e estresse avaliados** (componentes a serem desenvolvidos nos caps seguintes)
+1. Alimentação reestruturada (mediterrâneo + janela 10h + corte de ultraprocessados e frutose)
+2. Treino de força: 3 sessões semanais adicionadas
+3. Vitamina D corrigida, ômega-3 em dose de suplemento, magnésio glicinato
 
 ### Resultados aos 6 meses
 | Marcador | Antes | Depois |
@@ -150,17 +152,26 @@
 | GGT | 34 | **22** |
 | Ultrassom | Esteatose I | **Sem esteatose** |
 
-### Mensagem-chave
-"Seis anos antes de qualquer diagnóstico convencional, ela já estava revertendo o processo. Sem metformina. Sem cirurgia. Diferente do pai. Diferente da mãe. Porque alguém olhou antes."
+### Retorno aos 44 anos (Cap 10 — TRH na janela)
+- Metabolismo preservado (insulina 7, ApoB 78, fígado sem gordura)
+- Sintomas: sono ruim há mais de um ano, ondas de calor noturnas, humor lábil, libido em queda livre, menstruação encurtando e falhando
+- **FSH 38 mUI/mL, estradiol 28 pg/mL, progesterona lútea <2 ng/mL** — transição instalada cedo
+- Herança reprodutiva da mãe (menopausa aos 42) reconhecida
+- Fala: *"Meu maior medo não é o sintoma. É o que vem depois. Minha mãe caiu aos 67 e quebrou o punho. Aos 68, o colo do fêmur. Os quinze anos seguintes foram de dor e dependência. Eu não quero esse caminho."*
+- **Prescrição:** Estradiol adesivo 0,05 mg + progesterona micronizada 100 mg à noite
+- **Desfecho 3 meses depois:** sono voltou, ondas de calor quase nenhuma, humor estável — janela respeitada
 
-### Figuras associadas
+### Mensagem-chave
+"Seis anos antes de qualquer diagnóstico convencional, ela já estava revertendo o processo. Sem metformina. Sem cirurgia. Diferente do pai. Diferente da mãe. Porque alguém olhou antes." — e anos depois, a decisão de TRH feita dentro da janela protetora.
+
+### Figuras associadas (nova numeração)
 - **Fig 4.2:** sete barras de Fernanda entre "normal" e "ótimo"
 - **Fig 6.1:** US de fígado normal vs. esteatose
 - **Fig 6.2:** mesmo IMC, corpos diferentes (TOFI)
 - **Fig 6.3:** timeline da disfunção metabólica (Fernanda posicionada na transição Fase 1→2)
 
 ### Aparições
-Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce nos 40s), 12 (porta de entrada clínica)
+Caps 4 (apresentação), 6 (aprofundamento metabólico), 10 (TRH na janela aos 44), 15 (exemplo de detecção precoce nos 40s), 16 (porta de entrada clínica)
 
 ---
 
@@ -202,29 +213,26 @@ Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce n
 
 **Rotulado no livro como "padrão Kraft tipo III"** — hiperinsulinemia compensatória; resposta pós-prandial disfuncional enquanto jejum ainda parece normal.
 
-> Observação de revisão: Kraft Tipo III clássico tem pico aos 120–180 min; a curva descrita tem pico aos 60 min. Rótulo possivelmente deveria ser Kraft II. Nota para decisão editorial (item 2.3 do relatório).
+> Observação de revisão: Kraft Tipo III clássico tem pico aos 120–180 min; a curva descrita tem pico aos 60 min. Rótulo possivelmente deveria ser Kraft II. Nota para decisão editorial.
 
 ### Problema de treino
 - 10 h/semana — volume de atleta
 - Quase tudo em **zona 3 e 4** (ritmo de prova, estímulo constante, recuperação insuficiente)
 - Zona 2 praticamente inexistente
 - Treino de força: 1 sessão/sem de "funcional" com elástico (subterapêutica)
-- Estabilidade e mobilidade: nada estruturado
-- **Overtraining** mascarado por aparência atlética
-- Sarcopenia incipiente escondida sob físico de triatleta
 - Vegetarianismo sem suplementação adequada de B12 e folato metilado
-- Polimorfismo MTHFR nunca investigado (Cap 8 retroativamente identifica)
+- Polimorfismo MTHFR nunca investigado (Cap 11 retroativamente identifica)
 
 ### Reação
 *"Eu tenho 45 anos."* (abertura)
 *"Mas doutor, eu tenho 45 anos — como é possível?"*
 
 ### Intervenções (6 meses)
-1. **Redução de volume total de treino**
-2. **Aumento da proporção de zona 2 para >70% do cardio**
-3. **Musculação 2x/semana com carga progressiva** (movimentos compostos)
-4. **Dois dias de descanso real**
-5. **Suplementação:** metilcobalamina + 5-MTHF (folato metilado — compensando MTHFR e vegetarianismo)
+1. Redução de volume total de treino
+2. Aumento da proporção de zona 2 para >70% do cardio
+3. Musculação 2x/semana com carga progressiva (movimentos compostos)
+4. Dois dias de descanso real
+5. Suplementação: metilcobalamina + 5-MTHF (folato metilado — compensando MTHFR e vegetarianismo)
 
 ### Resultados em 6 meses
 | Marcador | Antes | Depois |
@@ -240,9 +248,8 @@ Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce n
 - Cap 3: apresentação (idade biológica > cronológica, hallmarks)
 - Cap 6: TOTG com curva — "quando o jejum mente"
 - Cap 7: reestruturação do treino (caso-tipo do "treinar muito ≠ treinar certo")
-- Cap 8: MTHFR e folato metilado
-- Cap 11: exemplo de "hábito aparente vs. marcador real"
-- Cap 12: citado no contra-exemplo de personalização
+- Cap 11: MTHFR e folato metilado (genômica aplicada)
+- Cap 15: exemplo de "hábito aparente vs. marcador real"
 
 ---
 
@@ -256,8 +263,8 @@ Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce n
 - Casado (implícito)
 
 ### Medicação prévia
-- **Rosuvastatina 20 mg/dia havia 6 anos**
-- > **Inconsistência editorial:** Caps 8 e 11 chamam esta terapia de "estatina em dose baixa". Rosuvastatina 20 mg é intensidade moderada-alta. Item 2.1 do relatório de revisão.
+- **Rosuvastatina 10 mg/dia havia 6 anos** (Cap 5)
+- Caps 9, 15 e 17 se referem a essa terapia como *"estatina em dose baixa"*. Tecnicamente, rosuvastatina 10 mg é classificada como intensidade moderada pelas diretrizes ACC/AHA; o texto do livro usa "dose baixa" no sentido narrativo (em relação ao que seria preciso para atingir ApoB < 60), não na classificação farmacológica formal. Aceitável no contexto.
 
 ### Evolução do lipidograma sob estatina
 - LDL: 148 → 78 mg/dL
@@ -287,19 +294,15 @@ Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce n
 *"Então o que eu fiz nos últimos seis anos não serviu para nada?"*
 
 ### Intervenções — a "Regra dos Dois" em prática
-**Frente 1 — Farmacológica:**
+**Frente 1 — Farmacológica (Cap 9 — G1):**
 - Intensificação da estatina
 - Adição de ezetimiba
 - Alvo: ApoB < 60
 
-**Frente 2 — Três motores (Cap 7):**
-- **Alimentação:** padrão mediterrâneo com janela 10h (jantar antes das 20h)
-- **Treino estruturado** nos 4 pilares:
-  - Zona 2 no cicloergômetro (protegia joelhos) — 2x/sem
-  - Musculação 3x/sem com treinador ciente do contexto clínico
-  - HIIT 1x/sem a partir da 6ª semana
-  - Mobilidade integrada ao aquecimento
-- **Suplementação:** vitamina D + K2 MK-7; magnésio treonato à noite (sono)
+**Frente 2 — Três motores (Caps 7 e 8 — A1 e A2):**
+- Alimentação: padrão mediterrâneo com janela 10h (jantar antes das 20h) — Cap 8
+- Treino estruturado nos 4 pilares (zona 2, força, HIIT, mobilidade) — Cap 7
+- Suplementação: vitamina D + K2 MK-7; magnésio treonato à noite (sono) — Cap 8
 
 ### Resultados em 8 meses
 | Marcador | Antes | Depois |
@@ -308,7 +311,6 @@ Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce n
 | Insulina jejum | 11 | **6** |
 | hs-CRP | 1,6 | **0,6** |
 | Vitamina D | 28 | **52** |
-| TG/HDL | — | Normalizada |
 | Composição | — | **−5 kg gordura / +2 kg massa magra** |
 | VO₂ max | — | **+1,8 MET** (≈25–30% redução adicional no risco de morte) |
 | **CAC** | 412 | **412 (inalterado)** — cálcio depositado não se dissolve |
@@ -316,16 +318,18 @@ Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce n
 ### Mensagem-chave
 "O CAC de 412 não mudou. Mas a trajetória que construiu aquele escore ao longo de décadas havia sido revertida."
 
-### Figuras associadas
+### Figuras associadas (nova numeração)
 - **Fig 5.1, 5.2:** Marcos na escala do CAC e na idade arterial
-- **Fig 7.3:** dot plot de 8 meses (espelho da Fig 1.2 de Ricardo)
-- **Fig 11.1:** painel antes/depois
+- **Fig 8.1:** dot plot de 8 meses (espelho da Fig 1.2 de Ricardo)
+- **Fig 15.1:** painel antes/depois (placar)
 
 ### Aparições
 - Cap 5: apresentação — o CAC de 412
-- Cap 7: reestruturação dos três motores
-- Cap 11: exemplo-tipo da "Regra dos Dois" e da década dos 50
-- Cap 13: rememorado no Manifesto
+- Cap 7: reestruturação do treino (zona 2, força progressiva, HIIT)
+- Cap 8: três motores — alimentação, suplementação, fechamento com os 8 meses
+- Cap 9: farmacologia de precisão (estatina + ezetimiba)
+- Cap 15: exemplo-tipo da "Regra dos Dois" e da década dos 50
+- Cap 17: rememorado no Manifesto
 
 ---
 
@@ -343,7 +347,7 @@ Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce n
 ### Porta de entrada
 - Aspiracional: *"Estou bem, só quero entender se estou otimizado."*
 
-### Baseline (T0) — Cap 8
+### Baseline (T0) — Cap 10 (painel hormonal)
 | Marcador | Valor | Leitura |
 |---|---|---|
 | Testosterona total | **310 ng/dL** | No limite inferior (lab: < 300 é hipogonadismo) |
@@ -369,7 +373,7 @@ Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce n
 - Testosterona livre: 4,8 → **8,1**
 - Vitamina D: 24 → 52
 
-#### T + 6 meses (pico inicial)
+#### T + 6 meses (pico inicial) — Cap 11 (G3 — lógica iterativa)
 | Marcador | Valor |
 |---|---|
 | Testosterona total | **485 ng/dL** |
@@ -382,7 +386,7 @@ Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce n
 
 #### T + 12 meses — ganho mantido
 
-#### T + 18 meses — **REGRESSÃO SILENCIOSA**
+#### T + 18 meses — **REGRESSÃO SILENCIOSA** (Cap 14 — R)
 - Sem mudança de hábito
 - Treino, alimentação e suplementação mantidos
 
@@ -393,32 +397,18 @@ Caps 4 (apresentação), 6 (aprofundamento), 11 (exemplo de detecção precoce n
 | hs-CRP | 0,9 | **1,3** |
 | HbA1c | 5,2 | **5,5** |
 
-**Fala-chave nesta consulta:**
-- Autor: *"Como anda seu sono?"*
-- Paulo: *"Continua em torno de seis horas, acorda algumas vezes, nada muito diferente."*
-- Autor: *"Sua esposa reclama de alguma coisa durante o sono?"*
-- Paulo: *"Ela fala há anos que eu ronco muito. Eu sempre brinquei que é idade."*
-
 ### Diagnóstico via polissonografia
 | Achado | Valor |
 |---|---|
 | IAH | **22 eventos/hora** (apneia obstrutiva moderada) |
 | Dessaturações de O₂ | até **86%** |
-| Sono total | 6h15min |
 | Sono N3 | **<5%** (normal para idade: 15–20%) |
 
 Paulo à primeira informação: *"Doutor, eu durmo bem. Acordo descansado. Não tenho sonolência diurna."*
 
 ### Intervenções Fase 2 (Pilar R) — 6 meses
-1. **CPAP titulado** (adaptação de ~3 semanas, resistência inicial)
-2. **Protocolo circadiano completo:**
-   - Dormir 22h45 / acordar 6h15 (inclusive fim de semana)
-   - 15 min de luz matinal imediatamente após acordar
-   - Janela alimentar até 19h em dias em casa
-   - Café só até 12h
-   - Álcool reduzido para máx. 2 taças/semana
-   - Treino sempre diurno
-   - Quarto escurecido, 19 °C
+1. CPAP titulado (adaptação de ~3 semanas, resistência inicial)
+2. Protocolo circadiano completo (horário regular, luz matinal, janela alimentar, café só até 12h, álcool reduzido, quarto escurecido 19 °C)
 
 ### Resultados T + 24 meses (6m pós-CPAP)
 | Marcador | T+18m | T+24m |
@@ -438,26 +428,26 @@ Paulo à primeira informação: *"Doutor, eu durmo bem. Acordo descansado. Não 
 ### Mensagem-chave
 "O pilar R — ritmo circadiano e repouso — não é um quinto pilar opcional. É o solo em que os outros três pilares se sustentam."
 
-### Figuras associadas
-- **Fig 8.1:** curva de testosterona por idade — Paulo aos 48 com valor típico de 80+
-- **Fig 8.3:** dot plot de 6 meses (terceiro espelho, depois de Ricardo e Marcos)
-- **Fig 10.3:** trajetória completa de 24 meses — quatro tempos
+### Figuras associadas (nova numeração)
+- **Fig 10.1:** curva de testosterona por idade — Paulo aos 48 com valor típico de 80+
+- **Fig 11.1:** dot plot de 6 meses (Paulo no fechamento iterativo de G3)
+- **Fig 14.3:** trajetória completa de 24 meses — quatro tempos
 
 ### Aparições
-Caps 8 (apresentação), 10 (apneia + completar arco), 11 (exemplo do Pilar R)
+Caps 10 (apresentação — painel hormonal), 11 (6 meses depois — lógica iterativa de G), 14 (apneia + completar arco R), 15 (exemplo do Pilar R no placar)
 
 ---
 
-## 6. Ana — "O pilar que faltava"
+## 6. Ana — "Os dois capítulos do pilar I"
 
-**O caso que fecha o Método AGIR.** Dezoito meses de otimização biológica impecável sem mover PCR nem cortisol — porque a dimensão psicológica nunca tinha sido endereçada.
+**O caso que abre o pilar I em duas camadas.** Cap 12 (I1 — trabalho interno) e Cap 13 (I2 — dimensão relacional, via caregiver strain da mãe com demência). Dezoito meses de otimização biológica impecável sem mover PCR nem cortisol — porque a dimensão psicológica nunca tinha sido endereçada.
 
 ### Demografia
 - 44 anos
-- Arquiteta, sócia de escritório de arquitetura
+- Arquiteta, sócia de escritório de arquitetura em São Paulo
 - Casada
 - Dois filhos de 8 e 11 anos
-- Mãe com sinais iniciais de demência
+- Mãe com sinais iniciais de demência aos 72 anos (driver narrativo do sub-pilar Função Cognitiva)
 - Pai: "sempre foi ansioso"
 
 ### Porta de entrada
@@ -465,11 +455,10 @@ Caps 8 (apresentação), 10 (apneia + completar arco), 11 (exemplo do Pilar R)
 - **Fez.** Executou todo o protocolo biológico com disciplina total.
 
 ### Timeline
-- Primeira consulta: 18 meses antes da sexta consulta-chave
+- Primeira consulta: 18 meses antes da sexta consulta-chave (Cap 12)
 - Otimização biológica completa ao longo de 18 meses
 - Sexta consulta: virada narrativa — a conversa muda de bioquímica para eixo HPA
-
-> Observação de revisão: Cap 9 menciona "sexta vez em onze meses" e "dezoito meses antes" na mesma abertura. Contraditório. Ver item 2.2 do relatório.
+- 6 meses depois: fechamento de I1, com bridge para I2 (Cap 13)
 
 ### Otimização biológica (18 meses — antes da virada)
 | Marcador | Antes | Pós-18m |
@@ -493,7 +482,7 @@ Hábitos instalados:
 
 ### Contexto de vida (que veio na sexta consulta)
 - Reuniões de obra, briefings com clientes, planilhas à noite
-- Mãe com demência incipiente
+- Mãe com demência incipiente (driver do medo cognitivo em I1)
 - Decisão sobre trocar os filhos de escola
 - Pressão financeira (escola particular em SP)
 - **"Pavor" de sexta-feira à tarde** — já pensava nos problemas da segunda
@@ -502,41 +491,55 @@ Hábitos instalados:
 
 ### Fala-chave
 *"Doutor, eu acho que eu sempre fui ansiosa. Isso é da minha personalidade. Meu pai era igual."*
+*"Doutor, eu vou seguir o mesmo caminho?"* (sobre a mãe com demência)
+
+### Avaliação psicológica estruturada (Cap 12 — I1)
+| Instrumento | Pontuação inicial | Faixa | Após 6m |
+|---|---|---|---|
+| **PHQ-9** | 14 | Moderada | 6 (mínima) |
+| **GAD-7** | 16 | Severa | 5 (mínima) |
+| MoCA | (baseline feita) | Normal | **+2 pontos** (melhora por redução de ansiedade e consolidação do sono) |
+| p-tau217 plasmático | — | **Negativo** (alívio — Ana chora pela primeira vez de alívio em 18 meses) | — |
 
 ### Diagnóstico
 - Ativação crônica do eixo HPA
 - Padrão ansioso de longa data classificado como "personalidade"
 - Cortisol elevado crônico mantendo PCR persistente e impedindo consolidação do sono — sabotando todos os outros pilares
 
-### Intervenções (Pilar I)
+### Intervenções (Pilar I1)
 1. Encaminhamento formal para **psicóloga com formação em TCC**
 2. Segunda opinião com **psiquiatra**
-3. **MBSR estruturado**
+3. **MBSR estruturado** (8 semanas)
 4. **Mindfulness matinal** — 20 min/dia
-5. **Reconexão social** — ligar para duas amigas semanalmente
-6. **Antidepressivo em dose baixa por 6 meses** (decisão compartilhada com psiquiatra)
+5. **Antidepressivo em dose baixa** (decisão compartilhada com psiquiatra, retirado no 12º mês)
 - Outros pilares mantidos como estavam — nada acrescentado neste trimestre.
 - Resistência inicial: *"não quero virar dependente de remédio"* — superada após conversa com psiquiatra.
 
-### Resultados 6 meses depois
+### Resultados 6 meses depois (fechamento I1, Cap 12)
 | Marcador | Antes | Depois |
 |---|---|---|
 | hs-CRP | 1,8 | **0,7** |
 | Cortisol matinal | 22 | **14** |
 | Sono | fragmentado | **consolidado** |
-| Peso | — | estabilizado |
-| Testes de memória | — | melhoraram |
-| Idade epigenética | estagnada por 18m | **retomou desaceleração** |
+| PHQ-9 | 14 | **6** |
+| GAD-7 | 16 | **5** |
+| MoCA | baseline | **+2 pontos** |
+| Idade epigenética | estagnada por 18m | **retomou desaceleração (−2 anos)** |
+
+### Aparição no Cap 13 (I2)
+- **Via caregiver strain da mãe com demência** — exemplo clínico da síndrome do cuidador (eleva PCR, IL-6, cortisol; telômeros encurtam em magnitude comparável a estresse militar em combate)
+- Reconexão social explícita: voltou a ligar para duas amigas semanalmente
+- Não carrega toda a seção I2 — Ricardo é a âncora. Ana entra como contraste de perfil (cuidadora sobrecarregada, não sobrevivente pós-evento)
 
 ### Mensagem-chave
 "Os outros pilares do plano não mudaram. O que mudou foi o pilar que estava faltando."
 
-### Figuras associadas
-- **Fig 9.1:** cascata do eixo HPA (Ana é o caso concreto por trás do diagrama)
-- **Fig 9.2:** preço da solidão / conexão social
+### Figuras associadas (nova numeração)
+- **Fig 12.1:** cascata do eixo HPA (Ana é o caso concreto por trás do diagrama)
+- **Fig 12.2:** Ana, dois marcadores duplos antes e depois de 6 meses — PCR/cortisol + PHQ-9/GAD-7 (a criar)
 
 ### Aparições
-Caps 9 (apresentação e fechamento do arco), 11 (exemplo da Regra dos Dois aplicada ao Pilar I)
+Caps 12 (apresentação e fechamento I1), 13 (exemplo de caregiver strain em I2), 15 (exemplo da Regra dos Dois aplicada ao Pilar I), 16 (integração entre pilares na avaliação de profissional)
 
 ---
 
@@ -547,7 +550,7 @@ Caps 9 (apresentação e fechamento do arco), 11 (exemplo da Regra dos Dois apli
 **hs-CRP (mg/L)**
 | Paciente | Inicial | Final |
 |---|---|---|
-| Ricardo | 2,4 | — |
+| Ricardo | 2,4 | 0,6 (T+30m, Cap 13) |
 | Fernanda | 1,9 | 0,8 |
 | André | 2,1 | 0,7 |
 | Marcos | 1,6 | 0,6 |
@@ -566,8 +569,8 @@ Caps 9 (apresentação e fechamento do arco), 11 (exemplo da Regra dos Dois apli
 **ApoB (mg/dL)**
 | Paciente | Inicial | Final |
 |---|---|---|
-| Ricardo | 118 | — |
-| Fernanda | 108 | — |
+| Ricardo | 118 | 58 (Cap 13) |
+| Fernanda | 108 | 78 (Cap 10) |
 | Marcos | 82 (sob estatina) | 58 |
 | Ana | 102 | 78 |
 
@@ -581,42 +584,50 @@ Caps 9 (apresentação e fechamento do arco), 11 (exemplo da Regra dos Dois apli
 
 ### Por "momento" narrativo
 
-| Momento | Personagem | Capítulo |
+| Momento | Personagem | Capítulo (novo) |
 |---|---|---|
 | Infarto no estacionamento | Ricardo | 1 |
 | "Não sou gorda, não bebo" | Fernanda | 6 |
 | Kraft III no TOTG | André | 6 |
 | CAC 412 revelado | Marcos | 5 |
-| "Sono ainda em torno de 6h" | Paulo | 10 |
-| "Sempre fui ansiosa" | Ana | 9 |
-| Paciente pede para ler próprios exames | Ricardo | 11 |
-| "Como teria encontrado um médico assim?" | Ricardo | 12 |
-| Rememoração no Manifesto | todos | 13 |
+| "Sono ainda em torno de 6h" | Paulo | 14 |
+| "Sempre fui ansiosa" | Ana | 12 |
+| "Doutor, eu vou seguir o mesmo caminho?" (mãe com demência) | Ana | 12 |
+| PHQ-9 de 14 + GAD-7 de 16 | Ana | 12 |
+| "Os exames estão bons. Eu não estou." | Ricardo | 13 |
+| Terapia de casal com Marina | Ricardo | 13 |
+| Mentoria voluntária a jovens executivos | Ricardo | 13 |
+| Ritual de caminhada silenciosa de domingo | Ricardo | 13 |
+| Paciente pede para ler próprios exames | Ricardo | 15 |
+| "Como teria encontrado um médico assim?" | Ricardo | 16 |
+| Rememoração no Manifesto | todos | 17 |
 
 ---
 
 ## Personagens-âncora e os quatro pilares do AGIR
 
-| Pilar | Personagem-caso-tipo | Evidência narrativa |
-|---|---|---|
-| **A — Atividade Física, Alimentação e Suplementação Inteligente** | Fernanda | Reversão completa em 6m com lifestyle + suplementação inteligente |
-| **A — Treino bem estruturado** | André | "Treinar muito ≠ treinar certo" |
-| **G — Gestão Clínica e Metabólica (estatina + ezetimiba)** | Marcos | CAC de 412 + ApoB para <60 |
-| **G — Gestão hormonal + otimização do terreno** | Paulo (Fase 1) | Testo 310 → 485 sem reposição |
-| **I — Integração Mente-Corpo** | Ana | HPA crônico como driver da PCR persistente |
-| **R — Ritmo Circadiano e Repouso** | Paulo (Fase 2) | Apneia oculta sabotando tudo |
+| Pilar | Sub-camada | Personagem-caso-tipo | Evidência narrativa |
+|---|---|---|---|
+| **A1 — Atividade Física** | Cap 7 | Marcos, André | 4 pilares do exercício; VO₂ max e mortalidade |
+| **A2 — Alimentação e Suplementação** | Cap 8 | Fernanda, Marcos | Reversão 6m + pele/cabelo/unhas + PFS |
+| **G1 — Sistemas Cardio-Reno-Metabólicos** | Cap 9 | Marcos | CAC 412 + estatina + ezetimiba + Eixo Cardio-Reno-Metabólico |
+| **G2 — Painéis Bioquímicos e Hormonais** | Cap 10 | Paulo (T0), Fernanda (TRH na janela) | Painel hormonal amplo; TRH transdérmica |
+| **G3 — Genômica e Exposições** | Cap 11 | Paulo (6m iterativo), André (MTHFR) | Lógica iterativa + polimorfismos |
+| **I1 — Mente Individual** | Cap 12 | Ana | PHQ-9/GAD-7, MBSR, TCC, função cognitiva, p-tau217 |
+| **I2 — Conexão, Propósito e Sentido** | Cap 13 | Ricardo (pós-infarto 18m), Ana (caregiver) | Vida sexual, vínculos, telas, propósito, espiritualidade |
+| **R — Ritmo Circadiano e Repouso** | Cap 14 | Paulo (Fase 2) | Apneia oculta sabotando tudo |
 
 ---
 
 ## Observações para manutenção futura
 
 1. **Cuidado ao atualizar valores de um personagem** — verificar todas as aparições nos caps listados.
-2. **Ages absolutas** (ex.: Ricardo 52 → 57) foram escolhidas para coerência de 5 anos de arco no Cap 11.
-3. **Marcos e a "estatina em dose baixa"** — pendência editorial a resolver (rosuvastatina 20 mg não é dose baixa). Ver relatório.
-4. **Ana e o "onze meses"** — pendência editorial. Trocar por "sexta consulta de acompanhamento" ou ajustar cronologia.
+2. **Idades absolutas** (ex.: Ricardo 52 → 57) foram escolhidas para coerência de 5 anos de arco no Cap 15; Cap 13 coloca Ricardo em ~53 (T+18m pós-IAM).
+3. **Marcos e a "estatina em dose baixa"** — resolvida: rosuvastatina 10 mg é intensidade moderada farmacologicamente, mas "dose baixa" é usado no livro em sentido narrativo (relativa ao alvo ApoB < 60). Coerente.
+4. **Ana e o "onze meses"** — pendência editorial antiga. Texto atual do Cap 12 diz "sexta consulta de acompanhamento" e "dezoito meses antes" — verificar se coerente.
 5. **André e Kraft III** — pendência editorial. Ou ajustar rótulo para Kraft II ou reescrever a curva.
-6. **TG/HDL de Fernanda** — citado na Fig 4.2 sem os números explícitos no texto do Cap 4. Adicionar TG 180 e HDL 46 ao bloco inicial.
+6. **Ricardo no Cap 13** — idade ~53 no T+18m, ~54 no T+30m. Ao chegar no Cap 15 aos 57, são 5 anos pós-infarto. Coerente.
 
 ---
 
-*Última atualização: 2026-04-17 — após revisão editorial completa dos caps 1–14.*
+*Última atualização: 2026-04-21 — após divisão do pilar I em 2 capítulos (I1 Cap 12 + I2 Cap 13) e renumeração para 18 capítulos.*

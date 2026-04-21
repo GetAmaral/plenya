@@ -195,7 +195,7 @@ A alimentação seguia padrão Mediterrâneo com janela de 10 horas. O treino ti
 
 Os números contaram a história. Insulina de 11 para 6. PCR de 1,6 para 0,6. ApoB em 58 — bem abaixo do alvo. Relação TG/HDL normalizada. Na composição corporal, 5 kg a menos de gordura, 2 kg a mais de massa magra. E a ergometria mostrou ganho de 1,8 MET em relação ao teste de oito meses antes. Traduzindo para os dados do capítulo anterior: **1,8 MET equivale a algo entre 25% e 30% de redução adicional no risco de morte — um ganho que nenhum ajuste farmacológico teria produzido sozinho.**
 
-![Figura 8.1 — Marcos: 8 Meses Depois. Dot plot com setas de movimento mostrando insulina (11→6), hs-CRP (1,6→0,6), ApoB (82→58), vitamina D (28→52) migrando da zona subótima para a zona ótima, mais barra de progresso de VO₂ max (+1,8 MET).](../Cap07%20Fig03.PNG)
+![Figura 8.1 — Marcos: 8 Meses Depois. Dot plot com setas de movimento mostrando insulina (11→6), hs-CRP (1,6→0,6), ApoB (82→58), vitamina D (28→52) migrando da zona subótima para a zona ótima, mais barra de progresso de VO₂ max (+1,8 MET).](../Cap08%20Fig01.PNG)
 
 O CAC de 412 não mudou. Cálcio depositado não se dissolve. Mas a trajetória que construiu aquele escore ao longo de décadas havia sido revertida. As forças que alimentavam o processo — inflamação, resistência insulínica, sedentarismo, déficits nutricionais — estavam sendo neutralizadas uma a uma.
 

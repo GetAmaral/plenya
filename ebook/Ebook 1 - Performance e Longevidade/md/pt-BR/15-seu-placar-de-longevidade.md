@@ -146,7 +146,7 @@ A composição do placar muda de peso conforme a década, mesmo quando os itens 
 
 **Dos 60 em diante**, o placar muda de eixo: de prevenir doença, passa a **preservar função**. Todos os itens anteriores continuam aplicáveis, mas a ênfase específica desta década é na avaliação funcional — sentar e levantar da cadeira, velocidade de marcha, força de preensão palmar com dinamômetro, todos com pontos de corte validados para idade. Composição corporal com atenção especial à sarcopenia: ASMI assume prioridade. Densitometria óssea regular, anual ou bianual, dependendo de T-score inicial e tratamento. Reavaliação cognitiva periódica. Controle rigoroso do sono, porque apneia é mais prevalente e mais frequentemente subdiagnosticada nesta faixa etária. Rastreamento de distúrbios de audição e visão, porque ambos impactam cognição e equilíbrio. Avaliação periódica de risco de quedas, com revisão da medicação em uso para retirar o que seja desnecessariamente sedativo ou hipotensor.
 
-![Figura 11.2 — Rastreamento por década: o que se acumula a cada janela. Linha do tempo com três faixas etárias contíguas (40s — detecção precoce; 50s — ação máxima; 60+ — preservação funcional). Cada década acrescenta novos exames em azul escuro enquanto mantém os itens das décadas anteriores em cinza.](../Cap11%20Fig02.PNG)
+![Figura 15.2 — Rastreamento por década: o que se acumula a cada janela. Linha do tempo com três faixas etárias contíguas (40s — detecção precoce; 50s — ação máxima; 60+ — preservação funcional). Cada década acrescenta novos exames em azul escuro enquanto mantém os itens das décadas anteriores em cinza.](../Cap15%20Fig02.PNG)
 
 ---
 
