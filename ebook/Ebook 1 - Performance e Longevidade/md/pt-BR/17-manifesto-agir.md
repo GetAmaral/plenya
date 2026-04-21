@@ -1,5 +1,5 @@
 ---
-id: 16
+id: 17
 language: pt-BR
 title: "Manifesto AGIR: Uma Carta ao Meu Eu do Futuro"
 title_en_suggested: "AGIR Manifesto: A Letter to My Future Self"
@@ -8,7 +8,7 @@ last_reviewed: 2026-04-21
 ---
 # PARTE V — ENCERRAMENTO
 
-## Capítulo 16 — Manifesto AGIR: Uma Carta ao Meu Eu do Futuro
+## Capítulo 17 — Manifesto AGIR: Uma Carta ao Meu Eu do Futuro
 
 Eu tenho a mesma idade biológica que meus pacientes.
 

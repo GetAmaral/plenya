@@ -1,5 +1,5 @@
 ---
-id: 17
+id: 18
 language: pt-BR
 title: "Referências, Recursos e Próximos Passos"
 title_en_suggested: "References, Resources and Next Steps"
@@ -8,7 +8,7 @@ last_reviewed: 2026-04-21
 ---
 # PARTE V — ENCERRAMENTO
 
-## Capítulo 17 — Referências, Recursos e Próximos Passos
+## Capítulo 18 — Referências, Recursos e Próximos Passos
 
 As referências abaixo estão organizadas por capítulo e por tipo. Todas foram verificadas individualmente quanto a autoria, periódico, ano e existência real da publicação. Quando disponível, o DOI é incluído para acesso direto. As ferramentas práticas listadas ao final são de acesso livre.
 
@@ -230,43 +230,53 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 12 — Integração Mente-Corpo
+### Capítulo 12 — I1: Mente Individual
 
 **Psiconeuroimunologia:**
 
 - **Vitetta, L. et al.** (2005). "Mind-Body Medicine: Stress and Its Impact on Overall Health and Longevity." *Annals of the New York Academy of Sciences*, 1057:492–505. PubMed PMID 16399915.
 - Revisão Sistemática (2024). "The Mind-Body Connection in Stress and Immunity." *European Journal of Cardiovascular Medicine*. — 75 estudos (2003–2023).
 
+**Trauma e ACE:**
+
+- **Felitti, V.J., Anda, R.F. et al.** (1998). "Relationship of Childhood Abuse and Household Dysfunction to Many of the Leading Causes of Death in Adults: The ACE Study." *American Journal of Preventive Medicine*, 14(4):245–258.
+- **van der Kolk, B.** (2014). *The Body Keeps the Score*. Viking.
+
 **Telômeros e estresse:**
 
-- **Blackburn, E. & Epel, E.** (2004). *PNAS* — como referenciado no Capítulo 3.
+- **Epel, E. et al.** (2004). "Accelerated telomere shortening in response to life stress." *PNAS*, 101(49):17312–17315. — Cuidadores de filhos com doença crônica e erosão telomérica.
+- **Blackburn, E. & Epel, E.** (2017). *The Telomere Effect* — já citada anteriormente.
 
-**Vínculos sociais e longevidade:**
+**Avaliação psicológica — instrumentos validados:**
 
-- **Holt-Lunstad, J. et al.** (2010). "Social Relationships and Mortality Risk: A Meta-analytic Review." *PLOS Medicine*, 7(7):e1000316. — 148 estudos, mais de 300.000 participantes. Conexões sociais fortes = 50% mais chances de sobrevivência.
-- **Holt-Lunstad, J. et al.** (2015). "Loneliness and Social Isolation as Risk Factors for Mortality." *Perspectives on Psychological Science*, 10(2):227–237. — 3,4 milhões de participantes. Solidão +26% mortalidade; isolamento social +29%; viver sozinho +32%.
-- **Harvard Study of Adult Development** — 88+ anos de seguimento. Qualidade dos relacionamentos na meia-idade como preditor mais robusto de saúde e longevidade. Referência: Waldinger, R. & Schulz, M. (2023). *The Good Life*.
-- **Surgeon General dos Estados Unidos** (2023). *Our Epidemic of Loneliness and Isolation*. — Solidão classificada como problema de saúde pública de prioridade nacional.
-- **Iso, H. et al.** — Coorte japonesa sobre apoio social no trabalho e risco cardiovascular (estudo JACC / JPHC).
-- **Epel, E. et al.** (2004). "Accelerated telomere shortening in response to life stress." *PNAS*, 101(49):17312–17315. — Estresse do cuidador e erosão telomérica.
-- **Wittstein, I.S. et al.** (2005). "Neurohumoral Features of Myocardial Stunning Due to Sudden Emotional Stress" (takotsubo). *NEJM*, 352:539–548.
+- **Kroenke, K., Spitzer, R.L., Williams, J.B.W.** (2001). "The PHQ-9: Validity of a brief depression severity measure." *Journal of General Internal Medicine*, 16(9):606–613.
+- **Spitzer, R.L. et al.** (2006). "A brief measure for assessing generalized anxiety disorder: the GAD-7." *Archives of Internal Medicine*, 166(10):1092–1097.
+- **Saunders, J.B. et al.** (1993). "Development of the Alcohol Use Disorders Identification Test (AUDIT)." *Addiction*, 88(6):791–804.
+- **Weathers, F.W. et al.** (2013). "The PTSD Checklist for DSM-5 (PCL-5)." National Center for PTSD.
+- **Hughes, M.E. et al.** (2004). "A short scale for measuring loneliness in large surveys (UCLA-3)." *Research on Aging*, 26(6):655–672.
+- **WHO** (2019). "Burn-out an 'occupational phenomenon': International Classification of Diseases (ICD-11 QD85)."
+- **Maslach, C., Jackson, S.E., Leiter, M.P.** (1996). *Maslach Burnout Inventory Manual*, 3rd ed.
 
-**Vida sexual e desfechos de saúde:**
-
-- **Nehra, A. et al.** (2012). "The Princeton III Consensus Recommendations for the Management of Erectile Dysfunction and Cardiovascular Disease." *Mayo Clinic Proceedings*, 87(8):766–778. — DE precede evento CV em 3–5 anos; painel cardiovascular obrigatório antes de PDE5.
-- **Basson, R.** (2001). "Using a different model for female sexual response to address women's problematic low sexual desire." *Journal of Sex & Marital Therapy*, 27(5):395–403. — Modelo circular de resposta sexual feminina.
-- **Davey Smith, G. et al.** (1997). "Sex and death: are they related? Findings from the Caerphilly Cohort Study." *BMJ*, 315:1641–1644. — Frequência sexual e mortalidade por qualquer causa em homens.
-- **Clayton, A.H. et al.** (2006). "Prevalence of sexual dysfunction among newer antidepressants." *Journal of Clinical Psychiatry*, 63:357–366. — SSRIs e disfunção sexual em 40–70% dos usuários.
-- **Davis, S.R. et al.** (2019). "Global Consensus Position Statement on Testosterone Therapy for Women." *JCEM* — ver Capítulo 10.
-- **Portman, D.J., Gass, M.L.S.** (2014). "Genitourinary syndrome of menopause." *Menopause*, 21(10):1063–1068. — Atrofia vulvovaginal e tratamento com estrogênio local.
-
-**Intervenções:**
+**Técnicas de relaxamento e regulação do sistema nervoso:**
 
 - Meta-análise *Healthcare* (2025) — 89 ensaios clínicos randomizados confirmando que intervenções mente-corpo reduzem PCR, IL-6, TNF-α, IL-1 e aumentam citocinas anti-inflamatórias e BDNF.
 - **Kabat-Zinn, J.** (1990). *Full Catastrophe Living*. — Programa MBSR original (Universidade de Massachusetts, 1979).
-- **Steptoe, A.** (2019). "Happiness and Health." *Annual Review of Public Health*, 40:339–359.
+- **Goyal, M. et al.** (2014). "Meditation programs for psychological stress and well-being: A systematic review and meta-analysis." *JAMA Internal Medicine*, 174(3):357–368.
+- **Li, Q.** (2010). "Effect of forest bathing trips on human immune function." *Environmental Health and Preventive Medicine*, 15(1):9–17. — *Shinrin-yoku*.
 
-**Adaptógenos, nutracêuticos e neuroprotecção cognitiva:**
+**Função cognitiva, reserva e rastreio precoce:**
+
+- **Stern, Y.** (2012). "Cognitive reserve in ageing and Alzheimer's disease." *Lancet Neurology*, 11(11):1006–1012.
+- **Nasreddine, Z.S. et al.** (2005). "The Montreal Cognitive Assessment (MoCA): A brief screening tool for mild cognitive impairment." *Journal of the American Geriatrics Society*, 53(4):695–699.
+- **Jessen, F. et al.** (2020). "The characterisation of subjective cognitive decline." *Lancet Neurology*, 19(3):271–278.
+- **Ngandu, T. et al.** (2015). "A 2 year multidomain intervention of diet, exercise, cognitive training, and vascular risk monitoring (FINGER)." *Lancet*, 385:2255–2263.
+- **Andrieu, S. et al.** (2017). "Effect of long-term omega 3 polyunsaturated fatty acid supplementation with or without multidomain intervention (MAPT)." *Lancet Neurology*, 16:377–389.
+- **Baker, L.D. et al.** (2025). "US POINTER: Multidomain Intervention to Reduce Cognitive Decline in Older Adults at Risk." *JAMA*.
+- **Ashford, J.W. et al.** (2024). "Plasma p-tau217 as a biomarker for Alzheimer's disease pathology." *Nature Medicine* — avanço diagnóstico 2024–2025.
+- **Rebok, G.W. et al.** (2014). "Ten-year effects of the Advanced Cognitive Training for Independent and Vital Elderly (ACTIVE) cognitive training trial." *JAMA*, 311(22):2361–2371. — Treino de velocidade e redução de risco de demência.
+- **Petersen, R.C.** (2011). "Mild cognitive impairment." *NEJM*, 364(23):2227–2234.
+
+**Adaptógenos, nutracêuticos e cognição suplementar:**
 
 - **Salve, J. et al.** (2019). "Ashwagandha KSM-66 — estresse e cortisol." *Cureus*.
 - **Lopresti, A.L., Drummond, P.D.** (2019). "Saffron (affron) — systematic review and meta-analysis for depression." *Journal of Affective Disorders*.
@@ -280,7 +290,55 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 13 — Ritmo Circadiano e Repouso
+### Capítulo 13 — I2: Conexão, Propósito e Sentido
+
+**Vínculos sociais e longevidade:**
+
+- **Holt-Lunstad, J. et al.** (2010). "Social Relationships and Mortality Risk: A Meta-analytic Review." *PLOS Medicine*, 7(7):e1000316. — 148 estudos, mais de 300.000 participantes. Conexões sociais fortes = 50% mais chances de sobrevivência.
+- **Holt-Lunstad, J. et al.** (2015). "Loneliness and Social Isolation as Risk Factors for Mortality." *Perspectives on Psychological Science*, 10(2):227–237. — 3,4 milhões de participantes. Solidão +26% mortalidade; isolamento social +29%; viver sozinho +32%.
+- **Harvard Study of Adult Development** — 88+ anos de seguimento. Qualidade dos relacionamentos na meia-idade como preditor mais robusto de saúde e longevidade. Referência: Waldinger, R. & Schulz, M. (2023). *The Good Life*.
+- **Surgeon General dos Estados Unidos** (2023). *Our Epidemic of Loneliness and Isolation*. — Solidão classificada como problema de saúde pública de prioridade nacional.
+- **Iso, H. et al.** — Coorte japonesa sobre apoio social no trabalho e risco cardiovascular (estudo JACC / JPHC).
+- **Wittstein, I.S. et al.** (2005). "Neurohumoral Features of Myocardial Stunning Due to Sudden Emotional Stress" (takotsubo). *NEJM*, 352:539–548.
+
+**Vida sexual e desfechos de saúde:**
+
+- **Nehra, A. et al.** (2012). "The Princeton III Consensus Recommendations for the Management of Erectile Dysfunction and Cardiovascular Disease." *Mayo Clinic Proceedings*, 87(8):766–778. — DE precede evento CV em 3–5 anos; painel cardiovascular obrigatório antes de PDE5.
+- **Levine, G.N. et al.** (2012). "Sexual Activity and Cardiovascular Disease: A Scientific Statement From the American Heart Association." *Circulation*, 125:1058–1072. — Atividade sexual pós-evento, classificação de risco, teste das duas escadas.
+- **Basson, R.** (2001). "Using a different model for female sexual response to address women's problematic low sexual desire." *Journal of Sex & Marital Therapy*, 27(5):395–403. — Modelo circular de resposta sexual feminina.
+- **Davey Smith, G. et al.** (1997). "Sex and death: are they related? Findings from the Caerphilly Cohort Study." *BMJ*, 315:1641–1644. — Frequência sexual e mortalidade por qualquer causa em homens.
+- **Clayton, A.H. et al.** (2006). "Prevalence of sexual dysfunction among newer antidepressants." *Journal of Clinical Psychiatry*, 63:357–366. — SSRIs e disfunção sexual em 40–70% dos usuários.
+- **Davis, S.R. et al.** (2019). "Global Consensus Position Statement on Testosterone Therapy for Women." *JCEM* — ver Capítulo 10.
+- **Portman, D.J., Gass, M.L.S.** (2014). "Genitourinary syndrome of menopause." *Menopause*, 21(10):1063–1068. — Atrofia vulvovaginal e tratamento com estrogênio local.
+
+**Telas, atenção fragmentada e higiene mental digital:**
+
+- **Mark, G.** (2023). *Attention Span: A Groundbreaking Way to Restore Balance, Happiness and Productivity*. Hanover Square Press. — Duas décadas de pesquisa sobre atenção no ambiente digital; queda de tempo médio de atenção de 2,5 min (2004) para 47 s (2023).
+- **Haidt, J.** (2024). *The Anxious Generation: How the Great Rewiring of Childhood Is Causing an Epidemic of Mental Illness*. Penguin Press. — Impacto de redes sociais na saúde mental.
+- **Twenge, J.M. et al.** (2018). "Associations between screen time and lower psychological well-being among children and adolescents." *Preventive Medicine Reports*, 12:271–283.
+
+**Propósito, sentido e ikigai:**
+
+- **Sone, T. et al.** (2008). "Sense of Life Worth Living (Ikigai) and Mortality in Japan: Ohsaki Study." *Psychosomatic Medicine*, 70(6):709–715. — Coorte de 43.391 adultos japoneses, 7 anos de seguimento; ikigai associado a redução de 30–50% em mortalidade.
+- **Steptoe, A., Deaton, A., Stone, A.A.** (2015). "Subjective wellbeing, health, and ageing." *Lancet*, 385:640–648. — Eudaimonia vs. hedonia em desfechos duros.
+- **Frankl, V.E.** (1946/2006). *Man's Search for Meaning*. Beacon Press.
+- **Buettner, D.** (2008). *The Blue Zones: Lessons for Living Longer from the People Who've Lived the Longest*. National Geographic.
+
+**Espiritualidade, religiosidade e saúde:**
+
+- **Koenig, H.G., King, D., Carson, V.B.** (2012). *Handbook of Religion and Health*, 2nd ed. Oxford University Press. — Síntese de 3.000+ estudos.
+- **Fraser, G.E., Shavlik, D.J.** (2001). "Ten Years of Life: Is It a Matter of Choice?" *Archives of Internal Medicine*, 161:1645–1652. — Adventist Health Study; expectativa de vida em Loma Linda ~10 anos acima da média americana.
+- **Pennebaker, J.W., Smyth, J.M.** (2016). *Opening Up by Writing It Down: How Expressive Writing Improves Health and Eases Emotional Pain*, 3rd ed.
+
+**Bidirecionalidade ansiedade/depressão e inflamação:**
+
+- **Miller, A.H., Raison, C.L.** (2016). "The role of inflammation in depression: from evolutionary imperative to modern treatment target." *Nature Reviews Immunology*, 16(1):22–34.
+- **Lespérance, F. et al.** (2002). "Five-year risk of cardiac mortality in relation to initial severity and one-year changes in depression symptoms after myocardial infarction." *Circulation*, 105:1049–1053.
+- **Meijer, A. et al.** (2011). "Prevalence and incidence of post-MI depression: a systematic review and meta-analysis." *General Hospital Psychiatry*, 33(3):203–216.
+
+---
+
+### Capítulo 14 — Ritmo Circadiano e Repouso
 
 **Regularidade e mortalidade:**
 
@@ -313,7 +371,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 14 — Seu Placar de Longevidade
+### Capítulo 15 — Seu Placar de Longevidade
 
 **Rastreamentos por faixa etária:**
 

@@ -1,22 +1,22 @@
 ---
-id: 14
+id: 15
 language: pt-BR
 title: "Seu Placar de Longevidade"
 title_en_suggested: "Your Longevity Scorecard"
 translation_status: source
 last_reviewed: 2026-04-21
 figures:
-  - Cap14_Fig01
+  - Cap15_Fig01
 ---
 # PARTE IV — O PLANO
 
-Nos treze capítulos anteriores, construímos duas coisas. Primeiro, o mapa: o que está matando as pessoas depois dos 40, como o corpo envelhece por dentro, quais números importam, o que as artérias e o metabolismo revelam. Depois, o método: os quatro pilares do AGIR — atividade física, alimentação e suplementação inteligente; gestão clínica e metabólica; integração mente-corpo; ritmo circadiano e repouso.
+Nos catorze capítulos anteriores, construímos duas coisas. Primeiro, o mapa: o que está matando as pessoas depois dos 40, como o corpo envelhece por dentro, quais números importam, o que as artérias e o metabolismo revelam. Depois, o método: os quatro pilares do AGIR — atividade física, alimentação e suplementação inteligente; gestão clínica e metabólica; integração mente-corpo; ritmo circadiano e repouso.
 
-Mas mapa e método não bastam. Falta o gesto que esta parte do livro existe para provocar — o leitor sair do papel passivo de quem lê sobre prevenção e assumir o papel ativo de quem aplica. Os dois capítulos a seguir tratam dessa transição. O Capítulo 14 mostra como ler o próprio painel. O Capítulo 15 trata de como avaliar um profissional de medicina preventiva e o que perguntar na primeira consulta.
+Mas mapa e método não bastam. Falta o gesto que esta parte do livro existe para provocar — o leitor sair do papel passivo de quem lê sobre prevenção e assumir o papel ativo de quem aplica. Os dois capítulos a seguir tratam dessa transição. O Capítulo 15 mostra como ler o próprio painel. O Capítulo 16 trata de como avaliar um profissional de medicina preventiva e o que perguntar na primeira consulta.
 
 ---
 
-## Capítulo 14 — Seu Placar de Longevidade: Onde Você Está?
+## Capítulo 15 — Seu Placar de Longevidade: Onde Você Está?
 
 Cinco anos depois do infarto, Ricardo voltou ao consultório com uma pasta. Não era a pasta de exames de rotina — era a pasta dele, de cinco anos, com o histórico inteiro: cada lipidograma, cada PCR, cada vitamina D, cada CAC, cada MAPA. Tinha 57 anos. Estava bem. E queria, naquela consulta, fazer uma coisa diferente.
 
@@ -86,7 +86,7 @@ A leitura honesta deste pilar costuma ser desconfortável — e essa é a funç�
 
 Em uma frase: **o solo em que os outros três pilares se sustentam está estável?**
 
-O Capítulo 13 estabeleceu por que esta é a pergunta certa. Sono não é um pilar como os outros — é o substrato. Quando o substrato cede, os outros três cedem com ele, mesmo que pareçam em ordem por meses ou anos. Foi o que regrediu silenciosamente em Paulo dos doze aos dezoito meses depois da primeira consulta, e foi o que se recuperou — e ultrapassou o pico anterior — quando a apneia foi finalmente identificada e tratada.
+O Capítulo 14 estabeleceu por que esta é a pergunta certa. Sono não é um pilar como os outros — é o substrato. Quando o substrato cede, os outros três cedem com ele, mesmo que pareçam em ordem por meses ou anos. Foi o que regrediu silenciosamente em Paulo dos doze aos dezoito meses depois da primeira consulta, e foi o que se recuperou — e ultrapassou o pico anterior — quando a apneia foi finalmente identificada e tratada.
 
 A leitura do pilar R combina três níveis. O primeiro é de hábito: você dorme e acorda em horários consistentes, com variação menor que sessenta minutos entre dias úteis e fim de semana? Tem exposição à luz solar nos primeiros sessenta minutos depois de acordar? Reduz luz de telas nas duas horas antes de dormir? Quarto fresco e escuro? Última refeição duas a três horas antes de deitar? Cafeína contida à primeira metade do dia?
 
@@ -126,11 +126,11 @@ Dois. Não dez.
 
 Marcos chegou ao consultório no Capítulo 5 com um painel inteiro em zona de alerta — CAC de 412 já era prevenção secundária funcional, ApoB de 82 ainda alto apesar da estatina em dose baixa, insulina de 11, PCR de 1,6, vitamina D de 28, padrão alimentar disperso, treino sem estrutura, e um sono que ele não sabia que era ruim (cinco horas e meia em média, com dois despertares por madrugada). Se eu tivesse entregado a ele uma lista de quinze coisas para mudar, três meses depois ele teria mudado nada. O que fizemos nos Capítulos 7 e 8 foi o oposto: **dois ataques principais**. Ataque farmacológico no ApoB, com intensificação da estatina, adição de ezetimiba, e alvo abaixo de 60. Ataque comportamental nos três motores do pilar A (alimentação mediterrânea com janela alimentar, treino estruturado nos quatro domínios, correção específica de vitamina D e introdução de magnésio treonato para o sono). Oito meses depois, ApoB em 58, insulina em 6, PCR em 0,6, vitamina D em 52, ergometria com ganho de 1,8 MET, composição corporal transformada. O CAC de 412 não mudou — cálcio depositado não se dissolve. O que mudou foi a velocidade do processo daqui em diante.
 
-![Figura 14.1 — Trajetória de Marcos: painel antes e depois de oito meses. Dot plot horizontal com sete marcadores (ApoB 82→58, insulina 11→6, PCR 1,6→0,6, vitamina D 28→52, +1,8 MET, −5 kg gordura / +2 kg massa magra, CAC 412 inalterado).](../Cap14%20Fig01.PNG)
+![Figura 15.1 — Trajetória de Marcos: painel antes e depois de oito meses. Dot plot horizontal com sete marcadores (ApoB 82→58, insulina 11→6, PCR 1,6→0,6, vitamina D 28→52, +1,8 MET, −5 kg gordura / +2 kg massa magra, CAC 412 inalterado).](../Cap15%20Fig01.PNG)
 
 Ana, no Capítulo 12, quando finalmente endereçamos o pilar I, seguiu a mesma lógica em outra direção. Tudo o que dependia de corpo biológico já tinha sido otimizado nos dezoito meses anteriores, e os ganhos estavam documentados — vitamina D, insulina, ApoB, homocisteína, todos em faixa ótima. O que faltava era uma frente nova: tratamento estruturado da dimensão psicológica, com psicoterapia cognitivo-comportamental como trilho principal e prática diária de regulação do sistema nervoso (MBSR e vinte minutos de mindfulness matinal) como trilho paralelo. O antidepressivo em dose baixa por seis meses entrou como decisão compartilhada com a psiquiatra, apoiando as duas frentes. Seis meses depois, a PCR caiu de 1,8 para 0,7 e o cortisol matinal de 22 para 14. O que mudou foi o pilar que estava faltando — e a lógica ali não foi acrescentar dez intervenções psicológicas ao mesmo tempo. Foi endereçar o pilar I com foco, enquanto os outros pilares já trabalhados continuaram trabalhados.
 
-Paulo, no Capítulo 13, quando a apneia foi identificada, também começou com duas frentes: CPAP titulado e protocolo circadiano completo (regularidade rígida de horário, luz matinal, janela alimentar, redução de cafeína e álcool). Tudo o mais — alimentação, treino, suplementação — continuou como estava. Duas frentes no pilar que faltava recuperaram a trajetória inteira em seis meses e levaram a testosterona a 540 ng/dL, acima do pico anterior.
+Paulo, no Capítulo 14, quando a apneia foi identificada, também começou com duas frentes: CPAP titulado e protocolo circadiano completo (regularidade rígida de horário, luz matinal, janela alimentar, redução de cafeína e álcool). Tudo o mais — alimentação, treino, suplementação — continuou como estava. Duas frentes no pilar que faltava recuperaram a trajetória inteira em seis meses e levaram a testosterona a 540 ng/dL, acima do pico anterior.
 
 A mensagem é a mesma nos três casos: ação concentrada em dois pontos por trimestre é o que produz movimento mensurável. Ação dispersa em dez frentes é o que produz frustração. Quando você revisita seu placar a cada três meses e identifica os dois pontos a trabalhar, anote em algum lugar (uma página de caderno serve, um arquivo de bloco de notas serve), defina como vai medir o resultado em três meses, e foque. Os outros pontos do placar continuam ali, esperando seu trimestre. Não somem.
 
@@ -188,7 +188,7 @@ Para todos esses, o placar não vale. Vale procurar avaliação especializada ag
 
 - Hábitos e marcadores conversam: quando aparente bom hábito convive com marcador alterado, é o marcador que está dizendo a verdade — e o hábito que precisa de revisão. Foi a lição clínica de André no Capítulo 3 e de Fernanda no Capítulo 6.
 
-- A regra prática que organiza ação é a regra dos dois: a cada trimestre, escolha os dois itens em zona de alerta com maior potencial de mover trajetória — e foque exatamente neles. Foi assim que o tratamento de Marcos nos Capítulos 7 e 8, de Ana no Capítulo 12 e de Paulo no Capítulo 13 funcionou. Ação concentrada vence ação dispersa.
+- A regra prática que organiza ação é a regra dos dois: a cada trimestre, escolha os dois itens em zona de alerta com maior potencial de mover trajetória — e foque exatamente neles. Foi assim que o tratamento de Marcos nos Capítulos 7 e 8, de Ana nos Capítulos 12 e 13 e de Paulo no Capítulo 14 funcionou. Ação concentrada vence ação dispersa.
 
 - A composição do placar muda de peso conforme a década: dos 40 aos 49 é detecção precoce na janela de máxima reversibilidade; dos 50 aos 59 é ação máxima na janela em que mais mortes precoces podem ser evitadas; dos 60 em diante é preservação funcional, com ênfase em força, mobilidade, composição corporal e cognição.
 
@@ -224,4 +224,4 @@ O valor desses instrumentos não está no número exato — está em registrar o
 
 ---
 
-> O placar é a ferramenta. Mas ferramenta sem parceria clínica para os pontos que exigem decisão técnica — interpretação contextualizada de painel hormonal, ajuste de farmacologia guiada por biomarcador, conduta diante de imagem alterada — produz só metade do resultado possível. A pergunta seguinte, e última antes do epílogo, é como avaliar um profissional de medicina preventiva e o que perguntar na primeira consulta. É o tema do Capítulo 15.
+> O placar é a ferramenta. Mas ferramenta sem parceria clínica para os pontos que exigem decisão técnica — interpretação contextualizada de painel hormonal, ajuste de farmacologia guiada por biomarcador, conduta diante de imagem alterada — produz só metade do resultado possível. A pergunta seguinte, e última antes do epílogo, é como avaliar um profissional de medicina preventiva e o que perguntar na primeira consulta. É o tema do Capítulo 16.

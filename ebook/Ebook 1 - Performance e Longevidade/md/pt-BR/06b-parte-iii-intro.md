@@ -18,9 +18,9 @@ Ao longo dos anos de prática clínica, organizei as intervenções que prescrev
 
 **G — Gestão Clínica e Metabólica.** Três camadas. Os sistemas cardio-reno-hepático-metabólicos lidos como uma rede única (Cap. 9). Os painéis bioquímicos e hormonais que antecedem o sintoma (Cap. 10). A genômica, a epigenética e as exposições ambientais silenciosas (Cap. 11).
 
-**I — Integração Mente-Corpo.** O eixo entre psicologia, sistema imune, inflamação, vida sexual e vínculos sociais — o pilar que a medicina fragmentada ignora e que, quando não é tratado, sabota todos os outros. Capítulo 12.
+**I — Integração Mente-Corpo.** Dividido em dois capítulos. O primeiro (Cap 12) trata do trabalho interno — psiconeuroimunologia, trauma, avaliação psicológica, técnicas de regulação do sistema nervoso, função cognitiva. O segundo (Cap 13) trata da dimensão relacional e existencial — vida sexual, vínculos sociais, telas, propósito/ikigai, espiritualidade, bidirecionalidade ansiedade-inflamação. Ana abre o primeiro; Ricardo (o paciente do Capítulo 1), pós-infarto, abre o segundo.
 
-**R — Ritmo Circadiano e Repouso.** Sono, cronobiologia e os relógios internos que sincronizam tudo — da sensibilidade insulínica à consolidação de memória. Capítulo 13.
+**R — Ritmo Circadiano e Repouso.** Sono, cronobiologia e os relógios internos que sincronizam tudo — da sensibilidade insulínica à consolidação de memória. Capítulo 14.
 
 Os quatro pilares não funcionam isolados. Alimentação sem exercício é incompleta. Exercício sem sono é *overtraining*. Gestão hormonal sem saúde mental é otimização sobre areia. A força do método está na integração — e na personalização de cada pilar conforme o que os biomarcadores de cada paciente exigem.
 
@@ -36,7 +36,7 @@ Em inglês, o acrônimo equivalente é **ACTS** — preservando o sentido impera
 
 - **A — Activity, Alimentation & Smart Adjuncts** (Chs. 7–8)
 - **C — Clinical Optimization** (Chs. 9–11)
-- **T — Tending Mind & Body** (Ch. 12)
-- **S — Sleep & Circadian Rhythm** (Ch. 13)
+- **T — Tending Mind & Body** (Chs. 12–13)
+- **S — Sleep & Circadian Rhythm** (Ch. 14)
 
 > *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four practices that, together, protect the decades of health that standard medicine gives up on.*

@@ -1,17 +1,17 @@
 ---
-id: 13
+id: 14
 language: pt-BR
 title: "R: Ritmo Circadiano e Repouso"
 title_en_suggested: "S: Sleep & Circadian Rhythm"
 translation_status: source
 last_reviewed: 2026-04-21
 figures:
-  - Cap13_Fig01
-  - Cap13_Fig02
+  - Cap14_Fig01
+  - Cap14_Fig02
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 13 — R: Ritmo Circadiano e Repouso — O Maestro Invisível
+## Capítulo 14 — R: Ritmo Circadiano e Repouso — O Maestro Invisível
 
 Paulo voltou ao consultório dezoito meses depois da primeira consulta. Como vimos nos Capítulos 10 e 11, aos 48 anos ele tinha chegado com testosterona total de 310, livre de 4,8, pedindo apenas "otimização". Nos seis meses seguintes, sem reposição hormonal, tínhamos recuperado boa parte do painel — testosterona total em 485, livre em 11,2, vitamina D em 58, PCR em 0,9, idade epigenética desacelerando dois anos. O retorno seguinte, aos doze meses, mantinha o ganho. Tudo parecia bem.
 
@@ -53,7 +53,7 @@ Mas o dado mais relevante para o leitor deste livro, que provavelmente não é t
 
 No estudo MESA (*Multi-Ethnic Study of Atherosclerosis*), publicado no *JACC* em 2020 e reanalisado em 2024, a variabilidade do horário de sono medida por actigrafia prospectivamente previu eventos cardiovasculares. Pessoas cujo horário de sono variava mais de 90 minutos entre dias tinham risco cardiovascular significativamente maior que pessoas com horários regulares, mesmo quando ajustado para duração total de sono, fatores tradicionais de risco e distúrbios do sono.
 
-![Figura 13.2 — Regularidade vence duração. Matriz 2×2 mostrando risco relativo de mortalidade: sono regular + adequado (referência 1,0), regular + inadequado (+15–20%), irregular + adequado (+25–30%), irregular + inadequado (+40–48%). Seta destaca que sono irregular com duração normal é pior que sono regular com duração curta.](../Cap13%20Fig02.PNG)
+![Figura 14.2 — Regularidade vence duração. Matriz 2×2 mostrando risco relativo de mortalidade: sono regular + adequado (referência 1,0), regular + inadequado (+15–20%), irregular + adequado (+25–30%), irregular + inadequado (+40–48%). Seta destaca que sono irregular com duração normal é pior que sono regular com duração curta.](../Cap14%20Fig02.PNG)
 
 Há ainda outra camada — a variação diurna da pressão arterial. Normalmente, a pressão sobe pela manhã, atinge um pico à tarde e cai durante a noite em cerca de 10% do valor do dia. Essa queda noturna chama-se *dipping*. Quando não ocorre — padrão *non-dipper* — o risco cardiovascular aumenta em cerca de 15% para eventos e 22% para mortalidade. Entre os muitos efeitos da apneia do sono, um dos mais documentados é justamente converter o padrão *dipper* em *non-dipper*: o coração nunca descansa à noite, a pressão se mantém elevada em horários em que deveria estar baixa, e o risco vascular se acumula silenciosamente.
 
@@ -71,7 +71,7 @@ Dormir não é desligar. É fazer o corpo e o cérebro entrarem em modos funcion
 
 Quando alguém dorme seis horas em vez de sete e meia, a maior parte do que perde é REM — que está concentrado nas últimas horas. Quando alguém fragmenta o sono com despertares frequentes, perde principalmente N3, que depende da progressão contínua do ciclo para se aprofundar. A qualidade do sono não é apenas "quantas horas dormi". É "quais fases eu consegui atingir e manter". No caso de Paulo, a polissonografia mostrava algo específico: sono total de seis horas e quinze minutos, mas com N3 reduzido a menos de 5% do total — sendo que o normal para idade é 15 a 20%. Cada episódio de apneia, justamente por fragmentar o sono antes que N3 se aprofundasse, sequestrava a fase mais reparadora da noite. Paulo dormia, mas não descansava.
 
-![Figura 13.1 — A arquitetura de uma noite: normal vs. fragmentada pela apneia. Dois hipnogramas empilhados: no painel superior, arquitetura normal com 4–5 ciclos de ~90 min, N3 profundo nas primeiras horas e REM prolongado na segunda metade; no painel inferior (Paulo, pré-CPAP), múltiplos despertares, N3 < 5% do total, ciclos REM truncados.](../Cap13%20Fig01.PNG)
+![Figura 14.1 — A arquitetura de uma noite: normal vs. fragmentada pela apneia. Dois hipnogramas empilhados: no painel superior, arquitetura normal com 4–5 ciclos de ~90 min, N3 profundo nas primeiras horas e REM prolongado na segunda metade; no painel inferior (Paulo, pré-CPAP), múltiplos despertares, N3 < 5% do total, ciclos REM truncados.](../Cap14%20Fig01.PNG)
 
 ---
 
@@ -173,9 +173,9 @@ Seis meses após o diagnóstico de apneia e início do CPAP, Paulo retornou para
 
 Os resultados: PCR de 1,3 caiu para 0,6. Testosterona total subiu de 410 para 540 (acima do que tinha atingido aos seis meses no Capítulo 11). Testosterona livre, de 8,4, subiu para 12,1. HbA1c, de 5,5, caiu para 5,1. Pressão arterial em MAPA confirmou padrão *dipper* adequado — a pressão voltava a cair à noite. A idade epigenética, que tinha estagnado nos dois anos anteriores após o ganho inicial, retomou a desaceleração e caiu mais um ano. Na polissonografia de controle, com CPAP titulado, o IAH caiu de 22 para 2, e o N3 subiu para 17% do tempo total de sono — dentro da faixa esperada para idade.
 
-O que o pilar G tinha começado, o Capítulo 13 completou. A testosterona não tinha regredido por alguma misteriosa involução hormonal. Tinha regredido porque uma apneia não identificada, operando nas fronteiras de todos os outros pilares, sabotava silenciosamente cada ganho obtido em outras frentes. **O pilar R — ritmo circadiano e repouso — não é um quinto pilar opcional. É o solo em que os outros três pilares se sustentam.**
+O que o pilar G tinha começado, o Capítulo 14 completou. A testosterona não tinha regredido por alguma misteriosa involução hormonal. Tinha regredido porque uma apneia não identificada, operando nas fronteiras de todos os outros pilares, sabotava silenciosamente cada ganho obtido em outras frentes. **O pilar R — ritmo circadiano e repouso — não é um quinto pilar opcional. É o solo em que os outros três pilares se sustentam.**
 
-![Figura 13.3 — Paulo: quatro tempos, quatro pilares, uma tese. Dot plot horizontal com trajetória de 24 meses: T0 (baseline, Cap. 10) → T+6m (pós pilares A e G) → T+18m (regressão silenciosa) → T+24m (pós-CPAP + protocolo circadiano). Testosterona, PCR, HbA1c, N3 e IAH mostram que, sem o pilar R, o que foi construído com A, G e I pode ruir.](../Cap13%20Fig03.PNG)
+![Figura 14.3 — Paulo: quatro tempos, quatro pilares, uma tese. Dot plot horizontal com trajetória de 24 meses: T0 (baseline, Cap. 10) → T+6m (pós pilares A e G) → T+18m (regressão silenciosa) → T+24m (pós-CPAP + protocolo circadiano). Testosterona, PCR, HbA1c, N3 e IAH mostram que, sem o pilar R, o que foi construído com A, G e I pode ruir.](../Cap14%20Fig03.PNG)
 
 ---
 

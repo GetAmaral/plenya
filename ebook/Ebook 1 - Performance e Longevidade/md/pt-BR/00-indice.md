@@ -56,21 +56,22 @@
 
 **Pilar I — Integração Mente-Corpo**
 
-- [Capítulo 12 — I: Integração Mente-Corpo — O Pilar Que Ninguém Prescreve](12-integracao-mente-corpo.md)
+- [Capítulo 12 — I1: Mente Individual — O Trabalho Que Só Você Faz](12-integracao-mente-corpo.md)
+- [Capítulo 13 — I2: Conexão, Propósito e Sentido — O Corpo Estendido ao Mundo](13-conexao-proposito-sentido.md)
 
 **Pilar R — Ritmo Circadiano e Repouso**
 
-- [Capítulo 13 — R: Ritmo Circadiano e Repouso — O Maestro Invisível](13-ritmo-circadiano-e-repouso.md)
+- [Capítulo 14 — R: Ritmo Circadiano e Repouso — O Maestro Invisível](14-ritmo-circadiano-e-repouso.md)
 
 ### PARTE IV — O PLANO
 
-- [Capítulo 14 — Seu Placar de Longevidade: Onde Você Está?](14-seu-placar-de-longevidade.md)
-- [Capítulo 15 — Quando Procurar um Especialista — E o Que Perguntar](15-quando-procurar-especialista.md)
+- [Capítulo 15 — Seu Placar de Longevidade: Onde Você Está?](15-seu-placar-de-longevidade.md)
+- [Capítulo 16 — Quando Procurar um Especialista — E o Que Perguntar](16-quando-procurar-especialista.md)
 
 ### PARTE V — ENCERRAMENTO
 
-- [Capítulo 16 — Manifesto AGIR: Uma Carta ao Meu Eu do Futuro](16-manifesto-agir.md)
-- [Capítulo 17 — Referências, Recursos e Próximos Passos](17-referencias-recursos.md)
+- [Capítulo 17 — Manifesto AGIR: Uma Carta ao Meu Eu do Futuro](17-manifesto-agir.md)
+- [Capítulo 18 — Referências, Recursos e Próximos Passos](18-referencias-recursos.md)
 
 ---
 
@@ -78,12 +79,12 @@
 
 | Personagem | Idade | Caso | Aparece em |
 |---|---|---|---|
-| **Ricardo** | 52 | Infarto com check-up "normal" — o poder do painel ampliado | Caps. 1, 4, 14, 16 |
-| **Fernanda** | 41 | Insulina de 13 e esteatose com IMC normal — reversão metabólica em 6 meses | Caps. 4, 6, 10, 14 |
+| **Ricardo** | 52 | Infarto com check-up "normal" — o poder do painel ampliado, e a reconstrução pós-evento no pilar I2 | Caps. 1, 4, 13, 15, 17 |
+| **Fernanda** | 41 | Insulina de 13 e esteatose com IMC normal — reversão metabólica em 6 meses | Caps. 4, 6, 10, 15 |
 | **André** | 45 | Triatleta com PCR elevada e hiperinsulinemia oculta no TOTG | Caps. 3, 6, 7, 11 |
-| **Marcos** | 57 | CAC de 412 sob estatina — a Regra dos Dois em ação | Caps. 5, 8, 9, 14 |
-| **Paulo** | 48 | Testosterona baixa que regrediu por apneia não diagnosticada | Caps. 10, 11, 13 |
-| **Ana** | 44 | PCR resistente apesar de pilares biológicos otimizados — o pilar I | Cap. 12 |
+| **Marcos** | 57 | CAC de 412 sob estatina — a Regra dos Dois em ação | Caps. 5, 8, 9, 15 |
+| **Paulo** | 48 | Testosterona baixa que regrediu por apneia não diagnosticada | Caps. 10, 11, 14 |
+| **Ana** | 44 | PCR resistente — o pilar I1 (mente individual) com trauma, avaliação e função cognitiva | Cap. 12 |
 
 ---
 
@@ -95,10 +96,10 @@ Os motores do estilo de vida que nenhuma medicação substitui — incluindo a c
 **G — Gestão Clínica e Metabólica** · Caps. 9–11
 Três camadas: sistemas cardio-reno-hepático-metabólicos lidos como um só; painéis bioquímicos e hormônios; genômica, epigenética e exposições ambientais.
 
-**I — Integração Mente-Corpo** · Cap. 12
-O eixo psicológico, a vida sexual e os vínculos sociais — os pilares que sabotam os demais quando ignorados.
+**I — Integração Mente-Corpo** · Caps. 12–13
+Duas camadas. Mente individual (Cap 12 — avaliação psicológica, regulação do sistema nervoso, função cognitiva). Conexão, propósito e sentido (Cap 13 — vida sexual, vínculos, telas, propósito/ikigai, espiritualidade).
 
-**R — Ritmo Circadiano e Repouso** · Cap. 13
+**R — Ritmo Circadiano e Repouso** · Cap. 14
 O solo em que os outros três pilares se sustentam.
 
 ---
@@ -115,10 +116,10 @@ The engines of lifestyle that no medication can replace — including the visibl
 **C — Clinical Optimization** · Chs. 9–11
 Three layers: systems (cardio-renal-hepatic-metabolic) read as one; biochemical and hormonal panels; genomics, epigenetics and environmental exposures.
 
-**T — Tending Mind & Body** · Ch. 12
-The psychology, sexual life and social bonds pillars — the ones fragmented medicine ignores.
+**T — Tending Mind & Body** · Chs. 12–13
+Two layers. Inner work (Ch. 12 — psychological assessment, nervous system regulation, cognitive function). Connection, purpose and meaning (Ch. 13 — sexual life, social bonds, screens, purpose, spirituality).
 
-**S — Sleep & Circadian Rhythm** · Ch. 13
+**S — Sleep & Circadian Rhythm** · Ch. 14
 The biological tempo that makes all other pillars work.
 
 ### Mapping PT → EN

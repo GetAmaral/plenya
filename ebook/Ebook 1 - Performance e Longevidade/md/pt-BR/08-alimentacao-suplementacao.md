@@ -60,7 +60,7 @@ O detalhamento alimento por alimento seria reducionista e cairia na armadilha do
 
 No Capítulo 6, vimos como a janela alimentar de Fernanda contribuiu para a reversão metabólica. O princípio é simples: concentrar a ingestão alimentar na fase ativa do dia, evitando comer nas últimas 2 a 3 horas antes de dormir. A sensibilidade insulínica é máxima pela manhã e cai ao longo do dia — comer tarde é entregar glicose ao corpo no momento em que ele está menos preparado para processá-la.
 
-A evidência para alimentação restrita no tempo é sólida e crescente: melhora na tolerância à glicose, redução de triglicerídeos e marcadores inflamatórios, mesmo sem redução calórica. A cronoalimentação será tratada em profundidade no Capítulo 13, quando abordarmos o ritmo circadiano. Por ora, o princípio: o *quando* você come importa tanto quanto o *que* você come. No caso de Marcos, que jantava rotineiramente às dez da noite, esse único ajuste — mover a última refeição para antes das oito — já alterava o ambiente metabólico em que o corpo dele passava a noite.
+A evidência para alimentação restrita no tempo é sólida e crescente: melhora na tolerância à glicose, redução de triglicerídeos e marcadores inflamatórios, mesmo sem redução calórica. A cronoalimentação será tratada em profundidade no Capítulo 14, quando abordarmos o ritmo circadiano. Por ora, o princípio: o *quando* você come importa tanto quanto o *que* você come. No caso de Marcos, que jantava rotineiramente às dez da noite, esse único ajuste — mover a última refeição para antes das oito — já alterava o ambiente metabólico em que o corpo dele passava a noite.
 
 ---
 
