@@ -9,6 +9,7 @@ import { MdxContent } from '@/components/blog/mdx-content';
 import { AuthorBox } from '@/components/blog/author-box';
 import { WhatsAppShare } from '@/components/blog/whatsapp-share';
 import { BlogCTA } from '@/components/blog/blog-cta';
+import { BlogCTARecognition } from '@/components/blog/blog-cta-recognition';
 import { PostTrackReader } from '@/components/blog/post-track-reader';
 import { ArticleSchema } from '@/components/blog/article-schema';
 import { NewsletterInline } from '@/components/blog/newsletter-inline';
@@ -100,7 +101,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       <div className="site-narrow">
         <AuthorBox author={author} reviewedBy={reviewedBy} />
         <NewsletterInline source={`blog-post-${post.slug}`} />
-        <BlogCTA />
+        {post.cta === 'recognition' ? <BlogCTARecognition /> : <BlogCTA />}
         <div className="flex justify-center pt-8 pb-16">
           <WhatsAppShare title={post.title} url={url} />
         </div>

@@ -9,10 +9,10 @@ export type Pillar = (typeof PILLARS)[number];
 export const pillars = PILLARS;
 
 export const pillarLabels: Record<Pillar, string> = {
-  'alimentacao-atividade-fisica': 'Alimentação & Atividade Física',
-  'gestao-metabolica': 'Gestão Metabólica',
-  'integracao-corpo-mente': 'Integração Corpo & Mente',
-  'ritmo-circadiano': 'Ritmo Circadiano',
+  'alimentacao-atividade-fisica': 'Atividade Física, Alimentação & Suplementação',
+  'gestao-metabolica': 'Gestão Clínica & Metabólica',
+  'integracao-corpo-mente': 'Integração Mente-Corpo',
+  'ritmo-circadiano': 'Ritmo Circadiano & Repouso',
   longevidade: 'Longevidade',
 };
 
@@ -36,6 +36,7 @@ const frontmatterSchema = z.object({
     .array(z.object({ label: z.string(), url: z.string().url() }))
     .default([]),
   readingMinutes: z.number().optional(),
+  cta: z.enum(['default', 'recognition']).default('default'),
 });
 
 export type PostFrontmatter = z.infer<typeof frontmatterSchema>;
