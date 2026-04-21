@@ -9,6 +9,7 @@ figures:
   - Cap06_Fig01
   - Cap06_Fig02
   - Cap06_Fig03
+  - Cap06_Fig04
 ---
 # PARTE II — O MAPA
 
@@ -117,6 +118,8 @@ Mas André tinha PCR de 2,1 e homocisteína de 14 — sinais de inflamação cr�
 O resultado foi revelador. A glicemia em jejum era 92 — normal. Aos 30 minutos, 148. Aos 60 minutos, 162. Aos 90 minutos, 154. Aos 120 minutos, 131. A glicose tinha voltado a descer, e o 120 min estava dentro do esperado. A maioria dos médicos olharia só jejum e 120 min e diria: tolerância à glicose preservada. Mas a curva de insulina contava outra história. Insulina em jejum: 8,5. Aos 30 minutos: 78. Aos 60 minutos: **124 — pico**. Aos 90 minutos: 118. Aos 120 minutos: 89. A insulina disparou para quatorze vezes o basal em uma hora — resposta exagerada para manter a glicose sob controle — antes de começar a descer. O pâncreas estava trabalhando muito mais do que deveria, e só por isso a glicose parecia comportada.
 
 Em linguagem técnica, André tinha um padrão **Kraft tipo II** — pico de insulina precoce e exagerado (entre 30 e 60 minutos) com hiperinsulinemia compensatória significativa. O pâncreas dele estava trabalhando três a quatro vezes mais do que deveria para manter a glicose sob controle. A glicemia parecia normal porque a insulina estava gritando. E como ninguém havia medido o grito, ninguém sabia.
+
+![Figura 6.4 — O TOTG de André: quando o jejum mente. Curva dupla de glicose (azul, eixo esquerdo) e insulina (vermelho, eixo direito) nos tempos 0, 30, 60, 90 e 120 minutos após 75 g de glicose. Glicose em faixa "normal pós-prandial" durante toda a prova; insulina sobe de 8,5 (jejum) para 124 µIU/mL aos 60 min — padrão Kraft II.](../Cap06%20Fig04.PNG)
 
 O trabalho de Joseph Kraft, que analisou mais de 14.000 testes ao longo de décadas, demonstrou que 75% das pessoas com glicose normal no TOTG tinham padrões de insulina anormais. Kraft chamou isso de "diabetes in-situ" — a doença metabólica já instalada, com a glicemia ainda mascarada pela hiperinsulinemia compensatória. A resistência insulínica é, desde o início, um distúrbio pós-prandial. O corpo lida com o problema depois de comer, não em jejum. Quando o distúrbio aparece no sangue em jejum — como no caso de Fernanda, com insulina de 13 —, o processo já tem anos. André estava num estágio onde o jejum ainda escondia o problema. Só a provocação com glicose revelou a verdade.
 

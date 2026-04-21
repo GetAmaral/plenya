@@ -8,6 +8,7 @@ last_reviewed: 2026-04-21
 figures:
   - Cap10_Fig01
   - Cap10_Fig02
+  - Cap10_Fig03
 ---
 # PARTE III — O MÉTODO AGIR
 
@@ -102,6 +103,8 @@ Vinte anos depois, sabemos onde o estudo errou — não nos resultados, mas no r
 Dois ensaios posteriores mudaram a conversa. O ELITE, publicado em 2016, testou a reposição em dois grupos — um que começou dentro de seis anos após a última menstruação, outro que só começou depois de dez. No primeiro grupo, o estradiol reduziu a progressão da aterosclerose. No segundo, não reduziu e, em alguns recortes, até agravou. O KEEPS, com seguimento publicado em 2024, chegou ao mesmo lugar: na janela, o hormônio protege; fora dela, não.
 
 Essa é a ideia central da medicina hormonal moderna — a **hipótese da janela**. Um período aproximado de dez anos a partir da última menstruação, em que o estradiol é protetor. Depois disso, a mesma molécula que protegeria começa a fazer o contrário.
+
+![Figura 10.3 — A janela dura cerca de 10 anos. Timeline horizontal em anos desde a última menstruação com três faixas: verde (0–10 anos, janela de proteção), âmbar (10–15 anos, zona de decisão individual), vermelha (15+, fora da janela). Pontos com ensaios-marco: WHI (2002), ELITE (2016) nas duas coortes, KEEPS (2024). Fernanda posicionada dentro da zona verde, aos 44 anos.](../Cap10%20Fig03.PNG)
 
 Com Fernanda, a decisão foi compartilhada, como sempre tem que ser. Os riscos foram discutidos; os benefícios também. Contei a ela como penso cada pedaço dessa conversa.
 

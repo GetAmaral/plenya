@@ -7,6 +7,7 @@ translation_status: source
 last_reviewed: 2026-04-21
 figures:
   - Cap11_Fig01
+  - Cap11_Fig02
 ---
 # PARTE III — O MÉTODO AGIR
 
@@ -67,6 +68,8 @@ Mas aqui é preciso cuidado. A maioria das variantes genéticas comuns tem efeit
 *VDR FokI (rs2228570) — resposta à vitamina D.* Algumas variantes têm menor responsividade ao calcitriol. Pacientes com deficiência que não atingem 40 ng/mL com 5.000 UI/dia frequentemente carregam essa variante — precisam de doses maiores (7.000 a 10.000 UI/dia sob monitoramento) para chegar à faixa ótima. Saber previne meses de ajuste empírico.
 
 *ESR1 e COL1A1 — osteoporose.* Variantes desses genes predizem maior perda óssea na pós-menopausa e resposta diferenciada à reposição hormonal. Em mulheres com história familiar de osteoporose e decisão pendente sobre terapia hormonal, o genótipo entra como informação adicional no cálculo.
+
+![Figura 11.2 — Oito genes, oito decisões clínicas diferentes. Grid com MTHFR (folato metilado), APOE4 (prevenção multidomínio FINGER), CYP1A2 (corte da cafeína), FADS1/2 (peixe em vez de linhaça), FTO (exercício intenso), ALDH2 (abstinência, não "moderação"), VDR FokI (vitamina D em dose maior), ESR1/COL1A1 (pesa no cálculo de TRH). Cada card traz a variante, o significado e a ação clínica.](../Cap11%20Fig02.PNG)
 
 A lógica unificada: a genômica importa quando muda a conduta. Testar MTHFR faz sentido se o paciente tem homocisteína elevada ou sintomas sugestivos — o resultado muda a prescrição. Testar APOE faz sentido em pacientes com história familiar forte de demência ou como parte de uma avaliação de risco neurodegenerativo personalizada — o resultado muda a agressividade da intervenção em estilo de vida e seguimento. Testar um relógio epigenético faz sentido como parte de uma estratégia de monitoramento longitudinal de longevidade — o resultado mostra se a estratégia está funcionando. Genética sem aplicação clínica é apenas relatório.
 

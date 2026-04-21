@@ -83,7 +83,7 @@
 ### Figuras associadas (nova numeração)
 - **Fig 1.2:** Ricardo — todos os números "normais", nenhum ótimo (espelho visual do livro)
 - **Fig 5.1 e 5.2:** Ricardo posicionado na escala do CAC (187) e na idade arterial (52 → 68)
-- **Fig 13.2:** Ricardo em 3 tempos do pilar I2 (T+18m → T+21m → T+30m) — a criar
+- **Fig 13.2:** Ricardo em 3 tempos do pilar I2 (T+18m → T+21m → T+30m)
 
 ---
 
@@ -169,6 +169,7 @@
 - **Fig 6.1:** US de fígado normal vs. esteatose
 - **Fig 6.2:** mesmo IMC, corpos diferentes (TOFI)
 - **Fig 6.3:** timeline da disfunção metabólica (Fernanda posicionada na transição Fase 1→2)
+- **Fig 10.3:** Fernanda aos 44 anos dentro da janela de proteção da TRH (timeline ELITE/KEEPS)
 
 ### Aparições
 Caps 4 (apresentação), 6 (aprofundamento metabólico), 10 (TRH na janela aos 44), 15 (exemplo de detecção precoce nos 40s), 16 (porta de entrada clínica)
@@ -241,6 +242,10 @@ Caps 4 (apresentação), 6 (aprofundamento metabólico), 10 (TRH na janela aos 4
 
 ### Mensagem-chave
 "André treinava demais — e nos pilares errados. Estava treinando menos — e obtendo mais."
+
+### Figuras associadas (nova numeração)
+- **Fig 6.4:** curva dupla do TOTG de André — glicose comportada + insulina 14× o basal aos 60 min (Kraft II)
+- **Fig 11.2:** MTHFR como primeiro card do grid de polimorfismos que mudam conduta
 
 ### Aparições
 - Cap 3: apresentação (idade biológica > cronológica, hallmarks)
@@ -534,7 +539,8 @@ Hábitos instalados:
 
 ### Figuras associadas (nova numeração)
 - **Fig 12.1:** cascata do eixo HPA (Ana é o caso concreto por trás do diagrama)
-- **Fig 12.2:** Ana, dois marcadores duplos antes e depois de 6 meses — PCR/cortisol + PHQ-9/GAD-7 (a criar)
+- **Fig 12.2:** Ana, dois marcadores duplos antes e depois de 6 meses — PCR/cortisol + PHQ-9/GAD-7
+- **Fig 12.3:** os cinco instrumentos de triagem psicológica (PHQ-9, GAD-7, AUDIT, PCL-5, UCLA-3) — referência onde Ana pontuou 14 e 16
 
 ### Aparições
 Caps 12 (apresentação e fechamento I1), 13 (exemplo de caregiver strain em I2), 15 (exemplo da Regra dos Dois aplicada ao Pilar I), 16 (integração entre pilares na avaliação de profissional)

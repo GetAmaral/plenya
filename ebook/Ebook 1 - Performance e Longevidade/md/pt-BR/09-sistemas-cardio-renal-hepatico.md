@@ -64,6 +64,8 @@ Isso não significa medicar todo mundo. A lógica do capítulo inteiro vale aqui
 
 A virada silenciosa já aconteceu. Quem começa a ler sobre prevenção hoje precisa saber que a medicina preventiva do coração, do rim e do metabolismo é, cada vez mais, uma medicina só.
 
+![Figura 9.1 — Três sistemas, uma medicina só. Diagrama de Venn com os três sistemas (cardiovascular, renal, metabólico) sobrepostos no centro; as três classes que os atravessam — inibidores de SGLT2 (dapagliflozina/empagliflozina), finerenona, agonistas de GLP-1 (semaglutida/tirzepatida) — posicionadas na interseção central, com ensaios-referência de cada uma.](../Cap09%20Fig01.PNG)
+
 ---
 
 A lógica comum a todos esses medicamentos: são ferramentas, não soluções. Prescritos no momento certo, para o paciente certo, guiados pelos biomarcadores certos, podem mudar trajetórias. Prescritos indiscriminadamente, como elixires, perdem eficácia e ganham efeitos adversos.

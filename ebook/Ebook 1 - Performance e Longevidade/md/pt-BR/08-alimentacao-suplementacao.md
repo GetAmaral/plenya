@@ -7,6 +7,7 @@ translation_status: source
 last_reviewed: 2026-04-21
 figures:
   - Cap08_Fig01
+  - Cap08_Fig02
 ---
 # PARTE III — O MÉTODO AGIR
 
@@ -165,6 +166,8 @@ A pele, o cabelo e as unhas são a parte do corpo que o paciente enxerga todos o
 A alopecia androgenética — a calvície de padrão masculino e o afilamento difuso feminino — tem base genética e hormonal, com a di-hidrotestosterona (DHT) como mediador final nos folículos sensíveis. É o motivo mais comum de queda de cabelo em adultos, e também a queixa onde o mercado mais mente.
 
 **Posicionamento clínico sobre finasterida e dutasterida para alopecia cosmética — e sobre síndrome pós-finasterida (PFS).** A finasterida e a dutasterida são inibidores da 5-alfa-redutase, a enzima que converte testosterona em DHT. Prescrevo ambas em hiperplasia benigna de próstata (HPB) sintomática, onde há décadas de dados de eficácia e a indicação é medicamente consistente. **Não prescrevo finasterida nem dutasterida para alopecia cosmética.** O motivo tem base regulatória e clínica clara. A FDA incluiu, em 2011, advertência sobre risco de depressão e, em 2022, atualizou a bula para alertar formalmente sobre ideação suicida. A EMA (agência europeia) reconheceu em 2025 a síndrome pós-finasterida (PFS) como quadro real — caracterizado por disfunção sexual persistente (redução de libido, disfunção erétil, anorgasmia), sintomas neuropsiquiátricos (depressão, ansiedade, embotamento cognitivo, anedonia) e sintomas físicos que podem persistir por meses a anos mesmo após a suspensão do medicamento. A prevalência absoluta é baixa, mas o efeito em quem desenvolve é grave, pode ser irreversível, e a decisão de aceitar esse risco em troca de um desfecho estritamente cosmético é, no mínimo, discutível. Para HPB — onde a indicação é funcional e sintomática — o cálculo muda. Para cabelo — onde a queixa é estética — não me parece prudente, e essa é a posição que ofereço ao paciente que pergunta.
+
+![Figura 8.2 — Finasterida: quando sim, quando não. Fluxograma da decisão clínica — HPB sintomática = indicação aceita; alopecia cosmética = não prescrever, alternativas com evidência (minoxidil, PRP, ferritina ≥ 40). Timeline regulatória abaixo com 2011 (FDA advertência sobre depressão), 2022 (FDA ideação suicida) e 2025 (EMA reconhece síndrome pós-finasterida).](../Cap08%20Fig02.PNG)
 
 **O que prescrevo para alopecia androgenética.** As alternativas com evidência razoável e perfil de risco mais favorável são:
 

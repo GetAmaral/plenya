@@ -128,14 +128,30 @@ git mv "tmp_RastreioDecada.PNG" "Cap15 Fig02.PNG"
 - (a) `Cap12 Fig01.PNG` existente é uma versão mais nova/aprovada do HPA cascade e deve ficar — nesse caso, deletar `Cap09 Fig01.PNG`;
 - (b) `Cap12 Fig01.PNG` existente é outro conteúdo que por engano foi nomeado assim — nesse caso, renomear para outra coisa e promover `Cap09 Fig01.PNG` a `Cap12 Fig01.PNG`.
 
-### Figuras novas que precisam ser criadas (ainda não existem no disco)
+### Figuras novas aprovadas — 9 em produção
 
-| Conteúdo | Arquivo a criar | Usado em |
-|---|---|---|
-| Eixo cardio-reno-metabólico (Farmacologia G1) | `Cap09 Fig01.PNG` | Cap 9 — não referenciada explicitamente por Fig 9.x no texto atual; opcional |
-| Ana 6 meses — marcadores duplos (PCR/cortisol + PHQ-9/GAD-7) | `Cap12 Fig02.PNG` | Cap 12 Fig 12.2 |
-| Ricardo 3 tempos — pilar I2 (T+18m, T+21m, T+30m) | `Cap13 Fig02.PNG` | Cap 13 Fig 13.2 |
-| Dois modelos de acompanhamento (check-up convencional × preventivo) | `Cap16 Fig01.PNG` | Cap 16 Fig 16.1 |
+Briefing detalhado em `briefing-figuras-novas.md`. Todas têm referência e legenda já inseridas no texto dos capítulos e estão listadas no frontmatter. Quando os PNGs forem produzidos, basta salvar em `figuras/pt-BR/` com o nome exato.
+
+| Conteúdo | Arquivo | Usado em | Referência no texto |
+|---|---|---|---|
+| Kraft II de André (curva dupla glicose/insulina) | `Cap06 Fig04.PNG` | Cap 6 Fig 6.4 | ✅ inserida |
+| Algoritmo alopecia + PFS + timeline FDA/EMA | `Cap08 Fig02.PNG` | Cap 8 Fig 8.2 | ✅ inserida |
+| Eixo cardio-reno-metabólico (Venn) | `Cap09 Fig01.PNG` | Cap 9 Fig 9.1 | ✅ inserida |
+| Hipótese da janela TRH (timeline ELITE/KEEPS) | `Cap10 Fig03.PNG` | Cap 10 Fig 10.3 | ✅ inserida |
+| Grid de 8 polimorfismos que mudam conduta | `Cap11 Fig02.PNG` | Cap 11 Fig 11.2 | ✅ inserida |
+| Ana 6 meses (biomarcadores + PHQ-9/GAD-7) | `Cap12 Fig02.PNG` | Cap 12 Fig 12.2 | ✅ inserida |
+| 5 instrumentos de triagem psicológica | `Cap12 Fig03.PNG` | Cap 12 Fig 12.3 | ✅ inserida |
+| Ricardo 3 tempos (pilar I2) | `Cap13 Fig02.PNG` | Cap 13 Fig 13.2 | ✅ inserida |
+| Diagrama de Ikigai (4 círculos) | `Cap13 Fig03.PNG` | Cap 13 Fig 13.3 | ✅ inserida |
+
+Total: 9 figuras novas em produção. Livro passará de 30 → 39 figuras (~2,2 por capítulo).
+
+### Figuras já existentes no disco, aguardando referência
+
+Opcional:
+| Conteúdo | Arquivo | Uso | Status |
+|---|---|---|---|
+| Dois modelos de acompanhamento (check-up convencional × preventivo) | `Cap16 Fig01.PNG` | Cap 16 Fig 16.1 | ✅ no disco, referenciada no texto |
 
 ### Figuras que ficam obsoletas após o rename
 
@@ -145,14 +161,13 @@ git mv "tmp_RastreioDecada.PNG" "Cap15 Fig02.PNG"
 
 ---
 
-## Resumo priorizado
+## Resumo priorizado (atualizado 2026-04-21)
 
-| # | Prioridade | Ação |
-|---|---|---|
-| 1 | **Alta** | Decidir conflito `Cap12 Fig01.PNG` vs `Cap09 Fig01.PNG` e executar o bloco de `git mv` do plano acima. |
-| 2 | **Alta** | Criar as 3 figuras novas faltantes (`Cap12 Fig02`, `Cap13 Fig02`, `Cap16 Fig01`). |
-| 3 | **Média** | Regerar `Cap01 Fig01.PNG` com eixo temporal relativo (ver Fig 1.1 acima). |
-| 4 | **Baixa** | Opcional: ampliar `Cap04 Fig01.PNG` para incluir os 16 biomarcadores em vez de 11. |
-| 5 | **Baixa** | Criar `Cap09 Fig01.PNG` para a seção Eixo Cardio-Reno-Metabólico (opcional — texto não exige figura). |
+| # | Prioridade | Ação | Status |
+|---|---|---|---|
+| 1 | Concluído | Rename físico das 12 figuras (14 caps → 18 caps) | ✅ feito em commit 330edd4 |
+| 2 | **Em andamento** | Produzir as 9 figuras novas do briefing (Cap06 Fig04, Cap08 Fig02, Cap09 Fig01, Cap10 Fig03, Cap11 Fig02, Cap12 Fig02, Cap12 Fig03, Cap13 Fig02, Cap13 Fig03) | 🎨 em produção |
+| 3 | Média | Regerar `Cap01 Fig01.PNG` com eixo temporal relativo | pendente |
+| 4 | Baixa | Opcional: ampliar `Cap04 Fig01.PNG` para 16 biomarcadores | pendente |
 
-Enquanto os renames físicos não acontecerem, algumas figuras vão aparecer como links quebrados no build do EPUB. O texto está consistente; é só uma questão de sincronizar os nomes dos arquivos.
+Enquanto as 9 figuras novas não forem produzidas e salvas em `figuras/pt-BR/`, as respectivas posições no EPUB vão aparecer como links quebrados. O texto já tem as legendas prontas — basta colocar os PNGs com o nome exato e o build funciona.

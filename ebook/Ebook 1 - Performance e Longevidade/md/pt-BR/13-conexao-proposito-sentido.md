@@ -8,6 +8,7 @@ last_reviewed: 2026-04-21
 figures:
   - Cap13_Fig01
   - Cap13_Fig02
+  - Cap13_Fig03
 ---
 # PARTE III — O MÉTODO AGIR
 
@@ -162,6 +163,8 @@ Ricardo, quando perguntei, pausou longamente. Trinta anos de carreira tinham sid
 **Aposentadoria sem preparação é fator de risco.** Coortes mostram que aposentadoria abrupta, sem planejamento de propósito para o tempo livre, tem associação com pico de declínio cognitivo e mortalidade nos primeiros dois a cinco anos seguintes. O efeito é atenuado quando o aposentado tem atividade estruturada pós-carreira — voluntariado, mentoria, projeto pessoal, arte, aprendizado. A transição profissional pede o mesmo tipo de preparo que a medicina trata como óbvio em outras transições (gestação, recém-nascido, perda): antecipação, estrutura, e rede de apoio.
 
 **Blue Zones e a convergência das culturas centenárias.** Em Okinawa, a palavra é **ikigai**. Em Nicoya (Costa Rica), a expressão é ***plan de vida***. Em Ikaria, Loma Linda e Sardenha, o conceito aparece com outros nomes mas mesma função: razão cotidiana de levantar, compromisso contínuo com algo maior que a própria rotina, pertencimento a projeto ou comunidade de longo prazo. Não é coincidência. É variável biológica.
+
+![Figura 13.3 — Ikigai: o que te faz levantar da cama. Diagrama clássico de quatro círculos sobrepostos (o que você ama, o que faz bem, o que o mundo precisa, pelo que pode ser pago) com interseções nomeadas (paixão, profissão, vocação, missão) e ikigai no centro. Pergunta clínica em balão lateral: "qual é o motivo que te faz levantar da cama de manhã?".](../Cap13%20Fig03.PNG)
 
 **Como trabalhar propósito no consultório.** Não é tarefa do clínico entregar propósito; é tarefa do clínico abrir espaço para a pergunta. Algumas formulações que ajudam:
 

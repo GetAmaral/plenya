@@ -8,6 +8,7 @@ last_reviewed: 2026-04-21
 figures:
   - Cap12_Fig01
   - Cap12_Fig02
+  - Cap12_Fig03
 ---
 # PARTE III — O MÉTODO AGIR
 
@@ -94,6 +95,8 @@ A avaliação psicológica no consultório não-psiquiátrico não substitui o t
 **Burnout profissional (CID-11, código QD85).** Reconhecido formalmente pela OMS em 2019 como fenômeno ocupacional com três dimensões: exaustão emocional, despersonalização (cinismo em relação ao trabalho e aos colegas) e redução de eficácia percebida. A ferramenta mais usada é o *Maslach Burnout Inventory* (MBI); versões mais curtas como o *Copenhagen Burnout Inventory* (CBI) também são válidas. É recorte especialmente relevante no público-alvo deste livro — executivos, profissionais liberais, médicos, educadores e gestores entre 40 e 60 anos. O quadro frequentemente se sobrepõe à depressão e à ansiedade, mas tem gatilho ambiental específico (ambiente de trabalho crônico) e responde a intervenções que envolvem modificação ambiental, não só tratamento individual. Diagnosticar burnout sem confrontar o ambiente que o produz é tratar a temperatura ignorando o forno.
 
 **Quando a camada psicológica vira prioridade do plano.** Três situações fazem essa questão virar automática. **Primeira:** marcadores inflamatórios persistentes (PCR > 1,5 cronicamente, cortisol elevado, sono fragmentado não explicado por apneia ou medicamento) apesar de pilares biológicos otimizados — foi o caso de Ana. **Segunda:** PHQ-9 ≥10, GAD-7 ≥10, AUDIT ≥8, PCL-5 ≥33, ou pontuação elevada em escala de solidão. **Terceira:** qualquer resposta positiva à pergunta sobre trauma ou ideação suicida, em qualquer intensidade. Nesses três cenários, a camada psicológica não é adjuvante — é o trabalho principal do plano.
+
+![Figura 12.3 — Cinco instrumentos, cinco minutos, cinco perguntas diferentes. Tabela colorida com PHQ-9 (depressão, corte ≥10), GAD-7 (ansiedade, corte ≥10), AUDIT (álcool, corte ≥8), PCL-5 (TEPT, corte ≥33) e UCLA-3 (solidão, corte ≥6). Callout lateral com as três situações em que a camada psicológica vira prioridade do plano.](../Cap12%20Fig03.PNG)
 
 ---
 
