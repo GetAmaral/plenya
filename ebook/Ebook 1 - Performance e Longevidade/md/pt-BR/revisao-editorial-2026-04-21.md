@@ -26,7 +26,7 @@ Arco coerente. Cap 1 → 4 → 13 (T+18m pós-IAM) → 15 (T+5 anos). Idades pro
 Arco limpo. Cap 4 (baseline), Cap 6 (reversão em 6 meses), Cap 10 (volta aos 44 anos, três anos depois, para decisão de TRH na janela). O salto de 3 anos entre Cap 6 e Cap 10 está marcado no texto ("o trabalho estruturado que fizemos três anos antes seguia firme"). Coerente.
 
 ### André (45)
-Arco intencionalmente mais curto — é estudo de caso, não arco longitudinal. Cap 3 (idade biológica acelerada) → Cap 6 (Kraft no TOTG) → Cap 7 (reestruturação do treino) → Cap 11 (MTHFR, genômica). Pendência antiga: rotular Kraft II em vez de III, ou reescrever a curva (já notada em `personagens.md`). Não é crítico para publicação.
+Arco intencionalmente mais curto — é estudo de caso, não arco longitudinal. Cap 3 (idade biológica acelerada) → Cap 6 (Kraft II no TOTG, ajustado em 2026-04-21) → Cap 7 (reestruturação do treino) → Cap 11 (MTHFR, genômica).
 
 ### Marcos (57)
 Arco coerente. Cap 5 (CAC 412, **rosuvastatina 10 mg**) → Cap 7 (treino) → Cap 8 (alimentação + suplementação + fechamento de 8 meses) → Cap 9 (farmacologia G1) → Cap 15 (placar). A expressão "estatina em dose baixa" aparece em Caps 9, 15 e 17 — clinicamente, rosuvastatina 10 mg é intensidade moderada pelas diretrizes ACC/AHA; o uso narrativo é defensável (em relação ao que seria preciso para atingir ApoB < 60), mas um leitor-médico pode estranhar.
@@ -59,8 +59,8 @@ Arco da transição bioquímico → psicológico muito bem construído. Cap 12 (
 ### 3.1 Inconsistência entre `personagens.md` e Cap 5 — **RESOLVIDO**
 `personagens.md` dizia "rosuvastatina 20 mg" mas Cap 5 diz "rosuvastatina 10 mg por dia". Corrigi `personagens.md` para 10 mg (que é a fonte primária no Cap 5).
 
-### 3.2 Rotulação de Kraft III em André — **PENDÊNCIA ANTIGA**
-A curva insulinêmica descrita no Cap 6 tem pico aos 60 min, que é Kraft II, não III. Correção editorial opcional.
+### 3.2 Rotulação de Kraft III em André — **RESOLVIDO em 2026-04-21**
+Cap 6 foi reescrito com a curva Kraft II: pico de insulina aos 60 min (124 µIU/mL ≈ 14× o basal), descendo a 89 aos 120 min. Rótulo ajustado para "Kraft tipo II". "TOTG em quatro tempos" → "cinco tempos" (0, 30, 60, 90, 120 min) também corrigido. Briefing da figura `Cap06 Fig04` já usa os valores corretos.
 
 ### 3.3 "Rosuvastatina 10 mg = estatina em dose baixa" em Caps 9, 15, 17 — **JULGAMENTO DO AUTOR**
 Tecnicamente, rosuvastatina 10 mg é intensidade **moderada** pelas diretrizes. O livro usa "baixa" no sentido narrativo (insuficiente para o alvo ApoB 60). Opções:
@@ -142,7 +142,7 @@ Cap 16 fecha com observação sobre pequenos centros × grandes centros + integr
 | ✅ Feito | Rosuvastatina 10 mg vs 20 mg em `personagens.md` | Corrigido durante a revisão |
 | **Baixa/opcional** | Marina sem apresentação prévia | Adicionar 1 frase no Cap 1 sobre a esposa — ou deixar como está |
 | **Baixa/opcional** | "Estatina em dose baixa" para rosuvastatina 10 mg | Considerar "dose moderada insuficiente para o alvo" — ou manter no sentido narrativo |
-| **Baixa/antiga** | Kraft II/III rótulo em André | Já documentado como pendência em `personagens.md` |
+| ✅ Feito | Kraft II/III rótulo em André | Resolvido em 2026-04-21 — Cap 6 reescrito com curva Kraft II |
 | **Baixa/opcional** | Remissão em vez de redefinição de ApoB em Cap 9 | Economia de leitura de 1–2 frases |
 | Nenhuma | Tom, estilo, arcos principais | Publicável como está |
 

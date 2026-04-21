@@ -211,9 +211,7 @@ Caps 4 (apresentação), 6 (aprofundamento metabólico), 10 (TRH na janela aos 4
 | 90 min | 154 | 118 |
 | 120 min | 131 | 89 |
 
-**Rotulado no livro como "padrão Kraft tipo III"** — hiperinsulinemia compensatória; resposta pós-prandial disfuncional enquanto jejum ainda parece normal.
-
-> Observação de revisão: Kraft Tipo III clássico tem pico aos 120–180 min; a curva descrita tem pico aos 60 min. Rótulo possivelmente deveria ser Kraft II. Nota para decisão editorial.
+**Rotulado no livro como "padrão Kraft tipo II"** (ajustado em 2026-04-21) — pico de insulina precoce e exagerado aos 60 min (124 µIU/mL, ~14× o basal), com hiperinsulinemia compensatória. A glicose parece comportada; a insulina é que está gritando.
 
 ### Problema de treino
 - 10 h/semana — volume de atleta
@@ -588,7 +586,7 @@ Caps 12 (apresentação e fechamento I1), 13 (exemplo de caregiver strain em I2)
 |---|---|---|
 | Infarto no estacionamento | Ricardo | 1 |
 | "Não sou gorda, não bebo" | Fernanda | 6 |
-| Kraft III no TOTG | André | 6 |
+| Kraft II no TOTG | André | 6 |
 | CAC 412 revelado | Marcos | 5 |
 | "Sono ainda em torno de 6h" | Paulo | 14 |
 | "Sempre fui ansiosa" | Ana | 12 |
@@ -625,7 +623,7 @@ Caps 12 (apresentação e fechamento I1), 13 (exemplo de caregiver strain em I2)
 2. **Idades absolutas** (ex.: Ricardo 52 → 57) foram escolhidas para coerência de 5 anos de arco no Cap 15; Cap 13 coloca Ricardo em ~53 (T+18m pós-IAM).
 3. **Marcos e a "estatina em dose baixa"** — resolvida: rosuvastatina 10 mg é intensidade moderada farmacologicamente, mas "dose baixa" é usado no livro em sentido narrativo (relativa ao alvo ApoB < 60). Coerente.
 4. **Ana e o "onze meses"** — pendência editorial antiga. Texto atual do Cap 12 diz "sexta consulta de acompanhamento" e "dezoito meses antes" — verificar se coerente.
-5. **André e Kraft III** — pendência editorial. Ou ajustar rótulo para Kraft II ou reescrever a curva.
+5. **André e Kraft II** — resolvido em 2026-04-21. Cap 6 agora descreve curva com pico aos 60 min (insulina 124 µIU/mL) rotulada corretamente como Kraft II. Briefing da figura `Cap06 Fig04` alinhado.
 6. **Ricardo no Cap 13** — idade ~53 no T+18m, ~54 no T+30m. Ao chegar no Cap 15 aos 57, são 5 anos pós-infarto. Coerente.
 
 ---
