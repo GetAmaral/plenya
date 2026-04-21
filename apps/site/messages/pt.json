@@ -9,7 +9,7 @@
     "about": "A Plenya",
     "team": "Equipe",
     "consultations": "Consultas",
-    "plans": "Acompanhamento",
+    "plans": "Continuum",
     "blog": "Blog",
     "contact": "Contato",
     "patientArea": "Área do Paciente",
@@ -19,7 +19,7 @@
     "scheduleConsultation": "Agendar consulta",
     "knowTeam": "Conhecer a nossa equipe",
     "knowConsultations": "Conhecer as consultas",
-    "knowPlans": "Conhecer o acompanhamento",
+    "knowPlans": "Conhecer o Continuum Plenya",
     "talkToTeam": "Conversar com a equipe Plenya",
     "whatsapp": "Falar no WhatsApp"
   },
@@ -29,7 +29,7 @@
     "agirTitle": "Método AGIR",
     "agirSubtitle": "Quatro pilares interdependentes para uma saúde que se sustenta no tempo.",
     "scoreTitle": "Escore Plenya",
-    "scoreSubtitle": "Mais de 800 itens avaliados — exames, composição corporal, sintomas, histórico e estilo de vida — traduzidos em uma pontuação única e evolutiva."
+    "scoreSubtitle": "Mais de 800 itens — história, sintomas, exames, hábitos e medicamentos — traduzidos em uma pontuação única que revela o que o ‘normal’ esconde."
   },
   "footer": {
     "navigation": "Navegação",

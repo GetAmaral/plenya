@@ -13,22 +13,45 @@ const headerNav = [
   { href: '/', key: 'home' },
   { href: '/a-plenya', key: 'about' },
   { href: '/consultas', key: 'consultations' },
-  { href: '/planos', key: 'plans' },
+  { href: '/continuum', key: 'plans' },
   { href: '/contato', key: 'contact' },
 ] as const;
 
-const fullNav = [
-  { href: '/', key: 'home' },
-  { href: '/a-plenya', key: 'about' },
-  { href: '/dr-getulio', key: 'drGetulio' },
-  { href: '/equipe', key: 'team' },
-  { href: '/metodo-agir', label: 'Método AGIR' },
-  { href: '/escore-plenya', label: 'Escore Plenya' },
-  { href: '/consultas', key: 'consultations' },
-  { href: '/planos', key: 'plans' },
-  { href: '/depoimentos', label: 'Depoimentos' },
-  { href: '/blog', key: 'blog' },
-  { href: '/contato', key: 'contact' },
+type NavItem = { href: string; key?: string; label?: string };
+type NavGroup = { title: string; items: readonly NavItem[] };
+
+const navGroups: readonly NavGroup[] = [
+  {
+    title: 'Conheça a Plenya',
+    items: [
+      { href: '/a-plenya', key: 'about' },
+      { href: '/dr-getulio', key: 'drGetulio' },
+      { href: '/equipe', key: 'team' },
+      { href: '/depoimentos', label: 'Depoimentos' },
+    ],
+  },
+  {
+    title: 'Como cuidamos',
+    items: [
+      { href: '/metodo-agir', label: 'Método AGIR' },
+      { href: '/escore-plenya', label: 'Escore Plenya' },
+    ],
+  },
+  {
+    title: 'Comece',
+    items: [
+      { href: '/diagnostico', label: 'Diagnóstico — é para mim?' },
+      { href: '/consultas', key: 'consultations' },
+      { href: '/continuum', key: 'plans' },
+      { href: '/contato', key: 'contact' },
+    ],
+  },
+  {
+    title: 'Aprenda',
+    items: [
+      { href: '/blog', key: 'blog' },
+    ],
+  },
 ] as const;
 
 export function SiteHeader() {
@@ -114,23 +137,39 @@ export function SiteHeader() {
               </button>
             </div>
 
-            <nav className="p-8 space-y-1">
-              {fullNav.map((item) => {
-                const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className={cn(
-                      'block py-3 heading-section text-xl text-cream/80 hover:text-cream transition border-b border-cream/5',
-                      active && 'text-gold',
-                    )}
-                  >
-                    {navLabel(item)}
-                  </Link>
-                );
-              })}
+            <nav className="p-8 space-y-8">
+              <Link
+                href="/"
+                onClick={() => setOpen(false)}
+                className={cn(
+                  'block py-3 heading-section text-xl text-cream/80 hover:text-cream transition border-b border-cream/5',
+                  pathname === '/' && 'text-gold',
+                )}
+              >
+                {t('home')}
+              </Link>
+
+              {navGroups.map((group) => (
+                <div key={group.title} className="space-y-1">
+                  <p className="label-upper text-gold mb-3">{group.title}</p>
+                  {group.items.map((item) => {
+                    const active = pathname.startsWith(item.href);
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setOpen(false)}
+                        className={cn(
+                          'block py-3 heading-section text-xl text-cream/80 hover:text-cream transition border-b border-cream/5',
+                          active && 'text-gold',
+                        )}
+                      >
+                        {navLabel(item)}
+                      </Link>
+                    );
+                  })}
+                </div>
+              ))}
             </nav>
 
             <div className="px-8 pt-4 pb-6 space-y-6 border-t border-cream/10 mt-4">

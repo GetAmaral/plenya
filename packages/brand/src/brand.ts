@@ -9,7 +9,7 @@ export const brand = {
   apiUrl: 'https://api.plenyasaude.com.br',
   email: 'contato@plenyasaude.com.br',
   social: {
-    instagram: 'https://instagram.com/drGetulioAmaralFilho',
+    instagram: 'https://instagram.com/plenyaSaude',
   },
 } as const;
 
@@ -91,9 +91,9 @@ export const agirPillars = [
   {
     code: 'A',
     slug: 'alimentacao-atividade-fisica',
-    name: 'Alimentação e Atividade Física',
-    nameEn: 'Nutrition and Physical Activity',
-    nameEs: 'Alimentación y Actividad Física',
+    name: 'Atividade Física, Alimentação e Suplementação Inteligente',
+    nameEn: 'Physical Activity, Nutrition and Smart Supplementation',
+    nameEs: 'Actividad Física, Alimentación y Suplementación Inteligente',
     idea: 'O corpo responde ao que você sustenta, não ao que você tenta ocasionalmente.',
     territory: 'Rotina, disciplina e construção de hábito.',
     keyMessages: [
@@ -106,9 +106,9 @@ export const agirPillars = [
   {
     code: 'G',
     slug: 'gestao-metabolica',
-    name: 'Gestão Metabólica',
-    nameEn: 'Metabolic Management',
-    nameEs: 'Gestión Metabólica',
+    name: 'Gestão Clínica e Metabólica',
+    nameEn: 'Clinical and Metabolic Management',
+    nameEs: 'Gestión Clínica y Metabólica',
     idea: 'Você não melhora o que não acompanha.',
     territory: 'Dados, consciência, controle.',
     keyMessages: [
@@ -121,9 +121,9 @@ export const agirPillars = [
   {
     code: 'I',
     slug: 'integracao-corpo-mente',
-    name: 'Integração Corpo e Mente',
-    nameEn: 'Body and Mind Integration',
-    nameEs: 'Integración Cuerpo y Mente',
+    name: 'Integração Mente-Corpo',
+    nameEn: 'Mind-Body Integration',
+    nameEs: 'Integración Mente-Cuerpo',
     idea: 'Sem alinhamento interno, não existe constância externa.',
     territory: 'Consciência, comportamento, profundidade.',
     keyMessages: [
@@ -136,9 +136,9 @@ export const agirPillars = [
   {
     code: 'R',
     slug: 'ritmo-circadiano',
-    name: 'Ritmo Circadiano',
-    nameEn: 'Circadian Rhythm',
-    nameEs: 'Ritmo Circadiano',
+    name: 'Ritmo Circadiano e Repouso',
+    nameEn: 'Circadian Rhythm and Rest',
+    nameEs: 'Ritmo Circadiano y Descanso',
     idea: 'Recuperação é parte do progresso.',
     territory: 'Energia, equilíbrio, sustentabilidade.',
     keyMessages: [

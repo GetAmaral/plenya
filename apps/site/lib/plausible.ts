@@ -14,7 +14,9 @@ export type PlenyaEvent =
   | 'form_contato_enviado'
   | 'form_agir_enviado'
   | 'newsletter_inscreveu'
-  | 'blog_post_lido';
+  | 'blog_post_lido'
+  | 'diagnostico_started'
+  | 'diagnostico_completed';
 
 export function track(event: PlenyaEvent, props?: Record<string, string | number | boolean>) {
   plausible?.trackEvent(event, { props });

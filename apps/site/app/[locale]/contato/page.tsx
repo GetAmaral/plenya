@@ -6,7 +6,7 @@ import { brand } from '@plenya/brand';
 
 export const metadata: Metadata = {
   title: 'Contato',
-  description: 'Fale com a equipe Plenya — consulta, acompanhamento AGIR ou orientação geral.',
+  description: 'Fale com a equipe Plenya — consulta avulsa, Continuum Plenya ou orientação geral.',
 };
 
 export default async function ContactPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -37,7 +37,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
             <div className="space-y-2">
               <p className="label-upper text-gold">Instagram</p>
               <a href={brand.social.instagram} target="_blank" rel="noreferrer" className="text-petrol text-lg hover:text-gold transition">
-                @drGetulioAmaralFilho
+                @plenyaSaude
               </a>
             </div>
             <div className="space-y-2">
