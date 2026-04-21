@@ -21,7 +21,7 @@ O que ninguém havia investigado: entre o "normal" que o laboratório imprime e 
 <li>O <b>Método AGIR</b> — quatro pilares de prevenção real baseados em evidência</li>
 <li>O <b>placar trimestral</b> de longevidade para acompanhar sua trajetória</li>
 <li><b>Seis casos clínicos reais</b> atravessando o livro inteiro</li>
-<li>Protocolos práticos de alimentação, atividade, suplementação, sono e gestão metabólica</li>
+<li>Protocolos práticos de atividade física, alimentação, suplementação inteligente, gestão clínica e metabólica, integração mente-corpo e ritmo circadiano</li>
 </ul>
 <h4>Para quem é este livro:</h4>
 Se você tem 40, 50 ou 60 anos e não está disposto a esperar um diagnóstico para agir, este livro é para você. Não é self-help. Não é manual de receitas. É o trabalho de um médico que há décadas acompanha pacientes que, exatamente como você, recebem exames "normais" enquanto o corpo conta outra história.

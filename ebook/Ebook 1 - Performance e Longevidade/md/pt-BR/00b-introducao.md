@@ -28,7 +28,7 @@ O laboratório diz *normal*. O corpo diz *estou adoecendo há oito anos e ningu�
 
 ## A janela silenciosa
 
-Existe, no meio do caminho entre a saúde que o laboratório reconhece e a doença que o médico trata, uma região pouco nomeada pela medicina brasileira. Ela não tem um CID. Ela não tem um código de faturamento. Ela não aparece em nenhum prontuário. E é nela que a longevidade é construída — ou perdida.
+Existe, no meio do caminho entre a saúde que o laboratório reconhece e a doença que o médico trata, uma região pouco nomeada pela medicina convencional. Ela não tem um CID. Ela não tem um código de faturamento. Ela não aparece em nenhum prontuário. E é nela que a longevidade é construída — ou perdida.
 
 Eu chamo essa região de **janela silenciosa**.
 
@@ -36,7 +36,7 @@ Eu chamo essa região de **janela silenciosa**.
 
 Nessa janela, a doença já existe. Só não apareceu ainda.
 
-E é exatamente aqui que mora a margem de manobra da sua vida. Dez, quinze, vinte anos em que **você ainda pode mudar o que vai acontecer**. Uma vez atravessada essa janela, a medicina brasileira passa a ser excelente no que faz — tratar. Mas tratar doença declarada nunca devolve inteiramente o que a prevenção inteligente teria preservado.
+E é exatamente aqui que mora a margem de manobra da sua vida. Dez, quinze, vinte anos em que **você ainda pode mudar o que vai acontecer**. Uma vez atravessada essa janela, a medicina convencional passa a ser excelente no que faz — tratar. Mas tratar doença declarada nunca devolve inteiramente o que a prevenção inteligente teria preservado.
 
 ---
 
@@ -46,7 +46,7 @@ Este livro **não é** um manual de autoajuda. Não há promessa de transformaç
 
 Este livro **não é** um tratado acadêmico. Se você é colega de profissão e quer as 4.000 referências do consenso internacional de prevenção, as notas no fim de cada capítulo apontam o caminho — mas o texto principal é escrito para quem quer entender, não para quem quer publicar.
 
-Este livro **não é** um ataque à medicina brasileira. Eu sou ela. Coordeno uma residência, atendo na rede pública, trabalho em hemodiálise, dou aula para alunos da minha faculdade. O que eu critico aqui é uma lacuna do sistema — não as pessoas que trabalham dentro dele.
+Este livro **não é** um ataque à medicina convencional. Eu faço parte dela. Coordeno um programa de residência médica em nefrologia e um centro de transplante renal. Atendo na rede pública, trabalho em hemodiálise e já dei aula no curso de medicina da minha cidade. O que eu aponto aqui é uma lacuna do sistema — não as pessoas que trabalham dentro dele.
 
 Este livro **é** um mapa. Um mapa clínico da janela silenciosa: como detectá-la, como medi-la, e o que fazer enquanto você ainda tem tempo. É escrito por um médico que atende pacientes de medicina preventiva todos os dias e que, ao longo de duas décadas, observou o mesmo padrão milhares de vezes.
 
@@ -62,7 +62,7 @@ O livro tem cinco partes e quatorze capítulos.
 
 **Parte II — O Mapa** (caps. 4 a 6). O painel ampliado de biomarcadores que o check-up convencional não inclui, o que cada um deles significa, e como ler os seus próprios exames. Aqui está o conjunto de números que, juntos, definem a sua posição na janela.
 
-**Parte III — O Método AGIR** (caps. 7 a 10). Quatro pilares de ação — **A**limentação, atividade física e suplementação; **G**estão metabólica; **I**ntegração corpo-mente; **R**itmo circadiano e repouso. Cada pilar é um capítulo, com protocolos práticos, dosagens, metas de biomarcadores e erros comuns a evitar.
+**Parte III — O Método AGIR** (caps. 7 a 10). Quatro pilares de ação — **A**tividade física, alimentação e suplementação inteligente; **G**estão clínica e metabólica; **I**ntegração mente-corpo; **R**itmo circadiano e repouso. Cada pilar é um capítulo, com protocolos práticos, dosagens, metas de biomarcadores e erros comuns a evitar.
 
 **Parte IV — O Plano** (caps. 11 a 12). O placar trimestral de longevidade, para você acompanhar a própria trajetória ao longo do tempo. E um capítulo sobre quando — e como — procurar um especialista, com as perguntas certas para fazer.
 
@@ -86,7 +86,7 @@ Se você tiver 40, 50 ou 60 anos e nunca fez um painel ampliado de biomarcadores
 
 ## Um pedido final
 
-Eu escrevi este livro no intervalo entre consultas, entre aulas, entre plantões. Entre um paciente que chegou cedo e salvou a própria década, e outro que chegou tarde demais. Entre a gratidão e o luto que a profissão carrega todos os dias.
+Eu escrevi este livro no intervalo entre consultas, entre aulas, entre plantões — e entre as brincadeiras com meus filhos que eu faço questão de não perder. Entre um paciente que chegou cedo e salvou a própria década, e outro que chegou tarde demais. Entre a gratidão e o luto que a profissão carrega todos os dias.
 
 Se, ao terminar de ler, você fizer uma única coisa diferente — pedir um exame que o seu médico ainda não pediu, mudar uma conversa no próximo check-up, olhar para um resultado que você ignorava —, o livro terá cumprido o objetivo.
 
@@ -96,5 +96,6 @@ Porque viver bem e viver mais não começa depois do diagnóstico.
 
 ---
 
-*Dr. Getúlio José Mattos do Amaral Filho*
+*Dr. Getulio Amaral Filho*
+
 *Londrina, 2026*

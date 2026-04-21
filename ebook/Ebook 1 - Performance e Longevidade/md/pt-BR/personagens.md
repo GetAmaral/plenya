@@ -128,7 +128,7 @@
 ### Reação ao diagnóstico de esteatose
 *"Fígado gorduroso? Mas eu não sou gorda. Eu nem bebo."*
 
-### Intervenções (6 meses, **sem medicação**)
+### Intervenções (6 meses, **estilo de vida + suplementação inteligente, sem fármaco prescrito**)
 1. **Alimentação reestruturada:**
    - Padrão mediterrâneo
    - Redução de ultraprocessados e frutose adicionada
@@ -599,11 +599,11 @@ Caps 9 (apresentação e fechamento do arco), 11 (exemplo da Regra dos Dois apli
 
 | Pilar | Personagem-caso-tipo | Evidência narrativa |
 |---|---|---|
-| **A — Alimentação, Atividade Física e Suplementação** | Fernanda | Reversão completa em 6m sem fármaco |
+| **A — Atividade Física, Alimentação e Suplementação Inteligente** | Fernanda | Reversão completa em 6m com lifestyle + suplementação inteligente |
 | **A — Treino bem estruturado** | André | "Treinar muito ≠ treinar certo" |
-| **G — Gestão Metabólica (estatina + ezetimiba)** | Marcos | CAC de 412 + ApoB para <60 |
+| **G — Gestão Clínica e Metabólica (estatina + ezetimiba)** | Marcos | CAC de 412 + ApoB para <60 |
 | **G — Gestão hormonal + otimização do terreno** | Paulo (Fase 1) | Testo 310 → 485 sem reposição |
-| **I — Integração Corpo-Mente** | Ana | HPA crônico como driver da PCR persistente |
+| **I — Integração Mente-Corpo** | Ana | HPA crônico como driver da PCR persistente |
 | **R — Ritmo Circadiano e Repouso** | Paulo (Fase 2) | Apneia oculta sabotando tudo |
 
 ---

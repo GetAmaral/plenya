@@ -24,8 +24,6 @@ O infarto de Ricardo não foi um raio em céu azul. Foi o desfecho previsível d
 
 ![Figura 2.1 — Os 20 Anos Silenciosos. Linhas do tempo paralelas mostrando início silencioso das 4 doenças (30–50 anos) versus diagnóstico convencional (50–75 anos), com a janela de intervenção destacada.](../Cap02%20Fig01.PNG)
 
-*Figura 2.1 — As quatro doenças que mais matam adultos após os 40 anos se desenvolvem em paralelo por 10 a 20 anos antes de qualquer sintoma. A janela de intervenção é muito maior que o período de doença manifesta — mas o check-up convencional não olha para ela. A doença já estava lá. O diagnóstico é que chegou tarde.*
-
 ---
 
 ### Doença Cardiovascular: O Fogo que Ninguém Vê
@@ -47,8 +45,6 @@ O infarto, na maioria dos casos, não é causado pela placa que mais estreita a 
 **Placas com menos de 50% de obstrução podem matar. Placas com 90% podem nunca se romper.**
 
 ![Figura 2.2 — Da Estria Gordurosa ao Infarto. Quatro cortes transversais de artéria: saudável → estria gordurosa → placa estável (70% obstrução, capa grossa, "pode nunca romper") → placa vulnerável (40% obstrução, capa fina, ruptura e trombo — "pode matar").](../Cap02%20Fig02.PNG)
-
-*Figura 2.2 — Aterosclerose não é gordura entupindo um cano. É um processo inflamatório em camadas dentro da parede arterial. O que mata não é a placa mais obstrutiva — é a placa mais inflamada, com capa fibrosa fina, que se rompe. O check-up procura obstrução. A doença real é inflamação.*
 
 O check-up convencional procura obstrução. A doença real é inflamação. Por isso ele falha.
 
@@ -129,8 +125,6 @@ E os instrumentos dessa prevenção são exatamente os mesmos que protegem contr
 Se você leu até aqui com atenção, percebeu algo que a maioria dos livros de saúde não articula com clareza: essas quatro doenças não são independentes. Elas compartilham raízes biológicas comuns — resistência insulínica, inflamação crônica, disfunção metabólica. A mesma pessoa frequentemente está caminhando para mais de uma ao mesmo tempo, sem saber.
 
 ![Figura 2.3 — As Raízes Comuns. Árvore invertida: quatro doenças no topo (cardiovascular, metabólica, neurodegeneração, câncer) convergem num tronco comum alimentado por três raízes — resistência insulínica, inflamação crônica, disfunção metabólica — que se reforçam mutuamente. Entre raízes e tronco, a "janela de intervenção".](../Cap02%20Fig03.PNG)
-
-*Figura 2.3 — As quatro doenças que mais matam após os 40 não são independentes. Elas compartilham raízes biológicas comuns. Atacar essas raízes — resistência insulínica, inflamação crônica, disfunção metabólica — previne todas as quatro simultaneamente. A prevenção converge para as mesmas ações porque a biologia da doença converge para o mesmo terreno.*
 
 Ricardo era a prova. Resistência insulínica, inflamação de baixo grau, ApoB elevado, homocisteína alta — quatro processos convergindo silenciosamente durante uma década. O infarto foi apenas o primeiro que encontrou uma porta de saída.
 

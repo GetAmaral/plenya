@@ -6,32 +6,32 @@ title_en_suggested: "Dedication and Epigraph"
 translation_status: source
 last_reviewed: 2026-04-20
 ---
-# Front Matter
+<!-- EPUB-START -->
+
+# Dedicatória {.unnumbered .unlisted}
+
+> *Para meus pacientes —*
+> *os que ficaram,*
+> *e os que partiram cedo demais.*
+
+# Epígrafe {.unnumbered .unlisted}
+
+> *Entre saber e fazer, há um abismo.*
+
+<!-- EPUB-END -->
+
+---
+
+# Notas editoriais (não publicadas)
 
 Elementos que abrem o livro, em ordem de aparição no volume físico:
 **folha de rosto → dedicatória → epígrafe → sumário → Capítulo 1**
 
 Versões finais aprovadas. Prontas para diagramação.
 
----
+**Diagramação sugerida para a dedicatória:** página ímpar, texto centralizado vertical e horizontal, tipografia discreta (serifada, tamanho médio), muito espaço em branco ao redor. Sem ornamento.
 
-## Dedicatória
-
-> *Para meus pacientes —*
-> *os que ficaram,*
-> *e os que partiram cedo demais.*
-
-**Diagramação sugerida:** página ímpar, texto centralizado vertical e horizontal, tipografia discreta (serifada, tamanho médio), muito espaço em branco ao redor. Sem ornamento.
-
----
-
-## Epígrafe de abertura
-
-> *Entre saber e fazer, há um abismo.*
-
-**Diagramação sugerida:** página ímpar (de preferência duas páginas depois da dedicatória), texto centralizado, mesma tipografia da dedicatória em tamanho idêntico. Sem atribuição, sem fonte — é frase autoral, não citação.
-
----
+**Diagramação sugerida para a epígrafe:** página ímpar (de preferência duas páginas depois da dedicatória), texto centralizado, mesma tipografia da dedicatória em tamanho idêntico. Sem atribuição, sem fonte — é frase autoral, não citação.
 
 ## Ordem nas páginas iniciais
 

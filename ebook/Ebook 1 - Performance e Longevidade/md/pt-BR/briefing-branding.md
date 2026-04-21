@@ -1,3 +1,6 @@
+<!-- EPUB-END -->
+<!-- Arquivo interno de briefing. Nunca publicar no EPUB. -->
+
 # Briefing do Livro — Equipe de Branding
 
 **Título:** ANTES
@@ -97,9 +100,9 @@ Quatro pilares que o autor prescreve a cada paciente, organizados num acrônimo 
 
 | Letra | Pilar | Escopo |
 |---|---|---|
-| **A** | Alimentação, Atividade Física e Suplementação | Os três motores do estilo de vida que nenhuma medicação substitui |
-| **G** | Gestão Metabólica | Hormônios, genômica, farmacologia guiada por biomarcadores |
-| **I** | Integração Corpo-Mente | Psicologia, trauma, stress — o pilar que a medicina fragmentada ignora |
+| **A** | Atividade Física, Alimentação e Suplementação Inteligente | Os três motores do estilo de vida que nenhuma medicação substitui |
+| **G** | Gestão Clínica e Metabólica | Hormônios, genômica, farmacologia guiada por biomarcadores |
+| **I** | Integração Mente-Corpo | Psicologia, trauma, stress — o pilar que a medicina fragmentada ignora |
 | **R** | Ritmo Circadiano e Repouso | Sono, cronobiologia, os relógios internos |
 
 ### Versão internacional: ACTS
@@ -108,9 +111,9 @@ Para edições em inglês, mantendo a estrutura:
 
 | EN | |
 |---|---|
-| **A** — Alimentation, Activity & Adjuncts | nutrition, movement, supplementation |
+| **A** — Activity, Alimentation & Smart Adjuncts | movement, nutrition, supplementation |
 | **C** — Clinical Optimization | biomarker-guided precision medicine |
-| **T** — Tending Body & Mind | psychology, trauma, meaning |
+| **T** — Tending Mind & Body | psychology, trauma, meaning |
 | **S** — Sleep & Circadian Rhythm | biological tempo |
 
 > *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four practices that, together, protect the decades of health that standard medicine gives up on.*

@@ -6,13 +6,9 @@ title_en_suggested: "Acknowledgments"
 translation_status: source
 last_reviewed: 2026-04-20
 ---
+<!-- EPUB-START -->
+
 # Agradecimentos
-
-Texto pronto para diagramação. Posicionamento sugerido: **última peça de texto do livro**, depois do Capítulo 14 (Referências) e antes da contracapa interna/biografia.
-
----
-
-## Versão final
 
 Este livro foi escrito no intervalo entre consultas, entre aulas, entre plantões — e, antes de tudo, nos espaços que outras pessoas abriram para que ele existisse.
 
@@ -31,6 +27,8 @@ Ao meu pai, **Getúlio** — pai e mestre, primeiro médico que conheci e sobre 
 Ao leitor, por fim: obrigado por abrir este livro. O trabalho começa aqui, e é seu.
 
 ---
+
+<!-- EPUB-END -->
 
 ## Contagem e avaliação
 

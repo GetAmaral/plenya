@@ -47,8 +47,6 @@ O escore de cálcio não é um exame de "sim ou não". É uma escala contínua �
 
 ![Figura 5.1 — Escore de Cálcio Coronariano: O Que Cada Faixa Significa. Escala gradiente de risco (CAC=0 até ≥400) integrada com imagens de TC de coronárias mostrando progressão da calcificação, posicionamento de Ricardo (CAC≈187) e Marcos (CAC=412) e conduta clínica resumida por faixa.](../Cap05%20Fig01.PNG)
 
-*Figura 5.1 — Cada duplicação do escore representa aproximadamente 14% a mais de risco cardiovascular. CAC=0 é o "poder do zero" — reduz o risco estimado em até 85%. Acima de 400, a conduta se equipara à prevenção secundária. A escala mostra onde Ricardo (Cap. 1) e Marcos se posicionam — dois casos reais do livro que tornaram concreto o que o número abstrato significa.*
-
 **CAC = 0: O Poder do Zero.** Nenhuma placa calcificada detectada. Este é o resultado mais poderoso da cardiologia preventiva. Uma meta-análise de mais de 29 mil pacientes demonstrou que pessoas com CAC zero tiveram taxa de eventos cardiovasculares de 0,47% ao longo de cerca de quatro anos — contra 4,14% naquelas com qualquer calcificação. O risco relativo foi reduzido em 85%. Se o seu CAC é zero, a probabilidade de um evento cardiovascular nos próximos 5 a 10 anos é muito baixa. Em pacientes com risco intermediário que estão indecisos sobre iniciar estatina, um CAC zero pode ser a informação que faltava para postergar o medicamento e focar em estilo de vida — com segurança. Mas atenção: CAC zero não significa ausência de doença. Placa mole — não calcificada, mais jovem, potencialmente mais instável — não aparece nesse exame. O CAC zero reduz enormemente o risco. Não o elimina.
 
 **CAC 1–99: A Aterosclerose Começou.** Placa leve. A doença está presente, mas em estágio inicial. O risco cardiovascular é modesto, mas não mais negligenciável. Nesta faixa, a conduta depende do contexto: idade, outros fatores de risco, percentil em relação a pessoas do mesmo sexo, idade e etnia. Em adultos jovens, um CAC de 30 pode ser mais preocupante que um CAC de 30 em alguém de 70 anos — porque indica que a doença começou mais cedo.
@@ -71,8 +69,6 @@ Marcos entendeu o CAC score no momento em que traduzi o número para idade. *"Vo
 
 ![Figura 5.2 — Idade Cronológica vs. Idade Arterial. Eixo horizontal de 40 a 85 anos mostrando Marcos (57 cronológica → 80 arterial, gap +23, percentil >90) e Ricardo (52 cronológica → 68 arterial, gap +16, percentil >75).](../Cap05%20Fig02.PNG)
 
-*Figura 5.2 — "Seu escore de cálcio é 412" é uma frase técnica. "Suas artérias parecem ter 20 anos a mais que você" é a frase que muda comportamento. A distância vertical entre a idade cronológica e a idade arterial é o argumento: décadas de dano acumulado silenciosamente enquanto o check-up dizia "tudo bem".*
-
 ---
 
 ### Quando Fazer — e Para Quem
@@ -93,9 +89,36 @@ Nenhum exame é perfeito, e o escore de cálcio tem duas limitações que merece
 
 ---
 
+### Quando o CAC Não Basta: a Angiotomografia Coronariana
+
+A primeira limitação que acabamos de discutir — placa mole invisível ao escore de cálcio — tem uma solução disponível, porém com trade-offs que precisam ser considerados. É a **angiotomografia coronariana**, em inglês *coronary CT angiography* (CCTA). Exame diferente do escore de cálcio: feito com contraste iodado intravenoso, gera imagem tridimensional das coronárias com nível de detalhe comparável ao da cineangiocoronariografia invasiva — sem o cateter e sem internação.
+
+O que a CCTA mostra que o CAC não mostra: **placa mole**. Aquela rica em lipídeos, com capa fibrosa fina, que ainda não calcificou. A placa que mais preocupa, justamente porque é a que mais rompe. A CCTA também quantifica o grau de estenose luminar — quanto da passagem do sangue está comprometido — e caracteriza a composição da placa (predominantemente lipídica, fibrótica, mista, calcificada). É a avaliação anatômica mais completa das coronárias disponível fora da hemodinâmica.
+
+A magnitude da discordância entre os dois exames surpreende. No coorte *Multi-Ethnic Study of Atherosclerosis* (MESA), aproximadamente um terço de todos os eventos cardiovasculares ocorreram em participantes cujo CAC inicial era zero. No *CAC Consortium*, 43% das mortes cardiovasculares aconteceram em pessoas com CAC zero no momento do exame. E em uma análise recente de pacientes assintomáticos submetidos a CCTA apesar de CAC zero, uma fração significativa apresentou doença coronariana relevante — placa mole em acúmulo silencioso que o cálcio ainda não havia registrado. O zero protege muito. Não protege tudo.
+
+**Quando indicar CCTA em adição — ou em vez — do CAC:**
+
+- **Forte história familiar de doença coronariana precoce** (parente de primeiro grau com evento antes dos 55 em homens ou 65 em mulheres), especialmente se o CAC voltou zero mas a probabilidade pré-teste permanece alta.
+- **Mulheres em risco intermediário.** O CAC subestima risco em mulheres porque a calcificação coronariana nelas começa mais tarde e em menor densidade. A CCTA captura a placa mole que o CAC deixa passar — e, nas mulheres, essa placa representa proporcionalmente mais do total do que nos homens.
+- **Pacientes jovens (abaixo de 50 anos) com ApoB cronicamente elevado**, onde a decisão sobre intensificar tratamento farmacológico depende de mais informação anatômica.
+- **Discordância clínica persistente** — paciente com múltiplos fatores de risco, CAC zero, e o quadro clínico não está fechando.
+
+**Quando NÃO indicar:**
+
+- CAC já elevado — o que importa é agir sobre esse dano, não sobre a anatomia luminar.
+- Risco claramente baixo por todos os critérios.
+- Paciente sintomático — este vai direto para avaliação funcional (teste ergométrico, cintilografia miocárdica ou RM cardíaca com estresse) ou cateterismo, dependendo do caso. CCTA aqui é em contexto de investigação de dor torácica, não de prevenção.
+
+**O que considerar antes de pedir.** A CCTA usa contraste iodado — contraindicada em insuficiência renal avançada, requer precaução em alérgicos e em diabéticos em uso de metformina. A dose de radiação é maior que a do CAC, embora dramaticamente menor que na geração anterior de tomógrafos. O custo é consideravelmente superior e, no Brasil, a cobertura por planos de saúde varia muito. E há um risco menos óbvio: a CCTA detecta lesões não-obstrutivas que podem gerar ansiedade e seguimento desnecessário se mal interpretadas. É exame que pede leitura especializada — não basta o laudo radiológico, precisa de cardiologista integrando com o quadro clínico completo.
+
+**A conclusão prática:** a CCTA não substitui o CAC. Complementa. O CAC continua sendo o exame de primeira linha para a maioria dos adultos em prevenção primária — simples, barato, sem contraste, altamente validado. A CCTA é o exame de segunda linha, reservado para quando o CAC não responde à pergunta que importa.
+
+---
+
 ### A Integração: Sangue + Imagem = Mapa Completo
 
-O escore de cálcio não substitui os biomarcadores — ele os complementa. Sozinho, mostra a placa que já existe. Mas não diz se o processo está ativo, se a inflamação persiste, se novas placas estão se formando. Para isso, você precisa dos números do sangue.
+O escore de cálcio não substitui os biomarcadores — ele os complementa. Sozinho, mostra a placa calcificada que já existe. Mas não diz se o processo está ativo, se a inflamação persiste, se novas placas estão se formando. Para isso, você precisa dos números do sangue. E quando o CAC não basta para dar a resposta anatômica, a CCTA preenche a lacuna — mostrando também a placa mole que o cálcio ainda não tornou visível.
 
 ### Além do CAC: Outras Ferramentas do Painel Cardíaco
 
@@ -156,6 +179,8 @@ Se o CAC voltar zero, você ganha informação valiosa: seus fatores de risco, s
 - CAC zero é o resultado mais poderoso da cardiologia preventiva — reduz o risco estimado em até 85%. Mas não exclui placa mole, especialmente em pacientes jovens com ApoB elevado.
 
 - CAC acima de 100 geralmente indica necessidade de estatina. Acima de 400 equivale a prevenção secundária.
+
+- Quando o CAC zero não basta — história familiar forte de DAC precoce, mulheres, jovens com ApoB cronicamente alto —, a **angiotomografia coronariana (CCTA)** complementa, mostrando a placa mole que o cálcio não registra. Exame de segunda linha, com contraste, custo e radiação maiores. Não substitui o CAC; preenche as lacunas dele.
 
 - A idade arterial — "suas artérias parecem ter 20 anos a mais" — é a tradução mais eficaz do escore para o paciente. Muda comportamento de uma forma que nenhum número de laboratório consegue.
 

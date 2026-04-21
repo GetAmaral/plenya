@@ -68,8 +68,6 @@ O **ciclo de acompanhamento** é trimestral no início (quando há ajustes ativo
 
 ![Figura 12.1 — Dois modelos de acompanhamento médico: check-up convencional e avaliação preventiva ampliada ao longo de um ano. Duas linhas do tempo paralelas. Acima: modelo convencional (consulta anual curta, painel básico, "tudo normal", sem acompanhamento). Abaixo: modelo preventivo (primeira consulta longa, painel ampliado, consulta de retorno, retestes aos 4 e 8 meses, avaliação anual completa).](../Cap12%20Fig01.PNG)
 
-*Figura 12.1 — O check-up convencional opera em ciclo anual com painel básico e faixas de referência do laboratório. A avaliação preventiva ampliada opera em ciclos iterativos com painel estendido, faixas ótimas, leitura conjunta dos resultados e plano priorizado revisado a cada retorno. O contraste não é de custo ou sofisticação — é de profundidade e continuidade do acompanhamento.*
-
 ---
 
 ### Bandeiras Vermelhas

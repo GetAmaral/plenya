@@ -1,7 +1,7 @@
 ---
 id: 08
 language: pt-BR
-title: "G: Gestão Metabólica"
+title: "G: Gestão Clínica e Metabólica"
 title_en_suggested: "C: Clinical Optimization"
 translation_status: source
 last_reviewed: 2026-04-20
@@ -12,7 +12,7 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 8 — G: Gestão Metabólica — Seu Painel de Controle Interno
+## Capítulo 8 — G: Gestão Clínica e Metabólica — Seu Painel de Controle Interno
 
 Paulo tinha 48 anos quando entrou no consultório pela primeira vez. Executivo de uma empresa de tecnologia, dois filhos, casado há vinte anos, treinava musculação quatro vezes por semana. Não tinha queixas específicas. *"Estou bem, só quero entender se estou otimizado."* Foi exatamente essa a palavra que ele usou.
 
@@ -28,9 +28,7 @@ E Paulo não era exceção. Ele era padrão. A testosterona masculina começa a 
 
 ![Figura 8.1 — A Testosterona Que Ninguém Estava Medindo. Curva descendente de testosterona total média por faixa etária (20 a 80 anos), com Paulo (48 anos, 310 ng/dL) destacado como ponto azul — cruzando a linha da média populacional no valor típico de homens com 80+ anos.](../Cap08%20Fig01.PNG)
 
-*Figura 8.1 — A testosterona de Paulo aos 48 anos é a mesma que a média populacional apresenta aos 80. O declínio de 1 a 2% ao ano após os 30 é fisiológico — mas trajetórias acentuadas levam pacientes relativamente jovens a valores tipicamente observados em idosos. A faixa verde indica valores associados a menor mortalidade em estudos de longevidade; a faixa vermelha indica hipogonadismo laboratorial formal.*
-
-O caso de Paulo é a entrada para o pilar que este capítulo cobre: **Gestão Metabólica**. A parte do Método AGIR que envolve o que o paciente não pode fazer sozinho. Aqui entram os hormônios, a farmacologia guiada por biomarcadores, a genômica aplicada, e a lógica de medicina iterativa — testar, intervir, retestar, ajustar. É a parte do trabalho em que o médico deixa de ser conselheiro de estilo de vida e passa a ser piloto de um painel de dados.
+O caso de Paulo é a entrada para o pilar que este capítulo cobre: **Gestão Clínica e Metabólica**. A parte do Método AGIR que envolve o que o paciente não pode fazer sozinho. Aqui entram os hormônios, a farmacologia guiada por biomarcadores, a genômica aplicada, e a lógica de medicina iterativa — testar, intervir, retestar, ajustar. É a parte do trabalho em que o médico deixa de ser conselheiro de estilo de vida e passa a ser piloto de um painel de dados.
 
 ---
 
@@ -46,15 +44,13 @@ O painel mínimo que considero essencial para homens acima de 40 anos inclui: te
 
 **DHEA-S.** O DHEA é um precursor hormonal produzido pelas suprarrenais. Seu sulfato (DHEA-S) é a forma mais estável no sangue, e cai de forma previsível com a idade. Níveis baixos se associam a pior função cognitiva, humor e composição corporal. Reposição tem evidência mais fraca do que para testosterona, mas medir é útil para entender o estado geral das suprarrenais e para monitorar resposta a intervenções.
 
-**Cortisol matinal.** O cortisol segue um ritmo circadiano: alto pela manhã (para acordar), baixo à noite (para dormir). Medir apenas o valor matinal já dá uma boa leitura do eixo hipotálamo-hipófise-adrenal (HPA). Cortisol matinal baixo pode indicar exaustão adrenal funcional; cortisol alto crônico, ativação persistente do eixo de estresse. Ambos são relevantes — e o contexto importa. No Capítulo 9, veremos como o eixo HPA é central para a integração corpo-mente; aqui, ele entra como biomarcador objetivo.
+**Cortisol matinal.** O cortisol segue um ritmo circadiano: alto pela manhã (para acordar), baixo à noite (para dormir). Medir apenas o valor matinal já dá uma boa leitura do eixo hipotálamo-hipófise-adrenal (HPA). Cortisol matinal baixo pode indicar exaustão adrenal funcional; cortisol alto crônico, ativação persistente do eixo de estresse. Ambos são relevantes — e o contexto importa. No Capítulo 9, veremos como o eixo HPA é central para a integração mente-corpo; aqui, ele entra como biomarcador objetivo.
 
 **Tireoide: por que TSH não basta.** A medicina convencional pede apenas TSH e considera que, se está entre 0,4 e 4,5 mUI/L, tudo está bem. Mas o TSH é um hormônio hipofisário que estimula a tireoide a produzir T3 e T4. O que interessa ao corpo são os hormônios tireoidianos finais — em especial o T3 livre, que é o mais ativo nas células. Há pacientes com TSH "normal" e T3 livre persistentemente baixo, com todos os sintomas de hipotireoidismo subclínico: fadiga, intolerância ao frio, queda de cabelo, constipação, dificuldade de perder peso. Pedir TSH isolado é como medir a pressão na torneira sem verificar se a água está saindo. Para uma avaliação tireoidiana completa, o mínimo é TSH + T4 livre + T3 livre. Anticorpos anti-TPO e antitireoglobulina entram quando há suspeita de tireoidite autoimune.
 
 **IGF-1: a curva em U invertido.** O fator de crescimento insulina-símile 1 é produzido principalmente pelo fígado em resposta ao hormônio do crescimento. Níveis muito baixos se associam a fragilidade, sarcopenia e declínio funcional. Níveis muito altos se associam a aceleração de processos proliferativos — incluindo maior risco de alguns cânceres e, em estudos com centenários, a sobrevida excepcional parece correlacionar-se com IGF-1 na faixa média-baixa. Diferente da testosterona, cujo objetivo é sempre levar à faixa ótima, o IGF-1 segue uma curva em U invertido: nem muito baixo, nem muito alto. A faixa alvo varia com idade, mas o princípio vale.
 
 ![Figura 8.2 — Quando Mais Não É Melhor: O IGF-1 em U Invertido. Curva em U invertido com o IGF-1 no eixo horizontal (50–220 ng/mL) e risco relativo para longevidade no eixo vertical. Faixa verde central (120–160 ng/mL) = zona ótima. Vermelho à esquerda (fragilidade/sarcopenia) e à direita (proliferação celular, risco oncológico).](../Cap08%20Fig02.PNG)
-
-*Figura 8.2 — Ao contrário da maioria dos biomarcadores discutidos neste livro, o IGF-1 não segue a lógica "quanto mais baixo, melhor". Níveis muito baixos se associam a fragilidade e perda de função; níveis muito altos se associam a proliferação celular e maior risco de alguns cânceres. A faixa ótima varia com idade, mas o princípio é constante.*
 
 **Prolactina.** Hormônio hipofisário geralmente lembrado apenas em contextos de lactação. Na prática clínica, prolactina elevada fora da gravidez — em homens ou mulheres — pode suprimir o eixo gonadal, reduzir testosterona, causar disfunção sexual, alterações menstruais e até ser sinal de microadenoma hipofisário. Em pacientes com disfunção erétil sem causa clara, libido baixa inexplicada, ou alterações tireoidianas associadas, medir prolactina é essencial. A faixa normal vai até cerca de 20 ng/mL; valores persistentemente acima disso, sem gravidez ou medicação que justifique (antipsicóticos, alguns antidepressivos), pedem investigação.
 
@@ -165,8 +161,6 @@ Depois de um a seis meses — dependendo do que estamos mexendo e da urgência c
 Paulo voltou ao consultório seis meses depois da primeira avaliação. Testosterona total em 485 ng/dL. Livre em 11,2 pg/mL. DHEA-S subiu. Vitamina D em 58. PCR caiu de 1,7 para 0,9. Sono consolidado. Composição corporal com ganho de 2 kg de massa magra. A idade epigenética, que medimos no primeiro exame e estava quatro anos acima da cronológica, caiu dois anos. Paulo não precisou de reposição de testosterona. Precisou de diagnóstico correto, plano integrado e seguimento.
 
 ![Figura 8.3 — Paulo: 6 Meses Depois. Dot plot com setas de movimento: testosterona total (310→485), testosterona livre (4,8→11,2), vitamina D (24→58), hs-CRP (1,7→0,9) e idade epigenética relativa (+4 anos → +2 anos) migrando para a zona ótima — sem reposição hormonal.](../Cap08%20Fig03.PNG)
-
-*Figura 8.3 — A trajetória de Paulo em seis meses, com otimização de sono, correção de vitamina D e ajuste no treino de força — sem uso de reposição de testosterona. As setas mostram a direção da mudança; o triângulo verde marca o alvo ótimo. A idade epigenética, medida por relógios de metilação do DNA, reduziu 2 anos — sinal biológico de que o envelhecimento desacelerou. Esta figura é o terceiro espelho do livro (depois de Ricardo no Cap. 1 e Marcos no Cap. 7): pilares diferentes, mesma linguagem visual.*
 
 Essa é a diferença entre a medicina que espera o diagnóstico aparecer e a medicina que lê o painel antes do painel entrar em alerta.
 

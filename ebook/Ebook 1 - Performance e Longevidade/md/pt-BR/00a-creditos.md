@@ -6,60 +6,55 @@ title_en_suggested: "Copyright Page"
 translation_status: source
 last_reviewed: 2026-04-20
 ---
-# Página de Créditos / Copyright
+<!-- EPUB-START -->
 
-Posicionamento: **página iv** (verso da folha de rosto), antes da dedicatória.
-
-Texto pronto para diagramação. Substituir placeholders `[ISBN]` e `[data_publicacao]` quando disponíveis.
-
----
-
-## Texto final
+# Créditos {.unnumbered .unlisted}
 
 **ANTES**
-A janela silenciosa entre o normal e o ótimo — onde a saúde é decidida.
+
+*A janela silenciosa entre o normal e o ótimo — onde a saúde é decidida.*
 
 Copyright © 2026 Getúlio José Mattos do Amaral Filho
 
 Todos os direitos reservados. Nenhuma parte desta obra pode ser reproduzida, armazenada em sistema de recuperação ou transmitida, por qualquer forma ou meio — eletrônico, mecânico, fotocópia, gravação ou outros —, sem prévia autorização, por escrito, do autor, exceto em citações breves em resenhas, artigos acadêmicos e usos previstos em lei.
 
-**Edição do Autor**
+Edição do Autor.
+1ª edição — 2026.
+Londrina — Paraná — Brasil.
 
-1ª edição — [mês] de 2026
-Londrina — Paraná — Brasil
+ISBN: [a cadastrar na Câmara Brasileira do Livro]
 
-**ISBN:** [ISBN a cadastrar na Câmara Brasileira do Livro]
-
----
-
-**Autor:** Dr. Getúlio José Mattos do Amaral Filho (CRM-PR 21.876 · RQE 16.038)
-**Ilustrações e diagramação:** [nome do designer]
-**Revisão:** [nome do revisor]
-**Capa:** [nome do designer da capa]
+Autor: Dr. Getúlio José Mattos do Amaral Filho — CRM-PR 21.876 · RQE 16.038.
 
 ---
 
-### Aviso médico importante
+**Aviso médico importante**
 
-Este livro tem finalidade **informativa e educacional** e não constitui orientação médica individual. As informações aqui apresentadas refletem a prática clínica e a experiência profissional do autor, apoiadas na literatura científica disponível até a data de fechamento desta edição.
+Este livro tem finalidade informativa e educacional e não constitui orientação médica individual. As informações aqui apresentadas refletem a prática clínica e a experiência profissional do autor, apoiadas na literatura científica disponível até a data de fechamento desta edição.
 
-O conteúdo deste livro **não substitui consulta, diagnóstico ou tratamento** realizados por profissional de saúde devidamente habilitado. Qualquer decisão relacionada a exames complementares, medicamentos, suplementos, intervenções nutricionais, atividade física ou modificação de estilo de vida deve ser discutida com seu médico assistente, considerando seu histórico clínico completo e suas condições individuais.
+O conteúdo deste livro não substitui consulta, diagnóstico ou tratamento realizados por profissional de saúde devidamente habilitado. Qualquer decisão relacionada a exames complementares, medicamentos, suplementos, intervenções nutricionais, atividade física ou modificação de estilo de vida deve ser discutida com seu médico assistente, considerando seu histórico clínico completo e suas condições individuais.
 
-Os casos clínicos descritos ao longo do livro são **baseados em pacientes reais atendidos pelo autor**, com alterações de nome, idade e detalhes identificáveis para preservar o sigilo profissional. Qualquer semelhança com pessoas específicas, além das que consentiram expressamente, é coincidência.
+Os casos clínicos descritos ao longo do livro são baseados em pacientes reais atendidos pelo autor, com alterações de nome, idade e detalhes identificáveis para preservar o sigilo profissional. Qualquer semelhança com pessoas específicas, além das que consentiram expressamente, é coincidência.
 
-O autor, a editora e os colaboradores não se responsabilizam por danos, prejuízos ou consequências decorrentes do uso das informações contidas nesta obra sem a devida supervisão profissional.
+O autor e os colaboradores não se responsabilizam por danos, prejuízos ou consequências decorrentes do uso das informações contidas nesta obra sem a devida supervisão profissional.
+
+---
+
+Instagram: @drGetulioAmaralFilho
+
+<!-- EPUB-END -->
 
 ---
 
-### Contato e mais informações
+# Notas editoriais (não publicadas)
 
-**Instagram:** @drGetulioAmaralFilho
+**Posicionamento editorial:** página iv (verso da folha de rosto), antes da dedicatória.
 
----
+**Substituir antes da publicação:** ISBN real (da CBL); mês exato de publicação; nomes do designer, revisor e ilustrador da capa.
 
 ### Dados internacionais de catalogação na publicação (CIP)
 
-*[Ficha catalográfica a ser gerada pela CBL junto com o ISBN. Modelo abaixo a ser preenchido:]*
+*Ficha catalográfica a ser gerada pela CBL junto com o ISBN. Modelo:*
 
 ```
 A485a    Amaral Filho, Getúlio José Mattos do
@@ -77,8 +72,6 @@ A485a    Amaral Filho, Getúlio José Mattos do
 
                                         CDD — 613
 ```
-
----
 
 ## Racional editorial (preservado para referência)
 

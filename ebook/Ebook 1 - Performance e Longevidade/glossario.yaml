@@ -110,11 +110,11 @@ keep_original:
 method_names:
   pt-BR:
     name: "AGIR"
-    stands_for: "Alimentação, Atividade física e Suplementação; Gestão metabólica; Integração corpo-mente; Ritmo circadiano e Repouso"
+    stands_for: "Atividade física, Alimentação e Suplementação inteligente; Gestão clínica e metabólica; Integração mente-corpo; Ritmo circadiano e Repouso"
     imperative_meaning: "Verbo 'agir' (to act)"
   en:
     name: "ACTS"
-    stands_for: "Alimentation, Activity & Adjuncts; Clinical optimization; Tending body & mind; Sleep & circadian rhythm"
+    stands_for: "Activity, Alimentation & Smart adjuncts; Clinical optimization; Tending mind & body; Sleep & circadian rhythm"
     imperative_meaning: "'Acts' as verb/imperative — preserves 'to act' sense"
   es:
     name: "AGIR"

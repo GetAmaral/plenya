@@ -1,3 +1,6 @@
+<!-- EPUB-END -->
+<!-- Arquivo interno (sumário editorial, briefing, mapping AGIR↔ACTS). Nunca publicar. -->
+
 # ANTES
 ## A janela silenciosa entre o normal e o ótimo — onde a saúde é decidida.
 
@@ -11,7 +14,7 @@
 
 **Posicionamento:** o *Outlive* acessível — prático, curto, sem jargão acadêmico, escrito por quem prescreve longevidade no consultório todo dia.
 
-**Conteúdo:** prevenção de doenças crônicas (cardiovascular, metabólica, neurodegenerativa), otimização de biomarcadores (CAC score, HbA1c, homocisteína, PCR), pilares do **Método AGIR** da PLENYA — **A**limentação, Atividade Física e Suplementação; **G**estão Metabólica; **I**ntegração Corpo-Mente; **R**itmo Circadiano e Repouso. Inclui protocolos práticos de autoavaliação e quando procurar um especialista.
+**Conteúdo:** prevenção de doenças crônicas (cardiovascular, metabólica, neurodegenerativa), otimização de biomarcadores (CAC score, HbA1c, homocisteína, PCR), pilares do **Método AGIR** da PLENYA — **A**tividade Física, Alimentação e Suplementação Inteligente; **G**estão Clínica e Metabólica; **I**ntegração Mente-Corpo; **R**itmo Circadiano e Repouso. Inclui protocolos práticos de autoavaliação e quando procurar um especialista.
 
 **Diferencial:** escrito por um nefrologista e clínico que dirige uma clínica de medicina de precisão — não é guru de Instagram, é médico de verdade com prática clínica real.
 
@@ -39,9 +42,9 @@
 ### PARTE III — O MÉTODO AGIR
 
 - [Introdução ao Método AGIR](06b-parte-iii-intro.md)
-- [Capítulo 7 — A: Alimentação, Atividade Física e Suplementação — Os Três Motores Que Nenhuma Medicação Substitui](07-alimentacao-atividade-suplementacao.md)
-- [Capítulo 8 — G: Gestão Metabólica — Seu Painel de Controle Interno](08-gestao-metabolica.md)
-- [Capítulo 9 — I: Integração Corpo-Mente — O Pilar Que Ninguém Prescreve](09-integracao-corpo-mente.md)
+- [Capítulo 7 — A: Atividade Física, Alimentação e Suplementação Inteligente — Os Três Motores Que Nenhuma Medicação Substitui](07-atividade-alimentacao-suplementacao.md)
+- [Capítulo 8 — G: Gestão Clínica e Metabólica — Seu Painel de Controle Interno](08-gestao-metabolica.md)
+- [Capítulo 9 — I: Integração Mente-Corpo — O Pilar Que Ninguém Prescreve](09-integracao-mente-corpo.md)
 - [Capítulo 10 — R: Ritmo Circadiano e Repouso — O Maestro Invisível](10-ritmo-circadiano-e-repouso.md)
 
 ### PARTE IV — O PLANO
@@ -71,13 +74,13 @@
 
 ## Método AGIR — Os Quatro Pilares
 
-**A — Alimentação, Atividade Física e Suplementação** · Cap. 7
+**A — Atividade Física, Alimentação e Suplementação Inteligente** · Cap. 7
 Os três motores do estilo de vida que nenhuma medicação substitui.
 
-**G — Gestão Metabólica** · Cap. 8
+**G — Gestão Clínica e Metabólica** · Cap. 8
 Hormônios, genômica, farmacologia guiada por biomarcadores.
 
-**I — Integração Corpo-Mente** · Cap. 9
+**I — Integração Mente-Corpo** · Cap. 9
 O eixo psicológico que sabota todos os outros pilares quando ignorado.
 
 **R — Ritmo Circadiano e Repouso** · Cap. 10
@@ -91,13 +94,13 @@ For English-language editions, **AGIR** is translated as **ACTS** — preserving
 
 > *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four practices that, together, protect the decades of health that standard medicine gives up on.*
 
-**A — Alimentation, Activity & Adjuncts** · Ch. 7
+**A — Activity, Alimentation & Smart Adjuncts** · Ch. 7
 The three engines of lifestyle that no medication can replace.
 
 **C — Clinical Optimization** · Ch. 8
 Biomarker-guided optimization across all clinical systems — hormones, pharmacology, precision medicine.
 
-**T — Tending Body & Mind** · Ch. 9
+**T — Tending Mind & Body** · Ch. 9
 The integration of psychology, immunity and inflammation — the pillar fragmented medicine ignores.
 
 **S — Sleep & Circadian Rhythm** · Ch. 10
@@ -107,9 +110,9 @@ The biological tempo that makes all other pillars work.
 
 | Letra | AGIR (PT) | ACTS (EN) |
 |---|---|---|
-| **A** | Alimentação, Atividade Física & Suplementação | Alimentation, Activity & Adjuncts |
-| **G → C** | Gestão Metabólica | Clinical Optimization |
-| **I → T** | Integração Corpo-Mente | Tending Body & Mind |
+| **A** | Atividade Física, Alimentação & Suplementação Inteligente | Activity, Alimentation & Smart Adjuncts |
+| **G → C** | Gestão Clínica e Metabólica | Clinical Optimization |
+| **I → T** | Integração Mente-Corpo | Tending Mind & Body |
 | **R → S** | Ritmo Circadiano & Repouso | Sleep & Circadian Rhythm |
 
 ---

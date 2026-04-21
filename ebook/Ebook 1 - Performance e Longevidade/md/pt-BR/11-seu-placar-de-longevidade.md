@@ -10,7 +10,7 @@ figures:
 ---
 # PARTE IV — O PLANO
 
-Nos dez capítulos anteriores, construímos duas coisas. Primeiro, o mapa: o que está matando as pessoas depois dos 40, como o corpo envelhece por dentro, quais números importam, o que as artérias e o metabolismo revelam. Depois, o método: os quatro pilares do AGIR — alimentação, atividade física e suplementação; gestão metabólica; integração corpo-mente; ritmo circadiano e repouso.
+Nos dez capítulos anteriores, construímos duas coisas. Primeiro, o mapa: o que está matando as pessoas depois dos 40, como o corpo envelhece por dentro, quais números importam, o que as artérias e o metabolismo revelam. Depois, o método: os quatro pilares do AGIR — atividade física, alimentação e suplementação inteligente; gestão clínica e metabólica; integração mente-corpo; ritmo circadiano e repouso.
 
 Mas mapa e método não bastam. Falta o gesto que esta parte do livro existe para provocar — o leitor sair do papel passivo de quem lê sobre prevenção e assumir o papel ativo de quem aplica. Os dois capítulos a seguir tratam dessa transição. O Capítulo 11 mostra como ler o próprio painel. O Capítulo 12 trata de como avaliar um profissional de medicina preventiva e o que perguntar na primeira consulta.
 
@@ -52,7 +52,7 @@ Com esses três princípios em mente, o resto do capítulo é a aplicação.
 
 A forma que uso no consultório organiza o placar como **quatro perguntas simples**, uma por pilar do AGIR. Cada pergunta resume tudo o que o leitor já viu nos capítulos anteriores e força um diagnóstico honesto da situação atual.
 
-#### Pilar A — A pergunta da Alimentação, Atividade Física e Suplementação
+#### Pilar A — A pergunta da Atividade Física, Alimentação e Suplementação Inteligente
 
 Em uma frase: **seu corpo está sendo construído ou está sendo desgastado pela rotina dos seus últimos seis meses?**
 
@@ -62,7 +62,7 @@ A leitura honesta deste pilar é a mais simples do placar. Se os três marcadore
 
 Composição corporal entra como leitura complementar, e aqui vale a pena ser específico, porque a maioria das pessoas se pesa e ignora o que importa. O peso na balança não é dado clínico relevante. O que importa é a razão cintura/altura (acima de 0,55 sinaliza acúmulo abdominal de risco), a circunferência abdominal (acima de 90 cm em homens e 80 em mulheres pelos critérios para população latino-americana), o índice de massa muscular apendicular obtido por bioimpedância de qualidade ou DEXA (abaixo de 7,0 kg/m² em homens e 5,5 em mulheres sugere sarcopenia), e a força de preensão palmar medida com dinamômetro (abaixo de 30 kg em homens e 20 em mulheres acima dos 50 anos é sinal de fragilidade funcional precoce). Esses quatro números, juntos, contam mais sobre a relação entre o seu corpo e o seu plano do que qualquer balança.
 
-#### Pilar G — A pergunta da Gestão Metabólica
+#### Pilar G — A pergunta da Gestão Clínica e Metabólica
 
 Em uma frase: **o que o seu painel ampliado está dizendo, e há quanto tempo você não o mediu?**
 
@@ -72,7 +72,7 @@ Se a resposta for não para mais da metade dos itens, o pilar G é onde o trabal
 
 Imagem entra como complemento essencial. Se você tem entre 40 e 75 anos, com risco cardiovascular intermediário e sem CAC score medido, este é o exame de menos de dez minutos que pode mudar toda a estratégia de prevenção — exatamente como mudou para Marcos. Se há suspeita clínica de hipertensão mascarada, oscilação de pressão entre normal e elevada, ou pressão resistente, MAPA de 24 horas entra como complemento da consulta. Densitometria óssea entra a partir da menopausa nas mulheres e em homens com história sugestiva ou uso prolongado de medicamentos que afetem osso.
 
-#### Pilar I — A pergunta da Integração Corpo-Mente
+#### Pilar I — A pergunta da Integração Mente-Corpo
 
 Em uma frase: **quando seu corpo grita inflamação ou cortisol e os outros pilares estão razoavelmente endereçados, você está olhando para a dimensão psicológica?**
 
@@ -128,8 +128,6 @@ Marcos chegou ao consultório no Capítulo 5 com um painel inteiro em zona de al
 
 ![Figura 11.1 — Trajetória de Marcos: painel antes e depois de oito meses. Dot plot horizontal com sete marcadores (ApoB 82→58, insulina 11→6, PCR 1,6→0,6, vitamina D 28→52, +1,8 MET, −5 kg gordura / +2 kg massa magra, CAC 412 inalterado).](../Cap11%20Fig01.PNG)
 
-*Figura 11.1 — Duas frentes: intensificação farmacológica do ApoB + reestruturação dos três motores do pilar A. Oito meses de ação concentrada. O CAC de 412, único marcador irreversível, permanece inalterado — o objetivo não é regredir a placa existente, mas estabilizar a trajetória modificando os marcadores ativos. A Regra dos Dois em imagem: poucos pontos, muito movimento.*
-
 Ana, no Capítulo 9, quando finalmente endereçamos o pilar I, seguiu a mesma lógica em outra direção. Tudo o que dependia de corpo biológico já tinha sido otimizado nos dezoito meses anteriores, e os ganhos estavam documentados — vitamina D, insulina, ApoB, homocisteína, todos em faixa ótima. O que faltava era uma frente nova: tratamento estruturado da dimensão psicológica, com psicoterapia cognitivo-comportamental como trilho principal e prática diária de regulação do sistema nervoso (MBSR e vinte minutos de mindfulness matinal) como trilho paralelo. O antidepressivo em dose baixa por seis meses entrou como decisão compartilhada com a psiquiatra, apoiando as duas frentes. Seis meses depois, a PCR caiu de 1,8 para 0,7 e o cortisol matinal de 22 para 14. O que mudou foi o pilar que estava faltando — e a lógica ali não foi acrescentar dez intervenções psicológicas ao mesmo tempo. Foi endereçar o pilar I com foco, enquanto os outros pilares já trabalhados continuaram trabalhados.
 
 Paulo, no Capítulo 10, quando a apneia foi identificada, também começou com duas frentes: CPAP titulado e protocolo circadiano completo (regularidade rígida de horário, luz matinal, janela alimentar, redução de cafeína e álcool). Tudo o mais — alimentação, treino, suplementação — continuou como estava. Duas frentes no pilar que faltava recuperaram a trajetória inteira em seis meses e levaram a testosterona a 540 ng/dL, acima do pico anterior.
@@ -142,15 +140,13 @@ A mensagem é a mesma nos três casos: ação concentrada em dois pontos por tri
 
 A composição do placar muda de peso conforme a década, mesmo quando os itens permanecem os mesmos.
 
-**Dos 40 aos 49**, o placar é principalmente uma ferramenta de **detecção precoce**. É a janela em que intervenção tem maior retorno e menor custo, porque os assassinos silenciosos do Capítulo 2 já estão operando mas a maioria deles ainda é reversível com trabalho consistente. Fernanda, no Capítulo 6, é o exemplo claro: aos 41 anos, com insulina de 13, esteatose, ApoB de 108 e vitamina D de 22, reverteu todos os marcadores em seis meses sem uma única prescrição farmacológica. Essa janela de reversibilidade é regra nesta década, não exceção. Os exames-âncora a garantir aqui: painel ampliado completo anual; ApoB e Lp(a); composição corporal por bioimpedância de qualidade ou DEXA; CAC entre 40 e 45 anos se houver risco intermediário ou história familiar de doença cardiovascular precoce; colonoscopia a partir dos 45 (recomendação atualizada pela ACS em 2018 e pela USPSTF em 2021); mamografia anual a partir dos 40 nas mulheres conforme prática brasileira; rastreamento básico de saúde mental.
+**Dos 40 aos 49**, o placar é principalmente uma ferramenta de **detecção precoce**. É a janela em que intervenção tem maior retorno e menor custo, porque os assassinos silenciosos do Capítulo 2 já estão operando mas a maioria deles ainda é reversível com trabalho consistente. Fernanda, no Capítulo 6, é o exemplo claro: aos 41 anos, com insulina de 13, esteatose, ApoB de 108 e vitamina D de 22, reverteu todos os marcadores em seis meses com estilo de vida estruturado e suplementação guiada por biomarcador. Essa janela de reversibilidade é regra nesta década, não exceção. Os exames-âncora a garantir aqui: painel ampliado completo anual; ApoB e Lp(a); composição corporal por bioimpedância de qualidade ou DEXA; CAC entre 40 e 45 anos se houver risco intermediário ou história familiar de doença cardiovascular precoce; colonoscopia a partir dos 45 (recomendação atualizada pela ACS em 2018 e pela USPSTF em 2021); mamografia anual a partir dos 40 nas mulheres conforme prática brasileira; rastreamento básico de saúde mental.
 
 **Dos 50 aos 59**, o placar passa a ser ferramenta de **ação máxima**. Aproximadamente metade das mortes cardiovasculares prematuras ocorre nesta faixa. O que se conserva aqui pode ser preservado pelas décadas seguintes; o que se perde aqui é mais difícil de recuperar. Marcos, com 57 anos no Capítulo 5, é o paciente-tipo desta década — quando o CAC de 412 forçou reconhecimento de que prevenção primária já não era a categoria certa, a estratégia inteira mudou. Aos itens da década anterior, acrescentam-se: CAC se ainda não feito; densitometria óssea (mulheres pós-menopausa rotineiramente; homens com história sugestiva — uso prolongado de corticoide, hipogonadismo, terapia antiandrogênica para câncer de próstata, ou fratura por trauma mínimo); TC de tórax de baixa dose anualmente em adultos de 50 a 80 anos com carga tabágica de pelo menos 20 maços-ano que sejam fumantes atuais ou tenham parado há menos de 15 anos (recomendação USPSTF 2021); painel hormonal completo com atenção à transição menopáusica nas mulheres e à queda de testosterona nos homens; avaliação cognitiva *baseline* para comparação futura; fundoscopia a cada um a dois anos; ultrassonografia transvaginal conforme orientação ginecológica.
 
 **Dos 60 em diante**, o placar muda de eixo: de prevenir doença, passa a **preservar função**. Todos os itens anteriores continuam aplicáveis, mas a ênfase específica desta década é na avaliação funcional — sentar e levantar da cadeira, velocidade de marcha, força de preensão palmar com dinamômetro, todos com pontos de corte validados para idade. Composição corporal com atenção especial à sarcopenia: ASMI assume prioridade. Densitometria óssea regular, anual ou bianual, dependendo de T-score inicial e tratamento. Reavaliação cognitiva periódica. Controle rigoroso do sono, porque apneia é mais prevalente e mais frequentemente subdiagnosticada nesta faixa etária. Rastreamento de distúrbios de audição e visão, porque ambos impactam cognição e equilíbrio. Avaliação periódica de risco de quedas, com revisão da medicação em uso para retirar o que seja desnecessariamente sedativo ou hipotensor.
 
 ![Figura 11.2 — Rastreamento por década: o que se acumula a cada janela. Linha do tempo com três faixas etárias contíguas (40s — detecção precoce; 50s — ação máxima; 60+ — preservação funcional). Cada década acrescenta novos exames em azul escuro enquanto mantém os itens das décadas anteriores em cinza.](../Cap11%20Fig02.PNG)
-
-*Figura 11.2 — Cada década acrescenta exames e avaliações à lista anterior, sem substituí-los. A ênfase muda — de detecção precoce nos 40 (Fernanda, Cap. 6), para ação máxima nos 50 (Marcos, Cap. 5/7), para preservação funcional a partir dos 60 — mas a base se mantém e se expande. Itens em azul escuro são novos para a faixa etária correspondente; itens em cinza são herdados das décadas anteriores e permanecem aplicáveis.*
 
 ---
 

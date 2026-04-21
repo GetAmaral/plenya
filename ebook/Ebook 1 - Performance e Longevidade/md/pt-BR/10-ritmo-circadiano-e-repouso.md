@@ -55,8 +55,6 @@ No estudo MESA (*Multi-Ethnic Study of Atherosclerosis*), publicado no *JACC* em
 
 ![Figura 10.2 — Regularidade vence duração. Matriz 2×2 mostrando risco relativo de mortalidade: sono regular + adequado (referência 1,0), regular + inadequado (+15–20%), irregular + adequado (+25–30%), irregular + inadequado (+40–48%). Seta destaca que sono irregular com duração normal é pior que sono regular com duração curta.](../Cap10%20Fig02.PNG)
 
-*Figura 10.2 — Dormir 7 horas todos os dias no mesmo horário é melhor que dormir 8 horas com variação de mais de 90 minutos entre dias. Horários regulares, inclusive aos fins de semana, são o alvo de maior impacto prático. Dados derivados de Windred et al., Sleep 2024 (UK Biobank, 60 mil participantes) e MESA Sleep Study (Huang et al., JACC 2020).*
-
 Há ainda outra camada — a variação diurna da pressão arterial. Normalmente, a pressão sobe pela manhã, atinge um pico à tarde e cai durante a noite em cerca de 10% do valor do dia. Essa queda noturna chama-se *dipping*. Quando não ocorre — padrão *non-dipper* — o risco cardiovascular aumenta em cerca de 15% para eventos e 22% para mortalidade. Entre os muitos efeitos da apneia do sono, um dos mais documentados é justamente converter o padrão *dipper* em *non-dipper*: o coração nunca descansa à noite, a pressão se mantém elevada em horários em que deveria estar baixa, e o risco vascular se acumula silenciosamente.
 
 A lição prática: você não precisa trabalhar à noite para sofrer danos de desalinhamento circadiano. A irregularidade do horário — dormir às 22h em dias de semana e às 3h no fim de semana; acordar às 6h em alguns dias e ao meio-dia em outros — já é suficiente para ativar parte dos mecanismos patogênicos descritos em trabalhadores noturnos. E a apneia não tratada pode anular o benefício de horários regulares.
@@ -74,8 +72,6 @@ Dormir não é desligar. É fazer o corpo e o cérebro entrarem em modos funcion
 Quando alguém dorme seis horas em vez de sete e meia, a maior parte do que perde é REM — que está concentrado nas últimas horas. Quando alguém fragmenta o sono com despertares frequentes, perde principalmente N3, que depende da progressão contínua do ciclo para se aprofundar. A qualidade do sono não é apenas "quantas horas dormi". É "quais fases eu consegui atingir e manter". No caso de Paulo, a polissonografia mostrava algo específico: sono total de seis horas e quinze minutos, mas com N3 reduzido a menos de 5% do total — sendo que o normal para idade é 15 a 20%. Cada episódio de apneia, justamente por fragmentar o sono antes que N3 se aprofundasse, sequestrava a fase mais reparadora da noite. Paulo dormia, mas não descansava.
 
 ![Figura 10.1 — A arquitetura de uma noite: normal vs. fragmentada pela apneia. Dois hipnogramas empilhados: no painel superior, arquitetura normal com 4–5 ciclos de ~90 min, N3 profundo nas primeiras horas e REM prolongado na segunda metade; no painel inferior (Paulo, pré-CPAP), múltiplos despertares, N3 < 5% do total, ciclos REM truncados.](../Cap10%20Fig01.PNG)
-
-*Figura 10.1 — Sono não é desligamento — é sequência organizada. O tempo de permanência na cama pode ser semelhante entre os dois padrões; o tempo de sono funcional, não. Cada apneia fragmenta o sono antes que N3 se aprofunde, sequestrando justamente a fase em que o sistema glinfático remove beta-amiloide e o reparo físico acontece.*
 
 ---
 
@@ -181,8 +177,6 @@ O que o Capítulo 8 tinha começado, o Capítulo 10 completou. A testosterona n�
 
 ![Figura 10.3 — Paulo: quatro tempos, quatro pilares, uma tese. Dot plot horizontal com trajetória de 24 meses: T0 (baseline, Cap. 8) → T+6m (pós pilares A e G) → T+18m (regressão silenciosa) → T+24m (pós-CPAP + protocolo circadiano). Testosterona, PCR, HbA1c, N3 e IAH mostram que, sem o pilar R, o que foi construído com A, G e I pode ruir.](../Cap10%20Fig03.PNG)
 
-*Figura 10.3 — Trajetória completa de Paulo ao longo de 24 meses. Aos 18 meses, sem mudança de hábito ou tratamento, vários marcadores regrediram — sinal de que um pilar não tinha sido investigado. Após seis meses de CPAP e protocolo circadiano completo, os marcadores não apenas voltaram ao patamar anterior — superaram o pico. A lição do capítulo está na forma da trajetória: sem o pilar R, o que foi construído com A, G e I pode ruir silenciosamente.*
-
 ---
 
 ### O Essencial em 60 Segundos
@@ -201,6 +195,6 @@ O que o Capítulo 8 tinha começado, o Capítulo 10 completou. A testosterona n�
 
 ---
 
-> Com este capítulo, os quatro pilares do Método AGIR estão completos. Alimentação, Atividade Física e Suplementação. Gestão Metabólica. Integração Corpo-Mente. Ritmo Circadiano e Repouso. Quatro pilares, quatro frentes de ação — e, ao longo destes capítulos, histórias de pacientes reais cujas trajetórias mudaram quando cada pilar foi endereçado de forma integrada.
+> Com este capítulo, os quatro pilares do Método AGIR estão completos. Atividade Física, Alimentação e Suplementação Inteligente. Gestão Clínica e Metabólica. Integração Mente-Corpo. Ritmo Circadiano e Repouso. Quatro pilares, quatro frentes de ação — e, ao longo destes capítulos, histórias de pacientes reais cujas trajetórias mudaram quando cada pilar foi endereçado de forma integrada.
 >
 > Mas conhecimento não é ação. A pergunta que resta é: onde você está em cada um desses pilares agora, e o que fazer a partir do diagnóstico dessa autoavaliação? É o que veremos no próximo capítulo.

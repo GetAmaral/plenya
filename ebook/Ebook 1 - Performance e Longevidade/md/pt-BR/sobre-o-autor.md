@@ -6,21 +6,37 @@ title_en_suggested: "About the Author"
 translation_status: source
 last_reviewed: 2026-04-20
 ---
+<!-- EPUB-START -->
+
 # Sobre o Autor
 
-Bio oficial em três comprimentos. Composta a partir das credenciais reais de Dr. Getúlio José Mattos do Amaral Filho.
-
----
-
-## Versão padrão — para orelha do livro, programas de palestra, perfis editoriais (~130 palavras)
+![Dr. Getúlio José Mattos do Amaral Filho](images/autor.jpg)
 
 **Dr. Getúlio José Mattos do Amaral Filho** é médico nefrologista e clínico com mais de 20 anos de prática, formado em Medicina pela Universidade Estadual de Londrina em 2004. Especializou-se em Clínica Médica (2006) e em Nefrologia (2008) pela Santa Casa de Londrina, onde hoje coordena a Residência Médica de Nefrologia e fundou a Residência de Clínica Médica. É Responsável Técnico da DaVita Intra-hospitalar de Londrina e concluiu em 2026 pós-graduação em Medicina Funcional Integrativa pela ABMFI.
 
-É **palestrante nacional em saúde, nefrologia e longevidade**, traduzindo ciência complexa em linguagem acessível para público leigo e médico. Ao longo de duas décadas atendeu milhares de pacientes — e foi dessa prática que nasceram o Método AGIR e a convicção de que a saúde se decide na janela silenciosa entre o normal e o ótimo. É dessa mesma prática que nasce este livro.
-
-**CRM-PR 21.876 · RQE 16.038 · @drGetulioAmaralFilho**
+É palestrante nacional em saúde, nefrologia e longevidade, traduzindo ciência complexa em linguagem acessível para público leigo e médico. Ao longo de duas décadas atendeu milhares de pacientes — e foi dessa prática que nasceram o Método AGIR e a convicção de que a saúde se decide na janela silenciosa entre o normal e o ótimo. É dessa mesma prática que nasce este livro.
 
 ---
+
+**drgetulioamaralfilho.com.br**
+Instagram: **@drGetulioAmaralFilho**
+
+**Plenya Saúde — Londrina-PR**
+plenyasaude.com.br · Instagram: @plenyaSaude
+
+CRM-PR 21.876 · RQE 16.038
+
+<!-- EPUB-END -->
+
+---
+
+# Notas editoriais (não publicadas)
+
+## Versão padrão — para orelha do livro, programas de palestra, perfis editoriais (~130 palavras)
+
+*Esta é a versão publicada no livro (acima, entre os marcadores).*
+
+## Versão micro — para Amazon, press release, header de entrevistas (~55 palavras)
 
 ## Versão micro — para Amazon, press release, header de entrevistas (~55 palavras)
 

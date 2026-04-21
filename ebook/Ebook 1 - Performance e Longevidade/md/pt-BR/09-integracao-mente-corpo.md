@@ -1,8 +1,8 @@
 ---
 id: 09
 language: pt-BR
-title: "I: Integração Corpo-Mente"
-title_en_suggested: "T: Tending Body & Mind"
+title: "I: Integração Mente-Corpo"
+title_en_suggested: "T: Tending Mind & Body"
 translation_status: source
 last_reviewed: 2026-04-20
 figures:
@@ -11,7 +11,7 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 9 — I: Integração Corpo-Mente — O Pilar Que Ninguém Prescreve
+## Capítulo 9 — I: Integração Mente-Corpo — O Pilar Que Ninguém Prescreve
 
 Ana tinha 44 anos quando voltou ao consultório pela sexta consulta de acompanhamento. Arquiteta, sócia de um escritório, casada, dois filhos de 8 e 11 anos. Tinha chegado dezoito meses antes decidida a otimizar tudo o que pudesse ser otimizado. E ela fez.
 
@@ -25,7 +25,7 @@ E disse, em determinado momento, quase por acaso: *"Doutor, eu acho que eu sempr
 
 Foi aí que o caso se tornou claro. Ana tinha otimizado tudo o que a medicina da precisão sabia medir — mas havia uma variável que nenhum dos exames dela capturava bem, e que estava sabotando todas as outras. O eixo hipotálamo-hipófise-adrenal dela estava em alerta constante. E enquanto estivesse, o cortisol permaneceria elevado, a PCR não cairia, o sono não consolidaria, e nenhuma intervenção bioquímica adicional mudaria isso.
 
-O pilar que faltava no plano de Ana é o pilar que este capítulo cobre: **Integração Corpo-Mente**. A parte do Método AGIR que a medicina fragmentada ignora, que nenhum exame de sangue isoladamente revela, e que — quando não é tratada — compromete todos os outros pilares.
+O pilar que faltava no plano de Ana é o pilar que este capítulo cobre: **Integração Mente-Corpo**. A parte do Método AGIR que a medicina fragmentada ignora, que nenhum exame de sangue isoladamente revela, e que — quando não é tratada — compromete todos os outros pilares.
 
 ---
 
@@ -44,8 +44,6 @@ Cortisol elevado cronicamente tem consequências biológicas documentadas que es
 Em outras palavras: ansiedade crônica não é apenas um incômodo psicológico. É uma via bioquímica que alimenta exatamente as mesmas cascatas que alimentam o envelhecimento acelerado e as quatro doenças crônicas que este livro tem tratado. O eixo HPA em alerta permanente é um dos "assassinos silenciosos" do Capítulo 2 — só que opera pela porta dos fundos.
 
 ![Figura 9.1 — Como a ansiedade vira doença: a cascata do eixo HPA. Diagrama em quatro andares descendentes: estímulo psicológico (topo) → eixo HPA ativado (CRH → ACTH → cortisol) → cascata bioquímica (citocinas ↑, resistência insulínica ↑, hipocampo ↓) → desfechos clínicos (as quatro doenças do Cap. 2).](../Cap09%20Fig01.PNG)
-
-*Figura 9.1 — A ativação crônica do eixo hipotálamo-hipófise-adrenal converte estresse psicológico sustentado em consequências biológicas mensuráveis — e essas consequências são exatamente os mecanismos discutidos ao longo deste livro como drivers das doenças crônicas do envelhecimento. Por isso a Integração Corpo-Mente não é pilar complementar — é pilar constitutivo.*
 
 ---
 
@@ -71,7 +69,7 @@ O estudo de 2004 publicado no *PNAS* comparou mães que cuidavam de filhos com d
 
 O dado revolucionário, como já dissemos, não era que os telômeros encurtam, mas que a velocidade do encurtamento é modificável. Pesquisa subsequente demonstrou que intervenções como meditação, exercício regular, sono adequado e qualidade relacional influenciam diretamente a atividade da telomerase — a enzima que repara as pontas dos cromossomos. A mesma lógica vale para os relógios epigenéticos que discutimos no Capítulo 8: pessoas em situação de estresse crônico têm idade epigenética maior do que a cronológica; pessoas que aprendem a regular o sistema nervoso têm idade epigenética menor.
 
-Isso quer dizer que a integração corpo-mente não é uma questão de "melhorar a qualidade de vida" — é uma questão de desacelerar o envelhecimento biológico objetivamente mensurável. Ignorar essa dimensão é aceitar uma aceleração que poderia ser evitada.
+Isso quer dizer que a integração mente-corpo não é uma questão de "melhorar a qualidade de vida" — é uma questão de desacelerar o envelhecimento biológico objetivamente mensurável. Ignorar essa dimensão é aceitar uma aceleração que poderia ser evitada.
 
 ---
 
@@ -104,8 +102,6 @@ O **Harvard Study of Adult Development** é o estudo longitudinal mais longo sob
 Esse achado não é idiossincrático de uma coorte privilegiada. Julianne Holt-Lunstad, psicóloga da Brigham Young University, publicou em 2010 no *PLOS Medicine* uma meta-análise com 148 estudos, reunindo mais de 300.000 participantes acompanhados em média por 7 anos e meio. O resultado: pessoas com conexões sociais fortes têm 50% mais chances de sobrevivência ao longo do seguimento comparadas a pessoas socialmente isoladas. Em uma meta-análise subsequente de 2015 com 3,4 milhões de pessoas, Holt-Lunstad confirmou: solidão aumenta risco de morte precoce em 26%; isolamento social em 29%; viver sozinho em 32%. A magnitude desses efeitos é comparável ao tabagismo e maior que a da obesidade. O Surgeon General dos Estados Unidos, em documento oficial publicado em 2023, classificou a solidão como problema de saúde pública de prioridade nacional.
 
 ![Figura 9.2 — O preço da solidão: comparação com fatores de risco clássicos. Barras horizontais comparando aumento de risco de mortalidade: tabagismo (~70%), viver sozinho (~32%), isolamento social (~29%), solidão percebida (~26%), obesidade (~20%), sedentarismo (~20–30%), poluição do ar (~15%).](../Cap09%20Fig02.PNG)
-
-*Figura 9.2 — Fatores sociais — viver sozinho, isolamento, solidão — apresentam magnitude de efeito sobre mortalidade comparável a fatores de risco biológicos bem estabelecidos, e maior que obesidade ou poluição. Em 2023, o Surgeon General dos EUA classificou a solidão como problema de saúde pública de prioridade nacional. São fatores raramente avaliados no consultório — e que quase ninguém prescreve.*
 
 Os dados das Blue Zones — regiões do mundo com maior concentração de centenários, que já citamos no Capítulo 7 — convergem. Em Okinawa, existem os *moais*: grupos de amigos formados na infância que se mantêm ao longo da vida toda, compartilhando refeições, responsabilidades e suporte emocional. Na Sardenha, em Ikaria, em Nicoya, em Loma Linda, os padrões se repetem: comunidades densamente conectadas, com rituais cotidianos de encontro, cuidado mútuo e pertencimento. Não é o olival que faz os centenários — é o olival mais a rede.
 
@@ -159,4 +155,4 @@ Os outros pilares do plano não mudaram. O que mudou foi o pilar que estava falt
 
 ---
 
-> Integração corpo-mente opera no nível do sistema nervoso consciente — o que pensamos, como interpretamos o mundo, com quem nos conectamos. Mas há outro sistema, ainda mais fundamental, que rege grande parte da biologia que acabamos de discutir e que opera em grande parte abaixo da consciência. Sem ele, nenhum dos outros pilares se sustenta. É o sistema que organiza o tempo dentro do corpo — e é o tema do próximo capítulo.
+> Integração mente-corpo opera no nível do sistema nervoso consciente — o que pensamos, como interpretamos o mundo, com quem nos conectamos. Mas há outro sistema, ainda mais fundamental, que rege grande parte da biologia que acabamos de discutir e que opera em grande parte abaixo da consciência. Sem ele, nenhum dos outros pilares se sustenta. É o sistema que organiza o tempo dentro do corpo — e é o tema do próximo capítulo.

@@ -61,13 +61,11 @@ Na prática clínica, isso significa três coisas:
 
 **Segundo: usar faixas ótimas, não apenas faixas "normais".** Quando você recebe um resultado de laboratório com a observação "dentro da normalidade", isso significa que seu número está dentro do intervalo encontrado em 95% da população testada. Mas essa população inclui pessoas sedentárias, pessoas com inflamação crônica, pessoas com doenças não diagnosticadas. "Normal" é a média de uma população que não está otimizada. Não é onde você quer estar — é onde a maioria está.
 
-Um exemplo: a hemoglobina glicada (HbA1c) é considerada "normal" até 5,6%. O diagnóstico de pré-diabetes começa em 5,7%. Mas estudos com centenários — pessoas que vivem mais de 100 anos com saúde — mostram consistentemente valores de HbA1c abaixo de 5,2%. A diferença entre 5,5% (normal) e 5,0% (ótimo) pode parecer insignificante no papel, mas ao longo de décadas, essa diferença se traduz em artérias mais limpas, menos inflamação, menos resistência insulínica e menor risco de demência.
+Um exemplo: a hemoglobina glicada — chamada HbA1c, um índice que reflete a média do açúcar no sangue nos últimos 2 a 3 meses — é considerada "normal" até 5,6%. O diagnóstico de pré-diabetes começa em 5,7%. Mas estudos com centenários — pessoas que vivem mais de 100 anos com saúde — mostram consistentemente valores de HbA1c abaixo de 5,2%. A diferença entre 5,5% (normal) e 5,0% (ótimo) pode parecer insignificante no papel, mas ao longo de décadas, essa diferença se traduz em artérias mais limpas, menos inflamação, menos resistência insulínica e menor risco de demência.
 
 **Terceiro: rastrear tendências, não fotos isoladas.** Um exame é uma fotografia de um único momento. Mas o que importa para longevidade é o filme — a trajetória dos seus números ao longo dos anos. Uma HbA1c que era 4,9% há cinco anos, subiu para 5,2% há dois anos, e agora está em 5,4% ainda é "normal" em cada momento individual. Mas a curva ascendente conta uma história que nenhum resultado isolado revela: seu metabolismo está perdendo terreno. Se ninguém olhar essa tendência, o diagnóstico de pré-diabetes vai chegar daqui a três ou quatro anos como uma "surpresa" — que na verdade vinha sendo anunciada há quase uma década.
 
-![Figura 1.1 — Três check-ups "normais", uma tendência perigosa. HbA1c sobe de 4,9% (há cinco anos) para 5,2% (há dois anos) e 5,4% (hoje), com projeção de 5,7% em dois anos.](../Cap01%20-%20Fig01.PNG)
-
-*Figura 1.1 — HbA1c (hemoglobina glicada) reflete a média de açúcar no sangue nos últimos 2–3 meses. A faixa "normal" do laboratório (abaixo de 5,7%) inclui valores que, embora não configurem pré-diabetes, já estão longe do ótimo para longevidade. A tendência importa mais que o número isolado.*
+![Figura 1.1 — Três check-ups "normais", uma tendência perigosa. HbA1c sobe de 4,9% (há cinco anos) para 5,2% (há dois anos) e 5,4% (hoje), com projeção de 5,7% em dois anos.](../Cap01%20Fig01.PNG)
 
 ---
 
@@ -83,11 +81,9 @@ A **proteína C-reativa de alta sensibilidade (hs-CRP)** era 2,4 mg/L — abaixo
 
 A **homocisteína** era 13,8 µmol/L — "normal" (referência até 15), mas acima do nível que a literatura associa a proteção vascular e cognitiva (abaixo de 10).
 
-E a **tomografia das coronárias** feita durante a internação — que avaliou não apenas a artéria do infarto, mas todas as coronárias, com as séries sem contraste permitindo o cálculo do escore de cálcio — revelou placas calcificadas espalhadas por múltiplos vasos. O escore Agatston foi de 187: carga de placa equivalente à de um homem de 68 anos. Ele tinha 52. Suas artérias tinham 68. Se um simples escore de cálcio de prevenção — cinco minutos de exame, sem contraste, sem jejum — tivesse sido feito antes do infarto, o resultado teria mudado completamente a conduta.
+E a **angiotomografia coronariana** feita durante a internação — que avaliou não apenas a artéria do infarto, mas todas as coronárias, com as séries sem contraste permitindo o cálculo do escore de cálcio — revelou placas calcificadas espalhadas por múltiplos vasos. O escore Agatston foi de 187: carga de placa equivalente à de um homem de 68 anos. Ele tinha 52. Suas artérias tinham 68. Se um simples escore de cálcio de prevenção — cinco minutos de exame, sem contraste, sem jejum — tivesse sido feito antes do infarto, o resultado teria mudado completamente a conduta.
 
 ![Figura 1.2 — Todos os números de Ricardo estavam "normais". Nenhum estava ótimo. Dot plot com insulina, ApoB, hs-CRP, homocisteína e idade arterial.](../Cap01%20Fig02.PNG)
-
-*Figura 1.2 — Em azul, os valores reais de Ricardo. Em verde, os alvos ótimos baseados em estudos de longevidade e centenários. A linha tracejada cinza mostra o limite de "normalidade" usado pelo laboratório. Todos os valores de Ricardo estavam dentro da referência — mas todos estavam na zona subótima, onde o risco se acumula silenciosamente.*
 
 Nenhum desses números, isoladamente, teria disparado um alarme no check-up tradicional. Todos estavam "dentro da faixa". Mas juntos, eles contavam uma história inequívoca: Ricardo estava caminhando para um evento cardiovascular havia pelo menos dez anos. O infarto não foi uma surpresa. Foi um desfecho previsível de um processo que ninguém se deu ao trabalho de investigar.
 

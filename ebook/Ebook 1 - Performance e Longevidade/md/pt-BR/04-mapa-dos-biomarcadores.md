@@ -44,8 +44,6 @@ Fernanda não tinha nenhuma doença. Mas estava caminhando para pelo menos duas 
 
 ![Figura 4.2 — O caso Fernanda: todos "normais", nenhum ótimo. Sete barras horizontais monocromáticas mostram insulina, HOMA-IR, ApoB, hs-CRP, homocisteína, vitamina D e TG/HDL — todos entre o limite "normal" do laboratório e a faixa ótima para longevidade.](../Cap04%20Fig02.PNG)
 
-*Figura 4.2 — Os sete biomarcadores de Fernanda plotados entre o limite "normal" do laboratório (linha grossa) e a faixa ótima para longevidade (linha fina). Cada ponto preto é o valor real dela. O padrão visual é o argumento: todos "normais", nenhum ótimo. A TG/HDL é particularmente reveladora — esse dado já estava disponível no lipidograma convencional, mas ninguém o calculou.*
-
 ---
 
 ### Normal vs. Ótimo: A Diferença que o Laboratório Não Mostra
@@ -70,9 +68,8 @@ Abaixo está o painel que uso no consultório — os biomarcadores que, em conju
 
 ![Figura 4.1 — Biomarcadores para Longevidade: Faixas Normais vs. Ótimas. Tabela clínica de referência com 11 biomarcadores no painel principal (HbA1c, ApoB, ApoB/ApoA1, hs-CRP, homocisteína, insulina, TG/HDL, Lp(a), vitamina D, ferritina, TFGe cistatina C) e 2 complementares (GGT, ácido úrico).](../Cap04%20Fig01.PNG)
 
-*Figura 4.1 — Painel principal de biomarcadores para longevidade: os 11 mais subpedidos em conjunto, acompanhados dos 2 complementares (GGT, ácido úrico) que raramente são interpretados com as faixas certas. Outros marcadores relevantes — microalbuminúria, albumina sérica, colesterol não-HDL, troponina I ultrassensível e NT-proBNP — são discutidos em detalhe no texto deste capítulo. A coluna "Faixa Ótima" é o que deveria guiar a interpretação. Os dois ratios (ApoB/ApoA1 e TG/HDL) não têm referência padrão de laboratório — porque simplesmente não existem na medicina convencional.*
-
 **HbA1c (hemoglobina glicada)**
+*É a porcentagem da hemoglobina — proteína dos glóbulos vermelhos que carrega oxigênio — que tem uma molécula de glicose grudada. Como os glóbulos vermelhos vivem cerca de 2 a 3 meses, a HbA1c reflete a média do açúcar no sangue nesse período — não uma fotografia pontual como a glicemia em jejum. Por isso é o marcador mais útil para enxergar a tendência metabólica real.*
 Normal de laboratório: < 6,5%. Faixa ótima: ≤ 5,4% (ideal 4,8–5,2%). O que revela: saúde metabólica de longo prazo. Estudos com centenários mostram valores consistentemente abaixo de 5,2%. A diferença entre 5,5% e 5,0% parece mínima — ao longo de décadas, não é.
 
 **ApoB (apolipoproteína B)**
@@ -94,6 +91,8 @@ Quando a insulina de jejum está *borderline* — entre 6 e 10 µIU/mL — e o H
 
 O trabalho clássico de Joseph Kraft, que analisou mais de 14.000 testes, demonstrou que 75% das pessoas com glicose normal no TOTG tinham padrões de insulina anormais — hiperinsulinemia compensatória que mantinha a glicose baixa à custa de produção excessiva de insulina. Kraft chamou isso de "diabetes in-situ": a doença já instalada, com a glicemia ainda mascarada. Do TOTG extraem-se outros índices com acurácia superior ao HOMA-IR: o índice de Matsuda (que integra glicose e insulina ao longo dos 120 minutos) e o índice TyG (derivado de triglicerídeos e glicose de jejum), ambos validados contra o clamp euglicêmico. Não é exame para todos os pacientes — mas quando o jejum levanta suspeita sem confirmar, a curva insulinêmica é o que separa o "provavelmente normal" do "definitivamente não". No Capítulo 6, veremos isso na prática.
 
+**Triglicerídeos são a forma como seu corpo armazena e transporta gordura.** Toda vez que você come mais calorias do que gasta — especialmente carboidratos refinados e frutose —, o fígado converte o excedente em triglicerídeos, que circulam no sangue antes de serem depositados nos tecidos adiposos. Triglicerídeos altos não são "gordura no sangue" no sentido coloquial: são o marcador mais direto de que o metabolismo está convertendo alimento em estoque em vez de queimá-lo.
+
 **Relação triglicerídeos/HDL**
 Faixa ótima: < 2,0. Acima de 3,5: resistência insulínica provável. O que revela: proxy acessível para resistência insulínica e para o padrão de partículas pequenas e densas de LDL — as mais aterogênicas. Você provavelmente já tem esses dois números no seu último lipidograma. Divida um pelo outro. Se o resultado for maior que 3,5, seu metabolismo está sinalizando disfunção — mesmo que cada número, isoladamente, esteja "dentro da faixa". Não requer exame adicional: é informação que já existe nos seus exames e que quase ninguém calcula.
 
@@ -107,7 +106,7 @@ Normal de laboratório: > 20 ng/mL. Faixa ótima: 40–60 ng/mL. O que revela: f
 Normal de laboratório: 12–300 ng/mL. Faixa ótima: 40–150 ng/mL (contexto-dependente). O que revela: reserva de ferro e inflamação. Muito baixa compromete energia e cognição. Muito alta pode indicar sobrecarga de ferro ou inflamação crônica. A faixa "normal" do laboratório é absurdamente ampla — 12 a 300 cobre quase qualquer valor.
 
 **TFGe por cistatina C (taxa de filtração glomerular estimada)**
-Normal de laboratório: > 60 mL/min. Faixa ótima: > 90 mL/min. O que revela: função renal real. A cistatina C é mais precisa que a creatinina para estimar a filtração glomerular, especialmente em pessoas musculosas ou com dieta rica em proteína. A creatinina depende da massa muscular — um paciente com 95 kg de massa magra pode ter creatinina elevada sem ter problema renal; uma senhora sarcopênica pode ter creatinina enganosamente baixa enquanto os rins já não filtram bem. A cistatina C é produzida em taxa constante por todas as células nucleadas e não sofre essa interferência. Como nefrologista, este é um biomarcador que considero inegociável — os rins são silenciosos até que é tarde demais.
+Normal de laboratório: > 60 mL/min. Faixa ótima: > 90 mL/min. O que revela: função renal real. A cistatina C é mais precisa que a creatinina para estimar a filtração glomerular, especialmente em pessoas musculosas ou com dieta rica em proteína. A creatinina depende da massa muscular — um paciente com 95 kg de massa magra pode ter creatinina elevada sem ter problema renal; uma senhora sarcopênica pode ter creatinina enganosamente baixa enquanto os rins já não filtram bem. A cistatina C é produzida em taxa constante por todas as células nucleadas e não sofre essa interferência. Como nefrologista, este é um biomarcador que considero inegociável — os rins são silenciosos até que seja tarde demais.
 
 **Microalbuminúria (relação albumina/creatinina em amostra isolada de urina)**
 Normal de laboratório: < 30 mg/g. Faixa ótima: < 10 mg/g. O que revela: o primeiro sinal de lesão glomerular — quando o filtro do rim começa a deixar passar proteína que não deveria passar. É um marcador precocíssimo de doença renal, hipertensão arterial não controlada e risco cardiovascular. Valores entre 10 e 30 mg/g já predizem desfechos ruins, mesmo sem preencher o critério formal de "microalbuminúria". Em pacientes com diabetes, hipertensão ou síndrome metabólica, é um exame que pede-se e acompanha-se ao longo dos anos. Nunca ignorar valores "borderline".
@@ -173,7 +172,7 @@ O segundo erro é olhar apenas o resultado de hoje, sem compará-lo com os anter
 
 Uma HbA1c que era 4,9% há cinco anos, subiu para 5,2% há dois anos, e agora está em 5,4% — como vimos no Capítulo 1 — ainda é "normal" em cada momento individual. Mas a curva ascendente conta uma história que nenhum resultado isolado revela: algo está mudando, silenciosamente, na direção errada. Se ninguém rastrear essa tendência, o diagnóstico de pré-diabetes chega daqui a três ou quatro anos como "surpresa" — que na verdade vinha sendo anunciada há quase uma década.
 
-É por isso que na PLENYA monitoramos biomarcadores-chave a cada quatro a seis meses, não uma vez por ano. Não para gerar ansiedade — para detectar tendências antes que se tornem diagnósticos.
+É por isso que na minha clínica, a Plenya, monitoramos biomarcadores-chave a cada três a seis meses, não uma vez por ano. Não para gerar ansiedade — para detectar tendências antes que se tornem diagnósticos.
 
 Fernanda começou a ser acompanhada com esse nível de atenção. Em seis meses, com ajustes em alimentação, inclusão de treino de força e correção da vitamina D, sua insulina caiu de 13 para 7, a PCR de 1,9 para 0,8, e a vitamina D subiu para 48 ng/mL. Seis anos antes de qualquer diagnóstico convencional, ela já estava revertendo o processo. Sem medicação. Sem drama. Com informação certa e ação precoce.
 
@@ -195,7 +194,7 @@ Este capítulo não é uma crítica ao seu médico. É um convite para você exi
 
 - O ApoB é superior ao LDL para avaliar risco cardiovascular. A relação ApoB/ApoA1 vai além — captura o balanço entre partículas que atacam e partículas que protegem as artérias. Abaixo de 0,6 é o alvo.
 
-- A insulina de jejum é o canário na mina de carvão — sobe 5 a 10 anos antes da glicose. A relação triglicerídeos/HDL é o proxy gratuito: acima de 3,5 indica resistência insulínica mesmo com lipidograma "normal".
+- A insulina de jejum é a luz amarela do painel — sobe 5 a 10 anos antes da glicose. A relação triglicerídeos/HDL é o proxy gratuito: acima de 3,5 indica resistência insulínica mesmo com lipidograma "normal".
 
 - Biomarcadores devem ser lidos em conjunto (clusters) e ao longo do tempo (tendências). Um número isolado é uma fotografia. O que importa é o filme.
 

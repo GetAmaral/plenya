@@ -45,11 +45,9 @@ A pergunta prática é: o que faz a idade biológica avançar mais rápido que o
 
 Em 2013, um grupo internacional de pesquisadores liderado por Carlos López-Otín publicou na revista *Cell* um artigo que se tornaria um dos mais citados da história da biologia: "The Hallmarks of Aging". Nele, identificaram nove processos celulares e moleculares que, juntos, explicam por que envelhecemos. Em 2023, os mesmos autores atualizaram o artigo, expandindo a lista para doze hallmarks — doze marcas registradas do envelhecimento. O artigo acumula mais de 3.000 citações.
 
-Doze hallmarks é demais para um capítulo de e-book. Mas cinco deles são especialmente relevantes para o leitor que quer entender — e agir sobre — o que está acontecendo dentro do próprio corpo. São processos que você pode não conhecer pelo nome, mas que estão operando agora mesmo nas suas células. Vamos traduzi-los.
+Doze hallmarks é demais para um capítulo deste livro. Mas cinco deles são especialmente relevantes para o leitor que quer entender — e agir sobre — o que está acontecendo dentro do próprio corpo. São processos que você pode não conhecer pelo nome, mas que estão operando agora mesmo nas suas células. Vamos traduzi-los.
 
 ![Figura 3.1 — Os 5 Marcadores do Envelhecimento. Infográfico com cinco ícones conectados: inflammaging (chama), disfunção mitocondrial (bateria fraca), senescência celular (célula com X), encurtamento telomérico (cromossomo encurtando) e instabilidade epigenética (interruptor on/off). Todos interligados e modificáveis por estilo de vida.](../Cap03%20Fig01.PNG)
-
-*Figura 3.1 — Dos doze hallmarks do envelhecimento catalogados pela ciência, cinco são especialmente relevantes para quem quer agir: inflammaging, disfunção mitocondrial, senescência celular, encurtamento telomérico e instabilidade epigenética. São processos interligados — cada um alimenta os outros — e todos modificáveis por estilo de vida.*
 
 ---
 
@@ -118,8 +116,6 @@ A ciência dos hallmarks do envelhecimento diz outra coisa. Diz que o envelhecim
 Cada um dos cinco hallmarks que discutimos é influenciado por fatores modificáveis. Exercício aeróbio melhora a função mitocondrial e está associado a telômeros mais longos. Treino de força reduz inflamação e melhora a sensibilidade insulínica. Sono de qualidade ativa os mecanismos de limpeza celular. Alimentação baseada em comida real — sem ultraprocessados — reduz o estresse oxidativo e modula o epigenoma. Gestão do estresse preserva os telômeros, como Blackburn e Epel demonstraram. Não são promessas vazias — são mecanismos biológicos documentados.
 
 ![Figura 3.2 — O Que Acelera e O Que Freia o Envelhecimento. Duas colunas simétricas com velocímetro ao centro. À esquerda (verde): exercício aeróbio, treino de força, sono de qualidade, alimentação real, gestão do estresse. À direita (vermelho): sedentarismo, ultraprocessados, sono ruim, estresse crônico, gordura visceral.](../Cap03%20Fig02.PNG)
-
-*Figura 3.2 — Envelhecimento não é destino. É um processo modificável. Para cada fator que acelera o envelhecimento biológico existe uma ação concreta que o freia. Exercício, sono, alimentação real e gestão do estresse não são conselhos genéricos — são os únicos mecanismos cientificamente documentados para modular os hallmarks do envelhecimento.*
 
 Lembra de Ricardo? O infarto dele aos 52 anos não foi apenas o resultado de artérias entupidas. Foi o desfecho de uma década de inflammaging silencioso, de disfunção mitocondrial progressiva, de um metabolismo que acelerava o envelhecimento biológico enquanto a idade cronológica avançava normalmente. Se alguém tivesse medido a idade biológica dele aos 42 — dez anos antes do evento — provavelmente teria encontrado um corpo envelhecendo muito mais rápido que o calendário. E teria tido uma década para intervir.
 

@@ -1,8 +1,8 @@
 ---
 id: 07
 language: pt-BR
-title: "A: Alimentação, Atividade Física e Suplementação"
-title_en_suggested: "A: Alimentation, Activity and Adjuncts"
+title: "A: Atividade Física, Alimentação e Suplementação Inteligente"
+title_en_suggested: "A: Activity, Alimentation and Smart Adjuncts"
 translation_status: source
 last_reviewed: 2026-04-20
 figures:
@@ -12,7 +12,7 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 7 — A: Alimentação, Atividade Física e Suplementação — Os Três Motores Que Nenhuma Medicação Substitui
+## Capítulo 7 — A: Atividade Física, Alimentação e Suplementação Inteligente — Os Três Motores Que Nenhuma Medicação Substitui
 
 No final do Capítulo 5, com o painel completo de Marcos em mãos — CAC de 412, ApoB de 82, insulina de 11, PCR de 1,6 —, ajustamos a estratégia: intensificamos a estatina, adicionamos ezetimiba, e começamos a monitorar a cada quatro meses. Mas a farmacologia era apenas uma parte do plano. A frase que usei na consulta foi: *"A medicação vai cuidar do ApoB. Agora precisamos cuidar de tudo que a medicação não alcança."*
 
@@ -96,8 +96,6 @@ Os resultados foram extraordinários. Comparados ao grupo elite, indivíduos com
 
 ![Figura 7.1 — O Fator de Risco que Ninguém Prescreve. Barras horizontais comparando hazard ratios de mortalidade por todas as causas: aptidão cardiorrespiratória baixa (5,04x) versus doença renal crônica (1,98x), tabagismo (1,41x), diabetes (1,40x), doença coronariana (1,29x).](../Cap07%20Fig01.PNG)
 
-*Figura 7.1 — Aptidão cardiorrespiratória baixa é o fator de risco mais letal entre os preditores tradicionais de mortalidade — e o mais ignorado. A barra do sedentarismo é aproximadamente 3,5 vezes mais longa que a do tabagismo. Dados de 122.007 adultos acompanhados por mediana de 8,4 anos (Mandsager et al., JAMA Network Open, 2018).*
-
 E o achado mais surpreendente: não havia teto para o benefício. Mesmo entre os já muito aptos, subir mais um degrau continuava associado a menor mortalidade. Até em maiores de 70 anos e hipertensos, a aptidão elite conferia vantagem significativa sobre a aptidão alta.
 
 O Copenhagen Male Study, conduzido por Clausen e colaboradores e publicado no *JACC* também em 2018, acrescentou uma dimensão temporal que dá concretude ao dado. Acompanhou 5.107 homens dinamarqueses por 46 anos — quase meio século. Cada 1 ml/kg/min de aumento no VO₂ max na meia-idade foi associado a um ganho de 45 dias de vida (IC 95%: 30–61 dias; p<0,001). Os 5% mais aptos viveram aproximadamente cinco anos a mais que os 5% menos aptos.
@@ -117,8 +115,6 @@ Na literatura, cada 1 MET de ganho na aptidão cardiorrespiratória — equivale
 A notícia é ao mesmo tempo perturbadora e libertadora: perturbadora porque o sedentarismo carrega risco comparável ao tabagismo; libertadora porque começar já muda o jogo.
 
 ![Figura 7.2 — O Primeiro Degrau É o que Mais Conta. Curva dose-resposta de risco relativo de mortalidade em função de cinco grupos de aptidão cardiorrespiratória (baixa → elite), com destaque em verde para o maior ganho de benefício no primeiro salto.](../Cap07%20Fig02.PNG)
-
-*Figura 7.2 — A queda mais acentuada no risco de mortalidade acontece entre o grupo de menor aptidão e o seguinte — equivalente a seguir as diretrizes básicas de 150 minutos semanais de atividade moderada. Você não precisa ser atleta. Precisa sair do sofá. Dados de Mandsager et al., 2018.*
 
 ### Os Quatro Pilares do Exercício para Longevidade
 
@@ -298,8 +294,6 @@ Os números contaram a história. Insulina de 11 para 6. PCR de 1,6 para 0,6. Ap
 
 ![Figura 7.3 — Marcos: 8 Meses Depois. Dot plot com setas de movimento mostrando insulina (11→6), hs-CRP (1,6→0,6), ApoB (82→58), vitamina D (28→52) migrando da zona subótima para a zona ótima, mais barra de progresso de VO₂ max (+1,8 MET).](../Cap07%20Fig03.PNG)
 
-*Figura 7.3 — Os três motores em ação: em azul, valores de Marcos 8 meses depois com alimentação, exercício e suplementação estruturados — além da terapia farmacológica. As setas mostram a direção da mudança. Esta figura é o espelho da Figura 1.2 do Capítulo 1: lá, os pontos de Ricardo estavam parados na zona subótima. Aqui, os pontos de Marcos se movem para a zona ótima. A trajetória mudou.*
-
 O CAC de 412 não mudou. Cálcio depositado não se dissolve. Mas a trajetória que construiu aquele escore ao longo de décadas havia sido revertida. As forças que alimentavam o processo — inflamação, resistência insulínica, sedentarismo, déficits nutricionais — estavam sendo neutralizadas uma a uma.
 
 A estatina e a ezetimiba eram necessárias. Mas foram os três motores que transformaram a trajetória.
@@ -330,4 +324,4 @@ Este capítulo não pretende transformar você em atleta, nutricionista ou bioqu
 
 ---
 
-> Alimentação, exercício e suplementação são os motores. Mas motores sem painel de controle funcionam às cegas. Hormônios, genômica, farmacologia guiada por biomarcadores — esse é o próximo pilar: a Gestão Metabólica. E é o tema do capítulo seguinte.
+> Atividade física, alimentação e suplementação inteligente são os motores. Mas motores sem painel de controle funcionam às cegas. Hormônios, genômica, farmacologia guiada por biomarcadores — esse é o próximo pilar: a Gestão Clínica e Metabólica. E é o tema do capítulo seguinte.

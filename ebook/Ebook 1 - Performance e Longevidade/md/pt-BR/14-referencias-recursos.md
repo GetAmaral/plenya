@@ -62,6 +62,11 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Mitchell, J.D. et al.** (2018). "Impact of Statin Use on Cardiovascular Outcomes Following Coronary Artery Calcium Testing." — Estudo observacional de 9 anos com 13.644 pacientes. NNT: de 12 (CAC >100) a 100 (CAC 1–100).
 - **2018 ACC/AHA Guideline on the Management of Blood Cholesterol.** *Circulation*. — Recomendação de CAC para reclassificação de risco em adultos com risco intermediário (ASCVD 7,5–19,9%).
 - **2021 ESC/EAS Guidelines for the Management of Dyslipidaemias.** *European Heart Journal*. — ApoB como alvo terapêutico e uso do CAC para refinamento de risco.
+- **Lima, M.R., Lopes, P.M., Ferreira, A.M.** (2024). "Use of coronary artery calcium score and coronary CT angiography to guide cardiovascular prevention and treatment." *Journal of the Royal Society of Medicine Cardiovascular Disease*. — Revisão integrada do papel complementar do CAC e da CCTA na prevenção cardiovascular.
+- **Mortensen, M.B. et al.** (2023). "CT-derived subclinical coronary atherosclerosis and future cardiovascular events: results from the population-based SCAPIS study." *Circulation*. — Rastreamento com CCTA em ~25.000 adultos assintomáticos; detecção de placa não-calcificada em pessoas com CAC zero e valor prognóstico adicional.
+- **Blaha, M.J. et al.** (2016). "Role of Coronary Artery Calcium Score of Zero and Other Negative Risk Markers for Cardiovascular Disease: The Multi-Ethnic Study of Atherosclerosis (MESA)." *Circulation*, 133(9):849–858. — Descrição de eventos em pacientes com CAC zero; até um terço dos eventos ocorre em indivíduos previamente classificados como baixo risco.
+- **Shaw, L.J. et al.** (2018). "Coronary Artery Calcium as a Measure of Biologic Age." *Atherosclerosis*. — Conceito de idade arterial a partir do escore de cálcio e sua aplicação na comunicação com o paciente.
+- **SCCT 2021 Expert Consensus Document on Coronary CT Angiography.** *Journal of Cardiovascular Computed Tomography*. — Indicações, protocolos, limitações e interpretação da CCTA na prática clínica.
 
 ---
 
@@ -73,7 +78,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 7 — Alimentação, Atividade Física e Suplementação
+### Capítulo 7 — Atividade Física, Alimentação e Suplementação Inteligente
 
 **Alimentação:**
 
@@ -88,7 +93,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 8 — Gestão Metabólica
+### Capítulo 8 — Gestão Clínica e Metabólica
 
 **Hormônios e testosterona:**
 
@@ -102,7 +107,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 9 — Integração Corpo-Mente
+### Capítulo 9 — Integração Mente-Corpo
 
 **Psiconeuroimunologia:**
 

@@ -28,15 +28,13 @@ Fernanda não bebia álcool. Não era obesa. Fazia exercício. Comia "bem". E ti
 
 ![Figura 6.1 — Fígado Normal vs. Esteatose. Dois painéis de ultrassom lado a lado: fígado saudável com ecotextura uniforme versus esteatose grau I com hiperecogenicidade difusa e contraste aumentado com o rim adjacente.](../Cap06%20Fig01.PNG)
 
-*Figura 6.1 — A esteatose é visível antes de qualquer sintoma — e antes de qualquer alteração nos exames de sangue convencionais. Quando mais de 5% dos hepatócitos contêm gordura, a textura do fígado no ultrassom fica mais brilhante que a do rim adjacente. O mesmo exame, seis meses depois, mostrou o fígado de Fernanda sem esteatose.*
-
 ---
 
 ### O Fígado: Onde a Disfunção Metabólica Se Materializa
 
 Se existe um órgão que resume a saúde metabólica de uma pessoa, é o fígado. Ele processa a insulina. Fabrica o colesterol. Regula os triglicerídeos. Armazena e libera glicose. Quando o metabolismo funciona bem, o fígado opera em equilíbrio silencioso. Quando a resistência insulínica se instala, o fígado é um dos primeiros órgãos a acusar o impacto.
 
-A hiperinsulinemia crônica — aquela insulina persistentemente elevada que o check-up não mede — ativa no fígado um processo chamado *lipogênese de novo*: a fabricação de gordura a partir de carboidratos. O fígado passa a produzir mais triglicerídeos do que consegue exportar. Os ácidos graxos se acumulam dentro das células hepáticas. Quando mais de 5% dos hepatócitos contêm gordura, o diagnóstico é esteatose.
+A hiperinsulinemia crônica — aquela insulina persistentemente elevada que o check-up não mede — ativa no fígado um processo chamado *lipogênese de novo*: a fabricação de gordura a partir de carboidratos (o açúcar e o amido presentes em pão, arroz, massa, frutas e doces — tudo quebrado em glicose durante a digestão). O fígado passa a produzir mais triglicerídeos do que consegue exportar. Os ácidos graxos se acumulam dentro das células hepáticas. Quando mais de 5% dos hepatócitos contêm gordura, o diagnóstico é esteatose.
 
 Essa condição — hoje chamada **MASLD** (*Metabolic dysfunction-Associated Steatotic Liver Disease*, em português "doença hepática esteatótica associada a disfunção metabólica", a nomenclatura adotada formalmente pela AASLD, EASL e ALEH em junho de 2023, substituindo "fígado gorduroso não alcoólico") — afeta aproximadamente 38% da população adulta mundial. A projeção é que ultrapasse 55% até 2040. É a doença hepática mais comum do planeta.
 
@@ -55,8 +53,6 @@ O caso de Fernanda expõe uma falha que vai além dos exames de sangue: a forma 
 O IMC — índice de massa corporal — divide o peso pela altura ao quadrado. É a métrica mais usada do mundo para classificar peso. E é profundamente enganosa. O IMC não distingue gordura de músculo. Não diferencia gordura subcutânea (a que fica sob a pele, relativamente inofensiva) de gordura visceral (a que se deposita ao redor dos órgãos e produz inflamação crônica). Um atleta musculoso pode ter IMC de "sobrepeso" sem nenhum excesso de gordura. Uma mulher magra como Fernanda pode ter IMC "normal" com gordura visceral acumulada ao redor do fígado e do pâncreas. O IMC classifica os dois incorretamente.
 
 ![Figura 6.2 — Mesmo IMC, Corpos Diferentes. Dois cortes transversais abdominais com IMC idêntico (24): à esquerda, gordura predominantemente subcutânea (anel externo, órgãos livres); à direita, padrão TOFI com gordura visceral depositada entre os órgãos.](../Cap06%20Fig02.PNG)
-
-*Figura 6.2 — O IMC é idêntico. O risco é radicalmente diferente. A balança não distingue os dois. Até 20% das pessoas com IMC "normal" se encaixam no padrão TOFI — Thin Outside, Fat Inside — com gordura visceral acumulada ao redor dos órgãos internos, produzindo inflamação e resistência insulínica enquanto o espelho e a balança dizem que está tudo bem.*
 
 Existe uma métrica melhor, mais simples e mais preditiva: **a relação cintura/estatura**. Divida sua circunferência abdominal pela sua altura, ambas em centímetros. Se o resultado for maior que 0,5 — ou seja, se sua cintura mede mais que metade da sua altura —, o risco cardiometabólico está aumentado.
 
@@ -77,8 +73,6 @@ A disfunção metabólica não começa com diabetes. Ela começa com resistênci
 A sequência é previsível:
 
 ![Figura 6.3 — Da Resistência Insulínica ao Diabetes: A Timeline que o Check-up Não Vê. Barra de progressão com 4 fases (RI compensada → disfunção manifesta → pré-diabetes → diabetes tipo 2) mostrando o que acontece no corpo versus o que o check-up convencional diz em cada fase. Janela de intervenção destacada em verde sobre as Fases 1 e 2.](../Cap06%20Fig03.PNG)
-
-*Figura 6.3 — A disfunção metabólica progride por fases identificáveis — mas o check-up convencional só começa a enxergar na Fase 3 (pré-diabetes). Entre a Fase 1 (insulina já elevada, glicose normal) e a Fase 3, existe uma janela de intervenção de 5 a 10 anos. Fernanda estava na transição entre as Fases 1 e 2. A doença já estava lá. O diagnóstico é que chegou tarde.*
 
 **Fase 1 — Resistência insulínica compensada.** As células musculares, hepáticas e adiposas começam a responder menos à insulina. O pâncreas compensa produzindo mais. A insulina de jejum sobe — para 10, 12, 15 µIU/mL. Mas a glicose permanece normal. Nenhum exame convencional detecta o problema. Essa fase pode durar anos.
 
@@ -154,11 +148,11 @@ No Capítulo 4, mencionei que em seis meses Fernanda reverteu os marcadores: ins
 
 **Sono e estresse avaliados.** Fernanda dormia em média seis horas por noite e descreveu seu nível de estresse como "normal para quem trabalha e tem dois filhos". Sono insuficiente e estresse crônico elevam o cortisol — e o cortisol cronicamente alto piora diretamente a sensibilidade insulínica, promove acúmulo de gordura visceral e aumenta a inflamação. Não são variáveis "emocionais" — são variáveis metabólicas. Serão aprofundadas nos capítulos seguintes.
 
-Nenhuma medicação foi necessária. O protocolo era estilo de vida — mas estilo de vida com precisão, orientado por biomarcadores e monitorado a cada quatro meses.
+O plano combinou reestruturação de estilo de vida com suplementação inteligente guiada por biomarcador — vitamina D corrigida ao ótimo, ômega-3 em dose de suplemento e magnésio na forma glicinato, itens que o Capítulo 7 vai detalhar e que entraram desde o primeiro mês. Tudo monitorado a cada três meses. O protocolo era estilo de vida — mas estilo de vida com precisão.
 
 Em seis meses, os números contaram uma história diferente. A insulina caiu de 13 para 7 — dentro da faixa ótima. O HOMA-IR de 3,0 para 1,7. Os triglicerídeos de 180 para 108. O HDL subiu de 46 para 54. A relação TG/HDL caiu de 3,9 para 2,0. A PCR de 1,9 para 0,8. A GGT normalizou para 22 U/L. O ultrassom de controle: sem esteatose.
 
-Fernanda reverteu o processo. Seis anos antes de qualquer diagnóstico convencional. Sem metformina. Sem cirurgia. Diferente do pai. Diferente da mãe. Porque alguém olhou antes.
+Fernanda reverteu o processo. Seis anos antes de qualquer diagnóstico convencional. Sem cirurgia. Diferente do pai. Diferente da mãe. Porque alguém olhou antes.
 
 ---
 
@@ -184,8 +178,8 @@ Os biomarcadores do Capítulo 4 respondem a essa pergunta. E a resposta, como Fe
 
 - A disfunção metabólica é reversível quando identificada cedo. Alimentação, treino de força, correção de vitamina D, sono e gestão do estresse atuam em sinergia sobre a mesma raiz — a resistência insulínica.
 
-- Fernanda reverteu todos os marcadores em seis meses, incluindo a esteatose. Sem medicação.
+- Fernanda reverteu todos os marcadores em seis meses — incluindo a esteatose — por meio de mudanças estruturadas de estilo de vida.
 
 ---
 
-> Agora você tem o mapa completo: sabe o que está acontecendo no sangue, nas artérias e no metabolismo. A próxima pergunta é prática: o que fazer com essa informação? Os próximos capítulos transformam conhecimento em protocolo — organizado em quatro pilares que cobrem alimentação, gestão metabólica, saúde mental e sono.
+> Agora você tem o mapa completo: sabe o que está acontecendo no sangue, nas artérias e no metabolismo. A próxima pergunta é prática: o que fazer com essa informação? Os próximos capítulos transformam conhecimento em protocolo — organizado em quatro pilares que cobrem atividade física e alimentação, gestão clínica e metabólica, integração mente-corpo e ritmo circadiano.
