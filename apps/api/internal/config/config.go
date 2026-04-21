@@ -19,7 +19,23 @@ type Config struct {
 	Claude   ClaudeConfig
 	OpenAI   OpenAIConfig
 	VoyageAI VoyageAIConfig
+	Email    EmailConfig
+	Site     SiteConfig
 	Dev      DevConfig
+}
+
+// EmailConfig SMTP — quando SMTPHost vazio, EmailService loga no stdout (dev)
+type EmailConfig struct {
+	SMTPHost    string
+	SMTPPort    string
+	SMTPUser    string
+	SMTPPass    string
+	FromAddress string
+}
+
+// SiteConfig URLs do site público — usado para montar links em emails transacionais
+type SiteConfig struct {
+	PublicURL string // ex: https://plenyasaude.com.br
 }
 
 type ServerConfig struct {
@@ -145,6 +161,16 @@ func Load() (*Config, error) {
 			APIKey: getEnv("VOYAGE_API_KEY", ""),
 			Model:  getEnv("VOYAGE_MODEL", "voyage-multilingual-2"),
 			APIURL: getEnv("VOYAGE_API_URL", "https://api.voyageai.com/v1"),
+		},
+		Email: EmailConfig{
+			SMTPHost:    getEnv("SMTP_HOST", ""),
+			SMTPPort:    getEnv("SMTP_PORT", "587"),
+			SMTPUser:    getEnv("SMTP_USER", ""),
+			SMTPPass:    getEnv("SMTP_PASSWORD", ""),
+			FromAddress: getEnv("EMAIL_FROM", "no-reply@plenyasaude.com.br"),
+		},
+		Site: SiteConfig{
+			PublicURL: getEnv("SITE_PUBLIC_URL", "http://localhost:3002"),
 		},
 		Dev: DevConfig{
 			BypassAuth: getEnvAsBool("DEV_BYPASS_AUTH", false),

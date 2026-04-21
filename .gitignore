@@ -117,6 +117,9 @@ apps/mobile/android/.gradle/
 # Backups e dados temporários
 backups/
 data/
+# Exceção: config gerado para build estático do site
+!apps/site/content/data/
+!apps/site/content/data/**
 
 # Uploads de usuários
 uploads/

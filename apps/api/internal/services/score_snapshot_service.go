@@ -328,13 +328,7 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 			// Evaluate level using EvaluatesTrue (for numeric lab results)
 			// Sort levels by level number ASC (0→6) - most critical first
 			levels := item.Levels
-			for i := 0; i < len(levels); i++ {
-				for j := i + 1; j < len(levels); j++ {
-					if levels[j].Level < levels[i].Level {
-						levels[i], levels[j] = levels[j], levels[i]
-					}
-				}
-			}
+			SortLevelsAsc(levels)
 
 			for i := range levels {
 				if levels[i].EvaluatesTrue(*valueUsed) {
@@ -385,7 +379,7 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 	}
 
 	// 3. Calculate proportional points
-	proportionalMultiplier := getLevelMultiplier(matchedLevel.Level)
+	proportionalMultiplier := GetLevelMultiplier(matchedLevel.Level)
 	actualPoints := result.MaxPoints * proportionalMultiplier
 
 	// 4. Populate result
@@ -401,8 +395,20 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 	return result
 }
 
-// getLevelMultiplier returns the proportional multiplier for a given level (0-6)
-func getLevelMultiplier(level int) float64 {
+// SortLevelsAsc ordena ScoreLevels por Level ASC (mais crítico primeiro).
+// Helper compartilhado entre score_snapshot_service e anonymous_score_service.
+func SortLevelsAsc(levels []models.ScoreLevel) {
+	for i := 0; i < len(levels); i++ {
+		for j := i + 1; j < len(levels); j++ {
+			if levels[j].Level < levels[i].Level {
+				levels[i], levels[j] = levels[j], levels[i]
+			}
+		}
+	}
+}
+
+// GetLevelMultiplier returns the proportional multiplier for a given level (0-6)
+func GetLevelMultiplier(level int) float64 {
 	switch level {
 	case 6:
 		return 1.0 // 100%

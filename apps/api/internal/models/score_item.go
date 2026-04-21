@@ -86,6 +86,21 @@ type ScoreItem struct {
 	// @example 1
 	Order int `gorm:"type:integer;not null;default:0;index:idx_score_item_order" json:"order" validate:"gte=0,lte=9999"`
 
+	// Indica se este item compõe a versão Light do Escore (subset público para auto-avaliação anônima)
+	// @example false
+	IsLightVersion bool `gorm:"type:boolean;not null;default:false;index:idx_score_item_light" json:"isLightVersion"`
+
+	// Ordem de exibição do item dentro do Escore Light (independente de Order)
+	// @minimum 0
+	// @maximum 9999
+	// @example 5
+	LightOrder *int `gorm:"type:integer;index:idx_score_item_light_order" json:"lightOrder,omitempty" validate:"omitempty,gte=0,lte=9999"`
+
+	// Texto da pergunta reescrito para o paciente leigo (usado no formulário Light).
+	// Quando vazio, o frontend deve usar PatientExplanation ou Name como fallback.
+	// @example Você fuma atualmente?
+	LightQuestion *string `gorm:"type:text" json:"lightQuestion,omitempty"`
+
 	// Foreign Keys
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	SubgroupID uuid.UUID `gorm:"type:uuid;not null;index:idx_score_item_subgroup" json:"subgroupId" validate:"required"`

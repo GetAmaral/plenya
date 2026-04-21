@@ -91,6 +91,12 @@ func AutoMigrate() error {
 		&models.ScoreItem{},
 		&models.ScoreLevel{},
 
+		// Escore Light (público anônimo)
+		&models.AnonymousScoreSession{},
+		&models.AnonymousScoreItem{},
+		&models.AnonymousScoreSnapshot{},
+		&models.AnonymousScoreGroupResult{},
+
 		// Articles
 		&models.Article{},
 

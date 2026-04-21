@@ -46,7 +46,8 @@ const tiers: Array<{ title: string; anchor: string; href?: string; desc: string 
   },
   {
     title: 'Versão Light',
-    anchor: 'Online — em breve',
+    anchor: 'Faça agora — gratuito',
+    href: '/escore-plenya/avaliar',
     desc: 'Disponível online sem necessidade de consulta prévia. Permite entender, em primeira leitura, onde a sua saúde está — e qual o caminho mais adequado para aprofundar.',
   },
 ];

@@ -1,0 +1,53 @@
+/**
+ * Cliente do Escore Light — chama as rotas públicas do EMR.
+ * Usado pelos client components do fluxo /escore-plenya/avaliar.
+ */
+
+import type {
+  ConfirmClaimResult,
+  CreateSessionRequest,
+  PublicSession,
+} from './types';
+
+const apiBase =
+  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') ?? 'http://localhost:3001';
+
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`${apiBase}/api/v1${path}`, {
+    ...init,
+    headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`API ${res.status}: ${text || res.statusText}`);
+  }
+  return res.json() as Promise<T>;
+}
+
+export function createSession(payload: CreateSessionRequest) {
+  return request<PublicSession>('/score-light/sessions', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+
+export function getSession(code: string) {
+  return request<PublicSession>(`/score-light/sessions/${encodeURIComponent(code)}`);
+}
+
+export function requestClaim(code: string, email: string) {
+  return request<{ message: string }>(
+    `/score-light/sessions/${encodeURIComponent(code)}/claim`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    }
+  );
+}
+
+export function confirmClaim(token: string) {
+  return request<ConfirmClaimResult>('/score-light/claim/confirm', {
+    method: 'POST',
+    body: JSON.stringify({ token }),
+  });
+}

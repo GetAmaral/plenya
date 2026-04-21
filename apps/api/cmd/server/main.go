@@ -210,6 +210,8 @@ func setupRoutes(
 	subscriptionPlanService := services.NewSubscriptionPlanService(subscriptionPlanRepo)
 	notificationService := services.NewNotificationService(notificationRepo, subscriptionRepo)
 	scoreSnapshotService := services.NewScoreSnapshotService(scoreSnapshotRepo, scoreRepo, labResultRepo, anamnesisRepo, database.DB)
+	emailService := services.NewEmailService(cfg)
+	anonymousScoreService := services.NewAnonymousScoreService(database.DB, scoreRepo, cfg, emailService)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
 	labRequestService := services.NewLabRequestService(labRequestRepo, database.DB)
 	labRequestTemplateService := services.NewLabRequestTemplateService(labRequestTemplateRepo)
@@ -258,6 +260,7 @@ func setupRoutes(
 	subscriptionPlanHandler := handlers.NewSubscriptionPlanHandler(subscriptionPlanService)
 	notificationHandler := handlers.NewNotificationHandler(notificationService)
 	scoreSnapshotHandler := handlers.NewScoreSnapshotHandler(scoreSnapshotService)
+	anonymousScoreHandler := handlers.NewAnonymousScoreHandler(anonymousScoreService, authService)
 	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
 	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
 	labRequestHandler := handlers.NewLabRequestHandler(labRequestService, certificateService)
@@ -281,6 +284,16 @@ func setupRoutes(
 			"status":  "ok",
 		})
 	})
+
+	// Score Light (públicas — site público de avaliação anônima)
+	scoreLight := v1.Group("/score-light")
+	scoreLight.Get("/config", anonymousScoreHandler.GetConfig)
+	scoreLight.Post("/sessions", anonymousScoreHandler.CreateSession)
+	scoreLight.Get("/sessions/:code", anonymousScoreHandler.GetSession)
+	scoreLight.Post("/sessions/:code/claim", anonymousScoreHandler.RequestClaim)
+	scoreLight.Post("/claim/confirm", anonymousScoreHandler.ConfirmClaim)
+	// Autenticada — área do paciente no EMR
+	scoreLight.Get("/my-sessions", middleware.Auth(cfg), anonymousScoreHandler.MySessions)
 
 	// Auth routes (públicas)
 	auth := v1.Group("/auth")

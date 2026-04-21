@@ -121,6 +121,12 @@ func (s *AuthService) RefreshToken(refreshToken string) (*dto.AuthResponse, erro
 	return s.generateAuthResponse(&user)
 }
 
+// GenerateTokensForUser é o entry-point público para serviços externos (ex: magic link
+// do Score Light) gerarem AuthResponse válida sem exigir senha.
+func (s *AuthService) GenerateTokensForUser(user *models.User) (*dto.AuthResponse, error) {
+	return s.generateAuthResponse(user)
+}
+
 // generateAuthResponse gera access token, refresh token e resposta
 func (s *AuthService) generateAuthResponse(user *models.User) (*dto.AuthResponse, error) {
 	// Parse access expiry
