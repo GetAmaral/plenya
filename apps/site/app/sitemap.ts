@@ -11,7 +11,7 @@ const staticRoutes = [
   '/metodo-agir',
   '/equipe',
   '/consultas',
-  '/planos',
+  '/continuum',
   '/blog',
   '/contato',
   '/escore-plenya',
