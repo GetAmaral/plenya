@@ -28,8 +28,8 @@ Ebook 1 - Performance e Longevidade/
 │   │   ├── 09-sistemas-cardio-renal-hepatico.md (G1)
 │   │   ├── 10-paineis-bioquimicos.md           (G2)
 │   │   ├── 11-genomica-exposicoes.md           (G3)
-│   │   ├── 12-integracao-mente-corpo.md        (I1 — trabalho interno)
-│   │   ├── 13-conexao-proposito-sentido.md     (I2 — dimensão relacional)
+│   │   ├── 12-integracao-mente-corpo.md        (Pilar I — trabalho interno)
+│   │   ├── 13-conexao-proposito-sentido.md     (Pilar I — conexão, propósito, sentido)
 │   │   ├── 14-ritmo-circadiano-e-repouso.md    (R)
 │   │   ├── 15-seu-placar-de-longevidade.md
 │   │   ├── 16-quando-procurar-especialista.md
@@ -159,8 +159,8 @@ As traduções para EN/ES/FR/DE ainda não foram iniciadas. Quando começarem, o
 - Cap 9 (G1) — novo, inclui Fronteira da Geromedicina com nota sobre IV therapy
 - Cap 10 (G2) — reformulado
 - Cap 11 (G3) — novo
-- Cap 12 (I1) — reescrito com seções novas: **Avaliação Psicológica** (PHQ-9, GAD-7, AUDIT, PCL-5, UCLA, burnout CID-11), **Função Cognitiva** (reserva cognitiva, MoCA, SCD, p-tau217 plasmático, FINGER/MAPT/POINTER, ACTIVE trial)
-- Cap 13 (I2) — novo inteiro: Vida Sexual (incl. AHA 2012 pós-evento CV), Vínculos Sociais, Telas/Atenção, Propósito/Ikigai, Espiritualidade, bidirecionalidade, Encaminhamento
+- Cap 12 (Mente Individual) — reescrito com seções novas: **Avaliação Psicológica** (PHQ-9, GAD-7, AUDIT, PCL-5, UCLA, burnout CID-11), **Função Cognitiva** (reserva cognitiva, MoCA, SCD, p-tau217 plasmático, FINGER/MAPT/POINTER, ACTIVE trial)
+- Cap 13 (Conexão, Propósito e Sentido) — novo inteiro: Vida Sexual (incl. AHA 2012 pós-evento CV), Vínculos Sociais, Telas/Atenção, Propósito/Ikigai, Espiritualidade, bidirecionalidade, Encaminhamento
 - Cap 14 (R) — mantido, renumerado
 - Cap 18 (Referências) — expandido com novas referências: PHQ-9, GAD-7, Stern, US POINTER 2025, p-tau217, Princeton Consensus, AHA 2012 pós-CV, Mark, Haidt, Sone 2008, Frankl, Koenig, Meijer pós-IAM
 

@@ -79,12 +79,12 @@
 
 | Personagem | Idade | Caso | Aparece em |
 |---|---|---|---|
-| **Ricardo** | 52 | Infarto com check-up "normal" — o poder do painel ampliado, e a reconstrução pós-evento no pilar I2 | Caps. 1, 4, 13, 15, 17 |
+| **Ricardo** | 52 | Infarto com check-up "normal" — o poder do painel ampliado, e a reconstrução pós-evento em conexão, propósito e sentido | Caps. 1, 4, 13, 15, 17 |
 | **Fernanda** | 41 | Insulina de 13 e esteatose com IMC normal — reversão metabólica em 6 meses | Caps. 4, 6, 10, 15 |
 | **André** | 45 | Triatleta com PCR elevada e hiperinsulinemia oculta no TOTG | Caps. 3, 6, 7, 11 |
 | **Marcos** | 57 | CAC de 412 sob estatina — a Regra dos Dois em ação | Caps. 5, 8, 9, 15 |
 | **Paulo** | 48 | Testosterona baixa que regrediu por apneia não diagnosticada | Caps. 10, 11, 14 |
-| **Ana** | 44 | PCR resistente — o pilar I1 (mente individual) com trauma, avaliação e função cognitiva | Cap. 12 |
+| **Ana** | 44 | PCR resistente — trabalho interno (trauma, avaliação psicológica, função cognitiva) | Cap. 12 |
 
 ---
 

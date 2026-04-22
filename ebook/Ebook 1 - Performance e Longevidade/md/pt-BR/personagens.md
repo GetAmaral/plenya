@@ -8,12 +8,12 @@
 
 | # | Personagem | Idade | Porta de entrada | Pilar demonstrado | Arco | Aparições |
 |---|---|---|---|---|---|---|
-| 1 | **Ricardo** | 52 → 57 | Pós-infarto (3m após stent) | Painel ampliado · I2 pós-evento · Autoavaliação | Sobrevivente → coautor | Caps 1, 2, 4, 13, 15, 16, 17 |
+| 1 | **Ricardo** | 52 → 57 | Pós-infarto (3m após stent) | Painel ampliado · Reconstrução relacional pós-evento · Autoavaliação | Sobrevivente → coautor | Caps 1, 2, 4, 13, 15, 16, 17 |
 | 2 | **Fernanda** | 41 → 44 | Insistência do marido | Metabolismo · TRH na janela | Magra com disfunção oculta → revertida → TRH bem conduzida | Caps 4, 6, 10, 15, 16 |
 | 3 | **André** | 45 | Aspiracional ("otimizar tudo") | TOTG + MTHFR · Ajuste de treino | Triatleta inflamado → rebalanceado | Caps 3, 6, 7, 11, 15 |
 | 4 | **Marcos** | 57 | Encaminhado | CAC + Regra dos Dois | "Estatina controlou" → prevenção secundária | Caps 5, 7, 8, 9, 15, 17 |
 | 5 | **Paulo** | 48 → 50 | Aspiracional | G2 (painel hormonal) · G3 (Paulo 6m) · R (apneia) | Testo baixa → pico restaurado após CPAP | Caps 10, 11, 14, 15 |
-| 6 | **Ana** | 44 | Decidida a otimizar | I1 (avaliação + regulação + função cognitiva) · I2 (vínculos · cuidador) | 18m biológicos sem mover PCR → TCC+MBSR+AD resolve | Caps 12, 13, 15, 16 |
+| 6 | **Ana** | 44 | Decidida a otimizar | Trabalho interno (avaliação + regulação + função cognitiva) · Caregiver strain no Cap 13 | 18m biológicos sem mover PCR → TCC+MBSR+AD resolve | Caps 12, 13, 15, 16 |
 
 ---
 
@@ -22,7 +22,7 @@
 **O paciente-título do livro.** Infarto com check-up "normal" 8 meses antes. Abre o livro e fecha o pilar I (Cap 13 — dimensão relacional e existencial pós-evento).
 
 ### Demografia
-- 52 anos (Cap 1) → 53 anos no Cap 13 (I2, 18 meses pós-infarto) → ~54 no Cap 13 fechamento (30 meses pós) → 57 anos (Cap 15, 5 anos pós-infarto)
+- 52 anos (Cap 1) → 53 anos no Cap 13 (18 meses pós-infarto) → ~54 no Cap 13 fechamento (30 meses pós) → 57 anos (Cap 15, 5 anos pós-infarto)
 - Executivo de empresa de tecnologia em São Paulo (cargo de diretoria)
 - Casado com Marina (nome introduzido no Cap 13); três filhos adultos
 
@@ -64,7 +64,7 @@
 ### Arco pós-infarto
 - **T+3m (Cap 1 / Cap 4):** infarto → primeiros exames ampliados → "diagnóstico tardio do que já estava lá"
 - **T+12m (Cap 9 / Cap 10):** programa estruturado (estatina + ezetimiba + PCSK9; painel hormonal; reabilitação cardíaca)
-- **T+18m (Cap 13 abertura — I2):** painel biológico em ordem, mas dimensão relacional-existencial em colapso. Vida sexual zerada há 8 meses, amigos sumiram, celular compulsivo, ambição esvaziada, perguntas existenciais sem lugar para aparecer.
+- **T+18m (Cap 13 abertura):** painel biológico em ordem, mas dimensão relacional-existencial em colapso. Vida sexual zerada há 8 meses, amigos sumiram, celular compulsivo, ambição esvaziada, perguntas existenciais sem lugar para aparecer.
 - **T+21m (Cap 13 meio):** intervenções iniciadas — tadalafila 5mg diária, terapia de casal com Marina, três telefonemas a amigos sumidos, celular fora do quarto, grayscale no celular, bloqueio automático de apps financeiros noturno.
 - **T+30m (Cap 13 fechamento):** vida sexual restabelecida com qualidade relacional maior que a pré-infarto; três amigos reconectados em ciclo regular; 10 meses sem celular no quarto; mentoria voluntária semanal a jovens executivos; ritual de caminhada silenciosa de domingo de manhã com Marina. PCR 0,6; cortisol 15.
 - **T+5 anos (Cap 15 — Placar):** volta com pasta de histórico completo. Momento-chave: pede para ler os próprios exames com o médico. Torna-se coautor do próprio plano.
@@ -83,7 +83,7 @@
 ### Figuras associadas (nova numeração)
 - **Fig 1.2:** Ricardo — todos os números "normais", nenhum ótimo (espelho visual do livro)
 - **Fig 5.1 e 5.2:** Ricardo posicionado na escala do CAC (187) e na idade arterial (52 → 68)
-- **Fig 13.2:** Ricardo em 3 tempos do pilar I2 (T+18m → T+21m → T+30m)
+- **Fig 13.2:** Ricardo em 3 tempos (T+18m → T+21m → T+30m)
 
 ---
 
@@ -443,7 +443,7 @@ Caps 10 (apresentação — painel hormonal), 11 (6 meses depois — lógica ite
 
 ## 6. Ana — "Os dois capítulos do pilar I"
 
-**O caso que abre o pilar I em duas camadas.** Cap 12 (I1 — trabalho interno) e Cap 13 (I2 — dimensão relacional, via caregiver strain da mãe com demência). Dezoito meses de otimização biológica impecável sem mover PCR nem cortisol — porque a dimensão psicológica nunca tinha sido endereçada.
+**O caso que abre o pilar I em duas camadas.** Cap 12 (trabalho interno — avaliação, regulação, cognição) e Cap 13 (dimensão relacional, via caregiver strain da mãe com demência). Dezoito meses de otimização biológica impecável sem mover PCR nem cortisol — porque a dimensão psicológica nunca tinha sido endereçada.
 
 ### Demografia
 - 44 anos
@@ -461,7 +461,7 @@ Caps 10 (apresentação — painel hormonal), 11 (6 meses depois — lógica ite
 - Primeira consulta: 18 meses antes da sexta consulta-chave (Cap 12)
 - Otimização biológica completa ao longo de 18 meses
 - Sexta consulta: virada narrativa — a conversa muda de bioquímica para eixo HPA
-- 6 meses depois: fechamento de I1, com bridge para I2 (Cap 13)
+- 6 meses depois: fechamento do trabalho interno, com bridge para o Cap 13 (conexão, propósito, sentido)
 
 ### Otimização biológica (18 meses — antes da virada)
 | Marcador | Antes | Pós-18m |
@@ -485,7 +485,7 @@ Hábitos instalados:
 
 ### Contexto de vida (que veio na sexta consulta)
 - Reuniões de obra, briefings com clientes, planilhas à noite
-- Mãe com demência incipiente (driver do medo cognitivo em I1)
+- Mãe com demência incipiente (driver do medo cognitivo no trabalho interno — Cap 12)
 - Decisão sobre trocar os filhos de escola
 - Pressão financeira (escola particular em SP)
 - **"Pavor" de sexta-feira à tarde** — já pensava nos problemas da segunda
@@ -496,7 +496,7 @@ Hábitos instalados:
 *"Doutor, eu acho que eu sempre fui ansiosa. Isso é da minha personalidade. Meu pai era igual."*
 *"Doutor, eu vou seguir o mesmo caminho?"* (sobre a mãe com demência)
 
-### Avaliação psicológica estruturada (Cap 12 — I1)
+### Avaliação psicológica estruturada (Cap 12)
 | Instrumento | Pontuação inicial | Faixa | Após 6m |
 |---|---|---|---|
 | **PHQ-9** | 14 | Moderada | 6 (mínima) |
@@ -509,7 +509,7 @@ Hábitos instalados:
 - Padrão ansioso de longa data classificado como "personalidade"
 - Cortisol elevado crônico mantendo PCR persistente e impedindo consolidação do sono — sabotando todos os outros pilares
 
-### Intervenções (Pilar I1)
+### Intervenções (trabalho interno)
 1. Encaminhamento formal para **psicóloga com formação em TCC**
 2. Segunda opinião com **psiquiatra**
 3. **MBSR estruturado** (8 semanas)
@@ -518,7 +518,7 @@ Hábitos instalados:
 - Outros pilares mantidos como estavam — nada acrescentado neste trimestre.
 - Resistência inicial: *"não quero virar dependente de remédio"* — superada após conversa com psiquiatra.
 
-### Resultados 6 meses depois (fechamento I1, Cap 12)
+### Resultados 6 meses depois (fechamento do Cap 12)
 | Marcador | Antes | Depois |
 |---|---|---|
 | hs-CRP | 1,8 | **0,7** |
@@ -529,10 +529,10 @@ Hábitos instalados:
 | MoCA | baseline | **+2 pontos** |
 | Idade epigenética | estagnada por 18m | **retomou desaceleração (−2 anos)** |
 
-### Aparição no Cap 13 (I2)
+### Aparição no Cap 13 (Conexão, Propósito e Sentido)
 - **Via caregiver strain da mãe com demência** — exemplo clínico da síndrome do cuidador (eleva PCR, IL-6, cortisol; telômeros encurtam em magnitude comparável a estresse militar em combate)
 - Reconexão social explícita: voltou a ligar para duas amigas semanalmente
-- Não carrega toda a seção I2 — Ricardo é a âncora. Ana entra como contraste de perfil (cuidadora sobrecarregada, não sobrevivente pós-evento)
+- Não carrega toda a seção do Cap 13 — Ricardo é a âncora. Ana entra como contraste de perfil (cuidadora sobrecarregada, não sobrevivente pós-evento)
 
 ### Mensagem-chave
 "Os outros pilares do plano não mudaram. O que mudou foi o pilar que estava faltando."
@@ -543,7 +543,7 @@ Hábitos instalados:
 - **Fig 12.3:** os cinco instrumentos de triagem psicológica (PHQ-9, GAD-7, AUDIT, PCL-5, UCLA-3) — referência onde Ana pontuou 14 e 16
 
 ### Aparições
-Caps 12 (apresentação e fechamento I1), 13 (exemplo de caregiver strain em I2), 15 (exemplo da Regra dos Dois aplicada ao Pilar I), 16 (integração entre pilares na avaliação de profissional)
+Caps 12 (apresentação e fechamento do trabalho interno), 13 (exemplo de caregiver strain), 15 (exemplo da Regra dos Dois aplicada ao Pilar I), 16 (integração entre pilares na avaliação de profissional)
 
 ---
 
@@ -610,15 +610,15 @@ Caps 12 (apresentação e fechamento I1), 13 (exemplo de caregiver strain em I2)
 
 ## Personagens-âncora e os quatro pilares do AGIR
 
-| Pilar | Sub-camada | Personagem-caso-tipo | Evidência narrativa |
+| Pilar | Capítulo | Personagem-caso-tipo | Evidência narrativa |
 |---|---|---|---|
-| **A1 — Atividade Física** | Cap 7 | Marcos, André | 4 pilares do exercício; VO₂ max e mortalidade |
-| **A2 — Alimentação e Suplementação** | Cap 8 | Fernanda, Marcos | Reversão 6m + pele/cabelo/unhas + PFS |
-| **G1 — Sistemas Cardio-Reno-Metabólicos** | Cap 9 | Marcos | CAC 412 + estatina + ezetimiba + Eixo Cardio-Reno-Metabólico |
-| **G2 — Painéis Bioquímicos e Hormonais** | Cap 10 | Paulo (T0), Fernanda (TRH na janela) | Painel hormonal amplo; TRH transdérmica |
-| **G3 — Genômica e Exposições** | Cap 11 | Paulo (6m iterativo), André (MTHFR) | Lógica iterativa + polimorfismos |
-| **I1 — Mente Individual** | Cap 12 | Ana | PHQ-9/GAD-7, MBSR, TCC, função cognitiva, p-tau217 |
-| **I2 — Conexão, Propósito e Sentido** | Cap 13 | Ricardo (pós-infarto 18m), Ana (caregiver) | Vida sexual, vínculos, telas, propósito, espiritualidade |
+| **A — Atividade Física** | Cap 7 | Marcos, André | 4 pilares do exercício; VO₂ max e mortalidade |
+| **A — Alimentação e Suplementação** | Cap 8 | Fernanda, Marcos | Reversão 6m + pele/cabelo/unhas + PFS |
+| **G — Sistemas Cardio-Reno-Metabólicos** | Cap 9 | Marcos | CAC 412 + estatina + ezetimiba + Eixo Cardio-Reno-Metabólico |
+| **G — Painéis Bioquímicos e Hormonais** | Cap 10 | Paulo (T0), Fernanda (TRH na janela) | Painel hormonal amplo; TRH transdérmica |
+| **G — Genômica e Exposições** | Cap 11 | Paulo (6m iterativo), André (MTHFR) | Lógica iterativa + polimorfismos |
+| **I — Mente Individual (trabalho interno)** | Cap 12 | Ana | PHQ-9/GAD-7, MBSR, TCC, função cognitiva, p-tau217 |
+| **I — Conexão, Propósito e Sentido** | Cap 13 | Ricardo (pós-infarto 18m), Ana (caregiver) | Vida sexual, vínculos, telas, propósito, espiritualidade |
 | **R — Ritmo Circadiano e Repouso** | Cap 14 | Paulo (Fase 2) | Apneia oculta sabotando tudo |
 
 ---
@@ -634,4 +634,4 @@ Caps 12 (apresentação e fechamento I1), 13 (exemplo de caregiver strain em I2)
 
 ---
 
-*Última atualização: 2026-04-21 — após divisão do pilar I em 2 capítulos (I1 Cap 12 + I2 Cap 13) e renumeração para 18 capítulos.*
+*Última atualização: 2026-04-21 — após divisão do pilar I em 2 capítulos (Cap 12 trabalho interno + Cap 13 conexão e sentido) e renumeração para 18 capítulos.*

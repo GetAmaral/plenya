@@ -141,7 +141,7 @@ Briefing detalhado em `briefing-figuras-novas.md`. Todas têm referência e lege
 | Grid de 8 polimorfismos que mudam conduta | `Cap11 Fig02.PNG` | Cap 11 Fig 11.2 | ✅ inserida |
 | Ana 6 meses (biomarcadores + PHQ-9/GAD-7) | `Cap12 Fig02.PNG` | Cap 12 Fig 12.2 | ✅ inserida |
 | 5 instrumentos de triagem psicológica | `Cap12 Fig03.PNG` | Cap 12 Fig 12.3 | ✅ inserida |
-| Ricardo 3 tempos (pilar I2) | `Cap13 Fig02.PNG` | Cap 13 Fig 13.2 | ✅ inserida |
+| Ricardo em 3 tempos (Cap 13) | `Cap13 Fig02.PNG` | Cap 13 Fig 13.2 | ✅ inserida |
 | Diagrama de Ikigai (4 círculos) | `Cap13 Fig03.PNG` | Cap 13 Fig 13.3 | ✅ inserida |
 
 Total: 9 figuras novas em produção. Livro passará de 30 → 39 figuras (~2,2 por capítulo).

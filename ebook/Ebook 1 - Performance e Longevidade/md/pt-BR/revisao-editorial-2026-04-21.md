@@ -11,7 +11,7 @@ O livro está editorialmente sólido. A reestruturação de 14 → 18 capítulos
 
 A única inconsistência factual real encontrada foi uma divergência entre `personagens.md` e o Cap 5 sobre a dose da rosuvastatina de Marcos (20 mg × 10 mg); corrigi o `personagens.md` para 10 mg, que é a dose descrita no Cap 5. Fora isso, os achados são editoriais menores ou decisões de julgamento que dependem da preferência do autor — listados abaixo.
 
-Pontos fortes notáveis: (1) o par Ana/Ricardo como âncoras dos dois capítulos do pilar I funciona muito bem — Ana representa trabalho antes do evento, Ricardo reconstrução depois do evento; (2) os bridges entre pilares são explícitos e narrativamente suaves; (3) o Cap 13 (I2) é o capítulo mais literariamente denso do livro e ergue o nível médio.
+Pontos fortes notáveis: (1) o par Ana/Ricardo como âncoras dos dois capítulos do pilar I funciona muito bem — Ana representa trabalho antes do evento, Ricardo reconstrução depois do evento; (2) os bridges entre pilares são explícitos e narrativamente suaves; (3) o Cap 13 (Conexão, Propósito e Sentido) é o capítulo mais literariamente denso do livro e ergue o nível médio.
 
 Pontos de atenção: (1) Marina (esposa de Ricardo) aparece pela primeira vez no Cap 13 sem ter sido apresentada nem mesmo como "a esposa" em Caps 1 ou 4; (2) a palavra "dose baixa" para a rosuvastatina 10 mg é usada em múltiplos capítulos — defensável no contexto narrativo, mas pode soar tecnicamente impreciso para leitor-médico; (3) algumas redundâncias de definição (ApoB, CAC) poderiam ser substituídas por remissões de capítulo para aliviar leitura.
 
@@ -35,7 +35,7 @@ Arco coerente. Cap 5 (CAC 412, **rosuvastatina 10 mg**) → Cap 7 (treino) → C
 Arco mais técnico do livro, e funciona bem. Cap 10 (painel baseline) → Cap 11 (6 meses depois, lógica iterativa) → Cap 14 (18 meses, regressão silenciosa + apneia identificada → 24 meses pós-CPAP). Timeline de 4 tempos coerente. A Figura 14.3 resume bem visualmente.
 
 ### Ana (44)
-Arco da transição bioquímico → psicológico muito bem construído. Cap 12 (I1 — PHQ-9=14, GAD-7=16, caregiver strain da mãe com demência, p-tau217 negativo, fechamento com 6 meses) → Cap 13 (I2 — aparição breve como exemplo de caregiver strain). A timeline "sexta consulta em dezoito meses" = consulta a cada 3 meses. Consistente. A mãe com demência é plantada em Cap 12 e floresce em Cap 12 seção Função Cognitiva de forma natural.
+Arco da transição bioquímico → psicológico muito bem construído. Cap 12 (Mente Individual — PHQ-9=14, GAD-7=16, caregiver strain da mãe com demência, p-tau217 negativo, fechamento com 6 meses) → Cap 13 (Conexão, Propósito e Sentido — aparição breve como exemplo de caregiver strain). A timeline "sexta consulta em dezoito meses" = consulta a cada 3 meses. Consistente. A mãe com demência é plantada em Cap 12 e floresce em Cap 12 seção Função Cognitiva de forma natural.
 
 **Conclusão dos arcos:** nenhum arco está quebrado. A única melhoria opcional é a menção precoce de Marina.
 
@@ -46,7 +46,7 @@ Arco da transição bioquímico → psicológico muito bem construído. Cap 12 (
 **Consistência:** excelente. Lendo do frontmatter ao Manifesto, não há capítulo que soa escrito por outra pessoa. O tom "médico que conversa com o leitor na consulta" se mantém.
 
 **Algumas observações:**
-- Cap 13 (I2) é o mais literário do livro — frases ligeiramente mais longas, metáforas mais ricas ("o corpo estendido ao mundo", "vale de erosão silenciosa"). Intencional e bem-vindo; eleva o livro no ponto onde ele precisa carregar peso emocional.
+- Cap 13 (Conexão, Propósito e Sentido) é o mais literário do livro — frases ligeiramente mais longas, metáforas mais ricas ("o corpo estendido ao mundo", "vale de erosão silenciosa"). Intencional e bem-vindo; eleva o livro no ponto onde ele precisa carregar peso emocional.
 - Cap 11 (G3) e Cap 9 (G1) são os mais técnicos, com mais listas e citações de ensaios. Apropriado para o conteúdo, mas pode ser cansativo em leitura longa. Solução do autor ("Essencial em 60 Segundos" no final) já mitiga.
 - Cap 17 (Manifesto) é a mudança de registro esperada — confessional e em 1ª pessoa forte. Está bem marcado como capítulo à parte.
 
@@ -116,13 +116,13 @@ Aparece em frontmatter, Cap 1, Cap 2, Cap 4, Cap 15, Cap 17. Cada aparição é 
 ### Cap 8 → Cap 9 (A2 → G1)
 Cap 8 fecha com *"Os Três Motores em Conjunto"* (Marcos 8 meses depois) + *"E Se Fosse Com Você?"*. Cap 9 abre dizendo: *"A gestão clínica e metabólica é a parte do Método AGIR em que o paciente não pode fazer sozinho."* **Transição clara** — passa do "o que você faz" para "o que precisa de médico".
 
-### Cap 11 → Cap 12 (G3 → I1)
+### Cap 11 → Cap 12 (Genômica → Mente Individual)
 Cap 11 fecha com Paulo 6 meses depois + Essencial em 60s + quote: *"A gestão clínica e metabólica, por mais completa que seja, ainda opera na dimensão biológica..."* Cap 12 abre com Ana. **Transição forte** — explícito que a próxima camada é não-biológica.
 
-### Cap 12 → Cap 13 (I1 → I2)
+### Cap 12 → Cap 13 (Mente Individual → Conexão)
 Cap 12 fecha com Ana 6 meses depois + quote sobre perguntas que testes não capturam, anuncia Ricardo. Cap 13 abre com Ricardo 18 meses pós-IAM + frase "Eu não estou". **Transição excelente** — um dos melhores momentos estruturais do livro.
 
-### Cap 13 → Cap 14 (I2 → R)
+### Cap 13 → Cap 14 (Conexão → Ritmo Circadiano)
 Cap 13 fecha com Ricardo 12 meses depois (total 30 meses pós-IAM) + quote sobre "há outro sistema, ainda mais fundamental". Cap 14 abre com Paulo 18 meses pós-início. **Transição sólida** — o pilar R como "solo" é uma metáfora forte do livro.
 
 ### Cap 14 → Cap 15 (R → Plano)
@@ -150,7 +150,7 @@ Cap 16 fecha com observação sobre pequenos centros × grandes centros + integr
 
 ## Conclusão
 
-O livro está **apto para publicação** com ajustes pontuais e opcionais. A reestruturação para 18 capítulos produziu um livro melhor-arquitetado do que a versão de 14 capítulos: o pilar I dividido em I1 (trabalho interno) e I2 (dimensão relacional) é ganho claro; os caps G1/G2/G3 dão respiro ao que antes era um único capítulo pesado; e a seção de camada visível no Cap 8 resolve uma lacuna (pele/cabelo/unhas + PFS) que faltava.
+O livro está **apto para publicação** com ajustes pontuais e opcionais. A reestruturação para 18 capítulos produziu um livro melhor-arquitetado do que a versão de 14 capítulos: o pilar I dividido em dois capítulos (mente individual + conexão e sentido) é ganho claro; os três capítulos de gestão clínica (sistemas / painéis / genômica) dão respiro ao que antes era um único capítulo pesado; e a seção de camada visível no Cap 8 resolve uma lacuna (pele/cabelo/unhas + PFS) que faltava.
 
 Dos seis personagens, três têm arco longitudinal completo (Fernanda, Paulo, Ricardo), dois têm arco parcial didaticamente adequado (Marcos, Ana), e um é estudo de caso pontual (André). A decisão de não seguir André longitudinalmente é coerente com a função dele no livro — ilustrar overtraining, não demonstrar recuperação.
 
