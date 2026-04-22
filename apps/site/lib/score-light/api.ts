@@ -51,3 +51,47 @@ export function confirmClaim(token: string) {
     body: JSON.stringify({ token }),
   });
 }
+
+export type LightLabMatch = {
+  scoreItemId: string;
+  itemName: string;
+  numericValue: number;
+  originalRaw: string;
+  unit?: string;
+};
+
+export type LightLabUnmatched = {
+  nomeExame: string;
+  resultado: string;
+  unidade?: string;
+};
+
+export type LightLabExtractionResult = {
+  matched: LightLabMatch[];
+  unmatched: LightLabUnmatched[];
+  warnings?: string[];
+};
+
+export async function deleteSession(code: string): Promise<void> {
+  const res = await fetch(`${apiBase}/api/v1/score-light/sessions/${encodeURIComponent(code)}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok && res.status !== 204) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`Falha ao excluir (${res.status}): ${text || res.statusText}`);
+  }
+}
+
+export async function extractLabsFromPDF(pdf: File): Promise<LightLabExtractionResult> {
+  const fd = new FormData();
+  fd.append('pdf', pdf);
+  const res = await fetch(`${apiBase}/api/v1/score-light/extract-labs`, {
+    method: 'POST',
+    body: fd,
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`Extração falhou (${res.status}): ${text || res.statusText}`);
+  }
+  return res.json() as Promise<LightLabExtractionResult>;
+}

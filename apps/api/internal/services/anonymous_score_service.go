@@ -412,6 +412,25 @@ type SessionResponseDTO struct {
 	TextValue     *string   `json:"textValue,omitempty"`
 }
 
+// DeleteSessionByPublicCode — exclui completamente uma AnonymousScoreSession
+// (e em cascade os Items e Snapshot). Usado pelo direito do titular de eliminação
+// (LGPD art. 18 VI). Não exige autenticação — quem tem o publicCode é o owner.
+func (s *AnonymousScoreService) DeleteSessionByPublicCode(publicCode string) error {
+	if publicCode == "" {
+		return errors.New("publicCode is required")
+	}
+	res := s.db.
+		Where("public_code = ?", publicCode).
+		Delete(&models.AnonymousScoreSession{})
+	if res.Error != nil {
+		return fmt.Errorf("failed to delete session: %w", res.Error)
+	}
+	if res.RowsAffected == 0 {
+		return errors.New("session not found")
+	}
+	return nil
+}
+
 // CreateSessionRequest é o payload do POST /sessions
 type CreateSessionRequest struct {
 	Age           int                  `json:"age" validate:"required,gte=0,lte=150"`
@@ -420,6 +439,10 @@ type CreateSessionRequest struct {
 	Height        *float64             `json:"height,omitempty"`
 	Weight        *float64             `json:"weight,omitempty"`
 	Responses     []SessionResponseDTO `json:"responses" validate:"required,min=1,dive"`
+
+	// LGPD — versão da Política de Privacidade aceita pelo titular
+	// (ex: "2026-04-22.1"). Obrigatório.
+	ConsentVersion string `json:"consentVersion" validate:"required,min=5,max=20"`
 }
 
 // ============================================================
@@ -543,13 +566,19 @@ func (s *AnonymousScoreService) CreateSession(req CreateSessionRequest) (*Public
 	if len(req.Responses) == 0 {
 		return nil, errors.New("at least one response is required")
 	}
+	if req.ConsentVersion == "" {
+		return nil, errors.New("consentVersion is required (LGPD art. 8º §6º)")
+	}
 
+	now := time.Now().UTC()
 	session := &models.AnonymousScoreSession{
-		Age:           req.Age,
-		Gender:        req.Gender,
-		PostMenopause: req.PostMenopause,
-		Height:        req.Height,
-		Weight:        req.Weight,
+		Age:              req.Age,
+		Gender:           req.Gender,
+		PostMenopause:    req.PostMenopause,
+		Height:           req.Height,
+		Weight:           req.Weight,
+		ConsentVersion:   &req.ConsentVersion,
+		ConsentTimestamp: &now,
 	}
 
 	// Indexa respostas por ScoreItemID

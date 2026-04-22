@@ -260,7 +260,8 @@ func setupRoutes(
 	subscriptionPlanHandler := handlers.NewSubscriptionPlanHandler(subscriptionPlanService)
 	notificationHandler := handlers.NewNotificationHandler(notificationService)
 	scoreSnapshotHandler := handlers.NewScoreSnapshotHandler(scoreSnapshotService)
-	anonymousScoreHandler := handlers.NewAnonymousScoreHandler(anonymousScoreService, authService)
+	anonymousLabPDFService := services.NewAnonymousLabPDFService(database.DB, services.NewOCRService(), services.NewPDFTextCleaner(), aiService)
+	anonymousScoreHandler := handlers.NewAnonymousScoreHandler(anonymousScoreService, authService, anonymousLabPDFService)
 	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
 	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
 	labRequestHandler := handlers.NewLabRequestHandler(labRequestService, certificateService)
@@ -292,6 +293,8 @@ func setupRoutes(
 	scoreLight.Get("/sessions/:code", anonymousScoreHandler.GetSession)
 	scoreLight.Post("/sessions/:code/claim", anonymousScoreHandler.RequestClaim)
 	scoreLight.Post("/claim/confirm", anonymousScoreHandler.ConfirmClaim)
+	scoreLight.Post("/extract-labs", anonymousScoreHandler.ExtractLabsFromPDF)
+	scoreLight.Delete("/sessions/:code", anonymousScoreHandler.DeleteSession)
 	// Autenticada — área do paciente no EMR
 	scoreLight.Get("/my-sessions", middleware.Auth(cfg), anonymousScoreHandler.MySessions)
 

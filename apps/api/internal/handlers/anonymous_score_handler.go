@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"io"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -18,15 +19,90 @@ import (
 type AnonymousScoreHandler struct {
 	service     *services.AnonymousScoreService
 	authService *services.AuthService
+	pdfService  *services.AnonymousLabPDFService
 	validator   *validator.Validate
 }
 
-func NewAnonymousScoreHandler(service *services.AnonymousScoreService, authService *services.AuthService) *AnonymousScoreHandler {
+func NewAnonymousScoreHandler(
+	service *services.AnonymousScoreService,
+	authService *services.AuthService,
+	pdfService *services.AnonymousLabPDFService,
+) *AnonymousScoreHandler {
 	return &AnonymousScoreHandler{
 		service:     service,
 		authService: authService,
+		pdfService:  pdfService,
 		validator:   validator.New(),
 	}
+}
+
+// Tamanho máximo de upload: 10MB
+const maxLightPDFSize = 10 * 1024 * 1024
+
+// ExtractLabsFromPDF — endpoint público para extração de exames de PDF do Light.
+// Multipart/form-data com campo "pdf". Retorna LightLabExtractionResult.
+//
+// Operação síncrona (~8-15s). PDF não é persistido (LGPD).
+//
+// @Summary  Extrai exames de PDF para preencher itens do Escore Light
+// @Tags     score-light
+// @Accept   multipart/form-data
+// @Produce  json
+// @Param    pdf formData file true "PDF dos exames laboratoriais"
+// @Success  200 {object} services.LightLabExtractionResult
+// @Router   /score-light/extract-labs [post]
+func (h *AnonymousScoreHandler) ExtractLabsFromPDF(c *fiber.Ctx) error {
+	if h.pdfService == nil {
+		return c.Status(fiber.StatusServiceUnavailable).JSON(dto.ErrorResponse{
+			Error: "pdf extraction service not available",
+		})
+	}
+	fileHeader, err := c.FormFile("pdf")
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "missing file",
+			Message: "envie o PDF no campo 'pdf' (multipart/form-data)",
+		})
+	}
+	if fileHeader.Size > maxLightPDFSize {
+		return c.Status(fiber.StatusRequestEntityTooLarge).JSON(dto.ErrorResponse{
+			Error:   "file too large",
+			Message: "PDF deve ter no máximo 10MB",
+		})
+	}
+
+	src, err := fileHeader.Open()
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "failed to open file",
+			Message: err.Error(),
+		})
+	}
+	defer src.Close()
+	data, err := io.ReadAll(src)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "failed to read file",
+			Message: err.Error(),
+		})
+	}
+
+	tmpPath, err := services.SaveTempPDF(data)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to stage upload",
+			Message: err.Error(),
+		})
+	}
+
+	result, err := h.pdfService.ExtractFromPDF(tmpPath)
+	if err != nil {
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+			Error:   "extraction failed",
+			Message: err.Error(),
+		})
+	}
+	return c.JSON(result)
 }
 
 // GetConfig retorna a configuração completa do Escore Light (todos os items
@@ -199,6 +275,33 @@ func (h *AnonymousScoreHandler) ConfirmClaim(c *fiber.Ctx) error {
 		})
 	}
 	return c.JSON(result)
+}
+
+// DeleteSession — direito de eliminação (LGPD art. 18 VI).
+// Excluir uma sessão Light pelo publicCode. Quem tem o code é o owner.
+//
+// @Summary  Excluir uma sessão Light (LGPD direito de eliminação)
+// @Tags     score-light
+// @Produce  json
+// @Param    code path string true "Código público da sessão"
+// @Success  204
+// @Failure  404 {object} dto.ErrorResponse
+// @Router   /score-light/sessions/{code} [delete]
+func (h *AnonymousScoreHandler) DeleteSession(c *fiber.Ctx) error {
+	code := c.Params("code")
+	if code == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "code is required"})
+	}
+	if err := h.service.DeleteSessionByPublicCode(code); err != nil {
+		if err.Error() == "session not found" {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "session not found"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to delete session",
+			Message: err.Error(),
+		})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
 }
 
 // MySessions retorna todas as sessões claimed pelo paciente atual.

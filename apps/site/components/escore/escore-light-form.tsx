@@ -12,6 +12,9 @@ import { getGroupIcon } from './group-icons';
 import { ItemInstruction, getInstructionType } from './item-instructions';
 import { PHQ9Widget, PHQ9_ITEM_IDS } from './phq9-widget';
 import { NumericClassifierInput, isNumericClassifiable } from './numeric-classifier-input';
+import { LabPDFUpload } from './lab-pdf-upload';
+import type { LightLabMatch } from '@/lib/score-light/api';
+import { PRIVACY_POLICY_VERSION } from '@/lib/legal';
 
 type Demographics = {
   age: number | '';
@@ -105,6 +108,7 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
   const [responses, setResponses] = useState<ResponseMap>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [consentAccepted, setConsentAccepted] = useState(false);
 
   // Lista de grupos com items aplicáveis (filtragem dinâmica por demografia)
   const groupSteps = useMemo(() => {
@@ -248,6 +252,7 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
         height: typeof demo.height === 'number' ? demo.height : undefined,
         weight: typeof demo.weight === 'number' ? demo.weight : undefined,
         responses: validResponses,
+        consentVersion: PRIVACY_POLICY_VERSION,
       };
       const session = await createSession(payload);
       router.push(`/${locale}/escore-plenya/resultado/${session.publicCode}`);
@@ -364,8 +369,38 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
           <span>Não substitui consulta médica. É um ponto de partida para a conversa.</span>
         </li>
       </ul>
-      <div className="pt-6">
-        <button onClick={goNext} className="btn-gold">
+      {/* Consentimento LGPD obrigatório (art. 11 §1º — dados sensíveis exigem consentimento específico) */}
+      <div className="border border-petrol/15 bg-paper rounded-md p-5 mt-2">
+        <label className="flex gap-3 items-start cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={consentAccepted}
+            onChange={(e) => setConsentAccepted(e.target.checked)}
+            className="mt-1 w-4 h-4 accent-gold cursor-pointer"
+          />
+          <span className="text-petrol/80 text-sm leading-relaxed">
+            Li e aceito a{' '}
+            <a href={`/${locale}/privacidade`} target="_blank" rel="noopener noreferrer" className="text-gold underline underline-offset-4">
+              Política de Privacidade
+            </a>{' '}
+            e os{' '}
+            <a href={`/${locale}/termos`} target="_blank" rel="noopener noreferrer" className="text-gold underline underline-offset-4">
+              Termos de Uso
+            </a>. Entendo que estou compartilhando dados sobre minha saúde (categoria
+            sensível, art. 5º II da LGPD) para gerar uma autoavaliação anônima, que esta
+            ferramenta <strong>não é diagnóstico médico</strong>, e que posso solicitar a
+            exclusão dos meus dados a qualquer momento.
+          </span>
+        </label>
+      </div>
+
+      <div className="pt-2">
+        <button
+          onClick={goNext}
+          disabled={!consentAccepted}
+          className={`btn-gold ${!consentAccepted ? 'opacity-40 cursor-not-allowed' : ''}`}
+          title={!consentAccepted ? 'Aceite a Política e os Termos para começar' : undefined}
+        >
           Começar
         </button>
       </div>
@@ -469,6 +504,7 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
     if (!group) return null;
     const isLastGroup = groupSteps[groupSteps.length - 1].id === groupId;
     const GroupIcon = getGroupIcon(group.name);
+    const isLabsGroup = group.name === 'Exames';
     return (
       <div className="space-y-8 max-w-2xl">
         <div className="flex items-center gap-4">
@@ -480,6 +516,23 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
         <p className="text-petrol/60 text-sm">
           Todas opcionais — responda só o que souber ou quiser.
         </p>
+        {isLabsGroup && (
+          <LabPDFUpload
+            onExtracted={(matched: LightLabMatch[]) => {
+              // Injeta valores extraídos diretamente em responses
+              setResponses((prev) => {
+                const next = { ...prev };
+                for (const m of matched) {
+                  next[m.scoreItemId] = {
+                    scoreItemId: m.scoreItemId,
+                    numericValue: m.numericValue,
+                  };
+                }
+                return next;
+              });
+            }}
+          />
+        )}
         <div className="space-y-10">
           {group.items.map((item) => renderItemQuestion(item))}
         </div>

@@ -108,8 +108,9 @@ func (s *AIService) InterpretLabResult(
 		return "", fmt.Errorf("failed to read response body: %v", err)
 	}
 
-	// Debug: log resposta completa do Claude
-	fmt.Printf("🤖 Claude API Response (first 2000 chars): %s\n", string(bodyBytes[:min(2000, len(bodyBytes))]))
+	// LGPD: NÃO logar o body — pode conter valores de exames laboratoriais (dado sensível).
+	// Logamos apenas tamanho da resposta para debug operacional.
+	fmt.Printf("🤖 Claude API Response: %d bytes\n", len(bodyBytes))
 
 	if err := json.Unmarshal(bodyBytes, &apiResp); err != nil {
 		return "", fmt.Errorf("failed to decode response: %v", err)
@@ -123,9 +124,8 @@ func (s *AIService) InterpretLabResult(
 	// Extrair resultado do tool_use
 	for _, content := range apiResp.Content {
 		if content.Type == "tool_use" {
-			fmt.Printf("🔍 Tool use input (first 500 chars): %s\n", string(content.Input[:min(500, len(content.Input))]))
-
-			// Retornar JSON diretamente como string
+			// LGPD: NÃO logar o conteúdo extraído (contém valores de exames).
+			fmt.Printf("🔍 Tool use input: %d bytes\n", len(content.Input))
 			return string(content.Input), nil
 		}
 	}

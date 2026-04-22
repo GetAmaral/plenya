@@ -69,9 +69,11 @@ export function SiteFooter() {
       <div className="relative border-t border-cream/10">
         <div className="site-container py-6 flex flex-col md:flex-row justify-between gap-4 text-cream/40 text-xs">
           <span>© {year} {brand.legalName}. Todos os direitos reservados.</span>
-          <div className="flex gap-6">
+          <div className="flex gap-6 flex-wrap">
             <Link href="/privacidade" className="hover:text-cream/70 transition">{t('privacy')}</Link>
             <Link href="/termos" className="hover:text-cream/70 transition">{t('terms')}</Link>
+            <Link href="/lgpd/direitos" className="hover:text-cream/70 transition">Direitos LGPD</Link>
+            <Link href="/lgpd/encarregado" className="hover:text-cream/70 transition">Encarregado</Link>
           </div>
         </div>
       </div>

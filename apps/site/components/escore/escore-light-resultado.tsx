@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Link } from '@/lib/i18n/navigation';
 import { ScoreRadarChart } from './score-radar-chart';
-import { requestClaim } from '@/lib/score-light/api';
+import { requestClaim, deleteSession } from '@/lib/score-light/api';
 import type { PublicSession } from '@/lib/score-light/types';
 
 function scoreLabel(pct: number): string {
@@ -21,11 +22,28 @@ export function EscoreLightResultado({
   locale: string;
 }) {
   const snapshot = session.snapshot;
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [claimStatus, setClaimStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
     'idle'
   );
   const [claimError, setClaimError] = useState<string | null>(null);
+  const [deleteStatus, setDeleteStatus] = useState<'idle' | 'confirming' | 'deleting' | 'done' | 'error'>('idle');
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  async function handleDelete() {
+    setDeleteStatus('deleting');
+    setDeleteError(null);
+    try {
+      await deleteSession(session.publicCode);
+      setDeleteStatus('done');
+      // Redireciona para home após 2s
+      setTimeout(() => router.push(`/${locale}`), 2000);
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : 'Falha ao excluir');
+      setDeleteStatus('error');
+    }
+  }
 
   if (!snapshot) {
     return (
@@ -218,6 +236,80 @@ export function EscoreLightResultado({
               Conhecer o Continuum
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* LGPD — direito de eliminação (art. 18 VI) */}
+      <section className="bg-cream border-t border-petrol/10">
+        <div className="site-container section max-w-2xl">
+          <p className="label-upper text-petrol/45">LGPD · Seus direitos</p>
+          <h2 className="text-petrol text-xl mt-3">Quer apagar este resultado?</h2>
+          <p className="text-petrol/70 text-sm mt-3 leading-relaxed">
+            Você pode excluir esta sessão e todos os dados associados a ela a
+            qualquer momento. A exclusão é definitiva — não há como recuperar
+            depois. Para outros direitos (acesso, correção, portabilidade), use a{' '}
+            <Link href="/lgpd/direitos" className="text-gold underline underline-offset-4">
+              página de direitos LGPD
+            </Link>.
+          </p>
+
+          {deleteStatus === 'idle' && (
+            <button
+              type="button"
+              onClick={() => setDeleteStatus('confirming')}
+              className="mt-5 inline-block text-petrol/60 hover:text-red-700 text-sm underline underline-offset-4 transition"
+            >
+              Excluir esta sessão
+            </button>
+          )}
+
+          {deleteStatus === 'confirming' && (
+            <div className="mt-5 border border-red-200 bg-red-50 p-4 rounded-md space-y-3">
+              <p className="text-red-900 text-sm">
+                Tem certeza? Esta ação é definitiva e remove imediatamente seu
+                radar, suas respostas e qualquer dado associado a esta sessão.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="px-4 py-2 bg-red-700 text-cream rounded text-sm hover:bg-red-800 transition"
+                >
+                  Sim, excluir definitivamente
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDeleteStatus('idle')}
+                  className="px-4 py-2 border border-petrol/30 text-petrol rounded text-sm hover:bg-petrol/5 transition"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
+
+          {deleteStatus === 'deleting' && (
+            <p className="mt-5 text-petrol/70 text-sm">Excluindo…</p>
+          )}
+
+          {deleteStatus === 'done' && (
+            <div className="mt-5 border border-emerald-200 bg-emerald-50 p-4 rounded-md text-emerald-900 text-sm">
+              ✓ Sessão excluída. Você será redirecionado em alguns segundos.
+            </div>
+          )}
+
+          {deleteStatus === 'error' && deleteError && (
+            <div className="mt-5 border border-red-200 bg-red-50 p-4 rounded-md text-red-900 text-sm">
+              {deleteError}
+              <button
+                type="button"
+                onClick={() => setDeleteStatus('idle')}
+                className="ml-3 underline underline-offset-4"
+              >
+                tentar de novo
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </>

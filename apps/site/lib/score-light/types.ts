@@ -70,6 +70,8 @@ export type CreateSessionRequest = {
   height?: number;
   weight?: number;
   responses: SessionResponse[];
+  /** Versão da Política de Privacidade aceita pelo titular (LGPD art. 8º §6º). */
+  consentVersion: string;
 };
 
 // === Resposta pública (sem dados técnicos) ===
