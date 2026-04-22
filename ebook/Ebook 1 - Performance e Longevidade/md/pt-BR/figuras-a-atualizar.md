@@ -29,21 +29,9 @@ Todos os 12 arquivos PNG foram renomeados em `figuras/pt-BR/` em uma única pass
 
 Verificação: todas as 30 figuras referenciadas no texto atual estão cobertas pelos arquivos no disco, exceto as 2 figuras novas ainda pendentes de criação (ver abaixo).
 
-## Fig 1.1 — `Cap01 Fig01.PNG`
+## Fig 1.1 — `Cap01 Fig01.PNG` ✅ RESOLVIDO em 2026-04-22
 
-**Motivo:** os eixos estão rotulados com anos absolutos ("2021", "2026", "2028"). Isso faz o livro envelhecer mal — em 2–3 anos, os números de anos absolutos parecem datados.
-
-**Ação:** regerar a figura com rótulos relativos no eixo temporal.
-
-**Valores (mantidos):**
-- Ano −5: HbA1c 4,9%
-- Ano −2: HbA1c 5,2%
-- Hoje (Ano 0): HbA1c 5,4%
-- Projeção Ano +2: 5,7% (em linha tracejada)
-
-**Novos rótulos sugeridos para o eixo:** *"há 5 anos → há 2 anos → hoje → em 2 anos"* ou simplesmente *"Ano −5 | Ano −2 | Hoje | Ano +2"*.
-
-**Caption do capítulo já foi atualizada** para usar linguagem relativa.
+Regerada com eixo temporal relativo ("há 5 anos", "há 2 anos", "hoje", "em 2 anos") em vez de anos absolutos. Valores mantidos (4,9 → 5,2 → 5,4 → projeção 5,7). Fechamento da pendência original.
 
 ---
 
