@@ -302,11 +302,11 @@ Três faixas horizontais sobrepostas:
 
 ---
 
-### 8. `Cap13 Fig02.PNG` — Ricardo, três tempos do pilar I2
+### 8. `Cap13 Fig02.PNG` — Ricardo em três tempos
 
 **Título principal:** *"Os exames estão bons. Eu não estou."*
 
-**Subtítulo:** *"Ricardo, 18 meses após o infarto: pilar biológico em ordem, dimensão relacional em colapso. Intervenção no pilar I2 restaurou os dois lados."*
+**Subtítulo:** *"Ricardo, 18 meses após o infarto: painel biológico em ordem, dimensão relacional em colapso. O trabalho em conexão, propósito e sentido restaurou os dois lados."*
 
 **Tipo de gráfico:** timeline horizontal com 3 momentos e 5 marcadores não-bioquímicos + 2 bioquímicos de controle.
 

@@ -235,7 +235,7 @@ Os exames refletiam o que as conversas das consultas intermediárias tinham most
 
 Na conversa de fechamento, perguntei se alguma coisa ainda incomodava. Ele pensou. Disse que ainda tinha dias difíceis — a data do infarto, por exemplo, que tinha passado havia pouco, sempre trazia um tipo de sombra. Mas disse algo que me marcou: *"Doutor, eu achei que ia sair dessa história mais frágil. Eu acho que saí mais inteiro."*
 
-![Figura 13.2 — Ricardo, três tempos do pilar relacional e existencial. Linha do tempo horizontal com três momentos: T+18m pós-infarto (painel biológico OK, mas dimensão relacional-existencial em colapso), T+21m (intervenções iniciadas), T+30m (vida sexual restabelecida, vínculos reconectados, telas reguladas, propósito em mentoria, ritual laico, PCR 0,6 e cortisol 15). A tese visual: o pilar I2 move bioquímica quando o I1 sozinho não alcança.](../Cap13%20Fig02.PNG)
+![Figura 13.2 — Ricardo em três tempos. Linha do tempo horizontal com três momentos: T+18m pós-infarto (painel biológico OK, mas dimensão relacional-existencial em colapso), T+21m (intervenções iniciadas), T+30m (vida sexual restabelecida, vínculos reconectados, telas reguladas, propósito em mentoria, ritual laico, PCR 0,6 e cortisol 15). A tese visual: o trabalho em conexão, propósito e sentido move bioquímica quando o trabalho interno sozinho não alcança.](../Cap13%20Fig02.PNG)
 
 Essa era a medida que eu queria da consulta. Não mais inteiro no sentido do exame de sangue — isso já tinha acontecido havia muito. Mais inteiro no sentido do que as quatro letras do Método AGIR se propõem a produzir quando são trabalhadas juntas: uma vida que não termina no próximo evento cardiovascular, e que vale a pena por si mesma até lá.
 
@@ -259,4 +259,4 @@ Essa era a medida que eu queria da consulta. Não mais inteiro no sentido do exa
 
 ---
 
-> A integração mente-corpo opera no nível do sistema nervoso consciente — o que pensamos, com quem nos conectamos, para quê acordamos. Mas há outro sistema, ainda mais fundamental, que rege grande parte da biologia que discutimos em I1 e I2 e que opera em grande parte abaixo da consciência. Sem ele, nenhum dos outros pilares se sustenta. É o sistema que organiza o tempo dentro do corpo — e é o tema do próximo capítulo.
+> A integração mente-corpo opera no nível do sistema nervoso consciente — o que pensamos, com quem nos conectamos, para quê acordamos. Mas há outro sistema, ainda mais fundamental, que rege grande parte da biologia que discutimos nestes dois capítulos e que opera em grande parte abaixo da consciência. Sem ele, nenhum dos outros pilares se sustenta. É o sistema que organiza o tempo dentro do corpo — e é o tema do próximo capítulo.
