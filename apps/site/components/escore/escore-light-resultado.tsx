@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Link } from '@/lib/i18n/navigation';
 import { ScoreRadarChart } from './score-radar-chart';
-import { requestClaim, deleteSession } from '@/lib/score-light/api';
+import { requestClaim, deleteSession, exportSessionURL } from '@/lib/score-light/api';
 import type { PublicSession } from '@/lib/score-light/types';
 
 function scoreLabel(pct: number): string {
@@ -254,13 +254,22 @@ export function EscoreLightResultado({
           </p>
 
           {deleteStatus === 'idle' && (
-            <button
-              type="button"
-              onClick={() => setDeleteStatus('confirming')}
-              className="mt-5 inline-block text-petrol/60 hover:text-red-700 text-sm underline underline-offset-4 transition"
-            >
-              Excluir esta sessão
-            </button>
+            <div className="mt-5 flex flex-wrap gap-6 items-center">
+              <a
+                href={exportSessionURL(session.publicCode)}
+                download
+                className="text-petrol/70 hover:text-petrol text-sm underline underline-offset-4 transition"
+              >
+                Baixar meus dados (JSON)
+              </a>
+              <button
+                type="button"
+                onClick={() => setDeleteStatus('confirming')}
+                className="text-petrol/60 hover:text-red-700 text-sm underline underline-offset-4 transition"
+              >
+                Excluir esta sessão
+              </button>
+            </div>
           )}
 
           {deleteStatus === 'confirming' && (

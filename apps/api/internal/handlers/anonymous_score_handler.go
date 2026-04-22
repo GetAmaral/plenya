@@ -277,6 +277,36 @@ func (h *AnonymousScoreHandler) ConfirmClaim(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
+// ExportSession — direito de portabilidade (LGPD art. 18 V).
+// Retorna a sessão completa em JSON estruturado para o titular baixar.
+//
+// @Summary  Exportar sessão Light em JSON (LGPD portabilidade)
+// @Tags     score-light
+// @Produce  json
+// @Param    code path string true "Código público da sessão"
+// @Success  200
+// @Failure  404 {object} dto.ErrorResponse
+// @Router   /score-light/sessions/{code}/export [get]
+func (h *AnonymousScoreHandler) ExportSession(c *fiber.Ctx) error {
+	code := c.Params("code")
+	if code == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "code is required"})
+	}
+	export, err := h.service.ExportSessionByPublicCode(code)
+	if err != nil {
+		if err.Error() == "session not found" {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "session not found"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to export session",
+			Message: err.Error(),
+		})
+	}
+	// Sugere ao browser baixar como arquivo
+	c.Set("Content-Disposition", `attachment; filename="escore-light-`+code+`.json"`)
+	return c.JSON(export)
+}
+
 // DeleteSession — direito de eliminação (LGPD art. 18 VI).
 // Excluir uma sessão Light pelo publicCode. Quem tem o code é o owner.
 //

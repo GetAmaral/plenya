@@ -72,6 +72,11 @@ export type LightLabExtractionResult = {
   warnings?: string[];
 };
 
+/** URL de download da sessão em JSON (LGPD portabilidade — art. 18 V). */
+export function exportSessionURL(code: string): string {
+  return `${apiBase}/api/v1/score-light/sessions/${encodeURIComponent(code)}/export`;
+}
+
 export async function deleteSession(code: string): Promise<void> {
   const res = await fetch(`${apiBase}/api/v1/score-light/sessions/${encodeURIComponent(code)}`, {
     method: 'DELETE',

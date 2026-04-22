@@ -30,8 +30,9 @@ export default async function DPOPage({ params }: { params: Promise<{ locale: st
         <div className="site-narrow section space-y-10 text-petrol/85 text-base leading-relaxed">
 
           <div className="border border-petrol/15 bg-paper p-6 rounded-md">
-            <p className="label-upper text-gold mb-3 text-[10px]">Encarregado (DPO)</p>
-            <p className="heading-section text-petrol text-2xl mb-2">{LEGAL_CONTACT.dpoName}</p>
+            <p className="label-upper text-gold mb-3 text-[10px]">{LEGAL_CONTACT.dpoTitle}</p>
+            <p className="heading-section text-petrol text-2xl mb-1">{LEGAL_CONTACT.dpoName}</p>
+            <p className="text-petrol/60 text-sm mb-3">Médico responsável e Encarregado de Proteção de Dados da Plenya</p>
             <p>
               Email: <a href={`mailto:${LEGAL_CONTACT.dpoEmail}`} className="text-gold underline underline-offset-4">{LEGAL_CONTACT.dpoEmail}</a>
             </p>

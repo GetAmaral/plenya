@@ -293,8 +293,11 @@ func setupRoutes(
 	scoreLight.Get("/sessions/:code", anonymousScoreHandler.GetSession)
 	scoreLight.Post("/sessions/:code/claim", anonymousScoreHandler.RequestClaim)
 	scoreLight.Post("/claim/confirm", anonymousScoreHandler.ConfirmClaim)
-	scoreLight.Post("/extract-labs", anonymousScoreHandler.ExtractLabsFromPDF)
+	// Rate limit para extração de PDF: 10 uploads/hora por IP (DPIA recomendação)
+	pdfUploadLimiter := middleware.NewIPRateLimiter(10, time.Hour)
+	scoreLight.Post("/extract-labs", pdfUploadLimiter.Middleware(), anonymousScoreHandler.ExtractLabsFromPDF)
 	scoreLight.Delete("/sessions/:code", anonymousScoreHandler.DeleteSession)
+	scoreLight.Get("/sessions/:code/export", anonymousScoreHandler.ExportSession)
 	// Autenticada — área do paciente no EMR
 	scoreLight.Get("/my-sessions", middleware.Auth(cfg), anonymousScoreHandler.MySessions)
 

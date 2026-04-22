@@ -9,9 +9,9 @@ export const TERMS_VERSION = '2026-04-22.1';
 
 export const LEGAL_CONTACT = {
   dpoEmail: 'dpo@plenyasaude.com.br',
-  dpoName: 'Encarregado de Proteção de Dados — Plenya',
+  dpoName: 'Dr. Getúlio Amaral',
+  dpoTitle: 'Encarregado de Proteção de Dados (DPO)',
   controllerName: 'Plenya Saúde Ltda.',
   controllerEmail: 'contato@plenyasaude.com.br',
-  // Endereço deve ser preenchido com o endereço da clínica
-  controllerAddress: 'Londrina/PR, Brasil',
+  controllerAddress: 'Rua Duque de Caxias, 1371 — Londrina/PR, Brasil',
 } as const;

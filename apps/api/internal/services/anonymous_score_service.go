@@ -412,6 +412,60 @@ type SessionResponseDTO struct {
 	TextValue     *string   `json:"textValue,omitempty"`
 }
 
+// ExportSessionByPublicCode — exporta sessão completa em formato JSON estruturado
+// para o titular (LGPD art. 18 V — portabilidade dos dados).
+// Retorna a sessão com TODAS as respostas, snapshot, group results e metadados
+// (incluindo registro de consentimento). Sem dependência de outros serviços.
+func (s *AnonymousScoreService) ExportSessionByPublicCode(publicCode string) (map[string]interface{}, error) {
+	if publicCode == "" {
+		return nil, errors.New("publicCode is required")
+	}
+	var session models.AnonymousScoreSession
+	if err := s.db.
+		Preload("Items").
+		Preload("Snapshot").
+		Preload("Snapshot.GroupResults").
+		Where("public_code = ?", publicCode).
+		First(&session).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("session not found")
+		}
+		return nil, fmt.Errorf("failed to load session: %w", err)
+	}
+
+	export := map[string]interface{}{
+		"_meta": map[string]interface{}{
+			"exportType":      "LGPD-portability",
+			"exportVersion":   "1.0",
+			"exportedAt":      time.Now().UTC(),
+			"format":          "json",
+			"controller":      "Plenya Saúde Ltda.",
+			"controllerEmail": "contato@plenyasaude.com.br",
+			"dpoEmail":        "dpo@plenyasaude.com.br",
+		},
+		"session": map[string]interface{}{
+			"publicCode":       session.PublicCode,
+			"createdAt":        session.CreatedAt,
+			"expiresAt":        session.ExpiresAt,
+			"isClaimed":        session.ClaimedByPatientID != nil,
+			"claimedAt":        session.ClaimedAt,
+			"email":            session.Email,
+			"consentVersion":   session.ConsentVersion,
+			"consentTimestamp": session.ConsentTimestamp,
+		},
+		"demographics": map[string]interface{}{
+			"age":           session.Age,
+			"gender":        session.Gender,
+			"postMenopause": session.PostMenopause,
+			"height":        session.Height,
+			"weight":        session.Weight,
+		},
+		"responses": session.Items,
+		"snapshot":  session.Snapshot,
+	}
+	return export, nil
+}
+
 // DeleteSessionByPublicCode — exclui completamente uma AnonymousScoreSession
 // (e em cascade os Items e Snapshot). Usado pelo direito do titular de eliminação
 // (LGPD art. 18 VI). Não exige autenticação — quem tem o publicCode é o owner.
