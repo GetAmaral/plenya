@@ -144,7 +144,7 @@ O livro foi reestruturado para alinhar com a arquitetura pública do Método AGI
 |---|---|---|
 | **A** — Atividade Física, Alimentação e Suplementação Inteligente | 7, 8 | Treino; alimentação + suplementação + camada visível (pele/cabelo/unhas com posicionamento sobre PFS) |
 | **G** — Gestão Clínica e Metabólica | 9, 10, 11 | Sistemas cardio-reno-hepático-metabólicos; painéis bioquímicos e hormônios; genômica, epigenética e exposições |
-| **I** — Integração Mente-Corpo | 12, 13 | I1: mente individual (avaliação, regulação, função cognitiva); I2: conexão, propósito e sentido |
+| **I** — Integração Mente-Corpo | 12, 13 | Mente individual (avaliação, regulação, função cognitiva); conexão, propósito e sentido |
 | **R** — Ritmo Circadiano e Repouso | 14 | Sono, cronobiologia, apneia |
 
 As Partes IV (Placar + Especialista) e V (Manifesto + Referências) ocupam os Caps 15–18.

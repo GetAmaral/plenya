@@ -1,8 +1,8 @@
 ---
 id: 07
 language: pt-BR
-title: "A1: Atividade Física — O Medicamento Mais Poderoso Que Existe"
-title_en_suggested: "A1: Physical Activity and Body Composition"
+title: "Atividade Física — O Medicamento Mais Poderoso Que Existe"
+title_en_suggested: "Physical Activity — The Most Powerful Medicine There Is"
 translation_status: source
 last_reviewed: 2026-04-21
 figures:
@@ -11,7 +11,9 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 7 — A1: Atividade Física — O Medicamento Mais Poderoso Que Existe
+***Pilar A — Atividade Física, Alimentação e Suplementação Inteligente***
+
+## Capítulo 7 — Atividade Física — O Medicamento Mais Poderoso Que Existe
 
 No final do Capítulo 5, com o painel completo de Marcos em mãos — CAC de 412, ApoB de 82, insulina de 11, PCR de 1,6 —, ajustamos a estratégia: intensificamos a estatina, adicionamos ezetimiba, e começamos a monitorar a cada três meses. Mas a farmacologia era apenas uma parte do plano. A frase que usei na consulta foi: *"A medicação vai cuidar do ApoB. Agora precisamos cuidar de tudo que a medicação não alcança."*
 

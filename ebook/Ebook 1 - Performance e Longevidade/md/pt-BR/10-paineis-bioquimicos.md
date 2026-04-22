@@ -1,8 +1,8 @@
 ---
 id: 10
 language: pt-BR
-title: "G2: Painéis Bioquímicos e Hormônios"
-title_en_suggested: "G2: Biochemistry and Hormone Panels"
+title: "Painéis Bioquímicos e Hormônios — O Que o Sangue Conta Antes do Sintoma"
+title_en_suggested: "Biochemical and Hormonal Panels — What Blood Says Before Symptoms"
 translation_status: source
 last_reviewed: 2026-04-21
 figures:
@@ -12,7 +12,9 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 10 — G2: Painéis Bioquímicos e Hormônios — O Que o Sangue Conta Antes de o Sintoma Chegar
+***Pilar G — Gestão Clínica e Metabólica***
+
+## Capítulo 10 — Painéis Bioquímicos e Hormônios — O Que o Sangue Conta Antes do Sintoma
 
 Paulo tinha 48 anos quando entrou no consultório pela primeira vez. Executivo de uma empresa de tecnologia, dois filhos, casado há vinte anos, treinava musculação quatro vezes por semana. Não tinha queixas específicas. *"Estou bem, só quero entender se estou otimizado."* Foi exatamente essa a palavra que ele usou.
 

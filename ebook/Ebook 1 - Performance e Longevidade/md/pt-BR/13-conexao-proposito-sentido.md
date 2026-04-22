@@ -1,8 +1,8 @@
 ---
 id: 13
 language: pt-BR
-title: "I2: Conexão, Propósito e Sentido — O Corpo Estendido ao Mundo"
-title_en_suggested: "T2: Connection, Purpose, Meaning"
+title: "Conexão, Propósito e Sentido — O Corpo Estendido ao Mundo"
+title_en_suggested: "Connection, Purpose and Meaning — The Body Extended into the World"
 translation_status: source
 last_reviewed: 2026-04-21
 figures:
@@ -12,7 +12,9 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 13 — I2: Conexão, Propósito e Sentido — O Corpo Estendido ao Mundo
+***Pilar I — Integração Mente-Corpo***
+
+## Capítulo 13 — Conexão, Propósito e Sentido — O Corpo Estendido ao Mundo
 
 Ricardo voltou ao consultório dezoito meses depois do infarto.
 

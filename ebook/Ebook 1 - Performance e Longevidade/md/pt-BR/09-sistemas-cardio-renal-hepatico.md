@@ -1,8 +1,8 @@
 ---
 id: 09
 language: pt-BR
-title: "G1: Sistemas — Cardiovascular, Renal, Hepático e Metabólico"
-title_en_suggested: "G1: Systems — Cardiovascular, Renal, Hepatic, Metabolic"
+title: "Sistemas — Coração, Rim, Fígado e Metabolismo como um Só"
+title_en_suggested: "Systems — Heart, Kidney, Liver and Metabolism as One"
 translation_status: source
 last_reviewed: 2026-04-21
 figures:
@@ -10,7 +10,9 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 9 — G1: Sistemas — Coração, Rim, Fígado e Metabolismo como um Só
+***Pilar G — Gestão Clínica e Metabólica***
+
+## Capítulo 9 — Sistemas — Coração, Rim, Fígado e Metabolismo como um Só
 
 A gestão clínica e metabólica é a parte do Método AGIR em que o paciente não pode fazer sozinho. Aqui entram a farmacologia guiada por biomarcadores, a leitura integrada dos sistemas e a lógica de medicina iterativa — testar, intervir, retestar, ajustar. É a parte do trabalho em que o médico deixa de ser conselheiro de estilo de vida e passa a ser piloto de um painel de dados.
 

@@ -1,8 +1,8 @@
 ---
 id: 08
 language: pt-BR
-title: "A2: Alimentação, Suplementação e a Camada Visível"
-title_en_suggested: "A2: Nutrition, Supplementation and the Visible Layer"
+title: "Alimentação, Suplementação e a Camada Visível"
+title_en_suggested: "Nutrition, Supplementation and the Visible Layer"
 translation_status: source
 last_reviewed: 2026-04-21
 figures:
@@ -11,7 +11,9 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 8 — A2: Alimentação, Suplementação e a Camada Visível
+***Pilar A — Atividade Física, Alimentação e Suplementação Inteligente***
+
+## Capítulo 8 — Alimentação, Suplementação e a Camada Visível
 
 O capítulo anterior tratou do primeiro motor do pilar A — o exercício. Este capítulo cobre os dois outros motores que o exercício precisa para funcionar de verdade: a alimentação, que é combustível e informação ao mesmo tempo, e a suplementação inteligente, que corrige o que o laboratório mostra que falta. E fecha com uma camada que a medicina preventiva brasileira quase sempre ignora — a superfície do corpo, pele, cabelo e unhas —, porque é onde o paciente mais sofre e onde o mercado mais explora.
 

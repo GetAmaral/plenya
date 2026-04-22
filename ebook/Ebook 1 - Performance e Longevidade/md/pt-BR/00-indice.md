@@ -45,23 +45,23 @@
 
 **Pilar A — Atividade Física, Alimentação e Suplementação Inteligente**
 
-- [Capítulo 7 — A1: Atividade Física — O Medicamento Mais Poderoso Que Existe](07-atividade-fisica.md)
-- [Capítulo 8 — A2: Alimentação, Suplementação e a Camada Visível](08-alimentacao-suplementacao.md)
+- [Capítulo 7 — Atividade Física — O Medicamento Mais Poderoso Que Existe](07-atividade-fisica.md)
+- [Capítulo 8 — Alimentação, Suplementação e a Camada Visível](08-alimentacao-suplementacao.md)
 
 **Pilar G — Gestão Clínica e Metabólica**
 
-- [Capítulo 9 — G1: Sistemas — Coração, Rim, Fígado e Metabolismo como um Só](09-sistemas-cardio-renal-hepatico.md)
-- [Capítulo 10 — G2: Painéis Bioquímicos e Hormônios — O Que o Sangue Conta Antes do Sintoma](10-paineis-bioquimicos.md)
-- [Capítulo 11 — G3: Genômica, Epigenética e Exposições Ambientais](11-genomica-exposicoes.md)
+- [Capítulo 9 — Sistemas — Coração, Rim, Fígado e Metabolismo como um Só](09-sistemas-cardio-renal-hepatico.md)
+- [Capítulo 10 — Painéis Bioquímicos e Hormônios — O Que o Sangue Conta Antes do Sintoma](10-paineis-bioquimicos.md)
+- [Capítulo 11 — Genômica, Epigenética e Exposições — O Que o Ambiente Faz com o que o Gene Carrega](11-genomica-exposicoes.md)
 
 **Pilar I — Integração Mente-Corpo**
 
-- [Capítulo 12 — I1: Mente Individual — O Trabalho Que Só Você Faz](12-integracao-mente-corpo.md)
-- [Capítulo 13 — I2: Conexão, Propósito e Sentido — O Corpo Estendido ao Mundo](13-conexao-proposito-sentido.md)
+- [Capítulo 12 — Mente Individual — O Trabalho Que Só Você Faz](12-integracao-mente-corpo.md)
+- [Capítulo 13 — Conexão, Propósito e Sentido — O Corpo Estendido ao Mundo](13-conexao-proposito-sentido.md)
 
 **Pilar R — Ritmo Circadiano e Repouso**
 
-- [Capítulo 14 — R: Ritmo Circadiano e Repouso — O Maestro Invisível](14-ritmo-circadiano-e-repouso.md)
+- [Capítulo 14 — Ritmo Circadiano e Repouso — O Maestro Invisível](14-ritmo-circadiano-e-repouso.md)
 
 ### PARTE IV — O PLANO
 

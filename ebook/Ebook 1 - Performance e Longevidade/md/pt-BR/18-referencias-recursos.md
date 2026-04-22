@@ -230,7 +230,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 12 — I1: Mente Individual
+### Capítulo 12 — Mente Individual
 
 **Psiconeuroimunologia:**
 
@@ -290,7 +290,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 ---
 
-### Capítulo 13 — I2: Conexão, Propósito e Sentido
+### Capítulo 13 — Conexão, Propósito e Sentido
 
 **Vínculos sociais e longevidade:**
 

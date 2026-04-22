@@ -1,8 +1,8 @@
 ---
 id: 14
 language: pt-BR
-title: "R: Ritmo Circadiano e Repouso"
-title_en_suggested: "S: Sleep & Circadian Rhythm"
+title: "Ritmo Circadiano e Repouso — O Maestro Invisível"
+title_en_suggested: "Circadian Rhythm and Rest — The Invisible Conductor"
 translation_status: source
 last_reviewed: 2026-04-21
 figures:
@@ -11,7 +11,9 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 14 — R: Ritmo Circadiano e Repouso — O Maestro Invisível
+***Pilar R — Ritmo Circadiano e Repouso***
+
+## Capítulo 14 — Ritmo Circadiano e Repouso — O Maestro Invisível
 
 Paulo voltou ao consultório dezoito meses depois da primeira consulta. Como vimos nos Capítulos 10 e 11, aos 48 anos ele tinha chegado com testosterona total de 310, livre de 4,8, pedindo apenas "otimização". Nos seis meses seguintes, sem reposição hormonal, tínhamos recuperado boa parte do painel — testosterona total em 485, livre em 11,2, vitamina D em 58, PCR em 0,9, idade epigenética desacelerando dois anos. O retorno seguinte, aos doze meses, mantinha o ganho. Tudo parecia bem.
 

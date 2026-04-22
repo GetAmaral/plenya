@@ -1,8 +1,8 @@
 ---
 id: 11
 language: pt-BR
-title: "G3: Genômica, Epigenética e Exposições Ambientais"
-title_en_suggested: "G3: Genomics, Epigenetics and Environmental Exposures"
+title: "Genômica, Epigenética e Exposições — O Que o Ambiente Faz com o que o Gene Carrega"
+title_en_suggested: "Genomics, Epigenetics and Exposures — What the Environment Does with What the Gene Carries"
 translation_status: source
 last_reviewed: 2026-04-21
 figures:
@@ -11,7 +11,9 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 11 — G3: Genômica, Epigenética e Exposições — O Que o Ambiente Faz com o que o Gene Carrega
+***Pilar G — Gestão Clínica e Metabólica***
+
+## Capítulo 11 — Genômica, Epigenética e Exposições — O Que o Ambiente Faz com o que o Gene Carrega
 
 Paulo, do capítulo anterior, saiu do consultório com um plano concreto para sono, vitamina D e treino de força. Em seis meses, o painel hormonal mudou sem precisar de reposição. Mas ficou uma pergunta no ar, daquelas que todo paciente atento acaba fazendo cedo ou tarde. *"Doutor, e o que eu não consigo ver nem mudar? Os meus genes? O que estou respirando e comendo sem saber?"*
 

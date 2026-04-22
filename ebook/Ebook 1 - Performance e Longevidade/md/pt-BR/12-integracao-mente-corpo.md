@@ -1,8 +1,8 @@
 ---
 id: 12
 language: pt-BR
-title: "I1: Mente Individual — O Trabalho Que Só Você Faz"
-title_en_suggested: "T1: The Inner Work"
+title: "Mente Individual — O Trabalho Que Só Você Faz"
+title_en_suggested: "The Inner Work — What Only You Can Do"
 translation_status: source
 last_reviewed: 2026-04-21
 figures:
@@ -12,7 +12,9 @@ figures:
 ---
 # PARTE III — O MÉTODO AGIR
 
-## Capítulo 12 — I1: Mente Individual — O Trabalho Que Só Você Faz
+***Pilar I — Integração Mente-Corpo***
+
+## Capítulo 12 — Mente Individual — O Trabalho Que Só Você Faz
 
 Ana tinha 44 anos quando voltou ao consultório pela sexta consulta de acompanhamento. Arquiteta, sócia de um escritório, casada, dois filhos de 8 e 11 anos. Tinha chegado dezoito meses antes decidida a otimizar tudo o que pudesse ser otimizado. E ela fez.
 
