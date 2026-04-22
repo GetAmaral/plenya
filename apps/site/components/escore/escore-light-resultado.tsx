@@ -75,7 +75,7 @@ export function EscoreLightResultado({
         <div className="site-container pt-32 pb-20 md:pt-40 md:pb-24 max-w-3xl">
           <p className="label-upper text-gold">Seu Escore Plenya Light</p>
           <p className="text-cream/60 text-sm mt-6">Pontuação geral</p>
-          <div className="flex items-baseline gap-3 mt-2">
+          <div className="flex items-baseline gap-3 mt-2 whitespace-nowrap">
             <span className="text-7xl md:text-8xl font-light text-cream tabular-nums">
               {Math.round(totalPct)}
             </span>
@@ -133,11 +133,11 @@ export function EscoreLightResultado({
                       {g.itemsEvaluatedCount} {g.itemsEvaluatedCount === 1 ? 'item' : 'itens'}
                     </p>
                   </div>
-                  <div className="text-right">
-                    <span className="heading-section text-petrol text-2xl tabular-nums">
+                  <div className="text-right whitespace-nowrap">
+                    <span className="text-petrol text-3xl font-light tabular-nums">
                       {Math.round(g.scorePercentage)}
                     </span>
-                    <span className="text-petrol/50">/ 100</span>
+                    <span className="text-petrol/50 text-base ml-1">/ 100</span>
                   </div>
                 </div>
               ))}

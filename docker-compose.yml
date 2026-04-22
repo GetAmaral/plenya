@@ -48,7 +48,7 @@ services:
       - JWT_ACCESS_EXPIRY=15m
       - JWT_REFRESH_EXPIRY=168h
       - ENCRYPTION_KEY=dev_plenya_emr_2026_change_prod!
-      - CORS_ORIGIN=http://localhost:3000
+      - CORS_ORIGIN=http://localhost:3000,http://localhost:3002
       - RATE_LIMIT_REQUESTS=100
       - RATE_LIMIT_WINDOW=60
       - CLAUDE_API_KEY=${CLAUDE_API_KEY:-your_claude_api_key_here}
@@ -120,6 +120,7 @@ services:
       - NEXT_PUBLIC_SITE_URL=http://localhost:3002
       - NEXT_PUBLIC_APP_URL=http://localhost:3000
       - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - INTERNAL_API_URL=http://api:3001
       - NEXT_PUBLIC_PLAUSIBLE_DOMAIN=plenyasaude.com.br
       - NEXT_PUBLIC_WHATSAPP_NUMBER=5543999999999
       - NODE_ENV=development

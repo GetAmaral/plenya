@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type {
   LightConfig,
@@ -100,54 +100,47 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
     });
   };
 
-  const scrollToTop = () => {
+  // Scroll ao topo sempre que o step mudar (mais robusto que chamar manualmente
+  // em cada handler — garante que o scroll roda APÓS o render do novo conteúdo).
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
+  }, [step]);
 
   const goNext = () => {
     if (step === STEP_INTRO) {
       setStep(STEP_DEMO);
-      scrollToTop();
       return;
     }
     if (step === STEP_DEMO) {
-      if (groupSteps[0]) {
-        setStep(groupSteps[0].id);
-        scrollToTop();
-      } else {
-        void submit();
-      }
+      if (groupSteps[0]) setStep(groupSteps[0].id);
+      else void submit();
       return;
     }
     const idx = groupSteps.findIndex((g) => g.id === step);
     const next = groupSteps[idx + 1];
-    if (next) {
-      setStep(next.id);
-      scrollToTop();
-    } else {
-      void submit();
-    }
+    if (next) setStep(next.id);
+    else void submit();
   };
 
   const goBack = () => {
     if (step === STEP_DEMO) {
       setStep(STEP_INTRO);
-      scrollToTop();
       return;
     }
     const idx = groupSteps.findIndex((g) => g.id === step);
     if (idx === 0) {
       setStep(STEP_DEMO);
-      scrollToTop();
       return;
     }
     const prev = groupSteps[idx - 1];
-    if (prev) {
-      setStep(prev.id);
-      scrollToTop();
-    }
+    if (prev) setStep(prev.id);
+  };
+
+  /** Navegação direta para um grupo (via clique na barra de progresso). */
+  const goToGroup = (groupId: string) => {
+    setStep(groupId);
   };
 
   const demoIsValid = useMemo(() => {
@@ -201,18 +194,81 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
 
   // === Renderers ===
 
-  const renderProgress = () => (
-    <div className="flex items-center gap-2 mb-12">
-      {Array.from({ length: totalSteps }).map((_, i) => (
-        <span
-          key={i}
-          className={`h-1.5 w-8 rounded-full transition-all ${
-            i <= currentStepIndex ? 'bg-gold' : 'bg-petrol/15'
-          }`}
-        />
-      ))}
-    </div>
-  );
+  type IconType = ReturnType<typeof getGroupIcon>;
+  const renderProgress = () => {
+    type ProgressDot = {
+      key: string;
+      label: string;
+      reached: boolean;
+      onClick?: () => void;
+      Icon?: IconType;
+    };
+
+    const dots: ProgressDot[] = [
+      { key: 'intro', label: 'Início', reached: currentStepIndex >= 0 },
+      { key: 'demo', label: 'Sobre você', reached: currentStepIndex >= 1, onClick: () => setStep(STEP_DEMO) },
+      ...groupSteps.map((g, i) => ({
+        key: g.id,
+        label: g.name,
+        reached: currentStepIndex >= 2 + i,
+        onClick: () => goToGroup(g.id),
+        Icon: getGroupIcon(g.name),
+      })),
+    ];
+
+    return (
+      <div className="flex items-center gap-1.5 mb-12 flex-wrap">
+        {dots.map((d) => {
+          const isCurrent =
+            (d.key === 'intro' && step === STEP_INTRO) ||
+            (d.key === 'demo' && step === STEP_DEMO) ||
+            d.key === step;
+          const Icon = d.Icon;
+          return (
+            <button
+              key={d.key}
+              type="button"
+              onClick={d.onClick}
+              disabled={!d.onClick}
+              title={d.label}
+              aria-label={d.label}
+              aria-current={isCurrent ? 'step' : undefined}
+              className={`group relative inline-flex items-center justify-center transition ${
+                d.onClick ? 'cursor-pointer' : 'cursor-default'
+              }`}
+            >
+              {Icon ? (
+                <span
+                  className={`inline-flex items-center justify-center h-7 w-7 rounded-full border transition ${
+                    isCurrent
+                      ? 'bg-gold text-cream border-gold'
+                      : d.reached
+                      ? 'bg-gold/20 text-gold border-gold/40 hover:bg-gold/30'
+                      : 'bg-paper text-petrol/30 border-petrol/15'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" strokeWidth={2} />
+                </span>
+              ) : (
+                <span
+                  className={`block h-1.5 w-7 rounded-full transition ${
+                    isCurrent ? 'bg-gold' : d.reached ? 'bg-gold/60' : 'bg-petrol/15'
+                  }`}
+                />
+              )}
+              {/* Tooltip ao passar o mouse */}
+              <span
+                role="tooltip"
+                className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-petrol text-cream text-[11px] rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-lg"
+              >
+                {d.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
 
   const renderIntro = () => (
     <div className="space-y-8 max-w-2xl">

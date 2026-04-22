@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   transpilePackages: ['@plenya/brand'],
+  // Expose server-only env (Turbopack filtra process.env não-NEXT_PUBLIC_ no Server Components).
+  // INTERNAL_API_URL aponta pro nome do serviço Docker quando rodando em container,
+  // pra evitar que SSR tente alcançar localhost (que é o próprio container, não o host).
+  env: {
+    INTERNAL_API_URL: process.env.INTERNAL_API_URL ?? 'http://api:3001',
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [

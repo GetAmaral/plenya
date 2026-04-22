@@ -76,38 +76,93 @@ export function placeholderFor(item: LightItemConfig): string {
   return 'Valor numérico';
 }
 
-/** Classifica um valor numérico contra os levels do item. Retorna o level matchado ou null. */
+/**
+ * Classifica um valor numérico contra os levels do item.
+ *
+ * Estratégia em duas passadas:
+ * 1) Match exato: percorre levels (ASC, worst → best) e retorna o primeiro
+ *    cujo intervalo contenha o valor.
+ * 2) Fallback "nearest-range": se nenhum level cobrir exatamente o valor
+ *    (gaps de borda decimal, faixas U-shape com lacunas), calcula a
+ *    distância do valor a cada level e retorna o mais próximo.
+ *
+ * Isso garante que QUALQUER valor numérico válido recebe uma
+ * classificação — eliminando "fora da faixa" causados por
+ * imprecisão de configuração nos limites.
+ */
 export function classifyNumeric(
   value: number,
   levels: LightLevelConfig[],
 ): LightLevelConfig | null {
-  // Ordena por level ASC (worst → best) para que ">=" mais extremo seja avaliado primeiro
+  if (!levels || levels.length === 0) return null;
   const sorted = [...levels].sort((a, b) => a.level - b.level);
+
+  // 1) Match exato
   for (const lv of sorted) {
-    const lo = lv.lowerLimit ? Number(lv.lowerLimit) : null;
-    const hi = lv.upperLimit ? Number(lv.upperLimit) : null;
-    switch (lv.operator) {
-      case '=':
-        if (lo !== null && value === lo) return lv;
-        break;
-      case '>':
-        if (lo !== null && value > lo) return lv;
-        break;
-      case '>=':
-        if (lo !== null && value >= lo) return lv;
-        break;
-      case '<':
-        if (lo !== null && value < lo) return lv;
-        break;
-      case '<=':
-        if (lo !== null && value <= lo) return lv;
-        break;
-      case 'between':
-        if (lo !== null && hi !== null && value >= lo && value <= hi) return lv;
-        break;
+    if (matchesLevel(value, lv)) return lv;
+  }
+
+  // 2) Fallback: nearest range
+  let best: { lv: LightLevelConfig; dist: number } | null = null;
+  for (const lv of sorted) {
+    const d = distanceToLevel(value, lv);
+    if (d === null) continue;
+    if (best === null || d < best.dist) {
+      best = { lv, dist: d };
     }
   }
-  return null;
+  return best?.lv ?? null;
+}
+
+function matchesLevel(value: number, lv: LightLevelConfig): boolean {
+  const lo = lv.lowerLimit !== undefined && lv.lowerLimit !== '' ? Number(lv.lowerLimit) : null;
+  const hi = lv.upperLimit !== undefined && lv.upperLimit !== '' ? Number(lv.upperLimit) : null;
+  switch (lv.operator) {
+    case '=':
+      return lo !== null && value === lo;
+    case '>':
+      return lo !== null && value > lo;
+    case '>=':
+      return lo !== null && value >= lo;
+    case '<':
+      return lo !== null && value < lo;
+    case '<=':
+      return lo !== null && value <= lo;
+    case 'between':
+      return lo !== null && hi !== null && value >= lo && value <= hi;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Distância (não-negativa) entre `value` e o intervalo do `lv`.
+ * 0 = valor está dentro do intervalo. Quanto maior, mais longe.
+ * Retorna null se o level não tem limites numéricos válidos.
+ */
+function distanceToLevel(value: number, lv: LightLevelConfig): number | null {
+  const lo = lv.lowerLimit !== undefined && lv.lowerLimit !== '' ? Number(lv.lowerLimit) : null;
+  const hi = lv.upperLimit !== undefined && lv.upperLimit !== '' ? Number(lv.upperLimit) : null;
+  if (lo === null && hi === null) return null;
+  switch (lv.operator) {
+    case '=':
+      return lo === null ? null : Math.abs(value - lo);
+    case '>':
+    case '>=':
+      // intervalo [lo, +∞) — distância só se value < lo
+      return lo === null ? null : Math.max(0, lo - value);
+    case '<':
+    case '<=':
+      // intervalo (-∞, lo] — distância só se value > lo
+      return lo === null ? null : Math.max(0, value - lo);
+    case 'between':
+      if (lo === null || hi === null) return null;
+      if (value < lo) return lo - value;
+      if (value > hi) return value - hi;
+      return 0;
+    default:
+      return null;
+  }
 }
 
 /** Cor por nível (0 = pior → 5 = melhor). */

@@ -104,7 +104,7 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           <ol className="grid md:grid-cols-3 gap-10 max-w-5xl">
             {steps.map((s) => (
               <li key={s.n} className="space-y-4">
-                <p className="heading-section text-gold text-5xl leading-none">{s.n}</p>
+                <p className="text-gold text-5xl font-light leading-none tabular-nums">{s.n}</p>
                 <h3 className="heading-section text-petrol text-xl">{s.title}</h3>
                 <p className="text-petrol/75 leading-relaxed">{s.body}</p>
               </li>
