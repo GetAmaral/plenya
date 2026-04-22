@@ -128,6 +128,8 @@ Chás milagrosos, *blends* de ervas comerciais sem padronização de dose, e a m
 
 Para suplementação com alguma evidência em adultos com dificuldade de sono que não seja apneia, três agentes merecem consideração caso a caso: **magnésio glicinato ou treonato** (200–400 mg, 30–60 minutos antes de dormir — útil especialmente em pacientes com deficiência relativa), **L-teanina** (200 mg, efeito calmante via GABA), e **apigenina** (50 mg, flavonoide com afinidade por receptores GABA). Nenhum é milagre. Todos atuam na margem. Nenhum substitui higiene adequada do sono — e nenhum substitui o tratamento de apneia, quando presente.
 
+**Aromaterapia para dormir.** Lavanda ambiental antes de dormir tem evidência modesta em idosos institucionalizados e em adultos sob estresse agudo — sinal pequeno, mas presente em vários ensaios. Entra como adjuvante opcional na rotina pré-sono, não como intervenção principal diante dos pilares discutidos neste capítulo.
+
 ---
 
 ### O Ambiente Em Que Você Vive É Parte do Seu Metabolismo
