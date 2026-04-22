@@ -9,7 +9,6 @@ figures:
   - Cap11_Fig01
   - Cap11_Fig02
 ---
-# PARTE III — O MÉTODO AGIR
 
 ***Pilar G — Gestão Clínica e Metabólica***
 

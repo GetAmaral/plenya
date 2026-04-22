@@ -6,7 +6,6 @@ title_en_suggested: "References, Resources and Next Steps"
 translation_status: source
 last_reviewed: 2026-04-21
 ---
-# PARTE V — ENCERRAMENTO
 
 ## Capítulo 18 — Referências, Recursos e Próximos Passos
 

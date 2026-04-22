@@ -11,7 +11,6 @@ figures:
   - Cap06_Fig03
   - Cap06_Fig04
 ---
-# PARTE II — O MAPA
 
 ## Capítulo 6 — Saúde Metabólica: A Fundação Invisível
 

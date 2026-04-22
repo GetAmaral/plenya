@@ -8,7 +8,6 @@ last_reviewed: 2026-04-21
 figures:
   - Cap16_Fig01
 ---
-# PARTE IV — O PLANO
 
 ## Capítulo 16 — Quando Procurar um Especialista — E o Que Perguntar
 

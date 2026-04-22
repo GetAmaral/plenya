@@ -403,6 +403,11 @@ h1 {
 """, encoding="utf-8")
 
     # 5. Run Pandoc
+    # IMPORTANT: --toc omitido intencionalmente. Com EPUB3, o nav.xhtml é gerado
+    # automaticamente e aparece no painel de navegação do Kindle/leitor — é isso
+    # que o leitor usa para pular entre capítulos. O --toc adicionaria uma página
+    # "Sumário" no corpo do EPUB, redundante e feia.
+    # --toc-depth=2 continua válido para o nav.xhtml (Part → Chapter).
     print("⚙  Running Pandoc...")
     pandoc_args = [
         "--from=markdown+yaml_metadata_block+smart",
@@ -410,7 +415,6 @@ h1 {
         f"--output={OUT_EPUB}",
         f"--metadata-file={metadata}",
         f"--css={css}",
-        "--toc",
         "--toc-depth=2",
         "--split-level=1",
         f"--resource-path={WORK_DIR}",

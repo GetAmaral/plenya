@@ -8,7 +8,7 @@ last_reviewed: 2026-04-20
 ---
 # Introdução
 
-## Por que este livro
+### Por que este livro
 
 Nos vinte anos desde que me formei em medicina, vi o Brasil se tornar melhor em tratar doença e pior em preveni-la.
 
@@ -26,7 +26,7 @@ O laboratório diz *normal*. O corpo diz *estou adoecendo há oito anos e ningu�
 
 ---
 
-## A janela silenciosa
+### A janela silenciosa
 
 Existe, no meio do caminho entre a saúde que o laboratório reconhece e a doença que o médico trata, uma região pouco nomeada pela medicina convencional. Ela não tem um CID. Ela não tem um código de faturamento. Ela não aparece em nenhum prontuário. E é nela que a longevidade é construída — ou perdida.
 
@@ -40,7 +40,7 @@ E é exatamente aqui que mora a margem de manobra da sua vida. Dez, quinze, vint
 
 ---
 
-## O que este livro é — e o que ele não é
+### O que este livro é — e o que ele não é
 
 Este livro **não é** um manual de autoajuda. Não há promessa de transformação em 21 dias, não há receita milagrosa, não há suplemento que vá salvar sua vida. Se você está procurando isso, feche agora e peça o reembolso.
 
@@ -54,7 +54,7 @@ Este livro **é** um mapa. Um mapa clínico da janela silenciosa: como detectá-
 
 ---
 
-## Como o livro está organizado
+### Como o livro está organizado
 
 O livro tem cinco partes e dezoito capítulos.
 
@@ -72,7 +72,7 @@ Atravessando todos os capítulos, há seis pacientes — **Ricardo, Fernanda, An
 
 ---
 
-## Como usar este livro
+### Como usar este livro
 
 Você pode ler do começo ao fim — e essa é minha recomendação — porque cada parte prepara a próxima. O mapa só faz sentido depois do despertar. Os pilares só funcionam depois do mapa.
 
@@ -84,7 +84,7 @@ Se você tiver 40, 50 ou 60 anos e nunca fez um painel ampliado de biomarcadores
 
 ---
 
-## Um pedido final
+### Um pedido final
 
 Eu escrevi este livro no intervalo entre consultas, entre aulas, entre plantões — e entre as brincadeiras com meus filhos que eu faço questão de não perder. Entre um paciente que chegou cedo e salvou a própria década, e outro que chegou tarde demais. Entre a gratidão e o luto que a profissão carrega todos os dias.
 

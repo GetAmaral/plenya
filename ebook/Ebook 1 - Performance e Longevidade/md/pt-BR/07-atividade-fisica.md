@@ -9,7 +9,6 @@ figures:
   - Cap07_Fig01
   - Cap07_Fig02
 ---
-# PARTE III — O MÉTODO AGIR
 
 ***Pilar A — Atividade Física, Alimentação e Suplementação Inteligente***
 

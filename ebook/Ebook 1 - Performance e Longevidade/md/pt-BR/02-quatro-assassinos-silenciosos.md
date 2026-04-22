@@ -10,7 +10,6 @@ figures:
   - Cap02_Fig02
   - Cap02_Fig03
 ---
-# PARTE I — O DESPERTAR
 
 ## Capítulo 2 — Os Quatro Que Matam no Silêncio
 

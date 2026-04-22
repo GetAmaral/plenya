@@ -9,7 +9,6 @@ figures:
   - Cap03_Fig01
   - Cap03_Fig02
 ---
-# PARTE I — O DESPERTAR
 
 ## Capítulo 3 — A Idade Que Seu Corpo Realmente Tem
 

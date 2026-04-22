@@ -9,7 +9,6 @@ figures:
   - Cap05_Fig01
   - Cap05_Fig02
 ---
-# PARTE II — O MAPA
 
 ## Capítulo 5 — As Artérias Saem do Silêncio
 

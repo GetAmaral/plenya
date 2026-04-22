@@ -9,7 +9,6 @@ figures:
   - Cap14_Fig01
   - Cap14_Fig02
 ---
-# PARTE III — O MÉTODO AGIR
 
 ***Pilar R — Ritmo Circadiano e Repouso***
 

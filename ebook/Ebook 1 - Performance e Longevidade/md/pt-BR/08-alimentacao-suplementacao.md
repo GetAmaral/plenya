@@ -9,7 +9,6 @@ figures:
   - Cap08_Fig01
   - Cap08_Fig02
 ---
-# PARTE III — O MÉTODO AGIR
 
 ***Pilar A — Atividade Física, Alimentação e Suplementação Inteligente***
 
@@ -19,7 +18,7 @@ O capítulo anterior tratou do primeiro motor do pilar A — o exercício. Este 
 
 ---
 
-## SEÇÃO 1 — Alimentação como Estratégia Metabólica
+### SEÇÃO 1 — Alimentação como Estratégia Metabólica
 
 ### Comida Não É Combustível. É Informação.
 
@@ -67,7 +66,7 @@ A evidência para alimentação restrita no tempo é sólida e crescente: melhor
 
 ---
 
-## SEÇÃO 2 — Suplementação Baseada em Evidência
+### SEÇÃO 2 — Suplementação Baseada em Evidência
 
 A suplementação é o território onde mais se desperdiça dinheiro em saúde. O mercado é gigantesco, pouco regulado e movido muito mais por marketing do que por ciência. A maioria das pessoas que toma suplementos toma doses erradas, formas erradas, ou substâncias que simplesmente não têm evidência de funcionar.
 
@@ -149,7 +148,7 @@ E há um problema prático que vale resolver desde o início: a pilha de potes. 
 
 ---
 
-## SEÇÃO 3 — A Camada Visível: Pele, Cabelo e Unhas
+### SEÇÃO 3 — A Camada Visível: Pele, Cabelo e Unhas
 
 A pele, o cabelo e as unhas são a parte do corpo que o paciente enxerga todos os dias — e, por isso mesmo, onde o mercado de longevidade cosmética mais explora. A medicina preventiva séria tem pouco a dizer sobre promessas de rejuvenescimento, e muito a dizer sobre algumas intervenções simples com evidência real. Esta seção separa as duas coisas.
 
@@ -192,7 +191,7 @@ Pele, cabelo e unhas bem cuidados são reflexo — e não substituto — do trab
 
 ---
 
-## Os Três Motores em Conjunto
+### Os Três Motores em Conjunto
 
 Oito meses depois daquela consulta — oito meses depois do CAC de 412 e do plano que montamos naquele dia —, Marcos voltou para reavaliação completa.
 
@@ -208,7 +207,7 @@ A estatina e a ezetimiba eram necessárias. Mas foram os três motores que trans
 
 ---
 
-## E Se Fosse Com Você?
+### E Se Fosse Com Você?
 
 Quantos desses três motores estão funcionando na sua vida agora?
 
@@ -218,7 +217,7 @@ Este capítulo, como o anterior, não pretende transformar você em atleta, nutr
 
 ---
 
-## O Essencial em 60 Segundos
+### O Essencial em 60 Segundos
 
 - Alimentação não é dieta — é ferramenta metabólica. O padrão com maior evidência é a Dieta Mediterrânea, validada pelo PREDIMED (redução de ~30% em eventos cardiovasculares) e convergente com os dados das Blue Zones. Eliminar ultraprocessados e alinhar horários de refeição ao ritmo circadiano importa tanto quanto o que está no prato.
 

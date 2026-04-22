@@ -10,7 +10,6 @@ figures:
   - Cap12_Fig02
   - Cap12_Fig03
 ---
-# PARTE III — O MÉTODO AGIR
 
 ***Pilar I — Integração Mente-Corpo***
 
