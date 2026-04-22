@@ -1,7 +1,7 @@
 {
-  "version": "v94-1776812703",
-  "generatedAt": "2026-04-21T20:05:03.225811768-03:00",
-  "itemCount": 94,
+  "version": "v83-1776880268",
+  "generatedAt": "2026-04-22T14:51:08.646725188-03:00",
+  "itemCount": 83,
   "groups": [
     {
       "id": "019bf31d-2ef0-7059-b778-96fc5a818e16",
@@ -123,19 +123,19 @@
                 {
                   "id": "019c535e-d7ce-72a9-8a12-dedebe0481ea",
                   "level": 0,
-                  "name": "Consome com açúcar",
+                  "name": "Consumo refrigerante/energético com açúcar",
                   "operator": "="
                 },
                 {
                   "id": "019c535e-d934-7cb9-977c-496cea63452b",
                   "level": 2,
-                  "name": "Consome sem açúcar",
+                  "name": "Consumo apenas versões sem açúcar (zero/diet)",
                   "operator": "="
                 },
                 {
                   "id": "019c535e-d948-7091-adba-fa64065749af",
                   "level": 5,
-                  "name": "Não consome",
+                  "name": "Não consumo",
                   "operator": "="
                 }
               ]
@@ -212,42 +212,6 @@
                   "operator": "="
                 }
               ]
-            },
-            {
-              "id": "019bf31d-2ef0-7fc2-9d5c-a7d275642ead",
-              "name": "Todos seguem o mesmo padrão alimentar do paciente",
-              "lightQuestion": "As pessoas que moram com você seguem o mesmo padrão alimentar que o seu?",
-              "gender": "not_applicable",
-              "points": 8,
-              "lightOrder": 9,
-              "anamneseItemCode": "TODOS_SEGUEM_O_MESMO_PADRAO_ALIMENTAR_DO_PACIENTE",
-              "patientExplanation": "Este parâmetro avalia se as pessoas que moram com você — cônjuge, filhos, outros familiares — seguem o mesmo padrão alimentar que você adota. Isso é importante porque os hábitos alimentares dentro de casa são muito parecidos entre todos os moradores: as mesmas compras, os mesmos alimentos disponíveis, os mesmos horários e formas de comer. Quando alguém na família muda a alimentação para melhor, toda a família tende a se beneficiar. O contrário também é verdade: se o padrão da casa inclui muitos alimentos ultraprocessados, frituras, açúcar e pouco vegetal, todos ficam expostos aos mesmos riscos de saúde, como sobrepeso, diabetes e inflamação. Crianças aprendem a comer observando os adultos — por isso, os hábitos que os pais têm influenciam profundamente a saúde dos filhos ao longo da vida. Saber que todos na casa comem de forma parecida ajuda o médico a entender seu contexto real e a propor estratégias que funcionem para toda a família, tornando a mudança mais sustentável e efetiva.",
-              "levels": [
-                {
-                  "id": "019bf31d-2ef0-7dbb-93ba-8d00e7a365ba",
-                  "level": 0,
-                  "name": "Ninguém segue",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-730f-b1ce-bb8b19efeb61",
-                  "level": 1,
-                  "name": "Menos da metade segue",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-7407-a32d-a6954775071d",
-                  "level": 3,
-                  "name": "Todos seguem +50% do tempo",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-7d76-80a5-ef3620988567",
-                  "level": 5,
-                  "name": "Todos seguem sempre",
-                  "operator": "="
-                }
-              ]
             }
           ]
         }
@@ -276,37 +240,37 @@
                 {
                   "id": "019bf7af-d85e-72dd-ae23-b11c16fb2ce6",
                   "level": 0,
-                  "name": "Lesão com limitação grave permanente",
+                  "name": "Tive uma lesão grave que deixou limitação permanente",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7fe7-8971-d296366467b4",
                   "level": 1,
-                  "name": "Lesão com limitação leve permanente",
+                  "name": "Tive uma lesão leve que deixou limitação permanente",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-76d3-bf7f-85a03ca38fb4",
                   "level": 2,
-                  "name": "Lesão com limitação por 1 a 5 anos",
+                  "name": "Tive lesão que limitou minha rotina por 1 a 5 anos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-72ba-9dd6-60ce7e723c74",
                   "level": 3,
-                  "name": "Lesão com limitação grave < 1 ano",
+                  "name": "Tive lesão grave nos últimos 12 meses",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7332-a258-dd2152fe7499",
                   "level": 4,
-                  "name": "Lesão com limitação leve < 1 ano",
+                  "name": "Tive lesão leve nos últimos 12 meses",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-74a5-b21e-3c72fbaea05a",
                   "level": 5,
-                  "name": "Nenhuma lesão grave",
+                  "name": "Nunca tive lesão grave",
                   "operator": "="
                 }
               ]
@@ -386,7 +350,7 @@
                 {
                   "id": "019cbe7a-213f-7b75-9810-24a2409883f5",
                   "level": 0,
-                  "name": "Fraco (≤61 s)",
+                  "name": "Fraco (até 61 segundos)",
                   "upperLimit": "61",
                   "operator": "<="
                 },
@@ -417,7 +381,7 @@
                 {
                   "id": "019cbe7a-2145-7858-8fbc-5f8eff3d4f51",
                   "level": 5,
-                  "name": "Excelente (≥201 s)",
+                  "name": "Excelente (201 segundos ou mais)",
                   "lowerLimit": "201",
                   "operator": ">="
                 }
@@ -436,7 +400,7 @@
                 {
                   "id": "019cbe7a-2145-754d-a427-f2e0f20943dd",
                   "level": 0,
-                  "name": "Fraco (≤34 s)",
+                  "name": "Fraco (até 34 segundos)",
                   "upperLimit": "34",
                   "operator": "<="
                 },
@@ -467,7 +431,7 @@
                 {
                   "id": "019cbe7a-2146-7032-af6f-d06e3f40c61a",
                   "level": 5,
-                  "name": "Excelente (≥142 s)",
+                  "name": "Excelente (142 segundos ou mais)",
                   "lowerLimit": "142",
                   "operator": ">="
                 }
@@ -500,25 +464,25 @@
                 {
                   "id": "019bf7af-d85e-7d30-ab7f-eae69544bd38",
                   "level": 0,
-                  "name": "Passa o dia todo cansado, sonolento e sem energia",
+                  "name": "Passo o dia todo cansado, sonolento e sem energia",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7d1a-8541-bd84d63a4237",
                   "level": 2,
-                  "name": "Acorda bem mas energia acaba no meio do dia",
+                  "name": "Acordo bem, mas a energia acaba no meio do dia",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7637-9990-500c80e7dc9d",
                   "level": 3,
-                  "name": "Acorda com cansaço de depois \"pega no tranco\"",
+                  "name": "Acordo cansado e depois \"pego no tranco\"",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-777c-8385-b26bb631f43a",
                   "level": 5,
-                  "name": "Reparador, dia todo com energia",
+                  "name": "É reparador, com energia o dia todo",
                   "operator": "="
                 }
               ]
@@ -596,7 +560,7 @@
                 {
                   "id": "019c53a6-72d2-7918-b003-681af14896cd",
                   "level": 0,
-                  "name": "<= 17  dias no mês",
+                  "name": "17 ou menos  dias no mês",
                   "lowerLimit": "17",
                   "upperLimit": "5",
                   "operator": "<="
@@ -628,7 +592,7 @@
                 {
                   "id": "019c53a6-7435-7914-bd09-9cf2481a1180",
                   "level": 5,
-                  "name": ">=28 dias no mês",
+                  "name": "28 ou mais dias no mês",
                   "lowerLimit": "28",
                   "operator": ">="
                 }
@@ -647,7 +611,7 @@
                 {
                   "id": "019c53a6-f1bf-74e9-a0c1-f139ac3b6c24",
                   "level": 0,
-                  "name": ">10 horas/dia",
+                  "name": "mais que 10 horas/dia",
                   "lowerLimit": "10",
                   "upperLimit": "5",
                   "operator": ">"
@@ -655,7 +619,7 @@
                 {
                   "id": "019c53a6-f2f7-725f-ab15-e255fa6f5725",
                   "level": 1,
-                  "name": "<4 horas/dia",
+                  "name": "menos que 4 horas/dia",
                   "lowerLimit": "4",
                   "upperLimit": "21",
                   "operator": "<"
@@ -689,7 +653,7 @@
             {
               "id": "019c28f0-05c1-7c0f-92b5-9cc9adac6eb3",
               "name": "Uso de BiPAP/CPAP",
-              "lightQuestion": "Você usa CPAP ou BiPAP para dormir?",
+              "lightQuestion": "Você usa CPAP ou BiPAP para dormir? (aparelhos que mantêm a via aérea aberta durante o sono — tratamento padrão da apneia obstrutiva do sono)",
               "gender": "not_applicable",
               "points": 22,
               "lightOrder": 74,
@@ -719,7 +683,7 @@
             {
               "id": "019bf31d-2ef0-7f44-a617-84562c569b71",
               "name": "Tempo tela noturna (1h antes de dormir - celular, tablet, TV, dormir assintindo à TV)",
-              "lightQuestion": "Com que frequência você usa telas (celular, TV, tablet) na hora antes de dormir?",
+              "lightQuestion": "Com que frequência você usa telas (celular, TV, tablet) até uma hora antes de dormir?",
               "gender": "not_applicable",
               "points": 12,
               "lightOrder": 77,
@@ -729,37 +693,31 @@
                 {
                   "id": "019bf31d-2ef0-73df-8de1-657527064931",
                   "level": 0,
-                  "name": "Usa todas as noites",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-725d-a632-7eaf26e254df",
-                  "level": 1,
-                  "name": "Usa todas as tardes",
+                  "name": "Uso todas as noites",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-79e0-94b3-fcf1ad37261c",
                   "level": 2,
-                  "name": "Usa 4-6x/semana",
+                  "name": "Uso 4-6x por semana",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-79f1-a08b-8c8487ff278d",
                   "level": 3,
-                  "name": "Usa 3-4x/semana",
+                  "name": "Uso 3-4x por semana",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7a2b-9d3c-4ab4b1d82b9d",
                   "level": 4,
-                  "name": "Usa 1-2x/semana",
+                  "name": "Uso 1-2x por semana",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-73be-bf68-15743a5eca1c",
                   "level": 5,
-                  "name": "Não usa nunca",
+                  "name": "Não uso",
                   "operator": "="
                 }
               ]
@@ -777,19 +735,19 @@
                 {
                   "id": "019c164e-e439-72c1-a506-6e3427502a33",
                   "level": 0,
-                  "name": "Frequentes e intensos",
+                  "name": "Ronco com frequência e intensidade",
                   "operator": "="
                 },
                 {
                   "id": "019c164e-e439-78da-8967-8cffe2c1aae4",
                   "level": 1,
-                  "name": "Esporadicamente",
+                  "name": "Ronco esporadicamente",
                   "operator": "="
                 },
                 {
                   "id": "019c164e-e439-78d8-b08b-9f9e73410aba",
                   "level": 5,
-                  "name": "Não apresenta",
+                  "name": "Não ronco",
                   "operator": "="
                 }
               ]
@@ -807,13 +765,13 @@
                 {
                   "id": "019bf7af-d85e-7255-a34f-a5b007066afe",
                   "level": 0,
-                  "name": "Frequentes e intensas",
+                  "name": "Frequentes e intensas (várias por noite)",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7ae4-9b37-17c8d50afc91",
                   "level": 1,
-                  "name": "Esporadicamente",
+                  "name": "Algumas por semana (5 a 10 por noite)",
                   "lowerLimit": "5",
                   "upperLimit": "10",
                   "operator": "between"
@@ -821,7 +779,7 @@
                 {
                   "id": "019bf7af-d85e-723f-87e2-f25832a1b4ac",
                   "level": 3,
-                  "name": "Raramente",
+                  "name": "Esporádicas (1 episódio por noite)",
                   "lowerLimit": "1",
                   "upperLimit": "5",
                   "operator": "="
@@ -829,7 +787,7 @@
                 {
                   "id": "019bf7af-d85e-7716-852c-cc36b5965665",
                   "level": 5,
-                  "name": "Não apresenta",
+                  "name": "Não apresento (que eu saiba)",
                   "operator": "="
                 }
               ]
@@ -909,7 +867,7 @@
                 {
                   "id": "019bf7af-ba01-703a-bfca-bffdacb23d96",
                   "level": 0,
-                  "name": ">=20",
+                  "name": "20 ou mais",
                   "lowerLimit": "20",
                   "operator": ">="
                 },
@@ -948,7 +906,7 @@
                 {
                   "id": "019bf7af-ba01-7668-9325-aa403a63369d",
                   "level": 5,
-                  "name": "<=1",
+                  "name": "1 ou menos",
                   "upperLimit": "1",
                   "operator": "<="
                 }
@@ -967,25 +925,25 @@
                 {
                   "id": "019c54fc-ee04-7349-b97a-efb43cc29367",
                   "level": 0,
-                  "name": "Isolado",
+                  "name": "Estou isolado(a)",
                   "operator": "="
                 },
                 {
                   "id": "019c54fc-eed0-7c8a-825c-6e8e1588afba",
                   "level": 2,
-                  "name": "Só família",
+                  "name": "Convivo só com a família",
                   "operator": "="
                 },
                 {
                   "id": "019c54fc-eef0-7d82-8c1f-d72c5b103fe1",
                   "level": 3,
-                  "name": "Só amigos",
+                  "name": "Convivo só com amigos",
                   "operator": "="
                 },
                 {
                   "id": "019c54fc-ef16-7471-8d79-2aca1bf4998f",
                   "level": 5,
-                  "name": "Família + amigos (funcional)",
+                  "name": "Convivo com família e amigos (rede social ativa)",
                   "operator": "="
                 }
               ]
@@ -1017,37 +975,37 @@
                 {
                   "id": "019bf7af-d85e-77d9-802c-ce6a3a0d38a5",
                   "level": 0,
-                  "name": "Burnout completo",
+                  "name": "Estou em burnout completo",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-76ef-a35c-394faa0323ed",
                   "level": 1,
-                  "name": "Estresse intenso com dificuldade no manejo, próximo de um colapso",
+                  "name": "Estou em estresse intenso, próximo do colapso",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7efb-86c9-d9bf436fb286",
                   "level": 2,
-                  "name": "Fontes de estresse com dificuldade no manejo repercutindo na performance/sintomas somáticos",
+                  "name": "Tenho estresse difícil de manejar, com sintomas físicos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-727c-9e5e-95ba01ca6f34",
                   "level": 3,
-                  "name": "Muitas fontes de estresse, porém bem manejado",
+                  "name": "Tenho muitas fontes de estresse, mas bem manejadas",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-762c-b90f-06db0430b781",
                   "level": 4,
-                  "name": "Poucas fontes de estresse bem manejado",
+                  "name": "Tenho pouco estresse, bem manejado",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7dca-bc5a-4d8599a19b01",
                   "level": 5,
-                  "name": "Nenhuma fonte de estresse danoso percebida",
+                  "name": "Não percebo estresse danoso na minha vida",
                   "operator": "="
                 }
               ]
@@ -1079,7 +1037,7 @@
                 {
                   "id": "019bf31d-2ef0-7efc-9700-c9c1d19bc352",
                   "level": 0,
-                  "name": ">=40",
+                  "name": "40 ou mais",
                   "lowerLimit": "40",
                   "operator": ">="
                 },
@@ -1102,7 +1060,7 @@
                 {
                   "id": "019bf31d-2ef0-76fc-84ef-2de42929745e",
                   "level": 3,
-                  "name": "<18,5",
+                  "name": "menos que 18,5",
                   "upperLimit": "18.5",
                   "operator": "<"
                 },
@@ -1137,7 +1095,7 @@
                 {
                   "id": "019bf7af-ba01-7db8-90a2-063e667898ba",
                   "level": 0,
-                  "name": ">102",
+                  "name": "mais que 102",
                   "lowerLimit": "102",
                   "operator": ">"
                 },
@@ -1160,7 +1118,7 @@
                 {
                   "id": "019bf7af-ba01-7b93-94af-13bc6329ab29",
                   "level": 5,
-                  "name": "<90",
+                  "name": "menos que 90",
                   "upperLimit": "90",
                   "operator": "<"
                 }
@@ -1179,7 +1137,7 @@
                 {
                   "id": "019bf7af-ba01-78b8-a657-eb3954d50e4b",
                   "level": 0,
-                  "name": ">88",
+                  "name": "mais que 88",
                   "lowerLimit": "88",
                   "operator": ">"
                 },
@@ -1202,7 +1160,7 @@
                 {
                   "id": "019bf7af-ba01-7dac-a45d-61b5d7c2693e",
                   "level": 5,
-                  "name": "<80",
+                  "name": "menos que 80",
                   "upperLimit": "80",
                   "operator": "<"
                 }
@@ -1221,7 +1179,7 @@
                 {
                   "id": "019bf31d-2ef0-7809-8986-7393ce8fba76",
                   "level": 0,
-                  "name": ">0,66",
+                  "name": "mais que 0,66",
                   "lowerLimit": "0.66",
                   "operator": ">"
                 },
@@ -1244,7 +1202,7 @@
                 {
                   "id": "019bf31d-2ef0-744a-8a0a-47f56efbc37f",
                   "level": 3,
-                  "name": "<0,4",
+                  "name": "menos que 0,4",
                   "upperLimit": "0.4",
                   "operator": "<"
                 },
@@ -1279,7 +1237,7 @@
                 {
                   "id": "019bf31d-2ef0-76f2-b9b5-1977a4d7913f",
                   "level": 0,
-                  "name": ">40",
+                  "name": "mais que 40",
                   "lowerLimit": "40",
                   "operator": ">"
                 },
@@ -1302,7 +1260,7 @@
                 {
                   "id": "019bf31d-2ef0-7186-822e-2c56a2a49a84",
                   "level": 5,
-                  "name": "<37",
+                  "name": "menos que 37",
                   "upperLimit": "37",
                   "operator": "<"
                 }
@@ -1321,7 +1279,7 @@
                 {
                   "id": "019bf31d-2ef0-72ec-ad15-c2ce6e559331",
                   "level": 0,
-                  "name": ">35,75",
+                  "name": "mais que 35,75",
                   "lowerLimit": "35.75",
                   "operator": ">"
                 },
@@ -1344,7 +1302,7 @@
                 {
                   "id": "019bf31d-2ef0-72cb-9c78-5a69f0db40fb",
                   "level": 5,
-                  "name": "<32,5",
+                  "name": "menos que 32,5",
                   "upperLimit": "32.5",
                   "operator": "<"
                 }
@@ -1363,7 +1321,7 @@
                 {
                   "id": "019bf31d-2ef0-7ce4-895c-21f107f93ee0",
                   "level": 0,
-                  "name": ">=30",
+                  "name": "30 ou mais",
                   "lowerLimit": "30",
                   "operator": ">="
                 },
@@ -1402,7 +1360,7 @@
                 {
                   "id": "019bf31d-2ef0-71a1-95ee-fde63f45a111",
                   "level": 5,
-                  "name": "<12",
+                  "name": "menos que 12",
                   "upperLimit": "12",
                   "operator": "<"
                 }
@@ -1421,7 +1379,7 @@
                 {
                   "id": "019bf7af-ba01-7a8a-b8c6-769779d06835",
                   "level": 0,
-                  "name": ">=40",
+                  "name": "40 ou mais",
                   "lowerLimit": "40",
                   "operator": ">="
                 },
@@ -1460,7 +1418,7 @@
                 {
                   "id": "019bf7af-ba01-7fc2-a389-9292be5b74f1",
                   "level": 5,
-                  "name": "<20",
+                  "name": "menos que 20",
                   "upperLimit": "20",
                   "operator": "<"
                 }
@@ -1479,7 +1437,7 @@
                 {
                   "id": "019bf31d-2ef0-7e93-816f-776b6a36951d",
                   "level": 0,
-                  "name": ">=160",
+                  "name": "160 ou mais",
                   "lowerLimit": "160",
                   "operator": ">="
                 },
@@ -1518,7 +1476,7 @@
                 {
                   "id": "019bf31d-2ef0-79c6-9573-385c80eb3fdf",
                   "level": 5,
-                  "name": "<50",
+                  "name": "menos que 50",
                   "upperLimit": "50",
                   "operator": "<"
                 }
@@ -1537,7 +1495,7 @@
                 {
                   "id": "019bf31d-2ef0-71b0-b1fa-0676a911391a",
                   "level": 0,
-                  "name": ">=150",
+                  "name": "150 ou mais",
                   "lowerLimit": "150",
                   "operator": ">="
                 },
@@ -1576,7 +1534,7 @@
                 {
                   "id": "019bf31d-2ef0-7d7c-a95e-c2c709ebc902",
                   "level": 5,
-                  "name": "<40",
+                  "name": "menos que 40",
                   "upperLimit": "40",
                   "operator": "<"
                 }
@@ -1595,7 +1553,7 @@
                 {
                   "id": "019bf7af-ba01-7cbe-92ff-d2b5a0f8d067",
                   "level": 0,
-                  "name": "<5,5",
+                  "name": "menos que 5,5",
                   "upperLimit": "5.5",
                   "operator": "<"
                 },
@@ -1634,7 +1592,7 @@
                 {
                   "id": "019bf7af-ba01-72fd-8b70-faf2afd73a06",
                   "level": 5,
-                  "name": ">=9",
+                  "name": "9 ou mais",
                   "lowerLimit": "9",
                   "operator": ">="
                 }
@@ -1653,7 +1611,7 @@
                 {
                   "id": "019bf31d-2ef0-7d9d-b766-02893e242274",
                   "level": 0,
-                  "name": "<4,5",
+                  "name": "menos que 4,5",
                   "upperLimit": "4.5",
                   "operator": "<"
                 },
@@ -1692,7 +1650,7 @@
                 {
                   "id": "019bf31d-2ef0-75cf-89ff-84ae0cb752d0",
                   "level": 5,
-                  "name": ">=6,5",
+                  "name": "6,5 ou mais",
                   "lowerLimit": "6.5",
                   "operator": ">="
                 }
@@ -1725,37 +1683,37 @@
                 {
                   "id": "019bf31d-2ef0-7ba0-afbd-5bc4cca87ec4",
                   "level": 0,
-                  "name": "Tem há mais de 5 anos com controle inadequado",
+                  "name": "Tenho há mais de 5 anos, com controle inadequado",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-739c-92b7-d677e7120dd2",
                   "level": 1,
-                  "name": "Tem há menos de 5 anos com controle inadequado",
+                  "name": "Tenho há menos de 5 anos, com controle inadequado",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7917-a621-ca059ffb046a",
                   "level": 2,
-                  "name": "Tem há mais de 5 anos com controle adequado",
+                  "name": "Tenho há mais de 5 anos, com controle adequado",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-78b7-bf70-d4db11569e7e",
                   "level": 3,
-                  "name": "Tem há menos de 5 anos com controle adequado",
+                  "name": "Tenho há menos de 5 anos, com controle adequado",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-742d-97bf-f03e1eb914af",
                   "level": 4,
-                  "name": "Não tem, mas histórico familiar forte",
+                  "name": "Não tenho, mas tenho histórico familiar forte",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7d7b-b175-4d72482bbd84",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Não tenho",
                   "operator": "="
                 }
               ]
@@ -1773,37 +1731,37 @@
                 {
                   "id": "019bf31d-2ef0-7fc4-9be1-a22a07c0e507",
                   "level": 0,
-                  "name": "Tem DM",
+                  "name": "Tenho diabetes já confirmado",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-75ca-a2fc-5b993eadc043",
                   "level": 1,
-                  "name": "Pré diabetes",
+                  "name": "Tenho pré-diabetes",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7cc7-b1c8-074257b0bb0a",
                   "level": 2,
-                  "name": "Resistência alta",
+                  "name": "Tenho resistência insulínica alta",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7e02-89ab-18ac57c43e34",
                   "level": 3,
-                  "name": "Resistência moderada",
+                  "name": "Tenho resistência insulínica moderada",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-75d4-a19e-86ba338b16c8",
                   "level": 4,
-                  "name": "Resistência leve",
+                  "name": "Tenho resistência insulínica leve",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7ba2-89e4-6c06767b7124",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Não tenho",
                   "operator": "="
                 }
               ]
@@ -1811,7 +1769,7 @@
             {
               "id": "019bf31d-2ef0-7e03-bb24-dbdc747e5fd4",
               "name": "Insuficiência cardíaca",
-              "lightQuestion": "Você tem diagnóstico de insuficiência cardíaca?",
+              "lightQuestion": "Você tem diagnóstico de insuficiência cardíaca? (condição em que o coração tem dificuldade de bombear sangue)",
               "gender": "not_applicable",
               "points": 35,
               "lightOrder": 18,
@@ -1821,37 +1779,37 @@
                 {
                   "id": "019bf31d-2ef0-7cd2-a2a7-920bdf79044b",
                   "level": 0,
-                  "name": "Tem IC descompensada",
+                  "name": "Tenho, em descompensação atual (sintomas piorando)",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-718d-a1eb-411f11965256",
                   "level": 1,
-                  "name": "Tem IC grave",
+                  "name": "Tenho em estado grave",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-78d6-9a8a-f1427ad361b0",
                   "level": 2,
-                  "name": "Tem IC moderada",
+                  "name": "Tenho em estado moderado",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-778a-9785-07ad4445d9cf",
                   "level": 3,
-                  "name": "Tem IC leve",
+                  "name": "Tenho em estado leve",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-78d7-9851-29b77eefd5f5",
                   "level": 4,
-                  "name": "Não tem, mas histórico familiar forte",
+                  "name": "Não tenho, mas tenho histórico familiar forte",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7502-ba34-04421e3f28f1",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Não tenho",
                   "operator": "="
                 }
               ]
@@ -1869,37 +1827,37 @@
                 {
                   "id": "019bf7af-ba01-7105-915b-e406cbd60a2a",
                   "level": 0,
-                  "name": "Implante de CID/ressincronizador",
+                  "name": "Tenho desfibrilador implantado (CDI) ou ressincronizador",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-73e5-b49d-2d9ac746d39f",
                   "level": 1,
-                  "name": "Implante MP",
+                  "name": "Tenho marcapasso implantado",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-70a7-9445-061f8122b2a3",
                   "level": 2,
-                  "name": "Tem arritmia moderada/grave",
+                  "name": "Tenho arritmia moderada/grave em acompanhamento",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-70db-9b27-212a930d27ae",
                   "level": 3,
-                  "name": "Já teve arritmia moderada/grave ou precisou precisou de infervenção eletrofisiológica",
+                  "name": "Já tive arritmia moderada/grave ou precisei de procedimento no coração",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-7890-9303-e89122453047",
                   "level": 4,
-                  "name": "Já teve/tem arritmias benignas",
+                  "name": "Já tive ou tenho arritmias leves (sem gravidade)",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-7be0-b9ea-a939ac44180c",
                   "level": 5,
-                  "name": "Nunca teve",
+                  "name": "Nunca tive",
                   "operator": "="
                 }
               ]
@@ -1917,38 +1875,38 @@
                 {
                   "id": "019bf31d-2ef0-734a-975d-d3ebad1ecc23",
                   "level": 0,
-                  "name": ">=2 eventos graves",
+                  "name": "Tive 2 ou mais eventos graves",
                   "lowerLimit": "2",
                   "operator": ">="
                 },
                 {
                   "id": "019bf31d-2ef0-75ec-aa63-51faa67afa8a",
                   "level": 1,
-                  "name": "Pelo menos um evento grave",
+                  "name": "Tive pelo menos um evento grave",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-736e-8bef-f30114d0008e",
                   "level": 2,
-                  "name": "Mais de um evento leve sem sequela",
+                  "name": "Tive mais de um evento leve sem sequelas",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7093-be12-e6af6ed947ea",
                   "level": 3,
-                  "name": "Teve um evento leve sem sequelas",
+                  "name": "Tive um único evento leve, sem sequelas",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-717a-8147-605f90430a64",
                   "level": 4,
-                  "name": "Não tem, mas histórico familiar forte",
+                  "name": "Nunca tive, mas tenho histórico familiar forte",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7cdf-aab7-1ded9fc61475",
                   "level": 5,
-                  "name": "Nunca teve",
+                  "name": "Nunca tive",
                   "operator": "="
                 }
               ]
@@ -1966,37 +1924,37 @@
                 {
                   "id": "019bf7af-d85e-7b5f-9d0b-c47e1ffd6cbe",
                   "level": 0,
-                  "name": "Doença moderada/grave sem tratamento",
+                  "name": "Tenho asma moderada/grave sem tratamento",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7a39-8b0d-31ae634ef2e1",
                   "level": 1,
-                  "name": "Doença moderada/grave com difícil controle",
+                  "name": "Tenho asma moderada/grave de difícil controle",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7c37-9855-4dc429d84675",
                   "level": 2,
-                  "name": "Doença moderada/grave controlada",
+                  "name": "Tenho asma moderada/grave bem controlada",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-72cc-b47e-ffbb5a00fdc3",
                   "level": 3,
-                  "name": "Doença leve sem necessidade de imunossupressor",
+                  "name": "Tenho asma leve, sem precisar de remédios fortes",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-725b-8fd2-86a50c9f621f",
                   "level": 4,
-                  "name": "Não tem, mas histórico familiar forte",
+                  "name": "Não tenho, mas tenho histórico familiar forte",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7fb1-bc8a-12e2c59988a6",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Não tenho",
                   "operator": "="
                 }
               ]
@@ -2021,37 +1979,37 @@
                 {
                   "id": "019bf7af-d85e-7bbc-bea5-d2cbe4e299da",
                   "level": 0,
-                  "name": "Quadro grave ativo",
+                  "name": "Tenho atualmente, em forma grave",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7629-b0f3-7425a73a1de1",
                   "level": 1,
-                  "name": "Quadro leve ativo",
+                  "name": "Tenho atualmente, em forma leve",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-72ec-a16a-5b6290f5db82",
                   "level": 2,
-                  "name": "Teve quadro grave no último ano",
+                  "name": "Tive episódio grave no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-70af-9726-09e93b14bbcc",
                   "level": 3,
-                  "name": "Teve quadro leve no último ano",
+                  "name": "Tive episódio leve no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7362-9cd6-d8527fe1687f",
                   "level": 4,
-                  "name": "Já teve, no passado, há anos não tem",
+                  "name": "Já tive no passado, há anos não tenho",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7896-aee6-fe0a33e79678",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Nunca senti",
                   "operator": "="
                 }
               ]
@@ -2069,37 +2027,37 @@
                 {
                   "id": "019bf31d-2ef0-712d-93cb-d1000538e80a",
                   "level": 0,
-                  "name": "Quadro grave ativo",
+                  "name": "Tenho atualmente, em forma grave",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7247-88d6-9cb623f7ab3f",
                   "level": 1,
-                  "name": "Quadro leve ativo",
+                  "name": "Tenho atualmente, em forma leve",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7c3c-84b4-8a147865dc9c",
                   "level": 2,
-                  "name": "Teve quadro grave no último ano",
+                  "name": "Tive episódio grave no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7ebc-978d-9031019386ce",
                   "level": 3,
-                  "name": "Teve quadro leve no último ano",
+                  "name": "Tive episódio leve no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7fa2-9233-711a49f9eb9d",
                   "level": 4,
-                  "name": "Já teve, no passado, há anos não tem",
+                  "name": "Já tive no passado, há anos não tenho",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-73b3-bd6e-46c981dc81fa",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Nunca senti",
                   "operator": "="
                 }
               ]
@@ -2117,37 +2075,37 @@
                 {
                   "id": "019bf31d-2ef0-7df7-a0af-c68e241c699b",
                   "level": 0,
-                  "name": "Quadro ativo",
+                  "name": "Tenho atualmente",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7625-a4c4-814525650acc",
                   "level": 1,
-                  "name": "Teve quadro grave no último ano",
+                  "name": "Tive episódio grave no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-743f-9348-9cdb5811ce38",
                   "level": 2,
-                  "name": "Teve quadro leve no último ano",
+                  "name": "Tive episódio leve no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7215-b1f6-9148a6aaf342",
                   "level": 3,
-                  "name": "Já teve quadro grave",
+                  "name": "Já tive um episódio grave (no passado)",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7b75-9cb4-6c08f2f69738",
                   "level": 4,
-                  "name": "Já teve no passado, sem repercussão",
+                  "name": "Já tive no passado, sem deixar sequela",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-706e-a32a-7d0ea475486f",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Nunca senti",
                   "operator": "="
                 }
               ]
@@ -2165,37 +2123,37 @@
                 {
                   "id": "019bf31d-2ef0-7fab-9ab1-26259656ac48",
                   "level": 0,
-                  "name": "Quadro ativo",
+                  "name": "Tenho atualmente",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7a78-920f-1684388269ac",
                   "level": 1,
-                  "name": "Teve quadro grave no último ano",
+                  "name": "Tive episódio grave no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7ba5-aeb4-d1d257016e3d",
                   "level": 2,
-                  "name": "Teve quadro leve no último ano",
+                  "name": "Tive episódio leve no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7c92-9239-1f1312799d58",
                   "level": 3,
-                  "name": "Já teve quadro grave",
+                  "name": "Já tive um episódio grave (no passado)",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-782e-9d40-109ca54a86a9",
                   "level": 4,
-                  "name": "Já teve no passado, sem repercussão",
+                  "name": "Já tive no passado, sem deixar sequela",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-767c-80cb-d9a67dd4d263",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Nunca senti",
                   "operator": "="
                 }
               ]
@@ -2213,37 +2171,37 @@
                 {
                   "id": "019bf31d-2ef0-7573-ad0d-5d49a554c1bd",
                   "level": 0,
-                  "name": "Quadro ativo",
+                  "name": "Tenho atualmente",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7e9e-abf4-d1d345beba82",
                   "level": 1,
-                  "name": "Teve quadro grave no último ano",
+                  "name": "Tive episódio grave no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7d11-9d1f-ae49b900c29e",
                   "level": 2,
-                  "name": "Teve quadro leve no último ano",
+                  "name": "Tive episódio leve no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-779d-8216-8397e75f7780",
                   "level": 3,
-                  "name": "Já teve quadro grave",
+                  "name": "Já tive um episódio grave (no passado)",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-784f-b7df-f960cb55ca55",
                   "level": 4,
-                  "name": "Já teve no passado, sem repercussão",
+                  "name": "Já tive no passado, sem deixar sequela",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7662-be5d-be99c9dc986e",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Nunca senti",
                   "operator": "="
                 }
               ]
@@ -2261,37 +2219,37 @@
                 {
                   "id": "019bf31d-2ef0-7ac5-8120-0d53d51d9e3d",
                   "level": 0,
-                  "name": "Quadro grave ativo",
+                  "name": "Tenho atualmente, em forma grave",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7280-8118-30335fbffd69",
                   "level": 1,
-                  "name": "Quadro leve ativo",
+                  "name": "Tenho atualmente, em forma leve",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-725d-b3fd-3da778747208",
                   "level": 2,
-                  "name": "Teve quadro grave no último ano",
+                  "name": "Tive episódio grave no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-77a7-b952-e1327b36b5a7",
                   "level": 3,
-                  "name": "Teve quadro leve no último ano",
+                  "name": "Tive episódio leve no último ano",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7797-a361-ac82a449cd9e",
                   "level": 4,
-                  "name": "Já teve, no passado, há anos não tem",
+                  "name": "Já tive no passado, há anos não tenho",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7f90-9068-09f549220e60",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Nunca senti",
                   "operator": "="
                 }
               ]
@@ -2299,7 +2257,7 @@
             {
               "id": "019bf31d-2ef0-7297-bd6d-4c83d8081d2d",
               "name": "Edema",
-              "lightQuestion": "Você apresenta inchaço (edema) nos membros?",
+              "lightQuestion": "Você apresenta inchaço (edema) nos braços, pernas ou no corpo?",
               "gender": "not_applicable",
               "points": 12,
               "lightOrder": 37,
@@ -2309,37 +2267,37 @@
                 {
                   "id": "019bf31d-2ef0-7c08-a5eb-5b8b9657e46a",
                   "level": 0,
-                  "name": "Anasarca",
+                  "name": "Inchaço severo no corpo todo",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7ded-944e-dcbe722dc35d",
                   "level": 1,
-                  "name": "Edema intenso ao longo do dia",
+                  "name": "Inchaço intenso ao longo do dia",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7fce-b374-5caf43580afb",
                   "level": 2,
-                  "name": "Edema discreto persistende ao longo do dia",
+                  "name": "Inchaço leve persistente o dia todo",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7ceb-a658-2f4ad1c147d7",
                   "level": 3,
-                  "name": "Edema em pernas ao final do dia",
+                  "name": "Inchaço nas pernas no fim do dia",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-70c2-862b-7b998a09b480",
                   "level": 4,
-                  "name": "Edema esporadico em mãos e pés",
+                  "name": "Inchaço esporádico em mãos e pés",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-785c-a8d4-1b19ecf8dfb0",
                   "level": 5,
-                  "name": "Não tem",
+                  "name": "Não tenho",
                   "operator": "="
                 }
               ]
@@ -2467,37 +2425,37 @@
                 {
                   "id": "019bf31d-2ef0-7bb3-a13d-7c174676990e",
                   "level": 0,
-                  "name": "Fumante atual, ≥20 maços-ano",
+                  "name": "Sou fumante atual, com longa história (≈ 1 maço/dia por 20+ anos)",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-75e5-a23d-b11bacb9aff0",
                   "level": 1,
-                  "name": "Fumante atual, <20 maços-ano",
+                  "name": "Sou fumante atual, com história mais curta ou menos cigarros",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-76ca-84bc-5387f84d921f",
                   "level": 2,
-                  "name": "Ex-fumante há ≤10 anos",
+                  "name": "Sou ex-fumante (parei há até 10 anos)",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7a9f-9b53-14be1f094424",
                   "level": 3,
-                  "name": "Ex-fumante há >10 anos, ≥10 maços-ano",
+                  "name": "Sou ex-fumante (parei há mais de 10 anos), com longa história de fumo",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-781a-8bdf-69dbd221f91a",
                   "level": 4,
-                  "name": "Ex-fumante há >10 anos, <10 maços-ano",
+                  "name": "Sou ex-fumante (parei há mais de 10 anos), com história curta de fumo",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7b07-b511-fea9495225d5",
                   "level": 5,
-                  "name": "Nunca fumou",
+                  "name": "Nunca fumei",
                   "operator": "="
                 }
               ]
@@ -2515,37 +2473,37 @@
                 {
                   "id": "019bf31d-2ef0-7759-9eb6-226d60f42381",
                   "level": 0,
-                  "name": "Dependência ativa com complicações",
+                  "name": "Tenho dependência ativa, com complicações",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-770e-a558-5b5d2757ea64",
                   "level": 1,
-                  "name": "Uso pesado diário (>4 doses/dia)",
+                  "name": "Tenho consumo alto, todo dia (mais de 4 doses/dia)",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7013-a821-7f92b0fac159",
                   "level": 2,
-                  "name": "Uso moderado-alto (2-4 doses/dia)",
+                  "name": "Bebo de 2 a 4 doses por dia",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-714d-95a2-2667b5a0ed84",
                   "level": 3,
-                  "name": "Uso leve regular (até 1 dose/dia)",
+                  "name": "Bebo até 1 dose por dia",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7eb3-97d4-8ec86e9aa6d8",
                   "level": 4,
-                  "name": "Ex-etilista ou uso ocasional social",
+                  "name": "Sou ex-etilista, ou bebo só ocasionalmente em eventos sociais",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7d7e-8a44-9a5881aa643a",
                   "level": 5,
-                  "name": "Abstêmio ou raramente",
+                  "name": "Não bebo (ou bebo raramente)",
                   "operator": "="
                 }
               ]
@@ -2560,7 +2518,7 @@
             {
               "id": "019bf31d-2ef0-7f92-900b-138dfe299a5f",
               "name": "Histórico Periodontal",
-              "lightQuestion": "Como é seu histórico de doença periodontal (gengivite, periodontite)?",
+              "lightQuestion": "Como é seu histórico de problemas nas gengivas (sangramento, inflamação, infecções)?",
               "gender": "not_applicable",
               "points": 12,
               "lightOrder": 40,
@@ -2570,37 +2528,37 @@
                 {
                   "id": "019bf31d-2ef0-70f1-b1e9-804927de2553",
                   "level": 0,
-                  "name": "Periodontite grave tratada ou múltiplos abscessos",
+                  "name": "Doença grave nas gengivas já tratada, ou várias infecções (abscessos)",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-767f-b7d8-81e7f248627a",
                   "level": 1,
-                  "name": "Periodontite moderada ou 1-2 abscessos",
+                  "name": "Doença moderada nas gengivas ou 1-2 infecções",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7d97-ba66-4f3a423fa113",
                   "level": 2,
-                  "name": "Periodontite leve ou gengivite recorrente",
+                  "name": "Inflamação leve nas gengivas ou sangramento frequente",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-767b-bef6-c489093fc56b",
                   "level": 3,
-                  "name": "Gengivite tratada, sem recorrência",
+                  "name": "Já tive gengivas inflamadas, mas tratei e não voltou",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-70c0-a695-538e52be8410",
                   "level": 4,
-                  "name": "Episódio isolado de gengivite",
+                  "name": "Episódio isolado de inflamação na gengiva",
                   "operator": "="
                 },
                 {
                   "id": "019bf31d-2ef0-7ce9-a663-1b113cd8be75",
                   "level": 5,
-                  "name": "Nunca teve doença periodontal",
+                  "name": "Nunca tive problemas nas gengivas",
                   "operator": "="
                 }
               ]
@@ -2624,7 +2582,7 @@
                 {
                   "id": "019bf31d-2ef0-74bd-aa61-436666abe814",
                   "level": 1,
-                  "name": "1x/dia, sem fio, consulta >2 anos",
+                  "name": "1x/dia, sem fio, consulta mais que 2 anos",
                   "operator": "="
                 },
                 {
@@ -2682,25 +2640,25 @@
                 {
                   "id": "019bf7af-d85e-7df0-84f9-d67732959e97",
                   "level": 0,
-                  "name": "3+ parentes próximos",
+                  "name": "Sim, 3 ou mais parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7dcf-a7a3-faef7067f5d2",
                   "level": 1,
-                  "name": "2 parentes próximos",
+                  "name": "Sim, 2 parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-74ce-bede-a6915860ea07",
                   "level": 2,
-                  "name": "1 parente próximo",
+                  "name": "Sim, 1 parente próximo",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7794-a133-26da4b254639",
                   "level": 5,
-                  "name": "Não tem / desconhece",
+                  "name": "Não tenho conhecimento de casos na família",
                   "operator": "="
                 }
               ]
@@ -2718,25 +2676,25 @@
                 {
                   "id": "019bf7af-ba01-78a6-a2fe-1aa6b36580be",
                   "level": 0,
-                  "name": "3+ parentes próximos",
+                  "name": "Sim, 3 ou mais parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-7114-9baf-4be4b09bb50f",
                   "level": 1,
-                  "name": "2 parentes próximos",
+                  "name": "Sim, 2 parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-70ae-8a79-ed4c3fd4ca62",
                   "level": 2,
-                  "name": "1 parente próximo",
+                  "name": "Sim, 1 parente próximo",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-7fa8-af4c-f766816b3eb6",
                   "level": 5,
-                  "name": "Não tem / desconhece",
+                  "name": "Não tenho conhecimento de casos na família",
                   "operator": "="
                 }
               ]
@@ -2754,25 +2712,25 @@
                 {
                   "id": "019bf7af-ba01-7435-94aa-24e816f305f0",
                   "level": 0,
-                  "name": "3+ parentes próximos",
+                  "name": "Sim, 3 ou mais parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-7c30-a711-4a2d956429be",
                   "level": 1,
-                  "name": "2 parentes próximos",
+                  "name": "Sim, 2 parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-7fd0-98c4-9ec04d39a869",
                   "level": 2,
-                  "name": "1 parente próximo",
+                  "name": "Sim, 1 parente próximo",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-7854-a9ff-9a8a7948d1b3",
                   "level": 5,
-                  "name": "Não tem / desconhece",
+                  "name": "Não tenho conhecimento de casos na família",
                   "operator": "="
                 }
               ]
@@ -2790,25 +2748,25 @@
                 {
                   "id": "019bf7af-d85e-7981-aa2b-5667acd9660c",
                   "level": 0,
-                  "name": "3+ parentes próximos",
+                  "name": "Sim, 3 ou mais parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-71a7-8d69-7d6d4e46d3a9",
                   "level": 1,
-                  "name": "2 parentes próximos",
+                  "name": "Sim, 2 parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7330-a131-ee18c6ae7056",
                   "level": 2,
-                  "name": "1 parente próximo",
+                  "name": "Sim, 1 parente próximo",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7aad-a713-2ea13046fe0b",
                   "level": 5,
-                  "name": "Não tem / desconhece",
+                  "name": "Não tenho conhecimento de casos na família",
                   "operator": "="
                 }
               ]
@@ -2826,25 +2784,25 @@
                 {
                   "id": "019bf7af-d85e-77be-9407-da4e7cc47c2c",
                   "level": 0,
-                  "name": "3+ parentes próximos",
+                  "name": "Sim, 3 ou mais parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-7fd9-8da5-a4dd07b88151",
                   "level": 1,
-                  "name": "2 parentes próximos",
+                  "name": "Sim, 2 parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-77f4-8d6e-a8209754799b",
                   "level": 2,
-                  "name": "1 parente próximo",
+                  "name": "Sim, 1 parente próximo",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-d85e-73fd-af45-0bc1efe93006",
                   "level": 5,
-                  "name": "Não tem / desconhece",
+                  "name": "Não tenho conhecimento de casos na família",
                   "operator": "="
                 }
               ]
@@ -2862,25 +2820,25 @@
                 {
                   "id": "019bf7af-ba01-7cd5-bde7-38311c940e04",
                   "level": 0,
-                  "name": "3+ parentes próximos",
+                  "name": "Sim, 3 ou mais parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-754a-af01-a081d29f3581",
                   "level": 1,
-                  "name": "2 parentes próximos",
+                  "name": "Sim, 2 parentes próximos",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-79f6-9eb3-fa0c6551f4bb",
                   "level": 2,
-                  "name": "1 parente próximo",
+                  "name": "Sim, 1 parente próximo",
                   "operator": "="
                 },
                 {
                   "id": "019bf7af-ba01-7589-8be1-f4287185761f",
                   "level": 5,
-                  "name": "Não tem / desconhece",
+                  "name": "Não tenho conhecimento de casos na família",
                   "operator": "="
                 }
               ]
@@ -2912,37 +2870,37 @@
                 {
                   "id": "019c2e64-cdb3-7804-9bae-39e9e1e02b76",
                   "level": 0,
-                  "name": "Sem família ou rompimento total",
+                  "name": "Não tenho família ou estou em rompimento total",
                   "operator": "between"
                 },
                 {
                   "id": "019c2e64-cdb3-70cc-89ff-1fa6d890887e",
                   "level": 1,
-                  "name": "Conflitos graves ativos ou contato raro ou sobrecarga de cuidado (burnout)",
+                  "name": "Tenho conflitos graves ativos, contato raro ou sobrecarga de cuidado",
                   "operator": "between"
                 },
                 {
                   "id": "019c2e64-cdb3-73fe-b119-167d1da60a95",
                   "level": 2,
-                  "name": "Conflitos recorrentes ou suporte familiar fraco",
+                  "name": "Tenho conflitos recorrentes ou suporte familiar fraco",
                   "operator": "between"
                 },
                 {
                   "id": "019c2e64-cdb3-7925-b105-a26908c7e526",
                   "level": 3,
-                  "name": "Contato regular, tensões ocasionais, responsabilidades moderadas",
+                  "name": "Tenho contato regular, com tensões ocasionais",
                   "operator": "between"
                 },
                 {
                   "id": "019c2e64-cdb3-7fcd-a174-f337f845aa64",
                   "level": 4,
-                  "name": "Família próxima, conflitos raros, suporte consistente",
+                  "name": "Tenho família próxima, com suporte consistente",
                   "operator": "between"
                 },
                 {
                   "id": "019c2e64-cdb3-7596-af1c-392b72e4d28d",
                   "level": 5,
-                  "name": "Rede familiar sólida, relações harmoniosas, responsabilidades equilibradas",
+                  "name": "Tenho rede familiar sólida e relações harmoniosas",
                   "operator": "between"
                 }
               ]
@@ -2975,7 +2933,7 @@
                 {
                   "id": "019bf7af-ba01-74a0-8638-c7d51dbb0863",
                   "level": 0,
-                  "name": "<10",
+                  "name": "menos que 10",
                   "upperLimit": "10",
                   "operator": "<"
                 },
@@ -2998,7 +2956,7 @@
                 {
                   "id": "019bf7af-ba01-771a-856f-d1e8e6947e7a",
                   "level": 3,
-                  "name": ">100",
+                  "name": "mais que 100",
                   "lowerLimit": "100",
                   "operator": ">"
                 },
@@ -3034,7 +2992,7 @@
                 {
                   "id": "019bf31d-2ef0-7c10-beaa-55905ebf84be",
                   "level": 0,
-                  "name": "≥130",
+                  "name": "130 ou mais",
                   "lowerLimit": "130",
                   "operator": ">="
                 },
@@ -3073,7 +3031,7 @@
                 {
                   "id": "019bf31d-2ef0-70a7-9c66-b16271ba1f25",
                   "level": 5,
-                  "name": "<60",
+                  "name": "menos que 60",
                   "upperLimit": "60",
                   "operator": "<"
                 }
@@ -3092,7 +3050,7 @@
                 {
                   "id": "019bf31d-2ef0-7d54-9b5d-9b047fc43ce8",
                   "level": 0,
-                  "name": "≥3.5",
+                  "name": "3.5 ou mais",
                   "lowerLimit": "3.5",
                   "operator": ">="
                 },
@@ -3123,365 +3081,9 @@
                 {
                   "id": "019bf31d-2ef0-7af7-b133-113a163631f0",
                   "level": 5,
-                  "name": "<1.0",
+                  "name": "menos que 1.0",
                   "upperLimit": "1.0",
                   "operator": "<"
-                }
-              ]
-            },
-            {
-              "id": "019bf31d-2ef0-73de-9eae-c0e7ef1741f7",
-              "name": "Estradiol - Homens",
-              "lightQuestion": "Se você tem o resultado: qual seu valor de estradiol em pg/mL?",
-              "unit": "pg/mL",
-              "gender": "male",
-              "points": 12,
-              "lightOrder": 58,
-              "labTestCode": "PLNFF2F4B44",
-              "patientExplanation": "O estradiol é um hormônio presente em pequenas quantidades no organismo masculino, produzido principalmente a partir da testosterona por um processo chamado aromatização. Em níveis adequados, ele protege os ossos, contribui para a memória, a saúde cardiovascular e o equilíbrio emocional.\n\nQuando está muito alto, pode causar redução da libido, dificuldade de ereção, retenção de líquidos, aumento das mamas e diminuição dos efeitos da testosterona. Quando está muito baixo, podem surgir dores nas articulações, fadiga, baixo humor e comprometimento da memória.\n\nO estradiol deve sempre ser avaliado junto com a testosterona: um valor isolado pode ser enganoso. O objetivo não é simplesmente reduzir o estradiol, mas garantir equilíbrio com os demais hormônios. Com acompanhamento médico e ajustes de estilo de vida, é possível preservar a saúde hormonal masculina.",
-              "levels": [
-                {
-                  "id": "019bf31d-2ef0-78a9-8a05-dc104bf3c0b0",
-                  "level": 0,
-                  "name": "<10",
-                  "upperLimit": "10",
-                  "operator": "<"
-                },
-                {
-                  "id": "019bf31d-2ef0-7885-8d25-5dfc91ac5bdc",
-                  "level": 1,
-                  "name": "10 a 19",
-                  "lowerLimit": "10",
-                  "upperLimit": "19",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7721-8a06-a9cf2f279c53",
-                  "level": 2,
-                  "name": "20 a 40",
-                  "lowerLimit": "20",
-                  "upperLimit": "40",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7fcc-bc3c-10872544759c",
-                  "level": 3,
-                  "name": "41 a 50",
-                  "lowerLimit": "41",
-                  "upperLimit": "50",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7721-a476-86c2b9e29e20",
-                  "level": 4,
-                  "name": "51 a 60",
-                  "lowerLimit": "51",
-                  "upperLimit": "60",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-755a-b42d-5027791b13c6",
-                  "level": 5,
-                  "name": ">60",
-                  "lowerLimit": "60",
-                  "operator": ">"
-                }
-              ]
-            },
-            {
-              "id": "c77cedd3-2800-7332-8030-53e795aa5ef4",
-              "name": "Estradiol - Mulheres Fase Folicular Inicial (Dias 1-7)",
-              "lightQuestion": "Se você tem o resultado: qual seu valor de estradiol em pg/mL?",
-              "unit": "pg/mL",
-              "gender": "female",
-              "points": 10,
-              "lightOrder": 58,
-              "labTestCode": "PLNFF2F4B44",
-              "patientExplanation": "O estradiol é o principal hormônio feminino produzido pelos ovários. Ele é responsável pelo desenvolvimento das características femininas, pela saúde dos ossos, da pele, do coração e pela regulação do ciclo menstrual. No início do ciclo (dias 1 a 7, chamada fase folicular inicial), o estradiol está naturalmente em seus valores mais baixos, pois os ovários ainda estão começando a preparar um novo óvulo para ovulação. Medir o estradiol nesse momento específico do ciclo é muito importante: ele ajuda o médico a entender como está a reserva dos seus ovários, ou seja, quantos óvulos você ainda tem disponíveis e com que qualidade. Valores muito baixos ou muito altos nessa fase podem indicar alterações hormonais que merecem investigação. Se o resultado estiver fora do esperado, não se preocupe: existem tratamentos e condutas que podem ajudar, e seu médico saberá orientar os próximos passos de forma personalizada para você.",
-              "levels": [
-                {
-                  "id": "019bf7af-ba01-7981-97cb-a354277f5f0f",
-                  "level": 0,
-                  "name": "<20",
-                  "upperLimit": "20",
-                  "operator": "<"
-                },
-                {
-                  "id": "019bf7af-ba01-7b3c-aa7a-4adeebc5fbd3",
-                  "level": 1,
-                  "name": "20 a 29",
-                  "lowerLimit": "20",
-                  "upperLimit": "29",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-ba01-768e-8eca-586e95be93ed",
-                  "level": 2,
-                  "name": "30 a 60",
-                  "lowerLimit": "30",
-                  "upperLimit": "60",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-ba01-74b8-b1c7-1b570b2a0a05",
-                  "level": 3,
-                  "name": "61 a 80",
-                  "lowerLimit": "61",
-                  "upperLimit": "80",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-ba01-7e8f-95c6-3f236177c9c9",
-                  "level": 4,
-                  "name": "81 a 100",
-                  "lowerLimit": "81",
-                  "upperLimit": "100",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-ba01-75b2-8e44-5eed3a87e4de",
-                  "level": 5,
-                  "name": ">100",
-                  "lowerLimit": "100",
-                  "operator": ">"
-                }
-              ]
-            },
-            {
-              "id": "c77cedd3-2800-75b6-ae6e-8461c3043e64",
-              "name": "Estradiol - Mulheres Fase Ovulatória (Pico Meio do Ciclo)",
-              "lightQuestion": "Se você tem o resultado: qual seu valor de estradiol em pg/mL?",
-              "unit": "pg/mL",
-              "gender": "female",
-              "points": 12,
-              "lightOrder": 58,
-              "labTestCode": "PLNFF2F4B44",
-              "patientExplanation": "O estradiol é o principal hormônio feminino produzido pelos ovários. Durante o ciclo menstrual, ele atinge seu ponto mais alto no meio do ciclo, pouco antes da ovulação — quando o óvulo é liberado. Esse pico funciona como um sinal para o corpo liberar o óvulo no momento certo.\n\nValores normais nesse momento variam entre as mulheres, geralmente entre 100 e 400 pg/mL ou mais. Quando o estradiol está baixo demais, pode indicar que a ovulação não está ocorrendo normalmente, dificultando a gravidez. Isso pode acontecer por estresse intenso, baixo peso corporal, síndrome dos ovários policísticos (SOP) ou queda da reserva ovariana com a idade. Valores muito elevados em ciclos espontâneos podem indicar cistos ovarianos.\n\nNa maioria dos casos, essas alterações têm causas identificáveis e tratáveis. Mudanças no estilo de vida, alimentação adequada e acompanhamento médico especializado podem fazer grande diferença na regulação hormonal e na saúde reprodutiva.",
-              "levels": [
-                {
-                  "id": "019bf7af-d85e-788e-8e33-7b941a8390fc",
-                  "level": 0,
-                  "name": "<100",
-                  "upperLimit": "100",
-                  "operator": "<"
-                },
-                {
-                  "id": "019bf7af-d85e-7180-afaa-14c1b2ce2dde",
-                  "level": 1,
-                  "name": "100 a 199",
-                  "lowerLimit": "100",
-                  "upperLimit": "199",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7a1b-a53f-0933b2f629a7",
-                  "level": 2,
-                  "name": "200 a 400",
-                  "lowerLimit": "200",
-                  "upperLimit": "400",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7bd6-b28e-4bb90009041d",
-                  "level": 3,
-                  "name": "401 a 500",
-                  "lowerLimit": "401",
-                  "upperLimit": "500",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7587-9623-4925d66cb840",
-                  "level": 4,
-                  "name": "501 a 600",
-                  "lowerLimit": "501",
-                  "upperLimit": "600",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7f88-acdf-ae5ab598062c",
-                  "level": 5,
-                  "name": ">600",
-                  "lowerLimit": "600",
-                  "operator": ">"
-                }
-              ]
-            },
-            {
-              "id": "c77cedd3-2800-7dff-a8f4-328b0a41e9e9",
-              "name": "Estradiol - Mulheres Fase Lútea (Dias 19-21)",
-              "lightQuestion": "Se você tem o resultado: qual seu valor de estradiol em pg/mL?",
-              "unit": "pg/mL",
-              "gender": "female",
-              "points": 8,
-              "lightOrder": 58,
-              "labTestCode": "PLNFF2F4B44",
-              "patientExplanation": "O estradiol é o principal hormônio feminino produzido pelos ovários. Ele participa do ciclo menstrual, influencia o humor, a energia, a saúde dos ossos, da pele e da função cardiovascular. A dosagem nos dias 19 a 21 do ciclo — fase lútea — verifica como os ovários estão funcionando após a ovulação. Nessa fase, o estradiol precisa estar em equilíbrio com a progesterona.\n\nValores abaixo do esperado podem significar que a ovulação não ocorreu normalmente, causando cansaço, queda de cabelo, ressecamento, alterações de humor ou dificuldade para engravidar. Valores elevados em relação à progesterona podem causar inchaço, irritabilidade e sensibilidade nas mamas.\n\nO resultado isolado não define um diagnóstico — ele é interpretado junto com outros hormônios e sintomas. Com acompanhamento adequado, é possível identificar e corrigir desequilíbrios de forma personalizada.",
-              "levels": [
-                {
-                  "id": "019bf7af-d85e-75c9-a2ae-301ca2797985",
-                  "level": 0,
-                  "name": "<40",
-                  "upperLimit": "40",
-                  "operator": "<"
-                },
-                {
-                  "id": "019bf7af-d85e-7156-b432-157116c1c36f",
-                  "level": 1,
-                  "name": "40 a 79",
-                  "lowerLimit": "40",
-                  "upperLimit": "79",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-71cd-9f39-abc2c744ccf4",
-                  "level": 2,
-                  "name": "80 a 150",
-                  "lowerLimit": "80",
-                  "upperLimit": "150",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-79e9-81d2-3e01da6ca76a",
-                  "level": 3,
-                  "name": "151 a 200",
-                  "lowerLimit": "151",
-                  "upperLimit": "200",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7a35-96f3-4cc191b11fcf",
-                  "level": 4,
-                  "name": "201 a 250",
-                  "lowerLimit": "201",
-                  "upperLimit": "250",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7ec4-8d73-274381706cf1",
-                  "level": 5,
-                  "name": ">250",
-                  "lowerLimit": "250",
-                  "operator": ">"
-                }
-              ]
-            },
-            {
-              "id": "c77cedd3-2800-7c8e-89d7-becfd6d6a375",
-              "name": "Estradiol - Mulheres Pós-Menopausa (Sem TRH)",
-              "lightQuestion": "Se você tem o resultado: qual seu valor de estradiol em pg/mL?",
-              "unit": "pg/mL",
-              "gender": "female",
-              "postMenopause": true,
-              "points": 18,
-              "lightOrder": 58,
-              "labTestCode": "PLNFF2F4B44",
-              "patientExplanation": "O estradiol é o principal hormônio feminino, produzido pelos ovários durante toda a vida reprodutiva. Ele protege o coração, os ossos e o cérebro, além de regular o humor, o sono e o bem-estar geral. Após a menopausa, os ovários param de produzi-lo e seus níveis caem bastante — e essa queda está diretamente ligada a vários sintomas e riscos de saúde. Valores muito baixos de estradiol podem explicar ondas de calor (fogachos), suores noturnos, dificuldade para dormir, ressecamento vaginal, dores nas articulações e alterações de humor. A longo prazo, a falta de estradiol aumenta o risco de doenças do coração, osteoporose (ossos frágeis) e até problemas de memória. Saber o seu nível atual de estradiol é um passo importante para entender sua saúde hormonal e avaliar, junto com seu médico, se há necessidade de alguma intervenção para melhorar sua qualidade de vida e proteger sua saúde no futuro.",
-              "levels": [
-                {
-                  "id": "019bf7af-d85e-7cf4-9324-51cf00803dbc",
-                  "level": 0,
-                  "name": ">60",
-                  "lowerLimit": "60",
-                  "operator": ">"
-                },
-                {
-                  "id": "019bf7af-d85e-741d-ab73-a4b5480363ba",
-                  "level": 1,
-                  "name": "40 a 60",
-                  "lowerLimit": "40",
-                  "upperLimit": "60",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7c6f-abe0-f5036a57b452",
-                  "level": 2,
-                  "name": "25 a 39",
-                  "lowerLimit": "25",
-                  "upperLimit": "39",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7ce5-a078-2635b115749f",
-                  "level": 3,
-                  "name": "10 a 24",
-                  "lowerLimit": "10",
-                  "upperLimit": "24",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7786-9fca-4f2eefc69d59",
-                  "level": 4,
-                  "name": "5 a 9",
-                  "lowerLimit": "5",
-                  "upperLimit": "9",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7fca-9add-fd3f9da20773",
-                  "level": 5,
-                  "name": "<5",
-                  "upperLimit": "5",
-                  "operator": "<"
-                }
-              ]
-            },
-            {
-              "id": "019bf31d-2ef0-78fb-a542-b61a7e1fd979",
-              "name": "Estradiol - Mulheres Pós-Menopausa (Com TRH)",
-              "lightQuestion": "Se você tem o resultado: qual seu valor de estradiol em pg/mL?",
-              "unit": "pg/mL",
-              "gender": "female",
-              "postMenopause": true,
-              "points": 14,
-              "lightOrder": 58,
-              "labTestCode": "PLNFF2F4B44",
-              "patientExplanation": "O estradiol é o principal hormônio feminino produzido pelos ovários. Após a menopausa, sua produção cai drasticamente, o que pode causar fogachos, insônia, ressecamento vaginal, alterações de humor, perda de osso e aumento do risco de doenças do coração. Quando você está fazendo terapia hormonal (TRH), seu médico mede o estradiol no sangue para saber se a dose está adequada. O objetivo é manter o nível entre 60 e 90 pg/mL, uma faixa que protege o coração, os ossos e o cérebro. Se o valor estiver muito baixo, a dose pode precisar de ajuste; se estiver muito alto, pode ser necessário reduzir. Mulheres que iniciam a TRH no momento certo — nos primeiros anos após a menopausa — têm reduções significativas no risco de infarto, osteoporose e até demência. A reposição com estradiol bioidêntico, especialmente pela pele (gel ou adesivo), é segura e bem tolerada quando bem monitorada.",
-              "levels": [
-                {
-                  "id": "019bf31d-2ef0-714a-a607-516ee97e026f",
-                  "level": 0,
-                  "name": "<30",
-                  "upperLimit": "30",
-                  "operator": "<"
-                },
-                {
-                  "id": "019bf31d-2ef0-7021-828f-af041c3d33a2",
-                  "level": 1,
-                  "name": "30 a 59",
-                  "lowerLimit": "30",
-                  "upperLimit": "59",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7d9f-aa82-297b3146cc4f",
-                  "level": 2,
-                  "name": "60 a 150",
-                  "lowerLimit": "60",
-                  "upperLimit": "150",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7c0d-87d7-b9a2c750cd0f",
-                  "level": 3,
-                  "name": "151 a 200",
-                  "lowerLimit": "151",
-                  "upperLimit": "200",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7559-8780-ad9c90cf3516",
-                  "level": 4,
-                  "name": "201 a 250",
-                  "lowerLimit": "201",
-                  "upperLimit": "250",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-74ce-92ca-8df5a029edec",
-                  "level": 5,
-                  "name": ">250",
-                  "lowerLimit": "250",
-                  "operator": ">"
                 }
               ]
             },
@@ -3499,14 +3101,14 @@
                 {
                   "id": "019bf31d-2ef0-71c9-92e1-87fafba5a65f",
                   "level": 0,
-                  "name": ">150",
+                  "name": "mais que 150",
                   "lowerLimit": "150",
                   "operator": ">"
                 },
                 {
                   "id": "019bf31d-2ef0-7940-8243-e49a62ad93d3",
                   "level": 1,
-                  "name": "<15",
+                  "name": "menos que 15",
                   "upperLimit": "15",
                   "operator": "<"
                 },
@@ -3545,113 +3147,6 @@
               ]
             },
             {
-              "id": "019bf31d-2ef0-74be-92bb-3aaad9c448a7",
-              "name": "Ferritina - Mulheres Pré-Menopausa",
-              "lightQuestion": "Se você tem o resultado: qual seu valor de ferritina em ng/mL?",
-              "unit": "ng/mL",
-              "gender": "female",
-              "points": 15,
-              "lightOrder": 54,
-              "labTestCode": "PLNCEFB97FD",
-              "patientExplanation": "A ferritina é uma proteína que armazena ferro nas células do corpo. Pense nela como um depósito de ferro — quanto mais ferritina, mais ferro disponível para as células funcionarem bem. O ferro é essencial para produzir energia, manter a tireoide saudável, sustentar os cabelos e garantir que o sangue transporte oxigênio corretamente.\n\nMuitas mulheres em idade fértil têm ferritina baixa por conta das perdas menstruais, mesmo sem anemia nos exames convencionais. Isso pode causar cansaço, dificuldade de concentração e queda de cabelo mesmo com hemograma normal. Os laboratórios consideram normal a partir de 12 ng/mL, mas evidências atuais indicam que os níveis ideais para mulheres ficam entre 75 e 150 ng/mL.\n\nSe a sua ferritina estiver baixa, não se preocupe: é um problema muito comum e com solução. Com orientação adequada sobre alimentação e suplementação, os níveis podem ser corrigidos. O acompanhamento periódico é importante para confirmar a melhora e ajustar o tratamento.",
-              "levels": [
-                {
-                  "id": "019bf31d-2ef0-73af-8702-09fdcc0790c1",
-                  "level": 0,
-                  "name": ">150",
-                  "lowerLimit": "150",
-                  "operator": ">"
-                },
-                {
-                  "id": "019bf31d-2ef0-7b27-a354-b58761aad7a6",
-                  "level": 1,
-                  "name": "<15",
-                  "upperLimit": "15",
-                  "operator": "<"
-                },
-                {
-                  "id": "019bf31d-2ef0-7a17-8991-99c2020f2901",
-                  "level": 2,
-                  "name": "15 a 24",
-                  "lowerLimit": "15",
-                  "upperLimit": "24",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-702f-8029-2a13ed22c9f5",
-                  "level": 3,
-                  "name": "25 a 39",
-                  "lowerLimit": "25",
-                  "upperLimit": "39",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7c7e-9dba-4edd1385f34d",
-                  "level": 4,
-                  "name": "81 a 150",
-                  "lowerLimit": "81",
-                  "upperLimit": "150",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7361-8ad3-de606f54493a",
-                  "level": 5,
-                  "name": "40 a 80",
-                  "lowerLimit": "40",
-                  "upperLimit": "80",
-                  "operator": "between"
-                }
-              ]
-            },
-            {
-              "id": "019bf31d-2ef0-7236-8694-5e28d8748475",
-              "name": "Ferritina - Mulheres Pós-Menopausa",
-              "lightQuestion": "Se você tem o resultado: qual seu valor de ferritina em ng/mL?",
-              "unit": "ng/mL",
-              "gender": "female",
-              "postMenopause": true,
-              "points": 14,
-              "lightOrder": 54,
-              "labTestCode": "PLNCEFB97FD",
-              "patientExplanation": "A ferritina é a principal proteína de armazenamento de ferro do organismo, indicando quanto ferro está guardado nas reservas. Para mulheres após a menopausa, esse exame tem importância especial: com o fim das menstruações, o corpo para de perder ferro mensalmente, e os níveis tendem a subir — podendo até dobrar ou triplicar em relação ao período fértil.\n\nValores baixos (abaixo de 45-70 ng/mL) podem causar cansaço, queda de cabelo e falta de concentração — mesmo sem anemia evidente. Já valores muito elevados (acima de 200 ng/mL) podem refletir inflamação ou, mais raramente, acúmulo excessivo de ferro, o que exige investigação.\n\nO objetivo não é apenas estar dentro dos limites laboratoriais, mas atingir um nível ideal para sua saúde e energia. Seu médico irá interpretar esse resultado junto com outros exames para orientar a conduta mais adequada para você.",
-              "levels": [
-                {
-                  "id": "019c65f1-c2f7-7b39-88fe-9e0d08a037c1",
-                  "level": 0,
-                  "name": "Deficiência (<30 ng/mL)",
-                  "upperLimit": "30",
-                  "operator": "<",
-                  "patientExplanation": "Seus estoques de ferro estão muito baixos. Você precisa investigar a causa (pode ser sangramento digestivo oculto, mesmo sem menstruar) e fazer reposição de ferro com acompanhamento médico."
-                },
-                {
-                  "id": "019c65f1-c2f8-7345-822d-381f38fc4a17",
-                  "level": 1,
-                  "name": "Normal (30-200 ng/mL)",
-                  "lowerLimit": "30",
-                  "upperLimit": "200",
-                  "operator": "between",
-                  "patientExplanation": "Seus estoques de ferro estão adequados e saudáveis para uma mulher pós-menopáusica. Continue com dieta equilibrada e check-up anual de rotina."
-                },
-                {
-                  "id": "019c65f1-c2f8-784c-b63b-738bacede177",
-                  "level": 2,
-                  "name": "Limítrofe-Alta (200-300 ng/mL)",
-                  "lowerLimit": "200",
-                  "upperLimit": "300",
-                  "operator": "between",
-                  "patientExplanation": "Sua ferritina está na zona de atenção. Valores acima de 200 ng/mL podem aumentar risco de diabetes e problemas metabólicos. Seu médico vai solicitar exames complementares para avaliar se há excesso de ferro ou inflamação."
-                },
-                {
-                  "id": "019c65f1-c2f9-7e21-bb01-36a4ea6ebcb6",
-                  "level": 3,
-                  "name": "Sobrecarga (>300 ng/mL)",
-                  "lowerLimit": "300",
-                  "operator": ">",
-                  "patientExplanation": "Sua ferritina está muito alta e pode indicar excesso de ferro no corpo (hemocromatose). O excesso de ferro se deposita em órgãos importantes (fígado, coração, pâncreas) e pode causar problemas graves. Você precisa de avaliação urgente com hematologista."
-                }
-              ]
-            },
-            {
               "id": "c77cedd3-2800-7255-a15a-f049c099b68b",
               "name": "Hemoglobina glicada",
               "lightQuestion": "Se você tem o resultado: qual sua hemoglobina glicada (HbA1c) em %?",
@@ -3665,7 +3160,7 @@
                 {
                   "id": "019bf7af-d85e-7922-a804-ad9de2395a9c",
                   "level": 0,
-                  "name": "≥6.5",
+                  "name": "6.5 ou mais",
                   "lowerLimit": "6.5",
                   "operator": ">="
                 },
@@ -3680,7 +3175,7 @@
                 {
                   "id": "019bf7af-d85e-7045-8b3a-822a1072e611",
                   "level": 2,
-                  "name": "<4.0",
+                  "name": "menos que 4.0",
                   "upperLimit": "4.0",
                   "operator": "<"
                 },
@@ -3724,7 +3219,7 @@
                 {
                   "id": "019bf31d-2ef0-70f6-88d9-5ecd9ac29770",
                   "level": 0,
-                  "name": ">15",
+                  "name": "mais que 15",
                   "lowerLimit": "15",
                   "operator": ">"
                 },
@@ -3755,7 +3250,7 @@
                 {
                   "id": "019bf31d-2ef0-78ba-b341-c081944170d3",
                   "level": 4,
-                  "name": "<6",
+                  "name": "menos que 6",
                   "upperLimit": "6",
                   "operator": "<"
                 },
@@ -3783,7 +3278,7 @@
                 {
                   "id": "019bf31d-2ef0-7489-8484-b7562775ec34",
                   "level": 0,
-                  "name": ">450",
+                  "name": "mais que 450",
                   "lowerLimit": "450",
                   "operator": ">"
                 },
@@ -3822,7 +3317,7 @@
                 {
                   "id": "019bf31d-2ef0-7191-921c-714e04c8743d",
                   "level": 5,
-                  "name": "<30",
+                  "name": "menos que 30",
                   "upperLimit": "30",
                   "operator": "<"
                 }
@@ -3842,7 +3337,7 @@
                 {
                   "id": "019bf7af-ba01-75b1-bdae-20cef441a66a",
                   "level": 0,
-                  "name": "≥300",
+                  "name": "300 ou mais",
                   "lowerLimit": "300",
                   "operator": ">="
                 },
@@ -3881,7 +3376,7 @@
                 {
                   "id": "019bf7af-ba01-7b2b-864c-26c9ddf6e69e",
                   "level": 5,
-                  "name": "<10",
+                  "name": "menos que 10",
                   "upperLimit": "10",
                   "operator": "<"
                 }
@@ -3903,7 +3398,7 @@
                 {
                   "id": "019bf31d-2ef0-7fc1-997f-ddc8f5ee6dd8",
                   "level": 0,
-                  "name": ">1800",
+                  "name": "mais que 1800",
                   "lowerLimit": "1800",
                   "operator": ">",
                   "patientExplanation": "Este resultado indica que seu coração pode estar sob grande pressão. É importante procurar avaliação médica urgente para investigar a causa e iniciar tratamento adequado."
@@ -3943,7 +3438,7 @@
                 {
                   "id": "019bf31d-2ef0-7841-a438-d7de334a5d65",
                   "level": 5,
-                  "name": "<50",
+                  "name": "menos que 50",
                   "upperLimit": "50",
                   "operator": "<",
                   "patientExplanation": "Este resultado é excelente! Significa que a probabilidade de problemas no bombeamento do seu coração é muito baixa. Seu coração está funcionando bem."
@@ -3966,7 +3461,7 @@
                 {
                   "id": "019bf31d-2ef0-7ece-9bf6-ba2675398387",
                   "level": 0,
-                  "name": ">2000",
+                  "name": "mais que 2000",
                   "lowerLimit": "2000",
                   "operator": ">"
                 },
@@ -4005,7 +3500,7 @@
                 {
                   "id": "019bf31d-2ef0-72cc-8ca1-7eb792a15042",
                   "level": 5,
-                  "name": "<75",
+                  "name": "menos que 75",
                   "upperLimit": "75",
                   "operator": "<"
                 }
@@ -4027,7 +3522,7 @@
                 {
                   "id": "019bf7af-d85e-7053-9971-fda404e4622d",
                   "level": 0,
-                  "name": ">4000",
+                  "name": "mais que 4000",
                   "lowerLimit": "4000",
                   "operator": ">"
                 },
@@ -4066,7 +3561,7 @@
                 {
                   "id": "019bf7af-d85e-7c50-b318-f12d22338cff",
                   "level": 5,
-                  "name": "<125",
+                  "name": "menos que 125",
                   "upperLimit": "125",
                   "operator": "<"
                 }
@@ -4086,7 +3581,7 @@
                 {
                   "id": "019bf31d-2ef0-751d-bfd6-580e91bcaefc",
                   "level": 0,
-                  "name": "≥10.0",
+                  "name": "10.0 ou mais",
                   "lowerLimit": "10.0",
                   "operator": ">="
                 },
@@ -4125,7 +3620,7 @@
                 {
                   "id": "019bf31d-2ef0-707e-b674-3663d80ddaff",
                   "level": 5,
-                  "name": "<0.5",
+                  "name": "menos que 0.5",
                   "upperLimit": "0.5",
                   "operator": "<"
                 }
@@ -4145,14 +3640,14 @@
                 {
                   "id": "019bf7af-ba01-76a2-a63d-816186c57b0a",
                   "level": 0,
-                  "name": "<30",
+                  "name": "menos que 30",
                   "upperLimit": "30",
                   "operator": "<"
                 },
                 {
                   "id": "019bf7af-ba01-7bb2-b679-2c995cf868cf",
                   "level": 1,
-                  "name": "≥90",
+                  "name": "90 ou mais",
                   "lowerLimit": "90",
                   "operator": ">="
                 },
@@ -4204,7 +3699,7 @@
                 {
                   "id": "019bf7af-ba01-7fb9-910f-f231db47acaa",
                   "level": 0,
-                  "name": "≥190",
+                  "name": "190 ou mais",
                   "lowerLimit": "190",
                   "operator": ">="
                 },
@@ -4243,7 +3738,7 @@
                 {
                   "id": "019bf7af-ba01-7012-9c22-e003b8c1001e",
                   "level": 5,
-                  "name": "<70",
+                  "name": "menos que 70",
                   "upperLimit": "70",
                   "operator": "<"
                 }
@@ -4263,7 +3758,7 @@
                 {
                   "id": "019bf31d-2ef0-7ddf-820c-28c777df311e",
                   "level": 0,
-                  "name": "≥500",
+                  "name": "500 ou mais",
                   "lowerLimit": "500",
                   "operator": ">="
                 },
@@ -4302,7 +3797,7 @@
                 {
                   "id": "019bf31d-2ef0-76cb-8f31-0914eacaf9cb",
                   "level": 5,
-                  "name": "<70",
+                  "name": "menos que 70",
                   "upperLimit": "70",
                   "operator": "<"
                 }
@@ -4322,7 +3817,7 @@
                 {
                   "id": "019bf31d-2ef0-70b0-9d2d-785c08db9dbc",
                   "level": 0,
-                  "name": ">3.0",
+                  "name": "mais que 3.0",
                   "lowerLimit": "3.0",
                   "operator": ">"
                 },
@@ -4353,7 +3848,7 @@
                 {
                   "id": "019bf31d-2ef0-7fcf-81cb-1e1ee345bb7b",
                   "level": 5,
-                  "name": "<1.0",
+                  "name": "menos que 1.0",
                   "upperLimit": "1.0",
                   "operator": "<"
                 }
@@ -4373,14 +3868,14 @@
                 {
                   "id": "019bf31d-2ef0-786f-bdac-788676c29109",
                   "level": 0,
-                  "name": ">10.0",
+                  "name": "mais que 10.0",
                   "lowerLimit": "10.0",
                   "operator": ">"
                 },
                 {
                   "id": "019bf31d-2ef0-7ba2-ae11-79448c1adbd2",
                   "level": 1,
-                  "name": "<0.1",
+                  "name": "menos que 0.1",
                   "upperLimit": "0.1",
                   "operator": "<"
                 },
@@ -4432,14 +3927,14 @@
                 {
                   "id": "019bf31d-2ef0-7283-83ef-2c9fdef26675",
                   "level": 0,
-                  "name": "<2.0",
+                  "name": "menos que 2.0",
                   "upperLimit": "2.0",
                   "operator": "<"
                 },
                 {
                   "id": "019bf31d-2ef0-7b7a-87d5-80217e3a6256",
                   "level": 1,
-                  "name": ">4.4",
+                  "name": "mais que 4.4",
                   "lowerLimit": "4.4",
                   "operator": ">"
                 },
@@ -4491,7 +3986,7 @@
                 {
                   "id": "019bf7af-d85e-77bd-8f6e-9852c3a5c7eb",
                   "level": 0,
-                  "name": "<200",
+                  "name": "menos que 200",
                   "upperLimit": "200",
                   "operator": "<"
                 },
@@ -4536,125 +4031,6 @@
                   "operator": "between"
                 }
               ]
-            },
-            {
-              "id": "019bf31d-2ef0-75c6-bad3-8dff164c977a",
-              "name": "Testosterona Total - Mulheres Pré-Menopausa",
-              "lightQuestion": "Se você tem o resultado: qual seu valor de testosterona total em ng/dL?",
-              "unit": "ng/dL",
-              "gender": "female",
-              "points": 12,
-              "lightOrder": 57,
-              "labTestCode": "PLNDE1A5575",
-              "patientExplanation": "A testosterona é um hormônio presente tanto em homens quanto em mulheres, mas em concentrações muito menores no organismo feminino. Nas mulheres, ela é produzida principalmente pelos ovários e pelas glândulas suprarrenais e tem papéis importantes: contribui para a libido, a energia, a força muscular e o bem-estar geral.\n\nQuando os níveis de testosterona estão elevados em mulheres em idade reprodutiva, isso pode indicar condições como a síndrome dos ovários policísticos (SOP) — uma das condições hormonais mais comuns nessa fase da vida —, alterações nas glândulas suprarrenais ou, raramente, a presença de tumores produtores de hormônios. Os sinais mais comuns de testosterona elevada são: pelos excessivos no rosto e corpo (hirsutismo), acne persistente, queda de cabelo com padrão masculino e irregularidade menstrual.\n\nPor outro lado, níveis muito baixos também podem afetar a saúde, reduzindo a libido, a disposição e a força muscular.\n\nEsse exame é importante porque permite ao médico entender a origem de sintomas que parecem não ter explicação, direcionar o tratamento correto e identificar precocemente condições metabólicas associadas, como resistência à insulina e risco aumentado para diabetes tipo 2. O resultado deve sempre ser interpretado junto com outros exames e com o quadro clínico completo.",
-              "levels": [
-                {
-                  "id": "019bf31d-2ef0-7c3e-9558-3a22a620d434",
-                  "level": 0,
-                  "name": "<5",
-                  "upperLimit": "5",
-                  "operator": "<"
-                },
-                {
-                  "id": "019bf31d-2ef0-7cec-a52c-3eebeaba1177",
-                  "level": 1,
-                  "name": ">70",
-                  "lowerLimit": "70",
-                  "operator": ">"
-                },
-                {
-                  "id": "019bf31d-2ef0-7612-8990-ac8a4b2b0c94",
-                  "level": 2,
-                  "name": "5 a 9",
-                  "lowerLimit": "5",
-                  "upperLimit": "9",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7601-84d5-942a5f1450ac",
-                  "level": 3,
-                  "name": "50 a 70",
-                  "lowerLimit": "50",
-                  "upperLimit": "70",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-74fd-b9c3-d6e0b163f684",
-                  "level": 4,
-                  "name": "10 a 24",
-                  "lowerLimit": "10",
-                  "upperLimit": "24",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-731f-94ab-d054ce0bf5d9",
-                  "level": 5,
-                  "name": "25 a 50",
-                  "lowerLimit": "25",
-                  "upperLimit": "50",
-                  "operator": "between"
-                }
-              ]
-            },
-            {
-              "id": "c77cedd3-2800-7a73-bd66-aeb35ff300b8",
-              "name": "Testosterona Total - Mulheres Pós-Menopausa",
-              "lightQuestion": "Se você tem o resultado: qual seu valor de testosterona total em ng/dL?",
-              "unit": "ng/dL",
-              "gender": "female",
-              "postMenopause": true,
-              "points": 12,
-              "lightOrder": 57,
-              "labTestCode": "PLNDE1A5575",
-              "patientExplanation": "A testosterona é um hormônio que as mulheres também produzem, embora em quantidades muito menores que os homens. Ela é fundamental para o desejo sexual, a disposição, a força muscular, a saúde dos ossos e até para o humor e a memória.\n\nDepois da menopausa, os níveis de testosterona caem de forma gradual — e em mulheres que retiraram os ovários cirurgicamente, essa queda pode ser ainda mais acentuada. Quando esses níveis ficam muito baixos, é comum sentir queda no desejo sexual, cansaço, perda de massa muscular e até alterações no humor.\n\nO exame mede a quantidade total de testosterona no sangue. Se o resultado estiver baixo e você tiver sintomas, o médico pode avaliar a necessidade de reposição hormonal com testosterona, que é segura quando feita em doses adequadas e monitorada corretamente. Não se preocupe: esse exame faz parte de uma avaliação completa da sua saúde hormonal, e o resultado sempre precisa ser interpretado junto com outros exames e com os seus sintomas.",
-              "levels": [
-                {
-                  "id": "019bf7af-d85e-71cc-975b-7dc452e53321",
-                  "level": 0,
-                  "name": "<5",
-                  "upperLimit": "5",
-                  "operator": "<"
-                },
-                {
-                  "id": "019bf7af-d85e-780f-9de9-0ab839128d17",
-                  "level": 1,
-                  "name": ">40",
-                  "lowerLimit": "40",
-                  "operator": ">"
-                },
-                {
-                  "id": "019bf7af-d85e-717e-8b7d-5fb9de186ab1",
-                  "level": 2,
-                  "name": "5 a 9",
-                  "lowerLimit": "5",
-                  "upperLimit": "9",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-792c-8eff-aa92453f9640",
-                  "level": 3,
-                  "name": "35 a 40",
-                  "lowerLimit": "35",
-                  "upperLimit": "40",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-70e8-a1dc-81b275c67469",
-                  "level": 4,
-                  "name": "10 a 14",
-                  "lowerLimit": "10",
-                  "upperLimit": "14",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf7af-d85e-7aa6-a57c-ee4980237919",
-                  "level": 5,
-                  "name": "15 a 35",
-                  "lowerLimit": "15",
-                  "upperLimit": "35",
-                  "operator": "between"
-                }
-              ]
             }
           ]
         },
@@ -4677,7 +4053,7 @@
                 {
                   "id": "019bf7af-ba01-7450-a21b-397ccc017a4b",
                   "level": 0,
-                  "name": "III (>66%)",
+                  "name": "III (mais que 66%)",
                   "operator": "="
                 },
                 {
@@ -4714,7 +4090,7 @@
                 {
                   "id": "019bf7af-ba01-7d9c-836e-2e184516cf1a",
                   "level": 0,
-                  "name": ">1000",
+                  "name": "mais que 1000",
                   "lowerLimit": "1000",
                   "operator": ">"
                 },
@@ -4774,7 +4150,7 @@
                 {
                   "id": "019bf7af-ba01-7efe-8e61-860c24a1e53f",
                   "level": 0,
-                  "name": "<-2.5 (Osteoporose)",
+                  "name": "abaixo de -2.5 (Osteoporose)",
                   "upperLimit": "-2.5",
                   "operator": "<"
                 },
@@ -4805,7 +4181,7 @@
                 {
                   "id": "019bf7af-ba01-7b0f-8393-75e71ef459cf",
                   "level": 5,
-                  "name": ">-1.0 (Normal)",
+                  "name": "acima de -1.0 (Normal)",
                   "lowerLimit": "-1.0",
                   "operator": ">"
                 }

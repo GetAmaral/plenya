@@ -210,22 +210,32 @@ export function NumericClassifierInput({
   item,
   value,
   onChange,
+  readOnly,
+  derivedNote,
 }: {
   item: LightItemConfig;
   value: number | undefined;
   onChange: (v: number | undefined) => void;
+  readOnly?: boolean;
+  derivedNote?: string;
 }) {
   const matched = typeof value === 'number' ? classifyNumeric(value, item.levels) : null;
 
   return (
     <div className="space-y-3">
+      {derivedNote && (
+        <p className="text-petrol/55 text-xs italic">{derivedNote}</p>
+      )}
       <div className="flex items-center gap-3">
         <input
           type="number"
           inputMode="decimal"
           step="any"
           value={value ?? ''}
+          readOnly={readOnly}
+          aria-readonly={readOnly}
           onChange={(e) => {
+            if (readOnly) return;
             if (e.target.value === '') {
               onChange(undefined);
             } else {
@@ -233,8 +243,12 @@ export function NumericClassifierInput({
               if (!Number.isNaN(n)) onChange(n);
             }
           }}
-          className="flex-1 border border-petrol/20 bg-cream px-4 py-3 text-petrol text-lg tabular-nums focus:border-gold focus:outline-none"
-          placeholder={placeholderFor(item)}
+          className={`flex-1 border px-4 py-3 text-petrol text-lg tabular-nums focus:outline-none ${
+            readOnly
+              ? 'border-petrol/10 bg-petrol/[0.03] cursor-not-allowed'
+              : 'border-petrol/20 bg-cream focus:border-gold'
+          }`}
+          placeholder={readOnly ? 'Aguardando dados de entrada' : placeholderFor(item)}
         />
       </div>
 

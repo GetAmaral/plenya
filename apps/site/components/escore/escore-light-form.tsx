@@ -16,7 +16,6 @@ import { NumericClassifierInput, isNumericClassifiable } from './numeric-classif
 type Demographics = {
   age: number | '';
   gender: 'male' | 'female' | 'other' | '';
-  postMenopause: boolean | null;
   height: number | '';
   weight: number | '';
 };
@@ -25,6 +24,49 @@ type ResponseMap = Record<string, SessionResponse>;
 
 const STEP_INTRO = 'intro';
 const STEP_DEMO = 'demographics';
+
+// IDs de itens derivados de outros (calculados automaticamente).
+// Quando os inputs estão disponíveis, o valor é injetado em responses[id].
+const DERIVED_ITEM_IDS = {
+  IMC: '019bf31d-2ef0-7bb8-8305-e0e0285aeb80',
+  WAIST_HEIGHT_RATIO: '019bf31d-2ef0-7171-a061-3bcc500957f7',
+} as const;
+
+const CINTURA_ITEM_IDS = {
+  male: 'c77cedd3-2800-7aac-985c-c075f020e9e0',
+  female: 'c77cedd3-2800-7a74-99ad-56ca4b6dddc1',
+} as const;
+
+const DERIVED_NOTES: Record<string, string> = {
+  [DERIVED_ITEM_IDS.IMC]: 'Calculado automaticamente a partir do seu peso e altura.',
+  [DERIVED_ITEM_IDS.WAIST_HEIGHT_RATIO]: 'Calculado automaticamente a partir da sua cintura e altura.',
+};
+
+function isDerivedItem(itemId: string): boolean {
+  return (Object.values(DERIVED_ITEM_IDS) as string[]).includes(itemId);
+}
+
+function computeDerivedValue(
+  itemId: string,
+  demo: Demographics,
+  responses: ResponseMap,
+): number | undefined {
+  if (itemId === DERIVED_ITEM_IDS.IMC) {
+    if (typeof demo.height !== 'number' || typeof demo.weight !== 'number') return undefined;
+    if (demo.height <= 0 || demo.weight <= 0) return undefined;
+    const heightM = demo.height / 100;
+    return Math.round((demo.weight / (heightM * heightM)) * 10) / 10;
+  }
+  if (itemId === DERIVED_ITEM_IDS.WAIST_HEIGHT_RATIO) {
+    if (typeof demo.height !== 'number' || demo.height <= 0) return undefined;
+    const cinturaId =
+      demo.gender === 'female' ? CINTURA_ITEM_IDS.female : CINTURA_ITEM_IDS.male;
+    const cintura = responses[cinturaId]?.numericValue;
+    if (typeof cintura !== 'number') return undefined;
+    return Math.round((cintura / demo.height) * 100) / 100;
+  }
+  return undefined;
+}
 
 function appliesTo(item: LightItemConfig, demo: Demographics): boolean {
   if (item.gender && item.gender !== 'not_applicable' && item.gender !== demo.gender) {
@@ -36,9 +78,11 @@ function appliesTo(item: LightItemConfig, demo: Demographics): boolean {
   if (typeof item.ageRangeMax === 'number' && typeof demo.age === 'number' && demo.age > item.ageRangeMax) {
     return false;
   }
-  if (typeof item.postMenopause === 'boolean' && demo.gender === 'female') {
-    if (demo.postMenopause === null) return false;
-    if (item.postMenopause !== demo.postMenopause) return false;
+  // Items que dependem de status de menopausa foram desabilitados do Light
+  // (ver curadoria v5). Qualquer item que ainda venha do backend com
+  // postMenopause definido é ignorado defensivamente.
+  if (typeof item.postMenopause === 'boolean') {
+    return false;
   }
   return true;
 }
@@ -55,7 +99,6 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
   const [demo, setDemo] = useState<Demographics>({
     age: '',
     gender: '',
-    postMenopause: null,
     height: '',
     weight: '',
   });
@@ -108,6 +151,30 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
     }
   }, [step]);
 
+  // Sincroniza valores derivados (IMC, Razão cintura/altura) sempre que
+  // os inputs base mudam (peso, altura, gênero, cintura).
+  const cinturaMaleVal = responses[CINTURA_ITEM_IDS.male]?.numericValue;
+  const cinturaFemaleVal = responses[CINTURA_ITEM_IDS.female]?.numericValue;
+  useEffect(() => {
+    setResponses((prev) => {
+      let changed = false;
+      const next = { ...prev };
+      for (const id of Object.values(DERIVED_ITEM_IDS)) {
+        const computed = computeDerivedValue(id, demo, prev);
+        const current = prev[id]?.numericValue;
+        if (computed !== undefined && computed !== current) {
+          next[id] = { scoreItemId: id, numericValue: computed };
+          changed = true;
+        }
+        if (computed === undefined && current !== undefined) {
+          delete next[id];
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, [demo.height, demo.weight, demo.gender, cinturaMaleVal, cinturaFemaleVal]);
+
   const goNext = () => {
     if (step === STEP_INTRO) {
       setStep(STEP_DEMO);
@@ -146,7 +213,6 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
   const demoIsValid = useMemo(() => {
     if (typeof demo.age !== 'number' || demo.age < 18 || demo.age > 120) return false;
     if (!demo.gender) return false;
-    if (demo.gender === 'female' && demo.postMenopause === null) return false;
     return true;
   }, [demo]);
 
@@ -179,7 +245,6 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
       const payload = {
         age: demo.age,
         gender: demo.gender,
-        postMenopause: demo.gender === 'female' ? demo.postMenopause ?? undefined : undefined,
         height: typeof demo.height === 'number' ? demo.height : undefined,
         weight: typeof demo.weight === 'number' ? demo.weight : undefined,
         responses: validResponses,
@@ -337,7 +402,7 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
               <button
                 key={g}
                 type="button"
-                onClick={() => setDemo({ ...demo, gender: g, postMenopause: null })}
+                onClick={() => setDemo({ ...demo, gender: g })}
                 className={`px-5 py-3 border transition ${
                   demo.gender === g
                     ? 'bg-petrol text-cream border-petrol'
@@ -349,31 +414,6 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
             ))}
           </div>
         </fieldset>
-
-        {demo.gender === 'female' && (
-          <fieldset>
-            <legend className="block text-petrol/80 mb-3">Status de menopausa</legend>
-            <div className="flex gap-3">
-              {[
-                { v: true, label: 'Pós-menopausa' },
-                { v: false, label: 'Pré-menopausa' },
-              ].map((opt) => (
-                <button
-                  key={String(opt.v)}
-                  type="button"
-                  onClick={() => setDemo({ ...demo, postMenopause: opt.v })}
-                  className={`px-5 py-3 border transition ${
-                    demo.postMenopause === opt.v
-                      ? 'bg-petrol text-cream border-petrol'
-                      : 'bg-cream text-petrol border-petrol/20 hover:border-petrol/50'
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-        )}
 
         <div className="grid grid-cols-2 gap-4">
           <label className="block">
@@ -534,6 +574,8 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
           <NumericClassifierInput
             item={item}
             value={resp?.numericValue}
+            readOnly={isDerivedItem(item.id)}
+            derivedNote={isDerivedItem(item.id) ? DERIVED_NOTES[item.id] : undefined}
             onChange={(v) => {
               if (v === undefined) {
                 clearResponse(item.id);

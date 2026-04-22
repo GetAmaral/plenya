@@ -28,18 +28,18 @@ const QUESTIONS = [
 
 const ANSWERS = [
   { value: 0, label: 'Nenhuma vez' },
-  { value: 1, label: 'Vários dias' },
+  { value: 1, label: 'Menos da metade dos dias' },
   { value: 2, label: 'Mais da metade dos dias' },
   { value: 3, label: 'Quase todos os dias' },
 ];
 
 function classify(total: number): { level: number; label: string; color: string } {
-  if (total >= 20) return { level: 0, label: 'Depressão grave', color: 'text-red-700' };
-  if (total >= 15) return { level: 1, label: 'Moderadamente grave', color: 'text-orange-600' };
-  if (total >= 10) return { level: 2, label: 'Moderada', color: 'text-amber-600' };
-  if (total >= 5) return { level: 3, label: 'Leve', color: 'text-yellow-600' };
-  if (total >= 2) return { level: 4, label: 'Mínima', color: 'text-emerald-600' };
-  return { level: 5, label: 'Ausente', color: 'text-emerald-700' };
+  if (total >= 20) return { level: 0, label: 'Sintomas graves', color: 'text-red-700' };
+  if (total >= 15) return { level: 1, label: 'Sintomas significativos', color: 'text-orange-600' };
+  if (total >= 10) return { level: 2, label: 'Sintomas moderados', color: 'text-amber-600' };
+  if (total >= 5) return { level: 3, label: 'Sintomas leves', color: 'text-yellow-600' };
+  if (total >= 2) return { level: 4, label: 'Sem sinais relevantes', color: 'text-emerald-600' };
+  return { level: 5, label: 'Sem sinais de depressão', color: 'text-emerald-700' };
 }
 
 export function PHQ9Widget({
