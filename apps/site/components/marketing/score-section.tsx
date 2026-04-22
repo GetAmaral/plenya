@@ -44,15 +44,26 @@ export function ScoreSection() {
             <li className="flex gap-4 items-start">
               <span className="text-gold text-lg leading-none mt-0.5">—</span>
               <span>
-                <strong className="text-petrol">Versão Light</strong> — online
-                em breve, sem consulta prévia.
+                <strong className="text-petrol">Versão Light</strong> —{' '}
+                <Link
+                  href="/escore-plenya/avaliar"
+                  className="text-gold underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
+                >
+                  faça agora online
+                </Link>
+                , sem consulta prévia.
               </span>
             </li>
           </ul>
 
-          <Link href="/escore-plenya" className="btn-outline-dark">
-            Entender o Escore
-          </Link>
+          <div className="flex flex-wrap gap-4">
+            <Link href="/escore-plenya/avaliar" className="btn-gold">
+              Fazer o Escore Light
+            </Link>
+            <Link href="/escore-plenya" className="btn-outline-dark">
+              Entender o Escore
+            </Link>
+          </div>
         </div>
 
         <div className="flex items-center justify-center">

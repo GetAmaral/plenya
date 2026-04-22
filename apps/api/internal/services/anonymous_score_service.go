@@ -598,14 +598,17 @@ func (s *AnonymousScoreService) CreateSession(req CreateSessionRequest) (*Public
 			}
 			groupResultsMap[g.ID] = gr
 
+			seen := make(map[uuid.UUID]bool)
 			for _, sg := range g.Subgroups {
 				for _, it := range sg.Items {
-					if it.IsLightVersion {
+					if it.IsLightVersion && !seen[it.ID] {
 						evaluateLightItem(it, pseudoPatient, respByItem, snapshot, gr)
+						seen[it.ID] = true
 					}
 					for _, child := range it.ChildItems {
-						if child.IsLightVersion {
+						if child.IsLightVersion && !seen[child.ID] {
 							evaluateLightItem(child, pseudoPatient, respByItem, snapshot, gr)
+							seen[child.ID] = true
 						}
 					}
 				}

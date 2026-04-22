@@ -8,6 +8,10 @@ import type {
   SessionResponse,
 } from '@/lib/score-light/types';
 import { createSession } from '@/lib/score-light/api';
+import { getGroupIcon } from './group-icons';
+import { ItemInstruction, getInstructionType } from './item-instructions';
+import { PHQ9Widget, PHQ9_ITEM_IDS } from './phq9-widget';
+import { NumericClassifierInput, isNumericClassifiable } from './numeric-classifier-input';
 
 type Demographics = {
   age: number | '';
@@ -87,34 +91,63 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
     }));
   };
 
+  const clearResponse = (itemId: string) => {
+    setResponses((prev) => {
+      if (!(itemId in prev)) return prev;
+      const next = { ...prev };
+      delete next[itemId];
+      return next;
+    });
+  };
+
+  const scrollToTop = () => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const goNext = () => {
     if (step === STEP_INTRO) {
       setStep(STEP_DEMO);
+      scrollToTop();
       return;
     }
     if (step === STEP_DEMO) {
-      if (groupSteps[0]) setStep(groupSteps[0].id);
-      else void submit();
+      if (groupSteps[0]) {
+        setStep(groupSteps[0].id);
+        scrollToTop();
+      } else {
+        void submit();
+      }
       return;
     }
     const idx = groupSteps.findIndex((g) => g.id === step);
     const next = groupSteps[idx + 1];
-    if (next) setStep(next.id);
-    else void submit();
+    if (next) {
+      setStep(next.id);
+      scrollToTop();
+    } else {
+      void submit();
+    }
   };
 
   const goBack = () => {
     if (step === STEP_DEMO) {
       setStep(STEP_INTRO);
+      scrollToTop();
       return;
     }
     const idx = groupSteps.findIndex((g) => g.id === step);
     if (idx === 0) {
       setStep(STEP_DEMO);
+      scrollToTop();
       return;
     }
     const prev = groupSteps[idx - 1];
-    if (prev) setStep(prev.id);
+    if (prev) {
+      setStep(prev.id);
+      scrollToTop();
+    }
   };
 
   const demoIsValid = useMemo(() => {
@@ -124,11 +157,14 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
     return true;
   }, [demo]);
 
-  const groupComplete = (groupId: string): boolean => {
-    const g = groupSteps.find((x) => x.id === groupId);
-    if (!g) return true;
-    return g.items.every((it) => responses[it.id] !== undefined);
-  };
+  const responseCount = useMemo(() => {
+    return Object.values(responses).filter(
+      (r) =>
+        r.selectedLevel !== undefined ||
+        r.numericValue !== undefined ||
+        (r.textValue !== undefined && r.textValue !== ''),
+    ).length;
+  }, [responses]);
 
   async function submit() {
     setSubmitting(true);
@@ -137,13 +173,23 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
       if (typeof demo.age !== 'number' || !demo.gender) {
         throw new Error('Dados demográficos incompletos');
       }
+      // Só envia respostas de fato preenchidas — items em branco ficam fora do cálculo
+      const validResponses = Object.values(responses).filter(
+        (r) =>
+          r.selectedLevel !== undefined ||
+          r.numericValue !== undefined ||
+          (r.textValue !== undefined && r.textValue !== ''),
+      );
+      if (validResponses.length === 0) {
+        throw new Error('Responda pelo menos uma pergunta para gerar seu radar.');
+      }
       const payload = {
         age: demo.age,
         gender: demo.gender,
         postMenopause: demo.gender === 'female' ? demo.postMenopause ?? undefined : undefined,
         height: typeof demo.height === 'number' ? demo.height : undefined,
         weight: typeof demo.weight === 'number' ? demo.weight : undefined,
-        responses: Object.values(responses),
+        responses: validResponses,
       };
       const session = await createSession(payload);
       router.push(`/${locale}/escore-plenya/resultado/${session.publicCode}`);
@@ -175,11 +221,15 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
         Uma fotografia clara da sua saúde — em poucas perguntas.
       </h1>
       <p className="text-petrol/80 text-lg leading-relaxed">
-        Esta é a versão pública do Escore Plenya. Você responde {config.itemCount} perguntas
+        Esta é a versão pública do Escore Plenya. Você responde até {config.itemCount} perguntas
         sobre hábitos, histórico e medidas básicas. Ao final, recebe um radar com sua
         pontuação em cada pilar do Método AGIR.
       </p>
       <ul className="space-y-3 text-petrol/70">
+        <li className="flex gap-3">
+          <span className="text-gold">—</span>
+          <span><strong className="text-petrol">Todas as perguntas são opcionais.</strong> Pule o que não souber, não tiver resultado em mãos ou preferir não responder. O radar é calculado só com o que você responder.</span>
+        </li>
         <li className="flex gap-3">
           <span className="text-gold">—</span>
           <span>10 a 15 minutos. Anônimo. Sem cadastro.</span>
@@ -321,12 +371,19 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
   const renderGroupStep = (groupId: string) => {
     const group = groupSteps.find((g) => g.id === groupId);
     if (!group) return null;
+    const isLastGroup = groupSteps[groupSteps.length - 1].id === groupId;
+    const GroupIcon = getGroupIcon(group.name);
     return (
       <div className="space-y-8 max-w-2xl">
-        <p className="label-upper text-gold">{group.name}</p>
-        <h2 className="heading-section text-petrol text-2xl md:text-3xl">
-          {group.items.length} {group.items.length === 1 ? 'pergunta' : 'perguntas'} sobre {group.name.toLowerCase()}.
-        </h2>
+        <div className="flex items-center gap-4">
+          <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gold/10 text-gold shrink-0">
+            <GroupIcon className="w-7 h-7" strokeWidth={1.5} />
+          </span>
+          <h2 className="heading-section text-petrol text-2xl md:text-3xl">{group.name}</h2>
+        </div>
+        <p className="text-petrol/60 text-sm">
+          Todas opcionais — responda só o que souber ou quiser.
+        </p>
         <div className="space-y-10">
           {group.items.map((item) => renderItemQuestion(item))}
         </div>
@@ -336,15 +393,18 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
           </button>
           <button
             onClick={goNext}
-            disabled={!groupComplete(groupId) || submitting}
+            disabled={submitting || (isLastGroup && responseCount === 0)}
             className={`btn-gold ${
-              !groupComplete(groupId) || submitting ? 'opacity-40 cursor-not-allowed' : ''
+              submitting || (isLastGroup && responseCount === 0)
+                ? 'opacity-40 cursor-not-allowed'
+                : ''
             }`}
+            title={isLastGroup && responseCount === 0 ? 'Responda pelo menos uma pergunta' : undefined}
           >
             {submitting
               ? 'Enviando...'
-              : groupSteps[groupSteps.length - 1].id === groupId
-              ? 'Ver meu resultado'
+              : isLastGroup
+              ? `Ver meu resultado${responseCount > 0 ? ` (${responseCount})` : ''}`
               : 'Continuar'}
           </button>
         </div>
@@ -355,12 +415,78 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
 
   const renderItemQuestion = (item: LightItemConfig) => {
     const resp = responses[item.id];
-    const isLevelChoice = item.levels.length > 0 && !item.labTestCode;
+    const isPHQ9 = PHQ9_ITEM_IDS.has(item.id);
+    const numericMode = !isPHQ9 && isNumericClassifiable(item);
+    const isLevelChoice = !numericMode && item.levels.length > 0 && !item.labTestCode;
+    const hasResponse = resp?.selectedLevel !== undefined || resp?.numericValue !== undefined;
+    const instructionType = getInstructionType(item.name);
+
+    // PHQ-9 usa widget customizado de 9 perguntas
+    if (isPHQ9) {
+      return (
+        <div key={item.id} className="border-t border-petrol/15 pt-6">
+          <div className="flex items-baseline justify-between gap-3 mb-4">
+            <p className="text-petrol text-lg leading-relaxed">
+              Como você tem se sentido nas últimas 2 semanas? <span className="text-petrol/50 text-base">(escala PHQ-9)</span>
+            </p>
+            <button
+              type="button"
+              onClick={() => clearResponse(item.id)}
+              disabled={!hasResponse}
+              aria-hidden={!hasResponse}
+              className={`shrink-0 text-xs underline underline-offset-4 transition ${
+                hasResponse
+                  ? 'text-petrol/40 hover:text-petrol/80 cursor-pointer'
+                  : 'text-transparent pointer-events-none select-none'
+              }`}
+              title={hasResponse ? 'Limpar resposta' : ''}
+            >
+              limpar
+            </button>
+          </div>
+          <PHQ9Widget
+            itemId={item.id}
+            hasExistingResponse={hasResponse}
+            onResult={(level) => setResponse(item.id, { selectedLevel: level })}
+            onClear={() => clearResponse(item.id)}
+          />
+        </div>
+      );
+    }
 
     return (
       <div key={item.id} className="border-t border-petrol/15 pt-6">
-        <p className="text-petrol text-lg leading-relaxed mb-4">{item.lightQuestion}</p>
-        {isLevelChoice ? (
+        <div className="flex items-baseline justify-between gap-3 mb-4">
+          <p className="text-petrol text-lg leading-relaxed">{item.lightQuestion}</p>
+          <button
+            type="button"
+            onClick={() => clearResponse(item.id)}
+            disabled={!hasResponse}
+            aria-hidden={!hasResponse}
+            className={`shrink-0 text-xs underline underline-offset-4 transition ${
+              hasResponse
+                ? 'text-petrol/40 hover:text-petrol/80 cursor-pointer'
+                : 'text-transparent pointer-events-none select-none'
+            }`}
+            title={hasResponse ? 'Limpar resposta' : ''}
+          >
+            limpar
+          </button>
+        </div>
+        {instructionType && <ItemInstruction type={instructionType} />}
+        {numericMode ? (
+          <NumericClassifierInput
+            item={item}
+            value={resp?.numericValue}
+            onChange={(v) => {
+              if (v === undefined) {
+                clearResponse(item.id);
+              } else {
+                setResponse(item.id, { numericValue: v });
+              }
+            }}
+          />
+        ) : isLevelChoice ? (
           <div className="grid sm:grid-cols-2 gap-2">
             {item.levels
               .slice()
@@ -371,7 +497,14 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
                   <button
                     key={lv.id}
                     type="button"
-                    onClick={() => setResponse(item.id, { selectedLevel: lv.level })}
+                    onClick={() => {
+                      if (selected) {
+                        clearResponse(item.id);
+                      } else {
+                        setResponse(item.id, { selectedLevel: lv.level });
+                      }
+                    }}
+                    aria-pressed={selected}
                     className={`text-left px-4 py-3 border transition ${
                       selected
                         ? 'bg-petrol text-cream border-petrol'
@@ -388,13 +521,15 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
             <input
               type="number"
               value={resp?.numericValue ?? ''}
-              onChange={(e) =>
-                setResponse(item.id, {
-                  numericValue: e.target.value === '' ? undefined : Number(e.target.value),
-                })
-              }
+              onChange={(e) => {
+                if (e.target.value === '') {
+                  clearResponse(item.id);
+                } else {
+                  setResponse(item.id, { numericValue: Number(e.target.value) });
+                }
+              }}
               className="flex-1 border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
-              placeholder={item.unit ?? 'Valor numérico'}
+              placeholder={item.unit ?? 'Valor numérico (opcional)'}
             />
             {item.unit && <span className="text-petrol/60">{item.unit}</span>}
           </div>
