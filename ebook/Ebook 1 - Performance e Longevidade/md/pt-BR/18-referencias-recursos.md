@@ -74,6 +74,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Sabatine, M.S. et al.** (2017). "Evolocumab and Clinical Outcomes in Patients with Cardiovascular Disease (FOURIER)." *NEJM*, 376:1713–1722. DOI: 10.1056/NEJMoa1615664. — Evolocumabe em ASCVD: redução de 15% em MACE.
 - **Schwartz, G.G. et al.** (2018). "Alirocumab and Cardiovascular Outcomes after Acute Coronary Syndrome (ODYSSEY OUTCOMES)." *NEJM*, 379:2097–2107. DOI: 10.1056/NEJMoa1801174.
 - **O'Donoghue, M.L. et al.** (2023). FOURIER-OLE: extensão aberta de 8 anos do FOURIER. *Circulation*. — Benefício se amplia com o tempo.
+- **O'Donoghue, M.L. et al.** (2019). "Lipoprotein(a), PCSK9 Inhibition, and Cardiovascular Risk." *Circulation*, 139(12):1483–1492. DOI: 10.1161/CIRCULATIONAHA.118.037184. — Redução mediana de 26,9% em Lp(a) com evolocumabe em 48 semanas. Pacientes com Lp(a) basal acima da mediana tiveram redução de 23% em morte coronariana, IAM ou revascularização urgente.
 - **Giugliano, R.P. et al.** (2017). "Cognitive Function in a Randomized Trial of Evolocumab (EBBINGHAUS)." *NEJM*, 377:633–643. — Sem efeito cognitivo adverso de LDL muito baixo.
 - **Ray, K.K. et al.** (2020). "Two Phase 3 Trials of Inclisiran in Patients with Elevated LDL Cholesterol (ORION-10 e ORION-11)." *NEJM*, 382:1507–1519. DOI: 10.1056/NEJMoa1912387.
 - **ORION-4 trial.** ISRCTN88876914 — 15 mil pacientes com ASCVD, desfechos CV duros, conclusão prevista para meados de 2026.

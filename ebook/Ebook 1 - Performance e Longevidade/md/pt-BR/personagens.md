@@ -60,7 +60,7 @@
 | Idade arterial | **68 anos** (gap +16) | — | ≈ cronológica |
 | Percentil MESA | **>75** | — | — |
 
-Lp(a) elevada — risco herdado que nunca tinha sido medido no check-up anterior. Cap 13 (T+18m) mostra 110 nmol/L sob PCSK9 inibidor (Repatha quinzenal), redução ~30% consistente com dados de classe.
+Lp(a) elevada — risco herdado que nunca tinha sido medido no check-up anterior. Cap 13 (T+18m) mostra **117 nmol/L** sob PCSK9 inibidor (Repatha quinzenal), redução ~27% consistente com a mediana observada em FOURIER (O'Donoghue et al., *Circulation* 2019) e com a faixa 20–30% das meta-análises de fase 2/3 do evolocumab.
 
 > Observação de revisão: Cap 1 descreve o exame como *"angiotomografia"* mas cita o equivalente em escore de cálcio. Cap 5 chama de *"CAC score de 187 descoberto durante a internação"*. Tecnicamente são exames diferentes — nota para decisão editorial.
 
