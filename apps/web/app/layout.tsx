@@ -8,6 +8,10 @@ import { NavigationProgress } from "@/components/navigation-progress";
 import { Suspense } from "react";
 import "@/lib/suppress-dev-logs"; // Suppress verbose development logs
 
+// EMR é stateful (auth, dados de paciente) — desabilita SSG global.
+// Sem isso, páginas client com useSearchParams/auth context falham no prerender.
+export const dynamic = "force-dynamic";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
