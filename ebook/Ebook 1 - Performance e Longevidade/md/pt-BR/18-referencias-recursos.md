@@ -348,7 +348,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 **Cronodisrupção:**
 
-- **Chellappa, S.L. et al.** (2024). "Role of Circadian Health in Cardiometabolic Health and Disease Risk." *Circulation*. AHA Scientific Statement. — *Shift work*: +17% risco CV; irregularidade do sono: até 2x risco CV.
+- **Knutson, K.L. et al.** (2025). "Role of Circadian Health in Cardiometabolic Health and Disease Risk: A Scientific Statement From the American Heart Association." *Circulation*, 152:e408–e419. DOI: 10.1161/CIR.0000000000001388. — *Shift work*: +17% risco CV; irregularidade do sono: até 2x risco CV.
 - Meta-análise *EJPC* (2018) — trabalho em turnos: +15% eventos cardiovasculares, +25% mortalidade cardiovascular.
 - UK Biobank (238 mil participantes) — +11% risco cardiovascular, +25% mortalidade geral em padrões de sono irregular.
 
