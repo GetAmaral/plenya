@@ -11,10 +11,8 @@ WORKDIR /repo
 FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY apps/web/package.json ./apps/web/
-COPY packages/types/package.json ./packages/types/
-COPY packages/ui/package.json ./packages/ui/
-COPY packages/api-client/package.json ./packages/api-client/
 COPY packages/brand/package.json ./packages/brand/
+COPY packages/types/package.json ./packages/types/
 RUN pnpm install --frozen-lockfile --filter "@plenya/web..."
 
 ###
@@ -42,10 +40,8 @@ ENV PORT=3000
 
 COPY --from=builder /repo/package.json /repo/pnpm-lock.yaml /repo/pnpm-workspace.yaml /repo/turbo.json ./
 COPY --from=builder /repo/apps/web/package.json ./apps/web/
-COPY --from=builder /repo/packages/types ./packages/types
-COPY --from=builder /repo/packages/ui ./packages/ui
-COPY --from=builder /repo/packages/api-client ./packages/api-client
 COPY --from=builder /repo/packages/brand ./packages/brand
+COPY --from=builder /repo/packages/types ./packages/types
 COPY --from=builder /repo/apps/web/.next ./apps/web/.next
 COPY --from=builder /repo/apps/web/public ./apps/web/public
 COPY --from=builder /repo/apps/web/next.config.ts ./apps/web/
