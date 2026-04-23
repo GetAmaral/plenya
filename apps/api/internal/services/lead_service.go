@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -13,16 +14,33 @@ import (
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
 
+	"github.com/plenya/api/internal/config"
 	"github.com/plenya/api/internal/models"
 )
 
 // LeadService gerencia leads (captura, listagem, conversão em Patient).
 type LeadService struct {
-	db *gorm.DB
+	db                  *gorm.DB
+	notificationService *NotificationService
+	whatsappService     *WhatsAppService
+	emailService        *EmailService
+	cfg                 *config.Config
 }
 
-func NewLeadService(db *gorm.DB) *LeadService {
-	return &LeadService{db: db}
+func NewLeadService(
+	db *gorm.DB,
+	notificationService *NotificationService,
+	whatsappService *WhatsAppService,
+	emailService *EmailService,
+	cfg *config.Config,
+) *LeadService {
+	return &LeadService{
+		db:                  db,
+		notificationService: notificationService,
+		whatsappService:     whatsappService,
+		emailService:        emailService,
+		cfg:                 cfg,
+	}
 }
 
 // HashIP retorna SHA-256 hex do IP — usado pra registrar consentimento sem armazenar IP plano.
@@ -102,6 +120,9 @@ func (s *LeadService) CreateOrUpdateFromLightClaim(in CreateOrUpdateFromLightCla
 				Channel: models.LeadChannelInternal,
 				Content: ptr("Lead criado via claim do Escore Light"),
 			})
+			// Notifica equipe — async, só na criação (re-claim do mesmo session_id não notifica)
+			leadCopy := newLead
+			goSafe("notify_team", func() { s.NotifyTeamOfNewLead(&leadCopy) })
 			return &newLead, nil
 		}
 	}
@@ -209,6 +230,10 @@ func (s *LeadService) CreateFromContactForm(in CreateFromContactFormInput) (*mod
 		Content: ptr("Lead criado via formulário /contato"),
 	})
 
+	// Notifica equipe — async, best-effort
+	leadCopy := lead
+	goSafe("notify_team", func() { s.NotifyTeamOfNewLead(&leadCopy) })
+
 	return &lead, nil
 }
 
@@ -227,6 +252,9 @@ type InboundWhatsAppInput struct {
 // ProcessInboundWhatsApp registra mensagem inbound. Se já existe Lead ativo pra esse phone,
 // só adiciona LeadActivity. Caso contrário, cria Lead novo com source=whatsapp_inbound.
 // Consent implícito: o cliente iniciou a conversa.
+//
+// Phase 2: também faz lookup em Patient — se o phone já é de um paciente,
+// cria Lead já com ConvertedPatientID (badge "paciente cadastrado" na UI).
 func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.Lead, error) {
 	if strings.TrimSpace(in.PhoneE164) == "" {
 		return nil, errors.New("lead: phone vazio em inbound WhatsApp")
@@ -238,6 +266,11 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 		phone = "+" + phone
 	}
 
+	now := in.ReceivedAt
+	if now.IsZero() {
+		now = time.Now().UTC()
+	}
+
 	// Procura Lead ativo (não converted/lost/unsubscribed) pra esse phone
 	var existing models.Lead
 	err := s.db.
@@ -247,7 +280,7 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 		First(&existing).Error
 
 	if err == nil {
-		// Append atividade
+		// Append atividade + atualiza LastInboundAt (janela de 24h)
 		_ = s.RecordActivity(RecordActivityInput{
 			LeadID:  existing.ID,
 			Type:    models.LeadActivityMessageReceived,
@@ -258,19 +291,20 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 				"received_at":   in.ReceivedAt,
 			},
 		})
+		_ = s.db.Model(&existing).Update("last_inbound_at", now).Error
 		return &existing, nil
 	}
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, fmt.Errorf("lead: inbound WA lookup: %w", err)
 	}
 
-	// Cria novo Lead
-	now := in.ReceivedAt
-	if now.IsZero() {
-		now = time.Now().UTC()
-	}
-	consentVer := "whatsapp_inbound_implicit"
-	consentIP := "" // inbound WA não tem IP do cliente
+	// Phase 2: procura Patient existente por phone — auto-vinculação
+	var existingPatient models.Patient
+	patientErr := s.db.Where("phone = ?", phone).First(&existingPatient).Error
+	patientFound := patientErr == nil
+
+	consentVer := "wa_inbound_v1" // 13 chars, respeita varchar(20) do schema
+	consentIP := ""               // inbound WA não tem IP do cliente
 
 	newLead := models.Lead{
 		Source:           models.LeadSourceWhatsAppInbound,
@@ -282,6 +316,18 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 		ConsentVersion:   &consentVer,
 		ConsentTimestamp: &now,
 		ConsentIPHash:    &consentIP,
+		LastInboundAt:    &now,
+	}
+	// Auto-vincula se já é Patient
+	if patientFound {
+		newLead.Status = models.LeadStatusConverted
+		newLead.ConvertedPatientID = &existingPatient.ID
+		newLead.ConvertedAt = &now
+		// Reaproveita nome do Patient se inbound não trouxe
+		if newLead.Name == nil && existingPatient.Name != "" {
+			n := existingPatient.Name
+			newLead.Name = &n
+		}
 	}
 	if err := s.db.Create(&newLead).Error; err != nil {
 		return nil, fmt.Errorf("lead: create from WA inbound: %w", err)
@@ -303,6 +349,10 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 			"received_at":   now,
 		},
 	})
+
+	// Notifica equipe — async, best-effort. Só dispara em Lead novo (não em inbound a Lead existente).
+	leadCopy := newLead
+	goSafe("notify_team", func() { s.NotifyTeamOfNewLead(&leadCopy) })
 
 	return &newLead, nil
 }
@@ -565,18 +615,17 @@ func (s *LeadService) ConvertToPatient(leadID, actorUserID uuid.UUID, in Convert
 	if in.Gender != nil && *in.Gender != "" {
 		gender = *in.Gender
 	}
-	birth := time.Now().UTC() // placeholder — admin pode editar depois no Patient
-	if in.BirthDate != nil {
-		birth = *in.BirthDate
+	if in.BirthDate == nil {
+		return nil, errors.New("lead: birthDate obrigatório para conversão (data real, não placeholder)")
 	}
+	birth := *in.BirthDate
 
 	var patient models.Patient
 	err = s.db.Transaction(func(tx *gorm.DB) error {
 		userEmail := email
 		if userEmail == "" {
 			// Sem email — gera placeholder determinístico baseado no phone
-			userEmail = fmt.Sprintf("wa-%s@placeholder.plenyasaude.com.br",
-				strings.TrimPrefix(phone, "+"))
+			userEmail = models.BuildPlaceholderEmail(phone)
 		}
 		newUser := models.User{Name: name, Email: userEmail}
 		if err := newUser.SetRoles([]string{string(models.RolePatient)}); err != nil {
@@ -623,6 +672,17 @@ func (s *LeadService) ConvertToPatient(leadID, actorUserID uuid.UUID, in Convert
 	if err := s.MarkConverted(leadID, patient.ID, &actorUserID); err != nil {
 		return nil, err
 	}
+
+	// Email boas-vindas (best-effort, async, só pra emails reais — não placeholders WA)
+	if s.emailService != nil && patient.Email != nil && !models.IsPlaceholderEmail(*patient.Email) {
+		emailAddr, pname := *patient.Email, patient.Name
+		goSafe("send_boas_vindas_manual", func() {
+			if err := s.emailService.SendBoasVindas(emailAddr, pname); err != nil {
+				log.Printf("⚠️  [BOAS_VINDAS] envio falhou para %s: %v", emailAddr, err)
+			}
+		})
+	}
+
 	return &patient, nil
 }
 
@@ -637,6 +697,389 @@ func coalesceStr(override, fallback *string) string {
 	return ""
 }
 
+// ============================================================
+// Stats — Dashboard de funil (Phase 2)
+// ============================================================
+
+// StatsPeriod resolve um período do query param ("7d", "30d", "90d", "custom")
+// para um intervalo concreto (UTC).
+type StatsPeriod struct {
+	From  time.Time
+	To    time.Time
+	Label string
+}
+
+func ResolveStatsPeriod(period, fromStr, toStr string) (StatsPeriod, error) {
+	now := time.Now().UTC()
+	switch period {
+	case "", "30d":
+		return StatsPeriod{From: now.AddDate(0, 0, -30), To: now, Label: "Últimos 30 dias"}, nil
+	case "7d":
+		return StatsPeriod{From: now.AddDate(0, 0, -7), To: now, Label: "Últimos 7 dias"}, nil
+	case "90d":
+		return StatsPeriod{From: now.AddDate(0, 0, -90), To: now, Label: "Últimos 90 dias"}, nil
+	case "custom":
+		from, err := time.Parse("2006-01-02", fromStr)
+		if err != nil {
+			return StatsPeriod{}, fmt.Errorf("from inválido (use YYYY-MM-DD): %w", err)
+		}
+		to, err := time.Parse("2006-01-02", toStr)
+		if err != nil {
+			return StatsPeriod{}, fmt.Errorf("to inválido (use YYYY-MM-DD): %w", err)
+		}
+		return StatsPeriod{From: from, To: to.Add(24 * time.Hour), Label: fromStr + " — " + toStr}, nil
+	default:
+		return StatsPeriod{}, fmt.Errorf("period inválido (use 7d, 30d, 90d ou custom)")
+	}
+}
+
+type StatsByDay struct {
+	Date  string `json:"date"`  // YYYY-MM-DD
+	Count int64  `json:"count"`
+}
+
+type StatsResponse struct {
+	Period struct {
+		From  time.Time `json:"from"`
+		To    time.Time `json:"to"`
+		Label string    `json:"label"`
+	} `json:"period"`
+	Totals           map[string]int64 `json:"totals"`           // por status + "all"
+	BySource         map[string]int64 `json:"bySource"`         // por source
+	ConversionRate   float64          `json:"conversionRate"`   // converted / all
+	AvgTimeToContact *float64         `json:"avgTimeToContact"` // segundos (created → primeira message_sent)
+	AvgTimeToConvert *float64         `json:"avgTimeToConvert"` // segundos (created → converted_at)
+	ByDay            []StatsByDay     `json:"byDay"`
+}
+
+func (s *LeadService) Stats(p StatsPeriod) (*StatsResponse, error) {
+	resp := &StatsResponse{
+		Totals:   map[string]int64{},
+		BySource: map[string]int64{},
+		ByDay:    []StatsByDay{},
+	}
+	resp.Period.From = p.From
+	resp.Period.To = p.To
+	resp.Period.Label = p.Label
+
+	// Totals por status (+ "all")
+	type statusCount struct {
+		Status string
+		Count  int64
+	}
+	var statusRows []statusCount
+	if err := s.db.Model(&models.Lead{}).
+		Select("status, COUNT(*) as count").
+		Where("created_at >= ? AND created_at < ?", p.From, p.To).
+		Group("status").
+		Find(&statusRows).Error; err != nil {
+		return nil, fmt.Errorf("stats: status counts: %w", err)
+	}
+	var allTotal int64
+	for _, r := range statusRows {
+		resp.Totals[r.Status] = r.Count
+		allTotal += r.Count
+	}
+	resp.Totals["all"] = allTotal
+
+	// Por source
+	type sourceCount struct {
+		Source string
+		Count  int64
+	}
+	var sourceRows []sourceCount
+	if err := s.db.Model(&models.Lead{}).
+		Select("source, COUNT(*) as count").
+		Where("created_at >= ? AND created_at < ?", p.From, p.To).
+		Group("source").
+		Find(&sourceRows).Error; err != nil {
+		return nil, fmt.Errorf("stats: source counts: %w", err)
+	}
+	for _, r := range sourceRows {
+		resp.BySource[r.Source] = r.Count
+	}
+
+	// Conversion rate
+	if allTotal > 0 {
+		resp.ConversionRate = float64(resp.Totals["converted"]) / float64(allTotal)
+	}
+
+	// Avg time to convert (created_at → converted_at)
+	type avgRow struct {
+		AvgSeconds *float64
+	}
+	var avgConvert avgRow
+	if err := s.db.Raw(`
+		SELECT AVG(EXTRACT(EPOCH FROM (converted_at - created_at))) as avg_seconds
+		FROM leads
+		WHERE created_at >= ? AND created_at < ? AND converted_at IS NOT NULL
+	`, p.From, p.To).Scan(&avgConvert).Error; err == nil {
+		resp.AvgTimeToConvert = avgConvert.AvgSeconds
+	}
+
+	// Avg time to first contact (created_at → MIN(message_sent activity created_at))
+	var avgContact avgRow
+	if err := s.db.Raw(`
+		SELECT AVG(EXTRACT(EPOCH FROM (first_msg.created_at - leads.created_at))) as avg_seconds
+		FROM leads
+		JOIN LATERAL (
+			SELECT created_at FROM lead_activities
+			WHERE lead_activities.lead_id = leads.id
+			  AND lead_activities.type = 'message_sent'
+			ORDER BY created_at ASC
+			LIMIT 1
+		) first_msg ON TRUE
+		WHERE leads.created_at >= ? AND leads.created_at < ?
+	`, p.From, p.To).Scan(&avgContact).Error; err == nil {
+		resp.AvgTimeToContact = avgContact.AvgSeconds
+	}
+
+	// By day (count por dia)
+	type byDayRow struct {
+		Date  time.Time
+		Count int64
+	}
+	var byDayRows []byDayRow
+	if err := s.db.Raw(`
+		SELECT DATE_TRUNC('day', created_at) as date, COUNT(*) as count
+		FROM leads
+		WHERE created_at >= ? AND created_at < ?
+		GROUP BY DATE_TRUNC('day', created_at)
+		ORDER BY date ASC
+	`, p.From, p.To).Scan(&byDayRows).Error; err != nil {
+		return nil, fmt.Errorf("stats: by day: %w", err)
+	}
+	for _, r := range byDayRows {
+		resp.ByDay = append(resp.ByDay, StatsByDay{
+			Date:  r.Date.Format("2006-01-02"),
+			Count: r.Count,
+		})
+	}
+
+	return resp, nil
+}
+
+// IsUnsubscribeKeyword detecta palavras de unsubscribe no texto inbound.
+// Lista mínima (PARAR/SAIR/STOP/CANCELAR/DESCADASTRAR), case+acento insensitivo,
+// match exato após strip de whitespace e pontuação comum (.,!?).
+// Não é substring — "parar de receber" não casa (intencional, evita falso positivo).
+func IsUnsubscribeKeyword(text string) bool {
+	t := strings.ToLower(strings.TrimSpace(text))
+	t = removeAccents(t)
+	// Strip pontuação comum no final
+	t = strings.TrimRight(t, ".,!?;:")
+	t = strings.TrimSpace(t)
+	switch t {
+	case "parar", "sair", "stop", "cancelar", "descadastrar":
+		return true
+	}
+	return false
+}
+
+// removeAccents remove diacríticos comuns BR (á, é, ã, ç…).
+// Implementação manual mínima — evita dependência externa.
+func removeAccents(s string) string {
+	var b strings.Builder
+	b.Grow(len(s))
+	for _, r := range s {
+		switch r {
+		case 'á', 'à', 'â', 'ã', 'ä':
+			b.WriteRune('a')
+		case 'é', 'è', 'ê', 'ë':
+			b.WriteRune('e')
+		case 'í', 'ì', 'î', 'ï':
+			b.WriteRune('i')
+		case 'ó', 'ò', 'ô', 'õ', 'ö':
+			b.WriteRune('o')
+		case 'ú', 'ù', 'û', 'ü':
+			b.WriteRune('u')
+		case 'ç':
+			b.WriteRune('c')
+		case 'ñ':
+			b.WriteRune('n')
+		default:
+			b.WriteRune(r)
+		}
+	}
+	return b.String()
+}
+
+// UnsubscribeByPhone marca todos os Leads ativos do phone como unsubscribed +
+// WhatsAppOptIn=false. Registra LeadActivity de unsubscribe SÓ pra leads que de fato
+// transicionaram (RowsAffected). Idempotente sob race — segundo chamador concorrente
+// vê 0 rows affected e não duplica activities.
+func (s *LeadService) UnsubscribeByPhone(phone, originalMessage string) {
+	if phone == "" {
+		return
+	}
+	if !strings.HasPrefix(phone, "+") {
+		phone = "+" + phone
+	}
+
+	now := time.Now().UTC()
+
+	// Carrega IDs dos leads ativos pra esse phone (precisamos pra activities depois)
+	var leadIDs []uuid.UUID
+	if err := s.db.Model(&models.Lead{}).
+		Where("phone = ? AND status NOT IN ?", phone,
+			[]models.LeadStatus{models.LeadStatusUnsubscribed, models.LeadStatusConverted}).
+		Pluck("id", &leadIDs).Error; err != nil {
+		log.Printf("⚠️  [UNSUBSCRIBE] lookup phone=%s falhou: %v", phone, err)
+		return
+	}
+	if len(leadIDs) == 0 {
+		return // já estava unsubscribed (ou não existe lead) — no-op
+	}
+
+	// Atualização atômica em UM UPDATE com WHERE status NOT IN (...).
+	// RowsAffected nos diz quantos leads efetivamente mudaram nesta chamada;
+	// chamadas concorrentes que chegarem depois encontram status=unsubscribed
+	// e ficam com RowsAffected=0 (não criam activities duplicadas).
+	res := s.db.Model(&models.Lead{}).
+		Where("id IN ? AND status NOT IN ?", leadIDs,
+			[]models.LeadStatus{models.LeadStatusUnsubscribed, models.LeadStatusConverted}).
+		Updates(map[string]any{
+			"status":           models.LeadStatusUnsubscribed,
+			"whats_app_opt_in": false,
+			"updated_at":       now,
+		})
+	if res.Error != nil {
+		log.Printf("⚠️  [UNSUBSCRIBE] batch update falhou: %v", res.Error)
+		return
+	}
+	if res.RowsAffected == 0 {
+		return // race com outra goroutine que já marcou — silencia
+	}
+
+	// Re-busca pra confirmar quais leads de fato foram tocados (race-safe).
+	var actuallyUnsubscribed []models.Lead
+	if err := s.db.Where("id IN ? AND status = ?", leadIDs, models.LeadStatusUnsubscribed).
+		Find(&actuallyUnsubscribed).Error; err != nil {
+		log.Printf("⚠️  [UNSUBSCRIBE] refetch falhou: %v", err)
+		return
+	}
+
+	keywordContent := strings.ToLower(strings.TrimSpace(originalMessage))
+	for _, lead := range actuallyUnsubscribed {
+		// Activity é registrada uma única vez por lead — checa se já existe
+		// activity unsubscribed nos últimos 5 segundos pra esse lead (race window).
+		var existingCount int64
+		_ = s.db.Model(&models.LeadActivity{}).
+			Where("lead_id = ? AND type = ? AND created_at > ?",
+				lead.ID, models.LeadActivityUnsubscribed, now.Add(-5*time.Second)).
+			Count(&existingCount).Error
+		if existingCount > 0 {
+			continue
+		}
+		_ = s.RecordActivity(RecordActivityInput{
+			LeadID:  lead.ID,
+			Type:    models.LeadActivityUnsubscribed,
+			Channel: models.LeadChannelWhatsApp,
+			Content: &originalMessage,
+			Metadata: map[string]any{
+				"trigger":   "auto_keyword",
+				"keyword":   keywordContent,
+				"timestamp": now,
+			},
+		})
+		log.Printf("📱 [UNSUBSCRIBE] lead=%s phone=%s marcado como unsubscribed", lead.ID, phone)
+	}
+}
+
+// RecordWhatsAppStatus persiste um status update (delivered/read/failed) recebido
+// via webhook Meta. Faz lookup do LeadActivity outbound original via wa_message_id.
+// Best-effort: se não acha (mensagem antiga ou de outro sistema), só loga e ignora.
+func (s *LeadService) RecordWhatsAppStatus(waMessageID, status, recipientID string, ts time.Time) {
+	if waMessageID == "" {
+		return
+	}
+	var orig models.LeadActivity
+	// JSONB: metadata->>'wa_message_id' = ?
+	err := s.db.Where("metadata->>'wa_message_id' = ?", waMessageID).
+		Order("created_at DESC").
+		First(&orig).Error
+	if err != nil {
+		// Não acha: pode ser msg antiga ou template enviado fora do CRM
+		log.Printf("📱 [WHATSAPP STATUS] wa_message_id=%s sem activity outbound (status=%s)", waMessageID, status)
+		return
+	}
+
+	metaJSON, _ := json.Marshal(map[string]any{
+		"wa_message_id":      waMessageID,
+		"status":             status,
+		"recipient":          recipientID,
+		"timestamp":          ts,
+		"original_activity":  orig.ID,
+	})
+	activity := &models.LeadActivity{
+		LeadID:   orig.LeadID,
+		Type:     models.LeadActivityMessageStatusChanged,
+		Channel:  models.LeadChannelWhatsApp,
+		Metadata: metaJSON,
+	}
+	if err := s.db.Create(activity).Error; err != nil {
+		log.Printf("⚠️  [WHATSAPP STATUS] persist falhou: %v", err)
+	}
+}
+
+// SendWhatsAppText envia mensagem free-form (session message) via WhatsApp.
+// Valida: lead tem phone, opt-in, e janela 24h ainda aberta.
+// Persiste LeadActivity (message_sent, channel=whatsapp) com wa_message_id em metadata.
+func (s *LeadService) SendWhatsAppText(leadID, actorUserID uuid.UUID, text string) (*models.LeadActivity, error) {
+	text = strings.TrimSpace(text)
+	if text == "" {
+		return nil, errors.New("lead: mensagem vazia")
+	}
+	if len(text) > 4096 {
+		return nil, errors.New("lead: mensagem excede 4096 caracteres")
+	}
+
+	lead, err := s.GetByID(leadID)
+	if err != nil {
+		return nil, err
+	}
+	if lead.Phone == nil || *lead.Phone == "" {
+		return nil, errors.New("lead: sem telefone cadastrado")
+	}
+	if !lead.WhatsAppOptIn {
+		return nil, errors.New("lead: sem opt-in de WhatsApp")
+	}
+	if lead.Status == models.LeadStatusUnsubscribed {
+		return nil, errors.New("lead: cliente solicitou unsubscribe")
+	}
+	if lead.LastInboundAt == nil {
+		return nil, errors.New("lead: sem mensagem inbound recente — fora da janela de 24h. Use template aprovado")
+	}
+	if time.Since(*lead.LastInboundAt) > 24*time.Hour {
+		return nil, errors.New("lead: janela de 24h expirou — use template aprovado")
+	}
+
+	if s.whatsappService == nil {
+		return nil, errors.New("lead: WhatsApp service não configurado")
+	}
+	wamid, err := s.whatsappService.SendTextMessage(*lead.Phone, text)
+	if err != nil {
+		return nil, fmt.Errorf("lead: envio WA falhou: %w", err)
+	}
+
+	activity := &models.LeadActivity{
+		LeadID:      leadID,
+		Type:        models.LeadActivityMessageSent,
+		Channel:     models.LeadChannelWhatsApp,
+		Content:     &text,
+		ActorUserID: &actorUserID,
+	}
+	metaJSON, _ := json.Marshal(map[string]any{
+		"wa_message_id": wamid,
+		"sent_at":       time.Now().UTC(),
+	})
+	activity.Metadata = metaJSON
+	if err := s.db.Create(activity).Error; err != nil {
+		return nil, fmt.Errorf("lead: persist activity: %w", err)
+	}
+	return activity, nil
+}
+
 // Delete remove um Lead (soft delete via gorm.DeletedAt). Atividades caem em cascade.
 // Usado pelo direito LGPD de eliminação (art. 18 VI) e por housekeeping admin.
 func (s *LeadService) Delete(id uuid.UUID) error {
@@ -648,6 +1091,176 @@ func (s *LeadService) Delete(id uuid.UUID) error {
 		return gorm.ErrRecordNotFound
 	}
 	return nil
+}
+
+// ============================================================
+// Notificação interna do CRM (Phase 2)
+// ============================================================
+
+// NotifyTeamOfNewLead dispara notificações pra equipe de vendas:
+// - In-app (badge no sino) — sempre, pra todos os recipients ativos
+// - WhatsApp Business (template lead_alert) — best-effort, só pra users com ProfessionalPhone
+//
+// Recipients são resolvidos por:
+//  1. cfg.CRM.LeadNotifyUserIDs (csv hardcoded) se preenchido
+//  2. caso contrário, todos users com role admin/secretary/manager
+//
+// Erros não bloqueiam — só loga. Idempotente: chamar N vezes pra mesmo lead pode duplicar
+// notif (sem sentinel anti-dup ainda). Caller deve chamar 1×.
+func (s *LeadService) NotifyTeamOfNewLead(lead *models.Lead) {
+	if lead == nil || s.notificationService == nil {
+		return
+	}
+
+	recipients, err := s.resolveLeadNotifyRecipients()
+	if err != nil {
+		log.Printf("⚠️  [LEAD NOTIFY] resolve recipients: %v", err)
+		return
+	}
+	if len(recipients) == 0 {
+		log.Printf("⚠️  [LEAD NOTIFY] nenhum recipient configurado (set CRM_LEAD_NOTIFY_USER_IDS ou crie users admin)")
+		return
+	}
+
+	contact := ""
+	if lead.Email != nil {
+		contact = *lead.Email
+	} else if lead.Phone != nil {
+		contact = *lead.Phone
+	}
+	leadName := "(sem nome)"
+	if lead.Name != nil && *lead.Name != "" {
+		leadName = *lead.Name
+	}
+
+	sourceLabel := leadSourceLabel(lead.Source)
+	title := fmt.Sprintf("Novo lead: %s", leadName)
+	message := fmt.Sprintf("Origem: %s · %s", sourceLabel, contact)
+	notifType := models.NotificationLeadNew
+	if lead.Source == models.LeadSourceWhatsAppInbound {
+		notifType = models.NotificationLeadWhatsAppInbound
+	}
+
+	adminBase := strings.TrimRight(s.cfg.CRM.AdminURL, "/")
+	if adminBase == "" {
+		adminBase = "/leads"
+	}
+	leadURL := fmt.Sprintf("%s/leads/%s", adminBase, lead.ID.String())
+
+	for _, user := range recipients {
+		// 1. In-app
+		if err := s.notificationService.CreateLeadNotification(
+			user.ID, lead.ID, notifType, title, message, leadURL,
+		); err != nil {
+			log.Printf("⚠️  [LEAD NOTIFY] in-app pra %s falhou: %v", user.ID, err)
+		}
+
+		// 2. WhatsApp interno (best-effort, só se user tem ProfessionalPhone E não opt-out)
+		if s.whatsappService != nil && user.ProfessionalPhone != nil && *user.ProfessionalPhone != "" &&
+			userWantsWhatsAppNotification(user) {
+			if err := s.whatsappService.SendLeadAlert(
+				*user.ProfessionalPhone, leadName, contact, sourceLabel, leadURL,
+			); err != nil {
+				log.Printf("⚠️  [LEAD NOTIFY] WhatsApp pra %s falhou: %v", user.ID, err)
+			}
+		}
+	}
+}
+
+// resolveLeadNotifyRecipients retorna a lista de users que devem receber notificação de lead.
+//
+// Resolução em 2 etapas:
+//  1. Lista candidatos:
+//     - se CRM_LEAD_NOTIFY_USER_IDS preenchido, usa lista hardcoded
+//     - senão, fallback pra todos com role admin/secretary/manager
+//  2. Filtra por opt-out individual:
+//     - se Preferences.leadNotifications.inApp == false, usuário é EXCLUÍDO
+//     - default (sem preferência setada) é receber (opt-out, não opt-in)
+func (s *LeadService) resolveLeadNotifyRecipients() ([]models.User, error) {
+	var candidates []models.User
+
+	// 1. Lista candidatos
+	if len(s.cfg.CRM.LeadNotifyUserIDs) > 0 {
+		ids := s.cfg.CRM.LeadNotifyUserIDs
+		if err := s.db.Where("id IN ?", ids).Find(&candidates).Error; err != nil {
+			return nil, err
+		}
+	} else {
+		if err := s.db.Where(
+			`(roles @> ?::jsonb OR roles @> ?::jsonb OR roles @> ?::jsonb) AND deleted_at IS NULL`,
+			`["admin"]`, `["secretary"]`, `["manager"]`,
+		).Find(&candidates).Error; err != nil {
+			return nil, err
+		}
+	}
+
+	// 2. Filtra por opt-out individual via Preferences.leadNotifications.inApp
+	out := make([]models.User, 0, len(candidates))
+	for _, u := range candidates {
+		if !userWantsLeadNotifications(u) {
+			continue
+		}
+		out = append(out, u)
+	}
+	return out, nil
+}
+
+// userWantsLeadNotifications lê User.Preferences.leadNotifications.inApp.
+// Default true se chave inexistente — opt-OUT explícito é necessário pra parar.
+// Shape esperado: {"leadNotifications":{"inApp":false,"whatsapp":false}}
+func userWantsLeadNotifications(u models.User) bool {
+	if len(u.Preferences) == 0 {
+		return true
+	}
+	var prefs struct {
+		LeadNotifications *struct {
+			InApp *bool `json:"inApp,omitempty"`
+		} `json:"leadNotifications,omitempty"`
+	}
+	if err := json.Unmarshal(u.Preferences, &prefs); err != nil {
+		return true // default permissivo se parse falha
+	}
+	if prefs.LeadNotifications == nil || prefs.LeadNotifications.InApp == nil {
+		return true
+	}
+	return *prefs.LeadNotifications.InApp
+}
+
+// userWantsWhatsAppNotification segue a mesma lógica pra canal WhatsApp.
+func userWantsWhatsAppNotification(u models.User) bool {
+	if len(u.Preferences) == 0 {
+		return true
+	}
+	var prefs struct {
+		LeadNotifications *struct {
+			WhatsApp *bool `json:"whatsapp,omitempty"`
+		} `json:"leadNotifications,omitempty"`
+	}
+	if err := json.Unmarshal(u.Preferences, &prefs); err != nil {
+		return true
+	}
+	if prefs.LeadNotifications == nil || prefs.LeadNotifications.WhatsApp == nil {
+		return true
+	}
+	return *prefs.LeadNotifications.WhatsApp
+}
+
+// leadSourceLabel retorna texto humano pro source (PT).
+func leadSourceLabel(src models.LeadSource) string {
+	switch src {
+	case models.LeadSourceLightClaim:
+		return "Escore Light"
+	case models.LeadSourceContactForm:
+		return "Formulário /contato"
+	case models.LeadSourceWhatsAppInbound:
+		return "WhatsApp inbound"
+	case models.LeadSourceNewsletter:
+		return "Newsletter"
+	case models.LeadSourceManual:
+		return "Manual"
+	default:
+		return string(src)
+	}
 }
 
 // FindLeadBySession retorna o Lead vinculado a uma AnonymousScoreSession (se existir).
@@ -679,6 +1292,19 @@ func normalizeEmailPtr(p *string) *string {
 }
 
 func ptr[T any](v T) *T { return &v }
+
+// goSafe roda fn em goroutine com defer recover() — panics em background
+// não derrubam o processo. Logam stack trace pra investigação.
+func goSafe(label string, fn func()) {
+	go func() {
+		defer func() {
+			if r := recover(); r != nil {
+				log.Printf("🛑 [PANIC %s] recovered: %v", label, r)
+			}
+		}()
+		fn()
+	}()
+}
 
 // isUniqueViolation detecta unique constraint violation do PostgreSQL.
 // Verifica códigos SQLState 23505 e mensagens conhecidas (sem dependência do pgconn).

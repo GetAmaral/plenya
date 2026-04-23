@@ -81,6 +81,10 @@ type Lead struct {
 	// (cliente clica "Receber meu link" 2× rapidamente).
 	AnonymousScoreSessionID *uuid.UUID `gorm:"type:uuid;uniqueIndex:idx_leads_session_unique" json:"anonymousScoreSessionId,omitempty"`
 
+	// Timestamp da última mensagem inbound do cliente (WhatsApp). Usado pra checar
+	// janela de 24h pra session messages free-form. Atualizado pelo webhook a cada inbound.
+	LastInboundAt *time.Time `gorm:"type:timestamp;index:idx_leads_last_inbound" json:"lastInboundAt,omitempty"`
+
 	// Conversão em Patient
 	ConvertedPatientID *uuid.UUID `gorm:"type:uuid;index:idx_leads_patient" json:"convertedPatientId,omitempty"`
 	ConvertedAt        *time.Time `gorm:"type:timestamp" json:"convertedAt,omitempty"`

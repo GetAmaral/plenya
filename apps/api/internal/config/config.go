@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
@@ -21,6 +22,7 @@ type Config struct {
 	VoyageAI VoyageAIConfig
 	Email    EmailConfig
 	WhatsApp WhatsAppConfig
+	CRM      CRMConfig
 	Site     SiteConfig
 	Dev      DevConfig
 }
@@ -45,8 +47,15 @@ type WhatsAppConfig struct {
 	AccessToken        string // WHATSAPP_ACCESS_TOKEN — Permanent Access Token (System User)
 	PhoneNumberID      string // WHATSAPP_PHONE_NUMBER_ID — número Plenya WhatsApp Business
 	WebhookVerifyToken string // WHATSAPP_WEBHOOK_VERIFY_TOKEN — secret aleatório do challenge inicial
-	TemplateMagicLink  string // WHATSAPP_TEMPLATE_MAGIC_LINK — nome do template aprovado (default: "magic_link")
+	TemplateMagicLink  string // WHATSAPP_TEMPLATE_MAGIC_LINK — nome do template (default: "magic_link")
+	TemplateLeadAlert  string // WHATSAPP_TEMPLATE_LEAD_ALERT — notificação interna (default: "lead_alert")
 	GraphAPIVersion    string // WHATSAPP_GRAPH_API_VERSION — ex: "v18.0" (default)
+}
+
+// CRMConfig — config operacional do CRM (Phase 2).
+type CRMConfig struct {
+	AdminURL          string   // CRM_ADMIN_URL — URL base do EMR (ex: https://app.plenyasaude.com.br)
+	LeadNotifyUserIDs []string // CRM_LEAD_NOTIFY_USER_IDS (csv) — IDs hardcoded de quem recebe notif (fallback)
 }
 
 // SiteConfig URLs do site público — usado para montar links em emails transacionais
@@ -194,7 +203,12 @@ func Load() (*Config, error) {
 			PhoneNumberID:      getEnv("WHATSAPP_PHONE_NUMBER_ID", ""),
 			WebhookVerifyToken: getEnv("WHATSAPP_WEBHOOK_VERIFY_TOKEN", ""),
 			TemplateMagicLink:  getEnv("WHATSAPP_TEMPLATE_MAGIC_LINK", "magic_link"),
+			TemplateLeadAlert:  getEnv("WHATSAPP_TEMPLATE_LEAD_ALERT", "lead_alert"),
 			GraphAPIVersion:    getEnv("WHATSAPP_GRAPH_API_VERSION", "v18.0"),
+		},
+		CRM: CRMConfig{
+			AdminURL:          getEnv("CRM_ADMIN_URL", "http://localhost:3000"),
+			LeadNotifyUserIDs: parseCSV(getEnv("CRM_LEAD_NOTIFY_USER_IDS", "")),
 		},
 		Site: SiteConfig{
 			PublicURL: getEnv("SITE_PUBLIC_URL", "http://localhost:3002"),
@@ -253,6 +267,22 @@ func getEnvAsInt(key string, defaultValue int) int {
 		}
 	}
 	return defaultValue
+}
+
+// parseCSV separa string CSV em slice, removendo espaços e itens vazios.
+func parseCSV(s string) []string {
+	if s == "" {
+		return nil
+	}
+	parts := strings.Split(s, ",")
+	out := make([]string, 0, len(parts))
+	for _, p := range parts {
+		p = strings.TrimSpace(p)
+		if p != "" {
+			out = append(out, p)
+		}
+	}
+	return out
 }
 
 // getEnvAsBool obtém variável de ambiente como bool ou retorna valor padrão

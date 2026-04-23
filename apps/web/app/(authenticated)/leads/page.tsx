@@ -18,6 +18,7 @@ import { usePatientGuard } from '@/lib/use-patient-guard';
 import { apiClient } from '@/lib/api-client';
 import {
   useLeads,
+  useStaffUsers,
   leadKeys,
   SOURCE_LABELS,
   STATUS_LABELS,
@@ -59,9 +60,14 @@ export default function LeadsPage() {
   const [status, setStatus] = useState<LeadStatus | ''>('');
   const [emailOptIn, setEmailOptIn] = useState<'' | 'yes' | 'no'>('');
   const [whatsAppOptIn, setWhatsAppOptIn] = useState<'' | 'yes' | 'no'>('');
+  const [assignedFilter, setAssignedFilter] = useState<'' | 'me' | 'unassigned' | string>('');
   const [page, setPage] = useState(0);
   const [actionPending, setActionPending] = useState<string | null>(null);
   const pageSize = 25;
+
+  // Resolve assigned filter — backend aceita user UUID; "unassigned" precisa client-side
+  const assignedToUserId =
+    assignedFilter === 'me' ? user?.id : (assignedFilter && assignedFilter !== 'unassigned' ? assignedFilter : undefined);
 
   const filter: LeadFilter = {
     search: search || undefined,
@@ -69,9 +75,21 @@ export default function LeadsPage() {
     status: status || undefined,
     hasEmailOptIn: emailOptIn === '' ? undefined : emailOptIn === 'yes',
     hasWhatsAppOptIn: whatsAppOptIn === '' ? undefined : whatsAppOptIn === 'yes',
+    assignedToUserId,
   };
 
   const { data, isLoading } = useLeads(filter, page, pageSize);
+  const { data: staffUsers } = useStaffUsers();
+
+  // Contador rápido pra "meus leads" (só dispara quando user.id resolveu —
+  // evita fetch sem filtro retornando total geral durante o flash de carregamento)
+  const myLeadsQuery = useLeads(
+    { assignedToUserId: user?.id },
+    0,
+    1,
+    { enabled: !!user?.id }
+  );
+  const myLeadsCount = myLeadsQuery.data?.total ?? 0;
 
   async function quickAction(lead: Lead, patch: { status?: LeadStatus; assignedToUserId?: string }) {
     setActionPending(lead.id);
@@ -164,8 +182,35 @@ export default function LeadsPage() {
               <option value="no">Sem opt-in de WhatsApp</option>
             </select>
           </div>
+          <div className="mt-3">
+            <select
+              value={assignedFilter}
+              onChange={(e) => {
+                setAssignedFilter(e.target.value);
+                setPage(0);
+              }}
+              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring md:max-w-xs"
+            >
+              <option value="">Atribuído a: qualquer</option>
+              <option value="me">Atribuídos a mim</option>
+              {staffUsers
+                ?.filter((u) => u.id !== user?.id)
+                .map((u) => (
+                  <option key={u.id} value={u.id}>
+                    Atribuídos a {u.name}
+                  </option>
+                ))}
+            </select>
+          </div>
         </CardContent>
       </Card>
+
+      {/* Contador rápido */}
+      {user?.id && (
+        <p className="text-sm text-muted-foreground">
+          <strong>{myLeadsCount}</strong> lead{myLeadsCount === 1 ? '' : 's'} atribuído{myLeadsCount === 1 ? '' : 's'} a mim
+        </p>
+      )}
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
@@ -217,6 +262,7 @@ export default function LeadsPage() {
                     <th className="px-2 py-3 font-medium">Contato</th>
                     <th className="px-2 py-3 font-medium">Status</th>
                     <th className="px-2 py-3 font-medium">Canais</th>
+                    <th className="px-2 py-3 font-medium">Atribuído</th>
                     <th className="px-2 py-3 font-medium text-right">Ações</th>
                   </tr>
                 </thead>
@@ -261,6 +307,9 @@ export default function LeadsPage() {
                             </Badge>
                           )}
                         </div>
+                      </td>
+                      <td className="px-2 py-3 cursor-pointer text-xs" onClick={() => router.push(`/leads/${lead.id}`)}>
+                        {lead.assignedTo?.name ?? <span className="text-muted-foreground">—</span>}
                       </td>
                       <td className="px-2 py-3 text-right whitespace-nowrap">
                         <div className="inline-flex gap-1">

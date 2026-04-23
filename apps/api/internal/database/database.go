@@ -57,7 +57,7 @@ func Connect(cfg *config.Config) error {
 // AutoMigrate executa as migrations automáticas do GORM
 // NOTA: Em produção, usaremos Atlas para migrations
 func AutoMigrate() error {
-	return DB.AutoMigrate(
+	if err := DB.AutoMigrate(
 		// Core
 		&models.User{},
 		&models.Patient{},
@@ -114,7 +114,34 @@ func AutoMigrate() error {
 		&models.WorkoutMesocycle{},
 		&models.FitnessTestResult{},
 		&models.PosturalAssessment{},
-	)
+	); err != nil {
+		return err
+	}
+
+	// Índices em expressions (não suportados via tag GORM):
+	//
+	// (Phase 2 do CRM)
+	//
+	// 1. lead_activities.metadata->>'wa_message_id' — usado em RecordWhatsAppStatus pra
+	//    correlacionar status updates da Meta com a mensagem outbound original. Sem
+	//    índice, cada webhook status faz seq scan (3× por mensagem).
+	//
+	// 2. (lead_id, type, created_at) — usado em Stats() JOIN LATERAL pra calcular
+	//    "tempo médio até primeiro contato" (MIN message_sent created_at por lead).
+	//
+	// CREATE INDEX IF NOT EXISTS é idempotente — pode rodar a cada boot sem custo.
+	indexStmts := []string{
+		`CREATE INDEX IF NOT EXISTS idx_lead_activities_wa_message_id
+		 ON lead_activities ((metadata->>'wa_message_id'))`,
+		`CREATE INDEX IF NOT EXISTS idx_lead_activities_lead_type_created
+		 ON lead_activities (lead_id, type, created_at)`,
+	}
+	for _, stmt := range indexStmts {
+		if err := DB.Exec(stmt).Error; err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // Close fecha a conexão com o banco de dados

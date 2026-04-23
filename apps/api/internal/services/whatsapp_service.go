@@ -151,6 +151,87 @@ func (s *WhatsAppService) SendTemplate(toE164, templateName, langCode string, bo
 	return fmt.Errorf("whatsapp: status %d: %s", resp.StatusCode, string(body))
 }
 
+// SendLeadAlert envia template "lead_alert" pra um vendedor (utility, pt_BR).
+// Template aprovado:
+//
+//	"Novo lead Plenya: {{1}} ({{2}}). Origem: {{3}}. Abra no admin: {{4}}"
+//
+// Configurável via WHATSAPP_TEMPLATE_LEAD_ALERT (default "lead_alert").
+func (s *WhatsAppService) SendLeadAlert(toE164, leadName, contact, source, adminURL string) error {
+	templateName := s.cfg.WhatsApp.TemplateLeadAlert
+	if templateName == "" {
+		templateName = "lead_alert"
+	}
+	return s.SendTemplate(toE164, templateName, "pt_BR", []string{leadName, contact, source, adminURL})
+}
+
+// SendTextMessage envia mensagem free-form (não-template).
+// Só funciona dentro da janela de 24h após inbound do mesmo número (regra Meta).
+// Caller deve checar a janela antes de chamar — Meta retorna erro se fora.
+// Retorna o wa_message_id retornado pela Meta (pra correlacionar com status updates).
+func (s *WhatsAppService) SendTextMessage(toE164, body string) (string, error) {
+	if s.cfg.WhatsApp.PhoneNumberID == "" || s.cfg.WhatsApp.AccessToken == "" {
+		log.Printf("📱 [WHATSAPP DEV] SendTextMessage to=%s body=%d bytes (sem credenciais — log apenas)",
+			toE164, len(body))
+		return "dev-" + toE164, nil
+	}
+
+	to, err := NormalizeE164(toE164)
+	if err != nil {
+		return "", err
+	}
+
+	payload := map[string]any{
+		"messaging_product": "whatsapp",
+		"recipient_type":    "individual",
+		"to":                to,
+		"type":              "text",
+		"text":              map[string]string{"body": body},
+	}
+
+	raw, err := json.Marshal(payload)
+	if err != nil {
+		return "", fmt.Errorf("whatsapp: marshal payload: %w", err)
+	}
+
+	apiVersion := s.cfg.WhatsApp.GraphAPIVersion
+	if apiVersion == "" {
+		apiVersion = "v18.0"
+	}
+	url := fmt.Sprintf("https://graph.facebook.com/%s/%s/messages", apiVersion, s.cfg.WhatsApp.PhoneNumberID)
+
+	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(raw))
+	if err != nil {
+		return "", fmt.Errorf("whatsapp: build request: %w", err)
+	}
+	req.Header.Set("Authorization", "Bearer "+s.cfg.WhatsApp.AccessToken)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := s.client.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("whatsapp: http: %w", err)
+	}
+	defer resp.Body.Close()
+
+	respBody, _ := io.ReadAll(io.LimitReader(resp.Body, 2048))
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return "", fmt.Errorf("whatsapp: status %d: %s", resp.StatusCode, string(respBody))
+	}
+
+	var meta struct {
+		Messages []struct {
+			ID string `json:"id"`
+		} `json:"messages"`
+	}
+	_ = json.Unmarshal(respBody, &meta)
+	var msgID string
+	if len(meta.Messages) > 0 {
+		msgID = meta.Messages[0].ID
+	}
+	log.Printf("📱 [WHATSAPP] text sent to=%s message_id=%s body=%d bytes", to, msgID, len(body))
+	return msgID, nil
+}
+
 // VerifyWebhookSignature valida o header X-Hub-Signature-256 enviado pela Meta.
 // Retorna nil se válido. Body deve ser o raw bytes do request, antes de qualquer parsing.
 func (s *WhatsAppService) VerifyWebhookSignature(signatureHeader string, body []byte) error {

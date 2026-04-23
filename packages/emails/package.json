@@ -1,0 +1,21 @@
+{
+  "name": "@plenya/emails",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plenya email templates (React Email pre-rendered to static HTML).",
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "clean": "rm -rf dist/*.html"
+  },
+  "dependencies": {
+    "@react-email/components": "^0.0.30",
+    "@react-email/render": "^1.0.3",
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

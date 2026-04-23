@@ -12,14 +12,15 @@ import (
 type LeadActivityType string
 
 const (
-	LeadActivityCreated         LeadActivityType = "created"
-	LeadActivityMessageSent     LeadActivityType = "message_sent"     // outbound (Plenya → cliente)
-	LeadActivityMessageReceived LeadActivityType = "message_received" // inbound (cliente → Plenya)
-	LeadActivityStatusChanged   LeadActivityType = "status_changed"
-	LeadActivityNoteAdded       LeadActivityType = "note_added"
-	LeadActivityConverted       LeadActivityType = "converted"
-	LeadActivityAssigned        LeadActivityType = "assigned"
-	LeadActivityUnsubscribed    LeadActivityType = "unsubscribed"
+	LeadActivityCreated              LeadActivityType = "created"
+	LeadActivityMessageSent          LeadActivityType = "message_sent"     // outbound (Plenya → cliente)
+	LeadActivityMessageReceived      LeadActivityType = "message_received" // inbound (cliente → Plenya)
+	LeadActivityMessageStatusChanged LeadActivityType = "message_status_changed" // delivered/read/failed (WhatsApp)
+	LeadActivityStatusChanged        LeadActivityType = "status_changed"
+	LeadActivityNoteAdded            LeadActivityType = "note_added"
+	LeadActivityConverted            LeadActivityType = "converted"
+	LeadActivityAssigned             LeadActivityType = "assigned"
+	LeadActivityUnsubscribed         LeadActivityType = "unsubscribed"
 )
 
 // LeadActivityChannel indica por qual canal a atividade ocorreu.

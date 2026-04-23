@@ -16,6 +16,11 @@ const (
 	NotificationSubscriptionExpired NotificationType = "subscription_expired"  // Subscription expirado
 	NotificationPaymentPending      NotificationType = "payment_pending"       // Pagamento pendente
 	NotificationGeneral             NotificationType = "general"               // Notificação geral
+
+	// CRM — Phase 2
+	NotificationLeadNew             NotificationType = "lead_new"              // Lead novo capturado (form/claim)
+	NotificationLeadWhatsAppInbound NotificationType = "lead_whatsapp_inbound" // Mensagem inbound de WhatsApp
+	NotificationLeadAssigned        NotificationType = "lead_assigned"         // Lead atribuído ao usuário
 )
 
 // Notification representa uma notificação do sistema
@@ -36,10 +41,14 @@ type Notification struct {
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	SubscriptionID *uuid.UUID `gorm:"type:uuid;index:idx_notifications_subscription" json:"subscriptionId,omitempty"`
 
+	// ID do lead relacionado (opcional — usado pelos tipos CRM)
+	// @example 550e8400-e29b-41d4-a716-446655440000
+	LeadID *uuid.UUID `gorm:"type:uuid;index:idx_notifications_lead" json:"leadId,omitempty"`
+
 	// Tipo da notificação
-	// @enum trial_expiring,renewal_upcoming,subscription_expired,payment_pending,general
+	// @enum trial_expiring,renewal_upcoming,subscription_expired,payment_pending,general,lead_new,lead_whatsapp_inbound,lead_assigned
 	// @example trial_expiring
-	Type NotificationType `gorm:"type:varchar(50);not null;index:idx_notifications_type;check:type IN ('trial_expiring','renewal_upcoming','subscription_expired','payment_pending','general')" json:"type" validate:"required,oneof=trial_expiring renewal_upcoming subscription_expired payment_pending general"`
+	Type NotificationType `gorm:"type:varchar(50);not null;index:idx_notifications_type;check:type IN ('trial_expiring','renewal_upcoming','subscription_expired','payment_pending','general','lead_new','lead_whatsapp_inbound','lead_assigned')" json:"type" validate:"required,oneof=trial_expiring renewal_upcoming subscription_expired payment_pending general lead_new lead_whatsapp_inbound lead_assigned"`
 
 	// Título da notificação
 	// @minLength 1
@@ -75,6 +84,7 @@ type Notification struct {
 	User         User                  `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE" json:"user,omitempty"`
 	Patient      *Patient              `gorm:"foreignKey:PatientID;constraint:OnDelete:CASCADE" json:"patient,omitempty"`
 	Subscription *PatientSubscription  `gorm:"foreignKey:SubscriptionID;constraint:OnDelete:CASCADE" json:"subscription,omitempty"`
+	Lead         *Lead                 `gorm:"foreignKey:LeadID;constraint:OnDelete:SET NULL" json:"lead,omitempty"`
 }
 
 func (Notification) TableName() string {
@@ -103,6 +113,9 @@ func (n *Notification) validate() error {
 		NotificationSubscriptionExpired: true,
 		NotificationPaymentPending:      true,
 		NotificationGeneral:             true,
+		NotificationLeadNew:             true,
+		NotificationLeadWhatsAppInbound: true,
+		NotificationLeadAssigned:        true,
 	}
 	if !validTypes[n.Type] {
 		return gorm.ErrInvalidData

@@ -55,3 +55,35 @@ Se mudar um, mudar o outro **e** ressubmeter o template à Meta (texto novo = no
 ## Aprovações pendentes
 
 - [ ] `magic_link` v1.0 (utility, pt_BR) — submeter quando Business Verification concluir
+- [ ] `lead_alert` v1.0 (utility, pt_BR) — submeter junto com `magic_link`
+
+---
+
+## Template: `lead_alert` (Phase 2)
+
+| Campo | Valor |
+|-------|-------|
+| **Nome técnico** | `lead_alert` |
+| **Categoria** | `utility` |
+| **Idioma** | `pt_BR` |
+| **Variáveis** | `{{1}}` = nome do lead · `{{2}}` = contato (email/phone) · `{{3}}` = origem · `{{4}}` = URL admin |
+| **Sub-tipo botões** | nenhum |
+| **Status atual** | ⏳ a submeter |
+| **Recipients** | Vendedores Plenya (telefones em `User.ProfessionalPhone`, opt-in via flag) — **NÃO é mensagem ao paciente**. É notificação interna ao time. |
+| **Justificativa categoria** | Notificação operacional vinculada a evento (lead capturado). Time recebeu por ser parte do processo de vendas — base legal: legítimo interesse + consentimento na contratação. |
+
+### Versão 1.0 (2026-04-23)
+
+```
+Novo lead Plenya: {{1}} ({{2}}). Origem: {{3}}. Abra no admin: {{4}}
+```
+
+**Atenção Meta:** templates de "internal alerts" ocasionalmente são reclassificados como marketing
+se tom soa promocional. Manter texto neutro/factual reduz risco. Se rejeitado, possíveis adjustes:
+remover "Plenya" do início, usar "Lead capturado: {{1}}..." mais seco.
+
+### Histórico de versões
+
+| Versão | Data | Mudança | Submetido | Aprovado |
+|--------|------|---------|-----------|----------|
+| 1.0    | 2026-04-23 | Criação inicial | - | - |

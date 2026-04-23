@@ -220,6 +220,25 @@ func (s *UserService) Delete(userID uuid.UUID) error {
 	return nil
 }
 
+// ListStaff retorna usuários com role admin/secretary/manager — usado pelo CRM
+// pra dropdown de atribuição de leads. Acessível por qualquer staff (não exige admin).
+func (s *UserService) ListStaff() ([]*dto.UserResponse, error) {
+	var users []models.User
+	// JSONB containment: roles @> '["admin"]' OR roles @> '["secretary"]' OR roles @> '["manager"]'
+	err := s.db.Where(
+		`roles @> ?::jsonb OR roles @> ?::jsonb OR roles @> ?::jsonb`,
+		`["admin"]`, `["secretary"]`, `["manager"]`,
+	).Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+	out := make([]*dto.UserResponse, 0, len(users))
+	for i := range users {
+		out = append(out, s.toDTO(&users[i]))
+	}
+	return out, nil
+}
+
 // toDTO converte User para UserResponse
 func (s *UserService) toDTO(user *models.User) *dto.UserResponse {
 	return &dto.UserResponse{

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { sendLeadEmail } from '@/lib/email';
-import { sendToRdStation } from '@/lib/rdstation';
 import { PRIVACY_POLICY_VERSION } from '@/lib/legal';
 
 export const runtime = 'nodejs';
@@ -125,7 +124,7 @@ export async function POST(request: Request) {
     newsletterOptIn: parsed.data.newsletterOptIn ?? false,
   };
 
-  const [emrResult, emailResult, rdResult] = await Promise.allSettled([
+  const [emrResult, emailResult] = await Promise.allSettled([
     fetch(`${EMR_API_URL}/api/v1/leads`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -135,7 +134,6 @@ export async function POST(request: Request) {
       return r.json();
     }),
     sendLeadEmail(parsed.data),
-    sendToRdStation(parsed.data),
   ]);
 
   if (emrResult.status === 'rejected') {
@@ -143,9 +141,6 @@ export async function POST(request: Request) {
   }
   if (emailResult.status === 'rejected') {
     console.error('[leads] email failed', emailResult.reason);
-  }
-  if (rdResult.status === 'rejected') {
-    console.error('[leads] rd failed', rdResult.reason);
   }
 
   const webhook = process.env.LEADS_WEBHOOK_URL;

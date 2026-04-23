@@ -30,6 +30,8 @@ import {
   useAddLeadNote,
   useConvertLead,
   useDeleteLead,
+  useSendLeadMessage,
+  useStaffUsers,
   SOURCE_LABELS,
   STATUS_LABELS,
   STATUS_COLORS,
@@ -49,6 +51,7 @@ const STATUS_OPTIONS: LeadStatus[] = [
 ];
 
 function activityIcon(type: string, channel: string) {
+  if (type === 'message_status_changed') return Activity;
   if (channel === 'email') return Mail;
   if (channel === 'whatsapp') return MessageSquare;
   if (type === 'note_added') return StickyNote;
@@ -69,8 +72,11 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
   const addNote = useAddLeadNote(id);
   const convertLead = useConvertLead(id);
   const deleteLead = useDeleteLead(id);
+  const sendMessage = useSendLeadMessage(id);
+  const { data: staffUsers } = useStaffUsers();
 
   const [note, setNote] = useState('');
+  const [waMessage, setWaMessage] = useState('');
   const [convertOpen, setConvertOpen] = useState(false);
   const [convertGender, setConvertGender] = useState<'male' | 'female' | 'other'>('other');
   const [convertBirthDate, setConvertBirthDate] = useState('');
@@ -103,6 +109,11 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
               <p className="mt-1 text-sm text-muted-foreground">
                 Capturado {format(new Date(lead.createdAt), "dd 'de' MMMM 'às' HH:mm", { locale: ptBR })} via{' '}
                 <Badge variant="outline">{SOURCE_LABELS[lead.source]}</Badge>
+                {lead.source === 'whatsapp_inbound' && lead.convertedPatientId && (
+                  <Badge className="ml-2 bg-emerald-100 text-emerald-900 border-emerald-200">
+                    Paciente cadastrado
+                  </Badge>
+                )}
               </p>
             </div>
             <span
@@ -175,6 +186,34 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
             ))}
           </div>
 
+          {/* Atribuição */}
+          <div className="mt-3 flex flex-wrap items-center gap-3 border-t pt-4">
+            <span className="text-sm text-muted-foreground">Atribuído a:</span>
+            <select
+              value={lead.assignedToUserId ?? ''}
+              onChange={(e) => {
+                const value = e.target.value;
+                updateLead.mutate({
+                  assignedToUserId: value === '' ? undefined : value,
+                });
+              }}
+              disabled={updateLead.isPending}
+              className="h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+            >
+              <option value="">— Sem atribuição —</option>
+              {user?.id && (
+                <option value={user.id}>Eu ({user.name})</option>
+              )}
+              {staffUsers
+                ?.filter((u) => u.id !== user?.id)
+                .map((u) => (
+                  <option key={u.id} value={u.id}>
+                    {u.name}
+                  </option>
+                ))}
+            </select>
+          </div>
+
           {/* Atalhos: ver Light, converter, etc. */}
           <div className="mt-3 flex flex-wrap items-center gap-3 border-t pt-4">
             {lead.anonymousScoreSessionId && (
@@ -238,12 +277,13 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                 </Button>
                 <Button
                   size="sm"
-                  disabled={convertLead.isPending}
+                  disabled={convertLead.isPending || !convertBirthDate}
                   onClick={() => {
+                    if (!convertBirthDate) return;
                     convertLead.mutate(
                       {
                         gender: convertGender,
-                        birthDate: convertBirthDate ? new Date(convertBirthDate).toISOString() : undefined,
+                        birthDate: new Date(convertBirthDate).toISOString(),
                       },
                       {
                         onSuccess: () => setConvertOpen(false),
@@ -287,6 +327,73 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
         </CardContent>
       </Card>
 
+      {/* Chat WhatsApp inline (session messages, janela 24h) */}
+      {lead.phone && lead.whatsAppOptIn && lead.status !== 'unsubscribed' && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <MessageSquare className="h-4 w-4" /> Conversa WhatsApp
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">
+              {(() => {
+                if (!lead.lastInboundAt) {
+                  return 'Sem mensagem inbound recente — fora da janela de 24h. Use template aprovado para iniciar conversa.';
+                }
+                const inboundTs = new Date(lead.lastInboundAt).getTime();
+                const elapsedH = (Date.now() - inboundTs) / 36e5;
+                const remainingH = 24 - elapsedH;
+                if (remainingH <= 0) {
+                  return 'Janela de 24h expirada — para iniciar nova conversa, use template aprovado.';
+                }
+                const h = Math.floor(remainingH);
+                const m = Math.floor((remainingH - h) * 60);
+                return `Janela de 24h: ${h}h ${m}min restantes`;
+              })()}
+            </p>
+          </CardHeader>
+          <CardContent>
+            {(() => {
+              const inWindow =
+                lead.lastInboundAt &&
+                Date.now() - new Date(lead.lastInboundAt).getTime() < 24 * 36e5;
+              return (
+                <>
+                  <textarea
+                    value={waMessage}
+                    onChange={(e) => setWaMessage(e.target.value)}
+                    disabled={!inWindow}
+                    placeholder={
+                      inWindow
+                        ? 'Mensagem para o cliente…'
+                        : 'Janela 24h fechada. Mande um template ao invés disso.'
+                    }
+                    className="min-h-[100px] w-full rounded-md border border-input bg-transparent p-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50"
+                  />
+                  <div className="mt-3 flex justify-end">
+                    <Button
+                      size="sm"
+                      disabled={!inWindow || !waMessage.trim() || sendMessage.isPending}
+                      onClick={() => {
+                        sendMessage.mutate(waMessage.trim(), {
+                          onSuccess: () => setWaMessage(''),
+                          onError: (err: unknown) => {
+                            alert(
+                              err instanceof Error ? err.message : 'Falha ao enviar mensagem'
+                            );
+                          },
+                        });
+                      }}
+                    >
+                      {sendMessage.isPending ? 'Enviando…' : 'Enviar WhatsApp'}
+                    </Button>
+                  </div>
+                </>
+              );
+            })()}
+          </CardContent>
+        </Card>
+      )}
+
       {/* Timeline */}
       <Card>
         <CardHeader>
@@ -296,25 +403,69 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           {!lead.activities || lead.activities.length === 0 ? (
             <p className="py-6 text-center text-sm text-muted-foreground">Nenhuma atividade registrada.</p>
           ) : (
-            <ol className="space-y-3">
-              {lead.activities.map((a) => {
-                const Icon = activityIcon(a.type, a.channel);
-                return (
-                  <li key={a.id} className="flex gap-3 border-l-2 border-muted pl-4">
-                    <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
-                    <div className="flex-1">
-                      <div className="text-xs text-muted-foreground">
-                        {format(new Date(a.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })} ·{' '}
-                        <span className="capitalize">{a.type.replace('_', ' ')}</span>
-                        {a.channel !== 'internal' && <span> · {a.channel}</span>}
-                        {a.actor && <span> · por {a.actor.name}</span>}
-                      </div>
-                      {a.content && <p className="mt-1 whitespace-pre-wrap text-sm">{a.content}</p>}
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
+            (() => {
+              // Agrupa message_status_changed sob a message_sent original (via wa_message_id)
+              const statusByMsgID = new Map<string, typeof lead.activities>();
+              const main: typeof lead.activities = [];
+              for (const a of lead.activities) {
+                if (a.type === 'message_status_changed') {
+                  const wamid = (a.metadata as { wa_message_id?: string } | undefined)?.wa_message_id;
+                  if (wamid) {
+                    const arr = statusByMsgID.get(wamid) ?? [];
+                    arr.push(a);
+                    statusByMsgID.set(wamid, arr);
+                    continue;
+                  }
+                }
+                main.push(a);
+              }
+              return (
+                <ol className="space-y-3">
+                  {main.map((a) => {
+                    const Icon = activityIcon(a.type, a.channel);
+                    const wamid = (a.metadata as { wa_message_id?: string } | undefined)?.wa_message_id;
+                    const childStatuses = wamid ? statusByMsgID.get(wamid) ?? [] : [];
+                    return (
+                      <li key={a.id} className="flex gap-3 border-l-2 border-muted pl-4">
+                        <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                        <div className="flex-1">
+                          <div className="text-xs text-muted-foreground">
+                            {format(new Date(a.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })} ·{' '}
+                            <span className="capitalize">{a.type.replace('_', ' ')}</span>
+                            {a.channel !== 'internal' && <span> · {a.channel}</span>}
+                            {a.actor && <span> · por {a.actor.name}</span>}
+                          </div>
+                          {a.content && (
+                            <p className="mt-1 whitespace-pre-wrap text-sm">{a.content}</p>
+                          )}
+                          {childStatuses.length > 0 && (
+                            <div className="mt-1 flex flex-wrap gap-2 text-xs">
+                              {childStatuses.map((s) => {
+                                const meta = s.metadata as { status?: string } | undefined;
+                                const status = meta?.status ?? '?';
+                                const failed = status === 'failed';
+                                return (
+                                  <span
+                                    key={s.id}
+                                    className={
+                                      failed
+                                        ? 'text-red-700'
+                                        : 'text-muted-foreground'
+                                    }
+                                  >
+                                    {format(new Date(s.createdAt), 'HH:mm:ss')} {status}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ol>
+              );
+            })()
           )}
         </CardContent>
       </Card>

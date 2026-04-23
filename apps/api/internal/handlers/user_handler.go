@@ -59,6 +59,25 @@ func (h *UserHandler) GetUsers(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
+// ListStaff retorna users com role admin/secretary/manager — pra dropdown CRM.
+// Acessível por qualquer staff (não exige admin).
+//
+// @Summary  Lista de usuários staff (pra atribuição de leads)
+// @Tags     Users
+// @Security BearerAuth
+// @Produce  json
+// @Success  200 {array} dto.UserResponse
+// @Router   /api/v1/users/staff [get]
+func (h *UserHandler) ListStaff(c *fiber.Ctx) error {
+	users, err := h.userService.ListStaff()
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error: "Failed to list staff: " + err.Error(),
+		})
+	}
+	return c.JSON(users)
+}
+
 // GetUser busca um usuário por ID (admin only)
 // @Summary Get user by ID
 // @Description Get a single user by ID

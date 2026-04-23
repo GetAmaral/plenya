@@ -20,6 +20,7 @@ export type LeadActivityType =
   | 'created'
   | 'message_sent'
   | 'message_received'
+  | 'message_status_changed'
   | 'status_changed'
   | 'note_added'
   | 'converted'
@@ -59,6 +60,8 @@ export interface Lead {
   convertedAt?: string;
   convertedByUserId?: string;
   assignedToUserId?: string;
+  /** Última inbound do cliente — usado pra calcular janela 24h de session messages. */
+  lastInboundAt?: string;
   createdAt: string;
   updatedAt: string;
   activities?: LeadActivity[];
@@ -104,10 +107,16 @@ function buildQuery(filter: LeadFilter, page: number, pageSize: number) {
   return params.toString();
 }
 
-export function useLeads(filter: LeadFilter, page = 0, pageSize = 25) {
+export function useLeads(
+  filter: LeadFilter,
+  page = 0,
+  pageSize = 25,
+  options?: { enabled?: boolean }
+) {
   return useQuery({
     queryKey: leadKeys.list(filter, page, pageSize),
     queryFn: () => apiClient.get<LeadListResult>(`/api/v1/leads?${buildQuery(filter, page, pageSize)}`),
+    enabled: options?.enabled ?? true,
   });
 }
 
@@ -173,6 +182,63 @@ export function useDeleteLead(id: string) {
     mutationFn: () => apiClient.delete<void>(`/api/v1/leads/${id}`),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: leadKeys.all });
+    },
+  });
+}
+
+export type StatsPeriodKey = '7d' | '30d' | '90d' | 'custom';
+
+export interface LeadStats {
+  period: { from: string; to: string; label: string };
+  totals: Record<string, number>;
+  bySource: Record<string, number>;
+  conversionRate: number;
+  avgTimeToContact?: number; // segundos
+  avgTimeToConvert?: number; // segundos
+  byDay: Array<{ date: string; count: number }>;
+}
+
+export function useLeadStats(period: StatsPeriodKey = '30d', from?: string, to?: string) {
+  return useQuery({
+    queryKey: ['lead-stats', period, from, to],
+    queryFn: () => {
+      const params = new URLSearchParams({ period });
+      if (period === 'custom') {
+        if (from) params.set('from', from);
+        if (to) params.set('to', to);
+      }
+      return apiClient.get<LeadStats>(`/api/v1/leads/stats?${params.toString()}`);
+    },
+    staleTime: 60 * 1000,
+  });
+}
+
+export interface StaffUser {
+  id: string;
+  name: string;
+  email: string;
+  roles: string[];
+}
+
+/**
+ * Lista de usuários staff (admin/secretary/manager) elegíveis pra atribuição de leads.
+ * Endpoint dedicado /api/v1/users/staff (acessível por qualquer staff, não exige admin).
+ */
+export function useStaffUsers() {
+  return useQuery({
+    queryKey: ['users', 'staff'],
+    queryFn: () => apiClient.get<StaffUser[]>('/api/v1/users/staff'),
+    staleTime: 5 * 60 * 1000, // 5min — staff list muda raramente
+  });
+}
+
+export function useSendLeadMessage(id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (content: string) =>
+      apiClient.post<LeadActivity>(`/api/v1/leads/${id}/messages`, { content }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: leadKeys.detail(id) });
     },
   });
 }

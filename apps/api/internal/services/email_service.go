@@ -2,6 +2,7 @@ package services
 
 import (
 	"bytes"
+	"embed"
 	"encoding/json"
 	"fmt"
 	"html"
@@ -14,6 +15,12 @@ import (
 
 	"github.com/plenya/api/internal/config"
 )
+
+// emailTemplates é o conjunto de templates pré-renderizados pelo packages/emails (React Email).
+// Sync via `pnpm email:sync` (copia packages/emails/dist/*.html → templates/).
+//
+//go:embed templates/*.html
+var emailTemplates embed.FS
 
 // countLines conta linhas em string (helper para log resumido).
 func countLines(s string) int {
@@ -78,25 +85,91 @@ dados a qualquer momento em: %s/lgpd/direitos
 Encarregado de Proteção de Dados (DPO): dpo@plenyasaude.com.br
 `, magicLink, siteURL, siteURL)
 
-	// Escapa HTML em todos os valores interpolados — defesa em profundidade contra XSS
-	// caso magicLink ou siteURL sejam manipulados em algum caminho futuro.
-	escLink := html.EscapeString(magicLink)
-	escSite := html.EscapeString(siteURL)
-	bodyHTML := fmt.Sprintf(`<!DOCTYPE html>
-<html><body style="font-family: Georgia, serif; color: #1f3640; max-width: 560px; margin: 32px auto; padding: 0 16px; line-height: 1.6;">
-<p>Olá,</p>
-<p>Você solicitou guardar seu resultado do <strong>Escore Plenya Light</strong>.<br/>
-Clique no botão abaixo para acessar e salvar seu radar:</p>
-<p style="margin: 32px 0;"><a href="%s" style="background:#c19a4a; color:#fff8eb; padding: 12px 24px; text-decoration: none; display: inline-block; letter-spacing: 0.5px;">Acessar meu resultado</a></p>
-<p style="font-size: 14px; color: #4a6478;">Ou copie este link: <br/><a href="%s" style="color:#c19a4a; word-break: break-all;">%s</a></p>
-<p style="font-size: 14px; color: #4a6478;">O link expira em <strong>7 dias</strong>. Se você não solicitou, ignore este email.</p>
-<p style="margin-top: 40px;">— Equipe Plenya<br/><a href="%s" style="color:#4a6478;">%s</a></p>
-<hr style="border:none; border-top: 1px solid #e6dfd1; margin: 32px 0;"/>
-<p style="font-size: 12px; color: #6b7c8a;"><strong>LGPD · Seus direitos</strong><br/>
-Acesso, correção, portabilidade ou exclusão dos seus dados em <a href="%s/lgpd/direitos" style="color:#4a6478;">%s/lgpd/direitos</a><br/>
-Encarregado de Proteção de Dados (DPO): <a href="mailto:dpo@plenyasaude.com.br" style="color:#4a6478;">dpo@plenyasaude.com.br</a></p>
-</body></html>`, escLink, escLink, escLink, escSite, escSite, escSite, escSite)
+	bodyHTML, err := s.renderTemplate("magic_link", map[string]string{
+		"LINK":     magicLink,
+		"SITE_URL": siteURL,
+	})
+	if err != nil {
+		// Fallback: log e segue sem HTML (texto puro vai pro provider)
+		log.Printf("⚠️  [EMAIL] template magic_link falhou: %v — usando texto plano", err)
+		bodyHTML = ""
+	}
 
+	return s.send(toEmail, subject, bodyText, bodyHTML)
+}
+
+// renderTemplate carrega template pré-renderizado e substitui placeholders {{KEY}}.
+// Valores são escapados via html.EscapeString (defesa XSS).
+func (s *EmailService) renderTemplate(name string, vars map[string]string) (string, error) {
+	raw, err := emailTemplates.ReadFile("templates/" + name + ".html")
+	if err != nil {
+		return "", fmt.Errorf("email template %q: %w", name, err)
+	}
+	out := string(raw)
+	for k, v := range vars {
+		out = strings.ReplaceAll(out, "{{"+k+"}}", html.EscapeString(v))
+	}
+	return out, nil
+}
+
+// SendBoasVindas envia email de boas-vindas pós-conversão (Lead → Patient).
+func (s *EmailService) SendBoasVindas(toEmail, patientName string) error {
+	subject := "Bem-vindo à Plenya"
+	siteURL := s.cfg.Site.PublicURL
+	if siteURL == "" {
+		siteURL = "https://plenyasaude.com.br"
+	}
+	bodyText := fmt.Sprintf(`Olá, %s.
+
+Sua conta na Plenya está pronta. Agora você pode acompanhar seu Escore Plenya Light,
+refazer a avaliação a cada 3 meses e ver sua evolução ao longo do tempo.
+
+Quando quiser conversar com a equipe — sobre uma avaliação completa no Continuum, ou
+sobre os pontos do seu radar que mais chamaram atenção — estamos no WhatsApp ou no
+email contato@plenyasaude.com.br.
+
+— Equipe Plenya
+%s
+`, patientName, siteURL)
+
+	bodyHTML, err := s.renderTemplate("boas_vindas", map[string]string{
+		"NAME":     patientName,
+		"SITE_URL": siteURL,
+	})
+	if err != nil {
+		log.Printf("⚠️  [EMAIL] template boas_vindas falhou: %v", err)
+		bodyHTML = ""
+	}
+	return s.send(toEmail, subject, bodyText, bodyHTML)
+}
+
+// SendFollowUp30Dias envia follow-up manual (admin dispara via UI).
+func (s *EmailService) SendFollowUp30Dias(toEmail, patientName string) error {
+	subject := "Refaça seu Escore — veja sua evolução"
+	siteURL := s.cfg.Site.PublicURL
+	if siteURL == "" {
+		siteURL = "https://plenyasaude.com.br"
+	}
+	bodyText := fmt.Sprintf(`Olá, %s.
+
+Faz 30 dias que você fez seu Escore Plenya Light. Pequenas mudanças no dia-a-dia
+já podem aparecer no radar — sono, alimentação, atividade física são os primeiros a
+mexer.
+
+Vale refazer a avaliação? É grátis e leva 7 minutos:
+%s/escore-plenya/avaliar
+
+— Equipe Plenya
+`, patientName, siteURL)
+
+	bodyHTML, err := s.renderTemplate("follow_up_30_dias", map[string]string{
+		"NAME":     patientName,
+		"SITE_URL": siteURL,
+	})
+	if err != nil {
+		log.Printf("⚠️  [EMAIL] template follow_up_30_dias falhou: %v", err)
+		bodyHTML = ""
+	}
 	return s.send(toEmail, subject, bodyText, bodyHTML)
 }
 

@@ -91,6 +91,7 @@ func (h *LeadHandler) PublicCreate(c *fiber.Ctx) error {
 			Message: err.Error(),
 		})
 	}
+	// Notificação interna disparada async pelo service (CreateFromContactForm)
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"id":      lead.ID,
 		"status":  lead.Status,
@@ -233,11 +234,12 @@ func (h *LeadHandler) Update(c *fiber.Ctx) error {
 }
 
 // ConvertRequest — POST /leads/:id/convert
+// birthDate é obrigatório (não aceitamos placeholder) — admin precisa coletar.
 type ConvertRequest struct {
 	Name      *string    `json:"name,omitempty"`
 	Email     *string    `json:"email,omitempty" validate:"omitempty,email"`
 	Phone     *string    `json:"phone,omitempty"`
-	BirthDate *time.Time `json:"birthDate,omitempty"`
+	BirthDate *time.Time `json:"birthDate" validate:"required"`
 	Gender    *string    `json:"gender,omitempty" validate:"omitempty,oneof=male female other"`
 }
 
@@ -288,6 +290,84 @@ func (h *LeadHandler) Convert(c *fiber.Ctx) error {
 		})
 	}
 	return c.Status(fiber.StatusCreated).JSON(patient)
+}
+
+// Stats — GET /leads/stats?period=30d (ou 7d/90d/custom&from=YYYY-MM-DD&to=YYYY-MM-DD)
+//
+// @Summary  Estatísticas do funil de leads
+// @Tags     leads
+// @Security BearerAuth
+// @Produce  json
+// @Param    period query string false "7d | 30d (default) | 90d | custom"
+// @Param    from query string false "YYYY-MM-DD (custom)"
+// @Param    to query string false "YYYY-MM-DD (custom)"
+// @Success  200 {object} services.StatsResponse
+// @Router   /leads/stats [get]
+func (h *LeadHandler) Stats(c *fiber.Ctx) error {
+	period, err := services.ResolveStatsPeriod(c.Query("period"), c.Query("from"), c.Query("to"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid period",
+			Message: err.Error(),
+		})
+	}
+	stats, err := h.service.Stats(period)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to compute stats",
+			Message: err.Error(),
+		})
+	}
+	return c.JSON(stats)
+}
+
+// SendMessageRequest — POST /leads/:id/messages
+type SendMessageRequest struct {
+	Content string `json:"content" validate:"required,min=1,max=4096"`
+}
+
+// SendMessage — envia mensagem de texto (session message) via WhatsApp.
+// Só funciona dentro da janela de 24h após inbound.
+//
+// @Summary  Enviar mensagem WhatsApp inline (session message)
+// @Tags     leads
+// @Security BearerAuth
+// @Accept   json
+// @Produce  json
+// @Param    id path string true "Lead ID"
+// @Param    body body SendMessageRequest true "Texto da mensagem"
+// @Success  201 {object} models.LeadActivity
+// @Router   /leads/{id}/messages [post]
+func (h *LeadHandler) SendMessage(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid id"})
+	}
+	var req SendMessageRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid body",
+			Message: err.Error(),
+		})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+	actor := middleware.GetUserID(c)
+	activity, err := h.service.SendWhatsAppText(id, actor, req.Content)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "lead not found"})
+		}
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "failed to send message",
+			Message: err.Error(),
+		})
+	}
+	return c.Status(fiber.StatusCreated).JSON(activity)
 }
 
 // Delete — DELETE /leads/:id (admin only via middleware)

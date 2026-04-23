@@ -106,9 +106,10 @@ type Patient struct {
 	// @example 35a6m15d
 	AgeText string `gorm:"type:varchar(20);not null;default:''" json:"ageText"`
 
-	// Telefone de contato (opcional)
-	// @example (11) 98765-4321
-	Phone *string `gorm:"type:varchar(20)" json:"phone,omitempty" validate:"omitempty,min=10"`
+	// Telefone de contato (opcional, armazenado como E.164 +55XXXXXXXXXXX)
+	// Normalizado automaticamente pelo BeforeSave hook (NormalizePhoneBR).
+	// @example +5511987654321
+	Phone *string `gorm:"type:varchar(20);index:idx_patients_phone" json:"phone,omitempty" validate:"omitempty,min=10"`
 
 	// Endereço residencial (opcional)
 	Address *string `gorm:"type:varchar(500)" json:"address,omitempty"`
@@ -258,6 +259,14 @@ func (p *Patient) BeforeSave(tx *gorm.DB) error {
 
 		if !validSocialGenders[*p.SocialGender] {
 			return gorm.ErrInvalidData
+		}
+	}
+
+	// Normaliza Phone para E.164 (+55XXXXXXXXXXX). Permite buscas exatas
+	// e auto-vinculação com Lead/WhatsApp inbound. Se entrada inválida, mantém raw.
+	if p.Phone != nil && *p.Phone != "" {
+		if normalized := NormalizePhoneBR(*p.Phone); normalized != "" {
+			p.Phone = &normalized
 		}
 	}
 

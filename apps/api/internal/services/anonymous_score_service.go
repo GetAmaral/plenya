@@ -274,7 +274,7 @@ func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService)
 			if userEmail == "" {
 				// User.Email é UNIQUE NOT NULL — geramos placeholder determinístico
 				// pra que retries do mesmo phone reaproveitem o mesmo User (idempotente).
-				userEmail = fmt.Sprintf("wa-%s@placeholder.plenyasaude.com.br", strings.TrimPrefix(phone, "+"))
+				userEmail = models.BuildPlaceholderEmail(phone)
 			} else {
 				displayName = emailToDisplayName(email)
 			}
@@ -403,6 +403,16 @@ func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService)
 		if lead, err := s.leadService.FindLeadBySession(session.ID); err == nil && lead != nil {
 			_ = s.leadService.MarkConverted(lead.ID, patient.ID, nil)
 		}
+	}
+
+	// Email boas-vindas — só se tem email real (não placeholder de WhatsApp claim)
+	if s.emailService != nil && patient.Email != nil && !models.IsPlaceholderEmail(*patient.Email) {
+		email, name := *patient.Email, patient.Name
+		goSafe("send_boas_vindas", func() {
+			if err := s.emailService.SendBoasVindas(email, name); err != nil {
+				fmt.Printf("⚠️  [BOAS_VINDAS] envio falhou para %s: %v\n", email, err)
+			}
+		})
 	}
 
 	// Gera tokens do EMR pro frontend fazer login imediato

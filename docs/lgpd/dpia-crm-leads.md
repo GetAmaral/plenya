@@ -1,6 +1,6 @@
 # DPIA — CRM (captura e processamento de leads)
 
-**Versão:** 1.0 — 2026-04-23
+**Versão:** 1.1 — 2026-04-23 (Phase 2: notificação interna WhatsApp + dados operacionais)
 **Responsável:** Encarregado de Proteção de Dados (DPO) — Dr. Getúlio Amaral
 **Próxima revisão:** semestral, ou ao introduzir novo canal/sub-processador
 **Vinculado a:** [DPIA Escore Light](dpia-escore-light.md), [Plano de Resposta a Incidentes](plano-resposta-incidentes.md)
@@ -30,6 +30,25 @@ Finalidade legítima: identificar prospects qualificados de pacientes e operacio
 | Atividade | `lead_activities` (mensagens, status, notas) | Sistema | **Pode conter** texto livre do cliente |
 
 **Não são tratados:** CPF, RG, dados de saúde, exames, dados financeiros. O Lead é pré-paciente — converter em Patient transfere o tratamento pro escopo do EMR (DPIA separado).
+
+### Phase 2 — Adições
+
+| Categoria | Campo | Origem | Sensível? |
+|-----------|-------|--------|-----------|
+| Operacional | `last_inbound_at` | Webhook Meta (timestamp da última inbound) | Não — usado pra calcular janela 24h de session messages |
+| Conversa | conteúdo de mensagens session (LeadActivity message_sent) | Equipe Plenya escreve no admin | Pode conter dados sensíveis se equipe digitar — orientação interna a não escrever dados clínicos |
+| Status entrega | LeadActivity `message_status_changed` (delivered/read/failed) | Webhook Meta | Não — apenas metadado de entrega |
+| Notificação interna | Telefones `User.ProfessionalPhone` enviados a Meta como recipients de template `lead_alert` | Cadastro do funcionário | Dado profissional do staff, com consent contratual |
+
+### Notificação interna WhatsApp (Phase 2)
+
+**Base legal:** legítimo interesse (art. 7º IX LGPD) + consentimento contratual ao funcionário no momento da admissão. Funcionário pode revogar via remoção do telefone em `User.ProfessionalPhone` ou desativar flag `Preferences.leadNotifications.whatsapp=false` (preferência futura).
+
+**Conteúdo enviado à Meta:**
+- Telefone do funcionário (E.164)
+- Variáveis do template `lead_alert`: nome do lead, contato (email/phone), origem, URL admin
+
+**Risco residual:** Meta tem acesso ao **fato** de que houve um lead novo, e ao **nome+contato** do lead. Aceitável porque (a) Meta já tinha acesso a esses dados via inbound do próprio lead em fluxo normal, (b) não há dados de saúde sendo trafegados.
 
 ## 3. Sub-processadores
 

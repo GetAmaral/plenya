@@ -13,7 +13,9 @@
     "generate:migrations": "cd apps/api && atlas migrate diff --dev-url 'docker://postgres/17/plenya_dev' --to 'file://internal/models' --dir 'file://database/migrations'",
     "generate:openapi": "cd apps/api && swag init -g cmd/server/main.go -o docs",
     "generate:types": "cd packages/types && npx openapi-typescript ../../apps/api/docs/swagger.json -o src/generated/api-types.ts",
-    "generate:zod": "cd packages/types && npx openapi-zod-client ../../apps/api/docs/swagger.json -o src/generated/api-schemas.ts --export-schemas"
+    "generate:zod": "cd packages/types && npx openapi-zod-client ../../apps/api/docs/swagger.json -o src/generated/api-schemas.ts --export-schemas",
+    "email:build": "pnpm --filter @plenya/emails build",
+    "email:sync": "cp packages/emails/dist/*.html apps/api/internal/services/templates/"
   },
   "devDependencies": {
     "openapi-typescript": "^7.4.4",

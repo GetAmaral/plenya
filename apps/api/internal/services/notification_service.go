@@ -96,6 +96,28 @@ func (s *NotificationService) CreateNotification(
 	return s.repo.Create(notification)
 }
 
+// CreateLeadNotification cria notificação in-app vinculada a Lead.
+// Usada pelos triggers do CRM (lead novo, inbound WA, atribuição).
+func (s *NotificationService) CreateLeadNotification(
+	userID uuid.UUID,
+	leadID uuid.UUID,
+	notifType models.NotificationType,
+	title, message, actionURL string,
+) error {
+	actionText := "Abrir lead"
+	notification := &models.Notification{
+		UserID:     userID,
+		LeadID:     &leadID,
+		Type:       notifType,
+		Title:      title,
+		Message:    message,
+		ActionURL:  &actionURL,
+		ActionText: &actionText,
+		Read:       false,
+	}
+	return s.repo.Create(notification)
+}
+
 // CheckAndCreateSubscriptionNotifications verifica subscriptions e cria notificações
 func (s *NotificationService) CheckAndCreateSubscriptionNotifications() error {
 	// 1. Check trial expiring (7 dias)

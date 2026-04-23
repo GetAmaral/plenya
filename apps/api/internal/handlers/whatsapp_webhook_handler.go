@@ -128,7 +128,7 @@ func (h *WhatsAppWebhookHandler) Receive(c *fiber.Ctx) error {
 
 			for _, msg := range change.Value.Messages {
 				if msg.Type != "text" || msg.Text == nil {
-					// Fase 1: só processa text. Outros tipos (image/audio/document) ficam pra Fase 2.
+					// Phase 2: só processa text. Outros tipos (image/audio/document) ficam pra Phase 3.
 					log.Printf("📱 [WHATSAPP WEBHOOK] tipo não processado: %s (id=%s)", msg.Type, msg.ID)
 					continue
 				}
@@ -138,6 +138,14 @@ func (h *WhatsAppWebhookHandler) Receive(c *fiber.Ctx) error {
 				if name, ok := profileNames[msg.From]; ok && name != "" {
 					n := name
 					namePtr = &n
+				}
+
+				// Auto-unsubscribe: detecta keywords antes de processar como inbound normal
+				if services.IsUnsubscribeKeyword(msg.Text.Body) {
+					if h.leadService != nil {
+						h.leadService.UnsubscribeByPhone(msg.From, msg.Text.Body)
+					}
+					continue
 				}
 
 				if h.leadService != nil {
@@ -154,10 +162,13 @@ func (h *WhatsAppWebhookHandler) Receive(c *fiber.Ctx) error {
 				}
 			}
 
-			// Status updates (delivered/read/failed) — Fase 1: apenas log
+			// Status updates (delivered/read/failed) — Phase 2: persiste como
+			// LeadActivity message_status_changed, vinculado ao envio original.
 			for _, st := range change.Value.Statuses {
-				log.Printf("📱 [WHATSAPP WEBHOOK] status=%s message_id=%s recipient=%s",
-					st.Status, st.ID, st.RecipientID)
+				ts, _ := parseUnixTS(st.Timestamp)
+				if h.leadService != nil {
+					h.leadService.RecordWhatsAppStatus(st.ID, st.Status, st.RecipientID, ts)
+				}
 			}
 		}
 	}
