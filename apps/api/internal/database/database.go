@@ -57,6 +57,12 @@ func Connect(cfg *config.Config) error {
 // AutoMigrate executa as migrations automáticas do GORM
 // NOTA: Em produção, usaremos Atlas para migrations
 func AutoMigrate() error {
+	// Workaround GORM circular FK: User.SelectedPatient → Patient.UserID → User
+	// Criamos users sozinho primeiro, sem a relação SelectedPatient, pra que
+	// AutoMigrate(Patient) (que vem em seguida) não tente referenciar tabela inexistente.
+	if err := DB.Exec(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY)`).Error; err != nil {
+		return err
+	}
 	if err := DB.AutoMigrate(
 		// Core
 		&models.User{},
