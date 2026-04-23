@@ -114,7 +114,7 @@ importers:
         version: 9.39.4(jiti@1.21.7)
       eslint-config-next:
         specifier: ^16.2.3
-        version: 16.2.3(eslint@9.39.4(jiti@1.21.7))(typescript@6.0.2)
+        version: 16.2.3(@typescript-eslint/parser@8.53.1(eslint@9.39.4(jiti@1.21.7))(typescript@6.0.2))(eslint@9.39.4(jiti@1.21.7))(typescript@6.0.2)
       postcss:
         specifier: ^8.5.2
         version: 8.5.6
@@ -151,6 +151,9 @@ importers:
       '@plenya/brand':
         specifier: workspace:*
         version: link:../../packages/brand
+      '@plenya/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -358,7 +361,7 @@ importers:
         version: 9.39.4(jiti@1.21.7)
       eslint-config-next:
         specifier: ^16.2.3
-        version: 16.2.3(@typescript-eslint/parser@8.53.1(eslint@9.39.4(jiti@1.21.7))(typescript@6.0.2))(eslint@9.39.4(jiti@1.21.7))(typescript@6.0.2)
+        version: 16.2.3(eslint@9.39.4(jiti@1.21.7))(typescript@6.0.2)
       postcss:
         specifier: ^8.5.2
         version: 8.5.6
