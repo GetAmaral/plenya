@@ -49,6 +49,8 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Smith, A.D. & Refsum, H.** (2021). "Homocysteine — From Disease Biomarker to Disease Prevention." *Journal of Internal Medicine*, 290(4):826–854. — Mais de 100 doenças associadas a homocisteína elevada. Alvo recomendado ≤ 10 µmol/L.
 - **Kraft, J.R.** (2008). *Diabetes Epidemic & You*. — Análise de mais de 14.000 testes orais de tolerância à glicose com curva insulinêmica. Conceito de "diabetes in-situ": 75% das pessoas com glicose normal no TOTG tinham padrões de insulina anormais.
 - Relação **ApoB/ApoA1** como preditor de risco cardiovascular — dados consolidados em múltiplas coortes, incluindo INTERHEART e AMORIS. Alvo ótimo < 0,6.
+- **Walldius, G. et al.** (AMORIS). "Apolipoprotein B and apolipoprotein A-I predict cardiovascular mortality" — coorte sueca com 137.100 adultos acompanhados por quase 18 anos.
+- **Ruttmann, E. et al.** (2005). "Gamma-glutamyltransferase as a risk factor for cardiovascular disease mortality: an epidemiological investigation in a cohort of 163,944 Austrian adults." *Circulation*, 112(14):2130–2137. — Valores de GGT dentro da faixa "normal" já associados, de forma dose-dependente, a maior mortalidade cardiovascular.
 
 ---
 
@@ -62,7 +64,8 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **2018 ACC/AHA Guideline on the Management of Blood Cholesterol.** *Circulation*. — Recomendação de CAC para reclassificação de risco em adultos com risco intermediário (ASCVD 7,5–19,9%).
 - **2021 ESC/EAS Guidelines for the Management of Dyslipidaemias.** *European Heart Journal*. — ApoB como alvo terapêutico e uso do CAC para refinamento de risco.
 - **Lima, M.R., Lopes, P.M., Ferreira, A.M.** (2024). "Use of coronary artery calcium score and coronary CT angiography to guide cardiovascular prevention and treatment." *Journal of the Royal Society of Medicine Cardiovascular Disease*. — Revisão integrada do papel complementar do CAC e da CCTA na prevenção cardiovascular.
-- **Mortensen, M.B. et al.** (2023). "CT-derived subclinical coronary atherosclerosis and future cardiovascular events: results from the population-based SCAPIS study." *Circulation*. — Rastreamento com CCTA em ~25.000 adultos assintomáticos; detecção de placa não-calcificada em pessoas com CAC zero e valor prognóstico adicional.
+- **Bergström, G. et al.** (2021). "Prevalence of Subclinical Coronary Artery Atherosclerosis in the General Population." *Circulation*, 144(12):916–929. — SCAPIS (*Swedish Cardiopulmonary Bioimage Study*), 25.182 adultos 50–64 anos sem doença coronariana conhecida avaliados com CCTA; aterosclerose detectada em 42,1%; estenose significativa (≥50%) em 5,2%; placa não-calcificada presente em pessoas com CAC zero.
+- **Mortensen, M.B. et al.** (2023). "Subclinical Coronary Atherosclerosis and Risk for Myocardial Infarction in a Danish Cohort: A Prospective Observational Cohort Study." *Annals of Internal Medicine*, 176(4):433–442. — Copenhagen General Population Study; 9.533 adultos assintomáticos com CCTA; risco de IAM aumentado em doença obstrutiva-extensa (RR 12,5).
 - **Blaha, M.J. et al.** (2016). "Role of Coronary Artery Calcium Score of Zero and Other Negative Risk Markers for Cardiovascular Disease: The Multi-Ethnic Study of Atherosclerosis (MESA)." *Circulation*, 133(9):849–858. — Descrição de eventos em pacientes com CAC zero; até um terço dos eventos ocorre em indivíduos previamente classificados como baixo risco.
 - **Shaw, L.J. et al.** (2018). "Coronary Artery Calcium as a Measure of Biologic Age." *Atherosclerosis*. — Conceito de idade arterial a partir do escore de cálcio e sua aplicação na comunicação com o paciente.
 - **SCCT 2021 Expert Consensus Document on Coronary CT Angiography.** *Journal of Cardiovascular Computed Tomography*. — Indicações, protocolos, limitações e interpretação da CCTA na prática clínica.
@@ -109,6 +112,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Whelton, P.K. et al.** (2018). "2017 ACC/AHA/AAPA/ABC Guideline for the Prevention, Detection, Evaluation, and Management of High Blood Pressure in Adults." *Hypertension*, 71:e13–e115.
 - **Mancia, G. et al.** (2023). "2023 ESH Guidelines for the Management of Arterial Hypertension." *Journal of Hypertension*, 41(12):1874–2071.
 - **Mahfoud, F. et al.** (2022). "Cardiovascular outcomes with evening vs morning dosing (TIME)." *Lancet*, 400:1417–1425.
+- **Hermida, R.C. et al.** (2010). "Influence of circadian time of hypertension treatment on cardiovascular risk: results of the MAPEC study." *Chronobiology International*, 27(8):1629–1651. — Ensaio espanhol; administração de anti-hipertensivo ao deitar sugeriu redução significativa de eventos CV vs. administração matinal (resultados posteriormente contestados).
 - **He, F.J. et al.** Long-term modest salt reduction on blood pressure — Cochrane systematic review.
 - **Johnson, A.G. et al.** — meta-analysis on NSAIDs and blood pressure elevation.
 
@@ -124,6 +128,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 ### Capítulo 6 — Saúde Metabólica
 
 - Prevalência global de MASLD (doença hepática esteatótica associada a disfunção metabólica): estimada em 38% da população adulta mundial. Dados consolidados em **Younossi, Z.M. et al.** (2023). *Hepatology*.
+- **Rinella, M.E., Lazarus, J.V. et al.** (2023). "A multi-society Delphi consensus statement on new fatty liver disease nomenclature." *Hepatology / Journal of Hepatology / Annals of Hepatology* (publicação conjunta AASLD/EASL/ALEH). — Nomenclatura MASLD/MASH adotada formalmente em junho de 2023.
 - **Kraft, J.R.** — Padrões de curva insulinêmica (Kraft I a V), como referenciado no Capítulo 4.
 - **Índice de Matsuda** e **índice TyG** — validados contra clamp euglicêmico como medidas de sensibilidade insulínica. Referências consolidadas em múltiplas revisões de endocrinologia metabólica.
 
@@ -159,6 +164,13 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 **Alimentação:**
 
 - **Estruch, R. et al.** (2018). "Primary Prevention of Cardiovascular Disease with a Mediterranean Diet Supplemented with Extra-Virgin Olive Oil or Nuts." *New England Journal of Medicine*, 378:e34. — PREDIMED: redução de aproximadamente 30% em eventos cardiovasculares com dieta mediterrânea.
+- **Buettner, D.** (2012). *The Blue Zones: 9 Lessons for Living Longer*. National Geographic. — Cinco Blue Zones: Sardegna, Okinawa, Nicoya, Ikaria, Loma Linda.
+- **Longo, V.** (2018). *The Longevity Diet*. Avery. — Ingestão proteica contextualizada por idade; restrição proteica em meia-idade; *fasting-mimicking diet*.
+- **Green, A.C. et al.** (2011). "Reduced Melanoma After Regular Sunscreen Use: Randomized Trial Follow-Up." *Journal of Clinical Oncology*, 29(3):257–263. — Ensaio de Nambour, Austrália: uso diário de filtro solar (FPS 16) por 4,5 anos reduziu ~50% da incidência de melanoma invasivo em 10 anos de seguimento.
+- **Xu, C. et al.** (2024). "The effects of creatine supplementation on cognitive function in adults: a systematic review and meta-analysis." *Frontiers in Nutrition*. — 16 ensaios clínicos randomizados com 492 participantes; evidência moderada de benefício em memória de curto prazo, mais pronunciado em idosos e vegetarianos.
+- **U.S. FDA** (2011, 2022). Atualizações de bula da finasterida sobre risco de depressão (2011) e alerta formal sobre ideação suicida (2022).
+- **European Medicines Agency (EMA)** (2025). Reconhecimento formal da síndrome pós-finasterida (PFS) em posicionamento regulatório.
+- **U.S. FDA Safety Communication** (2017, atualizada 2019). "Biotin (Vitamin B7) Safety Communication: May Interfere with Lab Tests." — Alerta formal sobre interferência de biotina em imunoensaios (incluindo TSH, troponina, hormônios).
 
 **Suplementação avançada:**
 
@@ -271,6 +283,8 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Jessen, F. et al.** (2020). "The characterisation of subjective cognitive decline." *Lancet Neurology*, 19(3):271–278.
 - **Ngandu, T. et al.** (2015). "A 2 year multidomain intervention of diet, exercise, cognitive training, and vascular risk monitoring (FINGER)." *Lancet*, 385:2255–2263.
 - **Andrieu, S. et al.** (2017). "Effect of long-term omega 3 polyunsaturated fatty acid supplementation with or without multidomain intervention (MAPT)." *Lancet Neurology*, 16:377–389.
+- **Sakurai, T. et al.** (2024). "Japan-Multimodal Intervention Trial for the Prevention of Dementia (J-MINT): A randomized controlled trial." *Alzheimer's & Dementia*. DOI: 10.1002/alz.13838.
+- **Fortea, J. et al.** (2024). "APOE4 homozygosity represents a distinct genetic form of Alzheimer's disease." *Nature Medicine*, 30(5):1284–1291. — ~2-3% da população é homozigota ε4; praticamente todos desenvolvem marcadores biológicos de Alzheimer aos 65 anos. Meta-análise subsequente em *Alzheimer's & Dementia* (2024) mostrou benefício maior de intervenções multidomínio em portadores de ε4.
 - **Baker, L.D. et al.** (2025). "US POINTER: Multidomain Intervention to Reduce Cognitive Decline in Older Adults at Risk." *JAMA*.
 - **Ashford, J.W. et al.** (2024). "Plasma p-tau217 as a biomarker for Alzheimer's disease pathology." *Nature Medicine* — avanço diagnóstico 2024–2025.
 - **Rebok, G.W. et al.** (2014). "Ten-year effects of the Advanced Cognitive Training for Independent and Vital Elderly (ACTIVE) cognitive training trial on cognition and everyday functioning in older adults." *Journal of the American Geriatrics Society*, 62(1):16–24.
@@ -288,6 +302,10 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Secades, J.J.** (2016). "Citicoline — comprehensive meta-analysis update." *Revista de Neurología*.
 - **Kongkeaw, C. et al.** (2014). "Bacopa monnieri — systematic review." *Journal of Ethnopharmacology*.
 - **Docherty, S. et al.** (2023). "Lion's Mane mood and cognition RCT."
+- **Kasper, S. et al.** Silexan (lavanda oral padronizada, marca Lasea na Europa) — múltiplos ensaios controlados por placebo em transtorno de ansiedade generalizada, publicados em periódicos como *International Clinical Psychopharmacology* e *Phytomedicine*.
+- **DeKosky, S.T. et al.** (2008). "Ginkgo biloba for Prevention of Dementia: A Randomized Controlled Trial (GEM Study)." *JAMA*, 300(19):2253–2262. — Ginkgo biloba sem efeito preventivo sobre demência ou Alzheimer.
+- **Vellas, B. et al.** (2012). "Long-term use of standardised Ginkgo biloba extract for the prevention of Alzheimer's disease (GuidAge)." *Lancet Neurology*, 11:851–859. — Ensaio francês de 5 anos, também negativo.
+- **Ashford, J.W. et al.** (2024). Aprovações FDA de testes plasmáticos de p-tau217 (Labcorp, Fujirebio Lumipulse, C2N Precivity AD2). Citado também no Cap. 11.
 
 ---
 
@@ -306,9 +324,10 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 - **Nehra, A. et al.** (2012). "The Princeton III Consensus Recommendations for the Management of Erectile Dysfunction and Cardiovascular Disease." *Mayo Clinic Proceedings*, 87(8):766–778. — DE precede evento CV em 3–5 anos; painel cardiovascular obrigatório antes de PDE5.
 - **Levine, G.N. et al.** (2012). "Sexual Activity and Cardiovascular Disease: A Scientific Statement From the American Heart Association." *Circulation*, 125:1058–1072. — Atividade sexual pós-evento, classificação de risco, teste das duas escadas.
+- **Masters, W.H., Johnson, V.E.** (1966). *Human Sexual Response*. Little, Brown. — Modelo linear clássico (excitação, platô, orgasmo, resolução) da resposta sexual humana.
 - **Basson, R.** (2001). "Using a different model for female sexual response to address women's problematic low sexual desire." *Journal of Sex & Marital Therapy*, 27(5):395–403. — Modelo circular de resposta sexual feminina.
 - **Davey Smith, G. et al.** (1997). "Sex and death: are they related? Findings from the Caerphilly Cohort Study." *BMJ*, 315:1641–1644. — Frequência sexual e mortalidade por qualquer causa em homens.
-- **Clayton, A.H. et al.** (2006). "Prevalence of sexual dysfunction among newer antidepressants." *Journal of Clinical Psychiatry*, 63:357–366. — SSRIs e disfunção sexual em 40–70% dos usuários.
+- **Clayton, A.H. et al.** (2002). "Prevalence of sexual dysfunction among newer antidepressants." *Journal of Clinical Psychiatry*, 63(4):357–366. — SSRIs e disfunção sexual em 40–70% dos usuários.
 - **Davis, S.R. et al.** (2019). "Global Consensus Position Statement on Testosterone Therapy for Women." *JCEM* — ver Capítulo 10.
 - **Portman, D.J., Gass, M.L.S.** (2014). "Genitourinary syndrome of menopause." *Menopause*, 21(10):1063–1068. — Atrofia vulvovaginal e tratamento com estrogênio local.
 
@@ -345,6 +364,11 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 - **Windred, D.P. et al.** (2024). "Sleep Regularity Is a Stronger Predictor of Mortality Risk than Sleep Duration." *Sleep*, 47(1). — UK Biobank, aproximadamente 60 mil participantes. Regularidade do horário de sono prediz mortalidade melhor que duração.
 - **Huang, T. et al.** (2020). "Sleep Irregularity and Risk of Cardiovascular Events: The Multi-Ethnic Study of Atherosclerosis." *JACC*, 75(9):991–999. — MESA: variabilidade do horário de sono >90 minutos associada a risco cardiovascular significativamente maior.
+
+**Ruído e poluição ambiental:**
+
+- **IARC / Monographs on the Evaluation of Carcinogenic Risks to Humans** (2013). Volume 109. — Classificação da poluição atmosférica ambiental (*outdoor air pollution*) e do material particulado como **carcinógenos do Grupo 1** (causa comprovada de câncer em humanos).
+- **WHO Regional Office for Europe** (2018). *Environmental Noise Guidelines for the European Region*. — Poluição sonora reconhecida como fator de risco independente para hipertensão, doença cardiovascular e distúrbios de sono; níveis-alvo recomendados.
 
 **Cronodisrupção:**
 
