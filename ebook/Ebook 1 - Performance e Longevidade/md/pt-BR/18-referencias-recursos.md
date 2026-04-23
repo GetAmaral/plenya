@@ -174,7 +174,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 **Hormônios e testosterona (Cap. 10):**
 
-- **Yeap, B.B. et al.** (2021). "In Older Men, Higher Plasma Testosterone or Dihydrotestosterone Is an Independent Predictor for Reduced Incidence of Stroke and Transient Ischemic Attack." *Journal of Clinical Endocrinology & Metabolism (JCEM)*, 106(1):e203–e213. — Testosterona inversamente e SHBG diretamente associados à mortalidade em homens.
+- **Yeap, B.B. et al.** (2021). "Serum Testosterone is Inversely and Sex Hormone-binding Globulin is Directly Associated with All-cause Mortality in Men." *Journal of Clinical Endocrinology & Metabolism (JCEM)*, 106(2):e625–e637. — Coorte UK Biobank de 149.436 homens: testosterona inversamente associada à mortalidade por qualquer causa e por câncer; SHBG diretamente associada à mortalidade por todas as causas, cardiovascular e câncer.
 - **Lincoff, A.M. et al.** (2023). "Cardiovascular Safety of Testosterone-Replacement Therapy." *New England Journal of Medicine (NEJM)*, 389:107–117. — Ensaio TRAVERSE: reposição de testosterona em homens com hipogonadismo não aumentou risco cardiovascular maior em acompanhamento mediano de 33 meses.
 - Meta-análise **Annals of Internal Medicine** (2024) — dados de mais de 24.000 homens acompanhados por pelo menos 5 anos: testosterona total abaixo de 7,4 nmol/L associada a risco significativamente maior de mortalidade por qualquer causa.
 
