@@ -52,6 +52,20 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Walldius, G. et al.** (AMORIS). "Apolipoprotein B and apolipoprotein A-I predict cardiovascular mortality" — coorte sueca com 137.100 adultos acompanhados por quase 18 anos.
 - **Ruttmann, E. et al.** (2005). "Gamma-glutamyltransferase as a risk factor for cardiovascular disease mortality: an epidemiological investigation in a cohort of 163,944 Austrian adults." *Circulation*, 112(14):2130–2137. — Valores de GGT dentro da faixa "normal" já associados, de forma dose-dependente, a maior mortalidade cardiovascular.
 
+**Força de preensão manual como biomarcador:**
+
+- **Leong, D.P. et al.** (PURE, 2015). "Prognostic value of grip strength: findings from the Prospective Urban Rural Epidemiology (PURE) study." *Lancet*, 386(9990):266–273. DOI: 10.1016/S0140-6736(14)62000-6. — Coorte prospectiva em 17 países, 139.691 adultos, seguimento mediano 4 anos. Cada 5 kg de redução na preensão associou-se a HR 1,16 (IC 95% 1,13–1,20) para mortalidade por todas as causas, 1,17 para mortalidade cardiovascular, 1,07 para infarto e 1,09 para AVC. Preensão foi preditor mais forte que pressão arterial sistólica.
+- **López-Bueno, R. et al.** (2022). "Thresholds of handgrip strength for all-cause, cancer, and cardiovascular mortality: A systematic review with dose-response meta-analysis." *Ageing Research Reviews*, 82:101778. DOI: 10.1016/j.arr.2022.101778. — 48 estudos, 3.135.473 participantes. Relação inversa significativa entre preensão e mortalidade; redução de risco linear na faixa de 26 a 50 kg.
+- **Cruz-Jentoft, A.J. et al.** (EWGSOP2, 2019). "Sarcopenia: Revised European Consensus on Definition and Diagnosis." *Age and Ageing*, 48(1):16–31. — Cutoffs formais para sarcopenia provável: preensão máxima < 27 kg em homens e < 16 kg em mulheres. (Também referenciado no Cap 15 pelos critérios de ASMI.)
+
+**DEXA — composição corporal, gordura visceral e densidade óssea:**
+
+- **Lundblad, M.W. et al.** (2021). "Reference Values for DXA-Derived Visceral Adipose Tissue in Adults 40 Years and Older from a European Population: The Tromsø Study 2015–2016." *Journal of Obesity*, 2021:6634536. DOI: 10.1155/2021/6634536. — Valores populacionais de referência para VAT por DEXA em adultos 40+: medianas ~1.650 g (homens) e ~850 g (mulheres); percentil 75 ~2.340 g e ~1.235 g, respectivamente. Acima do P75, risco cardiometabólico se eleva consistentemente.
+- **Kaul, S. et al.** (2012). "Dual-energy X-ray absorptiometry for quantification of visceral fat." *Obesity*, 20(6):1313–1318. DOI: 10.1038/oby.2011.393. — Validação do método DEXA para quantificação de gordura visceral com altíssima correlação com TC (R² = 0,96) e viés pequeno.
+- **World Health Organization** (1994). *Assessment of fracture risk and its application to screening for postmenopausal osteoporosis.* WHO Technical Report Series 843. Geneva: WHO. — Definição clássica de T-score: entre −1,0 e −2,5 caracteriza osteopenia; ≤ −2,5 caracteriza osteoporose.
+- **Downey, C.L. et al.** (2023). "Systematic review and meta-analysis of preoperative predictors for early mortality following hip fracture surgery." *Osteoporosis International*, 34(7):1165–1179. DOI: 10.1007/s00198-023-06942-0. — 33 coortes, 462.699 pacientes. Mortalidade no primeiro ano pós-fratura de colo de fêmur varia entre 15 e 30% em idosos, condicionada a idade, ASA ≥ 3, dependência funcional prévia e comorbidades.
+- **IAEA** (Agência Internacional de Energia Atômica). *Radiation Protection of Patients during DXA.* — Dose efetiva típica de DEXA corpo inteiro entre 1 e 5 μSv; equivalente a meio dia a dois dias de radiação natural de fundo.
+
 ---
 
 ### Capítulo 5 — As Artérias Saem do Silêncio
@@ -132,6 +146,11 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Kraft, J.R.** — Padrões de curva insulinêmica (Kraft I a V), como referenciado no Capítulo 4.
 - **Índice de Matsuda** e **índice TyG** — validados contra clamp euglicêmico como medidas de sensibilidade insulínica. Referências consolidadas em múltiplas revisões de endocrinologia metabólica.
 
+**Monitor contínuo de glicose (CGM) em não-diabéticos:**
+
+- **Berry, S.E., Valdes, A.M., Drew, D.A. et al.** (PREDICT, 2020). "Human postprandial responses to food and potential for precision nutrition." *Nature Medicine*, 26:964–973. DOI: 10.1038/s41591-020-0934-0. — 1.002 adultos saudáveis; resposta glicêmica pós-prandial variou 68% entre indivíduos à mesma refeição; microbioma, sono, genética e horário pesaram mais que macronutrientes.
+- **American Diabetes Association** (2024). "Standards of Care in Diabetes—2024." *Diabetes Care*, 47(Suppl 1). — Posição formal: não há evidência suficiente para recomendar CGM como rastreio ou diagnóstico em não-diabéticos ou pré-diabéticos.
+
 **Farmacoterapia da MASH:**
 
 - **Harrison, S.A. et al.** (2024). "A Phase 3 Trial of Resmetirom in NASH with Liver Fibrosis (MAESTRO-NASH)." *NEJM*, 390:497–509. DOI: 10.1056/NEJMoa2309000.
@@ -155,6 +174,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Mandsager, K. et al.** (2018). "Association of Cardiorespiratory Fitness With Long-term Mortality Among Adults Undergoing Exercise Treadmill Testing." *JAMA Network Open*, 1(6):e183605. DOI: 10.1001/jamanetworkopen.2018.3605. — Cleveland Clinic, 122.007 adultos. Aptidão elite = 80% de redução na mortalidade vs. aptidão baixa.
 - **Clausen, J.S.R. et al.** (2018). "Midlife Cardiorespiratory Fitness and the Long-Term Risk of Mortality: 46 Years of Follow-Up." *JACC*, 72(9):987–995. DOI: 10.1016/j.jacc.2018.06.045. — Copenhagen Male Study, 5.107 homens, 46 anos. Cada 1 ml/kg/min de VO₂ max = +45 dias de vida.
 - **Imboden, M.T. et al.** (2018). "Cardiorespiratory Fitness and Mortality in Healthy Men and Women." *JACC*, 72(19):2283–2292. DOI: 10.1016/j.jacc.2018.08.2166. — VO₂ max medido diretamente por ergoespirometria.
+- **Kaminsky, L.A. et al.** (FRIEND Registry, 2015). "Reference Standards for Cardiorespiratory Fitness Measured With Cardiopulmonary Exercise Testing: Data From the Fitness Registry and the Importance of Exercise National Database." *Mayo Clinic Proceedings*, 90(11):1515–1523. DOI: 10.1016/j.mayocp.2015.07.026. — 7.783 adultos saudáveis com VO₂ max medido por ergoespirometria direta; tabelas normativas por idade e sexo hoje adotadas pela ACSM. Base da calculadora e dos aplicativos FRIEND para estimar percentil individual.
 - **Ryall, C. & Denham, J.** (2025). "A Systematic Review and Meta-analysis Highlights a Link Between Aerobic Fitness and Telomere Maintenance." *The Journals of Gerontology: Series A*, 80(6):glaf068. DOI: 10.1093/gerona/glaf068. — Cada 1 MET = 11–17% redução no risco de morte.
 
 ---
@@ -166,6 +186,13 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Estruch, R. et al.** (2018). "Primary Prevention of Cardiovascular Disease with a Mediterranean Diet Supplemented with Extra-Virgin Olive Oil or Nuts." *New England Journal of Medicine*, 378:e34. — PREDIMED: redução de aproximadamente 30% em eventos cardiovasculares com dieta mediterrânea.
 - **Buettner, D.** (2012). *The Blue Zones: 9 Lessons for Living Longer*. National Geographic. — Cinco Blue Zones: Sardegna, Okinawa, Nicoya, Ikaria, Loma Linda.
 - **Longo, V.** (2018). *The Longevity Diet*. Avery. — Ingestão proteica contextualizada por idade; restrição proteica em meia-idade; *fasting-mimicking diet*.
+
+**Proteína, leucina e resistência anabólica:**
+
+- **Moore, D.R. et al.** (2015). "Protein ingestion to stimulate myofibrillar protein synthesis requires greater relative protein intakes in healthy older versus younger men." *Journals of Gerontology: Medical Sciences*, 70(1):57–62. DOI: 10.1093/gerona/glu103. — Dose máxima efetiva de proteína por refeição: 0,25 g/kg em jovens vs 0,40 g/kg em idosos (~70% maior). Documento central do conceito de resistência anabólica.
+- **Witard, O.C. et al.** (2014). "Myofibrillar muscle protein synthesis rates subsequent to a meal in response to increasing doses of whey protein at rest and after resistance exercise." *American Journal of Clinical Nutrition*, 99(1):86–95. DOI: 10.3945/ajcn.112.055517. — Dose-resposta do whey: 20 g satura a síntese em jovens ~80 kg; acima disso, aumenta oxidação de aminoácidos.
+- **Mamerow, M.M. et al.** (2014). "Dietary protein distribution positively influences 24-h muscle protein synthesis in healthy adults." *Journal of Nutrition*, 144(6):876–880. DOI: 10.3945/jn.113.185280. — Distribuição uniforme em três refeições (~30 g cada) produz 25% mais síntese muscular em 24 h do que o mesmo total concentrado no jantar.
+- **Phillips, S.M., Chevalier, S., Leidy, H.J.** (2016). "Protein 'requirements' beyond the RDA: implications for optimizing health." *Applied Physiology, Nutrition, and Metabolism*, 41(5):565–572. DOI: 10.1139/apnm-2015-0550. — Revisão que consolida o argumento de que a RDA atual (0,8 g/kg/dia) é insuficiente para preservação muscular e saúde em adultos mais velhos.
 - **Green, A.C. et al.** (2011). "Reduced Melanoma After Regular Sunscreen Use: Randomized Trial Follow-Up." *Journal of Clinical Oncology*, 29(3):257–263. — Ensaio de Nambour, Austrália: uso diário de filtro solar (FPS 16) por 4,5 anos reduziu ~50% da incidência de melanoma invasivo em 10 anos de seguimento.
 - **Xu, C. et al.** (2024). "The effects of creatine supplementation on cognitive function in adults: a systematic review and meta-analysis." *Frontiers in Nutrition*. — 16 ensaios clínicos randomizados com 492 participantes; evidência moderada de benefício em memória de curto prazo, mais pronunciado em idosos e vegetarianos.
 - **U.S. FDA** (2011, 2022). Atualizações de bula da finasterida sobre risco de depressão (2011) e alerta formal sobre ideação suicida (2022).
@@ -397,6 +424,12 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 ---
 
 ### Capítulo 15 — Seu Placar de Longevidade
+
+**Questionários de triagem de apneia:**
+
+- **Chung, F. et al.** (2012). "High STOP-Bang score indicates a high probability of obstructive sleep apnoea." *British Journal of Anaesthesia*, 108(5):768–775. DOI: 10.1093/bja/aes022. — Validação original do STOP-BANG com estratificação por pontuação (≥3 risco moderado-alto; ≥5 risco alto).
+- **Nagappa, M. et al.** (2015). "Validation of the STOP-Bang Questionnaire as a Screening Tool for Obstructive Sleep Apnea among Different Populations: A Systematic Review and Meta-Analysis." *PLOS One*, 10(12):e0143697. — Sensibilidade de 88% para AHI ≥ 15 e 93% para AHI ≥ 30.
+- **Chiu, H.Y. et al.** (2017). "Diagnostic accuracy of the Berlin questionnaire, STOP-BANG, STOP, and Epworth sleepiness scale in detecting obstructive sleep apnea: A bivariate meta-analysis." *Sleep Medicine Reviews*, 36:57–70. — STOP-BANG superior a Berlin, STOP e Epworth para triagem de apneia em todos os graus de gravidade.
 
 **Rastreamentos por faixa etária:**
 

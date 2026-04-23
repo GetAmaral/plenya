@@ -80,7 +80,7 @@ A sequência é previsível:
 
 **Fase 3 — Pré-diabetes.** O pâncreas começa a perder a capacidade de compensar. A HbA1c cruza 5,7%. O diagnóstico de pré-diabetes aparece. Mas o processo já está em andamento há 5 a 10 anos.
 
-**Fase 4 — Diabetes tipo 2.** A HbA1c ultrapassa 6,5%. O diagnóstico formal chega como "surpresa". Mas a doença já estava lá havia uma década ou mais.
+**Fase 4 — Diabetes tipo 2.** A HbA1c ultrapassa 6,5%. O diagnóstico formal chega como "surpresa". Mas o processo já estava em curso havia uma década ou mais.
 
 O que torna essa timeline tão perigosa é que em cada fase, a disfunção metabólica não fica confinada ao metabolismo da glicose. Ela irradia para todos os outros sistemas — simultaneamente. Na Fase 1, quando a insulina já está alta mas a glicose ainda é "normal", o ApoB já pode estar subindo, as artérias já estão sendo bombardeadas por partículas aterogênicas, a inflamação crônica já está se instalando, e o fígado já está acumulando gordura.
 
@@ -116,13 +116,25 @@ Mas André tinha PCR de 2,1 e homocisteína de 14 — sinais de inflamação cr�
 
 O resultado foi revelador. A glicemia em jejum era 92 — normal. Aos 30 minutos, 148. Aos 60 minutos, 162. Aos 90 minutos, 154. Aos 120 minutos, 131. A glicose tinha voltado a descer, e o 120 min estava dentro do esperado. A maioria dos médicos olharia só jejum e 120 min e diria: tolerância à glicose preservada. Mas a curva de insulina contava outra história. Insulina em jejum: 8,5. Aos 30 minutos: 78. Aos 60 minutos: **124 — pico**. Aos 90 minutos: 118. Aos 120 minutos: 89. A insulina disparou para quatorze vezes o basal em uma hora — resposta exagerada para manter a glicose sob controle — antes de começar a descer. O pâncreas estava trabalhando muito mais do que deveria, e só por isso a glicose parecia comportada.
 
-Em linguagem técnica, André tinha um padrão **Kraft tipo II** — pico de insulina precoce e exagerado (entre 30 e 60 minutos) com hiperinsulinemia compensatória significativa. O pâncreas dele estava trabalhando três a quatro vezes mais do que deveria para manter a glicose sob controle. A glicemia parecia normal porque a insulina estava gritando. E como ninguém havia medido o grito, ninguém sabia.
+Em linguagem técnica, André tinha um padrão **Kraft tipo II** — pico de insulina precoce e exagerado (entre 30 e 60 minutos) com hiperinsulinemia compensatória significativa. O pâncreas dele estava produzindo muito mais insulina do que deveria para manter a glicose sob controle. A glicemia parecia normal porque a insulina estava gritando. E como ninguém havia medido o grito, ninguém sabia.
 
 ![Figura 6.4 — O TOTG de André: quando o jejum mente. Curva dupla de glicose (azul, eixo esquerdo) e insulina (vermelho, eixo direito) nos tempos 0, 30, 60, 90 e 120 minutos após 75 g de glicose. Glicose em faixa "normal pós-prandial" durante toda a prova; insulina sobe de 8,5 (jejum) para 124 µIU/mL aos 60 min — padrão Kraft II.](../Cap06%20Fig04.PNG)
 
 Como vimos no Capítulo 4, o trabalho de Kraft sobre "diabetes in-situ" já havia mostrado que a maioria das pessoas com glicose normal no TOTG tem padrões de insulina anormais. A resistência insulínica é, desde o início, um distúrbio pós-prandial. O corpo lida com o problema depois de comer, não em jejum. Quando o distúrbio aparece no sangue em jejum — como no caso de Fernanda, com insulina de 13 —, o processo já tem anos. André estava num estágio onde o jejum ainda escondia o problema. Só a provocação com glicose revelou a verdade.
 
 Não peço TOTG com curva insulinêmica para todos os pacientes. Mas peço quando o jejum levanta suspeita sem confirmar — insulina entre 6 e 10, HOMA-IR entre 1,5 e 2,5, mas com outros marcadores discordantes (PCR elevada, TG/HDL subindo, histórico familiar forte, ou simplesmente um paciente que "faz tudo certo" e os números não fecham). André era o caso clássico. E sem a curva, teríamos perdido anos de janela de intervenção.
+
+---
+
+### CGM — Quando o TOTG Não Cabe no Dia a Dia
+
+O TOTG revela o que o jejum esconde, mas é uma provocação laboratorial com glicose líquida. Não mostra como **o seu** metabolismo responde ao seu café da manhã, ao arroz e feijão, ao vinho do jantar. Para isso existe o **monitor contínuo de glicose** (CGM): um sensor do tamanho de uma moeda, aplicado no braço, que mede glicose intersticial a cada poucos minutos por 10 a 14 dias. No Brasil, o FreeStyle Libre 3 e o Dexcom G7 são encontrados em farmácia sem receita, com sensores na faixa de R$ 400 a R$ 600 por quinzena.
+
+O estudo PREDICT (Berry et al., *Nature Medicine* 2020) acompanhou 1.002 adultos saudáveis comendo refeições padronizadas e encontrou **68% de variabilidade na resposta glicêmica** à mesma comida entre indivíduos — microbioma, sono, genética e horário pesando mais que macronutrientes. Ou seja: o café que é benigno para um vizinho pode disparar sua glicose. Só o CGM pessoal mostra.
+
+O uso que recomendo é **pontual**: duas a quatro semanas por ano, em paciente com marcadores limítrofes ou motivado a mapear gatilhos individuais e ajustar rotina. Não é para uso contínuo.
+
+Uma ressalva honesta: a posição da American Diabetes Association em 2024 é de que **não há evidência suficiente** para CGM como rastreio em não-diabéticos, e nenhum ensaio mostrou que seu uso reduza infarto ou diabetes. É ferramenta de autoconhecimento metabólico e mudança de comportamento — não de medicina de desfecho. Essa é a régua com que peço.
 
 ---
 
@@ -200,7 +212,7 @@ Se alguém um dia lhe disse que seu fígado "está um pouco gorduroso" e recomen
 
 A disfunção metabólica não avisa com sintomas. Não dói. Não coça. Não incomoda — até o dia em que se manifesta como diabetes, como infarto, como esteatose avançada, ou como um diagnóstico que poderia ter sido evitado.
 
-A pergunta certa não é "eu sou diabético?" A pergunta certa é: meu metabolismo está funcionando — ou está compensando?
+O diagnóstico de diabetes chega quando o pâncreas desiste de compensar. A oportunidade de intervir chega cinco a dez anos antes — no ponto em que a insulina já grita, mas a glicose ainda obedece.
 
 Os biomarcadores do Capítulo 4 respondem a essa pergunta. E a resposta, como Fernanda demonstrou, pode chegar uma década antes do diagnóstico convencional.
 

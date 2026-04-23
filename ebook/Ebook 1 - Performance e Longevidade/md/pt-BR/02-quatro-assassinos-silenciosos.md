@@ -19,7 +19,7 @@ Mas a história de Ricardo levanta uma segunda pergunta, talvez mais importante 
 
 A resposta é incômoda pela sua simplicidade. Quatro categorias de doença dominam a mortalidade de adultos depois dos 40 — e nenhuma delas aparece de repente. Elas se instalam silenciosamente por 10 a 20 anos antes do primeiro sintoma. Peter Attia, em *Outlive*, chama essas quatro categorias de "os Cavaleiros do Apocalipse" da longevidade — e a metáfora não é exagero. Doença cardiovascular, doença metabólica, câncer e neurodegeneração: juntas, são responsáveis pela vasta maioria das mortes prematuras em adultos no mundo ocidental.
 
-O infarto de Ricardo não foi um raio em céu azul. Foi o desfecho previsível de um processo que começou quando ele ainda estava na casa dos 30. E esse processo não era um só — eram quatro, avançando simultaneamente.
+O infarto de Ricardo não foi um raio em céu azul. Foi o culminar visível de um processo iniciado quando ele ainda estava na casa dos 30. E esse processo não era um só — eram quatro, avançando simultaneamente.
 
 ![Figura 2.1 — Os 20 Anos Silenciosos. Linhas do tempo paralelas mostrando início silencioso das 4 doenças (30–50 anos) versus diagnóstico convencional (50–75 anos), com a janela de intervenção destacada.](../Cap02%20Fig01.PNG)
 
@@ -63,7 +63,7 @@ A resistência insulínica acontece quando as células deixam de responder ao si
 
 Por um tempo, a compensação funciona. A glicose permanece normal. Os exames de rotina — que medem apenas glicose — dizem que está tudo bem. Mas por baixo da superfície, o nível de insulina sobe silenciosamente, ano após ano. Essa hiperinsulinemia compensatória é o verdadeiro sinal de alerta. E quase ninguém o mede.
 
-Quando o pâncreas finalmente não aguenta mais — depois de anos de sobrecarga —, a glicose começa a subir. Primeiro para pré-diabetes. Depois para diabetes. O diagnóstico chega como "surpresa". Mas a doença já estava lá há uma década. O diagnóstico é que chegou tarde.
+Quando o pâncreas finalmente não aguenta mais — depois de anos de sobrecarga —, a glicose começa a subir. Primeiro para pré-diabetes. Depois para diabetes. O diagnóstico chega como "surpresa". Mas o processo já tinha uma década de avanço quando o pâncreas finalmente cedeu. O diagnóstico apenas selou o que vinha em formação.
 
 Ricardo tinha insulina de jejum de 14 µIU/mL — dentro da referência do laboratório, mas o dobro do que consideramos ótimo. Resistência insulínica silenciosa. E ela não ficava confinada ao metabolismo da glicose. A hiperinsulinemia crônica promove inflamação. A inflamação danifica o endotélio. O endotélio danificado se torna permeável ao LDL. Mais placas se formam. É um ciclo vicioso que se autoalimenta — e que conecta a doença metabólica diretamente à doença cardiovascular.
 
@@ -143,9 +143,7 @@ Alguém já investigou se você tem resistência insulínica? Já pediu insulina
 
 Se a resposta for não — e quase sempre é não —, então ninguém sabe se os quatro assassinos já começaram a trabalhar dentro de você. Pode ser que não tenham começado. Mas pode ser que já estejam lá há anos, crescendo em silêncio, alimentados por fatores que você nem sabia que precisava monitorar.
 
-Ricardo descobriu tarde. Mas descobriu. Hoje, com os biomarcadores rastreados e um plano que ataca as raízes comuns dessas quatro doenças — inflamação, resistência insulínica, disfunção metabólica —, ele está numa trajetória diferente. As artérias dele não vão rejuvenescer. Mas pararam de envelhecer na velocidade que estavam.
-
-A diferença entre Ricardo e a maioria das pessoas não foi genética. Não foi sorte. Foi informação — e ação baseada nessa informação.
+Ricardo descobriu depois do infarto. A maioria descobre assim — ou não descobre. Os quatro assassinos só vencem quem os ignora, e a janela que o separa do diagnóstico encolhe a cada ano de inação.
 
 ---
 
@@ -155,7 +153,7 @@ A diferença entre Ricardo e a maioria das pessoas não foi genética. Não foi 
 
 - Nenhuma aparece de repente. Todas se instalam silenciosamente por 10 a 20 anos antes do primeiro sintoma. Quando o diagnóstico chega, a doença já está avançada.
 
-- A aterosclerose é uma doença inflamatória crônica — não colesterol entupindo um cano. Começa na infância e progride em silêncio por décadas. O infarto não é o início da doença. É o desfecho de um processo que ninguém investigou.
+- A aterosclerose é uma doença inflamatória crônica — não colesterol entupindo um cano. Começa na infância e progride em silêncio por décadas. O infarto não é o início da doença. É o culminar de anos de progressão silenciosa que nenhum check-up investigou.
 
 - A resistência insulínica é a raiz silenciosa que conecta obesidade, hipertensão, esteatose, diabetes, neurodegeneração e até câncer. Ela é detectável anos antes da glicose subir — mas quase ninguém pede o exame.
 

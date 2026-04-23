@@ -140,6 +140,34 @@ Normal de laboratório: 3,5–7,2 mg/dL (homens), 2,6–6,0 mg/dL (mulheres). Fa
 
 ---
 
+### O Biomarcador que Você Mede em Casa: Força de Preensão
+
+Entre todos os marcadores que previram melhor a mortalidade em grandes coortes internacionais, um não pede sangue, não precisa de laboratório e custa menos que uma consulta: a força de preensão manual, medida por um dinamômetro de mão.
+
+O estudo PURE, publicado por Leong e colaboradores no *Lancet* em 2015, com 139.691 adultos em 17 países e seguimento mediano de 4 anos, demonstrou que cada 5 kg de redução na força de preensão se associa a 16% de aumento na mortalidade por todas as causas (HR 1,16; IC 95% 1,13–1,20), 17% de aumento em mortalidade cardiovascular, 7% em infarto e 9% em acidente vascular cerebral. Em análises ajustadas, o poder preditivo da preensão foi superior ao da pressão arterial sistólica — um marcador que a medicina brasileira mede em toda consulta e que a preensão nunca mede em quase nenhuma. Uma revisão sistemática com meta-análise dose-resposta publicada em 2022 por López-Bueno e colaboradores no *Ageing Research Reviews*, reunindo 48 estudos e mais de 3,1 milhões de participantes, confirmou o padrão: a relação é contínua e praticamente linear na faixa de 26 a 50 kg — cada quilograma a mais reduz risco.
+
+A razão pela qual a preensão prediz tanto não é muscular. É sistêmica. Força de preensão é a expressão final de diversos sistemas operando em conjunto: massa muscular adequada (sarcopenia a diminui), função neuromuscular preservada (neurodegeneração a diminui), estado nutricional suficiente (desnutrição proteica a diminui), controle inflamatório (inflamação crônica a diminui). Um número baixo significa que algum desses sistemas está cedendo — mesmo quando nenhum dos biomarcadores laboratoriais acusa ainda. Ela é, na prática, um termômetro de reserva funcional global.
+
+Os pontos de corte formais do consenso europeu de sarcopenia (EWGSOP2, 2019) são **preensão máxima abaixo de 27 kg em homens e abaixo de 16 kg em mulheres** — abaixo desses valores, o diagnóstico de sarcopenia provável é objetivo. Mas eles são o piso, não o alvo. Adultos saudáveis entre 40 e 60 anos geralmente atingem 35–45 kg (mulheres) e 45–60 kg (homens), e é nessa faixa superior que queremos manter a pessoa que pretende envelhecer em pé. Na minha clínica, integrei a preensão ao acompanhamento periódico junto com composição corporal e pressão arterial — cinco segundos por mão, três medições, melhor resultado considerado.
+
+Dinamômetros hidráulicos padrão Jamar são a referência no consultório, mas existem dispositivos digitais portáteis a preço de uma consulta particular que permitem acompanhamento em casa. Medir uma vez por trimestre e acompanhar a tendência — exatamente como fazemos com ApoB ou HbA1c — transforma um parâmetro que quase ninguém mede numa bússola funcional de envelhecimento. E, diferentemente dos biomarcadores do sangue, você vê o número mudar semana a semana quando o Pilar 4 do Capítulo 7 entra em ação.
+
+---
+
+### O Exame que Entrega Três Biomarcadores em Um: DEXA
+
+Até aqui, os biomarcadores que discutimos pedem sangue ou teste funcional. Mas existe um exame de imagem que, num único passe de 10 a 15 minutos e com dose de radiação mínima — entre 1 e 5 microsieverts, equivalente a meio dia a dois dias de radiação natural de fundo —, entrega três biomarcadores clínicos independentes que o sangue não mostra: a absorciometria de dupla energia por raios X, ou DEXA (*dual-energy X-ray absorptiometry*). É o exame que, na medicina preventiva de longevidade, faz pelo corpo o que o painel ampliado faz pelo metabolismo.
+
+O primeiro dado é a **massa muscular apendicular** — o peso de músculo nos braços e nas pernas, dividido pela altura ao quadrado, formando o Índice de Massa Muscular Apendicular (ASMI). Este é o número que define objetivamente se há sarcopenia em formação, com os cutoffs do consenso europeu que detalhamos no Capítulo 7: acima de 7,0 kg/m² em homens e 5,5 kg/m² em mulheres. A bioimpedância faz uma estimativa útil, mas para um número preciso — e para acompanhar a trajetória ao longo dos anos — o DEXA é o padrão-ouro. Cada quilograma de massa magra perdido entre os 40 e os 65 anos é um quilograma a menos de capacidade de absorver glicose, de resistir a quedas e de sustentar função cognitiva no segundo pilar do envelhecimento.
+
+O segundo dado, e talvez o mais subvalorizado da prática brasileira, é a **gordura visceral** (*visceral adipose tissue*, VAT). É a gordura que se deposita ao redor dos órgãos — fígado, pâncreas, intestino, coração — e que se comporta como órgão endócrino ativo, secretando citocinas inflamatórias e inundando o fígado de ácidos graxos pela veia porta. Ela é fisiologicamente distinta da gordura subcutânea, que é relativamente benigna. Nenhuma balança mede VAT. A circunferência abdominal é uma aproximação grosseira — melhora sobre o IMC mas ainda confunde gordura de pele com gordura profunda. O DEXA quantifica o VAT em gramas, com erro pequeno. Em adultos acima de 40 anos, estudos populacionais europeus (Tromsø, 2015–2016) mostram medianas de cerca de 1.650 gramas em homens e 850 gramas em mulheres, com o percentil 75 em torno de 2.340 g e 1.235 g respectivamente — e é a partir desse percentil 75 que o risco cardiometabólico se eleva de forma consistente. Os valores absolutos variam por fabricante e etnia, portanto o número a acompanhar é o **percentil do paciente no laudo**, não um corte fixo universal; o que importa é que o laudo traga esse percentil e que ele caia com o tempo. Esse é, na minha experiência clínica, o primeiro número a se mover quando um paciente começa a reverter disfunção metabólica — antes mesmo da insulina cair.
+
+O terceiro dado é a **densidade mineral óssea**, medida em coluna lombar e fêmur proximal, expressa como T-score (comparação com adulto jovem saudável) e Z-score (comparação com pares da mesma idade). Pelos critérios da Organização Mundial de Saúde, T-score entre −1,0 e −2,5 caracteriza osteopenia; igual ou abaixo de −2,5, osteoporose. Em mulheres pós-menopausa e homens acima de 60, esse é o dado que determina se uma queda banal vai terminar em fratura de colo de fêmur — evento cuja mortalidade no primeiro ano varia entre 15 e 30% nos idosos, dependendo da coorte e da condição clínica prévia. Mas o valor preventivo não começa aos 60: conhecer o T-score aos 45, aos 50, aos 55 permite intervir com carga mecânica (Pilar 3 do Cap. 7), vitamina D, proteína adequada e — quando indicado — farmacologia óssea, enquanto a janela ainda está aberta.
+
+Três exames em um, numa máquina que já existe em praticamente toda clínica de diagnóstico de médio porte no Brasil, frequentemente coberto por planos de saúde a partir dos 50 anos ou quando há indicação clínica. Minha recomendação: DEXA completo (corpo total + densitometria de coluna e fêmur) uma vez a cada dois ou três anos a partir dos 40 anos — e anualmente a partir do primeiro achado alterado.
+
+---
+
 ### O Corpo Também Fala — Sinais Que Você Lê no Espelho
 
 Biomarcadores não vivem apenas no tubo de ensaio. Parte da informação mais valiosa sobre saúde sistêmica está no espelho, na escova de dentes e no vaso sanitário — em sinais que o paciente atento observa todos os dias e que o médico de olho treinado interpreta em segundos. Não substituem o painel laboratorial. Mas somam a ele, e frequentemente chegam antes.
@@ -170,7 +198,7 @@ Ricardo, do Capítulo 1, tinha exatamente o primeiro padrão: insulina 14, ApoB 
 
 O segundo erro é olhar apenas o resultado de hoje, sem compará-lo com os anteriores. Um exame é uma fotografia — um instantâneo de um único momento. Mas o que importa para longevidade é o filme: a trajetória dos seus números ao longo dos anos.
 
-Uma HbA1c que era 4,9% há cinco anos, subiu para 5,2% há dois anos, e agora está em 5,4% — como vimos no Capítulo 1 — ainda é "normal" em cada momento individual. Mas a curva ascendente conta uma história que nenhum resultado isolado revela: algo está mudando, silenciosamente, na direção errada. Se ninguém rastrear essa tendência, o diagnóstico de pré-diabetes chega daqui a três ou quatro anos como "surpresa" — que na verdade vinha sendo anunciada há quase uma década.
+A curva ascendente de HbA1c que vimos no Capítulo 1 é o exemplo mais claro. Cada ponto isolado é "normal". Juntos, eles desenham um pré-diabetes chegando — anunciado há anos, mas invisível para quem olha um exame de cada vez.
 
 É por isso que na minha clínica, a Plenya, monitoramos biomarcadores-chave a cada três a seis meses, não uma vez por ano. Não para gerar ansiedade — para detectar tendências antes que se tornem diagnósticos.
 
@@ -196,7 +224,7 @@ Este capítulo não é uma crítica ao seu médico. É um convite para você exi
 
 - A insulina de jejum é a luz amarela do painel — sobe 5 a 10 anos antes da glicose. A relação triglicerídeos/HDL é o proxy gratuito: acima de 3,5 indica resistência insulínica mesmo com lipidograma "normal".
 
-- Biomarcadores devem ser lidos em conjunto (clusters) e ao longo do tempo (tendências). Um número isolado é uma fotografia. O que importa é o filme.
+- Biomarcadores devem ser lidos em conjunto (clusters) e ao longo do tempo (tendências). O filme importa mais que a fotografia — e isso vale tanto para um marcador isolado quanto para o cluster inteiro.
 
 - Lp(a) é genética e precisa ser medida pelo menos uma vez — se estiver alta, muda toda a estratégia de prevenção.
 

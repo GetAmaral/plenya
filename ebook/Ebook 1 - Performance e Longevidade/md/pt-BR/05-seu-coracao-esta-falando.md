@@ -16,7 +16,7 @@ Marcos tinha 57 anos, era engenheiro, e se considerava um paciente exemplar. Tom
 
 Quando o encaminhei para uma tomografia de coronárias sem contraste — o escore de cálcio coronariano, um exame que ele nunca havia feito —, Marcos não entendeu a necessidade. *"Mas meu colesterol está controlado, doutor. A estatina resolveu."*
 
-O resultado voltou com um Agatston score de 412. Marcos não sabia o que aquele número significava. Eu sabia: suas artérias coronárias tinham uma carga de placa calcificada equivalente à de um homem de quase 80 anos. Ele tinha 57. As artérias dele tinham mais de 75.
+O resultado voltou com um Agatston score de 412. Marcos não sabia o que aquele número significava. Eu sabia: suas artérias coronárias tinham uma carga de placa calcificada equivalente à de um homem de quase 80 anos. Ele tinha 57. As artérias dele tinham perto de 80.
 
 A estatina havia baixado o LDL — mas por baixo desse número "controlado", as placas continuavam lá. Décadas de exposição aterogênica acumulada antes do início do tratamento haviam deixado marcas que o lipidograma não conseguia mostrar.
 
