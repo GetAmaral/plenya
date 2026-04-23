@@ -280,7 +280,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 **Adaptógenos, nutracêuticos e cognição suplementar:**
 
 - **Salve, J. et al.** (2019). "Ashwagandha KSM-66 — estresse e cortisol." *Cureus*.
-- **Lopresti, A.L., Drummond, P.D.** (2019). "Saffron (affron) — systematic review and meta-analysis for depression." *Journal of Affective Disorders*.
+- **Lopresti, A.L., Smith, S.J., Hood, S.D., Drummond, P.D.** (2019). "Efficacy of a standardised saffron extract (affron®) as an add-on to antidepressant medication for the treatment of persistent depressive symptoms in adults: A randomised, double-blind, placebo-controlled study." *Journal of Psychopharmacology*, 33(11):1415–1427.
 - **Williams, J.L. et al.** (2020). "L-theanine and stress — meta-analysis."
 - **Ishaque, S. et al.** "Rhodiola rosea for fatigue — systematic review."
 - **Goodwin, G.M. et al.** (2022). "Psilocybin therapy in treatment-resistant depression." *NEJM*, 387:1637–1648.
@@ -368,7 +368,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Mignot, E. et al.** (2022). "Daridorexant Phase 3." *Lancet Neurology*, 21:125–139. DOI: 10.1016/S1474-4422(21)00436-1.
 - **Herring, W.J. et al.** (2016). Suvorexant trials. *Biological Psychiatry*.
 - **Zhdanova, I.V. et al.** (2001). "Melatonin treatment of late-onset insomnia." *JCEM*.
-- **Bannai, M., Kawai, N.** (2012). "Glycine improves sleep quality — mechanism." *Journal of Pharmacological Sciences*.
+- **Bannai, M., Kawai, N.** (2012). "The effects of glycine on subjective daytime performance in partially sleep-restricted healthy volunteers." *Frontiers in Neurology*, 3:61.
 
 ---
 
