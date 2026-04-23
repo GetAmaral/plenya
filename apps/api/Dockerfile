@@ -1,4 +1,4 @@
-FROM golang:1.23-alpine AS builder
+FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
@@ -6,9 +6,10 @@ WORKDIR /app
 COPY go.mod go.sum* ./
 RUN go mod download
 
-# Build
+# Build (templates HTML são embedados via go:embed)
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /server ./cmd/server
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /server ./cmd/server \
+ && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /backfill-patient-phones ./cmd/backfill-patient-phones
 
 # Runtime (imagem final com OCR dependencies)
 FROM alpine:3.21
@@ -25,6 +26,11 @@ RUN apk --no-cache add \
 WORKDIR /app
 
 COPY --from=builder /server .
+COPY --from=builder /backfill-patient-phones .
+
+# Volumes: uploads (PDFs), enrichment-batch (RAG)
+RUN mkdir -p /app/uploads /app/enrichment-batch
+VOLUME ["/app/uploads", "/app/enrichment-batch"]
 
 EXPOSE 3001
 
