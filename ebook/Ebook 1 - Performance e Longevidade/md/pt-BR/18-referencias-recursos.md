@@ -273,7 +273,8 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 - **Andrieu, S. et al.** (2017). "Effect of long-term omega 3 polyunsaturated fatty acid supplementation with or without multidomain intervention (MAPT)." *Lancet Neurology*, 16:377–389.
 - **Baker, L.D. et al.** (2025). "US POINTER: Multidomain Intervention to Reduce Cognitive Decline in Older Adults at Risk." *JAMA*.
 - **Ashford, J.W. et al.** (2024). "Plasma p-tau217 as a biomarker for Alzheimer's disease pathology." *Nature Medicine* — avanço diagnóstico 2024–2025.
-- **Rebok, G.W. et al.** (2014). "Ten-year effects of the Advanced Cognitive Training for Independent and Vital Elderly (ACTIVE) cognitive training trial." *JAMA*, 311(22):2361–2371. — Treino de velocidade e redução de risco de demência.
+- **Rebok, G.W. et al.** (2014). "Ten-year effects of the Advanced Cognitive Training for Independent and Vital Elderly (ACTIVE) cognitive training trial on cognition and everyday functioning in older adults." *Journal of the American Geriatrics Society*, 62(1):16–24.
+- **Edwards, J.D. et al.** (2017). "Speed of processing training results in lower risk of dementia." *Alzheimer's & Dementia: Translational Research & Clinical Interventions*, 3(4):603–611. — Redução de risco de demência de 29% (até 33% dependendo da definição) em quem fez treino de velocidade no ACTIVE, dose-resposta por número de sessões.
 - **Petersen, R.C.** (2011). "Mild cognitive impairment." *NEJM*, 364(23):2227–2234.
 
 **Adaptógenos, nutracêuticos e cognição suplementar:**
@@ -319,7 +320,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 **Propósito, sentido e ikigai:**
 
-- **Sone, T. et al.** (2008). "Sense of Life Worth Living (Ikigai) and Mortality in Japan: Ohsaki Study." *Psychosomatic Medicine*, 70(6):709–715. — Coorte de 43.391 adultos japoneses, 7 anos de seguimento; ikigai associado a redução de 30–50% em mortalidade.
+- **Sone, T. et al.** (2008). "Sense of Life Worth Living (Ikigai) and Mortality in Japan: Ohsaki Study." *Psychosomatic Medicine*, 70(6):709–715. — Coorte de 43.391 adultos japoneses, 7 anos de seguimento; razão de risco de mortalidade por qualquer causa 1,5 (IC 95% 1,3–1,7) em quem respondeu negativamente à pergunta sobre ikigai — equivalente a ~33% menor risco em quem tem ikigai. Efeito maior em mortalidade cardiovascular (HR 1,6) e por causas externas (HR 1,9); não significativo em câncer.
 - **Steptoe, A., Deaton, A., Stone, A.A.** (2015). "Subjective wellbeing, health, and ageing." *Lancet*, 385:640–648. — Eudaimonia vs. hedonia em desfechos duros.
 - **Frankl, V.E.** (1946/2006). *Man's Search for Meaning*. Beacon Press.
 - **Buettner, D.** (2008). *The Blue Zones: Lessons for Living Longer from the People Who've Lived the Longest*. National Geographic.
