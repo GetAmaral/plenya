@@ -124,3 +124,16 @@ export type ConfirmClaimResult = {
   accessToken: string;
   refreshToken: string;
 };
+
+// === Claim multi-canal ===
+
+/**
+ * Pelo menos um de email/phone obrigatório (validado no backend).
+ * Phone é E.164 BR (+55XXXXXXXXXXX) — gerado pelo PhoneInput.
+ */
+export type RequestClaimPayload = {
+  email?: string;
+  phone?: string;
+  newsletterOptIn: boolean;
+  consentVersion: string;
+};

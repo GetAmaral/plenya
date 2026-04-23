@@ -22,21 +22,32 @@ import (
 // AnonymousScoreService gerencia o fluxo público do Escore Plenya Light:
 // (1) exporta a configuração dos itens marcados como IsLightVersion para o site,
 // (2) recebe respostas anônimas, persiste sessão + snapshot e
-// (3) permite o claim posterior via magic link.
+// (3) permite o claim posterior via magic link (email e/ou WhatsApp).
 type AnonymousScoreService struct {
-	db           *gorm.DB
-	scoreRepo    *repository.ScoreRepository
-	cfg          *config.Config
-	emailService *EmailService
+	db              *gorm.DB
+	scoreRepo       *repository.ScoreRepository
+	cfg             *config.Config
+	emailService    *EmailService
+	whatsappService *WhatsAppService
+	leadService     *LeadService
 }
 
 // NewAnonymousScoreService cria uma nova instância do service
-func NewAnonymousScoreService(db *gorm.DB, scoreRepo *repository.ScoreRepository, cfg *config.Config, emailService *EmailService) *AnonymousScoreService {
+func NewAnonymousScoreService(
+	db *gorm.DB,
+	scoreRepo *repository.ScoreRepository,
+	cfg *config.Config,
+	emailService *EmailService,
+	whatsappService *WhatsAppService,
+	leadService *LeadService,
+) *AnonymousScoreService {
 	return &AnonymousScoreService{
-		db:           db,
-		scoreRepo:    scoreRepo,
-		cfg:          cfg,
-		emailService: emailService,
+		db:              db,
+		scoreRepo:       scoreRepo,
+		cfg:             cfg,
+		emailService:    emailService,
+		whatsappService: whatsappService,
+		leadService:     leadService,
 	}
 }
 
@@ -45,36 +56,109 @@ func NewAnonymousScoreService(db *gorm.DB, scoreRepo *repository.ScoreRepository
 // ============================================================
 
 // magicLinkClaims são os claims do JWT usado no magic link.
+// Email pode estar vazio se o claim foi feito apenas via WhatsApp — nesse caso usamos
+// o telefone na conversão (Patient sem email).
 type magicLinkClaims struct {
 	SessionCode string `json:"sessionCode"`
-	Email       string `json:"email"`
+	Email       string `json:"email,omitempty"`
+	Phone       string `json:"phone,omitempty"` // E.164 com +
 	jwt.RegisteredClaims
 }
 
-// RequestClaim gera um magic link JWT (15min), envia por email
-// e retorna true se a operação foi iniciada. Não revela se a sessão existe
-// ou não — previne enumeração de códigos públicos.
-func (s *AnonymousScoreService) RequestClaim(code, email string) error {
-	email = strings.TrimSpace(strings.ToLower(email))
-	if email == "" {
-		return errors.New("email is required")
+// RequestClaimInput é o payload completo do RequestClaim multi-canal.
+type RequestClaimInput struct {
+	Email           *string
+	Phone           *string // E.164 com + (ex: "+5511999998888")
+	NewsletterOptIn bool
+	ConsentVersion  string
+	IPHash          string // SHA-256 hex do IP — não passar IP plano
+}
+
+// RequestClaim gera um magic link JWT (15min) e envia pelos canais escolhidos.
+// Cria/atualiza um Lead idempotente (vinculado à session). Sempre retorna nil pra
+// não revelar existência da sessão (anti-enumeração de códigos públicos).
+func (s *AnonymousScoreService) RequestClaim(code string, in RequestClaimInput) error {
+	hasEmail := in.Email != nil && strings.TrimSpace(*in.Email) != ""
+	hasPhone := in.Phone != nil && strings.TrimSpace(*in.Phone) != ""
+	if !hasEmail && !hasPhone {
+		return errors.New("email or phone is required")
 	}
 
 	session, err := s.loadSessionByPublicCode(code)
 	if err != nil {
-		// Propositalmente retorna nil pra não revelar existência
-		return nil
+		// Anti-enumeração: NOT FOUND silencia (não revela existência).
+		// Outros erros (DB down, deadlock, etc.) propagam — cliente precisa saber.
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil
+		}
+		return fmt.Errorf("failed to load session: %w", err)
 	}
 	if session.ClaimedByPatientID != nil {
 		// Já claimed — não reenvia
 		return nil
 	}
 
+	// Normaliza
+	var emailNorm, phoneNorm string
+	if hasEmail {
+		emailNorm = strings.ToLower(strings.TrimSpace(*in.Email))
+	}
+	if hasPhone {
+		phoneNorm = strings.TrimSpace(*in.Phone)
+	}
+
+	// Atualiza session com email/phone/opt-ins (mesmo que o envio falhe — registro do consent)
+	updates := map[string]any{
+		"updated_at":       time.Now().UTC(),
+		"email_opt_in":     hasEmail,
+		"whats_app_opt_in": hasPhone,
+	}
+	if hasEmail {
+		updates["email"] = emailNorm
+	}
+	if hasPhone {
+		updates["phone"] = phoneNorm
+	}
+	if err := s.db.Model(session).Updates(updates).Error; err != nil {
+		return fmt.Errorf("failed to update session: %w", err)
+	}
+
+	// Cria/atualiza Lead (idempotente por sessionID)
+	var lead *models.Lead
+	if s.leadService != nil {
+		var emailPtr, phonePtr *string
+		if hasEmail {
+			emailPtr = &emailNorm
+		}
+		if hasPhone {
+			phonePtr = &phoneNorm
+		}
+		lead, err = s.leadService.CreateOrUpdateFromLightClaim(CreateOrUpdateFromLightClaimInput{
+			SessionID:        session.ID,
+			Email:            emailPtr,
+			Phone:            phonePtr,
+			NewsletterOptIn:  in.NewsletterOptIn,
+			ConsentVersion:   in.ConsentVersion,
+			ConsentTimestamp: time.Now().UTC(),
+			ConsentIPHash:    in.IPHash,
+		})
+		if err != nil {
+			// Não fatal — log e seguimos com o envio
+			lead = nil
+		}
+	}
+
+	// Gera JWT magic link
+	// 7 dias: cliente pode demorar pra abrir o WhatsApp/email; link é single-use
+	// (ConfirmClaim marca a sessão como claimed e não reenvia depois).
+	// Janela de phishing controlada porque o token só dá acesso a um Patient específico
+	// criado pra essa sessão — não é login universal.
 	claims := magicLinkClaims{
 		SessionCode: code,
-		Email:       email,
+		Email:       emailNorm,
+		Phone:       phoneNorm,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(15 * time.Minute)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(7 * 24 * time.Hour)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			Issuer:    "plenya-score-light",
 			Subject:   "magic-link",
@@ -88,11 +172,34 @@ func (s *AnonymousScoreService) RequestClaim(code, email string) error {
 
 	link := fmt.Sprintf("%s/pt/escore-plenya/claim/%s", strings.TrimRight(s.cfg.Site.PublicURL, "/"), signed)
 
-	if s.emailService != nil {
-		if err := s.emailService.SendMagicLink(email, link); err != nil {
-			return fmt.Errorf("failed to send magic link: %w", err)
+	// Despacha por canal — erros parciais não falham o request, só logam atividade
+	if hasEmail && s.emailService != nil {
+		if sendErr := s.emailService.SendMagicLink(emailNorm, link); sendErr == nil && lead != nil && s.leadService != nil {
+			_ = s.leadService.RecordActivity(RecordActivityInput{
+				LeadID:  lead.ID,
+				Type:    models.LeadActivityMessageSent,
+				Channel: models.LeadChannelEmail,
+				Content: ptr("Magic link enviado por email"),
+				Metadata: map[string]any{
+					"template": "magic_link_email",
+				},
+			})
 		}
 	}
+	if hasPhone && s.whatsappService != nil {
+		if sendErr := s.whatsappService.SendMagicLink(phoneNorm, link); sendErr == nil && lead != nil && s.leadService != nil {
+			_ = s.leadService.RecordActivity(RecordActivityInput{
+				LeadID:  lead.ID,
+				Type:    models.LeadActivityMessageSent,
+				Channel: models.LeadChannelWhatsApp,
+				Content: ptr("Magic link enviado por WhatsApp"),
+				Metadata: map[string]any{
+					"template": s.cfg.WhatsApp.TemplateMagicLink,
+				},
+			})
+		}
+	}
+
 	return nil
 }
 
@@ -107,6 +214,7 @@ type ConfirmClaimResult struct {
 }
 
 // ConfirmClaim valida o magic token, cria/busca User+Patient e vincula a sessão.
+// Aceita tokens com email, phone, ou ambos (depende de qual canal foi usado no RequestClaim).
 // Retorna tokens do EMR para o frontend fazer login imediato.
 func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService) (*ConfirmClaimResult, error) {
 	parsed, err := jwt.ParseWithClaims(token, &magicLinkClaims{}, func(t *jwt.Token) (interface{}, error) {
@@ -126,27 +234,90 @@ func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService)
 	}
 
 	email := strings.ToLower(strings.TrimSpace(claims.Email))
+	phone := strings.TrimSpace(claims.Phone)
+	if email == "" && phone == "" {
+		return nil, errors.New("magic link missing both email and phone claims")
+	}
 
-	// Busca ou cria User+Patient
+	// Busca User: prioriza email, depois phone (via Patient)
 	var user models.User
-	err = s.db.Where("email = ?", email).First(&user).Error
-	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, fmt.Errorf("failed to lookup user: %w", err)
+	var found bool
+	if email != "" {
+		err = s.db.Where("email = ?", email).First(&user).Error
+		if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, fmt.Errorf("failed to lookup user by email: %w", err)
+		}
+		found = err == nil
+	}
+	if !found && phone != "" {
+		var existingPatient models.Patient
+		err = s.db.Where("phone = ?", phone).First(&existingPatient).Error
+		if err == nil {
+			if err := s.db.First(&user, "id = ?", existingPatient.UserID).Error; err != nil {
+				return nil, fmt.Errorf("failed to load user from patient: %w", err)
+			}
+			found = true
+		} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, fmt.Errorf("failed to lookup patient by phone: %w", err)
+		}
 	}
 
 	var patient *models.Patient
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		// Cria User + Patient novos dentro de transação
+	if !found {
+		// Cria User + Patient novos dentro de transação.
+		// Usa FirstOrCreate por email pra blindar contra race / retry parcial:
+		// se houve erro entre Create User e Create Patient na primeira tentativa,
+		// User existe mas Patient não — segunda tentativa reaproveita o User.
 		err = s.db.Transaction(func(tx *gorm.DB) error {
+			displayName := "Paciente Plenya"
+			userEmail := email
+			if userEmail == "" {
+				// User.Email é UNIQUE NOT NULL — geramos placeholder determinístico
+				// pra que retries do mesmo phone reaproveitem o mesmo User (idempotente).
+				userEmail = fmt.Sprintf("wa-%s@placeholder.plenyasaude.com.br", strings.TrimPrefix(phone, "+"))
+			} else {
+				displayName = emailToDisplayName(email)
+			}
+
 			newUser := models.User{
-				Name:  emailToDisplayName(email),
-				Email: email,
+				Name:  displayName,
+				Email: userEmail,
 			}
 			if err := newUser.SetRoles([]string{string(models.RolePatient)}); err != nil {
 				return err
 			}
-			if err := tx.Create(&newUser).Error; err != nil {
+			// FirstOrCreate: insere se não existe, retorna existente se já existe.
+			// `Attrs` aplica apenas no INSERT — campos do existente são preservados.
+			if err := tx.Where(models.User{Email: userEmail}).Attrs(newUser).FirstOrCreate(&newUser).Error; err != nil {
 				return err
+			}
+			// Se reaproveitamos User existente sem role patient, garantimos.
+			roles := newUser.GetRoles()
+			hasPatientRole := false
+			for _, r := range roles {
+				if r == string(models.RolePatient) {
+					hasPatientRole = true
+					break
+				}
+			}
+			if !hasPatientRole {
+				_ = newUser.SetRoles(append(roles, string(models.RolePatient)))
+				if err := tx.Save(&newUser).Error; err != nil {
+					return err
+				}
+			}
+
+			// Se reaproveitamos User existente (FirstOrCreate retornou um já existente),
+			// pode haver Patient vinculado de tentativa anterior — checa antes de criar duplicata.
+			var existingPatient models.Patient
+			lookupErr := tx.Where("user_id = ?", newUser.ID).First(&existingPatient).Error
+			if lookupErr == nil {
+				patient = &existingPatient
+				user = newUser
+				return nil
+			}
+			if !errors.Is(lookupErr, gorm.ErrRecordNotFound) {
+				return lookupErr
 			}
 
 			newPatient := models.Patient{
@@ -154,6 +325,15 @@ func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService)
 				Name:   newUser.Name,
 				Age:    session.Age,
 				Gender: models.Gender(session.Gender),
+				Source: string(models.LeadSourceLightClaim),
+			}
+			if email != "" {
+				e := email
+				newPatient.Email = &e
+			}
+			if phone != "" {
+				p := phone
+				newPatient.Phone = &p
 			}
 			if session.PostMenopause != nil {
 				newPatient.Menopause = session.PostMenopause
@@ -194,6 +374,15 @@ func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService)
 				Name:   user.Name,
 				Age:    session.Age,
 				Gender: models.Gender(session.Gender),
+				Source: string(models.LeadSourceLightClaim),
+			}
+			if email != "" {
+				e := email
+				newPatient.Email = &e
+			}
+			if phone != "" {
+				ph := phone
+				newPatient.Phone = &ph
 			}
 			if err := s.db.Create(&newPatient).Error; err != nil {
 				return nil, err
@@ -207,6 +396,13 @@ func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService)
 	// Vincula sessão
 	if _, err := s.ClaimSession(claims.SessionCode, patient.ID, email); err != nil {
 		return nil, fmt.Errorf("failed to claim session: %w", err)
+	}
+
+	// Marca Lead como converted (best-effort — não fatal)
+	if s.leadService != nil {
+		if lead, err := s.leadService.FindLeadBySession(session.ID); err == nil && lead != nil {
+			_ = s.leadService.MarkConverted(lead.ID, patient.ID, nil)
+		}
 	}
 
 	// Gera tokens do EMR pro frontend fazer login imediato

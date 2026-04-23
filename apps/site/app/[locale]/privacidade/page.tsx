@@ -87,7 +87,8 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <li><strong>Anthropic</strong> (Claude AI — Estados Unidos): processa o texto extraído do PDF de exames para identificar valores laboratoriais. <strong>O conteúdo é descartado após a chamada</strong> (zero retenção contratual).</li>
               <li><strong>OpenAI</strong> (Estados Unidos): usado apenas para gerar ilustrações genéricas do site — <strong>não recebe dados pessoais de usuários</strong>.</li>
               <li><strong>Plausible Analytics</strong> (União Europeia, sob GDPR): métricas agregadas, sem cookies, sem identificação individual.</li>
-              <li><strong>Provedor de email transacional</strong>: envia magic links para acesso à área do paciente.</li>
+              <li><strong>Resend</strong> (Estados Unidos): envio de emails transacionais (magic links de acesso, confirmações). Recebe apenas o email do destinatário e o conteúdo da mensagem; não usa os dados para outros fins.</li>
+              <li><strong>Meta Platforms (WhatsApp Business)</strong> (Estados Unidos): quando você opta por receber comunicações por WhatsApp, seu telefone e o conteúdo das mensagens são processados pela infraestrutura do WhatsApp da Meta, sob cláusulas-padrão de proteção e sob a Política de Privacidade do WhatsApp. Você pode revogar esse consentimento a qualquer momento.</li>
               <li><strong>Hospedagem (KingHost / Coolify):</strong> infraestrutura de servidor no Brasil.</li>
             </ul>
             <p className="mt-4 text-sm text-petrol/70">Transferências internacionais ocorrem nas hipóteses do art. 33 da LGPD, com cláusulas contratuais que garantem nível de proteção adequado.</p>

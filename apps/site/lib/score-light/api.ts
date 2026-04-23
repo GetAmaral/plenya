@@ -7,6 +7,7 @@ import type {
   ConfirmClaimResult,
   CreateSessionRequest,
   PublicSession,
+  RequestClaimPayload,
 } from './types';
 
 const apiBase =
@@ -35,12 +36,12 @@ export function getSession(code: string) {
   return request<PublicSession>(`/score-light/sessions/${encodeURIComponent(code)}`);
 }
 
-export function requestClaim(code: string, email: string) {
+export function requestClaim(code: string, payload: RequestClaimPayload) {
   return request<{ message: string }>(
     `/score-light/sessions/${encodeURIComponent(code)}/claim`,
     {
       method: 'POST',
-      body: JSON.stringify({ email }),
+      body: JSON.stringify(payload),
     }
   );
 }

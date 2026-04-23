@@ -167,6 +167,12 @@ type Patient struct {
 	// @example (11) 99999-9999
 	EmergencyPhone *string `gorm:"type:varchar(20)" json:"emergencyPhone,omitempty" validate:"omitempty,min=10"`
 
+	// Origem do paciente — preenchida no momento da criação. Imutável.
+	// Mesmos valores de LeadSource (light_claim, contact_form, whatsapp_inbound, newsletter, manual)
+	// + "direct" para criação direta pelo staff sem origem rastreável.
+	// @example light_claim
+	Source string `gorm:"type:varchar(40);not null;default:'direct';index:idx_patients_source" json:"source"`
+
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 

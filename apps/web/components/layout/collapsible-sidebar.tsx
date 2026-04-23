@@ -37,6 +37,7 @@ import {
   Library,
   Timer,
   Bot,
+  UserPlus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -51,11 +52,15 @@ type NavigationItem = {
   icon: any;
   adminOnly?: boolean;
   staffOnly?: boolean; // Restritas a profissionais (não patients)
+  // requiredRoles: visível apenas se usuário tem PELO MENOS UM dos roles listados.
+  // Útil quando staff genérico não basta — ex: apenas admin/secretary/manager.
+  requiredRoles?: UserRole[];
 };
 
 const navigation: NavigationItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
   { name: "Pacientes", href: "/patients", icon: Users, staffOnly: true },
+  { name: "Leads", href: "/leads", icon: UserPlus, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
   { name: "Consultas", href: "/appointments", icon: Calendar },
   { name: "Anamneses", href: "/anamnesis", icon: Stethoscope },
   { name: "Templates de Anamnese", href: "/anamnesis-templates", icon: FileCheck, staffOnly: true },
@@ -228,6 +233,7 @@ export function CollapsibleSidebar() {
                 .filter((item) => {
                   if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) return false;
                   if (item.staffOnly && isHydrated && isPatientOnly(user)) return false;
+                  if (item.requiredRoles && isHydrated && !item.requiredRoles.some((r) => isGranted(user, r))) return false;
                   if (searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
                   return true;
                 })
@@ -367,6 +373,7 @@ export function CollapsibleSidebar() {
             .filter((item) => {
               if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) return false;
               if (item.staffOnly && isHydrated && isPatientOnly(user)) return false;
+              if (item.requiredRoles && isHydrated && !item.requiredRoles.some((r) => isGranted(user, r))) return false;
               if (!isCollapsed && searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
               return true;
             })

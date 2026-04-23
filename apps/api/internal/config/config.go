@@ -20,17 +20,33 @@ type Config struct {
 	OpenAI   OpenAIConfig
 	VoyageAI VoyageAIConfig
 	Email    EmailConfig
+	WhatsApp WhatsAppConfig
 	Site     SiteConfig
 	Dev      DevConfig
 }
 
-// EmailConfig SMTP — quando SMTPHost vazio, EmailService loga no stdout (dev)
+// EmailConfig — Provider escolhe a implementação. Quando vazio (ou Provider="smtp" com SMTPHost vazio),
+// EmailService loga no stdout (dev fallback).
 type EmailConfig struct {
-	SMTPHost    string
-	SMTPPort    string
-	SMTPUser    string
-	SMTPPass    string
-	FromAddress string
+	Provider     string // "smtp" | "resend"; default: "smtp"
+	ResendAPIKey string // RESEND_API_KEY (necessário se Provider="resend")
+	SMTPHost     string
+	SMTPPort     string
+	SMTPUser     string
+	SMTPPass     string
+	FromAddress  string
+	FromName     string // nome amigável no header From (ex: "Plenya")
+}
+
+// WhatsAppConfig — credenciais Meta Cloud API. Quando PhoneNumberID vazio,
+// WhatsAppService loga no stdout (dev fallback).
+type WhatsAppConfig struct {
+	AppSecret          string // WHATSAPP_APP_SECRET — usado pra validar HMAC do webhook
+	AccessToken        string // WHATSAPP_ACCESS_TOKEN — Permanent Access Token (System User)
+	PhoneNumberID      string // WHATSAPP_PHONE_NUMBER_ID — número Plenya WhatsApp Business
+	WebhookVerifyToken string // WHATSAPP_WEBHOOK_VERIFY_TOKEN — secret aleatório do challenge inicial
+	TemplateMagicLink  string // WHATSAPP_TEMPLATE_MAGIC_LINK — nome do template aprovado (default: "magic_link")
+	GraphAPIVersion    string // WHATSAPP_GRAPH_API_VERSION — ex: "v18.0" (default)
 }
 
 // SiteConfig URLs do site público — usado para montar links em emails transacionais
@@ -163,11 +179,22 @@ func Load() (*Config, error) {
 			APIURL: getEnv("VOYAGE_API_URL", "https://api.voyageai.com/v1"),
 		},
 		Email: EmailConfig{
-			SMTPHost:    getEnv("SMTP_HOST", ""),
-			SMTPPort:    getEnv("SMTP_PORT", "587"),
-			SMTPUser:    getEnv("SMTP_USER", ""),
-			SMTPPass:    getEnv("SMTP_PASSWORD", ""),
-			FromAddress: getEnv("EMAIL_FROM", "no-reply@plenyasaude.com.br"),
+			Provider:     getEnv("EMAIL_PROVIDER", "smtp"),
+			ResendAPIKey: getEnv("RESEND_API_KEY", ""),
+			SMTPHost:     getEnv("SMTP_HOST", ""),
+			SMTPPort:     getEnv("SMTP_PORT", "587"),
+			SMTPUser:     getEnv("SMTP_USER", ""),
+			SMTPPass:     getEnv("SMTP_PASSWORD", ""),
+			FromAddress:  getEnv("EMAIL_FROM", "no-reply@plenyasaude.com.br"),
+			FromName:     getEnv("EMAIL_FROM_NAME", "Plenya"),
+		},
+		WhatsApp: WhatsAppConfig{
+			AppSecret:          getEnv("WHATSAPP_APP_SECRET", ""),
+			AccessToken:        getEnv("WHATSAPP_ACCESS_TOKEN", ""),
+			PhoneNumberID:      getEnv("WHATSAPP_PHONE_NUMBER_ID", ""),
+			WebhookVerifyToken: getEnv("WHATSAPP_WEBHOOK_VERIFY_TOKEN", ""),
+			TemplateMagicLink:  getEnv("WHATSAPP_TEMPLATE_MAGIC_LINK", "magic_link"),
+			GraphAPIVersion:    getEnv("WHATSAPP_GRAPH_API_VERSION", "v18.0"),
 		},
 		Site: SiteConfig{
 			PublicURL: getEnv("SITE_PUBLIC_URL", "http://localhost:3002"),

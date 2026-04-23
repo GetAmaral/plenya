@@ -1,9 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { track } from '@/lib/plausible';
+import { PRIVACY_POLICY_VERSION } from '@/lib/legal';
 
 const schema = z.object({
   name: z.string().min(2, 'Nome obrigatório'),
@@ -17,17 +19,23 @@ type FormData = z.infer<typeof schema>;
 
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [consentAccepted, setConsentAccepted] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
   async function onSubmit(data: FormData) {
     const parsed = schema.safeParse(data);
     if (!parsed.success) return;
+    if (!consentAccepted) return;
     setStatus('sending');
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...parsed.data, source: 'contact-form' }),
+        body: JSON.stringify({
+          ...parsed.data,
+          source: 'contact-form',
+          consentVersion: PRIVACY_POLICY_VERSION,
+        }),
       });
       if (!res.ok) throw new Error('Falha no envio');
       track('form_contato_enviado', { reason: parsed.data.reason });
@@ -72,7 +80,25 @@ export function ContactForm() {
       <Field label="Melhor horário para contato" error={errors.window?.message}>
         <input {...register('window')} placeholder="Ex: manhã, tarde, fins de semana" className="form-input" />
       </Field>
-      <button type="submit" disabled={status === 'sending'} className="btn-gold w-full">
+      <label className="flex items-start gap-3 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={consentAccepted}
+          onChange={(e) => setConsentAccepted(e.target.checked)}
+          className="mt-1 h-4 w-4 accent-gold cursor-pointer"
+        />
+        <span className="text-petrol/80 text-sm leading-relaxed">
+          Li e concordo com a{' '}
+          <Link href="/privacidade" className="underline underline-offset-4">Política de Privacidade</Link>
+          {' '}e os{' '}
+          <Link href="/termos" className="underline underline-offset-4">Termos de Uso</Link>. Autorizo a Plenya a entrar em contato pelos canais informados.
+        </span>
+      </label>
+      <button
+        type="submit"
+        disabled={status === 'sending' || !consentAccepted}
+        className={`btn-gold w-full ${status === 'sending' || !consentAccepted ? 'opacity-40 cursor-not-allowed' : ''}`}
+      >
         {status === 'sending' ? 'Enviando…' : 'Enviar'}
       </button>
       {status === 'error' && (

@@ -211,7 +211,9 @@ func setupRoutes(
 	notificationService := services.NewNotificationService(notificationRepo, subscriptionRepo)
 	scoreSnapshotService := services.NewScoreSnapshotService(scoreSnapshotRepo, scoreRepo, labResultRepo, anamnesisRepo, database.DB)
 	emailService := services.NewEmailService(cfg)
-	anonymousScoreService := services.NewAnonymousScoreService(database.DB, scoreRepo, cfg, emailService)
+	whatsappService := services.NewWhatsAppService(cfg)
+	leadService := services.NewLeadService(database.DB)
+	anonymousScoreService := services.NewAnonymousScoreService(database.DB, scoreRepo, cfg, emailService, whatsappService, leadService)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
 	labRequestService := services.NewLabRequestService(labRequestRepo, database.DB)
 	labRequestTemplateService := services.NewLabRequestTemplateService(labRequestTemplateRepo)
@@ -274,6 +276,8 @@ func setupRoutes(
 	certificateHandler := handlers.NewCertificateHandler(database.DB, certificateService)
 	medicationDefHandler := handlers.NewMedicationDefinitionHandler(medicationDefinitionService)
 	enrichmentPrepHandler := handlers.NewScoreEnrichmentPreparationHandler(database.DB)
+	leadHandler := handlers.NewLeadHandler(leadService)
+	whatsappWebhookHandler := handlers.NewWhatsAppWebhookHandler(cfg, whatsappService, leadService)
 
 	// API v1
 	v1 := app.Group("/api/v1")
@@ -300,6 +304,25 @@ func setupRoutes(
 	scoreLight.Get("/sessions/:code/export", anonymousScoreHandler.ExportSession)
 	// Autenticada — área do paciente no EMR
 	scoreLight.Get("/my-sessions", middleware.Auth(cfg), anonymousScoreHandler.MySessions)
+
+	// WhatsApp Business webhook (público — Meta valida via HMAC X-Hub-Signature-256)
+	v1.Get("/webhooks/whatsapp", whatsappWebhookHandler.Verify)
+	v1.Post("/webhooks/whatsapp", whatsappWebhookHandler.Receive)
+
+	// Leads — POST público (form contato com rate limit), GET/PATCH autenticado (admin/staff)
+	leadCreateLimiter := middleware.NewIPRateLimiter(5, time.Hour)
+	v1.Post("/leads", leadCreateLimiter.Middleware(), leadHandler.PublicCreate)
+	leads := v1.Group("/leads")
+	leads.Use(middleware.Auth(cfg))
+	leads.Use(middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager))
+	leads.Use(middleware.AuditLog(database.DB))
+	leads.Get("/", leadHandler.List)
+	leads.Get("/:id", leadHandler.Get)
+	leads.Patch("/:id", leadHandler.Update)
+	leads.Post("/:id/notes", leadHandler.AddNote)
+	leads.Post("/:id/convert", leadHandler.Convert)
+	// Delete: admin only (destrutivo / LGPD)
+	leads.Delete("/:id", middleware.RequireAdmin(), leadHandler.Delete)
 
 	// Auth routes (públicas)
 	auth := v1.Group("/auth")

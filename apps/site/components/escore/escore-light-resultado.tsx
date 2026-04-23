@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Link } from '@/lib/i18n/navigation';
 import { ScoreRadarChart } from './score-radar-chart';
+import { PhoneInput } from '@/components/forms/phone-input';
 import { requestClaim, deleteSession, exportSessionURL } from '@/lib/score-light/api';
+import { PRIVACY_POLICY_VERSION } from '@/lib/legal';
 import type { PublicSession } from '@/lib/score-light/types';
 
 function scoreLabel(pct: number): string {
@@ -23,7 +25,11 @@ export function EscoreLightResultado({
 }) {
   const snapshot = session.snapshot;
   const router = useRouter();
+  const [wantEmail, setWantEmail] = useState(true);
+  const [wantWhatsApp, setWantWhatsApp] = useState(false);
   const [email, setEmail] = useState('');
+  const [phoneE164, setPhoneE164] = useState('');
+  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
   const [claimStatus, setClaimStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
     'idle'
   );
@@ -72,16 +78,27 @@ export function EscoreLightResultado({
     .filter((g) => g.itemsEvaluatedCount > 0)
     .map((g) => ({ label: g.groupName, value: g.scorePercentage }));
 
+  const emailValid = wantEmail ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) : true;
+  // WhatsApp exige celular (11 dígitos com 9° dígito = 9). PhoneInput já filtra isso
+  // — se phoneE164 estiver não-vazio, é móvel válido.
+  const phoneValid = wantWhatsApp ? /^\+55\d{2}9\d{8}$/.test(phoneE164) : true;
+  const canSubmit = (wantEmail || wantWhatsApp) && emailValid && phoneValid;
+
   async function handleClaim(e: React.FormEvent) {
     e.preventDefault();
-    if (!email) return;
+    if (!canSubmit) return;
     setClaimStatus('sending');
     setClaimError(null);
     try {
-      await requestClaim(session.publicCode, email);
+      await requestClaim(session.publicCode, {
+        email: wantEmail ? email : undefined,
+        phone: wantWhatsApp ? phoneE164 : undefined,
+        newsletterOptIn,
+        consentVersion: PRIVACY_POLICY_VERSION,
+      });
       setClaimStatus('sent');
     } catch (err) {
-      setClaimError(err instanceof Error ? err.message : 'Falha ao enviar email');
+      setClaimError(err instanceof Error ? err.message : 'Falha ao enviar');
       setClaimStatus('error');
     }
   }
@@ -177,38 +194,95 @@ export function EscoreLightResultado({
 
           {claimStatus === 'sent' ? (
             <div className="mt-8 border border-gold/40 bg-gold/5 p-6 text-petrol">
-              <p className="font-medium">Link enviado para {email}.</p>
+              <p className="font-medium">Link enviado.</p>
               <p className="text-petrol/70 text-sm mt-2">
-                Se a sessão estiver ativa, o email chegará em alguns minutos. Verifique
-                também o spam.
+                {wantEmail && wantWhatsApp
+                  ? `Você receberá o link por email (${email}) e WhatsApp em alguns minutos.`
+                  : wantEmail
+                    ? `Verifique seu email (${email}) — pode chegar na pasta de spam.`
+                    : 'Você receberá o link por WhatsApp em alguns minutos.'}
               </p>
             </div>
           ) : (
-            <form onSubmit={handleClaim} className="mt-8 flex flex-col sm:flex-row gap-3">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="seu@email.com"
-                className="flex-1 border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
-              />
+            <form onSubmit={handleClaim} className="mt-8 space-y-5">
+              <fieldset className="space-y-4">
+                <legend className="text-petrol/70 text-sm mb-2">Como prefere receber?</legend>
+
+                <div className="space-y-2">
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={wantEmail}
+                      onChange={(e) => setWantEmail(e.target.checked)}
+                      className="mt-1 h-4 w-4 accent-gold cursor-pointer"
+                    />
+                    <span className="text-petrol">Email</span>
+                  </label>
+                  {wantEmail && (
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="seu@email.com"
+                      className="ml-7 w-[calc(100%-1.75rem)] border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+                    />
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={wantWhatsApp}
+                      onChange={(e) => setWantWhatsApp(e.target.checked)}
+                      className="mt-1 h-4 w-4 accent-gold cursor-pointer"
+                    />
+                    <span className="text-petrol">WhatsApp</span>
+                  </label>
+                  {wantWhatsApp && (
+                    <>
+                      <PhoneInput
+                        value={phoneE164}
+                        onChange={setPhoneE164}
+                        className="ml-7 w-[calc(100%-1.75rem)] border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+                      />
+                      <p className="ml-7 text-xs text-petrol/55 leading-relaxed">
+                        Ao informar WhatsApp, seus dados são processados pela Meta (EUA) sob cláusulas-padrão de
+                        proteção. Detalhes na <Link href="/privacidade" className="underline underline-offset-4">Política de Privacidade</Link>.
+                      </p>
+                    </>
+                  )}
+                </div>
+              </fieldset>
+
+              <label className="flex items-start gap-3 cursor-pointer pt-2 border-t border-petrol/10">
+                <input
+                  type="checkbox"
+                  checked={newsletterOptIn}
+                  onChange={(e) => setNewsletterOptIn(e.target.checked)}
+                  className="mt-1 h-4 w-4 accent-gold cursor-pointer"
+                />
+                <span className="text-petrol/80 text-sm leading-relaxed">
+                  Quero receber a newsletter Plenya — conteúdos sobre longevidade e medicina personalizada (opcional, pode cancelar quando quiser).
+                </span>
+              </label>
+
               <button
                 type="submit"
-                disabled={claimStatus === 'sending' || !email}
-                className={`btn-gold ${
-                  claimStatus === 'sending' || !email ? 'opacity-40 cursor-not-allowed' : ''
+                disabled={claimStatus === 'sending' || !canSubmit}
+                className={`btn-gold w-full ${
+                  claimStatus === 'sending' || !canSubmit ? 'opacity-40 cursor-not-allowed' : ''
                 }`}
               >
-                {claimStatus === 'sending' ? 'Enviando...' : 'Receber meu link'}
+                {claimStatus === 'sending' ? 'Enviando…' : 'Receber meu link'}
               </button>
             </form>
           )}
           {claimError && <p className="text-red-700 text-sm mt-3">{claimError}</p>}
 
           <p className="text-petrol/50 text-xs mt-6 leading-relaxed">
-            Seu email será usado apenas para enviar o link de acesso. Você pode salvar
-            esta URL diretamente nos favoritos como alternativa.
+            Seus dados de contato serão usados apenas para enviar o link de acesso (e a newsletter, se você marcou). Você
+            pode salvar esta URL diretamente nos favoritos como alternativa.
           </p>
         </div>
       </section>

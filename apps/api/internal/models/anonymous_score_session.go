@@ -57,6 +57,14 @@ type AnonymousScoreSession struct {
 	// @example paciente@exemplo.com
 	Email *string `gorm:"type:varchar(255);index:idx_anon_session_email" json:"email,omitempty"`
 
+	// Telefone informado durante o claim (E.164, ex: +5511999998888)
+	// @example +5511999998888
+	Phone *string `gorm:"type:varchar(20);index:idx_anon_session_phone" json:"phone,omitempty"`
+
+	// Opt-ins escolhidos no claim (granular)
+	EmailOptIn    bool `gorm:"default:false" json:"emailOptIn"`
+	WhatsAppOptIn bool `gorm:"default:false" json:"whatsAppOptIn"`
+
 	// Data de expiração — sessões não-claimed são limpas após 90 dias.
 	// Sessões claimed têm ExpiresAt = NULL (não expiram).
 	ExpiresAt *time.Time `gorm:"type:timestamp;index:idx_anon_session_expires" json:"expiresAt,omitempty"`

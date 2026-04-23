@@ -191,20 +191,24 @@ func (h *AnonymousScoreHandler) GetSession(c *fiber.Ctx) error {
 	return c.JSON(session)
 }
 
-// ClaimRequest é o payload do POST /sessions/:code/claim
+// ClaimRequest é o payload do POST /sessions/:code/claim — multi-canal.
+// Pelo menos um de email/phone obrigatório (validado no service).
 type ClaimRequest struct {
-	Email string `json:"email" validate:"required,email"`
+	Email           string `json:"email,omitempty" validate:"omitempty,email"`
+	Phone           string `json:"phone,omitempty" validate:"omitempty,e164"` // E.164 com + (ex: +5511999998888)
+	NewsletterOptIn bool   `json:"newsletterOptIn,omitempty"`
+	ConsentVersion  string `json:"consentVersion" validate:"required,min=5,max=20"`
 }
 
-// RequestClaim envia o magic link por email. Retorna 200 mesmo se a sessão não
-// existir (anti-enumeração).
+// RequestClaim envia o magic link pelos canais escolhidos (email e/ou WhatsApp).
+// Retorna 200 mesmo se a sessão não existir (anti-enumeração).
 //
-// @Summary  Solicita magic link para salvar resultado
+// @Summary  Solicita magic link para salvar resultado (email e/ou WhatsApp)
 // @Tags     score-light
 // @Accept   json
 // @Produce  json
 // @Param    code path string true "Public code da sessão"
-// @Param    body body ClaimRequest true "Email do paciente"
+// @Param    body body ClaimRequest true "Email e/ou telefone E.164 + consentimento"
 // @Success  200 {object} map[string]string
 // @Router   /score-light/sessions/{code}/claim [post]
 func (h *AnonymousScoreHandler) RequestClaim(c *fiber.Ctx) error {
@@ -225,15 +229,34 @@ func (h *AnonymousScoreHandler) RequestClaim(c *fiber.Ctx) error {
 			Details: formatValidationErrors(err),
 		})
 	}
+	if req.Email == "" && req.Phone == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error: "either email or phone is required",
+		})
+	}
 
-	if err := h.service.RequestClaim(code, req.Email); err != nil {
+	in := services.RequestClaimInput{
+		NewsletterOptIn: req.NewsletterOptIn,
+		ConsentVersion:  req.ConsentVersion,
+		IPHash:          services.HashIP(c.IP()),
+	}
+	if req.Email != "" {
+		e := req.Email
+		in.Email = &e
+	}
+	if req.Phone != "" {
+		p := req.Phone
+		in.Phone = &p
+	}
+
+	if err := h.service.RequestClaim(code, in); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error:   "failed to send magic link",
 			Message: err.Error(),
 		})
 	}
 	return c.JSON(fiber.Map{
-		"message": "Se a sessão existir, um link foi enviado para o email informado.",
+		"message": "Se a sessão existir, um link foi enviado pelos canais escolhidos.",
 	})
 }
 
