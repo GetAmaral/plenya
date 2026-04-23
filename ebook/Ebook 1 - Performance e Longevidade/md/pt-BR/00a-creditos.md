@@ -22,7 +22,7 @@ Edição do Autor.
 1ª edição — 2026.
 Londrina — Paraná — Brasil.
 
-ISBN: [a cadastrar na Câmara Brasileira do Livro]
+ISBN: 978-65-02-06742-0
 
 Autor: Dr. Getúlio José Mattos do Amaral Filho — CRM-PR 21.876 · RQE 16.038.
 
@@ -50,7 +50,7 @@ Instagram: @drGetulioAmaralFilho
 
 **Posicionamento editorial:** página iv (verso da folha de rosto), antes da dedicatória.
 
-**Substituir antes da publicação:** ISBN real (da CBL); mês exato de publicação; nomes do designer, revisor e ilustrador da capa.
+**Substituir antes da publicação:** mês exato de publicação; nomes do designer, revisor e ilustrador da capa.
 
 ### Dados internacionais de catalogação na publicação (CIP)
 
@@ -64,7 +64,7 @@ A485a    Amaral Filho, Getúlio José Mattos do
          Londrina, PR : Edição do Autor, 2026.
             [n] p.
 
-            ISBN [número]
+            ISBN 978-65-02-06742-0
 
             1. Medicina preventiva. 2. Longevidade.
          3. Biomarcadores. 4. Saúde integrativa.
@@ -87,4 +87,4 @@ A485a    Amaral Filho, Getúlio José Mattos do
 
 ---
 
-*Versão pronta para diagramação. Placeholders destacados. Aguarda: ISBN (CBL), mês de publicação, nomes dos colaboradores técnicos. Última atualização: 2026-04-19.*
+*Versão pronta para diagramação. Placeholders destacados. ISBN 978-65-02-06742-0 cadastrado. Aguarda: mês de publicação, nomes dos colaboradores técnicos. Última atualização: 2026-04-23.*
