@@ -116,4 +116,4 @@ Essa é a diferença entre a medicina que espera o diagnóstico aparecer e a med
 
 ---
 
-> A gestão clínica e metabólica, por mais completa que seja, ainda opera na dimensão biológica. Mas há outra dimensão que influencia cada um dos marcadores que acabamos de discutir — uma dimensão que a medicina fragmentada ignora e que, quando não é tratada, sabota todos os outros pilares do método. É o que veremos a seguir, no pilar I.
+> Você agora conhece os números, os genes, as exposições ocultas que o seu corpo carrega e que o laboratório convencional não mede. Mas há uma exposição que o seu corpo traduz em número antes de traduzir em doença — uma que nenhum painel de chumbo ou de mercúrio captura, e que está dentro de você em tempo integral: o que você pensa, o que você sente, como o seu sistema nervoso interpreta o mundo. Quando essa camada entra em alerta crônico, ela vira biologia mensurável — cortisol, PCR, telômeros, idade epigenética. É o terreno do próximo capítulo, e é também onde a medicina fragmentada mais costuma parar.

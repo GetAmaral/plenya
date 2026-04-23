@@ -162,7 +162,7 @@ Um erro comum — tanto de pacientes quanto de médicos — é olhar cada númer
 
 Outro padrão que vejo com frequência: **homocisteína elevada + vitamina D baixa + ferritina no limite inferior**. Esse cluster sugere deficiências nutricionais que comprometem mecanismos de reparo — metilação do DNA, função imune, produção de energia. A pessoa não está doente. Mas seus sistemas de proteção estão operando com capacidade reduzida. É como dirigir com pneus carecas e freios gastos: funciona, até o dia que não funciona.
 
-Ricardo, do Capítulo 1, tinha exatamente o primeiro padrão: insulina 14, ApoB 118, PCR 2,4, homocisteína 13,8. Nenhum número disparou um alarme isolado. Mas o cluster inteiro contava a história de um infarto esperando para acontecer.
+Ricardo, do Capítulo 1, tinha exatamente o primeiro padrão: insulina 14, ApoB 118, PCR 2,4, homocisteína 13,8 — e, quando pedi Lp(a) pela primeira vez depois do infarto, 160 nmol/L (acima de 75 já é considerado de alto risco). A Lp(a) nunca tinha sido medida antes. Era um risco herdado invisível que só apareceu quando ele caiu no estacionamento. Nenhum número disparou um alarme isolado. Mas o cluster inteiro — agora com a Lp(a) genética na equação — contava a história de um infarto esperando para acontecer.
 
 ---
 

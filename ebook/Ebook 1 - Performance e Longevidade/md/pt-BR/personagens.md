@@ -55,9 +55,12 @@
 | ApoB | **118 mg/dL** | < 130 | < 90 |
 | hs-CRP | **2,4 mg/L** | < 3,0 | < 1,0 |
 | Homocisteína | **13,8 µmol/L** | < 15 | < 10 |
+| **Lp(a)** | **160 nmol/L** (pós-IAM, nunca medida antes) | < 125 | < 75 |
 | CAC (Agatston) | **187** | — | — |
 | Idade arterial | **68 anos** (gap +16) | — | ≈ cronológica |
 | Percentil MESA | **>75** | — | — |
+
+Lp(a) elevada — risco herdado que nunca tinha sido medido no check-up anterior. Cap 13 (T+18m) mostra 110 nmol/L sob PCSK9 inibidor (Repatha quinzenal), redução ~30% consistente com dados de classe.
 
 > Observação de revisão: Cap 1 descreve o exame como *"angiotomografia"* mas cita o equivalente em escore de cálcio. Cap 5 chama de *"CAC score de 187 descoberto durante a internação"*. Tecnicamente são exames diferentes — nota para decisão editorial.
 
