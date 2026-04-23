@@ -219,7 +219,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 
 **Osteoporose:**
 
-- **Black, D.M. et al.** (1996). "FIT (alendronate)." *NEJM*.
+- **Black, D.M. et al.** (1996). "Randomised trial of effect of alendronate on risk of fracture in women with existing vertebral fractures (FIT)." *Lancet*, 348(9041):1535–1541.
 - **Black, D.M. et al.** (2007). "HORIZON-PFT (zoledronic acid)." *NEJM*, 356:1809–1822.
 - **Cummings, S.R. et al.** (2009). "Denosumab for Prevention of Fractures in Postmenopausal Women with Osteoporosis (FREEDOM)." *NEJM*, 361:756–765.
 - **Saag, K.G. et al.** (2017). "Romosozumab or Alendronate for Fracture Prevention (ARCH)." *NEJM*, 377:1417–1427.
