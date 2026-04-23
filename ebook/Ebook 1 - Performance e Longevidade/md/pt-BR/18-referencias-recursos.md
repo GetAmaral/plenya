@@ -55,7 +55,7 @@ As referências abaixo estão organizadas por capítulo e por tipo. Todas foram 
 ### Capítulo 5 — As Artérias Saem do Silêncio
 
 - **Agatston, A.S. et al.** (1990). "Quantification of Coronary Artery Calcium Using Ultrafast Computed Tomography." *JACC*, 15(4):827–832. — Descrição original do método Agatston para escore de cálcio coronariano.
-- **Budoff, M.J. et al.** (2018). "Ten-year Association of Coronary Artery Calcium with Atherosclerotic Cardiovascular Disease Events: The Multi-Ethnic Study of Atherosclerosis (MESA)." *JACC*, 71(15):1622–1636. — Valor preditivo do CAC ao longo de 10 anos.
+- **Budoff, M.J. et al.** (2018). "Ten-year Association of Coronary Artery Calcium with Atherosclerotic Cardiovascular Disease Events: The Multi-Ethnic Study of Atherosclerosis (MESA)." *European Heart Journal*, 39(25):2401–2408. — Valor preditivo do CAC ao longo de 10 anos.
 - **Chaparala, S. et al.** (2025). "Beyond Traditional Risk Calculators: The Expanding Role of Coronary Artery Calcium Scoring in Preventive Cardiology." *Cureus*. — Revisão narrativa de 109 estudos *peer-reviewed* (2000–2025).
 - **Patel, J. et al.** (2021). "Role of Coronary Artery Calcium Score in the Primary Prevention of Cardiovascular Disease." *BMJ*, 373:n776.
 - **Mitchell, J.D. et al.** (2018). "Impact of Statin Use on Cardiovascular Outcomes Following Coronary Artery Calcium Testing." — Estudo observacional de 9 anos com 13.644 pacientes. NNT: de 12 (CAC >100) a 100 (CAC 1–100).
