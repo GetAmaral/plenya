@@ -41,6 +41,7 @@ export function useAuth() {
     user,
     accessToken,
     isAuthenticated: !!user && !!accessToken,
+    isLoading: false,
     logout,
   };
 }
