@@ -64,8 +64,8 @@ func main() {
 	}
 	defer database.Close()
 
-	// Auto migrate (desenvolvimento - em produção usaremos Atlas)
-	if cfg.Server.Environment == "development" {
+	// Auto migrate: sempre em dev; em prod só se MIGRATIONS_AUTO=true
+	if cfg.Server.Environment == "development" || os.Getenv("MIGRATIONS_AUTO") == "true" {
 		log.Println("🔄 Running auto migrations...")
 		if err := database.AutoMigrate(); err != nil {
 			log.Fatalf("❌ Failed to auto migrate: %v", err)
