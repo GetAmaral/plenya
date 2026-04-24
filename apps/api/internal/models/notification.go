@@ -20,6 +20,7 @@ const (
 	// CRM — Phase 2
 	NotificationLeadNew             NotificationType = "lead_new"              // Lead novo capturado (form/claim)
 	NotificationLeadWhatsAppInbound NotificationType = "lead_whatsapp_inbound" // Mensagem inbound de WhatsApp
+	NotificationLeadEmailInbound    NotificationType = "lead_email_inbound"    // Email inbound capturado pelo worker IMAP
 	NotificationLeadAssigned        NotificationType = "lead_assigned"         // Lead atribuído ao usuário
 )
 
@@ -46,9 +47,9 @@ type Notification struct {
 	LeadID *uuid.UUID `gorm:"type:uuid;index:idx_notifications_lead" json:"leadId,omitempty"`
 
 	// Tipo da notificação
-	// @enum trial_expiring,renewal_upcoming,subscription_expired,payment_pending,general,lead_new,lead_whatsapp_inbound,lead_assigned
+	// @enum trial_expiring,renewal_upcoming,subscription_expired,payment_pending,general,lead_new,lead_whatsapp_inbound,lead_email_inbound,lead_assigned
 	// @example trial_expiring
-	Type NotificationType `gorm:"type:varchar(50);not null;index:idx_notifications_type;check:type IN ('trial_expiring','renewal_upcoming','subscription_expired','payment_pending','general','lead_new','lead_whatsapp_inbound','lead_assigned')" json:"type" validate:"required,oneof=trial_expiring renewal_upcoming subscription_expired payment_pending general lead_new lead_whatsapp_inbound lead_assigned"`
+	Type NotificationType `gorm:"type:varchar(50);not null;index:idx_notifications_type;check:type IN ('trial_expiring','renewal_upcoming','subscription_expired','payment_pending','general','lead_new','lead_whatsapp_inbound','lead_email_inbound','lead_assigned')" json:"type" validate:"required,oneof=trial_expiring renewal_upcoming subscription_expired payment_pending general lead_new lead_whatsapp_inbound lead_email_inbound lead_assigned"`
 
 	// Título da notificação
 	// @minLength 1

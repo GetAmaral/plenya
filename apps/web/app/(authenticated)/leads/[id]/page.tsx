@@ -37,6 +37,7 @@ import {
   STATUS_COLORS,
   type LeadStatus,
 } from '@/lib/api/leads-api';
+import { EmailReplyBlock } from '@/components/leads/EmailReplyBlock';
 
 const SITE_PUBLIC_URL =
   process.env.NEXT_PUBLIC_SITE_PUBLIC_URL?.replace(/\/$/, '') ?? 'http://localhost:3002';
@@ -326,6 +327,9 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           </div>
         </CardContent>
       </Card>
+
+      {/* Email reply (Bloco 3) — lista threads e abre modal de resposta */}
+      <EmailReplyBlock lead={lead} />
 
       {/* Chat WhatsApp inline (session messages, janela 24h) */}
       {lead.phone && lead.whatsAppOptIn && lead.status !== 'unsubscribed' && (

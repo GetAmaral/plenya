@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/plenya/api/internal/crypto"
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
@@ -75,6 +76,35 @@ func (LeadActivity) TableName() string {
 func (a *LeadActivity) BeforeCreate(tx *gorm.DB) error {
 	if a.ID == uuid.Nil {
 		a.ID = uuid.Must(uuid.NewV7())
+	}
+	return nil
+}
+
+// BeforeSave criptografa Content quando Channel=email (LGPD: corpo de email pode conter
+// CPF, sintomas, dados sensíveis de paciente). Idempotente via isEncrypted heurística
+// reusada de patient.go (mesmo package).
+func (a *LeadActivity) BeforeSave(tx *gorm.DB) error {
+	if a.Channel == LeadChannelEmail && a.Content != nil && *a.Content != "" && !isEncrypted(*a.Content) {
+		encrypted, err := crypto.EncryptWithDefaultKey(*a.Content)
+		if err != nil {
+			return err
+		}
+		a.Content = &encrypted
+	}
+	return nil
+}
+
+// AfterFind descriptografa Content de email quando carregado.
+func (a *LeadActivity) AfterFind(tx *gorm.DB) error {
+	if a.Channel == LeadChannelEmail && a.Content != nil && *a.Content != "" && isEncrypted(*a.Content) {
+		decrypted, err := crypto.DecryptWithDefaultKey(*a.Content)
+		if err != nil {
+			// Falha silenciosa: pode ser conteúdo plain antigo (pré-criptografia)
+			// ou corrupção. Não vamos crashar a query — só loga e devolve cipher.
+			tx.Logger.Warn(tx.Statement.Context, "lead_activity[%s] decrypt failed: %v", a.ID, err)
+			return nil
+		}
+		a.Content = &decrypted
 	}
 	return nil
 }

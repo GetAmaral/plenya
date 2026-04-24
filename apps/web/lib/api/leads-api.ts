@@ -243,6 +243,42 @@ export function useSendLeadMessage(id: string) {
   });
 }
 
+// =====================================================
+// Email reply (Bloco 3) — responder email do lead
+// =====================================================
+
+export type SendEmailReplyPayload = {
+  /** Vazio → backend monta "Re: <subject anterior>" via histórico. */
+  subject?: string;
+  bodyText: string;
+  /** Opcional: HTML pré-renderizado pela UI. Se vazio, backend gera a partir do bodyText. */
+  bodyHTML?: string;
+  /** Message-ID do email respondido — pra threading. */
+  inReplyTo?: string;
+  /** Chain de Message-IDs anteriores (RFC 5322 References). */
+  references?: string[];
+};
+
+export type SendEmailReplyResponse = {
+  message: string;
+  to?: string;
+};
+
+/**
+ * Envia resposta por email via Resend, espelha em Sent (IMAP) e cria activity message_sent.
+ * Backend rejeita com 422 se Lead.emailOptIn=false ou Lead.email=null.
+ */
+export function useSendLeadEmailReply(id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: SendEmailReplyPayload) =>
+      apiClient.post<SendEmailReplyResponse>(`/api/v1/leads/${id}/email-reply`, payload),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: leadKeys.detail(id) });
+    },
+  });
+}
+
 // Helpers visuais
 export const SOURCE_LABELS: Record<LeadSource, string> = {
   light_claim: 'Escore Light',

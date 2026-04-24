@@ -15,6 +15,7 @@ const (
 	LeadSourceLightClaim      LeadSource = "light_claim"      // captura no claim do Escore Light
 	LeadSourceContactForm     LeadSource = "contact_form"     // formulário /contato no site público
 	LeadSourceWhatsAppInbound LeadSource = "whatsapp_inbound" // primeira mensagem inbound do cliente no WhatsApp
+	LeadSourceEmailInbound    LeadSource = "email_inbound"    // primeira mensagem inbound do cliente por email (Stalwart)
 	LeadSourceNewsletter      LeadSource = "newsletter"       // opt-in newsletter sem contexto de claim
 	LeadSourceManual          LeadSource = "manual"           // criado manualmente por staff
 )
@@ -41,7 +42,7 @@ type Lead struct {
 	// Origem do lead (canal/contexto de captura)
 	// @enum light_claim,contact_form,whatsapp_inbound,newsletter,manual
 	// @example light_claim
-	Source LeadSource `gorm:"type:varchar(40);not null;index:idx_leads_source" json:"source" validate:"required,oneof=light_claim contact_form whatsapp_inbound newsletter manual"`
+	Source LeadSource `gorm:"type:varchar(40);not null;index:idx_leads_source" json:"source" validate:"required,oneof=light_claim contact_form whatsapp_inbound email_inbound newsletter manual"`
 
 	// Status atual no pipeline
 	// @enum new,contacted,qualified,converted,lost,unsubscribed

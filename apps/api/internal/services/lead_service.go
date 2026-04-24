@@ -358,6 +358,222 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 }
 
 // ============================================================
+// Email inbound — primeiro contato vira Lead
+// ============================================================
+
+// InboundEmailInput é o payload para um email inbound capturado pelo worker IMAP.
+type InboundEmailInput struct {
+	FromEmail   string             // já normalizado (lower-case)
+	FromName    *string            // nome amigável do header From
+	Subject     string             // assunto (decodificado)
+	BodyText    string             // corpo plain (preferido)
+	BodyHTML    string             // corpo HTML (fallback / referência)
+	MessageID   string             // RFC 5322 Message-ID
+	InReplyTo   string             // header In-Reply-To
+	References  []string           // header References (split)
+	ReceivedAt  time.Time          // header Date (fallback: now)
+	Folder      string             // pasta IMAP de origem (ex: "INBOX")
+	Attachments []EmailAttachmentRef
+}
+
+// EmailAttachmentRef descreve um anexo que JÁ foi salvo em disco pelo worker.
+// Não carrega bytes; só metadados pra registrar em LeadActivity.metadata.
+type EmailAttachmentRef struct {
+	Filename    string `json:"filename"`
+	Path        string `json:"path"`
+	ContentType string `json:"content_type"`
+	SizeBytes   int    `json:"size_bytes"`
+}
+
+// ProcessInboundEmail registra um email inbound. Se já existe Lead ativo pra esse email,
+// só adiciona LeadActivity. Caso contrário, cria Lead novo com source=email_inbound.
+// Consent implícito: o cliente iniciou a conversa (escreveu pra contato@).
+//
+// Idempotente por Message-ID — chamadas duplicadas não criam activities repetidas.
+//
+// Phase 2: também faz lookup em Patient — se o email já é de um paciente,
+// cria Lead já com ConvertedPatientID (badge "paciente cadastrado" na UI).
+func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*models.Lead, error) {
+	from := strings.ToLower(strings.TrimSpace(in.FromEmail))
+	if from == "" {
+		return nil, errors.New("lead: from vazio em inbound email")
+	}
+	now := in.ReceivedAt
+	if now.IsZero() {
+		now = time.Now().UTC()
+	}
+
+	// Dedup por Message-ID — se já existe activity inbound com esse ID, no-op.
+	if in.MessageID != "" {
+		var dup int64
+		_ = s.db.Model(&models.LeadActivity{}).
+			Where("metadata->>'message_id' = ? AND type = ?",
+				in.MessageID, models.LeadActivityMessageReceived).
+			Count(&dup).Error
+		if dup > 0 {
+			// Já processado — devolve o Lead pro caller saber, mas não duplica.
+			var existing models.Lead
+			if err := s.db.Where("email = ?", from).Order("created_at DESC").First(&existing).Error; err == nil {
+				return &existing, nil
+			}
+			return nil, nil
+		}
+	}
+
+	bodyContent := in.BodyText
+	if bodyContent == "" {
+		bodyContent = in.BodyHTML
+	}
+
+	metadata := map[string]any{
+		"message_id":  in.MessageID,
+		"in_reply_to": in.InReplyTo,
+		"references":  in.References,
+		"subject":     in.Subject,
+		"folder":      in.Folder,
+		"received_at": now,
+	}
+	if len(in.Attachments) > 0 {
+		metadata["attachments"] = in.Attachments
+	}
+
+	// Procura Lead ativo (não converted/lost/unsubscribed) com esse email.
+	var existing models.Lead
+	err := s.db.
+		Where("LOWER(email) = ? AND status NOT IN (?)", from,
+			[]models.LeadStatus{models.LeadStatusConverted, models.LeadStatusLost, models.LeadStatusUnsubscribed}).
+		Order("created_at DESC").
+		First(&existing).Error
+
+	if err == nil {
+		_ = s.RecordActivity(RecordActivityInput{
+			LeadID:   existing.ID,
+			Type:     models.LeadActivityMessageReceived,
+			Channel:  models.LeadChannelEmail,
+			Content:  &bodyContent,
+			Metadata: metadata,
+		})
+		_ = s.db.Model(&existing).Update("last_inbound_at", now).Error
+		return &existing, nil
+	}
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, fmt.Errorf("lead: inbound email lookup: %w", err)
+	}
+
+	// Phase 2: procura Patient existente por email — auto-vinculação.
+	var existingPatient models.Patient
+	patientErr := s.db.Where("LOWER(email) = ?", from).First(&existingPatient).Error
+	patientFound := patientErr == nil
+
+	consentVer := "email_inbound_v1" // 16 chars, dentro do varchar(20)
+	consentIP := ""                  // inbound não tem IP de cliente
+
+	emailVal := from
+	newLead := models.Lead{
+		Source:           models.LeadSourceEmailInbound,
+		Status:           models.LeadStatusNew,
+		Email:            &emailVal,
+		Name:             in.FromName,
+		Message:          &bodyContent,
+		EmailOptIn:       true,
+		ConsentVersion:   &consentVer,
+		ConsentTimestamp: &now,
+		ConsentIPHash:    &consentIP,
+		LastInboundAt:    &now,
+	}
+	if patientFound {
+		newLead.Status = models.LeadStatusConverted
+		newLead.ConvertedPatientID = &existingPatient.ID
+		newLead.ConvertedAt = &now
+		if newLead.Name == nil && existingPatient.Name != "" {
+			n := existingPatient.Name
+			newLead.Name = &n
+		}
+	}
+	if err := s.db.Create(&newLead).Error; err != nil {
+		return nil, fmt.Errorf("lead: create from email inbound: %w", err)
+	}
+
+	_ = s.RecordActivity(RecordActivityInput{
+		LeadID:  newLead.ID,
+		Type:    models.LeadActivityCreated,
+		Channel: models.LeadChannelInternal,
+		Content: ptr("Lead criado via primeira mensagem inbound de email"),
+	})
+	_ = s.RecordActivity(RecordActivityInput{
+		LeadID:   newLead.ID,
+		Type:     models.LeadActivityMessageReceived,
+		Channel:  models.LeadChannelEmail,
+		Content:  &bodyContent,
+		Metadata: metadata,
+	})
+
+	// Notifica equipe — async, best-effort. Bloco 2 ajusta esse ponto se necessário.
+	leadCopy := newLead
+	goSafe("notify_team", func() { s.NotifyTeamOfNewLead(&leadCopy) })
+
+	return &newLead, nil
+}
+
+// RecordOutboundEmailMirror registra LeadActivity outbound espelhada de "Sent Items".
+// Usado quando o usuário responde pelo iPhone/cliente IMAP externo: o worker observa
+// a mensagem na pasta enviada e cria activity pra ter histórico no CRM.
+//
+// Idempotente por Message-ID + recipient — não duplica em re-runs.
+// Não cria Lead novo: se não há lead pra recipient, no-op.
+func (s *LeadService) RecordOutboundEmailMirror(toEmail string, in InboundEmailInput) error {
+	to := strings.ToLower(strings.TrimSpace(toEmail))
+	if to == "" {
+		return nil
+	}
+
+	// Dedup por (message_id, recipient) — chave composta na metadata.
+	if in.MessageID != "" {
+		var dup int64
+		_ = s.db.Model(&models.LeadActivity{}).
+			Where("metadata->>'message_id' = ? AND metadata->>'recipient' = ? AND type = ?",
+				in.MessageID, to, models.LeadActivityMessageSent).
+			Count(&dup).Error
+		if dup > 0 {
+			return nil
+		}
+	}
+
+	var lead models.Lead
+	if err := s.db.Where("LOWER(email) = ?", to).Order("created_at DESC").First(&lead).Error; err != nil {
+		// Sem lead pro recipient — silenciosamente ignora (pode ser email pra contato externo).
+		return nil
+	}
+
+	bodyContent := in.BodyText
+	if bodyContent == "" {
+		bodyContent = in.BodyHTML
+	}
+
+	metadata := map[string]any{
+		"message_id":  in.MessageID,
+		"recipient":   to,
+		"in_reply_to": in.InReplyTo,
+		"references":  in.References,
+		"subject":     in.Subject,
+		"folder":      in.Folder,
+		"sent_at":     in.ReceivedAt,
+		"mirrored":    true, // veio da pasta Sent (cliente externo), não do EMR
+	}
+	if len(in.Attachments) > 0 {
+		metadata["attachments"] = in.Attachments
+	}
+
+	return s.RecordActivity(RecordActivityInput{
+		LeadID:   lead.ID,
+		Type:     models.LeadActivityMessageSent,
+		Channel:  models.LeadChannelEmail,
+		Content:  &bodyContent,
+		Metadata: metadata,
+	})
+}
+
+// ============================================================
 // LeadActivity helpers
 // ============================================================
 
@@ -1139,6 +1355,8 @@ func (s *LeadService) NotifyTeamOfNewLead(lead *models.Lead) {
 	notifType := models.NotificationLeadNew
 	if lead.Source == models.LeadSourceWhatsAppInbound {
 		notifType = models.NotificationLeadWhatsAppInbound
+	} else if lead.Source == models.LeadSourceEmailInbound {
+		notifType = models.NotificationLeadEmailInbound
 	}
 
 	adminBase := strings.TrimRight(s.cfg.CRM.AdminURL, "/")
@@ -1254,6 +1472,8 @@ func leadSourceLabel(src models.LeadSource) string {
 		return "Formulário /contato"
 	case models.LeadSourceWhatsAppInbound:
 		return "WhatsApp inbound"
+	case models.LeadSourceEmailInbound:
+		return "Email inbound"
 	case models.LeadSourceNewsletter:
 		return "Newsletter"
 	case models.LeadSourceManual:

@@ -19,14 +19,16 @@ import (
 
 // LeadHandler expõe endpoints públicos (criação via form) e autenticados (admin CRUD).
 type LeadHandler struct {
-	service   *services.LeadService
-	validator *validator.Validate
+	service      *services.LeadService
+	emailService *services.EmailService
+	validator    *validator.Validate
 }
 
-func NewLeadHandler(service *services.LeadService) *LeadHandler {
+func NewLeadHandler(service *services.LeadService, emailService *services.EmailService) *LeadHandler {
 	return &LeadHandler{
-		service:   service,
-		validator: validator.New(),
+		service:      service,
+		emailService: emailService,
+		validator:    validator.New(),
 	}
 }
 
@@ -368,6 +370,94 @@ func (h *LeadHandler) SendMessage(c *fiber.Ctx) error {
 		})
 	}
 	return c.Status(fiber.StatusCreated).JSON(activity)
+}
+
+// SendEmailReplyRequest — POST /leads/:id/email-reply
+type SendEmailReplyRequest struct {
+	Subject    string   `json:"subject" validate:"omitempty,max=200"`
+	BodyText   string   `json:"bodyText" validate:"required,min=1,max=50000"`
+	BodyHTML   string   `json:"bodyHTML" validate:"omitempty,max=200000"`
+	InReplyTo  string   `json:"inReplyTo,omitempty"`
+	References []string `json:"references,omitempty"`
+}
+
+// SendEmailReply — envia resposta por email pro lead via Resend, espelha em Sent (IMAP),
+// e registra LeadActivity{message_sent, channel=email}.
+//
+// @Summary  Responder email do lead
+// @Tags     leads
+// @Security BearerAuth
+// @Accept   json
+// @Produce  json
+// @Param    id path string true "Lead ID"
+// @Param    body body SendEmailReplyRequest true "Email"
+// @Success  200 {object} fiber.Map
+// @Failure  404 {object} dto.ErrorResponse
+// @Failure  422 {object} dto.ErrorResponse
+// @Router   /leads/{id}/email-reply [post]
+func (h *LeadHandler) SendEmailReply(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid id"})
+	}
+	var req SendEmailReplyRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid body",
+			Message: err.Error(),
+		})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+
+	lead, err := h.service.GetByID(id)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "lead not found"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to load lead",
+			Message: err.Error(),
+		})
+	}
+
+	actor := middleware.GetUserID(c)
+	in := services.SendLeadReplyInput{
+		Lead:        lead,
+		ActorUserID: actor,
+		Subject:     strings.TrimSpace(req.Subject),
+		BodyText:    req.BodyText,
+		BodyHTML:    req.BodyHTML, // só usado se UI enviar HTML pré-renderizado; default vazio
+		InReplyTo:   strings.TrimSpace(req.InReplyTo),
+		References:  req.References,
+	}
+
+	if err := h.emailService.SendLeadReply(c.UserContext(), in); err != nil {
+		switch {
+		case errors.Is(err, services.ErrLeadOptedOut):
+			return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+				Error: "lead opt-out de email",
+			})
+		case errors.Is(err, services.ErrLeadNoEmail):
+			return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+				Error: "lead sem email cadastrado",
+			})
+		default:
+			return c.Status(fiber.StatusBadGateway).JSON(dto.ErrorResponse{
+				Error:   "failed to send email",
+				Message: err.Error(),
+			})
+		}
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Email enviado",
+		"to":      lead.Email,
+	})
 }
 
 // Delete — DELETE /leads/:id (admin only via middleware)

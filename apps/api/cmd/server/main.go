@@ -210,9 +210,12 @@ func setupRoutes(
 	subscriptionPlanService := services.NewSubscriptionPlanService(subscriptionPlanRepo)
 	notificationService := services.NewNotificationService(notificationRepo, subscriptionRepo)
 	scoreSnapshotService := services.NewScoreSnapshotService(scoreSnapshotRepo, scoreRepo, labResultRepo, anamnesisRepo, database.DB)
-	emailService := services.NewEmailService(cfg)
+	emailService := services.NewEmailService(cfg).WithDB(database.DB)
 	whatsappService := services.NewWhatsAppService(cfg)
 	leadService := services.NewLeadService(database.DB, notificationService, whatsappService, emailService, cfg)
+	// Email ingest worker (IMAP IDLE → LeadActivity). No-op se MAIL_INGEST_ENABLED=false.
+	emailIngestService := services.NewEmailIngestService(database.DB, cfg, leadService)
+	emailIngestService.Start(context.Background())
 	anonymousScoreService := services.NewAnonymousScoreService(database.DB, scoreRepo, cfg, emailService, whatsappService, leadService)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
 	labRequestService := services.NewLabRequestService(labRequestRepo, database.DB)
@@ -276,7 +279,7 @@ func setupRoutes(
 	certificateHandler := handlers.NewCertificateHandler(database.DB, certificateService)
 	medicationDefHandler := handlers.NewMedicationDefinitionHandler(medicationDefinitionService)
 	enrichmentPrepHandler := handlers.NewScoreEnrichmentPreparationHandler(database.DB)
-	leadHandler := handlers.NewLeadHandler(leadService)
+	leadHandler := handlers.NewLeadHandler(leadService, emailService)
 	whatsappWebhookHandler := handlers.NewWhatsAppWebhookHandler(cfg, whatsappService, leadService)
 
 	// API v1
@@ -322,6 +325,7 @@ func setupRoutes(
 	leads.Patch("/:id", leadHandler.Update)
 	leads.Post("/:id/notes", leadHandler.AddNote)
 	leads.Post("/:id/messages", leadHandler.SendMessage)
+	leads.Post("/:id/email-reply", leadHandler.SendEmailReply)
 	leads.Post("/:id/convert", leadHandler.Convert)
 	// Delete: admin only (destrutivo / LGPD)
 	leads.Delete("/:id", middleware.RequireAdmin(), leadHandler.Delete)

@@ -11,20 +11,21 @@ import (
 )
 
 type Config struct {
-	Server   ServerConfig
-	Database DatabaseConfig
-	JWT      JWTConfig
-	Security SecurityConfig
-	OAuth    OAuthConfig
-	SNCR     SNCRConfig
-	Claude   ClaudeConfig
-	OpenAI   OpenAIConfig
-	VoyageAI VoyageAIConfig
-	Email    EmailConfig
-	WhatsApp WhatsAppConfig
-	CRM      CRMConfig
-	Site     SiteConfig
-	Dev      DevConfig
+	Server     ServerConfig
+	Database   DatabaseConfig
+	JWT        JWTConfig
+	Security   SecurityConfig
+	OAuth      OAuthConfig
+	SNCR       SNCRConfig
+	Claude     ClaudeConfig
+	OpenAI     OpenAIConfig
+	VoyageAI   VoyageAIConfig
+	Email      EmailConfig
+	MailIngest MailIngestConfig
+	WhatsApp   WhatsAppConfig
+	CRM        CRMConfig
+	Site       SiteConfig
+	Dev        DevConfig
 }
 
 // EmailConfig — Provider escolhe a implementação. Quando vazio (ou Provider="smtp" com SMTPHost vazio),
@@ -38,6 +39,19 @@ type EmailConfig struct {
 	SMTPPass     string
 	FromAddress  string
 	FromName     string // nome amigável no header From (ex: "Plenya")
+}
+
+// MailIngestConfig — config do worker IMAP que ingesta emails inbound (Stalwart self-hosted)
+// e os espelha como LeadActivity. Quando Enabled=false, o worker faz no-op.
+type MailIngestConfig struct {
+	Enabled         bool     // MAIL_INGEST_ENABLED
+	IMAPHost        string   // MAIL_INGEST_IMAP_HOST (ex: mail.plenyasaude.com.br)
+	IMAPPort        int      // MAIL_INGEST_IMAP_PORT (default: 993)
+	Username        string   // MAIL_INGEST_USERNAME (ex: contato@plenyasaude.com.br)
+	Password        string   // MAIL_INGEST_PASSWORD
+	Folders         []string // MAIL_INGEST_FOLDERS (csv) — default: "INBOX,Sent Items"
+	MaxAttachmentMB int      // MAIL_INGEST_MAX_ATTACHMENT_MB (default: 50)
+	AttachmentDir   string   // MAIL_INGEST_ATTACHMENT_DIR (default: /app/uploads/email-attachments)
 }
 
 // WhatsAppConfig — credenciais Meta Cloud API. Quando PhoneNumberID vazio,
@@ -197,6 +211,16 @@ func Load() (*Config, error) {
 			FromAddress:  getEnv("EMAIL_FROM", "no-reply@plenyasaude.com.br"),
 			FromName:     getEnv("EMAIL_FROM_NAME", "Plenya"),
 		},
+		MailIngest: MailIngestConfig{
+			Enabled:         getEnvAsBool("MAIL_INGEST_ENABLED", false),
+			IMAPHost:        getEnv("MAIL_INGEST_IMAP_HOST", "mail.plenyasaude.com.br"),
+			IMAPPort:        getEnvAsInt("MAIL_INGEST_IMAP_PORT", 993),
+			Username:        getEnv("MAIL_INGEST_USERNAME", ""),
+			Password:        getEnv("MAIL_INGEST_PASSWORD", ""),
+			Folders:         parseCSVOrDefault(getEnv("MAIL_INGEST_FOLDERS", ""), []string{"INBOX", "Sent Items"}),
+			MaxAttachmentMB: getEnvAsInt("MAIL_INGEST_MAX_ATTACHMENT_MB", 50),
+			AttachmentDir:   getEnv("MAIL_INGEST_ATTACHMENT_DIR", "/app/uploads/email-attachments"),
+		},
 		WhatsApp: WhatsAppConfig{
 			AppSecret:          getEnv("WHATSAPP_APP_SECRET", ""),
 			AccessToken:        getEnv("WHATSAPP_ACCESS_TOKEN", ""),
@@ -267,6 +291,14 @@ func getEnvAsInt(key string, defaultValue int) int {
 		}
 	}
 	return defaultValue
+}
+
+// parseCSVOrDefault retorna parseCSV(s) se não vazio, senão def.
+func parseCSVOrDefault(s string, def []string) []string {
+	if v := parseCSV(s); len(v) > 0 {
+		return v
+	}
+	return def
 }
 
 // parseCSV separa string CSV em slice, removendo espaços e itens vazios.

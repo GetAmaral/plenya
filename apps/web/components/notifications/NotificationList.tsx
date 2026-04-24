@@ -25,6 +25,7 @@ const typeColors = {
   // CRM Phase 2
   lead_new: 'bg-emerald-500/10 border-emerald-500/30',
   lead_whatsapp_inbound: 'bg-teal-500/10 border-teal-500/30',
+  lead_email_inbound: 'bg-sky-500/10 border-sky-500/30',
   lead_assigned: 'bg-indigo-500/10 border-indigo-500/30',
 }
 

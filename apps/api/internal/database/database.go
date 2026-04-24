@@ -107,6 +107,9 @@ func AutoMigrate() error {
 		&models.Lead{},
 		&models.LeadActivity{},
 
+		// Email ingest (worker IMAP IDLE)
+		&models.EmailIngestState{},
+
 		// Articles
 		&models.Article{},
 
@@ -141,6 +144,12 @@ func AutoMigrate() error {
 		 ON lead_activities ((metadata->>'wa_message_id'))`,
 		`CREATE INDEX IF NOT EXISTS idx_lead_activities_lead_type_created
 		 ON lead_activities (lead_id, type, created_at)`,
+
+		// Email ingest dedup: lookup por Message-ID (RFC 5322) em metadata.
+		// Usado pra evitar duplicar LeadActivity quando o worker reprocessa o mesmo
+		// email (race no resume após restart, ou múltiplas pastas espelhando).
+		`CREATE INDEX IF NOT EXISTS idx_lead_activities_email_message_id
+		 ON lead_activities ((metadata->>'message_id'))`,
 	}
 	for _, stmt := range indexStmts {
 		if err := DB.Exec(stmt).Error; err != nil {
