@@ -47,6 +47,7 @@ import { isGranted, type UserRole } from "@/lib/auth-store";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ROLES, ROLE_BADGE_COLORS, getRoleColor, getRoleLabel } from "@/lib/roles";
+import { useConversationsUnreadCount } from "@/lib/api/conversations-api";
 
 type NavigationItem = {
   name: string;
@@ -57,11 +58,14 @@ type NavigationItem = {
   // requiredRoles: visível apenas se usuário tem PELO MENOS UM dos roles listados.
   // Útil quando staff genérico não basta — ex: apenas admin/secretary/manager.
   requiredRoles?: UserRole[];
+  // badgeKey: chave que identifica qual hook usar pra contar não-lidas.
+  // Atualmente só 'conversations' (useConversationsUnreadCount).
+  badgeKey?: 'conversations';
 };
 
 const navigation: NavigationItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
-  { name: "Conversas", href: "/conversas", icon: MessageSquare, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
+  { name: "Conversas", href: "/conversas", icon: MessageSquare, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'conversations' },
   { name: "Pacientes", href: "/patients", icon: Users, staffOnly: true },
   { name: "Leads", href: "/leads", icon: UserPlus, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
   { name: "Dashboard de Leads", href: "/leads/dashboard", icon: BarChart3, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
@@ -241,26 +245,9 @@ export function CollapsibleSidebar() {
                   if (searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
                   return true;
                 })
-                .map((item) => {
-                  const Icon = item.icon;
-                  const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-
-                  return (
-                    <Link key={item.name} href={item.href}>
-                      <div
-                        className={cn(
-                          "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                          isActive
-                            ? "bg-primary text-primary-foreground shadow-sm"
-                            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                        )}
-                      >
-                        <Icon className="h-5 w-5 shrink-0" />
-                        <span>{item.name}</span>
-                      </div>
-                    </Link>
-                  );
-                })}
+                .map((item) => (
+                  <NavItemRow key={item.name} item={item} pathname={pathname} collapsed={false} />
+                ))}
             </nav>
 
             {/* User section */}
@@ -381,28 +368,9 @@ export function CollapsibleSidebar() {
               if (!isCollapsed && searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
               return true;
             })
-            .map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-
-              return (
-                <Link key={item.name} href={item.href}>
-                  <div
-                    className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                      isActive
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-                      isCollapsed && "justify-center"
-                    )}
-                    title={isCollapsed ? item.name : undefined}
-                  >
-                    <Icon className="h-5 w-5 shrink-0" />
-                    {!isCollapsed && <span>{item.name}</span>}
-                  </div>
-                </Link>
-              );
-            })}
+            .map((item) => (
+              <NavItemRow key={item.name} item={item} pathname={pathname} collapsed={isCollapsed} />
+            ))}
         </nav>
 
         {/* User Section */}
@@ -543,4 +511,58 @@ export function useSidebarWidth() {
   }, [isMobile]);
 
   return width;
+}
+
+// NavItemRow: linha do menu que opcionalmente exibe badge de não-lidas.
+// Renderizado tanto no sidebar desktop quanto na versão collapsed.
+function NavItemRow({
+  item,
+  pathname,
+  collapsed,
+}: {
+  item: NavigationItem;
+  pathname: string;
+  collapsed: boolean;
+}) {
+  const Icon = item.icon;
+  const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+  const conversationsUnread = useConversationsUnreadCount();
+  const badgeValue =
+    item.badgeKey === 'conversations' ? conversationsUnread.data ?? 0 : 0;
+  const showBadge = badgeValue > 0;
+
+  return (
+    <Link href={item.href}>
+      <div
+        className={cn(
+          'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+          isActive
+            ? 'bg-primary text-primary-foreground shadow-sm'
+            : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
+          collapsed && 'justify-center'
+        )}
+        title={collapsed ? `${item.name}${showBadge ? ` (${badgeValue} não lidas)` : ''}` : undefined}
+      >
+        <div className="relative shrink-0">
+          <Icon className="h-5 w-5" />
+          {showBadge && collapsed && (
+            <span className="absolute -right-1.5 -top-1.5 h-2 w-2 rounded-full bg-rose-500" />
+          )}
+        </div>
+        {!collapsed && (
+          <>
+            <span className="flex-1 truncate">{item.name}</span>
+            {showBadge && (
+              <Badge
+                variant="secondary"
+                className="ml-auto bg-rose-100 text-rose-900 border-rose-200 text-[10px] px-1.5 py-0 h-5"
+              >
+                {badgeValue > 99 ? '99+' : badgeValue}
+              </Badge>
+            )}
+          </>
+        )}
+      </div>
+    </Link>
+  );
 }

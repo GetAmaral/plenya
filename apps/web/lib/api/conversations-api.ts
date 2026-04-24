@@ -76,6 +76,25 @@ export interface ConversationListFilters {
 // Query keys
 // =====================================================
 
+/**
+ * Conta total de conversas não-lidas (Lead + Patient unificado).
+ * Usado pelo badge do sidebar — polling 20s pra não bater muito.
+ */
+export function useConversationsUnreadCount() {
+  return useQuery({
+    queryKey: ['conversations', 'unread-count'],
+    queryFn: async () => {
+      const data = await apiClient.get<ConversationListResult>(
+        '/api/v1/conversations?unread_only=true&limit=200'
+      );
+      return data.items.reduce((sum, it) => sum + it.unreadCount, 0);
+    },
+    staleTime: 10_000,
+    refetchInterval: 20_000,
+    refetchOnWindowFocus: true,
+  });
+}
+
 export const conversationKeys = {
   all: ['conversations'] as const,
   list: (filters: ConversationListFilters) =>
