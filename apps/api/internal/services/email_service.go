@@ -380,10 +380,15 @@ func (s *EmailService) SendLeadReply(ctx context.Context, in SendLeadReplyInput)
 		bodyText = ExtractPlainBody(bodyHTML)
 	}
 
-	// From: monta com FromName se disponível
-	fromAddr := s.cfg.Email.FromAddress
+	// From: usa LeadReplyFromAddress (default contato@) — caixa monitorada que recebe
+	// respostas do cliente e fecha o ciclo via worker IMAP IDLE. NÃO usa FromAddress
+	// (noreply@) que é só pra transacional.
+	fromAddr := s.cfg.Email.LeadReplyFromAddress
 	if fromAddr == "" {
-		fromAddr = "no-reply@plenyasaude.com.br"
+		fromAddr = s.cfg.Email.FromAddress
+	}
+	if fromAddr == "" {
+		fromAddr = "contato@plenyasaude.com.br"
 	}
 	fromName := s.cfg.Email.FromName
 	fromHeader := fromAddr

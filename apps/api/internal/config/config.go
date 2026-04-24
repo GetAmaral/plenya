@@ -39,6 +39,11 @@ type EmailConfig struct {
 	SMTPPass     string
 	FromAddress  string
 	FromName     string // nome amigável no header From (ex: "Plenya")
+	// LeadReplyFromAddress — From usado especificamente pra responder Leads (Bloco 3 CRM).
+	// Default: contato@plenyasaude.com.br. Diferente de FromAddress (transacional, geralmente
+	// noreply@) porque respostas humanas precisam cair em caixa monitorada — fecha o ciclo
+	// pelo worker IMAP IDLE, que ingesta inbound e cria LeadActivity message_received.
+	LeadReplyFromAddress string
 }
 
 // MailIngestConfig — config do worker IMAP que ingesta emails inbound (Stalwart self-hosted)
@@ -209,7 +214,8 @@ func Load() (*Config, error) {
 			SMTPUser:     getEnv("SMTP_USER", ""),
 			SMTPPass:     getEnv("SMTP_PASSWORD", ""),
 			FromAddress:  getEnv("EMAIL_FROM", "no-reply@plenyasaude.com.br"),
-			FromName:     getEnv("EMAIL_FROM_NAME", "Plenya"),
+			FromName:             getEnv("EMAIL_FROM_NAME", "Plenya"),
+			LeadReplyFromAddress: getEnv("EMAIL_LEAD_REPLY_FROM", "contato@plenyasaude.com.br"),
 		},
 		MailIngest: MailIngestConfig{
 			Enabled:         getEnvAsBool("MAIL_INGEST_ENABLED", false),
