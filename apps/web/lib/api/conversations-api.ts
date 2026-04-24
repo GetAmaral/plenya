@@ -138,19 +138,18 @@ export function useConversationMessages(
     queryKey: type && id ? conversationKeys.messages(type, id) : ['conversations', 'messages', 'noop'],
     queryFn: async () => {
       if (!type || !id) return [] as ConversationMessage[];
-      // Backend retorna {items: [...]} (envelope), não array direto. Defensivo:
-      // aceita ambos os formatos por se mudarmos depois.
       const raw = await apiClient.get<ConversationMessage[] | { items: ConversationMessage[] }>(
         `/api/v1/conversations/${type}/${id}/messages`
       );
       const data = Array.isArray(raw) ? raw : raw?.items ?? [];
-      // Backend marcou como lido — refresca a list pra atualizar badges.
-      qc.invalidateQueries({ queryKey: conversationKeys.all });
+      // Side-effect: backend marcou como lido. Invalidamos só a list (não a si mesmo
+      // — invalidar conversationKeys.all causava loop refetch que travava o Query Client).
+      qc.invalidateQueries({ queryKey: [...conversationKeys.all, 'list'] });
       return data;
     },
     enabled: !!type && !!id,
-    refetchInterval: 15_000,
-    staleTime: 5_000,
+    refetchInterval: 5_000, // 5s — responsivo pra inbound real-time
+    staleTime: 1_000,
   });
 }
 
@@ -185,9 +184,11 @@ export function useSendConversationEmail(type: ConversationOwnerType, id: string
         `/api/v1/conversations/${type}/${id}/email`,
         payload
       ),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: conversationKeys.messages(type, id) });
-      qc.invalidateQueries({ queryKey: conversationKeys.all });
+    onSuccess: async () => {
+      // refetchQueries força o re-fetch imediato — invalidate sozinho não dispara
+      // refetch se a query estiver marcada inactive ou se tiver outra refetch em curso.
+      await qc.refetchQueries({ queryKey: conversationKeys.messages(type, id) });
+      qc.invalidateQueries({ queryKey: [...conversationKeys.all, 'list'] });
     },
   });
 }
@@ -207,9 +208,9 @@ export function useSendConversationWhatsApp(
         `/api/v1/conversations/${type}/${id}/whatsapp`,
         payload
       ),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: conversationKeys.messages(type, id) });
-      qc.invalidateQueries({ queryKey: conversationKeys.all });
+    onSuccess: async () => {
+      await qc.refetchQueries({ queryKey: conversationKeys.messages(type, id) });
+      qc.invalidateQueries({ queryKey: [...conversationKeys.all, 'list'] });
     },
   });
 }

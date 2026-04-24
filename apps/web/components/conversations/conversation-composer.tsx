@@ -75,10 +75,9 @@ export function ConversationComposer({ item }: Props) {
   const sendEmail = useSendConversationEmail(item.ownerType, item.ownerId);
   const sendWa = useSendConversationWhatsApp(item.ownerType, item.ownerId);
 
-  const validation = useMemo<Validation>(
-    () => (channel === 'email' ? validateEmail(item) : validateWhatsApp(item)),
-    [channel, item]
-  );
+  const emailValidation = useMemo(() => validateEmail(item), [item]);
+  const waValidation = useMemo(() => validateWhatsApp(item), [item]);
+  const validation: Validation = channel === 'email' ? emailValidation : waValidation;
 
   const isPending = sendEmail.isPending || sendWa.isPending;
   const trimmedBody = body.trim();
@@ -139,7 +138,8 @@ export function ConversationComposer({ item }: Props) {
           role="tab"
           aria-selected={channel === 'email'}
           onClick={() => setChannel('email')}
-          disabled={!item.email}
+          disabled={emailValidation.ok === false && emailValidation.reason === 'Sem email cadastrado.'}
+          title={emailValidation.ok ? '' : emailValidation.reason}
           className={cn(
             'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
             channel === 'email'
@@ -155,7 +155,8 @@ export function ConversationComposer({ item }: Props) {
           role="tab"
           aria-selected={channel === 'whatsapp'}
           onClick={() => setChannel('whatsapp')}
-          disabled={!item.phone}
+          disabled={waValidation.ok === false && waValidation.reason === 'Sem WhatsApp cadastrado.'}
+          title={waValidation.ok ? '' : waValidation.reason}
           className={cn(
             'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
             channel === 'whatsapp'
