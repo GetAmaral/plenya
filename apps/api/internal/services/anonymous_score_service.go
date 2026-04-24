@@ -175,8 +175,9 @@ func (s *AnonymousScoreService) RequestClaim(code string, in RequestClaimInput) 
 	// Despacha por canal — erros parciais não falham o request, só logam atividade
 	if hasEmail && s.emailService != nil {
 		if sendErr := s.emailService.SendMagicLink(emailNorm, link); sendErr == nil && lead != nil && s.leadService != nil {
+			leadID := lead.ID
 			_ = s.leadService.RecordActivity(RecordActivityInput{
-				LeadID:  lead.ID,
+				LeadID:  &leadID,
 				Type:    models.LeadActivityMessageSent,
 				Channel: models.LeadChannelEmail,
 				Content: ptr("Magic link enviado por email"),
@@ -188,8 +189,9 @@ func (s *AnonymousScoreService) RequestClaim(code string, in RequestClaimInput) 
 	}
 	if hasPhone && s.whatsappService != nil {
 		if sendErr := s.whatsappService.SendMagicLink(phoneNorm, link); sendErr == nil && lead != nil && s.leadService != nil {
+			leadID := lead.ID
 			_ = s.leadService.RecordActivity(RecordActivityInput{
-				LeadID:  lead.ID,
+				LeadID:  &leadID,
 				Type:    models.LeadActivityMessageSent,
 				Channel: models.LeadChannelWhatsApp,
 				Content: ptr("Magic link enviado por WhatsApp"),

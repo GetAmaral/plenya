@@ -307,8 +307,15 @@ func (s *EmailService) sendViaResend(toEmail, subject, bodyText, bodyHTML string
 }
 
 // ============================================================
-// SendLeadReply (Bloco 3) — resposta outbound de email pelo EMR
+// SendLeadReply / SendConversationReply (Bloco 3 + B) — resposta outbound por email
 // ============================================================
+
+// ConversationReplyOwner identifica o destinatário de uma resposta de email — Lead OU
+// Patient (mutuamente exclusivo). Espelha services.ConversationOwner mas mantida aqui
+// pra evitar import cycle (lead_service.go declara ConversationOwner, ambos no mesmo
+// package services). NOTA: como estão no mesmo package, podemos usar ConversationOwner
+// diretamente — mantemos esse alias só pra clareza no payload.
+type ConversationReplyOwner = ConversationOwner
 
 // SendLeadReplyInput é o payload de SendLeadReply.
 //
@@ -327,45 +334,100 @@ type SendLeadReplyInput struct {
 	References  []string
 }
 
-// SendLeadReply envia email transacional via Resend, faz IMAP APPEND (best-effort)
-// no Sent Items do Stalwart e cria LeadActivity{message_sent, channel=email}.
+// SendConversationReplyInput é o payload genérico (Lead OU Patient) usado pela
+// Central de Conversas (Bloco B). SendLeadReply delega aqui.
+type SendConversationReplyInput struct {
+	Owner       ConversationOwner
+	ActorUserID uuid.UUID
+	Subject     string
+	BodyHTML    string
+	BodyText    string
+	InReplyTo   string
+	References  []string
+}
+
+// SendLeadReply mantém compat com handlers/lead_handler.go (Bloco 3 anterior).
+// Internamente delega pra SendConversationReply.
+func (s *EmailService) SendLeadReply(ctx context.Context, in SendLeadReplyInput) error {
+	return s.SendConversationReply(ctx, SendConversationReplyInput{
+		Owner:       ConversationOwner{Lead: in.Lead},
+		ActorUserID: in.ActorUserID,
+		Subject:     in.Subject,
+		BodyHTML:    in.BodyHTML,
+		BodyText:    in.BodyText,
+		InReplyTo:   in.InReplyTo,
+		References:  in.References,
+	})
+}
+
+// SendConversationReply envia email transacional via Resend, faz IMAP APPEND (best-effort)
+// no Sent Items do Stalwart e cria LeadActivity{message_sent, channel=email} anexada ao
+// owner correto (Lead ou Patient).
 //
 // Header X-Plenya-Source: emr é setado pra que o worker IMAP IDLE pule a mensagem
 // quando aparecer em Sent Items (evita registro duplicado).
 //
 // Errors:
-//   - ErrLeadNoEmail: Lead.Email == nil
-//   - ErrLeadOptedOut: Lead.EmailOptIn == false
+//   - ErrLeadNoEmail: Owner sem email cadastrado
+//   - ErrLeadOptedOut: Lead.EmailOptIn == false (Patient não tem flag — assume opt-in implícito)
 //   - resend HTTP error → bloqueia (envio falhou)
 //   - IMAP APPEND falha → log warn, NÃO bloqueia (best-effort, async via goSafe)
-func (s *EmailService) SendLeadReply(ctx context.Context, in SendLeadReplyInput) error {
+func (s *EmailService) SendConversationReply(ctx context.Context, in SendConversationReplyInput) error {
 	if s.db == nil {
-		return errors.New("email: SendLeadReply requer DB (use WithDB ao construir)")
-	}
-	if in.Lead == nil {
-		return errors.New("email: lead obrigatório")
+		return errors.New("email: SendConversationReply requer DB (use WithDB ao construir)")
 	}
 	if in.ActorUserID == uuid.Nil {
 		return errors.New("email: actorUserID obrigatório")
 	}
-	if in.Lead.Email == nil || strings.TrimSpace(*in.Lead.Email) == "" {
-		return ErrLeadNoEmail
-	}
-	if !in.Lead.EmailOptIn {
-		return ErrLeadOptedOut
+	hasLead := in.Owner.Lead != nil
+	hasPatient := in.Owner.Patient != nil
+	if hasLead == hasPatient {
+		return errors.New("email: owner deve ter exatamente um de Lead|Patient")
 	}
 
-	to := strings.TrimSpace(*in.Lead.Email)
-	toName := ""
-	if in.Lead.Name != nil {
-		toName = strings.TrimSpace(*in.Lead.Name)
+	// Resolve destinatário (email + nome) e identidade pra threading
+	var (
+		to         string
+		toName     string
+		ownerID    uuid.UUID
+		leadIDPtr  *uuid.UUID
+		patIDPtr   *uuid.UUID
+	)
+	if hasLead {
+		lead := in.Owner.Lead
+		if lead.Email == nil || strings.TrimSpace(*lead.Email) == "" {
+			return ErrLeadNoEmail
+		}
+		if !lead.EmailOptIn {
+			return ErrLeadOptedOut
+		}
+		to = strings.TrimSpace(*lead.Email)
+		if lead.Name != nil {
+			toName = strings.TrimSpace(*lead.Name)
+		}
+		ownerID = lead.ID
+		id := lead.ID
+		leadIDPtr = &id
+	} else {
+		patient := in.Owner.Patient
+		if patient.Email == nil || strings.TrimSpace(*patient.Email) == "" {
+			return ErrLeadNoEmail
+		}
+		// Patient não tem flag explícita de opt-in; assumimos consent implícito
+		// (signup do EMR coleta consent geral).
+		to = strings.TrimSpace(*patient.Email)
+		toName = strings.TrimSpace(patient.Name)
+		ownerID = patient.ID
+		id := patient.ID
+		patIDPtr = &id
 	}
 
 	// Resolve Subject: se vazio, busca último email da thread.
 	subject := strings.TrimSpace(in.Subject)
 	if subject == "" {
-		subject = s.resolveReplySubject(in.Lead.ID)
+		subject = s.resolveReplySubjectForOwner(leadIDPtr, patIDPtr)
 	}
+	_ = ownerID
 
 	// Resolve corpo: ao menos um de BodyText/BodyHTML
 	bodyText := in.BodyText
@@ -462,7 +524,8 @@ func (s *EmailService) SendLeadReply(ctx context.Context, in SendLeadReplyInput)
 		return fmt.Errorf("email: marshal metadata: %w", err)
 	}
 	activity := models.LeadActivity{
-		LeadID:      in.Lead.ID,
+		LeadID:      leadIDPtr,
+		PatientID:   patIDPtr,
 		Type:        models.LeadActivityMessageSent,
 		Channel:     models.LeadChannelEmail,
 		Content:     &bodyText,
@@ -479,18 +542,29 @@ func (s *EmailService) SendLeadReply(ctx context.Context, in SendLeadReplyInput)
 // retorna "Re: <subject anterior>" (ou apenas o subject se já começa com "Re:").
 // Sem histórico, devolve fallback genérico.
 func (s *EmailService) resolveReplySubject(leadID uuid.UUID) string {
+	return s.resolveReplySubjectForOwner(&leadID, nil)
+}
+
+// resolveReplySubjectForOwner é a versão genérica que busca na thread de Lead OU Patient.
+func (s *EmailService) resolveReplySubjectForOwner(leadID, patientID *uuid.UUID) string {
 	const fallback = "Sobre seu contato com Plenya"
 	if s.db == nil {
 		return fallback
 	}
+	q := s.db.Model(&models.LeadActivity{}).
+		Where("channel = ? AND type IN ?",
+			models.LeadChannelEmail,
+			[]models.LeadActivityType{models.LeadActivityMessageReceived, models.LeadActivityMessageSent})
+	switch {
+	case leadID != nil && *leadID != uuid.Nil:
+		q = q.Where("lead_id = ?", *leadID)
+	case patientID != nil && *patientID != uuid.Nil:
+		q = q.Where("patient_id = ?", *patientID)
+	default:
+		return fallback
+	}
 	var act models.LeadActivity
-	err := s.db.
-		Where("lead_id = ? AND channel = ? AND type IN ?",
-			leadID, models.LeadChannelEmail,
-			[]models.LeadActivityType{models.LeadActivityMessageReceived, models.LeadActivityMessageSent}).
-		Order("created_at DESC").
-		First(&act).Error
-	if err != nil {
+	if err := q.Order("created_at DESC").First(&act).Error; err != nil {
 		return fallback
 	}
 	if len(act.Metadata) == 0 {

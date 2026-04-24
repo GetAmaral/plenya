@@ -114,8 +114,9 @@ func (s *LeadService) CreateOrUpdateFromLightClaim(in CreateOrUpdateFromLightCla
 				return nil, fmt.Errorf("lead: create: %w", err)
 			}
 		} else {
+			newLeadID := newLead.ID
 			_ = s.RecordActivity(RecordActivityInput{
-				LeadID:  newLead.ID,
+				LeadID:  &newLeadID,
 				Type:    models.LeadActivityCreated,
 				Channel: models.LeadChannelInternal,
 				Content: ptr("Lead criado via claim do Escore Light"),
@@ -223,8 +224,9 @@ func (s *LeadService) CreateFromContactForm(in CreateFromContactFormInput) (*mod
 		return nil, fmt.Errorf("lead: create from contact form: %w", err)
 	}
 
+	leadID := lead.ID
 	_ = s.RecordActivity(RecordActivityInput{
-		LeadID:  lead.ID,
+		LeadID:  &leadID,
 		Type:    models.LeadActivityCreated,
 		Channel: models.LeadChannelInternal,
 		Content: ptr("Lead criado via formulário /contato"),
@@ -249,18 +251,35 @@ type InboundWhatsAppInput struct {
 	ReceivedAt   time.Time
 }
 
-// ProcessInboundWhatsApp registra mensagem inbound. Se já existe Lead ativo pra esse phone,
-// só adiciona LeadActivity. Caso contrário, cria Lead novo com source=whatsapp_inbound.
-// Consent implícito: o cliente iniciou a conversa.
+// InboundResult descreve o destino da activity criada por ProcessInbound{Email,WhatsApp}.
 //
-// Phase 2: também faz lookup em Patient — se o phone já é de um paciente,
-// cria Lead já com ConvertedPatientID (badge "paciente cadastrado" na UI).
-func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.Lead, error) {
+// Exatamente um de Lead|Patient é não-nil:
+//   - Patient setado → activity foi anexada a um cliente cadastrado (sem criar Lead novo).
+//   - Lead setado    → activity foi anexada a um Lead (existente OU recém-criado).
+//
+// IsNew = true SOMENTE quando Lead foi criado nesta chamada (pra notificação diferenciada).
+type InboundResult struct {
+	Lead    *models.Lead
+	Patient *models.Patient
+	IsNew   bool
+}
+
+// ProcessInboundWhatsApp registra mensagem inbound. Hierarquia de roteamento:
+//
+//  1. Procura Patient pelo phone → se acha, activity vai pro Patient. FIM.
+//  2. Procura Lead ativo (não converted/lost/unsubscribed) → se acha, activity vai pro Lead.
+//  3. Cria Lead novo com source=whatsapp_inbound (consent implícito).
+//
+// Diferente do comportamento anterior, NÃO cria mais Lead "fantasma" pra Patient
+// já cadastrado — paciente é cliente, conversa fica anexada nele direto.
+func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*InboundResult, error) {
 	if strings.TrimSpace(in.PhoneE164) == "" {
 		return nil, errors.New("lead: phone vazio em inbound WhatsApp")
 	}
 
-	// Normaliza para formato armazenado em Lead.Phone (com +)
+	// Normaliza para formato armazenado em Lead.Phone (com +).
+	// Patient.Phone também é normalizado pra +55... no BeforeSave hook (NormalizePhoneBR),
+	// então comparar com phone aqui é seguro.
 	phone := strings.TrimSpace(in.PhoneE164)
 	if !strings.HasPrefix(phone, "+") {
 		phone = "+" + phone
@@ -271,7 +290,33 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 		now = time.Now().UTC()
 	}
 
-	// Procura Lead ativo (não converted/lost/unsubscribed) pra esse phone
+	// 1. Patient first — cliente cadastrado tem prioridade.
+	var existingPatient models.Patient
+	patientErr := s.db.Where("phone = ?", phone).First(&existingPatient).Error
+	if patientErr == nil {
+		patientID := existingPatient.ID
+		_ = s.RecordActivity(RecordActivityInput{
+			PatientID: &patientID,
+			Type:      models.LeadActivityMessageReceived,
+			Channel:   models.LeadChannelWhatsApp,
+			Content:   &in.Text,
+			Metadata: map[string]any{
+				"wa_message_id": in.WAMessageID,
+				"received_at":   in.ReceivedAt,
+			},
+		})
+		patientCopy := existingPatient
+		snippet := in.Text
+		goSafe("notify_inbound_wa_patient", func() {
+			s.NotifyTeamOfInboundMessage(ConversationOwner{Patient: &patientCopy}, models.LeadChannelWhatsApp, snippet)
+		})
+		return &InboundResult{Patient: &existingPatient}, nil
+	}
+	if !errors.Is(patientErr, gorm.ErrRecordNotFound) {
+		return nil, fmt.Errorf("lead: inbound WA patient lookup: %w", patientErr)
+	}
+
+	// 2. Lead ativo existente
 	var existing models.Lead
 	err := s.db.
 		Where("phone = ? AND status NOT IN (?)", phone,
@@ -280,9 +325,9 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 		First(&existing).Error
 
 	if err == nil {
-		// Append atividade + atualiza LastInboundAt (janela de 24h)
+		existingID := existing.ID
 		_ = s.RecordActivity(RecordActivityInput{
-			LeadID:  existing.ID,
+			LeadID:  &existingID,
 			Type:    models.LeadActivityMessageReceived,
 			Channel: models.LeadChannelWhatsApp,
 			Content: &in.Text,
@@ -292,17 +337,18 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 			},
 		})
 		_ = s.db.Model(&existing).Update("last_inbound_at", now).Error
-		return &existing, nil
+		leadCopy := existing
+		snippet := in.Text
+		goSafe("notify_inbound_wa", func() {
+			s.NotifyTeamOfInboundMessage(ConversationOwner{Lead: &leadCopy}, models.LeadChannelWhatsApp, snippet)
+		})
+		return &InboundResult{Lead: &existing}, nil
 	}
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, fmt.Errorf("lead: inbound WA lookup: %w", err)
 	}
 
-	// Phase 2: procura Patient existente por phone — auto-vinculação
-	var existingPatient models.Patient
-	patientErr := s.db.Where("phone = ?", phone).First(&existingPatient).Error
-	patientFound := patientErr == nil
-
+	// 3. Cria Lead novo (Patient já checado acima, não existe)
 	consentVer := "wa_inbound_v1" // 13 chars, respeita varchar(20) do schema
 	consentIP := ""               // inbound WA não tem IP do cliente
 
@@ -318,29 +364,19 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 		ConsentIPHash:    &consentIP,
 		LastInboundAt:    &now,
 	}
-	// Auto-vincula se já é Patient
-	if patientFound {
-		newLead.Status = models.LeadStatusConverted
-		newLead.ConvertedPatientID = &existingPatient.ID
-		newLead.ConvertedAt = &now
-		// Reaproveita nome do Patient se inbound não trouxe
-		if newLead.Name == nil && existingPatient.Name != "" {
-			n := existingPatient.Name
-			newLead.Name = &n
-		}
-	}
 	if err := s.db.Create(&newLead).Error; err != nil {
 		return nil, fmt.Errorf("lead: create from WA inbound: %w", err)
 	}
 
+	newLeadID := newLead.ID
 	_ = s.RecordActivity(RecordActivityInput{
-		LeadID:  newLead.ID,
+		LeadID:  &newLeadID,
 		Type:    models.LeadActivityCreated,
 		Channel: models.LeadChannelInternal,
 		Content: ptr("Lead criado via primeira mensagem inbound do WhatsApp"),
 	})
 	_ = s.RecordActivity(RecordActivityInput{
-		LeadID:  newLead.ID,
+		LeadID:  &newLeadID,
 		Type:    models.LeadActivityMessageReceived,
 		Channel: models.LeadChannelWhatsApp,
 		Content: &in.Text,
@@ -350,11 +386,11 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*models.L
 		},
 	})
 
-	// Notifica equipe — async, best-effort. Só dispara em Lead novo (não em inbound a Lead existente).
+	// Notifica equipe — async, best-effort. Só dispara em Lead novo.
 	leadCopy := newLead
 	goSafe("notify_team", func() { s.NotifyTeamOfNewLead(&leadCopy) })
 
-	return &newLead, nil
+	return &InboundResult{Lead: &newLead, IsNew: true}, nil
 }
 
 // ============================================================
@@ -385,15 +421,15 @@ type EmailAttachmentRef struct {
 	SizeBytes   int    `json:"size_bytes"`
 }
 
-// ProcessInboundEmail registra um email inbound. Se já existe Lead ativo pra esse email,
-// só adiciona LeadActivity. Caso contrário, cria Lead novo com source=email_inbound.
-// Consent implícito: o cliente iniciou a conversa (escreveu pra contato@).
+// ProcessInboundEmail registra um email inbound. Hierarquia de roteamento (mesma do WA):
 //
-// Idempotente por Message-ID — chamadas duplicadas não criam activities repetidas.
+//  1. Procura Patient pelo LOWER(email) → activity vai pro Patient. FIM.
+//  2. Procura Lead ativo (não converted/lost/unsubscribed) → activity vai pro Lead.
+//  3. Cria Lead novo com source=email_inbound (consent implícito: cliente escreveu pra nós).
 //
-// Phase 2: também faz lookup em Patient — se o email já é de um paciente,
-// cria Lead já com ConvertedPatientID (badge "paciente cadastrado" na UI).
-func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*models.Lead, error) {
+// Idempotente por Message-ID — chamadas duplicadas não criam activities repetidas
+// (cobre re-runs do worker no resume após restart).
+func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*InboundResult, error) {
 	from := strings.ToLower(strings.TrimSpace(in.FromEmail))
 	if from == "" {
 		return nil, errors.New("lead: from vazio em inbound email")
@@ -403,7 +439,7 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*models.Lead, e
 		now = time.Now().UTC()
 	}
 
-	// Dedup por Message-ID — se já existe activity inbound com esse ID, no-op.
+	// Dedup por Message-ID — checa em todas activities (Lead OU Patient).
 	if in.MessageID != "" {
 		var dup int64
 		_ = s.db.Model(&models.LeadActivity{}).
@@ -411,12 +447,17 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*models.Lead, e
 				in.MessageID, models.LeadActivityMessageReceived).
 			Count(&dup).Error
 		if dup > 0 {
-			// Já processado — devolve o Lead pro caller saber, mas não duplica.
-			var existing models.Lead
-			if err := s.db.Where("email = ?", from).Order("created_at DESC").First(&existing).Error; err == nil {
-				return &existing, nil
+			// Já processado — devolve owner pro caller saber, sem duplicar.
+			// Tenta achar Patient primeiro (consistente com nova ordem de roteamento).
+			var existingPatient models.Patient
+			if err := s.db.Where("LOWER(email) = ?", from).First(&existingPatient).Error; err == nil {
+				return &InboundResult{Patient: &existingPatient}, nil
 			}
-			return nil, nil
+			var existing models.Lead
+			if err := s.db.Where("LOWER(email) = ?", from).Order("created_at DESC").First(&existing).Error; err == nil {
+				return &InboundResult{Lead: &existing}, nil
+			}
+			return &InboundResult{}, nil
 		}
 	}
 
@@ -437,7 +478,30 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*models.Lead, e
 		metadata["attachments"] = in.Attachments
 	}
 
-	// Procura Lead ativo (não converted/lost/unsubscribed) com esse email.
+	// 1. Patient first — cliente cadastrado tem prioridade.
+	var existingPatient models.Patient
+	patientErr := s.db.Where("LOWER(email) = ?", from).First(&existingPatient).Error
+	if patientErr == nil {
+		patientID := existingPatient.ID
+		_ = s.RecordActivity(RecordActivityInput{
+			PatientID: &patientID,
+			Type:      models.LeadActivityMessageReceived,
+			Channel:   models.LeadChannelEmail,
+			Content:   &bodyContent,
+			Metadata:  metadata,
+		})
+		patientCopy := existingPatient
+		snippet := bodyContent
+		goSafe("notify_inbound_email_patient", func() {
+			s.NotifyTeamOfInboundMessage(ConversationOwner{Patient: &patientCopy}, models.LeadChannelEmail, snippet)
+		})
+		return &InboundResult{Patient: &existingPatient}, nil
+	}
+	if !errors.Is(patientErr, gorm.ErrRecordNotFound) {
+		return nil, fmt.Errorf("lead: inbound email patient lookup: %w", patientErr)
+	}
+
+	// 2. Lead ativo existente
 	var existing models.Lead
 	err := s.db.
 		Where("LOWER(email) = ? AND status NOT IN (?)", from,
@@ -446,31 +510,27 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*models.Lead, e
 		First(&existing).Error
 
 	if err == nil {
+		existingID := existing.ID
 		_ = s.RecordActivity(RecordActivityInput{
-			LeadID:   existing.ID,
+			LeadID:   &existingID,
 			Type:     models.LeadActivityMessageReceived,
 			Channel:  models.LeadChannelEmail,
 			Content:  &bodyContent,
 			Metadata: metadata,
 		})
 		_ = s.db.Model(&existing).Update("last_inbound_at", now).Error
-		// Notifica re-inbound — vendedor precisa saber que lead respondeu.
 		leadCopy := existing
 		snippet := bodyContent
 		goSafe("notify_inbound_email", func() {
-			s.NotifyTeamOfInboundMessage(&leadCopy, models.LeadChannelEmail, snippet)
+			s.NotifyTeamOfInboundMessage(ConversationOwner{Lead: &leadCopy}, models.LeadChannelEmail, snippet)
 		})
-		return &existing, nil
+		return &InboundResult{Lead: &existing}, nil
 	}
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, fmt.Errorf("lead: inbound email lookup: %w", err)
 	}
 
-	// Phase 2: procura Patient existente por email — auto-vinculação.
-	var existingPatient models.Patient
-	patientErr := s.db.Where("LOWER(email) = ?", from).First(&existingPatient).Error
-	patientFound := patientErr == nil
-
+	// 3. Cria Lead novo (Patient já checado acima, não existe)
 	consentVer := "email_inbound_v1" // 16 chars, dentro do varchar(20)
 	consentIP := ""                  // inbound não tem IP de cliente
 
@@ -487,46 +547,37 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*models.Lead, e
 		ConsentIPHash:    &consentIP,
 		LastInboundAt:    &now,
 	}
-	if patientFound {
-		newLead.Status = models.LeadStatusConverted
-		newLead.ConvertedPatientID = &existingPatient.ID
-		newLead.ConvertedAt = &now
-		if newLead.Name == nil && existingPatient.Name != "" {
-			n := existingPatient.Name
-			newLead.Name = &n
-		}
-	}
 	if err := s.db.Create(&newLead).Error; err != nil {
 		return nil, fmt.Errorf("lead: create from email inbound: %w", err)
 	}
 
+	newLeadID := newLead.ID
 	_ = s.RecordActivity(RecordActivityInput{
-		LeadID:  newLead.ID,
+		LeadID:  &newLeadID,
 		Type:    models.LeadActivityCreated,
 		Channel: models.LeadChannelInternal,
 		Content: ptr("Lead criado via primeira mensagem inbound de email"),
 	})
 	_ = s.RecordActivity(RecordActivityInput{
-		LeadID:   newLead.ID,
+		LeadID:   &newLeadID,
 		Type:     models.LeadActivityMessageReceived,
 		Channel:  models.LeadChannelEmail,
 		Content:  &bodyContent,
 		Metadata: metadata,
 	})
 
-	// Notifica equipe — async, best-effort. Bloco 2 ajusta esse ponto se necessário.
 	leadCopy := newLead
 	goSafe("notify_team", func() { s.NotifyTeamOfNewLead(&leadCopy) })
 
-	return &newLead, nil
+	return &InboundResult{Lead: &newLead, IsNew: true}, nil
 }
 
 // RecordOutboundEmailMirror registra LeadActivity outbound espelhada de "Sent Items".
 // Usado quando o usuário responde pelo iPhone/cliente IMAP externo: o worker observa
 // a mensagem na pasta enviada e cria activity pra ter histórico no CRM.
 //
-// Idempotente por Message-ID + recipient — não duplica em re-runs.
-// Não cria Lead novo: se não há lead pra recipient, no-op.
+// Roteamento: Patient first (pelo To), depois Lead. Se nada bate, no-op silencioso
+// (pode ser email pra contato externo). Idempotente por (Message-ID, recipient).
 func (s *LeadService) RecordOutboundEmailMirror(toEmail string, in InboundEmailInput) error {
 	to := strings.ToLower(strings.TrimSpace(toEmail))
 	if to == "" {
@@ -543,12 +594,6 @@ func (s *LeadService) RecordOutboundEmailMirror(toEmail string, in InboundEmailI
 		if dup > 0 {
 			return nil
 		}
-	}
-
-	var lead models.Lead
-	if err := s.db.Where("LOWER(email) = ?", to).Order("created_at DESC").First(&lead).Error; err != nil {
-		// Sem lead pro recipient — silenciosamente ignora (pode ser email pra contato externo).
-		return nil
 	}
 
 	bodyContent := in.BodyText
@@ -570,8 +615,27 @@ func (s *LeadService) RecordOutboundEmailMirror(toEmail string, in InboundEmailI
 		metadata["attachments"] = in.Attachments
 	}
 
+	// 1. Patient first
+	var patient models.Patient
+	if err := s.db.Where("LOWER(email) = ?", to).First(&patient).Error; err == nil {
+		patientID := patient.ID
+		return s.RecordActivity(RecordActivityInput{
+			PatientID: &patientID,
+			Type:      models.LeadActivityMessageSent,
+			Channel:   models.LeadChannelEmail,
+			Content:   &bodyContent,
+			Metadata:  metadata,
+		})
+	}
+
+	// 2. Lead fallback
+	var lead models.Lead
+	if err := s.db.Where("LOWER(email) = ?", to).Order("created_at DESC").First(&lead).Error; err != nil {
+		return nil // sem owner conhecido — no-op
+	}
+	leadID := lead.ID
 	return s.RecordActivity(RecordActivityInput{
-		LeadID:   lead.ID,
+		LeadID:   &leadID,
 		Type:     models.LeadActivityMessageSent,
 		Channel:  models.LeadChannelEmail,
 		Content:  &bodyContent,
@@ -583,8 +647,11 @@ func (s *LeadService) RecordOutboundEmailMirror(toEmail string, in InboundEmailI
 // LeadActivity helpers
 // ============================================================
 
+// RecordActivityInput permite registrar activity em Lead OU Patient — exatamente um
+// de LeadID/PatientID deve ser fornecido. Espelha a CHECK constraint do schema.
 type RecordActivityInput struct {
-	LeadID      uuid.UUID
+	LeadID      *uuid.UUID
+	PatientID   *uuid.UUID
 	Type        models.LeadActivityType
 	Channel     models.LeadActivityChannel
 	Content     *string
@@ -593,8 +660,10 @@ type RecordActivityInput struct {
 }
 
 func (s *LeadService) RecordActivity(in RecordActivityInput) error {
-	if in.LeadID == uuid.Nil {
-		return errors.New("lead activity: leadID obrigatório")
+	hasLead := in.LeadID != nil && *in.LeadID != uuid.Nil
+	hasPatient := in.PatientID != nil && *in.PatientID != uuid.Nil
+	if hasLead == hasPatient {
+		return models.ErrLeadActivityOwnerInvalid
 	}
 	var metaJSON datatypes.JSON
 	if len(in.Metadata) > 0 {
@@ -606,6 +675,7 @@ func (s *LeadService) RecordActivity(in RecordActivityInput) error {
 	}
 	activity := models.LeadActivity{
 		LeadID:      in.LeadID,
+		PatientID:   in.PatientID,
 		Type:        in.Type,
 		Channel:     in.Channel,
 		Content:     in.Content,
@@ -734,9 +804,10 @@ func (s *LeadService) Update(id uuid.UUID, patch LeadPatch, actorUserID uuid.UUI
 		return nil, err
 	}
 
+	leadIDPtr := id
 	if statusChanged {
 		_ = s.RecordActivity(RecordActivityInput{
-			LeadID:      id,
+			LeadID:      &leadIDPtr,
 			Type:        models.LeadActivityStatusChanged,
 			Channel:     models.LeadChannelInternal,
 			Content:     ptr(fmt.Sprintf("Status: %s → %s", lead.Status, *patch.Status)),
@@ -745,7 +816,7 @@ func (s *LeadService) Update(id uuid.UUID, patch LeadPatch, actorUserID uuid.UUI
 	}
 	if patch.AssignedToUserID != nil {
 		_ = s.RecordActivity(RecordActivityInput{
-			LeadID:      id,
+			LeadID:      &leadIDPtr,
 			Type:        models.LeadActivityAssigned,
 			Channel:     models.LeadChannelInternal,
 			Content:     ptr(fmt.Sprintf("Atribuído ao usuário %s", patch.AssignedToUserID.String())),
@@ -762,7 +833,7 @@ func (s *LeadService) AddNote(leadID, actorUserID uuid.UUID, note string) error 
 		return errors.New("lead: nota vazia")
 	}
 	return s.RecordActivity(RecordActivityInput{
-		LeadID:      leadID,
+		LeadID:      &leadID,
 		Type:        models.LeadActivityNoteAdded,
 		Channel:     models.LeadChannelInternal,
 		Content:     &note,
@@ -787,7 +858,7 @@ func (s *LeadService) MarkConverted(leadID, patientID uuid.UUID, actorUserID *uu
 		return fmt.Errorf("lead: mark converted: %w", err)
 	}
 	return s.RecordActivity(RecordActivityInput{
-		LeadID:      leadID,
+		LeadID:      &leadID,
 		Type:        models.LeadActivityConverted,
 		Channel:     models.LeadChannelInternal,
 		Content:     ptr(fmt.Sprintf("Lead convertido em paciente %s", patientID.String())),
@@ -1193,8 +1264,9 @@ func (s *LeadService) UnsubscribeByPhone(phone, originalMessage string) {
 		if existingCount > 0 {
 			continue
 		}
+		leadID := lead.ID
 		_ = s.RecordActivity(RecordActivityInput{
-			LeadID:  lead.ID,
+			LeadID:  &leadID,
 			Type:    models.LeadActivityUnsubscribed,
 			Channel: models.LeadChannelWhatsApp,
 			Content: &originalMessage,
@@ -1233,11 +1305,13 @@ func (s *LeadService) RecordWhatsAppStatus(waMessageID, status, recipientID stri
 		"timestamp":          ts,
 		"original_activity":  orig.ID,
 	})
+	// Propaga ownership da activity original — pode ser Lead OU Patient (Bloco A).
 	activity := &models.LeadActivity{
-		LeadID:   orig.LeadID,
-		Type:     models.LeadActivityMessageStatusChanged,
-		Channel:  models.LeadChannelWhatsApp,
-		Metadata: metaJSON,
+		LeadID:    orig.LeadID,
+		PatientID: orig.PatientID,
+		Type:      models.LeadActivityMessageStatusChanged,
+		Channel:   models.LeadChannelWhatsApp,
+		Metadata:  metaJSON,
 	}
 	if err := s.db.Create(activity).Error; err != nil {
 		log.Printf("⚠️  [WHATSAPP STATUS] persist falhou: %v", err)
@@ -1285,7 +1359,7 @@ func (s *LeadService) SendWhatsAppText(leadID, actorUserID uuid.UUID, text strin
 	}
 
 	activity := &models.LeadActivity{
-		LeadID:      leadID,
+		LeadID:      &leadID,
 		Type:        models.LeadActivityMessageSent,
 		Channel:     models.LeadChannelWhatsApp,
 		Content:     &text,
@@ -1391,24 +1465,39 @@ func (s *LeadService) NotifyTeamOfNewLead(lead *models.Lead) {
 	}
 }
 
-// NotifyTeamOfInboundMessage dispara notificação in-app quando Lead JÁ EXISTENTE recebe
-// nova mensagem inbound (email/WA). NotifyTeamOfNewLead trata só leads novos. Esta cobre
-// re-engajamento — vendedor precisa saber que lead respondeu sem precisar atualizar página.
+// ConversationOwner identifica o dono de uma conversa (Lead OU Patient — mutuamente
+// exclusivo). Usado por NotifyTeamOfInboundMessage pra decidir título/URL do notif.
+type ConversationOwner struct {
+	Lead    *models.Lead
+	Patient *models.Patient
+}
+
+// NotifyTeamOfInboundMessage dispara notificação in-app quando uma conversa JÁ EXISTENTE
+// (Lead ou Patient) recebe nova mensagem inbound. NotifyTeamOfNewLead trata só leads novos.
+//
+// owner: exatamente um de Lead|Patient setado. Patient ganha sufixo "(paciente)" no título
+// e URL aponta pra /conversas/patient/:id (Bloco C). Lead → /leads/:id (admin legacy)
+// ou /conversas/lead/:id se preferido — adminURL define o prefixo.
 //
 // channel: models.LeadChannelEmail | models.LeadChannelWhatsApp
 // snippet: corpo da mensagem (truncado pra ~80 chars). Sem WhatsApp template — só sino.
-func (s *LeadService) NotifyTeamOfInboundMessage(lead *models.Lead, channel models.LeadActivityChannel, snippet string) {
-	if lead == nil || s.notificationService == nil {
+//
+// Pós-Bloco B: usa NotificationService.CreateConversationNotification que aceita owner
+// Lead OU Patient nativamente (notifications.patient_id setado pra owner=Patient).
+func (s *LeadService) NotifyTeamOfInboundMessage(owner ConversationOwner, channel models.LeadActivityChannel, snippet string) {
+	if s.notificationService == nil {
 		return
+	}
+	hasLead := owner.Lead != nil
+	hasPatient := owner.Patient != nil
+	if hasLead == hasPatient {
+		return // 0 ou 2 owners — invariante violada, abort silencioso
 	}
 	recipients, err := s.resolveLeadNotifyRecipients()
 	if err != nil || len(recipients) == 0 {
 		return
 	}
-	leadName := "(sem nome)"
-	if lead.Name != nil && *lead.Name != "" {
-		leadName = *lead.Name
-	}
+
 	if len(snippet) > 80 {
 		snippet = snippet[:77] + "..."
 	}
@@ -1418,25 +1507,65 @@ func (s *LeadService) NotifyTeamOfInboundMessage(lead *models.Lead, channel mode
 		channelLabel = "WhatsApp"
 		notifType = models.NotificationLeadWhatsAppInbound
 	}
-	title := fmt.Sprintf("%s de %s", channelLabel, leadName)
+
+	adminBase := strings.TrimRight(s.cfg.CRM.AdminURL, "/")
+
+	var (
+		ownerName string
+		fallback  string
+		notifURL  string
+		leadID    *uuid.UUID
+		patientID *uuid.UUID
+	)
+
+	if hasLead {
+		lead := owner.Lead
+		ownerName = "(sem nome)"
+		if lead.Name != nil && *lead.Name != "" {
+			ownerName = *lead.Name
+		}
+		if lead.Email != nil {
+			fallback = *lead.Email
+		} else if lead.Phone != nil {
+			fallback = *lead.Phone
+		}
+		base := adminBase
+		if base == "" {
+			base = "/leads"
+		}
+		notifURL = fmt.Sprintf("%s/leads/%s", base, lead.ID.String())
+		id := lead.ID
+		leadID = &id
+	} else {
+		patient := owner.Patient
+		ownerName = patient.Name
+		if ownerName == "" {
+			ownerName = "(sem nome)"
+		}
+		ownerName += " (paciente)"
+		if patient.Email != nil {
+			fallback = *patient.Email
+		} else if patient.Phone != nil {
+			fallback = *patient.Phone
+		}
+		base := adminBase
+		// Rota oficial pós-Bloco C: /conversas/patient/:id
+		notifURL = fmt.Sprintf("%s/conversas/patient/%s", base, patient.ID.String())
+		id := patient.ID
+		patientID = &id
+	}
+
+	title := fmt.Sprintf("%s de %s", channelLabel, ownerName)
 	message := snippet
 	if message == "" {
-		if lead.Email != nil {
-			message = *lead.Email
-		} else if lead.Phone != nil {
-			message = *lead.Phone
-		}
+		message = fallback
 	}
-	adminBase := strings.TrimRight(s.cfg.CRM.AdminURL, "/")
-	if adminBase == "" {
-		adminBase = "/leads"
-	}
-	leadURL := fmt.Sprintf("%s/leads/%s", adminBase, lead.ID.String())
+
 	for _, user := range recipients {
-		if err := s.notificationService.CreateLeadNotification(
-			user.ID, lead.ID, notifType, title, message, leadURL,
+		if err := s.notificationService.CreateConversationNotification(
+			user.ID, leadID, patientID, notifType, title, message, notifURL,
 		); err != nil {
-			log.Printf("⚠️  [LEAD INBOUND NOTIFY] in-app pra %s falhou: %v", user.ID, err)
+			log.Printf("⚠️  [INBOUND NOTIFY] in-app pra %s falhou: %v", user.ID, err)
 		}
 	}
 }

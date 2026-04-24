@@ -39,6 +39,7 @@ import {
   Bot,
   UserPlus,
   BarChart3,
+  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -60,6 +61,7 @@ type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
+  { name: "Conversas", href: "/conversas", icon: MessageSquare, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
   { name: "Pacientes", href: "/patients", icon: Users, staffOnly: true },
   { name: "Leads", href: "/leads", icon: UserPlus, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
   { name: "Dashboard de Leads", href: "/leads/dashboard", icon: BarChart3, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },

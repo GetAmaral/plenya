@@ -281,6 +281,8 @@ func setupRoutes(
 	enrichmentPrepHandler := handlers.NewScoreEnrichmentPreparationHandler(database.DB)
 	leadHandler := handlers.NewLeadHandler(leadService, emailService)
 	whatsappWebhookHandler := handlers.NewWhatsAppWebhookHandler(cfg, whatsappService, leadService)
+	conversationService := services.NewConversationService(database.DB, leadService, emailService, whatsappService, notificationService)
+	conversationHandler := handlers.NewConversationHandler(conversationService)
 
 	// API v1
 	v1 := app.Group("/api/v1")
@@ -329,6 +331,17 @@ func setupRoutes(
 	leads.Post("/:id/convert", leadHandler.Convert)
 	// Delete: admin only (destrutivo / LGPD)
 	leads.Delete("/:id", middleware.RequireAdmin(), leadHandler.Delete)
+
+	// Central de Conversas (Bloco B) — Lead+Patient unificados
+	conv := v1.Group("/conversations")
+	conv.Use(middleware.Auth(cfg))
+	conv.Use(middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager))
+	conv.Use(middleware.AuditLog(database.DB))
+	conv.Get("/", conversationHandler.List)
+	conv.Get("/:type/:id/messages", conversationHandler.Messages)
+	conv.Post("/:type/:id/read", conversationHandler.MarkRead)
+	conv.Post("/:type/:id/email", conversationHandler.SendEmail)
+	conv.Post("/:type/:id/whatsapp", conversationHandler.SendWhatsApp)
 
 	// Auth routes (públicas)
 	auth := v1.Group("/auth")

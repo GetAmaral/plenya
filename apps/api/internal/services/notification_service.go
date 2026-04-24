@@ -98,6 +98,9 @@ func (s *NotificationService) CreateNotification(
 
 // CreateLeadNotification cria notificação in-app vinculada a Lead.
 // Usada pelos triggers do CRM (lead novo, inbound WA, atribuição).
+//
+// DEPRECATED: usar CreateConversationNotification, que aceita owner Lead OU Patient.
+// Mantida pra não quebrar callers legados.
 func (s *NotificationService) CreateLeadNotification(
 	userID uuid.UUID,
 	leadID uuid.UUID,
@@ -114,6 +117,40 @@ func (s *NotificationService) CreateLeadNotification(
 		ActionURL:  &actionURL,
 		ActionText: &actionText,
 		Read:       false,
+	}
+	return s.repo.Create(notification)
+}
+
+// CreateConversationNotification cria notificação in-app vinculada a uma conversa
+// que pode pertencer a Lead OU Patient. Substitui CreateLeadNotification pra fluxos
+// pós-Bloco B (Central de Conversas) que precisam alcançar Patient sem gambiarras.
+//
+// Exatamente UM de leadID|patientID deve ser não-nulo. Se ambos forem nulos ou ambos
+// setados, cria notificação sem vínculo (warn-friendly degradation, não panic).
+//
+// actionText é "Abrir conversa" para refletir a UX da Central (Bloco C).
+func (s *NotificationService) CreateConversationNotification(
+	userID uuid.UUID,
+	leadID *uuid.UUID,
+	patientID *uuid.UUID,
+	notifType models.NotificationType,
+	title, message, actionURL string,
+) error {
+	actionText := "Abrir conversa"
+	notification := &models.Notification{
+		UserID:     userID,
+		Type:       notifType,
+		Title:      title,
+		Message:    message,
+		ActionURL:  &actionURL,
+		ActionText: &actionText,
+		Read:       false,
+	}
+	if leadID != nil && *leadID != uuid.Nil {
+		notification.LeadID = leadID
+	}
+	if patientID != nil && *patientID != uuid.Nil {
+		notification.PatientID = patientID
 	}
 	return s.repo.Create(notification)
 }

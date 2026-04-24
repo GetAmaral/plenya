@@ -319,7 +319,8 @@ func (s *EmailIngestService) processEmail(folder string, uid uint32, raw []byte)
 		return nil
 	}
 
-	// Inbound: cria/atualiza Lead.
+	// Inbound: roteia pra Patient OU Lead (Bloco A — Central de Conversas).
+	// Worker não precisa do owner concreto; só importa que persistiu sem erro.
 	if _, err := s.leadSvc.ProcessInboundEmail(in); err != nil {
 		return fmt.Errorf("process inbound: %w", err)
 	}

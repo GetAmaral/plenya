@@ -106,6 +106,7 @@ func AutoMigrate() error {
 		// CRM — Leads
 		&models.Lead{},
 		&models.LeadActivity{},
+		&models.ConversationRead{},
 
 		// Email ingest (worker IMAP IDLE)
 		&models.EmailIngestState{},
@@ -160,6 +161,61 @@ func AutoMigrate() error {
 		// email (race no resume após restart, ou múltiplas pastas espelhando).
 		`CREATE INDEX IF NOT EXISTS idx_lead_activities_email_message_id
 		 ON lead_activities ((metadata->>'message_id'))`,
+
+		// Central de Conversas (Bloco A) — LeadActivity pode pertencer a Lead OU Patient.
+		// GORM AutoMigrate detecta o ponteiro *uuid.UUID em LeadID e gera coluna nullable,
+		// mas migrações de tabela existente que tinham NOT NULL não são revertidas
+		// automaticamente — precisamos do ALTER explícito (idempotente).
+		`ALTER TABLE lead_activities ALTER COLUMN lead_id DROP NOT NULL`,
+
+		// CHECK constraint: exatamente um de lead_id|patient_id setado.
+		// `ADD CONSTRAINT IF NOT EXISTS` foi adicionado no PG 9.6+ pra constraints
+		// nomeadas — DO block garante idempotência cross-version.
+		`DO $$ BEGIN
+			IF NOT EXISTS (
+				SELECT 1 FROM pg_constraint WHERE conname = 'lead_activities_owner_check'
+			) THEN
+				ALTER TABLE lead_activities ADD CONSTRAINT lead_activities_owner_check
+				CHECK (
+					(lead_id IS NOT NULL AND patient_id IS NULL) OR
+					(lead_id IS NULL AND patient_id IS NOT NULL)
+				);
+			END IF;
+		END $$`,
+
+		// Composite index pra Central de Conversas listar histórico por Patient
+		// filtrando por tipo (mirror do existente pra Lead).
+		`CREATE INDEX IF NOT EXISTS idx_lead_activities_patient_type_created
+		 ON lead_activities (patient_id, type, created_at)`,
+
+		// Lookup case-insensitive por email em Patient (worker IMAP).
+		// Substitui o índice plano gerado por GORM (que não cobre LOWER()).
+		`CREATE INDEX IF NOT EXISTS idx_patients_email_lower
+		 ON patients (LOWER(email))`,
+
+		// Migração de dados (idempotente):
+		// Pra cada Lead com ConvertedPatientID setado, move suas activities pro Patient.
+		// Skipa as que já têm patient_id (re-runs no-op).
+		// Decisão: paciente convertido só deve ter activities como Patient — Lead vira
+		// "registro histórico de captura" sem conversa anexada.
+		`UPDATE lead_activities la
+		 SET patient_id = l.converted_patient_id, lead_id = NULL
+		 FROM leads l
+		 WHERE la.lead_id = l.id
+		   AND l.converted_patient_id IS NOT NULL
+		   AND la.patient_id IS NULL`,
+
+		// Central de Conversas (Bloco B) — ConversationRead trackeia LastReadAt por
+		// (user, conversa) pra calcular unread_count na lista de conversas.
+		// CHECK constraint garante que owner_type é "lead" ou "patient".
+		`DO $$ BEGIN
+			IF NOT EXISTS (
+				SELECT 1 FROM pg_constraint WHERE conname = 'conversation_reads_owner_type_check'
+			) THEN
+				ALTER TABLE conversation_reads ADD CONSTRAINT conversation_reads_owner_type_check
+				CHECK (owner_type IN ('lead','patient'));
+			END IF;
+		END $$`,
 	}
 	for _, stmt := range indexStmts {
 		if err := DB.Exec(stmt).Error; err != nil {

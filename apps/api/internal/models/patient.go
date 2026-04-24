@@ -142,9 +142,11 @@ type Patient struct {
 	// @example 12.345.678-9
 	RG *string `gorm:"type:text" json:"-"`
 
-	// Email pessoal (opcional)
+	// Email pessoal (opcional). Indexado pra lookup performante na ingestão
+	// inbound (worker IMAP) — `idx_patients_email_lower` é criado em
+	// database.AutoMigrate como `LOWER(email)` (case-insensitive).
 	// @example joao@email.com
-	Email *string `gorm:"type:varchar(200)" json:"email,omitempty" validate:"omitempty,email"`
+	Email *string `gorm:"type:varchar(200);index:idx_patients_email" json:"email,omitempty" validate:"omitempty,email"`
 
 	// Tipo sanguíneo (opcional)
 	// @enum A+,A-,B+,B-,AB+,AB-,O+,O-
@@ -185,6 +187,11 @@ type Patient struct {
 
 	// Relações
 	User User `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE" json:"user,omitempty"`
+
+	// Activities é a relação inversa pra LeadActivity quando o dono é Patient
+	// (PatientID setado, LeadID nil). Não preenchido por padrão — usar Preload.
+	// Cascade ON DELETE configurado no lado da FK em LeadActivity.
+	Activities []LeadActivity `gorm:"foreignKey:PatientID;constraint:OnDelete:CASCADE" json:"-"`
 }
 
 // TableName especifica o nome da tabela

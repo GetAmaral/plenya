@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -8,6 +9,12 @@ import (
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
+
+// ErrLeadActivityOwnerInvalid é retornado quando exatamente um de
+// LeadID/PatientID NÃO está setado. A regra refletida em CHECK constraint
+// no banco (lead_activities_owner_check). Documentamos aqui pra falha precoce
+// no app antes de bater no DB.
+var ErrLeadActivityOwnerInvalid = errors.New("lead_activity: exatamente um de LeadID|PatientID obrigatório")
 
 // LeadActivityType categoriza eventos no histórico do lead.
 type LeadActivityType string
@@ -33,15 +40,26 @@ const (
 	LeadChannelInternal LeadActivityChannel = "internal" // notas, mudanças de status feitas no admin
 )
 
-// LeadActivity é o log imutável de eventos relacionados a um Lead.
+// LeadActivity é o log imutável de eventos relacionados a uma "conversa" do CRM.
 //
-// @Description Evento no histórico de um lead (mensagem, mudança de status, nota)
+// Ownership: exatamente UM de LeadID|PatientID é setado.
+//   - LeadID setado, PatientID nil  → conversa pertence a Lead (ainda não convertido).
+//   - PatientID setado, LeadID nil  → conversa pertence a Patient (cliente cadastrado).
+//
+// CHECK constraint no banco (lead_activities_owner_check) garante a invariante.
+// Validação aplicação espelha em BeforeSave pra falha precoce.
+//
+// @Description Evento no histórico de uma conversa (lead OU patient)
 type LeadActivity struct {
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
-	// Lead a que esta atividade pertence
-	LeadID uuid.UUID `gorm:"type:uuid;not null;index:idx_lead_activities_lead" json:"leadId" validate:"required"`
+	// Lead a que esta atividade pertence (mutuamente exclusivo com PatientID)
+	LeadID *uuid.UUID `gorm:"type:uuid;index:idx_lead_activities_lead" json:"leadId,omitempty"`
+
+	// Patient a que esta atividade pertence (mutuamente exclusivo com LeadID).
+	// Setado quando inbound chega de cliente já cadastrado — evita criar Lead "fantasma".
+	PatientID *uuid.UUID `gorm:"type:uuid;index:idx_lead_activities_patient" json:"patientId,omitempty"`
 
 	// Tipo do evento
 	// @enum created,message_sent,message_received,status_changed,note_added,converted,assigned,unsubscribed
@@ -63,8 +81,9 @@ type LeadActivity struct {
 	CreatedAt time.Time `gorm:"autoCreateTime;index:idx_lead_activities_created" json:"createdAt"`
 
 	// Relationships
-	Lead  *Lead `gorm:"foreignKey:LeadID;constraint:OnDelete:CASCADE" json:"-"`
-	Actor *User `gorm:"foreignKey:ActorUserID;constraint:OnDelete:SET NULL" json:"actor,omitempty"`
+	Lead    *Lead    `gorm:"foreignKey:LeadID;constraint:OnDelete:CASCADE" json:"-"`
+	Patient *Patient `gorm:"foreignKey:PatientID;constraint:OnDelete:CASCADE" json:"patient,omitempty"`
+	Actor   *User    `gorm:"foreignKey:ActorUserID;constraint:OnDelete:SET NULL" json:"actor,omitempty"`
 }
 
 // TableName especifica o nome da tabela
@@ -80,10 +99,21 @@ func (a *LeadActivity) BeforeCreate(tx *gorm.DB) error {
 	return nil
 }
 
-// BeforeSave criptografa Content quando Channel=email (LGPD: corpo de email pode conter
-// CPF, sintomas, dados sensíveis de paciente). Idempotente via isEncrypted heurística
-// reusada de patient.go (mesmo package).
+// BeforeSave faz duas coisas:
+//  1. Valida ownership (XOR LeadID/PatientID) — espelho da CHECK constraint do DB.
+//  2. Criptografa Content quando Channel=email (LGPD: corpo de email pode conter
+//     CPF, sintomas, dados sensíveis de paciente). Idempotente via isEncrypted
+//     heurística reusada de patient.go (mesmo package).
+//
+// Funciona transparente pra LeadActivity vinculada a Patient — criptografia é por
+// canal, não por dono.
 func (a *LeadActivity) BeforeSave(tx *gorm.DB) error {
+	hasLead := a.LeadID != nil && *a.LeadID != uuid.Nil
+	hasPatient := a.PatientID != nil && *a.PatientID != uuid.Nil
+	if hasLead == hasPatient { // ambos true ou ambos false
+		return ErrLeadActivityOwnerInvalid
+	}
+
 	if a.Channel == LeadChannelEmail && a.Content != nil && *a.Content != "" && !isEncrypted(*a.Content) {
 		encrypted, err := crypto.EncryptWithDefaultKey(*a.Content)
 		if err != nil {
