@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Mail, Reply } from 'lucide-react';
+import { Mail, Plus, Reply } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -155,8 +155,10 @@ function snippet(content: string, max = 100): string {
 export function EmailReplyBlock({ lead, fromAddress = DEFAULT_FROM }: Props) {
   const sendEmail = useSendLeadEmailReply(lead.id);
   const [openReplyFor, setOpenReplyFor] = useState<Thread | null>(null);
+  const [composeOpen, setComposeOpen] = useState(false);
   const [replySubject, setReplySubject] = useState('');
   const [replyBody, setReplyBody] = useState('');
+  const isComposing = composeOpen && openReplyFor === null;
 
   const threads = useMemo(() => buildThreads(lead.activities, lead.email), [lead.activities, lead.email]);
   const totalMessages = threads.reduce((acc, t) => acc + t.messages.length, 0);
@@ -174,8 +176,16 @@ export function EmailReplyBlock({ lead, fromAddress = DEFAULT_FROM }: Props) {
     setOpenReplyFor(thread);
   };
 
+  const openCompose = () => {
+    setReplySubject('');
+    setReplyBody('');
+    setOpenReplyFor(null);
+    setComposeOpen(true);
+  };
+
   const closeReply = () => {
     setOpenReplyFor(null);
+    setComposeOpen(false);
     setReplySubject('');
     setReplyBody('');
   };
@@ -186,7 +196,12 @@ export function EmailReplyBlock({ lead, fromAddress = DEFAULT_FROM }: Props) {
       toast.error('Escreva uma mensagem antes de enviar.');
       return;
     }
+    if (isComposing && !replySubject.trim()) {
+      toast.error('Defina um assunto para o novo email.');
+      return;
+    }
     // Pega a última mensagem da thread pra threading (In-Reply-To + References).
+    // Em modo compose (novo email), não envia headers de threading.
     let inReplyTo: string | undefined;
     let references: string[] | undefined;
     if (openReplyFor && openReplyFor.messages.length > 0) {
@@ -230,9 +245,16 @@ export function EmailReplyBlock({ lead, fromAddress = DEFAULT_FROM }: Props) {
                 {totalMessages} {totalMessages === 1 ? 'mensagem' : 'mensagens'}
               </Badge>
             </CardTitle>
-            <Button size="sm" variant="default" onClick={() => openReply(threads[0] ?? null)}>
-              <Reply className="mr-1 h-4 w-4" /> Responder
-            </Button>
+            <div className="flex gap-2">
+              {threads.length > 0 && (
+                <Button size="sm" variant="outline" onClick={() => openReply(threads[0])}>
+                  <Reply className="mr-1 h-4 w-4" /> Responder
+                </Button>
+              )}
+              <Button size="sm" variant="default" onClick={openCompose}>
+                <Plus className="mr-1 h-4 w-4" /> Novo email
+              </Button>
+            </div>
           </div>
           <p className="text-sm text-muted-foreground">
             Enviado de <strong>{fromAddress}</strong>. Histórico aparece também no Mail (iPhone/Outlook).
@@ -241,7 +263,7 @@ export function EmailReplyBlock({ lead, fromAddress = DEFAULT_FROM }: Props) {
         <CardContent>
           {threads.length === 0 ? (
             <p className="py-4 text-center text-sm text-muted-foreground">
-              Nenhuma troca de email ainda. Clique em <strong>Responder</strong> para iniciar.
+              Nenhuma troca de email ainda. Clique em <strong>Novo email</strong> para iniciar.
             </p>
           ) : (
             <ol className="space-y-4">
@@ -257,10 +279,10 @@ export function EmailReplyBlock({ lead, fromAddress = DEFAULT_FROM }: Props) {
         </CardContent>
       </Card>
 
-      <Dialog open={openReplyFor !== null} onOpenChange={(open) => !open && closeReply()}>
+      <Dialog open={openReplyFor !== null || composeOpen} onOpenChange={(open) => !open && closeReply()}>
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Responder email</DialogTitle>
+            <DialogTitle>{isComposing ? 'Novo email' : 'Responder email'}</DialogTitle>
             <DialogDescription>
               Para: <strong>{lead.email}</strong> · De <strong>{fromAddress}</strong>
             </DialogDescription>
@@ -268,11 +290,13 @@ export function EmailReplyBlock({ lead, fromAddress = DEFAULT_FROM }: Props) {
 
           <div className="space-y-3">
             <label className="block">
-              <span className="text-xs uppercase tracking-wide text-muted-foreground">Assunto</span>
+              <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                Assunto {isComposing && <span className="text-red-500">*</span>}
+              </span>
               <Input
                 value={replySubject}
                 onChange={(e) => setReplySubject(e.target.value)}
-                placeholder="(opcional — backend monta 'Re: ...' automaticamente)"
+                placeholder={isComposing ? 'Assunto do email' : "(opcional — backend monta 'Re: ...' automaticamente)"}
                 className="mt-1"
               />
             </label>
