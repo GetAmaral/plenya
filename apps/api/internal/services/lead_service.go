@@ -454,6 +454,12 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*models.Lead, e
 			Metadata: metadata,
 		})
 		_ = s.db.Model(&existing).Update("last_inbound_at", now).Error
+		// Notifica re-inbound — vendedor precisa saber que lead respondeu.
+		leadCopy := existing
+		snippet := bodyContent
+		goSafe("notify_inbound_email", func() {
+			s.NotifyTeamOfInboundMessage(&leadCopy, models.LeadChannelEmail, snippet)
+		})
 		return &existing, nil
 	}
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -1381,6 +1387,56 @@ func (s *LeadService) NotifyTeamOfNewLead(lead *models.Lead) {
 			); err != nil {
 				log.Printf("⚠️  [LEAD NOTIFY] WhatsApp pra %s falhou: %v", user.ID, err)
 			}
+		}
+	}
+}
+
+// NotifyTeamOfInboundMessage dispara notificação in-app quando Lead JÁ EXISTENTE recebe
+// nova mensagem inbound (email/WA). NotifyTeamOfNewLead trata só leads novos. Esta cobre
+// re-engajamento — vendedor precisa saber que lead respondeu sem precisar atualizar página.
+//
+// channel: models.LeadChannelEmail | models.LeadChannelWhatsApp
+// snippet: corpo da mensagem (truncado pra ~80 chars). Sem WhatsApp template — só sino.
+func (s *LeadService) NotifyTeamOfInboundMessage(lead *models.Lead, channel models.LeadActivityChannel, snippet string) {
+	if lead == nil || s.notificationService == nil {
+		return
+	}
+	recipients, err := s.resolveLeadNotifyRecipients()
+	if err != nil || len(recipients) == 0 {
+		return
+	}
+	leadName := "(sem nome)"
+	if lead.Name != nil && *lead.Name != "" {
+		leadName = *lead.Name
+	}
+	if len(snippet) > 80 {
+		snippet = snippet[:77] + "..."
+	}
+	channelLabel := "Email"
+	notifType := models.NotificationLeadEmailInbound
+	if channel == models.LeadChannelWhatsApp {
+		channelLabel = "WhatsApp"
+		notifType = models.NotificationLeadWhatsAppInbound
+	}
+	title := fmt.Sprintf("%s de %s", channelLabel, leadName)
+	message := snippet
+	if message == "" {
+		if lead.Email != nil {
+			message = *lead.Email
+		} else if lead.Phone != nil {
+			message = *lead.Phone
+		}
+	}
+	adminBase := strings.TrimRight(s.cfg.CRM.AdminURL, "/")
+	if adminBase == "" {
+		adminBase = "/leads"
+	}
+	leadURL := fmt.Sprintf("%s/leads/%s", adminBase, lead.ID.String())
+	for _, user := range recipients {
+		if err := s.notificationService.CreateLeadNotification(
+			user.ID, lead.ID, notifType, title, message, leadURL,
+		); err != nil {
+			log.Printf("⚠️  [LEAD INBOUND NOTIFY] in-app pra %s falhou: %v", user.ID, err)
 		}
 	}
 }

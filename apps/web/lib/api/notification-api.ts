@@ -39,8 +39,9 @@ export function useUnreadCount() {
       const data = await apiClient.get<{ count: number }>('/api/v1/notifications/unread/count')
       return data.count
     },
-    staleTime: 30 * 1000, // 30 seconds
-    refetchInterval: 1 * 60 * 1000, // Refetch every 1 minute
+    staleTime: 10 * 1000,
+    refetchInterval: 15 * 1000, // 15s — responsivo pra notifs de novo email/wa
+    refetchOnWindowFocus: true,
   })
 }
 
