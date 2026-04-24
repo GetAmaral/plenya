@@ -116,6 +116,7 @@ func (n *Notification) validate() error {
 		NotificationGeneral:             true,
 		NotificationLeadNew:             true,
 		NotificationLeadWhatsAppInbound: true,
+		NotificationLeadEmailInbound:    true,
 		NotificationLeadAssigned:        true,
 	}
 	if !validTypes[n.Type] {
