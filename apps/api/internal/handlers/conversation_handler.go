@@ -3,6 +3,7 @@ package handlers
 import (
 	"errors"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -389,6 +390,123 @@ func (h *ConversationHandler) SendWhatsApp(c *fiber.Ctx) error {
 		BodyText:  req.BodyText,
 	})
 	return writeSendResult(c, activity, err)
+}
+
+// ============================================================
+// POST /conversations/:type/:id/ai/summary
+// ============================================================
+
+// AISummary gera resumo da conversa via Claude. Cache 1h por hash do transcript.
+//
+// Query: force=true → pula cache.
+//
+// @Summary  Resumo IA da conversa (3-5 bullets PT-BR)
+// @Tags     conversations
+// @Security BearerAuth
+// @Produce  json
+// @Param    type path string true "lead | patient"
+// @Param    id   path string true "Owner ID"
+// @Param    force query string false "true para ignorar cache"
+// @Success  200 {object} services.AISummaryResult
+// @Failure  404 {object} dto.ErrorResponse
+// @Failure  422 {object} dto.ErrorResponse "Conversa sem mensagens"
+// @Failure  502 {object} dto.ErrorResponse "Claude API falhou"
+// @Failure  504 {object} dto.ErrorResponse "Claude API timeout"
+// @Router   /conversations/{type}/{id}/ai/summary [post]
+func (h *ConversationHandler) AISummary(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	force := c.Query("force") == "true"
+
+	res, err := h.service.SummarizeConversation(
+		c.UserContext(),
+		middleware.GetUserID(c),
+		ownerType, ownerID, force,
+	)
+	return writeAIResult(c, res, err)
+}
+
+// ============================================================
+// POST /conversations/:type/:id/ai/suggest-reply
+// ============================================================
+
+// AISuggestReplyRequest é o payload opcional. Intent (ex: "agendar consulta") guia o
+// modelo; quando vazio, IA infere a intenção pelo histórico.
+type AISuggestReplyRequest struct {
+	Intent string `json:"intent,omitempty" validate:"omitempty,max=200"`
+}
+
+// AISuggestReply sugere texto de resposta no tom Plenya pro vendedor editar e enviar.
+//
+// @Summary  Sugestão IA de resposta
+// @Tags     conversations
+// @Security BearerAuth
+// @Accept   json
+// @Produce  json
+// @Param    type path string true "lead | patient"
+// @Param    id   path string true "Owner ID"
+// @Param    body body AISuggestReplyRequest false "Intenção do vendedor"
+// @Success  200 {object} services.AISuggestionResult
+// @Failure  404 {object} dto.ErrorResponse
+// @Failure  422 {object} dto.ErrorResponse "Conversa sem mensagens"
+// @Failure  502 {object} dto.ErrorResponse "Claude API falhou"
+// @Failure  504 {object} dto.ErrorResponse "Claude API timeout"
+// @Router   /conversations/{type}/{id}/ai/suggest-reply [post]
+func (h *ConversationHandler) AISuggestReply(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	var req AISuggestReplyRequest
+	// BodyParser tolera body vazio; ignoramos erro de parse pra permitir POST sem corpo.
+	_ = c.BodyParser(&req)
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+
+	res, err := h.service.SuggestReply(c.UserContext(), ownerType, ownerID, req.Intent)
+	return writeAIResult(c, res, err)
+}
+
+// writeAIResult mapeia erros do AI service pra HTTP semântico.
+//
+// LGPD: NÃO inclui Message com detalhes do erro upstream em status 502/504 — o erro
+// do Claude pode ecoar trecho do prompt em alguns casos. Mensagem genérica.
+func writeAIResult(c *fiber.Ctx, result interface{}, err error) error {
+	if err == nil {
+		return c.JSON(result)
+	}
+	switch {
+	case errors.Is(err, services.ErrConversationOwnerInvalid):
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "owner not found"})
+	case errors.Is(err, services.ErrAIConversationEmpty):
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+			Error: "conversa sem mensagens para análise",
+		})
+	case errors.Is(err, services.ErrAINotConfigured):
+		return c.Status(fiber.StatusServiceUnavailable).JSON(dto.ErrorResponse{
+			Error: "serviço de IA indisponível",
+		})
+	case errors.Is(err, services.ErrAIUpstream):
+		// Distingue timeout (504) de outras falhas Claude (502).
+		if strings.Contains(err.Error(), "timeout") {
+			return c.Status(fiber.StatusGatewayTimeout).JSON(dto.ErrorResponse{
+				Error: "tempo esgotado ao consultar IA",
+			})
+		}
+		return c.Status(fiber.StatusBadGateway).JSON(dto.ErrorResponse{
+			Error: "falha ao consultar IA, tente novamente",
+		})
+	default:
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error: "falha inesperada na IA",
+		})
+	}
 }
 
 // ============================================================

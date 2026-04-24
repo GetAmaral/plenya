@@ -2,7 +2,9 @@ package services
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -12,6 +14,133 @@ import (
 	"github.com/plenya/api/internal/config"
 	"github.com/plenya/api/internal/dto"
 )
+
+// ErrAIUpstream indica que a Claude API retornou erro não-200 ou indisponibilidade
+// (timeout, rede, parse). Handlers mapeiam pra 502/504 sem vazar detalhes do provider.
+var ErrAIUpstream = errors.New("ai: upstream Claude API failure")
+
+// ErrAINotConfigured ocorre quando CLAUDE_API_KEY não está setada.
+var ErrAINotConfigured = errors.New("ai: claude api key not configured")
+
+// CompleteTextOptions controla parâmetros de uma chamada plain-text à Claude API.
+// Quando Model vazio, usa s.model (default haiku). Timeout < 1s vira default 30s.
+type CompleteTextOptions struct {
+	Model       string
+	MaxTokens   int
+	Temperature float64
+	Timeout     time.Duration
+}
+
+// CompleteText faz uma chamada plain-text (sem tools) à Claude Messages API e retorna
+// o texto da resposta. Pra features de produto (resumo de conversa, sugestão de resposta,
+// etc.) — não pra extração estruturada (use as funções com tool_use).
+//
+// LGPD: NÃO loga prompt nem resposta — só metadata (tokens, model, latência).
+func (s *AIService) CompleteText(ctx context.Context, prompt string, opts CompleteTextOptions) (string, error) {
+	if s.apiKey == "" {
+		return "", ErrAINotConfigured
+	}
+
+	model := opts.Model
+	if model == "" {
+		model = s.model
+	}
+	maxTokens := opts.MaxTokens
+	if maxTokens <= 0 {
+		maxTokens = 1024
+	}
+	temperature := opts.Temperature
+	if temperature == 0 {
+		temperature = 0.4
+	}
+	timeout := opts.Timeout
+	if timeout < time.Second {
+		timeout = 30 * time.Second
+	}
+
+	payload := map[string]interface{}{
+		"model":       model,
+		"max_tokens":  maxTokens,
+		"temperature": temperature,
+		"messages": []map[string]string{
+			{"role": "user", "content": prompt},
+		},
+	}
+
+	body, err := json.Marshal(payload)
+	if err != nil {
+		return "", fmt.Errorf("%w: marshal: %v", ErrAIUpstream, err)
+	}
+
+	reqCtx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(reqCtx, "POST", "https://api.anthropic.com/v1/messages", bytes.NewBuffer(body))
+	if err != nil {
+		return "", fmt.Errorf("%w: build request: %v", ErrAIUpstream, err)
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("x-api-key", s.apiKey)
+	req.Header.Set("anthropic-version", "2023-06-01")
+
+	start := time.Now()
+	// Cliente local com timeout customizado — não reusa s.httpClient (3min) pra
+	// respeitar Timeout passado via opts (default 30s).
+	client := &http.Client{Timeout: timeout}
+	resp, err := client.Do(req)
+	if err != nil {
+		// Distingue timeout/cancelamento explicitamente pro handler retornar 504.
+		if errors.Is(err, context.DeadlineExceeded) || errors.Is(reqCtx.Err(), context.DeadlineExceeded) {
+			return "", fmt.Errorf("%w: timeout after %s", ErrAIUpstream, timeout)
+		}
+		return "", fmt.Errorf("%w: %v", ErrAIUpstream, err)
+	}
+	defer resp.Body.Close()
+
+	respBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("%w: read body: %v", ErrAIUpstream, err)
+	}
+
+	if resp.StatusCode != 200 {
+		// LGPD: NÃO logar conteúdo. Body do erro Claude pode ecoar trecho do prompt.
+		fmt.Printf("⚠️  Claude CompleteText status=%d size=%d\n", resp.StatusCode, len(respBytes))
+		return "", fmt.Errorf("%w: status %d", ErrAIUpstream, resp.StatusCode)
+	}
+
+	var apiResp struct {
+		Content []struct {
+			Type string `json:"type"`
+			Text string `json:"text"`
+		} `json:"content"`
+		Usage struct {
+			InputTokens  int `json:"input_tokens"`
+			OutputTokens int `json:"output_tokens"`
+		} `json:"usage"`
+		Model      string `json:"model"`
+		StopReason string `json:"stop_reason"`
+	}
+	if err := json.Unmarshal(respBytes, &apiResp); err != nil {
+		return "", fmt.Errorf("%w: decode: %v", ErrAIUpstream, err)
+	}
+
+	// LGPD: log apenas metadata (model, tokens, latência) — nunca conteúdo.
+	fmt.Printf("💬 Claude CompleteText - model=%s in=%d out=%d latency=%dms\n",
+		apiResp.Model, apiResp.Usage.InputTokens, apiResp.Usage.OutputTokens,
+		time.Since(start).Milliseconds())
+
+	var sb strings.Builder
+	for _, c := range apiResp.Content {
+		if c.Type == "text" {
+			sb.WriteString(c.Text)
+		}
+	}
+	out := strings.TrimSpace(sb.String())
+	if out == "" {
+		return "", fmt.Errorf("%w: empty response", ErrAIUpstream)
+	}
+	return out, nil
+}
 
 // Helper min function
 func min(a, b int) int {

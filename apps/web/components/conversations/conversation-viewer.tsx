@@ -1,14 +1,24 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { ExternalLink, FileText, Image as ImageIcon, Mail, MessageSquare, ArrowLeft } from 'lucide-react';
+import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, RefreshCw, Sparkles } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   type ConversationItem,
@@ -17,6 +27,7 @@ import {
   attachmentDownloadUrl,
   avatarColorClass,
   initials,
+  useConversationAISummary,
   useConversationMessages,
 } from '@/lib/api/conversations-api';
 import { ConversationComposer } from './conversation-composer';
@@ -160,10 +171,89 @@ function MessageBubble({ msg, ownerName }: { msg: ConversationMessage; ownerName
   );
 }
 
+/** Estado simples pra o dialog de resumo IA. */
+type SummaryDialogState =
+  | { open: false }
+  | { open: true; summary?: string; generatedAt?: string; cached?: boolean };
+
+/**
+ * Renderiza bullets de markdown simples ("- foo"). Mantemos parser minimalista
+ * porque o prompt instrui formato bullet — sem necessidade de markdown completo.
+ */
+function SummaryBullets({ summary }: { summary: string }) {
+  const lines = useMemo(
+    () =>
+      summary
+        .split(/\r?\n/)
+        .map((l) => l.trim())
+        .filter(Boolean),
+    [summary]
+  );
+  const isBulletList = lines.length > 0 && lines.every((l) => /^[-*•]\s+/.test(l));
+
+  if (isBulletList) {
+    return (
+      <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-foreground">
+        {lines.map((l, i) => (
+          <li key={i}>{l.replace(/^[-*•]\s+/, '')}</li>
+        ))}
+      </ul>
+    );
+  }
+  return <p className="whitespace-pre-wrap text-sm leading-relaxed">{summary}</p>;
+}
+
 export function ConversationViewer({ item, onBack }: Props) {
   const { data: messages, isLoading } = useConversationMessages(item.ownerType, item.ownerId);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const lastScrollKeyRef = useRef<string | null>(null);
+
+  // ===== IA =====
+  const [summaryDialog, setSummaryDialog] = useState<SummaryDialogState>({ open: false });
+  /** Texto sugerido pela IA (controlado externo do composer pra prefill). */
+  const [draftBody, setDraftBody] = useState<string | null>(null);
+  /** Token incrementado a cada nova sugestão pra forçar o composer a aceitar o prefill
+   * mesmo que o vendedor já tenha digitado algo (sobrescreve apenas no momento do "set"). */
+  const [draftToken, setDraftToken] = useState(0);
+
+  const summary = useConversationAISummary(item.ownerType, item.ownerId);
+
+  const handleSummarize = useCallback(
+    (force = false) => {
+      setSummaryDialog({ open: true });
+      summary.mutate(
+        { force },
+        {
+          onSuccess: (data) => {
+            setSummaryDialog({
+              open: true,
+              summary: data.summary,
+              generatedAt: data.generatedAt,
+              cached: data.cached,
+            });
+          },
+          onError: (err: unknown) => {
+            const msg = err instanceof Error ? err.message : 'Falha ao gerar resumo';
+            toast.error(msg);
+            setSummaryDialog({ open: false });
+          },
+        }
+      );
+    },
+    [summary]
+  );
+
+  const handleSuggestionInjected = useCallback((text: string) => {
+    setDraftBody(text);
+    setDraftToken((t) => t + 1);
+  }, []);
+
+  // Reset draft ao trocar de conversa.
+  useEffect(() => {
+    setDraftBody(null);
+    setDraftToken(0);
+    setSummaryDialog({ open: false });
+  }, [item.ownerType, item.ownerId]);
 
   // Auto-scroll pro fim:
   //   1. ao trocar de conversa (ownerId mudou)
@@ -247,6 +337,23 @@ export function ConversationViewer({ item, onBack }: Props) {
             )}
           </div>
         </div>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => handleSummarize(false)}
+          disabled={summary.isPending}
+          className="hidden shrink-0 sm:inline-flex"
+          aria-label="Resumir conversa com IA"
+          title="Resumir conversa com IA"
+        >
+          {summary.isPending ? (
+            <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <Sparkles className="mr-1 h-3.5 w-3.5" />
+          )}
+          Resumir
+        </Button>
         <Link
           href={detailHref(item)}
           className="hidden shrink-0 items-center gap-1 text-xs text-blue-600 hover:underline sm:inline-flex"
@@ -283,7 +390,81 @@ export function ConversationViewer({ item, onBack }: Props) {
       </div>
 
       {/* Composer */}
-      <ConversationComposer item={item} />
+      <ConversationComposer
+        item={item}
+        draftBody={draftBody}
+        draftToken={draftToken}
+        onSuggestionApplied={handleSuggestionInjected}
+      />
+
+      {/* Dialog: Resumo IA */}
+      <Dialog
+        open={summaryDialog.open}
+        onOpenChange={(o) => {
+          if (!o) setSummaryDialog({ open: false });
+        }}
+      >
+        <DialogContent className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-violet-600" />
+              Resumo da conversa
+            </DialogTitle>
+            <DialogDescription>
+              Análise gerada por IA — revise antes de tomar decisões.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="min-h-[120px] rounded-md border border-border bg-muted/30 p-4">
+            {(() => {
+              const hasSummary = summaryDialog.open && summaryDialog.summary;
+              if (summary.isPending && !hasSummary) {
+                return (
+                  <div className="space-y-2" role="status" aria-live="polite">
+                    <p className="text-xs text-muted-foreground">Analisando conversa…</p>
+                    <Skeleton className="h-3 w-full" />
+                    <Skeleton className="h-3 w-11/12" />
+                    <Skeleton className="h-3 w-9/12" />
+                    <Skeleton className="h-3 w-10/12" />
+                  </div>
+                );
+              }
+              if (summaryDialog.open && summaryDialog.summary) {
+                return <SummaryBullets summary={summaryDialog.summary} />;
+              }
+              return <p className="text-sm text-muted-foreground">Sem conteúdo.</p>;
+            })()}
+          </div>
+
+          {summaryDialog.open && summaryDialog.generatedAt && (
+            <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
+              <Badge variant="outline" className="border-violet-300 bg-violet-50 text-violet-900">
+                IA · {summaryDialog.cached ? 'cache' : 'novo'}
+              </Badge>
+              <span>
+                gerado às{' '}
+                {format(new Date(summaryDialog.generatedAt), "dd/MM 'às' HH:mm", { locale: ptBR })}
+              </span>
+            </div>
+          )}
+
+          <DialogFooter className="gap-2 sm:gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => handleSummarize(true)}
+              disabled={summary.isPending}
+            >
+              <RefreshCw className={cn('mr-1 h-3.5 w-3.5', summary.isPending && 'animate-spin')} />
+              Regenerar
+            </Button>
+            <Button type="button" size="sm" onClick={() => setSummaryDialog({ open: false })}>
+              Fechar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

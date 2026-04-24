@@ -10,6 +10,7 @@ import {
   MessageSquare,
   Paperclip,
   Send,
+  Sparkles,
   X,
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -20,6 +21,7 @@ import { Input } from '@/components/ui/input';
 import {
   type ConversationItem,
   type SendConversationEmailAttachment,
+  useConversationAISuggestion,
   useSendConversationEmail,
   useSendConversationWhatsApp,
   useUploadConversationAttachment,
@@ -29,6 +31,15 @@ type Channel = 'email' | 'whatsapp';
 
 type Props = {
   item: ConversationItem;
+  /**
+   * Texto de prefill (ex: sugestão IA). Aplicado quando draftToken muda — permite
+   * o pai forçar overwrite mesmo se vendedor já digitou. Null = sem prefill.
+   */
+  draftBody?: string | null;
+  /** Token incrementado pelo pai a cada nova sugestão. Dispara o effect de prefill. */
+  draftToken?: number;
+  /** Callback quando IA gera sugestão e ela é injetada no campo. */
+  onSuggestionApplied?: (text: string) => void;
 };
 
 // Limites: por arquivo 10MB (alinha com handler), total 40MB (limite Resend).
@@ -114,7 +125,12 @@ function nextLocalId(): string {
   return `att-${Date.now()}-${localIdCounter}`;
 }
 
-export function ConversationComposer({ item }: Props) {
+export function ConversationComposer({
+  item,
+  draftBody,
+  draftToken,
+  onSuggestionApplied,
+}: Props) {
   const [channel, setChannel] = useState<Channel>(() => defaultChannel(item));
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
@@ -128,9 +144,18 @@ export function ConversationComposer({ item }: Props) {
     setChannel(defaultChannel(item));
   }, [item.ownerType, item.ownerId]);
 
+  // Prefill via prop quando o pai (viewer) injeta uma sugestão IA. Effect dispara
+  // só quando draftToken muda — permite reaplicar mesmo se vendedor digitou no meio.
+  useEffect(() => {
+    if (!draftToken || draftBody == null) return;
+    setBody(draftBody);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draftToken]);
+
   const sendEmail = useSendConversationEmail(item.ownerType, item.ownerId);
   const sendWa = useSendConversationWhatsApp(item.ownerType, item.ownerId);
   const upload = useUploadConversationAttachment();
+  const suggest = useConversationAISuggestion(item.ownerType, item.ownerId);
 
   const emailValidation = useMemo(() => validateEmail(item), [item]);
   const waValidation = useMemo(() => validateWhatsApp(item), [item]);
@@ -222,6 +247,27 @@ export function ConversationComposer({ item }: Props) {
 
   const removeAttachment = (localId: string) => {
     setAttachments((prev) => prev.filter((a) => a.localId !== localId));
+  };
+
+  const handleSuggest = () => {
+    if (channel !== 'email') {
+      toast.error('Sugestão IA disponível apenas no canal email.');
+      return;
+    }
+    suggest.mutate(
+      {},
+      {
+        onSuccess: (data) => {
+          setBody(data.suggestion);
+          onSuggestionApplied?.(data.suggestion);
+          toast.info('Sugestão da IA inserida no campo. Edite antes de enviar.');
+        },
+        onError: (err: unknown) => {
+          const msg = err instanceof Error ? err.message : 'Falha ao gerar sugestão';
+          toast.error(msg);
+        },
+      }
+    );
   };
 
   const handleSend = () => {
@@ -316,6 +362,27 @@ export function ConversationComposer({ item }: Props) {
         >
           <MessageSquare className="h-3.5 w-3.5" /> WhatsApp
         </button>
+
+        {/* Sugestão IA — só email no MVP. */}
+        {channel === 'email' && (
+          <button
+            type="button"
+            onClick={handleSuggest}
+            disabled={!validation.ok || isPending || suggest.isPending}
+            title="Gerar sugestão de resposta com IA"
+            className={cn(
+              'ml-auto inline-flex items-center gap-1.5 rounded-full border border-violet-300 bg-white px-3 py-1.5 text-xs font-medium text-violet-900 transition-colors hover:bg-violet-50',
+              'disabled:cursor-not-allowed disabled:opacity-50'
+            )}
+          >
+            {suggest.isPending ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Sparkles className="h-3.5 w-3.5" />
+            )}
+            {suggest.isPending ? 'Pensando…' : 'Sugerir resposta'}
+          </button>
+        )}
       </div>
 
       {/* Subject só pra email */}

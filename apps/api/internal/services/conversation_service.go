@@ -40,6 +40,7 @@ type ConversationService struct {
 	emailService        *EmailService
 	whatsappService     *WhatsAppService
 	notificationService *NotificationService
+	aiService           *AIService
 }
 
 // NewConversationService monta o serviço com DI.
@@ -49,6 +50,7 @@ func NewConversationService(
 	email *EmailService,
 	wa *WhatsAppService,
 	notif *NotificationService,
+	ai *AIService,
 ) *ConversationService {
 	return &ConversationService{
 		db:                  db,
@@ -56,6 +58,7 @@ func NewConversationService(
 		emailService:        email,
 		whatsappService:     wa,
 		notificationService: notif,
+		aiService:           ai,
 	}
 }
 

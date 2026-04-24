@@ -281,7 +281,7 @@ func setupRoutes(
 	enrichmentPrepHandler := handlers.NewScoreEnrichmentPreparationHandler(database.DB)
 	leadHandler := handlers.NewLeadHandler(leadService, emailService)
 	whatsappWebhookHandler := handlers.NewWhatsAppWebhookHandler(cfg, whatsappService, leadService)
-	conversationService := services.NewConversationService(database.DB, leadService, emailService, whatsappService, notificationService)
+	conversationService := services.NewConversationService(database.DB, leadService, emailService, whatsappService, notificationService, aiService)
 	conversationHandler := handlers.NewConversationHandler(conversationService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
@@ -345,6 +345,10 @@ func setupRoutes(
 	conv.Post("/:type/:id/read", conversationHandler.MarkRead)
 	conv.Post("/:type/:id/email", conversationHandler.SendEmail)
 	conv.Post("/:type/:id/whatsapp", conversationHandler.SendWhatsApp)
+	// IA: rate-limited 10 req/min/IP (resumo + sugestão são caros).
+	conversationAILimiter := middleware.NewRateLimiter(10, time.Minute)
+	conv.Post("/:type/:id/ai/summary", conversationAILimiter.Middleware(), conversationHandler.AISummary)
+	conv.Post("/:type/:id/ai/suggest-reply", conversationAILimiter.Middleware(), conversationHandler.AISuggestReply)
 
 	// Auth routes (públicas)
 	auth := v1.Group("/auth")

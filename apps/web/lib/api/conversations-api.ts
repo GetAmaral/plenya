@@ -341,6 +341,60 @@ export function useSendConversationWhatsApp(
 }
 
 // =====================================================
+// IA — resumir conversa + sugerir resposta
+// =====================================================
+
+export interface AISummaryResult {
+  summary: string;
+  generatedAt: string;
+  cached: boolean;
+}
+
+export interface AISuggestionResult {
+  suggestion: string;
+  model: string;
+}
+
+export interface AISuggestionPayload {
+  intent?: string;
+}
+
+/**
+ * Resumir conversa via Claude Haiku. Backend cacheia 1h por hash do transcript;
+ * passe `force: true` pra regenerar. 422 = sem mensagens, 502 = Claude falhou,
+ * 504 = timeout.
+ */
+export function useConversationAISummary(
+  type: ConversationOwnerType,
+  id: string
+) {
+  return useMutation({
+    mutationFn: ({ force }: { force?: boolean } = {}) =>
+      apiClient.post<AISummaryResult>(
+        `/api/v1/conversations/${type}/${id}/ai/summary${force ? '?force=true' : ''}`,
+        {}
+      ),
+  });
+}
+
+/**
+ * Sugerir resposta no tom Plenya via Claude Sonnet. `intent` opcional guia o modelo
+ * (ex: "agendar consulta", "recusar educadamente"). Sem cache — sempre gera nova.
+ */
+export function useConversationAISuggestion(
+  type: ConversationOwnerType,
+  id: string
+) {
+  return useMutation({
+    mutationFn: (payload: AISuggestionPayload = {}) =>
+      apiClient.post<AISuggestionResult>(
+        `/api/v1/conversations/${type}/${id}/ai/suggest-reply`,
+        payload
+      ),
+  });
+}
+
+// =====================================================
 // Helpers visuais
 // =====================================================
 
