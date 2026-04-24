@@ -138,9 +138,12 @@ export function useConversationMessages(
     queryKey: type && id ? conversationKeys.messages(type, id) : ['conversations', 'messages', 'noop'],
     queryFn: async () => {
       if (!type || !id) return [] as ConversationMessage[];
-      const data = await apiClient.get<ConversationMessage[]>(
+      // Backend retorna {items: [...]} (envelope), não array direto. Defensivo:
+      // aceita ambos os formatos por se mudarmos depois.
+      const raw = await apiClient.get<ConversationMessage[] | { items: ConversationMessage[] }>(
         `/api/v1/conversations/${type}/${id}/messages`
       );
+      const data = Array.isArray(raw) ? raw : raw?.items ?? [];
       // Backend marcou como lido — refresca a list pra atualizar badges.
       qc.invalidateQueries({ queryKey: conversationKeys.all });
       return data;
