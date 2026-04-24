@@ -104,9 +104,9 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
       {/* Identificação */}
       <Card>
         <CardHeader>
-          <div className="flex items-start justify-between">
-            <div>
-              <CardTitle className="text-2xl">{lead.name ?? '(sem nome)'}</CardTitle>
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="min-w-0">
+              <CardTitle className="text-2xl break-words">{lead.name ?? '(sem nome)'}</CardTitle>
               <p className="mt-1 text-sm text-muted-foreground">
                 Capturado {format(new Date(lead.createdAt), "dd 'de' MMMM 'às' HH:mm", { locale: ptBR })} via{' '}
                 <Badge variant="outline">{SOURCE_LABELS[lead.source]}</Badge>
@@ -432,15 +432,15 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                     return (
                       <li key={a.id} className="flex gap-3 border-l-2 border-muted pl-4">
                         <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
-                        <div className="flex-1">
-                          <div className="text-xs text-muted-foreground">
+                        <div className="min-w-0 flex-1">
+                          <div className="text-xs text-muted-foreground break-words">
                             {format(new Date(a.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })} ·{' '}
                             <span className="capitalize">{a.type.replace('_', ' ')}</span>
                             {a.channel !== 'internal' && <span> · {a.channel}</span>}
                             {a.actor && <span> · por {a.actor.name}</span>}
                           </div>
                           {a.content && (
-                            <p className="mt-1 whitespace-pre-wrap text-sm">{a.content}</p>
+                            <p className="mt-1 whitespace-pre-wrap break-words text-sm">{a.content}</p>
                           )}
                           {childStatuses.length > 0 && (
                             <div className="mt-1 flex flex-wrap gap-2 text-xs">

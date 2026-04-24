@@ -238,14 +238,14 @@ export function EmailReplyBlock({ lead, fromAddress = DEFAULT_FROM }: Props) {
     <>
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2 text-base">
-              <Mail className="h-4 w-4" /> Email
-              <Badge variant="secondary" className="ml-2 text-xs">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <CardTitle className="flex min-w-0 items-center gap-2 text-base">
+              <Mail className="h-4 w-4 shrink-0" /> Email
+              <Badge variant="secondary" className="ml-2 shrink-0 text-xs">
                 {totalMessages} {totalMessages === 1 ? 'mensagem' : 'mensagens'}
               </Badge>
             </CardTitle>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {threads.length > 0 && (
                 <Button size="sm" variant="outline" onClick={() => openReply(threads[0])}>
                   <Reply className="mr-1 h-4 w-4" /> Responder
@@ -340,14 +340,14 @@ function ThreadItem({ thread, onReply }: { thread: Thread; onReply: () => void }
         onClick={() => setExpanded((v) => !v)}
         className="flex w-full items-start justify-between gap-3 p-3 text-left transition hover:bg-muted/40"
       >
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 text-sm font-medium">
             <span className="truncate">{thread.subject}</span>
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="shrink-0 text-xs">
               {thread.messages.length}
             </Badge>
           </div>
-          <p className="mt-0.5 text-xs text-muted-foreground">
+          <p className="mt-0.5 truncate text-xs text-muted-foreground">
             <span className="font-medium">{last.from}</span> · {snippet(last.content)}
           </p>
         </div>
@@ -366,13 +366,13 @@ function ThreadItem({ thread, onReply }: { thread: Thread; onReply: () => void }
                   : 'bg-sky-50 border border-sky-200'
               }`}
             >
-              <div className="mb-1 flex items-center justify-between text-xs text-muted-foreground">
-                <span>
+              <div className="mb-1 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-xs text-muted-foreground">
+                <span className="min-w-0 break-all">
                   <strong>{m.from}</strong> · {m.direction === 'in' ? 'recebido' : 'enviado'}
                 </span>
-                <span>{format(new Date(m.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}</span>
+                <span className="shrink-0">{format(new Date(m.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}</span>
               </div>
-              <p className="whitespace-pre-wrap">{m.content || '(corpo vazio)'}</p>
+              <p className="whitespace-pre-wrap break-words">{m.content || '(corpo vazio)'}</p>
             </div>
           ))}
           <div className="flex justify-end">
