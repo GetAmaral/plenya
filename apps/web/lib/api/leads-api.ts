@@ -5,6 +5,7 @@ export type LeadSource =
   | 'light_claim'
   | 'contact_form'
   | 'whatsapp_inbound'
+  | 'email_inbound'
   | 'newsletter'
   | 'manual';
 
@@ -284,6 +285,7 @@ export const SOURCE_LABELS: Record<LeadSource, string> = {
   light_claim: 'Escore Light',
   contact_form: 'Formulário /contato',
   whatsapp_inbound: 'WhatsApp inbound',
+  email_inbound: 'Email inbound',
   newsletter: 'Newsletter',
   manual: 'Manual',
 };

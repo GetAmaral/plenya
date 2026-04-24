@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import type { DateRange } from 'react-day-picker';
 
 import { useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,8 +14,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PageHeader } from '@/components/layout/page-header';
+import { FiltersMobileSheet } from '@/components/filters/filters-mobile-sheet';
+import { LeadsFilterBar } from '@/components/leads/leads-filter-bar';
 import { useRequireAuth, useAuth } from '@/lib/use-auth';
 import { usePatientGuard } from '@/lib/use-patient-guard';
+import { useDebouncedValue } from '@/lib/use-debounced-value';
+import { parseList, serializeList, useUrlFilters } from '@/lib/use-url-filters';
 import { apiClient } from '@/lib/api-client';
 import {
   useLeads,
@@ -29,24 +34,26 @@ import {
   type LeadStatus,
 } from '@/lib/api/leads-api';
 
-const SOURCE_OPTIONS: Array<{ value: LeadSource | ''; label: string }> = [
-  { value: '', label: 'Todas as origens' },
-  { value: 'light_claim', label: 'Escore Light' },
-  { value: 'contact_form', label: 'Formulário /contato' },
-  { value: 'whatsapp_inbound', label: 'WhatsApp inbound' },
-  { value: 'newsletter', label: 'Newsletter' },
-  { value: 'manual', label: 'Manual' },
+const ALL_STATUSES: ReadonlyArray<LeadStatus> = [
+  'new',
+  'contacted',
+  'qualified',
+  'converted',
+  'lost',
+  'unsubscribed',
 ];
 
-const STATUS_OPTIONS: Array<{ value: LeadStatus | ''; label: string }> = [
-  { value: '', label: 'Todos os status' },
-  { value: 'new', label: 'Novos' },
-  { value: 'contacted', label: 'Contatados' },
-  { value: 'qualified', label: 'Qualificados' },
-  { value: 'converted', label: 'Convertidos' },
-  { value: 'lost', label: 'Perdidos' },
-  { value: 'unsubscribed', label: 'Descadastraram' },
+const ALL_SOURCES: ReadonlyArray<LeadSource> = [
+  'light_claim',
+  'contact_form',
+  'whatsapp_inbound',
+  'email_inbound',
+  'newsletter',
+  'manual',
 ];
+
+type SortKey = 'createdAt' | 'name' | 'status';
+type SortDir = 'asc' | 'desc';
 
 export default function LeadsPage() {
   useRequireAuth();
@@ -55,43 +62,147 @@ export default function LeadsPage() {
   const qc = useQueryClient();
   const { user } = useAuth();
 
-  const [search, setSearch] = useState('');
-  const [source, setSource] = useState<LeadSource | ''>('');
-  const [status, setStatus] = useState<LeadStatus | ''>('');
-  const [emailOptIn, setEmailOptIn] = useState<'' | 'yes' | 'no'>('');
-  const [whatsAppOptIn, setWhatsAppOptIn] = useState<'' | 'yes' | 'no'>('');
-  const [assignedFilter, setAssignedFilter] = useState<'' | 'me' | 'unassigned' | string>('');
-  const [page, setPage] = useState(0);
-  const [actionPending, setActionPending] = useState<string | null>(null);
+  const { params, setParam, setParams, clearAll } = useUrlFilters();
+
+  // ---- estado UI vinda da URL ------------------------------------------------
+  const search = params.get('q') ?? '';
+  const statuses = parseList(params.get('status')).filter((s): s is LeadStatus =>
+    ALL_STATUSES.includes(s as LeadStatus),
+  );
+  const sources = parseList(params.get('source')).filter((s): s is LeadSource =>
+    ALL_SOURCES.includes(s as LeadSource),
+  );
+  const assignee = params.get('assignee'); // "me" | "unassigned" | uuid | null
+  const fromIso = params.get('from');
+  const toIso = params.get('to');
+  const dateRange: DateRange | undefined = useMemo(() => {
+    if (!fromIso && !toIso) return undefined;
+    return {
+      from: fromIso ? new Date(fromIso) : undefined,
+      to: toIso ? new Date(toIso) : undefined,
+    };
+  }, [fromIso, toIso]);
+  const sortKey = (params.get('sort') as SortKey | null) ?? 'createdAt';
+  const sortDir = (params.get('dir') as SortDir | null) ?? 'desc';
+  const page = Math.max(0, parseInt(params.get('page') ?? '0', 10));
+
+  const debouncedSearch = useDebouncedValue(search, 300);
   const pageSize = 25;
+  const [actionPending, setActionPending] = useState<string | null>(null);
 
-  // Resolve assigned filter — backend aceita user UUID; "unassigned" precisa client-side
+  // ---- staff e filtros derivados --------------------------------------------
+  const { data: staffUsers } = useStaffUsers();
+
   const assignedToUserId =
-    assignedFilter === 'me' ? user?.id : (assignedFilter && assignedFilter !== 'unassigned' ? assignedFilter : undefined);
+    assignee === 'me'
+      ? user?.id
+      : assignee && assignee !== 'unassigned'
+        ? assignee
+        : undefined;
+  const wantsUnassigned = assignee === 'unassigned';
 
+  // Backend só aceita 1 status/source. Mando filtro só quando há exatamente 1;
+  // quando há 2+ selecionados, faço filter client-side na página atual.
   const filter: LeadFilter = {
-    search: search || undefined,
-    source: source || undefined,
-    status: status || undefined,
-    hasEmailOptIn: emailOptIn === '' ? undefined : emailOptIn === 'yes',
-    hasWhatsAppOptIn: whatsAppOptIn === '' ? undefined : whatsAppOptIn === 'yes',
+    search: debouncedSearch || undefined,
+    source: sources.length === 1 ? sources[0] : undefined,
+    status: statuses.length === 1 ? statuses[0] : undefined,
     assignedToUserId,
   };
 
   const { data, isLoading } = useLeads(filter, page, pageSize);
-  const { data: staffUsers } = useStaffUsers();
 
-  // Contador rápido pra "meus leads" (só dispara quando user.id resolveu —
-  // evita fetch sem filtro retornando total geral durante o flash de carregamento)
+  // Contador "meus leads" — só dispara quando user.id resolveu
   const myLeadsQuery = useLeads(
     { assignedToUserId: user?.id },
     0,
     1,
-    { enabled: !!user?.id }
+    { enabled: !!user?.id },
   );
   const myLeadsCount = myLeadsQuery.data?.total ?? 0;
 
-  async function quickAction(lead: Lead, patch: { status?: LeadStatus; assignedToUserId?: string }) {
+  // ---- filtros client-side (multi status/source + range + unassigned) -------
+  const filteredItems = useMemo(() => {
+    let items = data?.items ?? [];
+
+    if (statuses.length >= 2) {
+      items = items.filter((l) => statuses.includes(l.status));
+    }
+    if (sources.length >= 2) {
+      items = items.filter((l) => sources.includes(l.source));
+    }
+    if (wantsUnassigned) {
+      items = items.filter((l) => !l.assignedToUserId);
+    }
+    if (dateRange?.from) {
+      const fromMs = dateRange.from.getTime();
+      items = items.filter((l) => new Date(l.createdAt).getTime() >= fromMs);
+    }
+    if (dateRange?.to) {
+      // inclui o dia inteiro
+      const toMs = new Date(dateRange.to).setHours(23, 59, 59, 999);
+      items = items.filter((l) => new Date(l.createdAt).getTime() <= toMs);
+    }
+
+    // Ordenação
+    const dir = sortDir === 'asc' ? 1 : -1;
+    items = [...items].sort((a, b) => {
+      switch (sortKey) {
+        case 'name':
+          return ((a.name ?? '').localeCompare(b.name ?? '')) * dir;
+        case 'status':
+          return a.status.localeCompare(b.status) * dir;
+        case 'createdAt':
+        default:
+          return (
+            (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) * dir
+          );
+      }
+    });
+
+    return items;
+  }, [data?.items, statuses, sources, wantsUnassigned, dateRange, sortKey, sortDir]);
+
+  const totalPages = data?.totalPages ?? 0;
+  const total = data?.total ?? 0;
+
+  // ---- handlers --------------------------------------------------------------
+  function handleSearchChange(value: string) {
+    setParams({ q: value || null, page: null });
+  }
+
+  function handleStatusesChange(next: LeadStatus[]) {
+    setParams({ status: serializeList(next), page: null });
+  }
+
+  function handleSourcesChange(next: LeadSource[]) {
+    setParams({ source: serializeList(next), page: null });
+  }
+
+  function handleAssigneeChange(next: string | null) {
+    setParams({ assignee: next, page: null });
+  }
+
+  function handleDateRangeChange(range: DateRange | undefined) {
+    setParams({
+      from: range?.from ? range.from.toISOString().slice(0, 10) : null,
+      to: range?.to ? range.to.toISOString().slice(0, 10) : null,
+      page: null,
+    });
+  }
+
+  function toggleSort(key: SortKey) {
+    if (sortKey === key) {
+      setParam('dir', sortDir === 'asc' ? 'desc' : 'asc');
+    } else {
+      setParams({ sort: key, dir: 'desc' });
+    }
+  }
+
+  async function quickAction(
+    lead: Lead,
+    patch: { status?: LeadStatus; assignedToUserId?: string },
+  ) {
     setActionPending(lead.id);
     try {
       await apiClient.patch(`/api/v1/leads/${lead.id}`, patch);
@@ -101,140 +212,124 @@ export default function LeadsPage() {
     }
   }
 
+  const activeFilterCount =
+    (statuses.length > 0 ? 1 : 0) +
+    (sources.length > 0 ? 1 : 0) +
+    (assignee ? 1 : 0) +
+    (dateRange ? 1 : 0) +
+    (search ? 1 : 0);
+  const hasActiveFilters = activeFilterCount > 0;
+
+  const filterBar = (
+    <LeadsFilterBar
+      statuses={statuses}
+      onStatusesChange={handleStatusesChange}
+      sources={sources}
+      onSourcesChange={handleSourcesChange}
+      assignee={assignee}
+      onAssigneeChange={handleAssigneeChange}
+      staffUsers={staffUsers ?? []}
+      currentUserId={user?.id}
+      dateRange={dateRange}
+      onDateRangeChange={handleDateRangeChange}
+      hasActiveFilters={hasActiveFilters}
+      onClear={clearAll}
+    />
+  );
+
+  function emptyMessage() {
+    if (debouncedSearch) {
+      return `Nenhum lead encontrado para "${debouncedSearch}".`;
+    }
+    if (hasActiveFilters) {
+      return 'Nenhum lead encontrado com os filtros aplicados. Tente limpar algum.';
+    }
+    return 'Nenhum lead cadastrado ainda.';
+  }
+
   return (
     <div className="space-y-6 p-6">
       <PageHeader
         title="Leads"
-        description="Captura de contatos via Escore Light, formulário /contato, WhatsApp e newsletter."
+        description="Captura de contatos via Escore Light, formulário /contato, WhatsApp, email e newsletter."
       />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Filtros</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 md:grid-cols-[1fr_220px_220px]">
-            <div className="relative">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Buscar por nome, email ou telefone…"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setPage(0);
-                }}
-                className="pl-9"
-              />
-            </div>
-            <select
-              value={source}
-              onChange={(e) => {
-                setSource(e.target.value as LeadSource | '');
-                setPage(0);
-              }}
-              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
-            >
-              {SOURCE_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-            <select
-              value={status}
-              onChange={(e) => {
-                setStatus(e.target.value as LeadStatus | '');
-                setPage(0);
-              }}
-              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
-            >
-              {STATUS_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="mt-3 grid gap-3 md:grid-cols-2">
-            <select
-              value={emailOptIn}
-              onChange={(e) => {
-                setEmailOptIn(e.target.value as '' | 'yes' | 'no');
-                setPage(0);
-              }}
-              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
-            >
-              <option value="">Email opt-in: qualquer</option>
-              <option value="yes">Com opt-in de email</option>
-              <option value="no">Sem opt-in de email</option>
-            </select>
-            <select
-              value={whatsAppOptIn}
-              onChange={(e) => {
-                setWhatsAppOptIn(e.target.value as '' | 'yes' | 'no');
-                setPage(0);
-              }}
-              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
-            >
-              <option value="">WhatsApp opt-in: qualquer</option>
-              <option value="yes">Com opt-in de WhatsApp</option>
-              <option value="no">Sem opt-in de WhatsApp</option>
-            </select>
-          </div>
-          <div className="mt-3">
-            <select
-              value={assignedFilter}
-              onChange={(e) => {
-                setAssignedFilter(e.target.value);
-                setPage(0);
-              }}
-              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring md:max-w-xs"
-            >
-              <option value="">Atribuído a: qualquer</option>
-              <option value="me">Atribuídos a mim</option>
-              {staffUsers
-                ?.filter((u) => u.id !== user?.id)
-                .map((u) => (
-                  <option key={u.id} value={u.id}>
-                    Atribuídos a {u.name}
-                  </option>
-                ))}
-            </select>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Contador rápido */}
+      {/* Quick stats */}
       {user?.id && (
-        <p className="text-sm text-muted-foreground">
-          <strong>{myLeadsCount}</strong> lead{myLeadsCount === 1 ? '' : 's'} atribuído{myLeadsCount === 1 ? '' : 's'} a mim
-        </p>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Card>
+            <CardContent className="pt-6">
+              <p className="text-xs text-muted-foreground">Total</p>
+              <p className="text-2xl font-semibold">{total}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <p className="text-xs text-muted-foreground">Atribuídos a mim</p>
+              <p className="text-2xl font-semibold">{myLeadsCount}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <p className="text-xs text-muted-foreground">Filtros ativos</p>
+              <p className="text-2xl font-semibold">{activeFilterCount}</p>
+            </CardContent>
+          </Card>
+        </div>
       )}
+
+      {/* Filtros */}
+      <div className="space-y-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Buscar por nome, email ou telefone…"
+              value={search}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="pl-9"
+              aria-label="Buscar leads"
+            />
+          </div>
+          {/* Mobile: chips dentro do sheet. >=md: chips inline ao lado da busca */}
+          <div className="md:hidden">
+            <FiltersMobileSheet activeCount={activeFilterCount}>
+              {filterBar}
+            </FiltersMobileSheet>
+          </div>
+        </div>
+        <div className="hidden md:block">{filterBar}</div>
+      </div>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
           <CardTitle className="text-base">
-            {data ? `${data.total} lead${data.total === 1 ? '' : 's'}` : 'Carregando…'}
+            {isLoading
+              ? 'Carregando…'
+              : `${filteredItems.length}${
+                  filteredItems.length !== total ? ` de ${total}` : ''
+                } lead${total === 1 ? '' : 's'}`}
           </CardTitle>
-          {data && data.totalPages > 1 && (
+          {totalPages > 1 && (
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 disabled={page === 0}
-                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                onClick={() => setParam('page', String(Math.max(0, page - 1)))}
+                aria-label="Página anterior"
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
               <span className="text-sm text-muted-foreground">
-                {page + 1} / {data.totalPages}
+                {page + 1} / {totalPages}
               </span>
               <Button
                 variant="outline"
                 size="sm"
-                disabled={page >= data.totalPages - 1}
-                onClick={() => setPage((p) => p + 1)}
+                disabled={page >= totalPages - 1}
+                onClick={() => setParam('page', String(page + 1))}
+                aria-label="Próxima página"
               >
                 <ChevronRight className="h-4 w-4" />
               </Button>
@@ -248,48 +343,78 @@ export default function LeadsPage() {
                 <Skeleton key={i} className="h-16 w-full" />
               ))}
             </div>
-          ) : !data || data.items.length === 0 ? (
-            <div className="py-16 text-center text-muted-foreground">
-              Nenhum lead encontrado para os filtros atuais.
-            </div>
+          ) : filteredItems.length === 0 ? (
+            <div className="py-16 text-center text-muted-foreground">{emptyMessage()}</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b text-left text-muted-foreground">
-                    <th className="px-2 py-3 font-medium">Quando</th>
+                    <SortableHeader
+                      label="Quando"
+                      active={sortKey === 'createdAt'}
+                      dir={sortDir}
+                      onClick={() => toggleSort('createdAt')}
+                    />
                     <th className="px-2 py-3 font-medium">Origem</th>
-                    <th className="px-2 py-3 font-medium">Contato</th>
-                    <th className="px-2 py-3 font-medium">Status</th>
+                    <SortableHeader
+                      label="Contato"
+                      active={sortKey === 'name'}
+                      dir={sortDir}
+                      onClick={() => toggleSort('name')}
+                    />
+                    <SortableHeader
+                      label="Status"
+                      active={sortKey === 'status'}
+                      dir={sortDir}
+                      onClick={() => toggleSort('status')}
+                    />
                     <th className="px-2 py-3 font-medium">Canais</th>
                     <th className="px-2 py-3 font-medium">Atribuído</th>
                     <th className="px-2 py-3 font-medium text-right">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.items.map((lead) => (
+                  {filteredItems.map((lead) => (
                     <tr key={lead.id} className="border-b hover:bg-muted/40">
-                      <td className="px-2 py-3 cursor-pointer" onClick={() => router.push(`/leads/${lead.id}`)}>
-                        <div>{format(new Date(lead.createdAt), 'dd/MM HH:mm', { locale: ptBR })}</div>
+                      <td
+                        className="px-2 py-3 cursor-pointer"
+                        onClick={() => router.push(`/leads/${lead.id}`)}
+                      >
+                        <div>
+                          {format(new Date(lead.createdAt), 'dd/MM HH:mm', { locale: ptBR })}
+                        </div>
                       </td>
-                      <td className="px-2 py-3 cursor-pointer" onClick={() => router.push(`/leads/${lead.id}`)}>
+                      <td
+                        className="px-2 py-3 cursor-pointer"
+                        onClick={() => router.push(`/leads/${lead.id}`)}
+                      >
                         <Badge variant="outline">{SOURCE_LABELS[lead.source]}</Badge>
                       </td>
-                      <td className="px-2 py-3 cursor-pointer" onClick={() => router.push(`/leads/${lead.id}`)}>
+                      <td
+                        className="px-2 py-3 cursor-pointer"
+                        onClick={() => router.push(`/leads/${lead.id}`)}
+                      >
                         <div className="font-medium">{lead.name ?? '—'}</div>
                         <div className="text-xs text-muted-foreground space-x-2">
                           {lead.email && <span>{lead.email}</span>}
                           {lead.phone && <span>{lead.phone}</span>}
                         </div>
                       </td>
-                      <td className="px-2 py-3 cursor-pointer" onClick={() => router.push(`/leads/${lead.id}`)}>
+                      <td
+                        className="px-2 py-3 cursor-pointer"
+                        onClick={() => router.push(`/leads/${lead.id}`)}
+                      >
                         <span
                           className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs ${STATUS_COLORS[lead.status]}`}
                         >
                           {STATUS_LABELS[lead.status]}
                         </span>
                       </td>
-                      <td className="px-2 py-3 cursor-pointer" onClick={() => router.push(`/leads/${lead.id}`)}>
+                      <td
+                        className="px-2 py-3 cursor-pointer"
+                        onClick={() => router.push(`/leads/${lead.id}`)}
+                      >
                         <div className="flex gap-1">
                           {lead.emailOptIn && (
                             <Badge variant="secondary" className="text-xs">
@@ -308,8 +433,13 @@ export default function LeadsPage() {
                           )}
                         </div>
                       </td>
-                      <td className="px-2 py-3 cursor-pointer text-xs" onClick={() => router.push(`/leads/${lead.id}`)}>
-                        {lead.assignedTo?.name ?? <span className="text-muted-foreground">—</span>}
+                      <td
+                        className="px-2 py-3 cursor-pointer text-xs"
+                        onClick={() => router.push(`/leads/${lead.id}`)}
+                      >
+                        {lead.assignedTo?.name ?? (
+                          <span className="text-muted-foreground">—</span>
+                        )}
                       </td>
                       <td className="px-2 py-3 text-right whitespace-nowrap">
                         <div className="inline-flex gap-1">
@@ -346,5 +476,32 @@ export default function LeadsPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+interface SortableHeaderProps {
+  label: string;
+  active: boolean;
+  dir: SortDir;
+  onClick: () => void;
+}
+
+function SortableHeader({ label, active, dir, onClick }: SortableHeaderProps) {
+  return (
+    <th className="px-2 py-3 font-medium">
+      <button
+        type="button"
+        onClick={onClick}
+        className="inline-flex items-center gap-1 hover:text-foreground"
+      >
+        {label}
+        {active &&
+          (dir === 'asc' ? (
+            <ArrowUp className="h-3 w-3" />
+          ) : (
+            <ArrowDown className="h-3 w-3" />
+          ))}
+      </button>
+    </th>
   );
 }

@@ -1,44 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { usePatientGuard } from "@/lib/use-patient-guard";
-import { motion } from "framer-motion";
-import {
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  type ColumnDef,
-  type SortingState,
-  type ColumnFiltersState,
-} from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
-  Users,
-  Search,
-  Plus,
+  ArrowDown,
+  ArrowUp,
   ChevronLeft,
   ChevronRight,
-  ArrowUpDown,
+  Plus,
+  Search,
 } from "lucide-react";
+import type { DateRange } from "react-day-picker";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FiltersMobileSheet } from "@/components/filters/filters-mobile-sheet";
+import { PatientsFilterBar } from "@/components/patients/patients-filter-bar";
+import { PageHeader } from "@/components/layout/page-header";
 import { apiClient } from "@/lib/api-client";
 import { useRequireAuth } from "@/lib/use-auth";
-import { PageHeader } from "@/components/layout/page-header";
+import { usePatientGuard } from "@/lib/use-patient-guard";
+import { useDebouncedValue } from "@/lib/use-debounced-value";
+import { useUrlFilters } from "@/lib/use-url-filters";
 
 interface Patient {
   id: string;
   userId: string;
   name: string;
+  cpf?: string;
+  email?: string;
   birthDate: string;
   age: number;
   ageText: string;
@@ -46,6 +42,9 @@ interface Patient {
   phone: string;
   createdAt: string;
   updatedAt: string;
+  /** Pode vir do backend em alguns endpoints. Se ausente, switch "plano ativo"
+   *  é desligado de fato (caveat documentado). */
+  hasActiveSubscription?: boolean;
 }
 
 interface PatientsResponse {
@@ -55,285 +54,405 @@ interface PatientsResponse {
   limit: number;
 }
 
+type SortKey = "name" | "createdAt" | "age";
+type SortDir = "asc" | "desc";
+
+const PAGE_SIZE = 25;
+
+/**
+ * Endpoint /api/v1/patients hoje aceita só `limit` + `offset`.
+ * Pra suportar busca/filtros sem mexer em backend, baixamos um lote maior
+ * (até MAX_BUFFER) e filtramos client-side. Acima disso, paginamos client-side.
+ */
+const MAX_BUFFER = 500;
+
 export default function PatientsPage() {
   useRequireAuth();
-  usePatientGuard(); // Restrict access to staff only
+  usePatientGuard();
   const router = useRouter();
 
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState("");
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  const { params, setParam, setParams, clearAll } = useUrlFilters();
 
-  // Fetch patients
+  // ---- estado UI vinda da URL ------------------------------------------------
+  const search = params.get("q") ?? "";
+  const fromIso = params.get("from");
+  const toIso = params.get("to");
+  const dateRange: DateRange | undefined = useMemo(() => {
+    if (!fromIso && !toIso) return undefined;
+    return {
+      from: fromIso ? new Date(fromIso) : undefined,
+      to: toIso ? new Date(toIso) : undefined,
+    };
+  }, [fromIso, toIso]);
+  const onlyActivePlan = params.get("activePlan") === "1";
+  const sortKey = (params.get("sort") as SortKey | null) ?? "createdAt";
+  const sortDir = (params.get("dir") as SortDir | null) ?? "desc";
+  const page = Math.max(0, parseInt(params.get("page") ?? "0", 10));
+
+  const debouncedSearch = useDebouncedValue(search, 300);
+
+  // ---- fetch (buffer maior pra suportar filtros client-side) ----------------
   const { data, isLoading } = useQuery({
-    queryKey: ["patients", pagination.pageIndex, pagination.pageSize],
+    queryKey: ["patients", "buffer", MAX_BUFFER],
     queryFn: async () => {
-      const offset = pagination.pageIndex * pagination.pageSize;
       const result = await apiClient.get<Patient[] | PatientsResponse>(
-        `/api/v1/patients?limit=${pagination.pageSize}&offset=${offset}`
+        `/api/v1/patients?limit=${MAX_BUFFER}&offset=0`,
       );
 
       if (Array.isArray(result)) {
         return {
           data: result,
           total: result.length,
-          page: pagination.pageIndex + 1,
-          limit: pagination.pageSize,
-        };
+          page: 1,
+          limit: MAX_BUFFER,
+        } satisfies PatientsResponse;
       }
-
       return result;
     },
+    staleTime: 30 * 1000,
   });
 
-  // Columns definition
-  const columns: ColumnDef<Patient>[] = [
-    {
-      accessorKey: "name",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="hover:bg-transparent p-0 h-auto font-semibold"
-          >
-            Nome
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="font-medium">{row.getValue("name")}</div>
-      ),
-    },
-    {
-      accessorKey: "birthDate",
-      header: "Idade / Nascimento",
-      cell: ({ row }) => {
-        const date = new Date(row.getValue("birthDate"));
-        const age = row.original.age;
-        return (
-          <div className="text-sm">
-            <span className="font-medium">{age}</span>
-            <span className="text-muted-foreground">
-              {" "}({format(date, "dd/MM/yyyy", { locale: ptBR })})
-            </span>
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "gender",
-      header: "Gênero",
-      cell: ({ row }) => {
-        const gender = row.getValue("gender") as string;
-        const label = {
-          male: "Masculino",
-          female: "Feminino",
-          other: "Outro",
-        }[gender] || gender;
+  // ---- filtragem + ordenação client-side ------------------------------------
+  const filtered = useMemo(() => {
+    let items = data?.data ?? [];
 
-        return <Badge variant="outline">{label}</Badge>;
-      },
-    },
-    {
-      accessorKey: "phone",
-      header: "Telefone",
-      cell: ({ row }) => (
-        <div className="text-sm">{row.getValue("phone")}</div>
-      ),
-    },
-    {
-      accessorKey: "createdAt",
-      header: "Cadastrado em",
-      cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
-        return (
-          <div className="text-sm text-muted-foreground">
-            {format(date, "dd/MM/yyyy", { locale: ptBR })}
-          </div>
-        );
-      },
-    },
-    {
-      id: "actions",
-      cell: ({ row }) => {
-        const patient = row.original;
+    if (debouncedSearch) {
+      const q = debouncedSearch.toLowerCase();
+      // CPF é criptografado mas pode vir mascarado — tenta match em todas
+      // colunas-string seguras.
+      items = items.filter((p) => {
+        const fields = [p.name, p.email ?? "", p.phone ?? "", p.cpf ?? ""];
+        return fields.some((f) => f.toLowerCase().includes(q));
+      });
+    }
 
-        return (
-          <div className="flex gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => router.push(`/patients/${patient.id}`)}
-            >
-              Ver
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => router.push(`/patients/${patient.id}/edit`)}
-            >
-              Editar
-            </Button>
-          </div>
-        );
-      },
-    },
-  ];
+    if (dateRange?.from) {
+      const fromMs = dateRange.from.getTime();
+      items = items.filter((p) => new Date(p.createdAt).getTime() >= fromMs);
+    }
+    if (dateRange?.to) {
+      const toMs = new Date(dateRange.to).setHours(23, 59, 59, 999);
+      items = items.filter((p) => new Date(p.createdAt).getTime() <= toMs);
+    }
 
-  const table = useReactTable({
-    data: data?.data || [],
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onGlobalFilterChange: setGlobalFilter,
-    onPaginationChange: setPagination,
-    state: {
-      sorting,
-      columnFilters,
-      globalFilter,
-      pagination,
-    },
-  });
+    if (onlyActivePlan) {
+      items = items.filter((p) => p.hasActiveSubscription === true);
+    }
+
+    const dir = sortDir === "asc" ? 1 : -1;
+    items = [...items].sort((a, b) => {
+      switch (sortKey) {
+        case "name":
+          return a.name.localeCompare(b.name) * dir;
+        case "age":
+          return (a.age - b.age) * dir;
+        case "createdAt":
+        default:
+          return (
+            (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) * dir
+          );
+      }
+    });
+
+    return items;
+  }, [
+    data?.data,
+    debouncedSearch,
+    dateRange,
+    onlyActivePlan,
+    sortKey,
+    sortDir,
+  ]);
+
+  // Paginação client-side
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages - 1);
+  const paged = filtered.slice(
+    safePage * PAGE_SIZE,
+    safePage * PAGE_SIZE + PAGE_SIZE,
+  );
+
+  // ---- handlers --------------------------------------------------------------
+  function handleSearchChange(value: string) {
+    setParams({ q: value || null, page: null });
+  }
+
+  function handleDateRangeChange(range: DateRange | undefined) {
+    setParams({
+      from: range?.from ? range.from.toISOString().slice(0, 10) : null,
+      to: range?.to ? range.to.toISOString().slice(0, 10) : null,
+      page: null,
+    });
+  }
+
+  function handleActivePlanChange(next: boolean) {
+    setParams({ activePlan: next ? "1" : null, page: null });
+  }
+
+  function toggleSort(key: SortKey) {
+    if (sortKey === key) {
+      setParam("dir", sortDir === "asc" ? "desc" : "asc");
+    } else {
+      setParams({ sort: key, dir: "asc" });
+    }
+  }
+
+  const activeFilterCount =
+    (search ? 1 : 0) + (dateRange ? 1 : 0) + (onlyActivePlan ? 1 : 0);
+  const hasActiveFilters = activeFilterCount > 0;
+
+  function emptyMessage() {
+    if (debouncedSearch) {
+      return `Nenhum paciente encontrado para "${debouncedSearch}".`;
+    }
+    if (hasActiveFilters) {
+      return "Nenhum paciente encontrado com os filtros aplicados.";
+    }
+    return "Nenhum paciente cadastrado ainda.";
+  }
+
+  const filterBar = (
+    <PatientsFilterBar
+      dateRange={dateRange}
+      onDateRangeChange={handleDateRangeChange}
+      onlyActivePlan={onlyActivePlan}
+      onOnlyActivePlanChange={handleActivePlanChange}
+      hasActiveFilters={hasActiveFilters}
+      onClear={clearAll}
+    />
+  );
 
   return (
     <div className="container mx-auto py-8 space-y-8">
-        {/* Header */}
-        <PageHeader
-          breadcrumbs={[{ label: 'Pacientes' }]}
-          title="Pacientes"
-          description={`${data?.total || 0} pacientes cadastrados no sistema`}
-          actions={[
-            {
-              label: 'Novo',
-              icon: <Plus className="h-4 w-4" />,
-              onClick: () => router.push('/patients/new'),
-              variant: 'default',
-            },
-          ]}
-        />
+      <PageHeader
+        breadcrumbs={[{ label: "Pacientes" }]}
+        title="Pacientes"
+        description={`${data?.total ?? 0} pacientes cadastrados no sistema`}
+        actions={[
+          {
+            label: "Novo",
+            icon: <Plus className="h-4 w-4" />,
+            onClick: () => router.push("/patients/new"),
+            variant: "default",
+          },
+        ]}
+      />
 
-        {/* Table Card */}
-        <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Lista de Pacientes</span>
-                <div className="relative w-64">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    placeholder="Buscar pacientes..."
-                    value={globalFilter ?? ""}
-                    onChange={(e) => setGlobalFilter(e.target.value)}
-                    className="pl-9"
+      {/* Filtros */}
+      <div className="space-y-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Buscar por nome, email, telefone ou CPF…"
+              value={search}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="pl-9"
+              aria-label="Buscar pacientes"
+            />
+          </div>
+          <div className="md:hidden">
+            <FiltersMobileSheet activeCount={activeFilterCount}>
+              {filterBar}
+            </FiltersMobileSheet>
+          </div>
+        </div>
+        <div className="hidden md:block">{filterBar}</div>
+      </div>
+
+      <Card className="border-0 shadow-lg">
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <span>
+              {isLoading
+                ? "Carregando…"
+                : `${total}${
+                    total !== (data?.total ?? 0) ? ` de ${data?.total ?? 0}` : ""
+                  } paciente${total === 1 ? "" : "s"}`}
+            </span>
+            {totalPages > 1 && (
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={safePage === 0}
+                  onClick={() => setParam("page", String(Math.max(0, safePage - 1)))}
+                  aria-label="Página anterior"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <span className="text-sm text-muted-foreground">
+                  {safePage + 1} / {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={safePage >= totalPages - 1}
+                  onClick={() => setParam("page", String(safePage + 1))}
+                  aria-label="Próxima página"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-md border">
+            <table className="w-full">
+              <thead className="bg-muted/50">
+                <tr>
+                  <SortableHeader
+                    label="Nome"
+                    active={sortKey === "name"}
+                    dir={sortDir}
+                    onClick={() => toggleSort("name")}
                   />
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="rounded-md border">
-                <table className="w-full">
-                  <thead className="bg-muted/50">
-                    {table.getHeaderGroups().map((headerGroup) => (
-                      <tr key={headerGroup.id}>
-                        {headerGroup.headers.map((header) => (
-                          <th
-                            key={header.id}
-                            className="px-4 py-3 text-left text-sm font-semibold"
-                          >
-                            {header.isPlaceholder
-                              ? null
-                              : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext()
-                                )}
-                          </th>
-                        ))}
-                      </tr>
-                    ))}
-                  </thead>
-                  <tbody className="divide-y">
-                    {isLoading ? (
-                      // Loading skeletons
-                      Array.from({ length: 5 }).map((_, i) => (
-                        <tr key={i}>
-                          {Array.from({ length: 6 }).map((_, j) => (
-                            <td key={j} className="px-4 py-3">
-                              <Skeleton className="h-6 w-full" />
-                            </td>
-                          ))}
-                        </tr>
-                      ))
-                    ) : table.getRowModel().rows?.length ? (
-                      table.getRowModel().rows.map((row) => (
-                        <tr
-                          key={row.id}
-                          className="transition-colors hover:bg-muted/50"
-                        >
-                          {row.getVisibleCells().map((cell) => (
-                            <td key={cell.id} className="px-4 py-3">
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
-                            </td>
-                          ))}
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td
-                          colSpan={columns.length}
-                          className="px-4 py-8 text-center text-muted-foreground"
-                        >
-                          Nenhum paciente encontrado.
+                  <SortableHeader
+                    label="Idade / Nascimento"
+                    active={sortKey === "age"}
+                    dir={sortDir}
+                    onClick={() => toggleSort("age")}
+                  />
+                  <th className="px-4 py-3 text-left text-sm font-semibold">Gênero</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold">Telefone</th>
+                  <SortableHeader
+                    label="Cadastrado em"
+                    active={sortKey === "createdAt"}
+                    dir={sortDir}
+                    onClick={() => toggleSort("createdAt")}
+                  />
+                  <th className="px-4 py-3 text-left text-sm font-semibold">Ações</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                {isLoading ? (
+                  Array.from({ length: 5 }).map((_, i) => (
+                    <tr key={i}>
+                      {Array.from({ length: 6 }).map((_, j) => (
+                        <td key={j} className="px-4 py-3">
+                          <Skeleton className="h-6 w-full" />
                         </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                      ))}
+                    </tr>
+                  ))
+                ) : paged.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={6}
+                      className="px-4 py-8 text-center text-muted-foreground"
+                    >
+                      {emptyMessage()}
+                    </td>
+                  </tr>
+                ) : (
+                  paged.map((patient) => (
+                    <tr
+                      key={patient.id}
+                      className="transition-colors hover:bg-muted/50"
+                    >
+                      <td className="px-4 py-3">
+                        <div className="font-medium">{patient.name}</div>
+                        {patient.email && (
+                          <div className="text-xs text-muted-foreground">
+                            {patient.email}
+                          </div>
+                        )}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="text-sm">
+                          <span className="font-medium">{patient.age}</span>
+                          <span className="text-muted-foreground">
+                            {" "}({format(new Date(patient.birthDate), "dd/MM/yyyy", {
+                              locale: ptBR,
+                            })})
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <Badge variant="outline">
+                          {patient.gender === "male"
+                            ? "Masculino"
+                            : patient.gender === "female"
+                              ? "Feminino"
+                              : "Outro"}
+                        </Badge>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="text-sm">{patient.phone}</div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="text-sm text-muted-foreground">
+                          {format(new Date(patient.createdAt), "dd/MM/yyyy", {
+                            locale: ptBR,
+                          })}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => router.push(`/patients/${patient.id}`)}
+                          >
+                            Ver
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => router.push(`/patients/${patient.id}/edit`)}
+                          >
+                            Editar
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
 
-              {/* Pagination */}
-              <div className="mt-4 flex items-center justify-between">
-                <div className="text-sm text-muted-foreground">
-                  Mostrando{" "}
-                  {pagination.pageIndex * pagination.pageSize + 1} até{" "}
-                  {Math.min(
-                    (pagination.pageIndex + 1) * pagination.pageSize,
-                    data?.total || 0
-                  )}{" "}
-                  de {data?.total || 0} pacientes
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+            <div>
+              {total > 0
+                ? `Mostrando ${safePage * PAGE_SIZE + 1} até ${Math.min(
+                    (safePage + 1) * PAGE_SIZE,
+                    total,
+                  )} de ${total}`
+                : "Nenhum resultado"}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
+  );
+}
+
+interface SortableHeaderProps {
+  label: string;
+  active: boolean;
+  dir: SortDir;
+  onClick: () => void;
+}
+
+function SortableHeader({ label, active, dir, onClick }: SortableHeaderProps) {
+  return (
+    <th className="px-4 py-3 text-left text-sm font-semibold">
+      <button
+        type="button"
+        onClick={onClick}
+        className="inline-flex items-center gap-1 hover:text-foreground"
+      >
+        {label}
+        {active &&
+          (dir === "asc" ? (
+            <ArrowUp className="h-3 w-3" />
+          ) : (
+            <ArrowDown className="h-3 w-3" />
+          ))}
+      </button>
+    </th>
   );
 }
