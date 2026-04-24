@@ -110,6 +110,16 @@ func AutoMigrate() error {
 		// Email ingest (worker IMAP IDLE)
 		&models.EmailIngestState{},
 
+		// Notifications (in-app sino) + Subscriptions + Workers — necessários
+		// pra serviços que rodam em background (workers/notification_service)
+		&models.Notification{},
+		&models.SubscriptionPlan{},
+		&models.PatientSubscription{},
+		&models.ProcessingJob{},
+		&models.EmbeddingQueue{},
+		&models.ArticleEmbedding{},
+		&models.ScoreItemEmbedding{},
+
 		// Articles
 		&models.Article{},
 
