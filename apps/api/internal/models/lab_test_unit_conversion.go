@@ -16,7 +16,7 @@ type LabTestUnitConversion struct {
 
 	// ID da definição de exame
 	// @example 019c1a1e-0579-7f3b-a1bd-4767008e844c
-	LabTestDefinitionID uuid.UUID `gorm:"type:uuid;not null;index:idx_unit_conv_test" json:"labTestDefinitionId" validate:"required"`
+	LabTestDefinitionID uuid.UUID `gorm:"type:uuid;not null;index:idx_unit_conv_test;uniqueIndex:idx_unique_test_secondary_unit,priority:1" json:"labTestDefinitionId" validate:"required"`
 
 	// Unidade principal/padrão (ex: "g/dL")
 	// @example g/dL
@@ -26,7 +26,7 @@ type LabTestUnitConversion struct {
 	// Unidade alternativa/secundária (ex: "g/L")
 	// @example g/L
 	// @maxLength 50
-	SecondaryUnit string `gorm:"type:varchar(50);not null;uniqueIndex:idx_unique_test_secondary_unit" json:"secondaryUnit" validate:"required,max=50"`
+	SecondaryUnit string `gorm:"type:varchar(50);not null;uniqueIndex:idx_unique_test_secondary_unit,priority:2" json:"secondaryUnit" validate:"required,max=50"`
 
 	// Fator de conversão: secondaryValue = mainValue * factor
 	// @example 10
