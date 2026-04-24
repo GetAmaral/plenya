@@ -74,6 +74,12 @@ var (
 
 	// ErrConversationWindowClosed → WhatsApp fora janela 24h (422).
 	ErrConversationWindowClosed = errors.New("conversation: janela de 24h expirou — use template")
+
+	// ErrConversationAttachmentTooLarge → soma de anexos excede limite Resend (422).
+	ErrConversationAttachmentTooLarge = errors.New("conversation: anexos excedem 40MB")
+
+	// ErrConversationAttachmentInvalid → path traversal, arquivo não encontrado, ou tipo inválido (422).
+	ErrConversationAttachmentInvalid = errors.New("conversation: anexo inválido")
 )
 
 // ============================================================
@@ -519,17 +525,25 @@ func (s *ConversationService) MarkRead(ctx context.Context, userID uuid.UUID, ow
 // SendMessage — outbound (email ou whatsapp)
 // ============================================================
 
+// OutboundAttachment é um ref de anexo já uploadado (sem bytes — service lê do disco).
+// Path é relativo ao uploadRoot (/app/uploads). Filename é o nome mostrado ao destinatário.
+type OutboundAttachment struct {
+	Path     string
+	Filename string
+}
+
 // SendMessageInput agrupa o payload da rota POST /conversations/:type/:id/email ou /whatsapp.
 type SendMessageInput struct {
-	UserID     uuid.UUID
-	OwnerType  string
-	OwnerID    uuid.UUID
-	Channel    models.LeadActivityChannel // email | whatsapp
-	Subject    string                     // email; backend resolve se vazio
-	BodyText   string
-	BodyHTML   string // só email
-	InReplyTo  string // só email
-	References []string
+	UserID      uuid.UUID
+	OwnerType   string
+	OwnerID     uuid.UUID
+	Channel     models.LeadActivityChannel // email | whatsapp
+	Subject     string                     // email; backend resolve se vazio
+	BodyText    string
+	BodyHTML    string // só email
+	InReplyTo   string // só email
+	References  []string
+	Attachments []OutboundAttachment // só email
 }
 
 // SendMessage rota mensagem outbound pro canal escolhido. Reusa EmailService /
@@ -621,6 +635,11 @@ func (s *ConversationService) sendEmail(ctx context.Context, in SendMessageInput
 	// Snapshot do timestamp pré-envio pra recuperar a activity criada pelo EmailService.
 	preSend := time.Now().UTC().Add(-1 * time.Second)
 
+	atts := make([]ReplyAttachment, 0, len(in.Attachments))
+	for _, a := range in.Attachments {
+		atts = append(atts, ReplyAttachment{Path: a.Path, Filename: a.Filename})
+	}
+
 	if err := s.emailService.SendConversationReply(ctx, SendConversationReplyInput{
 		Owner:       owner,
 		ActorUserID: in.UserID,
@@ -629,12 +648,17 @@ func (s *ConversationService) sendEmail(ctx context.Context, in SendMessageInput
 		BodyHTML:    in.BodyHTML,
 		InReplyTo:   in.InReplyTo,
 		References:  in.References,
+		Attachments: atts,
 	}); err != nil {
 		switch {
 		case errors.Is(err, ErrLeadOptedOut):
 			return nil, ErrConversationOptedOut
 		case errors.Is(err, ErrLeadNoEmail):
 			return nil, ErrConversationNoChannel
+		case errors.Is(err, ErrEmailAttachmentTooLarge):
+			return nil, ErrConversationAttachmentTooLarge
+		case errors.Is(err, ErrEmailAttachmentInvalid):
+			return nil, ErrConversationAttachmentInvalid
 		default:
 			return nil, err
 		}

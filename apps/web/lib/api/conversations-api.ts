@@ -40,6 +40,15 @@ export interface ConversationMessageActor {
   email?: string;
 }
 
+/** Anexo persistido na metadata da activity (mesmo schema inbound + outbound). */
+export interface ConversationMessageAttachment {
+  filename: string;
+  /** Path relativo a /app/uploads (ex: "conversation-outbound/<uid>/<file>.pdf"). */
+  path: string;
+  content_type?: string;
+  size_bytes?: number;
+}
+
 export interface ConversationMessageMetadata {
   subject?: string;
   from?: string;
@@ -47,6 +56,7 @@ export interface ConversationMessageMetadata {
   recipient?: string;
   status?: string;
   wa_message_id?: string;
+  attachments?: ConversationMessageAttachment[];
   [k: string]: unknown;
 }
 
@@ -188,11 +198,58 @@ export function useMarkConversationRead() {
   });
 }
 
+export interface SendConversationEmailAttachment {
+  /** Path relativo retornado pelo upload endpoint. */
+  path: string;
+  /** Nome original mostrado ao destinatário. */
+  filename: string;
+}
+
 export interface SendConversationEmailPayload {
   subject?: string;
   bodyText: string;
   inReplyTo?: string;
   references?: string[];
+  attachments?: SendConversationEmailAttachment[];
+}
+
+/** Resposta do POST /conversations/attachments/upload. */
+export interface UploadedAttachment {
+  path: string;
+  filename: string;
+  contentType: string;
+  size: number;
+}
+
+/**
+ * Upload de um arquivo individual. Cada Drop dispara um POST imediato pra ter feedback
+ * por-arquivo (status: uploading|done|error) — composer só habilita Send quando todos
+ * estão done.
+ */
+export function useUploadConversationAttachment() {
+  return useMutation({
+    mutationFn: async (file: File): Promise<UploadedAttachment> => {
+      const fd = new FormData();
+      fd.append('file', file);
+      return apiClient.post<UploadedAttachment>(
+        '/api/v1/conversations/attachments/upload',
+        fd
+      );
+    },
+  });
+}
+
+/**
+ * URL pública do arquivo no static server. Usada nos chips clicáveis
+ * (download direto pelo browser).
+ *
+ * Em dev: http://localhost:3001/uploads/<path>
+ * Em prod: https://api.plenyasaude.com.br/uploads/<path>
+ */
+export function attachmentDownloadUrl(path: string): string {
+  const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+  const clean = path.replace(/^\/+/, '').replace(/^uploads\//, '');
+  return `${base}/uploads/${clean}`;
 }
 
 export function useSendConversationEmail(type: ConversationOwnerType, id: string) {

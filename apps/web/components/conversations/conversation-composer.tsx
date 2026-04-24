@@ -1,7 +1,17 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { Mail, MessageSquare, Send } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import {
+  FileText,
+  Image as ImageIcon,
+  Loader2,
+  Mail,
+  MessageSquare,
+  Paperclip,
+  Send,
+  X,
+} from 'lucide-react';
 import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
@@ -9,14 +19,42 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   type ConversationItem,
+  type SendConversationEmailAttachment,
   useSendConversationEmail,
   useSendConversationWhatsApp,
+  useUploadConversationAttachment,
 } from '@/lib/api/conversations-api';
 
 type Channel = 'email' | 'whatsapp';
 
 type Props = {
   item: ConversationItem;
+};
+
+// Limites: por arquivo 10MB (alinha com handler), total 40MB (limite Resend).
+const MAX_PER_FILE = 10 * 1024 * 1024;
+const MAX_TOTAL = 40 * 1024 * 1024;
+
+const ACCEPT = {
+  'application/pdf': ['.pdf'],
+  'image/jpeg': ['.jpg', '.jpeg'],
+  'image/png': ['.png'],
+  'image/webp': ['.webp'],
+  'application/msword': ['.doc'],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+  'application/vnd.ms-excel': ['.xls'],
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+};
+
+type AttachmentState = {
+  /** ID local pra rastreio na UI (não enviado pro backend). */
+  localId: string;
+  file: File;
+  status: 'uploading' | 'done' | 'error';
+  /** Path retornado pelo upload endpoint (preenchido em status=done). */
+  path?: string;
+  /** Mensagem de erro pra UI quando status=error. */
+  error?: string;
 };
 
 /** Define o canal default baseado no que o owner suporta + último canal usado. */
@@ -32,7 +70,6 @@ type Validation = { ok: true } | { ok: false; reason: string };
 
 function validateEmail(item: ConversationItem): Validation {
   if (!item.email) return { ok: false, reason: 'Sem email cadastrado.' };
-  // emailOptIn só vem pra Lead — pra Patient backend autoriza por padrão
   if (item.ownerType === 'lead' && item.emailOptIn === false) {
     return { ok: false, reason: 'Lead sem opt-in de email.' };
   }
@@ -45,7 +82,6 @@ function validateWhatsApp(item: ConversationItem): Validation {
     return { ok: false, reason: 'Lead sem opt-in de WhatsApp.' };
   }
   if (item.ownerType === 'lead') {
-    // Janela de 24h: só vale pra Lead (Patient não precisa)
     if (!item.lastInboundAt) {
       return {
         ok: false,
@@ -60,28 +96,133 @@ function validateWhatsApp(item: ConversationItem): Validation {
   return { ok: true };
 }
 
+/** Formata bytes pra "1.2 MB" / "245 KB" / "12 B". */
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function fileIcon(file: File) {
+  if (file.type.startsWith('image/')) return ImageIcon;
+  return FileText;
+}
+
+let localIdCounter = 0;
+function nextLocalId(): string {
+  localIdCounter += 1;
+  return `att-${Date.now()}-${localIdCounter}`;
+}
+
 export function ConversationComposer({ item }: Props) {
   const [channel, setChannel] = useState<Channel>(() => defaultChannel(item));
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
+  const [attachments, setAttachments] = useState<AttachmentState[]>([]);
 
   // Reset campos ao trocar de conversa
   useEffect(() => {
     setSubject('');
     setBody('');
+    setAttachments([]);
     setChannel(defaultChannel(item));
   }, [item.ownerType, item.ownerId]);
 
   const sendEmail = useSendConversationEmail(item.ownerType, item.ownerId);
   const sendWa = useSendConversationWhatsApp(item.ownerType, item.ownerId);
+  const upload = useUploadConversationAttachment();
 
   const emailValidation = useMemo(() => validateEmail(item), [item]);
   const waValidation = useMemo(() => validateWhatsApp(item), [item]);
   const validation: Validation = channel === 'email' ? emailValidation : waValidation;
 
+  const totalBytes = useMemo(
+    () => attachments.reduce((s, a) => s + a.file.size, 0),
+    [attachments]
+  );
+  const hasUploading = attachments.some((a) => a.status === 'uploading');
+  const hasErrored = attachments.some((a) => a.status === 'error');
+
   const isPending = sendEmail.isPending || sendWa.isPending;
   const trimmedBody = body.trim();
-  const canSend = validation.ok && !!trimmedBody && !isPending;
+  const canSend =
+    validation.ok && !!trimmedBody && !isPending && !hasUploading && !hasErrored;
+
+  // Upload de uma lista de arquivos. Faz validação local + dispara POST individual.
+  const startUploads = useCallback(
+    (files: File[]) => {
+      if (channel !== 'email') {
+        toast.error('Anexos disponíveis apenas no canal de email.');
+        return;
+      }
+      // Validação local: per-file e somatório.
+      let projectedTotal = totalBytes;
+      const accepted: File[] = [];
+      for (const file of files) {
+        if (file.size > MAX_PER_FILE) {
+          toast.error(`${file.name} excede 10MB.`);
+          continue;
+        }
+        if (projectedTotal + file.size > MAX_TOTAL) {
+          toast.error(
+            `Soma de anexos passaria de ${formatBytes(MAX_TOTAL)} — ${file.name} ignorado.`
+          );
+          continue;
+        }
+        projectedTotal += file.size;
+        accepted.push(file);
+      }
+      if (accepted.length === 0) return;
+
+      const newStates: AttachmentState[] = accepted.map((file) => ({
+        localId: nextLocalId(),
+        file,
+        status: 'uploading',
+      }));
+      setAttachments((prev) => [...prev, ...newStates]);
+
+      newStates.forEach((s) => {
+        upload.mutate(s.file, {
+          onSuccess: (resp) => {
+            setAttachments((prev) =>
+              prev.map((a) =>
+                a.localId === s.localId
+                  ? { ...a, status: 'done', path: resp.path }
+                  : a
+              )
+            );
+          },
+          onError: (err: unknown) => {
+            const msg = err instanceof Error ? err.message : 'Falha no upload';
+            setAttachments((prev) =>
+              prev.map((a) =>
+                a.localId === s.localId ? { ...a, status: 'error', error: msg } : a
+              )
+            );
+            toast.error(`${s.file.name}: ${msg}`);
+          },
+        });
+      });
+    },
+    [channel, totalBytes, upload]
+  );
+
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => startUploads(acceptedFiles),
+    [startUploads]
+  );
+
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+    onDrop,
+    accept: ACCEPT,
+    noClick: true, // só drop + botão dedicado pra evitar abrir picker ao clicar no textarea
+    noKeyboard: true,
+    disabled: channel !== 'email' || !validation.ok || isPending,
+  });
+
+  const removeAttachment = (localId: string) => {
+    setAttachments((prev) => prev.filter((a) => a.localId !== localId));
+  };
 
   const handleSend = () => {
     if (!validation.ok) {
@@ -94,16 +235,22 @@ export function ConversationComposer({ item }: Props) {
     }
 
     if (channel === 'email') {
+      const readyAtts: SendConversationEmailAttachment[] = attachments
+        .filter((a) => a.status === 'done' && a.path)
+        .map((a) => ({ path: a.path as string, filename: a.file.name }));
+
       sendEmail.mutate(
         {
           subject: subject.trim() || undefined,
           bodyText: trimmedBody,
+          attachments: readyAtts.length > 0 ? readyAtts : undefined,
         },
         {
           onSuccess: () => {
             toast.success('Email enviado.');
             setSubject('');
             setBody('');
+            setAttachments([]);
           },
           onError: (err: unknown) => {
             const msg = err instanceof Error ? err.message : 'Falha ao enviar email';
@@ -128,6 +275,8 @@ export function ConversationComposer({ item }: Props) {
       }
     );
   };
+
+  const showAttachUI = channel === 'email';
 
   return (
     <div className="border-t border-border bg-background p-3 sm:p-4">
@@ -180,24 +329,105 @@ export function ConversationComposer({ item }: Props) {
         />
       )}
 
-      <textarea
-        value={body}
-        onChange={(e) => setBody(e.target.value)}
-        rows={4}
-        placeholder={
-          channel === 'email' ? 'Escreva o email…' : 'Escreva a mensagem WhatsApp…'
-        }
-        disabled={!validation.ok || isPending}
+      {/* Textarea com dropzone só no canal email */}
+      <div
+        {...(showAttachUI ? getRootProps() : {})}
         className={cn(
-          'w-full resize-y rounded-md border border-input bg-transparent p-3 text-sm',
-          'focus:outline-none focus:ring-1 focus:ring-ring',
-          'disabled:cursor-not-allowed disabled:opacity-50'
+          'relative rounded-md border border-input transition-colors',
+          isDragActive && 'border-sky-400 bg-sky-50/40 ring-2 ring-sky-200'
         )}
-        aria-label={channel === 'email' ? 'Corpo do email' : 'Corpo do WhatsApp'}
-      />
+      >
+        {showAttachUI && <input {...getInputProps()} />}
+        <textarea
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          rows={4}
+          placeholder={
+            channel === 'email'
+              ? 'Escreva o email… (arraste arquivos pra anexar)'
+              : 'Escreva a mensagem WhatsApp…'
+          }
+          disabled={!validation.ok || isPending}
+          className={cn(
+            'w-full resize-y rounded-md border-0 bg-transparent p-3 text-sm',
+            'focus:outline-none focus:ring-1 focus:ring-ring',
+            'disabled:cursor-not-allowed disabled:opacity-50'
+          )}
+          aria-label={channel === 'email' ? 'Corpo do email' : 'Corpo do WhatsApp'}
+        />
+        {showAttachUI && isDragActive && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-md bg-sky-100/60 text-sm font-medium text-sky-900">
+            Solte os arquivos pra anexar
+          </div>
+        )}
+      </div>
+
+      {/* Lista de anexos */}
+      {showAttachUI && attachments.length > 0 && (
+        <ul className="mt-2 space-y-1.5" aria-label="Anexos">
+          {attachments.map((a) => {
+            const Icon = fileIcon(a.file);
+            return (
+              <li
+                key={a.localId}
+                className={cn(
+                  'flex items-center gap-2 rounded-md border px-2 py-1.5 text-xs',
+                  a.status === 'error'
+                    ? 'border-rose-300 bg-rose-50 text-rose-900'
+                    : 'border-border bg-muted/40'
+                )}
+              >
+                <Icon className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                <span className="min-w-0 flex-1 truncate" title={a.file.name}>
+                  {a.file.name}
+                </span>
+                <span className="shrink-0 text-muted-foreground">
+                  {formatBytes(a.file.size)}
+                </span>
+                {a.status === 'uploading' && (
+                  <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin text-muted-foreground" aria-label="Enviando" />
+                )}
+                {a.status === 'error' && (
+                  <span className="shrink-0 text-[11px]" title={a.error}>
+                    erro
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={() => removeAttachment(a.localId)}
+                  className="shrink-0 rounded p-0.5 hover:bg-background"
+                  aria-label={`Remover ${a.file.name}`}
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
 
       <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
-        <div className="min-w-0 flex-1 text-xs">
+        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+          {showAttachUI && (
+            <button
+              type="button"
+              onClick={open}
+              disabled={!validation.ok || isPending}
+              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-xs font-medium hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <Paperclip className="h-3.5 w-3.5" /> Anexar
+            </button>
+          )}
+          {showAttachUI && attachments.length > 0 && (
+            <span
+              className={cn(
+                'text-muted-foreground',
+                totalBytes > MAX_TOTAL && 'text-rose-700'
+              )}
+            >
+              {formatBytes(totalBytes)} / {formatBytes(MAX_TOTAL)}
+            </span>
+          )}
           {!validation.ok ? (
             <p className="break-words text-amber-700" role="alert">
               {validation.reason}
@@ -212,7 +442,7 @@ export function ConversationComposer({ item }: Props) {
         </div>
         <Button onClick={handleSend} disabled={!canSend} size="sm">
           <Send className="mr-1 h-3.5 w-3.5" />
-          {isPending ? 'Enviando…' : 'Enviar'}
+          {isPending ? 'Enviando…' : hasUploading ? 'Aguardando upload…' : 'Enviar'}
         </Button>
       </div>
     </div>

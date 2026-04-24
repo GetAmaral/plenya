@@ -15,6 +15,8 @@ import (
 	"mime"
 	"net/http"
 	"net/smtp"
+	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -43,6 +45,20 @@ var ErrLeadOptedOut = errors.New("email: lead opt-out de email")
 
 // ErrLeadNoEmail é retornado quando o Lead não tem endereço de email cadastrado.
 var ErrLeadNoEmail = errors.New("email: lead sem endereço de email cadastrado")
+
+// ErrEmailAttachmentTooLarge → soma dos anexos passou do limite Resend (40MB).
+var ErrEmailAttachmentTooLarge = errors.New("email: soma de anexos excede 40MB (limite Resend)")
+
+// ErrEmailAttachmentInvalid → path traversal, arquivo não existe, extensão fora da whitelist.
+var ErrEmailAttachmentInvalid = errors.New("email: anexo inválido")
+
+// emailAttachmentRoot é a raiz onde upload handler grava arquivos. Anexos com Path
+// fora desse prefixo são rejeitados (defesa contra path traversal).
+const emailAttachmentRoot = "/app/uploads"
+
+// resendMaxTotalBytes é o limite duro do Resend pra soma dos anexos por email.
+// Validamos antes de fazer base64 + POST pra falhar rápido com erro semântico.
+const resendMaxTotalBytes = 40 * 1024 * 1024
 
 // emailTemplates é o conjunto de templates pré-renderizados pelo packages/emails (React Email).
 // Sync via `pnpm email:sync` (copia packages/emails/dist/*.html → templates/).
@@ -344,10 +360,20 @@ type SendConversationReplyInput struct {
 	BodyText    string
 	InReplyTo   string
 	References  []string
+	Attachments []ReplyAttachment
+}
+
+// ReplyAttachment é a referência a um arquivo em /app/uploads — service lê o
+// conteúdo, encoda base64 e envia no payload Resend. Filename é o nome
+// apresentado ao destinatário (e gravado em metadata).
+type ReplyAttachment struct {
+	Path     string
+	Filename string
 }
 
 // SendLeadReply mantém compat com handlers/lead_handler.go (Bloco 3 anterior).
-// Internamente delega pra SendConversationReply.
+// Internamente delega pra SendConversationReply. Não suporta attachments —
+// quem precisar passa pelo ConversationService.
 func (s *EmailService) SendLeadReply(ctx context.Context, in SendLeadReplyInput) error {
 	return s.SendConversationReply(ctx, SendConversationReplyInput{
 		Owner:       ConversationOwner{Lead: in.Lead},
@@ -462,7 +488,17 @@ func (s *EmailService) SendConversationReply(ctx context.Context, in SendConvers
 	domain := domainFromAddress(fromAddr)
 	messageID := generateMessageID(domain)
 
+	// Resolve attachments: lê arquivos do disco, encoda base64, valida total < 40MB.
+	// Falha precoce se algum path é inválido ou soma estoura — antes de bater Resend.
+	resolvedAtts, err := s.resolveAttachments(in.Attachments)
+	if err != nil {
+		return err
+	}
+
 	// Monta MIME pra IMAP APPEND. Headers cobrem threading + X-Plenya-Source.
+	// MIME atual não inclui anexos no espelho IMAP — Sent Items mostra só corpo.
+	// Trade-off aceitável: o histórico do EMR (LeadActivity.metadata.attachments)
+	// é a fonte oficial de auditoria; mailbox SMTP é só backup pra caixa do agente.
 	rawMIME := buildReplyMIME(replyMIMEInput{
 		FromHeader: fromHeader,
 		ToAddress:  to,
@@ -478,14 +514,15 @@ func (s *EmailService) SendConversationReply(ctx context.Context, in SendConvers
 
 	// 1) Envia via Resend (BLOQUEANTE — falha aqui aborta o registro de activity)
 	resendID, err := s.sendReplyViaResend(ctx, sendReplyResendInput{
-		FromHeader: fromHeader,
-		To:         to,
-		Subject:    subject,
-		BodyText:   bodyText,
-		BodyHTML:   bodyHTML,
-		MessageID:  messageID,
-		InReplyTo:  in.InReplyTo,
-		References: in.References,
+		FromHeader:  fromHeader,
+		To:          to,
+		Subject:     subject,
+		BodyText:    bodyText,
+		BodyHTML:    bodyHTML,
+		MessageID:   messageID,
+		InReplyTo:   in.InReplyTo,
+		References:  in.References,
+		Attachments: resolvedAtts,
 	})
 	if err != nil {
 		return fmt.Errorf("email: resend: %w", err)
@@ -517,6 +554,20 @@ func (s *EmailService) SendConversationReply(ctx context.Context, in SendConvers
 	}
 	if len(in.References) > 0 {
 		metadata["references"] = in.References
+	}
+	if len(resolvedAtts) > 0 {
+		// Mesmo schema dos inbound (EmailAttachmentRef): {filename, path, content_type, size_bytes}.
+		// Frontend lê msg.metadata.attachments na timeline e renderiza chips clicáveis.
+		attsMeta := make([]map[string]any, len(resolvedAtts))
+		for i, a := range resolvedAtts {
+			attsMeta[i] = map[string]any{
+				"filename":     a.Filename,
+				"path":         a.Path,
+				"content_type": a.ContentType,
+				"size_bytes":   a.SizeBytes,
+			}
+		}
+		metadata["attachments"] = attsMeta
 	}
 
 	metaJSON, err := json.Marshal(metadata)
@@ -587,16 +638,105 @@ func (s *EmailService) resolveReplySubjectForOwner(leadID, patientID *uuid.UUID)
 	return "Re: " + subj
 }
 
+// resolvedAttachment é o anexo já lido do disco e pronto pra Resend.
+// Path/Filename/ContentType/SizeBytes preservados pra metadata da activity.
+type resolvedAttachment struct {
+	Path        string // relativo a /app/uploads — preservado em metadata
+	Filename    string // nome mostrado ao destinatário
+	ContentType string // content-type detectado por extensão
+	SizeBytes   int    // tamanho original (não base64)
+	Base64      string // conteúdo base64 padrão (sem URL-safe)
+}
+
+// resolveAttachments lê cada anexo do disco, detecta content-type por extensão,
+// soma o total e valida contra o limite Resend (40MB). Retorna ErrEmailAttachmentInvalid
+// para path traversal/arquivo ausente; ErrEmailAttachmentTooLarge para soma estourada.
+//
+// Nota: cleanPath impede path traversal — exigimos que o path resolva DENTRO de
+// emailAttachmentRoot. Anexos vindos do upload handler já estão lá; rejeição é
+// defesa contra payload mal-formado.
+func (s *EmailService) resolveAttachments(in []ReplyAttachment) ([]resolvedAttachment, error) {
+	if len(in) == 0 {
+		return nil, nil
+	}
+	out := make([]resolvedAttachment, 0, len(in))
+	var total int64
+	for _, a := range in {
+		clean, err := safeAttachmentPath(a.Path)
+		if err != nil {
+			return nil, fmt.Errorf("%w: %s", ErrEmailAttachmentInvalid, a.Path)
+		}
+		info, err := os.Stat(clean)
+		if err != nil || info.IsDir() {
+			return nil, fmt.Errorf("%w: %s não encontrado", ErrEmailAttachmentInvalid, a.Path)
+		}
+		total += info.Size()
+		if total > resendMaxTotalBytes {
+			return nil, ErrEmailAttachmentTooLarge
+		}
+		raw, err := os.ReadFile(clean)
+		if err != nil {
+			return nil, fmt.Errorf("%w: ler %s: %v", ErrEmailAttachmentInvalid, a.Path, err)
+		}
+		ct := mime.TypeByExtension(strings.ToLower(filepath.Ext(clean)))
+		if ct == "" {
+			ct = "application/octet-stream"
+		}
+		filename := strings.TrimSpace(a.Filename)
+		if filename == "" {
+			filename = filepath.Base(clean)
+		}
+		out = append(out, resolvedAttachment{
+			Path:        a.Path,
+			Filename:    filename,
+			ContentType: ct,
+			SizeBytes:   int(info.Size()),
+			Base64:      base64.StdEncoding.EncodeToString(raw),
+		})
+	}
+	return out, nil
+}
+
+// safeAttachmentPath resolve o path relativo dentro de emailAttachmentRoot e
+// rejeita qualquer escape (.., absoluto que aponta fora, links simbólicos não checados — confiamos
+// no fato do upload handler nunca cria symlinks).
+func safeAttachmentPath(rel string) (string, error) {
+	if rel == "" {
+		return "", errors.New("empty path")
+	}
+	// Aceita tanto "conversation-outbound/..." quanto "/uploads/conversation-outbound/..."
+	// — frontend já manda o que o upload handler retornou.
+	rel = strings.TrimPrefix(rel, "/")
+	rel = strings.TrimPrefix(rel, "uploads/")
+	cleaned := filepath.Clean("/" + rel) // garante leading slash pra Clean resolver ".."
+	abs := filepath.Join(emailAttachmentRoot, cleaned)
+	// Confirma containment (defesa em profundidade).
+	rootAbs, err := filepath.Abs(emailAttachmentRoot)
+	if err != nil {
+		return "", err
+	}
+	finalAbs, err := filepath.Abs(abs)
+	if err != nil {
+		return "", err
+	}
+	if !strings.HasPrefix(finalAbs+string(filepath.Separator), rootAbs+string(filepath.Separator)) &&
+		finalAbs != rootAbs {
+		return "", errors.New("path escape")
+	}
+	return finalAbs, nil
+}
+
 // sendReplyResendInput agrupa o que vai pro POST /emails da Resend.
 type sendReplyResendInput struct {
-	FromHeader string
-	To         string
-	Subject    string
-	BodyText   string
-	BodyHTML   string
-	MessageID  string
-	InReplyTo  string
-	References []string
+	FromHeader  string
+	To          string
+	Subject     string
+	BodyText    string
+	BodyHTML    string
+	MessageID   string
+	InReplyTo   string
+	References  []string
+	Attachments []resolvedAttachment
 }
 
 // sendReplyViaResend faz POST /emails na Resend com headers de threading + X-Plenya-Source.
@@ -627,6 +767,18 @@ func (s *EmailService) sendReplyViaResend(ctx context.Context, in sendReplyResen
 		"text":    in.BodyText,
 		"html":    in.BodyHTML,
 		"headers": headers,
+	}
+	if len(in.Attachments) > 0 {
+		// Resend espera [{filename, content (base64), content_type?}].
+		atts := make([]map[string]string, len(in.Attachments))
+		for i, a := range in.Attachments {
+			atts[i] = map[string]string{
+				"filename":     a.Filename,
+				"content":      a.Base64,
+				"content_type": a.ContentType,
+			}
+		}
+		payload["attachments"] = atts
 	}
 
 	raw, err := json.Marshal(payload)

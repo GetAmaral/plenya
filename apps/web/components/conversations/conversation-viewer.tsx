@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { ExternalLink, Mail, MessageSquare, ArrowLeft } from 'lucide-react';
+import { ExternalLink, FileText, Image as ImageIcon, Mail, MessageSquare, ArrowLeft } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -13,6 +13,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import {
   type ConversationItem,
   type ConversationMessage,
+  type ConversationMessageAttachment,
+  attachmentDownloadUrl,
   avatarColorClass,
   initials,
   useConversationMessages,
@@ -28,6 +30,61 @@ type Props = {
 function detailHref(item: ConversationItem): string {
   if (item.ownerType === 'patient') return `/patients/${item.ownerId}`;
   return `/leads/${item.ownerId}`;
+}
+
+/** Formata bytes pra rótulo curto. */
+function formatBytes(n?: number): string | null {
+  if (!n || n <= 0) return null;
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(0)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function attachmentIcon(att: ConversationMessageAttachment) {
+  if (att.content_type?.startsWith('image/')) return ImageIcon;
+  return FileText;
+}
+
+/** Lista clicável de anexos abaixo do corpo da mensagem. Usado em inbound + outbound. */
+function AttachmentChips({
+  attachments,
+  tone,
+}: {
+  attachments: ConversationMessageAttachment[];
+  tone: 'inbound' | 'outbound';
+}) {
+  if (!attachments.length) return null;
+  return (
+    <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="Anexos">
+      {attachments.map((att, i) => {
+        const Icon = attachmentIcon(att);
+        const url = attachmentDownloadUrl(att.path);
+        const sizeLabel = formatBytes(att.size_bytes);
+        return (
+          <li key={`${att.path}-${i}`}>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`Baixar ${att.filename}`}
+              className={cn(
+                'inline-flex max-w-[260px] items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium transition-colors',
+                tone === 'inbound'
+                  ? 'border-stone-300 bg-white text-stone-800 hover:bg-stone-100'
+                  : 'border-sky-300 bg-white text-sky-900 hover:bg-sky-100'
+              )}
+            >
+              <Icon className="h-3 w-3 shrink-0" aria-hidden />
+              <span className="truncate">{att.filename}</span>
+              {sizeLabel && (
+                <span className="shrink-0 text-muted-foreground">· {sizeLabel}</span>
+              )}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  );
 }
 
 function MessageBubble({ msg, ownerName }: { msg: ConversationMessage; ownerName: string }) {
@@ -92,6 +149,12 @@ function MessageBubble({ msg, ownerName }: { msg: ConversationMessage; ownerName
         <p className="whitespace-pre-wrap break-words">
           {msg.content?.trim() || <span className="italic text-muted-foreground">(corpo vazio)</span>}
         </p>
+        {msg.metadata?.attachments && msg.metadata.attachments.length > 0 && (
+          <AttachmentChips
+            attachments={msg.metadata.attachments}
+            tone={isInbound ? 'inbound' : 'outbound'}
+          />
+        )}
       </div>
     </div>
   );

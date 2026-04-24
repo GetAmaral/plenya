@@ -283,6 +283,7 @@ func setupRoutes(
 	whatsappWebhookHandler := handlers.NewWhatsAppWebhookHandler(cfg, whatsappService, leadService)
 	conversationService := services.NewConversationService(database.DB, leadService, emailService, whatsappService, notificationService)
 	conversationHandler := handlers.NewConversationHandler(conversationService)
+	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
 	// API v1
 	v1 := app.Group("/api/v1")
@@ -338,6 +339,7 @@ func setupRoutes(
 	conv.Use(middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager))
 	conv.Use(middleware.AuditLog(database.DB))
 	conv.Get("/", conversationHandler.List)
+	conv.Post("/attachments/upload", conversationAttachmentHandler.Upload)
 	conv.Get("/:type/:id/messages", conversationHandler.Messages)
 	conv.Post("/:type/:id/read", conversationHandler.MarkRead)
 	conv.Post("/:type/:id/email", conversationHandler.SendEmail)

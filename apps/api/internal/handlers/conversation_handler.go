@@ -167,13 +167,22 @@ func (h *ConversationHandler) MarkRead(c *fiber.Ctx) error {
 // POST /conversations/:type/:id/email
 // ============================================================
 
+// SendEmailAttachment é o ref de um anexo já uploadado (via /conversations/attachments/upload).
+// Path é relativo a /app/uploads (ex: "conversation-outbound/<uid>/<uuid>.pdf"); filename é o
+// nome original mostrado pro destinatário (e gravado em metadata pra trilha do histórico).
+type SendEmailAttachment struct {
+	Path     string `json:"path" validate:"required,max=512"`
+	Filename string `json:"filename" validate:"required,max=255"`
+}
+
 // SendEmailRequest é o payload de POST /conversations/:type/:id/email.
 type SendEmailRequest struct {
-	Subject    string   `json:"subject" validate:"omitempty,max=200"`
-	BodyText   string   `json:"bodyText" validate:"required_without=BodyHTML,max=50000"`
-	BodyHTML   string   `json:"bodyHTML" validate:"omitempty,max=200000"`
-	InReplyTo  string   `json:"inReplyTo,omitempty"`
-	References []string `json:"references,omitempty"`
+	Subject     string                `json:"subject" validate:"omitempty,max=200"`
+	BodyText    string                `json:"bodyText" validate:"required_without=BodyHTML,max=50000"`
+	BodyHTML    string                `json:"bodyHTML" validate:"omitempty,max=200000"`
+	InReplyTo   string                `json:"inReplyTo,omitempty"`
+	References  []string              `json:"references,omitempty"`
+	Attachments []SendEmailAttachment `json:"attachments,omitempty" validate:"omitempty,max=20,dive"`
 }
 
 // SendEmail envia resposta de email pelo owner (Lead OU Patient).
@@ -209,16 +218,22 @@ func (h *ConversationHandler) SendEmail(c *fiber.Ctx) error {
 		})
 	}
 
+	atts := make([]services.OutboundAttachment, 0, len(req.Attachments))
+	for _, a := range req.Attachments {
+		atts = append(atts, services.OutboundAttachment{Path: a.Path, Filename: a.Filename})
+	}
+
 	activity, err := h.service.SendMessage(c.UserContext(), services.SendMessageInput{
-		UserID:     middleware.GetUserID(c),
-		OwnerType:  ownerType,
-		OwnerID:    ownerID,
-		Channel:    models.LeadChannelEmail,
-		Subject:    req.Subject,
-		BodyText:   req.BodyText,
-		BodyHTML:   req.BodyHTML,
-		InReplyTo:  req.InReplyTo,
-		References: req.References,
+		UserID:      middleware.GetUserID(c),
+		OwnerType:   ownerType,
+		OwnerID:     ownerID,
+		Channel:     models.LeadChannelEmail,
+		Subject:     req.Subject,
+		BodyText:    req.BodyText,
+		BodyHTML:    req.BodyHTML,
+		InReplyTo:   req.InReplyTo,
+		References:  req.References,
+		Attachments: atts,
 	})
 	return writeSendResult(c, activity, err)
 }
@@ -316,6 +331,16 @@ func writeSendResult(c *fiber.Ctx, activity *models.LeadActivity, err error) err
 	case errors.Is(err, services.ErrConversationWindowClosed):
 		return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
 			Error: "fora da janela de 24h — use template aprovado",
+		})
+	case errors.Is(err, services.ErrConversationAttachmentTooLarge):
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+			Error:   "soma de anexos excede limite Resend (40MB)",
+			Message: err.Error(),
+		})
+	case errors.Is(err, services.ErrConversationAttachmentInvalid):
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+			Error:   "anexo inválido",
+			Message: err.Error(),
 		})
 	default:
 		return c.Status(fiber.StatusBadGateway).JSON(dto.ErrorResponse{
