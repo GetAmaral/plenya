@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Inbox, MessageSquare, Search } from 'lucide-react';
+import { Inbox, Mail, MessageSquare, Search } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useRequireAuth } from '@/lib/use-auth';
@@ -21,6 +21,7 @@ import {
 } from '@/lib/api/conversations-api';
 import { ConversationListRow } from '@/components/conversations/conversation-list-item';
 import { ConversationViewer } from '@/components/conversations/conversation-viewer';
+import { NewEmailDialog } from '@/components/conversations/new-email-dialog';
 
 type AssignedFilter = 'all' | 'mine';
 type ChannelFilter = 'all' | 'email' | 'whatsapp';
@@ -51,6 +52,7 @@ export default function ConversasPage() {
 
   const [selected, setSelected] = useState<Selected>(null);
   const [mobileViewerOpen, setMobileViewerOpen] = useState(false);
+  const [newEmailOpen, setNewEmailOpen] = useState(false);
 
   const filters: ConversationListFilters = useMemo(
     () => ({
@@ -104,6 +106,26 @@ export default function ConversasPage() {
       <PageHeader
         title="Conversas"
         description="Caixa unificada de email e WhatsApp — leads e pacientes em um só lugar."
+        actions={[
+          {
+            label: 'Novo email',
+            icon: <Mail className="h-4 w-4" />,
+            onClick: () => setNewEmailOpen(true),
+          },
+        ]}
+      />
+
+      <NewEmailDialog
+        open={newEmailOpen}
+        onOpenChange={setNewEmailOpen}
+        onSent={({ ownerType, ownerId }) => {
+          // Seleciona a conversa criada/reusada — espera próximo refetch da lista
+          // (mutation já invalida `conversations` keys em onSuccess).
+          setSelected({ type: ownerType, id: ownerId });
+          if (typeof window !== 'undefined' && window.innerWidth < 768) {
+            setMobileViewerOpen(true);
+          }
+        }}
       />
 
       {/* Filtros */}

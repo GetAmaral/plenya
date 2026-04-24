@@ -269,6 +269,55 @@ export function useSendConversationEmail(type: ConversationOwnerType, id: string
   });
 }
 
+// =====================================================
+// Compose (novo email global) — Bloco 7
+// =====================================================
+
+/**
+ * Payload do POST /conversations/compose — vendedor inicia email pra qualquer
+ * endereço. Backend resolve owner: Patient (email match) → Lead ativo → cria Lead.
+ */
+export interface ComposeConversationPayload {
+  to: string;
+  /** Opcional — se Lead novo for criado, vira Lead.Name. */
+  name?: string;
+  subject: string;
+  bodyText: string;
+  bodyHTML?: string;
+  attachments?: SendConversationEmailAttachment[];
+}
+
+/**
+ * Resposta do compose. `leadCreated=true` distingue Lead novo de Lead/Patient
+ * pré-existente — UI mostra toast diferenciado e navega pra conversa criada.
+ */
+export interface ComposeConversationResult {
+  ownerType: ConversationOwnerType;
+  ownerId: string;
+  leadCreated: boolean;
+  url?: string;
+}
+
+/**
+ * Regex de validação client-side — espelha a do backend (RFC 5322 simplificada).
+ * Não substitui validação do backend; serve só pra UX (desabilitar Send antes).
+ */
+export const COMPOSE_EMAIL_REGEX = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+export function useConversationCompose() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: ComposeConversationPayload) =>
+      apiClient.post<ComposeConversationResult>(
+        '/api/v1/conversations/compose',
+        payload
+      ),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: conversationKeys.all });
+    },
+  });
+}
+
 export interface SendConversationWhatsAppPayload {
   bodyText: string;
 }

@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"regexp"
 	"strings"
 	"time"
 
@@ -795,3 +796,163 @@ func (s *ConversationService) fetchActivity(ctx context.Context, id uuid.UUID) (
 func isValidOwnerType(t string) bool {
 	return t == string(models.ConversationOwnerLead) || t == string(models.ConversationOwnerPatient)
 }
+
+// ============================================================
+// Compose — vendedor inicia email pra qualquer endereço
+// ============================================================
+
+// ErrComposeRecipientUnsubscribed → destinatário possui Lead com Status=unsubscribed.
+// Backend rejeita compose pra evitar reativar contato que pediu pra parar.
+var ErrComposeRecipientUnsubscribed = errors.New("conversation: destinatário descadastrado")
+
+// ErrComposeInvalidEmail → formato do "to" não passou na validação básica.
+var ErrComposeInvalidEmail = errors.New("conversation: email do destinatário inválido")
+
+// composeEmailRegex é validação RFC 5322 ultra-simplificada (suficiente pra UI).
+// Backend não precisa validar 100% — o provider (Resend) bounce-a se for inválido.
+// Frontend usa a mesma regex pra feedback rápido.
+var composeEmailRegex = regexp.MustCompile(`^[^@\s]+@[^@\s]+\.[^@\s]+$`)
+
+// ComposeInput é o payload do POST /conversations/compose.
+type ComposeInput struct {
+	UserID      uuid.UUID
+	To          string
+	Name        string // opcional; se Lead novo for criado, vira Lead.Name
+	Subject     string
+	BodyText    string
+	BodyHTML    string
+	Attachments []OutboundAttachment
+}
+
+// ComposeResult é o retorno do compose — frontend usa pra navegar pra conversa criada
+// e pra exibir toast diferenciado quando Lead novo nasce.
+type ComposeResult struct {
+	OwnerType   string    `json:"ownerType"`
+	OwnerID     uuid.UUID `json:"ownerId"`
+	LeadCreated bool      `json:"leadCreated"`
+	URL         string    `json:"url,omitempty"`
+}
+
+// Compose resolve o destinatário e dispara o email. Hierarquia de roteamento:
+//
+//  1. Patient com email igual → usa Patient como owner (sem criar Lead).
+//  2. Lead ativo (status NOT IN converted/lost/unsubscribed) → usa esse Lead.
+//  3. Lead descadastrado existente → REJEITA com ErrComposeRecipientUnsubscribed.
+//  4. Caso contrário → cria Lead novo (source=manual) e usa como owner.
+//
+// O envio em si reusa SendMessage(channel=email) que já cuida de:
+//   - Resend POST + headers de threading (X-Plenya-Source)
+//   - LeadActivity{message_sent, channel=email} anexada ao owner correto
+//   - IMAP APPEND best-effort no Sent Items
+//
+// Notification: só dispara NotifyTeamOfNewLead pra Lead novo (LeadCreated=true).
+// Reusar Lead/Patient não notifica (já é conhecido).
+func (s *ConversationService) Compose(ctx context.Context, in ComposeInput) (*ComposeResult, *models.LeadActivity, error) {
+	if s.leadService == nil {
+		return nil, nil, errors.New("conversation: lead service não configurado")
+	}
+	if in.UserID == uuid.Nil {
+		return nil, nil, errors.New("conversation: actorUserID obrigatório")
+	}
+	to := strings.ToLower(strings.TrimSpace(in.To))
+	if to == "" || !composeEmailRegex.MatchString(to) {
+		return nil, nil, ErrComposeInvalidEmail
+	}
+	if strings.TrimSpace(in.Subject) == "" {
+		return nil, nil, errors.New("conversation: assunto obrigatório no compose")
+	}
+	if strings.TrimSpace(in.BodyText) == "" && strings.TrimSpace(in.BodyHTML) == "" {
+		return nil, nil, errors.New("conversation: corpo vazio")
+	}
+
+	var (
+		ownerType   string
+		ownerID     uuid.UUID
+		leadCreated bool
+	)
+
+	// 1. Patient first
+	var patient models.Patient
+	if err := s.db.WithContext(ctx).Where("LOWER(email) = ?", to).First(&patient).Error; err == nil {
+		ownerType = string(models.ConversationOwnerPatient)
+		ownerID = patient.ID
+	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, nil, fmt.Errorf("conversation: compose patient lookup: %w", err)
+	}
+
+	// 2/3. Lead lookup (ativo OU unsubscribed pra rejeitar explicitamente)
+	if ownerID == uuid.Nil {
+		// Checa unsubscribed primeiro pra mensagem de erro semântica.
+		var unsub models.Lead
+		err := s.db.WithContext(ctx).
+			Where("LOWER(email) = ? AND status = ?", to, models.LeadStatusUnsubscribed).
+			Order("created_at DESC").
+			First(&unsub).Error
+		if err == nil {
+			return nil, nil, ErrComposeRecipientUnsubscribed
+		}
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil, fmt.Errorf("conversation: compose unsub lookup: %w", err)
+		}
+
+		var existing models.Lead
+		err = s.db.WithContext(ctx).
+			Where("LOWER(email) = ? AND status NOT IN (?)", to,
+				[]models.LeadStatus{models.LeadStatusConverted, models.LeadStatusLost, models.LeadStatusUnsubscribed}).
+			Order("created_at DESC").
+			First(&existing).Error
+		if err == nil {
+			ownerType = string(models.ConversationOwnerLead)
+			ownerID = existing.ID
+		} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil, fmt.Errorf("conversation: compose lead lookup: %w", err)
+		}
+	}
+
+	// 4. Cria Lead novo
+	if ownerID == uuid.Nil {
+		newLead, err := s.leadService.CreateForManualCompose(to, in.Name, in.UserID)
+		if err != nil {
+			return nil, nil, fmt.Errorf("conversation: compose create lead: %w", err)
+		}
+		ownerType = string(models.ConversationOwnerLead)
+		ownerID = newLead.ID
+		leadCreated = true
+	}
+
+	// Envia email reusando SendMessage (já trata attachments, threading, persistência).
+	activity, sendErr := s.SendMessage(ctx, SendMessageInput{
+		UserID:      in.UserID,
+		OwnerType:   ownerType,
+		OwnerID:     ownerID,
+		Channel:     models.LeadChannelEmail,
+		Subject:     in.Subject,
+		BodyText:    in.BodyText,
+		BodyHTML:    in.BodyHTML,
+		Attachments: in.Attachments,
+	})
+	if sendErr != nil {
+		// Lead novo foi criado mas envio falhou — mantemos o Lead (vendedor pode tentar
+		// de novo via composer normal da conversa). Erro chega ao handler com semântica
+		// preservada (opt-out, attachment too large, etc).
+		return nil, nil, sendErr
+	}
+
+	// Notifica equipe SÓ pra Lead novo (Lead/Patient pré-existente já é conhecido).
+	if leadCreated {
+		var leadCopy models.Lead
+		if err := s.db.WithContext(ctx).First(&leadCopy, "id = ?", ownerID).Error; err == nil {
+			leadRef := leadCopy
+			goSafe("notify_compose", func() { s.leadService.NotifyTeamOfNewLead(&leadRef) })
+		}
+	}
+
+	res := &ComposeResult{
+		OwnerType:   ownerType,
+		OwnerID:     ownerID,
+		LeadCreated: leadCreated,
+		URL:         fmt.Sprintf("/conversas?focus=%s:%s", ownerType, ownerID.String()),
+	}
+	return res, activity, nil
+}
+

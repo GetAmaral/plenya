@@ -239,6 +239,107 @@ func (h *ConversationHandler) SendEmail(c *fiber.Ctx) error {
 }
 
 // ============================================================
+// POST /conversations/compose
+// ============================================================
+
+// ComposeRequest é o payload do POST /conversations/compose — envio "novo email" pra
+// qualquer endereço (pode não existir Lead/Patient ainda; backend cria Lead se preciso).
+type ComposeRequest struct {
+	To          string                `json:"to" validate:"required,email,max=255"`
+	Name        string                `json:"name,omitempty" validate:"omitempty,max=255"`
+	Subject     string                `json:"subject" validate:"required,min=1,max=200"`
+	BodyText    string                `json:"bodyText" validate:"required_without=BodyHTML,max=50000"`
+	BodyHTML    string                `json:"bodyHTML,omitempty" validate:"omitempty,max=200000"`
+	Attachments []SendEmailAttachment `json:"attachments,omitempty" validate:"omitempty,max=20,dive"`
+}
+
+// Compose envia "novo email" pra um endereço arbitrário.
+//
+// Lógica de roteamento:
+//   1. Patient com email igual → conversa anexada ao Patient.
+//   2. Lead ativo (não converted/lost/unsubscribed) → conversa anexada ao Lead.
+//   3. Lead unsubscribed → 422 (não reabre relacionamento sem opt-in novo).
+//   4. Caso contrário → cria Lead novo (source=manual, opt-in implícito do vendedor).
+//
+// @Summary  Inicia conversa por email com endereço arbitrário
+// @Tags     conversations
+// @Security BearerAuth
+// @Accept   json
+// @Produce  json
+// @Param    body body ComposeRequest true "Email"
+// @Success  201 {object} services.ComposeResult
+// @Failure  400 {object} dto.ErrorResponse
+// @Failure  422 {object} dto.ErrorResponse
+// @Router   /conversations/compose [post]
+func (h *ConversationHandler) Compose(c *fiber.Ctx) error {
+	var req ComposeRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid body",
+			Message: err.Error(),
+		})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+
+	atts := make([]services.OutboundAttachment, 0, len(req.Attachments))
+	for _, a := range req.Attachments {
+		atts = append(atts, services.OutboundAttachment{Path: a.Path, Filename: a.Filename})
+	}
+
+	res, _, err := h.service.Compose(c.UserContext(), services.ComposeInput{
+		UserID:      middleware.GetUserID(c),
+		To:          req.To,
+		Name:        req.Name,
+		Subject:     req.Subject,
+		BodyText:    req.BodyText,
+		BodyHTML:    req.BodyHTML,
+		Attachments: atts,
+	})
+	if err != nil {
+		switch {
+		case errors.Is(err, services.ErrComposeInvalidEmail):
+			return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+				Error: "email do destinatário inválido",
+			})
+		case errors.Is(err, services.ErrComposeRecipientUnsubscribed):
+			return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+				Error: "destinatário descadastrado (Lead unsubscribed)",
+			})
+		case errors.Is(err, services.ErrConversationNoChannel):
+			return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+				Error: "destinatário sem canal de email válido",
+			})
+		case errors.Is(err, services.ErrConversationOptedOut):
+			return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+				Error: "destinatário com opt-out de email",
+			})
+		case errors.Is(err, services.ErrConversationAttachmentTooLarge):
+			return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+				Error:   "soma de anexos excede limite Resend (40MB)",
+				Message: err.Error(),
+			})
+		case errors.Is(err, services.ErrConversationAttachmentInvalid):
+			return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{
+				Error:   "anexo inválido",
+				Message: err.Error(),
+			})
+		default:
+			return c.Status(fiber.StatusBadGateway).JSON(dto.ErrorResponse{
+				Error:   "failed to send compose email",
+				Message: err.Error(),
+			})
+		}
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(res)
+}
+
+// ============================================================
 // POST /conversations/:type/:id/whatsapp
 // ============================================================
 

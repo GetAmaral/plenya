@@ -572,6 +572,70 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*InboundResult,
 	return &InboundResult{Lead: &newLead, IsNew: true}, nil
 }
 
+// ============================================================
+// Manual compose — vendedor inicia contato com email arbitrário
+// ============================================================
+
+// CreateForManualCompose cria um Lead novo a partir de um envio manual de email
+// pelo vendedor (botão "Novo email" da Central de Conversas). Usa Source=manual,
+// Status=new, EmailOptIn=true (consent operacional do vendedor que iniciou),
+// AssignedToUserID=actorUserID. Se name não vier, deriva da parte local do email.
+//
+// Idempotência NÃO é responsabilidade desta função — caller (ConversationService.Compose)
+// já fez lookup de Patient + Lead ativo antes de chamar.
+func (s *LeadService) CreateForManualCompose(email, name string, actorUserID uuid.UUID) (*models.Lead, error) {
+	normalized := strings.ToLower(strings.TrimSpace(email))
+	if normalized == "" {
+		return nil, errors.New("lead: email obrigatório no manual compose")
+	}
+	if actorUserID == uuid.Nil {
+		return nil, errors.New("lead: actorUserID obrigatório")
+	}
+
+	displayName := strings.TrimSpace(name)
+	if displayName == "" {
+		// Fallback: parte antes do @ do email. Vendedor pode editar depois no /leads.
+		if at := strings.Index(normalized, "@"); at > 0 {
+			displayName = normalized[:at]
+		}
+	}
+
+	now := time.Now().UTC()
+	consentVer := "manual_compose_v1" // 17 chars, dentro do varchar(20)
+	consentIP := ""                    // não há IP de cliente (vendedor que iniciou)
+	emailVal := normalized
+	actorCopy := actorUserID
+
+	lead := models.Lead{
+		Source:           models.LeadSourceManual,
+		Status:           models.LeadStatusNew,
+		Email:            &emailVal,
+		EmailOptIn:       true,
+		ConsentVersion:   &consentVer,
+		ConsentTimestamp: &now,
+		ConsentIPHash:    &consentIP,
+		AssignedToUserID: &actorCopy,
+	}
+	if displayName != "" {
+		lead.Name = &displayName
+	}
+
+	if err := s.db.Create(&lead).Error; err != nil {
+		return nil, fmt.Errorf("lead: create manual compose: %w", err)
+	}
+
+	leadID := lead.ID
+	_ = s.RecordActivity(RecordActivityInput{
+		LeadID:      &leadID,
+		Type:        models.LeadActivityCreated,
+		Channel:     models.LeadChannelInternal,
+		Content:     ptr("Lead criado via composer manual da Central de Conversas"),
+		ActorUserID: &actorCopy,
+	})
+
+	return &lead, nil
+}
+
 // RecordOutboundEmailMirror registra LeadActivity outbound espelhada de "Sent Items".
 // Usado quando o usuário responde pelo iPhone/cliente IMAP externo: o worker observa
 // a mensagem na pasta enviada e cria activity pra ter histórico no CRM.

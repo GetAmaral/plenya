@@ -340,6 +340,7 @@ func setupRoutes(
 	conv.Use(middleware.AuditLog(database.DB))
 	conv.Get("/", conversationHandler.List)
 	conv.Post("/attachments/upload", conversationAttachmentHandler.Upload)
+	conv.Post("/compose", conversationHandler.Compose)
 	conv.Get("/:type/:id/messages", conversationHandler.Messages)
 	conv.Post("/:type/:id/read", conversationHandler.MarkRead)
 	conv.Post("/:type/:id/email", conversationHandler.SendEmail)
