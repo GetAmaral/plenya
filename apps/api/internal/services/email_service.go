@@ -199,7 +199,7 @@ email contato@plenyasaude.com.br.
 	return s.send(toEmail, subject, bodyText, bodyHTML)
 }
 
-// SendPortalInvite envia convite de acesso à área do paciente (meu.plenyasaude.com.br).
+// SendPortalInvite envia convite de acesso à área do paciente (minha.plenyasaude.com.br).
 // Disparado pela equipe (admin/manager/secretary) no perfil do Patient.
 func (s *EmailService) SendPortalInvite(toEmail, patientName, link string) error {
 	subject := "Bem-vindo à área do paciente Plenya"

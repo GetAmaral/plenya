@@ -38,7 +38,7 @@ const (
 	LeadChannelEmail    LeadActivityChannel = "email"
 	LeadChannelWhatsApp LeadActivityChannel = "whatsapp"
 	LeadChannelInternal LeadActivityChannel = "internal" // notas, mudanças de status feitas no admin
-	LeadChannelPortal   LeadActivityChannel = "portal"   // mensagem enviada pelo paciente via meu.plenyasaude.com.br
+	LeadChannelPortal   LeadActivityChannel = "portal"   // mensagem enviada pelo paciente via minha.plenyasaude.com.br
 )
 
 // LeadActivity é o log imutável de eventos relacionados a uma "conversa" do CRM.

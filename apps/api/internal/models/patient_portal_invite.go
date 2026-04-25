@@ -8,7 +8,7 @@ import (
 )
 
 // PatientPortalInvite registra o convite gerado pela equipe (admin/manager/secretary)
-// pra um paciente acessar a área do paciente em meu.plenyasaude.com.br.
+// pra um paciente acessar a área do paciente em minha.plenyasaude.com.br.
 //
 // Token é a chave usada no link enviado por email/WhatsApp. Single-use:
 // quando o paciente abre o link, marcamos AcceptedAt e o token deixa de funcionar.

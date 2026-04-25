@@ -57,12 +57,12 @@ func NewPatientPortalService(
 // Invites — equipe convida paciente pra acessar o portal
 // ============================================================
 
-// PortalURL retorna a URL base do portal do paciente. Default: meu.plenyasaude.com.br.
+// PortalURL retorna a URL base do portal do paciente. Default: minha.plenyasaude.com.br.
 func (s *PatientPortalService) PortalURL() string {
 	if s.cfg.PatientPortal.PublicURL != "" {
 		return strings.TrimRight(s.cfg.PatientPortal.PublicURL, "/")
 	}
-	return "https://meu.plenyasaude.com.br"
+	return "https://minha.plenyasaude.com.br"
 }
 
 // CreateInviteInput é o payload do CreateInvite.

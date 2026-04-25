@@ -297,7 +297,7 @@ func setupRoutes(
 	conversationHandler := handlers.NewConversationHandler(conversationService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
-	// Portal do Paciente (meu.plenyasaude.com.br) — auth + dashboard + appointments.
+	// Portal do Paciente (minha.plenyasaude.com.br) — auth + dashboard + appointments.
 	// Continuum é injetado mais tarde via WithContinuum (depende de patientContinuumService).
 	patientPortalService := services.NewPatientPortalService(database.DB, cfg, authService, emailService, whatsappService)
 	patientDashboardService := services.NewPatientDashboardService(database.DB)
@@ -504,7 +504,7 @@ func setupRoutes(
 	patients.Post("/:id/documents", middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse), patientPortalHandler.StaffUploadDocument)
 	v1.Delete("/patient-documents/:id", middleware.Auth(cfg), middleware.RequireRole(models.RoleAdmin, models.RoleManager), patientPortalHandler.StaffDeleteDocument)
 
-	// Endpoints autenticados como paciente (meu.plenyasaude.com.br)
+	// Endpoints autenticados como paciente (minha.plenyasaude.com.br)
 	// Rate limit geral pra área do paciente — proteção contra conta comprometida
 	// ou paciente fazendo polling excessivo. 120 req/min cobre uso legítimo.
 	patientMeLimiter := middleware.NewRateLimiter(120, time.Minute)

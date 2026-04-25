@@ -10,7 +10,7 @@ import (
 	"github.com/plenya/api/internal/models"
 )
 
-// RequirePatient é o middleware da área do paciente (meu.plenyasaude.com.br).
+// RequirePatient é o middleware da área do paciente (minha.plenyasaude.com.br).
 //
 // Diferente do RequireRole(patient): além de validar que o JWT tem role=patient,
 // resolve o Patient vinculado ao UserID e injeta em c.Locals("patient").

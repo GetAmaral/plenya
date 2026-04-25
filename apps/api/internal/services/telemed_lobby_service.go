@@ -33,7 +33,7 @@ func NewTelemedLobbyService(db *gorm.DB, cfg *config.Config) *TelemedLobbyServic
 func (s *TelemedLobbyService) PublicLinkURL(token string) string {
 	base := s.cfg.PatientPortal.PublicURL
 	if base == "" {
-		base = "https://meu.plenyasaude.com.br"
+		base = "https://minha.plenyasaude.com.br"
 	}
 	return fmt.Sprintf("%s/sala/%s", strings.TrimRight(base, "/"), token)
 }

@@ -1,5 +1,5 @@
 /**
- * API client da área do paciente (meu.plenyasaude.com.br).
+ * API client da área do paciente (minha.plenyasaude.com.br).
  *
  * Auth público (login/magic-link/invite-consume) usa fetch direto pra evitar
  * o pipeline de refresh-token do apiClient (que não faz sentido pré-login).

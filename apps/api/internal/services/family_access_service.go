@@ -86,7 +86,7 @@ func (s *FamilyAccessService) CreateInvite(in CreateFamilyInviteInput) (*models.
 func (s *FamilyAccessService) inviteLink(token string) string {
 	base := s.cfg.PatientPortal.PublicURL
 	if base == "" {
-		base = "https://meu.plenyasaude.com.br"
+		base = "https://minha.plenyasaude.com.br"
 	}
 	return fmt.Sprintf("%s/auth/familia?token=%s", strings.TrimRight(base, "/"), token)
 }

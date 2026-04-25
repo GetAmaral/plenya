@@ -1,8 +1,8 @@
 # Portal do Paciente — Smoke Test
 
-Teste manual end-to-end. Roda em `http://localhost:3000` (host = `meu.localhost` simulado via `?host=` ou `/etc/hosts`).
+Teste manual end-to-end. Roda em `http://localhost:3000` (host = `minha.localhost` simulado via `?host=` ou `/etc/hosts`).
 
-> Em produção, o subdomínio `meu.plenyasaude.com.br` é detectado pelo middleware Next.js e o tráfego é reescrito para `/patient-portal/*` automaticamente.
+> Em produção, o subdomínio `minha.plenyasaude.com.br` é detectado pelo middleware Next.js e o tráfego é reescrito para `/patient-portal/*` automaticamente.
 
 ## Pré-requisitos
 
@@ -19,7 +19,7 @@ Teste manual end-to-end. Roda em `http://localhost:3000` (host = `meu.localhost`
 3. Marcar checkbox "Email", clicar "Convidar para o portal"
 4. Toast "Convite enviado por email"
 5. Card mostra link gerado (botão Copy)
-6. Esperado: `meu.plenyasaude.com.br/auth/invite?token=<hex64>`
+6. Esperado: `minha.plenyasaude.com.br/auth/invite?token=<hex64>`
 
 ## Passo 2 — Consume invite + senha opcional
 
@@ -53,7 +53,7 @@ Teste manual end-to-end. Roda em `http://localhost:3000` (host = `meu.localhost`
 ## Passo 6 — Lobby standalone
 
 1. Sair do portal (logout)
-2. Acessar `meu.plenyasaude.com.br/sala/<token>` (token gerado quando email/WA enviado)
+2. Acessar `minha.plenyasaude.com.br/sala/<token>` (token gerado quando email/WA enviado)
 3. Sem auth, mostra Olá [primeiro nome] + countdown se janela fechada
 4. Botão "Entrar na sala" aparece automaticamente quando abre
 5. Click → DailyCoEmbed inline

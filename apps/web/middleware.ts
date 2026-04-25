@@ -1,17 +1,17 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// PORTAL_HOST detecta requisições vindo do subdomínio meu.plenyasaude.com.br
+// PORTAL_HOST detecta requisições vindo do subdomínio minha.plenyasaude.com.br
 // (ou alias portal.). Em dev, a mesma codebase atende ambos via host header.
-const PORTAL_HOST_PATTERNS = [/^meu\./i, /^portal\./i];
+const PORTAL_HOST_PATTERNS = [/^minha\./i, /^portal\./i];
 
 // Path "público" do portal — passa direto sem rewrite.
 const PORTAL_PASSTHROUGH = ["/_next", "/api", "/favicon", "/static"];
 
 /**
- * Quando a request vem do subdomínio do portal (meu.plenyasaude.com.br),
+ * Quando a request vem do subdomínio do portal (minha.plenyasaude.com.br),
  * reescreve internamente pra /patient-portal/<path>. O usuário continua
- * vendo a URL limpa "meu.plenyasaude.com.br/perfil" mas o Next serve
+ * vendo a URL limpa "minha.plenyasaude.com.br/perfil" mas o Next serve
  * o conteúdo de app/patient-portal/perfil/page.tsx.
  *
  * No domínio principal (app.plenyasaude.com.br), seguimos com EMR profissional.

@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * /login — entrada do portal (meu.plenyasaude.com.br/login)
+ * /login — entrada do portal (minha.plenyasaude.com.br/login)
  * Híbrido: email + senha OU magic link, mesmo formulário.
  */
 import { useState } from "react";

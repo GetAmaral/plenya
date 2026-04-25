@@ -88,7 +88,7 @@ export function PortalAccessCard({ patientId }: { patientId: string }) {
           )}
         </CardTitle>
         <CardDescription>
-          Portal em meu.plenyasaude.com.br — paciente vê Continuum, consultas, exames e fala com a equipe.
+          Portal em minha.plenyasaude.com.br — paciente vê Continuum, consultas, exames e fala com a equipe.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

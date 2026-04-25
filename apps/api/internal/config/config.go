@@ -31,10 +31,10 @@ type Config struct {
 	Dev           DevConfig
 }
 
-// PatientPortalConfig — área do paciente (meu.plenyasaude.com.br).
+// PatientPortalConfig — área do paciente (minha.plenyasaude.com.br).
 // PublicURL é usado pra montar links em emails de convite, magic link, etc.
 type PatientPortalConfig struct {
-	PublicURL string // PATIENT_PORTAL_URL — ex: https://meu.plenyasaude.com.br
+	PublicURL string // PATIENT_PORTAL_URL — ex: https://minha.plenyasaude.com.br
 }
 
 // GoogleConfig — credenciais OAuth Google + Calendar API.

@@ -130,7 +130,7 @@ type Appointment struct {
 	ReminderSentAt *time.Time `gorm:"type:timestamp" json:"reminderSentAt,omitempty"`
 
 	// Quando o paciente clicou "Confirmar presença" no portal
-	// (meu.plenyasaude.com.br/consultas/[id]). Diferente de ConfirmedAt,
+	// (minha.plenyasaude.com.br/consultas/[id]). Diferente de ConfirmedAt,
 	// que é a confirmação geral via Confirm() (também pode vir da IA).
 	PatientConfirmedAt *time.Time `gorm:"type:timestamp" json:"patientConfirmedAt,omitempty"`
 

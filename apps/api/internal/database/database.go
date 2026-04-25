@@ -205,7 +205,7 @@ func AutoMigrate() error {
 		&models.PatientContinuumBox{},
 		&models.IntegratedPlanRevision{},
 
-		// Portal do Paciente (meu.plenyasaude.com.br)
+		// Portal do Paciente (minha.plenyasaude.com.br)
 		&models.PatientPortalInvite{},
 		&models.PatientMagicLink{},
 		&models.TelemedLobbyToken{},

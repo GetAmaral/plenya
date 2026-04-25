@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Layout da área do paciente (meu.plenyasaude.com.br).
+ * Layout da área do paciente (minha.plenyasaude.com.br).
  *
  * - Páginas de auth (/login, /auth/*, /esqueci-senha) são detectadas e renderizadas
  *   com layout limpo (só logo + main centralizado).
