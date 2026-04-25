@@ -58,6 +58,7 @@ export default function LoginScreen() {
           <View className="gap-4">
             <FormField label="Email" required>
               <Input
+                testID="email"
                 value={email}
                 onChangeText={setEmail}
                 placeholder="seu@email.com.br"
@@ -70,6 +71,7 @@ export default function LoginScreen() {
 
             <FormField label="Senha" required>
               <Input
+                testID="password"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
