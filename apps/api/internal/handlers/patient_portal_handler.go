@@ -39,6 +39,7 @@ type PatientPortalHandler struct {
 	labs         *services.PatientLabsService
 	scores       *services.PatientScoresService
 	profile      *services.PatientProfileService
+	documents    *services.PatientDocumentsService
 	notification *services.NotificationService
 }
 
@@ -51,6 +52,7 @@ func NewPatientPortalHandler(
 	labs *services.PatientLabsService,
 	scores *services.PatientScoresService,
 	profile *services.PatientProfileService,
+	documents *services.PatientDocumentsService,
 	notification *services.NotificationService,
 ) *PatientPortalHandler {
 	return &PatientPortalHandler{
@@ -62,8 +64,85 @@ func NewPatientPortalHandler(
 		labs:         labs,
 		scores:       scores,
 		profile:      profile,
+		documents:    documents,
 		notification: notification,
 	}
+}
+
+// ListDocuments GET /api/v1/patient/me/documents
+func (h *PatientPortalHandler) ListDocuments(c *fiber.Ctx) error {
+	rows, err := h.documents.List(middleware.GetPatientID(c))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(rows)
+}
+
+// DownloadDocument GET /api/v1/patient/me/documents/:id/download
+func (h *PatientPortalHandler) DownloadDocument(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
+	}
+	doc, fullPath, err := h.documents.GetForDownload(middleware.GetPatientID(c), id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
+	}
+	c.Set("Content-Type", doc.ContentType)
+	c.Set("Content-Disposition", `attachment; filename="`+doc.FileName+`"`)
+	return c.SendFile(fullPath)
+}
+
+// StaffListDocuments GET /api/v1/patients/:id/documents
+func (h *PatientPortalHandler) StaffListDocuments(c *fiber.Ctx) error {
+	pid, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid patient id"})
+	}
+	rows, err := h.documents.List(pid)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(rows)
+}
+
+// StaffUploadDocument POST /api/v1/patients/:id/documents (multipart)
+func (h *PatientPortalHandler) StaffUploadDocument(c *fiber.Ctx) error {
+	pid, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid patient id"})
+	}
+	file, err := c.FormFile("file")
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "arquivo obrigatório (campo 'file')"})
+	}
+	docType := c.FormValue("type", string(models.DocumentTypeOther))
+	title := c.FormValue("title")
+	description := c.FormValue("description")
+	doc, err := h.documents.Create(services.CreateDocumentInput{
+		PatientID:   pid,
+		UploadedBy:  middleware.GetUserID(c),
+		Type:        models.PatientDocumentType(docType),
+		Title:       title,
+		Description: description,
+		File:        file,
+	})
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusCreated).JSON(doc)
+}
+
+// StaffDeleteDocument DELETE /api/v1/patient-documents/:id
+func (h *PatientPortalHandler) StaffDeleteDocument(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
+	}
+	if err := h.documents.Delete(id); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
 }
 
 // UpdateProfile PUT /api/v1/patient/me/profile

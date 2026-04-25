@@ -518,6 +518,35 @@ export function useMyBoxes() {
   return useQuery({ queryKey: ["patient-boxes"], queryFn: patientBoxesApi.list });
 }
 
+// ============================================================
+// Documentos clínicos (V2)
+// ============================================================
+
+export type DocumentType = "certificate" | "report" | "referral" | "declaration" | "other";
+
+export interface PatientDocumentView {
+  id: string;
+  patientId: string;
+  type: DocumentType;
+  title: string;
+  description: string;
+  fileName: string;
+  contentType: string;
+  sizeBytes: number;
+  issuedAt: string;
+  createdAt: string;
+  uploadedByUser?: { name?: string };
+}
+
+export const patientDocumentsApi = {
+  list: () => apiClient.get<PatientDocumentView[]>("/api/v1/patient/me/documents"),
+  downloadURL: (id: string) => `${API_URL}/api/v1/patient/me/documents/${id}/download`,
+};
+
+export function useMyDocuments() {
+  return useQuery({ queryKey: ["patient-documents"], queryFn: patientDocumentsApi.list });
+}
+
 export function useSetPatientPassword() {
   return useMutation({
     mutationFn: patientMeApi.setPassword,
