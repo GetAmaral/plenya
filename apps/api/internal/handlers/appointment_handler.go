@@ -254,6 +254,32 @@ func (h *AppointmentHandler) Cancel(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
+// Confirm confirma manualmente uma consulta (status -> confirmed).
+// POST /api/v1/appointments/:id/confirm
+// Auth: admin/secretary/manager OU o doctor da consulta.
+func (h *AppointmentHandler) Confirm(c *fiber.Ctx) error {
+	appointmentID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid appointment id",
+			Message: "appointment id must be a valid UUID",
+		})
+	}
+	userID := middleware.GetUserID(c)
+	if err := h.appointmentService.Confirm(c.Context(), appointmentID, &userID); err != nil {
+		if errors.Is(err, services.ErrAppointmentNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error: "appointment not found",
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
 // Delete deleta uma consulta
 func (h *AppointmentHandler) Delete(c *fiber.Ctx) error {
 	appointmentID, err := uuid.Parse(c.Params("id"))

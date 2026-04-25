@@ -220,6 +220,21 @@ func (s *UserService) Delete(userID uuid.UUID) error {
 	return nil
 }
 
+// ListDoctors retorna usuários com role doctor — usado pra dropdowns de
+// agendamento (Calendar V1). Acessível por qualquer staff.
+func (s *UserService) ListDoctors() ([]*dto.UserResponse, error) {
+	var users []models.User
+	err := s.db.Where(`roles @> ?::jsonb`, `["doctor"]`).Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+	out := make([]*dto.UserResponse, 0, len(users))
+	for i := range users {
+		out = append(out, s.toDTO(&users[i]))
+	}
+	return out, nil
+}
+
 // ListStaff retorna usuários com role admin/secretary/manager — usado pelo CRM
 // pra dropdown de atribuição de leads. Acessível por qualquer staff (não exige admin).
 func (s *UserService) ListStaff() ([]*dto.UserResponse, error) {

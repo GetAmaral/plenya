@@ -59,6 +59,20 @@ func (h *UserHandler) GetUsers(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
+// ListDoctors retorna users com role doctor — pra dropdown de agendamento.
+// Acessível por qualquer staff.
+//
+// @Router /api/v1/users/doctors [get]
+func (h *UserHandler) ListDoctors(c *fiber.Ctx) error {
+	users, err := h.userService.ListDoctors()
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error: "Failed to list doctors: " + err.Error(),
+		})
+	}
+	return c.JSON(users)
+}
+
 // ListStaff retorna users com role admin/secretary/manager — pra dropdown CRM.
 // Acessível por qualquer staff (não exige admin).
 //

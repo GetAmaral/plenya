@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import {
@@ -74,6 +75,7 @@ const statusConfig = {
 export default function AppointmentsPage() {
   useRequireAuth();
   useRequireSelectedPatient();
+  const router = useRouter();
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -171,19 +173,10 @@ export default function AppointmentsPage() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => console.log("Ver", appointment.id)}
+              onClick={() => router.push(`/appointments/${appointment.id}`)}
             >
               Ver
             </Button>
-            {appointment.status === "scheduled" && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => console.log("Confirmar", appointment.id)}
-              >
-                Confirmar
-              </Button>
-            )}
           </div>
         );
       },
@@ -221,7 +214,7 @@ export default function AppointmentsPage() {
           {
             label: 'Novo',
             icon: <Plus className="h-4 w-4" />,
-            onClick: () => console.log('Nova consulta'),
+            onClick: () => router.push('/appointments/new'),
             variant: 'default',
           },
         ]}

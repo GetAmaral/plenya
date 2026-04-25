@@ -395,6 +395,8 @@ func setupRoutes(
 	users.Patch("/me/preferences", authHandler.UpdatePreferences)
 	// Staff list (admin/secretary/manager) — pra dropdown de atribuição de leads no CRM
 	users.Get("/staff", middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager), userHandler.ListStaff)
+	// Lista de doctors — pra dropdown de agendamento (Calendar V1).
+	users.Get("/doctors", middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager, models.RoleDoctor, models.RoleNurse), userHandler.ListDoctors)
 
 	// Mobile app endpoints — escopo /me, autenticados
 	me := v1.Group("/me")
@@ -474,6 +476,7 @@ func setupRoutes(
 	appointments.Get("/:id", appointmentHandler.GetByID)
 	appointments.Put("/:id", appointmentHandler.Update)
 	appointments.Post("/:id/cancel", appointmentHandler.Cancel)
+	appointments.Post("/:id/confirm", appointmentHandler.Confirm)
 	appointments.Delete("/:id", middleware.RequireAdmin(), appointmentHandler.Delete)
 
 	// Prescriptions routes (protegidas - apenas doctors)
@@ -889,6 +892,20 @@ func setupRoutes(
 		middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager, models.RoleDoctor),
 		calendarSlotHandler.List,
 	)
+
+	// /api/v1/doctors/:doctorId/working-hours + /absences — CRUD pra UI da agenda.
+	// RBAC interno (handler): admin/manager OU o próprio doctor pra mutações;
+	// qualquer staff pra leitura.
+	workingHoursHandler := handlers.NewWorkingHoursHandler(database.DB)
+	doctorAbsenceHandler := handlers.NewDoctorAbsenceHandler(database.DB)
+	doctors := v1.Group("/doctors", middleware.Auth(cfg))
+	doctors.Get("/:doctorId/working-hours", workingHoursHandler.List)
+	doctors.Post("/:doctorId/working-hours", workingHoursHandler.Create)
+	doctors.Put("/:doctorId/working-hours/:id", workingHoursHandler.Update)
+	doctors.Delete("/:doctorId/working-hours/:id", workingHoursHandler.Delete)
+	doctors.Get("/:doctorId/absences", doctorAbsenceHandler.List)
+	doctors.Post("/:doctorId/absences", doctorAbsenceHandler.Create)
+	doctors.Delete("/:doctorId/absences/:id", doctorAbsenceHandler.Delete)
 
 	// === Training Module ===
 	registerTrainingRoutes(v1, cfg, semanticService)

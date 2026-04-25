@@ -65,6 +65,7 @@ type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
+  { name: "Calendário", href: "/calendario", icon: Calendar, staffOnly: true },
   { name: "Conversas", href: "/conversas", icon: MessageSquare, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'conversations' },
   { name: "Pacientes", href: "/patients", icon: Users, staffOnly: true },
   { name: "Leads", href: "/leads", icon: UserPlus, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
