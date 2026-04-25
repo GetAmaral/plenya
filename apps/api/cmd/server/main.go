@@ -505,7 +505,10 @@ func setupRoutes(
 	v1.Delete("/patient-documents/:id", middleware.Auth(cfg), middleware.RequireRole(models.RoleAdmin, models.RoleManager), patientPortalHandler.StaffDeleteDocument)
 
 	// Endpoints autenticados como paciente (meu.plenyasaude.com.br)
-	patientMe := v1.Group("/patient/me", middleware.Auth(cfg), middleware.RequirePatient(database.DB))
+	// Rate limit geral pra área do paciente — proteção contra conta comprometida
+	// ou paciente fazendo polling excessivo. 120 req/min cobre uso legítimo.
+	patientMeLimiter := middleware.NewRateLimiter(120, time.Minute)
+	patientMe := v1.Group("/patient/me", middleware.Auth(cfg), middleware.RequirePatient(database.DB), patientMeLimiter.Middleware(), middleware.AuditLog(database.DB))
 	patientMe.Get("/", patientPortalHandler.Me)
 	patientMe.Post("/password", patientPortalHandler.SetPassword)
 	patientMe.Get("/dashboard", patientPortalHandler.Dashboard)
