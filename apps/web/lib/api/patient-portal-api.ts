@@ -197,6 +197,85 @@ export function useMyContinuum(enabled = true) {
   });
 }
 
+// ============================================================
+// Minhas consultas
+// ============================================================
+
+export interface MyAppointment {
+  id: string;
+  scheduledAt: string;
+  durationMinutes: number;
+  type: "initial_assessment" | "follow_up" | "telemedicine" | "procedure" | "results_review";
+  status: "scheduled" | "confirmed" | "completed" | "cancelled" | "no_show";
+  doctorId: string;
+  doctorName: string;
+  isTelemedicine: boolean;
+  dailyRoomUrl?: string | null;
+  notes?: string;
+  patientConfirmedAt?: string | null;
+  confirmedAt?: string | null;
+  cancelledAt?: string | null;
+  minutesUntilStart: number;
+}
+
+export const patientAppointmentApi = {
+  list: (range: "upcoming" | "past" = "upcoming") =>
+    apiClient.get<MyAppointment[]>(`/api/v1/patient/me/appointments?range=${range}`),
+  get: (id: string) => apiClient.get<MyAppointment>(`/api/v1/patient/me/appointments/${id}`),
+  confirm: (id: string) =>
+    apiClient.post<void>(`/api/v1/patient/me/appointments/${id}/confirm`, {}),
+  requestCancel: (id: string, reason: string) =>
+    apiClient.post<void>(`/api/v1/patient/me/appointments/${id}/request-cancel`, { reason }),
+  requestReschedule: (id: string, reason: string) =>
+    apiClient.post<void>(
+      `/api/v1/patient/me/appointments/${id}/request-reschedule`,
+      { reason },
+    ),
+};
+
+export function useMyAppointments(range: "upcoming" | "past" = "upcoming") {
+  return useQuery({
+    queryKey: ["patient-appointments", range],
+    queryFn: () => patientAppointmentApi.list(range),
+    staleTime: 30_000,
+  });
+}
+
+export function useMyAppointment(id: string | undefined) {
+  return useQuery({
+    queryKey: ["patient-appointment", id],
+    queryFn: () => patientAppointmentApi.get(id!),
+    enabled: !!id,
+    refetchInterval: (q) => {
+      // Polling se telemed dentro de janela: server pode liberar dailyRoomUrl em qualquer minuto
+      const data = q.state.data;
+      if (data?.isTelemedicine && Math.abs(data.minutesUntilStart) < 30) return 15_000;
+      return false;
+    },
+  });
+}
+
+export function useConfirmAppointment() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: patientAppointmentApi.confirm,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["patient-appointments"] });
+      qc.invalidateQueries({ queryKey: ["patient-appointment"] });
+      qc.invalidateQueries({ queryKey: ["patient-dashboard"] });
+    },
+  });
+}
+
+export function useRequestAppointmentAction() {
+  return useMutation({
+    mutationFn: ({ id, action, reason }: { id: string; action: "cancel" | "reschedule"; reason: string }) =>
+      action === "cancel"
+        ? patientAppointmentApi.requestCancel(id, reason)
+        : patientAppointmentApi.requestReschedule(id, reason),
+  });
+}
+
 export function useSetPatientPassword() {
   return useMutation({
     mutationFn: patientMeApi.setPassword,

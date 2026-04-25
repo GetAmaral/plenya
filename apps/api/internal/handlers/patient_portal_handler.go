@@ -30,17 +30,103 @@ import (
 )
 
 type PatientPortalHandler struct {
-	svc       *services.PatientPortalService
-	dashboard *services.PatientDashboardService
-	continuum *services.PatientContinuumService
+	svc          *services.PatientPortalService
+	dashboard    *services.PatientDashboardService
+	continuum    *services.PatientContinuumService
+	appointments *services.PatientAppointmentService
 }
 
 func NewPatientPortalHandler(
 	svc *services.PatientPortalService,
 	dashboard *services.PatientDashboardService,
 	continuum *services.PatientContinuumService,
+	appointments *services.PatientAppointmentService,
 ) *PatientPortalHandler {
-	return &PatientPortalHandler{svc: svc, dashboard: dashboard, continuum: continuum}
+	return &PatientPortalHandler{
+		svc:          svc,
+		dashboard:    dashboard,
+		continuum:    continuum,
+		appointments: appointments,
+	}
+}
+
+// ListAppointments GET /api/v1/patient/me/appointments?range=upcoming|past
+func (h *PatientPortalHandler) ListAppointments(c *fiber.Ctx) error {
+	patientID := middleware.GetPatientID(c)
+	rangeKind := c.Query("range", "upcoming")
+	rows, err := h.appointments.List(patientID, rangeKind)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(rows)
+}
+
+// GetAppointment GET /api/v1/patient/me/appointments/:id
+func (h *PatientPortalHandler) GetAppointment(c *fiber.Ctx) error {
+	patientID := middleware.GetPatientID(c)
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
+	}
+	row, err := h.appointments.GetByID(patientID, id)
+	if err != nil {
+		if errors.Is(err, services.ErrAppointmentNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "consulta não encontrada"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(row)
+}
+
+// ConfirmAppointment POST /api/v1/patient/me/appointments/:id/confirm
+func (h *PatientPortalHandler) ConfirmAppointment(c *fiber.Ctx) error {
+	patientID := middleware.GetPatientID(c)
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
+	}
+	if err := h.appointments.Confirm(patientID, id); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
+type requestActionBody struct {
+	Reason string `json:"reason"`
+}
+
+// RequestCancelAppointment POST /api/v1/patient/me/appointments/:id/request-cancel
+func (h *PatientPortalHandler) RequestCancelAppointment(c *fiber.Ctx) error {
+	return h.requestAction(c, "cancel")
+}
+
+// RequestRescheduleAppointment POST /api/v1/patient/me/appointments/:id/request-reschedule
+func (h *PatientPortalHandler) RequestRescheduleAppointment(c *fiber.Ctx) error {
+	return h.requestAction(c, "reschedule")
+}
+
+func (h *PatientPortalHandler) requestAction(c *fiber.Ctx, action string) error {
+	patientID := middleware.GetPatientID(c)
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
+	}
+	var body requestActionBody
+	_ = c.BodyParser(&body)
+	userID := middleware.GetUserID(c)
+	if err := h.appointments.RequestAction(services.RequestActionInput{
+		PatientID:     patientID,
+		AppointmentID: id,
+		Action:        action,
+		Reason:        body.Reason,
+		UserID:        userID,
+	}); err != nil {
+		if errors.Is(err, services.ErrAppointmentNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "consulta não encontrada"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
 }
 
 // WithContinuum injeta a dep de PatientContinuumService quando ele só fica

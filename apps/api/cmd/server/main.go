@@ -295,11 +295,12 @@ func setupRoutes(
 	conversationHandler := handlers.NewConversationHandler(conversationService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
-	// Portal do Paciente (meu.plenyasaude.com.br) — auth + dashboard.
+	// Portal do Paciente (meu.plenyasaude.com.br) — auth + dashboard + appointments.
 	// Continuum é injetado mais tarde via WithContinuum (depende de patientContinuumService).
 	patientPortalService := services.NewPatientPortalService(database.DB, cfg, authService, emailService, whatsappService)
 	patientDashboardService := services.NewPatientDashboardService(database.DB)
-	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil)
+	patientAppointmentService := services.NewPatientAppointmentService(database.DB, notificationService)
+	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
@@ -474,6 +475,11 @@ func setupRoutes(
 	patientMe.Post("/password", patientPortalHandler.SetPassword)
 	patientMe.Get("/dashboard", patientPortalHandler.Dashboard)
 	patientMe.Get("/continuum", patientPortalHandler.MyContinuum)
+	patientMe.Get("/appointments", patientPortalHandler.ListAppointments)
+	patientMe.Get("/appointments/:id", patientPortalHandler.GetAppointment)
+	patientMe.Post("/appointments/:id/confirm", patientPortalHandler.ConfirmAppointment)
+	patientMe.Post("/appointments/:id/request-cancel", patientPortalHandler.RequestCancelAppointment)
+	patientMe.Post("/appointments/:id/request-reschedule", patientPortalHandler.RequestRescheduleAppointment)
 
 	// Anamnesis routes (protegidas - profissionais autenticados)
 	anamnesis := v1.Group("/anamnesis")

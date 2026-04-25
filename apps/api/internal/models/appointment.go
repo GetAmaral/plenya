@@ -129,6 +129,11 @@ type Appointment struct {
 	// NULL = ainda não enviado; setado = job já processou.
 	ReminderSentAt *time.Time `gorm:"type:timestamp" json:"reminderSentAt,omitempty"`
 
+	// Quando o paciente clicou "Confirmar presença" no portal
+	// (meu.plenyasaude.com.br/consultas/[id]). Diferente de ConfirmedAt,
+	// que é a confirmação geral via Confirm() (também pode vir da IA).
+	PatientConfirmedAt *time.Time `gorm:"type:timestamp" json:"patientConfirmedAt,omitempty"`
+
 	// Título computado para exibição no frontend (não persistido)
 	DisplayTitle string `gorm:"-" json:"displayTitle"`
 
