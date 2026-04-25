@@ -279,6 +279,72 @@ func (s *PatientLabsService) ListPhysicalAssessments(patientID uuid.UUID) ([]Phy
 	return out, nil
 }
 
+// ============================================================
+// Boxes Plenya recebidos (V2)
+// ============================================================
+
+type PatientBoxView struct {
+	ID            uuid.UUID                       `json:"id"`
+	Name          string                          `json:"name"`
+	Contents      string                          `json:"contents"`
+	Status        models.PatientContinuumBoxStatus `json:"status"`
+	PreparedAt    *time.Time                      `json:"preparedAt,omitempty"`
+	ShippedAt     *time.Time                      `json:"shippedAt,omitempty"`
+	DeliveredAt   *time.Time                      `json:"deliveredAt,omitempty"`
+	TrackingCode  *string                         `json:"trackingCode,omitempty"`
+	Carrier       *string                         `json:"carrier,omitempty"`
+	ExpectedDate  *time.Time                      `json:"expectedDate,omitempty"`
+}
+
+func (s *PatientLabsService) ListBoxes(patientID uuid.UUID) ([]PatientBoxView, error) {
+	type row struct {
+		ID            uuid.UUID
+		Name          string
+		Contents      string
+		Status        string
+		PreparedAt    *time.Time
+		ShippedAt     *time.Time
+		DeliveredAt   *time.Time
+		TrackingCode  *string
+		Carrier       *string
+		ExpectedDate  *time.Time
+	}
+
+	var rows []row
+	err := s.db.Raw(`
+		SELECT b.id, b.name, b.contents, b.status,
+		       b.prepared_at, b.shipped_at, b.delivered_at,
+		       b.tracking_code, b.carrier,
+		       i.expected_date
+		  FROM patient_continuum_boxes b
+		  JOIN patient_continuum_items i ON i.id = b.continuum_item_id
+		  JOIN patient_continuums c ON c.id = i.continuum_id
+		 WHERE c.patient_id = ?
+		 ORDER BY i.expected_date DESC, b.created_at DESC
+	`, patientID).Scan(&rows).Error
+	if err != nil {
+		return nil, err
+	}
+
+	out := make([]PatientBoxView, 0, len(rows))
+	for i := range rows {
+		r := &rows[i]
+		out = append(out, PatientBoxView{
+			ID:           r.ID,
+			Name:         r.Name,
+			Contents:     r.Contents,
+			Status:       models.PatientContinuumBoxStatus(r.Status),
+			PreparedAt:   r.PreparedAt,
+			ShippedAt:    r.ShippedAt,
+			DeliveredAt:  r.DeliveredAt,
+			TrackingCode: r.TrackingCode,
+			Carrier:      r.Carrier,
+			ExpectedDate: r.ExpectedDate,
+		})
+	}
+	return out, nil
+}
+
 // GetPhysicalAssessmentHTML retorna o HtmlContent de uma avaliação,
 // já filtrado por patientID. Pra render iframe.
 func (s *PatientLabsService) GetPhysicalAssessmentHTML(patientID, assessmentID uuid.UUID) (string, error) {

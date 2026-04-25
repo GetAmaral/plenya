@@ -493,6 +493,31 @@ export function useRequestAccountDelete() {
   });
 }
 
+// ============================================================
+// Boxes recebidos (V2)
+// ============================================================
+
+export interface PatientBoxView {
+  id: string;
+  name: string;
+  contents: string;
+  status: "planned" | "preparing" | "shipped" | "delivered" | "cancelled";
+  preparedAt?: string | null;
+  shippedAt?: string | null;
+  deliveredAt?: string | null;
+  trackingCode?: string | null;
+  carrier?: string | null;
+  expectedDate?: string | null;
+}
+
+export const patientBoxesApi = {
+  list: () => apiClient.get<PatientBoxView[]>("/api/v1/patient/me/boxes"),
+};
+
+export function useMyBoxes() {
+  return useQuery({ queryKey: ["patient-boxes"], queryFn: patientBoxesApi.list });
+}
+
 export function useSetPatientPassword() {
   return useMutation({
     mutationFn: patientMeApi.setPassword,

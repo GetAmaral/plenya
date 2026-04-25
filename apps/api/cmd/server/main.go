@@ -521,6 +521,7 @@ func setupRoutes(
 	patientMe.Get("/scores", patientPortalHandler.ListScores)
 	patientMe.Get("/score-snapshots/:id", patientPortalHandler.GetCompleteSnapshot)
 	patientMe.Put("/profile", patientPortalHandler.UpdateProfile)
+	patientMe.Get("/boxes", patientPortalHandler.ListBoxes)
 	patientMe.Get("/lgpd/export", patientPortalHandler.LGPDExport)
 	patientMe.Post("/lgpd/account-delete-request", patientPortalHandler.LGPDRequestDelete)
 

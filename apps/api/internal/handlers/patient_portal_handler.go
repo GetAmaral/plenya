@@ -168,6 +168,14 @@ func (h *PatientPortalHandler) ListPrescriptions(c *fiber.Ctx) error {
 	return c.JSON(out)
 }
 
+func (h *PatientPortalHandler) ListBoxes(c *fiber.Ctx) error {
+	out, err := h.labs.ListBoxes(middleware.GetPatientID(c))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(out)
+}
+
 func (h *PatientPortalHandler) ListPhysicalAssessments(c *fiber.Ctx) error {
 	out, err := h.labs.ListPhysicalAssessments(middleware.GetPatientID(c))
 	if err != nil {
