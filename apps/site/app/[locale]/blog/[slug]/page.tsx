@@ -14,6 +14,7 @@ import { PostTrackReader } from '@/components/blog/post-track-reader';
 import { ArticleSchema } from '@/components/blog/article-schema';
 import { NewsletterInline } from '@/components/blog/newsletter-inline';
 import { Link } from '@/lib/i18n/navigation';
+import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 
 export async function generateStaticParams() {
   const all = await Promise.all(locales.map((l) => getAllPosts(l)));
@@ -52,9 +53,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       {/* Post header */}
       <div className="bg-petrol text-cream">
         <div className="site-narrow pt-32 pb-20 md:pt-40 md:pb-24">
-          <Link href={`/blog/categoria/${post.pillar}`} className="label-upper text-gold hover:text-gold-300 transition">
-            ← {pillarLabels[post.pillar]}
-          </Link>
+          <Breadcrumbs
+            dark
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'Blog', href: '/blog' },
+              { label: pillarLabels[post.pillar], href: `/blog/categoria/${post.pillar}` },
+              { label: post.title },
+            ]}
+          />
           <h1 className="heading-hero text-[clamp(2.2rem,5vw,4rem)] text-cream mt-6">{post.title}</h1>
           <div className="flex flex-wrap items-center gap-3 label-upper text-cream/50 mt-6">
             <span>Por {author.name}</span>

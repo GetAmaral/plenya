@@ -3,6 +3,35 @@ import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { RadarAgir } from '@/components/escore/RadarAgir';
+import { FaqAccordion } from '@/components/marketing/faq-accordion';
+import { FaqSchema } from '@/components/seo/faq-schema';
+
+const escoreFaq = [
+  {
+    q: 'O Escore Plenya substitui meus exames?',
+    a: 'Não. O Escore organiza e dá direção aos seus exames, sintomas e hábitos — não os substitui. É a leitura integrada que faltava entre uma consulta e outra.',
+  },
+  {
+    q: 'A Triagem é gratuita mesmo?',
+    a: 'Sim. A Triagem é a versão pública e gratuita do Escore — cerca de 35 perguntas em poucos minutos, sem cadastro. O resultado já indica onde a sua saúde está e qual o próximo passo.',
+  },
+  {
+    q: 'Quanto tempo leva para responder a Triagem?',
+    a: 'Cerca de 5 minutos. Apenas perguntas — sem precisar de exames em mãos.',
+  },
+  {
+    q: 'Como o Escore evolui no tempo?',
+    a: 'No Continuum Plenya, o Escore é refeito a cada três meses. A curva mostra o que avançou, o que estagnou e onde a próxima intervenção precisa entrar.',
+  },
+  {
+    q: 'Quais são as faixas e o que significam?',
+    a: 'Crítico (0-30), Atenção (31-50), Regular (51-70), Bom (71-85), Ótimo (86-100). A faixa não é veredito — é o ponto de partida da próxima conversa clínica.',
+  },
+  {
+    q: 'Os meus dados ficam seguros?',
+    a: 'Sim. A Triagem pública é anônima por padrão. No Continuum, os dados ficam armazenados conforme nossa Política de Privacidade e em conformidade com a LGPD.',
+  },
+];
 
 export const metadata: Metadata = {
   title: 'Escore Plenya — instrumento de medida do Método AGIR',
@@ -58,6 +87,7 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
 
   return (
     <>
+      <FaqSchema items={escoreFaq} />
       {/* HERO */}
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32">
@@ -283,6 +313,8 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           </div>
         </div>
       </section>
+
+      <FaqAccordion title="Perguntas frequentes sobre o Escore Plenya." items={escoreFaq} />
 
       {/* SAÍDA — link único pro método */}
       <section className="bg-petrol text-cream">

@@ -3,6 +3,14 @@ import path from 'path';
 import matter from 'gray-matter';
 import { z } from 'zod';
 
+const plenyaScoreSchema = z
+  .object({
+    initial: z.number().min(0).max(100).optional(),
+    current: z.number().min(0).max(100).optional(),
+    months: z.number().min(0).max(120).optional(),
+  })
+  .optional();
+
 const schema = z.object({
   slug: z.string(),
   patientLabel: z.string(),
@@ -10,6 +18,7 @@ const schema = z.object({
   quote: z.string(),
   outcome: z.string().optional(),
   duration: z.string().optional(),
+  plenyaScore: plenyaScoreSchema,
   pillar: z
     .enum(['alimentacao-atividade-fisica', 'gestao-metabolica', 'integracao-corpo-mente', 'ritmo-circadiano', 'longevidade'])
     .optional(),

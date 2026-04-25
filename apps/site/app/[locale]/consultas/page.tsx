@@ -2,6 +2,37 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAllDoctors } from '@/lib/team';
+import { ComparatorVsConvenio } from '@/components/marketing/comparator-vs-convenio';
+import { FaqAccordion } from '@/components/marketing/faq-accordion';
+import { FaqSchema } from '@/components/seo/faq-schema';
+import { TestimonialsInline } from '@/components/testimonials/testimonials-inline';
+
+const consultasFaq = [
+  {
+    q: 'Quanto tempo dura uma Consulta Plenya?',
+    a: 'Em média 60 a 90 minutos na primeira consulta — tempo necessário para revisar história, exames anteriores e construir uma conduta. Retornos costumam durar 45 a 60 minutos.',
+  },
+  {
+    q: 'É presencial ou online?',
+    a: 'Os dois — você escolhe. Presencial em nossa clínica em Londrina-PR ou online por telemedicina, com a mesma profundidade clínica.',
+  },
+  {
+    q: 'Vocês trabalham com convênio?',
+    a: 'Não. Atendemos exclusivamente em formato particular. Despesas médicas são dedutíveis no Imposto de Renda como gasto com saúde, conforme legislação vigente.',
+  },
+  {
+    q: 'Preciso levar exames anteriores?',
+    a: 'Sim, sempre que possível. Quanto mais histórico tivermos, melhor a leitura — exames laboratoriais, de imagem, laudos antigos e medicamentos em uso atual.',
+  },
+  {
+    q: 'A consulta inclui pedido de novos exames?',
+    a: 'Sim, quando há indicação clínica. A solicitação fica com você para realizar no laboratório de sua escolha.',
+  },
+  {
+    q: 'Qual a diferença entre uma Consulta Plenya e o Continuum Plenya?',
+    a: 'A Consulta resolve um momento. O Continuum constrói trajetória — equipe multidisciplinar acompanhando junto, plano único e reavaliações em ciclo de 6 ou 12 meses.',
+  },
+];
 
 export const metadata: Metadata = {
   title: 'Consultas Médicas | Plenya',
@@ -19,6 +50,7 @@ export default async function ConsultasPage({ params }: { params: Promise<{ loca
 
   return (
     <>
+      <FaqSchema items={consultasFaq.map((f) => ({ q: f.q, a: typeof f.a === 'string' ? f.a : '' }))} />
       {/* Hero */}
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32 max-w-3xl">
@@ -179,6 +211,20 @@ export default async function ConsultasPage({ params }: { params: Promise<{ loca
           </div>
         </div>
       </section>
+
+      <ComparatorVsConvenio
+        title="O que muda entre uma Consulta Plenya e a consulta convencional."
+        bg="bg-paper"
+      />
+
+      <TestimonialsInline
+        bg="bg-cream"
+        label="Histórias Plenya"
+        title="O que pacientes contam depois da consulta."
+        limit={3}
+      />
+
+      <FaqAccordion title="Perguntas que recebemos toda semana sobre a Consulta Plenya." items={consultasFaq} />
 
       {/* Agendamento + cross-links */}
       <section className="bg-cream">

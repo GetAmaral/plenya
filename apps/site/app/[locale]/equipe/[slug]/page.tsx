@@ -7,6 +7,7 @@ import { getAllDoctors, getDoctor } from '@/lib/team';
 import { Link } from '@/lib/i18n/navigation';
 import { MdxContent } from '@/components/blog/mdx-content';
 import { PhysicianSchema } from '@/components/team/physician-schema';
+import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 
 export async function generateStaticParams() {
   const docs = await getAllDoctors();
@@ -47,9 +48,14 @@ export default async function DoctorPage({ params }: { params: Promise<{ locale:
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32 grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
-            <Link href="/equipe" className="label-upper text-cream/50 hover:text-gold transition">
-              ← Equipe Plenya
-            </Link>
+            <Breadcrumbs
+              dark
+              items={[
+                { label: 'Home', href: '/' },
+                { label: 'Equipe', href: '/equipe' },
+                { label: doctor.name },
+              ]}
+            />
             <p className="label-upper text-gold">{doctor.role}</p>
             <h1 className="heading-hero text-[clamp(2.2rem,5vw,4rem)] text-cream">{doctor.name}</h1>
             <p className="label-upper text-cream/60">

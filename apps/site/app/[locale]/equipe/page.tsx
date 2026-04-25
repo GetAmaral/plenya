@@ -59,6 +59,37 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
+      {/* Conselho clínico — Medical Board: credenciais agregadas */}
+      <section className="bg-cream border-b border-petrol/10">
+        <div className="site-container py-12 md:py-16">
+          <div className="grid lg:grid-cols-[1fr_2fr] gap-10 items-start">
+            <div className="space-y-3">
+              <p className="label-upper text-gold">Conselho clínico</p>
+              <h2 className="heading-section text-petrol text-xl md:text-2xl">
+                Credenciais que sustentam o cuidado.
+              </h2>
+            </div>
+            <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-5 self-center">
+              {[
+                'UEL — Universidade Estadual de Londrina',
+                'Santa Casa de Londrina',
+                'Sociedade Brasileira de Nefrologia',
+                'ABMFI — Medicina Funcional Integrativa',
+                'CRM-PR ativo · RQE registrado',
+                'Equipe multidisciplinar integrada',
+              ].map((c) => (
+                <li
+                  key={c}
+                  className="label-upper text-petrol/55 text-[10px] tracking-[0.18em] leading-snug border-l-2 border-gold/40 pl-3"
+                >
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       {/* Direção clínica — Dr. Getúlio em destaque */}
       {direcao && (
         <section className="bg-cream">

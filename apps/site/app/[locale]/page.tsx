@@ -10,6 +10,7 @@ import { ScoreSection } from '@/components/marketing/score-section';
 import { ContinuumSpotlight } from '@/components/marketing/continuum-spotlight';
 import { PlansPreview } from '@/components/marketing/plans-preview';
 import { DiagnosticoStrip } from '@/components/marketing/diagnostico-strip';
+import { TestimonialsInline } from '@/components/testimonials/testimonials-inline';
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -34,6 +35,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       {/* Produto principal — Continuum em destaque */}
       <ContinuumSpotlight />
+
+      {/* Prova social — depoimentos curados */}
+      <TestimonialsInline
+        bg="bg-cream"
+        label="Histórias Plenya"
+        title="O Plenya Score evolui na curva. As histórias acontecem na vida."
+        limit={3}
+      />
 
       {/* Como começar — comparativo Consultas vs Continuum */}
       <PlansPreview />

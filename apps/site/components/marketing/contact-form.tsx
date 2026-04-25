@@ -4,15 +4,18 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { ChevronDown } from 'lucide-react';
 import { track } from '@/lib/plausible';
 import { PRIVACY_POLICY_VERSION } from '@/lib/legal';
+import { cn } from '@/lib/cn';
 
 const schema = z.object({
   name: z.string().min(2, 'Nome obrigatório'),
-  phone: z.string().min(8, 'Telefone obrigatório'),
   email: z.string().email('Email inválido'),
-  reason: z.enum(['cansaco', 'performance', 'cronica', 'prevencao', 'checkup', 'outro']),
-  window: z.string().min(2, 'Janela preferida obrigatória'),
+  phone: z.string().min(8, 'Telefone obrigatório'),
+  reason: z.enum(['cansaco', 'performance', 'cronica', 'prevencao', 'checkup', 'outro']).optional(),
+  window: z.string().optional(),
+  message: z.string().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -20,6 +23,7 @@ type FormData = z.infer<typeof schema>;
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [consentAccepted, setConsentAccepted] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
   async function onSubmit(data: FormData) {
@@ -38,7 +42,7 @@ export function ContactForm() {
         }),
       });
       if (!res.ok) throw new Error('Falha no envio');
-      track('form_contato_enviado', { reason: parsed.data.reason });
+      track('form_contato_enviado', { reason: parsed.data.reason ?? 'nao_informado' });
       setStatus('sent');
     } catch {
       setStatus('error');
@@ -58,28 +62,63 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <Field label="Nome" error={errors.name?.message}>
-        <input {...register('name')} className="form-input" />
-      </Field>
-      <Field label="Telefone (WhatsApp)" error={errors.phone?.message}>
-        <input {...register('phone')} inputMode="tel" className="form-input" />
+        <input {...register('name')} className="form-input" autoComplete="name" />
       </Field>
       <Field label="Email" error={errors.email?.message}>
-        <input {...register('email')} type="email" className="form-input" />
+        <input {...register('email')} type="email" className="form-input" autoComplete="email" />
       </Field>
-      <Field label="Motivo principal" error={errors.reason?.message}>
-        <select {...register('reason')} className="form-input" defaultValue="">
-          <option value="" disabled>Selecione</option>
-          <option value="cansaco">Cansaço / queda de energia</option>
-          <option value="performance">Performance / longevidade</option>
-          <option value="cronica">Condição crônica</option>
-          <option value="prevencao">Prevenção</option>
-          <option value="checkup">Check-up</option>
-          <option value="outro">Outro</option>
-        </select>
+      <Field label="Telefone (WhatsApp)" error={errors.phone?.message}>
+        <input {...register('phone')} inputMode="tel" className="form-input" autoComplete="tel" />
       </Field>
-      <Field label="Melhor horário para contato" error={errors.window?.message}>
-        <input {...register('window')} placeholder="Ex: manhã, tarde, fins de semana" className="form-input" />
-      </Field>
+
+      <button
+        type="button"
+        onClick={() => setShowMore((s) => !s)}
+        aria-expanded={showMore}
+        className="flex items-center gap-2 label-upper text-gold hover:text-petrol transition"
+      >
+        <span>{showMore ? 'Esconder detalhes' : 'Conte mais (opcional)'}</span>
+        <ChevronDown size={14} className={cn('transition-transform', showMore && 'rotate-180')} />
+      </button>
+
+      <div
+        className={cn(
+          'grid transition-all duration-300 ease-out',
+          showMore ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
+        )}
+      >
+        <div className="overflow-hidden">
+          <div className="space-y-6 pt-2">
+            <Field label="Motivo principal (opcional)">
+              <select {...register('reason')} className="form-input" defaultValue="">
+                <option value="">Selecione (opcional)</option>
+                <option value="cansaco">Cansaço / queda de energia</option>
+                <option value="performance">Performance / longevidade</option>
+                <option value="cronica">Condição crônica</option>
+                <option value="prevencao">Prevenção</option>
+                <option value="checkup">Check-up</option>
+                <option value="outro">Outro</option>
+              </select>
+            </Field>
+            <Field label="Melhor horário para contato (opcional)">
+              <input
+                {...register('window')}
+                placeholder="Ex: manhã, tarde, fins de semana"
+                className="form-input"
+              />
+            </Field>
+            <Field label="Mensagem (opcional)">
+              <textarea
+                {...register('message')}
+                rows={3}
+                placeholder="Algo que ajude a equipe a entender o seu momento"
+                className="form-input"
+              />
+            </Field>
+          </div>
+        </div>
+      </div>
+
       <label className="flex items-start gap-3 cursor-pointer">
         <input
           type="checkbox"

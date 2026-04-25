@@ -1,6 +1,56 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
+import { ComparatorVsConvenio } from '@/components/marketing/comparator-vs-convenio';
+import { FaqAccordion } from '@/components/marketing/faq-accordion';
+import { FaqSchema } from '@/components/seo/faq-schema';
+import { TestimonialsInline } from '@/components/testimonials/testimonials-inline';
+
+const continuumFaq = [
+  {
+    q: 'Por que o Continuum é diferente de uma consulta avulsa?',
+    a: 'Uma consulta resolve um momento. O Continuum é trajetória — equipe multidisciplinar discutindo o seu caso, plano único escrito, encontros semanais e reavaliações trimestrais. O Escore Plenya mostra a evolução em curva.',
+  },
+  {
+    q: 'É possível combinar com o meu médico de referência?',
+    a: 'Sim. O Continuum é complementar. A coordenação clínica fica com o médico Plenya, mas tratamentos em curso com outros profissionais seguem — com leitura integrada e nada é mexido sem alinhamento.',
+  },
+  {
+    q: 'Em quanto tempo vejo resultado?',
+    a: 'A primeira leitura clínica acontece logo na consulta inicial. A curva do Escore costuma mostrar movimento entre o primeiro e o terceiro mês — porque é nesse intervalo que os primeiros ajustes maduram.',
+  },
+  {
+    q: 'O Continuum é online ou presencial?',
+    a: '100% online. Todos os encontros semanais com a equipe acontecem por videochamada. O Box Plenya chega até você por correio.',
+  },
+  {
+    q: 'O que entra no Box Plenya?',
+    a: 'Mimos selecionados pela equipe e suplementos ou manipulados específicos do seu protocolo, conforme a indicação clínica. À medida que o cuidado evolui, novos boxes são preparados.',
+  },
+  {
+    q: 'Como funciona a contratação?',
+    a: 'Em conversa direta com a equipe, após uma chamada inicial de alinhamento. As condições e formas de pagamento são apresentadas conforme a modalidade escolhida (semestral ou anual).',
+  },
+  {
+    q: 'Posso cancelar se mudar de ideia?',
+    a: 'Sim. As condições de cancelamento são apresentadas antes da contratação e seguem o Código de Defesa do Consumidor.',
+  },
+];
+
+const continuumNaoE = [
+  {
+    titulo: 'Quem busca solução pontual.',
+    body: 'Um sintoma agudo, uma dúvida específica, um exame para interpretar — isso resolve em uma Consulta Plenya. O Continuum é compromisso de seis ou doze meses.',
+  },
+  {
+    titulo: 'Quem não quer mudar nada.',
+    body: 'O Continuum não muda o que você não quiser mudar. Mas também não funciona se a vontade não está. A equipe propõe, devolve dado, ajusta junto — você executa.',
+  },
+  {
+    titulo: 'Quem precisa de pronto-atendimento.',
+    body: 'Não somos urgência. O grupo de WhatsApp atende dúvidas em horário comercial — não substitui pronto-socorro nem ambulatório de plantão.',
+  },
+];
 
 export const metadata: Metadata = {
   title: 'Continuum Plenya — programa de acompanhamento contínuo',
@@ -98,6 +148,7 @@ export default async function ContinuumPage({ params }: { params: Promise<{ loca
 
   return (
     <>
+      <FaqSchema items={continuumFaq} />
       {/* HERO — compacto, padrão Escore/AGIR */}
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32">
@@ -229,6 +280,28 @@ export default async function ContinuumPage({ params }: { params: Promise<{ loca
                 quando precisarem.
               </p>
             </div>
+          </div>
+
+          {/* Para quem NÃO é — qualificador honesto */}
+          <div className="mt-20 grid lg:grid-cols-12 gap-10 border-t border-petrol/10 pt-12">
+            <div className="lg:col-span-4 space-y-3">
+              <p className="label-upper text-gold">Honestidade</p>
+              <h3 className="heading-section text-petrol text-2xl md:text-3xl leading-tight">
+                Para quem o Continuum <em className="not-italic text-gold">não</em> é.
+              </h3>
+              <p className="text-petrol/70 leading-relaxed">
+                Quanto mais cedo a gente alinha expectativa, melhor o cuidado funciona —
+                e o tempo de quem ainda nem chegou.
+              </p>
+            </div>
+            <ul className="lg:col-span-8 grid sm:grid-cols-3 gap-x-8 gap-y-8">
+              {continuumNaoE.map((it) => (
+                <li key={it.titulo} className="space-y-2">
+                  <p className="heading-section text-petrol text-lg leading-snug">{it.titulo}</p>
+                  <p className="text-petrol/70 text-sm leading-relaxed">{it.body}</p>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="mt-20 grid lg:grid-cols-[2fr_1fr] gap-10 items-center border-t border-petrol/10 pt-10">
@@ -406,6 +479,20 @@ export default async function ContinuumPage({ params }: { params: Promise<{ loca
           </div>
         </div>
       </section>
+
+      <ComparatorVsConvenio
+        title="O que muda do convencional para o Continuum Plenya."
+        bg="bg-cream"
+      />
+
+      <TestimonialsInline
+        bg="bg-paper"
+        label="Histórias Plenya"
+        title="Vozes de quem está em ciclo."
+        limit={3}
+      />
+
+      <FaqAccordion title="Perguntas frequentes sobre o Continuum." items={continuumFaq} />
 
       {/* CTA + cross-links no padrão Plenya */}
       <section className="bg-petrol text-cream">

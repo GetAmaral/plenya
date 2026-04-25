@@ -11,6 +11,7 @@ import { SiteFooter } from '@/components/layout/site-footer';
 import { SmoothScrollProvider } from '@/components/layout/smooth-scroll-provider';
 import { WhatsAppBubble } from '@/components/marketing/whatsapp-bubble';
 import { OrganizationSchema } from '@/components/seo/organization-schema';
+import { MedicalClinicSchema } from '@/components/seo/medical-clinic-schema';
 
 const heading = localFont({
   src: '../../node_modules/@plenya/brand/src/fonts/nalieta/Nalieta-Regular.otf',
@@ -85,6 +86,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <SmoothScrollProvider>
             <OrganizationSchema />
+            <MedicalClinicSchema />
             <SiteHeader />
             <main className="flex-1">{children}</main>
             <SiteFooter />

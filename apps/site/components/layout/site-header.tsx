@@ -10,10 +10,10 @@ import { LocaleSwitcher } from './locale-switcher';
 import { cn } from '@/lib/cn';
 
 const headerNav = [
-  { href: '/', key: 'home' },
-  { href: '/a-plenya', key: 'about' },
+  { href: '/como-funciona', key: 'howItWorks' },
   { href: '/consultas', key: 'consultations' },
   { href: '/continuum', key: 'plans' },
+  { href: '/escore-plenya', key: 'score' },
   { href: '/contato', key: 'contact' },
 ] as const;
 
@@ -33,6 +33,7 @@ const navGroups: readonly NavGroup[] = [
   {
     title: 'Como cuidamos',
     items: [
+      { href: '/como-funciona', label: 'Como funciona' },
       { href: '/metodo-agir', label: 'Método AGIR' },
       { href: '/escore-plenya', label: 'Escore Plenya' },
     ],
@@ -43,6 +44,7 @@ const navGroups: readonly NavGroup[] = [
       { href: '/diagnostico', label: 'Diagnóstico — é para mim?' },
       { href: '/consultas', key: 'consultations' },
       { href: '/continuum', key: 'plans' },
+      { href: '/agendar', label: 'Agendar consulta' },
       { href: '/contato', key: 'contact' },
     ],
   },
@@ -50,6 +52,8 @@ const navGroups: readonly NavGroup[] = [
     title: 'Aprenda',
     items: [
       { href: '/blog', key: 'blog' },
+      { href: '/casos', label: 'Casos clínicos' },
+      { href: '/boletim', label: 'Boletim Plenya' },
     ],
   },
 ] as const;
@@ -94,7 +98,7 @@ export function SiteHeader() {
           {/* 4 pills — desktop only */}
           <nav className="hidden md:flex items-center gap-3">
             {headerNav.map((item) => {
-              const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
+              const active = pathname.startsWith(item.href);
               return (
                 <Link
                   key={item.key}

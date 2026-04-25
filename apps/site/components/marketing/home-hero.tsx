@@ -15,8 +15,10 @@ export function HomeHero() {
         alt=""
         fill
         priority
+        fetchPriority="high"
         className="object-cover"
         sizes="100vw"
+        quality={75}
       />
       {/* Warm overlay for text legibility */}
       <div className="absolute inset-0 bg-gradient-to-b from-petrol/50 via-petrol/20 to-petrol/60" />
