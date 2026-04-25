@@ -11,6 +11,9 @@ type CreateAppointmentRequest struct {
 	Type            models.AppointmentType `json:"type" validate:"required,oneof=initial_assessment follow_up telemedicine procedure results_review"`
 	Reason          string                 `json:"reason" validate:"required"`
 	PatientNotes    *string                `json:"patientNotes,omitempty"`
+	// ContinuumItemID — quando setado, ancora a consulta ao marco do programa
+	// Continuum (PatientContinuumItem.Status vira scheduled).
+	ContinuumItemID *string `json:"continuumItemId,omitempty" validate:"omitempty,uuid"`
 }
 
 // UpdateAppointmentRequest representa o payload de atualização de consulta
@@ -40,6 +43,7 @@ type AppointmentResponse struct {
 	DoctorNotes        *string                   `json:"doctorNotes,omitempty"`
 	Diagnosis          *string                   `json:"diagnosis,omitempty"`
 	AnamnesisID        *string                   `json:"anamnesisId,omitempty"`
+	ContinuumItemID    *string                   `json:"continuumItemId,omitempty"`
 	ConfirmedAt        *string                   `json:"confirmedAt,omitempty"`
 	CompletedAt        *string                   `json:"completedAt,omitempty"`
 	CancelledAt        *string                   `json:"cancelledAt,omitempty"`

@@ -1,3 +1,6 @@
+//go:build legacy_scripts
+// +build legacy_scripts
+
 package main
 
 import (

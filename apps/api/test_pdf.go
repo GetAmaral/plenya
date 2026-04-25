@@ -1,3 +1,7 @@
+//go:build legacy_scripts
+// +build legacy_scripts
+
+// Script ad-hoc — não compila no build padrão.
 package main
 
 import (

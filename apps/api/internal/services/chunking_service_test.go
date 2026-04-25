@@ -183,6 +183,10 @@ func TestChunkScoreItem(t *testing.T) {
 		&clinicalRelevance,
 		&patientExplanation,
 		&conduct,
+		nil, // gender
+		nil, // ageRangeMin
+		nil, // ageRangeMax
+		nil, // postMenopause
 	)
 
 	// Verificar que contém todos os componentes
@@ -204,7 +208,7 @@ func TestChunkScoreItem(t *testing.T) {
 func TestChunkScoreItem_OnlyName(t *testing.T) {
 	service := NewChunkingService()
 
-	result := service.ChunkScoreItem("Glicose", nil, nil, nil)
+	result := service.ChunkScoreItem("Glicose", nil, nil, nil, nil, nil, nil, nil)
 
 	if !strings.Contains(result, "Glicose") {
 		t.Error("Result should contain name")

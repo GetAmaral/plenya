@@ -88,6 +88,13 @@ type Appointment struct {
 	// Link para anamnese (se criada durante a consulta)
 	AnamnesisID *uuid.UUID `gorm:"type:uuid;index" json:"anamnesisId,omitempty"`
 
+	// Link para item do Continuum (quando a consulta ancora um marco do programa).
+	// AppointmentService propaga status:
+	//  - Create com ContinuumItemID setado → item.Status = scheduled
+	//  - Status muda pra completed → item.Status = completed
+	// Cancel não muda o item automaticamente (equipe pode reagendar).
+	ContinuumItemID *uuid.UUID `gorm:"type:uuid;index" json:"continuumItemId,omitempty"`
+
 	// Data de confirmação
 	ConfirmedAt *time.Time `gorm:"type:timestamp" json:"confirmedAt,omitempty"`
 

@@ -913,6 +913,112 @@ func setupRoutes(
 	doctors.Post("/:doctorId/absences", doctorAbsenceHandler.Create)
 	doctors.Delete("/:doctorId/absences/:id", doctorAbsenceHandler.Delete)
 
+	// === Continuum (Fase 1) — Templates CRUD + clone ===
+	// Programa de acompanhamento longitudinal (Semestral/Anual). Admin/manager
+	// edita templates oficiais e cria customizações (ex: Trimestral via clone).
+	// Inscrição de paciente (Fase 2) faz snapshot do template no momento.
+	continuumTemplateService := services.NewContinuumTemplateService(database.DB)
+	continuumBoxTemplateService := services.NewContinuumBoxTemplateService(database.DB)
+	continuumTemplateHandler := handlers.NewContinuumTemplateHandler(continuumTemplateService)
+	continuumBoxTemplateHandler := handlers.NewContinuumBoxTemplateHandler(continuumBoxTemplateService)
+
+	allStaff := []models.Role{
+		models.RoleAdmin, models.RoleManager, models.RoleSecretary,
+		models.RoleDoctor, models.RoleNutritionist,
+		models.RolePsychologist, models.RolePhysicalEducator,
+	}
+	continuum := v1.Group("/continuum", middleware.Auth(cfg))
+	// Leitura aberta a qualquer staff (médico precisa ver pra entender plano).
+	continuum.Get("/templates", middleware.RequireRole(allStaff...), continuumTemplateHandler.List)
+	continuum.Get("/templates/:id", middleware.RequireRole(allStaff...), continuumTemplateHandler.Get)
+	continuum.Get("/box-templates", middleware.RequireRole(allStaff...), continuumBoxTemplateHandler.List)
+	continuum.Get("/box-templates/:id", middleware.RequireRole(allStaff...), continuumBoxTemplateHandler.Get)
+	// Mutações restritas a admin/manager.
+	continuum.Post("/templates", middleware.RequireRole(models.RoleAdmin, models.RoleManager), middleware.AuditLog(database.DB), continuumTemplateHandler.Create)
+	continuum.Put("/templates/:id", middleware.RequireRole(models.RoleAdmin, models.RoleManager), middleware.AuditLog(database.DB), continuumTemplateHandler.Update)
+	continuum.Delete("/templates/:id", middleware.RequireRole(models.RoleAdmin, models.RoleManager), middleware.AuditLog(database.DB), continuumTemplateHandler.Delete)
+	continuum.Post("/templates/:id/clone", middleware.RequireRole(models.RoleAdmin, models.RoleManager), middleware.AuditLog(database.DB), continuumTemplateHandler.Clone)
+	continuum.Post("/box-templates", middleware.RequireRole(models.RoleAdmin, models.RoleManager), middleware.AuditLog(database.DB), continuumBoxTemplateHandler.Create)
+	continuum.Put("/box-templates/:id", middleware.RequireRole(models.RoleAdmin, models.RoleManager), middleware.AuditLog(database.DB), continuumBoxTemplateHandler.Update)
+	continuum.Delete("/box-templates/:id", middleware.RequireRole(models.RoleAdmin, models.RoleManager), middleware.AuditLog(database.DB), continuumBoxTemplateHandler.Delete)
+	continuum.Post("/box-templates/:id/clone", middleware.RequireRole(models.RoleAdmin, models.RoleManager), middleware.AuditLog(database.DB), continuumBoxTemplateHandler.Clone)
+
+	// === Continuum (Fase 2) — Inscrição de paciente + timeline ===
+	patientContinuumService := services.NewPatientContinuumService(database.DB)
+	patientContinuumHandler := handlers.NewPatientContinuumHandler(patientContinuumService)
+
+	enrollManageRoles := []models.Role{models.RoleAdmin, models.RoleManager, models.RoleSecretary}
+
+	// Listar/ver inscrição: qualquer staff (médico precisa ver timeline do paciente).
+	v1.Get("/patients/:patientId/continuum",
+		middleware.Auth(cfg),
+		middleware.RequireRole(allStaff...),
+		patientContinuumHandler.ListByPatient,
+	)
+	continuum.Get("/enrollments/:id",
+		middleware.RequireRole(allStaff...),
+		patientContinuumHandler.Get,
+	)
+
+	// Mutações: inscrever, atualizar item, cancelar — admin/manager/secretary.
+	v1.Post("/patients/:patientId/continuum",
+		middleware.Auth(cfg),
+		middleware.RequireRole(enrollManageRoles...),
+		middleware.AuditLog(database.DB),
+		patientContinuumHandler.Enroll,
+	)
+	continuum.Put("/items/:id",
+		middleware.RequireRole(enrollManageRoles...),
+		middleware.AuditLog(database.DB),
+		patientContinuumHandler.UpdateItem,
+	)
+	continuum.Delete("/enrollments/:id",
+		middleware.RequireRole(enrollManageRoles...),
+		middleware.AuditLog(database.DB),
+		patientContinuumHandler.Cancel,
+	)
+
+	// Plano integrado (Fase 4): qualquer profissional + secretário pode editar.
+	// Histórico é leitura aberta a todo staff.
+	planEditRoles := []models.Role{
+		models.RoleAdmin, models.RoleManager, models.RoleSecretary,
+		models.RoleDoctor, models.RoleNutritionist,
+		models.RolePsychologist, models.RolePhysicalEducator,
+	}
+	continuum.Put("/enrollments/:id/integrated-plan",
+		middleware.RequireRole(planEditRoles...),
+		middleware.AuditLog(database.DB),
+		patientContinuumHandler.UpdateIntegratedPlan,
+	)
+	continuum.Get("/enrollments/:id/integrated-plan/revisions",
+		middleware.RequireRole(allStaff...),
+		patientContinuumHandler.ListPlanRevisions,
+	)
+
+	// === Continuum (Fase 5) — Box logístico ===
+	continuumBoxService := services.NewContinuumBoxService(database.DB)
+	continuumBoxHandler := handlers.NewContinuumBoxHandler(continuumBoxService)
+	// Lista/get/contagem: qualquer staff visualiza.
+	continuum.Get("/boxes", middleware.RequireRole(allStaff...), continuumBoxHandler.List)
+	continuum.Get("/boxes/counts", middleware.RequireRole(allStaff...), continuumBoxHandler.Counts)
+	continuum.Get("/boxes/:id", middleware.RequireRole(allStaff...), continuumBoxHandler.Get)
+	// Update (mudar status, registrar tracking) — admin/manager/secretary opera logística.
+	continuum.Put("/boxes/:id",
+		middleware.RequireRole(enrollManageRoles...),
+		middleware.AuditLog(database.DB),
+		continuumBoxHandler.Update,
+	)
+
+	// Cron de atrasos (1×/dia) — marca pending → missed e notifica coordenador.
+	continuumLateJob := scheduler.NewContinuumLateJob(database.DB, notificationService)
+	continuumLateJob.Start()
+
+	// Seed dos templates oficiais — idempotente, roda no boot.
+	// Falha de seed não derruba o servidor (loga e segue).
+	if err := services.NewContinuumSeedService(database.DB).SeedOfficialTemplates(); err != nil {
+		log.Printf("⚠️  Continuum seed falhou: %v", err)
+	}
+
 	// === Training Module ===
 	registerTrainingRoutes(v1, cfg, semanticService)
 

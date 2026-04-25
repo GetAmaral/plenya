@@ -2,36 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Plenya brand tokens — extraídos de @plenya/brand:
+ *   gold   #b38645  petrol #063b4f  ocean  #417e8e
+ *   sage   #92b8b4  cream  #eae7da
+ *
+ * Mapping pra tokens NativeWind:
+ *   primary       = ocean  (acentos, CTAs)
+ *   primary-fg    = cream  (texto sobre primary)
+ *   background    = white em light / petrol em dark
+ *   foreground    = petrol em light / cream em dark
+ *   destructive   = red-600 (erro mantém vermelho universal)
+ */
 @layer base {
   :root {
     --color-background: 255 255 255;
-    --color-foreground: 15 23 42;
+    --color-foreground: 6 59 79;          /* petrol */
     --color-card: 255 255 255;
-    --color-card-foreground: 15 23 42;
-    --color-border: 226 232 240;
-    --color-muted: 241 245 249;
-    --color-muted-foreground: 100 116 139;
-    --color-primary: 16 185 129;
-    --color-primary-foreground: 255 255 255;
-    --color-secondary: 226 232 240;
-    --color-secondary-foreground: 15 23 42;
+    --color-card-foreground: 6 59 79;
+    --color-border: 234 231 218;          /* cream */
+    --color-muted: 240 246 245;           /* sage 50 */
+    --color-muted-foreground: 72 102 97;  /* sage 700 */
+    --color-primary: 65 126 142;          /* ocean */
+    --color-primary-foreground: 234 231 218; /* cream */
+    --color-secondary: 234 231 218;       /* cream */
+    --color-secondary-foreground: 6 59 79;
     --color-destructive: 220 38 38;
     --color-destructive-foreground: 255 255 255;
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --color-background: 2 6 23;
-      --color-foreground: 241 245 249;
-      --color-card: 15 23 42;
-      --color-card-foreground: 241 245 249;
-      --color-border: 30 41 59;
-      --color-muted: 30 41 59;
-      --color-muted-foreground: 148 163 184;
-      --color-primary: 16 185 129;
-      --color-primary-foreground: 2 6 23;
-      --color-secondary: 51 65 85;
-      --color-secondary-foreground: 241 245 249;
+      --color-background: 6 59 79;        /* petrol */
+      --color-foreground: 234 231 218;    /* cream */
+      --color-card: 4 35 48;              /* petrol-700 */
+      --color-card-foreground: 234 231 218;
+      --color-border: 27 86 108;          /* petrol-400 */
+      --color-muted: 4 35 48;
+      --color-muted-foreground: 160 191 199; /* ocean-200 */
+      --color-primary: 65 126 142;        /* ocean */
+      --color-primary-foreground: 234 231 218;
+      --color-secondary: 4 35 48;
+      --color-secondary-foreground: 234 231 218;
       --color-destructive: 239 68 68;
       --color-destructive-foreground: 255 255 255;
     }

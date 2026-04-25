@@ -1,3 +1,7 @@
+//go:build legacy_scripts
+// +build legacy_scripts
+
+// Script ad-hoc — ver enrich_score_items.go pra contexto de execução.
 package main
 
 import (

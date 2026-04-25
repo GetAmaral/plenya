@@ -1,3 +1,7 @@
+//go:build legacy_scripts
+// +build legacy_scripts
+
+// Script ad-hoc — pra rodar use `go run -tags legacy_scripts ./cmd/fetch-missing-articles`
 package main
 
 import (

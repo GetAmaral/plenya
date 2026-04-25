@@ -108,7 +108,7 @@ export default function AppointmentDetailScreen() {
               if (!a.dailyRoomUrl) return;
               WebBrowser.openBrowserAsync(a.dailyRoomUrl, {
                 presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
-                controlsColor: '#10b981',
+                controlsColor: '#417e8e',
                 showTitle: false,
                 enableBarCollapsing: true,
               }).catch(() => toast.show('Falha ao abrir a sala', 'error'));

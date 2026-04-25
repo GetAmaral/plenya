@@ -1,3 +1,9 @@
+//go:build legacy_scripts
+// +build legacy_scripts
+
+// Script ad-hoc com import path errado (`plenya/api/...` em vez de
+// `github.com/plenya/api/...`) — preservado pra histórico mas excluído
+// do build padrão.
 package main
 
 import (

@@ -192,6 +192,17 @@ func AutoMigrate() error {
 		&models.WorkingHours{},
 		&models.DoctorAbsence{},
 		&models.AppointmentResource{},
+
+		// Continuum — programa de acompanhamento longitudinal.
+		// Templates primeiro (referenciados por items); depois inscrição,
+		// items, boxes e revisões do plano integrado.
+		&models.ContinuumBoxTemplate{},
+		&models.ContinuumTemplate{},
+		&models.ContinuumTemplateItem{},
+		&models.PatientContinuum{},
+		&models.PatientContinuumItem{},
+		&models.PatientContinuumBox{},
+		&models.IntegratedPlanRevision{},
 	); err != nil {
 		return err
 	}

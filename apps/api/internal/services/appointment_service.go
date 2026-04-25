@@ -159,6 +159,29 @@ func (s *AppointmentService) Create(userID uuid.UUID, userRole models.Role, req 
 		PatientNotes:    req.PatientNotes,
 	}
 
+	// Continuum (Fase 3): se vier ContinuumItemID, valida que existe e
+	// pertence a um Continuum desse paciente — evita ancoragem cruzada.
+	var continuumItemID *uuid.UUID
+	if req.ContinuumItemID != nil && *req.ContinuumItemID != "" {
+		cid, err := uuid.Parse(*req.ContinuumItemID)
+		if err != nil {
+			return nil, errors.New("invalid continuumItemId")
+		}
+		var item models.PatientContinuumItem
+		err = s.db.
+			Joins("JOIN patient_continuums pc ON pc.id = patient_continuum_items.continuum_id").
+			Where("patient_continuum_items.id = ? AND pc.patient_id = ?", cid, patientID).
+			First(&item).Error
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return nil, errors.New("continuum item not found for this patient")
+			}
+			return nil, err
+		}
+		continuumItemID = &cid
+		appointment.ContinuumItemID = &cid
+	}
+
 	if err := s.db.Create(&appointment).Error; err != nil {
 		// EXCLUDE constraint violation → 409.
 		if isAppointmentOverlapErr(err) {
@@ -200,6 +223,19 @@ func (s *AppointmentService) Create(userID uuid.UUID, userRole models.Role, req 
 			log.Printf("⚠️  [APPT] SendConfirmation apt=%s: %v", apptID, err)
 		}
 	})
+
+	// Continuum: propaga ancoragem síncrona (rápido — só um UPDATE) pra que
+	// a timeline reflita imediatamente após criar a consulta.
+	if continuumItemID != nil {
+		if err := s.db.Model(&models.PatientContinuumItem{}).
+			Where("id = ?", *continuumItemID).
+			Updates(map[string]any{
+				"status":         models.ContinuumItemScheduled,
+				"appointment_id": apptID,
+			}).Error; err != nil {
+			log.Printf("⚠️  [APPT] continuum anchor item=%s: %v", *continuumItemID, err)
+		}
+	}
 
 	return s.toDTO(&appointment), nil
 }
@@ -377,6 +413,24 @@ func (s *AppointmentService) Update(appointmentID, userID uuid.UUID, userRole mo
 			return nil, ErrAppointmentConflict
 		}
 		return nil, err
+	}
+
+	// Continuum: se a consulta tem item ancorado e o status virou completed,
+	// marca o item como completed também (síncrono, query simples).
+	if appointment.ContinuumItemID != nil &&
+		req.Status != nil && *req.Status == models.AppointmentCompleted {
+		refType := "appointment"
+		now := time.Now().UTC()
+		if err := s.db.Model(&models.PatientContinuumItem{}).
+			Where("id = ?", *appointment.ContinuumItemID).
+			Updates(map[string]any{
+				"status":             models.ContinuumItemCompleted,
+				"completed_at":       now,
+				"completed_ref_type": refType,
+				"completed_ref_id":   appointment.ID,
+			}).Error; err != nil {
+			log.Printf("⚠️  [APPT] continuum complete item=%s: %v", *appointment.ContinuumItemID, err)
+		}
 	}
 
 	// Async: se horário mudou, sincroniza Google + notifica paciente.
@@ -797,6 +851,10 @@ func (s *AppointmentService) toDTO(appointment *models.Appointment) *dto.Appoint
 	if appointment.AnamnesisID != nil {
 		aid := appointment.AnamnesisID.String()
 		resp.AnamnesisID = &aid
+	}
+	if appointment.ContinuumItemID != nil {
+		cid := appointment.ContinuumItemID.String()
+		resp.ContinuumItemID = &cid
 	}
 	if appointment.ConfirmedAt != nil {
 		ca := appointment.ConfirmedAt.Format(time.RFC3339)

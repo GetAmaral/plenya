@@ -1,3 +1,9 @@
+//go:build legacy_scripts
+// +build legacy_scripts
+
+// Script ad-hoc de enrichment — não compila no build padrão pra evitar
+// conflito com outros `package main` neste mesmo dir e quebras de API
+// não-mantidas. Pra rodar: `go run -tags legacy_scripts ./cmd/<arquivo>.go`
 package main
 
 import (
