@@ -3,6 +3,8 @@ package handlers
 import (
 	"errors"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -106,37 +108,54 @@ func (h *AppointmentHandler) GetByID(c *fiber.Ctx) error {
 
 // List lista consultas
 func (h *AppointmentHandler) List(c *fiber.Ctx) error {
-	limit, _ := strconv.Atoi(c.Query("limit", "20"))
+	limit, _ := strconv.Atoi(c.Query("limit", "100"))
 	offset, _ := strconv.Atoi(c.Query("offset", "0"))
-	if limit > 100 {
-		limit = 100
-	}
 
 	userID := middleware.GetUserID(c)
 	userRole := middleware.GetPrimaryRole(c)
 
-	// Parse optional filters
-	var patientID, doctorID *uuid.UUID
-	var status *models.AppointmentStatus
+	params := services.ListAppointmentsParams{
+		Limit:  limit,
+		Offset: offset,
+	}
 
 	if patientIDStr := c.Query("patientId"); patientIDStr != "" {
-		pid, err := uuid.Parse(patientIDStr)
-		if err == nil {
-			patientID = &pid
+		if pid, err := uuid.Parse(patientIDStr); err == nil {
+			params.PatientID = &pid
 		}
 	}
-	if doctorIDStr := c.Query("doctorId"); doctorIDStr != "" {
-		did, err := uuid.Parse(doctorIDStr)
-		if err == nil {
-			doctorID = &did
+	// doctorIds aceita CSV pra calendário multi-médico (ex: ?doctorIds=uuid1,uuid2).
+	// Mantém compat com `doctorId` singular pra clients antigos.
+	if doctorIdsStr := c.Query("doctorIds"); doctorIdsStr != "" {
+		for _, s := range strings.Split(doctorIdsStr, ",") {
+			if s = strings.TrimSpace(s); s == "" {
+				continue
+			}
+			if id, err := uuid.Parse(s); err == nil {
+				params.DoctorIDs = append(params.DoctorIDs, id)
+			}
+		}
+	} else if doctorIDStr := c.Query("doctorId"); doctorIDStr != "" {
+		if did, err := uuid.Parse(doctorIDStr); err == nil {
+			params.DoctorIDs = []uuid.UUID{did}
 		}
 	}
 	if statusStr := c.Query("status"); statusStr != "" {
 		s := models.AppointmentStatus(statusStr)
-		status = &s
+		params.Status = &s
+	}
+	if dateFromStr := c.Query("dateFrom"); dateFromStr != "" {
+		if t, err := time.Parse(time.RFC3339, dateFromStr); err == nil {
+			params.DateFrom = &t
+		}
+	}
+	if dateToStr := c.Query("dateTo"); dateToStr != "" {
+		if t, err := time.Parse(time.RFC3339, dateToStr); err == nil {
+			params.DateTo = &t
+		}
 	}
 
-	resp, err := h.appointmentService.List(userID, userRole, patientID, doctorID, status, limit, offset)
+	resp, err := h.appointmentService.List(userID, userRole, params)
 	if err != nil {
 		if errors.Is(err, services.ErrUnauthorized) {
 			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{

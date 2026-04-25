@@ -46,4 +46,15 @@ type AppointmentResponse struct {
 	CancellationReason *string                   `json:"cancellationReason,omitempty"`
 	CreatedAt          string                    `json:"createdAt"`
 	UpdatedAt          string                    `json:"updatedAt"`
+	Patient            *AppointmentParty         `json:"patient,omitempty"`
+	Doctor             *AppointmentParty         `json:"doctor,omitempty"`
+}
+
+// AppointmentParty — projeção mínima embutida em AppointmentResponse pra
+// evitar round-trip no front (calendário, listas, drawers).
+type AppointmentParty struct {
+	ID    string  `json:"id"`
+	Name  string  `json:"name"`
+	Email *string `json:"email,omitempty"`
+	Phone *string `json:"phone,omitempty"`
 }

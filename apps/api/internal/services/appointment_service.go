@@ -164,6 +164,11 @@ func (s *AppointmentService) Create(userID uuid.UUID, userRole models.Role, req 
 		return nil, err
 	}
 
+	// Anexa relations já carregadas pra toDTO popular nested patient/doctor
+	// sem round-trip extra.
+	appointment.Patient = patient
+	appointment.Doctor = doctor
+
 	// Async side-effects — não bloqueiam request.
 	apptID := appointment.ID
 	doctorIDCopy := doctorID
@@ -196,20 +201,23 @@ func (s *AppointmentService) Create(userID uuid.UUID, userRole models.Role, req 
 	return s.toDTO(&appointment), nil
 }
 
-// GetByID busca uma consulta por ID
+// GetByID busca uma consulta por ID. Patient sempre escopado a SelectedPatientID;
+// staff (admin/secretary/manager/doctor) acessa qualquer consulta.
 func (s *AppointmentService) GetByID(appointmentID, userID uuid.UUID, userRole models.Role) (*dto.AppointmentResponse, error) {
-	var user models.User
-	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
-		return nil, err
-	}
+	query := s.db.Preload("Patient").Preload("Doctor").Where("id = ?", appointmentID)
 
-	if user.SelectedPatientID == nil {
-		return nil, ErrAppointmentNotFound
+	if userRole == models.RolePatient {
+		var user models.User
+		if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+			return nil, err
+		}
+		if user.SelectedPatientID == nil {
+			return nil, ErrAppointmentNotFound
+		}
+		query = query.Where("patient_id = ?", *user.SelectedPatientID)
 	}
 
 	var appointment models.Appointment
-	query := s.db.Where("id = ?", appointmentID).Where("patient_id = ?", *user.SelectedPatientID)
-
 	if err := query.First(&appointment).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, ErrAppointmentNotFound
@@ -231,32 +239,67 @@ func (s *AppointmentService) GetByIDNoScope(id uuid.UUID) (*models.Appointment, 
 	return &appt, nil
 }
 
-// List lista consultas com filtros
-func (s *AppointmentService) List(userID uuid.UUID, userRole models.Role, patientID, doctorID *uuid.UUID, status *models.AppointmentStatus, limit, offset int) ([]dto.AppointmentResponse, error) {
-	var user models.User
-	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
-		return nil, err
+// ListAppointmentsParams — filtros estruturados pra List.
+type ListAppointmentsParams struct {
+	PatientID *uuid.UUID
+	DoctorIDs []uuid.UUID // suporta calendário multi-médico (admin/secretary)
+	Status    *models.AppointmentStatus
+	DateFrom  *time.Time
+	DateTo    *time.Time
+	Limit     int
+	Offset    int
+}
+
+// List lista consultas com filtros.
+// - Patient: sempre escopado a SelectedPatientID (segurança).
+// - Staff (admin/secretary/manager/doctor): livre, usa filtros do params.
+//   Doctor sem filtro vê todas as consultas; pode passar DoctorIDs=[self.ID]
+//   pra ver só as próprias.
+func (s *AppointmentService) List(userID uuid.UUID, userRole models.Role, params ListAppointmentsParams) ([]dto.AppointmentResponse, error) {
+	if params.Limit <= 0 || params.Limit > 500 {
+		params.Limit = 100
 	}
 
-	if user.SelectedPatientID == nil {
-		return []dto.AppointmentResponse{}, nil
+	query := s.db.Preload("Patient").Preload("Doctor").
+		Limit(params.Limit).Offset(params.Offset).
+		Order("scheduled_at ASC")
+
+	if userRole == models.RolePatient {
+		var user models.User
+		if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+			return nil, err
+		}
+		if user.SelectedPatientID == nil {
+			return []dto.AppointmentResponse{}, nil
+		}
+		query = query.Where("patient_id = ?", *user.SelectedPatientID)
+	} else {
+		if params.PatientID != nil {
+			query = query.Where("patient_id = ?", *params.PatientID)
+		}
+		if len(params.DoctorIDs) > 0 {
+			query = query.Where("doctor_id IN ?", params.DoctorIDs)
+		}
+	}
+
+	if params.Status != nil {
+		query = query.Where("status = ?", *params.Status)
+	}
+	if params.DateFrom != nil {
+		query = query.Where("scheduled_at >= ?", *params.DateFrom)
+	}
+	if params.DateTo != nil {
+		query = query.Where("scheduled_at < ?", *params.DateTo)
 	}
 
 	var appointments []models.Appointment
-	query := s.db.Limit(limit).Offset(offset).Order("scheduled_at DESC")
-	query = query.Where("patient_id = ?", *user.SelectedPatientID)
-
-	if status != nil {
-		query = query.Where("status = ?", *status)
-	}
-
 	if err := query.Find(&appointments).Error; err != nil {
 		return nil, err
 	}
 
 	result := make([]dto.AppointmentResponse, len(appointments))
-	for i, a := range appointments {
-		result[i] = *s.toDTO(&a)
+	for i := range appointments {
+		result[i] = *s.toDTO(&appointments[i])
 	}
 
 	return result, nil
@@ -763,6 +806,24 @@ func (s *AppointmentService) toDTO(appointment *models.Appointment) *dto.Appoint
 	if appointment.CancelledAt != nil {
 		ca := appointment.CancelledAt.Format(time.RFC3339)
 		resp.CancelledAt = &ca
+	}
+
+	// Nested patient/doctor (preloaded). Apenas projeção mínima — nada sensível.
+	if appointment.Patient.ID != uuid.Nil {
+		resp.Patient = &dto.AppointmentParty{
+			ID:    appointment.Patient.ID.String(),
+			Name:  appointment.Patient.Name,
+			Email: appointment.Patient.Email,
+			Phone: appointment.Patient.Phone,
+		}
+	}
+	if appointment.Doctor.ID != uuid.Nil {
+		email := appointment.Doctor.Email
+		resp.Doctor = &dto.AppointmentParty{
+			ID:    appointment.Doctor.ID.String(),
+			Name:  appointment.Doctor.Name,
+			Email: &email,
+		}
 	}
 
 	return resp

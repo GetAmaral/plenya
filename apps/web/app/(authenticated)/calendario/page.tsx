@@ -27,19 +27,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PageHeader } from '@/components/layout/page-header';
 
 import { CalendarGrid } from '@/components/calendar/calendar-grid';
+import { DoctorMultiSelect } from '@/components/calendar/doctor-multi-select';
 import {
   APPOINTMENT_STATUS_COLORS,
   APPOINTMENT_STATUS_LABELS,
@@ -49,33 +43,73 @@ import {
 
 type ViewMode = 'day' | 'week';
 
+const SELECTED_DOCTORS_STORAGE_PREFIX = 'plenya:calendar:selectedDoctors:';
+
+function loadSelectedDoctors(userId: string | undefined): string[] | null {
+  if (!userId || typeof window === 'undefined') return null;
+  try {
+    const raw = window.localStorage.getItem(SELECTED_DOCTORS_STORAGE_PREFIX + userId);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === 'string') : null;
+  } catch {
+    return null;
+  }
+}
+
+function persistSelectedDoctors(userId: string | undefined, ids: string[]) {
+  if (!userId || typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(
+      SELECTED_DOCTORS_STORAGE_PREFIX + userId,
+      JSON.stringify(ids),
+    );
+  } catch {
+    /* ignore quota/private mode */
+  }
+}
+
 export default function CalendarioPage() {
   useRequireAuth();
   const router = useRouter();
   const { user } = useAuthStore();
 
-  const isAdminOrManager =
+  const canSeeOtherDoctors =
     isGranted(user, 'admin') ||
     isGranted(user, 'manager') ||
-    isGranted(user, 'secretary');
+    isGranted(user, 'secretary') ||
+    isGranted(user, 'doctor');
   const isDoctor = isGranted(user, 'doctor');
 
   const { data: doctors } = useDoctors();
 
   const [view, setView] = useState<ViewMode>('week');
   const [reference, setReference] = useState<Date>(startOfDay(new Date()));
-  const [selectedDoctorId, setSelectedDoctorId] = useState<string | undefined>(undefined);
+  const [selectedDoctorIds, setSelectedDoctorIds] = useState<string[]>([]);
+  const [hydratedSelection, setHydratedSelection] = useState(false);
   const [drawerAppt, setDrawerAppt] = useState<Appointment | null>(null);
 
-  // Default doctor filter
+  // Hidrata seleção do localStorage assim que userId aparece. Só roda 1x.
   useEffect(() => {
-    if (selectedDoctorId !== undefined) return;
-    if (isDoctor && user?.id) {
-      setSelectedDoctorId(user.id);
-    } else if (isAdminOrManager) {
-      setSelectedDoctorId(''); // 'todos'
+    if (hydratedSelection || !user?.id) return;
+    const stored = loadSelectedDoctors(user.id);
+    if (stored && stored.length > 0) {
+      setSelectedDoctorIds(stored);
+    } else if (isDoctor) {
+      // Default: doctor vê própria agenda
+      setSelectedDoctorIds([user.id]);
+    } else if (doctors && doctors.length > 0) {
+      // Default staff: todos os médicos selecionados
+      setSelectedDoctorIds(doctors.map((d) => d.id));
     }
-  }, [isDoctor, isAdminOrManager, user?.id, selectedDoctorId]);
+    setHydratedSelection(true);
+  }, [user?.id, isDoctor, doctors, hydratedSelection]);
+
+  // Persiste a cada mudança (depois de hidratar pra não escrever vazio inicial).
+  useEffect(() => {
+    if (!hydratedSelection) return;
+    persistSelectedDoctors(user?.id, selectedDoctorIds);
+  }, [selectedDoctorIds, user?.id, hydratedSelection]);
 
   // Janela de fetch
   const { dateFrom, dateTo } = useMemo(() => {
@@ -83,16 +117,15 @@ export default function CalendarioPage() {
       const start = startOfDay(reference);
       return { dateFrom: start.toISOString(), dateTo: addDays(start, 1).toISOString() };
     }
-    // week (Sunday → Saturday)
     const start = startOfDay(addDays(reference, -reference.getDay()));
     return { dateFrom: start.toISOString(), dateTo: addDays(start, 7).toISOString() };
   }, [view, reference]);
 
   const { data: appointments = [], isLoading } = useAppointments({
-    doctorId: selectedDoctorId || undefined,
+    doctorIds: selectedDoctorIds,
     dateFrom,
     dateTo,
-    limit: 200,
+    limit: 500,
   });
 
   const handlePrev = () => {
@@ -159,24 +192,13 @@ export default function CalendarioPage() {
           </Button>
         </div>
 
-        {isAdminOrManager && (
-          <div className="ml-auto w-full sm:w-64">
-            <Select
-              value={selectedDoctorId ?? ''}
-              onValueChange={(v) => setSelectedDoctorId(v === '__all' ? '' : v)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Filtrar médico" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all">Todos os médicos</SelectItem>
-                {(doctors ?? []).map((d) => (
-                  <SelectItem key={d.id} value={d.id}>
-                    {d.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+        {canSeeOtherDoctors && (
+          <div className="ml-auto w-full sm:w-auto">
+            <DoctorMultiSelect
+              doctors={doctors ?? []}
+              selectedIds={selectedDoctorIds}
+              onChange={setSelectedDoctorIds}
+            />
           </div>
         )}
       </div>
@@ -184,12 +206,17 @@ export default function CalendarioPage() {
       {/* Grid */}
       {isLoading ? (
         <Card className="h-[600px] animate-pulse" />
+      ) : selectedDoctorIds.length === 0 ? (
+        <Card className="flex h-[300px] items-center justify-center text-sm text-muted-foreground">
+          Selecione ao menos um médico para visualizar a agenda.
+        </Card>
       ) : (
         <CalendarGrid
           view={view}
           referenceDate={reference}
           appointments={appointments}
           onSelectAppointment={(a) => setDrawerAppt(a)}
+          colorByDoctor={selectedDoctorIds.length > 1}
         />
       )}
 

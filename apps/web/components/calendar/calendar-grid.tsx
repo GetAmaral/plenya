@@ -22,6 +22,7 @@ import {
   APPOINTMENT_TYPE_LABELS,
   type Appointment,
 } from '@/lib/api/calendar-api';
+import { doctorBlockClass } from '@/lib/calendar/doctor-colors';
 
 const HOUR_START = 8;
 const HOUR_END = 20;
@@ -35,6 +36,11 @@ interface CalendarGridProps {
   referenceDate: Date;
   appointments: Appointment[];
   onSelectAppointment: (a: Appointment) => void;
+  /**
+   * Quando true, blocos recebem cor por médico (em vez de cor por tipo).
+   * Útil quando há multi-doctor view. Caller passa true se selecionou >1.
+   */
+  colorByDoctor?: boolean;
 }
 
 export function CalendarGrid({
@@ -42,6 +48,7 @@ export function CalendarGrid({
   referenceDate,
   appointments,
   onSelectAppointment,
+  colorByDoctor = false,
 }: CalendarGridProps) {
   const days = useMemo(() => {
     if (view === 'day') return [startOfDay(referenceDate)];
@@ -126,7 +133,14 @@ export function CalendarGrid({
                   20,
                   (a.durationMinutes / 60) * HOUR_HEIGHT_PX - 2,
                 );
-                const colorClass = APPOINTMENT_TYPE_COLORS[a.type];
+                const baseClass = colorByDoctor
+                  ? cn('border-l-4', doctorBlockClass(a.doctorId))
+                  : APPOINTMENT_TYPE_COLORS[a.type];
+                const patientName = a.patient?.name ?? 'Paciente';
+                const typeLabel = APPOINTMENT_TYPE_LABELS[a.type];
+                const doctorName = a.doctor?.name;
+                const titleParts = [`${format(start, 'HH:mm')} ${patientName}`, typeLabel];
+                if (doctorName) titleParts.push(`Dr(a). ${doctorName}`);
                 return (
                   <button
                     key={a.id}
@@ -134,17 +148,20 @@ export function CalendarGrid({
                     onClick={() => onSelectAppointment(a)}
                     className={cn(
                       'absolute left-1 right-1 overflow-hidden rounded border px-1.5 py-1 text-left text-xs shadow-sm transition-colors',
-                      colorClass,
+                      baseClass,
                       a.status === 'cancelled' && 'opacity-50 line-through',
                     )}
                     style={{ top, height }}
-                    title={`${APPOINTMENT_TYPE_LABELS[a.type]} - ${a.patient?.name ?? ''}`}
+                    title={titleParts.join(' · ')}
                   >
                     <div className="truncate font-semibold">
-                      {format(start, 'HH:mm')} {a.patient?.name ?? 'Paciente'}
+                      {format(start, 'HH:mm')} {patientName}
                     </div>
-                    <div className="truncate text-[10px] opacity-80">
-                      {APPOINTMENT_TYPE_LABELS[a.type]}
+                    <div className="flex items-center justify-between gap-1 text-[10px] opacity-80">
+                      <span className="truncate">{typeLabel}</span>
+                      {colorByDoctor && doctorName && (
+                        <span className="truncate font-medium">{doctorName.split(' ')[0]}</span>
+                      )}
                     </div>
                   </button>
                 );

@@ -248,9 +248,12 @@ export function useCalendarSlots(
 
 export interface AppointmentFilter {
   status?: AppointmentStatus;
+  /** Filtro singular legado. Prefira `doctorIds` para multi-médico. */
   doctorId?: string;
+  /** Lista de médicos (calendário multi-doctor). Mandado como CSV ?doctorIds=. */
+  doctorIds?: string[];
   patientId?: string;
-  /** Janela [from, to) no formato ISO. Filtragem client-side por enquanto. */
+  /** Janela [from, to) no formato ISO — agora filtrada server-side. */
   dateFrom?: string;
   dateTo?: string;
   limit?: number;
@@ -260,9 +263,15 @@ export interface AppointmentFilter {
 function buildAppointmentQuery(filter: AppointmentFilter): string {
   const params = new URLSearchParams();
   if (filter.status) params.set('status', filter.status);
-  if (filter.doctorId) params.set('doctorId', filter.doctorId);
+  if (filter.doctorIds && filter.doctorIds.length > 0) {
+    params.set('doctorIds', filter.doctorIds.join(','));
+  } else if (filter.doctorId) {
+    params.set('doctorId', filter.doctorId);
+  }
   if (filter.patientId) params.set('patientId', filter.patientId);
-  params.set('limit', String(filter.limit ?? 100));
+  if (filter.dateFrom) params.set('dateFrom', filter.dateFrom);
+  if (filter.dateTo) params.set('dateTo', filter.dateTo);
+  params.set('limit', String(filter.limit ?? 200));
   params.set('offset', String(filter.offset ?? 0));
   return params.toString();
 }
@@ -272,21 +281,20 @@ function buildAppointmentQuery(filter: AppointmentFilter): string {
  * Normalizamos pra sempre devolver Appointment[].
  */
 export function useAppointments(filter: AppointmentFilter = {}) {
+  // Quando o caller pediu multi-doctor mas a lista veio vazia, evitamos chamar
+  // o backend (que faria SELECT em todos os médicos como se fosse "todos").
+  const enabled =
+    filter.doctorIds === undefined || filter.doctorIds.length > 0 || !!filter.patientId;
+
   return useQuery({
     queryKey: calendarKeys.appointments(filter),
     queryFn: async () => {
       const result = await apiClient.get<Appointment[] | AppointmentListResponse>(
         `/api/v1/appointments?${buildAppointmentQuery(filter)}`,
       );
-      const list = Array.isArray(result) ? result : result.data;
-      // Filtragem client-side por janela de data (backend ainda não suporta)
-      return list.filter((a) => {
-        const at = new Date(a.scheduledAt).getTime();
-        if (filter.dateFrom && at < new Date(filter.dateFrom).getTime()) return false;
-        if (filter.dateTo && at >= new Date(filter.dateTo).getTime()) return false;
-        return true;
-      });
+      return Array.isArray(result) ? result : result.data;
     },
+    enabled,
     staleTime: 15 * 1000,
     refetchInterval: 15 * 1000,
     refetchOnWindowFocus: true,
