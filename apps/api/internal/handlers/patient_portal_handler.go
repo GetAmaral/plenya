@@ -37,6 +37,7 @@ type PatientPortalHandler struct {
 	appointments *services.PatientAppointmentService
 	messages     *services.PatientMessagesService
 	labs         *services.PatientLabsService
+	scores       *services.PatientScoresService
 }
 
 func NewPatientPortalHandler(
@@ -46,6 +47,7 @@ func NewPatientPortalHandler(
 	appointments *services.PatientAppointmentService,
 	messages *services.PatientMessagesService,
 	labs *services.PatientLabsService,
+	scores *services.PatientScoresService,
 ) *PatientPortalHandler {
 	return &PatientPortalHandler{
 		svc:          svc,
@@ -54,7 +56,30 @@ func NewPatientPortalHandler(
 		appointments: appointments,
 		messages:     messages,
 		labs:         labs,
+		scores:       scores,
 	}
+}
+
+// ListScores GET /api/v1/patient/me/scores
+func (h *PatientPortalHandler) ListScores(c *fiber.Ctx) error {
+	out, err := h.scores.ListAll(middleware.GetPatientID(c))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(out)
+}
+
+// GetCompleteSnapshot GET /api/v1/patient/me/score-snapshots/:id
+func (h *PatientPortalHandler) GetCompleteSnapshot(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
+	}
+	out, err := h.scores.GetCompleteSnapshot(middleware.GetPatientID(c), id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(out)
 }
 
 // ============================================================

@@ -433,6 +433,28 @@ export function useMyPhysicalAssessments() {
   });
 }
 
+// ============================================================
+// Escores (Light + Completo unificados)
+// ============================================================
+
+export interface ScoreEntryView {
+  id: string;
+  source: "light" | "complete";
+  createdAt: string;
+  totalScorePercentage: number;
+  itemsEvaluatedCount: number;
+  publicCode?: string | null;
+  groupResults: { groupId: string; groupName: string; scorePercentage: number }[];
+}
+
+export const patientScoresApi = {
+  list: () => apiClient.get<ScoreEntryView[]>("/api/v1/patient/me/scores"),
+};
+
+export function useMyScores() {
+  return useQuery({ queryKey: ["patient-scores"], queryFn: patientScoresApi.list });
+}
+
 export function useSetPatientPassword() {
   return useMutation({
     mutationFn: patientMeApi.setPassword,

@@ -290,6 +290,8 @@ func setupRoutes(
 	medicationDefHandler := handlers.NewMedicationDefinitionHandler(medicationDefinitionService)
 	enrichmentPrepHandler := handlers.NewScoreEnrichmentPreparationHandler(database.DB)
 	leadHandler := handlers.NewLeadHandler(leadService, emailService)
+	campaignService := services.NewCampaignService(database.DB, cfg)
+	campaignHandler := handlers.NewCampaignHandler(campaignService)
 	whatsappWebhookHandler := handlers.NewWhatsAppWebhookHandler(cfg, whatsappService, leadService)
 	conversationService := services.NewConversationService(database.DB, leadService, emailService, whatsappService, notificationService, aiService)
 	conversationHandler := handlers.NewConversationHandler(conversationService)
@@ -302,9 +304,10 @@ func setupRoutes(
 	patientAppointmentService := services.NewPatientAppointmentService(database.DB, notificationService)
 	patientMessagesService := services.NewPatientMessagesService(database.DB, notificationService)
 	patientLabsService := services.NewPatientLabsService(database.DB)
+	patientScoresService := services.NewPatientScoresService(database.DB)
 	telemedLobbyService := services.NewTelemedLobbyService(database.DB, cfg)
 	telemedLobbyHandler := handlers.NewTelemedLobbyHandler(telemedLobbyService)
-	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService)
+	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService, patientScoresService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
@@ -371,6 +374,20 @@ func setupRoutes(
 	leads.Post("/:id/convert", leadHandler.Convert)
 	// Delete: admin only (destrutivo / LGPD)
 	leads.Delete("/:id", middleware.RequireAdmin(), leadHandler.Delete)
+
+	// Campaigns — autenticado (admin/manager). QR code endpoint é GET (cacheável,
+	// pode ser embedado em <img>) mas mantém auth pra não vazar URLs internas.
+	campaigns := v1.Group("/campaigns")
+	campaigns.Use(middleware.Auth(cfg))
+	campaigns.Use(middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary))
+	campaigns.Use(middleware.AuditLog(database.DB))
+	campaigns.Get("/", campaignHandler.List)
+	campaigns.Post("/", campaignHandler.Create)
+	campaigns.Get("/:id", campaignHandler.Get)
+	campaigns.Patch("/:id", campaignHandler.Update)
+	campaigns.Post("/:id/archive", campaignHandler.Archive)
+	campaigns.Get("/:id/qrcode", campaignHandler.QRCode)
+	campaigns.Delete("/:id", middleware.RequireAdmin(), campaignHandler.Delete)
 
 	// Central de Conversas (Bloco B) — Lead+Patient unificados
 	conv := v1.Group("/conversations")
@@ -500,6 +517,8 @@ func setupRoutes(
 	patientMe.Get("/prescriptions", patientPortalHandler.ListPrescriptions)
 	patientMe.Get("/physical-assessments", patientPortalHandler.ListPhysicalAssessments)
 	patientMe.Get("/physical-assessments/:id/html", patientPortalHandler.GetPhysicalAssessmentHTML)
+	patientMe.Get("/scores", patientPortalHandler.ListScores)
+	patientMe.Get("/score-snapshots/:id", patientPortalHandler.GetCompleteSnapshot)
 
 	// Anamnesis routes (protegidas - profissionais autenticados)
 	anamnesis := v1.Group("/anamnesis")
