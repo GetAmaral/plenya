@@ -154,6 +154,7 @@ func AutoMigrate() error {
 		// CRM — Leads
 		&models.Lead{},
 		&models.LeadActivity{},
+		&models.Campaign{},
 		&models.ConversationRead{},
 
 		// Email ingest (worker IMAP IDLE)
@@ -208,6 +209,7 @@ func AutoMigrate() error {
 		&models.PatientPortalInvite{},
 		&models.PatientMagicLink{},
 		&models.TelemedLobbyToken{},
+		&models.PatientDocument{},
 	); err != nil {
 		return err
 	}

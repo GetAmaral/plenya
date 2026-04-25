@@ -72,6 +72,11 @@ export type CreateSessionRequest = {
   responses: SessionResponse[];
   /** Versão da Política de Privacidade aceita pelo titular (LGPD art. 8º §6º). */
   consentVersion: string;
+  /** UTM — atribuição de marketing (ver lib/utm.ts). */
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmTerm?: string;
 };
 
 // === Resposta pública (sem dados técnicos) ===

@@ -145,6 +145,9 @@ func (h *LeadHandler) List(c *fiber.Ctx) error {
 			filter.AssignedToUserID = &id
 		}
 	}
+	if s := c.Query("utmCampaign"); s != "" {
+		filter.UTMCampaign = &s
+	}
 
 	page, _ := strconv.Atoi(c.Query("page", "0"))
 	pageSize, _ := strconv.Atoi(c.Query("pageSize", "25"))

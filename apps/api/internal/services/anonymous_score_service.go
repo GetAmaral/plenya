@@ -141,6 +141,10 @@ func (s *AnonymousScoreService) RequestClaim(code string, in RequestClaimInput) 
 			ConsentVersion:   in.ConsentVersion,
 			ConsentTimestamp: time.Now().UTC(),
 			ConsentIPHash:    in.IPHash,
+			UTMSource:        session.UTMSource,
+			UTMMedium:        session.UTMMedium,
+			UTMCampaign:      session.UTMCampaign,
+			UTMTerm:          session.UTMTerm,
 		})
 		if err != nil {
 			// Não fatal — log e seguimos com o envio
@@ -434,6 +438,22 @@ func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService)
 }
 
 // emailToDisplayName gera um nome placeholder a partir do email (user pode editar depois).
+// sanitizeUTM normaliza um campo UTM opcional: trim, deduplica espaços, trunca,
+// devolve nil se vazio. Evita persistir lixo vindo de query string adversarial.
+func sanitizeUTM(v *string, max int) *string {
+	if v == nil {
+		return nil
+	}
+	s := strings.TrimSpace(*v)
+	if s == "" {
+		return nil
+	}
+	if len(s) > max {
+		s = s[:max]
+	}
+	return &s
+}
+
 func emailToDisplayName(email string) string {
 	localPart := email
 	if idx := strings.Index(email, "@"); idx > 0 {
@@ -705,6 +725,13 @@ type CreateSessionRequest struct {
 	// LGPD — versão da Política de Privacidade aceita pelo titular
 	// (ex: "2026-04-22.1"). Obrigatório.
 	ConsentVersion string `json:"consentVersion" validate:"required,min=5,max=20"`
+
+	// UTM — atribuição da ação de marketing (capturada pelo site quando a URL
+	// contém ?utm_*=...). Opcionais; ignorados se vazios.
+	UTMSource   *string `json:"utmSource,omitempty"   validate:"omitempty,max=80"`
+	UTMMedium   *string `json:"utmMedium,omitempty"   validate:"omitempty,max=80"`
+	UTMCampaign *string `json:"utmCampaign,omitempty" validate:"omitempty,max=120"`
+	UTMTerm     *string `json:"utmTerm,omitempty"     validate:"omitempty,max=120"`
 }
 
 // ============================================================
@@ -841,6 +868,10 @@ func (s *AnonymousScoreService) CreateSession(req CreateSessionRequest) (*Public
 		Weight:           req.Weight,
 		ConsentVersion:   &req.ConsentVersion,
 		ConsentTimestamp: &now,
+		UTMSource:        sanitizeUTM(req.UTMSource, 80),
+		UTMMedium:        sanitizeUTM(req.UTMMedium, 80),
+		UTMCampaign:      sanitizeUTM(req.UTMCampaign, 120),
+		UTMTerm:          sanitizeUTM(req.UTMTerm, 120),
 	}
 
 	// Indexa respostas por ScoreItemID

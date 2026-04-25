@@ -390,6 +390,14 @@ export default function LeadsPage() {
                         onClick={() => router.push(`/leads/${lead.id}`)}
                       >
                         <Badge variant="outline">{SOURCE_LABELS[lead.source]}</Badge>
+                        {lead.utmCampaign && (
+                          <div
+                            className="mt-1 text-[10px] font-mono text-amber-700 truncate max-w-[160px]"
+                            title={`utm_source: ${lead.utmSource ?? '—'}\nutm_medium: ${lead.utmMedium ?? '—'}\nutm_campaign: ${lead.utmCampaign}`}
+                          >
+                            📣 {lead.utmCampaign}
+                          </div>
+                        )}
                       </td>
                       <td
                         className="px-2 py-3 cursor-pointer"

@@ -63,6 +63,11 @@ export interface Lead {
   assignedToUserId?: string;
   /** Última inbound do cliente — usado pra calcular janela 24h de session messages. */
   lastInboundAt?: string;
+  /** UTM — atribuição de marketing propagada da sessão (Painel/Triagem). */
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmTerm?: string;
   createdAt: string;
   updatedAt: string;
   activities?: LeadActivity[];
@@ -77,6 +82,8 @@ export interface LeadFilter {
   hasEmailOptIn?: boolean;
   hasWhatsAppOptIn?: boolean;
   assignedToUserId?: string;
+  /** Filtra por utm_campaign exato (vem do CRM/Campanhas). */
+  utmCampaign?: string;
 }
 
 export interface LeadListResult {

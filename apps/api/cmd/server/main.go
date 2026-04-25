@@ -306,9 +306,10 @@ func setupRoutes(
 	patientLabsService := services.NewPatientLabsService(database.DB)
 	patientScoresService := services.NewPatientScoresService(database.DB)
 	patientProfileService := services.NewPatientProfileService(database.DB)
+	patientDocumentsService := services.NewPatientDocumentsService(database.DB, "/app/uploads")
 	telemedLobbyService := services.NewTelemedLobbyService(database.DB, cfg)
 	telemedLobbyHandler := handlers.NewTelemedLobbyHandler(telemedLobbyService)
-	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService, patientScoresService, patientProfileService, notificationService)
+	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService, patientScoresService, patientProfileService, patientDocumentsService, notificationService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
@@ -497,6 +498,11 @@ func setupRoutes(
 	patients.Get("/:id/portal-invite", portalInviteRoles, patientPortalHandler.GetInviteStatus)
 	patients.Post("/:id/portal-invite", portalInviteRoles, patientPortalHandler.CreateInvite)
 
+	// Documentos clínicos (V2): staff faz upload, paciente baixa pelo portal
+	patients.Get("/:id/documents", patientPortalHandler.StaffListDocuments)
+	patients.Post("/:id/documents", middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse), patientPortalHandler.StaffUploadDocument)
+	v1.Delete("/patient-documents/:id", middleware.Auth(cfg), middleware.RequireRole(models.RoleAdmin, models.RoleManager), patientPortalHandler.StaffDeleteDocument)
+
 	// Endpoints autenticados como paciente (meu.plenyasaude.com.br)
 	patientMe := v1.Group("/patient/me", middleware.Auth(cfg), middleware.RequirePatient(database.DB))
 	patientMe.Get("/", patientPortalHandler.Me)
@@ -522,6 +528,8 @@ func setupRoutes(
 	patientMe.Get("/score-snapshots/:id", patientPortalHandler.GetCompleteSnapshot)
 	patientMe.Put("/profile", patientPortalHandler.UpdateProfile)
 	patientMe.Get("/boxes", patientPortalHandler.ListBoxes)
+	patientMe.Get("/documents", patientPortalHandler.ListDocuments)
+	patientMe.Get("/documents/:id/download", patientPortalHandler.DownloadDocument)
 	patientMe.Get("/lgpd/export", patientPortalHandler.LGPDExport)
 	patientMe.Post("/lgpd/account-delete-request", patientPortalHandler.LGPDRequestDelete)
 

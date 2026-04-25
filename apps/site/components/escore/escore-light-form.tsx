@@ -15,6 +15,7 @@ import { NumericClassifierInput, isNumericClassifiable } from './numeric-classif
 import { LabPDFUpload } from './lab-pdf-upload';
 import type { LightLabMatch } from '@/lib/score-light/api';
 import { PRIVACY_POLICY_VERSION } from '@/lib/legal';
+import { captureUTMFromURL, utmToPayload } from '@/lib/utm';
 
 type Demographics = {
   age: number | '';
@@ -117,6 +118,13 @@ export function EscoreLightForm({
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [consentAccepted, setConsentAccepted] = useState(false);
+
+  // Captura UTMs da URL no mount → sessionStorage. Garante atribuição correta
+  // mesmo se o usuário entrar via /painel?utm=... e completar o form vários
+  // minutos depois (ou navegar pra demais páginas e voltar).
+  useEffect(() => {
+    captureUTMFromURL();
+  }, []);
 
   // Lista de grupos com items aplicáveis (filtragem dinâmica por demografia)
   const groupSteps = useMemo(() => {
@@ -254,6 +262,7 @@ export function EscoreLightForm({
       if (validResponses.length === 0) {
         throw new Error('Responda pelo menos uma pergunta para gerar seu radar.');
       }
+      const utm = utmToPayload(captureUTMFromURL());
       const payload = {
         age: demo.age,
         gender: demo.gender,
@@ -261,6 +270,7 @@ export function EscoreLightForm({
         weight: typeof demo.weight === 'number' ? demo.weight : undefined,
         responses: validResponses,
         consentVersion: PRIVACY_POLICY_VERSION,
+        ...utm,
       };
       const session = await createSession(payload);
       router.push(`/${locale}/escore-plenya/resultado/${session.publicCode}`);

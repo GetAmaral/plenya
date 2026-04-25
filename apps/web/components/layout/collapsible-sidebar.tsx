@@ -43,6 +43,7 @@ import {
   Plug,
   Settings,
   Workflow,
+  Megaphone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -73,6 +74,7 @@ const navigation: NavigationItem[] = [
   { name: "Pacientes", href: "/patients", icon: Users, staffOnly: true },
   { name: "Leads", href: "/leads", icon: UserPlus, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
   { name: "Dashboard de Leads", href: "/leads/dashboard", icon: BarChart3, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
+  { name: "Campanhas", href: "/campaigns", icon: Megaphone, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
   { name: "Consultas", href: "/appointments", icon: Calendar },
   { name: "Anamneses", href: "/anamnesis", icon: Stethoscope },
   { name: "Templates de Anamnese", href: "/anamnesis-templates", icon: FileCheck, staffOnly: true },

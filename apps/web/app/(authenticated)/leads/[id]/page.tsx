@@ -169,6 +169,35 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                 <pre className="mt-1 overflow-x-auto rounded bg-muted p-2 text-xs">{JSON.stringify(lead.metadata, null, 2)}</pre>
               </div>
             )}
+            {(lead.utmSource || lead.utmMedium || lead.utmCampaign) && (
+              <div className="sm:col-span-2 rounded-md border border-amber-200 bg-amber-50/50 p-3">
+                <div className="text-xs font-medium uppercase tracking-wide text-amber-900">
+                  Origem da campanha
+                </div>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  {lead.utmSource && (
+                    <Badge variant="outline" className="font-mono text-xs">
+                      src: {lead.utmSource}
+                    </Badge>
+                  )}
+                  {lead.utmMedium && (
+                    <Badge variant="outline" className="font-mono text-xs">
+                      med: {lead.utmMedium}
+                    </Badge>
+                  )}
+                  {lead.utmCampaign && (
+                    <Badge variant="outline" className="font-mono text-xs">
+                      cmp: {lead.utmCampaign}
+                    </Badge>
+                  )}
+                  {lead.utmTerm && (
+                    <Badge variant="outline" className="font-mono text-xs">
+                      term: {lead.utmTerm}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Ações */}

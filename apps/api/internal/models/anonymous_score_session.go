@@ -65,6 +65,16 @@ type AnonymousScoreSession struct {
 	EmailOptIn    bool `gorm:"default:false" json:"emailOptIn"`
 	WhatsAppOptIn bool `gorm:"default:false" json:"whatsAppOptIn"`
 
+	// UTM — atribuição da ação de marketing que originou esta sessão.
+	// Capturados pelo site quando a URL contém ?utm_*=... e propagados ao Lead no claim.
+	// @example instagram
+	UTMSource *string `gorm:"type:varchar(80);index:idx_anon_session_utm_source" json:"utmSource,omitempty"`
+	// @example stories
+	UTMMedium *string `gorm:"type:varchar(80)" json:"utmMedium,omitempty"`
+	// @example stories-instagram-janeiro-2026
+	UTMCampaign *string `gorm:"type:varchar(120);index:idx_anon_session_utm_campaign" json:"utmCampaign,omitempty"`
+	UTMTerm     *string `gorm:"type:varchar(120)" json:"utmTerm,omitempty"`
+
 	// Data de expiração — sessões não-claimed são limpas após 90 dias.
 	// Sessões claimed têm ExpiresAt = NULL (não expiram).
 	ExpiresAt *time.Time `gorm:"type:timestamp;index:idx_anon_session_expires" json:"expiresAt,omitempty"`

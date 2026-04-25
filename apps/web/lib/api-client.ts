@@ -173,6 +173,19 @@ class APIClient {
   async delete<T>(endpoint: string): Promise<T> {
     return this.request<T>(endpoint, { method: "DELETE" });
   }
+
+  /** Faz GET autenticado e devolve o body como Blob — usado pra binários (PNG, PDF). */
+  async getBlob(endpoint: string): Promise<Blob> {
+    let response = await this.fetchWithAuth(endpoint, { method: "GET" });
+    if (response.status === 401 && endpoint !== "/api/v1/auth/refresh") {
+      const refreshed = await this.tryRefreshToken();
+      if (refreshed) response = await this.fetchWithAuth(endpoint, { method: "GET" });
+    }
+    if (!response.ok) {
+      throw new Error(`Falha ao baixar arquivo (${response.status})`);
+    }
+    return response.blob();
+  }
 }
 
 export const apiClient = new APIClient(API_URL);

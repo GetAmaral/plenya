@@ -81,6 +81,12 @@ type CreateOrUpdateFromLightClaimInput struct {
 	ConsentVersion   string
 	ConsentTimestamp time.Time
 	ConsentIPHash    string // SHA-256 do IP — não passar IP plano
+
+	// UTM atribuição (propagado da AnonymousScoreSession capturada no site).
+	UTMSource   *string
+	UTMMedium   *string
+	UTMCampaign *string
+	UTMTerm     *string
 }
 
 // CreateOrUpdateFromLightClaim é idempotente por SessionID — se já existe Lead vinculado,
@@ -120,6 +126,10 @@ func (s *LeadService) CreateOrUpdateFromLightClaim(in CreateOrUpdateFromLightCla
 			ConsentTimestamp:        &consentTS,
 			ConsentIPHash:           &consentIP,
 			AnonymousScoreSessionID: &in.SessionID,
+			UTMSource:               in.UTMSource,
+			UTMMedium:               in.UTMMedium,
+			UTMCampaign:             in.UTMCampaign,
+			UTMTerm:                 in.UTMTerm,
 		}
 		if err := s.db.Create(&newLead).Error; err != nil {
 			// Race: outra request criou lead pra mesma sessão entre nosso SELECT e INSERT.
@@ -154,6 +164,20 @@ func (s *LeadService) CreateOrUpdateFromLightClaim(in CreateOrUpdateFromLightCla
 		"consent_version":   consentVer,
 		"consent_timestamp": consentTS,
 		"consent_ip_hash":   consentIP,
+	}
+	// UTM — preencher só se ainda não houver atribuição (first-touch wins, evita
+	// que um re-claim sobrescreva a atribuição original da sessão).
+	if lead.UTMSource == nil && in.UTMSource != nil {
+		updates["utm_source"] = *in.UTMSource
+	}
+	if lead.UTMMedium == nil && in.UTMMedium != nil {
+		updates["utm_medium"] = *in.UTMMedium
+	}
+	if lead.UTMCampaign == nil && in.UTMCampaign != nil {
+		updates["utm_campaign"] = *in.UTMCampaign
+	}
+	if lead.UTMTerm == nil && in.UTMTerm != nil {
+		updates["utm_term"] = *in.UTMTerm
 	}
 	if in.Email != nil {
 		updates["email"] = strings.ToLower(strings.TrimSpace(*in.Email))
@@ -787,6 +811,7 @@ type LeadFilter struct {
 	HasEmailOptIn    *bool
 	HasWhatsAppOptIn *bool
 	AssignedToUserID *uuid.UUID
+	UTMCampaign      *string
 }
 
 type LeadListResult struct {
@@ -820,6 +845,9 @@ func (s *LeadService) List(filter LeadFilter, pageIndex, pageSize int) (*LeadLis
 	}
 	if filter.AssignedToUserID != nil {
 		q = q.Where("assigned_to_user_id = ?", *filter.AssignedToUserID)
+	}
+	if filter.UTMCampaign != nil && strings.TrimSpace(*filter.UTMCampaign) != "" {
+		q = q.Where("utm_campaign = ?", strings.TrimSpace(*filter.UTMCampaign))
 	}
 	if s := strings.TrimSpace(filter.Search); s != "" {
 		like := "%" + strings.ToLower(s) + "%"
