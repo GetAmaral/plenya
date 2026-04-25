@@ -17,6 +17,7 @@ export default function Index() {
   }
 
   if (!accessToken) return <Redirect href="/(auth)/login" />;
+  if (!useAuthStore.getState().lgpdAccepted) return <Redirect href="/(auth)/lgpd-consent" />;
   if (!biometricUnlocked) return <Redirect href="/(auth)/biometric-unlock" />;
   return <Redirect href="/(tabs)" />;
 }

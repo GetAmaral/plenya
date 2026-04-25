@@ -285,6 +285,13 @@ func setupRoutes(
 	conversationHandler := handlers.NewConversationHandler(conversationService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
+	// Mobile app services + handlers
+	deviceTokenService := services.NewDeviceTokenService(database.DB)
+	lgpdConsentService := services.NewLGPDConsentService(database.DB)
+	mobileConfigService := services.NewMobileConfigService(cfg)
+	meMobileHandler := handlers.NewMeMobileHandler(deviceTokenService, lgpdConsentService)
+	mobileConfigHandler := handlers.NewMobileConfigHandler(mobileConfigService)
+
 	// API v1
 	v1 := app.Group("/api/v1")
 
@@ -370,6 +377,19 @@ func setupRoutes(
 	users.Patch("/me/preferences", authHandler.UpdatePreferences)
 	// Staff list (admin/secretary/manager) — pra dropdown de atribuição de leads no CRM
 	users.Get("/staff", middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager), userHandler.ListStaff)
+
+	// Mobile app endpoints — escopo /me, autenticados
+	me := v1.Group("/me")
+	me.Use(middleware.Auth(cfg))
+	me.Post("/device-tokens", meMobileHandler.RegisterDeviceToken)
+	me.Delete("/device-tokens/:id", meMobileHandler.RemoveDeviceToken)
+	me.Get("/sessions", meMobileHandler.ListSessions)
+	me.Delete("/sessions/:id", meMobileHandler.RevokeSession)
+	me.Get("/consent/lgpd", meMobileHandler.GetLGPDConsent)
+	me.Post("/consent/lgpd", meMobileHandler.AcceptLGPDConsent)
+
+	// Mobile app config (público — consultado em cold start)
+	v1.Get("/mobile/config", mobileConfigHandler.Get)
 
 	// Profile routes (protegidas)
 	profile := v1.Group("/profile")

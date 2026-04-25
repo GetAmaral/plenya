@@ -28,7 +28,11 @@ export default function LoginScreen() {
       }
       await setTokens(res.accessToken, res.refreshToken);
       setUser({ ...res.user, has2FAEnabled: false });
-      router.replace('/(auth)/biometric-unlock');
+      router.replace(
+        useAuthStore.getState().lgpdAccepted
+          ? '/(auth)/biometric-unlock'
+          : '/(auth)/lgpd-consent',
+      );
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erro ao entrar';
       toast.show(message, 'error');

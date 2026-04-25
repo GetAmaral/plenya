@@ -130,6 +130,11 @@ type User struct {
 	// @example true
 	CertificateActive bool `gorm:"type:boolean;default:false" json:"certificateActive"`
 
+	// Data em que o usuário aceitou o termo LGPD/consentimento de uso. Null = nunca aceitou.
+	// Coletado no primeiro login do app mobile e ao criar conta.
+	// @example 2026-04-24T10:30:00Z
+	LGPDConsentedAt *time.Time `gorm:"type:timestamptz" json:"lgpdConsentedAt,omitempty"`
+
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 
@@ -140,7 +145,8 @@ type User struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 
 	// Relações
-	SelectedPatient *Patient `gorm:"foreignKey:SelectedPatientID;constraint:OnDelete:SET NULL" json:"selectedPatient,omitempty"`
+	SelectedPatient *Patient       `gorm:"foreignKey:SelectedPatientID;constraint:OnDelete:SET NULL" json:"selectedPatient,omitempty"`
+	DeviceTokens    []DeviceToken  `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE" json:"-"`
 }
 
 // TableName especifica o nome da tabela

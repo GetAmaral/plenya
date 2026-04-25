@@ -1,20 +1,20 @@
 import { create } from 'zustand';
 import { secureStorage, SecureKeys } from '../../lib/storage/secure';
-import type { options } from '@plenya/api-client';
-
-type UserProfile = Awaited<ReturnType<ReturnType<typeof options.meOptions>['queryFn']>>;
+import type { UserProfile } from '@plenya/api-client';
 
 interface AuthState {
   user: UserProfile | null;
   accessToken: string | null;
   refreshToken: string | null;
   biometricUnlocked: boolean;
+  lgpdAccepted: boolean;
   hydrated: boolean;
 
   hydrate: () => Promise<void>;
   setTokens: (access: string, refresh: string) => Promise<void>;
   setUser: (user: UserProfile | null) => void;
   markBiometricUnlocked: () => void;
+  markLgpdAccepted: () => Promise<void>;
   clear: () => Promise<void>;
 }
 
@@ -23,14 +23,21 @@ export const useAuthStore = create<AuthState>((set) => ({
   accessToken: null,
   refreshToken: null,
   biometricUnlocked: false,
+  lgpdAccepted: false,
   hydrated: false,
 
   hydrate: async () => {
-    const [access, refresh] = await Promise.all([
+    const [access, refresh, consent] = await Promise.all([
       secureStorage.get(SecureKeys.AccessToken),
       secureStorage.get(SecureKeys.RefreshToken),
+      secureStorage.get(SecureKeys.ConsentLgpd),
     ]);
-    set({ accessToken: access, refreshToken: refresh, hydrated: true });
+    set({
+      accessToken: access,
+      refreshToken: refresh,
+      lgpdAccepted: consent === '1',
+      hydrated: true,
+    });
   },
 
   setTokens: async (access, refresh) => {
@@ -44,6 +51,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   setUser: (user) => set({ user }),
 
   markBiometricUnlocked: () => set({ biometricUnlocked: true }),
+
+  markLgpdAccepted: async () => {
+    await secureStorage.set(SecureKeys.ConsentLgpd, '1');
+    set({ lgpdAccepted: true });
+  },
 
   clear: async () => {
     await Promise.all([

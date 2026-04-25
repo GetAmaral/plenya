@@ -35,5 +35,10 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "html-to-image": "^1.11.13",
     "reactflow": "^11.11.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@tanstack/query-core": "5.99.0"
+    }
   }
 }

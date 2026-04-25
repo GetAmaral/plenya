@@ -1,13 +1,23 @@
+import { useEffect } from 'react';
 import { Redirect, Tabs } from 'expo-router';
 import { useAutoLogout } from '../../lib/security/autoLogout';
 import { useLogout } from '../../features/auth/useLogout';
 import { useAuthStore } from '../../features/auth/authStore';
+import { registerDeviceForPush } from '../../lib/push/registerDevice';
 
 export default function TabsLayout() {
   const accessToken = useAuthStore((s) => s.accessToken);
   const biometricUnlocked = useAuthStore((s) => s.biometricUnlocked);
   const logout = useLogout();
   useAutoLogout(logout, 5 * 60 * 1000);
+
+  useEffect(() => {
+    if (accessToken && biometricUnlocked) {
+      registerDeviceForPush().catch(() => {
+        /* no-op: push é opt-in, falha não bloqueia uso */
+      });
+    }
+  }, [accessToken, biometricUnlocked]);
 
   if (!accessToken) return <Redirect href="/(auth)/login" />;
   if (!biometricUnlocked) return <Redirect href="/(auth)/biometric-unlock" />;

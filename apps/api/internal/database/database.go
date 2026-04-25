@@ -134,6 +134,9 @@ func AutoMigrate() error {
 		&models.WorkoutMesocycle{},
 		&models.FitnessTestResult{},
 		&models.PosturalAssessment{},
+
+		// Mobile apps
+		&models.DeviceToken{},
 	); err != nil {
 		return err
 	}

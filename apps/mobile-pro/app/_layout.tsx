@@ -2,7 +2,7 @@ import '../global.css';
 
 import { useEffect, useState } from 'react';
 import { useFonts } from 'expo-font';
-import { Slot, SplashScreen } from 'expo-router';
+import { router, Slot, SplashScreen } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -11,9 +11,10 @@ import { ToastProvider } from '@plenya/ui-mobile';
 import { StatusBar } from 'expo-status-bar';
 
 import { createQueryClient } from '../lib/queryClient';
-import { getEncryptedStorage, mmkvToQueryPersisterStorage } from '../lib/storage/mmkv';
+import { getEncryptedStorage } from '../lib/storage/mmkv';
 import { configureApiClient } from '../features/auth/configureApiClient';
 import { useAuthStore } from '../features/auth/authStore';
+import { runBootSecurity } from '../lib/security/boot';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -45,6 +46,19 @@ export default function RootLayout() {
         maxAge: 24 * 60 * 60 * 1000,
       });
       await hydrate();
+
+      const gate = await runBootSecurity({ skipInDev: true });
+      if (gate.kind === 'kill_switch') {
+        router.replace({ pathname: '/(blocked)/kill-switch', params: { message: gate.message } });
+      } else if (gate.kind === 'min_version') {
+        router.replace({
+          pathname: '/(blocked)/min-version',
+          params: { required: gate.required, current: gate.current },
+        });
+      } else if (gate.kind === 'unreachable') {
+        router.replace('/(blocked)/unreachable');
+      }
+
       setReady(true);
     })();
   }, [hydrate]);
@@ -54,9 +68,6 @@ export default function RootLayout() {
   }, [ready, fontsLoaded]);
 
   if (!ready || !fontsLoaded) return null;
-
-  // suppress unused var linter: mmkvToQueryPersisterStorage kept as helper
-  void mmkvToQueryPersisterStorage;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

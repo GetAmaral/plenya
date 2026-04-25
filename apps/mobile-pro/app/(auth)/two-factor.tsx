@@ -28,7 +28,11 @@ export default function TwoFactorScreen() {
       });
       await setTokens(res.accessToken, res.refreshToken);
       setUser({ ...res.user, has2FAEnabled: true });
-      router.replace('/(auth)/biometric-unlock');
+      router.replace(
+        useAuthStore.getState().lgpdAccepted
+          ? '/(auth)/biometric-unlock'
+          : '/(auth)/lgpd-consent',
+      );
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Código inválido';
       toast.show(message, 'error');
