@@ -1,0 +1,9 @@
+{
+  "name": "@plenya/mobile-app",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Plenya Paciente — placeholder reservado para Fase 2. Mesma stack do mobile-pro.",
+  "scripts": {
+    "note": "echo 'Fase 2 — implementação pendente. Ver /home/user/.claude/plans/vivid-shimmying-glacier.md'"
+  }
+}

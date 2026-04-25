@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Plenya",
+    "slug": "plenya-app",
+    "scheme": "plenya",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "com.plenya.app",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.plenya.app",
+      "versionCode": 1
+    },
+    "extra": {
+      "apiBaseUrl": "https://api.plenyasaude.com.br"
+    },
+    "owner": "plenya"
+  }
+}

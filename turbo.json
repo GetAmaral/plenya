@@ -13,6 +13,14 @@
     "lint": {
       "dependsOn": ["^lint"]
     },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "start": {
+      "cache": false,
+      "persistent": true
+    },
     "clean": {
       "cache": false
     }

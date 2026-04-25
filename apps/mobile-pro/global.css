@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-background: 255 255 255;
+    --color-foreground: 15 23 42;
+    --color-card: 255 255 255;
+    --color-card-foreground: 15 23 42;
+    --color-border: 226 232 240;
+    --color-muted: 241 245 249;
+    --color-muted-foreground: 100 116 139;
+    --color-primary: 16 185 129;
+    --color-primary-foreground: 255 255 255;
+    --color-secondary: 226 232 240;
+    --color-secondary-foreground: 15 23 42;
+    --color-destructive: 220 38 38;
+    --color-destructive-foreground: 255 255 255;
+  }
+}

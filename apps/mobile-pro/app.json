@@ -1,0 +1,77 @@
+{
+  "expo": {
+    "name": "Plenya Pro",
+    "slug": "plenya-pro",
+    "scheme": "plenyapro",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0f172a"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/REPLACE_WITH_PROJECT_ID",
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "bundleIdentifier": "com.plenya.pro",
+      "supportsTablet": true,
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSFaceIDUsageDescription": "Plenya Pro usa Face ID para proteger o acesso a dados clínicos.",
+        "NSCameraUsageDescription": "Plenya Pro usa a câmera para registrar avaliações físicas, posturais e anexar fotos ao prontuário.",
+        "NSPhotoLibraryUsageDescription": "Plenya Pro acessa a biblioteca para anexar imagens ao prontuário do paciente.",
+        "NSMicrophoneUsageDescription": "Plenya Pro usa o microfone para anotações em áudio durante o atendimento."
+      }
+    },
+    "android": {
+      "package": "com.plenya.pro",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0f172a"
+      },
+      "permissions": [
+        "CAMERA",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT",
+        "READ_MEDIA_IMAGES",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-local-authentication",
+      "expo-notifications",
+      "expo-image-picker",
+      "expo-camera",
+      "expo-screen-capture",
+      "expo-updates"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
+      },
+      "apiBaseUrl": "https://api.plenyasaude.com.br",
+      "sentryDsn": "",
+      "posthogApiKey": "",
+      "posthogHost": "https://app.posthog.com"
+    },
+    "owner": "plenya"
+  }
+}

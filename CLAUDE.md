@@ -70,6 +70,12 @@ apps/api/internal/models/*.go  ← EDITAR AQUI
 - [**adding-features.md**](.claude/workflows/adding-features.md) - Adicionar features
 - [**dev-bypass-auth.md**](.claude/workflows/dev-bypass-auth.md) - Bypass auth (dev only)
 
+### Mobile (apps/mobile-pro + apps/mobile-app)
+- [**setup.md**](.claude/mobile/setup.md) - Como rodar localmente (Expo + EAS)
+- [**security.md**](.claude/mobile/security.md) - Checklist LGPD/segurança mobile
+- [**ota-policy.md**](.claude/mobile/ota-policy.md) - Regras de OTA (o que pode/não pode)
+- [**deploy.md**](.claude/mobile/deploy.md) - Build/submit App Store e Play Store
+
 ## 🛠 Comandos Essenciais
 
 ### Acessar Banco Direto (DESENVOLVIMENTO)
@@ -234,7 +240,7 @@ Ver [score-system.md](.claude/domain/score-system.md) para detalhes completos.
 
 - [x] Fase 1-3: Backend core + Auth + RBAC + Migrations
 - [x] Fase 4: Frontend web + Dashboard + Sistema de Escores
-- [ ] Fase 5: Mobile apps (Expo)
+- [ ] **Fase 5: Mobile apps (Expo)** — em curso. 2 apps separados: `apps/mobile-pro` (profissional, foco) e `apps/mobile-app` (paciente, posterior). Plano-mestre em `/home/user/.claude/plans/vivid-shimmying-glacier.md`.
 - [ ] Fase 6: Hardening LGPD
 - [ ] Fase 7: Deploy produção (Hetzner + Coolify)
 

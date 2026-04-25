@@ -1,0 +1,25 @@
+{
+  "name": "@plenya/domain",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Domain logic shared across web and mobile (score calculation, CPF, formatters)",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./cpf": "./src/cpf.ts",
+    "./score": "./src/score.ts",
+    "./formatters": "./src/formatters.ts",
+    "./version": "./src/version.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "test": "vitest run",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.5"
+  }
+}
