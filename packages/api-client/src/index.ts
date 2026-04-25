@@ -4,7 +4,7 @@ export * from './errors';
 export * from './upload';
 export * as options from './queryOptions';
 export type { FetcherConfig, FetcherContext } from './fetcher';
-export type { UserProfile, Session } from './queryOptions/me';
+export type { UserProfile, Session, DataExport } from './queryOptions/me';
 export type { MobileConfig } from './queryOptions/mobileConfig';
 export type {
   ScoreGroupNode,

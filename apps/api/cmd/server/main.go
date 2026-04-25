@@ -306,7 +306,10 @@ func setupRoutes(
 	deviceTokenService := services.NewDeviceTokenService(database.DB)
 	lgpdConsentService := services.NewLGPDConsentService(database.DB)
 	mobileConfigService := services.NewMobileConfigService(cfg)
-	meMobileHandler := handlers.NewMeMobileHandler(deviceTokenService, lgpdConsentService)
+	pushService := services.NewPushService(database.DB)
+	notificationService.SetPushSender(pushService)
+	dataExportService := services.NewDataExportService(database.DB)
+	meMobileHandler := handlers.NewMeMobileHandler(deviceTokenService, lgpdConsentService, authService, dataExportService)
 	mobileConfigHandler := handlers.NewMobileConfigHandler(mobileConfigService)
 	uploadHandler := handlers.NewUploadHandler("/app/uploads")
 
@@ -407,6 +410,9 @@ func setupRoutes(
 	me.Delete("/sessions/:id", meMobileHandler.RevokeSession)
 	me.Get("/consent/lgpd", meMobileHandler.GetLGPDConsent)
 	me.Post("/consent/lgpd", meMobileHandler.AcceptLGPDConsent)
+	me.Post("/password", meMobileHandler.ChangePassword)
+	me.Post("/2fa/disable", meMobileHandler.Disable2FA)
+	me.Get("/export", meMobileHandler.ExportData)
 
 	// Mobile app config (público — consultado em cold start)
 	v1.Get("/mobile/config", mobileConfigHandler.Get)

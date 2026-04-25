@@ -239,6 +239,50 @@ func (s *AuthService) UpdateSelectedPatient(userID, patientID uuid.UUID) (*dto.U
 	return s.GetUserByID(userID)
 }
 
+// ChangePassword troca a senha do usuário após validar a senha atual.
+// Retorna ErrInvalidCredentials se a senha atual estiver errada (mesmo
+// erro do Login pra não vazar info).
+func (s *AuthService) ChangePassword(userID uuid.UUID, current, next string) error {
+	var user models.User
+	if err := s.db.Select("id", "password_hash").First(&user, userID).Error; err != nil {
+		return ErrInvalidCredentials
+	}
+	if user.PasswordHash == nil {
+		// OAuth-only user — não tem senha pra trocar
+		return ErrInvalidCredentials
+	}
+	if err := bcrypt.CompareHashAndPassword([]byte(*user.PasswordHash), []byte(current)); err != nil {
+		return ErrInvalidCredentials
+	}
+	hash, err := bcrypt.GenerateFromPassword([]byte(next), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	hashStr := string(hash)
+	return s.db.Model(&models.User{}).Where("id = ?", userID).
+		UpdateColumn("password_hash", hashStr).Error
+}
+
+// Disable2FA remove o segredo TOTP do usuário após validar a senha.
+// Idempotente: se 2FA já está desabilitado, zera secret novamente sem erro.
+func (s *AuthService) Disable2FA(userID uuid.UUID, password string) error {
+	var user models.User
+	if err := s.db.Select("id", "password_hash").First(&user, userID).Error; err != nil {
+		return ErrInvalidCredentials
+	}
+	if user.PasswordHash == nil {
+		return ErrInvalidCredentials
+	}
+	if err := bcrypt.CompareHashAndPassword([]byte(*user.PasswordHash), []byte(password)); err != nil {
+		return ErrInvalidCredentials
+	}
+	return s.db.Model(&models.User{}).Where("id = ?", userID).
+		Updates(map[string]interface{}{
+			"two_factor_enabled": false,
+			"two_factor_secret":  "",
+		}).Error
+}
+
 // UpdatePreferences atualiza as preferências do usuário
 func (s *AuthService) UpdatePreferences(userID uuid.UUID, preferences map[string]interface{}) (*dto.UserDTO, error) {
 	// Atualizar preferências usando UpdateColumn

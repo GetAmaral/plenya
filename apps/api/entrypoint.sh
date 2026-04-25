@@ -5,4 +5,4 @@ echo "🔄 Running go mod tidy..."
 go mod tidy
 
 echo "🚀 Starting server..."
-exec go run cmd/server/main.go
+exec go run ./cmd/server

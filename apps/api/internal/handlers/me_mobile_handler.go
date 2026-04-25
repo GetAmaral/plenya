@@ -14,10 +14,13 @@ import (
 )
 
 // MeMobileHandler agrupa endpoints sob /api/v1/me/* relacionados ao app mobile:
-// device tokens, sessões ativas e consentimento LGPD.
+// device tokens, sessões ativas, consentimento LGPD, change password,
+// disable 2FA, export de dados.
 type MeMobileHandler struct {
 	deviceTokens *services.DeviceTokenService
 	consent      *services.LGPDConsentService
+	auth         *services.AuthService
+	export       *services.DataExportService
 	validator    *validator.Validate
 }
 
@@ -25,10 +28,14 @@ type MeMobileHandler struct {
 func NewMeMobileHandler(
 	deviceTokens *services.DeviceTokenService,
 	consent *services.LGPDConsentService,
+	auth *services.AuthService,
+	export *services.DataExportService,
 ) *MeMobileHandler {
 	return &MeMobileHandler{
 		deviceTokens: deviceTokens,
 		consent:      consent,
+		auth:         auth,
+		export:       export,
 		validator:    validator.New(),
 	}
 }
@@ -238,4 +245,105 @@ func (h *MeMobileHandler) AcceptLGPDConsent(c *fiber.Ctx) error {
 		})
 	}
 	return c.JSON(status)
+}
+
+// ChangePasswordRequest é o body de POST /me/password.
+type ChangePasswordRequest struct {
+	CurrentPassword string `json:"currentPassword" validate:"required"`
+	NewPassword     string `json:"newPassword" validate:"required,min=8,max=72"`
+}
+
+// ChangePassword godoc
+// @Summary Trocar senha do usuário autenticado
+// @Tags mobile
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body handlers.ChangePasswordRequest true "senhas"
+// @Success 204
+// @Router /me/password [post]
+func (h *MeMobileHandler) ChangePassword(c *fiber.Ctx) error {
+	var req ChangePasswordRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid body"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+	userID := middleware.GetUserID(c)
+	if err := h.auth.ChangePassword(userID, req.CurrentPassword, req.NewPassword); err != nil {
+		if errors.Is(err, services.ErrInvalidCredentials) {
+			return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorResponse{
+				Error: "current password is incorrect",
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
+// Disable2FARequest exige confirmação de senha pra evitar lock-out por sessão roubada.
+type Disable2FARequest struct {
+	Password string `json:"password" validate:"required"`
+}
+
+// Disable2FA godoc
+// @Summary Desabilitar 2FA do usuário autenticado
+// @Tags mobile
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body handlers.Disable2FARequest true "senha de confirmação"
+// @Success 204
+// @Router /me/2fa [delete]
+func (h *MeMobileHandler) Disable2FA(c *fiber.Ctx) error {
+	var req Disable2FARequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid body"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+	userID := middleware.GetUserID(c)
+	if err := h.auth.Disable2FA(userID, req.Password); err != nil {
+		if errors.Is(err, services.ErrInvalidCredentials) {
+			return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorResponse{
+				Error: "password is incorrect",
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
+// ExportData godoc
+// @Summary Exportar dados pessoais (LGPD Art. 18, V)
+// @Description Retorna JSON com tudo que o app armazena vinculado ao userID
+// @Tags mobile
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} services.DataExport
+// @Router /me/export [get]
+func (h *MeMobileHandler) ExportData(c *fiber.Ctx) error {
+	userID := middleware.GetUserID(c)
+	data, err := h.export.Export(c.Context(), userID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+	return c.JSON(data)
 }

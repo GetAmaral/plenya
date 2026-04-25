@@ -10,16 +10,49 @@ import (
 	"github.com/plenya/api/internal/repository"
 )
 
+// PushSender é a interface mínima que NotificationService usa pra disparar
+// push em paralelo ao registro in-app. Permite injetar PushService sem ciclo
+// de import.
+type PushSender interface {
+	Send(userID uuid.UUID, payload PushPayload) error
+}
+
 type NotificationService struct {
-	repo           *repository.NotificationRepository
+	repo             *repository.NotificationRepository
 	subscriptionRepo *repository.SubscriptionRepository
+	push             PushSender
 }
 
 func NewNotificationService(repo *repository.NotificationRepository, subscriptionRepo *repository.SubscriptionRepository) *NotificationService {
 	return &NotificationService{
-		repo:           repo,
+		repo:             repo,
 		subscriptionRepo: subscriptionRepo,
 	}
+}
+
+// SetPushSender injeta o sender pós-construção (resolve ordem de wiring em main.go).
+func (s *NotificationService) SetPushSender(sender PushSender) {
+	s.push = sender
+}
+
+// dispatchPush é fire-and-forget: roda em goroutine pra não bloquear o
+// fluxo da chamada original (criar notif in-app deve continuar mesmo se
+// a Expo Push API estiver lenta/offline).
+func (s *NotificationService) dispatchPush(n *models.Notification) {
+	if s.push == nil {
+		return
+	}
+	url := ""
+	if n.ActionURL != nil {
+		url = *n.ActionURL
+	}
+	go func() {
+		_ = s.push.Send(n.UserID, PushPayload{
+			Title: n.Title,
+			Body:  SanitizeBody(n.Message),
+			URL:   url,
+		})
+	}()
 }
 
 // planSnapshotData extracts plan data from snapshot JSON
@@ -93,7 +126,11 @@ func (s *NotificationService) CreateNotification(
 		Read:           false,
 	}
 
-	return s.repo.Create(notification)
+	if err := s.repo.Create(notification); err != nil {
+		return err
+	}
+	s.dispatchPush(notification)
+	return nil
 }
 
 // CreateLeadNotification cria notificação in-app vinculada a Lead.
@@ -118,7 +155,11 @@ func (s *NotificationService) CreateLeadNotification(
 		ActionText: &actionText,
 		Read:       false,
 	}
-	return s.repo.Create(notification)
+	if err := s.repo.Create(notification); err != nil {
+		return err
+	}
+	s.dispatchPush(notification)
+	return nil
 }
 
 // CreateConversationNotification cria notificação in-app vinculada a uma conversa
@@ -152,7 +193,11 @@ func (s *NotificationService) CreateConversationNotification(
 	if patientID != nil && *patientID != uuid.Nil {
 		notification.PatientID = patientID
 	}
-	return s.repo.Create(notification)
+	if err := s.repo.Create(notification); err != nil {
+		return err
+	}
+	s.dispatchPush(notification)
+	return nil
 }
 
 // CheckAndCreateSubscriptionNotifications verifica subscriptions e cria notificações

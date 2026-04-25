@@ -43,6 +43,15 @@ export const meSessionsOptions = () =>
     queryFn: ({ signal }) => api.get<Session[]>('/api/v1/me/sessions', { signal }),
   });
 
+export interface DataExport {
+  exportedAt: string;
+  userId: string;
+  user: Record<string, unknown>;
+  sessions: Array<Record<string, unknown>>;
+  notifications: Array<Record<string, unknown>>;
+  preferences?: unknown;
+}
+
 export const meMutations = {
   revokeSession: (sessionId: string) =>
     api.delete<void>(`/api/v1/me/sessions/${sessionId}`),
@@ -53,4 +62,9 @@ export const meMutations = {
   }) => api.post<{ id: string }>('/api/v1/me/device-tokens', body),
   removeDeviceToken: (id: string) => api.delete<void>(`/api/v1/me/device-tokens/${id}`),
   acceptLgpdConsent: () => api.post<void>('/api/v1/me/consent/lgpd'),
+  changePassword: (body: { currentPassword: string; newPassword: string }) =>
+    api.post<void>('/api/v1/me/password', body),
+  disable2FA: (body: { password: string }) =>
+    api.post<void>('/api/v1/me/2fa/disable', body),
+  exportData: () => api.get<DataExport>('/api/v1/me/export'),
 };
