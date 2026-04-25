@@ -276,6 +276,69 @@ export function useRequestAppointmentAction() {
   });
 }
 
+// ============================================================
+// Mensagens
+// ============================================================
+
+export interface PatientMessage {
+  id: string;
+  createdAt: string;
+  from: "patient" | "team";
+  authorName?: string;
+  channel: string;
+  content: string;
+}
+
+export const patientMessagesApi = {
+  list: (before?: string) => {
+    const qs = before ? `?before=${encodeURIComponent(before)}` : "";
+    return apiClient.get<PatientMessage[]>(`/api/v1/patient/me/messages${qs}`);
+  },
+  send: (content: string) =>
+    apiClient.post<PatientMessage>("/api/v1/patient/me/messages", { content }),
+  unreadCount: () =>
+    apiClient.get<{ unread: number }>("/api/v1/patient/me/messages/unread-count"),
+  markRead: () => apiClient.post<void>("/api/v1/patient/me/messages/read", {}),
+};
+
+export function useMyMessages() {
+  return useQuery({
+    queryKey: ["patient-messages"],
+    queryFn: () => patientMessagesApi.list(),
+    refetchInterval: 30_000, // pull a cada 30s pra capturar respostas da equipe
+    staleTime: 10_000,
+  });
+}
+
+export function useMyMessagesUnread() {
+  return useQuery({
+    queryKey: ["patient-messages-unread"],
+    queryFn: patientMessagesApi.unreadCount,
+    refetchInterval: 60_000,
+  });
+}
+
+export function useSendMessage() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: patientMessagesApi.send,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["patient-messages"] });
+    },
+  });
+}
+
+export function useMarkMessagesRead() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: patientMessagesApi.markRead,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["patient-messages-unread"] });
+      qc.invalidateQueries({ queryKey: ["patient-dashboard"] });
+    },
+  });
+}
+
 export function useSetPatientPassword() {
   return useMutation({
     mutationFn: patientMeApi.setPassword,

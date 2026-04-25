@@ -20,6 +20,7 @@ package handlers
 
 import (
 	"errors"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -34,6 +35,7 @@ type PatientPortalHandler struct {
 	dashboard    *services.PatientDashboardService
 	continuum    *services.PatientContinuumService
 	appointments *services.PatientAppointmentService
+	messages     *services.PatientMessagesService
 }
 
 func NewPatientPortalHandler(
@@ -41,13 +43,71 @@ func NewPatientPortalHandler(
 	dashboard *services.PatientDashboardService,
 	continuum *services.PatientContinuumService,
 	appointments *services.PatientAppointmentService,
+	messages *services.PatientMessagesService,
 ) *PatientPortalHandler {
 	return &PatientPortalHandler{
 		svc:          svc,
 		dashboard:    dashboard,
 		continuum:    continuum,
 		appointments: appointments,
+		messages:     messages,
 	}
+}
+
+// ListMessages GET /api/v1/patient/me/messages?before=ISO
+func (h *PatientPortalHandler) ListMessages(c *fiber.Ctx) error {
+	patientID := middleware.GetPatientID(c)
+	var before *time.Time
+	if b := c.Query("before"); b != "" {
+		if t, err := time.Parse(time.RFC3339, b); err == nil {
+			before = &t
+		}
+	}
+	rows, err := h.messages.List(patientID, 100, before)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(rows)
+}
+
+type sendMessageBody struct {
+	Content string `json:"content"`
+}
+
+// SendMessage POST /api/v1/patient/me/messages
+func (h *PatientPortalHandler) SendMessage(c *fiber.Ctx) error {
+	patientID := middleware.GetPatientID(c)
+	userID := middleware.GetUserID(c)
+	var body sendMessageBody
+	if err := c.BodyParser(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid body"})
+	}
+	row, err := h.messages.Send(patientID, userID, body.Content)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.Status(fiber.StatusCreated).JSON(row)
+}
+
+// MessagesUnreadCount GET /api/v1/patient/me/messages/unread-count
+func (h *PatientPortalHandler) MessagesUnreadCount(c *fiber.Ctx) error {
+	patientID := middleware.GetPatientID(c)
+	userID := middleware.GetUserID(c)
+	count, err := h.messages.UnreadCount(patientID, userID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(fiber.Map{"unread": count})
+}
+
+// MessagesMarkRead POST /api/v1/patient/me/messages/read
+func (h *PatientPortalHandler) MessagesMarkRead(c *fiber.Ctx) error {
+	patientID := middleware.GetPatientID(c)
+	userID := middleware.GetUserID(c)
+	if err := h.messages.MarkRead(patientID, userID); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
 }
 
 // ListAppointments GET /api/v1/patient/me/appointments?range=upcoming|past

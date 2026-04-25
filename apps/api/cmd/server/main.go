@@ -300,9 +300,10 @@ func setupRoutes(
 	patientPortalService := services.NewPatientPortalService(database.DB, cfg, authService, emailService, whatsappService)
 	patientDashboardService := services.NewPatientDashboardService(database.DB)
 	patientAppointmentService := services.NewPatientAppointmentService(database.DB, notificationService)
+	patientMessagesService := services.NewPatientMessagesService(database.DB, notificationService)
 	telemedLobbyService := services.NewTelemedLobbyService(database.DB, cfg)
 	telemedLobbyHandler := handlers.NewTelemedLobbyHandler(telemedLobbyService)
-	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService)
+	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
@@ -488,6 +489,10 @@ func setupRoutes(
 	patientMe.Post("/appointments/:id/confirm", patientPortalHandler.ConfirmAppointment)
 	patientMe.Post("/appointments/:id/request-cancel", patientPortalHandler.RequestCancelAppointment)
 	patientMe.Post("/appointments/:id/request-reschedule", patientPortalHandler.RequestRescheduleAppointment)
+	patientMe.Get("/messages", patientPortalHandler.ListMessages)
+	patientMe.Post("/messages", patientPortalHandler.SendMessage)
+	patientMe.Get("/messages/unread-count", patientPortalHandler.MessagesUnreadCount)
+	patientMe.Post("/messages/read", patientPortalHandler.MessagesMarkRead)
 
 	// Anamnesis routes (protegidas - profissionais autenticados)
 	anamnesis := v1.Group("/anamnesis")
