@@ -3,11 +3,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { options, queryKeys } from '@plenya/api-client';
-import { Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
+import { Button, Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { formatDate } from '@plenya/domain';
-import { useScreenCaptureProtection } from '../../../../lib/security/screenCapture';
-import { useRefresh } from '../../../../features/patients/usePatientRefresh';
-import { useEnsureSelectedPatient } from '../../../../features/patients/useEnsureSelectedPatient';
+import { useScreenCaptureProtection } from '../../../../../lib/security/screenCapture';
+import { useRefresh } from '../../../../../features/patients/usePatientRefresh';
+import { useEnsureSelectedPatient } from '../../../../../features/patients/useEnsureSelectedPatient';
 
 const STATUS_LABEL: Record<string, string> = {
   draft: 'Rascunho',
@@ -43,6 +43,12 @@ export default function PatientWorkoutsScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-background" edges={['bottom']}>
+      <View className="px-4 pt-3">
+        <Link href={`/(tabs)/patients/${patientId}/workouts/new`} asChild>
+          <Button fullWidth>Novo plano de treino</Button>
+        </Link>
+      </View>
+
       <FlatList
         data={list.data ?? []}
         keyExtractor={(item) => item.id}
@@ -51,7 +57,7 @@ export default function PatientWorkoutsScreen() {
         ListEmptyComponent={
           <EmptyState
             title="Sem planos de treino"
-            description="Este paciente ainda não tem planos prescritos."
+            description="Toque em 'Novo plano de treino' para começar."
           />
         }
         renderItem={({ item }) => (

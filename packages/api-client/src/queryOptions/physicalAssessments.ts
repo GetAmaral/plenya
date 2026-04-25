@@ -69,3 +69,92 @@ export const physicalAssessmentMutations = {
   create: (body: CreatePhysicalAssessmentInput) =>
     api.post<PhysicalAssessmentDetail>('/api/v1/physical-assessments', body),
 };
+
+// ============= Fitness Tests + Postural Assessments =============
+
+export type FitnessTestKind = 'abdominal' | 'pushup' | 'plank' | 'burpee' | 'frt';
+
+export const fitnessTestLabels: Record<FitnessTestKind, string> = {
+  abdominal: 'Abdominal (1 min)',
+  pushup: 'Flexão (1 min)',
+  plank: 'Prancha (s)',
+  burpee: 'Burpee (1 min)',
+  frt: 'Functional Reach (cm)',
+};
+
+export interface FitnessTestResult {
+  id: string;
+  patientId: string;
+  performedAt: string;
+  kind: FitnessTestKind;
+  value: number;
+  unit?: string;
+  classification?: string;
+  notes?: string;
+}
+
+export interface CreateFitnessTestInput {
+  kind: FitnessTestKind;
+  value: number;
+  unit?: string;
+  notes?: string;
+}
+
+export interface PosturalMeasurement {
+  region: string;
+  angleDeg: number;
+  withinNormal?: boolean;
+}
+
+export interface PosturalAssessment {
+  id: string;
+  patientId: string;
+  performedAt: string;
+  measurements: PosturalMeasurement[];
+  totalPenalty?: number;
+  notes?: string;
+}
+
+export interface CreatePosturalAssessmentInput {
+  measurements: PosturalMeasurement[];
+  notes?: string;
+}
+
+const fitnessKeys = {
+  all: () => [...queryKeys.all, 'fitness-tests'] as const,
+  byPatient: (patientId: string) => [...fitnessKeys.all(), 'patient', patientId] as const,
+};
+
+const posturalKeys = {
+  all: () => [...queryKeys.all, 'postural-assessments'] as const,
+  byPatient: (patientId: string) => [...posturalKeys.all(), 'patient', patientId] as const,
+};
+
+export const fitnessKeysFor = fitnessKeys;
+export const posturalKeysFor = posturalKeys;
+
+export const patientFitnessTestsOptions = (patientId: string) =>
+  queryOptions({
+    queryKey: fitnessKeys.byPatient(patientId),
+    queryFn: ({ signal }) =>
+      api.get<FitnessTestResult[]>('/api/v1/fitness-tests', { signal }),
+    enabled: Boolean(patientId),
+  });
+
+export const patientPosturalAssessmentsOptions = (patientId: string) =>
+  queryOptions({
+    queryKey: posturalKeys.byPatient(patientId),
+    queryFn: ({ signal }) =>
+      api.get<PosturalAssessment[]>('/api/v1/postural-assessments', { signal }),
+    enabled: Boolean(patientId),
+  });
+
+export const fitnessTestMutations = {
+  create: (body: CreateFitnessTestInput) =>
+    api.post<FitnessTestResult>('/api/v1/fitness-tests', body),
+};
+
+export const posturalMutations = {
+  create: (body: CreatePosturalAssessmentInput) =>
+    api.post<PosturalAssessment>('/api/v1/postural-assessments', body),
+};

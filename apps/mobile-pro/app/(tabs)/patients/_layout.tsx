@@ -14,7 +14,8 @@ export default function PatientsLayout() {
       <Stack.Screen name="[id]/prescriptions/index" options={{ title: 'Prescrições' }} />
       <Stack.Screen name="[id]/prescriptions/[prescriptionId]" options={{ title: 'Prescrição' }} />
       <Stack.Screen name="[id]/scores" options={{ title: 'Escores' }} />
-      <Stack.Screen name="[id]/workouts" options={{ title: 'Treinos' }} />
+      <Stack.Screen name="[id]/workouts/index" options={{ title: 'Treinos' }} />
+      <Stack.Screen name="[id]/workouts/new" options={{ title: 'Novo plano' }} />
       <Stack.Screen name="[id]/assessments/index" options={{ title: 'Avaliações' }} />
       <Stack.Screen name="[id]/assessments/new" options={{ title: 'Nova avaliação' }} />
       <Stack.Screen name="[id]/assessments/[assessmentId]" options={{ title: 'Avaliação' }} />

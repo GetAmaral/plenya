@@ -64,3 +64,29 @@ export const publicWorkoutPlanOptions = (code: string) =>
       }),
     enabled: Boolean(code),
   });
+
+export interface CreateWorkoutPlanInput {
+  name: string;
+  status?: WorkoutPlanSummary['status'];
+  startDate?: string;
+  endDate?: string;
+  notes?: string;
+  sessions?: Array<{
+    name: string;
+    order: number;
+    exercises: Array<{
+      exerciseId: string;
+      sets: number;
+      reps: string;
+      rest: string;
+      notes?: string;
+    }>;
+  }>;
+}
+
+export const workoutPlanMutations = {
+  create: (body: CreateWorkoutPlanInput) =>
+    api.post<WorkoutPlanDetail>('/api/v1/workout-plans', body),
+  update: (id: string, body: Partial<CreateWorkoutPlanInput>) =>
+    api.put<WorkoutPlanDetail>(`/api/v1/workout-plans/${id}`, body),
+};

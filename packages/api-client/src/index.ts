@@ -24,7 +24,12 @@ export type {
   ListConversationsParams,
   ListConversationsResult,
 } from './queryOptions/conversations';
-export type { AnamnesisSummary, AnamnesisDetail } from './queryOptions/anamnesis';
+export type {
+  AnamnesisSummary,
+  AnamnesisDetail,
+  AnamnesisTemplate,
+  AnamnesisTemplateItem,
+} from './queryOptions/anamnesis';
 export type { LabResultSummary, LabResultDetail, LabResultValue } from './queryOptions/labResults';
 export type {
   PrescriptionSummary,
@@ -42,7 +47,16 @@ export type {
   PhysicalAssessmentSummary,
   PhysicalAssessmentDetail,
   ACSMTag,
+  CreatePhysicalAssessmentInput,
+  FitnessTestKind,
+  FitnessTestResult,
+  CreateFitnessTestInput,
+  PosturalAssessment,
+  PosturalMeasurement,
+  CreatePosturalAssessmentInput,
 } from './queryOptions/physicalAssessments';
+export { fitnessTestLabels } from './queryOptions/physicalAssessments';
+export type { CreateWorkoutPlanInput } from './queryOptions/workoutPlans';
 export type { NotificationItem } from './queryOptions/notifications';
 export type {
   Appointment,
