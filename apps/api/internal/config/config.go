@@ -25,7 +25,43 @@ type Config struct {
 	WhatsApp   WhatsAppConfig
 	CRM        CRMConfig
 	Site       SiteConfig
+	Google     GoogleConfig
+	DailyCo    DailyCoConfig
 	Dev        DevConfig
+}
+
+// GoogleConfig — credenciais OAuth Google + Calendar API.
+//
+// SETUP OPERACIONAL (Calendar V1, Bloco H pendente):
+//   1. Criar projeto "Plenya EMR" em console.cloud.google.com
+//   2. Habilitar Google Calendar API
+//   3. OAuth consent screen: External, scope `calendar.events.owned` + `userinfo.email`
+//   4. Credentials → OAuth Client ID Web Application
+//   5. Authorized redirect URI: <RedirectURL>
+//   6. Domain verification em search.google.com/search-console
+//
+// Diferente de OAuthConfig.GoogleClientID/Secret (esse é pra "Sign in with Google"
+// do app móvel/web). GoogleConfig é APENAS pra integração Calendar do médico.
+// Mantemos separados pra permitir scopes/projects diferentes (Calendar exige
+// CASA security assessment quando >100 users; Sign-in não).
+type GoogleConfig struct {
+	ClientID     string // GOOGLE_CLIENT_ID
+	ClientSecret string // GOOGLE_CLIENT_SECRET
+	RedirectURL  string // GOOGLE_REDIRECT_URL — callback completo (deve bater com Console)
+}
+
+// DailyCoConfig — credenciais Daily.co pra teleconsulta embedada.
+//
+// SETUP OPERACIONAL:
+//   1. Criar conta em daily.co (free tier: 10k min/mês)
+//   2. Dashboard → API Keys → criar key
+//   3. Domain: subdomínio escolhido (ex: "plenya" → URLs https://plenya.daily.co/...)
+//
+// Quando APIKey vazio, DailyCoService retorna error explícito sem crashar
+// (caller decide se bloqueia appointment ou cria sem teleconsulta).
+type DailyCoConfig struct {
+	APIKey string // DAILY_CO_API_KEY
+	Domain string // DAILY_CO_DOMAIN — subdomínio (ex: "plenya")
 }
 
 // EmailConfig — Provider escolhe a implementação. Quando vazio (ou Provider="smtp" com SMTPHost vazio),
@@ -242,6 +278,15 @@ func Load() (*Config, error) {
 		},
 		Site: SiteConfig{
 			PublicURL: getEnv("SITE_PUBLIC_URL", "http://localhost:3002"),
+		},
+		Google: GoogleConfig{
+			ClientID:     getEnv("GOOGLE_CLIENT_ID", ""),
+			ClientSecret: getEnv("GOOGLE_CLIENT_SECRET", ""),
+			RedirectURL:  getEnv("GOOGLE_REDIRECT_URL", "https://app.plenyasaude.com.br/api/v1/integrations/google/callback"),
+		},
+		DailyCo: DailyCoConfig{
+			APIKey: getEnv("DAILY_CO_API_KEY", ""),
+			Domain: getEnv("DAILY_CO_DOMAIN", ""),
 		},
 		Dev: DevConfig{
 			BypassAuth: getEnvAsBool("DEV_BYPASS_AUTH", false),

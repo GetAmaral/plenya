@@ -843,6 +843,35 @@ func setupRoutes(
 	articles.Delete("/:id/score-items", middleware.RequireMedicalStaff(), articleHandler.RemoveScoreItemsFromArticle)
 	articles.Get("/:id/score-items", articleHandler.GetScoreItemsForArticle)
 
+	// === Calendar V1 (Blocos B + C + D) ===
+	// Google Calendar OAuth + integração + Daily.co + slot picker.
+	googleCalendarService := services.NewGoogleCalendarService(cfg, database.DB)
+	dailyCoService := services.NewDailyCoService(cfg)
+	calendarSlotService := services.NewCalendarSlotService(database.DB, googleCalendarService)
+	googleOAuthHandler := handlers.NewGoogleOAuthHandler(cfg, googleCalendarService, database.DB)
+	calendarSlotHandler := handlers.NewCalendarSlotHandler(calendarSlotService)
+
+	// Defensive: silence unused warnings when services are reused later (E/F/G).
+	_ = dailyCoService
+
+	// /api/v1/integrations/google
+	// Importante: callback NÃO usa middleware Auth (Google redirect não traz JWT;
+	// state JWT valida CSRF dentro do handler).
+	v1.Get("/integrations/google/callback", googleOAuthHandler.Callback)
+
+	googleAuthed := v1.Group("/integrations/google", middleware.Auth(cfg))
+	googleAuthed.Get("/auth-url", googleOAuthHandler.AuthURL)
+	googleAuthed.Post("/disconnect", googleOAuthHandler.Disconnect)
+	googleAuthed.Get("/status", googleOAuthHandler.Status)
+
+	// /api/v1/calendar/slots — slot picker.
+	// RBAC: admin/secretary/manager/doctor podem listar.
+	calendar := v1.Group("/calendar", middleware.Auth(cfg))
+	calendar.Get("/slots",
+		middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager, models.RoleDoctor),
+		calendarSlotHandler.List,
+	)
+
 	// === Training Module ===
 	registerTrainingRoutes(v1, cfg, semanticService)
 
