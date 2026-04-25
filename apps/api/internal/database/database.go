@@ -207,6 +207,7 @@ func AutoMigrate() error {
 		// Portal do Paciente (meu.plenyasaude.com.br)
 		&models.PatientPortalInvite{},
 		&models.PatientMagicLink{},
+		&models.TelemedLobbyToken{},
 	); err != nil {
 		return err
 	}

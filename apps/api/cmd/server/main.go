@@ -300,6 +300,8 @@ func setupRoutes(
 	patientPortalService := services.NewPatientPortalService(database.DB, cfg, authService, emailService, whatsappService)
 	patientDashboardService := services.NewPatientDashboardService(database.DB)
 	patientAppointmentService := services.NewPatientAppointmentService(database.DB, notificationService)
+	telemedLobbyService := services.NewTelemedLobbyService(database.DB, cfg)
+	telemedLobbyHandler := handlers.NewTelemedLobbyHandler(telemedLobbyService)
 	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
@@ -396,6 +398,12 @@ func setupRoutes(
 	oauthLimiter := middleware.NewRateLimiter(5, time.Minute) // 5 req/min
 	auth.Post("/oauth/google", oauthLimiter.Middleware(), oauthHandler.GoogleCallback)
 	auth.Post("/oauth/apple", oauthLimiter.Middleware(), oauthHandler.AppleCallback)
+
+	// Lobby telemedicina — públicos (sem auth, token na URL).
+	// Rate limit liberal: paciente pode dar reload na página.
+	lobbyLimiter := middleware.NewRateLimiter(60, time.Minute)
+	v1.Get("/sala/:token", lobbyLimiter.Middleware(), telemedLobbyHandler.Resolve)
+	v1.Post("/sala/:token/used", lobbyLimiter.Middleware(), telemedLobbyHandler.MarkUsed)
 
 	// Portal do Paciente — auth público (rate-limited)
 	portalAuthLimiter := middleware.NewRateLimiter(10, time.Minute)
