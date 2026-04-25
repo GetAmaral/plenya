@@ -68,29 +68,40 @@ func NewAppointmentService(
 // Validação de conflito SQL é mantida como defense-in-depth — a EXCLUDE
 // constraint Postgres (Bloco A) é a fonte de verdade, mas devolvemos 409
 // semântico antes de bater no DB.
-func (s *AppointmentService) Create(userID uuid.UUID, req *dto.CreateAppointmentRequest) (*dto.AppointmentResponse, error) {
-	// CRITICAL SECURITY: Get user's selected patient
-	var user models.User
-	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
-		return nil, err
-	}
-
-	if user.SelectedPatientID == nil {
-		return nil, errors.New("no patient selected - please select a patient first")
-	}
-
+func (s *AppointmentService) Create(userID uuid.UUID, userRole models.Role, req *dto.CreateAppointmentRequest) (*dto.AppointmentResponse, error) {
+	// Resolve patient. Pra paciente self-booking: usa SelectedPatientID e exige
+	// que o req.PatientID (se vier) bata. Pra staff (admin/secretary/manager/doctor):
+	// usa req.PatientID direto, sem amarrar ao SelectedPatientID do usuário logado.
 	var patientID uuid.UUID
-	if req.PatientID != "" {
+	if userRole == models.RolePatient {
+		var user models.User
+		if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+			return nil, err
+		}
+		if user.SelectedPatientID == nil {
+			return nil, errors.New("no patient selected - please select a patient first")
+		}
+		if req.PatientID != "" {
+			pid, err := uuid.Parse(req.PatientID)
+			if err != nil {
+				return nil, errors.New("invalid patient id")
+			}
+			if pid != *user.SelectedPatientID {
+				return nil, errors.New("patient id does not match selected patient")
+			}
+			patientID = pid
+		} else {
+			patientID = *user.SelectedPatientID
+		}
+	} else {
+		if req.PatientID == "" {
+			return nil, errors.New("patientId is required")
+		}
 		pid, err := uuid.Parse(req.PatientID)
 		if err != nil {
 			return nil, errors.New("invalid patient id")
 		}
-		if pid != *user.SelectedPatientID {
-			return nil, errors.New("patient id does not match selected patient")
-		}
 		patientID = pid
-	} else {
-		patientID = *user.SelectedPatientID
 	}
 
 	doctorID, err := uuid.Parse(req.DoctorID)
