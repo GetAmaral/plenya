@@ -16,6 +16,8 @@ import {
   Edit,
   MapPin,
   CreditCard,
+  Workflow,
+  FileText,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -110,6 +112,22 @@ export default function PatientDetailPage() {
           ]}
           actions={
             <>
+              <Button
+                variant="outline"
+                onClick={() => router.push(`/patients/${patientId}/prontuario`)}
+                className="gap-2"
+              >
+                <FileText className="h-4 w-4" />
+                Prontuário
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => router.push(`/patients/${patientId}/continuum`)}
+                className="gap-2"
+              >
+                <Workflow className="h-4 w-4" />
+                Continuum
+              </Button>
               <Button
                 onClick={() => router.push(`/patients/${patientId}/edit`)}
                 className="gap-2"

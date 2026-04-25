@@ -79,6 +79,7 @@ export interface CreateAppointmentPayload {
   type: AppointmentType;
   reason: string;
   patientNotes?: string;
+  continuumItemId?: string; // Continuum (Fase 3): ancora a marco do programa.
 }
 
 export interface UpdateAppointmentPayload {

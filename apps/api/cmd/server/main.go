@@ -995,6 +995,15 @@ func setupRoutes(
 		patientContinuumHandler.ListPlanRevisions,
 	)
 
+	// === Continuum (Fase 6) — Prontuário agregado ===
+	mrAggregateService := services.NewMedicalRecordAggregateService(database.DB)
+	mrAggregateHandler := handlers.NewMedicalRecordAggregateHandler(mrAggregateService)
+	v1.Get("/patients/:patientId/prontuario",
+		middleware.Auth(cfg),
+		middleware.RequireRole(allStaff...),
+		mrAggregateHandler.List,
+	)
+
 	// === Continuum (Fase 5) — Box logístico ===
 	continuumBoxService := services.NewContinuumBoxService(database.DB)
 	continuumBoxHandler := handlers.NewContinuumBoxHandler(continuumBoxService)

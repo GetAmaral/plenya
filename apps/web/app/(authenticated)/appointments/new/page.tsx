@@ -14,7 +14,7 @@
  * Submit → POST + redirect /appointments/:id (sync Google + Daily acontece async).
  */
 import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { format } from 'date-fns';
 import { Loader2, Calendar as CalendarIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -51,7 +51,13 @@ const TODAY_YMD = format(new Date(), 'yyyy-MM-dd');
 export default function NewAppointmentPage() {
   useRequireAuth();
   const router = useRouter();
+  const search = useSearchParams();
   const { user } = useAuthStore();
+
+  // Continuum (Fase 3): query params pra ancorar a consulta a um marco do programa.
+  const prefilledPatientId = search?.get('patientId') ?? '';
+  const continuumItemId = search?.get('continuumItemId') ?? '';
+  const prefilledSpecialty = search?.get('specialty') ?? ''; // doctor|nutritionist|psychologist|physicalEducator
 
   const isDoctor = isGranted(user, 'doctor');
   const isStaff =
@@ -61,7 +67,7 @@ export default function NewAppointmentPage() {
   const { data: doctors } = useDoctors();
   const createMutation = useCreateAppointment();
 
-  const [patientId, setPatientId] = useState<string>('');
+  const [patientId, setPatientId] = useState<string>(prefilledPatientId);
   const [patientSearch, setPatientSearch] = useState('');
   const [doctorId, setDoctorId] = useState<string>('');
   const [type, setType] = useState<AppointmentType>('initial_assessment');
@@ -124,6 +130,7 @@ export default function NewAppointmentPage() {
         type,
         reason: reason.trim(),
         patientNotes: patientNotes.trim() || undefined,
+        continuumItemId: continuumItemId || undefined,
       });
       toast.success('Consulta agendada!', {
         description: 'Sincronização com Google e Daily.co ocorre em alguns segundos.',
@@ -141,8 +148,18 @@ export default function NewAppointmentPage() {
       <PageHeader
         breadcrumbs={[{ label: 'Consultas', href: '/appointments' }, { label: 'Nova' }]}
         title="Nova consulta"
-        description="Selecione paciente, médico e horário disponível."
+        description={
+          continuumItemId
+            ? 'Ancorando consulta a marco do Continuum do paciente.'
+            : 'Selecione paciente, médico e horário disponível.'
+        }
       />
+      {continuumItemId && (
+        <div className="rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-800">
+          Esta consulta vai ancorar um marco do Continuum. Quando ela for marcada como
+          "completada", o item da timeline atualiza automaticamente.
+        </div>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Coluna esquerda: form */}
