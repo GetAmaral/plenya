@@ -220,11 +220,18 @@ func (s *UserService) Delete(userID uuid.UUID) error {
 	return nil
 }
 
-// ListDoctors retorna usuários com role doctor — usado pra dropdowns de
-// agendamento (Calendar V1). Acessível por qualquer staff.
+// ListDoctors retorna profissionais que atendem (têm agenda): doctor,
+// nutritionist, psychologist, physicalEducator. Nome legado mantido pra
+// compat com frontend; semanticamente é "ListProfessionals".
 func (s *UserService) ListDoctors() ([]*dto.UserResponse, error) {
 	var users []models.User
-	err := s.db.Where(`roles @> ?::jsonb`, `["doctor"]`).Find(&users).Error
+	err := s.db.Where(
+		`roles @> ?::jsonb OR roles @> ?::jsonb OR roles @> ?::jsonb OR roles @> ?::jsonb`,
+		`["doctor"]`,
+		`["nutritionist"]`,
+		`["psychologist"]`,
+		`["physicalEducator"]`,
+	).Order("name ASC").Find(&users).Error
 	if err != nil {
 		return nil, err
 	}

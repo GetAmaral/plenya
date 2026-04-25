@@ -51,7 +51,10 @@ func canReadDoctor(c *fiber.Ctx) bool {
 			string(models.RoleSecretary),
 			string(models.RoleManager),
 			string(models.RoleDoctor),
-			string(models.RoleNurse):
+			string(models.RoleNurse),
+			string(models.RoleNutritionist),
+			string(models.RolePsychologist),
+			string(models.RolePhysicalEducator):
 			return true
 		}
 	}

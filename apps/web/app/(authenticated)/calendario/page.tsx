@@ -74,12 +74,16 @@ export default function CalendarioPage() {
   const router = useRouter();
   const { user } = useAuthStore();
 
-  const canSeeOtherDoctors =
+  const isProfessional =
+    isGranted(user, 'doctor') ||
+    isGranted(user, 'nutritionist') ||
+    isGranted(user, 'psychologist') ||
+    isGranted(user, 'physicalEducator');
+  const canSeeOtherProfessionals =
     isGranted(user, 'admin') ||
     isGranted(user, 'manager') ||
     isGranted(user, 'secretary') ||
-    isGranted(user, 'doctor');
-  const isDoctor = isGranted(user, 'doctor');
+    isProfessional;
 
   const { data: doctors } = useDoctors();
 
@@ -95,15 +99,15 @@ export default function CalendarioPage() {
     const stored = loadSelectedDoctors(user.id);
     if (stored && stored.length > 0) {
       setSelectedDoctorIds(stored);
-    } else if (isDoctor) {
-      // Default: doctor vê própria agenda
+    } else if (isProfessional) {
+      // Default: profissional vê a própria agenda
       setSelectedDoctorIds([user.id]);
     } else if (doctors && doctors.length > 0) {
-      // Default staff: todos os médicos selecionados
+      // Default staff (admin/secretary/manager): todos selecionados
       setSelectedDoctorIds(doctors.map((d) => d.id));
     }
     setHydratedSelection(true);
-  }, [user?.id, isDoctor, doctors, hydratedSelection]);
+  }, [user?.id, isProfessional, doctors, hydratedSelection]);
 
   // Persiste a cada mudança (depois de hidratar pra não escrever vazio inicial).
   useEffect(() => {
@@ -192,7 +196,7 @@ export default function CalendarioPage() {
           </Button>
         </div>
 
-        {canSeeOtherDoctors && (
+        {canSeeOtherProfessionals && (
           <div className="ml-auto w-full sm:w-auto">
             <DoctorMultiSelect
               doctors={doctors ?? []}

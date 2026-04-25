@@ -1,12 +1,12 @@
 'use client';
 
 /**
- * DoctorMultiSelect — popover com checkbox por médico.
+ * DoctorMultiSelect — popover com checkbox por profissional.
  *
  * - Usado no /calendario pra escolher quais agendas exibir simultaneamente
  *   (secretária, manager, admin ou doctor curiosa sobre colega).
  * - Persistência da seleção fica no caller (localStorage por user).
- * - Mostra contagem ("3 médicos") no trigger e badges com cores derivadas
+ * - Mostra contagem ("3 profissionais") no trigger e badges com cores derivadas
  *   pra reforçar a relação visual com os blocos do grid.
  */
 import { useMemo, useState } from 'react';
@@ -61,10 +61,10 @@ export function DoctorMultiSelect({
 
   const triggerLabel =
     selectedIds.length === 0
-      ? 'Nenhum médico'
+      ? 'Nenhum profissional'
       : selectedIds.length === doctors.length
-      ? 'Todos os médicos'
-      : `${selectedIds.length} médico${selectedIds.length > 1 ? 's' : ''}`;
+      ? 'Todos os profissionais'
+      : `${selectedIds.length} profissional${selectedIds.length > 1 ? 's' : ''}`;
 
   return (
     <div className={cn('flex flex-col gap-2', className)}>
@@ -82,7 +82,7 @@ export function DoctorMultiSelect({
           <div className="border-b p-2">
             <Input
               autoFocus
-              placeholder="Buscar médico..."
+              placeholder="Buscar profissional..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="h-8"
@@ -107,7 +107,7 @@ export function DoctorMultiSelect({
           <div className="max-h-72 overflow-y-auto p-1">
             {filtered.length === 0 ? (
               <p className="px-3 py-4 text-center text-xs text-muted-foreground">
-                Nenhum médico encontrado
+                Nenhum profissional encontrado
               </p>
             ) : (
               filtered.map((d) => {

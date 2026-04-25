@@ -124,8 +124,11 @@ func (s *AppointmentService) Create(userID uuid.UUID, userRole models.Role, req 
 		}
 		return nil, err
 	}
-	if !doctor.IsGranted(models.RoleDoctor) {
-		return nil, errors.New("user is not a doctor")
+	if !doctor.IsGranted(models.RoleDoctor) &&
+		!doctor.IsGranted(models.RoleNutritionist) &&
+		!doctor.IsGranted(models.RolePsychologist) &&
+		!doctor.IsGranted(models.RolePhysicalEducator) {
+		return nil, errors.New("user is not a professional with agenda")
 	}
 
 	scheduledAt, err := time.Parse(time.RFC3339, req.ScheduledAt)
