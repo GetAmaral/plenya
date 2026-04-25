@@ -15,6 +15,15 @@ export type {
 } from './queryOptions/scoreGroups';
 export type { PatientSummary, PatientDetail } from './queryOptions/patients';
 export type { LeadSummary, LeadDetail, LeadActivity, LeadSource } from './queryOptions/leads';
+export type {
+  ConversationItem,
+  ConversationMessage,
+  ConversationOwnerType,
+  ConversationChannel,
+  ConversationDirection,
+  ListConversationsParams,
+  ListConversationsResult,
+} from './queryOptions/conversations';
 export type { AnamnesisSummary, AnamnesisDetail } from './queryOptions/anamnesis';
 export type { LabResultSummary, LabResultDetail, LabResultValue } from './queryOptions/labResults';
 export type {

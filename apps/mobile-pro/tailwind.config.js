@@ -8,6 +8,8 @@ module.exports = {
     './lib/**/*.{ts,tsx}',
     '../../packages/ui-mobile/src/**/*.{ts,tsx}',
   ],
+  // dark mode acompanha o sistema (userInterfaceStyle=automatic em app.json)
+  darkMode: 'media',
   presets: [preset],
   theme: { extend: {} },
   plugins: [],

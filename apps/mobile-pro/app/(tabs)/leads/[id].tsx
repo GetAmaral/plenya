@@ -85,6 +85,14 @@ export default function LeadDetailScreen() {
           <Text variant="caption">{l.email ?? '—'}</Text>
         </Card>
 
+        <Button
+          onPress={() => router.push(`/(tabs)/conversations/lead/${leadId}` as never)}
+          fullWidth
+          variant="outline"
+        >
+          Abrir conversa (com anexos + IA)
+        </Button>
+
         <View className="flex-row gap-2">
           {l.phone && (
             <Button
@@ -93,7 +101,7 @@ export default function LeadDetailScreen() {
               onPress={() => setComposeOpen('whatsapp')}
               className="flex-1"
             >
-              Responder WhatsApp
+              Resposta rápida WA
             </Button>
           )}
           {l.email && (
@@ -103,7 +111,7 @@ export default function LeadDetailScreen() {
               onPress={() => setComposeOpen('email')}
               className="flex-1"
             >
-              Responder email
+              Resposta rápida email
             </Button>
           )}
         </View>

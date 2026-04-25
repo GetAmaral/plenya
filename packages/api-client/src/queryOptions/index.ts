@@ -10,5 +10,6 @@ export * from './workoutPlans';
 export * from './exercises';
 export * from './physicalAssessments';
 export * from './leads';
+export * from './conversations';
 export * from './notifications';
 export * from './appointments';
