@@ -54,8 +54,12 @@ export default async function ConsultasPage({ params }: { params: Promise<{ loca
               eles juntos.
             </p>
             <p>
-              É uma consulta médica avulsa. Para quem busca acompanhamento
-              estruturado e contínuo, com equipe completa, existe o{' '}
+              Uma Consulta Plenya é completa em si — sai dali com leitura honesta
+              dos seus dados, conduta clara e o que precisa entrar em prática
+              agora. Pode ser pontual ou se repetir no seu tempo, conforme a sua
+              saúde pedir. Quando o cuidado pede continuidade — equipe
+              acompanhando junto, plano único e revisões em ciclo — o próximo
+              passo se chama{' '}
               <Link href="/continuum" className="underline decoration-gold/60 underline-offset-4 hover:text-petrol transition">
                 Continuum Plenya
               </Link>
