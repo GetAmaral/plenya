@@ -455,6 +455,44 @@ export function useMyScores() {
   return useQuery({ queryKey: ["patient-scores"], queryFn: patientScoresApi.list });
 }
 
+// ============================================================
+// Perfil + LGPD
+// ============================================================
+
+export interface UpdatableProfile {
+  phone?: string;
+  email?: string;
+  address?: string;
+  municipality?: string;
+  state?: string;
+  emergencyPhone?: string;
+}
+
+export const patientProfileApi = {
+  update: (p: UpdatableProfile) =>
+    apiClient.put<void>("/api/v1/patient/me/profile", p),
+  exportURL: () =>
+    `${API_URL}/api/v1/patient/me/lgpd/export`,
+  requestDelete: (reason: string) =>
+    apiClient.post<void>("/api/v1/patient/me/lgpd/account-delete-request", { reason }),
+};
+
+export function useUpdatePatientProfile() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: patientProfileApi.update,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["patient-me"] });
+    },
+  });
+}
+
+export function useRequestAccountDelete() {
+  return useMutation({
+    mutationFn: patientProfileApi.requestDelete,
+  });
+}
+
 export function useSetPatientPassword() {
   return useMutation({
     mutationFn: patientMeApi.setPassword,

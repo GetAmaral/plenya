@@ -38,6 +38,8 @@ type PatientPortalHandler struct {
 	messages     *services.PatientMessagesService
 	labs         *services.PatientLabsService
 	scores       *services.PatientScoresService
+	profile      *services.PatientProfileService
+	notification *services.NotificationService
 }
 
 func NewPatientPortalHandler(
@@ -48,6 +50,8 @@ func NewPatientPortalHandler(
 	messages *services.PatientMessagesService,
 	labs *services.PatientLabsService,
 	scores *services.PatientScoresService,
+	profile *services.PatientProfileService,
+	notification *services.NotificationService,
 ) *PatientPortalHandler {
 	return &PatientPortalHandler{
 		svc:          svc,
@@ -57,7 +61,49 @@ func NewPatientPortalHandler(
 		messages:     messages,
 		labs:         labs,
 		scores:       scores,
+		profile:      profile,
+		notification: notification,
 	}
+}
+
+// UpdateProfile PUT /api/v1/patient/me/profile
+func (h *PatientPortalHandler) UpdateProfile(c *fiber.Ctx) error {
+	var body services.UpdatableProfile
+	if err := c.BodyParser(&body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid body"})
+	}
+	if err := h.profile.UpdateProfile(middleware.GetPatientID(c), body); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
+// LGPDExport GET /api/v1/patient/me/lgpd/export
+func (h *PatientPortalHandler) LGPDExport(c *fiber.Ctx) error {
+	out, err := h.profile.LGPDExport(middleware.GetPatientID(c))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	c.Set("Content-Disposition", `attachment; filename="plenya-meus-dados.json"`)
+	return c.JSON(out)
+}
+
+type lgpdDeleteBody struct {
+	Reason string `json:"reason"`
+}
+
+// LGPDRequestDelete POST /api/v1/patient/me/lgpd/account-delete-request
+func (h *PatientPortalHandler) LGPDRequestDelete(c *fiber.Ctx) error {
+	var body lgpdDeleteBody
+	_ = c.BodyParser(&body)
+	if err := h.profile.RequestAccountDeletion(services.LGPDDeleteRequestInput{
+		PatientID: middleware.GetPatientID(c),
+		UserID:    middleware.GetUserID(c),
+		Reason:    body.Reason,
+	}, h.notification); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
 }
 
 // ListScores GET /api/v1/patient/me/scores
