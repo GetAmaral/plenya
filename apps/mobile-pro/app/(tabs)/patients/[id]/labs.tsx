@@ -7,6 +7,7 @@ import { Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { formatDate } from '@plenya/domain';
 import { useScreenCaptureProtection } from '../../../../lib/security/screenCapture';
 import { useRefresh } from '../../../../features/patients/usePatientRefresh';
+import { useEnsureSelectedPatient } from '../../../../features/patients/useEnsureSelectedPatient';
 
 const STATUS_LABEL: Record<string, string> = {
   pending: 'Pendente',
@@ -17,6 +18,7 @@ export default function PatientLabsScreen() {
   useScreenCaptureProtection();
   const { id } = useLocalSearchParams<{ id: string }>();
   const patientId = id ?? '';
+  useEnsureSelectedPatient(patientId);
 
   const list = useQuery(options.patientLabResultsOptions(patientId));
   const { refreshing, onRefresh } = useRefresh([queryKeys.patients.labResults(patientId)]);

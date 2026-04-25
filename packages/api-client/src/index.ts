@@ -27,5 +27,11 @@ export type {
   WorkoutPlanSession,
   WorkoutSessionExercise,
 } from './queryOptions/workoutPlans';
+export type { ExerciseSummary, ExerciseDetail, NSCAReference } from './queryOptions/exercises';
+export type {
+  PhysicalAssessmentSummary,
+  PhysicalAssessmentDetail,
+  ACSMTag,
+} from './queryOptions/physicalAssessments';
 export type { NotificationItem } from './queryOptions/notifications';
 export type { Appointment } from './queryOptions/appointments';

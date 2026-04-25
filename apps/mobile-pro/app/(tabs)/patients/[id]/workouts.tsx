@@ -1,6 +1,6 @@
 import { FlatList, RefreshControl, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { options, queryKeys } from '@plenya/api-client';
 import { Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
@@ -11,24 +11,26 @@ import { useEnsureSelectedPatient } from '../../../../features/patients/useEnsur
 
 const STATUS_LABEL: Record<string, string> = {
   draft: 'Rascunho',
-  signed: 'Assinada',
-  cancelled: 'Cancelada',
+  active: 'Ativo',
+  completed: 'Concluído',
+  archived: 'Arquivado',
 };
 
 const STATUS_COLOR: Record<string, string> = {
   draft: 'text-muted-foreground',
-  signed: 'text-emerald-600',
-  cancelled: 'text-destructive',
+  active: 'text-emerald-600',
+  completed: 'text-foreground',
+  archived: 'text-muted-foreground',
 };
 
-export default function PatientPrescriptionsScreen() {
+export default function PatientWorkoutsScreen() {
   useScreenCaptureProtection();
   const { id } = useLocalSearchParams<{ id: string }>();
   const patientId = id ?? '';
   useEnsureSelectedPatient(patientId);
 
-  const list = useQuery(options.patientPrescriptionsOptions(patientId));
-  const { refreshing, onRefresh } = useRefresh([queryKeys.patients.prescriptions(patientId)]);
+  const list = useQuery(options.patientWorkoutPlansOptions(patientId));
+  const { refreshing, onRefresh } = useRefresh([queryKeys.patients.workoutPlans(patientId)]);
 
   if (list.isLoading) return <Spinner centered />;
   if (list.isError) {
@@ -48,23 +50,25 @@ export default function PatientPrescriptionsScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         ListEmptyComponent={
           <EmptyState
-            title="Sem prescrições"
-            description="Nenhuma receita emitida para este paciente."
+            title="Sem planos de treino"
+            description="Este paciente ainda não tem planos prescritos."
           />
         }
         renderItem={({ item }) => (
-          <Card>
-            <View className="flex-row items-center justify-between">
-              <Text variant="title">Receita</Text>
-              <Text className={`text-xs font-semibold ${STATUS_COLOR[item.status] ?? ''}`}>
-                {STATUS_LABEL[item.status] ?? item.status}
+          <Link href={`/(tabs)/training/workout-plans/${item.id}`} asChild>
+            <Card>
+              <View className="flex-row items-center justify-between">
+                <Text variant="title">{item.name}</Text>
+                <Text className={`text-xs font-semibold ${STATUS_COLOR[item.status] ?? ''}`}>
+                  {STATUS_LABEL[item.status] ?? item.status}
+                </Text>
+              </View>
+              <Text variant="caption">
+                Início {formatDate(item.startDate)}
+                {item.endDate ? ` · término ${formatDate(item.endDate)}` : ''}
               </Text>
-            </View>
-            <Text variant="caption">Emitida em {formatDate(item.issuedAt)}</Text>
-            {item.signedAt && (
-              <Text variant="caption">Assinada em {formatDate(item.signedAt)}</Text>
-            )}
-          </Card>
+            </Card>
+          </Link>
         )}
       />
     </SafeAreaView>

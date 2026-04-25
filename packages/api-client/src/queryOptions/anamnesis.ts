@@ -16,11 +16,15 @@ export interface AnamnesisDetail extends AnamnesisSummary {
   templateId?: string;
 }
 
+/**
+ * Lista anamneses do paciente atualmente selecionado pelo profissional logado.
+ * Backend escopa via User.SelectedPatientID — passe o patientId apenas para
+ * compor o queryKey (cache-busting quando troca de paciente).
+ */
 export const patientAnamnesisOptions = (patientId: string) =>
   queryOptions({
     queryKey: queryKeys.patients.anamnesis(patientId),
-    queryFn: ({ signal }) =>
-      api.get<AnamnesisSummary[]>(`/api/v1/patients/${patientId}/anamnesis`, { signal }),
+    queryFn: ({ signal }) => api.get<AnamnesisSummary[]>('/api/v1/anamnesis', { signal }),
     enabled: Boolean(patientId),
   });
 

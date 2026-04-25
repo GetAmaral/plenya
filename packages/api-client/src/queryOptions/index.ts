@@ -7,6 +7,8 @@ export * from './anamnesis';
 export * from './labResults';
 export * from './prescriptions';
 export * from './workoutPlans';
+export * from './exercises';
+export * from './physicalAssessments';
 export * from './leads';
 export * from './notifications';
 export * from './appointments';

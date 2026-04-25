@@ -26,11 +26,14 @@ export interface LabResultDetail extends LabResultSummary {
   notes?: string;
 }
 
+/**
+ * Lista resultados de exames do paciente atualmente selecionado.
+ * Backend escopa via User.SelectedPatientID; patientId compõe queryKey.
+ */
 export const patientLabResultsOptions = (patientId: string) =>
   queryOptions({
     queryKey: queryKeys.patients.labResults(patientId),
-    queryFn: ({ signal }) =>
-      api.get<LabResultSummary[]>(`/api/v1/patients/${patientId}/lab-results`, { signal }),
+    queryFn: ({ signal }) => api.get<LabResultSummary[]>('/api/v1/lab-results', { signal }),
     enabled: Boolean(patientId),
   });
 

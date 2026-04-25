@@ -7,11 +7,13 @@ import { Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { formatRelative } from '@plenya/domain';
 import { useScreenCaptureProtection } from '../../../../lib/security/screenCapture';
 import { useRefresh } from '../../../../features/patients/usePatientRefresh';
+import { useEnsureSelectedPatient } from '../../../../features/patients/useEnsureSelectedPatient';
 
 export default function PatientAnamnesisScreen() {
   useScreenCaptureProtection();
   const { id } = useLocalSearchParams<{ id: string }>();
   const patientId = id ?? '';
+  useEnsureSelectedPatient(patientId);
 
   const list = useQuery(options.patientAnamnesisOptions(patientId));
   const { refreshing, onRefresh } = useRefresh([queryKeys.patients.anamnesis(patientId)]);

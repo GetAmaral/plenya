@@ -15,11 +15,13 @@ import { Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { matchLevel } from '@plenya/domain';
 import { useScreenCaptureProtection } from '../../../../lib/security/screenCapture';
 import { useRefresh } from '../../../../features/patients/usePatientRefresh';
+import { useEnsureSelectedPatient } from '../../../../features/patients/useEnsureSelectedPatient';
 
 export default function PatientScoresScreen() {
   useScreenCaptureProtection();
   const { id } = useLocalSearchParams<{ id: string }>();
   const patientId = id ?? '';
+  useEnsureSelectedPatient(patientId);
 
   const tree = useQuery(options.scoreTreeOptions());
   const results = useQuery(options.patientScoresOptions(patientId));

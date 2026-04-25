@@ -31,7 +31,7 @@ export default function TabsLayout() {
     >
       <Tabs.Screen name="index" options={{ title: 'Início' }} />
       <Tabs.Screen name="patients" options={{ title: 'Pacientes', headerShown: false }} />
-      <Tabs.Screen name="agenda" options={{ title: 'Agenda' }} />
+      <Tabs.Screen name="training" options={{ title: 'Treino', headerShown: false }} />
       <Tabs.Screen name="leads" options={{ title: 'Leads', headerShown: false }} />
       <Tabs.Screen name="profile" options={{ title: 'Perfil' }} />
     </Tabs>

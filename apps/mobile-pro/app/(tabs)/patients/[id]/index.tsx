@@ -7,12 +7,14 @@ import { Card, CardHeader, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { formatDate } from '@plenya/domain';
 import { useScreenCaptureProtection } from '../../../../lib/security/screenCapture';
 import { useRefresh } from '../../../../features/patients/usePatientRefresh';
+import { useEnsureSelectedPatient } from '../../../../features/patients/useEnsureSelectedPatient';
 import { SubsectionLink } from '../../../../components/patient/SubsectionLink';
 
 export default function PatientOverviewScreen() {
   useScreenCaptureProtection();
   const { id } = useLocalSearchParams<{ id: string }>();
   const patientId = id ?? '';
+  useEnsureSelectedPatient(patientId);
 
   const patient = useQuery(options.patientOptions(patientId));
 
@@ -104,6 +106,16 @@ export default function PatientOverviewScreen() {
           href={`/(tabs)/patients/${patientId}/scores`}
           title="Escores de saúde"
           description="Estratificação por grupos e itens clínicos"
+        />
+        <SubsectionLink
+          href={`/(tabs)/patients/${patientId}/workouts`}
+          title="Planos de treino"
+          description="Sessões e exercícios prescritos"
+        />
+        <SubsectionLink
+          href={`/(tabs)/patients/${patientId}/assessments`}
+          title="Avaliações físicas"
+          description="Composição corporal, PA, tags ACSM"
         />
       </ScrollView>
     </SafeAreaView>

@@ -34,11 +34,15 @@ export interface WorkoutPlanDetail extends WorkoutPlanSummary {
   notes?: string;
 }
 
+/**
+ * Lista planos de treino do paciente atualmente selecionado.
+ * Backend escopa via User.SelectedPatientID; patientId compõe queryKey.
+ */
 export const patientWorkoutPlansOptions = (patientId: string) =>
   queryOptions({
     queryKey: queryKeys.patients.workoutPlans(patientId),
     queryFn: ({ signal }) =>
-      api.get<WorkoutPlanSummary[]>(`/api/v1/patients/${patientId}/workout-plans`, { signal }),
+      api.get<WorkoutPlanSummary[]>('/api/v1/workout-plans', { signal }),
     enabled: Boolean(patientId),
   });
 

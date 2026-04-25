@@ -26,11 +26,15 @@ export interface PrescriptionDetail extends PrescriptionSummary {
   notes?: string;
 }
 
+/**
+ * Lista prescrições do paciente atualmente selecionado.
+ * Backend escopa via User.SelectedPatientID; patientId compõe queryKey.
+ */
 export const patientPrescriptionsOptions = (patientId: string) =>
   queryOptions({
     queryKey: queryKeys.patients.prescriptions(patientId),
     queryFn: ({ signal }) =>
-      api.get<PrescriptionSummary[]>(`/api/v1/patients/${patientId}/prescriptions`, { signal }),
+      api.get<PrescriptionSummary[]>('/api/v1/prescriptions', { signal }),
     enabled: Boolean(patientId),
   });
 
