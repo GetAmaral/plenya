@@ -25,9 +25,16 @@ type Config struct {
 	WhatsApp   WhatsAppConfig
 	CRM        CRMConfig
 	Site       SiteConfig
-	Google     GoogleConfig
-	DailyCo    DailyCoConfig
-	Dev        DevConfig
+	Google        GoogleConfig
+	DailyCo       DailyCoConfig
+	PatientPortal PatientPortalConfig
+	Dev           DevConfig
+}
+
+// PatientPortalConfig — área do paciente (meu.plenyasaude.com.br).
+// PublicURL é usado pra montar links em emails de convite, magic link, etc.
+type PatientPortalConfig struct {
+	PublicURL string // PATIENT_PORTAL_URL — ex: https://meu.plenyasaude.com.br
 }
 
 // GoogleConfig — credenciais OAuth Google + Calendar API.
@@ -287,6 +294,9 @@ func Load() (*Config, error) {
 		DailyCo: DailyCoConfig{
 			APIKey: getEnv("DAILY_CO_API_KEY", ""),
 			Domain: getEnv("DAILY_CO_DOMAIN", ""),
+		},
+		PatientPortal: PatientPortalConfig{
+			PublicURL: getEnv("PATIENT_PORTAL_URL", "http://localhost:3000"),
 		},
 		Dev: DevConfig{
 			BypassAuth: getEnvAsBool("DEV_BYPASS_AUTH", false),

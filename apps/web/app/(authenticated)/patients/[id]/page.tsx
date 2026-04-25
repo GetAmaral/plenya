@@ -26,6 +26,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { apiClient } from "@/lib/api-client";
 import { useRequireAuth } from "@/lib/use-auth";
 import { PageHeader } from "@/components/layout/page-header";
+import { PortalAccessCard } from "@/components/patients/portal-access-card";
 
 interface Patient {
   id: string;
@@ -352,6 +353,8 @@ export default function PatientDetailPage() {
               </div>
             </CardContent>
           </Card>
+
+          <PortalAccessCard patientId={patientId} />
         </motion.div>
       </div>
     </div>

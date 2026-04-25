@@ -199,6 +199,62 @@ email contato@plenyasaude.com.br.
 	return s.send(toEmail, subject, bodyText, bodyHTML)
 }
 
+// SendPortalInvite envia convite de acesso à área do paciente (meu.plenyasaude.com.br).
+// Disparado pela equipe (admin/manager/secretary) no perfil do Patient.
+func (s *EmailService) SendPortalInvite(toEmail, patientName, link string) error {
+	subject := "Bem-vindo à área do paciente Plenya"
+	bodyText := fmt.Sprintf(`Olá, %s.
+
+A equipe Plenya criou seu acesso à área do paciente.
+
+Lá você acompanha seu Continuum, próximas consultas, exames, prescrições e
+conversa diretamente com a equipe.
+
+Acesse pelo link (válido por 14 dias):
+
+%s
+
+Se você não esperava este convite, ignore este email.
+
+— Equipe Plenya
+`, patientName, link)
+
+	bodyHTML, err := s.renderTemplate("portal_invite", map[string]string{
+		"NAME": patientName,
+		"LINK": link,
+	})
+	if err != nil {
+		// Template ainda não criado — segue só com texto plano
+		bodyHTML = ""
+	}
+	return s.send(toEmail, subject, bodyText, bodyHTML)
+}
+
+// SendPatientMagicLink envia magic link de login pra paciente já cadastrado.
+// Usado em "entrar com link mágico" e "esqueci a senha".
+func (s *EmailService) SendPatientMagicLink(toEmail, patientName, link string) error {
+	subject := "Seu acesso à área Plenya"
+	bodyText := fmt.Sprintf(`Olá, %s.
+
+Use o link abaixo pra entrar na sua área Plenya (válido por 15 minutos):
+
+%s
+
+Se você não solicitou este link, ignore este email — sua conta segue protegida.
+
+— Equipe Plenya
+`, patientName, link)
+
+	bodyHTML, err := s.renderTemplate("patient_magic_link", map[string]string{
+		"NAME": patientName,
+		"LINK": link,
+	})
+	if err != nil {
+		bodyHTML = ""
+	}
+	return s.send(toEmail, subject, bodyText, bodyHTML)
+}
+
 // SendFollowUp30Dias envia follow-up manual (admin dispara via UI).
 func (s *EmailService) SendFollowUp30Dias(toEmail, patientName string) error {
 	subject := "Refaça seu Escore — veja sua evolução"

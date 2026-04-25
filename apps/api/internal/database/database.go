@@ -203,6 +203,10 @@ func AutoMigrate() error {
 		&models.PatientContinuumItem{},
 		&models.PatientContinuumBox{},
 		&models.IntegratedPlanRevision{},
+
+		// Portal do Paciente (meu.plenyasaude.com.br)
+		&models.PatientPortalInvite{},
+		&models.PatientMagicLink{},
 	); err != nil {
 		return err
 	}

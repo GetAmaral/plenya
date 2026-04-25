@@ -295,6 +295,10 @@ func setupRoutes(
 	conversationHandler := handlers.NewConversationHandler(conversationService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
+	// Portal do Paciente (meu.plenyasaude.com.br) — auth híbrida + convite + me
+	patientPortalService := services.NewPatientPortalService(database.DB, cfg, authService, emailService, whatsappService)
+	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService)
+
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
 	// pra fechar o ciclo sem dep direta entre services.
@@ -390,6 +394,15 @@ func setupRoutes(
 	auth.Post("/oauth/google", oauthLimiter.Middleware(), oauthHandler.GoogleCallback)
 	auth.Post("/oauth/apple", oauthLimiter.Middleware(), oauthHandler.AppleCallback)
 
+	// Portal do Paciente — auth público (rate-limited)
+	portalAuthLimiter := middleware.NewRateLimiter(10, time.Minute)
+	patientAuth := auth.Group("/patient", portalAuthLimiter.Middleware())
+	patientAuth.Post("/login", patientPortalHandler.LoginPassword)
+	patientAuth.Post("/magic-link", patientPortalHandler.RequestMagicLink)
+	patientAuth.Post("/magic-link/consume", patientPortalHandler.ConsumeMagicLink)
+	patientAuth.Post("/forgot", patientPortalHandler.RequestMagicLink) // alias
+	patientAuth.Post("/invite/consume", patientPortalHandler.ConsumeInvite)
+
 	// User routes (protegidas)
 	users := v1.Group("/users")
 	users.Use(middleware.Auth(cfg))
@@ -447,6 +460,16 @@ func setupRoutes(
 	patients.Get("/:id", patientHandler.GetByID)
 	patients.Put("/:id", patientHandler.Update)
 	patients.Delete("/:id", middleware.RequireMedicalStaff(), patientHandler.Delete)
+
+	// Convite pra área do paciente — admin/manager/secretary disparam.
+	portalInviteRoles := middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary)
+	patients.Get("/:id/portal-invite", portalInviteRoles, patientPortalHandler.GetInviteStatus)
+	patients.Post("/:id/portal-invite", portalInviteRoles, patientPortalHandler.CreateInvite)
+
+	// Endpoints autenticados como paciente (meu.plenyasaude.com.br)
+	patientMe := v1.Group("/patient/me", middleware.Auth(cfg), middleware.RequirePatient(database.DB))
+	patientMe.Get("/", patientPortalHandler.Me)
+	patientMe.Post("/password", patientPortalHandler.SetPassword)
 
 	// Anamnesis routes (protegidas - profissionais autenticados)
 	anamnesis := v1.Group("/anamnesis")
