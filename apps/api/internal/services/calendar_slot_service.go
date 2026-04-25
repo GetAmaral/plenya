@@ -140,18 +140,25 @@ func (s *CalendarSlotService) ListAvailable(ctx context.Context, p ListSlotsPara
 	}
 
 	// Step 3: gera slots candidatos.
+	// Stride = WorkingHours.SlotDuration (granularidade definida pelo médico:
+	//   15/30/60 min). Length = effectiveDuration (depende do tipo da consulta).
+	// Ex: WH 8-12 stride 30min, consulta 90min → candidatos 8:00, 8:30, 9:00,
+	//   9:30, 10:00, 10:30 (cada um 90min de duração; último termina às 12:00).
+	// Se houver appointment de 30min começando 8:30, candidates 8:00 e 8:30
+	// serão filtrados no step 6, sobrando 9:00 em diante.
+	slotLen := time.Duration(effectiveDuration) * time.Minute
 	candidates := make([]Slot, 0, 40)
 	for _, h := range hours {
 		blockStart := dayStart.Add(time.Duration(h.StartMinute) * time.Minute)
 		blockEnd := dayStart.Add(time.Duration(h.EndMinute) * time.Minute)
-		// Slot stride: usa effectiveDuration (não SlotDuration do row).
-		// Justificativa: pra appointment tipo initial_assessment 90min num bloco
-		// 9-12, queremos 9:00, 10:30 — não 9:00, 9:30, 10:00...
-		stride := time.Duration(effectiveDuration) * time.Minute
-		for t := blockStart; t.Add(stride).Compare(blockEnd) <= 0; t = t.Add(stride) {
+		stride := time.Duration(h.SlotDuration) * time.Minute
+		if stride <= 0 {
+			stride = slotLen
+		}
+		for t := blockStart; t.Add(slotLen).Compare(blockEnd) <= 0; t = t.Add(stride) {
 			slot := Slot{
 				StartUTC: t.UTC(),
-				EndUTC:   t.Add(stride).UTC(),
+				EndUTC:   t.Add(slotLen).UTC(),
 			}
 			if !slotOverlapsAbsences(slot, absences) {
 				candidates = append(candidates, slot)

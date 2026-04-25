@@ -40,6 +40,8 @@ import {
   UserPlus,
   BarChart3,
   MessageSquare,
+  Plug,
+  Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -91,6 +93,8 @@ const navigation: NavigationItem[] = [
   { name: "Exercícios", href: "/training/exercises", icon: Library, staffOnly: true },
   { name: "Agente IA Treino", href: "/training/ai-agent", icon: Bot, staffOnly: true },
   { name: "Artigos", href: "/articles", icon: BookOpen },
+  { name: "Configurar Agenda", href: "/configuracoes/agenda", icon: Settings, staffOnly: true },
+  { name: "Integrações", href: "/configuracoes/integracoes", icon: Plug, staffOnly: true },
   { name: "Usuários", href: "/admin/users", icon: Shield, adminOnly: true },
   { name: "Definições de Medicamentos", href: "/admin/medication-definitions", icon: Pill, adminOnly: true },
   { name: "Certificados Digitais", href: "/admin/certificates", icon: ShieldCheck, adminOnly: true },

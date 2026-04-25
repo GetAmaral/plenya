@@ -316,15 +316,21 @@ function BlockModal({ modal, onClose, onSubmit }: BlockModalProps) {
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="slot">Duração de cada slot (min)</Label>
-            <Input
+            <Label htmlFor="slot">Granularidade dos slots</Label>
+            <select
               id="slot"
-              type="number"
-              min={5}
-              max={480}
               value={slotDuration}
               onChange={(e) => setSlotDuration(Number(e.target.value))}
-            />
+              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            >
+              <option value={15}>15 minutos</option>
+              <option value={30}>30 minutos</option>
+              <option value={60}>60 minutos</option>
+            </select>
+            <p className="text-xs text-muted-foreground">
+              Define de quanto em quanto tempo um novo horário começa. Consultas mais longas
+              aparecem como slots maiores no agendamento, mas sempre alinhados a essa granularidade.
+            </p>
           </div>
         </div>
 
