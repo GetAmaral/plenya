@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, RefreshControl, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { options } from '@plenya/api-client';
-import { Card, Input, Spinner, Text } from '@plenya/ui-mobile';
+import { Card, EmptyState, ErrorState, Input, Spinner, Text } from '@plenya/ui-mobile';
 import { formatRelative } from '@plenya/domain';
 import { useScreenCaptureProtection } from '../../../lib/security/screenCapture';
 
@@ -29,6 +29,8 @@ export default function PatientsListScreen() {
 
       {query.isLoading ? (
         <Spinner centered />
+      ) : query.isError ? (
+        <ErrorState onRetry={() => query.refetch()} />
       ) : (
         <FlatList
           data={items}
@@ -36,10 +38,17 @@ export default function PatientsListScreen() {
           contentContainerClassName="gap-2 px-4 pb-8"
           onEndReached={() => query.hasNextPage && query.fetchNextPage()}
           onEndReachedThreshold={0.4}
+          refreshControl={
+            <RefreshControl
+              refreshing={query.isRefetching && !query.isFetchingNextPage}
+              onRefresh={() => query.refetch()}
+            />
+          }
           ListEmptyComponent={
-            <View className="items-center py-12">
-              <Text variant="caption">Nenhum paciente encontrado</Text>
-            </View>
+            <EmptyState
+              title="Nenhum paciente"
+              description={search ? 'Sem resultados para a busca.' : 'Você ainda não tem pacientes cadastrados.'}
+            />
           }
           renderItem={({ item }) => (
             <Link href={`/(tabs)/patients/${item.id}`} asChild>
