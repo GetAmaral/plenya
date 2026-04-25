@@ -77,6 +77,8 @@ export const patientMeApi = {
   me: () => apiClient.get<PatientMe>("/api/v1/patient/me"),
   setPassword: (password: string) =>
     apiClient.post<void>("/api/v1/patient/me/password", { password }),
+  dashboard: () =>
+    apiClient.get<PatientDashboard>("/api/v1/patient/me/dashboard"),
 };
 
 export function usePatientMe(enabled = true) {
@@ -85,6 +87,57 @@ export function usePatientMe(enabled = true) {
     queryFn: patientMeApi.me,
     enabled,
     staleTime: 60_000,
+  });
+}
+
+// ============================================================
+// Dashboard payload
+// ============================================================
+
+export interface PatientDashboard {
+  nextAppointment?: {
+    id: string;
+    scheduledAt: string;
+    durationMinutes: number;
+    type: string;
+    status: string;
+    doctorId: string;
+    doctorName: string;
+    isTelemedicine: boolean;
+    patientConfirmedAt?: string | null;
+    minutesUntilStart: number;
+  };
+  continuum?: {
+    id: string;
+    templateName: string;
+    startDate: string;
+    endDate: string;
+    currentWeek: number;
+    totalWeeks: number;
+    itemsCompleted: number;
+    itemsTotal: number;
+    itemsLate: number;
+    nextItemTitle?: string | null;
+    nextItemExpectedDate?: string | null;
+  };
+  lastScore?: {
+    id: string;
+    source: "light" | "complete";
+    createdAt: string;
+    totalScorePercentage: number;
+    deltaVsPrevious?: number | null;
+  };
+  boxesCount: { preparing: number; shipped: number; delivered: number };
+  unreadMessages: number;
+  pendingActions: { kind: string; description: string; link: string }[];
+}
+
+export function usePatientDashboard(enabled = true) {
+  return useQuery({
+    queryKey: ["patient-dashboard"],
+    queryFn: patientMeApi.dashboard,
+    enabled,
+    staleTime: 30_000,
   });
 }
 

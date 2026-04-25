@@ -295,9 +295,10 @@ func setupRoutes(
 	conversationHandler := handlers.NewConversationHandler(conversationService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
-	// Portal do Paciente (meu.plenyasaude.com.br) — auth híbrida + convite + me
+	// Portal do Paciente (meu.plenyasaude.com.br) — auth híbrida + convite + me + dashboard
 	patientPortalService := services.NewPatientPortalService(database.DB, cfg, authService, emailService, whatsappService)
-	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService)
+	patientDashboardService := services.NewPatientDashboardService(database.DB)
+	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
@@ -470,6 +471,7 @@ func setupRoutes(
 	patientMe := v1.Group("/patient/me", middleware.Auth(cfg), middleware.RequirePatient(database.DB))
 	patientMe.Get("/", patientPortalHandler.Me)
 	patientMe.Post("/password", patientPortalHandler.SetPassword)
+	patientMe.Get("/dashboard", patientPortalHandler.Dashboard)
 
 	// Anamnesis routes (protegidas - profissionais autenticados)
 	anamnesis := v1.Group("/anamnesis")

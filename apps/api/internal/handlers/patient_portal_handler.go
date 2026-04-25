@@ -30,11 +30,25 @@ import (
 )
 
 type PatientPortalHandler struct {
-	svc *services.PatientPortalService
+	svc       *services.PatientPortalService
+	dashboard *services.PatientDashboardService
 }
 
-func NewPatientPortalHandler(svc *services.PatientPortalService) *PatientPortalHandler {
-	return &PatientPortalHandler{svc: svc}
+func NewPatientPortalHandler(
+	svc *services.PatientPortalService,
+	dashboard *services.PatientDashboardService,
+) *PatientPortalHandler {
+	return &PatientPortalHandler{svc: svc, dashboard: dashboard}
+}
+
+// Dashboard GET /api/v1/patient/me/dashboard
+func (h *PatientPortalHandler) Dashboard(c *fiber.Ctx) error {
+	patientID := middleware.GetPatientID(c)
+	out, err := h.dashboard.Build(patientID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(out)
 }
 
 // ============================================================
