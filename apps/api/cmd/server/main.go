@@ -201,7 +201,17 @@ func setupRoutes(
 	patientService := services.NewPatientService(database.DB)
 	anamnesisService := services.NewAnamnesisService(database.DB)
 	anamnesisTemplateService := services.NewAnamnesisTemplateService(anamnesisTemplateRepo)
-	appointmentService := services.NewAppointmentService(database.DB)
+	// Calendar V1 (Bloco E) — AppointmentService depende de google/daily/notif.
+	googleCalendarService := services.NewGoogleCalendarService(cfg, database.DB)
+	dailyCoService := services.NewDailyCoService(cfg)
+	emailServiceForAppt := services.NewEmailService(cfg).WithDB(database.DB)
+	whatsappServiceForAppt := services.NewWhatsAppService(cfg)
+	appointmentNotificationService := services.NewAppointmentNotificationService(
+		database.DB, emailServiceForAppt, whatsappServiceForAppt, cfg,
+	)
+	appointmentService := services.NewAppointmentService(
+		database.DB, googleCalendarService, dailyCoService, appointmentNotificationService, cfg,
+	)
 	prescriptionService := services.NewPrescriptionService(database.DB)
 	labResultService := services.NewLabResultService(database.DB)
 	scoreService := services.NewScoreService(scoreRepo)
@@ -285,12 +295,20 @@ func setupRoutes(
 	conversationHandler := handlers.NewConversationHandler(conversationService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
+	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
+	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
+	// pra fechar o ciclo sem dep direta entre services.
+	leadService.SetPatientInboundWAHook(buildAppointmentIntentHook(
+		database.DB, conversationService, appointmentService, notificationService, cfg,
+	))
+
 	// Mobile app services + handlers
 	deviceTokenService := services.NewDeviceTokenService(database.DB)
 	lgpdConsentService := services.NewLGPDConsentService(database.DB)
 	mobileConfigService := services.NewMobileConfigService(cfg)
 	meMobileHandler := handlers.NewMeMobileHandler(deviceTokenService, lgpdConsentService)
 	mobileConfigHandler := handlers.NewMobileConfigHandler(mobileConfigService)
+	uploadHandler := handlers.NewUploadHandler("/app/uploads")
 
 	// API v1
 	v1 := app.Group("/api/v1")
@@ -390,6 +408,9 @@ func setupRoutes(
 
 	// Mobile app config (público — consultado em cold start)
 	v1.Get("/mobile/config", mobileConfigHandler.Get)
+
+	// Upload genérico (autenticado) — usado por avaliação física, anamnese, etc.
+	v1.Post("/uploads", middleware.Auth(cfg), uploadHandler.Create)
 
 	// Profile routes (protegidas)
 	profile := v1.Group("/profile")
@@ -843,16 +864,13 @@ func setupRoutes(
 	articles.Delete("/:id/score-items", middleware.RequireMedicalStaff(), articleHandler.RemoveScoreItemsFromArticle)
 	articles.Get("/:id/score-items", articleHandler.GetScoreItemsForArticle)
 
-	// === Calendar V1 (Blocos B + C + D) ===
+	// === Calendar V1 (Blocos B + C + D + E) ===
 	// Google Calendar OAuth + integração + Daily.co + slot picker.
-	googleCalendarService := services.NewGoogleCalendarService(cfg, database.DB)
-	dailyCoService := services.NewDailyCoService(cfg)
+	// googleCalendarService/dailyCoService/appointmentNotificationService já
+	// foram inicializados no topo (são deps do AppointmentService).
 	calendarSlotService := services.NewCalendarSlotService(database.DB, googleCalendarService)
 	googleOAuthHandler := handlers.NewGoogleOAuthHandler(cfg, googleCalendarService, database.DB)
 	calendarSlotHandler := handlers.NewCalendarSlotHandler(calendarSlotService)
-
-	// Defensive: silence unused warnings when services are reused later (E/F/G).
-	_ = dailyCoService
 
 	// /api/v1/integrations/google
 	// Importante: callback NÃO usa middleware Auth (Google redirect não traz JWT;
@@ -881,6 +899,14 @@ func setupRoutes(
 	// Iniciar notification worker (subscription notifications)
 	notificationWorker := workers.NewNotificationWorker(notificationService, 24*time.Hour) // Check every 24 hours
 	notificationWorker.Start()
+
+	// === Calendar V1 (Bloco E) — cron jobs ===
+	// 1) Reminder T-24h: ticker 1h, envia template WA pra appointments na janela.
+	appointmentReminderJob := scheduler.NewAppointmentReminderJob(database.DB, appointmentNotificationService)
+	appointmentReminderJob.Start()
+	// 2) Google token refresh: ticker 30min, renova access tokens cifrados.
+	googleTokenRefreshJob := scheduler.NewGoogleTokenRefreshJob(database.DB, googleCalendarService, notificationService)
+	googleTokenRefreshJob.Start()
 }
 
 // registerTrainingRoutes registra as rotas do módulo de treinamento

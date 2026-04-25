@@ -8,7 +8,7 @@ type CreateAppointmentRequest struct {
 	DoctorID        string                 `json:"doctorId" validate:"required,uuid"`
 	ScheduledAt     string                 `json:"scheduledAt" validate:"required"` // formato: RFC3339
 	DurationMinutes int                    `json:"durationMinutes" validate:"required,min=15,max=480"`
-	Type            models.AppointmentType `json:"type" validate:"required,oneof=routine follow_up urgent emergency"`
+	Type            models.AppointmentType `json:"type" validate:"required,oneof=initial_assessment follow_up telemedicine procedure results_review"`
 	Reason          string                 `json:"reason" validate:"required"`
 	PatientNotes    *string                `json:"patientNotes,omitempty"`
 }

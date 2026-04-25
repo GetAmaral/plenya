@@ -25,7 +25,19 @@ type LeadService struct {
 	whatsappService     *WhatsAppService
 	emailService        *EmailService
 	cfg                 *config.Config
+
+	// patientInboundWAHook é um callback opcional disparado APÓS registrar
+	// uma mensagem inbound de paciente já existente (não Lead). Calendar V1
+	// (Bloco F) usa pra rodar IA Claude e detectar intent confirm/cancel/
+	// reschedule de consultas. Setado via SetPatientInboundWAHook após DI
+	// — evita import cycle entre LeadService ↔ ConversationService/AppointmentService.
+	patientInboundWAHook PatientInboundWAHook
 }
+
+// PatientInboundWAHook é o callback chamado quando paciente cadastrado envia
+// mensagem WhatsApp inbound. Roda async (já dentro de goSafe pelo LeadService),
+// não retorna erro pra não bloquear o webhook Meta.
+type PatientInboundWAHook func(patient *models.Patient, message string, waMessageID string)
 
 func NewLeadService(
 	db *gorm.DB,
@@ -41,6 +53,13 @@ func NewLeadService(
 		emailService:        emailService,
 		cfg:                 cfg,
 	}
+}
+
+// SetPatientInboundWAHook registra o callback pós-inbound de paciente. main.go
+// chama isso após criar ConversationService + AppointmentService, fechando o
+// ciclo sem dep direta nos services.
+func (s *LeadService) SetPatientInboundWAHook(h PatientInboundWAHook) {
+	s.patientInboundWAHook = h
 }
 
 // HashIP retorna SHA-256 hex do IP — usado pra registrar consentimento sem armazenar IP plano.
@@ -310,6 +329,14 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*InboundR
 		goSafe("notify_inbound_wa_patient", func() {
 			s.NotifyTeamOfInboundMessage(ConversationOwner{Patient: &patientCopy}, models.LeadChannelWhatsApp, snippet)
 		})
+		// Calendar V1 Bloco F: dispara IA pra detectar intent de
+		// confirm/cancel/reschedule. Hook é opcional (nil = sem IA).
+		if s.patientInboundWAHook != nil {
+			waMsgID := in.WAMessageID
+			goSafe("appt_intent_detect", func() {
+				s.patientInboundWAHook(&patientCopy, snippet, waMsgID)
+			})
+		}
 		return &InboundResult{Patient: &existingPatient}, nil
 	}
 	if !errors.Is(patientErr, gorm.ErrRecordNotFound) {
