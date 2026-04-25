@@ -340,6 +340,82 @@ export function useUpdateContinuumItem(continuumId: string) {
   });
 }
 
+// === Dashboard (Fase 7) ===
+
+export interface PerPatientRow {
+  continuumId: string;
+  patientId: string;
+  patientName: string;
+  startDate: string;
+  endDate: string;
+  durationWeeks: number;
+  currentWeek: number;
+  totalItems: number;
+  completedItems: number;
+  scheduledItems: number;
+  missedItems: number;
+  pendingItems: number;
+  nextItemTitle?: string;
+  nextItemDate?: string;
+  coordinatorDoctorId?: string;
+  coordinatorName?: string;
+}
+
+export interface PerWeekItem {
+  id: string;
+  continuumId: string;
+  type: ContinuumItemType;
+  specialty?: ContinuumItemSpecialty;
+  title: string;
+  expectedDate: string;
+  status: ContinuumItemStatus;
+  patientId: string;
+  patientName: string;
+  appointmentId?: string;
+  boxId?: string;
+}
+
+export interface AlertRow {
+  id: string;
+  continuumId: string;
+  patientId: string;
+  patientName: string;
+  type: ContinuumItemType;
+  specialty?: ContinuumItemSpecialty;
+  title: string;
+  status: ContinuumItemStatus;
+  expectedDate: string;
+  lateAfterDate: string;
+  severity: 'missed' | 'due-soon';
+  appointmentId?: string;
+}
+
+export function useContinuumDashboardPatients() {
+  return useQuery({
+    queryKey: ['continuum', 'dashboard', 'patients'],
+    queryFn: () => apiClient.get<PerPatientRow[]>('/api/v1/continuum/dashboard/patients'),
+  });
+}
+
+export function useContinuumDashboardWeek(weekStart?: string) {
+  const qs = weekStart ? `?start=${weekStart}` : '';
+  return useQuery({
+    queryKey: ['continuum', 'dashboard', 'week', { weekStart }],
+    queryFn: () =>
+      apiClient.get<{ weekStart: string; items: PerWeekItem[] }>(
+        `/api/v1/continuum/dashboard/week${qs}`,
+      ),
+  });
+}
+
+export function useContinuumDashboardAlerts(dueSoonDays = 7) {
+  return useQuery({
+    queryKey: ['continuum', 'dashboard', 'alerts', { dueSoonDays }],
+    queryFn: () =>
+      apiClient.get<AlertRow[]>(`/api/v1/continuum/dashboard/alerts?dueSoonDays=${dueSoonDays}`),
+  });
+}
+
 // === Box logístico (Fase 5) ===
 
 export type BoxStatus = 'planned' | 'preparing' | 'shipped' | 'delivered' | 'cancelled';

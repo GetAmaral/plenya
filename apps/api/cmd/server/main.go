@@ -995,6 +995,22 @@ func setupRoutes(
 		patientContinuumHandler.ListPlanRevisions,
 	)
 
+	// === Continuum (Fase 7) — Panorama equipe (3 visões) ===
+	continuumDashboardService := services.NewContinuumDashboardService(database.DB)
+	continuumDashboardHandler := handlers.NewContinuumDashboardHandler(continuumDashboardService)
+	continuum.Get("/dashboard/patients",
+		middleware.RequireRole(allStaff...),
+		continuumDashboardHandler.PerPatient,
+	)
+	continuum.Get("/dashboard/week",
+		middleware.RequireRole(allStaff...),
+		continuumDashboardHandler.PerWeek,
+	)
+	continuum.Get("/dashboard/alerts",
+		middleware.RequireRole(allStaff...),
+		continuumDashboardHandler.Alerts,
+	)
+
 	// === Continuum (Fase 6) — Prontuário agregado ===
 	mrAggregateService := services.NewMedicalRecordAggregateService(database.DB)
 	mrAggregateHandler := handlers.NewMedicalRecordAggregateHandler(mrAggregateService)
