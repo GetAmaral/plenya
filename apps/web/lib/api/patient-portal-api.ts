@@ -141,6 +141,62 @@ export function usePatientDashboard(enabled = true) {
   });
 }
 
+// ============================================================
+// Meu Continuum (read-only)
+// ============================================================
+
+export type PatientContinuumItemStatus =
+  | "pending"
+  | "scheduled"
+  | "completed"
+  | "missed"
+  | "cancelled"
+  | "skipped";
+
+export interface PatientContinuumItemView {
+  id: string;
+  type: "appointment" | "box" | "reassessment" | "milestone" | "custom";
+  specialty?: string | null;
+  title: string;
+  description?: string;
+  weekOffset: number;
+  expectedDate: string;
+  lateAfterDate: string;
+  status: PatientContinuumItemStatus;
+  appointmentId?: string | null;
+  boxId?: string | null;
+  completedAt?: string | null;
+  position: number;
+}
+
+export interface MyContinuumView {
+  id: string;
+  templateName: string;
+  status: "active" | "paused" | "completed" | "cancelled";
+  startDate: string;
+  endDate: string;
+  integratedPlanMarkdown: string;
+  integratedPlanUpdatedAt?: string | null;
+  items: PatientContinuumItemView[];
+  coordinatorDoctor?: { id: string; name: string } | null;
+}
+
+export const patientContinuumApi = {
+  myContinuum: () =>
+    apiClient.get<{ continuum: MyContinuumView | null }>(
+      "/api/v1/patient/me/continuum",
+    ),
+};
+
+export function useMyContinuum(enabled = true) {
+  return useQuery({
+    queryKey: ["patient-my-continuum"],
+    queryFn: patientContinuumApi.myContinuum,
+    enabled,
+    staleTime: 60_000,
+  });
+}
+
 export function useSetPatientPassword() {
   return useMutation({
     mutationFn: patientMeApi.setPassword,

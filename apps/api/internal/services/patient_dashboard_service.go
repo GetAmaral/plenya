@@ -160,7 +160,7 @@ func (s *PatientDashboardService) activeContinuum(patientID uuid.UUID) *Dashboar
 		ID:           c.ID,
 		StartDate:    c.StartDate,
 		EndDate:      c.EndDate,
-		TemplateName: extractTemplateName(c.TemplateSnapshot),
+		TemplateName: ExtractTemplateName(c.TemplateSnapshot),
 	}
 
 	// Semanas
@@ -218,8 +218,9 @@ func (s *PatientDashboardService) activeContinuum(patientID uuid.UUID) *Dashboar
 	return out
 }
 
-// extractTemplateName lê {"name":"..."} do JSONB sem precisar parsear tudo.
-func extractTemplateName(snapshot []byte) string {
+// ExtractTemplateName lê {"name":"..."} do JSONB sem precisar parsear tudo.
+// Exportado pra reuso (handler do portal usa).
+func ExtractTemplateName(snapshot []byte) string {
 	if len(snapshot) == 0 {
 		return ""
 	}

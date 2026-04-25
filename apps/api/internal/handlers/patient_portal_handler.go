@@ -32,14 +32,69 @@ import (
 type PatientPortalHandler struct {
 	svc       *services.PatientPortalService
 	dashboard *services.PatientDashboardService
+	continuum *services.PatientContinuumService
 }
 
 func NewPatientPortalHandler(
 	svc *services.PatientPortalService,
 	dashboard *services.PatientDashboardService,
+	continuum *services.PatientContinuumService,
 ) *PatientPortalHandler {
-	return &PatientPortalHandler{svc: svc, dashboard: dashboard}
+	return &PatientPortalHandler{svc: svc, dashboard: dashboard, continuum: continuum}
 }
+
+// WithContinuum injeta a dep de PatientContinuumService quando ele só fica
+// disponível mais tarde no setup (ordem de DI no main).
+func (h *PatientPortalHandler) WithContinuum(c *services.PatientContinuumService) *PatientPortalHandler {
+	h.continuum = c
+	return h
+}
+
+// MyContinuum GET /api/v1/patient/me/continuum
+//
+// Retorna o Continuum ativo do paciente (o mais recente). Inclui plano integrado
+// markdown + items ordenados. Snapshot do template + revisões do plano NÃO entram
+// (são internas da equipe).
+func (h *PatientPortalHandler) MyContinuum(c *fiber.Ctx) error {
+	patientID := middleware.GetPatientID(c)
+	rows, err := h.continuum.GetByPatient(patientID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	// Ativo > pausado > completado > cancelado (mais "atual")
+	var active *uuid.UUID
+	for i := range rows {
+		if rows[i].Status == "active" {
+			active = &rows[i].ID
+			break
+		}
+	}
+	if active == nil && len(rows) > 0 {
+		// Sem ativo, devolve o mais recente.
+		active = &rows[0].ID
+	}
+	if active == nil {
+		return c.JSON(fiber.Map{"continuum": nil})
+	}
+	full, err := h.continuum.GetByID(*active)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	// Sanitiza: zera snapshot bruto (só usa name extraída) + remove campos de "equipe"
+	out := fiber.Map{
+		"id":                       full.ID,
+		"templateName":             services.ExtractTemplateName(full.TemplateSnapshot),
+		"status":                   full.Status,
+		"startDate":                full.StartDate,
+		"endDate":                  full.EndDate,
+		"integratedPlanMarkdown":   full.IntegratedPlanMarkdown,
+		"integratedPlanUpdatedAt":  full.IntegratedPlanUpdatedAt,
+		"items":                    full.Items,
+		"coordinatorDoctor":        full.CoordinatorDoctor,
+	}
+	return c.JSON(fiber.Map{"continuum": out})
+}
+
 
 // Dashboard GET /api/v1/patient/me/dashboard
 func (h *PatientPortalHandler) Dashboard(c *fiber.Ctx) error {

@@ -295,10 +295,11 @@ func setupRoutes(
 	conversationHandler := handlers.NewConversationHandler(conversationService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
-	// Portal do Paciente (meu.plenyasaude.com.br) — auth híbrida + convite + me + dashboard
+	// Portal do Paciente (meu.plenyasaude.com.br) — auth + dashboard.
+	// Continuum é injetado mais tarde via WithContinuum (depende de patientContinuumService).
 	patientPortalService := services.NewPatientPortalService(database.DB, cfg, authService, emailService, whatsappService)
 	patientDashboardService := services.NewPatientDashboardService(database.DB)
-	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService)
+	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
@@ -472,6 +473,7 @@ func setupRoutes(
 	patientMe.Get("/", patientPortalHandler.Me)
 	patientMe.Post("/password", patientPortalHandler.SetPassword)
 	patientMe.Get("/dashboard", patientPortalHandler.Dashboard)
+	patientMe.Get("/continuum", patientPortalHandler.MyContinuum)
 
 	// Anamnesis routes (protegidas - profissionais autenticados)
 	anamnesis := v1.Group("/anamnesis")
@@ -971,6 +973,10 @@ func setupRoutes(
 	// === Continuum (Fase 2) — Inscrição de paciente + timeline ===
 	patientContinuumService := services.NewPatientContinuumService(database.DB)
 	patientContinuumHandler := handlers.NewPatientContinuumHandler(patientContinuumService)
+
+	// Portal do Paciente — injeta continuum service que acabou de ser criado
+	// (handler foi instanciado mais cedo no setup, sem essa dep).
+	patientPortalHandler.WithContinuum(patientContinuumService)
 
 	enrollManageRoles := []models.Role{models.RoleAdmin, models.RoleManager, models.RoleSecretary}
 
