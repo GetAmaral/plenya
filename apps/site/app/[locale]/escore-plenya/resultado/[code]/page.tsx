@@ -7,8 +7,8 @@ import type { PublicSession } from '@/lib/score-light/types';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Seu resultado — Escore Plenya Light',
-  description: 'Resultado da sua autoavaliação Plenya Light.',
+  title: 'Seu resultado — Escore Plenya',
+  description: 'Resultado da sua autoavaliação Escore Plenya.',
   robots: { index: false, follow: false },
 };
 

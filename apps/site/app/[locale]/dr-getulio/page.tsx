@@ -20,6 +20,7 @@ const formacao = [
 const atuacao = [
   'Coordenador da Residência Médica em Nefrologia — Santa Casa de Londrina',
   'Fundador da Residência Médica em Clínica Médica — Santa Casa de Londrina',
+  'Sócio — Nefroclínica Londrina',
   'Responsável Técnico — DaVita Intra Hospitalar de Londrina',
   'Professor do curso de Medicina — PUC Londrina (2013-2014)',
   'Direção Clínica — Plenya',

@@ -108,7 +108,7 @@ export function EscoreLightResultado({
       {/* Hero — pontuação total */}
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-20 md:pt-40 md:pb-24 max-w-3xl">
-          <p className="label-upper text-gold">Seu Escore Plenya Light</p>
+          <p className="label-upper text-gold">Seu Escore Plenya</p>
           <p className="text-cream/60 text-sm mt-6">Pontuação geral</p>
           <div className="flex items-baseline gap-3 mt-2 whitespace-nowrap">
             <span className="text-7xl md:text-8xl font-light text-cream tabular-nums">
@@ -118,9 +118,8 @@ export function EscoreLightResultado({
           </div>
           <p className="text-cream/80 text-xl mt-4">{scoreLabel(totalPct)}</p>
           <p className="text-cream/60 text-sm mt-8 max-w-xl leading-relaxed">
-            {snapshot.itemsEvaluatedCount} de {snapshot.itemsEvaluatedCount + snapshot.itemsNotEvaluatedCount}{' '}
-            itens avaliados. Os pilares com pontuação mais baixa são onde a equipe
-            Plenya costuma começar.
+            {snapshot.itemsEvaluatedCount} {snapshot.itemsEvaluatedCount === 1 ? 'item avaliado' : 'itens avaliados'}.
+            Os pilares com pontuação mais baixa são onde a equipe Plenya costuma começar.
           </p>
         </div>
       </section>
@@ -292,7 +291,7 @@ export function EscoreLightResultado({
         <div className="site-container section max-w-3xl">
           <p className="label-upper text-gold">Próximos passos</p>
           <h2 className="heading-section text-cream text-2xl md:text-3xl mt-4">
-            O Light é um ponto de partida — não um diagnóstico.
+            Esta avaliação é um ponto de partida — não um diagnóstico.
           </h2>
           <p className="text-cream/80 mt-6 leading-relaxed">
             Se quiser conversar sobre o que esse radar mostra, a equipe Plenya está

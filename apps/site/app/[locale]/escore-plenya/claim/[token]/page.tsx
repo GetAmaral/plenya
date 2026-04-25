@@ -3,7 +3,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { ClaimRedirect } from '@/components/escore/claim-redirect';
 
 export const metadata: Metadata = {
-  title: 'Confirmando seu acesso — Escore Plenya Light',
+  title: 'Confirmando seu acesso — Escore Plenya',
   robots: { index: false, follow: false },
 };
 

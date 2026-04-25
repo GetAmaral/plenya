@@ -96,7 +96,15 @@ function levelLabel(level: { name: string; lowerLimit?: string; upperLimit?: str
   return `${level.operator} ${level.lowerLimit ?? level.upperLimit ?? ''}`.trim();
 }
 
-export function EscoreLightForm({ config, locale }: { config: LightConfig; locale: string }) {
+export function EscoreLightForm({
+  config,
+  locale,
+  tierLabel = 'Escore Plenya',
+}: {
+  config: LightConfig;
+  locale: string;
+  tierLabel?: string;
+}) {
   const router = useRouter();
   const [step, setStep] = useState<string>(STEP_INTRO);
   const [demo, setDemo] = useState<Demographics>({
@@ -342,7 +350,7 @@ export function EscoreLightForm({ config, locale }: { config: LightConfig; local
 
   const renderIntro = () => (
     <div className="space-y-8 max-w-2xl">
-      <p className="label-upper text-gold">Escore Plenya Light</p>
+      <p className="label-upper text-gold">{tierLabel}</p>
       <h1 className="heading-section text-petrol text-3xl md:text-4xl leading-tight">
         Uma fotografia clara da sua saúde — em poucas perguntas.
       </h1>

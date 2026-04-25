@@ -48,26 +48,32 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
-      {/* Origem — 40 anos de Nefroclínica → Plenya */}
+      {/* Origem — paixão pela vida e pela longevidade */}
       <section className="bg-cream">
         <div className="site-container section">
           <div className="grid lg:grid-cols-[1fr_2fr] gap-12 lg:gap-20 items-start max-w-5xl">
             <div className="space-y-3">
               <p className="label-upper text-gold">Origem</p>
-              <p className="heading-section text-petrol text-6xl md:text-7xl leading-none">40</p>
-              <p className="label-upper text-petrol/60">anos de história</p>
+              <p className="heading-section text-petrol text-6xl md:text-7xl leading-none">20+</p>
+              <p className="label-upper text-petrol/60">anos de prática clínica</p>
             </div>
             <div className="space-y-6 text-petrol/80 text-lg leading-relaxed">
               <p>
-                A Plenya é a evolução da <strong className="text-petrol">Nefroclínica</strong>,
-                fundada há quatro décadas em Londrina pelo Dr. Getúlio Amaral. Em 40 anos, a
-                clínica viu a medicina salvar vidas em quadros graves — e viu, em paralelo, pessoas
-                vivendo mais e vivendo pior, fragmentadas entre cinco, seis profissionais que não
-                conversavam entre si.
+                A Plenya nasce da paixão do <strong className="text-petrol">Dr. Getúlio Amaral Filho</strong>
+                {' '}e da equipe que se reuniu em torno dele — médicos, nutricionista, psicólogo
+                e educador físico — pela vida em sua forma plena e pela longevidade vivida com
+                lucidez, energia e propósito.
               </p>
               <p>
-                A Plenya nasce dessa percepção. Não como troca de nome — como mudança de modelo.
-                Do reativo para o antecipatório. Do isolado para o integrado. Com um foco claro:
+                Em mais de duas décadas entre hospital, hemodiálise e consultório, o Dr. Getúlio
+                viu a medicina salvar vidas em quadros graves — e viu, em paralelo, pessoas
+                vivendo mais e vivendo pior, fragmentadas entre cinco, seis profissionais que
+                não conversavam entre si. Pacientes com exames &ldquo;normais&rdquo; que já
+                estavam adoecendo em silêncio.
+              </p>
+              <p>
+                Plenya é a resposta clínica a essa observação. Um modelo desenhado para enxergar
+                antes, acompanhar de perto e agir com clareza — com foco em
                 <strong className="text-petrol"> saúde, performance e longevidade</strong>.
               </p>
               <p className="heading-section text-petrol text-2xl md:text-3xl pt-2">

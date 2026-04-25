@@ -33,22 +33,28 @@ const steps = [
 
 const tiers: Array<{ title: string; anchor: string; href?: string; desc: string }> = [
   {
-    title: 'Versão Completa',
-    anchor: 'Continuum Plenya',
-    href: '/continuum',
-    desc: 'Aplicada pela equipe Plenya ao longo do programa de acompanhamento contínuo. Avaliação clínica, laboratorial, comportamental e funcional integrais. Gera relatório detalhado com metas e plano personalizado — reavaliado a cada ciclo.',
+    title: 'Triagem',
+    anchor: 'Faça agora — gratuito',
+    href: '/escore-plenya/avaliar',
+    desc: 'Versão pública e gratuita. Cerca de 35 perguntas respondidas em poucos minutos — sem cadastro. Indica, em primeira leitura, onde a sua saúde está e qual o próximo passo para aprofundar.',
   },
   {
-    title: 'Versão Intermediária',
+    title: 'Painel',
+    anchor: 'Painel ampliado',
+    href: '/escore-plenya/painel',
+    desc: 'Versão estendida com mais de 80 itens, incluindo exames laboratoriais, imagem e medidas avançadas de composição corporal. Disponibilizada como bônus em ações específicas — preparação útil antes da consulta.',
+  },
+  {
+    title: 'Consulta',
     anchor: 'Consulta Plenya',
     href: '/consultas',
     desc: 'Aplicada pelo médico na consulta avulsa, presencial ou online. Recorte focado nas metas prioritárias identificadas na conduta clínica, com base no painel ampliado de exames.',
   },
   {
-    title: 'Versão Light',
-    anchor: 'Faça agora — gratuito',
-    href: '/escore-plenya/avaliar',
-    desc: 'Disponível online sem necessidade de consulta prévia. Permite entender, em primeira leitura, onde a sua saúde está — e qual o caminho mais adequado para aprofundar.',
+    title: 'Continuum',
+    anchor: 'Continuum Plenya',
+    href: '/continuum',
+    desc: 'Versão completa, aplicada pela equipe Plenya ao longo do programa de acompanhamento contínuo. Avaliação clínica, laboratorial, comportamental e funcional integrais. Relatório detalhado com metas e plano personalizado — reavaliado a cada ciclo.',
   },
 ];
 
@@ -254,10 +260,14 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           <div className="max-w-3xl mb-12 space-y-4">
             <p className="label-upper text-gold">Versões</p>
             <h2 className="heading-section text-petrol text-3xl md:text-4xl">
-              Três níveis de profundidade.
+              Quatro níveis de profundidade.
             </h2>
+            <p className="text-petrol/70 leading-relaxed">
+              Da triagem pública gratuita ao acompanhamento contínuo aplicado pela equipe.
+              Cada nível é uma porta de entrada — escolha pelo momento em que você está.
+            </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {tiers.map((tier, i) => (
               <div key={tier.title} className="border-t border-petrol/15 pt-8 space-y-3">
                 <span className="label-upper text-petrol/40">0{i + 1}</span>
