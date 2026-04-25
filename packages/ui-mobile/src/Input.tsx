@@ -13,6 +13,7 @@ export const Input = forwardRef<TextInput, InputProps>(
       ref={ref}
       editable={editable}
       placeholderTextColor="#9CA3AF"
+      accessibilityState={{ disabled: !editable }}
       className={cn(
         'h-11 rounded-lg border border-border bg-background px-3 text-base text-foreground',
         error && 'border-destructive',

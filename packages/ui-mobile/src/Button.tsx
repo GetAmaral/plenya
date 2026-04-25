@@ -53,10 +53,14 @@ export const Button = forwardRef<React.ComponentRef<typeof Pressable>, ButtonPro
     ref,
   ) => {
     const isDisabled = disabled || loading;
+    const fallbackLabel =
+      typeof children === 'string' ? children : (rest as { accessibilityLabel?: string }).accessibilityLabel;
     return (
       <Pressable
         ref={ref}
         accessibilityRole="button"
+        accessibilityLabel={fallbackLabel}
+        accessibilityState={{ disabled: isDisabled, busy: loading }}
         disabled={isDisabled}
         className={cn(
           'flex-row items-center justify-center',

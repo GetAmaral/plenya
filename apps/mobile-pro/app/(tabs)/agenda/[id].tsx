@@ -1,4 +1,5 @@
-import { Linking, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -105,12 +106,17 @@ export default function AppointmentDetailScreen() {
           <Button
             onPress={() => {
               if (!a.dailyRoomUrl) return;
-              Linking.openURL(a.dailyRoomUrl).catch(() =>
-                toast.show('Falha ao abrir a sala', 'error'),
-              );
+              WebBrowser.openBrowserAsync(a.dailyRoomUrl, {
+                presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
+                controlsColor: '#10b981',
+                showTitle: false,
+                enableBarCollapsing: true,
+              }).catch(() => toast.show('Falha ao abrir a sala', 'error'));
             }}
             fullWidth
             size="lg"
+            accessibilityLabel="Entrar na teleconsulta Daily.co"
+            accessibilityHint="Abre a sala de vídeo embedded com câmera e microfone"
           >
             Entrar na teleconsulta
           </Button>

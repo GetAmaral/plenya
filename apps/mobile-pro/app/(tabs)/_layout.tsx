@@ -59,6 +59,10 @@ export default function TabsLayout() {
         name="notifications"
         options={{ title: 'Sino', headerShown: false, href: null }}
       />
+      <Tabs.Screen
+        name="search"
+        options={{ title: 'Busca', headerShown: false, href: null }}
+      />
       <Tabs.Screen name="profile" options={{ title: 'Perfil' }} />
     </Tabs>
   );

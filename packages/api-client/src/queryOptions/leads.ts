@@ -57,6 +57,9 @@ export const leadOptions = (id: string) =>
     queryKey: queryKeys.leads.detail(id),
     queryFn: ({ signal }) => api.get<LeadDetail>(`/api/v1/leads/${id}`, { signal }),
     enabled: Boolean(id),
+    // Polling 15s pra refletir mensagens novas (WA inbound, email reply)
+    // sem usuário precisar puxar pull-to-refresh.
+    refetchInterval: 15_000,
   });
 
 export const leadsDashboardOptions = () =>

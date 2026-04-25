@@ -60,15 +60,26 @@ export default function DashboardScreen() {
         contentContainerClassName="gap-4 p-4"
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshAll} />}
       >
-        <View>
-          <Text variant="heading">
-            {greeting}, {firstName}
-          </Text>
-          <Text variant="caption">{new Date().toLocaleDateString('pt-BR', {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-          })}</Text>
+        <View className="flex-row items-start justify-between">
+          <View className="flex-1">
+            <Text variant="heading">
+              {greeting}, {firstName}
+            </Text>
+            <Text variant="caption">{new Date().toLocaleDateString('pt-BR', {
+              weekday: 'long',
+              day: 'numeric',
+              month: 'long',
+            })}</Text>
+          </View>
+          <Pressable
+            onPress={() => router.push('/(tabs)/search')}
+            className="h-11 w-11 items-center justify-center rounded-full bg-muted"
+            accessibilityRole="button"
+            accessibilityLabel="Busca global"
+            accessibilityHint="Abre busca por pacientes, exercícios e leads"
+          >
+            <Text className="text-xl">🔍</Text>
+          </Pressable>
         </View>
 
         <Pressable onPress={() => router.push('/(tabs)/notifications')}>
