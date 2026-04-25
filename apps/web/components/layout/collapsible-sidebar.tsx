@@ -43,7 +43,6 @@ import {
   Plug,
   Settings,
   Workflow,
-  Package,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -95,10 +94,9 @@ const navigation: NavigationItem[] = [
   { name: "Exercícios", href: "/training/exercises", icon: Library, staffOnly: true },
   { name: "Agente IA Treino", href: "/training/ai-agent", icon: Bot, staffOnly: true },
   { name: "Artigos", href: "/articles", icon: BookOpen },
+  // Continuum: só 1 entrada no sidebar. Os submódulos (Boxes, Templates,
+  // Templates de Box) são acessados via cards-atalho no hub /continuum.
   { name: "Continuum", href: "/continuum", icon: Workflow, staffOnly: true },
-  { name: "Boxes Plenya", href: "/continuum/boxes", icon: Package, staffOnly: true, requiredRoles: ['admin', 'manager', 'secretary'] },
-  { name: "Templates Continuum", href: "/continuum/templates", icon: LayoutTemplate, staffOnly: true, requiredRoles: ['admin', 'manager'] },
-  { name: "Templates de Box", href: "/continuum/box-templates", icon: Package, staffOnly: true, requiredRoles: ['admin', 'manager'] },
   { name: "Configurar Agenda", href: "/configuracoes/agenda", icon: Settings, staffOnly: true },
   { name: "Integrações", href: "/configuracoes/integracoes", icon: Plug, staffOnly: true },
   { name: "Usuários", href: "/admin/users", icon: Shield, adminOnly: true },
