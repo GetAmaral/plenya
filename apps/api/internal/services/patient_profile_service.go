@@ -38,6 +38,11 @@ func (s *PatientProfileService) UpdateProfile(patientID uuid.UUID, p UpdatablePr
 	updates := map[string]any{}
 	if p.Phone != nil {
 		v := strings.TrimSpace(*p.Phone)
+		if v != "" {
+			if normalized := models.NormalizePhoneBR(v); normalized != "" {
+				v = normalized
+			}
+		}
 		updates["phone"] = v
 	}
 	if p.Email != nil {
@@ -66,9 +71,11 @@ func (s *PatientProfileService) UpdateProfile(patientID uuid.UUID, p UpdatablePr
 	if len(updates) == 0 {
 		return nil
 	}
+	// UpdateColumns pula BeforeSave hook do Patient (que valida Gender,
+	// criptografa CPF, etc — esses campos não estão no patch parcial).
 	return s.db.Model(&models.Patient{}).
 		Where("id = ?", patientID).
-		Updates(updates).Error
+		UpdateColumns(updates).Error
 }
 
 // ============================================================

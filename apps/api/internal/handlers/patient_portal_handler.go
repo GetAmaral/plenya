@@ -460,6 +460,9 @@ func (h *PatientPortalHandler) ConfirmAppointment(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
 	}
 	if err := h.appointments.Confirm(patientID, id); err != nil {
+		if errors.Is(err, services.ErrAppointmentNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "consulta não encontrada"})
+		}
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 	return c.SendStatus(fiber.StatusNoContent)

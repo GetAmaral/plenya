@@ -103,6 +103,12 @@ func (s *PatientMessagesService) Send(patientID, userID uuid.UUID, content strin
 		return nil, fmt.Errorf("failed to create message: %w", err)
 	}
 
+	// Recarrega com Actor pra toMessageView() classificar from=patient corretamente.
+	if err := s.db.Preload("Actor").First(activity, "id = ?", activity.ID).Error; err != nil {
+		// Não fatal — retorna sem Actor (UI marcará como team mas msg foi salva)
+		_ = err
+	}
+
 	// Notifica equipe (admin/manager/secretary) — best-effort, não bloqueia retorno.
 	go s.notifyStaff(patientID, content)
 
@@ -194,12 +200,10 @@ func (s *PatientMessagesService) notifyStaff(patientID uuid.UUID, preview string
 }
 
 func toMessageView(a *models.LeadActivity) *MessageView {
+	// Regra simples: se Channel=portal, foi enviada pelo paciente.
+	// Outros canais (email/whatsapp/internal) representam mensagem da equipe.
 	from := "team"
-	if a.Channel == models.LeadChannelPortal && a.Actor != nil && !a.Actor.IsGranted(models.RoleAdmin) {
-		from = "patient"
-	}
-	// Heurística: se a actor tem role patient → from=patient. Senão team.
-	if a.Actor != nil && a.Actor.IsGranted(models.RolePatient) {
+	if a.Channel == models.LeadChannelPortal {
 		from = "patient"
 	}
 
