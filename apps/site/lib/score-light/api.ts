@@ -10,11 +10,22 @@ import type {
   RequestClaimPayload,
 } from './types';
 
-const apiBase =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') ?? 'http://localhost:3001';
+function resolveApiBase(): string {
+  const fromEnv = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '');
+  if (fromEnv) return fromEnv;
+  // Fallback de runtime: se o env não foi setado no build (ex.: Coolify sem build arg),
+  // deriva a partir do host atual em produção. Evita que o bundle saia com localhost.
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') return 'http://localhost:3001';
+    if (host.endsWith('plenyasaude.com.br')) return 'https://api.plenyasaude.com.br';
+    return `${window.location.protocol}//api.${host.replace(/^www\./, '')}`;
+  }
+  return 'http://localhost:3001';
+}
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${apiBase}/api/v1${path}`, {
+  const res = await fetch(`${resolveApiBase()}/api/v1${path}`, {
     ...init,
     headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
   });
@@ -75,11 +86,11 @@ export type LightLabExtractionResult = {
 
 /** URL de download da sessão em JSON (LGPD portabilidade — art. 18 V). */
 export function exportSessionURL(code: string): string {
-  return `${apiBase}/api/v1/score-light/sessions/${encodeURIComponent(code)}/export`;
+  return `${resolveApiBase()}/api/v1/score-light/sessions/${encodeURIComponent(code)}/export`;
 }
 
 export async function deleteSession(code: string): Promise<void> {
-  const res = await fetch(`${apiBase}/api/v1/score-light/sessions/${encodeURIComponent(code)}`, {
+  const res = await fetch(`${resolveApiBase()}/api/v1/score-light/sessions/${encodeURIComponent(code)}`, {
     method: 'DELETE',
   });
   if (!res.ok && res.status !== 204) {
@@ -91,7 +102,7 @@ export async function deleteSession(code: string): Promise<void> {
 export async function extractLabsFromPDF(pdf: File): Promise<LightLabExtractionResult> {
   const fd = new FormData();
   fd.append('pdf', pdf);
-  const res = await fetch(`${apiBase}/api/v1/score-light/extract-labs`, {
+  const res = await fetch(`${resolveApiBase()}/api/v1/score-light/extract-labs`, {
     method: 'POST',
     body: fd,
   });
