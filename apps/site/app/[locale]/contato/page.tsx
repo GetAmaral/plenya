@@ -6,7 +6,7 @@ import { brand } from '@plenya/brand';
 
 export const metadata: Metadata = {
   title: 'Contato',
-  description: 'Fale com a equipe Plenya — consulta avulsa, Continuum Plenya ou orientação geral.',
+  description: 'Fale com a equipe Plenya — Consulta Plenya, Continuum Plenya ou orientação geral.',
 };
 
 export default async function ContactPage({ params }: { params: Promise<{ locale: string }> }) {

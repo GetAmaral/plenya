@@ -134,7 +134,7 @@ export default async function ContinuumPage({ params }: { params: Promise<{ loca
               existe para quem decidiu o caminho contrário.
             </p>
             <p className="text-petrol/80 text-lg leading-relaxed">
-              Uma consulta avulsa resolve um momento. O Continuum constrói trajetória.
+              Uma Consulta Plenya resolve um momento. O Continuum constrói trajetória.
               Vinte anos de consultório ensinaram uma verdade simples: viver mais não
               é viver bem. Saúde se constrói no tempo — em conjunto, com método e com
               presença — ou não se constrói.

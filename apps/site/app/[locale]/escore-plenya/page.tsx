@@ -39,16 +39,16 @@ const tiers: Array<{ title: string; anchor: string; href?: string; desc: string 
     desc: 'Versão pública e gratuita. Cerca de 35 perguntas respondidas em poucos minutos — sem cadastro. Indica, em primeira leitura, onde a sua saúde está e qual o próximo passo para aprofundar.',
   },
   {
-    title: 'Consulta',
-    anchor: 'Consulta Plenya',
+    title: 'Consulta Plenya',
+    anchor: 'Agendar Consulta Plenya',
     href: '/consultas',
-    desc: 'Aplicada pelo médico na consulta avulsa, presencial ou online. Recorte focado nas metas prioritárias identificadas na conduta clínica, com base no painel ampliado de exames.',
+    desc: 'Aprofundamento clínico com o médico, presencial ou online. Recorte focado nas metas prioritárias identificadas na conduta, com base no painel ampliado de exames.',
   },
   {
-    title: 'Continuum',
-    anchor: 'Continuum Plenya',
+    title: 'Continuum Plenya',
+    anchor: 'Conhecer o Continuum',
     href: '/continuum',
-    desc: 'Versão completa, aplicada pela equipe Plenya ao longo do programa de acompanhamento contínuo. Avaliação clínica, laboratorial, comportamental e funcional integrais. Relatório detalhado com metas e plano personalizado — reavaliado a cada ciclo.',
+    desc: 'Versão completa, aplicada pela equipe Plenya ao longo do programa. Avaliação clínica, laboratorial, comportamental e funcional integrais — com plano único, metas personalizadas e reavaliação a cada ciclo.',
   },
 ];
 
