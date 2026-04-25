@@ -53,3 +53,19 @@ export const physicalAssessmentDetailOptions = (id: string) =>
       api.get<PhysicalAssessmentDetail>(`/api/v1/physical-assessments/${id}`, { signal }),
     enabled: Boolean(id),
   });
+
+export interface CreatePhysicalAssessmentInput {
+  weightKg?: number;
+  heightCm?: number;
+  bmi?: number;
+  bloodPressureSystolic?: number;
+  bloodPressureDiastolic?: number;
+  notes?: string;
+  /** URLs/paths de fotos já uploadadas via /api/v1/uploads */
+  photoUrls?: string[];
+}
+
+export const physicalAssessmentMutations = {
+  create: (body: CreatePhysicalAssessmentInput) =>
+    api.post<PhysicalAssessmentDetail>('/api/v1/physical-assessments', body),
+};
