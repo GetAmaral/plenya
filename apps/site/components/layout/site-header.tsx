@@ -44,7 +44,6 @@ const navGroups: readonly NavGroup[] = [
       { href: '/diagnostico', label: 'Diagnóstico — é para mim?' },
       { href: '/consultas', key: 'consultations' },
       { href: '/continuum', key: 'plans' },
-      { href: '/agendar', label: 'Agendar consulta' },
       { href: '/contato', key: 'contact' },
     ],
   },
