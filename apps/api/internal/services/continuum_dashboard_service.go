@@ -194,7 +194,7 @@ type PerWeekItem struct {
 // Frontend agrupa por dia + especialidade pra heatmap visual.
 func (s *ContinuumDashboardService) PerWeek(weekStart time.Time) ([]PerWeekItem, error) {
 	weekEnd := weekStart.AddDate(0, 0, 7)
-	var rows []PerWeekItem
+	rows := []PerWeekItem{}
 	err := s.db.Table("patient_continuum_items pci").
 		Select(`pci.id, pci.continuum_id, pci.type, pci.specialty, pci.title,
 			pci.expected_date, pci.status,
@@ -235,7 +235,7 @@ func (s *ContinuumDashboardService) Alerts(dueSoonDays int) ([]AlertRow, error) 
 	}
 	now := time.Now().UTC()
 	cutoff := now.AddDate(0, 0, dueSoonDays)
-	var rows []AlertRow
+	rows := []AlertRow{}
 	err := s.db.Table("patient_continuum_items pci").
 		Select(`pci.id, pci.continuum_id, pc.patient_id, p.name as patient_name,
 			pci.type, pci.specialty, pci.title, pci.status,

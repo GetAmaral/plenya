@@ -59,7 +59,7 @@ export default function ContinuumDashboardPage() {
       <PageHeader
         breadcrumbs={[{ label: 'Continuum' }]}
         title="Continuum Plenya"
-        description="Panorama operacional da equipe — alertas, pacientes ativos e programação semanal."
+        description="Acompanhamento contínuo se constrói no tempo. Aqui a equipe vê o que precisa de ação, quem está em curso e o que vem na semana."
       />
 
       <Tabs value={tab} onValueChange={setTab} className="space-y-4">

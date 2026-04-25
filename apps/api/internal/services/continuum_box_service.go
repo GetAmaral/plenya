@@ -78,7 +78,7 @@ func (s *ContinuumBoxService) List(filter BoxFilter) ([]BoxListItem, error) {
 	if len(filter.Statuses) > 0 {
 		q = q.Where("pcb.status IN ?", filter.Statuses)
 	}
-	var rows []BoxListItem
+	rows := []BoxListItem{}
 	if err := q.Scan(&rows).Error; err != nil {
 		return nil, err
 	}

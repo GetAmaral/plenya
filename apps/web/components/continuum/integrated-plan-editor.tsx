@@ -108,7 +108,7 @@ export function IntegratedPlanEditor({ enrollment, canEdit }: Props) {
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             disabled={!canEdit}
-            placeholder="Escreva aqui a leitura clínica integrada construída pela equipe na semana 2 do programa. Markdown é suportado."
+            placeholder="Leitura clínica integrada da equipe — direção, prioridades e aposta terapêutica do período. O paciente consulta um plano único, não silos por especialidade. Markdown é suportado."
             className="font-mono text-sm"
           />
         </CardContent>

@@ -201,7 +201,7 @@ SELECT e.id, e.type, e.event_date, e.title, e.subtitle, e.status,
  ORDER BY e.event_date DESC
  LIMIT ? OFFSET ?`
 
-	var rows []MedicalRecordEntry
+	rows := []MedicalRecordEntry{}
 	if err := s.db.Raw(sql, args...).Scan(&rows).Error; err != nil {
 		return nil, err
 	}

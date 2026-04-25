@@ -117,8 +117,8 @@ export default function PatientContinuumPage() {
         title="Continuum"
         description={
           enrollment
-            ? `${enrollment.patient?.name ?? ''} — programa em curso`
-            : 'Paciente ainda não inscrito em programa Continuum.'
+            ? `${enrollment.patient?.name ?? ''} — jornada em curso`
+            : 'Paciente ainda não está em um programa Continuum.'
         }
         actions={
           !enrollment && canManage
@@ -139,7 +139,8 @@ export default function PatientContinuumPage() {
           <CardContent className="py-10 text-center">
             <Workflow className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">
-              Inicie o Continuum pra gerar a timeline pré-agendada.
+              Inicie o Continuum pra desenhar a jornada — Médico, Nutricionista, Psicólogo
+              e Educador Físico em rotação semanal pelos próximos meses.
             </p>
           </CardContent>
         </Card>
@@ -488,7 +489,8 @@ function EnrollDialog({
         <DialogHeader>
           <DialogTitle>Iniciar Continuum</DialogTitle>
           <DialogDescription>
-            Cria a inscrição com timeline pré-agendada baseada no template escolhido.
+            Define o programa, a data de início e o coordenador. A timeline é montada
+            no momento — secretária ancora as consultas reais conforme a equipe agenda.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-3">

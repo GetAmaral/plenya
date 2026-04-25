@@ -107,7 +107,7 @@ export default function ContinuumTemplatesPage() {
       <PageHeader
         breadcrumbs={[{ label: 'Continuum', href: '/continuum' }, { label: 'Templates' }]}
         title="Templates Continuum"
-        description="Esqueletos de programa que servem de base pra inscrição de paciente."
+        description="Cada template define a jornada — duração, marcos semanais, reavaliações trimestrais e Boxes. Inscrição de paciente faz snapshot e segue trajetória própria."
         actions={
           canManage
             ? [

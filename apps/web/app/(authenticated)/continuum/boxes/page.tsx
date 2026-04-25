@@ -49,7 +49,7 @@ export default function ContinuumBoxesPage() {
       <PageHeader
         breadcrumbs={[{ label: 'Continuum', href: '/continuum' }, { label: 'Boxes' }]}
         title="Boxes Plenya"
-        description="Visão da equipe de logística — planejados, em trânsito e entregues."
+        description="Mimos selecionados pela equipe + suplementos e manipulados do protocolo. Aqui a logística vê o que prepara, o que despacha e o que já chegou."
       />
 
       {/* Counts */}
