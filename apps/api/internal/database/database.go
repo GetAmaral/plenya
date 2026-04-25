@@ -63,6 +63,54 @@ func AutoMigrate() error {
 	if err := DB.Exec(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY)`).Error; err != nil {
 		return err
 	}
+
+	// Calendar V1 — migração de dados ANTES do AutoMigrate.
+	//
+	// O enum AppointmentType mudou:
+	//   antigo: routine | follow_up | urgent | emergency
+	//   novo:   initial_assessment | follow_up | telemedicine | procedure | results_review
+	//
+	// AutoMigrate vai tentar reaplicar o CHECK constraint de Type — se houver
+	// rows com valores antigos, o ALTER TABLE quebra. Por isso reclassificamos
+	// rows residuais como 'follow_up' (mapping conservador) ANTES.
+	//
+	// Idempotente: roda 2x sem efeito (rows já mapeadas não satisfazem o WHERE).
+	// Pre-empta também o caso de o CHECK antigo ainda estar lá: drop-if-exists
+	// remove o CHECK antigo pra que o UPDATE possa rodar mesmo se o nome do
+	// CHECK constraint variar entre ambientes.
+	preMigrateStmts := []string{
+		// Drop CHECK antigo (nome auto-gerado pode variar — usamos pattern match).
+		// chk_appointments_type é o nome típico que GORM gera pra CHECK em coluna.
+		`DO $$ DECLARE r record; BEGIN
+			FOR r IN
+				SELECT conname FROM pg_constraint
+				WHERE conrelid = 'appointments'::regclass
+				  AND contype = 'c'
+				  AND pg_get_constraintdef(oid) LIKE '%routine%'
+			LOOP
+				EXECUTE 'ALTER TABLE appointments DROP CONSTRAINT ' || quote_ident(r.conname);
+			END LOOP;
+		EXCEPTION WHEN undefined_table THEN
+			-- tabela ainda não existe (primeira migration); ignora
+			NULL;
+		END $$`,
+		// Reclassifica valores antigos pra follow_up (conservador).
+		`DO $$ BEGIN
+			UPDATE appointments
+			   SET type = 'follow_up'
+			 WHERE type IN ('routine','urgent','emergency');
+		EXCEPTION WHEN undefined_table THEN
+			NULL;
+		WHEN undefined_column THEN
+			NULL;
+		END $$`,
+	}
+	for _, stmt := range preMigrateStmts {
+		if err := DB.Exec(stmt).Error; err != nil {
+			return fmt.Errorf("calendar pre-migrate failed: %w", err)
+		}
+	}
+
 	if err := DB.AutoMigrate(
 		// Core
 		&models.User{},
@@ -137,6 +185,13 @@ func AutoMigrate() error {
 
 		// Mobile apps
 		&models.DeviceToken{},
+
+		// Calendar V1 — Google Calendar OAuth, working hours, ausências,
+		// recursos polimórficos. Devem vir DEPOIS de User (FK DoctorID).
+		&models.CalendarCredential{},
+		&models.WorkingHours{},
+		&models.DoctorAbsence{},
+		&models.AppointmentResource{},
 	); err != nil {
 		return err
 	}
@@ -217,6 +272,50 @@ func AutoMigrate() error {
 			) THEN
 				ALTER TABLE conversation_reads ADD CONSTRAINT conversation_reads_owner_type_check
 				CHECK (owner_type IN ('lead','patient'));
+			END IF;
+		END $$`,
+
+		// Calendar V1 — anti double-booking via Postgres EXCLUDE constraint.
+		//
+		// Por quê EXCLUDE e não UNIQUE: appointments têm range temporal
+		// (scheduled_at + duration_minutes), não pontual. UNIQUE não suporta
+		// "no overlap of intervals". EXCLUDE USING gist + tstzrange resolve
+		// nativamente — Postgres rejeita com erro 23P01 (exclusion_violation)
+		// na transação, garantindo que mesmo race condition entre 2 secretárias
+		// criando simultaneamente é bloqueada (1 commita, outro 409).
+		//
+		// btree_gist: extensão necessária pra usar `=` (btree) junto com `&&`
+		// (gist) na mesma constraint. Disponível por padrão em pgvector image.
+		//
+		// WHERE clause: só consideramos appointments ATIVOS — cancelled/no_show
+		// e soft-deleted não bloqueiam novo agendamento no mesmo horário.
+		`CREATE EXTENSION IF NOT EXISTS btree_gist`,
+		// Notas IMPORTANTES sobre essa constraint:
+		//
+		// 1. Usamos `tsrange` (timestamp without time zone) em vez de `tstzrange`
+		//    porque a coluna `scheduled_at` é declarada como `timestamp` (sem TZ).
+		//    `tstzrange()` exige conversão implícita timestamp→timestamptz que
+		//    depende da sessão (TimeZone) → NÃO é IMMUTABLE → Postgres rejeita
+		//    em index expression. `tsrange` opera direto na coluna sem cast.
+		//
+		// 2. Usamos `duration_minutes * interval '1 minute'` em vez do cast
+		//    string→interval `(duration_minutes || ' minutes')::interval`. O
+		//    cast também não é IMMUTABLE (depende de DateStyle). Multiplicação
+		//    por interval literal é IMMUTABLE.
+		//
+		// 3. Application layer DEVE armazenar scheduled_at sempre em UTC pra
+		//    consistência. O ranges são comparados timestamp-a-timestamp,
+		//    então qualquer drift de TZ entre escrita e leitura cria bugs.
+		//    GORM config `NowFunc: time.Now().UTC()` já garante isso.
+		`DO $$ BEGIN
+			IF NOT EXISTS (
+				SELECT 1 FROM pg_constraint WHERE conname = 'appointments_no_overlap'
+			) THEN
+				ALTER TABLE appointments ADD CONSTRAINT appointments_no_overlap
+				EXCLUDE USING gist (
+					doctor_id WITH =,
+					tsrange(scheduled_at, scheduled_at + (duration_minutes * interval '1 minute')) WITH &&
+				) WHERE (status NOT IN ('cancelled', 'no_show') AND deleted_at IS NULL);
 			END IF;
 		END $$`,
 	}

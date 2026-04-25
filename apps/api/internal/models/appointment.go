@@ -19,14 +19,32 @@ const (
 	AppointmentNoShow    AppointmentStatus = "no_show"   // Paciente não compareceu
 )
 
-// AppointmentType define os tipos de consulta
+// AppointmentType define os tipos de consulta.
+//
+// Plano Calendar V1 (Abril/2026): enum mudou de
+//   routine|follow_up|urgent|emergency
+// para
+//   initial_assessment|follow_up|telemedicine|procedure|results_review
+//
+// Cada tipo tem duração default sugerida (UI controla isso, model permite
+// qualquer DurationMinutes):
+//   - InitialAssessment: 90min — primeira consulta com anamnese completa
+//   - FollowUp:          30min — retorno
+//   - Telemedicine:      30min — consulta remota (cria sala Daily.co)
+//   - Procedure:         60min — procedimento clínico
+//   - ResultsReview:     45min — revisão de exames
+//
+// Migration de dados existentes (em database.go): rows com type='routine',
+// 'urgent' ou 'emergency' são reclassificadas como 'follow_up' (mapping
+// conservador antes do CHECK constraint novo entrar).
 type AppointmentType string
 
 const (
-	AppointmentRoutine   AppointmentType = "routine"    // Consulta de rotina
-	AppointmentFollowUp  AppointmentType = "follow_up"  // Retorno
-	AppointmentUrgent    AppointmentType = "urgent"     // Urgência
-	AppointmentEmergency AppointmentType = "emergency"  // Emergência
+	AppointmentInitialAssessment AppointmentType = "initial_assessment" // Avaliação Inicial (90min)
+	AppointmentFollowUp          AppointmentType = "follow_up"          // Retorno (30min)
+	AppointmentTelemedicine      AppointmentType = "telemedicine"       // Teleconsulta (30min, Daily.co)
+	AppointmentProcedure         AppointmentType = "procedure"          // Procedimento (60min)
+	AppointmentResultsReview     AppointmentType = "results_review"     // Revisão de Exames (45min)
 )
 
 // Appointment representa uma consulta/agendamento
@@ -47,8 +65,10 @@ type Appointment struct {
 	// Duração estimada em minutos
 	DurationMinutes int `gorm:"type:int;not null;default:30" json:"durationMinutes"`
 
-	// Tipo de consulta
-	Type AppointmentType `gorm:"type:varchar(20);not null;check:type IN ('routine','follow_up','urgent','emergency')" json:"type"`
+	// Tipo de consulta. CHECK constraint garante apenas valores válidos no DB.
+	// Validação de payload Go via tag `validate:"oneof=..."` (parsed pelo
+	// validator no service/handler layer).
+	Type AppointmentType `gorm:"type:varchar(20);not null;check:type IN ('initial_assessment','follow_up','telemedicine','procedure','results_review')" json:"type" validate:"oneof=initial_assessment follow_up telemedicine procedure results_review"`
 
 	// Status da consulta
 	Status AppointmentStatus `gorm:"type:varchar(20);not null;default:'scheduled';check:status IN ('scheduled','confirmed','completed','cancelled','no_show')" json:"status"`
@@ -80,6 +100,28 @@ type Appointment struct {
 	// Motivo do cancelamento
 	CancellationReason *string `gorm:"type:text" json:"cancellationReason,omitempty"`
 
+	// ID do evento criado no Google Calendar dedicado do médico.
+	// Populado async pelo GoogleCalendarService.CreateEvent após o appointment
+	// ser persistido. Quando NULL, ainda não sincronizou (ou médico não tem
+	// CalendarCredential ativa).
+	ExternalCalendarEventID *string `gorm:"type:varchar(255);index" json:"externalCalendarEventId,omitempty"`
+
+	// URL da sala Daily.co (somente Type=telemedicine).
+	// Embedada inline em /appointments/[id] no frontend.
+	DailyRoomURL *string `gorm:"type:varchar(255)" json:"dailyRoomUrl,omitempty"`
+
+	// Nome único da sala Daily.co (necessário pra deletar a sala via API
+	// quando appointment é cancelado).
+	DailyRoomName *string `gorm:"type:varchar(255)" json:"dailyRoomName,omitempty"`
+
+	// Quando a notificação de confirmação (email + WA template) foi enviada.
+	// Usado pra evitar reenvio se o sync async retentar.
+	ConfirmationSentAt *time.Time `gorm:"type:timestamp" json:"confirmationSentAt,omitempty"`
+
+	// Quando o reminder T-24h foi enviado (cron AppointmentReminderJob).
+	// NULL = ainda não enviado; setado = job já processou.
+	ReminderSentAt *time.Time `gorm:"type:timestamp" json:"reminderSentAt,omitempty"`
+
 	// Título computado para exibição no frontend (não persistido)
 	DisplayTitle string `gorm:"-" json:"displayTitle"`
 
@@ -106,10 +148,11 @@ func (Appointment) TableName() string {
 // GetTitle retorna um título legível para a consulta
 func (a *Appointment) GetTitle() string {
 	typeLabels := map[AppointmentType]string{
-		AppointmentRoutine:   "Rotina",
-		AppointmentFollowUp:  "Retorno",
-		AppointmentUrgent:    "Urgência",
-		AppointmentEmergency: "Emergência",
+		AppointmentInitialAssessment: "Avaliação Inicial",
+		AppointmentFollowUp:          "Retorno",
+		AppointmentTelemedicine:      "Teleconsulta",
+		AppointmentProcedure:         "Procedimento",
+		AppointmentResultsReview:     "Revisão de Exames",
 	}
 	label, ok := typeLabels[a.Type]
 	if !ok {
