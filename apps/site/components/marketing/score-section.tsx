@@ -16,22 +16,21 @@ export function ScoreSection() {
             <li className="flex gap-4 items-start">
               <span className="text-gold text-lg leading-none mt-0.5">—</span>
               <span>
-                <strong className="text-petrol">Versão Completa</strong> — aplicada
-                pela equipe no{' '}
+                <strong className="text-petrol">Triagem</strong> —{' '}
                 <Link
-                  href="/continuum"
+                  href="/escore-plenya/avaliar"
                   className="text-gold underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
                 >
-                  Continuum Plenya
+                  faça agora online
                 </Link>
-                , ao longo do acompanhamento.
+                , gratuita, sem consulta prévia.
               </span>
             </li>
             <li className="flex gap-4 items-start">
               <span className="text-gold text-lg leading-none mt-0.5">—</span>
               <span>
-                <strong className="text-petrol">Versão Intermediária</strong> — aplicada
-                pelo médico na{' '}
+                <strong className="text-petrol">Consulta</strong> — aplicada pelo
+                médico na{' '}
                 <Link
                   href="/consultas"
                   className="text-gold underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
@@ -44,21 +43,22 @@ export function ScoreSection() {
             <li className="flex gap-4 items-start">
               <span className="text-gold text-lg leading-none mt-0.5">—</span>
               <span>
-                <strong className="text-petrol">Versão Light</strong> —{' '}
+                <strong className="text-petrol">Continuum</strong> — versão
+                completa, aplicada pela equipe ao longo do{' '}
                 <Link
-                  href="/escore-plenya/avaliar"
+                  href="/continuum"
                   className="text-gold underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
                 >
-                  faça agora online
+                  programa de acompanhamento
                 </Link>
-                , sem consulta prévia.
+                .
               </span>
             </li>
           </ul>
 
           <div className="flex flex-wrap gap-4">
             <Link href="/escore-plenya/avaliar" className="btn-gold">
-              Fazer o Escore Light
+              Fazer a Triagem
             </Link>
             <Link href="/escore-plenya" className="btn-outline-dark">
               Entender o Escore

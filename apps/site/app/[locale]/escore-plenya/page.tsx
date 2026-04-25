@@ -39,12 +39,6 @@ const tiers: Array<{ title: string; anchor: string; href?: string; desc: string 
     desc: 'Versão pública e gratuita. Cerca de 35 perguntas respondidas em poucos minutos — sem cadastro. Indica, em primeira leitura, onde a sua saúde está e qual o próximo passo para aprofundar.',
   },
   {
-    title: 'Painel',
-    anchor: 'Painel ampliado',
-    href: '/escore-plenya/painel',
-    desc: 'Versão estendida com mais de 80 itens, incluindo exames laboratoriais, imagem e medidas avançadas de composição corporal. Disponibilizada como bônus em ações específicas — preparação útil antes da consulta.',
-  },
-  {
     title: 'Consulta',
     anchor: 'Consulta Plenya',
     href: '/consultas',
@@ -260,14 +254,14 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           <div className="max-w-3xl mb-12 space-y-4">
             <p className="label-upper text-gold">Versões</p>
             <h2 className="heading-section text-petrol text-3xl md:text-4xl">
-              Quatro níveis de profundidade.
+              Três níveis de profundidade.
             </h2>
             <p className="text-petrol/70 leading-relaxed">
               Da triagem pública gratuita ao acompanhamento contínuo aplicado pela equipe.
               Cada nível é uma porta de entrada — escolha pelo momento em que você está.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {tiers.map((tier, i) => (
               <div key={tier.title} className="border-t border-petrol/15 pt-8 space-y-3">
                 <span className="label-upper text-petrol/40">0{i + 1}</span>

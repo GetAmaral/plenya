@@ -163,8 +163,8 @@ export function LabPDFUpload({
             </div>
           ) : (
             <div className="border border-amber-200 bg-amber-50 text-amber-900 text-sm p-3 rounded-md">
-              Não consegui reconhecer nenhum exame relevante para o Escore Light
-              neste PDF. Você pode preencher manualmente abaixo.
+              Não consegui reconhecer nenhum exame relevante neste PDF. Você
+              pode preencher manualmente abaixo.
             </div>
           )}
 
