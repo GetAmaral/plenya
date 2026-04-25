@@ -8,6 +8,7 @@ last_reviewed: 2026-04-21
 figures:
   - Cap07_Fig01
   - Cap07_Fig02
+  - Cap07_Fig03
 ---
 
 ***Pilar A — Atividade Física, Alimentação e Suplementação Inteligente***
@@ -40,7 +41,7 @@ O estudo que mais claramente demonstrou essa relação foi conduzido na Clevelan
 
 Os resultados foram extraordinários. Comparados ao grupo elite, indivíduos com aptidão baixa tinham risco de morte cinco vezes maior (HR ajustado: 5,04; IC 95%: 4,10–6,20). Esse risco era comparável ou superior ao do tabagismo (HR 1,41), diabetes (HR 1,40) e doença coronariana (HR 1,29). **Aptidão cardiorrespiratória baixa era, literalmente, o fator de risco mais letal da lista — e o mais modificável.**
 
-![Figura 7.1 — O Fator de Risco que Ninguém Prescreve. Barras horizontais comparando hazard ratios de mortalidade por todas as causas: aptidão cardiorrespiratória baixa (5,04x) versus doença renal crônica (1,98x), tabagismo (1,41x), diabetes (1,40x), doença coronariana (1,29x).](../Cap07%20Fig01.PNG)
+![Figura 7.1 — O Fator de Risco que Ninguém Prescreve. Barras horizontais comparando hazard ratios de mortalidade por todas as causas: aptidão cardiorrespiratória baixa (sedentarismo extremo, 5,0x) versus doença renal em estágio terminal (2,0x), tabagismo (1,4x), diabetes (1,4x) e doença coronariana (1,3x). Mais letal do que fumar, diabetes ou doença do coração.](../Cap07%20Fig01.PNG)
 
 E o achado mais surpreendente: não havia teto para o benefício. Mesmo entre os já muito aptos, subir mais um degrau continuava associado a menor mortalidade. Até em maiores de 70 anos e hipertensos, a aptidão elite conferia vantagem significativa sobre a aptidão alta.
 
@@ -141,6 +142,8 @@ O quarto é o **trabalho específico de pé e tornozelo** — flexões ativas do
 E o quinto, que quase ninguém treina, é a **respiração diafragmática**. O diafragma é o músculo central da estabilidade do tronco. Pessoas com padrão respiratório torácico alto — o padrão típico de quem vive em estresse crônico — têm *core* menos estável, mesmo com abdome forte. Dez minutos por dia de respiração diafragmática consciente (mão no abdome, expansão de 360°, expiração prolongada) reeducam esse padrão.
 
 *Recomendação prática:* 10 a 15 minutos integrados ao aquecimento dos dias de treino, alternando os cinco domínios ao longo da semana. E, uma vez por mês, refazer os três testes — *dead hang*, equilíbrio unipodal e preensão — para acompanhar a trajetória. Não é uma sessão extra. É o pilar que mantém os outros três funcionando sem lesão e que decide a diferença entre envelhecer em pé e envelhecer no sofá.
+
+![Figura 7.3 — Os 4 pilares do exercício para longevidade (na prática). Sistema integrado em proporções de volume semanal: Zona 2 (50–60%) como base metabólica e mitocondrial — "a base de tudo"; Força (25–30%) preservando massa muscular e sensibilidade insulínica — "o escudo"; HIIT (10–15%) expandindo VO₂ máx e capacidade máxima — "o estímulo"; Mobilidade (5–10%) mantendo amplitude de movimento e prevenindo quedas — "a base da liberdade". Exercício para longevidade não é um tipo de treino — é um sistema. Fontes: ACSM 2021; Ekkekakis et al. 2020; Pedersen & Saltin 2015.](../Cap07%20Fig03.PNG)
 
 ### Quando Um Exercício Resolve Três Pilares: o Caso do *Rucking*
 

@@ -46,7 +46,7 @@ Em 2013, um grupo internacional de pesquisadores liderado por Carlos López-Otí
 
 Doze hallmarks é demais para um capítulo deste livro. Mas cinco deles são especialmente relevantes para o leitor que quer entender — e agir sobre — o que está acontecendo dentro do próprio corpo. São processos que você pode não conhecer pelo nome, mas que estão operando agora mesmo nas suas células. Vamos traduzi-los.
 
-![Figura 3.1 — Os 5 Marcadores do Envelhecimento. Infográfico com cinco ícones conectados: inflammaging (chama), disfunção mitocondrial (bateria fraca), senescência celular (célula com X), encurtamento telomérico (cromossomo encurtando) e instabilidade epigenética (interruptor on/off). Todos interligados e modificáveis por estilo de vida.](../Cap03%20Fig01.PNG)
+![Figura 3.1 — Os 5 Marcadores do Envelhecimento. Cinco pontos coloridos dispostos sobre uma elipse e conectados por linhas tracejadas: inflammaging ("o fogo silencioso"), disfunção mitocondrial ("usinas falhando"), senescência celular ("células zumbis"), encurtamento telomérico ("relógios nas pontas") e instabilidade epigenética ("genes ligando e desligando"). Processos interligados — cada um alimenta os outros — e todos modificáveis por estilo de vida.](../Cap03%20Fig01.PNG)
 
 ---
 
@@ -114,7 +114,7 @@ A ciência dos hallmarks do envelhecimento diz outra coisa. Diz que o envelhecim
 
 Cada um dos cinco hallmarks que discutimos é influenciado por fatores modificáveis. Exercício aeróbio melhora a função mitocondrial e está associado a telômeros mais longos. Treino de força reduz inflamação e melhora a sensibilidade insulínica. Sono de qualidade ativa os mecanismos de limpeza celular. Alimentação baseada em comida real — sem ultraprocessados — reduz o estresse oxidativo e modula o epigenoma. Gestão do estresse preserva os telômeros, como Blackburn e Epel demonstraram. Não são promessas vazias — são mecanismos biológicos documentados.
 
-![Figura 3.2 — O Que Acelera e O Que Freia o Envelhecimento. Duas colunas simétricas com velocímetro ao centro. À esquerda (verde): exercício aeróbio, treino de força, sono de qualidade, alimentação real, gestão do estresse. À direita (vermelho): sedentarismo, ultraprocessados, sono ruim, estresse crônico, gordura visceral.](../Cap03%20Fig02.PNG)
+![Figura 3.2 — O Que Acelera e O Que Freia o Envelhecimento. Duas colunas simétricas com escala vertical central de velocidade do envelhecimento biológico (mais lenta ↑, mais rápida ↓). À esquerda (verde, "O QUE FREIA"): exercício aeróbio, treino de força, sono de qualidade, alimentação real, gestão do estresse. À direita (vermelho, "O QUE ACELERA"): sedentarismo, ultraprocessados, sono ruim/irregular, estresse crônico, gordura visceral. Envelhecimento não é destino — é processo modificável.](../Cap03%20Fig02.PNG)
 
 Lembra de Ricardo? O infarto dele aos 52 anos não foi apenas o resultado de artérias entupidas. Foi o desfecho de uma década de inflammaging silencioso, de disfunção mitocondrial progressiva, de um metabolismo que acelerava o envelhecimento biológico enquanto a idade cronológica avançava normalmente. Se alguém tivesse medido a idade biológica dele aos 42 — dez anos antes do evento — provavelmente teria encontrado um corpo envelhecendo muito mais rápido que o calendário. E teria tido uma década para intervir.
 

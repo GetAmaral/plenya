@@ -8,6 +8,7 @@ last_reviewed: 2026-04-21
 figures:
   - Cap14_Fig01
   - Cap14_Fig02
+  - Cap14_Fig03
 ---
 
 ***Pilar R — Ritmo Circadiano e Repouso***

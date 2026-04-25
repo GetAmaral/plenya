@@ -7,6 +7,7 @@ translation_status: source
 last_reviewed: 2026-04-21
 figures:
   - Cap15_Fig01
+  - Cap15_Fig02
 ---
 # PARTE IV — O PLANO
 

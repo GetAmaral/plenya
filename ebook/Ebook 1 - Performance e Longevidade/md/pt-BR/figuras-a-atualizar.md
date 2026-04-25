@@ -2,6 +2,17 @@
 
 Este arquivo é interno (não publica) e documenta o estado das figuras do livro após a reestruturação de 14 para 18 capítulos. O texto dos capítulos foi atualizado para usar a numeração nova; a arte física em `figuras/pt-BR/` ainda carrega, em parte, a numeração antiga.
 
+## Correção 2026-04-24 — Cap 7 Fig 7.3 + Cap 8 Fig 8.1
+
+Auditoria revelou que o PNG que o rename de 2026-04-21 instalou em `Cap08 Fig01.PNG` era, na verdade, o infográfico "Os 4 pilares do exercício para longevidade (na prática)" — arte de atividade física, identificada incorretamente no plano original como "Marcos 8 meses depois". O arquivo real do Marcos dot-plot existe como `Cap15 Fig01.PNG` (correto para Figura 15.1).
+
+Correção aplicada:
+- `Cap08 Fig01.PNG` → renomeado para `Cap07 Fig03.PNG` (donut dos 4 pilares, fit narrativo no Cap 7 seção "Os Quatro Pilares do Exercício para Longevidade")
+- `Cap15 Fig01.PNG` → copiado para `Cap08 Fig01.PNG` (mesmo Marcos dot-plot, duas casas: Cap 8 como resultado dos três motores; Cap 15 como caso da Regra dos Dois)
+- Cap 7 ganhou legenda nova da Figura 7.3 após o Pilar 4 (Estabilidade) e antes da seção *rucking*
+- Cap 8 Fig 8.1: legenda permanece inalterada (já descrevia Marcos dot-plot)
+- YAML `figures:` do Cap 7 atualizado para incluir `Cap07_Fig03`
+
 ---
 
 ## Correções já feitas no texto

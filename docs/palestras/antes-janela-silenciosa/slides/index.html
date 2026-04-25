@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANTES — A Janela Silenciosa · Slides</title>
+<style>
+:root {
+  --petrol: #063b4f;
+  --gold: #b38645;
+  --cream: #eae7da;
+  --sage: #92b8b4;
+  --ocean: #417e8e;
+  --petrol-dark: #04293a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--petrol-dark);
+  color: var(--cream);
+  font-family: -apple-system, 'Inter', 'Söhne', system-ui, sans-serif;
+  line-height: 1.5;
+  padding: 32px;
+  min-height: 100vh;
+}
+header {
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(179, 134, 69, 0.25);
+}
+h1 {
+  font-family: 'Georgia', 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: 32px;
+  letter-spacing: 0.04em;
+  color: var(--cream);
+  margin-bottom: 8px;
+}
+.subtitle {
+  color: var(--gold);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.meta {
+  color: rgba(234, 231, 218, 0.55);
+  font-size: 13px;
+  margin-top: 12px;
+}
+.filter-bar {
+  max-width: 1400px;
+  margin: 0 auto 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.filter-btn {
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid rgba(179, 134, 69, 0.35);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-family: inherit;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 150ms;
+  border-radius: 2px;
+}
+.filter-btn:hover { border-color: var(--gold); }
+.filter-btn.active {
+  background: var(--gold);
+  color: var(--petrol-dark);
+  border-color: var(--gold);
+}
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.block {
+  margin-bottom: 40px;
+}
+.block-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(179, 134, 69, 0.15);
+}
+.block-title {
+  font-family: 'Georgia', serif;
+  font-size: 20px;
+  color: var(--cream);
+}
+.block-meta {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.slide-card {
+  background: var(--petrol);
+  border: 1px solid rgba(179, 134, 69, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 200ms, transform 200ms;
+  display: flex;
+  flex-direction: column;
+}
+.slide-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+.thumb {
+  aspect-ratio: 16 / 9;
+  background: var(--petrol-dark);
+  position: relative;
+  overflow: hidden;
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.thumb .missing {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(234, 231, 218, 0.35);
+  font-size: 13px;
+  gap: 4px;
+}
+.card-footer {
+  padding: 10px 14px 12px;
+  font-size: 12px;
+  border-top: 1px solid rgba(179, 134, 69, 0.12);
+}
+.card-num {
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 2px;
+  font-size: 11px;
+}
+.card-title {
+  color: var(--cream);
+  font-weight: 500;
+  line-height: 1.35;
+  margin-bottom: 2px;
+}
+.card-time {
+  color: rgba(234, 231, 218, 0.5);
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* Fullscreen overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.96);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 40px;
+  flex-direction: column;
+  gap: 16px;
+}
+.overlay.active { display: flex; }
+.overlay-img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+.overlay-info {
+  color: var(--cream);
+  text-align: center;
+  font-size: 14px;
+}
+.overlay-info .num { color: var(--gold); letter-spacing: 0.08em; }
+.overlay-info .title { font-size: 18px; margin-top: 4px; font-family: 'Georgia', serif; }
+.overlay-controls {
+  display: flex;
+  gap: 20px;
+  color: rgba(234, 231, 218, 0.5);
+  font-size: 12px;
+}
+.overlay-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid rgba(234, 231, 218, 0.3);
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.nav-arrows {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 32px;
+  pointer-events: none;
+  align-items: center;
+}
+.nav-arrow {
+  background: rgba(179, 134, 69, 0.2);
+  color: var(--cream);
+  border: none;
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+  pointer-events: all;
+  transition: background 150ms;
+}
+.nav-arrow:hover { background: var(--gold); color: var(--petrol-dark); }
+
+.stats {
+  color: rgba(234, 231, 218, 0.55);
+  font-size: 13px;
+  margin-top: 4px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ANTES — A Janela Silenciosa entre o Normal e o Ótimo</h1>
+  <div class="subtitle">Keynote · Dr. Getulio Amaral Filho · 53 min · 73 slides (1 pré + 72)</div>
+  <div class="meta">ISBN 978-65-02-06742-0 · gerado com gpt-image-2 + composição Plenya · 16:9 2K</div>
+  <div class="stats" id="stats">Carregando…</div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">Todos</button>
+  <button class="filter-btn" data-filter="0">Pré-palestra</button>
+  <button class="filter-btn" data-filter="1">Bloco 1 · Abertura</button>
+  <button class="filter-btn" data-filter="2">Bloco 2 · Janela silenciosa</button>
+  <button class="filter-btn" data-filter="3">Bloco 3 · 4 assassinos</button>
+  <button class="filter-btn" data-filter="4">Bloco 4 · O mapa</button>
+  <button class="filter-btn" data-filter="5">Bloco 5 · Método AGIR</button>
+  <button class="filter-btn" data-filter="6">Bloco 6 · Morte rápida × lenta</button>
+  <button class="filter-btn" data-filter="7">Bloco 7 · Fechamento</button>
+</div>
+
+<main id="main"></main>
+
+<div class="overlay" id="overlay">
+  <button class="overlay-close" onclick="closeOverlay()">✕</button>
+  <div class="nav-arrows">
+    <button class="nav-arrow" onclick="navigate(-1)">‹</button>
+    <button class="nav-arrow" onclick="navigate(1)">›</button>
+  </div>
+  <img class="overlay-img" id="overlay-img" alt="">
+  <div class="overlay-info">
+    <div class="num" id="overlay-num"></div>
+    <div class="title" id="overlay-title"></div>
+  </div>
+  <div class="overlay-controls">← → navegar · Esc fechar · espaço avançar</div>
+</div>
+
+<script>
+const SLIDES = [
+  // Block 0 — Pré-palestra (holding slide)
+  { n: 0,  b: 0, id: "00-pre-talk",              file: "slide-00-pre-talk-final.png",              title: "Holding slide — MC apresenta o palestrante", time: "até entrada" },
+  // Block 1 — Abertura (5 min)
+  { n: 1,  b: 1, id: "01-preto",                 file: "slide-01-preto-final.png",                 title: "Preto absoluto (3 s silêncio)", time: "3 s" },
+  { n: 2,  b: 1, id: "02-parking-dawn",          file: "slide-02-parking-dawn-final.png",          title: "Ambiente estacionamento ao amanhecer", time: "30 s" },
+  { n: 3,  b: 1, id: "03-title",                 file: "slide-03-title-final.png",                 title: "Título — ANTES", time: "15 s" },
+  { n: 4,  b: 1, id: "04-pergunta-ricardo",      file: "slide-04-pergunta-ricardo-final.png",      title: "«Doutor, como é possível?»", time: "60 s" },
+  { n: 5,  b: 1, id: "05-promessa-3-pontos",     file: "slide-05-promessa-3-pontos-final.png",     title: "Promessa em 3 pontos", time: "90 s" },
+  { n: 6,  b: 1, id: "06-pergunta-3pt0",         file: "slide-06-pergunta-3pt0-final.png",         title: "A pergunta da Medicina 3.0", time: "45 s" },
+
+  // Block 2 — A janela silenciosa (8 min)
+  { n: 7,  b: 2, id: "07-papel-exame",           file: "slide-07-papel-exame-final.png",           title: "Papel de exame verde (ambiente)", time: "15 s" },
+  { n: 8,  b: 2, id: "08-hba1c-trending",        file: "slide-08-hba1c-trending-final.png",        title: "HbA1c trending (Fig 1.1)", time: "2 min" },
+  { n: 9,  b: 2, id: "09-fotografia-vs-filme",   file: "slide-09-fotografia-vs-filme-final.png",   title: "Fotografia vs. Filme", time: "15 s" },
+  { n: 10, b: 2, id: "10-confissao-2008",        file: "slide-10-confissao-2008-final.png",        title: "Dr. Getulio — 2008 (confissão)", time: "90 s" },
+  { n: 11, b: 2, id: "11-janela-silenciosa",     file: "slide-11-janela-silenciosa-final.png",     title: "Janela silenciosa — 10, 15, 20 anos", time: "60 s" },
+  { n: 12, b: 2, id: "12-alarme-vs-detector",    file: "slide-12-alarme-vs-detector-final.png",    title: "Alarme de incêndio vs. detector", time: "75 s" },
+  { n: 13, b: 2, id: "13-medicina-timeline",     file: "slide-13-medicina-timeline-final.png",     title: "Medicina 1.0 / 2.0 / 3.0", time: "60 s" },
+  { n: 14, b: 2, id: "14-slogan-1a",             file: "slide-14-slogan-1a-final.png",             title: "Slogan-marca (1ª)", time: "45 s" },
+
+  // Block 3 — Os quatro assassinos (10 min)
+  { n: 15, b: 3, id: "15-quatro-assassinos",     file: "slide-15-quatro-assassinos-quadro-final.png", title: "Os 4 assassinos (quadro)", time: "30 s" },
+  { n: 16, b: 3, id: "16-timeline-20-anos",      file: "slide-16-timeline-20-anos-final.png",      title: "Timeline 20 anos (Fig 2.1)", time: "75 s" },
+  { n: 17, b: 3, id: "17-arvore-raizes",         file: "slide-17-arvore-raizes-final.png",         title: "Árvore de raízes (Fig 2.3)", time: "60 s" },
+  { n: 18, b: 3, id: "18-galhos-mesma-arvore",   file: "slide-18-galhos-mesma-arvore-final.png",   title: "«Não são 4 doenças. São 4 galhos.»", time: "20 s" },
+  { n: 19, b: 3, id: "19-retrato-fernanda",      file: "slide-19-retrato-fernanda-final.png",      title: "Retrato Fernanda, 41 anos", time: "45 s" },
+  { n: 20, b: 3, id: "20-fala-fernanda",         file: "slide-20-fala-fernanda-final.png",         title: "«Fígado gorduroso? Mas eu não sou gorda.»", time: "30 s" },
+  { n: 21, b: 3, id: "21-38-porcento",           file: "slide-21-38-porcento-final.png",           title: "38% — MASLD no mundo", time: "45 s" },
+  { n: 22, b: 3, id: "22-retrato-marcos",        file: "slide-22-retrato-marcos-final.png",        title: "Retrato Marcos, 57 anos", time: "45 s" },
+  { n: 23, b: 3, id: "23-cac-412",               file: "slide-23-cac-412-final.png",               title: "CAC 412 — idade arterial ~80", time: "75 s" },
+  { n: 24, b: 3, id: "24-fala-marcos",           file: "slide-24-fala-marcos-final.png",           title: "«Vivo. Não seguro.»", time: "30 s" },
+  { n: 25, b: 3, id: "25-retrato-andre",         file: "slide-25-retrato-andre-final.png",         title: "Retrato André, 45 anos", time: "45 s" },
+  { n: 26, b: 3, id: "26-totg-andre",            file: "slide-26-totg-andre-final.png",            title: "TOTG de André (Fig 6.4)", time: "75 s" },
+  { n: 27, b: 3, id: "27-14-vezes",              file: "slide-27-14-vezes-final.png",              title: "14× — insulina basal", time: "30 s" },
+
+  // Block 4 — O mapa que falta (7 min)
+  { n: 28, b: 4, id: "28-petrol-liso",           file: "slide-28-petrol-liso-final.png",           title: "Petrol liso (prop físico ao vivo)", time: "45 s" },
+  { n: 29, b: 4, id: "29-quase-matou-ricardo",   file: "slide-29-quase-matou-ricardo-final.png",   title: "«Este papel quase matou o Ricardo.»", time: "20 s" },
+  { n: 30, b: 4, id: "30-tabela-normal-vs-otimo", file: "slide-30-tabela-normal-vs-otimo-final.png", title: "Tabela Normal vs. Ótimo (★ Figma)", time: "3 min" },
+  { n: 31, b: 4, id: "31-insulina-abismo",       file: "slide-31-insulina-abismo-final.png",       title: "«Insulina 8 vs. 25 é um abismo.»", time: "30 s" },
+  { n: 32, b: 4, id: "32-quantos-do-seu-checkup", file: "slide-32-quantos-do-seu-checkup-final.png", title: "Quantos dos 10 no seu check-up?", time: "60 s" },
+  { n: 33, b: 4, id: "33-laboratorio-diz-normal", file: "slide-33-laboratorio-diz-normal-final.png", title: "«O laboratório diz normal.»", time: "30 s" },
+  { n: 34, b: 4, id: "34-normal-tarde-demais",   file: "slide-34-normal-tarde-demais-final.png",   title: "Tese técnica — «O normal já é tarde demais.»", time: "20 s" },
+  { n: 35, b: 4, id: "35-fernanda-reversao",     file: "slide-35-fernanda-reversao-final.png",     title: "Fernanda reversão 6 meses (Fig 4.2)", time: "75 s" },
+
+  // Block 5 — Método AGIR (14 min)
+  { n: 36, b: 5, id: "36-agir-infografico",      file: "slide-36-agir-infografico-final.png",      title: "AGIR — 4 pilares (infográfico)", time: "45 s" },
+  { n: 37, b: 5, id: "37-equipe-plenya",         file: "slide-37-equipe-plenya-final.png",         title: "Equipe — um plano único", time: "30 s" },
+  { n: 38, b: 5, id: "38-pilar-A",               file: "slide-38-pilar-A-final.png",               title: "Pilar A — Atividade · Alimentação", time: "10 s" },
+  { n: 39, b: 5, id: "39-hr-504",                file: "slide-39-hr-504-final.png",                title: "HR 5,04 — sedentarismo", time: "45 s" },
+  { n: 40, b: 5, id: "40-comparativo-hr",        file: "slide-40-comparativo-hr-final.png",        title: "Comparativo HR (sedentarismo × fumar × diabetes × CAD)", time: "60 s" },
+  { n: 41, b: 5, id: "41-decatlo-85",            file: "slide-41-decatlo-85-final.png",            title: "O decatlo dos 85", time: "90 s" },
+  { n: 42, b: 5, id: "42-letra-G",               file: "slide-42-letra-G-final.png",               title: "Pilar G — Gestão clínica", time: "5 s" },
+  { n: 42.5, b: 5, id: "42b-retrato-paulo",      file: "slide-42b-retrato-paulo-final.png",        title: "Retrato Paulo, 48 anos", time: "40 s" },
+  { n: 43, b: 5, id: "43-310-485",               file: "slide-43-310-485-final.png",               title: "310 → 485 (testosterona Paulo)", time: "75 s" },
+  { n: 44, b: 5, id: "44-plenya-escore",         file: "slide-44-plenya-escore-final.png",         title: "Escore Plenya — 800+ itens", time: "20 s" },
+  { n: 45, b: 5, id: "45-letra-I",               file: "slide-45-letra-I-final.png",               title: "Pilar I — Integração mente-corpo", time: "5 s" },
+  { n: 45.5, b: 5, id: "45b-retrato-ana",        file: "slide-45b-retrato-ana-final.png",          title: "Retrato Ana, 44 anos", time: "25 s" },
+  { n: 46, b: 5, id: "46-18-meses",              file: "slide-46-18-meses-final.png",              title: "18 meses — Ana", time: "45 s" },
+  { n: 47, b: 5, id: "47-phq-gad",               file: "slide-47-phq-gad-final.png",               title: "PHQ-9: 14 · GAD-7: 16", time: "60 s" },
+  { n: 48, b: 5, id: "48-ricardo-callback",      file: "slide-48-ricardo-callback-final.png",      title: "«Os exames estão bons. Eu não estou.»", time: "45 s" },
+  { n: 49, b: 5, id: "49-dados-solidao",         file: "slide-49-dados-solidao-final.png",         title: "3 dados — Harvard · Holt-Lunstad · Ikigai", time: "75 s" },
+  { n: 50, b: 5, id: "50-letra-R",               file: "slide-50-letra-R-final.png",               title: "Pilar R — Ritmo circadiano", time: "10 s" },
+  { n: 51, b: 5, id: "51-paulo-noturno",         file: "slide-51-paulo-noturno-final.png",         title: "Paulo dormindo (ESCURO)", time: "35 s" },
+  { n: 52, b: 5, id: "52-iah-22",                file: "slide-52-iah-22-final.png",                title: "IAH = 22/h — 440 microafogamentos", time: "20 s" },
+  { n: 53, b: 5, id: "53-aconcagua",             file: "slide-53-aconcagua-final.png",             title: "SaO₂ 86% = topo do Aconcágua", time: "30 s" },
+  { n: 54, b: 5, id: "54-paulo-amanhecer",       file: "slide-54-paulo-amanhecer-final.png",       title: "Paulo amanhecer (LUZ)", time: "10 s" },
+  { n: 55, b: 5, id: "55-fala-paulo-cpap",       file: "slide-55-fala-paulo-cpap-final.png",       title: "«Eu não sabia que sono bom era isso.»", time: "20 s" },
+  { n: 56, b: 5, id: "56-resultados-paulo",      file: "slide-56-resultados-paulo-final.png",      title: "Resultados Paulo — 6m pós-CPAP", time: "30 s" },
+  { n: 57, b: 5, id: "57-r-e-o-solo",            file: "slide-57-r-e-o-solo-final.png",            title: "«O R não é o 4º pilar. É o solo.»", time: "30 s" },
+  { n: 58, b: 5, id: "58-regra-dos-dois",        file: "slide-58-regra-dos-dois-final.png",        title: "A Regra dos Dois (definição)", time: "90 s" },
+  { n: 59, b: 5, id: "59-slogan-2a",             file: "slide-59-slogan-2a-final.png",             title: "Slogan-marca (2ª)", time: "30 s" },
+
+  // Block 6 — Morte rápida × morte lenta (6 min)
+  { n: 60, b: 6, id: "60-attia-chamou",          file: "slide-60-attia-chamou-final.png",          title: "«Peter Attia chamou de…»", time: "15 s" },
+  { n: 61, b: 6, id: "61-morte-rapida",          file: "slide-61-morte-rapida-final.png",          title: "MORTE RÁPIDA (petrol)", time: "45 s" },
+  { n: 62, b: 6, id: "62-morte-lenta",           file: "slide-62-morte-lenta-final.png",           title: "MORTE LENTA (gold)", time: "45 s" },
+  { n: 63, b: 6, id: "63-timeline-morte-lenta",  file: "slide-63-timeline-morte-lenta-final.png",  title: "Timeline da morte lenta", time: "2 min" },
+  { n: 64, b: 6, id: "64-enterrando-respira",    file: "slide-64-enterrando-respira-final.png",    title: "«Anos enterrando alguém que respira.»", time: "45 s" },
+  { n: 65, b: 6, id: "65-forma-do-fim",          file: "slide-65-forma-do-fim-final.png",          title: "«A meta é a forma do fim.»", time: "60 s" },
+  { n: 66, b: 6, id: "66-healthspan-lifespan",   file: "slide-66-healthspan-lifespan-final.png",   title: "Healthspan × Lifespan", time: "90 s" },
+
+  // Block 7 — Fechamento (3 min)
+  { n: 67, b: 7, id: "67-ricardo-hoje",          file: "slide-67-ricardo-hoje-final.png",          title: "Ricardo hoje — coautor (callback final)", time: "75 s" },
+  { n: 68, b: 7, id: "68-mapa-metodo-decisao",   file: "slide-68-mapa-metodo-decisao-final.png",   title: "Mapa · Método · Decisão", time: "20 s" },
+  { n: 69, b: 7, id: "69-tres-frases",           file: "slide-69-tres-frases-final.png",           title: "Não dramática · não perfeita · hoje", time: "45 s" },
+  { n: 70, b: 7, id: "70-slogan-3a",             file: "slide-70-slogan-3a-final.png",             title: "Slogan-marca (3ª e final)", time: "30 s" },
+  { n: 71, b: 7, id: "71-bencao",                file: "slide-71-bencao-final.png",                title: "«A janela ainda está aberta.» + «Viva bem. Viva mais.»", time: "25 s" },
+  { n: 72, b: 7, id: "72-capa-livro-contato",    file: "slide-72-capa-livro-contato-final.png",    title: "Capa do livro + contato (durante aplauso)", time: "—" },
+];
+
+const BLOCKS = {
+  0: { title: "Pré-palestra — Holding slide", duration: "enquanto o MC apresenta" },
+  1: { title: "Bloco 1 — Abertura", duration: "5 min" },
+  2: { title: "Bloco 2 — A janela silenciosa", duration: "8 min" },
+  3: { title: "Bloco 3 — Os quatro assassinos silenciosos", duration: "10 min" },
+  4: { title: "Bloco 4 — O mapa que falta", duration: "7 min" },
+  5: { title: "Bloco 5 — Método AGIR", duration: "14 min" },
+  6: { title: "Bloco 6 — Morte rápida × morte lenta", duration: "6 min" },
+  7: { title: "Bloco 7 — Fechamento", duration: "3 min" },
+};
+
+const main = document.getElementById("main");
+const stats = document.getElementById("stats");
+let currentIndex = -1;
+
+function render(filter = "all") {
+  main.innerHTML = "";
+  const byBlock = {};
+  SLIDES.forEach(s => {
+    if (filter !== "all" && String(s.b) !== String(filter)) return;
+    (byBlock[s.b] = byBlock[s.b] || []).push(s);
+  });
+  Object.keys(byBlock).sort((a, b) => a - b).forEach(bk => {
+    const block = document.createElement("section");
+    block.className = "block";
+    const header = document.createElement("div");
+    header.className = "block-header";
+    header.innerHTML = `<div class="block-title">${BLOCKS[bk].title}</div><div class="block-meta">${BLOCKS[bk].duration} · ${byBlock[bk].length} slides</div>`;
+    block.appendChild(header);
+
+    const grid = document.createElement("div");
+    grid.className = "grid";
+    byBlock[bk].forEach(s => {
+      const card = document.createElement("div");
+      card.className = "slide-card";
+      const idx = SLIDES.indexOf(s);
+      card.onclick = () => openOverlay(idx);
+      card.innerHTML = `
+        <div class="thumb">
+          <img src="${s.file}" alt="${s.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="missing" style="display:none;">
+            <div>aguardando geração</div>
+            <div style="font-size: 10px; opacity: 0.6;">${s.file}</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="card-num">#${String(Math.floor(s.n)).padStart(2, "0")}${s.n % 1 ? "b" : ""} · ${s.time}</div>
+          <div class="card-title">${s.title}</div>
+        </div>`;
+      grid.appendChild(card);
+    });
+    block.appendChild(grid);
+    main.appendChild(block);
+  });
+  updateStats();
+}
+
+function updateStats() {
+  // Detect missing by probing all images once page is rendered
+  let loaded = 0, missing = 0;
+  const imgs = main.querySelectorAll(".thumb img");
+  const total = SLIDES.length;
+  imgs.forEach(img => {
+    if (img.complete && img.naturalHeight > 0) loaded++;
+    else if (img.style.display === "none") missing++;
+  });
+  // Heuristic — this runs too early; rely on onerror/onload to increment later
+  stats.textContent = `${SLIDES.length} slides no total · clique para abrir em tela cheia · setas ← → para navegar`;
+}
+
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    render(btn.dataset.filter);
+  });
+});
+
+// Overlay
+const overlay = document.getElementById("overlay");
+const overlayImg = document.getElementById("overlay-img");
+const overlayNum = document.getElementById("overlay-num");
+const overlayTitle = document.getElementById("overlay-title");
+
+function openOverlay(idx) {
+  currentIndex = idx;
+  const s = SLIDES[idx];
+  overlayImg.src = s.file;
+  overlayNum.textContent = `#${String(Math.floor(s.n)).padStart(2, "0")}${s.n % 1 ? "b" : ""} · ${BLOCKS[s.b].title} · ${s.time}`;
+  overlayTitle.textContent = s.title;
+  overlay.classList.add("active");
+}
+
+function closeOverlay() {
+  overlay.classList.remove("active");
+  currentIndex = -1;
+}
+
+function navigate(delta) {
+  if (currentIndex < 0) return;
+  const next = currentIndex + delta;
+  if (next >= 0 && next < SLIDES.length) openOverlay(next);
+}
+
+document.addEventListener("keydown", e => {
+  if (!overlay.classList.contains("active")) return;
+  if (e.key === "Escape") closeOverlay();
+  else if (e.key === "ArrowLeft") navigate(-1);
+  else if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); navigate(1); }
+});
+
+overlay.addEventListener("click", e => {
+  if (e.target === overlay) closeOverlay();
+});
+
+render();
+</script>
+</body>
+</html>

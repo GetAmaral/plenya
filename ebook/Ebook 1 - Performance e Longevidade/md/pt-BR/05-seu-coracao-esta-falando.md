@@ -66,7 +66,7 @@ Para o paciente, o conceito mais poderoso é a **idade arterial**. "Seu escore d
 
 Marcos entendeu o CAC score no momento em que traduzi o número para idade. *"Você tem 57 anos. Suas coronárias parecem ter quase 80."* Não foi necessário explicar mais nada.
 
-![Figura 5.2 — Idade Cronológica vs. Idade Arterial. Eixo horizontal de 40 a 85 anos mostrando Marcos (57 cronológica → 80 arterial, gap +23, percentil >90) e Ricardo (52 cronológica → 68 arterial, gap +16, percentil >75).](../Cap05%20Fig02.PNG)
+![Figura 5.2 — Idade Cronológica vs. Idade Arterial. O escore de cálcio traduzido em anos de envelhecimento arterial. Duas linhas comparativas empilhadas: Marcos (CAC 412) — 57 anos cronológicos → idade arterial ~80 anos (+23); Ricardo (CAC ~187) — 52 cronológicos → ~68 arteriais (+16). Equivalências pelo percentil 50 da MESA.](../Cap05%20Fig02.PNG)
 
 ---
 
