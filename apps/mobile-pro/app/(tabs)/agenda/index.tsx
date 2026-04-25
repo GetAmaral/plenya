@@ -1,16 +1,19 @@
 import { useMemo, useState } from 'react';
 import { FlatList, Pressable, RefreshControl, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
-import { options, type Appointment } from '@plenya/api-client';
+import {
+  options,
+  appointmentTypeLabels,
+  type Appointment,
+  type AppointmentStatus,
+  type AppointmentType,
+} from '@plenya/api-client';
 import { Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { formatDateTime } from '@plenya/domain';
 
 type RangeMode = 'today' | 'week';
-
-function toIsoDate(d: Date): string {
-  return d.toISOString();
-}
 
 function startOfToday(): Date {
   const d = new Date();
@@ -18,20 +21,18 @@ function startOfToday(): Date {
   return d;
 }
 
-function endOfToday(): Date {
-  const d = new Date();
-  d.setHours(23, 59, 59, 999);
-  return d;
-}
-
-function endOfWeek(): Date {
+function endOfRange(mode: RangeMode): Date {
   const d = startOfToday();
-  d.setDate(d.getDate() + 7);
-  d.setHours(23, 59, 59, 999);
+  if (mode === 'today') {
+    d.setHours(23, 59, 59, 999);
+  } else {
+    d.setDate(d.getDate() + 7);
+    d.setHours(23, 59, 59, 999);
+  }
   return d;
 }
 
-const STATUS_LABEL: Record<Appointment['status'], string> = {
+const STATUS_LABEL: Record<AppointmentStatus, string> = {
   scheduled: 'Agendada',
   confirmed: 'Confirmada',
   completed: 'Concluída',
@@ -39,7 +40,7 @@ const STATUS_LABEL: Record<Appointment['status'], string> = {
   no_show: 'Faltou',
 };
 
-const STATUS_COLOR: Record<Appointment['status'], string> = {
+const STATUS_BG: Record<AppointmentStatus, string> = {
   scheduled: 'bg-secondary',
   confirmed: 'bg-emerald-600',
   completed: 'bg-muted',
@@ -47,7 +48,7 @@ const STATUS_COLOR: Record<Appointment['status'], string> = {
   no_show: 'bg-amber-500',
 };
 
-const STATUS_TEXT_COLOR: Record<Appointment['status'], string> = {
+const STATUS_TEXT: Record<AppointmentStatus, string> = {
   scheduled: 'text-secondary-foreground',
   confirmed: 'text-white',
   completed: 'text-muted-foreground',
@@ -55,17 +56,27 @@ const STATUS_TEXT_COLOR: Record<Appointment['status'], string> = {
   no_show: 'text-white',
 };
 
+const TYPE_ICON: Record<AppointmentType, string> = {
+  initial_assessment: '◔',
+  follow_up: '↻',
+  telemedicine: '📹',
+  procedure: '⚙',
+  results_review: '📋',
+};
+
 export default function AgendaScreen() {
   const [mode, setMode] = useState<RangeMode>('today');
+  const query = useQuery(options.appointmentsListOptions({ limit: 200 }));
 
-  const { from, to } = useMemo(() => {
-    if (mode === 'today') {
-      return { from: toIsoDate(startOfToday()), to: toIsoDate(endOfToday()) };
-    }
-    return { from: toIsoDate(startOfToday()), to: toIsoDate(endOfWeek()) };
-  }, [mode]);
-
-  const query = useQuery(options.appointmentsByRangeOptions(from, to));
+  const filtered = useMemo(() => {
+    const fromMs = startOfToday().getTime();
+    const toMs = endOfRange(mode).getTime();
+    const items = (query.data ?? []).filter((a) => {
+      const ts = new Date(a.scheduledAt).getTime();
+      return ts >= fromMs && ts <= toMs;
+    });
+    return items.sort((a, b) => a.scheduledAt.localeCompare(b.scheduledAt));
+  }, [query.data, mode]);
 
   return (
     <SafeAreaView className="flex-1 bg-background" edges={['bottom']}>
@@ -106,7 +117,7 @@ export default function AgendaScreen() {
         <ErrorState onRetry={() => query.refetch()} />
       ) : (
         <FlatList
-          data={(query.data ?? []).slice().sort((a, b) => a.startAt.localeCompare(b.startAt))}
+          data={filtered}
           keyExtractor={(item) => item.id}
           contentContainerClassName="gap-2 px-4 pb-8"
           refreshControl={
@@ -116,33 +127,45 @@ export default function AgendaScreen() {
             <EmptyState
               title="Sem consultas"
               description={
-                mode === 'today' ? 'Você não tem consultas hoje.' : 'Nenhuma consulta nos próximos 7 dias.'
+                mode === 'today'
+                  ? 'Você não tem consultas hoje.'
+                  : 'Nenhuma consulta nos próximos 7 dias.'
               }
             />
           }
-          renderItem={({ item }) => (
-            <Card>
-              <View className="flex-row items-center justify-between">
-                <Text variant="title">{item.patientName}</Text>
-                <View className={`rounded-full px-2.5 py-0.5 ${STATUS_COLOR[item.status]}`}>
-                  <Text className={`text-xs font-semibold ${STATUS_TEXT_COLOR[item.status]}`}>
-                    {STATUS_LABEL[item.status]}
-                  </Text>
-                </View>
-              </View>
-              <Text variant="caption">
-                {formatDateTime(item.startAt)}
-                {item.kind ? ` · ${item.kind}` : ''}
-              </Text>
-              {item.notes && (
-                <Text variant="caption" className="mt-1 italic">
-                  {item.notes}
-                </Text>
-              )}
-            </Card>
-          )}
+          renderItem={({ item }) => <AppointmentRow item={item} />}
         />
       )}
     </SafeAreaView>
+  );
+}
+
+function AppointmentRow({ item }: { item: Appointment }) {
+  return (
+    <Link href={`/(tabs)/agenda/${item.id}`} asChild>
+      <Card>
+        <View className="flex-row items-center justify-between">
+          <View className="flex-1 pr-2">
+            <Text variant="title">
+              {TYPE_ICON[item.type]} {item.patientName ?? 'Paciente'}
+            </Text>
+            <Text variant="caption">
+              {formatDateTime(item.scheduledAt)} · {appointmentTypeLabels[item.type]} ·{' '}
+              {item.durationMinutes}min
+            </Text>
+            {item.reason && (
+              <Text variant="caption" className="mt-0.5 italic">
+                {item.reason}
+              </Text>
+            )}
+          </View>
+          <View className={`rounded-full px-2.5 py-0.5 ${STATUS_BG[item.status]}`}>
+            <Text className={`text-xs font-semibold ${STATUS_TEXT[item.status]}`}>
+              {STATUS_LABEL[item.status]}
+            </Text>
+          </View>
+        </View>
+      </Card>
+    </Link>
   );
 }

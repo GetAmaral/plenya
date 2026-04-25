@@ -35,4 +35,13 @@ export type {
   ACSMTag,
 } from './queryOptions/physicalAssessments';
 export type { NotificationItem } from './queryOptions/notifications';
-export type { Appointment } from './queryOptions/appointments';
+export type {
+  Appointment,
+  AppointmentStatus,
+  AppointmentType,
+  AppointmentListParams,
+} from './queryOptions/appointments';
+export {
+  appointmentTypeLabels,
+  appointmentTypeDefaultDuration,
+} from './queryOptions/appointments';
