@@ -2,6 +2,12 @@ import { queryOptions } from '@tanstack/react-query';
 import { api } from '../fetcher';
 import { queryKeys } from '../queryKeys';
 
+export interface UserProfileSelectedPatient {
+  id: string;
+  name: string;
+  avatarUrl?: string;
+}
+
 export interface UserProfile {
   id: string;
   email: string;
@@ -11,6 +17,7 @@ export interface UserProfile {
   avatarUrl?: string;
   has2FAEnabled: boolean;
   selectedPatientId?: string;
+  selectedPatient?: UserProfileSelectedPatient;
 }
 
 export interface Session {

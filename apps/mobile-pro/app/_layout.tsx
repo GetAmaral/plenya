@@ -16,6 +16,7 @@ import { configureApiClient } from '../features/auth/configureApiClient';
 import { useAuthStore } from '../features/auth/authStore';
 import { runBootSecurity } from '../lib/security/boot';
 import { initSentry, Sentry } from '../lib/observability/sentry';
+import { getPostHog } from '../lib/observability/posthog';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -29,6 +30,7 @@ function RootLayout() {
   useEffect(() => {
     (async () => {
       initSentry();
+      getPostHog(); // lazy init — no-op se não tem API key
       configureApiClient();
       const mmkv = await getEncryptedStorage();
       persistQueryClient({

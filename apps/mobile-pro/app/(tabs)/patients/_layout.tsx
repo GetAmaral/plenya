@@ -4,12 +4,15 @@ export default function PatientsLayout() {
   return (
     <Stack screenOptions={{ headerBackTitle: 'Voltar' }}>
       <Stack.Screen name="index" options={{ title: 'Pacientes' }} />
+      <Stack.Screen name="new" options={{ title: 'Novo paciente' }} />
       <Stack.Screen name="[id]/index" options={{ title: 'Paciente' }} />
       <Stack.Screen name="[id]/anamnesis/index" options={{ title: 'Anamnese' }} />
       <Stack.Screen name="[id]/anamnesis/new" options={{ title: 'Nova anamnese' }} />
       <Stack.Screen name="[id]/anamnesis/[anamnesisId]" options={{ title: 'Anamnese' }} />
-      <Stack.Screen name="[id]/labs" options={{ title: 'Exames' }} />
-      <Stack.Screen name="[id]/prescriptions" options={{ title: 'Prescrições' }} />
+      <Stack.Screen name="[id]/labs/index" options={{ title: 'Exames' }} />
+      <Stack.Screen name="[id]/labs/[labResultId]" options={{ title: 'Exame' }} />
+      <Stack.Screen name="[id]/prescriptions/index" options={{ title: 'Prescrições' }} />
+      <Stack.Screen name="[id]/prescriptions/[prescriptionId]" options={{ title: 'Prescrição' }} />
       <Stack.Screen name="[id]/scores" options={{ title: 'Escores' }} />
       <Stack.Screen name="[id]/workouts" options={{ title: 'Treinos' }} />
       <Stack.Screen name="[id]/assessments/index" options={{ title: 'Avaliações' }} />

@@ -1,13 +1,13 @@
 import { FlatList, RefreshControl, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { options, queryKeys } from '@plenya/api-client';
 import { Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { formatDate } from '@plenya/domain';
-import { useScreenCaptureProtection } from '../../../../lib/security/screenCapture';
-import { useRefresh } from '../../../../features/patients/usePatientRefresh';
-import { useEnsureSelectedPatient } from '../../../../features/patients/useEnsureSelectedPatient';
+import { useScreenCaptureProtection } from '../../../../../lib/security/screenCapture';
+import { useRefresh } from '../../../../../features/patients/usePatientRefresh';
+import { useEnsureSelectedPatient } from '../../../../../features/patients/useEnsureSelectedPatient';
 
 const STATUS_LABEL: Record<string, string> = {
   pending: 'Pendente',
@@ -46,13 +46,15 @@ export default function PatientLabsScreen() {
           />
         }
         renderItem={({ item }) => (
-          <Card>
-            <View className="flex-row items-center justify-between">
-              <Text variant="title">{item.labName ?? 'Exame'}</Text>
-              <Text variant="caption">{STATUS_LABEL[item.status] ?? item.status}</Text>
-            </View>
-            <Text variant="caption">Coletado em {formatDate(item.collectedAt)}</Text>
-          </Card>
+          <Link href={`/(tabs)/patients/${patientId}/labs/${item.id}`} asChild>
+            <Card>
+              <View className="flex-row items-center justify-between">
+                <Text variant="title">{item.labName ?? 'Exame'}</Text>
+                <Text variant="caption">{STATUS_LABEL[item.status] ?? item.status}</Text>
+              </View>
+              <Text variant="caption">Coletado em {formatDate(item.collectedAt)}</Text>
+            </Card>
+          </Link>
         )}
       />
     </SafeAreaView>

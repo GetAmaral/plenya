@@ -1,13 +1,13 @@
 import { FlatList, RefreshControl, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { options, queryKeys } from '@plenya/api-client';
 import { Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { formatDate } from '@plenya/domain';
-import { useScreenCaptureProtection } from '../../../../lib/security/screenCapture';
-import { useRefresh } from '../../../../features/patients/usePatientRefresh';
-import { useEnsureSelectedPatient } from '../../../../features/patients/useEnsureSelectedPatient';
+import { useScreenCaptureProtection } from '../../../../../lib/security/screenCapture';
+import { useRefresh } from '../../../../../features/patients/usePatientRefresh';
+import { useEnsureSelectedPatient } from '../../../../../features/patients/useEnsureSelectedPatient';
 
 const STATUS_LABEL: Record<string, string> = {
   draft: 'Rascunho',
@@ -53,18 +53,20 @@ export default function PatientPrescriptionsScreen() {
           />
         }
         renderItem={({ item }) => (
-          <Card>
-            <View className="flex-row items-center justify-between">
-              <Text variant="title">Receita</Text>
-              <Text className={`text-xs font-semibold ${STATUS_COLOR[item.status] ?? ''}`}>
-                {STATUS_LABEL[item.status] ?? item.status}
-              </Text>
-            </View>
-            <Text variant="caption">Emitida em {formatDate(item.issuedAt)}</Text>
-            {item.signedAt && (
-              <Text variant="caption">Assinada em {formatDate(item.signedAt)}</Text>
-            )}
-          </Card>
+          <Link href={`/(tabs)/patients/${patientId}/prescriptions/${item.id}`} asChild>
+            <Card>
+              <View className="flex-row items-center justify-between">
+                <Text variant="title">Receita</Text>
+                <Text className={`text-xs font-semibold ${STATUS_COLOR[item.status] ?? ''}`}>
+                  {STATUS_LABEL[item.status] ?? item.status}
+                </Text>
+              </View>
+              <Text variant="caption">Emitida em {formatDate(item.issuedAt)}</Text>
+              {item.signedAt && (
+                <Text variant="caption">Assinada em {formatDate(item.signedAt)}</Text>
+              )}
+            </Card>
+          </Link>
         )}
       />
     </SafeAreaView>
