@@ -13,13 +13,13 @@ export const metadata: Metadata = {
 };
 
 async function fetchSession(code: string): Promise<PublicSession | null> {
-  // SSR roda dentro do container do site → precisa usar nome do serviço (api:3001),
-  // não localhost (que apontaria pro próprio container).
-  // Browser usa NEXT_PUBLIC_API_URL (localhost:3001 mapeado pelo Docker).
+  // SSR roda dentro do container do site. Em dev (docker compose) o serviço
+  // EMR é "api". Em produção (Coolify) é a URL pública. Sem env, prefere
+  // a pública — bate sempre com o que existe em prod.
   const apiBase = (
     process.env.INTERNAL_API_URL ??
     process.env.NEXT_PUBLIC_API_URL ??
-    'http://api:3001'
+    'https://api.plenyasaude.com.br'
   ).replace(/\/$/, '');
   const url = `${apiBase}/api/v1/score-light/sessions/${encodeURIComponent(code)}`;
   try {
