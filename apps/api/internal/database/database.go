@@ -210,6 +210,7 @@ func AutoMigrate() error {
 		&models.PatientMagicLink{},
 		&models.TelemedLobbyToken{},
 		&models.PatientDocument{},
+		&models.FamilyAccessGrant{},
 	); err != nil {
 		return err
 	}

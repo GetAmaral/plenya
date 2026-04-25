@@ -255,6 +255,32 @@ Se você não solicitou este link, ignore este email — sua conta segue protegi
 	return s.send(toEmail, subject, bodyText, bodyHTML)
 }
 
+// SendFamilyInvite envia convite pra familiar acessar dados de outro paciente.
+func (s *EmailService) SendFamilyInvite(toEmail, granteeLabel, patientName, link string) error {
+	subject := fmt.Sprintf("%s te convidou pra acompanhar a saúde", patientName)
+	bodyText := fmt.Sprintf(`Olá%s,
+
+%s compartilhou acesso ao perfil de saúde Plenya com você.
+
+Clique no link pra aceitar o convite (válido por 14 dias):
+
+%s
+
+Se não esperava receber este convite, ignore este email.
+
+— Equipe Plenya
+`, optLabel(granteeLabel), patientName, link)
+	return s.send(toEmail, subject, bodyText, "")
+}
+
+func optLabel(label string) string {
+	label = strings.TrimSpace(label)
+	if label == "" {
+		return ""
+	}
+	return ", " + label
+}
+
 // SendFollowUp30Dias envia follow-up manual (admin dispara via UI).
 func (s *EmailService) SendFollowUp30Dias(toEmail, patientName string) error {
 	subject := "Refaça seu Escore — veja sua evolução"
