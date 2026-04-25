@@ -339,6 +339,100 @@ export function useMarkMessagesRead() {
   });
 }
 
+// ============================================================
+// Lab batches / requests / prescriptions / physical assessments
+// ============================================================
+
+export interface LabBatchSummary {
+  id: string;
+  laboratoryName: string;
+  collectionDate: string;
+  resultDate?: string | null;
+  status: "pending" | "partial" | "completed";
+  requestingDoctor?: string | null;
+  resultsCount: number;
+}
+
+export interface LabValueView {
+  id: string;
+  testName: string;
+  testCode: string;
+  value?: number | null;
+  valueText?: string;
+  unit?: string;
+}
+
+export interface LabBatchDetail extends LabBatchSummary {
+  observations?: string | null;
+  values: LabValueView[];
+}
+
+export interface LabRequestSummary {
+  id: string;
+  issuedAt: string;
+  date: string;
+  doctorName?: string;
+  exams: string;
+  signedAt?: string | null;
+  pdfUrl?: string | null;
+}
+
+export interface PrescriptionSummary {
+  id: string;
+  issuedAt: string;
+  status: "active" | "completed" | "cancelled" | "expired";
+  doctorName?: string;
+  validUntil: string;
+  medsCount: number;
+  signedAt?: string | null;
+  pdfPath?: string | null;
+}
+
+export interface PhysicalAssessmentSummary {
+  id: string;
+  assessmentDate: string;
+  assessorName?: string;
+  weight?: number | null;
+  height?: number | null;
+  bmi?: number | null;
+}
+
+export const patientLabsApi = {
+  batches: () => apiClient.get<LabBatchSummary[]>("/api/v1/patient/me/lab-batches"),
+  batch: (id: string) => apiClient.get<LabBatchDetail>(`/api/v1/patient/me/lab-batches/${id}`),
+  labRequests: () => apiClient.get<LabRequestSummary[]>("/api/v1/patient/me/lab-requests"),
+  prescriptions: () => apiClient.get<PrescriptionSummary[]>("/api/v1/patient/me/prescriptions"),
+  physicalAssessments: () =>
+    apiClient.get<PhysicalAssessmentSummary[]>("/api/v1/patient/me/physical-assessments"),
+};
+
+export function useMyLabBatches() {
+  return useQuery({ queryKey: ["patient-lab-batches"], queryFn: patientLabsApi.batches });
+}
+
+export function useMyLabBatch(id: string | undefined) {
+  return useQuery({
+    queryKey: ["patient-lab-batch", id],
+    queryFn: () => patientLabsApi.batch(id!),
+    enabled: !!id,
+  });
+}
+
+export function useMyLabRequests() {
+  return useQuery({ queryKey: ["patient-lab-requests"], queryFn: patientLabsApi.labRequests });
+}
+
+export function useMyPrescriptions() {
+  return useQuery({ queryKey: ["patient-prescriptions"], queryFn: patientLabsApi.prescriptions });
+}
+
+export function useMyPhysicalAssessments() {
+  return useQuery({
+    queryKey: ["patient-physical-assessments"],
+    queryFn: patientLabsApi.physicalAssessments,
+  });
+}
+
 export function useSetPatientPassword() {
   return useMutation({
     mutationFn: patientMeApi.setPassword,

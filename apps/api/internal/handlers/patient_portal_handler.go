@@ -36,6 +36,7 @@ type PatientPortalHandler struct {
 	continuum    *services.PatientContinuumService
 	appointments *services.PatientAppointmentService
 	messages     *services.PatientMessagesService
+	labs         *services.PatientLabsService
 }
 
 func NewPatientPortalHandler(
@@ -44,6 +45,7 @@ func NewPatientPortalHandler(
 	continuum *services.PatientContinuumService,
 	appointments *services.PatientAppointmentService,
 	messages *services.PatientMessagesService,
+	labs *services.PatientLabsService,
 ) *PatientPortalHandler {
 	return &PatientPortalHandler{
 		svc:          svc,
@@ -51,7 +53,69 @@ func NewPatientPortalHandler(
 		continuum:    continuum,
 		appointments: appointments,
 		messages:     messages,
+		labs:         labs,
 	}
+}
+
+// ============================================================
+// Labs / Prescriptions / Physical Assessments
+// ============================================================
+
+func (h *PatientPortalHandler) ListLabBatches(c *fiber.Ctx) error {
+	out, err := h.labs.ListBatches(middleware.GetPatientID(c))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(out)
+}
+
+func (h *PatientPortalHandler) GetLabBatch(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
+	}
+	out, err := h.labs.GetBatch(middleware.GetPatientID(c), id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(out)
+}
+
+func (h *PatientPortalHandler) ListLabRequests(c *fiber.Ctx) error {
+	out, err := h.labs.ListLabRequests(middleware.GetPatientID(c))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(out)
+}
+
+func (h *PatientPortalHandler) ListPrescriptions(c *fiber.Ctx) error {
+	out, err := h.labs.ListPrescriptions(middleware.GetPatientID(c))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(out)
+}
+
+func (h *PatientPortalHandler) ListPhysicalAssessments(c *fiber.Ctx) error {
+	out, err := h.labs.ListPhysicalAssessments(middleware.GetPatientID(c))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(out)
+}
+
+func (h *PatientPortalHandler) GetPhysicalAssessmentHTML(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
+	}
+	html, err := h.labs.GetPhysicalAssessmentHTML(middleware.GetPatientID(c), id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
+	}
+	c.Set("Content-Type", "text/html; charset=utf-8")
+	return c.SendString(html)
 }
 
 // ListMessages GET /api/v1/patient/me/messages?before=ISO
