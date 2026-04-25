@@ -1,0 +1,29 @@
+appId: com.plenya.pro
+tags:
+  - smoke
+  - patient
+---
+# Pré-requisitos: 01-login completo + ao menos 1 paciente seedado no staging.
+
+- runFlow: 01-login.yaml
+
+- tapOn: 'Pacientes'
+- assertVisible: 'Buscar paciente'
+
+- tapOn:
+    text: '.*'
+    index: 0
+    enabled: true
+
+- assertVisible: 'Contato'
+- assertVisible: 'Documento'
+- assertVisible: 'Anamnese'
+- assertVisible: 'Exames laboratoriais'
+- assertVisible: 'Prescrições'
+- assertVisible: 'Escores de saúde'
+- assertVisible: 'Planos de treino'
+- assertVisible: 'Avaliações físicas'
+
+# Voltar pra lista — exercita gesture do Stack
+- back
+- assertVisible: 'Buscar paciente'

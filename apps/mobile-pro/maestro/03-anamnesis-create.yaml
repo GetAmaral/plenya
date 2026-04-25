@@ -1,0 +1,33 @@
+appId: com.plenya.pro
+tags:
+  - smoke
+  - anamnesis
+  - write
+---
+# Smoke de escrita: cria anamnese, verifica que aparece na lista.
+# Idempotente o suficiente — cria novo registro a cada run, não cleanup.
+
+- runFlow: 01-login.yaml
+
+- tapOn: 'Pacientes'
+- tapOn:
+    text: '.*'
+    index: 0
+    enabled: true
+- tapOn: 'Anamnese'
+
+- tapOn: 'Nova anamnese'
+
+- tapOn:
+    id: 'title'
+- inputText: 'Maestro smoke test'
+
+- tapOn:
+    id: 'freeText'
+    optional: true
+- inputText: 'Registro automatizado de smoke test — pode ser apagado'
+
+- tapOn: 'Salvar anamnese'
+
+- assertVisible: 'Anamnese registrada'
+- assertVisible: 'Maestro smoke test'

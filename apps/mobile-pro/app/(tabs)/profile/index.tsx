@@ -1,9 +1,16 @@
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Application from 'expo-application';
+import * as Updates from 'expo-updates';
 import { useQuery } from '@tanstack/react-query';
 import { options } from '@plenya/api-client';
 import { Button, Card, CardHeader, Spinner, Text } from '@plenya/ui-mobile';
 import { useLogout } from '../../../features/auth/useLogout';
+
+const APP_VERSION = Application.nativeApplicationVersion ?? '0.0.0';
+const BUILD_VERSION = Application.nativeBuildVersion ?? '—';
+const UPDATE_ID = Updates.updateId ? Updates.updateId.slice(0, 8) : 'embedded';
+const UPDATE_CHANNEL = Updates.channel ?? 'development';
 
 export default function ProfileScreen() {
   const me = useQuery(options.meOptions());
@@ -41,6 +48,18 @@ export default function ProfileScreen() {
             ))}
             {(sessions.data ?? []).length === 0 && <Text variant="caption">Nenhuma sessão</Text>}
           </View>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <Text variant="title">Sobre o app</Text>
+          </CardHeader>
+          <Text variant="body">
+            Versão {APP_VERSION} (build {BUILD_VERSION})
+          </Text>
+          <Text variant="caption">
+            Canal {UPDATE_CHANNEL} · OTA {UPDATE_ID}
+          </Text>
         </Card>
 
         <Button variant="destructive" onPress={logout} fullWidth>

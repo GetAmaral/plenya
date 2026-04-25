@@ -1,0 +1,87 @@
+name: mobile-pro EAS build
+
+# Builds remotos via EAS quando algo do app muda em PRs/master.
+# Não submete para stores — submission é manual (ver release-checklist.md).
+#
+# Secrets necessários (Settings → Secrets):
+#   EXPO_TOKEN — gerar em https://expo.dev/settings/access-tokens
+#   MAESTRO_API_KEY — opcional, pra rodar smoke flows em Maestro Cloud
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'apps/mobile-pro/**'
+      - 'packages/api-client/**'
+      - 'packages/ui-mobile/**'
+      - 'packages/domain/**'
+      - 'packages/brand/**'
+      - 'packages/types/**'
+      - '.github/workflows/mobile-pro-eas.yml'
+  pull_request:
+    paths:
+      - 'apps/mobile-pro/**'
+      - 'packages/api-client/**'
+      - 'packages/ui-mobile/**'
+      - 'packages/domain/**'
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.1
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck mobile-pro
+        run: |
+          cd apps/mobile-pro
+          npx tsc --noEmit
+      - name: Typecheck shared packages
+        run: |
+          for p in api-client ui-mobile domain; do
+            echo "::group::$p"
+            (cd packages/$p && npx tsc --noEmit)
+            echo "::endgroup::"
+          done
+
+  preview-build:
+    needs: typecheck
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.1
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Build preview iOS + Android
+        working-directory: apps/mobile-pro
+        run: eas build --profile preview --platform all --non-interactive --no-wait
+
+  maestro-smoke:
+    needs: typecheck
+    if: ${{ secrets.MAESTRO_API_KEY != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Maestro Cloud smoke
+        uses: mobile-dev-inc/action-maestro-cloud@v1
+        with:
+          api-key: ${{ secrets.MAESTRO_API_KEY }}
+          app-file: apps/mobile-pro/build/preview.apk
+          include-tags: smoke
+          flows: apps/mobile-pro/maestro

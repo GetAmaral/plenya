@@ -15,18 +15,20 @@ import { getEncryptedStorage } from '../lib/storage/mmkv';
 import { configureApiClient } from '../features/auth/configureApiClient';
 import { useAuthStore } from '../features/auth/authStore';
 import { runBootSecurity } from '../lib/security/boot';
+import { initSentry, Sentry } from '../lib/observability/sentry';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
 const queryClient = createQueryClient();
 
-export default function RootLayout() {
+function RootLayout() {
   const [ready, setReady] = useState(false);
   const hydrate = useAuthStore((s) => s.hydrate);
   const [fontsLoaded] = useFonts({});
 
   useEffect(() => {
     (async () => {
+      initSentry();
       configureApiClient();
       const mmkv = await getEncryptedStorage();
       persistQueryClient({
@@ -82,3 +84,5 @@ export default function RootLayout() {
     </GestureHandlerRootView>
   );
 }
+
+export default Sentry.wrap(RootLayout);

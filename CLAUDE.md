@@ -75,6 +75,7 @@ apps/api/internal/models/*.go  ← EDITAR AQUI
 - [**security.md**](.claude/mobile/security.md) - Checklist LGPD/segurança mobile
 - [**ota-policy.md**](.claude/mobile/ota-policy.md) - Regras de OTA (o que pode/não pode)
 - [**deploy.md**](.claude/mobile/deploy.md) - Build/submit App Store e Play Store
+- [**release-checklist.md**](.claude/mobile/release-checklist.md) - Checklist obrigatório antes de cada release nativo
 
 ## 🛠 Comandos Essenciais
 
