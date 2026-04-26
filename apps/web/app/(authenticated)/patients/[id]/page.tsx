@@ -27,6 +27,7 @@ import { apiClient } from "@/lib/api-client";
 import { useRequireAuth } from "@/lib/use-auth";
 import { PageHeader } from "@/components/layout/page-header";
 import { PortalAccessCard } from "@/components/patients/portal-access-card";
+import { CheckInsCard } from "@/components/patients/check-ins-card";
 
 interface Patient {
   id: string;
@@ -353,6 +354,8 @@ export default function PatientDetailPage() {
               </div>
             </CardContent>
           </Card>
+
+          <CheckInsCard patientId={patientId} />
 
           <PortalAccessCard patientId={patientId} />
         </motion.div>

@@ -186,6 +186,12 @@ func AutoMigrate() error {
 
 		// Mobile apps
 		&models.DeviceToken{},
+		&models.NotificationPreferences{},
+
+		// App paciente — execução de treino + check-ins de bem-estar
+		&models.WorkoutSession{},
+		&models.WorkoutSessionExerciseLog{},
+		&models.HealthCheckIn{},
 
 		// Calendar V1 — Google Calendar OAuth, working hours, ausências,
 		// recursos polimórficos. Devem vir DEPOIS de User (FK DoctorID).

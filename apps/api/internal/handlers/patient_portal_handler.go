@@ -40,6 +40,9 @@ type PatientPortalHandler struct {
 	scores       *services.PatientScoresService
 	profile      *services.PatientProfileService
 	documents    *services.PatientDocumentsService
+	workouts     *services.PatientWorkoutsService
+	checkIns     *services.PatientCheckInsService
+	notifPrefs   *services.NotificationPreferencesService
 	notification *services.NotificationService
 }
 
@@ -53,6 +56,9 @@ func NewPatientPortalHandler(
 	scores *services.PatientScoresService,
 	profile *services.PatientProfileService,
 	documents *services.PatientDocumentsService,
+	workouts *services.PatientWorkoutsService,
+	checkIns *services.PatientCheckInsService,
+	notifPrefs *services.NotificationPreferencesService,
 	notification *services.NotificationService,
 ) *PatientPortalHandler {
 	return &PatientPortalHandler{
@@ -65,6 +71,9 @@ func NewPatientPortalHandler(
 		scores:       scores,
 		profile:      profile,
 		documents:    documents,
+		workouts:     workouts,
+		checkIns:     checkIns,
+		notifPrefs:   notifPrefs,
 		notification: notification,
 	}
 }

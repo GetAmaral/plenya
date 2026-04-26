@@ -129,6 +129,10 @@ type Appointment struct {
 	// NULL = ainda não enviado; setado = job já processou.
 	ReminderSentAt *time.Time `gorm:"type:timestamp" json:"reminderSentAt,omitempty"`
 
+	// Quando o push T-1h foi enviado pro paciente (cron AppointmentPushReminderJob).
+	// NULL = ainda não enviado; setado = job já processou. Independente do WA T-24h.
+	PushReminder1hSentAt *time.Time `gorm:"type:timestamp" json:"pushReminder1hSentAt,omitempty"`
+
 	// Quando o paciente clicou "Confirmar presença" no portal
 	// (minha.plenyasaude.com.br/consultas/[id]). Diferente de ConfirmedAt,
 	// que é a confirmação geral via Confirm() (também pode vir da IA).

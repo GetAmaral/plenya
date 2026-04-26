@@ -307,6 +307,9 @@ func setupRoutes(
 	patientScoresService := services.NewPatientScoresService(database.DB)
 	patientProfileService := services.NewPatientProfileService(database.DB)
 	patientDocumentsService := services.NewPatientDocumentsService(database.DB, "/app/uploads")
+	patientWorkoutsService := services.NewPatientWorkoutsService(database.DB)
+	patientCheckInsService := services.NewPatientCheckInsService(database.DB)
+	notificationPreferencesService := services.NewNotificationPreferencesService(database.DB)
 	telemedLobbyService := services.NewTelemedLobbyService(database.DB, cfg)
 	telemedLobbyHandler := handlers.NewTelemedLobbyHandler(telemedLobbyService)
 
@@ -314,7 +317,7 @@ func setupRoutes(
 	// é criado, AppointmentService.createDailyRoom também ensure-token gera o
 	// token público pra link /sala/[token] dos emails/WA.
 	appointmentService.WithTelemedLobby(telemedLobbyService)
-	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService, patientScoresService, patientProfileService, patientDocumentsService, notificationService)
+	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService, patientScoresService, patientProfileService, patientDocumentsService, patientWorkoutsService, patientCheckInsService, notificationPreferencesService, notificationService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
@@ -503,6 +506,9 @@ func setupRoutes(
 	patients.Get("/:id/portal-invite", portalInviteRoles, patientPortalHandler.GetInviteStatus)
 	patients.Post("/:id/portal-invite", portalInviteRoles, patientPortalHandler.CreateInvite)
 
+	// Check-ins de bem-estar — leitura staff pra continuum
+	patients.Get("/:id/check-ins", patientPortalHandler.StaffListCheckIns)
+
 	// Documentos clínicos (V2): staff faz upload, paciente baixa pelo portal
 	patients.Get("/:id/documents", patientPortalHandler.StaffListDocuments)
 	patients.Post("/:id/documents", middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse), patientPortalHandler.StaffUploadDocument)
@@ -540,6 +546,20 @@ func setupRoutes(
 	patientMe.Get("/documents/:id/download", patientPortalHandler.DownloadDocument)
 	patientMe.Get("/lgpd/export", patientPortalHandler.LGPDExport)
 	patientMe.Post("/lgpd/account-delete-request", patientPortalHandler.LGPDRequestDelete)
+
+	// App paciente — treino + check-ins + prefs de notificação
+	patientMe.Get("/workout-plans", patientPortalHandler.ListWorkoutPlans)
+	patientMe.Get("/workout-plans/:id", patientPortalHandler.GetWorkoutPlan)
+	patientMe.Get("/workout-sessions", patientPortalHandler.ListWorkoutSessions)
+	patientMe.Post("/workout-sessions", patientPortalHandler.StartWorkoutSession)
+	patientMe.Get("/workout-sessions/:id", patientPortalHandler.GetWorkoutSession)
+	patientMe.Post("/workout-sessions/:id/logs", patientPortalHandler.LogWorkoutSet)
+	patientMe.Post("/workout-sessions/:id/complete", patientPortalHandler.CompleteWorkoutSession)
+	patientMe.Get("/check-ins", patientPortalHandler.ListCheckIns)
+	patientMe.Get("/check-ins/today", patientPortalHandler.LatestCheckInToday)
+	patientMe.Post("/check-ins", patientPortalHandler.CreateCheckIn)
+	patientMe.Get("/notification-preferences", patientPortalHandler.GetNotificationPreferences)
+	patientMe.Patch("/notification-preferences", patientPortalHandler.PatchNotificationPreferences)
 
 	// Anamnesis routes (protegidas - profissionais autenticados)
 	anamnesis := v1.Group("/anamnesis")
@@ -1158,6 +1178,14 @@ func setupRoutes(
 	// 2) Google token refresh: ticker 30min, renova access tokens cifrados.
 	googleTokenRefreshJob := scheduler.NewGoogleTokenRefreshJob(database.DB, googleCalendarService, notificationService)
 	googleTokenRefreshJob.Start()
+
+	// 3) Push reminder T-1h pra app paciente (consulta começa em ~1h).
+	appointmentPushReminderJob := scheduler.NewAppointmentPushReminderJob(database.DB, pushService, notificationPreferencesService)
+	appointmentPushReminderJob.Start()
+
+	// 4) Workout reminder diário no horário configurado pelo paciente.
+	workoutReminderJob := scheduler.NewWorkoutReminderJob(database.DB, pushService, notificationPreferencesService)
+	workoutReminderJob.Start()
 }
 
 // registerTrainingRoutes registra as rotas do módulo de treinamento
