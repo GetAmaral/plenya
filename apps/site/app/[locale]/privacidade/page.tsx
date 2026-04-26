@@ -37,7 +37,11 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <strong>{LEGAL_CONTACT.controllerName}</strong> ({LEGAL_CONTACT.controllerAddress}) é a
               controladora dos dados pessoais tratados nos serviços online disponíveis em{' '}
               <a href="https://plenyasaude.com.br" className="text-gold underline underline-offset-4">plenyasaude.com.br</a>,
-              incluindo o <strong>Escore Plenya Light</strong> (autoavaliação anônima) e o portal do paciente.
+              incluindo o <strong>Escore Plenya Light</strong> (autoavaliação anônima em
+              {' '}<a href="https://plenyasaude.com.br/escore-plenya" className="text-gold underline underline-offset-4">plenyasaude.com.br/escore-plenya</a>)
+              {' '}e a <strong>área do paciente</strong> em{' '}
+              <a href="https://minha.plenyasaude.com.br" className="text-gold underline underline-offset-4">minha.plenyasaude.com.br</a>
+              {' '}(acesso restrito a pacientes cadastrados pela equipe).
             </p>
           </Section>
 
@@ -54,6 +58,16 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <li><strong>Respostas sobre saúde:</strong> hábitos, sintomas, histórico de doenças pessoais e familiares, uso de medicamentos, valores de exames laboratoriais (todas opcionais — você responde só o que souber ou quiser).</li>
               <li><strong>PDF de exames (opcional):</strong> se você optar por usar a função de upload, o arquivo é enviado para extração automática dos valores laboratoriais e <strong>imediatamente descartado</strong> após o processamento (em segundos). Apenas os números extraídos ficam guardados.</li>
               <li><strong>Email (opcional):</strong> apenas se você optar por salvar o resultado para comparar evoluções futuras (claim via magic link).</li>
+            </ul>
+
+            <p className="mt-6 mb-3"><strong>Na área do paciente</strong> (minha.plenyasaude.com.br):</p>
+            <ul className="space-y-2 ml-5 list-disc marker:text-gold">
+              <li><strong>Dados de identificação e contato:</strong> nome, CPF, data de nascimento, gênero, telefone, email, endereço (informados pela equipe Plenya no momento do cadastro do prontuário).</li>
+              <li><strong>Histórico clínico:</strong> anamnese, prescrições, resultados de exames laboratoriais, avaliações físicas, escores de saúde, programa Continuum (marcos, plano integrado da equipe, boxes recebidos).</li>
+              <li><strong>Consultas:</strong> agendamentos passados e futuros, telemedicina (sala Daily.co), confirmações de presença, solicitações de reagendamento.</li>
+              <li><strong>Mensagens com a equipe:</strong> conversa via portal entre paciente e clínica.</li>
+              <li><strong>Documentos clínicos:</strong> atestados, declarações, encaminhamentos disponibilizados pela equipe.</li>
+              <li><strong>Logs de acesso:</strong> data, hora e ação realizada (audit trail) — necessários para conformidade LGPD e detecção de incidentes.</li>
             </ul>
 
             <p className="mt-6 text-petrol/70 text-sm bg-paper border-l-2 border-gold pl-4 py-2">
@@ -76,6 +90,8 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <li><strong>Sessões Light não-identificadas:</strong> apagadas automaticamente <strong>90 dias</strong> após a criação.</li>
               <li><strong>Sessões Light identificadas (claimed):</strong> mantidas enquanto sua conta existir, ou até você solicitar exclusão.</li>
               <li><strong>PDF de exames enviado:</strong> apagado <strong>em segundos</strong> após a extração — não persiste em nenhum sistema.</li>
+              <li><strong>Prontuário (área do paciente):</strong> mantido conforme exigência regulamentar — Resolução CFM 1.821/2007 obriga retenção mínima de <strong>20 anos</strong> a partir do último registro. Após esse prazo (ou mediante solicitação de exclusão analisada pelo DPO), os dados são anonimizados ou eliminados.</li>
+              <li><strong>Logs de acesso ao portal (audit trail):</strong> mantidos por <strong>5 anos</strong> para conformidade LGPD e investigação de incidentes.</li>
               <li><strong>Mensagens de contato:</strong> mantidas pelo tempo necessário para resposta e arquivamento (até 24 meses).</li>
               <li><strong>Métricas Plausible:</strong> agregadas, sem identificação individual; mantidas indefinidamente para análise histórica anônima.</li>
             </ul>
@@ -87,8 +103,10 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <li><strong>Anthropic</strong> (Claude AI — Estados Unidos): processa o texto extraído do PDF de exames para identificar valores laboratoriais. <strong>O conteúdo é descartado após a chamada</strong> (zero retenção contratual).</li>
               <li><strong>OpenAI</strong> (Estados Unidos): usado apenas para gerar ilustrações genéricas do site — <strong>não recebe dados pessoais de usuários</strong>.</li>
               <li><strong>Plausible Analytics</strong> (União Europeia, sob GDPR): métricas agregadas, sem cookies, sem identificação individual.</li>
-              <li><strong>Resend</strong> (Estados Unidos): envio de emails transacionais (magic links de acesso, confirmações). Recebe apenas o email do destinatário e o conteúdo da mensagem; não usa os dados para outros fins.</li>
+              <li><strong>Resend</strong> (Estados Unidos): envio de emails transacionais (magic links de acesso, confirmações de consulta, convites de portal). Recebe apenas o email do destinatário e o conteúdo da mensagem; não usa os dados para outros fins.</li>
               <li><strong>Meta Platforms (WhatsApp Business)</strong> (Estados Unidos): quando você opta por receber comunicações por WhatsApp, seu telefone e o conteúdo das mensagens são processados pela infraestrutura do WhatsApp da Meta, sob cláusulas-padrão de proteção e sob a Política de Privacidade do WhatsApp. Você pode revogar esse consentimento a qualquer momento.</li>
+              <li><strong>Daily.co</strong> (Estados Unidos): provedor de salas de teleconsulta usadas no portal do paciente. Processa áudio e vídeo durante a sessão; <strong>não grava por padrão</strong>. Sala expira após o atendimento.</li>
+              <li><strong>Google Calendar</strong> (Estados Unidos): quando seu médico conecta o Google Calendar, sincronizamos eventos com título opaco (apenas iniciais do paciente, sem PHI) para evitar conflitos de agenda. Você não é convidado como participante; o evento existe apenas no calendário do médico.</li>
               <li><strong>Hospedagem (KingHost / Coolify):</strong> infraestrutura de servidor no Brasil.</li>
             </ul>
             <p className="mt-4 text-sm text-petrol/70">Transferências internacionais ocorrem nas hipóteses do art. 33 da LGPD, com cláusulas contratuais que garantem nível de proteção adequado.</p>
@@ -112,6 +130,11 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               ou escreva para <a href={`mailto:${LEGAL_CONTACT.dpoEmail}`} className="text-gold underline underline-offset-4">{LEGAL_CONTACT.dpoEmail}</a>.
               Respondemos em até <strong>15 dias úteis</strong>.
             </p>
+            <p className="mt-3 text-sm text-petrol/70">
+              Pacientes com acesso à área <a href="https://minha.plenyasaude.com.br" className="text-gold underline underline-offset-4">minha.plenyasaude.com.br</a> podem
+              exercer portabilidade (<em>baixar JSON com todos os seus dados</em>) e solicitar exclusão diretamente no menu <strong>Perfil → LGPD</strong>.
+              Solicitações de exclusão de dados clínicos são analisadas pelo DPO em virtude da retenção mínima exigida pela Resolução CFM 1.821/2007 (20 anos).
+            </p>
           </Section>
 
           <Section n="7" title="Segurança">
@@ -134,8 +157,8 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
             </p>
           </Section>
 
-          <Section n="9" title="Cookies">
-            <p>O site da Plenya <strong>não usa cookies de rastreamento publicitário</strong>. Plausible Analytics opera sem cookies. O portal do paciente usa <strong>cookies estritamente necessários</strong> para autenticação (JWT em localStorage/cookie de sessão) — sem eles a área restrita não funciona.</p>
+          <Section n="9" title="Cookies e armazenamento local">
+            <p>O site da Plenya <strong>não usa cookies de rastreamento publicitário</strong>. Plausible Analytics opera sem cookies. A área do paciente em <a href="https://minha.plenyasaude.com.br" className="text-gold underline underline-offset-4">minha.plenyasaude.com.br</a> usa <strong>localStorage estritamente necessário</strong> para autenticação (JWT de sessão) e preferência de UI (sidebar colapsada/expandida) — sem isso a área restrita não funciona. Você pode limpar a qualquer momento nas configurações do navegador (isso encerra sua sessão).</p>
           </Section>
 
           <Section n="10" title="Alterações a esta Política">

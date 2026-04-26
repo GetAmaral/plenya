@@ -4,7 +4,7 @@
  * — sessões/usuários registram qual versão aceitaram.
  */
 
-export const PRIVACY_POLICY_VERSION = '2026-04-23.1';
+export const PRIVACY_POLICY_VERSION = '2026-04-25.1';
 export const TERMS_VERSION = '2026-04-22.1';
 
 export const LEGAL_CONTACT = {
