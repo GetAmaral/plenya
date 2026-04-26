@@ -1,5 +1,6 @@
-import { ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { options } from '@plenya/api-client';
 import { Button, Card, CardHeader, Spinner, Text } from '@plenya/ui-mobile';
@@ -22,9 +23,21 @@ export default function ProfileScreen() {
           {profile.data?.phone && <Text variant="caption">{profile.data.phone}</Text>}
         </Card>
 
+        <Pressable
+          onPress={() => router.push('/(tabs)/profile/notifications' as never)}
+          accessibilityRole="button"
+          accessibilityLabel="Configurar notificações"
+        >
+          <Card>
+            <Text variant="title">Notificações</Text>
+            <Text variant="caption">
+              Lembrete de consulta, mensagens e treino — escolha o que receber.
+            </Text>
+          </Card>
+        </Pressable>
+
         <Text variant="caption" className="italic">
-          Avatar, senha, 2FA, sessões ativas, preferências de notificação,
-          export LGPD e delete chegam na Sprint 4.
+          Avatar, senha, 2FA, sessões ativas, export LGPD e delete chegam na Sprint 4.
         </Text>
 
         <View className="mt-4">

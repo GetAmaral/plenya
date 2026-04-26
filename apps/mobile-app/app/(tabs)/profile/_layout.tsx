@@ -6,6 +6,7 @@ export default function ProfileLayout() {
   return (
     <Stack screenOptions={{ headerBackTitle: 'Voltar' }}>
       <Stack.Screen name="index" options={{ title: 'Meu perfil' }} />
+      <Stack.Screen name="notifications" options={{ title: 'Notificações' }} />
     </Stack>
   );
 }

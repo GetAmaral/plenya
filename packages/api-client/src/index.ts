@@ -97,3 +97,23 @@ export {
   appointmentTypeLabels,
   appointmentTypeDefaultDuration,
 } from './queryOptions/appointments';
+export type {
+  PatientMeProfile,
+  PatientAppointment,
+  PatientWorkoutPlanSummary,
+  PatientWorkoutPlanDetail,
+  PatientWorkoutSession,
+  PatientWorkoutSessionTemplate,
+  PatientWorkoutLog,
+  HealthCheckIn,
+  NotificationPreferences,
+  PatientLabBatchSummary,
+  PatientLabBatchDetail,
+  PatientLabValue,
+  PatientPrescriptionSummary,
+  PatientPhysicalAssessmentSummary,
+  PatientScoreEntry,
+  PatientScoreGroupResult,
+  PatientContinuum,
+  PatientContinuumItem,
+} from './queryOptions/patientMe';
