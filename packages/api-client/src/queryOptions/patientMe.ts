@@ -115,6 +115,85 @@ export interface HealthCheckIn {
   createdAt: string;
 }
 
+export interface PatientLabBatchSummary {
+  id: string;
+  laboratoryName: string;
+  collectionDate: string;
+  resultDate?: string;
+  status: string;
+  requestingDoctor?: string;
+  resultsCount: number;
+}
+
+export interface PatientLabValue {
+  id: string;
+  testName: string;
+  testCode: string;
+  value?: number;
+  valueText?: string;
+  unit?: string;
+}
+
+export interface PatientLabBatchDetail extends PatientLabBatchSummary {
+  observations?: string;
+  values: PatientLabValue[];
+}
+
+export interface PatientPrescriptionSummary {
+  id: string;
+  issuedAt: string;
+  status: string;
+  doctorName?: string;
+  validUntil: string;
+  medsCount: number;
+  signedAt?: string;
+  pdfPath?: string;
+}
+
+export interface PatientPhysicalAssessmentSummary {
+  id: string;
+  assessmentDate: string;
+  assessorName?: string;
+  weight?: number;
+  height?: number;
+  bmi?: number;
+}
+
+export interface PatientScoreGroupResult {
+  groupId: string;
+  groupName: string;
+  scorePercentage: number;
+}
+
+export interface PatientScoreEntry {
+  id: string;
+  source: 'light' | 'complete';
+  createdAt: string;
+  totalScorePercentage: number;
+  itemsEvaluatedCount: number;
+  publicCode?: string;
+  groupResults: PatientScoreGroupResult[];
+}
+
+export interface PatientContinuumItem {
+  id: string;
+  type: string;
+  status: string;
+  scheduledDate?: string;
+  completedDate?: string;
+  title: string;
+  notes?: string;
+}
+
+export interface PatientContinuum {
+  id: string;
+  templateName: string;
+  startDate: string;
+  currentWeek?: number;
+  totalWeeks?: number;
+  items: PatientContinuumItem[];
+}
+
 export interface NotificationPreferences {
   userId: string;
   appointmentReminder: boolean;
@@ -200,6 +279,65 @@ export const patientMeCheckInTodayOptions = () =>
     staleTime: 60_000,
   });
 
+export const patientMeLabBatchesOptions = () =>
+  queryOptions({
+    queryKey: queryKeys.patientMe.labBatches(),
+    queryFn: ({ signal }) =>
+      api.get<PatientLabBatchSummary[]>('/api/v1/patient/me/lab-batches', { signal }),
+    staleTime: 60_000,
+  });
+
+export const patientMeLabBatchOptions = (id: string) =>
+  queryOptions({
+    queryKey: [...queryKeys.patientMe.labBatches(), id] as const,
+    queryFn: ({ signal }) =>
+      api.get<PatientLabBatchDetail>(`/api/v1/patient/me/lab-batches/${id}`, { signal }),
+    enabled: Boolean(id),
+  });
+
+export const patientMePrescriptionsOptions = () =>
+  queryOptions({
+    queryKey: [...queryKeys.patientMe.all(), 'prescriptions'] as const,
+    queryFn: ({ signal }) =>
+      api.get<PatientPrescriptionSummary[]>('/api/v1/patient/me/prescriptions', { signal }),
+    staleTime: 60_000,
+  });
+
+export const patientMePhysicalAssessmentsOptions = () =>
+  queryOptions({
+    queryKey: [...queryKeys.patientMe.all(), 'physical-assessments'] as const,
+    queryFn: ({ signal }) =>
+      api.get<PatientPhysicalAssessmentSummary[]>(
+        '/api/v1/patient/me/physical-assessments',
+        { signal },
+      ),
+    staleTime: 60_000,
+  });
+
+export const patientMeScoresOptions = () =>
+  queryOptions({
+    queryKey: queryKeys.patientMe.scores(),
+    queryFn: ({ signal }) =>
+      api.get<PatientScoreEntry[]>('/api/v1/patient/me/scores', { signal }),
+    staleTime: 60_000,
+  });
+
+export const patientMeContinuumOptions = () =>
+  queryOptions({
+    queryKey: [...queryKeys.patientMe.all(), 'continuum'] as const,
+    queryFn: ({ signal }) =>
+      api.get<PatientContinuum | null>('/api/v1/patient/me/continuum', { signal }),
+    staleTime: 60_000,
+  });
+
+export const patientMeAppointmentOptions = (id: string) =>
+  queryOptions({
+    queryKey: [...queryKeys.patientMe.appointments(), id] as const,
+    queryFn: ({ signal }) =>
+      api.get<PatientAppointment>(`/api/v1/patient/me/appointments/${id}`, { signal }),
+    enabled: Boolean(id),
+  });
+
 export const patientMeNotificationPreferencesOptions = () =>
   queryOptions({
     queryKey: queryKeys.patientMe.notificationPreferences(),
@@ -217,6 +355,10 @@ export const patientMeNotificationPreferencesOptions = () =>
 export const patientMeMutations = {
   confirmAppointment: (id: string) =>
     api.post<void>(`/api/v1/patient/me/appointments/${id}/confirm`),
+  requestCancelAppointment: (id: string, body: { reason?: string } = {}) =>
+    api.post<void>(`/api/v1/patient/me/appointments/${id}/request-cancel`, body),
+  requestRescheduleAppointment: (id: string, body: { reason?: string } = {}) =>
+    api.post<void>(`/api/v1/patient/me/appointments/${id}/request-reschedule`, body),
 
   startWorkoutSession: (body: {
     planId: string;

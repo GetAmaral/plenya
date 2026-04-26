@@ -5,19 +5,20 @@ import { router } from 'expo-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { options, queryKeys } from '@plenya/api-client';
 import { Card, CardHeader, EmptyState, Spinner, Text } from '@plenya/ui-mobile';
-import { formatDateTime } from '@plenya/domain';
+import { formatDate, formatDateTime } from '@plenya/domain';
 
-/**
- * Home do app paciente — Sprint 1 mostra próxima consulta + check-in CTA.
- * Continuum, último score e último exame entram na Sprint 2.
- */
 export default function HomeScreen() {
   const profile = useQuery(options.patientMeProfileOptions());
   const appts = useQuery(options.patientMeAppointmentsOptions('upcoming'));
   const checkIn = useQuery(options.patientMeCheckInTodayOptions());
+  const scores = useQuery(options.patientMeScoresOptions());
+  const batches = useQuery(options.patientMeLabBatchesOptions());
+  const continuum = useQuery(options.patientMeContinuumOptions());
   const qc = useQueryClient();
 
   const nextAppt = useMemo(() => (appts.data ?? [])[0], [appts.data]);
+  const lastScore = useMemo(() => (scores.data ?? [])[0], [scores.data]);
+  const lastBatch = useMemo(() => (batches.data ?? [])[0], [batches.data]);
 
   const greeting = useMemo(() => {
     const h = new Date().getHours();
@@ -28,7 +29,8 @@ export default function HomeScreen() {
 
   const refreshing =
     (appts.isRefetching && !appts.isLoading) ||
-    (checkIn.isRefetching && !checkIn.isLoading);
+    (checkIn.isRefetching && !checkIn.isLoading) ||
+    (scores.isRefetching && !scores.isLoading);
 
   function refreshAll() {
     qc.invalidateQueries({ queryKey: queryKeys.patientMe.all() });
@@ -73,7 +75,13 @@ export default function HomeScreen() {
           </Card>
         </Pressable>
 
-        <Pressable onPress={() => router.push('/(tabs)/messages' as never)}>
+        <Pressable
+          onPress={() =>
+            nextAppt
+              ? router.push(`/appointments/${nextAppt.id}` as never)
+              : null
+          }
+        >
           <Card>
             <CardHeader>
               <Text variant="title">Próxima consulta</Text>
@@ -87,6 +95,11 @@ export default function HomeScreen() {
                   {nextAppt.isTelemedicine ? 'Telemedicina' : 'Presencial'}
                 </Text>
                 <Text variant="caption">{formatDateTime(nextAppt.scheduledAt)}</Text>
+                {!nextAppt.patientConfirmedAt && (
+                  <Text variant="caption" className="mt-1 font-semibold">
+                    Toque pra confirmar presença →
+                  </Text>
+                )}
               </View>
             ) : (
               <EmptyState
@@ -96,6 +109,59 @@ export default function HomeScreen() {
             )}
           </Card>
         </Pressable>
+
+        {lastScore && (
+          <Pressable onPress={() => router.push('/(tabs)/exams' as never)}>
+            <Card>
+              <CardHeader>
+                <Text variant="title">Seu último escore</Text>
+              </CardHeader>
+              <Text variant="heading">
+                {Math.round(lastScore.totalScorePercentage)}%
+              </Text>
+              <Text variant="caption">
+                {formatDate(lastScore.createdAt)} · {lastScore.itemsEvaluatedCount} itens
+              </Text>
+            </Card>
+          </Pressable>
+        )}
+
+        {lastBatch && (
+          <Pressable onPress={() => router.push(`/exams/${lastBatch.id}` as never)}>
+            <Card>
+              <CardHeader>
+                <Text variant="title">Último exame</Text>
+              </CardHeader>
+              <Text variant="body">{lastBatch.laboratoryName}</Text>
+              <Text variant="caption">
+                Coleta: {formatDate(lastBatch.collectionDate)} · {lastBatch.resultsCount}{' '}
+                resultados
+              </Text>
+            </Card>
+          </Pressable>
+        )}
+
+        {continuum.data && continuum.data.items?.length > 0 && (
+          <Card>
+            <CardHeader>
+              <Text variant="title">Sua jornada</Text>
+            </CardHeader>
+            <Text variant="caption" className="mb-2">
+              {continuum.data.templateName}
+              {continuum.data.currentWeek && continuum.data.totalWeeks
+                ? ` · semana ${continuum.data.currentWeek}/${continuum.data.totalWeeks}`
+                : ''}
+            </Text>
+            {continuum.data.items.slice(0, 3).map((it) => (
+              <View key={it.id} className="border-l-2 border-primary pl-3 py-1">
+                <Text variant="body">{it.title}</Text>
+                <Text variant="caption">
+                  {it.status} {it.scheduledDate ? `· ${formatDate(it.scheduledDate)}` : ''}
+                </Text>
+              </View>
+            ))}
+          </Card>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
