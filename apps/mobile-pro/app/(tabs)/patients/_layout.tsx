@@ -20,6 +20,9 @@ export default function PatientsLayout() {
       <Stack.Screen name="[id]/assessments/index" options={{ title: 'Avaliações' }} />
       <Stack.Screen name="[id]/assessments/new" options={{ title: 'Nova avaliação' }} />
       <Stack.Screen name="[id]/assessments/[assessmentId]" options={{ title: 'Avaliação' }} />
+      <Stack.Screen name="[id]/fitness-tests" options={{ title: 'Testes físicos' }} />
+      <Stack.Screen name="[id]/posture" options={{ title: 'Avaliação postural' }} />
+      <Stack.Screen name="[id]/periodization" options={{ title: 'Periodização' }} />
     </Stack>
   );
 }

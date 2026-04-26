@@ -19,6 +19,42 @@ function isUpcoming(a: Appointment): boolean {
   return new Date(a.scheduledAt).getTime() >= Date.now() - 60 * 60 * 1000;
 }
 
+function isToday(iso: string): boolean {
+  const d = new Date(iso);
+  const now = new Date();
+  return (
+    d.getFullYear() === now.getFullYear() &&
+    d.getMonth() === now.getMonth() &&
+    d.getDate() === now.getDate()
+  );
+}
+
+function StatCard({
+  title,
+  value,
+  caption,
+  onPress,
+}: {
+  title: string;
+  value: string | number;
+  caption?: string;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable onPress={onPress} className="flex-1">
+      <Card>
+        <Text variant="caption" className="font-semibold uppercase">
+          {title}
+        </Text>
+        <Text variant="heading" className="mt-1">
+          {value}
+        </Text>
+        {caption && <Text variant="caption">{caption}</Text>}
+      </Card>
+    </Pressable>
+  );
+}
+
 export default function DashboardScreen() {
   const me = useQuery(options.meOptions());
   const appts = useQuery(options.appointmentsListOptions({ limit: 100 }));
@@ -32,6 +68,17 @@ export default function DashboardScreen() {
       .sort((a, b) => a.scheduledAt.localeCompare(b.scheduledAt));
     return list[0];
   }, [appts.data]);
+
+  const todayCount = useMemo(
+    () =>
+      (appts.data ?? []).filter(
+        (a) =>
+          isToday(a.scheduledAt) &&
+          a.status !== 'cancelled' &&
+          a.status !== 'no_show',
+      ).length,
+    [appts.data],
+  );
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
@@ -80,6 +127,21 @@ export default function DashboardScreen() {
           >
             <Text className="text-xl">🔍</Text>
           </Pressable>
+        </View>
+
+        <View className="flex-row gap-2">
+          <StatCard
+            title="Hoje"
+            value={todayCount}
+            caption="consultas no dia"
+            onPress={() => router.push('/(tabs)/agenda' as never)}
+          />
+          <StatCard
+            title="Leads 24h"
+            value={leadsDash.data?.newInLast24h ?? '—'}
+            caption="novos no funil"
+            onPress={() => router.push('/(tabs)/leads' as never)}
+          />
         </View>
 
         <Pressable onPress={() => router.push('/(tabs)/notifications')}>

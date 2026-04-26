@@ -30,6 +30,20 @@ export {
 } from './queryOptions/leads';
 export type { StaffUser } from './queryOptions/users';
 export type {
+  TrainingAIChatMessage,
+  TrainingAIChatRequest,
+  TrainingAIChatResponse,
+  TrainingAIPatientContext,
+} from './queryOptions/trainingAi';
+export type {
+  PeriodizationFramework,
+  PeriodizationMesocycle,
+  PeriodizationSummary,
+  PeriodizationDetail,
+} from './queryOptions/periodizations';
+export { posturalViewTypeLabels } from './queryOptions/physicalAssessments';
+export type { PosturalViewType } from './queryOptions/physicalAssessments';
+export type {
   ConversationItem,
   ConversationMessage,
   ConversationOwnerType,
@@ -66,7 +80,6 @@ export type {
   FitnessTestResult,
   CreateFitnessTestInput,
   PosturalAssessment,
-  PosturalMeasurement,
   CreatePosturalAssessmentInput,
 } from './queryOptions/physicalAssessments';
 export { fitnessTestLabels } from './queryOptions/physicalAssessments';

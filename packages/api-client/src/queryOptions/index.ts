@@ -14,3 +14,5 @@ export * from './conversations';
 export * from './notifications';
 export * from './appointments';
 export * from './users';
+export * from './trainingAi';
+export * from './periodizations';

@@ -65,6 +65,12 @@ export interface Appointment {
 export interface AppointmentListParams {
   patientId?: string;
   doctorId?: string;
+  /** CSV de UUIDs no backend; passamos array aqui pra ergonomia */
+  doctorIds?: string[];
+  /** RFC3339 — filtra appointments com scheduledAt >= dateFrom */
+  dateFrom?: string;
+  /** RFC3339 — filtra appointments com scheduledAt <= dateTo */
+  dateTo?: string;
   status?: AppointmentStatus;
   limit?: number;
   offset?: number;
@@ -76,7 +82,13 @@ export const appointmentsListOptions = (params: AppointmentListParams = {}) =>
     queryFn: ({ signal }) => {
       const qs = new URLSearchParams();
       if (params.patientId) qs.set('patientId', params.patientId);
-      if (params.doctorId) qs.set('doctorId', params.doctorId);
+      if (params.doctorIds && params.doctorIds.length > 0) {
+        qs.set('doctorIds', params.doctorIds.join(','));
+      } else if (params.doctorId) {
+        qs.set('doctorId', params.doctorId);
+      }
+      if (params.dateFrom) qs.set('dateFrom', params.dateFrom);
+      if (params.dateTo) qs.set('dateTo', params.dateTo);
       if (params.status) qs.set('status', params.status);
       qs.set('limit', String(params.limit ?? 100));
       if (params.offset) qs.set('offset', String(params.offset));

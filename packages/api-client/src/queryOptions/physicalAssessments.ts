@@ -78,45 +78,97 @@ export const fitnessTestLabels: Record<FitnessTestKind, string> = {
   abdominal: 'Abdominal (1 min)',
   pushup: 'Flexão (1 min)',
   plank: 'Prancha (s)',
-  burpee: 'Burpee (1 min)',
-  frt: 'Functional Reach (cm)',
+  burpee: 'Burpee (3 min)',
+  frt: 'FRT (90s)',
 };
 
+/**
+ * Reflete `models.FitnessTestResult` Go.
+ * Campos `*Reps`/`*Seconds` são input; `*Level`, `overallScore`,
+ * `overallClassification` são computados pelo serviço.
+ */
 export interface FitnessTestResult {
   id: string;
   patientId: string;
-  performedAt: string;
-  kind: FitnessTestKind;
-  value: number;
-  unit?: string;
-  classification?: string;
+  createdById: string;
+  assessmentDate: string;
+  abdominalReps?: number;
+  pushupReps?: number;
+  plankSeconds?: number;
+  burpeeCycles?: number;
+  frtReps?: number;
+  abdominalLevel?: string;
+  pushupLevel?: string;
+  plankLevel?: string;
+  burpeeLevel?: string;
+  frtLevel?: string;
+  overallScore: number;
+  overallClassification: string;
   notes?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreateFitnessTestInput {
-  kind: FitnessTestKind;
-  value: number;
-  unit?: string;
+  patientId: string;
+  assessmentDate: string;
+  abdominalReps?: number;
+  pushupReps?: number;
+  plankSeconds?: number;
+  burpeeCycles?: number;
+  frtReps?: number;
   notes?: string;
 }
 
-export interface PosturalMeasurement {
-  region: string;
-  angleDeg: number;
-  withinNormal?: boolean;
-}
+export type PosturalViewType = 'front' | 'side_left' | 'side_right' | 'back';
 
+export const posturalViewTypeLabels: Record<PosturalViewType, string> = {
+  front: 'Vista frontal',
+  side_left: 'Lateral esquerda',
+  side_right: 'Lateral direita',
+  back: 'Vista posterior',
+};
+
+/**
+ * Reflete `models.PosturalAssessment` Go.
+ * Mede ângulos em graus; `posturalScore`/`posturalClassification`/
+ * `severeDeviations` são computados.
+ */
 export interface PosturalAssessment {
   id: string;
   patientId: string;
-  performedAt: string;
-  measurements: PosturalMeasurement[];
-  totalPenalty?: number;
+  createdById: string;
+  assessmentDate: string;
+  physicalAssessmentId?: string;
+  viewType: PosturalViewType;
+  shoulderDeviation?: number;
+  hipDeviation?: number;
+  headLateralDeviation?: number;
+  fhp?: number;
+  thoracicKyphosis?: number;
+  lumbarLordosis?: number;
+  kneeAngle?: number;
+  photoUrl?: string;
+  posturalScore: number;
+  posturalClassification: string;
+  severeDeviations: number;
   notes?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreatePosturalAssessmentInput {
-  measurements: PosturalMeasurement[];
+  patientId: string;
+  assessmentDate: string;
+  viewType: PosturalViewType;
+  shoulderDeviation?: number;
+  hipDeviation?: number;
+  headLateralDeviation?: number;
+  fhp?: number;
+  thoracicKyphosis?: number;
+  lumbarLordosis?: number;
+  kneeAngle?: number;
+  photoUrl?: string;
   notes?: string;
 }
 

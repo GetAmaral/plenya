@@ -126,6 +126,21 @@ export default function PatientOverviewScreen() {
           title="Avaliações físicas"
           description="Composição corporal, PA, tags ACSM"
         />
+        <SubsectionLink
+          href={`/(tabs)/patients/${patientId}/fitness-tests`}
+          title="Testes físicos"
+          description="Abdominal, flexão, prancha, burpee, FRT"
+        />
+        <SubsectionLink
+          href={`/(tabs)/patients/${patientId}/posture`}
+          title="Avaliação postural"
+          description="Desvios e classificação"
+        />
+        <SubsectionLink
+          href={`/(tabs)/patients/${patientId}/periodization`}
+          title="Periodização"
+          description="Frameworks e mesociclos"
+        />
       </ScrollView>
     </SafeAreaView>
   );
