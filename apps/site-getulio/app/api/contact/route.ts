@@ -20,13 +20,21 @@ const reasonLabels = {
   outro: 'Outro',
 } as const;
 
-const reasonRouting = {
+// Destinatários por motivo. Em produção, sobrescritíveis por env var
+// CONTACT_RECIPIENT_DEFAULT (catch-all) ou CONTACT_RECIPIENT_<MOTIVO>.
+// Enquanto Stalwart não recebe @drgetulioamaralfilho, default cai em CONTACT_RECIPIENT_DEFAULT.
+const reasonDefaultRouting = {
   'consulta-plenya': 'contato@drgetulioamaralfilho.com.br',
   'consulta-nefroclinica': 'contato@drgetulioamaralfilho.com.br',
   palestra: 'palestras@drgetulioamaralfilho.com.br',
   imprensa: 'imprensa@drgetulioamaralfilho.com.br',
   outro: 'contato@drgetulioamaralfilho.com.br',
 } as const;
+
+function recipientFor(reason: keyof typeof reasonDefaultRouting): string {
+  const key = `CONTACT_RECIPIENT_${reason.replace(/-/g, '_').toUpperCase()}`;
+  return process.env[key] ?? process.env.CONTACT_RECIPIENT_DEFAULT ?? reasonDefaultRouting[reason];
+}
 
 // Rate limit em memória — suficiente para uso pessoal
 const RATE_WINDOW_MS = 60_000;
@@ -67,8 +75,8 @@ export async function POST(request: Request) {
   }
 
   const { name, email, phone, reason, message } = parsed.data;
-  const to = reasonRouting[reason];
-  const subject = `[${reasonLabels[reason]}] ${name}`;
+  const to = recipientFor(reason);
+  const subject = `[${reasonLabels[reason]}] ${name} · site Getúlio`;
   const body = [
     `Motivo: ${reasonLabels[reason]}`,
     `Nome: ${name}`,
