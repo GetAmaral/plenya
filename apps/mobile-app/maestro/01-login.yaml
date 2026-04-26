@@ -1,0 +1,50 @@
+appId: com.plenya.pro
+tags:
+  - smoke
+  - auth
+---
+# Smoke test: login completo (email/senha + 2FA + biometric) → tabs.
+#
+# Variáveis (definir em ~/.maestro/secrets.yaml ou via --env):
+#   MAESTRO_TEST_EMAIL  — usuário fixture com 2FA habilitado
+#   MAESTRO_TEST_PASSWORD
+#   MAESTRO_TEST_2FA_CODE — código TOTP atual (gerar via oathtool ou seed fixo)
+
+- launchApp:
+    clearState: true
+    permissions:
+      notifications: allow
+      camera: deny
+
+- assertVisible: 'Plenya Pro'
+
+- tapOn:
+    id: 'email'
+- inputText: ${MAESTRO_TEST_EMAIL}
+
+- tapOn:
+    id: 'password'
+- inputText: ${MAESTRO_TEST_PASSWORD}
+
+- tapOn: 'Entrar'
+
+- assertVisible: 'Verificação em 2 etapas'
+- inputText: ${MAESTRO_TEST_2FA_CODE}
+- tapOn: 'Verificar'
+
+# Em dispositivo real, biometria é interativa — esse step exige tester humano
+# OU mock via Maestro setBiometricResult (Android) / xcrun simctl (iOS).
+- runFlow:
+    when:
+      visible: 'Proteção biométrica'
+    commands:
+      - tapOn: 'Desbloquear'
+
+# LGPD consent só aparece no primeiro login do device — flow é tolerante.
+- runFlow:
+    when:
+      visible: 'Termo de uso e LGPD'
+    commands:
+      - tapOn: 'Aceitar e continuar'
+
+- assertVisible: 'Bem-vindo ao Plenya Pro'

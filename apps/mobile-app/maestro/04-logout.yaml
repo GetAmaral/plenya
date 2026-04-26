@@ -1,0 +1,13 @@
+appId: com.plenya.pro
+tags:
+  - smoke
+  - auth
+---
+- runFlow: 01-login.yaml
+
+- tapOn: 'Perfil'
+- assertVisible: 'Dispositivos ativos'
+
+- tapOn: 'Sair'
+- assertVisible: 'Plenya Pro'
+- assertVisible: 'Acesso para profissionais de saúde'

@@ -2,21 +2,79 @@
   "expo": {
     "name": "Plenya",
     "slug": "plenya-app",
-    "scheme": "plenya",
-    "version": "0.0.1",
+    "scheme": "plenya-app",
+    "version": "0.1.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#063b4f"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/REPLACE_WITH_PROJECT_ID",
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.plenya.app",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "buildNumber": "1",
+      "associatedDomains": ["applinks:app.plenyasaude.com.br"],
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSFaceIDUsageDescription": "Plenya usa Face ID para proteger seus dados de saúde.",
+        "NSPhotoLibraryUsageDescription": "Plenya acessa a biblioteca para anexar imagens ao seu perfil."
+      }
     },
     "android": {
       "package": "com.plenya.app",
-      "versionCode": 1
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#063b4f"
+      },
+      "permissions": [
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT",
+        "POST_NOTIFICATIONS"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [{ "scheme": "https", "host": "app.plenyasaude.com.br" }],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-local-authentication",
+      "expo-notifications",
+      "expo-image-picker",
+      "expo-screen-capture",
+      "expo-updates"
+    ],
+    "experiments": {
+      "typedRoutes": true
     },
     "extra": {
-      "apiBaseUrl": "https://api.plenyasaude.com.br"
+      "eas": {
+        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
+      },
+      "apiBaseUrl": "https://api.plenyasaude.com.br",
+      "sentryDsn": "",
+      "posthogApiKey": "",
+      "posthogHost": "https://app.posthog.com"
     },
     "owner": "plenya"
   }

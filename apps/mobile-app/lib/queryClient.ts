@@ -1,0 +1,17 @@
+import { QueryClient } from '@tanstack/react-query';
+
+export function createQueryClient(): QueryClient {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 2,
+        staleTime: 30_000,
+        gcTime: 24 * 60 * 60 * 1000,
+        refetchOnWindowFocus: false,
+      },
+      mutations: {
+        retry: 1,
+      },
+    },
+  });
+}

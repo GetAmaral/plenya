@@ -16,3 +16,4 @@ export * from './appointments';
 export * from './users';
 export * from './trainingAi';
 export * from './periodizations';
+export * from './patientMe';

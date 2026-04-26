@@ -40,3 +40,32 @@ export const authMutations = {
     ),
   logout: () => api.post<void>('/api/v1/auth/logout'),
 };
+
+// Patient auth — endpoints separados em /auth/patient/*. Resposta sem
+// requires2FA (paciente pode ativar 2FA mas não é obrigatório no login).
+export interface PatientAuthResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    roles: string[];
+    twoFactorEnabled: boolean;
+  };
+}
+
+export const patientAuthMutations = {
+  loginPassword: (body: { email: string; password: string }) =>
+    api.post<PatientAuthResponse>('/api/v1/auth/patient/login', body, { skipAuth: true }),
+  requestMagicLink: (body: { email: string }) =>
+    api.post<void>('/api/v1/auth/patient/magic-link', body, { skipAuth: true }),
+  consumeMagicLink: (body: { token: string }) =>
+    api.post<PatientAuthResponse>('/api/v1/auth/patient/magic-link/consume', body, {
+      skipAuth: true,
+    }),
+  consumeInvite: (body: { token: string }) =>
+    api.post<PatientAuthResponse>('/api/v1/auth/patient/invite/consume', body, {
+      skipAuth: true,
+    }),
+};

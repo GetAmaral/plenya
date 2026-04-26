@@ -1,0 +1,16 @@
+appId: com.plenya.pro
+---
+# Configuração base — herdada por todos os flows.
+# Roda contra build de development apontando pra api-staging.
+#
+# Pré-requisitos:
+#   1. Usuário fixture criado no staging (ver scripts/seed-maestro.sql)
+#   2. expo-dev-client buildado e instalado no device
+#   3. Bundler rodando: pnpm --filter @plenya/mobile-pro start
+#
+# Execução local:
+#   maestro test apps/mobile-pro/maestro/01-login.yaml
+#
+# Execução em CI (Maestro Cloud):
+#   maestro cloud --apiKey $MAESTRO_API_KEY --branch $GITHUB_REF \
+#     --include-tags smoke apps/mobile-pro/maestro/

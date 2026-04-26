@@ -73,6 +73,27 @@ export const queryKeys = {
     staff: () => [...queryKeys.users.all(), 'staff'] as const,
     doctors: () => [...queryKeys.users.all(), 'doctors'] as const,
   },
+
+  // Endpoints da área do paciente logado (app paciente)
+  patientMe: {
+    all: () => [...queryKeys.all, 'patient-me'] as const,
+    profile: () => [...queryKeys.patientMe.all(), 'profile'] as const,
+    dashboard: () => [...queryKeys.patientMe.all(), 'dashboard'] as const,
+    appointments: () => [...queryKeys.patientMe.all(), 'appointments'] as const,
+    workoutPlans: () => [...queryKeys.patientMe.all(), 'workout-plans'] as const,
+    workoutPlanDetail: (id: string) =>
+      [...queryKeys.patientMe.workoutPlans(), id] as const,
+    workoutSessions: () => [...queryKeys.patientMe.all(), 'workout-sessions'] as const,
+    workoutSessionDetail: (id: string) =>
+      [...queryKeys.patientMe.workoutSessions(), id] as const,
+    checkIns: () => [...queryKeys.patientMe.all(), 'check-ins'] as const,
+    checkInToday: () => [...queryKeys.patientMe.checkIns(), 'today'] as const,
+    notificationPreferences: () =>
+      [...queryKeys.patientMe.all(), 'notification-preferences'] as const,
+    labBatches: () => [...queryKeys.patientMe.all(), 'lab-batches'] as const,
+    messages: () => [...queryKeys.patientMe.all(), 'messages'] as const,
+    scores: () => [...queryKeys.patientMe.all(), 'scores'] as const,
+  },
 } as const;
 
 export type QueryKeys = typeof queryKeys;
