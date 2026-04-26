@@ -14,7 +14,21 @@ export type {
   PatientScoreResult,
 } from './queryOptions/scoreGroups';
 export type { PatientSummary, PatientDetail } from './queryOptions/patients';
-export type { LeadSummary, LeadDetail, LeadActivity, LeadSource } from './queryOptions/leads';
+export type {
+  LeadSummary,
+  LeadDetail,
+  LeadActivity,
+  LeadSource,
+  LeadStatus,
+  LeadListParams,
+  LeadListResult,
+  LeadUpdateInput,
+} from './queryOptions/leads';
+export {
+  leadStatusLabels,
+  leadSourceLabels,
+} from './queryOptions/leads';
+export type { StaffUser } from './queryOptions/users';
 export type {
   ConversationItem,
   ConversationMessage,
@@ -63,6 +77,8 @@ export type {
   AppointmentStatus,
   AppointmentType,
   AppointmentListParams,
+  CreateAppointmentInput,
+  UpdateAppointmentInput,
 } from './queryOptions/appointments';
 export {
   appointmentTypeLabels,

@@ -1,11 +1,11 @@
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Link, useLocalSearchParams } from 'expo-router';
+import { Link, router, useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { options } from '@plenya/api-client';
-import { Card, CardHeader, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
+import { Button, Card, CardHeader, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { formatDate } from '@plenya/domain';
-import { useScreenCaptureProtection } from '../../../../lib/security/screenCapture';
+import { useScreenCaptureProtection } from '../../../../../lib/security/screenCapture';
 
 const STATUS_LABEL: Record<string, string> = {
   draft: 'Rascunho',
@@ -35,12 +35,21 @@ export default function WorkoutPlanDetailScreen() {
   return (
     <SafeAreaView className="flex-1 bg-background" edges={['bottom']}>
       <ScrollView contentContainerClassName="gap-3 p-4">
-        <View>
-          <Text variant="heading">{plan.name}</Text>
-          <Text variant="caption">
-            {STATUS_LABEL[plan.status] ?? plan.status} · iniciado em {formatDate(plan.startDate)}
-            {plan.endDate ? ` · término ${formatDate(plan.endDate)}` : ''}
-          </Text>
+        <View className="flex-row items-start justify-between gap-3">
+          <View className="flex-1">
+            <Text variant="heading">{plan.name}</Text>
+            <Text variant="caption">
+              {STATUS_LABEL[plan.status] ?? plan.status} · iniciado em {formatDate(plan.startDate)}
+              {plan.endDate ? ` · término ${formatDate(plan.endDate)}` : ''}
+            </Text>
+          </View>
+          <Button
+            variant="outline"
+            size="sm"
+            onPress={() => router.push(`/(tabs)/training/workout-plans/${planId}/edit` as never)}
+          >
+            Editar
+          </Button>
         </View>
 
         {plan.notes && (

@@ -6,6 +6,7 @@ export default function PatientsLayout() {
       <Stack.Screen name="index" options={{ title: 'Pacientes' }} />
       <Stack.Screen name="new" options={{ title: 'Novo paciente' }} />
       <Stack.Screen name="[id]/index" options={{ title: 'Paciente' }} />
+      <Stack.Screen name="[id]/edit" options={{ title: 'Editar paciente' }} />
       <Stack.Screen name="[id]/anamnesis/index" options={{ title: 'Anamnese' }} />
       <Stack.Screen name="[id]/anamnesis/new" options={{ title: 'Nova anamnese' }} />
       <Stack.Screen name="[id]/anamnesis/[anamnesisId]" options={{ title: 'Anamnese' }} />

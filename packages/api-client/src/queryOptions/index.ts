@@ -13,3 +13,4 @@ export * from './leads';
 export * from './conversations';
 export * from './notifications';
 export * from './appointments';
+export * from './users';

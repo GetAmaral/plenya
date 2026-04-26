@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { FlatList, Pressable, RefreshControl, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import {
   options,
@@ -10,7 +10,7 @@ import {
   type AppointmentStatus,
   type AppointmentType,
 } from '@plenya/api-client';
-import { Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
+import { Button, Card, EmptyState, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { formatDateTime } from '@plenya/domain';
 
 type RangeMode = 'today' | 'week';
@@ -80,6 +80,15 @@ export default function AgendaScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-background" edges={['bottom']}>
+      <View className="px-4 pt-3">
+        <Button
+          onPress={() => router.push('/(tabs)/agenda/new' as never)}
+          fullWidth
+          size="sm"
+        >
+          + Nova consulta
+        </Button>
+      </View>
       <View className="flex-row gap-2 p-4">
         <Pressable
           onPress={() => setMode('today')}

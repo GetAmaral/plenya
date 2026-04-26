@@ -3,7 +3,7 @@ import { Alert, ScrollView, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { options, queryKeys } from '@plenya/api-client';
+import { options, queryKeys, leadSourceLabels, leadStatusLabels } from '@plenya/api-client';
 import {
   Button,
   Card,
@@ -72,9 +72,10 @@ export default function LeadDetailScreen() {
   return (
     <SafeAreaView className="flex-1 bg-background" edges={['bottom']}>
       <ScrollView contentContainerClassName="gap-3 p-4">
-        <Text variant="heading">{l.name}</Text>
+        <Text variant="heading">{l.name ?? l.email ?? l.phone ?? 'Lead'}</Text>
         <Text variant="caption">
-          {l.source} · estágio {l.stage}
+          {leadSourceLabels[l.source] ?? l.source} ·{' '}
+          {leadStatusLabels[l.status] ?? l.status}
         </Text>
 
         <Card>

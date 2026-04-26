@@ -67,6 +67,12 @@ export const queryKeys = {
     byRange: (from: string, to: string) =>
       [...queryKeys.appointments.all(), 'range', from, to] as const,
   },
+
+  users: {
+    all: () => [...queryKeys.all, 'users'] as const,
+    staff: () => [...queryKeys.users.all(), 'staff'] as const,
+    doctors: () => [...queryKeys.users.all(), 'doctors'] as const,
+  },
 } as const;
 
 export type QueryKeys = typeof queryKeys;

@@ -1,9 +1,9 @@
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { options, queryKeys } from '@plenya/api-client';
-import { Card, CardHeader, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
+import { Button, Card, CardHeader, ErrorState, Spinner, Text } from '@plenya/ui-mobile';
 import { formatDate } from '@plenya/domain';
 import { useScreenCaptureProtection } from '../../../../lib/security/screenCapture';
 import { useRefresh } from '../../../../features/patients/usePatientRefresh';
@@ -61,11 +61,20 @@ export default function PatientOverviewScreen() {
         contentContainerClassName="gap-3 p-4"
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
-        <View>
-          <Text variant="heading">{p.name}</Text>
-          <Text variant="caption">
-            {p.birthDate ? `Nasc. ${formatDate(p.birthDate)}` : 'Data de nascimento não informada'}
-          </Text>
+        <View className="flex-row items-start justify-between gap-3">
+          <View className="flex-1">
+            <Text variant="heading">{p.name}</Text>
+            <Text variant="caption">
+              {p.birthDate ? `Nasc. ${formatDate(p.birthDate)}` : 'Data de nascimento não informada'}
+            </Text>
+          </View>
+          <Button
+            variant="outline"
+            size="sm"
+            onPress={() => router.push(`/(tabs)/patients/${patientId}/edit` as never)}
+          >
+            Editar
+          </Button>
         </View>
 
         <Card>

@@ -32,10 +32,6 @@ export const appointmentTypeDefaultDuration: Record<AppointmentType, number> = {
   results_review: 45,
 };
 
-/**
- * Reflete o model Go `Appointment` (Calendar V1).
- * Campos opcionais correspondem a *time.Time / *string nos models.
- */
 export interface Appointment {
   id: string;
   patientId: string;
@@ -74,10 +70,6 @@ export interface AppointmentListParams {
   offset?: number;
 }
 
-/**
- * Lista appointments. Backend não filtra por range — para Hoje/7-dias o
- * caller filtra client-side por scheduledAt usando o limit/offset alto.
- */
 export const appointmentsListOptions = (params: AppointmentListParams = {}) =>
   queryOptions({
     queryKey: [...queryKeys.appointments.all(), 'list', params] as const,
@@ -99,7 +91,29 @@ export const appointmentDetailOptions = (id: string) =>
     enabled: Boolean(id),
   });
 
+export interface CreateAppointmentInput {
+  patientId: string;
+  doctorId: string;
+  /** RFC3339 — ex: 2026-05-10T14:00:00-03:00 */
+  scheduledAt: string;
+  durationMinutes: number;
+  type: AppointmentType;
+  reason: string;
+  patientNotes?: string;
+}
+
+export interface UpdateAppointmentInput {
+  scheduledAt?: string;
+  status?: AppointmentStatus;
+  doctorNotes?: string;
+  diagnosis?: string;
+}
+
 export const appointmentMutations = {
+  create: (body: CreateAppointmentInput) =>
+    api.post<Appointment>('/api/v1/appointments', body),
+  update: (id: string, body: UpdateAppointmentInput) =>
+    api.put<Appointment>(`/api/v1/appointments/${id}`, body),
   confirm: (id: string) => api.post<void>(`/api/v1/appointments/${id}/confirm`),
   cancel: (id: string, body: { reason?: string } = {}) =>
     api.post<void>(`/api/v1/appointments/${id}/cancel`, body),
