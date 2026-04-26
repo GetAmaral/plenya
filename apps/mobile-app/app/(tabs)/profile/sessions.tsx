@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, View } from 'react-native';
+import { Alert, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { options, queryKeys } from '@plenya/api-client';
@@ -55,7 +55,20 @@ export default function SessionsScreen() {
                 </View>
                 {!s.current && (
                   <Pressable
-                    onPress={() => revoke.mutate(s.id)}
+                    onPress={() =>
+                      Alert.alert(
+                        'Revogar sessão',
+                        `Encerrar acesso de "${s.device || 'este dispositivo'}"?`,
+                        [
+                          { text: 'Cancelar', style: 'cancel' },
+                          {
+                            text: 'Revogar',
+                            style: 'destructive',
+                            onPress: () => revoke.mutate(s.id),
+                          },
+                        ],
+                      )
+                    }
                     disabled={revoke.isPending}
                     className="rounded-md bg-red-500 px-3 py-2"
                     accessibilityRole="button"

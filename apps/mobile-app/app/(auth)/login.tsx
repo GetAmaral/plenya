@@ -15,10 +15,15 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
-    if (!email || !password) return;
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !password) return;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      toast.show('Email inválido', 'error');
+      return;
+    }
     setLoading(true);
     try {
-      const res = await options.patientAuthMutations.loginPassword({ email, password });
+      const res = await options.patientAuthMutations.loginPassword({ email: cleanEmail, password });
       await setTokens(res.accessToken, res.refreshToken);
       setUser({
         id: res.user.id,

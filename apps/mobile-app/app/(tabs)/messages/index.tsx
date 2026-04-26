@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
-import { useCallback } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { options, queryKeys, type PatientMessage } from '@plenya/api-client';
 import {
@@ -90,7 +89,10 @@ export default function MessagesScreen() {
     }, []),
   );
 
-  const inverted = (messages.data ?? []).slice().reverse();
+  const inverted = useMemo(
+    () => (messages.data ?? []).slice().reverse(),
+    [messages.data],
+  );
 
   useEffect(() => {
     requestAnimationFrame(() =>

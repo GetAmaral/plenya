@@ -6,14 +6,25 @@ import { queryKeys } from '../queryKeys';
 // Types — espelham os DTOs do Go (PatientPortalService + PatientWorkoutsService)
 // =============================================================================
 
-export interface PatientMeProfile {
+// GET /patient/me retorna { userId, patient } — wrapped pelo handler
+// (handler: patient_portal_handler.go:629). `patient` é o models.Patient
+// inteiro serializado — listamos só os campos que as telas consomem.
+export interface PatientMePatient {
   id: string;
-  userId: string;
   name: string;
   email?: string;
   phone?: string;
+  address?: string;
+  municipality?: string;
+  state?: string;
+  emergencyPhone?: string;
   birthDate?: string;
   gender?: 'male' | 'female' | 'other';
+}
+
+export interface PatientMeResponse {
+  userId: string;
+  patient: PatientMePatient;
 }
 
 export interface PatientAppointment {
@@ -175,23 +186,38 @@ export interface PatientScoreEntry {
   groupResults: PatientScoreGroupResult[];
 }
 
+// Items do continuum — espelham models.PatientContinuumItem (apenas campos
+// que o handler retorna via Preload). Lista incompleta de propósito: TODO
+// expandir conforme telas precisarem.
 export interface PatientContinuumItem {
   id: string;
-  type: string;
-  status: string;
-  scheduledDate?: string;
-  completedDate?: string;
   title: string;
-  notes?: string;
+  description?: string;
+  status: string;
+  weekOffset?: number;
+  expectedDate?: string;
+  lateAfterDate?: string;
+  appointmentId?: string;
+  boxId?: string;
+  position?: number;
+  specialty?: string;
+}
+
+export interface PatientContinuumCoordinator {
+  id?: string;
+  name?: string;
 }
 
 export interface PatientContinuum {
   id: string;
   templateName: string;
+  status: string;
   startDate: string;
-  currentWeek?: number;
-  totalWeeks?: number;
+  endDate?: string;
+  integratedPlanMarkdown?: string;
+  integratedPlanUpdatedAt?: string;
   items: PatientContinuumItem[];
+  coordinatorDoctor?: PatientContinuumCoordinator;
 }
 
 export interface PatientMessage {
@@ -227,10 +253,41 @@ export interface NotificationPreferences {
 export const patientMeProfileOptions = () =>
   queryOptions({
     queryKey: queryKeys.patientMe.profile(),
-    queryFn: ({ signal }) =>
-      api.get<PatientMeProfile>('/api/v1/patient/me', { signal }),
+    queryFn: async ({ signal }) => {
+      // Handler retorna { userId, patient: { ... } } — desembrulha aqui pra
+      // expor um shape achatado nas telas (mantem compat com PatientMeProfile).
+      const res = await api.get<PatientMeResponse>('/api/v1/patient/me', { signal });
+      return {
+        userId: res.userId,
+        id: res.patient?.id ?? '',
+        name: res.patient?.name ?? '',
+        email: res.patient?.email,
+        phone: res.patient?.phone,
+        address: res.patient?.address,
+        municipality: res.patient?.municipality,
+        state: res.patient?.state,
+        emergencyPhone: res.patient?.emergencyPhone,
+        birthDate: res.patient?.birthDate,
+        gender: res.patient?.gender,
+      } satisfies PatientMeProfile;
+    },
     staleTime: 60_000,
   });
+
+// PatientMeProfile = shape achatado consumido pelas telas.
+export interface PatientMeProfile {
+  userId: string;
+  id: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  municipality?: string;
+  state?: string;
+  emergencyPhone?: string;
+  birthDate?: string;
+  gender?: 'male' | 'female' | 'other';
+}
 
 export const patientMeAppointmentsOptions = (rangeKind: 'upcoming' | 'past' = 'upcoming') =>
   queryOptions({
@@ -343,8 +400,14 @@ export const patientMeScoresOptions = () =>
 export const patientMeContinuumOptions = () =>
   queryOptions({
     queryKey: [...queryKeys.patientMe.all(), 'continuum'] as const,
-    queryFn: ({ signal }) =>
-      api.get<PatientContinuum | null>('/api/v1/patient/me/continuum', { signal }),
+    queryFn: async ({ signal }) => {
+      // Handler retorna { continuum: ... | null } — desembrulha.
+      const res = await api.get<{ continuum: PatientContinuum | null }>(
+        '/api/v1/patient/me/continuum',
+        { signal },
+      );
+      return res.continuum;
+    },
     staleTime: 60_000,
   });
 
@@ -451,7 +514,9 @@ export const patientMeMutations = {
   // Perfil
   updateProfile: (body: PatientMeProfileUpdate) =>
     api.put<void>('/api/v1/patient/me/profile', body),
-  setPassword: (body: { currentPassword?: string; newPassword: string }) =>
+  // Handler aceita só { password } — sem currentPassword (paciente acabou de
+  // entrar via magic-link/invite e está definindo senha).
+  setPassword: (body: { password: string }) =>
     api.post<void>('/api/v1/patient/me/password', body),
 
   // LGPD

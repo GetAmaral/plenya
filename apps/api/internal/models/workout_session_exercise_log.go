@@ -17,17 +17,17 @@ type WorkoutSessionExerciseLog struct {
 	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 
 	// Sessão de execução
-	SessionID uuid.UUID `gorm:"type:uuid;not null;index" json:"sessionId"`
+	SessionID uuid.UUID `gorm:"type:uuid;not null;index;uniqueIndex:uniq_session_exercise_set" json:"sessionId"`
 
 	// Exercício planejado (FK pro WorkoutSessionExercise template)
-	PlanExerciseID uuid.UUID `gorm:"type:uuid;not null;index" json:"planExerciseId"`
+	PlanExerciseID uuid.UUID `gorm:"type:uuid;not null;index;uniqueIndex:uniq_session_exercise_set" json:"planExerciseId"`
 
 	// Exercício real executado (FK pro Exercise — denormalizado pra histórico
 	// sobreviver remoção do plano)
 	ExerciseID uuid.UUID `gorm:"type:uuid;not null;index" json:"exerciseId"`
 
 	// Número do set (1-indexed)
-	SetNumber int `gorm:"type:int;not null" json:"setNumber" validate:"required,min=1,max=20"`
+	SetNumber int `gorm:"type:int;not null;uniqueIndex:uniq_session_exercise_set;check:set_number >= 1 AND set_number <= 20" json:"setNumber" validate:"required,min=1,max=20"`
 
 	// Repetições executadas (pode ser 0 quando é tempo)
 	Reps *int `gorm:"type:int" json:"reps,omitempty"`

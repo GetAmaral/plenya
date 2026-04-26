@@ -75,20 +75,14 @@ export default function HomeScreen() {
           </Card>
         </Pressable>
 
-        <Pressable
-          onPress={() =>
-            nextAppt
-              ? router.push(`/appointments/${nextAppt.id}` as never)
-              : null
-          }
-        >
-          <Card>
-            <CardHeader>
-              <Text variant="title">Próxima consulta</Text>
-            </CardHeader>
-            {appts.isLoading ? (
-              <Spinner />
-            ) : nextAppt ? (
+        {nextAppt ? (
+          <Pressable
+            onPress={() => router.push(`/appointments/${nextAppt.id}` as never)}
+          >
+            <Card>
+              <CardHeader>
+                <Text variant="title">Próxima consulta</Text>
+              </CardHeader>
               <View>
                 <Text variant="body">
                   {nextAppt.doctorName || 'Profissional'} ·{' '}
@@ -101,6 +95,15 @@ export default function HomeScreen() {
                   </Text>
                 )}
               </View>
+            </Card>
+          </Pressable>
+        ) : (
+          <Card>
+            <CardHeader>
+              <Text variant="title">Próxima consulta</Text>
+            </CardHeader>
+            {appts.isLoading ? (
+              <Spinner />
             ) : (
               <EmptyState
                 title="Sem consultas marcadas"
@@ -108,7 +111,7 @@ export default function HomeScreen() {
               />
             )}
           </Card>
-        </Pressable>
+        )}
 
         {lastScore && (
           <Pressable onPress={() => router.push('/(tabs)/exams' as never)}>
@@ -147,16 +150,14 @@ export default function HomeScreen() {
               <Text variant="title">Sua jornada</Text>
             </CardHeader>
             <Text variant="caption" className="mb-2">
-              {continuum.data.templateName}
-              {continuum.data.currentWeek && continuum.data.totalWeeks
-                ? ` · semana ${continuum.data.currentWeek}/${continuum.data.totalWeeks}`
-                : ''}
+              {continuum.data.templateName} · {continuum.data.status}
             </Text>
             {continuum.data.items.slice(0, 3).map((it) => (
               <View key={it.id} className="border-l-2 border-primary pl-3 py-1">
                 <Text variant="body">{it.title}</Text>
                 <Text variant="caption">
-                  {it.status} {it.scheduledDate ? `· ${formatDate(it.scheduledDate)}` : ''}
+                  {it.status}
+                  {it.expectedDate ? ` · ${formatDate(it.expectedDate)}` : ''}
                 </Text>
               </View>
             ))}

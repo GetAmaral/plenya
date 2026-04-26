@@ -108,7 +108,7 @@ func (j *WorkoutReminderJob) Run() error {
 		err := j.push.Send(p.UserID, services.PushPayload{
 			Title: "Hora do treino 💪",
 			Body:  "Bora? Toca pra abrir seu plano.",
-			URL:   "/treino",
+			URL:   "/(tabs)/training",
 			Data:  map[string]any{"kind": "workout_reminder"},
 		})
 		if err != nil {

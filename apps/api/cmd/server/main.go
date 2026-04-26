@@ -507,7 +507,9 @@ func setupRoutes(
 	patients.Post("/:id/portal-invite", portalInviteRoles, patientPortalHandler.CreateInvite)
 
 	// Check-ins de bem-estar — leitura staff pra continuum
-	patients.Get("/:id/check-ins", patientPortalHandler.StaffListCheckIns)
+	patients.Get("/:id/check-ins",
+		middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse, models.RoleNutritionist, models.RolePsychologist, models.RolePhysicalEducator),
+		patientPortalHandler.StaffListCheckIns)
 
 	// Documentos clínicos (V2): staff faz upload, paciente baixa pelo portal
 	patients.Get("/:id/documents", patientPortalHandler.StaffListDocuments)

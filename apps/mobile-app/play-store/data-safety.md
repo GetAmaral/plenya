@@ -1,4 +1,4 @@
-# Plenya Pro — Google Play Data Safety form
+# Plenya (paciente) — Google Play Data Safety form
 
 Estes valores devem ser preenchidos no formulário **App content → Data safety**
 do Play Console. Não há um arquivo manifesto auto-importável (Google ainda
@@ -6,16 +6,17 @@ não publicou um); este arquivo é a fonte da verdade do que declaramos.
 
 ## Visão geral
 
-- O app **coleta** dados pessoais (necessário para funcionamento como EMR).
+- O app **coleta** dados pessoais e de saúde do próprio paciente.
 - O app **NÃO compartilha** dados com terceiros para advertising/marketing.
 - O app **NÃO vende** dados pessoais.
 - **Toda** a coleta acontece sob consentimento explícito (termo LGPD aceito
-  no primeiro login do device, registrado em `/api/v1/me/consent/lgpd`).
+  no primeiro login do device).
 - Dados são criptografados em trânsito (HTTPS + cert pinning).
 - Dados sensíveis em repouso no device são criptografados (MMKV com chave
   derivada do Keychain/Keystore).
-- Usuário pode solicitar exclusão de dados via `/api/v1/me/sessions` e
-  pelo perfil web (LGPD Art. 18, V).
+- Usuário pode exportar todos os seus dados (LGPD Art. 18, II) em
+  `/perfil → Privacidade → Exportar` e solicitar exclusão pelo mesmo caminho
+  (LGPD Art. 18, V).
 
 ## Tipos de dados coletados
 
@@ -24,21 +25,31 @@ não publicou um); este arquivo é a fonte da verdade do que declaramos.
   Propósito: App functionality.
 - **Email address** — coletado, vinculado, não tracking.
   Propósito: App functionality, Account management.
+- **Phone number** — coletado, vinculado, não tracking.
+  Propósito: App functionality (contato com a clínica).
+- **Address** — opcional, vinculado, não tracking.
+  Propósito: App functionality.
 - **User IDs** — coletado, vinculado, não tracking.
   Propósito: App functionality.
 
 ### Health and fitness
 - **Health info** — coletado, vinculado, não tracking.
-  Inclui: anamnese clínica, escores de saúde, prescrições, resultados
-  de exames, avaliações físicas, planos de treino prescritos pelo
-  profissional.
+  Inclui: anamnese, escores Plenya, resultados de exames, prescrições,
+  avaliações físicas, check-ins diários (energia, dor, humor, sono,
+  estresse, notas) preenchidos pelo paciente, log de execução de treinos
+  (séries, repetições, peso, RPE).
+  Propósito: App functionality.
+- **Fitness info** — coletado, vinculado, não tracking.
+  Propósito: App functionality.
+
+### Messages
+- **Other in-app messages** — coletado, vinculado, não tracking.
+  Inclui: thread de mensagens com a clínica.
   Propósito: App functionality.
 
 ### Photos and videos
-- **Photos** — coletado, vinculado, não tracking.
-  Inclui: fotos de avaliação postural, composição corporal e anexos
-  de prontuário tiradas pelo profissional.
-  Propósito: App functionality.
+- **Photos** — opcional (avatar de perfil), vinculado, não tracking.
+  Acesso somente à biblioteca (sem câmera). Propósito: App functionality.
 
 ### App activity
 - **App interactions** — coletado, NÃO vinculado a identidade,
@@ -56,7 +67,7 @@ não publicou um); este arquivo é a fonte da verdade do que declaramos.
 ### Device or other IDs
 - **Device or other IDs** — coletado, vinculado, não tracking.
   Inclui: Expo push token (registrado em `/me/device-tokens`).
-  Propósito: App functionality.
+  Propósito: App functionality (lembretes de consulta, mensagens, treino).
 
 ## Práticas de segurança
 
@@ -65,14 +76,17 @@ não publicou um); este arquivo é a fonte da verdade do que declaramos.
 - Dados em repouso (servidor): CPF/RG criptografados AES-256-GCM, audit
   logs imutáveis com retenção de 5 anos.
 - Dados em repouso (device): MMKV criptografado, tokens em Android Keystore.
-- Dados podem ser deletados a pedido: sim, via perfil web e via solicitação
-  para suporte@plenyasaude.com.br (LGPD Art. 18, V; resposta em até 15 dias).
-- Compromisso com guidelines da família: não aplicável (app profissional).
+- Dados podem ser deletados a pedido: sim, via app
+  (`Perfil → Privacidade → Solicitar exclusão`) e por suporte@plenyasaude.com.br
+  (LGPD Art. 18, V; resposta em até 15 dias úteis).
+- Compromisso com guidelines da família: aplicável (app de saúde para uso
+  pessoal de adultos; menores acessam mediante responsável legal cadastrado
+  na clínica).
 
 ## Categoria do Play Store
 
-- **Categoria primária:** Medical
-- **Audiência:** apenas adultos profissionais de saúde (autenticação obrigatória)
+- **Categoria primária:** Health & Fitness
+- **Audiência:** adultos com vínculo a uma clínica Plenya (login obrigatório)
 
 ## Ground truth
 

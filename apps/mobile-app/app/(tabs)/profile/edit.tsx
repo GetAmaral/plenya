@@ -19,6 +19,8 @@ export default function EditProfileScreen() {
     if (!profile.data) return;
     setPhone(profile.data.phone ?? '');
     setEmail(profile.data.email ?? '');
+    setAddress(profile.data.address ?? '');
+    setEmergencyPhone(profile.data.emergencyPhone ?? '');
   }, [profile.data]);
 
   const save = useMutation({

@@ -97,7 +97,7 @@ func (j *AppointmentPushReminderJob) Run() error {
 		if err := j.push.Send(userID, services.PushPayload{
 			Title: "Lembrete de consulta",
 			Body:  body,
-			URL:   "/agenda/" + r.ID,
+			URL:   "/appointments/" + r.ID,
 			Data:  map[string]any{"appointmentId": r.ID, "kind": "appointment_reminder_1h"},
 		}); err != nil {
 			log.Printf("⚠️  [PUSH REMINDER 1h] apt=%s: %v", r.ID, err)
@@ -112,10 +112,12 @@ func (j *AppointmentPushReminderJob) Run() error {
 }
 
 func (j *AppointmentPushReminderJob) markSent(ctx context.Context, id string, t time.Time) {
-	_ = j.db.WithContext(ctx).
+	if err := j.db.WithContext(ctx).
 		Model(&models.Appointment{}).
 		Where("id = ?", id).
-		Update("push_reminder_1h_sent_at", t).Error
+		Update("push_reminder_1h_sent_at", t).Error; err != nil {
+		log.Printf("⚠️  [PUSH REMINDER 1h] markSent apt=%s: %v", id, err)
+	}
 }
 
 func (j *AppointmentPushReminderJob) Start() {

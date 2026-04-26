@@ -21,8 +21,12 @@ export default function LgpdScreen() {
 
   const exportData = useMutation({
     mutationFn: async () => {
+      const baseDir = FileSystem.documentDirectory;
+      if (!baseDir) {
+        throw new Error('Armazenamento local indisponível.');
+      }
       const data = await api.get<unknown>('/api/v1/patient/me/lgpd/export');
-      const path = `${FileSystem.documentDirectory}plenya-meus-dados.json`;
+      const path = `${baseDir}plenya-meus-dados.json`;
       await FileSystem.writeAsStringAsync(path, JSON.stringify(data, null, 2), {
         encoding: FileSystem.EncodingType.UTF8,
       });

@@ -33,7 +33,7 @@ export default function LGPDConsentScreen() {
       <ScrollView contentContainerClassName="gap-4 p-6">
         <Text variant="heading">Termo de uso e LGPD</Text>
         <Text variant="caption">
-          Antes de acessar dados clínicos no Plenya Pro, precisamos do seu aceite.
+          Antes de acessar seus dados de saúde no Plenya, precisamos do seu aceite.
         </Text>
 
         <Card>
@@ -41,12 +41,12 @@ export default function LGPDConsentScreen() {
             Como tratamos seus dados
           </Text>
           <Text variant="body" className="mb-2">
-            • Dados de pacientes são acessados apenas no contexto do seu trabalho profissional, com
-            audit log de cada operação.
+            • Seus dados de saúde são acessíveis apenas para você e a equipe da clínica
+            que cuida de você, com audit log de cada operação.
           </Text>
           <Text variant="body" className="mb-2">
-            • CPF e RG são criptografados em repouso (AES-256). Nunca expomos esses campos no app
-            sem permissão explícita.
+            • CPF e RG são criptografados em repouso (AES-256). Nunca expomos esses campos
+            no app sem necessidade.
           </Text>
           <Text variant="body" className="mb-2">
             • Tokens de acesso ficam no Keychain/Keystore do device. Cache local é criptografado

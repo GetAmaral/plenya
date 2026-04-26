@@ -50,7 +50,13 @@
         {
           "action": "VIEW",
           "autoVerify": true,
-          "data": [{ "scheme": "https", "host": "app.plenyasaude.com.br" }],
+          "data": [
+            {
+              "scheme": "https",
+              "host": "app.plenyasaude.com.br",
+              "pathPrefix": "/consume-link"
+            }
+          ],
           "category": ["BROWSABLE", "DEFAULT"]
         }
       ]

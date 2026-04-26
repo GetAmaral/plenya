@@ -8,16 +8,12 @@ import { Button, FormField, Input, Text, useToast } from '@plenya/ui-mobile';
 
 export default function PasswordScreen() {
   const toast = useToast();
-  const [current, setCurrent] = useState('');
   const [next, setNext] = useState('');
   const [confirm, setConfirm] = useState('');
 
   const save = useMutation({
     mutationFn: () =>
-      options.patientMeMutations.setPassword({
-        currentPassword: current || undefined,
-        newPassword: next,
-      }),
+      options.patientMeMutations.setPassword({ password: next }),
     onSuccess: () => {
       toast.show('Senha atualizada', 'success');
       router.back();
@@ -46,18 +42,9 @@ export default function PasswordScreen() {
       >
         <ScrollView contentContainerClassName="gap-4 p-4">
           <Text variant="caption">
-            Se você entrou via link mágico e nunca definiu uma senha, deixe a
-            atual em branco.
+            Defina ou redefina sua senha de acesso. Mínimo 8 caracteres.
           </Text>
 
-          <FormField label="Senha atual (opcional)">
-            <Input
-              value={current}
-              onChangeText={setCurrent}
-              secureTextEntry
-              textContentType="password"
-            />
-          </FormField>
           <FormField label="Nova senha" required>
             <Input
               value={next}

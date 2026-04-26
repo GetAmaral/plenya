@@ -1,10 +1,9 @@
 package services
 
 import (
-	"errors"
-
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"github.com/plenya/api/internal/models"
 )
@@ -21,23 +20,23 @@ func NewNotificationPreferencesService(db *gorm.DB) *NotificationPreferencesServ
 
 // Get devolve as prefs (ou cria com defaults se não existirem).
 // Default = todos os toggles em true, lembrete às 07:00.
+//
+// Race-safe: usa ON CONFLICT DO NOTHING + re-First pra cobrir o caso em que
+// dois callers simultâneos (cron + PATCH) viram o registro inexistente ao
+// mesmo tempo.
 func (s *NotificationPreferencesService) Get(userID uuid.UUID) (*models.NotificationPreferences, error) {
-	var prefs models.NotificationPreferences
-	err := s.db.Where("user_id = ?", userID).First(&prefs).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		prefs = models.NotificationPreferences{
-			UserID:              userID,
-			AppointmentReminder: true,
-			MessageAlert:        true,
-			WorkoutReminder:     true,
-			WorkoutReminderTime: "07:00",
-		}
-		if err := s.db.Create(&prefs).Error; err != nil {
-			return nil, err
-		}
-		return &prefs, nil
+	defaults := models.NotificationPreferences{
+		UserID:              userID,
+		AppointmentReminder: true,
+		MessageAlert:        true,
+		WorkoutReminder:     true,
+		WorkoutReminderTime: "07:00",
 	}
-	if err != nil {
+	if err := s.db.Clauses(clause.OnConflict{DoNothing: true}).Create(&defaults).Error; err != nil {
+		return nil, err
+	}
+	var prefs models.NotificationPreferences
+	if err := s.db.Where("user_id = ?", userID).First(&prefs).Error; err != nil {
 		return nil, err
 	}
 	return &prefs, nil

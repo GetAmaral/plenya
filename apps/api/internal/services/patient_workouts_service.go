@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"github.com/plenya/api/internal/models"
 )
@@ -128,35 +129,13 @@ type LogSetInput struct {
 	Notes          *string   `json:"notes,omitempty"`
 }
 
-// LogSet adiciona/substitui o registro de UM set numa session existente
-// (ON CONFLICT(session_id, plan_exercise_id, set_number) DO UPDATE).
-// Usa upsert pra suportar paciente corrigir set já marcado.
+// LogSet adiciona/substitui o registro de UM set numa session existente.
+// Race-safe via UNIQUE INDEX (session_id, plan_exercise_id, set_number) +
+// ON CONFLICT DO UPDATE — dois clicks simultâneos não geram duplicata.
 func (s *PatientWorkoutsService) LogSet(patientID, sessionID uuid.UUID, in LogSetInput) (*models.WorkoutSessionExerciseLog, error) {
-	// Confirma que a session é do paciente
 	var sess models.WorkoutSession
 	if err := s.db.Where("id = ? AND patient_id = ?", sessionID, patientID).First(&sess).Error; err != nil {
 		return nil, errors.New("sessão não encontrada")
-	}
-
-	// Procura log existente
-	var existing models.WorkoutSessionExerciseLog
-	err := s.db.Where("session_id = ? AND plan_exercise_id = ? AND set_number = ?",
-		sessionID, in.PlanExerciseID, in.SetNumber).First(&existing).Error
-
-	if err == nil {
-		// Update
-		existing.Reps = in.Reps
-		existing.Weight = in.Weight
-		existing.DurationSec = in.DurationSec
-		existing.RPE = in.RPE
-		existing.Notes = in.Notes
-		if err := s.db.Save(&existing).Error; err != nil {
-			return nil, err
-		}
-		return &existing, nil
-	}
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, err
 	}
 
 	log := &models.WorkoutSessionExerciseLog{
@@ -170,10 +149,27 @@ func (s *PatientWorkoutsService) LogSet(patientID, sessionID uuid.UUID, in LogSe
 		RPE:            in.RPE,
 		Notes:          in.Notes,
 	}
-	if err := s.db.Create(log).Error; err != nil {
+	err := s.db.Clauses(clause.OnConflict{
+		Columns: []clause.Column{
+			{Name: "session_id"}, {Name: "plan_exercise_id"}, {Name: "set_number"},
+		},
+		DoUpdates: clause.AssignmentColumns([]string{
+			"reps", "weight", "duration_sec", "rpe", "notes", "updated_at",
+		}),
+	}).Create(log).Error
+	if err != nil {
 		return nil, err
 	}
-	return log, nil
+	// log.ID pode ter sido reescrito pelo ON CONFLICT — recarrega pra garantir
+	// que devolvemos a row existente (com ID original).
+	var out models.WorkoutSessionExerciseLog
+	if err := s.db.Where(
+		"session_id = ? AND plan_exercise_id = ? AND set_number = ?",
+		sessionID, in.PlanExerciseID, in.SetNumber,
+	).First(&out).Error; err != nil {
+		return nil, err
+	}
+	return &out, nil
 }
 
 // CompleteSession marca CompletedAt e aceita notas finais opcionais.
