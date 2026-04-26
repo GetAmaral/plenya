@@ -1,0 +1,34 @@
+appId: com.plenya.app
+tags:
+  - smoke
+  - check-in
+---
+# Smoke: home → check-in → preencher 5 escalas → registrar → toast sucesso.
+# Pré-requisito: 01-login.yaml já rodado (sessão válida).
+
+- launchApp
+
+- assertVisible: 'Início'
+
+- tapOn: 'Como você está hoje?'
+- assertVisible: 'Energia'
+
+# Energia 4
+- tapOn: '4'
+# Dor 0 (botão "0" da escala de dor)
+- tapOn: '0'
+# Humor 4
+- tapOn:
+    text: '4'
+    index: 1
+# Sono já vem com "7" pré-preenchido — pula
+# Qualidade do sono 4
+- tapOn:
+    text: '4'
+    index: 2
+# Estresse 2
+- tapOn: '2'
+
+- tapOn: 'Registrar check-in'
+
+- assertVisible: 'Check-in registrado!'

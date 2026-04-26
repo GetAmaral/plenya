@@ -116,4 +116,6 @@ export type {
   PatientScoreGroupResult,
   PatientContinuum,
   PatientContinuumItem,
+  PatientMessage,
+  PatientMeProfileUpdate,
 } from './queryOptions/patientMe';

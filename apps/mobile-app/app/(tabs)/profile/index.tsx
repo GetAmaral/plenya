@@ -6,6 +6,17 @@ import { options } from '@plenya/api-client';
 import { Button, Card, CardHeader, Spinner, Text } from '@plenya/ui-mobile';
 import { useLogout } from '../../../features/auth/useLogout';
 
+function Row({ title, subtitle, onPress }: { title: string; subtitle?: string; onPress: () => void }) {
+  return (
+    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={title}>
+      <Card>
+        <Text variant="title">{title}</Text>
+        {subtitle && <Text variant="caption">{subtitle}</Text>}
+      </Card>
+    </Pressable>
+  );
+}
+
 export default function ProfileScreen() {
   const profile = useQuery(options.patientMeProfileOptions());
   const logout = useLogout();
@@ -23,22 +34,31 @@ export default function ProfileScreen() {
           {profile.data?.phone && <Text variant="caption">{profile.data.phone}</Text>}
         </Card>
 
-        <Pressable
+        <Row
+          title="Editar dados"
+          subtitle="Telefone, email, endereço, contato de emergência"
+          onPress={() => router.push('/(tabs)/profile/edit' as never)}
+        />
+        <Row
+          title="Trocar senha"
+          subtitle="Definir uma nova senha de acesso"
+          onPress={() => router.push('/(tabs)/profile/password' as never)}
+        />
+        <Row
+          title="Sessões ativas"
+          subtitle="Dispositivos conectados à sua conta"
+          onPress={() => router.push('/(tabs)/profile/sessions' as never)}
+        />
+        <Row
+          title="Notificações"
+          subtitle="Lembretes de consulta, mensagens e treino"
           onPress={() => router.push('/(tabs)/profile/notifications' as never)}
-          accessibilityRole="button"
-          accessibilityLabel="Configurar notificações"
-        >
-          <Card>
-            <Text variant="title">Notificações</Text>
-            <Text variant="caption">
-              Lembrete de consulta, mensagens e treino — escolha o que receber.
-            </Text>
-          </Card>
-        </Pressable>
-
-        <Text variant="caption" className="italic">
-          Avatar, senha, 2FA, sessões ativas, export LGPD e delete chegam na Sprint 4.
-        </Text>
+        />
+        <Row
+          title="Privacidade (LGPD)"
+          subtitle="Exportar seus dados ou solicitar exclusão"
+          onPress={() => router.push('/(tabs)/profile/lgpd' as never)}
+        />
 
         <View className="mt-4">
           <Button onPress={logout} variant="outline" fullWidth>

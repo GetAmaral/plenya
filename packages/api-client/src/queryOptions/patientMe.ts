@@ -194,6 +194,24 @@ export interface PatientContinuum {
   items: PatientContinuumItem[];
 }
 
+export interface PatientMessage {
+  id: string;
+  createdAt: string;
+  from: 'patient' | 'team';
+  authorName?: string;
+  channel: string;
+  content: string;
+}
+
+export interface PatientMeProfileUpdate {
+  phone?: string;
+  email?: string;
+  address?: string;
+  municipality?: string;
+  state?: string;
+  emergencyPhone?: string;
+}
+
 export interface NotificationPreferences {
   userId: string;
   appointmentReminder: boolean;
@@ -330,6 +348,24 @@ export const patientMeContinuumOptions = () =>
     staleTime: 60_000,
   });
 
+export const patientMeMessagesOptions = () =>
+  queryOptions({
+    queryKey: queryKeys.patientMe.messages(),
+    queryFn: ({ signal }) =>
+      api.get<PatientMessage[]>('/api/v1/patient/me/messages', { signal }),
+    staleTime: 15_000,
+  });
+
+export const patientMeMessagesUnreadOptions = () =>
+  queryOptions({
+    queryKey: [...queryKeys.patientMe.messages(), 'unread'] as const,
+    queryFn: ({ signal }) =>
+      api.get<{ unread: number }>('/api/v1/patient/me/messages/unread-count', {
+        signal,
+      }),
+    refetchInterval: 30_000,
+  });
+
 export const patientMeAppointmentOptions = (id: string) =>
   queryOptions({
     queryKey: [...queryKeys.patientMe.appointments(), id] as const,
@@ -406,4 +442,23 @@ export const patientMeMutations = {
       '/api/v1/patient/me/notification-preferences',
       body,
     ),
+
+  // Mensagens
+  sendMessage: (body: { content: string }) =>
+    api.post<PatientMessage>('/api/v1/patient/me/messages', body),
+  markMessagesRead: () => api.post<void>('/api/v1/patient/me/messages/read'),
+
+  // Perfil
+  updateProfile: (body: PatientMeProfileUpdate) =>
+    api.put<void>('/api/v1/patient/me/profile', body),
+  setPassword: (body: { currentPassword?: string; newPassword: string }) =>
+    api.post<void>('/api/v1/patient/me/password', body),
+
+  // LGPD
+  lgpdRequestDelete: (body: { reason?: string } = {}) =>
+    api.post<void>('/api/v1/patient/me/lgpd/account-delete-request', body),
 };
+
+// LGPD export retorna JSON arbitrário — usar fetch direto (resposta não-cacheada
+// por design, é um download pontual). Endpoint: GET /api/v1/patient/me/lgpd/export.
+

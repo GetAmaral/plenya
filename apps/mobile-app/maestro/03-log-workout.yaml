@@ -1,0 +1,37 @@
+appId: com.plenya.app
+tags:
+  - smoke
+  - workout
+---
+# Smoke: treino → abrir plano → iniciar sessão → logar 1 set → finalizar.
+# Pré-requisito: paciente fixture tem ao menos 1 plano ativo com 1 sessão e 1 exercício.
+
+- launchApp
+
+- tapOn:
+    text: 'Treino'
+
+# Espera planos carregarem
+- assertVisible:
+    text: 'Planos ativos'
+
+# Abre primeiro card de plano
+- tapOn:
+    point: '50%,55%'
+
+- assertVisible: 'Sessões'
+- tapOn: 'Iniciar'
+
+- assertVisible: 'Sessão'
+- assertVisible: 'Set 1'
+
+# Reps 10, peso 20
+- tapOn:
+    point: '50%,40%'  # campo Reps
+- inputText: '10'
+
+- tapOn: 'Salvar set'
+- assertVisible: '✓ salvo'
+
+- tapOn: 'Finalizar treino'
+- assertVisible: 'Treino concluído!'

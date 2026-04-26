@@ -23,7 +23,7 @@ export default function TabsLayout() {
   usePushNotificationRouter();
 
   const unread = useQuery({
-    ...options.unreadCountOptions(),
+    ...options.patientMeMessagesUnreadOptions(),
     enabled: Boolean(accessToken && biometricUnlocked),
   });
 
@@ -38,10 +38,9 @@ export default function TabsLayout() {
   if (!accessToken) return <Redirect href="/(auth)/login" />;
   if (!biometricUnlocked) return <Redirect href="/(auth)/biometric-unlock" />;
 
+  const unreadCount = unread.data?.unread ?? 0;
   const unreadBadge =
-    unread.data?.count && unread.data.count > 0
-      ? String(unread.data.count > 99 ? '99+' : unread.data.count)
-      : undefined;
+    unreadCount > 0 ? String(unreadCount > 99 ? '99+' : unreadCount) : undefined;
 
   return (
     <Tabs
