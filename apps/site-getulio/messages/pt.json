@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "sobre": "Sobre",
+    "livro": "Livro",
+    "palestras": "Palestras",
+    "ensino": "Ensino",
+    "ondeAtendo": "Onde atendo",
+    "escritos": "Escritos",
+    "contato": "Contato"
+  },
+  "footer": {
+    "responsavel": "Dr. Getúlio José Mattos do Amaral Filho · CRM-PR 21.876 · RQE 16.038",
+    "responsavelTecnico": "Responsável técnico — DaVita Intra Hospitalar de Londrina",
+    "local": "Londrina · Paraná · Brasil"
+  }
+}

@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-paper text-ink font-sans;
+    font-feature-settings: 'kern', 'liga', 'calt';
+  }
+  ::selection {
+    background-color: #6b1f2a;
+    color: #f5f1e8;
+  }
+}
+
+@layer components {
+  /* Container editorial — narrow + generoso */
+  .editorial-container {
+    @apply mx-auto w-full px-6 md:px-10;
+    max-width: 1180px;
+  }
+  .editorial-narrow {
+    @apply mx-auto w-full px-6 md:px-10;
+    max-width: 760px;
+  }
+
+  /* Tipografia editorial */
+  .heading-display {
+    @apply font-serif font-light text-ink;
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+  }
+  .heading-section {
+    @apply font-serif font-light text-ink;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .label-meta {
+    @apply font-sans uppercase tracking-widest text-xs text-ink-muted;
+  }
+  .prose-body {
+    @apply font-serif text-ink-soft;
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+  .prose-body p + p {
+    margin-top: 1.4em;
+  }
+
+  /* Link texto editorial — sublinha em hover, sem botão */
+  .link-text {
+    @apply text-ink underline-offset-4 decoration-bordo/40 hover:underline transition-all;
+  }
+  .link-text-light {
+    @apply text-paper underline-offset-4 decoration-paper/40 hover:underline transition-all;
+  }
+
+  /* Divisor fino bordô */
+  .rule-bordo {
+    @apply h-px w-full bg-bordo/30;
+  }
+}
