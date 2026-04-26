@@ -40,7 +40,6 @@ type PatientPortalHandler struct {
 	scores       *services.PatientScoresService
 	profile      *services.PatientProfileService
 	documents    *services.PatientDocumentsService
-	family       *services.FamilyAccessService
 	notification *services.NotificationService
 }
 
@@ -54,7 +53,6 @@ func NewPatientPortalHandler(
 	scores *services.PatientScoresService,
 	profile *services.PatientProfileService,
 	documents *services.PatientDocumentsService,
-	family *services.FamilyAccessService,
 	notification *services.NotificationService,
 ) *PatientPortalHandler {
 	return &PatientPortalHandler{
@@ -67,98 +65,8 @@ func NewPatientPortalHandler(
 		scores:       scores,
 		profile:      profile,
 		documents:    documents,
-		family:       family,
 		notification: notification,
 	}
-}
-
-// ============================================================
-// Compartilhamento familiar (V2)
-// ============================================================
-
-type createFamilyInviteBody struct {
-	GranteeEmail string                       `json:"granteeEmail"`
-	GranteeLabel string                       `json:"granteeLabel"`
-	Scope        models.FamilyAccessScope     `json:"scope"`
-}
-
-func (h *PatientPortalHandler) ListFamilyGrants(c *fiber.Ctx) error {
-	rows, err := h.family.List(middleware.GetPatientID(c))
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-	}
-	return c.JSON(rows)
-}
-
-func (h *PatientPortalHandler) CreateFamilyInvite(c *fiber.Ctx) error {
-	var body createFamilyInviteBody
-	if err := c.BodyParser(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid body"})
-	}
-	g, err := h.family.CreateInvite(services.CreateFamilyInviteInput{
-		PatientID:    middleware.GetPatientID(c),
-		GranteeEmail: body.GranteeEmail,
-		GranteeLabel: body.GranteeLabel,
-		Scope:        body.Scope,
-	})
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
-	}
-	return c.Status(fiber.StatusCreated).JSON(g)
-}
-
-type updateScopeBody struct {
-	Scope models.FamilyAccessScope `json:"scope"`
-}
-
-func (h *PatientPortalHandler) UpdateFamilyScope(c *fiber.Ctx) error {
-	id, err := uuid.Parse(c.Params("id"))
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
-	}
-	var body updateScopeBody
-	if err := c.BodyParser(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid body"})
-	}
-	if err := h.family.UpdateScope(middleware.GetPatientID(c), id, body.Scope); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
-	}
-	return c.SendStatus(fiber.StatusNoContent)
-}
-
-func (h *PatientPortalHandler) RevokeFamilyGrant(c *fiber.Ctx) error {
-	id, err := uuid.Parse(c.Params("id"))
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid id"})
-	}
-	if err := h.family.Revoke(middleware.GetPatientID(c), id); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
-	}
-	return c.SendStatus(fiber.StatusNoContent)
-}
-
-type consumeFamilyBody struct {
-	Token string `json:"token"`
-}
-
-func (h *PatientPortalHandler) ConsumeFamilyInvite(c *fiber.Ctx) error {
-	var body consumeFamilyBody
-	if err := c.BodyParser(&body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid body"})
-	}
-	g, err := h.family.ConsumeInvite(body.Token, middleware.GetUserID(c))
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
-	}
-	return c.JSON(g)
-}
-
-func (h *PatientPortalHandler) ListGrantedToMe(c *fiber.Ctx) error {
-	rows, err := h.family.ListGrantedToMe(middleware.GetUserID(c))
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-	}
-	return c.JSON(rows)
 }
 
 // ListDocuments GET /api/v1/patient/me/documents

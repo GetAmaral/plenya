@@ -25,7 +25,6 @@ import {
   ChevronRight,
   Package,
   FileText,
-  Users,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -43,7 +42,6 @@ const items: Item[] = [
   { name: "Mensagens", href: "/mensagens", icon: MessageSquare },
   { name: "Boxes", href: "/boxes", icon: Package },
   { name: "Documentos", href: "/documentos", icon: FileText },
-  { name: "Família", href: "/familia", icon: Users },
   { name: "Perfil", href: "/perfil", icon: UserIcon },
 ];
 

@@ -307,10 +307,14 @@ func setupRoutes(
 	patientScoresService := services.NewPatientScoresService(database.DB)
 	patientProfileService := services.NewPatientProfileService(database.DB)
 	patientDocumentsService := services.NewPatientDocumentsService(database.DB, "/app/uploads")
-	familyAccessService := services.NewFamilyAccessService(database.DB, cfg, emailService)
 	telemedLobbyService := services.NewTelemedLobbyService(database.DB, cfg)
 	telemedLobbyHandler := handlers.NewTelemedLobbyHandler(telemedLobbyService)
-	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService, patientScoresService, patientProfileService, patientDocumentsService, familyAccessService, notificationService)
+
+	// Plugar lobby no AppointmentService — quando appointment de telemedicina
+	// é criado, AppointmentService.createDailyRoom também ensure-token gera o
+	// token público pra link /sala/[token] dos emails/WA.
+	appointmentService.WithTelemedLobby(telemedLobbyService)
+	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService, patientScoresService, patientProfileService, patientDocumentsService, notificationService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
@@ -534,12 +538,6 @@ func setupRoutes(
 	patientMe.Get("/boxes", patientPortalHandler.ListBoxes)
 	patientMe.Get("/documents", patientPortalHandler.ListDocuments)
 	patientMe.Get("/documents/:id/download", patientPortalHandler.DownloadDocument)
-	patientMe.Get("/family", patientPortalHandler.ListFamilyGrants)
-	patientMe.Post("/family", patientPortalHandler.CreateFamilyInvite)
-	patientMe.Put("/family/:id/scope", patientPortalHandler.UpdateFamilyScope)
-	patientMe.Delete("/family/:id", patientPortalHandler.RevokeFamilyGrant)
-	patientMe.Post("/family/consume", patientPortalHandler.ConsumeFamilyInvite)
-	patientMe.Get("/family/granted-to-me", patientPortalHandler.ListGrantedToMe)
 	patientMe.Get("/lgpd/export", patientPortalHandler.LGPDExport)
 	patientMe.Post("/lgpd/account-delete-request", patientPortalHandler.LGPDRequestDelete)
 

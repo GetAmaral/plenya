@@ -44,6 +44,7 @@ type AppointmentService struct {
 	googleCalendarSvc *GoogleCalendarService
 	dailyCoSvc        *DailyCoService
 	notifSvc          *AppointmentNotificationService
+	telemedLobbySvc   *TelemedLobbyService
 	cfg               *config.Config
 }
 
@@ -61,6 +62,14 @@ func NewAppointmentService(
 		notifSvc:          notifSvc,
 		cfg:               cfg,
 	}
+}
+
+// WithTelemedLobby injeta TelemedLobbyService — chamado quando AppointmentService
+// já existe mas o lobby foi criado depois (ordem de DI no main).
+// Quando setado, createDailyRoom também gera lobby token automaticamente.
+func (s *AppointmentService) WithTelemedLobby(svc *TelemedLobbyService) *AppointmentService {
+	s.telemedLobbySvc = svc
+	return s
 }
 
 // Create cria uma nova consulta + dispara side-effects async.
@@ -768,6 +777,14 @@ func (s *AppointmentService) createDailyRoom(apptID uuid.UUID, scheduled time.Ti
 			"daily_room_name": room.Name,
 		}).Error; err != nil {
 		log.Printf("⚠️  [APPT] daily persist apt=%s: %v", apptID, err)
+	}
+
+	// Gera lobby token público (link /sala/[token] que email/WA inclui pra
+	// paciente entrar sem login). Idempotente — Ensure reaproveita se existir.
+	if s.telemedLobbySvc != nil {
+		if _, err := s.telemedLobbySvc.EnsureTokenForAppointmentID(apptID); err != nil {
+			log.Printf("⚠️  [APPT] telemed lobby token apt=%s: %v", apptID, err)
+		}
 	}
 }
 
