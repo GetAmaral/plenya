@@ -168,7 +168,7 @@ Lp(a) elevada — risco herdado que nunca tinha sido medido no check-up anterior
 "Seis anos antes de qualquer diagnóstico convencional, ela já estava revertendo o processo. Sem metformina. Sem cirurgia. Diferente do pai. Diferente da mãe. Porque alguém olhou antes." — e anos depois, a decisão de TRH feita dentro da janela protetora.
 
 ### Figuras associadas (nova numeração)
-- **Fig 4.2:** sete barras de Fernanda entre "normal" e "ótimo"
+- **Fig 4.1:** sete barras de Fernanda entre "normal" e "ótimo"
 - **Fig 6.1:** US de fígado normal vs. esteatose
 - **Fig 6.2:** mesmo IMC, corpos diferentes (TOFI)
 - **Fig 6.3:** timeline da disfunção metabólica (Fernanda posicionada na transição Fase 1→2)

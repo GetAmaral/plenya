@@ -338,6 +338,8 @@
 
 > *"Este é o slide mais importante da palestra de hoje. Se você fotografar um slide, fotografe esse."*
 >
+> *"Aqui na tela, dez. Não é o painel completo — no livro estão dezesseis biomarcadores em quatro grupos. Estes dez são os que mais movem trajetória nos próximos três meses."*
+>
 > *"Dez biomarcadores. Duas colunas."*
 >
 > *"À esquerda: o que o seu laboratório chama de 'normal'. Ou seja, a faixa em que noventa e cinco por cento da população está. Mas essa população inclui gente sedentária, gente inflamada, gente doente ainda não diagnosticada. 'Normal' é a média de uma população que não está otimizada."*

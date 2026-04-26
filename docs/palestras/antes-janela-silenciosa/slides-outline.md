@@ -211,6 +211,7 @@
 ### Slide 30 — **TABELA NORMAL VS ÓTIMO** (SLIDE-REI)
 - **Tipo:** slide-âncora (**o mais importante da palestra**)
 - **Conteúdo:** tabela 10 linhas × 2 colunas — "Normal que seu laboratório imprime" vs "Ótimo que a evidência de longevidade indica"
+- **Curadoria:** seleção de palco — 8 marcadores do painel ampliado do livro (Fig 4.1, que tem 16 + 2 em 4 grupos) + VO₂ máx (Cap 8) + CAC (Cap 5). O painel completo do livro fica mencionado em fala, não no slide (densidade de palco).
 
 | Biomarcador | Normal (lab) | Ótimo (longevidade) |
 |---|---|---|

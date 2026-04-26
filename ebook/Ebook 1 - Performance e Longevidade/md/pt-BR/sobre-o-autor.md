@@ -21,7 +21,7 @@ last_reviewed: 2026-04-20
 **drgetulioamaralfilho.com.br**
 Instagram: **@drGetulioAmaralFilho**
 
-**Plenya Saúde — Londrina-PR**
+**Plenya** — clínica de medicina integrada em saúde, performance e longevidade · Londrina-PR
 plenyasaude.com.br · Instagram: @plenyaSaude
 
 CRM-PR 21.876 · RQE 16.038
@@ -56,7 +56,7 @@ Sua formação segue em expansão: em 2026 concluiu pós-graduação em **Medici
 
 Em duas décadas de atendimento, observou o mesmo padrão milhares de vezes: pacientes com exames "normais" que já estão adoecendo em silêncio. Dessa observação clínica nasceu o **Método AGIR** que estrutura este livro — quatro pilares para agir antes, enquanto a janela ainda está aberta.
 
-Atualmente conduz sua prática clínica na **Plenya**, clínica de medicina integrada em saúde, performance e longevidade, onde o método é aplicado diariamente.
+Atualmente conduz sua prática clínica na **Plenya** — clínica de medicina integrada em saúde, performance e longevidade. Com equipe multidisciplinar (médico, nutricionista, psicólogo e educador físico) e o **Escore Plenya** de mais de 800 itens, aplica o **Método AGIR** diariamente.
 
 **CRM-PR 21.876 · RQE 16.038**
 **Instagram: @drGetulioAmaralFilho**

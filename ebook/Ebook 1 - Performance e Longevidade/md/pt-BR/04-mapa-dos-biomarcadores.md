@@ -42,7 +42,7 @@ A insulina de Fernanda — 13 µIU/mL — era mais de 60% acima do que considera
 
 Fernanda não tinha nenhuma doença. Mas estava caminhando para pelo menos duas — exatamente como seu pai e sua mãe — e ninguém teria notado por mais cinco ou seis anos. Porque ninguém havia pedido os exames certos. E ninguém havia interpretado os resultados com as faixas certas.
 
-![Figura 4.2 — O caso Fernanda: todos "normais", nenhum ótimo. Sete barras em escala tricolor (zona ótima em verde, subótima em amarelo, "normal" do laboratório em vermelho) para insulina de jejum, HOMA-IR, ApoB, hs-CRP, homocisteína, vitamina D e TG/HDL — o valor de Fernanda cai na zona subótima ou "normal do laboratório" em todos.](../Cap04%20Fig02.PNG)
+![Figura 4.1 — O caso Fernanda: todos "normais", nenhum ótimo. Sete barras em escala tricolor (zona ótima em verde, subótima em amarelo, "normal" do laboratório em vermelho) para insulina de jejum, HOMA-IR, ApoB, hs-CRP, homocisteína, vitamina D e TG/HDL — o valor de Fernanda cai na zona subótima ou "normal do laboratório" em todos.](../Cap04%20Fig01.PNG)
 
 ---
 
@@ -66,7 +66,7 @@ Um exemplo concreto: a insulina de jejum. O laboratório aceita como "normal" qu
 
 Abaixo está o painel que uso no consultório — os biomarcadores que, em conjunto, desenham o mapa mais completo do que está acontecendo dentro do seu corpo. Para cada um, mostro a faixa que o laboratório considera "normal" e a faixa que a ciência da longevidade considera "ótima".
 
-![Figura 4.1 — Biomarcadores para Longevidade: Faixas Normais vs. Ótimas. Tabela clínica de página inteira com 16 biomarcadores principais + 2 complementares organizados em quatro grupos temáticos: Metabólico (insulina de jejum, HbA1c, TG/HDL); Inflamação e Estresse (hs-CRP, ácido úrico, GGT); Lipídico e Cardiovascular (ApoB, ApoB/ApoA1, Lp(a), colesterol não-HDL, troponina I ultrassensível, NT-proBNP); Regulação e Longevidade (vitamina D, homocisteína, ferritina, TFGe cistatina C, microalbuminúria, albumina sérica). Cada marcador com a faixa "normal" do laboratório, a faixa ótima para longevidade e o que revela.](../Cap04%20Fig01.PNG)
+![Figura 4.2 — Biomarcadores para Longevidade: Faixas Normais vs. Ótimas. Tabela clínica de página inteira com 16 biomarcadores principais + 2 complementares organizados em quatro grupos temáticos: Metabólico (insulina de jejum, HbA1c, TG/HDL); Inflamação e Estresse (hs-CRP, ácido úrico, GGT); Lipídico e Cardiovascular (ApoB, ApoB/ApoA1, Lp(a), colesterol não-HDL, troponina I ultrassensível, NT-proBNP); Regulação e Longevidade (vitamina D, homocisteína, ferritina, TFGe cistatina C, microalbuminúria, albumina sérica). Cada marcador com a faixa "normal" do laboratório, a faixa ótima para longevidade e o que revela.](../Cap04%20Fig02.PNG)
 
 **HbA1c (hemoglobina glicada)**
 *É a porcentagem da hemoglobina — proteína dos glóbulos vermelhos que carrega oxigênio — que tem uma molécula de glicose grudada. Como os glóbulos vermelhos vivem cerca de 2 a 3 meses, a HbA1c reflete a média do açúcar no sangue nesse período — não uma fotografia pontual como a glicemia em jejum. Por isso é o marcador mais útil para enxergar a tendência metabólica real.*
@@ -200,7 +200,7 @@ O segundo erro é olhar apenas o resultado de hoje, sem compará-lo com os anter
 
 A curva ascendente de HbA1c que vimos no Capítulo 1 é o exemplo mais claro. Cada ponto isolado é "normal". Juntos, eles desenham um pré-diabetes chegando — anunciado há anos, mas invisível para quem olha um exame de cada vez.
 
-É por isso que na minha clínica, a Plenya, monitoramos biomarcadores-chave a cada três a seis meses, não uma vez por ano. Não para gerar ansiedade — para detectar tendências antes que se tornem diagnósticos.
+É por isso que na Plenya, a equipe que acompanha cada paciente — médico, nutricionista, psicólogo e educador físico — revê os biomarcadores-chave a cada três a seis meses, não uma vez por ano. Não para gerar ansiedade — para detectar tendências antes que se tornem diagnósticos.
 
 Fernanda começou a ser acompanhada com esse nível de atenção. Em seis meses, com ajustes em alimentação, inclusão de treino de força e correção da vitamina D, sua insulina caiu de 13 para 7, a PCR de 1,9 para 0,8, e a vitamina D subiu para 48 ng/mL. Seis anos antes de qualquer diagnóstico convencional, ela já estava revertendo o processo. Sem medicação. Sem drama. Com informação certa e ação precoce.
 

@@ -13,7 +13,7 @@ A medicina brasileira se tornou excelente em tratar doença instalada — e ruim
 
 ## O que o público leva para casa
 
-1. **Os 10 biomarcadores** que transformam um check-up de triagem em um mapa de prevenção — com faixas de "normal" versus "ótimo" para cada um.
+1. **16 biomarcadores em 4 grupos** que transformam um check-up de triagem em um mapa de prevenção — com faixas de "normal" versus "ótimo" para cada um.
 2. **O método AGIR** — os quatro pilares (Atividade, Gestão clínica, Integração mente-corpo, Ritmo circadiano) que juntos definem a trajetória das próximas duas décadas, com casos clínicos reais de pacientes brasileiros.
 3. **A Regra dos Dois** — o único protocolo de mudança de hábito que produz resultado mensurável em três meses, sem sobrecarga.
 
