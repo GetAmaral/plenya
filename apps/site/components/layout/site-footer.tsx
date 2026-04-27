@@ -67,6 +67,17 @@ export function SiteFooter() {
       </div>
 
       <div className="relative border-t border-cream/10">
+        <div className="site-container py-5 text-cream/55 text-xs leading-relaxed">
+          <p>
+            <span className="text-cream/70">Diretor Técnico Médico:</span> Dr. Getúlio José Mattos do Amaral Filho · CRM-PR 21.876 · RQE 16.038 (Nefrologia).
+          </p>
+          <p className="mt-1 text-cream/40">
+            Conteúdo informativo, não substitui consulta médica. Em conformidade com a Resolução CFM nº 2.336/2023.
+          </p>
+        </div>
+      </div>
+
+      <div className="relative border-t border-cream/10">
         <div className="site-container py-6 flex flex-col md:flex-row justify-between gap-4 text-cream/40 text-xs">
           <span>© {year} {brand.legalName}. Todos os direitos reservados.</span>
           <div className="flex gap-6 flex-wrap">

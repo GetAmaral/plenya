@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Source_Serif_4, Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
@@ -8,6 +9,9 @@ import { SiteHeader } from '@/components/layout/site-header';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { PersonSchema } from '@/components/seo/person-schema';
 import '../globals.css';
+
+const PLAUSIBLE_DOMAIN =
+  process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN || 'drgetulioamaralfilho.com.br';
 
 const serif = Source_Serif_4({
   subsets: ['latin'],
@@ -29,16 +33,37 @@ export const metadata: Metadata = {
     template: '%s · Dr. Getúlio Amaral Filho',
   },
   description:
-    'Nefrologista, médico de medicina funcional integrativa, professor, coordenador de residência, autor e diretor clínico da Plenya. Londrina-PR.',
-  authors: [{ name: 'Dr. Getúlio Amaral Filho' }],
+    'Nefrologista (CRM-PR 21.876 · RQE 16.038), médico de medicina funcional integrativa, professor, coordenador de residência, autor e diretor clínico da Plenya. Londrina-PR.',
+  authors: [{ name: 'Dr. Getúlio Amaral Filho', url: 'https://drgetulioamaralfilho.com.br' }],
+  creator: 'Dr. Getúlio Amaral Filho',
+  publisher: 'Dr. Getúlio Amaral Filho',
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
     url: 'https://drgetulioamaralfilho.com.br',
     siteName: 'Dr. Getúlio Amaral Filho',
+    images: [
+      {
+        url: '/images/getulio-square.jpg',
+        width: 1200,
+        height: 1200,
+        alt: 'Dr. Getúlio Amaral Filho',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dr. Getúlio Amaral Filho — Nefrologista, autor, professor',
+    description:
+      'Nefrologista (CRM-PR 21.876 · RQE 16.038), medicina funcional integrativa e diretor clínico da Plenya.',
     images: ['/images/getulio-square.jpg'],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+  },
 };
 
 export function generateStaticParams() {
@@ -59,6 +84,14 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={`${serif.variable} ${sans.variable}`}>
+      <head>
+        <Script
+          defer
+          data-domain={PLAUSIBLE_DOMAIN}
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
+      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <PersonSchema />

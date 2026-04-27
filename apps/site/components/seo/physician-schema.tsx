@@ -1,0 +1,52 @@
+import { brand } from '@plenya/brand';
+
+export function PhysicianSchema() {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'Physician',
+    '@id': `${brand.url}/dr-getulio#physician`,
+    name: 'Dr. Getúlio José Mattos do Amaral Filho',
+    url: `${brand.url}/dr-getulio`,
+    image: `${brand.url}/images/team/getulio-amaral.jpg`,
+    jobTitle: 'Diretor Clínico · Médico Nefrologista · Medicina Funcional Integrativa',
+    medicalSpecialty: ['Nephrology', 'InternalMedicine'],
+    knowsAbout: [
+      'Medicina Funcional Integrativa',
+      'Nefrologia Preventiva',
+      'Longevidade',
+      'Healthspan',
+    ],
+    identifier: [
+      { '@type': 'PropertyValue', propertyID: 'CRM', value: 'CRM-PR 21.876' },
+      { '@type': 'PropertyValue', propertyID: 'RQE', value: '16.038' },
+    ],
+    hasCredential: [
+      {
+        '@type': 'EducationalOccupationalCredential',
+        credentialCategory: 'license',
+        recognizedBy: { '@type': 'Organization', name: 'Conselho Regional de Medicina do Paraná' },
+        name: 'CRM-PR 21.876',
+      },
+      {
+        '@type': 'EducationalOccupationalCredential',
+        credentialCategory: 'specialty',
+        name: 'Registro de Qualificação de Especialista — Nefrologia (RQE 16.038)',
+      },
+    ],
+    memberOf: [
+      { '@type': 'Organization', name: 'Sociedade Brasileira de Nefrologia' },
+      { '@type': 'Organization', name: 'Associação Brasileira de Medicina Funcional Integrativa' },
+    ],
+    worksFor: { '@type': 'MedicalClinic', '@id': `${brand.url}/#clinic` },
+    sameAs: [
+      'https://drgetulioamaralfilho.com.br',
+      'https://instagram.com/drGetulioAmaralFilho',
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}

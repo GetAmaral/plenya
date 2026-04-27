@@ -12,6 +12,7 @@ import { SmoothScrollProvider } from '@/components/layout/smooth-scroll-provider
 import { WhatsAppBubble } from '@/components/marketing/whatsapp-bubble';
 import { OrganizationSchema } from '@/components/seo/organization-schema';
 import { MedicalClinicSchema } from '@/components/seo/medical-clinic-schema';
+import { PhysicianSchema } from '@/components/seo/physician-schema';
 
 const heading = localFont({
   src: '../../node_modules/@plenya/brand/src/fonts/nalieta/Nalieta-Regular.otf',
@@ -53,6 +54,18 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       type: 'website',
       siteName: brand.name,
       locale: locale === 'pt' ? 'pt_BR' : locale === 'en' ? 'en_US' : 'es_ES',
+      images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: brand.name }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@plenyaSaude',
+      creator: '@plenyaSaude',
+      images: ['/og-default.jpg'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
     },
     icons: {
       icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
@@ -87,6 +100,7 @@ export default async function LocaleLayout({
           <SmoothScrollProvider>
             <OrganizationSchema />
             <MedicalClinicSchema />
+            <PhysicianSchema />
             <SiteHeader />
             <main className="flex-1">{children}</main>
             <SiteFooter />

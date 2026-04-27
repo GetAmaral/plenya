@@ -4,6 +4,8 @@ import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { getAllArticles, getArticle } from '@/lib/articles';
+import { ArticleSchema } from '@/components/seo/article-schema';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
 export async function generateStaticParams() {
   const all = await getAllArticles();
@@ -18,7 +20,28 @@ export async function generateMetadata({
   const { slug } = await params;
   const a = await getArticle(slug);
   if (!a) return {};
-  return { title: a.title, description: a.excerpt };
+  const url = `/escritos/${slug}`;
+  return {
+    title: a.title,
+    description: a.excerpt,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'article',
+      url,
+      title: a.title,
+      description: a.excerpt,
+      publishedTime: a.date,
+      authors: ['Dr. Getúlio Amaral Filho'],
+      tags: [a.tag],
+      images: ['/images/getulio-square.jpg'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: a.title,
+      description: a.excerpt,
+      images: ['/images/getulio-square.jpg'],
+    },
+  };
 }
 
 export default async function ArticlePage({
@@ -36,6 +59,20 @@ export default async function ArticlePage({
 
   return (
     <article>
+      <ArticleSchema
+        title={article.title}
+        description={article.excerpt}
+        slug={article.slug}
+        date={article.date}
+        tag={article.tag}
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Início', url: '/' },
+          { name: 'Escritos', url: '/escritos' },
+          { name: article.title },
+        ]}
+      />
       <header className="editorial-container pt-12 md:pt-16 pb-8">
         <Breadcrumbs
           items={[

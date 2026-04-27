@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { getAllLectures, getLecture, getAudienceLabel } from '@/lib/lectures';
+import { LectureSchema } from '@/components/seo/lecture-schema';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
 export async function generateStaticParams() {
   const lectures = await getAllLectures();
@@ -17,9 +19,24 @@ export async function generateMetadata({
   const { slug } = await params;
   const lecture = await getLecture(slug);
   if (!lecture) return {};
+  const url = `/palestras/${slug}`;
   return {
     title: lecture.title,
     description: lecture.excerpt,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'article',
+      url,
+      title: lecture.title,
+      description: lecture.excerpt,
+      images: ['/images/getulio-square.jpg'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: lecture.title,
+      description: lecture.excerpt,
+      images: ['/images/getulio-square.jpg'],
+    },
   };
 }
 
@@ -35,6 +52,20 @@ export default async function LecturePage({
 
   return (
     <article>
+      <LectureSchema
+        title={lecture.title}
+        description={lecture.excerpt}
+        slug={lecture.slug}
+        duration={lecture.duration}
+        audience={lecture.audience.map(getAudienceLabel)}
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Início', url: '/' },
+          { name: 'Palestras', url: '/palestras' },
+          { name: lecture.title },
+        ]}
+      />
       <header className="editorial-container pt-12 md:pt-16 pb-12">
         <Breadcrumbs
           items={[
