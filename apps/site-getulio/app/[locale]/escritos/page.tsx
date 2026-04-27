@@ -2,6 +2,11 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAllArticles, TAGS } from '@/lib/articles';
+import {
+  getPlenyaPostsByGetulio,
+  PLENYA_BLOG_BASE,
+  PLENYA_PILLAR_LABELS,
+} from '@/lib/plenya-blog';
 
 export const metadata: Metadata = {
   title: 'Escritos',
@@ -22,6 +27,7 @@ export default async function EscritosPage({
   const all = await getAllArticles();
   const activeTag = TAGS.find((t) => t === tagParam);
   const articles = activeTag ? all.filter((a) => a.tag === activeTag) : all;
+  const plenyaPosts = await getPlenyaPostsByGetulio();
 
   return (
     <article>
@@ -57,7 +63,8 @@ export default async function EscritosPage({
         </div>
       </section>
 
-      <section className="editorial-container pb-24">
+      <section className="editorial-container pb-16">
+        <p className="label-meta mb-6">Ensaios</p>
         {articles.length === 0 ? (
           <p className="font-serif text-ink-muted py-8">Nenhum artigo nesse tema ainda.</p>
         ) : (
@@ -84,6 +91,44 @@ export default async function EscritosPage({
           </ul>
         )}
       </section>
+
+      {plenyaPosts.length > 0 && (
+        <section className="editorial-container pb-24">
+          <div className="flex flex-wrap items-baseline justify-between gap-4 mb-6">
+            <p className="label-meta">Blog Plenya</p>
+            <p className="font-sans text-xs text-ink-muted max-w-md md:text-right">
+              Artigos publicados no blog da Plenya, onde também escrevo regularmente. Cada
+              link abre no plenyasaude.com.br/blog.
+            </p>
+          </div>
+          <ul className="border-t border-rule">
+            {plenyaPosts.map((p) => (
+              <li key={p.slug} className="border-b border-rule">
+                <a
+                  href={`${PLENYA_BLOG_BASE}/${p.slug}`}
+                  target="_blank"
+                  rel="noopener"
+                  className="block py-8 grid md:grid-cols-[120px_1fr_180px] gap-6 group items-baseline"
+                >
+                  <span className="font-sans text-sm text-ink-muted">
+                    {formatDate(p.date)}
+                  </span>
+                  <div className="space-y-2">
+                    <h2 className="font-serif text-xl md:text-2xl text-ink group-hover:text-bordo transition-colors">
+                      {p.title}
+                      <span className="font-sans text-sm text-ink-muted ml-2">↗</span>
+                    </h2>
+                    <p className="font-serif text-ink-soft leading-relaxed">{p.excerpt}</p>
+                  </div>
+                  <span className="label-meta text-bordo md:text-right">
+                    {PLENYA_PILLAR_LABELS[p.pillar]}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </article>
   );
 }
