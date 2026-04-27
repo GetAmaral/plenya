@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ pilar: st
   return {
     title: `${pillarLabels[pilar]} — Blog Plenya`,
     description: `Artigos sobre ${pillarLabels[pilar].toLowerCase()} no Método AGIR.`,
+    alternates: { canonical: `/blog/categoria/${pilar}` },
   };
 }
 

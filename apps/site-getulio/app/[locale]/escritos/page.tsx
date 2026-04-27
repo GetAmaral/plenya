@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: 'Escritos',
   description:
     'Artigos do Dr. Getúlio Amaral Filho sobre nefrologia preventiva, longevidade e medicina funcional integrativa.',
+  alternates: { canonical: '/escritos' },
 };
 
 export default async function EscritosPage({

@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
+import { ClinicsSchema } from '@/components/seo/clinics-schema';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
 export const metadata: Metadata = {
   title: 'Onde atendo',
   description:
     'Atendimento clínico na Plenya (medicina funcional integrativa) e na Nefroclínica Londrina (nefrologia clínica). Responsabilidade técnica pela DaVita Intra Hospitalar e DaVita Londrina.',
+  alternates: { canonical: '/onde-atendo' },
 };
 
 type Clinic = {
@@ -66,6 +69,13 @@ export default async function OndeAtendoPage({
 
   return (
     <article>
+      <ClinicsSchema />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Início', url: '/' },
+          { name: 'Onde atendo' },
+        ]}
+      />
       <header className="editorial-container pt-16 md:pt-24 pb-12">
         <p className="label-meta mb-6">Onde atendo</p>
         <h1 className="heading-display text-[clamp(2.2rem,5vw,3.8rem)] max-w-3xl">

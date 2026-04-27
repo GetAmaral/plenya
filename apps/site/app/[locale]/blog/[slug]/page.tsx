@@ -13,6 +13,7 @@ import { BlogCTA } from '@/components/blog/blog-cta';
 import { BlogCTARecognition } from '@/components/blog/blog-cta-recognition';
 import { PostTrackReader } from '@/components/blog/post-track-reader';
 import { ArticleSchema } from '@/components/blog/article-schema';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 import { NewsletterInline } from '@/components/blog/newsletter-inline';
 import { Link } from '@/lib/i18n/navigation';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
@@ -49,6 +50,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
   return (
     <article className="bg-cream">
       <ArticleSchema post={post} author={author} url={url} />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Blog', url: '/blog' },
+          { name: pillarLabels[post.pillar], url: `/blog/categoria/${post.pillar}` },
+          { name: post.title },
+        ]}
+      />
       <PostTrackReader slug={post.slug} pillar={post.pillar} />
 
       {/* Post header */}

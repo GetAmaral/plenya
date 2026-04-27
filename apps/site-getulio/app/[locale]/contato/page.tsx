@@ -5,6 +5,7 @@ import { ContactForm } from '@/components/contact/contact-form';
 export const metadata: Metadata = {
   title: 'Contato',
   description: 'Entre em contato com Dr. Getúlio Amaral Filho — consultas, palestras, imprensa.',
+  alternates: { canonical: '/contato' },
 };
 
 export default async function ContatoPage({

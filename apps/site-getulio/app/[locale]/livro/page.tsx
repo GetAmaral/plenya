@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Antes — A Janela Silenciosa',
   description:
     'Antes — A Janela Silenciosa entre o Normal e o Ótimo. Livro do Dr. Getúlio Amaral Filho sobre os dez a vinte anos em que a longevidade é construída ou perdida.',
+  alternates: { canonical: '/livro' },
 };
 
 const trechos = [

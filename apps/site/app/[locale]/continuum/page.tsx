@@ -56,6 +56,7 @@ export const metadata: Metadata = {
   title: 'Continuum Plenya — programa de acompanhamento contínuo',
   description:
     'Continuum Plenya é o programa semestral ou anual da Plenya. Acompanhamento 100% online com equipe multidisciplinar — médico, nutricionista, psicólogo e educador físico — organizado pelo Método AGIR e mensurado pelo Escore Plenya.',
+  alternates: { canonical: '/continuum' },
 };
 
 const cobertura = [

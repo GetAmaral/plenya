@@ -3,6 +3,10 @@ import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { FaqAccordion } from '@/components/marketing/faq-accordion';
 import { FaqSchema } from '@/components/seo/faq-schema';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
+import { MedicalWebPageSchema } from '@/components/seo/medical-webpage-schema';
+import { ClinicalReviewBadge } from '@/components/marketing/clinical-review-badge';
+import { RelatedBlogPosts } from '@/components/marketing/related-blog-posts';
 
 const checkupFaq = [
   {
@@ -55,6 +59,18 @@ export default async function CheckupPage({
   return (
     <>
       <FaqSchema items={checkupFaq} />
+      <MedicalWebPageSchema
+        name="Checkup de longevidade — Plenya"
+        description="Avaliação clínica orientada à trajetória de saúde — VO₂ máx, ApoB, composição corporal, sono, cognição. Mapeia a janela silenciosa antes do sintoma."
+        path="/checkup-longevidade"
+        about="Preventive medical checkup"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Checkup de Longevidade' },
+        ]}
+      />
 
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32 max-w-3xl">
@@ -132,7 +148,19 @@ export default async function CheckupPage({
         </div>
       </section>
 
+      <section className="bg-cream">
+        <div className="site-container">
+          <ClinicalReviewBadge />
+        </div>
+      </section>
+
       <FaqAccordion title="Perguntas que recebemos toda semana." items={checkupFaq} />
+
+      <RelatedBlogPosts
+        title="Do blog Plenya"
+        pillars={['gestao-metabolica', 'longevidade']}
+        limit={3}
+      />
 
       <section className="bg-cream">
         <div className="site-container section grid md:grid-cols-12 gap-12">

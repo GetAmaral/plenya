@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Diagnóstico Plenya — o Continuum Plenya faz sentido para você?',
   description:
     'Cinco perguntas curtas para entender se o programa de acompanhamento contínuo da Plenya se encaixa no seu momento.',
+  alternates: { canonical: '/diagnostico' },
 };
 
 export default async function DiagnosticoPage({

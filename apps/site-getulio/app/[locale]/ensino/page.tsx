@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Ensino',
   description:
     'Coordenador da Residência Médica em Nefrologia da Santa Casa de Londrina. Fundador da Residência em Clínica Médica. Professor PUC Londrina.',
+  alternates: { canonical: '/ensino' },
 };
 
 const cargos = [

@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Sobre',
   description:
     'Médico nefrologista formado pela UEL em 2004. Vinte anos de prática em medicina interna e nefrologia, com pós-graduação em medicina funcional integrativa.',
+  alternates: { canonical: '/sobre' },
 };
 
 const formacao = [

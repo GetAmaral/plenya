@@ -3,6 +3,10 @@ import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { FaqAccordion } from '@/components/marketing/faq-accordion';
 import { FaqSchema } from '@/components/seo/faq-schema';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
+import { MedicalWebPageSchema } from '@/components/seo/medical-webpage-schema';
+import { ClinicalReviewBadge } from '@/components/marketing/clinical-review-badge';
+import { RelatedBlogPosts } from '@/components/marketing/related-blog-posts';
 
 const renalFaq = [
   {
@@ -55,6 +59,18 @@ export default async function RenalPage({
   return (
     <>
       <FaqSchema items={renalFaq} />
+      <MedicalWebPageSchema
+        name="Avaliação renal preventiva — Plenya"
+        description="Detectar a janela silenciosa em que o dano renal ainda é reversível. Cistatina C, albuminúria, eGFR e leitura nefrológica integrada."
+        path="/avaliacao-renal-preventiva"
+        about="Chronic Kidney Disease"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Avaliação Renal Preventiva' },
+        ]}
+      />
 
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32 max-w-3xl">
@@ -120,9 +136,21 @@ export default async function RenalPage({
         </div>
       </section>
 
+      <section className="bg-cream">
+        <div className="site-container">
+          <ClinicalReviewBadge />
+        </div>
+      </section>
+
       <FaqAccordion
         title="Perguntas frequentes sobre avaliação renal."
         items={renalFaq}
+      />
+
+      <RelatedBlogPosts
+        title="Do blog Plenya"
+        pillars={['gestao-metabolica']}
+        limit={3}
       />
 
       <section className="bg-cream">

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: 'Método AGIR',
   description:
     'O Método AGIR organiza o cuidado clínico Plenya em quatro pilares interdependentes — Atividade Física, Alimentação e Suplementação Inteligente; Gestão Clínica e Metabólica; Integração Mente-Corpo; Ritmo Circadiano e Repouso. Medicina antecipatória com profundidade.',
+  alternates: { canonical: '/metodo-agir' },
 };
 
 const pilares = [

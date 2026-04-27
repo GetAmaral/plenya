@@ -20,6 +20,10 @@ const staticRoutes = [
   '/checkup-longevidade',
   '/avaliacao-renal-preventiva',
   '/medicina-funcional-integrativa',
+  '/diagnostico',
+  '/casos',
+  '/como-funciona',
+  '/boletim',
   '/privacidade',
   '/termos',
 ];

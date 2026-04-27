@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'Palestras',
   description:
     'Palestras de Dr. Getúlio Amaral Filho sobre prevenção que começa antes do diagnóstico, longevidade prática e nefrologia preventiva.',
+  alternates: { canonical: '/palestras' },
 };
 
 export default async function PalestrasPage({

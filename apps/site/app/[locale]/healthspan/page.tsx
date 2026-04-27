@@ -3,6 +3,10 @@ import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { FaqAccordion } from '@/components/marketing/faq-accordion';
 import { FaqSchema } from '@/components/seo/faq-schema';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
+import { MedicalWebPageSchema } from '@/components/seo/medical-webpage-schema';
+import { ClinicalReviewBadge } from '@/components/marketing/clinical-review-badge';
+import { RelatedBlogPosts } from '@/components/marketing/related-blog-posts';
 
 const healthspanFaq = [
   {
@@ -55,6 +59,18 @@ export default async function HealthspanPage({
   return (
     <>
       <FaqSchema items={healthspanFaq} />
+      <MedicalWebPageSchema
+        name="Healthspan — viver bem por mais tempo"
+        description="A diferença entre lifespan e healthspan. Programa Plenya estende a fase de plenitude com VO₂ máx, força, marcadores metabólicos e acompanhamento longitudinal."
+        path="/healthspan"
+        about="Healthspan"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Healthspan' },
+        ]}
+      />
 
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32 max-w-3xl">
@@ -158,7 +174,19 @@ export default async function HealthspanPage({
         </div>
       </section>
 
+      <section className="bg-cream">
+        <div className="site-container">
+          <ClinicalReviewBadge />
+        </div>
+      </section>
+
       <FaqAccordion title="Perguntas frequentes sobre healthspan." items={healthspanFaq} />
+
+      <RelatedBlogPosts
+        title="Do blog Plenya"
+        pillars={['longevidade', 'gestao-metabolica']}
+        limit={3}
+      />
 
       <section className="bg-cream">
         <div className="site-container section grid md:grid-cols-12 gap-12">

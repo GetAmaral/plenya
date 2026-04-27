@@ -38,6 +38,7 @@ export const metadata: Metadata = {
   title: 'Consultas Médicas | Plenya',
   description:
     'Consultas médicas particulares na Plenya — presenciais em Londrina ou online por telemedicina, com Dr. Getúlio Amaral e demais médicos da clínica.',
+  alternates: { canonical: '/consultas' },
 };
 
 export default async function ConsultasPage({ params }: { params: Promise<{ locale: string }> }) {

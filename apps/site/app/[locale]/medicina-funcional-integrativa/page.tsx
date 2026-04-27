@@ -3,6 +3,10 @@ import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { FaqAccordion } from '@/components/marketing/faq-accordion';
 import { FaqSchema } from '@/components/seo/faq-schema';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
+import { MedicalWebPageSchema } from '@/components/seo/medical-webpage-schema';
+import { ClinicalReviewBadge } from '@/components/marketing/clinical-review-badge';
+import { RelatedBlogPosts } from '@/components/marketing/related-blog-posts';
 
 const mfiFaq = [
   {
@@ -54,6 +58,18 @@ export default async function MfiPage({
   return (
     <>
       <FaqSchema items={mfiFaq} />
+      <MedicalWebPageSchema
+        name="Medicina Funcional Integrativa — Plenya"
+        description="Medicina convencional praticada com mais tempo, escuta e leitura sistêmica. Cascata de intervenção baseada em evidência."
+        path="/medicina-funcional-integrativa"
+        about="Functional Medicine"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Medicina Funcional Integrativa' },
+        ]}
+      />
 
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32 max-w-3xl">
@@ -126,9 +142,21 @@ export default async function MfiPage({
         </div>
       </section>
 
+      <section className="bg-cream">
+        <div className="site-container">
+          <ClinicalReviewBadge />
+        </div>
+      </section>
+
       <FaqAccordion
         title="Perguntas frequentes sobre medicina funcional integrativa."
         items={mfiFaq}
+      />
+
+      <RelatedBlogPosts
+        title="Do blog Plenya"
+        pillars={['gestao-metabolica', 'integracao-corpo-mente', 'longevidade']}
+        limit={3}
       />
 
       <section className="bg-cream">

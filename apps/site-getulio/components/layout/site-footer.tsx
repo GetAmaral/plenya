@@ -19,7 +19,9 @@ export function SiteFooter() {
           <ul className="space-y-2 text-sm text-ink-soft">
             <li><Link href="/sobre" className="hover:text-bordo">Sobre</Link></li>
             <li><Link href="/livro" className="hover:text-bordo">Livro</Link></li>
+            <li><Link href="/escritos" className="hover:text-bordo">Escritos</Link></li>
             <li><Link href="/palestras" className="hover:text-bordo">Palestras</Link></li>
+            <li><Link href="/ensino" className="hover:text-bordo">Ensino</Link></li>
             <li><Link href="/onde-atendo" className="hover:text-bordo">Onde atendo</Link></li>
             <li><Link href="/contato" className="hover:text-bordo">Contato</Link></li>
           </ul>
