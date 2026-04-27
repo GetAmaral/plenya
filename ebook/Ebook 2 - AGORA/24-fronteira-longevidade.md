@@ -71,7 +71,7 @@ Aos 6 mês:
 - **Sem efeito adverso da espermidina ou fisetina**
 - Saída da consulta: *"Doutor, eu queria saber até onde vai o que a evidência sustenta hoje. Saí daqui com clareza. É menos do que algumas pessoas vendem · mas é exatamente o que eu queria saber."*
 
-A história de Antônio nesta 3ª aparição (que **fecha o arco-trio "da mesa não da cápsula" → cognição estrutural → fronteira da longevidade** · Caps 8 + 20 + 24) abre este capítulo porque **ilustra a postura editorial Plenya nesta fronteira**: paciente engajado · informado · com base sólida feita · senta na mesa para auditar evidência humana atual · sai com plano modesto e honesto · sem promessa, sem desdém, sem hype.
+A história de Antônio nesta 3ª aparição (Cap 8 central · Cap 20 reaparição breve · Cap 24 central · fechando a trajetória **"da mesa não da cápsula" → cognição estrutural → fronteira da longevidade**) abre este capítulo porque **ilustra a postura editorial Plenya nesta fronteira**: paciente engajado · informado · com base sólida feita · senta na mesa para auditar evidência humana atual · sai com plano modesto e honesto · sem promessa, sem desdém, sem hype.
 
 <!-- FIGURA:24-fig-1 "Antônio 3ª aparição · 6m pós-Cap 20 · paciente arquetípico para discutir fronteira (67a · base sólida · ApoB 78 · HbA1c 5,4 · MoCA 27 · CAC 18 estável · NAFLD regredida) · auditoria conjunta de 7 artigos impressos sobre rapamicina/metformina off-label/espermidina/D+Q/fisetina · plano final modesto: reforço dietético em espermidina + suplemento espermidina 1,2 mg/d + fisetina dieta-prioritária + opcional 100 mg/d ciclos · NÃO iniciar rapamicina/metformina off-label/D+Q/MR-409 · 'fronteira só faz sentido em paciente com base feita'" -->
 
@@ -507,7 +507,7 @@ A área dos **senolíticos** é a mais promissora cientificamente da fronteira �
 
 > *— Doutor, eu queria saber até onde vai o que a evidência sustenta hoje. Saí daqui com clareza. É menos do que algumas pessoas vendem · mas é exatamente o que eu queria saber. A fronteira é honesta com quem chega na fronteira honestamente.*
 
-Plano completo de Antônio consolidado (3ª aparição · arco-trio "da mesa não da cápsula" → cognição estrutural → fronteira da longevidade fechado · Caps 8 + 20 + 24):
+Plano completo de Antônio consolidado (3ª aparição · trajetória "da mesa não da cápsula" → cognição estrutural → fronteira da longevidade · Cap 8 central · Cap 20 reaparição breve · Cap 24 central):
 
 - **Sem suplementos de vit A ou α-tocoferol em alta dose** (Cap 8 · lição mantida)
 - **Citicolina 500 mg/d** (Cap 20 · cognição vascular)

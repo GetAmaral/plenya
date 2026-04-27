@@ -14,13 +14,13 @@ figures:
 
 # Capítulo 6 — Ômega-3
 
-> *André voltou três meses depois. Toda métrica corrigida. Menos uma.*
+> *André voltou quatro meses depois. Toda métrica corrigida. Menos uma.*
 
 ---
 
 ### André volta — e há mais a descobrir
 
-André voltou ao consultório no fim de maio, três meses depois daquela reorganização inteira que descrevi no Capítulo 3 — quando trocamos as nove cápsulas matinais por quatro fórmulas distribuídas ao longo das janelas circadianas certas, com ferro isolado em jejum, vit D + K2 + CoQ10 com gordura, complexo B no almoço, magnésio glicinato + treonato + B6 à noite, creatina no shake pós-treino. Ele entrou na sala com aquele leve sorriso de quem sabe que tem boas notícias, e não esperou eu perguntar:
+André voltou ao consultório no fim de maio, quatro meses após aquela reorganização inteira que descrevi no Capítulo 3 — quando trocamos as nove cápsulas matinais por quatro fórmulas distribuídas ao longo das janelas circadianas certas, com ferro isolado em jejum, vit D + K2 + CoQ10 com gordura, complexo B no almoço, magnésio glicinato + treonato + B6 à noite, creatina no shake pós-treino. Ele entrou na sala com aquele leve sorriso de quem sabe que tem boas notícias, e não esperou eu perguntar:
 
 > *— Doutor, três da tarde voltou a ser hora de trabalho, não de cama.*
 
@@ -318,7 +318,7 @@ A premissa central deste capítulo aparece de novo aqui: **EPA/DHA marinho não 
 
 ---
 
-### 9. André, três meses depois — protocolo, caixa, onde aplicar
+### 9. André, quatro meses depois — protocolo, caixa, onde aplicar
 
 Para o André, em vista do índice 3,4% e do FADS lento confirmado, prescrevi protocolo agressivo de correção:
 
