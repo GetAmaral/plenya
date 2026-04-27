@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Link } from '@/lib/i18n/navigation';
 import { pillarLabels, type Post } from '@/lib/blog';
 
@@ -7,6 +8,17 @@ export function PostCard({ post, featured = false }: { post: Post; featured?: bo
       href={`/blog/${post.slug}`}
       className={`group block ${featured ? 'post-card-featured' : 'post-card'}`}
     >
+      {post.cover && (
+        <div className={`relative overflow-hidden mb-6 bg-petrol/5 ${featured ? 'aspect-[3/2]' : 'aspect-[16/10]'}`}>
+          <Image
+            src={post.cover}
+            alt={post.title}
+            fill
+            sizes={featured ? '(min-width: 768px) 720px, 100vw' : '(min-width: 768px) 360px, 100vw'}
+            className="object-cover transition duration-500 group-hover:scale-[1.02]"
+          />
+        </div>
+      )}
       <div className="flex items-center gap-3 label-upper mb-4">
         <span className="text-gold">{pillarLabels[post.pillar]}</span>
         <span className="text-petrol/30">·</span>

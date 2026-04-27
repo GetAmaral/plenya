@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { brand } from '@plenya/brand';
@@ -77,6 +78,23 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
           </div>
         </div>
       </div>
+
+      {/* Cover hero */}
+      {post.cover && (
+        <div className="bg-petrol">
+          <div className="site-narrow">
+            <Image
+              src={post.cover}
+              alt={post.title}
+              width={1600}
+              height={1067}
+              sizes="(min-width: 1024px) 1024px, 100vw"
+              className="w-full h-auto"
+              priority
+            />
+          </div>
+        </div>
+      )}
 
       {/* TL;DR */}
       <div className="site-narrow pt-16">

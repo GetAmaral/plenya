@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { Link } from '@/lib/i18n/navigation';
 
@@ -45,6 +46,23 @@ const components = {
     );
   },
   strong: (props: React.HTMLAttributes<HTMLElement>) => <strong className="text-petrol font-semibold" {...props} />,
+  img: ({ src = '', alt = '' }: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    <figure className="my-10 -mx-4 md:mx-0">
+      <Image
+        src={typeof src === 'string' ? src : ''}
+        alt={alt}
+        width={1024}
+        height={1024}
+        sizes="(min-width: 768px) 720px, 100vw"
+        className="w-full h-auto"
+      />
+      {alt && (
+        <figcaption className="text-petrol/60 text-sm mt-3 italic px-4 md:px-0">
+          {alt}
+        </figcaption>
+      )}
+    </figure>
+  ),
 };
 
 export function MdxContent({ source }: { source: string }) {
