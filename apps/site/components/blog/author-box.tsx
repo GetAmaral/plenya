@@ -1,7 +1,23 @@
 import Image from 'next/image';
 import type { Author } from '@/lib/authors';
 
-export function AuthorBox({ author, reviewedBy }: { author: Author; reviewedBy?: Author | null }) {
+function formatPtDate(iso: string) {
+  const dt = new Date(iso);
+  return dt.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+}
+
+export function AuthorBox({
+  author,
+  reviewedBy,
+  reviewedAt,
+}: {
+  author: Author;
+  reviewedBy?: Author | null;
+  reviewedAt?: string;
+}) {
+  const isMedicalAuthor = author.credentials?.includes('CRM');
+  const reviewer = reviewedBy ?? (isMedicalAuthor ? author : null);
+
   return (
     <aside className="border-y border-petrol/10 py-8 my-12 grid gap-6 sm:grid-cols-[80px_1fr] items-start">
       <div className="relative h-20 w-20 rounded-full overflow-hidden bg-cream-200 border border-petrol/10">
@@ -16,10 +32,14 @@ export function AuthorBox({ author, reviewedBy }: { author: Author; reviewedBy?:
         <p className="heading-section text-petrol text-xl">{author.name}</p>
         <p className="label-upper text-petrol/55">{author.credentials}</p>
         <p className="text-petrol/75 text-sm leading-relaxed max-w-prose">{author.bio}</p>
-        {reviewedBy && (
-          <p className="label-upper text-petrol/45 pt-2">
-            Revisado por {reviewedBy.name} · {reviewedBy.credentials}
-          </p>
+        {reviewer && (
+          <div className="pt-3 mt-2 border-t border-petrol/5 space-y-1">
+            <p className="label-upper text-petrol/45">Revisão clínica</p>
+            <p className="text-petrol/65 text-xs leading-relaxed">
+              Conteúdo médico revisado por {reviewer.name} · {reviewer.credentials}
+              {reviewedAt && <> · {formatPtDate(reviewedAt)}</>}
+            </p>
+          </div>
         )}
       </div>
     </aside>

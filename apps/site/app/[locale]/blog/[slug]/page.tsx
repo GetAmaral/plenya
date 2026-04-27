@@ -124,7 +124,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       )}
 
       <div className="site-narrow">
-        <AuthorBox author={author} reviewedBy={reviewedBy} />
+        <AuthorBox author={author} reviewedBy={reviewedBy} reviewedAt={post.updated ?? post.date} />
         <NewsletterInline source={`blog-post-${post.slug}`} />
         {post.cta === 'recognition' ? <BlogCTARecognition /> : <BlogCTA />}
         <div className="flex justify-center pt-8 pb-16">

@@ -16,6 +16,10 @@ const staticRoutes = [
   '/contato',
   '/escore-plenya',
   '/depoimentos',
+  '/healthspan',
+  '/checkup-longevidade',
+  '/avaliacao-renal-preventiva',
+  '/medicina-funcional-integrativa',
   '/privacidade',
   '/termos',
 ];
