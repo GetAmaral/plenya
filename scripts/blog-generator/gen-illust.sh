@@ -36,7 +36,7 @@ TMP_JSON="$(mktemp)"
 trap 'rm -f "$TMP_JSON"' EXIT
 
 PAYLOAD=$(jq -n \
-  --arg model "gpt-image-1" \
+  --arg model "gpt-image-2" \
   --arg prompt "$FULL_PROMPT" \
   --arg size "1024x1024" \
   --arg quality "high" \

@@ -99,6 +99,19 @@ docker compose exec db psql -U plenya_user -d plenya_db -c "\d score_items"
 pnpm generate  # Gera: migrations, OpenAPI, TypeScript types, Zod schemas
 ```
 
+### 🖼 Geração de Imagens (OpenAI)
+
+**Modelo correto:** `gpt-image-2` (lançado 21/04/2026 — o snapshot é `gpt-image-2-2026-04-21`).
+
+NÃO use `gpt-image-1` (gerava texto PT errado) nem `dall-e-3` (legado).
+
+Usar `gpt-image-2` quando precisar gerar imagens. Wrappers em `scripts/blog-generator/`:
+- `gen-figure.sh` — infográficos no estilo do livro Antes (charts/diagramas com dados reais, paleta Plenya)
+- `gen-image.sh` — imagens editoriais (hero atmosférico)
+- `gen-illust.sh` — ilustrações conceituais
+
+Endpoint: `POST https://api.openai.com/v1/images/generations` com `"model": "gpt-image-2"`. Retorna base64 em `data[0].b64_json`.
+
 ### Enrichment Científico Automatizado (RAG + Claude)
 
 **Scripts prontos em `scripts/enrichment/`:**

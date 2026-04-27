@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generate a blog image via OpenAI gpt-image-1.
+# Generate a blog image via OpenAI gpt-image-2.
 # Usage: gen-image.sh <slug> <kind> "<prompt>"
 #   kind: hero (1536x1024) | inline (1024x1024)
 # Output: /home/user/plenya/apps/site/public/images/blog/<slug>/<kind>.webp
@@ -34,7 +34,7 @@ trap 'rm -f "$TMP_JSON"' EXIT
 
 # jq builds the JSON safely (handles quotes, newlines)
 PAYLOAD=$(jq -n \
-  --arg model "gpt-image-1" \
+  --arg model "gpt-image-2" \
   --arg prompt "$FULL_PROMPT" \
   --arg size "$SIZE" \
   --arg quality "high" \
@@ -52,7 +52,7 @@ if [ "$HTTP_CODE" != "200" ]; then
   exit 1
 fi
 
-# gpt-image-1 returns base64 in data[0].b64_json
+# gpt-image-2 returns base64 in data[0].b64_json
 jq -r '.data[0].b64_json' "$TMP_JSON" | base64 -d > "$OUT"
 
 if [ ! -s "$OUT" ]; then

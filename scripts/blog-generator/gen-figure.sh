@@ -2,7 +2,7 @@
 # Generate an INFOGRAPHIC-style figure (chart/diagram) like the ones in
 # the book "Antes — A Janela Silenciosa". Pass an extremely detailed
 # prompt that specifies title text, axis labels, every numeric value,
-# color zones, and source citation — gpt-image-1 will render it.
+# color zones, and source citation — gpt-image-2 will render it.
 #
 # Usage: gen-figure.sh <slug> <name> "<prompt>"
 # Output: /images/blog/<slug>/<name>.webp (1024x1024)
@@ -32,7 +32,7 @@ TMP_JSON="$(mktemp)"
 trap 'rm -f "$TMP_JSON"' EXIT
 
 PAYLOAD=$(jq -n \
-  --arg model "gpt-image-1" \
+  --arg model "gpt-image-2" \
   --arg prompt "$FULL_PROMPT" \
   --arg size "1024x1024" \
   --arg quality "high" \
