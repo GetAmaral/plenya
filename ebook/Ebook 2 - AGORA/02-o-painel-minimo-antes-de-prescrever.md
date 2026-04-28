@@ -115,9 +115,11 @@ O **ômega-3 index** mede o conteúdo combinado de EPA + DHA nas membranas das h
 | 9 | Zinco + cobre + selênio | varia | Zn:Cu 0,7-1,0; Se 100-130 µg/L | semestral |
 | 10 | TSH + T4L + T3L + anti-TPO + anti-Tg | varia | TSH 0,5-2,5; T3L terço médio; anticorpos negativos | anual |
 | 11 | hs-CRP | ≤3 mg/L | ≤1 mg/L | semestral |
-| 12 | Insulina jejum + HbA1c + glicemia + ômega-3 index | Ins <25 µIU/mL · HbA1c <5,7% · Glic 70-99 | Ins <8 · HbA1c ≤5,4 · Glic 70-90 · ω3 ≥8% | semestral |
+| 12 | Insulina jejum + HbA1c + glicemia + HOMA-IR + ômega-3 index | Ins <25 µIU/mL · HbA1c <5,7% · Glic 70-99 · HOMA <2,5 | Ins <8 · HbA1c ≤5,4 (ideal 4,8-5,2) · Glic 70-90 · HOMA-IR <2,0 (ideal <1,5) · ω3 ≥8% | semestral |
 
 <!-- FIGURA:02-fig-2 "Painel mínimo Plenya — 12 exames hierarquizados em 6 blocos funcionais com faixa convencional vs ótima" -->
+
+> **Nota de canon · alinhamento com livro 1 ANTES (Cap 4 · Mapa dos Biomarcadores):** as faixas ótimas Plenya da tabela acima são as mesmas do livro 1 ANTES · livro 2 AGORA opera com a mesma linguagem clínica. Em caps específicos da Parte III aparecerão variações contextuais (ex.: HOMA-IR <1,5 em cognição idoso · ferritina >100 em SPI · TSH <2,5 em paciente em concepção) — são **alvos contextuais mais apertados** para situações clínicas particulares · NÃO substituem o alvo geral. O **alvo geral Plenya é o do painel mínimo · alinhado com ANTES**.
 
 ---
 

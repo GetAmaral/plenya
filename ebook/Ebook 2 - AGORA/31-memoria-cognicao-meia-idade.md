@@ -209,7 +209,7 @@ Quando a queixa é específica e o MoCA está em zona normal-alta, complementar 
 | **Ferritina** (Cap 13) | anemia ferropriva contribui | mulher >50 com queixa >70 |
 | **Mg eritrocitário** (Cap 5) | NMDA · sinapse | >5,2 mEq/L · alvo cognição >5,5 |
 | **Ômega-3 index** (Cap 6) | DHA estrutural | ≥8% |
-| **Glicemia · insulina · HOMA-IR · HbA1c** | resistência insulínica é fator de risco demência | HOMA-IR <1,5 · HbA1c <5,4 |
+| **Glicemia · insulina · HOMA-IR · HbA1c** | resistência insulínica é fator de risco demência | HOMA-IR <2,0 (ideal <1,5) · HbA1c ≤5,4 · insulina <8 |
 | **PCR-us · IL-6** | inflamação subclínica modula cognição | <1,0 |
 | **Cortisol salivar 4 pontos** (Cap 18) | hipercortisolismo crônico → atrofia hipocampal | padrão fisiológico |
 | **Polissonografia** (Cap 28) | apneia destrói cognição | IAH <5 |

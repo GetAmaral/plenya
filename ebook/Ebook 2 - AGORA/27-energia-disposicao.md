@@ -113,9 +113,9 @@ Em paciente com queixa de energia, o **painel mínimo Plenya (Cap 2)** + **acré
 | **TSH · T4L · T3L** (Cap 15) | TSH 1-2 · T4L terço médio-superior · T3L >3,0 |
 | **Ferritina** (Cap 13) | mulher >50 · homem >80 · idealmente >70 em paciente com queixa |
 | **Hemograma · VCM · HCM · RDW** | sem anemia · VCM 88-94 · RDW <13,5 |
-| **B12 · MMA · homocisteína** (Caps 10-11) | B12 >500 · MMA <0,4 · Hcy <8 |
+| **B12 · MMA · homocisteína** (Caps 10-11) | B12 >500 funcional · >600 ideal (ANTES Cap 4) · MMA <0,4 · Hcy <8 |
 | **Vitamina D 25-OH** (Cap 4) | 40-60 ng/mL |
-| **Glicemia jejum · insulina · HOMA-IR** | glicemia 70-90 · insulina <8 · HOMA-IR <1,5 |
+| **Glicemia jejum · insulina · HOMA-IR** | glicemia 70-90 · insulina <8 · HOMA-IR <2,0 (ideal <1,5) |
 | **HbA1c** | <5,4% |
 | **Painel hepático e renal** (Cap 2) | normais |
 | **Cortisol salivar 4 pontos** (Cap 18) | padrão fisiológico · sem hipercortisolismo matinal |

@@ -235,7 +235,7 @@ A nomenclatura mudou em 2023 (Rinella 2023 · AASLD/EASL/ALEH/AHA consensus) · 
 |---|---|---|
 | **ALT · AST · GGT · FA · BT · INR · plaquetas** | injeção hepatocelular + colestática + função hepática | ALT <30 (mulher) / <35 (homem) · GGT <30 |
 | **Lipídico (ApoB · LDL · HDL · TG · TG/HDL)** | comorbidade cardiometabólica | Cap 22 alvos |
-| **Glicemia · insulina · HOMA-IR · HbA1c** | resistência insulínica subclínica · DM2 | HOMA-IR <1,5 · HbA1c <5,4 |
+| **Glicemia · insulina · HOMA-IR · HbA1c** | resistência insulínica subclínica · DM2 | HOMA-IR <2,0 (ideal <1,5) · HbA1c ≤5,4 · insulina <8 µIU/mL |
 | **Vit D 25-OH** | deficiência associada a NAFLD | 40-60 ng/mL |
 | **TSH · T4L** | hipotireoidismo subclínico contribui | normal |
 | **Ferritina** | NAFLD com ferritina alta · cuidado com hemocromatose · síndrome hiperferritinêmica metabólica (HSI) | <300 mulher / <400 homem |

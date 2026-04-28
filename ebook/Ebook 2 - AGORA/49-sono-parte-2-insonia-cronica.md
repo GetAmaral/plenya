@@ -331,7 +331,7 @@ Plano em 5 frentes:
 
 | Marcador | Por quê | Alvo |
 |---|---|---|
-| **PSG (polissonografia)** | gold standard · arquitetura | TST ≥7h · N3 ≥10% · REM ≥18% · sleep efficiency ≥85% · IAH <5 |
+| **PSG (polissonografia)** | gold standard · arquitetura | TST ≥7h · N3 ≥10% mínimo · 15-20% ideal (ANTES Cap 10) · REM ≥18% · sleep efficiency ≥85% · IAH <5 |
 | **Actigrafia 14 dias** | padrão circadiano · sleep efficiency longitudinal | em alvo |
 | **Diário de sono** | sintoma + qualidade subjetiva | em alvo |
 | **DLMO (Dim Light Melatonin Onset · em centros)** | fase circadiana | conforme idade |

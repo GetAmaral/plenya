@@ -196,7 +196,7 @@ A **higiene de sono Plenya** é o **conjunto não-negociável de práticas** que
 | **Polissonografia simplificada (tipo III · domiciliar)** | triagem em paciente de risco médio | IAH <5 |
 | **Ferritina** (Cap 13) | síndrome das pernas inquietas (SPI) · acordar com pernas movendo | >100 ng/mL em paciente com SPI |
 | **TSH · T4L · T3L** (Cap 15) | sonolência inexplicada · ganho de peso · constipação | TSH 1-2 · T4L terço médio · T3L >3,0 |
-| **Glicemia jejum · insulina · HOMA-IR** | apneia + obesidade · pré-DM cruzada com sono ruim | glicemia 70-90 · HOMA-IR <1,5 |
+| **Glicemia jejum · insulina · HOMA-IR** | apneia + obesidade · pré-DM cruzada com sono ruim | glicemia 70-90 · HOMA-IR <2,0 (ANTES Cap 4) · <1,5 ideal · insulina <8 µIU/mL |
 | **Cortisol salivar 4 pontos** (Cap 18) | despertar precoce · ansiedade matinal · hipercortisolismo | padrão fisiológico · sem hipercortisolismo matinal |
 | **Vit D 25-OH** (Cap 4) | apneia + SPI + insônia · vit D baixa associada | 40-60 ng/mL |
 | **Magnésio eritrocitário** (Cap 5) | cãibra noturna · SPI · sono superficial | >5,2 mEq/L |

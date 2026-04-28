@@ -224,7 +224,7 @@ O **Diabetes Prevention Program (Knowler 2002 · NEJM · 3.234 pacientes com pr�
 | **Glicemia jejum** | classificação ADA |
 | **HbA1c** | controle glicêmico de 2-3 meses |
 | **TOTG (75g · 2h)** | classificação ADA · pré-DM · GIG (glicemia alterada de jejum) vs intolerância glicídica |
-| **Insulina jejum + HOMA-IR** | resistência insulínica subclínica · alvo Plenya <1,5 |
+| **Insulina jejum + HOMA-IR** | resistência insulínica subclínica · alvo Plenya HOMA-IR <2,0 (ANTES Cap 4) · <1,5 ideal · insulina jejum <8 µIU/mL (ANTES) |
 | **Painel lipídico (ApoB · LDL · HDL · TG · TG/HDL)** | dislipidemia metabólica |
 | **Lipoproteína (a)** | risco CV adicional |
 | **Cintura abdominal · IMC · DEXA composição corporal** | obesidade abdominal · gordura visceral |
