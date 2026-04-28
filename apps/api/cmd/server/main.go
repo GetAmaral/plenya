@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -51,11 +52,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("❌ Failed to load config: %v", err)
 	}
+	// M6 — customErrorHandler precisa do env pra decidir entre msg detalhada/opaca.
+	appConfig = cfg
 
 	// Inicializar criptografia
 	if err := crypto.Init(cfg.Security.EncryptionKey); err != nil {
 		log.Fatalf("❌ Failed to initialize crypto: %v", err)
 	}
+	// M4 — blind index pra CPF (HMAC-SHA256). Chave separada da encryption key.
+	crypto.SetBlindIndexKey(cfg.Security.BlindIndexKey)
 	log.Println("🔐 Encryption initialized")
 
 	// Conectar ao banco de dados
@@ -64,18 +69,41 @@ func main() {
 	}
 	defer database.Close()
 
-	// Auto migrate: sempre em dev; em prod só se MIGRATIONS_AUTO=true
-	if cfg.Server.Environment == "development" || os.Getenv("MIGRATIONS_AUTO") == "true" {
+	// Auto migrate: sempre em dev; em prod só se MIGRATIONS_AUTO=true.
+	// M9 — adicional: MIGRATIONS_AUTO=false força skip mesmo em dev (útil pra
+	// debugar schema travado / Atlas piloto).
+	migrationsAutoEnv := os.Getenv("MIGRATIONS_AUTO")
+	shouldRun := false
+	switch migrationsAutoEnv {
+	case "false", "0", "no":
+		shouldRun = false
+	case "true", "1", "yes":
+		shouldRun = true
+	default:
+		shouldRun = cfg.Server.Environment == "development"
+	}
+	if shouldRun {
 		log.Println("🔄 Running auto migrations...")
 		if err := database.AutoMigrate(); err != nil {
 			log.Fatalf("❌ Failed to auto migrate: %v", err)
 		}
 		log.Println("✅ Auto migrations completed")
+	} else {
+		log.Println("⏭️  AutoMigrate skipped (MIGRATIONS_AUTO=false ou prod sem flag)")
 	}
 
-	// DEV BYPASS AUTH: Carregar admin user após DB init
+	// H8 — em produção, revoga UPDATE/DELETE de audit_logs no DB (não-fatal).
+	database.RevokeAuditLogMutations(cfg.Server.Environment)
+
+	// DEV BYPASS AUTH: Carregar admin user após DB init.
+	// (config.Validate já bloqueia bypass=true em production — defense in depth.)
 	if cfg.Dev.BypassAuth {
-		log.Println("⚠️  DEV_BYPASS_AUTH habilitado — autenticação desativada!")
+		// ANSI yellow + bold pra warning chamativo no terminal.
+		log.Println("\x1b[1;33m" + strings.Repeat("=", 70) + "\x1b[0m")
+		log.Println("\x1b[1;33m⚠️  DEV_BYPASS_AUTH HABILITADO — AUTENTICAÇÃO DESATIVADA\x1b[0m")
+		log.Println("\x1b[1;33m   Esta flag NUNCA deve estar em produção. config.Validate aborta\x1b[0m")
+		log.Println("\x1b[1;33m   o boot se ENVIRONMENT=production. Use apenas em dev local.\x1b[0m")
+		log.Println("\x1b[1;33m" + strings.Repeat("=", 70) + "\x1b[0m")
 		var adminUser models.User
 		if err := database.DB.Where("email = ?", "admin@plenya.com").First(&adminUser).Error; err != nil {
 			log.Fatalf("DEV_BYPASS_AUTH requer usuário admin@plenya.com no banco: %v", err)
@@ -83,7 +111,7 @@ func main() {
 		cfg.Dev.AdminUserID = adminUser.ID
 		cfg.Dev.AdminEmail = adminUser.Email
 		cfg.Dev.AdminRoles = adminUser.GetRoles()
-		log.Printf("⚠️  DEV bypass ativo como: %s (%s)", adminUser.Email, adminUser.ID)
+		log.Printf("\x1b[1;33m⚠️  DEV bypass ativo como: %s (%s)\x1b[0m", adminUser.Email, adminUser.ID)
 	}
 
 	// Initialize processing services early (needed by background worker)
@@ -116,6 +144,13 @@ func main() {
 		ServerHeader: "Plenya",
 		ErrorHandler: customErrorHandler,
 		BodyLimit:    200 * 1024 * 1024, // 200MB para permitir upload de livros grandes
+		// CRITICAL C5 — Trusted proxy enforcement.
+		// Sem isso, qualquer request pode setar X-Forwarded-For e burlar
+		// rate limit / audit log de IP. Com TrustedProxies setado, Fiber
+		// só lê o header se o conexão chegou de IP da lista.
+		EnableTrustedProxyCheck: true,
+		TrustedProxies:          cfg.Server.TrustedProxies,
+		ProxyHeader:             fiber.HeaderXForwardedFor,
 	})
 
 	// Middlewares globais
@@ -123,14 +158,34 @@ func main() {
 	app.Use(logger.New(logger.Config{
 		Format: "[${time}] ${status} - ${latency} ${method} ${path}\n",
 	}))
+	// M1 — multi-origin CORS. Lista vinda de CORS_ORIGINS (CSV).
+	// AllowOriginsFunc valida case-insensitive e exato (sem wildcard).
+	// AllowCredentials=false (cookies não cross-domain — JWT vai em header).
+	allowedOrigins := make(map[string]bool, len(cfg.Server.CORSOrigins))
+	for _, o := range cfg.Server.CORSOrigins {
+		o = strings.TrimSpace(o)
+		if o != "" {
+			allowedOrigins[strings.ToLower(o)] = true
+		}
+	}
+	if cfg.Server.CORSOrigin != "" {
+		allowedOrigins[strings.ToLower(cfg.Server.CORSOrigin)] = true
+	}
+	log.Printf("🌐 CORS allowed origins: %v", keysOf(allowedOrigins))
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: cfg.Server.CORSOrigin,
+		AllowOriginsFunc: func(origin string) bool {
+			return allowedOrigins[strings.ToLower(origin)]
+		},
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 		AllowMethods: "GET, POST, PUT, PATCH, DELETE, OPTIONS",
 	}))
 
-	// Serve static files (PDFs)
-	app.Static("/uploads", "/app/uploads")
+	// HIGH H1 — REMOVIDO app.Static("/uploads", "/app/uploads").
+	// Servir uploads sem auth vazava PDFs de prescrição/atestado/exames.
+	// Cada recurso agora usa handler autenticado (DownloadDocument, etc.)
+	// que valida permissão antes de servir o arquivo.
+	// Para casos públicos validáveis (QR code de prescrição), criar rota
+	// /public/* específica com token assinado de curta duração.
 
 	// Rotas
 	setupRoutes(app, cfg, processingJobService, labTestDefService, labResultBatchService, embeddingQueueService, semanticService, aiService)
@@ -289,7 +344,13 @@ func setupRoutes(
 	certificateHandler := handlers.NewCertificateHandler(database.DB, certificateService)
 	medicationDefHandler := handlers.NewMedicationDefinitionHandler(medicationDefinitionService)
 	enrichmentPrepHandler := handlers.NewScoreEnrichmentPreparationHandler(database.DB)
-	leadHandler := handlers.NewLeadHandler(leadService, emailService)
+	// M10 — Turnstile CAPTCHA pra rota pública /leads. Em dev (Secret vazio),
+	// validação é pulada com warning (não quebra fluxo local).
+	turnstileSvc := services.NewTurnstileService(cfg.Turnstile.Secret)
+	if !turnstileSvc.Enabled() {
+		log.Println("⚠️  TURNSTILE_SECRET vazio — CAPTCHA desabilitado (ok em dev)")
+	}
+	leadHandler := handlers.NewLeadHandler(leadService, emailService).WithTurnstile(turnstileSvc)
 	campaignService := services.NewCampaignService(database.DB, cfg)
 	campaignHandler := handlers.NewCampaignHandler(campaignService)
 	whatsappWebhookHandler := handlers.NewWhatsAppWebhookHandler(cfg, whatsappService, leadService)
@@ -310,13 +371,20 @@ func setupRoutes(
 	patientWorkoutsService := services.NewPatientWorkoutsService(database.DB)
 	patientCheckInsService := services.NewPatientCheckInsService(database.DB)
 	notificationPreferencesService := services.NewNotificationPreferencesService(database.DB)
-	telemedLobbyService := services.NewTelemedLobbyService(database.DB, cfg)
+	telemedLobbyService := services.NewTelemedLobbyService(database.DB, cfg).WithDailyCo(dailyCoService)
 	telemedLobbyHandler := handlers.NewTelemedLobbyHandler(telemedLobbyService)
+
+	// HIGH H9 — patientAppointmentService precisa do DailyCo pra emitir
+	// meeting_token quando paciente abre detalhe da consulta no portal.
+	patientAppointmentService.WithDailyCo(dailyCoService)
 
 	// Plugar lobby no AppointmentService — quando appointment de telemedicina
 	// é criado, AppointmentService.createDailyRoom também ensure-token gera o
-	// token público pra link /sala/[token] dos emails/WA.
+	// token público pra link /sala/[token] dos emails/WA. TelemedLobbyService
+	// também é injetado no notificationService pra montar o link /sala/<token>
+	// nos emails/WhatsApp em vez da URL crua da Daily.
 	appointmentService.WithTelemedLobby(telemedLobbyService)
+	appointmentNotificationService.WithTelemedLobby(telemedLobbyService)
 	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService, patientScoresService, patientProfileService, patientDocumentsService, patientWorkoutsService, patientCheckInsService, notificationPreferencesService, notificationService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
@@ -416,12 +484,20 @@ func setupRoutes(
 	conv.Post("/:type/:id/ai/summary", conversationAILimiter.Middleware(), conversationHandler.AISummary)
 	conv.Post("/:type/:id/ai/suggest-reply", conversationAILimiter.Middleware(), conversationHandler.AISuggestReply)
 
-	// Auth routes (públicas)
+	// Auth routes (públicas).
+	// CRITICAL C4 — rate limit em login/register (anti brute-force).
+	// 2 camadas: por IP (10/min) e por email (5/15min).
+	loginIPLimiter := middleware.NewRateLimiter(10, time.Minute)
+	loginEmailLimiter := middleware.NewEmailRateLimiter(5, 15*time.Minute)
 	auth := v1.Group("/auth")
-	auth.Post("/register", authHandler.Register)
-	auth.Post("/login", authHandler.Login)
-	auth.Post("/refresh", authHandler.Refresh)
+	auth.Post("/register", loginIPLimiter.Middleware(), authHandler.Register)
+	auth.Post("/login", loginIPLimiter.Middleware(), loginEmailLimiter.Middleware(), authHandler.Login)
+	auth.Post("/login/verify-2fa", loginIPLimiter.Middleware(), authHandler.VerifyMFA)
+	auth.Post("/refresh", loginIPLimiter.Middleware(), authHandler.Refresh)
 	auth.Post("/logout", middleware.Auth(cfg), authHandler.Logout)
+	// CRITICAL C6 — 2FA enrollment endpoints (autenticados).
+	auth.Post("/2fa/enable", middleware.Auth(cfg), authHandler.Enable2FA)
+	auth.Post("/2fa/verify", middleware.Auth(cfg), authHandler.Verify2FA)
 
 	// OAuth routes (públicas, com rate limiting)
 	oauthLimiter := middleware.NewRateLimiter(5, time.Minute) // 5 req/min
@@ -490,16 +566,21 @@ func setupRoutes(
 	adminUsers.Put("/:id", userHandler.UpdateUser)
 	adminUsers.Delete("/:id", userHandler.DeleteUser)
 
-	// Patients routes (protegidas)
+	// Patients routes (protegidas).
+	// CRITICAL C2 — RequireAnyStaff garante que role 'patient' NÃO atinge
+	// handlers /patients/*. Pacientes acessam dados próprios via /patient/me/*.
+	// Todos staff (admin/manager/secretary/doctor/nurse/etc.) podem ver todos
+	// pacientes da clínica (decisão de produto: clínica única, multi-tenant em V2).
 	patients := v1.Group("/patients")
 	patients.Use(middleware.Auth(cfg))
+	patients.Use(middleware.RequireAnyStaff())
 	patients.Use(middleware.AuditLog(database.DB))
 
 	patients.Get("/", patientHandler.List)
 	patients.Post("/", patientHandler.Create)
 	patients.Get("/:id", patientHandler.GetByID)
 	patients.Put("/:id", patientHandler.Update)
-	patients.Delete("/:id", middleware.RequireMedicalStaff(), patientHandler.Delete)
+	patients.Delete("/:id", middleware.RequireRole(models.RoleAdmin, models.RoleDoctor, models.RoleManager), patientHandler.Delete)
 
 	// Convite pra área do paciente — admin/manager/secretary disparam.
 	portalInviteRoles := middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary)
@@ -522,7 +603,11 @@ func setupRoutes(
 	patientMeLimiter := middleware.NewRateLimiter(120, time.Minute)
 	patientMe := v1.Group("/patient/me", middleware.Auth(cfg), middleware.RequirePatient(database.DB), patientMeLimiter.Middleware(), middleware.AuditLog(database.DB))
 	patientMe.Get("/", patientPortalHandler.Me)
-	patientMe.Post("/password", patientPortalHandler.SetPassword)
+	// M5 — limite agressivo na troca de senha (5 tentativas / 15min por user).
+	// Mitiga: paciente roubado → atacante muda senha repetidas vezes pra trolar
+	// notificações; bot tentando força-bruta na rota.
+	patientPasswordLimiter := middleware.NewEmailRateLimiter(5, 15*time.Minute)
+	patientMe.Post("/password", patientPasswordLimiter.MiddlewareByUser(), patientPortalHandler.SetPassword)
 	patientMe.Get("/dashboard", patientPortalHandler.Dashboard)
 	patientMe.Get("/continuum", patientPortalHandler.MyContinuum)
 	patientMe.Get("/appointments", patientPortalHandler.ListAppointments)
@@ -563,9 +648,11 @@ func setupRoutes(
 	patientMe.Get("/notification-preferences", patientPortalHandler.GetNotificationPreferences)
 	patientMe.Patch("/notification-preferences", patientPortalHandler.PatchNotificationPreferences)
 
-	// Anamnesis routes (protegidas - profissionais autenticados)
+	// Anamnesis routes (protegidas - profissionais autenticados).
+	// C2 — bloqueia patient role.
 	anamnesis := v1.Group("/anamnesis")
 	anamnesis.Use(middleware.Auth(cfg))
+	anamnesis.Use(middleware.RequireAnyStaff())
 	anamnesis.Use(middleware.AuditLog(database.DB))
 
 	anamnesis.Get("/", anamnesisHandler.List)
@@ -582,14 +669,16 @@ func setupRoutes(
 	anamnesisTemplates.Get("/", anamnesisTemplateHandler.GetAll)
 	anamnesisTemplates.Get("/search", anamnesisTemplateHandler.Search)
 	anamnesisTemplates.Get("/:id", anamnesisTemplateHandler.GetByID)
-	anamnesisTemplates.Post("/", middleware.RequireMedicalStaff(), anamnesisTemplateHandler.Create)
-	anamnesisTemplates.Put("/:id", middleware.RequireMedicalStaff(), anamnesisTemplateHandler.Update)
-	anamnesisTemplates.Put("/:id/items", middleware.RequireMedicalStaff(), anamnesisTemplateHandler.UpdateItems)
+	anamnesisTemplates.Post("/", middleware.RequireClinician(), anamnesisTemplateHandler.Create)
+	anamnesisTemplates.Put("/:id", middleware.RequireClinician(), anamnesisTemplateHandler.Update)
+	anamnesisTemplates.Put("/:id/items", middleware.RequireClinician(), anamnesisTemplateHandler.UpdateItems)
 	anamnesisTemplates.Delete("/:id", middleware.RequireAdmin(), anamnesisTemplateHandler.Delete)
 
-	// Appointments routes (protegidas)
+	// Appointments routes (protegidas).
+	// C2 — bloqueia role patient. Pacientes usam /patient/me/appointments.
 	appointments := v1.Group("/appointments")
 	appointments.Use(middleware.Auth(cfg))
+	appointments.Use(middleware.RequireAnyStaff())
 	appointments.Use(middleware.AuditLog(database.DB))
 
 	appointments.Get("/", appointmentHandler.List)
@@ -598,11 +687,16 @@ func setupRoutes(
 	appointments.Put("/:id", appointmentHandler.Update)
 	appointments.Post("/:id/cancel", appointmentHandler.Cancel)
 	appointments.Post("/:id/confirm", appointmentHandler.Confirm)
+	// HIGH H9 — emite meeting_token de owner pro staff. POST porque cada
+	// chamada gera token novo (sem cache) — inviável como GET.
+	appointments.Post("/:id/telemed-token", appointmentHandler.GetTelemedToken)
 	appointments.Delete("/:id", middleware.RequireAdmin(), appointmentHandler.Delete)
 
-	// Prescriptions routes (protegidas - apenas doctors)
+	// Prescriptions routes (protegidas).
+	// C2 — bloqueia patient role. Pacientes usam /patient/me/prescriptions.
 	prescriptions := v1.Group("/prescriptions")
 	prescriptions.Use(middleware.Auth(cfg))
+	prescriptions.Use(middleware.RequireAnyStaff())
 	prescriptions.Use(middleware.AuditLog(database.DB))
 
 	prescriptions.Get("/", prescriptionHandler.List)
@@ -645,9 +739,11 @@ func setupRoutes(
 	medicationDefs.Put("/:id", middleware.RequireAdmin(), middleware.AuditLog(database.DB), medicationDefHandler.Update)
 	medicationDefs.Delete("/:id", middleware.RequireAdmin(), middleware.AuditLog(database.DB), medicationDefHandler.Delete)
 
-	// Lab Results routes (protegidas - apenas doctors)
+	// Lab Results routes (protegidas).
+	// C2 — bloqueia patient role. Pacientes usam /patient/me/lab-batches.
 	labResults := v1.Group("/lab-results")
 	labResults.Use(middleware.Auth(cfg))
+	labResults.Use(middleware.RequireAnyStaff())
 	labResults.Use(middleware.AuditLog(database.DB))
 
 	labResults.Get("/", labResultHandler.List)
@@ -656,46 +752,50 @@ func setupRoutes(
 	labResults.Put("/:id", labResultHandler.Update)
 	labResults.Delete("/:id", middleware.RequireAdmin(), labResultHandler.Delete)
 
-	// Lab Result Batches routes (protegidas - doctors)
+	// Lab Result Batches routes (protegidas).
+	// C2 — bloqueia patient role.
 	labResultBatches := v1.Group("/lab-result-batches")
 	labResultBatches.Use(middleware.Auth(cfg))
+	labResultBatches.Use(middleware.RequireAnyStaff())
 	labResultBatches.Use(middleware.AuditLog(database.DB))
 
 	labResultBatches.Get("/", labResultBatchHandler.List)
-	labResultBatches.Post("/", middleware.RequireMedicalStaff(), labResultBatchHandler.Create)
+	labResultBatches.Post("/", middleware.RequireClinician(), labResultBatchHandler.Create)
 	labResultBatches.Get("/:id", labResultBatchHandler.GetByID)
-	labResultBatches.Put("/:id", middleware.RequireMedicalStaff(), labResultBatchHandler.Update)
+	labResultBatches.Put("/:id", middleware.RequireClinician(), labResultBatchHandler.Update)
 	labResultBatches.Delete("/:id", middleware.RequireAdmin(), labResultBatchHandler.Delete)
 
 	// Nested routes para results dentro de batch
-	labResultBatches.Post("/:id/results", middleware.RequireMedicalStaff(), labResultBatchHandler.AddResult)
-	labResultBatches.Put("/:batchId/results/:resultId", middleware.RequireMedicalStaff(), labResultBatchHandler.UpdateResult)
+	labResultBatches.Post("/:id/results", middleware.RequireClinician(), labResultBatchHandler.AddResult)
+	labResultBatches.Put("/:batchId/results/:resultId", middleware.RequireClinician(), labResultBatchHandler.UpdateResult)
 	labResultBatches.Delete("/:batchId/results/:resultId", middleware.RequireAdmin(), labResultBatchHandler.DeleteResult)
 
 	// PDF upload route
-	labResultBatches.Post("/:batchId/upload-pdf", middleware.RequireMedicalStaff(), labResultBatchHandler.UploadPDF)
+	labResultBatches.Post("/:batchId/upload-pdf", middleware.RequireClinician(), labResultBatchHandler.UploadPDF)
 
 	// Classification route - re-classifica resultados do batch
-	labResultBatches.Post("/:id/classify", middleware.RequireMedicalStaff(), labResultBatchHandler.Classify)
+	labResultBatches.Post("/:id/classify", middleware.RequireClinician(), labResultBatchHandler.Classify)
 
 	// Processing Jobs routes (protegidas)
 	processingJobs := v1.Group("/processing-jobs")
 	processingJobs.Use(middleware.Auth(cfg))
 	processingJobs.Get("/:id", processingJobHandler.GetByID)
 
-	// Lab Requests routes (protegidas - medical staff)
+	// Lab Requests routes (protegidas).
+	// C2 — bloqueia patient role.
 	labRequests := v1.Group("/lab-requests")
 	labRequests.Use(middleware.Auth(cfg))
+	labRequests.Use(middleware.RequireAnyStaff())
 	labRequests.Use(middleware.AuditLog(database.DB))
 
-	labRequests.Post("/", middleware.RequireMedicalStaff(), labRequestHandler.CreateLabRequest)
+	labRequests.Post("/", middleware.RequireClinician(), labRequestHandler.CreateLabRequest)
 	labRequests.Get("/", labRequestHandler.GetAllLabRequests)
 	labRequests.Get("/:id", labRequestHandler.GetLabRequestByID)
 	labRequests.Get("/by-date", labRequestHandler.GetLabRequestsByDate)
 	labRequests.Get("/by-date-range", labRequestHandler.GetLabRequestsByDateRange)
-	labRequests.Put("/:id", middleware.RequireMedicalStaff(), labRequestHandler.UpdateLabRequest)
+	labRequests.Put("/:id", middleware.RequireClinician(), labRequestHandler.UpdateLabRequest)
 	labRequests.Delete("/:id", middleware.RequireAdmin(), labRequestHandler.DeleteLabRequest)
-	labRequests.Post("/:id/generate-pdf", middleware.RequireMedicalStaff(), labRequestHandler.GeneratePDF)
+	labRequests.Post("/:id/generate-pdf", middleware.RequireClinician(), labRequestHandler.GeneratePDF)
 
 	// Lab Requests routes dentro de patients
 	patients.Get("/:patientId/lab-requests", labRequestHandler.GetLabRequestsByPatientID)
@@ -711,11 +811,11 @@ func setupRoutes(
 	labRequestTemplates.Get("/:id", labRequestTemplateHandler.GetLabRequestTemplateByID)
 
 	// Rotas de escrita (medical staff)
-	labRequestTemplates.Post("/", middleware.RequireMedicalStaff(), labRequestTemplateHandler.CreateLabRequestTemplate)
-	labRequestTemplates.Put("/:id", middleware.RequireMedicalStaff(), labRequestTemplateHandler.UpdateLabRequestTemplate)
-	labRequestTemplates.Put("/:id/tests", middleware.RequireMedicalStaff(), labRequestTemplateHandler.UpdateLabRequestTemplateTests)
-	labRequestTemplates.Post("/:id/tests", middleware.RequireMedicalStaff(), labRequestTemplateHandler.AddLabTestToTemplate)
-	labRequestTemplates.Delete("/:id/tests/:testId", middleware.RequireMedicalStaff(), labRequestTemplateHandler.RemoveLabTestFromTemplate)
+	labRequestTemplates.Post("/", middleware.RequireClinician(), labRequestTemplateHandler.CreateLabRequestTemplate)
+	labRequestTemplates.Put("/:id", middleware.RequireClinician(), labRequestTemplateHandler.UpdateLabRequestTemplate)
+	labRequestTemplates.Put("/:id/tests", middleware.RequireClinician(), labRequestTemplateHandler.UpdateLabRequestTemplateTests)
+	labRequestTemplates.Post("/:id/tests", middleware.RequireClinician(), labRequestTemplateHandler.AddLabTestToTemplate)
+	labRequestTemplates.Delete("/:id/tests/:testId", middleware.RequireClinician(), labRequestTemplateHandler.RemoveLabTestFromTemplate)
 	labRequestTemplates.Delete("/:id", middleware.RequireAdmin(), labRequestTemplateHandler.DeleteLabRequestTemplate)
 
 	// Lab Result Views routes (protegidas - medical staff)
@@ -729,9 +829,9 @@ func setupRoutes(
 	labResultViews.Get("/:id", labResultViewHandler.GetByID)
 
 	// Escrita (medical staff)
-	labResultViews.Post("/", middleware.RequireMedicalStaff(), labResultViewHandler.Create)
-	labResultViews.Put("/:id", middleware.RequireMedicalStaff(), labResultViewHandler.Update)
-	labResultViews.Put("/:id/items", middleware.RequireMedicalStaff(), labResultViewHandler.UpdateItems)
+	labResultViews.Post("/", middleware.RequireClinician(), labResultViewHandler.Create)
+	labResultViews.Put("/:id", middleware.RequireClinician(), labResultViewHandler.Update)
+	labResultViews.Put("/:id/items", middleware.RequireClinician(), labResultViewHandler.UpdateItems)
 
 	// Deleção (admin)
 	labResultViews.Delete("/:id", middleware.RequireAdmin(), labResultViewHandler.Delete)
@@ -864,14 +964,14 @@ func setupRoutes(
 	articles.Use(middleware.AuditLog(database.DB))
 
 	// CRUD básico
-	articles.Post("/", middleware.RequireMedicalStaff(), articleHandler.CreateArticle)
+	articles.Post("/", middleware.RequireClinician(), articleHandler.CreateArticle)
 	articles.Get("/", articleHandler.ListArticles)
 	articles.Get("/search", articleHandler.SearchArticles)
 	articles.Get("/favorites", articleHandler.GetFavorites)
 	articles.Get("/stats", articleHandler.GetStatistics)
 
 	// Upload de artigo (PDF, EPUB, TXT, MD)
-	articles.Post("/upload", middleware.RequireMedicalStaff(), articleHandler.UploadFile)
+	articles.Post("/upload", middleware.RequireClinician(), articleHandler.UploadFile)
 
 	// RAG Semantic Search routes (Phase 4) - MUST BE BEFORE /:id
 	articles.Get("/semantic-search", articleSemanticHandler.SemanticSearch)
@@ -882,8 +982,8 @@ func setupRoutes(
 	articles.Get("/:id", articleHandler.GetArticle)
 	articles.Get("/:id/chapters", articleHandler.GetChapters)
 	articles.Get("/:id/related-score-items", articleSemanticHandler.DiscoverRelatedScoreItems)
-	articles.Put("/:id", middleware.RequireMedicalStaff(), articleHandler.UpdateArticle)
-	articles.Delete("/:id", middleware.RequireMedicalStaff(), articleHandler.DeleteArticle)
+	articles.Put("/:id", middleware.RequireClinician(), articleHandler.UpdateArticle)
+	articles.Delete("/:id", middleware.RequireClinician(), articleHandler.DeleteArticle)
 
 	// Lab Test Definitions routes (todas protegidas)
 	labTests := v1.Group("/lab-tests")
@@ -909,11 +1009,11 @@ func setupRoutes(
 	labResultValues.Use(middleware.AuditLog(database.DB))
 
 	// Rotas de valores (doctors podem criar/editar)
-	labResultValues.Post("/values", middleware.RequireMedicalStaff(), labResultValueHandler.CreateLabResultValue)
-	labResultValues.Post("/values/batch", middleware.RequireMedicalStaff(), labResultValueHandler.CreateLabResultValues)
+	labResultValues.Post("/values", middleware.RequireClinician(), labResultValueHandler.CreateLabResultValue)
+	labResultValues.Post("/values/batch", middleware.RequireClinician(), labResultValueHandler.CreateLabResultValues)
 	labResultValues.Get("/values/:id", labResultValueHandler.GetLabResultValueByID)
 	labResultValues.Get("/:id/values", labResultValueHandler.GetValuesByLabResult)
-	labResultValues.Put("/values/:id", middleware.RequireMedicalStaff(), labResultValueHandler.UpdateLabResultValue)
+	labResultValues.Put("/values/:id", middleware.RequireClinician(), labResultValueHandler.UpdateLabResultValue)
 	labResultValues.Delete("/values/:id", middleware.RequireAdmin(), labResultValueHandler.DeleteLabResultValue)
 
 	// Rotas específicas do paciente (dentro de /patients/:patientId)
@@ -925,29 +1025,31 @@ func setupRoutes(
 	patients.Get("/:id/score-snapshots", scoreSnapshotHandler.GetSnapshotsByPatientID)
 	patients.Get("/:id/score-snapshots/latest", scoreSnapshotHandler.GetLatestSnapshotByPatientID)
 
-	// Score Snapshots routes (global)
+	// Score Snapshots routes (global).
+	// C2 — bloqueia patient role. Pacientes usam /patient/me/score-snapshots/:id.
 	scoreSnapshots := v1.Group("/score-snapshots")
 	scoreSnapshots.Use(middleware.Auth(cfg))
+	scoreSnapshots.Use(middleware.RequireAnyStaff())
 	scoreSnapshots.Get("/:id", scoreSnapshotHandler.GetSnapshotByID)
 	scoreSnapshots.Delete("/:id", middleware.RequireRole("admin", "doctor"), middleware.AuditLog(database.DB), scoreSnapshotHandler.DeleteSnapshot)
 
 	// Patient Subscriptions routes (patient-scoped)
 	patients.Get("/:id/subscriptions", subscriptionHandler.GetPatientSubscriptions)
 	patients.Get("/:id/subscriptions/active", subscriptionHandler.GetActivePatientSubscription)
-	patients.Post("/:id/subscriptions", middleware.RequireMedicalStaff(), middleware.AuditLog(database.DB), subscriptionHandler.CreateSubscription)
+	patients.Post("/:id/subscriptions", middleware.RequireClinician(), middleware.AuditLog(database.DB), subscriptionHandler.CreateSubscription)
 
 	// Subscriptions routes (global)
 	subscriptions := v1.Group("/subscriptions")
 	subscriptions.Use(middleware.Auth(cfg))
 	subscriptions.Get("/", middleware.RequireRole("admin", "doctor"), subscriptionHandler.GetAllSubscriptions)
-	subscriptions.Get("/active", middleware.RequireMedicalStaff(), subscriptionHandler.GetActiveSubscriptions)
+	subscriptions.Get("/active", middleware.RequireClinician(), subscriptionHandler.GetActiveSubscriptions)
 	subscriptions.Get("/:id", subscriptionHandler.GetSubscriptionByID)
-	subscriptions.Put("/:id", middleware.RequireMedicalStaff(), middleware.AuditLog(database.DB), subscriptionHandler.UpdateSubscription)
+	subscriptions.Put("/:id", middleware.RequireClinician(), middleware.AuditLog(database.DB), subscriptionHandler.UpdateSubscription)
 	subscriptions.Delete("/:id", middleware.RequireRole("admin", "doctor"), middleware.AuditLog(database.DB), subscriptionHandler.DeleteSubscription)
 	subscriptions.Post("/:id/cancel", middleware.AuditLog(database.DB), subscriptionHandler.CancelSubscription) // Paciente pode auto-cancelar
-	subscriptions.Post("/:id/renew", middleware.RequireMedicalStaff(), middleware.AuditLog(database.DB), subscriptionHandler.RenewSubscription)
-	subscriptions.Post("/:id/suspend", middleware.RequireMedicalStaff(), middleware.AuditLog(database.DB), subscriptionHandler.SuspendSubscription)
-	subscriptions.Post("/:id/activate", middleware.RequireMedicalStaff(), middleware.AuditLog(database.DB), subscriptionHandler.ActivateSubscription)
+	subscriptions.Post("/:id/renew", middleware.RequireClinician(), middleware.AuditLog(database.DB), subscriptionHandler.RenewSubscription)
+	subscriptions.Post("/:id/suspend", middleware.RequireClinician(), middleware.AuditLog(database.DB), subscriptionHandler.SuspendSubscription)
+	subscriptions.Post("/:id/activate", middleware.RequireClinician(), middleware.AuditLog(database.DB), subscriptionHandler.ActivateSubscription)
 
 	// Subscription Plans routes
 	subscriptionPlans := v1.Group("/subscription-plans")
@@ -984,8 +1086,8 @@ func setupRoutes(
 	articles.Get("/:id/download", articleHandler.DownloadPDF)
 
 	// Many-to-many relationship with ScoreItems
-	articles.Post("/:id/score-items", middleware.RequireMedicalStaff(), articleHandler.AddScoreItemsToArticle)
-	articles.Delete("/:id/score-items", middleware.RequireMedicalStaff(), articleHandler.RemoveScoreItemsFromArticle)
+	articles.Post("/:id/score-items", middleware.RequireClinician(), articleHandler.AddScoreItemsToArticle)
+	articles.Delete("/:id/score-items", middleware.RequireClinician(), articleHandler.RemoveScoreItemsFromArticle)
 	articles.Get("/:id/score-items", articleHandler.GetScoreItemsForArticle)
 
 	// === Calendar V1 (Blocos B + C + D + E) ===
@@ -1166,8 +1268,8 @@ func setupRoutes(
 	// === Training Module ===
 	registerTrainingRoutes(v1, cfg, semanticService)
 
-	// Servir arquivos estáticos (uploads)
-	app.Static("/uploads", "./uploads")
+	// HIGH H1 — REMOVIDO segundo app.Static("/uploads", "./uploads").
+	// Mesmo motivo: sem auth, vaza arquivos. Use handlers autenticados.
 
 	// Iniciar notification worker (subscription notifications)
 	notificationWorker := workers.NewNotificationWorker(notificationService, 24*time.Hour) // Check every 24 hours
@@ -1232,9 +1334,9 @@ func registerTrainingRoutes(v1 fiber.Router, cfg *config.Config, semanticService
 	assessments.Use(middleware.Auth(cfg))
 	assessments.Use(middleware.AuditLog(database.DB))
 	assessments.Get("/", physicalAssessmentHandler.List)
-	assessments.Post("/", middleware.RequireMedicalStaff(), physicalAssessmentHandler.Create)
+	assessments.Post("/", middleware.RequireClinician(), physicalAssessmentHandler.Create)
 	assessments.Get("/:id", physicalAssessmentHandler.GetByID)
-	assessments.Post("/:id/generate-html", middleware.RequireMedicalStaff(), physicalAssessmentHandler.GenerateHTML)
+	assessments.Post("/:id/generate-html", middleware.RequireClinician(), physicalAssessmentHandler.GenerateHTML)
 	assessments.Delete("/:id", middleware.RequireAdmin(), physicalAssessmentHandler.Delete)
 
 	// Fitness Tests (authenticated, patient-scoped)
@@ -1242,7 +1344,7 @@ func registerTrainingRoutes(v1 fiber.Router, cfg *config.Config, semanticService
 	fitnessTests.Use(middleware.Auth(cfg))
 	fitnessTests.Use(middleware.AuditLog(database.DB))
 	fitnessTests.Get("/", fitnessTestHandler.List)
-	fitnessTests.Post("/", middleware.RequireMedicalStaff(), fitnessTestHandler.Create)
+	fitnessTests.Post("/", middleware.RequireClinician(), fitnessTestHandler.Create)
 	fitnessTests.Get("/:id", fitnessTestHandler.GetByID)
 	fitnessTests.Delete("/:id", middleware.RequireAdmin(), fitnessTestHandler.Delete)
 
@@ -1251,7 +1353,7 @@ func registerTrainingRoutes(v1 fiber.Router, cfg *config.Config, semanticService
 	posturalAssessments.Use(middleware.Auth(cfg))
 	posturalAssessments.Use(middleware.AuditLog(database.DB))
 	posturalAssessments.Get("/", posturalAssessmentHandler.List)
-	posturalAssessments.Post("/", middleware.RequireMedicalStaff(), posturalAssessmentHandler.Create)
+	posturalAssessments.Post("/", middleware.RequireClinician(), posturalAssessmentHandler.Create)
 	posturalAssessments.Get("/:id", posturalAssessmentHandler.GetByID)
 	posturalAssessments.Delete("/:id", middleware.RequireAdmin(), posturalAssessmentHandler.Delete)
 
@@ -1260,10 +1362,10 @@ func registerTrainingRoutes(v1 fiber.Router, cfg *config.Config, semanticService
 	workoutPlans.Use(middleware.Auth(cfg))
 	workoutPlans.Use(middleware.AuditLog(database.DB))
 	workoutPlans.Get("/", workoutPlanHandler.List)
-	workoutPlans.Post("/", middleware.RequireMedicalStaff(), workoutPlanHandler.Create)
+	workoutPlans.Post("/", middleware.RequireClinician(), workoutPlanHandler.Create)
 	workoutPlans.Get("/:id", workoutPlanHandler.GetByID)
-	workoutPlans.Put("/:id", middleware.RequireMedicalStaff(), workoutPlanHandler.Update)
-	workoutPlans.Post("/:id/generate-html", middleware.RequireMedicalStaff(), workoutPlanHandler.GenerateHTML)
+	workoutPlans.Put("/:id", middleware.RequireClinician(), workoutPlanHandler.Update)
+	workoutPlans.Post("/:id/generate-html", middleware.RequireClinician(), workoutPlanHandler.GenerateHTML)
 	workoutPlans.Delete("/:id", middleware.RequireAdmin(), workoutPlanHandler.Delete)
 
 	// Periodizations (authenticated, patient-scoped)
@@ -1271,8 +1373,8 @@ func registerTrainingRoutes(v1 fiber.Router, cfg *config.Config, semanticService
 	periodizations.Use(middleware.Auth(cfg))
 	periodizations.Use(middleware.AuditLog(database.DB))
 	periodizations.Get("/", periodizationHandler.List)
-	periodizations.Post("/", middleware.RequireMedicalStaff(), periodizationHandler.Create)
-	periodizations.Post("/generate", middleware.RequireMedicalStaff(), periodizationHandler.Generate)
+	periodizations.Post("/", middleware.RequireClinician(), periodizationHandler.Create)
+	periodizations.Post("/generate", middleware.RequireClinician(), periodizationHandler.Generate)
 	periodizations.Get("/:id", periodizationHandler.GetByID)
 	periodizations.Delete("/:id", middleware.RequireAdmin(), periodizationHandler.Delete)
 
@@ -1364,18 +1466,51 @@ func ragHealthCheck(c *fiber.Ctx, db *gorm.DB) error {
 	})
 }
 
-// customErrorHandler trata erros globais
+// customErrorHandler trata erros globais.
+//
+// M6 — em production, NÃO expomos err.Error() pra client em respostas 5xx.
+// O erro real é logado via log.Printf (com path e método pra triagem). Erros
+// 4xx (*fiber.Error) preservam mensagem porque são semânticos (404 Not Found,
+// 422 Validation, etc.). Em dev mantemos detalhe pra DX.
 func customErrorHandler(c *fiber.Ctx, err error) error {
 	code := fiber.StatusInternalServerError
+	msg := err.Error()
 
 	if e, ok := err.(*fiber.Error); ok {
 		code = e.Code
+		// 4xx fiber.Error: preserva msg (semântica) mesmo em prod.
+		return c.Status(code).JSON(fiber.Map{
+			"error": msg,
+			"code":  code,
+		})
 	}
 
+	// Não-fiber error → 500. Em production, opaco; em dev, detalhe.
+	if appConfig != nil && appConfig.Server.Environment == "production" {
+		log.Printf("[error 500] %s %s | err=%v", c.Method(), c.Path(), err)
+		return c.Status(code).JSON(fiber.Map{
+			"error": "internal server error",
+			"code":  code,
+		})
+	}
 	return c.Status(code).JSON(fiber.Map{
-		"error": err.Error(),
+		"error": msg,
+		"code":  code,
 	})
 }
+
+// keysOf — utilitário pra debug log de mapas string→bool (CORS allowlist).
+func keysOf(m map[string]bool) []string {
+	out := make([]string, 0, len(m))
+	for k := range m {
+		out = append(out, k)
+	}
+	return out
+}
+
+// appConfig — referência global pra customErrorHandler decidir verbosidade
+// em prod. Setado no início do main() antes do app.Listen.
+var appConfig *config.Config
 
 // startProcessingWorker inicia goroutine de processamento de jobs
 func startProcessingWorker(service *services.ProcessingJobService) {

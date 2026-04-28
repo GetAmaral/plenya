@@ -11,11 +11,13 @@ import (
 	"github.com/plenya/api/internal/models"
 )
 
-// AuthClaims representa os claims do JWT
+// AuthClaims representa os claims do JWT.
+// Type identifica access vs refresh — middleware aceita APENAS access tokens.
 type AuthClaims struct {
 	UserID string   `json:"userId"`
 	Email  string   `json:"email"`
 	Roles  []string `json:"roles"`
+	Type   string   `json:"type,omitempty"`
 	jwt.RegisteredClaims
 }
 
@@ -63,6 +65,17 @@ func Auth(cfg *config.Config) fiber.Handler {
 		if !ok || !token.Valid {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"error": "invalid token claims",
+			})
+		}
+
+		// CRITICAL: middleware Auth aceita APENAS access tokens.
+		// Refresh/MFA challenge precisam ir pelos endpoints específicos.
+		// Tokens emitidos antes desse fix não têm Type — aceitamos como access
+		// pra não quebrar sessões em rotação. Após 1 ciclo de refresh, todos
+		// terão Type setado.
+		if claims.Type != "" && claims.Type != "access" {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"error": "wrong token type",
 			})
 		}
 

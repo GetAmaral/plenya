@@ -82,3 +82,24 @@ func (al *AuditLog) BeforeCreate(tx *gorm.DB) error {
 	}
 	return nil
 }
+
+// HIGH H8 — AuditLog é imutável (LGPD + compliance).
+// Hooks GORM bloqueiam UPDATE/DELETE em qualquer nível da app.
+// Em produção, adicionar REVOKE no DB em paralelo (defense in depth).
+
+func (al *AuditLog) BeforeUpdate(tx *gorm.DB) error {
+	return ErrAuditLogImmutable
+}
+
+func (al *AuditLog) BeforeDelete(tx *gorm.DB) error {
+	return ErrAuditLogImmutable
+}
+
+// ErrAuditLogImmutable — retornado por hooks de Update/Delete.
+var ErrAuditLogImmutable = errAuditLogImmutable{}
+
+type errAuditLogImmutable struct{}
+
+func (errAuditLogImmutable) Error() string {
+	return "audit_logs are immutable (LGPD compliance)"
+}

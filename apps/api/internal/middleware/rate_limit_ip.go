@@ -84,10 +84,15 @@ func pruneTimestamps(stamps []time.Time, cutoff time.Time) []time.Time {
 }
 
 // Middleware retorna um handler Fiber que aplica o rate limit com base
-// no IP do cliente. Usa X-Forwarded-For se presente (para reverse proxy).
+// no IP do cliente.
+//
+// CRITICAL C5 — Após habilitar EnableTrustedProxyCheck no Fiber config,
+// c.IP() já lê X-Forwarded-For automaticamente APENAS quando a conexão
+// chega de um IP listado em TrustedProxies. Sem isso, retorna o IP direto.
+// Removemos a leitura manual de XFF (que aceitava qualquer header — spoofable).
 func (l *IPRateLimiter) Middleware() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		ip := clientIP(c)
+		ip := c.IP()
 		if !l.Allow(ip) {
 			retry := l.RetryAfter(ip)
 			c.Set("Retry-After", formatRetryAfter(retry))
@@ -98,23 +103,6 @@ func (l *IPRateLimiter) Middleware() fiber.Handler {
 		}
 		return c.Next()
 	}
-}
-
-// clientIP — extrai IP do cliente respeitando X-Forwarded-For (primeiro hop).
-func clientIP(c *fiber.Ctx) string {
-	if xff := c.Get("X-Forwarded-For"); xff != "" {
-		// Pega o primeiro IP da cadeia (cliente original)
-		for i := 0; i < len(xff); i++ {
-			if xff[i] == ',' || xff[i] == ' ' {
-				if i > 0 {
-					return xff[:i]
-				}
-				break
-			}
-		}
-		return xff
-	}
-	return c.IP()
 }
 
 func formatRetryAfter(d time.Duration) string {

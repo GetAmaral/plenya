@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
+	"github.com/plenya/api/internal/crypto"
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/models"
 )
@@ -71,12 +72,20 @@ func (s *PatientService) Create(userID uuid.UUID, req *dto.CreatePatientRequest)
 	return s.toDTO(&patient), nil
 }
 
-// GetByID busca um paciente por ID
+// GetByID busca um paciente por ID.
+//
+// CRITICAL C2 — RBAC clínica única:
+//   - Role 'patient' nunca deveria chegar aqui (middleware RequireAnyStaff
+//     bloqueia em /patients/*). Mantemos o filtro por user_id como defense-in-depth
+//     pra cobrir callers internos que não passam pelo middleware (ex: future scripts).
+//   - Todos staff (admin/manager/secretary/doctor/nurse/psychologist/nutritionist/
+//     physical_educator) podem ver qualquer paciente da clínica — decisão de
+//     produto: clínica única por instalação. Multi-tenant entre clínicas é V2.
 func (s *PatientService) GetByID(patientID, userID uuid.UUID, userRole models.Role) (*dto.PatientResponse, error) {
 	var patient models.Patient
 	query := s.db.Where("id = ?", patientID)
 
-	// Pacientes só podem ver seus próprios dados
+	// Defense-in-depth: caso passe um patient role direto.
 	if userRole == models.RolePatient {
 		query = query.Where("user_id = ?", userID)
 	}
@@ -89,6 +98,26 @@ func (s *PatientService) GetByID(patientID, userID uuid.UUID, userRole models.Ro
 	}
 
 	return s.toDTO(&patient), nil
+}
+
+// FindByCPF — M4 — lookup performante via CPFBlindIndex (HMAC).
+// Retorna nil sem erro se não achar (caller distingue notfound de erro).
+//
+// Uso: deduplicação na criação (um CPF = um Patient), conversão de Lead via
+// CPF informado em formulário, etc.
+func (s *PatientService) FindByCPF(cpfPlain string) (*models.Patient, error) {
+	idx, err := crypto.BlindIndexCPF(cpfPlain)
+	if err != nil || idx == "" {
+		return nil, err
+	}
+	var p models.Patient
+	if err := s.db.Where("cpf_blind_index = ?", idx).First(&p).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return &p, nil
 }
 
 // List lista todos os pacientes (com paginação)

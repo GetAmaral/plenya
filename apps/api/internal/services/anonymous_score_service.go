@@ -1,6 +1,8 @@
 package services
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"strings"
@@ -14,6 +16,14 @@ import (
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/repository"
 )
+
+// hashTokenSimple — SHA-256 hex (mesma fn que hashToken em auth_service, mas
+// privada local pra evitar import cycle). DRY pendente — refatorar pra
+// internal/crypto/token.go quando outros services precisarem.
+func hashTokenSimple(s string) string {
+	sum := sha256.Sum256([]byte(s))
+	return hex.EncodeToString(sum[:])
+}
 
 // ============================================================
 // Service
@@ -152,26 +162,46 @@ func (s *AnonymousScoreService) RequestClaim(code string, in RequestClaimInput) 
 		}
 	}
 
-	// Gera JWT magic link
-	// 7 dias: cliente pode demorar pra abrir o WhatsApp/email; link é single-use
-	// (ConfirmClaim marca a sessão como claimed e não reenvia depois).
-	// Janela de phishing controlada porque o token só dá acesso a um Patient específico
-	// criado pra essa sessão — não é login universal.
+	// HIGH H4 — Magic link com:
+	//  • secret separado (cfg.MagicLink.Secret, fallback JWT.Secret com warning)
+	//  • TTL reduzido pra 30min (era 7 dias — janela enorme de phishing)
+	//  • jti único persistido em refresh_tokens (tipo=magic_link) pra single-use
+	jti := uuid.Must(uuid.NewV7()).String()
+	ttl := s.cfg.MagicLink.TTL
+	if ttl == 0 {
+		ttl = 30 * time.Minute
+	}
+	expires := time.Now().Add(ttl)
 	claims := magicLinkClaims{
 		SessionCode: code,
 		Email:       emailNorm,
 		Phone:       phoneNorm,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(7 * 24 * time.Hour)),
+			ID:        jti,
+			ExpiresAt: jwt.NewNumericDate(expires),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			Issuer:    "plenya-score-light",
 			Subject:   "magic-link",
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	signed, err := token.SignedString([]byte(s.cfg.JWT.Secret))
+	signed, err := token.SignedString([]byte(s.cfg.MagicLink.Secret))
 	if err != nil {
 		return fmt.Errorf("failed to sign magic token: %w", err)
+	}
+
+	// Persiste jti pra single-use enforcement.
+	// UserID é nil neste estágio (usuário ainda não existe). Reusa tabela
+	// refresh_tokens com Type="magic_link" pra economizar nova migration.
+	// Truque: UserID exige NOT NULL no model — usamos uuid.Nil como placeholder.
+	mt := models.RefreshToken{
+		UserID:    uuid.Nil,
+		TokenHash: hashTokenSimple(jti),
+		Type:      "magic_link",
+		ExpiresAt: expires,
+	}
+	if err := s.db.Create(&mt).Error; err != nil {
+		return fmt.Errorf("failed to register magic link jti: %w", err)
 	}
 
 	link := fmt.Sprintf("%s/pt/escore-plenya/claim/%s", strings.TrimRight(s.cfg.Site.PublicURL, "/"), signed)
@@ -222,9 +252,11 @@ type ConfirmClaimResult struct {
 // ConfirmClaim valida o magic token, cria/busca User+Patient e vincula a sessão.
 // Aceita tokens com email, phone, ou ambos (depende de qual canal foi usado no RequestClaim).
 // Retorna tokens do EMR para o frontend fazer login imediato.
+//
+// HIGH H4 — usa MagicLink.Secret + valida jti single-use contra DB.
 func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService) (*ConfirmClaimResult, error) {
 	parsed, err := jwt.ParseWithClaims(token, &magicLinkClaims{}, func(t *jwt.Token) (interface{}, error) {
-		return []byte(s.cfg.JWT.Secret), nil
+		return []byte(s.cfg.MagicLink.Secret), nil
 	})
 	if err != nil || !parsed.Valid {
 		return nil, errors.New("invalid or expired magic link")
@@ -232,6 +264,26 @@ func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService)
 	claims, ok := parsed.Claims.(*magicLinkClaims)
 	if !ok || claims.Subject != "magic-link" {
 		return nil, errors.New("invalid magic link claims")
+	}
+
+	// Single-use enforcement: jti deve existir, não estar usado/revogado.
+	if claims.ID == "" {
+		// Token legado (sem jti) — aceita só se ainda não usamos jti tracking.
+		// Em prod, recomenda forçar reissue após deploy do H4.
+	} else {
+		jtiHash := hashTokenSimple(claims.ID)
+		var mt models.RefreshToken
+		if err := s.db.Where("token_hash = ? AND type = ?", jtiHash, "magic_link").First(&mt).Error; err != nil {
+			return nil, errors.New("magic link not registered or expired")
+		}
+		if !mt.IsActive() {
+			return nil, errors.New("magic link already used")
+		}
+		// Marca como usado ANTES de proceder (defense against retry race).
+		now := time.Now().UTC()
+		if err := s.db.Model(&mt).Update("used_at", now).Error; err != nil {
+			return nil, fmt.Errorf("failed to mark magic link used: %w", err)
+		}
 	}
 
 	session, err := s.loadSessionByPublicCode(claims.SessionCode)

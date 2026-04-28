@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"log"
+	"regexp"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -43,8 +44,16 @@ func AuditLog(db *gorm.DB) fiber.Handler {
 			return err // Não registrar métodos desconhecidos
 		}
 
-		// Determinar recurso baseado na rota
+		// H7 — normaliza path em vez de mapear caso a caso (que perdia rotas).
+		// Estratégia: pega path, remove /api/v1, troca UUIDs por :id e usa o
+		// resultado como resource_path. Mantemos compat com modelo AuditResource
+		// (constantes de conveniência), mas agora qualquer rota é audit-ável.
 		resource := extractResource(c.Path())
+		if resource == "" {
+			// Fallback: usa o path normalizado direto (truncado em 50 chars
+			// pra caber no varchar(50) do schema atual).
+			resource = models.AuditResource(normalizeResourcePath(c.Path()))
+		}
 		log.Printf("[AUDIT] Extracted resource: '%s' from path: '%s'", resource, c.Path())
 		if resource == "" {
 			log.Printf("[AUDIT] Resource is empty, skipping audit log")
@@ -91,13 +100,14 @@ func AuditLog(db *gorm.DB) fiber.Handler {
 	}
 }
 
-// extractResource extrai o nome do recurso da rota
+// extractResource extrai o nome do recurso conhecido da rota.
+// H7 — fallback pra normalizeResourcePath quando não bate em nenhum mapeamento.
 func extractResource(path string) models.AuditResource {
 	if len(path) > 0 && path[0] == '/' {
 		path = path[1:]
 	}
 
-	// Mapear rotas para recursos
+	// Mapear rotas conhecidas pra constantes (mantém audits agregáveis).
 	switch {
 	case contains(path, "patients"):
 		return models.ResourcePatients
@@ -107,13 +117,29 @@ func extractResource(path string) models.AuditResource {
 		return models.ResourceAppointments
 	case contains(path, "prescriptions"):
 		return models.ResourcePrescriptions
-	case contains(path, "lab-results"):
+	case contains(path, "lab-results"), contains(path, "lab-result-batches"):
 		return models.ResourceLabResults
-	case contains(path, "users"):
+	case contains(path, "users"), contains(path, "auth"):
 		return models.ResourceUsers
 	default:
 		return ""
 	}
+}
+
+// uuidPattern — regex pra detectar UUIDs em segmentos de path.
+var uuidPattern = regexp.MustCompile(`(?i)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}`)
+
+// normalizeResourcePath — devolve resource_path normalizado pra uso H7.
+// Ex: /api/v1/continuum/templates/abc-123-uuid → "continuum.templates.:id"
+func normalizeResourcePath(path string) string {
+	p := strings.TrimPrefix(path, "/api/v1/")
+	p = strings.TrimPrefix(p, "/")
+	p = uuidPattern.ReplaceAllString(p, ":id")
+	p = strings.ReplaceAll(p, "/", ".")
+	if len(p) > 50 {
+		p = p[:50]
+	}
+	return p
 }
 
 // contains verifica se uma string contém outra

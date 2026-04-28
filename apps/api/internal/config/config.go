@@ -2,9 +2,11 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
@@ -28,7 +30,18 @@ type Config struct {
 	Google        GoogleConfig
 	DailyCo       DailyCoConfig
 	PatientPortal PatientPortalConfig
+	MagicLink     MagicLinkConfig
 	Dev           DevConfig
+	Turnstile     TurnstileConfig
+}
+
+// TurnstileConfig — M10 — Cloudflare Turnstile CAPTCHA (lead form público).
+// Quando Secret vazio em dev, validação é pulada com warning (não bloqueia local).
+// Em prod, Secret obrigatório (Validate avisa, mas não bloqueia boot pra evitar
+// regressão se ainda não configurado no Coolify).
+type TurnstileConfig struct {
+	Secret  string // TURNSTILE_SECRET — site secret do Cloudflare
+	SiteKey string // TURNSTILE_SITE_KEY — público (informativo, frontend usa NEXT_PUBLIC_)
 }
 
 // PatientPortalConfig — área do paciente (minha.plenyasaude.com.br).
@@ -128,7 +141,19 @@ type SiteConfig struct {
 type ServerConfig struct {
 	Port        string
 	Environment string
-	CORSOrigin  string
+	// CORSOrigin — single-origin legado (mantido para retrocompat). Quando
+	// CORSOrigins é populado, CORSOrigin não é usado pelo middleware.
+	CORSOrigin string
+	// CORSOrigins — M1: lista de origens permitidas (multi-domínio).
+	// Lido de CORS_ORIGINS (CSV). Em prod tipicamente:
+	//   "https://app.plenyasaude.com.br,https://minha.plenyasaude.com.br"
+	// Em dev cai no default ["http://localhost:3000"].
+	// Validate() rejeita "*" em produção.
+	CORSOrigins []string
+	// TrustedProxies — CIDRs/IPs autorizados a setar X-Forwarded-For/X-Real-IP.
+	// Em prod: IP da rede do reverse proxy (Coolify/Traefik). Em dev: loopback.
+	// Lido de TRUSTED_PROXIES (CSV). Usado pelo Fiber EnableTrustedProxyCheck.
+	TrustedProxies []string
 }
 
 type DatabaseConfig struct {
@@ -146,8 +171,23 @@ type JWTConfig struct {
 	RefreshExpiry string
 }
 
+// MagicLinkConfig — secret separado pra magic links do Score Light (e similares).
+// Default: cai no JWTConfig.Secret se vazio (com warning), pra retrocompat.
+// Idealmente prod usa MAGIC_LINK_SECRET dedicado pra que vazamento de um não
+// quebre o outro.
+type MagicLinkConfig struct {
+	Secret    string        // MAGIC_LINK_SECRET
+	TTL       time.Duration // MAGIC_LINK_TTL — default 30m
+}
+
 type SecurityConfig struct {
-	EncryptionKey   string
+	EncryptionKey string
+	OAuthTokenKey string // OAUTH_TOKEN_KEY — chave dedicada pra cifrar OAuth tokens (Calendar etc.). Default: EncryptionKey.
+	// BlindIndexKey — M4 — chave HMAC pra gerar blind index de CPF (e futuros).
+	// Permite buscar Patient by CPF sem descriptografar tabela inteira.
+	// Em prod: BLIND_INDEX_KEY (hex 32 bytes). Em dev cai pra EncryptionKey
+	// com warning. NUNCA logar valor.
+	BlindIndexKey   string
 	RateLimitReqs   int
 	RateLimitWindow int
 }
@@ -202,6 +242,15 @@ func Load() (*Config, error) {
 			Port:        getEnv("PORT", "3001"),
 			Environment: getEnv("ENVIRONMENT", "development"),
 			CORSOrigin:  getEnv("CORS_ORIGIN", "http://localhost:3000"),
+			// M1 — multi-domínio. Quando CORS_ORIGINS vazio, mantemos
+			// retrocompat: usa CORSOrigin como única origem permitida.
+			CORSOrigins: parseCSVOrDefault(getEnv("CORS_ORIGINS", ""),
+				[]string{getEnv("CORS_ORIGIN", "http://localhost:3000")}),
+			// Default em dev: loopback. Em prod, configurar TRUSTED_PROXIES com
+			// CIDR/IP do reverse proxy (ex: "172.16.0.0/12" pra rede docker do Coolify,
+			// ou IP específico do Traefik). Sem isso, c.IP() do Fiber confia no header
+			// X-Forwarded-For vindo de qualquer hop — risco de spoofing.
+			TrustedProxies: parseCSVOrDefault(getEnv("TRUSTED_PROXIES", ""), []string{"127.0.0.1", "::1"}),
 		},
 		Database: DatabaseConfig{
 			Host:     getEnv("DB_HOST", "localhost"),
@@ -218,6 +267,8 @@ func Load() (*Config, error) {
 		},
 		Security: SecurityConfig{
 			EncryptionKey:   getEnv("ENCRYPTION_KEY", ""),
+			OAuthTokenKey:   getEnv("OAUTH_TOKEN_KEY", ""), // se vazio, fallback para EncryptionKey (warning na boot)
+			BlindIndexKey:   getEnv("BLIND_INDEX_KEY", ""), // M4 — fallback EncryptionKey
 			RateLimitReqs:   getEnvAsInt("RATE_LIMIT_REQUESTS", 100),
 			RateLimitWindow: getEnvAsInt("RATE_LIMIT_WINDOW", 60),
 		},
@@ -298,9 +349,35 @@ func Load() (*Config, error) {
 		PatientPortal: PatientPortalConfig{
 			PublicURL: getEnv("PATIENT_PORTAL_URL", "http://localhost:3000"),
 		},
+		MagicLink: MagicLinkConfig{
+			Secret: getEnv("MAGIC_LINK_SECRET", ""),
+			TTL:    parseDurationOrDefault(getEnv("MAGIC_LINK_TTL", ""), 30*time.Minute),
+		},
 		Dev: DevConfig{
 			BypassAuth: getEnvAsBool("DEV_BYPASS_AUTH", false),
 		},
+		Turnstile: TurnstileConfig{
+			Secret:  getEnv("TURNSTILE_SECRET", ""),
+			SiteKey: getEnv("TURNSTILE_SITE_KEY", ""),
+		},
+	}
+
+	// Fallbacks com warnings (não bloqueia boot pra retrocompat)
+	if cfg.Security.OAuthTokenKey == "" {
+		cfg.Security.OAuthTokenKey = cfg.Security.EncryptionKey
+		log.Println("⚠️  OAUTH_TOKEN_KEY não setado — usando ENCRYPTION_KEY (defina chave dedicada em produção)")
+	}
+	if cfg.Security.BlindIndexKey == "" {
+		cfg.Security.BlindIndexKey = cfg.Security.EncryptionKey
+		if cfg.Server.Environment == "production" {
+			log.Println("⚠️  BLIND_INDEX_KEY não setado em PROD — usando ENCRYPTION_KEY (rotação fica acoplada; defina chave dedicada)")
+		} else {
+			log.Println("⚠️  BLIND_INDEX_KEY não setado — usando ENCRYPTION_KEY (dev fallback)")
+		}
+	}
+	if cfg.MagicLink.Secret == "" {
+		cfg.MagicLink.Secret = cfg.JWT.Secret
+		log.Println("⚠️  MAGIC_LINK_SECRET não setado — usando JWT_SECRET (defina secret dedicado em produção)")
 	}
 
 	// Validar configurações críticas
@@ -325,7 +402,40 @@ func (c *Config) Validate() error {
 		return fmt.Errorf("ENCRYPTION_KEY is required")
 	}
 
+	// M1 — proíbe wildcard CORS em produção. AllowOriginsFunc com retorno
+	// true incondicional é equivalente a "*" e elimina a defesa CSRF que o
+	// browser oferece. Em dev qualquer "*" passa (conveniência).
+	if c.Server.Environment == "production" {
+		for _, o := range c.Server.CORSOrigins {
+			if o == "*" {
+				return fmt.Errorf("CORS_ORIGINS cannot contain '*' in production (set explicit hosts)")
+			}
+		}
+		if c.Server.CORSOrigin == "*" {
+			return fmt.Errorf("CORS_ORIGIN cannot be '*' in production")
+		}
+	}
+
+	// CRITICAL C1 — Bloqueia DEV_BYPASS_AUTH em produção. Se essa flag chegar
+	// junto com ENVIRONMENT=production, abortamos o boot pra evitar que um
+	// deploy acidentalmente exponha login automatizado de admin.
+	if c.Dev.BypassAuth && c.Server.Environment == "production" {
+		return fmt.Errorf("DEV_BYPASS_AUTH cannot be enabled in production environment (set DEV_BYPASS_AUTH=false or remove)")
+	}
+
 	return nil
+}
+
+// parseDurationOrDefault — parse de duration com fallback (não exporta).
+func parseDurationOrDefault(s string, def time.Duration) time.Duration {
+	if s == "" {
+		return def
+	}
+	d, err := time.ParseDuration(s)
+	if err != nil {
+		return def
+	}
+	return d
 }
 
 // GetDSN retorna a string de conexão do PostgreSQL

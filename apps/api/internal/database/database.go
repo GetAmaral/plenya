@@ -6,11 +6,17 @@ import (
 	"time"
 
 	"github.com/plenya/api/internal/config"
+	"github.com/plenya/api/internal/crypto"
 	"github.com/plenya/api/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
+
+// cryptoBlindKeyHelper — true se BlindIndexKey foi setado.
+func cryptoBlindKeyHelper() bool {
+	return crypto.GetBlindIndexKey() != ""
+}
 
 // DB é a instância global do banco de dados
 var DB *gorm.DB
@@ -54,12 +60,23 @@ func Connect(cfg *config.Config) error {
 	return nil
 }
 
-// AutoMigrate executa as migrations automáticas do GORM
-// NOTA: Em produção, usaremos Atlas para migrations
+// AutoMigrate executa as migrations automáticas do GORM.
+//
+// M9 — Workaround GORM circular FK: User.SelectedPatient → Patient.UserID → User.
+// Criamos `users` sozinho primeiro (CREATE TABLE IF NOT EXISTS), sem a relação
+// SelectedPatient, pra que AutoMigrate(Patient) (que vem em seguida) não tente
+// referenciar tabela inexistente.
+//
+// TODO M9 — migrar pra Atlas migrations completas (gera SQL declarativo a partir
+// dos models, sem AutoMigrate). Em prod, AutoMigrate é arriscado: GORM não dropa
+// colunas, não reconcilia FK divergente, e usa REINDEX em alguns cenários. O
+// workaround acima é cheiro disso.
+//
+// O caller (cmd/server/main.go) gate AutoMigrate por env:
+//   - DEV  : sempre roda
+//   - PROD : roda apenas se MIGRATIONS_AUTO=true (default false)
+// Esse gate é defesa em profundidade contra rollback acidental de schema.
 func AutoMigrate() error {
-	// Workaround GORM circular FK: User.SelectedPatient → Patient.UserID → User
-	// Criamos users sozinho primeiro, sem a relação SelectedPatient, pra que
-	// AutoMigrate(Patient) (que vem em seguida) não tente referenciar tabela inexistente.
 	if err := DB.Exec(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY)`).Error; err != nil {
 		return err
 	}
@@ -116,6 +133,7 @@ func AutoMigrate() error {
 		&models.User{},
 		&models.Patient{},
 		&models.AuditLog{},
+		&models.RefreshToken{}, // C3 — refresh token rotation + revocation
 
 		// Anamnesis
 		&models.AnamnesisTemplate{},
@@ -348,7 +366,86 @@ func AutoMigrate() error {
 			return err
 		}
 	}
+
+	// M4 — backfill CPFBlindIndex em rows existentes (quando vazio).
+	// Idempotente: re-runs no-op (WHERE cpf_blind_index = '' filtra pendentes).
+	// Só roda se BlindIndexKey configurado (caso contrário, hook BeforeSave
+	// silencia e seria inútil). Best-effort: erro não aborta migration.
+	if err := backfillCPFBlindIndex(); err != nil {
+		fmt.Printf("⚠️  M4 backfill CPF blind index falhou (não-fatal): %v\n", err)
+	}
 	return nil
+}
+
+// backfillCPFBlindIndex — M4 — para cada Patient com cpf não nulo e
+// cpf_blind_index vazio, lê (descriptografa via AfterFind), recalcula índice
+// via hook BeforeSave (Save chama BeforeSave). Best-effort.
+//
+// NOTA: usa Save (não Update) pra que BeforeSave dispare. Update pulando
+// hooks deixaria índice vazio. Se houver muitos Patients (>10k), considere
+// batchear via paginação.
+func backfillCPFBlindIndex() error {
+	// Pula se chave de blind index não tá setada (hook é no-op).
+	// (não temos acesso ao config aqui; checamos via crypto package).
+	// Como o hook é tolerante a key-missing, podemos rodar mesmo assim:
+	// ele só vai gravar idx="" e o WHERE abaixo continuará retornando rows.
+	// Pra evitar loop, checamos a key:
+	if cryptoBlindIndexKeySet() == false {
+		return nil
+	}
+	type patientLite struct {
+		ID models.Patient
+	}
+	// Carrega só IDs e CPF cifrado pra processar
+	var patients []models.Patient
+	if err := DB.Where("cpf IS NOT NULL AND cpf <> '' AND (cpf_blind_index IS NULL OR cpf_blind_index = '')").
+		Limit(5000). // safety cap; rerun cobre o resto
+		Find(&patients).Error; err != nil {
+		return err
+	}
+	if len(patients) == 0 {
+		return nil
+	}
+	count := 0
+	for i := range patients {
+		// AfterFind já decifrou CPF; Save chama BeforeSave que recalcula índice.
+		if err := DB.Save(&patients[i]).Error; err != nil {
+			fmt.Printf("⚠️  backfill CPF idx falhou para patient=%s: %v\n", patients[i].ID, err)
+			continue
+		}
+		count++
+	}
+	if count > 0 {
+		fmt.Printf("✅ M4 backfill: %d patients com CPF blind index calculado\n", count)
+	}
+	return nil
+}
+
+// cryptoBlindIndexKeySet — wrapper local pra evitar import cycle aparente
+// (crypto já é importado, mas mantemos a checagem isolada pra documentar).
+func cryptoBlindIndexKeySet() bool {
+	// Retorna true se a key foi setada (não vazia).
+	// Importamos crypto aqui via models? — não, importamos direto.
+	return cryptoBlindKeyHelper()
+}
+
+// RevokeAuditLogMutations — H8: em produção, revoga UPDATE/DELETE da tabela
+// audit_logs no nível do DB (defense in depth além dos hooks GORM).
+// Não-fatal: se REVOKE quebrar (role faltando, etc.), só loga warning.
+// Em dev, NÃO roda — preserva tooling de cleanup local.
+func RevokeAuditLogMutations(env string) {
+	if env != "production" {
+		return
+	}
+	// CURRENT_USER funciona porque rodamos sob o role da app (não superuser).
+	stmts := []string{
+		`REVOKE UPDATE, DELETE, TRUNCATE ON audit_logs FROM CURRENT_USER`,
+	}
+	for _, s := range stmts {
+		if err := DB.Exec(s).Error; err != nil {
+			fmt.Printf("⚠️  H8 audit_logs REVOKE falhou (não-fatal): %v\n", err)
+		}
+	}
 }
 
 // Close fecha a conexão com o banco de dados

@@ -41,7 +41,45 @@ func RequireDoctorOrNurse() fiber.Handler {
 	return RequireRole(models.RoleDoctor, models.RoleNurse)
 }
 
-// RequireMedicalStaff middleware permite admins, doctors e nurses
+// RequireMedicalStaff middleware permite admins, doctors e nurses (legado).
+// Prefira RequireClinician/RequireAnyStaff/RequireDoctor pra granularidade certa.
 func RequireMedicalStaff() fiber.Handler {
 	return RequireRole(models.RoleAdmin, models.RoleDoctor, models.RoleNurse)
+}
+
+// RequireAnyStaff — qualquer membro da equipe da clínica (todos exceto patient).
+// Usar como guard padrão em recursos compartilhados (ex: ler paciente, agenda).
+// Decisão de produto: clínica única, todos staff veem todos os pacientes.
+// Multi-tenant fica pra V2.
+func RequireAnyStaff() fiber.Handler {
+	return RequireRole(
+		models.RoleAdmin,
+		models.RoleManager,
+		models.RoleSecretary,
+		models.RoleDoctor,
+		models.RoleNurse,
+		models.RolePsychologist,
+		models.RoleNutritionist,
+		models.RolePhysicalEducator,
+	)
+}
+
+// RequireClinician — profissionais clínicos que executam ações sobre paciente
+// (criar/editar exame, anamnese, avaliação física). Exclui secretary/manager
+// que são apenas operacionais.
+func RequireClinician() fiber.Handler {
+	return RequireRole(
+		models.RoleAdmin,
+		models.RoleDoctor,
+		models.RoleNurse,
+		models.RolePsychologist,
+		models.RoleNutritionist,
+		models.RolePhysicalEducator,
+	)
+}
+
+// RequireAdminOps — operações administrativas (criar lead, agendar consulta,
+// atribuir vendedor, gerenciar campanhas). Não inclui clínicos puros.
+func RequireAdminOps() fiber.Handler {
+	return RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary)
 }

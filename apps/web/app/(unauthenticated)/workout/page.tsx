@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { Dumbbell } from "lucide-react";
+import DOMPurify from "isomorphic-dompurify";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePublicWorkoutPlan } from "@/lib/api/workout-plan-api";
@@ -49,12 +50,14 @@ function WorkoutContent() {
     );
   }
 
-  // If HTML content is available, render it directly
+  // HIGH H5 — sanitize antes de injetar HTML do backend.
+  // Backend usa html/template (auto-escape), mas defesa em camadas: nome do
+  // exercício / observações do médico passam por aqui também.
   if (plan.htmlContent) {
     return (
       <div
         className="min-h-screen"
-        dangerouslySetInnerHTML={{ __html: plan.htmlContent }}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(plan.htmlContent) }}
       />
     );
   }
