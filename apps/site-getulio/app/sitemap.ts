@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { getAllArticles } from '@/lib/articles';
+import { getAllPlenyaPostsFull } from '@/lib/plenya-blog';
 import { getAllLectures } from '@/lib/lectures';
 
 const BASE = 'https://drgetulioamaralfilho.com.br';
@@ -25,12 +25,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: r.priority,
   }));
 
-  const articles = await getAllArticles();
-  const articleEntries: MetadataRoute.Sitemap = articles.map((a) => ({
-    url: `${BASE}/escritos/${a.slug}`,
-    lastModified: new Date(a.date),
+  // Espelhamos os posts do blog Plenya em /escritos/{slug}, mas o canonical
+  // aponta para plenyasaude.com.br/blog/{slug}. Por isso a prioridade aqui é
+  // baixa — não queremos competir com a fonte canônica.
+  const posts = await getAllPlenyaPostsFull();
+  const articleEntries: MetadataRoute.Sitemap = posts.map((p) => ({
+    url: `${BASE}/escritos/${p.slug}`,
+    lastModified: new Date(p.updated ?? p.date),
     changeFrequency: 'monthly',
-    priority: 0.7,
+    priority: 0.4,
   }));
 
   const lectures = await getAllLectures();

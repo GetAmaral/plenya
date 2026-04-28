@@ -1,8 +1,9 @@
 import { Link } from '@/lib/i18n/navigation';
-import { getRecentArticles } from '@/lib/articles';
+import { getPlenyaPostsByGetulio, PLENYA_PILLAR_LABELS } from '@/lib/plenya-blog';
 
 export async function RecentArticles() {
-  const articles = await getRecentArticles(3);
+  const all = await getPlenyaPostsByGetulio();
+  const articles = all.slice(0, 3);
   if (articles.length === 0) return null;
 
   return (
@@ -24,7 +25,9 @@ export async function RecentArticles() {
                 <h3 className="font-serif text-xl text-ink group-hover:text-bordo transition-colors">
                   {a.title}
                 </h3>
-                <span className="label-meta text-bordo md:text-right">{a.tag}</span>
+                <span className="label-meta text-bordo md:text-right">
+                  {PLENYA_PILLAR_LABELS[a.pillar]}
+                </span>
               </Link>
             </li>
           ))}

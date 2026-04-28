@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
-import { getAllArticles, TAGS } from '@/lib/articles';
 import {
   getPlenyaPostsByGetulio,
   PLENYA_BLOG_BASE,
@@ -11,24 +10,28 @@ import {
 export const metadata: Metadata = {
   title: 'Escritos',
   description:
-    'Artigos do Dr. Getúlio Amaral Filho sobre nefrologia preventiva, longevidade e medicina funcional integrativa.',
+    'Artigos do Dr. Getúlio Amaral Filho sobre nefrologia preventiva, longevidade e medicina funcional integrativa. Espelho fiel do blog Plenya.',
   alternates: { canonical: '/escritos' },
 };
+
+const PILLAR_FILTERS = Object.entries(PLENYA_PILLAR_LABELS) as [
+  keyof typeof PLENYA_PILLAR_LABELS,
+  string,
+][];
 
 export default async function EscritosPage({
   params,
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ tag?: string }>;
+  searchParams: Promise<{ pilar?: string }>;
 }) {
   const { locale } = await params;
-  const { tag: tagParam } = await searchParams;
+  const { pilar: pilarParam } = await searchParams;
   setRequestLocale(locale);
-  const all = await getAllArticles();
-  const activeTag = TAGS.find((t) => t === tagParam);
-  const articles = activeTag ? all.filter((a) => a.tag === activeTag) : all;
-  const plenyaPosts = await getPlenyaPostsByGetulio();
+  const all = await getPlenyaPostsByGetulio();
+  const activePilar = PILLAR_FILTERS.find(([k]) => k === pilarParam)?.[0];
+  const posts = activePilar ? all.filter((p) => p.pillar === activePilar) : all;
 
   return (
     <article>
@@ -39,76 +42,40 @@ export default async function EscritosPage({
         </h1>
         <p className="prose-body mt-8 max-w-2xl">
           Notas clínicas, recortes do livro <em>Antes</em> e ensaios curtos sobre nefrologia
-          preventiva, longevidade e medicina funcional integrativa.
+          preventiva, longevidade e medicina funcional integrativa. Conteúdo publicado
+          originalmente no blog da Plenya, espelhado aqui na íntegra.
         </p>
       </header>
 
-      {/* Filtros */}
       <section className="editorial-container pb-8">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-rule py-4">
           <Link
             href="/escritos"
-            className={`font-sans text-sm tracking-wide ${!activeTag ? 'text-bordo' : 'text-ink-muted hover:text-ink'} transition-colors`}
+            className={`font-sans text-sm tracking-wide ${!activePilar ? 'text-bordo' : 'text-ink-muted hover:text-ink'} transition-colors`}
           >
             Todos
           </Link>
-          {TAGS.map((t) => (
+          {PILLAR_FILTERS.map(([key, label]) => (
             <Link
-              key={t}
-              href={`/escritos?tag=${encodeURIComponent(t)}`}
-              className={`font-sans text-sm tracking-wide ${activeTag === t ? 'text-bordo' : 'text-ink-muted hover:text-ink'} transition-colors`}
+              key={key}
+              href={`/escritos?pilar=${encodeURIComponent(key)}`}
+              className={`font-sans text-sm tracking-wide ${activePilar === key ? 'text-bordo' : 'text-ink-muted hover:text-ink'} transition-colors`}
             >
-              {t}
+              {label}
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="editorial-container pb-16">
-        <p className="label-meta mb-6">Ensaios</p>
-        {articles.length === 0 ? (
-          <p className="font-serif text-ink-muted py-8">Nenhum artigo nesse tema ainda.</p>
+      <section className="editorial-container pb-24">
+        {posts.length === 0 ? (
+          <p className="font-serif text-ink-muted py-8">Nenhum artigo nesse pilar ainda.</p>
         ) : (
           <ul className="border-t border-rule">
-            {articles.map((a) => (
-              <li key={a.slug} className="border-b border-rule">
-                <Link
-                  href={`/escritos/${a.slug}`}
-                  className="block py-8 grid md:grid-cols-[120px_1fr_180px] gap-6 group items-baseline"
-                >
-                  <span className="font-sans text-sm text-ink-muted">
-                    {formatDate(a.date)}
-                  </span>
-                  <div className="space-y-2">
-                    <h2 className="font-serif text-xl md:text-2xl text-ink group-hover:text-bordo transition-colors">
-                      {a.title}
-                    </h2>
-                    <p className="font-serif text-ink-soft leading-relaxed">{a.excerpt}</p>
-                  </div>
-                  <span className="label-meta text-bordo md:text-right">{a.tag}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
-      {plenyaPosts.length > 0 && (
-        <section className="editorial-container pb-24">
-          <div className="flex flex-wrap items-baseline justify-between gap-4 mb-6">
-            <p className="label-meta">Blog Plenya</p>
-            <p className="font-sans text-xs text-ink-muted max-w-md md:text-right">
-              Artigos publicados no blog da Plenya, onde também escrevo regularmente. Cada
-              link abre no plenyasaude.com.br/blog.
-            </p>
-          </div>
-          <ul className="border-t border-rule">
-            {plenyaPosts.map((p) => (
+            {posts.map((p) => (
               <li key={p.slug} className="border-b border-rule">
-                <a
-                  href={`${PLENYA_BLOG_BASE}/${p.slug}`}
-                  target="_blank"
-                  rel="noopener"
+                <Link
+                  href={`/escritos/${p.slug}`}
                   className="block py-8 grid md:grid-cols-[120px_1fr_180px] gap-6 group items-baseline"
                 >
                   <span className="font-sans text-sm text-ink-muted">
@@ -117,19 +84,26 @@ export default async function EscritosPage({
                   <div className="space-y-2">
                     <h2 className="font-serif text-xl md:text-2xl text-ink group-hover:text-bordo transition-colors">
                       {p.title}
-                      <span className="font-sans text-sm text-ink-muted ml-2">↗</span>
                     </h2>
                     <p className="font-serif text-ink-soft leading-relaxed">{p.excerpt}</p>
                   </div>
                   <span className="label-meta text-bordo md:text-right">
                     {PLENYA_PILLAR_LABELS[p.pillar]}
                   </span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
-        </section>
-      )}
+        )}
+
+        <p className="font-sans text-xs text-ink-muted mt-12 text-center">
+          Conteúdo publicado originalmente no{' '}
+          <a href={PLENYA_BLOG_BASE} target="_blank" rel="noreferrer" className="link-text">
+            Blog Plenya
+          </a>
+          . Cada artigo aqui é uma versão fiel do original, com canonical apontando para a fonte.
+        </p>
+      </section>
     </article>
   );
 }

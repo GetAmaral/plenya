@@ -3,9 +3,9 @@ import path from 'path';
 import matter from 'gray-matter';
 import { z } from 'zod';
 
-// O blog Plenya é a fonte única; lemos os MDX no build time e listamos
-// só os artigos de autoria do Dr. Getúlio aqui no site pessoal,
-// linkando out para a URL canônica em plenyasaude.com.br.
+// O blog Plenya é a fonte canônica. Aqui no site pessoal espelhamos
+// o conteúdo completo dos posts de autoria do Dr. Getúlio, mas todo
+// SEO sinal (canonical, mainEntityOfPage) aponta para plenyasaude.com.br.
 
 const PILLARS = [
   'alimentacao-atividade-fisica',
@@ -32,38 +32,84 @@ const schema = z.object({
   slug: z.string(),
   excerpt: z.string(),
   date: dateString,
+  updated: dateString.optional(),
   author: z.string(),
   pillar: z.enum(PILLARS),
   cover: z.string().optional(),
+  tags: z.array(z.string()).default([]),
+  references: z
+    .array(z.object({ label: z.string(), url: z.string().url() }))
+    .default([]),
 });
 
 export type PlenyaPost = z.infer<typeof schema>;
+export type PlenyaPostFull = PlenyaPost & { content: string; readingMinutes: number };
 
-export const PLENYA_BLOG_BASE = 'https://plenyasaude.com.br/blog';
+export const PLENYA_BASE = 'https://plenyasaude.com.br';
+export const PLENYA_BLOG_BASE = `${PLENYA_BASE}/blog`;
 
 // Caminho relativo a apps/site-getulio (cwd no build)
 const PLENYA_BLOG_ROOT = path.join(process.cwd(), '..', 'site', 'content', 'blog', 'pt');
 
-export async function getPlenyaPostsByGetulio(): Promise<PlenyaPost[]> {
-  let files: string[] = [];
+function estimateReadingMinutes(content: string): number {
+  const words = content.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 220));
+}
+
+/**
+ * Reescreve paths relativos de imagem (`/images/blog/...`, `/images/...`)
+ * para apontar absolutamente para o domínio canônico da Plenya.
+ * Os assets vivem em apps/site/public — o site Getúlio não os hospeda.
+ */
+export function rewriteAssetPaths(content: string): string {
+  return content
+    .replace(/]\(\s*\/images\//g, `](${PLENYA_BASE}/images/`)
+    .replace(/src="\s*\/images\//g, `src="${PLENYA_BASE}/images/`);
+}
+
+async function readPostFile(file: string): Promise<PlenyaPostFull | null> {
   try {
-    files = (await fs.readdir(PLENYA_BLOG_ROOT)).filter((f) => f.endsWith('.mdx'));
+    const raw = await fs.readFile(path.join(PLENYA_BLOG_ROOT, file), 'utf-8');
+    const { data, content } = matter(raw);
+    const parsed = schema.safeParse(data);
+    if (!parsed.success) return null;
+    return {
+      ...parsed.data,
+      content: rewriteAssetPaths(content),
+      readingMinutes: estimateReadingMinutes(content),
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function listPostFiles(): Promise<string[]> {
+  try {
+    return (await fs.readdir(PLENYA_BLOG_ROOT)).filter((f) => f.endsWith('.mdx'));
   } catch {
     return [];
   }
-  const posts = await Promise.all(
-    files.map(async (file) => {
-      try {
-        const raw = await fs.readFile(path.join(PLENYA_BLOG_ROOT, file), 'utf-8');
-        const { data } = matter(raw);
-        const parsed = schema.safeParse(data);
-        return parsed.success ? parsed.data : null;
-      } catch {
-        return null;
-      }
-    }),
-  );
+}
+
+export async function getPlenyaPostsByGetulio(): Promise<PlenyaPost[]> {
+  const files = await listPostFiles();
+  const posts = await Promise.all(files.map(readPostFile));
   return posts
-    .filter((p): p is PlenyaPost => p !== null && p.author === 'getulio-amaral')
+    .filter((p): p is PlenyaPostFull => p !== null && p.author === 'getulio-amaral')
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+    .map(({ content: _content, readingMinutes: _rm, ...meta }) => meta);
+}
+
+export async function getAllPlenyaPostsFull(): Promise<PlenyaPostFull[]> {
+  const files = await listPostFiles();
+  const posts = await Promise.all(files.map(readPostFile));
+  return posts
+    .filter((p): p is PlenyaPostFull => p !== null && p.author === 'getulio-amaral')
     .sort((a, b) => (a.date < b.date ? 1 : -1));
+}
+
+export async function getPlenyaPost(slug: string): Promise<PlenyaPostFull | null> {
+  const post = await readPostFile(`${slug}.mdx`);
+  if (!post || post.author !== 'getulio-amaral') return null;
+  return post;
 }
