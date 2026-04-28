@@ -30,8 +30,11 @@ import (
 )
 
 var (
-	ErrAppointmentNotFound = errors.New("appointment not found")
-	ErrAppointmentConflict = errors.New("appointment time slot already booked")
+	ErrAppointmentNotFound       = errors.New("appointment not found")
+	ErrAppointmentConflict       = errors.New("appointment time slot already booked")
+	ErrAppointmentNotTelemed     = errors.New("appointment is not telemedicine")
+	ErrAppointmentRoomNotReady   = errors.New("appointment room not ready yet")
+	ErrAppointmentOutsideWindow  = errors.New("appointment is outside the access window")
 )
 
 // AppointmentService coordena o ciclo de vida de Appointments + integrações.
@@ -592,6 +595,80 @@ func (s *AppointmentService) Confirm(ctx context.Context, appointmentID uuid.UUI
 		log.Printf("⚠️  [APPT] Confirm audit log apt=%s: %v", appointmentID, err)
 	}
 	return nil
+}
+
+// GetTelemedJoinURL gera meeting_token de owner pro staff (médico/secretaria)
+// e retorna a URL completa pra abrir a sala.
+//
+// HIGH H9 — sala é privacy=private. Owner = pode ejetar, screenshare habilitado.
+// Token é gerado fresh a cada chamada (no caching) — janela curta (até closesAt).
+//
+// Erros:
+//   - ErrAppointmentNotFound — id inválido
+//   - ErrAppointmentNotTelemed — type != telemedicine
+//   - ErrAppointmentRoomNotReady — sala ainda não criada (async em flight)
+//   - ErrAppointmentOutsideWindow — fora de [-30min, +duration+30min]
+//   - ErrDailyNotConfigured — Daily.co API key não setada
+func (s *AppointmentService) GetTelemedJoinURL(ctx context.Context, appointmentID, userID uuid.UUID, userRole models.Role) (string, error) {
+	var appt models.Appointment
+	q := s.db.WithContext(ctx).Preload("Doctor").Where("id = ?", appointmentID)
+	if err := q.First(&appt).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return "", ErrAppointmentNotFound
+		}
+		return "", err
+	}
+
+	// Doctor só pode acessar suas próprias consultas; admin/manager/secretary
+	// passam direto. Patient role NÃO chega aqui (rota é staff-only) — defesa
+	// extra mesmo assim.
+	if userRole == models.RolePatient {
+		return "", ErrUnauthorized
+	}
+	if userRole == models.RoleDoctor && appt.DoctorID != userID {
+		return "", ErrUnauthorized
+	}
+
+	if appt.Type != models.AppointmentTelemedicine {
+		return "", ErrAppointmentNotTelemed
+	}
+	if appt.DailyRoomURL == nil || appt.DailyRoomName == nil {
+		return "", ErrAppointmentRoomNotReady
+	}
+
+	// Janela: -30min até +duration+30min do scheduledAt. Bloqueia geração de
+	// token muito antes/depois — limita superfície de abuso.
+	duration := appt.DurationMinutes
+	if duration <= 0 {
+		duration = 60
+	}
+	now := time.Now().UTC()
+	opensAt := appt.ScheduledAt.Add(-30 * time.Minute)
+	closesAt := appt.ScheduledAt.Add(time.Duration(duration)*time.Minute + 30*time.Minute)
+	if now.Before(opensAt) || now.After(closesAt) {
+		return "", ErrAppointmentOutsideWindow
+	}
+
+	if s.dailyCoSvc == nil || !s.dailyCoSvc.IsConfigured() {
+		// Backcompat dev: devolve URL crua.
+		return *appt.DailyRoomURL, nil
+	}
+
+	doctorName := strings.TrimSpace(appt.Doctor.Name)
+	if doctorName == "" {
+		doctorName = "Médico"
+	}
+	tok, err := s.dailyCoSvc.CreateMeetingToken(ctx, MeetingTokenParams{
+		RoomName:          *appt.DailyRoomName,
+		UserName:          doctorName,
+		IsOwner:           true,
+		ExpiresAt:         closesAt,
+		EnableScreenshare: true,
+	})
+	if err != nil {
+		return "", err
+	}
+	return BuildJoinURL(*appt.DailyRoomURL, tok), nil
 }
 
 // Delete faz soft delete de uma consulta

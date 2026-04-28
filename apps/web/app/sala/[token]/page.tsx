@@ -6,7 +6,7 @@
  * Fluxo:
  *  - Carrega LobbyView pública via API (sem auth)
  *  - Se janela ainda não abriu: countdown
- *  - Se janela aberta + dailyRoomUrl: botão "Entrar" → embed Daily inline
+ *  - Se janela aberta + dailyJoinUrl: botão "Entrar" → embed Daily inline
  *  - Se expirado/erro: mensagem clara
  */
 import { use, useEffect, useState } from "react";
@@ -28,7 +28,9 @@ interface LobbyView {
   durationMinutes: number;
   opensAt: string;
   closesAt: string;
-  dailyRoomUrl?: string | null;
+  // HIGH H9 — URL completa com meeting_token (?t=...) escopado ao paciente.
+  // Sala Daily.co é privacy=private; URL crua não funciona.
+  dailyJoinUrl?: string | null;
   isOpen: boolean;
 }
 
@@ -135,10 +137,10 @@ export default function LobbyPage({ params }: { params: Promise<{ token: string 
   const afterClose = now > closes;
 
   // Já entrou + tem URL → mostra Daily inline em fullscreen-ish
-  if (entered && view.dailyRoomUrl) {
+  if (entered && view.dailyJoinUrl) {
     return (
       <div className="mx-auto max-w-5xl">
-        <DailyCoEmbed roomURL={view.dailyRoomUrl} onLeave={() => setEntered(false)} />
+        <DailyCoEmbed roomURL={view.dailyJoinUrl} onLeave={() => setEntered(false)} />
       </div>
     );
   }
@@ -177,11 +179,16 @@ export default function LobbyPage({ params }: { params: Promise<{ token: string 
             </p>
           )}
 
-          {view.isOpen && view.dailyRoomUrl && (
+          {view.isOpen && view.dailyJoinUrl && (
             <Button className="w-full" size="lg" onClick={handleEnter}>
               <Video className="mr-2 h-4 w-4" />
               Entrar na sala
             </Button>
+          )}
+          {view.isOpen && !view.dailyJoinUrl && (
+            <p className="pt-2 text-sm text-muted-foreground">
+              Sala temporariamente indisponível — atualize esta página em alguns segundos.
+            </p>
           )}
         </CardContent>
       </Card>

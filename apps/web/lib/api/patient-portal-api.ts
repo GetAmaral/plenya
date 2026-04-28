@@ -210,7 +210,9 @@ export interface MyAppointment {
   doctorId: string;
   doctorName: string;
   isTelemedicine: boolean;
-  dailyRoomUrl?: string | null;
+  // HIGH H9 — URL completa com meeting_token (?t=...) escopado ao paciente.
+  // Sala Daily.co é privacy=private; só é exposta dentro da janela permitida.
+  dailyJoinUrl?: string | null;
   notes?: string;
   patientConfirmedAt?: string | null;
   confirmedAt?: string | null;
@@ -247,7 +249,7 @@ export function useMyAppointment(id: string | undefined) {
     queryFn: () => patientAppointmentApi.get(id!),
     enabled: !!id,
     refetchInterval: (q) => {
-      // Polling se telemed dentro de janela: server pode liberar dailyRoomUrl em qualquer minuto
+      // Polling se telemed dentro de janela: server pode liberar dailyJoinUrl em qualquer minuto
       const data = q.state.data;
       if (data?.isTelemedicine && Math.abs(data.minutesUntilStart) < 30) return 15_000;
       return false;

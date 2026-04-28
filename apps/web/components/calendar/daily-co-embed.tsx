@@ -8,7 +8,10 @@
  * usuário não consegue ativar mídia.
  *
  * Uso:
- *   <DailyCoEmbed roomURL={appointment.dailyRoomUrl} />
+ *   <DailyCoEmbed roomURL={joinUrl} />
+ *
+ * `roomURL` deve ser uma URL completa do Daily com meeting_token (?t=...)
+ * escopado ao participante (HIGH H9 — sala é privacy=private).
  */
 import { useState } from 'react';
 import { Video, X } from 'lucide-react';

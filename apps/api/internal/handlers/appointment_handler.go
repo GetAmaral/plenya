@@ -300,6 +300,62 @@ func (h *AppointmentHandler) Confirm(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusNoContent)
 }
 
+// GetTelemedToken POST /api/v1/appointments/:id/telemed-token
+//
+// HIGH H9 — gera meeting_token de owner pro staff (médico/secretaria) e
+// devolve {joinUrl}. Sala Daily.co é privacy=private; URL crua não funciona.
+//
+// Não exposto como GET pra evitar caching de token. Token é fresh a cada call.
+//
+// Auth: RequireAnyStaff (já no router). Doctor só acessa suas consultas.
+func (h *AppointmentHandler) GetTelemedToken(c *fiber.Ctx) error {
+	appointmentID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid appointment id",
+			Message: "appointment id must be a valid UUID",
+		})
+	}
+
+	userID := middleware.GetUserID(c)
+	userRole := middleware.GetPrimaryRole(c)
+
+	joinURL, err := h.appointmentService.GetTelemedJoinURL(c.Context(), appointmentID, userID, userRole)
+	if err != nil {
+		switch {
+		case errors.Is(err, services.ErrAppointmentNotFound):
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "appointment not found"})
+		case errors.Is(err, services.ErrUnauthorized):
+			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{Error: "unauthorized"})
+		case errors.Is(err, services.ErrAppointmentNotTelemed):
+			return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+				Error: "not telemedicine",
+			})
+		case errors.Is(err, services.ErrAppointmentRoomNotReady):
+			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+				Error:   "room not ready",
+				Message: "a sala está sendo provisionada — tente em alguns segundos",
+			})
+		case errors.Is(err, services.ErrAppointmentOutsideWindow):
+			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{
+				Error:   "outside window",
+				Message: "a sala só pode ser acessada -30min até +30min após o fim agendado",
+			})
+		case errors.Is(err, services.ErrDailyNotConfigured):
+			return c.Status(fiber.StatusServiceUnavailable).JSON(dto.ErrorResponse{
+				Error: "daily.co not configured",
+			})
+		default:
+			return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+				Error:   "internal server error",
+				Message: err.Error(),
+			})
+		}
+	}
+
+	return c.JSON(fiber.Map{"joinUrl": joinURL})
+}
+
 // Delete deleta uma consulta
 func (h *AppointmentHandler) Delete(c *fiber.Ctx) error {
 	appointmentID, err := uuid.Parse(c.Params("id"))

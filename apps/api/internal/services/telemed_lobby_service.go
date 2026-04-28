@@ -1,8 +1,10 @@
 package services
 
 import (
+	"context"
 	"errors"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -19,13 +21,27 @@ var (
 )
 
 // TelemedLobbyService gera/valida tokens de entrada pública na sala Daily.co.
+//
+// HIGH H9 — quando dailyCoSvc é injetado, Resolve troca a URL crua da sala por
+// uma URL com meeting_token (?t=...) escopado ao paciente (is_owner=false,
+// enable_screenshare=false, exp=closesAt). Isso permite que a sala seja
+// privacy=private no Daily.co — URL sem token retorna 401.
 type TelemedLobbyService struct {
-	db  *gorm.DB
-	cfg *config.Config
+	db         *gorm.DB
+	cfg        *config.Config
+	dailyCoSvc *DailyCoService
 }
 
 func NewTelemedLobbyService(db *gorm.DB, cfg *config.Config) *TelemedLobbyService {
 	return &TelemedLobbyService{db: db, cfg: cfg}
+}
+
+// WithDailyCo injeta o DailyCoService — chamado em main.go quando ambos
+// services existem. Quando nil, Resolve degrada e não emite o token (paciente
+// vê "sala temporariamente indisponível").
+func (s *TelemedLobbyService) WithDailyCo(daily *DailyCoService) *TelemedLobbyService {
+	s.dailyCoSvc = daily
+	return s
 }
 
 // PublicLinkURL retorna a URL pública /sala/[token] absoluta.
@@ -72,11 +88,18 @@ func (s *TelemedLobbyService) EnsureTokenForAppointment(appt *models.Appointment
 		return nil, err
 	}
 
+	// HIGH H9 — janela reduzida: opens 15min antes, fecha 15min após o fim
+	// programado. Antes era 4h fixo (atacante com link velho podia entrar
+	// muito depois). Janela mais apertada = menor oportunidade de abuso.
+	durationMin := appt.DurationMinutes
+	if durationMin <= 0 {
+		durationMin = 60 // sane default
+	}
+	expiresAt := appt.ScheduledAt.Add(time.Duration(durationMin)*time.Minute + 15*time.Minute)
 	t := models.TelemedLobbyToken{
 		AppointmentID: appt.ID,
 		Token:         token,
-		// Expira 4h após scheduledAt — cobre atraso e a sessão completa
-		ExpiresAt: appt.ScheduledAt.Add(4 * time.Hour),
+		ExpiresAt:     expiresAt,
 	}
 	if err := s.db.Create(&t).Error; err != nil {
 		return nil, err
@@ -86,16 +109,20 @@ func (s *TelemedLobbyService) EnsureTokenForAppointment(appt *models.Appointment
 
 // LobbyView é o payload retornado pra página standalone /sala/[token].
 // Inclui apenas o necessário pra renderizar a entrada — sem PHI.
+//
+// HIGH H9 — DailyJoinURL substitui DailyRoomURL: vem com meeting_token
+// embutido (?t=...) escopado ao paciente. Sala é privacy=private — URL sem
+// token retorna 401 mesmo se vazada.
 type LobbyView struct {
-	AppointmentID   uuid.UUID `json:"appointmentId"`
-	PatientFirstName string   `json:"patientFirstName"` // só primeiro nome (opaco)
-	DoctorName      string    `json:"doctorName"`
-	ScheduledAt     time.Time `json:"scheduledAt"`
-	DurationMinutes int       `json:"durationMinutes"`
-	OpensAt         time.Time `json:"opensAt"`  // -30min do scheduledAt
-	ClosesAt        time.Time `json:"closesAt"` // +2h do scheduledAt
-	DailyRoomURL    *string   `json:"dailyRoomUrl,omitempty"` // só dentro da janela
-	IsOpen          bool      `json:"isOpen"`
+	AppointmentID    uuid.UUID `json:"appointmentId"`
+	PatientFirstName string    `json:"patientFirstName"` // só primeiro nome (opaco)
+	DoctorName       string    `json:"doctorName"`
+	ScheduledAt      time.Time `json:"scheduledAt"`
+	DurationMinutes  int       `json:"durationMinutes"`
+	OpensAt          time.Time `json:"opensAt"`  // -15min do scheduledAt
+	ClosesAt         time.Time `json:"closesAt"` // +duration+15min do scheduledAt
+	DailyJoinURL     *string   `json:"dailyJoinUrl,omitempty"` // só dentro da janela, com meeting_token
+	IsOpen           bool      `json:"isOpen"`
 }
 
 // Resolve valida o token e retorna LobbyView.
@@ -125,8 +152,13 @@ func (s *TelemedLobbyService) Resolve(token string) (*LobbyView, error) {
 		doctorName = doctor.Name
 	}
 
-	opensAt := appt.ScheduledAt.Add(-30 * time.Minute)
-	closesAt := appt.ScheduledAt.Add(2 * time.Hour)
+	// HIGH H9 — janela: -15min até +duration+15min do scheduledAt.
+	durationMin := appt.DurationMinutes
+	if durationMin <= 0 {
+		durationMin = 60
+	}
+	opensAt := appt.ScheduledAt.Add(-15 * time.Minute)
+	closesAt := appt.ScheduledAt.Add(time.Duration(durationMin)*time.Minute + 15*time.Minute)
 	now := time.Now().UTC()
 	isOpen := now.After(opensAt) && now.Before(closesAt)
 
@@ -140,8 +172,30 @@ func (s *TelemedLobbyService) Resolve(token string) (*LobbyView, error) {
 		ClosesAt:         closesAt,
 		IsOpen:           isOpen,
 	}
-	if isOpen && appt.DailyRoomURL != nil {
-		view.DailyRoomURL = appt.DailyRoomURL
+	if isOpen && appt.DailyRoomURL != nil && appt.DailyRoomName != nil &&
+		s.dailyCoSvc != nil && s.dailyCoSvc.IsConfigured() {
+		// HIGH H9: gera meeting_token escopado ao paciente. Token vale até
+		// closesAt — vazamento depois disso é inócuo.
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		tok, terr := s.dailyCoSvc.CreateMeetingToken(ctx, MeetingTokenParams{
+			RoomName:          *appt.DailyRoomName,
+			UserName:          view.PatientFirstName,
+			IsOwner:           false,
+			ExpiresAt:         closesAt,
+			EnableScreenshare: false,
+		})
+		if terr != nil {
+			// Degradação grácil: paciente vê "sala temporariamente indisponível".
+			log.Printf("⚠️  [LOBBY] CreateMeetingToken apt=%s: %v", appt.ID, terr)
+		} else {
+			joinURL := BuildJoinURL(*appt.DailyRoomURL, tok)
+			view.DailyJoinURL = &joinURL
+		}
+	} else if isOpen && appt.DailyRoomURL != nil &&
+		(s.dailyCoSvc == nil || !s.dailyCoSvc.IsConfigured()) {
+		// Backcompat: se Daily não configurado (dev), expõe URL crua.
+		view.DailyJoinURL = appt.DailyRoomURL
 	}
 	return view, nil
 }

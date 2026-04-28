@@ -10,7 +10,8 @@
  *  - Daily.co embed (se type=telemedicine)
  *  - Badges de notificação enviada
  *
- * Polling 15s pra status e dailyRoomUrl (preenchido async ~5s após criação).
+ * Polling 15s pra status; sala telemed é aberta on-demand via meeting_token
+ * (HIGH H9: sala Daily.co é privacy=private; URL crua não funciona).
  */
 import { useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -59,6 +60,7 @@ import {
   useAppointment,
   useCancelAppointment,
   useConfirmAppointment,
+  useTelemedToken,
   useUpdateAppointment,
   type CalendarSlot,
 } from '@/lib/api/calendar-api';
@@ -73,6 +75,12 @@ export default function AppointmentDetailPage() {
   const confirmMutation = useConfirmAppointment(appointmentId);
   const cancelMutation = useCancelAppointment(appointmentId);
   const updateMutation = useUpdateAppointment(appointmentId);
+  // HIGH H9 — sala Daily.co é privacy=private. Pedimos um meeting_token de
+  // owner (médico = is_owner=true, screenshare=true) sob demanda. Token novo
+  // a cada clique em "Abrir sala" — janela curta limita superfície de abuso.
+  const telemedTokenMutation = useTelemedToken(appointmentId);
+  const [joinUrl, setJoinUrl] = useState<string | null>(null);
+  const [joinError, setJoinError] = useState<string | null>(null);
 
   const [showCancel, setShowCancel] = useState(false);
   const [showReschedule, setShowReschedule] = useState(false);
@@ -183,7 +191,8 @@ export default function AppointmentDetailPage() {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Coluna principal */}
         <div className="space-y-6 lg:col-span-2">
-          {/* Daily.co embed (telemedicine) */}
+          {/* Daily.co embed (telemedicine) — HIGH H9: sala privacy=private,
+              precisa de meeting_token. Pedimos token sob demanda ao clicar. */}
           {appt.type === 'telemedicine' && (
             <Card>
               <CardHeader>
@@ -193,22 +202,53 @@ export default function AppointmentDetailPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {appt.dailyRoomUrl ? (
-                  showVideo ? (
-                    <DailyCoEmbed
-                      roomURL={appt.dailyRoomUrl}
-                      onLeave={() => setShowVideo(false)}
-                    />
-                  ) : (
-                    <Button onClick={() => setShowVideo(true)}>
-                      <Video className="mr-2 h-4 w-4" />
-                      Reabrir sala
-                    </Button>
-                  )
+                {joinUrl && showVideo ? (
+                  <DailyCoEmbed
+                    roomURL={joinUrl}
+                    onLeave={() => {
+                      setShowVideo(false);
+                      setJoinUrl(null);
+                    }}
+                  />
                 ) : (
-                  <div className="flex items-center gap-2 rounded border border-dashed p-4 text-sm text-muted-foreground">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Aguardando criação da sala (~5s após agendamento)...
+                  <div className="space-y-3">
+                    {joinError && (
+                      <div className="flex items-start gap-2 rounded border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
+                        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                        <span>{joinError}</span>
+                      </div>
+                    )}
+                    <Button
+                      onClick={async () => {
+                        setJoinError(null);
+                        try {
+                          const res = await telemedTokenMutation.mutateAsync();
+                          setJoinUrl(res.joinUrl);
+                          setShowVideo(true);
+                        } catch (err) {
+                          const msg =
+                            err instanceof Error ? err.message : 'Erro ao gerar acesso à sala';
+                          setJoinError(msg);
+                        }
+                      }}
+                      disabled={telemedTokenMutation.isPending}
+                    >
+                      {telemedTokenMutation.isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Gerando acesso...
+                        </>
+                      ) : (
+                        <>
+                          <Video className="mr-2 h-4 w-4" />
+                          {joinUrl ? 'Reabrir sala' : 'Abrir sala'}
+                        </>
+                      )}
+                    </Button>
+                    <p className="text-xs text-muted-foreground">
+                      A sala fica disponível de 30 minutos antes a 30 minutos depois do horário
+                      agendado.
+                    </p>
                   </div>
                 )}
               </CardContent>

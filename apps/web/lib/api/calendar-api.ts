@@ -54,7 +54,9 @@ export interface Appointment {
   cancelledAt?: string;
   cancellationReason?: string;
   externalCalendarEventId?: string;
-  dailyRoomUrl?: string;
+  // HIGH H9 — DailyRoomURL não é mais exposto via /api/v1/appointments/:id.
+  // Pra abrir a sala, chame POST /api/v1/appointments/:id/telemed-token via
+  // useTelemedToken() — retorna {joinUrl} com meeting_token escopado.
   dailyRoomName?: string;
   confirmationSentAt?: string;
   reminderSentAt?: string;
@@ -345,6 +347,27 @@ export function useCancelAppointment(id: string) {
       qc.invalidateQueries({ queryKey: calendarKeys.appointment(id) });
       qc.invalidateQueries({ queryKey: calendarKeys.all });
     },
+  });
+}
+
+/**
+ * HIGH H9 — gera meeting_token de owner pra abrir a sala Daily.co.
+ *
+ * Sala é privacy=private no Daily — URL crua não funciona. Cada vez que
+ * o médico/staff abre a sala, gera um token novo (sem caching) escopado a
+ * ele (is_owner=true, screenshare=true, exp=closesAt).
+ *
+ * Uso (mutation, não query — token é fresh a cada call):
+ *   const tokenMutation = useTelemedToken(appointmentId);
+ *   const { joinUrl } = await tokenMutation.mutateAsync();
+ */
+export interface TelemedTokenResponse {
+  joinUrl: string;
+}
+export function useTelemedToken(id: string) {
+  return useMutation({
+    mutationFn: () =>
+      apiClient.post<TelemedTokenResponse>(`/api/v1/appointments/${id}/telemed-token`),
   });
 }
 

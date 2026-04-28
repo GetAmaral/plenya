@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -18,18 +19,31 @@ import (
 // Diferente de AppointmentService (acessa todas as consultas, escopo staff),
 // este sempre filtra por patientID e bloqueia ações destrutivas — paciente NÃO
 // cancela direto. Solicitação vai pra secretária via NotificationService.
+//
+// HIGH H9 — quando dailyCoSvc é injetado, GetByID(withRoom=true) gera um
+// meeting_token escopado ao paciente (is_owner=false, sem screenshare) e
+// retorna a URL completa em DailyJoinURL. Sala é privacy=private — sem
+// token, Daily.co rejeita o acesso.
 type PatientAppointmentService struct {
 	db           *gorm.DB
 	notification *NotificationService
+	dailyCoSvc   *DailyCoService
 }
 
 func NewPatientAppointmentService(db *gorm.DB, notification *NotificationService) *PatientAppointmentService {
 	return &PatientAppointmentService{db: db, notification: notification}
 }
 
+// WithDailyCo injeta DailyCoService — chamado em main.go após inicialização.
+func (s *PatientAppointmentService) WithDailyCo(daily *DailyCoService) *PatientAppointmentService {
+	s.dailyCoSvc = daily
+	return s
+}
+
 // PatientAppointmentView é o payload retornado pro paciente.
 // Sem campos internos (ExternalCalendarEventID, ConfirmationSentAt, etc).
-// DailyRoomURL só é exposto quando dentro da janela permitida.
+// DailyJoinURL (HIGH H9) só é exposto quando dentro da janela permitida E
+// vem com meeting_token escopado ao paciente.
 type PatientAppointmentView struct {
 	ID                 uuid.UUID  `json:"id"`
 	ScheduledAt        time.Time  `json:"scheduledAt"`
@@ -39,7 +53,7 @@ type PatientAppointmentView struct {
 	DoctorID           uuid.UUID  `json:"doctorId"`
 	DoctorName         string     `json:"doctorName"`
 	IsTelemedicine     bool       `json:"isTelemedicine"`
-	DailyRoomURL       *string    `json:"dailyRoomUrl,omitempty"`
+	DailyJoinURL       *string    `json:"dailyJoinUrl,omitempty"`
 	Notes              string     `json:"notes,omitempty"`
 	PatientConfirmedAt *time.Time `json:"patientConfirmedAt,omitempty"`
 	ConfirmedAt        *time.Time `json:"confirmedAt,omitempty"`
@@ -73,8 +87,9 @@ func (s *PatientAppointmentService) List(patientID uuid.UUID, rangeKind string) 
 	return out, nil
 }
 
-// GetByID retorna detalhe + DailyRoomURL se dentro da janela permitida
-// (-30min até +2h do horário marcado). Erro se appointment não pertence ao paciente.
+// GetByID retorna detalhe + DailyJoinURL (com meeting_token, HIGH H9) se
+// dentro da janela permitida (-30min até +2h do horário marcado). Erro se
+// appointment não pertence ao paciente.
 func (s *PatientAppointmentService) GetByID(patientID, appointmentID uuid.UUID) (*PatientAppointmentView, error) {
 	var appt models.Appointment
 	err := s.db.Where("id = ? AND patient_id = ?", appointmentID, patientID).First(&appt).Error
@@ -220,16 +235,72 @@ func (s *PatientAppointmentService) toView(appt *models.Appointment, withRoom bo
 		MinutesUntilStart:  int64(delta.Minutes()),
 	}
 
-	// DailyRoomURL só é exposto quando paciente está vendo o detalhe E
-	// estamos na janela permitida (-30min até +2h após horário). Fora dela,
-	// nem retornamos a URL pra evitar entrada antecipada/tardia.
+	// HIGH H9 — DailyJoinURL com meeting_token só dentro da janela permitida
+	// (-30min até +2h após horário). Sala é privacy=private; URL crua não
+	// funciona — precisamos do token escopado ao paciente.
 	if withRoom && view.IsTelemedicine && appt.DailyRoomURL != nil {
 		minutesUntil := view.MinutesUntilStart
 		if minutesUntil <= 30 && minutesUntil >= -120 {
-			view.DailyRoomURL = appt.DailyRoomURL
+			s.attachJoinURL(appt, view)
 		}
 	}
 	return view
+}
+
+// attachJoinURL gera meeting_token (paciente, no-owner, sem screenshare) e
+// popula view.DailyJoinURL. Em caso de erro, log + mantém URL nil (frontend
+// mostra "sala temporariamente indisponível").
+func (s *PatientAppointmentService) attachJoinURL(appt *models.Appointment, view *PatientAppointmentView) {
+	if appt.DailyRoomName == nil || *appt.DailyRoomName == "" {
+		// Salas pré-H9 podem ter URL mas sem name persistido.
+		// Backcompat: expõe URL crua se Daily não configurado.
+		if s.dailyCoSvc == nil || !s.dailyCoSvc.IsConfigured() {
+			view.DailyJoinURL = appt.DailyRoomURL
+		}
+		return
+	}
+	if s.dailyCoSvc == nil || !s.dailyCoSvc.IsConfigured() {
+		view.DailyJoinURL = appt.DailyRoomURL
+		return
+	}
+
+	// Carrega nome do paciente pra display name.
+	var patient models.Patient
+	_ = s.db.Select("name").First(&patient, "id = ?", appt.PatientID).Error
+	displayName := patientFirstName(patient.Name)
+
+	// Janela do token: até +duration+15min (igual lobby).
+	duration := appt.DurationMinutes
+	if duration <= 0 {
+		duration = 60
+	}
+	exp := appt.ScheduledAt.Add(time.Duration(duration)*time.Minute + 15*time.Minute)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	tok, err := s.dailyCoSvc.CreateMeetingToken(ctx, MeetingTokenParams{
+		RoomName:          *appt.DailyRoomName,
+		UserName:          displayName,
+		IsOwner:           false,
+		ExpiresAt:         exp,
+		EnableScreenshare: false,
+	})
+	if err != nil {
+		log.Printf("⚠️  [PATIENT APPT] CreateMeetingToken apt=%s: %v", appt.ID, err)
+		return
+	}
+	joinURL := BuildJoinURL(*appt.DailyRoomURL, tok)
+	view.DailyJoinURL = &joinURL
+}
+
+// patientFirstName extrai primeiro nome (display opaco) do nome completo.
+func patientFirstName(full string) string {
+	full = strings.TrimSpace(full)
+	if full == "" {
+		return "paciente"
+	}
+	parts := strings.Fields(full)
+	return parts[0]
 }
 
 func derefStr(p *string) string {
@@ -239,4 +310,3 @@ func derefStr(p *string) string {
 	return *p
 }
 
-var _ = context.Background

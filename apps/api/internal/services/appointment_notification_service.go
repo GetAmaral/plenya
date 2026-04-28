@@ -61,10 +61,11 @@ const (
 var ErrAppointmentMissingPatient = errors.New("appointment notif: patient not loaded")
 
 type AppointmentNotificationService struct {
-	db          *gorm.DB
-	emailSvc    *EmailService
-	whatsappSvc *WhatsAppService
-	cfg         *config.Config
+	db              *gorm.DB
+	emailSvc        *EmailService
+	whatsappSvc     *WhatsAppService
+	cfg             *config.Config
+	telemedLobbySvc *TelemedLobbyService
 }
 
 func NewAppointmentNotificationService(
@@ -79,6 +80,32 @@ func NewAppointmentNotificationService(
 		whatsappSvc: whatsappSvc,
 		cfg:         cfg,
 	}
+}
+
+// WithTelemedLobby injeta TelemedLobbyService — chamado em main.go.
+// HIGH H9: emails/WhatsApp passam a mandar a URL do lobby (/sala/<token>)
+// em vez da URL crua da sala Daily.co. Lobby gera meeting_token na hora.
+func (s *AppointmentNotificationService) WithTelemedLobby(svc *TelemedLobbyService) *AppointmentNotificationService {
+	s.telemedLobbySvc = svc
+	return s
+}
+
+// patientLobbyURL devolve o link público /sala/<token> pro paciente entrar
+// na sala Daily.co. Vazio se appointment não é telemed ou se token não pôde
+// ser emitido (degrade — caller envia notificação sem link).
+func (s *AppointmentNotificationService) patientLobbyURL(appt *models.Appointment) string {
+	if appt == nil || appt.Type != models.AppointmentTelemedicine {
+		return ""
+	}
+	if s.telemedLobbySvc == nil {
+		return ""
+	}
+	tok, err := s.telemedLobbySvc.EnsureTokenForAppointment(appt)
+	if err != nil || tok == nil {
+		log.Printf("⚠️  [APPT NOTIF] lobby token apt=%s: %v", appt.ID, err)
+		return ""
+	}
+	return s.telemedLobbySvc.PublicLinkURL(tok.Token)
 }
 
 // SendConfirmation envia email (Resend, com .ics) + WhatsApp template
@@ -97,10 +124,9 @@ func (s *AppointmentNotificationService) SendConfirmation(ctx context.Context, a
 	doctorName := s.doctorDisplayName(&appt.Doctor)
 	dateBR, timeBR := formatBRDateTime(appt.ScheduledAt)
 	typeLabel := appointmentTypeLabel(appt.Type)
-	dailyURL := ""
-	if appt.DailyRoomURL != nil {
-		dailyURL = *appt.DailyRoomURL
-	}
+	// HIGH H9 — paciente recebe URL do lobby standalone (/sala/<token>),
+	// nunca a URL crua da sala. Lobby gera meeting_token na hora do clique.
+	dailyURL := s.patientLobbyURL(appt)
 
 	// 1) Email
 	if appt.Patient.Email != nil && strings.TrimSpace(*appt.Patient.Email) != "" {
@@ -160,10 +186,8 @@ func (s *AppointmentNotificationService) SendReminder24h(ctx context.Context, ap
 
 	doctorName := s.doctorDisplayName(&appt.Doctor)
 	dateBR, timeBR := formatBRDateTime(appt.ScheduledAt)
-	dailyURL := ""
-	if appt.DailyRoomURL != nil {
-		dailyURL = *appt.DailyRoomURL
-	}
+	// HIGH H9 — paciente recebe URL do lobby (/sala/<token>), não a URL crua.
+	dailyURL := s.patientLobbyURL(appt)
 
 	s.sendTemplateBestEffort(
 		waTemplateAppointmentReminder24h,
@@ -235,10 +259,8 @@ func (s *AppointmentNotificationService) SendReschedule(ctx context.Context, app
 	dateBR, timeBR := formatBRDateTime(appt.ScheduledAt)
 	oldDateBR, oldTimeBR := formatBRDateTime(oldScheduledAt)
 	typeLabel := appointmentTypeLabel(appt.Type)
-	dailyURL := ""
-	if appt.DailyRoomURL != nil {
-		dailyURL = *appt.DailyRoomURL
-	}
+	// HIGH H9 — paciente recebe URL do lobby (/sala/<token>), não a URL crua.
+	dailyURL := s.patientLobbyURL(appt)
 
 	if appt.Patient.Email != nil && strings.TrimSpace(*appt.Patient.Email) != "" {
 		subject := fmt.Sprintf("Consulta remarcada · %s %s", dateBR, timeBR)

@@ -138,7 +138,7 @@ export default function MyAppointmentDetailPage({ params }: { params: Promise<{ 
       </header>
 
       {/* Telemed inline */}
-      {a.isTelemedicine && a.dailyRoomUrl && (
+      {a.isTelemedicine && a.dailyJoinUrl && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
@@ -146,11 +146,11 @@ export default function MyAppointmentDetailPage({ params }: { params: Promise<{ 
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <DailyCoEmbed roomURL={a.dailyRoomUrl} />
+            <DailyCoEmbed roomURL={a.dailyJoinUrl} />
           </CardContent>
         </Card>
       )}
-      {a.isTelemedicine && !a.dailyRoomUrl && !inPast && (
+      {a.isTelemedicine && !a.dailyJoinUrl && !inPast && (
         <Card className="border-dashed">
           <CardContent className="space-y-2 py-6 text-center">
             <Video className="mx-auto h-6 w-6 text-muted-foreground" />

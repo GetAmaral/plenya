@@ -5,8 +5,10 @@
 //
 // Decisões:
 //
-//  1. Sala "private" + token de acesso fica V2 (free tier permite, mas sala
-//     pública por URL difícil-de-adivinhar é suficiente pro MVP médico-paciente).
+//  1. HIGH H9 (resolvido): salas são criadas com privacy="private" e cada
+//     participante recebe um meeting_token curto via CreateMeetingToken.
+//     Médico = is_owner=true + screenshare; paciente = is_owner=false sem
+//     screenshare. URL crua não funciona — Daily exige o token no querystring.
 //
 //  2. exp (expiration) no momento da criação evita salas órfãs ocupando quota
 //     se appointment for cancelado e DeleteRoom falhar.
@@ -101,12 +103,22 @@ func (s *DailyCoService) CreateRoom(ctx context.Context, namePrefix string, expi
 		name = name[:60]
 	}
 
+	// HIGH H9 — endurecimento total:
+	// • privacy="private": sala não é acessível por URL crua. Cada
+	//   participante precisa de um meeting_token (gerado via
+	//   CreateMeetingToken). Token carrega is_owner, user_name, exp e
+	//   permissões granulares (enable_screenshare).
+	// • enable_screenshare default=false: o token do médico libera, o do
+	//   paciente não — vetor de exfiltração mitigado por padrão.
+	// • enable_chat=true: chat textual é útil pra trocar links/anotações
+	//   durante a consulta.
 	body := map[string]any{
-		"name": name,
+		"name":    name,
+		"privacy": "private",
 		"properties": map[string]any{
 			"exp":                expiresAt.UTC().Unix(),
 			"eject_at_room_exp":  true,
-			"enable_screenshare": true,
+			"enable_screenshare": false,
 			"enable_chat":        true,
 		},
 	}
@@ -137,6 +149,102 @@ func (s *DailyCoService) CreateRoom(ctx context.Context, namePrefix string, expi
 		return nil, fmt.Errorf("daily create room decode: %w", err)
 	}
 	return &DailyRoom{Name: parsed.Name, URL: parsed.URL}, nil
+}
+
+// MeetingTokenParams — parâmetros pra gerar um meeting_token Daily.co.
+//
+// Os campos viram propriedades do token (POST /meeting-tokens).
+//
+//   - RoomName: nome da sala que o token autoriza (escopo).
+//   - UserName: display name que aparece no Daily prebuilt UI.
+//   - IsOwner: true só pro médico — owner pode ejetar participantes,
+//     iniciar gravação, etc.
+//   - ExpiresAt: token deixa de valer após esse instante (Unix segundos).
+//     Usar janela curta (closesAt do lobby) — token vazado fica inútil
+//     rapidamente.
+//   - EnableScreenshare: true só pro médico. Paciente nem vê o botão.
+type MeetingTokenParams struct {
+	RoomName          string
+	UserName          string
+	IsOwner           bool
+	ExpiresAt         time.Time
+	EnableScreenshare bool
+}
+
+// CreateMeetingToken gera um meeting_token escopado a uma sala + participante.
+//
+// Retorna o token cru (string opaca). Caller monta a URL final com
+// BuildJoinURL.
+//
+// Erros tratados igual ao CreateRoom (401 → invalid api key; status != 2xx).
+func (s *DailyCoService) CreateMeetingToken(ctx context.Context, p MeetingTokenParams) (string, error) {
+	if !s.IsConfigured() {
+		return "", ErrDailyNotConfigured
+	}
+	if strings.TrimSpace(p.RoomName) == "" {
+		return "", errors.New("daily meeting token: empty room name")
+	}
+
+	// Daily exige timestamp UNIX em "exp" e somente nas propriedades do token.
+	// Sanity: se ExpiresAt for zero ou no passado, força janela curta de 1h pra
+	// evitar token "permanente" por bug de caller.
+	exp := p.ExpiresAt
+	if exp.IsZero() || exp.Before(time.Now().UTC()) {
+		exp = time.Now().UTC().Add(1 * time.Hour)
+	}
+
+	displayName := strings.TrimSpace(p.UserName)
+	if displayName == "" {
+		displayName = "Plenya"
+	}
+
+	body := map[string]any{
+		"properties": map[string]any{
+			"room_name":          p.RoomName,
+			"user_name":          displayName,
+			"is_owner":           p.IsOwner,
+			"exp":                exp.UTC().Unix(),
+			"enable_screenshare": p.EnableScreenshare,
+		},
+	}
+
+	resp, err := s.do(ctx, http.MethodPost, dailyAPIBaseURL+"/meeting-tokens", body)
+	if err != nil {
+		return "", fmt.Errorf("daily create meeting token http: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusUnauthorized {
+		return "", errors.New("daily.co: invalid api key (401)")
+	}
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		errBody, _ := io.ReadAll(resp.Body)
+		log.Printf("⚠️  Daily create meeting token: status=%d body=%s", resp.StatusCode, string(errBody))
+		return "", fmt.Errorf("daily create meeting token: status %d", resp.StatusCode)
+	}
+
+	var parsed struct {
+		Token string `json:"token"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&parsed); err != nil {
+		return "", fmt.Errorf("daily create meeting token decode: %w", err)
+	}
+	if parsed.Token == "" {
+		return "", errors.New("daily create meeting token: empty token in response")
+	}
+	return parsed.Token, nil
+}
+
+// BuildJoinURL anexa o meeting_token na URL da sala como ?t=<token>.
+// Daily prebuilt aceita esse param e usa o token automaticamente.
+func BuildJoinURL(roomURL, token string) string {
+	if token == "" {
+		return roomURL
+	}
+	if strings.Contains(roomURL, "?") {
+		return roomURL + "&t=" + token
+	}
+	return roomURL + "?t=" + token
 }
 
 // DeleteRoom remove a sala. Idempotente — 404 é tratado como sucesso.
