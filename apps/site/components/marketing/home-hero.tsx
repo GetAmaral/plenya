@@ -31,30 +31,32 @@ export function HomeHero() {
       />
 
       <div className="relative site-container py-40 text-cream">
-        <h1 className="heading-hero text-[clamp(2.8rem,7vw,5.5rem)] max-w-[14ch]">
-          Viver bem{' '}
-          <em className="not-italic text-gold">é o reflexo</em>{' '}
-          do que você escolhe todos os dias.
-        </h1>
+        <div className="max-w-[820px]">
+          <h1 className="heading-hero text-[clamp(2.8rem,7vw,5.5rem)]">
+            Viver bem{' '}
+            <em className="not-italic text-gold">é o reflexo</em>{' '}
+            do que você escolhe todos os dias.
+          </h1>
 
-        <div className="mt-10 max-w-md space-y-1">
-          <p className="heading-section text-cream/90 text-xl">
-            Plenitude não é um ponto de chegada.
-          </p>
-          <p className="heading-section text-cream/90 text-xl">
-            É uma linha contínua.
+          <div className="mt-10 max-w-md space-y-0.5">
+            <p className="heading-section text-cream/90 text-xl md:text-2xl">
+              Plenitude não é um ponto de chegada.
+            </p>
+            <p className="heading-section text-cream/90 text-xl md:text-2xl">
+              É uma linha contínua.
+            </p>
+          </div>
+
+          <div className="mt-14">
+            <Link href="/equipe" className="btn-gold">
+              {tCta('knowTeam')}
+            </Link>
+          </div>
+
+          <p className="mt-12 label-upper text-cream/60 tracking-[0.3em]">
+            Plenya · Viva bem, viva mais.
           </p>
         </div>
-
-        <div className="mt-14">
-          <Link href="/equipe" className="btn-gold">
-            {tCta('knowTeam')}
-          </Link>
-        </div>
-
-        <p className="mt-12 label-upper text-cream/60 tracking-[0.3em]">
-          Plenya · Viva bem, viva mais.
-        </p>
       </div>
     </section>
   );

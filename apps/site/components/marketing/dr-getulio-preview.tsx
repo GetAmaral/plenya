@@ -29,7 +29,7 @@ export function DrGetulioPreview() {
             Dr. Getúlio Amaral Filho
           </h2>
 
-          <p className="label-upper text-petrol/50">
+          <p className="label-upper-sm text-petrol/55">
             CRM-PR 21.876 · RQE 16.038 · Nefrologia · Medicina Funcional Integrativa
           </p>
 

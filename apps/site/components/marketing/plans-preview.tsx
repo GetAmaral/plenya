@@ -42,15 +42,15 @@ export function PlansPreview() {
             <Link
               key={o.title}
               href={o.href}
-              className={`group block pt-8 space-y-4 border-t-2 transition ${
+              className={`group block pt-8 space-y-5 border-t-2 transition ${
                 o.highlight ? 'border-gold' : 'border-petrol/20'
               }`}
             >
               <p className="label-upper text-gold">{o.label}</p>
-              <h3 className="heading-section text-petrol text-2xl md:text-3xl group-hover:text-gold transition">
+              <h3 className="heading-section text-petrol text-3xl md:text-4xl group-hover:text-gold transition">
                 {o.title} →
               </h3>
-              <p className="text-petrol/70 leading-relaxed">{o.desc}</p>
+              <p className="text-petrol/75 text-lg leading-snug">{o.desc}</p>
             </Link>
           ))}
         </div>

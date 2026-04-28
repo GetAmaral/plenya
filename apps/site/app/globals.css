@@ -26,52 +26,67 @@
   /* Section spacing — generous */
   .section { @apply py-24 md:py-32; }
 
-  /* Typography */
+  /* Typography — leading apertado (feedback branding 2026-04: serifa display
+     com line-height grande não passa sofisticação). */
   .heading-hero {
     font-family: var(--font-heading), 'Cormorant Garamond', serif;
     font-weight: 400;
-    line-height: 1.08;
-    letter-spacing: -0.015em;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
   }
   .heading-section {
     font-family: var(--font-heading), 'Cormorant Garamond', serif;
     font-weight: 400;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
+    line-height: 1.02;
+    letter-spacing: -0.015em;
   }
+  /* Eyebrow/kicker — aumentado +30% (feedback branding: estavam pequenos demais
+     em todas as seções: O QUE NOS MOVE, MÉTODO AGIR, DIAGNÓSTICO, EQUIPE, etc) */
   .label-upper {
     font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-    font-size: 0.6875rem;
-    letter-spacing: 0.15em;
+    font-size: 0.875rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+    font-weight: 500;
+  }
+  .label-upper-sm {
+    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
   }
 
-  /* Buttons */
+  /* Buttons — contraste corrigido + tamanho maior (feedback branding 2026-04:
+     texto petrol sobre gold ficava ilegível; botões pequenos demais). */
   .btn-gold {
-    @apply inline-flex items-center justify-center bg-gold text-petrol px-10 py-4 rounded-full transition-all duration-300;
-    font-family: var(--font-heading), 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    @apply inline-flex items-center justify-center bg-gold text-cream px-12 py-5 rounded-full transition-all duration-300;
+    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
   .btn-gold:hover {
-    @apply bg-gold-600 -translate-y-px shadow-lg shadow-gold/20;
+    @apply bg-gold-600 -translate-y-px shadow-lg shadow-gold/30;
   }
   .btn-outline-dark {
-    @apply inline-flex items-center justify-center border border-petrol/30 text-petrol px-8 py-3 rounded-full transition-all duration-300;
+    @apply inline-flex items-center justify-center border border-petrol/40 text-petrol px-10 py-5 rounded-full transition-all duration-300;
     font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-    font-size: 0.6875rem;
-    letter-spacing: 0.12em;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
   .btn-outline-dark:hover {
     @apply border-petrol bg-petrol text-cream;
   }
   .btn-outline-light {
-    @apply inline-flex items-center justify-center border border-cream/40 text-cream px-8 py-3 rounded-full transition-all duration-300;
+    @apply inline-flex items-center justify-center border border-cream/50 text-cream px-10 py-5 rounded-full transition-all duration-300;
     font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-    font-size: 0.6875rem;
-    letter-spacing: 0.12em;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
   .btn-outline-light:hover {

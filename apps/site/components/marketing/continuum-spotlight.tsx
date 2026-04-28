@@ -23,10 +23,10 @@ export function ContinuumSpotlight() {
         <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 mb-16">
           <div className="space-y-6">
             <p className="label-upper text-gold">Programa contínuo</p>
-            <h2 className="heading-section text-cream text-3xl md:text-5xl">
+            <h2 className="heading-section text-cream text-4xl md:text-6xl">
               Continuum Plenya.
             </h2>
-            <p className="heading-section text-gold text-xl md:text-2xl">
+            <p className="heading-section text-gold text-2xl md:text-4xl">
               Saúde que se sustenta no tempo.
             </p>
           </div>
@@ -48,9 +48,9 @@ export function ContinuumSpotlight() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-cream/10 border-y border-cream/15 mb-12">
           {pilares.map((p) => (
-            <div key={p.label} className="bg-petrol p-6 space-y-2">
-              <p className="label-upper text-gold/80">{p.label}</p>
-              <p className="text-cream text-lg">{p.value}</p>
+            <div key={p.label} className="bg-petrol p-6 space-y-3">
+              <p className="label-upper text-gold/85">{p.label}</p>
+              <p className="text-cream text-xl leading-snug">{p.value}</p>
             </div>
           ))}
         </div>

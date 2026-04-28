@@ -29,11 +29,11 @@ export function AgirPillarsSection() {
           {agirPillars.map((pillar) => {
             const name = locale === 'en' ? pillar.nameEn : locale === 'es' ? pillar.nameEs : pillar.name;
             return (
-              <div key={pillar.code} className="bg-petrol p-8 space-y-4">
-                <span className="heading-section text-gold text-5xl block leading-none">{pillar.code}</span>
-                <h3 className="heading-section text-cream text-xl">{name}</h3>
-                <p className="text-cream/70 text-sm leading-relaxed">{pillar.idea}</p>
-                <p className="label-upper text-gold/70 text-[10px] tracking-[0.25em] pt-2 border-t border-cream/10">
+              <div key={pillar.code} className="bg-petrol p-8 space-y-5">
+                <span className="heading-section text-gold text-6xl block leading-none">{pillar.code}</span>
+                <h3 className="heading-section text-cream text-2xl leading-tight">{name}</h3>
+                <p className="text-cream/75 text-base leading-snug">{pillar.idea}</p>
+                <p className="label-upper-sm text-gold/80 pt-3 border-t border-cream/10">
                   {pillar.territory}
                 </p>
               </div>
