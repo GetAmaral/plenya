@@ -113,11 +113,11 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
       {/* Hero — fotográfico */}
       <section className="relative bg-petrol text-cream overflow-hidden">
         <Image
-          src="/images/hero-about.jpg"
+          src="/images/metodo-agir-hero.jpg"
           alt=""
           fill
           priority
-          className="object-cover opacity-40"
+          className="object-cover object-top opacity-40"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-petrol/70 via-petrol/60 to-petrol" />

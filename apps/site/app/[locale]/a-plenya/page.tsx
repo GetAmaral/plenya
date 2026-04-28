@@ -106,6 +106,30 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
+      {/* Imagem da equipe — quem ocupa o espaço */}
+      <section className="bg-cream">
+        <div className="site-container pt-12 md:pt-16">
+          <figure className="space-y-4">
+            <div className="relative aspect-[3/2] overflow-hidden">
+              <Image
+                src="/images/team/equipe-candid.jpg"
+                alt="Equipe Plenya — médicos, nutricionista, psicóloga e educador físico"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 1120px, 100vw"
+              />
+            </div>
+            <figcaption className="flex items-baseline gap-3 text-petrol/60 text-sm">
+              <span className="label-upper text-gold">Equipe</span>
+              <span>
+                Médicos, nutricionista, psicóloga e educador físico — uma única equipe
+                que se reúne, discute o caso e desenha uma conduta integrada.
+              </span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
       {/* Propósito */}
       <section className="bg-cream">
         <div className="site-container section">
