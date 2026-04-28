@@ -7,7 +7,7 @@
 
 ## Sistemáticas e meta-análises (2024-2026)
 
-1. Huwiler VV, Maissen-Abgottspon S, Stanga Z, Mühlebach S, Trepp R, Bally L, Bano A. Selenium Supplementation in Patients with Hashimoto Thyroiditis: A Systematic Review and Meta-Analysis of Randomized Clinical Trials. *Thyroid* 2024;34(3):271-282. PMID 38243784. doi:10.1089/thy.2023.0556
+1. Huwiler VV, Maissen-Abgottspon S, Stanga Z, Mühlebach S, Trepp R, Bally L, Bano A. Selenium Supplementation in Patients with Hashimoto Thyroiditis: A Systematic Review and Meta-Analysis of Randomized Clinical Trials. *Thyroid* 2024;34(3):295-313. PMID 38243784. doi:10.1089/thy.2023.0556
 
 2. Wu Y et al. The Effect of Nicotinamide Mononucleotide and Riboside on Skeletal Muscle Mass and Function: A Systematic Review and Meta-Analysis. PMC12022230. 2025.
 
@@ -73,11 +73,11 @@
 
 31. Targeting Cellular Senescence with Senolytics. NCT04313634.
 
-32. McKnight TR et al. Single Dose Creatine Improves Cognitive Performance and Induces Changes in Brain Bioenergetics During Sleep Deprivation. PMID 38418482. 2024.
+32. Gordji-Nejad A, Matusch A, Kleedörfer S, et al. Single dose creatine improves cognitive performance and induces changes in cerebral high energy phosphates during sleep deprivation. *Sci Rep* 2024;14:4937. PMID 38418482. doi:10.1038/s41598-024-54249-9
 
 33. Avgerinos KI et al. Effects of Creatine Supplementation on Cognitive Function in Healthy Individuals: A Systematic Review of Randomized Controlled Trials. PMID 39070254. 2024.
 
-34. McMorris T et al. Effect of Creatine Supplementation and Sleep Deprivation on Cognitive and Psychomotor Performance, Mood State, and Plasma Concentrations of Catecholamines and Cortisol. PMID 16416332. 2006.
+34. McMorris T, Harris RC, Swain J, et al. Effect of creatine supplementation and sleep deprivation, with mild exercise, on cognitive and psychomotor performance, mood state, and plasma concentrations of catecholamines and cortisol. *Psychopharmacology (Berl)* 2006;185(1):93-103. PMID 16416332. doi:10.1007/s00213-005-0269-z
 
 35. CoQ10 in Male Infertility: Systematic Review. PMC8226917.
 
@@ -425,7 +425,7 @@
 
 194. Hosoe K, Kitano M, Kishida H, Kubo H, Fujii K, Kitahara M. Study on safety and bioavailability of ubiquinol (Kaneka QH) after single and 4-week multiple oral administration to healthy volunteers. *Regul Toxicol Pharmacol* 2007;47(1):19-28. doi:10.1016/j.yrtph.2006.07.001
 
-195. Mohr D, Bowry VW, Stocker R. Dietary supplementation with coenzyme Q10 results in increased levels of ubiquinol-10 within circulating lipoproteins and increased resistance of human low-density lipoprotein to the initiation of lipid peroxidation. *Biochim Biophys Acta* 2018;1126(3):247-254.
+195. Mohr D, Bowry VW, Stocker R. Dietary supplementation with coenzyme Q10 results in increased levels of ubiquinol-10 within circulating lipoproteins and increased resistance of human low-density lipoprotein to the initiation of lipid peroxidation. *Biochim Biophys Acta* 1992;1126(3):247-254. PMID 1637852. doi:10.1016/0005-2760(92)90237-p
 
 ---
 
@@ -637,11 +637,11 @@
 
 298. Sakamoto J, Morita S, Oba K, et al. Efficacy of adjuvant immunochemotherapy with polysaccharide K for patients with curatively resected colorectal cancer: a meta-analysis of centrally randomized controlled clinical trials. *Cancer Immunol Immunother* 2006;55(4):404-411. doi:10.1007/s00262-005-0054-1
 
-299. Kikuchi Y, Seta K, Ogawa Y, et al. Chaga mushroom-induced oxalate nephropathy. *Clin Exp Nephrol* 2014;18(6):944-947. doi:10.1007/s10157-014-0950-9
+299. Kikuchi Y, Seta K, Ogawa Y, Takayama T, Nagata M, Taguchi T, Yahata K. Chaga mushroom-induced oxalate nephropathy. *Clin Nephrol* 2014;81(6):440-444. PMID 23149251. doi:10.5414/CN107655
 
 300. Brinkworth GD, Buckley JD. Concentrated bovine colostrum protein supplementation reduces the incidence of self-reported symptoms of upper respiratory tract infection in adult males. *Eur J Nutr* 2003;42(4):228-232. doi:10.1007/s00394-003-0410-x
 
-301. Patel K, Rana R. Pediatric and adult applications of bovine colostrum. *Nutrition Research Reviews* 2007;20(2):130-143. doi:10.1017/S0954422407812050
+301. Rathe M, Müller K, Sangild PT, Husby S. Clinical applications of bovine colostrum therapy: a systematic review. *Nutr Rev* 2014;72(4):237-254. PMID 24571382. doi:10.1111/nure.12089
 
 302. Playford RJ, Macdonald CE, Calnan DP, et al. Co-administration of the health food supplement, bovine colostrum, reduces the acute non-steroidal anti-inflammatory drug-induced increase in intestinal permeability. *Clin Sci (Lond)* 2001;100(6):627-633. doi:10.1042/cs1000627
 
@@ -847,7 +847,7 @@
 
 410. Bolland MJ, Avenell A, Baron JA, et al. Effect of calcium supplements on risk of myocardial infarction and cardiovascular events: meta-analysis. *BMJ* 2010;341:c3691. doi:10.1136/bmj.c3691
 
-411. Smith-Ryan AE, Cabre HE, Eckerson JM, Candow DG. Creatine supplementation in women's health: a lifespan perspective. *Nutrients* 2025;17(4) (review · cruzada com Cap 7+31+37 · referência de revisão integrada de creatina em saúde feminina ao longo da vida)
+411. Smith-Ryan AE, Cabre HE, Eckerson JM, Candow DG. Creatine supplementation in women's health: a lifespan perspective. *Nutrients* 2021;13(3):877. PMID 33800439. doi:10.3390/nu13030877 (review · cruzada com Cap 7+31+37 · referência de revisão integrada de creatina em saúde feminina ao longo da vida)
 
 412. Tang BMP, Eslick GD, Nowson C, Smith C, Bensoussan A. Use of calcium or calcium in combination with vitamin D supplementation to prevent fractures and bone loss in people aged 50 years and older: a meta-analysis. *Lancet* 2007;370(9588):657-666. doi:10.1016/S0140-6736(07)61342-7
 
@@ -865,7 +865,7 @@
 
 419. Manzoni P, Rinaldi M, Cattani S, et al. Bovine lactoferrin supplementation for prevention of late-onset sepsis in very low-birth-weight neonates: a randomized trial. *JAMA* 2009;302(13):1421-1428. doi:10.1001/jama.2009.1403
 
-420. Patel K, Rana R. Pedimune in recurrent respiratory infection and diarrhoea: the Indian experience. *Indian J Pediatr* 2007;74(3):323-327. doi:10.1007/s12098-007-0050-x
+420. Patel K, Rana R. Pedimune in recurrent respiratory infection and diarrhoea — the Indian experience. *Indian J Pediatr* 2006;73(7):585-591. PMID 16877853. doi:10.1007/BF02759923
 
 421. Brinkworth GD, Buckley JD. Concentrated bovine colostrum protein supplementation reduces the incidence of self-reported symptoms of upper respiratory tract infection in adult males. *Eur J Nutr* 2003;42(4):228-232. doi:10.1007/s00394-003-0410-x
 
@@ -879,7 +879,7 @@
 
 426. Quaranta L, Bettelli S, Uva MG, Semeraro F, Turano R, Gandolfo E. Effect of Ginkgo biloba extract on preexisting visual field damage in normal tension glaucoma. *Ophthalmology* 2003;110(2):359-362. doi:10.1016/S0161-6420(02)01745-1
 
-427. Hirooka K, Tokuda M, Miyamoto O, Itano T, Baba T, Shiraga F. The Ginkgo biloba extract (EGb 761) provides a neuroprotective effect on retinal ganglion cells in a rat model of chronic glaucoma. *Curr Eye Res* 2008;33(11):1067-1073. doi:10.1080/02713680802461842
+427. Hirooka K, Tokuda M, Miyamoto O, Itano T, Baba T, Shiraga F. The Ginkgo biloba extract (EGb 761) provides a neuroprotective effect on retinal ganglion cells in a rat model of chronic glaucoma. *Curr Eye Res* 2004;28(3):153-157. PMID 14977516. doi:10.1076/ceyr.28.3.153.26246
 
 428. Kang JH, Pasquale LR, Willett W, et al. Antioxidant intake and primary open-angle glaucoma: a prospective study. *Am J Epidemiol* 2003;158(4):337-346. doi:10.1093/aje/kwg167
 
@@ -943,7 +943,7 @@
 
 458. Yeoh YK, Zuo T, Lui GC, et al. Gut microbiota composition reflects disease severity and dysfunctional immune responses in patients with COVID-19. *Gut* 2021;70(4):698-706. doi:10.1136/gutjnl-2020-323020
 
-459. Bisaccia G, Ricci F, Recce V, et al. Post-acute sequelae of COVID-19 cardiovascular symptoms: a multidisciplinary approach. *Trends Cardiovasc Med* 2021;31(3):143-145. doi:10.1016/j.tcm.2020.12.006
+459. Bisaccia G, Ricci F, Recce V, et al. Post-acute sequelae of COVID-19 and cardiovascular autonomic dysfunction: what do we know? *J Cardiovasc Dev Dis* 2021;8(11):156. PMID 34821709. doi:10.3390/jcdd8110156
 
 460. Antonelli M, Penfold RS, Merino J, et al. Risk factors and disease profile of post-vaccination SARS-CoV-2 infection in UK users of the COVID Symptom Study app. *Lancet Infect Dis* 2022;22(1):43-55. doi:10.1016/S1473-3099(21)00460-6
 
@@ -979,7 +979,7 @@
 
 476. McConnell JD, Roehrborn CG, Bautista OM, et al. The long-term effect of doxazosin, finasteride, and combination therapy on the clinical progression of benign prostatic hyperplasia (MTOPS). *N Engl J Med* 2003;349(25):2387-2398. doi:10.1056/NEJMoa030656
 
-477. Inman BA, Sauver JL, Jacobson DJ, et al. A population-based, longitudinal study of erectile dysfunction and future coronary artery disease. *Mayo Clin Proc* 2009;84(2):108-113. doi:10.1016/S0025-6196(11)60816-1
+477. Inman BA, Sauver JL, Jacobson DJ, et al. A population-based, longitudinal study of erectile dysfunction and future coronary artery disease. *Mayo Clin Proc* 2009;84(2):108-113. PMID 19181643. doi:10.4065/84.2.108
 
 478. Bhasin S, Brito JP, Cunningham GR, et al. Testosterone therapy in men with hypogonadism: an Endocrine Society clinical practice guideline. *J Clin Endocrinol Metab* 2018;103(5):1715-1744. doi:10.1210/jc.2018-00229
 
@@ -1003,7 +1003,7 @@
 
 488. Bentov Y, Hannam T, Jurisicova A, Esfandiari N, Casper RF. Coenzyme Q10 supplementation and oocyte aneuploidy in women undergoing IVF-ICSI treatment. *Clin Med Insights Reprod Health* 2014;8:31-36. doi:10.4137/CMRH.S14681
 
-489. Frei-Kleiner S, Schaffner W, Rahlfs VW, Bodmer C, Birkhäuser M. Cimicifuga racemosa dried ethanolic extract in menopausal disorders: a double-blind placebo-controlled clinical trial. *Maturitas* 2005;51(4):397-404. doi:10.1016/j.maturitas.2004.10.004
+489. Frei-Kleiner S, Schaffner W, Rahlfs VW, Bodmer C, Birkhäuser M. Cimicifuga racemosa dried ethanolic extract in menopausal disorders: a double-blind placebo-controlled clinical trial. *Maturitas* 2005;51(4):397-404. PMID 16039414. doi:10.1016/j.maturitas.2004.10.003
 
 490. Brooks NA, Wilcox G, Walker KZ, et al. Beneficial effects of Lepidium meyenii (Maca) on psychological symptoms and measures of sexual dysfunction in postmenopausal women. *Menopause* 2008;15(6):1157-1162. doi:10.1097/gme.0b013e3181732953
 
@@ -1013,7 +1013,7 @@
 
 493. The 2022 hormone therapy position statement of The North American Menopause Society. *Menopause* 2022;29(7):767-794. doi:10.1097/GME.0000000000002028
 
-494. Manson JE, Aragaki AK, Rossouw JE, et al. Menopausal hormone therapy and long-term all-cause and cause-specific mortality: the Women's Health Initiative randomized trials (18-year follow-up). *JAMA* 2017;318(10):927-938. doi:10.1001/jama.2017.11217
+494. (Removida · duplicata da ref 405 Manson 2017 WHI 18a · manter numeração para preservar índices de citação no corpo)
 
 495. Nelson HD. Menopause. *Lancet* 2008;371(9614):760-770. doi:10.1016/S0140-6736(08)60346-3
 
@@ -1095,7 +1095,7 @@
 
 534. Mocking RJ, Harmsen I, Assies J, Koeter MW, Ruhé HG, Schene AH. Meta-analysis and meta-regression of omega-3 polyunsaturated fatty acid supplementation for major depressive disorder. *Transl Psychiatry* 2016;6(3):e756. doi:10.1038/tp.2016.29
 
-535. Carney RM, Freedland KE, Rubin EH, Rich MW, Steinmeyer BC, Harris WS. Omega-3 augmentation of sertraline in treatment of depression in patients with coronary heart disease (OMEGA-3 RCT). *JAMA* 2019;322(15):1445-1452. doi:10.1001/jama.2019.13889
+535. Carney RM, Freedland KE, Rubin EH, Rich MW, Steinmeyer BC, Harris WS. A randomized placebo-controlled trial of omega-3 and sertraline in depressed patients with or at risk for coronary heart disease. *J Clin Psychiatry* 2019;80(4):19m12742. PMID 31163106. doi:10.4088/JCP.19m12742
 
 536. Berk M, Copolov DL, Dean O, et al. N-acetyl cysteine for depressive symptoms in bipolar disorder — a double-blind randomized placebo-controlled trial. *Biol Psychiatry* 2008;64(6):468-475. doi:10.1016/j.biopsych.2008.04.022
 
@@ -1113,11 +1113,11 @@
 
 543. O'Kelly B, Vidal L, McHugh T, Woo J, Avramovic G, Lambert JS. Safety and efficacy of low dose naltrexone in a long COVID cohort: an interventional pre-post study. *Brain Behav Immun Health* 2022;24:100485. doi:10.1016/j.bbih.2022.100485
 
-544. Bonilla H, Quach TC, Tiwari A, et al. Therapeutic trials for long COVID: an evidence-based perspective. *Front Med (Lausanne)* 2023;10:1187163. doi:10.3389/fmed.2023.1187163
+544. Bonilla H, Peluso MJ, Rodgers K, et al. Therapeutic trials for long COVID-19: a call to action from the interventions taskforce of the RECOVER initiative. *Front Immunol* 2023;14:1129459. doi:10.3389/fimmu.2023.1129459
 
-545. Soares Lopes BR, Pereira de Souza V, Brunelli A, et al. Mitochondria-targeted approaches in chronic fatigue syndrome and long COVID. *Mitochondrion* 2024;76:101861. doi:10.1016/j.mito.2024.101861
+545. Chen TH, Chang CJ, Hung PH. Possible pathogenesis and prevention of long COVID: SARS-CoV-2-induced mitochondrial disorder. *Int J Mol Sci* 2023;24(9):8034. PMID 37175745. doi:10.3390/ijms24098034
 
-546. Singh JB, Daly EJ, Mathews M, et al. Esketamine nasal spray for treatment-resistant depression: SUSTAIN-1. *JAMA Psychiatry* 2018;75(2):139-148. doi:10.1001/jamapsychiatry.2017.3739
+546. Daly EJ, Singh JB, Fedgchin M, et al. Efficacy and safety of intranasal esketamine adjunctive to oral antidepressant therapy in treatment-resistant depression (TRANSFORM-2). *JAMA Psychiatry* 2018;75(2):139-148. PMID 29282469. doi:10.1001/jamapsychiatry.2017.3739
 
 547. Daly EJ, Trivedi MH, Janik A, et al. Efficacy of esketamine nasal spray plus oral antidepressant treatment for relapse prevention in patients with treatment-resistant depression: a randomized clinical trial. *JAMA Psychiatry* 2019;76(9):893-903. doi:10.1001/jamapsychiatry.2019.1189
 
