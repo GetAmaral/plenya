@@ -13,8 +13,8 @@
     font-feature-settings: 'kern', 'liga', 'calt';
   }
   ::selection {
-    background-color: #6b1f2a;
-    color: #f5f1e8;
+    background-color: #b48a4a;
+    color: #f0e8d8;
   }
 }
 
@@ -54,14 +54,34 @@
 
   /* Link texto editorial — sublinha em hover, sem botão */
   .link-text {
-    @apply text-ink underline-offset-4 decoration-bordo/40 hover:underline transition-all;
+    @apply text-ink underline-offset-4 decoration-gold/50 hover:underline transition-all;
   }
   .link-text-light {
     @apply text-paper underline-offset-4 decoration-paper/40 hover:underline transition-all;
   }
 
-  /* Divisor fino bordô */
-  .rule-bordo {
-    @apply h-px w-full bg-bordo/30;
+  /* Filetes do branding — divisores dourados finos */
+  .rule-gold {
+    @apply h-px w-full bg-gold/50;
+  }
+  .filete-gold {
+    @apply inline-block h-px w-12 bg-gold align-middle;
+  }
+
+  /* Wordmark — espaçamento e geometria do logo institucional */
+  .wordmark-name {
+    @apply font-serif uppercase text-ink;
+    letter-spacing: 0.08em;
+    font-weight: 400;
+  }
+  .wordmark-prefix {
+    @apply font-serif uppercase text-ink;
+    letter-spacing: 0.32em;
+    font-weight: 400;
+  }
+  .wordmark-tagline {
+    @apply font-serif italic text-ink-soft;
+    letter-spacing: 0.12em;
+    font-weight: 300;
   }
 }

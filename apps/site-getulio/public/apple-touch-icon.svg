@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <rect width="180" height="180" fill="#0d1f2e"/>
+  <line x1="48" y1="68" x2="68" y2="68" stroke="#b48a4a" stroke-width="2"/>
+  <line x1="112" y1="68" x2="132" y2="68" stroke="#b48a4a" stroke-width="2"/>
+  <text x="90" y="76" text-anchor="middle" fill="#f0e8d8" font-family="Georgia, serif" font-size="20" letter-spacing="4">DR.</text>
+  <text x="90" y="124" text-anchor="middle" fill="#f0e8d8" font-family="Georgia, serif" font-size="56" font-weight="400" letter-spacing="2">GA</text>
+  <text x="90" y="148" text-anchor="middle" fill="#b48a4a" font-family="Georgia, serif" font-size="9" font-style="italic" letter-spacing="2">raciocínio clínico</text>
+</svg>

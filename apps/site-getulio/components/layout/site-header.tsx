@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Menu, X } from 'lucide-react';
 import { Link, usePathname } from '@/lib/i18n/navigation';
 import { cn } from '@/lib/cn';
+import { Wordmark } from '@/components/brand/wordmark';
 
 const nav = [
   { href: '/sobre', key: 'sobre' },
@@ -23,9 +24,9 @@ export function SiteHeader() {
 
   return (
     <header className="border-b border-rule">
-      <div className="editorial-container flex items-center justify-between py-6">
-        <Link href="/" className="font-serif text-lg text-ink hover:text-bordo transition-colors">
-          Dr. Getúlio Amaral Filho
+      <div className="editorial-container flex items-center justify-between py-5">
+        <Link href="/" aria-label="Início" className="block hover:opacity-80 transition-opacity">
+          <Wordmark size="sm" tagline={false} />
         </Link>
 
         {/* Desktop — links de texto puros */}

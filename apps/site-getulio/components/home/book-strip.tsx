@@ -3,7 +3,7 @@ import { Link } from '@/lib/i18n/navigation';
 
 export function BookStrip() {
   return (
-    <section className="bg-bordo text-paper">
+    <section className="bg-navy text-paper">
       <div className="editorial-container py-20 md:py-28">
         <div className="grid md:grid-cols-[280px_1fr] gap-10 md:gap-16 items-center">
           <div className="relative aspect-[2/3] w-full max-w-[280px] mx-auto md:mx-0 shadow-2xl">
@@ -17,11 +17,14 @@ export function BookStrip() {
           </div>
 
           <div className="space-y-6">
-            <p className="label-meta text-paper/60">Livro · 2026</p>
+            <div className="flex items-center gap-3">
+              <span className="filete-gold" aria-hidden="true" />
+              <p className="label-meta text-gold">Livro · 2026</p>
+            </div>
             <h2 className="heading-section text-paper text-3xl md:text-5xl">
               Antes — A Janela Silenciosa<br />entre o Normal e o Ótimo
             </h2>
-            <blockquote className="font-serif text-paper/85 text-xl md:text-2xl italic leading-relaxed border-l-2 border-paper/30 pl-6">
+            <blockquote className="font-serif text-paper/85 text-xl md:text-2xl italic leading-relaxed border-l-2 border-gold/60 pl-6">
               Entre o que o laboratório chama de normal e o que o corpo consegue como ótimo,
               existem dez a vinte anos de janela silenciosa.
             </blockquote>
