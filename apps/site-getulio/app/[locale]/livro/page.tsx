@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
+import { Link } from '@/lib/i18n/navigation';
 
 export const metadata: Metadata = {
   title: 'Antes — A Janela Silenciosa',
@@ -78,6 +79,35 @@ export default async function LivroPage({
             <div className="space-y-1 font-sans text-sm text-ink-muted">
               <p>ISBN 978-65-02-06742-0 · 2026</p>
               <p>Edição em português · Brasil</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Autor */}
+      <section className="border-t border-rule">
+        <div className="editorial-container py-20 md:py-24">
+          <div className="grid md:grid-cols-[1fr_320px] gap-12 lg:gap-20 items-center">
+            <div className="space-y-5 max-w-xl order-2 md:order-1">
+              <p className="label-meta-lg text-bordo">Sobre o autor</p>
+              <p className="font-serif text-lg md:text-xl text-ink-soft leading-relaxed">
+                Dr. Getúlio Amaral Filho é médico nefrologista (CRM-PR 21.876 · RQE 16.038).
+                Há vinte anos atende em hospital, ambulatório e diálise. Dirige a Plenya —
+                programa de longevidade que inverte a sequência do cuidado: começa antes da
+                doença instalada, na janela silenciosa onde o exame ainda diz "normal".
+              </p>
+              <p className="font-sans text-sm">
+                <Link href="/sobre" className="link-text">Ler biografia completa →</Link>
+              </p>
+            </div>
+            <div className="relative aspect-[3/4] w-full max-w-[320px] mx-auto md:mx-0 order-1 md:order-2">
+              <Image
+                src="/images/getulio-autor.jpg"
+                alt="Dr. Getúlio Amaral Filho"
+                fill
+                className="object-cover"
+                sizes="(min-width: 768px) 320px, 70vw"
+              />
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAllDoctors } from '@/lib/team';
@@ -123,6 +124,38 @@ export default async function ConsultasPage({ params }: { params: Promise<{ loca
               </p>
             </div>
           </aside>
+        </div>
+      </section>
+
+      {/* Modalidades — visual */}
+      <section className="bg-paper">
+        <div className="site-container section-sm">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+            <figure className="space-y-3">
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <Image
+                  src="/images/getulio-consulta.jpg"
+                  alt="Consulta médica presencial"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 540px, 100vw"
+                />
+              </div>
+              <figcaption className="label-upper text-gold">Presencial · Londrina</figcaption>
+            </figure>
+            <figure className="space-y-3">
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <Image
+                  src="/images/getulio-consulta-online.jpg"
+                  alt="Consulta médica online por telemedicina"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 540px, 100vw"
+                />
+              </div>
+              <figcaption className="label-upper text-gold">Online · Telemedicina</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 

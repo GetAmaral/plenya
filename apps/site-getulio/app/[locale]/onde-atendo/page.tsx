@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { ClinicsSchema } from '@/components/seo/clinics-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
@@ -84,6 +85,18 @@ export default async function OndeAtendoPage({
           tratar.
         </p>
       </header>
+
+      <section className="editorial-container pb-12">
+        <div className="relative aspect-[16/10] w-full overflow-hidden">
+          <Image
+            src="/images/getulio-clinico.jpg"
+            alt="Dr. Getúlio Amaral Filho em consultório"
+            fill
+            className="object-cover object-top"
+            sizes="(min-width: 1024px) 1100px, 100vw"
+          />
+        </div>
+      </section>
 
       <section className="editorial-container pb-24 space-y-16">
         {clinicas.map((c) => (

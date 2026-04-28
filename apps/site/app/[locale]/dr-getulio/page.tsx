@@ -170,6 +170,33 @@ export default async function DrGetulioPage({ params }: { params: Promise<{ loca
         </div>
       </section>
 
+      {/* Galeria editorial — prática */}
+      <section className="bg-cream">
+        <div className="site-container section">
+          <p className="label-upper text-gold mb-10">Na prática</p>
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+            <div className="relative aspect-[3/4] overflow-hidden">
+              <Image
+                src="/images/getulio-estetoscopio.jpg"
+                alt="Dr. Getúlio em consultório"
+                fill
+                className="object-cover"
+                sizes="(min-width: 768px) 540px, 100vw"
+              />
+            </div>
+            <div className="relative aspect-[3/4] overflow-hidden">
+              <Image
+                src="/images/getulio-consulta.jpg"
+                alt="Dr. Getúlio analisando exames com paciente"
+                fill
+                className="object-cover"
+                sizes="(min-width: 768px) 540px, 100vw"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Cross-links */}
       <section className="bg-cream">
         <div className="site-container section grid md:grid-cols-3 gap-8">

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAllLectures, getAudienceLabel } from '@/lib/lectures';
@@ -31,6 +32,19 @@ export default async function PalestrasPage({
           a janela silenciosa entre o normal e o ótimo, e o método clínico para encurtá-la.
         </p>
       </header>
+
+      <section className="editorial-container pb-16 md:pb-20">
+        <div className="relative aspect-[16/9] w-full overflow-hidden">
+          <Image
+            src="/images/getulio-palestrante.jpg"
+            alt="Dr. Getúlio Amaral Filho durante palestra"
+            fill
+            priority
+            className="object-cover object-top"
+            sizes="(min-width: 1024px) 1100px, 100vw"
+          />
+        </div>
+      </section>
 
       <section className="editorial-container pb-24">
         <ul className="border-t border-rule">
