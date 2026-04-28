@@ -59,27 +59,27 @@ export function ComparatorVsConvenio({
                   key={r.trait}
                   className={i % 2 === 0 ? 'bg-cream/50' : ''}
                 >
-                  <td className="py-4 px-4 md:px-6 text-petrol/85 text-sm md:text-base">
+                  <td className="py-6 px-4 md:px-6 text-petrol/85 text-base md:text-lg align-middle min-h-[64px]">
                     {r.trait}
                   </td>
-                  <td className="py-4 px-4 md:px-6">
+                  <td className="py-6 px-4 md:px-6 align-middle">
                     {r.plenya === true ? (
                       <span className="inline-flex items-center gap-2 text-gold">
-                        <Check size={18} strokeWidth={2.5} />
+                        <Check size={26} strokeWidth={2.5} />
                         <span className="sr-only">Sim</span>
                       </span>
                     ) : (
-                      <span className="text-petrol text-sm md:text-base">{r.plenya}</span>
+                      <span className="text-petrol text-base md:text-lg">{r.plenya}</span>
                     )}
                   </td>
-                  <td className="py-4 px-4 md:px-6">
+                  <td className="py-6 px-4 md:px-6 align-middle">
                     {r.convenio === false ? (
                       <span className="inline-flex items-center gap-2 text-petrol/30">
-                        <X size={18} strokeWidth={2.5} />
+                        <X size={26} strokeWidth={2.5} />
                         <span className="sr-only">Não</span>
                       </span>
                     ) : (
-                      <span className="text-petrol/55 text-sm md:text-base italic">{r.convenio}</span>
+                      <span className="text-petrol/55 text-base md:text-lg italic">{r.convenio}</span>
                     )}
                   </td>
                 </tr>

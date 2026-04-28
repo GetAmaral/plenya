@@ -9,7 +9,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-petrol text-cream/80 relative overflow-hidden">
+    <footer className="bg-petrol text-cream/90 relative overflow-hidden">
       {/* P watermark — selo da marca no canto inferior direito */}
       <PlenyaSymbol
         aria-hidden="true"
@@ -19,19 +19,19 @@ export function SiteFooter() {
       <div className="relative site-container py-20 grid gap-12 md:grid-cols-2 lg:grid-cols-6">
         <div className="lg:col-span-2 space-y-4">
           <PlenyaWordmark className="h-6 w-auto text-cream" />
-          <p className="text-cream/50 text-sm leading-relaxed max-w-xs">
+          <p className="text-cream/65 text-base leading-relaxed max-w-xs">
             Medicina que antecipa. Saúde, performance e longevidade.
           </p>
-          <div className="flex flex-col gap-2.5 text-sm pt-4">
-            <a href={`mailto:${brand.email}`} className="text-cream/70 hover:text-cream transition">{brand.email}</a>
-            <a href={brand.social.instagram} target="_blank" rel="noreferrer" className="text-cream/70 hover:text-cream transition">@plenyaSaude</a>
-            <span className="text-cream/40">Londrina · PR</span>
+          <div className="flex flex-col gap-3 text-base pt-4">
+            <a href={`mailto:${brand.email}`} className="text-cream/85 hover:text-cream transition">{brand.email}</a>
+            <a href={brand.social.instagram} target="_blank" rel="noreferrer" className="text-cream/85 hover:text-cream transition">@plenyaSaude</a>
+            <span className="text-cream/55">Londrina · PR</span>
           </div>
         </div>
 
         <div className="space-y-3">
           <p className="label-upper text-gold">Conheça a Plenya</p>
-          <nav className="flex flex-col gap-2.5 text-sm">
+          <nav className="flex flex-col gap-3 text-base text-cream/80">
             <Link href="/a-plenya" className="hover:text-cream transition">{tNav('about')}</Link>
             <Link href="/dr-getulio" className="hover:text-cream transition">{tNav('drGetulio')}</Link>
             <Link href="/equipe" className="hover:text-cream transition">{tNav('team')}</Link>
@@ -41,7 +41,7 @@ export function SiteFooter() {
 
         <div className="space-y-3">
           <p className="label-upper text-gold">Como cuidamos</p>
-          <nav className="flex flex-col gap-2.5 text-sm">
+          <nav className="flex flex-col gap-3 text-base text-cream/80">
             <Link href="/metodo-agir" className="hover:text-cream transition">Método AGIR</Link>
             <Link href="/escore-plenya" className="hover:text-cream transition">Escore Plenya</Link>
           </nav>
@@ -49,7 +49,7 @@ export function SiteFooter() {
 
         <div className="space-y-3">
           <p className="label-upper text-gold">Comece</p>
-          <nav className="flex flex-col gap-2.5 text-sm">
+          <nav className="flex flex-col gap-3 text-base text-cream/80">
             <Link href="/diagnostico" className="hover:text-cream transition">Diagnóstico — é para mim?</Link>
             <Link href="/consultas" className="hover:text-cream transition">{tNav('consultations')}</Link>
             <Link href="/continuum" className="hover:text-cream transition">{tNav('plans')}</Link>
@@ -59,7 +59,7 @@ export function SiteFooter() {
 
         <div className="space-y-3">
           <p className="label-upper text-gold">Aprenda</p>
-          <nav className="flex flex-col gap-2.5 text-sm">
+          <nav className="flex flex-col gap-3 text-base text-cream/80">
             <Link href="/blog" className="hover:text-cream transition">{tNav('blog')}</Link>
             <a href={brand.appUrl} className="hover:text-cream transition">{t('professionals')}</a>
           </nav>

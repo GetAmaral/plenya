@@ -117,10 +117,10 @@ export default async function HealthspanPage({
             </p>
           </div>
 
-          <aside className="space-y-6">
-            <div className="border border-petrol/10 p-6 space-y-3">
+          <aside className="space-y-6 lg:sticky lg:top-28 self-start">
+            <div className="bg-paper border-l-2 border-gold p-7 space-y-4">
               <p className="label-upper text-gold">O que medimos</p>
-              <ul className="text-petrol/75 text-sm space-y-1.5 leading-relaxed">
+              <ul className="text-petrol/85 text-base space-y-2 leading-relaxed">
                 <li>· VO₂ máximo (ergoespirometria)</li>
                 <li>· Força de preensão e massa muscular</li>
                 <li>· ApoB, Lp(a), HbA1c, glicemia pós-prandial</li>
@@ -130,16 +130,18 @@ export default async function HealthspanPage({
                 <li>· Cognição (rastreio funcional)</li>
               </ul>
             </div>
-            <div className="border border-petrol/10 p-6 space-y-3">
-              <p className="label-upper text-gold">Programa</p>
-              <p className="text-petrol/75 text-sm leading-relaxed">
-                Continuum Plenya — semestral ou anual, equipe multidisciplinar.
+            <div className="bg-petrol text-cream p-7 space-y-4">
+              <p className="label-upper text-gold">Programa Continuum</p>
+              <p className="heading-section text-cream text-2xl leading-tight">
+                Healthspan aplicado, mensurado a cada ciclo.
               </p>
-              <p>
-                <Link href="/continuum" className="link-text text-sm">
-                  Conhecer o Continuum →
-                </Link>
+              <p className="text-cream/75 text-base leading-relaxed">
+                Semestral ou anual, equipe multidisciplinar, plano único —
+                Escore Plenya como medida.
               </p>
+              <Link href="/continuum" className="btn-outline-light w-full text-center">
+                Conhecer o Continuum →
+              </Link>
             </div>
           </aside>
         </div>

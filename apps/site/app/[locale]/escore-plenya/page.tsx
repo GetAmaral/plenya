@@ -134,8 +134,8 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           <ol className="grid md:grid-cols-3 gap-10 max-w-5xl">
             {steps.map((s) => (
               <li key={s.n} className="space-y-4">
-                <p className="text-gold text-5xl font-light leading-none tabular-nums">{s.n}</p>
-                <h3 className="heading-section text-petrol text-xl">{s.title}</h3>
+                <p className="heading-hero text-gold text-7xl md:text-8xl leading-none tabular-nums">{s.n}</p>
+                <h3 className="heading-section text-petrol text-2xl md:text-3xl">{s.title}</h3>
                 <p className="text-petrol/75 leading-relaxed">{s.body}</p>
               </li>
             ))}
@@ -291,15 +291,17 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
               Cada nível é uma porta de entrada — escolha pelo momento em que você está.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-10">
             {tiers.map((tier, i) => (
-              <div key={tier.title} className="border-t border-petrol/15 pt-8 space-y-3">
-                <span className="label-upper text-petrol/40">0{i + 1}</span>
-                <h3 className="heading-section text-petrol text-2xl">{tier.title}</h3>
+              <div key={tier.title} className="border-t-2 border-petrol/15 pt-8 space-y-5">
+                <span className="heading-hero text-gold text-6xl md:text-7xl block leading-none tabular-nums">
+                  0{i + 1}
+                </span>
+                <h3 className="heading-section text-petrol text-3xl md:text-4xl">{tier.title}</h3>
                 {tier.href ? (
                   <Link
                     href={tier.href}
-                    className="inline-flex items-center gap-1 text-gold text-base font-medium underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
+                    className="inline-flex items-center gap-1 text-gold text-lg font-medium underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
                   >
                     {tier.anchor}
                     <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
@@ -307,7 +309,7 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
                 ) : (
                   <p className="text-petrol/50 text-base italic">{tier.anchor}</p>
                 )}
-                <p className="text-petrol/70 leading-relaxed">{tier.desc}</p>
+                <p className="text-petrol/75 text-base leading-relaxed">{tier.desc}</p>
               </div>
             ))}
           </div>

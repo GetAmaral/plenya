@@ -72,7 +72,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   const doctors = await getAllDoctors();
-  const doctorEntries = doctors.flatMap((doc) =>
+  // Dr. Getúlio tem URL canônica em /dr-getulio (já listada em staticRoutes).
+  // /equipe/getulio-amaral redireciona — não duplicar no sitemap.
+  const doctorEntries = doctors
+    .filter((doc) => doc.slug !== 'getulio-amaral')
+    .flatMap((doc) =>
     locales.map((locale) => ({
       url: localized(`/equipe/${doc.slug}`, locale),
       lastModified: now,

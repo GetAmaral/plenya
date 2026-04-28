@@ -165,11 +165,11 @@ export default async function MethodPage({ params }: { params: Promise<{ locale:
           {pilares.map((pilar, idx) => (
             <article
               key={pilar.code}
-              className="grid lg:grid-cols-[180px_1fr] gap-8 lg:gap-16 border-t border-petrol/15 pt-12"
+              className="grid lg:grid-cols-[260px_1fr] gap-8 lg:gap-20 border-t border-petrol/15 pt-12"
             >
               <div className="space-y-3">
                 <p className="label-upper text-gold">Pilar 0{idx + 1}</p>
-                <span className="heading-hero text-gold text-[clamp(6rem,14vw,11rem)] leading-[0.85] block">
+                <span className="heading-hero text-gold text-[clamp(8rem,20vw,17rem)] leading-[0.82] block">
                   {pilar.code}
                 </span>
               </div>

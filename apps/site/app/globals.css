@@ -120,8 +120,9 @@
   .post-card-featured {
     @apply border-t border-petrol/15 pt-10 pb-6;
   }
+  /* Cards em grid — sem border-top (o grid faz o spacing) */
   .post-card {
-    @apply border-t border-petrol/10 py-8;
+    @apply pb-2;
   }
 }
 

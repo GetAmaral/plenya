@@ -43,10 +43,12 @@ export default async function BlogIndex({ params }: { params: Promise<{ locale: 
 
           {rest.length > 0 && (
             <div>
-              <p className="label-upper text-gold mb-6">Mais recentes</p>
-              {rest.map((post) => (
-                <PostCard key={post.slug} post={post} />
-              ))}
+              <p className="label-upper text-gold mb-8">Mais recentes</p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                {rest.map((post) => (
+                  <PostCard key={post.slug} post={post} />
+                ))}
+              </div>
             </div>
           )}
 

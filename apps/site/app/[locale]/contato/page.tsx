@@ -26,27 +26,40 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
       </section>
 
       <section className="bg-cream">
-        <div className="site-container section grid lg:grid-cols-2 gap-16">
-          <div className="space-y-8">
-            <div className="space-y-2">
-              <p className="label-upper text-gold">Email</p>
-              <a href={`mailto:${brand.email}`} className="text-petrol text-lg hover:text-gold transition">
-                {brand.email}
-              </a>
+        <div className="site-container section grid lg:grid-cols-[5fr_7fr] gap-12 lg:gap-20">
+          <div className="space-y-10">
+            <div className="space-y-4 max-w-md">
+              <p className="label-upper text-gold">Por que falar com a Plenya</p>
+              <p className="heading-section text-petrol text-2xl md:text-3xl">
+                Escuta longa antes da conduta.
+              </p>
+              <p className="text-petrol/70 text-base leading-relaxed">
+                Cada mensagem é lida pela equipe — e a primeira resposta orienta o
+                próximo passo, seja Consulta avulsa, Continuum ou apenas uma
+                dúvida clínica.
+              </p>
             </div>
-            <div className="space-y-2">
-              <p className="label-upper text-gold">Instagram</p>
-              <a href={brand.social.instagram} target="_blank" rel="noreferrer" className="text-petrol text-lg hover:text-gold transition">
-                @plenyaSaude
-              </a>
-            </div>
-            <div className="space-y-2">
-              <p className="label-upper text-gold">Endereço</p>
-              <p className="text-petrol text-lg">Londrina, PR</p>
-            </div>
-            <div className="space-y-2">
-              <p className="label-upper text-gold">Horário</p>
-              <p className="text-petrol/70">Segunda a sexta, 8h às 18h</p>
+            <div className="grid sm:grid-cols-2 gap-y-8 gap-x-6 max-w-md">
+              <div className="space-y-2">
+                <p className="label-upper text-gold">Email</p>
+                <a href={`mailto:${brand.email}`} className="text-petrol text-base hover:text-gold transition break-words">
+                  {brand.email}
+                </a>
+              </div>
+              <div className="space-y-2">
+                <p className="label-upper text-gold">Instagram</p>
+                <a href={brand.social.instagram} target="_blank" rel="noreferrer" className="text-petrol text-base hover:text-gold transition">
+                  @plenyaSaude
+                </a>
+              </div>
+              <div className="space-y-2">
+                <p className="label-upper text-gold">Endereço</p>
+                <p className="text-petrol text-base">Londrina, PR</p>
+              </div>
+              <div className="space-y-2">
+                <p className="label-upper text-gold">Horário</p>
+                <p className="text-petrol/75 text-base">Seg a sex · 8h–18h</p>
+              </div>
             </div>
           </div>
           <ContactForm />

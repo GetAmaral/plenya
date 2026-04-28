@@ -102,7 +102,7 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
             </div>
             <Link
               href="/dr-getulio"
-              className="group grid md:grid-cols-[280px_1fr] gap-10 items-start bg-paper hover:bg-cream-100 transition-colors duration-300 p-6 md:p-10"
+              className="group grid md:grid-cols-[460px_1fr] gap-10 lg:gap-16 items-start bg-paper hover:bg-cream-100 transition-colors duration-300 p-6 md:p-10"
             >
               <div className="relative aspect-[3/4] overflow-hidden">
                 {direcao.photo && (
@@ -111,20 +111,20 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
                     alt={direcao.name}
                     fill
                     className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
-                    sizes="(min-width: 768px) 280px, 100vw"
+                    sizes="(min-width: 768px) 460px, 100vw"
                   />
                 )}
               </div>
-              <div className="space-y-4 pt-2">
+              <div className="space-y-5 pt-4">
                 <p className="label-upper text-gold">{direcao.role}</p>
-                <h3 className="heading-section text-petrol text-3xl md:text-4xl group-hover:text-gold transition">
+                <h3 className="heading-section text-petrol text-4xl md:text-6xl group-hover:text-gold transition">
                   {direcao.name}
                 </h3>
-                <p className="label-upper text-petrol/50">
+                <p className="label-upper-sm text-petrol/55">
                   {direcao.credentials}
                   {direcao.rqe ? ` · RQE ${direcao.rqe}` : ''}
                 </p>
-                <p className="text-petrol/80 leading-relaxed text-base md:text-lg max-w-2xl">
+                <p className="text-petrol/80 leading-relaxed text-lg max-w-2xl">
                   {direcao.shortBio}
                 </p>
                 <p className="label-upper text-gold pt-2 group-hover:underline underline-offset-4">
