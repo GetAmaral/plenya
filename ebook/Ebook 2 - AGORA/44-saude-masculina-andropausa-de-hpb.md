@@ -90,7 +90,7 @@ Plano combinado em 4 frentes:
 #### Frente 3 · Reavaliar testosterona após plano sistêmico (12 sem)
 - **NÃO iniciar TRT antes de** · ajuste cintura (alvo <94 · Antônio 92 · próximo) + auditoria sono/CPAP otimizado + álcool zero + atividade força + perda 2-3 kg de gordura visceral (manter peso total estável)
 - **12 sem · recheck testo total + livre + SHBG + estradiol + LH/FSH + DHT**
-- **Se persistir T total <300 + sintoma + ausência de contraindicação** · TRT sob endocrinologia/urologia · gel transdérmico (Androgel 50-100 mg/d) ou injetável (testosterona cipionato 100-200 mg a cada 7-14d) · monitoramento PSA + hematócrito + lipídeos a cada 3 meses primeiro ano · cuidado em PI-RADS 3 (preferência aguardar reavaliação MRI 6-12m)
+- **Se persistir T total <264 ng/dL (Endocrine Society 2018 Bhasin) ou <300 ng/dL (AUA 2018) + sintoma + ausência de contraindicação** · TRT sob endocrinologia/urologia · gel transdérmico (Androgel 50-100 mg/d) ou injetável (testosterona cipionato 100-200 mg a cada 7-14d) · monitoramento PSA + hematócrito + lipídeos a cada 3 meses primeiro ano · cuidado em PI-RADS 3 (preferência aguardar reavaliação MRI 6-12m)
 - **CONTRAINDICAÇÕES TRT:** CA próstata ativo · CA mama masculino · hematócrito >54% · IMC >35 sem perder peso primeiro · DCV instável · apneia não tratada (Antônio tratada · OK) · BPH severa não tratada (Antônio em controle)
 - **Em paciente PI-RADS 3 + PSA livre baixo** · diálogo com urologia primeiro · não rotina iniciar TRT antes de descartar oncológico
 
@@ -246,7 +246,7 @@ Plano combinado em 5 frentes:
 ### 1. Os 5 territórios da saúde masculina · cada um com peças distintas
 
 #### **Hipogonadismo · andropausa**
-- Testo total <300 ng/dL persistente + sintomas (libido · DE · fadiga · perda massa muscular · humor · cognição)
+- Testo total <264 ng/dL (Endocrine Society 2018) ou <300 ng/dL (AUA 2018) persistente + sintomas (libido · DE · fadiga · perda massa muscular · humor · cognição)
 - Diferenciar primário (testicular · LH/FSH altos) vs central (hipotálamo-hipófise · LH/FSH baixos/normais) vs misto (idade)
 - Investigação: prolactina (descartar prolactinoma) · TSH · ferritina (hemocromatose) · cortisol (Cushing/Addison) · IRM hipofisária se central confirmado
 - Tratamento: corrigir sistema primeiro (peso · sono · álcool · estresse · sedentarismo) · TRT sob endo/uro se persistir + sintomas + sem contraindicação

@@ -165,7 +165,7 @@ Sofia:
 **Long COVID** (também: Post-Acute Sequelae of SARS-CoV-2 · PASC · síndrome pós-COVID) · **definição WHO 2021:** sintomas que persistem ≥3 meses após COVID-19 confirmada · presentes ≥2 meses · não explicados por outro diagnóstico · que afetam função.
 
 #### **Epidemiologia 2026:**
-- **10-30% dos pós-COVID** desenvolvem long COVID em algum grau
+- **10-26% dos pós-COVID** desenvolvem long COVID em algum grau (RECOVER 2025 · estimativa em adultos não-hospitalizados pós-Ômicron · Davis 2023 reportava range mais amplo 10-30%)
 - **Maior em mulheres** (~2-3:1 vs homem)
 - **Maior em idade 35-55a**
 - **Maior após COVID moderada-grave hospitalizada · mas 5-15% após COVID leve não-hospitalizada**

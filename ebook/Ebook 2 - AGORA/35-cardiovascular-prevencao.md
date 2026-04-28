@@ -434,9 +434,10 @@ O **calcium score (CAC)** é um exame de TC sem contraste cardíaca que **quanti
 #### **Gestão atual em 2026:**
 
 - **Dosar Lp(a) UMA VEZ** em todo adulto que faz painel cardiometabólico · resultado vale para sempre
-- **Em paciente com Lp(a) <75 nmol/L:** tranquilizar · sem ação específica
-- **Em paciente com Lp(a) 75-125 nmol/L (limítrofe):** otimizar TODOS os outros fatores de risco mais agressivamente (ApoB <70 mesmo em prevenção primária · PA <130/80 · sem DM · sem fumar · etc.) · acompanhar fase 3 antisense
-- **Em paciente com Lp(a) ≥125 nmol/L + DAC instalada:** PCSK9i seleto · plano de pelacarsen quando aprovado · prevenção secundária agressiva
+- **Estratificação de RISCO (NLA 2024 · SBC 2025 · NÃO alvo terapêutico · não há terapia específica validada até 2026):**
+  - **Lp(a) <75 nmol/L (<30 mg/dL):** baixo risco · tranquilizar · sem ação específica
+  - **Lp(a) 75-125 nmol/L (30-50 mg/dL):** intermediário · otimizar TODOS os outros fatores de risco mais agressivamente (ApoB <70 mesmo em prevenção primária · PA <130/80 · sem DM · sem fumar · etc.) · acompanhar fase 3 antisense (pelacarsen · olpasiran)
+  - **Lp(a) ≥125 nmol/L (≥50 mg/dL) + DAC instalada:** alto risco · PCSK9i seleto · plano de pelacarsen quando aprovado · prevenção secundária agressiva
 - **Em Ricardo:** Lp(a) 102 nmol/L · limítrofe · plano de monitorar + otimizar ApoB <70 (alcançado com ezetimiba) + aguardar fase 3 antisense
 - **Em Sandra:** Lp(a) 38 nmol/L · favorável · sinal positivo
 - **Em Paulo:** Lp(a) 88 nmol/L · limítrofe · plano de PCSK9i seleto se ApoB residual >70 com estatina + ezetimiba

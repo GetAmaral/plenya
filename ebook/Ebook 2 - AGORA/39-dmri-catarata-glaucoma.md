@@ -80,7 +80,7 @@ Pacote AREDS2 (formulação atualizada 2013 · Chew NEJM):
 - **Zinco gluconato 25 mg/d** (versão atualizada AREDS2 reduziu de 80 mg AREDS1 para 25 mg em opção alternativa · alguns mantém 80 mg conforme oftalmologista)
 - **Cobre 2 mg/d** (paradoxo Zn:Cu · Cap 14 cruzada · obrigatório se Zn >25 mg/d)
 - **NÃO β-caroteno** (AREDS2 retirou β-caroteno por sinal de câncer pulmão em ex-fumantes · CARET 1996 · Cap 8 cruzada)
-- **DHA 350 mg + EPA 650 mg/d** (já em ω-3 do plano · ajustar para alvo ω-3 index ≥8%)
+- **NOTA · DHA 350 mg + EPA 650 mg/d foram TESTADOS no AREDS2 mas NÃO foram mantidos na fórmula final** (sem benefício adicional sobre lutein/zeaxantina · Chew 2013 JAMA AREDS2). **Ômega-3 EPA-dominante entra no plano sistêmico (alvo ω-3 index ≥8%) por benefício cardiovascular + neurorretiniano · NÃO como parte da formulação AREDS2 oficial.**
 
 #### Frente 3 · Otimizar as 2 peças subótimas em paralelo
 - **ApoB 76→<70** · sob cardiologia (já em curso · estatina + ezetimiba se necessário)

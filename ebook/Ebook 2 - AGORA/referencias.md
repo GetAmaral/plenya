@@ -69,7 +69,7 @@
 
 29. Evaluation of Urolithin A and Fisetin on Improving Sleep Quality. NCT06990256.
 
-30. Spermidine 12-Month RCT — Long-term Safety and Biomarkers (estudo a citar via referência consolidada do Comparative Eval ref #20).
+30. Schwarz C, Stekovic S, Wirth M, Benson G, Royer P, Sigrist SJ, Pieber T, Dammbrueck C, Magnes C, Eisenberg T, Pendl T, Bohlken J, Köbe T, Madeo F, Flöel A. Safety and tolerability of spermidine supplementation in mice and older adults with subjective cognitive decline. *Aging (Albany NY)* 2018;10(1):19-33. PMID 29315079. doi:10.18632/aging.101354
 
 31. Targeting Cellular Senescence with Senolytics. NCT04313634.
 
@@ -249,6 +249,26 @@
 
 ---
 
+## Creatina (Cap 7) — adicionadas pós-auditoria
+
+108. Kreider RB, Kalman DS, Antonio J, Ziegenfuss TN, Wildman R, Collins R, Candow DG, Kleiner SM, Almada AL, Lopez HL. International Society of Sports Nutrition position stand: safety and efficacy of creatine supplementation in exercise, sport, and medicine. *J Int Soc Sports Nutr* 2017;14:18. PMID 28615996. doi:10.1186/s12970-017-0173-z
+
+109. Antonio J, Candow DG, Forbes SC, Gualano B, Jagim AR, Kreider RB, Rawson ES, Smith-Ryan AE, VanDusseldorp TA, Willoughby DS, Ziegenfuss TN. Common questions and misconceptions about creatine supplementation: what does the scientific evidence really show? *J Int Soc Sports Nutr* 2021;18(1):13. PMID 33557850. doi:10.1186/s12970-021-00412-w
+
+110. Candow DG, Chilibeck PD, Forbes SC. Creatine supplementation and aging musculoskeletal health. *Endocrine* 2014;45(3):354-361. PMID 24190049. doi:10.1007/s12020-013-0070-4
+
+111. Forbes SC, Cordingley DM, Cornish SM, Gualano B, Roschel H, Ostojic SM, Rawson ES, Roy BD, Prokopidis K, Giannos P, Candow DG. Effects of creatine supplementation on brain function and health. *Nutrients* 2022;14(5):921. PMID 35267907. doi:10.3390/nu14050921
+
+112. Roschel H, Gualano B, Ostojic SM, Rawson ES. Creatine supplementation and brain health. *Nutrients* 2021;13(2):586. PMID 33578876. doi:10.3390/nu13020586
+
+113. Chilibeck PD, Kaviani M, Candow DG, Zello GA. Effect of creatine supplementation during resistance training on lean tissue mass and muscular strength in older adults: a meta-analysis. *Open Access J Sports Med* 2017;8:213-226. PMID 29138605. doi:10.2147/OAJSM.S123529
+
+114. Devries MC, Phillips SM. Creatine supplementation during resistance training in older adults — a meta-analysis. *Med Sci Sports Exerc* 2014;46(6):1194-1203. PMID 24576864. doi:10.1249/MSS.0000000000000220
+
+115. Cruz-Jentoft AJ, Bahat G, Bauer J, Boirie Y, Bruyère O, Cederholm T, Cooper C, Landi F, Rolland Y, Sayer AA, Schneider SM, Sieber CC, Topinkova E, Vandewoude M, Visser M, Zamboni M (Writing Group for the European Working Group on Sarcopenia in Older People 2 · EWGSOP2). Sarcopenia: revised European consensus on definition and diagnosis. *Age Ageing* 2019;48(1):16-31. PMID 30312372. doi:10.1093/ageing/afy169
+
+---
+
 ## Vitaminas A e E · paradoxos da megadose isolada (Cap 8)
 
 116. Omenn GS, Goodman GE, Thornquist MD, Balmes J, Cullen MR, Glass A, Keogh JP, Meyskens FL, Valanis B, Williams JH, Barnhart S, Hammar S. Effects of a combination of beta carotene and vitamin A on lung cancer and cardiovascular disease (CARET trial). *N Engl J Med* 1996;334(18):1150-1155. doi:10.1056/NEJM199605023341802
@@ -340,6 +360,26 @@
 151. AIM-HIGH Investigators (Boden WE, Probstfield JL, Anderson T, Chaitman BR, Desvignes-Nickens P, Koprowicz K, McBride R, Teo K, Weintraub W). Niacin in patients with low HDL cholesterol levels receiving intensive statin therapy. *N Engl J Med* 2011;365(24):2255-2267. doi:10.1056/NEJMoa1107579
 
 152. Lonsdale D. A review of the biochemistry, metabolism and clinical benefits of thiamin(e) and its derivatives. *Evid Based Complement Alternat Med* 2006;3(1):49-59. doi:10.1093/ecam/nek009
+
+---
+
+## Ferro e Ferritina (Cap 13) — adicionadas pós-auditoria
+
+153. Stoffel NU, Cercamondi CI, Brittenham G, Zeder C, Geurts-Moespot AJ, Swinkels DW, Moretti D, Zimmermann MB. Iron absorption from oral iron supplements given on consecutive versus alternate days and as single morning doses versus twice-daily split dosing in iron-depleted women. *Lancet Haematol* 2017;4(11):e524-e533. PMID 29032957. doi:10.1016/S2352-3026(17)30182-5
+
+154. Auerbach M, Adamson JW. How we diagnose and treat iron deficiency anemia. *Am J Hematol* 2016;91(1):31-38. PMID 26408108. doi:10.1002/ajh.24201
+
+155. Camaschella C. Iron-deficiency anemia. *N Engl J Med* 2015;372(19):1832-1843. PMID 25946282. doi:10.1056/NEJMra1401038
+
+156. Powell LW, Seckington RC, Deugnier Y. Haemochromatosis. *Lancet* 2016;388(10045):706-716. PMID 26975792. doi:10.1016/S0140-6736(15)01315-X
+
+157. Anker SD, Comin Colet J, Filippatos G, Willenheimer R, Dickstein K, Drexler H, Lüscher TF, Bart B, Banasiak W, Niegowska J, Kirwan BA, Mori C, von Eisenhart Rothe B, Pocock SJ, Poole-Wilson PA, Ponikowski P (FAIR-HF Investigators). Ferric carboxymaltose in patients with heart failure and iron deficiency. *N Engl J Med* 2009;361(25):2436-2448. PMID 19920054. doi:10.1056/NEJMoa0908355
+
+158. Ponikowski P, van Veldhuisen DJ, Comin-Colet J, Ertl G, Komajda M, Mareev V, McDonagh T, Parkhomenko A, Tavazzi L, Levesque V, Mori C, Roubert B, Filippatos G, Ruschitzka F, Anker SD (CONFIRM-HF Investigators). Beneficial effects of long-term intravenous iron therapy with ferric carboxymaltose in patients with symptomatic heart failure and iron deficiency. *Eur Heart J* 2015;36(11):657-668. PMID 25176939. doi:10.1093/eurheartj/ehu385
+
+159. Hurrell R, Egli I. Iron bioavailability and dietary reference values. *Am J Clin Nutr* 2010;91(5):1461S-1467S. PMID 20200263. doi:10.3945/ajcn.2010.28674F
+
+160. Muñoz M, Acheson AG, Auerbach M, Besser M, Habler O, Kehlet H, Liumbruno GM, Lasocki S, Meybohm P, Rao Baikady R, Richards T, Shander A, So-Osman C, Spahn DR, Klein AA. International consensus statement on the peri-operative management of anaemia and iron deficiency. *Anaesthesia* 2017;72(2):233-247. PMID 27996086. doi:10.1111/anae.13773
 
 ---
 
@@ -1201,13 +1241,13 @@
 
 56. Zhou Q et al. L-Glutamine Decreases Intestinal Permeability and Severity of Symptoms in Diarrhea-Predominant IBS. *Gut* 2019;68(6):996-1002.
 
-57. Cervical HPV Lesions and AHCC: Trial Series. (a confirmar referência completa via cap 46)
+57. Smith JA, Gaikwad AA, Mathew L, Rech B, Faro JP, Lucci JA 3rd, Bai Y, Olsen RJ, Byrd TT. AHCC supplementation to support immune function to clear persistent high-risk HPV infections. *Front Oncol* 2022;12:881902. PMID 35814366. PMC9256908. doi:10.3389/fonc.2022.881902
 
-58. Saw Palmetto in BPH: Cochrane Review (atualizada 2023).
+58. Tacklind J, MacDonald R, Rutks I, Stanke JU, Wilt TJ. Serenoa repens for benign prostatic hyperplasia. *Cochrane Database Syst Rev* 2012;(12):CD001423. PMID 23235581. doi:10.1002/14651858.CD001423.pub3 (última atualização Cochrane oficial · 2012)
 
-59. Phosphatidylserine and Cognition: Kato-Kataoka et al, *J Clin Biochem Nutr* 2010, e séries de atualizações 2015-2023.
+59. Kato-Kataoka A, Sakai M, Ebina R, Nonaka C, Asano T, Miyamori T. Soybean-derived phosphatidylserine improves memory function of the elderly Japanese subjects with memory complaints. *J Clin Biochem Nutr* 2010;47(3):246-255. PMID 21103034. doi:10.3164/jcbn.10-62
 
-60. Salvadori G et al. Spermidine and Cardiac Aging — Mechanistic Studies and Human Translation 2024.
+60. Eisenberg T, Abdellatif M, Schroeder S, Primessnig U, Stekovic S, Pendl T, Harger A, Schipke J, Zimmermann A, Schmidt A, Tong M, Ruckenstuhl C, Dammbrueck C, Gross AS, Herbst V, Magnes C, Trausinger G, Narath S, Meinitzer A, Hu Z, Kirsch A, Eller K, Carmona-Gutierrez D, Büttner S, Pietrocola F, Knittelfelder O, Schrepfer E, Rockenfeller P, Simonini C, Rahn A, Horsch M, Moreth K, Beckers J, Fuchs H, Gailus-Durner V, Neff F, Janik D, Rathkolb B, Rozman J, de Angelis MH, Moustafa T, Haemmerle G, Mayr M, Willeit P, von Frieling-Salewsky M, Pieske B, Scorrano L, Pieber T, Pechlaner R, Willeit J, Sigrist SJ, Linke WA, Mühlfeld C, Sadoshima J, Dengjel J, Kiechl S, Kroemer G, Sedej S, Madeo F. Cardioprotection and lifespan extension by the natural polyamine spermidine. *Nat Med* 2016;22(12):1428-1438. PMID 27841876. doi:10.1038/nm.4222
 
 ---
 
