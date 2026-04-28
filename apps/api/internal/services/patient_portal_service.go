@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 	"time"
+	"unicode"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -16,6 +17,8 @@ import (
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/models"
 )
+
+// hashToken vem de auth_service.go (mesmo package services) — M3 reusa.
 
 var (
 	ErrInviteNotFound  = errors.New("invite not found")
@@ -97,10 +100,11 @@ func (s *PatientPortalService) CreateInvite(in CreateInviteInput) (*CreateInvite
 		return nil, err
 	}
 
+	// M3 — persistimos só o hash. Plain só vive no link (memória + email).
 	invite := models.PatientPortalInvite{
 		PatientID:    in.PatientID,
 		InvitedBy:    in.InvitedBy,
-		Token:        token,
+		TokenHash:    hashToken(token),
 		ChannelEmail: in.SendEmail,
 		ChannelWA:    in.SendWA,
 	}
@@ -156,7 +160,10 @@ type ConsumeInviteResult struct {
 // Se o User ainda não existe (caso muito raro — Patient criado sem UserID), cria.
 func (s *PatientPortalService) ConsumeInvite(token string) (*ConsumeInviteResult, error) {
 	var invite models.PatientPortalInvite
-	if err := s.db.Where("token = ?", token).First(&invite).Error; err != nil {
+	// M3 — preferência por hash; fallback Token plain pra registros legados.
+	h := hashToken(token)
+	err := s.db.Where("token_hash = ? OR (token_hash = '' AND token = ?)", h, token).First(&invite).Error
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, ErrInviteNotFound
 		}
@@ -242,10 +249,11 @@ func (s *PatientPortalService) RequestMagicLink(email string, ipHash *string) er
 		return err
 	}
 
+	// M3 — persistimos só o hash; plain só viaja no email/URL.
 	link := models.PatientMagicLink{
-		UserID: user.ID,
-		Token:  token,
-		IPHash: ipHash,
+		UserID:    user.ID,
+		TokenHash: hashToken(token),
+		IPHash:    ipHash,
 	}
 	if err := s.db.Create(&link).Error; err != nil {
 		return err
@@ -262,7 +270,10 @@ func (s *PatientPortalService) RequestMagicLink(email string, ipHash *string) er
 // ConsumeMagicLink valida o token e devolve sessão JWT.
 func (s *PatientPortalService) ConsumeMagicLink(token string) (*dto.AuthResponse, error) {
 	var link models.PatientMagicLink
-	if err := s.db.Where("token = ?", token).First(&link).Error; err != nil {
+	// M3 — preferência por hash; fallback Token plain pra registros legados.
+	h := hashToken(token)
+	err := s.db.Where("token_hash = ? OR (token_hash = '' AND token = ?)", h, token).First(&link).Error
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, ErrInviteNotFound
 		}
@@ -322,17 +333,64 @@ func (s *PatientPortalService) LoginPassword(email, password string) (*dto.AuthR
 // SetPassword permite paciente definir senha (quando ainda não tem) ou trocar.
 // Sem validação de senha atual — usado depois de magic link ou consume invite.
 // Pra trocar com senha atual, usa AuthService.ChangePassword.
+//
+// M5 — força mínima reforçada (12 chars, ao menos 1 letra + 1 número).
+// Após sucesso, dispara notificação por email (best-effort, não bloqueia).
+// IPHint é opcional — caller passa c.IP() pra contextualizar a notificação.
 func (s *PatientPortalService) SetPassword(userID uuid.UUID, password string) error {
-	if len(password) < 8 {
-		return errors.New("senha deve ter ao menos 8 caracteres")
+	return s.SetPasswordWithIP(userID, password, "")
+}
+
+// SetPasswordWithIP — variante com IP pra notificação. Handler sempre chama esta.
+func (s *PatientPortalService) SetPasswordWithIP(userID uuid.UUID, password, ipHint string) error {
+	if err := validatePasswordStrength(password); err != nil {
+		return err
 	}
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
 	hashStr := string(hash)
-	return s.db.Model(&models.User{}).Where("id = ?", userID).
-		UpdateColumn("password_hash", hashStr).Error
+	if err := s.db.Model(&models.User{}).Where("id = ?", userID).
+		UpdateColumn("password_hash", hashStr).Error; err != nil {
+		return err
+	}
+
+	// Notificação por email — best-effort.
+	go func() {
+		var user models.User
+		if err := s.db.Select("id", "email", "name").First(&user, "id = ?", userID).Error; err != nil {
+			return
+		}
+		if s.emailService == nil || user.Email == "" {
+			return
+		}
+		_ = s.emailService.SendPasswordChanged(user.Email, user.Name, ipHint, time.Now().UTC())
+	}()
+	return nil
+}
+
+// validatePasswordStrength — M5 — política mínima:
+// 12+ chars, ao menos 1 letra e 1 número. Sem regras absurdas (NIST 2017+ desencoraja
+// complexidade artificial; comprimento + checagem por dicionário/HIBP são o caminho).
+// Aqui só implementamos a base — HIBP fica como follow-up.
+func validatePasswordStrength(password string) error {
+	if len(password) < 12 {
+		return errors.New("senha deve ter ao menos 12 caracteres")
+	}
+	var hasLetter, hasDigit bool
+	for _, r := range password {
+		switch {
+		case unicode.IsLetter(r):
+			hasLetter = true
+		case unicode.IsDigit(r):
+			hasDigit = true
+		}
+	}
+	if !hasLetter || !hasDigit {
+		return errors.New("senha deve conter ao menos uma letra e um número")
+	}
+	return nil
 }
 
 // ============================================================

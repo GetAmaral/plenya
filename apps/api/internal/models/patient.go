@@ -80,6 +80,12 @@ type Patient struct {
 	// @example 123.456.789-00
 	CPF *string `gorm:"type:text;unique" json:"-"`
 
+	// CPFBlindIndex — M4 — HMAC-SHA256 do CPF normalizado (só dígitos),
+	// chaveado por BLIND_INDEX_KEY. Permite lookup por CPF (ex: GetByCPF)
+	// sem descriptografar tabela inteira.
+	// Setado automaticamente em BeforeSave. Nunca cifrado (é índice).
+	CPFBlindIndex string `gorm:"type:varchar(64);index:idx_patients_cpf_blind" json:"-"`
+
 	// Data de nascimento
 	// @example 1990-01-01
 	BirthDate time.Time `gorm:"type:date;not null" json:"birthDate" validate:"required"`
@@ -275,6 +281,17 @@ func (p *Patient) BeforeSave(tx *gorm.DB) error {
 		if normalized := NormalizePhoneBR(*p.Phone); normalized != "" {
 			p.Phone = &normalized
 		}
+	}
+
+	// M4 — calcula blind index do CPF ANTES de cifrar (precisa do plain).
+	// Tolerante a erro (chave não setada em dev): só seta se sucesso.
+	if p.CPF != nil && *p.CPF != "" {
+		if !isEncrypted(*p.CPF) {
+			if idx, ierr := crypto.BlindIndexCPF(*p.CPF); ierr == nil {
+				p.CPFBlindIndex = idx
+			}
+		}
+		// Se já está cifrado (resave), preserva CPFBlindIndex existente.
 	}
 
 	// Criptografar CPF se fornecido e não criptografado

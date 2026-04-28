@@ -650,7 +650,8 @@ func (h *PatientPortalHandler) SetPassword(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid body"})
 	}
 	userID := middleware.GetUserID(c)
-	if err := h.svc.SetPassword(userID, body.Password); err != nil {
+	// M5 — passa IP pra notificação por email. c.IP() já respeita TrustedProxies.
+	if err := h.svc.SetPasswordWithIP(userID, body.Password, c.IP()); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 	return c.SendStatus(fiber.StatusNoContent)

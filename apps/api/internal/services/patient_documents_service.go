@@ -57,6 +57,13 @@ func (s *PatientDocumentsService) Create(in CreateDocumentInput) (*models.Patien
 	if !allowedDocContentTypes[contentType] {
 		return nil, fmt.Errorf("tipo %q não permitido (PDF, JPG ou PNG)", contentType)
 	}
+	// M7 — magic bytes. PDF clínico precisa ter assinatura real (%PDF-),
+	// imagem precisa ser JPEG/PNG real. Sem leniência aqui (clínico).
+	detected, err := ValidateUploadMagicBytes(in.File, AllowedMimeSetClinical, nil)
+	if err != nil {
+		return nil, fmt.Errorf("conteúdo inválido: %w", err)
+	}
+	contentType = detected
 	if strings.TrimSpace(in.Title) == "" {
 		return nil, errors.New("título obrigatório")
 	}

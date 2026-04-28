@@ -255,6 +255,45 @@ Se você não solicitou este link, ignore este email — sua conta segue protegi
 	return s.send(toEmail, subject, bodyText, bodyHTML)
 }
 
+// SendPasswordChanged — M5 — notifica paciente que a senha foi alterada.
+// Disparado em SetPasswordWithIP. Best-effort (não bloqueia se template/provider falhar).
+// Inclui IP (best-effort) e timestamp pra que vítima de takeover note imediatamente.
+func (s *EmailService) SendPasswordChanged(toEmail, name, ipHint string, when time.Time) error {
+	subject := "Sua senha Plenya foi alterada"
+	siteURL := s.cfg.Site.PublicURL
+	if siteURL == "" {
+		siteURL = "https://plenyasaude.com.br"
+	}
+	whenStr := when.Format("02/01/2006 15:04 UTC")
+	ipBlock := ""
+	if strings.TrimSpace(ipHint) != "" {
+		ipBlock = fmt.Sprintf("\nOrigem aproximada: IP %s", ipHint)
+	}
+	bodyText := fmt.Sprintf(`Olá, %s.
+
+A senha da sua conta Plenya foi alterada em %s.%s
+
+Se foi você, pode ignorar esta mensagem.
+Se NÃO foi você, entre em contato imediatamente em contato@plenyasaude.com.br
+ou pelo WhatsApp da equipe.
+
+— Equipe Plenya
+%s
+`, name, whenStr, ipBlock, siteURL)
+
+	bodyHTML, err := s.renderTemplate("password_changed", map[string]string{
+		"NAME":     name,
+		"WHEN":     whenStr,
+		"IP":       ipHint,
+		"SITE_URL": siteURL,
+	})
+	if err != nil {
+		// Template ainda não criado — segue só com texto plano (não bloqueia).
+		bodyHTML = ""
+	}
+	return s.send(toEmail, subject, bodyText, bodyHTML)
+}
+
 // SendFollowUp30Dias envia follow-up manual (admin dispara via UI).
 func (s *EmailService) SendFollowUp30Dias(toEmail, patientName string) error {
 	subject := "Refaça seu Escore — veja sua evolução"

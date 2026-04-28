@@ -22,7 +22,6 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/plenya/api/internal/crypto"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
 )
@@ -89,7 +88,8 @@ func (j *GoogleTokenRefreshJob) refreshOne(ctx context.Context, cred *models.Cal
 	subCtx, cancel := context.WithTimeout(ctx, googleRefreshTimeoutPerToken)
 	defer cancel()
 
-	refreshToken, err := crypto.DecryptWithDefaultKey(cred.EncryptedRefreshToken)
+	// M8 — usa OAuth key dedicada (com fallback retrocompat pra default key).
+	refreshToken, err := j.googleSvc.DecryptOAuthToken(cred.EncryptedRefreshToken)
 	if err != nil {
 		log.Printf("⚠️  [GOOGLE REFRESH] decrypt cred=%s: %v", cred.ID, err)
 		return
@@ -105,7 +105,7 @@ func (j *GoogleTokenRefreshJob) refreshOne(ctx context.Context, cred *models.Cal
 		return
 	}
 
-	encAccess, err := crypto.EncryptWithDefaultKey(tokens.AccessToken)
+	encAccess, err := j.googleSvc.EncryptOAuthToken(tokens.AccessToken)
 	if err != nil {
 		log.Printf("⚠️  [GOOGLE REFRESH] encrypt access cred=%s: %v", cred.ID, err)
 		return
@@ -117,7 +117,7 @@ func (j *GoogleTokenRefreshJob) refreshOne(ctx context.Context, cred *models.Cal
 	}
 	// Google só devolve refresh_token na 1a vez — preserva o anterior.
 	if tokens.RefreshToken != "" && tokens.RefreshToken != refreshToken {
-		encRefresh, err := crypto.EncryptWithDefaultKey(tokens.RefreshToken)
+		encRefresh, err := j.googleSvc.EncryptOAuthToken(tokens.RefreshToken)
 		if err == nil {
 			updates["encrypted_refresh_token"] = encRefresh
 		}

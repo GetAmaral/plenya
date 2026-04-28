@@ -15,6 +15,8 @@ const leadSchema = z.object({
   message: z.string().optional(),
   consentVersion: z.string().optional(),
   newsletterOptIn: z.boolean().optional(),
+  // M10 — token Turnstile. Vazio em dev (skip).
+  turnstileToken: z.string().optional(),
 });
 
 // Converte telefone BR livre (ex: "(11) 99999-9999") para E.164 (+5511999998888).
@@ -122,6 +124,9 @@ export async function POST(request: Request) {
     },
     consentVersion,
     newsletterOptIn: parsed.data.newsletterOptIn ?? false,
+    // M10 — propaga pra EMR validar com Cloudflare. Em dev (token vazio),
+    // EMR pula sem barrar.
+    turnstileToken: parsed.data.turnstileToken,
   };
 
   const [emrResult, emailResult] = await Promise.allSettled([

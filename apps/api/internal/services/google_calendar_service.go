@@ -96,6 +96,22 @@ type OAuthTokens struct {
 	ExpiresAt    time.Time
 }
 
+// EncryptOAuthToken — M8 — wrapper que usa OAuth key dedicada do config.
+// Exposto pra callers que persistem tokens fora do service (handler OAuth, scheduler).
+func (s *GoogleCalendarService) EncryptOAuthToken(plaintext string) (string, error) {
+	return crypto.EncryptWithOAuthKey(plaintext, s.cfg.Security.OAuthTokenKey)
+}
+
+// DecryptOAuthToken — M8 — par do EncryptOAuthToken. Tenta a chave dedicada,
+// fallback pra default key (retrocompat com rows pré-migração).
+func (s *GoogleCalendarService) DecryptOAuthToken(ciphertext string) (string, error) {
+	plain, err := crypto.DecryptWithOAuthKey(ciphertext, s.cfg.Security.OAuthTokenKey)
+	if err == nil {
+		return plain, nil
+	}
+	return crypto.DecryptWithDefaultKey(ciphertext)
+}
+
 // IsConfigured retorna true se ClientID + ClientSecret estão setados.
 // Handlers checam isso pra responder 503 em vez de 500 quando setup pendente.
 func (s *GoogleCalendarService) IsConfigured() bool {
@@ -490,8 +506,14 @@ func (s *GoogleCalendarService) GetValidAccessToken(ctx context.Context, userID 
 	}
 
 	// Token ainda válido com leeway?
+	// M8 — fallback retrocompat: se ciphertext foi gravado antes da migração
+	// pra OAuth key (chave dedicada), tenta default key. Após próximo refresh,
+	// regrava com OAuth key e o fallback some.
 	if time.Until(cred.AccessTokenExpiresAt) > tokenRefreshLeewayMin*time.Minute {
-		access, err := crypto.DecryptWithDefaultKey(cred.EncryptedAccessToken)
+		access, err := crypto.DecryptWithOAuthKey(cred.EncryptedAccessToken, s.cfg.Security.OAuthTokenKey)
+		if err != nil {
+			access, err = crypto.DecryptWithDefaultKey(cred.EncryptedAccessToken)
+		}
 		if err != nil {
 			return "", fmt.Errorf("decrypt access token: %w", err)
 		}
@@ -499,7 +521,11 @@ func (s *GoogleCalendarService) GetValidAccessToken(ctx context.Context, userID 
 	}
 
 	// Refresh.
-	refresh, err := crypto.DecryptWithDefaultKey(cred.EncryptedRefreshToken)
+	refresh, err := crypto.DecryptWithOAuthKey(cred.EncryptedRefreshToken, s.cfg.Security.OAuthTokenKey)
+	if err != nil {
+		// Fallback retrocompat (chave default).
+		refresh, err = crypto.DecryptWithDefaultKey(cred.EncryptedRefreshToken)
+	}
 	if err != nil {
 		return "", fmt.Errorf("decrypt refresh token: %w", err)
 	}
@@ -516,14 +542,14 @@ func (s *GoogleCalendarService) GetValidAccessToken(ctx context.Context, userID 
 	}
 
 	// Persist refreshed tokens.
-	encAccess, err := crypto.EncryptWithDefaultKey(tokens.AccessToken)
+	encAccess, err := crypto.EncryptWithOAuthKey(tokens.AccessToken, s.cfg.Security.OAuthTokenKey)
 	if err != nil {
 		return "", fmt.Errorf("encrypt new access token: %w", err)
 	}
 	cred.EncryptedAccessToken = encAccess
 	cred.AccessTokenExpiresAt = tokens.ExpiresAt
 	if tokens.RefreshToken != "" && tokens.RefreshToken != refresh {
-		encRefresh, err := crypto.EncryptWithDefaultKey(tokens.RefreshToken)
+		encRefresh, err := crypto.EncryptWithOAuthKey(tokens.RefreshToken, s.cfg.Security.OAuthTokenKey)
 		if err != nil {
 			return "", fmt.Errorf("encrypt new refresh token: %w", err)
 		}

@@ -21,6 +21,7 @@ import (
 type LeadHandler struct {
 	service      *services.LeadService
 	emailService *services.EmailService
+	turnstile    *services.TurnstileService // M10 — pode ser nil em dev
 	validator    *validator.Validate
 }
 
@@ -30,6 +31,13 @@ func NewLeadHandler(service *services.LeadService, emailService *services.EmailS
 		emailService: emailService,
 		validator:    validator.New(),
 	}
+}
+
+// WithTurnstile — M10 — injeta o validator. Se nil ou Secret vazio, PublicCreate
+// pula a checagem de CAPTCHA com warning.
+func (h *LeadHandler) WithTurnstile(t *services.TurnstileService) *LeadHandler {
+	h.turnstile = t
+	return h
 }
 
 // ============================================================
@@ -45,6 +53,9 @@ type PublicCreateRequest struct {
 	Metadata        map[string]any `json:"metadata,omitempty"`
 	ConsentVersion  string         `json:"consentVersion" validate:"required,min=5,max=20"`
 	NewsletterOptIn bool           `json:"newsletterOptIn,omitempty"`
+	// M10 — Cloudflare Turnstile token (cf-turnstile-response). Em prod, obrigatório.
+	// Em dev (Secret vazio), validação pulada.
+	TurnstileToken string `json:"turnstileToken,omitempty"`
 }
 
 // PublicCreate — endpoint público rate-limited. Cria Lead com source=contact_form.
@@ -75,6 +86,28 @@ func (h *LeadHandler) PublicCreate(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "email or phone is required",
 		})
+	}
+
+	// M10 — valida Turnstile (CAPTCHA Cloudflare). Em dev (Secret vazio),
+	// h.turnstile.Verify retorna nil sem fazer chamada HTTP.
+	if h.turnstile != nil {
+		// Header tem precedência sobre body (frontend pode mandar via header).
+		token := c.Get("cf-turnstile-response")
+		if token == "" {
+			token = req.TurnstileToken
+		}
+		if err := h.turnstile.Verify(c.Context(), token, c.IP()); err != nil {
+			if errors.Is(err, services.ErrTurnstileMissing) || errors.Is(err, services.ErrTurnstileInvalid) {
+				return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{
+					Error: "captcha falhou — recarregue a página e tente novamente",
+				})
+			}
+			// Erro de rede com Cloudflare: retorna 503 (não 500) — comum sob picos.
+			return c.Status(fiber.StatusServiceUnavailable).JSON(dto.ErrorResponse{
+				Error:   "captcha service indisponível",
+				Message: err.Error(),
+			})
+		}
 	}
 
 	lead, err := h.service.CreateFromContactForm(services.CreateFromContactFormInput{

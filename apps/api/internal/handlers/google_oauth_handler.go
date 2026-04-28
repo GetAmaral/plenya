@@ -176,12 +176,15 @@ func (h *GoogleOAuthHandler) Callback(c *fiber.Ctx) error {
 		return h.redirectError(c, "create_calendar_failed")
 	}
 
-	// Cifra tokens antes de persistir.
-	encAccess, err := crypto.EncryptWithDefaultKey(tokens.AccessToken)
+	// M8 — chave dedicada OAuth (separa de PHI/CPF). Sem prefixo de versão
+	// (esse keyring versionado é só pra defaultKey/PHI). Migração transparente:
+	// rows antigas (cifradas com defaultKey) DECRIPTAM via DecryptWithDefaultKey
+	// — quando refresh token é renovado, regrava com OAuth key.
+	encAccess, err := crypto.EncryptWithOAuthKey(tokens.AccessToken, h.cfg.Security.OAuthTokenKey)
 	if err != nil {
 		return h.redirectError(c, "encrypt_failed")
 	}
-	encRefresh, err := crypto.EncryptWithDefaultKey(tokens.RefreshToken)
+	encRefresh, err := crypto.EncryptWithOAuthKey(tokens.RefreshToken, h.cfg.Security.OAuthTokenKey)
 	if err != nil {
 		return h.redirectError(c, "encrypt_failed")
 	}
@@ -248,7 +251,11 @@ func (h *GoogleOAuthHandler) Disconnect(c *fiber.Ctx) error {
 
 	// Tenta revogar no Google (best effort — se falhar, ainda marca local como revogado).
 	if cred.IsActive() {
-		refresh, decErr := crypto.DecryptWithDefaultKey(cred.EncryptedRefreshToken)
+		refresh, decErr := crypto.DecryptWithOAuthKey(cred.EncryptedRefreshToken, h.cfg.Security.OAuthTokenKey)
+		if decErr != nil {
+			// Fallback retrocompat — registros antigos cifrados com chave default.
+			refresh, decErr = crypto.DecryptWithDefaultKey(cred.EncryptedRefreshToken)
+		}
 		if decErr == nil {
 			if revErr := h.googleSvc.RevokeToken(ctx, refresh); revErr != nil {
 				log.Printf("⚠️  Google revoke (best-effort) failed for user %s: %v", userID, revErr)

@@ -1,0 +1,63 @@
+name: Typecheck (warning-only)
+
+# M2 — typecheck/lint NON-BLOCKING para apps/web e packages.
+#
+# Por que non-blocking: apps/web/next.config.ts tem ignoreBuildErrors=true porque
+# há lixo TS pré-existente. Bloquear PRs aqui regrediria fluxo de deploy de
+# emergência. Quando o lixo for limpo, removemos `continue-on-error` e flipamos
+# pra blocking.
+#
+# apps/site já tem typecheck blocking em site-ci.yml — esse workflow cobre
+# apps/web + packages.
+
+on:
+  push:
+    branches: [master, staging]
+    paths:
+      - 'apps/web/**'
+      - 'packages/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'turbo.json'
+      - '.github/workflows/typecheck.yml'
+  pull_request:
+    paths:
+      - 'apps/web/**'
+      - 'packages/**'
+
+jobs:
+  typecheck-web:
+    name: apps/web typecheck (warning)
+    runs-on: ubuntu-latest
+    continue-on-error: true # M2 — não bloqueia merge enquanto débito existe
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: tsc --noEmit
+        run: pnpm --filter @plenya/web exec tsc --noEmit
+      - name: ESLint
+        run: pnpm --filter @plenya/web lint || true
+
+  typecheck-packages:
+    name: packages typecheck (warning)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: typecheck packages
+        run: pnpm -r --filter './packages/**' exec tsc --noEmit || true

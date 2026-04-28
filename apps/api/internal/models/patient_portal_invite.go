@@ -24,7 +24,12 @@ type PatientPortalInvite struct {
 	InvitedBy uuid.UUID `gorm:"type:uuid;not null" json:"invitedBy"`
 
 	// Token único na URL — geramos 64 chars hex (256 bits).
-	Token string `gorm:"type:varchar(128);uniqueIndex;not null" json:"-"`
+	// M3 — Deprecated: novos registros gravam apenas TokenHash.
+	// Mantida pra retrocompat com rows existentes (AutoMigrate não dropa coluna).
+	Token string `gorm:"type:varchar(128);uniqueIndex" json:"-"`
+	// TokenHash — sha256 hex do token plain. Único índice usado por
+	// ConsumeInvite. Quando vazio, registro é legado (lookup cai no Token plain).
+	TokenHash string `gorm:"type:varchar(64);uniqueIndex:idx_patient_portal_invites_hash" json:"-"`
 
 	// Janela de validade (default 14 dias).
 	ExpiresAt time.Time `gorm:"not null" json:"expiresAt"`

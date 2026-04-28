@@ -11,6 +11,7 @@ import (
 
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/middleware"
+	"github.com/plenya/api/internal/services"
 )
 
 // UploadHandler aceita upload genérico (imagens + PDF) usado por features
@@ -110,6 +111,23 @@ func (h *UploadHandler) Create(c *fiber.Ctx) error {
 			Error:   "content-type não permitido",
 			Message: contentType,
 		})
+	}
+
+	// M7 — magic bytes. Cliente pode mentir no Content-Type/extensão; aqui
+	// abrimos o arquivo, lemos os primeiros 512 bytes e deixamos
+	// http.DetectContentType inspecionar a assinatura real.
+	// Lenient pra HEIC/HEIF (stdlib às vezes retorna octet-stream).
+	lenientExts := map[string]bool{".heic": true, ".heif": true}
+	detected, err := services.ValidateUploadMagicBytes(file, services.AllowedMimeSetImagesPDF, lenientExts)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "conteúdo do arquivo não corresponde ao tipo permitido",
+			Message: err.Error(),
+		})
+	}
+	// Persistimos o detectado (não o do client) — defesa em profundidade.
+	if !strings.EqualFold(detected, "application/octet-stream") {
+		contentType = detected
 	}
 
 	relDir := filepath.Join("general", userID.String())
