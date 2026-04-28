@@ -24,12 +24,38 @@ export function PersonSchema() {
           { '@type': 'Organization', name: 'Sociedade Paranaense de Nefrologia' },
         ],
         worksFor: [
-          { '@type': 'MedicalOrganization', name: 'Plenya', url: 'https://plenyasaude.com.br' },
+          {
+            '@type': 'MedicalOrganization',
+            name: 'Plenya',
+            url: 'https://plenyasaude.com.br',
+            sameAs: 'https://instagram.com/plenyaSaude',
+          },
           { '@type': 'MedicalOrganization', name: 'Nefroclínica Londrina', url: 'https://nefroclinica.com' },
+        ],
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Londrina',
+          addressRegion: 'PR',
+          addressCountry: 'BR',
+        },
+        areaServed: [
+          { '@type': 'Country', name: 'Brasil' },
+          { '@type': 'AdministrativeArea', name: 'Paraná' },
+          { '@type': 'City', name: 'Londrina' },
+        ],
+        knowsLanguage: ['pt-BR'],
+        knowsAbout: [
+          'Medicina Funcional Integrativa',
+          'Nefrologia Preventiva',
+          'Longevidade',
+          'Healthspan',
+          'Hipertensão arterial',
+          'Doença renal crônica',
         ],
         sameAs: [
           'https://instagram.com/drGetulioAmaralFilho',
           'https://plenyasaude.com.br',
+          'https://instagram.com/plenyaSaude',
         ],
       },
       {

@@ -4,11 +4,22 @@ export function OrganizationSchema() {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'MedicalOrganization',
+    '@id': `${brand.url}/#organization`,
     name: brand.legalName,
+    alternateName: brand.name,
     url: brand.url,
     logo: `${brand.url}/logo.svg`,
-    sameAs: [brand.social.instagram],
-    medicalSpecialty: ['FunctionalMedicine', 'PreventiveMedicine', 'Nephrology'],
+    image: `${brand.url}/og-default.jpg`,
+    description: brand.tagline,
+    inLanguage: 'pt-BR',
+    sameAs: [
+      brand.social.instagram,
+      'https://drgetulioamaralfilho.com.br',
+      'https://instagram.com/drGetulioAmaralFilho',
+    ],
+    medicalSpecialty: ['FunctionalMedicine', 'PreventiveMedicine', 'Nephrology', 'InternalMedicine'],
+    areaServed: { '@type': 'Country', name: 'Brasil' },
+    knowsLanguage: ['pt-BR', 'en', 'es'],
   };
   return (
     <script

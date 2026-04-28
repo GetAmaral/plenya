@@ -28,7 +28,18 @@ export function MedicalClinicSchema() {
       addressRegion: 'PR',
       addressCountry: 'BR',
     },
-    sameAs: [brand.social.instagram],
+    areaServed: [
+      { '@type': 'Country', name: 'Brasil' },
+      { '@type': 'AdministrativeArea', name: 'Paraná' },
+      { '@type': 'City', name: 'Londrina' },
+    ],
+    inLanguage: 'pt-BR',
+    knowsLanguage: ['pt-BR', 'en', 'es'],
+    sameAs: [
+      brand.social.instagram,
+      'https://drgetulioamaralfilho.com.br',
+      'https://instagram.com/drGetulioAmaralFilho',
+    ],
     priceRange: '$$$',
     paymentAccepted: ['Particular', 'PIX', 'Cartão'],
     openingHoursSpecification: [

@@ -8,6 +8,7 @@ import { isLocale, locales } from '@/lib/i18n/config';
 import { SiteHeader } from '@/components/layout/site-header';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { PersonSchema } from '@/components/seo/person-schema';
+import { WebSiteSchema } from '@/components/seo/website-schema';
 import '../globals.css';
 
 const PLAUSIBLE_DOMAIN =
@@ -93,6 +94,9 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={`${serif.variable} ${sans.variable}`}>
       <head>
+        <meta name="geo.region" content="BR-PR" />
+        <meta name="geo.placename" content="Londrina" />
+        <meta name="ICBM" content="-23.3045, -51.1696" />
         <Script
           defer
           data-domain={PLAUSIBLE_DOMAIN}
@@ -103,6 +107,7 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider messages={messages}>
           <PersonSchema />
+          <WebSiteSchema />
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />

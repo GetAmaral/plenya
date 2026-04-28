@@ -56,6 +56,26 @@ export function SiteFooter() {
                 @drGetulioAmaralFilho
               </a>
             </p>
+            <p>
+              <a
+                href="https://instagram.com/plenyaSaude"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-gold transition-colors"
+              >
+                @plenyaSaude (clínica)
+              </a>
+            </p>
+            <p>
+              <a
+                href="https://plenyasaude.com.br"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-gold transition-colors"
+              >
+                plenyasaude.com.br ↗
+              </a>
+            </p>
           </address>
         </div>
       </div>

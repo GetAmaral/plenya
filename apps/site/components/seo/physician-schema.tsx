@@ -38,6 +38,15 @@ export function PhysicianSchema() {
       { '@type': 'Organization', name: 'Associação Brasileira de Medicina Funcional Integrativa' },
     ],
     worksFor: { '@type': 'MedicalClinic', '@id': `${brand.url}/#clinic` },
+    areaServed: [
+      { '@type': 'Country', name: 'Brasil' },
+      { '@type': 'AdministrativeArea', name: 'Paraná' },
+      { '@type': 'City', name: 'Londrina' },
+    ],
+    availableService: [
+      { '@type': 'MedicalProcedure', name: 'Consulta Plenya', procedureType: 'Particular' },
+      { '@type': 'MedicalProcedure', name: 'Continuum Plenya', procedureType: 'Particular' },
+    ],
     sameAs: [
       'https://drgetulioamaralfilho.com.br',
       'https://instagram.com/drGetulioAmaralFilho',

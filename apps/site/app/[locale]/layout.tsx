@@ -13,6 +13,7 @@ import { WhatsAppBubble } from '@/components/marketing/whatsapp-bubble';
 import { OrganizationSchema } from '@/components/seo/organization-schema';
 import { MedicalClinicSchema } from '@/components/seo/medical-clinic-schema';
 import { PhysicianSchema } from '@/components/seo/physician-schema';
+import { WebSiteSchema } from '@/components/seo/website-schema';
 
 const heading = localFont({
   src: '../../node_modules/@plenya/brand/src/fonts/nalieta/Nalieta-Regular.otf',
@@ -94,6 +95,9 @@ export default async function LocaleLayout({
     >
       <head>
         <meta name="apple-itunes-app" content="app-id=000000000" />
+        <meta name="geo.region" content="BR-PR" />
+        <meta name="geo.placename" content="Londrina" />
+        <meta name="ICBM" content="-23.3045, -51.1696" />
       </head>
       <body className="min-h-screen flex flex-col font-sans">
         <NextIntlClientProvider locale={locale} messages={messages}>
@@ -101,6 +105,7 @@ export default async function LocaleLayout({
             <OrganizationSchema />
             <MedicalClinicSchema />
             <PhysicianSchema />
+            <WebSiteSchema />
             <SiteHeader />
             <main className="flex-1">{children}</main>
             <SiteFooter />

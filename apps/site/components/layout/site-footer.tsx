@@ -25,6 +25,14 @@ export function SiteFooter() {
           <div className="flex flex-col gap-3 text-base pt-4">
             <a href={`mailto:${brand.email}`} className="text-cream/85 hover:text-cream transition">{brand.email}</a>
             <a href={brand.social.instagram} target="_blank" rel="noreferrer" className="text-cream/85 hover:text-cream transition">@plenyaSaude</a>
+            <a
+              href="https://drgetulioamaralfilho.com.br"
+              target="_blank"
+              rel="noreferrer"
+              className="text-cream/85 hover:text-cream transition"
+            >
+              drgetulioamaralfilho.com.br ↗
+            </a>
             <span className="text-cream/55">Londrina · PR</span>
           </div>
         </div>
