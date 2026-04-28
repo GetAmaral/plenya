@@ -1,6 +1,10 @@
 #!/bin/sh
 set -e
 
+# CI=true evita ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY quando pnpm
+# precisa remover/recriar node_modules sem TTY (docker compose detached).
+export CI=true
+
 echo "🔍 Checking if dependencies need update..."
 
 if [ ! -f "/tmp/.deps-installed" ] || \

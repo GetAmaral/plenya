@@ -24,6 +24,12 @@ COPY --from=deps /repo/apps/site/node_modules ./apps/site/node_modules
 COPY --from=deps /repo/packages/brand/node_modules ./packages/brand/node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# NEXT_PUBLIC_* precisam estar disponíveis no build (Next inline no bundle).
+# Coolify passa estas envs como ARG durante o docker build.
+ARG NEXT_PUBLIC_TURNSTILE_SITE_KEY
+ENV NEXT_PUBLIC_TURNSTILE_SITE_KEY=$NEXT_PUBLIC_TURNSTILE_SITE_KEY
+
 RUN pnpm --filter @plenya/site build
 
 ###
