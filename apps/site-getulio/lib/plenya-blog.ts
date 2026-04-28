@@ -38,7 +38,7 @@ const schema = z.object({
   cover: z.string().optional(),
   tags: z.array(z.string()).default([]),
   references: z
-    .array(z.object({ label: z.string(), url: z.string().url() }))
+    .array(z.object({ label: z.string(), url: z.string().url().optional() }))
     .default([]),
 });
 

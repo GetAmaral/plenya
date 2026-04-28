@@ -33,7 +33,7 @@ const frontmatterSchema = z.object({
   cover: z.string().optional(),
   featured: z.boolean().default(false),
   references: z
-    .array(z.object({ label: z.string(), url: z.string().url() }))
+    .array(z.object({ label: z.string(), url: z.string().url().optional() }))
     .default([]),
   readingMinutes: z.number().optional(),
   cta: z.enum(['default', 'recognition']).default('default'),

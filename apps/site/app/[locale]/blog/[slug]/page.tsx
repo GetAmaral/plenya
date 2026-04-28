@@ -123,9 +123,20 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
         <div className="site-narrow border-t border-petrol/10 pt-8 mb-16">
           <p className="label-upper text-gold mb-4">Referências</p>
           <ol className="list-decimal pl-6 space-y-2 text-petrol/80 text-sm">
-            {post.references.map((ref) => (
-              <li key={ref.url}>
-                <a href={ref.url} target="_blank" rel="noreferrer" className="underline decoration-gold underline-offset-4 hover:text-gold">{ref.label}</a>
+            {post.references.map((ref, i) => (
+              <li key={ref.url ?? `${i}-${ref.label}`}>
+                {ref.url ? (
+                  <a
+                    href={ref.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline decoration-gold underline-offset-4 hover:text-gold"
+                  >
+                    {ref.label}
+                  </a>
+                ) : (
+                  <span>{ref.label}</span>
+                )}
               </li>
             ))}
           </ol>

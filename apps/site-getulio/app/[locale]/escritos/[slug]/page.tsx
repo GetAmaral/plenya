@@ -147,16 +147,15 @@ export default async function EscritoPage({
         <section className="editorial-narrow pb-12">
           <p className="label-meta text-bordo mb-4">Referências</p>
           <ol className="list-decimal pl-6 space-y-2 font-sans text-sm text-ink-soft">
-            {post.references.map((ref) => (
-              <li key={ref.url}>
-                <a
-                  href={ref.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="link-text"
-                >
-                  {ref.label}
-                </a>
+            {post.references.map((ref, i) => (
+              <li key={ref.url ?? `${i}-${ref.label}`}>
+                {ref.url ? (
+                  <a href={ref.url} target="_blank" rel="noreferrer" className="link-text">
+                    {ref.label}
+                  </a>
+                ) : (
+                  <span>{ref.label}</span>
+                )}
               </li>
             ))}
           </ol>
