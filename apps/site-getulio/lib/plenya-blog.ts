@@ -67,6 +67,15 @@ export function rewriteAssetPaths(content: string): string {
     .replace(/src="\s*\/images\//g, `src="${PLENYA_BASE}/images/`);
 }
 
+// Capa do post mora em apps/site/public — não é hospedada aqui.
+// Reescreve `/images/...` para URL absoluta no domínio canônico Plenya.
+export function absoluteCover(cover: string | undefined): string | undefined {
+  if (!cover) return undefined;
+  if (/^https?:\/\//.test(cover)) return cover;
+  if (cover.startsWith('/')) return `${PLENYA_BASE}${cover}`;
+  return cover;
+}
+
 async function readPostFile(file: string): Promise<PlenyaPostFull | null> {
   try {
     const raw = await fs.readFile(path.join(PLENYA_BLOG_ROOT, file), 'utf-8');

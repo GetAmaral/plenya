@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import {
+  absoluteCover,
   getPlenyaPostsByGetulio,
   PLENYA_BLOG_BASE,
   PLENYA_PILLAR_LABELS,
@@ -32,6 +34,7 @@ export default async function EscritosPage({
   const all = await getPlenyaPostsByGetulio();
   const activePilar = PILLAR_FILTERS.find(([k]) => k === pilarParam)?.[0];
   const posts = activePilar ? all.filter((p) => p.pillar === activePilar) : all;
+  const [featured, ...rest] = posts;
 
   return (
     <article>
@@ -71,32 +74,81 @@ export default async function EscritosPage({
         {posts.length === 0 ? (
           <p className="font-serif text-ink-muted py-8">Nenhum artigo nesse pilar ainda.</p>
         ) : (
-          <ul className="border-t border-rule">
-            {posts.map((p) => (
-              <li key={p.slug} className="border-b border-rule">
-                <Link
-                  href={`/escritos/${p.slug}`}
-                  className="block py-8 grid md:grid-cols-[120px_1fr_180px] gap-6 group items-baseline"
-                >
-                  <span className="font-sans text-sm text-ink-muted">
-                    {formatDate(p.date)}
-                  </span>
-                  <div className="space-y-2">
-                    <h2 className="font-serif text-xl md:text-2xl text-ink group-hover:text-bordo transition-colors">
-                      {p.title}
-                    </h2>
-                    <p className="font-serif text-ink-soft leading-relaxed">{p.excerpt}</p>
+          <div className="space-y-20 md:space-y-24">
+            {featured && (
+              <Link
+                href={`/escritos/${featured.slug}`}
+                className="group block grid md:grid-cols-2 gap-8 md:gap-12 items-center"
+              >
+                {featured.cover && (
+                  <div className="relative aspect-[4/3] overflow-hidden bg-paper order-1">
+                    <Image
+                      src={absoluteCover(featured.cover)!}
+                      alt={featured.title}
+                      fill
+                      priority
+                      sizes="(min-width: 768px) 560px, 100vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                    />
                   </div>
-                  <span className="label-meta text-bordo md:text-right">
-                    {PLENYA_PILLAR_LABELS[p.pillar]}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+                )}
+                <div className="space-y-4 order-2">
+                  <div className="flex items-center gap-3 label-meta">
+                    <span className="text-bordo">{PLENYA_PILLAR_LABELS[featured.pillar]}</span>
+                    <span className="text-ink-muted">·</span>
+                    <time className="text-ink-muted" dateTime={featured.date}>
+                      {formatDate(featured.date)}
+                    </time>
+                  </div>
+                  <h2 className="font-serif text-3xl md:text-4xl leading-tight text-ink group-hover:text-bordo transition-colors">
+                    {featured.title}
+                  </h2>
+                  <p className="font-serif text-lg text-ink-soft leading-relaxed">
+                    {featured.excerpt}
+                  </p>
+                  <p className="label-meta text-bordo pt-2">Ler artigo →</p>
+                </div>
+              </Link>
+            )}
+
+            {rest.length > 0 && (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14 border-t border-rule pt-12">
+                {rest.map((p) => (
+                  <Link
+                    key={p.slug}
+                    href={`/escritos/${p.slug}`}
+                    className="group block space-y-4"
+                  >
+                    {p.cover && (
+                      <div className="relative aspect-[16/10] overflow-hidden bg-paper">
+                        <Image
+                          src={absoluteCover(p.cover)!}
+                          alt={p.title}
+                          fill
+                          sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                        />
+                      </div>
+                    )}
+                    <div className="flex items-center gap-3 label-meta">
+                      <span className="text-bordo">{PLENYA_PILLAR_LABELS[p.pillar]}</span>
+                      <span className="text-ink-muted">·</span>
+                      <time className="text-ink-muted" dateTime={p.date}>
+                        {formatDate(p.date)}
+                      </time>
+                    </div>
+                    <h3 className="font-serif text-xl md:text-2xl leading-tight text-ink group-hover:text-bordo transition-colors">
+                      {p.title}
+                    </h3>
+                    <p className="font-serif text-ink-soft leading-relaxed">{p.excerpt}</p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         )}
 
-        <p className="font-sans text-xs text-ink-muted mt-12 text-center">
+        <p className="font-sans text-xs text-ink-muted mt-16 text-center">
           Conteúdo publicado originalmente no{' '}
           <a href={PLENYA_BLOG_BASE} target="_blank" rel="noreferrer" className="link-text">
             Blog Plenya
