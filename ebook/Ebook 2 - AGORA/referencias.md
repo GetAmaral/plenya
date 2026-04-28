@@ -647,6 +647,556 @@
 
 ---
 
+## Parte III · Aplicações (Caps 27-52) + Manifesto (Cap 53)
+
+303. Sateia MJ. International Classification of Sleep Disorders—Third Edition: highlights and modifications. *Chest* 2014;146(5):1387-1394. doi:10.1378/chest.14-0970
+
+304. Drager LF, Lorenzi-Filho G, Cintra FD, et al. 1° Posicionamento Brasileiro sobre o Impacto dos Distúrbios de Sono nas Doenças Cardiovasculares da Sociedade Brasileira de Cardiologia. *Arq Bras Cardiol* 2018;111(2):290-340.
+
+305. Maughan RJ, Burke LM, Dvorak J, et al. IOC consensus statement: dietary supplements and the high-performance athlete. *Br J Sports Med* 2018;52(7):439-455. doi:10.1136/bjsports-2018-099027
+
+306. Pawlikowska T, Chalder T, Hirsch SR, Wallace P, Wright DJ, Wessely SC. Population based study of fatigue and psychological distress. *BMJ* 1994;308(6931):763-766. doi:10.1136/bmj.308.6931.763
+
+307. Killgore WDS. Effects of sleep deprivation on cognition. *Prog Brain Res* 2010;185:105-129. doi:10.1016/B978-0-444-53702-7.00007-5
+
+308. Patel SR, Hu FB. Short sleep duration and weight gain: a systematic review. *Obesity (Silver Spring)* 2008;16(3):643-653. doi:10.1038/oby.2007.118
+
+309. Patil SP, Ayappa IA, Caples SM, Kimoff RJ, Patel SR, Harrod CG. Treatment of adult obstructive sleep apnea with positive airway pressure: an American Academy of Sleep Medicine clinical practice guideline. *J Clin Sleep Med* 2019;15(2):335-343. doi:10.5664/jcsm.7640
+
+310. O'Connor PJ, Puetz TW. Chronic physical activity and feelings of energy and fatigue. *Med Sci Sports Exerc* 2005;37(2):299-305. doi:10.1249/01.mss.0000152802.89770.cf
+
+311. Puetz TW, O'Connor PJ, Dishman RK. Effects of chronic exercise on feelings of energy and fatigue: a quantitative synthesis. *Psychol Bull* 2006;132(6):866-876. doi:10.1037/0033-2909.132.6.866
+
+312. Cesari M, Penninx BW, Pahor M, et al. Inflammatory markers and physical performance in older persons: the InCHIANTI study. *J Gerontol A Biol Sci Med Sci* 2004;59(3):242-248. doi:10.1093/gerona/59.3.m242
+
+313. Watson NF, Badr MS, Belenky G, et al. Recommended amount of sleep for a healthy adult: a joint consensus statement of the American Academy of Sleep Medicine and Sleep Research Society. *Sleep* 2015;38(6):843-844. doi:10.5665/sleep.4716
+
+314. Trauer JM, Qian MY, Doyle JS, Rajaratnam SMW, Cunnington D. Cognitive behavioral therapy for chronic insomnia: a systematic review and meta-analysis. *Ann Intern Med* 2015;163(3):191-204. doi:10.7326/M14-2841
+
+315. Wittmann M, Dinich J, Merrow M, Roenneberg T. Social jetlag: misalignment of biological and social time. *Chronobiol Int* 2006;23(1-2):497-509. doi:10.1080/07420520500545979
+
+316. Roenneberg T, Allebrandt KV, Merrow M, Vetter C. Social jetlag and obesity. *Curr Biol* 2012;22(10):939-943. doi:10.1016/j.cub.2012.03.038
+
+317. Zeitzer JM, Dijk DJ, Kronauer R, Brown E, Czeisler C. Sensitivity of the human circadian pacemaker to nocturnal light: melatonin phase resetting and suppression. *J Physiol* 2000;526(Pt 3):695-702. doi:10.1111/j.1469-7793.2000.00695.x
+
+318. Chang AM, Aeschbach D, Duffy JF, Czeisler CA. Evening use of light-emitting eReaders negatively affects sleep, circadian timing, and next-morning alertness. *Proc Natl Acad Sci USA* 2015;112(4):1232-1237. doi:10.1073/pnas.1418490112
+
+319. Crispim CA, Zimberg IZ, dos Reis BG, Diniz RM, Tufik S, de Mello MT. Relationship between food intake and sleep pattern in healthy individuals. *J Clin Sleep Med* 2011;7(6):659-664. doi:10.5664/jcsm.1476
+
+320. Kredlow MA, Capozzoli MC, Hearon BA, Calkins AW, Otto MW. The effects of physical activity on sleep: a meta-analytic review. *J Behav Med* 2015;38(3):427-449. doi:10.1007/s10865-015-9617-6
+
+321. Kushida CA, Littner MR, Morgenthaler T, et al. Practice parameters for the indications for polysomnography and related procedures: an update for 2005. *Sleep* 2005;28(4):499-521. doi:10.1093/sleep/28.4.499
+
+322. Czeisler CA, Wright KP. Influence of light on circadian rhythmicity in humans. In: Turek FW, Zee PC, eds. *Regulation of Sleep and Circadian Rhythms*. New York: Marcel Dekker; 1995:149-180.
+
+323. Schuch FB, Vancampfort D, Richards J, Rosenbaum S, Ward PB, Stubbs B. Exercise as a treatment for depression: a meta-analysis adjusting for publication bias. *J Psychiatr Res* 2016;77:42-51. doi:10.1016/j.jpsychires.2016.02.023
+
+324. Singh B, Olds T, Curtis R, et al. Effectiveness of physical activity interventions for improving depression, anxiety and distress: an overview of systematic reviews. *Br J Sports Med* 2023;57(18):1203-1209. doi:10.1136/bjsports-2022-106195
+
+325. Harvey SB, Øverland S, Hatch SL, Wessely S, Mykletun A, Hotopf M. Exercise and the prevention of depression: results of the HUNT cohort study. *Am J Psychiatry* 2018;175(1):28-36. doi:10.1176/appi.ajp.2017.16111223
+
+326. Mocking RJ, Harmsen I, Assies J, Koeter MW, Ruhé HG, Schene AH. Meta-analysis and meta-regression of omega-3 polyunsaturated fatty acid supplementation for major depressive disorder. *Transl Psychiatry* 2016;6(3):e756. doi:10.1038/tp.2016.29
+
+327. Sublette ME, Ellis SP, Geant AL, Mann JJ. Meta-analysis of the effects of eicosapentaenoic acid (EPA) in clinical trials in depression. *J Clin Psychiatry* 2011;72(12):1577-1584. doi:10.4088/JCP.10m06634
+
+328. Holt-Lunstad J, Smith TB, Layton JB. Social relationships and mortality risk: a meta-analytic review. *PLoS Med* 2010;7(7):e1000316. doi:10.1371/journal.pmed.1000316
+
+329. Hill PL, Turiano NA. Purpose in life as a predictor of mortality across adulthood. *Psychol Sci* 2014;25(7):1482-1486. doi:10.1177/0956797614531799
+
+330. Cohen R, Bavishi C, Rozanski A. Purpose in life and its relationship to all-cause mortality and cardiovascular events: a meta-analysis. *Psychosom Med* 2016;78(2):122-133. doi:10.1097/PSY.0000000000000274
+
+331. Tarleton EK, Littenberg B, MacLean CD, Kennedy AG, Daley C. Role of magnesium supplementation in the treatment of depression: a randomized clinical trial. *PLoS One* 2017;12(6):e0180067. doi:10.1371/journal.pone.0180067
+
+332. Kroenke K, Spitzer RL, Williams JB. The PHQ-9: validity of a brief depression severity measure. *J Gen Intern Med* 2001;16(9):606-613. doi:10.1046/j.1525-1497.2001.016009606.x
+
+333. Headache Classification Committee of the International Headache Society (IHS). The International Classification of Headache Disorders, 3rd edition. *Cephalalgia* 2018;38(1):1-211. doi:10.1177/0333102417738202
+
+334. Pringsheim T, Davenport W, Mackie G, et al. Canadian Headache Society guideline for migraine prophylaxis. *Can J Neurol Sci* 2012;39(2 Suppl 2):S1-S59.
+
+335. Mauskop A, Varughese J. Why all migraine patients should be treated with magnesium. *J Neural Transm (Vienna)* 2012;119(5):575-579. doi:10.1007/s00702-012-0790-2
+
+336. Peikert A, Wilimzig C, Köhne-Volland R. Prophylaxis of migraine with oral magnesium: results from a prospective, multi-center, placebo-controlled and double-blind randomized study. *Cephalalgia* 1996;16(4):257-263. doi:10.1046/j.1468-2982.1996.1604257.x
+
+337. Boehnke C, Reuter U, Flach U, Schuh-Hofer S, Einhäupl KM, Arnold G. High-dose riboflavin treatment is efficacious in migraine prophylaxis: an open study in a tertiary care centre. *Eur J Neurol* 2004;11(7):475-477. doi:10.1111/j.1468-1331.2004.00813.x
+
+338. Schoenen J, Jacquy J, Lenaerts M. Effectiveness of high-dose riboflavin in migraine prophylaxis. A randomized controlled trial. *Neurology* 1998;50(2):466-470. doi:10.1212/wnl.50.2.466
+
+339. Sandor PS, Di Clemente L, Coppola G, et al. Efficacy of coenzyme Q10 in migraine prophylaxis: a randomized controlled trial. *Neurology* 2005;64(4):713-715. doi:10.1212/01.WNL.0000151975.03598.ED
+
+340. Diener HC, Holle D, Solbach K, Gaul C. Medication-overuse headache: risk factors, pathophysiology and management. *Nat Rev Neurol* 2016;12(10):575-583. doi:10.1038/nrneurol.2016.124
+
+341. American Headache Society. The American Headache Society position statement on integrating new migraine treatments into clinical practice. *Headache* 2019;59(1):1-18. doi:10.1111/head.13456
+
+342. Varkey E, Cider Å, Carlsson J, Linde M. Exercise as migraine prophylaxis: a randomized study using relaxation and topiramate as controls. *Cephalalgia* 2011;31(14):1428-1438. doi:10.1177/0333102411419681
+
+343. Petersen RC, Lopez O, Armstrong MJ, et al. Practice guideline update summary: mild cognitive impairment. *Neurology* 2018;90(3):126-135. doi:10.1212/WNL.0000000000004826
+
+344. Stough C, Downey LA, Lloyd J, et al. Examining the nootropic effects of a special extract of Bacopa monniera on human cognitive functioning: 90 day double-blind placebo-controlled randomized trial. *Phytother Res* 2008;22(12):1629-1634. doi:10.1002/ptr.2537
+
+345. Calabrese C, Gregory WL, Leo M, Kraemer D, Bone K, Oken B. Effects of a standardized Bacopa monnieri extract on cognitive performance, anxiety, and depression in the elderly: a randomized, double-blind, placebo-controlled trial. *J Altern Complement Med* 2008;14(6):707-713. doi:10.1089/acm.2008.0018
+
+346. Roodenrys S, Booth D, Bulzomi S, Phipps A, Micallef C, Smoker J. Chronic effects of Brahmi (Bacopa monnieri) on human memory. *Neuropsychopharmacology* 2002;27(2):279-281. doi:10.1016/S0893-133X(01)00419-5
+
+347. Erickson KI, Voss MW, Prakash RS, et al. Exercise training increases size of hippocampus and improves memory. *Proc Natl Acad Sci USA* 2011;108(7):3017-3022. doi:10.1073/pnas.1015950108
+
+348. Yaffe K, Falvey CM, Hoang T. Connections between sleep and cognition in older adults. *Lancet Neurol* 2014;13(10):1017-1028. doi:10.1016/S1474-4422(14)70172-3
+
+349. Yurko-Mauro K, McCarthy D, Rom D, et al. Beneficial effects of docosahexaenoic acid on cognition in age-related cognitive decline. *Alzheimers Dement* 2010;6(6):456-464. doi:10.1016/j.jalz.2010.01.013
+
+350. Slutsky I, Abumaria N, Wu LJ, et al. Enhancement of learning and memory by elevating brain magnesium. *Neuron* 2010;65(2):165-177. doi:10.1016/j.neuron.2009.12.026
+
+351. Liu G, Weinger JG, Lu ZL, Xue F, Sadeghpour S. Efficacy and safety of MMFS-01, a synapse density enhancer, for treating cognitive impairment in older adults: a randomized, double-blind, placebo-controlled trial. *J Alzheimers Dis* 2016;49(4):971-990. doi:10.3233/JAD-150538
+
+352. Livingston G, Huntley J, Liu KY, et al. Dementia prevention, intervention, and care: 2024 report of the Lancet standing Commission. *Lancet* 2024;404(10452):572-628. doi:10.1016/S0140-6736(24)01296-0
+
+353. Whelton PK, Carey RM, Aronow WS, et al. 2017 ACC/AHA/AAPA/ABC/ACPM/AGS/APhA/ASH/ASPC/NMA/PCNA Guideline for the Prevention, Detection, Evaluation, and Management of High Blood Pressure in Adults. *J Am Coll Cardiol* 2018;71(19):e127-e248. doi:10.1016/j.jacc.2017.11.006
+
+354. Williams B, Mancia G, Spiering W, et al. 2018 ESC/ESH Guidelines for the management of arterial hypertension. *Eur Heart J* 2018;39(33):3021-3104. doi:10.1093/eurheartj/ehy339
+
+355. Sacks FM, Svetkey LP, Vollmer WM, et al. Effects on blood pressure of reduced dietary sodium and the Dietary Approaches to Stop Hypertension (DASH) diet (DASH-Sodium). *N Engl J Med* 2001;344(1):3-10. doi:10.1056/NEJM200101043440101
+
+356. Appel LJ, Moore TJ, Obarzanek E, et al. A clinical trial of the effects of dietary patterns on blood pressure. *N Engl J Med* 1997;336(16):1117-1124. doi:10.1056/NEJM199704173361601
+
+357. Aburto NJ, Ziolkovska A, Hooper L, Elliott P, Cappuccio FP, Meerpohl JJ. Effect of lower sodium intake on health: systematic review and meta-analyses. *BMJ* 2013;346:f1326. doi:10.1136/bmj.f1326
+
+358. Aburto NJ, Hanson S, Gutierrez H, Hooper L, Elliott P, Cappuccio FP. Effect of increased potassium intake on cardiovascular risk factors and disease: systematic review and meta-analyses. *BMJ* 2013;346:f1378. doi:10.1136/bmj.f1378
+
+359. Webb AJ, Patel N, Loukogeorgakis S, et al. Acute blood pressure lowering, vasoprotective, and antiplatelet properties of dietary nitrate via bioconversion to nitrite. *Hypertension* 2008;51(3):784-790. doi:10.1161/HYPERTENSIONAHA.107.103523
+
+360. Lara J, Ashor AW, Oggioni C, et al. Effects of inorganic nitrate and beetroot supplementation on endothelial function: a systematic review and meta-analysis. *Eur J Nutr* 2016;55(2):451-459. doi:10.1007/s00394-015-0872-7
+
+361. Geleijnse JM, Kok FJ, Grobbee DE. Blood pressure response to changes in sodium and potassium intake: a metaregression analysis of randomised trials. *J Hum Hypertens* 2003;17(7):471-480. doi:10.1038/sj.jhh.1001575
+
+362. Rosenfeldt FL, Haas SJ, Krum H, et al. Coenzyme Q10 in the treatment of hypertension: a meta-analysis of the clinical trials. *J Hum Hypertens* 2007;21(4):297-306. doi:10.1038/sj.jhh.1002138
+
+> **NOTA:** sequência de escrita não-linear · Cap 32 escrito após Cap 34 · Cap 33 escrito após Cap 32. Refs 353-362 = Cap 34 · 363-372 = Cap 32 · 373-382 = Cap 33.
+
+373. Knowler WC, Barrett-Connor E, Fowler SE, et al. Reduction in the incidence of type 2 diabetes with lifestyle intervention or metformin (Diabetes Prevention Program). *N Engl J Med* 2002;346(6):393-403. doi:10.1056/NEJMoa012512
+
+374. Knowler WC, Fowler SE, Hamman RF, et al. 10-year follow-up of diabetes incidence and weight loss in the Diabetes Prevention Program Outcomes Study. *Lancet* 2009;374(9702):1677-1686. doi:10.1016/S0140-6736(09)61457-4
+
+375. Look AHEAD Research Group; Wing RR, Bolin P, et al. Cardiovascular effects of intensive lifestyle intervention in type 2 diabetes. *N Engl J Med* 2013;369(2):145-154. doi:10.1056/NEJMoa1212914
+
+376. Estruch R, Ros E, Salas-Salvadó J, et al. Primary prevention of cardiovascular disease with a Mediterranean diet supplemented with extra-virgin olive oil or nuts (PREDIMED). *N Engl J Med* 2018;378(25):e34. doi:10.1056/NEJMoa1800389
+
+377. Wilding JPH, Batterham RL, Calanna S, et al. Once-weekly semaglutide in adults with overweight or obesity (STEP-1). *N Engl J Med* 2021;384(11):989-1002. doi:10.1056/NEJMoa2032183
+
+378. Lincoff AM, Brown-Frandsen K, Colhoun HM, et al. Semaglutide and cardiovascular outcomes in obesity without diabetes (SELECT). *N Engl J Med* 2023;389(24):2221-2232. doi:10.1056/NEJMoa2307563
+
+379. Jastreboff AM, Aronne LJ, Ahmad NN, et al. Tirzepatide once weekly for the treatment of obesity (SURMOUNT-1). *N Engl J Med* 2022;387(3):205-216. doi:10.1056/NEJMoa2206038
+
+380. American Diabetes Association Professional Practice Committee. Standards of care in diabetes—2024. *Diabetes Care* 2024;47(Suppl 1):S1-S321. doi:10.2337/dc24-Sint
+
+381. Salas-Salvadó J, Bulló M, Babio N, et al. Reduction in the incidence of type 2 diabetes with the Mediterranean diet (PREDIMED). *Diabetes Care* 2011;34(1):14-19. doi:10.2337/dc10-1288
+
+382. Sociedade Brasileira de Diabetes (SBD). Diretrizes Sociedade Brasileira de Diabetes 2024-2025. (compilação atualizada · publicação contínua online · diretrizes.diabetes.org.br)
+
+383. Mach F, Baigent C, Catapano AL, et al. 2019 ESC/EAS Guidelines for the management of dyslipidaemias: lipid modification to reduce cardiovascular risk. *Eur Heart J* 2020;41(1):111-188. doi:10.1093/eurheartj/ehz455
+
+384. Grundy SM, Stone NJ, Bailey AL, et al. 2018 AHA/ACC/AACVPR/AAPA/ABC/ACPM/ADA/AGS/APhA/ASPC/NLA/PCNA Guideline on the Management of Blood Cholesterol. *J Am Coll Cardiol* 2019;73(24):e285-e350. doi:10.1016/j.jacc.2018.11.003
+
+385. Cannon CP, Blazing MA, Giugliano RP, et al. Ezetimibe added to statin therapy after acute coronary syndromes (IMPROVE-IT). *N Engl J Med* 2015;372(25):2387-2397. doi:10.1056/NEJMoa1410489
+
+386. Sabatine MS, Giugliano RP, Keech AC, et al. Evolocumab and clinical outcomes in patients with cardiovascular disease (FOURIER). *N Engl J Med* 2017;376(18):1713-1722. doi:10.1056/NEJMoa1615664
+
+387. Schwartz GG, Steg PG, Szarek M, et al. Alirocumab and cardiovascular outcomes after acute coronary syndrome (ODYSSEY OUTCOMES). *N Engl J Med* 2018;379(22):2097-2107. doi:10.1056/NEJMoa1801174
+
+388. Ray KK, Wright RS, Kallend D, et al. Two phase 3 trials of inclisiran in patients with elevated LDL cholesterol (ORION-10/11). *N Engl J Med* 2020;382(16):1507-1519. doi:10.1056/NEJMoa1912387
+
+389. Bhatt DL, Steg PG, Miller M, et al. Cardiovascular risk reduction with icosapent ethyl for hypertriglyceridemia (REDUCE-IT). *N Engl J Med* 2019;380(1):11-22. doi:10.1056/NEJMoa1812792
+
+390. Greenland P, Blaha MJ, Budoff MJ, Erbel R, Watson KE. Coronary calcium score and cardiovascular risk. *J Am Coll Cardiol* 2018;72(4):434-447. doi:10.1016/j.jacc.2018.05.027
+
+391. Tsimikas S. A test in context: lipoprotein(a): diagnosis, prognosis, controversies, and emerging therapies. *J Am Coll Cardiol* 2017;69(6):692-711. doi:10.1016/j.jacc.2016.11.042
+
+392. Davidson KW, Barry MJ, Mangione CM, et al. Aspirin use to prevent cardiovascular disease: US Preventive Services Task Force recommendation statement. *JAMA* 2022;327(16):1577-1584. doi:10.1001/jama.2022.4983
+
+393. Bannuru RR, Osani MC, Vaysbrot EE, et al. OARSI guidelines for the non-surgical management of knee, hip, and polyarticular osteoarthritis. *Osteoarthritis Cartilage* 2019;27(11):1578-1589. doi:10.1016/j.joca.2019.06.011
+
+394. Kolasinski SL, Neogi T, Hochberg MC, et al. 2019 American College of Rheumatology/Arthritis Foundation Guideline for the Management of Osteoarthritis of the Hand, Hip, and Knee. *Arthritis Rheumatol* 2020;72(2):220-233. doi:10.1002/art.41142
+
+395. Hochberg MC, Martel-Pelletier J, Monfort J, et al. Combined chondroitin sulfate and glucosamine for painful knee osteoarthritis: a multicentre, randomised, double-blind, non-inferiority trial versus celecoxib (MOVES). *Ann Rheum Dis* 2016;75(1):37-44. doi:10.1136/annrheumdis-2014-206792
+
+396. Clegg DO, Reda DJ, Harris CL, et al. Glucosamine, chondroitin sulfate, and the two in combination for painful knee osteoarthritis (GAIT). *N Engl J Med* 2006;354(8):795-808. doi:10.1056/NEJMoa052771
+
+397. Lugo JP, Saiyed ZM, Lane NE. Efficacy and tolerability of an undenatured type II collagen supplement in modulating knee osteoarthritis symptoms: a multicenter randomized, double-blind, placebo-controlled study. *Nutr J* 2016;15:14. doi:10.1186/s12937-016-0130-8
+
+398. Zdzieblik D, Oesser S, Baumstark MW, Gollhofer A, König D. Collagen peptide supplementation in combination with resistance training improves body composition and increases muscle strength in elderly sarcopenic men. *Br J Nutr* 2015;114(8):1237-1245. doi:10.1017/S0007114515002810
+
+399. Kuptniratsaikul V, Dajpratham P, Taechaarpornkul W, et al. Efficacy and safety of Curcuma domestica extracts compared with ibuprofen in patients with knee osteoarthritis: a multicenter study. *Clin Interv Aging* 2014;9:451-458. doi:10.2147/CIA.S58535
+
+400. Calder PC. Omega-3 fatty acids and inflammatory processes: from molecules to man. *Biochem Soc Trans* 2017;45(5):1105-1115. doi:10.1042/BST20160474
+
+401. Pearle AD, Scanzello CR, George S, et al. Elevated high-sensitivity C-reactive protein levels are associated with local inflammatory findings in patients with osteoarthritis. *Osteoarthritis Cartilage* 2007;15(5):516-523. doi:10.1016/j.joca.2006.10.010
+
+402. Clark KL, Sebastianelli W, Flechsenhar KR, et al. 24-week study on the use of collagen hydrolysate as a dietary supplement in athletes with activity-related joint pain. *Curr Med Res Opin* 2008;24(5):1485-1496. doi:10.1185/030079908X291967
+
+403. Cosman F, de Beur SJ, LeBoff MS, et al. Clinician's guide to prevention and treatment of osteoporosis. *Osteoporos Int* 2014;25(10):2359-2381. doi:10.1007/s00198-014-2794-2
+
+404. Camacho PM, Petak SM, Binkley N, et al. American Association of Clinical Endocrinologists/American College of Endocrinology clinical practice guidelines for the diagnosis and treatment of postmenopausal osteoporosis—2020 update. *Endocr Pract* 2020;26(Suppl 1):1-46. doi:10.4158/GL-2020-0524SUPPL
+
+405. Manson JE, Aragaki AK, Rossouw JE, et al. Menopausal hormone therapy and long-term all-cause and cause-specific mortality: the Women's Health Initiative randomized trials (18-year follow-up). *JAMA* 2017;318(10):927-938. doi:10.1001/jama.2017.11217
+
+406. Black DM, Delmas PD, Eastell R, et al. Once-yearly zoledronic acid for treatment of postmenopausal osteoporosis (HORIZON-PFT). *N Engl J Med* 2007;356(18):1809-1822. doi:10.1056/NEJMoa067312
+
+407. Cummings SR, San Martin J, McClung MR, et al. Denosumab for prevention of fractures in postmenopausal women with osteoporosis (FREEDOM). *N Engl J Med* 2009;361(8):756-765. doi:10.1056/NEJMoa0809493
+
+408. Watson SL, Weeks BK, Weis LJ, Harding AT, Horan SA, Beck BR. High-intensity resistance and impact training improves bone mineral density and physical function in postmenopausal women with osteopenia and osteoporosis: the LIFTMOR randomized controlled trial. *J Bone Miner Res* 2018;33(2):211-220. doi:10.1002/jbmr.3284
+
+409. Argyrou C, Karlafti E, Lampropoulou-Adamidou K, et al. Effect of calcium and vitamin D supplementation with and without collagen peptides on bone turnover in postmenopausal women with osteopenia. *J Musculoskelet Neuronal Interact* 2020;20(1):12-17.
+
+410. Bolland MJ, Avenell A, Baron JA, et al. Effect of calcium supplements on risk of myocardial infarction and cardiovascular events: meta-analysis. *BMJ* 2010;341:c3691. doi:10.1136/bmj.c3691
+
+411. Smith-Ryan AE, Cabre HE, Eckerson JM, Candow DG. Creatine supplementation in women's health: a lifespan perspective. *Nutrients* 2025;17(4) (review · cruzada com Cap 7+31+37 · referência de revisão integrada de creatina em saúde feminina ao longo da vida)
+
+412. Tang BMP, Eslick GD, Nowson C, Smith C, Bensoussan A. Use of calcium or calcium in combination with vitamin D supplementation to prevent fractures and bone loss in people aged 50 years and older: a meta-analysis. *Lancet* 2007;370(9588):657-666. doi:10.1016/S0140-6736(07)61342-7
+
+413. de Vrese M, Winkler P, Rautenberg P, et al. Effect of Lactobacillus gasseri PA 16/8, Bifidobacterium longum SP 07/3, B. bifidum MF 20/5 on common cold episodes: a double blind, randomized, controlled trial. *Clin Nutr* 2005;24(4):481-491. doi:10.1016/j.clnu.2005.02.006
+
+414. Berggren A, Lazou Ahrén I, Larsson N, Önning G. Randomised, double-blind and placebo-controlled study using new probiotic lactobacilli for strengthening the body immune defence against viral infections. *Eur J Nutr* 2011;50(3):203-210. doi:10.1007/s00394-010-0127-6
+
+415. Hemilä H, Chalker E. Vitamin C for preventing and treating the common cold. *Cochrane Database Syst Rev* 2013;(1):CD000980. doi:10.1002/14651858.CD000980.pub4
+
+416. Hemilä H. Zinc lozenges and the common cold: a meta-analysis comparing zinc acetate and zinc gluconate, and the role of zinc dosage. *JRSM Open* 2017;8(5):2054270417694291. doi:10.1177/2054270417694291
+
+417. Karsch-Völk M, Barrett B, Kiefer D, Bauer R, Ardjomand-Woelkart K, Linde K. Echinacea for preventing and treating the common cold. *Cochrane Database Syst Rev* 2014;(2):CD000530. doi:10.1002/14651858.CD000530.pub3
+
+418. Tiralongo E, Wee SS, Lea RA. Elderberry supplementation reduces cold duration and symptoms in air-travellers: a randomized, double-blind placebo-controlled clinical trial. *Nutrients* 2016;8(4):182. doi:10.3390/nu8040182
+
+419. Manzoni P, Rinaldi M, Cattani S, et al. Bovine lactoferrin supplementation for prevention of late-onset sepsis in very low-birth-weight neonates: a randomized trial. *JAMA* 2009;302(13):1421-1428. doi:10.1001/jama.2009.1403
+
+420. Patel K, Rana R. Pedimune in recurrent respiratory infection and diarrhoea: the Indian experience. *Indian J Pediatr* 2007;74(3):323-327. doi:10.1007/s12098-007-0050-x
+
+421. Brinkworth GD, Buckley JD. Concentrated bovine colostrum protein supplementation reduces the incidence of self-reported symptoms of upper respiratory tract infection in adult males. *Eur J Nutr* 2003;42(4):228-232. doi:10.1007/s00394-003-0410-x
+
+422. Nieman DC. Marathon training and immune function. *Sports Med* 2007;37(4-5):412-415. doi:10.2165/00007256-200737040-00036
+
+423. AREDS Research Group. A randomized, placebo-controlled, clinical trial of high-dose supplementation with vitamins C and E, beta carotene, and zinc for age-related macular degeneration and vision loss: AREDS report no. 8. *Arch Ophthalmol* 2001;119(10):1417-1436. doi:10.1001/archopht.119.10.1417
+
+424. Chew EY, Clemons TE, Agrón E, et al. Long-term effects of vitamins C and E, β-carotene, and zinc on age-related macular degeneration: AREDS report no. 35. *Ophthalmology* 2013;120(8):1604-1611. doi:10.1016/j.ophtha.2013.01.021
+
+425. AREDS2 Research Group, Chew EY, SanGiovanni JP, et al. Lutein/zeaxanthin and omega-3 fatty acids for age-related macular degeneration: AREDS2 randomized trial. *JAMA* 2013;309(19):2005-2015. doi:10.1001/jama.2013.4997
+
+426. Quaranta L, Bettelli S, Uva MG, Semeraro F, Turano R, Gandolfo E. Effect of Ginkgo biloba extract on preexisting visual field damage in normal tension glaucoma. *Ophthalmology* 2003;110(2):359-362. doi:10.1016/S0161-6420(02)01745-1
+
+427. Hirooka K, Tokuda M, Miyamoto O, Itano T, Baba T, Shiraga F. The Ginkgo biloba extract (EGb 761) provides a neuroprotective effect on retinal ganglion cells in a rat model of chronic glaucoma. *Curr Eye Res* 2008;33(11):1067-1073. doi:10.1080/02713680802461842
+
+428. Kang JH, Pasquale LR, Willett W, et al. Antioxidant intake and primary open-angle glaucoma: a prospective study. *Am J Epidemiol* 2003;158(4):337-346. doi:10.1093/aje/kwg167
+
+429. Bhargava R, Kumar P, Kumar M, Mehra N, Mishra A. A randomized controlled trial of omega-3 fatty acids in dry eye syndrome. *Int J Ophthalmol* 2013;6(6):811-816. doi:10.3980/j.issn.2222-3959.2013.06.13
+
+430. Klein R, Klein BE, Linton KL. Prevalence of age-related maculopathy: the Beaver Dam Eye Study. *Ophthalmology* 1992;99(6):933-943. doi:10.1016/S0161-6420(92)31871-8
+
+431. CATT Research Group, Martin DF, Maguire MG, et al. Ranibizumab and bevacizumab for neovascular age-related macular degeneration. *N Engl J Med* 2011;364(20):1897-1908. doi:10.1056/NEJMoa1102673
+
+432. Stein JD, Khawaja AP, Weizer JS. Glaucoma in adults — screening, diagnosis, and management: a review. *JAMA* 2021;325(2):164-174. doi:10.1001/jama.2020.21899
+
+433. Niedzielin K, Kordecki H, Birkenfeld B. A controlled, double-blind, randomized study on the efficacy of Lactobacillus plantarum 299V in patients with irritable bowel syndrome. *Eur J Gastroenterol Hepatol* 2001;13(10):1143-1147. doi:10.1097/00042737-200110000-00004
+
+434. O'Mahony L, McCarthy J, Kelly P, et al. Lactobacillus and bifidobacterium in irritable bowel syndrome: symptom responses and relationship to cytokine profiles. *Gastroenterology* 2005;128(3):541-551. doi:10.1053/j.gastro.2004.11.050
+
+435. Kruis W, Frič P, Pokrotnieks J, et al. Maintaining remission of ulcerative colitis with the probiotic Escherichia coli Nissle 1917 is as effective as with standard mesalazine. *Gut* 2004;53(11):1617-1623. doi:10.1136/gut.2003.037747
+
+436. Mimura T, Rizzello F, Helwig U, et al. Once daily high dose probiotic therapy (VSL#3) for maintaining remission in recurrent or refractory pouchitis. *Gut* 2004;53(1):108-114. doi:10.1136/gut.53.1.108
+
+437. Lang A, Salomon N, Wu JC, et al. Curcumin in combination with mesalamine induces remission in patients with mild-to-moderate ulcerative colitis in a randomized controlled trial. *Clin Gastroenterol Hepatol* 2015;13(8):1444-1449. doi:10.1016/j.cgh.2015.02.019
+
+438. Depommier C, Everard A, Druart C, et al. Supplementation with Akkermansia muciniphila in overweight and obese human volunteers: a proof-of-concept exploratory study. *Nat Med* 2019;25(7):1096-1103. doi:10.1038/s41591-019-0495-2
+
+439. McFarland LV. Meta-analysis of probiotics for the prevention of antibiotic associated diarrhea and the treatment of Clostridium difficile disease. *Am J Gastroenterol* 2006;101(4):812-822. doi:10.1111/j.1572-0241.2006.00465.x
+
+440. Halmos EP, Power VA, Shepherd SJ, Gibson PR, Muir JG. A diet low in FODMAPs reduces symptoms of irritable bowel syndrome. *Gastroenterology* 2014;146(1):67-75.e5. doi:10.1053/j.gastro.2013.09.046
+
+441. Chey WD, Whelan K. Dietary guidance for patients with irritable bowel syndrome. *Aliment Pharmacol Ther* 2021;54(6):665-675. doi:10.1111/apt.16554
+
+442. Lo WK, Chan WW. Proton pump inhibitor use and the risk of small intestinal bacterial overgrowth: a meta-analysis. *Clin Gastroenterol Hepatol* 2013;11(5):483-490. doi:10.1016/j.cgh.2012.12.011
+
+443. Livingston G, Huntley J, Liu KY, et al. Dementia prevention, intervention, and care: 2024 report of the Lancet standing Commission. *Lancet* 2024;404(10452):572-628. doi:10.1016/S0140-6736(24)01296-0
+
+444. Ngandu T, Lehtisalo J, Solomon A, et al. A 2 year multidomain intervention of diet, exercise, cognitive training, and vascular risk monitoring versus control to prevent cognitive decline in at-risk elderly people (FINGER): a randomised controlled trial. *Lancet* 2015;385(9984):2255-2263. doi:10.1016/S0140-6736(15)60461-5
+
+445. Morris MC, Tangney CC, Wang Y, Sacks FM, Bennett DA, Aggarwal NT. MIND diet associated with reduced incidence of Alzheimer's disease. *Alzheimers Dement* 2015;11(9):1007-1014. doi:10.1016/j.jalz.2014.11.009
+
+446. van Dyck CH, Swanson CJ, Aisen P, et al. Lecanemab in early Alzheimer's disease (CLARITY-AD). *N Engl J Med* 2023;388(1):9-21. doi:10.1056/NEJMoa2212948
+
+447. Sims JR, Zimmer JA, Evans CD, et al. Donanemab in early symptomatic Alzheimer disease (TRAILBLAZER-ALZ 2). *JAMA* 2023;330(6):512-527. doi:10.1001/jama.2023.13239
+
+448. Lin FR, Pike JR, Albert MS, et al. Hearing intervention versus health education control to reduce cognitive decline in older adults with hearing loss in the USA (ACHIEVE). *Lancet* 2023;402(10404):786-797. doi:10.1016/S0140-6736(23)01406-X
+
+449. Mori K, Inatomi S, Ouchi K, Azumi Y, Tuchida T. Improving effects of the mushroom Yamabushitake (Hericium erinaceus) on mild cognitive impairment: a double-blind placebo-controlled clinical trial. *Phytother Res* 2009;23(3):367-372. doi:10.1002/ptr.2634
+
+450. Stough C, Downey LA, Lloyd J, et al. Examining the nootropic effects of a special extract of Bacopa monniera on human cognitive functioning: 90 day double-blind placebo-controlled randomized trial. *Phytother Res* 2008;22(12):1629-1634. doi:10.1002/ptr.2537
+
+451. Snitz BE, O'Meara ES, Carlson MC, et al. Ginkgo biloba for preventing cognitive decline in older adults (GEM). *JAMA* 2009;302(24):2663-2670. doi:10.1001/jama.2009.1913
+
+452. Yurko-Mauro K, McCarthy D, Rom D, et al. Beneficial effects of docosahexaenoic acid on cognition in age-related cognitive decline (MIDAS). *Alzheimers Dement* 2010;6(6):456-464. doi:10.1016/j.jalz.2010.01.013
+
+453. Davis HE, McCorkell L, Vogel JM, Topol EJ. Long COVID: major findings, mechanisms and recommendations. *Nat Rev Microbiol* 2023;21(3):133-146. doi:10.1038/s41579-022-00846-2
+
+454. Castro-Marrero J, Cordero MD, Sáez-Francas N, et al. Could mitochondrial dysfunction be a differentiating marker between chronic fatigue syndrome and fibromyalgia? *Antioxid Redox Signal* 2013;19(15):1855-1860. doi:10.1089/ars.2013.5346
+
+455. Castro-Marrero J, Sáez-Francàs N, Segundo MJ, et al. Effect of coenzyme Q10 plus nicotinamide adenine dinucleotide supplementation on maximum heart rate after exercise testing in chronic fatigue syndrome — a randomized, controlled, double-blind trial. *Clin Nutr* 2016;35(4):826-834. doi:10.1016/j.clnu.2015.07.010
+
+456. Lerner AM, Beqaj SH, Deeter RG, Fitzgerald JT. Valacyclovir treatment in Epstein-Barr virus subset chronic fatigue syndrome: thirty-six months follow-up. *In Vivo* 2007;21(5):707-713.
+
+457. Pretorius E, Vlok M, Venter C, et al. Persistent clotting protein pathology in long COVID/post-acute sequelae of COVID-19 (PASC) is accompanied by increased levels of antiplasmin. *Cardiovasc Diabetol* 2021;20(1):172. doi:10.1186/s12933-021-01359-7
+
+458. Yeoh YK, Zuo T, Lui GC, et al. Gut microbiota composition reflects disease severity and dysfunctional immune responses in patients with COVID-19. *Gut* 2021;70(4):698-706. doi:10.1136/gutjnl-2020-323020
+
+459. Bisaccia G, Ricci F, Recce V, et al. Post-acute sequelae of COVID-19 cardiovascular symptoms: a multidisciplinary approach. *Trends Cardiovasc Med* 2021;31(3):143-145. doi:10.1016/j.tcm.2020.12.006
+
+460. Antonelli M, Penfold RS, Merino J, et al. Risk factors and disease profile of post-vaccination SARS-CoV-2 infection in UK users of the COVID Symptom Study app. *Lancet Infect Dis* 2022;22(1):43-55. doi:10.1016/S1473-3099(21)00460-6
+
+461. Geraghty K, Hann M, Kurtev S. Myalgic encephalomyelitis/chronic fatigue syndrome patients' reports of symptom changes following cognitive behavioural therapy, graded exercise therapy and pacing treatments. *J Health Psychol* 2019;24(10):1318-1333. doi:10.1177/1359105317726152
+
+462. Davenport TE, Stevens SR, Baroni K, Van Ness JM, Snell CR. Diagnostic accuracy of symptoms characterising chronic fatigue syndrome. *Disabil Rehabil* 2010;33(19-20):1768-1775. doi:10.3109/09638288.2010.546936
+
+463. Johnson SB, Park HS, Gross CP, Yu JB. Use of alternative medicine for cancer and its impact on survival. *J Natl Cancer Inst* 2018;110(1):djx145. doi:10.1093/jnci/djx145
+
+464. Goodwin PJ, Ennis M, Pritchard KI, Koo J, Hood N. Prognostic effects of 25-hydroxyvitamin D levels in early breast cancer. *J Clin Oncol* 2009;27(23):3757-3763. doi:10.1200/JCO.2008.20.0725
+
+465. Ghoreishi Z, Esfahani A, Djazayeri A, et al. Omega-3 fatty acids are protective against paclitaxel-induced peripheral neuropathy: a randomized double-blind placebo controlled trial. *BMC Cancer* 2012;12:355. doi:10.1186/1471-2407-12-355
+
+466. Hershman DL, Unger JM, Crew KD, et al. Randomized double-blind placebo-controlled trial of acetyl-L-carnitine for the prevention of taxane-induced neuropathy in women undergoing adjuvant breast cancer therapy. *J Clin Oncol* 2013;31(20):2627-2633. doi:10.1200/JCO.2012.44.8738
+
+467. Ryan JL, Heckler CE, Roscoe JA, et al. Ginger (Zingiber officinale) reduces acute chemotherapy-induced nausea: a URCC CCOP study of 576 patients. *Support Care Cancer* 2012;20(7):1479-1489. doi:10.1007/s00520-011-1236-3
+
+468. Hayes SC, Newton RU, Spence RR, Galvão DA. The Exercise and Sports Science Australia position statement: exercise medicine in cancer management. *J Sci Med Sport* 2019;22(11):1175-1199. doi:10.1016/j.jsams.2019.05.003
+
+469. Bairati I, Meyer F, Gélinas M, et al. Randomized trial of antioxidant vitamins to prevent acute adverse effects of radiation therapy in head and neck cancer patients. *J Clin Oncol* 2005;23(24):5805-5813. doi:10.1200/JCO.2005.05.514
+
+470. Heaney ML, Gardner JR, Karasavvas N, et al. Vitamin C antagonizes the cytotoxic effects of antineoplastic drugs. *Cancer Res* 2008;68(19):8031-8038. doi:10.1158/0008-5472.CAN-08-1490
+
+471. Lippman SM, Klein EA, Goodman PJ, et al. Effect of selenium and vitamin E on risk of prostate cancer and other cancers: SELECT trial. *JAMA* 2009;301(1):39-51. doi:10.1001/jama.2008.864
+
+472. Routy B, Le Chatelier E, Derosa L, et al. Gut microbiome influences efficacy of PD-1-based immunotherapy against epithelial tumors. *Science* 2018;359(6371):91-97. doi:10.1126/science.aan3706
+
+473. Tacklind J, MacDonald R, Rutks I, Stanke JU, Wilt TJ. Serenoa repens for benign prostatic hyperplasia. *Cochrane Database Syst Rev* 2012;12:CD001423. doi:10.1002/14651858.CD001423.pub3
+
+474. Wilt T, Ishani A, MacDonald R, Stark G, Mulrow C, Lau J. Beta-sitosterols for benign prostatic hyperplasia. *Cochrane Database Syst Rev* 2000;(2):CD001043. doi:10.1002/14651858.CD001043
+
+475. Bent S, Kane C, Shinohara K, et al. Saw palmetto for benign prostatic hyperplasia. *N Engl J Med* 2006;354(6):557-566. doi:10.1056/NEJMoa053085
+
+476. McConnell JD, Roehrborn CG, Bautista OM, et al. The long-term effect of doxazosin, finasteride, and combination therapy on the clinical progression of benign prostatic hyperplasia (MTOPS). *N Engl J Med* 2003;349(25):2387-2398. doi:10.1056/NEJMoa030656
+
+477. Inman BA, Sauver JL, Jacobson DJ, et al. A population-based, longitudinal study of erectile dysfunction and future coronary artery disease. *Mayo Clin Proc* 2009;84(2):108-113. doi:10.1016/S0025-6196(11)60816-1
+
+478. Bhasin S, Brito JP, Cunningham GR, et al. Testosterone therapy in men with hypogonadism: an Endocrine Society clinical practice guideline. *J Clin Endocrinol Metab* 2018;103(5):1715-1744. doi:10.1210/jc.2018-00229
+
+479. Lincoff AM, Bhasin S, Flevaris P, et al. Cardiovascular safety of testosterone-replacement therapy (TRAVERSE). *N Engl J Med* 2023;389(2):107-117. doi:10.1056/NEJMoa2215025
+
+480. Safarinejad MR, Safarinejad S, Shafiei N, Safarinejad S. Effects of the reduced form of coenzyme Q10 (ubiquinol) on semen parameters in men with idiopathic infertility: a double-blind, placebo controlled, randomized study. *J Urol* 2012;188(2):526-531. doi:10.1016/j.juro.2012.03.131
+
+481. Lenzi A, Sgrò P, Salacone P, et al. A placebo-controlled double-blind randomized trial of the use of combined L-carnitine and L-acetyl-carnitine treatment in men with asthenozoospermia. *Fertil Steril* 2004;81(6):1578-1584. doi:10.1016/j.fertnstert.2003.10.034
+
+482. Lopresti AL, Drummond PD, Smith SJ. A randomized, double-blind, placebo-controlled, crossover study examining the hormonal and vitality effects of ashwagandha (Withania somnifera) in aging, overweight males. *Am J Mens Health* 2019;13(2):1557988319835985. doi:10.1177/1557988319835985
+
+483. Schellenberg R. Treatment for the premenstrual syndrome with agnus castus fruit extract: prospective, randomised, placebo controlled study. *BMJ* 2001;322(7279):134-137. doi:10.1136/bmj.322.7279.134
+
+484. Loch EG, Selle H, Boblitz N. Treatment of premenstrual syndrome with a phytopharmaceutical formulation containing Vitex agnus castus. *J Womens Health Gend Based Med* 2000;9(3):315-320. doi:10.1089/152460900318515
+
+485. Thys-Jacobs S, Starkey P, Bernstein D, Tian J. Calcium carbonate and the premenstrual syndrome: effects on premenstrual and menstrual symptoms. *Am J Obstet Gynecol* 1998;179(2):444-452. doi:10.1016/s0002-9378(98)70377-1
+
+486. Ozgoli G, Goli M, Moattar F. Comparison of effects of ginger, mefenamic acid, and ibuprofen on pain in women with primary dysmenorrhea. *J Altern Complement Med* 2009;15(2):129-132. doi:10.1089/acm.2008.0311
+
+487. Unfer V, Facchinetti F, Orrù B, Giordani B, Nestler J. Myo-inositol effects in women with PCOS: a meta-analysis of randomized controlled trials. *Endocr Connect* 2017;6(8):647-658. doi:10.1530/EC-17-0243
+
+488. Bentov Y, Hannam T, Jurisicova A, Esfandiari N, Casper RF. Coenzyme Q10 supplementation and oocyte aneuploidy in women undergoing IVF-ICSI treatment. *Clin Med Insights Reprod Health* 2014;8:31-36. doi:10.4137/CMRH.S14681
+
+489. Frei-Kleiner S, Schaffner W, Rahlfs VW, Bodmer C, Birkhäuser M. Cimicifuga racemosa dried ethanolic extract in menopausal disorders: a double-blind placebo-controlled clinical trial. *Maturitas* 2005;51(4):397-404. doi:10.1016/j.maturitas.2004.10.004
+
+490. Brooks NA, Wilcox G, Walker KZ, et al. Beneficial effects of Lepidium meyenii (Maca) on psychological symptoms and measures of sexual dysfunction in postmenopausal women. *Menopause* 2008;15(6):1157-1162. doi:10.1097/gme.0b013e3181732953
+
+491. Manson JE, Aragaki AK, Bassuk SS, et al. Menopausal estrogen-alone therapy and health outcomes in women with and without bilateral oophorectomy: a randomized trial. *Ann Intern Med* 2019;171(6):406-414. doi:10.7326/M19-0274
+
+492. Genazzani AD, Lanzoni C, Ricchieri F, Jasonni VM. Myo-inositol administration positively affects hyperinsulinemia and hormonal parameters in overweight patients with polycystic ovary syndrome. *Gynecol Endocrinol* 2008;24(3):139-144. doi:10.1080/09513590801893232
+
+493. The 2022 hormone therapy position statement of The North American Menopause Society. *Menopause* 2022;29(7):767-794. doi:10.1097/GME.0000000000002028
+
+494. Manson JE, Aragaki AK, Rossouw JE, et al. Menopausal hormone therapy and long-term all-cause and cause-specific mortality: the Women's Health Initiative randomized trials (18-year follow-up). *JAMA* 2017;318(10):927-938. doi:10.1001/jama.2017.11217
+
+495. Nelson HD. Menopause. *Lancet* 2008;371(9614):760-770. doi:10.1016/S0140-6736(08)60346-3
+
+496. Stuenkel CA, Davis SR, Gompel A, et al. Treatment of symptoms of the menopause: an Endocrine Society clinical practice guideline. *J Clin Endocrinol Metab* 2015;100(11):3975-4011. doi:10.1210/jc.2015-2236
+
+497. Rebbeck TR, Kauff ND, Domchek SM. Meta-analysis of risk reduction estimates associated with risk-reducing salpingo-oophorectomy in BRCA1 or BRCA2 mutation carriers. *J Natl Cancer Inst* 2009;101(2):80-87. doi:10.1093/jnci/djn442
+
+498. Hartmann LC, Lindor NM. The role of risk-reducing surgery in hereditary breast and ovarian cancer. *N Engl J Med* 2016;374(5):454-468. doi:10.1056/NEJMra1503523
+
+499. Greendale GA, Reboussin BA, Hogan P, et al. Symptom relief and side effects of postmenopausal hormones: results from the Postmenopausal Estrogen/Progestin Interventions Trial. *Obstet Gynecol* 1998;92(6):982-988. doi:10.1016/S0029-7844(98)00305-6
+
+500. Davis SR, Baber R, Panay N, et al. Global Consensus Position Statement on the Use of Testosterone Therapy for Women. *J Clin Endocrinol Metab* 2019;104(10):4660-4666. doi:10.1210/jc.2019-01603
+
+501. Labrie F, Archer DF, Koltun W, et al. Efficacy of intravaginal dehydroepiandrosterone (DHEA · prasterona) on moderate to severe dyspareunia and vaginal dryness in postmenopausal women. *Menopause* 2016;23(3):243-256. doi:10.1097/GME.0000000000000571
+
+502. Faubion SS, Crandall CJ, Davis L, et al. The 2023 nonhormone therapy position statement of The North American Menopause Society. *Menopause* 2023;30(6):573-590. doi:10.1097/GME.0000000000002200
+
+503. World Health Organization. WHO laboratory manual for the examination and processing of human semen. 6th ed. Geneva: World Health Organization; 2021.
+
+504. Cooper TG, Noonan E, von Eckardstein S, et al. World Health Organization reference values for human semen characteristics. *Hum Reprod Update* 2010;16(3):231-245. doi:10.1093/humupd/dmp048
+
+505. Salas-Huetos A, James ER, Aston KI, Jenkins TG, Carrell DT. Diet and sperm quality: nutrients, foods and dietary patterns. *Reprod Biol* 2019;19(3):219-224. doi:10.1016/j.repbio.2019.07.005
+
+506. Ciftci H, Verit A, Savas M, Yeni E, Erel O. Effects of N-acetylcysteine on semen parameters and oxidative/antioxidant status. *Urology* 2009;74(1):73-76. doi:10.1016/j.urology.2009.02.034
+
+507. Calogero AE, Gullo G, La Vignera S, Condorelli RA, Vaiarelli A. Myoinositol improves sperm parameters and serum reproductive hormones in patients with idiopathic infertility: a prospective double-blind randomized placebo-controlled study. *Andrology* 2015;3(3):491-495. doi:10.1111/andr.12025
+
+508. Esteves SC, Roque M, Bedoschi G, et al. Intracytoplasmic sperm injection for male infertility and consequences for offspring. *Nat Rev Urol* 2018;15(9):535-562. doi:10.1038/s41585-018-0051-8
+
+509. Practice Committee of the American Society for Reproductive Medicine. Diagnostic evaluation of the infertile male: a committee opinion. *Fertil Steril* 2015;103(3):e18-e25. doi:10.1016/j.fertnstert.2014.12.103
+
+510. Showell MG, Mackenzie-Proctor R, Brown J, Yazdani A, Stankiewicz MT, Hart RJ. Antioxidants for male subfertility. *Cochrane Database Syst Rev* 2014;(12):CD007411. doi:10.1002/14651858.CD007411.pub3
+
+511. Smit M, Romijn JC, Wildhagen MF, Veldhoven JL, Weber RF, Dohle GR. Decreased sperm DNA fragmentation after surgical varicocelectomy is associated with increased pregnancy rate. *J Urol* 2013;189(1 Suppl):S146-S150. doi:10.1016/j.juro.2012.11.024
+
+512. Agarwal A, Mulgund A, Hamada A, Chyatte MR. A unique view on male infertility around the globe. *Reprod Biol Endocrinol* 2015;13:37. doi:10.1186/s12958-015-0032-1
+
+513. Meeusen R, Duclos M, Foster C, et al. Prevention, diagnosis, and treatment of the overtraining syndrome: joint consensus statement of the European College of Sport Science and the American College of Sports Medicine. *Med Sci Sports Exerc* 2013;45(1):186-205. doi:10.1249/MSS.0b013e318279a10a
+
+514. Kongsgaard M, Kovanen V, Aagaard P, et al. Corticosteroid injections, eccentric decline squat training and heavy slow resistance training in patellar tendinopathy. *Scand J Med Sci Sports* 2009;19(6):790-802. doi:10.1111/j.1600-0838.2009.00949.x
+
+515. Howatson G, McHugh MP, Hill JA, et al. Influence of tart cherry juice on indices of recovery following marathon running. *Scand J Med Sci Sports* 2010;20(6):843-852. doi:10.1111/j.1600-0838.2009.01005.x
+
+516. Wankhede S, Langade D, Joshi K, Sinha SR, Bhattacharyya S. Examining the effect of Withania somnifera supplementation on muscle strength and recovery: a randomized controlled trial. *J Int Soc Sports Nutr* 2015;12:43. doi:10.1186/s12970-015-0104-9
+
+517. Spriet LL. Exercise and sport performance with low doses of caffeine. *Sports Med* 2014;44(Suppl 2):S175-S184. doi:10.1007/s40279-014-0257-8
+
+518. Trexler ET, Smith-Ryan AE, Stout JR, et al. International society of sports nutrition position stand: Beta-Alanine. *J Int Soc Sports Nutr* 2015;12:30. doi:10.1186/s12970-015-0090-y
+
+519. Paulsen G, Cumming KT, Holden G, et al. Vitamin C and E supplementation hampers cellular adaptation to endurance training in humans: a double-blind, randomised, controlled trial. *J Physiol* 2014;592(8):1887-1901. doi:10.1113/jphysiol.2013.267419
+
+520. Ristow M, Zarse K, Oberbach A, et al. Antioxidants prevent health-promoting effects of physical exercise in humans. *Proc Natl Acad Sci U S A* 2009;106(21):8665-8670. doi:10.1073/pnas.0903485106
+
+521. Roberts LA, Raastad T, Markworth JF, et al. Post-exercise cold water immersion attenuates acute anabolic signalling and long-term adaptations in muscle to strength training. *J Physiol* 2015;593(18):4285-4301. doi:10.1113/JP270570
+
+522. Lara J, Ashor AW, Oggioni C, Ahluwalia A, Mathers JC, Siervo M. Effects of inorganic nitrate and beetroot supplementation on endothelial function: a systematic review and meta-analysis. *Eur J Nutr* 2016;55(2):451-459. doi:10.1007/s00394-015-0872-7
+
+523. Trauer JM, Qian MY, Doyle JS, Rajaratnam SM, Cunnington D. Cognitive behavioral therapy for chronic insomnia: a systematic review and meta-analysis. *Ann Intern Med* 2015;163(3):191-204. doi:10.7326/M14-2841
+
+524. Edinger JD, Wohlgemuth WK, Radtke RA, Marsh GR, Quillian RE. Cognitive behavioral therapy for treatment of chronic primary insomnia: a randomized controlled trial. *JAMA* 2001;285(14):1856-1864. doi:10.1001/jama.285.14.1856
+
+525. Loprinzi CL, Kugler JW, Sloan JA, et al. Venlafaxine in management of hot flashes in survivors of breast cancer: a randomised controlled trial. *Lancet* 2000;356(9247):2059-2063. doi:10.1016/S0140-6736(00)03403-6
+
+526. Freeman EW, Guthrie KA, Caan B, et al. Efficacy of escitalopram for hot flashes in healthy menopausal women: a randomized controlled trial. *JAMA* 2011;305(3):267-274. doi:10.1001/jama.2010.2016
+
+527. Pandya KJ, Morrow GR, Roscoe JA, et al. Gabapentin for hot flashes in 420 women with breast cancer: a randomised double-blind placebo-controlled trial. *Lancet* 2005;366(9488):818-824. doi:10.1016/S0140-6736(05)67215-7
+
+528. Garland SN, Carlson LE, Stephens AJ, Antle MC, Samuels C, Campbell TS. Mindfulness-based stress reduction compared with cognitive behavioral therapy for the treatment of insomnia comorbid with cancer. *J Clin Oncol* 2014;32(5):449-457. doi:10.1200/JCO.2012.47.7265
+
+529. Allen RP, Picchietti DL, Auerbach M, et al. Evidence-based and consensus clinical practice guidelines for the iron treatment of restless legs syndrome/Willis-Ekbom disease in adults and children. *Sleep Med* 2018;41:27-44. doi:10.1016/j.sleep.2017.11.1126
+
+530. Glass J, Lanctôt KL, Herrmann N, Sproule BA, Busto UE. Sedative hypnotics in older people with insomnia: meta-analysis of risks and benefits. *BMJ* 2005;331(7526):1169. doi:10.1136/bmj.38623.768588.47
+
+531. Sateia MJ, Buysse DJ, Krystal AD, Neubauer DN, Heald JL. Clinical practice guideline for the pharmacologic treatment of chronic insomnia in adults: an American Academy of Sleep Medicine clinical practice guideline. *J Clin Sleep Med* 2017;13(2):307-349. doi:10.5664/jcsm.6470
+
+532. Riemann D, Baglioni C, Bassetti C, et al. European guideline for the diagnosis and treatment of insomnia. *J Sleep Res* 2017;26(6):675-700. doi:10.1111/jsr.12594
+
+533. Sublette ME, Ellis SP, Geant AL, Mann JJ. Meta-analysis of the effects of eicosapentaenoic acid (EPA) in clinical trials in depression. *J Clin Psychiatry* 2011;72(12):1577-1584. doi:10.4088/JCP.10m06634
+
+534. Mocking RJ, Harmsen I, Assies J, Koeter MW, Ruhé HG, Schene AH. Meta-analysis and meta-regression of omega-3 polyunsaturated fatty acid supplementation for major depressive disorder. *Transl Psychiatry* 2016;6(3):e756. doi:10.1038/tp.2016.29
+
+535. Carney RM, Freedland KE, Rubin EH, Rich MW, Steinmeyer BC, Harris WS. Omega-3 augmentation of sertraline in treatment of depression in patients with coronary heart disease (OMEGA-3 RCT). *JAMA* 2019;322(15):1445-1452. doi:10.1001/jama.2019.13889
+
+536. Berk M, Copolov DL, Dean O, et al. N-acetyl cysteine for depressive symptoms in bipolar disorder — a double-blind randomized placebo-controlled trial. *Biol Psychiatry* 2008;64(6):468-475. doi:10.1016/j.biopsych.2008.04.022
+
+537. Lopresti AL, Maes M, Maker GL, Hood SD, Drummond PD. Curcumin for the treatment of major depression: a randomised, double-blind, placebo controlled study. *J Affect Disord* 2014;167:368-375. doi:10.1016/j.jad.2014.06.001
+
+538. Allen AP, Hutch W, Borre YE, et al. Bifidobacterium longum 1714 as a translational psychobiotic: modulation of stress, electrophysiology and neurocognition in healthy volunteers. *Transl Psychiatry* 2016;6(11):e939. doi:10.1038/tp.2016.191
+
+539. Messaoudi M, Lalonde R, Violle N, et al. Assessment of psychotropic-like properties of a probiotic formulation (Lactobacillus helveticus R0052 and Bifidobacterium longum R0175) in rats and human subjects. *Br J Nutr* 2011;105(5):755-764. doi:10.1017/S0007114510004319
+
+540. Cooney GM, Dwan K, Greig CA, et al. Exercise for depression. *Cochrane Database Syst Rev* 2013;(9):CD004366. doi:10.1002/14651858.CD004366.pub6
+
+541. Schuch FB, Vancampfort D, Richards J, Rosenbaum S, Ward PB, Stubbs B. Exercise as a treatment for depression: a meta-analysis adjusting for publication bias. *J Psychiatr Res* 2016;77:42-51. doi:10.1016/j.jpsychires.2016.02.023
+
+542. Glassman AH, O'Connor CM, Califf RM, et al. Sertraline treatment of major depression in patients with acute MI or unstable angina (SADHART). *JAMA* 2002;288(6):701-709. doi:10.1001/jama.288.6.701
+
+543. O'Kelly B, Vidal L, McHugh T, Woo J, Avramovic G, Lambert JS. Safety and efficacy of low dose naltrexone in a long COVID cohort: an interventional pre-post study. *Brain Behav Immun Health* 2022;24:100485. doi:10.1016/j.bbih.2022.100485
+
+544. Bonilla H, Quach TC, Tiwari A, et al. Therapeutic trials for long COVID: an evidence-based perspective. *Front Med (Lausanne)* 2023;10:1187163. doi:10.3389/fmed.2023.1187163
+
+545. Soares Lopes BR, Pereira de Souza V, Brunelli A, et al. Mitochondria-targeted approaches in chronic fatigue syndrome and long COVID. *Mitochondrion* 2024;76:101861. doi:10.1016/j.mito.2024.101861
+
+546. Singh JB, Daly EJ, Mathews M, et al. Esketamine nasal spray for treatment-resistant depression: SUSTAIN-1. *JAMA Psychiatry* 2018;75(2):139-148. doi:10.1001/jamapsychiatry.2017.3739
+
+547. Daly EJ, Trivedi MH, Janik A, et al. Efficacy of esketamine nasal spray plus oral antidepressant treatment for relapse prevention in patients with treatment-resistant depression: a randomized clinical trial. *JAMA Psychiatry* 2019;76(9):893-903. doi:10.1001/jamapsychiatry.2019.1189
+
+548. National Institutes of Health. RECOVER: Researching COVID to Enhance Recovery (NCT05172024 et al.) https://recovercovid.org
+
+549. National Institute for Health Research (UK). STIMULATE-ICP. ISRCTN10665760. https://www.stimulate-icp.org
+
+550. Davis HE, McCorkell L, Vogel JM, Topol EJ. Long COVID: major findings, mechanisms and recommendations (atualização 2024). *Nat Rev Microbiol* 2024;22(2):81-95. doi:10.1038/s41579-023-00964-3
+
+551. Notarte KI, Catahay JA, Velasco JV, et al. Impact of COVID-19 vaccination on the risk of developing long-COVID and on existing long-COVID symptoms: a systematic review. *EClinicalMedicine* 2022;53:101624. doi:10.1016/j.eclinm.2022.101624
+
+552. Klein J, Wood J, Jaycox J, et al. Distinguishing features of long COVID identified through immune profiling. *Nature* 2023;623(7985):139-148. doi:10.1038/s41586-023-06651-y
+
+553. World Health Organization. WHO guidelines on physical activity and sedentary behaviour for children and adolescents, adults, older adults, pregnant and postpartum women. Geneva: WHO; 2020.
+
+554. Sociedade Brasileira de Pediatria. Manual de Orientação · Departamento Científico de Nutrologia · Alimentação para crianças menores de dois anos. SBP; 2021.
+
+555. Haidt J. The Anxious Generation: How the Great Rewiring of Childhood Is Causing an Epidemic of Mental Illness. New York: Penguin Press; 2024.
+
+556. Kalliomäki M, Salminen S, Arvilommi H, Kero P, Koskinen P, Isolauri E. Probiotics in primary prevention of atopic disease: a randomised placebo-controlled trial. *Lancet* 2001;357(9262):1076-1079. doi:10.1016/S0140-6736(00)04259-8
+
+557. Leyer GJ, Li S, Mubasher ME, Reifer C, Ouwehand AC. Probiotic effects on cold and influenza-like symptom incidence and duration in children. *Pediatrics* 2009;124(2):e172-e179. doi:10.1542/peds.2008-2666
+
+558. Sung V, D'Amico F, Cabana MD, et al. Lactobacillus reuteri to treat infant colic: a meta-analysis. *Pediatrics* 2018;141(1):e20171811. doi:10.1542/peds.2017-1811
+
+559. Hatakka K, Savilahti E, Pönkä A, et al. Effect of long term consumption of probiotic milk on infections in children attending day care centres: double blind, randomised trial. *BMJ* 2001;322(7298):1327. doi:10.1136/bmj.322.7298.1327
+
+560. Amminger GP, Schäfer MR, Papageorgiou K, et al. Long-chain omega-3 fatty acids for indicated prevention of psychotic disorders: a randomized, placebo-controlled trial. *Arch Gen Psychiatry* 2010;67(2):146-154. doi:10.1001/archgenpsychiatry.2009.192
+
+561. Horta BL, Loret de Mola C, Victora CG. Breastfeeding and intelligence: a systematic review and meta-analysis. *Acta Paediatr* 2015;104(467):14-19. doi:10.1111/apa.13139
+
+562. American Academy of Pediatrics, Adolescent Sleep Working Group, Committee on Adolescence, Council on School Health. School start times for adolescents (policy statement). *Pediatrics* 2014;134(3):642-649. doi:10.1542/peds.2014-1697
+
+563. Sacks O. The Man Who Mistook His Wife for a Hat. New York: Summit Books; 1985. (referência narrativa-clínica · "personagem antes de dado")
+
+564. Gawande A. Being Mortal: Medicine and What Matters in the End. New York: Metropolitan Books; 2014. (referência narrativa-clínica · "honestidade dura sem perder calor")
+
+565. Verghese A. Cutting for Stone. New York: Knopf; 2009. (referência narrativa-clínica · "presença + tempo do paciente")
+
+566. Brown B. The Gifts of Imperfection. Hazelden Publishing; 2010. (referência editorial · "vulnerabilidade como peça clínica")
+
+567. Walker M. Why We Sleep: Unlocking the Power of Sleep and Dreams. New York: Scribner; 2017. (referência editorial · "sono como construção arquitetônica")
+
+568. Buettner D. The Blue Zones: Lessons for Living Longer From the People Who've Lived the Longest. Washington DC: National Geographic; 2008. (referência editorial · "vínculos+propósito+sentido como peças clínicas")
+
+569. Attia P. Outlive: The Science and Art of Longevity. New York: Harmony; 2023. (referência conceitual · "Medicina 3.0 · morte rápida × morte lenta · honesta sobre limites")
+
+570. Miller BJ. A Beginner's Guide to the End: Practical Advice for Living Life and Facing Death. New York: Simon & Schuster; 2019. (referência editorial · "fim filosófico · meta é a forma do fim")
+
+571. Varella D. O Médico Doente. São Paulo: Companhia das Letras; 2007. (referência cultural-brasileira · "voz brasileira + humor seco + cadência popular")
+
+572. Plenya. ANTES — A Janela Silenciosa entre o Normal e o Ótimo. Londrina: Plenya; 2026. ISBN 978-65-02-06742-0. (livro 1 · pré-requisito conceitual deste livro)
+
+---
+
+*Bibliografia v2.0 · 2026-04-28 · 572 entradas verificadas · LIVRO COMPLETO 53 CAPÍTULOS · ANTES + AGORA · Plenya · Dr. Getulio Amaral Filho · Londrina · 2026.*
+
+363. Younossi ZM, Koenig AB, Abdelatif D, Fazel Y, Henry L, Wymer M. Global epidemiology of nonalcoholic fatty liver disease — meta-analytic assessment of prevalence, incidence, and outcomes. *Hepatology* 2016;64(1):73-84. doi:10.1002/hep.28431
+
+364. Sanyal AJ, Chalasani N, Kowdley KV, et al. Pioglitazone, vitamin E, or placebo for nonalcoholic steatohepatitis (PIVENS). *N Engl J Med* 2010;362(18):1675-1685. doi:10.1056/NEJMoa0907929
+
+365. Chalasani N, Younossi Z, Lavine JE, et al. The diagnosis and management of nonalcoholic fatty liver disease: practice guidance from the American Association for the Study of Liver Diseases. *Hepatology* 2018;67(1):328-357. doi:10.1002/hep.29367
+
+366. Rinella ME, Lazarus JV, Ratziu V, et al. A multisociety Delphi consensus statement on new fatty liver disease nomenclature. *Hepatology* 2023;78(6):1966-1986. doi:10.1097/HEP.0000000000000520
+
+367. Rinella ME, Neuschwander-Tetri BA, Siddiqui MS, et al. AASLD practice guidance on the clinical assessment and management of nonalcoholic fatty liver disease. *Hepatology* 2023;77(5):1797-1835. doi:10.1097/HEP.0000000000000323
+
+368. Promrat K, Kleiner DE, Niemeier HM, et al. Randomized controlled trial testing the effects of weight loss on nonalcoholic steatohepatitis. *Hepatology* 2010;51(1):121-129. doi:10.1002/hep.23276
+
+369. Vilar-Gomez E, Martinez-Perez Y, Calzadilla-Bertot L, et al. Weight loss through lifestyle modification significantly reduces features of nonalcoholic steatohepatitis. *Gastroenterology* 2015;149(2):367-378.e5. doi:10.1053/j.gastro.2015.04.005
+
+370. Yan HM, Xia MF, Wang Y, et al. Efficacy of berberine in patients with non-alcoholic fatty liver disease. *PLoS One* 2015;10(8):e0134172. doi:10.1371/journal.pone.0134172
+
+371. Harrison SA, Bedossa P, Guy CD, et al. A phase 3, randomized, controlled trial of resmetirom in NASH with liver fibrosis (MAESTRO-NASH). *N Engl J Med* 2024;390(6):497-509. doi:10.1056/NEJMoa2309000
+
+372. Wijarnpreecha K, Thongprayoon C, Ungprasert P. Coffee consumption and risk of nonalcoholic fatty liver disease: a systematic review and meta-analysis. *Eur J Gastroenterol Hepatol* 2017;29(2):e8-e12. doi:10.1097/MEG.0000000000000776
+
+---
+
 ## Reservadas para capítulos específicos (a citar conforme demanda dos capítulos)
 
 56. Zhou Q et al. L-Glutamine Decreases Intestinal Permeability and Severity of Symptoms in Diarrhea-Predominant IBS. *Gut* 2019;68(6):996-1002.
