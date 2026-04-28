@@ -115,7 +115,7 @@ Este livro é literatura clínica · NÃO manual. Não tem tabela final com "tom
 
 - **Vera** · 58→60a · advogada da família · 6ª aparição arco-pedra fechado · pós-MP estabelecida 8 anos · DEXA T-score lombar -2,3→-1,9 sem TRH/bisfosfonato · 6 eixos auditados em alvo · **"saúde dos 60 não é saúde dos 30 · mas é boa · é boa porque tem PLANO."**
 
-- **Sofia** · 41a · pediatra · 7ª aparição breve · paradoxo Zn:Cu (Cap 14) · pós-viral fatigue (Cap 17) · long COVID 5 anos · capacidade laboral 95% recuperada · **"long COVID virou parte da minha história · não definição da minha identidade."**
+- **Sofia** · 41-42a · pediatra · 6ª aparição · arco-pedra fechado em 6 caps (Caps 14+17+30+38+42+51) · paradoxo Zn:Cu Cap 14 → pós-viral fatigue Cap 17 → imune adaptativo Cap 30 → zinco bem-feito sazonal Cap 38 → long COVID arco principal Cap 42 → sobrevivente de longo prazo 5 anos Cap 51 · capacidade laboral 95% recuperada · **"long COVID virou parte da minha história · não definição da minha identidade."**
 
 - **Helena** · 67→71a · professora aposentada de literatura · vegetariana · B12 sérica 312 mas MMA 0,89 com degeneração subaguda em fase reversível detectada antes da progressão (Cap 10) · disbiose colônica em remissão sustentada (Cap 25 · 40) · long COVID em idoso aos 71a (Cap 51) · **"a cápsula tinha sido a cirurgia · agora é a cultura · meu kefir caseiro tem mais cepas vivas que qualquer cápsula que eu já tomei."**
 

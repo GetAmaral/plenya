@@ -104,15 +104,15 @@ Plano em 5 frentes:
 
 ---
 
-### Sofia · 7ª aparição breve · 42 anos · sobrevivente de longo prazo + retorno como referência
+### Sofia · 6ª aparição breve · 42 anos · sobrevivente de longo prazo + retorno como referência
 
-Sofia, 42 anos, pediatra · **em 7ª aparição** (callback profundo · marcada como "arco-pedra fechado em 6 caps" no Cap 42 · retorno breve como referência de longo prazo). 5 anos pós-COVID original.
+Sofia, 42 anos, pediatra · **em 6ª aparição** (Caps 14 + 17 + 30 + 38 + 42 + 51 · arco-pedra de saúde imune + pós-viral fechado · retorno breve como referência de longo prazo). 5 anos pós-COVID original.
 
-> *— Doutor, 5 anos depois da 1ª aparição AGORA Cap 17 (pós-viral fatigue 2022). Hoje 42 anos · capacidade laboral 95% · recuperada · pediatra full-time · turnos noturnos retomados em 50% (acomodação parcial mantida). Plenya em manutenção mínima · CoQ10 100 mg/d + vit D + Mg + ω-3 + Zn em alvo + pacing como cultura. Vacinação em dia. Sem reinfecção COVID significativa. Long COVID virou parte da minha história · não definição da minha identidade.*
+> *— Doutor, 5 anos depois da 1ª aparição AGORA Cap 14 (paradoxo Zn:Cu · 2022). Hoje 42 anos · capacidade laboral 95% · recuperada · pediatra full-time · turnos noturnos retomados em 50% (acomodação parcial mantida). Plenya em manutenção mínima · CoQ10 100 mg/d + vit D + Mg + ω-3 + Zn em alvo + pacing como cultura. Vacinação em dia. Sem reinfecção COVID significativa. Long COVID virou parte da minha história · não definição da minha identidade.*
 
-Plenya · manutenção mínima sustentada · auditoria anual · "exemplo arquetípico de sobrevivente de longo prazo em recuperação completa" · Sofia simboliza o trabalho integrado de 5 anos · arco-pedra de saúde imune+pós-viral fechado.
+Plenya · manutenção mínima sustentada · auditoria anual · "exemplo arquetípico de sobrevivente de longo prazo em recuperação completa" · Sofia simboliza o trabalho integrado de 5 anos · arco-pedra de saúde imune+pós-viral fechado em 6 caps.
 
-<!-- FIGURA:51-fig-2 "Sofia 7ª aparição breve · 42a · sobrevivente de longo prazo 5 anos pós-COVID · capacidade laboral 95% recuperada · pediatra full-time · turnos noturnos 50% retomados · Plenya em manutenção mínima (CoQ10 100+vit D+Mg+ω-3+Zn alvo+pacing como cultura) · vacinação em dia · sem reinfecção significativa · 'long COVID virou parte da minha história · não definição da minha identidade · arco-pedra fechado em 7 caps com Plenya'" -->
+<!-- FIGURA:51-fig-2 "Sofia 6ª aparição breve · 42a · sobrevivente de longo prazo 5 anos pós-COVID · capacidade laboral 95% recuperada · pediatra full-time · turnos noturnos 50% retomados · Plenya em manutenção mínima (CoQ10 100+vit D+Mg+ω-3+Zn alvo+pacing como cultura) · vacinação em dia · sem reinfecção significativa · 'long COVID virou parte da minha história · não definição da minha identidade · arco-pedra fechado em 6 caps com Plenya'" -->
 
 ---
 
@@ -492,7 +492,7 @@ Long COVID parte II cruza com TODOS os territórios:
 ### Síntese clínica · 3 personagens consolidadas
 
 - **Cláudia 4ª** · long COVID 4a · plateau aceitável capacidade 78% · discussão honesta de pesquisa + LDN teste + descontinuação programada · "esperança baseada em evidência · NÃO cura mágica · NÃO desespero · É TRAJETÓRIA"
-- **Sofia 7ª breve** · sobrevivente de longo prazo 5a · capacidade 95% · "long COVID virou parte da minha história · não definição da minha identidade"
+- **Sofia 6ª breve** · sobrevivente de longo prazo 5a · capacidade 95% · arco-pedra fechado em 6 caps (14+17+30+38+42+51) · "long COVID virou parte da minha história · não definição da minha identidade"
 - **Helena 4ª** · long COVID em idoso 71a · sobreposto ao envelhecimento · plano integrado · "long COVID em idoso é território distinto · não é envelhecer normal · é fase com plano mesmo aos 71"
 
 <!-- FIGURA:51-fig-4 "3 realidades convergentes long COVID em 5 anos + 6 fenótipos avançados + protocolo Plenya · Realidade 1 maioria em recuperação gradual 70-80% melhora em 12-24m+ · Realidade 2 pesquisa em consolidação RECOVER NIH+STIMULATE-ICP UK+LISTEN+Pretorius lab+centros US/UK ensaios em curso 2026-2027 · Realidade 3 fenótipo refratário 5-10% atenção especializada · 6 fenótipos avançados (ME/CFS-like refratário · POTS refratário · microcoagulação · reativação herpesvírus · neuroinflamatório · long COVID em idoso) · Protocolo Plenya em 7 passos · diagnóstico territorial+pacing como cultura+tratar fenótipo+Plenya integrado por fenótipo+auditoria descontinuação programada (regra 5 anos)+discussão honesta pesquisa centros+vacinação+acompanhamento · ECOSSISTEMA INTEGRADO · 'long COVID em 5 anos · esperança baseada em evidência · pacing como cultura · plano integrado · paciência clínica · NÃO cura mágica · NÃO desespero · É TRAJETÓRIA'" -->

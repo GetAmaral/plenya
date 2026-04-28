@@ -101,9 +101,9 @@ Daniela:
 
 ---
 
-### Sofia · 5ª aparição prevista (callback Cap 14+17+30+51) · imune diferente · zinco bem-feito desta vez
+### Sofia · 4ª aparição (callback Caps 14+17+30) · imune diferente · zinco bem-feito desta vez
 
-Sofia, 41a, pediatra · **em 5ª aparição** (Caps 14 + 17 + 30 + 51 + 38). Cap 14 (1ª · zinco isolado 50 mg/dia × 3a · paradoxo Zn:Cu · neuropatia + anemia + queda capilar · plano: ajuste do paradoxo) · Cap 17 (2ª · pós-viral fatigue · CoQ10 + NADH + D-ribose) · Cap 30 (imunidade · 3ª aparição · pós-COVID 2 anos · imune adaptativo restaurado) · Cap 51 (long COVID · 4ª aparição) · Cap 38 (5ª aparição · URI sazonal · zinco bem-feito desta vez).
+Sofia, 41a, pediatra · **em 4ª aparição** (Caps 14 + 17 + 30 + 38). Cap 14 (1ª · zinco isolado 50 mg/dia × 3a · paradoxo Zn:Cu · neuropatia + anemia + queda capilar · plano: ajuste do paradoxo) · Cap 17 (2ª · pós-viral fatigue · CoQ10 + NADH + D-ribose) · Cap 30 (3ª aparição · imune adaptativo restaurado · pós-COVID 2 anos) · Cap 38 (4ª aparição · URI sazonal · zinco bem-feito desta vez · futuras aparições previstas Cap 42 long COVID arco principal · Cap 51 sobrevivente longo prazo).
 
 Sofia retorna ao consultório no início do inverno 2026 · queixa específica:
 
@@ -130,7 +130,7 @@ Sofia:
 
 > *— Doutor, eu queria saber a regra de zinco bem-feito · agora sei. Janela aguda · curta · com cobre monitorado · de fora dela · zinco da mesa via carne magra · ostras · castanha · semente de abóbora · gergelim · aveia. Da mesa, não da cápsula em megadose. Aprendi.*
 
-<!-- FIGURA:38-fig-2 "Sofia 5ª aparição · URI sazonal · zinco bem-feito desta vez · pós-Cap 14 ajuste paradoxo Zn:Cu mantido (Zn:Cu 1,0 · sem neuropatia · sem queda capilar) · plano sazonal cirúrgico (zinco gluconato 15-25 mg/d em janela aguda 5-7d quando sintoma inicial · vit C 500-1.000 mg/d em surto · NUNCA megadose crônica · da mesa via ostras-carne-castanha-semente abóbora-gergelim-aveia · Reishi cíclico opcional · vacinação em dia) · 12-meses outcome 1-2 URIs leves 4-5 dias sem prolongamento · 'da mesa, não da cápsula em megadose · janela aguda curta com cobre monitorado'" -->
+<!-- FIGURA:38-fig-2 "Sofia 4ª aparição · URI sazonal · zinco bem-feito desta vez · pós-Cap 14 ajuste paradoxo Zn:Cu mantido (Zn:Cu 1,0 · sem neuropatia · sem queda capilar) · plano sazonal cirúrgico (zinco gluconato 15-25 mg/d em janela aguda 5-7d quando sintoma inicial · vit C 500-1.000 mg/d em surto · NUNCA megadose crônica · da mesa via ostras-carne-castanha-semente abóbora-gergelim-aveia · Reishi cíclico opcional · vacinação em dia) · 12-meses outcome 1-2 URIs leves 4-5 dias sem prolongamento · 'da mesa, não da cápsula em megadose · janela aguda curta com cobre monitorado'" -->
 
 ---
 

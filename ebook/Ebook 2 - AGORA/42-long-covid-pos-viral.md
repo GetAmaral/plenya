@@ -119,9 +119,9 @@ Plano combinado em 6 frentes:
 
 ---
 
-### Sofia · 6ª aparição · long COVID 4 anos · arco-pedra fechado
+### Sofia · 5ª aparição · long COVID 4 anos · arco principal
 
-Sofia, 41 anos, pediatra · **em 6ª aparição** (Caps 14 + 17 + 30 + 51 + 38 + 42). Esta é a **última aparição prevista do arco-pedra de Sofia**.
+Sofia, 41 anos, pediatra · **em 5ª aparição** (Caps 14 + 17 + 30 + 38 + 42). Cap 51 (6ª breve) fechará o arco-pedra como sobrevivente de longo prazo.
 
 **Status atual mantido:**
 - **Cap 14 · paradoxo Zn:Cu resolvido · Zn:Cu 1,0 mantido**
@@ -156,7 +156,7 @@ Sofia:
 
 > *— Doutor, eu vim em colapso aos 37 · saio aos 41 com 90% de capacidade · pacing virou cultura · suplementação em manutenção otimizada · cápsulas em descontinuação programada · COVID anual em dia. Long COVID virou "minha experiência" · não "minha condição".*
 
-<!-- FIGURA:42-fig-2 "Sofia 6ª aparição · 41a · long COVID 4 anos · arco-pedra fechado · status manutenção (PCR 0,7 · IL-6 limítrofe · D-dímero <250 · CoQ10 1,4 · vit D/Mg/Zn/ω-3 alvo · cortisol normal · POTS resolvido · 6MWT 540m · capacidade laboral 90%) + plano descontinuação programada (D-ribose OFF + CoQ10 reduzido 200→100 + NADH reduzido 20→10 + manter base + pacing como cultura + turnos noturnos evitados + vacinação anual + recheck anual) · 'long COVID virou minha experiência · não minha condição · pacing é cultura'" -->
+<!-- FIGURA:42-fig-2 "Sofia 5ª aparição · 41a · long COVID 4 anos · arco principal · status manutenção (PCR 0,7 · IL-6 limítrofe · D-dímero <250 · CoQ10 1,4 · vit D/Mg/Zn/ω-3 alvo · cortisol normal · POTS resolvido · 6MWT 540m · capacidade laboral 90%) + plano descontinuação programada (D-ribose OFF + CoQ10 reduzido 200→100 + NADH reduzido 20→10 + manter base + pacing como cultura + turnos noturnos evitados + vacinação anual + recheck anual) · 'long COVID virou minha experiência · não minha condição · pacing é cultura'" -->
 
 ---
 

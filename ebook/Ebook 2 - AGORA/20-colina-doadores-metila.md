@@ -503,7 +503,7 @@ Plano completo de Joana consolidado (3ª aparição · arco-trio MTHFR fechado):
 - **Reavaliação bimestral** com obstetra + nutricionista + Plenya
 - Pós-parto: continuar colina e PC durante amamentação · demanda permanece elevada
 
-Joana retorna no **Cap 46** (saúde feminina · pós-parto · amamentação · contracepção pós-MTHFR) na numeração da Parte III · 4ª aparição.
+Joana retorna 3 meses pós-parto no **Cap 29** (saúde mental · ansiedade pós-parto · 4ª aparição) · 9 meses pós-parto no **Cap 30** (enxaqueca catamenial pós-amamentação · 5ª aparição) · TPM aos 38a no **Cap 45** (saúde feminina cíclica · 6ª aparição) · perimenopausa avançada aos 47a no **Cap 46** (perimenopausa + TRH transdérmica · 7ª aparição).
 
 #### Caixa de protocolo Plenya · Colina e doadores de metila
 
@@ -535,7 +535,9 @@ Colina e doadores de metila reaparecem como peças nestes capítulos da Parte II
 - **Cap 39** (DMRI · saúde ocular) — citicolina adjuvante · ponte com luteína + zeaxantina + AREDS2 · Antônio reaparece
 - **Cap 41** (cognição em idoso) — PS + citicolina · ponte com sono (Cap 49) · social · atividade física
 - **Cap 44** (HPB) — Antônio reaparece · ponte com saw palmetto + zinco
-- **Cap 46** (saúde feminina · pós-parto · amamentação) — **Joana retorna em 4ª aparição** · colina sustentada na lactação · contracepção pós-MTHFR
+- **Cap 29** (saúde mental · pós-parto) — **Joana retorna em 4ª aparição** · ansiedade pós-parto 3 meses pós-parto
+- **Cap 30** (cefaleia · enxaqueca catamenial) — **Joana 5ª aparição** · 9 meses pós-parto · transição amamentação
+- **Caps 45-46** (saúde feminina cíclica · perimenopausa avançada + TRH) — **Joana 6ª-7ª aparição** · arco-pedra cíclico fechado
 - **Cap 49** (sono que repara) — colina e PS pontes laterais com glicina (Cap 19 · Vera retorna) e magnésio (Cap 5 · Letícia retorna)
 
 <!-- FIGURA:20-fig-3 "Tabela 20.1 · Top 10 fontes alimentares de colina · porção prática · destaque para gema (115 mg/u) · soja edamame (107 mg/xícara) · germe de trigo (51 mg/30g) · brássicas (63 mg/xícara) · meta gestante 450-550 mg/d" -->

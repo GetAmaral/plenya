@@ -110,7 +110,7 @@ last_reviewed: 2026-04-28
 > – Helena 67→71a · prof. literatura · "kefir caseiro tem mais cepas vivas que cápsula" · 10ª·25ª·40ª·51ª (4 caps)
 >
 > COLUMN 2 (ocean gradient · "ATLAS M-Z"):
-> – Sofia 41→42a · pediatra · "long COVID virou parte da minha história · não definição" · 14ª·17ª·30ª·51ª·38ª·42ª·51ª (7 caps)
+> – Sofia 41→42a · pediatra · "long COVID virou parte da minha história · não definição" · 14·17·30·38·42·51 (6 caps)
 > – Marcelo 49→53a · prof. universitário · "cinco virou comemoração" · 9ª·17ª·21ª·27ª·31ª·35ª·41ª (7 caps)
 > – Daniela 55-57a · médica internista PoA · "imunidade era orquestra · eu ouvia só um instrumento" · 16ª·26ª·32ª·36ª·37ª·38ª (6 caps)
 > – Joana 38→47a · jornalista · "o ciclo é meu instrumento de leitura · não inconveniente" · 11ª·12ª·20ª·29ª·30ª·45ª·46ª (7 caps)

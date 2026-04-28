@@ -39,7 +39,7 @@ Pedi escalas e painel:
 - **Vit D 52 · Mg eritrocitário 5,4 · B12 712 · folato 11 · ferritina 78** — todos em alvo
 - **Ômega-3 index** — **5,2%** (nunca dosado antes em Letícia · faixa intermediária · alvo Plenya ≥8%)
 - **PCR-us 0,6 · HOMA-IR 1,5 · HbA1c 5,3** — todos em alvo
-- **Estradiol · FSH · LH · perimenopausa precoce em transição** (FSH 14 · estradiol 38 · primeiros sinais sem sintoma vasomotor)
+- **Estradiol · FSH · LH · perimenopausa precoce em transição** (FSH 14 mUI/mL D3 · estradiol 38 pg/mL fase folicular tardia · LH 6 · primeiros sinais sem sintoma vasomotor)
 - **Atividade física estruturada** · 3×/sem zona 2 + 1×/sem força (já implementada desde Cap 23) · **NÃO houve ajuste recente**
 - **Diário de humor 14 dias** · queda subjetiva consistente das 17h às 19h · resolução parcial após jantar
 

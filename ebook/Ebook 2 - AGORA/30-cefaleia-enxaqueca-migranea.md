@@ -511,7 +511,7 @@ A maioria das cefaleias são primárias (benignas · funcionais). Mas algumas ap
 
 > **Regra-pedra:** **a maioria das cefaleias é benigna · mas o consultório de longevidade não é territory de "esperar para ver" em apresentação atípica. Investigar primeiro · prevenir depois.**
 
-<!-- FIGURA:30-fig-3 "Tríade clássica Plenya de prevenção de migrânea · 4 peças sinérgicas com mecanismos distintos · B2 riboflavina 400 mg/d (Schoenen 1998 · classe B · cofator FAD/FMN cadeia respiratória mitocondrial) + Mg glicinato 400-600 mg/d alvo eritrocitário ≥5,5 (Mauskop 2012 · NMDA + cálcio + glutamato + cortical spreading depression) + CoQ10 ubiquinol 100 mg 3×/d (Sandor 2005 · transporte de elétrons mitocondrial) + matricária 100 mg/d 0,2-0,7% partenolídeo (Diener 2005 MIG-99 · NF-κB central + serotonina plaquetária) · 8-12 sem para efeito · perfil seguro superior a topiramato/valproato · classe B AAN/AHS/NICE · em paciente >4 crises/mês" -->
+<!-- FIGURA:30-fig-3 "Tríade clássica Plenya de prevenção de migrânea · 4 peças sinérgicas com mecanismos distintos · B2 riboflavina 400 mg/d (Schoenen 1998 · classe B · cofator FAD/FMN cadeia respiratória mitocondrial) + Mg glicinato 400-600 mg/d alvo eritrocitário ≥5,5 (Mauskop 2012 · NMDA + cálcio + glutamato + cortical spreading depression) + CoQ10 ubiquinol 100 mg 3×/d (Sandor 2005 · transporte de elétrons mitocondrial) + matricária 100 mg/d extrato padronizado 0,2-0,7% partenolídeo (Plenya · equivalente clínico ao MIG-99 de Diener 2005 · 6,25 mg 3×/d em RCT original com extrato 10:1 concentrado · NF-κB central + serotonina plaquetária) · 8-12 sem para efeito · perfil seguro superior a topiramato/valproato · classe B AAN/AHS/NICE · em paciente >4 crises/mês" -->
 
 ---
 
