@@ -134,7 +134,9 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           <ol className="grid md:grid-cols-3 gap-10 max-w-5xl">
             {steps.map((s) => (
               <li key={s.n} className="space-y-4">
-                <p className="heading-hero text-gold text-7xl md:text-8xl leading-none tabular-nums">{s.n}</p>
+                {/* Inter (font-sans) garante glyphs nítidos — Nalieta tem cmap pra dígitos
+                   mas renderiza com ink invisível em browsers (provável bug do .otf). */}
+                <p className="font-sans text-gold text-7xl md:text-8xl font-light leading-none tabular-nums">{s.n}</p>
                 <h3 className="heading-section text-petrol text-2xl md:text-3xl">{s.title}</h3>
                 <p className="text-petrol/75 leading-relaxed">{s.body}</p>
               </li>
@@ -294,7 +296,7 @@ export default async function ScorePage({ params }: { params: Promise<{ locale: 
           <div className="grid md:grid-cols-3 gap-10">
             {tiers.map((tier, i) => (
               <div key={tier.title} className="border-t-2 border-petrol/15 pt-8 space-y-5">
-                <span className="heading-hero text-gold text-6xl md:text-7xl block leading-none tabular-nums">
+                <span className="font-sans text-gold text-6xl md:text-7xl font-light block leading-none tabular-nums">
                   0{i + 1}
                 </span>
                 <h3 className="heading-section text-petrol text-3xl md:text-4xl">{tier.title}</h3>

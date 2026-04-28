@@ -54,7 +54,8 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <div className="grid lg:grid-cols-[1fr_2fr] gap-12 lg:gap-20 items-start max-w-5xl">
             <div className="space-y-3">
               <p className="label-upper text-gold">Origem</p>
-              <p className="heading-section text-petrol text-6xl md:text-7xl leading-none">20+</p>
+              {/* font-sans (Inter) — Nalieta tem cmap pra dígitos mas glyphs renderizam invisíveis */}
+              <p className="font-sans text-petrol text-6xl md:text-7xl font-light leading-none tabular-nums">20+</p>
               <p className="label-upper text-petrol/60">anos de prática clínica</p>
             </div>
             <div className="space-y-6 text-petrol/80 text-lg leading-relaxed">
