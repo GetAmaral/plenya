@@ -101,15 +101,27 @@ export default async function LivroPage({
         </div>
       </section>
 
-      {/* Onde comprar — placeholder Sprint 2 com link real */}
-      <section className="border-t border-rule">
+      {/* "Onde comprar" — escondido até ter os links reais (Amazon/Saraiva).
+         Placeholder anterior ("links em breve") parecia obra inacabada.
+         Substituído por bloco "Ficar sabendo" com captura editorial:
+         lead time vira lead capture. */}
+      <section className="border-t border-rule bg-paper">
         <div className="editorial-container py-20 md:py-24">
           <div className="grid md:grid-cols-[1fr_2fr] gap-12 items-start">
-            <p className="label-meta">Onde comprar</p>
-            <div className="space-y-4 font-serif text-ink-soft">
-              <p>O livro <em>Antes</em> está disponível em formato físico e digital.</p>
-              <p className="text-sm text-ink-muted">
-                Links de compra serão atualizados em breve.
+            <p className="label-meta-lg text-bordo">Lançamento</p>
+            <div className="space-y-5 max-w-xl">
+              <h2 className="heading-section text-ink text-2xl md:text-3xl leading-snug">
+                Quer ser avisado quando o livro estiver disponível?
+              </h2>
+              <p className="font-serif text-ink-soft leading-relaxed">
+                <em>Antes — A Janela Silenciosa entre o Normal e o Ótimo</em> entra em
+                pré-venda em 2026. Para ser notificado da data, escreva para o endereço
+                abaixo com o assunto "Antes — pré-venda".
+              </p>
+              <p className="font-sans text-base">
+                <a href="mailto:contato@drgetulioamaralfilho.com.br?subject=Antes%20%E2%80%94%20pr%C3%A9-venda" className="link-text">
+                  contato@drgetulioamaralfilho.com.br
+                </a>
               </p>
             </div>
           </div>

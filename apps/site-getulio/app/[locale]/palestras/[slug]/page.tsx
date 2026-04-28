@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
+import { MdxContent } from '@/components/blog/mdx-content';
 import { getAllLectures, getLecture, getAudienceLabel } from '@/lib/lectures';
 import { LectureSchema } from '@/components/seo/lecture-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
@@ -85,7 +86,9 @@ export default async function LecturePage({
           )}
           <p className="prose-body">{lecture.excerpt}</p>
           {lecture.content && (
-            <div className="prose-body whitespace-pre-line">{lecture.content.trim()}</div>
+            <div className="prose-body">
+              <MdxContent source={lecture.content.trim()} />
+            </div>
           )}
         </div>
       </section>

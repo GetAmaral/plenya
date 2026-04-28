@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
 import { ClinicsSchema } from '@/components/seo/clinics-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
@@ -13,17 +12,17 @@ export const metadata: Metadata = {
 
 type Clinic = {
   name: string;
-  logo: { src: string; height: number } | null;
   role: string;
   body: string;
   address: string;
   href: string | null;
 };
 
+// Logos das clínicas removidos (mistura de PNG raster + SVG + texto destoava
+// da paleta editorial). Wordmark serif uniforme.
 const clinicas: Clinic[] = [
   {
     name: 'Plenya',
-    logo: { src: '/logos/plenya.svg', height: 36 },
     role: 'Direção clínica',
     body:
       'Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano.',
@@ -32,7 +31,6 @@ const clinicas: Clinic[] = [
   },
   {
     name: 'Nefroclínica Londrina',
-    logo: { src: '/logos/nefroclinica.png', height: 70 },
     role: 'Sócio',
     body:
       'Nefrologia clínica em Londrina há quatro décadas. Atendimento de doença renal crônica, hipertensão de difícil controle, distúrbios eletrolíticos e acompanhamento pré-diálise.',
@@ -41,7 +39,6 @@ const clinicas: Clinic[] = [
   },
   {
     name: 'DaVita Intra Hospitalar',
-    logo: null,
     role: 'Responsável técnico',
     body:
       'Hemodiálise hospitalar — Santa Casa de Londrina. Atendimento a pacientes internados em estágio avançado de doença renal, em conjunto com a equipe de nefrologia da instituição.',
@@ -50,7 +47,6 @@ const clinicas: Clinic[] = [
   },
   {
     name: 'DaVita Londrina',
-    logo: null,
     role: 'Responsável técnico',
     body:
       'Unidade ambulatorial de hemodiálise em Londrina. Acompanhamento crônico de pacientes em terapia renal substitutiva.',
@@ -96,25 +92,11 @@ export default async function OndeAtendoPage({
             className="border-t border-rule pt-12 grid md:grid-cols-[260px_1fr] gap-10 md:gap-16"
           >
             <div className="space-y-4">
-              <div className="h-20 flex items-center">
-                {c.logo ? (
-                  <Image
-                    src={c.logo.src}
-                    alt={c.name}
-                    width={260}
-                    height={c.logo.height}
-                    style={{ height: c.logo.height, width: 'auto' }}
-                    className="object-contain object-left"
-                  />
-                ) : (
-                  <span className="font-serif text-ink text-3xl tracking-tight">{c.name}</span>
-                )}
-              </div>
-              <p className="label-meta text-bordo">{c.role}</p>
+              <p className="label-meta-lg text-bordo">{c.role}</p>
             </div>
             <div className="space-y-5">
-              {c.logo && <h2 className="heading-section text-2xl md:text-3xl">{c.name}</h2>}
-              <p className="font-serif text-ink-soft leading-relaxed max-w-2xl">{c.body}</p>
+              <h2 className="heading-section text-3xl md:text-4xl text-ink">{c.name}</h2>
+              <p className="font-serif text-lg text-ink-soft leading-relaxed max-w-2xl">{c.body}</p>
               <p className="font-sans text-sm text-ink-muted">{c.address}</p>
               {c.href && (
                 <a

@@ -8,22 +8,23 @@ export function SiteFooter() {
 
   return (
     <footer className="bg-navy text-paper mt-32">
-      {/* Bloco institucional — wordmark dark sobre navy + tagline */}
-      <div className="editorial-container py-16 md:py-20 text-center border-b border-paper/10">
-        <Wordmark variant="dark" size="lg" />
+      {/* Wordmark institucional — reduzido (era size lg ocupando 1/3 do footer
+         em páginas curtas). Agora compõe com o grid de navegação. */}
+      <div className="editorial-container pt-14 md:pt-16 pb-10 text-center border-b border-paper/10">
+        <Wordmark variant="dark" size="md" />
       </div>
 
       {/* Identificação clínica + colunas de navegação */}
-      <div className="editorial-container py-14 grid md:grid-cols-[2fr_1fr_1fr] gap-10">
+      <div className="editorial-container py-12 grid md:grid-cols-[2fr_1fr_1fr] gap-10">
         <div className="space-y-3">
           <p className="font-serif text-base text-paper">{t('responsavel')}</p>
-          <p className="font-sans text-sm text-paper/65">{t('responsavelTecnico')}</p>
-          <p className="font-sans text-sm text-paper/65">{t('local')}</p>
+          <p className="font-sans text-sm text-paper/70">{t('responsavelTecnico')}</p>
+          <p className="font-sans text-sm text-paper/70">{t('local')}</p>
         </div>
 
         <div className="space-y-3">
           <p className="label-meta text-gold">Navegação</p>
-          <ul className="space-y-2 text-sm text-paper/75">
+          <ul className="space-y-2 text-sm text-paper/85">
             <li><Link href="/sobre" className="hover:text-gold transition-colors">Sobre</Link></li>
             <li><Link href="/livro" className="hover:text-gold transition-colors">Livro</Link></li>
             <li><Link href="/escritos" className="hover:text-gold transition-colors">Escritos</Link></li>
@@ -36,7 +37,7 @@ export function SiteFooter() {
 
         <div className="space-y-3">
           <p className="label-meta text-gold">Contato</p>
-          <address className="space-y-2 text-sm text-paper/75 not-italic">
+          <address className="space-y-2 text-sm text-paper/85 not-italic">
             <p>
               <a
                 href="mailto:contato@drgetulioamaralfilho.com.br"

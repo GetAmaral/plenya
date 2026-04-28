@@ -116,13 +116,13 @@ export default async function EscritoPage({
       <section className="editorial-narrow pb-12">
         <div className="space-y-8">
           <div className="flex items-center gap-4 flex-wrap">
-            <span className="label-meta text-bordo">{PLENYA_PILLAR_LABELS[post.pillar]}</span>
-            <span className="label-meta text-ink-muted">
+            <span className="label-meta-lg text-bordo">{PLENYA_PILLAR_LABELS[post.pillar]}</span>
+            <span className="label-meta-lg text-ink-muted">
               {formatDate(post.date)} · {post.readingMinutes} min
             </span>
           </div>
-          <h1 className="heading-display text-[clamp(2rem,4.5vw,3.4rem)]">{post.title}</h1>
-          <p className="font-serif italic text-ink-muted text-xl leading-relaxed">
+          <h1 className="heading-display text-[clamp(2.6rem,5.5vw,4.4rem)]">{post.title}</h1>
+          <p className="font-serif italic text-ink-soft text-2xl leading-relaxed">
             {post.excerpt}
           </p>
         </div>
@@ -145,20 +145,22 @@ export default async function EscritoPage({
 
       {post.references.length > 0 && (
         <section className="editorial-narrow pb-12">
-          <p className="label-meta text-bordo mb-4">Referências</p>
-          <ol className="list-decimal pl-6 space-y-2 font-sans text-sm text-ink-soft">
-            {post.references.map((ref, i) => (
-              <li key={ref.url ?? `${i}-${ref.label}`}>
-                {ref.url ? (
-                  <a href={ref.url} target="_blank" rel="noreferrer" className="link-text">
-                    {ref.label}
-                  </a>
-                ) : (
-                  <span>{ref.label}</span>
-                )}
-              </li>
-            ))}
-          </ol>
+          <div className="border-t-2 border-bordo/40 pt-8">
+            <p className="label-meta-lg text-bordo mb-6">Referências</p>
+            <ol className="list-decimal pl-6 space-y-3 font-serif text-base text-ink-soft leading-relaxed">
+              {post.references.map((ref, i) => (
+                <li key={ref.url ?? `${i}-${ref.label}`} className="pl-1">
+                  {ref.url ? (
+                    <a href={ref.url} target="_blank" rel="noreferrer" className="link-text">
+                      {ref.label}
+                    </a>
+                  ) : (
+                    <span>{ref.label}</span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </div>
         </section>
       )}
 

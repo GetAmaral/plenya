@@ -40,6 +40,9 @@ COPY --from=builder /repo/apps/site-getulio/.next ./apps/site-getulio/.next
 COPY --from=builder /repo/apps/site-getulio/public ./apps/site-getulio/public
 COPY --from=builder /repo/apps/site-getulio/next.config.ts ./apps/site-getulio/
 COPY --from=builder /repo/apps/site-getulio/content ./apps/site-getulio/content
+# Posts mirror — site-getulio lê /apps/site/content/blog/pt em runtime SSR.
+# Sem este COPY o /escritos retorna [] e exibe "Nenhum artigo nesse pilar ainda".
+COPY --from=builder /repo/apps/site/content ./apps/site/content
 
 RUN pnpm install --prod --frozen-lockfile --filter "@plenya/site-getulio..."
 

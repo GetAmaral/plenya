@@ -51,7 +51,7 @@ export default async function SobrePage({
       </header>
 
       {/* Corpo + aside */}
-      <div className="editorial-container pb-24 grid lg:grid-cols-[1fr_300px] gap-16">
+      <div className="editorial-container pb-24 grid lg:grid-cols-[1fr_360px] gap-16">
         <div className="prose-body">
           <Image
             src="/images/getulio-about-color.jpg"
@@ -123,42 +123,43 @@ export default async function SobrePage({
           </p>
         </div>
 
-        {/* Aside */}
+        {/* Aside — currículo. Eyebrows label-meta-lg + items text-base
+           pra subir hierarquia e contraste (era ilegível em paper #f0e8d8). */}
         <aside className="space-y-12 lg:sticky lg:top-12 self-start">
           <div>
-            <p className="label-meta mb-5">Formação</p>
-            <ul className="space-y-4">
+            <p className="label-meta-lg text-bordo mb-5">Formação</p>
+            <ul className="space-y-3">
               {formacao.map((f) => (
-                <li key={`${f.year}-${f.label}`} className="grid grid-cols-[60px_1fr] gap-3 border-b border-rule pb-3">
-                  <span className="font-sans text-xs tracking-widest text-bordo pt-1">{f.year}</span>
-                  <span className="font-serif text-sm text-ink-soft">{f.label}</span>
+                <li key={`${f.year}-${f.label}`} className="grid grid-cols-[64px_1fr] gap-3 border-b border-rule pb-3">
+                  <span className="font-sans text-sm tracking-widest text-bordo font-medium pt-1">{f.year}</span>
+                  <span className="font-serif text-base text-ink leading-snug">{f.label}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <p className="label-meta mb-5">Atuação</p>
+            <p className="label-meta-lg text-bordo mb-5">Atuação</p>
             <ul className="space-y-3">
               {atuacao.map((a) => (
-                <li key={a} className="font-serif text-sm text-ink-soft leading-relaxed">— {a}</li>
+                <li key={a} className="font-serif text-base text-ink leading-relaxed">— {a}</li>
               ))}
             </ul>
           </div>
 
           <div>
-            <p className="label-meta mb-5">Sociedades</p>
+            <p className="label-meta-lg text-bordo mb-5">Sociedades</p>
             <ul className="space-y-3">
               {sociedades.map((s) => (
-                <li key={s} className="font-serif text-sm text-ink-soft leading-relaxed">— {s}</li>
+                <li key={s} className="font-serif text-base text-ink leading-relaxed">— {s}</li>
               ))}
             </ul>
           </div>
 
           <div>
-            <p className="label-meta mb-5">Credenciais</p>
-            <p className="font-sans text-sm text-ink-muted">CRM-PR 21.876</p>
-            <p className="font-sans text-sm text-ink-muted">RQE 16.038</p>
+            <p className="label-meta-lg text-bordo mb-5">Credenciais</p>
+            <p className="font-sans text-base text-ink">CRM-PR 21.876</p>
+            <p className="font-sans text-base text-ink">RQE 16.038</p>
           </div>
         </aside>
       </div>

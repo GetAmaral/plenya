@@ -26,13 +26,12 @@ export function Hero() {
           <p>A medicina que pratico hoje busca esse intervalo. É sobre o que vem antes.</p>
         </div>
 
-        <div className="mt-12 flex items-center justify-center gap-8 font-sans text-sm">
-          <Link href="/sobre" className="link-text">
-            Sobre mim
-          </Link>
-          <span className="filete-gold" aria-hidden="true" />
-          <Link href="/livro" className="link-text">
+        <div className="mt-12 flex items-center justify-center gap-5 flex-wrap">
+          <Link href="/livro" className="btn-gold">
             Leia o livro
+          </Link>
+          <Link href="/sobre" className="btn-outline">
+            Sobre mim
           </Link>
         </div>
       </div>

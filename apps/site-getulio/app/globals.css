@@ -26,7 +26,9 @@
   }
   .editorial-narrow {
     @apply mx-auto w-full px-6 md:px-10;
-    max-width: 760px;
+    /* Aumentado de 760→880 (medida de leitura ~78 chars).
+       Coluna anterior parecia espremida no desktop com vastas margens. */
+    max-width: 880px;
   }
 
   /* Tipografia editorial */
@@ -42,6 +44,38 @@
   }
   .label-meta {
     @apply font-sans uppercase tracking-widest text-xs text-ink-muted;
+  }
+  .label-meta-lg {
+    @apply font-sans uppercase text-sm text-ink-muted;
+    letter-spacing: 0.18em;
+    font-weight: 500;
+  }
+  /* Botão dourado editorial — usado em CTAs de livro/contato/palestras.
+     Texto cream sobre gold com sombra suave. */
+  .btn-gold {
+    @apply inline-flex items-center justify-center bg-gold text-paper px-8 py-4 transition-all duration-300;
+    font-family: theme('fontFamily.sans');
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px -4px rgba(180, 138, 74, 0.4);
+  }
+  .btn-gold:hover {
+    background-color: #9a7740;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px -4px rgba(180, 138, 74, 0.45);
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center border border-ink/30 text-ink px-8 py-4 transition-all duration-300;
+    font-family: theme('fontFamily.sans');
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .btn-outline:hover {
+    @apply border-ink bg-ink text-paper;
   }
   .prose-body {
     @apply font-serif text-ink-soft;
