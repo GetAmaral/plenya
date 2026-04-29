@@ -36,7 +36,7 @@ export default async function PalestrasPage({
       <section className="editorial-container pb-16 md:pb-20">
         <div className="relative aspect-[2/3] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-[3/2] w-full overflow-hidden bg-paper">
           <Image
-            src="/images/getulio-palestrante.jpg"
+            src="/images/getulio-palestrante-antes.jpg"
             alt='Dr. Getúlio Amaral Filho apresentando "ANTES — A Janela Silenciosa entre o Normal e o Ótimo"'
             fill
             priority
