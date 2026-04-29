@@ -84,7 +84,7 @@ export default function ContinuumBoxTemplatesPage() {
       toast.success('Box criado. Edite o conteúdo.');
       setCreateOpen(false);
       setNewName('');
-      window.location.href = `/continuum/box-templates/${created.id}`;
+      window.location.href = `/configuracoes/box-templates/${created.id}`;
     } catch (e: any) {
       toast.error(e?.response?.data?.error ?? 'Falha ao criar');
     }
@@ -94,7 +94,7 @@ export default function ContinuumBoxTemplatesPage() {
     <div className="container mx-auto space-y-4 py-6">
       <PageHeader
         breadcrumbs={[
-          { label: 'Continuum', href: '/continuum' },
+          { label: 'Configurações' },
           { label: 'Templates de Box' },
         ]}
         title="Templates de Box"
@@ -137,7 +137,7 @@ export default function ContinuumBoxTemplatesPage() {
                     {b.description && <CardDescription>{b.description}</CardDescription>}
                   </div>
                   <div className="flex shrink-0 gap-1">
-                    <Link href={`/continuum/box-templates/${b.id}`}>
+                    <Link href={`/configuracoes/box-templates/${b.id}`}>
                       <Button variant="outline" size="sm">
                         <Pencil className="h-3.5 w-3.5" />
                       </Button>

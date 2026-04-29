@@ -9,7 +9,6 @@
  *  - Por semana: heatmap dia × especialidade pra programação
  */
 import { useMemo, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { addDays, format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -19,9 +18,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Loader2,
-  Package,
   Users,
-  Workflow,
 } from 'lucide-react';
 
 import { useRequireAuth } from '@/lib/use-auth';
@@ -88,43 +85,6 @@ export default function ContinuumDashboardPage() {
           <PerWeekView />
         </TabsContent>
       </Tabs>
-
-      {/* Atalhos pra módulos relacionados */}
-      <div className="grid gap-3 md:grid-cols-3">
-        <Link href="/continuum/templates">
-          <Card className="transition hover:border-primary">
-            <CardContent className="flex items-center gap-3 py-4">
-              <Workflow className="h-5 w-5 text-primary" />
-              <div>
-                <p className="text-sm font-semibold">Templates Continuum</p>
-                <p className="text-xs text-muted-foreground">Semestral, Anual, customizados</p>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href="/continuum/box-templates">
-          <Card className="transition hover:border-primary">
-            <CardContent className="flex items-center gap-3 py-4">
-              <Package className="h-5 w-5 text-primary" />
-              <div>
-                <p className="text-sm font-semibold">Templates de Box</p>
-                <p className="text-xs text-muted-foreground">Boas-vindas, mensal, reavaliação</p>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
-        <Link href="/continuum/boxes">
-          <Card className="transition hover:border-primary">
-            <CardContent className="flex items-center gap-3 py-4">
-              <Package className="h-5 w-5 text-primary" />
-              <div>
-                <p className="text-sm font-semibold">Boxes em curso</p>
-                <p className="text-xs text-muted-foreground">Logística — a despachar / em trânsito</p>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
-      </div>
     </div>
   );
 }

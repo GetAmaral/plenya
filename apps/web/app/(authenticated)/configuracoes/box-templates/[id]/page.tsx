@@ -65,8 +65,8 @@ export default function ContinuumBoxTemplateEditorPage() {
     <div className="container mx-auto space-y-4 py-6">
       <PageHeader
         breadcrumbs={[
-          { label: 'Continuum', href: '/continuum' },
-          { label: 'Templates de Box', href: '/continuum/box-templates' },
+          { label: 'Configurações' },
+          { label: 'Templates de Box', href: '/configuracoes/box-templates' },
           { label: box.name },
         ]}
         title={box.name}

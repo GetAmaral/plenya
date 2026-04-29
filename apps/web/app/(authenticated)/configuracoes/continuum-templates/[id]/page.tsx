@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * /continuum/templates/[id] — editor de template Continuum.
+ * /configuracoes/continuum-templates/[id] — editor de template Continuum.
  *
  * Tabela de items ordenada por (weekOffset, position). Cada linha define
  * um marco do programa: tipo, especialidade (se appointment), título,
@@ -144,8 +144,8 @@ export default function ContinuumTemplateEditorPage() {
     <div className="container mx-auto space-y-4 py-6">
       <PageHeader
         breadcrumbs={[
-          { label: 'Continuum', href: '/continuum' },
-          { label: 'Templates', href: '/continuum/templates' },
+          { label: 'Configurações' },
+          { label: 'Templates Continuum', href: '/configuracoes/continuum-templates' },
           { label: template.name },
         ]}
         title={template.name}

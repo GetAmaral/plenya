@@ -44,6 +44,7 @@ import {
   Settings,
   Workflow,
   Megaphone,
+  Package,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -96,10 +97,13 @@ const navigation: NavigationItem[] = [
   { name: "Exercícios", href: "/training/exercises", icon: Library, staffOnly: true },
   { name: "Agente IA Treino", href: "/training/ai-agent", icon: Bot, staffOnly: true },
   { name: "Artigos", href: "/articles", icon: BookOpen },
-  // Continuum: só 1 entrada no sidebar. Os submódulos (Boxes, Templates,
-  // Templates de Box) são acessados via cards-atalho no hub /continuum.
+  // Continuum (acompanhamento clínico) e Boxes (operação logística) são uso
+  // diário e ficam no topo da seção. Templates ficam em Configurações abaixo.
   { name: "Continuum", href: "/continuum", icon: Workflow, staffOnly: true },
+  { name: "Boxes", href: "/continuum/boxes", icon: Package, staffOnly: true },
   { name: "Configurar Agenda", href: "/configuracoes/agenda", icon: Settings, staffOnly: true },
+  { name: "Templates Continuum", href: "/configuracoes/continuum-templates", icon: Workflow, staffOnly: true, requiredRoles: ['admin', 'manager'] },
+  { name: "Templates de Box", href: "/configuracoes/box-templates", icon: Package, staffOnly: true, requiredRoles: ['admin', 'manager'] },
   { name: "Integrações", href: "/configuracoes/integracoes", icon: Plug, staffOnly: true },
   { name: "Usuários", href: "/admin/users", icon: Shield, adminOnly: true },
   { name: "Definições de Medicamentos", href: "/admin/medication-definitions", icon: Pill, adminOnly: true },

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * /continuum/templates — lista de templates de programa Continuum.
+ * /configuracoes/continuum-templates — lista de templates de programa Continuum.
  * Admin/manager cria, edita, clona ou arquiva. Cada template é o "esqueleto"
  * de um programa (Semestral, Anual, Trimestral...) com N marcos por semana.
  */
@@ -96,7 +96,7 @@ export default function ContinuumTemplatesPage() {
       setNewName('');
       setNewWeeks(26);
       // Redireciona pra editor
-      window.location.href = `/continuum/templates/${created.id}`;
+      window.location.href = `/configuracoes/continuum-templates/${created.id}`;
     } catch (e: any) {
       toast.error(e?.response?.data?.error ?? 'Falha ao criar');
     }
@@ -105,7 +105,7 @@ export default function ContinuumTemplatesPage() {
   return (
     <div className="container mx-auto space-y-4 py-6">
       <PageHeader
-        breadcrumbs={[{ label: 'Continuum', href: '/continuum' }, { label: 'Templates' }]}
+        breadcrumbs={[{ label: 'Configurações' }, { label: 'Templates Continuum' }]}
         title="Templates Continuum"
         description="Cada template define a jornada — duração, marcos semanais, reavaliações trimestrais e Boxes. Inscrição de paciente faz snapshot e segue trajetória própria."
         actions={
@@ -146,7 +146,7 @@ export default function ContinuumTemplatesPage() {
                   {t.description && <CardDescription>{t.description}</CardDescription>}
                 </div>
                 <div className="flex shrink-0 gap-1">
-                  <Link href={`/continuum/templates/${t.id}`}>
+                  <Link href={`/configuracoes/continuum-templates/${t.id}`}>
                     <Button variant="outline" size="sm">
                       <Pencil className="mr-1 h-3.5 w-3.5" />
                       Editar
