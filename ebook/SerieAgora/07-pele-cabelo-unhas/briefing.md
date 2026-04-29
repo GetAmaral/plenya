@@ -46,7 +46,7 @@ Mulheres 25-55a com queda capilar · mulheres com melasma · adultos com acne ta
 |---|---|
 | **Abertura** | ~7pp · "queixa cosmética com causa real" · Carla mencionada · **Carla COMPLETA neste livro** (não em outros) |
 | **Abertura · painel** | ~12pp · painel cosmético (ferritina · D · B12 · TSH · Zn · Cu · razão Zn:Cu · proteína total · cortisol salivar · andrógenos se acne SOP) |
-| **Coreografia AGORA aplicada** | Coreografia cosmética · ~25pp |
+| **Timing dos suplementos** | Timing cosmético · ~25pp |
 | **Cap 1 (Carla expandida)** | Vira cap próprio aqui · queda 7 anos · ferritina 12→64 · pele descamando inverno → cessou · ~12pp |
 | **Cap 4 (D + K2)** | Recorte pele · xerose · ~5pp |
 | **Cap 6 (Ômega-3)** | Recorte membrana folicular · pele · ~6pp |
@@ -110,7 +110,7 @@ PARTE III · OS SUPLEMENTOS COSMÉTICOS (~50pp)
 ├─ Selênio · catalase (Cap 15 · ~5pp)
 └─ Ômega-3 (Cap 6 · ~5pp)
 
-PARTE IV · COREOGRAFIA COSMÉTICA (~25pp)
+PARTE IV · TIMING COSMÉTICO (~25pp)
 
 FECHAMENTO (~6pp)
 └─ Fechamento · "Cosmético é tática · sistema é estratégia"

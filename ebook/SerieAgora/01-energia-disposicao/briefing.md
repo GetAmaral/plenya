@@ -2,7 +2,6 @@
 
 **Subtítulo:** Cansaço crônico, fadiga vespertina, Long COVID e POTS · Ferro · B12 · Vitamina D · Magnésio · CoQ10 · NAD+ · Adaptógenos · Tireoide
 **Posição na série:** 1 de 10 (entrada · queixa #1 universal)
-**Páginas-alvo:** ~320 · ~80k palavras
 
 ---
 
@@ -14,9 +13,9 @@ Adultos 30-70a com fadiga inespecífica que persiste apesar de "exames normais".
 - Mulheres com ciclo regular ou pós-parto (ferro funcional)
 - Pacientes com Long COVID · ME/CFS · POTS · disautonomia
 - Profissionais com sono inadequado por escolha (executivos)
-- Quem auto-prescreve NMN/NR/multi sem auditoria primária
+- Quem auto-prescreve NMN/NR/multi sem investigação prévia
 
-## Sintomas-chave que este livro resolve
+## Sintomas-chave
 
 - Cansaço que não passa nem com 8h de sono
 - Fadiga vespertina · sonolência diurna
@@ -24,95 +23,170 @@ Adultos 30-70a com fadiga inespecífica que persiste apesar de "exames normais".
 - Cansaço pós-COVID (Long COVID · ME/CFS)
 - Tonturas ao levantar (POTS · disautonomia)
 - "Tudo no exame está normal e ainda estou cansado"
-- Cansaço sem queixa específica (fadiga inespecífica)
 
-## Suplementos que este livro audita em profundidade
+---
 
-- **Ferro · Ferritina** (causa #1 fadiga em mulher com ciclo)
-- **B12 metilada** (vegetariano · em uso de omeprazol · idoso)
-- **Vitamina D** (deficiência associada a fadiga)
-- **Magnésio** (todas as formas · deficiência intracelular)
-- **CoQ10 ubiquinol** (pós-estatina · disfunção mitocondrial)
-- **NAD+ family · NMN · NR · Niacina** (honesto · fronteira)
-- **Adaptógenos** (ashwagandha · rhodiola · ginseng · cordyceps)
-- **L-carnitina** (transporte ácidos graxos mitocôndria)
-- **Selênio + Iodo** (tireoide subclínica · TSH 2,5-4,5)
-- **D-ribose** (mitocôndria adjuvante)
-
-## Capítulos do AGORA original que entram
-
-| Cap origem | Tratamento neste livro |
-|---|---|
-| **Cap 1 (Carla)** | Abertura · ~6-8pp · Carla aparece COMPLETA em Livro 7 (queda capilar) · aqui mini conceitual sem nome |
-| **Cap 2 (Sandra)** | Abertura · ~10-12pp · painel mínimo da fadiga (TSH · ferritina · B12 · MMA · Hcy · D · Mg eritrocitário · glicose/insulina/HOMA · cortisol salivar · PHQ-9/GAD-7 · polissonografia screening) · Sandra COMPLETA em Livro 6 (B12 + neuropatia) |
-| **Cap 3 (André)** | Coreografia da fadiga aplicada (Parte III · ~30pp) · André COMPLETO aqui (triatleta vegetariano · ferritina 41→86 · ômega-3 index 3,4% · CoQ10 indetectável→1,8) |
-| **Cap 5 (Magnésio)** | Atlas · recorte fadiga (glicinato · Mg eritrocitário) · ~8pp |
-| **Cap 10 (B12)** | Atlas · recorte vegetariano e omeprazol crônico · Helena aparece em Livro 6 cognitiva · aqui usar persona Helena Recorte fadiga (cansaço sem dormir 12h) ou criar nova |
-| **Cap 13 (Ferro)** | Atlas · recorte mulher · pós-parto · vegetariano · ~8pp |
-| **Cap 15 (Selênio + Iodo)** | Atlas · recorte tireoide subclínica fadiga · ~6pp |
-| **Cap 17 (CoQ10 + cofatores mitocondriais)** | Atlas · recorte pós-estatina · Marcelo COMPLETO em Livro 4 cardio · aqui usar resumo conceitual sem Marcelo nome |
-| **Cap 18 (Adaptógenos)** | Atlas · recorte HPA fadiga · Letícia HPA aparece em Livro 8 (perimenopausa) · aqui criar persona nova ou conceitual |
-| **Cap 19 (Aminoácidos funcionais)** | Atlas · recorte L-carnitina · L-tirosina · NAC para fadiga · ~5pp |
-| **Cap 21 (NAD+ family)** | Atlas · honesto · NMN/NR não primeira linha · auditoria antes · ~6pp |
-| **Cap 27 (Energia e disposição · Patricia auditoria primária)** | **Cap-mãe deste livro** · Patricia COMPLETA aqui · auditoria 12 perguntas · 5 tipos de fadiga · timeline esperado · ~15pp expandido |
-| **Cap 28 (Sono que repara · apneia)** | Recorte de apneia como causa de fadiga (Patricia tinha IAH 14) · sono completo vai para Livro 2 · ~8pp |
-| **Cap 42 (Long COVID parte I)** | Inteiro · ~10pp · personagem Long COVID nova aqui (não Helena/Patricia) |
-| **Cap 51 (Long COVID parte II · ME/CFS · disautonomia)** | Inteiro · ~10pp · expansão do Long COVID com POTS |
-| **Cap 53 (Manifesto)** | Fechamento · ~5-7pp · "A energia que volta · não é vitamina · é sistema" |
-
-## Material novo a escrever (~12k palavras · ~48pp)
-
-- **Os 5 tipos de fadiga** · ~3k palavras · diferenciação clínica (somática · sonolência · anedonia · cognitiva · pós-esforço) · árvore de decisão
-- **Timeline esperado por intervenção** · ~2k · tabela: ferro 3-6m · CoQ10 2-3m · CPAP 2sem · vit D 4-8sem · B12 1-3m · adaptógenos 4-8sem · NAD+ pesquisa
-- **Case fadiga pós-correção** · ~3k · paciente com tudo normal e ainda cansado · próximos passos (adaptógenos · vínculo · psicologia · L-carnitina · CoQ10 mesmo com sérico normal)
-- **POTS · disautonomia · Long COVID** · ~2k · sódio · fludrocortisona · suplementação coadjuvante · estabilização postural
-- **Menopausa + fadiga específica** · ~2k · estrógeno + colágeno mitocondrial · cross-reference para Livro 8
-
-## Personagens (elenco do livro)
-
-| Personagem | Origem | Papel no livro |
-|---|---|---|
-| **Patricia** (51a · executiva financeira) | AGORA Cap 27 | Auditoria primária · apneia IAH 14 · ferritina 38 · vit D 24 · CPAP 12m · "energia restaurada" — figura central |
-| **André** (45a · triatleta vegetariano) | AGORA Cap 3, 6 | Coreografia · ômega-3 index 3,4% · ferritina 41→86 · CoQ10 indetectável→1,8 |
-| **Letícia** (39a · designer) recorte fadiga HPA | AGORA Cap 18 | HPA cronicamente ativado · cortisol salivar invertido · ashwagandha resposta — apenas o ângulo fadiga, sem perimenopausa (que vai para Livro 8) |
-| **Long COVID nova** (32a · jornalista) | NOVO | Fadiga pós-COVID 18m · disautonomia · POTS · protocolo Plenya integrado |
-| **Marcelo** (49a · pós-IAM · estatina · CoQ10) recorte conceitual | AGORA Cap 17 | Mencionado conceitualmente sem nome próprio (Marcelo COMPLETO em Livro 4) |
-| **Helena** (67a · vegetariana 32a) recorte fadiga | AGORA Cap 10 | Mencionada como caso vegetariana fadiga (Helena COMPLETA em Livro 6) |
-
-
-## Estrutura final (sumário)
+## Estrutura final do livro
 
 ```
-ABERTURA
-├─ Diretório da série (1-2pp)
-├─ Abertura · A janela silenciosa da fadiga (~7pp)
-└─ Abertura · painel · O painel mínimo da fadiga (~12pp)
+ABERTURA — O cansaço que entrou e não sai
+├─ A pergunta deste livro
+└─ O painel mínimo da fadiga (marcadores específicos)
 
-PARTE I · OS TERRITÓRIOS DA FADIGA (~140pp)
-├─ Cap-mãe · Patricia e a auditoria primária (~25pp)
-├─ Os 5 tipos de fadiga e como diferenciar (~12pp · NOVO)
-├─ Timeline esperado por intervenção (~8pp · NOVO)
-├─ Apneia obstrutiva como causa oculta (~10pp · recorte do Cap 28)
-├─ Long COVID · ME/CFS · POTS (~25pp · Caps 42 + 51 + NOVO POTS)
-├─ Fadiga pós-correção · o que fazer quando "tudo está normal" (~15pp · NOVO)
-└─ Menopausa + fadiga (~8pp · NOVO · cross-ref Livro 8)
+PARTE I · OS TERRITÓRIOS DA FADIGA
 
-PARTE II · OS SUPLEMENTOS DETALHADOS (~110pp)
-├─ Ferro + ferritina (Cap 13 · ~10pp)
-├─ B12 metilada (Cap 10 · ~10pp)
-├─ Vitamina D (Cap 4 · ~8pp)
-├─ Magnésio (Cap 5 · ~10pp)
-├─ CoQ10 ubiquinol (Cap 17 · ~12pp)
-├─ NAD+ family honesto (Cap 21 · ~10pp)
-├─ Adaptógenos (Cap 18 · ~12pp)
-├─ Aminoácidos funcionais (Cap 19 · ~8pp)
-└─ Selênio + Iodo (Cap 15 · ~8pp)
+Cap 1 · Patricia e as perguntas antes do frasco
+        (cap-mãe · doze perguntas · plano em três fases)
 
-PARTE III · COREOGRAFIA APLICADA (~35pp)
-└─ Coreografia AGORA aplicada · André e a coreografia da fadiga (relógio Plenya · 5 janelas · interações)
+Cap 2 · Os 5 tipos de fadiga
+        (somática · sonolência · anedonia · brain fog · pós-esforço)
 
-FECHAMENTO
-└─ Fechamento · Manifesto da energia (~6pp)
+— Eixo do sono —
+Cap 3 · Sono que falha, fadiga que sobra
+        ├─ Apneia obstrutiva
+        ├─ Síndrome das pernas inquietas (ferritina-alvo >75)
+        └─ Distúrbios circadianos (cronotipo extremo · turno · jet lag crônico)
 
-REFERÊNCIAS · GLOSSÁRIO · APÊNDICES (~15pp)
+— Eixo hematológico —
+Cap 4 · Sangue que não entrega
+        ├─ Anemia ferropriva e ferritina sub-ótima
+        ├─ Hemocromatose hereditária (saturação de transferrina alta)
+        ├─ Talassemia minor e traço falciforme (microcitose com ferro normal)
+        ├─ Anemia hemolítica subclínica
+        └─ MGUS e mieloma indolente (>50a · sintomas B · eletroforese de proteínas)
+
+— Eixo endócrino —
+Cap 5 · Hormônios que silenciam
+        ├─ Hipotireoidismo subclínico
+        ├─ Hiperparatireoidismo primário (cálcio iônico + PTH)
+        ├─ Insuficiência adrenal subclínica (Addison precoce + Cushing leve)
+        ├─ Hipogonadismo masculino (cross-ref Livro 9)
+        └─ Hiperprolactinemia
+
+— Eixo cardiometabólico —
+Cap 6 · Coração e metabolismo silenciosos
+        ├─ HFpEF e insuficiência cardíaca subclínica
+        ├─ HAS noturna non-dipping
+        ├─ FA paroxística silenciosa (palpitação inexplicada · Holter)
+        └─ Síndrome metabólica e resistência insulínica
+            (cross-ref Livro 3 · aqui só na lente fadiga)
+
+— Eixo intestino-fígado —
+Cap 7 · O intestino e o fígado que esgotam
+        ├─ Doença celíaca subclínica (anti-tTG IgA + IgA total)
+        ├─ Gastrite atrófica autoimune (B12 baixa secundária)
+        ├─ Hepatite autoimune subclínica (ALT inexplicada · ANA + AML)
+        └─ DII subclínica (calprotectina fecal)
+
+— Eixo renal —
+Cap 8 · Rim oculto, fadiga real
+        ├─ DRC estágio 3 oculta (eGFR + alb/cr urinária)
+        └─ Anemia da DRC subclínica
+
+— Eixo respiratório —
+Cap 9 · Pulmão silencioso
+        ├─ DPOC inicial em fumante
+        └─ Doença pulmonar restritiva incipiente
+
+— Eixo infeccioso e pós-viral —
+Cap 10 · Quando o vírus persiste
+        ├─ Long COVID e ME/CFS
+        ├─ POTS e disautonomia
+        ├─ EBV reativada · CMV · mononucleose crônica
+        ├─ HIV oculto · hepatites B/C · sífilis terciária (rastreio mínimo)
+        └─ Doença de Chagas crônica em adulto brasileiro
+
+— Eixo autoimune e reumatológico —
+Cap 11 · Quando o corpo ataca o corpo
+        ├─ Síndrome de Sjögren primário (cross-ref Livro 8)
+        ├─ Lúpus subclínico
+        └─ Fibromialgia (cross-ref Livro 6)
+
+— Eixo neuropsiquiátrico —
+Cap 12 · A mente que se esconde no cansaço
+        ├─ Depressão maior leve e ansiedade subclínica
+        ├─ Anedonia
+        ├─ TDAH adulto não diagnosticado
+        ├─ Bipolar II (latência média >10 anos)
+        └─ Estresse crônico não-modulado e burnout (cross-ref Livro 6)
+
+— Eixo iatrogênico, hábitos e tóxicos —
+Cap 13 · Antes de procurar zebra: revise a farmácia e a casa
+        ├─ Iatrogenia farmacológica (β-bloqueador · ISRS · gabapentinoides ·
+        │   anti-histamínico H1 · clonidina · opioides · polifarmácia)
+        ├─ Álcool ≥14 doses/sem
+        ├─ Cannabis crônica
+        ├─ Tabagismo
+        ├─ Tóxicos ambientais (chumbo · mercúrio · monóxido · mofo/micotoxinas)
+        └─ Dietas extremas mal conduzidas (cetogênica · vegana · jejum prolongado)
+
+— Eixo neoplásico (bandeira vermelha) —
+Cap 14 · Quando a fadiga é sinal de câncer
+        ├─ Sintomas B (sudorese noturna · perda de peso · linfonodos)
+        ├─ Linfoma indolente · leucemia crônica
+        └─ Síndrome paraneoplásica oculta · rastreio idade-apropriado
+
+Cap 15 · "Tudo normal e ainda cansado"
+        (fadiga pós-correção + tabela de timeline esperado por intervenção)
+
+
+PARTE II · O ATLAS DOS SUPLEMENTOS DA FADIGA
+
+— Minerais —
+Cap 16 · Ferro e ferritina
+        (+ subseção: Vitamina C como cofator de absorção)
+Cap 17 · Magnésio
+Cap 18 · Zinco e Cobre (razão Zn:Cu)
+Cap 19 · Selênio e Iodo (tireoide)
+
+— Vitaminas —
+Cap 20 · Vitamina D
+Cap 21 · Vitamina B12 metilada
+Cap 22 · Folato 5-MTHF e B6 P5P
+Cap 23 · Complexo B (B1, B2, B3, B5)
+
+— Mitocôndria —
+Cap 24 · CoQ10 ubiquinol
+        (+ subseções: PQQ · Ácido alfa-lipoico · D-ribose)
+Cap 25 · NAD+ family (Niacina · NMN · NR — honesto)
+
+— Aminoácidos e creatina —
+Cap 26 · Creatina
+Cap 27 · L-carnitina e aminoácidos funcionais
+        (L-tirosina · L-teanina · NAC · L-arginina · L-citrulina · glicina)
+
+— Botânicos e fungos —
+Cap 28 · Adaptógenos
+        (Ashwagandha · Rhodiola · Ginseng panax)
+Cap 29 · Cogumelos funcionais
+        (Cordyceps · Lion's Mane · Reishi)
+
+— Lipídicos e imune —
+Cap 30 · Ômega-3 EPA/DHA (recorte fadiga · cross-ref Livro 4)
+Cap 31 · Colostro bovino e glutamina (recorte fadiga pós-viral · cross-ref Livro 5)
+
+— Aplicação —
+Cap 32 · Timing dos suplementos
+        (André + relógio Plenya + 5 janelas circadianas + interações de absorção)
+
+
+FECHAMENTO — Manifesto da energia
 ```
+
+---
+
+## Princípios de escrita
+
+- **Caps de causas (Parte I):** sucintos · 3-5pp por causa · clínica direta · marcador-chave + bandeira vermelha + onde encaminhar
+- **Caps de atlas (Parte II):** mais profundos · 8-12pp por suplemento · forma química · dose · faixa Plenya · sinergia · alerta · caso clínico curto
+- **Capítulos com cross-reference** (síndrome metabólica · Sjögren · TDAH · Bipolar II · hipogonadismo · fibromialgia · burnout) ficam no recorte fadiga · cap principal está em outro livro da série · sem repetir profundidade
+- **Personagens:** Patricia (cap-mãe · cap 1) · André (cap 32 · timing) · Long COVID nova (cap 10) · personagens-vinheta breves nos caps de causas (perfil clínico de 1-2 frases)
+
+## Ordem de produção
+
+1. **Abertura** — escrita após o livro pronto (reflete o todo)
+2. **Cap 1 · Patricia e as perguntas antes do frasco** — JÁ ESCRITO em `rascunhos/10-cap-mae-patricia-auditoria-primaria.md` · precisa adaptar título e termo "auditoria primária" → "perguntas antes do frasco"
+3. **Caps 2-15** — escritos na sequência (territórios da fadiga)
+4. **Caps 16-32** — atlas dos suplementos na sequência
+5. **Fechamento** — manifesto da energia
+6. **Referências consolidadas** ao final

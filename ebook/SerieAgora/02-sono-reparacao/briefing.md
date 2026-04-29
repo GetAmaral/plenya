@@ -36,7 +36,7 @@ Insones crônicos · pessoas com apneia diagnosticada ou suspeita · profissiona
 |---|---|
 | **Abertura** | Abertura · ~6-8pp · janela silenciosa do sono |
 | **Abertura · painel** | Painel do sono (~10pp · polissonografia tipo I · IAH · sat min · TS90 · N3% · REM% · cortisol salivar 4 pontos · PSQI · ESS) |
-| **Coreografia AGORA aplicada** | Coreografia do sono (Parte III · ~25pp · Relógio Plenya · janela noturna) |
+| **Timing dos suplementos** | Timing dos suplementos (Parte III · ~25pp · Relógio Plenya · janela noturna) |
 | **Cap 5 (Magnésio)** | Atlas · recorte glicinato noturno · ~10pp |
 | **Cap 18 (Adaptógenos)** | Atlas · recorte ashwagandha noturna · ~6pp |
 | **Cap 19 (Aminoácidos · glicina · L-teanina)** | Atlas · ~8pp |
@@ -84,7 +84,7 @@ PARTE II · OS SUPLEMENTOS DO SONO (~60pp)
 ├─ Reishi · Valeriana · Passiflora (~10pp)
 └─ Quando NÃO suplementar (~7pp)
 
-PARTE III · COREOGRAFIA NOTURNA (~25pp)
+PARTE III · TIMING NOTURNO (~25pp)
 └─ Janela noturna do Relógio Plenya · interações · timing
 
 FECHAMENTO (~8pp)

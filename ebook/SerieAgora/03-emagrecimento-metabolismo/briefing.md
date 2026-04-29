@@ -42,7 +42,7 @@ Adultos 35-65a com IMC ≥25 ou cintura aumentada · pré-DM · NAFLD descoberta
 |---|---|
 | **Abertura** | ~7pp · janela silenciosa do metabolismo |
 | **Abertura · painel** | ~12pp · painel metabólico (HbA1c · glicose · insulina · HOMA-IR · TG · HDL · ApoB · ALT/AST · GGT · elastografia · cintura) |
-| **Coreografia AGORA aplicada** | ~25pp |
+| **Timing dos suplementos** | ~25pp |
 | **Cap 5 (Magnésio)** | Recorte HOMA-IR · ~6pp |
 | **Cap 6 (Ômega-3)** | Recorte EPA TG · ~8pp |
 | **Cap 17 (CoQ10)** | Recorte mitocondrial metabólico · ~6pp |
@@ -96,7 +96,7 @@ PARTE II · OS SUPLEMENTOS METABÓLICOS (~95pp)
 ├─ Cromo · ALA · honesto (~10pp)
 └─ Curcumina BCM-95 (~5pp)
 
-PARTE III · COREOGRAFIA METABÓLICA (~35pp)
+PARTE III · TIMING METABÓLICO (~35pp)
 
 FECHAMENTO (~8pp)
 └─ Fechamento · "Reverter antes do diagnóstico"

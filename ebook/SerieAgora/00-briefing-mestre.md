@@ -63,7 +63,7 @@ PARTE II — Os suplementos detalhados                    (25-35%)
    ├─ Caps Atlas relevantes ao tema
    └─ Recorte editorial específico (forma química · dose · faixa Plenya · casos)
 
-PARTE III — A coreografia AGORA aplicada                (~10-15%)
+PARTE III — Timing dos suplementos                (~10-15%)
    ├─ Trio Plenya (quando · com o quê · em que veículo)
    ├─ Relógio Plenya (5 janelas circadianas)
    └─ Regra dos Dois (mover 2 pontos por trimestre)
@@ -85,8 +85,8 @@ REFERÊNCIAS · GLOSSÁRIO · APÊNDICES
 | Painel mínimo conceitual | SIM | **NÃO duplicar** · abertura do livro AGORA referencia ANTES |
 | Janela silenciosa (conceito) | SIM | **NÃO duplicar** · abertura referencia ANTES |
 | 4 cavaleiros (CV/câncer/neuro/metabólico) | SIM | **NÃO duplicar** · AGORA aprofunda EXECUÇÃO |
-| Lp(a)/ApoB/CAC | SIM (laboratorial) | AGORA Livro 4 complementa com coreografia |
-| Coreografia e cronobiologia | NÃO | SIM — exclusivo da série |
+| Lp(a)/ApoB/CAC | SIM (laboratorial) | AGORA Livro 4 complementa com Timing dos suplementos |
+| Timing dos suplementos e cronobiologia | NÃO | SIM — exclusivo da série |
 | Suplementação por sintoma | NÃO | SIM — todo o eixo AGORA |
 | GLP-1 · RECOVER · Lancet 2024 · FDA 2025 | NÃO | SIM — material novo da série |
 

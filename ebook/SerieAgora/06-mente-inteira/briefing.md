@@ -48,7 +48,7 @@ Adultos 35-75a com sintomas neuropsiquiátricos leves a moderados · enxaquecoso
 |---|---|
 | **Abertura** | ~7pp · "mente que não para · cérebro que envelhece" |
 | **Abertura · painel** | ~12pp · painel cognitivo (B12 · MMA · Hcy · D · ômega-3 index · Mg eritrocitário · TSH · cortisol salivar 4 pontos · MoCA · PHQ-9 · GAD-7 · ApoE4 se familiar) |
-| **Coreografia AGORA aplicada** | Coreografia cognitiva · ~25pp |
+| **Timing dos suplementos** | Timing cognitivo · ~25pp |
 | **Cap 5 (Magnésio)** | Recorte L-treonato cerebral · ~8pp |
 | **Cap 6 (Ômega-3)** | Recorte DHA neuro · ~8pp |
 | **Cap 7 (Creatina)** | Recorte cognição · ~8pp |
@@ -122,7 +122,7 @@ PARTE II · OS SUPLEMENTOS DA MENTE (~110pp)
 ├─ CoQ10 enxaqueca (~3pp)
 └─ Matricária enxaqueca (~3pp)
 
-PARTE III · COREOGRAFIA COGNITIVA (~30pp)
+PARTE III · TIMING COGNITIVO (~30pp)
 
 FECHAMENTO (~6pp)
 └─ Fechamento · "Cérebro inteiro · vida inteira"

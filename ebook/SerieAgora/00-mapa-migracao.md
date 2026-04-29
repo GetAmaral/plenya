@@ -10,7 +10,7 @@
 |---|---|
 | **Cap 1 (As 14 Cápsulas e Nenhum Biomarcador · Carla)** | Inspiração para a ABERTURA de cada livro · cada abertura traz "a pergunta que este livro responde" recortada para o tema. Carla aparece COMPLETA apenas no Livro 7 (queda capilar). Em outros livros: abertura conceitual com personagem do livro |
 | **Cap 2 (Painel Mínimo · Sandra)** | Inspiração para a ABERTURA · cada livro tem painel mínimo aplicado ao tema. Sandra aparece COMPLETA apenas no Livro 6 (B12 + neuropatia · cognição) |
-| **Cap 3 (Consolidação e Cronobiologia · André)** | Vira PARTE III · A coreografia AGORA aplicada em cada livro. André aparece COMPLETO apenas no Livro 1 (triatleta vegetariano · ferritina · ômega-3) |
+| **Cap 3 (Consolidação e Cronobiologia · André)** | Vira PARTE III · Timing dos suplementos em cada livro. André aparece COMPLETO apenas no Livro 1 (triatleta vegetariano · ferritina · ômega-3) |
 | **Cap 53 (Manifesto Editorial Plenya)** | Inspiração para o FECHAMENTO de cada livro · slogan-marca · "Viva bem. Viva mais." recortado para o tema |
 
 ---

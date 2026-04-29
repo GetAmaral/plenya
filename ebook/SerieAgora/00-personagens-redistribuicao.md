@@ -10,7 +10,7 @@
 |---|---|---|---|
 | **Carla** (38a · advogada · queda capilar 7a) | 1 | **7 · Pele, Cabelo e Unhas** | Queda capilar âncora · ferritina 12→64 · pele descamando · timeline correção · "voltei pra mim" |
 | **Sandra** (46a · coord. pedagógica · neuropatia B12) | 2, 22 | **6 · Mente Inteira** (B12 + cognição); **3 · Antes do Diabetes** (botânicos · ApoB) | Dois recortes diferentes: arco B12 + neuropatia para Livro 6 · arco metabólico (botânicos) para Livro 3 (são histórias clínicas distintas) |
-| **André** (45a · triatleta vegetariano · ômega-3 · ferritina) | 3, 6 | **1 · Energia e Disposição** | Coreografia (jejum/com gordura/separação cálcio-ferro) + ômega-3 index 3,4% + FADS1 GG + ferritina 41→86 + CoQ10 indetectável→1,8 |
+| **André** (45a · triatleta vegetariano · ômega-3 · ferritina) | 3, 6 | **1 · Energia e Disposição** | Timing dos suplementos (jejum/com gordura/separação cálcio-ferro) + ômega-3 index 3,4% + FADS1 GG + ferritina 41→86 + CoQ10 indetectável→1,8 |
 | **Vera** (58a · pós-menopausa · perda óssea + sarcopenia) | 4, 7, 19 | **8 · Mulher** | Pós-menopausa · D+K2 · creatina · força · DEXA · sono fragmentado pós-menopausa (recorte sono em Livro 8 não Livro 2) |
 | **Letícia** (39a · designer · Mg/ashwagandha/inflamação) | 5, 18, 23, 29, 36, 45 | **8 · Mulher** (perimenopausa · humor cíclico) + **5 · Inflamação Crônica** (inflamação articular) | Dois recortes distintos: Letícia perimenopausa+humor para Livro 8 · Letícia inflamação articular para Livro 5 (arcos diferentes do mesmo personagem · OK porque são livros diferentes sem cross-reference) |
 | **Antônio** (67a · empresário · NAFLD · HPB · visão) | 8, 20, 24, 32, 39, 41, 44 | **3 · Antes do Diabetes** (NAFLD); **9 · Homem** (HPB · andropausa); **10 · Longevidade Estrutural** (visão · fronteira) | Antônio é o personagem mais multi-arco. Dividir: NAFLD para Livro 3 · HPB+andro para Livro 9 · visão+fronteira para Livro 10. Cada livro tem "Antônio" como figura própria sem cross-reference (OK: Antônio é nome comum) |
@@ -104,7 +104,7 @@ Total estimado de personagens NOVOS a criar:
 
 | Livro | Personagens (originais + novos) |
 |---|---|
-| 1 · Energia | Patricia (auditoria) · André (coreografia) · Marcelo (CoQ10 estatina) · Letícia (HPA fadiga) · Helena (B12 vegetariana fadiga) · Long COVID novo |
+| 1 · Energia | Patricia (auditoria) · André (Timing dos suplementos) · Marcelo (CoQ10 estatina) · Letícia (HPA fadiga) · Helena (B12 vegetariana fadiga) · Long COVID novo |
 | 2 · Sono | Roberto (insônia crônica) · Eduardo (apneia) · Paulo (apneia + T) · insônia menopausal nova |
 | 3 · Antes do Diabetes | Patricia (HOMA-IR) · Antônio (NAFLD) · Sandra (botânicos · ApoB) · GLP-1 yo-yo novo |
 | 4 · Coração | Marcelo (IAM · estatina · CoQ10 · NAD+) · Lp(a) familiar novo · Paulo recorte (CAC) |

@@ -43,7 +43,7 @@ Pacientes com inflamação subclínica (PCR 1-3) · doença autoimune em control
 |---|---|
 | **Abertura** | ~7pp · "inflamação não é sintoma · é mensagem" |
 | **Abertura · painel** | ~12pp · painel inflamatório (PCR-us · IL-6 · ferritina · fibrinogênio · calprotectina fecal · 16S microbiota · TSH+anti-TPO · ANA) |
-| **Coreografia AGORA aplicada** | Coreografia anti-inflamatória · ~25pp |
+| **Timing dos suplementos** | Timing anti-inflamatório · ~25pp |
 | **Cap 4 (D + K2)** | Recorte Tregs · imune · ~5pp |
 | **Cap 6 (Ômega-3)** | Recorte EPA resolvinas · ~6pp |
 | **Cap 9 (Vit C)** | Recorte cofator imune · NÃO megadose · ~5pp |
@@ -103,7 +103,7 @@ PARTE II · OS SUPLEMENTOS DA INFLAMAÇÃO (~85pp)
 ├─ Cogumelos + colostro (~12pp)
 └─ Vit C cofator + NAC + L-glutamina + ômega-3 EPA (~10pp)
 
-PARTE III · COREOGRAFIA ANTI-INFLAMATÓRIA (~25pp)
+PARTE III · TIMING ANTI-INFLAMATÓRIO (~25pp)
 
 FECHAMENTO (~6pp)
 └─ Fechamento

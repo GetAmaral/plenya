@@ -48,7 +48,7 @@ Homens 35-70a · andropausa · DE leve a moderada · HPB · infertilidade mascul
 |---|---|
 | **Abertura** | ~7pp · "homem que não chora · sintoma que não cuida" |
 | **Abertura · painel** | ~12pp · painel masculino (T total · T livre · DHEA-S · LH · FSH · estradiol · PSA · IPSS · ferritina · D · espermograma) |
-| **Coreografia AGORA aplicada** | Coreografia masculina · ~20pp |
+| **Timing dos suplementos** | Timing masculino · ~20pp |
 | **Cap 4 (D + K2)** | Recorte testosterona · ~5pp |
 | **Cap 5 (Magnésio)** | Recorte performance · ~5pp |
 | **Cap 6 (Ômega-3)** | Recorte espermograma · ~5pp |
@@ -111,7 +111,7 @@ PARTE II · OS SUPLEMENTOS DO HOMEM (~75pp)
 ├─ L-carnitina · espermograma (~3pp)
 └─ Sarcopenia + GLP-1 (~3pp · NOVO)
 
-PARTE III · COREOGRAFIA MASCULINA (~25pp)
+PARTE III · TIMING MASCULINO (~25pp)
 
 FECHAMENTO (~6pp)
 └─ Fechamento · "Homem que cuida · vive inteiro"

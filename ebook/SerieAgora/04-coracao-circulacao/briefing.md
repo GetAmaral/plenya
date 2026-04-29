@@ -40,7 +40,7 @@ Adultos 40-70a com risco CV familiar (pais ou irmãos com IAM/AVC precoce) · qu
 |---|---|
 | **Abertura** | ~7pp · janela silenciosa CV |
 | **Abertura · painel** | ~12pp · painel CV (Lp(a) · ApoB · CAC · hs-CRP · ômega-3 index · homocisteína · MAPA · PA domiciliar) |
-| **Coreografia AGORA aplicada** | Coreografia CV (~25pp) |
+| **Timing dos suplementos** | Timing CV (~25pp) |
 | **Cap 4 (D + K2)** | Recorte K2 anti-calcificação · ~6pp |
 | **Cap 5 (Magnésio)** | Recorte taurato PA · ~6pp |
 | **Cap 6 (Ômega-3)** | EPA REDUCE-IT vs STRENGTH · ~10pp |
@@ -94,7 +94,7 @@ PARTE II · OS SUPLEMENTOS CV (~70pp)
 ├─ Niacina · Lp(a) honesto (~6pp)
 └─ NAC · hibisco · cardo (~4pp)
 
-PARTE III · COREOGRAFIA CV (~25pp)
+PARTE III · TIMING CV (~25pp)
 
 FECHAMENTO (~6pp)
 └─ Fechamento · "Prevenção secundária é tática · primária é estratégia"

@@ -49,7 +49,7 @@ Adultos 50+ pensando em prevenção estrutural · pais com filhos pequenos (pedi
 |---|---|
 | **Abertura** | ~7pp · "longevidade não é sintoma · é estrutura" |
 | **Abertura · painel** | ~12pp · painel longevidade (DEXA · ASMI · força preensão · velocidade marcha · OCT mácula · acuidade visual · biological age) |
-| **Coreografia AGORA aplicada** | Coreografia longevidade · ~20pp |
+| **Timing dos suplementos** | Timing longevidade · ~20pp |
 | **Cap 4 (D + K2)** | Recorte osso · pediatria · ~6pp |
 | **Cap 7 (Creatina)** | Recorte sarcopenia 50+ · ~6pp |
 | **Cap 8 (Vit A + E)** | **Cap-mãe atlas** · visão · AREDS2 · ~12pp |
@@ -107,7 +107,7 @@ PARTE II · OS SUPLEMENTOS DA LONGEVIDADE (~55pp)
 ├─ Ferro · iodo · pediatria (~5pp)
 └─ Espermidina · fisetina · senolíticos · rapamicina · NMN (fronteira honesta) (~4pp)
 
-PARTE III · COREOGRAFIA LONGEVIDADE TRANSGERACIONAL (~25pp)
+PARTE III · TIMING LONGEVIDADE TRANSGERACIONAL (~25pp)
 └─ Como aplicar a série inteira na família · cada idade · hábito como herança
 
 FECHAMENTO (~8pp)

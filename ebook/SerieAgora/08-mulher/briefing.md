@@ -58,7 +58,7 @@ Mulheres dos 25 aos 70a — cobre TODAS as fases femininas:
 |---|---|
 | **Abertura** | ~7pp · "ciclo silenciado · sintoma normalizado" |
 | **Abertura · painel** | ~12pp · painel feminino (FSH · LH · estradiol · progesterona · testosterona livre · DHEA-S · TSH · ferritina · vit D · DEXA · DRSP · PHQ-9) |
-| **Coreografia AGORA aplicada** | Coreografia feminina · ~25pp |
+| **Timing dos suplementos** | Timing feminino · ~25pp |
 | **Cap 4 (D + K2)** | Recorte osso pós-menopausa · ~8pp |
 | **Cap 5 (Magnésio)** | Recorte glicinato TPM · loading perimenstrual · ~10pp |
 | **Cap 7 (Creatina)** | Recorte pós-menopausa · sarcopenia + cognição · ~8pp |
@@ -137,7 +137,7 @@ PARTE III · OS SUPLEMENTOS DA MULHER (~80pp)
 ├─ Ferro · perdas menstruais (~3pp)
 └─ Colágeno · probióticos vaginais (~5pp)
 
-PARTE IV · COREOGRAFIA FEMININA (~30pp)
+PARTE IV · TIMING FEMININO (~30pp)
 
 FECHAMENTO (~8pp)
 └─ Fechamento · "Mulher inteira em todas as fases"
