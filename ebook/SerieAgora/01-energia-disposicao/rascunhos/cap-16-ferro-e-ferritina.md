@@ -179,6 +179,6 @@ A vitamina C (ácido ascórbico) é **cofator obrigatório** para absorção oti
 - Pasricha SR, Tye-Din J, Muckenthaler MU, Swinkels DW. Iron deficiency. *Lancet* 2021;397(10270):233-248.
 - Hurrell R, Egli I. Iron bioavailability and dietary reference values. *Am J Clin Nutr* 2010;91(5):1461S-1467S.
 - Lynch SR, Cook JD. Interaction of vitamin C and iron. *Ann N Y Acad Sci* 1980;355:32-44.
-- Allen RP, Earley CJ. The role of iron in restless legs syndrome. *Sleep Med Rev* 2014;18(2):165-172.
-- Pollack S, Mason JB, Trier JS. Iron absorption: physiology and pathophysiology. *Annu Rev Nutr* 2013;33:1-28.
+- Allen RP, Earley CJ. The role of iron in restless legs syndrome. *Mov Disord* 2007;22(Suppl 18):S440-S448.
+- Anderson GJ, Frazer DM. Current understanding of iron homeostasis. *Am J Clin Nutr* 2017;106(Suppl 6):1559S-1566S.
 - Ferrari P, Nicolini A, Manca ML, et al. Treatment of mild non-chemotherapy-induced iron deficiency anemia in cancer patients: comparison between oral ferrous bisglycinate chelate and ferrous sulfate. *Biomed Pharmacother* 2012;66(6):414-418.

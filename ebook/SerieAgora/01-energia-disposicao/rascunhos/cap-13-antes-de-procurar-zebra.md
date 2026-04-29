@@ -134,8 +134,8 @@ Em paciente com qualquer alteração identificada, **a primeira intervenção é
 
 ## Para saber mais (capítulo)
 
-- Bril V, Adams P, Aprile MA, et al. Adverse effects of beta-blockers in clinical practice. *Postgrad Med* 1985;77(3):213-225.
-- Rosenstock J, Banarer S, Fonseca VA, et al. Tolerability profile of beta-blockers in patients with hypertension and metabolic syndrome. *J Hypertens* 2008;26(8):1533-1540.
+- Ko DT, Hebert PR, Coffey CS, Sedrakyan A, Curtis JP, Krumholz HM. Beta-blocker therapy and symptoms of depression, fatigue, and sexual dysfunction. *JAMA* 2002;288(3):351-357.
+- Bell DSH. β-Blockers, the metabolic syndrome, and cardiovascular risk. *Postgrad Med* 2010;122(3):41-46.
 - Sutter R, Rüegg S, Tschudin-Sutter S. Seizures as adverse events of antibiotic drugs: a systematic review. *Neurology* 2015;85(15):1332-1341.
 - 2023 American Geriatrics Society Beers Criteria® Update Expert Panel. American Geriatrics Society 2023 updated AGS Beers Criteria® for potentially inappropriate medication use in older adults. *J Am Geriatr Soc* 2023;71(7):2052-2081.
 - O'Mahony D, Cherubini A, Guiteras AR, et al. STOPP/START criteria for potentially inappropriate prescribing in older people: version 3. *Eur Geriatr Med* 2023;14(4):625-632.
@@ -145,6 +145,6 @@ Em paciente com qualquer alteração identificada, **a primeira intervenção é
 - US Preventive Services Task Force. Behavioral and pharmacotherapy interventions for tobacco smoking cessation in adults: USPSTF recommendation statement. *JAMA* 2021;325(3):265-279.
 - ATSDR (Agency for Toxic Substances and Disease Registry). Toxicological Profile for Lead. 2020.
 - ATSDR. Toxicological Profile for Mercury. 2022.
-- Marrs JS, Rappaport SM. Mold-induced illness: an update. *Curr Allergy Asthma Rep* 2020;20(11):66.
+- Bush RK, Portnoy JM, Saxon A, Terr AI, Wood RA. The medical effects of mold exposure. *J Allergy Clin Immunol* 2006;117(2):326-333.
 - Pawlak R, Lester SE, Babatunde T. The prevalence of cobalamin deficiency among vegetarians assessed by serum vitamin B12: a review of literature. *Eur J Clin Nutr* 2014;68(5):541-548.
 - Bazzano LA, Hu T, Reynolds K, et al. Effects of low-carbohydrate and low-fat diets: a randomized trial. *Ann Intern Med* 2014;161(5):309-318.

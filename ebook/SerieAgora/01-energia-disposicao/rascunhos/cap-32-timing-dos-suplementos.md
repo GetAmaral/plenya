@@ -174,7 +174,7 @@ Isso evita o **stack inflado** de oito a doze suplementos sem critério, comum e
 
 - Hurrell R, Egli I. Iron bioavailability and dietary reference values. *Am J Clin Nutr* 2010;91(5):1461S-1467S.
 - Lynch SR, Cook JD. Interaction of vitamin C and iron. *Ann N Y Acad Sci* 1980;355:32-44.
-- Sharma R, Maes M, Thompson PA, et al. Pharmacology of timed-release supplementation in chronobiology: a review. *Pharmacol Res* 2020;161:105159.
+- Cederroth CR, Albrecht U, Bass J, et al. Medicine in the Fourth Dimension. *Cell Metab* 2019;30(2):238-250.
 - Schuchardt JP, Hahn A. Bioavailability of long-chain omega-3 fatty acids. *Prostaglandins Leukot Essent Fatty Acids* 2013;89(1):1-8.
 - Mortensen SA, Rosenfeldt F, Kumar A, et al. The effect of coenzyme Q10 on morbidity and mortality in chronic heart failure: results from Q-SYMBIO. *JACC Heart Fail* 2014;2(6):641-649.
-- Cherniack EP. Polypharmacy in older adults. *Clin Interv Aging* 2018;13:1-8.
+- Maher RL, Hanlon J, Hajjar ER. Clinical consequences of polypharmacy in elderly. *Expert Opin Drug Saf* 2014;13(1):57-65.

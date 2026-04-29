@@ -183,7 +183,7 @@ Variantes comerciais (Mg sucinato, Mg orotato, Mg carbonato, Mg cloreto). Em ger
 - Workinger JL, Doyle RP, Bortz J. Challenges in the diagnosis of magnesium status. *Nutrients* 2018;10(9):1202.
 - Slutsky I, Abumaria N, Wu LJ, et al. Enhancement of learning and memory by elevating brain magnesium. *Neuron* 2010;65(2):165-177.
 - Boyle NB, Lawton C, Dye L. The effects of magnesium supplementation on subjective anxiety and stress: a systematic review. *Nutrients* 2017;9(5):429.
-- Wang R, Chen C, Liu W, et al. The effect of magnesium supplementation on primary insomnia in elderly: a double-blind placebo-controlled clinical trial. *J Res Med Sci* 2012;17(12):1161-1169.
+- Abbasi B, Kimiagar M, Sadeghniiat K, Shirazi MM, Hedayati M, Rashidkhani B. The effect of magnesium supplementation on primary insomnia in elderly: a double-blind placebo-controlled clinical trial. *J Res Med Sci* 2012;17(12):1161-1169.
 - Walker AF, Marakis G, Christie S, Byng M. Mg citrate found more bioavailable than other Mg preparations in a randomised, double-blind study. *Magnes Res* 2003;16(3):183-191.
 - Schuette SA, Lashner BA, Janghorbani M. Bioavailability of magnesium diglycinate vs magnesium oxide in patients with ileal resection. *JPEN J Parenter Enteral Nutr* 1994;18(5):430-435.
 - Veronese N, Watutantrige-Fernando S, Luchini C, et al. Effect of magnesium supplementation on glucose metabolism in people with or at risk of diabetes: a systematic review and meta-analysis of double-blind randomized controlled trials. *Eur J Clin Nutr* 2016;70(12):1354-1359.

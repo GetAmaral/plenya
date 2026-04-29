@@ -93,4 +93,4 @@ Não há "peças do Atlas" específicas para o eixo respiratório. A medicina pr
 - McCarthy B, Casey D, Devane D, et al. Pulmonary rehabilitation for chronic obstructive pulmonary disease. *Cochrane Database Syst Rev* 2015;(2):CD003793.
 - Raghu G, Remy-Jardin M, Myers JL, et al. Diagnosis of idiopathic pulmonary fibrosis: an official ATS/ERS/JRS/ALAT clinical practice guideline. *Am J Respir Crit Care Med* 2018;198(5):e44-e68.
 - Lederer DJ, Martinez FJ. Idiopathic pulmonary fibrosis. *N Engl J Med* 2018;378(19):1811-1823.
-- Kalchiem-Dekel O, Galvin JR, Burke AP, Atamas SP, Britt EJ. Interstitial lung disease and pulmonary fibrosis: a practical approach for general medicine physicians with focus on the medical history. *J Clin Med* 2018;7(12):476.
+- Kalchiem-Dekel O, Galvin JR, Burke AP, Atamas SP, Todd NW. Interstitial lung disease and pulmonary fibrosis: a practical approach for general medicine physicians with focus on the medical history. *J Clin Med* 2018;7(12):476.

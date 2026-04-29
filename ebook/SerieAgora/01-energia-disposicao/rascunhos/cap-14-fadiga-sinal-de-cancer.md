@@ -116,7 +116,7 @@ Não tratar fadiga como deficiência metabólica em paciente com bandeiras verme
 - Glaus A, Crow R, Hammond S. A qualitative study to explore the concept of fatigue/tiredness in cancer patients and in healthy individuals. *Eur J Cancer Care* 1996;5(2 Suppl):8-23.
 - Bower JE. Cancer-related fatigue — mechanisms, risk factors, and treatments. *Nat Rev Clin Oncol* 2014;11(10):597-609.
 - National Comprehensive Cancer Network. NCCN Clinical Practice Guidelines in Oncology — Cancer-Related Fatigue. 2024.
-- Hallek M. Chronic lymphocytic leukemia: 2023 update on diagnosis, risk-stratification, and treatment. *Am J Hematol* 2023;98(11):1657-1684.
+- Hallek M, Al-Sawaf O. Chronic lymphocytic leukemia: 2022 update on diagnostic and therapeutic procedures. *Am J Hematol* 2021;96(12):1679-1705.
 - Cheson BD, Fisher RI, Barrington SF, et al. Recommendations for initial evaluation, staging, and response assessment of Hodgkin and non-Hodgkin lymphoma: the Lugano classification. *J Clin Oncol* 2014;32(27):3059-3068.
 - Pelosof LC, Gerber DE. Paraneoplastic syndromes: an approach to diagnosis and treatment. *Mayo Clin Proc* 2010;85(9):838-854.
 - US Preventive Services Task Force. Screening for Colorectal Cancer: USPSTF Recommendation Statement. *JAMA* 2021;325(19):1965-1977.

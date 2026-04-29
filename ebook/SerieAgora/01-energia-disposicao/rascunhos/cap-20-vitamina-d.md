@@ -169,7 +169,7 @@ A combinação **D₃ + K2** é mais protetora em paciente com fator de risco ca
 - Demay MB, Pittas AG, Bikle DD, et al. Vitamin D for the prevention of disease: an Endocrine Society Clinical Practice Guideline. *J Clin Endocrinol Metab* 2024;109(8):1907-1947.
 - Manson JE, Cook NR, Lee IM, et al; VITAL Research Group. Vitamin D supplements and prevention of cancer and cardiovascular disease. *N Engl J Med* 2019;380(1):33-44.
 - Lin H, Costenbader KH, Manson JE, et al. Effect of vitamin D supplementation on telomere length: results from the VITAL substudy. *Am J Clin Nutr* 2025 (e-pub).
-- Maciel Pereira M, Vieira Dazzi MR, Boldt L, et al. Estudo revela que brasileiros têm deficiência de vitamina D mesmo no verão. Agência Fiocruz, 2023.
+- Agência Fiocruz de Notícias. Estudo revela que brasileiros têm deficiência de vitamina D mesmo no verão. Disponível em: https://agencia.fiocruz.br/estudo-revela-que-brasileiros-tem-deficiencia-de-vitamina-d-mesmo-no-verao [2023].
 - Maeda SS, Borba VZC, Camargo MBR, et al. Recomendações da Sociedade Brasileira de Endocrinologia e Metabologia (SBEM) para o diagnóstico e tratamento da hipovitaminose D. *Arq Bras Endocrinol Metab* 2014;58(5):411-433.
 - Pittas AG, Dawson-Hughes B, Sheehan P, et al; D2d Research Group. Vitamin D supplementation and prevention of type 2 diabetes. *N Engl J Med* 2019;381(6):520-530.
 - Schwalfenberg GK, Genuis SJ. Vitamin D, essential minerals, and toxic elements: exploring interactions between nutrients and toxicants in clinical medicine. *Sci World J* 2015;2015:318595.

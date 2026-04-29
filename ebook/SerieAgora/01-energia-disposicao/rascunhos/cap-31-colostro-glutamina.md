@@ -102,10 +102,10 @@ Em paciente com **Long COVID + sintomas intestinais + fadiga pós-viral**:
 ## Para saber mais (capítulo)
 
 - Crooks CV, Wall CR, Cross ML, Rutherfurd-Markwick KJ. The effect of bovine colostrum supplementation on salivary IgA in distance runners. *Int J Sport Nutr Exerc Metab* 2006;16(1):47-64.
-- Patel K, Rana R. Pedimune in recurrent respiratory infection and diarrhoea — the Indian experience — the PRIDE study. *Indian J Pediatr* 2018;73(7):585-591.
+- Patel K, Rana R. Pedimune in recurrent respiratory infection and diarrhoea — the Indian experience — the PRIDE study. *Indian J Pediatr* 2006;73(7):585-591.
 - Brinkworth GD, Buckley JD. Concentrated bovine colostrum protein supplementation reduces the incidence of self-reported symptoms of upper respiratory tract infection in adult males. *Eur J Nutr* 2003;42(4):228-232.
 - Cruzat V, Macedo Rogero M, Noel Keane K, Curi R, Newsholme P. Glutamine: metabolism and immune function, supplementation and clinical translation. *Nutrients* 2018;10(11):1564.
 - Rao R, Samak G. Role of glutamine in protection of intestinal epithelial tight junctions. *J Epithel Biol Pharmacol* 2012;5(Suppl 1-M7):47-54.
 - Newsholme P, Procopio J, Lima MM, Pithon-Curi TC, Curi R. Glutamine and glutamate — their central role in cell metabolism and function. *Cell Biochem Funct* 2003;21(1):1-9.
-- Hołówka K, Schneider-Matyka D, Buehler M. Bovine colostrum and its potential applications in human health. *Animals* 2022;12(15):1849.
+- Sienkiewicz M, Szymańska P, Fichna J. Supplementation of Bovine Colostrum in Inflammatory Bowel Disease: Benefits and Contraindications. *Adv Nutr* 2021;12(2):533-545.
 - Bode L, Beermann C, Mank M, Kohn G, Boehm G. Human and bovine milk gangliosides differ in their fatty acid composition. *J Nutr* 2004;134(11):3016-3020.

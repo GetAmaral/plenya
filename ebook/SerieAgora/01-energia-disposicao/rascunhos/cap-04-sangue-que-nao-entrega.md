@@ -146,8 +146,8 @@ O Capítulo 16 deste livro detalha o ferro como peça do Atlas — formas quími
 - Camaschella C. Iron-deficiency anemia. *N Engl J Med* 2015;372(19):1832-1843.
 - Bacon BR, Adams PC, Kowdley KV, Powell LW, Tavill AS. Diagnosis and management of hemochromatosis: 2011 practice guideline by the American Association for the Study of Liver Diseases. *Hepatology* 2011;54(1):328-343.
 - Adams PC, Barton JC. Haemochromatosis. *Lancet* 2007;370(9602):1855-1860.
-- Cançado RD. Talassemia beta no Brasil. *Rev Bras Hematol Hemoter* 2007;29(1):3-6.
-- Steinberg MH. Sickle cell trait. *N Engl J Med* 2013;368(2):1843-1851.
+- Cançado RD. As talassemias alfa. *Rev Bras Hematol Hemoter* 2006;28(2):81-87.
+- Tsaras G, Owusu-Ansah A, Boateng FO, Amoateng-Adjepong Y. Complications associated with sickle cell trait: a brief narrative review. *Am J Med* 2009;122(6):507-512.
 - Brodsky RA. Warm autoimmune hemolytic anemia. *N Engl J Med* 2019;381(7):647-654.
 - Kyle RA, Larson DR, Therneau TM, et al. Long-term follow-up of monoclonal gammopathy of undetermined significance. *N Engl J Med* 2018;378(3):241-249.
 - Kumar SK, Rajkumar V, Kyle RA, et al. Multiple myeloma. *Nat Rev Dis Primers* 2017;3:17046.

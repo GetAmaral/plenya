@@ -168,7 +168,7 @@ Já discutido em B-complex (Cap 23) · cofator central da CoA mitocondrial · po
 - Schmelzer C, Niklowitz P, Okun JG, Haas D, Menke T, Döring F. Ubiquinol-induced gene expression signatures are translated into altered parameters of erythropoiesis and reduced low density lipoprotein cholesterol levels in humans. *IUBMB Life* 2011;63(1):42-48.
 - Marcoff L, Thompson PD. The role of coenzyme Q10 in statin-associated myopathy: a systematic review. *J Am Coll Cardiol* 2007;49(23):2231-2237.
 - Sándor PS, Di Clemente L, Coppola G, et al. Efficacy of coenzyme Q10 in migraine prophylaxis: a randomized controlled trial. *Neurology* 2005;64(4):713-715.
-- Mei XL, Xu C, Yu LM. The role of coenzyme Q10 in chronic fatigue syndrome: a meta-analysis. *Pharmacology* 2018;101(1-2):71-77.
-- Nakamura T, Hara M, Kaaki K, Hara T. Pyrroloquinoline quinone (PQQ): efficacy and safety review. *J Clin Biochem Nutr* 2018;62(1):8-15.
+- Tsai I-C, Hsu C-W, Chang C-H, Tseng P-T, Chang K-V. Effectiveness of Coenzyme Q10 Supplementation for Reducing Fatigue: A Systematic Review and Meta-Analysis of Randomized Controlled Trials. *Front Pharmacol* 2022;13:883251.
+- Akagawa M, Nakano M, Ikemoto K. Recent progress in studies on the health benefits of pyrroloquinoline quinone. *Biosci Biotechnol Biochem* 2016;80(1):13-22.
 - Ziegler D, Ametov A, Barinov A, et al. Oral treatment with alpha-lipoic acid improves symptomatic diabetic polyneuropathy: the SYDNEY 2 trial. *Diabetes Care* 2006;29(11):2365-2370.
 - Teitelbaum JE, Johnson C, St Cyr J. The use of D-ribose in chronic fatigue syndrome and fibromyalgia: a pilot study. *J Altern Complement Med* 2006;12(9):857-862.

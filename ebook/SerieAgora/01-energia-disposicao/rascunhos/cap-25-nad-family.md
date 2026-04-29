@@ -110,7 +110,7 @@ A niacinamida **é a peça do Atlas com melhor relação custo/benefício** na f
 - Yi L, Maier AB, Tao R, et al. The efficacy and safety of β-nicotinamide mononucleotide (NMN) supplementation in healthy middle-aged adults: a randomized, multicenter, double-blind, placebo-controlled, parallel-group, dose-dependent clinical trial. *GeroScience* 2023;45(1):29-43.
 - Martens CR, Denman BA, Mazzo MR, et al. Chronic nicotinamide riboside supplementation is well-tolerated and elevates NAD+ in healthy middle-aged and older adults. *Nat Commun* 2018;9(1):1286.
 - Conze D, Brenner C, Kruger CL. Safety and metabolism of long-term administration of NIAGEN (nicotinamide riboside) in a randomized, double-blind, placebo-controlled clinical trial of healthy overweight adults. *Sci Rep* 2019;9(1):9772.
-- Pencina KM, Lavu S, Dos Santos M, et al. MIB-626, a novel formulation of microcrystalline beta-nicotinamide mononucleotide, increases circulating NAD+: a randomized, placebo-controlled study. *J Gerontol A Biol Sci Med Sci* 2024;79(1):glad215.
+- Pencina KM, Lavu S, Dos Santos M, et al. MIB-626, an Oral Formulation of a Microcrystalline Unique Polymorph of β-Nicotinamide Mononucleotide, Increases Circulating Nicotinamide Adenine Dinucleotide and its Metabolome in Middle-Aged and Older Adults. *J Gerontol A Biol Sci Med Sci* 2023;78(1):90-96.
 - Verdin E. NAD+ in aging, metabolism, and neurodegeneration. *Science* 2015;350(6265):1208-1213.
 - Rajman L, Chwalek K, Sinclair DA. Therapeutic potential of NAD-boosting molecules: the in vivo evidence. *Cell Metab* 2018;27(3):529-547.
 - AIM-HIGH Investigators. Niacin in patients with low HDL cholesterol levels receiving intensive statin therapy. *N Engl J Med* 2011;365(24):2255-2267.

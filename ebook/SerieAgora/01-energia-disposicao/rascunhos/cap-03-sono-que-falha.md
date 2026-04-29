@@ -125,6 +125,6 @@ O Capítulo 17 deste livro detalha o magnésio no sono. O Capítulo 27 cobre gli
 - Drager LF, Lorenzi-Filho G, Cintra FD, et al. 1° Posicionamento Brasileiro sobre o Impacto dos Distúrbios de Sono nas Doenças Cardiovasculares. *Arq Bras Cardiol* 2018.
 - American Academy of Sleep Medicine. Clinical practice guideline for the treatment of obstructive sleep apnea. *J Clin Sleep Med* 2019.
 - Allen RP, Picchietti DL, Garcia-Borreguero D, et al. Restless legs syndrome/Willis-Ekbom disease diagnostic criteria: updated International Restless Legs Syndrome Study Group (IRLSSG) consensus criteria — history, rationale, description, and significance. *Sleep Med* 2014;15(8):860-873.
-- Allen RP, Earley CJ. The role of iron in restless legs syndrome. *Sleep Med Rev* 2014;18(2):165-172.
+- Allen RP, Earley CJ. The role of iron in restless legs syndrome. *Mov Disord* 2007;22(Suppl 18):S440-S448.
 - Auger RR, Burgess HJ, Emens JS, et al. Clinical practice guideline for the treatment of intrinsic circadian rhythm sleep-wake disorders. *J Clin Sleep Med* 2015;11(10):1199-1236.
 - Wright KP Jr, Bogan RK, Wyatt JK. Shift work and the assessment and management of shift work disorder (SWD). *Sleep Med Rev* 2013;17(1):41-54.
