@@ -36,8 +36,8 @@ export default async function PalestrasPage({
       <section className="editorial-container pb-16 md:pb-20">
         <div className="relative aspect-[2/3] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-[3/2] w-full overflow-hidden bg-paper">
           <Image
-            src="/images/getulio-palestrante-antes.jpg"
-            alt='Dr. Getúlio Amaral Filho apresentando "ANTES — A Janela Silenciosa entre o Normal e o Ótimo"'
+            src="/images/getulio-palestrante-arvore.jpg"
+            alt="Dr. Getúlio Amaral Filho durante palestra — slide com diagrama da árvore das doenças crônicas (cardiovasculares, câncer, neurodegenerativas, metabólicas)"
             fill
             priority
             className="object-cover object-[center_top] lg:object-[center_25%]"
