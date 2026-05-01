@@ -201,30 +201,4 @@ Para todos esses, o placar não vale. Vale procurar avaliação especializada ag
 
 ---
 
-### Anexo — Autotriagens Que Você Pode Fazer Esta Semana
-
-O leitor que chega a este ponto pode aplicar o placar com os dados que já tem. Mas há um conjunto de instrumentos de triagem **validados, gratuitos e aplicáveis em casa** que complementa o placar com medidas padronizadas — as mesmas que uso no consultório para pontuar domínios específicos. Nenhum substitui avaliação profissional. Todos fornecem ponto de partida concreto para uma conversa melhor com quem te acompanha.
-
-**PHQ-9 — rastreio de depressão.** Nove perguntas, menos de três minutos. Cada item pontua de 0 (nada) a 3 (quase todos os dias). Soma: 0–4 mínima; 5–9 leve; 10–14 moderada; 15–19 moderada-grave; 20–27 grave. A partir de 10 é recomendação formal de conversa com profissional de saúde mental. Acima de 15, é prioridade.
-
-**GAD-7 — rastreio de ansiedade generalizada.** Sete perguntas, formato idêntico ao PHQ-9. Soma: 0–4 mínima; 5–9 leve; 10–14 moderada; 15–21 grave. Acima de 10 pede investigação profissional. Alta sensibilidade para transtorno de ansiedade generalizada — é um dos instrumentos que coloca em números, objetivamente, o que uma boa conversa já revelou. Pacientes com perfil parecido com o de Ana frequentemente se reconhecem nos resultados.
-
-**Escala de Sonolência de Epworth — apneia e qualidade de sono.** Oito situações cotidianas (ler, assistir TV, estar parado como passageiro, conversar após almoço, dirigir no trânsito), cada uma pontuada de 0 a 3 pela probabilidade de cochilar. Soma: ≤ 10 normal; 11–14 leve; 15–17 moderada; ≥ 18 grave. Acima de 10 em paciente que ronca ou tem fadiga inexplicada, polissonografia é indicação formal.
-
-**STOP-BANG — triagem específica de apneia obstrutiva do sono.** O Epworth mede sonolência diurna em geral; não é sensível o suficiente para apneia isolada. O **STOP-BANG** é o questionário mais validado para esse diagnóstico, com oito perguntas binárias: *Snoring*, *Tiredness*, *Observed apnea*, *Pressure* (hipertensão), *BMI* > 35, *Age* > 50, *Neck* (pescoço > 40 cm homens / > 35 cm mulheres), *Gender* masculino. **Três ou mais respostas afirmativas colocam o paciente em risco moderado a alto; cinco ou mais, em risco alto que praticamente obriga polissonografia.** Sensibilidade de 88% para apneia moderada a grave e 93% para grave — performance superior ao Epworth e Berlim. Aplicação em menos de um minuto, validado em português, disponível em stopbang.ca e em portais da Sociedade Brasileira de Sono. Para o paciente com Epworth normal mas roncos persistentes, hipertensão ou testosterona baixa inexplicada, o STOP-BANG frequentemente captura o que o Epworth perde.
-
-**5 Palavras de Dubois — rastreio cognitivo breve.** Peça a alguém que leia cinco palavras semanticamente distintas (por exemplo: limão, chave, bola, flor, trem). Faça uma distração (conversa ou cálculo mental por cinco minutos). Depois, recorde as cinco palavras. Recordação ≥ 4 é normal; ≤ 3 merece avaliação cognitiva formal. É o teste de memória declarativa mais usado em triagem de consultório.
-
-**Span de Dígitos — atenção e memória de trabalho.** Alguém recita uma sequência de números (ex.: 7-3-9-4-1), você repete. Começar com 3 e ir aumentando. Normal: ≥ 6 dígitos diretos, ≥ 4 inversos. Abaixo disso, pode refletir déficit de atenção, sono inadequado, ou comprometimento cognitivo precoce.
-
-**IIEF-5 — função erétil (homens).** Cinco perguntas sobre os últimos seis meses. Soma: 5–7 grave; 8–11 moderada; 12–16 leve-moderada; 17–21 leve; 22–25 sem disfunção. Como discutimos no Capítulo 5, DE de início recente abaixo dos 70 anos, sem causa medicamentosa ou traumática, é indicação de avaliação cardiovascular ampliada — o endotélio peniano sinalizou antes do coração.
-
-**FSFI — função sexual feminina.** Questionário de 19 itens cobrindo desejo, excitação, lubrificação, orgasmo, satisfação e dor. Ponto de corte para disfunção em torno de 26,55. Em transição menopausal, a queda é frequentemente atribuída apenas a "idade" quando reflete combinação de queda hormonal, alterações vasculares e componente psicológico — todos tratáveis.
-
-**Onde encontrar em português:** PHQ-9, GAD-7, Epworth e STOP-BANG têm versões validadas em português brasileiro disponíveis em portais oficiais (Ministério da Saúde, Associação Brasileira de Psiquiatria, Sociedade Brasileira de Sono). IIEF-5 e FSFI são acessíveis em sites de sociedades médicas (Sociedade Brasileira de Urologia, Febrasgo). Os testes cognitivos (Dubois, span de dígitos) precisam ser aplicados por alguém, mas esse alguém pode ser um familiar.
-
-O valor desses instrumentos não está no número exato — está em registrar o ponto de partida. Responder hoje, guardar a pontuação, repetir em seis meses. A trajetória diz mais do que a foto.
-
----
-
 > O placar é a ferramenta. Mas ferramenta sem parceria clínica para os pontos que exigem decisão técnica — interpretação contextualizada de painel hormonal, ajuste de farmacologia guiada por biomarcador, conduta diante de imagem alterada — produz só metade do resultado possível. A pergunta seguinte, e última antes do epílogo, é como avaliar um profissional de medicina preventiva e o que perguntar na primeira consulta. É o tema do Capítulo 16.
