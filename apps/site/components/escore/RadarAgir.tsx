@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useLocale } from 'next-intl';
+import { agirLettersRaw } from '@/lib/agir-structure';
 
 // ── Geometria ──────────────────────────────────────────────────────────
 const RADAR_CX = 200;
@@ -10,7 +12,8 @@ const ARC_RADIUS = RADAR_MAX + 18;
 const LETTER_LABEL_RADIUS = ARC_RADIUS + 18;
 const VIEWBOX = 400;
 
-type LetterCode = 'A' | 'G' | 'I' | 'R';
+type LetterCode = 'A' | 'G' | 'I' | 'R'; // chave estável, locale-agnóstica
+type DisplayCode = 'A' | 'G' | 'I' | 'R' | 'C' | 'T' | 'S';
 
 const letterColors: Record<LetterCode, string> = {
   A: '#92b8b4', // sage
@@ -19,43 +22,63 @@ const letterColors: Record<LetterCode, string> = {
   R: '#417e8e', // ocean
 };
 
-const letterMeta: Record<LetterCode, { full: string; score: number; territory: string }> = {
-  A: { full: 'Atividade Física, Alimentação e Suplementação Inteligente', score: 80, territory: 'Os motores que nenhuma medicação substitui' },
-  G: { full: 'Gestão Clínica e Metabólica', score: 76, territory: 'O painel de controle interno' },
-  I: { full: 'Integração Mente-Corpo', score: 72, territory: 'O eixo psicologia, sistema imune e inflamação' },
-  R: { full: 'Ritmo Circadiano e Repouso', score: 84, territory: 'O substrato sobre o qual os outros pilares operam' },
+// Score exemplo por letra (mock visual). Ordem A-G-I-R independe do locale.
+const letterScores: Record<LetterCode, number> = { A: 80, G: 76, I: 72, R: 84 };
+
+// Territory por locale.
+const letterTerritoryPt: Record<LetterCode, string> = {
+  A: 'Os motores que nenhuma medicação substitui',
+  G: 'O painel de controle interno',
+  I: 'O eixo psicologia, sistema imune e inflamação',
+  R: 'O substrato sobre o qual os outros pilares operam',
+};
+const letterTerritoryEn: Record<LetterCode, string> = {
+  A: 'The engines no medication can replace',
+  G: 'The internal control panel',
+  I: 'The axis between psychology, immunity, and inflammation',
+  R: 'The substrate every other pillar runs on',
+};
+
+// Display code (A/C/T/S em EN; A/G/I/R em PT).
+function displayCode(letter: LetterCode, isEn: boolean): DisplayCode {
+  if (!isEn) return letter;
+  return letter === 'G' ? 'C' : letter === 'I' ? 'T' : letter === 'R' ? 'S' : 'A';
+}
+
+// Mock scores hardcoded (radar é exemplo visual).
+const pillarScoresByLetter: Record<LetterCode, number[]> = {
+  A: [82, 78, 86, 74],
+  G: [76, 70, 80, 72, 84, 78, 71, 82, 76, 73],
+  I: [68, 72, 75, 70, 74],
+  R: [84, 88, 80],
+};
+
+// Ângulos dos pontos no radar — fixos por posição, independem do nome.
+const pillarAnglesByLetter: Record<LetterCode, number[]> = {
+  A: [-33.75, -11.25, 11.25, 33.75],
+  G: [49.5, 58.5, 67.5, 76.5, 85.5, 94.5, 103.5, 112.5, 121.5, 130.5],
+  I: [144, 162, 180, 198, 216],
+  R: [240, 270, 300],
 };
 
 type Pillar = { letter: LetterCode; angle: number; score: number; name: string };
 
-const radarPillars: Pillar[] = [
-  // A — top quadrant (-45° → +45°), 4 pilares
-  { letter: 'A', angle: -33.75, score: 82, name: 'Avaliação Nutricional' },
-  { letter: 'A', angle: -11.25, score: 78, name: 'Prescrição de Exercícios' },
-  { letter: 'A', angle:  11.25, score: 86, name: 'Composição Corporal' },
-  { letter: 'A', angle:  33.75, score: 74, name: 'Suplementação' },
-  // G — right quadrant (45° → 135°), 10 pilares
-  { letter: 'G', angle:  49.5, score: 76, name: 'Controle Glicêmico' },
-  { letter: 'G', angle:  58.5, score: 70, name: 'Perfil Lipídico' },
-  { letter: 'G', angle:  67.5, score: 80, name: 'Função Hepática' },
-  { letter: 'G', angle:  76.5, score: 72, name: 'Função Renal' },
-  { letter: 'G', angle:  85.5, score: 84, name: 'Risco Cardiovascular' },
-  { letter: 'G', angle:  94.5, score: 78, name: 'Painel Hormonal' },
-  { letter: 'G', angle: 103.5, score: 71, name: 'Inflamação e Imunidade' },
-  { letter: 'G', angle: 112.5, score: 82, name: 'Vitaminas, Minerais e Micronutrientes' },
-  { letter: 'G', angle: 121.5, score: 76, name: 'Hematologia' },
-  { letter: 'G', angle: 130.5, score: 73, name: 'Rastreamento Oncológico' },
-  // I — bottom quadrant (135° → 225°), 5 pilares
-  { letter: 'I', angle: 144, score: 68, name: 'Avaliação Psicológica' },
-  { letter: 'I', angle: 162, score: 72, name: 'Técnicas de Relaxamento' },
-  { letter: 'I', angle: 180, score: 75, name: 'Função Cognitiva' },
-  { letter: 'I', angle: 198, score: 70, name: 'Vida Sexual' },
-  { letter: 'I', angle: 216, score: 74, name: 'Vínculos Sociais e Suporte' },
-  // R — left quadrant (225° → 315°), 3 pilares
-  { letter: 'R', angle: 240, score: 84, name: 'Qualidade do Sono' },
-  { letter: 'R', angle: 270, score: 88, name: 'Cronobiologia' },
-  { letter: 'R', angle: 300, score: 80, name: 'Exposição à Luz' },
-];
+function buildRadarPillars(isEn: boolean): Pillar[] {
+  const pillars: Pillar[] = [];
+  for (const letter of ['A', 'G', 'I', 'R'] as LetterCode[]) {
+    const raw = agirLettersRaw.find((l) => l.code === letter)!;
+    const names = raw.groups.flatMap((g) => (isEn ? g.pillarsEn : g.pillars));
+    names.forEach((name, idx) => {
+      pillars.push({
+        letter,
+        angle: pillarAnglesByLetter[letter][idx],
+        score: pillarScoresByLetter[letter][idx],
+        name,
+      });
+    });
+  }
+  return pillars;
+}
 
 // round1: arredonda para 1 decimal e devolve number "estável" (evita
 // hydration mismatch entre SSR/CSR causado por floats com muitos dígitos).
@@ -68,13 +91,6 @@ function polar(angleDeg: number, radius: number) {
     y: round1(RADAR_CY + radius * Math.sin(rad)),
   };
 }
-
-const radarPoints = radarPillars.map((p) => {
-  const r = (p.score / 100) * RADAR_MAX;
-  return { ...p, ...polar(p.angle, r) };
-});
-
-const polygonStr = radarPoints.map((p) => `${p.x},${p.y}`).join(' ');
 
 function arcPath(startAngle: number, endAngle: number, radius: number) {
   const s = polar(startAngle, radius);
@@ -95,41 +111,83 @@ type Hovered =
   | { type: 'letter'; letter: LetterCode }
   | { type: 'pillar'; index: number };
 
-// Posição do tooltip em coordenadas SVG (0..400) → percentual no container
-function tooltipPosition(hovered: Hovered) {
-  if (hovered.type === 'letter') {
-    const arc = letterArcs.find((a) => a.letter === hovered.letter)!;
-    const p = polar(arc.midAngle, LETTER_LABEL_RADIUS);
-    return { x: p.x, y: p.y };
-  }
-  if (hovered.type === 'pillar') {
-    const p = radarPoints[hovered.index];
-    return { x: p.x, y: p.y };
-  }
-  return null;
-}
-
-// Placement do tooltip determinado pela LETRA (não pela posição em pixels) —
-// estável para todos os pilares dentro do mesmo setor, evita flips quando
-// o mouse pula entre pontos adjacentes próximos do limite de quadrante.
 function tooltipPlacementForLetter(letter: LetterCode): {
   horizontal: 'left' | 'right' | 'center';
   vertical: 'top' | 'bottom' | 'center';
 } {
   switch (letter) {
-    case 'A': return { horizontal: 'center', vertical: 'bottom' }; // topo → tooltip abaixo
-    case 'G': return { horizontal: 'left',   vertical: 'center' }; // direita → tooltip à esquerda
-    case 'I': return { horizontal: 'center', vertical: 'top'    }; // base → tooltip acima
-    case 'R': return { horizontal: 'right',  vertical: 'center' }; // esquerda → tooltip à direita
+    case 'A': return { horizontal: 'center', vertical: 'bottom' };
+    case 'G': return { horizontal: 'left',   vertical: 'center' };
+    case 'I': return { horizontal: 'center', vertical: 'top'    };
+    case 'R': return { horizontal: 'right',  vertical: 'center' };
   }
 }
 
 export function RadarAgir() {
+  const locale = useLocale();
+  const isEn = locale === 'en';
   const [hovered, setHovered] = useState<Hovered>({ type: 'none' });
+
+  // Strings locale-aware do tooltip e caption.
+  const i18n = isEn
+    ? {
+        letterLabel: (l: DisplayCode) => `Letter ${l}`,
+        pillarLabel: (l: DisplayCode) => `Pillar · letter ${l}`,
+        caption: 'Example · 22 pillars · scale 0–100 · hover for details',
+        ariaLabel: 'Plenya Score example: 22 pillars organized into the four ACTS letters. Overall score 78.',
+      }
+    : {
+        letterLabel: (l: DisplayCode) => `Letra ${l}`,
+        pillarLabel: (l: DisplayCode) => `Pilar · letra ${l}`,
+        caption: 'Exemplo · 22 pilares · escala 0–100 · passe o mouse para detalhes',
+        ariaLabel: 'Exemplo de Escore Plenya: 22 pilares organizados em 4 letras AGIR. Score global 78.',
+      };
+
+  const letterMeta: Record<LetterCode, { full: string; score: number; territory: string }> = {
+    A: {
+      full: isEn ? agirLettersRaw[0].nameEn : agirLettersRaw[0].name,
+      score: letterScores.A,
+      territory: (isEn ? letterTerritoryEn : letterTerritoryPt).A,
+    },
+    G: {
+      full: isEn ? agirLettersRaw[1].nameEn : agirLettersRaw[1].name,
+      score: letterScores.G,
+      territory: (isEn ? letterTerritoryEn : letterTerritoryPt).G,
+    },
+    I: {
+      full: isEn ? agirLettersRaw[2].nameEn : agirLettersRaw[2].name,
+      score: letterScores.I,
+      territory: (isEn ? letterTerritoryEn : letterTerritoryPt).I,
+    },
+    R: {
+      full: isEn ? agirLettersRaw[3].nameEn : agirLettersRaw[3].name,
+      score: letterScores.R,
+      territory: (isEn ? letterTerritoryEn : letterTerritoryPt).R,
+    },
+  };
+
+  const radarPillars = buildRadarPillars(isEn);
+  const radarPoints = radarPillars.map((p) => {
+    const r = (p.score / 100) * RADAR_MAX;
+    return { ...p, ...polar(p.angle, r) };
+  });
+  const polygonStr = radarPoints.map((p) => `${p.x},${p.y}`).join(' ');
 
   const isLetterActive = (l: LetterCode) =>
     (hovered.type === 'letter' && hovered.letter === l) ||
     (hovered.type === 'pillar' && radarPoints[hovered.index].letter === l);
+
+  function tooltipPosition(h: Hovered) {
+    if (h.type === 'letter') {
+      const arc = letterArcs.find((a) => a.letter === h.letter)!;
+      return polar(arc.midAngle, LETTER_LABEL_RADIUS);
+    }
+    if (h.type === 'pillar') {
+      const p = radarPoints[h.index];
+      return { x: p.x, y: p.y };
+    }
+    return null;
+  }
 
   const ttPos = tooltipPosition(hovered);
   const hoveredLetter: LetterCode | null =
@@ -138,16 +196,16 @@ export function RadarAgir() {
     null;
   const placement = hoveredLetter ? tooltipPlacementForLetter(hoveredLetter) : null;
 
-  // Conteúdo do tooltip
   const tooltipContent = (() => {
     if (hovered.type === 'letter') {
       const m = letterMeta[hovered.letter];
+      const code = displayCode(hovered.letter, isEn);
       return (
         <>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full" style={{ background: letterColors[hovered.letter] }} />
             <span className="label-upper text-[9px]" style={{ color: letterColors[hovered.letter] }}>
-              Letra {hovered.letter}
+              {i18n.letterLabel(code)}
             </span>
           </div>
           <p className="heading-section text-petrol text-base leading-tight max-w-[24ch]">{m.full}</p>
@@ -160,12 +218,13 @@ export function RadarAgir() {
     }
     if (hovered.type === 'pillar') {
       const p = radarPoints[hovered.index];
+      const code = displayCode(p.letter, isEn);
       return (
         <>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full" style={{ background: letterColors[p.letter] }} />
             <span className="label-upper text-[9px]" style={{ color: letterColors[p.letter] }}>
-              Pilar · letra {p.letter}
+              {i18n.pillarLabel(code)}
             </span>
           </div>
           <p className="heading-section text-petrol text-base leading-tight max-w-[24ch]">{p.name}</p>
@@ -178,7 +237,6 @@ export function RadarAgir() {
     return null;
   })();
 
-  // Estilo de posicionamento do tooltip
   const tooltipStyle: React.CSSProperties = (() => {
     if (!ttPos || !placement) return {};
     const left = (ttPos.x / VIEWBOX) * 100;
@@ -225,7 +283,7 @@ export function RadarAgir() {
           viewBox={`0 0 ${VIEWBOX} ${VIEWBOX}`}
           className="w-full h-full"
           role="img"
-          aria-label="Exemplo de Escore Plenya: 22 pilares organizados em 4 letras AGIR. Score global 78."
+          aria-label={i18n.ariaLabel}
         >
           {/* Anéis concêntricos de fundo */}
           {[37.5, 75, 112.5, 150].map((r) => (
@@ -310,10 +368,11 @@ export function RadarAgir() {
             );
           })}
 
-          {/* Labels A G I R */}
+          {/* Labels A G I R (ou A C T S em EN) */}
           {letterArcs.map((arc) => {
             const p = polar(arc.midAngle, LETTER_LABEL_RADIUS);
             const active = isLetterActive(arc.letter);
+            const code = displayCode(arc.letter, isEn);
             return (
               <text
                 key={`label-${arc.letter}`}
@@ -328,7 +387,7 @@ export function RadarAgir() {
                 onMouseEnter={() => setHovered({ type: 'letter', letter: arc.letter })}
                 style={{ transition: 'fill 180ms, opacity 180ms', cursor: 'pointer' }}
               >
-                {arc.letter}
+                {code}
               </text>
             );
           })}
@@ -349,8 +408,7 @@ export function RadarAgir() {
           </text>
         </svg>
 
-        {/* Tooltip flutuante — sempre montado, opacity controla visibilidade
-            (evita re-disparar animação a cada mudança de hover) */}
+        {/* Tooltip flutuante */}
         <div
           className="absolute z-10 pointer-events-none transition-opacity duration-150"
           style={{
@@ -370,13 +428,13 @@ export function RadarAgir() {
         {(['A', 'G', 'I', 'R'] as LetterCode[]).map((l) => (
           <span key={l} className="flex items-center gap-2 text-petrol/70">
             <span className="w-2 h-2 rounded-full" style={{ background: letterColors[l] }} />
-            <span>{l} {letterMeta[l].score}</span>
+            <span>{displayCode(l, isEn)} {letterMeta[l].score}</span>
           </span>
         ))}
       </div>
 
       <p className="label-upper text-petrol/40 text-center text-[10px]">
-        Exemplo · 22 pilares · escala 0–100 · passe o mouse para detalhes
+        {i18n.caption}
       </p>
     </figure>
   );
