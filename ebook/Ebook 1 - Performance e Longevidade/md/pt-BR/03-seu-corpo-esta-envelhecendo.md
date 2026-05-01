@@ -42,7 +42,7 @@ A pergunta prática é: o que faz a idade biológica avançar mais rápido que o
 
 ### Os Hallmarks do Envelhecimento: O Que Está Acontecendo Dentro de Você
 
-Em 2013, um grupo internacional liderado por Carlos López-Otín publicou na *Cell* um artigo que se tornaria um dos mais citados da biologia: "The Hallmarks of Aging" — nove processos celulares que, juntos, explicam por que envelhecemos. Em 2023, os autores atualizaram a lista para doze hallmarks.
+Em 2013, um grupo internacional de pesquisadores liderado por Carlos López-Otín publicou na revista *Cell* um artigo que se tornaria um dos mais citados da história da biologia: "The Hallmarks of Aging". Nele, identificaram nove processos celulares e moleculares que, juntos, explicam por que envelhecemos. Em 2023, os mesmos autores atualizaram o artigo, expandindo a lista para doze hallmarks — doze marcas registradas do envelhecimento. O artigo acumula mais de 3.000 citações.
 
 Doze é demais para um capítulo. Cinco deles são especialmente relevantes para quem quer entender — e agir sobre — o que está acontecendo no próprio corpo. Vamos traduzi-los.
 
@@ -90,7 +90,7 @@ Telômeros são sequências repetitivas de DNA nas extremidades dos cromossomos 
 
 Elizabeth Blackburn, Nobel de Medicina de 2009 por suas descobertas sobre como telômeros e a enzima telomerase protegem os cromossomos, demonstrou com a psicóloga Elissa Epel algo que mudou o campo: o estresse psicológico crônico acelera o encurtamento telomérico. Em estudo de 2004 no *PNAS*, mães que cuidavam de filhos com doenças crônicas tinham telômeros mais curtos quanto maior o tempo de cuidado — as mulheres com mais estresse percebido apresentavam telômeros equivalentes a pelo menos uma década a mais de envelhecimento biológico.
 
-O dado revolucionário não era que os telômeros encurtam — isso já se sabia. Era que a velocidade do encurtamento é modificável. Sono, exercício, alimentação, qualidade dos relacionamentos e gestão do estresse influenciam diretamente a taxa de desgaste telomérico. *"Os telômeros escutam você"*, escreveu Blackburn. *"Escutam seus comportamentos e escutam seu estado de espírito."*
+O dado revolucionário não era que os telômeros encurtam — isso já se sabia. Era que a velocidade do encurtamento é modificável. No livro *The Telomere Effect*, Blackburn e Epel compilam décadas de pesquisa mostrando que sono, exercício, alimentação, qualidade dos relacionamentos e gestão do estresse influenciam diretamente a taxa de desgaste telomérico. *"Os telômeros escutam você"*, escreveu Blackburn. *"Escutam seus comportamentos e escutam seu estado de espírito."*
 
 ---
 

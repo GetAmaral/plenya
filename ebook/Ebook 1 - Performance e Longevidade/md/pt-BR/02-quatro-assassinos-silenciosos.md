@@ -31,9 +31,11 @@ A maioria das pessoas pensa em aterosclerose como colesterol grudado na parede d
 
 Aterosclerose é, na sua essência, uma doença inflamatória crônica. Ela começa quando partículas contendo ApoB — principalmente o LDL — atravessam o endotélio e ficam retidas dentro da parede arterial. Ali, essas partículas sofrem oxidação. O sistema imunológico reconhece a ameaça e envia macrófagos para engoli-las. Os macrófagos, carregados de gordura oxidada, se transformam em "células espumosas" — e é esse acúmulo que forma as primeiras placas.
 
-Esse processo começa cedo. O estudo clássico de Enos e colaboradores, publicado no *JAMA* em 1953, examinou as coronárias de soldados americanos mortos na Guerra da Coreia — média de idade 22 anos — e encontrou aterosclerose já estabelecida em mais de 75% deles. Achados semelhantes foram reproduzidos em autópsias de jovens em outras coortes desde então. O Bogalusa Heart Study encontrou estrias gordurosas na aorta de todos os 204 indivíduos examinados entre 2 e 39 anos.
+Esse processo começa absurdamente cedo. O estudo clássico de Enos e colaboradores, publicado no *JAMA* em 1953, examinou as coronárias de soldados americanos mortos na Guerra da Coreia — média de idade 22 anos — e encontrou aterosclerose já estabelecida em mais de 75% deles. O clássico Bogalusa Heart Study encontrou estrias gordurosas na aorta de todos os 204 indivíduos examinados entre 2 e 39 anos — e na metade das crianças entre 2 e 15 anos, essas estrias já apareciam nas coronárias.
 
-A aterosclerose não é doença de velho. Começa na infância e cresce em silêncio por décadas. O estudo PESA, com mais de 4.000 adultos assintomáticos entre 40 e 55 anos, mostrou progressão de aterosclerose subclínica em cerca de um terço deles em seis anos. Pessoas que se consideravam saudáveis, enquanto as placas cresciam.
+A aterosclerose não é uma doença de velho. É uma doença que começa na infância e cresce em silêncio por décadas.
+
+O estudo PESA, conduzido na Espanha com mais de 4.000 adultos assintomáticos entre 40 e 55 anos, demonstrou que em seis anos de acompanhamento, cerca de um terço dos avaliados apresentou progressão de aterosclerose subclínica. Pessoas de meia-idade que se consideravam saudáveis, vivendo normalmente, enquanto as placas cresciam.
 
 E aqui está o que torna tudo traiçoeiro: as artérias se expandem para acomodar a placa — um mecanismo chamado remodelamento positivo. O diâmetro interno permanece quase inalterado. O sangue flui normalmente. O teste ergométrico dá normal. O eletrocardiograma dá normal. Até que a placa se rompe.
 
@@ -77,15 +79,23 @@ Eu vejo isso no consultório com frequência. Paciente magro, ativo, que come ra
 
 De todos os assassinos silenciosos, este é o que mais aterroriza — e o que menos as pessoas entendem.
 
-As alterações cerebrais que levam ao Alzheimer começam a se acumular 15 a 20 anos antes do primeiro sintoma cognitivo. Quando uma pessoa de 70 anos recebe o diagnóstico de comprometimento cognitivo leve, as placas de beta-amiloide e os emaranhados de tau já estão se depositando desde os 50 — ou antes. O diagnóstico não marca o início da doença; marca o ponto em que o cérebro não consegue mais compensar.
+As alterações cerebrais que levam ao Alzheimer começam a se acumular 15 a 20 anos antes do primeiro sintoma cognitivo perceptível. Quando uma pessoa de 70 anos recebe o diagnóstico de comprometimento cognitivo leve, as placas de beta-amiloide e os emaranhados de proteína tau já estão se depositando no cérebro dela desde os 50 — ou antes. O diagnóstico não marca o início da doença. Marca o ponto em que o cérebro não consegue mais compensar.
 
-Se você tem 45 anos e vai desenvolver Alzheimer aos 70, o processo já pode estar em andamento agora. A janela de intervenção está aberta — e a maioria das pessoas nem sabe que ela existe.
+Se você tem 45 anos e vai desenvolver Alzheimer aos 70, o processo já pode estar em andamento agora. A janela de intervenção está aberta. A maioria das pessoas nem sabe que ela existe.
 
-Aqui entra uma linha de evidência que cresce: o vínculo entre resistência insulínica e neurodegeneração. Alguns pesquisadores propuseram chamar o Alzheimer de "diabetes tipo 3". Não é um diagnóstico oficial — mas captura uma verdade biológica. Estudos post-mortem de cérebros com Alzheimer revelam alterações que espelham o diabetes tipo 2: redução na sinalização de insulina, resistência insulínica localizada no tecido cerebral — mesmo em pacientes sem diabetes sistêmico. O cérebro está faminto de energia, não porque falte glicose no sangue, mas porque os neurônios perderam a capacidade de captá-la. Quando isso acontece, mitocôndrias entram em disfunção, o estresse oxidativo aumenta, a tau se hiperfosforila, a maquinaria que limpa a beta-amiloide fica sobrecarregada, as placas se acumulam e a neuroinflamação amplifica tudo.
+E aqui entra uma linha de evidência que cresce exponencialmente: o vínculo entre resistência insulínica e neurodegeneração. Alguns pesquisadores propuseram chamar o Alzheimer de "diabetes tipo 3". Não é um diagnóstico oficial — mas captura uma verdade biológica importante.
 
-E não é só a resistência insulínica. A inflamação crônica sistêmica — a mesma que corrói artérias — atravessa a barreira hematoencefálica e ativa a microglia num estado de alerta permanente. O sono entra como terceiro acelerador: durante o sono profundo, o cérebro ativa o sistema glinfático, que remove resíduos metabólicos tóxicos, incluindo a própria beta-amiloide. Sono insuficiente ou fragmentado significa lixo se acumulando — no começo quase não se nota, depois de uma década as ruas estão intransitáveis. Some-se o sedentarismo, que reduz o fluxo sanguíneo cerebral e a produção de BDNF, e o estresse crônico, que mantém o cortisol elevado — diretamente tóxico para o hipocampo.
+Estudos post-mortem de cérebros com Alzheimer revelam alterações que espelham o diabetes tipo 2: redução na sinalização de insulina, menor atividade dos receptores, resistência insulínica localizada no tecido cerebral — mesmo em pacientes sem diabetes sistêmico. O cérebro está faminto de energia, não porque falte glicose no sangue, mas porque os neurônios perderam a capacidade de captá-la.
 
-Percebeu o padrão? Os mesmos fatores que alimentam a doença cardiovascular e a metabólica alimentam a neurodegeneração. Não são doenças separadas. São manifestações diferentes do mesmo terreno disfuncional.
+Quando os neurônios não usam glicose adequadamente, a produção de energia cai. As mitocôndrias entram em disfunção. O estresse oxidativo aumenta. A proteína tau se hiperfosforila e forma emaranhados. A maquinaria que limpa a beta-amiloide fica sobrecarregada. As placas se acumulam. A neuroinflamação amplifica tudo.
+
+E não é só a resistência insulínica. A inflamação crônica sistêmica — a mesma que corrói artérias — atravessa a barreira hematoencefálica e alimenta a neuroinflamação. Citocinas produzidas pela gordura visceral, pelo fígado esteatótico, por um intestino com permeabilidade aumentada, chegam ao cérebro e ativam a microglia — as células imunológicas residentes — num estado de alerta permanente que amplifica o dano.
+
+O sono entra como um terceiro acelerador. Durante o sono profundo, o cérebro ativa o sistema glinfático — uma rede de limpeza que remove resíduos metabólicos tóxicos, incluindo a própria beta-amiloide. Quando o sono é insuficiente ou fragmentado, essa limpeza não acontece adequadamente. Os resíduos se acumulam. É como uma cidade onde a coleta de lixo só funciona às vezes — no começo quase não se nota, mas depois de uma década as ruas estão intransitáveis.
+
+Some-se o sedentarismo, que reduz o fluxo sanguíneo cerebral e a produção de BDNF — o fator que protege neurônios e estimula novas conexões. E o estresse crônico, que mantém o cortisol elevado — e o cortisol em excesso é diretamente tóxico para o hipocampo, a região da memória.
+
+Percebeu o padrão? Os mesmos fatores que alimentam a doença cardiovascular e a doença metabólica também alimentam a neurodegeneração. Não são doenças separadas. São manifestações diferentes do mesmo terreno disfuncional.
 
 ---
 
