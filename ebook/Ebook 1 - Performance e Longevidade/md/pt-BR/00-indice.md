@@ -104,32 +104,36 @@ O solo em que os outros três pilares se sustentam.
 
 ---
 
-## ACTS Method (International Edition) — The Four Practices
+## The ACTS Method (International Edition) — The Four Pillars
 
-For English-language editions, **AGIR** is translated as **ACTS** — preserving the acronym's imperative meaning and the integrity of the four-pillar structure.
+For English-language editions, **AGIR** is translated as **The ACTS Method** — preserving the acronym's imperative meaning and the integrity of the four-pillar structure.
 
-> *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four practices that, together, protect the decades of health that standard medicine gives up on.*
+> *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four pillars that, together, protect the decades of health that standard medicine gives up on.*
 
 **A — Activity, Alimentation & Smart Adjuncts** · Chs. 7–8
+*Expanded form (first mention in Part III intro): Activity (Exercise & Movement), Alimentation (Eating Well) & Smart Adjuncts.*
 The engines of lifestyle that no medication can replace — including the visible layer (skin, hair, nails).
 
 **C — Clinical Optimization** · Chs. 9–11
-Three layers: systems (cardio-renal-hepatic-metabolic) read as one; biochemical and hormonal panels; genomics, epigenetics and environmental exposures.
+*Expanded form (first mention in Part III intro): Clinical Optimization (Systems, Panels & Exposures).*
+Three layers read as one: **systems** — heart, kidney, liver, and metabolism never as silos (Ch 9); **panels** — biochemistry and hormones that whisper before the symptom shouts (Ch 10); **exposures** — genome, epigenome, and environment (Ch 11).
 
-**T — Tending Mind & Body** · Chs. 12–13
-Two layers. Inner work (Ch. 12 — psychological assessment, nervous system regulation, cognitive function). Connection, purpose and meaning (Ch. 13 — sexual life, social bonds, screens, purpose, spirituality).
+**T — Tending Mind, Body & Bonds** · Chs. 12–13
+*Expanded form (first mention in Part III intro): Tending Mind, Body & Bonds (Inner Work + Connection).*
+Two layers the standard checkup never asks about. **Inner work** — psychological assessment, nervous-system regulation, cognitive function: the mind we live inside (Ch 12). **Connection** — sexual life, social bonds, screens, purpose, spirituality: the body extended into the world (Ch 13).
 
-**S — Sleep & Circadian Rhythm** · Ch. 14
-The biological tempo that makes all other pillars work.
+**S — Sleep, Rhythm & Recovery** · Ch. 14
+*Expanded form (first mention in Part III intro): Sleep, Rhythm & Recovery (Sleep + Circadian Timing + Active Rest).*
+The soil in which the other three pillars grow. **Sleep** — architecture, depth, apnea. **Rhythm** — the circadian timing that lines food, light, and movement against the body's own clock. **Recovery** — the active rest between sessions, between weeks, between seasons of life.
 
 ### Mapping PT → EN
 
 | Letra | AGIR (PT) | ACTS (EN) |
 |---|---|---|
-| **A** | Atividade Física, Alimentação & Suplementação Inteligente | Activity, Alimentation & Smart Adjuncts |
-| **G → C** | Gestão Clínica e Metabólica | Clinical Optimization |
-| **I → T** | Integração Mente-Corpo | Tending Mind & Body |
-| **R → S** | Ritmo Circadiano & Repouso | Sleep & Circadian Rhythm |
+| **A** | Atividade Física, Alimentação & Suplementação Inteligente | Activity, Alimentation & Smart Adjuncts<br>*expanded:* Activity (Exercise & Movement), Alimentation (Eating Well) & Smart Adjuncts |
+| **G → C** | Gestão Clínica e Metabólica | Clinical Optimization<br>*expanded:* Clinical Optimization (Systems, Panels & Exposures) |
+| **I → T** | Integração Mente-Corpo | Tending Mind, Body & Bonds<br>*expanded:* Tending Mind, Body & Bonds (Inner Work + Connection) |
+| **R → S** | Ritmo Circadiano & Repouso | Sleep, Rhythm & Recovery<br>*expanded:* Sleep, Rhythm & Recovery (Sleep + Circadian Timing + Active Rest) |
 
 ---
 

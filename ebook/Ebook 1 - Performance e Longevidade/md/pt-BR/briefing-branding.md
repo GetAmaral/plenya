@@ -107,16 +107,40 @@ Quatro pilares que o autor prescreve a cada paciente, organizados num acrônimo 
 
 ### Versão internacional: ACTS
 
+**Naming convention (locked):**
+- Substantivo do método: **The ACTS Method** (paralelo a "O Método AGIR" — sempre com artigo + capitalização do nome próprio).
+- Substantivo de cada bloco: **Pillar** (não "Practice"). Paralelo direto a "Pilar" do PT — "Pillar A", "Pillar C", "Pillar T", "Pillar S".
+- A capa não cita o método (paralelo ao PT — método aparece só dentro do livro, na abertura da Parte III).
+
 Para edições em inglês, mantendo a estrutura:
 
-| EN | |
-|---|---|
-| **A** — Activity, Alimentation & Smart Adjuncts | movement, nutrition, supplementation |
-| **C** — Clinical Optimization | biomarker-guided precision medicine |
-| **T** — Tending Mind & Body | psychology, trauma, meaning |
-| **S** — Sleep & Circadian Rhythm | biological tempo |
+| EN (short — cover/method) | EN (expanded — first mention) | Scope |
+|---|---|---|
+| **A** — Activity, Alimentation & Smart Adjuncts | Activity (Exercise & Movement), Alimentation (Eating Well) & Smart Adjuncts | structured training + unstructured movement; deliberate eating; biomarker-guided supplementation |
+| **C** — Clinical Optimization | Clinical Optimization (Systems, Panels & Exposures) | systems read as one (Ch 9); biochemistry & hormones (Ch 10); genome, epigenome, environment (Ch 11) |
+| **T** — Tending Mind, Body & Bonds | Tending Mind, Body & Bonds (Inner Work + Connection) | inner work — psychology, nervous system, cognition (Ch 12); connection — sexuality, bonds, screens, purpose, spirituality (Ch 13) |
+| **S** — Sleep, Rhythm & Recovery | Sleep, Rhythm & Recovery (Sleep + Circadian Timing + Active Rest) | sleep architecture & apnea; circadian alignment of light/food/movement; active recovery between sessions, weeks, seasons (Ch 14) |
 
-> *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four practices that, together, protect the decades of health that standard medicine gives up on.*
+**Pillar A — naming convention.** Short form is used on cover, headers, and after the concept is established. Expanded form is used on the *first* mention of Pillar A in the Part III intro (Ch 6b) so the reader understands the full scope: "activity" means both structured exercise and everyday movement (NEAT); "alimentation" is the deliberate, ongoing act of eating well, broader than any single diet; "smart adjuncts" are supplements and compounds chosen against bloodwork, not against marketing.
+
+**Pillar C — naming convention.** Same short/expanded pattern. Short "Clinical Optimization" carries the Outlive-aligned ambition (proactive, biomarker-guided, beyond standard care). Expanded "Clinical Optimization (Systems, Panels & Exposures)" maps directly onto the three chapters: **Systems** = cardio-renal-hepatic-metabolic read as one organism (Ch 9); **Panels** = biochemistry and hormones (Ch 10); **Exposures** = genome, epigenome, environment (Ch 11). The expansion keeps the term from sounding biohacker by anchoring it in clinical structure.
+
+**Pillar T — naming convention.** Same short/expanded pattern. Short "Tending Mind, Body & Bonds" already carries the three-element scope so the reader doesn't expect a meditation-only chapter. "Tend" = deliberate, ongoing care (Mary Oliver, Pollan; not biohacker). **Mind** is the inner work of Ch 12; **Bonds** is the relational/purposive territory of Ch 13 (sexual life, social bonds, screens, purpose, spirituality); **Body** runs through both. Expanded form "(Inner Work + Connection)" cleanly labels the two-chapter split so the reader anticipates the structure.
+
+**Pillar S — naming convention.** Three-element short form ("Sleep, Rhythm & Recovery") used on cover/method/headers — parallel to Pillars A, C, and T which all carry three elements in their expansion. The choice honors the Portuguese "Repouso" (rest/recovery) that "Sleep & Circadian Rhythm" alone failed to capture. **Sleep** = architecture, depth, apnea; **Rhythm** = circadian alignment of light, food, and movement; **Recovery** = active rest between sessions, weeks, and seasons of life. Expanded form "(Sleep + Circadian Timing + Active Rest)" is used at first mention to map the three sub-concepts plainly. Cap 14 is positioned as "the soil in which the other three pillars grow."
+
+---
+
+### ACTS — final consolidated form (all four pillars)
+
+| Letter | Short (cover/method) | Expanded (first mention) |
+|---|---|---|
+| **A** | Activity, Alimentation & Smart Adjuncts | Activity (Exercise & Movement), Alimentation (Eating Well) & Smart Adjuncts |
+| **C** | Clinical Optimization | Clinical Optimization (Systems, Panels & Exposures) |
+| **T** | Tending Mind, Body & Bonds | Tending Mind, Body & Bonds (Inner Work + Connection) |
+| **S** | Sleep, Rhythm & Recovery | Sleep, Rhythm & Recovery (Sleep + Circadian Timing + Active Rest) |
+
+> *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four pillars that, together, protect the decades of health that standard medicine gives up on.*
 
 ---
 

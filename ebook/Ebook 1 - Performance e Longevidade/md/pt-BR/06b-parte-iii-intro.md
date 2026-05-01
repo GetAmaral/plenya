@@ -32,11 +32,19 @@ Os quatro pilares não funcionam isolados. Alimentação sem exercício é incom
 
 ### Nota para edições internacionais — The ACTS Method (interno — não publicar)
 
-Em inglês, o acrônimo equivalente é **ACTS** — preservando o sentido imperativo (*to act*) e a estrutura de quatro práticas:
+Em inglês, o método é **The ACTS Method** — preservando o sentido imperativo (*to act*) e a estrutura de quatro pilares (Pillars A, C, T, S):
 
 - **A — Activity, Alimentation & Smart Adjuncts** (Chs. 7–8)
+  *Expanded on first mention: Activity (Exercise & Movement), Alimentation (Eating Well) & Smart Adjuncts.*
+  Three engines of lifestyle that no medication can replace: **activity** — from formal training to the unstructured movement that fills the day; **alimentation** — the deliberate act of eating well, broader than any diet; **smart adjuncts** — supplements and compounds chosen for what bloodwork actually says you need.
 - **C — Clinical Optimization** (Chs. 9–11)
-- **T — Tending Mind & Body** (Chs. 12–13)
-- **S — Sleep & Circadian Rhythm** (Ch. 14)
+  *Expanded on first mention: Clinical Optimization (Systems, Panels & Exposures).*
+  Three layers read as one: **systems** — heart, kidney, liver, and metabolism never as silos (Ch 9); **panels** — biochemistry and hormones that whisper before the symptom shouts (Ch 10); **exposures** — genome, epigenome, and environment (Ch 11).
+- **T — Tending Mind, Body & Bonds** (Chs. 12–13)
+  *Expanded on first mention: Tending Mind, Body & Bonds (Inner Work + Connection).*
+  Two layers the standard checkup never asks about. **Inner work** — psychological assessment, nervous-system regulation, cognitive function: the mind we live inside (Ch 12). **Connection** — sexual life, social bonds, screens, purpose, spirituality: the body extended into the world (Ch 13).
+- **S — Sleep, Rhythm & Recovery** (Ch. 14)
+  *Expanded on first mention: Sleep, Rhythm & Recovery (Sleep + Circadian Timing + Active Rest).*
+  The soil in which the other three pillars grow. **Sleep** — architecture, depth, apnea. **Rhythm** — circadian timing of food, light, and movement. **Recovery** — active rest between sessions, weeks, seasons of life.
 
-> *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four practices that, together, protect the decades of health that standard medicine gives up on.*
+> *AGIR means "to act" in Portuguese. ACTS is its English counterpart — four pillars that, together, protect the decades of health that standard medicine gives up on.*
