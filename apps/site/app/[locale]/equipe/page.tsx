@@ -1,20 +1,35 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { isLocale, defaultLocale } from '@/lib/i18n/config';
 import { Link } from '@/lib/i18n/navigation';
 import { getAllDoctors } from '@/lib/team';
 import { DoctorCard } from '@/components/team/doctor-card';
 
-export const metadata: Metadata = {
-  title: 'Equipe Plenya',
-  description: 'Médicos e equipe multidisciplinar da Plenya — guardiões do Método AGIR.',
-};
+type Params = Promise<{ locale: string }>;
 
-export default async function TeamPage({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'team' });
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+    alternates: {
+      canonical: locale === 'en' ? '/en/team' : '/equipe',
+      languages: {
+        'pt-BR': '/equipe',
+        en: '/en/team',
+        'x-default': '/equipe',
+      },
+    },
+  };
+}
+
+export default async function TeamPage({ params }: { params: Params }) {
   const { locale: rawLocale } = await params;
   const locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
   setRequestLocale(locale);
+  const t = await getTranslations('team');
 
   const all = await getAllDoctors();
   const direcao = all.find((d) => d.slug === 'getulio-amaral');
@@ -23,33 +38,25 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
   );
   const multidisciplinar = all.filter((d) => d.category !== 'medico');
 
+  const board = [1, 2, 3, 4, 5, 6].map((n) => t(`board${n}` as 'board1'));
+
   return (
     <>
       {/* Hero */}
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-16 md:pt-40 md:pb-20 grid lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-center">
           <div className="max-w-xl">
-            <p className="label-upper text-gold mb-6">Guardiões do Método</p>
+            <p className="label-upper text-gold mb-6">{t('heroLabel')}</p>
             <h1 className="heading-hero text-[clamp(2.5rem,6vw,5rem)] text-cream">
-              Equipe Plenya
+              {t('heroTitle')}
             </h1>
-            <p className="text-cream/80 text-lg mt-6 leading-relaxed">
-              Médicos, nutricionista, psicóloga e educador físico falando a
-              mesma língua — sobre o mesmo painel, sobre a mesma pessoa. A
-              equipe inteira se reúne, discute o seu caso e desenha uma
-              conduta única, personalizada e de precisão.
-            </p>
-            <p className="text-cream/60 mt-4 leading-relaxed">
-              Não são especialidades operando em paralelo. É uma leitura
-              clínica integrada — traduzida em prescrição compartilhada e
-              revisada a cada ciclo, porque o corpo não funciona em partes e o
-              cuidado também não.
-            </p>
+            <p className="text-cream/80 text-lg mt-6 leading-relaxed">{t('heroP1')}</p>
+            <p className="text-cream/60 mt-4 leading-relaxed">{t('heroP2')}</p>
           </div>
           <div className="relative w-full max-w-md lg:w-[360px] lg:max-w-none aspect-[1064/1891] overflow-hidden bg-petrol/40">
             <Image
               src="/images/team/equipe-formal.jpg"
-              alt="Equipe Plenya"
+              alt={t('heroAlt')}
               fill
               priority
               className="object-cover object-top"
@@ -59,25 +66,18 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
-      {/* Conselho clínico — Medical Board: credenciais agregadas */}
+      {/* Conselho clínico */}
       <section className="bg-cream border-b border-petrol/10">
         <div className="site-container py-12 md:py-16">
           <div className="grid lg:grid-cols-[1fr_2fr] gap-10 items-start">
             <div className="space-y-3">
-              <p className="label-upper text-gold">Conselho clínico</p>
+              <p className="label-upper text-gold">{t('boardLabel')}</p>
               <h2 className="heading-section text-petrol text-xl md:text-2xl">
-                Credenciais que sustentam o cuidado.
+                {t('boardTitle')}
               </h2>
             </div>
             <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-5 self-center">
-              {[
-                'UEL — Universidade Estadual de Londrina',
-                'Santa Casa de Londrina',
-                'Sociedade Brasileira de Nefrologia',
-                'ABMFI — Medicina Funcional Integrativa',
-                'CRM-PR ativo · RQE registrado',
-                'Equipe multidisciplinar integrada',
-              ].map((c) => (
+              {board.map((c) => (
                 <li
                   key={c}
                   className="label-upper text-petrol/55 text-[10px] tracking-[0.18em] leading-snug border-l-2 border-gold/40 pl-3"
@@ -90,15 +90,15 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
-      {/* Direção clínica — Dr. Getúlio em destaque */}
+      {/* Direção clínica */}
       {direcao && (
         <section className="bg-cream">
           <div className="site-container section">
             <div className="flex items-baseline gap-4 mb-12">
               <h2 className="heading-section text-petrol text-2xl md:text-3xl">
-                Direção clínica
+                {t('directionTitle')}
               </h2>
-              <span className="label-upper text-petrol/40">quem conduz o cuidado</span>
+              <span className="label-upper text-petrol/40">{t('directionCaption')}</span>
             </div>
             <Link
               href="/dr-getulio"
@@ -128,7 +128,7 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
                   {direcao.shortBio}
                 </p>
                 <p className="label-upper text-gold pt-2 group-hover:underline underline-offset-4">
-                  Conhecer a história →
+                  {t('directionCta')}
                 </p>
               </div>
             </Link>
@@ -136,17 +136,15 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
         </section>
       )}
 
-      {/* Núcleo médico — 3 médicos */}
+      {/* Núcleo médico */}
       {nucleoMedico.length > 0 && (
         <section className="bg-paper">
           <div className="site-container section">
             <div className="flex items-baseline gap-4 mb-12">
               <h2 className="heading-section text-petrol text-2xl md:text-3xl">
-                Núcleo médico
+                {t('doctorsTitle')}
               </h2>
-              <span className="label-upper text-petrol/40">
-                a mesma escola, a mesma língua
-              </span>
+              <span className="label-upper text-petrol/40">{t('doctorsCaption')}</span>
             </div>
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {nucleoMedico.map((d) => (
@@ -157,17 +155,15 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
         </section>
       )}
 
-      {/* Equipe multidisciplinar — nutri + psico (+ educador físico futuro) */}
+      {/* Multidisciplinar */}
       {multidisciplinar.length > 0 && (
         <section className="bg-cream">
           <div className="site-container section">
             <div className="flex items-baseline gap-4 mb-12">
               <h2 className="heading-section text-petrol text-2xl md:text-3xl">
-                Cuidado integrado
+                {t('multiTitle')}
               </h2>
-              <span className="label-upper text-petrol/40">
-                porque o corpo não funciona em partes
-              </span>
+              <span className="label-upper text-petrol/40">{t('multiCaption')}</span>
             </div>
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {multidisciplinar.map((d) => (
@@ -181,10 +177,10 @@ export default async function TeamPage({ params }: { params: Promise<{ locale: s
       <section className="bg-petrol text-cream">
         <div className="site-container section text-center space-y-6">
           <p className="heading-section text-cream text-2xl md:text-3xl max-w-2xl mx-auto">
-            Quer conhecer a equipe em conversa direta?
+            {t('ctaTitle')}
           </p>
           <Link href="/contato" className="btn-gold">
-            Falar com a Plenya
+            {t('ctaButton')}
           </Link>
         </div>
       </section>

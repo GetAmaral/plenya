@@ -30,9 +30,14 @@ export function DrGetulioPreview() {
             {t('drGetulioName')}
           </h2>
 
-          <p className="label-upper-sm text-petrol/55">
-            {t('drGetulioCredentials')}
-          </p>
+          <div className="space-y-1.5">
+            <p className="label-upper-sm text-petrol/55">
+              {t('drGetulioRole')}
+            </p>
+            <p className="label-upper-sm text-petrol/40 text-[10px]">
+              {t('drGetulioCredentials')}
+            </p>
+          </div>
 
           <p className="text-petrol/80 text-lg leading-relaxed max-w-lg">
             {t('drGetulioP1')}
