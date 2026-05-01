@@ -1,11 +1,30 @@
 import type { MetadataRoute } from 'next';
 import { brand } from '@plenya/brand';
-import { locales } from '@/lib/i18n/config';
+import { locales, type Locale } from '@/lib/i18n/config';
+import { pathnames } from '@/lib/i18n/navigation';
 import { getAllPosts, pillars } from '@/lib/blog';
 import { getAllDoctors } from '@/lib/team';
 
-const staticRoutes = [
-  '',
+// Resolve a chave PT do mapa `pathnames` para a URL localizada (com prefixo /en quando aplicável).
+function resolvePath(key: keyof typeof pathnames, locale: Locale): string {
+  const entry = pathnames[key];
+  const path = typeof entry === 'string' ? entry : entry[locale];
+  const prefix = locale === 'pt' ? '' : `/${locale}`;
+  // Em "/" o prefix sozinho não pode terminar com / quando locale=pt → sempre OK pois retornamos brand.url + ''.
+  return path === '/' ? `${brand.url}${prefix || ''}` : `${brand.url}${prefix}${path}`;
+}
+
+function localizedAlternates(key: keyof typeof pathnames) {
+  const out: Record<string, string> = {};
+  for (const l of locales) {
+    out[l === 'pt' ? 'pt-BR' : l] = resolvePath(key, l);
+  }
+  out['x-default'] = resolvePath(key, 'pt');
+  return out;
+}
+
+const staticRouteKeys: (keyof typeof pathnames)[] = [
+  '/',
   '/dr-getulio',
   '/a-plenya',
   '/metodo-agir',
@@ -28,62 +47,87 @@ const staticRoutes = [
   '/termos',
 ];
 
-function localized(path: string, locale: string) {
-  return `${brand.url}${locale === 'pt' ? '' : `/${locale}`}${path}`;
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  const staticEntries = staticRoutes.flatMap((route) =>
+  const staticEntries = staticRouteKeys.flatMap((key) =>
     locales.map((locale) => ({
-      url: localized(route, locale),
+      url: resolvePath(key, locale),
       lastModified: now,
       changeFrequency: 'weekly' as const,
-      priority: route === '' ? 1 : 0.7,
-      alternates: {
-        languages: Object.fromEntries(
-          locales.map((l) => [l === 'pt' ? 'pt-BR' : l, localized(route, l)]),
-        ),
-      },
+      priority: key === '/' ? 1 : 0.7,
+      alternates: { languages: localizedAlternates(key) },
     })),
   );
 
+  // Categorias de blog (rota dinâmica por pilar; resolvedPath não suporta
+  // params — montamos manualmente a partir do mapa).
   const pillarEntries = pillars.flatMap((pilar) =>
-    locales.map((locale) => ({
-      url: localized(`/blog/categoria/${pilar}`, locale),
-      lastModified: now,
-      changeFrequency: 'weekly' as const,
-      priority: 0.5,
-    })),
+    locales.map((locale) => {
+      const ptPath = `/blog/categoria/${pilar}`;
+      const enPath = `/en/blog/category/${pilar}`;
+      const url = locale === 'pt' ? `${brand.url}${ptPath}` : `${brand.url}${enPath}`;
+      return {
+        url,
+        lastModified: now,
+        changeFrequency: 'weekly' as const,
+        priority: 0.5,
+        alternates: {
+          languages: {
+            'pt-BR': `${brand.url}${ptPath}`,
+            en: `${brand.url}${enPath}`,
+            'x-default': `${brand.url}${ptPath}`,
+          },
+        },
+      };
+    }),
   );
 
   const postEntries: MetadataRoute.Sitemap = [];
   for (const locale of locales) {
     const posts = await getAllPosts(locale);
     for (const post of posts) {
+      const ptUrl = `${brand.url}/blog/${post.slug}`;
+      const enUrl = `${brand.url}/en/blog/${post.slug}`;
       postEntries.push({
-        url: localized(`/blog/${post.slug}`, locale),
+        url: locale === 'pt' ? ptUrl : enUrl,
         lastModified: new Date(post.updated ?? post.date),
         changeFrequency: 'monthly' as const,
         priority: 0.8,
+        alternates: {
+          languages: {
+            'pt-BR': ptUrl,
+            en: enUrl,
+            'x-default': ptUrl,
+          },
+        },
       });
     }
   }
 
   const doctors = await getAllDoctors();
   // Dr. Getúlio tem URL canônica em /dr-getulio (já listada em staticRoutes).
-  // /equipe/getulio-amaral redireciona — não duplicar no sitemap.
   const doctorEntries = doctors
     .filter((doc) => doc.slug !== 'getulio-amaral')
     .flatMap((doc) =>
-    locales.map((locale) => ({
-      url: localized(`/equipe/${doc.slug}`, locale),
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: doc.featured ? 0.9 : 0.6,
-    })),
-  );
+      locales.map((locale) => {
+        const ptUrl = `${brand.url}/equipe/${doc.slug}`;
+        const enUrl = `${brand.url}/en/team/${doc.slug}`;
+        return {
+          url: locale === 'pt' ? ptUrl : enUrl,
+          lastModified: now,
+          changeFrequency: 'monthly' as const,
+          priority: doc.featured ? 0.9 : 0.6,
+          alternates: {
+            languages: {
+              'pt-BR': ptUrl,
+              en: enUrl,
+              'x-default': ptUrl,
+            },
+          },
+        };
+      }),
+    );
 
   return [...staticEntries, ...pillarEntries, ...postEntries, ...doctorEntries];
 }

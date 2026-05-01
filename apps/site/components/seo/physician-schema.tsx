@@ -1,6 +1,7 @@
 import { brand } from '@plenya/brand';
 
-export function PhysicianSchema() {
+export function PhysicianSchema({ locale = 'pt' }: { locale?: string } = {}) {
+  const isEn = locale === 'en';
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Physician',
@@ -8,14 +9,15 @@ export function PhysicianSchema() {
     name: 'Dr. Getúlio José Mattos do Amaral Filho',
     url: `${brand.url}/dr-getulio`,
     image: `${brand.url}/images/team/getulio-amaral.jpg`,
-    jobTitle: 'Diretor Clínico · Médico Nefrologista · Medicina Funcional Integrativa',
+    jobTitle: isEn
+      ? 'Clinical Director · Nephrologist · Integrative Functional Medicine (Brazil)'
+      : 'Diretor Clínico · Médico Nefrologista · Medicina Funcional Integrativa',
+    inLanguage: isEn ? 'en' : 'pt-BR',
+    knowsLanguage: ['pt-BR', 'en'],
     medicalSpecialty: ['Nephrology', 'InternalMedicine'],
-    knowsAbout: [
-      'Medicina Funcional Integrativa',
-      'Nefrologia Preventiva',
-      'Longevidade',
-      'Healthspan',
-    ],
+    knowsAbout: isEn
+      ? ['Integrative Functional Medicine', 'Preventive Nephrology', 'Longevity', 'Healthspan']
+      : ['Medicina Funcional Integrativa', 'Nefrologia Preventiva', 'Longevidade', 'Healthspan'],
     identifier: [
       { '@type': 'PropertyValue', propertyID: 'CRM', value: 'CRM-PR 21.876' },
       { '@type': 'PropertyValue', propertyID: 'RQE', value: '16.038' },

@@ -4,7 +4,9 @@ import { brand } from '@plenya/brand';
  * WebSite + SearchAction schema. Habilita o sitelinks searchbox do Google
  * (caixa de busca direto na SERP). publisher referencia a MedicalOrganization.
  */
-export function WebSiteSchema() {
+export function WebSiteSchema({ locale = 'pt' }: { locale?: string } = {}) {
+  const isEn = locale === 'en';
+  const searchPath = isEn ? '/en/blog' : '/blog';
   const data = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -12,14 +14,14 @@ export function WebSiteSchema() {
     url: brand.url,
     name: brand.name,
     alternateName: brand.legalName,
-    description: brand.tagline,
-    inLanguage: 'pt-BR',
+    description: isEn ? 'Health, Performance & Longevity' : brand.tagline,
+    inLanguage: ['pt-BR', 'en'],
     publisher: { '@id': `${brand.url}/#organization` },
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${brand.url}/blog?q={search_term_string}`,
+        urlTemplate: `${brand.url}${searchPath}?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },

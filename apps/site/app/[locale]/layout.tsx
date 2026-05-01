@@ -44,17 +44,18 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         ? 'Clínica premium de saúde funcional integrativa. Cuidado personalizado em saúde, performance e longevidade.'
         : 'Clínica premium de medicina funcional integrativa. Cuidado personalizado en salud, rendimiento y longevidad.',
     alternates: {
-      canonical: `/${locale === 'pt' ? '' : locale}`,
+      canonical: locale === 'pt' ? '/' : `/${locale}`,
       languages: {
         'pt-BR': '/',
         en: '/en',
-        es: '/es',
+        'x-default': '/',
       },
     },
     openGraph: {
       type: 'website',
       siteName: brand.name,
-      locale: locale === 'pt' ? 'pt_BR' : locale === 'en' ? 'en_US' : 'es_ES',
+      locale: isEn ? 'en_US' : 'pt_BR',
+      alternateLocale: isEn ? ['pt_BR'] : ['en_US'],
       images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: brand.name }],
     },
     twitter: {
@@ -102,10 +103,10 @@ export default async function LocaleLayout({
       <body className="min-h-screen flex flex-col font-sans">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <SmoothScrollProvider>
-            <OrganizationSchema />
-            <MedicalClinicSchema />
-            <PhysicianSchema />
-            <WebSiteSchema />
+            <OrganizationSchema locale={locale} />
+            <MedicalClinicSchema locale={locale} />
+            <PhysicianSchema locale={locale} />
+            <WebSiteSchema locale={locale} />
             <SiteHeader />
             <main className="flex-1">{children}</main>
             <SiteFooter />

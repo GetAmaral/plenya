@@ -1,6 +1,7 @@
 import { brand } from '@plenya/brand';
 
-export function MedicalClinicSchema() {
+export function MedicalClinicSchema({ locale = 'pt' }: { locale?: string } = {}) {
+  const isEn = locale === 'en';
   const data = {
     '@context': 'https://schema.org',
     '@type': 'MedicalClinic',
@@ -19,8 +20,9 @@ export function MedicalClinicSchema() {
         { '@type': 'PropertyValue', propertyID: 'RQE', value: '16.038' },
       ],
     },
-    description:
-      'Clínica premium de medicina funcional integrativa em Londrina-PR. Consulta Plenya e Continuum Plenya — saúde, performance e longevidade.',
+    description: isEn
+      ? 'Premium integrative functional medicine clinic in Londrina, Brazil. Plenya Consultation and Continuum Plenya — health, performance, and longevity.'
+      : 'Clínica premium de medicina funcional integrativa em Londrina-PR. Consulta Plenya e Continuum Plenya — saúde, performance e longevidade.',
     medicalSpecialty: ['FunctionalMedicine', 'PreventiveMedicine', 'Nephrology', 'InternalMedicine'],
     address: {
       '@type': 'PostalAddress',
@@ -29,12 +31,12 @@ export function MedicalClinicSchema() {
       addressCountry: 'BR',
     },
     areaServed: [
-      { '@type': 'Country', name: 'Brasil' },
-      { '@type': 'AdministrativeArea', name: 'Paraná' },
+      { '@type': 'Country', name: isEn ? 'Brazil' : 'Brasil' },
+      { '@type': 'AdministrativeArea', name: isEn ? 'Paraná (Brazil)' : 'Paraná' },
       { '@type': 'City', name: 'Londrina' },
     ],
-    inLanguage: 'pt-BR',
-    knowsLanguage: ['pt-BR', 'en', 'es'],
+    inLanguage: isEn ? 'en' : 'pt-BR',
+    knowsLanguage: ['pt-BR', 'en'],
     sameAs: [
       brand.social.instagram,
       'https://drgetulioamaralfilho.com.br',
@@ -50,25 +52,47 @@ export function MedicalClinicSchema() {
         closes: '18:00',
       },
     ],
-    availableService: [
-      {
-        '@type': 'MedicalProcedure',
-        name: 'Consulta Plenya',
-        description: 'Consulta médica particular com leitura funcional dos exames, presencial em Londrina ou online.',
-      },
-      {
-        '@type': 'MedicalProcedure',
-        name: 'Continuum Plenya',
-        description:
-          'Programa semestral ou anual com equipe multidisciplinar — médico, nutricionista, psicólogo e educador físico.',
-      },
-      {
-        '@type': 'DiagnosticProcedure',
-        name: 'Escore Plenya',
-        description:
-          'Instrumento de medida do Método AGIR. Mais de 800 itens em uma pontuação clara, evolutiva e personalizada.',
-      },
-    ],
+    availableService: isEn
+      ? [
+          {
+            '@type': 'MedicalProcedure',
+            name: 'Plenya Consultation',
+            description:
+              'Private medical consultation with a functional reading of labs, in person in Londrina or online.',
+          },
+          {
+            '@type': 'MedicalProcedure',
+            name: 'Continuum Plenya',
+            description:
+              'Six-month or annual program with multidisciplinary team — physician, nutritionist, psychologist, and exercise physiologist.',
+          },
+          {
+            '@type': 'DiagnosticProcedure',
+            name: 'Plenya Score',
+            description:
+              'Measurement instrument of The ACTS Method. Over 800 items synthesized into a clear, evolving, personalized score.',
+          },
+        ]
+      : [
+          {
+            '@type': 'MedicalProcedure',
+            name: 'Consulta Plenya',
+            description:
+              'Consulta médica particular com leitura funcional dos exames, presencial em Londrina ou online.',
+          },
+          {
+            '@type': 'MedicalProcedure',
+            name: 'Continuum Plenya',
+            description:
+              'Programa semestral ou anual com equipe multidisciplinar — médico, nutricionista, psicólogo e educador físico.',
+          },
+          {
+            '@type': 'DiagnosticProcedure',
+            name: 'Escore Plenya',
+            description:
+              'Instrumento de medida do Método AGIR. Mais de 800 itens em uma pontuação clara, evolutiva e personalizada.',
+          },
+        ],
   };
   return (
     <script
