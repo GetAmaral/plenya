@@ -11,7 +11,7 @@ last_reviewed: 2026-05-01
 
 ### Why this book
 
-In the twenty years since I finished medical school, I've watched modern healthcare systems — Brazil's, where I trained and practice, and others I've studied — become better at treating disease and worse at preventing it.
+In the twenty years since I finished medical school, I've watched Brazil — where I trained and practice — become better at treating disease and worse at preventing it.
 
 Our hospitals have modernized. Our cardiac ICUs perform what would have been miracles when I was a resident. Oncologists today cure cancers they could only delay two decades ago. Nephrologists keep patients on dialysis for thirty years with quality of life. All of that is true. All of that is wonderful.
 
@@ -19,7 +19,7 @@ And every week, a patient walks into my office with the same piece of paper in t
 
 It is. Within the ranges the lab prints, it is.
 
-But that person's body is telling a different story. The blood pressure that read 110/70 five years ago now reads 130/85 — within "normal." Fasting glucose climbed from 84 to 98 over a decade — within "normal." Waist circumference grew silently by three inches since age forty — and was never measured at any visit. Bone mineral density, a fifteen-minute scan, was never ordered. High-sensitivity troponin, apolipoprotein B, homocysteine, hs-CRP — none of these appeared on any panel.
+But that person's body is telling a different story. The blood pressure that read 110/70 five years ago now reads 130/85 — within "normal." Fasting glucose climbed from 84 to 98 over a decade — within "normal." Waist circumference grew silently by nearly three inches (7 cm) since age forty — and was never measured at any visit. Bone mineral density, a fifteen-minute scan, was never ordered. High-sensitivity troponin, apolipoprotein B, homocysteine, hs-CRP — none of these appeared on any panel.
 
 The lab says *normal*. The body says *I've been getting sick for eight years and no one is looking.*
 
@@ -64,8 +64,6 @@ The book has five parts and eighteen chapters.
 **Part II — The Map** (chs. 4 to 6). The expanded panel of biomarkers that the conventional checkup leaves out, what each of them means, and how to read your own labs. Here is the set of numbers that, together, define your position in the window.
 
 **Part III — The ACTS Method** (chs. 7 to 14). Four pillars of action — **A**ctivity, Alimentation & Smart Adjuncts; **C**linical Optimization; **T**ending Mind, Body & Bonds; **S**leep, Rhythm & Recovery. Pillar A spans two chapters (activity; alimentation, smart adjuncts, and the visible layer). Pillar C spans three chapters (cardio-renal-hepatic-metabolic systems; biochemical and hormonal panels; genomics, epigenetics, and exposures). Pillar T spans two chapters (inner work; connection, purpose, and meaning). Pillar S has one chapter.
-
-> *In Portuguese, the method is called AGIR — which means "to act." The English counterpart, ACTS, preserves both the imperative spelling and the call to action underneath.*
 
 **Part IV — The Plan** (chs. 15 to 16). The quarterly Longevity Scorecard, so you can track your own trajectory over time. And a chapter on when — and how — to seek a specialist, with the right questions to ask.
 

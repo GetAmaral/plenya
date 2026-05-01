@@ -23,7 +23,6 @@ The references below are organized by chapter and by type. All have been individ
 - **Sinclair, D.A. & LaPlante, M.D.** (2019). *Lifespan: Why We Age — and Why We Don't Have To*. Atria Books. — Biology of aging, sirtuins, NAD+, hallmarks.
 - **Waldinger, R. & Schulz, M.** (2023). *The Good Life: Lessons from the World's Longest Scientific Study of Happiness*. Simon & Schuster. — Harvard Study of Adult Development (88+ years of follow-up).
 - **Walker, M.** (2017). *Why We Sleep: Unlocking the Power of Sleep and Dreams*. Scribner. — Sleep architecture, impact on cognition, metabolism, and immunity.
-- **van der Kolk, B.** (2014). *The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma*. Viking. — Biological persistence of trauma; foundational reference for Chapter 12.
 
 ---
 

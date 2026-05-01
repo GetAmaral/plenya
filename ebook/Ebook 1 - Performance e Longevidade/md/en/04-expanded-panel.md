@@ -14,7 +14,7 @@ figures:
 
 ## Chapter 4 — The Expanded Panel: The Map the Standard Checkup Doesn't Deliver
 
-Fernanda was 41 when she came to my office at her husband's insistence. She had no complaints. No history of any chronic disease. She exercised three times a week, ate "well by typical middle-class standards," and slept reasonably. Her most recent checkup, six months earlier, had come back "all normal." Her husband, who was already my patient, had a specific concern: Fernanda's father had a heart attack at 58, and her mother had been diagnosed with type 2 diabetes at 62.
+Fernanda was 41 when she came to my office at her husband's insistence. She had no complaints. No history of any chronic disease. She exercised three times a week, ate "well by everyday Brazilian standards," and slept reasonably. Her most recent checkup, six months earlier, had come back "all normal." Her husband, who was already my patient, had a specific concern: Fernanda's father had a heart attack at 58, and her mother had been diagnosed with type 2 diabetes at 62.
 
 *"She says everything is fine because the test said everything is fine,"* he told me. *"But I've already seen what 'fine' meant in Ricardo's case."*
 
@@ -74,7 +74,7 @@ Below is the panel I use in clinic — the biomarkers that, together, draw the m
 Lab normal: < 6.5%. Optimal range: ≤ 5.4% (ideal 4.8–5.2%). What it reveals: long-term metabolic health. Studies of centenarians consistently show values below 5.2%. The difference between 5.5% and 5.0% looks minimal — over decades, it isn't.
 
 **ApoB (apolipoprotein B)**
-Lab normal: < 130 mg/dL. Optimal range: < 90 mg/dL (ideal < 80). What it reveals: real atherosclerotic risk. Each ApoB particle is a "truck" that can penetrate the arterial wall and start a plaque. ApoB counts the number of trucks — LDL only measures the cargo they carry. Two patients with the same LDL can have radically different particle counts — and it's the particle count that determines risk. The 2024 National Lipid Association consensus recognized ApoB as a marker superior to LDL for cardiovascular risk assessment. European guidelines (ESC/EAS 2021) include ApoB as a therapeutic target. Despite this, most standard checkups — in Brazil, in the U.S., and elsewhere — don't include it.
+Lab normal: < 130 mg/dL. Optimal range: < 90 mg/dL (ideal < 80). What it reveals: real atherosclerotic risk. Each ApoB particle is a "truck" that can penetrate the arterial wall and start a plaque. ApoB counts the number of trucks — LDL only measures the cargo they carry. Two patients with the same LDL can have radically different particle counts — and it's the particle count that determines risk. The 2024 National Lipid Association consensus recognized ApoB as a marker superior to LDL for cardiovascular risk assessment. European guidelines (ESC/EAS 2021) include ApoB as a therapeutic target. Despite this, most Brazilian checkups don't include it.
 
 **ApoB/ApoA1 ratio**
 Optimal range: < 0.6 (low risk). Above 0.9: high risk. What it reveals: the balance between arterial attack and defense. ApoB counts the particles that deposit cholesterol in arteries. ApoA1 counts those that remove it (reverse cholesterol transport). The ratio captures a risk spectrum that neither marker alone detects — especially in patients with acceptable ApoB but low ApoA1, a hidden vulnerability. The AMORIS study, with 137,100 people followed for nearly 18 years, demonstrated that an elevated ApoB/ApoA1 ratio was already visible up to 20 years before the first cardiovascular event.
