@@ -1,53 +1,47 @@
 import type { Metadata } from 'next';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { NewsletterInline } from '@/components/blog/newsletter-inline';
 import { Link } from '@/lib/i18n/navigation';
 
-export const metadata: Metadata = {
-  title: 'Boletim Plenya — medicina antecipatória na sua caixa de entrada',
-  description:
-    'Um e-mail por semana, escrito pela equipe médica Plenya. Leitura curta, embasada e prática. Sem ruído, sem promessa milagrosa, sem venda agressiva.',
-};
+type Params = Promise<{ locale: string }>;
 
-const promessas = [
-  {
-    label: 'Frequência',
-    title: 'Um e-mail por semana.',
-    body: 'Toda quinta-feira pela manhã. Nem mais — porque saúde não se aprende em ruído.',
-  },
-  {
-    label: 'Conteúdo',
-    title: 'Escrito por médicos e equipe.',
-    body: 'Leitura clínica de um exame, um nutriente, um hábito ou um achado novo da literatura. Sempre com referência.',
-  },
-  {
-    label: 'Tempo',
-    title: 'Cinco minutos de leitura.',
-    body: 'Chega para você decidir o que fazer no fim da semana — ou trazer pra próxima consulta.',
-  },
-  {
-    label: 'Privacidade',
-    title: 'Seu e-mail não vira lista de venda.',
-    body: 'Zero compartilhamento com terceiros. Cancelamento em 1 clique. 100% LGPD.',
-  },
-];
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'newsletter' });
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+    alternates: {
+      canonical: locale === 'en' ? '/en/newsletter' : '/boletim',
+      languages: {
+        'pt-BR': '/boletim',
+        en: '/en/newsletter',
+        'x-default': '/boletim',
+      },
+    },
+  };
+}
 
-export default async function BoletimPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function BoletimPage({ params }: { params: Params }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations('newsletter');
+
+  const promessas = [1, 2, 3, 4].map((n) => ({
+    label: t(`p${n}Label` as 'p1Label'),
+    title: t(`p${n}Title` as 'p1Title'),
+    body: t(`p${n}Body` as 'p1Body'),
+  }));
 
   return (
     <>
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32 max-w-3xl">
-          <p className="label-upper text-gold mb-6">Boletim Plenya</p>
+          <p className="label-upper text-gold mb-6">{t('heroLabel')}</p>
           <h1 className="heading-hero text-[clamp(2.5rem,6vw,4.5rem)] text-cream">
-            Medicina antecipatória na sua caixa de entrada.
+            {t('heroTitle')}
           </h1>
-          <p className="text-cream/75 text-lg leading-relaxed mt-8 max-w-2xl">
-            Um recorte semanal escrito pela equipe médica Plenya. Curto, embasado e
-            prático — pra quem quer cuidar antes da janela silenciosa fechar.
-          </p>
+          <p className="text-cream/75 text-lg leading-relaxed mt-8 max-w-2xl">{t('heroP')}</p>
         </div>
       </section>
 
@@ -71,12 +65,12 @@ export default async function BoletimPage({ params }: { params: Promise<{ locale
 
       <section className="bg-cream">
         <div className="site-container section text-center space-y-6 max-w-2xl mx-auto">
-          <p className="label-upper text-gold">Quer ver antes de assinar?</p>
-          <p className="heading-section text-petrol text-2xl md:text-3xl">
-            Os artigos mais lidos do Boletim ficam abertos no nosso blog.
-          </p>
+          <p className="label-upper text-gold">{t('ctaLabel')}</p>
+          <p className="heading-section text-petrol text-2xl md:text-3xl">{t('ctaTitle')}</p>
           <p>
-            <Link href="/blog" className="btn-gold">Ler o blog</Link>
+            <Link href="/blog" className="btn-gold">
+              {t('ctaButton')}
+            </Link>
           </p>
         </div>
       </section>
