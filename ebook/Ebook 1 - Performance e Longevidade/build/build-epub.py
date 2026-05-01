@@ -254,7 +254,7 @@ subject:
   - "Envelhecimento"
 identifier:
   - scheme: ISBN
-    text: "PENDING-CBL-2026"
+    text: "978-65-02-06742-0"
 ...
 """, encoding="utf-8")
 
