@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { Link, type Href } from '@/lib/i18n/navigation';
 import { LEGAL_CONTACT, PRIVACY_POLICY_VERSION, TERMS_VERSION } from '@/lib/legal';
+import { LegalEnNotice } from '@/components/legal/legal-en-notice';
 
 export const metadata: Metadata = {
   title: 'LGPD — Plenya',
@@ -42,6 +43,7 @@ export default async function LGPDHubPage({ params }: { params: Promise<{ locale
 
   return (
     <>
+      <LegalEnNotice />
       <section className="bg-petrol text-cream">
         <div className="site-narrow pt-32 pb-20 md:pt-40 md:pb-24">
           <p className="label-upper text-gold mb-6">LGPD · Lei 13.709/2018</p>

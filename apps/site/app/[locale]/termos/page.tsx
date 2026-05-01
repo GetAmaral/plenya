@@ -2,10 +2,19 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { TERMS_VERSION, LEGAL_CONTACT } from '@/lib/legal';
+import { LegalEnNotice } from '@/components/legal/legal-en-notice';
 
 export const metadata: Metadata = {
   title: 'Termos de Uso — Plenya',
   description: 'Termos de Uso do site e dos serviços online da Plenya.',
+  alternates: {
+    canonical: '/termos',
+    languages: {
+      'pt-BR': '/termos',
+      en: '/en/terms',
+      'x-default': '/termos',
+    },
+  },
 };
 
 export default async function TermsPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -14,6 +23,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
 
   return (
     <>
+      <LegalEnNotice />
       <section className="bg-petrol text-cream">
         <div className="site-narrow pt-32 pb-20 md:pt-40 md:pb-24">
           <p className="label-upper text-gold mb-6">Legal</p>

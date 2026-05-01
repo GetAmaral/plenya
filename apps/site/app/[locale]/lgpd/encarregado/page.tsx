@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { LEGAL_CONTACT } from '@/lib/legal';
+import { LegalEnNotice } from '@/components/legal/legal-en-notice';
 
 export const metadata: Metadata = {
   title: 'Encarregado de Proteção de Dados (DPO) — Plenya',
@@ -15,6 +16,7 @@ export default async function DPOPage({ params }: { params: Promise<{ locale: st
 
   return (
     <>
+      <LegalEnNotice />
       <section className="bg-petrol text-cream">
         <div className="site-narrow pt-32 pb-20 md:pt-40 md:pb-24">
           <p className="label-upper text-gold mb-6">LGPD · Art. 41</p>

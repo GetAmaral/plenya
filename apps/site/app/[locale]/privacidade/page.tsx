@@ -2,11 +2,20 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { PRIVACY_POLICY_VERSION, LEGAL_CONTACT } from '@/lib/legal';
+import { LegalEnNotice } from '@/components/legal/legal-en-notice';
 
 export const metadata: Metadata = {
   title: 'Política de Privacidade — Plenya',
   description:
     'Política de Privacidade da Plenya em conformidade com a LGPD (Lei Geral de Proteção de Dados — Lei 13.709/2018).',
+  alternates: {
+    canonical: '/privacidade',
+    languages: {
+      'pt-BR': '/privacidade',
+      en: '/en/privacy',
+      'x-default': '/privacidade',
+    },
+  },
 };
 
 export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -15,6 +24,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
 
   return (
     <>
+      <LegalEnNotice />
       <section className="bg-petrol text-cream">
         <div className="site-narrow pt-32 pb-20 md:pt-40 md:pb-24">
           <p className="label-upper text-gold mb-6">LGPD</p>
