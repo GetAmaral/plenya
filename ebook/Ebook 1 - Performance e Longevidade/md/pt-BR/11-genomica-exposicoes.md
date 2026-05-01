@@ -104,7 +104,7 @@ Essa é a diferença entre a medicina que espera o diagnóstico aparecer e a med
 
 - Reposição masculina não é elixir nem vilã. TRAVERSE (2023) mostrou neutralidade cardiovascular com indicação adequada. A primeira intervenção raramente é medicação — sono, vitamina D, treino de força e correção de deficiências resolvem a maioria dos casos subótimos.
 
-- A decisão feminina na janela: ELITE (2016) e KEEPS (2024) confirmaram que dentro dos 10 anos após a última menstruação o estradiol protege; fora dela, não. Prescrição moderna: transdérmica (adesivo ou gel) + progesterona micronizada natural à noite. Chips e gestrinona estão proibidos no Brasil desde outubro de 2024.
+- A decisão feminina na janela: ELITE (2016) e KEEPS (2024) confirmaram que dentro dos 10 anos após a última menstruação o estradiol protege; fora dela, não. Prescrição moderna: transdérmica (adesivo ou gel) + progesterona micronizada natural à noite. Implantes hormonais manipulados para fins estéticos, esportivos ou de ganho de massa muscular (cenário típico do "chip" e da gestrinona) seguem proibidos no Brasil pela RDC Anvisa 4.353/2024 (que revogou e atualizou a RDC 3.915/2024); implantes em indicação clínica legítima foram readmitidos sob controles reforçados.
 
 - Alternativas não-hormonais para quem não pode fazer TRH: fezolinetante (Veozah, FDA 2023) e doses baixas de paroxetina/venlafaxina. Aliviam fogachos, mas não preservam osso nem modificam risco cardiovascular.
 

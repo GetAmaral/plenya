@@ -31,7 +31,7 @@ A maioria das pessoas pensa em aterosclerose como colesterol grudado na parede d
 
 Aterosclerose é, na sua essência, uma doença inflamatória crônica. Ela começa quando partículas contendo ApoB — principalmente o LDL — atravessam o endotélio e ficam retidas dentro da parede arterial. Ali, essas partículas sofrem oxidação. O sistema imunológico reconhece a ameaça e envia macrófagos para engoli-las. Os macrófagos, carregados de gordura oxidada, se transformam em "células espumosas" — e é esse acúmulo que forma as primeiras placas.
 
-Esse processo começa cedo. Autópsias de soldados jovens mortos em combate desde a Primeira Guerra Mundial mostram estrias gordurosas nas coronárias de homens com menos de 25 anos. O Bogalusa Heart Study encontrou estrias gordurosas na aorta de todos os 204 indivíduos examinados entre 2 e 39 anos.
+Esse processo começa cedo. O estudo clássico de Enos e colaboradores, publicado no *JAMA* em 1953, examinou as coronárias de soldados americanos mortos na Guerra da Coreia — média de idade 22 anos — e encontrou aterosclerose já estabelecida em mais de 75% deles. Achados semelhantes foram reproduzidos em autópsias de jovens em outras coortes desde então. O Bogalusa Heart Study encontrou estrias gordurosas na aorta de todos os 204 indivíduos examinados entre 2 e 39 anos.
 
 A aterosclerose não é doença de velho. Começa na infância e cresce em silêncio por décadas. O estudo PESA, com mais de 4.000 adultos assintomáticos entre 40 e 55 anos, mostrou progressão de aterosclerose subclínica em cerca de um terço deles em seis anos. Pessoas que se consideravam saudáveis, enquanto as placas cresciam.
 

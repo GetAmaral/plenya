@@ -119,7 +119,7 @@ Nenhuma dessas intervenções substitui as outras. A pergunta não é "qual é a
 
 ### Função Cognitiva: Da Reserva ao Rastreio Precoce
 
-A mãe de Ana, mencionada no início deste capítulo, começou a mostrar sinais iniciais de demência aos 72 anos. Para Ana, aos 44, isso não era só uma responsabilidade de cuidado — era uma sombra pessoal. Numa das consultas, depois de descrever com detalhes o decline cognitivo da mãe, ela fez a pergunta que me acompanha há anos no consultório: *"Doutor, eu vou seguir o mesmo caminho?"*
+A mãe de Ana, mencionada no início deste capítulo, começou a mostrar sinais iniciais de demência aos 72 anos. Para Ana, aos 44, isso não era só uma responsabilidade de cuidado — era uma sombra pessoal. Numa das consultas, depois de descrever com detalhes o declínio cognitivo da mãe, ela fez a pergunta que me acompanha há anos no consultório: *"Doutor, eu vou seguir o mesmo caminho?"*
 
 É a pergunta que uma parcela grande dos leitores deste capítulo traz para o consultório, em formulações diferentes. Uma mãe com Alzheimer. Um pai que começou a esquecer nomes. Um cônjuge que repete a mesma história. A pergunta por trás é sempre a mesma: **o que eu posso fazer, agora, enquanto a cognição ainda é minha?** A resposta dos últimos cinco anos mudou substancialmente — e vale recuperá-la aqui com honestidade.
 
