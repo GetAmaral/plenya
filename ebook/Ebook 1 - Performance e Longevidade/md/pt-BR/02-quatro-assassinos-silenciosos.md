@@ -31,11 +31,9 @@ A maioria das pessoas pensa em aterosclerose como colesterol grudado na parede d
 
 Aterosclerose é, na sua essência, uma doença inflamatória crônica. Ela começa quando partículas contendo ApoB — principalmente o LDL — atravessam o endotélio e ficam retidas dentro da parede arterial. Ali, essas partículas sofrem oxidação. O sistema imunológico reconhece a ameaça e envia macrófagos para engoli-las. Os macrófagos, carregados de gordura oxidada, se transformam em "células espumosas" — e é esse acúmulo que forma as primeiras placas.
 
-Esse processo começa absurdamente cedo. Estudos de autópsia em jovens soldados mortos em combate — desde a Primeira Guerra Mundial — mostram estrias gordurosas nas artérias coronárias de homens com menos de 25 anos. O clássico Bogalusa Heart Study encontrou estrias gordurosas na aorta de todos os 204 indivíduos examinados entre 2 e 39 anos — e na metade das crianças entre 2 e 15 anos, essas estrias já apareciam nas coronárias.
+Esse processo começa cedo. Autópsias de soldados jovens mortos em combate desde a Primeira Guerra Mundial mostram estrias gordurosas nas coronárias de homens com menos de 25 anos. O Bogalusa Heart Study encontrou estrias gordurosas na aorta de todos os 204 indivíduos examinados entre 2 e 39 anos.
 
-A aterosclerose não é uma doença de velho. É uma doença que começa na infância e cresce em silêncio por décadas.
-
-O estudo PESA, conduzido na Espanha com mais de 4.000 adultos assintomáticos entre 40 e 55 anos, demonstrou que em seis anos de acompanhamento, cerca de um terço dos avaliados apresentou progressão de aterosclerose subclínica. Pessoas de meia-idade que se consideravam saudáveis, vivendo normalmente, enquanto as placas cresciam.
+A aterosclerose não é doença de velho. Começa na infância e cresce em silêncio por décadas. O estudo PESA, com mais de 4.000 adultos assintomáticos entre 40 e 55 anos, mostrou progressão de aterosclerose subclínica em cerca de um terço deles em seis anos. Pessoas que se consideravam saudáveis, enquanto as placas cresciam.
 
 E aqui está o que torna tudo traiçoeiro: as artérias se expandem para acomodar a placa — um mecanismo chamado remodelamento positivo. O diâmetro interno permanece quase inalterado. O sangue flui normalmente. O teste ergométrico dá normal. O eletrocardiograma dá normal. Até que a placa se rompe.
 
@@ -69,11 +67,9 @@ Ricardo tinha insulina de jejum de 14 µIU/mL — dentro da referência do labor
 
 Mas não para aí. A hiperinsulinemia eleva a pressão arterial. Altera o perfil lipídico. Promove esteatose hepática. E alimenta vias de crescimento celular que favorecem o câncer.
 
-E talvez o aspecto mais insidioso: a doença metabólica não respeita a aparência. Existe um fenótipo que os pesquisadores chamam de **TOFI — Thin Outside, Fat Inside**. Magro por fora, gordo por dentro. Pessoas com IMC normal mas com gordura visceral acumulada ao redor dos órgãos internos — fígado, pâncreas, intestino, coração. Gordura que nenhuma balança detecta e que nenhum espelho revela.
+E o aspecto mais insidioso: a doença metabólica não respeita a aparência. Existe um fenótipo que os pesquisadores chamam de **TOFI — Thin Outside, Fat Inside** (magro por fora, gordo por dentro): pessoas com IMC normal mas gordura visceral acumulada ao redor de fígado, pâncreas, intestino e coração. Gordura que nenhuma balança detecta. Ela é um órgão endócrino ativo — secreta IL-6, TNF-alfa e leptina, moléculas que bagunçam o metabolismo inteiro, e libera ácidos graxos direto na veia porta. 10% a 20% das pessoas com IMC normal se encaixam nesse perfil, e raramente são investigadas porque "não parecem" ter problema.
 
-Essa gordura visceral não é um depósito passivo de energia. É um órgão endócrino ativo. Secreta interleucina-6, TNF-alfa, leptina — moléculas inflamatórias que bagunçam o metabolismo inteiro. Libera ácidos graxos diretamente na veia porta, inundando o fígado. Estudos estimam que 10% a 20% das pessoas com IMC normal se encaixam nesse perfil. E a ironia é cruel: essas pessoas raramente são investigadas para doença metabólica, justamente porque "não parecem" ter problema.
-
-Eu vejo isso no consultório com frequência perturbadora. Paciente magro, ativo, que come "razoavelmente bem". Glicemia de jejum 99 — ninguém se preocupa. Mas quando peço a insulina basal, o HOMA-IR, a relação triglicerídeos/HDL, o quadro muda. O metabolismo está descarrilando em câmera lenta, e a aparência externa é a última coisa a mudar.
+Eu vejo isso no consultório com frequência. Paciente magro, ativo, que come razoavelmente. Glicemia de jejum 99 — ninguém se preocupa. Mas quando peço insulina basal, HOMA-IR, relação triglicerídeos/HDL, o quadro muda. O metabolismo está descarrilando em câmera lenta, e a aparência externa é a última coisa a mudar.
 
 ---
 
@@ -81,23 +77,15 @@ Eu vejo isso no consultório com frequência perturbadora. Paciente magro, ativo
 
 De todos os assassinos silenciosos, este é o que mais aterroriza — e o que menos as pessoas entendem.
 
-As alterações cerebrais que levam ao Alzheimer começam a se acumular 15 a 20 anos antes do primeiro sintoma cognitivo perceptível. Quando uma pessoa de 70 anos recebe o diagnóstico de comprometimento cognitivo leve, as placas de beta-amiloide e os emaranhados de proteína tau já estão se depositando no cérebro dela desde os 50 — ou antes. O diagnóstico não marca o início da doença. Marca o ponto em que o cérebro não consegue mais compensar.
+As alterações cerebrais que levam ao Alzheimer começam a se acumular 15 a 20 anos antes do primeiro sintoma cognitivo. Quando uma pessoa de 70 anos recebe o diagnóstico de comprometimento cognitivo leve, as placas de beta-amiloide e os emaranhados de tau já estão se depositando desde os 50 — ou antes. O diagnóstico não marca o início da doença; marca o ponto em que o cérebro não consegue mais compensar.
 
-Se você tem 45 anos e vai desenvolver Alzheimer aos 70, o processo já pode estar em andamento agora. A janela de intervenção está aberta. A maioria das pessoas nem sabe que ela existe.
+Se você tem 45 anos e vai desenvolver Alzheimer aos 70, o processo já pode estar em andamento agora. A janela de intervenção está aberta — e a maioria das pessoas nem sabe que ela existe.
 
-E aqui entra uma linha de evidência que cresce exponencialmente: o vínculo entre resistência insulínica e neurodegeneração. Alguns pesquisadores propuseram chamar o Alzheimer de "diabetes tipo 3". Não é um diagnóstico oficial — mas captura uma verdade biológica importante.
+Aqui entra uma linha de evidência que cresce: o vínculo entre resistência insulínica e neurodegeneração. Alguns pesquisadores propuseram chamar o Alzheimer de "diabetes tipo 3". Não é um diagnóstico oficial — mas captura uma verdade biológica. Estudos post-mortem de cérebros com Alzheimer revelam alterações que espelham o diabetes tipo 2: redução na sinalização de insulina, resistência insulínica localizada no tecido cerebral — mesmo em pacientes sem diabetes sistêmico. O cérebro está faminto de energia, não porque falte glicose no sangue, mas porque os neurônios perderam a capacidade de captá-la. Quando isso acontece, mitocôndrias entram em disfunção, o estresse oxidativo aumenta, a tau se hiperfosforila, a maquinaria que limpa a beta-amiloide fica sobrecarregada, as placas se acumulam e a neuroinflamação amplifica tudo.
 
-Estudos post-mortem de cérebros com Alzheimer revelam alterações que espelham o diabetes tipo 2: redução na sinalização de insulina, menor atividade dos receptores, resistência insulínica localizada no tecido cerebral — mesmo em pacientes sem diabetes sistêmico. O cérebro está faminto de energia, não porque falte glicose no sangue, mas porque os neurônios perderam a capacidade de captá-la.
+E não é só a resistência insulínica. A inflamação crônica sistêmica — a mesma que corrói artérias — atravessa a barreira hematoencefálica e ativa a microglia num estado de alerta permanente. O sono entra como terceiro acelerador: durante o sono profundo, o cérebro ativa o sistema glinfático, que remove resíduos metabólicos tóxicos, incluindo a própria beta-amiloide. Sono insuficiente ou fragmentado significa lixo se acumulando — no começo quase não se nota, depois de uma década as ruas estão intransitáveis. Some-se o sedentarismo, que reduz o fluxo sanguíneo cerebral e a produção de BDNF, e o estresse crônico, que mantém o cortisol elevado — diretamente tóxico para o hipocampo.
 
-Quando os neurônios não usam glicose adequadamente, a produção de energia cai. As mitocôndrias entram em disfunção. O estresse oxidativo aumenta. A proteína tau se hiperfosforila e forma emaranhados. A maquinaria que limpa a beta-amiloide fica sobrecarregada. As placas se acumulam. A neuroinflamação amplifica tudo.
-
-E não é só a resistência insulínica. A inflamação crônica sistêmica — a mesma que corrói artérias — atravessa a barreira hematoencefálica e alimenta a neuroinflamação. Citocinas produzidas pela gordura visceral, pelo fígado esteatótico, por um intestino com permeabilidade aumentada, chegam ao cérebro e ativam a microglia — as células imunológicas residentes — num estado de alerta permanente que amplifica o dano.
-
-O sono entra como um terceiro acelerador. Durante o sono profundo, o cérebro ativa o sistema glinfático — uma rede de limpeza que remove resíduos metabólicos tóxicos, incluindo a própria beta-amiloide. Quando o sono é insuficiente ou fragmentado, essa limpeza não acontece adequadamente. Os resíduos se acumulam. É como uma cidade onde a coleta de lixo só funciona às vezes — no começo quase não se nota, mas depois de uma década as ruas estão intransitáveis.
-
-Some-se o sedentarismo, que reduz o fluxo sanguíneo cerebral e a produção de BDNF — o fator que protege neurônios e estimula novas conexões. E o estresse crônico, que mantém o cortisol elevado — e o cortisol em excesso é diretamente tóxico para o hipocampo, a região da memória.
-
-Percebeu o padrão? Os mesmos fatores que alimentam a doença cardiovascular e a doença metabólica também alimentam a neurodegeneração. Não são doenças separadas. São manifestações diferentes do mesmo terreno disfuncional.
+Percebeu o padrão? Os mesmos fatores que alimentam a doença cardiovascular e a metabólica alimentam a neurodegeneração. Não são doenças separadas. São manifestações diferentes do mesmo terreno disfuncional.
 
 ---
 

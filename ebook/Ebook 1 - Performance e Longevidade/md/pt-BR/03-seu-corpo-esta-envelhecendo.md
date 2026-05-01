@@ -32,19 +32,19 @@ A idade cronológica é simples: é o número de anos desde que você nasceu. É
 
 A idade biológica é outra coisa. É o estado funcional real do seu corpo — a condição das suas células, dos seus tecidos, dos seus sistemas. Ela reflete o desgaste acumulado, a eficiência dos mecanismos de reparo, o nível de inflamação, a integridade do DNA, a capacidade das suas mitocôndrias de produzir energia. Dois homens de 50 anos podem ter idades biológicas radicalmente diferentes: um com corpo de 40, outro com corpo de 62. A diferença não é cosmética — é funcional, mensurável, e tem consequências reais para o risco de doença e para a expectativa de vida.
 
-Hoje sabemos medir essa diferença. Os relógios epigenéticos — ferramentas desenvolvidas a partir do trabalho pioneiro de Steve Horvath e outros pesquisadores — analisam padrões de metilação do DNA em centenas de pontos específicos do genoma e calculam, com precisão crescente, a idade biológica de um indivíduo. A metilação é uma modificação química que não altera a sequência do DNA, mas muda como os genes são expressos. Ao longo da vida, esses padrões de metilação mudam de maneira previsível — tão previsível que é possível estimar a idade de uma amostra de sangue com margem de poucos anos.
+Hoje sabemos medir essa diferença. Os relógios epigenéticos — desenvolvidos a partir do trabalho pioneiro de Steve Horvath e outros — analisam padrões de metilação do DNA em centenas de pontos do genoma e calculam, com precisão crescente, a idade biológica de um indivíduo. A metilação não altera a sequência do DNA, mas muda como os genes são expressos; e ela muda ao longo da vida de maneira tão previsível que é possível estimar a idade de uma amostra de sangue com margem de poucos anos.
 
-Quando a idade epigenética é maior que a cronológica, o termo técnico é "aceleração epigenética". E os dados são claros: aceleração epigenética está associada a maior risco de doenças crônicas, declínio cognitivo e mortalidade por todas as causas. Não é um conceito teórico — é um preditor mensurável de quanto tempo e com quanta saúde você provavelmente vai viver.
+Quando a idade epigenética é maior que a cronológica, o termo técnico é "aceleração epigenética" — associada a maior risco de doenças crônicas, declínio cognitivo e mortalidade por todas as causas. É preditor mensurável de quanto tempo e com quanta saúde você provavelmente vai viver.
 
-A pergunta prática é: o que faz a idade biológica avançar mais rápido que o calendário? A resposta veio de uma das contribuições mais importantes da ciência do envelhecimento nos últimos vinte anos.
+A pergunta prática é: o que faz a idade biológica avançar mais rápido que o calendário?
 
 ---
 
 ### Os Hallmarks do Envelhecimento: O Que Está Acontecendo Dentro de Você
 
-Em 2013, um grupo internacional de pesquisadores liderado por Carlos López-Otín publicou na revista *Cell* um artigo que se tornaria um dos mais citados da história da biologia: "The Hallmarks of Aging". Nele, identificaram nove processos celulares e moleculares que, juntos, explicam por que envelhecemos. Em 2023, os mesmos autores atualizaram o artigo, expandindo a lista para doze hallmarks — doze marcas registradas do envelhecimento. O artigo acumula mais de 3.000 citações.
+Em 2013, um grupo internacional liderado por Carlos López-Otín publicou na *Cell* um artigo que se tornaria um dos mais citados da biologia: "The Hallmarks of Aging" — nove processos celulares que, juntos, explicam por que envelhecemos. Em 2023, os autores atualizaram a lista para doze hallmarks.
 
-Doze hallmarks é demais para um capítulo deste livro. Mas cinco deles são especialmente relevantes para o leitor que quer entender — e agir sobre — o que está acontecendo dentro do próprio corpo. São processos que você pode não conhecer pelo nome, mas que estão operando agora mesmo nas suas células. Vamos traduzi-los.
+Doze é demais para um capítulo. Cinco deles são especialmente relevantes para quem quer entender — e agir sobre — o que está acontecendo no próprio corpo. Vamos traduzi-los.
 
 ![Figura 3.1 — Os 5 Marcadores do Envelhecimento. Cinco pontos coloridos dispostos sobre uma elipse e conectados por linhas tracejadas: inflammaging ("o fogo silencioso"), disfunção mitocondrial ("usinas falhando"), senescência celular ("células zumbis"), encurtamento telomérico ("relógios nas pontas") e instabilidade epigenética ("genes ligando e desligando"). Processos interligados — cada um alimenta os outros — e todos modificáveis por estilo de vida.](../Cap03%20Fig01.PNG)
 
@@ -88,9 +88,9 @@ A pesquisa com drogas senolíticas — que eliminam seletivamente células senes
 
 Telômeros são sequências repetitivas de DNA nas extremidades dos cromossomos — como as ponteiras de plástico nos cadarços de sapato. Cada vez que uma célula se divide, os telômeros encurtam um pouco. Quando ficam curtos demais, a célula para de se dividir ou morre. É um mecanismo de contagem regressiva embutido no nosso código genético.
 
-Elizabeth Blackburn, que recebeu o Prêmio Nobel de Medicina em 2009 por suas descobertas sobre como os telômeros e a enzima telomerase protegem os cromossomos, demonstrou com a psicóloga Elissa Epel algo que mudou o campo: o estresse psicológico crônico acelera o encurtamento telomérico. Em um estudo publicado no *PNAS* em 2004, analisaram mães que cuidavam de filhos com doenças crônicas — uma situação de estresse intenso e prolongado. Quanto mais tempo a mãe cuidava do filho doente, mais curtos eram seus telômeros. As mulheres com os níveis mais altos de estresse percebido tinham telômeros equivalentes a pelo menos uma década a mais de envelhecimento biológico comparadas às mulheres com menor estresse.
+Elizabeth Blackburn, Nobel de Medicina de 2009 por suas descobertas sobre como telômeros e a enzima telomerase protegem os cromossomos, demonstrou com a psicóloga Elissa Epel algo que mudou o campo: o estresse psicológico crônico acelera o encurtamento telomérico. Em estudo de 2004 no *PNAS*, mães que cuidavam de filhos com doenças crônicas tinham telômeros mais curtos quanto maior o tempo de cuidado — as mulheres com mais estresse percebido apresentavam telômeros equivalentes a pelo menos uma década a mais de envelhecimento biológico.
 
-O dado revolucionário não era que os telômeros encurtam — isso já se sabia. Era que a velocidade do encurtamento é modificável. No livro *The Telomere Effect*, Blackburn e Epel compilam décadas de pesquisa mostrando que sono, exercício, alimentação, qualidade dos relacionamentos e gestão do estresse influenciam diretamente a taxa de desgaste telomérico. *"Os telômeros escutam você"*, escreveu Blackburn. *"Escutam seus comportamentos e escutam seu estado de espírito."*
+O dado revolucionário não era que os telômeros encurtam — isso já se sabia. Era que a velocidade do encurtamento é modificável. Sono, exercício, alimentação, qualidade dos relacionamentos e gestão do estresse influenciam diretamente a taxa de desgaste telomérico. *"Os telômeros escutam você"*, escreveu Blackburn. *"Escutam seus comportamentos e escutam seu estado de espírito."*
 
 ---
 
