@@ -4,6 +4,7 @@ import { PlenyaSymbol } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
 
 export function DrGetulioPreview() {
+  const t = useTranslations('home');
   const tCta = useTranslations('cta');
 
   return (
@@ -12,7 +13,7 @@ export function DrGetulioPreview() {
         <div className="relative aspect-[3/4] overflow-hidden">
           <Image
             src="/images/dr-getulio.jpg"
-            alt="Dr. Getúlio Amaral Filho — Direção Clínica Plenya"
+            alt={t('drGetulioName')}
             fill
             className="object-cover"
             sizes="(min-width: 1024px) 540px, 100vw"
@@ -22,32 +23,27 @@ export function DrGetulioPreview() {
         <div className="space-y-8">
           <div className="flex items-center gap-4">
             <PlenyaSymbol aria-hidden="true" className="h-7 w-auto text-gold" />
-            <p className="label-upper text-gold">Direção Clínica</p>
+            <p className="label-upper text-gold">{t('drGetulioLabel')}</p>
           </div>
 
           <h2 className="heading-section text-petrol text-4xl md:text-5xl">
-            Dr. Getúlio Amaral Filho
+            {t('drGetulioName')}
           </h2>
 
           <p className="label-upper-sm text-petrol/55">
-            CRM-PR 21.876 · RQE 16.038 · Nefrologia · Medicina Funcional Integrativa
+            {t('drGetulioCredentials')}
           </p>
 
           <p className="text-petrol/80 text-lg leading-relaxed max-w-lg">
-            Médico formado pela Universidade Estadual de Londrina em 2004.
-            Especialista em nefrologia e clínica médica pela Santa Casa de
-            Londrina, onde coordena a residência em nefrologia, e responsável
-            técnico pela DaVita Intra Hospitalar de Londrina.
+            {t('drGetulioP1')}
           </p>
           <p className="text-petrol/70 leading-relaxed max-w-lg">
-            A pós em medicina funcional integrativa pela ABMFI sustenta o
-            posicionamento da Plenya: o mesmo rigor clínico do ambiente
-            hospitalar, aplicado anos antes do diagnóstico se impor.
+            {t('drGetulioP2')}
           </p>
 
           <div className="flex flex-wrap gap-5 pt-2">
             <Link href="/dr-getulio" className="btn-gold">
-              Conhecer Dr. Getúlio
+              {tCta('knowDrGetulio')}
             </Link>
             <Link href="/contato" className="btn-outline-dark">
               {tCta('scheduleConsultation')}

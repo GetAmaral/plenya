@@ -68,7 +68,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
             items={[
               { label: 'Home', href: '/' },
               { label: 'Blog', href: '/blog' },
-              { label: pillarLabels[post.pillar], href: `/blog/categoria/${post.pillar}` },
+              {
+                label: pillarLabels[post.pillar],
+                href: { pathname: '/blog/categoria/[pilar]', params: { pilar: post.pillar } },
+              },
               { label: post.title },
             ]}
           />

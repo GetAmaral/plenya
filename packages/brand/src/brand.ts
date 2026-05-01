@@ -87,68 +87,147 @@ export const relationArchetypes = [
   },
 ] as const;
 
+/**
+ * Pilares do Método AGIR (PT) ↔ The ACTS Method (EN).
+ *
+ * Mapping:
+ *   A → A — Atividade Física, Alimentação e Suplementação Inteligente
+ *           ↔ Activity, Alimentation & Smart Adjuncts
+ *   G → C — Gestão Clínica e Metabólica
+ *           ↔ Clinical Optimization
+ *   I → T — Integração Mente-Corpo
+ *           ↔ Tending Mind, Body & Bonds
+ *   R → S — Ritmo Circadiano e Repouso
+ *           ↔ Sleep, Rhythm & Recovery
+ *
+ * Slug é estável (em PT) — usado como chave de roteamento no banco e nos
+ * filtros de blog. Os campos textuais são localizados via `getAgirPillars(locale)`.
+ *
+ * Fonte de verdade: TRANSLATION-GUIDE.md + glossario.yaml do livro ANTES.
+ */
 export const agirPillars = [
   {
     code: 'A',
+    codeEn: 'A',
     slug: 'alimentacao-atividade-fisica',
     name: 'Atividade Física, Alimentação e Suplementação Inteligente',
-    nameEn: 'Physical Activity, Nutrition and Smart Supplementation',
+    nameEn: 'Activity, Alimentation & Smart Adjuncts',
     nameEs: 'Actividad Física, Alimentación y Suplementación Inteligente',
     idea: 'O corpo responde ao que você sustenta, não ao que você tenta ocasionalmente.',
+    ideaEn: 'The body responds to what you sustain — not to what you attempt occasionally.',
     territory: 'Rotina, disciplina e construção de hábito.',
+    territoryEn: 'Routine, discipline, and habit formation.',
     keyMessages: [
       'Não é sobre intensidade. É sobre constância.',
       'Seu corpo reflete o que você faz todos os dias.',
       'Resultado não vem de esforço isolado.',
       'Movimento e alimentação são base de funcionamento.',
     ],
+    keyMessagesEn: [
+      'It is not about intensity. It is about consistency.',
+      'Your body reflects what you do every day.',
+      'Results do not come from isolated effort.',
+      'Movement and food are the baseline of how you function.',
+    ],
   },
   {
     code: 'G',
+    codeEn: 'C',
     slug: 'gestao-metabolica',
     name: 'Gestão Clínica e Metabólica',
-    nameEn: 'Clinical and Metabolic Management',
+    nameEn: 'Clinical Optimization',
     nameEs: 'Gestión Clínica y Metabólica',
     idea: 'Você não melhora o que não acompanha.',
+    ideaEn: 'You cannot improve what you do not track.',
     territory: 'Dados, consciência, controle.',
+    territoryEn: 'Data, awareness, and control.',
     keyMessages: [
       'Saúde também é dado.',
       'O que não é monitorado, não evolui.',
       'Clareza gera direção e direção gera resultado.',
       'Seu corpo fala, e os dados ajudam a entender.',
     ],
+    keyMessagesEn: [
+      'Health is also data.',
+      'What is not monitored does not evolve.',
+      'Clarity creates direction, and direction creates results.',
+      'Your body speaks, and the data helps you understand.',
+    ],
   },
   {
     code: 'I',
+    codeEn: 'T',
     slug: 'integracao-corpo-mente',
     name: 'Integração Mente-Corpo',
-    nameEn: 'Mind-Body Integration',
+    nameEn: 'Tending Mind, Body & Bonds',
     nameEs: 'Integración Mente-Cuerpo',
     idea: 'Sem alinhamento interno, não existe constância externa.',
+    ideaEn: 'Without inner alignment, there is no outer consistency.',
     territory: 'Consciência, comportamento, profundidade.',
+    territoryEn: 'Awareness, behavior, depth.',
     keyMessages: [
       'Saúde mental é estrutura.',
       'Comportamento sustenta resultado.',
       'A mudança real começa na forma como você pensa e decide.',
       'Não existe disciplina sem equilíbrio emocional.',
     ],
+    keyMessagesEn: [
+      'Mental health is structure.',
+      'Behavior sustains the result.',
+      'Real change begins in the way you think and decide.',
+      'There is no discipline without emotional balance.',
+    ],
   },
   {
     code: 'R',
+    codeEn: 'S',
     slug: 'ritmo-circadiano',
     name: 'Ritmo Circadiano e Repouso',
-    nameEn: 'Circadian Rhythm and Rest',
+    nameEn: 'Sleep, Rhythm & Recovery',
     nameEs: 'Ritmo Circadiano y Descanso',
     idea: 'Recuperação é parte do progresso.',
+    ideaEn: 'Recovery is part of progress.',
     territory: 'Energia, equilíbrio, sustentabilidade.',
+    territoryEn: 'Energy, balance, sustainability.',
     keyMessages: [
       'Descanso também é estratégia.',
       'Seu corpo precisa de ritmo para funcionar bem.',
       'Energia não se cria, se regula.',
       'Dormir bem é inegociável.',
     ],
+    keyMessagesEn: [
+      'Rest is also strategy.',
+      'Your body needs rhythm to function well.',
+      'Energy is not created — it is regulated.',
+      'Sleeping well is non-negotiable.',
+    ],
   },
 ] as const;
+
+/**
+ * Devolve os pilares já localizados, com a forma curta do nome ("A — Activity, …").
+ * Use sempre este helper em componentes — não acesse `agirPillars[i].nameEn` direto.
+ */
+export type AgirLocalizedPillar = {
+  code: string;
+  slug: string;
+  name: string;
+  idea: string;
+  territory: string;
+  keyMessages: readonly string[];
+};
+
+export function getAgirPillars(locale: string): AgirLocalizedPillar[] {
+  const isEn = locale === 'en';
+  return agirPillars.map((p) => ({
+    code: isEn ? p.codeEn : p.code,
+    slug: p.slug,
+    name: isEn ? p.nameEn : p.name,
+    idea: isEn ? p.ideaEn : p.idea,
+    territory: isEn ? p.territoryEn : p.territory,
+    keyMessages: isEn ? p.keyMessagesEn : p.keyMessages,
+  }));
+}
 
 /**
  * Público-alvo da marca — referência para curadoria de copy e seleção de imagens.

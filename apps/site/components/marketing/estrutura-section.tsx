@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { PlenyaInfinity } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
 
@@ -7,6 +8,8 @@ import { Link } from '@/lib/i18n/navigation';
  * (vídeo 04). Manifesto integral fica apenas na página /a-plenya.
  */
 export function EstruturaSection() {
+  const t = useTranslations('home');
+  const tCta = useTranslations('cta');
   return (
     <section className="bg-petrol text-cream relative overflow-hidden">
       <div className="site-container section relative z-10">
@@ -19,27 +22,23 @@ export function EstruturaSection() {
 
           <div className="space-y-8">
             <div className="space-y-4">
-              <p className="label-upper text-gold">O que nos move</p>
+              <p className="label-upper text-gold">{t('estruturaLabel')}</p>
               <h2 className="heading-section text-cream text-3xl md:text-5xl">
-                Saúde não é sorte. <em className="not-italic text-gold">É estrutura.</em>
+                {t('estruturaTitlePart1')}<em className="not-italic text-gold">{t('estruturaTitleEm')}</em>
               </h2>
             </div>
 
             <p className="text-cream/80 text-lg leading-relaxed max-w-2xl">
-              Quem melhora de verdade não é quem tem mais força de vontade — é quem tem método.
-              E saúde não melhora com intenção: melhora com direção.
+              {t('estruturaP1')}
             </p>
 
             <p className="text-cream/70 text-lg leading-relaxed max-w-2xl">
-              <strong className="text-cream">Normal não é o mesmo que ótimo.</strong> Nosso olhar
-              não para no diagnóstico. Cuidamos do que já está doente — e também de quem ouviu
-              que os exames estavam &ldquo;normais&rdquo; e mesmo assim sente que algo não fecha.
-              Antecipar é mais inteligente que reagir.
+              <strong className="text-cream">{t('estruturaP2Strong')}</strong>{t('estruturaP2Rest')}
             </p>
 
             <div className="pt-4">
               <Link href="/metodo-agir" className="btn-outline-light">
-                Conhecer o Método AGIR
+                {tCta('knowMethod')}
               </Link>
             </div>
           </div>

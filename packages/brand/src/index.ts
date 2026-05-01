@@ -11,5 +11,7 @@ export {
   toneOfVoice,
   relationArchetypes,
   agirPillars,
+  getAgirPillars,
   audience,
 } from './brand';
+export type { AgirLocalizedPillar } from './brand';

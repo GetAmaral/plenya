@@ -4,11 +4,12 @@ import { RadarAgir } from '@/components/escore/RadarAgir';
 
 export function ScoreSection() {
   const t = useTranslations('home');
+  const tCta = useTranslations('cta');
   return (
     <section className="bg-cream">
       <div className="site-container section grid gap-16 lg:grid-cols-2 items-center">
         <div className="space-y-8">
-          <p className="label-upper text-gold">Diagnóstico</p>
+          <p className="label-upper text-gold">{t('scoreLabel')}</p>
           <h2 className="heading-section text-petrol text-3xl md:text-5xl">{t('scoreTitle')}</h2>
           <p className="text-petrol/80 text-lg leading-relaxed max-w-lg">{t('scoreSubtitle')}</p>
 
@@ -16,54 +17,50 @@ export function ScoreSection() {
             <li className="flex gap-4 items-start">
               <span className="text-gold text-lg leading-none mt-0.5">—</span>
               <span>
-                <strong className="text-petrol">Triagem</strong> — sua primeira
-                leitura: cerca de 35 perguntas{' '}
+                <strong className="text-petrol">{t('scoreItem1Strong')}</strong>{t('scoreItem1Part1')}
                 <Link
                   href="/escore-plenya/avaliar"
                   className="text-gold underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
                 >
-                  online e gratuitas
+                  {t('scoreItem1Link')}
                 </Link>
-                , em poucos minutos.
+                {t('scoreItem1Part2')}
               </span>
             </li>
             <li className="flex gap-4 items-start">
               <span className="text-gold text-lg leading-none mt-0.5">—</span>
               <span>
-                <strong className="text-petrol">Consulta Plenya</strong> —
-                aprofundamento clínico com o médico, presencial ou online, com
-                base no painel ampliado de exames.{' '}
+                <strong className="text-petrol">{t('scoreItem2Strong')}</strong>{t('scoreItem2Part1')}
                 <Link
                   href="/consultas"
                   className="text-gold underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
                 >
-                  Agendar
+                  {t('scoreItem2Link')}
                 </Link>
-                .
+                {t('scoreItem2Part2')}
               </span>
             </li>
             <li className="flex gap-4 items-start">
               <span className="text-gold text-lg leading-none mt-0.5">—</span>
               <span>
-                <strong className="text-petrol">Continuum Plenya</strong> —
-                versão completa, aplicada pela equipe ao longo do{' '}
+                <strong className="text-petrol">{t('scoreItem3Strong')}</strong>{t('scoreItem3Part1')}
                 <Link
                   href="/continuum"
                   className="text-gold underline decoration-gold/50 underline-offset-4 hover:decoration-gold transition"
                 >
-                  programa
+                  {t('scoreItem3Link')}
                 </Link>
-                , com plano único e reavaliação a cada ciclo.
+                {t('scoreItem3Part2')}
               </span>
             </li>
           </ul>
 
           <div className="flex flex-wrap gap-4">
             <Link href="/escore-plenya/avaliar" className="btn-gold">
-              Fazer a Triagem
+              {tCta('takeTriage')}
             </Link>
             <Link href="/escore-plenya" className="btn-outline-dark">
-              Entender o Escore
+              {tCta('understandScore')}
             </Link>
           </div>
         </div>

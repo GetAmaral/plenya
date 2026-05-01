@@ -1,16 +1,20 @@
+import { useTranslations } from 'next-intl';
 import { PlenyaInfinity } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
 
-const pilares = [
-  { label: 'Modalidades', value: 'Semestral ou anual' },
-  { label: 'Formato', value: '100% online' },
-  { label: 'Equipe', value: 'Médicos, nutri, psicóloga e EF' },
-  { label: 'Cadência', value: 'Encontros semanais em rotação' },
-  { label: 'Diagnóstico', value: 'Escore Plenya — 800+ itens' },
-  { label: 'Método', value: 'AGIR — quatro pilares' },
-];
-
 export function ContinuumSpotlight() {
+  const t = useTranslations('home');
+  const tCta = useTranslations('cta');
+
+  const pilares = [
+    { label: t('continuumPillarsModalitiesLabel'), value: t('continuumPillarsModalitiesValue') },
+    { label: t('continuumPillarsFormatLabel'), value: t('continuumPillarsFormatValue') },
+    { label: t('continuumPillarsTeamLabel'), value: t('continuumPillarsTeamValue') },
+    { label: t('continuumPillarsCadenceLabel'), value: t('continuumPillarsCadenceValue') },
+    { label: t('continuumPillarsDiagnosisLabel'), value: t('continuumPillarsDiagnosisValue') },
+    { label: t('continuumPillarsMethodLabel'), value: t('continuumPillarsMethodValue') },
+  ];
+
   return (
     <section className="bg-petrol text-cream relative overflow-hidden">
       <PlenyaInfinity
@@ -22,26 +26,21 @@ export function ContinuumSpotlight() {
       <div className="relative site-container section">
         <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 mb-16">
           <div className="space-y-6">
-            <p className="label-upper text-gold">Programa contínuo</p>
+            <p className="label-upper text-gold">{t('continuumLabel')}</p>
             <h2 className="heading-section text-cream text-4xl md:text-6xl">
-              Continuum Plenya.
+              {t('continuumTitle')}
             </h2>
             <p className="heading-section text-gold text-2xl md:text-4xl">
-              Saúde que se sustenta no tempo.
+              {t('continuumSubtitle')}
             </p>
           </div>
 
           <div className="space-y-5 text-cream/85 text-lg leading-relaxed self-end">
             <p>
-              O programa de acompanhamento contínuo da Plenya. Médicos,
-              nutricionista, psicóloga e educador físico construindo um plano
-              único, mensurado pelo <strong className="text-cream">Escore Plenya</strong> e
-              organizado pelo <strong className="text-cream">Método AGIR</strong>.
+              {t('continuumP1Part1')}<strong className="text-cream">{t('continuumP1Strong1')}</strong>{t('continuumP1Part2')}<strong className="text-cream">{t('continuumP1Strong2')}</strong>{t('continuumP1Part3')}
             </p>
             <p className="text-cream/70">
-              Não é uma consulta que se repete. É uma trajetória que se
-              acompanha — com leitura ampliada, conduta integrada e ajuste
-              contínuo a cada ciclo.
+              {t('continuumP2')}
             </p>
           </div>
         </div>
@@ -57,13 +56,13 @@ export function ContinuumSpotlight() {
 
         <div className="flex flex-wrap gap-5">
           <Link href="/continuum" className="btn-gold">
-            Conhecer o Continuum Plenya
+            {tCta('knowPlans')}
           </Link>
           <Link
             href="/diagnostico"
             className="btn-outline-light"
           >
-            É para mim?
+            {tCta('isItForMe')}
           </Link>
         </div>
       </div>

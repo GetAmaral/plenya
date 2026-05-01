@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Menu, X } from 'lucide-react';
 import { brand } from '@plenya/brand';
 import { PlenyaWordmark } from '@plenya/brand/logo';
-import { Link, usePathname } from '@/lib/i18n/navigation';
+import { Link, usePathname, type Href } from '@/lib/i18n/navigation';
 import { LocaleSwitcher } from './locale-switcher';
 import { cn } from '@/lib/cn';
 
@@ -17,48 +17,54 @@ const headerNav = [
   { href: '/contato', key: 'contact' },
 ] as const;
 
-type NavItem = { href: string; key?: string; label?: string };
+type NavItem = { href: Href; key?: string; label?: string };
 type NavGroup = { title: string; items: readonly NavItem[] };
 
-const navGroups: readonly NavGroup[] = [
+// Estrutura constante das chaves de tradução por grupo. Os textos visíveis
+// vêm de `messages/{locale}.json` via `useTranslations('navMenu')`.
+const navGroups: readonly {
+  titleKey: 'groupAbout' | 'groupCare' | 'groupStart' | 'groupLearn';
+  items: readonly { href: Href; key?: string; menuKey?: string }[];
+}[] = [
   {
-    title: 'Conheça a Plenya',
+    titleKey: 'groupAbout',
     items: [
       { href: '/a-plenya', key: 'about' },
       { href: '/dr-getulio', key: 'drGetulio' },
       { href: '/equipe', key: 'team' },
-      { href: '/depoimentos', label: 'Depoimentos' },
+      { href: '/depoimentos', menuKey: 'testimonials' },
     ],
   },
   {
-    title: 'Como cuidamos',
+    titleKey: 'groupCare',
     items: [
-      { href: '/como-funciona', label: 'Como funciona' },
-      { href: '/metodo-agir', label: 'Método AGIR' },
-      { href: '/escore-plenya', label: 'Escore Plenya' },
+      { href: '/como-funciona', key: 'howItWorks' },
+      { href: '/metodo-agir', menuKey: 'method' },
+      { href: '/escore-plenya', menuKey: 'scoreFull' },
     ],
   },
   {
-    title: 'Comece',
+    titleKey: 'groupStart',
     items: [
-      { href: '/diagnostico', label: 'Diagnóstico — é para mim?' },
+      { href: '/diagnostico', menuKey: 'diagnostic' },
       { href: '/consultas', key: 'consultations' },
       { href: '/continuum', key: 'plans' },
       { href: '/contato', key: 'contact' },
     ],
   },
   {
-    title: 'Aprenda',
+    titleKey: 'groupLearn',
     items: [
       { href: '/blog', key: 'blog' },
-      { href: '/casos', label: 'Casos clínicos' },
-      { href: '/boletim', label: 'Boletim Plenya' },
+      { href: '/casos', menuKey: 'cases' },
+      { href: '/boletim', menuKey: 'newsletter' },
     ],
   },
 ] as const;
 
 export function SiteHeader() {
   const t = useTranslations('nav');
+  const tMenu = useTranslations('navMenu');
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -75,8 +81,8 @@ export function SiteHeader() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  function navLabel(item: { key?: string; label?: string }) {
-    if (item.label) return item.label;
+  function navLabel(item: { key?: string; menuKey?: string }) {
+    if (item.menuKey) return tMenu(item.menuKey as Parameters<typeof tMenu>[0]);
     return t(item.key as Parameters<typeof t>[0]);
   }
 
@@ -110,15 +116,22 @@ export function SiteHeader() {
             })}
           </nav>
 
-          {/* Hamburger — sempre visível (desktop e mobile) */}
-          <button
-            aria-label={open ? 'Fechar menu' : 'Menu'}
-            aria-expanded={open}
-            className="text-cream p-2 hover:text-gold transition"
-            onClick={() => setOpen((o) => !o)}
-          >
-            {open ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          <div className="flex items-center gap-4">
+            {/* Locale switcher — discreto à direita das pills */}
+            <div className="hidden md:flex">
+              <LocaleSwitcher />
+            </div>
+
+            {/* Hamburger — sempre visível (desktop e mobile) */}
+            <button
+              aria-label={open ? 'Fechar menu' : 'Menu'}
+              aria-expanded={open}
+              className="text-cream p-2 hover:text-gold transition"
+              onClick={() => setOpen((o) => !o)}
+            >
+              {open ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -153,13 +166,14 @@ export function SiteHeader() {
               </Link>
 
               {navGroups.map((group) => (
-                <div key={group.title} className="space-y-1">
-                  <p className="label-upper text-gold mb-3">{group.title}</p>
+                <div key={group.titleKey} className="space-y-1">
+                  <p className="label-upper text-gold mb-3">{tMenu(group.titleKey)}</p>
                   {group.items.map((item) => {
-                    const active = pathname.startsWith(item.href);
+                    const itemPath = typeof item.href === 'string' ? item.href : item.href.pathname;
+                    const active = pathname.startsWith(itemPath);
                     return (
                       <Link
-                        key={item.href}
+                        key={itemPath}
                         href={item.href}
                         onClick={() => setOpen(false)}
                         className={cn(

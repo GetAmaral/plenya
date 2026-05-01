@@ -219,7 +219,7 @@ export default async function ConsultasPage({ params }: { params: Promise<{ loca
                   {outros.map((d) => (
                     <li key={d.slug}>
                       <Link
-                        href={`/equipe/${d.slug}`}
+                        href={{ pathname: '/equipe/[slug]', params: { slug: d.slug } }}
                         className="block group"
                       >
                         <span className="block text-cream group-hover:text-gold transition">

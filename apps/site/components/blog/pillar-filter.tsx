@@ -12,7 +12,11 @@ export function PillarFilter({ active: current }: { active?: Pillar }) {
         Todos
       </Link>
       {pillars.map((p) => (
-        <Link key={p} href={`/blog/categoria/${p}`} className={current === p ? active : inactive}>
+        <Link
+          key={p}
+          href={{ pathname: '/blog/categoria/[pilar]', params: { pilar: p } }}
+          className={current === p ? active : inactive}
+        >
           {pillarLabels[p]}
         </Link>
       ))}

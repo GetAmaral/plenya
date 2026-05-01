@@ -1,10 +1,13 @@
 import Image from 'next/image';
-import { Link } from '@/lib/i18n/navigation';
+import { Link, type Href } from '@/lib/i18n/navigation';
 import type { Doctor } from '@/lib/team';
 
 export function DoctorCard({ doctor }: { doctor: Doctor }) {
   // Dr. Getúlio tem página dedicada
-  const href = doctor.slug === 'getulio-amaral' ? '/dr-getulio' : `/equipe/${doctor.slug}`;
+  const href: Href =
+    doctor.slug === 'getulio-amaral'
+      ? '/dr-getulio'
+      : { pathname: '/equipe/[slug]', params: { slug: doctor.slug } };
 
   return (
     <Link

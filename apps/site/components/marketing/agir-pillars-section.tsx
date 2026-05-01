@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
-import { agirPillars } from '@plenya/brand';
+import { getAgirPillars } from '@plenya/brand';
 import { Link } from '@/lib/i18n/navigation';
 
 export function AgirPillarsSection() {
   const t = useTranslations('home');
+  const tCta = useTranslations('cta');
   const locale = useLocale();
+  const pillars = getAgirPillars(locale);
 
   return (
     <section className="relative bg-petrol text-cream overflow-hidden">
@@ -26,23 +28,20 @@ export function AgirPillarsSection() {
         </h2>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-cream/10 border-y border-cream/15 mt-16">
-          {agirPillars.map((pillar) => {
-            const name = locale === 'en' ? pillar.nameEn : locale === 'es' ? pillar.nameEs : pillar.name;
-            return (
-              <div key={pillar.code} className="bg-petrol p-8 space-y-5">
-                <span className="heading-section text-gold text-6xl block leading-none">{pillar.code}</span>
-                <h3 className="heading-section text-cream text-2xl leading-tight">{name}</h3>
-                <p className="text-cream/75 text-base leading-snug">{pillar.idea}</p>
-                <p className="label-upper-sm text-gold/80 pt-3 border-t border-cream/10">
-                  {pillar.territory}
-                </p>
-              </div>
-            );
-          })}
+          {pillars.map((pillar) => (
+            <div key={pillar.slug} className="bg-petrol p-8 space-y-5">
+              <span className="heading-section text-gold text-6xl block leading-none">{pillar.code}</span>
+              <h3 className="heading-section text-cream text-2xl leading-tight">{pillar.name}</h3>
+              <p className="text-cream/75 text-base leading-snug">{pillar.idea}</p>
+              <p className="label-upper-sm text-gold/80 pt-3 border-t border-cream/10">
+                {pillar.territory}
+              </p>
+            </div>
+          ))}
         </div>
 
         <div className="mt-12">
-          <Link href="/metodo-agir" className="btn-gold">Conhecer o Método AGIR</Link>
+          <Link href="/metodo-agir" className="btn-gold">{tCta('knowMethod')}</Link>
         </div>
       </div>
     </section>

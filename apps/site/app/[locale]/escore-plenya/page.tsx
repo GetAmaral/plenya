@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale } from 'next-intl/server';
-import { Link } from '@/lib/i18n/navigation';
+import { Link, type Href } from '@/lib/i18n/navigation';
 import { RadarAgir } from '@/components/escore/RadarAgir';
 import { FaqAccordion } from '@/components/marketing/faq-accordion';
 import { FaqSchema } from '@/components/seo/faq-schema';
@@ -60,7 +60,7 @@ const steps = [
   },
 ];
 
-const tiers: Array<{ title: string; anchor: string; href?: string; desc: string }> = [
+const tiers: Array<{ title: string; anchor: string; href?: Href; desc: string }> = [
   {
     title: 'Triagem',
     anchor: 'Faça agora — gratuito',

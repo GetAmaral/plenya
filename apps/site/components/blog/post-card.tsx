@@ -5,7 +5,7 @@ import { pillarLabels, type Post } from '@/lib/blog';
 export function PostCard({ post, featured = false }: { post: Post; featured?: boolean }) {
   return (
     <Link
-      href={`/blog/${post.slug}`}
+      href={{ pathname: '/blog/[slug]', params: { slug: post.slug } }}
       className={`group block ${featured ? 'post-card-featured' : 'post-card'}`}
     >
       {post.cover && (

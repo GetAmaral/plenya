@@ -1,4 +1,4 @@
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { HomeHero } from '@/components/marketing/home-hero';
 import { SymbolBridge } from '@/components/marketing/symbol-bridge';
 import { LifestyleGrid } from '@/components/marketing/lifestyle-grid';
@@ -15,6 +15,7 @@ import { TestimonialsInline } from '@/components/testimonials/testimonials-inlin
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations('home');
   return (
     <>
       {/* Abertura — desejo do visitante */}
@@ -39,8 +40,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       {/* Prova social — depoimentos curados */}
       <TestimonialsInline
         bg="bg-cream"
-        label="Histórias Plenya"
-        title="O Plenya Score evolui na curva. As histórias acontecem na vida."
+        label={t('testimonialsLabel')}
+        title={t('testimonialsTitle')}
         limit={3}
       />
 

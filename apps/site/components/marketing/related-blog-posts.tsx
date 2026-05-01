@@ -39,7 +39,10 @@ export async function RelatedBlogPosts({
         <ul className="grid md:grid-cols-3 gap-8">
           {posts.map((p) => (
             <li key={p.slug}>
-              <Link href={`/blog/${p.slug}`} className="block group space-y-3">
+              <Link
+                href={{ pathname: '/blog/[slug]', params: { slug: p.slug } }}
+                className="block group space-y-3"
+              >
                 <p className="label-upper text-petrol/55">
                   {new Date(p.date).toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' })}
                 </p>

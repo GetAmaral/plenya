@@ -1,7 +1,7 @@
 import { ChevronRight } from 'lucide-react';
-import { Link } from '@/lib/i18n/navigation';
+import { Link, type Href } from '@/lib/i18n/navigation';
 
-export type Crumb = { label: string; href?: string };
+export type Crumb = { label: string; href?: Href };
 
 export function Breadcrumbs({ items, dark = false }: { items: Crumb[]; dark?: boolean }) {
   const baseColor = dark ? 'text-cream/60' : 'text-petrol/55';

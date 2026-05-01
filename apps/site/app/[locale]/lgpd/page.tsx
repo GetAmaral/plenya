@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
-import { Link } from '@/lib/i18n/navigation';
+import { Link, type Href } from '@/lib/i18n/navigation';
 import { LEGAL_CONTACT, PRIVACY_POLICY_VERSION, TERMS_VERSION } from '@/lib/legal';
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export default async function LGPDHubPage({ params }: { params: Promise<{ locale
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const cards: Array<{ href: string; title: string; description: string; meta?: string }> = [
+  const cards: Array<{ href: Href; title: string; description: string; meta?: string }> = [
     {
       href: '/privacidade',
       title: 'Política de Privacidade',
@@ -59,7 +59,7 @@ export default async function LGPDHubPage({ params }: { params: Promise<{ locale
           <div className="grid sm:grid-cols-2 gap-px bg-petrol/15 border-y border-petrol/15">
             {cards.map((c) => (
               <Link
-                key={c.href}
+                key={c.title}
                 href={c.href}
                 className="bg-paper p-8 hover:bg-paper/60 transition group"
               >
