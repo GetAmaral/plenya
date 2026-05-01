@@ -140,7 +140,7 @@ Pegue sua última PCR ultrassensível. Se estiver acima de 1,0 mg/L, o inflammag
 
 - **Senescência celular** é o acúmulo de células "zumbis" que não morrem e envenenam as vizinhas com moléculas inflamatórias.
 
-- **Encurtamento telomérico** é o desgaste dos "relógios" cromossômicos — acelerado pelo estresse crônico, como demonstrado pelo trabalho de Blackburn e Epel (Prêmio Nobel 2009).
+- **Encurtamento telomérico** é o desgaste dos "relógios" cromossômicos — acelerado pelo estresse crônico, como demonstrado pelo trabalho de Blackburn (Nobel de Medicina 2009 pela descoberta dos telômeros e da telomerase) com a psicóloga Elissa Epel.
 
 - **Instabilidade epigenética** é a desorganização das marcações que controlam quais genes estão ativos. É reversível — e é o que os relógios epigenéticos medem.
 
