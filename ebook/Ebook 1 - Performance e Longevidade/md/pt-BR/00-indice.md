@@ -71,7 +71,7 @@
 ### PARTE V — ENCERRAMENTO
 
 - [Capítulo 17 — Manifesto AGIR: Uma Carta ao Meu Eu do Futuro](17-manifesto-agir.md)
-- [Capítulo 18 — Referências, Recursos e Próximos Passos](18-referencias-recursos.md)
+- [Capítulo 18 — Referências e Recursos](18-referencias-recursos.md)
 
 ---
 

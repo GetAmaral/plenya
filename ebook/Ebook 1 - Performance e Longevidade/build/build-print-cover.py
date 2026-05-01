@@ -322,7 +322,11 @@ def main():
 
     # 5. Save
     canvas.save(OUT_PNG, "PNG")
-    canvas.save(OUT_PDF, "PDF", resolution=DPI)
+    # Save PDF with prepress-quality JPEG (Q=95). PIL default is Q=75, which
+    # produces visible banding on the cover's flat ocre walls and gradient
+    # shadows when printed at 6×9 trim. Q=95 is visually indistinguishable
+    # from the source PNG at print resolution.
+    canvas.save(OUT_PDF, "PDF", resolution=DPI, quality=95)
     print(f"\n✅ Cover: {OUT_PDF}")
     print(f"✅ Preview: {OUT_PNG}")
 

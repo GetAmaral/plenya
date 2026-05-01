@@ -165,11 +165,11 @@ Reorganizamos: reduzimos o volume total, aumentamos a proporção de zona 2 para
 
 | Dia | Atividade | Duração |
 |---|---|---|
-| Segunda | Caminhada rápida (zona 2) + mobilidade | 30 + 10 min |
-| Terça | Treino de força — corpo inteiro (elásticos ou peso corporal) | 30 min |
+| Segunda | Caminhada rápida + mobilidade | 30 + 10 min |
+| Terça | Força — corpo inteiro (peso corporal) | 30 min |
 | Quarta | Descanso | — |
-| Quinta | Caminhada rápida (zona 2) + mobilidade | 30 + 10 min |
-| Sexta | Treino de força — corpo inteiro | 30 min |
+| Quinta | Caminhada rápida + mobilidade | 30 + 10 min |
+| Sexta | Força — corpo inteiro | 30 min |
 | Sábado | Descanso | — |
 | Domingo | Descanso | — |
 
@@ -179,12 +179,12 @@ Se no fim de semana surgir vontade de caminhar, pedalar ou jogar bola — ótimo
 
 | Dia | Atividade | Duração |
 |---|---|---|
-| Segunda | Zona 2 (ciclismo, corrida leve, elíptico) | 50–60 min |
-| Terça | Treino de força — membros inferiores + *core* | 45 min |
+| Segunda | Zona 2 (cardio leve) | 50–60 min |
+| Terça | Força — membros inferiores + *core* | 45 min |
 | Quarta | Descanso | — |
-| Quinta | Treino de força — membros superiores + mobilidade | 45 min |
+| Quinta | Força — membros superiores + mobilidade | 45 min |
 | Sexta | Zona 2 | 50–60 min |
-| Sábado | HIIT (protocolo 4×4) + treino de força leve | 50–60 min |
+| Sábado | HIIT 4×4 + força leve | 50–60 min |
 | Domingo | Descanso | — |
 
 Dois dias de descanso completo não são preguiça — são parte do programa. O músculo não cresce durante o treino; cresce durante a recuperação. O sistema cardiovascular se adapta entre as sessões, não durante elas. Quem treina sem descansar não está treinando mais — está se recuperando menos.

@@ -364,7 +364,7 @@ def build_print_frontmatter(work_dir):
 \vspace*{1cm}
 \begingroup
 \sffamily\footnotesize\color{ink}\raggedright
-\noindent ANTES — A Janela Silenciosa entre o Normal e o Ótimo \par\smallskip
+\noindent ANTES — A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida \par\smallskip
 \noindent Copyright \copyright\ 2026 Getúlio José Mattos do Amaral Filho. \par
 \noindent Todos os direitos reservados. \par\bigskip
 \noindent \textbf{1\textsuperscript{a} edição} — Edição do Autor — 2026 \par\smallskip
@@ -502,7 +502,7 @@ def main():
         "-V", "documentclass=book",
         "-V", "lang=pt-BR",
         "-V", "title=ANTES",
-        "-V", "subtitle=A Janela Silenciosa entre o Normal e o Ótimo",
+        "-V", "subtitle=A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida",
         "-V", "author=Dr. Getulio Amaral Filho",
         "-o", str(OUT_PDF),
     ]

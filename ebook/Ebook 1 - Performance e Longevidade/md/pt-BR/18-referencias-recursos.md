@@ -1,13 +1,13 @@
 ---
 id: 18
 language: pt-BR
-title: "Referências, Recursos e Próximos Passos"
+title: "Referências e Recursos"
 title_en_suggested: "References, Resources and Next Steps"
 translation_status: source
 last_reviewed: 2026-04-21
 ---
 
-## Capítulo 18 — Referências, Recursos e Próximos Passos
+## Capítulo 18 — Referências e Recursos
 
 As referências abaixo estão organizadas por capítulo e por tipo. Todas foram verificadas individualmente quanto a autoria, periódico, ano e existência real da publicação. Quando disponível, o DOI é incluído para acesso direto. As ferramentas práticas listadas ao final são de acesso livre.
 
@@ -466,16 +466,3 @@ Estimativa de risco cardiovascular em 10 anos baseada em idade, sexo, colesterol
 
 **Relógios epigenéticos:** Serviços comerciais como TruAge (TruDiagnostic) e GrimAge oferecem medição de idade biológica por metilação do DNA. Custos variáveis. Útil como *baseline* e para acompanhamento longitudinal.
 
----
-
-### Próximos Passos: Os Outros Livros da Série
-
-Este livro é a porta de entrada — uma visão integrada do que envelhece o corpo, como medir, e como agir. Os temas que foram apresentados aqui em profundidade introdutória ganham tratamento completo nos volumes seguintes.
-
-**E-book 2 — O Guia Inteligente de Suplementação.** Protocolos organizados por objetivo (energia, cognição, imunidade, sono, recuperação). Para cada suplemento: o que a evidência sustenta, dose, melhor horário, interações, e o que não funciona apesar do marketing. Inclui a lógica de consolidação de fórmulas para reduzir número de cápsulas sem perder eficácia.
-
-**E-book 3 — Reset Metabólico: Resistência Insulínica e GLP-1.** Guia completo para quem enfrenta sobrepeso, síndrome metabólica, pré-diabetes ou resistência insulínica. Inclui o que são os agonistas GLP-1 (semaglutida, tirzepatida), como funcionam, para quem servem, efeitos colaterais reais, e o plano de manutenção pós-resultado.
-
-**E-book 4 — Sono, Estresse e Performance.** Manual para profissionais de alta performance que sacrificam sono e saúde mental sob pressão. Fisiologia do sono em profundidade, higiene do sono baseada em evidência, gestão do estresse crônico com ferramentas validadas, suplementação específica para sono e ansiedade, e como montar uma rotina sustentável.
-
-**E-book 5 — Saúde Renal Decodificada.** O único livro acessível sobre saúde renal escrito para leigos. Como interpretar creatinina, TFG, microalbuminúria. Os cinco maiores destruidores silenciosos dos rins. Medicamentos nefrotóxicos que as pessoas tomam sem saber. Hiponatremia e distúrbios eletrolíticos explicados de forma simples. Proteção renal na prática.
