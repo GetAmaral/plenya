@@ -32,8 +32,18 @@ export function getPillarLabels(locale: Locale): Record<Pillar, string> {
 export const pillarLabels = PILLAR_LABELS_PT;
 
 export function formatPostDate(iso: string, locale: Locale, opts?: Intl.DateTimeFormatOptions): string {
+  const o = opts ?? { day: '2-digit', month: 'short', year: 'numeric' };
   const tag = locale === 'en' ? 'en-US' : 'pt-BR';
-  return new Date(iso).toLocaleDateString(tag, opts ?? { day: '2-digit', month: 'short', year: 'numeric' });
+  // PT short-month: compactar "15 de abr. de 2026" -> "15 abr 2026"
+  // (sem preposição "de", sem ponto na abreviação)
+  if (locale === 'pt' && o.month === 'short') {
+    const parts = new Intl.DateTimeFormat(tag, o).formatToParts(new Date(iso));
+    const day = parts.find((p) => p.type === 'day')?.value;
+    const month = parts.find((p) => p.type === 'month')?.value.replace(/\.$/, '');
+    const year = parts.find((p) => p.type === 'year')?.value;
+    if (day && month && year) return `${day} ${month} ${year}`;
+  }
+  return new Date(iso).toLocaleDateString(tag, o);
 }
 
 const dateString = z
