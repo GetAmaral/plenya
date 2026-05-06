@@ -8,13 +8,33 @@ const PILLARS = ['alimentacao-atividade-fisica', 'gestao-metabolica', 'integraca
 export type Pillar = (typeof PILLARS)[number];
 export const pillars = PILLARS;
 
-export const pillarLabels: Record<Pillar, string> = {
+const PILLAR_LABELS_PT: Record<Pillar, string> = {
   'alimentacao-atividade-fisica': 'Atividade Física, Alimentação & Suplementação',
   'gestao-metabolica': 'Gestão Clínica & Metabólica',
   'integracao-corpo-mente': 'Integração Mente-Corpo',
   'ritmo-circadiano': 'Ritmo Circadiano & Repouso',
   longevidade: 'Longevidade',
 };
+
+const PILLAR_LABELS_EN: Record<Pillar, string> = {
+  'alimentacao-atividade-fisica': 'Activity, Alimentation & Smart Adjuncts',
+  'gestao-metabolica': 'Clinical Optimization',
+  'integracao-corpo-mente': 'Tending Mind, Body & Bonds',
+  'ritmo-circadiano': 'Sleep, Rhythm & Recovery',
+  longevidade: 'Longevity',
+};
+
+export function getPillarLabels(locale: Locale): Record<Pillar, string> {
+  return locale === 'en' ? PILLAR_LABELS_EN : PILLAR_LABELS_PT;
+}
+
+/** @deprecated use getPillarLabels(locale) */
+export const pillarLabels = PILLAR_LABELS_PT;
+
+export function formatPostDate(iso: string, locale: Locale, opts?: Intl.DateTimeFormatOptions): string {
+  const tag = locale === 'en' ? 'en-US' : 'pt-BR';
+  return new Date(iso).toLocaleDateString(tag, opts ?? { day: '2-digit', month: 'short', year: 'numeric' });
+}
 
 const dateString = z
   .union([z.string(), z.date()])

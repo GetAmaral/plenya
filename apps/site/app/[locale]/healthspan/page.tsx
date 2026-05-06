@@ -7,6 +7,7 @@ import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 import { MedicalWebPageSchema } from '@/components/seo/medical-webpage-schema';
 import { ClinicalReviewBadge } from '@/components/marketing/clinical-review-badge';
 import { RelatedBlogPosts } from '@/components/marketing/related-blog-posts';
+import { defaultLocale, isLocale } from '@/lib/i18n/config';
 
 type Params = Promise<{ locale: string }>;
 
@@ -150,6 +151,7 @@ export default async function HealthspanPage({ params }: { params: Params }) {
         title={t('relatedTitle')}
         pillars={['longevidade', 'gestao-metabolica']}
         limit={3}
+        locale={isLocale(locale) ? locale : defaultLocale}
       />
 
       <section className="bg-cream">

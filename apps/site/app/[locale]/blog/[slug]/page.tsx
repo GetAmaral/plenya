@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { brand } from '@plenya/brand';
-import { defaultLocale, isLocale, locales } from '@/lib/i18n/config';
-import { getAllPosts, getPost, pillarLabels } from '@/lib/blog';
+import { defaultLocale, isLocale, locales, type Locale } from '@/lib/i18n/config';
+import { formatPostDate, getAllPosts, getPost, getPillarLabels } from '@/lib/blog';
 import { getAuthor } from '@/lib/authors';
 import { MdxContent } from '@/components/blog/mdx-content';
 import { AuthorBox } from '@/components/blog/author-box';
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function BlogPostPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale: rawLocale, slug } = await params;
-  const locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
   setRequestLocale(locale);
   const post = await getPost(locale, slug);
   if (!post) notFound();
@@ -46,6 +46,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
   if (!author) notFound();
   const reviewedBy = post.reviewedBy ? await getAuthor(post.reviewedBy) : null;
   const url = `${brand.url}${locale === 'pt' ? '' : `/${locale}`}/blog/${post.slug}`;
+  const t = await getTranslations({ locale, namespace: 'blogIndex' });
+  const labels = getPillarLabels(locale);
 
   return (
     <article className="bg-cream">
@@ -54,7 +56,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
         items={[
           { name: 'Home', url: '/' },
           { name: 'Blog', url: '/blog' },
-          { name: pillarLabels[post.pillar], url: `/blog/categoria/${post.pillar}` },
+          { name: labels[post.pillar], url: `/blog/categoria/${post.pillar}` },
           { name: post.title },
         ]}
       />
@@ -69,7 +71,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
               { label: 'Home', href: '/' },
               { label: 'Blog', href: '/blog' },
               {
-                label: pillarLabels[post.pillar],
+                label: labels[post.pillar],
                 href: { pathname: '/blog/categoria/[pilar]', params: { pilar: post.pillar } },
               },
               { label: post.title },
@@ -77,13 +79,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
           />
           <h1 className="heading-hero text-[clamp(2.2rem,5vw,4rem)] text-cream mt-6">{post.title}</h1>
           <div className="flex flex-wrap items-center gap-3 label-upper text-cream/50 mt-6">
-            <span>Por {author.name}</span>
+            <span>{t('byAuthor')} {author.name}</span>
             <span>·</span>
             <time dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+              {formatPostDate(post.date, locale, { day: '2-digit', month: 'long', year: 'numeric' })}
             </time>
             {post.updated && (
-              <><span>·</span><span>Atualizado {new Date(post.updated).toLocaleDateString('pt-BR')}</span></>
+              <><span>·</span><span>{t('updated')} {formatPostDate(post.updated, locale)}</span></>
             )}
             <span>·</span>
             <span>{post.readingMinutes} min</span>
@@ -124,7 +126,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       {/* References */}
       {post.references.length > 0 && (
         <div className="site-narrow border-t border-petrol/10 pt-8 mb-16">
-          <p className="label-upper text-gold mb-4">Referências</p>
+          <p className="label-upper text-gold mb-4">{locale === 'en' ? 'References' : 'Referências'}</p>
           <ol className="list-decimal pl-6 space-y-2 text-petrol/80 text-sm">
             {post.references.map((ref, i) => (
               <li key={ref.url ?? `${i}-${ref.label}`}>
@@ -147,7 +149,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       )}
 
       <div className="site-narrow">
-        <AuthorBox author={author} reviewedBy={reviewedBy} reviewedAt={post.updated ?? post.date} />
+        <AuthorBox author={author} reviewedBy={reviewedBy} reviewedAt={post.updated ?? post.date} locale={locale} />
         <NewsletterInline source={`blog-post-${post.slug}`} />
         {post.cta === 'recognition' ? <BlogCTARecognition /> : <BlogCTA />}
         <div className="flex justify-center pt-8 pb-16">

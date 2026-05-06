@@ -1,15 +1,17 @@
 import { ImageResponse } from 'next/og';
 import { brand } from '@plenya/brand';
-import { getPost, pillarLabels } from '@/lib/blog';
-import { isLocale, defaultLocale } from '@/lib/i18n/config';
+import { getPost, getPillarLabels } from '@/lib/blog';
+import { isLocale, defaultLocale, type Locale } from '@/lib/i18n/config';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 export default async function PostOg({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale: rawLocale, slug } = await params;
-  const locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
   const post = await getPost(locale, slug);
+  const pillarLabels = getPillarLabels(locale);
+  const fallback = locale === 'en' ? 'Plenya Blog' : 'Blog Plenya';
 
   return new ImageResponse(
     (
@@ -35,7 +37,7 @@ export default async function PostOg({ params }: { params: Promise<{ locale: str
             textTransform: 'uppercase',
           }}
         >
-          {post ? pillarLabels[post.pillar] : 'Blog Plenya'}
+          {post ? pillarLabels[post.pillar] : fallback}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>

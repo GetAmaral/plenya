@@ -7,6 +7,7 @@ import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 import { MedicalWebPageSchema } from '@/components/seo/medical-webpage-schema';
 import { ClinicalReviewBadge } from '@/components/marketing/clinical-review-badge';
 import { RelatedBlogPosts } from '@/components/marketing/related-blog-posts';
+import { defaultLocale, isLocale } from '@/lib/i18n/config';
 
 type Params = Promise<{ locale: string }>;
 
@@ -110,7 +111,7 @@ export default async function RenalPage({ params }: { params: Params }) {
 
       <FaqAccordion title={t('faqTitle')} items={faq} />
 
-      <RelatedBlogPosts title={t('relatedTitle')} pillars={['gestao-metabolica']} limit={3} />
+      <RelatedBlogPosts title={t('relatedTitle')} pillars={['gestao-metabolica']} limit={3} locale={isLocale(locale) ? locale : defaultLocale} />
 
       <section className="bg-cream">
         <div className="site-container section grid md:grid-cols-12 gap-12">

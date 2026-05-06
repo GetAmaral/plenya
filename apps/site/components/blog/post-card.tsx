@@ -1,8 +1,10 @@
 import Image from 'next/image';
 import { Link } from '@/lib/i18n/navigation';
-import { pillarLabels, type Post } from '@/lib/blog';
+import { formatPostDate, getPillarLabels, type Post } from '@/lib/blog';
+import { defaultLocale, type Locale } from '@/lib/i18n/config';
 
-export function PostCard({ post, featured = false }: { post: Post; featured?: boolean }) {
+export function PostCard({ post, featured = false, locale = defaultLocale }: { post: Post; featured?: boolean; locale?: Locale }) {
+  const labels = getPillarLabels(locale);
   return (
     <Link
       href={{ pathname: '/blog/[slug]', params: { slug: post.slug } }}
@@ -20,10 +22,10 @@ export function PostCard({ post, featured = false }: { post: Post; featured?: bo
         </div>
       )}
       <div className="flex items-center gap-3 label-upper mb-4">
-        <span className="text-gold">{pillarLabels[post.pillar]}</span>
+        <span className="text-gold">{labels[post.pillar]}</span>
         <span className="text-petrol/30">·</span>
         <time className="text-petrol/50" dateTime={post.date}>
-          {new Date(post.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
+          {formatPostDate(post.date, locale)}
         </time>
         <span className="text-petrol/30">·</span>
         <span className="text-petrol/50">{post.readingMinutes} min</span>

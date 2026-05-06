@@ -1,22 +1,27 @@
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 import type { Author } from '@/lib/authors';
+import { defaultLocale, type Locale } from '@/lib/i18n/config';
 
-function formatPtDate(iso: string) {
-  const dt = new Date(iso);
-  return dt.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+function formatLocaleDate(iso: string, locale: Locale) {
+  const tag = locale === 'en' ? 'en-US' : 'pt-BR';
+  return new Date(iso).toLocaleDateString(tag, { month: 'long', year: 'numeric' });
 }
 
-export function AuthorBox({
+export async function AuthorBox({
   author,
   reviewedBy,
   reviewedAt,
+  locale = defaultLocale,
 }: {
   author: Author;
   reviewedBy?: Author | null;
   reviewedAt?: string;
+  locale?: Locale;
 }) {
   const isMedicalAuthor = author.credentials?.includes('CRM');
   const reviewer = reviewedBy ?? (isMedicalAuthor ? author : null);
+  const t = await getTranslations({ locale, namespace: 'blogIndex' });
 
   return (
     <aside className="border-y border-petrol/10 py-8 my-12 grid gap-6 sm:grid-cols-[80px_1fr] items-start">
@@ -28,16 +33,16 @@ export function AuthorBox({
         )}
       </div>
       <div className="space-y-2">
-        <p className="label-upper text-gold">Autor</p>
+        <p className="label-upper text-gold">{t('authorLabel')}</p>
         <p className="heading-section text-petrol text-xl">{author.name}</p>
         <p className="label-upper text-petrol/55">{author.credentials}</p>
         <p className="text-petrol/75 text-sm leading-relaxed max-w-prose">{author.bio}</p>
         {reviewer && (
           <div className="pt-3 mt-2 border-t border-petrol/5 space-y-1">
-            <p className="label-upper text-petrol/45">Revisão clínica</p>
+            <p className="label-upper text-petrol/45">{t('clinicalReviewLabel')}</p>
             <p className="text-petrol/65 text-xs leading-relaxed">
-              Conteúdo médico revisado por {reviewer.name} · {reviewer.credentials}
-              {reviewedAt && <> · {formatPtDate(reviewedAt)}</>}
+              {t('clinicalReviewBy')} {reviewer.name} · {reviewer.credentials}
+              {reviewedAt && <> · {formatLocaleDate(reviewedAt, locale)}</>}
             </p>
           </div>
         )}

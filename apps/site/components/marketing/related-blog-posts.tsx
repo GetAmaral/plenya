@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAllPosts, type Pillar } from '@/lib/blog';
 import { defaultLocale, type Locale } from '@/lib/i18n/config';
@@ -16,9 +17,11 @@ export async function RelatedBlogPosts({
   pillars,
   preferred,
   limit = 3,
-  title = 'Leitura relacionada',
+  title,
   locale = defaultLocale,
 }: Props) {
+  const t = await getTranslations({ locale, namespace: 'blogIndex' });
+  const headingLabel = title ?? t('relatedReading');
   const all = await getAllPosts(locale);
   let pool = pillars?.length ? all.filter((p) => pillars.includes(p.pillar)) : all;
 
@@ -32,10 +35,12 @@ export async function RelatedBlogPosts({
   const posts = pool.slice(0, limit);
   if (!posts.length) return null;
 
+  const dateTag = locale === 'en' ? 'en-US' : 'pt-BR';
+
   return (
     <section className="bg-paper">
       <div className="site-container section">
-        <p className="label-upper text-gold mb-8">{title}</p>
+        <p className="label-upper text-gold mb-8">{headingLabel}</p>
         <ul className="grid md:grid-cols-3 gap-8">
           {posts.map((p) => (
             <li key={p.slug}>
@@ -44,7 +49,7 @@ export async function RelatedBlogPosts({
                 className="block group space-y-3"
               >
                 <p className="label-upper text-petrol/55">
-                  {new Date(p.date).toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' })}
+                  {new Date(p.date).toLocaleDateString(dateTag, { month: 'short', year: 'numeric' })}
                 </p>
                 <h3 className="font-serif text-lg text-petrol group-hover:text-gold transition-colors leading-snug">
                   {p.title}
