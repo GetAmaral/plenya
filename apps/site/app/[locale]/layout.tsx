@@ -21,6 +21,12 @@ const heading = localFont({
   style: 'normal',
   variable: '--font-heading',
   display: 'swap',
+  // Nalieta não inclui glyphs de dígitos (0-9). Excluindo o range
+  // U+0030-0039 do unicode-range, o browser cai no próximo font da
+  // cadeia (Cormorant Garamond) automaticamente, per-glyph.
+  declarations: [
+    { prop: 'unicode-range', value: 'U+0020-002F, U+003A-FFFF' },
+  ],
 });
 const mono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' });
 const body = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
