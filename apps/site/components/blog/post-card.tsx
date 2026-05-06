@@ -21,15 +21,6 @@ export function PostCard({ post, featured = false, locale = defaultLocale }: { p
           />
         </div>
       )}
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 label-upper text-petrol/50 mb-4">
-        <span>{labels[post.pillar]}</span>
-        <span className="text-petrol/25">·</span>
-        <time dateTime={post.date}>
-          {formatPostDate(post.date, locale)}
-        </time>
-        <span className="text-petrol/25">·</span>
-        <span>{post.readingMinutes} min</span>
-      </div>
       <h3
         className={`heading-section text-petrol group-hover:text-gold transition ${
           featured ? 'text-3xl md:text-5xl leading-[1.05]' : 'text-2xl md:text-3xl leading-[1.1]'
@@ -38,6 +29,15 @@ export function PostCard({ post, featured = false, locale = defaultLocale }: { p
         {post.title}
       </h3>
       <p className="text-petrol/65 mt-4 max-w-2xl leading-relaxed">{post.excerpt}</p>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 label-upper text-petrol/45 text-[0.7rem] mt-6">
+        <span>{labels[post.pillar]}</span>
+        <span className="text-petrol/20">·</span>
+        <time dateTime={post.date}>
+          {formatPostDate(post.date, locale)}
+        </time>
+        <span className="text-petrol/20">·</span>
+        <span>{post.readingMinutes} min</span>
+      </div>
     </Link>
   );
 }
