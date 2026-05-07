@@ -11,6 +11,7 @@ type ArticleSchemaProps = {
    * authority there, not to this mirror.
    */
   canonicalUrl?: string;
+  locale?: string;
 };
 
 const BASE = 'https://drgetulioamaralfilho.com.br';
@@ -23,8 +24,10 @@ export function ArticleSchema({
   tag,
   image,
   canonicalUrl,
+  locale = 'pt',
 }: ArticleSchemaProps) {
-  const localUrl = `${BASE}/escritos/${slug}`;
+  const isEn = locale === 'en';
+  const localUrl = isEn ? `${BASE}/en/escritos/${slug}` : `${BASE}/escritos/${slug}`;
   const mainUrl = canonicalUrl ?? localUrl;
   const data = {
     '@context': 'https://schema.org',
@@ -35,7 +38,7 @@ export function ArticleSchema({
     mainEntityOfPage: { '@type': 'WebPage', '@id': mainUrl },
     datePublished: date,
     dateModified: date,
-    inLanguage: 'pt-BR',
+    inLanguage: isEn ? 'en' : 'pt-BR',
     articleSection: tag,
     image: image ?? `${BASE}/images/getulio-square.jpg`,
     author: { '@id': `${BASE}/#person` },

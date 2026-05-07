@@ -1,25 +1,30 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import {
   absoluteCover,
   getPlenyaPostsByGetulio,
-  PLENYA_BLOG_BASE,
-  PLENYA_PILLAR_LABELS,
+  pillarLabels,
+  plenyaBlogBase,
 } from '@/lib/plenya-blog';
 
-export const metadata: Metadata = {
-  title: 'Escritos',
-  description:
-    'Artigos do Dr. Getúlio Amaral Filho sobre nefrologia preventiva, longevidade e medicina funcional integrativa. Espelho fiel do blog Plenya.',
-  alternates: { canonical: '/escritos' },
-};
-
-const PILLAR_FILTERS = Object.entries(PLENYA_PILLAR_LABELS) as [
-  keyof typeof PLENYA_PILLAR_LABELS,
-  string,
-][];
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'escritos' });
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+    alternates: {
+      canonical: locale === 'en' ? '/en/escritos' : '/escritos',
+      languages: { 'pt-BR': '/escritos', en: '/en/escritos' },
+    },
+  };
+}
 
 export default async function EscritosPage({
   params,
@@ -31,22 +36,25 @@ export default async function EscritosPage({
   const { locale } = await params;
   const { pilar: pilarParam } = await searchParams;
   setRequestLocale(locale);
-  const all = await getPlenyaPostsByGetulio();
-  const activePilar = PILLAR_FILTERS.find(([k]) => k === pilarParam)?.[0];
+  const t = await getTranslations({ locale, namespace: 'escritos' });
+  const labels = pillarLabels(locale);
+  const pillarFilters = Object.entries(labels) as [keyof typeof labels, string][];
+  const all = await getPlenyaPostsByGetulio(locale);
+  const activePilar = pillarFilters.find(([k]) => k === pilarParam)?.[0];
   const posts = activePilar ? all.filter((p) => p.pillar === activePilar) : all;
   const [featured, ...rest] = posts;
+  const dateLocale = t('dateLocale');
+  const blogBase = plenyaBlogBase(locale);
 
   return (
     <article>
       <header className="editorial-container pt-16 md:pt-24 pb-12">
-        <p className="label-meta mb-6">Escritos</p>
+        <p className="label-meta mb-6">{t('kicker')}</p>
         <h1 className="heading-display text-[clamp(2.2rem,5vw,3.8rem)] max-w-3xl">
-          Artigos sobre o que vem antes.
+          {t('h1')}
         </h1>
         <p className="prose-body mt-8 max-w-2xl">
-          Notas clínicas, recortes do livro <em>Antes</em> e ensaios curtos sobre nefrologia
-          preventiva, longevidade e medicina funcional integrativa. Conteúdo publicado
-          originalmente no blog da Plenya, espelhado aqui na íntegra.
+          {t('leadPre')}<em>{t('leadEm')}</em>{t('leadPost')}
         </p>
       </header>
 
@@ -56,9 +64,9 @@ export default async function EscritosPage({
             href="/escritos"
             className={`font-sans text-sm tracking-wide ${!activePilar ? 'text-bordo' : 'text-ink-muted hover:text-ink'} transition-colors`}
           >
-            Todos
+            {t('filterAll')}
           </Link>
-          {PILLAR_FILTERS.map(([key, label]) => (
+          {pillarFilters.map(([key, label]) => (
             <Link
               key={key}
               href={`/escritos?pilar=${encodeURIComponent(key)}`}
@@ -72,7 +80,7 @@ export default async function EscritosPage({
 
       <section className="editorial-container pb-24">
         {posts.length === 0 ? (
-          <p className="font-serif text-ink-muted py-8">Nenhum artigo nesse pilar ainda.</p>
+          <p className="font-serif text-ink-muted py-8">{t('emptyState')}</p>
         ) : (
           <div className="space-y-20 md:space-y-24">
             {featured && (
@@ -94,10 +102,10 @@ export default async function EscritosPage({
                 )}
                 <div className="space-y-4 order-2">
                   <div className="flex items-center gap-3 label-meta">
-                    <span className="text-bordo">{PLENYA_PILLAR_LABELS[featured.pillar]}</span>
+                    <span className="text-bordo">{labels[featured.pillar]}</span>
                     <span className="text-ink-muted">·</span>
                     <time className="text-ink-muted" dateTime={featured.date}>
-                      {formatDate(featured.date)}
+                      {formatDate(featured.date, dateLocale)}
                     </time>
                   </div>
                   <h2 className="font-serif text-3xl md:text-4xl leading-tight text-ink group-hover:text-bordo transition-colors">
@@ -106,7 +114,7 @@ export default async function EscritosPage({
                   <p className="font-serif text-lg text-ink-soft leading-relaxed">
                     {featured.excerpt}
                   </p>
-                  <p className="label-meta text-bordo pt-2">Ler artigo →</p>
+                  <p className="label-meta text-bordo pt-2">{t('ctaRead')}</p>
                 </div>
               </Link>
             )}
@@ -131,10 +139,10 @@ export default async function EscritosPage({
                       </div>
                     )}
                     <div className="flex items-center gap-3 label-meta">
-                      <span className="text-bordo">{PLENYA_PILLAR_LABELS[p.pillar]}</span>
+                      <span className="text-bordo">{labels[p.pillar]}</span>
                       <span className="text-ink-muted">·</span>
                       <time className="text-ink-muted" dateTime={p.date}>
-                        {formatDate(p.date)}
+                        {formatDate(p.date, dateLocale)}
                       </time>
                     </div>
                     <h3 className="font-serif text-xl md:text-2xl leading-tight text-ink group-hover:text-bordo transition-colors">
@@ -149,18 +157,18 @@ export default async function EscritosPage({
         )}
 
         <p className="font-sans text-xs text-ink-muted mt-16 text-center">
-          Conteúdo publicado originalmente no{' '}
-          <a href={PLENYA_BLOG_BASE} target="_blank" rel="noreferrer" className="link-text">
-            Blog Plenya
+          {t('footerSourcePre')}
+          <a href={blogBase} target="_blank" rel="noreferrer" className="link-text">
+            {t('footerSourceLink')}
           </a>
-          . Cada artigo aqui é uma versão fiel do original, com canonical apontando para a fonte.
+          {t('footerSourcePost')}
         </p>
       </section>
     </article>
   );
 }
 
-function formatDate(d: string) {
+function formatDate(d: string, locale: string) {
   const dt = new Date(d);
-  return dt.toLocaleDateString('pt-BR', { year: 'numeric', month: 'short' });
+  return dt.toLocaleDateString(locale, { year: 'numeric', month: 'short' });
 }

@@ -36,8 +36,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   // Posts do blog Plenya espelhados em /escritos/{slug}.
-  // Canonical aponta para plenyasaude.com.br/blog/{slug}, por isso prioridade baixa.
-  const posts = await getAllPlenyaPostsFull();
+  // Canonical aponta para plenyasaude.com.br/blog/{slug} (ou /en/blog/{slug}),
+  // por isso prioridade baixa. Lista PT = lista canônica de slugs.
+  const posts = await getAllPlenyaPostsFull('pt');
   const articleEntries: MetadataRoute.Sitemap = posts.flatMap((p) =>
     LOCALES.map((l) => ({
       url: urlFor(l, `/escritos/${p.slug}`),

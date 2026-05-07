@@ -1,38 +1,40 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { MdxContent } from '@/components/blog/mdx-content';
 import {
   getAllPlenyaPostsFull,
   getPlenyaPost,
-  PLENYA_BLOG_BASE,
-  PLENYA_PILLAR_LABELS,
+  pillarLabels,
+  plenyaBlogBase,
 } from '@/lib/plenya-blog';
 import { ArticleSchema } from '@/components/seo/article-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
-const BASE = 'https://drgetulioamaralfilho.com.br';
-
 export async function generateStaticParams() {
-  const all = await getAllPlenyaPostsFull();
+  // Geramos slug params a partir do PT (fonte mais ampla); EN espelha o
+  // mesmo conjunto. Quando um post EN não existir, o helper getPlenyaPost
+  // faz fallback pra PT silenciosamente.
+  const all = await getAllPlenyaPostsFull('pt');
   return all.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const post = await getPlenyaPost(slug);
+  const { locale, slug } = await params;
+  const post = await getPlenyaPost(slug, locale);
   if (!post) return {};
-  const canonical = `${PLENYA_BLOG_BASE}/${slug}`;
+  const blogBase = plenyaBlogBase(locale);
+  // Canonical aponta pra Plenya (fonte oficial). Google atribui authority lá.
+  const canonical = `${blogBase}/${slug}`;
   return {
     title: post.title,
     description: post.excerpt,
-    // Canonical aponta para a Plenya — fonte oficial. Google atribui authority lá.
     alternates: { canonical },
     openGraph: {
       type: 'article',
@@ -61,14 +63,18 @@ export default async function EscritoPage({
 }) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const post = await getPlenyaPost(slug);
+  const post = await getPlenyaPost(slug, locale);
   if (!post) notFound();
+  const t = await getTranslations({ locale, namespace: 'escritos' });
+  const labels = pillarLabels(locale);
+  const blogBase = plenyaBlogBase(locale);
+  const dateLocale = t('dateLocale');
 
-  const all = await getAllPlenyaPostsFull();
+  const all = await getAllPlenyaPostsFull(locale);
   const related = all
     .filter((p) => p.slug !== post.slug && p.pillar === post.pillar)
     .slice(0, 3);
-  const canonicalUrl = `${PLENYA_BLOG_BASE}/${post.slug}`;
+  const canonicalUrl = `${blogBase}/${post.slug}`;
 
   return (
     <article>
@@ -77,38 +83,38 @@ export default async function EscritoPage({
         description={post.excerpt}
         slug={post.slug}
         date={post.date}
-        tag={PLENYA_PILLAR_LABELS[post.pillar]}
+        tag={labels[post.pillar]}
         canonicalUrl={canonicalUrl}
         image={post.cover ? `https://plenyasaude.com.br${post.cover}` : undefined}
+        locale={locale}
       />
       <BreadcrumbSchema
         items={[
-          { name: 'Início', url: '/' },
-          { name: 'Escritos', url: '/escritos' },
+          { name: t('detailBreadcrumbHome'), url: '/' },
+          { name: t('detailBreadcrumbList'), url: '/escritos' },
           { name: post.title },
         ]}
       />
       <header className="editorial-container pt-12 md:pt-16 pb-8">
         <Breadcrumbs
           items={[
-            { label: 'Início', href: '/' },
-            { label: 'Escritos', href: '/escritos' },
+            { label: t('detailBreadcrumbHome'), href: '/' },
+            { label: t('detailBreadcrumbList'), href: '/escritos' },
             { label: post.title },
           ]}
         />
       </header>
 
-      {/* Banner: este texto vive originalmente no blog da Plenya */}
       <div className="editorial-narrow pb-2">
         <p className="font-sans text-xs text-ink-muted bg-paper border-l-2 border-bordo px-4 py-3">
-          Publicado originalmente no <strong>Blog Plenya</strong>.{' '}
+          {t('detailBannerPre')}<strong>{t('detailBlogStrong')}</strong>.{' '}
           <a
             href={canonicalUrl}
             target="_blank"
             rel="noreferrer"
             className="link-text"
           >
-            Ler na fonte ↗
+            {t('detailBannerLink')}
           </a>
         </p>
       </div>
@@ -116,9 +122,9 @@ export default async function EscritoPage({
       <section className="editorial-narrow pb-12">
         <div className="space-y-8">
           <div className="flex items-center gap-4 flex-wrap">
-            <span className="label-meta-lg text-bordo">{PLENYA_PILLAR_LABELS[post.pillar]}</span>
+            <span className="label-meta-lg text-bordo">{labels[post.pillar]}</span>
             <span className="label-meta-lg text-ink-muted">
-              {formatDate(post.date)} · {post.readingMinutes} min
+              {formatDate(post.date, dateLocale)} · {post.readingMinutes} {t('detailReadingSuffix')}
             </span>
           </div>
           <h1 className="heading-display text-[clamp(2.6rem,5.5vw,4.4rem)]">{post.title}</h1>
@@ -146,7 +152,7 @@ export default async function EscritoPage({
       {post.references.length > 0 && (
         <section className="editorial-narrow pb-12">
           <div className="border-t-2 border-bordo/40 pt-8">
-            <p className="label-meta-lg text-bordo mb-6">Referências</p>
+            <p className="label-meta-lg text-bordo mb-6">{t('detailReferencesKicker')}</p>
             <ol className="list-decimal pl-6 space-y-3 font-serif text-base text-ink-soft leading-relaxed">
               {post.references.map((ref, i) => (
                 <li key={ref.url ?? `${i}-${ref.label}`} className="pl-1">
@@ -167,11 +173,9 @@ export default async function EscritoPage({
       <section className="border-t border-rule">
         <div className="editorial-narrow py-8">
           <p className="font-sans text-sm text-ink-muted">
-            <strong className="text-ink">Revisão clínica.</strong> Conteúdo médico de autoria do
-            Dr. Getúlio Amaral Filho · CRM-PR 21.876 · RQE 16.038 (Nefrologia). Publicado
-            originalmente em{' '}
+            <strong className="text-ink">{t('detailReviewStrong')}</strong> {t('detailReviewBody')}
             <a href={canonicalUrl} target="_blank" rel="noreferrer" className="link-text">
-              plenyasaude.com.br/blog
+              {locale === 'en' ? 'plenyasaude.com.br/en/blog' : 'plenyasaude.com.br/blog'}
             </a>
             .
           </p>
@@ -181,13 +185,13 @@ export default async function EscritoPage({
       {related.length > 0 && (
         <section className="border-t border-rule">
           <div className="editorial-container py-16">
-            <p className="label-meta mb-8">Outros escritos no mesmo pilar</p>
+            <p className="label-meta mb-8">{t('detailRelatedKicker')}</p>
             <ul className="grid md:grid-cols-3 gap-8">
               {related.map((p) => (
                 <li key={p.slug}>
                   <Link href={`/escritos/${p.slug}`} className="block group space-y-3">
                     <span className="label-meta text-bordo">
-                      {PLENYA_PILLAR_LABELS[p.pillar]}
+                      {labels[p.pillar]}
                     </span>
                     <h3 className="font-serif text-lg text-ink group-hover:text-bordo transition-colors">
                       {p.title}
@@ -206,7 +210,7 @@ export default async function EscritoPage({
   );
 }
 
-function formatDate(d: string) {
+function formatDate(d: string, locale: string) {
   const dt = new Date(d);
-  return dt.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' });
+  return dt.toLocaleDateString(locale, { year: 'numeric', month: 'long' });
 }
