@@ -31,8 +31,8 @@ export function SiteHeader() {
           <Wordmark size="sm" tagline={false} />
         </Link>
 
-        {/* Desktop — links de texto puros */}
-        <nav className="hidden md:flex items-center gap-7">
+        {/* Desktop — links de texto puros + switcher isolado à direita */}
+        <nav className="hidden md:flex items-center gap-6 lg:gap-7">
           {nav.map((item) => {
             const active = pathname.startsWith(item.href);
             return (
@@ -48,6 +48,8 @@ export function SiteHeader() {
               </Link>
             );
           })}
+          {/* Divisor vertical pra desgrudar o switcher do bloco de links */}
+          <span aria-hidden="true" className="h-5 w-px bg-rule ml-1" />
           <LocaleSwitcher />
         </nav>
 
@@ -76,7 +78,8 @@ export function SiteHeader() {
                 {t(item.key)}
               </Link>
             ))}
-            <div className="pt-4 border-t border-rule">
+            <div className="pt-4 mt-2 border-t border-rule flex items-center justify-between">
+              <span className="label-meta text-ink-muted">Idioma · Language</span>
               <LocaleSwitcher />
             </div>
           </div>

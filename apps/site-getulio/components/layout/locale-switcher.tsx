@@ -22,21 +22,37 @@ export function LocaleSwitcher({ tone = 'light' }: { tone?: 'light' | 'dark' }) 
     });
   }
 
-  const baseInactive = tone === 'dark' ? 'text-paper/50 hover:text-paper' : 'text-ink-muted hover:text-ink';
-  const baseActive = tone === 'dark' ? 'text-paper underline underline-offset-4 decoration-gold decoration-2' : 'text-bordo underline underline-offset-4 decoration-bordo decoration-2';
+  const inactive =
+    tone === 'dark'
+      ? 'text-paper/55 hover:text-paper'
+      : 'text-ink-muted hover:text-ink';
+  const active =
+    tone === 'dark'
+      ? 'text-paper'
+      : 'text-bordo';
 
   return (
-    <div className="flex items-center gap-3 font-sans text-[11px] uppercase tracking-widest">
-      {locales.map((l) => (
-        <button
-          key={l}
-          disabled={isPending}
-          onClick={() => switchTo(l)}
-          className={l === current ? baseActive : baseInactive}
-          aria-label={`Switch to ${l.toUpperCase()}`}
-        >
-          {localeFlags[l]}
-        </button>
+    <div
+      className="flex items-center gap-2 font-sans text-[11px] uppercase tracking-widest"
+      aria-label="Language"
+    >
+      {locales.map((l, i) => (
+        <span key={l} className="flex items-center gap-2">
+          {i > 0 && <span aria-hidden="true" className={tone === 'dark' ? 'text-paper/30' : 'text-ink-muted/40'}>·</span>}
+          <button
+            disabled={isPending}
+            onClick={() => switchTo(l)}
+            className={`px-1.5 py-0.5 rounded-sm transition-colors ${
+              l === current
+                ? `${active} font-semibold ring-1 ring-current/20`
+                : inactive
+            }`}
+            aria-label={`Switch to ${l.toUpperCase()}`}
+            aria-current={l === current ? 'true' : undefined}
+          >
+            {localeFlags[l]}
+          </button>
+        </span>
       ))}
     </div>
   );
