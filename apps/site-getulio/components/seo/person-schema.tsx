@@ -55,8 +55,8 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
   const nefroclinica = isEn ? 'Nefroclínica Londrina (clinical nephrology)' : 'Nefroclínica Londrina';
 
   const bookName = isEn
-    ? 'ANTES — The Silent Window Between Normal and Optimal (Brazilian Portuguese edition)'
-    : 'ANTES — A Janela Silenciosa entre o Normal e o Ótimo';
+    ? 'Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided (Brazilian Portuguese edition)'
+    : 'Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida';
 
   const data = {
     '@context': 'https://schema.org',

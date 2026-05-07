@@ -33,7 +33,7 @@
   },
   "home": {
     "metaTitle": "Dr. Getúlio Amaral Filho — Nephrologist and Integrative Functional Medicine in Londrina",
-    "metaDescription": "Nephrologist (CRM-PR 21,876 · RQE 16,038), professor, author of the book \"Antes — A Janela Silenciosa\". Clinical director at Plenya. Practice in Londrina, Brazil.",
+    "metaDescription": "Nephrologist (CRM-PR 21,876 · RQE 16,038), professor, author of the book \"Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided\". Clinical director at Plenya. Practice in Londrina, Brazil.",
     "ogTitle": "Dr. Getúlio Amaral Filho — Nephrology, longevity, teaching",
     "ogDescription": "Nephrologist, professor, author. Clinical director at Plenya. Twenty years of internal medicine and nephrology practice.",
     "hero": {
@@ -53,7 +53,7 @@
       "professorBody": "Coordinator of the nephrology medical residency at Santa Casa de Londrina for over a decade.",
       "authorLabel": "Author",
       "authorTitle": "The Silent Window",
-      "authorBody": "\"Antes — The Silent Window Between Normal and Optimal\" (2026, Brazilian Portuguese).",
+      "authorBody": "\"Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided\" (2026, Brazilian Portuguese).",
       "speakerLabel": "Speaker",
       "speakerTitle": "National lectures",
       "speakerBody": "Lectures for physicians, residents and corporate audiences — on prevention that begins before."
@@ -62,10 +62,11 @@
       "kicker": "Book · 2026",
       "titleLine1": "Antes — The Silent Window",
       "titleLine2": "Between Normal and Optimal",
+      "titleSubtitle": "— Where Health Is Decided",
       "quote": "Between what the lab calls normal and what the body can reach as optimal, there are ten to twenty years of silent window.",
       "isbn": "ISBN 978-65-02-06742-0",
       "cta": "Read the book →",
-      "coverAlt": "ANTES — The Silent Window Between Normal and Optimal"
+      "coverAlt": "ANTES: The Silent Window Between Normal and Optimal — Where Health Is Decided"
     },
     "clinics": {
       "sectionLabel": "Where I practice",
@@ -128,12 +129,12 @@
     ]
   },
   "book": {
-    "metaTitle": "Antes — The Silent Window",
-    "metaDescription": "Antes — The Silent Window Between Normal and Optimal. Dr. Getúlio Amaral Filho's book on the ten to twenty years in which longevity is built or lost.",
-    "coverAlt": "Cover of the book Antes — The Silent Window Between Normal and Optimal",
+    "metaTitle": "Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided",
+    "metaDescription": "Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided. Dr. Getúlio Amaral Filho's book on the ten to twenty years in which longevity is built or lost.",
+    "coverAlt": "Cover of the book Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided",
     "kicker": "Book · 2026",
     "h1Title": "Antes",
-    "h1Subtitle": "The Silent Window Between Normal and Optimal",
+    "h1Subtitle": "The Silent Window Between Normal and Optimal — Where Health Is Decided",
     "lead1": "Brazilian medicine has become excellent at treating established disease — and poor at predicting what's coming. Between the health the lab recognizes and the disease the doctor treats, there is a silent window of ten to twenty years, where longevity is built or lost.",
     "lead2": "Based on twenty years of clinical practice, this book presents the expanded panel of biomarkers that the conventional check-up ignores, the four-pillar ACTS Method, and the Rule of Two — the only form of habit change that produces measurable results in three months.",
     "isbnLine": "ISBN 978-65-02-06742-0 · 2026",
@@ -159,7 +160,7 @@
     ],
     "buyKicker": "Where to buy",
     "buyH2": "Available on Amazon.",
-    "buyBody": "Antes — The Silent Window Between Normal and Optimal is available in print and Kindle. Brazilian Portuguese edition.",
+    "buyBody": "Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided is available in print and Kindle. Brazilian Portuguese edition.",
     "buyCta": "Buy on Amazon →",
     "heroBuyCta": "Buy on Amazon →",
     "amazonUrl": "https://a.co/d/0ecpyntK"

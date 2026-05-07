@@ -26,6 +26,9 @@ export function BookStrip() {
             <h2 className="heading-section text-paper text-3xl md:text-5xl">
               {t('titleLine1')}<br />{t('titleLine2')}
             </h2>
+            <p className="font-serif italic text-paper/75 text-xl md:text-2xl leading-snug -mt-2">
+              {t('titleSubtitle')}
+            </p>
             <blockquote className="font-serif text-paper/85 text-xl md:text-2xl italic leading-relaxed border-l-2 border-gold/60 pl-6">
               {t('quote')}
             </blockquote>

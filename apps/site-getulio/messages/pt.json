@@ -33,7 +33,7 @@
   },
   "home": {
     "metaTitle": "Dr. Getúlio Amaral Filho — Nefrologista e Medicina Funcional Integrativa em Londrina",
-    "metaDescription": "Médico nefrologista (CRM-PR 21.876 · RQE 16.038), professor, autor do livro \"Antes — A Janela Silenciosa\". Direção clínica da Plenya. Atendimento em Londrina-PR.",
+    "metaDescription": "Médico nefrologista (CRM-PR 21.876 · RQE 16.038), professor, autor do livro \"Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida\". Direção clínica da Plenya. Atendimento em Londrina-PR.",
     "ogTitle": "Dr. Getúlio Amaral Filho — Nefrologia, longevidade, ensino",
     "ogDescription": "Nefrologista, professor, autor. Direção clínica da Plenya. Vinte anos de prática em medicina interna e nefrologia.",
     "hero": {
@@ -53,7 +53,7 @@
       "professorBody": "Coordena a residência médica em nefrologia da Santa Casa de Londrina há mais de uma década.",
       "authorLabel": "Autor",
       "authorTitle": "A Janela Silenciosa",
-      "authorBody": "\"Antes — A Janela Silenciosa entre o Normal e o Ótimo\" (2026).",
+      "authorBody": "\"Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida\" (2026).",
       "speakerLabel": "Palestrante",
       "speakerTitle": "Palestras nacionais",
       "speakerBody": "Palestras para médicos, residentes e plateias corporativas — sobre prevenção que começa antes."
@@ -62,10 +62,11 @@
       "kicker": "Livro · 2026",
       "titleLine1": "Antes — A Janela Silenciosa",
       "titleLine2": "entre o Normal e o Ótimo",
+      "titleSubtitle": "— onde a saúde é decidida",
       "quote": "Entre o que o laboratório chama de normal e o que o corpo consegue como ótimo, existem dez a vinte anos de janela silenciosa.",
       "isbn": "ISBN 978-65-02-06742-0",
       "cta": "Ler o livro →",
-      "coverAlt": "ANTES — A Janela Silenciosa entre o Normal e o Ótimo"
+      "coverAlt": "ANTES: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida"
     },
     "clinics": {
       "sectionLabel": "Onde atendo",
@@ -128,12 +129,12 @@
     ]
   },
   "book": {
-    "metaTitle": "Antes — A Janela Silenciosa",
-    "metaDescription": "Antes — A Janela Silenciosa entre o Normal e o Ótimo. Livro do Dr. Getúlio Amaral Filho sobre os dez a vinte anos em que a longevidade é construída ou perdida.",
-    "coverAlt": "Capa do livro Antes — A Janela Silenciosa entre o Normal e o Ótimo",
+    "metaTitle": "Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida",
+    "metaDescription": "Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida. Livro do Dr. Getúlio Amaral Filho sobre os dez a vinte anos em que a longevidade é construída ou perdida.",
+    "coverAlt": "Capa do livro Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida",
     "kicker": "Livro · 2026",
     "h1Title": "Antes",
-    "h1Subtitle": "A Janela Silenciosa entre o Normal e o Ótimo",
+    "h1Subtitle": "A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida",
     "lead1": "A medicina brasileira se tornou excelente em tratar doença instalada — e ruim em prever o que está chegando. Entre a saúde que o laboratório reconhece e a doença que o médico trata existe uma janela silenciosa de dez a vinte anos, onde a longevidade é construída ou perdida.",
     "lead2": "Baseado em vinte anos de prática clínica, este livro mostra o painel ampliado de biomarcadores que o check-up convencional ignora, o método AGIR de quatro pilares, e a Regra dos Dois — a única forma de mudança de hábito que produz resultado mensurável em três meses.",
     "isbnLine": "ISBN 978-65-02-06742-0 · 2026",
@@ -159,7 +160,7 @@
     ],
     "buyKicker": "Onde comprar",
     "buyH2": "Disponível na Amazon.",
-    "buyBody": "Antes — A Janela Silenciosa entre o Normal e o Ótimo está à venda em formato impresso e Kindle. Edição em português do Brasil.",
+    "buyBody": "Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida está à venda em formato impresso e Kindle. Edição em português do Brasil.",
     "buyCta": "Comprar na Amazon →",
     "heroBuyCta": "Comprar na Amazon →",
     "amazonUrl": "https://a.co/d/0ecpyntK"
