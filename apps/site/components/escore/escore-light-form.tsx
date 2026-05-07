@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import type {
   LightConfig,
   LightItemConfig,
@@ -41,10 +42,7 @@ const CINTURA_ITEM_IDS = {
   female: 'c77cedd3-2800-7a74-99ad-56ca4b6dddc1',
 } as const;
 
-const DERIVED_NOTES: Record<string, string> = {
-  [DERIVED_ITEM_IDS.IMC]: 'Calculado automaticamente a partir do seu peso e altura.',
-  [DERIVED_ITEM_IDS.WAIST_HEIGHT_RATIO]: 'Calculado automaticamente a partir da sua cintura e altura.',
-};
+// DERIVED_NOTES agora vem de t() — chaves: formDerivedBMI / formDerivedWaistHeight
 
 function isDerivedItem(itemId: string): boolean {
   return (Object.values(DERIVED_ITEM_IDS) as string[]).includes(itemId);
@@ -106,7 +104,13 @@ export function EscoreLightForm({
   locale: string;
   tierLabel?: string;
 }) {
+  const t = useTranslations('escoreLight');
   const router = useRouter();
+  const derivedNote = (id: string): string | undefined => {
+    if (id === DERIVED_ITEM_IDS.IMC) return t('formDerivedBMI');
+    if (id === DERIVED_ITEM_IDS.WAIST_HEIGHT_RATIO) return t('formDerivedWaistHeight');
+    return undefined;
+  };
   const [step, setStep] = useState<string>(STEP_INTRO);
   const [demo, setDemo] = useState<Demographics>({
     age: '',
@@ -250,7 +254,7 @@ export function EscoreLightForm({
     setSubmitError(null);
     try {
       if (typeof demo.age !== 'number' || !demo.gender) {
-        throw new Error('Dados demográficos incompletos');
+        throw new Error(t('formErrorIncompleteDemo'));
       }
       // Só envia respostas de fato preenchidas — items em branco ficam fora do cálculo
       const validResponses = Object.values(responses).filter(
@@ -260,7 +264,7 @@ export function EscoreLightForm({
           (r.textValue !== undefined && r.textValue !== ''),
       );
       if (validResponses.length === 0) {
-        throw new Error('Responda pelo menos uma pergunta para gerar seu radar.');
+        throw new Error(t('formErrorAnswerOne'));
       }
       const utm = utmToPayload(captureUTMFromURL());
       const payload = {
@@ -275,7 +279,7 @@ export function EscoreLightForm({
       const session = await createSession(payload);
       router.push(`/${locale}/escore-plenya/resultado/${session.publicCode}`);
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Falha ao enviar respostas');
+      setSubmitError(err instanceof Error ? err.message : t('formErrorSubmit'));
       setSubmitting(false);
     }
   }
@@ -293,8 +297,8 @@ export function EscoreLightForm({
     };
 
     const dots: ProgressDot[] = [
-      { key: 'intro', label: 'Início', reached: currentStepIndex >= 0 },
-      { key: 'demo', label: 'Sobre você', reached: currentStepIndex >= 1, onClick: () => setStep(STEP_DEMO) },
+      { key: 'intro', label: t('formProgressIntro'), reached: currentStepIndex >= 0 },
+      { key: 'demo', label: t('formProgressDemo'), reached: currentStepIndex >= 1, onClick: () => setStep(STEP_DEMO) },
       ...groupSteps.map((g, i) => ({
         key: g.id,
         label: g.name,
@@ -362,29 +366,27 @@ export function EscoreLightForm({
     <div className="space-y-8 max-w-2xl">
       <p className="label-upper text-gold">{tierLabel}</p>
       <h1 className="heading-section text-petrol text-3xl md:text-4xl leading-tight">
-        Uma fotografia clara da sua saúde — em poucas perguntas.
+        {t('formIntroTitle')}
       </h1>
       <p className="text-petrol/80 text-lg leading-relaxed">
-        Esta é a versão pública do Escore Plenya. Você responde até {config.itemCount} perguntas
-        sobre hábitos, histórico e medidas básicas. Ao final, recebe um radar com sua
-        pontuação em cada pilar do Método AGIR.
+        {t('formIntroDescPart1')}{config.itemCount}{t('formIntroDescPart2')}
       </p>
       <ul className="space-y-3 text-petrol/70">
         <li className="flex gap-3">
           <span className="text-gold">—</span>
-          <span><strong className="text-petrol">Todas as perguntas são opcionais.</strong> Pule o que não souber, não tiver resultado em mãos ou preferir não responder. O radar é calculado só com o que você responder.</span>
+          <span><strong className="text-petrol">{t('formIntroBullet1Strong')}</strong>{t('formIntroBullet1Rest')}</span>
         </li>
         <li className="flex gap-3">
           <span className="text-gold">—</span>
-          <span>10 a 15 minutos. Anônimo. Sem cadastro.</span>
+          <span>{t('formIntroBullet2')}</span>
         </li>
         <li className="flex gap-3">
           <span className="text-gold">—</span>
-          <span>Você pode salvar o resultado por email no final, se quiser.</span>
+          <span>{t('formIntroBullet3')}</span>
         </li>
         <li className="flex gap-3">
           <span className="text-gold">—</span>
-          <span>Não substitui consulta médica. É um ponto de partida para a conversa.</span>
+          <span>{t('formIntroBullet4')}</span>
         </li>
       </ul>
       {/* Consentimento LGPD obrigatório (art. 11 §1º — dados sensíveis exigem consentimento específico) */}
@@ -397,17 +399,17 @@ export function EscoreLightForm({
             className="mt-1 w-4 h-4 accent-gold cursor-pointer"
           />
           <span className="text-petrol/80 text-sm leading-relaxed">
-            Li e aceito a{' '}
+            {t('formConsentPart1')}
             <a href={`/${locale}/privacidade`} target="_blank" rel="noopener noreferrer" className="text-gold underline underline-offset-4">
-              Política de Privacidade
-            </a>{' '}
-            e os{' '}
+              {t('formConsentPrivacyLink')}
+            </a>
+            {t('formConsentPart2')}
             <a href={`/${locale}/termos`} target="_blank" rel="noopener noreferrer" className="text-gold underline underline-offset-4">
-              Termos de Uso
-            </a>. Entendo que estou compartilhando dados sobre minha saúde (categoria
-            sensível, art. 5º II da LGPD) para gerar uma autoavaliação anônima, que esta
-            ferramenta <strong>não é diagnóstico médico</strong>, e que posso solicitar a
-            exclusão dos meus dados a qualquer momento.
+              {t('formConsentTermsLink')}
+            </a>
+            {t('formConsentPart3')}
+            <strong>{t('formConsentNotDiagnosis')}</strong>
+            {t('formConsentPart4')}
           </span>
         </label>
       </div>
@@ -417,9 +419,9 @@ export function EscoreLightForm({
           onClick={goNext}
           disabled={!consentAccepted}
           className={`btn-gold ${!consentAccepted ? 'opacity-40 cursor-not-allowed' : ''}`}
-          title={!consentAccepted ? 'Aceite a Política e os Termos para começar' : undefined}
+          title={!consentAccepted ? t('formIntroConsentRequired') : undefined}
         >
-          Começar
+          {t('formIntroStart')}
         </button>
       </div>
     </div>
@@ -427,14 +429,14 @@ export function EscoreLightForm({
 
   const renderDemographics = () => (
     <div className="space-y-8 max-w-xl">
-      <p className="label-upper text-gold">Sobre você</p>
+      <p className="label-upper text-gold">{t('formDemoLabel')}</p>
       <h2 className="heading-section text-petrol text-2xl md:text-3xl">
-        Algumas informações básicas para personalizar a avaliação.
+        {t('formDemoTitle')}
       </h2>
 
       <div className="space-y-6">
         <label className="block">
-          <span className="block text-petrol/80 mb-2">Idade</span>
+          <span className="block text-petrol/80 mb-2">{t('formDemoAge')}</span>
           <input
             type="number"
             min={18}
@@ -444,12 +446,12 @@ export function EscoreLightForm({
               setDemo({ ...demo, age: e.target.value === '' ? '' : Number(e.target.value) })
             }
             className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
-            placeholder="Ex: 47"
+            placeholder={t('formDemoAgePlaceholder')}
           />
         </label>
 
         <fieldset>
-          <legend className="block text-petrol/80 mb-3">Sexo biológico</legend>
+          <legend className="block text-petrol/80 mb-3">{t('formDemoGender')}</legend>
           <div className="flex gap-3">
             {(['male', 'female', 'other'] as const).map((g) => (
               <button
@@ -462,7 +464,11 @@ export function EscoreLightForm({
                     : 'bg-cream text-petrol border-petrol/20 hover:border-petrol/50'
                 }`}
               >
-                {g === 'male' ? 'Masculino' : g === 'female' ? 'Feminino' : 'Outro'}
+                {g === 'male'
+                  ? t('formDemoGenderMale')
+                  : g === 'female'
+                  ? t('formDemoGenderFemale')
+                  : t('formDemoGenderOther')}
               </button>
             ))}
           </div>
@@ -470,7 +476,7 @@ export function EscoreLightForm({
 
         <div className="grid grid-cols-2 gap-4">
           <label className="block">
-            <span className="block text-petrol/80 mb-2">Altura (cm) — opcional</span>
+            <span className="block text-petrol/80 mb-2">{t('formDemoHeight')}</span>
             <input
               type="number"
               value={demo.height}
@@ -481,11 +487,11 @@ export function EscoreLightForm({
                 })
               }
               className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
-              placeholder="Ex: 170"
+              placeholder={t('formDemoHeightPlaceholder')}
             />
           </label>
           <label className="block">
-            <span className="block text-petrol/80 mb-2">Peso (kg) — opcional</span>
+            <span className="block text-petrol/80 mb-2">{t('formDemoWeight')}</span>
             <input
               type="number"
               value={demo.weight}
@@ -496,7 +502,7 @@ export function EscoreLightForm({
                 })
               }
               className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
-              placeholder="Ex: 72"
+              placeholder={t('formDemoWeightPlaceholder')}
             />
           </label>
         </div>
@@ -504,14 +510,14 @@ export function EscoreLightForm({
 
       <div className="flex items-center gap-4 pt-6">
         <button onClick={goBack} className="text-petrol/60 hover:text-petrol transition underline-offset-4 hover:underline">
-          ← Voltar
+          {t('formBack')}
         </button>
         <button
           onClick={goNext}
           disabled={!demoIsValid}
           className={`btn-gold ${!demoIsValid ? 'opacity-40 cursor-not-allowed' : ''}`}
         >
-          Continuar
+          {t('formContinue')}
         </button>
       </div>
     </div>
@@ -532,7 +538,7 @@ export function EscoreLightForm({
           <h2 className="heading-section text-petrol text-2xl md:text-3xl">{group.name}</h2>
         </div>
         <p className="text-petrol/60 text-sm">
-          Todas opcionais — responda só o que souber ou quiser.
+          {t('formGroupOptional')}
         </p>
         {isLabsGroup && (
           <LabPDFUpload
@@ -556,7 +562,7 @@ export function EscoreLightForm({
         </div>
         <div className="flex items-center gap-4 pt-6">
           <button onClick={goBack} className="text-petrol/60 hover:text-petrol transition underline-offset-4 hover:underline">
-            ← Voltar
+            {t('formBack')}
           </button>
           <button
             onClick={goNext}
@@ -566,13 +572,13 @@ export function EscoreLightForm({
                 ? 'opacity-40 cursor-not-allowed'
                 : ''
             }`}
-            title={isLastGroup && responseCount === 0 ? 'Responda pelo menos uma pergunta' : undefined}
+            title={isLastGroup && responseCount === 0 ? t('formGroupOneRequired') : undefined}
           >
             {submitting
-              ? 'Enviando...'
+              ? t('formSubmitting')
               : isLastGroup
-              ? `Ver meu resultado${responseCount > 0 ? ` (${responseCount})` : ''}`
-              : 'Continuar'}
+              ? `${t('formSeeResult')}${responseCount > 0 ? ` (${responseCount})` : ''}`
+              : t('formContinue')}
           </button>
         </div>
         {submitError && <p className="text-red-700 text-sm">{submitError}</p>}
@@ -594,7 +600,7 @@ export function EscoreLightForm({
         <div key={item.id} className="border-t border-petrol/15 pt-6">
           <div className="flex items-baseline justify-between gap-3 mb-4">
             <p className="text-petrol text-lg leading-relaxed">
-              Como você tem se sentido nas últimas 2 semanas? <span className="text-petrol/50 text-base">(escala PHQ-9)</span>
+              {t('formPhq9Question')} <span className="text-petrol/50 text-base">{t('formPhq9Scale')}</span>
             </p>
             <button
               type="button"
@@ -606,9 +612,9 @@ export function EscoreLightForm({
                   ? 'text-petrol/40 hover:text-petrol/80 cursor-pointer'
                   : 'text-transparent pointer-events-none select-none'
               }`}
-              title={hasResponse ? 'Limpar resposta' : ''}
+              title={hasResponse ? t('formClearResponse') : ''}
             >
-              limpar
+              {t('formClear')}
             </button>
           </div>
           <PHQ9Widget
@@ -635,9 +641,9 @@ export function EscoreLightForm({
                 ? 'text-petrol/40 hover:text-petrol/80 cursor-pointer'
                 : 'text-transparent pointer-events-none select-none'
             }`}
-            title={hasResponse ? 'Limpar resposta' : ''}
+            title={hasResponse ? t('formClearResponse') : ''}
           >
-            limpar
+            {t('formClear')}
           </button>
         </div>
         {instructionType && <ItemInstruction type={instructionType} />}
@@ -646,7 +652,7 @@ export function EscoreLightForm({
             item={item}
             value={resp?.numericValue}
             readOnly={isDerivedItem(item.id)}
-            derivedNote={isDerivedItem(item.id) ? DERIVED_NOTES[item.id] : undefined}
+            derivedNote={isDerivedItem(item.id) ? derivedNote(item.id) : undefined}
             onChange={(v) => {
               if (v === undefined) {
                 clearResponse(item.id);
@@ -698,7 +704,7 @@ export function EscoreLightForm({
                 }
               }}
               className="flex-1 border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
-              placeholder={item.unit ?? 'Valor numérico (opcional)'}
+              placeholder={item.unit ?? t('formNumericPlaceholder')}
             />
             {item.unit && <span className="text-petrol/60">{item.unit}</span>}
           </div>
