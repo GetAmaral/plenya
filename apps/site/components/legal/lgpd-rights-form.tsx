@@ -10,19 +10,24 @@
  * fica no email do próprio titular (transparência).
  */
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
-const RIGHTS = [
-  { id: 'access', label: 'Confirmação e acesso aos meus dados', desc: 'Saber que dados a Plenya tem sobre mim e obter cópia.' },
-  { id: 'correct', label: 'Correção de dados', desc: 'Corrigir informações incompletas, inexatas ou desatualizadas.' },
-  { id: 'delete', label: 'Exclusão dos meus dados', desc: 'Eliminar dados pessoais tratados com meu consentimento.' },
-  { id: 'anonymize', label: 'Anonimização ou bloqueio', desc: 'Anonimizar ou bloquear dados desnecessários ou tratados em desconformidade.' },
-  { id: 'portability', label: 'Portabilidade dos meus dados', desc: 'Receber meus dados em formato estruturado para transferir a outro serviço.' },
-  { id: 'sharing', label: 'Informação sobre compartilhamento', desc: 'Saber com quais entidades a Plenya compartilhou meus dados.' },
-  { id: 'revoke', label: 'Revogação do consentimento', desc: 'Retirar consentimento previamente concedido.' },
-  { id: 'other', label: 'Outro', desc: 'Descreva no campo de detalhes abaixo.' },
-];
+const RIGHT_IDS = ['access', 'correct', 'delete', 'anonymize', 'portability', 'sharing', 'revoke', 'other'] as const;
+type RightId = (typeof RIGHT_IDS)[number];
+
+const RIGHT_KEY: Record<RightId, { labelKey: string; descKey: string }> = {
+  access: { labelKey: 'rightAccessLabel', descKey: 'rightAccessDesc' },
+  correct: { labelKey: 'rightCorrectLabel', descKey: 'rightCorrectDesc' },
+  delete: { labelKey: 'rightDeleteLabel', descKey: 'rightDeleteDesc' },
+  anonymize: { labelKey: 'rightAnonymizeLabel', descKey: 'rightAnonymizeDesc' },
+  portability: { labelKey: 'rightPortabilityLabel', descKey: 'rightPortabilityDesc' },
+  sharing: { labelKey: 'rightSharingLabel', descKey: 'rightSharingDesc' },
+  revoke: { labelKey: 'rightRevokeLabel', descKey: 'rightRevokeDesc' },
+  other: { labelKey: 'rightOtherLabel', descKey: 'rightOtherDesc' },
+};
 
 export function LGPDRightsForm({ dpoEmail }: { dpoEmail: string }) {
+  const t = useTranslations('lgpdRights');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [right, setRight] = useState<string>('');
@@ -35,23 +40,22 @@ export function LGPDRightsForm({ dpoEmail }: { dpoEmail: string }) {
     e.preventDefault();
     if (!isValid) return;
 
-    const rightLabel = RIGHTS.find((r) => r.id === right)?.label ?? right;
+    const rightLabel = right in RIGHT_KEY ? t(RIGHT_KEY[right as RightId].labelKey) : right;
 
-    const subject = `[LGPD] ${rightLabel} — ${name}`;
-    const body = `Solicitação de exercício de direito do titular (LGPD art. 18)
+    const subject = t('emailSubject', { right: rightLabel, name });
+    const body = `${t('emailHeader')}
 
-Direito solicitado: ${rightLabel}
+${t('emailRightLabel')}: ${rightLabel}
 
-Solicitante:
-- Nome: ${name}
-- Email/identificador: ${email}
-${sessionCode ? `- Código da sessão Light (se aplicável): ${sessionCode}\n` : ''}
-Detalhes adicionais:
-${details || '(nenhum)'}
+${t('emailRequester')}:
+- ${t('emailRequesterName')}: ${name}
+- ${t('emailRequesterEmail')}: ${email}
+${sessionCode ? `- ${t('emailSessionCode')}: ${sessionCode}\n` : ''}
+${t('emailDetails')}:
+${details || t('emailDetailsNone')}
 
 ---
-Solicitação enviada via formulário em /lgpd/direitos.
-Resposta esperada em até 15 dias úteis (LGPD art. 19).
+${t('emailFooter')}
 `;
 
     window.location.href = `mailto:${dpoEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -61,22 +65,22 @@ Resposta esperada em até 15 dias úteis (LGPD art. 19).
     <form onSubmit={handleSubmit} className="space-y-6 border border-petrol/15 bg-paper p-6 rounded-md">
       <div>
         <label className="block text-petrol/80 mb-2 text-sm font-medium">
-          Qual direito você quer exercer? <span className="text-red-600">*</span>
+          {t('formRightQuestion')} <span className="text-red-600">*</span>
         </label>
         <div className="space-y-2">
-          {RIGHTS.map((r) => (
-            <label key={r.id} className="flex gap-3 items-start cursor-pointer hover:bg-cream/60 p-2 rounded transition">
+          {RIGHT_IDS.map((id) => (
+            <label key={id} className="flex gap-3 items-start cursor-pointer hover:bg-cream/60 p-2 rounded transition">
               <input
                 type="radio"
                 name="right"
-                value={r.id}
-                checked={right === r.id}
-                onChange={() => setRight(r.id)}
+                value={id}
+                checked={right === id}
+                onChange={() => setRight(id)}
                 className="mt-1 accent-gold"
               />
               <span>
-                <span className="text-petrol font-medium block">{r.label}</span>
-                <span className="text-petrol/60 text-sm">{r.desc}</span>
+                <span className="text-petrol font-medium block">{t(RIGHT_KEY[id].labelKey)}</span>
+                <span className="text-petrol/60 text-sm">{t(RIGHT_KEY[id].descKey)}</span>
               </span>
             </label>
           ))}
@@ -86,7 +90,7 @@ Resposta esperada em até 15 dias úteis (LGPD art. 19).
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-petrol/80 mb-2 text-sm font-medium">
-            Seu nome <span className="text-red-600">*</span>
+            {t('formNameLabel')} <span className="text-red-600">*</span>
           </label>
           <input
             type="text"
@@ -98,7 +102,7 @@ Resposta esperada em até 15 dias úteis (LGPD art. 19).
         </div>
         <div>
           <label className="block text-petrol/80 mb-2 text-sm font-medium">
-            Seu email <span className="text-red-600">*</span>
+            {t('formEmailLabel')} <span className="text-red-600">*</span>
           </label>
           <input
             type="email"
@@ -106,45 +110,44 @@ Resposta esperada em até 15 dias úteis (LGPD art. 19).
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
-            placeholder="usado para identificá-lo e responder"
+            placeholder={t('formEmailPlaceholder')}
           />
         </div>
       </div>
 
       <div>
         <label className="block text-petrol/80 mb-2 text-sm font-medium">
-          Código da sua sessão Light (opcional)
+          {t('formSessionCodeLabel')}
         </label>
         <input
           type="text"
           value={sessionCode}
           onChange={(e) => setSessionCode(e.target.value)}
-          placeholder="ex: jG5RAMX2089a — encontre na URL do seu radar"
+          placeholder={t('formSessionCodePlaceholder')}
           className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none font-mono text-sm"
         />
         <p className="text-petrol/55 text-xs mt-1">
-          Se você fez o Escore Plenya Light e quer agir sobre essa sessão, informe o
-          código que aparece na URL do seu radar (ex.: <code>/resultado/<strong>jG5RAMX2089a</strong></code>).
+          {t('formSessionCodeHelpPart1')}
+          <code>/resultado/<strong>jG5RAMX2089a</strong></code>
+          {t('formSessionCodeHelpPart2')}
         </p>
       </div>
 
       <div>
         <label className="block text-petrol/80 mb-2 text-sm font-medium">
-          Detalhes adicionais
+          {t('formDetailsLabel')}
         </label>
         <textarea
           value={details}
           onChange={(e) => setDetails(e.target.value)}
           rows={4}
           className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
-          placeholder="opcional — descreva a solicitação com mais detalhes"
+          placeholder={t('formDetailsPlaceholder')}
         />
       </div>
 
       <div className="bg-cream border-l-2 border-gold pl-3 py-2 text-petrol/70 text-xs">
-        Ao enviar, abrirá seu cliente de email com a mensagem pré-preenchida. Você
-        confere e envia da sua caixa — assim mantemos um registro claro da solicitação
-        em seu próprio email.
+        {t('formNotice')}
       </div>
 
       <div>
@@ -153,7 +156,7 @@ Resposta esperada em até 15 dias úteis (LGPD art. 19).
           disabled={!isValid}
           className={`btn-gold ${!isValid ? 'opacity-40 cursor-not-allowed' : ''}`}
         >
-          Preparar email para o Encarregado
+          {t('formSubmit')}
         </button>
       </div>
     </form>

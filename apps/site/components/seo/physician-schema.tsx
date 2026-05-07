@@ -2,6 +2,20 @@ import { brand } from '@plenya/brand';
 
 export function PhysicianSchema({ locale = 'pt' }: { locale?: string } = {}) {
   const isEn = locale === 'en';
+  // Nomes oficiais de instituições brasileiras: PT como nome canônico,
+  // EN incluído como tradução paralela para clareza em buscas internacionais.
+  const crmCouncil = isEn
+    ? 'Regional Medical Council of Paraná (CRM-PR)'
+    : 'Conselho Regional de Medicina do Paraná';
+  const rqeCredentialName = isEn
+    ? 'Specialist Registration — Nephrology (RQE 16.038)'
+    : 'Registro de Qualificação de Especialista — Nefrologia (RQE 16.038)';
+  const sbnName = isEn ? 'Brazilian Society of Nephrology' : 'Sociedade Brasileira de Nefrologia';
+  const abmfiName = isEn
+    ? 'Brazilian Association of Integrative Functional Medicine'
+    : 'Associação Brasileira de Medicina Funcional Integrativa';
+  const country = isEn ? 'Brazil' : 'Brasil';
+  const procedureType = isEn ? 'Private' : 'Particular';
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Physician',
@@ -26,28 +40,28 @@ export function PhysicianSchema({ locale = 'pt' }: { locale?: string } = {}) {
       {
         '@type': 'EducationalOccupationalCredential',
         credentialCategory: 'license',
-        recognizedBy: { '@type': 'Organization', name: 'Conselho Regional de Medicina do Paraná' },
+        recognizedBy: { '@type': 'Organization', name: crmCouncil },
         name: 'CRM-PR 21.876',
       },
       {
         '@type': 'EducationalOccupationalCredential',
         credentialCategory: 'specialty',
-        name: 'Registro de Qualificação de Especialista — Nefrologia (RQE 16.038)',
+        name: rqeCredentialName,
       },
     ],
     memberOf: [
-      { '@type': 'Organization', name: 'Sociedade Brasileira de Nefrologia' },
-      { '@type': 'Organization', name: 'Associação Brasileira de Medicina Funcional Integrativa' },
+      { '@type': 'Organization', name: sbnName },
+      { '@type': 'Organization', name: abmfiName },
     ],
     worksFor: { '@type': 'MedicalClinic', '@id': `${brand.url}/#clinic` },
     areaServed: [
-      { '@type': 'Country', name: 'Brasil' },
+      { '@type': 'Country', name: country },
       { '@type': 'AdministrativeArea', name: 'Paraná' },
       { '@type': 'City', name: 'Londrina' },
     ],
     availableService: [
-      { '@type': 'MedicalProcedure', name: 'Consulta Plenya', procedureType: 'Particular' },
-      { '@type': 'MedicalProcedure', name: 'Continuum Plenya', procedureType: 'Particular' },
+      { '@type': 'MedicalProcedure', name: 'Consulta Plenya', procedureType },
+      { '@type': 'MedicalProcedure', name: 'Continuum Plenya', procedureType },
     ],
     sameAs: [
       'https://drgetulioamaralfilho.com.br',

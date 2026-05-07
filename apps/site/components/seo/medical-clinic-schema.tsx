@@ -43,7 +43,7 @@ export function MedicalClinicSchema({ locale = 'pt' }: { locale?: string } = {})
       'https://instagram.com/drGetulioAmaralFilho',
     ],
     priceRange: '$$$',
-    paymentAccepted: ['Particular', 'PIX', 'Cartão'],
+    paymentAccepted: isEn ? ['Self-pay', 'PIX', 'Card'] : ['Particular', 'PIX', 'Cartão'],
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
