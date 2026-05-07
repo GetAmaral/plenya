@@ -219,7 +219,6 @@
     "breadcrumbCurrent": "Como consultar",
     "consultsKicker": "Atendimento ambulatorial",
     "consultsLead": "Duas vias de consulta. Cada uma com um foco clínico distinto:",
-    "scheduleHere": "Agendar nesta clínica ↗",
     "hospitalKicker": "Atuação hospitalar",
     "hospitalLead": "Responsabilidade técnica em duas unidades de hemodiálise. Estes não são canais de consulta ambulatorial — listados aqui apenas para informação completa sobre minha atuação.",
     "patientHelpKicker": "Em dúvida sobre qual via?",
@@ -227,22 +226,43 @@
     "outrosCanaisKicker": "Outros canais",
     "outrosCanaisBody": "Para palestras, imprensa ou demandas que não sejam consulta clínica, use os canais correspondentes em ",
     "outrosCanaisLink": "Contato",
+    "labelAddress": "Endereço",
+    "labelWhatsApp": "WhatsApp",
+    "labelSite": "Site",
+    "labelInstagram": "Instagram",
+    "labelEmail": "Email",
+    "labelDirections": "Como chegar ↗",
+    "labelOpenSite": "Abrir site ↗",
+    "ctaWhatsApp": "Conversar no WhatsApp ↗",
+    "ctaSite": "Agendar pelo site ↗",
     "consultas": [
       {
         "name": "Plenya",
         "role": "Direção clínica",
         "tagline": "Para longevidade, prevenção e medicina funcional",
         "body": "Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Aqui eu atuo como médico-gestor da sua saúde — articulando o cuidado entre a equipe Plenya e os profissionais que você já consulta fora da clínica.",
-        "address": "Londrina · Paraná",
-        "href": "https://plenyasaude.com.br"
+        "address": "Av. Duque de Caxias, 1371 — Londrina/PR",
+        "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
+        "whatsappUrl": "",
+        "whatsappLabel": "",
+        "siteUrl": "https://plenyasaude.com.br",
+        "instagramUrl": "https://instagram.com/plenyaSaude",
+        "instagramHandle": "@plenyaSaude",
+        "email": "contato@plenyasaude.com.br"
       },
       {
         "name": "Nefroclínica Londrina",
         "role": "Sócio",
         "tagline": "Para nefrologia clínica especializada",
         "body": "Nefrologia clínica em Londrina há quatro décadas. Atendimento de doença renal crônica, hipertensão de difícil controle, distúrbios eletrolíticos e acompanhamento pré-diálise.",
-        "address": "Londrina · Paraná",
-        "href": "https://nefroclinica.com"
+        "address": "Av. Duque de Caxias, 1371 — Londrina/PR",
+        "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
+        "whatsappUrl": "https://wa.me/5543996380044",
+        "whatsappLabel": "+55 43 99638-0044",
+        "siteUrl": "https://nefroclinica.com",
+        "instagramUrl": "",
+        "instagramHandle": "",
+        "email": ""
       }
     ],
     "hospital": [

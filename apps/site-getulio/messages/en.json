@@ -219,7 +219,6 @@
     "breadcrumbCurrent": "How to consult",
     "consultsKicker": "Outpatient practice",
     "consultsLead": "Two consultation pathways, each with a distinct clinical focus:",
-    "scheduleHere": "Book at this clinic ↗",
     "hospitalKicker": "Hospital practice",
     "hospitalLead": "Technical responsibility at two hemodialysis units. These are not outpatient consultation channels — listed here only for full transparency on the scope of my practice.",
     "patientHelpKicker": "Not sure which pathway?",
@@ -227,22 +226,43 @@
     "outrosCanaisKicker": "Other channels",
     "outrosCanaisBody": "For lectures, press or non-clinical inquiries, use the dedicated channels on ",
     "outrosCanaisLink": "Contact",
+    "labelAddress": "Address",
+    "labelWhatsApp": "WhatsApp",
+    "labelSite": "Website",
+    "labelInstagram": "Instagram",
+    "labelEmail": "Email",
+    "labelDirections": "Get directions ↗",
+    "labelOpenSite": "Open website ↗",
+    "ctaWhatsApp": "Chat on WhatsApp ↗",
+    "ctaSite": "Book on the website ↗",
     "consultas": [
       {
         "name": "Plenya",
         "role": "Clinical director",
         "tagline": "For longevity, prevention and functional medicine",
         "body": "Preventive health and longevity program. Integrative functional medicine, with a multidisciplinary team (physician, nutritionist, psychologist, exercise physiologist) working the same patient under the same plan. Here I serve as your care-managing physician — coordinating care between the Plenya team and the professionals you already see outside the clinic.",
-        "address": "Londrina · Paraná, Brazil",
-        "href": "https://plenyasaude.com.br"
+        "address": "Av. Duque de Caxias, 1371 — Londrina/PR, Brazil",
+        "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
+        "whatsappUrl": "",
+        "whatsappLabel": "",
+        "siteUrl": "https://plenyasaude.com.br",
+        "instagramUrl": "https://instagram.com/plenyaSaude",
+        "instagramHandle": "@plenyaSaude",
+        "email": "contato@plenyasaude.com.br"
       },
       {
         "name": "Nefroclínica Londrina",
         "role": "Partner",
         "tagline": "For specialized clinical nephrology",
         "body": "Clinical nephrology in Londrina for four decades. Care for chronic kidney disease, treatment-resistant hypertension, electrolyte disorders and pre-dialysis follow-up.",
-        "address": "Londrina · Paraná, Brazil",
-        "href": "https://nefroclinica.com"
+        "address": "Av. Duque de Caxias, 1371 — Londrina/PR, Brazil",
+        "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
+        "whatsappUrl": "https://wa.me/5543996380044",
+        "whatsappLabel": "+55 43 99638-0044",
+        "siteUrl": "https://nefroclinica.com",
+        "instagramUrl": "",
+        "instagramHandle": "",
+        "email": ""
       }
     ],
     "hospital": [

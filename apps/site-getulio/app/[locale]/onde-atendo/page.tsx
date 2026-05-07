@@ -11,7 +11,13 @@ type ConsultClinic = {
   tagline: string;
   body: string;
   address: string;
-  href: string;
+  mapsUrl: string;
+  whatsappUrl: string;
+  whatsappLabel: string;
+  siteUrl: string;
+  instagramUrl: string;
+  instagramHandle: string;
+  email: string;
 };
 
 type HospitalUnit = {
@@ -89,28 +95,120 @@ export default async function OndeAtendoPage({
 
           <div className="grid md:grid-cols-2 gap-10 lg:gap-14">
             {consultas.map((c) => (
-              <a
+              <article
                 key={c.name}
-                href={c.href}
-                target="_blank"
-                rel="noreferrer"
-                className="group block bg-paper border border-rule p-8 md:p-10 hover:border-bordo transition-colors"
+                className="bg-paper border border-rule p-8 md:p-10 flex flex-col"
               >
                 <div className="space-y-5">
                   <p className="label-meta text-bordo">{c.role}</p>
-                  <h2 className="heading-section text-2xl md:text-3xl text-ink group-hover:text-bordo transition-colors">
+                  <h2 className="heading-section text-2xl md:text-3xl text-ink">
                     {c.name}
                   </h2>
                   <p className="font-serif italic text-ink-muted text-lg leading-snug">
                     {c.tagline}
                   </p>
                   <p className="font-serif text-ink-soft leading-relaxed">{c.body}</p>
-                  <p className="font-sans text-sm text-ink-muted">{c.address}</p>
-                  <p className="font-sans text-sm text-bordo group-hover:underline pt-2">
-                    {t('scheduleHere')}
-                  </p>
                 </div>
-              </a>
+
+                {/* Bloco de contato — endereço, WhatsApp, site, Instagram */}
+                <dl className="mt-6 pt-6 border-t border-rule grid grid-cols-[110px_1fr] gap-x-4 gap-y-3 text-sm">
+                  <dt className="label-meta text-ink-muted">{t('labelAddress')}</dt>
+                  <dd className="font-serif text-ink-soft">
+                    <p>{c.address}</p>
+                    {c.mapsUrl && (
+                      <a
+                        href={c.mapsUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="link-text font-sans text-xs"
+                      >
+                        {t('labelDirections')}
+                      </a>
+                    )}
+                  </dd>
+
+                  {c.whatsappUrl && c.whatsappLabel && (
+                    <>
+                      <dt className="label-meta text-ink-muted">{t('labelWhatsApp')}</dt>
+                      <dd>
+                        <a
+                          href={c.whatsappUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="link-text font-mono text-sm"
+                        >
+                          {c.whatsappLabel}
+                        </a>
+                      </dd>
+                    </>
+                  )}
+
+                  <dt className="label-meta text-ink-muted">{t('labelSite')}</dt>
+                  <dd>
+                    <a
+                      href={c.siteUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="link-text font-sans"
+                    >
+                      {c.siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                    </a>
+                  </dd>
+
+                  {c.instagramUrl && c.instagramHandle && (
+                    <>
+                      <dt className="label-meta text-ink-muted">{t('labelInstagram')}</dt>
+                      <dd>
+                        <a
+                          href={c.instagramUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="link-text font-sans"
+                        >
+                          {c.instagramHandle}
+                        </a>
+                      </dd>
+                    </>
+                  )}
+
+                  {c.email && (
+                    <>
+                      <dt className="label-meta text-ink-muted">{t('labelEmail')}</dt>
+                      <dd>
+                        <a
+                          href={`mailto:${c.email}`}
+                          className="link-text font-sans break-all"
+                        >
+                          {c.email}
+                        </a>
+                      </dd>
+                    </>
+                  )}
+                </dl>
+
+                {/* CTA primário: WhatsApp se existir, senão site */}
+                <div className="mt-6">
+                  {c.whatsappUrl ? (
+                    <a
+                      href={c.whatsappUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn-gold w-full text-center block"
+                    >
+                      {t('ctaWhatsApp')}
+                    </a>
+                  ) : (
+                    <a
+                      href={c.siteUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn-gold w-full text-center block"
+                    >
+                      {t('ctaSite')}
+                    </a>
+                  )}
+                </div>
+              </article>
             ))}
           </div>
         </div>
