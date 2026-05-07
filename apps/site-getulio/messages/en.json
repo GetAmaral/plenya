@@ -252,6 +252,26 @@
     "localKicker": "Location",
     "localValue": "Londrina · Paraná · Brazil"
   },
+  "palestras": {
+    "metaTitle": "Lectures",
+    "metaDescription": "Lectures by Dr. Getúlio Amaral Filho on prevention that begins before diagnosis, practical longevity, and preventive nephrology.",
+    "kicker": "Lectures",
+    "h1": "On prevention that begins before.",
+    "lead": "Lectures for physicians, residents, corporate teams and open audiences — on the silent window between normal and optimal, and the clinical method for shortening it.",
+    "headerImageAlt": "Dr. Getúlio Amaral Filho during a lecture — slide showing the chronic-disease tree (cardiovascular, cancer, neurodegenerative, metabolic)",
+    "anchorBadge": "Anchor lecture",
+    "audienceLabel": "Audience",
+    "formatLabel": "Format",
+    "durationLabel": "Duration",
+    "inviteKicker": "Invite to speak",
+    "inviteBody": "Send a proposal including event name, date, location, estimated audience, format (in-person or remote) and desired duration.",
+    "inviteResponse": "Reply within 48 business hours.",
+    "detailBreadcrumbHome": "Home",
+    "detailBreadcrumbList": "Lectures",
+    "detailInviteKicker": "Invite",
+    "detailInviteBody": "To invite this lecture, send a proposal with event name, date, location, estimated audience and format (in-person or remote).",
+    "emailSubjectPrefix": "Lecture"
+  },
   "contactForm": {
     "reasonLabel": "Reason",
     "reasonOptionPlenya": "Appointment — Plenya (functional medicine, longevity)",

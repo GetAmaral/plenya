@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { MdxContent } from '@/components/blog/mdx-content';
-import { getAllLectures, getLecture, getAudienceLabel } from '@/lib/lectures';
+import { getAllLectures, getLecture, getAudienceLabel, localizedLecture } from '@/lib/lectures';
 import { LectureSchema } from '@/components/seo/lecture-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
@@ -15,27 +15,31 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const lecture = await getLecture(slug);
   if (!lecture) return {};
-  const url = `/palestras/${slug}`;
+  const loc = localizedLecture(lecture, locale);
+  const url = locale === 'en' ? `/en/palestras/${slug}` : `/palestras/${slug}`;
   return {
-    title: lecture.title,
-    description: lecture.excerpt,
-    alternates: { canonical: url },
+    title: loc.title,
+    description: loc.excerpt,
+    alternates: {
+      canonical: url,
+      languages: { 'pt-BR': `/palestras/${slug}`, en: `/en/palestras/${slug}` },
+    },
     openGraph: {
       type: 'article',
       url,
-      title: lecture.title,
-      description: lecture.excerpt,
+      title: loc.title,
+      description: loc.excerpt,
       images: ['/images/getulio-square.jpg'],
     },
     twitter: {
       card: 'summary_large_image',
-      title: lecture.title,
-      description: lecture.excerpt,
+      title: loc.title,
+      description: loc.excerpt,
       images: ['/images/getulio-square.jpg'],
     },
   };
@@ -50,44 +54,49 @@ export default async function LecturePage({
   setRequestLocale(locale);
   const lecture = await getLecture(slug);
   if (!lecture) notFound();
+  const t = await getTranslations({ locale, namespace: 'palestras' });
+  const loc = localizedLecture(lecture, locale);
+  const subjectPrefix = t('emailSubjectPrefix');
+  const mailto = `mailto:palestras@drgetulioamaralfilho.com.br?subject=${encodeURIComponent(`${subjectPrefix} — ${loc.title}`)}`;
 
   return (
     <article>
       <LectureSchema
-        title={lecture.title}
-        description={lecture.excerpt}
+        title={loc.title}
+        description={loc.excerpt}
         slug={lecture.slug}
-        duration={lecture.duration}
-        audience={lecture.audience.map(getAudienceLabel)}
+        duration={loc.duration}
+        audience={lecture.audience.map((a) => getAudienceLabel(a, locale))}
+        locale={locale}
       />
       <BreadcrumbSchema
         items={[
-          { name: 'Início', url: '/' },
-          { name: 'Palestras', url: '/palestras' },
-          { name: lecture.title },
+          { name: t('detailBreadcrumbHome'), url: '/' },
+          { name: t('detailBreadcrumbList'), url: '/palestras' },
+          { name: loc.title },
         ]}
       />
       <header className="editorial-container pt-12 md:pt-16 pb-12">
         <Breadcrumbs
           items={[
-            { label: 'Início', href: '/' },
-            { label: 'Palestras', href: '/palestras' },
-            { label: lecture.title },
+            { label: t('detailBreadcrumbHome'), href: '/' },
+            { label: t('detailBreadcrumbList'), href: '/palestras' },
+            { label: loc.title },
           ]}
         />
       </header>
 
       <section className="editorial-container pb-16">
         <div className="max-w-3xl space-y-8">
-          {lecture.anchor && <p className="label-meta text-bordo">Palestra-âncora</p>}
-          <h1 className="heading-display text-[clamp(2.2rem,5vw,3.8rem)]">{lecture.title}</h1>
-          {lecture.subtitle && (
-            <p className="font-serif italic text-ink-muted text-xl md:text-2xl">{lecture.subtitle}</p>
+          {lecture.anchor && <p className="label-meta text-bordo">{t('anchorBadge')}</p>}
+          <h1 className="heading-display text-[clamp(2.2rem,5vw,3.8rem)]">{loc.title}</h1>
+          {loc.subtitle && (
+            <p className="font-serif italic text-ink-muted text-xl md:text-2xl">{loc.subtitle}</p>
           )}
-          <p className="prose-body">{lecture.excerpt}</p>
-          {lecture.content && (
+          <p className="prose-body">{loc.excerpt}</p>
+          {loc.content && (
             <div className="prose-body">
-              <MdxContent source={lecture.content.trim()} />
+              <MdxContent source={loc.content.trim()} />
             </div>
           )}
         </div>
@@ -96,18 +105,18 @@ export default async function LecturePage({
       <section className="border-t border-rule">
         <div className="editorial-container py-16 grid md:grid-cols-3 gap-10">
           <div>
-            <p className="label-meta mb-3">Duração</p>
-            <p className="font-serif text-ink-soft">{lecture.duration}</p>
+            <p className="label-meta mb-3">{t('durationLabel')}</p>
+            <p className="font-serif text-ink-soft">{loc.duration}</p>
           </div>
           <div>
-            <p className="label-meta mb-3">Formato</p>
-            <p className="font-serif text-ink-soft">{lecture.format}</p>
+            <p className="label-meta mb-3">{t('formatLabel')}</p>
+            <p className="font-serif text-ink-soft">{loc.format}</p>
           </div>
           <div>
-            <p className="label-meta mb-3">Público</p>
+            <p className="label-meta mb-3">{t('audienceLabel')}</p>
             <ul className="space-y-1">
               {lecture.audience.map((a) => (
-                <li key={a} className="font-serif text-ink-soft">{getAudienceLabel(a)}</li>
+                <li key={a} className="font-serif text-ink-soft">{getAudienceLabel(a, locale)}</li>
               ))}
             </ul>
           </div>
@@ -116,14 +125,11 @@ export default async function LecturePage({
 
       <section className="border-t border-rule bg-paper">
         <div className="editorial-container py-16 md:py-20 grid md:grid-cols-[1fr_2fr] gap-10 items-start">
-          <p className="label-meta">Convidar</p>
+          <p className="label-meta">{t('detailInviteKicker')}</p>
           <div className="space-y-3 font-serif text-ink-soft">
-            <p>
-              Para convidar para esta palestra, envie proposta com nome do evento, data, local,
-              público estimado e formato (presencial ou remoto).
-            </p>
+            <p>{t('detailInviteBody')}</p>
             <p className="font-sans text-sm">
-              <a href={`mailto:palestras@drgetulioamaralfilho.com.br?subject=Palestra%20—%20${encodeURIComponent(lecture.title)}`} className="link-text">
+              <a href={mailto} className="link-text">
                 palestras@drgetulioamaralfilho.com.br
               </a>
             </p>

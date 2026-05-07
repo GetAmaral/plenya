@@ -6,12 +6,20 @@ import { z } from 'zod';
 const audienceEnum = z.enum(['corporativo', 'medicos', 'residentes', 'aberto', 'congressos']);
 export type Audience = z.infer<typeof audienceEnum>;
 
-const audienceLabels: Record<Audience, string> = {
+const audienceLabelsPt: Record<Audience, string> = {
   corporativo: 'Corporativo',
   medicos: 'Médicos',
   residentes: 'Residentes',
   aberto: 'Aberto',
   congressos: 'Congressos',
+};
+
+const audienceLabelsEn: Record<Audience, string> = {
+  corporativo: 'Corporate',
+  medicos: 'Physicians',
+  residentes: 'Residents',
+  aberto: 'Open',
+  congressos: 'Conferences',
 };
 
 const lectureSchema = z.object({
@@ -24,6 +32,13 @@ const lectureSchema = z.object({
   format: z.string(),
   order: z.number().default(99),
   anchor: z.boolean().default(false),
+  // Campos EN opcionais — fallback automático pra PT quando ausentes.
+  titleEn: z.string().optional(),
+  subtitleEn: z.string().optional(),
+  excerptEn: z.string().optional(),
+  bodyEn: z.string().optional(),
+  durationEn: z.string().optional(),
+  formatEn: z.string().optional(),
 });
 
 export type LectureFrontmatter = z.infer<typeof lectureSchema>;
@@ -35,8 +50,8 @@ async function readDirSafe(dir: string) {
   try { return await fs.readdir(dir); } catch { return []; }
 }
 
-export function getAudienceLabel(a: Audience) {
-  return audienceLabels[a];
+export function getAudienceLabel(a: Audience, locale: string = 'pt') {
+  return locale === 'en' ? audienceLabelsEn[a] : audienceLabelsPt[a];
 }
 
 export async function getAllLectures(): Promise<Lecture[]> {
@@ -55,4 +70,20 @@ export async function getAllLectures(): Promise<Lecture[]> {
 export async function getLecture(slug: string): Promise<Lecture | null> {
   const all = await getAllLectures();
   return all.find((l) => l.slug === slug) ?? null;
+}
+
+/**
+ * Resolve campos exibíveis no locale pedido, com fallback PT quando EN
+ * está ausente. O `bodyEn` (quando existe) substitui o corpo MDX.
+ */
+export function localizedLecture(l: Lecture, locale: string) {
+  const isEn = locale === 'en';
+  return {
+    title: isEn && l.titleEn ? l.titleEn : l.title,
+    subtitle: isEn && l.subtitleEn ? l.subtitleEn : l.subtitle,
+    excerpt: isEn && l.excerptEn ? l.excerptEn : l.excerpt,
+    duration: isEn && l.durationEn ? l.durationEn : l.duration,
+    format: isEn && l.formatEn ? l.formatEn : l.format,
+    content: isEn && l.bodyEn ? l.bodyEn : l.content,
+  };
 }

@@ -252,6 +252,26 @@
     "localKicker": "Local",
     "localValue": "Londrina · Paraná · Brasil"
   },
+  "palestras": {
+    "metaTitle": "Palestras",
+    "metaDescription": "Palestras de Dr. Getúlio Amaral Filho sobre prevenção que começa antes do diagnóstico, longevidade prática e nefrologia preventiva.",
+    "kicker": "Palestras",
+    "h1": "Sobre prevenção que começa antes.",
+    "lead": "Palestras para médicos, residentes, equipes corporativas e plateias abertas — sobre a janela silenciosa entre o normal e o ótimo, e o método clínico para encurtá-la.",
+    "headerImageAlt": "Dr. Getúlio Amaral Filho durante palestra — slide com diagrama da árvore das doenças crônicas (cardiovasculares, câncer, neurodegenerativas, metabólicas)",
+    "anchorBadge": "Palestra-âncora",
+    "audienceLabel": "Público",
+    "formatLabel": "Formato",
+    "durationLabel": "Duração",
+    "inviteKicker": "Convidar para palestrar",
+    "inviteBody": "Envie proposta com nome do evento, data, local, público estimado, formato (presencial ou remoto) e duração desejada.",
+    "inviteResponse": "Resposta em até 48h úteis.",
+    "detailBreadcrumbHome": "Início",
+    "detailBreadcrumbList": "Palestras",
+    "detailInviteKicker": "Convidar",
+    "detailInviteBody": "Para convidar para esta palestra, envie proposta com nome do evento, data, local, público estimado e formato (presencial ou remoto).",
+    "emailSubjectPrefix": "Palestra"
+  },
   "contactForm": {
     "reasonLabel": "Motivo",
     "reasonOptionPlenya": "Consulta — Plenya (medicina funcional, longevidade)",
