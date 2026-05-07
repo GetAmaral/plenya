@@ -1,8 +1,10 @@
 import { Check, X } from 'lucide-react';
+import { getLocale } from 'next-intl/server';
+import { defaultLocale, isLocale, type Locale } from '@/lib/i18n/config';
 
 type Row = { trait: string; plenya: string | true; convenio: string | false };
 
-const defaultRows: Row[] = [
+const rowsPt: Row[] = [
   { trait: 'Tempo de consulta', plenya: '60–90 min', convenio: '8–15 min' },
   { trait: 'Leitura funcional dos exames', plenya: true, convenio: false },
   { trait: 'Equipe multidisciplinar discutindo o seu caso', plenya: true, convenio: false },
@@ -16,10 +18,62 @@ const defaultRows: Row[] = [
   { trait: 'Painel ampliado de exames além do convencional', plenya: true, convenio: false },
 ];
 
-export function ComparatorVsConvenio({
-  title = 'O que muda entre uma Consulta Plenya e o atendimento convencional.',
-  label = 'Comparativo',
-  rows = defaultRows,
+const rowsEn: Row[] = [
+  { trait: 'Visit length', plenya: '60–90 min', convenio: '8–15 min' },
+  { trait: 'Functional reading of labs', plenya: true, convenio: false },
+  { trait: 'Multidisciplinary team discussing your case', plenya: true, convenio: false },
+  { trait: 'Written plan, with goals and reviews', plenya: true, convenio: false },
+  { trait: 'Plenya Score — an evolving measurement', plenya: true, convenio: false },
+  { trait: 'Scheduled re-evaluation (3, 6, 12 months)', plenya: true, convenio: false },
+  { trait: 'Direct access to the team between visits', plenya: true, convenio: false },
+  { trait: 'Focus on prevention, not reaction', plenya: true, convenio: false },
+  { trait: 'Integrated plan (medication + lifestyle + supplementation)', plenya: true, convenio: '“get a referral”' },
+  { trait: 'Continuity — the same physician over time', plenya: true, convenio: 'depends' },
+  { trait: 'Expanded lab panel beyond conventional checkups', plenya: true, convenio: false },
+];
+
+type Strings = {
+  title: string;
+  label: string;
+  plenyaSubLabel: string;
+  plenyaSubTitle: string;
+  conventionalLabel: string;
+  conventionalTitle: string;
+  yes: string;
+  no: string;
+  footnote: string;
+};
+
+const stringsPt: Strings = {
+  title: 'O que muda entre uma Consulta Plenya e o atendimento convencional.',
+  label: 'Comparativo',
+  plenyaSubLabel: 'Plenya',
+  plenyaSubTitle: 'Consulta & Continuum',
+  conventionalLabel: 'Tradicional',
+  conventionalTitle: 'Convênio / consulta padrão',
+  yes: 'Sim',
+  no: 'Não',
+  footnote:
+    'Comparativo aplicável à média dos atendimentos por convênio e consultas particulares padrão no Brasil. Casos individuais podem variar.',
+};
+
+const stringsEn: Strings = {
+  title: 'What changes between a Plenya Consultation and conventional care.',
+  label: 'Comparison',
+  plenyaSubLabel: 'Plenya',
+  plenyaSubTitle: 'Consultation & Continuum',
+  conventionalLabel: 'Conventional',
+  conventionalTitle: 'Insurance / standard private visit',
+  yes: 'Yes',
+  no: 'No',
+  footnote:
+    'Comparison reflects the average of insurance-based and standard private-pay visits in Brazil. Individual cases may vary.',
+};
+
+export async function ComparatorVsConvenio({
+  title,
+  label,
+  rows,
   bg = 'bg-paper',
 }: {
   title?: string;
@@ -27,12 +81,19 @@ export function ComparatorVsConvenio({
   rows?: Row[];
   bg?: string;
 }) {
+  const rawLocale = await getLocale();
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
+  const s = locale === 'en' ? stringsEn : stringsPt;
+  const resolvedRows = rows ?? (locale === 'en' ? rowsEn : rowsPt);
+  const resolvedTitle = title ?? s.title;
+  const resolvedLabel = label ?? s.label;
+
   return (
     <section className={bg}>
       <div className="site-container section">
         <div className="max-w-3xl mb-12 space-y-4">
-          <p className="label-upper text-gold">{label}</p>
-          <h2 className="heading-section text-petrol text-3xl md:text-4xl">{title}</h2>
+          <p className="label-upper text-gold">{resolvedLabel}</p>
+          <h2 className="heading-section text-petrol text-3xl md:text-4xl">{resolvedTitle}</h2>
         </div>
 
         <div className="overflow-x-auto -mx-6 md:mx-0">
@@ -43,17 +104,17 @@ export function ComparatorVsConvenio({
                   &nbsp;
                 </th>
                 <th className="py-5 px-4 md:px-6 text-left">
-                  <span className="label-upper text-gold block">Plenya</span>
-                  <span className="heading-section text-petrol text-lg block mt-1">Consulta &amp; Continuum</span>
+                  <span className="label-upper text-gold block">{s.plenyaSubLabel}</span>
+                  <span className="heading-section text-petrol text-lg block mt-1">{s.plenyaSubTitle}</span>
                 </th>
                 <th className="py-5 px-4 md:px-6 text-left">
-                  <span className="label-upper text-petrol/45 block">Tradicional</span>
-                  <span className="heading-section text-petrol/60 text-lg block mt-1">Convênio / consulta padrão</span>
+                  <span className="label-upper text-petrol/45 block">{s.conventionalLabel}</span>
+                  <span className="heading-section text-petrol/60 text-lg block mt-1">{s.conventionalTitle}</span>
                 </th>
               </tr>
             </thead>
             <tbody>
-              {rows.map((r, i) => (
+              {resolvedRows.map((r, i) => (
                 <tr
                   key={r.trait}
                   className={i % 2 === 0 ? 'bg-cream/50' : ''}
@@ -65,7 +126,7 @@ export function ComparatorVsConvenio({
                     {r.plenya === true ? (
                       <span className="inline-flex items-center gap-2 text-gold">
                         <Check size={26} strokeWidth={2.5} />
-                        <span className="sr-only">Sim</span>
+                        <span className="sr-only">{s.yes}</span>
                       </span>
                     ) : (
                       <span className="text-petrol text-base md:text-lg">{r.plenya}</span>
@@ -75,7 +136,7 @@ export function ComparatorVsConvenio({
                     {r.convenio === false ? (
                       <span className="inline-flex items-center gap-2 text-petrol/30">
                         <X size={26} strokeWidth={2.5} />
-                        <span className="sr-only">Não</span>
+                        <span className="sr-only">{s.no}</span>
                       </span>
                     ) : (
                       <span className="text-petrol/55 text-base md:text-lg italic">{r.convenio}</span>
@@ -88,8 +149,7 @@ export function ComparatorVsConvenio({
         </div>
 
         <p className="text-petrol/55 text-sm leading-relaxed mt-6 max-w-2xl">
-          Comparativo aplicável à média dos atendimentos por convênio e consultas particulares
-          padrão no Brasil. Casos individuais podem variar.
+          {s.footnote}
         </p>
       </div>
     </section>
