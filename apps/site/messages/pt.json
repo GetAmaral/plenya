@@ -701,6 +701,28 @@
     "ctaDiagnose": "Fazer o diagnóstico",
     "ctaContact": "Conversar com a equipe"
   },
+  "escoreLight": {
+    "claimVerifyingLabel": "Verificando",
+    "claimVerifyingTitle": "Validando seu link...",
+    "claimVerifyingDesc": "Em instantes você será redirecionado para sua área pessoal.",
+    "claimSuccessLabel": "Confirmado",
+    "claimSuccessTitle": "Tudo certo. Redirecionando...",
+    "claimErrorLabel": "Link inválido ou expirado",
+    "claimErrorTitle": "Não foi possível validar seu link.",
+    "claimErrorDescDefault": "O link expirou (15 minutos) ou já foi usado. Refaça a solicitação no resultado da sua avaliação.",
+    "claimErrorCta": "Refazer minha avaliação",
+    "classifierBand0": "Faixa de risco alto",
+    "classifierBand1": "Faixa de risco",
+    "classifierBand2": "Limítrofe",
+    "classifierBand3": "Aceitável",
+    "classifierBand4": "Bom",
+    "classifierBand5": "Ótimo",
+    "classifierWaiting": "Aguardando dados de entrada",
+    "classifierGenericValue": "Valor numérico",
+    "classifierValueIn": "Valor em {unit}",
+    "classifierYourBand": "Sua faixa",
+    "classifierOutOfRange": "Valor fora das faixas conhecidas — confira a unidade."
+  },
   "score": {
     "metaTitle": "Escore Plenya — instrumento de medida do Método AGIR",
     "metaDescription": "Mais de 800 itens — história, sintomas, exames, hábitos e medicamentos — traduzidos em uma pontuação clara, evolutiva e personalizada. A medida única do seu estado de saúde.",

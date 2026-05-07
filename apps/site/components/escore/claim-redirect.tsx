@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/lib/i18n/navigation';
 import { confirmClaim } from '@/lib/score-light/api';
 
@@ -8,6 +9,7 @@ const EMR_BASE_URL =
   process.env.NEXT_PUBLIC_EMR_URL?.replace(/\/$/, '') ?? 'http://localhost:3000';
 
 export function ClaimRedirect({ token }: { token: string }) {
+  const t = useTranslations('escoreLight');
   const [status, setStatus] = useState<'pending' | 'success' | 'error'>('pending');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -18,8 +20,6 @@ export function ClaimRedirect({ token }: { token: string }) {
         const result = await confirmClaim(token);
         if (cancelled) return;
 
-        // Persiste tokens no localStorage para o EMR consumir após redirect.
-        // O EMR (apps/web) já tem o padrão de ler accessToken/refreshToken aí.
         try {
           localStorage.setItem('plenya_access_token', result.accessToken);
           localStorage.setItem('plenya_refresh_token', result.refreshToken);
@@ -29,9 +29,6 @@ export function ClaimRedirect({ token }: { token: string }) {
 
         setStatus('success');
 
-        // Redireciona para a área autenticada do paciente.
-        // O EMR pode aproveitar querystring para rehydratar tokens caso localStorage
-        // não tenha sido populado a tempo (cross-origin).
         const params = new URLSearchParams({
           accessToken: result.accessToken,
           refreshToken: result.refreshToken,
@@ -40,7 +37,7 @@ export function ClaimRedirect({ token }: { token: string }) {
         window.location.href = `${EMR_BASE_URL}/patient-portal/escore-light?${params.toString()}`;
       } catch (err) {
         if (cancelled) return;
-        setErrorMsg(err instanceof Error ? err.message : 'Falha ao validar o link');
+        setErrorMsg(err instanceof Error ? err.message : null);
         setStatus('error');
       }
     })();
@@ -54,37 +51,37 @@ export function ClaimRedirect({ token }: { token: string }) {
       <div className="site-container pt-32 pb-32 max-w-xl">
         {status === 'pending' && (
           <>
-            <p className="label-upper text-gold">Verificando</p>
+            <p className="label-upper text-gold">{t('claimVerifyingLabel')}</p>
             <h1 className="heading-section text-petrol text-3xl mt-6">
-              Validando seu link...
+              {t('claimVerifyingTitle')}
             </h1>
             <p className="text-petrol/70 mt-6">
-              Em instantes você será redirecionado para sua área pessoal.
+              {t('claimVerifyingDesc')}
             </p>
           </>
         )}
 
         {status === 'success' && (
           <>
-            <p className="label-upper text-gold">Confirmado</p>
+            <p className="label-upper text-gold">{t('claimSuccessLabel')}</p>
             <h1 className="heading-section text-petrol text-3xl mt-6">
-              Tudo certo. Redirecionando...
+              {t('claimSuccessTitle')}
             </h1>
           </>
         )}
 
         {status === 'error' && (
           <>
-            <p className="label-upper text-gold">Link inválido ou expirado</p>
+            <p className="label-upper text-gold">{t('claimErrorLabel')}</p>
             <h1 className="heading-section text-petrol text-3xl mt-6">
-              Não foi possível validar seu link.
+              {t('claimErrorTitle')}
             </h1>
             <p className="text-petrol/70 mt-6 leading-relaxed">
-              {errorMsg ?? 'O link expirou (15 minutos) ou já foi usado. Refaça a solicitação no resultado da sua avaliação.'}
+              {errorMsg ?? t('claimErrorDescDefault')}
             </p>
             <div className="pt-8">
               <Link href="/escore-plenya/avaliar" className="btn-gold">
-                Refazer minha avaliação
+                {t('claimErrorCta')}
               </Link>
             </div>
           </>

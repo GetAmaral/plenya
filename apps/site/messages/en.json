@@ -703,6 +703,28 @@
     "ctaDiagnose": "Take the assessment",
     "ctaContact": "Talk to the team"
   },
+  "escoreLight": {
+    "claimVerifyingLabel": "Verifying",
+    "claimVerifyingTitle": "Validating your link...",
+    "claimVerifyingDesc": "You will be redirected to your personal area shortly.",
+    "claimSuccessLabel": "Confirmed",
+    "claimSuccessTitle": "All set. Redirecting...",
+    "claimErrorLabel": "Invalid or expired link",
+    "claimErrorTitle": "We could not validate your link.",
+    "claimErrorDescDefault": "The link has expired (15 minutes) or was already used. Please request it again on your assessment result page.",
+    "claimErrorCta": "Retake my assessment",
+    "classifierBand0": "High-risk band",
+    "classifierBand1": "Risk band",
+    "classifierBand2": "Borderline",
+    "classifierBand3": "Acceptable",
+    "classifierBand4": "Good",
+    "classifierBand5": "Optimal",
+    "classifierWaiting": "Waiting for input data",
+    "classifierGenericValue": "Numeric value",
+    "classifierValueIn": "Value in {unit}",
+    "classifierYourBand": "Your band",
+    "classifierOutOfRange": "Value outside the known ranges — please check the unit."
+  },
   "score": {
     "metaTitle": "Plenya Score — measurement instrument of The ACTS Method",
     "metaDescription": "Over 800 items — history, symptoms, labs, habits, and medications — translated into a clear, evolving, personalized score. The single measure of your health.",

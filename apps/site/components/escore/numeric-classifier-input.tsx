@@ -8,6 +8,9 @@
  * Usuário digita o valor → componente classifica → exibe a faixa correspondente.
  * O valor numérico é enviado ao backend, que confirma o cálculo via EvaluatesTrue.
  */
+'use client';
+
+import { useTranslations } from 'next-intl';
 import type { LightItemConfig, LightLevelConfig } from '@/lib/score-light/types';
 
 // Items de medida que precisam de input numérico mesmo quando o campo `unit` no DB vem vazio.
@@ -74,6 +77,16 @@ export function placeholderFor(item: LightItemConfig): string {
   const unit = item.unit?.trim();
   if (unit) return `Valor em ${unit}`;
   return 'Valor numérico';
+}
+
+function placeholderForLocalized(item: LightItemConfig, locale: string): string {
+  if (locale !== 'en') return placeholderFor(item);
+  // EN fallback — placeholders específicos seguem PT pois referenciam nomes
+  // de itens armazenados em PT no banco; isso é coerente com o nome do
+  // item visível ao lado. Apenas o fallback genérico é traduzido.
+  const unit = item.unit?.trim();
+  if (unit) return `Value in ${unit}`;
+  return 'Numeric value';
 }
 
 /**
@@ -175,13 +188,13 @@ function levelColorClass(level: number): string {
   return 'text-emerald-800 bg-emerald-100 border-emerald-300';
 }
 
-function levelBand(level: number): string {
-  if (level === 0) return 'Faixa de risco alto';
-  if (level === 1) return 'Faixa de risco';
-  if (level === 2) return 'Limítrofe';
-  if (level === 3) return 'Aceitável';
-  if (level === 4) return 'Bom';
-  return 'Ótimo';
+function levelBand(level: number, t: (key: string) => string): string {
+  if (level === 0) return t('classifierBand0');
+  if (level === 1) return t('classifierBand1');
+  if (level === 2) return t('classifierBand2');
+  if (level === 3) return t('classifierBand3');
+  if (level === 4) return t('classifierBand4');
+  return t('classifierBand5');
 }
 
 /** Resumo legível da faixa do level (ex: "≥ 190", "70 a 99", "< 70"). */
@@ -219,6 +232,10 @@ export function NumericClassifierInput({
   readOnly?: boolean;
   derivedNote?: string;
 }) {
+  const t = useTranslations('escoreLight');
+  // Locale só pra escolher placeholder; useLocale do next-intl não funciona em
+  // todos os contextos client-side, então deduzimos via document.documentElement.lang.
+  const locale = typeof document !== 'undefined' ? document.documentElement.lang : 'pt';
   const matched = typeof value === 'number' ? classifyNumeric(value, item.levels) : null;
 
   return (
@@ -248,23 +265,23 @@ export function NumericClassifierInput({
               ? 'border-petrol/10 bg-petrol/[0.03] cursor-not-allowed'
               : 'border-petrol/20 bg-cream focus:border-gold'
           }`}
-          placeholder={readOnly ? 'Aguardando dados de entrada' : placeholderFor(item)}
+          placeholder={readOnly ? t('classifierWaiting') : placeholderForLocalized(item, locale)}
         />
       </div>
 
       {matched && (
         <div className={`flex items-center justify-between gap-3 px-4 py-2.5 border rounded-md ${levelColorClass(matched.level)}`}>
           <div>
-            <p className="label-upper text-[10px] opacity-70">Sua faixa</p>
+            <p className="label-upper text-[10px] opacity-70">{t('classifierYourBand')}</p>
             <p className="text-base mt-0.5">
-              {levelBand(matched.level)} <span className="opacity-60">· {levelRangeSummary(matched)}</span>
+              {levelBand(matched.level, t)} <span className="opacity-60">· {levelRangeSummary(matched)}</span>
             </p>
           </div>
         </div>
       )}
 
       {typeof value === 'number' && !matched && (
-        <p className="text-petrol/50 text-sm">Valor fora das faixas conhecidas — confira a unidade.</p>
+        <p className="text-petrol/50 text-sm">{t('classifierOutOfRange')}</p>
       )}
     </div>
   );
