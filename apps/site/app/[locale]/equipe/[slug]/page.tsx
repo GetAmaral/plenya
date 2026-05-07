@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { isLocale, defaultLocale, locales } from '@/lib/i18n/config';
-import { getAllDoctors, getDoctor } from '@/lib/team';
+import { getAllDoctors, getDoctor, localizedBio, localizedShortBio } from '@/lib/team';
 import { Link } from '@/lib/i18n/navigation';
 import { MdxContent } from '@/components/blog/mdx-content';
 import { PhysicianSchema } from '@/components/team/physician-schema';
@@ -17,13 +17,13 @@ export async function generateStaticParams() {
   );
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
+  const { locale, slug } = await params;
   const doctor = await getDoctor(slug);
   if (!doctor) return {};
   return {
     title: doctor.name,
-    description: `${doctor.name} — ${doctor.role}. ${doctor.shortBio}`,
+    description: `${doctor.name} — ${doctor.role}. ${localizedShortBio(doctor, locale)}`,
   };
 }
 
@@ -61,9 +61,9 @@ export default async function DoctorPage({ params }: { params: Promise<{ locale:
             <p className="label-upper text-cream/60">
               {doctor.credentials}{doctor.rqe ? ` · RQE ${doctor.rqe}` : ''}
             </p>
-            <p className="text-cream/85 text-lg leading-relaxed max-w-lg">{doctor.shortBio}</p>
+            <p className="text-cream/85 text-lg leading-relaxed max-w-lg">{localizedShortBio(doctor, locale)}</p>
             <div className="flex flex-wrap gap-5 pt-4">
-              <Link href="/contato" className="btn-gold">Agendar consulta</Link>
+              <Link href="/contato" className="btn-gold">{locale === 'en' ? 'Book a consultation' : 'Agendar consulta'}</Link>
               {doctor.instagram && (
                 <a href={doctor.instagram} target="_blank" rel="noreferrer"
                   className="btn-outline-dark border-cream/40 text-cream">Instagram</a>
@@ -99,15 +99,15 @@ export default async function DoctorPage({ params }: { params: Promise<{ locale:
 
       <section className="bg-cream">
         <div className="site-narrow section prose-plenya">
-          <MdxContent source={doctor.bio} />
+          <MdxContent source={localizedBio(doctor, locale)} />
         </div>
       </section>
 
       <section className="bg-paper">
         <div className="site-container section grid md:grid-cols-2 gap-8">
           <Link href="/metodo-agir" className="border-t border-petrol/15 pt-8 space-y-3 group">
-            <p className="label-upper text-gold">Método</p>
-            <p className="heading-section text-petrol text-xl group-hover:text-gold transition">Conheça o Método AGIR →</p>
+            <p className="label-upper text-gold">{locale === 'en' ? 'Method' : 'Método'}</p>
+            <p className="heading-section text-petrol text-xl group-hover:text-gold transition">{locale === 'en' ? 'Discover The ACTS Method →' : 'Conheça o Método AGIR →'}</p>
           </Link>
           <Link href="/continuum" className="border-t border-petrol/15 pt-8 space-y-3 group">
             <p className="label-upper text-gold">Continuum</p>

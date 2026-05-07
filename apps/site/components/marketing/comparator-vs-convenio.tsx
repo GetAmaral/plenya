@@ -14,7 +14,6 @@ const defaultRows: Row[] = [
   { trait: 'Conduta integrada (medicação + estilo de vida + suplementação)', plenya: true, convenio: '“peça encaminhamento”' },
   { trait: 'Continuidade — mesmo médico ao longo do tempo', plenya: true, convenio: 'depende' },
   { trait: 'Painel ampliado de exames além do convencional', plenya: true, convenio: false },
-  { trait: 'Pagamento', plenya: 'Particular', convenio: 'Convênio / SUS' },
 ];
 
 export function ComparatorVsConvenio({

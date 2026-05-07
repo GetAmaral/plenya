@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { isLocale, defaultLocale } from '@/lib/i18n/config';
 import { Link } from '@/lib/i18n/navigation';
-import { getAllDoctors } from '@/lib/team';
+import { getAllDoctors, localizedShortBio } from '@/lib/team';
 import { DoctorCard } from '@/components/team/doctor-card';
 
 type Params = Promise<{ locale: string }>;
@@ -125,7 +125,7 @@ export default async function TeamPage({ params }: { params: Params }) {
                   {direcao.rqe ? ` · RQE ${direcao.rqe}` : ''}
                 </p>
                 <p className="text-petrol/80 leading-relaxed text-lg max-w-2xl">
-                  {direcao.shortBio}
+                  {localizedShortBio(direcao, locale)}
                 </p>
                 <p className="label-upper text-gold pt-2 group-hover:underline underline-offset-4">
                   {t('directionCta')}
@@ -148,7 +148,7 @@ export default async function TeamPage({ params }: { params: Params }) {
             </div>
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {nucleoMedico.map((d) => (
-                <DoctorCard key={d.slug} doctor={d} />
+                <DoctorCard key={d.slug} doctor={d} locale={locale} />
               ))}
             </div>
           </div>
@@ -167,7 +167,7 @@ export default async function TeamPage({ params }: { params: Params }) {
             </div>
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {multidisciplinar.map((d) => (
-                <DoctorCard key={d.slug} doctor={d} />
+                <DoctorCard key={d.slug} doctor={d} locale={locale} />
               ))}
             </div>
           </div>

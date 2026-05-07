@@ -25,6 +25,8 @@ const frontmatterSchema = z.object({
   rqe: z.union([z.string(), z.number()]).transform(String).optional(),
   specialties: z.array(z.string()).default([]),
   shortBio: z.string(),
+  shortBioEn: z.string().optional(),
+  bioEn: z.string().optional(),
   photo: z.string().optional(),
   instagram: z.string().url().optional(),
   linkedin: z.string().url().optional(),
@@ -34,6 +36,16 @@ const frontmatterSchema = z.object({
 
 export type DoctorFrontmatter = z.infer<typeof frontmatterSchema>;
 export type Doctor = DoctorFrontmatter & { bio: string };
+
+/** Returns the shortBio in the requested locale, falling back to PT. */
+export function localizedShortBio(doctor: Doctor, locale: string): string {
+  return locale === 'en' && doctor.shortBioEn ? doctor.shortBioEn : doctor.shortBio;
+}
+
+/** Returns the body bio in the requested locale, falling back to PT. */
+export function localizedBio(doctor: Doctor, locale: string): string {
+  return locale === 'en' && doctor.bioEn ? doctor.bioEn : doctor.bio;
+}
 
 const ROOT = path.join(process.cwd(), 'content', 'doctors');
 

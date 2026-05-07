@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import { Link, type Href } from '@/lib/i18n/navigation';
-import type { Doctor } from '@/lib/team';
+import { localizedShortBio, type Doctor } from '@/lib/team';
+import { defaultLocale, type Locale } from '@/lib/i18n/config';
 
-export function DoctorCard({ doctor }: { doctor: Doctor }) {
+export function DoctorCard({ doctor, locale = defaultLocale }: { doctor: Doctor; locale?: Locale }) {
   // Dr. Getúlio tem página dedicada
   const href: Href =
     doctor.slug === 'getulio-amaral'
@@ -35,7 +36,7 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
         <p className="label-upper text-petrol/50">
           {doctor.credentials}{doctor.rqe ? ` · RQE ${doctor.rqe}` : ''}
         </p>
-        <p className="text-petrol/70 text-sm leading-relaxed pt-1">{doctor.shortBio}</p>
+        <p className="text-petrol/70 text-sm leading-relaxed pt-1">{localizedShortBio(doctor, locale)}</p>
       </div>
     </Link>
   );
