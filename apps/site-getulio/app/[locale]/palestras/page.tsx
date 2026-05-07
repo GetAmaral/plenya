@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
-import { getAllLectures, getAudienceLabel, localizedLecture } from '@/lib/lectures';
+import { getAllLectures, getAudienceLabel, localizedLecture, sortAudience } from '@/lib/lectures';
 
 export async function generateMetadata({
   params,
@@ -80,7 +80,7 @@ export default async function PalestrasPage({
                   <div className="space-y-3 md:text-right">
                     <p className="label-meta">{t('audienceLabel')}</p>
                     <ul className="space-y-1">
-                      {l.audience.map((a) => (
+                      {sortAudience(l.audience).map((a) => (
                         <li key={a} className="font-serif text-sm text-ink-soft">
                           {getAudienceLabel(a, locale)}
                         </li>

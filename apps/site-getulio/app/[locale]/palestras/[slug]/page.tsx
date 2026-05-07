@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { MdxContent } from '@/components/blog/mdx-content';
-import { getAllLectures, getLecture, getAudienceLabel, localizedLecture } from '@/lib/lectures';
+import { getAllLectures, getLecture, getAudienceLabel, localizedLecture, sortAudience } from '@/lib/lectures';
 import { LectureSchema } from '@/components/seo/lecture-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
@@ -66,7 +66,7 @@ export default async function LecturePage({
         description={loc.excerpt}
         slug={lecture.slug}
         duration={loc.duration}
-        audience={lecture.audience.map((a) => getAudienceLabel(a, locale))}
+        audience={sortAudience(lecture.audience).map((a) => getAudienceLabel(a, locale))}
         locale={locale}
       />
       <BreadcrumbSchema
@@ -115,7 +115,7 @@ export default async function LecturePage({
           <div>
             <p className="label-meta mb-3">{t('audienceLabel')}</p>
             <ul className="space-y-1">
-              {lecture.audience.map((a) => (
+              {sortAudience(lecture.audience).map((a) => (
                 <li key={a} className="font-serif text-ink-soft">{getAudienceLabel(a, locale)}</li>
               ))}
             </ul>

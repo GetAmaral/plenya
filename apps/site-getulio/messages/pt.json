@@ -40,8 +40,9 @@
       "credentials": "Médico nefrologista · CRM-PR 21.876 · RQE 16.038",
       "lead1": "Vinte anos dentro do hospital me ensinaram que muita doença grave começa anos antes — em silêncio, em exames \"normais\".",
       "lead2": "A medicina que pratico hoje busca esse intervalo. É sobre o que vem antes — e sobre conduzir, no longo prazo, a saúde inteira da pessoa.",
-      "ctaBook": "Leia o livro",
+      "ctaConsult": "Marcar consulta",
       "ctaAbout": "Sobre mim",
+      "ctaBook": "Conhecer o livro",
       "portraitAlt": "Dr. Getúlio Amaral Filho"
     },
     "pillars": {
@@ -83,6 +84,18 @@
       "sectionLabel": "Escritos recentes",
       "viewAll": "Ver todos →",
       "dateLocale": "pt-BR"
+    },
+    "manager": {
+      "kicker": "Como atuo",
+      "h2": "Médico-gestor da saúde do paciente.",
+      "lead": "É o clínico que conhece a história em profundidade, acompanha o cuidado de forma longitudinal — ao longo de meses e anos — e articula o plano entre a equipe que está com você na Plenya e os profissionais que já cuidam de você fora daqui (cardiologista, endocrinologista, ginecologista). Não substituo essas relações: garanto a continuidade clínica do conjunto, com alguém finalmente olhando para a pessoa inteira.",
+      "footnote1": "Médico-gestor",
+      "footnote1Body": "quem coordena o cuidado",
+      "footnote2": "Longitudinal",
+      "footnote2Body": "ao longo do tempo",
+      "footnote3": "Continuidade clínica",
+      "footnote3Body": "o conjunto faz sentido",
+      "cta": "Como conduzo o trabalho →"
     }
   },
   "about": {
@@ -196,44 +209,54 @@
     ]
   },
   "ondeAtendo": {
-    "metaTitle": "Onde atendo",
-    "metaDescription": "Atendimento clínico na Plenya (medicina funcional integrativa) e na Nefroclínica Londrina (nefrologia clínica). Responsabilidade técnica pela DaVita Intra Hospitalar e DaVita Londrina.",
-    "kicker": "Onde atendo",
-    "h1": "Quatro frentes, a mesma medicina.",
-    "lead": "Atendo em duas clínicas em Londrina e respondo tecnicamente por duas unidades de hemodiálise — uma hospitalar, uma ambulatorial. As quatro frentes são a mesma medicina em momentos diferentes do tempo da pessoa: antecipar, acompanhar, tratar.",
+    "metaTitle": "Como consultar comigo",
+    "metaDescription": "Para consultas comigo: Plenya (medicina funcional integrativa, longevidade) ou Nefroclínica Londrina (nefrologia clínica). Também atuo como responsável técnico em duas unidades de hemodiálise.",
+    "kicker": "Como consultar",
+    "h1": "Para consultar comigo.",
+    "lead": "Atendo em duas clínicas em Londrina, cada uma com um foco diferente. Escolha a que faz mais sentido para o seu caso e fale diretamente com a clínica para agendar.",
     "portraitAlt": "Dr. Getúlio Amaral Filho em consultório",
     "breadcrumbHome": "Início",
-    "breadcrumbCurrent": "Onde atendo",
-    "scheduleKicker": "Agendar",
-    "scheduleBody": "Para agendamento, fale diretamente com a clínica de referência. Para outras demandas (palestra, imprensa), use os canais correspondentes.",
-    "clinicas": [
+    "breadcrumbCurrent": "Como consultar",
+    "consultsKicker": "Atendimento ambulatorial",
+    "consultsLead": "Duas vias de consulta. Cada uma com um foco clínico distinto:",
+    "scheduleHere": "Agendar nesta clínica ↗",
+    "hospitalKicker": "Atuação hospitalar",
+    "hospitalLead": "Responsabilidade técnica em duas unidades de hemodiálise. Estes não são canais de consulta ambulatorial — listados aqui apenas para informação completa sobre minha atuação.",
+    "patientHelpKicker": "Em dúvida sobre qual via?",
+    "patientHelpBody": "Se sua busca é por uma leitura ampliada da saúde, prevenção e longevidade — a Plenya. Se é uma questão renal específica (doença renal crônica, hipertensão complexa, distúrbio eletrolítico, pré-diálise) — a Nefroclínica.",
+    "outrosCanaisKicker": "Outros canais",
+    "outrosCanaisBody": "Para palestras, imprensa ou demandas que não sejam consulta clínica, use os canais correspondentes em ",
+    "outrosCanaisLink": "Contato",
+    "consultas": [
       {
         "name": "Plenya",
         "role": "Direção clínica",
-        "body": "Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Atuo como médico-gestor da saúde do paciente — articulando o cuidado entre a equipe Plenya e os profissionais que ele já consulta fora da clínica.",
+        "tagline": "Para longevidade, prevenção e medicina funcional",
+        "body": "Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Aqui eu atuo como médico-gestor da sua saúde — articulando o cuidado entre a equipe Plenya e os profissionais que você já consulta fora da clínica.",
         "address": "Londrina · Paraná",
         "href": "https://plenyasaude.com.br"
       },
       {
         "name": "Nefroclínica Londrina",
         "role": "Sócio",
+        "tagline": "Para nefrologia clínica especializada",
         "body": "Nefrologia clínica em Londrina há quatro décadas. Atendimento de doença renal crônica, hipertensão de difícil controle, distúrbios eletrolíticos e acompanhamento pré-diálise.",
         "address": "Londrina · Paraná",
         "href": "https://nefroclinica.com"
-      },
+      }
+    ],
+    "hospital": [
       {
         "name": "DaVita Intra Hospitalar",
         "role": "Responsável técnico",
         "body": "Hemodiálise hospitalar — Santa Casa de Londrina. Atendimento a pacientes internados em estágio avançado de doença renal, em conjunto com a equipe de nefrologia da instituição.",
-        "address": "Santa Casa de Londrina · Paraná",
-        "href": null
+        "address": "Santa Casa de Londrina · Paraná"
       },
       {
         "name": "DaVita Londrina",
         "role": "Responsável técnico",
         "body": "Unidade ambulatorial de hemodiálise em Londrina. Acompanhamento crônico de pacientes em terapia renal substitutiva.",
-        "address": "Londrina · Paraná",
-        "href": null
+        "address": "Londrina · Paraná"
       }
     ]
   },
@@ -281,10 +304,10 @@
   },
   "palestras": {
     "metaTitle": "Palestras",
-    "metaDescription": "Palestras de Dr. Getúlio Amaral Filho sobre prevenção que começa antes do diagnóstico, longevidade prática e nefrologia preventiva.",
+    "metaDescription": "Palestras de Dr. Getúlio Amaral Filho para plateias abertas, equipes corporativas e congressos médicos — sobre prevenção que começa antes do diagnóstico, longevidade prática e nefrologia preventiva.",
     "kicker": "Palestras",
     "h1": "Sobre prevenção que começa antes.",
-    "lead": "Palestras para médicos, residentes, equipes corporativas e plateias abertas — sobre a janela silenciosa entre o normal e o ótimo, e o método clínico para encurtá-la.",
+    "lead": "Palestras para plateias abertas, eventos corporativos e — em recortes técnicos — congressos médicos. Sobre a janela silenciosa entre o normal e o ótimo, e o método clínico para encurtá-la.",
     "headerImageAlt": "Dr. Getúlio Amaral Filho durante palestra — slide com diagrama da árvore das doenças crônicas (cardiovasculares, câncer, neurodegenerativas, metabólicas)",
     "anchorBadge": "Palestra-âncora",
     "audienceLabel": "Público",

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Hero } from '@/components/home/hero';
+import { CareManager } from '@/components/home/care-manager';
 import { Pillars } from '@/components/home/pillars';
 import { BookStrip } from '@/components/home/book-strip';
 import { ClinicsRow } from '@/components/home/clinics-row';
@@ -40,6 +41,7 @@ export default async function HomePage({
   return (
     <>
       <Hero />
+      <CareManager />
       <Pillars />
       <BookStrip />
       <ClinicsRow />

@@ -54,6 +54,23 @@ export function getAudienceLabel(a: Audience, locale: string = 'pt') {
   return locale === 'en' ? audienceLabelsEn[a] : audienceLabelsPt[a];
 }
 
+/**
+ * Prioridade de exibição: público leigo primeiro, corporativo depois,
+ * técnico (médicos/residentes/congressos) por último. Reflete o foco
+ * editorial do site.
+ */
+const AUDIENCE_PRIORITY: Record<Audience, number> = {
+  aberto: 1,
+  corporativo: 2,
+  congressos: 3,
+  medicos: 4,
+  residentes: 5,
+};
+
+export function sortAudience(audience: Audience[]): Audience[] {
+  return [...audience].sort((a, b) => AUDIENCE_PRIORITY[a] - AUDIENCE_PRIORITY[b]);
+}
+
 export async function getAllLectures(): Promise<Lecture[]> {
   const files = (await readDirSafe(ROOT)).filter((f) => f.endsWith('.mdx'));
   const lectures = await Promise.all(

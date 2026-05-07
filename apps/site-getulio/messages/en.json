@@ -40,8 +40,9 @@
       "credentials": "Nephrologist · CRM-PR 21,876 · RQE 16,038",
       "lead1": "Twenty years inside the hospital taught me that much serious disease begins years earlier — silently, in \"normal\" lab results.",
       "lead2": "The medicine I practice today looks for that interval. It's about what comes before — and about coordinating, over the long term, a person's whole-of-health.",
-      "ctaBook": "Read the book",
+      "ctaConsult": "Schedule a consult",
       "ctaAbout": "About me",
+      "ctaBook": "About the book",
       "portraitAlt": "Dr. Getúlio Amaral Filho"
     },
     "pillars": {
@@ -83,6 +84,18 @@
       "sectionLabel": "Recent writings",
       "viewAll": "View all →",
       "dateLocale": "en-US"
+    },
+    "manager": {
+      "kicker": "How I practice",
+      "h2": "The patient's care-managing physician.",
+      "lead": "The clinician who knows your history in depth, follows your care longitudinally — over months and years — and coordinates the plan between the team with you at Plenya and the professionals already caring for you elsewhere (cardiologist, endocrinologist, gynecologist). I don't replace those relationships: I ensure clinical continuity across the whole, with someone finally looking at the entire person.",
+      "footnote1": "Care-managing physician",
+      "footnote1Body": "the one who coordinates",
+      "footnote2": "Longitudinal",
+      "footnote2Body": "across time",
+      "footnote3": "Clinical continuity",
+      "footnote3Body": "the whole makes sense",
+      "cta": "How I lead the work →"
     }
   },
   "about": {
@@ -196,44 +209,54 @@
     ]
   },
   "ondeAtendo": {
-    "metaTitle": "Where I practice",
-    "metaDescription": "Clinical practice at Plenya (integrative functional medicine) and Nefroclínica Londrina (clinical nephrology). Technical director of DaVita Intra Hospitalar and DaVita Londrina.",
-    "kicker": "Where I practice",
-    "h1": "Four fronts, the same medicine.",
-    "lead": "I practice at two clinics in Londrina and serve as technical director for two hemodialysis units — one in-hospital, one outpatient. The four fronts are the same medicine at different moments in a person's timeline: anticipate, follow, treat.",
+    "metaTitle": "How to schedule a consult",
+    "metaDescription": "To consult with me: Plenya (integrative functional medicine, longevity) or Nefroclínica Londrina (clinical nephrology). I also serve as technical director of two hemodialysis units.",
+    "kicker": "How to consult",
+    "h1": "To schedule a consult with me.",
+    "lead": "I practice at two clinics in Londrina, each with a different clinical focus. Choose the one that best fits your case and contact the clinic directly to book.",
     "portraitAlt": "Dr. Getúlio Amaral Filho in consultation",
     "breadcrumbHome": "Home",
-    "breadcrumbCurrent": "Where I practice",
-    "scheduleKicker": "Schedule",
-    "scheduleBody": "For appointments, contact the relevant clinic directly. For other matters (lectures, press), use the dedicated channels.",
-    "clinicas": [
+    "breadcrumbCurrent": "How to consult",
+    "consultsKicker": "Outpatient practice",
+    "consultsLead": "Two consultation pathways, each with a distinct clinical focus:",
+    "scheduleHere": "Book at this clinic ↗",
+    "hospitalKicker": "Hospital practice",
+    "hospitalLead": "Technical responsibility at two hemodialysis units. These are not outpatient consultation channels — listed here only for full transparency on the scope of my practice.",
+    "patientHelpKicker": "Not sure which pathway?",
+    "patientHelpBody": "If you're looking for an expanded reading of health, prevention and longevity — Plenya. If it's a specific renal issue (chronic kidney disease, complex hypertension, electrolyte disorder, pre-dialysis) — Nefroclínica.",
+    "outrosCanaisKicker": "Other channels",
+    "outrosCanaisBody": "For lectures, press or non-clinical inquiries, use the dedicated channels on ",
+    "outrosCanaisLink": "Contact",
+    "consultas": [
       {
         "name": "Plenya",
         "role": "Clinical director",
-        "body": "Preventive health and longevity program. Integrative functional medicine, with a multidisciplinary team (physician, nutritionist, psychologist, exercise physiologist) working the same patient under the same plan. I serve as the patient's care-managing physician — coordinating care between the Plenya team and the professionals the patient already sees outside the clinic.",
+        "tagline": "For longevity, prevention and functional medicine",
+        "body": "Preventive health and longevity program. Integrative functional medicine, with a multidisciplinary team (physician, nutritionist, psychologist, exercise physiologist) working the same patient under the same plan. Here I serve as your care-managing physician — coordinating care between the Plenya team and the professionals you already see outside the clinic.",
         "address": "Londrina · Paraná, Brazil",
         "href": "https://plenyasaude.com.br"
       },
       {
         "name": "Nefroclínica Londrina",
         "role": "Partner",
+        "tagline": "For specialized clinical nephrology",
         "body": "Clinical nephrology in Londrina for four decades. Care for chronic kidney disease, treatment-resistant hypertension, electrolyte disorders and pre-dialysis follow-up.",
         "address": "Londrina · Paraná, Brazil",
         "href": "https://nefroclinica.com"
-      },
+      }
+    ],
+    "hospital": [
       {
         "name": "DaVita Intra Hospitalar",
         "role": "Technical director",
         "body": "In-hospital hemodialysis — Santa Casa de Londrina. Care for inpatients in advanced stages of kidney disease, alongside the institution's nephrology team.",
-        "address": "Santa Casa de Londrina · Paraná, Brazil",
-        "href": null
+        "address": "Santa Casa de Londrina · Paraná, Brazil"
       },
       {
         "name": "DaVita Londrina",
         "role": "Technical director",
         "body": "Outpatient hemodialysis unit in Londrina. Long-term follow-up of patients on renal replacement therapy.",
-        "address": "Londrina · Paraná, Brazil",
-        "href": null
+        "address": "Londrina · Paraná, Brazil"
       }
     ]
   },
@@ -281,10 +304,10 @@
   },
   "palestras": {
     "metaTitle": "Lectures",
-    "metaDescription": "Lectures by Dr. Getúlio Amaral Filho on prevention that begins before diagnosis, practical longevity, and preventive nephrology.",
+    "metaDescription": "Lectures by Dr. Getúlio Amaral Filho for open audiences, corporate events and — in technical formats — medical conferences. On prevention that begins before diagnosis, practical longevity, and preventive nephrology.",
     "kicker": "Lectures",
     "h1": "On prevention that begins before.",
-    "lead": "Lectures for physicians, residents, corporate teams and open audiences — on the silent window between normal and optimal, and the clinical method for shortening it.",
+    "lead": "Lectures for open audiences, corporate events and — in technical formats — medical conferences. On the silent window between normal and optimal, and the clinical method for shortening it.",
     "headerImageAlt": "Dr. Getúlio Amaral Filho during a lecture — slide showing the chronic-disease tree (cardiovascular, cancer, neurodegenerative, metabolic)",
     "anchorBadge": "Anchor lecture",
     "audienceLabel": "Audience",
