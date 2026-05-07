@@ -83,5 +83,115 @@
       "viewAll": "Ver todos →",
       "dateLocale": "pt-BR"
     }
+  },
+  "about": {
+    "metaTitle": "Sobre",
+    "metaDescription": "Médico nefrologista formado pela UEL em 2004. Vinte anos de prática em medicina interna e nefrologia, com pós-graduação em medicina funcional integrativa.",
+    "kicker": "Sobre",
+    "h1": "Comecei na nefrologia, dentro do hospital.",
+    "portraitAlt": "Dr. Getúlio Amaral Filho",
+    "p1": "Sou de Londrina. Formei-me em medicina pela Universidade Estadual de Londrina em 2004 e fiz residência em clínica médica e nefrologia na Santa Casa de Londrina, onde também obtive o título de especialista pela Sociedade Brasileira de Nefrologia em 2008.",
+    "p2": "Naqueles anos, aprendi a medicina dentro do ambiente hospitalar — onde a doença renal e cardiovascular se mostra em estágios graves, com pouca margem para mudar o curso.",
+    "p3": "Nas duas décadas seguintes, esse foi o meu dia a dia. Coordenei a residência médica em nefrologia da Santa Casa, fundei a residência em clínica médica da mesma instituição, e sou responsável técnico pela hemodiálise hospitalar da DaVita Intra Hospitalar de Londrina. Acompanhei centenas de pacientes em estágios avançados de doença — quadros em que, com frequência, a trajetória poderia ter sido modificada anos antes.",
+    "p4": "Vi pacientes chegarem ao consultório com exames \"normais\" no ano anterior. Vi check-ups que registraram tudo dentro da faixa — e perderam o sinal de tudo o que estava se montando em silêncio. O laboratório dizia \"normal\". O corpo estava adoecendo há oito, dez, vinte anos.",
+    "p5": "Foi essa observação repetida que me incomodou. Não era falha dos exames — era falha da pergunta. O check-up convencional procura doença instalada. Não procura o intervalo entre o normal e o ótimo, onde a longevidade é construída ou perdida.",
+    "p6": "Em 2026, conclui pós-graduação em medicina funcional integrativa pela Associação Brasileira de Medicina Funcional Integrativa. Não foi uma troca de paradigma. Foi uma extensão para trás — aplicar o mesmo rigor clínico que se exige no ambiente hospitalar, com exames e dados e decisão estruturada, ao período que precede a doença.",
+    "p7Pre": "É essa medicina que conduzo hoje na Plenya, ao lado da equipe que se reuniu para isso. E é sobre essa janela silenciosa entre o normal e o ótimo que escrevi o livro ",
+    "p7Em": "Antes",
+    "p7Post": ", publicado em 2026.",
+    "p8": "Sigo atendendo nefrologia clínica na Nefroclínica Londrina, coordenando a residência na Santa Casa, respondendo tecnicamente pela hemodiálise hospitalar, e dirigindo clinicamente a Plenya. As quatro coisas são a mesma medicina, em momentos diferentes do tempo da pessoa.",
+    "p9": "Na Plenya, em particular, é como médico-gestor da saúde do paciente que conduzo o trabalho — o clínico que conhece a história em profundidade, acompanha o cuidado de forma longitudinal, ao longo de meses e anos, e articula o plano entre a equipe Plenya e os profissionais que já cuidam daquele paciente fora daqui — cardiologista, endocrinologista, ginecologista. Não substituo essas relações: garanto a continuidade clínica do conjunto, com alguém finalmente olhando para a pessoa inteira.",
+    "human": "Vive em Londrina com a família. Corre quando o dia permite.",
+    "asideFormacao": "Formação",
+    "asideAtuacao": "Atuação",
+    "asideSociedades": "Sociedades",
+    "asideCredenciais": "Credenciais",
+    "formacao": [
+      { "year": "2004", "label": "Medicina — Universidade Estadual de Londrina" },
+      { "year": "2006", "label": "Especialização em Clínica Médica — Santa Casa de Londrina" },
+      { "year": "2008", "label": "Especialização em Nefrologia — Santa Casa de Londrina" },
+      { "year": "2008", "label": "Título de Especialista em Nefrologia — Sociedade Brasileira de Nefrologia" },
+      { "year": "2026", "label": "Pós-graduação em Medicina Funcional Integrativa — ABMFI" }
+    ],
+    "atuacao": [
+      "Coordenador da Residência Médica em Nefrologia — Santa Casa de Londrina",
+      "Fundador da Residência Médica em Clínica Médica — Santa Casa de Londrina",
+      "Sócio — Nefroclínica Londrina",
+      "Responsável Técnico — DaVita Intra Hospitalar de Londrina",
+      "Professor do curso de Medicina — PUC Londrina (2013–2014)",
+      "Direção Clínica — Plenya"
+    ],
+    "sociedades": [
+      "Sociedade Brasileira de Nefrologia",
+      "Sociedade Paranaense de Nefrologia",
+      "Associação Brasileira de Medicina Funcional Integrativa"
+    ]
+  },
+  "book": {
+    "metaTitle": "Antes — A Janela Silenciosa",
+    "metaDescription": "Antes — A Janela Silenciosa entre o Normal e o Ótimo. Livro do Dr. Getúlio Amaral Filho sobre os dez a vinte anos em que a longevidade é construída ou perdida.",
+    "coverAlt": "Capa do livro Antes — A Janela Silenciosa entre o Normal e o Ótimo",
+    "kicker": "Livro · 2026",
+    "h1Title": "Antes",
+    "h1Subtitle": "A Janela Silenciosa entre o Normal e o Ótimo",
+    "lead1": "A medicina brasileira se tornou excelente em tratar doença instalada — e ruim em prever o que está chegando. Entre a saúde que o laboratório reconhece e a doença que o médico trata existe uma janela silenciosa de dez a vinte anos, onde a longevidade é construída ou perdida.",
+    "lead2": "Baseado em vinte anos de prática clínica, este livro mostra o painel ampliado de biomarcadores que o check-up convencional ignora, o método AGIR de quatro pilares, e a Regra dos Dois — a única forma de mudança de hábito que produz resultado mensurável em três meses.",
+    "isbnLine": "ISBN 978-65-02-06742-0 · 2026",
+    "editionLine": "Edição em português · Brasil",
+    "authorKicker": "Sobre o autor",
+    "authorBody": "Dr. Getúlio Amaral Filho é médico nefrologista (CRM-PR 21.876 · RQE 16.038). Há vinte anos atende em hospital, ambulatório e diálise. Dirige a Plenya — programa de longevidade que inverte a sequência do cuidado: começa antes da doença instalada, na janela silenciosa onde o exame ainda diz \"normal\".",
+    "authorCta": "Ler biografia completa →",
+    "authorPortraitAlt": "Dr. Getúlio Amaral Filho",
+    "trechosKicker": "Trechos",
+    "trechos": [
+      {
+        "cap": "Introdução",
+        "citacao": "O laboratório diz normal. O corpo diz: estou adoecendo há oito anos e ninguém está olhando."
+      },
+      {
+        "cap": "Capítulo 1 — O Homem que Morreu Saudável",
+        "citacao": "Medicina 2.0 contra Medicina 3.0. A diferença entre um alarme de incêndio e um detector de fumaça. O alarme toca quando já está queimando. O detector toca quando a fumaça começa."
+      },
+      {
+        "cap": "Capítulo 7 — Atividade Física",
+        "citacao": "Se existisse um fármaco que reduzisse o risco de morte por todas as causas em até 80%, a humanidade pagaria qualquer preço por ele. Esse fármaco existe. Chama-se exercício físico."
+      }
+    ],
+    "launchKicker": "Lançamento",
+    "launchH2": "Quer ser avisado quando o livro estiver disponível?",
+    "launchBodyPre": "",
+    "launchBodyEm": "Antes — A Janela Silenciosa entre o Normal e o Ótimo",
+    "launchBodyPost": " entra em pré-venda em 2026. Para ser notificado da data, escreva para o endereço abaixo com o assunto \"Antes — pré-venda\".",
+    "launchEmailSubject": "Antes — pré-venda"
+  },
+  "ensino": {
+    "metaTitle": "Ensino",
+    "metaDescription": "Coordenador da Residência Médica em Nefrologia da Santa Casa de Londrina. Fundador da Residência em Clínica Médica. Professor PUC Londrina.",
+    "kicker": "Ensino",
+    "h1": "Ensinar é a outra metade da clínica.",
+    "lead": "Coordeno residência médica há mais de uma década. O que se aprende preparando o próximo médico é diferente do que se aprende atendendo o próximo paciente — e os dois se sustentam.",
+    "philosophyKicker": "Filosofia de ensino",
+    "philosophy1": "O bom residente aprende a ler o paciente antes do exame. O bom programa de residência ensina a duvidar do \"normal\" — a ver o intervalo entre o que está dentro da faixa e o que sustenta a longevidade do indivíduo à frente.",
+    "philosophy2": "O que tento passar é simples: rigor clínico hospitalar é compatível — e necessário — com medicina preventiva de precisão. Não são dois mundos. É a mesma medicina, em momentos diferentes do tempo da pessoa.",
+    "cargos": [
+      {
+        "period": "Desde 2015",
+        "title": "Coordenador da Residência Médica em Nefrologia",
+        "org": "Santa Casa de Londrina",
+        "body": "Responsável pela formação de residentes em nefrologia, coordenando o programa, a grade clínica e a integração com a hemodiálise hospitalar."
+      },
+      {
+        "period": "Fundador",
+        "title": "Residência Médica em Clínica Médica",
+        "org": "Santa Casa de Londrina",
+        "body": "Desenhei e implantei o programa de residência em clínica médica da instituição — porque sem clínica geral sólida não há especialização que valha."
+      },
+      {
+        "period": "2013 – 2014",
+        "title": "Professor do curso de Medicina",
+        "org": "PUC Londrina",
+        "body": "Disciplinas de clínica médica e nefrologia para a graduação. Formação de futuros médicos com ênfase em raciocínio clínico e leitura integrada de exames."
+      }
+    ]
   }
 }

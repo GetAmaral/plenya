@@ -83,5 +83,115 @@
       "viewAll": "View all →",
       "dateLocale": "en-US"
     }
+  },
+  "about": {
+    "metaTitle": "About",
+    "metaDescription": "Nephrologist trained at UEL in 2004. Twenty years of internal medicine and nephrology practice, with postgraduate training in integrative functional medicine.",
+    "kicker": "About",
+    "h1": "I started in nephrology, inside the hospital.",
+    "portraitAlt": "Dr. Getúlio Amaral Filho",
+    "p1": "I'm from Londrina. I graduated in medicine from Universidade Estadual de Londrina in 2004 and trained in internal medicine and nephrology at Santa Casa de Londrina, where I also obtained the specialist certification from the Brazilian Society of Nephrology in 2008.",
+    "p2": "In those years, I learned medicine inside the hospital — where renal and cardiovascular disease shows up at advanced stages, with little room to change the course.",
+    "p3": "For the next two decades, that was my daily practice. I coordinated the nephrology residency at Santa Casa, founded the institution's internal medicine residency, and serve as technical director for in-hospital hemodialysis at DaVita Intra Hospitalar de Londrina. I followed hundreds of patients in advanced stages — cases where, often, the trajectory could have been altered years earlier.",
+    "p4": "I saw patients arrive at the clinic with \"normal\" exams from the previous year. I saw check-ups that recorded everything within range — and missed the signal of everything that was silently building. The lab said \"normal.\" The body had been getting sick for eight, ten, twenty years.",
+    "p5": "It was that repeated observation that bothered me. It wasn't a failure of the tests — it was a failure of the question. The conventional check-up looks for established disease. It doesn't look for the interval between normal and optimal, where longevity is built or lost.",
+    "p6": "In 2026, I completed postgraduate training in integrative functional medicine through the Brazilian Association of Integrative Functional Medicine. It wasn't a paradigm shift. It was an extension backwards — applying the same clinical rigor that's required in the hospital, with labs and data and structured decision-making, to the period that precedes disease.",
+    "p7Pre": "That's the medicine I practice today at Plenya, alongside the team assembled for it. And it's about that silent window between normal and optimal that I wrote the book ",
+    "p7Em": "Antes",
+    "p7Post": ", published in 2026.",
+    "p8": "I continue practicing clinical nephrology at Nefroclínica Londrina, coordinating the residency at Santa Casa, serving as technical director for in-hospital hemodialysis, and leading Plenya as clinical director. The four roles are the same medicine, at different moments in a person's timeline.",
+    "p9": "At Plenya in particular, I lead the work as the patient's care-managing physician — the clinician who knows the history in depth, follows care longitudinally over months and years, and articulates the plan between the Plenya team and the professionals already caring for that patient elsewhere — cardiologist, endocrinologist, gynecologist. I don't replace those relationships: I ensure clinical continuity across the whole, with someone finally looking at the entire person.",
+    "human": "Lives in Londrina with his family. Runs when the day allows.",
+    "asideFormacao": "Education",
+    "asideAtuacao": "Current roles",
+    "asideSociedades": "Societies",
+    "asideCredenciais": "Credentials",
+    "formacao": [
+      { "year": "2004", "label": "MD — Universidade Estadual de Londrina" },
+      { "year": "2006", "label": "Internal Medicine residency — Santa Casa de Londrina" },
+      { "year": "2008", "label": "Nephrology residency — Santa Casa de Londrina" },
+      { "year": "2008", "label": "Specialist certification in Nephrology — Brazilian Society of Nephrology" },
+      { "year": "2026", "label": "Postgraduate in Integrative Functional Medicine — ABMFI" }
+    ],
+    "atuacao": [
+      "Coordinator of the Nephrology Residency — Santa Casa de Londrina",
+      "Founder of the Internal Medicine Residency — Santa Casa de Londrina",
+      "Partner — Nefroclínica Londrina",
+      "Technical Director — DaVita Intra Hospitalar de Londrina",
+      "Professor at the School of Medicine — PUC Londrina (2013–2014)",
+      "Clinical Director — Plenya"
+    ],
+    "sociedades": [
+      "Brazilian Society of Nephrology",
+      "Paraná Society of Nephrology",
+      "Brazilian Association of Integrative Functional Medicine"
+    ]
+  },
+  "book": {
+    "metaTitle": "Antes — The Silent Window",
+    "metaDescription": "Antes — The Silent Window Between Normal and Optimal. Dr. Getúlio Amaral Filho's book on the ten to twenty years in which longevity is built or lost.",
+    "coverAlt": "Cover of the book Antes — The Silent Window Between Normal and Optimal",
+    "kicker": "Book · 2026",
+    "h1Title": "Antes",
+    "h1Subtitle": "The Silent Window Between Normal and Optimal",
+    "lead1": "Brazilian medicine has become excellent at treating established disease — and poor at predicting what's coming. Between the health the lab recognizes and the disease the doctor treats, there is a silent window of ten to twenty years, where longevity is built or lost.",
+    "lead2": "Based on twenty years of clinical practice, this book presents the expanded panel of biomarkers that the conventional check-up ignores, the four-pillar ACTS Method, and the Rule of Two — the only form of habit change that produces measurable results in three months.",
+    "isbnLine": "ISBN 978-65-02-06742-0 · 2026",
+    "editionLine": "Brazilian Portuguese edition",
+    "authorKicker": "About the author",
+    "authorBody": "Dr. Getúlio Amaral Filho is a nephrologist (CRM-PR 21,876 · RQE 16,038). For twenty years he has practiced in hospital, outpatient and dialysis settings. He directs Plenya — a longevity program that inverts the care sequence: it begins before established disease, in the silent window where the lab still says \"normal.\"",
+    "authorCta": "Read the full biography →",
+    "authorPortraitAlt": "Dr. Getúlio Amaral Filho",
+    "trechosKicker": "Excerpts",
+    "trechos": [
+      {
+        "cap": "Introduction",
+        "citacao": "The lab says normal. The body says: I've been getting sick for eight years and no one is looking."
+      },
+      {
+        "cap": "Chapter 1 — The Man Who Died Healthy",
+        "citacao": "Medicine 2.0 versus Medicine 3.0. The difference between a fire alarm and a smoke detector. The alarm rings when it's already burning. The detector rings when the smoke begins."
+      },
+      {
+        "cap": "Chapter 7 — Physical Activity",
+        "citacao": "If there were a drug that reduced all-cause mortality by up to 80%, humanity would pay any price for it. That drug exists. It's called exercise."
+      }
+    ],
+    "launchKicker": "Launch",
+    "launchH2": "Want to be notified when the book is available?",
+    "launchBodyPre": "",
+    "launchBodyEm": "Antes — The Silent Window Between Normal and Optimal",
+    "launchBodyPost": " (Brazilian Portuguese edition) goes into pre-sale in 2026. To be notified, write to the address below with the subject \"Antes — pré-venda\".",
+    "launchEmailSubject": "Antes — pré-venda"
+  },
+  "ensino": {
+    "metaTitle": "Teaching",
+    "metaDescription": "Coordinator of the Nephrology Medical Residency at Santa Casa de Londrina. Founder of the Internal Medicine Residency. Professor at PUC Londrina.",
+    "kicker": "Teaching",
+    "h1": "Teaching is the other half of clinical practice.",
+    "lead": "I've coordinated medical residency for over a decade. What you learn preparing the next physician is different from what you learn treating the next patient — and the two reinforce each other.",
+    "philosophyKicker": "Teaching philosophy",
+    "philosophy1": "The good resident learns to read the patient before reading the exam. The good residency program teaches doubt of the \"normal\" — to see the interval between what's within range and what sustains the individual's longevity ahead.",
+    "philosophy2": "What I try to convey is simple: hospital-grade clinical rigor is compatible — and necessary — with precision preventive medicine. They are not two worlds. They are the same medicine, at different moments in a person's timeline.",
+    "cargos": [
+      {
+        "period": "Since 2015",
+        "title": "Coordinator of the Nephrology Medical Residency",
+        "org": "Santa Casa de Londrina",
+        "body": "Responsible for residency training in nephrology, coordinating the program, the clinical curriculum and integration with in-hospital hemodialysis."
+      },
+      {
+        "period": "Founder",
+        "title": "Internal Medicine Medical Residency",
+        "org": "Santa Casa de Londrina",
+        "body": "I designed and implemented the institution's internal medicine residency program — because without solid general clinical training there is no specialization worth pursuing."
+      },
+      {
+        "period": "2013 – 2014",
+        "title": "Professor at the School of Medicine",
+        "org": "PUC Londrina",
+        "body": "Internal medicine and nephrology courses for undergraduates. Training future physicians with emphasis on clinical reasoning and integrated reading of lab results."
+      }
+    ]
   }
 }

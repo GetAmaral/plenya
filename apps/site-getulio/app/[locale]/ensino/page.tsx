@@ -1,36 +1,24 @@
 import type { Metadata } from 'next';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 
-export const metadata: Metadata = {
-  title: 'Ensino',
-  description:
-    'Coordenador da Residência Médica em Nefrologia da Santa Casa de Londrina. Fundador da Residência em Clínica Médica. Professor PUC Londrina.',
-  alternates: { canonical: '/ensino' },
-};
+type Cargo = { period: string; title: string; org: string; body: string };
 
-const cargos = [
-  {
-    period: 'Desde 2015',
-    title: 'Coordenador da Residência Médica em Nefrologia',
-    org: 'Santa Casa de Londrina',
-    body:
-      'Responsável pela formação de residentes em nefrologia, coordenando o programa, a grade clínica e a integração com a hemodiálise hospitalar.',
-  },
-  {
-    period: 'Fundador',
-    title: 'Residência Médica em Clínica Médica',
-    org: 'Santa Casa de Londrina',
-    body:
-      'Desenhei e implantei o programa de residência em clínica médica da instituição — porque sem clínica geral sólida não há especialização que valha.',
-  },
-  {
-    period: '2013 – 2014',
-    title: 'Professor do curso de Medicina',
-    org: 'PUC Londrina',
-    body:
-      'Disciplinas de clínica médica e nefrologia para a graduação. Formação de futuros médicos com ênfase em raciocínio clínico e leitura integrada de exames.',
-  },
-];
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'ensino' });
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+    alternates: {
+      canonical: locale === 'en' ? '/en/ensino' : '/ensino',
+      languages: { 'pt-BR': '/ensino', en: '/en/ensino' },
+    },
+  };
+}
 
 export default async function EnsinoPage({
   params,
@@ -39,19 +27,17 @@ export default async function EnsinoPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: 'ensino' });
+  const cargos = t.raw('cargos') as Cargo[];
 
   return (
     <article>
       <header className="editorial-container pt-16 md:pt-24 pb-12">
-        <p className="label-meta mb-6">Ensino</p>
+        <p className="label-meta mb-6">{t('kicker')}</p>
         <h1 className="heading-display text-[clamp(2.2rem,5vw,3.8rem)] max-w-3xl">
-          Ensinar é a outra metade da clínica.
+          {t('h1')}
         </h1>
-        <p className="prose-body mt-8 max-w-2xl">
-          Coordeno residência médica há mais de uma década. O que se aprende preparando o
-          próximo médico é diferente do que se aprende atendendo o próximo paciente — e os
-          dois se sustentam.
-        </p>
+        <p className="prose-body mt-8 max-w-2xl">{t('lead')}</p>
       </header>
 
       <section className="editorial-container pb-20">
@@ -71,18 +57,10 @@ export default async function EnsinoPage({
 
       <section className="border-t border-rule bg-paper">
         <div className="editorial-container py-20 max-w-3xl">
-          <p className="label-meta mb-6">Filosofia de ensino</p>
+          <p className="label-meta mb-6">{t('philosophyKicker')}</p>
           <div className="prose-body space-y-6">
-            <p>
-              O bom residente aprende a ler o paciente antes do exame. O bom programa de
-              residência ensina a duvidar do "normal" — a ver o intervalo entre o que está
-              dentro da faixa e o que sustenta a longevidade do indivíduo à frente.
-            </p>
-            <p>
-              O que tento passar é simples: rigor clínico hospitalar é compatível — e
-              necessário — com medicina preventiva de precisão. Não são dois mundos. É a
-              mesma medicina, em momentos diferentes do tempo da pessoa.
-            </p>
+            <p>{t('philosophy1')}</p>
+            <p>{t('philosophy2')}</p>
           </div>
         </div>
       </section>
