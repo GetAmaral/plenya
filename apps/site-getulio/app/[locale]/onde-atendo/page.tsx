@@ -1,15 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { ClinicsSchema } from '@/components/seo/clinics-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
-
-export const metadata: Metadata = {
-  title: 'Onde atendo',
-  description:
-    'Atendimento clínico na Plenya (medicina funcional integrativa) e na Nefroclínica Londrina (nefrologia clínica). Responsabilidade técnica pela DaVita Intra Hospitalar e DaVita Londrina.',
-  alternates: { canonical: '/onde-atendo' },
-};
 
 type Clinic = {
   name: string;
@@ -19,42 +12,22 @@ type Clinic = {
   href: string | null;
 };
 
-// Logos das clínicas removidos (mistura de PNG raster + SVG + texto destoava
-// da paleta editorial). Wordmark serif uniforme.
-const clinicas: Clinic[] = [
-  {
-    name: 'Plenya',
-    role: 'Direção clínica',
-    body:
-      'Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Atuo como médico-gestor da saúde do paciente — articulando o cuidado entre a equipe Plenya e os profissionais que ele já consulta fora da clínica.',
-    address: 'Londrina · Paraná',
-    href: 'https://plenyasaude.com.br',
-  },
-  {
-    name: 'Nefroclínica Londrina',
-    role: 'Sócio',
-    body:
-      'Nefrologia clínica em Londrina há quatro décadas. Atendimento de doença renal crônica, hipertensão de difícil controle, distúrbios eletrolíticos e acompanhamento pré-diálise.',
-    address: 'Londrina · Paraná',
-    href: 'https://nefroclinica.com',
-  },
-  {
-    name: 'DaVita Intra Hospitalar',
-    role: 'Responsável técnico',
-    body:
-      'Hemodiálise hospitalar — Santa Casa de Londrina. Atendimento a pacientes internados em estágio avançado de doença renal, em conjunto com a equipe de nefrologia da instituição.',
-    address: 'Santa Casa de Londrina · Paraná',
-    href: null,
-  },
-  {
-    name: 'DaVita Londrina',
-    role: 'Responsável técnico',
-    body:
-      'Unidade ambulatorial de hemodiálise em Londrina. Acompanhamento crônico de pacientes em terapia renal substitutiva.',
-    address: 'Londrina · Paraná',
-    href: null,
-  },
-];
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'ondeAtendo' });
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+    alternates: {
+      canonical: locale === 'en' ? '/en/onde-atendo' : '/onde-atendo',
+      languages: { 'pt-BR': '/onde-atendo', en: '/en/onde-atendo' },
+    },
+  };
+}
 
 export default async function OndeAtendoPage({
   params,
@@ -63,34 +36,32 @@ export default async function OndeAtendoPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: 'ondeAtendo' });
+  const tCommon = await getTranslations({ locale, namespace: 'common' });
+  const clinicas = t.raw('clinicas') as Clinic[];
 
   return (
     <article>
-      <ClinicsSchema />
+      <ClinicsSchema locale={locale} />
       <BreadcrumbSchema
         items={[
-          { name: 'Início', url: '/' },
-          { name: 'Onde atendo' },
+          { name: t('breadcrumbHome'), url: '/' },
+          { name: t('breadcrumbCurrent') },
         ]}
       />
       <header className="editorial-container pt-16 md:pt-24 pb-12">
-        <p className="label-meta mb-6">Onde atendo</p>
+        <p className="label-meta mb-6">{t('kicker')}</p>
         <h1 className="heading-display text-[clamp(2.2rem,5vw,3.8rem)] max-w-3xl">
-          Quatro frentes, a mesma medicina.
+          {t('h1')}
         </h1>
-        <p className="prose-body mt-8 max-w-2xl">
-          Atendo em duas clínicas em Londrina e respondo tecnicamente por duas unidades de
-          hemodiálise — uma hospitalar, uma ambulatorial. As quatro frentes são a mesma
-          medicina em momentos diferentes do tempo da pessoa: antecipar, acompanhar,
-          tratar.
-        </p>
+        <p className="prose-body mt-8 max-w-2xl">{t('lead')}</p>
       </header>
 
       <section className="editorial-container pb-12">
         <div className="relative aspect-[16/10] w-full overflow-hidden">
           <Image
             src="/images/getulio-clinico.jpg"
-            alt="Dr. Getúlio Amaral Filho em consultório"
+            alt={t('portraitAlt')}
             fill
             className="object-cover object-top"
             sizes="(min-width: 1024px) 1100px, 100vw"
@@ -118,7 +89,7 @@ export default async function OndeAtendoPage({
                   rel="noreferrer"
                   className="link-text inline-block font-sans text-sm"
                 >
-                  Visitar site ↗
+                  {tCommon('visitSite')}
                 </a>
               )}
             </div>
@@ -128,12 +99,9 @@ export default async function OndeAtendoPage({
 
       <section className="border-t border-rule bg-paper">
         <div className="editorial-container py-20 grid md:grid-cols-[1fr_2fr] gap-12 items-start">
-          <p className="label-meta">Agendar</p>
+          <p className="label-meta">{t('scheduleKicker')}</p>
           <div className="space-y-4 font-serif text-ink-soft">
-            <p>
-              Para agendamento, fale diretamente com a clínica de referência. Para outras
-              demandas (palestra, imprensa), use os canais correspondentes.
-            </p>
+            <p>{t('scheduleBody')}</p>
             <p className="font-sans text-sm">
               <a href="mailto:contato@drgetulioamaralfilho.com.br" className="link-text">
                 contato@drgetulioamaralfilho.com.br

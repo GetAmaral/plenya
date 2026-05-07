@@ -1,20 +1,32 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/cn';
 
-const reasons = [
-  { value: 'consulta-plenya', label: 'Consulta — Plenya (medicina funcional, longevidade)' },
-  { value: 'consulta-nefroclinica', label: 'Consulta — Nefroclínica (nefrologia)' },
-  { value: 'palestra', label: 'Convite para palestra' },
-  { value: 'imprensa', label: 'Imprensa' },
-  { value: 'outro', label: 'Outro' },
+const REASON_CODES = [
+  'consulta-plenya',
+  'consulta-nefroclinica',
+  'palestra',
+  'imprensa',
+  'outro',
 ] as const;
+
+type ReasonCode = (typeof REASON_CODES)[number];
+
+const REASON_LABEL_KEY: Record<ReasonCode, string> = {
+  'consulta-plenya': 'reasonOptionPlenya',
+  'consulta-nefroclinica': 'reasonOptionNefroclinica',
+  palestra: 'reasonOptionPalestra',
+  imprensa: 'reasonOptionImprensa',
+  outro: 'reasonOptionOutro',
+};
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 export function ContactForm() {
-  const [reason, setReason] = useState<string>('consulta-plenya');
+  const t = useTranslations('contactForm');
+  const [reason, setReason] = useState<ReasonCode>('consulta-plenya');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string>('');
 
@@ -45,17 +57,15 @@ export function ContactForm() {
       setReason('consulta-plenya');
     } catch (err) {
       setStatus('error');
-      setError(err instanceof Error ? err.message : 'Erro ao enviar.');
+      setError(err instanceof Error ? err.message : t('errorGeneric'));
     }
   }
 
   if (status === 'sent') {
     return (
       <div className="border border-bordo bg-paper p-8 space-y-3">
-        <p className="label-meta text-bordo">Recebido</p>
-        <p className="font-serif text-lg text-ink">
-          Sua mensagem chegou. Respondo em até 48 horas úteis.
-        </p>
+        <p className="label-meta text-bordo">{t('successKicker')}</p>
+        <p className="font-serif text-lg text-ink">{t('successBody')}</p>
       </div>
     );
   }
@@ -63,20 +73,20 @@ export function ContactForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-8">
       <div className="space-y-3">
-        <p className="label-meta">Motivo</p>
+        <p className="label-meta">{t('reasonLabel')}</p>
         <div className="space-y-2">
-          {reasons.map((r) => (
-            <label key={r.value} className="flex items-start gap-3 cursor-pointer group">
+          {REASON_CODES.map((code) => (
+            <label key={code} className="flex items-start gap-3 cursor-pointer group">
               <input
                 type="radio"
                 name="reason"
-                value={r.value}
-                checked={reason === r.value}
-                onChange={() => setReason(r.value)}
+                value={code}
+                checked={reason === code}
+                onChange={() => setReason(code)}
                 className="mt-1.5 accent-bordo"
               />
               <span className="font-serif text-ink-soft group-hover:text-ink transition-colors">
-                {r.label}
+                {t(REASON_LABEL_KEY[code])}
               </span>
             </label>
           ))}
@@ -84,13 +94,13 @@ export function ContactForm() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <FieldText name="name" label="Nome" required autoComplete="name" />
-        <FieldText name="phone" label="Telefone" required autoComplete="tel" inputMode="tel" />
+        <FieldText name="name" label={t('fieldName')} required autoComplete="name" />
+        <FieldText name="phone" label={t('fieldPhone')} required autoComplete="tel" inputMode="tel" />
       </div>
-      <FieldText name="email" label="Email" required type="email" autoComplete="email" />
+      <FieldText name="email" label={t('fieldEmail')} required type="email" autoComplete="email" />
 
       <div>
-        <label className="block label-meta mb-2">Mensagem (opcional)</label>
+        <label className="block label-meta mb-2">{t('fieldMessage')}</label>
         <textarea
           name="message"
           rows={5}
@@ -107,17 +117,14 @@ export function ContactForm() {
             status === 'sending' && 'opacity-50 cursor-wait',
           )}
         >
-          {status === 'sending' ? 'Enviando…' : 'Enviar mensagem →'}
+          {status === 'sending' ? t('submitting') : t('submit')}
         </button>
         {status === 'error' && (
           <p className="font-sans text-xs text-bordo">{error}</p>
         )}
       </div>
 
-      <p className="font-sans text-xs text-ink-muted/70 max-w-md">
-        Seus dados são usados exclusivamente para responder a este contato. Não compartilhamos
-        com terceiros.
-      </p>
+      <p className="font-sans text-xs text-ink-muted/70 max-w-md">{t('privacy')}</p>
     </form>
   );
 }

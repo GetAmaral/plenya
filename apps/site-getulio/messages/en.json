@@ -193,5 +193,81 @@
         "body": "Internal medicine and nephrology courses for undergraduates. Training future physicians with emphasis on clinical reasoning and integrated reading of lab results."
       }
     ]
+  },
+  "ondeAtendo": {
+    "metaTitle": "Where I practice",
+    "metaDescription": "Clinical practice at Plenya (integrative functional medicine) and Nefroclínica Londrina (clinical nephrology). Technical director of DaVita Intra Hospitalar and DaVita Londrina.",
+    "kicker": "Where I practice",
+    "h1": "Four fronts, the same medicine.",
+    "lead": "I practice at two clinics in Londrina and serve as technical director for two hemodialysis units — one in-hospital, one outpatient. The four fronts are the same medicine at different moments in a person's timeline: anticipate, follow, treat.",
+    "portraitAlt": "Dr. Getúlio Amaral Filho in consultation",
+    "breadcrumbHome": "Home",
+    "breadcrumbCurrent": "Where I practice",
+    "scheduleKicker": "Schedule",
+    "scheduleBody": "For appointments, contact the relevant clinic directly. For other matters (lectures, press), use the dedicated channels.",
+    "clinicas": [
+      {
+        "name": "Plenya",
+        "role": "Clinical director",
+        "body": "Preventive health and longevity program. Integrative functional medicine, with a multidisciplinary team (physician, nutritionist, psychologist, exercise physiologist) working the same patient under the same plan. I serve as the patient's care-managing physician — coordinating care between the Plenya team and the professionals the patient already sees outside the clinic.",
+        "address": "Londrina · Paraná, Brazil",
+        "href": "https://plenyasaude.com.br"
+      },
+      {
+        "name": "Nefroclínica Londrina",
+        "role": "Partner",
+        "body": "Clinical nephrology in Londrina for four decades. Care for chronic kidney disease, treatment-resistant hypertension, electrolyte disorders and pre-dialysis follow-up.",
+        "address": "Londrina · Paraná, Brazil",
+        "href": "https://nefroclinica.com"
+      },
+      {
+        "name": "DaVita Intra Hospitalar",
+        "role": "Technical director",
+        "body": "In-hospital hemodialysis — Santa Casa de Londrina. Care for inpatients in advanced stages of kidney disease, alongside the institution's nephrology team.",
+        "address": "Santa Casa de Londrina · Paraná, Brazil",
+        "href": null
+      },
+      {
+        "name": "DaVita Londrina",
+        "role": "Technical director",
+        "body": "Outpatient hemodialysis unit in Londrina. Long-term follow-up of patients on renal replacement therapy.",
+        "address": "Londrina · Paraná, Brazil",
+        "href": null
+      }
+    ]
+  },
+  "contato": {
+    "metaTitle": "Contact",
+    "metaDescription": "Get in touch with Dr. Getúlio Amaral Filho — appointments, lectures, press.",
+    "kicker": "Contact",
+    "h1": "How I can help.",
+    "lead": "For appointments, choose the relevant clinic. For lectures and press, use the form or the dedicated emails below.",
+    "directKicker": "Direct channels",
+    "labelGeneral": "General",
+    "labelPalestras": "Lectures",
+    "labelImprensa": "Press",
+    "clinicalKicker": "Clinical practice",
+    "labelPlenya": "Plenya · longevity",
+    "labelNefroclinica": "Nefroclínica · nephrology",
+    "localKicker": "Location",
+    "localValue": "Londrina · Paraná · Brazil"
+  },
+  "contactForm": {
+    "reasonLabel": "Reason",
+    "reasonOptionPlenya": "Appointment — Plenya (functional medicine, longevity)",
+    "reasonOptionNefroclinica": "Appointment — Nefroclínica (nephrology)",
+    "reasonOptionPalestra": "Lecture invitation",
+    "reasonOptionImprensa": "Press",
+    "reasonOptionOutro": "Other",
+    "fieldName": "Name",
+    "fieldPhone": "Phone",
+    "fieldEmail": "Email",
+    "fieldMessage": "Message (optional)",
+    "submit": "Send message →",
+    "submitting": "Sending…",
+    "errorGeneric": "Failed to send.",
+    "successKicker": "Received",
+    "successBody": "Your message has arrived. I'll reply within 48 business hours.",
+    "privacy": "Your data is used exclusively to respond to this contact. We don't share with third parties."
   }
 }

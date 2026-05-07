@@ -49,7 +49,9 @@ const clinics: Clinic[] = [
   },
 ];
 
-export function ClinicsSchema() {
+export function ClinicsSchema({ locale: _locale = 'pt' }: { locale?: string } = {}) {
+  // Versão bilíngue completa virá na Fase 6 — estrutura PT como fallback.
+  void _locale;
   const data = {
     '@context': 'https://schema.org',
     '@graph': clinics.map((c, i) => ({

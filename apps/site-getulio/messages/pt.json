@@ -193,5 +193,81 @@
         "body": "Disciplinas de clínica médica e nefrologia para a graduação. Formação de futuros médicos com ênfase em raciocínio clínico e leitura integrada de exames."
       }
     ]
+  },
+  "ondeAtendo": {
+    "metaTitle": "Onde atendo",
+    "metaDescription": "Atendimento clínico na Plenya (medicina funcional integrativa) e na Nefroclínica Londrina (nefrologia clínica). Responsabilidade técnica pela DaVita Intra Hospitalar e DaVita Londrina.",
+    "kicker": "Onde atendo",
+    "h1": "Quatro frentes, a mesma medicina.",
+    "lead": "Atendo em duas clínicas em Londrina e respondo tecnicamente por duas unidades de hemodiálise — uma hospitalar, uma ambulatorial. As quatro frentes são a mesma medicina em momentos diferentes do tempo da pessoa: antecipar, acompanhar, tratar.",
+    "portraitAlt": "Dr. Getúlio Amaral Filho em consultório",
+    "breadcrumbHome": "Início",
+    "breadcrumbCurrent": "Onde atendo",
+    "scheduleKicker": "Agendar",
+    "scheduleBody": "Para agendamento, fale diretamente com a clínica de referência. Para outras demandas (palestra, imprensa), use os canais correspondentes.",
+    "clinicas": [
+      {
+        "name": "Plenya",
+        "role": "Direção clínica",
+        "body": "Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Atuo como médico-gestor da saúde do paciente — articulando o cuidado entre a equipe Plenya e os profissionais que ele já consulta fora da clínica.",
+        "address": "Londrina · Paraná",
+        "href": "https://plenyasaude.com.br"
+      },
+      {
+        "name": "Nefroclínica Londrina",
+        "role": "Sócio",
+        "body": "Nefrologia clínica em Londrina há quatro décadas. Atendimento de doença renal crônica, hipertensão de difícil controle, distúrbios eletrolíticos e acompanhamento pré-diálise.",
+        "address": "Londrina · Paraná",
+        "href": "https://nefroclinica.com"
+      },
+      {
+        "name": "DaVita Intra Hospitalar",
+        "role": "Responsável técnico",
+        "body": "Hemodiálise hospitalar — Santa Casa de Londrina. Atendimento a pacientes internados em estágio avançado de doença renal, em conjunto com a equipe de nefrologia da instituição.",
+        "address": "Santa Casa de Londrina · Paraná",
+        "href": null
+      },
+      {
+        "name": "DaVita Londrina",
+        "role": "Responsável técnico",
+        "body": "Unidade ambulatorial de hemodiálise em Londrina. Acompanhamento crônico de pacientes em terapia renal substitutiva.",
+        "address": "Londrina · Paraná",
+        "href": null
+      }
+    ]
+  },
+  "contato": {
+    "metaTitle": "Contato",
+    "metaDescription": "Entre em contato com Dr. Getúlio Amaral Filho — consultas, palestras, imprensa.",
+    "kicker": "Contato",
+    "h1": "Como posso ajudar.",
+    "lead": "Para consultas, escolha a clínica de referência. Para palestras e imprensa, use o formulário ou os emails dedicados abaixo.",
+    "directKicker": "Canais diretos",
+    "labelGeneral": "Geral",
+    "labelPalestras": "Palestras",
+    "labelImprensa": "Imprensa",
+    "clinicalKicker": "Atendimento clínico",
+    "labelPlenya": "Plenya · longevidade",
+    "labelNefroclinica": "Nefroclínica · nefrologia",
+    "localKicker": "Local",
+    "localValue": "Londrina · Paraná · Brasil"
+  },
+  "contactForm": {
+    "reasonLabel": "Motivo",
+    "reasonOptionPlenya": "Consulta — Plenya (medicina funcional, longevidade)",
+    "reasonOptionNefroclinica": "Consulta — Nefroclínica (nefrologia)",
+    "reasonOptionPalestra": "Convite para palestra",
+    "reasonOptionImprensa": "Imprensa",
+    "reasonOptionOutro": "Outro",
+    "fieldName": "Nome",
+    "fieldPhone": "Telefone",
+    "fieldEmail": "Email",
+    "fieldMessage": "Mensagem (opcional)",
+    "submit": "Enviar mensagem →",
+    "submitting": "Enviando…",
+    "errorGeneric": "Erro ao enviar.",
+    "successKicker": "Recebido",
+    "successBody": "Sua mensagem chegou. Respondo em até 48 horas úteis.",
+    "privacy": "Seus dados são usados exclusivamente para responder a este contato. Não compartilhamos com terceiros."
   }
 }
