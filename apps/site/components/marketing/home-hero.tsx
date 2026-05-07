@@ -48,9 +48,12 @@ export function HomeHero() {
             </p>
           </div>
 
-          <div className="mt-14">
-            <Link href="/equipe" className="btn-gold">
-              {tCta('knowTeam')}
+          <div className="mt-14 flex flex-wrap gap-4">
+            <Link href="/escore-plenya/avaliar" className="btn-gold">
+              {tCta('startWithScore')}
+            </Link>
+            <Link href="/continuum" className="btn-outline-light">
+              {tCta('knowPlans')}
             </Link>
           </div>
 

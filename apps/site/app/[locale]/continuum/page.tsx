@@ -112,6 +112,28 @@ export default async function ContinuumPage({ params }: { params: Params }) {
         </div>
       </section>
 
+      {/* PROBLEMA — fricção antes da solução */}
+      <section className="bg-petrol-800 text-cream">
+        <div className="site-container py-20 md:py-28">
+          <div className="grid lg:grid-cols-12 gap-10">
+            <div className="lg:col-span-4">
+              <p className="label-upper text-gold mb-4">{t('problemLabel')}</p>
+            </div>
+            <div className="lg:col-span-8 space-y-6">
+              <h2 className="heading-section text-cream text-3xl md:text-5xl leading-tight max-w-3xl">
+                {t('problemTitle')}
+              </h2>
+              <p className="text-cream/80 text-lg leading-relaxed max-w-2xl">
+                {t('problemP1')}
+              </p>
+              <p className="text-cream/80 text-lg leading-relaxed max-w-2xl">
+                {t('problemP2')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SOBRE O PROGRAMA */}
       <section className="bg-cream">
         <div className="site-container section">
@@ -258,38 +280,6 @@ export default async function ContinuumPage({ params }: { params: Params }) {
         </div>
       </section>
 
-      {/* MODALIDADES */}
-      <section className="bg-cream">
-        <div className="site-container section">
-          <div className="max-w-3xl space-y-4 mb-16">
-            <p className="label-upper text-gold">{t('modLabel')}</p>
-            <h2 className="heading-section text-petrol text-3xl md:text-5xl">{t('modTitle')}</h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 mb-12">
-            {modalidades.map((m) => (
-              <article
-                key={m.name}
-                className={
-                  m.highlight
-                    ? 'border-t-2 border-gold pt-8 space-y-5'
-                    : 'border-t border-petrol/20 pt-8 space-y-5'
-                }
-              >
-                <h3 className="heading-section text-petrol text-3xl md:text-4xl">{m.name}</h3>
-                <p className="label-upper text-petrol/60">{m.period}</p>
-                <p className="text-petrol/75 leading-relaxed">{m.body}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="border-t border-petrol/10 pt-8 max-w-3xl space-y-2">
-            <p className="label-upper text-gold">{t('modPriceLabel')}</p>
-            <p className="text-petrol/75 leading-relaxed">{t('modPriceText')}</p>
-          </div>
-        </div>
-      </section>
-
       {/* ENTRA · NÃO ENTRA */}
       <section className="bg-paper">
         <div className="site-container section">
@@ -350,6 +340,38 @@ export default async function ContinuumPage({ params }: { params: Params }) {
       />
 
       <FaqAccordion title={t('faqTitle')} items={continuumFaq} />
+
+      {/* MODALIDADES — oferta logo antes do CTA */}
+      <section className="bg-cream">
+        <div className="site-container section">
+          <div className="max-w-3xl space-y-4 mb-16">
+            <p className="label-upper text-gold">{t('modLabel')}</p>
+            <h2 className="heading-section text-petrol text-3xl md:text-5xl">{t('modTitle')}</h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 mb-12">
+            {modalidades.map((m) => (
+              <article
+                key={m.name}
+                className={
+                  m.highlight
+                    ? 'border-t-2 border-gold pt-8 space-y-5'
+                    : 'border-t border-petrol/20 pt-8 space-y-5'
+                }
+              >
+                <h3 className="heading-section text-petrol text-3xl md:text-4xl">{m.name}</h3>
+                <p className="label-upper text-petrol/60">{m.period}</p>
+                <p className="text-petrol/75 leading-relaxed">{m.body}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="border-t border-petrol/10 pt-8 max-w-3xl space-y-2">
+            <p className="label-upper text-gold">{t('modPriceLabel')}</p>
+            <p className="text-petrol/75 leading-relaxed">{t('modPriceText')}</p>
+          </div>
+        </div>
+      </section>
 
       {/* CTA + cross-links */}
       <section className="bg-petrol text-cream">

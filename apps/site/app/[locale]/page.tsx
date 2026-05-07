@@ -20,14 +20,17 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     <>
       {/* Abertura — desejo do visitante */}
       <HomeHero />
+
+      {/* Porta de entrada — Escore Plenya gratuito, alta densidade de conversão */}
+      <ScoreSection />
+
       <SymbolBridge />
       <LifestyleGrid />
 
       {/* Manifesto — o que nos move */}
       <EstruturaSection />
 
-      {/* Como cuidamos — primeiro a leitura, depois o método */}
-      <ScoreSection />
+      {/* Como cuidamos — método */}
       <AgirPillarsSection />
 
       {/* Quem cuida — direção clínica e equipe */}
