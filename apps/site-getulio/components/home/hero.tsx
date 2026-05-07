@@ -23,7 +23,10 @@ export function Hero() {
             Vinte anos dentro do hospital me ensinaram que muita doença grave começa anos
             antes — em silêncio, em exames "normais".
           </p>
-          <p>A medicina que pratico hoje busca esse intervalo. É sobre o que vem antes.</p>
+          <p>
+            A medicina que pratico hoje busca esse intervalo. É sobre o que vem antes — e
+            sobre conduzir, no longo prazo, a saúde inteira da pessoa.
+          </p>
         </div>
 
         <div className="mt-12 flex items-center justify-center gap-5 flex-wrap">

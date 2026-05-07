@@ -12,7 +12,7 @@ const clinics: Clinic[] = [
   {
     name: 'Plenya',
     role: 'Direção clínica',
-    body: 'Medicina funcional integrativa e longevidade.',
+    body: 'Medicina funcional integrativa, longevidade e gestão clínica longitudinal do paciente.',
     href: 'https://plenyasaude.com.br',
   },
   {

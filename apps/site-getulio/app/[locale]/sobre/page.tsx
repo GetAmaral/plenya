@@ -116,6 +116,14 @@ export default async function SobrePage({
             clinicamente a Plenya. As quatro coisas são a mesma medicina, em momentos diferentes
             do tempo da pessoa.
           </p>
+          <p>
+            Na Plenya, em particular, é como médico-gestor da saúde do paciente que conduzo o
+            trabalho — o clínico que conhece a história em profundidade, acompanha o cuidado
+            de forma longitudinal, ao longo de meses e anos, e articula o plano entre a equipe
+            Plenya e os profissionais que já cuidam daquele paciente fora daqui — cardiologista,
+            endocrinologista, ginecologista. Não substituo essas relações: garanto a continuidade
+            clínica do conjunto, com alguém finalmente olhando para a pessoa inteira.
+          </p>
 
           {/* Linha humana — fechamento */}
           <p className="text-ink-muted italic">

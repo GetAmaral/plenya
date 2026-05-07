@@ -26,7 +26,7 @@ const clinicas: Clinic[] = [
     name: 'Plenya',
     role: 'Direção clínica',
     body:
-      'Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano.',
+      'Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Atuo como médico-gestor da saúde do paciente — articulando o cuidado entre a equipe Plenya e os profissionais que ele já consulta fora da clínica.',
     address: 'Londrina · Paraná',
     href: 'https://plenyasaude.com.br',
   },

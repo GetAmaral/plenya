@@ -4,7 +4,7 @@ const pillars = [
   {
     label: 'Médico',
     title: 'Atendimento clínico',
-    body: 'Atende em duas clínicas em Londrina e responde tecnicamente pela hemodiálise hospitalar.',
+    body: 'Atende em duas clínicas em Londrina — medicina preventiva e gestão clínica longitudinal na Plenya, nefrologia clínica na Nefroclínica — e responde tecnicamente pela hemodiálise hospitalar.',
     href: '/onde-atendo',
   },
   {
