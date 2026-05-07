@@ -31,7 +31,7 @@ export default async function LivroPage({
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'book' });
   const trechos = t.raw('trechos') as Trecho[];
-  const mailto = `mailto:contato@drgetulioamaralfilho.com.br?subject=${encodeURIComponent(t('launchEmailSubject'))}`;
+  const amazonUrl = t('amazonUrl');
 
   return (
     <article>
@@ -61,6 +61,17 @@ export default async function LivroPage({
             <div className="prose-body max-w-xl">
               <p>{t('lead1')}</p>
               <p>{t('lead2')}</p>
+            </div>
+
+            <div className="pt-2">
+              <a
+                href={amazonUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-gold"
+              >
+                {t('heroBuyCta')}
+              </a>
             </div>
 
             <div className="space-y-1 font-sans text-sm text-ink-muted">
@@ -115,27 +126,28 @@ export default async function LivroPage({
         </div>
       </section>
 
-      {/* "Onde comprar" — escondido até ter os links reais (Amazon/Saraiva).
-         Substituído por bloco "Ficar sabendo" com captura editorial:
-         lead time vira lead capture. */}
+      {/* Onde comprar — Amazon (impresso + Kindle) */}
       <section className="border-t border-rule bg-paper">
         <div className="editorial-container py-20 md:py-24">
           <div className="grid md:grid-cols-[1fr_2fr] gap-12 items-start">
-            <p className="label-meta-lg text-bordo">{t('launchKicker')}</p>
-            <div className="space-y-5 max-w-xl">
+            <p className="label-meta-lg text-bordo">{t('buyKicker')}</p>
+            <div className="space-y-6 max-w-xl">
               <h2 className="heading-section text-ink text-2xl md:text-3xl leading-snug">
-                {t('launchH2')}
+                {t('buyH2')}
               </h2>
               <p className="font-serif text-ink-soft leading-relaxed">
-                {t('launchBodyPre')}
-                <em>{t('launchBodyEm')}</em>
-                {t('launchBodyPost')}
+                {t('buyBody')}
               </p>
-              <p className="font-sans text-base">
-                <a href={mailto} className="link-text">
-                  contato@drgetulioamaralfilho.com.br
+              <div>
+                <a
+                  href={amazonUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-gold"
+                >
+                  {t('buyCta')}
                 </a>
-              </p>
+              </div>
             </div>
           </div>
         </div>

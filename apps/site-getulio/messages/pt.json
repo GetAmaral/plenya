@@ -157,12 +157,12 @@
         "citacao": "Se existisse um fármaco que reduzisse o risco de morte por todas as causas em até 80%, a humanidade pagaria qualquer preço por ele. Esse fármaco existe. Chama-se exercício físico."
       }
     ],
-    "launchKicker": "Lançamento",
-    "launchH2": "Quer ser avisado quando o livro estiver disponível?",
-    "launchBodyPre": "",
-    "launchBodyEm": "Antes — A Janela Silenciosa entre o Normal e o Ótimo",
-    "launchBodyPost": " entra em pré-venda em 2026. Para ser notificado da data, escreva para o endereço abaixo com o assunto \"Antes — pré-venda\".",
-    "launchEmailSubject": "Antes — pré-venda"
+    "buyKicker": "Onde comprar",
+    "buyH2": "Disponível na Amazon.",
+    "buyBody": "Antes — A Janela Silenciosa entre o Normal e o Ótimo está à venda em formato impresso e Kindle. Edição em português do Brasil.",
+    "buyCta": "Comprar na Amazon →",
+    "heroBuyCta": "Comprar na Amazon →",
+    "amazonUrl": "https://a.co/d/0ecpyntK"
   },
   "ensino": {
     "metaTitle": "Ensino",

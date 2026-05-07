@@ -157,12 +157,12 @@
         "citacao": "If there were a drug that reduced all-cause mortality by up to 80%, humanity would pay any price for it. That drug exists. It's called exercise."
       }
     ],
-    "launchKicker": "Launch",
-    "launchH2": "Want to be notified when the book is available?",
-    "launchBodyPre": "",
-    "launchBodyEm": "Antes — The Silent Window Between Normal and Optimal",
-    "launchBodyPost": " (Brazilian Portuguese edition) goes into pre-sale in 2026. To be notified, write to the address below with the subject \"Antes — pré-venda\".",
-    "launchEmailSubject": "Antes — pré-venda"
+    "buyKicker": "Where to buy",
+    "buyH2": "Available on Amazon.",
+    "buyBody": "Antes — The Silent Window Between Normal and Optimal is available in print and Kindle. Brazilian Portuguese edition.",
+    "buyCta": "Buy on Amazon →",
+    "heroBuyCta": "Buy on Amazon →",
+    "amazonUrl": "https://a.co/d/0ecpyntK"
   },
   "ensino": {
     "metaTitle": "Teaching",
