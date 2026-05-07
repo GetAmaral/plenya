@@ -1,4 +1,8 @@
-export function PersonSchema() {
+export function PersonSchema({ locale: _locale = 'pt' }: { locale?: string } = {}) {
+  // Versão bilíngue completa virá na Fase 6 — por enquanto a estrutura PT
+  // serve como fallback. O argumento existe para destravar o layout sem
+  // mudanças semânticas no schema (que continua em PT canônico).
+  void _locale;
   const data = {
     '@context': 'https://schema.org',
     '@graph': [

@@ -14,9 +14,6 @@ import '../globals.css';
 const PLAUSIBLE_DOMAIN =
   process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN || 'drgetulioamaralfilho.com.br';
 
-// Cormorant Garamond — serifa display de alto contraste, fiel ao
-// wordmark oficial do branding. Pesos: 300 italic (tagline),
-// 400 (body+wordmark), 500/600 (subtítulos).
 const serif = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
@@ -31,49 +28,78 @@ const sans = Inter({
   variable: '--font-sans',
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://drgetulioamaralfilho.com.br'),
-  title: {
-    default: 'Dr. Getúlio Amaral Filho — Medicina guiada por raciocínio clínico',
-    template: '%s · Dr. Getúlio Amaral',
-  },
-  description:
-    'Medicina guiada por raciocínio clínico. Nefrologista (CRM-PR 21.876 · RQE 16.038), professor, autor e diretor clínico da Plenya. Londrina-PR.',
-  authors: [{ name: 'Dr. Getúlio Amaral Filho', url: 'https://drgetulioamaralfilho.com.br' }],
-  creator: 'Dr. Getúlio Amaral Filho',
-  publisher: 'Dr. Getúlio Amaral Filho',
-  alternates: { canonical: '/' },
-  openGraph: {
-    type: 'website',
-    locale: 'pt_BR',
-    url: 'https://drgetulioamaralfilho.com.br',
-    siteName: 'Dr. Getúlio Amaral Filho',
-    images: [
-      {
-        url: '/images/og-default.webp',
-        width: 1024,
-        height: 1024,
-        alt: 'Dr. Getúlio Amaral · Medicina guiada por raciocínio clínico',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
+const META_BY_LOCALE = {
+  pt: {
     title: 'Dr. Getúlio Amaral Filho — Medicina guiada por raciocínio clínico',
+    template: '%s · Dr. Getúlio Amaral',
     description:
+      'Medicina guiada por raciocínio clínico. Nefrologista (CRM-PR 21.876 · RQE 16.038), professor, autor e diretor clínico da Plenya. Londrina-PR.',
+    twitterDescription:
       'Nefrologista (CRM-PR 21.876 · RQE 16.038), medicina funcional integrativa, autor do livro ANTES.',
-    images: ['/images/og-default.webp'],
+    ogLocale: 'pt_BR',
+    ogAlt: 'Dr. Getúlio Amaral · Medicina guiada por raciocínio clínico',
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+  en: {
+    title: 'Dr. Getúlio Amaral Filho — Medicine guided by clinical reasoning',
+    template: '%s · Dr. Getúlio Amaral',
+    description:
+      'Medicine guided by clinical reasoning. Nephrologist (CRM-PR 21,876 · RQE 16,038), professor, author and clinical director at Plenya. Londrina, Brazil.',
+    twitterDescription:
+      'Nephrologist (CRM-PR 21,876 · RQE 16,038), integrative functional medicine, author of the book ANTES.',
+    ogLocale: 'en_US',
+    ogAlt: 'Dr. Getúlio Amaral · Medicine guided by clinical reasoning',
   },
-  icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
-    apple: '/apple-touch-icon.svg',
-  },
-};
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const meta = isLocale(locale) ? META_BY_LOCALE[locale] : META_BY_LOCALE.pt;
+  const path = locale === 'en' ? '/en' : '/';
+
+  return {
+    metadataBase: new URL('https://drgetulioamaralfilho.com.br'),
+    title: { default: meta.title, template: meta.template },
+    description: meta.description,
+    authors: [{ name: 'Dr. Getúlio Amaral Filho', url: 'https://drgetulioamaralfilho.com.br' }],
+    creator: 'Dr. Getúlio Amaral Filho',
+    publisher: 'Dr. Getúlio Amaral Filho',
+    alternates: {
+      canonical: path,
+      languages: {
+        'pt-BR': '/',
+        en: '/en',
+      },
+    },
+    openGraph: {
+      type: 'website',
+      locale: meta.ogLocale,
+      url: `https://drgetulioamaralfilho.com.br${path === '/' ? '' : path}`,
+      siteName: 'Dr. Getúlio Amaral Filho',
+      images: [
+        { url: '/images/og-default.webp', width: 1024, height: 1024, alt: meta.ogAlt },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: meta.title,
+      description: meta.twitterDescription,
+      images: ['/images/og-default.webp'],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+    },
+    icons: {
+      icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+      apple: '/apple-touch-icon.svg',
+    },
+  };
+}
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -92,7 +118,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${serif.variable} ${sans.variable}`}>
+    <html lang={locale === 'en' ? 'en' : 'pt-BR'} className={`${serif.variable} ${sans.variable}`}>
       <head>
         <meta name="geo.region" content="BR-PR" />
         <meta name="geo.placename" content="Londrina" />
@@ -106,8 +132,8 @@ export default async function LocaleLayout({
       </head>
       <body>
         <NextIntlClientProvider messages={messages}>
-          <PersonSchema />
-          <WebSiteSchema />
+          <PersonSchema locale={locale} />
+          <WebSiteSchema locale={locale} />
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />

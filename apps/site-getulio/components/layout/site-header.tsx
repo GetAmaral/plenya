@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react';
 import { Link, usePathname } from '@/lib/i18n/navigation';
 import { cn } from '@/lib/cn';
 import { Wordmark } from '@/components/brand/wordmark';
+import { LocaleSwitcher } from '@/components/layout/locale-switcher';
 
 const nav = [
   { href: '/sobre', key: 'sobre' },
@@ -19,13 +20,14 @@ const nav = [
 
 export function SiteHeader() {
   const t = useTranslations('nav');
+  const tHeader = useTranslations('header');
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   return (
     <header className="border-b border-rule">
       <div className="editorial-container flex items-center justify-between py-5">
-        <Link href="/" aria-label="Início" className="block hover:opacity-80 transition-opacity">
+        <Link href="/" aria-label={tHeader('homeLabel')} className="block hover:opacity-80 transition-opacity">
           <Wordmark size="sm" tagline={false} />
         </Link>
 
@@ -46,11 +48,12 @@ export function SiteHeader() {
               </Link>
             );
           })}
+          <LocaleSwitcher />
         </nav>
 
         {/* Mobile toggle */}
         <button
-          aria-label={open ? 'Fechar menu' : 'Menu'}
+          aria-label={open ? tHeader('menuClose') : tHeader('menuOpen')}
           aria-expanded={open}
           className="md:hidden text-ink p-2"
           onClick={() => setOpen((o) => !o)}
@@ -73,6 +76,9 @@ export function SiteHeader() {
                 {t(item.key)}
               </Link>
             ))}
+            <div className="pt-4 border-t border-rule">
+              <LocaleSwitcher />
+            </div>
           </div>
         </nav>
       )}

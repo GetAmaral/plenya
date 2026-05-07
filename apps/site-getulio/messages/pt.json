@@ -11,6 +11,17 @@
   "footer": {
     "responsavel": "Dr. Getúlio José Mattos do Amaral Filho · CRM-PR 21.876 · RQE 16.038",
     "responsavelTecnico": "Responsável técnico — DaVita Intra Hospitalar de Londrina",
-    "local": "Londrina · Paraná · Brasil"
+    "local": "Londrina · Paraná · Brasil",
+    "navigation": "Navegação",
+    "contact": "Contato",
+    "clinicLabel": "(clínica)",
+    "disclaimer": "© {year} · Conteúdo educativo. Não substitui consulta médica.",
+    "menuAriaOpen": "Menu",
+    "menuAriaClose": "Fechar menu"
+  },
+  "header": {
+    "homeLabel": "Início",
+    "menuOpen": "Menu",
+    "menuClose": "Fechar menu"
   }
 }

@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "sobre": "About",
+    "livro": "Book",
+    "palestras": "Lectures",
+    "ensino": "Teaching",
+    "ondeAtendo": "Where I practice",
+    "escritos": "Writings",
+    "contato": "Contact"
+  },
+  "footer": {
+    "responsavel": "Dr. Getúlio José Mattos do Amaral Filho · CRM-PR 21,876 · RQE 16,038",
+    "responsavelTecnico": "Technical director — DaVita Intra Hospitalar de Londrina",
+    "local": "Londrina · Paraná · Brazil",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "clinicLabel": "(clinic)",
+    "disclaimer": "© {year} · Educational content. Does not replace medical consultation.",
+    "menuAriaOpen": "Menu",
+    "menuAriaClose": "Close menu"
+  },
+  "header": {
+    "homeLabel": "Home",
+    "menuOpen": "Menu",
+    "menuClose": "Close menu"
+  }
+}
