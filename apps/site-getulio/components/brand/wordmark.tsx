@@ -5,12 +5,13 @@
  * Estrutura:
  *   ─── DR. ───
  *   GETÚLIO AMARAL
- *   Medicina guiada por raciocínio clínico.
+ *   <tagline localizada>
  *
  * Variantes: light (sobre cream) | dark (sobre navy/preto).
  * Tamanhos: sm (header), md, lg, xl (hero).
  * Tagline opcional (default true).
  */
+import { useTranslations } from 'next-intl';
 
 type Variant = 'light' | 'dark';
 type Size = 'sm' | 'md' | 'lg' | 'xl';
@@ -58,6 +59,7 @@ export function Wordmark({
   const ink = isDark ? 'text-paper' : 'text-ink';
   const inkSoft = isDark ? 'text-paper/70' : 'text-ink-soft/85';
   const gold = 'bg-gold';
+  const t = useTranslations('wordmark');
 
   return (
     <div className={`inline-flex flex-col items-center gap-2 ${className}`}>
@@ -71,7 +73,7 @@ export function Wordmark({
       </h1>
       {tagline && (
         <p className={`wordmark-tagline ${inkSoft} ${TAGLINE_SIZE[size]} mt-1`}>
-          Medicina guiada por raciocínio clínico.
+          {t('tagline')}
         </p>
       )}
     </div>

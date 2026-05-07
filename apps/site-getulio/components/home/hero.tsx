@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/lib/i18n/navigation';
 import { Wordmark } from '@/components/brand/wordmark';
 
@@ -9,32 +10,25 @@ import { Wordmark } from '@/components/brand/wordmark';
  * faixa estreita ladeada por filetes dourados.
  */
 export function Hero() {
+  const t = useTranslations('home.hero');
   return (
     <section className="border-b border-rule">
       <div className="editorial-container pt-20 md:pt-32 pb-16 md:pb-24 text-center">
         <Wordmark size="xl" />
 
-        <p className="label-meta mt-12 text-ink-muted">
-          Médico nefrologista · CRM-PR 21.876 · RQE 16.038
-        </p>
+        <p className="label-meta mt-12 text-ink-muted">{t('credentials')}</p>
 
         <div className="mt-12 mx-auto max-w-xl space-y-5 prose-body text-ink-soft">
-          <p>
-            Vinte anos dentro do hospital me ensinaram que muita doença grave começa anos
-            antes — em silêncio, em exames "normais".
-          </p>
-          <p>
-            A medicina que pratico hoje busca esse intervalo. É sobre o que vem antes — e
-            sobre conduzir, no longo prazo, a saúde inteira da pessoa.
-          </p>
+          <p>{t('lead1')}</p>
+          <p>{t('lead2')}</p>
         </div>
 
         <div className="mt-12 flex items-center justify-center gap-5 flex-wrap">
           <Link href="/livro" className="btn-gold">
-            Leia o livro
+            {t('ctaBook')}
           </Link>
           <Link href="/sobre" className="btn-outline">
-            Sobre mim
+            {t('ctaAbout')}
           </Link>
         </div>
       </div>
@@ -45,7 +39,7 @@ export function Hero() {
         <div className="relative aspect-[3/4] w-full max-w-[320px] mx-auto">
           <Image
             src="/images/getulio-hero-bw.jpg"
-            alt="Dr. Getúlio Amaral Filho"
+            alt={t('portraitAlt')}
             fill
             priority
             className="object-cover grayscale"

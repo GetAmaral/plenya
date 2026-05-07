@@ -1,24 +1,33 @@
 import type { Metadata } from 'next';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Hero } from '@/components/home/hero';
 import { Pillars } from '@/components/home/pillars';
 import { BookStrip } from '@/components/home/book-strip';
 import { ClinicsRow } from '@/components/home/clinics-row';
 import { RecentArticles } from '@/components/home/recent-articles';
 
-export const metadata: Metadata = {
-  title: 'Dr. Getúlio Amaral Filho — Nefrologista e Medicina Funcional Integrativa em Londrina',
-  description:
-    'Médico nefrologista (CRM-PR 21.876 · RQE 16.038), professor, autor do livro "Antes — A Janela Silenciosa". Direção clínica da Plenya. Atendimento em Londrina-PR.',
-  alternates: { canonical: '/' },
-  openGraph: {
-    title: 'Dr. Getúlio Amaral Filho — Nefrologia, longevidade, ensino',
-    description:
-      'Nefrologista, professor, autor. Direção clínica da Plenya. Vinte anos de prática em medicina interna e nefrologia.',
-    type: 'profile',
-    images: ['/images/getulio-square.jpg'],
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'home' });
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+    alternates: {
+      canonical: locale === 'en' ? '/en' : '/',
+      languages: { 'pt-BR': '/', en: '/en' },
+    },
+    openGraph: {
+      title: t('ogTitle'),
+      description: t('ogDescription'),
+      type: 'profile',
+      images: ['/images/getulio-square.jpg'],
+    },
+  };
+}
 
 export default async function HomePage({
   params,

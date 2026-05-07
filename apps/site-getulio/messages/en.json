@@ -23,5 +23,65 @@
     "homeLabel": "Home",
     "menuOpen": "Menu",
     "menuClose": "Close menu"
+  },
+  "wordmark": {
+    "tagline": "Medicine guided by clinical reasoning."
+  },
+  "common": {
+    "breadcrumbAriaLabel": "Breadcrumb",
+    "visitSite": "Visit website ↗"
+  },
+  "home": {
+    "metaTitle": "Dr. Getúlio Amaral Filho — Nephrologist and Integrative Functional Medicine in Londrina",
+    "metaDescription": "Nephrologist (CRM-PR 21,876 · RQE 16,038), professor, author of the book \"Antes — A Janela Silenciosa\". Clinical director at Plenya. Practice in Londrina, Brazil.",
+    "ogTitle": "Dr. Getúlio Amaral Filho — Nephrology, longevity, teaching",
+    "ogDescription": "Nephrologist, professor, author. Clinical director at Plenya. Twenty years of internal medicine and nephrology practice.",
+    "hero": {
+      "credentials": "Nephrologist · CRM-PR 21,876 · RQE 16,038",
+      "lead1": "Twenty years inside the hospital taught me that much serious disease begins years earlier — silently, in \"normal\" lab results.",
+      "lead2": "The medicine I practice today looks for that interval. It's about what comes before — and about coordinating, over the long term, a person's whole-of-health.",
+      "ctaBook": "Read the book",
+      "ctaAbout": "About me",
+      "portraitAlt": "Dr. Getúlio Amaral Filho"
+    },
+    "pillars": {
+      "doctorLabel": "Physician",
+      "doctorTitle": "Clinical practice",
+      "doctorBody": "Practices at two clinics in Londrina — preventive medicine and longitudinal care management at Plenya, clinical nephrology at Nefroclínica — and serves as technical director for in-hospital hemodialysis.",
+      "professorLabel": "Professor",
+      "professorTitle": "Residency coordination",
+      "professorBody": "Coordinator of the nephrology medical residency at Santa Casa de Londrina for over a decade.",
+      "authorLabel": "Author",
+      "authorTitle": "The Silent Window",
+      "authorBody": "\"Antes — The Silent Window Between Normal and Optimal\" (2026, Brazilian Portuguese).",
+      "speakerLabel": "Speaker",
+      "speakerTitle": "National lectures",
+      "speakerBody": "Lectures for physicians, residents and corporate audiences — on prevention that begins before."
+    },
+    "book": {
+      "kicker": "Book · 2026",
+      "titleLine1": "Antes — The Silent Window",
+      "titleLine2": "Between Normal and Optimal",
+      "quote": "Between what the lab calls normal and what the body can reach as optimal, there are ten to twenty years of silent window.",
+      "isbn": "ISBN 978-65-02-06742-0",
+      "cta": "Read the book →",
+      "coverAlt": "ANTES — The Silent Window Between Normal and Optimal"
+    },
+    "clinics": {
+      "sectionLabel": "Where I practice",
+      "plenyaRole": "Clinical director",
+      "plenyaBody": "Integrative functional medicine, longevity and longitudinal care management — the care-managing physician model.",
+      "nefroclinicaRole": "Partner",
+      "nefroclinicaBody": "Clinical nephrology in Londrina.",
+      "davitaIntraRole": "Technical director",
+      "davitaIntraBody": "In-hospital hemodialysis — Santa Casa de Londrina.",
+      "davitaLondrinaRole": "Technical director",
+      "davitaLondrinaBody": "Outpatient hemodialysis unit."
+    },
+    "articles": {
+      "sectionLabel": "Recent writings",
+      "viewAll": "View all →",
+      "dateLocale": "en-US"
+    }
   }
 }

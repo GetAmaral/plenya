@@ -1,7 +1,8 @@
+import { useTranslations } from 'next-intl';
+
 type Clinic = {
   name: string;
-  role: string;
-  body: string;
+  keyPrefix: 'plenya' | 'nefroclinica' | 'davitaIntra' | 'davitaLondrina';
   href: string | null;
 };
 
@@ -9,44 +10,26 @@ type Clinic = {
 // (Nefroclínica) + SVG (Plenya) + texto (DaVita) destoava. Tipografia serif
 // uniforme reforça o tom editorial/livraria do site.
 const clinics: Clinic[] = [
-  {
-    name: 'Plenya',
-    role: 'Direção clínica',
-    body: 'Medicina funcional integrativa, longevidade e gestão clínica longitudinal do paciente.',
-    href: 'https://plenyasaude.com.br',
-  },
-  {
-    name: 'Nefroclínica Londrina',
-    role: 'Sócio',
-    body: 'Nefrologia clínica em Londrina.',
-    href: 'https://nefroclinica.com',
-  },
-  {
-    name: 'DaVita Intra Hospitalar',
-    role: 'Responsável técnico',
-    body: 'Hemodiálise hospitalar — Santa Casa de Londrina.',
-    href: null,
-  },
-  {
-    name: 'DaVita Londrina',
-    role: 'Responsável técnico',
-    body: 'Unidade ambulatorial de hemodiálise.',
-    href: null,
-  },
+  { name: 'Plenya', keyPrefix: 'plenya', href: 'https://plenyasaude.com.br' },
+  { name: 'Nefroclínica Londrina', keyPrefix: 'nefroclinica', href: 'https://nefroclinica.com' },
+  { name: 'DaVita Intra Hospitalar', keyPrefix: 'davitaIntra', href: null },
+  { name: 'DaVita Londrina', keyPrefix: 'davitaLondrina', href: null },
 ];
 
 export function ClinicsRow() {
+  const t = useTranslations('home.clinics');
+  const tCommon = useTranslations('common');
   return (
     <section className="border-t border-rule">
       <div className="editorial-container py-20 md:py-28">
-        <p className="label-meta-lg mb-12">Onde atendo</p>
+        <p className="label-meta-lg mb-12">{t('sectionLabel')}</p>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-10">
           {clinics.map((c) => (
             <div key={c.name} className="space-y-5 border-t border-rule pt-6">
-              <p className="label-meta text-bordo">{c.role}</p>
+              <p className="label-meta text-bordo">{t(`${c.keyPrefix}Role`)}</p>
               <h3 className="font-serif text-2xl text-ink leading-tight">{c.name}</h3>
-              <p className="font-serif text-ink-soft leading-relaxed">{c.body}</p>
+              <p className="font-serif text-ink-soft leading-relaxed">{t(`${c.keyPrefix}Body`)}</p>
               {c.href && (
                 <a
                   href={c.href}
@@ -54,7 +37,7 @@ export function ClinicsRow() {
                   rel="noreferrer"
                   className="link-text inline-block font-sans text-sm"
                 >
-                  Visitar site ↗
+                  {tCommon('visitSite')}
                 </a>
               )}
             </div>

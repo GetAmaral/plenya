@@ -1,48 +1,32 @@
+import { useTranslations } from 'next-intl';
 import { Link } from '@/lib/i18n/navigation';
 
-const pillars = [
-  {
-    label: 'Médico',
-    title: 'Atendimento clínico',
-    body: 'Atende em duas clínicas em Londrina — medicina preventiva e gestão clínica longitudinal na Plenya, nefrologia clínica na Nefroclínica — e responde tecnicamente pela hemodiálise hospitalar.',
-    href: '/onde-atendo',
-  },
-  {
-    label: 'Professor',
-    title: 'Coordenação de residência',
-    body: 'Coordena a residência médica em nefrologia da Santa Casa de Londrina há mais de uma década.',
-    href: '/ensino',
-  },
-  {
-    label: 'Autor',
-    title: 'A Janela Silenciosa',
-    body: '"Antes — A Janela Silenciosa entre o Normal e o Ótimo" (2026).',
-    href: '/livro',
-  },
-  {
-    label: 'Palestrante',
-    title: 'Palestras nacionais',
-    body: 'Palestras para médicos, residentes e plateias corporativas — sobre prevenção que começa antes.',
-    href: '/palestras',
-  },
-];
+const pillarMeta = [
+  { keyPrefix: 'doctor', href: '/onde-atendo' },
+  { keyPrefix: 'professor', href: '/ensino' },
+  { keyPrefix: 'author', href: '/livro' },
+  { keyPrefix: 'speaker', href: '/palestras' },
+] as const;
 
 export function Pillars() {
+  const t = useTranslations('home.pillars');
   return (
     <section className="border-t border-rule">
       <div className="editorial-container py-20 md:py-28">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-14">
-          {pillars.map((p) => (
+          {pillarMeta.map((p) => (
             <Link
-              key={p.label}
+              key={p.keyPrefix}
               href={p.href}
               className="group block border-l-2 border-bordo/30 pl-6 hover:border-bordo transition-colors"
             >
-              <p className="label-meta mb-4">{p.label}</p>
+              <p className="label-meta mb-4">{t(`${p.keyPrefix}Label`)}</p>
               <h3 className="heading-section text-2xl mb-3 group-hover:text-bordo transition-colors">
-                {p.title}
+                {t(`${p.keyPrefix}Title`)}
               </h3>
-              <p className="font-serif text-ink-soft text-base leading-relaxed">{p.body}</p>
+              <p className="font-serif text-ink-soft text-base leading-relaxed">
+                {t(`${p.keyPrefix}Body`)}
+              </p>
             </Link>
           ))}
         </div>

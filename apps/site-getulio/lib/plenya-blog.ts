@@ -23,6 +23,18 @@ export const PLENYA_PILLAR_LABELS: Record<(typeof PILLARS)[number], string> = {
   longevidade: 'Longevidade',
 };
 
+export const PLENYA_PILLAR_LABELS_EN: Record<(typeof PILLARS)[number], string> = {
+  'alimentacao-atividade-fisica': 'Activity · Nutrition',
+  'gestao-metabolica': 'Clinical Management',
+  'integracao-corpo-mente': 'Mind-Body',
+  'ritmo-circadiano': 'Circadian Rhythm',
+  longevidade: 'Longevity',
+};
+
+export function pillarLabels(locale: string): Record<(typeof PILLARS)[number], string> {
+  return locale === 'en' ? PLENYA_PILLAR_LABELS_EN : PLENYA_PILLAR_LABELS;
+}
+
 const dateString = z
   .union([z.string(), z.date()])
   .transform((v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v));
