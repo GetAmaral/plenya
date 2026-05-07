@@ -518,7 +518,38 @@
     "hoursLabel": "Hours",
     "hoursValue": "Mon–Fri · 8am–6pm BRT",
     "clinicCaptionLabel": "Project",
-    "clinicCaptionValue": "Architectural render of the future Plenya headquarters in Londrina."
+    "clinicCaptionValue": "Architectural render of the future Plenya headquarters in Londrina.",
+    "formNameLabel": "Name",
+    "formNameError": "Name is required",
+    "formEmailLabel": "Email",
+    "formEmailError": "Invalid email",
+    "formPhoneLabel": "Phone (WhatsApp)",
+    "formPhoneError": "Phone is required",
+    "formMoreShow": "Tell us more (optional)",
+    "formMoreHide": "Hide details",
+    "formReasonLabel": "Main reason (optional)",
+    "formReasonPlaceholder": "Select (optional)",
+    "formReasonCansaco": "Fatigue / low energy",
+    "formReasonPerformance": "Performance / longevity",
+    "formReasonCronica": "Chronic condition",
+    "formReasonPrevencao": "Prevention",
+    "formReasonCheckup": "Checkup",
+    "formReasonOutro": "Other",
+    "formWindowLabel": "Best time to reach you (optional)",
+    "formWindowPlaceholder": "e.g., mornings, afternoons, weekends",
+    "formMessageLabel": "Message (optional)",
+    "formMessagePlaceholder": "Anything that helps the team understand your moment",
+    "formConsentPart1": "I have read and agree to the ",
+    "formConsentPrivacyLink": "Privacy Policy",
+    "formConsentPart2": " and ",
+    "formConsentTermsLink": "Terms of Use",
+    "formConsentPart3": ". I authorize Plenya to contact me through the channels provided.",
+    "formSubmit": "Send",
+    "formSubmitting": "Sending…",
+    "formError": "Error sending. Please try again or reach us on WhatsApp.",
+    "formSentLabel": "Received",
+    "formSentTitle": "Thank you for reaching out.",
+    "formSentDesc": "Our team replies within 2 hours on business days."
   },
   "diagnostic": {
     "metaTitle": "Plenya Assessment — does Continuum Plenya make sense for you?",
@@ -526,7 +557,102 @@
     "heroLabel": "Assessment",
     "heroTitleLine1": "Does Continuum Plenya",
     "heroTitleLine2": "make sense for your moment?",
-    "heroP": "Five short questions. No clinical diagnosis, no data capture. At the end, we return which portraits of the program most match what you describe — and the path to talk with the team."
+    "heroP": "Five short questions. No clinical diagnosis, no data capture. At the end, we return which portraits of the program most match what you describe — and the path to talk with the team.",
+    "quizIntroLabel": "How it works",
+    "quizIntroLine1": "Five questions. No diagnosis. No email required.",
+    "quizIntroLine2": "The result shows which portraits of Continuum Plenya most match your moment — and opens the path to talk with the team if it makes sense.",
+    "quizStart": "Begin",
+    "quizProgress": "Question {step} of {total}",
+    "quizBack": "← Back",
+    "resultLabel": "Your reading",
+    "resultTitle": "What you describe matches three portraits of Continuum Plenya.",
+    "resultIntro": "It is not a diagnosis. It is how we usually recognize the moment when joining a continuous program makes sense. The team can go deeper in direct conversation.",
+    "resultRetratoLabel": "Portrait {n}",
+    "resultDescP1Part1": "Continuum Plenya is a ",
+    "resultDescP1Strong": "six-month or annual",
+    "resultDescP1Part2": " program, 100% online, led by four professionals who meet, discuss your case, and design a single plan.",
+    "resultDescP2Part1": "It all begins with the ",
+    "resultDescP2Strong1": "Plenya Score",
+    "resultDescP2Part2": " (over 800 items) and continues organized by ",
+    "resultDescP2Strong2": "The ACTS Method",
+    "resultDescP2Part3": " — Activity, Alimentation & Smart Adjuncts; Clinical Optimization; Tending Mind, Body & Bonds; Sleep, Rhythm & Recovery — in weekly meetings that cover every pillar every four weeks.",
+    "resultCtaContact": "Talk to the team",
+    "resultCtaContinuum": "Read about Continuum Plenya",
+    "resultRestart": "← Retake the assessment",
+    "retratos": {
+      "tudo-certo": {
+        "titulo": "Doing everything right, not seeing the response.",
+        "descricao": "You train, eat carefully, sleep the hours — and still energy doesn't come back, weight won't shift, markers don't improve. The pillar no one integrated is missing."
+      },
+      "susto": {
+        "titulo": "Got the wake-up call.",
+        "descricao": "A lab that scared you, a family diagnosis, a birthday that hurt. The window seemed far and got close too fast."
+      },
+      "carrega": {
+        "titulo": "You carry more than yourself.",
+        "descricao": "Partners, team, children, parents — people depend on the whole of you. Health became a critical variable in what you sustain in the world."
+      },
+      "transicao": {
+        "titulo": "In a transition no one names.",
+        "descricao": "Sleep changed, mood changed, body changed — and the clinical response you receive is \"it's nothing yet\" or \"it's age\"."
+      },
+      "isolados": {
+        "titulo": "You have isolated professionals.",
+        "descricao": "Personal trainer, nutritionist, therapist, physician — each one caring for their piece, no one looking at the whole."
+      },
+      "mede": {
+        "titulo": "Measuring everything, deciding nothing.",
+        "descricao": "Wearables, lab panels, longevity reports — data is not the problem. Someone is missing to read the whole and follow the decision over time."
+      },
+      "sinais": {
+        "titulo": "Small signs no one adds up.",
+        "descricao": "Three colds this year. The belly hardened though the scale doesn't show it. The gut got off, the skin lost glow, sleep doesn't recover. Each complaint seems too small — together, they describe terrain in decline."
+      },
+      "inteiro": {
+        "titulo": "You want to be whole for those still arriving.",
+        "descricao": "A small child at 45, projects that don't fit in ten years, new people coming. The question stopped being how long I'll live — it became how I'll be when they need me whole."
+      }
+    },
+    "questions": {
+      "idade": {
+        "prompt": "Which range are you in today?",
+        "opt0": "35 to 44",
+        "opt1": "45 to 54",
+        "opt2": "55 or older",
+        "opt3": "Under 35"
+      },
+      "motivo": {
+        "prompt": "What brought you to this page today?",
+        "opt0": "I do what is supposed to be right and don't see the result I expected.",
+        "opt1": "I had a recent scare — mine or family's — and I want to anticipate.",
+        "opt2": "I have people who depend on the whole of me: team, partners, family.",
+        "opt3": "I sense something is changing and no one can name what.",
+        "opt4": "I already have separate professionals — someone is missing to bring them together.",
+        "opt5": "I have too much data (wearables, labs) and not enough decisions.",
+        "opt6": "I accumulate small symptoms — colds, gut, skin, sleep — that no one adds up.",
+        "opt7": "I want to ensure presence and energy for those still arriving — children, projects, years ahead."
+      },
+      "sono": {
+        "prompt": "How is your sleep most weeks?",
+        "opt0": "I wake rested, with stable energy all day.",
+        "opt1": "I sleep the hours but wake without energy.",
+        "opt2": "I don't sleep enough — late to bed, early to rise.",
+        "opt3": "Fragmented sleep — I wake several times or snore heavily."
+      },
+      "exames": {
+        "prompt": "What is your relationship with the labs you've already done?",
+        "opt0": "Doctors say everything is normal — but I feel it isn't.",
+        "opt1": "Something appeared recently that made me stop and think.",
+        "opt2": "I've done sophisticated labs and don't know what to do with the result.",
+        "opt3": "I only do the annual basics and would like a deeper reading."
+      },
+      "cadencia": {
+        "prompt": "Weekly online meetings, rotating among four professionals — does it fit your life?",
+        "opt0": "Yes — weekly is exactly the rhythm that makes a difference.",
+        "opt1": "Yes, with some scheduling flexibility.",
+        "opt2": "I need to understand more before committing."
+      }
+    }
   },
   "howItWorks": {
     "metaTitle": "How It Works — Plenya medicine in four steps",

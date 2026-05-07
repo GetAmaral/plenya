@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Link } from '@/lib/i18n/navigation';
 import { track } from '@/lib/plausible';
 
@@ -14,190 +15,80 @@ type RetratoId =
   | 'sinais'
   | 'inteiro';
 
-type Retrato = {
-  id: RetratoId;
-  titulo: string;
-  descricao: string;
-};
-
-const RETRATOS: Retrato[] = [
-  {
-    id: 'tudo-certo',
-    titulo: 'Faz tudo certo e não vê resposta.',
-    descricao:
-      'Treina, come com cuidado, dorme as horas — e mesmo assim a disposição não volta, o peso não cede, os marcadores não melhoram. Falta o pilar que ninguém integrou.',
-  },
-  {
-    id: 'susto',
-    titulo: 'Recebeu o susto.',
-    descricao:
-      'Um exame que assustou, um diagnóstico de família, um aniversário que doeu. A janela parecia distante e ficou perto demais.',
-  },
-  {
-    id: 'carrega',
-    titulo: 'Carrega mais do que si mesmo.',
-    descricao:
-      'Sócios, equipe, filhos, pais — gente depende de você inteiro. Saúde virou variável crítica do que você sustenta no mundo.',
-  },
-  {
-    id: 'transicao',
-    titulo: 'Está numa transição que ninguém nomeia.',
-    descricao:
-      'O sono mudou, o humor mudou, o corpo mudou — e a resposta clínica que você recebe é "ainda não é nada" ou "é da idade".',
-  },
-  {
-    id: 'isolados',
-    titulo: 'Tem profissionais isolados.',
-    descricao:
-      'Personal, nutricionista, terapeuta, médico — cada um cuidando do seu pedaço, ninguém olhando o conjunto.',
-  },
-  {
-    id: 'mede',
-    titulo: 'Mede tudo e não decide nada.',
-    descricao:
-      'Wearables, painéis de exames, relatórios de longevidade — dado não falta. Falta alguém que leia o conjunto e acompanhe a decisão no tempo.',
-  },
-  {
-    id: 'sinais',
-    titulo: 'Tem sinais pequenos que ninguém soma.',
-    descricao:
-      'Adoeceu três vezes este ano. A barriga endureceu, embora a balança não acuse. O intestino bagunçou, a pele perdeu viço, o sono não recupera. Cada queixa parece pequena demais — junto, descreve um terreno em desgaste.',
-  },
-  {
-    id: 'inteiro',
-    titulo: 'Quer estar inteiro para quem ainda vai chegar.',
-    descricao:
-      'Filho pequeno aos 45, projetos que não cabem em dez anos, gente nova chegando. A pergunta deixou de ser quanto vou viver — virou como vou estar quando precisarem de mim inteiro.',
-  },
+const RETRATO_IDS: RetratoId[] = [
+  'tudo-certo',
+  'susto',
+  'carrega',
+  'transicao',
+  'isolados',
+  'mede',
+  'sinais',
+  'inteiro',
 ];
 
 type Option = {
-  label: string;
   scores: Partial<Record<RetratoId, number>>;
 };
 
 type Question = {
-  id: string;
-  prompt: string;
+  id: 'idade' | 'motivo' | 'sono' | 'exames' | 'cadencia';
   options: Option[];
 };
 
 const QUESTIONS: Question[] = [
   {
     id: 'idade',
-    prompt: 'Em qual faixa você está hoje?',
     options: [
-      { label: '35 a 44 anos', scores: { 'tudo-certo': 1, carrega: 1, inteiro: 2 } },
-      { label: '45 a 54 anos', scores: { transicao: 1, susto: 1, mede: 1, inteiro: 1 } },
-      { label: '55 anos ou mais', scores: { susto: 2, transicao: 1 } },
-      { label: 'Menos de 35', scores: { 'tudo-certo': 1, mede: 1, inteiro: 1 } },
+      { scores: { 'tudo-certo': 1, carrega: 1, inteiro: 2 } },
+      { scores: { transicao: 1, susto: 1, mede: 1, inteiro: 1 } },
+      { scores: { susto: 2, transicao: 1 } },
+      { scores: { 'tudo-certo': 1, mede: 1, inteiro: 1 } },
     ],
   },
   {
     id: 'motivo',
-    prompt: 'O que mais te trouxe a esta página hoje?',
     options: [
-      {
-        label: 'Faço o que dizem ser certo e não vejo o resultado que esperava.',
-        scores: { 'tudo-certo': 3 },
-      },
-      {
-        label: 'Tive um susto recente — meu ou de família — e quero antecipar.',
-        scores: { susto: 3 },
-      },
-      {
-        label: 'Tenho gente que depende de mim inteiro: equipe, sócios, família.',
-        scores: { carrega: 3 },
-      },
-      {
-        label: 'Sinto que algo está mudando e ninguém consegue nomear o quê.',
-        scores: { transicao: 3 },
-      },
-      {
-        label: 'Já tenho profissionais separados — falta alguém juntando.',
-        scores: { isolados: 3 },
-      },
-      {
-        label: 'Tenho dado demais (wearables, exames) e decisão de menos.',
-        scores: { mede: 3 },
-      },
-      {
-        label: 'Acumulo sintomas pequenos — gripe, intestino, pele, sono — que ninguém soma.',
-        scores: { sinais: 3 },
-      },
-      {
-        label: 'Quero garantir presença e energia para quem ainda vai chegar — filhos, projetos, anos pela frente.',
-        scores: { inteiro: 3 },
-      },
+      { scores: { 'tudo-certo': 3 } },
+      { scores: { susto: 3 } },
+      { scores: { carrega: 3 } },
+      { scores: { transicao: 3 } },
+      { scores: { isolados: 3 } },
+      { scores: { mede: 3 } },
+      { scores: { sinais: 3 } },
+      { scores: { inteiro: 3 } },
     ],
   },
   {
     id: 'sono',
-    prompt: 'Como está seu sono na maior parte das semanas?',
     options: [
-      {
-        label: 'Acordo descansado, energia estável o dia todo.',
-        scores: {},
-      },
-      {
-        label: 'Durmo as horas mas acordo sem energia.',
-        scores: { 'tudo-certo': 2, transicao: 2, sinais: 2 },
-      },
-      {
-        label: 'Não durmo o suficiente — deito tarde, acordo cedo.',
-        scores: { carrega: 2, mede: 1 },
-      },
-      {
-        label: 'Sono fragmentado — acordo várias vezes ou ronco muito.',
-        scores: { susto: 1, transicao: 2, sinais: 2 },
-      },
+      { scores: {} },
+      { scores: { 'tudo-certo': 2, transicao: 2, sinais: 2 } },
+      { scores: { carrega: 2, mede: 1 } },
+      { scores: { susto: 1, transicao: 2, sinais: 2 } },
     ],
   },
   {
     id: 'exames',
-    prompt: 'Qual sua relação com os exames que você já fez?',
     options: [
-      {
-        label: 'Os médicos dizem que está tudo normal — mas eu sinto que não está.',
-        scores: { 'tudo-certo': 2, transicao: 1, sinais: 2 },
-      },
-      {
-        label: 'Algo apareceu recentemente que me fez parar para pensar.',
-        scores: { susto: 3 },
-      },
-      {
-        label: 'Já fiz exames sofisticados e não sei o que fazer com o resultado.',
-        scores: { mede: 3, isolados: 1 },
-      },
-      {
-        label: 'Faço só o básico anual e gostaria de uma leitura mais profunda.',
-        scores: { carrega: 1, susto: 1, inteiro: 2 },
-      },
+      { scores: { 'tudo-certo': 2, transicao: 1, sinais: 2 } },
+      { scores: { susto: 3 } },
+      { scores: { mede: 3, isolados: 1 } },
+      { scores: { carrega: 1, susto: 1, inteiro: 2 } },
     ],
   },
   {
     id: 'cadencia',
-    prompt: 'Encontros semanais online, em rotação entre quatro profissionais — cabe na sua vida?',
     options: [
-      {
-        label: 'Cabe — semanal é exatamente o ritmo que faz diferença.',
-        scores: { 'tudo-certo': 1, carrega: 1, isolados: 1, mede: 1, sinais: 1, inteiro: 1 },
-      },
-      {
-        label: 'Cabe com alguma flexibilidade de horário.',
-        scores: { carrega: 2, inteiro: 1 },
-      },
-      {
-        label: 'Preciso entender melhor antes de me comprometer.',
-        scores: { susto: 1, transicao: 1 },
-      },
+      { scores: { 'tudo-certo': 1, carrega: 1, isolados: 1, mede: 1, sinais: 1, inteiro: 1 } },
+      { scores: { carrega: 2, inteiro: 1 } },
+      { scores: { susto: 1, transicao: 1 } },
     ],
   },
 ];
 
 type Answers = Record<string, number>;
 
-function computeTopRetratos(answers: Answers, allOptions: Question[]): Retrato[] {
+function computeTopRetratos(answers: Answers, allOptions: Question[]): RetratoId[] {
   const totals: Record<RetratoId, number> = {
     'tudo-certo': 0,
     susto: 0,
@@ -219,13 +110,12 @@ function computeTopRetratos(answers: Answers, allOptions: Question[]): Retrato[]
     }
   }
 
-  const ranked = [...RETRATOS].sort((a, b) => totals[b.id] - totals[a.id]);
-  const topScore = totals[ranked[0].id];
-  if (topScore === 0) return ranked.slice(0, 3);
+  const ranked = [...RETRATO_IDS].sort((a, b) => totals[b] - totals[a]);
   return ranked.slice(0, 3);
 }
 
 export function DiagnosticoQuiz() {
+  const t = useTranslations('diagnostic');
   const [phase, setPhase] = useState<'intro' | 'quiz' | 'result'>('intro');
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
@@ -262,21 +152,19 @@ export function DiagnosticoQuiz() {
   if (phase === 'intro') {
     return (
       <div className="max-w-2xl">
-        <p className="label-upper text-gold mb-4">Como funciona</p>
+        <p className="label-upper text-gold mb-4">{t('quizIntroLabel')}</p>
         <p className="text-petrol/85 text-lg leading-relaxed mb-4">
-          Cinco perguntas. Sem diagnóstico. Sem cobrança de e-mail.
+          {t('quizIntroLine1')}
         </p>
         <p className="text-petrol/75 leading-relaxed mb-10">
-          O resultado mostra quais retratos do Continuum Plenya mais se aproximam do
-          seu momento — e abre o caminho para conversar com a equipe se fizer
-          sentido.
+          {t('quizIntroLine2')}
         </p>
         <button
           type="button"
           onClick={start}
           className="btn-gold"
         >
-          Começar
+          {t('quizStart')}
         </button>
       </div>
     );
@@ -298,14 +186,14 @@ export function DiagnosticoQuiz() {
         </div>
 
         <p className="label-upper text-gold mb-4">
-          Pergunta {step + 1} de {QUESTIONS.length}
+          {t('quizProgress', { step: step + 1, total: QUESTIONS.length })}
         </p>
         <h2 className="heading-section text-petrol text-2xl md:text-4xl mb-10">
-          {q.prompt}
+          {t(`questions.${q.id}.prompt`)}
         </h2>
 
         <div className="space-y-3">
-          {q.options.map((opt, i) => (
+          {q.options.map((_, i) => (
             <button
               key={i}
               type="button"
@@ -313,7 +201,7 @@ export function DiagnosticoQuiz() {
               className="w-full text-left p-6 bg-paper hover:bg-cream-100 border border-petrol/10 hover:border-gold transition group"
             >
               <span className="text-petrol/85 group-hover:text-petrol leading-relaxed">
-                {opt.label}
+                {t(`questions.${q.id}.opt${i}` as 'questions.idade.opt0')}
               </span>
             </button>
           ))}
@@ -324,7 +212,7 @@ export function DiagnosticoQuiz() {
           onClick={back}
           className="mt-10 text-petrol/60 hover:text-petrol transition text-sm label-upper"
         >
-          ← Voltar
+          {t('quizBack')}
         </button>
       </div>
     );
@@ -334,23 +222,21 @@ export function DiagnosticoQuiz() {
 
   return (
     <div className="max-w-4xl">
-      <p className="label-upper text-gold mb-4">Sua leitura</p>
+      <p className="label-upper text-gold mb-4">{t('resultLabel')}</p>
       <h2 className="heading-section text-petrol text-3xl md:text-5xl mb-6">
-        O que você descreve se aproxima de três retratos do Continuum Plenya.
+        {t('resultTitle')}
       </h2>
       <p className="text-petrol/75 text-lg leading-relaxed max-w-2xl mb-16">
-        Não é diagnóstico. É a forma como costumamos reconhecer o momento em
-        que faz sentido entrar num programa contínuo. A equipe pode aprofundar
-        em conversa direta.
+        {t('resultIntro')}
       </p>
 
       <div className="grid md:grid-cols-3 gap-px bg-petrol/10 border-y border-petrol/10 mb-16">
-        {tops.map((r, i) => (
-          <div key={r.id} className="bg-paper p-8 space-y-3">
-            <p className="label-upper text-gold">Retrato {i + 1}</p>
-            <h3 className="heading-section text-petrol text-xl">{r.titulo}</h3>
+        {tops.map((id, i) => (
+          <div key={id} className="bg-paper p-8 space-y-3">
+            <p className="label-upper text-gold">{t('resultRetratoLabel', { n: i + 1 })}</p>
+            <h3 className="heading-section text-petrol text-xl">{t(`retratos.${id}.titulo`)}</h3>
             <p className="text-petrol/75 leading-relaxed text-sm">
-              {r.descricao}
+              {t(`retratos.${id}.descricao`)}
             </p>
           </div>
         ))}
@@ -358,28 +244,28 @@ export function DiagnosticoQuiz() {
 
       <div className="space-y-4 mb-12 max-w-2xl">
         <p className="text-petrol/85 leading-relaxed">
-          O Continuum Plenya é um programa <strong className="text-petrol">semestral ou anual</strong>,
-          100% online, conduzido por quatro profissionais que se reúnem,
-          discutem o seu caso e desenham um plano único.
+          {t('resultDescP1Part1')}
+          <strong className="text-petrol">{t('resultDescP1Strong')}</strong>
+          {t('resultDescP1Part2')}
         </p>
         <p className="text-petrol/85 leading-relaxed">
-          Tudo começa pelo <strong className="text-petrol">Escore Plenya</strong> (mais
-          de 800 itens) e segue organizado pelo <strong className="text-petrol">Método AGIR</strong> —
-          atividade física e alimentação, gestão clínica e metabólica,
-          integração mente-corpo, ritmo circadiano e repouso — em encontros
-          semanais que cobrem cada pilar a cada quatro semanas.
+          {t('resultDescP2Part1')}
+          <strong className="text-petrol">{t('resultDescP2Strong1')}</strong>
+          {t('resultDescP2Part2')}
+          <strong className="text-petrol">{t('resultDescP2Strong2')}</strong>
+          {t('resultDescP2Part3')}
         </p>
       </div>
 
       <div className="flex flex-wrap gap-4">
         <Link href="/contato" className="btn-gold">
-          Conversar com a equipe
+          {t('resultCtaContact')}
         </Link>
         <Link
           href="/continuum"
           className="inline-flex items-center px-6 py-3 border border-petrol/30 text-petrol hover:bg-petrol hover:text-cream transition label-upper"
         >
-          Ler sobre o Continuum Plenya
+          {t('resultCtaContinuum')}
         </Link>
       </div>
 
@@ -388,7 +274,7 @@ export function DiagnosticoQuiz() {
         onClick={restart}
         className="mt-12 text-petrol/60 hover:text-petrol transition text-sm label-upper"
       >
-        ← Refazer o diagnóstico
+        {t('resultRestart')}
       </button>
     </div>
   );

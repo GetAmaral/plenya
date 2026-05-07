@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 import { ChevronDown } from 'lucide-react';
 import { track } from '@/lib/plausible';
@@ -25,9 +26,9 @@ declare global {
 }
 
 const schema = z.object({
-  name: z.string().min(2, 'Nome obrigatório'),
-  email: z.string().email('Email inválido'),
-  phone: z.string().min(8, 'Telefone obrigatório'),
+  name: z.string().min(2),
+  email: z.string().email(),
+  phone: z.string().min(8),
   reason: z.enum(['cansaco', 'performance', 'cronica', 'prevencao', 'checkup', 'outro']).optional(),
   window: z.string().optional(),
   message: z.string().optional(),
@@ -36,6 +37,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export function ContactForm() {
+  const t = useTranslations('contact');
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [consentAccepted, setConsentAccepted] = useState(false);
   const [showMore, setShowMore] = useState(false);
@@ -66,7 +68,6 @@ export function ContactForm() {
     const parsed = schema.safeParse(data);
     if (!parsed.success) return;
     if (!consentAccepted) return;
-    // M10 — exige token só se Turnstile habilitado (site key presente).
     if (TURNSTILE_SITE_KEY && !turnstileToken) {
       setStatus('error');
       return;
@@ -83,12 +84,11 @@ export function ContactForm() {
           turnstileToken: turnstileToken || undefined,
         }),
       });
-      if (!res.ok) throw new Error('Falha no envio');
+      if (!res.ok) throw new Error('Failed');
       track('form_contato_enviado', { reason: parsed.data.reason ?? 'nao_informado' });
       setStatus('sent');
     } catch {
       setStatus('error');
-      // Reset token pra permitir nova tentativa
       if (window.turnstile && turnstileWidgetId.current) {
         window.turnstile.reset(turnstileWidgetId.current);
         setTurnstileToken('');
@@ -99,22 +99,22 @@ export function ContactForm() {
   if (status === 'sent') {
     return (
       <div className="border-t border-gold pt-8 space-y-3">
-        <p className="label-upper text-gold">Recebido</p>
-        <h3 className="heading-section text-petrol text-2xl">Obrigado por entrar em contato.</h3>
-        <p className="text-petrol/70">Nossa equipe responde em até 2 horas em dias úteis.</p>
+        <p className="label-upper text-gold">{t('formSentLabel')}</p>
+        <h3 className="heading-section text-petrol text-2xl">{t('formSentTitle')}</h3>
+        <p className="text-petrol/70">{t('formSentDesc')}</p>
       </div>
     );
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <Field label="Nome" error={errors.name?.message}>
+      <Field label={t('formNameLabel')} error={errors.name && t('formNameError')}>
         <input {...register('name')} className="form-input" autoComplete="name" />
       </Field>
-      <Field label="Email" error={errors.email?.message}>
+      <Field label={t('formEmailLabel')} error={errors.email && t('formEmailError')}>
         <input {...register('email')} type="email" className="form-input" autoComplete="email" />
       </Field>
-      <Field label="Telefone (WhatsApp)" error={errors.phone?.message}>
+      <Field label={t('formPhoneLabel')} error={errors.phone && t('formPhoneError')}>
         <input {...register('phone')} inputMode="tel" className="form-input" autoComplete="tel" />
       </Field>
 
@@ -124,7 +124,7 @@ export function ContactForm() {
         aria-expanded={showMore}
         className="flex items-center gap-2 label-upper text-gold hover:text-petrol transition"
       >
-        <span>{showMore ? 'Esconder detalhes' : 'Conte mais (opcional)'}</span>
+        <span>{showMore ? t('formMoreHide') : t('formMoreShow')}</span>
         <ChevronDown size={14} className={cn('transition-transform', showMore && 'rotate-180')} />
       </button>
 
@@ -136,29 +136,29 @@ export function ContactForm() {
       >
         <div className="overflow-hidden">
           <div className="space-y-6 pt-2">
-            <Field label="Motivo principal (opcional)">
+            <Field label={t('formReasonLabel')}>
               <select {...register('reason')} className="form-input" defaultValue="">
-                <option value="">Selecione (opcional)</option>
-                <option value="cansaco">Cansaço / queda de energia</option>
-                <option value="performance">Performance / longevidade</option>
-                <option value="cronica">Condição crônica</option>
-                <option value="prevencao">Prevenção</option>
-                <option value="checkup">Check-up</option>
-                <option value="outro">Outro</option>
+                <option value="">{t('formReasonPlaceholder')}</option>
+                <option value="cansaco">{t('formReasonCansaco')}</option>
+                <option value="performance">{t('formReasonPerformance')}</option>
+                <option value="cronica">{t('formReasonCronica')}</option>
+                <option value="prevencao">{t('formReasonPrevencao')}</option>
+                <option value="checkup">{t('formReasonCheckup')}</option>
+                <option value="outro">{t('formReasonOutro')}</option>
               </select>
             </Field>
-            <Field label="Melhor horário para contato (opcional)">
+            <Field label={t('formWindowLabel')}>
               <input
                 {...register('window')}
-                placeholder="Ex: manhã, tarde, fins de semana"
+                placeholder={t('formWindowPlaceholder')}
                 className="form-input"
               />
             </Field>
-            <Field label="Mensagem (opcional)">
+            <Field label={t('formMessageLabel')}>
               <textarea
                 {...register('message')}
                 rows={3}
-                placeholder="Algo que ajude a equipe a entender o seu momento"
+                placeholder={t('formMessagePlaceholder')}
                 className="form-input"
               />
             </Field>
@@ -174,10 +174,11 @@ export function ContactForm() {
           className="mt-1 h-4 w-4 accent-gold cursor-pointer"
         />
         <span className="text-petrol/80 text-sm leading-relaxed">
-          Li e concordo com a{' '}
-          <Link href="/privacidade" className="underline underline-offset-4">Política de Privacidade</Link>
-          {' '}e os{' '}
-          <Link href="/termos" className="underline underline-offset-4">Termos de Uso</Link>. Autorizo a Plenya a entrar em contato pelos canais informados.
+          {t('formConsentPart1')}
+          <Link href="/privacidade" className="underline underline-offset-4">{t('formConsentPrivacyLink')}</Link>
+          {t('formConsentPart2')}
+          <Link href="/termos" className="underline underline-offset-4">{t('formConsentTermsLink')}</Link>
+          {t('formConsentPart3')}
         </span>
       </label>
 
@@ -199,10 +200,10 @@ export function ContactForm() {
         disabled={status === 'sending' || !consentAccepted || (Boolean(TURNSTILE_SITE_KEY) && !turnstileToken)}
         className={`btn-gold w-full ${status === 'sending' || !consentAccepted || (Boolean(TURNSTILE_SITE_KEY) && !turnstileToken) ? 'opacity-40 cursor-not-allowed' : ''}`}
       >
-        {status === 'sending' ? 'Enviando…' : 'Enviar'}
+        {status === 'sending' ? t('formSubmitting') : t('formSubmit')}
       </button>
       {status === 'error' && (
-        <p className="text-sm text-red-700">Erro ao enviar. Tente novamente ou nos chame no WhatsApp.</p>
+        <p className="text-sm text-red-700">{t('formError')}</p>
       )}
     </form>
   );
