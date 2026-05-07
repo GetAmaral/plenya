@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 
 export type HowStep = {
@@ -7,37 +8,10 @@ export type HowStep = {
   detail?: string;
 };
 
-const defaultSteps: HowStep[] = [
-  {
-    n: '01',
-    title: 'Avaliar',
-    body: 'Você responde ao Escore Plenya — Triagem gratuita ou versão completa em consulta — e a equipe organiza sua história, sintomas, exames, hábitos e medicamentos em um painel único.',
-    detail: 'Triagem · Consulta · Continuum',
-  },
-  {
-    n: '02',
-    title: 'Interpretar',
-    body: 'O médico — e, no Continuum, a equipe inteira — faz a leitura funcional do seu painel. Não é "está normal": é o que está distante do ótimo, o que merece intervenção e o que pode esperar.',
-    detail: 'Leitura clínica integrada',
-  },
-  {
-    n: '03',
-    title: 'Plano personalizado',
-    body: 'Conduta escrita e acordada com você: medicação se houver indicação, ajustes de estilo de vida, suplementação, encaminhamentos. No Continuum, plano único construído pelos quatro profissionais.',
-    detail: 'Conduta · Box Plenya · Acompanhamento',
-  },
-  {
-    n: '04',
-    title: 'Reavaliar em ciclo',
-    body: 'A cada três meses (Continuum) ou conforme indicação, novo Escore. A curva mostra progresso real, estagnação ou queda. O plano se ajusta ao que os dados dizem — não a opinião.',
-    detail: 'Curva evolutiva visível para você e a equipe',
-  },
-];
-
-export function HowItWorksSteps({
-  steps = defaultSteps,
-  label = 'Como funciona',
-  title = 'Quatro passos. Um cuidado que evolui.',
+export async function HowItWorksSteps({
+  steps,
+  label,
+  title,
   bg = 'bg-cream',
 }: {
   steps?: HowStep[];
@@ -45,16 +19,27 @@ export function HowItWorksSteps({
   title?: string;
   bg?: string;
 }) {
+  const t = await getTranslations('howItWorks');
+  const resolvedSteps: HowStep[] =
+    steps ?? [
+      { n: '01', title: t('step1Title'), body: t('step1Body'), detail: t('step1Detail') },
+      { n: '02', title: t('step2Title'), body: t('step2Body'), detail: t('step2Detail') },
+      { n: '03', title: t('step3Title'), body: t('step3Body'), detail: t('step3Detail') },
+      { n: '04', title: t('step4Title'), body: t('step4Body'), detail: t('step4Detail') },
+    ];
+  const resolvedLabel = label ?? t('stepsLabel');
+  const resolvedTitle = title ?? t('stepsTitle');
+
   return (
     <section className={bg}>
       <div className="site-container section">
         <div className="max-w-3xl mb-14 space-y-4">
-          <p className="label-upper text-gold">{label}</p>
-          <h2 className="heading-section text-petrol text-3xl md:text-5xl">{title}</h2>
+          <p className="label-upper text-gold">{resolvedLabel}</p>
+          <h2 className="heading-section text-petrol text-3xl md:text-5xl">{resolvedTitle}</h2>
         </div>
 
         <ol className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-petrol/15 border-y border-petrol/15">
-          {steps.map((s) => (
+          {resolvedSteps.map((s) => (
             <li key={s.n} className="bg-paper p-8 md:p-10 space-y-5">
               <p className="text-gold text-5xl md:text-6xl font-light leading-none tabular-nums">
                 {s.n}
@@ -72,10 +57,10 @@ export function HowItWorksSteps({
 
         <div className="mt-12 flex flex-wrap gap-4">
           <Link href="/escore-plenya/avaliar" className="btn-gold">
-            Começar pela Triagem
+            {t('stepsCtaTriage')}
           </Link>
           <Link href="/contato" className="btn-outline-dark">
-            Falar com a equipe
+            {t('stepsCtaContact')}
           </Link>
         </div>
       </div>

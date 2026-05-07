@@ -488,7 +488,17 @@
     "p4Body": "Zero compartilhamento com terceiros. Cancelamento em 1 clique. 100% LGPD.",
     "ctaLabel": "Quer ver antes de assinar?",
     "ctaTitle": "Os artigos mais lidos do Boletim ficam abertos no nosso blog.",
-    "ctaButton": "Ler o blog"
+    "ctaButton": "Ler o blog",
+    "inlineLabel": "Boletim Plenya",
+    "inlineTitleConfirmed": "Inscrição confirmada.",
+    "inlineConfirmedDesc": "Em instantes você receberá um email para confirmar o cadastro. Verifique a caixa de entrada.",
+    "inlineTitle": "Receba um insight clínico exclusivo por semana.",
+    "inlineDesc": "Conteúdo curto e direto, escrito pelos médicos da Plenya. Sem spam — você pode descadastrar a qualquer momento.",
+    "inlinePlaceholder": "seu@email.com",
+    "inlineSubscribing": "Inscrevendo…",
+    "inlineSubscribe": "Inscrever-me",
+    "inlineEmailInvalid": "Email inválido",
+    "inlineError": "Erro ao inscrever. Tente novamente em instantes."
   },
   "contact": {
     "metaTitle": "Contato",
@@ -540,7 +550,30 @@
     "exitLabel": "Próximo passo",
     "exitTitle": "Comece pela Triagem. Em cinco minutos você tem a primeira leitura.",
     "exitCtaTriage": "Fazer a Triagem",
-    "exitCtaContact": "Falar com a equipe"
+    "exitCtaContact": "Falar com a equipe",
+    "stepsLabel": "Como funciona",
+    "stepsTitle": "Quatro passos. Um cuidado que evolui.",
+    "step1Title": "Avaliar",
+    "step1Body": "Você responde ao Escore Plenya — Triagem gratuita ou versão completa em consulta — e a equipe organiza sua história, sintomas, exames, hábitos e medicamentos em um painel único.",
+    "step1Detail": "Triagem · Consulta · Continuum",
+    "step2Title": "Interpretar",
+    "step2Body": "O médico — e, no Continuum, a equipe inteira — faz a leitura funcional do seu painel. Não é \"está normal\": é o que está distante do ótimo, o que merece intervenção e o que pode esperar.",
+    "step2Detail": "Leitura clínica integrada",
+    "step3Title": "Plano personalizado",
+    "step3Body": "Conduta escrita e acordada com você: medicação se houver indicação, ajustes de estilo de vida, suplementação, encaminhamentos. No Continuum, plano único construído pelos quatro profissionais.",
+    "step3Detail": "Conduta · Box Plenya · Acompanhamento",
+    "step4Title": "Reavaliar em ciclo",
+    "step4Body": "A cada três meses (Continuum) ou conforme indicação, novo Escore. A curva mostra progresso real, estagnação ou queda. O plano se ajusta ao que os dados dizem — não a opinião.",
+    "step4Detail": "Curva evolutiva visível para você e a equipe",
+    "stepsCtaTriage": "Começar pela Triagem",
+    "stepsCtaContact": "Falar com a equipe"
+  },
+  "blogCta": {
+    "recognitionLabel": "Reconhecimento",
+    "recognitionTitle": "Esse texto descreve o que você sente?",
+    "recognitionDesc": "Se sim, talvez faça sentido entender como o Continuum Plenya conduz esse tipo de cuidado. Cinco perguntas curtas devolvem a leitura — ou a equipe pode ouvir você diretamente.",
+    "ctaDiagnose": "Fazer o diagnóstico",
+    "ctaContact": "Conversar com a equipe"
   },
   "score": {
     "metaTitle": "Escore Plenya — instrumento de medida do Método AGIR",

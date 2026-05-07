@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import { z } from 'zod';
 import { track } from '@/lib/plausible';
 
@@ -9,6 +10,7 @@ const schema = z.object({ email: z.string().email() });
 type FormData = z.infer<typeof schema>;
 
 export function NewsletterInline({ source = 'blog-post' }: { source?: string }) {
+  const t = useTranslations('newsletter');
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
@@ -22,7 +24,7 @@ export function NewsletterInline({ source = 'blog-post' }: { source?: string }) 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...parsed.data, source }),
       });
-      if (!res.ok) throw new Error('Falha');
+      if (!res.ok) throw new Error('Failed');
       track('newsletter_inscreveu', { source });
       reset();
       setStatus('sent');
@@ -34,10 +36,10 @@ export function NewsletterInline({ source = 'blog-post' }: { source?: string }) 
   if (status === 'sent') {
     return (
       <aside className="my-16 border-l-2 border-gold pl-8 py-6 space-y-2">
-        <p className="label-upper text-gold">Boletim Plenya</p>
-        <p className="heading-section text-2xl text-petrol">Inscrição confirmada.</p>
+        <p className="label-upper text-gold">{t('inlineLabel')}</p>
+        <p className="heading-section text-2xl text-petrol">{t('inlineTitleConfirmed')}</p>
         <p className="text-petrol/70 text-sm">
-          Em instantes você receberá um email para confirmar o cadastro. Verifique a caixa de entrada.
+          {t('inlineConfirmedDesc')}
         </p>
       </aside>
     );
@@ -46,28 +48,28 @@ export function NewsletterInline({ source = 'blog-post' }: { source?: string }) 
   return (
     <aside className="my-16 border-l-2 border-gold pl-8 py-6 space-y-4">
       <div className="space-y-1">
-        <p className="label-upper text-gold">Boletim Plenya</p>
+        <p className="label-upper text-gold">{t('inlineLabel')}</p>
         <p className="heading-section text-2xl text-petrol max-w-xl">
-          Receba um insight clínico exclusivo por semana.
+          {t('inlineTitle')}
         </p>
         <p className="text-petrol/70 text-sm max-w-prose">
-          Conteúdo curto e direto, escrito pelos médicos da Plenya. Sem spam — você pode descadastrar a qualquer momento.
+          {t('inlineDesc')}
         </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:flex-row gap-3 max-w-xl">
         <input
           {...register('email')}
           type="email"
-          placeholder="seu@email.com"
+          placeholder={t('inlinePlaceholder')}
           className="form-input flex-1"
         />
         <button type="submit" disabled={status === 'sending'} className="btn-gold">
-          {status === 'sending' ? 'Inscrevendo…' : 'Inscrever-me'}
+          {status === 'sending' ? t('inlineSubscribing') : t('inlineSubscribe')}
         </button>
       </form>
-      {errors.email && <p className="text-xs text-red-700">Email inválido</p>}
+      {errors.email && <p className="text-xs text-red-700">{t('inlineEmailInvalid')}</p>}
       {status === 'error' && (
-        <p className="text-xs text-red-700">Erro ao inscrever. Tente novamente em instantes.</p>
+        <p className="text-xs text-red-700">{t('inlineError')}</p>
       )}
     </aside>
   );

@@ -490,7 +490,17 @@
     "p4Body": "Zero sharing with third parties. One-click unsubscribe. 100% LGPD compliant.",
     "ctaLabel": "Want to read before you subscribe?",
     "ctaTitle": "The most-read Newsletter pieces stay open on our blog.",
-    "ctaButton": "Read the Blog"
+    "ctaButton": "Read the Blog",
+    "inlineLabel": "Plenya Newsletter",
+    "inlineTitleConfirmed": "Subscription confirmed.",
+    "inlineConfirmedDesc": "You'll receive an email shortly to confirm the subscription. Check your inbox.",
+    "inlineTitle": "Receive one exclusive clinical insight a week.",
+    "inlineDesc": "Short and direct content, written by Plenya physicians. No spam — you can unsubscribe at any time.",
+    "inlinePlaceholder": "you@email.com",
+    "inlineSubscribing": "Subscribing…",
+    "inlineSubscribe": "Subscribe",
+    "inlineEmailInvalid": "Invalid email",
+    "inlineError": "Error subscribing. Please try again in a moment."
   },
   "contact": {
     "metaTitle": "Contact",
@@ -542,7 +552,30 @@
     "exitLabel": "Next Step",
     "exitTitle": "Start with the Screening. In five minutes you have the first reading.",
     "exitCtaTriage": "Take the Screening",
-    "exitCtaContact": "Talk to the Team"
+    "exitCtaContact": "Talk to the Team",
+    "stepsLabel": "How It Works",
+    "stepsTitle": "Four steps. Care that evolves.",
+    "step1Title": "Assess",
+    "step1Body": "You complete the Plenya Score — the free Screening or the full version in consultation — and the team organizes your history, symptoms, labs, habits, and medications into a single panel.",
+    "step1Detail": "Screening · Consultation · Continuum",
+    "step2Title": "Interpret",
+    "step2Body": "The physician — and, in the Continuum, the entire team — performs a functional reading of your panel. It's not \"it's normal\": it's what is far from optimal, what deserves intervention, and what can wait.",
+    "step2Detail": "Integrated clinical reading",
+    "step3Title": "Personalized plan",
+    "step3Body": "A written plan agreed with you: medication if indicated, lifestyle adjustments, supplementation, referrals. In the Continuum, a single plan built by all four professionals together.",
+    "step3Detail": "Plan · Plenya Box · Follow-up",
+    "step4Title": "Re-evaluate in cycle",
+    "step4Body": "Every three months (Continuum), or as clinically indicated, a new Score. The curve shows real progress, stagnation, or decline. The plan adjusts to what the data say — not to opinion.",
+    "step4Detail": "Visible evolving curve for you and the team",
+    "stepsCtaTriage": "Start with the Screening",
+    "stepsCtaContact": "Talk to the Team"
+  },
+  "blogCta": {
+    "recognitionLabel": "Recognition",
+    "recognitionTitle": "Does this text describe what you feel?",
+    "recognitionDesc": "If so, it may be worth understanding how Continuum Plenya delivers this kind of care. Five short questions return a reading — or the team can listen to you directly.",
+    "ctaDiagnose": "Take the assessment",
+    "ctaContact": "Talk to the team"
   },
   "score": {
     "metaTitle": "Plenya Score — measurement instrument of The ACTS Method",
