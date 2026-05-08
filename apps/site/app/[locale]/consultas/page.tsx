@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAllDoctors } from '@/lib/team';
-import { ComparatorVsConvenio } from '@/components/marketing/comparator-vs-convenio';
 import { FaqAccordion } from '@/components/marketing/faq-accordion';
 import { FaqSchema } from '@/components/seo/faq-schema';
 import { TestimonialsInline } from '@/components/testimonials/testimonials-inline';
@@ -197,8 +196,6 @@ export default async function ConsultasPage({ params }: { params: Params }) {
           </div>
         </div>
       </section>
-
-      <ComparatorVsConvenio title={t('comparatorTitle')} bg="bg-paper" />
 
       <TestimonialsInline
         bg="bg-cream"

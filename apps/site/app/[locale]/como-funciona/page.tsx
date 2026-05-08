@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { HowItWorksSteps } from '@/components/marketing/how-it-works-steps';
-import { ComparatorVsConvenio } from '@/components/marketing/comparator-vs-convenio';
 import { FaqAccordion } from '@/components/marketing/faq-accordion';
 
 type Params = Promise<{ locale: string }>;
@@ -65,8 +64,6 @@ export default async function ComoFuncionaPage({ params }: { params: Params }) {
       </section>
 
       <HowItWorksSteps bg="bg-cream" />
-
-      <ComparatorVsConvenio bg="bg-paper" />
 
       <FaqAccordion title={t('faqTitle')} items={faq} />
 

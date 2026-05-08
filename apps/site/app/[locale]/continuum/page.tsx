@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
-import { ComparatorVsConvenio } from '@/components/marketing/comparator-vs-convenio';
 import { FaqAccordion } from '@/components/marketing/faq-accordion';
 import { FaqSchema } from '@/components/seo/faq-schema';
 import { TestimonialsInline } from '@/components/testimonials/testimonials-inline';
@@ -329,8 +328,6 @@ export default async function ContinuumPage({ params }: { params: Params }) {
           </div>
         </div>
       </section>
-
-      <ComparatorVsConvenio title={t('comparatorTitle')} bg="bg-cream" />
 
       <TestimonialsInline
         bg="bg-paper"
