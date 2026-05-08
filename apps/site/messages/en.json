@@ -25,7 +25,7 @@
     "testimonials": "Testimonials",
     "method": "The ACTS Method",
     "scoreFull": "Plenya Score",
-    "diagnostic": "Assessment — is it for me?",
+    "diagnostic": "Is it for me?",
     "cases": "Clinical Cases",
     "newsletter": "Plenya Newsletter"
   },
@@ -43,7 +43,7 @@
     "startWithScore": "Start with the Plenya Score",
     "understandScore": "Understand the Score",
     "isItForMe": "Is It for Me?",
-    "doDiagnostic": "Take the Assessment",
+    "doDiagnostic": "See if it fits me",
     "seeAll": "See All →"
   },
   "common": {
@@ -122,7 +122,7 @@
     "continuumPillarsTeamValue": "Physicians, dietitian, psychologist, and EP",
     "continuumPillarsCadenceLabel": "Cadence",
     "continuumPillarsCadenceValue": "Weekly meetings on rotation",
-    "continuumPillarsDiagnosisLabel": "Diagnostic",
+    "continuumPillarsDiagnosisLabel": "Reading",
     "continuumPillarsDiagnosisValue": "Plenya Score — 800+ items",
     "continuumPillarsMethodLabel": "Method",
     "continuumPillarsMethodValue": "ACTS — four pillars",
@@ -556,9 +556,9 @@
     "formSentDesc": "Our team replies within 2 hours on business days."
   },
   "diagnostic": {
-    "metaTitle": "Plenya Assessment — does Continuum Plenya make sense for you?",
+    "metaTitle": "Continuum Plenya — does it fit your moment?",
     "metaDescription": "Five short questions to understand whether Plenya's continuous-care program fits your moment.",
-    "heroLabel": "Assessment",
+    "heroLabel": "Is it for me?",
     "heroTitleLine1": "Does Continuum Plenya",
     "heroTitleLine2": "make sense for your moment?",
     "heroP": "Five short questions. No clinical diagnosis, no data capture. At the end, we return which portraits of the program most match what you describe — and the path to talk with the team.",
@@ -582,7 +582,7 @@
     "resultDescP2Part3": " — Activity, Alimentation & Smart Adjuncts; Clinical Optimization; Tending Mind, Body & Bonds; Sleep, Rhythm & Recovery — in weekly meetings that cover every pillar every four weeks.",
     "resultCtaContact": "Talk to the team",
     "resultCtaContinuum": "Read about Continuum Plenya",
-    "resultRestart": "← Retake the assessment",
+    "resultRestart": "← Restart the quiz",
     "retratos": {
       "tudo-certo": {
         "titulo": "Doing everything right, not seeing the response.",
@@ -1135,7 +1135,7 @@
     "scheduleCta": "Get in Touch",
     "crossContinuityLabel": "Continuity",
     "crossContinuityTitle": "Continuum Plenya →",
-    "crossDiagnosticLabel": "Diagnostic",
+    "crossDiagnosticLabel": "Reading",
     "crossDiagnosticTitle": "Plenya Score →"
   },
   "team": {
@@ -1257,7 +1257,7 @@
     "positioningDesc": "Today, the patient moves between different clinicians, sources of information, and conflicting advice — with no clarity, no continuity, and no single direction. At Plenya, we integrate clinical work, data, and close follow-up to turn care into a continuous, personalized, and measurable process.",
     "crossDirectorLabel": "Direction",
     "crossDirectorTitle": "Meet Dr. Getúlio →",
-    "crossScoreLabel": "Diagnostic",
+    "crossScoreLabel": "Reading",
     "crossScoreTitle": "Plenya Score →",
     "crossContinuumLabel": "Continuum",
     "crossContinuumTitle": "Continuum Plenya →"

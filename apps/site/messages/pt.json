@@ -25,7 +25,7 @@
     "testimonials": "Depoimentos",
     "method": "Método AGIR",
     "scoreFull": "Escore Plenya",
-    "diagnostic": "Diagnóstico — é para mim?",
+    "diagnostic": "É pra mim?",
     "cases": "Casos clínicos",
     "newsletter": "Boletim Plenya"
   },
@@ -43,7 +43,7 @@
     "startWithScore": "Comece pelo Escore Plenya",
     "understandScore": "Entender o Escore",
     "isItForMe": "É para mim?",
-    "doDiagnostic": "Fazer o diagnóstico",
+    "doDiagnostic": "Ver se faz sentido pra mim",
     "seeAll": "Ver todos →"
   },
   "common": {
@@ -122,7 +122,7 @@
     "continuumPillarsTeamValue": "Médicos, nutri, psicóloga e EF",
     "continuumPillarsCadenceLabel": "Cadência",
     "continuumPillarsCadenceValue": "Encontros semanais em rotação",
-    "continuumPillarsDiagnosisLabel": "Diagnóstico",
+    "continuumPillarsDiagnosisLabel": "Leitura",
     "continuumPillarsDiagnosisValue": "Escore Plenya — 800+ itens",
     "continuumPillarsMethodLabel": "Método",
     "continuumPillarsMethodValue": "AGIR — quatro pilares",
@@ -554,9 +554,9 @@
     "formSentDesc": "Nossa equipe responde em até 2 horas em dias úteis."
   },
   "diagnostic": {
-    "metaTitle": "Diagnóstico Plenya — o Continuum Plenya faz sentido para você?",
+    "metaTitle": "Continuum Plenya — faz sentido pra você?",
     "metaDescription": "Cinco perguntas curtas para entender se o programa de acompanhamento contínuo da Plenya se encaixa no seu momento.",
-    "heroLabel": "Diagnóstico",
+    "heroLabel": "É pra mim?",
     "heroTitleLine1": "O Continuum Plenya",
     "heroTitleLine2": "faz sentido para o seu momento?",
     "heroP": "Cinco perguntas curtas. Sem diagnóstico clínico, sem captura de dados. No fim, devolvemos quais retratos do programa mais se parecem com o que você descreve — e o caminho para conversar com a equipe.",
@@ -580,7 +580,7 @@
     "resultDescP2Part3": " — atividade física e alimentação, gestão clínica e metabólica, integração mente-corpo, ritmo circadiano e repouso — em encontros semanais que cobrem cada pilar a cada quatro semanas.",
     "resultCtaContact": "Conversar com a equipe",
     "resultCtaContinuum": "Ler sobre o Continuum Plenya",
-    "resultRestart": "← Refazer o diagnóstico",
+    "resultRestart": "← Refazer o quiz",
     "retratos": {
       "tudo-certo": {
         "titulo": "Faz tudo certo e não vê resposta.",
@@ -1133,7 +1133,7 @@
     "scheduleCta": "Entrar em contato",
     "crossContinuityLabel": "Continuidade",
     "crossContinuityTitle": "Continuum Plenya →",
-    "crossDiagnosticLabel": "Diagnóstico",
+    "crossDiagnosticLabel": "Leitura",
     "crossDiagnosticTitle": "Escore Plenya →"
   },
   "team": {
@@ -1255,7 +1255,7 @@
     "positioningDesc": "Hoje, o paciente transita entre diferentes profissionais, informações e orientações desconectados, sem clareza, continuidade e direcionamento único. Na Plenya, integramos clínica, dados e acompanhamento próximo para transformar o cuidado em um processo contínuo, personalizado e mensurável.",
     "crossDirectorLabel": "Direção",
     "crossDirectorTitle": "Conheça o Dr. Getúlio →",
-    "crossScoreLabel": "Diagnóstico",
+    "crossScoreLabel": "Leitura",
     "crossScoreTitle": "Escore Plenya →",
     "crossContinuumLabel": "Continuum",
     "crossContinuumTitle": "Continuum Plenya →"
