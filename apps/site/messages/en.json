@@ -1139,6 +1139,8 @@
     "crossDiagnosticTitle": "Plenya Score →"
   },
   "team": {
+    "specialtiesLabel": "Specialties",
+    "focusAreasLabel": "Focus areas",
     "metaTitle": "The Plenya Team",
     "metaDescription": "Physicians and multidisciplinary team at Plenya — guardians of The ACTS Method.",
     "heroLabel": "Guardians of the Method",

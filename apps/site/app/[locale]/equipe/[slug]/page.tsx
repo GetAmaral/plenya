@@ -1,9 +1,16 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { isLocale, defaultLocale, locales } from '@/lib/i18n/config';
-import { getAllDoctors, getDoctor, localizedBio, localizedShortBio } from '@/lib/team';
+import {
+  getAllDoctors,
+  getDoctor,
+  localizedBio,
+  localizedShortBio,
+  localizedSpecialties,
+  localizedAreasOfFocus,
+} from '@/lib/team';
 import { Link } from '@/lib/i18n/navigation';
 import { MdxContent } from '@/components/blog/mdx-content';
 import { PhysicianSchema } from '@/components/team/physician-schema';
@@ -40,6 +47,10 @@ export default async function DoctorPage({ params }: { params: Promise<{ locale:
 
   const doctor = await getDoctor(slug);
   if (!doctor) notFound();
+
+  const t = await getTranslations({ locale, namespace: 'team' });
+  const specialties = localizedSpecialties(doctor, locale);
+  const areasOfFocus = localizedAreasOfFocus(doctor, locale);
 
   return (
     <>
@@ -87,12 +98,25 @@ export default async function DoctorPage({ params }: { params: Promise<{ locale:
         </div>
       </section>
 
-      {doctor.specialties.length > 0 && (
+      {(specialties.length > 0 || areasOfFocus.length > 0) && (
         <section className="bg-cream">
-          <div className="site-container py-10 flex flex-wrap gap-3">
-            {doctor.specialties.map((s) => (
-              <span key={s} className="label-upper text-petrol/60 border border-petrol/15 px-5 py-2">{s}</span>
-            ))}
+          <div className="site-container py-10 space-y-6">
+            {specialties.length > 0 && (
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+                <p className="label-upper text-gold w-full md:w-auto">{t('specialtiesLabel')}</p>
+                {specialties.map((s) => (
+                  <span key={s} className="label-upper text-petrol/70 border border-petrol/25 px-5 py-2">{s}</span>
+                ))}
+              </div>
+            )}
+            {areasOfFocus.length > 0 && (
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+                <p className="label-upper text-petrol/55 w-full md:w-auto">{t('focusAreasLabel')}</p>
+                {areasOfFocus.map((a) => (
+                  <span key={a} className="label-upper text-petrol/55 border border-petrol/15 px-5 py-2">{a}</span>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}

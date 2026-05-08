@@ -24,6 +24,9 @@ const frontmatterSchema = z.object({
   credentials: z.string(),
   rqe: z.union([z.string(), z.number()]).transform(String).optional(),
   specialties: z.array(z.string()).default([]),
+  specialtiesEn: z.array(z.string()).optional(),
+  areasOfFocus: z.array(z.string()).default([]),
+  areasOfFocusEn: z.array(z.string()).optional(),
   shortBio: z.string(),
   shortBioEn: z.string().optional(),
   bioEn: z.string().optional(),
@@ -45,6 +48,16 @@ export function localizedShortBio(doctor: Doctor, locale: string): string {
 /** Returns the body bio in the requested locale, falling back to PT. */
 export function localizedBio(doctor: Doctor, locale: string): string {
   return locale === 'en' && doctor.bioEn ? doctor.bioEn : doctor.bio;
+}
+
+/** Returns specialties in the requested locale, falling back to PT. */
+export function localizedSpecialties(doctor: Doctor, locale: string): string[] {
+  return locale === 'en' && doctor.specialtiesEn ? doctor.specialtiesEn : doctor.specialties;
+}
+
+/** Returns areas of focus in the requested locale, falling back to PT. */
+export function localizedAreasOfFocus(doctor: Doctor, locale: string): string[] {
+  return locale === 'en' && doctor.areasOfFocusEn ? doctor.areasOfFocusEn : doctor.areasOfFocus;
 }
 
 const ROOT = path.join(process.cwd(), 'content', 'doctors');
