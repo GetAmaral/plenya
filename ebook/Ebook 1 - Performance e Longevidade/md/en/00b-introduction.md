@@ -67,7 +67,7 @@ The book has five parts and eighteen chapters.
 
 **Part IV — The Plan** (chs. 15 to 16). The quarterly Longevity Scorecard, so you can track your own trajectory over time. And a chapter on when — and how — to seek a specialist, with the right questions to ask.
 
-**Part V — Closing** (chs. 17 to 18). A letter to your own future, the scientific references that ground the book, and pointers for what to do once the last page closes.
+**Part V — Closing** (Chapter 17, plus references and resources). A letter to your own future, the scientific references that ground the book, and pointers for what to do once the last page closes.
 
 Six patients run through every chapter — **Ricardo, Fernanda, André, Marcos, Paulo, and Ana**. Names changed, cases real, drawn from two decades of practice. They give the science a face. If at any point the material feels too technical, return to them: their stories are the point.
 

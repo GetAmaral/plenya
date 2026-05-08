@@ -166,7 +166,7 @@ Ricardo, when I asked, paused for a long time. Thirty years of career had been m
 
 **Blue Zones and the convergence of centenarian cultures.** In Okinawa, the word is **ikigai**. In Nicoya (Costa Rica), the expression is ***plan de vida***. In Ikaria, Loma Linda, and Sardinia, the concept appears with other names but the same function: a daily reason to get up, a continuous commitment to something larger than personal routine, belonging to a long-term project or community. It isn't coincidence. It is a biological variable.
 
-![Figure 13.3 — Ikigai: what gets you out of bed. Classic four-circle diagram (what you love, what you're good at, what the world needs, what you can be paid for) with named intersections (passion, profession, vocation, mission) and *ikigai* at the center. Clinical question in a side balloon: "what is the reason that gets you out of bed in the morning?".](../Cap13%20Fig03.PNG)
+![Figure 13.2 — Ikigai: what gets you out of bed. Classic four-circle diagram (what you love, what you're good at, what the world needs, what you can be paid for) with named intersections (passion, profession, vocation, mission) and *ikigai* at the center. Clinical question in a side balloon: "what is the reason that gets you out of bed in the morning?".](../Cap13%20Fig03.PNG)
 
 **How to work on purpose in the office.** It isn't the clinician's task to deliver purpose; it is the clinician's task to open space for the question. Some formulations that help:
 
@@ -235,7 +235,7 @@ The labs reflected what the conversations of the intermediate visits had shown. 
 
 In the closing conversation, I asked if anything still bothered him. He thought. He said he still had hard days — the anniversary of the heart attack, for example, which had passed not long ago, always brought a kind of shadow. But he said something that stayed with me: *"Doctor, I thought I'd come out of this story more fragile. I think I came out more whole."*
 
-![Figure 13.2 — Ricardo in three times. Horizontal timeline with three moments: T+18m post-heart-attack (biological panel OK, but relational-existential dimension in collapse), T+21m (interventions started), T+30m (sex life restored, bonds reconnected, screens regulated, purpose in mentoring, secular ritual, CRP 0.6, cortisol 15). Visual thesis: work on connection, purpose, and meaning moves biochemistry when inner work alone doesn't.](../Cap13%20Fig02.PNG)
+![Figure 13.3 — Ricardo in three times. Horizontal timeline with three moments: T+18m post-heart-attack (biological panel OK, but relational-existential dimension in collapse), T+21m (interventions started), T+30m (sex life restored, bonds reconnected, screens regulated, purpose in mentoring, secular ritual, CRP 0.6, cortisol 15). Visual thesis: work on connection, purpose, and meaning moves biochemistry when inner work alone doesn't.](../Cap13%20Fig02.PNG)
 
 That was the measure I wanted from the visit. Not more whole in the sense of the blood test — that had happened long before. More whole in the sense of what the four letters of The ACTS Method propose to produce when worked together: a life that doesn't end at the next cardiovascular event, and that is worth living for itself until then.
 

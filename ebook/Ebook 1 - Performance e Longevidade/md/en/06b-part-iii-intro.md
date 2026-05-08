@@ -9,7 +9,7 @@ last_reviewed: 2026-05-01
 ---
 <!-- EPUB-START -->
 
-# PART III — THE ACTS METHOD
+# PART III — The ACTS Method
 
 Across the previous six chapters, we built the map: what is killing people after 40, how the body ages on the inside, which numbers really matter, what the arteries and the metabolism reveal once you know where to look. From here on, the book turns from diagnosis to action.
 

@@ -96,7 +96,7 @@ Psychological assessment in the non-psychiatric office does not replace speciali
 
 **When the psychological layer becomes a plan priority.** Three situations make this question automatic. **First:** persistent inflammatory markers (CRP > 1.5 chronically, elevated cortisol, fragmented sleep not explained by apnea or medication) despite optimized biological pillars — this was Ana's case. **Second:** PHQ-9 ≥10, GAD-7 ≥10, AUDIT ≥8, PCL-5 ≥33, or elevated loneliness scale score. **Third:** any positive response to the trauma question or any suicidal ideation, at any intensity. In those three scenarios, the psychological layer isn't adjunctive — it is the principal work of the plan.
 
-![Figure 12.3 — Five instruments, five minutes, five different questions. Color-coded table with PHQ-9 (depression, cutoff ≥10), GAD-7 (anxiety, cutoff ≥10), AUDIT (alcohol, cutoff ≥8), PCL-5 (PTSD, cutoff ≥33), and UCLA-3 (loneliness, cutoff ≥6). Sidebar callout with the three situations that turn the psychological layer into the plan's priority.](../Cap12%20Fig03.PNG)
+![Figure 12.2 — Five instruments, five minutes, five different questions. Color-coded table with PHQ-9 (depression, cutoff ≥10), GAD-7 (anxiety, cutoff ≥10), AUDIT (alcohol, cutoff ≥8), PCL-5 (PTSD, cutoff ≥33), and UCLA-3 (loneliness, cutoff ≥6). Sidebar callout with the three situations that turn the psychological layer into the plan's priority.](../Cap12%20Fig03.PNG)
 
 ---
 
@@ -201,7 +201,7 @@ The path involved CBT with a psychologist experienced in generalized anxiety; a 
 
 But there was a question the tests didn't capture, and that Ana also carried without quite knowing how to formulate. With whom would she live these extra years she was building? For what? Those are questions of a different nature — questions for the next chapter, where another patient from this book, Ricardo, opens the conversation about the relational and existential dimension of Pillar T.
 
-![Figure 12.2 — Ana, two double markers before and after 6 months. Two-row panel: above, biochemical markers (CRP 1.8→0.7; cortisol 22→14); below, psychological scales (PHQ-9 14→6; GAD-7 16→5). Visual thesis: when the psychological pillar enters the plan, the biology responds — and the inner work moves both sides at the same time.](../Cap12%20Fig02.PNG)
+![Figure 12.3 — Ana, two double markers before and after 6 months. Two-row panel: above, biochemical markers (CRP 1.8→0.7; cortisol 22→14); below, psychological scales (PHQ-9 14→6; GAD-7 16→5). Visual thesis: when the psychological pillar enters the plan, the biology responds — and the inner work moves both sides at the same time.](../Cap12%20Fig02.PNG)
 
 ---
 
