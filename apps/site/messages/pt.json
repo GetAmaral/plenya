@@ -693,7 +693,7 @@
     "step3Body": "Conduta escrita e acordada com você, organizada pelos quatro pilares do Método AGIR — medicação se houver indicação, ajustes de estilo de vida, suplementação e encaminhamentos quando o caso pedir. No Continuum, plano único construído pelos quatro profissionais — médico, nutricionista, psicólogo e educador físico.",
     "step3Detail": "Conduta · Box Plenya · Acompanhamento",
     "step4Title": "Reavaliar em ciclo",
-    "step4Body": "A cada três meses (Continuum) ou conforme indicação, novo Escore. A curva mostra progresso real, estagnação ou queda. O plano se ajusta ao que os dados dizem — não a opinião.",
+    "step4Body": "A cada três meses (Continuum) ou conforme indicação, novo Escore. A curva mostra progresso real, estagnação ou queda. Os dados orientam a próxima decisão clínica — sem depender da memória ou da impressão de quem olha.",
     "step4Detail": "Curva evolutiva visível para você e a equipe",
     "stepsCtaTriage": "Começar pela Triagem",
     "stepsCtaContact": "Falar com a equipe"
@@ -908,7 +908,7 @@
     "bandsCaptionPart3": " de 60%.",
     "evolutionLabel": "Evolução",
     "evolutionTitle": "A curva que mostra se o cuidado está funcionando.",
-    "evolutionP": "A cada reavaliação, um novo ponto entra na curva. O médico, a equipe e você veem o mesmo gráfico: progresso real, estagnação ou queda — sem espaço para opinião.",
+    "evolutionP": "A cada reavaliação, um novo ponto entra na curva. O médico, a equipe e você veem o mesmo gráfico: progresso real, estagnação ou queda — uma leitura objetiva que orienta a próxima decisão clínica.",
     "evolutionChartAria": "Exemplo de curva de evolução do Escore Plenya",
     "evolutionChartCaption": "Exemplo · 12 meses de acompanhamento",
     "anchorImageAlt": "Pausa, reflexão e autoavaliação",
