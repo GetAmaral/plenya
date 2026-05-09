@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { EducationalNotice } from '@/components/legal/educational-notice';
+import { BookSchema } from '@/components/seo/book-schema';
 
 type Trecho = { cap: string; citacao: string };
 
@@ -32,10 +33,22 @@ export default async function LivroPage({
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'book' });
   const trechos = t.raw('trechos') as Trecho[];
-  const amazonUrl = t('amazonUrl');
+  const amazonUrl = locale === 'en' ? t('amazonUrlEn') : t('amazonUrl');
+  const hotmartBase = t('hotmartUrl');
+  const hotmartHero = `${hotmartBase}?src=site-hero`;
+  const hotmartBuy = `${hotmartBase}?src=site-buy`;
 
   return (
     <article>
+      <BookSchema
+        title={t('metaTitle')}
+        description={t('metaDescription')}
+        isbn="978-65-02-06742-0"
+        amazonUrl={amazonUrl}
+        hotmartUrl={hotmartBase}
+        coverUrl="https://drgetulioamaralfilho.com.br/images/livro-capa.jpg"
+        locale={locale}
+      />
       {/* Hero */}
       <section className="editorial-container pt-16 md:pt-24 pb-20">
         <div className="grid lg:grid-cols-[320px_1fr] gap-12 lg:gap-20 items-start">
@@ -64,15 +77,27 @@ export default async function LivroPage({
               <p>{t('lead2')}</p>
             </div>
 
-            <div className="pt-2">
-              <a
-                href={amazonUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-gold"
-              >
-                {t('heroBuyCta')}
-              </a>
+            <div className="pt-2 space-y-3">
+              <div>
+                <a
+                  href={amazonUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-gold"
+                >
+                  {t('heroBuyCta')}
+                </a>
+              </div>
+              <p className="font-sans text-sm">
+                <a
+                  href={hotmartHero}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link-text text-ink-muted hover:text-bordo"
+                >
+                  {t('heroBuyCtaHotmart')}
+                </a>
+              </p>
             </div>
 
             <div className="space-y-1 font-sans text-sm text-ink-muted">
@@ -124,6 +149,12 @@ export default async function LivroPage({
               </figure>
             ))}
           </div>
+
+          <p className="font-sans text-sm pt-16 max-w-3xl">
+            <Link href="/livro/excertos" className="link-text text-bordo">
+              {t('trechosViewAll')}
+            </Link>
+          </p>
         </div>
       </section>
 
@@ -141,7 +172,7 @@ export default async function LivroPage({
               <p className="font-serif text-ink-soft leading-relaxed">
                 {t('buyBody')}
               </p>
-              <div>
+              <div className="flex flex-wrap items-center gap-4 pt-2">
                 <a
                   href={amazonUrl}
                   target="_blank"
@@ -149,6 +180,14 @@ export default async function LivroPage({
                   className="btn-gold"
                 >
                   {t('buyCta')}
+                </a>
+                <a
+                  href={hotmartBuy}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-sans text-sm link-text text-ink-soft hover:text-bordo"
+                >
+                  {t('buyCtaHotmart')}
                 </a>
               </div>
             </div>

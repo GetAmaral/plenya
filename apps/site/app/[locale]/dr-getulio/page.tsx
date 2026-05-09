@@ -171,6 +171,45 @@ export default async function DrGetulioPage({ params }: { params: Params }) {
         </div>
       </section>
 
+      {/* Publicação */}
+      <section className="bg-paper">
+        <div className="site-container section">
+          <div className="grid md:grid-cols-[180px_1fr] gap-10 md:gap-14 items-center max-w-3xl">
+            <a
+              href={locale === 'en' ? 'https://drgetulioamaralfilho.com.br/en/livro' : 'https://drgetulioamaralfilho.com.br/livro'}
+              target="_blank"
+              rel="noreferrer"
+              className="relative aspect-[2/3] w-full max-w-[180px] mx-auto md:mx-0 shadow-xl block"
+            >
+              <Image
+                src="/images/livro-capa.jpg"
+                alt={t('publicationCoverAlt')}
+                fill
+                className="object-cover"
+                sizes="180px"
+              />
+            </a>
+            <div className="space-y-4">
+              <p className="label-upper text-gold">{t('publicationLabel')}</p>
+              <p className="font-serif text-xl md:text-2xl text-petrol leading-snug">
+                {t('publicationTitle')}
+              </p>
+              <p className="text-petrol/75 leading-relaxed">{t('publicationLine')}</p>
+              <p>
+                <a
+                  href={locale === 'en' ? 'https://drgetulioamaralfilho.com.br/en/livro' : 'https://drgetulioamaralfilho.com.br/livro'}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-sans text-sm text-gold hover:text-petrol transition underline-offset-4 hover:underline"
+                >
+                  {t('publicationCta')}
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Cross-links */}
       <section className="bg-cream">
         <div className="site-container section grid md:grid-cols-3 gap-8">
