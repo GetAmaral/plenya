@@ -59,6 +59,13 @@ export default async function TestimonialsPage({ params }: { params: Params }) {
       </section>
 
       <section className="bg-paper">
+        <div className="site-container section max-w-3xl space-y-4">
+          <p className="label-upper text-petrol/55">{t('noteLabel')}</p>
+          <p className="text-petrol/75 leading-relaxed text-sm">{t('noteText')}</p>
+        </div>
+      </section>
+
+      <section className="bg-cream border-t border-petrol/10">
         <div className="site-container section text-center space-y-6">
           <p className="heading-section text-petrol text-2xl md:text-3xl">{t('ctaTitle')}</p>
           <Link href="/contato" className="btn-gold">

@@ -251,6 +251,8 @@
     "heroTitle": "Testimonials",
     "heroP": "Real stories from those who chose to care with method. Identification preserved according to signed consent, in compliance with Brazil's LGPD.",
     "emptyState": "First testimonials coming soon.",
+    "noteLabel": "Transparency note",
+    "noteText": "Stories published on this page are real, anonymized vignettes shared after written patient consent, in compliance with Brazil's LGPD law and the Code of Medical Ethics. They do not constitute a promise of outcome — each patient is evaluated individually in consultation, and individual results vary.",
     "ctaTitle": "Want to begin your story?",
     "ctaButton": "Talk to the Plenya Team"
   },

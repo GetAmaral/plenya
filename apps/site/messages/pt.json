@@ -249,6 +249,8 @@
     "heroTitle": "Depoimentos",
     "heroP": "Histórias reais de quem decidiu cuidar com método. Identificações preservadas conforme consentimento assinado, em conformidade com a LGPD.",
     "emptyState": "Em breve, primeiros depoimentos.",
+    "noteLabel": "Nota de transparência",
+    "noteText": "Histórias publicadas nesta página são vinhetas reais, anonimizadas e divulgadas após consentimento por escrito do paciente, em conformidade com a LGPD e com o Código de Ética Médica. Não constituem promessa de desfecho — cada paciente é avaliado individualmente em consulta, e resultados individuais variam.",
     "ctaTitle": "Quer começar a sua história?",
     "ctaButton": "Fale com a equipe Plenya"
   },
