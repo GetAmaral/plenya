@@ -91,7 +91,9 @@ export function SiteHeader() {
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
-          scrolled && 'bg-petrol/95 backdrop-blur-md shadow-sm',
+          scrolled
+            ? 'bg-petrol/95 backdrop-blur-md shadow-sm'
+            : 'bg-petrol/30 backdrop-blur-sm',
         )}
       >
         <div className="site-container flex items-center justify-between py-5">
