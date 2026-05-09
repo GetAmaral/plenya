@@ -28,6 +28,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // Restruturação 2026-05: /livro (singular) → /livros/antes
+      { source: '/livro', destination: '/livros/antes', permanent: true },
+      { source: '/livro/excertos', destination: '/livros/antes/excertos', permanent: true },
+      { source: '/en/livro', destination: '/en/livros/antes', permanent: true },
+      { source: '/en/livro/excertos', destination: '/en/livros/antes/excertos', permanent: true },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);

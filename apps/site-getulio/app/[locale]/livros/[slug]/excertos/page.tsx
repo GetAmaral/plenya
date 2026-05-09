@@ -1,25 +1,36 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { EducationalNotice } from '@/components/legal/educational-notice';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
+import { getAllBooks, getBook, localizedBook } from '@/lib/books';
 
-type Trecho = { cap: string; citacao: string };
+export async function generateStaticParams() {
+  const books = await getAllBooks();
+  return books.map((b) => ({ slug: b.slug }));
+}
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale, slug } = await params;
+  const book = await getBook(slug);
+  if (!book) return {};
+  const loc = localizedBook(book, locale);
   const t = await getTranslations({ locale, namespace: 'book' });
   return {
-    title: t('excerptsMetaTitle'),
-    description: t('excerptsMetaDescription'),
+    title: `${t('excerptsKicker')} — ${loc.title}`,
+    description: loc.shortDescription,
     alternates: {
-      canonical: locale === 'en' ? '/en/livro/excertos' : '/livro/excertos',
-      languages: { 'pt-BR': '/livro/excertos', en: '/en/livro/excertos' },
+      canonical: locale === 'en' ? `/en/livros/${slug}/excertos` : `/livros/${slug}/excertos`,
+      languages: {
+        'pt-BR': `/livros/${slug}/excertos`,
+        en: `/en/livros/${slug}/excertos`,
+      },
     },
   };
 }
@@ -27,21 +38,25 @@ export async function generateMetadata({
 export default async function ExcertosPage({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { locale } = await params;
+  const { locale, slug } = await params;
   setRequestLocale(locale);
+  const book = await getBook(slug);
+  if (!book) notFound();
   const t = await getTranslations({ locale, namespace: 'book' });
-  const trechos = t.raw('trechos') as Trecho[];
-  const amazonUrl = locale === 'en' ? t('amazonUrlEn') : t('amazonUrl');
-  const hotmartUrl = `${t('hotmartUrl')}?src=excertos`;
+  const loc = localizedBook(book, locale);
+  const hotmartUrl = `${book.hotmartUrl}?src=excertos`;
+  const homeLabel = locale === 'en' ? 'Home' : 'Início';
+  const booksLabel = locale === 'en' ? 'Books' : 'Livros';
 
   return (
     <article>
       <BreadcrumbSchema
         items={[
-          { name: locale === 'en' ? 'Home' : 'Início', url: '/' },
-          { name: locale === 'en' ? 'Book' : 'Livro', url: '/livro' },
+          { name: homeLabel, url: '/' },
+          { name: booksLabel, url: '/livros' },
+          { name: loc.title, url: `/livros/${slug}` },
           { name: t('excerptsKicker') },
         ]}
       />
@@ -49,8 +64,9 @@ export default async function ExcertosPage({
       <header className="editorial-container pt-12 md:pt-16 pb-8">
         <Breadcrumbs
           items={[
-            { label: locale === 'en' ? 'Home' : 'Início', href: '/' },
-            { label: locale === 'en' ? 'Book' : 'Livro', href: '/livro' },
+            { label: homeLabel, href: '/' },
+            { label: booksLabel, href: '/livros' },
+            { label: loc.title, href: `/livros/${slug}` },
             { label: t('excerptsKicker') },
           ]}
         />
@@ -58,8 +74,10 @@ export default async function ExcertosPage({
 
       <section className="editorial-narrow pb-16">
         <div className="space-y-8">
-          <p className="label-meta-lg text-bordo">{t('excerptsKicker')}</p>
-          <h1 className="heading-display text-[clamp(2.4rem,5vw,4rem)]">{t('excerptsH1')}</h1>
+          <p className="label-meta-lg text-bordo">{t('excerptsKicker')} · {loc.title}</p>
+          <h1 className="heading-display text-[clamp(2.4rem,5vw,4rem)]">
+            {t('excerptsH1')}
+          </h1>
           <p className="font-serif italic text-ink-soft text-xl md:text-2xl leading-relaxed">
             {t('excerptsLead')}
           </p>
@@ -68,7 +86,7 @@ export default async function ExcertosPage({
 
       <section className="border-t border-rule bg-paper">
         <div className="editorial-narrow py-20 md:py-28 space-y-24 md:space-y-32">
-          {trechos.map((tr, i) => (
+          {loc.excerpts.map((tr, i) => (
             <figure key={i} className="space-y-6">
               <p className="label-meta-lg text-bordo">{tr.cap}</p>
               <blockquote className="font-serif text-2xl md:text-3xl leading-snug text-ink italic border-l-2 border-bordo pl-6 md:pl-10">
@@ -92,7 +110,7 @@ export default async function ExcertosPage({
               <p className="font-serif text-ink-soft leading-relaxed">{t('excerptsCloserBody')}</p>
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <a
-                  href={amazonUrl}
+                  href={loc.amazonUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="btn-gold"
@@ -109,7 +127,7 @@ export default async function ExcertosPage({
                 </a>
               </div>
               <p className="font-sans text-sm pt-4">
-                <Link href="/livro" className="link-text text-ink-muted">
+                <Link href={`/livros/${slug}`} className="link-text text-ink-muted">
                   {t('excerptsBackToBook')}
                 </Link>
               </p>

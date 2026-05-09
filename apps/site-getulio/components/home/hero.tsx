@@ -10,7 +10,7 @@ import { Wordmark } from '@/components/brand/wordmark';
  * Hierarquia de CTA:
  *   1. Marcar consulta (gold) → /onde-atendo  (ação principal — clínica)
  *   2. Sobre mim (outline)  → /sobre
- *   3. Conhecer o livro      → /livro  (link sutil, secundário)
+ *   3. Conhecer o livro      → /livros/antes  (link sutil, secundário)
  */
 export function Hero() {
   const t = useTranslations('home.hero');
@@ -36,7 +36,7 @@ export function Hero() {
               <Link href="/sobre" className="btn-outline">
                 {t('ctaAbout')}
               </Link>
-              <Link href="/livro" className="link-text font-sans text-sm">
+              <Link href="/livros/antes" className="link-text font-sans text-sm">
                 {t('ctaBook')} →
               </Link>
             </div>

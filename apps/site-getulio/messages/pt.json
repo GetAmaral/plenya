@@ -1,7 +1,7 @@
 {
   "nav": {
     "sobre": "Sobre",
-    "livro": "Livro",
+    "livros": "Livros",
     "palestras": "Palestras",
     "ensino": "Ensino",
     "ondeAtendo": "Onde atendo",
@@ -145,58 +145,42 @@
       "Associação Brasileira de Medicina Funcional Integrativa"
     ]
   },
+  "livros": {
+    "metaTitle": "Livros — Dr. Getúlio Amaral Filho",
+    "metaDescription": "Livros publicados pelo Dr. Getúlio Amaral Filho — medicina funcional integrativa, longevidade e gestão clínica longitudinal do paciente.",
+    "kicker": "Livros",
+    "h1": "Os livros do Dr. Getúlio.",
+    "lead": "Reflexões sobre medicina funcional integrativa, longevidade e a janela silenciosa onde a saúde é decidida.",
+    "viewBookCta": "Conhecer o livro →",
+    "yearLabel": "Lançamento",
+    "isbnLabel": "ISBN"
+  },
   "book": {
-    "metaTitle": "Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida",
-    "metaDescription": "Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida. Livro do Dr. Getúlio Amaral Filho sobre os dez a vinte anos em que a longevidade é construída ou perdida.",
-    "coverAlt": "Capa do livro Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida",
-    "kicker": "Livro · 2026",
-    "h1Title": "Antes",
-    "h1Subtitle": "A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida",
-    "lead1": "A medicina brasileira se tornou excelente em tratar doença instalada — e ruim em prever o que está chegando. Entre a saúde que o laboratório reconhece e a doença que o médico trata existe uma janela silenciosa de dez a vinte anos, onde a longevidade é construída ou perdida.",
-    "lead2": "Baseado em vinte anos de prática clínica, este livro mostra o painel ampliado de biomarcadores que o check-up convencional ignora, o método AGIR de quatro pilares, e a Regra dos Dois — um protocolo de implementação de hábito desenhado para mudanças sustentáveis ao longo de três meses.",
-    "isbnLine": "ISBN 978-65-02-06742-0 · 2026",
-    "editionLine": "Edição em português · Brasil",
+    "kickerPrefix": "Livro",
     "authorKicker": "Sobre o autor",
     "authorBody": "Dr. Getúlio Amaral Filho é médico nefrologista (CRM-PR 21.876 · RQE 16.038). Há vinte anos atende em hospital, ambulatório e diálise. Dirige a Plenya — programa de longevidade que inverte a sequência do cuidado: começa antes da doença instalada, na janela silenciosa onde o exame ainda diz \"normal\".",
     "authorCta": "Ler biografia completa →",
     "authorPortraitAlt": "Dr. Getúlio Amaral Filho",
     "trechosKicker": "Trechos",
-    "trechos": [
-      {
-        "cap": "Introdução",
-        "citacao": "O laboratório diz normal. O corpo diz: estou adoecendo há oito anos e ninguém está olhando."
-      },
-      {
-        "cap": "Capítulo 1 — O Homem que Morreu Saudável",
-        "citacao": "Medicina 2.0 contra Medicina 3.0. A diferença entre um alarme de incêndio e um detector de fumaça. O alarme toca quando já está queimando. O detector toca quando a fumaça começa."
-      },
-      {
-        "cap": "Capítulo 7 — Atividade Física",
-        "citacao": "Se existisse um fármaco que reduzisse o risco de morte por todas as causas em até 80%, a humanidade pagaria qualquer preço por ele. Esse fármaco existe. Chama-se exercício físico."
-      }
-    ],
+    "trechosViewAll": "Ler mais excertos →",
     "buyKicker": "Onde comprar",
     "buyH2": "Disponível na Amazon e na Hotmart.",
-    "buyBody": "Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida está à venda em formato impresso e Kindle (Amazon) e em ebook PDF (Hotmart). Edição em português do Brasil.",
+    "buyBody": "Disponível em formato impresso e Kindle (Amazon) e em ebook PDF (Hotmart).",
     "buyCta": "Comprar na Amazon →",
     "buyCtaHotmart": "Comprar na Hotmart →",
     "heroBuyCta": "Comprar na Amazon →",
     "heroBuyCtaHotmart": "Também na Hotmart →",
-    "amazonUrl": "https://a.co/d/0fxsmomI",
-    "amazonUrlEn": "https://a.co/d/04VgUrnx",
-    "hotmartUrl": "https://go.hotmart.com/J105758923K",
-    "trechosViewAll": "Ler mais excertos →",
-    "excerptsMetaTitle": "Excertos do livro Antes — Dr. Getúlio Amaral Filho",
-    "excerptsMetaDescription": "Trechos selecionados de Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida. Leitura de degustação do livro do Dr. Getúlio Amaral Filho.",
+    "isbnPrefix": "ISBN",
     "excerptsKicker": "Excertos",
     "excerptsH1": "Trechos selecionados",
-    "excerptsLead": "Páginas escolhidas para dar a temperatura do livro. Cada trecho abre uma janela diferente do mesmo argumento: que existem dez a vinte anos entre a saúde que o laboratório reconhece e a doença que o médico trata — e que esse intervalo é onde a longevidade é construída ou perdida.",
+    "excerptsLead": "Páginas escolhidas para dar a temperatura do livro.",
     "excerptsBackToBook": "← Voltar à página do livro",
     "excerptsCloserKicker": "Continue a leitura",
-    "excerptsCloserH2": "O livro completo desenvolve cada um desses pontos com casos clínicos, exames, e o método AGIR.",
-    "excerptsCloserBody": "Antes está disponível em formato impresso e Kindle (Amazon) e em ebook PDF (Hotmart). Edição em português do Brasil.",
+    "excerptsCloserH2": "O livro completo desenvolve cada um desses pontos com casos clínicos.",
+    "excerptsCloserBody": "Disponível em formato impresso e Kindle (Amazon) e em ebook PDF (Hotmart).",
     "excerptsCtaAmazon": "Comprar na Amazon →",
-    "excerptsCtaHotmart": "Comprar na Hotmart →"
+    "excerptsCtaHotmart": "Comprar na Hotmart →",
+    "backToList": "← Voltar a todos os livros"
   },
   "ensino": {
     "metaTitle": "Ensino",

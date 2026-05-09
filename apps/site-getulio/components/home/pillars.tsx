@@ -4,7 +4,7 @@ import { Link } from '@/lib/i18n/navigation';
 const pillarMeta = [
   { keyPrefix: 'doctor', href: '/onde-atendo' },
   { keyPrefix: 'professor', href: '/ensino' },
-  { keyPrefix: 'author', href: '/livro' },
+  { keyPrefix: 'author', href: '/livros' },
   { keyPrefix: 'speaker', href: '/palestras' },
 ] as const;
 

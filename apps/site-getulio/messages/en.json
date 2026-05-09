@@ -1,7 +1,7 @@
 {
   "nav": {
     "sobre": "About",
-    "livro": "Book",
+    "livros": "Books",
     "palestras": "Lectures",
     "ensino": "Teaching",
     "ondeAtendo": "Where I practice",
@@ -145,58 +145,42 @@
       "Brazilian Association of Integrative Functional Medicine"
     ]
   },
+  "livros": {
+    "metaTitle": "Books — Dr. Getúlio Amaral Filho",
+    "metaDescription": "Books by Dr. Getúlio Amaral Filho — integrative functional medicine, longevity, and longitudinal patient care.",
+    "kicker": "Books",
+    "h1": "Dr. Getúlio's books.",
+    "lead": "Reflections on integrative functional medicine, longevity, and the silent window where health is decided.",
+    "viewBookCta": "Read about the book →",
+    "yearLabel": "Released",
+    "isbnLabel": "ISBN"
+  },
   "book": {
-    "metaTitle": "Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided",
-    "metaDescription": "Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided. Dr. Getúlio Amaral Filho's book on the ten to twenty years in which longevity is built or lost.",
-    "coverAlt": "Cover of the book Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided",
-    "kicker": "Book · 2026",
-    "h1Title": "Antes",
-    "h1Subtitle": "The Silent Window Between Normal and Optimal — Where Health Is Decided",
-    "lead1": "Brazilian medicine has become excellent at treating established disease — and poor at predicting what's coming. Between the health the lab recognizes and the disease the doctor treats, there is a silent window of ten to twenty years, where longevity is built or lost.",
-    "lead2": "Based on twenty years of clinical practice, this book presents the expanded panel of biomarkers that the conventional check-up ignores, the four-pillar ACTS Method, and the Rule of Two — a habit-implementation protocol designed for sustainable change across three months.",
-    "isbnLine": "ISBN 978-65-02-06742-0 · 2026",
-    "editionLine": "Brazilian Portuguese edition",
+    "kickerPrefix": "Book",
     "authorKicker": "About the author",
     "authorBody": "Dr. Getúlio Amaral Filho is a nephrologist (CRM-PR 21,876 · RQE 16,038). For twenty years he has practiced in hospital, outpatient and dialysis settings. He directs Plenya — a longevity program that inverts the care sequence: it begins before established disease, in the silent window where the lab still says \"normal.\"",
     "authorCta": "Read the full biography →",
     "authorPortraitAlt": "Dr. Getúlio Amaral Filho",
     "trechosKicker": "Excerpts",
-    "trechos": [
-      {
-        "cap": "Introduction",
-        "citacao": "The lab says normal. The body says: I've been getting sick for eight years and no one is looking."
-      },
-      {
-        "cap": "Chapter 1 — The Man Who Died Healthy",
-        "citacao": "Medicine 2.0 versus Medicine 3.0. The difference between a fire alarm and a smoke detector. The alarm rings when it's already burning. The detector rings when the smoke begins."
-      },
-      {
-        "cap": "Chapter 7 — Physical Activity",
-        "citacao": "If there were a drug that reduced all-cause mortality by up to 80%, humanity would pay any price for it. That drug exists. It's called exercise."
-      }
-    ],
+    "trechosViewAll": "Read more excerpts →",
     "buyKicker": "Where to buy",
     "buyH2": "Available on Amazon and Hotmart.",
-    "buyBody": "Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided is available in print and Kindle (Amazon) and as a PDF ebook (Hotmart). Brazilian Portuguese edition.",
+    "buyBody": "Available in print and Kindle (Amazon) and as a PDF ebook (Hotmart).",
     "buyCta": "Buy on Amazon →",
     "buyCtaHotmart": "Buy on Hotmart →",
     "heroBuyCta": "Buy on Amazon →",
     "heroBuyCtaHotmart": "Also on Hotmart →",
-    "amazonUrl": "https://a.co/d/0fxsmomI",
-    "amazonUrlEn": "https://a.co/d/04VgUrnx",
-    "hotmartUrl": "https://go.hotmart.com/J105758923K",
-    "trechosViewAll": "Read more excerpts →",
-    "excerptsMetaTitle": "Excerpts from the book Antes — Dr. Getúlio Amaral Filho",
-    "excerptsMetaDescription": "Selected passages from Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided. A reading sample of Dr. Getúlio Amaral Filho's book.",
+    "isbnPrefix": "ISBN",
     "excerptsKicker": "Excerpts",
     "excerptsH1": "Selected passages",
-    "excerptsLead": "Pages chosen to give the temperature of the book. Each passage opens a different window onto the same argument: that there are ten to twenty years between the health the lab recognizes and the disease the doctor treats — and that this interval is where longevity is built or lost.",
+    "excerptsLead": "Pages chosen to give the temperature of the book.",
     "excerptsBackToBook": "← Back to the book page",
     "excerptsCloserKicker": "Continue reading",
-    "excerptsCloserH2": "The full book develops each of these points with clinical cases, lab work, and the ACTS method.",
-    "excerptsCloserBody": "Antes is available in print and Kindle (Amazon) and as a PDF ebook (Hotmart). Brazilian Portuguese edition.",
+    "excerptsCloserH2": "The full book develops each of these points with clinical cases.",
+    "excerptsCloserBody": "Available in print and Kindle (Amazon) and as a PDF ebook (Hotmart).",
     "excerptsCtaAmazon": "Buy on Amazon →",
-    "excerptsCtaHotmart": "Buy on Hotmart →"
+    "excerptsCtaHotmart": "Buy on Hotmart →",
+    "backToList": "← Back to all books"
   },
   "ensino": {
     "metaTitle": "Teaching",

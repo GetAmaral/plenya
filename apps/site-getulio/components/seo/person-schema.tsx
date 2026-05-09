@@ -112,18 +112,26 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
       },
       {
         '@type': 'Book',
-        '@id': `${BASE}/livro#book`,
+        '@id': `${BASE}/livros/antes#book`,
         name: bookName,
         author: { '@id': `${BASE}/#person` },
         isbn: '978-65-02-06742-0',
         inLanguage: 'pt-BR',
         datePublished: '2026',
-        offers: {
-          '@type': 'Offer',
-          url: 'https://a.co/d/0ecpyntK',
-          availability: 'https://schema.org/InStock',
-          seller: { '@type': 'Organization', name: 'Amazon' },
-        },
+        offers: [
+          {
+            '@type': 'Offer',
+            url: 'https://a.co/d/0fxsmomI',
+            availability: 'https://schema.org/InStock',
+            seller: { '@type': 'Organization', name: 'Amazon' },
+          },
+          {
+            '@type': 'Offer',
+            url: 'https://go.hotmart.com/J105758923K',
+            availability: 'https://schema.org/InStock',
+            seller: { '@type': 'Organization', name: 'Hotmart' },
+          },
+        ],
       },
     ],
   };

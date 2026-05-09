@@ -176,7 +176,7 @@ export default async function DrGetulioPage({ params }: { params: Params }) {
         <div className="site-container section">
           <div className="grid md:grid-cols-[180px_1fr] gap-10 md:gap-14 items-center max-w-3xl">
             <a
-              href={locale === 'en' ? 'https://drgetulioamaralfilho.com.br/en/livro' : 'https://drgetulioamaralfilho.com.br/livro'}
+              href={locale === 'en' ? 'https://drgetulioamaralfilho.com.br/en/livros/antes' : 'https://drgetulioamaralfilho.com.br/livros/antes'}
               target="_blank"
               rel="noreferrer"
               className="relative aspect-[2/3] w-full max-w-[180px] mx-auto md:mx-0 shadow-xl block"
@@ -197,7 +197,7 @@ export default async function DrGetulioPage({ params }: { params: Params }) {
               <p className="text-petrol/75 leading-relaxed">{t('publicationLine')}</p>
               <p>
                 <a
-                  href={locale === 'en' ? 'https://drgetulioamaralfilho.com.br/en/livro' : 'https://drgetulioamaralfilho.com.br/livro'}
+                  href={locale === 'en' ? 'https://drgetulioamaralfilho.com.br/en/livros/antes' : 'https://drgetulioamaralfilho.com.br/livros/antes'}
                   target="_blank"
                   rel="noreferrer"
                   className="font-sans text-sm text-gold hover:text-petrol transition underline-offset-4 hover:underline"

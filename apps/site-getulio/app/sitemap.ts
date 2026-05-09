@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getAllPlenyaPostsFull } from '@/lib/plenya-blog';
 import { getAllLectures } from '@/lib/lectures';
+import { getAllBooks } from '@/lib/books';
 
 const BASE = 'https://drgetulioamaralfilho.com.br';
 const LOCALES = ['pt', 'en'] as const;
@@ -8,7 +9,7 @@ const LOCALES = ['pt', 'en'] as const;
 const staticRoutes: { path: string; priority: number; changeFrequency: 'weekly' | 'monthly' | 'yearly' }[] = [
   { path: '', priority: 1.0, changeFrequency: 'weekly' },
   { path: '/sobre', priority: 0.9, changeFrequency: 'monthly' },
-  { path: '/livro', priority: 0.9, changeFrequency: 'monthly' },
+  { path: '/livros', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/palestras', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/escritos', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/onde-atendo', priority: 0.7, changeFrequency: 'monthly' },
@@ -58,5 +59,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   );
 
-  return [...staticEntries, ...articleEntries, ...lectureEntries];
+  const books = await getAllBooks();
+  const bookEntries: MetadataRoute.Sitemap = books.flatMap((b) =>
+    LOCALES.flatMap((loc) => [
+      {
+        url: urlFor(loc, `/livros/${b.slug}`),
+        lastModified: now,
+        changeFrequency: 'monthly' as const,
+        priority: 0.85,
+      },
+      {
+        url: urlFor(loc, `/livros/${b.slug}/excertos`),
+        lastModified: now,
+        changeFrequency: 'monthly' as const,
+        priority: 0.55,
+      },
+    ]),
+  );
+
+  return [...staticEntries, ...articleEntries, ...lectureEntries, ...bookEntries];
 }

@@ -10,7 +10,7 @@ import { LocaleSwitcher } from '@/components/layout/locale-switcher';
 
 const nav = [
   { href: '/sobre', key: 'sobre' },
-  { href: '/livro', key: 'livro' },
+  { href: '/livros', key: 'livros' },
   { href: '/palestras', key: 'palestras' },
   { href: '/ensino', key: 'ensino' },
   { href: '/onde-atendo', key: 'ondeAtendo' },

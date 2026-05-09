@@ -2,6 +2,7 @@ type BookSchemaProps = {
   title: string;
   description: string;
   isbn: string;
+  slug: string;
   amazonUrl: string;
   hotmartUrl: string;
   coverUrl: string;
@@ -14,13 +15,14 @@ export function BookSchema({
   title,
   description,
   isbn,
+  slug,
   amazonUrl,
   hotmartUrl,
   coverUrl,
   locale = 'pt',
 }: BookSchemaProps) {
   const isEn = locale === 'en';
-  const url = isEn ? `${BASE}/en/livro` : `${BASE}/livro`;
+  const url = isEn ? `${BASE}/en/livros/${slug}` : `${BASE}/livros/${slug}`;
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Book',
