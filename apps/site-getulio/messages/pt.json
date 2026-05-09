@@ -8,6 +8,10 @@
     "escritos": "Escritos",
     "contato": "Contato"
   },
+  "legal": {
+    "educationalNoticeLabel": "Nota educativa",
+    "educationalNoticeText": "Este conteúdo tem fim educativo e não constitui prescrição médica. Cada caso é único — para avaliação e conduta personalizadas, consulte um médico."
+  },
   "footer": {
     "responsavel": "Dr. Getúlio José Mattos do Amaral Filho · CRM-PR 21.876 · RQE 16.038",
     "responsavelTecnico": "Responsável técnico — DaVita Intra Hospitalar de Londrina",

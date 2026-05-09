@@ -8,6 +8,7 @@ import {
   pillarLabels,
   plenyaBlogBase,
 } from '@/lib/plenya-blog';
+import { EducationalNotice } from '@/components/legal/educational-notice';
 
 export async function generateMetadata({
   params,
@@ -164,6 +165,8 @@ export default async function EscritosPage({
           {t('footerSourcePost')}
         </p>
       </section>
+
+      <EducationalNotice />
     </article>
   );
 }

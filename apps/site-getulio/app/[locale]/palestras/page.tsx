@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAllLectures, getAudienceLabel, localizedLecture, sortAudience } from '@/lib/lectures';
+import { EducationalNotice } from '@/components/legal/educational-notice';
 
 export async function generateMetadata({
   params,
@@ -95,6 +96,8 @@ export default async function PalestrasPage({
           })}
         </ul>
       </section>
+
+      <EducationalNotice />
 
       <section className="border-t border-rule bg-paper">
         <div className="editorial-container py-20 grid md:grid-cols-[1fr_2fr] gap-12 items-start">

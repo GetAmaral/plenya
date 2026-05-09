@@ -12,6 +12,7 @@ import {
 } from '@/lib/plenya-blog';
 import { ArticleSchema } from '@/components/seo/article-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
+import { EducationalNotice } from '@/components/legal/educational-notice';
 
 export async function generateStaticParams() {
   // Geramos slug params a partir do PT (fonte mais ampla); EN espelha o
@@ -181,6 +182,8 @@ export default async function EscritoPage({
           </p>
         </div>
       </section>
+
+      <EducationalNotice />
 
       {related.length > 0 && (
         <section className="border-t border-rule">

@@ -6,6 +6,7 @@ import { MdxContent } from '@/components/blog/mdx-content';
 import { getAllLectures, getLecture, getAudienceLabel, localizedLecture, sortAudience } from '@/lib/lectures';
 import { LectureSchema } from '@/components/seo/lecture-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
+import { EducationalNotice } from '@/components/legal/educational-notice';
 
 export async function generateStaticParams() {
   const lectures = await getAllLectures();
@@ -122,6 +123,8 @@ export default async function LecturePage({
           </div>
         </div>
       </section>
+
+      <EducationalNotice />
 
       <section className="border-t border-rule bg-paper">
         <div className="editorial-container py-16 md:py-20 grid md:grid-cols-[1fr_2fr] gap-10 items-start">

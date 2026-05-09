@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
+import { EducationalNotice } from '@/components/legal/educational-notice';
 
 type Trecho = { cap: string; citacao: string };
 
@@ -125,6 +126,8 @@ export default async function LivroPage({
           </div>
         </div>
       </section>
+
+      <EducationalNotice />
 
       {/* Onde comprar — Amazon (impresso + Kindle) */}
       <section className="border-t border-rule bg-paper">
