@@ -17,7 +17,7 @@ Analise `$ARGUMENTS`:
 Ao iniciar qualquer modo que não seja BRIEFING, localize o livro ativo:
 
 ```bash
-ls ~/ebook-output/*/00-briefing.md 2>/dev/null
+ls ~/plenya/ebook/build/*/00-briefing.md 2>/dev/null
 ```
 
 Se houver vários, pergunte qual. O `output_dir` é o diretório do briefing.
@@ -98,10 +98,10 @@ Também use `WebSearch` e, se necessário, o skill `firecrawl` para livros/sites
 Crie o diretório e gere um slug a partir do título:
 
 ```bash
-mkdir -p ~/ebook-output/<slug>/figuras
+mkdir -p ~/plenya/ebook/build/<slug>/figuras
 ```
 
-Escreva `~/ebook-output/<slug>/00-briefing.md` com esta estrutura:
+Escreva `~/plenya/ebook/build/<slug>/00-briefing.md` com esta estrutura:
 
 ```markdown
 # Briefing — <Título do eBook>
