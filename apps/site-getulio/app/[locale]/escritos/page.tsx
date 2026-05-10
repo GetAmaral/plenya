@@ -9,6 +9,7 @@ import {
   plenyaBlogBase,
 } from '@/lib/plenya-blog';
 import { EducationalNotice } from '@/components/legal/educational-notice';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
 export async function generateMetadata({
   params,
@@ -47,8 +48,13 @@ export default async function EscritosPage({
   const dateLocale = t('dateLocale');
   const blogBase = plenyaBlogBase(locale);
 
+  const homeLabel = locale === 'en' ? 'Home' : 'Início';
+
   return (
     <article>
+      <BreadcrumbSchema
+        items={[{ name: homeLabel, url: '/' }, { name: t('h1') }]}
+      />
       <header className="editorial-container pt-16 md:pt-24 pb-12">
         <p className="label-meta mb-6">{t('kicker')}</p>
         <h1 className="heading-display text-[clamp(2.2rem,5vw,3.8rem)] max-w-3xl">

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
 type Cargo = { period: string; title: string; org: string; body: string };
 
@@ -30,8 +31,13 @@ export default async function EnsinoPage({
   const t = await getTranslations({ locale, namespace: 'ensino' });
   const cargos = t.raw('cargos') as Cargo[];
 
+  const homeLabel = locale === 'en' ? 'Home' : 'Início';
+
   return (
     <article>
+      <BreadcrumbSchema
+        items={[{ name: homeLabel, url: '/' }, { name: t('h1') }]}
+      />
       <header className="editorial-container pt-16 md:pt-24 pb-12">
         <p className="label-meta mb-6">{t('kicker')}</p>
         <h1 className="heading-display text-[clamp(2.2rem,5vw,3.8rem)] max-w-3xl">

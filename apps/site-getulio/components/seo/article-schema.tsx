@@ -55,8 +55,14 @@ export function ArticleSchema({
           name: 'Dr. Getúlio Amaral Filho',
         },
     reviewedBy: { '@id': `${BASE}/#person` },
+    lastReviewed: date,
     isAccessibleForFree: true,
     medicalAudience: { '@type': 'MedicalAudience', audienceType: 'Patient' },
+    isPartOf: { '@type': 'WebSite', '@id': `${BASE}/#website` },
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '.editorial-narrow > .space-y-8 > p'],
+    },
     ...(canonicalUrl ? { isBasedOn: canonicalUrl } : {}),
   };
   return (

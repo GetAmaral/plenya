@@ -4,7 +4,6 @@ import { getAllLectures } from '@/lib/lectures';
 import { getAllBooks } from '@/lib/books';
 
 const BASE = 'https://drgetulioamaralfilho.com.br';
-const LOCALES = ['pt', 'en'] as const;
 
 const staticRoutes: { path: string; priority: number; changeFrequency: 'weekly' | 'monthly' | 'yearly' }[] = [
   { path: '', priority: 1.0, changeFrequency: 'weekly' },
@@ -17,65 +16,83 @@ const staticRoutes: { path: string; priority: number; changeFrequency: 'weekly' 
   { path: '/contato', priority: 0.6, changeFrequency: 'yearly' },
 ];
 
-function urlFor(locale: string, path: string): string {
-  // PT é raiz (sem prefixo). EN ganha /en/. Path "" vira "/" no PT
-  // e "/en" no EN.
-  if (locale === 'pt') return `${BASE}${path || '/'}`;
+function ptUrl(path: string): string {
+  return `${BASE}${path || '/'}`;
+}
+function enUrl(path: string): string {
   return `${BASE}/en${path}`;
+}
+
+function alternates(path: string): { languages: Record<string, string> } {
+  return {
+    languages: {
+      'pt-BR': ptUrl(path),
+      en: enUrl(path),
+      'x-default': ptUrl(path),
+    },
+  };
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  const staticEntries: MetadataRoute.Sitemap = staticRoutes.flatMap((r) =>
-    LOCALES.map((l) => ({
-      url: urlFor(l, r.path),
-      lastModified: now,
-      changeFrequency: r.changeFrequency,
-      priority: l === 'pt' ? r.priority : Math.max(0.3, r.priority - 0.1),
-    })),
-  );
+  const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((r) => ({
+    url: ptUrl(r.path),
+    lastModified: now,
+    changeFrequency: r.changeFrequency,
+    priority: r.priority,
+    alternates: alternates(r.path),
+  }));
 
-  // Posts do blog Plenya espelhados em /escritos/{slug}.
-  // Canonical aponta para plenyasaude.com.br/blog/{slug} (ou /en/blog/{slug}),
-  // por isso prioridade baixa. Lista PT = lista canônica de slugs.
+  // Posts mirrored from Plenya. Canonical points to Plenya, but
+  // keep them in sitemap so Google still discovers them via this site.
   const posts = await getAllPlenyaPostsFull('pt');
-  const articleEntries: MetadataRoute.Sitemap = posts.flatMap((p) =>
-    LOCALES.map((l) => ({
-      url: urlFor(l, `/escritos/${p.slug}`),
+  const articleEntries: MetadataRoute.Sitemap = posts.map((p) => {
+    const path = `/escritos/${p.slug}`;
+    return {
+      url: ptUrl(path),
       lastModified: new Date(p.updated ?? p.date),
       changeFrequency: 'monthly' as const,
-      priority: 0.4,
-    })),
-  );
+      priority: 0.5,
+      alternates: alternates(path),
+      images: p.cover ? [`${BASE}${p.cover.startsWith('/') ? p.cover : `/${p.cover}`}`] : undefined,
+    };
+  });
 
   const lectures = await getAllLectures();
-  const lectureEntries: MetadataRoute.Sitemap = lectures.flatMap((l) =>
-    LOCALES.map((loc) => ({
-      url: urlFor(loc, `/palestras/${l.slug}`),
+  const lectureEntries: MetadataRoute.Sitemap = lectures.map((l) => {
+    const path = `/palestras/${l.slug}`;
+    return {
+      url: ptUrl(path),
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
-    })),
-  );
+      alternates: alternates(path),
+    };
+  });
 
   const books = await getAllBooks();
-  const bookEntries: MetadataRoute.Sitemap = books.flatMap((b) =>
-    LOCALES.flatMap((loc) => [
+  const bookEntries: MetadataRoute.Sitemap = books.flatMap((b) => {
+    const detailPath = `/livros/${b.slug}`;
+    const excertosPath = `/livros/${b.slug}/excertos`;
+    return [
       {
-        url: urlFor(loc, `/livros/${b.slug}`),
+        url: ptUrl(detailPath),
         lastModified: now,
         changeFrequency: 'monthly' as const,
         priority: 0.85,
+        alternates: alternates(detailPath),
+        images: b.cover ? [`${BASE}${b.cover}`] : undefined,
       },
       {
-        url: urlFor(loc, `/livros/${b.slug}/excertos`),
+        url: ptUrl(excertosPath),
         lastModified: now,
         changeFrequency: 'monthly' as const,
         priority: 0.55,
+        alternates: alternates(excertosPath),
       },
-    ]),
-  );
+    ];
+  });
 
   return [...staticEntries, ...articleEntries, ...lectureEntries, ...bookEntries];
 }

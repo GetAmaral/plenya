@@ -192,7 +192,7 @@ export default async function EscritoPage({
             <ul className="grid md:grid-cols-3 gap-8">
               {related.map((p) => (
                 <li key={p.slug}>
-                  <Link href={`/escritos/${p.slug}`} className="block group space-y-3">
+                  <Link href={`/escritos/${p.slug}`} rel="related" className="block group space-y-3">
                     <span className="label-meta text-bordo">
                       {labels[p.pillar]}
                     </span>

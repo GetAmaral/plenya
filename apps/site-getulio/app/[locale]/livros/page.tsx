@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAllBooks, localizedBook } from '@/lib/books';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
 export async function generateMetadata({
   params,
@@ -31,8 +32,13 @@ export default async function LivrosPage({
   const t = await getTranslations({ locale, namespace: 'livros' });
   const books = await getAllBooks();
 
+  const homeLabel = locale === 'en' ? 'Home' : 'Início';
+
   return (
     <article>
+      <BreadcrumbSchema
+        items={[{ name: homeLabel, url: '/' }, { name: t('h1') }]}
+      />
       <header className="editorial-container pt-16 md:pt-24 pb-12">
         <p className="label-meta mb-6">{t('kicker')}</p>
         <h1 className="heading-display text-[clamp(2.2rem,5vw,3.8rem)] max-w-3xl">

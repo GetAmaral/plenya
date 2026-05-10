@@ -9,6 +9,7 @@ import { SiteHeader } from '@/components/layout/site-header';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { PersonSchema } from '@/components/seo/person-schema';
 import { WebSiteSchema } from '@/components/seo/website-schema';
+import { NavigationSchema } from '@/components/seo/navigation-schema';
 import '../globals.css';
 
 const PLAUSIBLE_DOMAIN =
@@ -77,6 +78,7 @@ export async function generateMetadata({
     openGraph: {
       type: 'website',
       locale: meta.ogLocale,
+      alternateLocale: locale === 'en' ? ['pt_BR'] : ['en_US'],
       url: `https://drgetulioamaralfilho.com.br${path === '/' ? '' : path}`,
       siteName: 'Dr. Getúlio Amaral Filho',
       images: [
@@ -95,8 +97,20 @@ export async function generateMetadata({
       googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
     },
     icons: {
-      icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
-      apple: '/apple-touch-icon.svg',
+      icon: [
+        { url: '/favicon.svg', type: 'image/svg+xml' },
+        { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      ],
+      apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+      other: [{ rel: 'mask-icon', url: '/favicon.svg', color: '#0E2A2E' }],
+    },
+    manifest: '/manifest.webmanifest',
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+      other: {
+        'msvalidate.01': process.env.BING_SITE_VERIFICATION || '',
+      },
     },
   };
 }
@@ -123,6 +137,12 @@ export default async function LocaleLayout({
         <meta name="geo.region" content="BR-PR" />
         <meta name="geo.placename" content="Londrina" />
         <meta name="ICBM" content="-23.3045, -51.1696" />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Dr. Getúlio Amaral · Artigos"
+          href="https://drgetulioamaralfilho.com.br/artigos.xml"
+        />
         <Script
           defer
           data-domain={PLAUSIBLE_DOMAIN}
@@ -134,6 +154,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <PersonSchema locale={locale} />
           <WebSiteSchema locale={locale} />
+          <NavigationSchema locale={locale} />
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
+import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
 type FormacaoItem = { year: string; label: string };
 
@@ -34,8 +35,16 @@ export default async function SobrePage({
   const atuacao = t.raw('atuacao') as string[];
   const sociedades = t.raw('sociedades') as string[];
 
+  const homeLabel = locale === 'en' ? 'Home' : 'Início';
+
   return (
     <article>
+      <BreadcrumbSchema
+        items={[
+          { name: homeLabel, url: '/' },
+          { name: t('h1') },
+        ]}
+      />
       {/* Cabeçalho */}
       <header className="editorial-container pt-16 md:pt-24 pb-12">
         <p className="label-meta mb-6">{t('kicker')}</p>
