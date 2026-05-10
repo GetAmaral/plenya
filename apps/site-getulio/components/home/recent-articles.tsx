@@ -1,6 +1,6 @@
 import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
-import { getPlenyaPostsByGetulio, pillarLabels } from '@/lib/plenya-blog';
+import { getPlenyaPostsByGetulio, pillarLabels } from '@/lib/blog';
 
 export async function RecentArticles() {
   const locale = await getLocale();

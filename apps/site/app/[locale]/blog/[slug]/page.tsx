@@ -148,7 +148,25 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
         </div>
       )}
 
-      <div className="site-narrow">
+
+      <div className="site-narrow pb-2">
+        <p className="font-sans text-xs text-ink-muted bg-paper border-l-2 border-bordo px-4 py-3">
+          {locale === 'en'
+            ? 'Editorial version (first-person) authored by Dr. Getúlio at '
+            : 'Versão editorial em primeira pessoa pelo Dr. Getúlio em '}
+          <a
+            href={`https://drgetulioamaralfilho.com.br${locale === 'en' ? '/en/articles/' : '/artigos/'}${post.slug}`}
+            target="_blank"
+            rel="noreferrer"
+            className="link-text"
+          >
+            drgetulioamaralfilho.com.br
+          </a>
+          {locale === 'en' ? ' — same content, personal voice.' : ' — mesmo conteúdo, voz pessoal.'}
+        </p>
+      </div>
+
+            <div className="site-narrow">
         <AuthorBox author={author} reviewedBy={reviewedBy} reviewedAt={post.updated ?? post.date} locale={locale} />
         <NewsletterInline source={`blog-post-${post.slug}`} />
         {post.cta === 'recognition' ? <BlogCTARecognition /> : <BlogCTA />}

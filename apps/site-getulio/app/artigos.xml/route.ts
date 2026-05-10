@@ -1,4 +1,4 @@
-import { getAllPlenyaPostsFull, pillarLabels } from '@/lib/plenya-blog';
+import { getAllPlenyaPostsFull, pillarLabels } from '@/lib/blog';
 
 const BASE = 'https://drgetulioamaralfilho.com.br';
 

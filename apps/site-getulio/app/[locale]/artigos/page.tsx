@@ -7,7 +7,7 @@ import {
   getPlenyaPostsByGetulio,
   pillarLabels,
   plenyaBlogBase,
-} from '@/lib/plenya-blog';
+} from '@/lib/blog';
 import { EducationalNotice } from '@/components/legal/educational-notice';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 

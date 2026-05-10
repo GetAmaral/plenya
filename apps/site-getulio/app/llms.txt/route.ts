@@ -1,4 +1,4 @@
-import { getAllPlenyaPostsFull } from '@/lib/plenya-blog';
+import { getAllPlenyaPostsFull } from '@/lib/blog';
 import { getAllBooks } from '@/lib/books';
 
 const BASE = 'https://drgetulioamaralfilho.com.br';

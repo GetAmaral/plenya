@@ -135,11 +135,26 @@
     "asideSociedades": "Societies",
     "asideCredenciais": "Credentials",
     "formacao": [
-      { "year": "2004", "label": "MD — Universidade Estadual de Londrina" },
-      { "year": "2006", "label": "Internal Medicine residency — Santa Casa de Londrina" },
-      { "year": "2008", "label": "Nephrology residency — Santa Casa de Londrina" },
-      { "year": "2008", "label": "Specialist certification in Nephrology — Brazilian Society of Nephrology" },
-      { "year": "2026", "label": "Postgraduate in Integrative Functional Medicine — ABMFI" }
+      {
+        "year": "2004",
+        "label": "MD — Universidade Estadual de Londrina"
+      },
+      {
+        "year": "2006",
+        "label": "Internal Medicine residency — Santa Casa de Londrina"
+      },
+      {
+        "year": "2008",
+        "label": "Nephrology residency — Santa Casa de Londrina"
+      },
+      {
+        "year": "2008",
+        "label": "Specialist certification in Nephrology — Brazilian Society of Nephrology"
+      },
+      {
+        "year": "2026",
+        "label": "Postgraduate in Integrative Functional Medicine — ABMFI"
+      }
     ],
     "atuacao": [
       "Coordinator of the Nephrology Residency — Santa Casa de Londrina",
@@ -333,8 +348,13 @@
     "detailReadingSuffix": "min",
     "detailReferencesKicker": "References",
     "detailReviewStrong": "Clinical review.",
-    "detailReviewBody": "Medical content authored by Dr. Getúlio Amaral Filho · CRM-PR 21,876 · RQE 16,038 (Nephrology). Originally published at ",
-    "detailRelatedKicker": "More articles in the same pillar"
+    "detailReviewBody": "Medical content authored by Dr. Getúlio Amaral Filho · CRM-PR 21,876 · RQE 16,038 (Nephrology).",
+    "detailRelatedKicker": "More articles in the same pillar",
+    "crossLinkPre": "Clinical version for healthcare professionals available at",
+    "crossLinkLink": "plenyasaude.com.br",
+    "crossLinkPost": " — institutional version, same references.",
+    "crossLinkFooterPre": "For the clinical/professional audience, read the institutional version at",
+    "crossLinkFooterLink": "Plenya · Blog"
   },
   "palestras": {
     "metaTitle": "Lectures",

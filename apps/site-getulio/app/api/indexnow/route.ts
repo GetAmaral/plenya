@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllPlenyaPostsFull } from '@/lib/plenya-blog';
+import { getAllPlenyaPostsFull } from '@/lib/blog';
 import { getAllLectures } from '@/lib/lectures';
 import { getAllBooks } from '@/lib/books';
 

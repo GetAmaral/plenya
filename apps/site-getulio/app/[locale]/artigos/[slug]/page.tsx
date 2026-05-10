@@ -5,20 +5,20 @@ import { Link } from '@/lib/i18n/navigation';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { MdxContent } from '@/components/blog/mdx-content';
 import {
-  getAllPlenyaPostsFull,
-  getPlenyaPost,
+  getAllPostsFull,
+  getPost,
   pillarLabels,
-  plenyaBlogBase,
-} from '@/lib/plenya-blog';
+  plenyaMirrorUrl,
+} from '@/lib/blog';
 import { ArticleSchema } from '@/components/seo/article-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 import { EducationalNotice } from '@/components/legal/educational-notice';
 
 export async function generateStaticParams() {
   // Geramos slug params a partir do PT (fonte mais ampla); EN espelha o
-  // mesmo conjunto. Quando um post EN não existir, o helper getPlenyaPost
+  // mesmo conjunto. Quando um post EN não existir, o helper getPost
   // faz fallback pra PT silenciosamente.
-  const all = await getAllPlenyaPostsFull('pt');
+  const all = await getAllPostsFull('pt');
   return all.map((p) => ({ slug: p.slug }));
 }
 
@@ -28,18 +28,26 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const post = await getPlenyaPost(slug, locale);
+  const post = await getPost(slug, locale);
   if (!post) return {};
-  const blogBase = plenyaBlogBase(locale);
-  // Canonical aponta pra Plenya (fonte oficial). Google atribui authority lá.
-  const canonical = `${blogBase}/${slug}`;
+  // Canonical aponta pra si próprio — versão editorial em 1a pessoa.
+  // Cisão por audiência: Plenya tem versão clínica/institucional do mesmo tema.
+  const localPath = locale === 'en' ? `/en/articles/${slug}` : `/artigos/${slug}`;
+  const localUrl = `https://drgetulioamaralfilho.com.br${localPath}`;
   return {
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical },
+    alternates: {
+      canonical: localPath,
+      languages: {
+        'pt-BR': `/artigos/${slug}`,
+        pt: `/artigos/${slug}`,
+        en: `/en/articles/${slug}`,
+      },
+    },
     openGraph: {
       type: 'article',
-      url: canonical,
+      url: localUrl,
       title: post.title,
       description: post.excerpt,
       publishedTime: post.date,
@@ -64,18 +72,21 @@ export default async function EscritoPage({
 }) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const post = await getPlenyaPost(slug, locale);
+  const post = await getPost(slug, locale);
   if (!post) notFound();
   const t = await getTranslations({ locale, namespace: 'escritos' });
   const labels = pillarLabels(locale);
-  const blogBase = plenyaBlogBase(locale);
   const dateLocale = t('dateLocale');
 
-  const all = await getAllPlenyaPostsFull(locale);
+  const all = await getAllPostsFull(locale);
   const related = all
     .filter((p) => p.slug !== post.slug && p.pillar === post.pillar)
     .slice(0, 3);
-  const canonicalUrl = `${blogBase}/${post.slug}`;
+  // URL local (canonical agora aponta pra si próprio).
+  const localPath = locale === 'en' ? `/en/articles/${post.slug}` : `/artigos/${post.slug}`;
+  const canonicalUrl = `https://drgetulioamaralfilho.com.br${localPath}`;
+  // Cross-link recíproco pra versão Plenya (clínica/institucional).
+  const plenyaUrl = plenyaMirrorUrl(post.slug, locale);
 
   return (
     <article>
@@ -85,7 +96,6 @@ export default async function EscritoPage({
         slug={post.slug}
         date={post.date}
         tag={labels[post.pillar]}
-        canonicalUrl={canonicalUrl}
         image={post.cover ? `https://plenyasaude.com.br${post.cover}` : undefined}
         locale={locale}
       />
@@ -107,16 +117,17 @@ export default async function EscritoPage({
       </header>
 
       <div className="editorial-narrow pb-2">
-        <p className="font-sans text-xs text-ink-muted bg-paper border-l-2 border-bordo px-4 py-3">
-          {t('detailBannerPre')}<strong>{t('detailBlogStrong')}</strong>.{' '}
+        <p className="font-sans text-xs text-ink-muted bg-paper border-l-2 border-gold px-4 py-3">
+          {t('crossLinkPre')}{' '}
           <a
-            href={canonicalUrl}
+            href={plenyaUrl}
             target="_blank"
             rel="noreferrer"
             className="link-text"
           >
-            {t('detailBannerLink')}
+            {t('crossLinkLink')}
           </a>
+          {t('crossLinkPost')}
         </p>
       </div>
 
@@ -175,8 +186,11 @@ export default async function EscritoPage({
         <div className="editorial-narrow py-8">
           <p className="font-sans text-sm text-ink-muted">
             <strong className="text-ink">{t('detailReviewStrong')}</strong> {t('detailReviewBody')}
-            <a href={canonicalUrl} target="_blank" rel="noreferrer" className="link-text">
-              {locale === 'en' ? 'plenyasaude.com.br/en/blog' : 'plenyasaude.com.br/blog'}
+          </p>
+          <p className="font-sans text-sm text-ink-muted mt-3">
+            {t('crossLinkFooterPre')}{' '}
+            <a href={plenyaUrl} target="_blank" rel="noreferrer" className="link-text">
+              {t('crossLinkFooterLink')}
             </a>
             .
           </p>

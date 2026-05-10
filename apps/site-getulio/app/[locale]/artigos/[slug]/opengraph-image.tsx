@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { getPlenyaPost, pillarLabels } from '@/lib/plenya-blog';
+import { getPlenyaPost, pillarLabels } from '@/lib/blog';
 
 export const runtime = 'nodejs';
 export const alt = 'Dr. Getúlio Amaral Filho — Artigo';
