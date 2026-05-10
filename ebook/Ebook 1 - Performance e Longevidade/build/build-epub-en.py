@@ -244,7 +244,7 @@ subject:
   - "Aging"
 identifier:
   - scheme: ISBN
-    text: "ISBN-EN-PENDING"
+    text: "978-65-975814-0-5"
 ...
 """
     metadata.write_text(metadata_yaml, encoding="utf-8")

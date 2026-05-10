@@ -378,7 +378,8 @@ def build_print_frontmatter(work_dir):
 \noindent All rights reserved. \par\bigskip
 \noindent \textbf{1\textsuperscript{st} English edition} — Author's Edition — 2026 \par\smallskip
 \noindent Translated from the Brazilian Portuguese original \textit{ANTES} (1\textsuperscript{st} edition, 2026). \par\smallskip
-\noindent ISBN: [ISBN-EN-PENDING] \par\bigskip
+\noindent ISBN 978-65-975814-1-2 (paperback) \par
+\noindent ISBN 978-65-975814-0-5 (ebook) \par\bigskip
 \noindent No part of this work may be reproduced, stored in a retrieval system, or
 transmitted, in any form or by any means — electronic, mechanical, photocopy,
 recording, or otherwise — without the prior written permission of the author,
