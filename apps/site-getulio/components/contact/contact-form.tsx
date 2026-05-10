@@ -26,12 +26,17 @@ type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 export function ContactForm() {
   const t = useTranslations('contactForm');
-  const [reason, setReason] = useState<ReasonCode>('consulta-plenya');
+  const [reason, setReason] = useState<ReasonCode | null>(null);
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string>('');
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!reason) {
+      setStatus('error');
+      setError(t('errorReasonRequired'));
+      return;
+    }
     setStatus('sending');
     setError('');
     const fd = new FormData(e.currentTarget);
@@ -54,7 +59,7 @@ export function ContactForm() {
       }
       setStatus('sent');
       e.currentTarget.reset();
-      setReason('consulta-plenya');
+      setReason(null);
     } catch (err) {
       setStatus('error');
       setError(err instanceof Error ? err.message : t('errorGeneric'));
@@ -73,8 +78,10 @@ export function ContactForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-8">
       <div className="space-y-3">
-        <p className="label-meta">{t('reasonLabel')}</p>
-        <div className="space-y-2">
+        <p className="label-meta">
+          {t('reasonLabel')} <span aria-hidden="true" className="text-bordo">*</span>
+        </p>
+        <div className="space-y-2" role="radiogroup" aria-required="true">
           {REASON_CODES.map((code) => (
             <label key={code} className="flex items-start gap-3 cursor-pointer group">
               <input
@@ -83,6 +90,7 @@ export function ContactForm() {
                 value={code}
                 checked={reason === code}
                 onChange={() => setReason(code)}
+                required
                 className="mt-1.5 accent-bordo"
               />
               <span className="font-serif text-ink-soft group-hover:text-ink transition-colors">
@@ -108,19 +116,19 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6 flex-wrap">
         <button
           type="submit"
           disabled={status === 'sending'}
           className={cn(
-            'font-sans text-sm tracking-wide border-b-2 border-bordo pb-1 text-ink hover:text-bordo transition-colors',
+            'btn-gold',
             status === 'sending' && 'opacity-50 cursor-wait',
           )}
         >
           {status === 'sending' ? t('submitting') : t('submit')}
         </button>
         {status === 'error' && (
-          <p className="font-sans text-xs text-bordo">{error}</p>
+          <p className="font-sans text-xs text-bordo" role="alert">{error}</p>
         )}
       </div>
 
@@ -133,6 +141,7 @@ function FieldText({
   name,
   label,
   type = 'text',
+  required,
   ...rest
 }: {
   name: string;
@@ -144,10 +153,15 @@ function FieldText({
 }) {
   return (
     <div>
-      <label className="block label-meta mb-2">{label}</label>
+      <label className="block label-meta mb-2" htmlFor={name}>
+        {label}
+        {required && <span aria-hidden="true" className="text-bordo"> *</span>}
+      </label>
       <input
+        id={name}
         name={name}
         type={type}
+        required={required}
         className="w-full bg-transparent border-b border-rule focus:border-bordo outline-none py-2 font-serif text-ink transition-colors"
         {...rest}
       />

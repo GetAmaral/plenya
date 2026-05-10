@@ -63,7 +63,12 @@ export default async function EscritosPage({
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-rule py-4">
           <Link
             href="/escritos"
-            className={`font-sans text-sm tracking-wide ${!activePilar ? 'text-bordo' : 'text-ink-muted hover:text-ink'} transition-colors`}
+            aria-current={!activePilar ? 'page' : undefined}
+            className={`font-sans text-sm tracking-wide transition-colors ${
+              !activePilar
+                ? 'text-bordo border-b border-bordo pb-0.5'
+                : 'text-ink-muted hover:text-ink'
+            }`}
           >
             {t('filterAll')}
           </Link>
@@ -71,7 +76,12 @@ export default async function EscritosPage({
             <Link
               key={key}
               href={`/escritos?pilar=${encodeURIComponent(key)}`}
-              className={`font-sans text-sm tracking-wide ${activePilar === key ? 'text-bordo' : 'text-ink-muted hover:text-ink'} transition-colors`}
+              aria-current={activePilar === key ? 'page' : undefined}
+              className={`font-sans text-sm tracking-wide transition-colors ${
+                activePilar === key
+                  ? 'text-bordo border-b border-bordo pb-0.5'
+                  : 'text-ink-muted hover:text-ink'
+              }`}
             >
               {label}
             </Link>

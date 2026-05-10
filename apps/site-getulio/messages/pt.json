@@ -14,7 +14,7 @@
   },
   "footer": {
     "responsavel": "Dr. Getúlio José Mattos do Amaral Filho · CRM-PR 21.876 · RQE 16.038",
-    "responsavelTecnico": "Responsável técnico — DaVita Intra Hospitalar de Londrina",
+    "responsavelTecnico": "Direção clínica — Plenya · Coordenação da Residência em Nefrologia — Santa Casa de Londrina",
     "local": "Londrina · Paraná · Brasil",
     "navigation": "Navegação",
     "contact": "Contato",
@@ -33,7 +33,17 @@
   },
   "common": {
     "breadcrumbAriaLabel": "Navegação estrutural",
-    "visitSite": "Visitar site ↗"
+    "visitSite": "Visitar site ↗",
+    "institutionalRole": "Atuação institucional · sem agenda ambulatorial"
+  },
+  "notFound": {
+    "kicker": "Página não encontrada",
+    "h1": "Esta página não existe — ou foi movida.",
+    "lead": "O endereço que você buscou não está disponível. Talvez tenha sido renomeado ou removido. Use os caminhos abaixo para continuar.",
+    "ctaHome": "Voltar à página inicial",
+    "ctaWritings": "Ver escritos",
+    "ctaBook": "Conhecer o livro",
+    "ctaContact": "Falar com a equipe"
   },
   "home": {
     "metaTitle": "Dr. Getúlio Amaral Filho — Nefrologista e Medicina Funcional Integrativa em Londrina",
@@ -357,9 +367,10 @@
     "fieldPhone": "Telefone",
     "fieldEmail": "Email",
     "fieldMessage": "Mensagem (opcional)",
-    "submit": "Enviar mensagem →",
+    "submit": "Enviar mensagem",
     "submitting": "Enviando…",
     "errorGeneric": "Erro ao enviar.",
+    "errorReasonRequired": "Selecione um motivo antes de enviar.",
     "successKicker": "Recebido",
     "successBody": "Sua mensagem chegou. Respondo em até 48 horas úteis.",
     "privacy": "Seus dados são usados exclusivamente para responder a este contato. Não compartilhamos com terceiros."

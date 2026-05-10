@@ -14,7 +14,7 @@
   },
   "footer": {
     "responsavel": "Dr. Getúlio José Mattos do Amaral Filho · CRM-PR 21,876 · RQE 16,038",
-    "responsavelTecnico": "Technical director — DaVita Intra Hospitalar de Londrina",
+    "responsavelTecnico": "Clinical director — Plenya · Nephrology Residency Coordinator — Santa Casa de Londrina",
     "local": "Londrina · Paraná · Brazil",
     "navigation": "Navigation",
     "contact": "Contact",
@@ -33,7 +33,17 @@
   },
   "common": {
     "breadcrumbAriaLabel": "Breadcrumb",
-    "visitSite": "Visit website ↗"
+    "visitSite": "Visit website ↗",
+    "institutionalRole": "Institutional role · no outpatient scheduling"
+  },
+  "notFound": {
+    "kicker": "Page not found",
+    "h1": "This page doesn't exist — or has moved.",
+    "lead": "The address you tried isn't available. It may have been renamed or removed. Use one of the paths below to continue.",
+    "ctaHome": "Back to the home page",
+    "ctaWritings": "Browse writings",
+    "ctaBook": "About the book",
+    "ctaContact": "Contact the team"
   },
   "home": {
     "metaTitle": "Dr. Getúlio Amaral Filho — Nephrologist and Integrative Functional Medicine in Londrina",
@@ -357,9 +367,10 @@
     "fieldPhone": "Phone",
     "fieldEmail": "Email",
     "fieldMessage": "Message (optional)",
-    "submit": "Send message →",
+    "submit": "Send message",
     "submitting": "Sending…",
     "errorGeneric": "Failed to send.",
+    "errorReasonRequired": "Select a reason before sending.",
     "successKicker": "Received",
     "successBody": "Your message has arrived. I'll reply within 48 business hours.",
     "privacy": "Your data is used exclusively to respond to this contact. We don't share with third parties."

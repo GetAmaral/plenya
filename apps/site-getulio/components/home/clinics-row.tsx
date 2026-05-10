@@ -30,7 +30,7 @@ export function ClinicsRow() {
               <p className="label-meta text-bordo">{t(`${c.keyPrefix}Role`)}</p>
               <h3 className="font-serif text-2xl text-ink leading-tight">{c.name}</h3>
               <p className="font-serif text-ink-soft leading-relaxed">{t(`${c.keyPrefix}Body`)}</p>
-              {c.href && (
+              {c.href ? (
                 <a
                   href={c.href}
                   target="_blank"
@@ -39,6 +39,10 @@ export function ClinicsRow() {
                 >
                   {tCommon('visitSite')}
                 </a>
+              ) : (
+                <p className="font-sans text-xs text-ink-muted/70 italic">
+                  {tCommon('institutionalRole')}
+                </p>
               )}
             </div>
           ))}

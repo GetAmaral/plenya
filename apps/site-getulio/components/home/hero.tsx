@@ -20,7 +20,7 @@ export function Hero() {
         <div className="grid md:grid-cols-[1fr_360px] lg:grid-cols-[1fr_400px] gap-10 md:gap-14 lg:gap-20 items-center">
           {/* Bloco texto */}
           <div className="space-y-10 order-2 md:order-1 text-center md:text-left">
-            <Wordmark size="xl" />
+            <Wordmark size="xl" as="h1" />
 
             <p className="label-meta text-ink-muted">{t('credentials')}</p>
 

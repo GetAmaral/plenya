@@ -119,27 +119,23 @@ export default async function BookDetailPage({
               <p>{loc.lead2}</p>
             </div>
 
-            <div className="pt-2 space-y-3">
-              <div>
-                <a
-                  href={loc.amazonUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-gold"
-                >
-                  {t('heroBuyCta')}
-                </a>
-              </div>
-              <p className="font-sans text-sm">
-                <a
-                  href={hotmartHero}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="link-text text-ink-muted hover:text-bordo"
-                >
-                  {t('heroBuyCtaHotmart')}
-                </a>
-              </p>
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <a
+                href={loc.amazonUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-gold"
+              >
+                {t('heroBuyCta')}
+              </a>
+              <a
+                href={hotmartHero}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-outline"
+              >
+                {t('heroBuyCtaHotmart')}
+              </a>
             </div>
 
             <div className="space-y-1 font-sans text-sm text-ink-muted">
@@ -227,7 +223,7 @@ export default async function BookDetailPage({
                   href={hotmartBuy}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-sans text-sm link-text text-ink-soft hover:text-bordo"
+                  className="btn-outline"
                 >
                   {t('buyCtaHotmart')}
                 </a>

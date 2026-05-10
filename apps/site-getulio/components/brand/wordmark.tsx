@@ -48,11 +48,15 @@ export function Wordmark({
   variant = 'light',
   size = 'md',
   tagline = true,
+  as: Tag = 'p',
   className = '',
 }: {
   variant?: Variant;
   size?: Size;
   tagline?: boolean;
+  // 'p' (default) é decorativo — header e footer não devem competir com o
+  // h1 do conteúdo. 'h1' fica reservado pra hero da home.
+  as?: 'h1' | 'h2' | 'p' | 'span';
   className?: string;
 }) {
   const isDark = variant === 'dark';
@@ -68,9 +72,9 @@ export function Wordmark({
         <span className={`wordmark-prefix ${ink} ${PREFIX_SIZE[size]}`}>DR.</span>
         <span className={`${gold} h-px ${FILETE_WIDTH[size]}`} aria-hidden="true" />
       </div>
-      <h1 className={`wordmark-name ${ink} ${NAME_SIZE[size]} font-normal m-0`}>
+      <Tag className={`wordmark-name ${ink} ${NAME_SIZE[size]} font-normal m-0`}>
         GETÚLIO AMARAL
-      </h1>
+      </Tag>
       {tagline && (
         <p className={`wordmark-tagline ${inkSoft} ${TAGLINE_SIZE[size]} mt-1`}>
           {t('tagline')}
