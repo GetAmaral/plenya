@@ -33,6 +33,7 @@ export default async function SobrePage({
 
   const formacao = t.raw('formacao') as FormacaoItem[];
   const atuacao = t.raw('atuacao') as string[];
+  const areas = t.raw('areas') as string[];
   const sociedades = t.raw('sociedades') as string[];
 
   const homeLabel = locale === 'en' ? 'Home' : 'Início';
@@ -107,6 +108,15 @@ export default async function SobrePage({
             <p className="label-meta-lg text-bordo mb-5">{t('asideAtuacao')}</p>
             <ul className="space-y-3">
               {atuacao.map((a) => (
+                <li key={a} className="font-serif text-base text-ink leading-relaxed">— {a}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="label-meta-lg text-bordo mb-5">{t('asideAreas')}</p>
+            <ul className="space-y-3">
+              {areas.map((a) => (
                 <li key={a} className="font-serif text-base text-ink leading-relaxed">— {a}</li>
               ))}
             </ul>

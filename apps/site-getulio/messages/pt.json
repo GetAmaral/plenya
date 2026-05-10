@@ -49,7 +49,7 @@
     "metaTitle": "Dr. Getúlio Amaral Filho — Nefrologista e Medicina Funcional Integrativa em Londrina",
     "metaDescription": "Médico nefrologista (CRM-PR 21.876 · RQE 16.038), professor, autor do livro \"Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida\". Direção clínica da Plenya. Atendimento em Londrina-PR.",
     "ogTitle": "Dr. Getúlio Amaral Filho — Nefrologia, longevidade, ensino",
-    "ogDescription": "Nefrologista, professor, autor. Direção clínica da Plenya. Vinte anos de prática em medicina interna e nefrologia.",
+    "ogDescription": "Nefrologista (RQE 16.038), professor, autor. Direção clínica da Plenya — medicina preventiva, longevidade, performance, nutrologia e suplementação inteligente. Coordenador da residência em nefrologia da Santa Casa de Londrina.",
     "hero": {
       "credentials": "Médico nefrologista · CRM-PR 21.876 · RQE 16.038",
       "lead1": "Vinte anos dentro do hospital me ensinaram que muita doença grave começa anos antes — em silêncio, em exames \"normais\".",
@@ -114,11 +114,11 @@
   },
   "about": {
     "metaTitle": "O médico",
-    "metaDescription": "Médico nefrologista formado pela UEL em 2004. Vinte anos de prática em medicina interna e nefrologia, com pós-graduação em medicina funcional integrativa.",
+    "metaDescription": "Médico nefrologista (RQE 16.038) e clínico geral em Londrina/PR. Áreas de prática: nefrologia preventiva, eixo cardio-reno-metabólico, longevidade, medicina funcional integrativa, performance, nutrologia, suplementação inteligente e biomarcadores avançados. Membro do Comitê Cardiorrenal da SBN.",
     "kicker": "O médico",
     "h1": "Comecei na nefrologia, dentro do hospital.",
     "portraitAlt": "Dr. Getúlio Amaral Filho",
-    "p1": "Sou de Londrina. Formei-me em medicina pela Universidade Estadual de Londrina em 2004 e fiz residência em clínica médica e nefrologia na Santa Casa de Londrina, onde também obtive o título de especialista pela Sociedade Brasileira de Nefrologia em 2008.",
+    "p1": "Sou de Londrina. Formei-me em medicina pela Universidade Estadual de Londrina em 2004 e fiz especialização em clínica médica e nefrologia na Santa Casa de Londrina, onde também obtive o título de especialista pela Sociedade Brasileira de Nefrologia em 2008.",
     "p2": "Naqueles anos, aprendi a medicina dentro do ambiente hospitalar — onde a doença renal e cardiovascular se mostra em estágios graves, com pouca margem para mudar o curso.",
     "p3": "Nas duas décadas seguintes, esse foi o meu dia a dia. Coordenei a residência médica em nefrologia da Santa Casa, fundei a residência em clínica médica da mesma instituição, e sou responsável técnico pela hemodiálise hospitalar da DaVita Intra Hospitalar de Londrina. Acompanhei centenas de pacientes em estágios avançados de doença — quadros em que, com frequência, a trajetória poderia ter sido modificada anos antes.",
     "p4": "Vi pacientes chegarem ao consultório com exames \"normais\" no ano anterior. Vi check-ups que registraram tudo dentro da faixa — e perderam o sinal de tudo o que estava se montando em silêncio. O laboratório dizia \"normal\". O corpo estava adoecendo há oito, dez, vinte anos.",
@@ -132,8 +132,21 @@
     "human": "Vive em Londrina com a família. Corre quando o dia permite.",
     "asideFormacao": "Formação",
     "asideAtuacao": "Atuação",
+    "asideAreas": "Áreas de interesse",
     "asideSociedades": "Sociedades",
     "asideCredenciais": "Credenciais",
+    "areas": [
+      "Nefrologia preventiva",
+      "Eixo cardio-reno-metabólico",
+      "Longevidade e healthspan",
+      "Medicina preventiva",
+      "Medicina funcional integrativa",
+      "Performance",
+      "Nutrologia",
+      "Suplementação inteligente",
+      "Biomarcadores avançados",
+      "Gestão metabólica"
+    ],
     "formacao": [
       {
         "year": "2004",
@@ -239,7 +252,7 @@
   },
   "ondeAtendo": {
     "metaTitle": "Como consultar comigo",
-    "metaDescription": "Para consultas comigo: Plenya (medicina funcional integrativa, longevidade) ou Nefroclínica Londrina (nefrologia clínica). Também atuo como responsável técnico em duas unidades de hemodiálise.",
+    "metaDescription": "Para consultas comigo em Londrina/PR: Plenya (medicina funcional integrativa, longevidade, performance, nutrologia — presencial ou online) ou Nefroclínica Londrina (nefrologia clínica e transplante renal). Também atuo na nefrologia hospitalar de três hospitais e como responsável técnico da DaVita Londrina.",
     "kicker": "Como consultar",
     "h1": "Para consultar comigo.",
     "lead": "Atendo em Londrina/PR em três frentes: consulta ambulatorial (Plenya e Nefroclínica), atendimento hospitalar de nefrologia em três hospitais e responsabilidade técnica pela hemodiálise da DaVita Londrina. Escolha a via que faz mais sentido para o seu caso e fale diretamente com a clínica para agendar.",
@@ -271,7 +284,7 @@
         "name": "Plenya",
         "role": "Direção clínica",
         "tagline": "Para longevidade, prevenção e medicina funcional · presencial ou online",
-        "body": "Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Atendimento presencial em Londrina ou online por telemedicina, com a mesma profundidade clínica. Aqui eu atuo como médico-gestor da sua saúde — articulando o cuidado entre a equipe Plenya e os profissionais que você já consulta fora da clínica.",
+        "body": "Programa de saúde preventiva e longevidade. Medicina funcional integrativa com forte ênfase em nutrologia, suplementação inteligente, performance e leitura de biomarcadores avançados. Equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Atendimento presencial em Londrina ou online por telemedicina, com a mesma profundidade clínica. Aqui eu atuo como médico-gestor da sua saúde — articulando o cuidado entre a equipe Plenya e os profissionais que você já consulta fora da clínica.",
         "address": "Av. Duque de Caxias, 1371 — Londrina/PR",
         "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
         "whatsappUrl": "",

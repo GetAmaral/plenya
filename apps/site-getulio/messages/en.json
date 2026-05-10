@@ -49,7 +49,7 @@
     "metaTitle": "Dr. Getúlio Amaral Filho — Nephrologist and Integrative Functional Medicine in Londrina",
     "metaDescription": "Nephrologist (CRM-PR 21,876 · RQE 16,038), professor, author of the book \"Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided\". Clinical director at Plenya. Practice in Londrina, Brazil.",
     "ogTitle": "Dr. Getúlio Amaral Filho — Nephrology, longevity, teaching",
-    "ogDescription": "Nephrologist, professor, author. Clinical director at Plenya. Twenty years of internal medicine and nephrology practice.",
+    "ogDescription": "Nephrologist (RQE 16,038), professor, author. Clinical director at Plenya — preventive medicine, longevity, performance, nutrology and evidence-based supplementation. Coordinator of the nephrology residency at Santa Casa de Londrina.",
     "hero": {
       "credentials": "Nephrologist · CRM-PR 21,876 · RQE 16,038",
       "lead1": "Twenty years inside the hospital taught me that much serious disease begins years earlier — silently, in \"normal\" lab results.",
@@ -114,7 +114,7 @@
   },
   "about": {
     "metaTitle": "The physician",
-    "metaDescription": "Nephrologist trained at UEL in 2004. Twenty years of internal medicine and nephrology practice, with postgraduate training in integrative functional medicine.",
+    "metaDescription": "Nephrologist (RQE 16,038) and internal medicine physician in Londrina, Brazil. Areas of practice: preventive nephrology, cardiorenal-metabolic axis, longevity, integrative functional medicine, performance, nutrology, evidence-based supplementation and advanced biomarkers. Member of the Cardiorenal Committee of the Brazilian Society of Nephrology.",
     "kicker": "The physician",
     "h1": "I started in nephrology, inside the hospital.",
     "portraitAlt": "Dr. Getúlio Amaral Filho",
@@ -132,8 +132,21 @@
     "human": "Lives in Londrina with his family. Runs when the day allows.",
     "asideFormacao": "Education",
     "asideAtuacao": "Current roles",
+    "asideAreas": "Areas of interest",
     "asideSociedades": "Societies",
     "asideCredenciais": "Credentials",
+    "areas": [
+      "Preventive nephrology",
+      "Cardiorenal-metabolic axis",
+      "Longevity and healthspan",
+      "Preventive medicine",
+      "Integrative functional medicine",
+      "Performance medicine",
+      "Nutrology",
+      "Evidence-based supplementation",
+      "Advanced biomarkers",
+      "Metabolic management"
+    ],
     "formacao": [
       {
         "year": "2004",
@@ -239,7 +252,7 @@
   },
   "ondeAtendo": {
     "metaTitle": "How to schedule a consult",
-    "metaDescription": "To consult with me: Plenya (integrative functional medicine, longevity) or Nefroclínica Londrina (clinical nephrology). I also serve as technical director of two hemodialysis units.",
+    "metaDescription": "To consult with me in Londrina, Brazil: Plenya (integrative functional medicine, longevity, performance, nutrology — in person or online) or Nefroclínica Londrina (clinical nephrology and kidney transplant). I also practice hospital nephrology at three Londrina hospitals and serve as technical director of DaVita Londrina.",
     "kicker": "How to consult",
     "h1": "To schedule a consult with me.",
     "lead": "I practice in Londrina/PR across three fronts: outpatient consultation (Plenya and Nefroclínica), hospital nephrology care at three Londrina hospitals, and technical direction of DaVita Londrina hemodialysis. Choose the pathway that best fits your case and contact the clinic directly to book.",
@@ -271,7 +284,7 @@
         "name": "Plenya",
         "role": "Clinical director",
         "tagline": "For longevity, prevention and functional medicine · in person or online",
-        "body": "Preventive health and longevity program. Integrative functional medicine, with a multidisciplinary team (physician, nutritionist, psychologist, exercise physiologist) working the same patient under the same plan. In person in Londrina or online via telemedicine, with the same clinical depth. Here I serve as your care-managing physician — coordinating care between the Plenya team and the professionals you already see outside the clinic.",
+        "body": "Preventive health and longevity program. Integrative functional medicine with a strong focus on nutrology, evidence-based supplementation, performance and advanced biomarker analysis. Multidisciplinary team (physician, nutritionist, psychologist, exercise physiologist) working the same patient under the same plan. In person in Londrina or online via telemedicine, with the same clinical depth. Here I serve as your care-managing physician — coordinating care between the Plenya team and the professionals you already see outside the clinic.",
         "address": "Av. Duque de Caxias, 1371 — Londrina/PR, Brazil",
         "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
         "whatsappUrl": "",
