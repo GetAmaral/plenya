@@ -86,9 +86,9 @@ def strip_meta_sections(text):
 
 # H1 headings that must NOT be numbered chapters in print.
 # They become \chapter*{Title} with manual TOC entry, instead of \chapter{Title}.
+# Referências = Capítulo 18 (numbered) — only the front/backmatter pieces are unnumbered.
 UNNUMBERED_H1_PATTERNS = [
     re.compile(r'^Introdução\s*$', re.IGNORECASE),
-    re.compile(r'^Referências(?:\s+e\s+Recursos)?.*$', re.IGNORECASE),
     re.compile(r'^Agradecimentos\s*$', re.IGNORECASE),
     re.compile(r'^Sobre\s+o\s+[Aa]utor\s*$', re.IGNORECASE),
 ]
@@ -273,6 +273,75 @@ def replace_fig02_with_native_table(text):
     )
     replacement = "\n```{=latex}\n" + table_tex + "\n```\n"
     return pattern.sub(lambda m: replacement, text)
+
+
+def transform_sobre_o_autor(text):
+    """Special-case the 'Sobre o Autor' chapter to fit on a single page.
+
+    Same approach as the digital build: custom heading, smaller photo, bio in
+    \\small, and a centred contact block with explicit line breaks instead of
+    paragraph breaks. Fixes the Pandoc auto-caption bug too.
+    """
+    text = re.sub(
+        r"```\{=latex\}\n\\chapter\*\{Sobre o Autor\}\n"
+        r"\\addcontentsline\{toc\}\{chapter\}\{Sobre o Autor\}\n"
+        r"\\markright\{Sobre o Autor\}\n```",
+        "",
+        text,
+    )
+    text = re.sub(
+        r"!\[[^\]]*\]\(images/autor\.jpg\)\s*\n",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
+
+    parts = re.split(r"\n---+\n", text.strip(), maxsplit=1)
+    bio = parts[0].strip()
+    contact_md = parts[1].strip() if len(parts) > 1 else ""
+
+    def md_inline_to_tex(s):
+        return re.sub(r'\*\*(.+?)\*\*', r'\\textbf{\1}', s)
+
+    contact_lines = [md_inline_to_tex(ln.strip())
+                     for ln in contact_md.split("\n") if ln.strip()]
+    contact_tex = " \\\\\n".join(contact_lines)
+
+    head = (
+        "```{=latex}\n"
+        "\\clearpage\n"
+        "\\thispagestyle{plain}\n"
+        "\\addcontentsline{toc}{chapter}{Sobre o Autor}\n"
+        "\\markright{Sobre o Autor}\n"
+        "\\vspace*{0.2em}\n"
+        "\\begin{center}\n"
+        "{\\sffamily\\fontsize{18}{22}\\selectfont\\bfseries\\color{petrol} Sobre o Autor}\n"
+        "\\end{center}\n"
+        "\\vspace{0.5em}\n"
+        "\\begin{center}\n"
+        "\\includegraphics[width=0.24\\linewidth]{images/autor.jpg}\n"
+        "\\end{center}\n"
+        "\\vspace{0.3em}\n"
+        "\\begingroup\n"
+        "\\small\\linespread{0.96}\\selectfont\n"
+        "```\n"
+    )
+    tail = (
+        "\n```{=latex}\n"
+        "\\par\\smallskip\n"
+        "\\begin{center}\n"
+        "\\sffamily\\footnotesize\\color{ink}\\linespread{1.0}\\selectfont\n"
+        + contact_tex + "\n"
+        "\\end{center}\n"
+        "\\endgroup\n"
+        "```\n"
+    )
+    return head + bio + tail
+
+
+def transform_author_photo(text):
+    """Backwards-compatible alias."""
+    return transform_sobre_o_autor(text)
 
 
 def rewrite_image_paths(text, fig_dir_name="images"):
@@ -460,11 +529,18 @@ def main():
     body.append(build_print_frontmatter(WORK_DIR))
     body.append("\n\n")
     included = 0
+    backmatter_emitted = False
     for fname in READING_ORDER:
         src = MD_DIR / fname
         if not src.exists():
             print(f"   ⚠ Missing: {fname}")
             continue
+        # Switch to backmatter once we hit Agradecimentos. \backmatter turns
+        # off chapter numbering and gives the closing pieces a clean
+        # final-pages feel (no leftover headers from the last numbered chapter).
+        if fname == "agradecimentos.md" and not backmatter_emitted:
+            body.append("\n```{=latex}\n\\backmatter\n```\n\n")
+            backmatter_emitted = True
         text = src.read_text(encoding="utf-8")
         text = strip_frontmatter(text)
         text = strip_meta_sections(text)
@@ -473,11 +549,28 @@ def main():
         # (4.2, 12.1, 12.3, 16.1). Must run BEFORE rewrite_image_paths so the
         # image markdown is captured intact with the original alt text.
         text = fullpage_figures(text)
+        if fname == "sobre-o-autor.md":
+            text = transform_sobre_o_autor(text)
         text = rewrite_image_paths(text)
         body.append(text)
         body.append("\n\n")
         included += 1
     print(f"   {included} chapters included")
+
+    # Industry standard: print books must have an even page count (each leaf
+    # is a recto+verso pair). After \clearpage ships the last content page,
+    # \value{page} holds the number of the *next* page — so if the last shipped
+    # page was odd, the counter is even, and we need to inject a blank verso.
+    # We test the page-1 expression so the comparison is on the page that was
+    # actually printed. KDP and UICLAP both reject odd page counts.
+    body.append(
+        "\n```{=latex}\n"
+        "\\clearpage\n"
+        "\\ifodd\\numexpr\\value{page}-1\\relax\n"
+        "  \\null\\thispagestyle{empty}\\clearpage\n"
+        "\\fi\n"
+        "```\n"
+    )
 
     consolidated = "".join(body)
     md_file = WORK_DIR / "book.md"
