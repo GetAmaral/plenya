@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { ClinicsSchema } from '@/components/seo/clinics-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
+import { FaqSchema } from '@/components/seo/faq-schema';
 
 type ConsultClinic = {
   name: string;
@@ -26,6 +27,8 @@ type HospitalUnit = {
   body: string;
   address: string;
 };
+
+type FaqItem = { q: string; a: string };
 
 export async function generateMetadata({
   params,
@@ -55,6 +58,7 @@ export default async function OndeAtendoPage({
   const consultas = t.raw('consultas') as ConsultClinic[];
   const hospitalNefro = t.raw('hospitalNefro') as HospitalUnit[];
   const hospital = t.raw('hospital') as HospitalUnit[];
+  const faq = t.raw('faq') as FaqItem[];
 
   return (
     <article>
@@ -65,6 +69,7 @@ export default async function OndeAtendoPage({
           { name: t('breadcrumbCurrent') },
         ]}
       />
+      <FaqSchema items={faq} />
 
       <header className="editorial-container pt-16 md:pt-24 pb-12">
         <p className="label-meta mb-6">{t('kicker')}</p>
@@ -262,6 +267,40 @@ export default async function OndeAtendoPage({
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* FAQ — visível + FAQPage schema */}
+      <section className="border-t border-rule bg-paper">
+        <div className="editorial-container py-16 md:py-24">
+          <p className="label-meta-lg text-bordo mb-4">{t('faqKicker')}</p>
+          <h2 className="heading-section text-2xl md:text-3xl text-ink max-w-3xl mb-12">
+            {t('faqH2')}
+          </h2>
+          <div className="divide-y divide-rule">
+            {faq.map((item) => (
+              <details
+                key={item.q}
+                className="group py-5 md:py-6 [&_a]:link-text [&_p]:mb-3 last:[&_p]:mb-0 [&_p]:font-serif [&_p]:text-ink-soft [&_p]:leading-relaxed"
+              >
+                <summary className="cursor-pointer list-none flex items-baseline justify-between gap-4">
+                  <h3 className="font-serif text-lg md:text-xl text-ink leading-snug">
+                    {item.q}
+                  </h3>
+                  <span
+                    aria-hidden
+                    className="font-sans text-bordo text-xl shrink-0 transition-transform group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <div
+                  className="mt-4 max-w-3xl"
+                  dangerouslySetInnerHTML={{ __html: item.a }}
+                />
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 

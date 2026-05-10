@@ -375,6 +375,34 @@
         "body": "Hemodiálise ambulatorial e diálise peritoneal — seguimento longitudinal de pacientes em terapia renal substitutiva crônica, com avaliação periódica e ajuste de prescrição.",
         "address": "Av. Duque de Caxias, 1371 — Jardim Petrópolis · Londrina/PR · CEP 86015-000"
       }
+    ],
+    "faqKicker": "Perguntas frequentes",
+    "faqH2": "Sobre como consultar, formas de atendimento e logística.",
+    "faq": [
+      {
+        "q": "Atende plano de saúde / convênio?",
+        "a": "<p>A <strong>Plenya</strong> é particular — não trabalho com convênio. Os exames podem, em parte, ser feitos pelo seu plano de saúde (orientamos a melhor estratégia caso a caso); a maioria dos pacientes opta por concentrar tudo em um laboratório parceiro para garantir padronização das técnicas e comparabilidade longitudinal.</p><p>Para a <strong>Nefroclínica Londrina</strong>, consulte diretamente a clínica pelo WhatsApp <a href=\"https://wa.me/5543996380044\" target=\"_blank\" rel=\"noreferrer\">(43) 99638-0044</a> — eles informam os convênios aceitos no momento.</p>"
+      },
+      {
+        "q": "Quanto tempo dura uma consulta?",
+        "a": "<p><strong>Consulta Plenya:</strong> 60 a 90 minutos. É um tempo necessário para a leitura clínica integrada do painel ampliado de exames (cardiometabólico, renal, hormonal, composição corporal), construção do plano longitudinal sob método AGIR e definição de prioridades terapêuticas.</p><p><strong>Consulta Nefroclínica:</strong> atendimento focado em nefrologia clínica — investigação e seguimento de doença renal crônica, hipertensão, distúrbios eletrolíticos, glomerulopatias, transplante renal e complicações renais associadas a outras condições.</p>"
+      },
+      {
+        "q": "Qual a diferença entre consultar na Plenya e na Nefroclínica?",
+        "a": "<p>Sou o mesmo médico nas duas — o que muda é o escopo. <strong>Plenya:</strong> medicina preventiva, longevidade e funcional integrativa, com equipe multidisciplinar. <strong>Nefroclínica:</strong> nefrologia clínica, transplante renal e diálise. Detalhes na seção \"Em dúvida sobre qual via?\" desta mesma página, ou na FAQ completa em <a href=\"/o-medico\">O médico</a>.</p>"
+      },
+      {
+        "q": "Posso fazer só uma Consulta Plenya, ou preciso entrar no programa Continuum?",
+        "a": "<p>A medicina Plenya tem <strong>dois caminhos de entrada, ambos diretos</strong>:</p><p><strong>Consulta Plenya</strong> — atendimento presencial em Londrina ou online por telemedicina. Inaugura sua relação com o médico-gestor: o clínico Plenya que conduz seu cuidado de forma longitudinal, articulando o plano com a equipe Plenya e com os outros médicos que você já consulta fora daqui.</p><p><strong>Continuum Plenya</strong> — programa estruturado de 12 meses, 100% online, com a equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) em encontros semanais e ciclos de reavaliação trimestral. <strong>Você pode entrar diretamente no Continuum</strong>, sem necessidade de passar antes pela Consulta Plenya.</p><p>Em dúvida sobre qual caminho faz sentido pro seu momento? A equipe Plenya orienta — fale com a clínica pelo site <a href=\"https://plenyasaude.com.br\" target=\"_blank\" rel=\"noreferrer\">plenyasaude.com.br</a> ou Instagram <a href=\"https://instagram.com/plenyaSaude\" target=\"_blank\" rel=\"noreferrer\">@plenyaSaude</a>.</p>"
+      },
+      {
+        "q": "A partir de qual idade vocês atendem?",
+        "a": "<p>Atendo <strong>adultos a partir de 18 anos</strong>, tanto na <strong>Plenya</strong> quanto na <strong>Nefroclínica Londrina</strong>. Para nefrologia pediátrica, encaminhamos para colega especialista.</p>"
+      },
+      {
+        "q": "Posso levar acompanhante na consulta?",
+        "a": "<p>Sim — quantos acompanhantes você considerar necessários, a seu critério. Cônjuge, filhos, cuidador, familiares: a presença de quem você quiser está bem-vinda, tanto no consultório presencial quanto na consulta online por telemedicina.</p>"
+      }
     ]
   },
   "contato": {

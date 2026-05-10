@@ -375,6 +375,34 @@
         "body": "Outpatient hemodialysis and peritoneal dialysis — long-term follow-up of patients on chronic renal replacement therapy, with periodic assessment and prescription adjustment.",
         "address": "Av. Duque de Caxias, 1371 — Jardim Petrópolis · Londrina/PR · ZIP 86015-000, Brazil"
       }
+    ],
+    "faqKicker": "Frequently asked questions",
+    "faqH2": "About how to book, consultation formats and logistics.",
+    "faq": [
+      {
+        "q": "Do you accept health insurance?",
+        "a": "<p><strong>Plenya</strong> is private — I do not accept health insurance. Lab tests can, in part, be done through your health plan (we advise the best strategy case by case); most patients choose to concentrate everything at a partner laboratory to ensure technique standardization and longitudinal comparability.</p><p>For <strong>Nefroclínica Londrina</strong>, please consult the clinic directly via WhatsApp <a href=\"https://wa.me/5543996380044\" target=\"_blank\" rel=\"noreferrer\">+55 43 99638-0044</a> — they will inform you of the health insurance plans accepted at the moment.</p>"
+      },
+      {
+        "q": "How long does a consultation take?",
+        "a": "<p><strong>Plenya consultation:</strong> 60 to 90 minutes. It is the time needed for an integrated clinical reading of the expanded panel of tests (cardiometabolic, renal, hormonal, body composition), construction of the longitudinal plan under the AGIR method and definition of therapeutic priorities.</p><p><strong>Nefroclínica consultation:</strong> care focused on clinical nephrology — investigation and follow-up of chronic kidney disease, hypertension, electrolyte disorders, glomerular diseases, kidney transplant and renal complications associated with other conditions.</p>"
+      },
+      {
+        "q": "What's the difference between consulting at Plenya and at Nefroclínica?",
+        "a": "<p>I am the same physician at both — what changes is the scope. <strong>Plenya:</strong> preventive medicine, longevity and integrative functional medicine, with a multidisciplinary team. <strong>Nefroclínica:</strong> clinical nephrology, kidney transplant and dialysis. Details in the \"Not sure which pathway?\" section on this same page, or in the full FAQ on <a href=\"/en/the-physician\">The physician</a>.</p>"
+      },
+      {
+        "q": "Can I have just a Plenya Consultation, or do I need to enter the Continuum program?",
+        "a": "<p>Plenya medicine has <strong>two entry paths, both direct</strong>:</p><p><strong>Plenya Consultation</strong> — in person in Londrina or online via telemedicine. Inaugurates your relationship with the care-managing physician: the Plenya clinician who conducts your care longitudinally, coordinating the plan with the Plenya team and with the other physicians you already see outside the clinic.</p><p><strong>Continuum Plenya</strong> — a structured 12-month, 100% online program with the multidisciplinary team (physician, nutritionist, psychologist, exercise physiologist) in weekly meetings and quarterly reassessment cycles. <strong>You can enter Continuum directly</strong>, without needing to first have a Plenya Consultation.</p><p>Not sure which path fits your moment? The Plenya team guides you — contact the clinic via the website <a href=\"https://plenyasaude.com.br\" target=\"_blank\" rel=\"noreferrer\">plenyasaude.com.br</a> or Instagram <a href=\"https://instagram.com/plenyaSaude\" target=\"_blank\" rel=\"noreferrer\">@plenyaSaude</a>.</p>"
+      },
+      {
+        "q": "From what age do you see patients?",
+        "a": "<p>I see <strong>adults aged 18 and over</strong>, both at <strong>Plenya</strong> and at <strong>Nefroclínica Londrina</strong>. For pediatric nephrology, I refer to a specialist colleague.</p>"
+      },
+      {
+        "q": "Can I bring a companion to the consultation?",
+        "a": "<p>Yes — as many companions as you consider necessary, at your discretion. Spouse, children, caregiver, family members: the presence of whomever you want is welcome, both at the in-person office and during the online telemedicine consultation.</p>"
+      }
     ]
   },
   "contato": {
