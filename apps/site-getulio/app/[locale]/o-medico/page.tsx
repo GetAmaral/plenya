@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
+import { FaqSchema } from '@/components/seo/faq-schema';
 
 type FormacaoItem = { year: string; label: string };
+type FaqItem = { q: string; a: string };
 
 export async function generateMetadata({
   params,
@@ -35,6 +37,7 @@ export default async function SobrePage({
   const atuacao = t.raw('atuacao') as string[];
   const areas = t.raw('areas') as string[];
   const sociedades = t.raw('sociedades') as string[];
+  const faq = t.raw('faq') as FaqItem[];
 
   const homeLabel = locale === 'en' ? 'Home' : 'Início';
 
@@ -46,6 +49,7 @@ export default async function SobrePage({
           { name: t('h1') },
         ]}
       />
+      <FaqSchema items={faq} />
       {/* Cabeçalho */}
       <header className="editorial-container pt-16 md:pt-24 pb-12">
         <p className="label-meta mb-6">{t('kicker')}</p>
@@ -138,6 +142,40 @@ export default async function SobrePage({
           </div>
         </aside>
       </div>
+
+      {/* FAQ — visível + FAQPage schema */}
+      <section className="border-t border-rule bg-paper">
+        <div className="editorial-container py-16 md:py-24">
+          <p className="label-meta-lg text-bordo mb-4">{t('faqKicker')}</p>
+          <h2 className="heading-section text-2xl md:text-3xl text-ink max-w-3xl mb-12">
+            {t('faqH2')}
+          </h2>
+          <div className="divide-y divide-rule">
+            {faq.map((item) => (
+              <details
+                key={item.q}
+                className="group py-5 md:py-6 [&_a]:link-text [&_p]:mb-3 last:[&_p]:mb-0 [&_p]:font-serif [&_p]:text-ink-soft [&_p]:leading-relaxed"
+              >
+                <summary className="cursor-pointer list-none flex items-baseline justify-between gap-4">
+                  <h3 className="font-serif text-lg md:text-xl text-ink leading-snug">
+                    {item.q}
+                  </h3>
+                  <span
+                    aria-hidden
+                    className="font-sans text-bordo text-xl shrink-0 transition-transform group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <div
+                  className="mt-4 max-w-3xl"
+                  dangerouslySetInnerHTML={{ __html: item.a }}
+                />
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
     </article>
   );
 }

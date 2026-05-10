@@ -182,6 +182,38 @@
       "Sociedade Brasileira de Nefrologia — Membro do Comitê Cardiorrenal",
       "Sociedade Paranaense de Nefrologia",
       "Associação Brasileira de Medicina Funcional Integrativa"
+    ],
+    "faqKicker": "Perguntas frequentes",
+    "faqH2": "Sobre o médico, a prática e como consultar.",
+    "faq": [
+      {
+        "q": "Onde o Dr. Getúlio atende?",
+        "a": "<p>Atendo em Londrina/PR em três frentes:</p><p><strong>Consulta ambulatorial — Av. Duque de Caxias, 1371 (mesmo prédio):</strong> Plenya (medicina funcional integrativa, preventiva e longevidade) e Nefroclínica Londrina (nefrologia clínica, principais doenças renais e transplante renal).</p><p><strong>Atendimento hospitalar de nefrologia:</strong> pareceres e seguimento de pacientes internados na Santa Casa de Londrina (Rua Espírito Santo, 523 — Centro), Hospital Araucária (Rua Campo Grande, 211 — Jardim Colina Verde) e Hospital Unimed Londrina (Av. dos Expedicionários, 750 — zona sul, próximo ao Jardim Botânico).</p><p><strong>Hemodiálise:</strong> responsável técnico da DaVita Intra Hospitalar Londrina (hemodiálise hospitalar) e médico nefrologista da DaVita Londrina (hemodiálise ambulatorial e diálise peritoneal — Av. Duque de Caxias, 1371).</p>"
+      },
+      {
+        "q": "Qual a especialidade do Dr. Getúlio?",
+        "a": "<p>Sou nefrologista e clínico geral. Formado em medicina pela Universidade Estadual de Londrina (UEL) em 2004, fiz especializações em clínica médica (2006) e nefrologia (2008) na Santa Casa de Londrina, com título de especialista em nefrologia pela Sociedade Brasileira de Nefrologia (SBN) no mesmo ano. Em 2026, concluí pós-graduação em medicina funcional integrativa pela Associação Brasileira de Medicina Funcional Integrativa (ABMFI).</p><p>Coordeno a residência médica em nefrologia da Santa Casa de Londrina desde 2009, e fundei a residência em clínica médica da mesma instituição em 2014. Sou membro do Comitê Cardiorrenal da SBN.</p><p><strong>Áreas de interesse e prática clínica:</strong> nefrologia preventiva, eixo cardio-reno-metabólico, longevidade e healthspan, medicina preventiva e funcional integrativa, performance, nutrologia, suplementação inteligente, biomarcadores avançados e gestão metabólica.</p><p>Registros: CRM-PR 21.876 · RQE 16.038 (Nefrologia).</p>"
+      },
+      {
+        "q": "Atende paciente com doença renal crônica?",
+        "a": "<p>Sim — é o foco da consulta na Nefroclínica. Atendo adultos (18+) em todos os estágios de doença renal crônica (1 a 5), hipertensão de difícil controle, distúrbios eletrolíticos, glomerulopatias, doença renal do diabético e ajuste de medicação para função renal reduzida.</p><p>No transplante renal, acompanho tanto o pré-transplante (avaliação, preparo e listagem) quanto o pós-transplante (seguimento ambulatorial, ajuste de imunossupressores e prevenção de complicações).</p><p>Acompanho meus pacientes também quando entram em terapia renal substitutiva — hemodiálise (atendo na DaVita Londrina, e sou responsável técnico da DaVita Intra Hospitalar Londrina) e diálise peritoneal — mantendo a continuidade clínica do cuidado.</p>"
+      },
+      {
+        "q": "Faz medicina preventiva e longevidade?",
+        "a": "<p>Sim — é o foco do meu trabalho na Plenya. Conduzo avaliação ampliada de saúde com leitura clínica integrada (cardiometabólica, renal, hormonal, composição corporal) e plano longitudinal sob método AGIR (Alimentação, Gestão metabólica, Integração corpo-mente, Ritmo circadiano), executado por equipe multidisciplinar — médico, nutricionista, psicóloga e educador físico — trabalhando o mesmo paciente sob o mesmo plano.</p><p><strong>Áreas de ênfase:</strong> nutrologia, suplementação inteligente baseada em evidência, performance (treino de força, zona 2, VO₂ máx, composição corporal), leitura de marcadores cardiovasculares e metabólicos avançados, e gestão metabólica (pré-diabetes, resistência insulínica, síndrome metabólica).</p><p>O foco é atuar na janela silenciosa entre o normal e o ótimo — onde a doença se monta em silêncio, com exames \"normais\", durante 10 a 20 anos antes de aparecer no consultório como diagnóstico. Tema central do meu livro <a href=\"/livros/antes\"><em>Antes — A Janela Silenciosa entre o Normal e o Ótimo</em></a> (2026).</p>"
+      },
+      {
+        "q": "Coordena residência médica?",
+        "a": "<p>Sim. Coordeno a residência médica em nefrologia da Santa Casa de Londrina (ISCAL) desde 2009 — programa credenciado pela CNRM/MEC, integrando formação clínica, hemodiálise hospitalar e supervisão de pareceres em enfermarias.</p><p>Em 2014, fundei a residência médica em clínica médica da mesma instituição.</p><p>Entre 2013 e 2014, fui professor das disciplinas de Semiologia e Introdução à Prática Médica no curso de medicina da PUC Londrina, e orientador da Liga Acadêmica de Semiologia.</p><p><a href=\"https://iepi.iscal.com.br/br/ensino/residencia-medica\" target=\"_blank\" rel=\"noreferrer\">Programas de residência da Santa Casa de Londrina ↗</a></p>"
+      },
+      {
+        "q": "Como agendar consulta?",
+        "a": "<p>Para a <strong>Plenya</strong> (medicina preventiva, longevidade, performance, nutrologia — presencial em Londrina ou online por telemedicina): pelo site <a href=\"https://plenyasaude.com.br\" target=\"_blank\" rel=\"noreferrer\">plenyasaude.com.br</a> ou Instagram <a href=\"https://instagram.com/plenyaSaude\" target=\"_blank\" rel=\"noreferrer\">@plenyaSaude</a>.</p><p>Para a <strong>Nefroclínica Londrina</strong> (nefrologia clínica, transplante renal, hemodiálise e diálise peritoneal): WhatsApp <a href=\"https://wa.me/5543996380044\" target=\"_blank\" rel=\"noreferrer\">(43) 99638-0044</a> ou pelo site <a href=\"https://nefroclinica.com\" target=\"_blank\" rel=\"noreferrer\">nefroclinica.com</a>.</p><p>Detalhes completos sobre cada via e endereço na página <a href=\"/onde-atendo\">Como consultar</a>.</p>"
+      },
+      {
+        "q": "Atende paciente fora de Londrina?",
+        "a": "<p>Sim. A consulta na <strong>Plenya</strong> pode ser feita por <strong>telemedicina</strong> com a mesma profundidade clínica — atendendo pacientes em qualquer cidade do Brasil ou brasileiros vivendo no exterior. As consultas seguem a <a href=\"https://sistemas.cfm.org.br/normas/arquivos/resolucoes/BR/2022/2314_2022.pdf\" target=\"_blank\" rel=\"noreferrer\">Resolução CFM nº 2.314/2022</a>, que regulamenta a telemedicina no país.</p><p>Quando necessário é emitida <strong>receita digital com assinatura eletrônica certificada (ICP-Brasil)</strong>, válida em farmácias brasileiras. Para pacientes no exterior, vale notar que receitas brasileiras podem não ser aceitas em farmácias de outros países.</p><p>Para a <strong>Nefroclínica</strong>, o atendimento é presencial em Londrina. Pacientes de outras cidades costumam fazer a primeira avaliação presencial e, quando o quadro permite, manter seguimento online.</p><p>O programa <strong>Continuum Plenya</strong> é 100% online — todos os encontros semanais com a equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) acontecem por videochamada, independentemente de onde o paciente esteja.</p>"
+      }
     ]
   },
   "livros": {
