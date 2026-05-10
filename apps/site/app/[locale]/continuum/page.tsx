@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: '/continuum',
       languages: {
-        'pt-BR': '/continuum',
+        'pt-BR': '/continuum', pt: '/continuum',
         en: '/en/continuum',
         'x-default': '/continuum',
       },

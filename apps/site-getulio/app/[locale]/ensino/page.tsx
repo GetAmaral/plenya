@@ -16,7 +16,7 @@ export async function generateMetadata({
     description: t('metaDescription'),
     alternates: {
       canonical: locale === 'en' ? '/en/teaching' : '/ensino',
-      languages: { 'pt-BR': '/ensino', en: '/en/teaching' },
+      languages: { 'pt-BR': '/ensino', pt: '/ensino', en: '/en/teaching' },
     },
   };
 }

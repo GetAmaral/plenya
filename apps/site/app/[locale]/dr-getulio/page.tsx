@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: locale === 'en' ? '/en/dr-getulio' : '/dr-getulio',
       languages: {
-        'pt-BR': '/dr-getulio',
+        'pt-BR': '/dr-getulio', pt: '/dr-getulio',
         en: '/en/dr-getulio',
         'x-default': '/dr-getulio',
       },

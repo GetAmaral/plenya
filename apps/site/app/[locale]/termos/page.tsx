@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/termos',
     languages: {
-      'pt-BR': '/termos',
+      'pt-BR': '/termos', pt: '/termos',
       en: '/en/terms',
       'x-default': '/termos',
     },

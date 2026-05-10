@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: '/healthspan',
       languages: {
-        'pt-BR': '/healthspan',
+        'pt-BR': '/healthspan', pt: '/healthspan',
         en: '/en/healthspan',
         'x-default': '/healthspan',
       },

@@ -19,7 +19,7 @@ export async function generateMetadata({
     description: t('metaDescription'),
     alternates: {
       canonical: locale === 'en' ? '/en' : '/',
-      languages: { 'pt-BR': '/', en: '/en' },
+      languages: { 'pt-BR': '/', pt: '/', en: '/en' },
     },
     openGraph: {
       title: t('ogTitle'),

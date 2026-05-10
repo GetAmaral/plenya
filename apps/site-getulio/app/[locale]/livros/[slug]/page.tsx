@@ -32,7 +32,7 @@ export async function generateMetadata({
     description: loc.shortDescription,
     alternates: {
       canonical: url,
-      languages: { 'pt-BR': `/livros/${slug}`, en: `/en/books/${slug}` },
+      languages: { 'pt-BR': `/livros/${slug}`, pt: `/livros/${slug}`, en: `/en/books/${slug}` },
     },
     openGraph: {
       type: 'book',

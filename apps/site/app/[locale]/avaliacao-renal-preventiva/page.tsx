@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: '/avaliacao-renal-preventiva',
       languages: {
-        'pt-BR': '/avaliacao-renal-preventiva',
+        'pt-BR': '/avaliacao-renal-preventiva', pt: '/avaliacao-renal-preventiva',
         en: '/en/preventive-kidney-assessment',
         'x-default': '/avaliacao-renal-preventiva',
       },

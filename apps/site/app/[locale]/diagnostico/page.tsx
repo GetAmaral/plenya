@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: locale === 'en' ? '/en/assessment' : '/diagnostico',
       languages: {
-        'pt-BR': '/diagnostico',
+        'pt-BR': '/diagnostico', pt: '/diagnostico',
         en: '/en/assessment',
         'x-default': '/diagnostico',
       },

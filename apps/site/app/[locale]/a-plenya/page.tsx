@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: locale === 'en' ? '/en/about' : '/a-plenya',
       languages: {
-        'pt-BR': '/a-plenya',
+        'pt-BR': '/a-plenya', pt: '/a-plenya',
         en: '/en/about',
         'x-default': '/a-plenya',
       },

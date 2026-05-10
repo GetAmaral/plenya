@@ -23,7 +23,7 @@ export async function generateMetadata({
     description: t('metaDescription'),
     alternates: {
       canonical: locale === 'en' ? '/en/articles' : '/artigos',
-      languages: { 'pt-BR': '/artigos', en: '/en/articles' },
+      languages: { 'pt-BR': '/artigos', pt: '/artigos', en: '/en/articles' },
     },
   };
 }

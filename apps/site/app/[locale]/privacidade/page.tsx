@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/privacidade',
     languages: {
-      'pt-BR': '/privacidade',
+      'pt-BR': '/privacidade', pt: '/privacidade',
       en: '/en/privacy',
       'x-default': '/privacidade',
     },

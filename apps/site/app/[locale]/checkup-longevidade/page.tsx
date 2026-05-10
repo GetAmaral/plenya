@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: '/checkup-longevidade',
       languages: {
-        'pt-BR': '/checkup-longevidade',
+        'pt-BR': '/checkup-longevidade', pt: '/checkup-longevidade',
         en: '/en/longevity-checkup',
         'x-default': '/checkup-longevidade',
       },

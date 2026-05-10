@@ -17,7 +17,13 @@ function resolvePath(key: keyof typeof pathnames, locale: Locale): string {
 function localizedAlternates(key: keyof typeof pathnames) {
   const out: Record<string, string> = {};
   for (const l of locales) {
-    out[l === 'pt' ? 'pt-BR' : l] = resolvePath(key, l);
+    if (l === 'pt') {
+      const ptUrl = resolvePath(key, l);
+      out['pt-BR'] = ptUrl;
+      out['pt'] = ptUrl; // genérico — cobre Portugal e demais lusófonos
+    } else {
+      out[l] = resolvePath(key, l);
+    }
   }
   out['x-default'] = resolvePath(key, 'pt');
   return out;

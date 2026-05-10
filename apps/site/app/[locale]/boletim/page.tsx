@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: locale === 'en' ? '/en/newsletter' : '/boletim',
       languages: {
-        'pt-BR': '/boletim',
+        'pt-BR': '/boletim', pt: '/boletim',
         en: '/en/newsletter',
         'x-default': '/boletim',
       },

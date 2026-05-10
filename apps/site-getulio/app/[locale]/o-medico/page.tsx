@@ -17,7 +17,7 @@ export async function generateMetadata({
     description: t('metaDescription'),
     alternates: {
       canonical: locale === 'en' ? '/en/the-physician' : '/o-medico',
-      languages: { 'pt-BR': '/o-medico', en: '/en/the-physician' },
+      languages: { 'pt-BR': '/o-medico', pt: '/o-medico', en: '/en/the-physician' },
     },
   };
 }

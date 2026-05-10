@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: locale === 'en' ? '/en/testimonials' : '/depoimentos',
       languages: {
-        'pt-BR': '/depoimentos',
+        'pt-BR': '/depoimentos', pt: '/depoimentos',
         en: '/en/testimonials',
         'x-default': '/depoimentos',
       },

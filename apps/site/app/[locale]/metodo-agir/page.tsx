@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: locale === 'en' ? '/en/acts-method' : '/metodo-agir',
       languages: {
-        'pt-BR': '/metodo-agir',
+        'pt-BR': '/metodo-agir', pt: '/metodo-agir',
         en: '/en/acts-method',
         'x-default': '/metodo-agir',
       },

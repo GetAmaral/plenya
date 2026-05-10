@@ -17,7 +17,7 @@ export async function generateMetadata({
     description: t('metaDescription'),
     alternates: {
       canonical: locale === 'en' ? '/en/books' : '/livros',
-      languages: { 'pt-BR': '/livros', en: '/en/books' },
+      languages: { 'pt-BR': '/livros', pt: '/livros', en: '/en/books' },
     },
   };
 }

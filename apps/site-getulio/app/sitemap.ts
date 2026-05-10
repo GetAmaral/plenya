@@ -47,11 +47,13 @@ function enUrl(path: string): string {
 }
 
 function alternatesPair(pathPt: string, pathEn: string): { languages: Record<string, string> } {
+  const pt = ptUrl(pathPt);
   return {
     languages: {
-      'pt-BR': ptUrl(pathPt),
+      'pt-BR': pt,
+      pt, // genérico — cobre Portugal e demais lusófonos
       en: enUrl(pathEn),
-      'x-default': ptUrl(pathPt),
+      'x-default': pt,
     },
   };
 }

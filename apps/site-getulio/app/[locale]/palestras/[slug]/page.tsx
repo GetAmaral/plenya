@@ -28,7 +28,7 @@ export async function generateMetadata({
     description: loc.excerpt,
     alternates: {
       canonical: url,
-      languages: { 'pt-BR': `/palestras/${slug}`, en: `/en/lectures/${slug}` },
+      languages: { 'pt-BR': `/palestras/${slug}`, pt: `/palestras/${slug}`, en: `/en/lectures/${slug}` },
     },
     openGraph: {
       type: 'article',

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: '/medicina-funcional-integrativa',
       languages: {
-        'pt-BR': '/medicina-funcional-integrativa',
+        'pt-BR': '/medicina-funcional-integrativa', pt: '/medicina-funcional-integrativa',
         en: '/en/integrative-functional-medicine',
         'x-default': '/medicina-funcional-integrativa',
       },

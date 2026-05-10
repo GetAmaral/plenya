@@ -28,7 +28,7 @@ export async function generateMetadata({
     alternates: {
       canonical: locale === 'en' ? `/en/books/${slug}/excerpts` : `/livros/${slug}/excertos`,
       languages: {
-        'pt-BR': `/livros/${slug}/excertos`,
+        'pt-BR': `/livros/${slug}/excertos`, pt: `/livros/${slug}/excertos`,
         en: `/en/books/${slug}/excerpts`,
       },
     },

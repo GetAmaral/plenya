@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     alternates: {
       canonical: locale === 'en' ? '/en/cases' : '/casos',
       languages: {
-        'pt-BR': '/casos',
+        'pt-BR': '/casos', pt: '/casos',
         en: '/en/cases',
         'x-default': '/casos',
       },
