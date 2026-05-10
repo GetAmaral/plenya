@@ -53,6 +53,7 @@ export default async function OndeAtendoPage({
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'ondeAtendo' });
   const consultas = t.raw('consultas') as ConsultClinic[];
+  const hospitalNefro = t.raw('hospitalNefro') as HospitalUnit[];
   const hospital = t.raw('hospital') as HospitalUnit[];
 
   return (
@@ -222,8 +223,29 @@ export default async function OndeAtendoPage({
         </div>
       </section>
 
-      {/* Atuação hospitalar — secundário, transparência sobre escopo */}
+      {/* Atendimento hospitalar de nefrologia — 3 hospitais */}
       <section className="border-t border-rule bg-paper">
+        <div className="editorial-container py-16 md:py-20">
+          <p className="label-meta-lg text-bordo mb-4">{t('hospitalNefroKicker')}</p>
+          <p className="font-serif text-ink-soft text-base leading-relaxed max-w-2xl mb-10">
+            {t('hospitalNefroLead')}
+          </p>
+
+          <ul className="grid md:grid-cols-3 gap-x-10 gap-y-8">
+            {hospitalNefro.map((h) => (
+              <li key={h.name} className="space-y-2">
+                <p className="label-meta text-ink-muted">{h.role}</p>
+                <h3 className="font-serif text-xl text-ink leading-tight">{h.name}</h3>
+                <p className="font-serif text-sm text-ink-soft leading-relaxed">{h.body}</p>
+                <p className="font-sans text-xs text-ink-muted">{h.address}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Hemodiálise — DaVita Londrina, responsabilidade técnica */}
+      <section className="border-t border-rule">
         <div className="editorial-container py-16 md:py-20">
           <p className="label-meta-lg text-bordo mb-4">{t('hospitalKicker')}</p>
           <p className="font-serif text-ink-soft text-base leading-relaxed max-w-2xl mb-10">

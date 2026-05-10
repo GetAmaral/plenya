@@ -242,14 +242,16 @@
     "metaDescription": "Para consultas comigo: Plenya (medicina funcional integrativa, longevidade) ou Nefroclínica Londrina (nefrologia clínica). Também atuo como responsável técnico em duas unidades de hemodiálise.",
     "kicker": "Como consultar",
     "h1": "Para consultar comigo.",
-    "lead": "Atendo em duas clínicas em Londrina, cada uma com um foco diferente. Escolha a que faz mais sentido para o seu caso e fale diretamente com a clínica para agendar.",
+    "lead": "Atendo em Londrina/PR em três frentes: consulta ambulatorial (Plenya e Nefroclínica), atendimento hospitalar de nefrologia em três hospitais e responsabilidade técnica pela hemodiálise da DaVita Londrina. Escolha a via que faz mais sentido para o seu caso e fale diretamente com a clínica para agendar.",
     "portraitAlt": "Dr. Getúlio Amaral Filho em consultório",
     "breadcrumbHome": "Início",
     "breadcrumbCurrent": "Como consultar",
     "consultsKicker": "Atendimento ambulatorial",
-    "consultsLead": "Duas vias de consulta. Cada uma com um foco clínico distinto:",
-    "hospitalKicker": "Atuação hospitalar",
-    "hospitalLead": "Responsabilidade técnica em duas unidades de hemodiálise. Estes não são canais de consulta ambulatorial — listados aqui apenas para informação completa sobre minha atuação.",
+    "consultsLead": "Duas vias de consulta no mesmo prédio (Av. Duque de Caxias, 1371). Cada uma com um foco clínico distinto:",
+    "hospitalNefroKicker": "Atendimento hospitalar de nefrologia",
+    "hospitalNefroLead": "Pareceres e seguimento de pacientes internados em três hospitais de Londrina. Estes não são canais de consulta ambulatorial — listados aqui para transparência completa sobre minha atuação.",
+    "hospitalKicker": "Hemodiálise — responsabilidade técnica",
+    "hospitalLead": "Responsabilidade técnica pela hemodiálise da DaVita Londrina, atendendo pacientes em modalidade ambulatorial e hospitalar.",
     "patientHelpKicker": "Em dúvida sobre qual via?",
     "patientHelpBody": "Se sua busca é por uma leitura ampliada da saúde, prevenção e longevidade — a Plenya. Se é uma questão renal específica (doença renal crônica, hipertensão complexa, distúrbio eletrolítico, pré-diálise) — a Nefroclínica.",
     "outrosCanaisKicker": "Outros canais",
@@ -268,8 +270,8 @@
       {
         "name": "Plenya",
         "role": "Direção clínica",
-        "tagline": "Para longevidade, prevenção e medicina funcional",
-        "body": "Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Aqui eu atuo como médico-gestor da sua saúde — articulando o cuidado entre a equipe Plenya e os profissionais que você já consulta fora da clínica.",
+        "tagline": "Para longevidade, prevenção e medicina funcional · presencial ou online",
+        "body": "Programa de saúde preventiva e longevidade. Medicina funcional integrativa, com equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Atendimento presencial em Londrina ou online por telemedicina, com a mesma profundidade clínica. Aqui eu atuo como médico-gestor da sua saúde — articulando o cuidado entre a equipe Plenya e os profissionais que você já consulta fora da clínica.",
         "address": "Av. Duque de Caxias, 1371 — Londrina/PR",
         "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
         "whatsappUrl": "",
@@ -282,8 +284,8 @@
       {
         "name": "Nefroclínica Londrina",
         "role": "Sócio",
-        "tagline": "Para nefrologia clínica especializada",
-        "body": "Nefrologia clínica em Londrina há quatro décadas. Atendimento de doença renal crônica, hipertensão de difícil controle, distúrbios eletrolíticos e acompanhamento pré-diálise.",
+        "tagline": "Para nefrologia clínica especializada e transplante renal",
+        "body": "Nefrologia clínica em Londrina há quatro décadas. Atendimento de doença renal crônica, hipertensão de difícil controle, distúrbios eletrolíticos, transplante renal e acompanhamento pré-diálise.",
         "address": "Av. Duque de Caxias, 1371 — Londrina/PR",
         "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
         "whatsappUrl": "https://wa.me/5543996380044",
@@ -294,18 +296,32 @@
         "email": ""
       }
     ],
-    "hospital": [
+    "hospitalNefro": [
       {
-        "name": "DaVita Intra Hospitalar",
-        "role": "Responsável técnico",
-        "body": "Hemodiálise hospitalar — Santa Casa de Londrina. Atendimento a pacientes internados em estágio avançado de doença renal, em conjunto com a equipe de nefrologia da instituição.",
-        "address": "Santa Casa de Londrina · Paraná"
+        "name": "Santa Casa de Londrina",
+        "role": "Nefrologia hospitalar",
+        "body": "Pareceres e seguimento de pacientes internados, em conjunto com a equipe de nefrologia da instituição.",
+        "address": "Rua Espírito Santo, 523 — Centro · Londrina/PR"
       },
+      {
+        "name": "Hospital Araucária",
+        "role": "Nefrologia hospitalar",
+        "body": "Pareceres e seguimento de pacientes internados.",
+        "address": "Rua Campo Grande, 211 — Jardim Colina Verde · Londrina/PR"
+      },
+      {
+        "name": "Hospital Unimed Londrina",
+        "role": "Nefrologia hospitalar",
+        "body": "Pareceres e seguimento de pacientes internados.",
+        "address": "Av. dos Expedicionários, 750 — zona sul (próximo ao Jardim Botânico) · Londrina/PR"
+      }
+    ],
+    "hospital": [
       {
         "name": "DaVita Londrina",
         "role": "Responsável técnico",
-        "body": "Unidade ambulatorial de hemodiálise em Londrina. Acompanhamento crônico de pacientes em terapia renal substitutiva.",
-        "address": "Londrina · Paraná"
+        "body": "Hemodiálise ambulatorial e hospitalar. Acompanhamento crônico de pacientes em terapia renal substitutiva.",
+        "address": "Av. Duque de Caxias, 1371 — Londrina/PR"
       }
     ]
   },
