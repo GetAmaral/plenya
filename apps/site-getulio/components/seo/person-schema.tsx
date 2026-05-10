@@ -79,7 +79,15 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
           { '@type': 'Organization', name: abmfiName },
         ],
         memberOf: [
-          { '@type': 'Organization', name: sbnName },
+          {
+            '@type': 'OrganizationRole',
+            roleName: isEn ? 'Cardiorenal Committee Member' : 'Membro do Comitê Cardiorrenal',
+            memberOf: {
+              '@type': 'Organization',
+              name: sbnName,
+              url: 'https://sbn.org.br/medicos/a-sbn/comites/',
+            },
+          },
           { '@type': 'Organization', name: spnName },
         ],
         worksFor: [
