@@ -8,32 +8,31 @@ const KEY = '65955bc7265423c52bc95e6a940427d5';
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 const ENDPOINTS = ['https://api.indexnow.org/indexnow', 'https://www.bing.com/indexnow'];
 
-const STATIC_PATHS = ['', '/sobre', '/livros', '/palestras', '/artigos', '/onde-atendo', '/ensino', '/contato'];
+const STATIC_PT = ['', '/o-medico', '/livros', '/palestras', '/artigos', '/onde-atendo', '/ensino', '/contato'];
+const STATIC_EN = ['', '/the-physician', '/books', '/lectures', '/articles', '/where-i-practice', '/teaching', '/contact'];
 
 async function collectUrls(): Promise<string[]> {
   const urls: string[] = [];
 
-  for (const p of STATIC_PATHS) {
-    urls.push(`https://${HOST}${p || '/'}`);
-    urls.push(`https://${HOST}/en${p}`);
-  }
+  for (const p of STATIC_PT) urls.push(`https://${HOST}${p || '/'}`);
+  for (const p of STATIC_EN) urls.push(`https://${HOST}/en${p}`);
 
   const posts = await getAllPlenyaPostsFull('pt');
   for (const post of posts) {
-    urls.push(`https://${HOST}/escritos/${post.slug}`);
-    urls.push(`https://${HOST}/en/escritos/${post.slug}`);
+    urls.push(`https://${HOST}/artigos/${post.slug}`);
+    urls.push(`https://${HOST}/en/articles/${post.slug}`);
   }
 
   const books = await getAllBooks();
   for (const b of books) {
     urls.push(`https://${HOST}/livros/${b.slug}`);
-    urls.push(`https://${HOST}/en/livros/${b.slug}`);
+    urls.push(`https://${HOST}/en/books/${b.slug}`);
   }
 
   const lectures = await getAllLectures();
   for (const l of lectures) {
     urls.push(`https://${HOST}/palestras/${l.slug}`);
-    urls.push(`https://${HOST}/en/palestras/${l.slug}`);
+    urls.push(`https://${HOST}/en/lectures/${l.slug}`);
   }
 
   return urls;

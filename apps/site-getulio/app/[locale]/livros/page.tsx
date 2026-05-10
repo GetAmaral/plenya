@@ -16,8 +16,8 @@ export async function generateMetadata({
     title: t('metaTitle'),
     description: t('metaDescription'),
     alternates: {
-      canonical: locale === 'en' ? '/en/livros' : '/livros',
-      languages: { 'pt-BR': '/livros', en: '/en/livros' },
+      canonical: locale === 'en' ? '/en/books' : '/livros',
+      languages: { 'pt-BR': '/livros', en: '/en/books' },
     },
   };
 }
@@ -54,7 +54,7 @@ export default async function LivrosPage({
             return (
               <li key={b.slug} className="border-b border-rule">
                 <Link
-                  href={`/livros/${b.slug}`}
+                  href={{ pathname: '/livros/[slug]', params: { slug: b.slug } }}
                   className="block py-12 md:py-16 grid md:grid-cols-[200px_1fr] gap-8 md:gap-12 group items-start"
                 >
                   <div className="relative aspect-[2/3] w-full max-w-[200px] mx-auto md:mx-0 shadow-xl">

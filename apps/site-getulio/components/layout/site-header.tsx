@@ -9,12 +9,12 @@ import { Wordmark } from '@/components/brand/wordmark';
 import { LocaleSwitcher } from '@/components/layout/locale-switcher';
 
 const nav = [
-  { href: '/sobre', key: 'sobre' },
+  { href: '/o-medico', key: 'sobre' },
   { href: '/livros', key: 'livros' },
   { href: '/palestras', key: 'palestras' },
   { href: '/ensino', key: 'ensino' },
   { href: '/onde-atendo', key: 'ondeAtendo' },
-  { href: '/escritos', key: 'escritos' },
+  { href: '/artigos', key: 'escritos' },
   { href: '/contato', key: 'contato' },
 ] as const;
 

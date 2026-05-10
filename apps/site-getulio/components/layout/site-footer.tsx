@@ -25,9 +25,9 @@ export function SiteFooter() {
         <div className="space-y-3">
           <p className="label-meta text-gold">{t('navigation')}</p>
           <ul className="space-y-2 text-sm text-paper/85">
-            <li><Link href="/sobre" className="hover:text-gold transition-colors">{tNav('sobre')}</Link></li>
+            <li><Link href="/o-medico" className="hover:text-gold transition-colors">{tNav('sobre')}</Link></li>
             <li><Link href="/livros" className="hover:text-gold transition-colors">{tNav('livros')}</Link></li>
-            <li><Link href="/escritos" className="hover:text-gold transition-colors">{tNav('escritos')}</Link></li>
+            <li><Link href="/artigos" className="hover:text-gold transition-colors">{tNav('escritos')}</Link></li>
             <li><Link href="/palestras" className="hover:text-gold transition-colors">{tNav('palestras')}</Link></li>
             <li><Link href="/ensino" className="hover:text-gold transition-colors">{tNav('ensino')}</Link></li>
             <li><Link href="/onde-atendo" className="hover:text-gold transition-colors">{tNav('ondeAtendo')}</Link></li>

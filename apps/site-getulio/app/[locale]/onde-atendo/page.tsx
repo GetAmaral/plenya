@@ -38,8 +38,8 @@ export async function generateMetadata({
     title: t('metaTitle'),
     description: t('metaDescription'),
     alternates: {
-      canonical: locale === 'en' ? '/en/onde-atendo' : '/onde-atendo',
-      languages: { 'pt-BR': '/onde-atendo', en: '/en/onde-atendo' },
+      canonical: locale === 'en' ? '/en/where-i-practice' : '/onde-atendo',
+      languages: { 'pt-BR': '/onde-atendo', en: '/en/where-i-practice' },
     },
   };
 }

@@ -9,7 +9,7 @@ export async function GET(): Promise<Response> {
 
   const postLines = posts
     .slice(0, 30)
-    .map((p) => `- [${p.title}](${BASE}/escritos/${p.slug}) — ${p.excerpt}`)
+    .map((p) => `- [${p.title}](${BASE}/artigos/${p.slug}) — ${p.excerpt}`)
     .join('\n');
 
   const bookLines = books

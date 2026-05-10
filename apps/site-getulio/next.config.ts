@@ -33,8 +33,26 @@ const nextConfig: NextConfig = {
       // Restruturação 2026-05: /livro (singular) → /livros/antes
       { source: '/livro', destination: '/livros/antes', permanent: true },
       { source: '/livro/excertos', destination: '/livros/antes/excertos', permanent: true },
-      { source: '/en/livro', destination: '/en/livros/antes', permanent: true },
-      { source: '/en/livro/excertos', destination: '/en/livros/antes/excertos', permanent: true },
+      { source: '/en/livro', destination: '/en/books/antes', permanent: true },
+      { source: '/en/livro/excertos', destination: '/en/books/antes/excerpts', permanent: true },
+
+      // Rename 2026-05-10: /sobre → /o-medico, /escritos → /artigos (PT)
+      { source: '/sobre', destination: '/o-medico', permanent: true },
+      { source: '/escritos', destination: '/artigos', permanent: true },
+      { source: '/escritos/:slug', destination: '/artigos/:slug', permanent: true },
+
+      // Slugs EN traduzidos (antes serviam PT em /en/)
+      { source: '/en/sobre', destination: '/en/the-physician', permanent: true },
+      { source: '/en/escritos', destination: '/en/articles', permanent: true },
+      { source: '/en/escritos/:slug', destination: '/en/articles/:slug', permanent: true },
+      { source: '/en/livros', destination: '/en/books', permanent: true },
+      { source: '/en/livros/:slug', destination: '/en/books/:slug', permanent: true },
+      { source: '/en/livros/:slug/excertos', destination: '/en/books/:slug/excerpts', permanent: true },
+      { source: '/en/palestras', destination: '/en/lectures', permanent: true },
+      { source: '/en/palestras/:slug', destination: '/en/lectures/:slug', permanent: true },
+      { source: '/en/ensino', destination: '/en/teaching', permanent: true },
+      { source: '/en/onde-atendo', destination: '/en/where-i-practice', permanent: true },
+      { source: '/en/contato', destination: '/en/contact', permanent: true },
     ];
   },
 };

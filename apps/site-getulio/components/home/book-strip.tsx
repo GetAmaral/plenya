@@ -33,7 +33,7 @@ export function BookStrip() {
               {t('quote')}
             </blockquote>
             <p className="font-sans text-sm text-paper/60">{t('isbn')}</p>
-            <Link href="/livros/antes" className="link-text-light inline-block font-sans text-sm">
+            <Link href={{ pathname: '/livros/[slug]', params: { slug: 'antes' } }} className="link-text-light inline-block font-sans text-sm">
               {t('cta')}
             </Link>
           </div>

@@ -27,7 +27,7 @@ export function ArticleSchema({
   locale = 'pt',
 }: ArticleSchemaProps) {
   const isEn = locale === 'en';
-  const localUrl = isEn ? `${BASE}/en/escritos/${slug}` : `${BASE}/escritos/${slug}`;
+  const localUrl = isEn ? `${BASE}/en/articles/${slug}` : `${BASE}/artigos/${slug}`;
   const mainUrl = canonicalUrl ?? localUrl;
   const data = {
     '@context': 'https://schema.org',

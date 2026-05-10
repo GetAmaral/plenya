@@ -22,8 +22,8 @@ export async function generateMetadata({
     title: t('metaTitle'),
     description: t('metaDescription'),
     alternates: {
-      canonical: locale === 'en' ? '/en/escritos' : '/escritos',
-      languages: { 'pt-BR': '/escritos', en: '/en/escritos' },
+      canonical: locale === 'en' ? '/en/articles' : '/artigos',
+      languages: { 'pt-BR': '/artigos', en: '/en/articles' },
     },
   };
 }
@@ -68,7 +68,7 @@ export default async function EscritosPage({
       <section className="editorial-container pb-8">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-rule py-4">
           <Link
-            href="/escritos"
+            href="/artigos"
             aria-current={!activePilar ? 'page' : undefined}
             className={`font-sans text-sm tracking-wide transition-colors ${
               !activePilar
@@ -81,7 +81,7 @@ export default async function EscritosPage({
           {pillarFilters.map(([key, label]) => (
             <Link
               key={key}
-              href={`/escritos?pilar=${encodeURIComponent(key)}`}
+              href={{ pathname: '/artigos', query: { pilar: key } }}
               aria-current={activePilar === key ? 'page' : undefined}
               className={`font-sans text-sm tracking-wide transition-colors ${
                 activePilar === key
@@ -102,7 +102,7 @@ export default async function EscritosPage({
           <div className="space-y-20 md:space-y-24">
             {featured && (
               <Link
-                href={`/escritos/${featured.slug}`}
+                href={{ pathname: '/artigos/[slug]', params: { slug: featured.slug } }}
                 className="group block grid md:grid-cols-2 gap-8 md:gap-12 items-center"
               >
                 {featured.cover && (
@@ -141,7 +141,7 @@ export default async function EscritosPage({
                 {rest.map((p) => (
                   <Link
                     key={p.slug}
-                    href={`/escritos/${p.slug}`}
+                    href={{ pathname: '/artigos/[slug]', params: { slug: p.slug } }}
                     className="group block space-y-4"
                   >
                     {p.cover && (

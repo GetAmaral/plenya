@@ -17,8 +17,8 @@ export async function generateMetadata({
     title: t('metaTitle'),
     description: t('metaDescription'),
     alternates: {
-      canonical: locale === 'en' ? '/en/palestras' : '/palestras',
-      languages: { 'pt-BR': '/palestras', en: '/en/palestras' },
+      canonical: locale === 'en' ? '/en/lectures' : '/palestras',
+      languages: { 'pt-BR': '/palestras', en: '/en/lectures' },
     },
   };
 }
@@ -68,7 +68,7 @@ export default async function PalestrasPage({
             return (
               <li key={l.slug} className="border-b border-rule">
                 <Link
-                  href={`/palestras/${l.slug}`}
+                  href={{ pathname: '/palestras/[slug]', params: { slug: l.slug } }}
                   className="block py-10 grid md:grid-cols-[1fr_280px] gap-8 group"
                 >
                   <div className="space-y-4">

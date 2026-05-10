@@ -92,7 +92,7 @@ export default async function EscritoPage({
       <BreadcrumbSchema
         items={[
           { name: t('detailBreadcrumbHome'), url: '/' },
-          { name: t('detailBreadcrumbList'), url: '/escritos' },
+          { name: t('detailBreadcrumbList'), url: locale === 'en' ? '/en/articles' : '/artigos' },
           { name: post.title },
         ]}
       />
@@ -100,7 +100,7 @@ export default async function EscritoPage({
         <Breadcrumbs
           items={[
             { label: t('detailBreadcrumbHome'), href: '/' },
-            { label: t('detailBreadcrumbList'), href: '/escritos' },
+            { label: t('detailBreadcrumbList'), href: '/artigos' },
             { label: post.title },
           ]}
         />
@@ -192,7 +192,11 @@ export default async function EscritoPage({
             <ul className="grid md:grid-cols-3 gap-8">
               {related.map((p) => (
                 <li key={p.slug}>
-                  <Link href={`/escritos/${p.slug}`} rel="related" className="block group space-y-3">
+                  <Link
+                    href={{ pathname: '/artigos/[slug]', params: { slug: p.slug } }}
+                    rel="related"
+                    className="block group space-y-3"
+                  >
                     <span className="label-meta text-bordo">
                       {labels[p.pillar]}
                     </span>

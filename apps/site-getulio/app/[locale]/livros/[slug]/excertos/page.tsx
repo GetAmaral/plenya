@@ -26,10 +26,10 @@ export async function generateMetadata({
     title: `${t('excerptsKicker')} — ${loc.title}`,
     description: loc.shortDescription,
     alternates: {
-      canonical: locale === 'en' ? `/en/livros/${slug}/excertos` : `/livros/${slug}/excertos`,
+      canonical: locale === 'en' ? `/en/books/${slug}/excerpts` : `/livros/${slug}/excertos`,
       languages: {
         'pt-BR': `/livros/${slug}/excertos`,
-        en: `/en/livros/${slug}/excertos`,
+        en: `/en/books/${slug}/excerpts`,
       },
     },
   };
@@ -127,7 +127,7 @@ export default async function ExcertosPage({
                 </a>
               </div>
               <p className="font-sans text-sm pt-4">
-                <Link href={`/livros/${slug}`} className="link-text text-ink-muted">
+                <Link href={{ pathname: '/livros/[slug]', params: { slug } }} className="link-text text-ink-muted">
                   {t('excerptsBackToBook')}
                 </Link>
               </p>

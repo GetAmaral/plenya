@@ -22,13 +22,13 @@ export async function generateMetadata({
   const lecture = await getLecture(slug);
   if (!lecture) return {};
   const loc = localizedLecture(lecture, locale);
-  const url = locale === 'en' ? `/en/palestras/${slug}` : `/palestras/${slug}`;
+  const url = locale === 'en' ? `/en/lectures/${slug}` : `/palestras/${slug}`;
   return {
     title: loc.title,
     description: loc.excerpt,
     alternates: {
       canonical: url,
-      languages: { 'pt-BR': `/palestras/${slug}`, en: `/en/palestras/${slug}` },
+      languages: { 'pt-BR': `/palestras/${slug}`, en: `/en/lectures/${slug}` },
     },
     openGraph: {
       type: 'article',

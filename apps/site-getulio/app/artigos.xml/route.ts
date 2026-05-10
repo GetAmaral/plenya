@@ -20,7 +20,7 @@ export async function GET(): Promise<Response> {
     .slice()
     .sort((a, b) => (a.date < b.date ? 1 : -1))
     .map((p) => {
-      const url = `${BASE}/escritos/${p.slug}`;
+      const url = `${BASE}/artigos/${p.slug}`;
       const pubDate = new Date(p.updated ?? p.date).toUTCString();
       const category = labels[p.pillar];
       return `    <item>

@@ -26,13 +26,13 @@ export async function generateMetadata({
   if (!book) return {};
   const loc = localizedBook(book, locale);
   const fullTitle = `${loc.title}: ${loc.subtitle}`;
-  const url = locale === 'en' ? `/en/livros/${slug}` : `/livros/${slug}`;
+  const url = locale === 'en' ? `/en/books/${slug}` : `/livros/${slug}`;
   return {
     title: fullTitle,
     description: loc.shortDescription,
     alternates: {
       canonical: url,
-      languages: { 'pt-BR': `/livros/${slug}`, en: `/en/livros/${slug}` },
+      languages: { 'pt-BR': `/livros/${slug}`, en: `/en/books/${slug}` },
     },
     openGraph: {
       type: 'book',
@@ -156,7 +156,7 @@ export default async function BookDetailPage({
                 {t('authorBody')}
               </p>
               <p className="font-sans text-sm">
-                <Link href="/sobre" className="link-text">{t('authorCta')}</Link>
+                <Link href="/o-medico" className="link-text">{t('authorCta')}</Link>
               </p>
             </div>
             <div className="relative aspect-[3/4] w-full max-w-[320px] mx-auto md:mx-0 order-1 md:order-2">
@@ -189,7 +189,7 @@ export default async function BookDetailPage({
           </div>
 
           <p className="font-sans text-sm pt-16 max-w-3xl">
-            <Link href={`/livros/${book.slug}/excertos`} className="link-text text-bordo">
+            <Link href={{ pathname: '/livros/[slug]/excertos', params: { slug: book.slug } }} className="link-text text-bordo">
               {t('trechosViewAll')}
             </Link>
           </p>

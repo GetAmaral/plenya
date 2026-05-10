@@ -17,14 +17,14 @@ export async function RecentArticles() {
       <div className="editorial-container py-20 md:py-28">
         <div className="flex items-baseline justify-between mb-12">
           <p className="label-meta">{t('sectionLabel')}</p>
-          <Link href="/escritos" className="link-text font-sans text-sm">{t('viewAll')}</Link>
+          <Link href="/artigos" className="link-text font-sans text-sm">{t('viewAll')}</Link>
         </div>
 
         <ul className="divide-y divide-rule border-t border-rule">
           {articles.map((a) => (
             <li key={a.slug}>
               <Link
-                href={`/escritos/${a.slug}`}
+                href={{ pathname: '/artigos/[slug]', params: { slug: a.slug } }}
                 className="grid md:grid-cols-[120px_1fr_180px] gap-6 py-6 group items-baseline"
               >
                 <span className="font-sans text-sm text-ink-muted">{formatDate(a.date, dateLocale)}</span>

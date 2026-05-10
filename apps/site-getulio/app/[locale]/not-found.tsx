@@ -19,10 +19,10 @@ export default function NotFound() {
           <Link href="/" className="btn-gold">
             {t('ctaHome')}
           </Link>
-          <Link href="/escritos" className="btn-outline">
+          <Link href="/artigos" className="btn-outline">
             {t('ctaWritings')}
           </Link>
-          <Link href="/livros/antes" className="link-text font-sans text-sm">
+          <Link href={{ pathname: '/livros/[slug]', params: { slug: 'antes' } }} className="link-text font-sans text-sm">
             {t('ctaBook')} →
           </Link>
           <Link href="/contato" className="link-text font-sans text-sm">

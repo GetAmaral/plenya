@@ -14,7 +14,8 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
           return (
             <li key={`${item.label}-${i}`} className="flex items-center gap-2.5">
               {item.href && !isLast ? (
-                <Link href={item.href} className="hover:text-bordo transition-colors">
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                <Link href={item.href as any} className="hover:text-bordo transition-colors">
                   {item.label}
                 </Link>
               ) : (

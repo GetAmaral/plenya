@@ -16,8 +16,8 @@ export async function generateMetadata({
     title: t('metaTitle'),
     description: t('metaDescription'),
     alternates: {
-      canonical: locale === 'en' ? '/en/sobre' : '/sobre',
-      languages: { 'pt-BR': '/sobre', en: '/en/sobre' },
+      canonical: locale === 'en' ? '/en/the-physician' : '/o-medico',
+      languages: { 'pt-BR': '/o-medico', en: '/en/the-physician' },
     },
   };
 }

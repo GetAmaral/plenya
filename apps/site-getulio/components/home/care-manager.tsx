@@ -42,7 +42,7 @@ export function CareManager() {
             </dl>
 
             <p className="font-sans text-sm pt-2">
-              <Link href="/sobre" className="link-text">
+              <Link href="/o-medico" className="link-text">
                 {t('cta')}
               </Link>
             </p>
