@@ -252,10 +252,10 @@
   },
   "ondeAtendo": {
     "metaTitle": "How to schedule a consult",
-    "metaDescription": "To consult with me in Londrina, Brazil: Plenya (integrative functional medicine, longevity, performance, nutrology — in person or online) or Nefroclínica Londrina (clinical nephrology and kidney transplant). I also practice hospital nephrology at three Londrina hospitals and serve as technical director of DaVita Londrina.",
+    "metaDescription": "To consult with me in Londrina, Brazil: Plenya (integrative functional medicine, longevity, performance, nutrology — in person or online) or Nefroclínica Londrina (clinical nephrology, kidney transplant, hemodialysis and peritoneal dialysis). I also practice hospital nephrology at three Londrina hospitals and serve as technical director of DaVita Intra Hospitalar Londrina.",
     "kicker": "How to consult",
     "h1": "To schedule a consult with me.",
-    "lead": "I practice in Londrina/PR across three fronts: outpatient consultation (Plenya and Nefroclínica), hospital nephrology care at three Londrina hospitals, and technical direction of DaVita Londrina hemodialysis. Choose the pathway that best fits your case and contact the clinic directly to book.",
+    "lead": "I practice in Londrina/PR across three fronts: outpatient consultation (Plenya and Nefroclínica), hospital nephrology care at three Londrina hospitals, and hemodialysis — as technical director of DaVita Intra Hospitalar Londrina and as attending nephrologist at DaVita Londrina (outpatient unit). Choose the pathway that best fits your case and contact the clinic directly to book.",
     "portraitAlt": "Dr. Getúlio Amaral Filho in consultation",
     "breadcrumbHome": "Home",
     "breadcrumbCurrent": "How to consult",
@@ -263,8 +263,8 @@
     "consultsLead": "Two consultation pathways in the same building (Av. Duque de Caxias, 1371). Each with a distinct clinical focus:",
     "hospitalNefroKicker": "Hospital nephrology care",
     "hospitalNefroLead": "Inpatient consultations and follow-up at three Londrina hospitals. These are not outpatient consultation channels — listed here for full transparency on the scope of my practice.",
-    "hospitalKicker": "Hemodialysis — technical direction",
-    "hospitalLead": "Technical responsibility for DaVita Londrina hemodialysis, serving both outpatient and in-hospital modalities.",
+    "hospitalKicker": "Hemodialysis and renal replacement therapy",
+    "hospitalLead": "Care for patients on in-hospital hemodialysis (technical director at DaVita Intra Hospitalar Londrina), outpatient hemodialysis and peritoneal dialysis (attending nephrologist at DaVita Londrina).",
     "patientHelpKicker": "Not sure which pathway?",
     "patientHelpBody": "If you're looking for an expanded reading of health, prevention and longevity — Plenya. If it's a specific renal issue (chronic kidney disease, complex hypertension, electrolyte disorder, pre-dialysis) — Nefroclínica.",
     "outrosCanaisKicker": "Other channels",
@@ -297,8 +297,8 @@
       {
         "name": "Nefroclínica Londrina",
         "role": "Partner",
-        "tagline": "For specialized clinical nephrology and kidney transplant",
-        "body": "Clinical nephrology in Londrina for four decades. Care for chronic kidney disease, treatment-resistant hypertension, electrolyte disorders, kidney transplant and pre-dialysis follow-up.",
+        "tagline": "For specialized clinical nephrology, kidney transplant and dialysis",
+        "body": "Clinical nephrology in Londrina for four decades. Care for adults (18+) with chronic kidney disease at all stages (1 to 5), treatment-resistant hypertension, electrolyte disorders, glomerular diseases, diabetic kidney disease, kidney transplant (pre and post), pre-dialysis follow-up and longitudinal care of patients on hemodialysis and peritoneal dialysis.",
         "address": "Av. Duque de Caxias, 1371 — Londrina/PR, Brazil",
         "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
         "whatsappUrl": "https://wa.me/5543996380044",
@@ -331,10 +331,16 @@
     ],
     "hospital": [
       {
-        "name": "DaVita Londrina",
+        "name": "DaVita Intra Hospitalar Londrina",
         "role": "Technical director",
-        "body": "Outpatient and in-hospital hemodialysis. Long-term follow-up of patients on renal replacement therapy.",
-        "address": "Av. Duque de Caxias, 1371 — Londrina/PR, Brazil"
+        "body": "In-hospital hemodialysis for inpatients in advanced kidney disease or acute kidney injury. Care alongside the medical teams of the partner hospitals.",
+        "address": "Londrina/PR, Brazil"
+      },
+      {
+        "name": "DaVita Londrina",
+        "role": "Attending nephrologist",
+        "body": "Outpatient hemodialysis and peritoneal dialysis — long-term follow-up of patients on chronic renal replacement therapy, with periodic assessment and prescription adjustment.",
+        "address": "Av. Duque de Caxias, 1371 — Jardim Petrópolis · Londrina/PR · ZIP 86015-000, Brazil"
       }
     ]
   },

@@ -252,10 +252,10 @@
   },
   "ondeAtendo": {
     "metaTitle": "Como consultar comigo",
-    "metaDescription": "Para consultas comigo em Londrina/PR: Plenya (medicina funcional integrativa, longevidade, performance, nutrologia — presencial ou online) ou Nefroclínica Londrina (nefrologia clínica e transplante renal). Também atuo na nefrologia hospitalar de três hospitais e como responsável técnico da DaVita Londrina.",
+    "metaDescription": "Para consultas comigo em Londrina/PR: Plenya (medicina funcional integrativa, longevidade, performance, nutrologia — presencial ou online) ou Nefroclínica Londrina (nefrologia clínica, transplante renal, hemodiálise e diálise peritoneal). Também atuo na nefrologia hospitalar de três hospitais e como responsável técnico da DaVita Intra Hospitalar Londrina.",
     "kicker": "Como consultar",
     "h1": "Para consultar comigo.",
-    "lead": "Atendo em Londrina/PR em três frentes: consulta ambulatorial (Plenya e Nefroclínica), atendimento hospitalar de nefrologia em três hospitais e responsabilidade técnica pela hemodiálise da DaVita Londrina. Escolha a via que faz mais sentido para o seu caso e fale diretamente com a clínica para agendar.",
+    "lead": "Atendo em Londrina/PR em três frentes: consulta ambulatorial (Plenya e Nefroclínica), atendimento hospitalar de nefrologia em três hospitais e hemodiálise — como responsável técnico da DaVita Intra Hospitalar Londrina e médico nefrologista da DaVita Londrina (ambulatorial). Escolha a via que faz mais sentido para o seu caso e fale diretamente com a clínica para agendar.",
     "portraitAlt": "Dr. Getúlio Amaral Filho em consultório",
     "breadcrumbHome": "Início",
     "breadcrumbCurrent": "Como consultar",
@@ -263,8 +263,8 @@
     "consultsLead": "Duas vias de consulta no mesmo prédio (Av. Duque de Caxias, 1371). Cada uma com um foco clínico distinto:",
     "hospitalNefroKicker": "Atendimento hospitalar de nefrologia",
     "hospitalNefroLead": "Pareceres e seguimento de pacientes internados em três hospitais de Londrina. Estes não são canais de consulta ambulatorial — listados aqui para transparência completa sobre minha atuação.",
-    "hospitalKicker": "Hemodiálise — responsabilidade técnica",
-    "hospitalLead": "Responsabilidade técnica pela hemodiálise da DaVita Londrina, atendendo pacientes em modalidade ambulatorial e hospitalar.",
+    "hospitalKicker": "Hemodiálise e terapia renal substitutiva",
+    "hospitalLead": "Acompanhamento de pacientes em hemodiálise hospitalar (responsabilidade técnica na DaVita Intra Hospitalar Londrina), hemodiálise ambulatorial e diálise peritoneal (atendimento médico na DaVita Londrina).",
     "patientHelpKicker": "Em dúvida sobre qual via?",
     "patientHelpBody": "Se sua busca é por uma leitura ampliada da saúde, prevenção e longevidade — a Plenya. Se é uma questão renal específica (doença renal crônica, hipertensão complexa, distúrbio eletrolítico, pré-diálise) — a Nefroclínica.",
     "outrosCanaisKicker": "Outros canais",
@@ -297,8 +297,8 @@
       {
         "name": "Nefroclínica Londrina",
         "role": "Sócio",
-        "tagline": "Para nefrologia clínica especializada e transplante renal",
-        "body": "Nefrologia clínica em Londrina há quatro décadas. Atendimento de doença renal crônica, hipertensão de difícil controle, distúrbios eletrolíticos, transplante renal e acompanhamento pré-diálise.",
+        "tagline": "Para nefrologia clínica especializada, transplante renal e diálise",
+        "body": "Nefrologia clínica em Londrina há quatro décadas. Atendimento de adultos (18+) com doença renal crônica em todos os estágios (1 a 5), hipertensão de difícil controle, distúrbios eletrolíticos, glomerulopatias, doença renal do diabético, transplante renal (pré e pós), acompanhamento pré-diálise e seguimento longitudinal de pacientes em hemodiálise e diálise peritoneal.",
         "address": "Av. Duque de Caxias, 1371 — Londrina/PR",
         "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
         "whatsappUrl": "https://wa.me/5543996380044",
@@ -331,10 +331,16 @@
     ],
     "hospital": [
       {
-        "name": "DaVita Londrina",
+        "name": "DaVita Intra Hospitalar Londrina",
         "role": "Responsável técnico",
-        "body": "Hemodiálise ambulatorial e hospitalar. Acompanhamento crônico de pacientes em terapia renal substitutiva.",
-        "address": "Av. Duque de Caxias, 1371 — Londrina/PR"
+        "body": "Hemodiálise hospitalar para pacientes internados em estágio avançado de doença renal ou em lesão renal aguda. Atendimento em conjunto com as equipes médicas dos hospitais.",
+        "address": "Londrina/PR"
+      },
+      {
+        "name": "DaVita Londrina",
+        "role": "Médico nefrologista",
+        "body": "Hemodiálise ambulatorial e diálise peritoneal — seguimento longitudinal de pacientes em terapia renal substitutiva crônica, com avaliação periódica e ajuste de prescrição.",
+        "address": "Av. Duque de Caxias, 1371 — Jardim Petrópolis · Londrina/PR · CEP 86015-000"
       }
     ]
   },

@@ -34,11 +34,13 @@ const clinics: Clinic[] = [
   {
     name: 'Nefroclínica Londrina',
     description:
-      'Nefrologia clínica em Londrina há quatro décadas. Doença renal crônica, hipertensão, distúrbios eletrolíticos, transplante renal e acompanhamento pré-diálise.',
+      'Nefrologia clínica em Londrina há quatro décadas. Doença renal crônica em todos os estágios, hipertensão, distúrbios eletrolíticos, glomerulopatias, doença renal do diabético, transplante renal (pré e pós), acompanhamento pré-diálise e seguimento longitudinal de pacientes em hemodiálise e diálise peritoneal.',
     descriptionEn:
-      'Clinical nephrology in Londrina for four decades. Chronic kidney disease, hypertension, electrolyte disorders, kidney transplant and pre-dialysis follow-up.',
+      'Clinical nephrology in Londrina for four decades. Chronic kidney disease at all stages, hypertension, electrolyte disorders, glomerular diseases, diabetic kidney disease, kidney transplant (pre and post), pre-dialysis follow-up and longitudinal care of patients on hemodialysis and peritoneal dialysis.',
     url: 'https://nefroclinica.com',
     street: 'Av. Duque de Caxias, 1371',
+    neighborhood: 'Jardim Petrópolis',
+    postalCode: '86015-000',
     city: 'Londrina',
     state: 'PR',
     role: 'physician',
@@ -84,15 +86,27 @@ const clinics: Clinic[] = [
     role: 'physician',
   },
   {
-    name: 'DaVita Londrina',
+    name: 'DaVita Intra Hospitalar Londrina',
     description:
-      'Hemodiálise ambulatorial e hospitalar em Londrina. Acompanhamento crônico de pacientes em terapia renal substitutiva.',
+      'Hemodiálise hospitalar para pacientes internados em estágio avançado de doença renal ou em lesão renal aguda. Dr. Getúlio Amaral Filho atua como responsável técnico, em conjunto com as equipes médicas dos hospitais.',
     descriptionEn:
-      'Outpatient and in-hospital hemodialysis in Londrina. Long-term follow-up of patients on renal replacement therapy.',
-    street: 'Av. Duque de Caxias, 1371',
+      'In-hospital hemodialysis for inpatients in advanced kidney disease or acute kidney injury. Dr. Getúlio Amaral Filho serves as technical director, working alongside the medical teams of the partner hospitals.',
     city: 'Londrina',
     state: 'PR',
     role: 'medicalDirector',
+  },
+  {
+    name: 'DaVita Londrina',
+    description:
+      'Hemodiálise ambulatorial e diálise peritoneal em Londrina. Seguimento longitudinal de pacientes em terapia renal substitutiva crônica. Dr. Getúlio Amaral Filho atende como médico nefrologista.',
+    descriptionEn:
+      'Outpatient hemodialysis and peritoneal dialysis in Londrina. Long-term follow-up of patients on chronic renal replacement therapy. Dr. Getúlio Amaral Filho practices as attending nephrologist.',
+    street: 'Av. Duque de Caxias, 1371',
+    neighborhood: 'Jardim Petrópolis',
+    postalCode: '86015-000',
+    city: 'Londrina',
+    state: 'PR',
+    role: 'physician',
   },
 ];
 
