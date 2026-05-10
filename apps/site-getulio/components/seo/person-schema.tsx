@@ -144,6 +144,11 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
             sameAs: 'https://instagram.com/plenyaSaude',
           },
           { '@type': 'MedicalOrganization', name: nefroclinica, url: 'https://nefroclinica.com' },
+          {
+            '@type': ['MedicalOrganization', 'EducationalOrganization'],
+            name: santaCasa,
+            url: 'https://iepi.iscal.com.br/br/ensino/residencia-medica',
+          },
         ],
         address: {
           '@type': 'PostalAddress',

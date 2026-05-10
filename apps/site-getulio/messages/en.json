@@ -120,7 +120,7 @@
     "portraitAlt": "Dr. Getúlio Amaral Filho",
     "p1": "I'm from Londrina. I graduated in medicine from Universidade Estadual de Londrina in 2004 and trained in internal medicine and nephrology at Santa Casa de Londrina, where I also obtained the specialist certification from the Brazilian Society of Nephrology in 2008.",
     "p2": "In those years, I learned medicine inside the hospital — where renal and cardiovascular disease shows up at advanced stages, with little room to change the course.",
-    "p3": "For the next two decades, that was my daily practice. I coordinated the nephrology residency at Santa Casa, founded the institution's internal medicine residency, and serve as technical director for in-hospital hemodialysis at DaVita Intra Hospitalar de Londrina. I followed hundreds of patients in advanced stages — cases where, often, the trajectory could have been altered years earlier.",
+    "p3": "For the next two decades, that was my daily practice. Since 2009 I coordinate the nephrology medical residency at Santa Casa de Londrina, and in 2014 I founded the internal medicine residency at the same institution. I serve as technical director for in-hospital hemodialysis at DaVita Intra Hospitalar de Londrina. I followed hundreds of patients in advanced stages — cases where, often, the trajectory could have been altered years earlier.",
     "p4": "I saw patients arrive at the clinic with \"normal\" exams from the previous year. I saw check-ups that recorded everything within range — and missed the signal of everything that was silently building. The lab said \"normal.\" The body had been getting sick for eight, ten, twenty years.",
     "p5": "It was that repeated observation that bothered me. It wasn't a failure of the tests — it was a failure of the question. The conventional check-up looks for established disease. It doesn't look for the interval between normal and optimal, where longevity is built or lost.",
     "p6": "In 2026, I completed postgraduate training in integrative functional medicine through the Brazilian Association of Integrative Functional Medicine. It wasn't a paradigm shift. It was an extension backwards — applying the structured clinical method developed over twenty years of practice, with labs and data and clinical decision-making, to the period that precedes disease.",
@@ -170,11 +170,12 @@
       }
     ],
     "atuacao": [
-      "Coordinator of the Nephrology Residency — Santa Casa de Londrina",
-      "Founder of the Internal Medicine Residency — Santa Casa de Londrina",
+      "Coordinator of the Nephrology Medical Residency — Santa Casa de Londrina (since 2009)",
+      "Founder of the Internal Medicine Residency — Santa Casa de Londrina (2014)",
       "Partner — Nefroclínica Londrina",
       "Technical Director — DaVita Intra Hospitalar de Londrina",
-      "Professor at the School of Medicine — PUC Londrina (2013–2014)",
+      "Professor of Semiology and Introduction to Medical Practice — PUC Londrina (2013–2014)",
+      "Mentor of the Semiology Academic League — PUC Londrina (2013–2014)",
       "Clinical Director — Plenya"
     ],
     "sociedades": [
@@ -222,31 +223,31 @@
   },
   "ensino": {
     "metaTitle": "Teaching",
-    "metaDescription": "Coordinator of the Nephrology Medical Residency at Santa Casa de Londrina. Founder of the Internal Medicine Residency. Professor at PUC Londrina.",
+    "metaDescription": "Coordinator of the Nephrology Medical Residency at Santa Casa de Londrina (ISCAL) since 2009 — program accredited by CNRM/MEC. Founder of the Internal Medicine Residency in 2014. Former Professor of Semiology and Introduction to Medical Practice and mentor of the Semiology Academic League at PUC Londrina (2013–2014).",
     "kicker": "Teaching",
     "h1": "Teaching is the other half of clinical practice.",
-    "lead": "I've coordinated medical residency for over a decade. What you learn preparing the next physician is different from what you learn treating the next patient — and the two reinforce each other.",
+    "lead": "I have coordinated the nephrology medical residency since 2009 and founded the internal medicine residency in 2014, both at Santa Casa de Londrina. What you learn preparing the next physician is different from what you learn treating the next patient — and the two reinforce each other.",
     "philosophyKicker": "Teaching philosophy",
     "philosophy1": "The good resident learns to read the patient before reading the exam. The good residency program teaches doubt of the \"normal\" — to see the interval between what's within range and what sustains the individual's longevity ahead.",
     "philosophy2": "What I try to convey is simple: structured clinical rigor is compatible — and necessary — with precision preventive medicine. They are not two worlds. They are the same medicine, at different moments in a person's timeline.",
     "cargos": [
       {
-        "period": "Since 2015",
+        "period": "Since 2009",
         "title": "Coordinator of the Nephrology Medical Residency",
-        "org": "Santa Casa de Londrina",
-        "body": "Responsible for residency training in nephrology, coordinating the program, the clinical curriculum and integration with in-hospital hemodialysis."
+        "org": "Santa Casa de Londrina (ISCAL)",
+        "body": "Responsible for residency training in nephrology — program accredited by CNRM/MEC, integrating clinical curriculum, in-hospital hemodialysis and supervision of inpatient consultations. ISCAL currently offers 14 medical residency programs."
       },
       {
-        "period": "Founder",
-        "title": "Internal Medicine Medical Residency",
-        "org": "Santa Casa de Londrina",
-        "body": "I designed and implemented the institution's internal medicine residency program — because without solid general clinical training there is no specialization worth pursuing."
+        "period": "Founder (2014)",
+        "title": "Internal Medicine Residency",
+        "org": "Santa Casa de Londrina (ISCAL)",
+        "body": "I designed and implemented the institution's internal medicine residency program in 2014 — because without solid general clinical training there is no specialization worth pursuing."
       },
       {
         "period": "2013 – 2014",
-        "title": "Professor at the School of Medicine",
+        "title": "Professor of Semiology and Introduction to Medical Practice · Mentor of the Semiology Academic League",
         "org": "PUC Londrina",
-        "body": "Internal medicine and nephrology courses for undergraduates. Training future physicians with emphasis on clinical reasoning and integrated reading of lab results."
+        "body": "I taught Semiology and Introduction to Medical Practice to undergraduates in medicine, and mentored the Semiology Academic League. Training future physicians with emphasis on clinical reasoning and integrated reading of lab results."
       }
     ]
   },

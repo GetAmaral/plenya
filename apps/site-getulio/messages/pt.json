@@ -120,7 +120,7 @@
     "portraitAlt": "Dr. Getúlio Amaral Filho",
     "p1": "Sou de Londrina. Formei-me em medicina pela Universidade Estadual de Londrina em 2004 e fiz especialização em clínica médica e nefrologia na Santa Casa de Londrina, onde também obtive o título de especialista pela Sociedade Brasileira de Nefrologia em 2008.",
     "p2": "Naqueles anos, aprendi a medicina dentro do ambiente hospitalar — onde a doença renal e cardiovascular se mostra em estágios graves, com pouca margem para mudar o curso.",
-    "p3": "Nas duas décadas seguintes, esse foi o meu dia a dia. Coordenei a residência médica em nefrologia da Santa Casa, fundei a residência em clínica médica da mesma instituição, e sou responsável técnico pela hemodiálise hospitalar da DaVita Intra Hospitalar de Londrina. Acompanhei centenas de pacientes em estágios avançados de doença — quadros em que, com frequência, a trajetória poderia ter sido modificada anos antes.",
+    "p3": "Nas duas décadas seguintes, esse foi o meu dia a dia. Desde 2009 coordeno a residência médica em nefrologia da Santa Casa de Londrina, e em 2014 fundei a residência em clínica médica da mesma instituição. Sou responsável técnico pela hemodiálise hospitalar da DaVita Intra Hospitalar de Londrina. Acompanhei centenas de pacientes em estágios avançados de doença — quadros em que, com frequência, a trajetória poderia ter sido modificada anos antes.",
     "p4": "Vi pacientes chegarem ao consultório com exames \"normais\" no ano anterior. Vi check-ups que registraram tudo dentro da faixa — e perderam o sinal de tudo o que estava se montando em silêncio. O laboratório dizia \"normal\". O corpo estava adoecendo há oito, dez, vinte anos.",
     "p5": "Foi essa observação repetida que me incomodou. Não era falha dos exames — era falha da pergunta. O check-up convencional procura doença instalada. Não procura o intervalo entre o normal e o ótimo, onde a longevidade é construída ou perdida.",
     "p6": "Em 2026, conclui pós-graduação em medicina funcional integrativa pela Associação Brasileira de Medicina Funcional Integrativa. Não foi uma troca de paradigma. Foi uma extensão para trás — aplicar o método clínico estruturado desenvolvido em vinte anos de prática, com exames e dados e decisão clínica, ao período que precede a doença.",
@@ -170,11 +170,12 @@
       }
     ],
     "atuacao": [
-      "Coordenador da Residência Médica em Nefrologia — Santa Casa de Londrina",
-      "Fundador da Residência Médica em Clínica Médica — Santa Casa de Londrina",
+      "Coordenador da Residência Médica em Nefrologia — Santa Casa de Londrina (desde 2009)",
+      "Fundador da Residência Médica em Clínica Médica — Santa Casa de Londrina (2014)",
       "Sócio — Nefroclínica Londrina",
       "Responsável Técnico — DaVita Intra Hospitalar de Londrina",
-      "Professor do curso de Medicina — PUC Londrina (2013–2014)",
+      "Professor de Semiologia e Introdução à Prática Médica — PUC Londrina (2013–2014)",
+      "Orientador da Liga Acadêmica de Semiologia — PUC Londrina (2013–2014)",
       "Direção Clínica — Plenya"
     ],
     "sociedades": [
@@ -222,31 +223,31 @@
   },
   "ensino": {
     "metaTitle": "Ensino",
-    "metaDescription": "Coordenador da Residência Médica em Nefrologia da Santa Casa de Londrina. Fundador da Residência em Clínica Médica. Professor PUC Londrina.",
+    "metaDescription": "Coordenador da Residência Médica em Nefrologia da Santa Casa de Londrina (ISCAL) desde 2009 — programa credenciado pela CNRM/MEC. Fundador da Residência em Clínica Médica em 2014. Ex-professor de Semiologia e Introdução à Prática Médica e orientador da Liga Acadêmica de Semiologia na PUC Londrina (2013–2014).",
     "kicker": "Ensino",
     "h1": "Ensinar é a outra metade da clínica.",
-    "lead": "Coordeno residência médica há mais de uma década. O que se aprende preparando o próximo médico é diferente do que se aprende atendendo o próximo paciente — e os dois se sustentam.",
+    "lead": "Coordeno residência médica em nefrologia desde 2009 e fundei a residência em clínica médica em 2014, na Santa Casa de Londrina. O que se aprende preparando o próximo médico é diferente do que se aprende atendendo o próximo paciente — e os dois se sustentam.",
     "philosophyKicker": "Filosofia de ensino",
     "philosophy1": "O bom residente aprende a ler o paciente antes do exame. O bom programa de residência ensina a duvidar do \"normal\" — a ver o intervalo entre o que está dentro da faixa e o que sustenta a longevidade do indivíduo à frente.",
     "philosophy2": "O que tento passar é simples: rigor clínico estruturado é compatível — e necessário — com medicina preventiva de precisão. Não são dois mundos. É a mesma medicina, em momentos diferentes do tempo da pessoa.",
     "cargos": [
       {
-        "period": "Desde 2015",
+        "period": "Desde 2009",
         "title": "Coordenador da Residência Médica em Nefrologia",
-        "org": "Santa Casa de Londrina",
-        "body": "Responsável pela formação de residentes em nefrologia, coordenando o programa, a grade clínica e a integração com a hemodiálise hospitalar."
+        "org": "Santa Casa de Londrina (ISCAL)",
+        "body": "Responsável pela formação de residentes em nefrologia — programa credenciado pela CNRM/MEC, integrando grade clínica, hemodiálise hospitalar e supervisão de pareceres em enfermarias. A ISCAL oferece atualmente 14 programas de residência médica."
       },
       {
-        "period": "Fundador",
+        "period": "Fundador (2014)",
         "title": "Residência Médica em Clínica Médica",
-        "org": "Santa Casa de Londrina",
-        "body": "Desenhei e implantei o programa de residência em clínica médica da instituição — porque sem clínica geral sólida não há especialização que valha."
+        "org": "Santa Casa de Londrina (ISCAL)",
+        "body": "Desenhei e implantei o programa de residência em clínica médica da instituição em 2014 — porque sem clínica geral sólida não há especialização que valha."
       },
       {
         "period": "2013 – 2014",
-        "title": "Professor do curso de Medicina",
+        "title": "Professor de Semiologia e Introdução à Prática Médica · Orientador da Liga Acadêmica de Semiologia",
         "org": "PUC Londrina",
-        "body": "Disciplinas de clínica médica e nefrologia para a graduação. Formação de futuros médicos com ênfase em raciocínio clínico e leitura integrada de exames."
+        "body": "Lecionei as disciplinas de Semiologia e Introdução à Prática Médica para a graduação em medicina, e orientei a Liga Acadêmica de Semiologia. Formação de futuros médicos com ênfase em raciocínio clínico e leitura integrada de exames."
       }
     ]
   },
