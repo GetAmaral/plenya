@@ -1,11 +1,11 @@
 {
   "nav": {
-    "sobre": "About",
+    "sobre": "The physician",
     "livros": "Books",
     "palestras": "Lectures",
     "ensino": "Teaching",
     "ondeAtendo": "Where I practice",
-    "escritos": "Writings",
+    "escritos": "Articles",
     "contato": "Contact"
   },
   "legal": {
@@ -41,7 +41,7 @@
     "h1": "This page doesn't exist — or has moved.",
     "lead": "The address you tried isn't available. It may have been renamed or removed. Use one of the paths below to continue.",
     "ctaHome": "Back to the home page",
-    "ctaWritings": "Browse writings",
+    "ctaWritings": "Browse articles",
     "ctaBook": "About the book",
     "ctaContact": "Contact the team"
   },
@@ -95,7 +95,7 @@
       "davitaLondrinaBody": "Outpatient hemodialysis unit."
     },
     "articles": {
-      "sectionLabel": "Recent writings",
+      "sectionLabel": "Recent articles",
       "viewAll": "View all →",
       "dateLocale": "en-US"
     },
@@ -113,9 +113,9 @@
     }
   },
   "about": {
-    "metaTitle": "About",
+    "metaTitle": "The physician",
     "metaDescription": "Nephrologist trained at UEL in 2004. Twenty years of internal medicine and nephrology practice, with postgraduate training in integrative functional medicine.",
-    "kicker": "About",
+    "kicker": "The physician",
     "h1": "I started in nephrology, inside the hospital.",
     "portraitAlt": "Dr. Getúlio Amaral Filho",
     "p1": "I'm from Londrina. I graduated in medicine from Universidade Estadual de Londrina in 2004 and trained in internal medicine and nephrology at Santa Casa de Londrina, where I also obtained the specialist certification from the Brazilian Society of Nephrology in 2008.",
@@ -311,9 +311,9 @@
     "localValue": "Londrina · Paraná · Brazil"
   },
   "escritos": {
-    "metaTitle": "Writings",
+    "metaTitle": "Articles",
     "metaDescription": "Articles by Dr. Getúlio Amaral Filho on preventive nephrology, longevity, and integrative functional medicine. Faithful mirror of the Plenya blog.",
-    "kicker": "Writings",
+    "kicker": "Articles",
     "h1": "Articles on what comes before.",
     "leadPre": "Clinical notes, excerpts from the book ",
     "leadEm": "Antes",
@@ -326,7 +326,7 @@
     "footerSourcePost": ". Each article here is a faithful version of the original, with canonical pointing to the source.",
     "dateLocale": "en-US",
     "detailBreadcrumbHome": "Home",
-    "detailBreadcrumbList": "Writings",
+    "detailBreadcrumbList": "Articles",
     "detailBannerPre": "Originally published on ",
     "detailBannerLink": "Read at the source ↗",
     "detailBlogStrong": "Plenya Blog",

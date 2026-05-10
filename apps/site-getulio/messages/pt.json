@@ -1,11 +1,11 @@
 {
   "nav": {
-    "sobre": "Sobre",
+    "sobre": "O médico",
     "livros": "Livros",
     "palestras": "Palestras",
     "ensino": "Ensino",
     "ondeAtendo": "Onde atendo",
-    "escritos": "Escritos",
+    "escritos": "Artigos",
     "contato": "Contato"
   },
   "legal": {
@@ -41,7 +41,7 @@
     "h1": "Esta página não existe — ou foi movida.",
     "lead": "O endereço que você buscou não está disponível. Talvez tenha sido renomeado ou removido. Use os caminhos abaixo para continuar.",
     "ctaHome": "Voltar à página inicial",
-    "ctaWritings": "Ver escritos",
+    "ctaWritings": "Ver artigos",
     "ctaBook": "Conhecer o livro",
     "ctaContact": "Falar com a equipe"
   },
@@ -95,7 +95,7 @@
       "davitaLondrinaBody": "Unidade ambulatorial de hemodiálise."
     },
     "articles": {
-      "sectionLabel": "Escritos recentes",
+      "sectionLabel": "Artigos recentes",
       "viewAll": "Ver todos →",
       "dateLocale": "pt-BR"
     },
@@ -113,9 +113,9 @@
     }
   },
   "about": {
-    "metaTitle": "Sobre",
+    "metaTitle": "O médico",
     "metaDescription": "Médico nefrologista formado pela UEL em 2004. Vinte anos de prática em medicina interna e nefrologia, com pós-graduação em medicina funcional integrativa.",
-    "kicker": "Sobre",
+    "kicker": "O médico",
     "h1": "Comecei na nefrologia, dentro do hospital.",
     "portraitAlt": "Dr. Getúlio Amaral Filho",
     "p1": "Sou de Londrina. Formei-me em medicina pela Universidade Estadual de Londrina em 2004 e fiz residência em clínica médica e nefrologia na Santa Casa de Londrina, onde também obtive o título de especialista pela Sociedade Brasileira de Nefrologia em 2008.",
@@ -311,9 +311,9 @@
     "localValue": "Londrina · Paraná · Brasil"
   },
   "escritos": {
-    "metaTitle": "Escritos",
+    "metaTitle": "Artigos",
     "metaDescription": "Artigos do Dr. Getúlio Amaral Filho sobre nefrologia preventiva, longevidade e medicina funcional integrativa. Espelho fiel do blog Plenya.",
-    "kicker": "Escritos",
+    "kicker": "Artigos",
     "h1": "Artigos sobre o que vem antes.",
     "leadPre": "Notas clínicas, recortes do livro ",
     "leadEm": "Antes",
@@ -326,7 +326,7 @@
     "footerSourcePost": ". Cada artigo aqui é uma versão fiel do original, com canonical apontando para a fonte.",
     "dateLocale": "pt-BR",
     "detailBreadcrumbHome": "Início",
-    "detailBreadcrumbList": "Escritos",
+    "detailBreadcrumbList": "Artigos",
     "detailBannerPre": "Publicado originalmente no ",
     "detailBannerLink": "Ler na fonte ↗",
     "detailBlogStrong": "Blog Plenya",
