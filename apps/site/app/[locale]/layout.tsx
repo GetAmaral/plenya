@@ -105,6 +105,12 @@ export default async function LocaleLayout({
         <meta name="geo.region" content="BR-PR" />
         <meta name="geo.placename" content="Londrina" />
         <meta name="ICBM" content="-23.3045, -51.1696" />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Plenya · Blog"
+          href="https://plenyasaude.com.br/blog/rss.xml"
+        />
       </head>
       <body className="min-h-screen flex flex-col font-sans">
         <NextIntlClientProvider locale={locale} messages={messages}>
