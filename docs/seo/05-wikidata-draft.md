@@ -186,14 +186,16 @@ Use sempre **P854 (reference URL)**:
 
 | Idioma | Texto |
 |---|---|
-| English (en) | `Antes — The Silent Window Between Normal and Optimal — Where Health Is Decided` |
+| English (en) | `BEFORE — The Silent Window — A Decade Between Normal and Optimal Where Health Is Decided` |
 | Português (pt-BR) | `Antes — A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida` |
 
 ## Aliases
 
 **en:**
+- `BEFORE`
+- `The Silent Window`
+- `A Decade Between Normal and Optimal`
 - `Antes`
-- `The Silent Window Between Normal and Optimal`
 
 **pt-BR:**
 - `Antes`

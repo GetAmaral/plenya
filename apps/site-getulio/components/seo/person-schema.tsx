@@ -101,7 +101,7 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
   const nefroclinica = isEn ? 'Nefroclínica Londrina (clinical nephrology)' : 'Nefroclínica Londrina';
 
   const bookName = isEn
-    ? 'Antes: The Silent Window Between Normal and Optimal — Where Health Is Decided (Brazilian Portuguese edition)'
+    ? 'BEFORE: The Silent Window — A Decade Between Normal and Optimal Where Health Is Decided'
     : 'Antes: A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida';
 
   const data = {
@@ -233,7 +233,7 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
           {
             '@type': 'Book',
             '@id': `${BASE}/livros/antes#en-ebook`,
-            name: 'Antes — The Silent Window Between Normal and Optimal — Where Health Is Decided',
+            name: 'BEFORE — The Silent Window — A Decade Between Normal and Optimal Where Health Is Decided',
             isbn: '978-65-975814-0-5',
             bookFormat: 'https://schema.org/EBook',
             inLanguage: 'en',
@@ -249,7 +249,7 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
           {
             '@type': 'Book',
             '@id': `${BASE}/livros/antes#en-paperback`,
-            name: 'Antes — The Silent Window Between Normal and Optimal — Where Health Is Decided',
+            name: 'BEFORE — The Silent Window — A Decade Between Normal and Optimal Where Health Is Decided',
             isbn: '978-65-975814-1-2',
             bookFormat: 'https://schema.org/Paperback',
             inLanguage: 'en',
