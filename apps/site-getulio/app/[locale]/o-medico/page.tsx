@@ -139,6 +139,16 @@ export default async function SobrePage({
             <p className="label-meta-lg text-bordo mb-5">{t('asideCredenciais')}</p>
             <p className="font-sans text-base text-ink">CRM-PR 21.876</p>
             <p className="font-sans text-base text-ink">RQE 16.038</p>
+            <p className="font-sans text-sm text-ink-muted mt-3">
+              <a
+                href="http://lattes.cnpq.br/2492350974849886"
+                target="_blank"
+                rel="noreferrer"
+                className="link-text"
+              >
+                Currículo Lattes ↗
+              </a>
+            </p>
           </div>
         </aside>
       </div>

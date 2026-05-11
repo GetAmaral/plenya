@@ -167,6 +167,9 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
           'https://instagram.com/drGetulioAmaralFilho',
           'https://plenyasaude.com.br',
           'https://instagram.com/plenyaSaude',
+          'http://lattes.cnpq.br/2492350974849886',
+          'https://www.doctoralia.com.br/getulio-amaral-filho/nefrologista/londrina',
+          'https://iepi.iscal.com.br/br/ensino/residencia-medica',
         ],
       },
       {

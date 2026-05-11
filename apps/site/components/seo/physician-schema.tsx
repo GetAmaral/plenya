@@ -66,6 +66,8 @@ export function PhysicianSchema({ locale = 'pt' }: { locale?: string } = {}) {
     sameAs: [
       'https://drgetulioamaralfilho.com.br',
       'https://instagram.com/drGetulioAmaralFilho',
+      'http://lattes.cnpq.br/2492350974849886',
+      'https://www.doctoralia.com.br/getulio-amaral-filho/nefrologista/londrina',
     ],
   };
   return (
