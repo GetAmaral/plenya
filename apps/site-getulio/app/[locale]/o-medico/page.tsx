@@ -149,6 +149,16 @@ export default async function SobrePage({
                 Currículo Lattes ↗
               </a>
             </p>
+            <p className="font-sans text-sm text-ink-muted mt-2">
+              <a
+                href="https://orcid.org/0009-0009-2506-2455"
+                target="_blank"
+                rel="noreferrer"
+                className="link-text"
+              >
+                ORCID 0009-0009-2506-2455 ↗
+              </a>
+            </p>
           </div>
         </aside>
       </div>

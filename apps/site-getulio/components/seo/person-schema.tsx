@@ -118,6 +118,18 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
         identifier: [
           { '@type': 'PropertyValue', propertyID: 'CRM', value: 'CRM-PR 21.876' },
           { '@type': 'PropertyValue', propertyID: 'RQE', value: '16.038' },
+          {
+            '@type': 'PropertyValue',
+            propertyID: 'ORCID',
+            value: '0009-0009-2506-2455',
+            url: 'https://orcid.org/0009-0009-2506-2455',
+          },
+          {
+            '@type': 'PropertyValue',
+            propertyID: 'Lattes',
+            value: '2492350974849886',
+            url: 'http://lattes.cnpq.br/2492350974849886',
+          },
         ],
         alumniOf: [
           { '@type': 'CollegeOrUniversity', name: uelName },
@@ -166,9 +178,10 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
         sameAs: [
           'https://instagram.com/drGetulioAmaralFilho',
           'https://www.linkedin.com/in/getulio-amaral-filho-951981404',
+          'https://orcid.org/0009-0009-2506-2455',
+          'http://lattes.cnpq.br/2492350974849886',
           'https://plenyasaude.com.br',
           'https://instagram.com/plenyaSaude',
-          'http://lattes.cnpq.br/2492350974849886',
           'https://www.doctoralia.com.br/getulio-amaral-filho/nefrologista/londrina',
           'https://iepi.iscal.com.br/br/ensino/residencia-medica',
         ],
