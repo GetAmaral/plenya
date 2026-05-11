@@ -72,6 +72,7 @@ export default async function BookDetailPage({
         hotmartUrl={book.hotmartUrl}
         coverUrl={`${BASE}${book.cover}`}
         locale={locale}
+        editions={book.editions}
       />
       <BreadcrumbSchema
         items={[

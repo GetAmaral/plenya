@@ -8,6 +8,18 @@ const excerptSchema = z.object({
   citacao: z.string(),
 });
 
+const editionSchema = z.object({
+  id: z.string(),
+  format: z.enum(['EBook', 'Paperback', 'Hardcover', 'AudiobookFormat']),
+  language: z.string(),
+  isbn: z.string(),
+  label: z.string(),
+  labelEn: z.string().optional(),
+  purchaseUrl: z.string().url().optional(),
+});
+
+export type Edition = z.infer<typeof editionSchema>;
+
 const bookSchema = z.object({
   slug: z.string(),
   order: z.number().default(99),
@@ -17,6 +29,7 @@ const bookSchema = z.object({
   amazonUrl: z.string().url(),
   amazonUrlEn: z.string().url().optional(),
   hotmartUrl: z.string().url(),
+  editions: z.array(editionSchema).optional(),
 
   title: z.string(),
   subtitle: z.string(),
