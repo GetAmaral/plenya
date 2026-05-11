@@ -1,0 +1,85 @@
+# QuickStatements V1 — Dr. Getúlio Amaral Filho (Q139746596) + Livro Antes
+# ============================================================================
+# COMO USAR:
+# 1. Abrir https://quickstatements.toolforge.org/
+# 2. Login → "Log in" → autoriza com sua conta Wikidata
+# 3. Clica em "New batch"
+# 4. Cola TODO o conteúdo abaixo (sem as linhas de comentário "#")
+# 5. Clica em "Import V1"
+# 6. Clica em "Run"
+# ============================================================================
+# Cada linha: SUBJECT TAB PROPERTY TAB VALUE
+# - Q-codes (sem aspas) — Wikidata items
+# - "valor" (com aspas) — strings
+# - +YYYY-MM-DDT00:00:00Z/precisão — datas
+# ============================================================================
+
+# ============== BLOCO 1: PESSOA (Q139746596) ==============
+
+Q139746596	P31	Q5
+Q139746596	P21	Q6581097
+Q139746596	P27	Q155
+Q139746596	P569	+1981-08-17T00:00:00Z/11
+Q139746596	P19	Q170354
+
+# Ocupações (P106) — 5 valores
+Q139746596	P106	Q39631
+Q139746596	P106	Q19595170
+Q139746596	P106	Q482980
+Q139746596	P106	Q1622272
+Q139746596	P106	Q1209554
+
+# Idiomas
+Q139746596	P103	Q5146
+Q139746596	P1412	Q5146
+Q139746596	P1412	Q1860
+
+# Educated at (P69)
+Q139746596	P69	Q3550114
+
+# Employer (P108)
+Q139746596	P108	Q1816538
+
+# Identificadores externos
+Q139746596	P496	"0009-0009-2506-2455"
+Q139746596	P6829	"2492350974849886"
+Q139746596	P6634	"getulio-amaral-filho-951981404"
+Q139746996	P2003	"drGetulioAmaralFilho"
+Q139746596	P856	"https://drgetulioamaralfilho.com.br"
+
+# Local de trabalho
+Q139746596	P937	Q170354
+
+# ============== BLOCO 2: CRIA LIVRO + STATEMENTS ==============
+
+CREATE
+LAST	Len	"BEFORE — The Silent Window — A Decade Between Normal and Optimal Where Health Is Decided"
+LAST	Lpt-br	"Antes — A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida"
+LAST	Den	"2026 book by Getúlio Amaral Filho on preventive medicine and longevity"
+LAST	Dpt-br	"livro de 2026 de Getúlio Amaral Filho sobre medicina preventiva e longevidade"
+LAST	Aen	"BEFORE"
+LAST	Aen	"The Silent Window"
+LAST	Aen	"A Decade Between Normal and Optimal"
+LAST	Aen	"Antes"
+LAST	Apt-br	"Antes"
+LAST	Apt-br	"A Janela Silenciosa entre o Normal e o Ótimo"
+LAST	P31	Q47461344
+LAST	P50	Q139746596
+LAST	P577	+2026-01-01T00:00:00Z/9
+LAST	P495	Q155
+LAST	P407	Q750553
+LAST	P407	Q1860
+LAST	P212	"978-65-02-06742-0"
+LAST	P212	"978-65-02-07691-0"
+LAST	P212	"978-65-975814-0-5"
+LAST	P212	"978-65-975814-1-2"
+LAST	P953	"https://drgetulioamaralfilho.com.br/livros/antes"
+
+# ============== BLOCO 3: LINK PESSOA → LIVRO (P800 notable work) ==============
+# Após CREATE, "LAST" ainda aponta pro livro recém-criado:
+
+Q139746596	P800	LAST
+
+# ============================================================================
+# FIM
+# ============================================================================
