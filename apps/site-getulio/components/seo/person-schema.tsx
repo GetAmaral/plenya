@@ -165,6 +165,7 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
         knowsAbout,
         sameAs: [
           'https://instagram.com/drGetulioAmaralFilho',
+          'https://www.linkedin.com/in/getulio-amaral-filho-951981404',
           'https://plenyasaude.com.br',
           'https://instagram.com/plenyaSaude',
           'http://lattes.cnpq.br/2492350974849886',
