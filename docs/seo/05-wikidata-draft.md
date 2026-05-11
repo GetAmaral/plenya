@@ -62,9 +62,11 @@
 | sex or gender | **P21** | male | **Q6581097** |
 | country of citizenship | **P27** | Brazil | **Q155** |
 | date of birth | **P569** | 17 August 1981 | precisão "day" |
-| place of birth | **P19** | Londrina | **buscar "Londrina, Paraná"** — provavelmente Q15052 ou similar |
+| place of birth | **P19** | Londrina | **Q170354** (Londrina, PR) |
 | native language | **P103** | Portuguese | **Q5146** |
 | languages spoken/written | **P1412** | Portuguese, English | **Q5146**, **Q1860** |
+| father | **P22** | Getulio Jose Mattos do Amaral | string (ou Q-item se ele tiver Wikidata) |
+| mother | **P25** | Ana Maria Calcavara Amaral | string |
 
 ### Nome
 
@@ -125,6 +127,14 @@ Cada um com qualifier P512 (academic degree) + P580 (start time) + P582 (end tim
 | Prêmio | Ano | Outorgante |
 |---|---|---|
 | Specialist Certification in Nephrology | 2008 | SBN + AMB |
+| Member of Cardiorenal Committee | 2025 | Sociedade Brasileira de Nefrologia |
+
+### Notable work (P800) — extras além do livro
+
+| Obra | Tipo | Identificador |
+|---|---|---|
+| Antes (livro) | Q-id do Q-item 2 | criar primeiro |
+| NAI — Nephrology Artificial Intelligence | Software (Programa de Computador) | INPI 102025001407-6 |
 
 ### Work location (P937)
 
