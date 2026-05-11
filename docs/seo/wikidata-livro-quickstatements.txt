@@ -1,0 +1,23 @@
+CREATE
+LAST	Len	"BEFORE — The Silent Window — A Decade Between Normal and Optimal Where Health Is Decided"
+LAST	Lpt-br	"Antes — A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida"
+LAST	Den	"2026 book by Getúlio Amaral Filho on preventive medicine and longevity"
+LAST	Dpt-br	"livro de 2026 de Getúlio Amaral Filho sobre medicina preventiva e longevidade"
+LAST	Aen	"BEFORE"
+LAST	Aen	"The Silent Window"
+LAST	Aen	"A Decade Between Normal and Optimal"
+LAST	Aen	"Antes"
+LAST	Apt-br	"Antes"
+LAST	Apt-br	"A Janela Silenciosa entre o Normal e o Ótimo"
+LAST	P31	Q47461344
+LAST	P50	Q139746596
+LAST	P577	+2026-01-01T00:00:00Z/9
+LAST	P495	Q155
+LAST	P407	Q750553
+LAST	P407	Q1860
+LAST	P212	"978-65-02-06742-0"
+LAST	P212	"978-65-02-07691-0"
+LAST	P212	"978-65-975814-0-5"
+LAST	P212	"978-65-975814-1-2"
+LAST	P953	"https://drgetulioamaralfilho.com.br/livros/antes"
+Q139746596	P800	LAST
