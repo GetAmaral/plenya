@@ -184,6 +184,21 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
         subjectOf: [
           {
             '@type': 'VideoObject',
+            name: isEn
+              ? 'Fantástico — Kidney transplant feature (Rede Globo)'
+              : 'Fantástico — Reportagem sobre transplante renal (Rede Globo)',
+            url: 'https://globoplay.globo.com/v/7280473/',
+            publisher: { '@type': 'Organization', name: 'Rede Globo' },
+            isPartOf: { '@type': 'TVSeries', name: 'Fantástico' },
+            description: isEn
+              ? 'Feature on kidney transplant aired on Fantástico (Rede Globo), with Dr. Getúlio Amaral Filho as nephrologist source'
+              : 'Reportagem sobre transplante renal exibida no Fantástico (Rede Globo), com Dr. Getúlio Amaral Filho como fonte nefrológica',
+            about: { '@type': 'MedicalCondition', name: isEn ? 'Kidney transplant' : 'Transplante renal' },
+            actor: { '@id': `${BASE}/#person` },
+            inLanguage: 'pt-BR',
+          },
+          {
+            '@type': 'VideoObject',
             name: 'Conversa Pública | Rins Diabéticos | Celeste conversa com o Dr. Getúlio Amaral — Nefrologista',
             url: 'https://youtu.be/5WHKHyIlQMI',
             embedUrl: 'https://www.youtube.com/embed/5WHKHyIlQMI',
