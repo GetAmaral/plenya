@@ -1,60 +1,58 @@
 # ==========================================================================
-# QuickStatements V1 — Batch FINAL (completa Q139746596 + Q139762971)
+# QuickStatements V1 — Batch FINAL (só o que falta nos 2 Q-items)
+# Auditado contra https://www.wikidata.org/wiki/Q139746596 e Q139762971
 # ==========================================================================
 # Como usar:
 # 1. https://quickstatements.toolforge.org/
-# 2. Login (agora com email validado)
-# 3. "New batch" → cola TODO esse conteúdo → "Import V1" → "Run"
-#
-# Nota: QuickStatements SKIPA statements duplicados automaticamente.
-# Se você já adicionou alguma propriedade manualmente, não tem problema.
+# 2. Login (email validado)
+# 3. "New batch" → cola tudo abaixo → "Import V1" → "Run"
 # ==========================================================================
 
 # ============== PESSOA (Q139746596) ==============
 
-# Work location — Londrina
-Q139746596	P937	Q170354
+# Place of birth — Londrina (Q192387 é o Q-item correto)
+Q139746596	P19	Q192387
 
-# Notable work — o Livro Antes
-Q139746596	P800	Q139762971
+# Native language — Portuguese
+Q139746596	P103	Q5146
 
-# Described at URL (P973) — todas as menções/credenciais oficiais
-# Cada URL é uma fonte secundária verificável
+# Languages spoken/written — Portuguese + English
+Q139746596	P1412	Q5146
+Q139746596	P1412	Q1860
 
-# Fantástico/Rede Globo — 06/01/2019 (reportagem transplante renal)
+# === Described at URL (P973) — 5 fontes secundárias ===
+
+# Fantástico/Rede Globo — 06/01/2019 (reportagem transplante renal "caso Claus")
 Q139746596	P973	"https://globoplay.globo.com/v/7280473/"
 
-# SBN — Dia Mundial do Rim 2024 (DaVita Londrina — palestrante)
+# SBN — Dia Mundial do Rim 2024 (DaVita Londrina, palestrante)
 Q139746596	P973	"https://sbn.org.br/medicos/dia-mundial-do-rim/2024/resultados-2024/dia-mundial-do-rim-em-davita-brasil-participacoes-londrina/"
 
-# SBN — PDF oficial Título de Especialista (entrada 047)
+# SBN — PDF oficial Portadores Título de Especialista (entrada 047)
 Q139746596	P973	"https://sbn.org.br/wp-content/uploads/2026/02/TE_Completo_por_Ano_2025.pdf"
 
-# AMLCast #017 — 14/03/2024 (Dia Mundial do Rim)
+# AMLCast #017 — Dia Mundial do Rim 2024 (AML)
 Q139746596	P973	"https://youtu.be/R_z3eBlZ_9k"
 
-# Conversa Pública — Rede Boas Novas — 12/01/2026 (rins diabéticos)
+# Conversa Pública — Rede Boas Novas — Rins Diabéticos 2026
 Q139746596	P973	"https://youtu.be/5WHKHyIlQMI"
+
+# === Remover statement P166 errado ===
+# (Atualmente: P166 award received → nephrologist Q20739489 — está incorreto)
+# P166 espera Q-item de PRÊMIO, não de ocupação. Remove:
+-Q139746596	P166	Q20739489
 
 
 # ============== LIVRO (Q139762971) ==============
 
-# Country of origin — Brazil
-Q139762971	P495	Q155
-
 # Number of pages — 410
 Q139762971	P1104	+410
-
-# Languages (caso ainda não esteja todos)
-Q139762971	P407	Q750553
-Q139762971	P407	Q1860
 
 # ============================================================================
 # FIM
 # ============================================================================
 # Estatísticas:
-#   Q139746596 (Pessoa): +7 statements (1 work location, 1 notable work,
-#                        5 described at URL)
-#   Q139762971 (Livro):  +4 statements (1 country, 1 pages, 2 languages)
-#                        Total: 11 statements
+#   Q139746596: +9 statements (1 place of birth, 1 native lang,
+#               2 spoken langs, 5 described at URL) + 1 remoção
+#   Q139762971: +1 statement (page count)
 # ============================================================================
