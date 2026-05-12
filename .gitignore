@@ -135,3 +135,5 @@ data/
 
 # Uploads de usuários
 uploads/
+scripts/linkedin/.env
+scripts/linkedin/publisher.log

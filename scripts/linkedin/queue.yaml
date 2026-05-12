@@ -1,0 +1,94 @@
+# LinkedIn publishing queue — Dr. Getúlio
+#
+# State file consumed by publisher.py (cron) and /linkedin-week skill.
+# Versionado no repo. Não contém segredos (token mora em .env).
+#
+# Workflow:
+#   1. Skill /linkedin-week (semanal): pega próximos N posts em status=draft,
+#      gera commentary, define scheduled_at, marca status=approved.
+#   2. publisher.py (cron, a cada 15min): pega posts com
+#      status=approved AND scheduled_at <= now, publica via LinkedIn API,
+#      marca status=published + grava post_urn.
+
+config:
+  cadence:
+    days: [Tue, Wed, Thu]      # warmup pode usar 2/sem (Ter+Qui), depois 3/sem
+    time: "07:30"
+    timezone: America/Sao_Paulo
+  visibility: PUBLIC
+  source_blog_dir: apps/site-getulio/content/blog/pt
+  images_dir: apps/site/public/images/blog       # figuras dos posts ficam aqui
+
+# Ordenação por bloco — manifesto → exames → síndromes → método.
+# Razão: maximizar reach inicial com conceitos âncora antes de aprofundar.
+
+posts:
+  # ─── BLOCO 1 — Manifesto + assinatura conceitual ───────────────────────
+  - slug: janela-silenciosa-introducao
+    block: 1
+    order: 1
+    status: published
+    scheduled_at: "2026-05-12 16:00:00-03:00"
+    published_at: "2026-05-12 16:00:00-03:00"
+    post_urn: urn:li:share:7460042081005182978
+    commentary: |
+      O laboratório diz "normal". O corpo diz: estou adoecendo há oito anos e ninguém está olhando.
+
+      Vinte anos entre enfermaria, hemodiálise, terapia intensiva e ambulatório me ensinaram a desconfiar dessa palavra.
+
+      A faixa "normal" do exame foi construída para flagrar doença instalada — não para sustentar saúde plena. Entre o que o laboratório consegue chamar de doença e o que o corpo consegue como condição ótima existe um intervalo de dez a vinte anos em que tudo acontece em silêncio.
+
+      Insulina de jejum em 22: normal. Ferritina em 38: normal. ApoB em 110: normal.
+
+      Cada um desses números, "normais" no laudo, representa um corpo já em rota de doença. Reler exames sob a lente do ótimo não exige aparelho novo. Exige outra pergunta.
+
+      Foi para essa pergunta que escrevi Antes — e é essa pergunta que conduzo na Plenya, em Londrina, com equipe multidisciplinar e leitura clínica longitudinal.
+
+      A diferença entre intervir agora e intervir depois do diagnóstico é a diferença entre construir longevidade e administrar morbidade.
+
+      Aprendi isso da forma mais dura — vendo rim destruído quando a janela já tinha fechado.
+
+      Começa antes.
+
+      📕 Antes — em português (paperback e Kindle) e em inglês.
+    image_path: apps/site/public/images/blog/normal-versus-otimo/figura-1.webp
+    image_title: "Normal vs Ótimo — Insulina de jejum"
+
+  - { slug: normal-versus-otimo, block: 1, order: 2, status: draft }
+  - { slug: piramide-invertida-da-longevidade, block: 1, order: 3, status: draft }
+  - { slug: medicina-2-vs-3, block: 1, order: 4, status: draft }
+  - { slug: healthspan-vs-lifespan-comprimir-a-morbidade, block: 1, order: 5, status: draft }
+  - { slug: quando-tudo-normal-nao-basta, block: 1, order: 6, status: draft }
+  - { slug: cardio-reno-metabolico, block: 1, order: 7, status: draft }
+  - { slug: quatro-assassinos-silenciosos-depois-dos-40, block: 1, order: 8, status: draft }
+  - { slug: metodo-agir-introducao, block: 1, order: 9, status: draft }
+
+  # ─── BLOCO 2 — Exames específicos ──────────────────────────────────────
+  - { slug: escore-de-calcio-coronariano-o-exame-que-muda-uma-decada, block: 2, order: 10, status: draft }
+  - { slug: lipoproteina-a-exame-que-cardiologista-nao-pediu, block: 2, order: 11, status: draft }
+  - { slug: ferritina-30-a-100-normalidade-que-esgota-mulheres, block: 2, order: 12, status: draft }
+  - { slug: 12-exames-que-valem-cada-centavo-e-12-que-sao-desperdicio, block: 2, order: 13, status: draft }
+  - { slug: o-que-o-checkup-anual-nao-mostra-sobre-o-coracao, block: 2, order: 14, status: draft }
+  - { slug: hrv-variabilidade-cardiaca-termometro-do-sistema-nervoso, block: 2, order: 15, status: draft }
+  - { slug: apneia-em-quem-nao-ronca-forma-feminina-invisivel, block: 2, order: 16, status: draft }
+  - { slug: pre-diabetes-nao-e-fase-e-janela-de-5-anos, block: 2, order: 17, status: draft }
+  - { slug: proteina-meta-que-voce-nao-esta-atingindo, block: 2, order: 18, status: draft }
+
+  # ─── BLOCO 3 — Síndromes e condições ───────────────────────────────────
+  - { slug: cansaco-aos-45-nao-e-idade, block: 3, order: 19, status: draft }
+  - { slug: sono-que-nao-recupera, block: 3, order: 20, status: draft }
+  - { slug: burnout-nao-e-cansaco-resposta-neuroendocrina, block: 3, order: 21, status: draft }
+  - { slug: menopausa-precisa-de-equipe-nao-so-de-ginecologista, block: 3, order: 22, status: draft }
+  - { slug: sono-energia-longevidade, block: 3, order: 23, status: draft }
+  - { slug: jejum-intermitente-quem-se-beneficia-quem-se-prejudica, block: 3, order: 24, status: draft }
+  - { slug: alcool-e-sono-2-tacas-destroem-6-horas, block: 3, order: 25, status: draft }
+  - { slug: solidao-como-fator-de-risco-cardiovascular, block: 3, order: 26, status: draft }
+  - { slug: meditacao-que-funciona-em-8-minutos, block: 3, order: 27, status: draft }
+
+  # ─── BLOCO 4 — Método, treino e suplementação ──────────────────────────
+  - { slug: quatro-profissionais-falando-a-mesma-lingua, block: 4, order: 28, status: draft }
+  - { slug: exercicio-o-farmaco, block: 4, order: 29, status: draft }
+  - { slug: luz-da-manha-remedio-gratuito-que-reseta-metabolismo, block: 4, order: 30, status: draft }
+  - { slug: treinar-para-envelhecer-bem-zona-2-e-forca, block: 4, order: 31, status: draft }
+  - { slug: treinar-muito-e-envelhecer-errado, block: 4, order: 32, status: draft }
+  - { slug: suplementos-que-fazem-diferenca-depois-dos-40, block: 4, order: 33, status: draft }
