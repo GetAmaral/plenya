@@ -6,6 +6,7 @@ import { FaqSchema } from '@/components/seo/faq-schema';
 
 type FormacaoItem = { year: string; label: string };
 type FaqItem = { q: string; a: string };
+type MidiaItem = { year: string; title: string; venue: string; url: string };
 
 export async function generateMetadata({
   params,
@@ -37,6 +38,7 @@ export default async function SobrePage({
   const atuacao = t.raw('atuacao') as string[];
   const areas = t.raw('areas') as string[];
   const sociedades = t.raw('sociedades') as string[];
+  const midia = t.raw('midia') as MidiaItem[];
   const faq = t.raw('faq') as FaqItem[];
 
   const homeLabel = locale === 'en' ? 'Home' : 'Início';
@@ -131,6 +133,27 @@ export default async function SobrePage({
             <ul className="space-y-3">
               {sociedades.map((s) => (
                 <li key={s} className="font-serif text-base text-ink leading-relaxed">— {s}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="label-meta-lg text-bordo mb-5">{t('asideMidia')}</p>
+            <ul className="space-y-3">
+              {midia.map((m) => (
+                <li key={m.url} className="font-serif text-base text-ink leading-snug">
+                  <a
+                    href={m.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link-text"
+                  >
+                    {m.title} ↗
+                  </a>
+                  <span className="block font-sans text-xs text-ink-muted mt-1">
+                    {m.venue}
+                  </span>
+                </li>
               ))}
             </ul>
           </div>

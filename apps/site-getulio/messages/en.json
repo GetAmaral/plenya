@@ -135,6 +135,21 @@
     "asideAreas": "Areas of interest",
     "asideSociedades": "Societies",
     "asideCredenciais": "Credentials",
+    "asideMidia": "Media appearances",
+    "midia": [
+      {
+        "year": "—",
+        "title": "Conversa Pública · Diabetic kidneys",
+        "venue": "YouTube · with Celeste",
+        "url": "https://youtu.be/5WHKHyIlQMI"
+      },
+      {
+        "year": "—",
+        "title": "AMLCast #017 · World Kidney Day",
+        "venue": "YouTube · AMLCast podcast",
+        "url": "https://youtu.be/R_z3eBlZ_9k"
+      }
+    ],
     "areas": [
       "Preventive nephrology",
       "Cardiorenal-metabolic axis",

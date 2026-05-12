@@ -181,6 +181,34 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
         ],
         knowsLanguage: ['pt-BR', 'en'],
         knowsAbout,
+        subjectOf: [
+          {
+            '@type': 'VideoObject',
+            name: 'Conversa Pública | Rins Diabéticos | Celeste conversa com o Dr. Getúlio Amaral — Nefrologista',
+            url: 'https://youtu.be/5WHKHyIlQMI',
+            embedUrl: 'https://www.youtube.com/embed/5WHKHyIlQMI',
+            uploadDate: '2020-01-01',
+            description: isEn
+              ? 'Public interview about diabetic kidneys with Dr. Getúlio Amaral Filho, nephrologist'
+              : 'Entrevista pública sobre rins diabéticos com o Dr. Getúlio Amaral Filho, nefrologista',
+            about: { '@type': 'MedicalCondition', name: isEn ? 'Diabetic kidney disease' : 'Doença renal do diabético' },
+            actor: { '@id': `${BASE}/#person` },
+            inLanguage: 'pt-BR',
+          },
+          {
+            '@type': 'VideoObject',
+            name: 'AMLCast #017 — Dia Mundial do Rim',
+            url: 'https://youtu.be/R_z3eBlZ_9k',
+            embedUrl: 'https://www.youtube.com/embed/R_z3eBlZ_9k',
+            uploadDate: '2022-03-10',
+            description: isEn
+              ? 'Podcast episode on World Kidney Day with Dr. Getúlio Amaral Filho'
+              : 'Episódio do podcast AMLCast sobre o Dia Mundial do Rim com o Dr. Getúlio Amaral Filho',
+            about: { '@type': 'MedicalEntity', name: isEn ? 'Kidney health and disease prevention' : 'Saúde renal e prevenção de doenças renais' },
+            actor: { '@id': `${BASE}/#person` },
+            inLanguage: 'pt-BR',
+          },
+        ],
         sameAs: [
           'https://www.wikidata.org/wiki/Q139746596',
           'https://instagram.com/drGetulioAmaralFilho',
