@@ -64,6 +64,7 @@ export function PhysicianSchema({ locale = 'pt' }: { locale?: string } = {}) {
       { '@type': 'MedicalProcedure', name: 'Continuum Plenya', procedureType },
     ],
     sameAs: [
+      'https://www.wikidata.org/wiki/Q139746596',
       'https://drgetulioamaralfilho.com.br',
       'https://instagram.com/drGetulioAmaralFilho',
       'https://www.linkedin.com/in/getulio-amaral-filho-951981404',

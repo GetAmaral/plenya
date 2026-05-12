@@ -70,6 +70,7 @@ export function BookSchema({
     image: coverUrl,
     author: { '@id': `${BASE}/#person` },
     datePublished: '2026',
+    sameAs: 'https://www.wikidata.org/wiki/Q139762971',
     ...(workExample.length > 0 ? { workExample } : { bookFormat: 'https://schema.org/EBook' }),
     offers: [
       {

@@ -130,6 +130,12 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
             value: '2492350974849886',
             url: 'http://lattes.cnpq.br/2492350974849886',
           },
+          {
+            '@type': 'PropertyValue',
+            propertyID: 'Wikidata',
+            value: 'Q139746596',
+            url: 'https://www.wikidata.org/wiki/Q139746596',
+          },
         ],
         alumniOf: [
           { '@type': 'CollegeOrUniversity', name: uelName },
@@ -176,6 +182,7 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
         knowsLanguage: ['pt-BR', 'en'],
         knowsAbout,
         sameAs: [
+          'https://www.wikidata.org/wiki/Q139746596',
           'https://instagram.com/drGetulioAmaralFilho',
           'https://www.linkedin.com/in/getulio-amaral-filho-951981404',
           'https://orcid.org/0009-0009-2506-2455',
@@ -197,6 +204,7 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
         datePublished: '2026',
         url: `${BASE}/livros/antes`,
         image: `${BASE}/images/livro-capa.jpg`,
+        sameAs: 'https://www.wikidata.org/wiki/Q139762971',
         workExample: [
           {
             '@type': 'Book',
