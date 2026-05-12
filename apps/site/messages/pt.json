@@ -145,11 +145,11 @@
     "breadcrumbName": "Checkup de Longevidade",
     "heroLabel": "Checkup de Longevidade",
     "heroTitle": "O exame que olha pra frente.",
-    "heroP": "Um checkup tradicional confirma se você está doente hoje. O checkup de longevidade mapeia para onde sua saúde está indo nos próximos vinte anos — e o que ainda dá tempo de mudar.",
+    "heroP": "Um checkup tradicional confirma se você está doente hoje. O checkup de longevidade mapeia para onde sua saúde está indo nos próximos vinte anos, e o que ainda dá tempo de mudar.",
     "aboutLabel": "Sobre o checkup",
-    "aboutP1": "A medicina convencional valida normalidade. A medicina de longevidade lê trajetória. São perguntas diferentes — e exigem instrumentos diferentes.",
-    "aboutP2": "No Brasil, a maior parte dos checkups anuais ainda é desenhada para identificar doença já instalada. Hemograma, glicemia, colesterol total, ultrassom abdominal — é útil, mas insuficiente. ApoB prediz risco cardiovascular melhor que LDL. VO₂ máximo prediz mortalidade total melhor que qualquer outro marcador isolado. Composição corporal por bioimpedância distingue quem perdeu peso de gordura de quem perdeu de músculo. Esses são os exames que mudam decisão.",
-    "aboutP3": "O checkup de longevidade Plenya é estruturado em três camadas. A primeira, exames laboratoriais avançados — perfil lipídico ApoB-cêntrico, marcadores inflamatórios, minerais e vitaminas que regulam função celular. A segunda, avaliação funcional — ergoespirometria para VO₂ máx, dinamometria, bioimpedância segmentar. A terceira, avaliação de hábito e ambiente — sono medido, exposição à luz, padrão alimentar, atividade física registrada por wearable.",
+    "aboutP1": "A medicina convencional valida normalidade. A medicina de longevidade lê trajetória. São perguntas diferentes. E exigem instrumentos diferentes.",
+    "aboutP2": "No Brasil, a maior parte dos checkups anuais ainda é desenhada para identificar doença já instalada. Hemograma, glicemia, colesterol total, ultrassom abdominal: é útil, mas insuficiente. ApoB prediz risco cardiovascular melhor que LDL. VO₂ máximo prediz mortalidade total melhor que qualquer outro marcador isolado. Composição corporal por bioimpedância distingue quem perdeu peso de gordura de quem perdeu de músculo. Esses são os exames que mudam decisão.",
+    "aboutP3": "O checkup de longevidade Plenya é estruturado em três camadas. A primeira, exames laboratoriais avançados: perfil lipídico ApoB-cêntrico, marcadores inflamatórios, minerais e vitaminas que regulam função celular. A segunda, avaliação funcional: ergoespirometria para VO₂ máx, dinamometria, bioimpedância segmentar. A terceira, avaliação de hábito e ambiente: sono medido, exposição à luz, padrão alimentar, atividade física registrada por wearable.",
     "aboutP4": "O resultado não é um envelope com marcações em vermelho. É uma conversa de 90 minutos com leitura clínica integrada e um plano nominal: substância, dose, frequência, prazo de reavaliação.",
     "aside1Label": "Camada 1: Exames",
     "aside1_1": "ApoB, Lp(a), perfil lipídico avançado",
@@ -479,16 +479,16 @@
     "metaDescription": "Um e-mail por semana, escrito pela equipe médica Plenya. Leitura curta, embasada e prática. Sem ruído, sem promessa milagrosa, sem venda agressiva.",
     "heroLabel": "Boletim Plenya",
     "heroTitle": "Medicina que antecipa, na sua caixa de entrada.",
-    "heroP": "Um recorte semanal escrito pela equipe médica Plenya. Curto, embasado e prático — pra quem quer cuidar antes da janela silenciosa fechar.",
+    "heroP": "Um recorte semanal escrito pela equipe médica Plenya. Curto, embasado e prático, pra quem quer cuidar antes da janela silenciosa fechar.",
     "p1Label": "Frequência",
     "p1Title": "Um e-mail por semana.",
-    "p1Body": "Toda quinta-feira pela manhã. Nem mais — porque saúde não se aprende em ruído.",
+    "p1Body": "Toda quinta-feira pela manhã. Nem mais, porque saúde não se aprende em ruído.",
     "p2Label": "Conteúdo",
     "p2Title": "Escrito por médicos e equipe.",
     "p2Body": "Leitura clínica de um exame, um nutriente, um hábito ou um achado novo da literatura. Sempre com referência.",
     "p3Label": "Tempo",
     "p3Title": "Cinco minutos de leitura.",
-    "p3Body": "Chega para você decidir o que fazer no fim da semana — ou trazer pra próxima consulta.",
+    "p3Body": "Chega para você decidir o que fazer no fim da semana, ou trazer pra próxima consulta.",
     "p4Label": "Privacidade",
     "p4Title": "Seu e-mail não vira lista de venda.",
     "p4Body": "Zero compartilhamento com terceiros. Cancelamento em 1 clique. 100% LGPD.",
@@ -499,7 +499,7 @@
     "inlineTitleConfirmed": "Inscrição confirmada.",
     "inlineConfirmedDesc": "Em instantes você receberá um email para confirmar o cadastro. Verifique a caixa de entrada.",
     "inlineTitle": "Receba um insight clínico exclusivo por semana.",
-    "inlineDesc": "Conteúdo curto e direto, escrito pelos médicos da Plenya. Sem spam — você pode descadastrar a qualquer momento.",
+    "inlineDesc": "Conteúdo curto e direto, escrito pelos médicos da Plenya. Sem spam. Você pode descadastrar a qualquer momento.",
     "inlinePlaceholder": "seu@email.com",
     "inlineSubscribing": "Inscrevendo…",
     "inlineSubscribe": "Inscrever-me",
@@ -508,13 +508,13 @@
   },
   "contact": {
     "metaTitle": "Contato",
-    "metaDescription": "Fale com a equipe Plenya — Consulta Plenya, Continuum Plenya ou orientação geral.",
+    "metaDescription": "Fale com a equipe Plenya: Consulta Plenya, Continuum Plenya ou orientação geral.",
     "heroLabel": "Atendimento",
     "heroTitle": "Vamos conversar.",
     "heroP": "Resposta em até 2 horas em dias úteis (8h-18h). Atendemos de forma particular, presencial e online.",
     "whyLabel": "Por que falar com a Plenya",
     "whyTitle": "Escuta longa antes da conduta.",
-    "whyDesc": "Cada mensagem é lida pela equipe — e a primeira resposta orienta o próximo passo, seja uma Consulta Plenya, o programa Continuum ou apenas uma dúvida clínica.",
+    "whyDesc": "Cada mensagem é lida pela equipe, e a primeira resposta orienta o próximo passo, seja uma Consulta Plenya, o programa Continuum ou apenas uma dúvida clínica.",
     "emailLabel": "Email",
     "instagramLabel": "Instagram",
     "addressLabel": "Endereço",
@@ -561,10 +561,10 @@
     "heroLabel": "É pra mim?",
     "heroTitleLine1": "O Continuum Plenya",
     "heroTitleLine2": "faz sentido para o seu momento?",
-    "heroP": "Cinco perguntas curtas. Sem diagnóstico clínico, sem captura de dados. No fim, devolvemos quais retratos do programa mais se parecem com o que você descreve — e o caminho para conversar com a equipe.",
+    "heroP": "Cinco perguntas curtas. Sem diagnóstico clínico, sem captura de dados. No fim, devolvemos quais retratos do programa mais se parecem com o que você descreve, e o caminho para conversar com a equipe.",
     "quizIntroLabel": "Como funciona",
     "quizIntroLine1": "Cinco perguntas. Sem diagnóstico. Sem cobrança de e-mail.",
-    "quizIntroLine2": "O resultado mostra quais retratos do Continuum Plenya mais se aproximam do seu momento — e abre o caminho para conversar com a equipe se fizer sentido.",
+    "quizIntroLine2": "O resultado mostra quais retratos do Continuum Plenya mais se aproximam do seu momento, e abre o caminho para conversar com a equipe se fizer sentido.",
     "quizStart": "Começar",
     "quizProgress": "Pergunta {step} de {total}",
     "quizBack": "← Voltar",
@@ -579,14 +579,14 @@
     "resultDescP2Strong1": "Escore Plenya",
     "resultDescP2Part2": " (mais de 800 itens) e segue organizado pelo ",
     "resultDescP2Strong2": "Método AGIR",
-    "resultDescP2Part3": " — atividade física e alimentação, gestão clínica e metabólica, integração mente-corpo, ritmo circadiano e repouso — em encontros semanais que cobrem cada pilar a cada quatro semanas.",
+    "resultDescP2Part3": " (atividade física e alimentação, gestão clínica e metabólica, integração mente-corpo, ritmo circadiano e repouso) em encontros semanais que cobrem cada pilar a cada quatro semanas.",
     "resultCtaContact": "Conversar com a equipe",
     "resultCtaContinuum": "Ler sobre o Continuum Plenya",
     "resultRestart": "← Refazer o quiz",
     "retratos": {
       "tudo-certo": {
         "titulo": "Faz tudo certo e não vê resposta.",
-        "descricao": "Treina, come com cuidado, dorme as horas — e mesmo assim a disposição não volta, o peso não cede, os marcadores não melhoram. Falta o pilar que ninguém integrou."
+        "descricao": "Treina, come com cuidado, dorme as horas. E mesmo assim a disposição não volta, o peso não cede, os marcadores não melhoram. Falta o pilar que ninguém integrou."
       },
       "susto": {
         "titulo": "Recebeu o susto.",
@@ -594,27 +594,27 @@
       },
       "carrega": {
         "titulo": "Carrega mais do que si mesmo.",
-        "descricao": "Sócios, equipe, filhos, pais — gente depende de você inteiro. Saúde virou variável crítica do que você sustenta no mundo."
+        "descricao": "Sócios, equipe, filhos, pais: gente depende de você inteiro. Saúde virou variável crítica do que você sustenta no mundo."
       },
       "transicao": {
         "titulo": "Está numa transição que ninguém nomeia.",
-        "descricao": "O sono mudou, o humor mudou, o corpo mudou — e a resposta clínica que você recebe é \"ainda não é nada\" ou \"é da idade\"."
+        "descricao": "O sono mudou, o humor mudou, o corpo mudou. E a resposta clínica que você recebe é \"ainda não é nada\" ou \"é da idade\"."
       },
       "isolados": {
         "titulo": "Tem profissionais isolados.",
-        "descricao": "Personal, nutricionista, terapeuta, médico — cada um cuidando do seu pedaço, ninguém olhando o conjunto."
+        "descricao": "Personal, nutricionista, terapeuta, médico: cada um cuidando do seu pedaço, ninguém olhando o conjunto."
       },
       "mede": {
         "titulo": "Mede tudo e não decide nada.",
-        "descricao": "Wearables, painéis de exames, relatórios de longevidade — dado não falta. Falta alguém que leia o conjunto e acompanhe a decisão no tempo."
+        "descricao": "Wearables, painéis de exames, relatórios de longevidade. Dado não falta. Falta alguém que leia o conjunto e acompanhe a decisão no tempo."
       },
       "sinais": {
         "titulo": "Tem sinais pequenos que ninguém soma.",
-        "descricao": "Adoeceu três vezes este ano. A barriga endureceu, embora a balança não acuse. O intestino bagunçou, a pele perdeu viço, o sono não recupera. Cada queixa parece pequena demais — junto, descreve um terreno em desgaste."
+        "descricao": "Adoeceu três vezes este ano. A barriga endureceu, embora a balança não acuse. O intestino bagunçou, a pele perdeu viço, o sono não recupera. Cada queixa parece pequena demais; junto, descreve um terreno em desgaste."
       },
       "inteiro": {
         "titulo": "Quer estar inteiro para quem ainda vai chegar.",
-        "descricao": "Filho pequeno aos 45, projetos que não cabem em dez anos, gente nova chegando. A pergunta deixou de ser quanto vou viver — virou como vou estar quando precisarem de mim inteiro."
+        "descricao": "Filho pequeno aos 45, projetos que não cabem em dez anos, gente nova chegando. A pergunta deixou de ser quanto vou viver: virou como vou estar quando precisarem de mim inteiro."
       }
     },
     "questions": {
@@ -628,31 +628,31 @@
       "motivo": {
         "prompt": "O que mais te trouxe a esta página hoje?",
         "opt0": "Faço o que dizem ser certo e não vejo o resultado que esperava.",
-        "opt1": "Tive um susto recente — meu ou de família — e quero antecipar.",
+        "opt1": "Tive um susto recente (meu ou de família) e quero antecipar.",
         "opt2": "Tenho gente que depende de mim inteiro: equipe, sócios, família.",
         "opt3": "Sinto que algo está mudando e ninguém consegue nomear o quê.",
-        "opt4": "Já tenho profissionais separados — falta alguém juntando.",
+        "opt4": "Já tenho profissionais separados; falta alguém juntando.",
         "opt5": "Tenho dado demais (wearables, exames) e decisão de menos.",
-        "opt6": "Acumulo sintomas pequenos — gripe, intestino, pele, sono — que ninguém soma.",
-        "opt7": "Quero estar inteiro para quem ainda vai chegar — filhos, projetos, anos pela frente."
+        "opt6": "Acumulo sintomas pequenos (gripe, intestino, pele, sono) que ninguém soma.",
+        "opt7": "Quero estar inteiro para quem ainda vai chegar: filhos, projetos, anos pela frente."
       },
       "sono": {
         "prompt": "Como está seu sono na maior parte das semanas?",
         "opt0": "Acordo descansado, energia estável o dia todo.",
         "opt1": "Durmo as horas mas acordo sem energia.",
-        "opt2": "Não durmo o suficiente — deito tarde, acordo cedo.",
-        "opt3": "Sono fragmentado — acordo várias vezes ou ronco muito."
+        "opt2": "Não durmo o suficiente: deito tarde, acordo cedo.",
+        "opt3": "Sono fragmentado: acordo várias vezes ou ronco muito."
       },
       "exames": {
         "prompt": "Qual sua relação com os exames que você já fez?",
-        "opt0": "Os médicos dizem que está tudo normal — mas eu sinto que não está.",
+        "opt0": "Os médicos dizem que está tudo normal, mas eu sinto que não está.",
         "opt1": "Algo apareceu recentemente que me fez parar para pensar.",
         "opt2": "Já fiz exames sofisticados e não sei o que fazer com o resultado.",
         "opt3": "Faço só o básico anual e gostaria de uma leitura mais profunda."
       },
       "cadencia": {
-        "prompt": "Encontros semanais online, em rotação entre quatro profissionais — cabe na sua vida?",
-        "opt0": "Cabe — semanal é exatamente o ritmo que faz diferença.",
+        "prompt": "Encontros semanais online, em rotação entre quatro profissionais. Cabe na sua vida?",
+        "opt0": "Cabe, semanal é exatamente o ritmo que faz diferença.",
         "opt1": "Cabe com alguma flexibilidade de horário.",
         "opt2": "Preciso entender melhor antes de me comprometer."
       }
@@ -660,23 +660,23 @@
   },
   "howItWorks": {
     "metaTitle": "Como funciona — a medicina Plenya em quatro passos",
-    "metaDescription": "Avaliar, interpretar, plano personalizado e reavaliar em ciclo. Como o cuidado Plenya entra na sua vida — da Triagem gratuita ao Continuum.",
+    "metaDescription": "Avaliar, interpretar, plano personalizado e reavaliar em ciclo. Como o cuidado Plenya entra na sua vida, da Triagem gratuita ao Continuum.",
     "heroLabel": "Como funciona",
     "heroTitle": "Quatro passos. Um cuidado que evolui com você.",
-    "heroP": "A medicina Plenya não cabe em uma consulta — cabe em um ciclo. Avaliar amplo, interpretar com profundidade, agir com plano escrito, reavaliar com método. E começar de novo, no ponto onde os dados pediram.",
+    "heroP": "A medicina Plenya não cabe em uma consulta. Cabe em um ciclo. Avaliar amplo, interpretar com profundidade, agir com plano escrito, reavaliar com método. E começar de novo, no ponto onde os dados pediram.",
     "faqTitle": "Perguntas que recebemos toda semana.",
     "faq1Q": "Por onde começo?",
     "faq1ATriageLink": "Triagem gratuita",
-    "faq1AAfter": " do Escore Plenya — cerca de 35 perguntas em poucos minutos, sem cadastro. O resultado já indica onde a sua saúde está hoje e qual o próximo passo: uma Consulta Plenya pontual ou o Continuum.",
+    "faq1AAfter": " do Escore Plenya: cerca de 35 perguntas em poucos minutos, sem cadastro. O resultado já indica onde a sua saúde está hoje e qual o próximo passo: uma Consulta Plenya pontual ou o Continuum.",
     "faq1ABefore": "Pela ",
     "faq2Q": "A consulta é presencial ou online?",
-    "faq2A": "A Consulta Plenya pode ser presencial (Londrina-PR) ou online por telemedicina, com a mesma profundidade clínica. O Continuum Plenya é 100% online — todos os encontros semanais com a equipe acontecem por videochamada.",
+    "faq2A": "A Consulta Plenya pode ser presencial (Londrina-PR) ou online por telemedicina, com a mesma profundidade clínica. O Continuum Plenya é 100% online: todos os encontros semanais com a equipe acontecem por videochamada.",
     "faq3Q": "Vocês trabalham com convênio?",
     "faq3A": "Não. Atendemos exclusivamente em formato particular. Despesas médicas são dedutíveis no Imposto de Renda como gasto com saúde, conforme legislação vigente.",
     "faq4Q": "Quanto tempo até ver resultado?",
-    "faq4A": "A primeira leitura clínica acontece já na consulta inicial. No Continuum, a curva do Escore tende a mostrar movimento entre o primeiro e o terceiro mês — porque é nesse intervalo que os primeiros ajustes de plano amadurecem.",
+    "faq4A": "A primeira leitura clínica acontece já na consulta inicial. No Continuum, a curva do Escore tende a mostrar movimento entre o primeiro e o terceiro mês, porque é nesse intervalo que os primeiros ajustes de plano amadurecem.",
     "faq5Q": "O que entra no Box Plenya?",
-    "faq5A": "No Continuum, após a elaboração do plano, um box personalizado chega até você — mimos selecionados pela equipe e suplementos ou manipulados específicos do seu protocolo. Novos boxes seguem o ritmo do plano.",
+    "faq5A": "No Continuum, após a elaboração do plano, um box personalizado chega até você: mimos selecionados pela equipe e suplementos ou manipulados específicos do seu protocolo. Novos boxes seguem o ritmo do plano.",
     "faq6Q": "Posso cancelar o Continuum se mudar de ideia?",
     "faq6A": "Sim. As condições de adesão e cancelamento são apresentadas em conversa direta antes da contratação, conforme a modalidade escolhida (semestral ou anual).",
     "exitLabel": "Próximo passo",
@@ -686,7 +686,7 @@
     "stepsLabel": "Como funciona",
     "stepsTitle": "Quatro passos. Um cuidado que evolui.",
     "step1Title": "Avaliar",
-    "step1Body": "Você responde ao Escore Plenya — Triagem gratuita ou versão completa em consulta — e a equipe organiza sua história, sintomas, exames, hábitos e medicamentos em um painel único.",
+    "step1Body": "Você responde ao Escore Plenya (Triagem gratuita ou versão completa em consulta) e a equipe organiza sua história, sintomas, exames, hábitos e medicamentos em um painel único.",
     "step1Detail": "Triagem · Consulta · Continuum",
     "step2Title": "Interpretar",
     "step2Body": "O médico — e, no Continuum, a equipe inteira — faz a leitura funcional do seu painel laboratorial ampliado. Não é \"está normal\": é o que está distante do ótimo, o que merece intervenção e o que pode esperar.",
