@@ -185,17 +185,20 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
           {
             '@type': 'VideoObject',
             name: isEn
-              ? "Fantástico — Kidney transplant feature (Claus's case)"
-              : 'Fantástico — Reportagem sobre transplante renal (caso Claus)',
+              ? "Fantástico — Kidney transplant: two stories of extraordinary generosity (Claus's case)"
+              : 'Fantástico — Transplante renal: duas histórias de generosidade extraordinária (caso Claus)',
             url: 'https://globoplay.globo.com/v/7280473/',
             uploadDate: '2019-01-06',
             duration: 'PT7M22S',
             publisher: { '@type': 'Organization', name: 'Rede Globo' },
             isPartOf: { '@type': 'TVSeries', name: 'Fantástico' },
             description: isEn
-              ? "Feature aired on Fantástico (Rede Globo) on January 6, 2019 about kidney transplant, with Dr. Getúlio Amaral Filho identified on-screen as 'médico de Claus' (Claus's physician)"
-              : "Reportagem exibida no Fantástico (Rede Globo) em 6 de janeiro de 2019 sobre transplante renal, com Dr. Getúlio Amaral Filho identificado em tela como 'médico de Claus'",
-            about: { '@type': 'MedicalCondition', name: isEn ? 'Kidney transplant' : 'Transplante renal' },
+              ? "Aired on Fantástico (Rede Globo) on January 6, 2019. Official synopsis: 'Fantástico shows two extraordinary stories of people united by a generosity that doesn't fit in the chest.' Dr. Getúlio Amaral Filho appears on-screen identified as 'médico de Claus' (Claus's physician), the nephrologist responsible for the patient's kidney transplant case."
+              : "Exibida no Fantástico (Rede Globo) em 6 de janeiro de 2019. Sinopse oficial: 'O Fantástico mostra duas histórias extraordinárias de pessoas unidas por uma generosidade que não cabe no peito.' Dr. Getúlio Amaral Filho aparece em tela identificado como 'médico de Claus', o nefrologista responsável pelo caso de transplante renal do paciente.",
+            about: [
+              { '@type': 'MedicalCondition', name: isEn ? 'Kidney transplant' : 'Transplante renal' },
+              { '@type': 'Thing', name: isEn ? 'Organ donation' : 'Doação de órgãos' },
+            ],
             actor: { '@id': `${BASE}/#person` },
             inLanguage: 'pt-BR',
           },
