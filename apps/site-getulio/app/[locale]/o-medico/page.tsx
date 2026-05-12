@@ -182,6 +182,18 @@ export default async function SobrePage({
                 ORCID 0009-0009-2506-2455 ↗
               </a>
             </p>
+            <p className="font-sans text-sm text-ink-muted mt-2">
+              <a
+                href="https://sbn.org.br/wp-content/uploads/2026/02/TE_Completo_por_Ano_2025.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="link-text"
+              >
+                {locale === 'en'
+                  ? 'SBN — Specialist Title (official PDF) ↗'
+                  : 'SBN — Título de Especialista (PDF oficial) ↗'}
+              </a>
+            </p>
           </div>
         </aside>
       </div>

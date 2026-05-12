@@ -137,6 +137,20 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
             url: 'https://www.wikidata.org/wiki/Q139746596',
           },
         ],
+        hasCredential: {
+          '@type': 'EducationalOccupationalCredential',
+          credentialCategory: isEn ? 'Specialist Title in Nephrology' : 'Título de Especialista em Nefrologia',
+          recognizedBy: [
+            { '@type': 'Organization', name: 'Sociedade Brasileira de Nefrologia (SBN)', url: 'https://sbn.org.br' },
+            { '@type': 'Organization', name: 'Associação Médica Brasileira (AMB)', url: 'https://amb.org.br' },
+          ],
+          dateCreated: '2008',
+          identifier: 'RQE 16.038',
+          url: 'https://sbn.org.br/wp-content/uploads/2026/02/TE_Completo_por_Ano_2025.pdf',
+          description: isEn
+            ? 'Officially listed at entry 047 of the SBN/AMB Brazilian Nephrology Specialist Title roster (TE_Completo_por_Ano_2025.pdf)'
+            : 'Listado oficialmente na entrada 047 do registro nacional de Portadores do Título de Especialista em Nefrologia SBN/AMB (TE_Completo_por_Ano_2025.pdf)',
+        },
         alumniOf: [
           { '@type': 'CollegeOrUniversity', name: uelName },
           { '@type': 'Organization', name: santaCasa },
