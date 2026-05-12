@@ -203,6 +203,25 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
             inLanguage: 'pt-BR',
           },
           {
+            '@type': 'Article',
+            name: isEn
+              ? 'World Kidney Day 2024 — DaVita Londrina lectures (SBN)'
+              : 'Dia Mundial do Rim 2024 — Palestras DaVita Londrina (SBN)',
+            url: 'https://sbn.org.br/medicos/dia-mundial-do-rim/2024/resultados-2024/dia-mundial-do-rim-em-davita-brasil-participacoes-londrina/',
+            datePublished: '2024-10-18',
+            publisher: {
+              '@type': 'Organization',
+              name: 'Sociedade Brasileira de Nefrologia',
+              url: 'https://sbn.org.br',
+            },
+            description: isEn
+              ? 'Official report by the Brazilian Society of Nephrology (SBN) documenting World Kidney Day 2024 lectures at DaVita Londrina units (Londrina, Lago Parque, Bandeirantes, Intra Hospitalar Londrina, Rolândia), with the support of the 17th Regional Health Authority of Paraná and the Cismepar Health School. Speakers: Dr. Getúlio Amaral Filho, Dra. Tatiane Cavalcante and nutritionist Bruna Salvador. Also present: Dr. Danilo Ramos Cunha.'
+              : 'Reportagem oficial da Sociedade Brasileira de Nefrologia (SBN) sobre as palestras do Dia Mundial do Rim 2024 nas unidades DaVita Londrina, DaVita Lago Parque, DaVita Bandeirantes, DaVita Intra Hospitalar Londrina e DaVita Rolândia, com apoio da 17ª Regional de Saúde do PR e da Escola de Saúde do Cismepar. Palestrantes: Dr. Getúlio Amaral Filho, Dra. Tatiane Cavalcante e a nutricionista Bruna Salvador. Também participou o Dr. Danilo Ramos Cunha.',
+            about: { '@type': 'MedicalEntity', name: isEn ? 'Kidney disease prevention' : 'Prevenção de doenças renais' },
+            mentions: { '@id': `${BASE}/#person` },
+            inLanguage: 'pt-BR',
+          },
+          {
             '@type': 'VideoObject',
             name: 'Conversa Pública | Rins Diabéticos | Celeste conversa com o Dr. Getúlio Amaral — Nefrologista',
             url: 'https://youtu.be/5WHKHyIlQMI',
