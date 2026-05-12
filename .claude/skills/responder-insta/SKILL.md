@@ -1,0 +1,265 @@
+# Responder Insta — Instruções do Skill `/responder-insta`
+
+> Referência interna usada por `.claude/commands/responder-insta.md`.
+> Conta gerenciada: **@drgetulioamaralfilho** (IG Business/Creator)
+> MCP: tools `mcp__composio-plenya__INSTAGRAM_*`
+
+---
+
+## Modo de operação
+
+Analise `$ARGUMENTS`:
+
+- "dms" / "só dm" → **MODO DM** (pula comentários)
+- "comentários" / "comments" → **MODO COMMENTS** (pula DMs)
+- "post X" (URL/permalink) → **MODO SINGLE_POST** (só esse post)
+- Qualquer outra coisa → **MODO COMPLETO**
+
+Independente do modo, segue o workflow abaixo, pulando fases não aplicáveis.
+
+---
+
+## Fase A — Coleta de pendências (uma chamada paralela)
+
+Dispara **em paralelo**, em uma única mensagem com múltiplas tool calls:
+
+1. `mcp__composio-plenya__INSTAGRAM_GET_IG_USER_MEDIA` (ig_user_id="me", limit=10) — últimos 10 posts
+2. `mcp__composio-plenya__INSTAGRAM_LIST_ALL_CONVERSATIONS` (limit=25) — últimas conversas DM
+3. `mcp__composio-plenya__INSTAGRAM_GET_IG_USER_TAGS` (ig_user_id="me", limit=10) — mentions
+4. `mcp__composio-plenya__INSTAGRAM_GET_USER_INFO` (sanity check — só faz se modo COMPLETO)
+
+Quando voltar:
+- Pra **cada post** dos últimos 10: `INSTAGRAM_GET_IG_MEDIA_COMMENTS` (media_id=$id, limit=100, fields="id,text,username,timestamp,like_count,replies{id,username,from},parent_id") — também em paralelo
+- Pra **cada conversa** DM: `INSTAGRAM_LIST_ALL_MESSAGES` (conversation_id=$id, limit=10) — paralelo
+
+Em todas as chamadas, peça campos mínimos necessários. Não infle payload.
+
+---
+
+## Fase B — Filtragem e classificação
+
+**Antes de filtrar, carregue o catálogo de contatos:**
+
+```bash
+cat /home/user/plenya/.claude/skills/responder-insta/contacts.yaml
+```
+
+Esse arquivo (YAML) contém ~30+ contatos categorizados com:
+- `rel` — tipo de relação (esposa, irmã, primo, sogra, paciente, etc.)
+- `name` — primeiro nome conhecido
+- `call_dr` — apelido que esse contato usa pro Dr ("Get", "Getao", "Getinho", "Monstro")
+- `tone` — calibragem de tom recomendada
+- `notes` — contexto não-óbvio (ex.: "Tiago é influente em política — sem bajulação")
+- `avoid` — coisas a NÃO escrever pra esse contato (palavras, temas)
+- `last` — última interação registrada
+
+**Use o catálogo agressivamente.** Quando um `@handle` aparecer, cruze com o catálogo:
+- ✅ Achou: já sabe nome, relação, apelidos, tom certo, coisas a evitar. Use tudo.
+- ❌ Não achou: trate como novo, classifique pelo conteúdo do comentário. Anote pra adicionar no fim da sessão (Fase E).
+
+Para cada item coletado, determinar:
+
+### Comentários
+- **JÁ RESPONDIDO?** → comentário tem reply do @drgetulioamaralfilho na lista `replies`? Pular se sim.
+- **É sub-reply (parent_id existe)?** → Geralmente pular, a menos que seja uma resposta nova do usuário a uma resposta do Dr (ex.: "obrigada doutor" após resposta dele). Esses casos viram **fechamento gentil**.
+- **Spam óbvio?** → Promotional/foreign/non-sequitur. Marcar como descarte.
+- **Senão**: classificar tipo via [PLAYBOOK.md](PLAYBOOK.md) e incluir na fila.
+
+### DMs
+- **Última mensagem é do usuário?** (campo `from.username` ≠ "drgetulioamaralfilho") → pendente
+- **Última mensagem é do Dr?** → pular (já está aguardando resposta do usuário)
+- **Conversation `updated_time` > 24h atrás?** → cuidado: fora da janela livre de DM. Mencionar isso ao gerar draft.
+
+### Mentions (tags)
+- Sempre opcional. Pular a menos que o usuário pediu explicitamente. Tags geralmente são posts de família/colegas — não precisam resposta no IG do Dr.
+
+---
+
+## Fase C — Apresentar triagem
+
+Mostre tabela compacta:
+
+```
+[N] TIPO | @USER | preview... | há X horas | classificação
+```
+
+Exemplo:
+```
+[1] DM   @maria_silva    "Doutor, sobre creatina pós-menopausa..."  6h   PERGUNTA CLÍNICA
+[2] COM  @joao           "Posso treinar em jejum?"                  2h   PERGUNTA CLÍNICA
+[3] COM  @ana            "Que aula maravilhosa!"                    1d   ELOGIO
+[4] COM  @bot123         "Como ganhar dinheiro online..."           3h   SPAM (descartar)
+[5] DM   @paciente_x     "Quero remarcar consulta"                  4h   AGENDAMENTO
+```
+
+**Pergunte ao usuário:**
+- "Rodo todas (pulando spam), ou filtra por tipo/prioridade?"
+- "Algum item pra eu pular já agora?"
+
+Se ele responder algo como "só clínicas" ou "vai todas", siga.
+
+---
+
+## Fase D — Iterar item por item
+
+Para cada item aprovado pela triagem, fazer **inline approval loop**:
+
+### Passo D.1 — Carregar contexto completo
+
+- **Se DM:** já tem últimos 10 messages. Identifique a thread completa (queixa do usuário → eventual histórico).
+- **Se COMENTÁRIO:** carregar o post pai (caption do reel/post + tema central). Importante pra responder relevante ao contexto do conteúdo.
+
+### Passo D.2 — Buscar evidência (se PERGUNTA CLÍNICA)
+
+Veja [RAG.md](RAG.md) para procedimento. Resumo:
+
+1. **Sempre primeiro**: `bash .claude/skills/responder-insta/scripts/search-rag.sh "<termo da pergunta>"` — busca semântica nos artigos da base científica Plenya
+2. **Se tópico exige evidência ≥2024**: `WebSearch` em inglês com termos científicos + PubMed/NEJM/Lancet/BMJ
+3. **NUNCA invente referência.** Se não achar fonte, melhor escrever menos do que citar errado.
+
+### Passo D.3 — Escrever draft
+
+**Primeiro: consultar `contacts.yaml`** pelo @handle do item. Se houver entrada:
+- Use `name` no draft (não fica "querida" genérico — fica "Mari querida", "Tiago")
+- Aplique `tone` recomendado
+- Respeite TODA a lista `avoid` (palavras, temas, frases)
+- Use `notes` pra contextualizar (ex.: Michell tem 3 meninas → não chamar de "tropa"; Tiago é figura política → sem bajulação/marketing)
+
+Aplicar o **tom Dr Getúlio** detalhado em [TONE.md](TONE.md). Resumo:
+
+- Abertura: "Pergunta importante", "Pergunta relevante", ou variante reconhecida
+- 1ª pessoa, direta, sem rodeios
+- Linguagem **leiga** — sem jargão técnico não-traduzido (ver TONE.md lista de termos a evitar)
+- Cita evidência (estudos, sociedades — KDIGO, ESC, ACSM, etc.) mas em prosa, não Vancouver
+- Recusa diagnóstico/prescrição em rede social: redireciona pra consulta com nefrologista/médico
+- Fechamento aberto e colaborativo, NUNCA imperativo. Ex.: "**No seu caso, a princípio vale a pena considerar — conversa com seu nefrologista e decide junto com ele**"
+- Comprimento típico: 600–1.200 caracteres (sim, o limite real é >1.180 chars, confirmado em produção em 2026-05-11)
+
+Para tipos não-clínicos, ver [PLAYBOOK.md](PLAYBOOK.md).
+
+### Passo D.4 — Apresentar pacote pra aprovação
+
+Formato exato:
+
+```
+[N/total] TIPO @username — preview do contexto
+
+CONTEXTO:
+<thread DM completa OU caption do post + comentário original>
+
+DRAFT:
+> <texto do draft>
+
+FONTES USADAS:
+- RAG Plenya: <título do artigo se aplicável>
+- WebSearch: <citação curta>
+- (ou: "nenhuma — resposta de tom/recepção")
+
+CARACTERES: ~N | PALAVRAS: ~N
+
+[a]provar e postar | [e]ditar | [p]ular | [r]ejeitar definitivamente | [s]top
+```
+
+### Passo D.5 — Reagir à escolha
+
+- **[a]** → postar via MCP correspondente:
+  - Comentário: `mcp__composio-plenya__INSTAGRAM_POST_IG_COMMENT_REPLIES` (ig_comment_id=$id, message=<draft>)
+  - DM: `mcp__composio-plenya__INSTAGRAM_SEND_TEXT_MESSAGE` (recipient=$user_id, text=<draft>) + `INSTAGRAM_MARK_SEEN` na conversação depois
+  - Registrar resultado: comment_id ou message_id da resposta
+
+- **[e]** → pedir ao usuário o que ajustar, refazer o draft mantendo as fontes, apresentar v2. Loop até [a] ou [r].
+
+- **[p]** → pular este item, ir pro próximo
+
+- **[r]** → registrar que ele recusou esse item (não tentar de novo na próxima sessão da skill)
+
+- **[s]** → parar tudo, fazer resumo parcial e sair
+
+### Passo D.6 — Pós-post
+
+Após postar com sucesso, guardar em memória de sessão:
+- `comment_id` original
+- `permalink` do post pai (necessário pro link de like manual depois)
+- timestamp do post da resposta
+- categoria
+
+---
+
+## Fase E — Resumo final + atualizar catálogo + likes manuais
+
+### E.1 — Atualizar contacts.yaml
+
+**Sempre** atualizar `contacts.yaml` no fim da sessão. Para cada contato respondido nesta sessão:
+
+- **Já existe no catálogo?** → atualizar o campo `last` com a data + breve contexto
+  ```
+  last: "2026-05-12 - reply em post Creatina (pergunta clínica)"
+  ```
+- **Não existe ainda?** → adicionar nova entrada com pelo menos `rel` (mesmo que "seguidor" genérico) e `last`
+- **Aprendeu algo novo nesta sessão sobre alguém?** (ex.: descobriu que é tia em vez de irmã; que tem trigêmeos; que tem filhas e não filhos) → **OBRIGATÓRIO atualizar `notes` e `avoid`**
+
+Usuário corrigir alguma coisa na sessão (ex.: "não é irmã, é tia"; "Michell tem meninas, não chame de tropa") = sinal forte de que precisa virar entrada permanente no `contacts.yaml`. Anote sem perguntar.
+
+Também atualizar campo `last_updated` no topo do arquivo.
+
+### E.2 — Resumo da sessão
+
+Quando terminar todos os itens (ou usuário deu `[s]`), mostre:
+
+```
+✅ N respondidos (X comentários + Y DMs)
+⏭  N pulados ([p])
+🚫 N rejeitados ([r])
+
+📋 LIKES MANUAIS (bate ❤️ nesses comentários — Composio/Meta não automatiza ainda):
+
+  [post 1] https://www.instagram.com/reel/ABC123/
+    ↳ comment de @user1 "..." (respondido agora)
+    ↳ comment de @user2 "..." (respondido agora)
+  
+  [post 2] https://www.instagram.com/reel/DEF456/
+    ↳ comment de @user3 "..." (respondido agora)
+```
+
+Abrir os permalinks NÃO é necessário — apenas listar. Ele que decide se vai bater ❤️ agora ou depois.
+
+---
+
+## Restrições absolutas
+
+- **NUNCA postar sem aprovação `[a]` explícita.** Mesmo replies "óbvios" como agradecimento. O usuário aprova TODOS.
+- **NUNCA inventar dose, diagnóstico, posologia.** Se a pergunta exige prescrição, sempre redirecionar pra consulta.
+- **NUNCA citar fonte sem ter visto o conteúdo dela.** Hallucination de PMID/artigo é falha de skill.
+- **NUNCA agir em escopo fora da @drgetulioamaralfilho.** A skill **não posta** na conta @plenyaSaude nem na Página FB. Outra skill futura se precisar.
+- **NUNCA usar `INSTAGRAM_DELETE_COMMENT`** sem pedido EXPLÍCITO do usuário (irreversível).
+- **NUNCA marcar `MARK_SEEN`** antes de o usuário aprovar a resposta — manter o "não lido" preserva o lembrete visual no app dele.
+- **Limite de DM:** se uma conversa tem última mensagem do usuário >24h, mencionar antes de gerar draft: a Meta tem janela de 24h pra DM livre — fora dela, só "human agent" reply (que tem regras próprias). Pedir confirmação se quer prosseguir.
+
+---
+
+## Compose vs. Composio — uso de tools
+
+Use **somente** os tools `mcp__composio-plenya__INSTAGRAM_*`. Se algum tool não estiver disponível na sessão (deferred), carregue via ToolSearch com `select:<TOOL_NAME>`.
+
+Tools obrigatórios pra essa skill:
+- INSTAGRAM_GET_IG_USER_MEDIA
+- INSTAGRAM_GET_IG_MEDIA_COMMENTS
+- INSTAGRAM_POST_IG_COMMENT_REPLIES
+- INSTAGRAM_LIST_ALL_CONVERSATIONS
+- INSTAGRAM_LIST_ALL_MESSAGES
+- INSTAGRAM_SEND_TEXT_MESSAGE
+- INSTAGRAM_MARK_SEEN
+- INSTAGRAM_GET_IG_USER_TAGS
+- INSTAGRAM_GET_USER_INFO (opcional, sanity)
+
+Se o usuário pedir, há também `mcp__composio-plenya__FACEBOOK_*` mas a Página FB tem volume zero orgânico (verificado em 2026-05-11) — não rodar a menos que ele peça explicitamente.
+
+---
+
+## Lembretes operacionais
+
+- Tom de Dr Getúlio: ver [TONE.md](TONE.md) com 6 exemplos verbatim dos replies históricos dele.
+- Categorias de resposta: ver [PLAYBOOK.md](PLAYBOOK.md) com 7 tipos + política pra cada.
+- RAG access: ver [RAG.md](RAG.md) — usa `scripts/search-rag.sh` que hita o backend Plenya (`localhost:3001`).
+- **Catálogo de contatos:** [contacts.yaml](contacts.yaml) — ~30 contatos categorizados (família, amigos, colegas, pacientes). Carregar SEMPRE no início (Fase B). Atualizar SEMPRE no fim (Fase E.1).
+- Brand essence completa: `~/.claude/projects/-home-user-plenya/memory/plenya_brand_essence.md` (consultar se a pergunta tocar em posicionamento Plenya).

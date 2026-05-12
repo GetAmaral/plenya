@@ -1,0 +1,593 @@
+# Catálogo de contatos do Instagram do @drgetulioamaralfilho
+#
+# FORMATO:
+#   '@handle':
+#     rel: tipo de relação (esposa | irmã | primo | tia | sogra | padrinho |
+#                            amigo íntimo | colega médico | parceiro pedal |
+#                            paciente | seguidor)
+#     name: primeiro nome (se conhecido)
+#     call_dr: apelido que esse contato usa para o Dr (se conhecido)
+#     tone: como o Dr deve responder (afetivo-íntimo | familiar-afetuoso |
+#                                       profissional-caloroso | clínico-respeitoso |
+#                                       igual-pra-igual)
+#     notes: |
+#       contexto livre relevante para personalizar a resposta
+#     avoid: lista de coisas a evitar (palavras, tons, temas)
+#     last: data e contexto da última interação registrada
+#
+# Sempre atualizar last em cada execução da skill.
+# Adicionar novos contatos quando aparecerem com pista clara de relação.
+
+version: 1
+last_updated: '2026-05-11'  # 3ª iteração — Tier 3 C+D: vizinhos + primos + descoberta filha Bianca
+
+# IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
+# Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
+# Madrinha da Bianca = @jeane_clucena (prima do Dr).
+
+contacts:
+
+  # ============================================
+  # FAMÍLIA DO DR GETÚLIO (sobrenome Amaral)
+  # ============================================
+
+  '@nanda_zanon':
+    rel: esposa
+    name: Fernanda
+    call_dr: "amor"
+    tone: afetivo-íntimo
+    notes: |
+      Esposa do Dr. Gestante de gêmeos (anunciado 10/05/2026 no Reel de Dia das Mães).
+      Dr a chama de "Ferzinha". Apelido carinhoso pra ela.
+    last: "2026-05-11 - reply Dia das Mães ('Te amo gigante de infinito 😍×4')"
+
+  '@draanamaral':
+    rel: irmã
+    name: Ana
+    title: "Dra (médica, formada pela UEL)"
+    tone: afetivo-íntimo
+    notes: |
+      Irmã do Dr. Médica. Família formada pela UEL (Universidade Estadual de Londrina).
+      Já comentou no post de Dia do Médico (2025) sobre legado de família de médicos.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@angeliquesamaral':
+    rel: tia
+    name: Angelique
+    tone: familiar-afetuoso
+    notes: |
+      Tia do Dr (não irmã, apesar do sobrenome Amaral). Usa "Getinho" e "Ferzinha".
+      Mensagens longas e afetuosas, tom mariano (mães do Céu, etc.).
+    last: "2026-05-11 - reply Dia das Mães ('Te amo, tia querida')"
+
+  '@tiagoamaralpr':
+    rel: primo
+    name: Tiago
+    tone: igual-pra-igual + afetuoso familiar
+    notes: |
+      Primo do Dr. Influente em redes sociais e em política (figura pública).
+      Resposta deve ser de igual pra igual, calorosa, SEM bajulação e SEM tom marketeiro/político.
+      Esposa dele = Ju. Eles se veem toda semana.
+    avoid:
+      - "ocupar espaço público com responsabilidade"
+      - "missão", "projeto", "evidência sem firula" (soa marketing)
+      - "vindas de você pesam dobrado" (soa político/transacional)
+      - "Conta comigo pro que precisar" (networking)
+      - "Marca logo de vermos vocês / Saudade" (eles se veem toda semana)
+    last: "2026-05-11 - reply Dia das Mães (versão v6 aprovada após 5 iterações)"
+
+  '@mateusamaral10':
+    rel: primo
+    name: Mateus
+    call_dr: "Getao"
+    tone: familiar-afetuoso
+    notes: |
+      Primo do Dr.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@mariana.amaraladv':
+    rel: família Amaral
+    name: Mariana
+    title: advogada (.adv no handle)
+    tone: familiar-afetuoso
+    notes: |
+      Família Amaral. Provavelmente prima.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@isabelleamaral.art':
+    rel: família Amaral
+    name: Isabelle (Isa)
+    call_dr: "Get"
+    tone: familiar-afetuoso
+    notes: |
+      Família Amaral. Artista (.art no handle).
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@amaral_eng':
+    rel: família Amaral
+    title: engenheiro (.eng no handle)
+    tone: familiar-afetuoso
+    notes: |
+      Família Amaral. Engenheiro.
+      Primeiro nome não confirmado — manter "meu querido" até confirmar.
+    last: "2026-05-11 - reply MTB + Dia das Mães"
+
+  # ============================================
+  # FAMÍLIA DA ESPOSA (Zanon / Calsavara / Calzavara)
+  # ============================================
+
+  '@zanoncleonice':
+    rel: sogra
+    name: Cleonice
+    tone: familiar-afetuoso respeitoso
+    notes: |
+      Mãe da Fernanda (sogra do Dr).
+      Não confirmado se Dr a chama de "mãe" ou "Cleo" — usar tom genérico até confirmar.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@marcoscalsavara':
+    rel: família esposa
+    name: Marcos
+    tone: familiar-afetuoso
+    notes: |
+      Família Calsavara (lado da Fer).
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@sandra.calsavara.1':
+    rel: família esposa
+    name: Sandra
+    tone: familiar-afetuoso
+    notes: |
+      Família Calsavara (lado da Fer).
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@anapaulalisboacalzavara':
+    rel: família esposa
+    name: Ana Paula
+    tone: familiar-afetuoso
+    notes: |
+      Família Calzavara (lado da Fer).
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@melissacalsavara':
+    rel: prima
+    name: Melissa
+    tone: familiar-afetuoso
+    notes: |
+      Prima. Sobrenome Calsavara — possivelmente lado da Fer ou Amaral via casamento.
+    last: "2026-05-11 - reply MTB ('Parabéns, primo!!! Que sucesso')"
+
+  '@larissacalsavara':
+    rel: família
+    name: Larissa
+    tone: familiar-afetuoso
+    notes: |
+      Sobrenome Calsavara igual ao da Melissa (prima). Provavelmente prima.
+    last: "2026-05-11 - reply MTB"
+
+  # ============================================
+  # AMIGOS ÍNTIMOS
+  # ============================================
+
+  '@joceyrcarvalhoguilherme':
+    rel: padrinho dos gêmeos + paciente
+    name: Joceyr
+    tone: afetivo-íntimo
+    notes: |
+      Padrinho dos gêmeos (declarou-se no comentário do Dia das Mães chamando os gêmeos
+      de "Afilhados Lindona e Lindão"). Também é paciente — comentou em post de
+      exercício/depressão agradecendo atendimento da família.
+    last: "2026-05-11 - reply Dia das Mães ('Padrinho querido')"
+
+  '@andreagasperi1':
+    rel: amiga íntima da Fer
+    name: Andrea
+    tone: afetivo-íntimo
+    notes: |
+      Amiga íntima da Fernanda. Mensagens dirigidas a Fer ("TE AMOOOOO", "minha amiga").
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@analiceberti':
+    rel: amiga íntima
+    name: "(não confirmado — Ana Lice? Analice?)"
+    call_dr: "Get"
+    tone: afetivo-íntimo
+    notes: |
+      Amiga íntima. Usa "Get". Primeiro nome ambíguo no handle.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@luanvmendess':
+    rel: amigo íntimo
+    name: Luan
+    call_dr: "Get"
+    tone: afetivo-íntimo
+    notes: |
+      Amigo. Tom de admiração mútua. Provavelmente outro médico ou profissional próximo.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@sheilaosti':
+    rel: amiga íntima
+    name: Sheila
+    tone: afetivo-íntimo
+    notes: |
+      Amiga íntima. Reconheceu o "papai" (gravidez).
+    last: "2026-05-11 - reply Dia das Mães ('Te amo')"
+
+  '@malugarib':
+    rel: amiga íntima
+    name: Malu (Maria Luiza)
+    call_dr: "Get"
+    tone: afetivo-íntimo
+    notes: |
+      Amiga próxima. Usa "Get" no MTB.
+    last: "2026-05-11 - reply MTB"
+
+  # ============================================
+  # PARCEIROS DE PEDAL / COLEGAS DE TRABALHO
+  # ============================================
+
+  '@michell.moro':
+    rel: parceiro de pedal + colega de trabalho
+    name: Michell
+    tone: brother / igual-pra-igual descontraído
+    notes: |
+      Parceiro de pedal (Rota das Catedrais — disse "ano que vem estamos de volta lá").
+      Colega — provavelmente trabalha em DaVita (referência da piada interna sobre "água
+      da DaVita suplementada" feita pela @thaisxavierchikazawa na thread do Michell).
+      Tem **3 filhas (meninas)** — teve trigêmeos recentemente.
+      Piada recorrente sobre placar de filhos: ele 3, Dr está em 2 com 2 chegando (vai
+      ultrapassar para 4).
+    avoid:
+      - "tropa" para se referir aos filhos dele (são meninas) — usar "as meninas"
+    last: "2026-05-11 - reply Rota MTB + reply Dia das Mães (com piada 4 vs 3)"
+
+  '@thaisxavierchikazawa':
+    rel: colega de trabalho
+    name: Thais
+    tone: profissional-caloroso descontraído
+    notes: |
+      Provavelmente colega da DaVita (fez a piada "a água da DaVita ta suplementadaaaaa
+      hahahahah" na thread do @michell.moro).
+    last: "2026-05-11 - reply Dia das Mães (top-level)"
+
+  '@dr_danilo_cunha':
+    rel: colega médico íntimo
+    name: Danilo
+    title: Dr (médico)
+    call_dr: "Monstro" (apelido)
+    tone: brother descontraído
+    notes: |
+      Colega médico íntimo. Usa "Monstro" como apelido afetuoso.
+    last: "2026-05-11 - reply MTB"
+
+  # ============================================
+  # COLEGAS MÉDICAS (relação profissional carinhosa)
+  # ============================================
+
+  '@drabianca.azevedo':
+    rel: colega médica
+    name: Bianca
+    title: Dra
+    tone: profissional-caloroso
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@dra.amandabufalo':
+    rel: colega médica
+    name: Amanda
+    title: Dra
+    tone: profissional-caloroso
+    notes: |
+      Sobrenome Búfalo.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@drayaraotorrino':
+    rel: colega médica
+    name: Yara
+    title: Dra (otorrinolaringologista)
+    tone: profissional-caloroso
+    last: "2026-05-11 - reply Dia das Mães"
+
+  # ============================================
+  # PACIENTES CONHECIDOS (não citar nome em público se não tiver consentimento)
+  # ============================================
+
+  '@maruskalm':
+    rel: paciente
+    name: Maru
+    tone: clínico-respeitoso afetuoso
+    notes: |
+      Paciente. Tem rins policísticos. Faz acompanhamento com Dr Ronaldo (nefrologista
+      em Curitiba). Perguntou sobre Mounjaro/tirzepatida pra rins policísticos.
+    last: "2026-05-11 - reply fechamento gentil (post Creatinina)"
+
+  '@marciojosecoutinhofreitas':
+    rel: paciente
+    name: Márcio (José Coutinho Freitas)
+    tone: clínico-respeitoso
+    notes: |
+      Paciente. Interessou-se por creatina em paciente de HD (hemodiálise).
+      Dr já respondeu em consultório / pessoalmente.
+    last: "2026-05-11 - reply MTB (☺️❤️) + skip no fechamento (já respondido pessoalmente)"
+
+  '@kovalskisuzana':
+    rel: paciente
+    name: Suzana
+    tone: clínico-respeitoso afetuoso
+    notes: |
+      Paciente. Usa Wegovy. Teve diarreia após iniciar whey protein normal.
+      Dr recomendou trocar para WPI/hidrolisado.
+    last: "2026-04-27 - reply em post Sarcopenia/GLP-1"
+
+  '@cdicieri':
+    rel: seguidor engajado (provavelmente paciente ou profissional)
+    tone: clínico-respeitoso
+    notes: |
+      Perguntou sobre Cistatina C como marcador de função renal. Dr respondeu com
+      profundidade técnica — tom sugere que cdicieri tem familiaridade médica.
+    last: "2026-05-06 - reply em post Creatinina"
+
+  '@anaamelia37':
+    rel: paciente
+    name: Ana Amélia
+    tone: clínico-respeitoso afetuoso
+    notes: |
+      Paciente renal crônica. TFG 30 mL/min (DRC G3b-4) + lipedema + obesidade.
+      Perguntou sobre Mounjaro/tirzepatida em post Creatinina (09/05/2026).
+      Dr respondeu com draft elaborado (1180 chars, v4 aprovada) abordando renoproteção
+      e benefício real. Ela voltou agradecendo no dia seguinte.
+    last: "2026-05-11 - reply de fechamento ('Por nada — fico à disposição')"
+
+  '@durcileinascimento':
+    rel: seguidor engajado
+    tone: clínico-respeitoso
+    notes: |
+      Perguntou em post Creatina (18/04/2026) se uso da creatina precisa de pausa
+      pós alguns meses ou pode ser contínuo. Dr respondeu em 11/05/2026 explicando
+      ISSN position stand, saturação muscular, ausência de benefício em ciclar.
+    last: "2026-05-11 - reply em post Creatina (pergunta clínica)"
+
+  # ============================================
+  # CÍRCULO PRÓXIMO DA FAMÍLIA (babá, parceiros, amigas da família)
+  # ============================================
+
+  '@gislenepgarcia':
+    rel: babá das crianças
+    name: Gi (Gislene)
+    tone: familiar-afetuoso (parte do dia-a-dia da casa)
+    notes: |
+      Babá das crianças. Tratamento curto e carinhoso, como família próxima da casa.
+      Dr a chama de "Gi".
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@dias.14v':
+    rel: amiga da família
+    name: Val (Valeria Dias)
+    tone: afetivo-íntimo
+    notes: |
+      Amiga da família. Tom emocional, mensagens longas e calorosas.
+      Dr a chama de "Val".
+    last: "2026-05-11 - reply Dia das Mães ('Val querida')"
+
+  '@pedro.hoam':
+    rel: parceiro de marketing/produção
+    name: Pedro (HOAM Digital — empresa)
+    tone: profissional-caloroso
+    notes: |
+      Parceiro de produção: faz vídeos, gravação e edição do conteúdo do Dr.
+      Handle .hoam = empresa HOAM Digital (também aparece como @hoamdigital em DMs).
+      Trabalham juntos no conteúdo — relação profissional próxima.
+    last: "2026-05-11 - comentou Dia das Mães (a responder em C/D depois)"
+
+  # ============================================
+  # AMIGAS DA ESPOSA / FAMÍLIA (que comentam dirigindo-se à Fer)
+  # ============================================
+
+  '@cristiane.yung':
+    rel: amiga da Fer
+    name: Cris (Cristiane)
+    tone: familiar-afetuoso
+    notes: |
+      Amiga da Fernanda. Chama Fer de "minha linda" e "lindeza" — íntima.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@priscila.shimomura':
+    rel: amiga da Fer
+    name: Pri (Priscila)
+    tone: familiar-afetuoso
+    notes: |
+      Amiga da Fernanda — chama Fer de "amiga".
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@fernandamendescruz':
+    rel: amiga da família
+    name: Fer (Fernanda)
+    tone: familiar-afetuoso
+    notes: |
+      Amiga da família. Mensagem "amigos lindos... família que tanto amamos".
+      Tratamento "Fer" — atenção: nome igual ao da esposa do Dr.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@gidebessa':
+    rel: paciente
+    name: Gisele (de Bessa)
+    tone: clínico-respeitoso afetuoso (mais formal que íntimo)
+    notes: |
+      Paciente do Dr. Tratamento mais formal — usar nome completo "Gisele", evitar
+      apelidos íntimos. Tom respeitoso mas afetuoso.
+    avoid:
+      - "querida" em demasia (manter formalidade adequada a relação médico-paciente)
+      - referências íntimas tipo "casa cheia" / piadinhas
+    last: "2026-05-11 - reply Dia das Mães (formal)"
+
+  '@pefavaro':
+    rel: amiga da Fer
+    name: "(não confirmado)"
+    tone: familiar-afetuoso
+    notes: |
+      Amiga próxima da Fer. Mensagem dirigida à maternidade dela ("Será a Mamãe mais
+      amorosa dessas doçuras"). Primeiro nome ainda não confirmado.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@debbyworld10':
+    rel: amiga íntima
+    name: Debby
+    call_dr: "Get"
+    tone: afetivo-íntimo
+    notes: |
+      Amiga íntima. Usa "Get" no tratamento.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@anaschlommer':
+    rel: conhecida da Fer
+    name: Ana (Schlommer)
+    tone: familiar-afetuoso
+    notes: |
+      Comentou em sub-reply na thread da Fer (@nanda_zanon).
+    last: "2026-05-11 - reply Dia das Mães"
+
+  # ============================================
+  # VIZINHOS (família próxima do dia-a-dia)
+  # ============================================
+
+  '@fabiipimenta':
+    rel: vizinha
+    name: Fabiane
+    tone: familiar-afetuoso
+    notes: |
+      Vizinha. Tratamento como "vizinha querida".
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@josi_fernandes_nobile':
+    rel: vizinha
+    name: Josi
+    tone: familiar-afetuoso
+    notes: |
+      Vizinha.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@leticia.benetasso':
+    rel: vizinha
+    name: Letícia
+    tone: familiar-afetuoso
+    notes: |
+      Vizinha.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@joaoaldinucci':
+    rel: vizinho
+    name: João
+    tone: familiar-afetuoso
+    notes: |
+      Vizinho.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  # ============================================
+  # PRIMOS (família Amaral + família esposa Zanon/Calsavara)
+  # ============================================
+
+  '@robertasilveiraqueiroz':
+    rel: prima
+    name: Roberta
+    side: lado Amaral (do Dr)
+    tone: familiar-afetuoso
+    notes: |
+      Prima do Dr (lado Amaral).
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@daphnepeplow':
+    rel: prima
+    name: Daphne
+    side: lado Amaral (do Dr)
+    tone: familiar-afetuoso
+    notes: |
+      Prima do Dr (lado Amaral).
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@willyan_osti':
+    rel: primo
+    name: Willian
+    side: lado Zanon (da Fernanda)
+    tone: familiar-afetuoso
+    notes: |
+      Primo da Fernanda.
+    last: "2026-05-11 - reply Dia das Mães"
+
+  '@jeane_clucena':
+    rel: prima + madrinha da Bianca
+    name: Jeane
+    side: lado Amaral (do Dr)
+    tone: afetivo-íntimo
+    notes: |
+      Prima do Dr (lado Amaral). **MADRINHA da Bianca** (filha do Dr).
+      Apelido "dindinha" funciona — reconhece o papel de madrinha.
+    last: "2026-05-11 - reply Dia das Mães ('Jeane, prima e madrinha querida, dindinha')"
+
+  # ============================================
+  # SEGUIDORES (categoria genérica — sem ação especial; like-only ou ☺️❤️ em massa)
+  # ============================================
+
+  # Adicionar abaixo quando aparecer engajamento recorrente que mereça categorização.
+  # Por enquanto, manter como "seguidor" implícito quando não há registro.
+
+  '@tiagogprescendo':
+    rel: seguidor
+    last: "2026-05-11 - reply MTB (☺️❤️)"
+
+  '@raymundopiresjr':
+    rel: seguidor
+    last: "2026-05-11 - replies MTB + Dia das Mães (☺️❤️)"
+
+  '@annakogut':
+    rel: seguidor
+    last: "2026-05-11 - reply MTB"
+
+  '@flaviadalvesco':
+    rel: seguidor
+    last: "2026-05-11 - reply MTB"
+
+  # ---- Tier 3 D (☺️❤️ em massa, Dia das Mães 11/05/2026) ----
+  '@mtamires252':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@renatajauris':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@gracademae':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@angelicarossi505':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@basalduasoraya':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@cintiaarqui':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@eloawaterkemperr':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@mariafernandacamargoboin':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@livia.snunes':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@ci_verissimo':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@priscila_machado_martins':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@fernanda.brocardo':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@osinha2010':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@prisecco22':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+  '@vaniafreitasdacosta':
+    rel: seguidor
+    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
