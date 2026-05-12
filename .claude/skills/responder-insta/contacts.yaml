@@ -19,7 +19,7 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-05-11'  # 3ª iteração — Tier 3 C+D: vizinhos + primos + descoberta filha Bianca
+last_updated: '2026-05-12'  # 4ª iteração — +1 nova amiga médica (natepaulosemfiltro)
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
 # Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
@@ -286,6 +286,16 @@ contacts:
     title: Dra (otorrinolaringologista)
     tone: profissional-caloroso
     last: "2026-05-11 - reply Dia das Mães"
+
+  '@natepaulosemfiltro':
+    rel: amiga médica
+    name: Nathalia (Grion)
+    title: Dra (médica)
+    tone: afetivo-íntimo entre amigos
+    notes: |
+      Médica amiga do Dr. Comentou no Dia das Mães com tom afetuoso
+      ("amor já tem de sobra"). Tratamento "amiga querida" ou pelo nome direto.
+    last: "2026-05-12 - reply Dia das Mães (comentário sobre gêmeos)"
 
   # ============================================
   # PACIENTES CONHECIDOS (não citar nome em público se não tiver consentimento)
