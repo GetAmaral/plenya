@@ -207,10 +207,12 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
             name: 'Conversa Pública | Rins Diabéticos | Celeste conversa com o Dr. Getúlio Amaral — Nefrologista',
             url: 'https://youtu.be/5WHKHyIlQMI',
             embedUrl: 'https://www.youtube.com/embed/5WHKHyIlQMI',
-            uploadDate: '2020-01-01',
+            uploadDate: '2026-01-12',
+            duration: 'PT25M28S',
+            publisher: { '@type': 'Organization', name: 'Rede Boas Novas (Jornalismo Boas Novas Brasil)', url: 'https://www.youtube.com/@boasnovasbrasil' },
             description: isEn
-              ? 'Public interview about diabetic kidneys with Dr. Getúlio Amaral Filho, nephrologist'
-              : 'Entrevista pública sobre rins diabéticos com o Dr. Getúlio Amaral Filho, nefrologista',
+              ? 'Public interview on diabetic kidney disease with Dr. Getúlio Amaral Filho — nephrologist and technical director of DaVita Intra Hospitalar Londrina. Topics: diabetes prevalence in Brazil, kidney function, diagnosis through creatinine and microalbuminuria tests, prevention strategies, evidence-based medications (SGLT2 inhibitors, finerenone, ACE inhibitors).'
+              : 'Entrevista pública sobre doença renal do diabético com o Dr. Getúlio Amaral Filho — nefrologista e responsável técnico da DaVita Intra Hospitalar Londrina. Aborda: prevalência do diabetes no Brasil, função renal, diagnóstico via creatinina e microalbuminúria, prevenção, medicamentos baseados em evidência (inibidores SGLT2, finerenona, IECA).',
             about: { '@type': 'MedicalCondition', name: isEn ? 'Diabetic kidney disease' : 'Doença renal do diabético' },
             actor: { '@id': `${BASE}/#person` },
             inLanguage: 'pt-BR',
@@ -220,10 +222,12 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
             name: 'AMLCast #017 — Dia Mundial do Rim',
             url: 'https://youtu.be/R_z3eBlZ_9k',
             embedUrl: 'https://www.youtube.com/embed/R_z3eBlZ_9k',
-            uploadDate: '2022-03-10',
+            uploadDate: '2024-03-14',
+            duration: 'PT54M19S',
+            publisher: { '@type': 'Organization', name: 'AML — Associação Médica de Londrina', url: 'https://www.youtube.com/@AMLAssocia%C3%A7%C3%A3oM%C3%A9dicadeLondrina' },
             description: isEn
-              ? 'Podcast episode on World Kidney Day with Dr. Getúlio Amaral Filho'
-              : 'Episódio do podcast AMLCast sobre o Dia Mundial do Rim com o Dr. Getúlio Amaral Filho',
+              ? 'World Kidney Day podcast episode produced by AML — Medical Association of Londrina. Featuring nephrologist Dr. Getúlio Amaral Filho (coordinator of the internal medicine and nephrology residency programs at Santa Casa de Londrina) and Dr. Luiz Wanderlei Romaniszen (2nd Vice-President of AML). Topics: prevention of kidney disease, dialysis statistics in Brazil, kidney function and renal failure.'
+              : 'Episódio do AMLCast (podcast da Associação Médica de Londrina) sobre o Dia Mundial do Rim. Com o nefrologista Dr. Getúlio Amaral Filho (coordenador dos programas de Residência Médica em Clínica Médica e Nefrologia da Santa Casa de Londrina) e o Dr. Luiz Wanderlei Romaniszen (2º Vice-Presidente da AML). Aborda prevenção de doença renal, estatísticas brasileiras de diálise e função renal.',
             about: { '@type': 'MedicalEntity', name: isEn ? 'Kidney health and disease prevention' : 'Saúde renal e prevenção de doenças renais' },
             actor: { '@id': `${BASE}/#person` },
             inLanguage: 'pt-BR',
