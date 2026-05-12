@@ -1,0 +1,60 @@
+# ==========================================================================
+# QuickStatements V1 — Batch FINAL (completa Q139746596 + Q139762971)
+# ==========================================================================
+# Como usar:
+# 1. https://quickstatements.toolforge.org/
+# 2. Login (agora com email validado)
+# 3. "New batch" → cola TODO esse conteúdo → "Import V1" → "Run"
+#
+# Nota: QuickStatements SKIPA statements duplicados automaticamente.
+# Se você já adicionou alguma propriedade manualmente, não tem problema.
+# ==========================================================================
+
+# ============== PESSOA (Q139746596) ==============
+
+# Work location — Londrina
+Q139746596	P937	Q170354
+
+# Notable work — o Livro Antes
+Q139746596	P800	Q139762971
+
+# Described at URL (P973) — todas as menções/credenciais oficiais
+# Cada URL é uma fonte secundária verificável
+
+# Fantástico/Rede Globo — 06/01/2019 (reportagem transplante renal)
+Q139746596	P973	"https://globoplay.globo.com/v/7280473/"
+
+# SBN — Dia Mundial do Rim 2024 (DaVita Londrina — palestrante)
+Q139746596	P973	"https://sbn.org.br/medicos/dia-mundial-do-rim/2024/resultados-2024/dia-mundial-do-rim-em-davita-brasil-participacoes-londrina/"
+
+# SBN — PDF oficial Título de Especialista (entrada 047)
+Q139746596	P973	"https://sbn.org.br/wp-content/uploads/2026/02/TE_Completo_por_Ano_2025.pdf"
+
+# AMLCast #017 — 14/03/2024 (Dia Mundial do Rim)
+Q139746596	P973	"https://youtu.be/R_z3eBlZ_9k"
+
+# Conversa Pública — Rede Boas Novas — 12/01/2026 (rins diabéticos)
+Q139746596	P973	"https://youtu.be/5WHKHyIlQMI"
+
+
+# ============== LIVRO (Q139762971) ==============
+
+# Country of origin — Brazil
+Q139762971	P495	Q155
+
+# Number of pages — 410
+Q139762971	P1104	+410
+
+# Languages (caso ainda não esteja todos)
+Q139762971	P407	Q750553
+Q139762971	P407	Q1860
+
+# ============================================================================
+# FIM
+# ============================================================================
+# Estatísticas:
+#   Q139746596 (Pessoa): +7 statements (1 work location, 1 notable work,
+#                        5 described at URL)
+#   Q139762971 (Livro):  +4 statements (1 country, 1 pages, 2 languages)
+#                        Total: 11 statements
+# ============================================================================
