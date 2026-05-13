@@ -19,7 +19,7 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-05-12'  # 4ª iteração — +1 nova amiga médica (natepaulosemfiltro)
+last_updated: '2026-05-12'  # 6ª iteração — +Tati (irmã) +Roberta Monteiro (seguidora clínica)
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
 # Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
@@ -50,6 +50,19 @@ contacts:
       Irmã do Dr. Médica. Família formada pela UEL (Universidade Estadual de Londrina).
       Já comentou no post de Dia do Médico (2025) sobre legado de família de médicos.
     last: "2026-05-11 - reply Dia das Mães"
+
+  '@tatiamaral.financas':
+    rel: irmã
+    name: Tatiana
+    nicknames: ["Tati", "Tatoca"]
+    area: finanças
+    tone: afetivo-íntimo
+    notes: |
+      Irmã do Dr. Trabalha com finanças (handle ".financas"). Apelidos
+      usados na família: Tati ou Tatoca. Mandou DM "Que lindo!!" reagindo
+      ao Reel do Dia das Mães (10/05/2026), fora da janela 24h Meta —
+      sem reply textual nessa checagem (pulada por orientação do Dr).
+    last: "2026-05-12 - DM share Dia das Mães, sem reply (fora janela)"
 
   '@angeliquesamaral':
     rel: tia
@@ -601,3 +614,13 @@ contacts:
   '@vaniafreitasdacosta':
     rel: seguidor
     last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+
+  '@robertamonteirobo':
+    rel: seguidora
+    name: Roberta Monteiro
+    tone: clínico-respeitoso
+    notes: |
+      Seguidora com pergunta clínica. Alta míope, retina fina periférica,
+      já fez laser preventivo. Cogitando GLP-1. Tom direto, técnico-leigo,
+      sem bajulação. Tratamento "Roberta" pelo nome.
+    last: "2026-05-12 - reply em Reel Jejum Intermitente (pergunta clínica retina + GLP-1)"

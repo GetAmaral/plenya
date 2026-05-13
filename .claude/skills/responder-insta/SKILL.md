@@ -29,10 +29,12 @@ Dispara **em paralelo**, em uma única mensagem com múltiplas tool calls:
 4. `mcp__composio-plenya__INSTAGRAM_GET_USER_INFO` (sanity check — só faz se modo COMPLETO)
 
 Quando voltar:
-- Pra **cada post** dos últimos 10: `INSTAGRAM_GET_IG_MEDIA_COMMENTS` (media_id=$id, limit=100, fields="id,text,username,timestamp,like_count,replies{id,username,from},parent_id") — também em paralelo
+- Pra **TODOS os posts** (não só os 10 mais recentes — comentários novos PODEM cair em Reels antigos!): `INSTAGRAM_GET_IG_MEDIA_COMMENTS` (media_id=$id, limit=100, fields="id,text,username,timestamp,like_count,replies{id,username,from},parent_id") — paralelo. Pague o custo de varrer tudo: pagina via `after` cursor em `GET_IG_USER_MEDIA` até esgotar. **Confirmado em produção (2026-05-12)**: comentário novo da @robertamonteirobo no Reel de Jejum Intermitente (post #18) passou batido com varredura limitada aos 10 mais recentes. Nunca mais.
 - Pra **cada conversa** DM: `INSTAGRAM_LIST_ALL_MESSAGES` (conversation_id=$id, limit=10) — paralelo
 
 Em todas as chamadas, peça campos mínimos necessários. Não infle payload.
+
+**Aviso sobre username mascarado:** Em alguns comments o Graph API NÃO retorna `username` nem `from` (provavelmente contas privadas ou configurações de privacidade). Mesmo pedindo `from` explicitamente vem vazio. Quando acontecer, registre como `@desconhecido` no draft e peça ao usuário pra confirmar o handle visualmente no app antes de responder.
 
 ---
 
