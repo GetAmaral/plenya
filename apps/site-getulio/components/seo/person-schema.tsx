@@ -202,7 +202,9 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
               ? "Fantástico — Kidney transplant: two stories of extraordinary generosity (Claus's case)"
               : 'Fantástico — Transplante renal: duas histórias de generosidade extraordinária (caso Claus)',
             url: 'https://globoplay.globo.com/v/7280473/',
-            uploadDate: '2019-01-06',
+            contentUrl: 'https://globoplay.globo.com/v/7280473/',
+            thumbnailUrl: `${BASE}/images/getulio-hero-bw.jpg`,
+            uploadDate: '2019-01-06T22:00:00-03:00',
             duration: 'PT7M22S',
             publisher: { '@type': 'Organization', name: 'Rede Globo' },
             isPartOf: { '@type': 'TVSeries', name: 'Fantástico' },
@@ -238,9 +240,10 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
           {
             '@type': 'VideoObject',
             name: 'Conversa Pública | Rins Diabéticos | Celeste conversa com o Dr. Getúlio Amaral — Nefrologista',
-            url: 'https://youtu.be/5WHKHyIlQMI',
+            url: 'https://www.youtube.com/watch?v=5WHKHyIlQMI',
             embedUrl: 'https://www.youtube.com/embed/5WHKHyIlQMI',
-            uploadDate: '2026-01-12',
+            thumbnailUrl: 'https://img.youtube.com/vi/5WHKHyIlQMI/maxresdefault.jpg',
+            uploadDate: '2026-01-12T00:00:00-03:00',
             duration: 'PT25M28S',
             publisher: { '@type': 'Organization', name: 'Rede Boas Novas (Jornalismo Boas Novas Brasil)', url: 'https://www.youtube.com/@boasnovasbrasil' },
             description: isEn
@@ -253,9 +256,10 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
           {
             '@type': 'VideoObject',
             name: 'AMLCast #017 — Dia Mundial do Rim',
-            url: 'https://youtu.be/R_z3eBlZ_9k',
+            url: 'https://www.youtube.com/watch?v=R_z3eBlZ_9k',
             embedUrl: 'https://www.youtube.com/embed/R_z3eBlZ_9k',
-            uploadDate: '2024-03-14',
+            thumbnailUrl: 'https://img.youtube.com/vi/R_z3eBlZ_9k/maxresdefault.jpg',
+            uploadDate: '2024-03-14T00:00:00-03:00',
             duration: 'PT54M19S',
             publisher: { '@type': 'Organization', name: 'AML — Associação Médica de Londrina', url: 'https://www.youtube.com/@AMLAssocia%C3%A7%C3%A3oM%C3%A9dicadeLondrina' },
             description: isEn
