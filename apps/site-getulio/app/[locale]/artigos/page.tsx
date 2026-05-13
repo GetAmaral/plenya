@@ -137,7 +137,7 @@ export default async function EscritosPage({
             )}
 
             {rest.length > 0 && (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14 border-t border-rule pt-12">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 md:gap-y-20 border-t border-rule pt-12">
                 {rest.map((p) => (
                   <Link
                     key={p.slug}

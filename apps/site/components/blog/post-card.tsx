@@ -29,7 +29,7 @@ export function PostCard({ post, featured = false, locale = defaultLocale }: { p
         {post.title}
       </h3>
       <p className="text-petrol/65 mt-4 max-w-2xl leading-relaxed">{post.excerpt}</p>
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 label-upper text-petrol/45 text-[0.7rem] mt-6">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 label-upper text-petrol/45 text-[0.7rem] mt-6 pt-4 border-t border-petrol/10">
         <span>{labels[post.pillar]}</span>
         <span className="text-petrol/20">·</span>
         <time dateTime={post.date}>

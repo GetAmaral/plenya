@@ -55,7 +55,7 @@ export default async function BlogPillarPage({ params }: { params: Promise<{ loc
           <PillarFilter active={pilar} locale={locale} />
 
           {posts.length ? (
-            <div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 md:gap-y-24">
               {posts.map((post) => (
                 <PostCard key={post.slug} post={post} locale={locale} />
               ))}
