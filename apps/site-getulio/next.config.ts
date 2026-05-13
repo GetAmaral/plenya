@@ -65,6 +65,17 @@ const nextConfig: NextConfig = {
         destination: '/en/articles/12-tests-a-longevity-checkup-orders',
         permanent: true,
       },
+      // Renomeação 2026-05-13: artigo "Suplementos depois dos 40" (remoção de tom polêmico, foco em pilares + caso a caso)
+      {
+        source: '/artigos/suplementos-que-fazem-diferenca-depois-dos-40',
+        destination: '/artigos/suplementacao-depois-dos-40-o-que-faz-diferenca',
+        permanent: true,
+      },
+      {
+        source: '/en/articles/supplements-that-make-a-difference-after-40',
+        destination: '/en/articles/supplementation-after-40-what-makes-a-difference',
+        permanent: true,
+      },
     ];
   },
 };
