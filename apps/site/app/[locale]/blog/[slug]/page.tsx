@@ -149,22 +149,32 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       )}
 
 
-      <div className="site-narrow pb-2">
-        <p className="font-sans text-xs text-ink-muted bg-paper border-l-2 border-bordo px-4 py-3">
-          {locale === 'en'
-            ? 'Editorial version (first-person) authored by Dr. Getúlio at '
-            : 'Versão editorial em primeira pessoa pelo Dr. Getúlio em '}
-          <a
-            href={`https://drgetulioamaralfilho.com.br${locale === 'en' ? '/en/articles/' : '/artigos/'}${post.slug}`}
-            target="_blank"
-            rel="noreferrer"
-            className="link-text"
-          >
-            drgetulioamaralfilho.com.br
-          </a>
-          {locale === 'en' ? ' — same content, personal voice.' : ' — mesmo conteúdo, voz pessoal.'}
-        </p>
-      </div>
+      <aside className="site-narrow pb-2">
+        <a
+          href={`https://drgetulioamaralfilho.com.br${locale === 'en' ? '/en/articles/' : '/artigos/'}${post.slug}`}
+          target="_blank"
+          rel="noreferrer"
+          className="group block bg-paper border border-bordo/30 hover:border-bordo transition-colors p-6 md:p-7 no-underline"
+        >
+          <p className="label-meta text-bordo mb-2">
+            {locale === 'en' ? 'Read it personal' : 'Versão em primeira pessoa'}
+          </p>
+          <h3 className="font-serif text-xl md:text-2xl text-ink mb-3 leading-tight">
+            {locale === 'en'
+              ? 'A first-person take by Dr. Getúlio himself'
+              : 'A mesma leitura na voz do Dr. Getúlio'}
+          </h3>
+          <p className="font-sans text-sm md:text-base text-ink-soft mb-4 leading-relaxed">
+            {locale === 'en'
+              ? 'The same topic told as story, with the clinical reasoning behind each decision — in the doctor’s editorial blog.'
+              : 'O mesmo tema contado como história, com o raciocínio clínico por trás de cada decisão — no blog editorial do médico.'}
+          </p>
+          <p className="font-sans text-sm font-medium text-bordo group-hover:translate-x-0.5 transition-transform">
+            {locale === 'en' ? 'Read at drgetulioamaralfilho.com.br' : 'Ler em drgetulioamaralfilho.com.br'}
+            <span aria-hidden> →</span>
+          </p>
+        </a>
+      </aside>
 
             <div className="site-narrow">
         <AuthorBox author={author} reviewedBy={reviewedBy} reviewedAt={post.updated ?? post.date} locale={locale} />

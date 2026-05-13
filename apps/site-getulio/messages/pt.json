@@ -473,11 +473,13 @@
     "detailReviewStrong": "Revisão clínica.",
     "detailReviewBody": "Conteúdo médico de autoria do Dr. Getúlio Amaral Filho · CRM-PR 21.876 · RQE 16.038 (Nefrologia).",
     "detailRelatedKicker": "Outros artigos no mesmo pilar",
-    "crossLinkPre": "Versão clínica para profissionais disponível em",
+    "crossLinkPre": "Texto também publicado, em registro institucional, em",
     "crossLinkLink": "plenyasaude.com.br",
-    "crossLinkPost": " — texto institucional, mesmas referências.",
-    "crossLinkFooterPre": "Para o público clínico/profissional, leia a versão institucional em",
-    "crossLinkFooterLink": "Plenya · Blog"
+    "crossLinkPost": ".",
+    "crossLinkCardEyebrow": "Conheça a clínica",
+    "crossLinkCardTitle": "Onde esse cuidado vira prática",
+    "crossLinkCardBody": "Plenya é a clínica do Dr. Getúlio: médico, nutricionista, psicóloga e educador físico operando como time único, com o Método AGIR e o Escore Plenya guiando cada plano. O blog institucional aprofunda os temas deste artigo no contexto da equipe.",
+    "crossLinkCardCTA": "Conhecer plenyasaude.com.br"
   },
   "palestras": {
     "metaTitle": "Palestras",
