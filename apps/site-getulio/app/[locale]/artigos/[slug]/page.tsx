@@ -116,21 +116,6 @@ export default async function EscritoPage({
         />
       </header>
 
-      <div className="editorial-narrow pb-2">
-        <p className="font-sans text-xs text-ink-muted px-1">
-          {t('crossLinkPre')}{' '}
-          <a
-            href={plenyaUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="link-text"
-          >
-            {t('crossLinkLink')}
-          </a>
-          {t('crossLinkPost')}
-        </p>
-      </div>
-
       <section className="editorial-narrow pb-12">
         <div className="space-y-8">
           <div className="flex items-center gap-4 flex-wrap">
@@ -190,24 +175,19 @@ export default async function EscritoPage({
         </div>
       </section>
 
-      <aside className="editorial-narrow pt-2 pb-10">
-        <a
-          href={plenyaUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="group block bg-paper border border-gold/40 hover:border-gold transition-colors p-6 md:p-7 no-underline"
-        >
-          <p className="label-meta text-bordo mb-2">{t('crossLinkCardEyebrow')}</p>
-          <h3 className="font-serif text-xl md:text-2xl text-ink mb-3 leading-tight">
-            {t('crossLinkCardTitle')}
-          </h3>
-          <p className="font-sans text-sm md:text-base text-ink-soft mb-4 leading-relaxed">
-            {t('crossLinkCardBody')}
-          </p>
-          <p className="font-sans text-sm font-medium text-bordo group-hover:translate-x-0.5 transition-transform">
-            {t('crossLinkCardCTA')} <span aria-hidden> →</span>
-          </p>
-        </a>
+      <aside className="editorial-narrow py-10 border-t border-bordo/20 text-center">
+        <p className="font-serif text-lg md:text-xl text-ink-soft leading-relaxed">
+          {t('crossLinkPrompt')}{' '}
+          <a
+            href={plenyaUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-bordo font-medium underline decoration-bordo/40 underline-offset-[6px] decoration-2 hover:decoration-bordo hover:bg-bordo/5 transition-colors px-0.5"
+          >
+            {t('crossLinkInvite')}
+            <span aria-hidden> →</span>
+          </a>
+        </p>
       </aside>
 
       <EducationalNotice />

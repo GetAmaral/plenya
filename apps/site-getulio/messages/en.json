@@ -473,13 +473,8 @@
     "detailReviewStrong": "Clinical review.",
     "detailReviewBody": "Medical content authored by Dr. Getúlio Amaral Filho · CRM-PR 21,876 · RQE 16,038 (Nephrology).",
     "detailRelatedKicker": "More articles in the same pillar",
-    "crossLinkPre": "Also published, in institutional voice, at",
-    "crossLinkLink": "plenyasaude.com.br",
-    "crossLinkPost": ".",
-    "crossLinkCardEyebrow": "Meet the clinic",
-    "crossLinkCardTitle": "Where this care becomes practice",
-    "crossLinkCardBody": "Plenya is Dr. Getúlio's clinic: physician, nutritionist, psychologist and exercise specialist working as a single team, with the AGIR Method and the Plenya Score guiding every plan. The institutional blog explores these topics in the context of the team.",
-    "crossLinkCardCTA": "Visit plenyasaude.com.br"
+    "crossLinkPrompt": "Want to keep reading on this topic, from another angle?",
+    "crossLinkInvite": "Read it on the Plenya blog"
   },
   "palestras": {
     "metaTitle": "Lectures",

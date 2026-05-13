@@ -149,31 +149,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       )}
 
 
-      <aside className="site-narrow pb-2">
-        <a
-          href={`https://drgetulioamaralfilho.com.br${locale === 'en' ? '/en/articles/' : '/artigos/'}${post.slug}`}
-          target="_blank"
-          rel="noreferrer"
-          className="group block bg-paper border border-bordo/30 hover:border-bordo transition-colors p-6 md:p-7 no-underline"
-        >
-          <p className="label-meta text-bordo mb-2">
-            {locale === 'en' ? 'Read it personal' : 'Versão em primeira pessoa'}
-          </p>
-          <h3 className="font-serif text-xl md:text-2xl text-ink mb-3 leading-tight">
-            {locale === 'en'
-              ? 'A first-person take by Dr. Getúlio himself'
-              : 'A mesma leitura na voz do Dr. Getúlio'}
-          </h3>
-          <p className="font-sans text-sm md:text-base text-ink-soft mb-4 leading-relaxed">
-            {locale === 'en'
-              ? 'The same topic told as story, with the clinical reasoning behind each decision — in the doctor’s editorial blog.'
-              : 'O mesmo tema contado como história, com o raciocínio clínico por trás de cada decisão — no blog editorial do médico.'}
-          </p>
-          <p className="font-sans text-sm font-medium text-bordo group-hover:translate-x-0.5 transition-transform">
-            {locale === 'en' ? 'Read at drgetulioamaralfilho.com.br' : 'Ler em drgetulioamaralfilho.com.br'}
+      <aside className="site-narrow py-10 border-t border-bordo/20 text-center">
+        <p className="font-serif text-lg md:text-xl text-ink-soft leading-relaxed">
+          {locale === 'en' ? 'Want to keep reading on this topic, from another angle? ' : 'Quer continuar lendo este tema, por outro olhar? '}
+          <a
+            href={`https://drgetulioamaralfilho.com.br${locale === 'en' ? '/en/articles/' : '/artigos/'}${post.slug}`}
+            target="_blank"
+            rel="noreferrer"
+            className="text-bordo font-medium underline decoration-bordo/40 underline-offset-[6px] decoration-2 hover:decoration-bordo hover:bg-bordo/5 transition-colors px-0.5"
+          >
+            {locale === 'en' ? 'Read it on Dr. Getúlio’s blog' : 'Leia também no blog do Dr. Getúlio'}
             <span aria-hidden> →</span>
-          </p>
-        </a>
+          </a>
+        </p>
       </aside>
 
             <div className="site-narrow">
