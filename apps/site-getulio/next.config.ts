@@ -53,6 +53,18 @@ const nextConfig: NextConfig = {
       { source: '/en/ensino', destination: '/en/teaching', permanent: true },
       { source: '/en/onde-atendo', destination: '/en/where-i-practice', permanent: true },
       { source: '/en/contato', destination: '/en/contact', permanent: true },
+
+      // Renomeação 2026-05-13: artigo "12 exames..." (remoção de tom polêmico)
+      {
+        source: '/artigos/12-exames-que-valem-cada-centavo-e-12-que-sao-desperdicio',
+        destination: '/artigos/12-exames-que-um-checkup-de-longevidade-pede',
+        permanent: true,
+      },
+      {
+        source: '/en/articles/12-tests-worth-every-penny-and-12-that-are-wasted',
+        destination: '/en/articles/12-tests-a-longevity-checkup-orders',
+        permanent: true,
+      },
     ];
   },
 };

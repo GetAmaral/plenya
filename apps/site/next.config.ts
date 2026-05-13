@@ -36,6 +36,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/blog/12-exames-que-valem-cada-centavo-e-12-que-sao-desperdicio',
+        destination: '/blog/12-exames-que-um-checkup-de-longevidade-pede',
+        permanent: true,
+      },
+      {
+        source: '/en/blog/12-tests-worth-every-penny-and-12-that-are-wasted',
+        destination: '/en/blog/12-tests-a-longevity-checkup-orders',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);
