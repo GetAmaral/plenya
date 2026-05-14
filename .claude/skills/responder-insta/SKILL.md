@@ -101,6 +101,60 @@ source ~/.secrets/plenya-meta.env
 
 ---
 
+## Fase A3 — FB Page Messenger DMs
+
+A Page "Clínica médica Dr Getulio" (`1046561478538408`) pode receber DMs via Messenger. Em 2026-05-13 a Page tinha 0 conversas, mas a varredura completa deve incluir mesmo assim — DMs novas podem chegar via ads.
+
+### Fluxo
+
+1. **Listar conversas Messenger da Page:**
+   ```
+   FACEBOOK_GET_PAGE_CONVERSATIONS(page_id="1046561478538408", limit=25, fields="id,updated_time,unread_count,participants,message_count")
+   ```
+
+2. **Pra cada conversa pendente** (last message do user, não do Dr):
+   ```
+   FACEBOOK_GET_CONVERSATION_MESSAGES(page_id="1046561478538408", conversation_id="$id", limit=10)
+   ```
+
+3. **Postar resposta:**
+   - `FACEBOOK_SEND_MESSAGE(recipient_id=$psid, message=...)` (carregar via ToolSearch se necessário)
+
+### Tools necessárias (ToolSearch se não carregadas)
+- `FACEBOOK_GET_PAGE_CONVERSATIONS`
+- `FACEBOOK_GET_CONVERSATION_MESSAGES`
+- `FACEBOOK_SEND_MESSAGE`
+- `FACEBOOK_MARK_MESSAGE_SEEN`
+
+---
+
+## 📋 Inventário completo de superfícies (atualizado 2026-05-13)
+
+### ✅ COBERTAS pela skill
+
+| Superfície | Fase | Tool/Método |
+|---|---|---|
+| IG posts orgânicos — comments | A | `INSTAGRAM_GET_IG_MEDIA_COMMENTS` em TODOS posts |
+| IG DMs (inclui story replies, story mentions, reel shares) | A | `INSTAGRAM_LIST_ALL_CONVERSATIONS` + `INSTAGRAM_LIST_ALL_MESSAGES` |
+| IG mentions (tags) | A | `INSTAGRAM_GET_IG_USER_TAGS` |
+| **Ads dark FB Page — comments lado IG** | A2 | Marketing API curl direto |
+| **Ads dark FB Page — comments lado FB** | A2 | `FACEBOOK_GET_COMMENTS` Composio |
+| **FB Page Messenger DMs** | A3 | `FACEBOOK_GET_PAGE_CONVERSATIONS` |
+
+### ❌ NÃO COBERTAS (limitações conhecidas)
+
+| Superfície | Motivo | Severidade |
+|---|---|---|
+| FB Page posts orgânicos — comments | Page tem 0 posts orgânicos (só roda ads) — não aplicável | N/A |
+| FB Page mentions (alguém marca a Page num post próprio) | Sem tool fácil no Composio; precisa Graph API direta | Baixa (uso real raro) |
+| FB Stories | API limitada; tipicamente vira DM Messenger se replying | Baixa |
+| Threads | Threads API existe mas não está no Composio | Baixa (Dr não usa Threads) |
+| Mentions hashtag (#drgetulioamaralfilho em posts de terceiros) | Hashtag search API restrita a Business Discovery | Baixa |
+
+Pra cada superfície não-coberta, é decisão consciente baseada em valor/custo.
+
+---
+
 ## Fase B — Filtragem e classificação
 
 **Antes de filtrar, carregue o catálogo de contatos:**
