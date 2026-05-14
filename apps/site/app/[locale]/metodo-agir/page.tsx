@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAgirLetters } from '@/lib/agir-structure';
 import { getAgirPillars } from '@plenya/brand';
+import { BookReferenceBlock } from '@/components/marketing/book-reference';
 
 type Params = Promise<{ locale: string }>;
 
@@ -205,6 +206,18 @@ export default async function MethodPage({ params }: { params: Params }) {
           </div>
         </div>
       </section>
+
+      {/* Obra de referência — livro Antes */}
+      <BookReferenceBlock
+        locale={locale}
+        contextLabel={locale === 'en' ? 'Reference work' : 'Obra de referência'}
+        contextLine={
+          locale === 'en'
+            ? 'The book that traces the silent decade where the ACTS Method intervenes — written by the clinical director.'
+            : 'O livro que descreve a década silenciosa onde o Método AGIR atua — escrito pelo diretor clínico.'
+        }
+        tone="cream"
+      />
 
       {/* Como aplicamos */}
       <section className="bg-cream">

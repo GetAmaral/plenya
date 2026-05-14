@@ -90,8 +90,8 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
     ? 'Santa Casa de Londrina (Santa Casa Hospital, Londrina)'
     : 'Santa Casa de Londrina';
   const abmfiName = isEn
-    ? 'Associação Brasileira de Medicina Funcional Integrativa (Brazilian Association of Integrative Functional Medicine, ABMFI)'
-    : 'Associação Brasileira de Medicina Funcional Integrativa (ABMFI)';
+    ? 'Academia Brasileira de Medicina Funcional Integrativa (Brazilian Academy of Integrative Functional Medicine, ABMFI)'
+    : 'Academia Brasileira de Medicina Funcional Integrativa (ABMFI)';
   const sbnName = isEn
     ? 'Sociedade Brasileira de Nefrologia (Brazilian Society of Nephrology)'
     : 'Sociedade Brasileira de Nefrologia';
@@ -279,6 +279,7 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
           'https://plenyasaude.com.br',
           'https://instagram.com/plenyaSaude',
           'https://www.doctoralia.com.br/getulio-amaral-filho/nefrologista/londrina',
+          'https://busca.abmfuncionalintegrativa.com.br/profissional/getulio-jose-mattos-do-amaral-filho-2d3ee592',
           'https://iepi.iscal.com.br/br/ensino/residencia-medica',
         ],
       },

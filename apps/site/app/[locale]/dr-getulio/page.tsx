@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
+import { BookSchema } from '@/components/seo/book-schema';
 
 type Params = Promise<{ locale: string }>;
 
@@ -37,6 +38,7 @@ export default async function DrGetulioPage({ params }: { params: Params }) {
 
   return (
     <>
+      <BookSchema locale={locale} />
       {/* Hero */}
       <section className="bg-petrol text-cream">
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32 grid lg:grid-cols-2 gap-16 items-center">

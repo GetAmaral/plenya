@@ -14,6 +14,7 @@ import { OrganizationSchema } from '@/components/seo/organization-schema';
 import { MedicalClinicSchema } from '@/components/seo/medical-clinic-schema';
 import { PhysicianSchema } from '@/components/seo/physician-schema';
 import { WebSiteSchema } from '@/components/seo/website-schema';
+import { NavigationSchema } from '@/components/seo/navigation-schema';
 
 const heading = localFont({
   src: '../../node_modules/@plenya/brand/src/fonts/nalieta/Nalieta-Regular.otf',
@@ -119,6 +120,7 @@ export default async function LocaleLayout({
             <MedicalClinicSchema locale={locale} />
             <PhysicianSchema locale={locale} />
             <WebSiteSchema locale={locale} />
+            <NavigationSchema locale={locale} />
             <SiteHeader />
             <main className="flex-1">{children}</main>
             <SiteFooter />

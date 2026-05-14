@@ -91,7 +91,7 @@ Cada um com qualifier P512 (academic degree) + P580 (start time) + P582 (end tim
 |---|---|---|---|
 | Universidade Estadual de Londrina | **Q3550114** | Graduação em Medicina | 1999–2004 |
 | Santa Casa de Londrina (ISCAL) | **buscar** — se não existir, usa string | Especialização Clínica Médica + Nefrologia | 2005–2008 |
-| Associação Brasileira de Medicina Funcional Integrativa (ABMFI) | string | Pós-graduação Medicina Funcional Integrativa | 2026 |
+| Academia Brasileira de Medicina Funcional Integrativa (ABMFI) | string | Pós-graduação Medicina Funcional Integrativa | 2026 |
 
 ### Position held (P39) — 6 statements separados:
 
@@ -116,7 +116,7 @@ Cada um com qualifier P512 (academic degree) + P580 (start time) + P582 (end tim
 
 - Sociedade Brasileira de Nefrologia (string ou Q-item)
 - Sociedade Paranaense de Nefrologia (string)
-- Associação Brasileira de Medicina Funcional Integrativa (string)
+- Academia Brasileira de Medicina Funcional Integrativa (string)
 
 ### Notable work (P800)
 

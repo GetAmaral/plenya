@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAgirPillars } from '@plenya/brand';
 import { PlenyaInfinity } from '@plenya/brand/logo';
+import { BookReferenceBlock } from '@/components/marketing/book-reference';
 
 type Params = Promise<{ locale: string }>;
 
@@ -141,6 +142,18 @@ export default async function AboutPage({ params }: { params: Params }) {
           </div>
         </div>
       </section>
+
+      {/* Obra de referência — livro Antes */}
+      <BookReferenceBlock
+        locale={locale}
+        contextLabel={locale === 'en' ? 'Reference work' : 'Obra de referência'}
+        contextLine={
+          locale === 'en'
+            ? 'The Plenya method comes from the same clinical reading that produced this book.'
+            : 'O método Plenya nasce da mesma leitura clínica que produziu este livro.'
+        }
+        tone="cream"
+      />
 
       {/* Círculo de Ouro */}
       <section className="bg-petrol text-cream">

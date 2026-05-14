@@ -1,4 +1,4 @@
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { brand } from '@plenya/brand';
 import { PlenyaWordmark, PlenyaSymbol } from '@plenya/brand/logo';
 import { Link } from '@/lib/i18n/navigation';
@@ -7,6 +7,11 @@ export function SiteFooter() {
   const t = useTranslations('footer');
   const tNav = useTranslations('nav');
   const tMenu = useTranslations('navMenu');
+  const locale = useLocale();
+  const bookExternalUrl =
+    locale === 'en'
+      ? 'https://drgetulioamaralfilho.com.br/en/books/antes'
+      : 'https://drgetulioamaralfilho.com.br/livros/antes';
   const year = new Date().getFullYear();
 
   return (
@@ -33,6 +38,14 @@ export function SiteFooter() {
               className="text-cream/85 hover:text-cream transition"
             >
               {t('drGetulioSiteLink')}
+            </a>
+            <a
+              href={bookExternalUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-cream/85 hover:text-cream transition"
+            >
+              {t('bookExternalLink')}
             </a>
             <span className="text-cream/55">{t('city')}</span>
           </div>

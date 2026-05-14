@@ -123,7 +123,7 @@
     "p3": "Nas duas décadas seguintes, esse foi o meu dia a dia. Desde 2009 coordeno a residência médica em nefrologia da Santa Casa de Londrina, e em 2014 fundei a residência em clínica médica da mesma instituição. Sou responsável técnico pela hemodiálise hospitalar da DaVita Intra Hospitalar de Londrina. Acompanhei centenas de pacientes em estágios avançados de doença — quadros em que, com frequência, a trajetória poderia ter sido modificada anos antes.",
     "p4": "Vi pacientes chegarem ao consultório com exames \"normais\" no ano anterior. Vi check-ups que registraram tudo dentro da faixa — e perderam o sinal de tudo o que estava se montando em silêncio. O laboratório dizia \"normal\". O corpo estava adoecendo há oito, dez, vinte anos.",
     "p5": "Foi essa observação repetida que me incomodou. Não era falha dos exames — era falha da pergunta. O check-up convencional procura doença instalada. Não procura o intervalo entre o normal e o ótimo, onde a longevidade é construída ou perdida.",
-    "p6": "Em 2026, conclui pós-graduação em medicina funcional integrativa pela Associação Brasileira de Medicina Funcional Integrativa. Não foi uma troca de paradigma. Foi uma extensão para trás — aplicar o método clínico estruturado desenvolvido em vinte anos de prática, com exames e dados e decisão clínica, ao período que precede a doença.",
+    "p6": "Em 2026, conclui pós-graduação em medicina funcional integrativa pela Academia Brasileira de Medicina Funcional Integrativa. Não foi uma troca de paradigma. Foi uma extensão para trás — aplicar o método clínico estruturado desenvolvido em vinte anos de prática, com exames e dados e decisão clínica, ao período que precede a doença.",
     "p7Pre": "É essa medicina que conduzo hoje na Plenya, ao lado da equipe que se reuniu para isso. E é sobre essa janela silenciosa entre o normal e o ótimo que escrevi o livro ",
     "p7Em": "Antes",
     "p7Post": ", publicado em 2026.",
@@ -208,7 +208,7 @@
     "sociedades": [
       "Sociedade Brasileira de Nefrologia — Membro do Comitê Cardiorrenal",
       "Sociedade Paranaense de Nefrologia",
-      "Associação Brasileira de Medicina Funcional Integrativa"
+      "Academia Brasileira de Medicina Funcional Integrativa"
     ],
     "faqKicker": "Perguntas frequentes",
     "faqH2": "Sobre o médico, a prática e como consultar.",
@@ -219,7 +219,7 @@
       },
       {
         "q": "Qual a especialidade do Dr. Getúlio?",
-        "a": "<p>Sou nefrologista e clínico geral. Formado em medicina pela Universidade Estadual de Londrina (UEL) em 2004, fiz especializações em clínica médica (2006) e nefrologia (2008) na Santa Casa de Londrina, com título de especialista em nefrologia pela Sociedade Brasileira de Nefrologia (SBN) no mesmo ano. Em 2026, concluí pós-graduação em medicina funcional integrativa pela Associação Brasileira de Medicina Funcional Integrativa (ABMFI).</p><p>Coordeno a residência médica em nefrologia da Santa Casa de Londrina desde 2009, e fundei a residência em clínica médica da mesma instituição em 2014. Sou membro do Comitê Cardiorrenal da SBN.</p><p><strong>Áreas de interesse e prática clínica:</strong> nefrologia preventiva, eixo cardio-reno-metabólico, longevidade e healthspan, medicina preventiva e funcional integrativa, performance, nutrologia, suplementação inteligente, biomarcadores avançados e gestão metabólica.</p><p>Registros: CRM-PR 21.876 · RQE 16.038 (Nefrologia).</p>"
+        "a": "<p>Sou nefrologista e clínico geral. Formado em medicina pela Universidade Estadual de Londrina (UEL) em 2004, fiz especializações em clínica médica (2006) e nefrologia (2008) na Santa Casa de Londrina, com título de especialista em nefrologia pela Sociedade Brasileira de Nefrologia (SBN) no mesmo ano. Em 2026, concluí pós-graduação em medicina funcional integrativa pela Academia Brasileira de Medicina Funcional Integrativa (ABMFI).</p><p>Coordeno a residência médica em nefrologia da Santa Casa de Londrina desde 2009, e fundei a residência em clínica médica da mesma instituição em 2014. Sou membro do Comitê Cardiorrenal da SBN.</p><p><strong>Áreas de interesse e prática clínica:</strong> nefrologia preventiva, eixo cardio-reno-metabólico, longevidade e healthspan, medicina preventiva e funcional integrativa, performance, nutrologia, suplementação inteligente, biomarcadores avançados e gestão metabólica.</p><p>Registros: CRM-PR 21.876 · RQE 16.038 (Nefrologia).</p>"
       },
       {
         "q": "Atende paciente com doença renal crônica?",

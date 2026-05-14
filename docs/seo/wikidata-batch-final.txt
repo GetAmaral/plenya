@@ -37,6 +37,9 @@ Q139746596	P973	"https://youtu.be/R_z3eBlZ_9k"
 # Conversa Pública — Rede Boas Novas — Rins Diabéticos 2026
 Q139746596	P973	"https://youtu.be/5WHKHyIlQMI"
 
+# ABM Funcional Integrativa — Perfil oficial no diretório de profissionais
+Q139746596	P973	"https://busca.abmfuncionalintegrativa.com.br/profissional/getulio-jose-mattos-do-amaral-filho-2d3ee592"
+
 # === Remover statement P166 errado ===
 # (Atualmente: P166 award received → nephrologist Q20739489 — está incorreto)
 # P166 espera Q-item de PRÊMIO, não de ocupação. Remove:
@@ -52,7 +55,7 @@ Q139762971	P1104	+410
 # FIM
 # ============================================================================
 # Estatísticas:
-#   Q139746596: +9 statements (1 place of birth, 1 native lang,
-#               2 spoken langs, 5 described at URL) + 1 remoção
+#   Q139746596: +10 statements (1 place of birth, 1 native lang,
+#               2 spoken langs, 6 described at URL) + 1 remoção
 #   Q139762971: +1 statement (page count)
 # ============================================================================

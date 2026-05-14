@@ -234,7 +234,7 @@ Médico do corpo clínico (nefrologia) desde 04/2008
    Residência Médica · Clínica Médica · 2005 – 2006
 3. **Irmandade Santa Casa de Londrina** (via Nefroclínica)
    Residência Médica · Nefrologia · 2006 – 2008
-4. **Associação Brasileira de Medicina Funcional Integrativa (ABMFI)**
+4. **Academia Brasileira de Medicina Funcional Integrativa (ABMFI)**
    Pós-graduação · Medicina Funcional Integrativa · 2025 – 2026
 
 ---
