@@ -5,6 +5,8 @@ import { Link } from '@/lib/i18n/navigation';
 import { getAgirLetters } from '@/lib/agir-structure';
 import { getAgirPillars } from '@plenya/brand';
 import { BookReferenceBlock } from '@/components/marketing/book-reference';
+import { RelatedBlogPosts } from '@/components/marketing/related-blog-posts';
+import { defaultLocale, isLocale } from '@/lib/i18n/config';
 
 type Params = Promise<{ locale: string }>;
 
@@ -241,6 +243,8 @@ export default async function MethodPage({ params }: { params: Params }) {
           </div>
         </div>
       </section>
+
+      <RelatedBlogPosts limit={3} locale={isLocale(locale) ? locale : defaultLocale} />
 
       {/* Cross-links */}
       <section className="bg-paper">

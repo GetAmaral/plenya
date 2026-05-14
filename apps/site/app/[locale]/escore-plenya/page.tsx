@@ -5,6 +5,8 @@ import { Link, type Href } from '@/lib/i18n/navigation';
 import { RadarAgir } from '@/components/escore/RadarAgir';
 import { FaqAccordion } from '@/components/marketing/faq-accordion';
 import { FaqSchema } from '@/components/seo/faq-schema';
+import { RelatedBlogPosts } from '@/components/marketing/related-blog-posts';
+import { defaultLocale, isLocale } from '@/lib/i18n/config';
 
 type Params = Promise<{ locale: string }>;
 
@@ -323,6 +325,12 @@ export default async function ScorePage({ params }: { params: Params }) {
       </section>
 
       <FaqAccordion title={t('faqTitle')} items={escoreFaq} />
+
+      <RelatedBlogPosts
+        pillars={['gestao-metabolica', 'longevidade']}
+        limit={3}
+        locale={isLocale(locale) ? locale : defaultLocale}
+      />
 
       {/* SAÍDA */}
       <section className="bg-petrol text-cream">

@@ -45,6 +45,10 @@ export default async function CheckupPage({ params }: { params: Params }) {
   const layer1 = [1, 2, 3, 4, 5].map((n) => t(`aside1_${n}` as 'aside1_1'));
   const layer2 = [1, 2, 3].map((n) => t(`aside2_${n}` as 'aside2_1'));
   const layer3 = [1, 2, 3].map((n) => t(`aside3_${n}` as 'aside3_1'));
+  const markers = Array.from({ length: 12 }, (_, i) => ({
+    name: t(`marker${i + 1}Name` as 'marker1Name'),
+    line: t(`marker${i + 1}Line` as 'marker1Line'),
+  }));
 
   return (
     <>
@@ -105,6 +109,45 @@ export default async function CheckupPage({ params }: { params: Params }) {
               </ul>
             </div>
           </aside>
+        </div>
+      </section>
+
+      <section className="bg-paper">
+        <div className="site-container section">
+          <p className="label-upper text-gold mb-4">{t('panelLabel')}</p>
+          <h2 className="heading-section text-petrol text-3xl md:text-4xl max-w-2xl mb-8">
+            {t('panelTitle')}
+          </h2>
+          <p className="text-petrol/75 max-w-3xl leading-relaxed mb-12">{t('panelIntro')}</p>
+          <ul className="grid md:grid-cols-2 gap-x-12 gap-y-8">
+            {markers.map((m, i) => (
+              <li
+                key={i}
+                className="border-t border-petrol/15 pt-4 space-y-2"
+              >
+                <p className="font-serif text-lg text-petrol leading-snug">
+                  <span className="text-gold tabular-nums mr-2">{String(i + 1).padStart(2, '0')}</span>
+                  {m.name}
+                </p>
+                <p
+                  className="text-petrol/70 text-sm leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: m.line }}
+                />
+              </li>
+            ))}
+          </ul>
+          <p className="text-petrol/55 text-sm mt-12 max-w-3xl leading-relaxed">
+            {t('panelDisclaimer')}
+          </p>
+          <p className="mt-6 text-petrol/75">
+            <span className="text-petrol/55">{t('panelReadMoreLabel')}</span>{' '}
+            <Link
+              href={{ pathname: '/blog/[slug]', params: { slug: t('panelBlogSlug') } }}
+              className="text-gold underline-offset-4 hover:underline"
+            >
+              {t('panelReadMoreLink')}
+            </Link>
+          </p>
         </div>
       </section>
 
