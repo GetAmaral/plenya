@@ -136,11 +136,11 @@
     "show": false
   },
   "checkup": {
-    "metaTitle": "Checkup de longevidade — avaliação clínica baseada em evidência",
+    "metaTitle": "Check-up de Longevidade em Londrina (VO₂ máx, ApoB, composição)",
     "metaDescription": "Checkup orientado à trajetória de saúde: VO₂ máx, ApoB, composição corporal, sono, cognição. Mapeia a janela silenciosa antes do sintoma. Plenya, Londrina-PR.",
-    "ogTitle": "Checkup de longevidade — Plenya",
+    "ogTitle": "Check-up de Longevidade em Londrina · Plenya",
     "ogDescription": "Avaliação clínica orientada à trajetória de saúde, não só ao diagnóstico de doença instalada.",
-    "schemaName": "Checkup de longevidade — Plenya",
+    "schemaName": "Check-up de Longevidade em Londrina · Plenya",
     "schemaDescription": "Avaliação clínica orientada à trajetória de saúde: VO₂ máx, ApoB, composição corporal, sono, cognição. Mapeia a janela silenciosa antes do sintoma.",
     "breadcrumbName": "Checkup de Longevidade",
     "heroLabel": "Checkup de Longevidade",
@@ -189,11 +189,11 @@
     "crossContinuumDesc": "Acompanhamento longitudinal."
   },
   "renal": {
-    "metaTitle": "Avaliação renal preventiva — nefrologia antes do sintoma",
+    "metaTitle": "Nefrologia Preventiva em Londrina · Dr. Getúlio Amaral Filho",
     "metaDescription": "O rim é o órgão silencioso. Avaliação preventiva com cistatina C, albuminúria, eGFR e leitura nefrológica integrada. Dr. Getúlio Amaral Filho · Plenya · Londrina-PR.",
-    "ogTitle": "Avaliação renal preventiva — Plenya",
+    "ogTitle": "Nefrologia Preventiva em Londrina · Plenya",
     "ogDescription": "Detectar a janela silenciosa em que o dano renal ainda é reversível.",
-    "schemaName": "Avaliação renal preventiva — Plenya",
+    "schemaName": "Nefrologia Preventiva em Londrina · Plenya",
     "schemaDescription": "Detectar a janela silenciosa em que o dano renal ainda é reversível. Cistatina C, albuminúria, eGFR e leitura nefrológica integrada.",
     "breadcrumbName": "Avaliação Renal Preventiva",
     "heroLabel": "Avaliação Renal Preventiva",
@@ -255,11 +255,11 @@
     "ctaButton": "Fale com a equipe Plenya"
   },
   "mfi": {
-    "metaTitle": "Medicina funcional integrativa — abordagem clínica em Londrina",
+    "metaTitle": "Medicina funcional integrativa · abordagem clínica em Londrina",
     "metaDescription": "Medicina convencional praticada com mais tempo, escuta e leitura sistêmica. Cascata de intervenção baseada em evidência. Plenya, Londrina-PR.",
-    "ogTitle": "Medicina Funcional Integrativa — Plenya",
+    "ogTitle": "Medicina Funcional Integrativa · Plenya",
     "ogDescription": "Não é alternativa. É medicina convencional com tempo, escuta e critério.",
-    "schemaName": "Medicina Funcional Integrativa — Plenya",
+    "schemaName": "Medicina Funcional Integrativa · Plenya",
     "schemaDescription": "Medicina convencional praticada com mais tempo, escuta e leitura sistêmica. Cascata de intervenção baseada em evidência.",
     "breadcrumbName": "Medicina Funcional Integrativa",
     "heroLabel": "Medicina Funcional Integrativa",
@@ -311,11 +311,11 @@
     "crossContinuumDesc": "Programa estruturado."
   },
   "healthspan": {
-    "metaTitle": "Healthspan — viver bem por mais tempo, com evidência",
+    "metaTitle": "Healthspan · viver bem por mais tempo, com evidência",
     "metaDescription": "Healthspan é o tempo de vida com autonomia funcional. Programa Plenya estende a fase de plenitude com VO₂ máx, força, marcadores metabólicos e acompanhamento longitudinal.",
-    "ogTitle": "Healthspan — viver bem por mais tempo",
+    "ogTitle": "Healthspan · viver bem por mais tempo",
     "ogDescription": "A diferença entre quantos anos você vive e quantos vive bem. A agenda da medicina contemporânea.",
-    "schemaName": "Healthspan — viver bem por mais tempo",
+    "schemaName": "Healthspan · viver bem por mais tempo",
     "schemaDescription": "A diferença entre lifespan e healthspan. Programa Plenya estende a fase de plenitude com VO₂ máx, força, marcadores metabólicos e acompanhamento longitudinal.",
     "heroLabel": "Healthspan",
     "heroTitle": "Viver bem por mais tempo.",
@@ -378,7 +378,7 @@
     "crossMethodDesc": "Os quatro pilares."
   },
   "cases": {
-    "metaTitle": "Casos clínicos — leitura honesta de pacientes Plenya",
+    "metaTitle": "Casos clínicos · leitura honesta de pacientes Plenya",
     "metaDescription": "Casos clínicos anonimizados, com consentimento. Como uma escuta longa, uma leitura funcional dos exames e um plano integrado mudam o curso da saúde.",
     "heroLabel": "Casos clínicos",
     "heroTitle": "Casos clínicos: trajetórias de pacientes Plenya.",
@@ -475,7 +475,7 @@
     "relatedReading": "Leitura relacionada"
   },
   "newsletter": {
-    "metaTitle": "Boletim Plenya — medicina que antecipa, na sua caixa de entrada",
+    "metaTitle": "Boletim Plenya · medicina que antecipa, na sua caixa de entrada",
     "metaDescription": "Um e-mail por semana, escrito pela equipe médica Plenya. Leitura curta, embasada e prática. Sem ruído, sem promessa milagrosa, sem venda agressiva.",
     "heroLabel": "Boletim Plenya",
     "heroTitle": "Medicina que antecipa, na sua caixa de entrada.",
@@ -556,7 +556,7 @@
     "formSentDesc": "Nossa equipe responde em até 2 horas em dias úteis."
   },
   "diagnostic": {
-    "metaTitle": "Continuum Plenya — faz sentido pra você?",
+    "metaTitle": "Continuum Plenya · faz sentido pra você?",
     "metaDescription": "Cinco perguntas curtas para entender se o programa de acompanhamento contínuo da Plenya se encaixa no seu momento.",
     "heroLabel": "É pra mim?",
     "heroTitleLine1": "O Continuum Plenya",
@@ -659,7 +659,7 @@
     }
   },
   "howItWorks": {
-    "metaTitle": "Como funciona — a medicina Plenya em quatro passos",
+    "metaTitle": "Como funciona · a medicina Plenya em quatro passos",
     "metaDescription": "Avaliar, interpretar, plano personalizado e reavaliar em ciclo. Como o cuidado Plenya entra na sua vida, da Triagem gratuita ao Continuum.",
     "heroLabel": "Como funciona",
     "heroTitle": "Quatro passos. Um cuidado que evolui com você.",
@@ -875,7 +875,7 @@
     "emailFooter": "Solicitação enviada via formulário em /lgpd/direitos.\nResposta esperada em até 15 dias úteis (LGPD art. 19)."
   },
   "score": {
-    "metaTitle": "Escore Plenya — instrumento de medida do Método AGIR",
+    "metaTitle": "Escore Plenya · instrumento de medida do Método AGIR",
     "metaDescription": "Mais de 800 itens (história, sintomas, exames, hábitos e medicamentos) traduzidos em uma pontuação clara, evolutiva e personalizada. A medida única do seu estado de saúde.",
     "heroLabel": "Instrumento",
     "heroTitle": "Escore Plenya",
@@ -944,7 +944,7 @@
     "exitTitleLine2": "O Método AGIR é como atuamos a partir daí."
   },
   "continuum": {
-    "metaTitle": "Continuum Plenya — programa de acompanhamento contínuo",
+    "metaTitle": "Continuum Plenya · programa de acompanhamento contínuo",
     "metaDescription": "Continuum Plenya é o programa semestral ou anual da Plenya. Acompanhamento 100% online com equipe multidisciplinar (médico, nutricionista, psicólogo e educador físico) organizado pelo Método AGIR e mensurado pelo Escore Plenya.",
     "heroLabel": "Programa de acompanhamento contínuo",
     "heroTitle": "Continuum Plenya",
@@ -1084,7 +1084,7 @@
     "crossSingleTitle": "Consultas Plenya →"
   },
   "consultas": {
-    "metaTitle": "Consultas Médicas | Plenya",
+    "metaTitle": "Consultas Médicas · Plenya",
     "metaDescription": "Consultas médicas particulares na Plenya, presenciais em Londrina ou online por telemedicina, com Dr. Getúlio Amaral e demais médicos da clínica.",
     "heroLabel": "Consultas",
     "heroTitle": "Consulta médica.",
@@ -1167,7 +1167,7 @@
     "ctaButton": "Falar com a Plenya"
   },
   "drGetulio": {
-    "metaTitle": "Dr. Getúlio Amaral Filho — Direção Clínica",
+    "metaTitle": "Dr. Getúlio Amaral Filho · Direção Clínica",
     "metaDescription": "Médico nefrologista, clínico e especialista em medicina funcional integrativa. Direção clínica da Plenya.",
     "heroLabel": "Direção Clínica Plenya",
     "heroNameLine1": "Dr. Getúlio José Mattos",
@@ -1217,7 +1217,7 @@
     "crossContinuumTitle": "Continuum Plenya →"
   },
   "about": {
-    "metaTitle": "A Plenya — Manifesto, Propósito e Método",
+    "metaTitle": "Plenya · Manifesto e Método de uma Clínica de Longevidade",
     "metaDescription": "Conheça o manifesto, o propósito e o método AGIR da Plenya. Saúde funcional integrativa, contínua e personalizada.",
     "manifestoLabel": "Manifesto",
     "manifesto1": "Tudo está conectado.",
@@ -1268,7 +1268,7 @@
     "crossContinuumTitle": "Continuum Plenya →"
   },
   "method": {
-    "metaTitle": "Método AGIR",
+    "metaTitle": "Método AGIR · quatro pilares de longevidade da clínica Plenya",
     "metaDescription": "O Método AGIR organiza o cuidado clínico Plenya em quatro pilares interdependentes: Atividade Física, Alimentação e Suplementação Inteligente; Gestão Clínica e Metabólica; Integração Mente-Corpo; Ritmo Circadiano e Repouso. Medicina que antecipa, com profundidade.",
     "heroLabel": "Método",
     "heroTitle": "AGIR: quatro pilares para uma saúde que se sustenta no tempo.",

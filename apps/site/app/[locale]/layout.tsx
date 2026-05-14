@@ -42,8 +42,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const isEn = locale === 'en';
   return {
     title: {
-      default: `${brand.name} — ${isEn ? 'Health, Performance & Longevity' : brand.tagline}`,
-      template: `%s | ${brand.name}`,
+      default: isEn
+        ? `${brand.name} · Longevity & Functional Medicine Clinic in Londrina`
+        : `${brand.name} · Clínica de Longevidade e Medicina Funcional em Londrina`,
+      template: `%s · ${brand.name}`,
     },
     description: isEn
       ? 'Premium functional integrative medicine clinic. Personalized care for health, performance and longevity.'

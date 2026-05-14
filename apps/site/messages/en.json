@@ -138,11 +138,11 @@
     "body": "The full text of this policy is available only in Portuguese, as it governs services regulated by Brazil's General Data Protection Law (LGPD, Law 13.709/2018) and the Brazilian Federal Council of Medicine (CFM). The Portuguese version below is the authoritative version. If you have questions in English, please reach out to our Data Protection Officer at the email below."
   },
   "checkup": {
-    "metaTitle": "Longevity checkup — evidence-based clinical assessment",
+    "metaTitle": "Longevity Check-up in Londrina (VO₂ max, ApoB, composition)",
     "metaDescription": "Checkup oriented to your health trajectory: VO₂ max, ApoB, body composition, sleep, cognition. Maps the silent window before symptoms appear. Plenya, Londrina, Brazil.",
-    "ogTitle": "Longevity Checkup — Plenya",
+    "ogTitle": "Longevity Check-up in Londrina · Plenya",
     "ogDescription": "Clinical assessment oriented to the trajectory of health — not just to diagnosing established disease.",
-    "schemaName": "Longevity Checkup — Plenya",
+    "schemaName": "Longevity Check-up in Londrina · Plenya",
     "schemaDescription": "Clinical assessment oriented to the trajectory of health — VO₂ max, ApoB, body composition, sleep, cognition. Maps the silent window before symptoms appear.",
     "breadcrumbName": "Longevity Checkup",
     "heroLabel": "Longevity Checkup",
@@ -191,11 +191,11 @@
     "crossContinuumDesc": "Longitudinal follow-up."
   },
   "renal": {
-    "metaTitle": "Preventive kidney assessment — nephrology before symptoms",
+    "metaTitle": "Preventive Nephrology in Londrina · Dr. Getúlio Amaral Filho",
     "metaDescription": "The kidney is the silent organ. Preventive assessment with cystatin C, albuminuria, eGFR, and integrated nephrology reading. Dr. Getúlio Amaral Filho · Plenya · Londrina, Brazil.",
-    "ogTitle": "Preventive kidney assessment — Plenya",
+    "ogTitle": "Preventive Nephrology in Londrina · Plenya",
     "ogDescription": "Detect the silent window in which kidney damage is still reversible.",
-    "schemaName": "Preventive kidney assessment — Plenya",
+    "schemaName": "Preventive Nephrology in Londrina · Plenya",
     "schemaDescription": "Detect the silent window in which kidney damage is still reversible. Cystatin C, albuminuria, eGFR, and integrated nephrology reading.",
     "breadcrumbName": "Preventive Kidney Assessment",
     "heroLabel": "Preventive Kidney Assessment",
@@ -257,11 +257,11 @@
     "ctaButton": "Talk to the Plenya Team"
   },
   "mfi": {
-    "metaTitle": "Integrative functional medicine — clinical approach in Londrina",
+    "metaTitle": "Integrative functional medicine · clinical approach in Londrina",
     "metaDescription": "Conventional medicine practiced with more time, more listening, and systemic reading. Evidence-based intervention cascade. Plenya, Londrina, Brazil.",
-    "ogTitle": "Integrative Functional Medicine — Plenya",
+    "ogTitle": "Integrative Functional Medicine · Plenya",
     "ogDescription": "Not an alternative. Conventional medicine with time, listening, and judgment.",
-    "schemaName": "Integrative Functional Medicine — Plenya",
+    "schemaName": "Integrative Functional Medicine · Plenya",
     "schemaDescription": "Conventional medicine practiced with more time, listening, and systemic reading. Evidence-based intervention cascade.",
     "breadcrumbName": "Integrative Functional Medicine",
     "heroLabel": "Integrative Functional Medicine",
@@ -313,11 +313,11 @@
     "crossContinuumDesc": "Structured program."
   },
   "healthspan": {
-    "metaTitle": "Healthspan — living well for longer, with evidence",
+    "metaTitle": "Healthspan · living well for longer, with evidence",
     "metaDescription": "Healthspan is the time of life lived with functional autonomy. Plenya's program extends the fullness phase with VO₂ max, strength, metabolic markers, and longitudinal follow-up.",
-    "ogTitle": "Healthspan — living well for longer",
+    "ogTitle": "Healthspan · living well for longer",
     "ogDescription": "The difference between how many years you live and how many you live well. The agenda of contemporary medicine.",
-    "schemaName": "Healthspan — living well for longer",
+    "schemaName": "Healthspan · living well for longer",
     "schemaDescription": "The difference between lifespan and healthspan. Plenya's program extends the fullness phase with VO₂ max, strength, metabolic markers, and longitudinal follow-up.",
     "heroLabel": "Healthspan",
     "heroTitle": "Live well for longer.",
@@ -380,7 +380,7 @@
     "crossMethodDesc": "The four pillars."
   },
   "cases": {
-    "metaTitle": "Clinical cases — honest readings from Plenya patients",
+    "metaTitle": "Clinical cases · honest readings from Plenya patients",
     "metaDescription": "Anonymized clinical cases, with consent. How long-form listening, a functional reading of labs, and an integrated plan change the course of health.",
     "heroLabel": "Clinical Cases",
     "heroTitle": "Clinical cases: Plenya patient journeys.",
@@ -477,7 +477,7 @@
     "relatedReading": "Related reading"
   },
   "newsletter": {
-    "metaTitle": "Plenya Newsletter — medicine that anticipates, in your inbox",
+    "metaTitle": "Plenya Newsletter · medicine that anticipates, in your inbox",
     "metaDescription": "One email per week, written by the Plenya medical team. Short, evidence-based, and practical reading. No noise, no miracle promises, no aggressive selling.",
     "heroLabel": "Plenya Newsletter",
     "heroTitle": "Medicine that anticipates, in your inbox.",
@@ -558,7 +558,7 @@
     "formSentDesc": "Our team replies within 2 hours on business days."
   },
   "diagnostic": {
-    "metaTitle": "Continuum Plenya — does it fit your moment?",
+    "metaTitle": "Continuum Plenya · does it fit your moment?",
     "metaDescription": "Five short questions to understand whether Plenya's continuous-care program fits your moment.",
     "heroLabel": "Is it for me?",
     "heroTitleLine1": "Does Continuum Plenya",
@@ -661,7 +661,7 @@
     }
   },
   "howItWorks": {
-    "metaTitle": "How It Works — Plenya medicine in four steps",
+    "metaTitle": "How It Works · Plenya medicine in four steps",
     "metaDescription": "Assess, interpret, personalized plan, and re-evaluate in cycle. How Plenya care enters your life — from the free Screening to the Continuum.",
     "heroLabel": "How It Works",
     "heroTitle": "Four steps. Care that evolves with you.",
@@ -877,7 +877,7 @@
     "emailFooter": "Request submitted via form at /lgpd/direitos.\nExpected response within 15 business days (LGPD art. 19)."
   },
   "score": {
-    "metaTitle": "Plenya Score — measurement instrument of The ACTS Method",
+    "metaTitle": "Plenya Score · measurement instrument of The ACTS Method",
     "metaDescription": "Over 800 items — history, symptoms, labs, habits, and medications — translated into a clear, evolving, personalized score. The single measure of your health.",
     "heroLabel": "Instrument",
     "heroTitle": "Plenya Score",
@@ -946,7 +946,7 @@
     "exitTitleLine2": "The ACTS Method is how we act from there."
   },
   "continuum": {
-    "metaTitle": "Continuum Plenya — continuous-care program",
+    "metaTitle": "Continuum Plenya · continuous-care program",
     "metaDescription": "Continuum Plenya is Plenya's six-month or annual program. 100% online care with a multidisciplinary team — physician, nutritionist, psychologist, and exercise physiologist — organized by The ACTS Method and measured by the Plenya Score.",
     "heroLabel": "Continuous-Care Program",
     "heroTitle": "Continuum Plenya",
@@ -1086,7 +1086,7 @@
     "crossSingleTitle": "Plenya Consultations →"
   },
   "consultas": {
-    "metaTitle": "Medical Consultations | Plenya",
+    "metaTitle": "Medical Consultations · Plenya",
     "metaDescription": "Private medical consultations at Plenya — in person in Londrina or online via telemedicine, with Dr. Getúlio Amaral and the clinic's other physicians.",
     "heroLabel": "Consultations",
     "heroTitle": "The medical consultation.",
@@ -1169,7 +1169,7 @@
     "ctaButton": "Talk to Plenya"
   },
   "drGetulio": {
-    "metaTitle": "Dr. Getúlio Amaral Filho — Clinical Director",
+    "metaTitle": "Dr. Getúlio Amaral Filho · Clinical Director",
     "metaDescription": "Brazilian physician, nephrologist, and specialist in integrative functional medicine. Clinical director of Plenya.",
     "heroLabel": "Plenya Clinical Director",
     "heroNameLine1": "Dr. Getúlio José Mattos",
@@ -1219,7 +1219,7 @@
     "crossContinuumTitle": "Continuum Plenya →"
   },
   "about": {
-    "metaTitle": "About Plenya — Manifesto, Purpose, and Method",
+    "metaTitle": "Plenya · Manifesto and Method of a Longevity Clinic",
     "metaDescription": "Discover the manifesto, the purpose, and The ACTS Method behind Plenya. Integrative functional health, continuous and personalized.",
     "manifestoLabel": "Manifesto",
     "manifesto1": "Everything is connected.",
@@ -1270,7 +1270,7 @@
     "crossContinuumTitle": "Continuum Plenya →"
   },
   "method": {
-    "metaTitle": "The ACTS Method",
+    "metaTitle": "ACTS Method · four longevity pillars of Plenya clinic",
     "metaDescription": "The ACTS Method organizes Plenya's clinical care into four interdependent pillars — Activity, Alimentation & Smart Adjuncts; Clinical Optimization; Tending Mind, Body & Bonds; Sleep, Rhythm & Recovery. Medicine that anticipates, with depth.",
     "heroLabel": "Method",
     "heroTitle": "ACTS — four pillars for health that sustains over time.",
