@@ -27,14 +27,77 @@ Dispara **em paralelo**, em uma única mensagem com múltiplas tool calls:
 2. `mcp__composio-plenya__INSTAGRAM_LIST_ALL_CONVERSATIONS` (limit=25) — últimas conversas DM
 3. `mcp__composio-plenya__INSTAGRAM_GET_IG_USER_TAGS` (ig_user_id="me", limit=10) — mentions
 4. `mcp__composio-plenya__INSTAGRAM_GET_USER_INFO` (sanity check — só faz se modo COMPLETO)
+5. **(A2 — Ads dark do FB)**: ver seção "Fase A2" abaixo
 
 Quando voltar:
-- Pra **TODOS os posts** (não só os 10 mais recentes — comentários novos PODEM cair em Reels antigos!): `INSTAGRAM_GET_IG_MEDIA_COMMENTS` (media_id=$id, limit=100, fields="id,text,username,timestamp,like_count,replies{id,username,from},parent_id") — paralelo. Pague o custo de varrer tudo: pagina via `after` cursor em `GET_IG_USER_MEDIA` até esgotar. **Confirmado em produção (2026-05-12)**: comentário novo da @robertamonteirobo no Reel de Jejum Intermitente (post #18) passou batido com varredura limitada aos 10 mais recentes. Nunca mais.
+- Pra **TODOS os posts** (não só os 10 mais recentes — comentários novos PODEM cair em Reels antigos!): `INSTAGRAM_GET_IG_MEDIA_COMMENTS` (media_id=$id, limit=100, **fields="id,text,from{id,username},timestamp,like_count,replies{id,text,from{id,username},timestamp,parent_id},parent_id"**) — paralelo. Pague o custo de varrer tudo: pagina via `after` cursor em `GET_IG_USER_MEDIA` até esgotar. **Confirmado em produção (2026-05-12)**: comentário novo da @robertamonteirobo no Reel de Jejum Intermitente (post #18) passou batido com varredura limitada aos 10 mais recentes. Nunca mais.
 - Pra **cada conversa** DM: `INSTAGRAM_LIST_ALL_MESSAGES` (conversation_id=$id, limit=10) — paralelo
 
 Em todas as chamadas, peça campos mínimos necessários. Não infle payload.
 
-**Aviso sobre username mascarado:** Em alguns comments o Graph API NÃO retorna `username` nem `from` (provavelmente contas privadas ou configurações de privacidade). Mesmo pedindo `from` explicitamente vem vazio. Quando acontecer, registre como `@desconhecido` no draft e peça ao usuário pra confirmar o handle visualmente no app antes de responder.
+**🚨 CRÍTICO — bug do username (resolvido 2026-05-13):**
+NUNCA peça `username` flat no `fields=`. O Meta IG Graph API só popula `username` flat quando o autor do comment é dono da media — pra demais usuários, o username vem ANINHADO em `from{username}`. Sempre peça `from{id,username}` em vez de só `username`. Isso vale pra `GET_IG_MEDIA_COMMENTS`, `GET_IG_COMMENT_REPLIES` e qualquer call que retorne comments. Sem isso, o autor vem como `null` em ~80% dos comments e a triagem fica inutilizável.
+
+Pra acessar o handle nos resultados: `comment.from.username` (não `comment.username`).
+
+---
+
+## Fase A2 — Ads dark da FB Page (Marketing API)
+
+**Confirmado em produção (2026-05-13):** ads dark do Facebook (criados no Ads Manager, não publicados na timeline) têm **comments próprios**, separados dos Reels orgânicos do IG. **2 lados** distintos a varrer pra cada ad:
+
+- **Lado IG** (dark IG post clone): `effective_instagram_media_id` → `/media_id/comments`
+- **Lado FB** (dark FB post clone): `effective_object_story_id` → `pageId_postId` → comments via Composio FB
+
+### Setup
+
+Credenciais Meta no `~/.secrets/plenya-meta.env`:
+```bash
+source ~/.secrets/plenya-meta.env
+# $META_MARKETING_TOKEN — User token com ads_read, ads_management
+# Ad Account: act_912683771498112 (Getulio José Mattos Do Amaral Filho)
+# Page: 1046561478538408 (Clínica médica Dr Getulio)
+```
+
+### Fluxo
+
+1. **Listar ads ativos** (curl direto, Marketing API):
+   ```bash
+   curl -s "https://graph.facebook.com/v21.0/act_912683771498112/ads?access_token=$META_MARKETING_TOKEN&fields=id,name,status,effective_status" | jq
+   ```
+
+2. **Pegar creative IDs de cada ad** (para descobrir os dark posts):
+   ```bash
+   curl -s "https://graph.facebook.com/v21.0/$AD_ID?access_token=$META_MARKETING_TOKEN&fields=name,creative%7Beffective_object_story_id%2Ceffective_instagram_media_id%2Cinstagram_permalink_url%7D"
+   ```
+   Retorna: `effective_object_story_id` (FB) e `effective_instagram_media_id` (IG).
+
+3. **Comments do lado IG** (mesmo token):
+   ```bash
+   curl -s "https://graph.facebook.com/v21.0/$IG_MEDIA_ID/comments?access_token=$META_MARKETING_TOKEN&fields=id,text,timestamp,parent_id&limit=50"
+   ```
+   ⚠️ IG side dos ads dark **não retorna `from{username}`** mesmo pedindo — Meta esconde identidade nos dark posts. Apresenta como "anônimo".
+
+4. **Comments do lado FB** (via Composio FB toolkit, **NÃO** via curl direto — token Marketing API é user, não page):
+   - Use `FACEBOOK_GET_COMMENTS(object_id=$pageId_postId, fields="id,message,from{id,name},created_time,comment_count,like_count,permalink_url")`
+   - Lado FB **retorna `from{id,name}`** quando autor é identificável.
+
+5. **CRÍTICO — Verificar replies de cada comment**:
+   - Se `comment_count > 0` no comment FB → chamar `FACEBOOK_GET_COMMENTS(object_id=$comment_id)` pra buscar as replies
+   - Replies do Dr aparecem com `from.id = 1046561478538408` (Page ID Clínica médica Dr Getulio)
+   - **Sem essa verificação, vai re-responder comments já tratados pelo Dr.**
+
+### Postagem de replies
+
+- **Comment IG** (mesmo do lado dark do ad): `INSTAGRAM_POST_IG_COMMENT_REPLIES(ig_comment_id=$id, message=...)` — **funciona normalmente** pelas connections IG já existentes.
+- **Comment FB**: `FACEBOOK_CREATE_COMMENT(object_id=$comment_id_SOMENTE, message=...)`. **NÃO passar `pageId_postId_commentId`** — Composio interpreta `pageId` errado e dá erro `page_id:XXXX not found in your managed pages`. **Sempre só o `comment_id` numérico isolado.**
+
+### Quando rodar Fase A2
+
+- Toda checagem completa, junto com IG
+- Tools obrigatórias (ToolSearch primeiro se não estiverem carregadas):
+  - `FACEBOOK_GET_COMMENTS`
+  - `FACEBOOK_CREATE_COMMENT`
 
 ---
 

@@ -19,7 +19,7 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-05-12'  # 6ª iteração — +Tati (irmã) +Roberta Monteiro (seguidora clínica)
+last_updated: '2026-05-13'  # 8ª iteração — +abetelima/alex_fabiano/patricia/vania + Noraci (monitoring) + ads dark FB Page descobertos
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
 # Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
@@ -624,3 +624,106 @@ contacts:
       já fez laser preventivo. Cogitando GLP-1. Tom direto, técnico-leigo,
       sem bajulação. Tratamento "Roberta" pelo nome.
     last: "2026-05-12 - reply em Reel Jejum Intermitente (pergunta clínica retina + GLP-1)"
+
+  '@abetelima':
+    rel: seguidora
+    tone: clínico-respeitoso
+    notes: |
+      Seguidora com perfil clínico: diabética insulino-dependente em uso de
+      Monjaro. Perguntou em DOIS Reels (Creatina + Sarcopenia) na mesma
+      noite (12/05/2026 ~23:50 BRT) sobre creatina + musculação. Está
+      começando o tratamento. Sem nome conhecido no draft — abertura
+      genérica funciona.
+    last: "2026-05-13 - reply em Creatina + Sarcopenia (dúvida creatina/musculação com GLP-1)"
+
+  '@alex_fabiano_de_oliveira_':
+    rel: seguidor
+    name: Alex
+    tone: clínico-respeitoso
+    notes: |
+      Seguidor com perfil cardiometabólico: 57 anos, 1.65m, 85kg (IMC 31),
+      esteatose grau 3, pré-diabetes, dislipidemia, gordura abdominal.
+      Candidato clínico claro pra tirzepatida. Tom direto, técnico-leigo.
+    last: "2026-05-13 - reply em Reel GLP-1 ep3 (devo tomar Monjaro?)"
+
+  '@patricia_f_ferroni':
+    rel: seguidora
+    tone: familiar-afetuoso
+    notes: |
+      Seguidora cristã (linguagem religiosa nos comments — "Que Deus esteja
+      zelando"). Comentário afetuoso sobre família + gêmeos no Dia das Mães.
+    last: "2026-05-13 - reply Dia das Mães (☺️❤️)"
+
+  '@rodriguesmoraesvania':
+    rel: seguidora
+    name: Vânia
+    tone: profissional-caloroso
+    notes: Seguidora. Comment elogio curto no Dia das Mães.
+    last: "2026-05-13 - reply Dia das Mães (☺️❤️)"
+
+  # ============================================
+  # MONITORAMENTO ATIVO (não responder ainda)
+  # ============================================
+
+  '@claudimariacasciano':
+    rel: seguidora
+    last: "2026-05-13 - reply em GLP1 Ep7 (☺️❤️)"
+
+  '@fabigraboski':
+    rel: seguidora
+    last: "2026-05-13 - reply em GLP1 Ep7 (☺️❤️)"
+
+  '@soniaoliveiraaof':
+    rel: seguidora
+    last: "2026-05-13 - reply em GLP1 Ep7 (☺️❤️)"
+
+  '@prirodrigues.ftf':
+    rel: seguidora
+    title: provável fisioterapeuta (.ftf no handle)
+    last: "2026-05-13 - reply em GLP1 Ep7 (☺️❤️)"
+
+  '@drpedromarchetto':
+    rel: colega médico
+    name: Pedro
+    title: Dr (médico)
+    tone: igual-pra-igual
+    notes: Médico colega. Curte conteúdos do Dr. Sem contexto adicional.
+    last: "2026-05-13 - reply em GLP1 Ep7 (☺️❤️)"
+
+  '@kookie_carlos':
+    rel: amigo próximo
+    name: Carlos
+    call_dr: "Get"
+    tone: afetivo-íntimo
+    notes: Usa "Get" como apelido do Dr — sinal de proximidade.
+    last: "2026-05-13 - reply em GLP1 Ep7 (☺️❤️)"
+
+  '@antonioamaraljunior_':
+    rel: família Amaral (provável)
+    name: Antonio Junior
+    side: lado Amaral (do Dr)
+    tone: familiar-afetuoso
+    notes: |
+      Sobrenome Amaral Junior. Provavelmente parente do lado paterno.
+      Já comentou ads dark do Dr ("a água da DaVita ta suplementadaaaaaa"
+      na Rota MTB Catedrais).
+    last: "2026-05-13 - reply em GLP1 Ep7 (☺️❤️)"
+
+  'Noraci Amaral (FB)':
+    platform: facebook
+    rel: desconhecida (não-parente, não-paciente)
+    status: MONITORING — wait & monitor (decisão 2026-05-13)
+    notes: |
+      Comentou no FB lado dark do ad GLP1 Ep2 em 2026-05-13 às 15:32:
+      "O monjaro está enriquecendo as indústrias e médicos. Enquanto que os iludidos
+       empobrecem…"
+      Crítica direta com tom "Big Pharma + médicos vendem". Não é parente apesar do
+      sobrenome Amaral, não é paciente.
+      Comment ID: 1646264863054912_2249996829139311 (post Ep2, FB)
+      Decisão: NÃO responder agora. Monitorar:
+        - Se ainda em #1 do thread em 14d sem outros comments novos → responder com versão C (educativa, ignora hostilidade)
+        - Se chegar novo comment empurrando pra baixo → mantém silêncio
+        - Se Noraci voltar com follow-up ou ganhar likes/replies → escalar pra versão A (3 pontos firmes)
+      Draft A pronto, draft C pronto (ver session 2026-05-13).
+    last: "2026-05-13 - identificada, decisão wait&monitor"
+    next_check: "2026-05-20 (1 semana)"
