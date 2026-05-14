@@ -45,7 +45,7 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
         'Strength Training and Cardiorespiratory Fitness',
         'Body Composition',
         "Women's Health and Menopause",
-        'AGIR Method (Alimentação, Gestão Metabólica, Integração Corpo-Mente, Ritmo Circadiano)',
+        'ACTS Method (Activity, Alimentation & Smart Adjuncts; Clinical Optimization; Tending Mind, Body & Bonds; Sleep, Rhythm & Recovery)',
         'Silent Window between Normal and Optimal',
       ]
     : [
@@ -76,7 +76,7 @@ export function PersonSchema({ locale = 'pt' }: { locale?: string } = {}) {
         'Treinamento de Força e Capacidade Cardiorrespiratória',
         'Composição Corporal',
         'Saúde da Mulher e Menopausa',
-        'Método AGIR (Alimentação, Gestão Metabólica, Integração Corpo-Mente, Ritmo Circadiano)',
+        'Método AGIR (Atividade Física, Alimentação e Suplementação Inteligente; Gestão Clínica e Metabólica; Integração Mente-Corpo; Ritmo Circadiano e Repouso)',
         'Janela Silenciosa entre o Normal e o Ótimo',
       ];
 
