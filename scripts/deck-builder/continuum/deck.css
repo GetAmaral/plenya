@@ -1,0 +1,572 @@
+/* ============================================================
+   CONTINUUM PLENYA — Deck CSS
+   Stack: HTML + CSS + Google Fonts CDN → Playwright headless → PDF 1920x1080
+   Régua: cada slide = poster autônomo, hierarquia tipográfica clara,
+   1 ideia por slide, espaço pra respirar.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Paleta oficial Plenya — packages/brand/src/tokens/colors.ts */
+  --gold:        #B38645;
+  --gold-soft:   #D4A86B;
+  --gold-deep:   #8A6534;
+  --petrol:      #063B4F;
+  --petrol-deep: #041F2A;
+  --petrol-mid:  #0A4A60;
+  --ocean:       #417E8E;
+  --sage:        #92B8B4;
+  --cream:       #EAE7DA;
+  --cream-soft:  #F5F1E8;
+  --white:       #FFFFFF;
+  --ink:         #0A1F26;
+  --muted:       #5A6B70;
+
+  /* Tipografia */
+  --serif:    'Cormorant Garamond', Georgia, serif;
+  --serif-display: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --sans:     'Inter', -apple-system, system-ui, sans-serif;
+
+  /* Espaçamento — base 8px */
+  --space-1:  8px;
+  --space-2:  16px;
+  --space-3:  24px;
+  --space-4:  32px;
+  --space-5:  48px;
+  --space-6:  64px;
+  --space-8:  96px;
+  --space-10: 128px;
+  --space-12: 160px;
+
+  /* Slide size — 16:9 Full HD */
+  --slide-w: 1920px;
+  --slide-h: 1080px;
+}
+
+/* ============================================================
+   Reset
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #000; }
+body {
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+/* ============================================================
+   Slide container
+   ============================================================ */
+
+.slide {
+  position: relative;
+  width: var(--slide-w);
+  height: var(--slide-h);
+  background: var(--petrol);
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+  display: flex;
+}
+.slide:last-child {
+  page-break-after: auto;
+}
+
+.slide--deep {
+  background: var(--petrol-deep);
+}
+.slide--cream {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+/* ============================================================
+   Tipografia — escala hierárquica
+   ============================================================ */
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  color: var(--gold);
+}
+
+.hook-headline {
+  font-family: var(--serif-display);
+  font-weight: 600;
+  font-size: 360px;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--cream);
+}
+
+.display {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 140px;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  color: var(--cream);
+}
+
+.h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 96px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+}
+
+.h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 72px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+}
+
+.h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+}
+
+.h4 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.2;
+  color: var(--cream);
+}
+
+.subhead {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.3;
+  color: var(--sage);
+}
+
+.lead {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.5;
+  color: var(--cream);
+}
+
+.body {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--cream);
+}
+
+.body--sage {
+  color: var(--sage);
+}
+
+.caption {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  color: var(--sage);
+}
+
+.tag {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+}
+
+em.gold {
+  font-style: italic;
+  color: var(--gold);
+}
+
+strong.cream {
+  color: var(--cream);
+  font-weight: 600;
+}
+
+/* ============================================================
+   Linhas e dividers
+   ============================================================ */
+
+.rule {
+  display: block;
+  width: 80px;
+  height: 1.5px;
+  background: var(--gold);
+  border: none;
+}
+.rule--lg { width: 160px; height: 2px; }
+.rule--sm { width: 48px; height: 1px; }
+
+/* ============================================================
+   Footer canônico
+   ============================================================ */
+
+.slide-footer {
+  position: absolute;
+  bottom: 48px;
+  left: 96px;
+  right: 96px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+.slide-footer .brand { color: var(--cream); opacity: 0.7; }
+.slide-footer .program { color: var(--sage); }
+.slide-footer .pagenum { color: var(--gold); }
+
+/* ============================================================
+   Hero image layouts
+   ============================================================ */
+
+.hero-fullbleed {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-fullbleed img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-fullbleed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6,59,79,0.55) 0%, rgba(6,59,79,0.75) 50%, rgba(4,31,42,0.90) 100%);
+}
+
+.hero-half-left {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 55%;
+  z-index: 0;
+}
+.hero-half-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.hero-half-left::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(6,59,79,0) 60%, var(--petrol) 100%);
+}
+
+.hero-half-right {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 55%;
+  z-index: 0;
+}
+.hero-half-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.hero-half-right::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(270deg, rgba(6,59,79,0) 60%, var(--petrol) 100%);
+}
+
+.slide-content {
+  position: relative;
+  z-index: 1;
+  padding: 96px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   Image placeholder (pra geração futura)
+   ============================================================ */
+
+.placeholder {
+  position: relative;
+  background: var(--petrol-deep);
+  border: 2px dashed var(--gold);
+  border-radius: 12px;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+}
+.placeholder::before {
+  content: 'IMAGEM A GERAR';
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.placeholder .desc {
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--cream);
+  opacity: 0.85;
+}
+.placeholder .desc strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ============================================================
+   Grid utilities
+   ============================================================ */
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+.grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 48px; }
+
+/* ============================================================
+   Slide-specific helpers
+   ============================================================ */
+
+.card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(179,134,69,0.3);
+  border-radius: 12px;
+  padding: 32px;
+}
+.card--highlight {
+  border-color: var(--gold);
+  border-width: 2px;
+  background: rgba(179,134,69,0.06);
+}
+
+.retrato {
+  display: flex;
+  gap: 24px;
+}
+.retrato .num {
+  font-family: var(--serif-display);
+  font-size: 48px;
+  font-weight: 500;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  min-width: 64px;
+}
+.retrato .titulo {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--cream);
+  border-left: 1px solid rgba(179,134,69,0.4);
+  padding-left: 24px;
+  flex: 1;
+}
+
+.stack-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.stack-item:last-child { border-bottom: none; }
+.stack-item .check {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.stack-item .label {
+  font-family: var(--sans);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--cream);
+}
+
+/* ============================================================
+   Modalidades cards
+   ============================================================ */
+
+.mod-card {
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding: 32px 0;
+}
+.mod-card--highlight {
+  border-top: 3px solid var(--gold);
+}
+.mod-card .period {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.mod-card--highlight .period { color: var(--gold); }
+.mod-card .name {
+  font-family: var(--serif);
+  font-size: 84px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  margin-bottom: 32px;
+}
+.mod-card .desc {
+  font-family: var(--sans);
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--cream);
+  opacity: 0.9;
+}
+
+/* ============================================================
+   Pilar AGIR cards
+   ============================================================ */
+
+.pilar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 0;
+}
+.pilar .letra {
+  font-family: var(--serif-display);
+  font-weight: 600;
+  font-size: 200px;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--gold);
+}
+.pilar .pilar-rule {
+  width: 64px;
+  height: 1.5px;
+  background: var(--gold);
+}
+.pilar .pilar-nome {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--cream);
+}
+.pilar .pilar-quem {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--sage);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   Fase (jornada timeline)
+   ============================================================ */
+
+.fase {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.fase .fase-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.fase .fase-num {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 56px;
+  line-height: 1;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+}
+.fase .fase-tag {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.fase .fase-rule {
+  width: 100%;
+  height: 1px;
+  background: rgba(179,134,69,0.3);
+  margin: 8px 0;
+}
+.fase .fase-titulo {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--cream);
+}
+.fase .fase-body {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--sage);
+}
+
+/* ============================================================
+   Wordmark (logo)
+   ============================================================ */
+
+.wordmark {
+  display: block;
+  height: 40px;
+}
+.wordmark--large {
+  height: 120px;
+}
+.wordmark--hero {
+  height: 200px;
+}

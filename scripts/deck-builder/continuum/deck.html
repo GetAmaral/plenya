@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Continuum Plenya · Programa de acompanhamento contínuo</title>
+  <link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<!-- ============================================================
+     SLIDE 01 — HOOK · "10 anos." · cascata de 10 laudos NORMAIS envelhecendo
+     Concept: a década silenciosa, materializada em papel. Cada laudo um ano
+     "tudo certo" — e ainda assim, no fim, o diagnóstico que muda a vida.
+     ============================================================ -->
+<section class="slide slide--deep" id="s01">
+  <!-- Hero editorial: 4 brasileiros 50-60 anos, gravitas tranquila, fundo petrol -->
+  <div style="position: absolute; inset: 0; z-index: 0;">
+    <img src="../../../docs/decks/_assets/10anos-b.PNG" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center;">
+    <!-- Camada 1: fade horizontal sutil — petrol denso na esquerda pra a tipografia respirar, imagem clara à direita -->
+    <div style="position: absolute; inset: 0; background: linear-gradient(90deg, var(--petrol-deep) 0%, rgba(4,31,42,0.92) 18%, rgba(4,31,42,0.45) 38%, rgba(4,31,42,0.0) 58%);"></div>
+    <!-- Camada 2: vinheta editorial sutil nas bordas -->
+    <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 65% 50%, transparent 0%, transparent 55%, rgba(4,31,42,0.35) 100%);"></div>
+  </div>
+
+  <!-- Marca discreta canto superior esquerdo: símbolo Plenya pequeno -->
+  <div style="position: absolute; top: 72px; left: 96px; z-index: 2; display: flex; align-items: center; gap: 18px;">
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
+    <span style="font-family: var(--serif); font-size: 16px; font-weight: 500; letter-spacing: 0.34em; color: var(--cream); text-transform: uppercase; opacity: 0.85;">Continuum Plenya</span>
+  </div>
+
+  <!-- Page mark mínimo, canto inferior esquerdo -->
+  <div style="position: absolute; bottom: 64px; left: 96px; z-index: 2;">
+    <span style="font-family: var(--serif); font-size: 15px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">01 / 19</span>
+  </div>
+
+  <!-- Conteúdo: UM typeface (serif), hierarquia só por tamanho, zero decoração -->
+  <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: flex-start; padding-left: 96px; padding-right: 0; max-width: 56%;">
+    <h1 style="font-family: var(--serif-display); font-weight: 500; font-size: 196px; line-height: 0.9; letter-spacing: -0.035em; color: var(--cream); margin-bottom: 64px;">10 anos<span style="color: var(--gold);">.</span></h1>
+
+    <p style="max-width: 700px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 38px; line-height: 1.3; color: var(--cream); margin-bottom: 52px; letter-spacing: -0.005em;">
+      Existe uma década silenciosa entre o que parece <span style="color: var(--gold);">normal</span> e o que ainda pode ser transformado.
+    </p>
+
+    <div style="margin-bottom: 52px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 30px; line-height: 1.45; color: var(--cream); opacity: 0.95;">
+      <div>Antes dos sintomas.</div>
+      <div>Antes do diagnóstico.</div>
+      <div>Antes da perda percebida.</div>
+    </div>
+
+    <p style="max-width: 700px; font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.5; color: var(--cream); opacity: 0.82;">
+      A maioria das pessoas chama esse período de normalidade.<br>
+      <em style="opacity: 1; color: var(--gold-soft);">Nós acreditamos</em><em style="opacity: 1;"> que é onde saúde, performance e a longevidade começam a ser decididas.</em>
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 02 — CONTEXTO · A janela silenciosa
+     ============================================================ -->
+<section class="slide" id="s02">
+  <div class="hero-half-right">
+    <img src="../../../docs/decks/_assets/style-refs/deck-linha-continua-hero.png" alt="">
+  </div>
+  <div class="slide-content" style="width: 55%; justify-content: center;">
+    <span class="eyebrow" style="margin-bottom: 48px;">A janela silenciosa</span>
+    <h2 class="h1" style="margin-bottom: 32px; font-size: 80px;">Marcadores se movem dentro da "faixa aceitável".</h2>
+    <p class="subhead" style="font-size: 36px; color: var(--gold); margin-bottom: 48px;">
+      E ninguém está olhando.
+    </p>
+    <hr class="rule" style="margin-bottom: 32px;">
+    <p class="lead" style="max-width: 760px; font-size: 22px;">
+      Sintomas pequenos se acumulam. Energia que não volta. Sono que não restaura. Ela fecha em silêncio.
+    </p>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">02 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 03 — RECONHECIMENTO · "Você se acostuma..."
+     ============================================================ -->
+<section class="slide" id="s03">
+  <div class="slide-content" style="justify-content: center; gap: 64px;">
+    <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 96px; align-items: center;">
+      <div>
+        <span class="eyebrow" style="display: block; margin-bottom: 48px;">O que se acumula</span>
+        <h2 class="h1" style="font-size: 80px; line-height: 1.05;">Você se acostuma com cansaço, peso e distração. <em class="gold">Acha que é a idade.</em></h2>
+      </div>
+      <ul style="list-style: none; display: flex; flex-direction: column; gap: 20px;">
+        <li class="lead" style="display:flex; gap: 24px; align-items: baseline;"><span class="caption" style="color: var(--gold); min-width: 32px;">01</span> Disposição que não volta nem no domingo.</li>
+        <li class="lead" style="display:flex; gap: 24px; align-items: baseline;"><span class="caption" style="color: var(--gold); min-width: 32px;">02</span> Massa magra recuando mesmo mantendo o treino.</li>
+        <li class="lead" style="display:flex; gap: 24px; align-items: baseline;"><span class="caption" style="color: var(--gold); min-width: 32px;">03</span> Nome que escapa. Atalho que se perde.</li>
+        <li class="lead" style="display:flex; gap: 24px; align-items: baseline;"><span class="caption" style="color: var(--gold); min-width: 32px;">04</span> Libido que se ausenta. Humor irregular.</li>
+        <li class="lead" style="display:flex; gap: 24px; align-items: baseline;"><span class="caption" style="color: var(--gold); min-width: 32px;">05</span> Três viroses num ano em que antes não tinha nenhuma.</li>
+        <li class="lead" style="display:flex; gap: 24px; align-items: baseline;"><span class="caption" style="color: var(--gold); min-width: 32px;">06</span> Exames "normais". E mesmo assim algo não fecha.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">03 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 04 — ORIGEM · 20 anos de nefrologia
+     ============================================================ -->
+<section class="slide" id="s04">
+  <div class="hero-half-left">
+    <img src="../../../apps/site/public/images/getulio-estetoscopio.jpg" alt="Dr. Getúlio Amaral Filho">
+  </div>
+  <div class="slide-content" style="width: 55%; margin-left: 45%; justify-content: center;">
+    <span class="eyebrow" style="margin-bottom: 48px;">Quem fala</span>
+    <h2 class="h1" style="margin-bottom: 48px;">Vinte anos de nefrologia me ensinaram uma coisa.</h2>
+    <hr class="rule" style="margin-bottom: 32px;">
+    <p class="subhead" style="font-size: 40px; line-height: 1.25; margin-bottom: 40px;">
+      Você vive mais. <em class="gold">Mas vive pior.</em>
+    </p>
+    <div style="max-width: 720px;">
+      <p class="caption" style="font-size: 11px; color: var(--gold); letter-spacing: 0.32em; margin-bottom: 8px;">DIREÇÃO CLÍNICA</p>
+      <p class="body" style="color: var(--cream); font-size: 22px; font-family: var(--serif); font-weight: 500; margin-bottom: 6px;">
+        Dr. Getúlio Amaral Filho
+      </p>
+      <p class="body" style="color: var(--sage); font-size: 14px; letter-spacing: 0.06em;">
+        Nefrologista  ·  Medicina Funcional Integrativa (ABMFI)
+      </p>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">04 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 05 — VEHICLE · Apresentamos Continuum (símbolo + wordmark)
+     ============================================================ -->
+<section class="slide slide--deep" id="s05">
+  <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: center; text-align: center;">
+    <!-- Símbolo Plenya central acima -->
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 120px; height: auto; margin-bottom: 56px; opacity: 0.95;">
+
+    <span class="eyebrow" style="margin-bottom: 48px;">Apresentamos</span>
+    <h1 class="display" style="font-size: 240px; margin-bottom: 32px; color: var(--cream);">Continuum.</h1>
+    <hr class="rule rule--lg" style="margin: 24px auto 48px;">
+    <p class="subhead" style="font-size: 32px; max-width: 1400px;">
+      Saúde construída no tempo, antes que o tempo decida por você.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 06 — DIFERENCIAÇÃO · com símbolo P watermark sutil
+     ============================================================ -->
+<section class="slide" id="s06">
+  <!-- Símbolo Plenya watermark muito sutil canto sup direito -->
+  <img src="../../../apps/site/public/brand/symbol/gold.png" alt="" style="position: absolute; top: 96px; right: 96px; width: 64px; height: auto; opacity: 0.25; z-index: 0;">
+
+  <div class="slide-content" style="justify-content: center; position: relative; z-index: 1;">
+    <span class="eyebrow" style="margin-bottom: 64px;">O que é</span>
+    <h2 class="h1" style="max-width: 1600px; margin-bottom: 64px;">
+      Saúde não se resolve em uma consulta.
+    </h2>
+    <hr class="rule rule--lg" style="margin-bottom: 64px;">
+    <p class="subhead" style="font-size: 56px; max-width: 1600px; line-height: 1.2;">
+      Se constrói no tempo, <em class="gold">em conjunto, com método.</em>
+    </p>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">06 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 07 — CRENÇA 1 · "Meus exames estão normais"
+     ============================================================ -->
+<section class="slide" id="s07">
+  <div class="slide-content" style="padding: 96px 96px 80px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 96px;">
+      <span class="eyebrow">As três crenças</span>
+      <span style="font-family: var(--serif-display); font-size: 42px; color: var(--gold); letter-spacing: -0.02em;">01 <span style="color: var(--sage); opacity: 0.4;">/ 03</span></span>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 128px; align-items: start; margin-bottom: 72px;">
+      <div>
+        <span class="caption" style="display: block; margin-bottom: 32px; color: var(--muted);">A objeção</span>
+        <p class="subhead" style="font-size: 52px; line-height: 1.15; color: var(--cream); font-style: italic;">
+          "Meus exames estão normais."
+        </p>
+      </div>
+      <div>
+        <span class="eyebrow" style="display: block; margin-bottom: 32px;">A leitura clínica</span>
+        <h3 class="h3" style="margin-bottom: 28px; font-size: 44px;">Normal não é o mesmo que ótimo.</h3>
+        <p class="body" style="font-size: 20px; line-height: 1.55; color: var(--sage);">
+          Entre o que o laudo chama de "faixa aceitável" e o que a sua biologia precisa para estar bem existem dez, quinze, vinte anos — a janela silenciosa.
+        </p>
+      </div>
+    </div>
+
+    <!-- Visualização conceitual: faixa NORMAL vs ÓTIMO -->
+    <div style="margin-top: auto; padding-top: 48px; border-top: 1px solid rgba(179,134,69,0.18);">
+      <svg viewBox="0 0 1700 110" width="100%" height="110" role="img">
+        <!-- Bar normal -->
+        <text x="0" y="22" font-family="Inter" font-size="13" font-weight="600" fill="#5A6B70" letter-spacing="3">NORMAL</text>
+        <rect x="0" y="36" width="900" height="3" fill="#5A6B70" opacity="0.5"/>
+        <!-- Bar ótimo -->
+        <text x="0" y="78" font-family="Inter" font-size="13" font-weight="600" fill="#B38645" letter-spacing="3">ÓTIMO</text>
+        <rect x="0" y="92" width="1500" height="3" fill="#B38645"/>
+        <!-- Gap indicator at right -->
+        <text x="1100" y="48" font-family="Cormorant Garamond" font-size="18" font-style="italic" fill="#92B8B4">a distância entre os dois</text>
+        <text x="1100" y="68" font-family="Cormorant Garamond" font-size="18" font-style="italic" fill="#92B8B4">é a janela silenciosa</text>
+      </svg>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">07 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 08 — CRENÇA 2 · "Já tenho médico"
+     ============================================================ -->
+<section class="slide" id="s08">
+  <div class="slide-content" style="padding: 96px 96px 80px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 96px;">
+      <span class="eyebrow">As três crenças</span>
+      <span style="font-family: var(--serif-display); font-size: 42px; color: var(--gold); letter-spacing: -0.02em;">02 <span style="color: var(--sage); opacity: 0.4;">/ 03</span></span>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 128px; align-items: start; margin-bottom: 72px;">
+      <div>
+        <span class="caption" style="display: block; margin-bottom: 32px; color: var(--muted);">A objeção</span>
+        <p class="subhead" style="font-size: 52px; line-height: 1.15; color: var(--cream); font-style: italic;">
+          "Já tenho cardiologista, endócrino, ginecologista."
+        </p>
+      </div>
+      <div>
+        <span class="eyebrow" style="display: block; margin-bottom: 32px;">A leitura clínica</span>
+        <h3 class="h3" style="margin-bottom: 28px; font-size: 44px;">O médico-gestor articula. Não substitui.</h3>
+        <p class="body" style="font-size: 20px; line-height: 1.55; color: var(--sage);">
+          Coordena longitudinalmente com os profissionais que já cuidam de você. Todos veem o mesmo painel. Cada decisão conversa com as outras.
+        </p>
+      </div>
+    </div>
+
+    <!-- Visualização: fragmentação vs integração -->
+    <div style="margin-top: auto; padding-top: 48px; border-top: 1px solid rgba(179,134,69,0.18);">
+      <svg viewBox="0 0 1700 140" width="100%" height="140" role="img">
+        <!-- LEFT: fragmentação - 4 círculos isolados -->
+        <text x="0" y="22" font-family="Inter" font-size="13" font-weight="600" fill="#5A6B70" letter-spacing="3">FRAGMENTAÇÃO</text>
+        <circle cx="100" cy="90" r="22" fill="none" stroke="#5A6B70" stroke-width="1.5" opacity="0.6"/>
+        <circle cx="220" cy="60" r="22" fill="none" stroke="#5A6B70" stroke-width="1.5" opacity="0.6"/>
+        <circle cx="340" cy="100" r="22" fill="none" stroke="#5A6B70" stroke-width="1.5" opacity="0.6"/>
+        <circle cx="450" cy="65" r="22" fill="none" stroke="#5A6B70" stroke-width="1.5" opacity="0.6"/>
+        <circle cx="560" cy="95" r="22" fill="none" stroke="#5A6B70" stroke-width="1.5" opacity="0.6"/>
+
+        <!-- ARROW -->
+        <line x1="700" y1="80" x2="900" y2="80" stroke="#B38645" stroke-width="1.5"/>
+        <polygon points="890,72 905,80 890,88" fill="#B38645"/>
+
+        <!-- RIGHT: integração - centro + satélites conectados -->
+        <text x="1020" y="22" font-family="Inter" font-size="13" font-weight="600" fill="#B38645" letter-spacing="3">INTEGRAÇÃO</text>
+        <!-- Conexões -->
+        <line x1="1320" y1="80" x2="1180" y2="50" stroke="#B38645" stroke-width="1.2" opacity="0.7"/>
+        <line x1="1320" y1="80" x2="1180" y2="115" stroke="#B38645" stroke-width="1.2" opacity="0.7"/>
+        <line x1="1320" y1="80" x2="1460" y2="50" stroke="#B38645" stroke-width="1.2" opacity="0.7"/>
+        <line x1="1320" y1="80" x2="1460" y2="115" stroke="#B38645" stroke-width="1.2" opacity="0.7"/>
+        <line x1="1320" y1="80" x2="1620" y2="80" stroke="#B38645" stroke-width="1.2" opacity="0.7"/>
+        <!-- Satélites -->
+        <circle cx="1180" cy="50" r="18" fill="none" stroke="#B38645" stroke-width="1.5"/>
+        <circle cx="1180" cy="115" r="18" fill="none" stroke="#B38645" stroke-width="1.5"/>
+        <circle cx="1460" cy="50" r="18" fill="none" stroke="#B38645" stroke-width="1.5"/>
+        <circle cx="1460" cy="115" r="18" fill="none" stroke="#B38645" stroke-width="1.5"/>
+        <circle cx="1620" cy="80" r="18" fill="none" stroke="#B38645" stroke-width="1.5"/>
+        <!-- Centro: médico-gestor -->
+        <circle cx="1320" cy="80" r="32" fill="#B38645" fill-opacity="0.18" stroke="#B38645" stroke-width="2"/>
+        <text x="1320" y="86" font-family="Cormorant Garamond" font-size="14" font-weight="600" fill="#EAE7DA" text-anchor="middle">MG</text>
+      </svg>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">08 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 09 — CRENÇA 3 · "Vai dar resultado?"
+     ============================================================ -->
+<section class="slide" id="s09">
+  <div class="slide-content" style="padding: 96px 96px 80px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 96px;">
+      <span class="eyebrow">As três crenças</span>
+      <span style="font-family: var(--serif-display); font-size: 42px; color: var(--gold); letter-spacing: -0.02em;">03 <span style="color: var(--sage); opacity: 0.4;">/ 03</span></span>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 128px; align-items: start; margin-bottom: 72px;">
+      <div>
+        <span class="caption" style="display: block; margin-bottom: 32px; color: var(--muted);">A objeção</span>
+        <p class="subhead" style="font-size: 52px; line-height: 1.15; color: var(--cream); font-style: italic;">
+          "Vai dar resultado mesmo?"
+        </p>
+      </div>
+      <div>
+        <span class="eyebrow" style="display: block; margin-bottom: 32px;">A leitura clínica</span>
+        <h3 class="h3" style="margin-bottom: 28px; font-size: 44px;">O Escore mostra a curva.</h3>
+        <p class="body" style="font-size: 20px; line-height: 1.55; color: var(--sage);">
+          A primeira leitura clínica acontece logo na consulta inicial. A curva costuma mostrar movimento entre o primeiro e o terceiro mês — porque é nesse intervalo que os primeiros ajustes maduram.
+        </p>
+      </div>
+    </div>
+
+    <!-- Visualização: curva ascendente -->
+    <div style="margin-top: auto; padding-top: 48px; border-top: 1px solid rgba(179,134,69,0.18);">
+      <svg viewBox="0 0 1700 140" width="100%" height="140" role="img">
+        <text x="0" y="22" font-family="Inter" font-size="13" font-weight="600" fill="#B38645" letter-spacing="3">EVOLUÇÃO DA CURVA · MÊS 1 → MÊS 3</text>
+        <!-- Linhas de referência -->
+        <line x1="0" y1="115" x2="1700" y2="115" stroke="#92B8B4" stroke-width="0.5" opacity="0.2"/>
+        <line x1="0" y1="75" x2="1700" y2="75" stroke="#92B8B4" stroke-width="0.5" opacity="0.2"/>
+        <line x1="0" y1="50" x2="1700" y2="50" stroke="#92B8B4" stroke-width="0.5" opacity="0.2"/>
+        <!-- Curve path -->
+        <path d="M 40 110 Q 200 108, 380 100 T 700 80 T 1050 60 T 1400 45 T 1660 38"
+              fill="none" stroke="#B38645" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Dots -->
+        <circle cx="40" cy="110" r="5" fill="#B38645"/>
+        <circle cx="380" cy="100" r="5" fill="#B38645"/>
+        <circle cx="700" cy="80" r="5" fill="#B38645"/>
+        <circle cx="1050" cy="60" r="5" fill="#B38645"/>
+        <circle cx="1400" cy="45" r="5" fill="#B38645"/>
+        <circle cx="1660" cy="38" r="5" fill="#B38645"/>
+        <!-- Labels base -->
+        <text x="40" y="133" font-family="Inter" font-size="11" fill="#92B8B4" letter-spacing="2">MÊS 0</text>
+        <text x="1620" y="133" font-family="Inter" font-size="11" fill="#92B8B4" letter-spacing="2">MÊS 12</text>
+      </svg>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">09 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — EQUIPE
+     ============================================================ -->
+<section class="slide" id="s10">
+  <div class="hero-fullbleed">
+    <img src="../../../apps/site/public/images/team/equipe-candid.jpg" alt="Equipe Plenya">
+  </div>
+  <div class="slide-content" style="justify-content: flex-end;">
+    <span class="eyebrow" style="margin-bottom: 32px;">A equipe</span>
+    <h2 class="display" style="font-size: 120px; line-height: 0.95; margin-bottom: 32px;">
+      Quatro especialistas.<br>
+      <em class="gold">Um plano único.</em>
+    </h2>
+    <hr class="rule" style="margin-bottom: 32px;">
+    <p class="lead" style="max-width: 1100px; font-size: 22px;">
+      Médico, nutricionista, psicóloga e educador físico se reúnem antes do seu primeiro encontro, discutem o seu caso e desenham um plano integrado. Cada decisão clínica conversa com as outras.
+    </p>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">10 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — MÉTODO AGIR · tipográfico puro
+     ============================================================ -->
+<section class="slide" id="s11">
+  <!-- Símbolo Plenya watermark canto sup direito -->
+  <img src="../../../apps/site/public/brand/symbol/gold.png" alt="" style="position: absolute; top: 96px; right: 96px; width: 56px; height: auto; opacity: 0.22; z-index: 0;">
+
+  <div class="slide-content" style="position: relative; z-index: 1;">
+    <span class="eyebrow" style="margin-bottom: 32px;">Como entregamos</span>
+    <h2 class="display" style="font-size: 200px; line-height: 0.85; margin-bottom: 32px; color: var(--cream);">AGIR.</h2>
+    <p class="subhead" style="max-width: 1200px; margin-bottom: 96px;">
+      Quatro pilares interdependentes para uma saúde que se sustenta no tempo.
+    </p>
+    <div class="grid-4" style="margin-top: auto;">
+      <div class="pilar">
+        <!-- Ícone: folha/atividade (leaf) -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; opacity: 0.85;">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6"/>
+        </svg>
+        <div class="letra">A</div>
+        <div class="pilar-rule"></div>
+        <div class="pilar-nome">Atividade, alimentação e suplementação</div>
+        <div class="pilar-quem">Nutricionista + educador físico</div>
+      </div>
+      <div class="pilar">
+        <!-- Ícone: estetoscópio/stetoscope-like (activity) -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; opacity: 0.85;">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+        <div class="letra">G</div>
+        <div class="pilar-rule"></div>
+        <div class="pilar-nome">Gestão clínica e metabólica</div>
+        <div class="pilar-quem">Médico</div>
+      </div>
+      <div class="pilar">
+        <!-- Ícone: brain/mente -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; opacity: 0.85;">
+          <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+          <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
+        </svg>
+        <div class="letra">I</div>
+        <div class="pilar-rule"></div>
+        <div class="pilar-nome">Integração mente-corpo</div>
+        <div class="pilar-quem">Psicóloga</div>
+      </div>
+      <div class="pilar">
+        <!-- Ícone: lua/sono -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; opacity: 0.85;">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+        <div class="letra">R</div>
+        <div class="pilar-rule"></div>
+        <div class="pilar-nome">Ritmo circadiano e repouso</div>
+        <div class="pilar-quem">Atravessa os quatro</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">11 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 — ESCORE PLENYA · radar REAL do site (22 vértices, 4 arcos coloridos)
+     Replica fiel de apps/site/components/escore/RadarAgir.tsx
+     ============================================================ -->
+<section class="slide" id="s12" style="background: var(--petrol);">
+  <div class="slide-content">
+    <span class="eyebrow" style="margin-bottom: 24px;">O instrumento</span>
+    <h2 class="h1" style="font-size: 84px; margin-bottom: 24px;">Escore Plenya.</h2>
+    <p class="subhead" style="font-size: 28px; max-width: 1400px; margin-bottom: 48px;">
+      Não é uma nota. <em class="gold">É um mapa.</em>
+    </p>
+
+    <div style="display: grid; grid-template-columns: 580px 1fr; gap: 80px; align-items: center;">
+      <!-- Radar SVG real — 22 vértices, 4 arcos coloridos, score central -->
+      <div style="position: relative;">
+        <svg viewBox="-40 -40 480 480" width="560" height="560" role="img" aria-label="Escore Plenya: 22 pilares em 4 letras AGIR">
+          <!-- Anéis concêntricos sutis -->
+          <circle cx="200" cy="200" r="37.5" fill="none" stroke="rgba(234,231,218,0.08)" stroke-width="1"/>
+          <circle cx="200" cy="200" r="75" fill="none" stroke="rgba(234,231,218,0.08)" stroke-width="1"/>
+          <circle cx="200" cy="200" r="112.5" fill="none" stroke="rgba(234,231,218,0.10)" stroke-width="1"/>
+          <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(234,231,218,0.12)" stroke-width="1"/>
+
+          <!-- Eixos cardinais sutis -->
+          <line x1="200" y1="50" x2="200" y2="350" stroke="rgba(234,231,218,0.08)" stroke-width="1"/>
+          <line x1="50" y1="200" x2="350" y2="200" stroke="rgba(234,231,218,0.08)" stroke-width="1"/>
+
+          <!-- Polígono de 22 vértices ligando todos os pilares -->
+          <polygon
+            points="131.7,97.7 177.2,85.2 225.2,73.5 261.7,107.7 286.7,126 289.5,145.1 310.9,154.1 305,174.8 325.6,190.1 316.6,209.2 303.6,224.9 313.6,247.1 297.2,259.6 283.3,271.1 260,282.5 233.4,302.7 200,312.5 167.6,299.9 134.8,289.8 90.9,263 68,200 96.1,140"
+            fill="#b38645" fill-opacity="0.16"
+            stroke="#b38645" stroke-opacity="0.85"
+            stroke-width="1.5" stroke-linejoin="round"/>
+
+          <!-- Anel externo: 4 arcos coloridos por letra -->
+          <path d="M 85.4 77.1 A 168 168 0 0 1 314.6 77.1" fill="none" stroke="#92b8b4" stroke-width="7" stroke-linecap="round" opacity="0.9"/>
+          <path d="M 322.9 85.4 A 168 168 0 0 1 322.9 314.6" fill="none" stroke="#b38645" stroke-width="7" stroke-linecap="round" opacity="0.9"/>
+          <path d="M 314.6 322.9 A 168 168 0 0 1 85.4 322.9" fill="none" stroke="#caa56b" stroke-width="7" stroke-linecap="round" opacity="0.9"/>
+          <path d="M 77.1 314.6 A 168 168 0 0 1 77.1 85.4" fill="none" stroke="#417e8e" stroke-width="7" stroke-linecap="round" opacity="0.9"/>
+
+          <!-- 22 pontos individuais coloridos por letra -->
+          <circle cx="131.7" cy="97.7" r="3.5" fill="#92b8b4" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="177.2" cy="85.2" r="3.5" fill="#92b8b4" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="225.2" cy="73.5" r="3.5" fill="#92b8b4" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="261.7" cy="107.7" r="3.5" fill="#92b8b4" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="286.7" cy="126" r="3.5" fill="#b38645" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="289.5" cy="145.1" r="3.5" fill="#b38645" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="310.9" cy="154.1" r="3.5" fill="#b38645" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="305" cy="174.8" r="3.5" fill="#b38645" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="325.6" cy="190.1" r="3.5" fill="#b38645" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="316.6" cy="209.2" r="3.5" fill="#b38645" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="303.6" cy="224.9" r="3.5" fill="#b38645" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="313.6" cy="247.1" r="3.5" fill="#b38645" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="297.2" cy="259.6" r="3.5" fill="#b38645" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="283.3" cy="271.1" r="3.5" fill="#b38645" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="260" cy="282.5" r="3.5" fill="#caa56b" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="233.4" cy="302.7" r="3.5" fill="#caa56b" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="200" cy="312.5" r="3.5" fill="#caa56b" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="167.6" cy="299.9" r="3.5" fill="#caa56b" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="134.8" cy="289.8" r="3.5" fill="#caa56b" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="90.9" cy="263" r="3.5" fill="#417e8e" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="68" cy="200" r="3.5" fill="#417e8e" stroke="#fbfaf6" stroke-width="1.2"/>
+          <circle cx="96.1" cy="140" r="3.5" fill="#417e8e" stroke="#fbfaf6" stroke-width="1.2"/>
+
+          <!-- Letras A G I R em serif -->
+          <text x="200" y="30" text-anchor="middle" font-family="Cormorant Garamond" font-size="32" font-weight="500" fill="#92b8b4">A</text>
+          <text x="386" y="216" text-anchor="middle" font-family="Cormorant Garamond" font-size="32" font-weight="500" fill="#b38645">G</text>
+          <text x="200" y="402" text-anchor="middle" font-family="Cormorant Garamond" font-size="32" font-weight="500" fill="#caa56b">I</text>
+          <text x="14" y="216" text-anchor="middle" font-family="Cormorant Garamond" font-size="32" font-weight="500" fill="#417e8e">R</text>
+
+          <!-- Score global no centro -->
+          <circle cx="200" cy="200" r="38" fill="#EAE7DA" stroke="#063b4f" stroke-opacity="0.2" stroke-width="1.5"/>
+          <text x="200" y="213" text-anchor="middle" font-family="Cormorant Garamond" font-size="42" font-weight="500" fill="#063b4f" letter-spacing="-1">78</text>
+        </svg>
+
+        <!-- Legenda das cores por letra -->
+        <div style="display: flex; gap: 28px; justify-content: center; margin-top: 8px; font-family: 'Inter'; font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage);">
+          <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #92b8b4;"></span>A 80</span>
+          <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #b38645;"></span>G 76</span>
+          <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #caa56b;"></span>I 72</span>
+          <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #417e8e;"></span>R 84</span>
+        </div>
+        <p class="caption" style="font-size: 11px; text-align: center; margin-top: 16px; color: var(--sage); opacity: 0.6;">
+          EXEMPLO · 22 PILARES · ESCALA 0–100
+        </p>
+      </div>
+
+      <!-- Coluna direita: copy -->
+      <div>
+        <p class="lead" style="font-size: 22px; line-height: 1.55; margin-bottom: 40px;">
+          Mais de <strong style="color: var(--gold); font-weight: 600;">800 itens</strong> — história, sintomas, exames, hábitos, medicamentos — organizados nos quatro pilares do Método AGIR e consolidados numa pontuação clara, evolutiva e personalizada.
+        </p>
+        <hr class="rule" style="margin-bottom: 32px;">
+        <p class="body" style="font-size: 18px; line-height: 1.55; color: var(--sage); margin-bottom: 32px;">
+          Refeita a cada três meses ao longo do Continuum. A curva mostra o que avançou, o que estagnou e onde a próxima intervenção entra.
+        </p>
+        <p class="subhead" style="font-size: 26px; color: var(--gold); font-style: italic;">
+          Direção, não punição.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">12 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 13 — JORNADA · imagem hero A→B + timeline compacta
+     ============================================================ -->
+<section class="slide slide--deep" id="s13">
+  <div class="slide-content" style="padding: 80px 96px 96px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 36px;">
+      <div>
+        <span class="eyebrow" style="display: block; margin-bottom: 12px;">A cronologia</span>
+        <h2 class="h1" style="font-size: 64px;">Do tempo zero ao próximo horizonte.</h2>
+      </div>
+      <p class="subhead" style="font-size: 22px; max-width: 480px; text-align: right;">
+        Uma trajetória clínica, não uma sequência de consultas.
+      </p>
+    </div>
+
+    <!-- Imagem hero da jornada A→B (mesmo homem dual-exposure) -->
+    <div style="height: 500px; border-radius: 6px; overflow: hidden; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+      <img src="../../../docs/decks/_assets/style-refs/deck-jornada-v2-same-man.png" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+
+    <!-- Timeline compacta de 6 fases -->
+    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(179,134,69,0.25);">
+      <div>
+        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">01</div>
+        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">SEMANA 1</div>
+        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Quatro consultas online.</div>
+      </div>
+      <div>
+        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">02</div>
+        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">SEMANA 2</div>
+        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Reunião da equipe.</div>
+      </div>
+      <div>
+        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">03</div>
+        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">CICLO DE 4 SEMANAS</div>
+        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Encontros em rotação.</div>
+      </div>
+      <div>
+        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">04</div>
+        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">CONFORME O PLANO</div>
+        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Box Plenya.</div>
+      </div>
+      <div>
+        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">05</div>
+        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">A CADA 3 MESES</div>
+        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Reavaliação do Escore.</div>
+      </div>
+      <div>
+        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">06</div>
+        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">FINAL DO CICLO</div>
+        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Próximo horizonte.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">13 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 14 — BOX PLENYA · PLACEHOLDER pra regerar
+     ============================================================ -->
+<section class="slide" id="s14">
+  <div class="slide-content">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; height: 100%;">
+      <div>
+        <span class="eyebrow" style="margin-bottom: 32px; display: block;">Entrega</span>
+        <h2 class="h1" style="margin-bottom: 48px;">Um box chega até você.</h2>
+        <hr class="rule" style="margin-bottom: 40px;">
+        <p class="lead" style="font-size: 22px; line-height: 1.55; margin-bottom: 32px;">
+          Suplementos, manipulados e mimos curados pela equipe. Do seu protocolo. No seu ritmo. Novos boxes chegam à medida que o plano evolui.
+        </p>
+        <p class="subhead" style="font-size: 22px; color: var(--gold);">
+          Cada caixa carrega o manifesto Plenya em ouro foil.
+        </p>
+      </div>
+      <div style="aspect-ratio: 4/3; border-radius: 6px; overflow: hidden;">
+        <img src="../../../docs/decks/_assets/style-refs/deck-box-plenya-v3-precise-symbol.png" alt="Box Plenya" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">14 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 15 — PARA QUEM É · 6 retratos + foto lifestyle BG
+     ============================================================ -->
+<section class="slide" id="s15">
+  <!-- BG editorial lifestyle sutil -->
+  <div style="position: absolute; inset: 0; z-index: 0;">
+    <img src="../../../apps/site/public/images/lifestyle-nature.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.32;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,59,79,0.78) 0%, rgba(6,59,79,0.88) 60%, rgba(4,31,42,0.95) 100%);"></div>
+  </div>
+  <div class="slide-content" style="position: relative; z-index: 1;">
+    <span class="eyebrow" style="margin-bottom: 32px;">Reconhecimento</span>
+    <h2 class="h1" style="margin-bottom: 24px;">Não é para todo mundo.</h2>
+    <p class="subhead" style="margin-bottom: 64px; max-width: 1400px;">
+      É para quem reconhece um destes momentos.
+    </p>
+
+    <div class="grid-6" style="margin-top: 16px;">
+      <div class="retrato">
+        <span class="num">01</span>
+        <div class="titulo">Faz tudo certo, e os sinais não somam.</div>
+      </div>
+      <div class="retrato">
+        <span class="num">02</span>
+        <div class="titulo">Recebeu o susto.</div>
+      </div>
+      <div class="retrato">
+        <span class="num">03</span>
+        <div class="titulo">Carrega mais do que si mesmo.</div>
+      </div>
+      <div class="retrato">
+        <span class="num">04</span>
+        <div class="titulo">Está numa transição que ninguém nomeia.</div>
+      </div>
+      <div class="retrato">
+        <span class="num">05</span>
+        <div class="titulo">Informação demais, integração de menos.</div>
+      </div>
+      <div class="retrato">
+        <span class="num">06</span>
+        <div class="titulo">Quer estar inteiro para quem ainda vai chegar.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">15 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 16 — PARA QUEM NÃO É · 3 razões
+     ============================================================ -->
+<section class="slide slide--deep" id="s16">
+  <div class="slide-content">
+    <span class="eyebrow" style="margin-bottom: 32px;">Honestidade</span>
+    <h2 class="h1" style="margin-bottom: 24px;">Para quem o Continuum <em class="gold">não</em> é.</h2>
+    <p class="subhead" style="margin-bottom: 96px; max-width: 1400px;">
+      Quanto mais cedo a gente alinha expectativa, melhor o cuidado funciona.
+    </p>
+
+    <div class="grid-3" style="gap: 64px;">
+      <div class="card">
+        <!-- Ícone: relógio rápido (busca pontual) -->
+        <div style="width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; margin-bottom: 32px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <polyline points="12 7 12 12 15 14"/>
+          </svg>
+        </div>
+        <h4 class="h4" style="margin-bottom: 20px; font-size: 28px; line-height: 1.2;">Quem busca solução pontual.</h4>
+        <p class="body" style="color: var(--sage); font-size: 17px;">Sintoma agudo, dúvida específica, exame para interpretar — isso resolve em uma Consulta Plenya. O Continuum é compromisso de seis ou doze meses.</p>
+      </div>
+      <div class="card">
+        <!-- Ícone: pausa (não quer mudar) -->
+        <div style="width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; margin-bottom: 32px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <line x1="10" y1="15" x2="10" y2="9"/>
+            <line x1="14" y1="15" x2="14" y2="9"/>
+          </svg>
+        </div>
+        <h4 class="h4" style="margin-bottom: 20px; font-size: 28px; line-height: 1.2;">Quem não quer mudar nada.</h4>
+        <p class="body" style="color: var(--sage); font-size: 17px;">O programa não muda o que você não quiser mudar. Mas também não funciona se a vontade não está. A equipe propõe, devolve dado, ajusta junto. Você executa.</p>
+      </div>
+      <div class="card">
+        <!-- Ícone: alerta (precisa pronto-atendimento) -->
+        <div style="width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; margin-bottom: 32px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+            <path d="M12 9v4"/>
+            <circle cx="12" cy="17" r="0.5" fill="#B38645"/>
+          </svg>
+        </div>
+        <h4 class="h4" style="margin-bottom: 20px; font-size: 28px; line-height: 1.2;">Quem precisa de pronto-atendimento.</h4>
+        <p class="body" style="color: var(--sage); font-size: 17px;">Não somos urgência. O grupo de WhatsApp atende dúvidas em horário comercial — não substitui pronto-socorro nem ambulatório de plantão.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">16 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 17 — COMPARATIVO · Consulta avulsa vs Continuum
+     ============================================================ -->
+<section class="slide" id="s17">
+  <!-- Símbolo Plenya watermark canto sup direito -->
+  <img src="../../../apps/site/public/brand/symbol/gold.png" alt="" style="position: absolute; top: 96px; right: 96px; width: 56px; height: auto; opacity: 0.22; z-index: 0;">
+
+  <div class="slide-content" style="position: relative; z-index: 1;">
+    <span class="eyebrow" style="margin-bottom: 32px;">O contexto da decisão</span>
+    <h2 class="h1" style="font-size: 72px; margin-bottom: 80px; max-width: 1600px;">
+      Para uma dúvida pontual <em class="gold">ou</em> para construção no tempo?
+    </h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px;">
+      <!-- Coluna 1: Consulta Plenya -->
+      <div style="border-top: 1px solid rgba(146,184,180,0.35); padding-top: 32px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px;">
+          <span class="tag" style="color: var(--sage); letter-spacing: 0.28em;">CONSULTA PLENYA</span>
+          <span class="caption" style="color: var(--sage); font-style: italic;">pontual</span>
+        </div>
+        <h3 class="h3" style="font-size: 38px; margin-bottom: 32px; color: var(--cream);">Uma leitura clínica.</h3>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px;">
+          <li style="display: flex; gap: 16px; align-items: baseline; font-family: var(--sans); font-size: 17px; color: var(--sage); line-height: 1.5;">
+            <span style="color: var(--sage); font-family: var(--serif); font-size: 18px; line-height: 1;">—</span>
+            <span>Aprofundamento clínico com o médico-gestor.</span>
+          </li>
+          <li style="display: flex; gap: 16px; align-items: baseline; font-family: var(--sans); font-size: 17px; color: var(--sage); line-height: 1.5;">
+            <span style="color: var(--sage); font-family: var(--serif); font-size: 18px; line-height: 1;">—</span>
+            <span>Interpretação de exames e queixas específicas.</span>
+          </li>
+          <li style="display: flex; gap: 16px; align-items: baseline; font-family: var(--sans); font-size: 17px; color: var(--sage); line-height: 1.5;">
+            <span style="color: var(--sage); font-family: var(--serif); font-size: 18px; line-height: 1;">—</span>
+            <span>Versão focada do Escore Plenya.</span>
+          </li>
+          <li style="display: flex; gap: 16px; align-items: baseline; font-family: var(--sans); font-size: 17px; color: var(--sage); line-height: 1.5;">
+            <span style="color: var(--sage); font-family: var(--serif); font-size: 18px; line-height: 1;">—</span>
+            <span>Plano clínico de partida.</span>
+          </li>
+        </ul>
+        <p class="caption" style="font-style: italic; color: var(--sage); font-size: 13px; letter-spacing: 0.05em;">
+          Resolve em consulta única.
+        </p>
+      </div>
+
+      <!-- Coluna 2: Continuum Plenya -->
+      <div style="border-top: 2px solid var(--gold); padding-top: 32px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px;">
+          <span class="tag" style="color: var(--gold); letter-spacing: 0.28em;">CONTINUUM PLENYA</span>
+          <span class="caption" style="color: var(--gold); font-style: italic;">longitudinal</span>
+        </div>
+        <h3 class="h3" style="font-size: 38px; margin-bottom: 32px; color: var(--cream);">Uma trajetória clínica.</h3>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px;">
+          <li style="display: flex; gap: 16px; align-items: baseline; font-family: var(--sans); font-size: 17px; color: var(--cream); line-height: 1.5;">
+            <span style="color: var(--gold); font-family: var(--serif); font-size: 18px; line-height: 1;">+</span>
+            <span>Quatro especialistas, plano integrado, encontros semanais.</span>
+          </li>
+          <li style="display: flex; gap: 16px; align-items: baseline; font-family: var(--sans); font-size: 17px; color: var(--cream); line-height: 1.5;">
+            <span style="color: var(--gold); font-family: var(--serif); font-size: 18px; line-height: 1;">+</span>
+            <span>Escore Plenya completo + reavaliação a cada três meses.</span>
+          </li>
+          <li style="display: flex; gap: 16px; align-items: baseline; font-family: var(--sans); font-size: 17px; color: var(--cream); line-height: 1.5;">
+            <span style="color: var(--gold); font-family: var(--serif); font-size: 18px; line-height: 1;">+</span>
+            <span>Box Plenya — suplementos e manipulados do seu protocolo.</span>
+          </li>
+          <li style="display: flex; gap: 16px; align-items: baseline; font-family: var(--sans); font-size: 17px; color: var(--cream); line-height: 1.5;">
+            <span style="color: var(--gold); font-family: var(--serif); font-size: 18px; line-height: 1;">+</span>
+            <span>Articulação com seus médicos externos pelo médico-gestor.</span>
+          </li>
+        </ul>
+        <p class="caption" style="font-style: italic; color: var(--gold); font-size: 13px; letter-spacing: 0.05em;">
+          Constrói no tempo. Seis ou doze meses.
+        </p>
+      </div>
+    </div>
+
+    <!-- Frase de fechamento -->
+    <div style="margin-top: auto; padding-top: 48px;">
+      <hr class="rule" style="margin-bottom: 24px;">
+      <p class="subhead" style="font-size: 22px; max-width: 1400px;">
+        Se você ainda está em dúvida, comece pela Consulta. <em class="gold">O Continuum é pra quem já decidiu o caminho.</em>
+      </p>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">17 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 18 — COMPROMISSO · Semestral / Anual
+     ============================================================ -->
+<section class="slide" id="s18">
+  <!-- Símbolo Plenya watermark canto sup direito -->
+  <img src="../../../apps/site/public/brand/symbol/gold.png" alt="" style="position: absolute; top: 96px; right: 96px; width: 56px; height: auto; opacity: 0.22; z-index: 0;">
+
+  <div class="slide-content" style="position: relative; z-index: 1;">
+    <span class="eyebrow" style="margin-bottom: 32px;">Modalidades</span>
+    <h2 class="h1" style="margin-bottom: 96px;">Dois horizontes de compromisso.</h2>
+
+    <div class="grid-2" style="gap: 96px; margin-top: 32px;">
+      <div class="mod-card" style="position: relative;">
+        <!-- Relógio circular 6 meses (meio preenchido) -->
+        <svg width="92" height="92" viewBox="0 0 92 92" style="position: absolute; top: 16px; right: 0;">
+          <circle cx="46" cy="46" r="38" fill="none" stroke="#417E8E" stroke-width="2" opacity="0.3"/>
+          <!-- Setor de 180° (6 meses) -->
+          <path d="M 46 8 A 38 38 0 0 1 46 84" fill="none" stroke="#417E8E" stroke-width="3" stroke-linecap="round"/>
+          <text x="46" y="52" text-anchor="middle" font-family="Cormorant Garamond" font-size="22" font-weight="500" fill="#417E8E">6m</text>
+        </svg>
+        <div class="period">6 meses</div>
+        <div class="name">Continuum Semestral</div>
+        <p class="desc">Ciclo completo: avaliação inicial, plano integrado, encontros semanais, reavaliação trimestral e fechamento estruturado.</p>
+      </div>
+      <div class="mod-card mod-card--highlight" style="position: relative;">
+        <!-- Relógio circular 12 meses (completo) -->
+        <svg width="92" height="92" viewBox="0 0 92 92" style="position: absolute; top: 16px; right: 0;">
+          <circle cx="46" cy="46" r="38" fill="none" stroke="#B38645" stroke-width="2" opacity="0.3"/>
+          <!-- Anel completo (12 meses) -->
+          <circle cx="46" cy="46" r="38" fill="none" stroke="#B38645" stroke-width="3"/>
+          <text x="46" y="52" text-anchor="middle" font-family="Cormorant Garamond" font-size="22" font-weight="500" fill="#B38645">12m</text>
+        </svg>
+        <div class="period">12 meses</div>
+        <div class="name">Continuum Anual</div>
+        <p class="desc">Mesma estrutura, com mais uma reavaliação trimestral e maior consolidação dos hábitos no tempo.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 96px; text-align: center; max-width: 1200px; align-self: center;">
+      <hr class="rule" style="margin: 0 auto 24px;">
+      <p class="subhead" style="font-size: 26px;">
+        Valores <em class="gold">sob consulta</em>. A equipe apresenta as condições em conversa direta.
+      </p>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="brand">PLENYA</span>
+    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
+    <span class="pagenum">18 · 19</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 19 — CTA FECHAMENTO · símbolo + wordmark + claim
+     ============================================================ -->
+<section class="slide slide--deep" id="s19">
+  <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: center; text-align: center;">
+    <!-- Símbolo Plenya gold acima do wordmark -->
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="" style="width: 108px; height: auto; margin-bottom: 40px; opacity: 0.95;">
+    <img class="wordmark wordmark--large" src="../../../apps/site/public/brand/wordmark/cream.png" alt="Plenya" style="margin-bottom: 48px;">
+    <hr class="rule rule--lg" style="margin: 0 auto 48px;">
+    <h1 class="display" style="font-size: 130px; color: var(--gold); font-style: italic; font-weight: 400; margin-bottom: 72px;">
+      Viva bem, viva mais.
+    </h1>
+    <p class="subhead" style="font-size: 32px; margin-bottom: 24px; max-width: 1400px;">
+      Conversar com a equipe Plenya.
+    </p>
+    <p class="caption" style="font-size: 14px; margin-bottom: 72px; color: var(--sage); font-style: italic; letter-spacing: 0.04em;">
+      ou comece pela Triagem do Escore — gratuita, cinco minutos, sem cadastro.
+    </p>
+    <p class="caption" style="font-size: 14px; letter-spacing: 0.4em;">
+      PLENYASAUDE.COM.BR &nbsp;·&nbsp; LONDRINA · PR &nbsp;·&nbsp; CONTATO@PLENYASAUDE.COM.BR
+    </p>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "plenya-deck-builder",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Builds Plenya-branded PPTX decks via pptxgenjs. Used by .claude/skills/plenya-deck.",
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  }
+}
