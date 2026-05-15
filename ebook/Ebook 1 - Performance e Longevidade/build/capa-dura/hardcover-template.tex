@@ -1,0 +1,236 @@
+% =====================================================================
+%  ANTES — Print template for HARDCOVER (capa dura) Brazilian printer
+%  Engine: XeLaTeX
+%  Body  : TeX Gyre Pagella 11/14
+%  Sans  : Inter (titles, captions)
+%  Lang  : Brazilian Portuguese (polyglossia)
+%  Trim  : 16 × 23 cm (160 × 230 mm)
+%  Bleed : 0,25 cm (2,5 mm) every side → page = 165 × 235 mm
+%  Color : FULL COLOR — Plenya palette (petrol/gold/ink) preserved in
+%          chapter labels, drop caps, table rules and figures. Printer
+%          handles CMYK conversion on press.
+%  Crop  : NO crop marks (printer requested CRUZETAs removed; xelatex
+%          doesn't add them by default — confirmed).
+% =====================================================================
+\documentclass[11pt,openright,twoside]{book}
+
+% --- Page = trim 16×23cm + 0,25cm sangria each side = 165×235mm ---
+% Inner/outer margins are measured from the PAGE edge, so they include
+% the 2,5mm bleed strip. To keep ≥0,5cm safety from the trim line, the
+% smallest margin used here is 22mm (= 2,5mm bleed + 19,5mm inset).
+\usepackage[
+  paperwidth=165mm, paperheight=235mm,
+  inner=22mm,                 % from page edge → 19,5mm from trim
+  outer=18mm,                 % from page edge → 15,5mm from trim
+  top=22mm,                   % from page edge → 19,5mm from trim
+  bottom=22mm,                % from page edge → 19,5mm from trim
+  headsep=5mm,
+  footskip=8mm,
+  bindingoffset=4mm,          % capa dura uses sewn binding — gentler gutter than KDP
+  includehead, includefoot
+]{geometry}
+
+% --- Language / typography ---
+\usepackage{polyglossia}
+\setdefaultlanguage[variant=brazilian]{portuguese}
+\usepackage{fontspec}
+\usepackage{microtype}
+
+\setmainfont{TeX Gyre Pagella}[
+  Ligatures={Common,TeX}
+]
+\setsansfont{Inter}[
+  Scale=0.92,
+  Numbers={Lining,Proportional}
+]
+\newfontfamily\dropfont{TeX Gyre Pagella}
+
+% --- Colors: premium author edition (NOT Plenya brand) ---
+% The cover wears the Plenya petrol/gold; the miolo is the author's
+% edition and uses Dr. Getúlio Amaral's brand palette — ink (near-black)
+% for body and chapter titles, his gold #B48A4A for chapter labels and
+% drop caps. Variable name "petrol" kept (avoid 200 renames downstream)
+% but assigned to a near-black so the chapter title color reads as
+% editorial black, not Plenya-branded.
+\usepackage{xcolor}
+\definecolor{petrol}{HTML}{1A1A1A}     % chapter titles: editorial black
+\definecolor{gold}{HTML}{B48A4A}       % Dr. Getúlio gold — drop caps + part/chapter labels
+\definecolor{ink}{HTML}{1A1A1A}        % body chrome
+
+% --- Drop caps ---
+\usepackage{lettrine}
+\renewcommand{\LettrineFontHook}{\dropfont\color{petrol}}
+\setlength{\DefaultNindent}{0pt}
+\renewcommand{\DefaultLraise}{0.05}
+
+% --- Title structure (slightly larger than KDP 6×9 — page is wider) ---
+\usepackage{titlesec}
+\titleformat{\part}[display]
+  {\sffamily\filcenter\color{petrol}}
+  {\normalfont\sffamily\color{gold}\fontsize{12}{14}\selectfont\MakeUppercase{Parte~\thepart}}
+  {2em}
+  {\fontsize{38}{44}\selectfont\bfseries}
+\titlespacing*{\part}{0pt}{80pt}{40pt}
+
+\titleformat{\chapter}[display]
+  {\sffamily\bfseries\color{petrol}\filright}
+  {\normalfont\sffamily\color{gold}\fontsize{12}{14}\selectfont CAPÍTULO~\thechapter}
+  {1.2em}
+  {\fontsize{28}{34}\selectfont}
+\titlespacing*{\chapter}{0pt}{30pt}{30pt}
+
+\titleformat{\section}
+  {\sffamily\bfseries\color{petrol}\large}{\thesection}{0.6em}{}
+\titleformat{\subsection}
+  {\sffamily\bfseries\color{ink}\normalsize}{\thesubsection}{0.6em}{}
+
+% --- Headers / footers ---
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[LE]{\sffamily\footnotesize\color{ink}\thepage\quad\textcolor{black!50}{·}\quad ANTES}
+\fancyhead[RO]{\sffamily\footnotesize\color{ink}\nouppercase{\leftmark}\quad\textcolor{black!50}{·}\quad\thepage}
+\makeatletter
+\def\@firstdash#1 — #2\@nil{#1}
+\renewcommand{\chaptermark}[1]{\markboth{\@firstdash#1 — \@nil}{}}
+\makeatother
+\renewcommand{\sectionmark}[1]{}
+
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}\renewcommand{\footrulewidth}{0pt}}
+
+% --- Spacing / paragraphs ---
+\linespread{1.10}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{1.2em}
+\frenchspacing
+\widowpenalty=10000
+\clubpenalty=10000
+\hyphenpenalty=200
+\tolerance=1500
+\emergencystretch=2em
+
+% --- Quotes / blockquote ---
+\usepackage{quoting}
+\quotingsetup{
+  vskip=0.6\baselineskip,
+  leftmargin=1.2em,
+  rightmargin=0pt,
+  font=itshape,
+}
+\renewenvironment{quote}{\begin{quoting}}{\end{quoting}}
+
+% --- Tables ---
+\usepackage{calc}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.15}
+
+% --- Images ---
+\usepackage{graphicx}
+\usepackage{float}
+\setkeys{Gin}{width=\linewidth, height=0.82\textheight, keepaspectratio}
+\usepackage{caption}
+\captionsetup{
+  font={small,sf},
+  labelfont={bf,color=petrol},
+  labelsep=period,
+  justification=raggedright,
+  singlelinecheck=false,
+  skip=4pt
+}
+
+% --- Hyperref last (no colored links — print) ---
+\usepackage[unicode]{hyperref}
+\hypersetup{
+  colorlinks=false,
+  pdfborder={0 0 0},
+  pdftitle={ANTES — A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida},
+  pdfauthor={Dr. Getulio Amaral Filho},
+  pdfsubject={Medicina preventiva e longevidade — edição capa dura},
+  pdfkeywords={longevidade, biomarcadores, AGIR, medicina preventiva, capa dura}
+}
+
+% --- Pandoc compatibility ---
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\providecommand{\real}[1]{#1}
+
+% --- TOC depth: chapters only ---
+\setcounter{tocdepth}{0}
+\setcounter{secnumdepth}{2}
+
+\usepackage{titletoc}
+\makeatletter
+\renewcommand*\l@part[2]{%
+  \ifnum \c@tocdepth >-2\relax
+    \addpenalty{-\@highpenalty}%
+    \addvspace{1.2em \@plus\p@}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      {\bfseries\sffamily\color{petrol}\large
+       \leavevmode
+       Parte~#1\hfil\nobreak\hb@xt@\@pnumwidth{\hss #2}}\par
+      \nobreak
+      \global\@nobreaktrue
+      \everypar{\global\@nobreakfalse\everypar{}}%
+    \endgroup
+  \fi
+}
+\makeatother
+\titlecontents{chapter}[2.4em]
+  {\addvspace{0.7em}\bfseries\sffamily\color{petrol}}
+  {\contentslabel[\thecontentslabel]{2.4em}}
+  {\hspace*{-2.4em}}
+  {\hspace{1em}\nobreak\hfill\nobreak\contentspage}
+  [\vspace{0.1em}]
+
+% --- Pandoc title vars hook ---
+$if(title)$
+\title{$title$}
+$endif$
+$if(author)$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+
+\begin{document}
+
+% =====================================================================
+%  FRONT MATTER (Roman numerals i, ii, iii…)
+% =====================================================================
+\frontmatter
+\pagestyle{empty}
+
+% --- HALF TITLE (i) ---
+\thispagestyle{empty}
+\vspace*{4cm}
+\begin{center}
+{\sffamily\fontsize{36}{42}\selectfont\color{petrol} ANTES}
+\end{center}
+\clearpage
+
+% --- BLANK (ii) ---
+\thispagestyle{empty}\null\clearpage
+
+% --- TITLE PAGE (iii) ---
+\thispagestyle{empty}
+\vspace*{3cm}
+\begin{center}
+{\sffamily\fontsize{52}{58}\selectfont\color{petrol} ANTES}\\[2.2em]
+{\itshape\fontsize{16}{22}\selectfont A Janela Silenciosa\\[0.1em]
+entre o Normal e o Ótimo\\[0.3em]
+— onde a saúde é decidida}\\[5em]
+{\sffamily\fontsize{14}{18}\selectfont\color{ink} Dr. Getulio Amaral Filho}\\[6em]
+\vfill
+{\sffamily\footnotesize\color{gold} PLENYA}\\[0.4em]
+{\sffamily\footnotesize\color{ink} Edição do Autor \quad·\quad 2026}
+\end{center}
+\clearpage
+
+% --- Body of frontmatter (copyright, dedication, epigraph, TOC) comes from Pandoc ---
+$body$
+
+\end{document}

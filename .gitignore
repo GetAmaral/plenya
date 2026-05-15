@@ -14,11 +14,18 @@ coverage/
 # Next.js
 .next/
 out/
-build
+apps/*/build/
 dist/
 
 # Production
 /build
+
+# Ebook builds DEVEM ir pro git (PDFs print-ready são propriedade intelectual cara)
+!ebook/**/build/
+!ebook/**/build/**
+# Mas pular os diretórios intermediários de trabalho (figuras duplicadas + .aux/.log do xelatex)
+ebook/**/build/work-*/
+ebook/**/build/**/work-*/
 
 # Misc
 .DS_Store
