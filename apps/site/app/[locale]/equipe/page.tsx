@@ -38,8 +38,6 @@ export default async function TeamPage({ params }: { params: Params }) {
   );
   const multidisciplinar = all.filter((d) => d.category !== 'medico');
 
-  const board = [1, 2, 3, 4, 5, 6].map((n) => t(`board${n}` as 'board1'));
-
   return (
     <>
       {/* Hero */}
@@ -62,30 +60,6 @@ export default async function TeamPage({ params }: { params: Params }) {
               className="object-cover object-top"
               sizes="(min-width: 1024px) 360px, 100vw"
             />
-          </div>
-        </div>
-      </section>
-
-      {/* Conselho clínico */}
-      <section className="bg-cream border-b border-petrol/10">
-        <div className="site-container py-12 md:py-16">
-          <div className="grid lg:grid-cols-[1fr_2fr] gap-10 items-start">
-            <div className="space-y-3">
-              <p className="label-upper text-gold">{t('boardLabel')}</p>
-              <h2 className="heading-section text-petrol text-xl md:text-2xl">
-                {t('boardTitle')}
-              </h2>
-            </div>
-            <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-5 self-center">
-              {board.map((c) => (
-                <li
-                  key={c}
-                  className="label-upper text-petrol/55 text-[10px] tracking-[0.18em] leading-snug border-l-2 border-gold/40 pl-3"
-                >
-                  {c}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </section>
