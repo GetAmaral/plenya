@@ -26,6 +26,7 @@ dist/
 # Mas pular os diretórios intermediários de trabalho (figuras duplicadas + .aux/.log do xelatex)
 ebook/**/build/work-*/
 ebook/**/build/**/work-*/
+ebook/**/build/.venv*/
 
 # Misc
 .DS_Store
