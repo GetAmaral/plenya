@@ -56,26 +56,50 @@
 
 <!-- ============================================================
      SLIDE 02 — CONTEXTO · A janela silenciosa
+     Mesmo sistema visual do slide 1: full-bleed image, fade petrol esquerda,
+     mono-serif, hierarquia por tamanho, gold em 2 acentos estratégicos.
      ============================================================ -->
-<section class="slide" id="s02">
-  <div class="hero-half-right">
-    <img src="../../../docs/decks/_assets/style-refs/deck-linha-continua-hero.png" alt="">
+<section class="slide slide--deep" id="s02">
+  <!-- Hero editorial: retrato mid-50s olhando pra direita, ar à esquerda -->
+  <div style="position: absolute; inset: 0; z-index: 0;">
+    <img src="../../../docs/decks/_assets/Sllide2.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center;">
+    <!-- Fade horizontal — petrol denso à esquerda pra tipografia respirar -->
+    <div style="position: absolute; inset: 0; background: linear-gradient(90deg, var(--petrol-deep) 0%, rgba(4,31,42,0.92) 18%, rgba(4,31,42,0.45) 38%, rgba(4,31,42,0.0) 58%);"></div>
+    <!-- Vinheta editorial sutil -->
+    <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 65% 50%, transparent 0%, transparent 55%, rgba(4,31,42,0.35) 100%);"></div>
   </div>
-  <div class="slide-content" style="width: 55%; justify-content: center;">
-    <span class="eyebrow" style="margin-bottom: 48px;">A janela silenciosa</span>
-    <h2 class="h1" style="margin-bottom: 32px; font-size: 80px;">Marcadores se movem dentro da "faixa aceitável".</h2>
-    <p class="subhead" style="font-size: 36px; color: var(--gold); margin-bottom: 48px;">
-      E ninguém está olhando.
-    </p>
-    <hr class="rule" style="margin-bottom: 32px;">
-    <p class="lead" style="max-width: 760px; font-size: 22px;">
-      Sintomas pequenos se acumulam. Energia que não volta. Sono que não restaura. Ela fecha em silêncio.
-    </p>
+
+  <!-- Brand mark top-left -->
+  <div style="position: absolute; top: 72px; left: 96px; z-index: 2; display: flex; align-items: center; gap: 18px;">
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
+    <span style="font-family: var(--serif); font-size: 16px; font-weight: 500; letter-spacing: 0.34em; color: var(--cream); text-transform: uppercase; opacity: 0.85;">Continuum Plenya</span>
   </div>
-  <div class="slide-footer">
-    <span class="brand">PLENYA</span>
-    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
-    <span class="pagenum">02 · 19</span>
+
+  <!-- Page mark bottom-left -->
+  <div style="position: absolute; bottom: 64px; left: 96px; z-index: 2;">
+    <span style="font-family: var(--serif); font-size: 15px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">02 / 19</span>
+  </div>
+
+  <!-- Conteúdo: mono-serif, hierarquia só por tamanho -->
+  <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: flex-start; padding-left: 96px; padding-right: 0; max-width: 56%;">
+    <h2 style="max-width: 720px; font-family: var(--serif-display); font-weight: 500; font-size: 88px; line-height: 1.05; letter-spacing: -0.025em; color: var(--cream); margin-bottom: 36px;">
+      A janela silenciosa.
+    </h2>
+
+    <p style="max-width: 720px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 32px; line-height: 1.28; color: var(--gold); margin-bottom: 52px; letter-spacing: -0.005em;">
+      Marcadores que continuam mudando dentro da faixa aceitável, enquanto os exames ainda tranquilizam.
+    </p>
+
+    <div style="margin-bottom: 52px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 28px; line-height: 1.4; color: var(--cream); opacity: 0.95;">
+      <div>Energia que se esgota.</div>
+      <div>Sono que não restaura.</div>
+      <div>Foco que se dispersa.</div>
+    </div>
+
+    <p style="max-width: 720px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 26px; line-height: 1.4; color: var(--gold-soft); letter-spacing: -0.005em;">
+      É nesse espaço entre o normal e o ótimo<br>
+      que a saúde é decidida.
+    </p>
   </div>
 </section>
 
