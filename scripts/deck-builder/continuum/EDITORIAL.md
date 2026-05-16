@@ -1,7 +1,7 @@
 # Continuum Plenya · Editorial Line & Status
 
 > **Reload this file at session start** to restore deck context.
-> Last update: 2026-05-16 (slides 7-9 finalizados + tipografia rebalanceada)
+> Last update: 2026-05-16 (slides 7-9 finalizados · imagens + tipografia + layout fade)
 
 ---
 
@@ -191,6 +191,54 @@ Hierarquia corrigida pra resposta dominar (não a pergunta):
 - **Headline resposta** (h3): 56px serif-display cream (era 44px — agora dominante)
 - **Body sage**: 24px serif (era 22px — mais legível)
 
+### Regra editorial confirmada
+- **NUNCA em-dash (`—`) em body**: slides 7 e 9 tinham `—` no body, substituídos por dois pontos / vírgula. Em-dash virou AI-tell em 2026. Manter regra.
+
+---
+
+## LAYOUT DOS SLIDES "DUAS COLUNAS COM HERO BOTTOM" (slides 7-9)
+
+Template usado nos três slides do ato III. Iterado várias vezes pra acertar transição texto→imagem sem cortar cabeças nem apertar texto.
+
+### Estrutura (CSS inline no `<section class="slide slide--deep">`)
+
+```html
+<!-- Slide content (texto duas colunas em cima) -->
+<div class="slide-content" style="padding: 130px 96px 220px; justify-content: flex-start;">
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: start; width: 100%;">
+    <div>[O que se ouve · eyebrow + pergunta italic]</div>
+    <div>[Como vemos · eyebrow + headline + body]</div>
+  </div>
+</div>
+
+<!-- Hero image (bottom 55% do slide, com fade estreito no topo) -->
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 55%; z-index: 0; overflow: hidden;">
+  <img src="..." style="width: 100%; height: 100%; object-fit: cover; object-position: center center;">
+  <div style="position: absolute; inset: 0; background: linear-gradient(180deg,
+    var(--petrol-deep) 0%,
+    var(--petrol-deep) 8%,
+    rgba(4,31,42,0.7) 12%,
+    rgba(4,31,42,0.3) 16%,
+    transparent 20%);"></div>
+</div>
+```
+
+### Dimensões críticas (pode parecer arbitrário mas foram iteradas):
+
+- **Image height: 55%** do slide (bottom-anchored). Era 45% no template antigo, depois 60-75% em tentativas que apertaram texto demais. 55% balanceia bem.
+- **Padding-top do texto: 130px** (era 200, reduzido pra texto caber acima do fade end).
+- **Fade do gradient: faixa ESTREITA no topo da imagem** (sólido 0-8%, transparente em 20% da altura do image-div). NÃO usar fade longo (era 92% antes — cobria figuras inteiras). O fade só existe pra dissolver a borda superior da imagem no petrol da slide, e fica acima da linha das cabeças.
+- **Object-position**:
+  - Slide 7 e 8: `center center` (default)
+  - Slide 9: `center top` — preserva cabeça do paciente (sem isso, com image 55% height + cover, o crop tira a cabeça que está no topo do original)
+
+### Princípio pra slides futuros com hero photo bottom + figura humana
+
+1. **Identificar onde a cabeça/elemento principal está no original** (% from top do arquivo PNG).
+2. **Dimensionar image-div pra cabeça cair ABAIXO da fade transparente** (não na zona faded).
+3. **Fade fica numa faixinha estreita acima das cabeças**, dentro da área vazia do topo do original.
+4. **Padding-top do texto deve garantir** que o bottom do texto fica DENTRO da zona solida do gradient (não na fade), pra readability.
+
 ---
 
 ## DECISÕES TOMADAS (notas do processo iterativo)
@@ -244,6 +292,9 @@ Infra: nginx container no docker `coolify` network + Traefik + Lets Encrypt
   - `Sllide2.png` (slide 2)
   - `getulio-elegante.jpg` (slide 4)
   - `Slide5.PNG` (slide 5)
+  - `Slide7.PNG` (slide 7 · laudo + lupa)
+  - `Slide8.PNG` (slide 8 · tríptico 3 médicos)
+  - `Slide9b.PNG` (slide 9 · paciente lendo Escore radar — composite final feito pelo user)
 
 ---
 
@@ -314,21 +365,50 @@ Infra: nginx container no docker `coolify` network + Traefik + Lets Encrypt
 
 ## CHECKPOINT PRA PRÓXIMA SESSÃO
 
-1. Ler este arquivo + preview.html + slides 7/8/9 atuais
-2. Decisão pendente slide 7: confirma GetulioExames.jpg ou outra direção
-3. Brainstorm fresco slides 8 e 9 (sem cair em corredor/arquitetônico — SAÚDE/VIDA/PESSOAS)
-4. Gerar imagens decididas
-5. Migrar slides 10-19 pro sistema premium
+**Slides 1-9 estão FINAL e pushados em produção** (https://decks.plenyasaude.com.br).
 
-**Workflow:**
+### Próximo trabalho: migrar slides 10-19 do sistema antigo (sans/Inter/footer/rules) pro sistema premium (serif Cormorant + Fraunces, sem rules, sem footer genérico, paleta petrol+gold+sage).
+
+Ordem sugerida (do mais complexo pro mais simples):
+- **12 · ESCORE PLENYA** — radar SVG real já existe (linha 553+ do deck.html). Já tem o componente renderizado. Validar layout premium ao redor. **ATENÇÃO**: parte do reveal do Escore já foi mostrado no slide 9 (decisão consciente). O slide 12 ainda é o "BIG reveal" com radar em tela cheia + legenda + escore numerico — mas precisa coexistir com o teaser do slide 9.
+- **11 · MÉTODO AGIR** — tipográfico puro (4 pilares: Atividade · Gestão · Integração · Ritmo). Sem hero photo. Estilo do slide 6.
+- **10 · EQUIPE** — foto `equipe-candid.jpg` já existe. Layout tem que CONQUISTAR o reveal (passamos por 8 slides sem mostrar a equipe, esse é o momento). 4 especialistas + 1 plano único.
+- **13 · JORNADA** — A→B + timeline compacta.
+- **14 · BOX PLENYA** — placeholder pra regerar imagem; usar `Box.jpg` se ainda quiser.
+- **15-19** — qualificação, comparativo, compromisso, CTA.
+
+### Antes de mexer em qualquer um deles
+1. **Ler este arquivo inteiro** (especialmente seções de tipografia + layout + regras invariantes + lições)
+2. **Olhar os slides já finalizados** em https://decks.plenyasaude.com.br pra calibrar visualmente
+3. **Confirmar com o user** decisões grandes antes de gastar geração de imagem
+
+### Workflow estabelecido
 ```bash
 cd /home/user/plenya/scripts/deck-builder/continuum
 # editar deck.html
 node render-pngs.js --slide=NN
 scp previews/slide-NN.png plenya:/data/decks/continuum/previews/
 # user recarrega https://decks.plenyasaude.com.br
+# quando aprovado: git add + commit + push
 ```
+
+### Geração de imagens
+- User gera externamente (gpt-image-2 ou similar) com prompts que eu escrevo
+- User salva o PNG aprovado em `docs/decks/_assets/SlideNN.PNG`
+- Eu atualizo o `<img src=>` no deck.html
 
 ---
 
-**Último commit relevante:** `slide 6 cores + slides 7-9 migrados (aguardando imagens)`
+## LIÇÕES IMPORTANTES DESTA SESSÃO (anti-patterns evitar)
+
+1. **NÃO interpretar "transição mais alta" como "imagem mais alta"**. Quando o user diz transição mais alta, ele quer o FADE LINE mais acima no slide, e MENOS fade cobrindo conteúdo (não mais). Resposta certa: imagem pode ser menor, fade em faixa estreita no TOPO do image-div.
+2. **NÃO usar object-position pra esconder elementos**. Se a queixa é "cabeça cortada", a solução é AJUSTAR layout pra preservar a cabeça, não escondê-la com object-position que faz crop pior.
+3. **NÃO duplicar texto na imagem**. Slide 8 errou ao mostrar "alguém costurando documentos" como solução — isso DUPLICAVA o texto "médico-gestor articula". Mostrar O PROBLEMA na imagem (fragmentação) deixa o texto fazer a resolução. Princípio: texto resolve, imagem ressona/cria reconhecimento.
+4. **Earn the reveal**: equipe Plenya só aparece no slide 10. Escore Plenya parcialmente revelado no slide 9 (decisão consciente do user, contra minha recomendação inicial), full reveal no slide 12. **Se eu sugerir mostrar artefato proprietário ANTES da slide-de-reveal, o user vai escolher o trade-off — eu apenas flag e respeito.**
+5. **Em-dash é AI-tell em 2026** — banir do body em qualquer slide. Vírgula, ponto, dois pontos resolvem.
+6. **Composição de SVG em ImageMagick**: librsvg não digere base64 embedded no SVG. Compor PNG separadamente via `convert -composite`.
+7. **Quando precisa de perspective transform em imagem**: usar ImageMagick com `+distort Perspective '0,0 X1,Y1 W,0 X2,Y2 W,H X3,Y3 0,H X4,Y4'` + `-define distort:viewport=WxH+0+0` pra preservar canvas.
+
+---
+
+**Último commit relevante:** `8e03679e` — `fix(deck continuum): imagens desce 20% pro texto respirar (slides 7-9)`
