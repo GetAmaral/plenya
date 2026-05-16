@@ -1,7 +1,7 @@
 # Continuum Plenya · Editorial Line & Status
 
 > **Reload this file at session start** to restore deck context.
-> Last update: 2026-05-16
+> Last update: 2026-05-16 (slides 7-9 finalizados + tipografia rebalanceada)
 
 ---
 
@@ -175,38 +175,41 @@ ACT VI · CTA (19) — ainda não migrado
 | **4** | ✅ FINAL | Vinte anos / Uma certeza + GetulioElegante.jpg (foto esquerda) |
 | **5** | ✅ FINAL | Continuum reveal cerimonial + Slide5.PNG (corredor petrol+gold) |
 | **6** | ✅ FINAL | 3 verbos paradigma · numerais romanos · sage statements |
-| **7** | 🟡 LAYOUT MIGRADO, IMAGEM PENDENTE | Foto sugerida: GetulioExames.jpg (real) — aguardando decisão |
-| **8** | 🟡 LAYOUT MIGRADO, IMAGEM PENDENTE | Conceito sugerido: 4 mãos convergindo sobre plano. Aguardando concept final |
-| **9** | 🟡 LAYOUT MIGRADO, IMAGEM PENDENTE | Conceito sugerido: vitalidade no amanhecer / ritual matinal. Aguardando concept |
+| **7** | ✅ FINAL | Crença 1 (Normal ≠ Ótimo) + Slide7.PNG (laudo brasileiro + lupa + 0,92 circulado em sépia, mesa wenge, luz gold lateral) |
+| **8** | ✅ FINAL | Crença 2 (Médico-gestor articula) + Slide8.PNG (tríptico cinemático: 3 médicos em 3 cômodos arquitetonicamente distintos, fragmentação visível) |
+| **9** | ✅ FINAL | Crença 3 (Escore mostra a curva) + Slide9b.PNG (paciente sozinho lendo relatório com radar Escore Plenya impresso + símbolo P) |
 | 10-19 | ❌ NÃO MIGRADOS | Ainda no sistema antigo (sans/Inter, footer, rules) |
 
 ---
 
-## DECISÕES PENDENTES (continuação da próxima sessão)
+## TIPOGRAFIA FINAL (slides 7-9, após rebalanceamento 2026-05-16)
 
-### Slide 7 — definir imagem
-Opções discutidas:
-1. **GetulioExames.jpg** (foto real existente — mãos analisando laudo) ← **recomendação**
-2. Getúlio em consultório examinando laudo (gerar)
-3. Still life clínico (laudo + óculos + caneta, sem pessoa)
-4. Paciente lendo próprio exame
-5. Pessoa saudável aparente em atividade rotineira
+Hierarquia corrigida pra resposta dominar (não a pergunta):
 
-### Slide 8 — definir conceito não-arquitetônico
-Opções discutidas:
-- A1: Equipe Plenya em conversa real (foto equipe-candid.jpg?)
-- A2: 4 mãos convergindo sobre plano central (sem rostos)
-- A3: Consulta com painel integrado
+- **Eyebrow** ("O QUE SE OUVE" / "COMO VEMOS"): 14px caps tracked gold-soft
+- **Pergunta italic** («...»): 42px serif italic cream opacity 0.88 (era 52px — quieter)
+- **Headline resposta** (h3): 56px serif-display cream (era 44px — agora dominante)
+- **Body sage**: 24px serif (era 22px — mais legível)
 
-**Importante:** sair do modo "corredor/parede/atrio". Pensar HUMANO/SAÚDE/PESSOAS.
+---
 
-### Slide 9 — definir conceito não-arquitetônico
-Opções discutidas:
-- B1: Vitalidade no amanhecer (mid-50s ativo calmo)
-- B2: Ritual matinal de cuidado (still life premium intimista)
-- B3: Casal/pessoa madura em momento ativo
+## DECISÕES TOMADAS (notas do processo iterativo)
 
-**Importante:** SAÚDE/VIDA/PESSOAS/ESPERANÇA. NÃO arquitetura.
+**Slide 7** — Pivot do GetulioExames.jpg (foto real) pra still-life gerado: laudo brasileiro contemporâneo (não ledger antigo), óculos modernos wire-frame com hastes gold, lupa de bronze, caneta-tinteiro, anotação sépia no topo, **círculo sépia em torno de UM valor (Colesterol Total 0,92)** — não risco horizontal. Logo "LABORATÓRIO medicina diagnóstica" genérico discreto. Mesa wenge, luz tungstênio gold único pela direita, 70% petrol shadow esquerda.
+
+**Slide 8** — Múltiplas iterações:
+1. Still-life com pilha de documentos + síntese clínica (rejeitado: passava ideia de "alguém organizou bem", não de fragmentação).
+2. Mãos do médico costurando pasta integrada (mesmo problema).
+3. Pivot pra **figuras humanas**: 3 médicos absortos em exames cada um no próprio cômodo.
+4. Versão inicial: 3 médicos no mesmo salão (rejeitado: parecia equipe Plenya em meditação).
+5. **Versão final (V2 de 2 livros)**: tríptico cinemático com 3 cômodos arquitetonicamente distintos (wenge wood / concreto / travertino), separados por bandas verticais petrol profundo, cada um com sua temperatura de luz (honey/amber/cooler-warm). Livros etiquetados ("TRATADO DE MEDICINA"/"CARDIOLOGIA" na esquerda, "RADIOLOGIA"/"ATLAS DE IMAGEM" na direita) sinalizam especialidades sem cartaz.
+
+**Slide 9** — Três opções comparadas:
+- A · Tríptico de continuidade (mesmo paciente em 3 timepoints) — espelho invertido do slide 8
+- B · Momento de reconhecimento (paciente + médico Plenya genérico numa consulta)
+- C · Leitura íntima (paciente sozinho lendo a própria trajetória)
+
+**Vencedor: C.** Razão: paciente como protagonista, espelho narrativo com slide 7 (médico lê paciente → paciente lê a si próprio), ritmo do deck (still-life íntimo após tríptico cinemático), preserva reveal da equipe pro slide 10. Inicialmente a folha aparecia em branco — corrigido com composição do **radar Escore Plenya real** (renderizado do componente `RadarAgir.tsx`: 22 vértices, paleta AGIR sage/gold/gold-soft/ocean, polígono dourado, score 78 central) + **símbolo P em gold** no topo. Trade-off aceito: queima parte do reveal do Escore (slide 12) mas resolve o slide 9 de forma narrativamente impecável.
 
 ---
 
