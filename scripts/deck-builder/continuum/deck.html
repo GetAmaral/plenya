@@ -214,75 +214,11 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 05a — VEHICLE / Variante 1 · Puro tipográfico (Apple keynote style)
+     SLIDE 05 — VEHICLE · Apresentamos Continuum (hero photo + wordmark)
+     Composição centralizada com shift 5% à esquerda pra compensar
+     massa visual do corredor à direita.
      ============================================================ -->
-<section class="slide slide--deep" id="s05a">
-  <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: center; text-align: center; padding: 0 96px;">
-    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 100px; height: auto; margin-bottom: 56px; opacity: 0.95;">
-
-    <h1 style="font-family: var(--serif-display); font-weight: 500; font-size: 240px; line-height: 0.95; letter-spacing: -0.035em; color: var(--cream); margin-bottom: 8px;">Continuum<span style="color: var(--gold);">.</span></h1>
-    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 22px; color: var(--sage); margin-bottom: 64px; opacity: 0.9; letter-spacing: 0.02em;">
-      um programa Plenya
-    </p>
-
-    <p style="font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.32; color: var(--cream); max-width: 900px; margin-bottom: 48px; opacity: 0.92;">
-      Saúde construída no tempo, em conjunto, com método.
-    </p>
-
-    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 34px; line-height: 1.2; color: var(--gold); letter-spacing: -0.005em;">
-      «Viva bem, viva mais.»
-    </p>
-  </div>
-</section>
-
-<!-- ============================================================
-     SLIDE 05b — VEHICLE / Variante 3 · Linha contínua diagonal
-     ============================================================ -->
-<section class="slide slide--deep" id="s05b">
-  <!-- SVG da linha contínua atravessando o slide -->
-  <svg viewBox="0 0 1920 1080" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;">
-    <!-- Origem (canto inferior-esquerdo) → Destino (canto superior-direito) -->
-    <defs>
-      <linearGradient id="continuumLine" x1="0%" y1="100%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#B38645" stop-opacity="0.15"/>
-        <stop offset="35%" stop-color="#B38645" stop-opacity="0.55"/>
-        <stop offset="65%" stop-color="#D4A86B" stop-opacity="0.7"/>
-        <stop offset="100%" stop-color="#D4A86B" stop-opacity="0.25"/>
-      </linearGradient>
-    </defs>
-    <!-- Linha principal: arco sutil de baixo-esquerda pra cima-direita -->
-    <path d="M 0,980 Q 960,540 1920,100" fill="none" stroke="url(#continuumLine)" stroke-width="1.5"/>
-    <!-- Pontos de inflexão sutis (origem e destino) -->
-    <circle cx="0" cy="980" r="4" fill="#B38645" fill-opacity="0.5"/>
-    <circle cx="1920" cy="100" r="4" fill="#D4A86B" fill-opacity="0.7"/>
-    <!-- Marcador discreto do ponto central onde o wordmark senta -->
-    <circle cx="960" cy="540" r="2" fill="#D4A86B" fill-opacity="0.4"/>
-  </svg>
-
-  <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: center; text-align: center; padding: 0 96px;">
-    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 100px; height: auto; margin-bottom: 56px; opacity: 0.95;">
-
-    <h1 style="font-family: var(--serif-display); font-weight: 500; font-size: 240px; line-height: 0.95; letter-spacing: -0.035em; color: var(--cream); margin-bottom: 8px;">Continuum<span style="color: var(--gold);">.</span></h1>
-    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 22px; color: var(--sage); margin-bottom: 64px; opacity: 0.9; letter-spacing: 0.02em;">
-      um programa Plenya
-    </p>
-
-    <p style="font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.32; color: var(--cream); max-width: 900px; margin-bottom: 48px; opacity: 0.92;">
-      Saúde construída no tempo, em conjunto, com método.
-    </p>
-
-    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 34px; line-height: 1.2; color: var(--gold); letter-spacing: -0.005em;">
-      «Viva bem, viva mais.»
-    </p>
-  </div>
-</section>
-
-<!-- ============================================================
-     SLIDE 05c — VEHICLE / Variante 4 · Hero photo (gerada por fora)
-     IMG path: /home/user/plenya/docs/decks/_assets/slide05-hero.png
-     Se faltar, fundo petrol limpo (graceful degradation)
-     ============================================================ -->
-<section class="slide slide--deep" id="s05c">
+<section class="slide slide--deep" id="s05">
   <div style="position: absolute; inset: 0; z-index: 0;">
     <img src="../../../docs/decks/_assets/Slide5.PNG" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center;" onerror="this.style.display='none'">
     <!-- Overlay leve só pra unificar tom (imagem ja vem petrol-dominante) -->
