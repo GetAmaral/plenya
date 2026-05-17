@@ -460,111 +460,143 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 10 — EQUIPE
+     SLIDE 10 — EQUIPE PLENYA · Vogue cover (faixa petrol top + photo descida + band bottom)
      ============================================================ -->
-<section class="slide" id="s10">
-  <div class="hero-fullbleed">
-    <img src="../../../apps/site/public/images/team/equipe-candid.jpg" alt="Equipe Plenya">
+<section class="slide" id="s10" style="overflow: hidden; background: var(--petrol-deep);">
+  <!-- Photo container: começa em y=200 pra evitar corte de cabeças pela faixa top -->
+  <div style="position: absolute; top: 200px; bottom: 0; left: 0; right: 0; z-index: 0; overflow: hidden;">
+    <img src="../../../apps/site/public/images/team/equipe-candid.jpg" alt="Equipe Plenya" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top;">
+    <!-- Smooth fade: petrol-deep dissolvendo na top da photo (60px) — borda suave -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 60px; background: linear-gradient(180deg, var(--petrol-deep) 0%, rgba(4,31,42,0.7) 45%, rgba(4,31,42,0) 100%); pointer-events: none;"></div>
   </div>
-  <div class="slide-content" style="justify-content: flex-end;">
-    <span class="eyebrow" style="margin-bottom: 32px;">A equipe</span>
-    <h2 class="display" style="font-size: 120px; line-height: 0.95; margin-bottom: 32px;">
-      Quatro especialistas.<br>
-      <em class="gold">Um plano único.</em>
+  <!-- Bottom semi-transparent band pra tipografia ler — 50% slide -->
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 50%; background: linear-gradient(180deg, transparent 0%, rgba(4,31,42,0.35) 18%, rgba(4,31,42,0.78) 48%, rgba(4,31,42,0.95) 78%, var(--petrol-deep) 100%); z-index: 1; pointer-events: none;"></div>
+
+  <!-- Brand mark top-left -->
+  <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.98;">
+    <span style="font-family: var(--serif); font-size: 17px; font-weight: 500; letter-spacing: 0.34em; color: var(--cream); text-transform: uppercase; opacity: 0.95;">Continuum Plenya</span>
+  </div>
+
+  <!-- Eyebrow top-right -->
+  <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase; opacity: 1;">
+    Guardiões do Método
+  </div>
+
+  <!-- Bottom text zone: headline + body + (categorias / closer) -->
+  <div style="position: absolute; bottom: 96px; left: 96px; right: 96px; z-index: 2;">
+    <h2 style="font-family: var(--serif-display); font-weight: 500; font-size: 152px; line-height: 0.92; letter-spacing: -0.035em; color: var(--cream); margin-bottom: 32px;">
+      Equipe Plenya<span style="color: var(--gold);">.</span>
     </h2>
-    <hr class="rule" style="margin-bottom: 32px;">
-    <p class="lead" style="max-width: 1100px; font-size: 22px;">
-      Médico, nutricionista, psicóloga e educador físico se reúnem antes do seu primeiro encontro, discutem o seu caso e desenham um plano integrado. Cada decisão clínica conversa com as outras.
+    <!-- Body line — voz canônica do site /equipe -->
+    <p style="font-family: var(--serif); font-weight: 400; font-size: 32px; line-height: 1.35; color: var(--cream); margin-bottom: 32px; letter-spacing: -0.005em; max-width: 1500px;">
+      Falando a mesma língua, sobre o mesmo painel, sobre a mesma pessoa.
     </p>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 64px;">
+      <div style="font-family: var(--serif); font-style: italic; font-size: 28px; font-weight: 400; letter-spacing: 0.01em; color: var(--gold-soft); opacity: 1;">
+        Médicos &nbsp;·&nbsp; Nutrição &nbsp;·&nbsp; Psicologia &nbsp;·&nbsp; Educação Física
+      </div>
+      <div style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 28px; line-height: 1.3; color: var(--cream); opacity: 0.95; text-align: right; max-width: 600px;">
+        Porque o corpo não funciona em partes.
+      </div>
+    </div>
   </div>
-  <div class="slide-footer">
-    <span class="brand">PLENYA</span>
-    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
-    <span class="pagenum">10 · 19</span>
+
+  <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
+    <span style="font-family: var(--serif); font-size: 17px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.85;">10 / 19</span>
   </div>
 </section>
 
 <!-- ============================================================
-     SLIDE 11 — MÉTODO AGIR · tipográfico puro
+     SLIDE 11 — MÉTODO AGIR · AGIR. gigante topo + 4 colunas embaixo
+     Background: colunata arquitetônica dinâmica (diptych com slide 5)
      ============================================================ -->
-<section class="slide" id="s11">
-  <!-- Símbolo Plenya watermark canto sup direito -->
-  <img src="../../../apps/site/public/brand/symbol/gold.png" alt="" style="position: absolute; top: 96px; right: 96px; width: 56px; height: auto; opacity: 0.22; z-index: 0;">
+<section class="slide slide--deep" id="s11">
+  <!-- Hero background: 4 colunas iluminadas à direita — metáfora arquitetônica dos 4 pilares AGIR -->
+  <div style="position: absolute; inset: 0; z-index: 0;">
+    <img src="../../../docs/decks/_assets/Slide11.PNG" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center;" onerror="this.style.display='none'">
+    <!-- Overlay global sutil pra unificar tom -->
+    <div style="position: absolute; inset: 0; background: rgba(4,31,42,0.15);"></div>
+    <!-- Bottom band horizontal — uniforme, ramping mais forte pra zona da R column ficar isolada das colunas da imagem -->
+    <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 48%; background: linear-gradient(180deg, transparent 0%, rgba(4,31,42,0.28) 22%, rgba(4,31,42,0.72) 55%, rgba(4,31,42,0.94) 82%, var(--petrol-deep) 100%); pointer-events: none;"></div>
+  </div>
 
-  <div class="slide-content" style="position: relative; z-index: 1;">
-    <span class="eyebrow" style="margin-bottom: 32px;">Como entregamos</span>
-    <h2 class="display" style="font-size: 200px; line-height: 0.85; margin-bottom: 32px; color: var(--cream);">AGIR.</h2>
-    <p class="subhead" style="max-width: 1200px; margin-bottom: 96px;">
-      Quatro pilares interdependentes para uma saúde que se sustenta no tempo.
+  <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
+    <span style="font-family: var(--serif); font-size: 17px; font-weight: 500; letter-spacing: 0.34em; color: var(--cream); text-transform: uppercase; opacity: 0.92;">Continuum Plenya</span>
+  </div>
+  <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">
+    O Método
+  </div>
+  <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
+    <span style="font-family: var(--serif); font-size: 17px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.85;">11 / 19</span>
+  </div>
+
+  <!-- WORDMARK zone — shifted left pra centralizar sobre a parede (não sobre o slide), aproveitando a parede maior da nova imagem -->
+  <div style="position: absolute; top: 170px; left: 0; right: 320px; text-align: center; z-index: 2;">
+    <h2 style="font-family: var(--serif-display); font-weight: 500; font-size: 280px; line-height: 0.9; letter-spacing: -0.04em; color: var(--cream); margin-bottom: 32px;">
+      AGIR<span style="color: var(--gold);">.</span>
+    </h2>
+    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 36px; line-height: 1.3; color: var(--sage); letter-spacing: -0.005em;">
+      Quatro pilares integrados.
     </p>
-    <div class="grid-4" style="margin-top: auto;">
-      <div class="pilar">
-        <!-- Ícone: folha/atividade (leaf) -->
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; opacity: 0.85;">
-          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
-          <path d="M2 21c0-3 1.85-5.36 5.08-6"/>
-        </svg>
-        <div class="letra">A</div>
-        <div class="pilar-rule"></div>
-        <div class="pilar-nome">Atividade, alimentação e suplementação</div>
-        <div class="pilar-quem">Nutricionista + educador físico</div>
+  </div>
+
+  <!-- 4-col grid bottom — full width: grid fica abaixo da zona de luz da imagem (bottom: 70), R column livre -->
+  <div style="position: absolute; bottom: 70px; left: 0; right: 0; padding: 0 96px; z-index: 2;">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; max-width: 1700px; margin: 0 auto;">
+      <div style="padding: 0 32px; border-right: 1.5px solid rgba(179,134,69,0.32); text-align: left;">
+        <div style="font-family: var(--serif-display); font-weight: 500; font-size: 108px; line-height: 1; letter-spacing: -0.02em; color: var(--gold); margin-bottom: 20px;">A</div>
+        <div style="font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.25; color: var(--cream); margin-bottom: 14px;">Atividade Física, Alimentação<br>e Suplementação Inteligente</div>
+        <div style="font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1.4; color: var(--sage); opacity: 0.95;">Os três motores que nenhuma medicação substitui.</div>
       </div>
-      <div class="pilar">
-        <!-- Ícone: estetoscópio/stetoscope-like (activity) -->
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; opacity: 0.85;">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-        </svg>
-        <div class="letra">G</div>
-        <div class="pilar-rule"></div>
-        <div class="pilar-nome">Gestão clínica e metabólica</div>
-        <div class="pilar-quem">Médico</div>
+      <div style="padding: 0 32px; border-right: 1.5px solid rgba(179,134,69,0.32); text-align: left;">
+        <div style="font-family: var(--serif-display); font-weight: 500; font-size: 108px; line-height: 1; letter-spacing: -0.02em; color: var(--gold); margin-bottom: 20px;">G</div>
+        <div style="font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.25; color: var(--cream); margin-bottom: 14px;">Gestão Clínica<br>e Metabólica</div>
+        <div style="font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1.4; color: var(--sage); opacity: 0.95;">Leitura ampliada que nenhum checkup convencional entrega. Conduta integrada, ajustada a cada ciclo.</div>
       </div>
-      <div class="pilar">
-        <!-- Ícone: brain/mente -->
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; opacity: 0.85;">
-          <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
-          <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
-        </svg>
-        <div class="letra">I</div>
-        <div class="pilar-rule"></div>
-        <div class="pilar-nome">Integração mente-corpo</div>
-        <div class="pilar-quem">Psicóloga</div>
+      <div style="padding: 0 32px; border-right: 1.5px solid rgba(179,134,69,0.32); text-align: left;">
+        <div style="font-family: var(--serif-display); font-weight: 500; font-size: 108px; line-height: 1; letter-spacing: -0.02em; color: var(--gold); margin-bottom: 20px;">I</div>
+        <div style="font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.25; color: var(--cream); margin-bottom: 14px;">Integração<br>Mente-Corpo</div>
+        <div style="font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1.4; color: var(--sage); opacity: 0.95;">Memória, disposição, humor, estresse e vínculos: sintomas emocionais e biologia tratados no mesmo plano.</div>
       </div>
-      <div class="pilar">
-        <!-- Ícone: lua/sono -->
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; opacity: 0.85;">
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-        </svg>
-        <div class="letra">R</div>
-        <div class="pilar-rule"></div>
-        <div class="pilar-nome">Ritmo circadiano e repouso</div>
-        <div class="pilar-quem">Atravessa os quatro</div>
+      <div style="padding: 0 32px; text-align: left;">
+        <div style="font-family: var(--serif-display); font-weight: 500; font-size: 108px; line-height: 1; letter-spacing: -0.02em; color: var(--gold); margin-bottom: 20px;">R</div>
+        <div style="font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.25; color: var(--cream); margin-bottom: 14px;">Ritmo Circadiano<br>e Repouso</div>
+        <div style="font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1.4; color: var(--sage); opacity: 0.95;">Sono, descanso, rotina, horários e luz: a base dos outros três pilares.</div>
       </div>
     </div>
   </div>
-  <div class="slide-footer">
-    <span class="brand">PLENYA</span>
-    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
-    <span class="pagenum">11 · 19</span>
-  </div>
+
 </section>
 
 <!-- ============================================================
      SLIDE 12 — ESCORE PLENYA · radar REAL do site (22 vértices, 4 arcos coloridos)
      Replica fiel de apps/site/components/escore/RadarAgir.tsx
      ============================================================ -->
-<section class="slide" id="s12" style="background: var(--petrol);">
-  <div class="slide-content">
-    <span class="eyebrow" style="margin-bottom: 24px;">O instrumento</span>
-    <h2 class="h1" style="font-size: 84px; margin-bottom: 24px;">Escore Plenya.</h2>
-    <p class="subhead" style="font-size: 28px; max-width: 1400px; margin-bottom: 48px;">
-      Não é uma nota. <em class="gold">É um mapa.</em>
-    </p>
+<section class="slide" id="s12" style="background: var(--petrol-deep); overflow: hidden;">
+  <!-- Brand mark top-left -->
+  <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
+    <span style="font-family: var(--serif); font-size: 17px; font-weight: 500; letter-spacing: 0.34em; color: var(--cream); text-transform: uppercase; opacity: 0.92;">Continuum Plenya</span>
+  </div>
+  <!-- Eyebrow top-right -->
+  <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">
+    O Instrumento
+  </div>
+  <!-- Page mark bottom-right -->
+  <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
+    <span style="font-family: var(--serif); font-size: 17px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.85;">12 / 19</span>
+  </div>
 
-    <div style="display: grid; grid-template-columns: 580px 1fr; gap: 80px; align-items: center;">
+  <!-- Main 2-col composition: radar à esquerda + texto editorial à direita -->
+  <div style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; padding: 160px 96px 100px; display: flex; gap: 96px; align-items: center; z-index: 2;">
+
+    <!-- Left col: radar centralizado verticalmente -->
+    <div style="flex: 0 0 640px; display: flex; flex-direction: column; align-items: center;">
       <!-- Radar SVG real — 22 vértices, 4 arcos coloridos, score central -->
       <div style="position: relative;">
-        <svg viewBox="-40 -40 480 480" width="560" height="560" role="img" aria-label="Escore Plenya: 22 pilares em 4 letras AGIR">
+        <svg viewBox="-40 -40 480 480" width="640" height="640" role="img" aria-label="Escore Plenya: 22 pilares em 4 letras AGIR">
           <!-- Anéis concêntricos sutis -->
           <circle cx="200" cy="200" r="37.5" fill="none" stroke="rgba(234,231,218,0.08)" stroke-width="1"/>
           <circle cx="200" cy="200" r="75" fill="none" stroke="rgba(234,231,218,0.08)" stroke-width="1"/>
@@ -623,100 +655,148 @@
           <text x="200" y="213" text-anchor="middle" font-family="Cormorant Garamond" font-size="42" font-weight="500" fill="#063b4f" letter-spacing="-1">78</text>
         </svg>
 
-        <!-- Legenda das cores por letra -->
-        <div style="display: flex; gap: 28px; justify-content: center; margin-top: 8px; font-family: 'Inter'; font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage);">
+        <!-- Legenda das cores por letra — serif premium -->
+        <div style="display: flex; gap: 32px; justify-content: center; margin-top: 16px; font-family: var(--serif); font-size: 16px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--sage);">
           <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #92b8b4;"></span>A 80</span>
           <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #b38645;"></span>G 76</span>
           <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #caa56b;"></span>I 72</span>
           <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #417e8e;"></span>R 84</span>
         </div>
-        <p class="caption" style="font-size: 11px; text-align: center; margin-top: 16px; color: var(--sage); opacity: 0.6;">
-          EXEMPLO · 22 PILARES · ESCALA 0–100
-        </p>
-      </div>
-
-      <!-- Coluna direita: copy -->
-      <div>
-        <p class="lead" style="font-size: 22px; line-height: 1.55; margin-bottom: 40px;">
-          Mais de <strong style="color: var(--gold); font-weight: 600;">800 itens</strong> — história, sintomas, exames, hábitos, medicamentos — organizados nos quatro pilares do Método AGIR e consolidados numa pontuação clara, evolutiva e personalizada.
-        </p>
-        <hr class="rule" style="margin-bottom: 32px;">
-        <p class="body" style="font-size: 18px; line-height: 1.55; color: var(--sage); margin-bottom: 32px;">
-          Refeita a cada três meses ao longo do Continuum. A curva mostra o que avançou, o que estagnou e onde a próxima intervenção entra.
-        </p>
-        <p class="subhead" style="font-size: 26px; color: var(--gold); font-style: italic;">
-          Direção, não punição.
+        <p style="font-family: var(--serif); font-size: 14px; font-weight: 500; letter-spacing: 0.32em; text-align: center; margin-top: 18px; color: var(--sage); opacity: 0.65; text-transform: uppercase;">
+          Exemplo · 22 pilares · escala 0–100
         </p>
       </div>
     </div>
-  </div>
-  <div class="slide-footer">
-    <span class="brand">PLENYA</span>
-    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
-    <span class="pagenum">12 · 19</span>
+
+    <!-- Right col: editorial typography -->
+    <div style="flex: 1; max-width: 800px;">
+      <h2 style="font-family: var(--serif-display); font-weight: 500; font-size: 120px; line-height: 0.95; letter-spacing: -0.03em; color: var(--cream); margin-bottom: 32px;">
+        Escore Plenya<span style="color: var(--gold);">.</span>
+      </h2>
+
+      <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 38px; line-height: 1.3; color: var(--gold-soft); margin-bottom: 48px; letter-spacing: -0.005em;">
+        Não é uma nota. É um mapa.
+      </p>
+
+      <p style="font-family: var(--serif); font-weight: 400; font-size: 26px; line-height: 1.45; color: var(--cream); margin-bottom: 32px; max-width: 720px; letter-spacing: -0.005em;">
+        Mais de <span style="color: var(--gold); font-weight: 600;">800 itens</span> (história, sintomas, exames, hábitos, medicamentos) organizados nos quatro pilares do Método AGIR e consolidados numa pontuação clara, evolutiva e personalizada.
+      </p>
+
+      <p style="font-family: var(--serif); font-weight: 400; font-size: 22px; line-height: 1.5; color: var(--sage); margin-bottom: 40px; max-width: 720px;">
+        Recalculada a cada encontro do Continuum. A curva mostra o que avançou, o que estagnou e onde a próxima intervenção entra.
+      </p>
+
+      <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 32px; line-height: 1.3; color: var(--gold-soft); letter-spacing: -0.005em;">
+        Direção, não punição.
+      </p>
+    </div>
+
   </div>
 </section>
 
 <!-- ============================================================
-     SLIDE 13 — JORNADA · imagem hero A→B + timeline compacta
+     SLIDE 13 — JORNADA · Marfa dawn blocks + 6 etapas ascendentes (bullets)
      ============================================================ -->
 <section class="slide slide--deep" id="s13">
-  <div class="slide-content" style="padding: 80px 96px 96px;">
-    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 36px;">
-      <div>
-        <span class="eyebrow" style="display: block; margin-bottom: 12px;">A cronologia</span>
-        <h2 class="h1" style="font-size: 64px;">Do tempo zero ao próximo horizonte.</h2>
-      </div>
-      <p class="subhead" style="font-size: 22px; max-width: 480px; text-align: right;">
-        Uma trajetória clínica, não uma sequência de consultas.
-      </p>
-    </div>
-
-    <!-- Imagem hero da jornada A→B (mesmo homem dual-exposure) -->
-    <div style="height: 500px; border-radius: 6px; overflow: hidden; position: relative; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
-      <img src="../../../docs/decks/_assets/style-refs/deck-jornada-v2-same-man.png" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-    </div>
-
-    <!-- Timeline compacta de 6 fases -->
-    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(179,134,69,0.25);">
-      <div>
-        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">01</div>
-        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">SEMANA 1</div>
-        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Quatro consultas online.</div>
-      </div>
-      <div>
-        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">02</div>
-        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">SEMANA 2</div>
-        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Reunião da equipe.</div>
-      </div>
-      <div>
-        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">03</div>
-        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">CICLO DE 4 SEMANAS</div>
-        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Encontros em rotação.</div>
-      </div>
-      <div>
-        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">04</div>
-        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">CONFORME O PLANO</div>
-        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Box Plenya.</div>
-      </div>
-      <div>
-        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">05</div>
-        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">A CADA 3 MESES</div>
-        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Reavaliação do Escore.</div>
-      </div>
-      <div>
-        <div style="font-family: var(--serif-display); font-size: 32px; color: var(--gold); line-height: 1; letter-spacing: -0.02em;">06</div>
-        <div class="tag" style="font-size: 9px; letter-spacing: 0.28em; color: var(--gold); margin: 6px 0;">FINAL DO CICLO</div>
-        <div style="font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--cream);">Próximo horizonte.</div>
-      </div>
-    </div>
+  <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
+    <span style="font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.34em; color: var(--petrol-deep); text-transform: uppercase;">Continuum Plenya</span>
   </div>
-  <div class="slide-footer">
-    <span class="brand">PLENYA</span>
-    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
-    <span class="pagenum">13 · 19</span>
+  <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.38em; color: var(--petrol-deep); text-transform: uppercase;">A Jornada</div>
+  <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
+    <span style="font-family: var(--serif); font-size: 18px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.85;">13 / 19</span>
+  </div>
+
+  <div style="position: absolute; top: 0; left: 0; right: 0; height: 64%; z-index: 0; overflow: hidden;">
+    <img src="../../../docs/decks/_assets/Slide13.PNG" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: center center;">
+    <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 30%; background: linear-gradient(180deg, transparent 0%, rgba(4,31,42,0.45) 38%, rgba(4,31,42,0.88) 75%, var(--petrol-deep) 100%);"></div>
+  </div>
+
+  <div style="position: absolute; top: 150px; left: 96px; right: 96px; z-index: 2; max-width: 1200px;">
+    <h2 style="font-family: var(--serif-display); font-weight: 500; font-size: 60px; line-height: 1.05; letter-spacing: -0.02em; color: var(--petrol-deep); margin-bottom: 20px;">
+      Do tempo zero ao próximo horizonte<span style="color: var(--gold);">.</span>
+    </h2>
+    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 24px; line-height: 1.3; color: var(--petrol-deep); letter-spacing: -0.005em;">
+      Uma trajetória clínica, não uma sequência de consultas.
+    </p>
+  </div>
+
+  <!-- 6 caixas ascendentes com BULLETS -->
+  <div style="position: absolute; bottom: 0; left: 96px; right: 96px; height: 500px; z-index: 2;">
+
+    <div style="position: absolute; left: calc(100%/6 * 1); top: 30px; bottom: 30px; width: 1px; background: rgba(179,134,69,0.28);"></div>
+    <div style="position: absolute; left: calc(100%/6 * 2); top: 30px; bottom: 30px; width: 1px; background: rgba(179,134,69,0.28);"></div>
+    <div style="position: absolute; left: calc(100%/6 * 3); top: 30px; bottom: 30px; width: 1px; background: rgba(179,134,69,0.28);"></div>
+    <div style="position: absolute; left: calc(100%/6 * 4); top: 30px; bottom: 30px; width: 1px; background: rgba(179,134,69,0.28);"></div>
+    <div style="position: absolute; left: calc(100%/6 * 5); top: 30px; bottom: 30px; width: 1px; background: rgba(179,134,69,0.28);"></div>
+
+    <!-- Etapa 1 -->
+    <div style="position: absolute; left: 0; bottom: 50px; width: calc(100%/6); padding: 0 14px;">
+      <div style="font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.3em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 14px;">Semana 1</div>
+      <div style="font-family: var(--serif-display); font-size: 26px; font-weight: 500; line-height: 1.15; color: var(--cream); margin-bottom: 14px; letter-spacing: -0.01em;">Quatro consultas online.</div>
+      <div style="font-family: var(--serif); font-size: 18px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Uma consulta com cada profissional</div>
+        <div><span style="color: var(--gold); margin-right: 8px;">·</span>Escore Plenya preenchido</div>
+      </div>
+    </div>
+
+    <!-- Etapa 2 -->
+    <div style="position: absolute; left: calc(100%/6); bottom: 80px; width: calc(100%/6); padding: 0 14px;">
+      <div style="font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.3em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 14px;">Semana 2</div>
+      <div style="font-family: var(--serif-display); font-size: 26px; font-weight: 500; line-height: 1.15; color: var(--cream); margin-bottom: 14px; letter-spacing: -0.01em;">Reunião da equipe e abertura do plano.</div>
+      <div style="font-family: var(--serif); font-size: 18px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Reunião dos quatro profissionais</div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Plano integrado montado</div>
+        <div><span style="color: var(--gold); margin-right: 8px;">·</span>Médico devolve a leitura clínica</div>
+      </div>
+    </div>
+
+    <!-- Etapa 3 -->
+    <div style="position: absolute; left: calc(100%/6 * 2); bottom: 115px; width: calc(100%/6); padding: 0 14px;">
+      <div style="font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.3em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 14px;">Semanas seguintes</div>
+      <div style="font-family: var(--serif-display); font-size: 26px; font-weight: 500; line-height: 1.15; color: var(--cream); margin-bottom: 14px; letter-spacing: -0.01em;">Encontro semanal, em rotação.</div>
+      <div style="font-family: var(--serif); font-size: 18px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Encontro semanal online</div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Um profissional por vez</div>
+        <div><span style="color: var(--gold); margin-right: 8px;">·</span>Ciclo AGIR completo a cada 4 semanas</div>
+      </div>
+    </div>
+
+    <!-- Etapa 4 -->
+    <div style="position: absolute; left: calc(100%/6 * 3); bottom: 155px; width: calc(100%/6); padding: 0 14px;">
+      <div style="font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.3em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 14px;">Entre encontros</div>
+      <div style="font-family: var(--serif-display); font-size: 26px; font-weight: 500; line-height: 1.15; color: var(--cream); margin-bottom: 14px; letter-spacing: -0.01em;">Box Plenya. WhatsApp ativo.</div>
+      <div style="font-family: var(--serif); font-size: 18px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Box personalizado a cada evolução</div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Suplementos e manipulados do protocolo</div>
+        <div><span style="color: var(--gold); margin-right: 8px;">·</span>WhatsApp com a equipe em horário comercial</div>
+      </div>
+    </div>
+
+    <!-- Etapa 5 -->
+    <div style="position: absolute; left: calc(100%/6 * 4); bottom: 200px; width: calc(100%/6); padding: 0 14px;">
+      <div style="font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.3em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 14px;">A cada três meses</div>
+      <div style="font-family: var(--serif-display); font-size: 26px; font-weight: 500; line-height: 1.15; color: var(--cream); margin-bottom: 14px; letter-spacing: -0.01em;">Reavaliação do Escore.</div>
+      <div style="font-family: var(--serif); font-size: 18px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Exames de acompanhamento</div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Nova rodada do Escore</div>
+        <div><span style="color: var(--gold); margin-right: 8px;">·</span>Curva mostra evolução e próxima intervenção</div>
+      </div>
+    </div>
+
+    <!-- Etapa 6 -->
+    <div style="position: absolute; left: calc(100%/6 * 5); bottom: 250px; width: calc(100%/6); padding: 0 14px;">
+      <div style="font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.3em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 14px;">Final do ciclo</div>
+      <div style="font-family: var(--serif-display); font-size: 26px; font-weight: 500; line-height: 1.15; color: var(--cream); margin-bottom: 14px; letter-spacing: -0.01em;">Avaliação final e próximo horizonte.</div>
+      <div style="font-family: var(--serif); font-size: 18px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Avaliação estruturada</div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--gold); margin-right: 8px;">·</span>Fim de 6 ou 12 meses</div>
+        <div><span style="color: var(--gold); margin-right: 8px;">·</span>Decisão conjunta do próximo ciclo</div>
+      </div>
+    </div>
   </div>
 </section>
+
 
 <!-- ============================================================
      SLIDE 14 — BOX PLENYA · PLACEHOLDER pra regerar
