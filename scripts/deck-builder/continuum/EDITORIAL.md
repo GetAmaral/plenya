@@ -182,7 +182,8 @@ ACT VI · CTA (19) — ainda não migrado
 | **11** | ✅ FINAL | MÉTODO AGIR · wordmark "AGIR." 280px gigante topo + subhead "Quatro pilares integrados." + 4 colunas A/G/I/R (Atividade, Alimentação & Suplementação Inteligente · Gestão Clínica e Metabólica · Integração Mente-Corpo · Ritmo Circadiano e Repouso) + Slide11.PNG (4 colunas iluminadas com gold light = metáfora arquitetônica dos 4 pilares · diptych com slide 5). Wordmark shifted left pra centralizar sobre wall maior. Grid bottom: 70 com hairlines entre. Bottom band 48% dim onde R column fica. |
 | **12** | ✅ FINAL | ESCORE PLENYA · BIG REVEAL · radar SVG 22 vértices + score 78 central + headline "Escore Plenya." 120px + subhead "Não é uma nota. É um mapa." + body "Mais de **800 itens** (história, sintomas, exames, hábitos, medicamentos) organizados nos quatro pilares do Método AGIR..." + closer "Direção, não punição." + legenda A 80 · G 76 · I 72 · R 84. "Recalculada a cada encontro do Continuum" (NOTA: site mantém "a cada três meses" — divergência consciente, user "deixa assim"). |
 | **13** | ✅ FINAL | JORNADA · Slide13.PNG (Marfa-style stepping stones em dawn landscape) + headline "Do tempo zero ao próximo horizonte." em **dark petrol** sobre image clara + 6 etapas ascendentes EM BULLETS (Semana 1 · Semana 2 · Semanas seguintes · Entre encontros (Box+WhatsApp) · A cada três meses · Final do ciclo). Cada etapa: tag + título serif-display 26px + 3 bullets com · gold. Boxes ascendem em altura (bottom 50→250) acompanhando blocos da imagem. Hairlines verticais entre. |
-| 14-19 | ❌ NÃO MIGRADOS | Ainda no sistema antigo (sans/Inter, footer, rules) |
+| **14** | ✅ FINAL | BOX PLENYA · split 50/50 (texto esquerda · imagem direita) + Slide14.PNG (box petrol aberto com PLENYA gold foil + 3 frascos amber labels "PLENYA" + pouch linho + caneca cream "P" + bilhete dobrado laço gold, sobre wenge wood com luz lateral tungstênio — família visual slide 7). Eyebrow "O Box" top-right gold-soft. Headline "O cuidado chega em forma de objeto." 76px cream. Subhead italic gold "A ponte entre os encontros." Body: curadoria material + ritmo do plano. Closer italic gold-soft "O Continuum acontece também entre as videochamadas." |
+| 15-19 | ❌ NÃO MIGRADOS | Ainda no sistema antigo (sans/Inter, footer, rules) |
 
 ---
 
@@ -373,9 +374,8 @@ Infra: nginx container no docker `coolify` network + Traefik + Lets Encrypt
 
 ### Próximo trabalho: migrar slides 10-19 do sistema antigo (sans/Inter/footer/rules) pro sistema premium (serif Cormorant + Fraunces, sem rules, sem footer genérico, paleta petrol+gold+sage).
 
-### Próximo trabalho: migrar slides 14-19
+### Próximo trabalho: migrar slides 15-19
 
-- **14 · BOX PLENYA** — placeholder pra regerar imagem; usar `Box.jpg` se ainda quiser.
 - **15 · PARA QUEM É** — 6 retratos + foto lifestyle BG.
 - **16 · PARA QUEM NÃO É** — 3 razões com SVG icons (REMOVER ICONS na migração).
 - **17 · COMPARATIVO** — Consulta avulsa vs Continuum (2-col typography).

@@ -799,31 +799,45 @@
 
 
 <!-- ============================================================
-     SLIDE 14 — BOX PLENYA · PLACEHOLDER pra regerar
+     SLIDE 14 — BOX PLENYA · objeto de cuidado + ponte entre encontros
      ============================================================ -->
-<section class="slide" id="s14">
-  <div class="slide-content">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; height: 100%;">
-      <div>
-        <span class="eyebrow" style="margin-bottom: 32px; display: block;">Entrega</span>
-        <h2 class="h1" style="margin-bottom: 48px;">Um box chega até você.</h2>
-        <hr class="rule" style="margin-bottom: 40px;">
-        <p class="lead" style="font-size: 22px; line-height: 1.55; margin-bottom: 32px;">
-          Suplementos, manipulados e mimos curados pela equipe. Do seu protocolo. No seu ritmo. Novos boxes chegam à medida que o plano evolui.
-        </p>
-        <p class="subhead" style="font-size: 22px; color: var(--gold);">
-          Cada caixa carrega o manifesto Plenya em ouro foil.
-        </p>
-      </div>
-      <div style="aspect-ratio: 4/3; border-radius: 6px; overflow: hidden;">
-        <img src="../../../docs/decks/_assets/style-refs/deck-box-plenya-v3-precise-symbol.png" alt="Box Plenya" style="width: 100%; height: 100%; object-fit: cover;">
-      </div>
-    </div>
+<section class="slide slide--deep" id="s14">
+  <!-- Brand mark top-left -->
+  <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
+    <span style="font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.34em; color: var(--cream); opacity: 0.85; text-transform: uppercase;">Continuum Plenya</span>
   </div>
-  <div class="slide-footer">
-    <span class="brand">PLENYA</span>
-    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
-    <span class="pagenum">14 · 19</span>
+  <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">O Box</div>
+  <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
+    <span style="font-family: var(--serif); font-size: 18px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">14 / 19</span>
+  </div>
+
+  <!-- Image hero right side (50%) -->
+  <div style="position: absolute; top: 0; right: 0; bottom: 0; width: 50%; z-index: 0; overflow: hidden;">
+    <img src="../../../docs/decks/_assets/Slide14.PNG" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: center center;">
+    <!-- Soft fade from petrol to image on the left edge for seamless blend with text panel -->
+    <div style="position: absolute; top: 0; bottom: 0; left: 0; width: 140px; background: linear-gradient(90deg, var(--petrol-deep) 0%, rgba(4,31,42,0.4) 60%, transparent 100%);"></div>
+  </div>
+
+  <!-- Text panel left -->
+  <div style="position: absolute; top: 200px; left: 96px; width: 760px; z-index: 2;">
+    <h2 style="font-family: var(--serif-display); font-weight: 500; font-size: 76px; line-height: 1.05; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 24px;">
+      O cuidado chega em forma de objeto<span style="color: var(--gold);">.</span>
+    </h2>
+    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 32px; line-height: 1.3; color: var(--gold-soft); letter-spacing: -0.005em; margin-bottom: 56px;">
+      A ponte entre os encontros.
+    </p>
+
+    <p style="font-family: var(--serif); font-size: 22px; line-height: 1.55; color: var(--cream); opacity: 0.92; margin-bottom: 24px; max-width: 640px;">
+      Após o plano, um box personalizado chega à sua casa. Mimos selecionados pela equipe, suplementos e manipulados específicos do seu protocolo.
+    </p>
+    <p style="font-family: var(--serif); font-size: 22px; line-height: 1.55; color: var(--cream); opacity: 0.92; margin-bottom: 56px; max-width: 640px;">
+      À medida que o plano se ajusta, novos boxes seguem o mesmo ritmo, preparados sempre que houver indicação.
+    </p>
+
+    <p style="font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1.4; color: var(--gold-soft); max-width: 640px;">
+      O Continuum acontece também entre as videochamadas.
+    </p>
   </div>
 </section>
 
