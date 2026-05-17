@@ -1,7 +1,7 @@
 # Continuum Plenya · Editorial Line & Status
 
 > **Reload this file at session start** to restore deck context.
-> Last update: 2026-05-16 (slides 7-9 finalizados · imagens + tipografia + layout fade)
+> Last update: 2026-05-17 (slides 10-13 finalizados · padrão premium consolidado)
 
 ---
 
@@ -178,7 +178,11 @@ ACT VI · CTA (19) — ainda não migrado
 | **7** | ✅ FINAL | Crença 1 (Normal ≠ Ótimo) + Slide7.PNG (laudo brasileiro + lupa + 0,92 circulado em sépia, mesa wenge, luz gold lateral) |
 | **8** | ✅ FINAL | Crença 2 (Médico-gestor articula) + Slide8.PNG (tríptico cinemático: 3 médicos em 3 cômodos arquitetonicamente distintos, fragmentação visível) |
 | **9** | ✅ FINAL | Crença 3 (Escore mostra a curva) + Slide9b.PNG (paciente sozinho lendo relatório com radar Escore Plenya impresso + símbolo P) |
-| 10-19 | ❌ NÃO MIGRADOS | Ainda no sistema antigo (sans/Inter, footer, rules) |
+| **10** | ✅ FINAL | EQUIPE PLENYA · Vogue cover (faixa petrol top 15% + photo equipe-candid descida cabeças preservadas + headline 152px "Equipe Plenya." + body "Falando a mesma língua, sobre o mesmo painel, sobre a mesma pessoa." + categorias + closer "Porque o corpo não funciona em partes.") |
+| **11** | ✅ FINAL | MÉTODO AGIR · wordmark "AGIR." 280px gigante topo + subhead "Quatro pilares integrados." + 4 colunas A/G/I/R (Atividade, Alimentação & Suplementação Inteligente · Gestão Clínica e Metabólica · Integração Mente-Corpo · Ritmo Circadiano e Repouso) + Slide11.PNG (4 colunas iluminadas com gold light = metáfora arquitetônica dos 4 pilares · diptych com slide 5). Wordmark shifted left pra centralizar sobre wall maior. Grid bottom: 70 com hairlines entre. Bottom band 48% dim onde R column fica. |
+| **12** | ✅ FINAL | ESCORE PLENYA · BIG REVEAL · radar SVG 22 vértices + score 78 central + headline "Escore Plenya." 120px + subhead "Não é uma nota. É um mapa." + body "Mais de **800 itens** (história, sintomas, exames, hábitos, medicamentos) organizados nos quatro pilares do Método AGIR..." + closer "Direção, não punição." + legenda A 80 · G 76 · I 72 · R 84. "Recalculada a cada encontro do Continuum" (NOTA: site mantém "a cada três meses" — divergência consciente, user "deixa assim"). |
+| **13** | ✅ FINAL | JORNADA · Slide13.PNG (Marfa-style stepping stones em dawn landscape) + headline "Do tempo zero ao próximo horizonte." em **dark petrol** sobre image clara + 6 etapas ascendentes EM BULLETS (Semana 1 · Semana 2 · Semanas seguintes · Entre encontros (Box+WhatsApp) · A cada três meses · Final do ciclo). Cada etapa: tag + título serif-display 26px + 3 bullets com · gold. Boxes ascendem em altura (bottom 50→250) acompanhando blocos da imagem. Hairlines verticais entre. |
+| 14-19 | ❌ NÃO MIGRADOS | Ainda no sistema antigo (sans/Inter, footer, rules) |
 
 ---
 
@@ -369,13 +373,14 @@ Infra: nginx container no docker `coolify` network + Traefik + Lets Encrypt
 
 ### Próximo trabalho: migrar slides 10-19 do sistema antigo (sans/Inter/footer/rules) pro sistema premium (serif Cormorant + Fraunces, sem rules, sem footer genérico, paleta petrol+gold+sage).
 
-Ordem sugerida (do mais complexo pro mais simples):
-- **12 · ESCORE PLENYA** — radar SVG real já existe (linha 553+ do deck.html). Já tem o componente renderizado. Validar layout premium ao redor. **ATENÇÃO**: parte do reveal do Escore já foi mostrado no slide 9 (decisão consciente). O slide 12 ainda é o "BIG reveal" com radar em tela cheia + legenda + escore numerico — mas precisa coexistir com o teaser do slide 9.
-- **11 · MÉTODO AGIR** — tipográfico puro (4 pilares: Atividade · Gestão · Integração · Ritmo). Sem hero photo. Estilo do slide 6.
-- **10 · EQUIPE** — foto `equipe-candid.jpg` já existe. Layout tem que CONQUISTAR o reveal (passamos por 8 slides sem mostrar a equipe, esse é o momento). 4 especialistas + 1 plano único.
-- **13 · JORNADA** — A→B + timeline compacta.
+### Próximo trabalho: migrar slides 14-19
+
 - **14 · BOX PLENYA** — placeholder pra regerar imagem; usar `Box.jpg` se ainda quiser.
-- **15-19** — qualificação, comparativo, compromisso, CTA.
+- **15 · PARA QUEM É** — 6 retratos + foto lifestyle BG.
+- **16 · PARA QUEM NÃO É** — 3 razões com SVG icons (REMOVER ICONS na migração).
+- **17 · COMPARATIVO** — Consulta avulsa vs Continuum (2-col typography).
+- **18 · COMPROMISSO** — Semestral / Anual (relógios SVG circulares preservar).
+- **19 · CTA FECHAMENTO** — Símbolo + wordmark + "Viva bem, viva mais."
 
 ### Antes de mexer em qualquer um deles
 1. **Ler este arquivo inteiro** (especialmente seções de tipografia + layout + regras invariantes + lições)
