@@ -183,7 +183,8 @@ ACT VI · CTA (19) — ainda não migrado
 | **12** | ✅ FINAL | ESCORE PLENYA · BIG REVEAL · radar SVG 22 vértices + score 78 central + headline "Escore Plenya." 120px + subhead "Não é uma nota. É um mapa." + body "Mais de **800 itens** (história, sintomas, exames, hábitos, medicamentos) organizados nos quatro pilares do Método AGIR..." + closer "Direção, não punição." + legenda A 80 · G 76 · I 72 · R 84. "Recalculada a cada encontro do Continuum" (NOTA: site mantém "a cada três meses" — divergência consciente, user "deixa assim"). |
 | **13** | ✅ FINAL | JORNADA · Slide13.PNG (Marfa-style stepping stones em dawn landscape) + headline "Do tempo zero ao próximo horizonte." em **dark petrol** sobre image clara + 6 etapas ascendentes EM BULLETS (Semana 1 · Semana 2 · Semanas seguintes · Entre encontros (Box+WhatsApp) · A cada três meses · Final do ciclo). Cada etapa: tag + título serif-display 26px + 3 bullets com · gold. Boxes ascendem em altura (bottom 50→250) acompanhando blocos da imagem. Hairlines verticais entre. |
 | **14** | ✅ FINAL | BOX PLENYA · split 50/50 (texto esquerda · imagem direita) + Slide14.PNG (box petrol aberto com PLENYA gold foil + 3 frascos amber labels "PLENYA" + pouch linho + caneca cream "P" + bilhete dobrado laço gold, sobre wenge wood com luz lateral tungstênio — família visual slide 7). Eyebrow "O Box" top-right gold-soft. Headline "O cuidado chega em forma de objeto." 76px cream. Subhead italic gold "A ponte entre os encontros." Body: curadoria material + ritmo do plano. Closer italic gold-soft "O Continuum acontece também entre as videochamadas." |
-| 15-19 | ❌ NÃO MIGRADOS | Ainda no sistema antigo (sans/Inter, footer, rules) |
+| **15** | ✅ FINAL | PARA QUEM É · pure typography 2 col × 3 rows · canonical 100% do site (`forWhomTitle` + `forWhomDesc` + `fw1-fw6` Title+Body). Headline "O Continuum Plenya não é para todo mundo." 64px cream centralizado. Subhead italic gold-soft "É para quem reconhece um destes momentos." 6 perfis com numeral romano I-VI + título serif-display 30px + body sage 20px. Hairlines verticais à esquerda de cada card (indentação stanza). Closer italic gold-soft "Não como diagnóstico, como o ponto da vida em que faz sentido construir saúde no tempo, em conjunto, com método." Refinamentos canonical propagados pro site (pt+en): "Carrega mais do que a si mesmo" (era "do que si mesmo"), "Saúde virou alicerce" (era "variável crítica" — MBA-feel removido), "Sono, humor, corpo: algo está mudando" (vírgula → dois pontos). Deck-only divergência: body I sem "a pele perde viço" (uniformidade visual). |
+| 16-19 | ❌ NÃO MIGRADOS | Ainda no sistema antigo (sans/Inter, footer, rules) |
 
 ---
 
@@ -374,9 +375,7 @@ Infra: nginx container no docker `coolify` network + Traefik + Lets Encrypt
 
 ### Próximo trabalho: migrar slides 10-19 do sistema antigo (sans/Inter/footer/rules) pro sistema premium (serif Cormorant + Fraunces, sem rules, sem footer genérico, paleta petrol+gold+sage).
 
-### Próximo trabalho: migrar slides 15-19
-
-- **15 · PARA QUEM É** — 6 retratos + foto lifestyle BG.
+### Próximo trabalho: migrar slides 16-19
 - **16 · PARA QUEM NÃO É** — 3 razões com SVG icons (REMOVER ICONS na migração).
 - **17 · COMPARATIVO** — Consulta avulsa vs Continuum (2-col typography).
 - **18 · COMPROMISSO** — Semestral / Anual (relógios SVG circulares preservar).

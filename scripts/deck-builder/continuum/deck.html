@@ -842,52 +842,106 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 15 — PARA QUEM É · 6 retratos + foto lifestyle BG
+     SLIDE 15 — PARA QUEM É · 6 retratos · pure typography 3x2 grid
      ============================================================ -->
-<section class="slide" id="s15">
-  <!-- BG editorial lifestyle sutil -->
-  <div style="position: absolute; inset: 0; z-index: 0;">
-    <img src="../../../apps/site/public/images/lifestyle-nature.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.32;">
-    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,59,79,0.78) 0%, rgba(6,59,79,0.88) 60%, rgba(4,31,42,0.95) 100%);"></div>
+<section class="slide slide--deep" id="s15">
+  <!-- Brand mark top-left -->
+  <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
+    <span style="font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.34em; color: var(--cream); opacity: 0.85; text-transform: uppercase;">Continuum Plenya</span>
   </div>
-  <div class="slide-content" style="position: relative; z-index: 1;">
-    <span class="eyebrow" style="margin-bottom: 32px;">Reconhecimento</span>
-    <h2 class="h1" style="margin-bottom: 24px;">Não é para todo mundo.</h2>
-    <p class="subhead" style="margin-bottom: 64px; max-width: 1400px;">
+  <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">Reconhecimento</div>
+  <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
+    <span style="font-family: var(--serif); font-size: 18px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">15 / 19</span>
+  </div>
+
+  <div class="slide-content" style="position: relative; z-index: 1; justify-content: flex-start; align-items: center; padding: 150px 96px 60px;">
+
+    <!-- Headline centralizado top (canonical com "Plenya") -->
+    <h2 style="font-family: var(--serif-display); font-weight: 500; font-size: 64px; line-height: 1.08; letter-spacing: -0.02em; color: var(--cream); text-align: center; max-width: 1500px; margin-bottom: 24px;">
+      O Continuum Plenya não é para todo mundo<span style="color: var(--gold);">.</span>
+    </h2>
+
+    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 26px; line-height: 1.3; color: var(--gold-soft); text-align: center; max-width: 1100px; margin-bottom: 70px; letter-spacing: -0.005em;">
       É para quem reconhece um destes momentos.
     </p>
 
-    <div class="grid-6" style="margin-top: 16px;">
-      <div class="retrato">
-        <span class="num">01</span>
-        <div class="titulo">Faz tudo certo, e os sinais não somam.</div>
+    <!-- 6 perfis em grid 2 colunas × 3 rows · canonical do site -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px 80px; width: 100%; max-width: 1640px; margin-bottom: 56px;">
+
+      <!-- I -->
+      <div style="padding: 0 8px; border-left: 1.5px solid rgba(179,134,69,0.32); padding-left: 28px;">
+        <div style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 26px; line-height: 1; color: var(--gold-soft); margin-bottom: 12px;">I</div>
+        <h3 style="font-family: var(--serif-display); font-weight: 500; font-size: 30px; line-height: 1.15; letter-spacing: -0.015em; color: var(--cream); margin-bottom: 14px;">
+          Faz tudo certo, e os sinais não somam<span style="color: var(--gold);">.</span>
+        </h3>
+        <p style="font-family: var(--serif); font-weight: 400; font-size: 20px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+          Treina, come, dorme. Mesmo assim a disposição não volta, o intestino bagunça, três viroses no ano. Sintomas pequenos que, juntos, descrevem um terreno em desgaste.
+        </p>
       </div>
-      <div class="retrato">
-        <span class="num">02</span>
-        <div class="titulo">Recebeu o susto.</div>
+
+      <!-- II -->
+      <div style="padding: 0 8px; border-left: 1.5px solid rgba(179,134,69,0.32); padding-left: 28px;">
+        <div style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 26px; line-height: 1; color: var(--gold-soft); margin-bottom: 12px;">II</div>
+        <h3 style="font-family: var(--serif-display); font-weight: 500; font-size: 30px; line-height: 1.15; letter-spacing: -0.015em; color: var(--cream); margin-bottom: 14px;">
+          Recebeu o susto<span style="color: var(--gold);">.</span>
+        </h3>
+        <p style="font-family: var(--serif); font-weight: 400; font-size: 20px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+          Um exame que assustou, um diagnóstico de família, um aniversário que doeu. A janela parecia distante e ficou perto demais.
+        </p>
       </div>
-      <div class="retrato">
-        <span class="num">03</span>
-        <div class="titulo">Carrega mais do que si mesmo.</div>
+
+      <!-- III -->
+      <div style="padding: 0 8px; border-left: 1.5px solid rgba(179,134,69,0.32); padding-left: 28px;">
+        <div style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 26px; line-height: 1; color: var(--gold-soft); margin-bottom: 12px;">III</div>
+        <h3 style="font-family: var(--serif-display); font-weight: 500; font-size: 30px; line-height: 1.15; letter-spacing: -0.015em; color: var(--cream); margin-bottom: 14px;">
+          Carrega mais do que a si mesmo<span style="color: var(--gold);">.</span>
+        </h3>
+        <p style="font-family: var(--serif); font-weight: 400; font-size: 20px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+          Sócios, equipe, filhos, pais. Gente depende de você inteiro. Saúde virou alicerce do que você sustenta.
+        </p>
       </div>
-      <div class="retrato">
-        <span class="num">04</span>
-        <div class="titulo">Está numa transição que ninguém nomeia.</div>
+
+      <!-- IV -->
+      <div style="padding: 0 8px; border-left: 1.5px solid rgba(179,134,69,0.32); padding-left: 28px;">
+        <div style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 26px; line-height: 1; color: var(--gold-soft); margin-bottom: 12px;">IV</div>
+        <h3 style="font-family: var(--serif-display); font-weight: 500; font-size: 30px; line-height: 1.15; letter-spacing: -0.015em; color: var(--cream); margin-bottom: 14px;">
+          Está numa transição que ninguém nomeia<span style="color: var(--gold);">.</span>
+        </h3>
+        <p style="font-family: var(--serif); font-weight: 400; font-size: 20px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+          Sono, humor, corpo: algo está mudando e a resposta clínica é «ainda não é nada» ou «é da idade». Falta um mapa.
+        </p>
       </div>
-      <div class="retrato">
-        <span class="num">05</span>
-        <div class="titulo">Informação demais, integração de menos.</div>
+
+      <!-- V -->
+      <div style="padding: 0 8px; border-left: 1.5px solid rgba(179,134,69,0.32); padding-left: 28px;">
+        <div style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 26px; line-height: 1; color: var(--gold-soft); margin-bottom: 12px;">V</div>
+        <h3 style="font-family: var(--serif-display); font-weight: 500; font-size: 30px; line-height: 1.15; letter-spacing: -0.015em; color: var(--cream); margin-bottom: 14px;">
+          Informação demais, integração de menos<span style="color: var(--gold);">.</span>
+        </h3>
+        <p style="font-family: var(--serif); font-weight: 400; font-size: 20px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+          Personal, nutri, terapeuta, médico, cada um no seu pedaço. Wearables, painéis, relatórios: dado sobrando, decisão faltando.
+        </p>
       </div>
-      <div class="retrato">
-        <span class="num">06</span>
-        <div class="titulo">Quer estar inteiro para quem ainda vai chegar.</div>
+
+      <!-- VI -->
+      <div style="padding: 0 8px; border-left: 1.5px solid rgba(179,134,69,0.32); padding-left: 28px;">
+        <div style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 26px; line-height: 1; color: var(--gold-soft); margin-bottom: 12px;">VI</div>
+        <h3 style="font-family: var(--serif-display); font-weight: 500; font-size: 30px; line-height: 1.15; letter-spacing: -0.015em; color: var(--cream); margin-bottom: 14px;">
+          Quer estar inteiro para quem ainda vai chegar<span style="color: var(--gold);">.</span>
+        </h3>
+        <p style="font-family: var(--serif); font-weight: 400; font-size: 20px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+          Filho pequeno aos 45, projetos que não cabem em dez anos. A pergunta deixou de ser quanto vou viver: virou como vou estar quando precisarem.
+        </p>
       </div>
+
     </div>
-  </div>
-  <div class="slide-footer">
-    <span class="brand">PLENYA</span>
-    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
-    <span class="pagenum">15 · 19</span>
+
+    <!-- Closer italic gold-soft (tese editorial do site, restaurada) -->
+    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 22px; line-height: 1.4; color: var(--gold-soft); text-align: center; max-width: 1200px; letter-spacing: -0.005em; opacity: 0.9;">
+      Não como diagnóstico, como o ponto da vida em que faz sentido construir saúde no tempo, em conjunto, com método.
+    </p>
+
   </div>
 </section>
 
