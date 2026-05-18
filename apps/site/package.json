@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack -p 3002",
+    "prebuild": "tsx scripts/validate-content.ts",
     "build": "next build",
     "start": "next start -p 3002",
     "lint": "next lint",
+    "validate-content": "tsx scripts/validate-content.ts",
     "clean": "rm -rf .next node_modules",
     "sync:score-light": "tsx scripts/sync-score-light.ts"
   },

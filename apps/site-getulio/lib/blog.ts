@@ -102,17 +102,34 @@ export function absoluteCover(cover: string | undefined): string | undefined {
 }
 
 async function readPostFile(root: string, file: string): Promise<PostFull | null> {
+  const fullPath = path.join(root, file);
+  let raw: string;
   try {
-    const raw = await fs.readFile(path.join(root, file), 'utf-8');
+    raw = await fs.readFile(fullPath, 'utf-8');
+  } catch (err) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(`[blog] read failed ${fullPath}: ${(err as Error).message}`);
+    }
+    return null;
+  }
+  try {
     const { data, content } = matter(raw);
     const parsed = schema.safeParse(data);
-    if (!parsed.success) return null;
+    if (!parsed.success) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(`[blog] zod-invalid ${fullPath}:`, parsed.error.issues);
+      }
+      return null;
+    }
     return {
       ...parsed.data,
       content: rewriteAssetPaths(content),
       readingMinutes: estimateReadingMinutes(content),
     };
-  } catch {
+  } catch (err) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(`[blog] yaml-invalid ${fullPath}: ${(err as Error).message.split('\n')[0]}`);
+    }
     return null;
   }
 }
