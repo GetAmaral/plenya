@@ -19,7 +19,7 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-05-13'  # 8ª iteração — +abetelima/alex_fabiano/patricia/vania + Noraci (monitoring) + ads dark FB Page descobertos
+last_updated: '2026-05-18'  # 10ª iteração — message-requests-first rule estabelecida; +geancarloo (treino); pedro.hoam/angelique/antonio.junior/nitomazella atualizados
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
 # Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
@@ -48,8 +48,24 @@ contacts:
     tone: afetivo-íntimo
     notes: |
       Irmã do Dr. Médica. Família formada pela UEL (Universidade Estadual de Londrina).
+      Casada com Danilo Cunha (@dr_danilo_cunha) — cunhado e sócio do Dr.
       Já comentou no post de Dia do Médico (2025) sobre legado de família de médicos.
     last: "2026-05-11 - reply Dia das Mães"
+
+  '@dr_danilo_cunha':
+    rel: cunhado + sócio + amigo de longa data
+    name: Danilo
+    title: "Dr (nefrologista)"
+    call_dr: "Monstro"
+    tone: afetivo-íntimo + igual-pra-igual (colega de especialidade)
+    notes: |
+      Cunhado do Dr (marido da irmã @draanamaral), sócio na Plenya, nefrologista,
+      amigo de longa data. Reage constantemente nos Reels do Dr ("Monstro... Mandou
+      bem demais... 👏👏👏"). Manda DMs com sugestões de pauta e reflexões clínicas.
+      Tom igual-pra-igual entre colegas, com a intimidade de família.
+      DMs de sugestão de pauta tipicamente respondidas pessoalmente — pular no
+      workflow da skill se já foi tratado offline.
+    last: "2026-05-18 - DM sugestões de pauta (IA + preparação básica) — respondido pessoalmente"
 
   '@tatiamaral.financas':
     rel: irmã
@@ -71,7 +87,9 @@ contacts:
     notes: |
       Tia do Dr (não irmã, apesar do sobrenome Amaral). Usa "Getinho" e "Ferzinha".
       Mensagens longas e afetuosas, tom mariano (mães do Céu, etc.).
-    last: "2026-05-11 - reply Dia das Mães ('Te amo, tia querida')"
+      Interessada em saúde/longevidade - pergunta perguntas técnicas com naturalidade
+      (ex.: "qual alimento indicado pra quebrar jejum de 16h").
+    last: "2026-05-18 - reply Reel 6K (mensagem afetiva sobre 10K, 20K, 30K)"
 
   '@tiagoamaralpr':
     rel: primo
@@ -232,8 +250,9 @@ contacts:
     call_dr: "Get"
     tone: afetivo-íntimo
     notes: |
-      Amiga próxima. Usa "Get" no MTB.
-    last: "2026-05-11 - reply MTB"
+      Amiga próxima. Usa "Get" no MTB. Engaja em conteúdos clínicos
+      (comentou no Reel de Proteína em 18/05 agradecendo orientações).
+    last: "2026-05-18 - reply Reel Proteína ('Valeu, Malu! Beijo grande pra família. ❤️')"
 
   # ============================================
   # PARCEIROS DE PEDAL / COLEGAS DE TRABALHO
@@ -399,7 +418,8 @@ contacts:
       Parceiro de produção: faz vídeos, gravação e edição do conteúdo do Dr.
       Handle .hoam = empresa HOAM Digital (também aparece como @hoamdigital em DMs).
       Trabalham juntos no conteúdo — relação profissional próxima.
-    last: "2026-05-11 - comentou Dia das Mães (a responder em C/D depois)"
+      Pediu pauta sobre biotipo em comment do Reel 6K (18/05).
+    last: "2026-05-18 - reply Reel 6K (biotipo + fenótipos metabólicos, ~1180 chars)"
 
   # ============================================
   # AMIGAS DA ESPOSA / FAMÍLIA (que comentam dirigindo-se à Fer)
@@ -485,8 +505,10 @@ contacts:
     name: Josi
     tone: familiar-afetuoso
     notes: |
-      Vizinha.
-    last: "2026-05-11 - reply Dia das Mães"
+      Vizinha. Marido fez exoma recentemente (mai/2026) - daí o interesse pessoal
+      em genética. Em interações públicas, NÃO mencionar marido nem detalhes
+      identificáveis - manter resposta no plano informativo geral.
+    last: "2026-05-17 - reply Reel 6K (exoma + utilidade clínica e renal)"
 
   '@leticia.benetasso':
     rel: vizinha
@@ -600,11 +622,25 @@ contacts:
     rel: seguidor
     last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
   '@priscila_machado_martins':
-    rel: seguidor
-    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+    rel: seguidora
+    platform: instagram-dm-manual-only
+    notes: |
+      DM curta (16/05/2026 20:49): "Oie! Faz um video sobre peptidos".
+      Resposta enviada manualmente pelo Dr em 2026-05-18 com v2 do draft.
+      MANUAL-ONLY FOREVER: Dr respondeu primeiro pelo app nativo, janela
+      Composio queimada. Ver [[responder_insta_message_requests_first]].
+    last: "2026-05-18 - DM manual (peptídeos: evidência sólida vs experimental)"
   '@fernanda.brocardo':
-    rel: seguidor
-    last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
+    rel: amiga próxima da família
+    name: Fernanda
+    tone: familiar-afetuoso
+    notes: |
+      Aparece comentando com frequência em posts do Dr ("Esta família querida tem
+      uma energia boa incrível", "Família querida, agora com um novo amor em dose
+      dupla"). Interessada em medicina preventiva, sugere pautas (longevidade,
+      jejum intermitente). Faz jejum também ("Esta estratégia é ótima, faço muito
+      também"). NÃO é só seguidor, é da rede próxima.
+    last: "2026-05-17 - reply Reel 6K (sugestão pauta jejum + longevidade, acolhida)"
   '@osinha2010':
     rel: seguidor
     last: "2026-05-11 - reply Dia das Mães (☺️❤️)"
@@ -699,15 +735,16 @@ contacts:
     last: "2026-05-13 - reply em GLP1 Ep7 (☺️❤️)"
 
   '@antonioamaraljunior_':
-    rel: família Amaral (provável)
+    rel: primo (família Amaral)
     name: Antonio Junior
     side: lado Amaral (do Dr)
     tone: familiar-afetuoso
     notes: |
-      Sobrenome Amaral Junior. Provavelmente parente do lado paterno.
-      Já comentou ads dark do Dr ("a água da DaVita ta suplementadaaaaaa"
-      na Rota MTB Catedrais).
-    last: "2026-05-13 - reply em GLP1 Ep7 (☺️❤️)"
+      Primo do lado Amaral. Engaja com tom efusivo
+      ("médico mais completo e competente do Paraná"). Comentou Rota MTB,
+      GLP1 Ep7, 6K — recorrente.
+      NÃO inventar nome de esposa/filhos (aluciei "Lú" em 18/05).
+    last: "2026-05-18 - reply Reel 6K ('Valeu demais, primo. Carinho de família pesa diferente.')"
 
   'Noraci Amaral (FB)':
     platform: facebook
@@ -727,3 +764,62 @@ contacts:
       Draft A pronto, draft C pronto (ver session 2026-05-13).
     last: "2026-05-13 - identificada, decisão wait&monitor"
     next_check: "2026-05-20 (1 semana)"
+
+  # ============================================
+  # PACIENTES POTENCIAIS / SEGUIDORES NOVOS (2026-05-17)
+  # ============================================
+
+  '@simone_vieira_1810':
+    rel: seguidora / paciente potencial
+    tone: clínico-respeitoso
+    notes: |
+      Perguntou em comment do Reel GLP-1 ep2 (17/05/2026): "tenho rins policístico
+      qual o melhor tratamento". Caso clínico de doença renal policística.
+      Resposta detalhada cobriu os 4 pilares (pressão, hidratação, Tolvaptan,
+      acompanhamento nefro).
+    last: "2026-05-17 - reply Reel GLP-1 ep2 (tratamento rim policístico)"
+
+  '@ceciliavalverde26':
+    rel: paciente potencial (DM)
+    tone: clínico-respeitoso
+    platform: instagram-dm-manual-only
+    notes: |
+      Enviou DM (17/05/2026) querendo iniciar tirzepatida. Tem filho de 3 anos com
+      enurese noturna - achava que era contraindicação (não é). Tentou dieta/exercício
+      sem resultado, exames normais.
+      MANUAL-ONLY FOREVER: janela Composio queimada (subcode 2534022 confirmado
+      18/05). Ver [[responder_insta_message_requests_first]].
+    last: "2026-05-18 - DM enviada manual (tirzepatida + checklist pré-início + amamentação)"
+
+  '@geancarloo':
+    rel: seguidor com perfil treino
+    name: "(não confirmado)"
+    tone: clínico-respeitoso direto
+    notes: |
+      Perguntou em comment do Reel 6K (18/05) sobre ganho de massa sem
+      anabolizante — "Como alcançar o meu máximo sem precisar entrar nesse caminho."
+      Perfil de quem treina, interesse técnico. Sugestão de pauta.
+    last: "2026-05-18 - reply Reel 6K (4 alavancas + creatina + teto genético, ~1130 chars)"
+
+  '@nitomazella':
+    rel: seguidor recorrente
+    name: "(não confirmado)"
+    tone: profissional-caloroso descontraído
+    notes: |
+      Seguidor recorrente. Troca DMs informais ("Olha esse modelo de caixa")
+      compartilhando referências visuais/produtos. Provavelmente alguém de produção/design.
+      Comments curtos em vários Reels.
+    last: "2026-05-18 - reply Reel Proteína ('Muito bom!!!' → ☺️❤️)"
+
+  '@salaoespacodellas11':
+    rel: paciente em tratamento (DM)
+    tone: clínico-respeitoso
+    platform: instagram-dm-manual-only
+    notes: |
+      DM (16/05/2026): iniciou Mounjaro segunda-feira em dose baixa, quer pular
+      a 2ª aplicação. Já tem médica acompanhando.
+      MANUAL-ONLY FOREVER: janela Composio queimada (subcode 2534022 confirmado
+      18/05). Direcionada de volta à médica dela.
+      Ver [[responder_insta_message_requests_first]].
+    last: "2026-05-18 - DM enviada manual (não pular dose, conversar com médica)"
+
