@@ -3,14 +3,19 @@ import { notFound } from 'next/navigation';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Breadcrumbs } from '@/components/layout/breadcrumbs';
 import { MdxContent } from '@/components/blog/mdx-content';
-import { getAllLectures, getLecture, getAudienceLabel, localizedLecture, sortAudience } from '@/lib/lectures';
+import { getAllLectures, getLecture, getAudienceLabel, lectureSlug, localizedLecture, sortAudience } from '@/lib/lectures';
 import { LectureSchema } from '@/components/seo/lecture-schema';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 import { EducationalNotice } from '@/components/legal/educational-notice';
 
 export async function generateStaticParams() {
   const lectures = await getAllLectures();
-  return lectures.map((l) => ({ slug: l.slug }));
+  const slugs = new Set<string>();
+  for (const l of lectures) {
+    slugs.add(l.slug);
+    if (l.slugEn) slugs.add(l.slugEn);
+  }
+  return [...slugs].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -22,13 +27,15 @@ export async function generateMetadata({
   const lecture = await getLecture(slug);
   if (!lecture) return {};
   const loc = localizedLecture(lecture, locale);
-  const url = locale === 'en' ? `/en/lectures/${slug}` : `/palestras/${slug}`;
+  const slugPt = lecture.slug;
+  const slugEn = lecture.slugEn ?? lecture.slug;
+  const url = locale === 'en' ? `/en/lectures/${slugEn}` : `/palestras/${slugPt}`;
   return {
     title: loc.title,
     description: loc.excerpt,
     alternates: {
       canonical: url,
-      languages: { 'pt-BR': `/palestras/${slug}`, pt: `/palestras/${slug}`, en: `/en/lectures/${slug}` },
+      languages: { 'pt-BR': `/palestras/${slugPt}`, pt: `/palestras/${slugPt}`, en: `/en/lectures/${slugEn}` },
     },
     openGraph: {
       type: 'article',
@@ -55,6 +62,9 @@ export default async function LecturePage({
   setRequestLocale(locale);
   const lecture = await getLecture(slug);
   if (!lecture) notFound();
+  // Slug deve corresponder ao locale: PT só serve l.slug; EN serve l.slugEn (ou l.slug se ausente).
+  const expectedSlug = lectureSlug(lecture, locale);
+  if (slug !== expectedSlug) notFound();
   const t = await getTranslations({ locale, namespace: 'palestras' });
   const loc = localizedLecture(lecture, locale);
   const subjectPrefix = t('emailSubjectPrefix');

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
-import { getAllLectures, getAudienceLabel, localizedLecture, sortAudience } from '@/lib/lectures';
+import { getAllLectures, getAudienceLabel, lectureSlug, localizedLecture, sortAudience } from '@/lib/lectures';
 import { EducationalNotice } from '@/components/legal/educational-notice';
 import { BreadcrumbSchema } from '@/components/seo/breadcrumb-schema';
 
@@ -68,7 +68,7 @@ export default async function PalestrasPage({
             return (
               <li key={l.slug} className="border-b border-rule">
                 <Link
-                  href={{ pathname: '/palestras/[slug]', params: { slug: l.slug } }}
+                  href={{ pathname: '/palestras/[slug]', params: { slug: lectureSlug(l, locale) } }}
                   className="block py-10 grid md:grid-cols-[1fr_280px] gap-8 group"
                 >
                   <div className="space-y-4">

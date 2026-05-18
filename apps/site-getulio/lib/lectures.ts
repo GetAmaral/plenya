@@ -33,6 +33,7 @@ const lectureSchema = z.object({
   order: z.number().default(99),
   anchor: z.boolean().default(false),
   // Campos EN opcionais — fallback automático pra PT quando ausentes.
+  slugEn: z.string().optional(),
   titleEn: z.string().optional(),
   subtitleEn: z.string().optional(),
   excerptEn: z.string().optional(),
@@ -86,7 +87,14 @@ export async function getAllLectures(): Promise<Lecture[]> {
 
 export async function getLecture(slug: string): Promise<Lecture | null> {
   const all = await getAllLectures();
-  return all.find((l) => l.slug === slug) ?? null;
+  return all.find((l) => l.slug === slug || l.slugEn === slug) ?? null;
+}
+
+/**
+ * Retorna o slug correto pro locale (slugEn em EN se definido; fallback pra slug PT).
+ */
+export function lectureSlug(l: Pick<Lecture, 'slug' | 'slugEn'>, locale: string): string {
+  return locale === 'en' && l.slugEn ? l.slugEn : l.slug;
 }
 
 /**

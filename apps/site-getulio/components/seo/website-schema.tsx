@@ -1,14 +1,7 @@
-/**
- * WebSite schema com SearchAction apontando para a listagem de artigos.
- * Habilita sitelinks searchbox do Google quando aplicável.
- */
 const BASE = 'https://drgetulioamaralfilho.com.br';
 
 export function WebSiteSchema({ locale = 'pt' }: { locale?: string } = {}) {
   const isEn = locale === 'en';
-  const searchUrl = isEn
-    ? `${BASE}/en/articles?q={search_term_string}`
-    : `${BASE}/artigos?q={search_term_string}`;
   const data = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -20,14 +13,6 @@ export function WebSiteSchema({ locale = 'pt' }: { locale?: string } = {}) {
       : 'Medicina guiada por raciocínio clínico — nefrologista, professor, autor.',
     inLanguage: isEn ? 'en' : 'pt-BR',
     publisher: { '@id': `${BASE}/#person` },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: searchUrl,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   };
   return (
     <script

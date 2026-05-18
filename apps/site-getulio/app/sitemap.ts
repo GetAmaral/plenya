@@ -89,8 +89,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const lectures = await getAllLectures();
   const lectureEntries: MetadataRoute.Sitemap = lectures.map((l) => {
+    const slugEn = l.slugEn ?? l.slug;
     const pathPt = `/palestras/${l.slug}`;
-    const pathEn = `/lectures/${l.slug}`;
+    const pathEn = `/lectures/${slugEn}`;
     return {
       url: ptUrl(pathPt),
       lastModified: now,

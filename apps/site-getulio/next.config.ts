@@ -76,6 +76,62 @@ const nextConfig: NextConfig = {
         destination: '/en/articles/supplementation-after-40-what-makes-a-difference',
         permanent: true,
       },
+
+      // Slug EN dedicado pra palestra "Janela Silenciosa" (era servida com slug PT em /en/)
+      {
+        source: '/en/lectures/janela-silenciosa',
+        destination: '/en/lectures/silent-window',
+        permanent: true,
+      },
+
+      // 2026-05-18: Slugs EN servidos historicamente sob /artigos/ (path PT) → /en/articles/
+      {
+        source: '/artigos/the-inverted-pyramid-of-longevity',
+        destination: '/en/articles/the-inverted-pyramid-of-longevity',
+        permanent: true,
+      },
+      {
+        source: '/artigos/lipoprotein-a-the-test-your-cardiologist-didnt-order',
+        destination: '/en/articles/lipoprotein-a-the-test-your-cardiologist-didnt-order',
+        permanent: true,
+      },
+      {
+        source: '/artigos/meditation-that-works-in-8-minutes',
+        destination: '/en/articles/meditation-that-works-in-8-minutes',
+        permanent: true,
+      },
+      {
+        source: '/artigos/ferritin-30-to-100-the-normality-that-drains-women',
+        destination: '/en/articles/ferritin-30-to-100-the-normality-that-drains-women',
+        permanent: true,
+      },
+      {
+        source: '/artigos/supplementation-after-40-what-makes-a-difference',
+        destination: '/en/articles/supplementation-after-40-what-makes-a-difference',
+        permanent: true,
+      },
+      {
+        source: '/artigos/what-the-annual-checkup-doesnt-show-about-your-heart',
+        destination: '/en/articles/what-the-annual-checkup-doesnt-show-about-your-heart',
+        permanent: true,
+      },
+      {
+        source: '/artigos/normal-vs-optimal',
+        destination: '/en/articles/normal-vs-optimal',
+        permanent: true,
+      },
+      // 2026-05-18: variante antiga do "12-tests" sob /artigos/ (path PT) → versão renomeada em /en/
+      {
+        source: '/artigos/12-tests-worth-every-penny-and-12-that-are-wasted',
+        destination: '/en/articles/12-tests-a-longevity-checkup-orders',
+        permanent: true,
+      },
+      // 2026-05-18: slug PT sob /en/articles/ → slug EN traduzido
+      {
+        source: '/en/articles/quatro-profissionais-falando-a-mesma-lingua',
+        destination: '/en/articles/four-professionals-speaking-the-same-language',
+        permanent: true,
+      },
     ];
   },
 };
