@@ -278,7 +278,7 @@ function getMonitored(
   t: (key: string) => string,
   n: number,
 ): string[] {
-  const counts: Record<number, number> = { 1: 4, 2: 5, 3: 5, 4: 4 };
+  const counts: Record<number, number> = { 1: 4, 2: 7, 3: 5, 4: 4 };
   const max = counts[n] ?? 4;
   return Array.from({ length: max }, (_, i) => t(`p${n}M${i + 1}`));
 }
