@@ -946,58 +946,88 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 16 — PARA QUEM NÃO É · 3 razões
+     SLIDE 16 — PARA QUEM NÃO É · VARIANTE C (mirror invertido — image LEFT, text RIGHT)
      ============================================================ -->
 <section class="slide slide--deep" id="s16">
-  <div class="slide-content">
-    <span class="eyebrow" style="margin-bottom: 32px;">Honestidade</span>
-    <h2 class="h1" style="margin-bottom: 24px;">Para quem o Continuum <em class="gold">não</em> é.</h2>
-    <p class="subhead" style="margin-bottom: 96px; max-width: 1400px;">
-      Quanto mais cedo a gente alinha expectativa, melhor o cuidado funciona.
+  <!-- Image hero LEFT side (50%) — imagem quadrada 1254×1254, cover fecha sem faixas -->
+  <div style="position: absolute; top: 0; left: 0; bottom: 0; width: 50%; z-index: 0; overflow: hidden;">
+    <img src="../../../docs/decks/_assets/Slide16.PNG" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: center center;">
+    <!-- Soft fade from image to petrol on the right edge for seamless blend with text panel -->
+    <div style="position: absolute; top: 0; bottom: 0; right: 0; width: 100px; background: linear-gradient(270deg, var(--petrol-deep) 0%, rgba(4,31,42,0.3) 60%, transparent 100%);"></div>
+  </div>
+
+  <!-- Brand mark top-right (mirror of usual TL position because text is now on right) -->
+  <div style="position: absolute; top: 72px; right: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
+    <span style="font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.34em; color: var(--cream); opacity: 0.85; text-transform: uppercase;">Continuum Plenya</span>
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
+  </div>
+  <!-- Eyebrow top-left (mirror) -->
+  <div style="position: absolute; top: 78px; left: 96px; z-index: 3; font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">Honestidade</div>
+  <!-- Page mark bottom-left (mirror) -->
+  <div style="position: absolute; bottom: 40px; left: 96px; z-index: 3;">
+    <span style="font-family: var(--serif); font-size: 18px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">16 / 19</span>
+  </div>
+
+  <!-- Text panel RIGHT (50%) -->
+  <div style="position: absolute; top: 150px; right: 96px; width: 820px; z-index: 2;">
+
+    <h2 style="font-family: var(--serif-display); font-weight: 500; font-size: 56px; line-height: 1.08; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 20px;">
+      Para quem o Continuum <em style="font-style: italic; color: var(--gold);">não</em> é<span style="color: var(--gold);">.</span>
+    </h2>
+
+    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 22px; line-height: 1.35; color: var(--gold-soft); margin-bottom: 56px; letter-spacing: -0.005em; max-width: 720px;">
+      Quanto mais cedo a gente alinha expectativa, melhor o cuidado funciona, e o tempo de quem ainda nem chegou.
     </p>
 
-    <div class="grid-3" style="gap: 64px;">
-      <div class="card">
-        <!-- Ícone: relógio rápido (busca pontual) -->
-        <div style="width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; margin-bottom: 32px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-            <polyline points="12 7 12 12 15 14"/>
-          </svg>
+    <!-- 3 razões em coluna -->
+    <div style="display: flex; flex-direction: column;">
+
+      <!-- I -->
+      <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 24px 0; border-bottom: 1px solid rgba(179,134,69,0.28);">
+        <div style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 28px; line-height: 1; color: var(--gold-soft); padding-top: 6px;">I</div>
+        <div>
+          <h3 style="font-family: var(--serif-display); font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.015em; color: var(--cream); margin-bottom: 10px;">
+            Quem busca solução pontual.
+          </h3>
+          <p style="font-family: var(--serif); font-weight: 400; font-size: 18px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+            Um sintoma agudo, uma dúvida específica, um exame para interpretar, isso resolve em uma Consulta Plenya. O Continuum é compromisso de seis ou doze meses.
+          </p>
         </div>
-        <h4 class="h4" style="margin-bottom: 20px; font-size: 28px; line-height: 1.2;">Quem busca solução pontual.</h4>
-        <p class="body" style="color: var(--sage); font-size: 17px;">Sintoma agudo, dúvida específica, exame para interpretar — isso resolve em uma Consulta Plenya. O Continuum é compromisso de seis ou doze meses.</p>
       </div>
-      <div class="card">
-        <!-- Ícone: pausa (não quer mudar) -->
-        <div style="width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; margin-bottom: 32px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/>
-            <line x1="10" y1="15" x2="10" y2="9"/>
-            <line x1="14" y1="15" x2="14" y2="9"/>
-          </svg>
+
+      <!-- II -->
+      <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 24px 0; border-bottom: 1px solid rgba(179,134,69,0.28);">
+        <div style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 28px; line-height: 1; color: var(--gold-soft); padding-top: 6px;">II</div>
+        <div>
+          <h3 style="font-family: var(--serif-display); font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.015em; color: var(--cream); margin-bottom: 10px;">
+            Quem não quer mudar nada.
+          </h3>
+          <p style="font-family: var(--serif); font-weight: 400; font-size: 18px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+            O Continuum não muda o que você não quiser mudar. Mas também não funciona se a vontade não está. A equipe propõe, devolve dado, ajusta junto. Você executa.
+          </p>
         </div>
-        <h4 class="h4" style="margin-bottom: 20px; font-size: 28px; line-height: 1.2;">Quem não quer mudar nada.</h4>
-        <p class="body" style="color: var(--sage); font-size: 17px;">O programa não muda o que você não quiser mudar. Mas também não funciona se a vontade não está. A equipe propõe, devolve dado, ajusta junto. Você executa.</p>
       </div>
-      <div class="card">
-        <!-- Ícone: alerta (precisa pronto-atendimento) -->
-        <div style="width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; margin-bottom: 32px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B38645" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
-            <path d="M12 9v4"/>
-            <circle cx="12" cy="17" r="0.5" fill="#B38645"/>
-          </svg>
+
+      <!-- III -->
+      <div style="display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 24px 0;">
+        <div style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 28px; line-height: 1; color: var(--gold-soft); padding-top: 6px;">III</div>
+        <div>
+          <h3 style="font-family: var(--serif-display); font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.015em; color: var(--cream); margin-bottom: 10px;">
+            Quem precisa de pronto-atendimento.
+          </h3>
+          <p style="font-family: var(--serif); font-weight: 400; font-size: 18px; line-height: 1.5; color: var(--sage); opacity: 0.92;">
+            Não somos urgência. O grupo de WhatsApp atende dúvidas em horário comercial, não substitui pronto-socorro nem ambulatório de plantão.
+          </p>
         </div>
-        <h4 class="h4" style="margin-bottom: 20px; font-size: 28px; line-height: 1.2;">Quem precisa de pronto-atendimento.</h4>
-        <p class="body" style="color: var(--sage); font-size: 17px;">Não somos urgência. O grupo de WhatsApp atende dúvidas em horário comercial — não substitui pronto-socorro nem ambulatório de plantão.</p>
       </div>
+
     </div>
-  </div>
-  <div class="slide-footer">
-    <span class="brand">PLENYA</span>
-    <span class="program">CONTINUUM · PROGRAMA DE ACOMPANHAMENTO CONTÍNUO</span>
-    <span class="pagenum">16 · 19</span>
+
+    <!-- Closer editorial italic gold-soft -->
+    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 20px; line-height: 1.4; color: var(--gold-soft); margin-top: 40px; letter-spacing: -0.005em; opacity: 0.92; max-width: 720px;">
+      Dizer não com clareza é parte do cuidado.
+    </p>
+
   </div>
 </section>
 

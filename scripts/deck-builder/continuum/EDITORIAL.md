@@ -184,7 +184,8 @@ ACT VI · CTA (19) — ainda não migrado
 | **13** | ✅ FINAL | JORNADA · Slide13.PNG (Marfa-style stepping stones em dawn landscape) + headline "Do tempo zero ao próximo horizonte." em **dark petrol** sobre image clara + 6 etapas ascendentes EM BULLETS (Semana 1 · Semana 2 · Semanas seguintes · Entre encontros (Box+WhatsApp) · A cada três meses · Final do ciclo). Cada etapa: tag + título serif-display 26px + 3 bullets com · gold. Boxes ascendem em altura (bottom 50→250) acompanhando blocos da imagem. Hairlines verticais entre. |
 | **14** | ✅ FINAL | BOX PLENYA · split 50/50 (texto esquerda · imagem direita) + Slide14.PNG (box petrol aberto com PLENYA gold foil + 3 frascos amber labels "PLENYA" + pouch linho + caneca cream "P" + bilhete dobrado laço gold, sobre wenge wood com luz lateral tungstênio — família visual slide 7). Eyebrow "O Box" top-right gold-soft. Headline "O cuidado chega em forma de objeto." 76px cream. Subhead italic gold "A ponte entre os encontros." Body: curadoria material + ritmo do plano. Closer italic gold-soft "O Continuum acontece também entre as videochamadas." |
 | **15** | ✅ FINAL | PARA QUEM É · pure typography 2 col × 3 rows · canonical 100% do site (`forWhomTitle` + `forWhomDesc` + `fw1-fw6` Title+Body). Headline "O Continuum Plenya não é para todo mundo." 64px cream centralizado. Subhead italic gold-soft "É para quem reconhece um destes momentos." 6 perfis com numeral romano I-VI + título serif-display 30px + body sage 20px. Hairlines verticais à esquerda de cada card (indentação stanza). Closer italic gold-soft "Não como diagnóstico, como o ponto da vida em que faz sentido construir saúde no tempo, em conjunto, com método." Refinamentos canonical propagados pro site (pt+en): "Carrega mais do que a si mesmo" (era "do que si mesmo"), "Saúde virou alicerce" (era "variável crítica" — MBA-feel removido), "Sono, humor, corpo: algo está mudando" (vírgula → dois pontos). Deck-only divergência: body I sem "a pele perde viço" (uniformidade visual). |
-| 16-19 | ❌ NÃO MIGRADOS | Ainda no sistema antigo (sans/Inter, footer, rules) |
+| **16** | ✅ FINAL | PARA QUEM NÃO É · split 50/50 INVERTIDO (imagem ESQUERDA · texto DIREITA) + Slide16.PNG (limiar arquitetônico petrol com horizonte ao amanhecer e banda gold no horizonte + sea + reflexo gold no piso de concreto — Hiroshi Sugimoto stillness + Brazilian Atlantic coast). Imagem quadrada 1254×1254, object-fit cover. Chrome ESPELHADO: brand mark top-RIGHT, eyebrow "Honestidade" top-LEFT, page mark bottom-LEFT. Headline 56px cream "Para quem o Continuum não é." com "não" italic gold. Subhead italic gold-soft "Quanto mais cedo a gente alinha expectativa, melhor o cuidado funciona, e o tempo de quem ainda nem chegou." (canonical site). 3 razões com romanos I/II/III + título 26px + body 18px (notForT1-3 + notForB1-3 canonical). Closer editorial italic gold-soft "Dizer não com clareza é parte do cuidado." (frase nova, ancora desqualificação como valor). Decisão de assimetria proposital vs slide 15 (Aman/Cucinelli pattern: quiet luxury não declara rejeição) baseada em pesquisa research-agent. |
+| 17-19 | ❌ NÃO MIGRADOS | Ainda no sistema antigo (sans/Inter, footer, rules) |
 
 ---
 
@@ -375,7 +376,29 @@ Infra: nginx container no docker `coolify` network + Traefik + Lets Encrypt
 
 ### Próximo trabalho: migrar slides 10-19 do sistema antigo (sans/Inter/footer/rules) pro sistema premium (serif Cormorant + Fraunces, sem rules, sem footer genérico, paleta petrol+gold+sage).
 
-### Próximo trabalho: migrar slides 16-19
+### Próximo trabalho: migrar slides 17-19
+
+- **17 · COMPARATIVO** — Consulta avulsa vs Continuum (2-col typography).
+- **18 · COMPROMISSO** — Semestral / Anual (relógios SVG circulares preservar).
+- **19 · CTA FECHAMENTO** — Símbolo + wordmark + "Viva bem, viva mais."
+
+### Lições aprendidas (sessão 2026-05-17, slides 14-16)
+
+1. **Imagens portrait 9:16 quebram em containers ~8:9** (50% slide width × full height). Pedir imagens **quadradas** (1024×1024 ou 1254×1254) pra slides com 50% split — `object-fit: cover` funciona sem cortar topo/chão.
+
+2. **Asymmetric design (slide 15 vs 16) > mirror simétrico** — pesquisa em decks world-class (Aman/Cucinelli/Loro Piana) confirmou que quiet luxury opera por **restrição estrutural**, não rejeição declarada. Aplicado: slide 15 (mundo populado, 6 perfis pure typo) + slide 16 (limiar, 3 razões + imagem atmosférica). Dois eixos de contraste em vez de um.
+
+3. **Hormozi/Brunson DR padrão (mirror "for/not for" + X/check) NÃO traduz pra BR mid-50s alto patrimônio** — lê como manipulação de funil. Evitar.
+
+4. **Variant test workflow funciona** — quando user pede pra ver 2-3 opções de layout, renderizar cada uma como `slide-NN-variantX.png`, mandar lado-a-lado, deixar user escolher. Faster que descrever em prosa.
+
+5. **Image gen prompts long-form (Aman/Brunello references) > short prompts** — 200-400 word prompts com aesthetic refs + lighting specs + material specs + composition specs entregam Sugimoto-tier results. Short prompts entregam stock photo.
+
+6. **Chrome espelhado funciona** — quando texto vai pra direita do slide (slide 16), brand mark vai TR, eyebrow TL, page mark BL. Quebra a previsibilidade do TL-TR-BR padrão.
+
+7. **Closer editorial novo (não-canonical) é OK quando ancora valor da marca** — "Dizer não com clareza é parte do cuidado." (slide 16) não está no site, mas reforça a dignidade do gesto de desqualificar. Editorial > paridade aqui.
+
+8. **Tamanho da imagem source importa** — primeiro Slide16.PNG era 9:16 portrait, ficou cortado com cover. User regerou 1254×1254 quadrada. **Padrão pra slides 50/50: pedir source quadrado.**
 - **16 · PARA QUEM NÃO É** — 3 razões com SVG icons (REMOVER ICONS na migração).
 - **17 · COMPARATIVO** — Consulta avulsa vs Continuum (2-col typography).
 - **18 · COMPROMISSO** — Semestral / Anual (relógios SVG circulares preservar).
