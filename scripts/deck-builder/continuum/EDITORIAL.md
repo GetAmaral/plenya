@@ -1,7 +1,7 @@
 # Continuum Plenya · Editorial Line & Status
 
 > **Reload this file at session start** to restore deck context.
-> Last update: 2026-05-17 (slides 10-13 finalizados · padrão premium consolidado)
+> Last update: 2026-05-17 (slides 14-16 finalizados · próximo: slide 17 comparativo)
 
 ---
 
@@ -378,9 +378,47 @@ Infra: nginx container no docker `coolify` network + Traefik + Lets Encrypt
 
 ### Próximo trabalho: migrar slides 17-19
 
-- **17 · COMPARATIVO** — Consulta avulsa vs Continuum (2-col typography).
-- **18 · COMPROMISSO** — Semestral / Anual (relógios SVG circulares preservar).
-- **19 · CTA FECHAMENTO** — Símbolo + wordmark + "Viva bem, viva mais."
+#### 17 · COMPARATIVO (próximo na fila)
+
+**O que tem hoje** (linhas ~1007-1122 do deck.html, ainda sistema antigo):
+- Eyebrow `O contexto da decisão`
+- Headline 72px "Para uma dúvida pontual *ou* para construção no tempo?"
+- 2 colunas lado-a-lado (1fr 1fr, gap 56px):
+  - Esquerda CONSULTA PLENYA · "Uma leitura clínica." · 4 bullets com — sage
+  - Direita CONTINUUM PLENYA · "Uma trajetória clínica." · 4 bullets com + gold (destacado)
+- Frase fechamento: "Se você ainda está em dúvida, comece pela Consulta. *O Continuum é pra quem já decidiu o caminho.*"
+- Footer antigo (banir)
+
+**O que migrar:**
+1. Remover `slide-footer` + adicionar chrome novo (brand TL · eyebrow TR `O contexto` · page mark BR 17/19)
+2. Trocar `font-family: var(--sans)` → serif Cormorant em todo body
+3. Bullets `—` e `+` ficam (forte assimetria visual entre colunas)
+4. Body size 17px → 20-22px (piso 18px)
+5. Headline 72px serif-display funciona — manter
+
+**Decisão de layout (a tomar):** comparativos PEDEM simetria (não como slide 15/16 que era qualificação/desqualificação). Mas pode ter assimetria visual sutil dentro da simetria estrutural — coluna direita (Continuum) marcada com border-top gold mais espesso, body cream cheio; esquerda com border sage mais sutil, body sage 80% opacity. **Pattern McKinsey/Bain matriz comparativa.**
+
+**Copy site (não tem comparativo direto):** o slide inventa structure. Site tem `consultTitle/consultDesc` (linha 57 pt.json) + `continuumP2` (116) que descrevem cada um separadamente. **Não há canonical de comparativo. Deck pode inventar.**
+
+**Considerações:**
+- Slide 17 vem DEPOIS de slides 15-16 (qualificação + desqualificação). É a hora de revelar a alternativa Consulta como "menor compromisso", não como pior produto. Tom: oferecer caminho intermediário com dignidade.
+- Frase fechamento atual é POTENTE — "O Continuum é pra quem já decidiu o caminho." Manter.
+
+#### 18 · COMPROMISSO
+
+**O que tem hoje:** relógios SVG circulares (semestral 6 dots, anual 12 dots). Preservar SVG.
+
+**O que migrar:** chrome novo, serif, sem footer. Manter visual dos relógios — é único no deck.
+
+**Decisão pendente:** apresentar PREÇO? Memory diz NUNCA. Verificar com user. Provável: NÃO citar preço, citar compromisso temporal (6 ou 12 meses) + frequência (encontro semanal, reavaliação trimestral, fechamento estruturado).
+
+#### 19 · CTA FECHAMENTO
+
+**O que tem hoje:** placeholder.
+
+**O que fazer:** símbolo Plenya gold (use `apps/site/public/brand/symbol/gold.png`) centralizado grande + wordmark CONTINUUM PLENYA serif caps + claim master "Viva bem, viva mais." gold italic. CTA específico (canal de triagem? WhatsApp? site?) — perguntar user.
+
+**Família visual sugerida:** slide cerimonial like slide 5 (corredor reveal) mas vazio — só símbolo + tipografia + petrol-deep. Apple title-slide style. SEM chrome (omitir brand mark TL + eyebrow + page mark — slide cerimonial pure).
 
 ### Lições aprendidas (sessão 2026-05-17, slides 14-16)
 
