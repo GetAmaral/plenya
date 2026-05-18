@@ -161,8 +161,11 @@ def publish_post(entry: dict, author: str, token: str) -> tuple[bool, str | None
 
 # ─── QUEUE STATE ──────────────────────────────────────────────────────────────
 
-def parse_iso(s: str) -> datetime:
-    # accept "YYYY-MM-DD HH:MM:SS-03:00" or "YYYY-MM-DDTHH:MM:SS-03:00"
+def parse_iso(s) -> datetime:
+    # accept datetime (YAML auto-parses unquoted timestamps),
+    # "YYYY-MM-DD HH:MM:SS-03:00", or "YYYY-MM-DDTHH:MM:SS-03:00"
+    if isinstance(s, datetime):
+        return s
     s = s.replace(" ", "T", 1) if "T" not in s else s
     return datetime.fromisoformat(s)
 

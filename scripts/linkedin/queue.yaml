@@ -1,94 +1,1896 @@
-# LinkedIn publishing queue — Dr. Getúlio
-#
-# State file consumed by publisher.py (cron) and /linkedin-week skill.
-# Versionado no repo. Não contém segredos (token mora em .env).
-#
-# Workflow:
-#   1. Skill /linkedin-week (semanal): pega próximos N posts em status=draft,
-#      gera commentary, define scheduled_at, marca status=approved.
-#   2. publisher.py (cron, a cada 15min): pega posts com
-#      status=approved AND scheduled_at <= now, publica via LinkedIn API,
-#      marca status=published + grava post_urn.
-
 config:
   cadence:
-    days: [Tue, Wed, Thu]      # warmup pode usar 2/sem (Ter+Qui), depois 3/sem
-    time: "07:30"
+    days:
+    - Tue
+    - Wed
+    - Thu
+    time: 07:30
     timezone: America/Sao_Paulo
   visibility: PUBLIC
   source_blog_dir: apps/site-getulio/content/blog/pt
-  images_dir: apps/site/public/images/blog       # figuras dos posts ficam aqui
-
-# Ordenação por bloco — manifesto → exames → síndromes → método.
-# Razão: maximizar reach inicial com conceitos âncora antes de aprofundar.
-
+  images_dir: apps/site/public/images/blog
 posts:
-  # ─── BLOCO 1 — Manifesto + assinatura conceitual ───────────────────────
-  - slug: janela-silenciosa-introducao
-    block: 1
-    order: 1
-    status: published
-    scheduled_at: "2026-05-12 16:00:00-03:00"
-    published_at: "2026-05-12 16:00:00-03:00"
-    post_urn: urn:li:share:7460042081005182978
-    commentary: |
-      O laboratório diz "normal". O corpo diz: estou adoecendo há oito anos e ninguém está olhando.
+- slug: janela-silenciosa-introducao
+  block: 1
+  order: 1
+  status: published
+  scheduled_at: '2026-05-12 16:00:00-03:00'
+  published_at: '2026-05-12 16:00:00-03:00'
+  post_urn: urn:li:share:7460042081005182978
+  commentary: 'O laboratório diz "normal". O corpo diz: estou adoecendo há oito anos e ninguém está olhando.
 
-      Vinte anos entre enfermaria, hemodiálise, terapia intensiva e ambulatório me ensinaram a desconfiar dessa palavra.
 
-      A faixa "normal" do exame foi construída para flagrar doença instalada — não para sustentar saúde plena. Entre o que o laboratório consegue chamar de doença e o que o corpo consegue como condição ótima existe um intervalo de dez a vinte anos em que tudo acontece em silêncio.
+    Vinte anos entre enfermaria, hemodiálise, terapia intensiva e ambulatório me ensinaram a desconfiar dessa palavra.
 
-      Insulina de jejum em 22: normal. Ferritina em 38: normal. ApoB em 110: normal.
 
-      Cada um desses números, "normais" no laudo, representa um corpo já em rota de doença. Reler exames sob a lente do ótimo não exige aparelho novo. Exige outra pergunta.
+    A faixa "normal" do exame foi construída para flagrar doença instalada, não para sustentar saúde plena. Entre o que o
+    laboratório consegue chamar de doença e o que o corpo consegue como condição ótima existe um intervalo de dez a vinte
+    anos em que tudo acontece em silêncio.
 
-      Foi para essa pergunta que escrevi Antes — e é essa pergunta que conduzo na Plenya, em Londrina, com equipe multidisciplinar e leitura clínica longitudinal.
 
-      A diferença entre intervir agora e intervir depois do diagnóstico é a diferença entre construir longevidade e administrar morbidade.
+    Insulina de jejum em 22: normal. Ferritina em 38: normal. ApoB em 110: normal.
 
-      Aprendi isso da forma mais dura — vendo rim destruído quando a janela já tinha fechado.
 
-      Começa antes.
+    Cada um desses números, "normais" no laudo, representa um corpo já em rota de doença. Reler exames sob a lente do ótimo
+    não exige aparelho novo. Exige outra pergunta.
 
-      📕 Antes — em português (paperback e Kindle) e em inglês.
-    image_path: apps/site/public/images/blog/normal-versus-otimo/figura-1.webp
-    image_title: "Normal vs Ótimo — Insulina de jejum"
 
-  - { slug: normal-versus-otimo, block: 1, order: 2, status: draft }
-  - { slug: piramide-invertida-da-longevidade, block: 1, order: 3, status: draft }
-  - { slug: medicina-2-vs-3, block: 1, order: 4, status: draft }
-  - { slug: healthspan-vs-lifespan-comprimir-a-morbidade, block: 1, order: 5, status: draft }
-  - { slug: quando-tudo-normal-nao-basta, block: 1, order: 6, status: draft }
-  - { slug: cardio-reno-metabolico, block: 1, order: 7, status: draft }
-  - { slug: quatro-assassinos-silenciosos-depois-dos-40, block: 1, order: 8, status: draft }
-  - { slug: metodo-agir-introducao, block: 1, order: 9, status: draft }
+    Foi para essa pergunta que escrevi Antes. É a pergunta que conduzo na Plenya, em Londrina, com equipe multidisciplinar
+    e leitura clínica longitudinal.
 
-  # ─── BLOCO 2 — Exames específicos ──────────────────────────────────────
-  - { slug: escore-de-calcio-coronariano-o-exame-que-muda-uma-decada, block: 2, order: 10, status: draft }
-  - { slug: lipoproteina-a-exame-que-cardiologista-nao-pediu, block: 2, order: 11, status: draft }
-  - { slug: ferritina-30-a-100-normalidade-que-esgota-mulheres, block: 2, order: 12, status: draft }
-  - { slug: 12-exames-que-valem-cada-centavo-e-12-que-sao-desperdicio, block: 2, order: 13, status: draft }
-  - { slug: o-que-o-checkup-anual-nao-mostra-sobre-o-coracao, block: 2, order: 14, status: draft }
-  - { slug: hrv-variabilidade-cardiaca-termometro-do-sistema-nervoso, block: 2, order: 15, status: draft }
-  - { slug: apneia-em-quem-nao-ronca-forma-feminina-invisivel, block: 2, order: 16, status: draft }
-  - { slug: pre-diabetes-nao-e-fase-e-janela-de-5-anos, block: 2, order: 17, status: draft }
-  - { slug: proteina-meta-que-voce-nao-esta-atingindo, block: 2, order: 18, status: draft }
 
-  # ─── BLOCO 3 — Síndromes e condições ───────────────────────────────────
-  - { slug: cansaco-aos-45-nao-e-idade, block: 3, order: 19, status: draft }
-  - { slug: sono-que-nao-recupera, block: 3, order: 20, status: draft }
-  - { slug: burnout-nao-e-cansaco-resposta-neuroendocrina, block: 3, order: 21, status: draft }
-  - { slug: menopausa-precisa-de-equipe-nao-so-de-ginecologista, block: 3, order: 22, status: draft }
-  - { slug: sono-energia-longevidade, block: 3, order: 23, status: draft }
-  - { slug: jejum-intermitente-quem-se-beneficia-quem-se-prejudica, block: 3, order: 24, status: draft }
-  - { slug: alcool-e-sono-2-tacas-destroem-6-horas, block: 3, order: 25, status: draft }
-  - { slug: solidao-como-fator-de-risco-cardiovascular, block: 3, order: 26, status: draft }
-  - { slug: meditacao-que-funciona-em-8-minutos, block: 3, order: 27, status: draft }
+    A diferença entre intervir agora e intervir depois do diagnóstico é a diferença entre construir longevidade e administrar
+    morbidade.
 
-  # ─── BLOCO 4 — Método, treino e suplementação ──────────────────────────
-  - { slug: quatro-profissionais-falando-a-mesma-lingua, block: 4, order: 28, status: draft }
-  - { slug: exercicio-o-farmaco, block: 4, order: 29, status: draft }
-  - { slug: luz-da-manha-remedio-gratuito-que-reseta-metabolismo, block: 4, order: 30, status: draft }
-  - { slug: treinar-para-envelhecer-bem-zona-2-e-forca, block: 4, order: 31, status: draft }
-  - { slug: treinar-muito-e-envelhecer-errado, block: 4, order: 32, status: draft }
-  - { slug: suplementos-que-fazem-diferenca-depois-dos-40, block: 4, order: 33, status: draft }
+
+    Aprendi isso da forma mais dura: vendo rim destruído quando a janela já tinha fechado.
+
+
+    Começa antes.
+
+
+    📕 Antes, em português (paperback e Kindle) e em inglês.
+
+    '
+  image_path: apps/site/public/images/blog/janela-silenciosa-introducao/figura-1.webp
+  image_title: A Janela Silenciosa entre o normal e o ótimo
+- slug: normal-versus-otimo
+  block: 1
+  order: 2
+  status: published
+  scheduled_at: '2026-05-13 07:30:00-03:00'
+  commentary: 'A diferença entre uma insulina de jejum 8 e uma de 25 não é apenas gradação dentro da faixa normal: é um abismo
+    metabólico.
+
+
+    Ambas saem do laboratório com a mesma palavra carimbada: normal.
+
+
+    Recebo no consultório, semana após semana, pacientes com laudos cheios desse "normal", mas com corpos a poucos anos da
+    resistência insulínica clínica, esteatose, síndrome metabólica. Eles vieram dizer que está tudo certo. Vieram pedir uma
+    segunda leitura porque algo não fecha.
+
+
+    Petersen e colegas mostraram no NEJM em 2004 algo que demorei a digerir: filhos de diabéticos, com insulina ainda dentro
+    da faixa "normal", já apresentam disfunção mitocondrial intramuscular detectável. O dano metabólico precede o diagnóstico
+    em uma a duas décadas.
+
+
+    O mesmo padrão se repete em ApoB, hs-CRP, homocisteína, ferritina, vitamina D, TG/HDL. Em cada um existe uma faixa "normal"
+    (construída pra flagrar doença instalada) e uma faixa "ótima" (compatível com saúde plena). A distância entre as duas
+    é onde mora a janela silenciosa.
+
+
+    Reler exame sob a lente do ótimo não exige aparelho novo, nem laboratório caro. Exige outra pergunta.
+
+
+    Foi pra essa pergunta que escrevi Antes. É a pergunta que tento ensinar a cada paciente que entra no consultório.
+
+
+    A faixa normal foi calibrada pra triagem de doença instalada, não pra orientar prevenção nos próximos vinte anos. São
+    perguntas diferentes que exigem cortes diferentes.
+
+    '
+  image_path: apps/site/public/images/blog/normal-versus-otimo/hero.webp
+  image_title: 'Normal versus ótimo: o intervalo que o laboratório não imprime'
+  published_at: '2026-05-13T07:30:01-03:00'
+  post_urn: urn:li:share:7460275159522803712
+- slug: piramide-invertida-da-longevidade
+  block: 1
+  order: 3
+  status: published
+  scheduled_at: '2026-05-18 15:16:32-03:00'
+  commentary: 'O Cláudio corre 5 km três vezes por semana há doze anos. Veio ao consultório depois de fraturar o punho numa
+    queda boba do passeio. Disse: "perdi muito mais do que as seis semanas que fiquei sem treinar."
+
+
+    Preensão manual no dinamômetro: 32 kg. Pra idade dele, 48 anos, deveria estar em 45-50. DEXA: massa magra apendicular
+    abaixo do corte pra sarcopenia. Velocidade de marcha: 0,9 m/s, limite de pré-fragilidade.
+
+
+    Exames "normais", corredor há doze anos, e o quadro funcional já é de pré-fragilidade aos 48.
+
+
+    O estudo PURE acompanhou 139 mil pessoas em 17 países. Força de preensão previu mortalidade por todas as causas melhor
+    que a pressão sistólica. Cada 5 kg a menos de aperto: 16% mais risco de morrer no acompanhamento.
+
+
+    Cinco quilos de aperto de mão. Dezesseis por cento.
+
+
+    A pirâmide do treino que aprendemos nos anos 90 está invertida. Aeróbico moderado na base, força como item opcional no
+    apex. A evidência da última década inverteu: força é a fundação, zona 2 acima, alta intensidade no topo.
+
+
+    Cláudio voltou oito meses depois. Força três vezes na semana, corrida reduzida pra duas em zona 2, uma sessão curta de
+    HIIT. Preensão de 32 pra 41 kg. Insulina de jejum de 11 pra 6. Marcha 1,3 m/s.
+
+
+    A frase dele no retorno foi a que mais escuto: "eu não sabia que se podia sentir assim aos 48."
+
+
+    O aeróbico que ele fazia há doze anos era teto. A força foi o piso que faltava.
+
+
+    No consultório trato força como dado clínico, mensurada no painel inicial, acompanhada no tempo, lida em conjunto com
+    o resto do quadro metabólico e ósseo.
+
+
+    Cansaço aos 48 não costuma ser idade, e queda aos 65 raramente é azar: é consequência previsível de duas décadas treinando
+    o corpo invertido. Na maior parte dos casos que vejo, ainda há tempo de virar a pirâmide pro lado certo.
+
+    '
+  image_path: apps/site/public/images/blog/piramide-invertida-da-longevidade/figura-1.webp
+  image_title: 'A pirâmide invertida da longevidade: força depois dos 40'
+  published_at: '2026-05-18T15:19:01-03:00'
+  post_urn: urn:li:share:7462205125407944704
+- slug: medicina-2-vs-3
+  block: 1
+  order: 4
+  status: approved
+  scheduled_at: '2026-05-19 12:31:00-03:00'
+  commentary: 'A diferença entre Medicina 2.0 e Medicina 3.0 é a diferença entre um alarme de incêndio e um detector de fumaça.
+
+
+    O alarme toca quando já está queimando. O detector toca quando a fumaça começa.
+
+
+    Aprendi a Medicina 2.0 na faculdade e pratiquei por anos: enfermaria, UTI, emergência. Tratar a doença instalada. Escolher
+    o remédio certo, fazer a cirurgia certa no momento em que tudo já está acontecendo. É o que sei fazer.
+
+
+    A Medicina 3.0 não substitui a 2.0. Acrescenta o ato um. Procura a fumaça antes da chama. Trabalha com biomarcadores que
+    se movem cinco, dez, vinte anos antes do diagnóstico: insulina de jejum, ApoB, PCR ultrassensível, homocisteína, VO₂ máx,
+    força de preensão.
+
+
+    ApoB mede o número real de partículas aterogênicas e desvia antes do colesterol total se mexer. VO₂ máx é o marcador prognóstico
+    de mortalidade total mais poderoso já estudado. Mais forte que tabagismo. A American Heart Association defende que aptidão
+    cardiorrespiratória deve ser tratada como sinal vital. hs-CRP conecta inflamação subclínica a infarto e AVC mesmo com
+    LDL controlado.
+
+
+    Lembro de Ricardo, 52 anos. Fazia check-up todo ano. Todos os exames "normais". Quase morreu de infarto num estacionamento.
+    Os seis marcadores que estavam fora do ótimo nunca apareceram no painel convencional. O alarme só tocou quando o fogo
+    já tinha começado.
+
+
+    Esse caso me empurrou a repensar o que peço. A pergunta que importa não é "estou com doença?". É: "estou no caminho dela?"
+
+
+    Foi com essa pergunta que escrevi Antes. E é com ela que organizo minha leitura clínica hoje.
+
+
+    Esperar o ato dois pra agir, na minha leitura, é esperar demais na maior parte dos casos que vejo no consultório.
+
+    '
+  image_path: apps/site/public/images/blog/medicina-2-vs-3/figura-1.webp
+  image_title: 'Medicina 2.0 contra Medicina 3.0: alarme ou detector'
+- slug: healthspan-vs-lifespan-comprimir-a-morbidade
+  block: 1
+  order: 5
+  status: approved
+  scheduled_at: '2026-05-20 07:41:00-03:00'
+  commentary: 'O João tem 78 anos. Diabetes desde os 64, infarto aos 68, fibrilação atrial aos 72, prótese de quadril aos
+    74, fratura de fêmur aos 76. Onze comprimidos por dia. Caminha com bengala desde os 71.
+
+
+    Veio à consulta acompanhado da filha. Disse uma frase que ficou gravada: "Doutor, eu vivi muito. Mas faz dez anos que
+    não vivo bem."
+
+
+    A filha escutou em silêncio. Tem 50 anos. Veio com a pergunta que reorganizou minha medicina: não é quanto eu vou viver.
+    É quantos anos eu vou viver bem.
+
+
+    Lifespan é quanto você vive. Healthspan é quanto você vive bem: sem doença incapacitante, sem perda de função que tire
+    autonomia. A diferença entre os dois números está aumentando no mundo todo.
+
+
+    JAMA Network Open, dezembro 2024: 183 países, vinte anos de dados. O gap global cresceu de 8,5 para 9,6 anos. Quase uma
+    década vivida em estado de doença. EUA 12,4. Brasil em torno de 9,5. Mulheres com 2,4 anos a mais, porque vivem mais tempo
+    na fase em que as não-transmissíveis cobram a conta.
+
+
+    E o teto da expectativa de vida está desacelerando (Nature Aging, 2024). Chegar aos 110 é, pra vasta maioria, ilusão.
+    Chegar aos 85 com cabeça lúcida, perna firme e autonomia é meta diferente, realista e modificável.
+
+
+    A filha do João tem ApoB 124, insulina 13, cintura 92, sono fragmentado, treino só caminhada três vezes por semana. Sem
+    força. Tem mais ou menos os marcadores que o pai tinha aos 50. A diferença é que ela está olhando isso aos 50, não aos
+    68.
+
+
+    Essa diferença, na minha experiência, é a variável mais determinante.
+
+
+    Os anos que separam viver muito de viver bem não são destino: são consequência do que se faz nas três décadas anteriores.
+    Comprimir a morbidade exige começar cedo, sustentar consistência, e medir no caminho. É um trabalho ativo. O outro caminho,
+    o da inação, também produz resultado, só que o resultado é o do João.
+
+    '
+  image_path: apps/site/public/images/blog/healthspan-vs-lifespan-comprimir-a-morbidade/figura-1.webp
+  image_title: 'Healthspan versus lifespan: comprimir a morbidade'
+- slug: quando-tudo-normal-nao-basta
+  block: 1
+  order: 6
+  status: approved
+  scheduled_at: '2026-05-21 13:09:00-03:00'
+  commentary: '"Doutor, eu fiz check-up há quatro meses, está tudo normal, mas eu sinto que não está."
+
+
+    É a frase que mais escuto desde que comecei na nefrologia. E ela não envelheceu nada. A pessoa não está delirando. Está
+    percebendo algo que o exame não foi desenhado pra mostrar. E quase sempre, a razão clínica está do lado do corpo.
+
+
+    A faixa "normal" do laboratório responde a uma pergunta específica: este resultado está perto da média de pessoas de idade
+    e sexo parecidos?
+
+
+    É um filtro útil pra diagnosticar doença instalada. É péssimo pra detectar trajetória.
+
+
+    Porque a média da população brasileira de 45 anos inclui sedentarismo, sobrepeso, alimentação industrializada, sono insuficiente
+    e estresse crônico não tratado. Quando seu exame está "dentro da faixa", o que isso quer dizer é: você está parecido com
+    a média de uma população que está adoecendo lentamente.
+
+
+    Isso não é elogio sobre a sua saúde; é apenas descrição estatística.
+
+
+    E não basta medir uma vez. Trajetória é leitura no tempo. Formado, eu também era do "volte daqui a um ano". Demorei a
+    aprender que check-up anual com doze marcadores básicos não captura o que se move em décadas. Diabetes não cai do céu:
+    fecha conta acumulada por quinze, vinte anos.
+
+
+    Organizei essa leitura no Escore Plenya, que cruza mais de 800 itens: história, sintomas, hábitos, medicamentos, exames.
+    Cada um pesado e lido em contexto. O resultado é um mapa: o que está bem, o que está em margem, o que precisa intervenção
+    agora.
+
+
+    A pessoa sai sabendo em qual trajetória está. Não "tudo normal", não "tudo doente", mas o ponto exato em que o corpo está
+    naquele momento.
+
+
+    A pergunta clínica que importa não é "estou com doença?". É "estou bem, ou estou apenas sem diagnóstico?". São perguntas
+    diferentes, e a resposta de uma não serve para a outra.
+
+    '
+  image_path: apps/site/public/images/blog/quando-tudo-normal-nao-basta/figura-1.webp
+  image_title: Quando 'tudo normal' não basta
+- slug: cardio-reno-metabolico
+  block: 1
+  order: 7
+  status: approved
+  scheduled_at: '2026-05-26 09:03:00-03:00'
+  commentary: 'Quem treina em nefrologia aprende cedo uma coisa: o rim costuma sinalizar primeiro.
+
+
+    O motivo é fisiológico. O glomérulo é uma máquina de filtragem de altíssima precisão sobre um leito vascular delicado.
+    Pequenas alterações de pressão, glicose, inflamação ou perfil lipídico aparecem na função renal antes de se traduzirem
+    em outros pontos do laudo.
+
+
+    Microalbuminúria pode aparecer antes de o ApoB se desorganizar. Antes de o escore de cálcio mostrar placa. Antes de a
+    glicemia de jejum sair da faixa. Antes de o ecocardiograma mostrar dilatação.
+
+
+    O eixo cardio-reno-metabólico, formalizado pela American Heart Association em 2023, é a integração formal de algo que
+    cardiologistas, endocrinologistas e nefrologistas já viam clinicamente há tempos: coração, rim e metabolismo compartilham
+    raiz inflamatória, hemodinâmica e metabólica. São um único sistema sob três janelas diferentes.
+
+
+    Os ensaios da última década costuraram a leitura. DAPA-CKD (NEJM 2020): dapagliflozina reduziu progressão renal e morte
+    cardiovascular mesmo em não-diabéticos. EMPA-KIDNEY (NEJM 2023): empagliflozina confirmou em coorte ampla. FIDELIO-DKD
+    (NEJM 2020): finerenona reduziu eventos renais e cardiovasculares em diabetes tipo 2. FLOW (NEJM 2024): semaglutida reduziu
+    24% no desfecho renal-cardiovascular composto.
+
+
+    Três classes diferentes, três alvos diferentes. Todas protegendo os três sistemas em paralelo. A confirmação clínica de
+    que o eixo é real e atuável.
+
+
+    Integro o Comitê Cardiorrenal da Sociedade Brasileira de Nefrologia, e a discussão lá tem sido como traduzir essa evidência
+    pra prática brasileira: quem se beneficia, em que momento, com qual sequência.
+
+
+    No consultório, leio função renal com a mesma atenção com que leio o painel cardio-metabólico. Microalbuminúria de 25,
+    taxa de filtração estimada caindo um ponto por ano em quem deveria estar estável: são sinais que organizam dez, quinze
+    anos seguintes.
+
+
+    No conjunto, função renal entendida nesse eixo amplia a janela de intervenção em uma a duas décadas em relação ao painel
+    cardiovascular convencional isolado.
+
+    '
+  image_path: apps/site/public/images/blog/cardio-reno-metabolico/figura-1.webp
+  image_title: 'Por que o nefrologista vê antes: o eixo cardio-reno-metabólico'
+- slug: quatro-assassinos-silenciosos-depois-dos-40
+  block: 1
+  order: 8
+  status: approved
+  scheduled_at: '2026-05-27 07:38:00-03:00'
+  commentary: 'Recebo de tempos em tempos um perfil que se repete: executivo de 50 e poucos anos, check-up todo ano há uma
+    década, exames sempre dentro da referência. Uma manhã, indo trabalhar, sente o aperto no peito. Cateterismo de urgência.
+    Stent.
+
+
+    Volta ao consultório três meses depois com uma pergunta: como? Eu fazia tudo certo.
+
+
+    Refaço o painel: agora com ApoB, Lp(a), insulina basal, PCR ultrassensível, homocisteína e escore de cálcio coronariano.
+    Nenhum desses estava no check-up dele. Todos vinham sinalizando desfecho há quase uma década.
+
+
+    Quatro doenças dominam a mortalidade adulta depois dos 40: cardiovascular, metabólica, neurodegenerativa e câncer. As
+    quatro têm fase silenciosa de 10 a 20 anos antes do primeiro sintoma. As quatro compartilham o mesmo terreno: resistência
+    insulínica, inflamação crônica de baixo grau, disfunção metabólica.
+
+
+    Não são doenças independentes. São quatro manifestações do mesmo processo, vistas por janelas diferentes.
+
+
+    O PESA, conduzido pelo grupo do Valentín Fuster (JACC 2021), acompanhou 4.184 adultos espanhóis assintomáticos entre 40
+    e 55 anos. Aterosclerose subclínica em 63% deles (71% dos homens, 48% das mulheres). Em 41%, doença intermediária ou generalizada.
+    Pessoas que se consideravam saudáveis, com colesterol "normal", enquanto as placas cresciam.
+
+
+    Outro ponto que o painel convencional não captura: as artérias remodelam pra acomodar a placa. O lúmen quase não muda.
+    O teste ergométrico vem normal. Até a placa inflamada (não necessariamente a maior) se romper.
+
+
+    Placas com menos de 50% de obstrução podem matar. Placas com 90% podem nunca se romper. O check-up convencional procura
+    obstrução. A doença é inflamação.
+
+
+    A janela pra agir existe e é longa: abre nos 40 e começa a fechar aos 65, com folga variável.
+
+
+    No consultório, leio essas quatro frentes em painel único. É a única forma que encontrei de não perder o conjunto.
+
+
+    O que distingue quem chega aos 80 bem de quem chega arrastado, na minha experiência, não é a doença que aparece. É o silêncio
+    que antecedeu.
+
+    '
+  image_path: apps/site/public/images/blog/quatro-assassinos-silenciosos-depois-dos-40/figura-1.webp
+  image_title: Os quatro assassinos silenciosos depois dos 40
+- slug: metodo-agir-introducao
+  block: 1
+  order: 9
+  status: approved
+  scheduled_at: '2026-05-28 09:24:00-03:00'
+  commentary: 'Atendo gente que veio de seis especialistas em três anos. Sai do cardiologista com uma receita, do endocrinologista
+    com outra, do nutricionista com terceiro plano. Cada um excelente no que faz. Mas o conjunto desabou na própria pessoa.
+    E ela me procura porque cansou de ser a costureira do próprio cuidado.
+
+
+    Foi dessa cena, repetida toda semana, que nasceu a forma como passei a organizar meu trabalho. Chamei de Método AGIR (Atividade
+    Física, Alimentação e Suplementação Inteligente · Gestão Clínica e Metabólica · Integração Mente-Corpo · Ritmo Circadiano
+    e Repouso). É o que estrutura o cuidado que conduzo hoje na Plenya, em Londrina. Não é protocolo. É a forma de costurar
+    quatro dimensões antes que o paciente precise costurar.
+
+
+    A — Atividade Física, Alimentação e Suplementação Inteligente
+
+    Movimento, comida e suplementação trabalham juntos. Constância constrói resultado; intensidade isolada, não.
+
+
+    G — Gestão Clínica e Metabólica
+
+    Saúde também é dado. O que não é monitorado não evolui. Painel ampliado, biomarcadores, leitura no tempo.
+
+
+    I — Integração Mente-Corpo
+
+    Saúde mental é estrutura. Comportamento sustenta resultado. Aprendi observando o desfecho de planos clínicos brilhantes
+    que não saíam do papel. Essa dimensão é a razão mais frequente do fracasso.
+
+
+    R — Ritmo Circadiano e Repouso
+
+    Recuperação é parte do progresso. Energia não se repõe, se regula. Dormir bem é inegociável.
+
+
+    Cada pilar isolado dá benefício. A diferença está em coordenar os quatro ao longo do tempo: com dados, com proximidade
+    e com responsabilidade compartilhada entre os profissionais que cuidam da mesma pessoa.
+
+
+    O resultado não é uma vida perfeita. É uma vida construída, dia após dia, com clareza sobre o que importa.
+
+
+    A pergunta clínica deixa de ser "qual o melhor especialista pra cada coisa?" e passa a ser "quem está olhando o conjunto?".
+
+    '
+  image_path: apps/site/public/images/blog/metodo-agir-introducao/figura-1.webp
+  image_title: 'Método AGIR: uma introdução ao cuidado integrado'
+- slug: escore-de-calcio-coronariano-o-exame-que-muda-uma-decada
+  block: 2
+  order: 10
+  status: approved
+  scheduled_at: '2026-06-02 13:11:00-03:00'
+  commentary: 'Atendo recorrentemente um perfil que se repete: homem entre 40 e 50 anos, exames de sangue todos dentro da
+    referência, pai que infartou cedo. Vem com a frase que reconheço de longe: "o cardiologista do meu pai disse que tava
+    tudo bem com ele um ano antes do infarto. Quero saber o que tá acontecendo dentro de mim."
+
+
+    Pelo painel convencional, esses pacientes são "baixo risco". Risco a 10 anos pela AHA: 4 a 6%. Liberados pra seguir a
+    vida.
+
+
+    Peço um escore de cálcio coronariano. Em casos assim, não é raro o resultado vir acima do percentil 90 pra idade: escore
+    de 150, 200, 300. Doença instalada e silenciosa, em homem que se considerava saudável.
+
+
+    O CAC é uma tomografia do coração sem contraste, sem agulha. Dose de radiação comparável a uma mamografia. Quinze minutos
+    da chegada à saída. O que ele faz é quantificar cálcio nas paredes das coronárias. Cálcio coronariano só existe se houver
+    placa aterosclerótica calcificada. Não é falso positivo. É a impressão digital de uma doença que se instalou em silêncio,
+    enquanto os exames de sangue diziam "normal".
+
+
+    O MESA, publicado por Detrano no NEJM em 2008, acompanhou 6.722 adultos. Comparado com escore zero, o risco de evento
+    coronariano foi 7,73× maior em quem tinha CAC entre 101 e 300, e 9,67× em quem tinha acima de 300. Independente de colesterol,
+    pressão, diabetes, tabagismo. A diretriz AHA/ACC 2018 incorporou o exame formalmente pra reclassificar risco intermediário.
+
+
+    Em paciente que volta um ano depois com o painel corrigido (LDL alvo, ApoB alvo, peso ajustado, treino estruturado), o
+    escore calcificado não regride. Placa calcificada raramente regride. Mas a velocidade de progressão muda. E o risco real
+    de evento, na próxima década, é recalibrado de uma forma que nenhuma fórmula tradicional teria conseguido.
+
+
+    Coração que infarta aos 55: a artéria começou a sofrer aos 35. Esse exame de quinze minutos é, na minha opinião, a coisa
+    mais próxima de uma máquina do tempo que existe em prevenção cardiovascular.
+
+    '
+  image_path: apps/site/public/images/blog/escore-de-calcio-coronariano-o-exame-que-muda-uma-decada/figura-1.webp
+  image_title: 'Escore de cálcio coronariano: o exame que muda uma década'
+- slug: lipoproteina-a-exame-que-cardiologista-nao-pediu
+  block: 2
+  order: 11
+  status: approved
+  scheduled_at: '2026-06-03 09:02:00-03:00'
+  commentary: 'Uma em cada cinco pessoas tem lipoproteína(a) elevada e quase nunca soube. É hereditária, codificada por um
+    único gene (LPA), e o nível permanece praticamente constante a vida toda, dieta, estatina e treino não modificam significativamente
+    o valor.
+
+
+    Atendo recorrentemente um perfil que ilustra o problema: homem entre 35 e 45 anos, magro, atleta amador, lipidograma "normal".
+    Pai infartou cedo, tio infartou cedo, avô infartou cedo. "Disseram que era hereditário, mas comigo seria diferente porque
+    eu treino."
+
+
+    Peço Lp(a). Vem em torno de 180 nmol/L (referência abaixo de 75). Peço escore de cálcio coronariano. Vem com placa subclínica
+    em alguém de 39 anos, magro e atleta.
+
+
+    O treino não blinda. A Lp(a) é genética e estável, e saber o valor antes dos 40 muda toda a estratégia preventiva subsequente,
+    alvos de ApoB mais agressivos, decisão de estatina mais cedo, rastreamento dos irmãos e filhos.
+
+
+    A revisão de Tsimikas no JACC em 2017 sintetizou a magnitude: 20 a 25% da população geral tem Lp(a) acima do limite de
+    risco. Em afrodescendentes, 30 a 40%. Pessoas no quintil superior têm risco 2 a 3 vezes maior de infarto, AVC isquêmico
+    e estenose aórtica calcificada. A análise de Burgess (JAMA Cardiology 2018) estabeleceu a relação como causal, não apenas
+    associativa.
+
+
+    O consenso da Sociedade Europeia de Aterosclerose (Kronenberg, European Heart Journal 2022) trouxe a recomendação prática:
+    medir Lp(a) ao menos uma vez na vida em todo adulto. Uma vez basta. O cartão de visita biológico você herdou, e ele não
+    muda. Confesso, sem lirismo: também demorei a incorporar Lp(a) na rotina. Aprendi pedindo errado por anos.
+
+
+    Quando o valor vem alto, a conduta não é esperar terapia específica. Os dois principais ensaios de fase 3 saem em 2026:
+    HORIZON com pelacarsen (antissense, Novartis) e OCEAN(a) com olpasiran (siRNA, Amgen), com reduções de Lp(a) de 80 a 95%
+    já demonstradas em fase 2. Aprovação regulatória ainda não. Enquanto isso, é derrubar com mais agressividade tudo o que
+    se pode modificar: ApoB abaixo de 80, pressão abaixo de 130/80, glicemia controlada, tabagismo zero. E rastreamento familiar
+    em cascata: filhos, irmãos, sobrinhos. Se você tem Lp(a) alta, há 50% de chance de cada filho carregar.
+
+
+    Lp(a) hoje entra no meu painel inicial, junto com ApoB e os marcadores cardiometabólicos. É informação estrutural sobre
+    o risco cardiovascular do paciente pelas próximas quatro décadas, medida uma única vez na vida.
+
+    '
+  image_path: apps/site/public/images/blog/lipoproteina-a-exame-que-cardiologista-nao-pediu/figura-1.webp
+  image_title: 'Lp(a): o exame hereditário que se mede uma vez na vida'
+- slug: ferritina-30-a-100-normalidade-que-esgota-mulheres
+  block: 2
+  order: 12
+  status: approved
+  scheduled_at: '2026-06-04 08:26:00-03:00'
+  commentary: 'Mulher de 38 anos, dois filhos, ciclo menstrual regular e abundante. Cansaço que o café não resolve há dois
+    anos. Cabelo caindo no banho. Falta de ar subindo dois lances de escada. Treino que rendia 7 km, agora 4 e parece o triplo.
+
+
+    Hemoglobina 13,1 g/dL: normal. Ferritina 38 ng/mL: o laudo carimbou "valor de referência 13 a 150". "Tudo normal."
+
+
+    Não estava.
+
+
+    O carimbo "normal" da ferritina entre 13 e 150 ng/mL foi calibrado pra flagrar anemia ferropriva, a fase em que o corpo
+    já consumiu as reservas e a hemoglobina começou a cair. Não foi calibrado pra flagrar deficiência funcional de ferro:
+    a fase anterior, em que ainda há hemoglobina, mas as reservas estão vazias.
+
+
+    E o ferro é cofator de enzimas mitocondriais que produzem energia, da síntese de dopamina e serotonina, do crescimento
+    do cabelo, da contratilidade muscular. Quando a ferritina cai com hemoglobina ainda normal, esses processos operam em
+    modo de economia.
+
+
+    Três ensaios randomizados convergiram. Verdon (BMJ 2003), Krayenbuehl (Blood 2011), Vaucher (CMAJ 2012): mulheres com
+    fadiga, hemoglobina normal e ferritina abaixo de 50 melhoraram significativamente com reposição de ferro. A revisão Pasricha
+    no Lancet 2021 fechou: deficiência de ferro sem anemia é entidade clínica real, prevalente, sub-diagnosticada. A fadiga
+    aparece antes da queda de hemoglobina. O hemograma é o último marcador a sinalizar.
+
+
+    A leitura clínica que uso para mulher menstruante: ferritina abaixo de 30 é deficiência. 30 a 50 com sintomas é alta probabilidade
+    de deficiência funcional. 50 a 100 é zona cinzenta, em que a saturação de transferrina abaixo de 20% confirma. Alvo terapêutico:
+    ferritina entre 80 e 100.
+
+
+    Cansaço sem fim em uma mulher de 38 anos não é maternidade. Não é rotina. É, com frequência muito maior do que se admite,
+    sintoma operável escondido atrás da palavra "normal" carimbada num laudo.
+
+
+    Cansaço crônico em mulher menstruante adulta exige checar ferritina junto com saturação de transferrina e, se necessário,
+    repor ferro pra alvo terapêutico (80-100 ng/mL), e não esperar a anemia franca aparecer no hemograma pra agir.
+
+    '
+  image_path: apps/site/public/images/blog/ferritina-30-a-100-normalidade-que-esgota-mulheres/figura-1.webp
+  image_title: 'Ferritina entre 30 e 100: a normalidade que esgota mulheres'
+- slug: 12-exames-que-valem-cada-centavo-e-12-que-sao-desperdicio
+  block: 2
+  order: 13
+  status: approved
+  scheduled_at: '2026-06-09 13:29:00-03:00'
+  commentary: 'Atendo recorrentemente paciente que chega com pasta grossa de check-up: cinquenta linhas de exames, hemograma,
+    glicemia, colesterol total, função renal, urina. Tudo "dentro da referência". Mas sem ApoB. Sem Lp(a). Sem insulina de
+    jejum. Sem saturação de transferrina junto da ferritina. Sem escore de cálcio coronariano.
+
+
+    O check-up básico, desenhado em torno de hemograma, lipidograma, glicemia e função renal, continua valendo. Ele responde
+    "você tem doença instalada agora?". Para a triagem clínica, funciona.
+
+
+    O que ele não responde, e não foi feito pra responder, é a pergunta diferente que importa aos 40+: "qual a minha trajetória
+    nas próximas duas décadas?".
+
+
+    Pra essa pergunta, é necessário um painel ampliado. Os exames que uso no consultório, num adulto acima dos 40 sem queixa
+    específica:
+
+
+    ApoB, melhor preditor cardiovascular que LDL-C, especialmente em síndrome metabólica e diabetes (Sniderman, JAMA Cardiology
+    2022).
+
+
+    Lp(a), hereditária, mede uma vez na vida. Cerca de 20% da população tem Lp(a) acima do limite de risco (Tsimikas, JACC
+    2017).
+
+
+    Insulina de jejum + HOMA-IR, que detectam resistência insulínica anos antes da glicemia subir.
+
+
+    HbA1c, glicação média de 90 dias.
+
+
+    PCR ultrassensível, inflamação subclínica, fator de risco cardiovascular independente.
+
+
+    Ferritina junto com saturação de transferrina. Em mulheres menstruantes, deficiência funcional aparece com ferritina abaixo
+    de 50 e saturação abaixo de 20%, mesmo com hemoglobina normal.
+
+
+    TSH + T4 livre + T3 livre, leitura completa do eixo tireoidiano.
+
+
+    Vitamina D, B12, homocisteína (que sinaliza deficiência ativa de B12, B6 ou folato mesmo com B12 sérica "normal").
+
+
+    Perfil hormonal contextualizado: em homens, testosterona total + livre + SHBG. Em mulheres na perimenopausa, FSH + estradiol
+    + progesterona.
+
+
+    Escore de cálcio coronariano, uma vez, em homens acima de 40 e mulheres acima de 50 com risco intermediário ou história
+    familiar de doença cardiovascular precoce.
+
+
+    Esses são os exames que reorganizam a conversa preventiva. Não porque são mais caros. Porque respondem perguntas diferentes
+    do hemograma básico.
+
+
+    A pergunta que faço antes de pedir qualquer exame: se o resultado vier alterado, o que muda na conduta? Se a resposta
+    for "nada", esse não é o exame certo no momento certo.
+
+
+    Em prevenção depois dos 40, o painel útil é o que responde perguntas clínicas concretas sobre os próximos vinte anos,
+    não o que enumera linhas no PDF final.
+
+    '
+  image_path: apps/site/public/images/blog/12-exames-que-valem-cada-centavo-e-12-que-sao-desperdicio/figura-1.webp
+  image_title: O que um check-up avançado inclui depois dos 40
+- slug: o-que-o-checkup-anual-nao-mostra-sobre-o-coracao
+  block: 2
+  order: 14
+  status: approved
+  scheduled_at: '2026-06-10 08:26:00-03:00'
+  commentary: 'Metade dos infartos é a primeira manifestação clínica da doença coronariana. Não é descuido do paciente. É
+    que o exame de rotina mede a coisa errada.
+
+
+    O lipidograma básico foi consolidado nos anos 80 como rastreio cardiovascular. Mede o colesterol que está circulando.
+    Faz bem uma coisa: identifica quem tem colesterol grosseiramente elevado. Faz mal outra: capturar o paciente cuja doença
+    está se construindo silenciosamente com colesterol "normal".
+
+
+    Recebo recorrentemente paciente em estatina há anos, LDL "controlado", lipidograma sempre dentro da referência. Peço escore
+    de cálcio coronariano: resultado acima de 300, às vezes acima de 400. Doença aterosclerótica avançada em alguém que vinha
+    sendo acompanhado pelo número que não enxergava o problema.
+
+
+    A estatina ajudou. Mas a placa estava lá antes, e o lipidograma básico não enxerga placa.
+
+
+    Três movimentos reorganizam a cardiologia preventiva da década atual:
+
+
+    ApoB no lugar de LDL como métrica primária de partículas aterogênicas. Mede o número de partículas que entram na parede
+    arterial, não só o colesterol que elas carregam (Sniderman, JAMA Cardiology 2022).
+
+
+    Lp(a) uma vez na vida, pra identificar a parcela com risco genético elevado (cerca de 20% da população).
+
+
+    Escore de cálcio coronariano quando o cálculo de risco intermediário não permite decisão clara. Tomografia sem contraste,
+    dose baixa de radiação, mostra placa calcificada em imagem.
+
+
+    E em paralelo: hs-CRP (inflamação subclínica), insulina de jejum (resistência insulínica anos antes da glicemia subir),
+    pressão central (mais correlacionada com desfecho que pressão de braço).
+
+
+    A doença cardiovascular se constrói entre os 25 e 35 anos. O sintoma chega entre os 50 e 70. A janela útil de intervenção
+    é a que está no meio, e é essa janela que o lipidograma básico não consegue ler. O painel ampliado (ApoB, Lp(a), hs-CRP,
+    insulina, escore de cálcio) lê.
+
+    '
+  image_path: apps/site/public/images/blog/o-que-o-checkup-anual-nao-mostra-sobre-o-coracao/figura-1.webp
+  image_title: O que o check-up anual não mostra sobre o coração
+- slug: hrv-variabilidade-cardiaca-termometro-do-sistema-nervoso
+  block: 2
+  order: 15
+  status: approved
+  scheduled_at: '2026-06-11 08:41:00-03:00'
+  commentary: 'Atendo recorrentemente paciente que chega com queixa difícil de nomear. Diz: "treino igual há dois anos, durmo
+    as mesmas horas, mas tô morto." O que trouxe não foi exame alterado. Foi uma curva no aplicativo: "Meu HRV caiu pela metade
+    em cinco meses. De 64 milissegundos pra 32. E continua descendo."
+
+
+    A queda do HRV foi o primeiro sinal mensurável de algo que ainda não se conseguia descrever em palavras. Há dez anos eu
+    teria descartado o anel como brinquedo. Mudei de ideia depois de muitos casos.
+
+
+    HRV (variabilidade da frequência cardíaca) é a variação de tempo entre batimentos consecutivos. Mais variação é melhor:
+    coração saudável é responsivo, acelera na inspiração, desacelera na expiração. Coração estressado, doente ou exausto perde
+    essa elasticidade. Os intervalos uniformizam. HRV cai.
+
+
+    A literatura trata HRV como marcador de risco há décadas. Thayer et al (Int J Cardiol 2010): HRV reduzido é fator de risco
+    independente para mortalidade cardiovascular e por todas as causas. Em diabetes, prediz neuropatia autonômica antes que
+    ela seja clinicamente evidente.
+
+
+    Valores de referência (Shaffer e Ginsberg, Front Public Health 2017): RMSSD entre 25 e 75 ms em adultos saudáveis, atletas
+    treinados 80-100, estresse crônico ou disautonomia abaixo de 20.
+
+
+    O que importa na leitura clínica:
+
+
+    Tendência de 30 dias, não número da noite. Queda de 15 ms numa noite após maratona é normal. Queda média de 15 ms em 6
+    semanas merece atenção.
+
+
+    Comparação consigo mesmo, não com tabela de idade. HRV é altamente individual.
+
+
+    Conjunto com outros sinais: frequência cardíaca de repouso, qualidade do sono, energia matinal, motivação. Se quatro descem
+    juntos, o HRV virou confirmador, não avisador isolado.
+
+
+    Em atletas (Plews, Sports Med 2013): quedas acima de 20% da linha de base por mais de 7 a 14 dias justificam reavaliar
+    carga, sono e estresse.
+
+
+    O paciente do começo não tinha exame alterado. Tinha dose excessiva de tudo sustentada por anos: carga crescente de trabalho,
+    sono irregular, álcool cinco noites por semana, treino mantido sem ajuste. O sistema autônomo sinalizou em alto e bom
+    som.
+
+
+    Reduzimos carga em 30% por 8 semanas, álcool pra 2 noites, horário fixo de sono, respiração lenta antes de dormir. Em
+    10 semanas, HRV voltou pra 51 ms. Frequência cardíaca de repouso caiu de 58 pra 49.
+
+
+    HRV não substitui consulta, o que trato é pessoa, não número. Mas, quando o número aparece consistente na tendência de
+    semanas, vale escutá-lo no contexto clínico junto com o resto.
+
+    '
+  image_path: apps/site/public/images/blog/hrv-variabilidade-cardiaca-termometro-do-sistema-nervoso/figura-1.webp
+  image_title: 'HRV: o termômetro discreto do sistema nervoso'
+- slug: apneia-em-quem-nao-ronca-forma-feminina-invisivel
+  block: 2
+  order: 16
+  status: approved
+  scheduled_at: '2026-06-16 08:52:00-03:00'
+  commentary: 'A apneia que a medicina aprendeu a reconhecer é a versão masculina: homem com sobrepeso, ronco alto, pausas
+    presenciadas, sonolência diurna. A polissonografia, o IAH (índice de apneia-hipopneia), os questionários de rastreio:
+    tudo calibrado pra esse perfil.
+
+
+    A versão feminina costuma se apresentar diferente. Mulher magra, sem ronco, sem sonolência. Em vez disso: insônia, fadiga
+    crônica, cefaleia matinal, ansiedade refratária, bruxismo, despertares noturnos pra urinar. Sintomas que levam a outros
+    diagnósticos antes de levarem a uma polissonografia.
+
+
+    O EPISONO (Tufik et al, Sleep Medicine 2010), feito com amostra populacional em São Paulo, encontrou apneia obstrutiva
+    em 32,8% dos adultos da cidade. Em mulheres, a prevalência sobe com a idade e dispara após a menopausa. A coorte suíça
+    HypnoLaus (2015) replicou o padrão: 23,4% das mulheres adultas com IAH ≥15.
+
+
+    Young et al (Arch Intern Med 1996) mostraram que mulheres eram encaminhadas pra investigação de sono 8 a 10 vezes menos
+    do que homens com gravidade equivalente. O rastreio valorizava ronco e sonolência (sintomas masculinos), e a apresentação
+    feminina passava em branco.
+
+
+    Mas há um problema adicional, mais sutil. Mesmo quando a paciente chega ao laboratório, o IAH pode vir baixo, o laudo
+    dizer "sem apneia significativa", e o quadro continuar.
+
+
+    Três motivos clínicos pelos quais o IAH baixo engana em mulher:
+
+
+    Em primeiro lugar, as pausas femininas costumam ser mais curtas e menos profundas. Em vez de apneia franca com dessaturação,
+    predomina limitação de fluxo: a paciente continua respirando, mas com trabalho aumentado, gerando microdespertares que
+    fragmentam o sono. Vários desses eventos não atingem o critério formal de hipopneia e ficam fora da contagem do IAH.
+
+
+    Em segundo, a saturação se mantém. Mulheres em geral dessaturam menos por evento. Quem lê apenas "SpO₂ mínima" sai tranquilo,
+    enquanto a fragmentação do sono, que é o que produz o sintoma, segue acontecendo.
+
+
+    Em terceiro, os eventos costumam concentrar em REM. Se o IAH é calculado sobre o total da noite, dilui o que aconteceu
+    nos últimos 90 minutos do sono. Bom laudo separa IAH em REM e não-REM. Quando uma paciente me traz um laudo "normal" e
+    o quadro grita, eu vou direto nessa linha.
+
+
+    Não é exame caro nem técnica de pesquisa. É leitura cuidadosa do exame que a paciente já fez. A polissonografia tipo I
+    padrão, disponível em qualquer laboratório de sono no Brasil, já traz cânula de pressão nasal, EEG, oximetria, posição
+    corporal e estágios de sono. O que faço, com o laudo na mão, é pedir o gráfico de fluxo, o índice de despertares e a fragmentação
+    por hora, não apenas os números resumidos.
+
+
+    O tratamento, no fenótipo feminino magro, é geralmente não-CPAP-dependente. Avaliação otorrinolaringológica pra rinite,
+    desvio septal, hipertrofia de cornetos (tudo que aumenta resistência das vias aéreas superiores). Dispositivo de avanço
+    mandibular (DAM) feito por dentista credenciado em odontologia do sono (ABROS no Brasil) costuma ser primeira linha em
+    apneia leve a moderada nesse fenótipo, com adesão tipicamente superior à do CPAP. Terapia miofuncional orofacial com fonoaudióloga
+    em sono: o ensaio randomizado de Guimarães et al, conduzido no InCor/USP (Am J Respir Crit Care Med 2009), mostrou redução
+    significativa do IAH em apneia moderada com exercícios de língua, palato e musculatura faríngea. Higiene de sono séria.
+    CPAP em pressão baixa, em casos selecionados.
+
+
+    Mulher cansada aos 40, na prática clínica que vejo, nem sempre é hormônio ou maternidade. Em alguns casos, é uma respiração
+    noturna que ninguém leu com a métrica certa.'
+  image_path: apps/site/public/images/blog/apneia-em-quem-nao-ronca-forma-feminina-invisivel/figura-1.webp
+  image_title: 'Apneia em quem não ronca: a forma feminina invisível'
+- slug: pre-diabetes-nao-e-fase-e-janela-de-5-anos
+  block: 2
+  order: 17
+  status: approved
+  scheduled_at: '2026-06-17 08:43:00-03:00'
+  commentary: 'Pré-diabetes não é apenas uma fase: é uma janela de reversibilidade definida em anos.
+
+
+    A célula beta pancreática começa a falhar 10 a 15 anos antes do diagnóstico de diabetes tipo 2 (Tabák, Lancet 2012). Quando
+    a glicemia chega em 108 e a HbA1c em 5,9%, o pâncreas vem compensando há mais de uma década. O HbA1c de 5,9% não marca
+    o início de uma doença nova, ele marca o final de um silêncio que vinha se acumulando há anos.
+
+
+    A conduta padrão pra esse paciente, em muitos consultórios, costuma ser "vamos repetir em um ano e ver". O problema é
+    que cada ano nessa faixa estreita a janela em que dá pra reverter.
+
+
+    O Diabetes Prevention Program (Knowler, NEJM 2002) randomizou 3.234 adultos com pré-diabetes em três grupos: placebo,
+    metformina, e mudança intensiva de estilo de vida (7% de perda de peso + 150 minutos por semana de atividade moderada).
+    Em 2,8 anos: redução de 58% na incidência de diabetes no grupo de estilo de vida, 31% com metformina. A intervenção comportamental
+    superou o medicamento. Efeito mantido em seguimentos de 10, 15 e 21 anos.
+
+
+    O DiRECT (Lean, Lancet 2018) avançou a tese: 306 adultos com diabetes tipo 2 diagnosticada nos últimos 6 anos entraram
+    em programa de remissão (fórmula líquida de ~850 kcal/dia por 3-5 meses, reintrodução escalonada). Em 12 meses, 46% atingiu
+    remissão completa (HbA1c <6,5%, sem medicamento), contra 4% do controle. Entre os que perderam mais de 15 kg, 86%.
+
+
+    A leitura é dura e libertadora ao mesmo tempo: diabetes tipo 2 não é, na maioria dos casos, doença irreversível e progressiva,
+    ele é reversível enquanto a célula beta ainda funciona. A janela existe, mas não é eterna.
+
+
+    O que faço com paciente em HbA1c 5,9%, no consultório:
+
+
+    Perda de 5 a 7% do peso corporal, sustentada.
+
+
+    150 minutos por semana de atividade aeróbica moderada + 2 a 3 sessões de treino de força. É no músculo que a maior parte
+    da glicose pós-prandial é captada.
+
+
+    Sono regular de 7 a 8 horas em horário consistente. Privação piora resistência insulínica em dias.
+
+
+    Reorganização do prato: redução de carboidratos refinados e bebidas açucaradas, sem fanatismo.
+
+
+    Metformina em casos selecionados (HbA1c próximo de 6,4%, IMC acima de 35, mulheres com diabetes gestacional prévio).
+
+
+    Reavaliação em 3 a 6 meses com HbA1c, insulina de jejum + HOMA-IR. Composição corporal por DEXA ou bioimpedância em 6
+    meses.
+
+
+    Pré-diabetes não se resolve em retorno anual. Resolve-se em painel: médico que lê o quadro inteiro, nutricionista que
+    reconstrói o prato, educador físico que monta o plano de força.
+
+
+    Pré-diabetes não é uma fase de transição inevitável: é uma janela de reversibilidade que vai se estreitando a cada ano
+    sem intervenção.
+
+    '
+  image_path: apps/site/public/images/blog/pre-diabetes-nao-e-fase-e-janela-de-5-anos/figura-1.webp
+  image_title: Pré-diabetes não é uma fase, é uma janela de cinco anos
+- slug: proteina-meta-que-voce-nao-esta-atingindo
+  block: 2
+  order: 18
+  status: approved
+  scheduled_at: '2026-06-18 12:58:00-03:00'
+  commentary: 'A RDA de proteína é 0,8 g/kg/dia. Esse número foi calculado há cinquenta anos pra prevenir balanço nitrogenado
+    negativo em adultos jovens, sedentários e saudáveis. Responde "qual a quantidade mínima abaixo da qual o corpo se canibaliza?".
+
+
+    Não responde "qual a quantidade ideal pra preservar massa magra, força e densidade óssea ao longo das décadas?". São perguntas
+    diferentes, com respostas diferentes.
+
+
+    A literatura dos últimos quinze anos foi clara em distingui-las. A revisão de Phillips (Appl Physiol Nutr Metab 2016)
+    e o posicionamento PROT-AGE (Bauer, JAMDA 2013) convergem: adultos saudáveis se beneficiam de 1,2 a 1,6 g/kg/dia. Em idoso,
+    sarcopênico, em treino de força ou perdendo peso intencional: 1,6 a 2,2 g/kg/dia.
+
+
+    Por que a meta sobe depois dos 40: resistência anabólica. O músculo do adulto mais velho responde menos à mesma quantidade
+    de proteína. Pra gerar a mesma síntese proteica miofibrilar, é preciso mais sinal, especialmente mais leucina, por refeição.
+
+
+    Moore (J Gerontol 2015): homens mais velhos precisam de aproximadamente 0,40 g/kg de proteína por refeição pra maximizar
+    a síntese muscular, contra 0,24 g/kg em jovens. Pra uma mulher de 65 kg, isso significa 26 g de proteína por refeição
+    apenas pra acionar o sinal.
+
+
+    A meta-análise de Morton (BJSM 2018) agregou 49 ensaios randomizados: suplementar proteína em quem treina força aumenta
+    significativamente ganho de massa magra e força, com efeito atingindo platô em ~1,6 g/kg/dia. Acima disso, mais proteína
+    não dá mais músculo.
+
+
+    A janela operacional pra maioria dos adultos acima de 40 que treina força: 1,2 a 1,6 g/kg/dia distribuídos em 3 a 4 refeições
+    de pelo menos 25 a 30 g de proteína cada.
+
+
+    A leucina é o gatilho. Ativa diretamente a via mTORC1, o interruptor da síntese proteica. Limiar: 2,5 a 3 g de leucina
+    por refeição, o que corresponde a 25-30 g de proteína de alto valor biológico.
+
+
+    30 g de proteína em uma única refeição faz mais pela síntese muscular do que 90 g divididos em quatro refeições de 22
+    g. Distribuição importa, mas com piso. Refeição abaixo do limiar não conta como estímulo anabólico.
+
+
+    Sobre a história da "sobrecarga renal" para adultos saudáveis: falo aqui com a autoridade da minha especialidade. A precaução
+    vale pra paciente com doença renal crônica já estabelecida, não pra adulto saudável com função renal normal. Em adultos
+    saudáveis, ingestas de 1,2 a 2,2 g/kg/dia mantidas por meses a anos não se associaram com declínio de função renal em
+    estudos prospectivos.
+
+
+    Comer "saudável" não é a mesma coisa que comer suficiente. Pro corpo que precisa atravessar trinta anos a partir dos 50,
+    a proteína é o material com o qual ele se sustenta. E o material que mais vezes falta no prato.
+
+    '
+  image_path: apps/site/public/images/blog/proteina-meta-que-voce-nao-esta-atingindo/figura-2.webp
+  image_title: 'Proteína: a meta que você não está atingindo'
+- slug: cansaco-aos-45-nao-e-idade
+  block: 3
+  order: 19
+  status: approved
+  scheduled_at: '2026-06-23 08:51:00-03:00'
+  commentary: 'Cansaço aos 45 não costuma ser idade, é sintoma. E sintoma sem causa identificada não cabe como diagnóstico,
+    na minha leitura: é investigação interrompida antes do tempo.
+
+
+    A queixa que mais escuto no consultório é alguma variação disso: a pessoa dorme o que dizem ser razoável, treina, come
+    bem, e acorda quebrada. Toma café da tarde como obrigação. Perde nome de pessoas que conhece há anos. Libido caindo sem
+    razão clara. E muitas vezes ouve, antes de chegar a mim: "é estresse, é idade".
+
+
+    Quando alguém se queixa de fadiga persistente, há um conjunto razoavelmente curto de causas. Cinco eixos pra investigar:
+
+
+    Hormonal: testosterona livre (não a total, que mascara o quadro com SHBG elevada), progesterona em queda na perimenopausa,
+    TSH + T4 livre + T3 livre + anti-TPO, cortisol matinal.
+
+
+    Nutricional: ferritina abaixo de 50 com hemoglobina normal, B12 com homocisteína elevada, vitamina D subterapêutica.
+
+
+    Metabólico: resistência insulínica precoce com glicemia de jejum normal, esteatose hepática.
+
+
+    Sono: apneia obstrutiva subdiagnosticada (70 a 80% dos casos não detectados). Sono fragmentado por refluxo, álcool, ambiente.
+    Tempo na cama suficiente, sono profundo insuficiente.
+
+
+    Inflamação: hs-CRP elevada persistente, autoimunidade incipiente.
+
+
+    Cada eixo tem ferramenta diagnóstica acessível e relativamente barata. O que falta é o pedido e o cruzamento.
+
+
+    Vejo recorrentemente o seguinte caso: homem entre 45 e 55, executivo, ronca alto, levanta no banheiro de madrugada, alguém
+    em casa reclama do ronco. Sem sonolência diurna escandalosa, mas com cansaço difuso, libido caindo, irritabilidade leve.
+    Testosterona total "normal-baixa". Já passou por urologista pela libido sem que ninguém tenha perguntado se ronca.
+
+
+    Peço polissonografia. IAH 22, apneia moderada. Sono profundo abaixo de 5% do tempo. Trato a apneia. Três meses depois,
+    testosterona sobe sozinha. Libido volta. Cognição volta.
+
+
+    A apneia estava roubando o sono profundo, onde se libera hormônio do crescimento, onde acontece a limpeza glinfática cerebral,
+    onde a testosterona é regulada. O quadro inteiro era consequência de um gargalo único não diagnosticado.
+
+
+    Cansaço aos 45 raramente é só idade. Costuma ser sintoma operável, com causas identificáveis e ferramentas diagnósticas
+    disponíveis. O que falta na maior parte dos casos é uma consulta com tempo, painel ampliado e método pra investigar os
+    cinco eixos até o fim.
+
+    '
+  image_path: apps/site/public/images/blog/cansaco-aos-45-nao-e-idade/figura-1.webp
+  image_title: 'Cansaço aos 45 não é idade: é diagnóstico que ninguém fez'
+- slug: sono-que-nao-recupera
+  block: 3
+  order: 20
+  status: approved
+  scheduled_at: '2026-06-24 08:47:00-03:00'
+  commentary: 'Tempo deitado e sono efetivo não são a mesma coisa.
+
+
+    Você pode passar oito horas na cama, ter latência longa, acordar várias vezes sem perceber (microdespertares), não atingir
+    sono profundo (N3) e ter ciclos de REM truncados. Em qualquer um desses cenários, o tempo na cama é desperdiçado. E você
+    acorda exausto, achando que dormiu bem.
+
+
+    N3, o sono profundo, é onde se libera hormônio do crescimento e onde a memória declarativa consolida (Diekelmann & Born,
+    Nat Rev Neurosci 2010). Em estudos com modelos animais, é também a fase em que se observa aumento da depuração de metabólitos
+    cerebrais via sistema glinfático, incluindo proteínas relacionadas a doenças neurodegenerativas (Xie et al, Science 2013).
+    O quanto disso se traduz quantitativamente em humanos segue em pesquisa, mas o mecanismo dá racional pra o que vejo no
+    consultório: privação de N3 anda junta com pior cognição. Em adulto saudável, N3 representa 15-25% da noite. Em quem tem
+    apneia, fragmentação importante ou álcool antes de dormir, cai pra 5% ou menos.
+
+
+    REM, o sono dos sonhos, processa a memória emocional. Concentra-se nas últimas 3 a 4 horas da noite. Cortar a manhã custa
+    REM desproporcionalmente. Sem instrumento, é quase impossível saber se essas fases estão acontecendo. Você pode dormir
+    8 horas e ter 3% de N3.
+
+
+    Os ladrões mais comuns de sono profundo:
+
+
+    Álcool à noite. Facilita o início e dá a impressão enganosa de "apagar", mas suprime REM e produz fragmentação acentuada
+    na segunda metade da noite, com despertares precoces e sono superficial. Tempo total preservado, qualidade arruinada.
+    Duas taças de vinho ao jantar bastam pro efeito. É a primeira pergunta que faço quando alguém chega com queixa de sono
+    não restaurador.
+
+
+    Apneia obstrutiva. Fragmenta a estrutura do sono e impede chegar a N3. O EPISONO (Tufik et al, Sleep Medicine 2010), com
+    amostra populacional em São Paulo, encontrou apneia em 32,8% dos adultos da cidade, e a maioria nunca tinha ouvido o diagnóstico.
+    O perfil silencioso (peso normal, ronco moderado, sem sonolência diurna óbvia, noctúria, fadiga difusa) raramente é encaminhado
+    pra polissonografia.
+
+
+    Cortisol elevado à noite. Estresse não regulado mantém o sistema simpático ativo, dificultando o aprofundamento do sono.
+
+
+    Cafeína após o meio-dia. Meia-vida típica de 3 a 5 horas, podendo se estender a 7-9 horas em metabolizadores lentos. Em
+    parte significativa dos adultos, o café das 14h ainda está circulando às 22h.
+
+
+    A intervenção mais subestimada não é melatonina nem blackout total: é a exposição à luz natural pela manhã, sol direto
+    nos olhos nos primeiros 30 a 60 minutos depois de acordar. Ela ajusta o ritmo circadiano, aumenta a pressão de sono à
+    noite, melhora a latência e a profundidade. Geralmente responde em duas semanas, sem custo nenhum.
+
+
+    A pergunta clínica útil não é "durmo o suficiente?", e sim "o sono que tenho está acontecendo nas fases certas, na qualidade
+    certa, com restauração mensurável?". Quando essa pergunta é a que orienta a consulta, a abordagem do cansaço crônico muda
+    inteira.'
+  image_path: apps/site/public/images/blog/sono-que-nao-recupera/figura-1.webp
+  image_title: Sono que não recupera
+- slug: burnout-nao-e-cansaco-resposta-neuroendocrina
+  block: 3
+  order: 21
+  status: approved
+  scheduled_at: '2026-06-25 07:32:00-03:00'
+  commentary: 'Burnout não é cansaço. É uma resposta neuroendócrina mensurável.
+
+
+    A OMS, na CID-11, definiu burnout em 2019 como fenômeno ocupacional caracterizado por três dimensões: exaustão de energia,
+    distanciamento mental do trabalho, redução da eficácia profissional. Isso é a fenomenologia. A biologia é outra camada.
+
+
+    Quando o estresse se torna crônico, o eixo hipotálamo-hipófise-adrenal (HPA) passa por uma sequência previsível. Primeiro,
+    hiperatividade: cortisol matinal alto, despertar acelerado, ansiedade, glicemia subindo. Pode durar meses ou anos.
+
+
+    Depois, achatamento. O cortisol matinal cai. A curva diurna, que deveria ser um pico às 7h e descida progressiva até as
+    22h, vira uma reta quase plana. O paciente acorda sem combustível: precisa de café pra existir. À noite, o cortisol ainda
+    está alto demais pro sono profundo.
+
+
+    Toker et al (Psychosomatic Medicine 2012) acompanhou 8.838 trabalhadores por 3,4 anos. Quintil mais alto de burnout: risco
+    79% maior de doença coronariana, ajustado pra fatores clássicos. A revisão Salvagioni (PLoS One 2017) listou as consequências
+    físicas: hipercolesterolemia, diabetes tipo 2, doença coronariana, dor musculoesquelética, e mortalidade aumentada antes
+    dos 45 em coortes específicas.
+
+
+    Burnout não tratado encurta a vida, esse não é um exagero retórico, é o que o seguimento longitudinal mostra.
+
+
+    Não há um "exame de burnout". Há um painel que, lido em conjunto com o quadro, costuma orientar:
+
+
+    Cortisol salivar em 4 pontos (despertar, +30 min, 16h, 22h). O CAR (cortisol awakening response) costuma estar achatado
+    no burnout estabelecido.
+
+
+    DHEA-S sérico, o antagonista funcional do cortisol. Quando o eixo está exausto, o DHEA-S cai.
+
+
+    TSH + T3 livre + T3 reverso. O eixo tireoideano entra em modo de conservação (T3 livre baixo, T3 reverso alto, TSH normal).
+    Não é hipotireoidismo clássico. Tratar com levotiroxina raramente resolve.
+
+
+    Testosterona total e livre + SHBG em homens; estradiol e progesterona em mulheres. O eixo gonadal é o primeiro sacrificado
+    no estresse crônico.
+
+
+    O tratamento tem quatro camadas que precisam acontecer ao mesmo tempo:
+
+
+    Reorganização real do estímulo. Reduzir carga de trabalho. Sem isso, qualquer suplemento é placebo caro.
+
+
+    Acompanhamento psicológico estruturado. Terapia Cognitivo-Comportamental (TCC, abordagem psicoterapêutica de curta duração
+    que trabalha padrões de pensamento e comportamento ligados ao estresse, com evidência sólida em ansiedade e depressão)
+    ou outras abordagens de regulação afetiva, com profissional treinado.
+
+
+    Reconstrução do sono e ritmo circadiano. Luz da manhã, jejum noturno de pelo menos 12h, álcool fora ou drasticamente reduzido.
+
+
+    Suporte metabólico: proteína de 1,4 a 1,6 g/kg/dia distribuída, treino de força 2 a 3 vezes na semana, correção de deficiências
+    reais.
+
+
+    Reposição hormonal entra em discussão depois de estabilizada a base. Não como atalho.
+
+
+    O eixo HPA leva entre 6 e 18 meses pra reorganizar a curva, mesmo com tudo certo. Uma semana de férias não resolve.
+
+
+    O quadro do burnout não é apenas "fase ruim no trabalho". É o eixo HPA pedindo socorro num idioma que poucos médicos foram
+    treinados a escutar em consulta de quinze minutos.
+
+    '
+  image_path: apps/site/public/images/blog/burnout-nao-e-cansaco-resposta-neuroendocrina/figura-1.webp
+  image_title: 'Burnout não é cansaço: é resposta neuroendócrina mensurável'
+- slug: menopausa-precisa-de-equipe-nao-so-de-ginecologista
+  block: 3
+  order: 22
+  status: approved
+  scheduled_at: '2026-06-30 08:13:00-03:00'
+  commentary: 'A transição menopausal não é só hormonal.
+
+
+    O estrogênio modulava endotélio vascular, sensibilidade insulínica, deposição óssea, arquitetura do sono, neurotransmissão
+    central, distribuição de gordura. Quando o sinal cai, esses sistemas todos acusam o golpe simultaneamente.
+
+
+    O scientific statement da American Heart Association de 2020 (El Khoudary, Circulation) sintetizou décadas de seguimento
+    longitudinal: a transição menopausal é período de aceleração de risco cardiovascular, independente do envelhecimento cronológico.
+    Em 2 a 5 anos ao redor do último ciclo: ApoB sobe 10 a 15%, pressão sistólica sobe ~5 mmHg, sensibilidade insulínica cai
+    20 a 30%, gordura migra pra abdome mesmo sem ganho de peso, perda óssea acelera pra 2-3% ao ano. Risco de infarto, que
+    era cerca de 1/4 do masculino antes, se aproxima do dos homens em uma década.
+
+
+    O documento de consenso europeu (Maas, European Heart Journal 2021) foi mais explícito: saúde cardiovascular da mulher
+    pós-menopausa precisa ser tratada por um time. O sintoma central (fogachos, insônia, irritabilidade) é o sinal de fora.
+    A doença que se forma por dentro é aterosclerose acelerada, sarcopenia precoce, perda óssea, resistência insulínica.
+
+
+    Sobre a reposição hormonal: a leitura apressada do Women''s Health Initiative em 2002 criou uma geração de médicos com
+    medo de prescrever. Eu fazia parte dessa geração. O seguimento de longo prazo (Manson, JAMA 2017, 18 anos) confirmou a
+    hipótese do tempo: mulheres que iniciaram terapia entre 50 e 59 anos ou nos primeiros 10 anos pós-menopausa tiveram redução
+    de mortalidade total e doença coronariana. Início tardio sobre artérias já com placa instalada inverte o cálculo.
+
+
+    Existe uma janela de oportunidade (aproximadamente 5 a 10 anos após o último ciclo) em que a terapia hormonal, em mulheres
+    com indicação e sem contraindicação, oferece benefício pra sintomas vasomotores, saúde óssea, urogenital e provavelmente
+    cardiovascular, com risco baixo.
+
+
+    A decisão sobre repor (com qual via, qual estrogênio, qual progestagênio, por quanto tempo) exige avaliação individualizada
+    de risco cardiovascular, mamário, tromboembólico, sintomatologia, história familiar. É conversa, não protocolo.
+
+
+    A reposição hormonal é uma peça do tratamento, não a peça única. As outras intervenções precisam vir juntas:
+
+
+    Treino de força 2 a 3 vezes por semana. Única intervenção comprovada em manter massa óssea, muscular e sensibilidade insulínica
+    nessa fase. Caminhar não basta.
+
+
+    Proteína 1,4 a 1,6 g/kg/dia distribuída.
+
+
+    Ajuste cardiometabólico ativo. ApoB, Lp(a), insulina, hs-CRP, escore de cálcio coronariano quando indicado.
+
+
+    Terapia Cognitivo-Comportamental (TCC, abordagem psicoterapêutica estruturada e de curta duração) pra sintomas de humor,
+    sono e mudança de identidade. A TCC tem evidência sólida inclusive pra fogachos em pacientes que não podem ou não querem
+    fazer reposição hormonal.
+
+
+    Densitometria óssea seriada, exames metabólicos a cada 6 a 12 meses. Tendência, não fotografia.
+
+
+    Menopausa não é doença, é uma transição que reorganiza a biologia inteira ao mesmo tempo. Ser cuidada por uma equipe coordenada,
+    nessa fase específica, não é luxo, é o que a complexidade clínica da virada exige.
+
+    '
+  image_path: apps/site/public/images/blog/menopausa-precisa-de-equipe-nao-so-de-ginecologista/figura-1.webp
+  image_title: Menopausa precisa de uma equipe, não só de um ginecologista
+- slug: sono-energia-longevidade
+  block: 3
+  order: 23
+  status: approved
+  scheduled_at: '2026-07-01 12:29:00-03:00'
+  commentary: '"Durmo 6 horas e estou bem assim." É uma das frases mais comuns no consultório. A literatura é razoavelmente
+    unânime no contraditório.
+
+
+    A meta-análise de Cappuccio et al (Sleep 2010) agregou 16 estudos prospectivos com 1,3 milhão de adultos. A curva de mortalidade
+    total em função das horas de sono é em U. A zona ótima é 7 a 8 horas. Quem dorme menos de 6 tem mortalidade aumentada
+    em ~15%. Quem dorme mais de 9 também (geralmente como marcador de doença subjacente, não causa direta).
+
+
+    A curva não é pequena, é dose-resposta consistente.
+
+
+    Outro ponto: o débito de sono não é totalmente recuperado no fim de semana. A dívida se acumula. Em estudos controlados,
+    dois dias de sono compensatório recuperam parte das alterações de cognição mas não normalizam sensibilidade insulínica
+    nem inflamação sistêmica. Os marcadores cardiometabólicos refletem.
+
+
+    E o que acontece em uma noite bem dormida não é descanso passivo: é limpeza glinfática cerebral, consolidação de memória,
+    pulso de hormônio do crescimento, recalibração imune, reset de cortisol.
+
+
+    Sono, do ponto de vista clínico, não é tempo perdido nem item negociável da agenda, é a infraestrutura em que o resto
+    da fisiologia acontece.
+
+
+    A pergunta clínica que faço a pacientes que dormem 6 horas e dizem estar "bem" é simples: bem comparado com o quê? Quase
+    sempre, a referência interna do paciente é a versão dele mesmo cansada há anos. Não a versão dele descansada.
+
+
+    Pra adultos saudáveis, a meta é 7 a 8 horas regulares, em horário consistente, com sono profundo (N3) presente nas primeiras
+    2 a 3 horas e REM crescente nas últimas. Sem álcool nas 3 horas antes de deitar. Com luz forte nos primeiros 30 minutos
+    depois de acordar.
+
+
+    Não é capricho de estilo de vida; é estratégia clínica com efeito mensurável em mortalidade.
+
+    '
+  image_path: apps/site/public/images/blog/sono-energia-longevidade/figura-1.webp
+  image_title: 'Sono, energia e longevidade: por que dormir bem é estratégia clínica'
+- slug: jejum-intermitente-quem-se-beneficia-quem-se-prejudica
+  block: 3
+  order: 24
+  status: approved
+  scheduled_at: '2026-07-02 18:18:00-03:00'
+  commentary: 'Jejum intermitente não funciona como dieta universal. É uma ferramenta clínica cuja eficácia depende de quem
+    está jejuando, qual janela é usada, e em qual momento da vida.
+
+
+    O conceito básico é restringir o tempo do dia em que se come, mantendo (na maioria dos protocolos) a quantidade total.
+    Os formatos são notados em horas-jejum:horas-janela. 12:12 é o que quase todo mundo faz quando respeita "do jantar ao
+    café". 14:10 e 16:8 são versões mais restritas. Há ainda 18:6 e o 5:2 (5 dias de alimentação normal, 2 dias de restrição
+    calórica forte), mais agressivos e com evidência mais fraca.
+
+
+    A diferença que mais importa, e que costuma se perder no discurso popular, não é a duração da janela. É o horário em que
+    ela acontece.
+
+
+    Janela precoce (eTRF, early time-restricted feeding): comer da manhã ao começo da tarde, por exemplo 8h às 14h ou 9h às
+    15h. Alinha a ingesta com o pico circadiano natural de sensibilidade insulínica.
+
+
+    Janela tardia: pular o café da manhã e comer do meio-dia em diante, por exemplo 12h às 20h. É o formato mais popular,
+    mas comer no escuro biológico, quando o relógio interno espera repouso digestivo, anula boa parte do benefício metabólico
+    que aparece na janela precoce.
+
+
+    Mecanicamente, a revisão de de Cabo e Mattson (NEJM 2019) mapeou bem o que acontece: após 12 a 16 horas sem ingesta calórica,
+    o glicogênio hepático esgota e o fígado começa a produzir corpos cetônicos a partir de gordura mobilizada. Esse interruptor
+    metabólico ativa cascatas ligadas a autofagia, biogênese mitocondrial, redução de inflamação subclínica e melhora de sensibilidade
+    insulínica.
+
+
+    Onde a evidência sustenta benefício clínico: Sutton et al (Cell Metabolism 2018) randomizou homens com pré-diabetes pra
+    janela precoce de 6 horas (8h-14h) versus janela controle de 12h, tudo isocalórico. Em 5 semanas, o grupo eTRF teve melhora
+    de sensibilidade à insulina, queda de 11 mmHg na pressão sistólica e redução de marcadores de estresse oxidativo. Tudo
+    sem perder um quilo, com o efeito vindo do horário e não da restrição calórica.
+
+
+    Onde a evidência não sustenta o marketing: o ensaio TREAT (Lowe, JAMA Intern Med 2020) randomizou 116 adultos com sobrepeso
+    pra janela 16:8 começando ao meio-dia versus 3 refeições normais por 12 semanas. Perda de peso média 1,17% versus 0,75%,
+    diferença não significativa, e o grupo jejum perdeu mais massa magra. A janela tardia, no formato popular, não produz
+    o efeito metabólico da janela precoce.
+
+
+    Indicações clínicas em que costuma funcionar:
+
+
+    Homem entre 35 e 60 anos com resistência insulínica incipiente, glicemia de jejum entre 100 e 125 mg/dL, esteatose hepática
+    leve, padrão de petisco noturno descontrolado, função hormonal preservada. Formato indicado: janela precoce, começando
+    em 12:12 e evoluindo pra 14:10 ou 16:8 com o café da manhã preservado e a última refeição até 18h-19h.
+
+
+    Indicações clínicas em que costuma piorar o quadro:
+
+
+    Mulher em perimenopausa ou ciclo regular. O eixo hipotálamo-hipófise-gonadal feminino é exquisitamente sensível ao sinal
+    de escassez energética. Jejuns longos repetidos por semanas costumam produzir irregularidade menstrual, queda de libido,
+    piora do sono na fase lútea e amplificação dos sintomas vasomotores em quem já está na transição.
+
+
+    Mulher com histórico de transtorno alimentar, mesmo subclínico. A janela rígida pode reorganizar o padrão restritivo.
+
+
+    Atleta de força ou endurance em treino sério. A síntese proteica muscular pós-treino exige distribuição de proteína a
+    cada 3 ou 4 horas, e janela de 6 horas comprime esse padrão.
+
+
+    Adulto acima de 65 anos com sarcopenia em curso. Jejum prolongado nesse cenário acelera perda de massa magra.
+
+
+    Gestantes e lactantes. Pacientes com glicemia instável, hipoglicemia reativa, transtorno de ansiedade descompensado.
+
+
+    No consultório, a pergunta clínica nunca é "jejum sim ou não". É "qual janela, em qual momento da vida, com qual aporte
+    proteico, monitorando qual marcador". Sem essas perguntas respondidas, o protocolo da moda pode produzir mais dano do
+    que benefício metabólico.'
+  image_path: apps/site/public/images/blog/jejum-intermitente-quem-se-beneficia-quem-se-prejudica/figura-1.webp
+  image_title: 'Jejum intermitente: quem se beneficia, quem se prejudica'
+- slug: alcool-e-sono-2-tacas-destroem-6-horas
+  block: 3
+  order: 25
+  status: approved
+  scheduled_at: '2026-07-07 08:48:00-03:00'
+  commentary: 'Duas taças de vinho ao jantar cortam 30 a 50% do sono profundo e 20 a 40% do REM. O tempo na cama é o mesmo,
+    a recuperação é completamente diferente.
+
+
+    A cultura ocidental embalou o álcool num pacote elegante: vinho com jantar, drinque pra desacelerar, "uma taça faz bem".
+    O argumento sobre sono é o mais arraigado, porque tem aparência de verdade. Você toma vinho. Você apaga rápido. Logo,
+    dormiu.
+
+
+    O problema é que adormecer e dormir são processos diferentes. Adormecer é apenas o primeiro estágio. O que recupera corpo
+    e cérebro são os estágios profundos (N3 e REM), e é exatamente nesses dois que o álcool corta fundo.
+
+
+    Na primeira metade da noite, o álcool age como sedativo: reduz latência, aumenta o sono profundo nas primeiras 2 horas.
+    Na segunda metade, o efeito se inverte. Conforme o álcool é metabolizado, há um rebote excitatório: fragmentação, supressão
+    de REM, aumento de frequência cardíaca, despertares.
+
+
+    A meta-análise de Gardiner (Sleep Medicine Reviews 2025) agregou 27 estudos. Doses tão baixas quanto 0,5 g/kg (aproximadamente
+    duas doses-padrão, ou duas taças de vinho de 150 ml pra mulher de 65 kg) já reduzem significativamente a duração do REM
+    e atrasam seu início.
+
+
+    O estudo de Pietilä (JMIR Mental Health 2018), com mais de 4 mil empregados finlandeses monitorados por meses, observou:
+    o álcool deprimiu o tônus parassimpático nas primeiras três horas de sono de forma dose-dependente. HRV caiu, frequência
+    cardíaca subiu. Atividade física regular e juventude não protegeram.
+
+
+    Em pacientes que acompanho com wearable há meses, reconheço a assinatura de cabeça. Noite com duas taças: HRV cai 20 a
+    35%, frequência de repouso sobe 7 a 15 bpm, sono profundo cai 25 a 50%, REM cai 20 a 40%. A primeira metade da noite parece
+    melhor. A segunda metade (a que importa pra REM) é onde o estrago aparece. Despertar precoce entre 3h e 5h da manhã, com
+    coração acelerado e calor, é a manifestação clínica mais comum.
+
+
+    Mulheres metabolizam álcool mais lentamente (menor água corporal, menor atividade da álcool-desidrogenase gástrica). A
+    mesma quantidade atinge níveis sanguíneos mais altos. "Duas taças" que num homem de 80 kg corresponde a 0,4 g/kg, numa
+    mulher de 60 kg é facilmente 0,7 g/kg: território de supressão clara de REM.
+
+
+    Posições práticas que adoto sem pedir abstinência:
+
+
+    Janela de pelo menos 3 a 4 horas entre a última dose e o horário de dormir. O álcool ingerido às 19h tem impacto muito
+    menor do que ingerido às 22h.
+
+
+    Limite de uma dose-padrão pra mulheres, duas pra homens, em noites em que se beber.
+
+
+    Pelo menos 4 noites por semana sem álcool nenhum.
+
+
+    Se você usa wearable, observe o padrão por duas semanas. Compare HRV, frequência cardíaca de repouso e sono profundo entre
+    noites com e sem álcool. A clareza dos próprios dados convence mais do que qualquer artigo.
+
+
+    Sono ruim aos 44 raramente é só perimenopausa ou só estresse: costuma ser soma de variáveis operáveis, e o vinho do jantar
+    costuma ser a primeira da fila a corrigir.
+
+    '
+  image_path: apps/site/public/images/blog/alcool-e-sono-2-tacas-destroem-6-horas/figura-1.webp
+  image_title: 'Álcool e sono: por que duas taças destroem seis horas de descanso'
+- slug: solidao-como-fator-de-risco-cardiovascular
+  block: 3
+  order: 26
+  status: approved
+  scheduled_at: '2026-07-08 08:08:00-03:00'
+  commentary: '"Quando foi a última vez que você riu até doer a barriga?"
+
+
+    Adquiri o hábito de fazer essa pergunta na primeira consulta. Quando a resposta vence sete anos, há um fator de risco
+    cardiovascular sentado na cadeira.
+
+
+    Não é metáfora poética: é literatura epidemiológica robusta, com hazard ratio comparável a tabagismo.
+
+
+    Holt-Lunstad et al (PLoS Medicine 2010) agregou 148 estudos prospectivos com 308.849 participantes. Pessoas com vínculos
+    sociais fortes têm probabilidade 50% maior de sobrevida no acompanhamento, comparadas a vínculos frágeis. Em magnitude,
+    equivale a parar de fumar. Maior que obesidade, sedentarismo e poluição.
+
+
+    Valtorta et al (Heart 2016): solidão e isolamento aumentam o risco de doença coronariana incidente em 29% e de AVC em
+    32%, em 16 coortes longitudinais. Em 2022, a American Heart Association publicou scientific statement (Cené et al, J Am
+    Heart Assoc) formalizando: isolamento social e solidão são fatores de risco cardiovascular e cerebrovascular reconhecidos.
+
+
+    A pergunta clínica deixou de ser "isso importa?" há mais de uma década. A pergunta hoje é "por que ninguém pergunta sobre
+    isso na consulta?".
+
+
+    O mecanismo atravessa três avenidas: inflamação crônica de baixo grau (PCR ultrassensível, IL-6 e fibrinogênio mais altos,
+    o solo da aterosclerose); eixo HPA desregulado (cortisol diurno elevado, curva noturna alterada, prejuízo de sono profundo);
+    e comportamento (quem está sozinho dorme pior, come pior, bebe mais, treina menos, adere menos a tratamentos).
+
+
+    Como rastrear sem invadir? Há instrumentos curtos validados (UCLA Loneliness Scale de 3 itens, leva 90 segundos). Ou uma
+    pergunta única: "Com quantas pessoas você teria conforto pra conversar sobre algo importante esta semana?". Resposta de
+    0 ou 1 já merece atenção.
+
+
+    O que NÃO se faz é prescrever "saia mais, faça novos amigos". Esse tipo de conselho é a versão social do "coma menos,
+    mexa-se mais": tecnicamente correto, clinicamente inútil. Eu mesmo já caí nessa armadilha no começo da carreira.
+
+
+    Intervenções com efeito mensurável:
+
+
+    Construir rotinas de contato fixo, não espontâneo. Coral semanal, grupo de caminhada de terça e quinta, aula de cerâmica.
+    Retira a fricção da decisão (o que falta a quem está sozinho há anos).
+
+
+    Reativar laços antigos. Estudos mostram que reativar 2 ou 3 vínculos antigos rende mais bem-estar do que criar muitos
+    novos.
+
+
+    Voluntariado estruturado com encontros presenciais regulares. Reduz marcadores inflamatórios e melhora pressão arterial
+    em adultos mais velhos.
+
+
+    Tratar comorbidades que isolam. Surdez não tratada, dor crônica, perda visual, urgência urinária. Tratar a causa devolve
+    o convívio.
+
+
+    Pressão arterial resistente aos 58 anos nem sempre é só falha de medicação. Em alguns casos, é uma vida sem testemunha
+    cobrando o eixo HPA, e isso, hoje, é fator de risco cardiovascular reconhecido pela AHA, com magnitude documentada.
+
+    '
+  image_path: apps/site/public/images/blog/solidao-como-fator-de-risco-cardiovascular/figura-1.webp
+  image_title: Solidão como fator de risco cardiovascular
+- slug: meditacao-que-funciona-em-8-minutos
+  block: 3
+  order: 27
+  status: approved
+  scheduled_at: '2026-07-09 13:29:00-03:00'
+  commentary: 'Confesso que demorei a aceitar mindfulness como ferramenta clínica séria.
+
+
+    A literatura me forçou a abrir espaço. A meta-análise de Goyal (JAMA Internal Medicine 2014) revisou 47 ensaios clínicos
+    randomizados com 3.515 participantes. Programas de mindfulness mostraram evidência moderada pra redução de ansiedade,
+    depressão e dor. Em alguns recortes, magnitude comparável a antidepressivos.
+
+
+    Pascoe (J Psychiatr Res 2017) fez a meta-análise dos marcadores fisiológicos. 45 estudos. Mindfulness reduziu cortisol,
+    PCR ultrassensível, pressão arterial, frequência cardíaca, triglicerídeos e TNF-alfa. O sistema nervoso autônomo escuta,
+    e a química muda.
+
+
+    Kral, grupo de Richard Davidson (NeuroImage 2018): treinamento de mindfulness, mesmo em 8 semanas, aumenta a conectividade
+    entre amígdala e córtex pré-frontal ventromedial durante estímulos emocionais. Tradução: a amígdala dispara, mas o pré-frontal
+    modula. A pessoa não fica menos perturbada pela vida, ela passa a se recuperar mais rápido do disparo emocional.
+
+
+    O protocolo com mais evidência é o MBSR (Mindfulness-Based Stress Reduction, Jon Kabat-Zinn 1979): 8 semanas, encontros
+    semanais em grupo, 45 minutos de prática diária em casa.
+
+
+    A pergunta clínica honesta: a maioria dos pacientes adultos não vai conseguir 45 minutos diários por 8 semanas. E aí?
+
+
+    As metanálises incluem programas curtos (10 a 20 minutos por dia, 4 a 12 semanas) e ainda demonstram queda de cortisol
+    salivar, melhora de HRV e redução de pressão arterial sistólica. A inflexão clínica acontece entre 8 e 12 minutos diários
+    consistentes, com efeito mensurável em 4 a 8 semanas. O ingrediente ativo aqui é a constância diária, mais do que a duração
+    de cada sessão.
+
+
+    Regra prática que aplico:
+
+
+    8 a 15 minutos diários, mesmo horário, todos os dias por 8 semanas. Pular dias derruba o efeito.
+
+
+    App estruturado de mindfulness, gratuito ou pago, como porta de entrada. Não substitui o MBSR formal, é forma de adesão
+    pra quem não vai fazer o programa de 8 semanas com instrutor.
+
+
+    Mesmo horário, mesmo lugar, sem celular ao alcance. Contexto fixo automatiza a prática.
+
+
+    Sem julgamento da prática. O critério clínico que adoto é o da execução simples: "fiz, mesmo mal feito, todo dia". Qualidade
+    da prática vem depois, com tempo.
+
+
+    O que não funciona: apps abertos uma vez por mês (evidência exige regularidade), retiros isolados de fim de semana sem
+    prática contínua, meditação "guiada pra resolver problemas". E mindfulness não substitui tratamento de transtorno mental:
+    é adjuvante, não principal.
+
+
+    Pra quem gosta de medir: HRV noturno, frequência cardíaca de repouso, cortisol salivar, pressão arterial domiciliar, escala
+    PSS-10. Tendência de 8 semanas, não dia isolado.
+
+
+    Mindfulness não opera como prática mística e sim como treino do córtex pré-frontal, e quando esse córtex é treinado de
+    forma consistente, ele modula o resto da resposta ao estresse de forma mensurável.
+
+    '
+  image_path: apps/site/public/images/blog/meditacao-que-funciona-em-8-minutos/figura-1.webp
+  image_title: Meditação que funciona em 8 minutos
+- slug: quatro-profissionais-falando-a-mesma-lingua
+  block: 4
+  order: 28
+  status: approved
+  scheduled_at: '2026-07-14 18:52:00-03:00'
+  commentary: 'Ter quatro profissionais separados não produz o mesmo resultado clínico que ter uma equipe coordenada.
+
+
+    A frase aparece em consulta quase toda semana: "eu já tenho personal, nutri, terapeuta e médico, e mesmo assim sinto que
+    falta alguém juntando tudo".
+
+
+    A fragmentação da medicina convencional é conhecida: cada especialista olha o seu pedaço, ninguém olha a pessoa. O paciente
+    que pode pagar mais saiu desse modelo contratando profissionais separados, premium, cada um com mais tempo e escuta. Ganhou
+    em qualidade de cada interação. Não ganhou em integração.
+
+
+    Cinco anos depois, a queixa volta: "o nutricionista pede uma coisa, o personal pede outra, o médico tem outra hipótese,
+    o terapeuta trabalha em paralelo. Eu fico no meio, decidindo entre conselhos que às vezes se contradizem".
+
+
+    A fragmentação foi replicada, só que agora cara.
+
+
+    Exemplo concreto, composto de muitos casos: paciente entra com queixa de cansaço, peso travado, ansiedade subindo. Olhada
+    por cada profissional isoladamente:
+
+
+    O nutricionista vê o peso e ajusta o plano alimentar.
+
+
+    O personal vê a queixa de energia e ajusta o treino.
+
+
+    O médico vê os marcadores e ajusta o medicamento.
+
+
+    O terapeuta trabalha a ansiedade.
+
+
+    Cada intervenção pode estar tecnicamente certa. Mas se o problema central é cortisol elevado por estresse crônico não
+    tratado, as três primeiras remam contra a maré, e a quarta opera em registro paralelo. Ninguém está errado. Ninguém está
+    coordenado.
+
+
+    A leitura integrada teria visto que o gargalo era a regulação do eixo HPA, e que enquanto o cortisol estiver alto, o peso
+    não cede, o treino fadiga mais, e os marcadores metabólicos não respondem. A intervenção certa é trabalhar essa frente
+    primeiro, e as outras acompanham.
+
+
+    Esse tipo de leitura só acontece quando os quatro profissionais estão na mesma sala, no mesmo painel, conversando.
+
+
+    Foi pra resolver exatamente isso que desenhei o Método AGIR (Atividade Física, Alimentação e Suplementação Inteligente
+    · Gestão Clínica e Metabólica · Integração Mente-Corpo · Ritmo Circadiano e Repouso) na Plenya. A reunião de equipe acontece
+    na entrada do paciente, antes de qualquer prescrição. Os quatro discutem o caso, leem o painel, definem prioridades. O
+    plano é único, não quatro planos paralelos. A cada 4 semanas o ciclo se completa, e quando algo muda (marcador piora,
+    intervenção não responde, sintoma novo aparece), a equipe se realinha.
+
+
+    Esse arranjo é diferente, na prática, do "tenho médico, nutri, personal e terapeuta". É o mesmo número de profissionais,
+    mas com a diferença que decide o resultado clínico: eles falam entre si sobre o mesmo paciente.
+
+
+    A diferença operacional entre quatro profissionais e uma equipe é a conversa estruturada entre eles. Sem essa conversa,
+    qualquer arranjo, por mais premium, acaba replicando a fragmentação que o paciente queria deixar pra trás.
+
+    '
+  image_path: apps/site/public/images/blog/quatro-profissionais-falando-a-mesma-lingua/figura-1.webp
+  image_title: Quatro profissionais falando a mesma língua
+- slug: exercicio-o-farmaco
+  block: 4
+  order: 29
+  status: approved
+  scheduled_at: '2026-07-15 07:58:00-03:00'
+  commentary: 'Se existisse um fármaco que reduzisse o risco de morte por todas as causas em até 80%, a humanidade pagaria
+    qualquer preço por ele.
+
+
+    Esse fármaco existe e é o exercício físico, provavelmente o medicamento mais subprescrito da medicina contemporânea, apesar
+    de ser também o de melhor relação custo-benefício documentada.
+
+
+    O dado vem do estudo da Cleveland Clinic (Mandsager et al, JAMA Netw Open 2018) com 122 mil adultos: baixa aptidão cardiorrespiratória
+    teve hazard ratio de 5,04 contra a aptidão de elite. No mesmo estudo: tabagismo 1,41, diabetes 1,40, doença coronariana
+    1,29.
+
+
+    No estudo da Cleveland Clinic, a baixa aptidão cardiorrespiratória superou tabagismo, diabetes e doença coronariana como
+    preditor de mortalidade. Não é provocação minha; é o que os 122 mil casos seguidos mostraram.
+
+
+    A aptidão cardiorrespiratória, medida pelo VO₂ máx, é o marcador prognóstico mais poderoso da medicina interna. Mais que
+    pressão arterial. Mais que o perfil lipídico. Mais que a glicemia. A American Heart Association, em 2016, publicou scientific
+    statement (Ross et al, Circulation) defendendo que a aptidão cardiorrespiratória deve ser tratada como sinal vital clínico,
+    medida e registrada como pressão e frequência cardíaca.
+
+
+    O estudo de Wen et al (Lancet 2011) com mais de 416 mil adultos taiwaneses: 15 minutos diários de atividade moderada já
+    reduzem mortalidade total em 14% e estendem expectativa de vida em três anos. A meta-análise de Ekelund (BMJ 2019), com
+    dados de acelerômetro de 36 mil adultos, mostrou que substituir 30 minutos de sedentarismo por atividade leve já reduz
+    mortalidade. Não precisa ser alta intensidade. Lavie et al (Circ Res 2019): o efeito do sedentarismo é independente do
+    tempo de exercício formal. Sentar muito mata mesmo em quem treina.
+
+
+    E é, ao mesmo tempo, o marcador mais barato de melhorar. Não exige medicamento de alto custo, não exige tecnologia de
+    ponta. Exige tempo, estrutura e uma escolha clínica de prescrever com o mesmo rigor com que se prescreve um anti-hipertensivo:
+    dose, frequência, intensidade, monitoramento.
+
+
+    A receita escrita à mão dizendo apenas "praticar atividade física regular" tem pouco efeito clínico documentado. O exercício,
+    pra produzir o desfecho de mortalidade que a literatura mostra, precisa ser prescrito com a mesma especificidade de um
+    anti-hipertensivo, dose, frequência, intensidade, monitoramento, reavaliação.
+
+    '
+  image_path: apps/site/public/images/blog/exercicio-o-farmaco/figura-1.webp
+  image_title: O fármaco que reduz mortalidade em 80% e ninguém prescreve
+- slug: luz-da-manha-remedio-gratuito-que-reseta-metabolismo
+  block: 4
+  order: 30
+  status: approved
+  scheduled_at: '2026-07-16 08:17:00-03:00'
+  commentary: 'A intervenção mais barata e mais ignorada da medicina circadiana é uma só: 10 a 30 minutos de luz natural ao
+    ar livre nos primeiros 60 minutos após acordar.
+
+
+    O mecanismo foi descrito por Berson, Dunn e Takao (Science 2002): os ipRGCs (células ganglionares retinianas com pigmento
+    melanopsina) não servem pra visão. Servem pra informar ao núcleo supraquiasmático se é dia ou noite. Respondem com pico
+    de sensibilidade à luz azul 460-480 nm, abundante na luz solar matinal.
+
+
+    Quando os ipRGCs disparam de manhã, o NSQ envia o sinal: cortisol sobe, melatonina cai. Esse pulso matinal de cortisol
+    é o que dá energia pro dia. À noite, com a queda da luz azul, a pineal libera melatonina (sinal de noite biológica). Sem
+    o gatilho matinal, todo o resto desorganiza.
+
+
+    Wright et al (Current Biology 2013) levaram adultos pra acampar nas Montanhas Rochosas por uma semana, sem lanternas,
+    sem telas. Em uma semana, o pico de melatonina noturna avançou cerca de 2 horas. Pessoas que se identificavam como "noturnas"
+    passaram a sentir sono cedo. O relógio interno, com sinal limpo, se reorganizou sozinho.
+
+
+    A janela é matinal e estreita. Luz nas primeiras 1-2 horas após acordar avança o relógio. Luz à tarde tem efeito modesto.
+    Luz à noite atrasa o relógio.
+
+
+    A questão central aqui não é quanta luz total no dia, e sim em que horário ela chega aos olhos.
+
+
+    A intensidade também importa. Luz ao ar livre em dia nublado em São Paulo marca 10.000 a 25.000 lux. Em dia ensolarado,
+    50.000 a 100.000 lux. Luz interna de escritório raramente passa de 300-500 lux. Por janela fechada, ainda menos. "Ficar
+    perto da janela" é melhor que nada, mas não é equivalente a sair.
+
+
+    A receita prática:
+
+
+    10 a 30 minutos de luz natural ao ar livre nos primeiros 60 minutos após acordar. Sem óculos escuros. Caminhada, varanda,
+    café no jardim, ponto de ônibus a pé. Em dia nublado, 20 minutos em vez de 10.
+
+
+    Sem celular nesses minutos. O celular fragmenta a atenção e mantém o córtex no modo reativo.
+
+
+    À noite, escuridão progressiva. Reduzir luz de teto a partir de 21h. Lâmpadas quentes. Telas com modo noturno depois de
+    20h. Quarto escuro com cortina blackout.
+
+
+    Em inverno, em rotinas que começam antes do nascer do sol, ou em casas com pouca exposição solar matinal: caixa de luz
+    de fototerapia (light therapy lamp) emitindo 10.000 lux a cerca de 30 cm do rosto, usada por 20 a 30 minutos durante o
+    café da manhã. São lâmpadas LED ou de espectro full com filtro UV, posicionadas em ângulo lateral pra que a luz atinja
+    a retina sem ofuscar. Disponíveis no Brasil em varejistas online e lojas especializadas em produtos pra sono e bem-estar,
+    em diversos modelos.
+
+
+    O que não entra como primeira linha: dormir mais sem ajustar o ritmo, café preto sem limite, suplementos "para energia".
+    Esses são tampões pra um problema cujo sinal-base é a luz no horário certo.
+
+
+    Cansaço aos 44 nem sempre é hormônio, ferro ou tireoide. Em alguns casos, a causa central é uma manhã sem sol direto repetida
+    por anos, e essa pergunta raramente entra na anamnese.
+
+    '
+  image_path: apps/site/public/images/blog/luz-da-manha-remedio-gratuito-que-reseta-metabolismo/figura-1.webp
+  image_title: 'Luz da manhã: o remédio gratuito que reseta o metabolismo'
+- slug: treinar-para-envelhecer-bem-zona-2-e-forca
+  block: 4
+  order: 31
+  status: approved
+  scheduled_at: '2026-07-21 08:52:00-03:00'
+  commentary: 'A pirâmide do treino aeróbico que a literatura de longevidade sustenta é: 80% em baixa intensidade (Zona 2),
+    20% em alta intensidade. Mais força progressiva 2 a 3 vezes na semana.
+
+
+    A maioria das pessoas que se considera ativa faz o inverso: 80% em corrida ou esteira em intensidade moderada (a sensação
+    de esforço sem virar sofrimento), 10% em musculação genérica sem progressão real, 10% em nada estruturado.
+
+
+    A questão não é treinar mais e sim treinar a fisiologia certa, e a fisiologia que define resultado clínico muda depois
+    dos 40.
+
+
+    Zona 2 é a intensidade em que a mitocôndria está trabalhando perto do máximo da capacidade oxidativa de gordura, antes
+    do ponto em que o lactato começa a se acumular. Você consegue manter conversa em frases completas, com algum esforço respiratório,
+    sem precisar parar pra respirar entre as palavras. Em FC: 60 a 70% da máxima.
+
+
+    San-Millán e Brooks (Sports Medicine 2018): treino sustentado nessa zona é o estímulo mais eficiente pra biogênese mitocondrial
+    e flexibilidade metabólica (capacidade de oxidar gordura como combustível principal em repouso e exercício leve). Três
+    a quatro horas por semana em Zona 2, em sessões de 45 a 60 minutos.
+
+
+    A alta intensidade entra em pequenas doses. Intervalos curtos em intensidade que não se mantém por mais que aquele bloco.
+    O alvo é VO₂máx.
+
+
+    Mandsager (JAMA Netw Open 2018) analisou 122 mil adultos: quartil superior de capacidade cardiorrespiratória teve mortalidade
+    cinco vezes menor que o quartil inferior, sem ponto de saturação. VO₂máx não é só variável de atleta de endurance: é variável
+    de mortalidade por todas as causas, com curva sem saturação.
+
+
+    Stamatakis (Nature Medicine 2022) no UK Biobank mostrou algo ainda mais provocador: três a quatro pequenas explosões de
+    atividade vigorosa por dia (subir escada rápida, correr pra pegar ônibus, carregar compras com pressa) somando 4,4 minutos
+    diários se associaram a redução de 26 a 30% na mortalidade.
+
+
+    Força não cabe como item "complementar" do treino; ela é pilar próprio, com dose e progressão próprias. ACSM (Med Sci
+    Sports Exerc 2011): 2 a 3 sessões por semana, todos os principais grupos musculares, 8 a 12 repetições em intensidade
+    que cause fadiga real. Após os 50, adicionar treino neuromotor (equilíbrio, coordenação) duas vezes na semana.
+
+
+    Sarcopenia começa aos 30, com 3 a 8% de perda por década se nada é feito. Acelera após os 60. Aos 75 anos, é o que decide
+    se você levanta da cadeira sem usar as mãos.
+
+
+    A receita prática pra adulto acima de 40:
+
+
+    Zona 2: 3 a 4 h/semana. Caminhada inclinada, bicicleta, esteira, remo. FC 60-70% da máxima.
+
+
+    Alta intensidade: 1 sessão/semana. 4 séries de 4 minutos a 90% FC máx, 3 minutos de recuperação ativa. Ou Tabata 30/30.
+
+
+    Força: 2 a 3 sessões/semana. Movimentos compostos pesados (agachamento, terra, supino, remada, levantamento militar),
+    5 a 10 repetições reais, progressão semanal ou quinzenal.
+
+
+    Volume de treino sem direção fisiológica não constrói longevidade, repete o mesmo estímulo limitado por anos. Já o mesmo
+    volume distribuído em Zona 2, alta intensidade e força progressiva é o que sustenta capacidade funcional nas duas décadas
+    seguintes.
+
+    '
+  image_path: apps/site/public/images/blog/treinar-para-envelhecer-bem-zona-2-e-forca/figura-1.webp
+  image_title: 'Treinar para envelhecer bem: a fórmula é Zona 2 e força'
+- slug: treinar-muito-e-envelhecer-errado
+  block: 4
+  order: 32
+  status: approved
+  scheduled_at: '2026-07-22 08:11:00-03:00'
+  commentary: 'Recebo recorrentemente o seguinte perfil: paciente que treina três a quatro vezes por semana há vinte anos,
+    ciclismo no fim de semana, corrida no meio, musculação porque "tem que fazer", come limpo, dorme razoavelmente. Tem 47
+    anos. E acorda inflamado. Joelhos doem em ladeira. Força que tinha aos 35 não está mais lá. Composição corporal piorou:
+    magro por fora, sem massa magra de verdade.
+
+
+    A pergunta que faço na primeira consulta desse perfil é desconfortável: e se o problema for o treino?
+
+
+    Há uma confusão central no discurso popular sobre exercício e longevidade: "mais é melhor". A literatura e a prática clínica
+    discordam. Mais do estímulo certo, no momento fisiológico certo, gera adaptação. Mais de qualquer coisa, indiscriminadamente,
+    gera desgaste, e desgaste cumulativo vira lesão crônica e plateau metabólico com os anos.
+
+
+    Aos 30, o corpo perdoa. Treina pesado segunda, dói terça, está pronto quarta. Aos 45, a curva muda. Tendões e ligamentos
+    perdem elasticidade. A síntese proteica responde mais devagar. A inflamação sistêmica de baixo grau sobe se o estímulo
+    não for absorvido.
+
+
+    O conceito clínico que importa aqui é o de estresse máximo recuperável, não "qual o máximo que consigo treinar", mas "qual
+    o máximo que consigo treinar e ainda recuperar com folga até o estímulo seguinte". Quem ignora essa distinção paga em
+    três moedas:
+
+
+    Lesão crônica que vai aparecer aos 50.
+
+
+    Sarcopenia oculta: perda de massa magra apesar do volume.
+
+
+    Inflamação subclínica: hs-CRP elevada, recuperação mais lenta a cada ano.
+
+
+    Marcadores que costumam aparecer alterados em quem treina muito sem leitura: ferritina baixa apesar de alimentação cuidada
+    (perda no esporte de endurance), testosterona em queda, hs-CRP persistentemente em 2,0 a 3,0 mg/L, massa magra abaixo
+    do esperado pro volume de treino. Idade biológica frequentemente acima da cronológica.
+
+
+    Não é falta de disciplina. É estímulo errado por anos. Treino que rouba recuperação, queima ferro, suprime testosterona,
+    sem que ninguém tenha olhado esses marcadores antes.
+
+
+    Personal trainer lê movimento, lê esforço, ajusta carga. Mas raramente lê painel hormonal, ferritina, PCR, composição
+    corporal por DEXA. E quase nunca conversa com o médico que prescreve. O resultado é um plano de treino que pode ser tecnicamente
+    competente operando no escuro em relação ao terreno biológico.
+
+
+    A correção quando entra avaliação integrada: redistribuição do volume (mais Zona 2, menos esforço médio), introdução de
+    força estruturada, ajuste alimentar com proteína distribuída, suplementação dirigida pelo painel (ferro se baixo, vitamina
+    D, magnésio quando indicado).
+
+
+    Em seis meses, os marcadores voltam. Composição muda. Performance melhora. Treinando menos.
+
+
+    Treinar muito, isoladamente, não constrói longevidade. Treinar pelo dado clínico, sim. A diferença no longo prazo é entre
+    acumular capacidade funcional ou acumular passivo silencioso, e a década entre 40 e 50 é onde essa diferença se estabelece
+    de forma mais decisiva.
+
+    '
+  image_path: apps/site/public/images/blog/treinar-muito-e-envelhecer-errado/figura-1.webp
+  image_title: Treinar muito e envelhecer errado
+- slug: suplementos-que-fazem-diferenca-depois-dos-40
+  block: 4
+  order: 33
+  status: approved
+  scheduled_at: '2026-07-23 12:07:00-03:00'
+  commentary: 'Atendo recorrentemente paciente que chega com sacola de farmácia e a pergunta certa: gasto fortuna por mês,
+    está fazendo alguma coisa?
+
+
+    A literatura de suplementação em adultos acima dos 40 é vasta. Quando se filtra por ensaios randomizados de tamanho razoável,
+    com desfechos clinicamente relevantes, o núcleo do que sobra é curto: creatina monoidratada, ômega-3 (EPA+DHA, ou EPA
+    isolado em dose alta para indicações específicas), vitamina D em deficientes (em conjunto com vitamina K2), magnésio em
+    deficientes ou em condições específicas.
+
+
+    Creatina monoidratada. Foi estigmatizada por décadas como "coisa de academia" e está sendo redescoberta na clínica de
+    longevidade pelo motivo certo. A meta-análise de Chilibeck (Open Access J Sports Med 2017) agregou 22 ensaios em adultos
+    de 57 a 70 anos: creatina + treino de força ganhou em média 1,37 kg de massa magra a mais que placebo + treino. Dose:
+    3 a 5 g/dia, sem fase de carga, sem ciclos. Como nefrologista, afirmo com tranquilidade que a história do "creatina faz
+    mal pro rim" não se sustenta nos dados, em pessoas com função renal normal.
+
+
+    Ômega-3. O VITAL (Manson, NEJM 2019) randomizou mais de 25 mil adultos pra 1 g/dia de óleo de peixe vs placebo: sem redução
+    do desfecho cardiovascular primário em população geral. Mas o REDUCE-IT (Bhatt, NEJM 2019), com EPA puro 4 g/dia em pacientes
+    com triglicérides elevados em estatina, reduziu 25% em eventos cardiovasculares maiores. A dose, a pureza e a indicação
+    importam.
+
+
+    Ponto de partida prático: anamnese alimentar. Quem come peixe gordo (sardinha, salmão, atum, cavala) duas a três vezes
+    por semana costuma atingir ingesta adequada e não precisa suplementar. Pros demais, EPA+DHA combinados em torno de 2 g/dia,
+    em formulação certificada (selo IFOS ou equivalente). O Índice de Ômega-3 eritrocitário, quando disponível, individualiza
+    alvo (acima de 8%).
+
+
+    Vitamina D + K2 (par obrigatório). A vitamina D aumenta a absorção intestinal de cálcio; a K2 (forma MK-7) é o cofator
+    que direciona esse cálcio pro lugar certo, ativando a osteocalcina (que liga o cálcio à matriz óssea) e a proteína matriz
+    Gla nos vasos (que age no sentido oposto ao da calcificação vascular). Repor vitamina D sem K2 adequado é abrir a torneira
+    do cálcio sem definir o destino. Knapen (Osteoporos Int 2013): 180 µg/dia de MK-7 por 3 anos reduziu significativamente
+    a perda óssea em mulheres na pós-menopausa.
+
+
+    A reposição de D faz sentido quando há deficiência confirmada (25-OH-vitamina D abaixo de 30 ng/mL). Alvo razoável: 40
+    a 60 ng/mL. Dose: 1.000 a 4.000 UI/dia na maioria. Só seguir a 25-OH é incompleto: integro PTH (em queda com a reposição
+    confirma que a dose chegou à faixa funcional), cálcio sérico e cálcio urinário 24h (segurança), função renal e fósforo.
+    Reavalio a cada 3 a 6 meses. K2 (MK-7) prescrita junto, 90 a 180 µg/dia.
+
+
+    Magnésio. DiNicolantonio (Open Heart 2018) sintetizou: consumo médio em populações ocidentais está abaixo da RDA (310-420
+    mg/dia), magnésio sérico só cai depois que os estoques teciduais já estão depletados, e a deficiência associa-se a hipertensão,
+    resistência insulínica, arritmias, enxaquecas e qualidade de sono pobre. Dose: 200 a 400 mg/dia de magnésio elementar,
+    em formas absorvíveis (glicinato pra sono, citrato com cuidado pelo efeito laxativo, treonato com dados emergentes em
+    cognição). Evito óxido.
+
+
+    Outras substâncias entram em situações clínicas próprias dentro do mesmo raciocínio dirigido (colágeno em osteoartrite,
+    NAC em contextos selecionados, coenzima Q10 em mialgia por estatina, fibras solúveis em LDL ou controle glicêmico, B12
+    dirigida em vegetarianos ou usuários crônicos de metformina), sempre com indicação clínica clara e prazo de reavaliação.
+
+
+    Pelo método AGIR (Atividade Física, Alimentação e Suplementação Inteligente · Gestão Clínica e Metabólica · Integração
+    Mente-Corpo · Ritmo Circadiano e Repouso) que aplico no Continuum Plenya, a regra que sustenta esse núcleo é a mesma do
+    resto do método: a indicação parte da avaliação clínica, a dose se titula por exame, e a reavaliação acontece em ciclo
+    programado.'
+  image_path: apps/site/public/images/blog/suplementos-que-fazem-diferenca-depois-dos-40/figura-protocolo.webp
+  image_title: 'Suplementação dirigida por exame: protocolo clínico'
