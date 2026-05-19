@@ -1,7 +1,7 @@
 # Continuum Plenya · Editorial Line & Status
 
 > **Reload this file at session start** to restore deck context.
-> Last update: 2026-05-17 (slides 14-16 finalizados · próximo: slide 17 comparativo)
+> Last update: 2026-05-19 (deck 20 slides · slide 12 Aprofundamento G novo · slide 18 O Escopo novo · slide 19 Compromisso revisado world-class + preços · slide 20 CTA cerimonial migrado)
 
 ---
 
@@ -128,39 +128,44 @@ Team slide deve ser CONQUISTADO — não pode vir antes do problema + insight + 
 
 ---
 
-## ARCO NARRATIVO COMPLETO (19 slides)
+## ARCO NARRATIVO COMPLETO (20 slides)
+
+> **Decisão estrutural 2026-05-17:** comparativo Consulta vs Continuum REMOVIDO (Pedro-style close-deck). Plano futuro: deck próprio pra Consulta.
+>
+> **Decisão estrutural 2026-05-19:** deck = close conversation (Pedro Quintanilha). Adicionados slide 12 (Aprofundamento G — zoom 14 áreas) entre AGIR e Escore, e slide 18 (O Escopo — entra/fora canonical) entre Não É e Compromisso. CTA fechamento (slide 20) migrado pra cerimonial puro «Comece hoje.» — sem CTA pra agendar, sem Triagem downgrade.
 
 ```
 ACT I · PROBLEMA + RECONHECIMENTO (1-3)
  1  HOOK             10 anos. (década silenciosa)
  2  CONTEXTO         A janela silenciosa + gráfico HbA1c
- 3  RECONHECIMENTO   Você se acostuma + 5 sintomas (catálogo categorizado)
+ 3  RECONHECIMENTO   Você se acostuma + 5 sintomas
 
 ACT II · AUTORIDADE (4)
  4  ORIGEM           Getúlio · Viver mais ≠ viver bem
 
 ACT III · PRODUTO + DEMOLIÇÃO DE CRENÇAS (5-9)
- 5  REVEAL           Continuum (cerimonial · hero corredor petrol+gold)
+ 5  REVEAL           Continuum (cerimonial · corredor petrol+gold) + «100% online · semestral ou anual»
  6  PARADIGMA        Enxergar antes / Acompanhar de perto / Agir com precisão
  7  CRENÇA 1         "Meus exames normais" → Normal ≠ Ótimo
  8  CRENÇA 2         "Já tenho médico" → Médico-gestor articula
  9  CRENÇA 3         "Vai dar resultado?" → Escore mostra a curva
 
-ACT IV · COMO FUNCIONA (10-14) — ainda não migrados
- 10 EQUIPE           4 especialistas multidisciplinares
- 11 MÉTODO AGIR      4 pilares
- 12 ESCORE PLENYA    Radar 22 vértices
- 13 JORNADA          A→B + timeline
- 14 BOX              Curadoria material
+ACT IV · COMO FUNCIONA (10-15)
+ 10 EQUIPE           4 especialistas + «Encontros semanais online em rotação»
+ 11 MÉTODO AGIR      4 pilares (manifesto AGIR.)
+ 12 APROFUNDAMENTO G 14 áreas clínicas + Slide12.PNG (mão escrevendo prontuário)
+ 13 ESCORE PLENYA    Radar 22 vértices · «Direção, não punição»
+ 14 JORNADA          6 etapas timeline · Marfa-style stepping stones
+ 15 BOX              Curadoria material · ponte entre videochamadas
 
-ACT V · QUALIFICAÇÃO + COMPROMISSO (15-18) — ainda não migrados
- 15 PARA QUEM É      6 perfis
- 16 PARA QUEM NÃO É  3 razões honestas
- 17 COMPARATIVO      Consulta avulsa vs Continuum
- 18 COMPROMISSO      Semestral / Anual
+ACT V · QUALIFICAÇÃO + ESCOPO + COMPROMISSO (16-19)
+ 16 PARA QUEM É      6 perfis canonical
+ 17 PARA QUEM NÃO É  3 razões honestas + Slide16.PNG horizonte
+ 18 O ESCOPO         Entra/Fora canonical + Slide18.PNG (casa cliente + webconf + paper + Box)
+ 19 COMPROMISSO      Semestral R$25k / Anual R$40k + relógios SVG · investimento dignificado
 
-ACT VI · CTA (19) — ainda não migrado
- 19 FECHAMENTO       Triagem gratuita + WhatsApp
+ACT VI · FECHAMENTO (20)
+ 20 FECHAMENTO       Cerimonial puro: Símbolo + Wordmark + «Viva bem, viva mais.» + «Comece hoje.»
 ```
 
 ---
@@ -185,7 +190,15 @@ ACT VI · CTA (19) — ainda não migrado
 | **14** | ✅ FINAL | BOX PLENYA · split 50/50 (texto esquerda · imagem direita) + Slide14.PNG (box petrol aberto com PLENYA gold foil + 3 frascos amber labels "PLENYA" + pouch linho + caneca cream "P" + bilhete dobrado laço gold, sobre wenge wood com luz lateral tungstênio — família visual slide 7). Eyebrow "O Box" top-right gold-soft. Headline "O cuidado chega em forma de objeto." 76px cream. Subhead italic gold "A ponte entre os encontros." Body: curadoria material + ritmo do plano. Closer italic gold-soft "O Continuum acontece também entre as videochamadas." |
 | **15** | ✅ FINAL | PARA QUEM É · pure typography 2 col × 3 rows · canonical 100% do site (`forWhomTitle` + `forWhomDesc` + `fw1-fw6` Title+Body). Headline "O Continuum Plenya não é para todo mundo." 64px cream centralizado. Subhead italic gold-soft "É para quem reconhece um destes momentos." 6 perfis com numeral romano I-VI + título serif-display 30px + body sage 20px. Hairlines verticais à esquerda de cada card (indentação stanza). Closer italic gold-soft "Não como diagnóstico, como o ponto da vida em que faz sentido construir saúde no tempo, em conjunto, com método." Refinamentos canonical propagados pro site (pt+en): "Carrega mais do que a si mesmo" (era "do que si mesmo"), "Saúde virou alicerce" (era "variável crítica" — MBA-feel removido), "Sono, humor, corpo: algo está mudando" (vírgula → dois pontos). Deck-only divergência: body I sem "a pele perde viço" (uniformidade visual). |
 | **16** | ✅ FINAL | PARA QUEM NÃO É · split 50/50 INVERTIDO (imagem ESQUERDA · texto DIREITA) + Slide16.PNG (limiar arquitetônico petrol com horizonte ao amanhecer e banda gold no horizonte + sea + reflexo gold no piso de concreto — Hiroshi Sugimoto stillness + Brazilian Atlantic coast). Imagem quadrada 1254×1254, object-fit cover. Chrome ESPELHADO: brand mark top-RIGHT, eyebrow "Honestidade" top-LEFT, page mark bottom-LEFT. Headline 56px cream "Para quem o Continuum não é." com "não" italic gold. Subhead italic gold-soft "Quanto mais cedo a gente alinha expectativa, melhor o cuidado funciona, e o tempo de quem ainda nem chegou." (canonical site). 3 razões com romanos I/II/III + título 26px + body 18px (notForT1-3 + notForB1-3 canonical). Closer editorial italic gold-soft "Dizer não com clareza é parte do cuidado." (frase nova, ancora desqualificação como valor). Decisão de assimetria proposital vs slide 15 (Aman/Cucinelli pattern: quiet luxury não declara rejeição) baseada em pesquisa research-agent. |
-| 17-19 | ❌ NÃO MIGRADOS | Ainda no sistema antigo (sans/Inter, footer, rules) |
+| **12** | ✅ FINAL | APROFUNDAMENTO G · split 65/35 (texto esquerda · imagem direita) + Slide12.PNG (mão de médico mais velho escrevendo prontuário sob luz tungstênio, wenge wood — family slide 7). Microcounter A·G·I·R 40px com G destacado em gold. Headline 84px "O corpo lido como um só sistema." em 2 linhas. 14 áreas clínicas em 2 colunas 7+7 com hairline gold vertical, 28px serif Cormorant. Closer italic gold-soft 30px "É isto que o médico-gestor articula." (call-back ao slide 8). |
+| **13** | ✅ FINAL | ESCORE PLENYA · radar SVG 22 vértices + score 78 central + headline "Escore Plenya." 120px + subhead "Não é uma nota. É um mapa." + body "Mais de 800 itens..." + closer "Direção, não punição." (era slide 12 antes da renumeração 2026-05-18). |
+| **14** | ✅ FINAL | JORNADA · Slide13.PNG Marfa-style stepping stones · 6 etapas ascendentes em bullets (era slide 13). |
+| **15** | ✅ FINAL | BOX PLENYA · split 50/50 + Slide14.PNG (box petrol aberto com PLENYA gold foil + frascos amber + caneca + bilhete + wenge wood + tungstênio) (era slide 14). |
+| **16** | ✅ FINAL | PARA QUEM É · pure typography 2 col × 3 rows · canonical 100% do site · 6 perfis com numerais romanos I-VI (era slide 15). |
+| **17** | ✅ FINAL | PARA QUEM NÃO É · split 50/50 INVERTIDO + Slide16.PNG (limiar arquitetônico petrol com banda gold no horizonte Sugimoto-style) · 3 razões com closer "Dizer não com clareza é parte do cuidado." (era slide 16). |
+| **18** | ✅ FINAL | O ESCOPO · split 50/50 + Slide18.PNG (casa do cliente com Mata Atlântica + travertino + laptop webconf Plenya (Dr. Getúlio + Escore radar) + paper plano integrado + Box Plenya em banco). Texto esquerda single column: headline "O que entra. O que fica de fora." 56px + ENTRA NO PROGRAMA (7 itens canonical site `in1-in7`) + linha gold horizontal separadora + FICA DE FORA (2 itens canonical `out1-out2`) + closer "Tudo o que importa para construir saúde no tempo." Quantificações cirúrgicas: "Box Plenya na abertura e sempre que houver indicação" + "Reavaliações trimestrais". Pattern McKinsey scope + Aman membership inclusões. |
+| **19** | ✅ FINAL | COMPROMISSO · 2 modalidades separadas por hairline gold vertical. Relógios SVG 120×120 (sage 6m / gold 12m) + "6m"/"12m" italic Fraunces. Chrome novo + page mark 19/20. Headline "Dois horizontes de compromisso." + subhead canonical "Seis ou doze meses de cuidado contínuo." 2 colunas com eyebrow "Investimento" + valor hero 30px + cadência italic. Semestral R$25.000 à vista / 12× R$2.500 + tagline "O primeiro ciclo." Anual R$40.000 à vista / 12× R$3.750 + tagline "O ano que sustenta a trajetória." Closer "As condições de pagamento, ajustamos juntos." (presente imediato Pedro-style — deck = close conversation, sem fantasma de outra reunião). |
+| **20** | ✅ FINAL | FECHAMENTO CERIMONIAL · Apple title-slide × Aman signature card. Pure petrol-deep, sem chrome, sem page mark, sem footer. Símbolo Plenya gold 120px + Wordmark PLENYA cream 320px + "Viva bem, viva mais." 130px gold italic + "Comece hoje." 36px italic cream. Cortes: "Conversar com a equipe Plenya" (CTA pra agendar — redundante porque deck = close conversation), "ou comece pela Triagem do Escore" (downgrade no momento de close), footer com canais (vide que sinalizava conversa futura). |
 
 ---
 
@@ -374,51 +387,34 @@ Infra: nginx container no docker `coolify` network + Traefik + Lets Encrypt
 
 **Slides 1-9 estão FINAL e pushados em produção** (https://decks.plenyasaude.com.br).
 
-### Próximo trabalho: migrar slides 10-19 do sistema antigo (sans/Inter/footer/rules) pro sistema premium (serif Cormorant + Fraunces, sem rules, sem footer genérico, paleta petrol+gold+sage).
+### Próximo trabalho: migrar slide 18 (CTA fechamento, era slide 19).
 
-### Próximo trabalho: migrar slides 17-19
+#### 18 · CTA FECHAMENTO (último a migrar)
 
-#### 17 · COMPARATIVO (próximo na fila)
+**O que tem hoje:** símbolo Plenya gold + wordmark + claim «Viva bem, viva mais.» 130px gold italic + «Conversar com a equipe Plenya.» + «ou comece pela Triagem do Escore — gratuita, cinco minutos, sem cadastro.» + footer com PLENYASAUDE.COM.BR · LONDRINA · contato@plenyasaude.com.br. Ainda usa `<hr class="rule">` (cortar) e footer antigo (cortar).
 
-**O que tem hoje** (linhas ~1007-1122 do deck.html, ainda sistema antigo):
-- Eyebrow `O contexto da decisão`
-- Headline 72px "Para uma dúvida pontual *ou* para construção no tempo?"
-- 2 colunas lado-a-lado (1fr 1fr, gap 56px):
-  - Esquerda CONSULTA PLENYA · "Uma leitura clínica." · 4 bullets com — sage
-  - Direita CONTINUUM PLENYA · "Uma trajetória clínica." · 4 bullets com + gold (destacado)
-- Frase fechamento: "Se você ainda está em dúvida, comece pela Consulta. *O Continuum é pra quem já decidiu o caminho.*"
-- Footer antigo (banir)
+**O que migrar:** chrome cerimonial (Apple title-slide). Provavelmente OMITIR brand mark/eyebrow/page mark — slide é o fechamento, não há próximo. Trocar `<hr>` por hierarquia tipográfica. Tipografia serif Cormorant+Fraunces. Manter o claim "Viva bem, viva mais." em gold italic 120-130px como hero. Preservar o CTA dual (conversa + triagem) — é a única bifurcação de funil legítima no deck inteiro.
 
-**O que migrar:**
-1. Remover `slide-footer` + adicionar chrome novo (brand TL · eyebrow TR `O contexto` · page mark BR 17/19)
-2. Trocar `font-family: var(--sans)` → serif Cormorant em todo body
-3. Bullets `—` e `+` ficam (forte assimetria visual entre colunas)
-4. Body size 17px → 20-22px (piso 18px)
-5. Headline 72px serif-display funciona — manter
+**Família visual sugerida:** slide 5 cerimonial (corredor reveal) MAS vazio — só símbolo + wordmark + claim + CTA. Petrol-deep. Eventualmente uma imagem ambiente sutil de fundo (versão clara de Slide5 ou um amanhecer Plenya), mas pode ficar pure-petrol e funcionar.
 
-**Decisão de layout (a tomar):** comparativos PEDEM simetria (não como slide 15/16 que era qualificação/desqualificação). Mas pode ter assimetria visual sutil dentro da simetria estrutural — coluna direita (Continuum) marcada com border-top gold mais espesso, body cream cheio; esquerda com border sage mais sutil, body sage 80% opacity. **Pattern McKinsey/Bain matriz comparativa.**
+---
 
-**Copy site (não tem comparativo direto):** o slide inventa structure. Site tem `consultTitle/consultDesc` (linha 57 pt.json) + `continuumP2` (116) que descrevem cada um separadamente. **Não há canonical de comparativo. Deck pode inventar.**
+## REGISTRO HISTÓRICO: SLIDE COMPARATIVO REMOVIDO (2026-05-17)
 
-**Considerações:**
-- Slide 17 vem DEPOIS de slides 15-16 (qualificação + desqualificação). É a hora de revelar a alternativa Consulta como "menor compromisso", não como pior produto. Tom: oferecer caminho intermediário com dignidade.
-- Frase fechamento atual é POTENTE — "O Continuum é pra quem já decidiu o caminho." Manter.
+Existiu um slide 17 (Comparativo Consulta vs Continuum) que foi REMOVIDO antes de migração final. Documentação preservada aqui pra não repetir o erro num deck-Consulta futuro:
 
-#### 18 · COMPROMISSO
+**Por que foi cortado:**
+1. **Single-offer principle** — todo deck premium tem uma oferta. Apple keynote não mostra iPhone Pro vs SE no close.
+2. **Carga cognitiva no momento errado** — depois de 16 slides reduzindo opções pra uma, introduzir bifurcação no 17 desfaz o trabalho.
+3. **Ancoragem de baixo** — mostrar Consulta lado-a-lado ancora mentalmente no produto mais barato, mesmo sem citar preço.
+4. **Exit ramp psicológico** — prospect prestes a fechar Continuum encontra «começo pequeno, vejo se gosto» (= não fecha).
+5. **Frase «pra quem já decidiu» é auto-sabotadora** — admite tacitamente que talvez não esteja decidido, planta dúvida.
+6. **Cultura BR mid-50s alto patrimônio** — comparativo pode soar como covardice comercial («não tenho convicção do que vendo»).
+7. **Editorial** — 18 > 19. Quiet luxury reduz.
 
-**O que tem hoje:** relógios SVG circulares (semestral 6 dots, anual 12 dots). Preservar SVG.
+**Por que NÃO é desonesto cortar:** a Consulta vive no site, na Triagem, no WhatsApp da equipe, na conversa direta. O deck não tem obrigação de enumerar todos os produtos Plenya — tem obrigação de vender bem o que ele se propõe a vender.
 
-**O que migrar:** chrome novo, serif, sem footer. Manter visual dos relógios — é único no deck.
-
-**Decisão pendente:** apresentar PREÇO? Memory diz NUNCA. Verificar com user. Provável: NÃO citar preço, citar compromisso temporal (6 ou 12 meses) + frequência (encontro semanal, reavaliação trimestral, fechamento estruturado).
-
-#### 19 · CTA FECHAMENTO
-
-**O que tem hoje:** placeholder.
-
-**O que fazer:** símbolo Plenya gold (use `apps/site/public/brand/symbol/gold.png`) centralizado grande + wordmark CONTINUUM PLENYA serif caps + claim master "Viva bem, viva mais." gold italic. CTA específico (canal de triagem? WhatsApp? site?) — perguntar user.
-
-**Família visual sugerida:** slide cerimonial like slide 5 (corredor reveal) mas vazio — só símbolo + tipografia + petrol-deep. Apple title-slide style. SEM chrome (omitir brand mark TL + eyebrow + page mark — slide cerimonial pure).
+**Projeto futuro: deck próprio pra Consulta Plenya.** Não é «Continuum-light». Perfil do prospect Consulta é distinto (menos certeza, mid-40s talvez, recém-saído de susto, talvez fora de Londrina). Narrativa própria: 90 minutos com leitura clínica integrada, painel ampliado, plano nominal como artefato material, inauguração da relação com médico-gestor. CTA menor («agende uma Consulta»). 8-12 slides, mais íntimo, foco no «momento-instrumento». Slide final menciona que muitos pacientes Continuum começaram pela Consulta (transição natural pro upsell quando vínculo já existe).
 
 ### Lições aprendidas (sessão 2026-05-17, slides 14-16)
 
@@ -437,10 +433,7 @@ Infra: nginx container no docker `coolify` network + Traefik + Lets Encrypt
 7. **Closer editorial novo (não-canonical) é OK quando ancora valor da marca** — "Dizer não com clareza é parte do cuidado." (slide 16) não está no site, mas reforça a dignidade do gesto de desqualificar. Editorial > paridade aqui.
 
 8. **Tamanho da imagem source importa** — primeiro Slide16.PNG era 9:16 portrait, ficou cortado com cover. User regerou 1254×1254 quadrada. **Padrão pra slides 50/50: pedir source quadrado.**
-- **16 · PARA QUEM NÃO É** — 3 razões com SVG icons (REMOVER ICONS na migração).
-- **17 · COMPARATIVO** — Consulta avulsa vs Continuum (2-col typography).
-- **18 · COMPROMISSO** — Semestral / Anual (relógios SVG circulares preservar).
-- **19 · CTA FECHAMENTO** — Símbolo + wordmark + "Viva bem, viva mais."
+- **18 · CTA FECHAMENTO** — Símbolo + wordmark + "Viva bem, viva mais." + CTA dual (conversa + Triagem).
 
 ### Antes de mexer em qualquer um deles
 1. **Ler este arquivo inteiro** (especialmente seções de tipografia + layout + regras invariantes + lições)
