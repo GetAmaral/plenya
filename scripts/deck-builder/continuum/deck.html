@@ -30,7 +30,7 @@
 
   <!-- Page mark mínimo, canto inferior esquerdo -->
   <div style="position: absolute; bottom: 64px; left: 96px; z-index: 2;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">01 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">01 / 17</span>
   </div>
 
   <!-- Conteúdo: UM typeface (serif), hierarquia só por tamanho, zero decoração -->
@@ -55,18 +55,17 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 02 — CONTEXTO · A janela silenciosa
-     Mesmo sistema visual do slide 1: full-bleed image, fade petrol esquerda,
-     mono-serif, hierarquia por tamanho, gold em 2 acentos estratégicos.
+     SLIDE 02 — A JANELA SILENCIOSA · conceito clínico + sintomas + chart HbA1c
+     Fusão dos antigos slides 2 (conceito) + 3 (sintomas). 2 teses paralelas:
+     T1 clínica (normal ≠ ótimo, metáfora foto/vídeo) + T2 humana (você se acostuma).
      ============================================================ -->
 <section class="slide slide--deep" id="s02">
-  <!-- Hero editorial: retrato mid-50s olhando pra direita, ar à esquerda -->
-  <div style="position: absolute; inset: 0; z-index: 0;">
+  <!-- Image encolhida mais 20% (agora 64% do slide à direita); left 36% petrol-deep limpo pro texto respirar -->
+  <div style="position: absolute; left: 36%; top: 0; right: 0; bottom: 0; z-index: 0; overflow: hidden;">
     <img src="../../../docs/decks/_assets/Sllide2.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center;">
-    <!-- Fade horizontal — petrol denso à esquerda pra tipografia respirar -->
-    <div style="position: absolute; inset: 0; background: linear-gradient(90deg, var(--petrol-deep) 0%, rgba(4,31,42,0.92) 18%, rgba(4,31,42,0.45) 38%, rgba(4,31,42,0.0) 58%);"></div>
-    <!-- Vinheta editorial sutil -->
-    <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 65% 50%, transparent 0%, transparent 55%, rgba(4,31,42,0.35) 100%);"></div>
+    <!-- Fade na borda esquerda da imagem — blend com o petrol-deep da área de texto -->
+    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 50%; background: linear-gradient(90deg, var(--petrol-deep) 0%, rgba(4,31,42,0.92) 25%, rgba(4,31,42,0.55) 55%, rgba(4,31,42,0.18) 80%, transparent 100%);"></div>
+    <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 65% 50%, transparent 0%, transparent 60%, rgba(4,31,42,0.30) 100%);"></div>
   </div>
 
   <!-- Brand mark top-left -->
@@ -75,86 +74,69 @@
     <span style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.34em; color: var(--cream); text-transform: uppercase; opacity: 0.85;">Continuum Plenya</span>
   </div>
 
-  <!-- Page mark bottom-left -->
-  <div style="position: absolute; bottom: 64px; left: 96px; z-index: 2;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">02 / 18</span>
+  <!-- Eyebrow top-right -->
+  <div style="position: absolute; top: 78px; right: 96px; z-index: 2;">
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">Reconhecimento</span>
   </div>
 
-  <!-- Conteúdo: mono-serif, hierarquia só por tamanho -->
-  <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: flex-start; padding-left: 96px; padding-right: 0; max-width: 56%;">
-    <h2 style="max-width: 720px; font-family: var(--serif-display); font-weight: 500; font-size: 96px; line-height: 1.05; letter-spacing: -0.025em; color: var(--cream); margin-bottom: 48px;">
-      A janela silenciosa.
+  <!-- Page mark bottom-left -->
+  <div style="position: absolute; bottom: 64px; left: 96px; z-index: 2;">
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">02 / 17</span>
+  </div>
+
+  <!-- 2 colunas (conceito + sintomas) na esquerda, chart visível na direita via imagem de fundo -->
+  <div class="slide-content" style="position: relative; z-index: 1; padding: 140px 130px 110px 96px; justify-content: center; align-items: flex-start; max-width: 64%;">
+
+    <!-- Headline -->
+    <h2 style="font-family: var(--serif-display); font-weight: 500; font-size: 76px; line-height: 1.0; letter-spacing: -0.028em; color: var(--cream); margin-bottom: 24px;">
+      A janela silenciosa<span style="color: var(--gold);">.</span>
     </h2>
 
-    <p style="max-width: 720px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 36px; line-height: 1.28; color: var(--gold); margin-bottom: 64px; letter-spacing: -0.005em;">
-      Marcadores que continuam mudando dentro da faixa aceitável, enquanto os exames ainda tranquilizam.
+    <!-- TESE 1 · CLÍNICO · normal ≠ ótimo + metáfora foto/vídeo (conecta ao chart) — 2 linhas -->
+    <p style="max-width: 900px; font-family: var(--serif-display); font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.25; color: var(--gold); letter-spacing: -0.01em; margin-bottom: 14px;">
+      Normal não é ótimo. Um exame é foto, a trajetória é vídeo.
+    </p>
+    <p style="max-width: 900px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 26px; line-height: 1.3; color: var(--gold-soft); letter-spacing: -0.005em; margin-bottom: 36px;">
+      Entre os dois, a saúde se decide.
     </p>
 
-    <p style="max-width: 720px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 30px; line-height: 1.4; color: var(--gold-soft); letter-spacing: -0.005em;">
-      É nesse espaço entre o normal e o ótimo<br>
-      que a saúde é decidida.
+    <!-- Hairline gold horizontal — separa tese clínica de tese humana -->
+    <div style="width: 80px; height: 1.5px; background: var(--gold); opacity: 0.55; margin-bottom: 24px;"></div>
+
+    <!-- TESE 2 · HUMANO · slide 3 original headline (paralelo à tese 1, não closer subordinado) -->
+    <p style="font-family: var(--serif-display); font-style: italic; font-weight: 500; font-size: 38px; line-height: 1.15; color: var(--cream); letter-spacing: -0.01em; margin-bottom: 8px;">
+      Você se acostuma.
     </p>
-  </div>
-</section>
+    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 28px; line-height: 1.3; color: var(--gold); letter-spacing: -0.005em; margin-bottom: 32px;">
+      E acha que é a idade.
+    </p>
 
-<!-- ============================================================
-     SLIDE 03 — RECONHECIMENTO · "Você se acostuma. E acha que é a idade."
-     Catálogo tipográfico puro (sem hero image) — espelho do leitor.
-     ============================================================ -->
-<section class="slide slide--deep" id="s03">
-  <!-- Brand mark top-left -->
-  <div style="position: absolute; top: 72px; left: 96px; z-index: 2; display: flex; align-items: center; gap: 18px;">
-    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.34em; color: var(--cream); text-transform: uppercase; opacity: 0.85;">Continuum Plenya</span>
-  </div>
+    <!-- 5 sintomas em 2 colunas (col 1 mais larga pra caber em 1 linha, col 2 deslocada 75px à direita) -->
+    <div style="display: grid; grid-template-columns: 475px 400px; gap: 18px 36px; max-width: 1000px;">
 
-  <!-- Page mark bottom-left -->
-  <div style="position: absolute; bottom: 64px; left: 96px; z-index: 2;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">03 / 18</span>
-  </div>
-
-  <!-- Conteúdo: 2 colunas, headline esquerda + lista direita -->
-  <div class="slide-content" style="position: relative; z-index: 1; padding: 0 96px; justify-content: center; align-items: center;">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 120px; align-items: center; width: 100%;">
-
-      <!-- Coluna esquerda: headline (+30%: 92→120, 44→57) -->
       <div>
-        <h2 style="font-family: var(--serif-display); font-weight: 500; font-size: 120px; line-height: 1.0; letter-spacing: -0.028em; color: var(--cream); margin-bottom: 40px;">
-          Você se acostuma.
-        </h2>
-        <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 57px; line-height: 1.15; color: var(--gold); letter-spacing: -0.005em;">
-          E acha que é a idade.
-        </p>
+        <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.30em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 4px; opacity: 0.95;">Vitalidade</div>
+        <div style="font-family: var(--serif); font-size: 24px; line-height: 1.25; color: var(--cream);">Disposição que não volta no domingo.</div>
       </div>
 
-      <!-- Coluna direita: 5 unidades categorizadas (eyebrow domínio + statement) -->
-      <div style="display: flex; flex-direction: column; gap: 36px;">
+      <div>
+        <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.30em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 4px; opacity: 0.95;">Composição</div>
+        <div style="font-family: var(--serif); font-size: 24px; line-height: 1.25; color: var(--cream);">Treino igual. Menos resultado.</div>
+      </div>
 
-        <div>
-          <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.32em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 12px; opacity: 0.95;">Vitalidade</div>
-          <div style="font-family: var(--serif); font-size: 34px; line-height: 1.3; color: var(--cream);">Disposição que não volta nem no domingo.</div>
-        </div>
+      <div>
+        <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.30em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 4px; opacity: 0.95;">Cognição</div>
+        <div style="font-family: var(--serif); font-size: 24px; line-height: 1.25; color: var(--cream);">Nome que escapa. Atalho que se perde.</div>
+      </div>
 
-        <div>
-          <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.32em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 12px; opacity: 0.95;">Composição corporal</div>
-          <div style="font-family: var(--serif); font-size: 34px; line-height: 1.3; color: var(--cream);">Treino igual. Menos resultado.</div>
-        </div>
+      <div>
+        <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.30em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 4px; opacity: 0.95;">Hormônios</div>
+        <div style="font-family: var(--serif); font-size: 24px; line-height: 1.25; color: var(--cream);">Desejo que esfria. Humor que oscila.</div>
+      </div>
 
-        <div>
-          <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.32em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 12px; opacity: 0.95;">Cognição &amp; Memória</div>
-          <div style="font-family: var(--serif); font-size: 34px; line-height: 1.3; color: var(--cream);">Nome que escapa. Atalho que se perde.</div>
-        </div>
-
-        <div>
-          <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.32em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 12px; opacity: 0.95;">Hormônios</div>
-          <div style="font-family: var(--serif); font-size: 34px; line-height: 1.3; color: var(--cream);">Desejo que esfria. Humor que oscila.</div>
-        </div>
-
-        <div>
-          <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.32em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 12px; opacity: 0.95;">Imunidade</div>
-          <div style="font-family: var(--serif); font-size: 34px; line-height: 1.3; color: var(--cream);">Três viroses num ano, antes não tinha nenhuma.</div>
-        </div>
-
+      <div style="grid-column: span 2;">
+        <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.30em; color: var(--gold-soft); text-transform: uppercase; margin-bottom: 4px; opacity: 0.95;">Imunidade</div>
+        <div style="font-family: var(--serif); font-size: 24px; line-height: 1.25; color: var(--cream);">Três viroses num ano, antes nenhuma.</div>
       </div>
 
     </div>
@@ -162,11 +144,11 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 04 — ORIGEM/AUTORIDADE · Getúlio · "Vinte anos. Uma certeza."
+     SLIDE 03 — ORIGEM/AUTORIDADE · Getúlio · "Vinte anos. Uma certeza."
      Layout B: foto à ESQUERDA, tipografia à DIREITA.
      Mirror dos marks: brand mark top-right, page mark bottom-right.
      ============================================================ -->
-<section class="slide slide--deep" id="s04">
+<section class="slide slide--deep" id="s03">
   <!-- Hero editorial: GetulioElegante.jpg contained na metade ESQUERDA, estendida pro fade -->
   <div style="position: absolute; left: 0; top: 0; width: 62%; height: 100%; overflow: hidden; z-index: 0;">
     <img src="../../../docs/decks/_assets/getulio-elegante.jpg" alt="Dr. Getúlio Amaral Filho" style="width: 100%; height: 100%; object-fit: cover; object-position: 42% 18%;">
@@ -184,7 +166,7 @@
 
   <!-- Page mark MIRROR pra bottom-right -->
   <div style="position: absolute; bottom: 64px; right: 96px; z-index: 2;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">04 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">03 / 17</span>
   </div>
 
   <!-- Conteúdo: tipografia à direita, ancorada no padding-right 96 -->
@@ -215,11 +197,11 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 05 — VEHICLE · Apresentamos Continuum (hero photo + wordmark)
+     SLIDE 04 — VEHICLE · Apresentamos Continuum (hero photo + wordmark)
      Composição centralizada com shift 5% à esquerda pra compensar
      massa visual do corredor à direita.
      ============================================================ -->
-<section class="slide slide--deep" id="s05">
+<section class="slide slide--deep" id="s04">
   <div style="position: absolute; inset: 0; z-index: 0;">
     <img src="../../../docs/decks/_assets/Slide5.PNG" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center;" onerror="this.style.display='none'">
     <!-- Overlay leve só pra unificar tom (imagem ja vem petrol-dominante) -->
@@ -249,14 +231,14 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 06 — DIFERENCIAÇÃO · PARADIGMA (3 verbos do site Plenya)
+     SLIDE 05 — DIFERENCIAÇÃO · PARADIGMA (3 verbos do site Plenya)
      Pura tipografia, 3 pilares horizontais, hairlines gold entre colunas.
      Cada verbo prepara uma das 3 crenças que vêm a seguir:
      ENXERGAR ANTES → crença 1 (exames normais)
      ACOMPANHAR DE PERTO → crença 2 (já tenho médico)
      AGIR COM PRECISÃO → crença 3 (vai dar resultado?)
      ============================================================ -->
-<section class="slide slide--deep" id="s06">
+<section class="slide slide--deep" id="s05">
   <!-- Brand mark top-left -->
   <div style="position: absolute; top: 72px; left: 96px; z-index: 2; display: flex; align-items: center; gap: 18px;">
     <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
@@ -265,7 +247,7 @@
 
   <!-- Page mark bottom-left -->
   <div style="position: absolute; bottom: 64px; left: 96px; z-index: 2;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">06 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">05 / 17</span>
   </div>
 
   <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: center; padding: 140px 96px 100px;">
@@ -326,10 +308,10 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 07 — AS TRÊS CRENÇAS · 3 colunas tipográficas (unificado)
+     SLIDE 06 — AS TRÊS CRENÇAS · 3 colunas tipográficas (unificado)
      Consolida ex-slides 7-9: epistemologia · papel · medição
      ============================================================ -->
-<section class="slide slide--deep" id="s07">
+<section class="slide slide--deep" id="s06">
   <!-- Brand mark top-left -->
   <div style="position: absolute; top: 72px; left: 96px; z-index: 2; display: flex; align-items: center; gap: 18px;">
     <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
@@ -343,7 +325,7 @@
 
   <!-- Page mark bottom-left -->
   <div style="position: absolute; bottom: 64px; left: 96px; z-index: 2;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">07 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">06 / 17</span>
   </div>
 
   <!-- Hero image bottom 30% — laudo + lupa wenge wood (Slide7.PNG) -->
@@ -411,9 +393,9 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 08 — EQUIPE PLENYA · Vogue cover (faixa petrol top + photo descida + band bottom)
+     SLIDE 07 — EQUIPE PLENYA · Vogue cover (faixa petrol top + photo descida + band bottom)
      ============================================================ -->
-<section class="slide" id="s08" style="overflow: hidden; background: var(--petrol-deep);">
+<section class="slide" id="s07" style="overflow: hidden; background: var(--petrol-deep);">
   <!-- Photo container: começa em y=200 pra evitar corte de cabeças pela faixa top -->
   <div style="position: absolute; top: 200px; bottom: 0; left: 0; right: 0; z-index: 0; overflow: hidden;">
     <img src="../../../apps/site/public/images/team/equipe-candid.jpg" alt="Equipe Plenya" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top;">
@@ -458,15 +440,15 @@
   </div>
 
   <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.85;">08 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.85;">07 / 17</span>
   </div>
 </section>
 
 <!-- ============================================================
-     SLIDE 09 — MÉTODO AGIR · AGIR. gigante topo + 4 colunas embaixo
+     SLIDE 08 — MÉTODO AGIR · AGIR. gigante topo + 4 colunas embaixo
      Background: colunata arquitetônica dinâmica (diptych com slide 5)
      ============================================================ -->
-<section class="slide slide--deep" id="s09">
+<section class="slide slide--deep" id="s08">
   <!-- Hero background: 4 colunas iluminadas à direita — metáfora arquitetônica dos 4 pilares AGIR -->
   <div style="position: absolute; inset: 0; z-index: 0;">
     <img src="../../../docs/decks/_assets/Slide11.PNG" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center;" onerror="this.style.display='none'">
@@ -484,7 +466,7 @@
     O Método
   </div>
   <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.85;">09 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.85;">08 / 17</span>
   </div>
 
   <!-- WORDMARK zone — shifted left pra centralizar sobre a parede (não sobre o slide), aproveitando a parede maior da nova imagem -->
@@ -526,10 +508,10 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 10 — APROFUNDAMENTO DO G (Layout B aprovado)
+     SLIDE 09 — APROFUNDAMENTO DO G (Layout B aprovado)
      Slide12.PNG (mão de médico escrevendo prontuário) + 14 áreas G + microcounter AGIR
      ============================================================ -->
-<section class="slide slide--deep" id="s10">
+<section class="slide slide--deep" id="s09">
   <!-- Right zone (35%) — Slide12.PNG hand writing -->
   <div style="position: absolute; top: 0; right: 0; bottom: 0; width: 35%; z-index: 0; overflow: hidden;">
     <img src="../../../docs/decks/_assets/Slide12.PNG" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center right;">
@@ -550,7 +532,7 @@
 
   <!-- Page mark bottom-left -->
   <div style="position: absolute; bottom: 64px; left: 96px; z-index: 3;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">10 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">09 / 17</span>
   </div>
 
   <!-- Content zone (left 65%) — grid respirando, sem subhead redundante -->
@@ -603,10 +585,10 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 11 — ESCORE PLENYA · radar REAL do site (22 vértices, 4 arcos coloridos)
+     SLIDE 10 — ESCORE PLENYA · radar REAL do site (22 vértices, 4 arcos coloridos)
      Replica fiel de apps/site/components/escore/RadarAgir.tsx
      ============================================================ -->
-<section class="slide" id="s11" style="background: var(--petrol-deep); overflow: hidden;">
+<section class="slide" id="s10" style="background: var(--petrol-deep); overflow: hidden;">
   <!-- Brand mark top-left -->
   <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
     <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
@@ -618,7 +600,7 @@
   </div>
   <!-- Page mark bottom-right -->
   <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.85;">11 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.85;">10 / 17</span>
   </div>
 
   <!-- Main 2-col composition: radar à esquerda + texto editorial à direita -->
@@ -727,16 +709,16 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 12 — JORNADA · Marfa dawn blocks + 6 etapas ascendentes (bullets)
+     SLIDE 11 — JORNADA · Marfa dawn blocks + 6 etapas ascendentes (bullets)
      ============================================================ -->
-<section class="slide slide--deep" id="s12">
+<section class="slide slide--deep" id="s11">
   <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
     <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
     <span style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.34em; color: var(--petrol-deep); text-transform: uppercase;">Continuum Plenya</span>
   </div>
   <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.38em; color: var(--petrol-deep); text-transform: uppercase;">A Jornada</div>
   <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">12 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">11 / 17</span>
   </div>
 
   <!-- Image container: 64% top, fade ao fundo, petrol-deep no restante -->
@@ -821,9 +803,9 @@
 
 
 <!-- ============================================================
-     SLIDE 13 — BOX PLENYA · objeto de cuidado + ponte entre encontros
+     SLIDE 12 — BOX PLENYA · objeto de cuidado + ponte entre encontros
      ============================================================ -->
-<section class="slide slide--deep" id="s13">
+<section class="slide slide--deep" id="s12">
   <!-- Brand mark top-left -->
   <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
     <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
@@ -831,7 +813,7 @@
   </div>
   <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">O Box</div>
   <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">13 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">12 / 17</span>
   </div>
 
   <!-- Image hero right side (50%) -->
@@ -864,9 +846,9 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 14 — PARA QUEM É · 6 retratos · pure typography 3x2 grid
+     SLIDE 13 — PARA QUEM É · 6 retratos · pure typography 3x2 grid
      ============================================================ -->
-<section class="slide slide--deep" id="s14">
+<section class="slide slide--deep" id="s13">
   <!-- Brand mark top-left -->
   <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
     <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
@@ -874,7 +856,7 @@
   </div>
   <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">Reconhecimento</div>
   <div style="position: absolute; bottom: 40px; right: 96px; z-index: 3;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">14 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">13 / 17</span>
   </div>
 
   <div class="slide-content" style="position: relative; z-index: 1; justify-content: flex-start; align-items: center; padding: 150px 96px 60px;">
@@ -968,9 +950,9 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 15 — PARA QUEM NÃO É · VARIANTE C (mirror invertido — image LEFT, text RIGHT)
+     SLIDE 14 — PARA QUEM NÃO É · VARIANTE C (mirror invertido — image LEFT, text RIGHT)
      ============================================================ -->
-<section class="slide slide--deep" id="s15">
+<section class="slide slide--deep" id="s14">
   <!-- Image hero LEFT side (50%) — imagem quadrada 1254×1254, cover fecha sem faixas -->
   <div style="position: absolute; top: 0; left: 0; bottom: 0; width: 50%; z-index: 0; overflow: hidden;">
     <img src="../../../docs/decks/_assets/Slide16.PNG" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: center center;">
@@ -987,7 +969,7 @@
   <div style="position: absolute; top: 78px; left: 96px; z-index: 3; font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">Honestidade</div>
   <!-- Page mark bottom-left (mirror) -->
   <div style="position: absolute; bottom: 40px; left: 96px; z-index: 3;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">15 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">14 / 17</span>
   </div>
 
   <!-- Text panel RIGHT (50%) -->
@@ -1058,11 +1040,11 @@
      ============================================================ -->
 
 <!-- ============================================================
-     SLIDE 16 — O ESCOPO (entra / fora) — split 50/50 com imagem Slide18.PNG
+     SLIDE 15 — O ESCOPO (entra / fora) — split 50/50 com imagem Slide18.PNG
      Canonical site scopeTitle + in1-in7 + out1-out2
      Imagem: cliente em casa com webconf Plenya + plano em papel + Box em banco
      ============================================================ -->
-<section class="slide slide--deep" id="s16">
+<section class="slide slide--deep" id="s15">
   <!-- Right zone (50%) — Slide18.PNG (casa + laptop + paper + box) — imagem original full -->
   <div style="position: absolute; top: 0; right: 0; bottom: 0; width: 50%; z-index: 0; overflow: hidden;">
     <img src="../../../docs/decks/_assets/Slide18.PNG" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center;">
@@ -1079,7 +1061,7 @@
   <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">O escopo</div>
   <!-- Page mark bottom-left -->
   <div style="position: absolute; bottom: 64px; left: 96px; z-index: 3;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">16 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">15 / 17</span>
   </div>
 
   <!-- Content zone (left 50%) — single column, entra + linha separadora + fora -->
@@ -1121,9 +1103,9 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 17 — COMPROMISSO · Semestral / Anual
+     SLIDE 16 — COMPROMISSO · Semestral / Anual
      ============================================================ -->
-<section class="slide slide--deep" id="s17">
+<section class="slide slide--deep" id="s16">
   <!-- Brand mark top-left -->
   <div style="position: absolute; top: 72px; left: 96px; z-index: 3; display: flex; align-items: center; gap: 18px;">
     <img src="../../../apps/site/public/brand/symbol/gold.png" alt="Plenya" style="width: 36px; height: auto; opacity: 0.95;">
@@ -1133,7 +1115,7 @@
   <div style="position: absolute; top: 78px; right: 96px; z-index: 3; font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.38em; color: var(--gold-soft); text-transform: uppercase;">Modalidades</div>
   <!-- Page mark bottom-left -->
   <div style="position: absolute; bottom: 64px; left: 96px; z-index: 3;">
-    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">17 / 18</span>
+    <span style="font-family: var(--serif); font-size: 24px; font-weight: 400; letter-spacing: 0.32em; color: var(--cream); opacity: 0.75;">16 / 17</span>
   </div>
 
   <div class="slide-content" style="position: relative; z-index: 1; justify-content: flex-start; align-items: center; padding: 130px 96px 130px;">
@@ -1228,11 +1210,11 @@
 </section>
 
 <!-- ============================================================
-     SLIDE 18 — FECHAMENTO CERIMONIAL (deck = close conversation Pedro-style)
+     SLIDE 17 — FECHAMENTO CERIMONIAL (deck = close conversation Pedro-style)
      Pure petrol-deep, sem chrome, sem CTA pra agendar, sem Triagem downgrade.
      Apenas símbolo + wordmark + claim + "Comece hoje." como gatilho verbal pro Getúlio.
      ============================================================ -->
-<section class="slide slide--deep" id="s18">
+<section class="slide slide--deep" id="s17">
   <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: center; text-align: center; padding: 0 96px;">
 
     <!-- Símbolo Plenya gold -->
