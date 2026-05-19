@@ -1211,27 +1211,39 @@
 
 <!-- ============================================================
      SLIDE 17 — FECHAMENTO CERIMONIAL (deck = close conversation Pedro-style)
-     Pure petrol-deep, sem chrome, sem CTA pra agendar, sem Triagem downgrade.
-     Apenas símbolo + wordmark + claim + "Comece hoje." como gatilho verbal pro Getúlio.
+     Getúlio retorna: hero photo esquerda (GetulioAutor, fundo dark blend com petrol-deep)
+     + símbolo + wordmark + claim + "Comece hoje." à direita.
      ============================================================ -->
 <section class="slide slide--deep" id="s17">
-  <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: center; text-align: center; padding: 0 96px;">
+  <!-- Hero image left 55% — GetulioAutor.jpg, fundo dark blend natural com petrol-deep -->
+  <div style="position: absolute; left: 0; top: 0; width: 55%; height: 100%; overflow: hidden; z-index: 0;">
+    <img src="../../../docs/site/images/FotosHd/GetulioAutor.jpg" alt="Dr. Getúlio Amaral Filho" style="width: 100%; height: 100%; object-fit: cover; object-position: 45% 35%;">
+    <!-- Fade na borda direita — blend suave pro petrol-deep do bloco de texto -->
+    <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 45%; background: linear-gradient(90deg, transparent 0%, rgba(4,31,42,0.20) 30%, rgba(4,31,42,0.75) 70%, var(--petrol-deep) 100%);"></div>
+  </div>
+
+  <!-- Right side: cerimonial centered text (45% direita) -->
+  <div class="slide-content" style="position: relative; z-index: 1; justify-content: center; align-items: center; text-align: center; padding: 0 96px 0 0; margin-left: 55%; width: 45%;">
 
     <!-- Símbolo Plenya gold -->
-    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="" style="width: 120px; height: auto; margin-bottom: 48px; opacity: 0.96;">
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="" style="width: 100px; height: auto; margin-bottom: 40px; opacity: 0.96;">
 
     <!-- Wordmark PLENYA cream -->
-    <img src="../../../apps/site/public/brand/wordmark/cream.png" alt="Plenya" style="width: 320px; height: auto; margin-bottom: 72px; opacity: 0.95;">
+    <img src="../../../apps/site/public/brand/wordmark/cream.png" alt="Plenya" style="width: 260px; height: auto; margin-bottom: 56px; opacity: 0.95;">
 
-    <!-- Claim master 130px gold italic -->
-    <h1 style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 130px; line-height: 1; letter-spacing: -0.025em; color: var(--gold); text-align: center; margin: 0 0 56px 0;">
-      Viva bem, viva mais<span style="color: var(--gold);">.</span>
+    <!-- Claim master italic gold -->
+    <h1 style="font-family: var(--serif-display); font-style: italic; font-weight: 400; font-size: 86px; line-height: 1.0; letter-spacing: -0.025em; color: var(--gold); text-align: center; margin: 0 0 40px 0;">
+      Viva bem,<br>viva mais<span style="color: var(--gold);">.</span>
     </h1>
 
     <!-- Gatilho verbal de decisão presente -->
-    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 36px; line-height: 1; color: var(--cream); opacity: 0.94; text-align: center; margin: 0; letter-spacing: -0.005em;">
+    <p style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 30px; line-height: 1; color: var(--cream); opacity: 0.94; text-align: center; margin: 0 0 48px 0; letter-spacing: -0.005em;">
       Comece hoje.
     </p>
+
+    <!-- Signature line — Getúlio em pequena tipografia caps -->
+    <div style="font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: 0.32em; color: var(--gold-soft); text-transform: uppercase; opacity: 0.85;">Dr. Getúlio Amaral Filho</div>
+    <div style="font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 24px; color: var(--cream); opacity: 0.7; margin-top: 6px;">Direção Clínica · Plenya</div>
 
   </div>
 </section>
