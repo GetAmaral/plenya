@@ -13,7 +13,8 @@ const path = require("path");
   });
   const page = await context.newPage();
 
-  const htmlPath = path.resolve(__dirname, "deck.html");
+  const fileArg = process.argv.slice(2).find(a => a.startsWith("--file="))?.split("=")[1] || "deck.html";
+  const htmlPath = path.resolve(__dirname, fileArg);
   await page.goto(`file://${htmlPath}`, { waitUntil: "networkidle" });
 
   // Aguarda fontes Google carregarem (evita FOUT no PDF)
@@ -21,7 +22,10 @@ const path = require("path");
   await page.waitForTimeout(800);
 
   const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-  const outPath = path.resolve(__dirname, `../../../docs/decks/continuum-plenya-${today}.pdf`);
+  const outArg = process.argv.slice(2).find(a => a.startsWith("--out="))?.split("=")[1];
+  const outPath = outArg
+    ? path.resolve(__dirname, outArg)
+    : path.resolve(__dirname, `../../../docs/decks/continuum-plenya-${today}.pdf`);
 
   // PDF 1920x1080 — formato exato 16:9, margens zero, com background
   await page.pdf({

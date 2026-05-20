@@ -10,6 +10,8 @@ const fs = require("fs");
 
 const args = process.argv.slice(2);
 const onlySlide = args.find(a => a.startsWith("--slide="))?.split("=")[1];
+const fileArg = args.find(a => a.startsWith("--file="))?.split("=")[1] || "deck.html";
+const outArg = args.find(a => a.startsWith("--out="))?.split("=")[1] || "previews";
 
 (async () => {
   const browser = await chromium.launch();
@@ -19,7 +21,7 @@ const onlySlide = args.find(a => a.startsWith("--slide="))?.split("=")[1];
   });
   const page = await context.newPage();
 
-  const htmlPath = path.resolve(__dirname, "deck.html");
+  const htmlPath = path.resolve(__dirname, fileArg);
   await page.goto(`file://${htmlPath}`, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(500);
@@ -29,7 +31,7 @@ const onlySlide = args.find(a => a.startsWith("--slide="))?.split("=")[1];
     sections.map(s => s.id || "")
   );
 
-  const outDir = path.resolve(__dirname, "previews");
+  const outDir = path.resolve(__dirname, outArg);
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 
   const target = onlySlide ? `s${String(onlySlide).padStart(2, "0")}` : null;
