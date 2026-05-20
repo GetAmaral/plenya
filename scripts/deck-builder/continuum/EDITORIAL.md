@@ -1,7 +1,48 @@
 # Continuum Plenya · Editorial Line & Status
 
 > **Reload this file at session start** to restore deck context.
-> Last update: 2026-05-19 (deck 20 slides · slide 12 Aprofundamento G novo · slide 18 O Escopo novo · slide 19 Compromisso revisado world-class + preços · slide 20 CTA cerimonial migrado)
+> Last update: 2026-05-20 (v4 · 21 slides · slide 7 imagem estrada/trajetória · slide 8 foto médico-gestor · slides 11+12 fundidos no Escore)
+
+---
+
+## v4 — ESTADO ATUAL (2026-05-20) · ARQUIVO VIVO: `deck-v4.html` (21 slides)
+
+`deck-v4.html` é o arquivo canônico do deck. `deck.html` / `deck-v2.html` / `deck-v3.html` são versões antigas — não editar.
+
+### Mudanças desta rodada (commits `89437f27`, `7c1ae724`)
+- **Slide 7 (A diferença):** ganhou foto `Slide7-novo-b.PNG` — estrada de asfalto rumo ao horizonte dourado, árvores secas no primeiro plano virando floridas ao longe (metáfora trajetória / passagem do tempo). Canto inferior-direito, fades petrol no topo + esquerda estreito.
+- **Slide 8 (O diferencial):** diagrama hub-and-spoke do «médico-gestor» SUBSTITUÍDO por foto editorial `Slide8-novo.PNG` (médico de costas diante de painel clínico integrado), full-bleed à esquerda espelhada, texto à direita, chrome invertido (brand TR · eyebrow TL · page mark BR).
+- **Slides 11+12 FUNDIDOS** num só (slide 11 «Escore Plenya», eyebrow «O Instrumento»): grid 4 colunas — col 1 título+texto, cols 2-3 radar SVG (a foto · leitura detalhada do passado e presente), col 4 gráfico de linha (o vídeo · evolução no tempo). Números alinhados (radar 78 = fim da linha 58→68→78). Disclaimers de «exemplo» preservados. Rótulos de tempo colados aos bullets. Deck caiu de 22→21 slides; page marks renumerados.
+
+### Arco real (21 slides) — usar este, não a tabela antiga abaixo
+1. HOOK — «10 anos.» (década silenciosa)
+2. A janela silenciosa (Reconhecimento) + chart
+3. Vinte anos de consultório (A Origem · Getúlio)
+4. REVEAL cerimonial «Continuum.» (Slide5 corredor · «um programa Plenya» · 100% online · semestral ou anual · «Viva bem, viva mais.»)
+5. Continuum muda o que se faz com a sua saúde (Paradigma · 3 verbos)
+6. Três crenças que vale a pena rever
+7. O que muda quando alguém acompanha a trajetória (A diferença · estrada) ← NOVA IMAGEM
+8. O médico-gestor (O diferencial) ← NOVA IMAGEM
+9. AGIR. (O Método · 4 pilares + Slide11)
+10. O corpo lido como um só sistema (Aprofundamento G · 14 áreas + Slide12 mão)
+11. Escore Plenya (O Instrumento · radar foto + linha vídeo) ← FUNDIDO 11+12
+12. Do tempo zero ao próximo horizonte (A Jornada · Slide13 stepping stones)
+13. Equipe Plenya
+14. O que vinte anos de prática ensinaram (Vinte anos)
+15. O Continuum Plenya não é para todo mundo (Identificação · Para quem é)
+16. Para quem o Continuum não é (Honestidade · Para quem não é + Slide16)
+17. O cuidado chega em forma de objeto (O Box · Box Plenya + Slide14)
+18. Durante o Continuum (O escopo + Slide18)
+19. Construir saúde custa menos do que reconstruí-la (O valor do tempo)
+20. Dois horizontes de compromisso (Modalidades · preços)
+21. FECHAMENTO cerimonial (sem chrome)
+
+### Workflow v4
+- Previews: `node render-pngs.js --file=deck-v4.html --slide=NN` → `previews/slide-NN.png`
+- **Mandar o PNG no chat (SendUserFile) a cada slide alterado**, antes de qualquer PDF (regra do user · ver [[deck_fine_tuning_workflow]]).
+- PDF final: `node render.js --file=deck-v4.html` → `docs/decks/continuum-plenya-AAAAMMDD.pdf`; deploy via scp pro VPS.
+
+> ⚠️ A tabela «STATUS POR SLIDE» e o «ARCO NARRATIVO» mais abaixo são de versões anteriores (20/22 slides) e estão desatualizados. Referência atual = o arco v4 acima.
 
 ---
 
