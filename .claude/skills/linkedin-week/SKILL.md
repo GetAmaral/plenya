@@ -57,10 +57,29 @@ Para cada slug a alinhar:
    - **NÃO usar** hashtags (LinkedIn 2026 algorithm não premia; soa amador pra audiência médica)
    - **NÃO incluir links externos** no corpo (algoritmo penaliza). Link Amazon/blog vai em comentário manual depois.
 
-3. **Selecione imagem**:
-   - 1ª escolha: `apps/site/public/images/blog/<slug>/figura-1.webp` (se existir — figura clínica didática)
-   - 2ª escolha: `apps/site/public/images/blog/<slug>/hero.webp` (atmospheric)
-   - Se nenhuma: post text-only (avisar usuário)
+3. **Selecione imagem (FLUXO PENSANTE — não copy-paste):**
+
+   a. **Liste TODAS as figuras disponíveis**:
+      ```bash
+      ls apps/site/public/images/blog/<slug>/
+      ```
+      Pode ter `hero.webp`, `figura-1.webp`, `figura-2.webp`, `figura-3.webp` etc. (Ignore variantes `*-en.webp` — são versões em inglês.)
+
+   b. **Veja cada uma visualmente** com a tool Read (Claude lê webp). Não confie só no alt-text do MDX.
+
+   c. **Decida em função do TEXTO CONDENSADO do LinkedIn que você escreveu**, não do post original do blog. O LinkedIn condensa o argumento — a imagem precisa servir ao argumento condensado.
+
+   d. **Critérios de escolha**:
+      - **Carrega a tese central** do texto condensado? (Ex: post sobre "1 em 5 com Lp(a) alta" → histograma de distribuição encaixa; post sobre "metáfora alarme vs detector" → quadro comparativo encaixa.)
+      - **Mobile readable**? Tabelas/gráficos com texto pequeno ficam ilegíveis no feed mobile. Considerar se vale o risco. Hero atmosférico nunca tem esse problema.
+      - **Variedade visual ao longo do bloco**? Evitar 3 hero atmosféricos seguidos OU 3 tabelas seguidas. Calibre olhando o que foi usado nos posts anteriores do bloco.
+      - **Coerência com paleta Plenya**? Heros costumam estar 100% na paleta. Figuras técnicas variam.
+
+   e. **Se NENHUMA das figuras existentes encaixar bem com o texto condensado:**
+      - **NÃO force uma figura ruim**. Avise o usuário com mensagem clara: "Nenhuma das N figuras disponíveis serve ao texto. As que tem são: ... Posso pedir geração de figura nova com `scripts/blog-generator/gen-figure.sh` (gpt-image-2) — você aprova?"
+      - Aguarde aprovação antes de gerar.
+
+   f. **Documente a escolha** ao apresentar pro usuário: "Imagem: <path> (<tipo: figura clínica didática | hero editorial | tabela | diagrama>). Por que essa: <1 linha justificando>."
 
 ### 4. Apresentação ao usuário
 

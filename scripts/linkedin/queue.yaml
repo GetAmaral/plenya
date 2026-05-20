@@ -147,7 +147,7 @@ posts:
 - slug: medicina-2-vs-3
   block: 1
   order: 4
-  status: approved
+  status: published
   scheduled_at: '2026-05-19 12:31:00-03:00'
   commentary: 'A diferença entre Medicina 2.0 e Medicina 3.0 é a diferença entre um alarme de incêndio e um detector de fumaça.
 
@@ -186,6 +186,8 @@ posts:
     '
   image_path: apps/site/public/images/blog/medicina-2-vs-3/figura-1.webp
   image_title: 'Medicina 2.0 contra Medicina 3.0: alarme ou detector'
+  published_at: '2026-05-19T12:45:01-03:00'
+  post_urn: urn:li:share:7462528762874589184
 - slug: healthspan-vs-lifespan-comprimir-a-morbidade
   block: 1
   order: 5
