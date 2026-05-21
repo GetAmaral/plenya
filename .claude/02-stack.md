@@ -3,7 +3,7 @@
 ## Frontend
 
 ### Web (Next.js)
-- **Framework:** Next.js 16.1 (App Router)
+- **Framework:** Next.js 16.2 (App Router, Turbopack)
 - **React:** 19.2 (React Compiler habilitado)
 - **TypeScript:** 5.9.3
 - **UI Library:** shadcn/ui (componentes Radix UI)
@@ -17,13 +17,13 @@
 - **Date:** date-fns
 - **Build:** Turbopack (dev), Webpack (prod)
 
-### Mobile (React Native)
-- **Framework:** Expo SDK 56
-- **React Native:** 0.77
+### Mobile (React Native) — `apps/mobile-pro` + `apps/mobile-app`
+- **Framework:** Expo SDK 52
+- **React Native:** 0.76.5 · React 19
 - **Navigation:** Expo Router (file-based)
-- **UI:** React Native Paper + custom components
+- **UI:** `@plenya/ui-mobile` (primitivos RN) + NativeWind 4
 - **Forms:** React Hook Form + Zod
-- **State:** TanStack Query + Zustand (mesma estrutura web)
+- **State:** TanStack Query v5 + Zustand 5 (mesma estrutura web)
 - **Storage:** Expo SecureStore (tokens)
 - **Camera:** expo-camera
 - **File System:** expo-file-system

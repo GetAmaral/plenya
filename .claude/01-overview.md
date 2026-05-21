@@ -1,5 +1,15 @@
 # 01 - Visão Geral do Projeto
 
+## Plenya — plataforma de saúde (monorepo)
+
+O projeto cresceu além do EMR. Hoje o monorepo reúne, num só repositório com fonte de verdade
+compartilhada (Go models → tipos): o **EMR** (`apps/api` + `apps/web`, com portal do paciente),
+dois **sites** (`apps/site` institucional, `apps/site-getulio` pessoal), dois **apps mobile**
+(`apps/mobile-pro`, `apps/mobile-app`), um **MCP de social** (`apps/social-mcp`) e tooling de
+**conteúdo** (decks, eBooks, blog, LinkedIn). Mapa completo no [CLAUDE.md raiz](../CLAUDE.md).
+
+A seção abaixo descreve o núcleo EMR; cada subprojeto tem seu próprio `CLAUDE.md`.
+
 ## Plenya EMR (Electronic Medical Records)
 
 Sistema de prontuário médico eletrônico completo, self-hosted, com foco em baixo custo e compliance LGPD.

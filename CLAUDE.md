@@ -1,266 +1,125 @@
-# Plenya - Sistema de Prontuário Médico Eletrônico (EMR)
+# Plenya — Monorepo
 
-Sistema EMR completo com Go backend + Next.js frontend + mobile apps React Native.
+Plenya é uma plataforma de saúde (EMR + sites + conteúdo + social) construída como monorepo
+pnpm + Turborepo. Este arquivo é o **índice raiz** e contém as **regras invariantes
+compartilhadas** por todos os subprojetos. Cada app tem seu próprio `CLAUDE.md` com detalhes
+locais — o Claude carrega automaticamente o mais próximo do diretório em que você está
+trabalhando.
 
-## 🚨 Regras de Ouro (CRÍTICAS)
+> **Como usar este monorepo com o Claude:** trabalhe a partir do diretório do subprojeto
+> (`apps/api`, `apps/web`, etc.) para que o `CLAUDE.md` local entre em contexto. Para tarefas
+> paralelas e isoladas, use git worktrees (`git worktree add ../plenya-<x> <branch>`). As
+> regras deste arquivo valem em qualquer subprojeto; os `CLAUDE.md` locais nunca as duplicam,
+> só referenciam.
 
-### 1. Fonte Única de Verdade
-**Go models são a ÚNICA fonte.** Nunca editar arquivos gerados.
+## 🗺 Mapa dos subprojetos
+
+### `apps/` — aplicações
+
+| App | O que é | Stack | CLAUDE.md |
+|-----|---------|-------|-----------|
+| **api** | Backend EMR — fonte única dos dados (74 models, RAG/pgvector, CRM, portal, telemed, calendar, training, subscriptions) | Go 1.25 + Fiber v2 + GORM v1.31 + PostgreSQL 17 | [apps/api/CLAUDE.md](apps/api/CLAUDE.md) |
+| **web** | Frontend EMR profissional **+ portal do paciente** (mesmo app, roteado por subdomínio via middleware) | Next 16.2 + React 19.2 + TanStack Query v5 + shadcn/ui | [apps/web/CLAUDE.md](apps/web/CLAUDE.md) |
+| **site** | plenyasaude.com.br — site institucional (blog MDX, escore-light, leads→CRM) | Next 16.2 + next-intl + MDX | [apps/site/CLAUDE.md](apps/site/CLAUDE.md) |
+| **site-getulio** | drgetulioamaralfilho.com.br — site pessoal do Dr. Getúlio (livros, palestras, artigos) | Next 16.2 + next-intl + MDX | [apps/site-getulio/CLAUDE.md](apps/site-getulio/CLAUDE.md) |
+| **social-mcp** | Servidor MCP (Python) que conecta o Claude ao Instagram/Facebook via Meta Graph API | Python 3.11 + MCP + httpx | [apps/social-mcp/CLAUDE.md](apps/social-mcp/CLAUDE.md) |
+| **mobile-pro** | App profissional (Plenya Pro) — `com.plenya.pro` | Expo SDK 52 + RN 0.76.5 | [apps/mobile-pro/CLAUDE.md](apps/mobile-pro/CLAUDE.md) |
+| **mobile-app** | App do paciente (Plenya) — `com.plenya.app` | Expo SDK 52 + RN 0.76.5 | [apps/mobile-app/CLAUDE.md](apps/mobile-app/CLAUDE.md) |
+
+### `packages/` — bibliotecas compartilhadas
+
+| Package | O que é | Gerado? |
+|---------|---------|---------|
+| **@plenya/types** | Tipos TS + schemas Zod a partir do OpenAPI do backend | ⚙️ 90% gerado |
+| **@plenya/api-client** | Cliente HTTP tipado + query options do TanStack Query | ✍️ manual |
+| **@plenya/brand** | Tokens de marca (paleta gold/petrol/ocean/sage/cream), tipografia, logos | ✍️ manual |
+| **@plenya/domain** | Lógica de domínio pura (cálculo de escore, CPF, formatters) | ✍️ manual |
+| **@plenya/emails** | Templates React Email → HTML estático | ✍️ manual |
+| **@plenya/ui-mobile** | Primitivos React Native + NativeWind | ✍️ manual |
+| `packages/ui` | Reservado/vazio (sem package.json) | — |
+
+### Conteúdo, scripts e skills
+
+- **`scripts/deck-builder/`** — decks comerciais (HTML/CSS → PDF via Playwright). Doc viva: `continuum/EDITORIAL.md`. Ver [.claude/content/decks.md](.claude/content/decks.md).
+- **`scripts/blog-generator/`** — geração de imagens com **gpt-image-2** (`gen-figure.sh` / `gen-image.sh` / `gen-illust.sh`). Ver [.claude/content/images.md](.claude/content/images.md).
+- **`scripts/linkedin/`** — fila (`queue.yaml`) + cron publisher de posts do Dr. Getúlio. Skill `/linkedin-week`.
+- **`scripts/enrichment/`** — enrichment científico dos ScoreItems (RAG + Claude). Ver [.claude/workflows/enrichment-automation.md](.claude/workflows/enrichment-automation.md).
+- **`ebook/`** — eBooks do Dr. Getúlio (Série AGORA, Série Bases). Skill `/ebook`. Ver [.claude/content/ebooks.md](.claude/content/ebooks.md).
+- **`.claude/skills/`** — `plenya-deck`, `linkedin-week`, `lecture-builder` (`/aula`), `ebook-builder` (`/ebook`), `responder-insta`, `pptx`. Ver [.claude/social/](.claude/social/).
+
+## 🚨 Regras de Ouro (valem em TODO o monorepo)
+
+### 1. Fonte única de verdade
+**Go models (`apps/api/internal/models/*.go`) são a única fonte.** Nunca editar arquivos gerados:
 
 ```
 apps/api/internal/models/*.go  ← EDITAR AQUI
-         │
-         ├─→ Atlas → migrations/*.sql (gerado)
-         ├─→ Swag → swagger.json (gerado)
-         └─→ packages/types/generated/*.ts (gerado)
+         ├─→ Atlas → apps/api/database/migrations/*.sql        (gerado)
+         ├─→ Swag  → apps/api/docs/swagger.json                (gerado)
+         ├─→ openapi-typescript → packages/types/src/generated/api-types.ts   (gerado)
+         └─→ openapi-zod-client → packages/types/src/generated/api-schemas.ts (gerado)
 ```
+
+Para conteúdo de marca/clínico, a fonte é o **site** + os arquivos canônicos
+(`apps/site/lib/agir-structure.ts`, brandbook). Antes de gerar deck/post/copy, leia a fonte —
+nunca chute dados verificáveis (versões, contagens, nomes, métricas).
 
 ### 2. Desenvolvimento vs Produção
+| Contexto | Método |
+|----------|--------|
+| Dev (você, Claude) manipulando dados | Docker exec → psql, ou Go scripts |
+| Produção (apps web/mobile) | API HTTP |
 
-| Contexto | Método | Quando |
-|----------|--------|--------|
-| **Desenvolvimento (você, Claude)** | Docker exec → psql | Manipulação manual de dados |
-| **Desenvolvimento (você, Claude)** | Go scripts | Operações complexas |
-| **Produção (apps)** | API HTTP | Web/mobile usam API |
+**❌ NUNCA usar API HTTP (curl/POST) para manipulação manual em dev. ✅ SEMPRE banco direto.**
 
-**❌ NUNCA usar API HTTP (curl/POST/PUT) para desenvolvimento manual**
-**✅ SEMPRE usar banco direto via Docker ou Go scripts**
+### 3. Hooks obrigatórios
+- **Backend:** todos os models com `BeforeCreate` (UUID v7); `Patient` com `BeforeSave`/`AfterFind` (cripto CPF/RG); `ScoreItem`/`ScoreLevel` com `BeforeUpdate` (`LastReview`).
+- **Frontend:** todos os formulários com `useFormNavigation({ formRef })`; páginas de dados de paciente com `useRequireSelectedPatient()`.
 
-### 3. Hooks Obrigatórios
+### 4. Voz e regras editoriais (conteúdo público)
+Em IG/FB/LinkedIn/blog/decks/DMs: **sem maneirismos de IA** (sem travessões/em-dash, sem
+"Não é X. É Y.", sem fechos-slogan, sem ícones decorativos em listas), **sem preços**, **sem
+marcas comerciais** (wearables, suplementos, varejistas), **sem "medicina preditiva"**, **sem
+casos clínicos identificáveis**. Tom: prosa clínica conectiva PT-BR. Tagline: "Saúde,
+Performance & Longevidade". Detalhes na memória (`MEMORY.md`) e em `.claude/social/`.
 
-#### Backend (Go)
-- **TODOS os models:** `BeforeCreate` hook para UUID v7
-- **Patient:** `BeforeSave`/`AfterFind` para criptografia (CPF, RG)
-- **ScoreItem, ScoreLevel:** `BeforeUpdate` para auto-atualizar `LastReview`
-
-#### Frontend (React)
-- **TODOS os formulários:** `useFormNavigation({ formRef })`
-- **TODAS as páginas de dados de paciente:** `useRequireSelectedPatient()`
-
-## 📚 Documentação Completa
-
-**Leia `.claude/` para detalhes completos.** Abaixo apenas índice.
-
-### Fundação
-- [**01-overview.md**](.claude/01-overview.md) - Visão geral, escala, objetivos
-- [**02-stack.md**](.claude/02-stack.md) - Stack técnica e versões
-- [**03-architecture.md**](.claude/03-architecture.md) - Arquitetura e geração automática
-
-### Backend
-- [**models.md**](.claude/backend/models.md) - Go models: tags GORM, validação, Swagger
-- [**🔥 database.md**](.claude/backend/database.md) - **COMO TRABALHAR COM BANCO DIRETO**
-- [**hooks.md**](.claude/backend/hooks.md) - GORM lifecycle hooks
-- [**service-layer.md**](.claude/backend/service-layer.md) - DTOs, business logic
-- [**api-endpoints.md**](.claude/backend/api-endpoints.md) - Quando usar API HTTP
-
-### Frontend
-- [**form-navigation.md**](.claude/frontend/form-navigation.md) - useFormNavigation (obrigatório)
-- [**patient-context.md**](.claude/frontend/patient-context.md) - useRequireSelectedPatient
-- [**tanstack-query.md**](.claude/frontend/tanstack-query.md) - Query patterns, invalidação
-
-### Domínio
-- [**🎯 score-system.md**](.claude/domain/score-system.md) - **SISTEMA DE ESCORES (hierarquia, manipulação)**
-- [**patients.md**](.claude/domain/patients.md) - Workflows de pacientes
-- [**security.md**](.claude/domain/security.md) - LGPD, criptografia, audit
-
-### Workflows
-- [**development.md**](.claude/workflows/development.md) - Como desenvolver
-- [**🔥 database-ops.md**](.claude/workflows/database-ops.md) - **OPERAÇÕES DIRETAS NO BANCO**
-- [**🤖 enrichment-automation.md**](.claude/workflows/enrichment-automation.md) - **ENRICHMENT CIENTÍFICO AUTOMATIZADO**
-- [**adding-features.md**](.claude/workflows/adding-features.md) - Adicionar features
-- [**dev-bypass-auth.md**](.claude/workflows/dev-bypass-auth.md) - Bypass auth (dev only)
-
-### Mobile (apps/mobile-pro + apps/mobile-app)
-- [**setup.md**](.claude/mobile/setup.md) - Como rodar localmente (Expo + EAS)
-- [**security.md**](.claude/mobile/security.md) - Checklist LGPD/segurança mobile
-- [**ota-policy.md**](.claude/mobile/ota-policy.md) - Regras de OTA (o que pode/não pode)
-- [**deploy.md**](.claude/mobile/deploy.md) - Build/submit App Store e Play Store
-- [**release-checklist.md**](.claude/mobile/release-checklist.md) - Checklist obrigatório antes de cada release nativo
-
-## 🛠 Comandos Essenciais
-
-### Acessar Banco Direto (DESENVOLVIMENTO)
+## 🛠 Comandos essenciais
 
 ```bash
-# Acesso interativo
+# Banco direto (DESENVOLVIMENTO)
 docker compose exec db psql -U plenya_user -d plenya_db
-
-# Executar SQL direto
-docker compose exec db psql -U plenya_user -d plenya_db -c "SELECT * FROM score_items;"
-
-# Ver estrutura de tabela
 docker compose exec db psql -U plenya_user -d plenya_db -c "\d score_items"
-```
 
-### Geração Automática
+# Geração após editar Go models (migrations + OpenAPI + TS types + Zod)
+pnpm generate
 
-```bash
-# Após editar Go models
-pnpm generate  # Gera: migrations, OpenAPI, TypeScript types, Zod schemas
-```
+# Compilar Go (não há Go local — usar container)
+docker compose exec -w /app api go build ./...
 
-### 🖼 Geração de Imagens (OpenAI)
-
-**Modelo correto:** `gpt-image-2` (lançado 21/04/2026 — o snapshot é `gpt-image-2-2026-04-21`).
-
-NÃO use `gpt-image-1` (gerava texto PT errado) nem `dall-e-3` (legado).
-
-Usar `gpt-image-2` quando precisar gerar imagens. Wrappers em `scripts/blog-generator/`:
-- `gen-figure.sh` — infográficos no estilo do livro Antes (charts/diagramas com dados reais, paleta Plenya)
-- `gen-image.sh` — imagens editoriais (hero atmosférico)
-- `gen-illust.sh` — ilustrações conceituais
-
-Endpoint: `POST https://api.openai.com/v1/images/generations` com `"model": "gpt-image-2"`. Retorna base64 em `data[0].b64_json`.
-
-### Enrichment Científico Automatizado (RAG + Claude)
-
-**Scripts prontos em `scripts/enrichment/`:**
-
-```bash
-cd ~/plenya/scripts/enrichment
-
-# Pipeline COMPLETO (3 etapas automatizadas)
-./RUN-ALL.sh
-
-# OU individual:
-./1-regenerate-embeddings.sh  # Regenera embeddings stale
-./2-auto-link.sh              # Cria links Articles ↔ ScoreItems
-./3-prepare-with-prompts.sh   # Gera 4 prompts por ScoreItem
-```
-
-**Resultado:**
-- ✅ 878/878 ScoreItems preparados
-- ✅ 11,188 auto-links criados (99.8% cobertura)
-- ✅ 4 prompts prontos por item (~32KB cada)
-- ✅ FullName incluído (Group - Subgroup - Name)
-- ✅ 30 chunks científicos completos por prompt
-
-**Estrutura dos prompts:**
-- `prompt_clinical_relevance` - 1200-1800 chars (técnico)
-- `prompt_patient_explanation` - 600-900 chars (simples)
-- `prompt_conduct` - 1000-1500 chars (Markdown)
-- `prompt_max_points` - 0-50 (pontuação)
-
-Ver detalhes: [enrichment-automation.md](.claude/workflows/enrichment-automation.md)
-
-### Docker
-
-```bash
-# Iniciar tudo
+# Subir tudo / logs
 docker compose up -d
-
-# Ver logs
 docker compose logs -f api
-docker compose logs -f web
-
-# Rebuild após mudar dependências
-docker compose up -d --build
 ```
 
-## 📖 Leitura Obrigatória Por Contexto
+## 📚 Documentação detalhada (`.claude/`)
 
-### Vou manipular dados manualmente (adicionar/editar score items, etc.)
-1. 🔥 [Database Operations](.claude/workflows/database-ops.md)
-2. 🎯 [Sistema de Escores](.claude/domain/score-system.md)
-
-### Vou enriquecer score items com textos científicos (RAG + Claude)
-1. 🤖 [Enrichment Automation](.claude/workflows/enrichment-automation.md)
-2. 🎯 [Sistema de Escores](.claude/domain/score-system.md)
-
-### Vou adicionar um novo model/feature
-1. [Architecture](.claude/03-architecture.md)
-2. [Models](.claude/backend/models.md)
-3. [Adding Features](.claude/workflows/adding-features.md)
-
-### Vou trabalhar no frontend
-1. [Form Navigation](.claude/frontend/form-navigation.md)
-2. [Patient Context](.claude/frontend/patient-context.md)
-3. [TanStack Query](.claude/frontend/tanstack-query.md)
-
-### Vou trabalhar com segurança/LGPD
-1. [Security](.claude/domain/security.md)
-2. [Hooks](.claude/backend/hooks.md) (criptografia)
-
-## 🏗 Estrutura do Monorepo
-
-```
-plenya/
-├── CLAUDE.md                    # Este arquivo (índice)
-├── .claude/                     # Documentação detalhada
-│   ├── 01-overview.md
-│   ├── 02-stack.md
-│   ├── 03-architecture.md
-│   ├── backend/
-│   │   ├── models.md
-│   │   ├── database.md          # ⭐ IMPORTANTE
-│   │   ├── hooks.md
-│   │   ├── service-layer.md
-│   │   └── api-endpoints.md
-│   ├── frontend/
-│   │   ├── form-navigation.md
-│   │   ├── patient-context.md
-│   │   └── tanstack-query.md
-│   ├── domain/
-│   │   ├── score-system.md      # ⭐ IMPORTANTE
-│   │   ├── patients.md
-│   │   └── security.md
-│   └── workflows/
-│       ├── development.md
-│       ├── database-ops.md      # ⭐ IMPORTANTE
-│       └── adding-features.md
-├── apps/
-│   ├── api/                     # Go backend
-│   │   ├── internal/
-│   │   │   └── models/          ← ÚNICA FONTE DE VERDADE
-│   │   └── database/
-│   │       └── migrations/      ← GERADO (não editar)
-│   ├── web/                     # Next.js 16.1
-│   └── mobile/                  # Expo SDK 56
-└── packages/
-    ├── types/
-    │   └── src/generated/       ← GERADO (não editar)
-    └── ui/
-```
-
-## 🎯 Stack Resumida
-
-- **Backend:** Go 1.25 + Fiber v2 + GORM v1.25 + PostgreSQL 17
-- **Frontend:** Next.js 16.1 + React 19.2 + shadcn/ui + TanStack Query
-- **Mobile:** React Native 0.77 + Expo SDK 56
-- **Infra:** Docker 27 + Turborepo 2.7 + Hetzner VPS + Coolify 4.0
-
-## 🔐 Segurança LGPD
-
-- CPF/RG: Criptografados via hooks (BeforeSave/AfterFind)
-- Audit logs: Imutáveis, retenção 5 anos
-- JWT: Access 15min, Refresh 7 dias
-- 2FA obrigatório para profissionais
-
-## 📊 Sistema de Escores (Core Feature)
-
-Hierarquia de 4 níveis para estratificação de risco:
-
-```
-ScoreGroup → ScoreSubgroup → ScoreItem → ScoreLevel
-```
-
-- **Filtros demográficos:** gender, age range, post-menopause
-- **Operadores:** =, >, >=, <, <=, between
-- **Enriquecimento clínico:** clinical_relevance, patient_explanation, conduct
-
-Ver [score-system.md](.claude/domain/score-system.md) para detalhes completos.
+- Fundação: [01-overview](.claude/01-overview.md) · [02-stack](.claude/02-stack.md) · [03-architecture](.claude/03-architecture.md)
+- Backend: [models](.claude/backend/models.md) · [hooks](.claude/backend/hooks.md) · [service-layer](.claude/backend/service-layer.md) · [api-endpoints](.claude/backend/api-endpoints.md) · 🔥 banco direto em [workflows/database-ops](.claude/workflows/database-ops.md)
+- Frontend: [form-navigation](.claude/frontend/form-navigation.md) · [patient-context](.claude/frontend/patient-context.md) · [tanstack-query](.claude/frontend/tanstack-query.md)
+- Domínio: [🎯 score-system](.claude/domain/score-system.md) · [patients](.claude/domain/patients.md) · [security](.claude/domain/security.md)
+- Workflows: [development](.claude/workflows/development.md) · [🔥 database-ops](.claude/workflows/database-ops.md) · [🤖 enrichment-automation](.claude/workflows/enrichment-automation.md) · [adding-features](.claude/workflows/adding-features.md) · [dev-bypass-auth](.claude/workflows/dev-bypass-auth.md)
+- Conteúdo: [decks](.claude/content/decks.md) · [ebooks](.claude/content/ebooks.md) · [images](.claude/content/images.md)
+- Social: [.claude/social/](.claude/social/)
+- Mobile: [setup](.claude/mobile/setup.md) · [security](.claude/mobile/security.md) · [deploy](.claude/mobile/deploy.md) · [ota-policy](.claude/mobile/ota-policy.md) · [release-checklist](.claude/mobile/release-checklist.md)
+- Infra/VPS: ver memórias `plenya_vps*` (Coolify, Stalwart mailserver, deploy git-push)
 
 ## 🚀 Roadmap
 
-- [x] Fase 1-3: Backend core + Auth + RBAC + Migrations
-- [x] Fase 4: Frontend web + Dashboard + Sistema de Escores
-- [ ] **Fase 5: Mobile apps (Expo)** — em curso. 2 apps separados: `apps/mobile-pro` (profissional, foco) e `apps/mobile-app` (paciente, posterior). Plano-mestre em `/home/user/.claude/plans/vivid-shimmying-glacier.md`.
-- [ ] Fase 6: Hardening LGPD
-- [ ] Fase 7: Deploy produção (Hetzner + Coolify)
+- [x] Fase 1-4: Backend core + Auth/RBAC + Frontend web + Sistema de Escores
+- [x] Portal do paciente, CRM/Central de Conversas, Calendar V1 + telemedicina, RAG (embeddings + semantic search), Subscriptions, módulo Training
+- [ ] **Fase 5: Mobile** — `apps/mobile-pro` (~MVP em curso), `apps/mobile-app` (paciente, inicial)
+- [ ] Fase 6: Hardening LGPD · Fase 7: Deploy produção (já no ar em Hetzner/KingHost + Coolify)
 
 ---
-
-**Última atualização:** Fevereiro 2026
-**Versão:** 3.0 (Documentação Modular)
-
-Para detalhes técnicos, sempre consulte arquivos em `.claude/`.
+**Versão:** 4.0 (multi-subprojeto) · **Atualizado:** Maio 2026
+Para detalhes, sempre consulte o `CLAUDE.md` do subprojeto e os arquivos em `.claude/`.
