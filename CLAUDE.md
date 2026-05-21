@@ -12,6 +12,23 @@ trabalhando.
 > regras deste arquivo valem em qualquer subprojeto; os `CLAUDE.md` locais nunca as duplicam,
 > só referenciam.
 
+> 🧭 **Roteamento de subprojeto (instrução ao Claude):** quando o usuário disser que vai
+> trabalhar num subprojeto — em linguagem natural ("vamos trabalhar no site plenya", "mexer no
+> backend", "no app do paciente") ou via slash command (`/site`, `/api`, ...) — **leia
+> imediatamente o `CLAUDE.md` do app correspondente**, confirme em uma linha que carregou o
+> contexto, e só então prossiga. Mapa de frases → arquivo:
+>
+> | O usuário menciona… | Carregue |
+> |---|---|
+> | site plenya, institucional, plenyasaude | `apps/site/CLAUDE.md` (cmd `/site`) |
+> | site do Getúlio, pessoal, drgetulioamaralfilho | `apps/site-getulio/CLAUDE.md` (`/site-getulio`) |
+> | backend, api, Go, models, escore/banco | `apps/api/CLAUDE.md` (`/api`) |
+> | web, EMR, frontend, portal do paciente | `apps/web/CLAUDE.md` (`/web`) |
+> | app profissional, Plenya Pro, mobile-pro | `apps/mobile-pro/CLAUDE.md` (`/mobile-pro`) |
+> | app do paciente, Plenya app, mobile-app | `apps/mobile-app/CLAUDE.md` (`/mobile-app`) |
+> | social, instagram, linkedin, MCP, DMs | `apps/social-mcp/CLAUDE.md` + `.claude/social/` (`/social`) |
+> | deck, eBook, blog, imagem | `.claude/content/*.md` |
+
 ## 🗺 Mapa dos subprojetos
 
 ### `apps/` — aplicações
