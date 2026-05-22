@@ -235,7 +235,7 @@
       },
       {
         "q": "Como agendar consulta?",
-        "a": "<p>Para a <strong>Plenya</strong> (medicina preventiva, longevidade, performance, nutrologia — presencial em Londrina ou online por telemedicina): pelo site <a href=\"https://plenyasaude.com.br\" target=\"_blank\" rel=\"noreferrer\">plenyasaude.com.br</a> ou Instagram <a href=\"https://instagram.com/plenyaSaude\" target=\"_blank\" rel=\"noreferrer\">@plenyaSaude</a>.</p><p>Para a <strong>Nefroclínica Londrina</strong> (nefrologia clínica, transplante renal, hemodiálise e diálise peritoneal): WhatsApp <a href=\"https://wa.me/5543996380044\" target=\"_blank\" rel=\"noreferrer\">(43) 99638-0044</a> ou pelo site <a href=\"https://nefroclinica.com\" target=\"_blank\" rel=\"noreferrer\">nefroclinica.com</a>.</p><p>Detalhes completos sobre cada via e endereço na página <a href=\"/onde-atendo\">Como consultar</a>.</p>"
+        "a": "<p>Para a <strong>Plenya</strong> (medicina preventiva, longevidade, performance, nutrologia — presencial em Londrina ou online por telemedicina): por WhatsApp <a href=\"https://wa.me/5543999748899\" target=\"_blank\" rel=\"noreferrer\">(43) 99974-8899</a>, pelo site <a href=\"https://plenyasaude.com.br\" target=\"_blank\" rel=\"noreferrer\">plenyasaude.com.br</a> ou Instagram <a href=\"https://instagram.com/plenyaSaude\" target=\"_blank\" rel=\"noreferrer\">@plenyaSaude</a>.</p><p>Para a <strong>Nefroclínica Londrina</strong> (nefrologia clínica, transplante renal, hemodiálise e diálise peritoneal): WhatsApp <a href=\"https://wa.me/5543996380044\" target=\"_blank\" rel=\"noreferrer\">(43) 99638-0044</a> ou pelo site <a href=\"https://nefroclinica.com\" target=\"_blank\" rel=\"noreferrer\">nefroclinica.com</a>.</p><p>Detalhes completos sobre cada via e endereço na página <a href=\"/onde-atendo\">Como consultar</a>.</p>"
       },
       {
         "q": "Atende paciente fora de Londrina?",
@@ -347,8 +347,8 @@
         "body": "Programa de saúde preventiva e longevidade. Medicina funcional integrativa com forte ênfase em nutrologia, suplementação inteligente, performance e leitura de biomarcadores avançados. Equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Atendimento presencial em Londrina ou online por telemedicina, com a mesma profundidade clínica. Aqui eu atuo como médico-gestor da sua saúde — articulando o cuidado entre a equipe Plenya e os profissionais que você já consulta fora da clínica.",
         "address": "Av. Duque de Caxias, 1371 — Londrina/PR",
         "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
-        "whatsappUrl": "",
-        "whatsappLabel": "",
+        "whatsappUrl": "https://wa.me/5543999748899",
+        "whatsappLabel": "+55 43 99974-8899",
         "siteUrl": "https://plenyasaude.com.br",
         "instagramUrl": "https://instagram.com/plenyaSaude",
         "instagramHandle": "@plenyaSaude",
@@ -443,6 +443,8 @@
     "labelPalestras": "Palestras",
     "labelImprensa": "Imprensa",
     "clinicalKicker": "Atendimento clínico",
+    "labelWhatsApp": "WhatsApp · Plenya",
+    "whatsappDisplay": "(43) 99974-8899",
     "labelPlenya": "Plenya · longevidade",
     "labelNefroclinica": "Nefroclínica · nefrologia",
     "localKicker": "Local",

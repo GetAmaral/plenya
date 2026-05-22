@@ -70,6 +70,10 @@ export default async function ContatoPage({
             <p className="label-meta mb-4">{t('clinicalKicker')}</p>
             <ul className="space-y-3 font-serif text-ink-soft text-sm">
               <li>
+                <p className="text-ink-muted text-xs mb-1">{t('labelWhatsApp')}</p>
+                <a href="https://wa.me/5543999748899" target="_blank" rel="noreferrer" className="link-text font-mono">{t('whatsappDisplay')}</a>
+              </li>
+              <li>
                 <p className="text-ink-muted text-xs mb-1">{t('labelPlenya')}</p>
                 <a href="https://plenyasaude.com.br" target="_blank" rel="noreferrer" className="link-text">plenyasaude.com.br</a>
               </li>

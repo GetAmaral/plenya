@@ -235,7 +235,7 @@
       },
       {
         "q": "How do I book a consultation?",
-        "a": "<p>For <strong>Plenya</strong> (preventive medicine, longevity, performance, nutrology — in person in Londrina or online via telemedicine): via the website <a href=\"https://plenyasaude.com.br\" target=\"_blank\" rel=\"noreferrer\">plenyasaude.com.br</a> or Instagram <a href=\"https://instagram.com/plenyaSaude\" target=\"_blank\" rel=\"noreferrer\">@plenyaSaude</a>.</p><p>For <strong>Nefroclínica Londrina</strong> (clinical nephrology, kidney transplant, hemodialysis and peritoneal dialysis): WhatsApp <a href=\"https://wa.me/5543996380044\" target=\"_blank\" rel=\"noreferrer\">+55 43 99638-0044</a> or via the website <a href=\"https://nefroclinica.com\" target=\"_blank\" rel=\"noreferrer\">nefroclinica.com</a>.</p><p>Full details on each pathway and address on the <a href=\"/en/where-i-practice\">How to consult</a> page.</p>"
+        "a": "<p>For <strong>Plenya</strong> (preventive medicine, longevity, performance, nutrology — in person in Londrina or online via telemedicine): via WhatsApp <a href=\"https://wa.me/5543999748899\" target=\"_blank\" rel=\"noreferrer\">+55 43 99974-8899</a>, via the website <a href=\"https://plenyasaude.com.br\" target=\"_blank\" rel=\"noreferrer\">plenyasaude.com.br</a> or Instagram <a href=\"https://instagram.com/plenyaSaude\" target=\"_blank\" rel=\"noreferrer\">@plenyaSaude</a>.</p><p>For <strong>Nefroclínica Londrina</strong> (clinical nephrology, kidney transplant, hemodialysis and peritoneal dialysis): WhatsApp <a href=\"https://wa.me/5543996380044\" target=\"_blank\" rel=\"noreferrer\">+55 43 99638-0044</a> or via the website <a href=\"https://nefroclinica.com\" target=\"_blank\" rel=\"noreferrer\">nefroclinica.com</a>.</p><p>Full details on each pathway and address on the <a href=\"/en/where-i-practice\">How to consult</a> page.</p>"
       },
       {
         "q": "Do you see patients outside Londrina?",
@@ -347,8 +347,8 @@
         "body": "Preventive health and longevity program. Integrative functional medicine with a strong focus on nutrology, evidence-based supplementation, performance and advanced biomarker analysis. Multidisciplinary team (physician, nutritionist, psychologist, exercise physiologist) working the same patient under the same plan. In person in Londrina or online via telemedicine, with the same clinical depth. Here I serve as your care-managing physician — coordinating care between the Plenya team and the professionals you already see outside the clinic.",
         "address": "Av. Duque de Caxias, 1371 — Londrina/PR, Brazil",
         "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
-        "whatsappUrl": "",
-        "whatsappLabel": "",
+        "whatsappUrl": "https://wa.me/5543999748899",
+        "whatsappLabel": "+55 43 99974-8899",
         "siteUrl": "https://plenyasaude.com.br",
         "instagramUrl": "https://instagram.com/plenyaSaude",
         "instagramHandle": "@plenyaSaude",
@@ -443,6 +443,8 @@
     "labelPalestras": "Lectures",
     "labelImprensa": "Press",
     "clinicalKicker": "Clinical practice",
+    "labelWhatsApp": "WhatsApp · Plenya",
+    "whatsappDisplay": "+55 43 99974-8899",
     "labelPlenya": "Plenya · longevity",
     "labelNefroclinica": "Nefroclínica · nephrology",
     "localKicker": "Location",

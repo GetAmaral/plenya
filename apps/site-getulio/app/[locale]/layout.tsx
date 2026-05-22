@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import { isLocale, locales } from '@/lib/i18n/config';
 import { SiteHeader } from '@/components/layout/site-header';
 import { SiteFooter } from '@/components/layout/site-footer';
+import { WhatsAppBubble } from '@/components/marketing/whatsapp-bubble';
 import { PersonSchema } from '@/components/seo/person-schema';
 import { WebSiteSchema } from '@/components/seo/website-schema';
 import { NavigationSchema } from '@/components/seo/navigation-schema';
@@ -158,6 +159,7 @@ export default async function LocaleLayout({
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />
+          <WhatsAppBubble label={locale === 'en' ? 'Chat on WhatsApp' : 'Falar no WhatsApp'} />
         </NextIntlClientProvider>
       </body>
     </html>
