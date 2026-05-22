@@ -40,6 +40,16 @@ export function SiteFooter() {
           <address className="space-y-2 text-sm text-paper/85 not-italic">
             <p>
               <a
+                href="https://wa.me/5543999748899"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-gold transition-colors"
+              >
+                {t('whatsapp')}
+              </a>
+            </p>
+            <p>
+              <a
                 href="mailto:contato@drgetulioamaralfilho.com.br"
                 className="hover:text-gold transition-colors"
               >
