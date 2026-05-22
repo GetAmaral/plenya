@@ -3,7 +3,7 @@
 import { MessageCircle } from 'lucide-react';
 import { track } from '@/lib/plausible';
 
-const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5543999999999';
+const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5543999748899';
 
 export function WhatsAppBubble() {
   return (

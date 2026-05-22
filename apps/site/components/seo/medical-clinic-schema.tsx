@@ -11,6 +11,7 @@ export function MedicalClinicSchema({ locale = 'pt' }: { locale?: string } = {})
     url: brand.url,
     logo: `${brand.url}/logo.svg`,
     image: `${brand.url}/og-default.jpg`,
+    telephone: '+5543999748899',
     medicalDirector: {
       '@type': 'Physician',
       '@id': `${brand.url}/dr-getulio#physician`,
