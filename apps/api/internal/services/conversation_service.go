@@ -996,7 +996,8 @@ func (s *ConversationService) sendWhatsApp(ctx context.Context, in SendMessageIn
 		return nil, errors.New("conversation: whatsapp service não configurado")
 	}
 	body := strings.TrimSpace(in.BodyText)
-	if body == "" {
+	hasMedia := len(in.Attachments) > 0
+	if body == "" && !hasMedia {
 		return nil, errors.New("conversation: corpo vazio")
 	}
 	if len(body) > 4096 {
@@ -1051,9 +1052,56 @@ func (s *ConversationService) sendWhatsApp(ctx context.Context, in SendMessageIn
 		patientID = &id
 	}
 
-	wamid, err := s.whatsappService.SendTextMessage(phone, body)
-	if err != nil {
-		return nil, fmt.Errorf("conversation: whatsapp send: %w", err)
+	var (
+		wamid           string
+		mediaType       *string
+		mediaMime       *string
+		mediaFilename   *string
+		mediaStorageKey *string
+		mediaSize       *int64
+		err             error
+	)
+
+	if hasMedia {
+		att := in.Attachments[0] // WhatsApp envia uma mídia por mensagem
+		full, rerr := s.resolveUploadPath(att.Path)
+		if rerr != nil {
+			return nil, rerr
+		}
+		data, rerr := os.ReadFile(full)
+		if rerr != nil {
+			return nil, ErrConversationAttachmentInvalid
+		}
+		mime := DetectBytesMime(data).ContentType
+		waType := WhatsAppMediaTypeFromMIME(mime)
+
+		mediaID, uerr := s.whatsappService.UploadMedia(data, mime, att.Filename)
+		if uerr != nil {
+			return nil, fmt.Errorf("conversation: whatsapp upload media: %w", uerr)
+		}
+		wamid, err = s.whatsappService.SendMediaMessage(phone, waType, mediaID, body, att.Filename)
+		if err != nil {
+			return nil, fmt.Errorf("conversation: whatsapp send media: %w", err)
+		}
+		// Guarda a mídia cifrada pra renderizar no histórico (mesmo bucket do inbound).
+		if s.waMedia != nil {
+			ownerKind := "lead"
+			oid := uuid.Nil
+			if patientID != nil {
+				ownerKind, oid = "patient", *patientID
+			} else if leadID != nil {
+				oid = *leadID
+			}
+			if key, size, serr := s.waMedia.StoreInbound(ownerKind, oid, data, mime); serr == nil {
+				mediaStorageKey, mediaSize = &key, &size
+			}
+		}
+		mediaType, mediaMime, mediaFilename = &waType, &mime, &att.Filename
+	} else {
+		wamid, err = s.whatsappService.SendTextMessage(phone, body)
+		if err != nil {
+			return nil, fmt.Errorf("conversation: whatsapp send: %w", err)
+		}
 	}
 
 	// Persiste LeadActivity outbound — espelha lead_service.go::SendWhatsAppText.
@@ -1062,19 +1110,117 @@ func (s *ConversationService) sendWhatsApp(ctx context.Context, in SendMessageIn
 		"sent_at":       time.Now().UTC(),
 		"recipient":     phone,
 	})
+	var contentPtr *string
+	if body != "" {
+		contentPtr = &body
+	}
+	activity := &models.LeadActivity{
+		LeadID:          leadID,
+		PatientID:       patientID,
+		Type:            models.LeadActivityMessageSent,
+		Channel:         models.LeadChannelWhatsApp,
+		Content:         contentPtr,
+		Metadata:        datatypes.JSON(metaJSON),
+		ActorUserID:     &in.UserID,
+		MediaType:       mediaType,
+		MediaMIME:       mediaMime,
+		MediaFilename:   mediaFilename,
+		MediaStorageKey: mediaStorageKey,
+		MediaSizeBytes:  mediaSize,
+	}
+	if err := s.db.WithContext(ctx).Create(activity).Error; err != nil {
+		return nil, fmt.Errorf("conversation: persist activity: %w", err)
+	}
+	// Refetch pra rodar AfterFind (decrypt content).
+	return s.fetchActivity(ctx, activity.ID)
+}
+
+// SendWhatsAppTemplateInput é o payload de envio de template (reabre conversa >24h).
+type SendWhatsAppTemplateInput struct {
+	UserID       uuid.UUID
+	OwnerType    string
+	OwnerID      uuid.UUID
+	TemplateName string
+	Language     string
+	Params       []string
+}
+
+// SendWhatsAppTemplate envia um template aprovado pela Meta. Diferente de sendWhatsApp,
+// NÃO checa a janela de 24h — template é justamente o caminho pra reabrir conversa
+// fora dela. Valida opt-in/canal e persiste a activity outbound.
+func (s *ConversationService) SendWhatsAppTemplate(ctx context.Context, in SendWhatsAppTemplateInput) (*models.LeadActivity, error) {
+	if s.whatsappService == nil {
+		return nil, errors.New("conversation: whatsapp service não configurado")
+	}
+	if !isValidOwnerType(in.OwnerType) || in.OwnerID == uuid.Nil {
+		return nil, ErrConversationOwnerInvalid
+	}
+	if in.UserID == uuid.Nil {
+		return nil, errors.New("conversation: actorUserID obrigatório")
+	}
+	if strings.TrimSpace(in.TemplateName) == "" {
+		return nil, errors.New("conversation: template obrigatório")
+	}
+	lang := in.Language
+	if lang == "" {
+		lang = "pt_BR"
+	}
+
+	owner, err := s.loadOwner(ctx, in.OwnerType, in.OwnerID)
+	if err != nil {
+		return nil, err
+	}
+
+	var (
+		phone     string
+		leadID    *uuid.UUID
+		patientID *uuid.UUID
+	)
+	switch {
+	case owner.Lead != nil:
+		l := owner.Lead
+		if l.Phone == nil || *l.Phone == "" {
+			return nil, ErrConversationNoChannel
+		}
+		if !l.WhatsAppOptIn || l.Status == models.LeadStatusUnsubscribed {
+			return nil, ErrConversationOptedOut
+		}
+		phone = *l.Phone
+		id := l.ID
+		leadID = &id
+	case owner.Patient != nil:
+		p := owner.Patient
+		if p.Phone == nil || *p.Phone == "" {
+			return nil, ErrConversationNoChannel
+		}
+		phone = *p.Phone
+		id := p.ID
+		patientID = &id
+	}
+
+	if err := s.whatsappService.SendTemplate(phone, in.TemplateName, lang, in.Params); err != nil {
+		return nil, fmt.Errorf("conversation: whatsapp template: %w", err)
+	}
+
+	content := "[template: " + in.TemplateName + "]"
+	metaJSON, _ := json.Marshal(map[string]any{
+		"template":  in.TemplateName,
+		"language":  lang,
+		"sent_at":   time.Now().UTC(),
+		"recipient": phone,
+	})
 	activity := &models.LeadActivity{
 		LeadID:      leadID,
 		PatientID:   patientID,
 		Type:        models.LeadActivityMessageSent,
 		Channel:     models.LeadChannelWhatsApp,
-		Content:     &body,
+		Content:     &content,
 		Metadata:    datatypes.JSON(metaJSON),
 		ActorUserID: &in.UserID,
 	}
 	if err := s.db.WithContext(ctx).Create(activity).Error; err != nil {
 		return nil, fmt.Errorf("conversation: persist activity: %w", err)
 	}
-	// Refetch pra rodar AfterFind (decrypt content).
 	return s.fetchActivity(ctx, activity.ID)
 }
 

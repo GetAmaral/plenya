@@ -24,6 +24,7 @@ import {
   useConversationAISuggestion,
   useSendConversationEmail,
   useSendConversationWhatsApp,
+  useSendConversationWhatsAppTemplate,
   useUploadConversationAttachment,
 } from '@/lib/api/conversations-api';
 
@@ -55,6 +56,10 @@ const ACCEPT = {
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
   'application/vnd.ms-excel': ['.xls'],
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+  'audio/ogg': ['.ogg'],
+  'audio/mpeg': ['.mp3'],
+  'audio/mp4': ['.m4a'],
+  'audio/aac': ['.aac'],
 };
 
 type AttachmentState = {
@@ -135,6 +140,11 @@ export function ConversationComposer({
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
   const [attachments, setAttachments] = useState<AttachmentState[]>([]);
+  // Template (reabre conversa fora da janela 24h).
+  const [showTemplate, setShowTemplate] = useState(false);
+  const [tplName, setTplName] = useState('');
+  const [tplLang, setTplLang] = useState('pt_BR');
+  const [tplParams, setTplParams] = useState('');
 
   // Reset campos ao trocar de conversa
   useEffect(() => {
@@ -154,7 +164,32 @@ export function ConversationComposer({
 
   const sendEmail = useSendConversationEmail(item.ownerType, item.ownerId);
   const sendWa = useSendConversationWhatsApp(item.ownerType, item.ownerId);
+  const sendTpl = useSendConversationWhatsAppTemplate(item.ownerType, item.ownerId);
   const upload = useUploadConversationAttachment();
+
+  const handleSendTemplate = () => {
+    if (!tplName.trim()) {
+      toast.error('Informe o nome do template aprovado.');
+      return;
+    }
+    const params = tplParams
+      .split('\n')
+      .map((p) => p.trim())
+      .filter(Boolean);
+    sendTpl.mutate(
+      { name: tplName.trim(), language: tplLang.trim() || 'pt_BR', params: params.length ? params : undefined },
+      {
+        onSuccess: () => {
+          toast.success('Template enviado.');
+          setShowTemplate(false);
+          setTplName('');
+          setTplParams('');
+        },
+        onError: (err: unknown) =>
+          toast.error(err instanceof Error ? err.message : 'Falha ao enviar template'),
+      }
+    );
+  };
   const suggest = useConversationAISuggestion(item.ownerType, item.ownerId);
 
   const emailValidation = useMemo(() => validateEmail(item), [item]);
@@ -170,14 +205,20 @@ export function ConversationComposer({
 
   const isPending = sendEmail.isPending || sendWa.isPending;
   const trimmedBody = body.trim();
+  const readyAttachments = attachments.filter((a) => a.status === 'done' && a.path);
   const canSend =
-    validation.ok && !!trimmedBody && !isPending && !hasUploading && !hasErrored;
+    validation.ok &&
+    (!!trimmedBody || (channel === 'whatsapp' && readyAttachments.length > 0)) &&
+    !isPending &&
+    !hasUploading &&
+    !hasErrored;
 
   // Upload de uma lista de arquivos. Faz validação local + dispara POST individual.
   const startUploads = useCallback(
     (files: File[]) => {
-      if (channel !== 'email') {
-        toast.error('Anexos disponíveis apenas no canal de email.');
+      // WhatsApp envia uma mídia por mensagem.
+      if (channel === 'whatsapp' && attachments.length + files.length > 1) {
+        toast.error('WhatsApp: envie uma mídia por mensagem.');
         return;
       }
       // Validação local: per-file e somatório.
@@ -229,7 +270,7 @@ export function ConversationComposer({
         });
       });
     },
-    [channel, totalBytes, upload]
+    [channel, totalBytes, upload, attachments.length]
   );
 
   const onDrop = useCallback(
@@ -242,7 +283,7 @@ export function ConversationComposer({
     accept: ACCEPT,
     noClick: true, // só drop + botão dedicado pra evitar abrir picker ao clicar no textarea
     noKeyboard: true,
-    disabled: channel !== 'email' || !validation.ok || isPending,
+    disabled: !validation.ok || isPending,
   });
 
   const removeAttachment = (localId: string) => {
@@ -275,7 +316,7 @@ export function ConversationComposer({
       toast.error(validation.reason);
       return;
     }
-    if (!trimmedBody) {
+    if (!trimmedBody && !(channel === 'whatsapp' && readyAttachments.length > 0)) {
       toast.error('Escreva uma mensagem antes de enviar.');
       return;
     }
@@ -307,12 +348,20 @@ export function ConversationComposer({
       return;
     }
 
+    const waAtts: SendConversationEmailAttachment[] = readyAttachments.map((a) => ({
+      path: a.path as string,
+      filename: a.file.name,
+    }));
     sendWa.mutate(
-      { bodyText: trimmedBody },
+      {
+        bodyText: trimmedBody || undefined,
+        attachments: waAtts.length > 0 ? waAtts : undefined,
+      },
       {
         onSuccess: () => {
           toast.success('WhatsApp enviado.');
           setBody('');
+          setAttachments([]);
         },
         onError: (err: unknown) => {
           const msg = err instanceof Error ? err.message : 'Falha ao enviar WhatsApp';
@@ -322,7 +371,7 @@ export function ConversationComposer({
     );
   };
 
-  const showAttachUI = channel === 'email';
+  const showAttachUI = true;
 
   return (
     <div className="border-t border-border bg-background p-3 sm:p-4">
@@ -383,7 +432,65 @@ export function ConversationComposer({
             {suggest.isPending ? 'Pensando…' : 'Sugerir resposta'}
           </button>
         )}
+
+        {/* Template — só WhatsApp; reabre conversa fora da janela 24h. */}
+        {channel === 'whatsapp' && (
+          <button
+            type="button"
+            onClick={() => setShowTemplate((v) => !v)}
+            title="Enviar template aprovado (fora da janela de 24h)"
+            className={cn(
+              'ml-auto inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
+              showTemplate
+                ? 'border-emerald-400 bg-emerald-100 text-emerald-900'
+                : 'border-emerald-300 bg-white text-emerald-900 hover:bg-emerald-50'
+            )}
+          >
+            <MessageSquare className="h-3.5 w-3.5" /> Template
+          </button>
+        )}
       </div>
+
+      {/* Painel de template WhatsApp */}
+      {channel === 'whatsapp' && showTemplate && (
+        <div className="mb-2 space-y-2 rounded-md border border-emerald-200 bg-emerald-50/40 p-3">
+          <p className="text-xs text-muted-foreground">
+            Use um template aprovado pela Meta pra reabrir a conversa fora da janela de 24h.
+          </p>
+          <div className="flex gap-2">
+            <Input
+              value={tplName}
+              onChange={(e) => setTplName(e.target.value)}
+              placeholder="Nome do template (ex: reengajamento)"
+              className="text-sm"
+            />
+            <Input
+              value={tplLang}
+              onChange={(e) => setTplLang(e.target.value)}
+              placeholder="pt_BR"
+              className="w-28 text-sm"
+            />
+          </div>
+          <textarea
+            value={tplParams}
+            onChange={(e) => setTplParams(e.target.value)}
+            rows={2}
+            placeholder="Parâmetros do corpo ({{1}}, {{2}}…), um por linha (opcional)"
+            className="w-full resize-y rounded-md border border-input bg-transparent p-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+          />
+          <div className="flex justify-end">
+            <Button
+              type="button"
+              size="sm"
+              disabled={sendTpl.isPending || !tplName.trim()}
+              onClick={handleSendTemplate}
+            >
+              {sendTpl.isPending && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+              Enviar template
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Subject só pra email */}
       {channel === 'email' && (

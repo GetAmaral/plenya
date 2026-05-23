@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"mime/multipart"
 	"net/http"
 	"regexp"
 	"strings"
@@ -333,6 +334,145 @@ func (s *WhatsAppService) DownloadMedia(mediaID string) (*MediaDownload, error) 
 		mime = strings.TrimSpace(mime[:i])
 	}
 	return &MediaDownload{Bytes: data, MIME: mime, FileSize: int64(len(data)), SHA256: meta.SHA256}, nil
+}
+
+// WhatsAppMediaTypeFromMIME mapeia um content-type pro tipo de mídia da Cloud API.
+func WhatsAppMediaTypeFromMIME(mime string) string {
+	switch {
+	case strings.HasPrefix(mime, "image/"):
+		return "image"
+	case strings.HasPrefix(mime, "audio/"):
+		return "audio"
+	case strings.HasPrefix(mime, "video/"):
+		return "video"
+	default:
+		return "document"
+	}
+}
+
+// UploadMedia faz upload de um arquivo pra Meta e retorna o media_id (válido ~30 dias).
+// POST /{phone-number-id}/media (multipart: messaging_product, type, file).
+func (s *WhatsAppService) UploadMedia(data []byte, mime, filename string) (string, error) {
+	if s.cfg.WhatsApp.PhoneNumberID == "" || s.cfg.WhatsApp.AccessToken == "" {
+		log.Printf("📱 [WHATSAPP DEV] UploadMedia mime=%s bytes=%d (sem credenciais — log apenas)", mime, len(data))
+		return "dev-media-id", nil
+	}
+	if filename == "" {
+		filename = "arquivo"
+	}
+
+	var buf bytes.Buffer
+	w := multipart.NewWriter(&buf)
+	_ = w.WriteField("messaging_product", "whatsapp")
+	_ = w.WriteField("type", mime)
+	part, err := w.CreateFormFile("file", filename)
+	if err != nil {
+		return "", fmt.Errorf("whatsapp: upload media form: %w", err)
+	}
+	if _, err := part.Write(data); err != nil {
+		return "", fmt.Errorf("whatsapp: upload media write: %w", err)
+	}
+	if err := w.Close(); err != nil {
+		return "", err
+	}
+
+	apiVersion := s.cfg.WhatsApp.GraphAPIVersion
+	if apiVersion == "" {
+		apiVersion = "v18.0"
+	}
+	url := fmt.Sprintf("https://graph.facebook.com/%s/%s/media", apiVersion, s.cfg.WhatsApp.PhoneNumberID)
+	req, err := http.NewRequest(http.MethodPost, url, &buf)
+	if err != nil {
+		return "", fmt.Errorf("whatsapp: build upload request: %w", err)
+	}
+	req.Header.Set("Authorization", "Bearer "+s.cfg.WhatsApp.AccessToken)
+	req.Header.Set("Content-Type", w.FormDataContentType())
+
+	client := &http.Client{Timeout: 60 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("whatsapp: upload media http: %w", err)
+	}
+	defer resp.Body.Close()
+	respBody, _ := io.ReadAll(io.LimitReader(resp.Body, 2048))
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return "", fmt.Errorf("whatsapp: upload media status %d: %s", resp.StatusCode, string(respBody))
+	}
+	var out struct {
+		ID string `json:"id"`
+	}
+	if err := json.Unmarshal(respBody, &out); err != nil || out.ID == "" {
+		return "", fmt.Errorf("whatsapp: upload media sem id: %s", string(respBody))
+	}
+	return out.ID, nil
+}
+
+// SendMediaMessage envia uma mensagem de mídia (image|document|audio|video) por
+// media_id já enviado via UploadMedia. Só dentro da janela de 24h (regra Meta).
+// Retorna o wa_message_id.
+func (s *WhatsAppService) SendMediaMessage(toE164, waType, mediaID, caption, filename string) (string, error) {
+	if s.cfg.WhatsApp.PhoneNumberID == "" || s.cfg.WhatsApp.AccessToken == "" {
+		log.Printf("📱 [WHATSAPP DEV] SendMediaMessage to=%s type=%s (sem credenciais — log apenas)", toE164, waType)
+		return "dev-" + toE164, nil
+	}
+	to, err := NormalizeE164(toE164)
+	if err != nil {
+		return "", err
+	}
+
+	media := map[string]any{"id": mediaID}
+	// caption só vale pra image/video/document; audio ignora.
+	if caption != "" && waType != "audio" {
+		media["caption"] = caption
+	}
+	if waType == "document" && filename != "" {
+		media["filename"] = filename
+	}
+	payload := map[string]any{
+		"messaging_product": "whatsapp",
+		"recipient_type":    "individual",
+		"to":                to,
+		"type":              waType,
+		waType:              media,
+	}
+
+	raw, err := json.Marshal(payload)
+	if err != nil {
+		return "", fmt.Errorf("whatsapp: marshal media payload: %w", err)
+	}
+	apiVersion := s.cfg.WhatsApp.GraphAPIVersion
+	if apiVersion == "" {
+		apiVersion = "v18.0"
+	}
+	url := fmt.Sprintf("https://graph.facebook.com/%s/%s/messages", apiVersion, s.cfg.WhatsApp.PhoneNumberID)
+	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(raw))
+	if err != nil {
+		return "", fmt.Errorf("whatsapp: build media msg request: %w", err)
+	}
+	req.Header.Set("Authorization", "Bearer "+s.cfg.WhatsApp.AccessToken)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := s.client.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("whatsapp: media msg http: %w", err)
+	}
+	defer resp.Body.Close()
+	respBody, _ := io.ReadAll(io.LimitReader(resp.Body, 2048))
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return "", fmt.Errorf("whatsapp: media msg status %d: %s", resp.StatusCode, string(respBody))
+	}
+	var meta struct {
+		Messages []struct {
+			ID string `json:"id"`
+		} `json:"messages"`
+	}
+	_ = json.Unmarshal(respBody, &meta)
+	var msgID string
+	if len(meta.Messages) > 0 {
+		msgID = meta.Messages[0].ID
+	}
+	log.Printf("📱 [WHATSAPP] media (%s) sent to=%s message_id=%s", waType, to, msgID)
+	return msgID, nil
 }
 
 // VerifyWebhookSignature valida o header X-Hub-Signature-256 enviado pela Meta.

@@ -372,6 +372,7 @@ func setupRoutes(
 	// WhatsApp Fase 2: roteia mídia inbound (arquivo de paciente → prontuário;
 	// áudio/lead → bucket cifrado da conversa).
 	leadService.SetMediaServices(patientDocumentsService, whatsappMediaService)
+	leadService.SetTranscriber(services.NewTranscriptionService(cfg)) // 2.2: transcrição de áudio (Whisper)
 	conversationService.SetMediaServices(whatsappMediaService, patientDocumentsService)
 	// 2.0b: interpretar documento de prontuário como exame (reusa pipeline OCR→IA).
 	conversationService.SetExamInterpreter(labResultBatchService, processingJobService)
@@ -490,6 +491,7 @@ func setupRoutes(
 	conv.Post("/:type/:id/read", conversationHandler.MarkRead)
 	conv.Post("/:type/:id/email", conversationHandler.SendEmail)
 	conv.Post("/:type/:id/whatsapp", conversationHandler.SendWhatsApp)
+	conv.Post("/:type/:id/whatsapp/template", conversationHandler.SendWhatsAppTemplate)
 	// IA: rate-limited 10 req/min/IP (resumo + sugestão são caros).
 	conversationAILimiter := middleware.NewRateLimiter(10, time.Minute)
 	conv.Post("/:type/:id/ai/summary", conversationAILimiter.Middleware(), conversationHandler.AISummary)

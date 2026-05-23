@@ -470,8 +470,10 @@ func (h *ConversationHandler) Compose(c *fiber.Ctx) error {
 // ============================================================
 
 // SendWhatsAppRequest é o payload de POST /conversations/:type/:id/whatsapp.
+// Aceita texto e/ou uma mídia (anexo já enviado via /conversations/attachments/upload).
 type SendWhatsAppRequest struct {
-	BodyText string `json:"bodyText" validate:"required,min=1,max=4096"`
+	BodyText    string                `json:"bodyText" validate:"required_without=Attachments,max=4096"`
+	Attachments []SendEmailAttachment `json:"attachments,omitempty" validate:"omitempty,max=1,dive"`
 }
 
 // SendWhatsApp envia mensagem WhatsApp (session message, dentro da janela 24h).
@@ -507,12 +509,53 @@ func (h *ConversationHandler) SendWhatsApp(c *fiber.Ctx) error {
 		})
 	}
 
+	atts := make([]services.OutboundAttachment, 0, len(req.Attachments))
+	for _, a := range req.Attachments {
+		atts = append(atts, services.OutboundAttachment{Path: a.Path, Filename: a.Filename})
+	}
 	activity, err := h.service.SendMessage(c.UserContext(), services.SendMessageInput{
-		UserID:    middleware.GetUserID(c),
-		OwnerType: ownerType,
-		OwnerID:   ownerID,
-		Channel:   models.LeadChannelWhatsApp,
-		BodyText:  req.BodyText,
+		UserID:      middleware.GetUserID(c),
+		OwnerType:   ownerType,
+		OwnerID:     ownerID,
+		Channel:     models.LeadChannelWhatsApp,
+		BodyText:    req.BodyText,
+		Attachments: atts,
+	})
+	return writeSendResult(c, activity, err)
+}
+
+// SendWhatsAppTemplateRequest é o payload de POST /conversations/:type/:id/whatsapp/template.
+type SendWhatsAppTemplateRequest struct {
+	Name     string   `json:"name" validate:"required,max=200"`
+	Language string   `json:"language" validate:"omitempty,max=10"`
+	Params   []string `json:"params" validate:"omitempty,max=10,dive,max=1024"`
+}
+
+// SendWhatsAppTemplate envia um template aprovado (reabre conversa fora da janela 24h).
+//
+// @Summary  Envia template WhatsApp
+// @Tags     conversations
+// @Security BearerAuth
+// @Router   /conversations/{type}/{id}/whatsapp/template [post]
+func (h *ConversationHandler) SendWhatsAppTemplate(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	var req SendWhatsAppTemplateRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid body", Message: err.Error()})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
+	}
+	activity, err := h.service.SendWhatsAppTemplate(c.UserContext(), services.SendWhatsAppTemplateInput{
+		UserID:       middleware.GetUserID(c),
+		OwnerType:    ownerType,
+		OwnerID:      ownerID,
+		TemplateName: req.Name,
+		Language:     req.Language,
+		Params:       req.Params,
 	})
 	return writeSendResult(c, activity, err)
 }

@@ -387,6 +387,11 @@ function MessageBubble({
             <ChannelIcon className="h-3 w-3 shrink-0" aria-hidden />
             <strong className="truncate">{fromLabel}</strong>
             <span className="shrink-0">· {isInbound ? 'recebido' : 'enviado'}</span>
+            {msg.metadata?.origin === 'phone_app' && (
+              <span className="shrink-0 rounded bg-emerald-100 px-1 text-[10px] text-emerald-800">
+                via app
+              </span>
+            )}
           </span>
           <span className="shrink-0">
             {format(new Date(msg.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}

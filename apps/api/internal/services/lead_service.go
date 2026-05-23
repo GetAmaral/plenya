@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -38,6 +39,7 @@ type LeadService struct {
 	// guarda mídia de conversa (áudio/lead) cifrada.
 	patientDocs *PatientDocumentsService
 	waMedia     *WhatsAppMediaService
+	transcriber *TranscriptionService
 }
 
 // PatientInboundWAHook é o callback chamado quando paciente cadastrado envia
@@ -72,6 +74,11 @@ func (s *LeadService) SetPatientInboundWAHook(h PatientInboundWAHook) {
 func (s *LeadService) SetMediaServices(docs *PatientDocumentsService, media *WhatsAppMediaService) {
 	s.patientDocs = docs
 	s.waMedia = media
+}
+
+// SetTranscriber injeta o serviço de transcrição de áudio (Fase 2.2).
+func (s *LeadService) SetTranscriber(t *TranscriptionService) {
+	s.transcriber = t
 }
 
 // HashIP retorna SHA-256 hex do IP — usado pra registrar consentimento sem armazenar IP plano.
@@ -603,9 +610,11 @@ func (s *LeadService) recordPatientMedia(patient *models.Patient, in InboundWhat
 		}
 	}
 
-	if err := s.RecordActivity(rec); err != nil {
+	act, err := s.recordActivityReturning(rec)
+	if err != nil {
 		return nil, err
 	}
+	s.maybeTranscribe(act.ID, in.Kind, dl.Bytes, mime)
 
 	patientCopy := *patient
 	snippet := mediaSnippet(in.Kind, in.Caption)
@@ -634,9 +643,11 @@ func (s *LeadService) recordLeadMedia(lead *models.Lead, in InboundWhatsAppMedia
 	if err := s.storeConvMedia(&rec, "lead", leadID, dl, mime); err != nil {
 		return nil, err
 	}
-	if err := s.RecordActivity(rec); err != nil {
+	act, err := s.recordActivityReturning(rec)
+	if err != nil {
 		return nil, err
 	}
+	s.maybeTranscribe(act.ID, in.Kind, dl.Bytes, mime)
 	if !isNew {
 		_ = s.db.Model(lead).Update("last_inbound_at", now).Error
 	}
@@ -651,6 +662,92 @@ func (s *LeadService) recordLeadMedia(lead *models.Lead, in InboundWhatsAppMedia
 		})
 	}
 	return &InboundResult{Lead: lead, IsNew: isNew}, nil
+}
+
+// maybeTranscribe transcreve áudio inbound (async) e grava na coluna transcription
+// (cifrada via BeforeSave). No-op se transcrição desabilitada ou não for áudio.
+func (s *LeadService) maybeTranscribe(activityID uuid.UUID, kind string, data []byte, mime string) {
+	if s.transcriber == nil || !s.transcriber.Enabled() {
+		return
+	}
+	if kind != "audio" && kind != "voice" {
+		return
+	}
+	goSafe("transcribe_wa_audio", func() {
+		text, err := s.transcriber.Transcribe(context.Background(), data, mime)
+		if err != nil {
+			log.Printf("⚠️  [WA TRANSCRIBE] %v", err)
+			return
+		}
+		if strings.TrimSpace(text) == "" {
+			return
+		}
+		var act models.LeadActivity
+		if err := s.db.First(&act, "id = ?", activityID).Error; err != nil {
+			return
+		}
+		act.Transcription = &text
+		if err := s.db.Save(&act).Error; err != nil { // BeforeSave cifra a transcrição
+			log.Printf("⚠️  [WA TRANSCRIBE] save: %v", err)
+		}
+	})
+}
+
+// RecordOutboundWhatsAppEcho registra no histórico uma mensagem que a EQUIPE enviou
+// pelo APP do celular (coexistence — o webhook recebe o eco). Regras:
+//   - NÃO cria Lead (é outbound; criar lead a partir disso seria errado).
+//   - NÃO notifica a equipe e NÃO mexe na janela 24h (LastInboundAt).
+//   - Dedup por wa_message_id (cobre reentrega e o eco do nosso próprio envio via EMR).
+//
+// Se o contato (cliente) não existe como Patient nem Lead ativo, ignora.
+func (s *LeadService) RecordOutboundWhatsAppEcho(customerPhoneE164, text, waMessageID string, ts time.Time) {
+	phone := strings.TrimSpace(customerPhoneE164)
+	if phone == "" {
+		return
+	}
+	if !strings.HasPrefix(phone, "+") {
+		phone = "+" + phone
+	}
+
+	if waMessageID != "" {
+		var n int64
+		s.db.Model(&models.LeadActivity{}).Where("metadata->>'wa_message_id' = ?", waMessageID).Count(&n)
+		if n > 0 {
+			return // já registrado (eco reentregue ou enviado pelo próprio EMR)
+		}
+	}
+
+	rec := RecordActivityInput{
+		Type:    models.LeadActivityMessageSent,
+		Channel: models.LeadChannelWhatsApp,
+		Metadata: map[string]any{
+			"wa_message_id": waMessageID,
+			"origin":        "phone_app",
+			"sent_at":       ts,
+		},
+	}
+	if strings.TrimSpace(text) != "" {
+		rec.Content = &text
+	}
+
+	var patient models.Patient
+	if err := s.db.Where("phone = ?", phone).First(&patient).Error; err == nil {
+		pid := patient.ID
+		rec.PatientID = &pid
+		_ = s.RecordActivity(rec)
+		return
+	}
+	var lead models.Lead
+	if err := s.db.
+		Where("phone = ? AND status NOT IN (?)", phone,
+			[]models.LeadStatus{models.LeadStatusConverted, models.LeadStatusLost, models.LeadStatusUnsubscribed}).
+		Order("created_at DESC").First(&lead).Error; err == nil {
+		lid := lead.ID
+		rec.LeadID = &lid
+		_ = s.RecordActivity(rec)
+		return
+	}
+	log.Printf("📱 [WA ECHO] eco do app pra contato sem lead/patient (%s) — ignorado", phone)
 }
 
 // storeConvMedia cifra e grava a mídia no bucket da conversa, preenchendo os
@@ -1048,16 +1145,23 @@ type RecordActivityInput struct {
 }
 
 func (s *LeadService) RecordActivity(in RecordActivityInput) error {
+	_, err := s.recordActivityReturning(in)
+	return err
+}
+
+// recordActivityReturning cria a activity e devolve o ponteiro (precisamos do ID
+// pra hooks pós-criação, ex: transcrição de áudio).
+func (s *LeadService) recordActivityReturning(in RecordActivityInput) (*models.LeadActivity, error) {
 	hasLead := in.LeadID != nil && *in.LeadID != uuid.Nil
 	hasPatient := in.PatientID != nil && *in.PatientID != uuid.Nil
 	if hasLead == hasPatient {
-		return models.ErrLeadActivityOwnerInvalid
+		return nil, models.ErrLeadActivityOwnerInvalid
 	}
 	var metaJSON datatypes.JSON
 	if len(in.Metadata) > 0 {
 		raw, err := json.Marshal(in.Metadata)
 		if err != nil {
-			return fmt.Errorf("lead activity: metadata marshal: %w", err)
+			return nil, fmt.Errorf("lead activity: metadata marshal: %w", err)
 		}
 		metaJSON = raw
 	}
@@ -1077,7 +1181,10 @@ func (s *LeadService) RecordActivity(in RecordActivityInput) error {
 		PatientDocumentID: in.PatientDocumentID,
 		Transcription:     in.Transcription,
 	}
-	return s.db.Create(&activity).Error
+	if err := s.db.Create(&activity).Error; err != nil {
+		return nil, err
+	}
+	return &activity, nil
 }
 
 // ============================================================

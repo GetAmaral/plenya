@@ -172,6 +172,17 @@ func (h *WhatsAppWebhookHandler) Receive(c *fiber.Ctx) error {
 				}
 			}
 
+			// Coexistence: número do negócio + 1º contato (cliente) deste change,
+			// usados pra detectar/rotear ecos do app do celular.
+			businessNum := digitsOnly(change.Value.Metadata.DisplayPhoneNumber)
+			var customerWaID string
+			for _, c := range change.Value.Contacts {
+				if c.WaID != "" {
+					customerWaID = c.WaID
+					break
+				}
+			}
+
 			for _, msg := range change.Value.Messages {
 				ts, _ := parseUnixTS(msg.Timestamp)
 				var namePtr *string
@@ -180,6 +191,17 @@ func (h *WhatsAppWebhookHandler) Receive(c *fiber.Ctx) error {
 					namePtr = &n
 				}
 				if h.leadService == nil {
+					continue
+				}
+
+				// Eco (coexistence): mensagem enviada pela equipe pelo app do celular —
+				// from == número do negócio. Registra como outbound, sem criar lead.
+				if h.cfg.WhatsApp.CoexistenceEnabled && businessNum != "" && digitsOnly(msg.From) == businessNum {
+					if customerWaID != "" {
+						h.leadService.RecordOutboundWhatsAppEcho(customerWaID, echoText(&msg), msg.ID, ts)
+					} else {
+						log.Printf("[WHATSAPP WEBHOOK] eco sem contato (msg=%s)", msg.ID)
+					}
 					continue
 				}
 
@@ -295,6 +317,34 @@ func parseUnixTS(s string) (time.Time, bool) {
 		sec = sec*10 + int64(ch-'0')
 	}
 	return time.Unix(sec, 0).UTC(), true
+}
+
+// digitsOnly remove tudo que não é dígito (normaliza números pra comparação).
+func digitsOnly(s string) string {
+	var b strings.Builder
+	for _, r := range s {
+		if r >= '0' && r <= '9' {
+			b.WriteRune(r)
+		}
+	}
+	return b.String()
+}
+
+// echoText resume uma mensagem ecoada (enviada pelo app) pra texto do histórico.
+func echoText(msg *metaMessage) string {
+	if msg.Text != nil && strings.TrimSpace(msg.Text.Body) != "" {
+		return msg.Text.Body
+	}
+	switch msg.Type {
+	case "image", "audio", "video", "document", "sticker":
+		return "[" + msg.Type + " enviado pelo app]"
+	case "location":
+		return "[localização enviada pelo app]"
+	case "contacts":
+		return "[contato enviado pelo app]"
+	default:
+		return "[mensagem enviada pelo app]"
+	}
 }
 
 // pickMedia retorna o objeto de mídia correspondente ao Type da mensagem.

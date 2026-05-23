@@ -51,6 +51,11 @@ var allowedAttachmentExts = map[string]bool{
 	".docx": true,
 	".xls":  true,
 	".xlsx": true,
+	// Áudio (envio de nota de voz pelo EMR via WhatsApp).
+	".ogg": true,
+	".mp3": true,
+	".m4a": true,
+	".aac": true,
 }
 
 // allowedAttachmentMimePrefixes — match por prefixo (cobre "image/jpeg",
@@ -65,6 +70,10 @@ var allowedAttachmentMimePrefixes = []string{
 	"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 	"application/vnd.ms-excel",
 	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+	"audio/ogg",
+	"audio/mpeg",
+	"audio/mp4",
+	"audio/aac",
 	"application/octet-stream", // alguns browsers mandam isso pra .docx — fica permitido só se ext bater
 }
 

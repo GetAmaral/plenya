@@ -13,20 +13,20 @@ import (
 )
 
 type Config struct {
-	Server     ServerConfig
-	Database   DatabaseConfig
-	JWT        JWTConfig
-	Security   SecurityConfig
-	OAuth      OAuthConfig
-	SNCR       SNCRConfig
-	Claude     ClaudeConfig
-	OpenAI     OpenAIConfig
-	VoyageAI   VoyageAIConfig
-	Email      EmailConfig
-	MailIngest MailIngestConfig
-	WhatsApp   WhatsAppConfig
-	CRM        CRMConfig
-	Site       SiteConfig
+	Server        ServerConfig
+	Database      DatabaseConfig
+	JWT           JWTConfig
+	Security      SecurityConfig
+	OAuth         OAuthConfig
+	SNCR          SNCRConfig
+	Claude        ClaudeConfig
+	OpenAI        OpenAIConfig
+	VoyageAI      VoyageAIConfig
+	Email         EmailConfig
+	MailIngest    MailIngestConfig
+	WhatsApp      WhatsAppConfig
+	CRM           CRMConfig
+	Site          SiteConfig
 	Google        GoogleConfig
 	DailyCo       DailyCoConfig
 	PatientPortal PatientPortalConfig
@@ -53,12 +53,12 @@ type PatientPortalConfig struct {
 // GoogleConfig — credenciais OAuth Google + Calendar API.
 //
 // SETUP OPERACIONAL (Calendar V1, Bloco H pendente):
-//   1. Criar projeto "Plenya EMR" em console.cloud.google.com
-//   2. Habilitar Google Calendar API
-//   3. OAuth consent screen: External, scope `calendar.events.owned` + `userinfo.email`
-//   4. Credentials → OAuth Client ID Web Application
-//   5. Authorized redirect URI: <RedirectURL>
-//   6. Domain verification em search.google.com/search-console
+//  1. Criar projeto "Plenya EMR" em console.cloud.google.com
+//  2. Habilitar Google Calendar API
+//  3. OAuth consent screen: External, scope `calendar.events.owned` + `userinfo.email`
+//  4. Credentials → OAuth Client ID Web Application
+//  5. Authorized redirect URI: <RedirectURL>
+//  6. Domain verification em search.google.com/search-console
 //
 // Diferente de OAuthConfig.GoogleClientID/Secret (esse é pra "Sign in with Google"
 // do app móvel/web). GoogleConfig é APENAS pra integração Calendar do médico.
@@ -73,9 +73,9 @@ type GoogleConfig struct {
 // DailyCoConfig — credenciais Daily.co pra teleconsulta embedada.
 //
 // SETUP OPERACIONAL:
-//   1. Criar conta em daily.co (free tier: 10k min/mês)
-//   2. Dashboard → API Keys → criar key
-//   3. Domain: subdomínio escolhido (ex: "plenya" → URLs https://plenya.daily.co/...)
+//  1. Criar conta em daily.co (free tier: 10k min/mês)
+//  2. Dashboard → API Keys → criar key
+//  3. Domain: subdomínio escolhido (ex: "plenya" → URLs https://plenya.daily.co/...)
 //
 // Quando APIKey vazio, DailyCoService retorna error explícito sem crashar
 // (caller decide se bloqueia appointment ou cria sem teleconsulta).
@@ -125,6 +125,9 @@ type WhatsAppConfig struct {
 	TemplateMagicLink  string // WHATSAPP_TEMPLATE_MAGIC_LINK — nome do template (default: "magic_link")
 	TemplateLeadAlert  string // WHATSAPP_TEMPLATE_LEAD_ALERT — notificação interna (default: "lead_alert")
 	GraphAPIVersion    string // WHATSAPP_GRAPH_API_VERSION — ex: "v18.0" (default)
+	// CoexistenceEnabled trata ecos (mensagens enviadas pelo app do celular) que
+	// chegam no webhook quando o número roda em coexistence. WHATSAPP_COEXISTENCE.
+	CoexistenceEnabled bool
 }
 
 // CRMConfig — config operacional do CRM (Phase 2).
@@ -176,8 +179,8 @@ type JWTConfig struct {
 // Idealmente prod usa MAGIC_LINK_SECRET dedicado pra que vazamento de um não
 // quebre o outro.
 type MagicLinkConfig struct {
-	Secret    string        // MAGIC_LINK_SECRET
-	TTL       time.Duration // MAGIC_LINK_TTL — default 30m
+	Secret string        // MAGIC_LINK_SECRET
+	TTL    time.Duration // MAGIC_LINK_TTL — default 30m
 }
 
 type SecurityConfig struct {
@@ -301,13 +304,13 @@ func Load() (*Config, error) {
 			APIURL: getEnv("VOYAGE_API_URL", "https://api.voyageai.com/v1"),
 		},
 		Email: EmailConfig{
-			Provider:     getEnv("EMAIL_PROVIDER", "smtp"),
-			ResendAPIKey: getEnv("RESEND_API_KEY", ""),
-			SMTPHost:     getEnv("SMTP_HOST", ""),
-			SMTPPort:     getEnv("SMTP_PORT", "587"),
-			SMTPUser:     getEnv("SMTP_USER", ""),
-			SMTPPass:     getEnv("SMTP_PASSWORD", ""),
-			FromAddress:  getEnv("EMAIL_FROM", "no-reply@plenyasaude.com.br"),
+			Provider:             getEnv("EMAIL_PROVIDER", "smtp"),
+			ResendAPIKey:         getEnv("RESEND_API_KEY", ""),
+			SMTPHost:             getEnv("SMTP_HOST", ""),
+			SMTPPort:             getEnv("SMTP_PORT", "587"),
+			SMTPUser:             getEnv("SMTP_USER", ""),
+			SMTPPass:             getEnv("SMTP_PASSWORD", ""),
+			FromAddress:          getEnv("EMAIL_FROM", "no-reply@plenyasaude.com.br"),
 			FromName:             getEnv("EMAIL_FROM_NAME", "Plenya"),
 			LeadReplyFromAddress: getEnv("EMAIL_LEAD_REPLY_FROM", "contato@plenyasaude.com.br"),
 		},
@@ -329,6 +332,7 @@ func Load() (*Config, error) {
 			TemplateMagicLink:  getEnv("WHATSAPP_TEMPLATE_MAGIC_LINK", "magic_link"),
 			TemplateLeadAlert:  getEnv("WHATSAPP_TEMPLATE_LEAD_ALERT", "lead_alert"),
 			GraphAPIVersion:    getEnv("WHATSAPP_GRAPH_API_VERSION", "v18.0"),
+			CoexistenceEnabled: getEnv("WHATSAPP_COEXISTENCE", "true") != "false",
 		},
 		CRM: CRMConfig{
 			AdminURL:          getEnv("CRM_ADMIN_URL", "http://localhost:3000"),

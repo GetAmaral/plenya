@@ -57,6 +57,8 @@ export interface ConversationMessageMetadata {
   status?: string;
   wa_message_id?: string;
   attachments?: ConversationMessageAttachment[];
+  /** "phone_app" quando a mensagem foi enviada pela equipe pelo app do celular (coexistence). */
+  origin?: string;
   [k: string]: unknown;
 }
 
@@ -403,7 +405,9 @@ export function useConversationCompose() {
 }
 
 export interface SendConversationWhatsAppPayload {
-  bodyText: string;
+  bodyText?: string;
+  /** Mídia (uma por mensagem) já enviada via /conversations/attachments/upload. */
+  attachments?: SendConversationEmailAttachment[];
 }
 
 export function useSendConversationWhatsApp(
@@ -415,6 +419,31 @@ export function useSendConversationWhatsApp(
     mutationFn: (payload: SendConversationWhatsAppPayload) =>
       apiClient.post<{ message: string }>(
         `/api/v1/conversations/${type}/${id}/whatsapp`,
+        payload
+      ),
+    onSuccess: async () => {
+      await qc.refetchQueries({ queryKey: conversationKeys.messages(type, id) });
+      qc.invalidateQueries({ queryKey: [...conversationKeys.all, 'list'] });
+    },
+  });
+}
+
+export interface SendConversationWhatsAppTemplatePayload {
+  name: string;
+  language?: string;
+  params?: string[];
+}
+
+/** Envia template aprovado (reabre conversa fora da janela de 24h). */
+export function useSendConversationWhatsAppTemplate(
+  type: ConversationOwnerType,
+  id: string
+) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: SendConversationWhatsAppTemplatePayload) =>
+      apiClient.post<{ message: string }>(
+        `/api/v1/conversations/${type}/${id}/whatsapp/template`,
         payload
       ),
     onSuccess: async () => {
