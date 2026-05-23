@@ -102,10 +102,12 @@ func (s *PatientDocumentsService) Create(in CreateDocumentInput) (*models.Patien
 		issued = *in.IssuedAt
 	}
 
+	uploadedBy := in.UploadedBy
 	doc := &models.PatientDocument{
 		ID:          docID,
 		PatientID:   in.PatientID,
-		UploadedBy:  in.UploadedBy,
+		UploadedBy:  &uploadedBy,
+		Source:      models.DocumentSourceStaffUpload,
 		Type:        in.Type,
 		Title:       in.Title,
 		Description: in.Description,
@@ -114,6 +116,100 @@ func (s *PatientDocumentsService) Create(in CreateDocumentInput) (*models.Patien
 		ContentType: contentType,
 		SizeBytes:   in.File.Size,
 		IssuedAt:    issued,
+	}
+	if err := s.db.Create(doc).Error; err != nil {
+		_ = os.Remove(fullPath)
+		return nil, err
+	}
+	return doc, nil
+}
+
+// CreateFromBytesInput é o payload pra criar documento de prontuário a partir de
+// bytes já em memória (ex: mídia recebida por WhatsApp inbound). Diferente do
+// Create (staff/multipart), aqui UploadedBy é opcional (inbound não tem usuário).
+type CreateFromBytesInput struct {
+	PatientID         uuid.UUID
+	Bytes             []byte
+	MIME              string // MIME informado pela origem (ex: Meta)
+	Filename          string
+	Title             string
+	Type              models.PatientDocumentType
+	Source            models.PatientDocumentSource
+	OriginWAMessageID *string // idempotência do webhook
+}
+
+// CreateFromBytes salva um arquivo (bytes) como documento de prontuário.
+// Idempotente por OriginWAMessageID: se já existe doc com o mesmo wa_message_id,
+// retorna o existente sem regravar (Meta reentrega webhooks).
+func (s *PatientDocumentsService) CreateFromBytes(in CreateFromBytesInput) (*models.PatientDocument, error) {
+	if len(in.Bytes) == 0 {
+		return nil, errors.New("arquivo vazio")
+	}
+	if int64(len(in.Bytes)) > maxDocSize {
+		return nil, errors.New("arquivo > 20MB")
+	}
+
+	// Idempotência: webhook reentregue não duplica documento.
+	if in.OriginWAMessageID != nil && *in.OriginWAMessageID != "" {
+		var existing models.PatientDocument
+		err := s.db.Where("origin_wa_message_id = ? AND patient_id = ?", *in.OriginWAMessageID, in.PatientID).First(&existing).Error
+		if err == nil {
+			return &existing, nil
+		}
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, err
+		}
+	}
+
+	// Magic bytes — só PDF/JPG/PNG entram no prontuário (clínico). Outros tipos
+	// (docx, áudio) não devem chegar aqui: o caller roteia pro bucket da conversa.
+	detected := DetectBytesMime(in.Bytes)
+	if !allowedDocContentTypes[detected.ContentType] {
+		return nil, fmt.Errorf("conteúdo %q não permitido no prontuário (PDF, JPG ou PNG)", detected.ContentType)
+	}
+	contentType := detected.ContentType
+
+	docType := in.Type
+	if docType == "" {
+		docType = models.DocumentTypeOther
+	}
+	title := strings.TrimSpace(in.Title)
+	if title == "" {
+		title = "Arquivo recebido por WhatsApp"
+	}
+
+	dir := filepath.Join(s.uploadsRoot, "patient-docs", in.PatientID.String())
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		return nil, err
+	}
+
+	docID := uuid.Must(uuid.NewV7())
+	safeName := sanitizeDocFilename(in.Filename)
+	storedName := docID.String() + "-" + safeName
+	fullPath := filepath.Join(dir, storedName)
+
+	if err := os.WriteFile(fullPath, in.Bytes, 0o644); err != nil {
+		return nil, err
+	}
+	relPath := filepath.Join("patient-docs", in.PatientID.String(), storedName)
+
+	source := in.Source
+	if source == "" {
+		source = models.DocumentSourceWhatsApp
+	}
+	doc := &models.PatientDocument{
+		ID:                docID,
+		PatientID:         in.PatientID,
+		UploadedBy:        nil, // inbound não tem usuário staff
+		Source:            source,
+		OriginWAMessageID: in.OriginWAMessageID,
+		Type:              docType,
+		Title:             title,
+		FilePath:          relPath,
+		FileName:          in.Filename,
+		ContentType:       contentType,
+		SizeBytes:         int64(len(in.Bytes)),
+		IssuedAt:          time.Now().UTC(),
 	}
 	if err := s.db.Create(doc).Error; err != nil {
 		_ = os.Remove(fullPath)

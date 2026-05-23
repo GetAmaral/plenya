@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
@@ -41,6 +43,322 @@ type ConversationService struct {
 	whatsappService     *WhatsAppService
 	notificationService *NotificationService
 	aiService           *AIService
+
+	// Serviços de mídia (WhatsApp Fase 2), injetados via SetMediaServices.
+	waMedia     *WhatsAppMediaService
+	patientDocs *PatientDocumentsService
+	uploadsRoot string // raiz do storage local (/app/uploads), pra resolver anexos de e-mail
+
+	// Interpretador de exames (2.0b), injetado via SetExamInterpreter.
+	labBatches     *LabResultBatchService
+	processingJobs *ProcessingJobService
+}
+
+// SetMediaServices injeta os serviços de mídia (WhatsApp Fase 2) após DI em main.go.
+func (s *ConversationService) SetMediaServices(waMedia *WhatsAppMediaService, patientDocs *PatientDocumentsService) {
+	s.waMedia = waMedia
+	s.patientDocs = patientDocs
+	if patientDocs != nil {
+		s.uploadsRoot = patientDocs.uploadsRoot
+	}
+}
+
+// activityAttachment espelha o shape persistido em metadata.attachments
+// (e-mail inbound/outbound): { filename, path, content_type, size_bytes }.
+type activityAttachment struct {
+	Filename    string `json:"filename"`
+	Path        string `json:"path"`
+	ContentType string `json:"content_type"`
+	SizeBytes   int    `json:"size_bytes"`
+}
+
+// loadActivityForOwner carrega a atividade e valida que pertence ao dono (type/id).
+func (s *ConversationService) loadActivityForOwner(ownerType string, ownerID, activityID uuid.UUID) (*models.LeadActivity, error) {
+	var act models.LeadActivity
+	if err := s.db.First(&act, "id = ?", activityID).Error; err != nil {
+		return nil, ErrConversationOwnerInvalid
+	}
+	switch ownerType {
+	case "lead":
+		if act.LeadID == nil || *act.LeadID != ownerID {
+			return nil, ErrConversationOwnerInvalid
+		}
+	case "patient":
+		if act.PatientID == nil || *act.PatientID != ownerID {
+			return nil, ErrConversationOwnerInvalid
+		}
+	default:
+		return nil, ErrConversationOwnerInvalid
+	}
+	return &act, nil
+}
+
+// activityAttachments extrai os anexos (e-mail) do metadata da atividade.
+func activityAttachments(act *models.LeadActivity) []activityAttachment {
+	if len(act.Metadata) == 0 {
+		return nil
+	}
+	var m struct {
+		Attachments []activityAttachment `json:"attachments"`
+	}
+	_ = json.Unmarshal(act.Metadata, &m)
+	return m.Attachments
+}
+
+// resolveUploadPath resolve um path relativo a uploadsRoot com defesa anti
+// path-traversal (mesma proteção do PatientDocumentsService).
+func (s *ConversationService) resolveUploadPath(rel string) (string, error) {
+	clean := strings.TrimPrefix(strings.TrimLeft(rel, "/"), "uploads/")
+	full := filepath.Join(s.uploadsRoot, clean)
+	abs, _ := filepath.Abs(full)
+	rootAbs, _ := filepath.Abs(s.uploadsRoot)
+	if !strings.HasPrefix(abs, rootAbs+string(os.PathSeparator)) {
+		return "", ErrConversationAttachmentInvalid
+	}
+	if _, err := os.Stat(full); err != nil {
+		return "", ErrConversationAttachmentInvalid
+	}
+	return full, nil
+}
+
+// GetAttachmentFile resolve um anexo de e-mail (por índice) pra download autenticado.
+func (s *ConversationService) GetAttachmentFile(ownerType string, ownerID, activityID uuid.UUID, idx int) (*ActivityMediaResult, error) {
+	act, err := s.loadActivityForOwner(ownerType, ownerID, activityID)
+	if err != nil {
+		return nil, err
+	}
+	atts := activityAttachments(act)
+	if idx < 0 || idx >= len(atts) {
+		return nil, ErrConversationAttachmentInvalid
+	}
+	att := atts[idx]
+	full, err := s.resolveUploadPath(att.Path)
+	if err != nil {
+		return nil, err
+	}
+	return &ActivityMediaResult{FilePath: full, MIME: att.ContentType, Filename: att.Filename}, nil
+}
+
+// SaveActivityMediaToProntuario salva uma mídia/anexo (e-mail ou WhatsApp) de uma
+// conversa de PACIENTE nas mídias do prontuário (PatientDocument). Idempotente.
+//
+//   - attachmentIndex != nil → anexo de e-mail (metadata.attachments[idx]).
+//   - attachmentIndex == nil → mídia WhatsApp da própria atividade (colunas media_*).
+//
+// Só PDF/JPG/PNG entram no prontuário (whitelist clínica do PatientDocumentsService);
+// áudio e outros tipos são rejeitados.
+func (s *ConversationService) SaveActivityMediaToProntuario(ownerID, activityID uuid.UUID, attachmentIndex *int) (*models.PatientDocument, error) {
+	if s.patientDocs == nil {
+		return nil, errors.New("conversation: serviço de documentos não configurado")
+	}
+	act, err := s.loadActivityForOwner("patient", ownerID, activityID)
+	if err != nil {
+		return nil, err
+	}
+
+	// Anexo de e-mail.
+	if attachmentIndex != nil {
+		atts := activityAttachments(act)
+		if *attachmentIndex < 0 || *attachmentIndex >= len(atts) {
+			return nil, ErrConversationAttachmentInvalid
+		}
+		att := atts[*attachmentIndex]
+		full, err := s.resolveUploadPath(att.Path)
+		if err != nil {
+			return nil, err
+		}
+		data, err := os.ReadFile(full)
+		if err != nil {
+			return nil, ErrConversationAttachmentInvalid
+		}
+		origin := fmt.Sprintf("act:%s:att:%d", activityID, *attachmentIndex)
+		return s.patientDocs.CreateFromBytes(CreateFromBytesInput{
+			PatientID:         ownerID,
+			Bytes:             data,
+			MIME:              att.ContentType,
+			Filename:          att.Filename,
+			Title:             att.Filename,
+			Type:              models.DocumentTypeOther,
+			Source:            models.DocumentSourceEmail,
+			OriginWAMessageID: &origin,
+		})
+	}
+
+	// Mídia WhatsApp da atividade.
+	if act.PatientDocumentID != nil {
+		// Já está no prontuário — devolve o existente.
+		var doc models.PatientDocument
+		if err := s.db.First(&doc, "id = ?", *act.PatientDocumentID).Error; err != nil {
+			return nil, ErrConversationAttachmentInvalid
+		}
+		return &doc, nil
+	}
+	if act.MediaStorageKey == nil || s.waMedia == nil {
+		return nil, errors.New("conversation: mensagem sem mídia pra salvar no prontuário")
+	}
+	data, err := s.waMedia.OpenDecrypted(*act.MediaStorageKey)
+	if err != nil {
+		return nil, ErrConversationAttachmentInvalid
+	}
+	mime := ""
+	if act.MediaMIME != nil {
+		mime = *act.MediaMIME
+	}
+	filename := "arquivo"
+	if act.MediaFilename != nil {
+		filename = *act.MediaFilename
+	}
+	origin := fmt.Sprintf("act:%s:media", activityID)
+	doc, err := s.patientDocs.CreateFromBytes(CreateFromBytesInput{
+		PatientID:         ownerID,
+		Bytes:             data,
+		MIME:              mime,
+		Filename:          filename,
+		Title:             filename,
+		Type:              models.DocumentTypeOther,
+		Source:            models.DocumentSourceWhatsApp,
+		OriginWAMessageID: &origin,
+	})
+	if err != nil {
+		return nil, err
+	}
+	// Linka a atividade ao documento criado (UI mostra "salvo no prontuário").
+	_ = s.db.Model(&models.LeadActivity{}).Where("id = ?", activityID).
+		Update("patient_document_id", doc.ID).Error
+	return doc, nil
+}
+
+// SetExamInterpreter injeta o pipeline de interpretação de exames (2.0b).
+func (s *ConversationService) SetExamInterpreter(batches *LabResultBatchService, jobs *ProcessingJobService) {
+	s.labBatches = batches
+	s.processingJobs = jobs
+}
+
+// InterpretExamResult informa o documento/batch/job criados pela interpretação.
+type InterpretExamResult struct {
+	DocumentID uuid.UUID `json:"documentId"`
+	BatchID    uuid.UUID `json:"batchId"`
+	JobID      uuid.UUID `json:"jobId"`
+}
+
+// InterpretActivityAsExam salva a mídia da mensagem no prontuário (se necessário) e
+// a submete ao interpretador de exames existente: cria um LabResultBatch e enfileira
+// um ProcessingJob (OCR → IA → resultados classificados). Unifica e-mail e WhatsApp.
+//
+//   - attachmentIndex != nil → anexo de e-mail; == nil → mídia WhatsApp da atividade.
+//
+// Sob demanda (decisão de produto): só roda quando a equipe pede, evitando criar
+// batches-lixo de arquivos que não são exames.
+func (s *ConversationService) InterpretActivityAsExam(ownerType string, ownerID, activityID uuid.UUID, attachmentIndex *int) (*InterpretExamResult, error) {
+	if s.processingJobs == nil || s.patientDocs == nil {
+		return nil, errors.New("conversation: interpretador de exames não configurado")
+	}
+	// Só paciente: lead não tem prontuário nem exames.
+	if ownerType != "patient" {
+		return nil, ErrConversationOwnerInvalid
+	}
+
+	// Garante o documento no prontuário (salva se ainda não estiver) — idempotente.
+	doc, err := s.SaveActivityMediaToProntuario(ownerID, activityID, attachmentIndex)
+	if err != nil {
+		return nil, err
+	}
+	_, fullPath, err := s.patientDocs.GetForDownload(ownerID, doc.ID)
+	if err != nil {
+		return nil, ErrConversationAttachmentInvalid
+	}
+	// OCR cobre PDF (pdftotext) e imagem escaneada (Tesseract); rejeita outros.
+	if doc.ContentType != "application/pdf" && doc.ContentType != "image/jpeg" && doc.ContentType != "image/png" {
+		return nil, fmt.Errorf("conversation: tipo %q não interpretável como exame", doc.ContentType)
+	}
+
+	batch := &models.LabResultBatch{
+		PatientID:      ownerID,
+		LaboratoryName: "Recebido por WhatsApp",
+		CollectionDate: time.Now().UTC(),
+		Status:         models.LabResultBatchPending,
+	}
+	if err := s.db.Create(batch).Error; err != nil {
+		return nil, fmt.Errorf("conversation: criar batch de exame: %w", err)
+	}
+
+	job, err := s.processingJobs.Create(batch.ID, fullPath)
+	if err != nil {
+		return nil, fmt.Errorf("conversation: enfileirar interpretação: %w", err)
+	}
+	return &InterpretExamResult{DocumentID: doc.ID, BatchID: batch.ID, JobID: job.ID}, nil
+}
+
+// ActivityMediaResult é o resultado de resolver a mídia de uma atividade pra download.
+// Exatamente um de FilePath (arquivo de prontuário, ler do disco) ou Bytes (mídia
+// cifrada já decifrada) é preenchido.
+type ActivityMediaResult struct {
+	FilePath string
+	Bytes    []byte
+	MIME     string
+	Filename string
+}
+
+// GetActivityMedia resolve a mídia de uma LeadActivity após validar que ela
+// pertence ao dono (type/id). Roteia entre arquivo de prontuário e bucket cifrado.
+func (s *ConversationService) GetActivityMedia(ownerType string, ownerID, activityID uuid.UUID) (*ActivityMediaResult, error) {
+	var act models.LeadActivity
+	if err := s.db.First(&act, "id = ?", activityID).Error; err != nil {
+		return nil, ErrConversationOwnerInvalid
+	}
+	switch ownerType {
+	case "lead":
+		if act.LeadID == nil || *act.LeadID != ownerID {
+			return nil, ErrConversationOwnerInvalid
+		}
+	case "patient":
+		if act.PatientID == nil || *act.PatientID != ownerID {
+			return nil, ErrConversationOwnerInvalid
+		}
+	default:
+		return nil, ErrConversationOwnerInvalid
+	}
+
+	mime := ""
+	if act.MediaMIME != nil {
+		mime = *act.MediaMIME
+	}
+	filename := ""
+	if act.MediaFilename != nil {
+		filename = *act.MediaFilename
+	}
+
+	// Arquivo no prontuário (paciente).
+	if act.PatientDocumentID != nil {
+		if s.patientDocs == nil || act.PatientID == nil {
+			return nil, ErrConversationAttachmentInvalid
+		}
+		doc, full, err := s.patientDocs.GetForDownload(*act.PatientID, *act.PatientDocumentID)
+		if err != nil {
+			return nil, ErrConversationAttachmentInvalid
+		}
+		if mime == "" {
+			mime = doc.ContentType
+		}
+		if filename == "" {
+			filename = doc.FileName
+		}
+		return &ActivityMediaResult{FilePath: full, MIME: mime, Filename: filename}, nil
+	}
+
+	// Mídia no bucket cifrado da conversa.
+	if act.MediaStorageKey != nil {
+		if s.waMedia == nil {
+			return nil, ErrConversationAttachmentInvalid
+		}
+		data, err := s.waMedia.OpenDecrypted(*act.MediaStorageKey)
+		if err != nil {
+			return nil, ErrConversationAttachmentInvalid
+		}
+		return &ActivityMediaResult{Bytes: data, MIME: mime, Filename: filename}, nil
+	}
+
+	return nil, ErrConversationAttachmentInvalid
 }
 
 // NewConversationService monta o serviço com DI.
@@ -97,19 +415,19 @@ type ConversationItem struct {
 	Name             string     `json:"name"`
 	Email            *string    `json:"email,omitempty"`
 	Phone            *string    `json:"phone,omitempty"`
-	LastChannel      string     `json:"lastChannel"`              // "email" | "whatsapp" | "internal"
-	LastDirection    string     `json:"lastDirection"`            // "in" | "out"
-	LastSnippet      string     `json:"lastSnippet"`              // primeiros 120 chars
+	LastChannel      string     `json:"lastChannel"`   // "email" | "whatsapp" | "internal"
+	LastDirection    string     `json:"lastDirection"` // "in" | "out"
+	LastSnippet      string     `json:"lastSnippet"`   // primeiros 120 chars
 	LastAt           time.Time  `json:"lastAt"`
-	UnreadCount      int        `json:"unreadCount"`              // activities depois de last_read_at
+	UnreadCount      int        `json:"unreadCount"`                // activities depois de last_read_at
 	AssignedToUserID *uuid.UUID `json:"assignedToUserId,omitempty"` // só Lead
-	Channels         []string   `json:"channels"`                 // ["email","whatsapp"]
-	LeadStatus       *string    `json:"leadStatus,omitempty"`     // só Lead
+	Channels         []string   `json:"channels"`                   // ["email","whatsapp"]
+	LeadStatus       *string    `json:"leadStatus,omitempty"`       // só Lead
 	// Campos pra UI desabilitar composer (consistência client-side com regras do backend).
 	// Pra Patient: ambos opt-in default true; LastInboundAt nil (sem janela 24h).
-	EmailOptIn      bool       `json:"emailOptIn"`
-	WhatsAppOptIn   bool       `json:"whatsAppOptIn"`
-	LastInboundAt   *time.Time `json:"lastInboundAt,omitempty"`
+	EmailOptIn    bool       `json:"emailOptIn"`
+	WhatsAppOptIn bool       `json:"whatsAppOptIn"`
+	LastInboundAt *time.Time `json:"lastInboundAt,omitempty"`
 }
 
 // ListConversationsParams agrupa filtros + paginação.
@@ -168,8 +486,8 @@ type listRow struct {
 	LastAt           time.Time
 	LastChannel      string
 	LastDirection    string
-	LastContent      *string         // pode estar criptografado se channel=email
-	Channels         string          // "email,whatsapp" (string_agg)
+	LastContent      *string // pode estar criptografado se channel=email
+	Channels         string  // "email,whatsapp" (string_agg)
 	UnreadCount      int
 	EmailOptIn       bool
 	WhatsAppOptIn    bool
@@ -205,8 +523,8 @@ func (s *ConversationService) List(ctx context.Context, params ListConversations
 	// UnreadOnly filtra unread_count > 0 no WHERE final.
 
 	args := map[string]any{
-		"userID":     params.UserID,
-		"limit":      params.Limit + 1, // +1 pra detectar próxima página
+		"userID": params.UserID,
+		"limit":  params.Limit + 1, // +1 pra detectar próxima página
 	}
 	conds := []string{"la.channel IN ('email','whatsapp')"}
 	if params.ChannelFilter != "" {
@@ -958,4 +1276,3 @@ func (s *ConversationService) Compose(ctx context.Context, in ComposeInput) (*Co
 	}
 	return res, activity, nil
 }
-

@@ -24,11 +24,15 @@ import {
   type ConversationItem,
   type ConversationMessage,
   type ConversationMessageAttachment,
-  attachmentDownloadUrl,
+  type ConversationOwnerType,
   avatarColorClass,
+  fetchConversationAttachment,
+  fetchConversationMedia,
   initials,
   useConversationAISummary,
   useConversationMessages,
+  useInterpretExam,
+  useSaveToProntuario,
 } from '@/lib/api/conversations-api';
 import { ConversationComposer } from './conversation-composer';
 
@@ -56,28 +60,60 @@ function attachmentIcon(att: ConversationMessageAttachment) {
   return FileText;
 }
 
-/** Lista clicável de anexos abaixo do corpo da mensagem. Usado em inbound + outbound. */
+/** Anexo é candidato a exame (interpretável): PDF ou imagem. */
+function isExamCandidate(ct?: string): boolean {
+  return ct === 'application/pdf' || ct === 'image/jpeg' || ct === 'image/png';
+}
+
+/** Lista de anexos (e-mail) com download autenticado + ações de prontuário (paciente). */
 function AttachmentChips({
   attachments,
   tone,
+  ownerType,
+  ownerId,
+  activityId,
 }: {
   attachments: ConversationMessageAttachment[];
   tone: 'inbound' | 'outbound';
+  ownerType: ConversationOwnerType;
+  ownerId: string;
+  activityId: string;
 }) {
+  const interpret = useInterpretExam(ownerType, ownerId);
+  const save = useSaveToProntuario(ownerType, ownerId);
+  const [busyIdx, setBusyIdx] = useState<number | null>(null);
+
+  const openAttachment = useCallback(
+    async (idx: number, filename: string) => {
+      try {
+        const blob = await fetchConversationAttachment(ownerType, ownerId, activityId, idx);
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank', 'noopener,noreferrer');
+        setTimeout(() => URL.revokeObjectURL(url), 60_000);
+      } catch {
+        toast.error(`Falha ao abrir ${filename}`);
+      }
+    },
+    [ownerType, ownerId, activityId]
+  );
+
   if (!attachments.length) return null;
+  // Só conversa de paciente, anexo recebido e arquivo interpretável vão pro prontuário.
+  const canProntuario = ownerType === 'patient' && tone === 'inbound';
+
   return (
-    <ul className="mt-2 flex flex-wrap gap-1.5" aria-label="Anexos">
+    <ul className="mt-2 flex flex-col gap-1.5" aria-label="Anexos">
       {attachments.map((att, i) => {
         const Icon = attachmentIcon(att);
-        const url = attachmentDownloadUrl(att.path);
         const sizeLabel = formatBytes(att.size_bytes);
+        const examable = canProntuario && isExamCandidate(att.content_type);
+        const busy = busyIdx === i && (save.isPending || interpret.isPending);
         return (
-          <li key={`${att.path}-${i}`}>
-            <a
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={`Baixar ${att.filename}`}
+          <li key={`${att.path}-${i}`} className="flex flex-wrap items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => openAttachment(i, att.filename)}
+              title={`Abrir ${att.filename}`}
               className={cn(
                 'inline-flex max-w-[260px] items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium transition-colors',
                 tone === 'inbound'
@@ -90,7 +126,55 @@ function AttachmentChips({
               {sizeLabel && (
                 <span className="shrink-0 text-muted-foreground">· {sizeLabel}</span>
               )}
-            </a>
+            </button>
+            {examable && (
+              <>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  className="h-6 gap-1 px-2 text-[10px]"
+                  disabled={busy}
+                  onClick={() => {
+                    setBusyIdx(i);
+                    save.mutate(
+                      { activityId, attachmentIndex: i },
+                      {
+                        onSuccess: () => toast.success('Salvo no prontuário.'),
+                        onError: (e: unknown) =>
+                          toast.error(e instanceof Error ? e.message : 'Falha ao salvar'),
+                        onSettled: () => setBusyIdx(null),
+                      }
+                    );
+                  }}
+                >
+                  <FileText className="h-3 w-3" /> Salvar no prontuário
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  className="h-6 gap-1 px-2 text-[10px]"
+                  disabled={busy}
+                  onClick={() => {
+                    setBusyIdx(i);
+                    interpret.mutate(
+                      { activityId, attachmentIndex: i },
+                      {
+                        onSuccess: () =>
+                          toast.success('Enviado para interpretação. Acompanhe em Exames.'),
+                        onError: (e: unknown) =>
+                          toast.error(e instanceof Error ? e.message : 'Falha ao interpretar'),
+                        onSettled: () => setBusyIdx(null),
+                      }
+                    );
+                  }}
+                >
+                  {busy ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}{' '}
+                  Interpretar como exame
+                </Button>
+              </>
+            )}
           </li>
         );
       })}
@@ -98,7 +182,161 @@ function AttachmentChips({
   );
 }
 
-function MessageBubble({ msg, ownerName }: { msg: ConversationMessage; ownerName: string }) {
+function mediaKindLabel(kind: string): string {
+  switch (kind) {
+    case 'image':
+      return 'imagem.jpg';
+    case 'sticker':
+      return 'figurinha.webp';
+    case 'audio':
+    case 'voice':
+      return 'audio.ogg';
+    case 'video':
+      return 'video.mp4';
+    case 'document':
+      return 'documento';
+    default:
+      return 'arquivo';
+  }
+}
+
+/** Renderiza a mídia (WhatsApp) de uma mensagem, baixando o blob autenticado. */
+function WhatsAppMediaView({
+  msg,
+  ownerType,
+  ownerId,
+}: {
+  msg: ConversationMessage;
+  ownerType: ConversationOwnerType;
+  ownerId: string;
+}) {
+  const [url, setUrl] = useState<string | null>(null);
+  const [err, setErr] = useState(false);
+  const kind = msg.mediaType ?? '';
+  const isImage = kind === 'image' || kind === 'sticker';
+  const isAudio = kind === 'audio' || kind === 'voice';
+
+  useEffect(() => {
+    let cancelled = false;
+    let objectUrl: string | null = null;
+    setUrl(null);
+    setErr(false);
+    fetchConversationMedia(ownerType, ownerId, msg.id)
+      .then((blob) => {
+        if (cancelled) return;
+        objectUrl = URL.createObjectURL(blob);
+        setUrl(objectUrl);
+      })
+      .catch(() => {
+        if (!cancelled) setErr(true);
+      });
+    return () => {
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [ownerType, ownerId, msg.id]);
+
+  const sizeLabel = formatBytes(msg.mediaSizeBytes);
+  const filename = msg.mediaFilename || mediaKindLabel(kind);
+
+  if (err) {
+    return <p className="mt-2 text-[11px] italic text-rose-600">Falha ao carregar mídia.</p>;
+  }
+
+  return (
+    <div className="mt-2">
+      {isImage ? (
+        url ? (
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={url} alt={filename} className="max-h-64 rounded-md border" />
+          </a>
+        ) : (
+          <Skeleton className="h-40 w-40 rounded-md" />
+        )
+      ) : isAudio ? (
+        url ? (
+          <audio controls src={url} className="w-full max-w-[280px]" />
+        ) : (
+          <Skeleton className="h-10 w-[260px] rounded-md" />
+        )
+      ) : (
+        <a
+          href={url ?? undefined}
+          download={filename}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex max-w-[260px] items-center gap-1.5 rounded-full border border-stone-300 bg-white px-2.5 py-1 text-[11px] font-medium text-stone-800 hover:bg-stone-100"
+        >
+          {url ? (
+            <FileText className="h-3 w-3 shrink-0" aria-hidden />
+          ) : (
+            <Loader2 className="h-3 w-3 shrink-0 animate-spin" aria-hidden />
+          )}
+          <span className="truncate">{filename}</span>
+          {sizeLabel && <span className="shrink-0 text-muted-foreground">· {sizeLabel}</span>}
+        </a>
+      )}
+      {msg.transcription && (
+        <p className="mt-1 rounded bg-white/60 p-1.5 text-[11px] text-stone-700">
+          <span className="font-medium">Transcrição:</span> {msg.transcription}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/** Botão (staff) que envia o documento de prontuário ao interpretador de exames. */
+function InterpretExamButton({
+  ownerType,
+  ownerId,
+  activityId,
+}: {
+  ownerType: ConversationOwnerType;
+  ownerId: string;
+  activityId: string;
+}) {
+  const interpret = useInterpretExam(ownerType, ownerId);
+  return (
+    <Button
+      type="button"
+      size="sm"
+      variant="outline"
+      className="mt-2 h-7 gap-1 text-[11px]"
+      disabled={interpret.isPending}
+      onClick={() =>
+        interpret.mutate(
+          { activityId },
+          {
+            onSuccess: () =>
+              toast.success('Enviado para interpretação. Acompanhe em Exames do paciente.'),
+            onError: (e: unknown) =>
+              toast.error(e instanceof Error ? e.message : 'Falha ao interpretar como exame'),
+          }
+        )
+      }
+    >
+      {interpret.isPending ? (
+        <Loader2 className="h-3 w-3 animate-spin" />
+      ) : (
+        <Sparkles className="h-3 w-3" />
+      )}
+      Interpretar como exame
+    </Button>
+  );
+}
+
+function MessageBubble({
+  msg,
+  ownerName,
+  ownerType,
+  ownerId,
+}: {
+  msg: ConversationMessage;
+  ownerName: string;
+  ownerType: ConversationOwnerType;
+  ownerId: string;
+}) {
   const isStatus = msg.type === 'message_status_changed';
   const isInbound = msg.type === 'message_received';
   const isOutbound = msg.type === 'message_sent';
@@ -157,13 +395,33 @@ function MessageBubble({ msg, ownerName }: { msg: ConversationMessage; ownerName
         {subject && msg.channel === 'email' && (
           <p className="mb-1 text-xs font-semibold text-foreground/90 break-words">{subject}</p>
         )}
-        <p className="whitespace-pre-wrap break-words">
-          {msg.content?.trim() || <span className="italic text-muted-foreground">(corpo vazio)</span>}
-        </p>
+        {msg.content?.trim() ? (
+          <p className="whitespace-pre-wrap break-words">{msg.content}</p>
+        ) : !msg.mediaType ? (
+          <p className="whitespace-pre-wrap break-words">
+            <span className="italic text-muted-foreground">(corpo vazio)</span>
+          </p>
+        ) : null}
+        {msg.mediaType && (
+          <WhatsAppMediaView msg={msg} ownerType={ownerType} ownerId={ownerId} />
+        )}
+        {msg.patientDocumentId && (
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <Badge variant="secondary" className="gap-1 text-[10px]">
+              <FileText className="h-3 w-3" aria-hidden /> Salvo no prontuário
+            </Badge>
+            {ownerType === 'patient' && (
+              <InterpretExamButton ownerType={ownerType} ownerId={ownerId} activityId={msg.id} />
+            )}
+          </div>
+        )}
         {msg.metadata?.attachments && msg.metadata.attachments.length > 0 && (
           <AttachmentChips
             attachments={msg.metadata.attachments}
             tone={isInbound ? 'inbound' : 'outbound'}
+            ownerType={ownerType}
+            ownerId={ownerId}
+            activityId={msg.id}
           />
         )}
       </div>
@@ -383,7 +641,13 @@ export function ConversationViewer({ item, onBack }: Props) {
         ) : (
           <div className="space-y-3">
             {sortedMessages.map((msg) => (
-              <MessageBubble key={msg.id} msg={msg} ownerName={item.name} />
+              <MessageBubble
+                key={msg.id}
+                msg={msg}
+                ownerName={item.name}
+                ownerType={item.ownerType}
+                ownerId={item.ownerId}
+              />
             ))}
           </div>
         )}

@@ -71,6 +71,15 @@ export interface ConversationMessage {
   actorUserId?: string;
   actor?: ConversationMessageActor;
   createdAt: string;
+  // Mídia (WhatsApp Fase 2). mediaType: image|audio|voice|video|document|sticker.
+  mediaType?: string;
+  mediaMime?: string;
+  mediaFilename?: string;
+  mediaSizeBytes?: number;
+  /** Quando setado, o arquivo foi salvo nas mídias do prontuário do paciente. */
+  patientDocumentId?: string;
+  /** Transcrição de áudio (Fase 2.2). */
+  transcription?: string;
 }
 
 export interface ConversationListFilters {
@@ -250,6 +259,81 @@ export function attachmentDownloadUrl(path: string): string {
   const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
   const clean = path.replace(/^\/+/, '').replace(/^uploads\//, '');
   return `${base}/uploads/${clean}`;
+}
+
+/** Endpoint autenticado que serve a mídia (WhatsApp Fase 2) de uma mensagem. */
+export function conversationMediaEndpoint(
+  type: ConversationOwnerType,
+  id: string,
+  activityId: string,
+): string {
+  return `/api/v1/conversations/${type}/${id}/media/${activityId}`;
+}
+
+/** Busca a mídia de uma mensagem como Blob (autenticado, via apiClient). */
+export function fetchConversationMedia(
+  type: ConversationOwnerType,
+  id: string,
+  activityId: string,
+): Promise<Blob> {
+  return apiClient.getBlob(conversationMediaEndpoint(type, id, activityId));
+}
+
+export interface InterpretExamResult {
+  documentId: string;
+  batchId: string;
+  jobId: string;
+}
+
+/** Ação sobre a mídia de uma mensagem. attachmentIndex aponta um anexo de e-mail;
+ * ausente = mídia WhatsApp da própria atividade. */
+export interface MediaActionArgs {
+  activityId: string;
+  attachmentIndex?: number;
+}
+
+/** Busca um anexo de e-mail como Blob (autenticado). */
+export function fetchConversationAttachment(
+  type: ConversationOwnerType,
+  id: string,
+  activityId: string,
+  idx: number,
+): Promise<Blob> {
+  return apiClient.getBlob(
+    `/api/v1/conversations/${type}/${id}/messages/${activityId}/attachments/${idx}`,
+  );
+}
+
+/** Salva a mídia/anexo de uma mensagem nas mídias do prontuário do paciente. */
+export function useSaveToProntuario(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ activityId, attachmentIndex }: MediaActionArgs) =>
+      apiClient.post<{ documentId: string }>(
+        `/api/v1/conversations/${type}/${id}/messages/${activityId}/save-to-prontuario`,
+        attachmentIndex != null ? { attachmentIndex } : {},
+      ),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: conversationKeys.messages(type, id) });
+      qc.invalidateQueries({ queryKey: ['patient-documents'] });
+    },
+  });
+}
+
+/** Submete a mídia de uma mensagem ao interpretador de exames (salva no prontuário se preciso). */
+export function useInterpretExam(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ activityId, attachmentIndex }: MediaActionArgs) =>
+      apiClient.post<InterpretExamResult>(
+        `/api/v1/conversations/${type}/${id}/media/${activityId}/interpret-exam`,
+        attachmentIndex != null ? { attachmentIndex } : {},
+      ),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['lab-result-batches'] });
+      qc.invalidateQueries({ queryKey: conversationKeys.messages(type, id) });
+    },
+  });
 }
 
 export function useSendConversationEmail(type: ConversationOwnerType, id: string) {

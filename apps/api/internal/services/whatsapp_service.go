@@ -232,6 +232,109 @@ func (s *WhatsAppService) SendTextMessage(toE164, body string) (string, error) {
 	return msgID, nil
 }
 
+// maxWhatsAppMediaBytes é o teto de tamanho de mídia inbound que aceitamos baixar.
+// Áudio/vídeo do WhatsApp raramente passam disso; protege contra OOM/abuso.
+const maxWhatsAppMediaBytes = 30 * 1024 * 1024 // 30MB
+
+// MediaDownload é o resultado de baixar um arquivo de mídia inbound da Meta.
+type MediaDownload struct {
+	Bytes    []byte
+	MIME     string
+	FileSize int64
+	SHA256   string
+}
+
+// DownloadMedia baixa um arquivo de mídia inbound da Meta Cloud API.
+//
+// Dois passos (regra da Meta):
+//  1. GET /{media-id} → JSON { url, mime_type, file_size, sha256 } (URL de vida curta);
+//  2. GET nessa url com o Bearer token (a Meta exige Authorization no fetch do binário).
+//
+// Sem credenciais retorna erro — não há fallback de log pra mídia (não dá pra forjar bytes).
+func (s *WhatsAppService) DownloadMedia(mediaID string) (*MediaDownload, error) {
+	if s.cfg.WhatsApp.AccessToken == "" {
+		return nil, fmt.Errorf("whatsapp: AccessToken não configurado — download de mídia indisponível")
+	}
+	if strings.TrimSpace(mediaID) == "" {
+		return nil, fmt.Errorf("whatsapp: mediaID vazio")
+	}
+
+	apiVersion := s.cfg.WhatsApp.GraphAPIVersion
+	if apiVersion == "" {
+		apiVersion = "v18.0"
+	}
+	token := s.cfg.WhatsApp.AccessToken
+
+	// Cliente com timeout maior — binário pode ser grande (vs. 10s do client de texto).
+	mediaClient := &http.Client{Timeout: 60 * time.Second}
+
+	// Passo 1 — metadados.
+	metaURL := fmt.Sprintf("https://graph.facebook.com/%s/%s", apiVersion, mediaID)
+	metaReq, err := http.NewRequest(http.MethodGet, metaURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("whatsapp: build media meta request: %w", err)
+	}
+	metaReq.Header.Set("Authorization", "Bearer "+token)
+
+	metaResp, err := mediaClient.Do(metaReq)
+	if err != nil {
+		return nil, fmt.Errorf("whatsapp: media meta http: %w", err)
+	}
+	defer metaResp.Body.Close()
+	metaBody, _ := io.ReadAll(io.LimitReader(metaResp.Body, 4096))
+	if metaResp.StatusCode < 200 || metaResp.StatusCode >= 300 {
+		return nil, fmt.Errorf("whatsapp: media meta status %d: %s", metaResp.StatusCode, string(metaBody))
+	}
+
+	var meta struct {
+		URL      string `json:"url"`
+		MIMEType string `json:"mime_type"`
+		SHA256   string `json:"sha256"`
+		FileSize int64  `json:"file_size"`
+	}
+	if err := json.Unmarshal(metaBody, &meta); err != nil {
+		return nil, fmt.Errorf("whatsapp: parse media meta: %w", err)
+	}
+	if meta.URL == "" {
+		return nil, fmt.Errorf("whatsapp: media meta sem url")
+	}
+	if meta.FileSize > maxWhatsAppMediaBytes {
+		return nil, fmt.Errorf("whatsapp: mídia %d bytes excede limite de %d", meta.FileSize, maxWhatsAppMediaBytes)
+	}
+
+	// Passo 2 — binário (Authorization também é exigido aqui).
+	binReq, err := http.NewRequest(http.MethodGet, meta.URL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("whatsapp: build media bin request: %w", err)
+	}
+	binReq.Header.Set("Authorization", "Bearer "+token)
+
+	binResp, err := mediaClient.Do(binReq)
+	if err != nil {
+		return nil, fmt.Errorf("whatsapp: media bin http: %w", err)
+	}
+	defer binResp.Body.Close()
+	if binResp.StatusCode < 200 || binResp.StatusCode >= 300 {
+		errBody, _ := io.ReadAll(io.LimitReader(binResp.Body, 1024))
+		return nil, fmt.Errorf("whatsapp: media bin status %d: %s", binResp.StatusCode, string(errBody))
+	}
+
+	// Lê com limite +1 pra detectar excesso mesmo sem file_size confiável no passo 1.
+	data, err := io.ReadAll(io.LimitReader(binResp.Body, maxWhatsAppMediaBytes+1))
+	if err != nil {
+		return nil, fmt.Errorf("whatsapp: read media bin: %w", err)
+	}
+	if len(data) > maxWhatsAppMediaBytes {
+		return nil, fmt.Errorf("whatsapp: mídia excede limite de %d bytes", maxWhatsAppMediaBytes)
+	}
+
+	mime := meta.MIMEType
+	if i := strings.Index(mime, ";"); i >= 0 { // "audio/ogg; codecs=opus" → "audio/ogg"
+		mime = strings.TrimSpace(mime[:i])
+	}
+	return &MediaDownload{Bytes: data, MIME: mime, FileSize: int64(len(data)), SHA256: meta.SHA256}, nil
+}
+
 // VerifyWebhookSignature valida o header X-Hub-Signature-256 enviado pela Meta.
 // Retorna nil se válido. Body deve ser o raw bytes do request, antes de qualquer parsing.
 func (s *WhatsAppService) VerifyWebhookSignature(signatureHeader string, body []byte) error {

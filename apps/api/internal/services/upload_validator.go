@@ -79,6 +79,21 @@ func DetectFileMime(fh *multipart.FileHeader) (DetectedMime, error) {
 	}, nil
 }
 
+// DetectBytesMime inspeciona magic bytes de um buffer já em memória (ex: mídia
+// baixada da Meta) e retorna o content-type detectado. Mesmo critério do
+// DetectFileMime, mas sem multipart.
+func DetectBytesMime(data []byte) DetectedMime {
+	n := len(data)
+	if n > 512 {
+		n = 512
+	}
+	ct := http.DetectContentType(data[:n])
+	if i := strings.Index(ct, ";"); i >= 0 {
+		ct = strings.TrimSpace(ct[:i])
+	}
+	return DetectedMime{ContentType: ct, Lenient: ct == "application/octet-stream"}
+}
+
 // ValidateUploadMagicBytes faz DetectFileMime + valida contra whitelist.
 // Retorna o content-type detectado pra caller persistir (defense in depth).
 //

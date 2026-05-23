@@ -32,6 +32,12 @@ type LeadService struct {
 	// reschedule de consultas. Setado via SetPatientInboundWAHook após DI
 	// — evita import cycle entre LeadService ↔ ConversationService/AppointmentService.
 	patientInboundWAHook PatientInboundWAHook
+
+	// Serviços de mídia (WhatsApp Fase 2), injetados via SetMediaServices após DI.
+	// patientDocs salva arquivo de paciente nas mídias do prontuário; waMedia
+	// guarda mídia de conversa (áudio/lead) cifrada.
+	patientDocs *PatientDocumentsService
+	waMedia     *WhatsAppMediaService
 }
 
 // PatientInboundWAHook é o callback chamado quando paciente cadastrado envia
@@ -60,6 +66,12 @@ func NewLeadService(
 // ciclo sem dep direta nos services.
 func (s *LeadService) SetPatientInboundWAHook(h PatientInboundWAHook) {
 	s.patientInboundWAHook = h
+}
+
+// SetMediaServices injeta os serviços de mídia (WhatsApp Fase 2) após DI em main.go.
+func (s *LeadService) SetMediaServices(docs *PatientDocumentsService, media *WhatsAppMediaService) {
+	s.patientDocs = docs
+	s.waMedia = media
 }
 
 // HashIP retorna SHA-256 hex do IP — usado pra registrar consentimento sem armazenar IP plano.
@@ -287,11 +299,11 @@ func (s *LeadService) CreateFromContactForm(in CreateFromContactFormInput) (*mod
 // ============================================================
 
 type InboundWhatsAppInput struct {
-	PhoneE164    string // sem +, formato Meta (ex: 5511999998888)
-	Name         *string
-	Text         string
-	WAMessageID  string
-	ReceivedAt   time.Time
+	PhoneE164   string // sem +, formato Meta (ex: 5511999998888)
+	Name        *string
+	Text        string
+	WAMessageID string
+	ReceivedAt  time.Time
 }
 
 // InboundResult descreve o destino da activity criada por ProcessInbound{Email,WhatsApp}.
@@ -400,32 +412,12 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*InboundR
 	}
 
 	// 3. Cria Lead novo (Patient já checado acima, não existe)
-	consentVer := "wa_inbound_v1" // 13 chars, respeita varchar(20) do schema
-	consentIP := ""               // inbound WA não tem IP do cliente
-
-	newLead := models.Lead{
-		Source:           models.LeadSourceWhatsAppInbound,
-		Status:           models.LeadStatusNew,
-		Phone:            &phone,
-		Name:             in.Name,
-		Message:          &in.Text,
-		WhatsAppOptIn:    true, // cliente iniciou conversa = consent implícito
-		ConsentVersion:   &consentVer,
-		ConsentTimestamp: &now,
-		ConsentIPHash:    &consentIP,
-		LastInboundAt:    &now,
-	}
-	if err := s.db.Create(&newLead).Error; err != nil {
-		return nil, fmt.Errorf("lead: create from WA inbound: %w", err)
+	newLead, err := s.createWALeadFromInbound(phone, in.Name, in.Text, now)
+	if err != nil {
+		return nil, err
 	}
 
 	newLeadID := newLead.ID
-	_ = s.RecordActivity(RecordActivityInput{
-		LeadID:  &newLeadID,
-		Type:    models.LeadActivityCreated,
-		Channel: models.LeadChannelInternal,
-		Content: ptr("Lead criado via primeira mensagem inbound do WhatsApp"),
-	})
 	_ = s.RecordActivity(RecordActivityInput{
 		LeadID:  &newLeadID,
 		Type:    models.LeadActivityMessageReceived,
@@ -438,10 +430,282 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*InboundR
 	})
 
 	// Notifica equipe — async, best-effort. Só dispara em Lead novo.
-	leadCopy := newLead
+	leadCopy := *newLead
 	goSafe("notify_team", func() { s.NotifyTeamOfNewLead(&leadCopy) })
 
-	return &InboundResult{Lead: &newLead, IsNew: true}, nil
+	return &InboundResult{Lead: newLead, IsNew: true}, nil
+}
+
+// createWALeadFromInbound cria um Lead a partir do primeiro contato inbound do
+// WhatsApp (consent implícito) + registra a activity "created". O caller registra
+// em seguida a mensagem (texto ou mídia) e dispara a notificação de Lead novo.
+func (s *LeadService) createWALeadFromInbound(phone string, name *string, firstMessage string, now time.Time) (*models.Lead, error) {
+	consentVer := "wa_inbound_v1" // 13 chars, respeita varchar(20) do schema
+	consentIP := ""               // inbound WA não tem IP do cliente
+	msg := firstMessage
+
+	newLead := models.Lead{
+		Source:           models.LeadSourceWhatsAppInbound,
+		Status:           models.LeadStatusNew,
+		Phone:            &phone,
+		Name:             name,
+		Message:          &msg,
+		WhatsAppOptIn:    true, // cliente iniciou conversa = consent implícito
+		ConsentVersion:   &consentVer,
+		ConsentTimestamp: &now,
+		ConsentIPHash:    &consentIP,
+		LastInboundAt:    &now,
+	}
+	if err := s.db.Create(&newLead).Error; err != nil {
+		return nil, fmt.Errorf("lead: create from WA inbound: %w", err)
+	}
+	newLeadID := newLead.ID
+	_ = s.RecordActivity(RecordActivityInput{
+		LeadID:  &newLeadID,
+		Type:    models.LeadActivityCreated,
+		Channel: models.LeadChannelInternal,
+		Content: ptr("Lead criado via primeira mensagem inbound do WhatsApp"),
+	})
+	return &newLead, nil
+}
+
+// ============================================================
+// WhatsApp inbound — MÍDIA (Fase 2)
+// ============================================================
+
+// InboundWhatsAppMediaInput é o payload de uma mensagem inbound que carrega mídia
+// (foto, áudio/nota de voz, documento, figurinha, vídeo).
+type InboundWhatsAppMediaInput struct {
+	PhoneE164   string // sem +, formato Meta
+	Name        *string
+	MediaID     string // id da Meta para baixar o binário
+	Kind        string // image|audio|voice|video|document|sticker
+	MIME        string // MIME informado pela Meta (fallback do detectado no download)
+	Filename    string // nome do arquivo (documents)
+	Caption     string // legenda (image/video/document)
+	WAMessageID string
+	ReceivedAt  time.Time
+}
+
+// ProcessInboundWhatsAppMedia baixa a mídia da Meta e a roteia:
+//   - Paciente cadastrado + arquivo (foto/PDF) → PatientDocument (mídias do prontuário).
+//   - Paciente + áudio/voz/sticker/vídeo, ou Lead (sem prontuário) → bucket cifrado da conversa.
+//
+// Mesma hierarquia de dono do ProcessInboundWhatsApp (patient → lead ativo → lead novo).
+func (s *LeadService) ProcessInboundWhatsAppMedia(in InboundWhatsAppMediaInput) (*InboundResult, error) {
+	if s.whatsappService == nil || s.waMedia == nil || s.patientDocs == nil {
+		return nil, errors.New("lead: serviços de mídia WhatsApp não configurados")
+	}
+	if strings.TrimSpace(in.PhoneE164) == "" {
+		return nil, errors.New("lead: phone vazio em inbound de mídia WhatsApp")
+	}
+	phone := strings.TrimSpace(in.PhoneE164)
+	if !strings.HasPrefix(phone, "+") {
+		phone = "+" + phone
+	}
+	now := in.ReceivedAt
+	if now.IsZero() {
+		now = time.Now().UTC()
+	}
+
+	// Baixa o binário antes de rotear (precisamos do MIME real pra decidir prontuário).
+	dl, err := s.whatsappService.DownloadMedia(in.MediaID)
+	if err != nil {
+		return nil, fmt.Errorf("lead: download de mídia WA: %w", err)
+	}
+	mime := dl.MIME
+	if mime == "" {
+		mime = in.MIME
+	}
+	filename := strings.TrimSpace(in.Filename)
+	if filename == "" {
+		filename = mediaLabel(in.Kind) + extFromMime(mime)
+	}
+
+	// 1. Paciente cadastrado
+	var patient models.Patient
+	perr := s.db.Where("phone = ?", phone).First(&patient).Error
+	if perr == nil {
+		return s.recordPatientMedia(&patient, in, dl, mime, filename, now)
+	}
+	if !errors.Is(perr, gorm.ErrRecordNotFound) {
+		return nil, fmt.Errorf("lead: inbound WA media patient lookup: %w", perr)
+	}
+
+	// 2. Lead ativo existente
+	var lead models.Lead
+	lerr := s.db.
+		Where("phone = ? AND status NOT IN (?)", phone,
+			[]models.LeadStatus{models.LeadStatusConverted, models.LeadStatusLost, models.LeadStatusUnsubscribed}).
+		Order("created_at DESC").
+		First(&lead).Error
+	if lerr == nil {
+		return s.recordLeadMedia(&lead, in, dl, mime, filename, now, false)
+	}
+	if !errors.Is(lerr, gorm.ErrRecordNotFound) {
+		return nil, fmt.Errorf("lead: inbound WA media lead lookup: %w", lerr)
+	}
+
+	// 3. Cria Lead novo
+	first := in.Caption
+	if first == "" {
+		first = "[" + mediaLabel(in.Kind) + " recebido por WhatsApp]"
+	}
+	newLead, err := s.createWALeadFromInbound(phone, in.Name, first, now)
+	if err != nil {
+		return nil, err
+	}
+	return s.recordLeadMedia(newLead, in, dl, mime, filename, now, true)
+}
+
+// recordPatientMedia anexa mídia a um paciente. Arquivo clínico (foto/PDF) vai
+// pro prontuário (PatientDocument); o resto vai pro bucket cifrado da conversa.
+func (s *LeadService) recordPatientMedia(patient *models.Patient, in InboundWhatsAppMediaInput, dl *MediaDownload, mime, filename string, now time.Time) (*InboundResult, error) {
+	patientID := patient.ID
+	rec := RecordActivityInput{
+		PatientID:      &patientID,
+		Type:           models.LeadActivityMessageReceived,
+		Channel:        models.LeadChannelWhatsApp,
+		Metadata:       map[string]any{"wa_message_id": in.WAMessageID, "received_at": now},
+		MediaType:      ptr(in.Kind),
+		MediaMIME:      ptr(mime),
+		MediaFilename:  ptr(filename),
+		MediaSizeBytes: ptr(dl.FileSize),
+	}
+	if in.Caption != "" {
+		rec.Content = ptr(in.Caption)
+	}
+
+	if isProntuarioFile(in.Kind, mime) {
+		doc, err := s.patientDocs.CreateFromBytes(CreateFromBytesInput{
+			PatientID:         patientID,
+			Bytes:             dl.Bytes,
+			MIME:              mime,
+			Filename:          filename,
+			Title:             prontuarioTitle(in.Caption, filename),
+			Type:              models.DocumentTypeOther,
+			Source:            models.DocumentSourceWhatsApp,
+			OriginWAMessageID: ptr(in.WAMessageID),
+		})
+		if err != nil {
+			// Prontuário rejeitou (ex: magic bytes não batem com o MIME) — não perde
+			// o arquivo: guarda no bucket cifrado da conversa.
+			log.Printf("⚠️  [WA MEDIA] prontuário rejeitou (%v) — fallback bucket conversa", err)
+			if err2 := s.storeConvMedia(&rec, "patient", patientID, dl, mime); err2 != nil {
+				return nil, err2
+			}
+		} else {
+			rec.PatientDocumentID = &doc.ID
+		}
+	} else {
+		if err := s.storeConvMedia(&rec, "patient", patientID, dl, mime); err != nil {
+			return nil, err
+		}
+	}
+
+	if err := s.RecordActivity(rec); err != nil {
+		return nil, err
+	}
+
+	patientCopy := *patient
+	snippet := mediaSnippet(in.Kind, in.Caption)
+	goSafe("notify_inbound_wa_patient_media", func() {
+		s.NotifyTeamOfInboundMessage(ConversationOwner{Patient: &patientCopy}, models.LeadChannelWhatsApp, snippet)
+	})
+	return &InboundResult{Patient: patient}, nil
+}
+
+// recordLeadMedia anexa mídia a um Lead (sem prontuário → sempre bucket cifrado).
+func (s *LeadService) recordLeadMedia(lead *models.Lead, in InboundWhatsAppMediaInput, dl *MediaDownload, mime, filename string, now time.Time, isNew bool) (*InboundResult, error) {
+	leadID := lead.ID
+	rec := RecordActivityInput{
+		LeadID:         &leadID,
+		Type:           models.LeadActivityMessageReceived,
+		Channel:        models.LeadChannelWhatsApp,
+		Metadata:       map[string]any{"wa_message_id": in.WAMessageID, "received_at": now},
+		MediaType:      ptr(in.Kind),
+		MediaMIME:      ptr(mime),
+		MediaFilename:  ptr(filename),
+		MediaSizeBytes: ptr(dl.FileSize),
+	}
+	if in.Caption != "" {
+		rec.Content = ptr(in.Caption)
+	}
+	if err := s.storeConvMedia(&rec, "lead", leadID, dl, mime); err != nil {
+		return nil, err
+	}
+	if err := s.RecordActivity(rec); err != nil {
+		return nil, err
+	}
+	if !isNew {
+		_ = s.db.Model(lead).Update("last_inbound_at", now).Error
+	}
+
+	leadCopy := *lead
+	snippet := mediaSnippet(in.Kind, in.Caption)
+	if isNew {
+		goSafe("notify_team", func() { s.NotifyTeamOfNewLead(&leadCopy) })
+	} else {
+		goSafe("notify_inbound_wa_media", func() {
+			s.NotifyTeamOfInboundMessage(ConversationOwner{Lead: &leadCopy}, models.LeadChannelWhatsApp, snippet)
+		})
+	}
+	return &InboundResult{Lead: lead, IsNew: isNew}, nil
+}
+
+// storeConvMedia cifra e grava a mídia no bucket da conversa, preenchendo os
+// campos de storage no RecordActivityInput.
+func (s *LeadService) storeConvMedia(rec *RecordActivityInput, ownerType string, ownerID uuid.UUID, dl *MediaDownload, mime string) error {
+	key, size, err := s.waMedia.StoreInbound(ownerType, ownerID, dl.Bytes, mime)
+	if err != nil {
+		return fmt.Errorf("lead: store media conversa: %w", err)
+	}
+	rec.MediaStorageKey = &key
+	rec.MediaSizeBytes = &size
+	return nil
+}
+
+// isProntuarioFile decide se a mídia vai pro prontuário: só arquivos (foto/documento)
+// com MIME clínico (PDF/JPG/PNG). Áudio/voz/sticker/vídeo ficam na conversa.
+func isProntuarioFile(kind, mime string) bool {
+	if kind != "image" && kind != "document" {
+		return false
+	}
+	return allowedDocContentTypes[mime]
+}
+
+func mediaLabel(kind string) string {
+	switch kind {
+	case "image":
+		return "imagem"
+	case "audio", "voice":
+		return "áudio"
+	case "document":
+		return "documento"
+	case "video":
+		return "vídeo"
+	case "sticker":
+		return "figurinha"
+	default:
+		return "arquivo"
+	}
+}
+
+func mediaSnippet(kind, caption string) string {
+	if strings.TrimSpace(caption) != "" {
+		return caption
+	}
+	return "[" + mediaLabel(kind) + "]"
+}
+
+func prontuarioTitle(caption, filename string) string {
+	if c := strings.TrimSpace(caption); c != "" {
+		return c
+	}
+	if f := strings.TrimSpace(filename); f != "" {
+		return f
+	}
+	return "Arquivo recebido por WhatsApp"
 }
 
 // ============================================================
@@ -450,16 +714,16 @@ func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*InboundR
 
 // InboundEmailInput é o payload para um email inbound capturado pelo worker IMAP.
 type InboundEmailInput struct {
-	FromEmail   string             // já normalizado (lower-case)
-	FromName    *string            // nome amigável do header From
-	Subject     string             // assunto (decodificado)
-	BodyText    string             // corpo plain (preferido)
-	BodyHTML    string             // corpo HTML (fallback / referência)
-	MessageID   string             // RFC 5322 Message-ID
-	InReplyTo   string             // header In-Reply-To
-	References  []string           // header References (split)
-	ReceivedAt  time.Time          // header Date (fallback: now)
-	Folder      string             // pasta IMAP de origem (ex: "INBOX")
+	FromEmail   string    // já normalizado (lower-case)
+	FromName    *string   // nome amigável do header From
+	Subject     string    // assunto (decodificado)
+	BodyText    string    // corpo plain (preferido)
+	BodyHTML    string    // corpo HTML (fallback / referência)
+	MessageID   string    // RFC 5322 Message-ID
+	InReplyTo   string    // header In-Reply-To
+	References  []string  // header References (split)
+	ReceivedAt  time.Time // header Date (fallback: now)
+	Folder      string    // pasta IMAP de origem (ex: "INBOX")
 	Attachments []EmailAttachmentRef
 }
 
@@ -653,7 +917,7 @@ func (s *LeadService) CreateForManualCompose(email, name string, actorUserID uui
 
 	now := time.Now().UTC()
 	consentVer := "manual_compose_v1" // 17 chars, dentro do varchar(20)
-	consentIP := ""                    // não há IP de cliente (vendedor que iniciou)
+	consentIP := ""                   // não há IP de cliente (vendedor que iniciou)
 	emailVal := normalized
 	actorCopy := actorUserID
 
@@ -772,6 +1036,15 @@ type RecordActivityInput struct {
 	Content     *string
 	Metadata    map[string]any
 	ActorUserID *uuid.UUID
+
+	// Mídia (WhatsApp Fase 2) — opcionais.
+	MediaType         *string
+	MediaStorageKey   *string
+	MediaMIME         *string
+	MediaFilename     *string
+	MediaSizeBytes    *int64
+	PatientDocumentID *uuid.UUID
+	Transcription     *string
 }
 
 func (s *LeadService) RecordActivity(in RecordActivityInput) error {
@@ -789,13 +1062,20 @@ func (s *LeadService) RecordActivity(in RecordActivityInput) error {
 		metaJSON = raw
 	}
 	activity := models.LeadActivity{
-		LeadID:      in.LeadID,
-		PatientID:   in.PatientID,
-		Type:        in.Type,
-		Channel:     in.Channel,
-		Content:     in.Content,
-		Metadata:    metaJSON,
-		ActorUserID: in.ActorUserID,
+		LeadID:            in.LeadID,
+		PatientID:         in.PatientID,
+		Type:              in.Type,
+		Channel:           in.Channel,
+		Content:           in.Content,
+		Metadata:          metaJSON,
+		ActorUserID:       in.ActorUserID,
+		MediaType:         in.MediaType,
+		MediaStorageKey:   in.MediaStorageKey,
+		MediaMIME:         in.MediaMIME,
+		MediaFilename:     in.MediaFilename,
+		MediaSizeBytes:    in.MediaSizeBytes,
+		PatientDocumentID: in.PatientDocumentID,
+		Transcription:     in.Transcription,
 	}
 	return s.db.Create(&activity).Error
 }
@@ -1146,7 +1426,7 @@ func ResolveStatsPeriod(period, fromStr, toStr string) (StatsPeriod, error) {
 }
 
 type StatsByDay struct {
-	Date  string `json:"date"`  // YYYY-MM-DD
+	Date  string `json:"date"` // YYYY-MM-DD
 	Count int64  `json:"count"`
 }
 
@@ -1418,11 +1698,11 @@ func (s *LeadService) RecordWhatsAppStatus(waMessageID, status, recipientID stri
 	}
 
 	metaJSON, _ := json.Marshal(map[string]any{
-		"wa_message_id":      waMessageID,
-		"status":             status,
-		"recipient":          recipientID,
-		"timestamp":          ts,
-		"original_activity":  orig.ID,
+		"wa_message_id":     waMessageID,
+		"status":            status,
+		"recipient":         recipientID,
+		"timestamp":         ts,
+		"original_activity": orig.ID,
 	})
 	// Propaga ownership da activity original — pode ser Lead OU Patient (Bloco A).
 	activity := &models.LeadActivity{

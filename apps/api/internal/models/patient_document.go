@@ -11,11 +11,21 @@ import (
 type PatientDocumentType string
 
 const (
-	DocumentTypeCertificate PatientDocumentType = "certificate"  // atestado
-	DocumentTypeReport      PatientDocumentType = "report"       // relatório
-	DocumentTypeReferral    PatientDocumentType = "referral"     // encaminhamento
-	DocumentTypeDeclaration PatientDocumentType = "declaration"  // declaração
+	DocumentTypeCertificate PatientDocumentType = "certificate" // atestado
+	DocumentTypeReport      PatientDocumentType = "report"      // relatório
+	DocumentTypeReferral    PatientDocumentType = "referral"    // encaminhamento
+	DocumentTypeDeclaration PatientDocumentType = "declaration" // declaração
 	DocumentTypeOther       PatientDocumentType = "other"
+)
+
+// PatientDocumentSource indica a origem do documento (auditoria).
+type PatientDocumentSource string
+
+const (
+	DocumentSourceStaffUpload PatientDocumentSource = "staff_upload" // upload manual pela equipe
+	DocumentSourceWhatsApp    PatientDocumentSource = "whatsapp"     // recebido por WhatsApp inbound
+	DocumentSourceEmail       PatientDocumentSource = "email"        // anexo recebido por e-mail
+	DocumentSourcePortal      PatientDocumentSource = "portal"       // enviado pelo paciente via portal
 )
 
 // PatientDocument é um documento clínico (PDF, imagem, etc) que a equipe
@@ -23,9 +33,19 @@ const (
 //
 // FilePath é relativo ao /app/uploads (storage local). V2 pode migrar pra S3.
 type PatientDocument struct {
-	ID         uuid.UUID           `gorm:"type:uuid;primaryKey" json:"id"`
-	PatientID  uuid.UUID           `gorm:"type:uuid;not null;index" json:"patientId"`
-	UploadedBy uuid.UUID           `gorm:"type:uuid;not null" json:"uploadedBy"`
+	ID        uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
+	PatientID uuid.UUID `gorm:"type:uuid;not null;index" json:"patientId"`
+
+	// UploadedBy é nullable: documentos recebidos por WhatsApp/portal não têm
+	// usuário staff responsável (Source indica a origem real).
+	UploadedBy *uuid.UUID `gorm:"type:uuid" json:"uploadedBy,omitempty"`
+
+	// Source: origem do documento (staff_upload | whatsapp | portal).
+	Source PatientDocumentSource `gorm:"type:varchar(20);not null;default:'staff_upload'" json:"source"`
+
+	// OriginWAMessageID: wa_message_id que originou o documento (quando Source=whatsapp).
+	// Usado pra idempotência do webhook (Meta reentrega mensagens).
+	OriginWAMessageID *string `gorm:"type:varchar(120);index:idx_patient_documents_wa_msg" json:"-"`
 
 	Type        PatientDocumentType `gorm:"type:varchar(30);not null;check:type IN ('certificate','report','referral','declaration','other')" json:"type"`
 	Title       string              `gorm:"type:varchar(200);not null" json:"title"`

@@ -96,6 +96,131 @@ func (h *ConversationHandler) List(c *fiber.Ctx) error {
 // @Success  200 {array} models.LeadActivity
 // @Failure  404 {object} dto.ErrorResponse
 // @Router   /conversations/{type}/{id}/messages [get]
+//
+// Media — GET /conversations/:type/:id/media/:activityId
+// Serve a mídia de uma mensagem (foto/áudio/documento) após validar ownership.
+// Arquivo de prontuário é lido do disco; mídia de conversa é decifrada em memória.
+func (h *ConversationHandler) Media(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	activityID, perr := uuid.Parse(c.Params("activityId"))
+	if perr != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid activityId"})
+	}
+
+	res, err := h.service.GetActivityMedia(ownerType, ownerID, activityID)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "media not found"})
+	}
+
+	if res.Filename != "" {
+		c.Set("Content-Disposition", "inline; filename=\""+res.Filename+"\"")
+	}
+	if res.FilePath != "" {
+		return c.SendFile(res.FilePath)
+	}
+	if res.MIME != "" {
+		c.Set("Content-Type", res.MIME)
+	}
+	return c.Send(res.Bytes)
+}
+
+// InterpretExam — POST /conversations/:type/:id/media/:activityId/interpret-exam
+// Submete o documento de prontuário da mensagem ao interpretador de exames (sob demanda).
+//
+// @Summary  Interpreta a mídia da mensagem como exame
+// @Tags     conversations
+// @Security BearerAuth
+// @Router   /conversations/{type}/{id}/media/{activityId}/interpret-exam [post]
+// mediaActionBody é o corpo opcional de save-to-prontuário / interpret-exam.
+// attachmentIndex aponta um anexo de e-mail; ausente = mídia WhatsApp da atividade.
+type mediaActionBody struct {
+	AttachmentIndex *int `json:"attachmentIndex"`
+}
+
+func (h *ConversationHandler) InterpretExam(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	activityID, perr := uuid.Parse(c.Params("activityId"))
+	if perr != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid activityId"})
+	}
+	var body mediaActionBody
+	_ = c.BodyParser(&body) // corpo é opcional
+
+	res, err := h.service.InterpretActivityAsExam(ownerType, ownerID, activityID, body.AttachmentIndex)
+	if err != nil {
+		if errors.Is(err, services.ErrConversationOwnerInvalid) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "not found"})
+		}
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.Status(fiber.StatusAccepted).JSON(res)
+}
+
+// SaveToProntuario — POST /conversations/:type/:id/messages/:activityId/save-to-prontuario
+// Salva a mídia/anexo da mensagem (e-mail ou WhatsApp) nas mídias do prontuário do paciente.
+func (h *ConversationHandler) SaveToProntuario(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	if ownerType != "patient" {
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{Error: "só conversas de paciente têm prontuário"})
+	}
+	activityID, perr := uuid.Parse(c.Params("activityId"))
+	if perr != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid activityId"})
+	}
+	var body mediaActionBody
+	_ = c.BodyParser(&body)
+
+	doc, err := h.service.SaveActivityMediaToProntuario(ownerID, activityID, body.AttachmentIndex)
+	if err != nil {
+		if errors.Is(err, services.ErrConversationOwnerInvalid) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "not found"})
+		}
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"documentId": doc.ID})
+}
+
+// Attachment — GET /conversations/:type/:id/messages/:activityId/attachments/:idx
+// Serve um anexo de e-mail (autenticado). Substitui o /uploads estático removido.
+func (h *ConversationHandler) Attachment(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	activityID, perr := uuid.Parse(c.Params("activityId"))
+	if perr != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid activityId"})
+	}
+	idx, ierr := strconv.Atoi(c.Params("idx"))
+	if ierr != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid idx"})
+	}
+
+	res, err := h.service.GetAttachmentFile(ownerType, ownerID, activityID, idx)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "attachment not found"})
+	}
+	if res.Filename != "" {
+		c.Set("Content-Disposition", "inline; filename=\""+res.Filename+"\"")
+	}
+	if res.FilePath != "" {
+		return c.SendFile(res.FilePath)
+	}
+	if res.MIME != "" {
+		c.Set("Content-Type", res.MIME)
+	}
+	return c.Send(res.Bytes)
+}
+
 func (h *ConversationHandler) Messages(c *fiber.Ctx) error {
 	ownerType, ownerID, err := parseOwnerParams(c)
 	if err != nil {
@@ -257,10 +382,10 @@ type ComposeRequest struct {
 // Compose envia "novo email" pra um endereço arbitrário.
 //
 // Lógica de roteamento:
-//   1. Patient com email igual → conversa anexada ao Patient.
-//   2. Lead ativo (não converted/lost/unsubscribed) → conversa anexada ao Lead.
-//   3. Lead unsubscribed → 422 (não reabre relacionamento sem opt-in novo).
-//   4. Caso contrário → cria Lead novo (source=manual, opt-in implícito do vendedor).
+//  1. Patient com email igual → conversa anexada ao Patient.
+//  2. Lead ativo (não converted/lost/unsubscribed) → conversa anexada ao Lead.
+//  3. Lead unsubscribed → 422 (não reabre relacionamento sem opt-in novo).
+//  4. Caso contrário → cria Lead novo (source=manual, opt-in implícito do vendedor).
 //
 // @Summary  Inicia conversa por email com endereço arbitrário
 // @Tags     conversations

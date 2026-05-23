@@ -368,6 +368,13 @@ func setupRoutes(
 	patientScoresService := services.NewPatientScoresService(database.DB)
 	patientProfileService := services.NewPatientProfileService(database.DB)
 	patientDocumentsService := services.NewPatientDocumentsService(database.DB, "/app/uploads")
+	whatsappMediaService := services.NewWhatsAppMediaService("/app/uploads")
+	// WhatsApp Fase 2: roteia mídia inbound (arquivo de paciente → prontuário;
+	// áudio/lead → bucket cifrado da conversa).
+	leadService.SetMediaServices(patientDocumentsService, whatsappMediaService)
+	conversationService.SetMediaServices(whatsappMediaService, patientDocumentsService)
+	// 2.0b: interpretar documento de prontuário como exame (reusa pipeline OCR→IA).
+	conversationService.SetExamInterpreter(labResultBatchService, processingJobService)
 	patientWorkoutsService := services.NewPatientWorkoutsService(database.DB)
 	patientCheckInsService := services.NewPatientCheckInsService(database.DB)
 	notificationPreferencesService := services.NewNotificationPreferencesService(database.DB)
@@ -476,6 +483,10 @@ func setupRoutes(
 	conv.Post("/attachments/upload", conversationAttachmentHandler.Upload)
 	conv.Post("/compose", conversationHandler.Compose)
 	conv.Get("/:type/:id/messages", conversationHandler.Messages)
+	conv.Get("/:type/:id/media/:activityId", conversationHandler.Media)
+	conv.Post("/:type/:id/media/:activityId/interpret-exam", conversationHandler.InterpretExam)
+	conv.Get("/:type/:id/messages/:activityId/attachments/:idx", conversationHandler.Attachment)
+	conv.Post("/:type/:id/messages/:activityId/save-to-prontuario", conversationHandler.SaveToProntuario)
 	conv.Post("/:type/:id/read", conversationHandler.MarkRead)
 	conv.Post("/:type/:id/email", conversationHandler.SendEmail)
 	conv.Post("/:type/:id/whatsapp", conversationHandler.SendWhatsApp)
@@ -1458,11 +1469,11 @@ func ragHealthCheck(c *fiber.Ctx, db *gorm.DB) error {
 	}
 
 	return c.JSON(fiber.Map{
-		"status":            status,
-		"pgvector":          pgvectorInstalled,
-		"embeddings_count":  embeddingCount,
-		"queue":             stats,
-		"queue_depth":       stats.Pending + stats.Processing,
+		"status":           status,
+		"pgvector":         pgvectorInstalled,
+		"embeddings_count": embeddingCount,
+		"queue":            stats,
+		"queue_depth":      stats.Pending + stats.Processing,
 	})
 }
 

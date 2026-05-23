@@ -21,8 +21,8 @@ type LeadActivityType string
 
 const (
 	LeadActivityCreated              LeadActivityType = "created"
-	LeadActivityMessageSent          LeadActivityType = "message_sent"     // outbound (Plenya → cliente)
-	LeadActivityMessageReceived      LeadActivityType = "message_received" // inbound (cliente → Plenya)
+	LeadActivityMessageSent          LeadActivityType = "message_sent"           // outbound (Plenya → cliente)
+	LeadActivityMessageReceived      LeadActivityType = "message_received"       // inbound (cliente → Plenya)
 	LeadActivityMessageStatusChanged LeadActivityType = "message_status_changed" // delivered/read/failed (WhatsApp)
 	LeadActivityStatusChanged        LeadActivityType = "status_changed"
 	LeadActivityNoteAdded            LeadActivityType = "note_added"
@@ -76,6 +76,28 @@ type LeadActivity struct {
 	// Metadados estruturados (ex: { "template": "magic_link", "wa_message_id": "wamid.X..." })
 	Metadata datatypes.JSON `gorm:"type:jsonb" json:"metadata,omitempty"`
 
+	// Mídia (WhatsApp Fase 2). Setados quando a atividade carrega um arquivo
+	// (foto, áudio, documento, sticker) ou payload estruturado (localização/contato).
+	//
+	// Dois caminhos de storage:
+	//   - Arquivo de PACIENTE que vira documento de prontuário → PatientDocumentID
+	//     referencia o PatientDocument; o binário vive em patient-docs/ (não cifrado,
+	//     pois o interpretador de exames lê do disco). MediaStorageKey fica nil.
+	//   - Mídia de Lead / áudio / não-arquivo → MediaStorageKey aponta pro bucket
+	//     cifrado da conversa (whatsapp-media/...).
+	MediaType       *string `gorm:"type:varchar(20)" json:"mediaType,omitempty"` // image|audio|voice|video|document|sticker|location|contacts
+	MediaStorageKey *string `gorm:"type:varchar(500)" json:"-"`
+	MediaMIME       *string `gorm:"type:varchar(120)" json:"mediaMime,omitempty"`
+	MediaFilename   *string `gorm:"type:varchar(255)" json:"mediaFilename,omitempty"`
+	MediaSizeBytes  *int64  `json:"mediaSizeBytes,omitempty"`
+
+	// PatientDocumentID referencia o documento de prontuário quando o arquivo
+	// recebido foi salvo nas mídias do paciente (foto/PDF de paciente cadastrado).
+	PatientDocumentID *uuid.UUID `gorm:"type:uuid;index:idx_lead_activities_patient_doc" json:"patientDocumentId,omitempty"`
+
+	// Transcrição de áudio (WhatsApp Fase 2.2). Texto sensível → cifrado em repouso.
+	Transcription *string `gorm:"type:text" json:"transcription,omitempty"`
+
 	// Usuário responsável pela ação (null se inbound do cliente ou ação do sistema)
 	ActorUserID *uuid.UUID `gorm:"type:uuid" json:"actorUserId,omitempty"`
 
@@ -115,27 +137,58 @@ func (a *LeadActivity) BeforeSave(tx *gorm.DB) error {
 		return ErrLeadActivityOwnerInvalid
 	}
 
-	if a.Channel == LeadChannelEmail && a.Content != nil && *a.Content != "" && !isEncrypted(*a.Content) {
-		encrypted, err := crypto.EncryptWithDefaultKey(*a.Content)
-		if err != nil {
+	if a.encryptedChannel() {
+		if err := encryptField(&a.Content); err != nil {
 			return err
 		}
-		a.Content = &encrypted
+		if err := encryptField(&a.Transcription); err != nil {
+			return err
+		}
 	}
 	return nil
 }
 
-// AfterFind descriptografa Content de email quando carregado.
-func (a *LeadActivity) AfterFind(tx *gorm.DB) error {
-	if a.Channel == LeadChannelEmail && a.Content != nil && *a.Content != "" && isEncrypted(*a.Content) {
-		decrypted, err := crypto.DecryptWithDefaultKey(*a.Content)
-		if err != nil {
-			// Falha silenciosa: pode ser conteúdo plain antigo (pré-criptografia)
-			// ou corrupção. Não vamos crashar a query — só loga e devolve cipher.
-			tx.Logger.Warn(tx.Statement.Context, "lead_activity[%s] decrypt failed: %v", a.ID, err)
-			return nil
-		}
-		a.Content = &decrypted
+// encryptedChannel indica se o conteúdo textual deste canal é criptografado em
+// repouso (LGPD): email e WhatsApp podem conter CPF, sintomas e dados sensíveis.
+func (a *LeadActivity) encryptedChannel() bool {
+	return a.Channel == LeadChannelEmail || a.Channel == LeadChannelWhatsApp
+}
+
+// encryptField cifra um *string in-place se não-vazio e ainda não cifrado.
+func encryptField(field **string) error {
+	v := *field
+	if v == nil || *v == "" || isEncrypted(*v) {
+		return nil
 	}
+	enc, err := crypto.EncryptWithDefaultKey(*v)
+	if err != nil {
+		return err
+	}
+	*field = &enc
 	return nil
+}
+
+// AfterFind descriptografa Content/Transcription de canais cifrados (email, whatsapp).
+func (a *LeadActivity) AfterFind(tx *gorm.DB) error {
+	if !a.encryptedChannel() {
+		return nil
+	}
+	// Falha silenciosa por campo: conteúdo plain antigo (pré-criptografia) ou
+	// corrupção não devem crashar a query — loga e mantém o valor cru.
+	decryptField(&a.Content, tx, a.ID, "content")
+	decryptField(&a.Transcription, tx, a.ID, "transcription")
+	return nil
+}
+
+func decryptField(field **string, tx *gorm.DB, id uuid.UUID, label string) {
+	v := *field
+	if v == nil || *v == "" || !isEncrypted(*v) {
+		return
+	}
+	dec, err := crypto.DecryptWithDefaultKey(*v)
+	if err != nil {
+		tx.Logger.Warn(tx.Statement.Context, "lead_activity[%s] %s decrypt failed: %v", id, label, err)
+		return
+	}
+	*field = &dec
 }
