@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -136,7 +137,14 @@ func (s *ConversationService) GetAttachmentFile(ownerType string, ownerID, activ
 	if err != nil {
 		return nil, err
 	}
-	return &ActivityMediaResult{FilePath: full, MIME: att.ContentType, Filename: att.Filename}, nil
+	data, rerr := os.ReadFile(full)
+	if rerr != nil {
+		return nil, ErrConversationAttachmentInvalid
+	}
+	// Re-deriva e clampa o MIME dos bytes reais (não confia no content_type do metadata)
+	// e sanitiza o filename antes de virar header — evita XSS/header-injection.
+	mime := clampMediaMIME(DetectBytesMime(data).ContentType)
+	return &ActivityMediaResult{Bytes: data, MIME: mime, Filename: sanitizeDocFilename(att.Filename)}, nil
 }
 
 // SaveActivityMediaToProntuario salva uma mídia/anexo (e-mail ou WhatsApp) de uma
@@ -319,12 +327,8 @@ func (s *ConversationService) GetActivityMedia(ownerType string, ownerID, activi
 		return nil, ErrConversationOwnerInvalid
 	}
 
-	mime := ""
-	if act.MediaMIME != nil {
-		mime = *act.MediaMIME
-	}
-	filename := ""
-	if act.MediaFilename != nil {
+	filename := "arquivo"
+	if act.MediaFilename != nil && *act.MediaFilename != "" {
 		filename = *act.MediaFilename
 	}
 
@@ -337,13 +341,15 @@ func (s *ConversationService) GetActivityMedia(ownerType string, ownerID, activi
 		if err != nil {
 			return nil, ErrConversationAttachmentInvalid
 		}
-		if mime == "" {
-			mime = doc.ContentType
+		data, rerr := os.ReadFile(full)
+		if rerr != nil {
+			return nil, ErrConversationAttachmentInvalid
 		}
-		if filename == "" {
+		if doc.FileName != "" {
 			filename = doc.FileName
 		}
-		return &ActivityMediaResult{FilePath: full, MIME: mime, Filename: filename}, nil
+		// ContentType do prontuário já validado por magic bytes (pdf/jpg/png) na criação.
+		return &ActivityMediaResult{Bytes: data, MIME: clampMediaMIME(doc.ContentType), Filename: sanitizeDocFilename(filename)}, nil
 	}
 
 	// Mídia no bucket cifrado da conversa.
@@ -355,10 +361,28 @@ func (s *ConversationService) GetActivityMedia(ownerType string, ownerID, activi
 		if err != nil {
 			return nil, ErrConversationAttachmentInvalid
 		}
-		return &ActivityMediaResult{Bytes: data, MIME: mime, Filename: filename}, nil
+		// Re-deriva o MIME dos bytes reais (NÃO confia no MediaMIME do payload Meta)
+		// e clampa pra allowlist — evita XSS via Content-Type forjado servido inline.
+		mime := clampMediaMIME(DetectBytesMime(data).ContentType)
+		return &ActivityMediaResult{Bytes: data, MIME: mime, Filename: sanitizeDocFilename(filename)}, nil
 	}
 
 	return nil, ErrConversationAttachmentInvalid
+}
+
+// clampMediaMIME restringe o Content-Type servido a uma allowlist segura; qualquer
+// outro tipo (ex: text/html forjado) vira application/octet-stream. Combinado com
+// X-Content-Type-Options: nosniff no handler, neutraliza XSS via mídia servida.
+func clampMediaMIME(mime string) string {
+	switch mime {
+	case "image/jpeg", "image/png", "image/webp", "image/gif",
+		"application/pdf",
+		"audio/ogg", "audio/mpeg", "audio/mp4", "audio/aac", "audio/amr",
+		"video/mp4":
+		return mime
+	default:
+		return "application/octet-stream"
+	}
 }
 
 // NewConversationService monta o serviço com DI.
@@ -1094,6 +1118,10 @@ func (s *ConversationService) sendWhatsApp(ctx context.Context, in SendMessageIn
 			}
 			if key, size, serr := s.waMedia.StoreInbound(ownerKind, oid, data, mime); serr == nil {
 				mediaStorageKey, mediaSize = &key, &size
+			} else {
+				// Mensagem foi enviada ao cliente, mas não conseguimos guardar cópia local
+				// pra exibir no histórico. Loga em vez de silenciar.
+				log.Printf("⚠️  [WA OUTBOUND] mídia enviada mas falha ao guardar local: %v", serr)
 			}
 		}
 		mediaType, mediaMime, mediaFilename = &waType, &mime, &att.Filename

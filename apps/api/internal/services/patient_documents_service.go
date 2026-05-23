@@ -213,6 +213,14 @@ func (s *PatientDocumentsService) CreateFromBytes(in CreateFromBytesInput) (*mod
 	}
 	if err := s.db.Create(doc).Error; err != nil {
 		_ = os.Remove(fullPath)
+		// Corrida de idempotência: outra entrega do mesmo wa_message_id inseriu primeiro.
+		// O uniqueIndex barra a duplicata — devolvemos o documento existente.
+		if isUniqueViolation(err) && in.OriginWAMessageID != nil && *in.OriginWAMessageID != "" {
+			var existing models.PatientDocument
+			if e := s.db.Where("origin_wa_message_id = ? AND patient_id = ?", *in.OriginWAMessageID, in.PatientID).First(&existing).Error; e == nil {
+				return &existing, nil
+			}
+		}
 		return nil, err
 	}
 	return doc, nil
@@ -242,7 +250,8 @@ func (s *PatientDocumentsService) GetForDownload(patientID, docID uuid.UUID) (*m
 	// Defesa anti path-traversal: garante que full está dentro de uploadsRoot
 	abs, _ := filepath.Abs(full)
 	rootAbs, _ := filepath.Abs(s.uploadsRoot)
-	if !strings.HasPrefix(abs, rootAbs) {
+	// Separador no prefixo evita bypass por irmão (/app/uploads-evil).
+	if abs != rootAbs && !strings.HasPrefix(abs, rootAbs+string(os.PathSeparator)) {
 		return nil, "", errors.New("caminho inválido")
 	}
 	if _, err := os.Stat(full); err != nil {

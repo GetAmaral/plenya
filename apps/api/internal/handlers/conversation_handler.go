@@ -114,15 +114,18 @@ func (h *ConversationHandler) Media(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "media not found"})
 	}
+	return serveMedia(c, res)
+}
 
-	if res.Filename != "" {
-		c.Set("Content-Disposition", "inline; filename=\""+res.Filename+"\"")
-	}
-	if res.FilePath != "" {
-		return c.SendFile(res.FilePath)
-	}
+// serveMedia escreve a mídia com headers seguros: MIME já clampado pra allowlist,
+// nosniff (impede sniffing pra text/html), filename já sanitizado no service.
+func serveMedia(c *fiber.Ctx, res *services.ActivityMediaResult) error {
+	c.Set("X-Content-Type-Options", "nosniff")
 	if res.MIME != "" {
 		c.Set("Content-Type", res.MIME)
+	}
+	if res.Filename != "" {
+		c.Set("Content-Disposition", "inline; filename=\""+res.Filename+"\"")
 	}
 	return c.Send(res.Bytes)
 }
@@ -209,16 +212,7 @@ func (h *ConversationHandler) Attachment(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "attachment not found"})
 	}
-	if res.Filename != "" {
-		c.Set("Content-Disposition", "inline; filename=\""+res.Filename+"\"")
-	}
-	if res.FilePath != "" {
-		return c.SendFile(res.FilePath)
-	}
-	if res.MIME != "" {
-		c.Set("Content-Type", res.MIME)
-	}
-	return c.Send(res.Bytes)
+	return serveMedia(c, res)
 }
 
 func (h *ConversationHandler) Messages(c *fiber.Ctx) error {

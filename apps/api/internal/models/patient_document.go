@@ -45,7 +45,9 @@ type PatientDocument struct {
 
 	// OriginWAMessageID: wa_message_id que originou o documento (quando Source=whatsapp).
 	// Usado pra idempotência do webhook (Meta reentrega mensagens).
-	OriginWAMessageID *string `gorm:"type:varchar(120);index:idx_patient_documents_wa_msg" json:"-"`
+	// uniqueIndex: idempotência do webhook (Postgres trata NULLs como distintos,
+	// então uploads manuais sem origem não conflitam).
+	OriginWAMessageID *string `gorm:"type:varchar(120);uniqueIndex:uq_patient_documents_wa_msg" json:"-"`
 
 	Type        PatientDocumentType `gorm:"type:varchar(30);not null;check:type IN ('certificate','report','referral','declaration','other')" json:"type"`
 	Title       string              `gorm:"type:varchar(200);not null" json:"title"`

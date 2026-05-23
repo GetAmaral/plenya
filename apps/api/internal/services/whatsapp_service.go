@@ -11,6 +11,7 @@ import (
 	"log"
 	"mime/multipart"
 	"net/http"
+	"net/url"
 	"regexp"
 	"strings"
 	"time"
@@ -303,6 +304,13 @@ func (s *WhatsAppService) DownloadMedia(mediaID string) (*MediaDownload, error) 
 		return nil, fmt.Errorf("whatsapp: mídia %d bytes excede limite de %d", meta.FileSize, maxWhatsAppMediaBytes)
 	}
 
+	// Defesa SSRF/vazamento de token: só anexamos o Bearer se a URL de mídia
+	// aponta pra um host conhecido da Meta (HTTPS). Caso contrário, recusamos —
+	// uma resposta MITM/forjada do passo 1 não deve levar o token pra host arbitrário.
+	if !isMetaMediaHost(meta.URL) {
+		return nil, fmt.Errorf("whatsapp: host de mídia inesperado")
+	}
+
 	// Passo 2 — binário (Authorization também é exigido aqui).
 	binReq, err := http.NewRequest(http.MethodGet, meta.URL, nil)
 	if err != nil {
@@ -334,6 +342,22 @@ func (s *WhatsAppService) DownloadMedia(mediaID string) (*MediaDownload, error) 
 		mime = strings.TrimSpace(mime[:i])
 	}
 	return &MediaDownload{Bytes: data, MIME: mime, FileSize: int64(len(data)), SHA256: meta.SHA256}, nil
+}
+
+// isMetaMediaHost valida que a URL de download de mídia é HTTPS e aponta pra um
+// host conhecido da Meta/Facebook (CDN), antes de anexar o Bearer token.
+func isMetaMediaHost(rawURL string) bool {
+	u, err := url.Parse(rawURL)
+	if err != nil || u.Scheme != "https" {
+		return false
+	}
+	host := strings.ToLower(u.Hostname())
+	for _, suffix := range []string{".fbcdn.net", ".facebook.com", ".fbsbx.com", ".whatsapp.net"} {
+		if strings.HasSuffix(host, suffix) {
+			return true
+		}
+	}
+	return host == "lookaside.fbsbx.com"
 }
 
 // WhatsAppMediaTypeFromMIME mapeia um content-type pro tipo de mídia da Cloud API.

@@ -334,9 +334,26 @@ type InboundResult struct {
 //
 // Diferente do comportamento anterior, NÃO cria mais Lead "fantasma" pra Patient
 // já cadastrado — paciente é cliente, conversa fica anexada nele direto.
+// waInboundAlreadyProcessed indica se já registramos um inbound WhatsApp com este
+// wa_message_id (idempotência — a Meta reentrega webhooks).
+func (s *LeadService) waInboundAlreadyProcessed(waMessageID string) bool {
+	if strings.TrimSpace(waMessageID) == "" {
+		return false
+	}
+	var n int64
+	s.db.Model(&models.LeadActivity{}).
+		Where("type = ? AND channel = ? AND metadata->>'wa_message_id' = ?",
+			models.LeadActivityMessageReceived, models.LeadChannelWhatsApp, waMessageID).
+		Count(&n)
+	return n > 0
+}
+
 func (s *LeadService) ProcessInboundWhatsApp(in InboundWhatsAppInput) (*InboundResult, error) {
 	if strings.TrimSpace(in.PhoneE164) == "" {
 		return nil, errors.New("lead: phone vazio em inbound WhatsApp")
+	}
+	if s.waInboundAlreadyProcessed(in.WAMessageID) {
+		return &InboundResult{}, nil // já processado (reentrega)
 	}
 
 	// Normaliza para formato armazenado em Lead.Phone (com +).
@@ -505,6 +522,9 @@ func (s *LeadService) ProcessInboundWhatsAppMedia(in InboundWhatsAppMediaInput) 
 	}
 	if strings.TrimSpace(in.PhoneE164) == "" {
 		return nil, errors.New("lead: phone vazio em inbound de mídia WhatsApp")
+	}
+	if s.waInboundAlreadyProcessed(in.WAMessageID) {
+		return &InboundResult{}, nil // já processado — evita download + doc/activity duplicados
 	}
 	phone := strings.TrimSpace(in.PhoneE164)
 	if !strings.HasPrefix(phone, "+") {
@@ -711,7 +731,9 @@ func (s *LeadService) RecordOutboundWhatsAppEcho(customerPhoneE164, text, waMess
 
 	if waMessageID != "" {
 		var n int64
-		s.db.Model(&models.LeadActivity{}).Where("metadata->>'wa_message_id' = ?", waMessageID).Count(&n)
+		s.db.Model(&models.LeadActivity{}).
+			Where("type = ? AND channel = ? AND metadata->>'wa_message_id' = ?",
+				models.LeadActivityMessageSent, models.LeadChannelWhatsApp, waMessageID).Count(&n)
 		if n > 0 {
 			return // já registrado (eco reentregue ou enviado pelo próprio EMR)
 		}
@@ -747,7 +769,15 @@ func (s *LeadService) RecordOutboundWhatsAppEcho(customerPhoneE164, text, waMess
 		_ = s.RecordActivity(rec)
 		return
 	}
-	log.Printf("📱 [WA ECHO] eco do app pra contato sem lead/patient (%s) — ignorado", phone)
+	log.Printf("📱 [WA ECHO] eco do app pra contato sem lead/patient (%s) — ignorado", maskPhone(phone))
+}
+
+// maskPhone mostra só os últimos 4 dígitos pra log (LGPD): ****8899.
+func maskPhone(p string) string {
+	if len(p) <= 4 {
+		return "****"
+	}
+	return "****" + p[len(p)-4:]
 }
 
 // storeConvMedia cifra e grava a mídia no bucket da conversa, preenchendo os
