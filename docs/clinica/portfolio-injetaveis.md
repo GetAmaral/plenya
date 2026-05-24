@@ -44,7 +44,18 @@ credencial que blinda a oferta.
 ### 0.5 Regra IM vs IV (resumo)
 | Pode IV | Só IM |
 |---|---|
-| Ferro EV; tiamina isolada; magnésio (diluído/lento); complexo B genérico (sem B12, lento) | **Citoneurin** (B1+B6+B12); **combos com AINE** (Dolo-Neurobion); B12 (IV é farmacocineticamente inútil) |
+| Ferro EV; tiamina isolada; magnésio (diluído/lento); complexo B genérico (sem B12, lento); ALA, vit C, metilcobalamina, glutationa (manipulados estéreis) | **Citoneurin** (B1+B6+B12); **combos com AINE** (Dolo-Neurobion); colecalciferol oleoso; B12 (IV é farmacocineticamente inútil) |
+
+### 0.6 Manipulação estéril — via legal e viável (não é barreira)
+Injetável magistral estéril é **permitido e rotineiro** no Brasil (RDC 67/2007 Anexo IV) quando feito por
+farmácia magistral **licenciada para estéreis**. O constrangimento real é **qualidade/infraestrutura da
+farmácia** (poucas habilitadas) e a **prescrição nominal individualizada** — não uma proibição. (A vedação
+ANVISA 2023–25 é sobre **preenchedores dérmicos**, não injetáveis nutricionais.) Fluxo: médico prescreve
+nominal → farmácia manipula/dispensa → clínica aplica; **a clínica pode adquirir preparações nominais**.
+Fronteira: **não encomendar lote-estoque industrial anônimo**. Off-label é permitido pelo CFM com indicação
+documentada + **TCLE**. Exigir da farmácia, por lote: **esterilidade + endotoxina (LAL) + doseamento + CoA
+da matéria-prima**, cadeia de frio e fotoproteção; auditar AFE estéril presencialmente. Detalhe e opções
+por molécula no **§11**.
 
 ---
 
@@ -94,9 +105,10 @@ distorcem em DRC):**
 **Nefro:** **cianocobalamina libera cianeto** (trial DIVINe: piora TFG/CV em nefropatia diabética) →
 **em DRC, hidroxocobalamina mandatória.**
 
-**Metilcobalamina injetável manipulada — NÃO oferecer:** estéril magistral exige sala limpa ISO 5
-(raras farmácias); só por prescrição nominal (inviável como estoque); insumo fotolábil/instável;
-tripla exposição (injetável+magistral+off-label). Caso individual = paciente importa pronto via RDC 81.
+**Metilcobalamina injetável manipulada — viável (corrigido):** não há produto registrado, mas é
+manipulável em farmácia de estéreis (1–5 mg/mL, frasco âmbar, fotoproteção obrigatória). Usar **quando a
+forma metilada ativa é o objetivo clínico** (preferência teórica em neuropatia/MTHFR; superioridade vs
+hidroxo é fraca). Para reposição simples, **hidroxocobalamina registrada** resolve, mais barata/rastreável.
 
 ---
 
@@ -203,12 +215,12 @@ soroterapia/drip **>100 mL/12h em atleta** (WADA M2.2).
 
 ## 6. Protocolos transversais
 
-### 6.1 Neuropatia diabética (manejo patogenético — majoritariamente oral)
-Base: **controle glicêmico** (única coisa que modifica a doença). Camadas: **ALA oral 600 mg/dia**
-(Thioctacid, nível A, registrado) + **benfotiamina 300 mg 2×/dia** + **metilcobalamina oral / B12 se
-deficiente** (B6 ≤50 mg, nunca crônico) + duloxetina/pregabalina se dor estabelecida. **ALA IV não
-tem apresentação registrada no Brasil** → o protocolo é oral; infusão só como indução em caso
-selecionado. Prometer alívio de sintoma, **nunca "regenerar o nervo".**
+### 6.1 Neuropatia diabética (manejo patogenético)
+Base: **controle glicêmico** (única coisa que modifica a doença). Camadas: **ALA 600 mg/dia**
+(oral Thioctacid registrado **ou IV manipulado** como indução, nível A) + **benfotiamina 300 mg 2×/dia** +
+**metilcobalamina oral/IV ou B12 se deficiente** (B6 ≤50 mg, nunca crônico) + duloxetina/pregabalina se
+dor estabelecida. O **ALA IV (600 mg, trometamol, manipulado)** é via válida de indução (ver §8/§9); o oral
+mantém. Prometer alívio de sintoma, **nunca "regenerar o nervo".**
 
 ### 6.2 Stack oral de profilaxia de enxaqueca (emergiu da revisão)
 **Riboflavina 400 mg + magnésio citrato 400–600 mg (+ CoQ10)** — combinação de evidência (nível B),
@@ -261,10 +273,25 @@ fadiga", "experiência de bem-estar documentada". Proibido: "cura/detox/anti-agi
 | **Alergia/histamina** | 7,5 g | 250–500 mL SF, 20–40 min | semanal ×4–6 | **insumo sem metabissulfito** em asmático |
 | **Recuperação de lesão/pós-op** | **oral 1ª linha** (500–2.000 mg/d; CRPS 500×50d; tendão 15 g gelatina+C); IV 7,5–10 g só se má absorção | 250–500 mL SF, 20–40 min | semanal na fase de reparo | **nunca em bloco adaptativo de endurance** |
 
-## 8. Ácido alfa-lipoico (ALA) — pendente
-Coberto em neuropatia diabética (§6.1): **ALA oral 600 mg/dia** (Thioctacid, nível A); **IV esbarra
-na falta de apresentação registrada no Brasil**. 🔲 revisar outras indicações (hepática, antioxidante,
-metabólica) antes de decidir.
+## 8. Ácido alfa-lipoico (ALA) ✅ (oral + IV manipulado)
+
+**Entra no portfólio.** Oral **Thioctacid 600** registrado por padrão; **IV manipulado** (trometamol
+25 mg/mL, 600 mg, viável — registrado descontinuado) como **indução em neuropatia** e onde o IV agregar.
+
+**Indicações (todas adjuvantes, evidência honesta):**
+- 🟢 **Neuropatia diabética** — âncora, nível A (oral mantém; IV induz mais rápido).
+- 🟢 **Resistência insulínica / DM2 / cardiometabólico** (oral, nível B: ↓HOMA-IR, glicemia, PA ~5/3 mmHg).
+- 🟢 **SOP com resistência insulínica** (oral, melhor **com mio-inositol**).
+- 🟡 **Peso** (oral, efeito modesto ~0,7–1,3 kg — adjuvante, nunca "emagrecedor") · **NAFLD** (plausível, sem prometer normalizar enzimas) · nichos: enxaqueca, burning mouth.
+- 🔴 **longevidade/anti-aging/antioxidante como claim** (racional sem desfecho humano); Alzheimer/cognição, glaucoma, tireoidite (selênio é quem tem dado).
+
+**Segurança:** hipoglicemia com insulina/sulfonilureia; 🚩 **síndrome de Hirata** (insulina autoimune —
+hipoglicemia inexplicada sob ALA → dosar anti-insulina, suspender); pode depletar **B1** (cautela em
+etilista/desnutrido); quelante → espaçar de ferro/cálcio/magnésio. **Ponto a favor (nefro): eliminação
+não renal, PK inalterada na DRC, sem ajuste nem nefrotoxicidade.**
+
+**R-ALA "puro" é marketing** salvo o sal de sódio estabilizado (Na-RLA); racêmico (Thioctacid) é a escolha.
+Cartão de infusão do ALA IV no §9.
 
 ## 9. Cartões de protocolo de infusão — núcleo IV/IM
 
@@ -284,6 +311,7 @@ metabólica) antes de decidir.
 | **Complexo B genérico IV** (Hyplex B — B1 4 + B2 1 + B3 10 + B5 5 + B6 2 mg/mL; **sem B12**) | reposição/etilismo/desnutrição: 1–2 amp/dia ou dias alt. | **diluir 500–1.000 mL** SF/SG (🔲 tempo em min) | **IV lenta diluída** (nunca push) ou IM | curta | cautela; acúmulo em IR | **flushing/hipotensão (nicotinamida)**; fenol irritante; B6 4 mg/amp (somar); urina amarela (B2) |
 | **Dolo-Neurobion IM** ⚠️ (B1+B6+lidocaína / B12+**diclofenaco**) | dor aguda: 1 amp/dia, poucos dias → oral | sem diluir | **IM profunda — NUNCA IV** (lidocaína+AINE) | curta | **AINE: contraindicado ClCr<30; evitar em nefropata** | **B6 100 mg/amp** (teto rápido); risco GI/renal do AINE. 🔲 **registro ANVISA da forma injetável incerto no BR → não estocar sem confirmar** |
 | **Vitamina D IM** (colecalciferol ~600.000 UI, magistral oleoso) | **nicho má absorção/não-adesão**: ~600.000 UI dose única; re-dose só com nível 🔲 | sem diluir, ~1 mL oleoso | **IM profundo Z-track — NUNCA IV (oleoso→embolia)** | curta | **monitorar cálcio/calciúria/fosfato; cautela litíase/DRC** | é **mega-bolus** (risco Sanders +quedas/+fraturas); dosar 25-OH-D+cálcio antes de re-dosar |
+| **ALA IV** (manipulado, trometamol) | 600 mg (neuropatia: indução, série 2–4 sem) | **só SF**, 100–250 mL | **~30 min** (≤50 mg/min) | curta | **sem ajuste (eliminação não renal)** | **fotoproteção (âmbar)**; preparar na hora; hipoglicemia/Hirata; espaçar de Fe/Ca/Mg |
 
 ### Conversões e regras úteis
 - **Magnésio:** 1 g MgSO₄ = 8,12 mEq ≈ **98,6 mg Mg elementar**; solução 10% = 1 g/10 mL, 50% = 5 g/10 mL.
@@ -318,8 +346,134 @@ de B6 · Tiamina (ACESYL) — diluição/tempo IV exatos da bula BR · Hidroxoco
 **Hyplex B — B5 exato e tempo de infusão IV em minutos** · **Dolo-Neurobion — registro ANVISA vigente da
 forma injetável no Brasil (se inexistente, não estocar)** · **Vitamina D IM — veículo oleoso e re-dose do magistral**.
 
-## 10. Não oferecer (fechado)
-Glutationa IV (clareamento/"detox") · NAD+ IV · peptídeos (BPC-157, TB-500) · hormônio
-antienvelhecimento (vedação CFM 1.999/2012, 2.333/2023) · niacina CV/longevidade · **qualquer
-coquetel/soro vendido como tratamento curativo ou com claim de eficácia não comprovada** (o Myers é
-ofertável apenas como experiência/QoL com disclaimer — §7, não como cura).
+## 10. Vetado vs caso-a-caso
+**Vetado (regulatório/ético):** hormônio antienvelhecimento (CFM 1.999/2012, 2.333/2023) · peptídeos
+(BPC-157, TB-500) · **glutationa para clareamento/fim estético** (ABRAN veta) · niacina para
+dislipidemia/CV (AIM-HIGH/HPS2-THRIVE negativos + dano) · qualquer coquetel/soro vendido como **cura ou
+com claim de eficácia não comprovada**.
+**Viável obter, mas evidência fraca → caso a caso com TCLE reforçado (não como claim de longevidade):**
+glutationa IV (antioxidante), NAD+ IV (experimental). O **Myers** é ofertável como experiência/QoL com
+disclaimer (§7), não como cura.
+
+## 11. Manipulação estéril — opções viáveis por molécula
+Enquadramento em §0.6. Regra de obtenção: **registrado quando existe e resolve; manipulado quando agrega**
+(não há registrado prático, ou para eliminar conservante, ou customizar). Viabilidade regulatória/operacional
+é **alta para quase tudo**; indicação clínica é **caso a caso**.
+
+| Molécula | Registrado / manipulado | Formulação | Fotoprot. | Estab. diluído | Nota clínica |
+|---|---|---|---|---|---|
+| **ALA** | manipulado (registrado descontinuado) | trometamol 25 mg/mL | **sim** | curta (na hora) | âncora = neuropatia (nível A); §8/§9 |
+| **Metilcobalamina** | manipulado | metilcobalamina 1–5 mg/mL | **sim** | boa em âmbar | quando a forma metilada é o objetivo; senão hidroxo registrada |
+| **Vitamina C alta/média** | manipulado | **ascorbato de sódio tamponado, sem metabissulfito** | moderada | razoável | **G6PD + renal obrigatórios**; §7 |
+| **Magnésio** | **registrado** (sulfato) | — | — | — | usar registrado; magistral só p/ combos; **gate renal** |
+| **Complexo B / B1 / B5** | registrado (c/ fenol) **ou** manipulado | combos **sem fenol** sob medida | B2 sim | boa | magistral p/ fugir do conservante |
+| **Glutationa** | manipulado | L-glutationa ≤200 mg/mL | **sim** | **baixa (na hora)** | viável obter; **evidência fraca**; clareamento vetado (§10) |
+| **Myers/coquetel** | manipulado **nominal** | C+B+Mg+Ca custom | parcial | na hora | por paciente prescrito (não lote); §7 |
+| **NAD+ / taurina** | manipulado | custom | NAD sim | baixa | **experimental**, infundir muito lento, TCLE reforçado |
+| Ferro, hidroxocobalamina, sulfato Mg | **registrado** | — | — | — | usar pronto |
+
+**Estruturar a farmácia:** 1–2 farmácias com **AFE estéril vigente** auditada presencialmente; fornecimento
+**por prescrição nominal**; **laudo por lote (esterilidade + endotoxina LAL + doseamento) + CoA** anexos;
+cadeia de frio + fotoproteção contratuais. 🔲 confirmar custo por dose com a farmácia adotada.
+
+---
+
+## 12. Resumo operacional por molécula — indústria vs manipulado + cards (ferro → ALA)
+Referência rápida das **opções injetáveis** de cada molécula já discutida, separando **indústria
+(registrado)** de **manipulado**, com resumo prático e card de aplicação. (Demais moléculas e combinações
+por indicação: a discutir.)
+
+### 12.1 Ferro EV
+- **Indústria:** carboximaltose (Ferinject 50 mg/mL) · derisomaltose (Monofer 100 mg/mL) · sacarato (Noripurum EV 20 mg/mL) — todas IV.
+- **Manipulado:** não se aplica (ferro IV é todo industrializado).
+- **Resumo:** carboximaltose carro-chefe (dose plena/1 visita); derisomaltose reserva (menos hipofosfatemia, cursos repetidos); sacarato p/ diálise/fracionado. Dose por peso/Hb. Gate: ferropenia documentada.
+
+| | Carboximaltose | Derisomaltose | Sacarato |
+|---|---|---|---|
+| Dose/sessão | ≤1.000 mg/20 mg/kg, 1×/sem | ≤20 mg/kg única | 100–200 mg |
+| Diluente | só SF; ≤200→40, ≤500→100, ≤1.000→250 mL (mín 2 mg/mL) | só SF ≤500 mL (mín 1 mg/mL) | só SF; 100 mg→100 mL |
+| Tempo | ≥500 mg em **≥15 min** | ≤1.000 **>15 min**; >1.000 **≥30 min** | 100 mg 15 min; 200 mg 30 min |
+| Test dose | não | não | **sim (1ª dose)** |
+| Observação | **≥30 min** | ≥30 min | vigiar + RCP |
+| Gate renal | diálise máx 200 mg/dose | OK DRC/HD | OK, cautela |
+| Monitor | fosfatemia se repetir; Fishbane≠anafilaxia | hipotensão | PA |
+
+### 12.2 Vitamina B12
+- **Indústria:** hidroxocobalamina (Bedoze 5 mg/mL; Rubranova 5.000/15.000 mcg) IM · cianocobalamina (Citoneurin) IM.
+- **Manipulado:** metilcobalamina 1–5 mg/mL IM/IV lenta, **fotoprotegido**.
+- **Resumo:** hidroxo IM padrão; oral 1–2 mg/dia 1ª linha em muitos casos; metil manipulada quando se quer a forma metilada; **B12 IV não** (excreção renal). Em DRC, hidroxo (não ciano).
+
+| | Hidroxocobalamina (indústria) | Metilcobalamina (manipulado) |
+|---|---|---|
+| Dose | 1 mg: ataque 3×/sem ×2 sem → cada 2–3 m | 1–5 mg, esquema análogo |
+| Via | IM (sem diluir) | IM ou IV lenta |
+| Fotoproteção | moderada | **obrigatória (âmbar)** |
+| Gate renal | sem ajuste | sem ajuste |
+
+### 12.3 Vitamina D
+- **Indústria:** **não há injetável registrado** (só oral).
+- **Manipulado:** colecalciferol IM ~600.000 UI/mL **oleoso**.
+- **Resumo:** padrão é oral diário/semanal. Injetável só manipulado IM, **nicho** (má absorção + falha do oral, ou não-adesão); é mega-bolus (risco Sanders). Não é cardápio.
+
+| Campo | Vitamina D IM (manipulado) |
+|---|---|
+| Dose | ~600.000 UI única (re-dose só com nível 🔲) |
+| Via | **IM profundo Z-track — NUNCA IV** (oleoso→embolia) |
+| Diluente | sem diluir, ~1 mL oleoso |
+| Gate renal | cautela litíase/DRC |
+| Monitor | cálcio, calciúria, fosfato, 25-OH-D antes de re-dosar |
+
+### 12.4 Magnésio
+- **Indústria:** sulfato de magnésio 10% (1 g/10 mL) e 50% (5 g/10 mL) IV.
+- **Manipulado:** não isolado; só componente de combo custom sem conservante.
+- **Resumo:** usar o registrado. 1 g MgSO₄ ≈ 8,1 mEq ≈ ~98 mg Mg elementar. Gate renal o mais rígido.
+
+| Campo | Sulfato de Mg (indústria) |
+|---|---|
+| Dose | 1–2 g |
+| Diluente | diluir 50%→**≤20%**; 100–250 mL |
+| Tempo | **30–60 min**; máx 150 mg/min |
+| Gate renal | **ClCr <20/diálise = NÃO**; ↓ 30–60; suspender Cr ≥1,3 🔲 |
+| Monitor | **reflexo patelar, FR, PA, ECG**; antídoto **gluconato de cálcio** |
+
+### 12.5 Complexo B / tiamina
+- **Indústria:** tiamina isolada (100 mg/mL) IV/IM · Citoneurin 1000/5000 (B1+B6+B12) **IM** · complexo B genérico (Hyplex B, sem B12) IV/IM · Dolo-Neurobion (combo+AINE) IM — 🔲 registro injetável BR incerto.
+- **Manipulado:** tiamina alta dose sem conservante · combos B **sem fenol** · vitaminas B individuais.
+- **Resumo:** tiamina IV alta dose = estrela (Wernicke/etilismo/bariátrica/hiperêmese). Citoneurin IM = neurotrópico (neuropatia/lombalgia adjuvante). Genérico IV = reposição (lento, fenol/nicotinamida→flushing). B12 IV não. **Teto B6 somatório** (≤100 mg).
+
+| | Tiamina IV | Citoneurin | Complexo B genérico IV |
+|---|---|---|---|
+| Dose | Wernicke **500 mg 3×/d ×2–3 d**→250 mg/d; repos. 100–250 mg | 1 amp/3 dias; lombalgia ~3–6 aplic. 🔲 | 1–2 amp/dia |
+| Via/diluente | 50–100 mL SF/SG | **IM — NUNCA IV**, sem diluir | **diluir 500–1.000 mL** |
+| Velocidade | IV lenta **≥30 min** | IM | IV lenta (nunca push) |
+| Gate renal | sem ajuste; **B1 antes de glicose** | cautela | acúmulo em IR |
+| Monitor | anafilaxia, PA | local; teto B6 | flushing/hipotensão; teto B6 |
+
+(Manipulado de B sem fenol segue o card do genérico IV, fotoprotegido p/ B2.)
+
+### 12.6 Vitamina C
+- **Indústria:** ácido ascórbico 100 mg/mL (amp 5 mL=500 mg) e 200 mg/mL — **contêm metabissulfito**.
+- **Manipulado:** ascorbato de sódio **tamponado, sem metabissulfito** (~500 mg/mL) p/ média/alta dose.
+- **Resumo:** ≤2–3 g → registrado serve (cuidado sulfito em asmático); acima → manipulado sem conservante. Menu funcional baixa-média dose (zóster/alergia/QoL). Trilhos G6PD + renal; alta dose 25–100 g fora.
+
+| Campo | Vitamina C IV |
+|---|---|
+| Dose funcional | 7,5–10 g (Myers 1–7,5 g) |
+| Diluente | 250–500 mL SF/SG |
+| Velocidade | ~0,3–0,5 g/min (<250 mg/min) → 20–40 min |
+| Insumo | >2–3 g → manipulado sem metabissulfito |
+| Gate | **G6PD + renal/litíase**; alerta glicemia capilar falsa |
+
+### 12.7 Ácido alfa-lipoico (ALA)
+- **Indústria:** **só oral** (Thioctacid 600) — injetável registrado **descontinuado**.
+- **Manipulado:** ALA IV **trometamol 25 mg/mL** (600 mg ≈ 24 mL).
+- **Resumo:** oral é a base; IV manipulado p/ **indução em neuropatia diabética** (nível A). Eliminação não renal (sem ajuste DRC). Atenção: hipoglicemia, **Hirata**, quelante (espaçar de Fe/Ca/Mg).
+
+| Campo | ALA IV (manipulado) |
+|---|---|
+| Dose | 600 mg/dia (neuropatia: série 2–4 sem) |
+| Diluente | só SF, 100–250 mL |
+| Velocidade | **~30 min** (≤50 mg/min) |
+| Fotoproteção | **obrigatória (âmbar)**; preparar na hora |
+| Gate renal | sem ajuste (não renal) |
+| Monitor | glicemia (hipoglicemia/Hirata) |
