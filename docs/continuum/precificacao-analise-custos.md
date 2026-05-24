@@ -448,6 +448,125 @@ Notas:
 
 ---
 
+## F — Compliance e jurídico
+
+> Input do Getúlio, 24/05/2026 (estimativas de mercado — nada contratado ainda). Fração Continuum 80%.
+
+| Componente | Cálculo | Por paciente/ciclo |
+|---|---|---|
+| Setup jurídico inicial (contratos + termo de consentimento + parecer telemedicina/CFM + abatimento da consulta) — R$ 12.000 | × 80% ÷ 72 (amort. 3 anos) | R$ 133 |
+| LGPD/jurídico recorrente **sob demanda** (~R$ 4.800/ano, pareceres pontuais) | × 80% ÷ 24 | R$ 160 |
+| **TOTAL BLOCO F / ciclo** | | **~R$ 293** |
+
+Notas:
+- Setup baseado na Tabela OAB 2026 (~R$ 3.502/instrumento de análise de privacidade).
+- Recorrente modelado **sob demanda** (sem mensalidade fixa) por estar em MVP. Níveis de mercado
+  se escalar: mentoria/DPO-light R$ 1.200/mês · consultoria adequação R$ 1.900/mês · DPO dedicado
+  R$ 3.000–6.000/mês.
+
+---
+
+## G — Educação continuada da equipe
+
+> Decisão do Getúlio, 24/05/2026: **a cargo de cada profissional** (já embutida no que cobram).
+> **Não é custo do Continuum.**
+
+| **TOTAL BLOCO G / ciclo** | **R$ 0** |
+|---|---|
+
+---
+
+## H — Custo de oportunidade (régua de decisão, NÃO soma ao custo)
+
+> Decisão do Getúlio, 24/05/2026. **Soma R$ 0** ao custo — somar seria contar em dobro (o tempo
+> dos profissionais já está pago no Bloco A). Serve como **piso de decisão da margem**.
+
+**Benchmark:** consulta avulsa do Dr. Getúlio = **R$ 800 / 60min = R$ 800/h**. Detalhe relevante:
+isso é *menor* que a hora-médico no Continuum (consulta R$ 900/h, call R$ 800/h) — o programa já
+remunera a hora do Getúlio pelo menos tão bem quanto a avulsa.
+
+**Como usar no final:** a margem do Continuum **por hora de Getúlio** (~9,25h clínicas/ciclo, ver
+Bloco A) tem que superar o que essa hora renderia em consulta avulsa. Se não superar, o Continuum
+não se justifica como uso do tempo dele, mesmo "dando lucro" no papel. Calcular na etapa de
+definição do preço final.
+
+| **TOTAL BLOCO H / ciclo (somado ao custo)** | **R$ 0** |
+|---|---|
+
+---
+
+## I — Risco e contingência
+
+> Decisão do Getúlio, 24/05/2026. Provisão **agregada** (não item a item), cobrindo inadimplência +
+> gap de cancelamento precoce + substituição de profissional + caso complexo + escopo creep.
+
+**Provisão = 5% sobre o custo de caixa (A–F + J)** (R$ 39.909 + R$ 4.000 = R$ 43.909) =
+**~R$ 2.195/paciente/ciclo**. (G e H não entram: G = 0, H é não-caixa.)
+
+Base de mercado: high-ticket é categoria de risco elevado (chargeback alvo <1%); reembolso concierge
+é pró-rata com aviso de 30 dias (devolve só a parte não usada). Risco maior é cancelamento precoce
+(onboarding front-loaded nas semanas 1-2).
+
+Notas:
+- **Reserva de reembolso** propriamente dita fica acoplada à **política de reembolso** (a definir).
+- O modelo de **consulta-porta-de-entrada** (ver `plano-aquisicao-marketing.md`) já mitiga muito o
+  risco: o cliente conhece o Getúlio e o programa antes de comprometer R$ 25–40k.
+
+| **TOTAL BLOCO I / ciclo** | **~R$ 2.195** |
+|---|---|
+
+---
+
+## J — Onboarding, fechamento e extras
+
+> Input do Getúlio, 24/05/2026. A maior parte do onboarding/fechamento já está capturada em outros
+> blocos; aqui ficam os **extras identificados** (painel genético + interpretação + coordenação).
+
+| Componente | Por paciente/ciclo |
+|---|---|
+| Painel genético LIFECODE Nutri (Bioma) — custo Plenya | R$ 1.900 |
+| Interpretação do painel pelo Dr. Getúlio (+1h) | R$ 900 |
+| Coordenação/secretária-concierge (R$ 3.000/mês loaded × 12 × 80% ÷ 24) | R$ 1.200 |
+| Avaliação inicial, 1º box, setup EMR, relatório final | R$ 0 (já em A/B/C) |
+| **TOTAL BLOCO J / ciclo** | **R$ 4.000** |
+
+Notas:
+- LIFECODE: varejo R$ 2.290; usado R$ 1.900 (entre parceiro e varejo). **Confirmar tabela B2B com
+  a Bioma** — preço-parceiro pode chegar a ~R$ 1.400.
+- A interpretação (R$ 900) soma +1h às horas clínicas do Getúlio → ~10,25h/ciclo (relevante pro
+  teste de margem/hora do Bloco H).
+
+---
+
+## CUSTO TOTAL CONSOLIDADO — Plano Semestral (6 meses)
+
+| Bloco | Descrição | Por ciclo |
+|---|---|---|
+| A | Honorários dos 4 profissionais + WhatsApp | R$ 25.125 |
+| B | Box Plenya (4 boxes) | R$ 3.420 |
+| C | Infra + licença + amortização EMR | R$ 710 |
+| D | Impostos (14,33%) + gateway + contábil + seguro + pró-labore CEO | R$ 6.871 |
+| E | Aquisição (CAC-MVP) | R$ 3.490 |
+| F | Compliance e jurídico | R$ 293 |
+| G | Educação continuada (a cargo dos profissionais) | R$ 0 |
+| H | Custo de oportunidade (régua, não-caixa) | R$ 0 |
+| I | Risco e contingência (5%) | R$ 2.195 |
+| J | Painel genético + interpretação + coordenação | R$ 4.000 |
+| **TOTAL** | **Custo por ciclo semestral** | **~R$ 46.104** |
+
+> ⚠️ **Custo (R$ 46.104) > preço atual do deck (R$ 25.000).** O semestral, como precificado hoje,
+> dá prejuízo de ~R$ 21.000/paciente. Esta é a conclusão central da análise. Próximo passo:
+> definir o preço final (ver seção de definição de preço, a construir).
+>
+> Observações importantes pra definição:
+> - **Impostos e gateway escalam com o preço** (14,33% + 2,99%): ao subir o preço, ~17% do aumento
+>   volta como imposto/taxa. Recalcular ao fixar o valor.
+> - **CAC-MVP é inflado por baixo volume**; cai com escala (Fase 2 do plano de aquisição).
+> - **Amortizações (EMR, sites, Pedro) são temporárias** — somem após o horizonte, baixando o custo.
+> - **Teste de margem (H):** a margem por hora de Getúlio (~10,25h/ciclo) deve superar R$ 800/h da avulsa.
+
+---
+
 ## Categorização estratégica pra precificação
 
 | Tipo | Categorias | O que define |
