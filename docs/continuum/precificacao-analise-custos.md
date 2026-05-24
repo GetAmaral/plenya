@@ -567,6 +567,150 @@ Notas:
 
 ---
 
+# AUDITORIA CRÍTICA (24/05/2026)
+
+> Revisão completa da planilha. A aritmética de cada bloco confere; os problemas são de método,
+> redundância e estrutura.
+
+## Erros de método
+
+1. **🔴 Imposto e gateway calculados sobre R$ 25.000 (preço inexistente).** São % da receita, não
+   custos fixos. No preço viável eles sobem proporcionalmente. Logo o total de R$ 46.104 está
+   **subestimado**, e precificar é cálculo circular (resolvido na seção "Modelo de definição de preço").
+2. **🔴 Plano anual nunca foi modelado** (resolvido na seção "Plano anual" abaixo).
+3. **🟡 Capital de giro ignorado** — custo pago upfront (semanas 1-2), receita parcelada em 6-12×,
+   Asaas libera cartão em D+32. Há custo de financiar o descasamento.
+4. **🟡 Horas do Getúlio inconsistentes:** 9,25h (A) vs 10,25h (após interpretação genética em J).
+
+## Redundâncias / itens mal definidos
+
+- **Licença R$ 50/mês (R$ 300, bloco C)** — nunca definida. Se for o EMR, é double-count com a
+  amortização do EMR no mesmo bloco. **A definir ou remover.**
+- **Interpretação genética R$ 900 (J)** — se acontece dentro de uma consulta já paga no A
+  (apresentação S2 ou feedback S14), é redundante.
+- **Sites = 40% da base de dev** — improvável; o EMR é muito mais pesado que 2 sites Next. Critério frouxo.
+
+## O que faltou computar
+
+- Custo do **plano anual** (ver abaixo).
+- **Capital de giro** / descasamento de caixa.
+- **Tempo comercial pré-fechamento** do Getúlio (discovery antes da consulta-porta-de-entrada).
+- **Mecânica do abatimento** da consulta de entrada (receita extra vs desconto).
+- **Caminho Pix/à vista** — modelamos todos no cartão parcelado (pior caso); Pix à vista derruba o gateway de ~R$ 748 pra ~R$ 2.
+
+## Gorduras (em ordem de impacto)
+
+| # | Gordura | Economia | Como |
+|---|---|---|---|
+| 1 | WhatsApp retainer (médio R$ 9.000) | ~R$ 3.000 | Cair pro enxuto (R$ 6.000); médico recebe R$ 3.600 só de WhatsApp = metade do honorário clínico. |
+| 2 | Cadência semanal (25 sessões) | ~R$ 3.900 | Quinzenal corta calls de rotação ~à metade. Alavanca estrutural. |
+| 3 | Manipulado no box (R$ 1.470) | R$ 1.470 | Cliente compra na farmácia (como os demais medicamentos). |
+| 4 | Equiparação hospitalar (imposto) | ~R$ 1.350 | Validar com contador (já em D). |
+| 5 | Pró-labore CEO (R$ 2.000) | alavanca | Definir: pró-labore OU lucro residual (evitar dupla contagem com a margem). |
+| 6 | Coordenação (R$ 1.200) | parcial | EMR automatiza agendamento no MVP. |
+| 7 | Magnésio (R$ 720) | R$ 720 | Prescrever vs fornecer. |
+| 8 | Interpretação genética (R$ 900) | R$ 900 | Fundir em consulta existente. |
+| 9 | Licença (R$ 300) | R$ 300 | Remover se indefinida. |
+
+**Gordura sem mexer no núcleo: ~R$ 5–8k. Com alavancas estruturais: R$ 10k+.**
+
+---
+
+# PLANO ANUAL (12 meses / 52 semanas) — modelo
+
+> ⚠️ **Extrapolação** da estrutura semestral (a confirmar com o Getúlio). Regras de escala:
+> onboarding e aquisição = 1× (uma vez); sessões/insumos/infra/coordenação = escalam com a duração;
+> reavaliações trimestrais = 4 (vs 2 no semestral); imposto/gateway = % do preço de R$ 40.000.
+
+**A — Honorários (48 calls de rotação, batendo com o inventário):**
+
+| Profissional | Estrutura | Total |
+|---|---|---|
+| Médico | inicial 900 + apres 900 + 4 feedbacks 3.600 + 9 calls 5.400 + 5 reuniões 2.250 | R$ 13.050 |
+| Cada outro (×3) | inicial 450 + 13 calls 3.900 + 5 reuniões 1.125 | R$ 5.475 |
+| Sessões | 13.050 + 3×5.475 | R$ 29.475 |
+| WhatsApp | R$ 1.500/mês × 12 | R$ 18.000 |
+| **Total A anual** | | **R$ 47.475** |
+
+**Demais blocos (anual):**
+
+| Bloco | Cálculo | Total |
+|---|---|---|
+| B — Box | ~6 boxes + 12 meses de magnésio (2.160) e manipulado (2.940) | ~R$ 6.950 |
+| C — Infra | fixos/amortização 2× (ocupa slot 12 meses) + licença 12× + variável 2× | ~R$ 1.420 |
+| D — Operacional | imposto 14,33%×40k (5.732) + gateway (1.196) + contábil 640 + seguro 440 + pró-labore 2.000 | ~R$ 10.008 |
+| E — Aquisição | adquirido 1× (igual ao semestral) | R$ 3.490 |
+| F — Jurídico | setup amort. + recorrente 2× | ~R$ 453 |
+| J — Extras | painel 1.900 + interpretação 900 + coordenação 2× (2.400) | ~R$ 5.200 |
+| I — Risco | 5% sobre A–F + J | ~R$ 3.750 |
+| **TOTAL ANUAL** | | **~R$ 78.750** |
+
+> ⚠️ **Custo anual (~R$ 78.750) vs preço atual (R$ 40.000) → prejuízo ~R$ 38.750/paciente.** O buraco
+> do anual é **maior** que o do semestral (R$ 21k). Como tem mais sessões, o anual a R$ 40k é ainda
+> mais deficitário — confirma a urgência da revisão.
+
+---
+
+# MODELO DE DEFINIÇÃO DE PREÇO (circularidade resolvida)
+
+> Imposto (14,33%) e gateway (2,99%) escalam com o preço. O preço de equilíbrio resolve a equação:
+> **P = C_fixo / (1 − imposto − gateway − margem)**, onde C_fixo são os custos que NÃO dependem do preço.
+
+## Semestral — modelo AS-IS (sem cortar gordura)
+
+**C_fixo** (tudo exceto imposto e gateway):
+
+| Bloco | Valor |
+|---|---|
+| A | 25.125 |
+| B | 3.420 |
+| C | 710 |
+| D (só contábil + seguro + pró-labore) | 2.540 |
+| E | 3.490 |
+| F | 293 |
+| J | 4.000 |
+| I (5% do operacional) | 1.979 |
+| **C_fixo** | **R$ 41.557** |
+
+Fator de escala: 1 − 0,1433 − 0,0299 = **0,8268**
+
+| Margem desejada | Preço necessário |
+|---|---|
+| **0% (break-even)** | **R$ 50.263** |
+| 15% | R$ 61.403 |
+| 20% | R$ 66.301 |
+| 30% | R$ 78.886 |
+
+> O **break-even real do semestral é ~R$ 50.300** — o dobro do preço atual. Com margem saudável
+> (20-30%): R$ 66–79k. (Observação: maior que o "total" de R$ 46.104 justamente porque agora o
+> imposto/gateway flutuam corretamente com o preço.)
+
+## Semestral — modelo TRIMMED (gorduras óbvias cortadas)
+
+Cortes: WhatsApp enxuto (−3.000) · manipulado e magnésio por conta do cliente (−2.190) · interpretação
+fundida (−900) · licença removida (−300) · **equiparação hospitalar** (imposto 14,33% → 8,9%).
+
+**C_fixo trimmed ≈ R$ 34.850.** Fator: 1 − 0,089 − 0,0299 = **0,8811**
+
+| Margem | Preço necessário |
+|---|---|
+| **0% (break-even)** | **R$ 39.550** |
+| 20% | R$ 51.160 |
+| 30% | R$ 59.970 |
+
+Com a alavanca **estrutural** adicional (cadência quinzenal, −~R$ 4.100), o break-even cai pra
+**~R$ 34.900**. Aí um preço de R$ 40–45k já abriria margem real.
+
+## Leitura
+
+- O preço atual (R$ 25k) está **abaixo até do break-even trimmed**. Não há corte de gordura que
+  salve R$ 25k — o preço **tem que subir** ou a **estrutura tem que mudar radicalmente**.
+- Faixa defensável pós-revisão: **semestral R$ 45–60k**, **anual R$ 75–95k** (a modelar com a mesma fórmula).
+- Itens que **caem com escala** (CAC-MVP, amortizações) reduzem o C_fixo de regime — o preço de
+  lançamento pode mirar o teto e cair com volume, ou mirar o piso e segurar margem com o tempo.
+
+---
+
 ## Categorização estratégica pra precificação
 
 | Tipo | Categorias | O que define |
