@@ -28,6 +28,45 @@
 >
 > *(Inegociáveis: cadência semanal, 1 profissional/semana, manipulado + magnésio no box.)*
 
+# AJUSTES MVP — rastreio de cortes (em construção)
+
+> Cada alavanca decidida entra aqui com o delta. As seções de working abaixo são o **baseline ideal**
+> herdado (C_fixo semestral R$ 38.092 / anual R$ 62.462) — referência pra comparar. Cortes reversíveis.
+
+## Trim #1 — Honorários reduzidos no MVP (LOCK 24/05)
+
+Tarifas MVP: **médico todas as sessões R$ 600** (consulta/apres/feedback/call) · **reunião R$ 300**.
+**Demais todas as sessões R$ 300** (consulta inicial nivelada à call) · **reunião R$ 150**.
+(Mantém o multiplicador 2× nas reuniões: médico 300 / demais 150.)
+
+| Bloco A | Ideal | MVP |
+|---|---:|---:|
+| Médico semestral (600+600+2×600+4×600+3×300) | 7.350 | **5.700** |
+| Cada outro semestral (300+6×300+3×150) | 2.925 | **2.550** |
+| **Sessões semestral** | 16.125 | **13.350** |
+| **A semestral** (+ WhatsApp 6.000) | 22.125 | **19.350** |
+| Médico anual (600+600+4×600+8×600+5×300) | 12.450 | **9.900** |
+| Nutri/Educador anual (300+13×300+5×150) | 5.475 | **4.950** |
+| Psico anual (300+12×300+5×150) | 5.175 | **4.650** |
+| **Sessões anual** | 28.575 | **24.450** |
+| **A anual** (+ WhatsApp 12.000) | 40.575 | **36.450** |
+
+## C_fixo MVP corrente (só Trim #1 aplicado)
+
+| | Ideal | MVP corrente | Break-even |
+|---|---:|---:|---:|
+| Semestral | 38.092 | **R$ 35.178** | ~R$ 42.547 |
+| Anual | 62.462 | **R$ 58.131** | ~R$ 70.309 |
+
+## Trims pendentes de decisão
+
+- [ ] Painel genético → add-on pago? (−2.800)
+- [ ] Coordenação absorvida por Getúlio/EMR? (−1.200)
+- [ ] Pró-labore CEO diferido? (−2.000)
+- [ ] Margem-alvo MVP (10–15%?)
+
+---
+
 Mapeamento exaustivo das categorias de custo. **65 itens em 10 categorias.** Sem números ainda —
 é o inventário do que precisa entrar na conta antes de fixar o preço.
 
