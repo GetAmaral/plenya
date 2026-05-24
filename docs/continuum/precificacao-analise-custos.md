@@ -152,16 +152,17 @@ e o médico é sempre **2,0×** os demais. Editar a base (ou o multiplicador) re
 
 | Parâmetro | Valor |
 |---|---|
-| WhatsApp — disponibilidade/mês (médico) | R$ 600/mês (cenário médio) |
-| WhatsApp — disponibilidade/mês (cada outro) | R$ 300/mês (cenário médio) |
+| WhatsApp — disponibilidade/mês (médico) | R$ 400/mês (cenário **enxuto**) |
+| WhatsApp — disponibilidade/mês (cada outro) | R$ 200/mês (cenário **enxuto**) |
 | Duração do ciclo semestral | 26 semanas (6 meses) |
 | Câmbio US$ → R$ | R$ 5,40 |
 | Volume de rateio | 24 pacientes/ano |
 | Fatia Continuum dos custos compartilhados | 80% |
 | Fração EMR do gasto de dev | 60% |
 | Horizonte de amortização do EMR | 3 anos (72 pacientes) |
-| Licença por paciente | R$ 50/mês |
-| Regime tributário | Lucro Presumido (presunção 32%, conservador) |
+| Licença por paciente | **removida** (só amortização; royalty futuro quando a amortização vencer) |
+| Painel genético | **único na vida** — só no 1º ciclo; renovação fica de fora |
+| Regime tributário | Lucro Presumido (presunção 32%, conservador — equiparação hospitalar **não cabe**) |
 | ISS Londrina | 3% |
 | Carga tributária efetiva s/ receita | 14,33% |
 | Gateway Asaas (cartão parcelado) | 2,99% + R$ 0,49 |
@@ -622,32 +623,28 @@ Notas:
 > onboarding e aquisição = 1× (uma vez); sessões/insumos/infra/coordenação = escalam com a duração;
 > reavaliações trimestrais = 4 (vs 2 no semestral); imposto/gateway = % do preço de R$ 40.000.
 
-**A — Honorários (48 calls de rotação, batendo com o inventário):**
+**A — Honorários — cronograma exato de 52 semanas** (4 trimestres; cada um fecha com reunião dos 4
++ feedback do médico; rotação N-E-P-M entre eles). Contagem: onboarding + apresentação + 4 feedbacks
++ **46 calls de rotação** = 52 toques. Reuniões: onboarding + 4 trimestrais = 5.
+
+Distribuição das 46 calls: médico 8 · nutri 13 · educador 13 · psico 12.
 
 | Profissional | Estrutura | Total |
 |---|---|---|
-| Médico | inicial 900 + apres 900 + 4 feedbacks 3.600 + 9 calls 5.400 + 5 reuniões 2.250 | R$ 13.050 |
-| Cada outro (×3) | inicial 450 + 13 calls 3.900 + 5 reuniões 1.125 | R$ 5.475 |
-| Sessões | 13.050 + 3×5.475 | R$ 29.475 |
-| WhatsApp | R$ 1.500/mês × 12 | R$ 18.000 |
-| **Total A anual** | | **R$ 47.475** |
+| Médico | inicial 900 + apres 900 + 4 feedbacks 3.600 + 8 calls 4.800 + 5 reuniões 2.250 | R$ 12.450 |
+| Nutricionista | inicial 450 + 13 calls 3.900 + 5 reuniões 1.125 | R$ 5.475 |
+| Educador físico | inicial 450 + 13 calls 3.900 + 5 reuniões 1.125 | R$ 5.475 |
+| Psicóloga | inicial 450 + 12 calls 3.600 + 5 reuniões 1.125 | R$ 5.175 |
+| Sessões | | R$ 28.575 |
+| WhatsApp enxuto | R$ 1.000/mês × 12 | R$ 12.000 |
+| **Total A anual** | | **R$ 40.575** |
 
-**Demais blocos (anual):**
+**Demais blocos (anual):** ver os números autoritativos na seção **RECÁLCULO FINAL** abaixo (base
+ajustada: WhatsApp enxuto, sem licença, painel só no 1º ciclo, imposto/gateway tratados na fórmula
+de preço). C_fixo anual = **R$ 63.596** (1º ciclo).
 
-| Bloco | Cálculo | Total |
-|---|---|---|
-| B — Box | ~6 boxes + 12 meses de magnésio (2.160) e manipulado (2.940) | ~R$ 6.950 |
-| C — Infra | fixos/amortização 2× (ocupa slot 12 meses) + licença 12× + variável 2× | ~R$ 1.420 |
-| D — Operacional | imposto 14,33%×40k (5.732) + gateway (1.196) + contábil 640 + seguro 440 + pró-labore 2.000 | ~R$ 10.008 |
-| E — Aquisição | adquirido 1× (igual ao semestral) | R$ 3.490 |
-| F — Jurídico | setup amort. + recorrente 2× | ~R$ 453 |
-| J — Extras | painel 1.900 + interpretação 900 + coordenação 2× (2.400) | ~R$ 5.200 |
-| I — Risco | 5% sobre A–F + J | ~R$ 3.750 |
-| **TOTAL ANUAL** | | **~R$ 78.750** |
-
-> ⚠️ **Custo anual (~R$ 78.750) vs preço atual (R$ 40.000) → prejuízo ~R$ 38.750/paciente.** O buraco
-> do anual é **maior** que o do semestral (R$ 21k). Como tem mais sessões, o anual a R$ 40k é ainda
-> mais deficitário — confirma a urgência da revisão.
+> ⚠️ **Break-even anual ~R$ 76.918 vs preço atual R$ 40.000.** O buraco do anual é **maior** que o do
+> semestral. Confirma a urgência da revisão. Números detalhados na seção RECÁLCULO FINAL.
 
 ---
 
@@ -708,6 +705,86 @@ Com a alavanca **estrutural** adicional (cadência quinzenal, −~R$ 4.100), o b
 - Faixa defensável pós-revisão: **semestral R$ 45–60k**, **anual R$ 75–95k** (a modelar com a mesma fórmula).
 - Itens que **caem com escala** (CAC-MVP, amortizações) reduzem o C_fixo de regime — o preço de
   lançamento pode mirar o teto e cair com volume, ou mirar o piso e segurar margem com o tempo.
+
+---
+
+# RECÁLCULO FINAL — BASE AJUSTADA (24/05/2026) ⭐
+
+> **Esta seção é a autoritativa.** Supersede os totais dos blocos acima (que ficam como working
+> detalhado com a suposição médio/licença). Mudanças aplicadas: WhatsApp **enxuto**; manipulado +
+> magnésio **por nossa conta** (B inalterado); **sem** equiparação hospitalar; licença **removida**;
+> painel genético **só no 1º ciclo**; interpretação genética = +1h real do Getúlio (mantida).
+
+## Custo independente de preço (C_fixo)
+
+> Imposto (14,33%) e gateway (2,99%) **não** entram aqui — escalam com o preço (ver tabela de preço).
+
+### Semestral (6 meses)
+
+| Bloco | 1º ciclo | Renovação |
+|---|---|---|
+| A — Honorários (sessões 16.125 + WhatsApp enxuto 6.000) | 22.125 | 22.125 |
+| B — Box (manipulado + magnésio nossos) | 3.420 | 3.420 |
+| C — Infra + amortização (sem licença) | 410 | 410 |
+| D — Fixo (contábil 320 + seguro 220 + pró-labore 2.000) | 2.540 | 2.540 |
+| E — Aquisição | 3.490 | 3.490 |
+| F — Jurídico | 293 | 293 |
+| J — Painel 1.900 + interpretação 900 + coordenação 1.200 | 4.000 | **1.200** (sem painel) |
+| I — Risco (5%) | 1.814 | 1.674 |
+| **C_fixo semestral** | **R$ 38.092** | **R$ 35.152** |
+
+### Anual (12 meses)
+
+| Bloco | 1º ciclo | Renovação |
+|---|---|---|
+| A — Honorários (sessões 28.575 + WhatsApp enxuto 12.000) — cronograma exato 52 sem | 40.575 | 40.575 |
+| B — Box (12 meses de insumos) | 6.950 | 6.950 |
+| C — Infra + amortização (2× duração, sem licença) | 820 | 820 |
+| D — Fixo (contábil 640 + seguro 440 + pró-labore 2.000) | 3.080 | 3.080 |
+| E — Aquisição | 3.490 | 3.490 |
+| F — Jurídico | 453 | 453 |
+| J — Painel 1.900 + interpretação 900 + coordenação 2.400 | 5.200 | **2.400** (sem painel) |
+| I — Risco (5%) | 3.028 | 2.888 |
+| **C_fixo anual** | **R$ 63.596** | **R$ 60.656** |
+
+## Preço ao consumidor por margem-alvo
+
+> Fórmula: **P = C_fixo / (1 − 0,1433 − 0,0299 − margem)**. A "margem" é o **lucro líquido sobre o
+> preço**, já depois de TODOS os custos (inclusive pró-labore CEO do Getúlio). Valores do **1º ciclo**.
+
+### Semestral (C_fixo R$ 38.092)
+
+| Margem | Preço ao consumidor |
+|---|---|
+| 0% (break-even) | R$ 46.071 |
+| 15% | R$ 56.283 |
+| 20% | R$ 60.772 |
+| 25% | R$ 66.039 |
+| 30% | R$ 72.308 |
+
+### Anual (C_fixo R$ 63.596)
+
+| Margem | Preço ao consumidor |
+|---|---|
+| 0% (break-even) | R$ 76.918 |
+| 15% | R$ 93.965 |
+| 20% | R$ 101.461 |
+| 25% | R$ 110.256 |
+| 30% | R$ 120.721 |
+
+## Renovação (sem painel genético) — preços de break-even
+
+- **Semestral renovação** (C_fixo 35.152): break-even R$ 42.516 · margem 20% R$ 56.082
+- **Anual renovação** (C_fixo 60.656): break-even R$ 73.362 · margem 20% R$ 96.771
+
+## Leitura
+
+- Preço atual (R$ 25k / R$ 40k) está **muito abaixo do break-even** (R$ 46k / R$ 78k).
+- Faixa com margem saudável (20-30%): **semestral R$ 61–72k · anual R$ 103–122k**.
+- O anual é **mais barato que dois semestrais** (R$ 78k vs R$ 92k) porque onboarding, painel e
+  aquisição acontecem uma vez — coerente, justifica desconto no anual.
+- **Insumos do box (manipulado + magnésio) custam ~R$ 2.190/ciclo** e foram mantidos como nosso
+  custo por decisão de valor; é a maior gordura voluntária remanescente, se um dia precisar cortar.
 
 ---
 
