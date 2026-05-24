@@ -559,3 +559,36 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - **Renal (ângulo do Dr.):** osmólito renal; **renoproteção/antiproteinúria só pré-clínica (animal)** — hipótese, não promessa. **Cautela em DRC 4–5/diálise** (risco de acúmulo, sem dose validada → não suplementar às cegas).
 
 **Card — Taurina oral:** 1,5–3 g/dia (até 6 g seguro); performance 1–3 g 1–2 h pré-treino · **sem IV eletivo** · gate de exclusão: DRC 4–5/diálise sem individualização, gestação/lactação · monitor: PA (somação c/ anti-hipertensivo), HbA1c se uso metabólico · disclaimer: adjuvante modesto (coração/pressão/metabólico); longevidade é dado animal, refutado em humanos; não substitui o tratamento principal.
+
+### 13.5 Zinco — oral com desfechos duros; IV só resgate de absorção
+- **Indústria:** oral registrado (bisglicinato, gluconato, sulfato...); **IV registrado SÓ para nutrição parenteral** (2,5–4 mg/dia). **Manipulado:** cápsula dose-alvo **com cobre acoplado**.
+- **Diagnóstico (cuidado):** zinco sérico **engana — cai na inflamação**; interpretar **junto da PCR** (ajuste BRINDA) + dieta + clínica.
+- **Desfechos DUROS (citáveis):**
+  - **Resfriado comum:** pastilha de acetato/gluconato **≥75 mg/dia, início <24h** → duração **~33% menor** (só por dias).
+  - **Degeneração macular (fórmula AREDS2):** ↓progressão **~36% em 10 anos** (com oftalmo; **25 mg ≈ 80 mg**, sempre **com cobre 2 mg**).
+  - Diarreia infantil aguda (OMS; baixa-média renda).
+- **Adjuvante condicional (gate = deficiência):** acne (30–50 mg) · **queda capilar** (entra no pacote capilar ferro/D/B12) · **fertilidade/testosterona só se deficiente — NÃO é booster** · depressão (adjuvante) · disgeusia.
+- 🚨 **Erro do cobre (a regra da casa):** zinco **>25 mg/dia por >4 sem → cobre 1–2 mg/dia + hemograma + relação zinco:cobre (8–15:1)**. UL 40 mg/dia. Excesso crônico → deficiência de cobre (anemia, **mieloneuropatia que imita B12**).
+- **IV — fora do eletivo:** a absorção oral é **homeostática** (o corpo regula); o IV bypassa isso → vantagem **só quando o gargalo é absorção** (NPT, intestino curto, disabsorção grave, grande queimado **como combo cobre+selênio+zinco em regime**). No eletivo, esse "limite" é **proteção**, não defeito → IV = risco sem benefício. **Diálise: oral resolve** (~45 mg/dia); IV intradialítico **sem base** + risco renal.
+- **Renal (ângulo do Dr.):** deficiência **comum em DRC/diálise**, ligada a mortalidade/calcificação vascular/anemia renal; nefrologista é autoridade (não confunde anemia por cobre baixo com anemia renal); cautela de cobre **dobrada** em DRC.
+- 🔴 **Marketing (não fazer):** longevidade/antioxidante genérico, megadose de "imunidade" crônica, **zinco IV eletivo**, booster de testosterona em quem não é deficiente.
+
+**Card — Zinco oral:** elementar — manutenção 8–11 mg, correção 25–40 mg, acne 30–50 mg, resfriado pastilha ≥75 mg <24h, DMRI 25 mg (+cobre 2 mg) · forma bisglicinato (crônico)/acetato (pastilha), evitar óxido · **gate: deficiência interpretada com PCR** · **monitor obrigatório: cobre** (>25 mg/d >4 sem → cobre + Zn:Cu); atenção redobrada em DRC · **sem IV eletivo** (só NPT/disabsorção grave).
+
+### 13.6 L-carnitina — agente terapêutico de precisão; IV na diálise (a confirmar no BR)
+- **Ésteres (não intercambiáveis):** **LC** (diálise/cardio/metabólico) · **ALCAR** acetil (cérebro: cognição/neuropatia/depressão idoso) · **PLC** propionil (vascular/claudicação) · tartarato (esporte).
+- **Indústria vs manipulado:** oral fácil (majoritariamente **suplemento**). **Injetável-medicamento de diálise: registro/disponibilidade no Brasil NÃO confirmado** 🔲 — o que se acha como "ampola" parece **estético/lipólise ou manipulação**; referência internacional é Carnitor IV (1 g/5 mL). **Verificar ANVISA + CMED + distribuidor hospitalar antes de contar com o IV.**
+- **IV — uso nobre (diálise), mas gateado e a confirmar disponibilidade:** levocarnitina IV pós-HD (FDA/consenso NKF) em **paciente selecionado** — anemia resistente à eritropoietina (EPO), hipotensão intradialítica refratária, cãibras/fadiga — com **carnitina livre <40 µmol/L documentada**. KDOQI: **não rotineiro**. Autoridade do nefrologista.
+- **Oral (defensável):** 🟡🟢 fertilidade masculina (↑motilidade/morfologia; desfecho gravidez fraco; ciclo 3–6 m) · ALCAR neuropatia diabética dolorosa e depressão do idoso (adjuvante) · PLC claudicação (+exercício, ganho ~16 m).
+- **Usos extras com evidência:** 🟢 **hipertireoidismo/tireotoxicose** (LC 2–4 g, antagoniza ação periférica do hormônio — Benvenga; adjuvante) · 🟢 **antídoto de intoxicação por valproato/hiperamonemia** (IV, toxicologia) · 🟡🟢 **fadiga/sarcopenia no idoso/centenários** (Malaguarnera: ↓gordura, ↑massa muscular, ↓fadiga — **mas grupo único**) · 🟡 encefalopatia hepática (Cochrane qualidade muito baixa) · fibromialgia (ALCAR ≈ duloxetina).
+- ⚠️ **TMAO (corrigido — bandeira amarela, NÃO veto):** carnitina oral eleva **TMAO (N-óxido de trimetilamina)**, marcador associado a aterosclerose — **mas a causalidade NÃO está provada** (randomização mendeliana negativa; associação encolhe ao ajustar por função renal → marcador confundido pelo rim). **Rim normal:** cautela, uso temporizado por indicação, não suplemento crônico-indefinido de longevidade. **DRC:** TMAO acumula (eliminação renal), ligado a progressão/mortalidade → **evitar oral crônico, preferir IV** (bypassa a microbiota, não eleva TMAO).
+- **Dosagem laboratorial no BR:** carnitina livre/total e perfil de acilcarnitinas **existem** (Hermes Pardini/DASA, Fleury), mas são **send-out, lentos e caros (~R$ 1.216)** → o gate <40 µmol/L é **viável caso a caso** (premium), não triagem de massa.
+- 🔴 **Não fazer:** emagrecedor (~1 kg, trivial), "energia/vitalidade" genérica, recuperação esportiva super-vendida, longevidade crônica oral indiscriminada.
+
+**Cards:**
+| | A — IV intradialítica (uso nobre) | B — Oral (consultório) |
+|---|---|---|
+| Forma/dose | Levocarnitina injetável (medicamento) 10–20 mg/kg bolus lento pós-HD | LC 2 g/d (fertilidade, ciclo 3–6 m); ALCAR 1–2 g/d (neuropatia/depressão); PLC 1 g 2×/d (claudicação); LC 2–4 g (hipertireoidismo); teto ~2 g/d |
+| Gate | HD + sintoma + carnitina livre <40 µmol/L · 🔲 **confirmar produto registrado no BR** | indicação específica; **temporizado, não crônico p/ longevidade** |
+| Monitor | Hb, índice resistência EPO, sintomas | espermograma/dor/escala; em DRC vigiar TMAO |
+| Disclaimer | seletivo, não rotineiro (KDOQI) | melhora marcador; TMAO = cautela (sobretudo DRC) |
