@@ -604,3 +604,16 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - **Segurança:** excelente. ⚠️ **Varfarina** (CoQ10 análoga à vit K → pode ↓INR) — monitorar ao iniciar/parar; anticoagulantes diretos sem problema.
 
 **Card — CoQ10 (oral):** ubiquinona oleosa com gordura (padrão) / CAVAQ10 hidrodispersível (sem gordura) / ubiquinol Kaneka (casos selecionados) · **dose em CoQ10 elementar:** IC/enxaqueca 300 mg/d, estatina 100–300, fertilidade 200–600 (≥3 m), reposição 100–200 (industrial 200 mg/dose → 2 cáps ou manipular) · gate: IC sobre terapia otimizada; SAMS testar 8–12 sem · monitor: **INR se varfarina**, PA, tolerância GI · disclaimer: suplemento; sem IV/IM; sem promessa de longevidade; Parkinson/Alzheimer não.
+
+### 13.8 Vitamina B2 (riboflavina) — oral; destaque MTHFR-hipertensão (nefro)
+- **Via: oral** (resolve tudo). Forma injetável (FMN/riboflavina-5-fosfato) só **dentro do complexo B injetável** (~1 mg) — **sem "drip de B2" isolado**. Absorção satura ~27 mg/dose → fracionar dose alta; urina amarelo-fluorescente é benigna. 400 mg/dia = off-label magistral.
+- 🟢 **Destaque (terreno nefro/cardiorrenal): MTHFR C677T TT + hipertensão.** Riboflavina (FAD) estabiliza a MTHFR; em **homozigotos TT**, **1,6 mg/dia → ↓PAS ~6–13 mmHg**, **genótipo-específico** (não em CC/CT), **independente dos anti-hipertensivos**, sustentado 4 anos (trials Ulster). **Desfecho duro**; o efeito **não depende de baixar homocisteína**. Gate: genotipar MTHFR.
+- 🟡🟢 **Enxaqueca profilaxia (adulto):** 400 mg/dia (Schoenen RCT, NNT 2,3; nível B AAN; meta-análises mistas; pediátrico fraco). Stack opcional com magnésio/CoQ10.
+- 🟢 **Deficiência/ariboflavinose:** vegano, idoso, atleta, alcoolismo, gestante, **dialítico** (B2 é dialisável → repor).
+- 🟡 **Adjuvante do ferro** (só se B2 deficiente — melhora mobilização do ferro/resposta da Hb; conecta com ferro EV).
+- 🟢 **Mitocondrial responsiva** (MADD, ACAD9, BVVL) — alta dose, mas neurogenética → encaminhar.
+- Mecanismo antioxidante real: cofator da **glutationa redutase** (recicla GSH) e ativa B6.
+- 🟠 catarata/pré-eclâmpsia/fadiga em repleto = observacional/fraco. Crosslinking de córnea = uso **tópico oftalmológico**, não infusão.
+- **Segurança:** excelente, **sem UL**, sem toxicidade renal.
+
+**Card — Riboflavina (B2):** oral · doses: manutenção 1,1–1,6 mg; **MTHFR-HAS 1,6 mg**; enxaqueca/mitocondrial 100–400 mg (fracionar) · gate: MTHFR TT + HAS · enxaqueca adulto · deficiência · ferropenia refratária com B2 baixa · monitor: PAS, frequência de crises, Hb, flavinúria (adesão) · disclaimer: 400 mg off-label magistral; enxaqueca efeito modesto; HAS só genótipo TT.
