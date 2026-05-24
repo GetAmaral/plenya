@@ -788,6 +788,72 @@ Com a alavanca **estrutural** adicional (cadência quinzenal, −~R$ 4.100), o b
 
 ---
 
+# COMPARATIVO SEMESTRAL × ANUAL — detalhado (1º ciclo)
+
+| Bloco / componente | Semestral | Anual | Anual÷Sem |
+|---|---:|---:|:---:|
+| **A — HONORÁRIOS** | **22.125** | **40.575** | **1,83×** |
+| · Médico | 7.350 | 12.450 | 1,69× |
+| · Nutricionista | 2.925 | 5.475 | 1,87× |
+| · Psicóloga | 2.925 | 5.175 | 1,77× |
+| · Educador físico | 2.925 | 5.475 | 1,87× |
+| · *subtotal sessões* | *16.125* | *28.575* | *1,77×* |
+| · WhatsApp (enxuto) | 6.000 | 12.000 | 2,00× |
+| **B — BOX** | **3.420** | **6.950** | **2,03×** |
+| · Embalagem | 400 | 600 | — |
+| · Magnésio inositol | 720 | 2.160 | 3,00× |
+| · Manipulado (3 comp.) | 1.470 | 2.940 | 2,00× |
+| · Frete | 240 | 360 | — |
+| · Mimos | 530 | 800 | — |
+| · Personalização | 60 | 90 | — |
+| **C — INFRA** | **410** | **820** | **2,00×** |
+| · Fixos rateados | 85 | 170 | 2,00× |
+| · Variáveis | 70 | 140 | 2,00× |
+| · Amortização EMR | 255 | 510 | 2,00× |
+| **D — OPERACIONAL (fixo)** | **2.540** | **3.080** | **1,21×** |
+| · Contabilidade | 320 | 640 | 2,00× |
+| · Seguro RC | 220 | 440 | 2,00× |
+| · Pró-labore CEO | 2.000 | 2.000 | 1,00× |
+| **E — AQUISIÇÃO** | **3.490** | **3.490** | **1,00×** |
+| · IG + tráfego | 2.320 | 2.320 | 1,00× |
+| · Mentoria Pedro | 1.000 | 1.000 | 1,00× |
+| · Sites | 170 | 170 | 1,00× |
+| **F — JURÍDICO** | **293** | **453** | **1,55×** |
+| **G — EDUCAÇÃO** | 0 | 0 | — |
+| **H — OPORTUNIDADE** (régua) | 0 | 0 | — |
+| **J — EXTRAS** | **4.000** | **5.200** | **1,30×** |
+| · Painel genético LIFECODE | 1.900 | 1.900 | 1,00× |
+| · Interpretação Getúlio (+1h) | 900 | 900 | 1,00× |
+| · Coordenação/concierge | 1.200 | 2.400 | 2,00× |
+| **I — RISCO (5%)** | **1.814** | **3.028** | **1,67×** |
+| **C_FIXO TOTAL** | **R$ 38.092** | **R$ 63.596** | **1,67×** |
+
+## Distribuição do custo (% do C_fixo)
+
+| Bloco | Semestral | Anual |
+|---|:---:|:---:|
+| A — Honorários | 58,1% | **63,8%** |
+| B — Box | 9,0% | 10,9% |
+| J — Extras | 10,5% | 8,2% |
+| E — Aquisição | 9,2% | 5,5% |
+| D — Operacional | 6,7% | 4,8% |
+| I — Risco | 4,8% | 4,8% |
+| C — Infra | 1,1% | 1,3% |
+| F — Jurídico | 0,8% | 0,7% |
+
+## Leituras
+
+- **Anual custa 1,67× o semestral, não 2×** — itens "uma vez" (aquisição, painel, interpretação,
+  pró-labore, setup jurídico) diluem na duração dobrada. Base econômica do desconto no anual.
+- **Honorários dominam mais no anual** (58% → 64%): programa mais longo = mais "puro tempo de
+  profissional", pouca economia de escala por design.
+- **Aquisição cai de 9,2% → 5,5%** no anual: cada real de CAC trabalha o dobro do tempo → fechar
+  anual é mais eficiente pro negócio.
+- **Magnésio 3,00×** é a única distorção (12 meses no anual vs 4 latas no semestral) — alinhar à
+  posologia real (caveat registrado na auditoria).
+
+---
+
 ## Categorização estratégica pra precificação
 
 | Tipo | Categorias | O que define |
