@@ -65,29 +65,34 @@ Pró-labore de CEO (R$ 2.000) **sai do MVP** (volta no ideal, na transição). D
 
 ## Margem MVP: 5% (LOCK 24/05)
 
-> Margem fina, deliberada pra entrada. Alerta: a 5%, o lucro do 1º ciclo (~R$ 1.940 no semestral)
-> fica **abaixo do CAC-MVP (R$ 3.490)** — o 1º ciclo quase não lucra; o retorno vem na **renovação**
-> (sem CAC, sem genético). Coerente com modelo de recorrência, mas exige reter.
+> 5% é **lucro líquido sobre o preço, já DEPOIS de todos os custos — inclusive o CAC** (Bloco E,
+> R$ 3.490, está dentro do C_fixo). O preço cobre a aquisição e ainda sobra 5%; **cada ciclo é
+> lucrativo**. Ressalva real é de **caixa/payback** (CAC + onboarding pagos upfront, parcelas
+> entram ao longo de 6-12 meses), não de cobertura de custo.
 
-## C_fixo MVP corrente (Trims #1–3 · coordenação ainda dentro)
+## Trim #4 — Coordenação fora do MVP (LOCK 24/05)
 
-| | Ideal | MVP | Break-even |
+Coordenação/concierge **absorvida por Getúlio + EMR** no MVP. Remove R$ 1.200 (sem) / R$ 2.400
+(anual). Com isso o Bloco J zera no MVP (painel e coordenação ambos fora).
+
+## C_fixo MVP final (Trims #1–4)
+
+| | Ideal | MVP final | Break-even |
 |---|---:|---:|---:|
-| Semestral | 38.092 | **R$ 30.138** | ~R$ 38.798 |
-| Anual | 62.462 | **R$ 53.091** | ~R$ 68.347 |
+| Semestral | 38.092 | **R$ 28.878** | ~R$ 37.176 |
+| Anual | 62.462 | **R$ 50.571** | ~R$ 65.102 |
 
-## Preço MVP a 5% (`P = C_fixo / 0,7768`)
+## PREÇO MVP FINAL — margem 5% (`P = C_fixo / 0,7768`)
 
-| | Preço 5% | Tabela | (se cortar coordenação) |
+| | Preço 5% | **Tabela** | Lucro/ciclo |
 |---|---:|---:|---:|
-| **Semestral** | R$ 38.798 | **~R$ 39.000** | ~R$ 37.200 |
-| **Anual** | R$ 68.347 | **~R$ 68.000** | ~R$ 65.100 |
+| **Semestral** | R$ 37.176 | **~R$ 37.000** | ~R$ 1.860 |
+| **Anual** | R$ 65.102 | **~R$ 65.000** | ~R$ 3.255 |
 
-## Pendente
-
-- [ ] **Coordenação/concierge** (R$ 1.200 sem / R$ 2.400 anual) — secretária que agenda as 29 sessões,
-  faz onboarding, organiza boxes, concilia pagamento, tria WhatsApp. No MVP pode ser absorvida por
-  Getúlio + EMR. Decidir.
+> **Add-on opcional:** painel genético LIFECODE (custo ~R$ 1.900 + interpretação Getúlio R$ 900),
+> cobrado à parte de quem optar.
+>
+> **Parcelamento sem juros:** semestral 6× R$ 6.167 · anual 12× R$ 5.417.
 
 ---
 
