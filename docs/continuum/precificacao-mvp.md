@@ -1,13 +1,31 @@
-# Precificação Continuum Plenya — DEFINIÇÃO IDEAL ⭐
+# Precificação Continuum Plenya — VERSÃO MVP 🚀
 
-> **Este documento é a definição IDEAL de preço** — estrutura completa, sem concessões, com a
-> margem-alvo escolhida (20%). É a referência "topo de gama" do produto.
-> **Para a versão enxuta de lançamento, ver `precificacao-mvp.md`** (cópia deste, com cortes
-> pensados pro estágio MVP).
+> **Este documento é a versão ENXUTA pra lançamento (MVP).** Cópia da definição IDEAL
+> (`precificacao-analise-custos.md`, semestral R$ 60.000 / anual R$ 100.000), aqui o objetivo é
+> **encontrar onde dá pra cortar custo e margem** pra chegar a um preço de entrada viável no
+> estágio inicial, sem destruir o produto nem violar o que é inegociável (cadência semanal, 1
+> profissional/semana, box por nossa conta).
 >
-> **Status:** análise COMPLETA (24/05/2026). Preço final ideal: **semestral R$ 60.000 · anual
-> R$ 100.000** (margem ~20% líquida).
-> **Preço antigo do deck** (a substituir): semestral R$ 25.000 · anual R$ 40.000 — davam prejuízo.
+> **Status:** EM CONSTRUÇÃO (24/05/2026). As seções abaixo são herdadas da definição ideal; vamos
+> revisá-las uma a uma marcando **[MVP: corte]** / **[MVP: mantém]** / **[MVP: adia]**.
+>
+> **Princípio:** o que for cortado no MVP deve ser **reversível** — volta à definição ideal conforme
+> a base cresce e a prova social aparece. Não é "barato pra sempre", é "leve pra começar".
+>
+> ## Candidatos a enxugamento (a discutir item a item)
+>
+> | Alavanca | Ideal | Ideia MVP | Economia potencial |
+> |---|---|---|---|
+> | Margem-alvo | 20% | reduzir na entrada (ex.: 10-12%)? | depende |
+> | WhatsApp | enxuto R$ 6.000 | manter ou cortar mais? | até R$ 6.000 |
+> | Painel genético LIFECODE | R$ 1.900 + interpret. 900 | adiar/opcional no MVP? | até R$ 2.800 |
+> | Coordenação/concierge | R$ 1.200 | Getúlio/EMR absorvem no início? | até R$ 1.200 |
+> | Pró-labore CEO | R$ 2.000 | reduzir/diferir no MVP? | até R$ 2.000 |
+> | Mimos do box | R$ 530 | enxuto R$ 350 | ~R$ 180 |
+> | CAC | R$ 3.490 | rever rateio/itens no MVP | parcial |
+> | Mentoria Pedro | R$ 1.000 | manter (capacidade) | — |
+>
+> *(Inegociáveis: cadência semanal, 1 profissional/semana, manipulado + magnésio no box.)*
 
 Mapeamento exaustivo das categorias de custo. **65 itens em 10 categorias.** Sem números ainda —
 é o inventário do que precisa entrar na conta antes de fixar o preço.
