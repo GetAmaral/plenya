@@ -9,6 +9,35 @@
 > R$ 100.000** (margem ~20% líquida).
 > **Preço antigo do deck** (a substituir): semestral R$ 25.000 · anual R$ 40.000 — davam prejuízo.
 
+---
+
+# RESUMO EXECUTIVO (consolidado)
+
+> Conclusão da análise completa. As seções abaixo são o working detalhado; **as seções autoritativas
+> são RECÁLCULO FINAL e PREÇO FINAL**. Os totais por bloco no working usam a suposição médio/licença
+> e são superseded pela base ajustada (WhatsApp enxuto, sem licença, painel só no 1º ciclo).
+
+**Custo (C_fixo, independente do preço) e preço ideal — 1º ciclo:**
+
+| Plano | C_fixo | Break-even | Preço 20% | **Tabela** | Margem efetiva |
+|---|---:|---:|---:|---:|:---:|
+| **Semestral (6m)** | R$ 38.092 | R$ 46.071 | R$ 60.772 | **R$ 60.000** | 19,2% |
+| **Anual (12m)** | R$ 62.462 | R$ 75.547 | R$ 99.652 | **R$ 100.000** | 20,2% |
+
+- **Renovação** (sem painel genético/CAC) ao mesmo preço: semestral ~24% · anual ~23%.
+- **Parcelamento sem juros:** semestral 6× R$ 10.000 · anual 12× R$ 8.333.
+- **Narrativa anual:** 2 semestrais = R$ 120.000 vs anual R$ 100.000 → cliente economiza ~R$ 20.000.
+
+**Premissas-chave:** 24 pacientes/ano · Continuum carrega 80% dos custos compartilhados · honorários
+médico = 2× demais · WhatsApp retainer enxuto · Lucro Presumido efetivo 14,33% · gateway Asaas 2,99%
+· margem-alvo 20% líquida (ancorada na banda concierge 15–25%) · cadência semanal e 1 profissional/
+semana inegociáveis · manipulado + magnésio no box por nossa conta.
+
+**Preço antigo (a substituir no deck):** semestral R$ 25.000 / anual R$ 40.000 — davam prejuízo de
+~R$ 21k / ~R$ 36k por paciente.
+
+---
+
 Mapeamento exaustivo das categorias de custo. **65 itens em 10 categorias.** Sem números ainda —
 é o inventário do que precisa entrar na conta antes de fixar o preço.
 
