@@ -351,9 +351,13 @@ forma injetável no Brasil (se inexistente, não estocar)** · **Vitamina D IM �
 (BPC-157, TB-500) · **glutationa para clareamento/fim estético** (ABRAN veta) · niacina para
 dislipidemia/CV (AIM-HIGH/HPS2-THRIVE negativos + dano) · qualquer coquetel/soro vendido como **cura ou
 com claim de eficácia não comprovada**.
-**Viável obter, mas evidência fraca → caso a caso com TCLE reforçado (não como claim de longevidade):**
-glutationa IV (antioxidante), NAD+ IV (experimental). O **Myers** é ofertável como experiência/QoL com
-disclaimer (§7), não como cura.
+**Decisões individuais (detalhe no §13):**
+- **Glutationa IV — fora do eletivo:** clareamento **vetado** (ABRAN + eventos graves) e antioxidante/
+  detox **sem desfecho**; só uso terapêutico individualizado raríssimo (ex.: quimioproteção com oncologista).
+- **NAC IV — só agudo/hospitalar** (paracetamol/falência hepática) + nicho de competição endurance com
+  disclaimer; **não** como drip eletivo. NAC é ativo **oral**.
+- **NAD+ IV** — experimental, a discutir.
+- O **Myers** é ofertável como experiência/QoL com disclaimer (§7), não como cura.
 
 ## 11. Manipulação estéril — opções viáveis por molécula
 Enquadramento em §0.6. Regra de obtenção: **registrado quando existe e resolve; manipulado quando agrega**
@@ -477,3 +481,41 @@ por indicação: a discutir.)
 | Fotoproteção | **obrigatória (âmbar)**; preparar na hora |
 | Gate renal | sem ajuste (não renal) |
 | Monitor | glicemia (hipoglicemia/Hirata) |
+
+---
+
+## 13. Outras moléculas — decisões individuais (discutidas uma a uma)
+
+### 13.1 Glutationa (GSH) — IV fora do eletivo; substituída por NAC/GlyNAC oral
+- **Indústria:** **nenhum injetável registrado** (ANVISA/FDA); só oral (suplemento/manipulado).
+- **Manipulado:** injetável L-glutationa sódica (100 mg–1 g); **instável** (oxida a GSSG → preparar na hora,
+  fotoproteção, cadeia de frio); exigir **CoA por lote com teor HPLC (GSH vs GSSG)**.
+- **Decisão:**
+  - 🔴🔴 **Clareamento/glow estético IV/IM — VETADO** (ABRAN; eventos graves: SJS, tireoide, renal, óbito por não-estéril). Pior risco para clínica de nefrologista.
+  - 🔴 **Antioxidante/detox/longevidade IV eletivo — fora** (sem desfecho; "glutathione drip" é marketing).
+  - 🟢-evidência **quimioproteção (cisplatina) IV** — real, mas **oncologia co-gerida**, fora do escopo.
+  - **Oral** (lipossomal) é redundante: o **precursor NAC/GlyNAC eleva GSH melhor e é registrado** → migrar o ângulo "glutationa" para NAC.
+- **Resumo:** glutationa praticamente **fora do portfólio**; IV só em uso terapêutico individualizado raríssimo (oncológico) com gate G6PD/asma/função renal, fotoproteção e preparo na hora.
+
+### 13.2 NAC (N-acetilcisteína) + GlyNAC — ativo de glutationa defensável (ORAL)
+- **Indústria:** **Fluimucil** oral (granulado/sachê 200 e 600 mg) **e IV (registrado)**; genéricos 600 mg.
+- **Manipulado:** NAC isolado ou **GlyNAC (NAC + glicina por peso)** oral — não há GlyNAC industrializado.
+- **Por que NAC > GSH:** entrega **cisteína** (substrato limitante) → célula fabrica GSH; registrado, barato, oral. Torna a glutationa oral redundante.
+- **Decisão / posicionamento:**
+  - 🟢 **GlyNAC oral = carro-chefe de longevidade** (RCT Baylor: GSH muscular, força, marcha, HOMA-IR, inflamação) — comunicar **emergente** (RCT pequeno, monogrupo, não replicado); uso **contínuo**.
+  - 🟢 **NAC 1.200 mg/d** (DPOC/exacerbações; base antioxidante-metabólica).
+  - 🟡-🟢 adjuvâncias **orais com co-manejo:** psiquiatria (tricotilomania/TOC/bipolar/craving — com psiquiatra), resistência insulínica/metabólico, fertilidade/SOP.
+  - 🟡 NAFLD/hepatoproteção oral (sem prometer reversão).
+  - 🔴 **Recusar:** nefropatia por contraste (ACT negativo) e IPF — **posicionamento de MBE do nefrologista**. Ressaca (FDA penalizou).
+  - ⚠️ **Atletas:** não dose alta crônica peri-treino (blunting/mitohormese).
+- **IV — só agudo/hospitalar** (paracetamol protocolo Prescott; falência hepática precoce; sem via oral). **NÃO** é drip de longevidade — o PK desmente ("biodisponibilidade baixa" é do NAC intacto; o first-pass o converte em cisteína, que é o que importa; pico IV não sustenta GSH crônica). Único IV eletivo defensável: **performance de endurance em dia de competição** (125→25 mg/kg/h), raro, com disclaimer (ergogênico agudo, não em treino, triagem asma/nitrato).
+- **Segurança:** oral muito segura (odor sulfuroso ↓adesão); IV **anafilactoide taxa-dependente** + broncoespasmo em asmático + **potencializa nitratos**; **renal seguro/favorável**.
+
+**Cards NAC:**
+| | A — GlyNAC oral (longevidade) | B — NAC oral (DPOC/adjuvante) | C — NAC IV (AGUDO, não eletivo) |
+|---|---|---|---|
+| Dose | glicina ~100 + NAC ~100 mg/kg/d, 2×/dia (titular) | 600 mg 1–2×/dia (psiq. 1.200–2.400) | Prescott 300 mg/kg em 20–21 h |
+| Via | oral contínuo | oral crônico | IV (SF/SG), **1ª dose lenta** |
+| Gate | adesão (odor); "emergente" | DPOC c/ pneumo; psiq. c/ psiquiatra | hospitalar; retaguarda anafilactoide |
+| Monitor | HOMA-IR, força/marcha, GSH eritrocitário | sintoma-alvo, GI | reação 1ª h, INR/função hepática |
+| Disclaimer | não cura; RCT pequeno | adjuvante | não é infusão de longevidade |
