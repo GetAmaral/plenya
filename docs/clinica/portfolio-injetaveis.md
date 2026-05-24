@@ -356,7 +356,7 @@ com claim de eficácia não comprovada**.
   detox **sem desfecho**; só uso terapêutico individualizado raríssimo (ex.: quimioproteção com oncologista).
 - **NAC IV — só agudo/hospitalar** (paracetamol/falência hepática) + nicho de competição endurance com
   disclaimer; **não** como drip eletivo. NAC é ativo **oral**.
-- **NAD+ IV** — experimental, a discutir.
+- **NAD+ IV — NÃO oferecer:** sem desfecho clínico humano, mal tolerado (reações taxa-dependentes, infusão de 2–4 h), captação celular ineficiente (degrada a nicotinamida), risco CFM ("terapia sem comprovação"). O caminho do NAD+ é **precursor oral (nicotinamida ribosídeo)**, comunicado como marcador (eleva NAD+) com desfecho de longevidade **não comprovado**. NMN proibido como suplemento no Brasil (ANVISA).
 - O **Myers** é ofertável como experiência/QoL com disclaimer (§7), não como cura.
 
 ## 11. Manipulação estéril — opções viáveis por molécula
@@ -519,3 +519,43 @@ por indicação: a discutir.)
 | Gate | adesão (odor); "emergente" | DPOC c/ pneumo; psiq. c/ psiquiatra | hospitalar; retaguarda anafilactoide |
 | Monitor | HOMA-IR, força/marcha, GSH eritrocitário | sintoma-alvo, GI | reação 1ª h, INR/função hepática |
 | Disclaimer | não cura; RCT pequeno | adjuvante | não é infusão de longevidade |
+
+### 13.3 Vitamina B3 e NAD+ — IV fora; o valor está no oral (niacinamida)
+- **NAD+ IV — NÃO oferecer** (negativo, §10): sem desfecho humano, mal tolerado, captação celular ineficiente (degrada a nicotinamida), risco CFM. **NMN proibido como suplemento no Brasil** (ANVISA).
+- **A família B3 são 4 moléculas com destinos opostos** — não tratar como bloco:
+
+| Molécula | Veredito |
+|---|---|
+| **Niacina** (ácido nicotínico) | hipolipemiante **morto** — AIM-HIGH/HPS2-THRIVE negativos + dano (sangramento, infecção, glicemia, hepatotox da liberação lenta). **Não usar** |
+| **Niacinamida** (nicotinamida) | **a estrela oral** (sem rubor) — ver abaixo |
+| **Nicotinamida ribosídeo (NR)** | precursor de NAD+ oral — marcador (eleva NAD+), **desfecho de longevidade não comprovado**; comunicar "emergente" |
+| **NMN** | proibido no Brasil |
+
+- 🟢 **Insight #1 — chemoprevenção de câncer de pele (diferencial, ideal p/ Londrina ensolarada):**
+  **niacinamida 500 mg 2×/dia** (estudo ONTRAC, NEJM 2015, fase 3): **−23% câncer de pele não-melanoma**,
+  −30% espinocelular, −13% ceratose actínica; sem rubor, segurança = placebo. Mecanismo: NAD+ → reparo de
+  DNA pós-UV + bloqueia imunossupressão cutânea por UV. **Só em imunocompetente fotoexposto de alto risco**
+  (ONTRANS em transplantados = **negativo**). Articular com dermato + vitamina D + fotoproteção.
+- 🟡 **Insight #2 (terreno renal) — niacinamida baixa fósforo na DRC:** inibe o transportador intestinal de
+  fosfato (NaPi-2b); ↑HDL, ↓FGF23. Mas NICOREN/NOPHOS: **não substitui quelantes** (trombocitopenia >1 g,
+  diarreia) → **adjuvante 2ª/3ª linha refratário, monitorar plaquetas**. Autoridade técnica do nefrologista.
+- ⚠️ **Metilação:** niacinamida alta dose **eleva homocisteína** (300 mg → +61%; consome doadores de metila)
+  → ao usar 1 g/dia (ONTRAC) ou doses renais, **dosar homocisteína + garantir folato/B12/betaína**.
+- 🔴 **Não fazer:** niacina para lipídios/CV; megadose ortomolecular (psiquiatria — risco hepático);
+  niacinamida p/ prevenir DM1 (ENDIT negativo); vender NR/NMN como "longevidade comprovada".
+
+**Card — Niacinamida oral (chemoprevenção de pele):** 500 mg 2×/dia contínuo · gate: ≥2 cânceres de pele
+não-melanoma/ceratose actínica em 5 anos, fotoexposto **imunocompetente** · monitor: homocisteína se dose
+alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal); não indicar em transplantado.
+
+### 13.4 Taurina — oral adjuvante; IV eletiva NÃO se sustenta
+- **Indústria:** suplemento (não medicamento registrado); presente em energéticos. **Manipulado:** cápsula/sachê com dose-alvo, sem cafeína. Barata e muito segura.
+- **IV — fora do eletivo:** a oral é quase 100% absorvida e a entrada no tecido/cérebro é por **transportador saturável (TauT)** → **o IV não entrega mais que o oral** (o "bypassa a digestão" dos drips é irrelevante). Energia (taurina não é combustível; efeito "energético" é da cafeína) e memória (só dado animal; barreira cerebral satura) = **marketing**. Na série cardíaca japonesa, o **IV deu os mesmos resultados que o oral**. Único IV legítimo: **nutrição parenteral** (não eletivo). Como osmólito renal, bolus IV é **carga osmótica sem indicação** — o nefrologista recusa.
+- **Indicações orais (adjuvante, nunca isolado):**
+  - 🟢🟡 **Insuficiência cardíaca / capacidade funcional** (meta-análise: FEVE +5%, classe funcional; usada no Japão) — desfecho funcional, não mortalidade.
+  - 🟡 **Hipertensão** (−4/−1,5 mmHg, modesto) · **metabólico/pré-DM** (↓HbA1c, ↓HOMA-IR — marcadores) · **endurance** (efeito moderado, 1–3 g pré-treino).
+  - 🟢 **Retina** só em **deficiência** (não "melhora visão" em quem tem nível normal).
+- 🔴 **Longevidade:** entusiasmo de 2023 é **camundongo**; o **NIH (Science 2025) refutou** a premissa humana (taurina não cai com a idade) e diz não haver benefício de suplementar em humanos; **sem RCT de desfecho**. Só mencionar com disclaimer.
+- **Renal (ângulo do Dr.):** osmólito renal; **renoproteção/antiproteinúria só pré-clínica (animal)** — hipótese, não promessa. **Cautela em DRC 4–5/diálise** (risco de acúmulo, sem dose validada → não suplementar às cegas).
+
+**Card — Taurina oral:** 1,5–3 g/dia (até 6 g seguro); performance 1–3 g 1–2 h pré-treino · **sem IV eletivo** · gate de exclusão: DRC 4–5/diálise sem individualização, gestação/lactação · monitor: PA (somação c/ anti-hipertensivo), HbA1c se uso metabólico · disclaimer: adjuvante modesto (coração/pressão/metabólico); longevidade é dado animal, refutado em humanos; não substitui o tratamento principal.
