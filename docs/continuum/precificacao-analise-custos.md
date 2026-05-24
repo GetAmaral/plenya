@@ -155,6 +155,23 @@ e o médico é sempre **2,0×** os demais. Editar a base (ou o multiplicador) re
 | WhatsApp — disponibilidade/mês (médico) | R$ 600/mês (cenário médio) |
 | WhatsApp — disponibilidade/mês (cada outro) | R$ 300/mês (cenário médio) |
 | Duração do ciclo semestral | 26 semanas (6 meses) |
+| Câmbio US$ → R$ | R$ 5,40 |
+| Volume de rateio | 24 pacientes/ano |
+| Fatia Continuum dos custos compartilhados | 80% |
+| Fração EMR do gasto de dev | 60% |
+| Horizonte de amortização do EMR | 3 anos (72 pacientes) |
+| Licença por paciente | R$ 50/mês |
+| Regime tributário | Lucro Presumido (presunção 32%, conservador) |
+| ISS Londrina | 3% |
+| Carga tributária efetiva s/ receita | 14,33% |
+| Gateway Asaas (cartão parcelado) | 2,99% + R$ 0,49 |
+| Contabilidade | R$ 800/mês (fixo, rateado 80% ÷ 24) |
+| Seguro RC equipe (estimativa) | ~R$ 6.600/ano (rateado 80% ÷ 24) |
+| Pró-labore Getúlio (CEO) | R$ 2.000/paciente |
+| Fração marketing atribuível ao Continuum | 80% |
+| Mentoria Pedro — horizonte de amortização | 2 anos (48 pacientes) |
+| Sites — fração da base de dev (não-EMR) | 40% · amort. 3 anos |
+| Conteúdo IG + tráfego | R$ 5.800/mês |
 
 ---
 
@@ -288,6 +305,146 @@ e o médico é sempre **2,0×** os demais. Editar a base (ou o multiplicador) re
   exigir mais latas se 1 lata = 1 mês de consumo. Revisar quando definir posologia.
 - **Frete R$ 60/box:** estimativa para caixa premium ~1–2kg via Sedex/transportadora. Trocar por valor real.
 - **Mimos R$ 530:** placeholder até a curadoria fechar.
+
+---
+
+## C — Infraestrutura tecnológica
+
+> Input do Getúlio, 24/05/2026. Volume de rateio: **24 pacientes/ano**. Continuum carrega **80%**
+> dos fixos compartilhados (o EMR serve toda a Plenya, Continuum banca a maior fatia).
+
+### Fixos compartilhados (todo o EMR Plenya) — anual
+
+| Item | Custo/ano |
+|---|---|
+| VPS KingHost (R$ 200/mês) | R$ 2.400 |
+| Domínios (2 × R$ 80/ano) | R$ 160 |
+| Resend / Daily.co / Sentry / backups | R$ 0 (free tier) |
+| **Total fixo compartilhado/ano** | **R$ 2.560** |
+
+**Rateio:** R$ 2.560 × 80% = R$ 2.048 ÷ 24 pacientes = **~R$ 85/paciente/ciclo**
+
+### Variáveis por paciente
+
+| Item | Estimativa/ciclo |
+|---|---|
+| Daily.co (vídeo, ~29 sessões) | ~R$ 30 |
+| WhatsApp Business API (maioria "service", grátis) | ~R$ 30 |
+| Resend (transacional) | ~R$ 5 |
+| Storage | ~R$ 5 |
+| **Licença (R$ 50/paciente/mês × 6 meses)** | **R$ 300** |
+| **Total variável/paciente** | **~R$ 370** |
+
+### Amortização do desenvolvimento do EMR
+
+> O EMR foi construído via assinatura Claude Code + GPT + tempo de dev. Amortizado sobre 3 anos /
+> 72 pacientes, fração EMR 60%, fatia Continuum 80%.
+
+| Item | Cálculo | Valor/mês |
+|---|---|---|
+| Claude Code | US$ 200 × 5,40 | R$ 1.080 |
+| GPT | US$ 20 × 5,40 | R$ 108 |
+| Dev (tempo) | 60h × R$ 60 | R$ 3.600 |
+| **Total/mês** | | **R$ 4.788** |
+
+| Etapa | Valor |
+|---|---|
+| Gasto total de dev (× 8 meses) | R$ 38.304 |
+| × 60% (fração EMR) | R$ 22.982 |
+| × 80% (fatia Continuum) | R$ 18.386 |
+| ÷ 72 pacientes (3 anos × 24/ano) | **~R$ 255/paciente/ciclo** |
+
+### TOTAL BLOCO C
+
+| Componente | Por paciente/ciclo |
+|---|---|
+| Fixos compartilhados (rateados) | R$ 85 |
+| Variáveis (Daily, WhatsApp, Resend, storage) | R$ 70 |
+| Licença (R$ 50/mês × 6) | R$ 300 |
+| Amortização do EMR | R$ 255 |
+| **TOTAL BLOCO C / ciclo** | **~R$ 710** |
+
+---
+
+## D — Operacional e administrativo
+
+> Input do Getúlio, 24/05/2026. Regime: **Lucro Presumido**, cenário conservador (presunção 32%).
+
+### Impostos (sobre a receita)
+
+| Tributo | Base | Alíquota efetiva s/ receita |
+|---|---|---|
+| IRPJ | 15% sobre presunção de 32% | 4,80% |
+| CSLL | 9% sobre presunção de 32% | 2,88% |
+| PIS (cumulativo) | receita | 0,65% |
+| COFINS (cumulativo) | receita | 3,00% |
+| ISS (Londrina) | receita | 3,00% |
+| **Carga tributária efetiva** | | **14,33%** |
+
+**Imposto = 14,33% da receita** (escala com o preço final). Sobre o preço atual de R$ 25.000 =
+**R$ 3.583/ciclo**.
+
+Notas:
+- (+) Adicional de IRPJ: 10% sobre o lucro presumido que exceder R$ 20.000/mês. Com 24 pacientes/ano
+  e ticket atual o lucro presumido fica perto do teto — pode entrar uma fração. Sinalizado, não embutido.
+- **Oportunidade — equiparação hospitalar** (presunção 8% IRPJ / 12% CSLL): derrubaria o efetivo
+  pra ~8,9% (~R$ 2.225 sobre R$ 25k, economia ~R$ 1.350/paciente). Exige sociedade empresária +
+  requisitos Anvisa; historicamente vale pra procedimentos/exames, não consulta pura. **Validar
+  com o contador.**
+
+### Gateway de pagamento — Asaas
+
+Cartão parcelado = **2,99% + R$ 0,49** por cobrança (taxa fixa sobre o total, independente do nº de
+parcelas). Escala com o preço. Sobre R$ 25.000 = **~R$ 748/ciclo**.
+
+> Decisão de produto associada: **semestral em 6× / anual em 12×** (não mais 6m em 12×). Ajuste do
+> deck em andamento.
+
+### Contabilidade
+
+R$ 800/mês × 12 = R$ 9.600/ano × 80% (fatia Continuum) ÷ 24 pacientes = **R$ 320/paciente/ciclo**.
+
+### Seguro RC profissional (estimativa — sem apólice ainda)
+
+Base de mercado R$ 1.000–5.000/ano por profissional. Estimativa equipe: médico ~R$ 3.000 + 3 demais
+~R$ 1.200 = **~R$ 6.600/ano** × 80% ÷ 24 = **~R$ 220/paciente/ciclo**. Cotar apólice real.
+
+### Pró-labore Getúlio (CEO)
+
+Custo de sócio separado dos honorários clínicos do bloco A: **R$ 2.000/paciente/ciclo**.
+
+### TOTAL BLOCO D (sobre preço de referência R$ 25.000)
+
+| Componente | Por paciente/ciclo |
+|---|---|
+| Impostos (14,33%) | R$ 3.583 |
+| Gateway Asaas (2,99% + R$ 0,49) | R$ 748 |
+| Contabilidade | R$ 320 |
+| Seguro RC (estimativa) | R$ 220 |
+| Pró-labore CEO | R$ 2.000 |
+| **TOTAL BLOCO D / ciclo** | **~R$ 6.871** |
+
+---
+
+## E — Aquisição de cliente (CAC)
+
+> Input do Getúlio, 24/05/2026. Estratégia completa em `plano-aquisicao-marketing.md`.
+> **Estágio MVP, sem pacientes/prova social** — o gasto de hoje é majoritariamente investimento de
+> autoridade que beneficia toda a Plenya, não CAC transacional. Fração Continuum: 80%.
+
+| Componente | Cálculo | Por paciente/ciclo |
+|---|---|---|
+| Conteúdo IG + tráfego (R$ 5.800/mês × 12) | × 80% ÷ 24 | R$ 2.320 |
+| Mentoria Pedro Quintanilha (R$ 60.000) | × 80% ÷ 48 (2 anos) | R$ 1.000 |
+| Sites Plenya + Getúlio (40% da base de dev R$ 38.304 = R$ 15.322) | × 80% ÷ 72 (3 anos) | R$ 170 |
+| **TOTAL BLOCO E / ciclo** | | **R$ 3.490** |
+
+Notas:
+- **CAC-MVP é alto por baixo volume** (24 pacientes). Conforme a base cresce e o funil
+  (consulta-porta-de-entrada + webinar evergreen + aplicação) amadurece, o CAC por paciente cai.
+  Definir um **CAC-alvo de regime** (ex.: 10–15% do ticket) na Fase 2.
+- VPS compartilhada já contabilizada no Bloco C (sem duplicação).
+- Funil recomendado e faseamento: ver `plano-aquisicao-marketing.md`.
 
 ---
 
