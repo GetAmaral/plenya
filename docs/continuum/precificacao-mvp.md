@@ -51,19 +51,43 @@ Tarifas MVP: **médico todas as sessões R$ 600** (consulta/apres/feedback/call)
 | **Sessões anual** | 28.575 | **24.450** |
 | **A anual** (+ WhatsApp 12.000) | 40.575 | **36.450** |
 
-## C_fixo MVP corrente (só Trim #1 aplicado)
+## Trim #2 — Painel genético separado (LOCK 24/05)
 
-| | Ideal | MVP corrente | Break-even |
+Painel genético sai do programa → vira **add-on que o cliente paga à parte**. Remove painel (1.900)
++ interpretação (900) do custo do programa. Se o cliente optar pelo add-on, a interpretação do
+Getúlio (R$ 900) é cobrada **dentro** do add-on (recuperada, não absorvida). J: semestral 4.000 →
+1.200 · anual 5.200 → 2.400 (sobra só coordenação).
+
+## Trim #3 — Pró-labore CEO fora do MVP (LOCK 24/05)
+
+Pró-labore de CEO (R$ 2.000) **sai do MVP** (volta no ideal, na transição). D-fixed: semestral
+2.540 → 540 (contábil 320 + seguro 220) · anual 3.080 → 1.080.
+
+## Margem MVP: 5% (LOCK 24/05)
+
+> Margem fina, deliberada pra entrada. Alerta: a 5%, o lucro do 1º ciclo (~R$ 1.940 no semestral)
+> fica **abaixo do CAC-MVP (R$ 3.490)** — o 1º ciclo quase não lucra; o retorno vem na **renovação**
+> (sem CAC, sem genético). Coerente com modelo de recorrência, mas exige reter.
+
+## C_fixo MVP corrente (Trims #1–3 · coordenação ainda dentro)
+
+| | Ideal | MVP | Break-even |
 |---|---:|---:|---:|
-| Semestral | 38.092 | **R$ 35.178** | ~R$ 42.547 |
-| Anual | 62.462 | **R$ 58.131** | ~R$ 70.309 |
+| Semestral | 38.092 | **R$ 30.138** | ~R$ 38.798 |
+| Anual | 62.462 | **R$ 53.091** | ~R$ 68.347 |
 
-## Trims pendentes de decisão
+## Preço MVP a 5% (`P = C_fixo / 0,7768`)
 
-- [ ] Painel genético → add-on pago? (−2.800)
-- [ ] Coordenação absorvida por Getúlio/EMR? (−1.200)
-- [ ] Pró-labore CEO diferido? (−2.000)
-- [ ] Margem-alvo MVP (10–15%?)
+| | Preço 5% | Tabela | (se cortar coordenação) |
+|---|---:|---:|---:|
+| **Semestral** | R$ 38.798 | **~R$ 39.000** | ~R$ 37.200 |
+| **Anual** | R$ 68.347 | **~R$ 68.000** | ~R$ 65.100 |
+
+## Pendente
+
+- [ ] **Coordenação/concierge** (R$ 1.200 sem / R$ 2.400 anual) — secretária que agenda as 29 sessões,
+  faz onboarding, organiza boxes, concilia pagamento, tria WhatsApp. No MVP pode ser absorvida por
+  Getúlio + EMR. Decidir.
 
 ---
 
