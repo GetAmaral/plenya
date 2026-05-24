@@ -6,8 +6,9 @@
 > estágio inicial, sem destruir o produto nem violar o que é inegociável (cadência semanal, 1
 > profissional/semana, box por nossa conta).
 >
-> **Status:** EM CONSTRUÇÃO (24/05/2026). As seções abaixo são herdadas da definição ideal; vamos
-> revisá-las uma a uma marcando **[MVP: corte]** / **[MVP: mantém]** / **[MVP: adia]**.
+> **Status:** EM CONSTRUÇÃO (24/05/2026). As seções abaixo são herdadas da definição ideal (já com
+> o box anual corrigido); vamos revisá-las uma a uma marcando **[MVP: corte]** / **[MVP: mantém]** /
+> **[MVP: adia]**.
 >
 > **Princípio:** o que for cortado no MVP deve ser **reversível** — volta à definição ideal conforme
 > a base cresce e a prova social aparece. Não é "barato pra sempre", é "leve pra começar".
@@ -663,9 +664,9 @@ Distribuição das 46 calls: médico 8 · nutri 13 · educador 13 · psico 12.
 
 **Demais blocos (anual):** ver os números autoritativos na seção **RECÁLCULO FINAL** abaixo (base
 ajustada: WhatsApp enxuto, sem licença, painel só no 1º ciclo, imposto/gateway tratados na fórmula
-de preço). C_fixo anual = **R$ 63.596** (1º ciclo).
+de preço). C_fixo anual = **R$ 62.462** (1º ciclo).
 
-> ⚠️ **Break-even anual ~R$ 76.918 vs preço atual R$ 40.000.** O buraco do anual é **maior** que o do
+> ⚠️ **Break-even anual ~R$ 75.547 vs preço atual R$ 40.000.** O buraco do anual é **maior** que o do
 > semestral. Confirma a urgência da revisão. Números detalhados na seção RECÁLCULO FINAL.
 
 ---
@@ -760,14 +761,14 @@ Com a alavanca **estrutural** adicional (cadência quinzenal, −~R$ 4.100), o b
 | Bloco | 1º ciclo | Renovação |
 |---|---|---|
 | A — Honorários (sessões 28.575 + WhatsApp enxuto 12.000) — cronograma exato 52 sem | 40.575 | 40.575 |
-| B — Box (12 meses de insumos) | 6.950 | 6.950 |
+| B — Box (6 boxes; magnésio 1 lata/box, manipulado 12 meses) | 5.870 | 5.870 |
 | C — Infra + amortização (2× duração, sem licença) | 820 | 820 |
 | D — Fixo (contábil 640 + seguro 440 + pró-labore 2.000) | 3.080 | 3.080 |
 | E — Aquisição | 3.490 | 3.490 |
 | F — Jurídico | 453 | 453 |
 | J — Painel 1.900 + interpretação 900 + coordenação 2.400 | 5.200 | **2.400** (sem painel) |
-| I — Risco (5%) | 3.028 | 2.888 |
-| **C_fixo anual** | **R$ 63.596** | **R$ 60.656** |
+| I — Risco (5%) | 2.974 | 2.834 |
+| **C_fixo anual** | **R$ 62.462** | **R$ 59.522** |
 
 ## Preço ao consumidor por margem-alvo
 
@@ -784,20 +785,20 @@ Com a alavanca **estrutural** adicional (cadência quinzenal, −~R$ 4.100), o b
 | 25% | R$ 66.039 |
 | 30% | R$ 72.308 |
 
-### Anual (C_fixo R$ 63.596)
+### Anual (C_fixo R$ 62.462)
 
 | Margem | Preço ao consumidor |
 |---|---|
-| 0% (break-even) | R$ 76.918 |
-| 15% | R$ 93.965 |
-| 20% | R$ 101.461 |
-| 25% | R$ 110.256 |
-| 30% | R$ 120.721 |
+| 0% (break-even) | R$ 75.547 |
+| 15% | R$ 92.291 |
+| 20% | R$ 99.652 |
+| 25% | R$ 108.291 |
+| 30% | R$ 118.569 |
 
 ## Renovação (sem painel genético) — preços de break-even
 
 - **Semestral renovação** (C_fixo 35.152): break-even R$ 42.516 · margem 20% R$ 56.082
-- **Anual renovação** (C_fixo 60.656): break-even R$ 73.362 · margem 20% R$ 96.771
+- **Anual renovação** (C_fixo 59.522): break-even R$ 71.991 · margem 20% R$ 94.962
 
 ## Leitura
 
@@ -820,11 +821,11 @@ Com a alavanca **estrutural** adicional (cadência quinzenal, −~R$ 4.100), o b
 | | C_fixo (1º ciclo) | Preço exato (20%) | Tabela sugerida | Margem efetiva | Lucro/ciclo |
 |---|---:|---:|---:|:---:|---:|
 | **Semestral** | R$ 38.092 | R$ 60.772 | **R$ 60.000** | 19,2% | ~R$ 11.516 |
-| **Anual** | R$ 63.596 | R$ 101.461 | **R$ 100.000** | 19,1% | ~R$ 19.084 |
+| **Anual** | R$ 62.462 | R$ 99.652 | **R$ 100.000** | 20,2% | ~R$ 20.218 |
 
 **Renovação** (sem painel genético + sem CAC; C_fixo menor) ao mesmo preço de tabela:
 - Semestral renovação (C_fixo 35.152): a R$ 60.000 → margem efetiva ~24%
-- Anual renovação (C_fixo 60.656): a R$ 100.000 → margem efetiva ~25%
+- Anual renovação (C_fixo 59.522): a R$ 100.000 → margem efetiva ~23%
 
 **Narrativa de venda do anual:** dois semestrais = R$ 120.000 vs anual R$ 100.000 → cliente economiza
 ~R$ 20.000 (17%), e o anual é mais lucrativo pro negócio (CAC e onboarding uma vez só).
@@ -845,9 +846,9 @@ Com a alavanca **estrutural** adicional (cadência quinzenal, −~R$ 4.100), o b
 | · Educador físico | 2.925 | 5.475 | 1,87× |
 | · *subtotal sessões* | *16.125* | *28.575* | *1,77×* |
 | · WhatsApp (enxuto) | 6.000 | 12.000 | 2,00× |
-| **B — BOX** | **3.420** | **6.950** | **2,03×** |
+| **B — BOX** | **3.420** | **5.870** | **1,72×** |
 | · Embalagem | 400 | 600 | — |
-| · Magnésio inositol | 720 | 2.160 | 3,00× |
+| · Magnésio inositol | 720 | 1.080 | 1,50× |
 | · Manipulado (3 comp.) | 1.470 | 2.940 | 2,00× |
 | · Frete | 240 | 360 | — |
 | · Mimos | 530 | 800 | — |
@@ -871,32 +872,32 @@ Com a alavanca **estrutural** adicional (cadência quinzenal, −~R$ 4.100), o b
 | · Painel genético LIFECODE | 1.900 | 1.900 | 1,00× |
 | · Interpretação Getúlio (+1h) | 900 | 900 | 1,00× |
 | · Coordenação/concierge | 1.200 | 2.400 | 2,00× |
-| **I — RISCO (5%)** | **1.814** | **3.028** | **1,67×** |
-| **C_FIXO TOTAL** | **R$ 38.092** | **R$ 63.596** | **1,67×** |
+| **I — RISCO (5%)** | **1.814** | **2.974** | **1,64×** |
+| **C_FIXO TOTAL** | **R$ 38.092** | **R$ 62.462** | **1,64×** |
 
 ## Distribuição do custo (% do C_fixo)
 
 | Bloco | Semestral | Anual |
 |---|:---:|:---:|
-| A — Honorários | 58,1% | **63,8%** |
-| B — Box | 9,0% | 10,9% |
-| J — Extras | 10,5% | 8,2% |
-| E — Aquisição | 9,2% | 5,5% |
-| D — Operacional | 6,7% | 4,8% |
+| A — Honorários | 58,1% | **65,0%** |
+| B — Box | 9,0% | 9,4% |
+| J — Extras | 10,5% | 8,3% |
+| E — Aquisição | 9,2% | 5,6% |
+| D — Operacional | 6,7% | 4,9% |
 | I — Risco | 4,8% | 4,8% |
 | C — Infra | 1,1% | 1,3% |
 | F — Jurídico | 0,8% | 0,7% |
 
 ## Leituras
 
-- **Anual custa 1,67× o semestral, não 2×** — itens "uma vez" (aquisição, painel, interpretação,
+- **Anual custa 1,64× o semestral, não 2×** — itens "uma vez" (aquisição, painel, interpretação,
   pró-labore, setup jurídico) diluem na duração dobrada. Base econômica do desconto no anual.
 - **Honorários dominam mais no anual** (58% → 64%): programa mais longo = mais "puro tempo de
   profissional", pouca economia de escala por design.
 - **Aquisição cai de 9,2% → 5,5%** no anual: cada real de CAC trabalha o dobro do tempo → fechar
   anual é mais eficiente pro negócio.
-- **Magnésio 3,00×** é a única distorção (12 meses no anual vs 4 latas no semestral) — alinhar à
-  posologia real (caveat registrado na auditoria).
+- **Magnésio 1,50×** (corrigido 24/05): 1 lata/box em ambos os planos (4 boxes no semestral, 6 no
+  anual). A distorção anterior (3,00×) vinha de contar magnésio como consumo mensal no anual.
 
 ---
 
