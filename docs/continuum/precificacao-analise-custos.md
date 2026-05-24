@@ -788,6 +788,30 @@ Com a alavanca **estrutural** adicional (cadência quinzenal, −~R$ 4.100), o b
 
 ---
 
+# PREÇO FINAL — MARGEM TRAVADA 20% (24/05/2026) ⭐
+
+> Margem-alvo escolhida: **20% líquida** (meio da banda concierge 15–25%; entrada acessível, lucro
+> reforçado na retenção). Margem calculada após TODOS os custos, inclusive pró-labore CEO.
+> Ancorada na literatura: concierge EBITDA 15–25%, consultoria "robusta" >20%, alerta do cemitério
+> de startups de longevidade (não baratear). LTV:CAC do 1º ciclo = 3,5:1 (saudável).
+
+| | C_fixo (1º ciclo) | Preço exato (20%) | Tabela sugerida | Margem efetiva | Lucro/ciclo |
+|---|---:|---:|---:|:---:|---:|
+| **Semestral** | R$ 38.092 | R$ 60.772 | **R$ 60.000** | 19,2% | ~R$ 11.516 |
+| **Anual** | R$ 63.596 | R$ 101.461 | **R$ 100.000** | 19,1% | ~R$ 19.084 |
+
+**Renovação** (sem painel genético + sem CAC; C_fixo menor) ao mesmo preço de tabela:
+- Semestral renovação (C_fixo 35.152): a R$ 60.000 → margem efetiva ~24%
+- Anual renovação (C_fixo 60.656): a R$ 100.000 → margem efetiva ~25%
+
+**Narrativa de venda do anual:** dois semestrais = R$ 120.000 vs anual R$ 100.000 → cliente economiza
+~R$ 20.000 (17%), e o anual é mais lucrativo pro negócio (CAC e onboarding uma vez só).
+
+> Próximo: atualizar o deck (slide de preços) com R$ 60.000 / R$ 100.000 quando confirmado, e definir
+> parcelamento (semestral 6×, anual 12×, sem juros): 6× R$ 10.000 / 12× R$ 8.333.
+
+---
+
 # COMPARATIVO SEMESTRAL × ANUAL — detalhado (1º ciclo)
 
 | Bloco / componente | Semestral | Anual | Anual÷Sem |
