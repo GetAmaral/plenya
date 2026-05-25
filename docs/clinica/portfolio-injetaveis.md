@@ -819,6 +819,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Mo:** **essencialmente FORA do portfólio eletivo** · oral só em deficiência real (praticamente só **NPT longa** — intolerância a aminoácidos revertida com molibdato) · tentativa fraca em **sensibilidade a sulfito** com Mo baixo · **🔴 sem IV/IM eletivo, sem composição corporal** · 🚨 gate DRC (acúmulo) + antagonismo com cobre · **TTM é fármaco anticobre (Wilson), não suplemento.**
 
+### 13.21 Iodo — ORAL; uso clínico real mas gateado pela tireoide; sem IV/IM
+- **Formas:** **iodeto de potássio (KI)** padrão (biodisp. ~59%); **Lugol** (iodo elementar + KI, dose alta, manipulado); **iodo "nascente"** (marketing de alta biodisp., sem evidência, risco de dose oculta); **kelp** (biodisp. ~33%, teor variável — **pior escolha**). **RDA 150 mcg/d** (gestante 220); ATA desaconselha **>500 mcg/d** rotineiro.
+- **Disponibilidade BR:** oral abundante (KI cápsulas, **Lugol 5% manipulado**); **sem iodo injetável humano de suplementação** (o injetável é veterinário). **Não é molécula de infusão.** (Contraste iodado IV é outra coisa — e causa disfunção tireoidiana.)
+- **Indicações:**
+  - 🟢 **Deficiência / bócio / hipotireoidismo por carência:** dose **nutricional (150 mcg)** resolve. No BR (sal iodado) deficiência franca é incomum; dieta restritiva/gestação podem precisar.
+  - 🟢 **Doença mamária fibrocística (nicho real):** iodo 6–18 m melhorou dor em **70%** (233 mulheres); doses **3.000–6.000 mcg/d** usadas com segurança nesse contexto, mas é dose alta → **monitorar tireoide**. Melhor argumento de iodo supra-nutricional; encaixa em saúde da mulher.
+  - 🟡 saúde mamária/estrogênica (mecanístico, sem desfecho duro).
+- ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **só via correção de deficiência** — no hipotireoidismo por carência, repor normaliza metabolismo e reverte ganho de peso. **Em eutireóideo, NÃO emagrece**, e 🚨 **excesso inibe a deiodinase tipo 2 (↓T4→T3), podendo PIORAR o metabolismo.** Usar iodo como emagrecedor em eutireóideo é erro. Sem efeito de massa muscular.
+- 🚨 **Curva em U estreita (ponto central):** **Wolff-Chaikoff** (dose alta → hipotireoidismo, sobretudo Hashimoto) · **Jod-Basedow** (nódulo/bócio/Graves dormente → hipertireoidismo) · **excesso dispara/agrava tireoidite autoimune (Hashimoto)**. Parear com **selênio (§13.16) + zinco** atenua. Teto rotineiro 500 mcg; doses fibrocísticas (mg) só monitoradas.
+- 🩺 **Nefrológico:** KI **contraindicado em doença renal/desidratação** (carga de K + acúmulo de iodeto); cautela com dose alta em DRC. Autoridade do Dr. também no risco de **contraste iodado IV** (Jod-Basedow).
+- 🔴 **Sem IV/IM.**
+
+**Card — Iodo:** **ORAL** (KI, não kelp) · **nutricional 150 mcg** p/ deficiência/bócio; **dose alta (mg) só em mama fibrocística com monitor de TSH/anti-TPO** · **🔴 sem IV/IM; sem emagrecimento em eutireóideo** (excesso ↓T4→T3) · **🚨 gate tireoidiano:** rastrear Hashimoto/nódulo antes de dose alta (Wolff-Chaikoff/Jod-Basedow), teto rotineiro 500 mcg, parear selênio · cautela renal.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -831,10 +845,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 6. **Emagrecimento ESTÁ no escopo** (a clínica trata emagrecimento). Avaliar SEMPRE 3 eixos por molécula: **emagrecimento · preservação/ganho de massa muscular · redução de gordura** — anotar na seção com a tag **⚖️ Composição corporal**, com atenção a IV/IM/SC. "Sem mesoterapia" é restrição de VIA, não de indicação.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-Minerais: **PRÓXIMA = iodo.** Depois: cálcio · potássio · fósforo · boro · silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20 já feitos.)*
+Minerais: **PRÓXIMA = cálcio.** Depois: potássio · fósforo · boro · silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21 já feitos.)*
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
