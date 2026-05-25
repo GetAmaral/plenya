@@ -849,6 +849,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Cálcio:** **priorizar DIETA**; suplemento só da lacuna **≤500–600 mg COM refeição, fracionado, no eixo D-K2** (bisglicinato/citrato) · pré-eclâmpsia em gestante de baixa ingestão · **🔴 sem IV eletivo (só emergência/antídoto Mg); sem emagrecimento** · **🚨 gates: CV** (bolus/entre refeições/pós-menopausa → parear K2, com refeição); **cálculo renal** (sempre com refeição, citrato de K, hipercalciúria); **DRC** (carga/calcificação).
 
+### 13.23 Potássio — PRESCRIÇÃO (eletrólito), não infusão/suplemento; uso central = citrato p/ cálculo
+- **Formas:** **cloreto (KCl)** p/ hipocalemia/depleção de Cl (diurético); **citrato/bicarbonato** (sais alcalinos) p/ osso e cálculo; **gluconato** (tolerância GI). Todos ~94% absorvidos, **sem vencedor de biodisp.** → escolha por indicação (alcalino vs cloreto).
+- **Disponibilidade BR (ponto regulatório):** 🚨 ANVISA **não permite K como suplemento** em dose terapêutica (só líquidos de eletrólitos ≤700 mg/L, adultos) → dose terapêutica é **MEDICAMENTO de prescrição** (KCl, **citrato de K Rx**). **KCl IV = hospitalar, altíssimo risco** (parada cardíaca), limite de velocidade. **Sem K IV eletivo — jamais drip.**
+- **Indicações:**
+  - 🟢 **Cálculo renal — citrato de potássio (uso mais forte, terreno do Dr.):** pedra angular da prevenção de cálculo de cálcio recorrente (↑citrato e pH urinários, ↓calciúria; ↓formação 47–100%). Integra o **protocolo nefro do formador de cálculo** com cálcio (§13.22, com refeição) + B6/oxalato (§13.10).
+  - 🟢 **PA/AVC:** ↓PAS ~4,5 / PAD ~3 mmHg em hipertensos; maior ingestão ~21% menos AVC — **majoritariamente dietético** (substituto de sal tem risco renal próprio).
+  - 🟢 **Osso:** sais alcalinos ↓reabsorção óssea/calciúria (contrapõem acidose). Modesto, sinérgico c/ cálculo.
+  - Correção de hipocalemia (clínico).
+- ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **nenhum dado relevante** (eletrólito de função neuromuscular; sem efeito de peso/gordura/músculo). Não é molécula de composição corporal.
+- 🚨🚨 **Hipercalemia (tema central):** **DRC = contraindicação prática** (rim não excreta; risco 3×; **IECA/BRA e substitutos de sal agravam**). IV = risco de parada. **Gate absoluto = função renal + medicação** antes de qualquer K.
+- 🔴 **Sem IV eletivo; sem composição corporal; não é item de "soro".**
+
+**Card — K:** **PRESCRIÇÃO, não infusão/suplemento** · uso central = **citrato de potássio oral na prevenção de cálculo** (protocolo nefro c/ §13.22 + §13.10) · PA/osso = dietético/alcalino · **🔴 sem K IV eletivo (cardíaco); sem composição corporal** · **🚨 gate absoluto: TFG + IECA/BRA — contraindicado/cautela máxima em DRC** (hipercalemia).
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -861,10 +875,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 6. **Emagrecimento ESTÁ no escopo** (a clínica trata emagrecimento). Avaliar SEMPRE 3 eixos por molécula: **emagrecimento · preservação/ganho de massa muscular · redução de gordura** — anotar na seção com a tag **⚖️ Composição corporal**, com atenção a IV/IM/SC. "Sem mesoterapia" é restrição de VIA, não de indicação.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-Minerais: **PRÓXIMA = potássio.** Depois: fósforo · boro · silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21, cálcio §13.22 já feitos.)*
+Minerais: **PRÓXIMA = fósforo.** Depois: boro · silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21, cálcio §13.22, potássio §13.23 já feitos.)*
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
