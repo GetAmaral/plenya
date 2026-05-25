@@ -4,7 +4,7 @@
 > molécula a molécula (RAG Plenya + literatura), com formas/produtos BR, doses, via (IM/IV),
 > gates de indicação, indicações ampliadas e segurança.
 >
-> **Premissas:** clínica liderada por **nefrologista** (Dr. Getúlio) · reforma de imóvel ·
+> **Premissas:** clínica liderada por **nefrologista** (Dr. Getúlio) · reforma de imóvel · **vias do centro: IV, IM, oral/sublingual, no máximo tópico — SEM mesoterapia/intradérmico** ·
 > **Cenário A** (aplicar produtos prontos/registrados, não manipular estéril) · postura
 > **integrativa adotada para o conteúdo clínico** (decisão do Dr., 2026-05) — ver §0.3.
 >
@@ -623,11 +623,11 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🟢 **Pantetina + dislipidemia (uso com mais lastro):** **600 mg/dia** (900 não supera). RCT ocidental: ↓ modesta de colesterol total/LDL/não-HDL; 28 ensaios asiáticos: **LDL −20%, TG −32%, CT −15%, HDL +8%**. Seguro (~1,4 EA/100, GI leve). **É a pantetina, não o pantotenato comum.** Ângulo cardio/cardiorrenal (paciente "na borda" do risco, recusa/complemento de estatina).
 - 🟢 **Dexpantenol tópico:** cicatrização/dermatoses — consagrado, amplo e barato no BR.
 - 🟡 **Dexpantenol injetável — atonia intestinal/íleo pós-op:** indicação de bula (CoA→acetilcolina→peristaltismo); **evidência mista** (≥1 RCT negativo). Uso hospitalar.
-- 🟢-segura/🟡-evidência **Capilar (indicação AMPLIADA segura) — conecta com o pacote capilar:** **dexpantenol IM 250–500 mg** ou **mesoterapia intradérmica** em alopecia androgenética/padrão feminino/eflúvio difuso; promove fase anágena (estudos celulares), **segurança excelente, mas evidência humana fraca/pequena** (séries, sem RCT robusto). Oferecer como adjuvante honesto, não promessa. Soma ao pacote ferro+D+B12+zinco.
+- 🟢-segura/🟡-evidência **Capilar (indicação AMPLIADA segura) — conecta com o pacote capilar:** **dexpantenol IM 250–500 mg** em alopecia androgenética/padrão feminino/eflúvio difuso; promove fase anágena (estudos celulares), **segurança excelente, mas evidência humana fraca/pequena** (séries, sem RCT robusto). Oferecer como adjuvante honesto, não promessa. Soma ao pacote ferro+D+B12+zinco. (Mesoterapia/intradérmico fora do escopo do centro.)
 - 🟡 **Mucosite** (enxágue de dexpantenol pós-quimio, ~2 dias mais rápido) — tópico, não injetável.
 - 🔴/fraco: **acne em megadose** (Leung 10–20 g, **não-controlado**), **"suporte adrenal"** (marketing).
 - **Disponibilidade BR:** tópico amplo/barato; **injetável isolado NÃO registrado** 🔲 (só tópico de prateleira); B5 injetável só em **combo (complexo B)** ou **manipulável estéril** (D-pantenol é insumo magistral, ex.: Caldic). Pantetina oral via suplemento/magistral 🔲 confirmar.
 - **Via:** oral resolve dislipidemia (pantetina)/acne; dexpantenol IM/IV só atonia GI ou capilar; tópico p/ pele. Sem "drip de B5" isolado terapêutico.
 - **Segurança:** excelente, hidrossolúvel, sem toxicidade conhecida; GI em dose alta; sem toxicidade renal.
 
-**Card — B5:** **dislipidemia: pantetina 600 mg/dia** (reavaliar lipidograma 12–16 sem) · **pele: dexpantenol tópico** · **atonia GI: dexpantenol IM/IV** (hospitalar) · **capilar: dexpantenol IM 250–500 mg / mesoterapia** (adjuvante, evidência fraca) · disclaimer: efeito lipídico é da **pantetina** (não pantotenato); acne megadose/adrenal sem base; injetável isolado via magistral.
+**Card — B5:** **dislipidemia: pantetina 600 mg/dia** (reavaliar lipidograma 12–16 sem) · **pele: dexpantenol tópico** · **atonia GI: dexpantenol IM/IV** (hospitalar) · **capilar: dexpantenol IM 250–500 mg** (adjuvante, evidência fraca) · disclaimer: efeito lipídico é da **pantetina** (não pantotenato); acne megadose/adrenal sem base; injetável isolado via magistral.
