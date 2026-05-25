@@ -1231,6 +1231,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Betaína/TMG:** **anidra ORAL 3–6 g/d (SÓ oral — Cystadane não tem IV/IM)** — **↓homocisteína/metilação** (BHMT, alternativa ao folato) + **NAFLD/hepatoprotetor** + metabólico/insulina + **potencia SAMe na depressão**; homocistinúria (aprovado, co-manejo); 🩺 **↓oxalato urinário** (hiperoxalúria — protocolo de cálculo) + osmólito renal · **🚨 gate: ↑LDL/TG em dose ≥3–6 g → monitorar lipídios**; GI · betaína HCl ≠ TMG.
 
+### 13.42 SAMe (ademetionina) — metilador universal; depressão + colestase (tem IV/IM real)
+- **Via (das poucas do bloco com IV/IM registrado):** **oral gastrorresistente 400–1.600 mg/d** (biodisp. baixa/instável) **OU IM/IV 200–400 mg/d** — **ademetionina parenteral** (Transmetil/Samyr) usada em colestase/depressão. **RAG:** sem score_item; aulas = **"metilador universal"** (mais potente que metilfolato), eixo SAM/SAH, 400–1.600 mg em jejum gastrorresistente.
+- **Indicações:**
+  - 🟢 **Colestase intra-hepática (uso médico mais sólido + onde a IV é usada):** ↓prurido e bilirrubina (RR 0,45), **≈ácido ursodesoxicólico** (oral ou IV, ~1.600 mg) — colestase da gravidez e outras. Hepatologia/co-manejo.
+  - 🟢🟡 **Depressão:** meta-análise (28 estudos) **↑~6 pts HAM-D** vs placebo, ≈tricíclico, monoterapia ou augmentação — **mas Cochrane 2016 = evidência fraca**. **Potencializada por betaína** (§13.41).
+  - 🟡 **Osteoartrite:** ≈AINE em função (sem os efeitos adversos), início lento; resultados **inconsistentes** (Cochrane). NASH = depleção de SAMe (mecanístico/animal).
+- ⚖️ **Composição corporal:** sem uso.
+- 🧠 **Cognição/humor/disposição:** **depressão é o eixo neuro central** (intermediário na síntese de NE/DA/serotonina; SAMe baixa no LCR de deprimidos); cognição/Alzheimer adjuvante (formulações combinadas).
+- 🚨🩺 **Segurança:** 🚨 **bipolar → mania/switch** (parenteral induziu mania — não usar em bipolar sem supervisão); **síndrome serotoninérgica** com antidepressivos/IMAO; ansiedade/insônia/GI; **parear B6/B9/B12** (metilação → homocisteína). Renal sem questão maior.
+
+**Card — SAMe/ademetionina:** **oral gastrorresistente 400–1.600 mg/d OU IM/IV 200–400 mg/d** (tem parenteral real) — **colestase intra-hepática (≈ursodesoxicólico)** + **depressão (≈tricíclico, Cochrane fraco; potenciada por betaína)** + osteoartrite (≈AINE, inconsistente) · **🚨 gate: bipolar/mania, síndrome serotoninérgica (antidepressivo/IMAO); parear B6/B9/B12** · co-manejo psiquiatria/hepato.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1246,7 +1258,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) · triptofano/5-HTP (§13.37) · tirosina (§13.38) · carnosina/beta-alanina (§13.39) · creatina (§13.40) · betaína/TMG (§13.41) feitas. **PRÓXIMA = SAMe.** Depois: · SAMe · GABA · L-teanina.
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) · triptofano/5-HTP (§13.37) · tirosina (§13.38) · carnosina/beta-alanina (§13.39) · creatina (§13.40) · betaína/TMG (§13.41) · SAMe (§13.42) feitas. **PRÓXIMA = GABA.** Depois: · SAMe · GABA · L-teanina.
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
