@@ -774,6 +774,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** o **ácido retinoico** inibe adipogênese branca e induz "browning" do tecido adiposo (↓peso, ↑tolerância à glicose) — **mas só em modelo animal/farmacológico**; em humano o **teto de toxicidade** (UL 10.000 UI, teratogênese) impede dose com esse fim. **Sem uso de emagrecimento/composição na prática** — vit. A continua sendo reposição de deficiência.
 
 🧠 **Cognição/humor/disposição:** retinoides têm papel em plasticidade/aprendizado, mas **sem indicação de suplemento** p/ cognição/humor (e teto de toxicidade). Sem eixo neuro prático.
+📚 **RAG / aulas MFI:** **vit A pré-operatória "para todos"** (integridade de pele/mucosa, barreira, proliferação/diferenciação cutânea via ácido retinoico — Sorrentino); dose **1.000–10.000 UI guiada por retinol sérico ou polimorfismo BCO1** (confirma o painel). ⚠️ **Divergência:** as aulas chamam a teratogenicidade de "mito" (atribuem à isotretinoína) — **doc MANTÉM o gate duro de mulher fértil** (teratogênese com pré-formada ~40.000 UI/d; teto 10.000).
 
 📚 **RAG (alvos da casa):** retinol sérico **funcional >50 µg/dL (50–70 ideal)**; 20–30 insuficiência; <20 deficiência; a clínica **genotipa BCO1** (rs6564851) — **confirma** o achado de conversão de betacaroteno do doc (testar quem converte mal).
 
