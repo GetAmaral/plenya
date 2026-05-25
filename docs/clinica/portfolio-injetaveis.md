@@ -814,6 +814,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** sinal **misto** — ECR não viu efeito na recuperação muscular pós-treino; outro mostrou **↑força de preensão e massa muscular em DM2** (via AKT/mTOR, contra a atrofia da resistência insulínica). Promissor-mecanístico, **não comprovado**; **sem dado de emagrecimento.** Eixo principal segue osso/vascular.
 
 🧠 **Cognição/humor/disposição:** sem uso relevante (papel em esfingolipídios cerebrais é mecanístico/pré-clínico). Sem eixo neuro prático.
+📚 **RAG / aulas MFI:** confirma **MK-7 80–200 mcg/d junto com a vit D** (sinergia A-D-K2; D não depende obrigatoriamente de K2); aulas citam **K2 na prevenção CV primária** (com vit E/ômega-3/curcuminoides) — mais otimistas que o doc, que mantém "vascular = mecanístico, sem promessa de desfecho".
 
 **Card — K2:** **MK-7 ORAL 100–200 mcg/d** · sem IV/IM · **par fixo da vit. D** (especialmente em D alta) — fecha eixo A-D-K2 · uso forte: **osso pós-menopausa/osteopenia** (com D+Ca); vascular = mecanístico, sem promessa de desfecho · **🚨 gate: varfarina (monitorar INR); tranquilo com DOAC** · molécula limpa/barata/segura.
 
