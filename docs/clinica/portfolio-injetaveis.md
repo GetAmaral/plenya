@@ -1736,6 +1736,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.73 MOTS-c — ⚠️ NÃO OFERTAR (monitorar); peptídeo mitocondrial "mimético de exercício"; mesmo balde do BPC/TB-500
+- **Identidade:** peptídeo derivado do DNA mitocondrial; ativa **AMPK** → ↑glicose/oxidação de gordura/respiração mitocondrial, ↓inflamação. Vendido como **"exercício em injeção"** (reproduz adaptações do treino aeróbio em animal). Mecanismo elegante, apelo enorme — mas evidência/regulação o derrubam.
+- **🔴 Evidência humana ~zero:** **nenhum ensaio clínico humano completo** (tudo pré-clínico/animal + associações observacionais; Fase 1 só iniciada). Desenvolvimento clínico **estagnou** por **baixa biodisp./instabilidade/meia-vida curta** (entrega não resolvida).
+- **🔴 Status regulatório:** **🔴 WADA proibido sempre — S4.4 (moduladores metabólicos/ativadores de AMPK)**, exclui atletas; **FDA não aprovado, não compoundável** (Cat 2/limbo, PCAC jul/2026); **🇧🇷 ANVISA não aprova** (underground).
+- **🚨 Segurança:** **desconhecida** (sem trials completos) + risco de produto cinza.
+- **Ironia (= argumento da metformina §13.66):** injetável experimental/ilegal que "imita exercício" numa clínica que **prescreve exercício** (e já tem ativador de AMPK oral/fisiológico = berberina/treino). Racional fraco.
+- 📚 **RAG:** **zerado** — experimental, não da casa.
+
+**Card — MOTS-c:** ⚠️ **NÃO OFERTAR** (monitorar regulamentação) · peptídeo mitocondrial "exercício injetável" · **falha nos mesmos eixos do BPC/TB-500:** sem ensaio humano completo · **🔴 WADA S4.4 (AMPK) banido** · FDA/ANVISA não aprovam (mercado cinza) · **problema de entrega não resolvido (biodisp./meia-vida)** · ironia = exercício injetável onde se prescreve exercício · RAG zerado. **Exclusão clara. Decisão do Dr.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1765,7 +1777,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) feitos. **PRÓXIMA = MOTS-c.** Restantes: epitalon · melanotan · análogos de GLP-1.
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) feitos. **PRÓXIMA = epitalon.** Restantes: melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
