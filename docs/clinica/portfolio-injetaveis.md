@@ -671,6 +671,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — B9:** **5-MTHF (metilfolato) ORAL** — ácido fólico **vetado**, sem IV/IM · forma > via (oral=sublingual=strip em absorção; strip/spray só adesão) · gate: homocisteína alta (com B12+B6), humor adjuvante, deficiência/pré-concepção · **regra: nunca sem B12** (mascara neuropatia) · combo natural: spray/strip 5-MTHF + metilB12 · disclaimer: corrige marcador, não promete evento CV.
 
+### 13.13 Vitamina A (retinol) — ORAL, repor só o deficiente; IM descartada
+- **Decisão do Dr.: sem IM** (existe Arovit 300.000 UI IM registrado, mas fora do escopo). Molécula **oral**.
+- **Forma:** **palmitato (ou acetato) de retinila em base oleosa, com refeição gordurosa** — reposição confiável de A pré-formada. Acetato equivale quando microencapsulado. Retinol livre menos estável. **Betacaroteno** = fonte "segura de teto" (conversão sob demanda, sem hipervitaminose), **mas não repõe de forma confiável**: conversão muito variável e **até 45% têm polimorfismo BCMO1/BCO1** que reduz ~50% — e 🔴 **veto em fumante** (CARET/ATBC: +28% câncer de pulmão, +46% morte).
+- **Doses:** RDA H 900 / M 700 mcg RAE (~3.000 / 2.333 UI) · **UL = 10.000 UI/d de pré-formada** · manutenção longevidade perto do RDA (somar multivit+dieta) · deficiência: 200.000 UI/d × 2d → 10.000–20.000 UI/d × ~2 meses, reavaliando retinol sérico (normal 300–700 ng/mL).
+- **Indicações (contexto funcional/longevidade):**
+  - 🟢 **Correção de deficiência comprovada** — má-absorção de gordura (colestase, pós-bariátrica, DII, insuf. pancreática), dieta restritiva + BCMO1 lento. Única indicação sólida.
+  - 🟡 **Imunidade / barreira mucosa-epitelial** · 🟡 **tireoide** (deficiência piora disfunção, interage c/ iodo) · 🟡 **pele** (estética séria é retinoide tópico, não A sistêmica). Em todos: ganho **só no deficiente**, nada em repleto.
+- 🚨 **Gate duro — mulher em idade fértil:** teratogênese já com **40.000 UI/d** no 1º trimestre → manter perto do RDA, evitar dose alta sem contracepção segura. Hipervitaminose crônica: hepato/HIC/osso.
+- 🟢 **Eixo lipossolúvel A-D-K2:** A pré-formada e D **protegem mutuamente da toxicidade** (sinergia osso/imunidade). Como usamos D alta (§3), garantir **A adequada equilibrada com K2 (MK-7)** — desenhar trio coerente, não molécula solta. Diferencial premium = **medir e equilibrar A-D-K2 + nutrigenética BCMO1**, não dose alta.
+
+**Card — A:** **ORAL apenas** (palmitato/acetato oleoso c/ refeição) · sem IV/IM · dose **perto do RDA, teto 10.000 UI** · gate: **repor só deficiente**; **🚨 mulher fértil**; betacaroteno alto **vetado em fumante / conversor BCMO1 lento** · pensar **eixo A-D-K2** + BCMO1 · disclaimer: não é "drip de longevidade", é reposição de precisão.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -682,10 +694,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 4. **Contexto/público (filtro duro):** centro ADULTO, medicina funcional integrativa, **saúde/performance/longevidade**. **Excluir** (nem citar): emergência, toxicologia/antídoto, neonatal/pediátrico, erros genéticos, agudo hospitalar.
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12).
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13).
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**PRÓXIMA = vitamina A.** Depois: vitamina E · vitamina K2 (MK-7).
+**PRÓXIMA = vitamina E.** Depois: vitamina K2 (MK-7).
 Minerais: selênio · cobre · cromo · manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato).
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
