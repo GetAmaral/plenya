@@ -1214,6 +1214,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Creatina:** **monohidratada ORAL 3–5 g/d** (±loading) — **força/massa magra/sarcopenia (padrão-ouro, com treino)**; cognição (vegetariano/sono privado) + depressão adjuvante; **osso pós-menopausa** · ⚖️ base da recomposição · **🩺 não prejudica rim saudável; eleva creatinina (pseudo-↓eGFR) → usar cistatina C**; cautela DRC/gestação · marca testada (ANVISA qualidade variável) · sem IV.
 
+### 13.41 Betaína (TMG / trimetilglicina) — metilação/homocisteína + NAFLD; gate lipídico
+- **Formas:** **betaína anidra (TMG)** — metilação/performance. (Betaína **HCl** é outra coisa — acidificante gástrico.) Dose 3–6 g/d (NAFLD em estudos 10–20 g). **RAG:** sem score_item; aulas a colocam no eixo **submetilação** (doadora de metila, precursora = colina; alvo Hcy <10/5–8) + **hepatoprotetor**; DMG (dimetilglicina) no esporte.
+- **Indicações:**
+  - 🟢 **Homocisteína / metilação:** doadora de metila via **BHMT** (homocisteína→metionina, virando DMG) — **via alternativa quando o folato/B12 está comprometido** (MTHFR); ↓homocisteína. Integra o eixo submetilação (B9 §13.12 + P5P §13.10 + metilB12 §2 + colina).
+  - 🟢🟡 **NAFLD / fígado (hepatoprotetor):** ECRs em NAFLD ↓ALT/AST e **↓esteatose** (via BHMT/SAM, ↑biogênese mitocondrial/PGC1α). Encaixa no eixo metabólico/fígado gorduroso (cruza c/ LOLA §13.31, ALA §8).
+  - 🟡 **Performance/composição:** anidra ~2,5–3 g/d → ↑força/potência e composição **com treino de resistência** (osmólito + ↑creatina endógena); evidência **inconsistente**, melhor com treino.
+- ⚖️ **Composição corporal:** força/potência/composição modesta (com treino, osmólito); não emagrecedor direto.
+- 🧠 **Cognição/humor/disposição:** indireto via metilação/homocisteína/SAMe; sem uso neuro próprio estabelecido.
+- 🚨🩺 **Segurança:** 🚨 **doses ≥3–6 g podem ↑LDL e triglicérides** (RCT 2005) → **lipidograma baseline + 6–8 sem**; GI em dose alta. 🩺 **osmólito da medula renal** (protege células contra estresse osmótico/ureia — ângulo nefroprotetor); excreção renal ↑ em hipertenso. Sem IV.
+
+**Card — Betaína/TMG:** **anidra ORAL 3–6 g/d** — **↓homocisteína/metilação** (via BHMT, alternativa ao folato; eixo submetilação) + **NAFLD/hepatoprotetor**; performance/composição modesta (com treino) · **🚨 gate: ↑LDL/TG em dose ≥3–6 g → monitorar lipídios**; GI · 🩺 osmólito renal (protetor) · sem IV · (betaína HCl ≠ TMG).
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1229,7 +1241,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) · triptofano/5-HTP (§13.37) · tirosina (§13.38) · carnosina/beta-alanina (§13.39) · creatina (§13.40) feitas. **PRÓXIMA = betaína (TMG).** Depois: · SAMe · GABA · L-teanina.
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) · triptofano/5-HTP (§13.37) · tirosina (§13.38) · carnosina/beta-alanina (§13.39) · creatina (§13.40) · betaína/TMG (§13.41) feitas. **PRÓXIMA = SAMe.** Depois: · SAMe · GABA · L-teanina.
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
