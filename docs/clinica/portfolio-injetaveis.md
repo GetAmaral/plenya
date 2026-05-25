@@ -863,6 +863,17 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — K:** **PRESCRIÇÃO, não infusão/suplemento** · uso central = **citrato de potássio oral na prevenção de cálculo** (protocolo nefro c/ §13.22 + §13.10) · PA/osso = dietético/alcalino · **🔴 sem K IV eletivo (cardíaco); sem composição corporal** · **🚨 gate absoluto: TFG + IECA/BRA — contraindicado/cautela máxima em DRC** (hipercalemia).
 
+### 13.24 Fósforo — FORA do eletivo; o tema é RESTRINGIR, não suplementar (diferencial nefro)
+- **Formas/BR:** fosfato de sódio/potássio oral; "fósforo quelato" (nicho); **fosfato de potássio IV (Farmace) registrado p/ NPT/hipofosfatemia** (hospitalar); "Fosfosal" é veterinário. 🔑 **A dieta dá fósforo em EXCESSO** (proteínas + **aditivos de ultraprocessados**, ~100% absorvidos) → deficiência por baixa ingestão é rara.
+- **Indicações:**
+  - 🟢 **Hipofosfatemia (única real, clínica/hospitalar):** síndrome de **realimentação**, recuperação de CAD, alcoolismo, alcalose respiratória. Oral nas leves, **IV só hospitalar** nas graves/sintomáticas. Não é wellness.
+  - 🟡 **Ergogênico (carregamento de fosfato de sódio):** racional teórico (creatina-P/ATP/2,3-DPG), evidência **mista**, **AIS classifica como sem suporte**. Fraco/não estabelecido.
+- ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **nenhum dado relevante** (ergogênico teórico não toca composição). Não é molécula de composição.
+- 🚨🩺 **Inversão nefrológica (diferencial do Dr.):** o **excesso de fosfato é toxina CV e renal** mesmo na população geral — hiperfosfatemia + **FGF23** → **calcificação vascular, HVE, HAS, disfunção endotelial**, progressão de DRC, mortalidade. **A postura da clínica é o OPOSTO de suplementar: orientar REDUÇÃO de fosfato** (aditivos/ultraprocessados — "fósforo oculto") como proteção CV/renal/longevidade. Suplementar eletivamente = ativamente nocivo. Central na DRC (quelantes/restrição).
+- 🔴 **Sem suplemento/IV eletivo; sem composição corporal.**
+
+**Card — P:** **FORA do portfólio eletivo** · reposição só em **hipofosfatemia documentada** (realimentação/clínico; IV só hospitalar) · **🔴 sem suplemento/IV de wellness; sem composição corporal** · 🩺 **tema real = RESTRINGIR fosfato** (aditivos/ultraprocessados) como proteção CV/renal — diferencial nefro; atenção máxima em DRC.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -875,10 +886,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 6. **Emagrecimento ESTÁ no escopo** (a clínica trata emagrecimento). Avaliar SEMPRE 3 eixos por molécula: **emagrecimento · preservação/ganho de massa muscular · redução de gordura** — anotar na seção com a tag **⚖️ Composição corporal**, com atenção a IV/IM/SC. "Sem mesoterapia" é restrição de VIA, não de indicação.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-Minerais: **PRÓXIMA = fósforo.** Depois: boro · silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21, cálcio §13.22, potássio §13.23 já feitos.)*
+Minerais: **PRÓXIMA = boro.** Depois: silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21, cálcio §13.22, potássio §13.23, fósforo §13.24 já feitos.)*
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
