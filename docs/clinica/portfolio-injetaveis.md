@@ -696,6 +696,19 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — E:** **ORAL apenas**, dose **baixa-moderada (≤400–800 UI)**, **tocoferóis mistos naturais** · usos: **saúde da mulher** (dismenorreia/mastalgia/fogacho não-hormonal), **NASH selecionado** (800 UI d-alfa), câimbra (tentativa; forte no cirrótico) · **🔴 sem drip/dose-alta antioxidante** (próstata/mortalidade) · gate: anticoagulado, pré-op, câncer de próstata.
 
+### 13.15 Vitamina K2 (menaquinona MK-7) — ORAL, par fixo da vit. D; fecha o eixo A-D-K2
+- **Forma:** **MK-7** (de natto) é a de escolha — meia-vida 3–4 dias, eficaz em **mcg 1×/d**. MK-4 tem meia-vida 1–2 h (exige mg várias×/d, estudos japoneses 45 mg). K1/fitomenadiona é coagulação/dieta, não é o alvo.
+- **Sem injetável MK-7** (a "vit. K injetável" hospitalar é **K1**, reversão de anticoagulação/RN — fora do escopo). **Molécula oral.** BR: MK-7 magistral 50/100/200 mcg, barato.
+- **Mecanismo:** carboxila proteínas Gla — **osteocalcina** (fixa Ca no osso) + **MGP** (impede Ca na artéria). Tese "Ca pro osso, longe da artéria".
+- **Indicações:**
+  - 🟢 **Osso (evidência mais sólida):** ECR 3 anos, 244 pós-menopausa, **MK-7 180 mcg/d** → perda óssea mais lenta (coluna/colo femoral) + ↑força; meta-análise (16 ECRs, 6.425) ↑DMO lombar + ↓fraturas. Ressalva: inconsistente em quadril; muitos estudos MK-4 alta dose.
+  - 🟡 **Calcificação vascular/rigidez arterial:** mecanismo claro (MGP), **desfechos mistos** (positivo em pós-menopausa saudável; **negativo em DRC** K4Kidneys). Promissor, **não comprovado** — suporte mecanístico, sem prometer evento CV.
+  - 🟢 **Sinergia A-D-K2 (argumento de portfólio):** com **D alta (§3)** ↑absorção de Ca; **K2 direciona** esse Ca pro osso, não pra artéria. Melhor uso = **acoplada à D**, não solta. Fecha o trio lipossolúvel.
+- 🚨 **Gate único — varfarina (cumarínico):** K2 **antagoniza** → contraindicada sem ajuste/monitor de INR (MK-7 interfere menos; lógica de dose estável ~1 mcg/kg, decisão caso a caso). **DOACs (rivaroxabana etc.): sem interação.** Fora disso, segurança excelente, sem UL.
+- **Sem indução IV/IM.**
+
+**Card — K2:** **MK-7 ORAL 100–200 mcg/d** · sem IV/IM · **par fixo da vit. D** (especialmente em D alta) — fecha eixo A-D-K2 · uso forte: **osso pós-menopausa/osteopenia** (com D+Ca); vascular = mecanístico, sem promessa de desfecho · **🚨 gate: varfarina (monitorar INR); tranquilo com DOAC** · molécula limpa/barata/segura.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -707,11 +720,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 4. **Contexto/público (filtro duro):** centro ADULTO, medicina funcional integrativa, **saúde/performance/longevidade**. **Excluir** (nem citar): emergência, toxicologia/antídoto, neonatal/pediátrico, erros genéticos, agudo hospitalar.
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14).
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15). **✅ Lipossolúveis fechadas — eixo A-D-K2 completo.**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**PRÓXIMA = vitamina K2 (MK-7).** (Fecha as lipossolúveis → fecha o eixo A-D-K2.)
-Minerais: selênio · cobre · cromo · manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato).
+**PRÓXIMA = minerais, começando por selênio.** Depois: cobre · cromo · manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato). *(zinco já feito em §13.5, magnésio em §4, ferro em §1.)*
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
