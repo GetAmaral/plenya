@@ -927,6 +927,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🔴 **Sem IV/IM.**
 
 🧠 **Cognição/humor/disposição:** **via tireoide** — hipotireoidismo por carência dá lentidão cognitiva/depressão, revertidas ao corrigir; em **eutireóideo, suplementar não melhora** (e excesso piora). Eixo = corrigir deficiência/função tireoidiana.
+📚 **RAG / aulas MFI:** ênfase **gestacional/tireoidiana** (hipotireoidismo subclínico materno ~dobra risco de aborto/morte neonatal; deficiência materna ligada a TDAH na prole). ⚠️ aulas citam **kelp/Ascophyllum** como fonte — **doc mantém preferência por KI** (kelp = teor variável/menor biodisp.); manter gate tireoidiano (Hashimoto/Wolff-Chaikoff).
 
 **Card — Iodo:** **ORAL** (KI, não kelp) · **nutricional 150 mcg** p/ deficiência/bócio; **dose alta (mg) só em mama fibrocística com monitor de TSH/anti-TPO** · **🔴 sem IV/IM; sem emagrecimento em eutireóideo** (excesso ↓T4→T3) · **🚨 gate tireoidiano:** rastrear Hashimoto/nódulo antes de dose alta (Wolff-Chaikoff/Jod-Basedow), teto rotineiro 500 mcg, parear selênio · cautela renal.
 
