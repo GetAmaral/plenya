@@ -739,6 +739,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** efeito **metabólico leve** (ativa glucoquinase, ↓glicemia/lipídios, sobretudo em combo com **cromo**) já registrado; **sem dado de perda de peso ou de massa muscular**. Aparece no rótulo de "fat burners" sem base própria de emagrecimento.
 
 🧠 **Cognição/humor/disposição:** sem uso relevante (a alta dose em esclerose múltipla **falhou** — SPI2, já citado). Sem eixo neuro.
+📚 **RAG / aulas MFI:** biotina para **resistência insulínica (500–1.000 mcg)** — confirma o combo metabólico com cromo (§13.11); cofator das **carboxilases** (uso de gordura/bioenergética); unhas/cabelo em dose alta (5–15 mg) — lembrar do gate de interferência laboratorial.
 
 **Card — B7:** **ORAL apenas** (correção de deficiência + ajuste metabólico leve, opcional combo c/ cromo) · **sem IV/IM** (oral ~100% biodisponível, parenteral não agrega) · gate: deficiência comprovada / suporte metabólico · **regra operacional fixa: suspender 48–72 h antes de coleta** (interferência troponina/TSH) · disclaimer: sem promessa capilar em não-deficiente; MS alta dose descartada (SPI2 negativo).
 
