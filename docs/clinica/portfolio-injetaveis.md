@@ -1407,6 +1407,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.54 Fisetina — ORAL-ONLY (lipossomal); o senolítico natural mais potente; tem RCT humano de composição corporal (≠ estilbenos)
+- **Identidade:** flavonol (morango, maçã, caqui). No screening fundador da era senolítica (Yousefzadeh 2018) **foi o flavonoide mais potente** a limpar células senescentes + estendeu healthspan/longevidade em camundongos. É a **"irmã mais forte" da quercetina** no eixo senólise — e o aposta do grupo Mayo. **Diferencial vs D+Q: não precisa do dasatinibe** (é senolítica por si → senolítico "limpo", sem fármaco oncológico).
+- **Via / biodisp.:** fisetina livre **insolúvel/absorção péssima** → **lipossomal/nano (~47× a biodisp. da livre)**. Sem racional nem produto IV.
+- **🇧🇷 Disponibilidade BR:** **magistral consolidado** — cápsula 50/100 mg (RDC 27/2010, isento). **Sem injetável.**
+- **🚀 Senolítico/longevidade (eixo central):** ensaios Mayo — **AFFIRM-LITE** (idosos 70–90a, **20 mg/kg/d oral × 2 dias consecutivos, intermitente** ≈1.400 mg/70 kg) p/ fragilidade/inflamação; **COVID-FIS** (casas de repouso). ~metade do recrutamento ago/2025, **sem EAs graves**. **Desfechos humanos definitivos ainda não publicados** (em curso).
+- **⚖️ Composição corporal — tem dado humano novo (melhor que os estilbenos):** **RCT duplo-cego jan/2026 (60 ♂ obesos):** fisetina **200 mg/d × 12 sem**, isolada e + treino intervalado (resistência+aeróbio) → **↓adipocinas pró-inflamatórias (asprosina, MCP-1), ↑adiponectina, melhora lipídica** (placebo PIOROU LDL/HDL). Pré-clínico: ↑gordura marrom/termogênese, **supressão de mTOR**, ↓esteatose hepática. Melhor sinal de composição do bloco — ainda que potencializado por treino.
+- **🧠 Cognição/humor/disposição:** pré-clínico **riquíssimo** (↑CREB/BDNF, anti-amiloide/tau, mitofagia, ↓neuroinflamação) MAS **ZERO ensaio humano** (ADDF: 0 estudos). Promessa mecanística, não claim — mesma situação do pterostilbeno.
+- **🩺 Segurança / nefro:** **excelente** — sem EAs graves mesmo a 20 mg/kg (Mayo); bem-estar 100–500 mg/d; cautela >500 mg/d e c/ medicações. **Sem sinal de nefrotoxicidade** (≠ quercetina IV); como o uso é **oral intermitente**, o ponto renal nem se coloca.
+- 📚 **RAG:** **quase zerado** — sem `score_item`, só 1 menção de passagem em aula de Neurologia Funcional. **Não é conduta da casa**; ativo novo (senólise + RCT de composição).
+
+**Card — Fisetina:** **ORAL-ONLY** (lipossomal; **senolítico intermitente 20 mg/kg × 2 dias** ou pulsos mensais; **metabólico 200 mg/d contínuo + treino**), **IV/IM NÃO-ofertada** (livre insolúvel, sem forma estéril, protocolo é oral intermitente) · 🇧🇷 magistral 50/100 mg · **senolítico natural mais potente + "limpo" (não precisa de dasatinibe)** · ⚖️ **tem RCT humano** (200 mg + treino ↓asprosina/MCP-1, ↑adiponectina, melhora lipídica) · 🧠 pré-clínico forte, **ZERO humano** · 🩺 segurança excelente, sem alerta renal · **RAG ~zerado (não é da casa).**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1432,7 +1446,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ✅ **`full_content`/aulas MFI revisado molécula a molécula (TODAS, §1–§13.32 — 2026-05)**, tag 📚 RAG/aulas por seção. **Temas transversais das aulas:** (1) **coquetel IM lipotrópico de emagrecimento** (metilfolato+5-HTP IM+glutationa+ALA+carnitina+cromo+niacinamida+glicina; ~8 sessões 2×/sem — Emagrecimento XVII); (2) **eixo cicatrização/perioperatório** (arginina+vitC+zinco+selênio+cobre+complexoB+vitA+CoQ10 — aulas Sorrentino/Cirurgia); (3) **framework de submetilação** (5-MTHF+metilB12+P5P+TMG; MTHFR/CBS; Hcy 5–8); (4) **stack mitocondrial** (CoQ10+carnitina+ALA+glicina+taurina+complexoB+Mg); (5) **fórmula de Sinatra** (cardio: CoQ10+carnitina+ribose+taurina+Mg); (6) **hepcidina×vit D** (utilização de ferro); (7) **eixo neuro "básico"** (Mg+B12+D+folato+ferro). **Divergências mantidas (MBE do doc):** vit A teratogenicidade (aulas chamam de "mito" → doc mantém gate), niacina lipídios/ortomolecular, CoQ10 Parkinson, dose de cromo > teto ANVISA, iodo via kelp (doc prefere KI). **Sem conteúdo de aula:** molibdênio, boro, lítio, ornitina (zero); cálcio/potássio/fósforo só menções incidentais (eletrólitos/painéis).
 - **REGRA:** consultar RAG (score_items + full_content/aulas) em TODA molécula (ver [[pesquisa_moleculas_online_exaustiva]]).
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
-**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) feitas. **PRÓXIMA = fisetina.** Restantes: curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
+**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) feitas. **PRÓXIMA = curcumina.** Restantes: EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
