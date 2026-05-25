@@ -680,6 +680,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** cofator (FAD) da **oxidação de ácidos graxos** e do metabolismo energético; ingestão de **B2 inversamente associada a IMC** e a menor síndrome metabólica (epidemiológico). Benefício real **só corrigindo deficiência**; sem efeito direto de emagrecimento ou ganho muscular.
 
 🧠 **Cognição/humor/disposição:** **enxaqueca** é o uso neuro (já citado); B1/B2 com sinal fraco em ansiedade/sono/estresse; humor só via cofator/deficiência. Sem nootrópico.
+📚 **RAG / aulas MFI:** B2 = **FAD** — cofator do **Krebs/cadeia respiratória + ATP** e da **formação de glutationa** (a enxaqueca/400 mg do doc é uso mitocondrial); parte do stack mitocondrial e de metilação (com B9/B12); doses das aulas 5–50 mg (manutenção).
 
 📚 **RAG (alvos da casa):** dosagem de **B2 por HPLC em sangue total** disponível; a clínica **genotipa MTHFR C677T** (rs1801133) — alinha com o uso B2–MTHFR–HAS do doc.
 
