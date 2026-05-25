@@ -1202,6 +1202,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Carnosina/β-alanina:** **β-alanina ORAL 3–6 g/d fracionada** (precursor; carnosinase degrada carnosina oral) p/ **performance de alta intensidade (30 s–10 min)** · **carnosina** = **antiglicação/AGEs (↓HbA1c/CML, longevidade)**, neuroproteção/cognição idoso-autismo (emergente), colírio N-acetilcarnosina (catarata); zinco-carnosina = GI · 🚨 β-alanina = **parestesia** (fracionar) · 🩺 renoprotetora antiglicação (CNDP1/nefropatia diabética) · sem IV.
 
+### 13.40 Creatina — um dos melhores do bloco (força/massa/sarcopenia + cognição/osso); desmistificar o rim
+- **Forma/dose:** **creatina monohidratada = padrão-ouro** (mais estudada, custo-benefício; HCl dissolve melhor mas sem superioridade e 2–3× mais cara; buffered/Kre-Alkalyn sem vantagem). **3–5 g/d** (± loading 20 g/d × 5–7 d). BR abundante; **ANVISA achou qualidade variável** em 41 produtos → escolher marca testada. **RAG:** score_item (3–5 g/d, checar função renal/creatinina/hidratação); aulas = sistema fosfagênico/performance.
+- **Indicações:**
+  - 🟢🟢 **Força / massa magra / sarcopenia (melhor evidência do bloco):** creatina + **treino resistido** ↑massa magra (~1,3 kg) e força em jovens e **idosos** (meta-análises). Ergogênico mais sólido; sarcopenia/idoso = uso forte.
+  - 🟢🟡 **Cognição/cérebro:** ↑creatina cerebral → memória/working memory sobretudo em **vegetarianos** (baixo baseline) e na **privação de sono** (↑humor e cognição); **depressão** (augmentação — promissor). Carnívoro saturado não ganha (até pior).
+  - 🟢 **Osso pós-menopausa:** 2–5 g + treino desacelera perda óssea / ↑marcadores de formação (RCT 2 anos) — saúde da mulher.
+- ⚖️ **Composição corporal:** ↑massa magra (água intracelular + anabólico com treino); não reduz gordura diretamente, mas é **base da recomposição com treino**.
+- 🧠 **Cognição/humor/disposição:** cognição/working memory no deficiente/sono privado + adjuvante em depressão (emergente) — eixo neuro real além do muscular.
+- 🚨🩺 **Rim (terreno do Dr. — desmistificar):** **creatina NÃO prejudica rim saudável** (meta-análises: TFG sem diferença; seguro até 5 anos). 🚨 **MAS eleva a CREATININA sérica artificialmente** (↑turnover creatina→creatinina) → **pseudo-elevação** que faz a **eGFR (baseada em creatinina) parecer pior sem queda real da filtração** → em quem suplementa, usar **cistatina C ou clearance medido**. Cautela em **DRC pré-existente/gestação**; hidratar. Sem IV.
+
+**Card — Creatina:** **monohidratada ORAL 3–5 g/d** (±loading) — **força/massa magra/sarcopenia (padrão-ouro, com treino)**; cognição (vegetariano/sono privado) + depressão adjuvante; **osso pós-menopausa** · ⚖️ base da recomposição · **🩺 não prejudica rim saudável; eleva creatinina (pseudo-↓eGFR) → usar cistatina C**; cautela DRC/gestação · marca testada (ANVISA qualidade variável) · sem IV.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1217,7 +1229,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) · triptofano/5-HTP (§13.37) · tirosina (§13.38) · carnosina/beta-alanina (§13.39) feitas. **PRÓXIMA = creatina.** Depois: betaína (TMG) · SAMe · GABA · L-teanina.
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) · triptofano/5-HTP (§13.37) · tirosina (§13.38) · carnosina/beta-alanina (§13.39) · creatina (§13.40) feitas. **PRÓXIMA = betaína (TMG).** Depois: · SAMe · GABA · L-teanina.
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
