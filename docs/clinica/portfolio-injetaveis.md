@@ -1467,6 +1467,28 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.57 Sulforafano (brócolis) — ORAL-ONLY (forma com mirosinase acoplada ou pré-formado); o ativador de Nrf2 / a molécula "detox" da casa; perfil de segurança limpo (≠ curcumina/EGCG)
+- **O que é / mecanismo:** isotiocianato do brócolis; **o ativador natural mais potente da via Keap1/Nrf2** → liga enzimas de fase II + síntese de glutationa endógena + inibe HDAC (epigenético). No portfólio é o ativo do **eixo detox/citoproteção e dos SNPs de detoxificação**, não mais um anti-inflamatório.
+- **Via / biodisponibilidade (faz ou quebra o produto):** sulforafano **não existe pronto na planta** — gerado quando **glucorafanina** (precursor) encontra **mirosinase**. **Armadilha:** muitos suplementos trazem **só glucorafanina sem mirosinase** → conversão pífia. Instável; sem racional IV.
+- **🇧🇷 Disponibilidade BR (bem resolvida):**
+  - **Brocophanus®** (magistral, brócolis+rabanete) — **padronizado 1% sulforafano + 0,5% mirosinase** = **padrão-ouro** (traz a mirosinase junto); cápsula 100/200 mg; **posologia adulto 100 mg 2×/d**.
+  - **Pré-formado estabilizado** (tipo Prostaphane/BrocElite) — sulforafano livre ~70% biodisp., forma dos RCTs (próstata/cognição); importado.
+  - **SGS/glucorafanina isolada** (Nutricost 50 mg, Swanson 400 mcg) — depende da mirosinase intestinal, conversão variável; **inferior, evitar**.
+  - **Sem injetável.** Forma a adotar: **Brocophanus® 100 mg 2×/d ou pré-formado estabilizado; nunca SGS isolado.**
+- **Indicações — separar RCT humano de pré-clínico:**
+  - **🩺 DM2/glicemia (a mais forte):** RCT *Science Transl Med* — extrato de broto ↓produção hepática de glicose, melhora glicemia jejum/HbA1c em obesos DM2. Âncora metabólica.
+  - **🧠 Cognição/humor no idoso:** RCT — ↑velocidade de processamento, ↓humor negativo em idosos. No escopo.
+  - **Próstata (recidiva bioquímica pós-prostatectomia):** RCT (78 ♂, **estabilizado 60 mg/d × 6 m**): endpoint primário NÃO atingido, mas **tempo de duplicação do PSA 86% maior** (28,9 vs 15,5 m). Sinal secundário p/ público masculino — **sem claim oncológico**.
+  - **🩹 Fotoproteção cutânea (TÓPICO):** extrato tópico ↑fase II, ↓eritema UV (~38% proteção média) — adjunto "protetor interno", via tópica (no máx. permitido).
+  - **Pré-clínico/negativo:** NAFLD forte em animal, **humano fino**; **🔴 asma/DPOC NEGATIVO em humano** (não induziu Nrf2/inflamação — não usar); ***H. pylori* reduz colonização/gastrite mas NÃO erradica** (adjunto, não substitui antibiótico); autismo/esquizofrenia (sinal misto, fora do core).
+- **⚖️ Composição corporal:** majoritariamente **pré-clínico** (camundongo HFD ↓peso/gordura, ↑sensibilidade insulínica via AMPK/Nrf2/GPx4); em humano o sinal é **metabólico (glicemia), não composição direta**. Coadjuvante, não emagrecedor.
+- **🩺 Segurança / cautelas:** **muito seguro** (GI leve em dose alta); **🚨 cautela goitrogênica/tireoidiana** em dose alta contínua (a casa alerta — goitrogênicos até ~3×/sem como alimento); gestação não estabelecida; **sem alerta hepático/renal** (perfil bem mais limpo que curcumina/EGCG).
+- 📚 **RAG — é da casa (eixo detox + memória):** `score_items` — sulforafano no **painel de detoxificação** (SNPs **GSTM1/GSTP1/GSTT1, CYP1A1, NAT2, EPHX1**), **exposição a metais/ambiente** (amálgamas, alumínio, ar interior) e **"Melhorar memória"**. Aulas MFI: *Mitocôndrias VIII* (ativador Nrf2; cru preserva via mirosinase; mostarda potencializa; cuidado goitrogênico), *TDAH*, *Neurologia Funcional*.
+
+**Card — Sulforafano:** **ORAL-ONLY** (**Brocophanus® 1% sulforafano + 0,5% mirosinase, 100 mg 2×/d**, ou pré-formado estabilizado; **nunca SGS/glucorafanina isolada**; + tópico opcional fotoproteção), **IV/IM NÃO-ofertada** (instável, dietético, sem racional) · 🇧🇷 magistral bem resolvido · **ativador Nrf2 mais potente = molécula "detox" da casa** · âncoras RCT = **glicemia/DM2 (STM), cognição/humor no idoso, detox/Nrf2 (SNPs da casa)**; próstata (PSA doubling +86%, sem claim) · ⚖️ pré-clínico (humano = só glicemia) · **🔴 NÃO usar: asma/DPOC (negativo humano), erradicação de H. pylori** · **gate = goitrogênico/tireoide** · **segurança limpa (sem alerta hepato/renal).**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1492,7 +1514,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ✅ **`full_content`/aulas MFI revisado molécula a molécula (TODAS, §1–§13.32 — 2026-05)**, tag 📚 RAG/aulas por seção. **Temas transversais das aulas:** (1) **coquetel IM lipotrópico de emagrecimento** (metilfolato+5-HTP IM+glutationa+ALA+carnitina+cromo+niacinamida+glicina; ~8 sessões 2×/sem — Emagrecimento XVII); (2) **eixo cicatrização/perioperatório** (arginina+vitC+zinco+selênio+cobre+complexoB+vitA+CoQ10 — aulas Sorrentino/Cirurgia); (3) **framework de submetilação** (5-MTHF+metilB12+P5P+TMG; MTHFR/CBS; Hcy 5–8); (4) **stack mitocondrial** (CoQ10+carnitina+ALA+glicina+taurina+complexoB+Mg); (5) **fórmula de Sinatra** (cardio: CoQ10+carnitina+ribose+taurina+Mg); (6) **hepcidina×vit D** (utilização de ferro); (7) **eixo neuro "básico"** (Mg+B12+D+folato+ferro). **Divergências mantidas (MBE do doc):** vit A teratogenicidade (aulas chamam de "mito" → doc mantém gate), niacina lipídios/ortomolecular, CoQ10 Parkinson, dose de cromo > teto ANVISA, iodo via kelp (doc prefere KI). **Sem conteúdo de aula:** molibdênio, boro, lítio, ornitina (zero); cálcio/potássio/fósforo só menções incidentais (eletrólitos/painéis).
 - **REGRA:** consultar RAG (score_items + full_content/aulas) em TODA molécula (ver [[pesquisa_moleculas_online_exaustiva]]).
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
-**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) feitas. **PRÓXIMA = sulforafano.** Restantes: luteolina · apigenina · berberina · silimarina.
+**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) feitas. **PRÓXIMA = luteolina.** Restantes: apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
