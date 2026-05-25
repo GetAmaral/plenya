@@ -646,6 +646,19 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — B6:** P5P (ativa) preferível; oral resolve a maioria · doses: deficiência 1,3–2 mg; **hiperoxalúria 5–10 mg/kg/d (monitorado)**; TPM 50–100 mg · injetável só no combo neurotrópico/reposição IM · gate: homocisteína alta (com B12/folato), formador de cálculo de oxalato, deficiência, dialítico · monitor: **neuropatia sensitiva** (dose alta), oxalúria 24h, somar fontes de B6 · disclaimer: teto de neuropatia; sem B6 IV isolado de wellness.
 
+### 13.11 Vitamina B7 (biotina) — molécula ORAL; sem indução para IV/IM
+- **Forma:** D-biotina única (sem sais/ésteres clínicos distintos). Oral abundante e barato (cáps. manipulada 2/5/10 mg). Injetável humano **não tem registro ANVISA** — só **magistral estéril** (IM/IV/SC, validade ~1 ano). "Biotina injetável 10%" de mercado é **veterinária** (não usar); ampolas Dermabel etc. são **tópicas capilares**, não injetáveis.
+- 🔴 **Sem indução farmacológica para IV/IM no nosso contexto.** Biodisponibilidade oral **~100%**, absorção completa mesmo em dose farmacológica; PK mostra sérico/excreção **equivalentes** entre oral e IV. Não há gargalo de absorção (≠ B12). IV/IM só agregam custo e risco — **não consolidar via injetável**.
+  - Única indução real de parenteral = **falha/indisponibilidade da via oral** (intestino curto, DII grave, NPT prolongada). Nicho de má-absorção, fora do público funcional/performance.
+- 🟡 **Cabelo/unha/pele (procura nº 1):** evidência **fraca** (JAAD "Rethinking biotin therapy"). Benefício documentado **só em deficiência comprovada**; sem ensaio que sustente queda comum/unha frágil em repleto. Defensável apenas como correção de deficiência, **sem promessa estética**.
+- 🟡 **Metabólico (glicemia/lipídios):** meta-análise DM2 (5 RCTs, 445 pts) → queda modesta de glicemia de jejum, CT e TG, frequentemente **combo com cromo picolinato** (ativa glucoquinase; reduz VLDL/TG). HbA1c inconclusivo. Sinal real e pequeno — eixo metabólico/longevidade, **oral**.
+- 🟢 **Correção de deficiência:** clara em pós-bariátrica, má-absorção, NPT, anticonvulsivante crônico, clara de ovo crua. Oral.
+- 🔴 **Fora (não usar):** alta dose em esclerose múltipla (MD1003 100–300 mg) — fase 3 **SPI2 negativo** em todos os desfechos + dano iatrogênico por interferência lab; não recomendável.
+- 🚨 **Interferência laboratorial = questão operacional central (temos centro de exames):** dose alta interfere em imunoensaios biotina-estreptavidina → **troponina falsamente baixa** (FDA: 1 morte relatada por IAM perdido), **TSH baixo + T4/T3 altos** simulando hipertireoidismo (erro mais comum; ocorreu 25× no próprio SPI2), além de hCG, HIV, hepatite, marcadores tumorais/autoimunes. Suplementos capilares chegam a 20 mg, suficiente pra contaminar exames. **Protocolo obrigatório: suspender biotina 48–72 h antes de qualquer coleta**, com alerta no prontuário e na recepção do centro de exames.
+- **Doses:** RDA ~30 mcg · suplemento usual 5–20 mg/d · deficiência/repleção 5–10 mg/d.
+
+**Card — B7:** **ORAL apenas** (correção de deficiência + ajuste metabólico leve, opcional combo c/ cromo) · **sem IV/IM** (oral ~100% biodisponível, parenteral não agrega) · gate: deficiência comprovada / suporte metabólico · **regra operacional fixa: suspender 48–72 h antes de coleta** (interferência troponina/TSH) · disclaimer: sem promessa capilar em não-deficiente; MS alta dose descartada (SPI2 negativo).
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -657,10 +670,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 4. **Contexto/público (filtro duro):** centro ADULTO, medicina funcional integrativa, **saúde/performance/longevidade**. **Excluir** (nem citar): emergência, toxicologia/antídoto, neonatal/pediátrico, erros genéticos, agudo hospitalar.
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10).
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11).
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**PRÓXIMA = B7 (biotina).** Depois: B9 folato · vitamina A · vitamina E · vitamina K2 (MK-7).
+**PRÓXIMA = B9 (folato / ácido folínico / 5-MTHF).** Depois: vitamina A · vitamina E · vitamina K2 (MK-7).
 Minerais: selênio · cobre · cromo · manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato).
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
