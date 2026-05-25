@@ -1188,6 +1188,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Tirosina:** **L-tirosina ORAL situacional** (500–2.000 mg, jejum, 30–60 min antes) — **disposição/cognição sob estresse agudo/privação de sono** (NÃO diário) · 🚨 **curva em U / dependente do baseline** (ajuda o depletado/idoso; **pode piorar high performers** — individualizar) · **🔴 NALT inferior à L-tirosina; tireoide sem evidência (não usar como suporte tireoidiano); não TDAH** · 🟡 depressão só no subtipo anedônico/amotivacional (evidência fraca) · ⚖️ combo apetite dopaminérgico (modesto) · **🚨 gate: IMAO (crise hipertensiva), hipertireoidismo/Graves, PKU** · sem IV.
 
+### 13.39 Carnosina / beta-alanina — performance (β-alanina) + antiglicação/longevidade/neuro (carnosina)
+- **Formas/biodisponibilidade (ponto-chave):** 🔑 a **carnosinase sérica (CN1) degrada a carnosina oral (t½ <5 min)** → para elevar **carnosina muscular, a BETA-ALANINA é a via preferível** (precursor limitante, bypassa a carnosinase): **3–6 g/d × ≥4 sem ↑carnosina muscular 30–60%**. Carnosina oral ainda estudada para efeitos **sistêmicos** (antiglicação) e **tópica** (colírio **N-acetilcarnosina** = catarata, nicho das aulas). **Zinco-carnosina (polaprezinc)** = GI/gástrico (H. pylori). **RAG:** sem score_item; aulas confirmam β-alanina (tamponamento, 30s–10min) e carnosina oftalmológica/Nrf2.
+- **Indicações:**
+  - 🟢 **Performance (β-alanina/tamponamento de H⁺):** ergogênico em **alta intensidade de ~30 s–10 min** (capacidade; ES moderado); força/potência **inconsistente**; inútil em fosfagênico puro/endurance.
+  - 🟡🟢 **Antiglicação / AGEs / metabólico (longevidade):** carnosina = anti-glicação + **quenching de carbonil**; humano: L-carnosina ↓glicemia jejum, **HbA1c, TG, CML, TNF-α** (1 estudo); animal renal/glicêmico. Evidência humana **limitada** mas promissora — cruza com o **framework de glicação** das aulas.
+  - 🟡 **Neuroproteção/cognição:** carnosina/anserina ↑escores cognitivos em idoso (extrato 13 sem); autismo (800 mg, comportamento/fala); Alzheimer adjuvante. Pré-clínico forte, clínico **emergente**.
+  - 🟡 **Longevidade/senescência:** ↓encurtamento de telômero e senescência em fibroblastos; quelação de metais; anti-cross-linking. Pré-clínico ("fator de longevidade").
+  - 🟡 **Oftalmológico:** N-acetilcarnosina colírio (catarata) — nicho tópico.
+- ⚖️ **Composição corporal:** β-alanina dá suporte indireto (mais volume de treino de alta intensidade → massa); não anabólico/gordura direto.
+- 🧠 **Cognição/humor/disposição:** carnosina/anserina = neuroproteção/cognição no idoso e autismo (emergente); não é nootrópico agudo.
+- 🚨🩺 **Segurança:** **β-alanina → parestesia** (transitória, dose-dependente → **fracionar / liberação lenta**); carnosina segura. 🩺 **nefro:** carnosina é **renoprotetora em modelo diabético** (antiglicação) e o polimorfismo da **carnosinase (CNDP1)** liga-se a (proteção contra) **nefropatia diabética** — ângulo do nefrologista. Sem IV.
+
+**Card — Carnosina/β-alanina:** **β-alanina ORAL 3–6 g/d fracionada** (precursor; carnosinase degrada carnosina oral) p/ **performance de alta intensidade (30 s–10 min)** · **carnosina** = **antiglicação/AGEs (↓HbA1c/CML, longevidade)**, neuroproteção/cognição idoso-autismo (emergente), colírio N-acetilcarnosina (catarata); zinco-carnosina = GI · 🚨 β-alanina = **parestesia** (fracionar) · 🩺 renoprotetora antiglicação (CNDP1/nefropatia diabética) · sem IV.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1203,7 +1217,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) · triptofano/5-HTP (§13.37) · tirosina (§13.38) feitas. **PRÓXIMA = carnosina/beta-alanina.** Depois: · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) · triptofano/5-HTP (§13.37) · tirosina (§13.38) · carnosina/beta-alanina (§13.39) feitas. **PRÓXIMA = creatina.** Depois: betaína (TMG) · SAMe · GABA · L-teanina.
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
