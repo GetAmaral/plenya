@@ -1268,7 +1268,25 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🩺 **Segurança:** perfil **excelente** (toxicologia favorável). Hipotensor leve → **bluntou picos de PA induzidos por cafeína sob estresse mental**. Cautela com **sedativos/anti-hipertensivos**. Sem questão renal.
 - 📚 **RAG (≥8 aulas + alvos da casa):** peça-chave = **MFI Psiquiatria Aula 06** — B6/Mg/taurina/glicina/**L-teanina**/colina = o **"stack neuro básico" da casa** que modula GABA/serotonina/ACh (o mesmo a montante que, no card do GABA, supera o GABA exógeno). Score_items: *Ansiedade, Manejo do estresse, Disposição/energia, Tempo de sono, Melhorar memória, Épocas de pior desempenho cognitivo, Bruxismo*.
 
-**Card — L-teanina:** **só ORAL** (ansiedade/estresse 200–400 mg · sono 50–655 mg · teto 600 mg/d); **CRUZA a BHE (~30 min)** → faz o que o GABA exógeno não faz, sem injetável · 🇧🇷 drogaria (≤250 mg) + magistral · eixo = **neuro 1ª linha** (foco calmo c/ cafeína · neuroproteção glutamato/anti-tau c/ P5P · sono não-sedativo · ansiedade) + ⚖️ só coadjuvante de compulsão na dieta · gate leve: hipotensão, sedativos · **membro do stack neuro básico da casa** (B6/Mg/taurina/glicina/teanina/colina).
+**Card — L-teanina:** **só ORAL** (ansiedade/estresse 200–400 mg · sono 50–655 mg · teto 600 mg/d); **CRUZA a BHE (~30 min)** → faz o que o GABA exógeno não faz, sem injetável · 🇧🇷 drogaria (≤250 mg) + magistral · eixo = **neuro 1ª linha** (foco calmo c/ cafeína · neuroproteção glutamato/anti-tau c/ P5P · sono não-sedativo · ansiedade) + ⚖️ só coadjuvante de compulsão na dieta · gate leve: hipotensão, sedativos · membro do stack neuro básico (B6/Mg/taurina/glicina/teanina/colina).
+
+---
+
+## BLOCO ANTIOXIDANTES / MITOCONDRIAIS
+
+### 13.45 PQQ (pirroloquinolina quinona) — biogênese mitocondrial; dupla via (oral + soro IV); par fixo do CoQ10
+- **O que é / mecanismo:** quinona tricíclica hidrossolúvel (sal dissódico = BioPQQ; forma recente em RCT = di-hidrogênio-PQQ). Assinatura: **estimula biogênese mitocondrial** (↑PGC-1α, Nrf2) — aumenta o *número* de mitocôndrias, não só protege (≠ CoQ10, que protege as existentes) → por isso **par fixo do CoQ10**. Também ativa **AMPK** e é antioxidante redox-cíclico.
+- **Vias e doses:** **oral 20 mg** gastrorresistente (início 10 → 20 mg; **<10 mg = subdose inútil**); faixa útil PQQ/CoQ10 = 20–100 mg. **Tem perna IV** (ver protocolo proposto abaixo).
+- 🇧🇷 **Disponibilidade BR:** magistral comum **10/20 mg** (sem tarja); sal dissódico hidrossolúvel viável p/ injetável estéril magistral.
+- **Indicações (eixo = mitocôndria / energia / metabólico):**
+  - 🟡 **Fadiga/disposição, pós-Covid, mitocondriopatia do idoso, crônico neuro-metabólico.**
+  - 🟡 **Otimizador metabólico** (AMPK; reduzir picos de insulina, meta <6 em autoimune/inflamatório). Evidência humana **modesta mas existente** (não só pré-clínico).
+- ⚖️ **Composição corporal:** sem RCT; racional metabólico/AMPK (flexibilidade metabólica) apenas — **coadjuvante fraco**, não emagrecedor.
+- 🧠 **Cognição/humor/disposição (eixo forte):** RCT (di-hidrogênio-PQQ, 6 sem) em **comprometimento cognitivo leve**: ↑**BDNF** sérico + melhora de ADAS-Cog (orientação +22%); sinais em idosos >45a e jovens; neuroproteção via biogênese mitocondrial neuronal.
+- 🩺 **Segurança:** perfil **muito bom** — NOAEL 100 mg/kg (90d), FDA/EFSA seguro até ~20 mg/d, **sem genotoxicidade**. Leves: cefaleia, tontura, náusea/azia, GI. **Evitar gestação/lactação.** Sem questão renal.
+- 📚 **RAG — INSUMO pro nosso protocolo (NÃO conduta vigente da casa):** aula MFI **"Mitocôndrias VII"** propõe (candidato que adotamos): oral 20 mg + **soro IV mitocondrial** — *2º soro = PQQ + niacinamida + acetil-L-carnitina + complexo B*, com *CoQ10 100 mg IM na mesma sessão* (1º soro = ALA); azul de metileno como adjunto. Par **CoQ10+PQQ** recorrente (Pedro Neuro 2; Psiquiatria Metabólica/Frederico Porto). **Da casa de fato** (`score_items`): *Coenzima Q10, Disposição/energia, Insulina jejum, Controle de doença autoimune* = alvos de encaixe.
+
+**Card — PQQ:** **dupla via — oral 20 mg gastrorresistente (nunca <10 mg) + opção IV no nosso soro mitocondrial** (PQQ + niacinamida + acetil-L-carnitina + complexo B; CoQ10 100 mg IM) · 🇧🇷 magistral 10/20 mg, sem tarja · eixo = **biogênese mitocondrial / energia / cognição (BDNF, MCI)** · **par fixo do CoQ10** (multiplica + protege) · ⚖️ coadjuvante metabólico fraco · seguro (evitar gestação) · público >50a / pós-Covid / mitocondriopatia / crônico neuro-metabólico.
 
 ---
 
@@ -1292,11 +1310,11 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
-⚠️ **RAG — 2 camadas, distinguir:** (a) **`score_items` = conduta enriquecida DA CASA** (alvos funcionais + painel nutrigenético BCO1/VDR/SLC23A1/MTHFR/GPX1); (b) **`articles`/aulas = pós-graduação MFI no RAG** (NÃO "da casa").
+🚨 **RAG e pesquisa = INSUMOS pra montar o protocolo da casa AGORA, NÃO retrato do que a casa já faz.** A clínica física de Londrina **ainda não tem protocolo de injetáveis** — é o que estamos criando, molécula a molécula; a decisão é do Dr. **PROIBIDO escrever "a casa já usa/já tem"** sobre conteúdo de aula. **2 camadas, distinguir:** (a) **`score_items` = conduta enriquecida DA CASA de fato** (alvos funcionais + painel nutrigenético BCO1/VDR/SLC23A1/MTHFR/GPX1) — o único "da casa"; (b) **`articles`/aulas = pós-graduação MFI = referência de terceiros** que adotamos/adaptamos/recusamos pro NOSSO protocolo (NUNCA "da casa"). Erro recorrente — ver [[pesquisa_moleculas_online_exaustiva]].
 - ✅ **score_items cruzados (2026-05)** — tag **📚 RAG (alvos da casa)** nas 19 com item: ferro, B12, vit D, magnésio, vit C, zinco, CoQ10, B2, B6, B9/homocisteína, vit A, vit E, selênio, cobre, cromo, manganês, cálcio, potássio, fósforo (alvos: ferritina ≥100, Mg RBC, cobre 80–110, Hcy 4,5–8 etc.).
 - ✅ **`full_content`/aulas MFI revisado molécula a molécula (TODAS, §1–§13.32 — 2026-05)**, tag 📚 RAG/aulas por seção. **Temas transversais das aulas:** (1) **coquetel IM lipotrópico de emagrecimento** (metilfolato+5-HTP IM+glutationa+ALA+carnitina+cromo+niacinamida+glicina; ~8 sessões 2×/sem — Emagrecimento XVII); (2) **eixo cicatrização/perioperatório** (arginina+vitC+zinco+selênio+cobre+complexoB+vitA+CoQ10 — aulas Sorrentino/Cirurgia); (3) **framework de submetilação** (5-MTHF+metilB12+P5P+TMG; MTHFR/CBS; Hcy 5–8); (4) **stack mitocondrial** (CoQ10+carnitina+ALA+glicina+taurina+complexoB+Mg); (5) **fórmula de Sinatra** (cardio: CoQ10+carnitina+ribose+taurina+Mg); (6) **hepcidina×vit D** (utilização de ferro); (7) **eixo neuro "básico"** (Mg+B12+D+folato+ferro). **Divergências mantidas (MBE do doc):** vit A teratogenicidade (aulas chamam de "mito" → doc mantém gate), niacina lipídios/ortomolecular, CoQ10 Parkinson, dose de cromo > teto ANVISA, iodo via kelp (doc prefere KI). **Sem conteúdo de aula:** molibdênio, boro, lítio, ornitina (zero); cálcio/potássio/fósforo só menções incidentais (eletrólitos/painéis).
 - **REGRA:** consultar RAG (score_items + full_content/aulas) em TODA molécula (ver [[pesquisa_moleculas_online_exaustiva]]).
-**BLOCO ANTIOXIDANTES/MITOCONDRIAIS (PRÓXIMO):** PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
+**BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) feita. **PRÓXIMA = D-ribose.** Depois: shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
