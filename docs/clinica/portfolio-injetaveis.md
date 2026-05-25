@@ -725,6 +725,19 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Se:** **selenometionina ORAL 100–200 mcg** · sem IV/IM · **medir selenemia antes, repor SÓ o deficiente** · usos: **Graves leve (guideline, 200 mcg/6 m)**, Hashimoto/pós-parto anti-TPO+, correção de deficiência; marginais (humor/imune/fertilidade) só no deficiente · **🚨 curva em U: SELECT (próstata+DM2), NAFLD, espermatogênese, teto 400 mcg** · jamais drip em repleto.
 
+### 13.17 Cobre — ORAL; contrapeso obrigatório do zinco; medir e (quase sempre) NÃO suplementar
+- **Formas:** **bisglicinato/glicinato (quelado)** melhor absorção; **gluconato** intermediário (~65–70%); **sulfato/óxido** má absorção + tóxicos — evitar. 🔗 **Zinco alto bloqueia cobre** (competem no DMT1) → espaçar ≥2 h; ferro e vit. C alta também reduzem.
+- **Disponibilidade BR:** oral em multivit/magistral (cobre isolado é menos comum — risco é excesso, não falta). **Injetável só em mix de oligoelementos de NPT** (BRASPEN); **sem cobre EV de wellness**.
+- **Indicações (quase todas = corrigir/prevenir deficiência):**
+  - 🟢 **Deficiência por zinco alto (ponto que MAIS nos interessa — vínculo direto com §13.5):** Zn crônico → deficiência de cobre → **anemia (micro/normo/macro), neutropenia, mieloneuropatia** (mimetiza degeneração combinada da B12, pode ser irreversível). **Quem fica em zinco prolongado precisa de cobre de manutenção + monitorar** (cobre + ceruloplasmina + hemograma).
+  - 🟢 **Pós-bariátrica:** deficiência comum (16–28% em 1–2 anos); diretrizes = multivit com cobre + dosar se anemia/neutropenia/má cicatrização/sintoma neuro.
+  - 🟢 **Correção de deficiência** (má-absorção, NPT, fixador dentário com Zn).
+  - **Leque marginal (reforça "não deixar faltar", NÃO "suplementar repleto"):** 🟡 **vascular/conjuntivo** — lisil-oxidase (Cu-dependente) faz cross-link de colágeno/elastina; deficiência liga-se a **aneurisma de aorta** e parede vascular frágil · 🟡 **pele/cabelo** — tirosinase (melanina/grisalho precoce), pró-colágeno/elastina; *o ativo estético real é GHK-Cu, bloco de peptídeos, não cobre oral* · 🟢 **imunidade neutrofílica** — deficiência (mesmo marginal) reduz nº e função de neutrófilos, IL-2, células T.
+- 🚨 **Curva em U / lado escuro do excesso (gate central):** UL **10 mg/d**; **cobre LIVRE alto → Alzheimer/cuproptose** (agregação Aβ, tau, morte celular Cu-dependente) e **pior glicemia** (argumento contra empurrar no público metabólico/longevidade). **Doença de Wilson = contraindicação absoluta** (onde o zinco é a terapia — espelho do §13.5). Mirar **equilíbrio Cu:Zn**, não maximizar.
+- **Sem indução IV/IM.**
+
+**Card — Cu:** **ORAL** bisglicinato/gluconato · sem IV/IM · **contrapeso obrigatório do zinco**: quem usa Zn prolongado → cobre manutenção + monitorar (cobre/ceruloplasmina/hemograma) · usos: deficiência (zinco alto, bariátrica, mielopatia/anemia/neutropenia) · marginais (vascular/lisil-oxidase, imune, pele→GHK-Cu) só **reforçam "não deixar faltar"** · **🚨 NÃO suplementar repleto** (cuproptose/AD, glicemia); Wilson contraindicado; teto 10 mg; equilíbrio Cu:Zn.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -739,7 +752,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15). **✅ Lipossolúveis fechadas — eixo A-D-K2 completo.**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-Minerais feitos: selênio (§13.16). **PRÓXIMA = cobre.** Depois: cromo · manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato). *(zinco já feito em §13.5, magnésio em §4, ferro em §1.)*
+Minerais feitos: selênio (§13.16) · cobre (§13.17). **PRÓXIMA = cromo.** Depois: manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato). *(zinco já feito em §13.5, magnésio em §4, ferro em §1.)*
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
