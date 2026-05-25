@@ -1232,16 +1232,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **Card — Betaína/TMG:** **anidra ORAL 3–6 g/d (SÓ oral — Cystadane não tem IV/IM)** — **↓homocisteína/metilação** (BHMT, alternativa ao folato) + **NAFLD/hepatoprotetor** + metabólico/insulina + **potencia SAMe na depressão**; homocistinúria (aprovado, co-manejo); 🩺 **↓oxalato urinário** (hiperoxalúria — protocolo de cálculo) + osmólito renal · **🚨 gate: ↑LDL/TG em dose ≥3–6 g → monitorar lipídios**; GI · betaína HCl ≠ TMG.
 
 ### 13.42 SAMe (ademetionina) — metilador universal; depressão + colestase (tem IV/IM real)
-- **Via (das poucas do bloco com IV/IM registrado):** **oral gastrorresistente 400–1.600 mg/d** (biodisp. baixa/instável) **OU IM/IV 200–400 mg/d** — **ademetionina parenteral** (Transmetil/Samyr) usada em colestase/depressão. **RAG:** sem score_item; aulas = **"metilador universal"** (mais potente que metilfolato), eixo SAM/SAH, 400–1.600 mg em jejum gastrorresistente.
+- **Via e biodisponibilidade (ponto-chave):** **oral gastrorresistente tem biodisp. PÉSSIMA (~2–2,6% vs IV)** → **IM/IV é PK-superior** (sal estável com lisina/arginina/ornitina, pH 5–8,5; **liofilizado** por instabilidade térmica). Oral 400–1.600 mg/d; **IM/IV 200–400 mg/d**. 🟡 **Sublingual = duvidoso** (SAMe é hidrofílica/carregada — sublingual favorece lipofílico; mesma lógica do folato; marketing). **RAG:** sem score_item; aulas = **"metilador universal"** (mais potente que metilfolato), eixo SAM/SAH, 400–1.600 mg jejum gastrorresistente.
+- 🇧🇷 **Disponibilidade BR:** **registro da ademetionina (Samyr/Transmetil) VENCIDO na ANVISA** → produto registrado pode não estar disponível; **na prática = MAGISTRAL** (insumo SAMe, ex. Purifarma). Magistral oral gastrorresistente viável; **injetável magistral possível mas especializado** (instabilidade térmica → sal estável + liofilização + estéril).
 - **Indicações:**
   - 🟢 **Colestase intra-hepática (uso médico mais sólido + onde a IV é usada):** ↓prurido e bilirrubina (RR 0,45), **≈ácido ursodesoxicólico** (oral ou IV, ~1.600 mg) — colestase da gravidez e outras. Hepatologia/co-manejo.
+  - 🟢🟡 **Doença hepática alcoólica:** sinal de **↓mortalidade/transplante na cirrose alcoólica inicial (Child A/B)** (Mato) + melhora cognitiva na DHA — eixo hepático.
   - 🟢🟡 **Depressão:** meta-análise (28 estudos) **↑~6 pts HAM-D** vs placebo, ≈tricíclico, monoterapia ou augmentação — **mas Cochrane 2016 = evidência fraca**. **Potencializada por betaína** (§13.41).
-  - 🟡 **Osteoartrite:** ≈AINE em função (sem os efeitos adversos), início lento; resultados **inconsistentes** (Cochrane). NASH = depleção de SAMe (mecanístico/animal).
+  - 🟡 **Osteoartrite:** ≈AINE em função (sem os efeitos adversos), início lento; **inconsistente** (Cochrane). 🟡 **Fibromialgia** (ECRs antigos: dor/fadiga/humor, adjuvante). NASH = depleção de SAMe (mecanístico/animal).
 - ⚖️ **Composição corporal:** sem uso.
 - 🧠 **Cognição/humor/disposição:** **depressão é o eixo neuro central** (intermediário na síntese de NE/DA/serotonina; SAMe baixa no LCR de deprimidos); cognição/Alzheimer adjuvante (formulações combinadas).
 - 🚨🩺 **Segurança:** 🚨 **bipolar → mania/switch** (parenteral induziu mania — não usar em bipolar sem supervisão); **síndrome serotoninérgica** com antidepressivos/IMAO; ansiedade/insônia/GI; **parear B6/B9/B12** (metilação → homocisteína). Renal sem questão maior.
 
-**Card — SAMe/ademetionina:** **oral gastrorresistente 400–1.600 mg/d OU IM/IV 200–400 mg/d** (tem parenteral real) — **colestase intra-hepática (≈ursodesoxicólico)** + **depressão (≈tricíclico, Cochrane fraco; potenciada por betaína)** + osteoartrite (≈AINE, inconsistente) · **🚨 gate: bipolar/mania, síndrome serotoninérgica (antidepressivo/IMAO); parear B6/B9/B12** · co-manejo psiquiatria/hepato.
+**Card — SAMe/ademetionina:** **oral gastrorresistente 400–1.600 mg/d (biodisp. ~2%!) OU IM/IV 200–400 mg/d (PK superior)** · sublingual duvidoso · 🇧🇷 **registro ANVISA vencido → MAGISTRAL** (insumo; injetável magistral especializado/liofilizado) · usos: **colestase intra-hepática (≈ursodesoxicólico)** + DHA/cirrose alcoólica inicial + **depressão (≈tricíclico, Cochrane fraco; potenciada por betaína)** + osteoartrite/fibromialgia · **🚨 gate: bipolar/mania, síndrome serotoninérgica; parear B6/B9/B12** · co-manejo psiquiatria/hepato.
 
 ---
 
