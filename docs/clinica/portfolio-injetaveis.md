@@ -1692,6 +1692,23 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.70 Timosina α1 (timalfasina / Zadaxin) — 🟢 OFERTÁVEL; o 1º "sim" do bloco peptídeos; imunomodulador REGISTRADO, evidência real, NÃO banido pela WADA; eixo imunossenescência
+- **Identidade:** peptídeo sintético de 28 aa idêntico à timosina α1 endógena (timo). **Imunomodulador de verdade, fármaco registrado** — oposto do BPC/TB-500 em tudo que importa.
+- **🟢 Status regulatório (aqui muda tudo):**
+  - **Registrado em 35+ países** (Zadaxin/timalfasina; China, Itália, Índia, Coreia, América do Sul) p/ **hepatite B crônica + adjuvante imune** (sem FDA/EMA, mas registro amplo).
+  - **🇧🇷 não registrado na ANVISA, MAS via de importação LEGAL** (importação nominal de medicamento não-registrado, RDC 81/2008, c/ prescrição, em nome do paciente) — **fundamentalmente ≠ mercado cinza do BPC/TB-500** (medicamento real, canal legal/rastreável).
+  - **🟢 WADA: NÃO proibido** (o banido é a β4/TB-500; a α1 é liberada no esporte).
+- **Evidência — robusta (oposto do TB-500): 30+ ensaios, >11.000 sujeitos:** hepatite B/C (registrada); **sepse TESTS (BMJ 2025, 1.106 pac.)**; COVID (diretrizes chinesas); **🛡️ imunossenescência/vacina (o eixo da longevidade): idosos institucionalizados — soroconversão à vacina de gripe 48%→68%, soroproteção 69%→89%**, perto de jovens.
+- **Mecanismo:** maturação de células T, engaja TLR2/TLR9 em dendríticas/macrófagos → ↑apresentação de antígeno + imunidade adaptativa; ↑output tímico. Restaurador da imunidade (reverte parte da imunossenescência). Eixo "imunidade do envelhecimento" — mas com **fármaco registrado + evidência humana** (≠ rapamicina/espermidina/fucoidana).
+- **Via / dose:** **SC ou IM, 1,6 mg 2×/semana** (esquema da hepatite B, 6–12 m). Injetável legítimo e padronizado.
+- **🩺 Segurança — excelente:** só reação local (~5–8%) + fadiga transitória (<3%); sem toxicidade dose-limitante/EA grave; toxicologia animal limpa. **Cautela: autoimune ativa/transplantado** (é imuno-ESTIMULANTE, oposto do imunossupressor) e gestação (dados limitados).
+- **⚖️/🧠:** não são eixos — é imune, não composição/cognição.
+- 📚 **RAG:** **zerado** — não da casa; categoria "medicamento registrado importável", não experimental.
+
+**Card — Timosina α1:** 🟢 **OFERTÁVEL (1º "sim" do bloco peptídeos)** · **SC/IM 1,6 mg 2×/sem** · **fármaco REGISTRADO em 35+ países** (Zadaxin), 🇧🇷 importação LEGAL (RDC 81/2008, ≠ mercado cinza) · **🟢 NÃO banido pela WADA** · evidência REAL (30+ ensaios/11 mil sujeitos; sepse BMJ 2025; **imunossenescência: vacina gripe soroconversão 48→68% em idosos**) · eixo = **imunidade do envelhecimento / suporte imune no idoso / resposta vacinal / infecções recorrentes** · 🩺 segurança excelente · **cautela = autoimune ativa/transplantado (imuno-estimulante) + gestação** · fricções = importação (custo/logística), eixo é imune não estética · RAG zerado. **O injetável que FAZ sentido ofertar (≠ BPC/TB-500).**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1721,7 +1738,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) feitos. **PRÓXIMA = timosina α1** (esta deve se sair melhor — tem registro/evidência). Restantes: GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) feitos. **PRÓXIMA = GHK-Cu.** Restantes: ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
