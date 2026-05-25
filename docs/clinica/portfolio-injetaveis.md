@@ -886,6 +886,26 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Boro:** **ORAL coadjuvante 3–6 mg** (calcium fructoborate) · uso principal = **osso/articulação no eixo D-K2-Ca** (prolonga meia-vida da vit. D); testosterona livre = **sinal preliminar honesto** (não comprovou desfecho/massa) · **🔴 sem IV; sem composição corporal/anabólico** · 🚨 teto 20 mg; cautela gestação (repro) e DRC (excreção renal).
 
+### 13.26 Silício — ORAL (silanol biodisponível); colágeno/conjuntivo; nichos pele-cabelo-unhas + osso/articulação
+- **Formas (hierarquia de absorção: MMST 64% > OSA 43% > ch-OSA 17%):**
+  - **MMST (monometilsilanotriol):** silanol monomérico, maior absorção; ⚠️ controvérsia regulatória (dossiê "novel food" — não toxicidade demonstrada).
+  - **ch-OSA (estabilizado em colina, BioSil):** **mais estudado em RCT** (pele/osso), porém menor % absorção; mais usado EUA/Bélgica. M-OSA (maltodextrina) é variante.
+  - **Sílica/SiO₂:** insolúvel, mal absorvida. **Sem RDA**; dieta 20–50 mg Si/d; segurança ampla (SiO₂ até ~700 mg Si/d).
+- **Magistral no Brasil (o que se prescreve aqui):**
+  - 🟢 **Exsynutriment® (Galena) = carro-chefe magistral BR** — silanol/ortossilícico estabilizado com **colágeno marinho hidrolisado** (limita polimerização gástrica → +biodisp.); nutricosmético; **100–600 mg/d, em jejum/longe das refeições**.
+  - 🟢 **SiliciuMax® (Fagron)** — MMST líquido, 0,73 mg Si/mL (alternativa).
+  - 🔴 **Evitar cavalinha (Equisetum)/bambu** como reposição séria: alto teor de sílica mas **biodisp. 3–5%** (fitólitos/sílica polimérica). Preferir silanóis (Exsynutriment/MMST/ch-OSA).
+- **Indicações orais:**
+  - 🟢 **Pele/cabelo/unhas (melhor evidência):** ch-OSA RCT (Barel/JAAD) + MMST/M-OSA anti-aging → ↑elasticidade da pele, ↓fragilidade de cabelo/unhas (síntese de colágeno tipo I). Exsynutriment é exatamente este uso no BR.
+  - 🟢🟡 **Osso (adjunto de colágeno):** ch-OSA + Ca/D3 ↑marcador de formação de colágeno ósseo; integra o eixo D-K2-Ca-boro pela **matriz orgânica** (não mineralização). DMO modesta.
+  - 🟡 **Articulação/tendão/ligamento:** racional de colágeno, melhor **combinado com peptídeos de colágeno**; emergente.
+  - ⚠️ **NÃO confundir:** "cicatrização" e "aterosclerose" da literatura = **biomateriais/nanopartículas de silício** (scaffolds tópicos, sílica-ouro plasmônica coronária) — **dispositivos, não a cápsula oral**. Ângulo arterial oral = epidemiológico/fraco. Alumínio/Alzheimer = especulativo.
+- ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **nenhum papel** — silício é de **tecido conjuntivo** (aorta/tendão/osso/pele); músculo tem 4–5× menos. Mineral de colágeno/estrutura, não de massa/gordura.
+- 🚨 **Segurança:** muito seguro em dose de suplemento; 🩺 **cálculo de sílica** existe mas é raro e ligado a **antiácidos de sílica/trissilicato de Mg em excesso** (insolúvel), não ao ch-OSA/Exsynutriment; excreção renal → cautela leve em DRC.
+- 🔴 **Sem IV/IM** (oral).
+
+**Card — Silício:** **ORAL silanol biodisponível** — no BR **Exsynutriment® 100–600 mg/d em jejum** (padrão magistral) ou **SiliciuMax® (MMST)**; ch-OSA/BioSil = referência de RCT (importado); **evitar cavalinha/bambu** (biodisp. 3–5%) · uso: **pele/cabelo/unhas** (melhor) + **osso/articulação-colágeno** (adjunto no eixo D-K2-Ca-boro) · **🔴 sem IV; sem composição corporal/músculo** (é conjuntivo) · biomateriais (cicatrização/aterosclerose) ≠ cápsula oral · muito seguro; cautela leve DRC.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -898,10 +918,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 6. **Emagrecimento ESTÁ no escopo** (a clínica trata emagrecimento). Avaliar SEMPRE 3 eixos por molécula: **emagrecimento · preservação/ganho de massa muscular · redução de gordura** — anotar na seção com a tag **⚖️ Composição corporal**, com atenção a IV/IM/SC. "Sem mesoterapia" é restrição de VIA, não de indicação.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-Minerais: **PRÓXIMA = silício.** Depois: lítio (orotato) — **fecha o bloco de minerais.** *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21, cálcio §13.22, potássio §13.23, fósforo §13.24, boro §13.25 já feitos.)*
+Minerais: **PRÓXIMA = lítio (orotato) — FECHA o bloco de minerais.** *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21, cálcio §13.22, potássio §13.23, fósforo §13.24, boro §13.25, silício §13.26 já feitos.)*
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
