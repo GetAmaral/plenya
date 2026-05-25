@@ -1633,6 +1633,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.66 Metformina — DUAS caras: fármaco metabólico JÁ da casa (manter) vs geroprotetor off-label CONTROVERSO (embota o treino); ORAL-ONLY
+- **Duas caras:** (1) **fármaco metabólico estabelecido** (DM2, pré-diabetes, RI, SOP) — **já é conduta da casa (104 score_items)**, barato/registrado/baseado em evidência → **fica como está**; (2) **candidato a geroprotetor off-label em não-diabéticos** — a parte nova e **controversa**, com um problema sério p/ clínica de performance.
+- **🚀 Longevidade (empolgante, não fechada):** **TAME (Barzilai, 3.000 não-diab. 65–79, composto câncer/DCV/demência/morte) AINDA NÃO concluído** → "estende vida saudável" = hipótese, não resultado. Observacional (Bannister 2014: diabéticos em metformina pareceram superar controles não-diab.) = gerador de hipótese. 2024: desacelera relógios em primatas; randomização mendeliana ↔ idade fenotípica menor/telômeros maiores. Mecanismo AMPK/anti-inflamatório plausível.
+- **🔴 O problema decisivo p/ clínica de performance — metformina ATRAPALHA o exercício:** **MASTERS trial (RCT idosos, 1.700 mg/d + treino força 14 sem): placebo ganhou MAIS massa magra/muscular que metformina** — **embota a hipertrofia**; e **embota ganho de VO₂máx + respiração mitocondrial** (jovens/idosos/pré-diab.). Mecanismo: ativa AMPK e freia mTORC1 quando o treino quer ativá-lo. **Numa casa "Saúde/Performance/Longevidade" que prescreve treino, metformina rema contra o exercício.**
+- **🧠 Cognição/demência:** ↓demência **em diabéticos** (meta dose-resposta); **em não-diabético p/ prevenção NÃO sustentado**. Sem claim aqui.
+- **⚖️ Composição corporal:** modesta ↓peso/gordura visceral via insulina (útil no RI/pré-diab.) MAS **antagoniza ganho de massa magra do treino**. Bom no metabolicamente doente, contraproducente no atleta.
+- **🩺 Segurança / nefro:** **B12** depleção ~7% (a casa já monitora/repõe); GI comum (XR atenua); acidose láctica rara (~0,03/1.000 pac-ano); **🩺 renal: contraindicada eGFR <30, não recomendada 30–45** (a casa já ajusta por função renal).
+- **🇧🇷 Disponibilidade:** **ultra-barata, registrada** (Glifage/Glifage XR, genéricos); já em uso. Sem injetável. Oral-only.
+- 📚 **RAG — profundamente da casa, mas eixo metabólico:** 104 score_items (pré-diab./RI HOMA-IR elevado sem DM2, gordura visceral, cintura/quadril, SOP, glicose urinária — sempre "verificar função renal + monitorar B12"). **Zero como geroprotetor** — a casa a usa pelo que ela é.
+
+**Card — Metformina:** **ORAL-ONLY, prescrição** (Glifage XR, ultra-barata), **IV NÃO-ofertada** · **DUAS caras:** ✅ **fármaco metabólico já da casa** (RI/pré-diab./SOP, 104 itens, monitorar B12 + função renal) = MANTER · ⚠️ **geroprotetor off-label = CETICISMO** (TAME pendente, prevenção em não-diab. não sustentada, e **🔴 EMBOTA ganhos de força/VO₂máx/mito do treino — MASTERS**) · 🩺 contraindicada eGFR<30 · **"ferramenta certa no trabalho errado" p/ quem treina** → longevidade = alternativa de NICHO (sedentário c/ RI), não recomendação geral; quem quer AMPK sem matar o treino → berberina/exercício.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1660,7 +1674,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
 **BLOCO POLIFENÓIS/FITOQUÍMICOS — ✅ FECHADO:** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) · luteolina (§13.58) · apigenina (§13.59) · berberina (§13.60) · silimarina (§13.61). **TODAS ORAL-ONLY (IV não-ofertada em todas — flavonoides instáveis/sem forma estéril/sem racional; curcumina IV vetada por hemólise+óbito; quercetina IV nefrotóxica; silimarina IV existe mas é antídoto de Amanita = fora de escopo). Eixos de destaque: berberina = pilar metabólico (metformina natural); quercetina = dossiê RCT mais amplo; curcumina = anti-inflamatório all-rounder; EGCG = termogênico; sulforafano = detox/Nrf2; silimarina = hepatoprotetor. 🔴 Gates hepáticos: curcumina (DILI, pior c/ piperina) e EGCG (EFSA ≥800 mg). 🔴 Berberina: interações (estatina) + gestação (kernicterus).**
 
-**BLOCO LONGEVIDADE/GEROPROTETORES (EM CURSO):** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa de programa selecionado) feitas. **PRÓXIMA = metformina.** Restante: fucoidana.
+**BLOCO LONGEVIDADE/GEROPROTETORES (EM CURSO):** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66, fármaco metabólico da casa / longevidade cética) feitas. **PRÓXIMA = fucoidana** (FECHA o bloco geroprotetor).
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
