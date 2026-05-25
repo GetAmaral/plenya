@@ -791,6 +791,19 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Cromo:** **ORAL** (preferir GTF/nicotinato p/ uso contínuo; picolinato é o estudado) · dose **≤250 mcg/d (teto ANVISA)**; ECR de fissura usou 600 mcg (curso limitado) · **nicho real: fissura por carboidrato / compulsão / depressão atípica com avidez por doce** + adjuvante SOP (insulina/lipídios) · DM2 = fraco/inconsistente, não antidiabético · **sem IV/IM** (estético sem vantagem) · 🚨 gate: picolinato (genotoxicidade in vitro, rabdo/renal em relatos) → dose baixa/curso limitado.
 
+### 13.19 Manganês — ORAL só em deficiência/combo; postura defensiva; toxicidade domina
+- **Formas:** quelatos (bisglicinato, aspartato, picolinato, ascorbato, pidolato) provavelmente > inorgânicos (sulfato, gluconato), **mas sem dado comparativo robusto**. Necessidade humana mínima (AI ~1,8–2,3 mg/d), dieta cobre com folga → **suplementar raramente se justifica**.
+- **Disponibilidade BR:** oral (sulfato, gluconato, quelatos, oligoelemento sublingual, combos Mn+Cu); **injetável = sulfato de Mn ampola + mix de 4 oligoelementos de NPT** (dose ínfima ~55 µg/d ESPEN, monitorar Mn a cada ~40 d). **Sem "drip de Mn" defensável.**
+- **Indicações (quase todas fracas/associativas):**
+  - 🟡 **Osteoartrite** — só em **combo com glucosamina+condroitina** (52% melhora em 4–6 m; efeito atribuível à dupla, Mn coadjuvante).
+  - 🟡 **Osso** (com Ca/Zn/Cu; estudos poucos/conflitantes) · 🟡 **glicemia/insulina** (animal positivo, humano misto; não antidiabético) · 🟡 **MnSOD/antioxidante** (fisiológico, sem ganho em repleto) · 🟡 **TPM** (com cálcio, se Mn baixo) · **cicatrização** (prolina/colágeno) · **tireoide** (cofator T4) · **epilepsia** (associação). Todos sem protagonismo.
+- ⚖️ **Composição corporal (emagrecimento · massa · gordura):** sinal **fraco e quase só animal** — em camundongo Mn ↓peso/↓tecido adiposo branco e ↑ação da insulina (PKB/Akt em músculo e adiposo); **1** ensaio humano pequeno (Mn gluconato + cálcio) ↑excreção fecal de gordura → leve ↓gordura. **Sem dado de massa muscular.** Não é molécula de emagrecimento/composição.
+- 🚨 **Segurança domina — manganismo:** Mn acumula no **globus pallidus** → **síndrome parkinsoniana** (movimento/cognição/comportamento). **A via IV é a perigosa:** eliminação é **biliar, não renal** → o corpo não excreta bem Mn IV (NPT crônica = causa clássica de manganismo). **Hepatopatia/colestase = acúmulo** (contraindicação relativa). Teto EFSA.
+- 🩺 **Gate nefrológico (forte):** **DRC ACUMULA manganês** (Mn plasmático sobe conforme cai a TFG; relação em U com anemia) → **suplementar Mn é especificamente desaconselhado em renal**. Autoridade do nefrologista para **não dar Mn em DRC**.
+- 🔴 **Sem indução IV/IM eletiva** (manganismo); só dose ínfima de NPT, fora do escopo.
+
+**Card — Mn:** **ORAL apenas, só em deficiência comprovada (rara) ou como componente de combo articular (glucosamina/condroitina) / ósseo (Ca-Zn-Cu)** — nunca protagonista · **🔴 sem IV/IM eletivo** (manganismo; excreção biliar, não renal) · **🚨 contraindicado em DRC e hepatopatia/colestase** (acúmulo) · composição corporal = pré-clínico · medir e não empurrar; respeitar teto.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -803,10 +816,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 6. **Emagrecimento ESTÁ no escopo** (a clínica trata emagrecimento). Avaliar SEMPRE 3 eixos por molécula: **emagrecimento · preservação/ganho de massa muscular · redução de gordura** — anotar na seção com a tag **⚖️ Composição corporal**, com atenção a IV/IM/SC. "Sem mesoterapia" é restrição de VIA, não de indicação.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-Minerais: **PRÓXIMA = manganês.** Depois: molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18 já feitos.)*
+Minerais: **PRÓXIMA = molibdênio.** Depois: iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19 já feitos.)*
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
