@@ -1215,16 +1215,21 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **Card — Creatina:** **monohidratada ORAL 3–5 g/d** (±loading) — **força/massa magra/sarcopenia (padrão-ouro, com treino)**; cognição (vegetariano/sono privado) + depressão adjuvante; **osso pós-menopausa** · ⚖️ base da recomposição · **🩺 não prejudica rim saudável; eleva creatinina (pseudo-↓eGFR) → usar cistatina C**; cautela DRC/gestação · marca testada (ANVISA qualidade variável) · sem IV.
 
 ### 13.41 Betaína (TMG / trimetilglicina) — metilação/homocisteína + NAFLD; gate lipídico
-- **Formas:** **betaína anidra (TMG)** — metilação/performance. (Betaína **HCl** é outra coisa — acidificante gástrico.) Dose 3–6 g/d (NAFLD em estudos 10–20 g). **RAG:** sem score_item; aulas a colocam no eixo **submetilação** (doadora de metila, precursora = colina; alvo Hcy <10/5–8) + **hepatoprotetor**; DMG (dimetilglicina) no esporte.
+- **Formas/via:** **betaína anidra (TMG)** — metilação/performance. (Betaína **HCl** ≠ TMG — acidificante gástrico.) 🔴 **EXCLUSIVAMENTE ORAL** — o fármaco Cystadane (betaína anidra) é só pó p/ solução; **não há formulação IV/IM** em lugar nenhum (no BR só oral; "betaína injetável" nas buscas = falso positivo, BetaTrinta/betametasona). Dose 3–6 g/d (NAFLD/homocistinúria 6–20 g). **RAG:** sem score_item; aulas = eixo **submetilação** (doadora de metila, precursora = colina; Hcy <10/5–8) + **hepatoprotetor**; DMG no esporte.
 - **Indicações:**
   - 🟢 **Homocisteína / metilação:** doadora de metila via **BHMT** (homocisteína→metionina, virando DMG) — **via alternativa quando o folato/B12 está comprometido** (MTHFR); ↓homocisteína. Integra o eixo submetilação (B9 §13.12 + P5P §13.10 + metilB12 §2 + colina).
-  - 🟢🟡 **NAFLD / fígado (hepatoprotetor):** ECRs em NAFLD ↓ALT/AST e **↓esteatose** (via BHMT/SAM, ↑biogênese mitocondrial/PGC1α). Encaixa no eixo metabólico/fígado gorduroso (cruza c/ LOLA §13.31, ALA §8).
-  - 🟡 **Performance/composição:** anidra ~2,5–3 g/d → ↑força/potência e composição **com treino de resistência** (osmólito + ↑creatina endógena); evidência **inconsistente**, melhor com treino.
+  - 🟢 **Homocistinúria (uso médico aprovado — Cystadane):** adulto 6 g/d; porém **genética/co-manejada**, fora do eletivo.
+  - 🟢🟡 **NAFLD / fígado (hepatoprotetor):** ECRs ↓ALT/AST e **↓esteatose** (BHMT/SAM, ↑biogênese mitocondrial/PGC1α). Eixo metabólico/fígado gorduroso (cruza c/ LOLA §13.31, ALA §8).
+  - 🟡 **Metabólico/insulina:** betaína plasmática baixa ↔ **resistência insulínica/síndrome metabólica** (metabólito mais correlacionado c/ sensibilidade à insulina; via FGF21); suplementar humano **misto**.
+  - 🧠🟡 **Depressão (sinergia com SAMe):** **add-on de betaína à SAMe melhora a resposta antidepressiva** vs SAMe só (leve-moderada, baixos respondedores); + neuroproteção/cognição no idoso, profilaxia de concussão (atletas).
+  - 🟡 **Performance/composição:** anidra ~2,5–3 g/d → ↑força/potência/composição **com treino** (osmólito + ↑creatina endógena); inconsistente.
+  - 🟡 **Pele (tópico)** osmólito/humectante (hidratação/UV); **intestino/longevidade** (↑Akkermansia/Lactobacillus, microbiota/epigenética — emergente).
+  - 🩺 **Hiperoxalúria/oxalato (terreno do Dr.):** estudada para **↓oxalato urinário na hiperoxalúria primária tipo 1** → soma ao protocolo do formador de cálculo (B6 §13.10 + citrato-K + cálcio-com-refeição).
 - ⚖️ **Composição corporal:** força/potência/composição modesta (com treino, osmólito); não emagrecedor direto.
-- 🧠 **Cognição/humor/disposição:** indireto via metilação/homocisteína/SAMe; sem uso neuro próprio estabelecido.
+- 🧠 **Cognição/humor/disposição:** via metilação/homocisteína/SAMe — **potencializa o efeito antidepressivo da SAMe** (add-on); neuroproteção/cognição no idoso (emergente).
 - 🚨🩺 **Segurança:** 🚨 **doses ≥3–6 g podem ↑LDL e triglicérides** (RCT 2005) → **lipidograma baseline + 6–8 sem**; GI em dose alta. 🩺 **osmólito da medula renal** (protege células contra estresse osmótico/ureia — ângulo nefroprotetor); excreção renal ↑ em hipertenso. Sem IV.
 
-**Card — Betaína/TMG:** **anidra ORAL 3–6 g/d** — **↓homocisteína/metilação** (via BHMT, alternativa ao folato; eixo submetilação) + **NAFLD/hepatoprotetor**; performance/composição modesta (com treino) · **🚨 gate: ↑LDL/TG em dose ≥3–6 g → monitorar lipídios**; GI · 🩺 osmólito renal (protetor) · sem IV · (betaína HCl ≠ TMG).
+**Card — Betaína/TMG:** **anidra ORAL 3–6 g/d (SÓ oral — Cystadane não tem IV/IM)** — **↓homocisteína/metilação** (BHMT, alternativa ao folato) + **NAFLD/hepatoprotetor** + metabólico/insulina + **potencia SAMe na depressão**; homocistinúria (aprovado, co-manejo); 🩺 **↓oxalato urinário** (hiperoxalúria — protocolo de cálculo) + osmólito renal · **🚨 gate: ↑LDL/TG em dose ≥3–6 g → monitorar lipídios**; GI · betaína HCl ≠ TMG.
 
 ---
 
