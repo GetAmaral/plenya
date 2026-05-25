@@ -1594,6 +1594,28 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.64 Alfa-cetoglutarato de cálcio (Ca-AKG) — ORAL-ONLY; geroprotetor "relógio epigenético"; claim de idade biológica forte mas evidência fraca; âncoras reais = inflammaging/osso
+- **Identidade:** intermediário do ciclo de Krebs; forma de longevidade = sal de cálcio (**Ca-AKG**). Mecanismo: **cofator de demetilases TET/JmjC** (demetilação DNA/histonas = eixo epigenético) + **inibe mTOR / ativa AMPK**. Níveis endógenos **caem ~10× com a idade**.
+- **Via / biodisp.:** molécula **carregada/pouco permeável** → doses em gramas; sal de cálcio melhora. Sem racional IV.
+- **🇧🇷 Disponibilidade BR — DOIS sais diferentes (não confundir):**
+  - **Ca-AKG (longevidade):** **importado** (ProHealth, Physiomance ~1–2 g/d); magistral menos estabelecido.
+  - **AAKG (arginina-alfa-cetoglutarato):** **magistral consolidado** (1.000–1.500 mg) MAS é **pré-treino/booster de NO**, uso e racional **diferentes** — não confundir.
+  - **Sem injetável.**
+- **🚀 Longevidade/idade biológica — claim forte, dado fraco:**
+  - **Animal base (Cell Metabolism 2020, Buck):** Ca-AKG → **~12% lifespan** (fêmea meia-idade) + **>40% healthspan** (ambos sexos) = **compressão de morbidade**; mecanismo = **↑IL-10 + ↓citocinas inflamatórias (inflammaging)**. Racional biológico mais sólido (mas camundongo).
+  - **Rejuvant (Demidenko):** retrospectivo, 42 pessoas, **−8,44 anos ♂ / −6,98 anos ♀** de idade biológica (TruAge) em ~7 m — **sem placebo, +vitaminas, amostra pequena**. Manchete forte, desenho fraco.
+  - **ABLE (RCT decisivo, PENDENTE):** 1 g Ca-AKG liberação sustentada vs placebo, 120 adultos 40–60 c/ idade epigenética acelerada, 6 m; primário = mediana de 4 relógios DNAm (Hannum/Horvath/GrimAge/PhenoAge); secundários = inflamação, força preensão/perna, rigidez arterial, AGEs cutâneos, aeróbia. Recrutamento out/2025, **resultados não publicados**. Decide se o claim sobrevive a placebo.
+- **🦴 Osso — melhor dado humano (no escopo):** RCT 76 ♀ pós-menopausa c/ osteopenia (6 g AKG + 1,68 g Ca/d × 6 m): **↓CTX (reabsorção óssea) até 37%**; mecanismo epigenético (↓H3K9me3/H3K27me3 → ↑BMP). **Conecta com eixo ósseo D-K2-Ca-boro da casa.**
+- **👩 Ovário/fertilidade (pré-clínico):** AKG cai no fluido folicular humano c/ idade; em camundongo preserva **reserva ovariana, qualidade do oócito (↓ROS/fragmentação), telômeros**. Eixo de longevidade reprodutiva feminina — **só animal**.
+- **🩺 Ângulo renal (base farmacológica real + cautela):** AKG é **sequestrador de nitrogênio**, fonte de glutamato/glutamina, **substrato da geração renal de HCO₃⁻ (túbulo proximal)** e manejo de amônia/ácido-base. **Alfa-cetoanálogos (cetoácidos + dieta hipoproteica) = terapia ESTABELECIDA na DRC/ESRD** (↓carga nitrogenada, inibe NF-κB/MAPK). **MAS:** cetoanálogo terapêutico ≠ Ca-AKG de longevidade (sais/doses diferentes); **🚨 cálcio do Ca-AKG é cautela na DRC** (carga/calcificação). Não vender Ca-AKG como "tratamento renal".
+- **💪 Músculo / 🧠 cognição:** pré-clínico (anti-atrofia/hipertrofia via mTOR — 1 estudo Sci Rep **retratado**, cautela; neuroproteção). Sem RCT humano.
+- **🩺 Segurança:** sem dados robustos de longo prazo (metabólito endógeno, bem tolerado nos estudos). **🚨 atenção à carga de cálcio do sal** (somar à ingestão total; cuidados CV/litíase do §13.22; cautela DRC).
+- 📚 **RAG:** aparece **só como intermediário de Krebs** (aulas de bioquímica/fisiologia do exercício, endógeno), **não como suplemento/conduta**. Não é da casa.
+
+**Card — Ca-AKG:** **ORAL-ONLY** (Ca-AKG importado ~1–2 g/d; **≠ AAKG/arginina de pré-treino**), **IV/IM NÃO-ofertada** (carregado/pouco permeável, sem forma estéril) · 🇧🇷 importado (AAKG magistral é outro produto) · **geroprotetor "relógio epigenético"** · 🚀 claim idade biológica SEDUTOR mas FRACO (Rejuvant retrospectivo; **ABLE RCT pendente**) · **âncoras reais = inflammaging (IL-10, animal) + 🦴 osso (↓CTX 37% pós-menopausa, eixo D-K2-Ca) + 👩 ovário (pré-clínico) + 🩺 racional renal (cetoanálogo, com cautela Ca na DRC)** · 💪/🧠 pré-clínico (1 estudo retratado) · **gate = carga de cálcio (§13.22)** · RAG = só Krebs endógeno, não da casa.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1621,7 +1643,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
 **BLOCO POLIFENÓIS/FITOQUÍMICOS — ✅ FECHADO:** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) · luteolina (§13.58) · apigenina (§13.59) · berberina (§13.60) · silimarina (§13.61). **TODAS ORAL-ONLY (IV não-ofertada em todas — flavonoides instáveis/sem forma estéril/sem racional; curcumina IV vetada por hemólise+óbito; quercetina IV nefrotóxica; silimarina IV existe mas é antídoto de Amanita = fora de escopo). Eixos de destaque: berberina = pilar metabólico (metformina natural); quercetina = dossiê RCT mais amplo; curcumina = anti-inflamatório all-rounder; EGCG = termogênico; sulforafano = detox/Nrf2; silimarina = hepatoprotetor. 🔴 Gates hepáticos: curcumina (DILI, pior c/ piperina) e EGCG (EFSA ≥800 mg). 🔴 Berberina: interações (estatina) + gestação (kernicterus).**
 
-**BLOCO LONGEVIDADE/GEROPROTETORES (EM CURSO):** espermidina (§13.62) · urolitina A (§13.63) feitas. **PRÓXIMA = alfa-cetoglutarato (Ca-AKG).** Restantes: rapamicina · metformina · fucoidana.
+**BLOCO LONGEVIDADE/GEROPROTETORES (EM CURSO):** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) feitas. **PRÓXIMA = rapamicina.** Restantes: metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
