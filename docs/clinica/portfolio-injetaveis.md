@@ -614,7 +614,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 🧠 **Cognição/humor/disposição:** **depressão = adjuvante** (zinco baixo associa-se a depressão; potencializa antidepressivo em ECRs); cofator de neurotransmissão/BDNF. Benefício no **deficiente/adjuvante** (interpretar com PCR), não isolado nem em repleto.
 
-📚 **RAG (alvos da casa):** zinco sérico **<80 µg/dL deficiência** · 80–100 insuficiência funcional · 100–120 aceitável · **>120 ótimo**; sempre interpretar com ferritina/PCR (cai na inflamação).
+📚 **RAG / score_item (alvos da casa):** zinco sérico **<80 µg/dL deficiência** · 80–100 insuficiência funcional · 100–120 aceitável · **>120 ótimo**; sempre interpretar com ferritina/PCR (cai na inflamação).
+📚 **RAG / aulas MFI:** **cicatrização/perioperatório** — zinco é direto na **síntese de colágeno e reparo tecidual** + antioxidante/anti-apoptótico/modulador de canais iônicos; combo de cicatrização **zinco + vit C + selênio + cobre + aminoácidos** (Sorrentino) — casa com o combo cicatrização da arginina (§13.29). 🚨 avaliar ferritina antes de suplementar zinco (eixo Zn-ferro).
 
 **Card — Zinco oral:** elementar — manutenção 8–11 mg, correção 25–40 mg, acne 30–50 mg, resfriado pastilha ≥75 mg <24h, DMRI 25 mg (+cobre 2 mg) · forma bisglicinato (crônico)/acetato (pastilha), evitar óxido · **gate: deficiência interpretada com PCR** · **monitor obrigatório: cobre** (>25 mg/d >4 sem → cobre + Zn:Cu); atenção redobrada em DRC · **sem IV eletivo** (só NPT/disabsorção grave).
 
