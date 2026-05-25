@@ -5,6 +5,7 @@
 > gates de indicação, indicações ampliadas e segurança.
 >
 > **Premissas:** clínica liderada por **nefrologista** (Dr. Getúlio) · reforma de imóvel · **vias do centro: IV, IM, oral/sublingual, no máximo tópico — SEM mesoterapia/intradérmico** ·
+> **PÚBLICO/CONTEXTO (filtro de indicações): centro de infusão ADULTO, medicina funcional integrativa, foco SAÚDE / PERFORMANCE / LONGEVIDADE. Toda indicação tem de caber nisso — EXCLUIR sempre emergência, toxicologia/antídoto, neonatal/pediátrico, erros inatos/genéticos e agudo hospitalar.** ·
 > **Cenário A** (aplicar produtos prontos/registrados, não manipular estéril) · postura
 > **integrativa adotada para o conteúdo clínico** (decisão do Dr., 2026-05) — ver §0.3.
 >
