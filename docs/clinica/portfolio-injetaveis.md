@@ -659,6 +659,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — B7:** **ORAL apenas** (correção de deficiência + ajuste metabólico leve, opcional combo c/ cromo) · **sem IV/IM** (oral ~100% biodisponível, parenteral não agrega) · gate: deficiência comprovada / suporte metabólico · **regra operacional fixa: suspender 48–72 h antes de coleta** (interferência troponina/TSH) · disclaimer: sem promessa capilar em não-deficiente; MS alta dose descartada (SPI2 negativo).
 
+### 13.12 Vitamina B9 (folato) — só 5-MTHF (metilfolato); ácido fólico vetado; ORAL
+- **Decisão do Dr.: ácido fólico está VETADO** (sintético, depende de MTHFR, gera fólico não-metabolizado, sinal oncológico em dose alta — coorte 1,46 mi: HR ~1,2 câncer, ~2,0 LNH). **Nunca usar.** A forma do centro é **5-MTHF (L-metilfolato)**, já ativa, dispensa conversão. Folínico (folinato de Ca) só existe pra antídoto de metotrexato/hospitalar — **fora do escopo**.
+- 🟢 **Eixo metilação / homocisteína** (com metil-B12 + P5P/B6): uso central. RCT 5-MTHF+P5P+metilB12 → homocisteína −30%, LDL −7,5% em 6 meses, sobretudo em polimorfismo MTHFR/MS/MSR. **Corrigir o marcador, sem prometer reduzir eventos CV** (SU.FOL.OM3 4,7 anos: sem desfecho duro).
+- 🟡 **Humor / depressão adjuvante:** L-metilfolato adjuvante a ISRS > placebo (ensaio 60 d), maior efeito com MTHFR alterado. Oral.
+- 🟢 **Correção de deficiência / pré-concepção:** má-absorção, bariátrica, etilismo, gestante. 5-MTHF resolve.
+- 🔴 **Sem indução IV/IM no nosso contexto:** a ampola registrada no BR é folínico **hospitalar (antídoto MTX)**; eixo metilação resolve-se **oral**.
+- **Via (oral vs sublingual vs strip/ODF) — sem diferença farmacocinética relevante** em intestino normal. Folato é molécula **carregada/polar**, depende de carreadores (RFC/PCFT) no **jejuno**; a mucosa oral não os tem → **não há ganho sublingual real**. **Não há estudo head-to-head** de metilfolato sublingual vs engolido. O "5-MTHF 700% mais biodisponível" é **forma (vs ácido fólico), não via** — marketing embaralha os dois eixos. Strip/spray = **adesão/conveniência premium** (sem água, sabor, combo B12+B9 num jato), **nunca vender como "absorve mais"**. Quem usa comprimido de 5-MTHF não tem razão farmacológica pra trocar por strip.
+- 🚨 **Folato sempre pareado com B12:** repor folato isolado **mascara** a anemia da deficiência de B12 e **deixa a neuropatia progredir**. Checar/repor B12 junto.
+- **Doses:** manutenção/metilação ~400 mcg–1 mg de 5-MTHF; deficiência/depressão doses maiores conforme resposta + homocisteína.
+
+**Card — B9:** **5-MTHF (metilfolato) ORAL** — ácido fólico **vetado**, sem IV/IM · forma > via (oral=sublingual=strip em absorção; strip/spray só adesão) · gate: homocisteína alta (com B12+B6), humor adjuvante, deficiência/pré-concepção · **regra: nunca sem B12** (mascara neuropatia) · combo natural: spray/strip 5-MTHF + metilB12 · disclaimer: corrige marcador, não promete evento CV.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -670,10 +682,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 4. **Contexto/público (filtro duro):** centro ADULTO, medicina funcional integrativa, **saúde/performance/longevidade**. **Excluir** (nem citar): emergência, toxicologia/antídoto, neonatal/pediátrico, erros genéticos, agudo hospitalar.
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11).
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12).
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**PRÓXIMA = B9 (folato / ácido folínico / 5-MTHF).** Depois: vitamina A · vitamina E · vitamina K2 (MK-7).
+**PRÓXIMA = vitamina A.** Depois: vitamina E · vitamina K2 (MK-7).
 Minerais: selênio · cobre · cromo · manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato).
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
