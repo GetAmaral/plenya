@@ -476,7 +476,7 @@ por indicação: a discutir.)
 - **Resumo:** ≤2–3 g → registrado serve (cuidado sulfito em asmático); acima → manipulado sem conservante. Menu funcional baixa-média dose (zóster/alergia/QoL). Trilhos G6PD + renal; alta dose 25–100 g fora.
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **GORDURA/MÚSCULO via deficiência.** Status marginal de vit. C reduz **~25% a oxidação de gordura** no exercício submáximo; repor depletado (500 mg) **quadruplica** o gasto de gordura no exercício. É **cofator da síntese de carnitina e de colágeno** → vit. C baixa associa-se a **menor massa muscular**. Corrigir deficiência **destrava a oxidação de gordura** (ligação direta com a L-carnitina, §13.6); **não emagrece em repleto**. Antioxidante em dose alta pode atrasar adaptação ao treino (ver vit. E).
 - 🧠 **Cognição/humor/disposição:** **vitalidade mental / atenção / fadiga** — RCT em baixo-C ↑atenção e tendência de ↓fadiga; humor melhora **só em baixo basal/subclínico** (meta-análise geral negativa). Cofator de noradrenalina/dopamina. Eixo = corrigir deficiência → disposição e atenção; não antidepressivo em repleto.
-- 📚 **RAG (alvos da casa):** alvo funcional **plasma >1 mg/dL** (≥50 µmol/L suficiência; >70 otimização); a clínica **genotipa SLC23A1** (rs33972313, transportador de vit C).
+- 📚 **RAG (alvos da casa):** alvo funcional **plasma >1 mg/dL** (≥50 µmol/L suficiência; >70 otimização); a clínica **genotipa SLC23A1** (rs33972313, transportador de vit C). **Artigos da casa (novo):** meta-análises de **vit C ↓ácido úrico** (efeito uricosúrico leve — adjuvante em hiperuricemia/gota); escorbuto e **equimose fácil** no deficiente.
 
 | Campo | Vitamina C IV |
 |---|---|
@@ -1069,6 +1069,23 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Ornitina:** **ORAL, duas pernas:** **L-ornitina 400 mg/noite** (estresse/sono/disposição — eixo 🧠 com RCT) + **LOLA oral 6–9 g/d** (NAFLD/esteatose: ↓ALT/TG, antioxidante via glutationa; e EH co-manejo) · ⚖️ composição modesta · **🔴 sem IV eletivo** (LOLA IV = EH aguda hospitalar) · **🚨 gate renal** (ciclo da ureia → cautela/evitar DRC) · 🔲 confirmar LOLA IV no BR.
 
+### 13.32 Glicina — ORAL (sono + colágeno + neuromodulação); componente do coquetel IM de emagrecimento da casa
+- **Formas/dose:** glicina pó (adocicada, 1–15 g) / cápsula; também via **magnésio glicinato** (forma preferida da casa) e **GlyNAC** (§13.2). BR: pó/cápsula barato.
+- **Indicações (WebSearch):**
+  - 🟢 **Sono (destaque, RCT):** **3 g 30–60 min antes de dormir** → ↓latência, ↑qualidade subjetiva, ↓fadiga diurna, ↑cognição matinal, sem sonolência/dependência (↓temperatura central + NMDA no NSQ).
+  - 🟢 **Substrato de colágeno** (~33% do colágeno; limitante em cicatrização/recuperação/envelhecimento) — sinergia peptídeos de colágeno + vit C (§7) + silício (§13.26).
+  - 🟡 metabólico/glicêmico + anti-inflamatório (modesto) · 🟢 **GlyNAC** (longevidade, §13.2).
+- 📚 **RAG — aulas da casa (MFI):**
+  - **Magnésio glicinato** é forma preferida da casa (relaxamento/resistência insulínica); **combo CNS/mitocondrial: Mg treonato 500 mg + glicina 200 mg + malato 250 mg** (Psiq. Metab. Aula 05).
+  - Glicina como **neuromodulador inibitório + precursor** (com B6/taurina/L-teanina/colina) p/ GABA/serotonina/acetilcolina (Psiq. Metab. Aulas 03/06).
+  - **Colágeno rico em glicina → modula neuroexcitação, controla fome/estresse**; protocolo fim de tarde MCT + fibra + colágeno (saciedade/adesão) — Emagrecimento VI/XIII.
+  - 🚨 **Glicina é componente do protocolo INJETÁVEL (IM) de emagrecimento da casa** (com metilfolato, **5-HTP IM**, glutationa, ALA, carnitina, cromo, niacinamida; ~8 sessões 2×/sem) — Emagrecimento XVII. IM em baixa dose num coquetel lipotrópico ≠ irrigação IV cirúrgica (tóxica).
+- ⚖️ **Composição corporal:** glicina isolada não é anabólica; sinal de composição é do **GlyNAC** (§13.2). Como substrato de colágeno, apoia conjuntivo/recuperação. No contexto da casa, entra no **coquetel IM de emagrecimento** (saciedade/neuroexcitação).
+- 🧠 **Cognição/humor/disposição (eixo forte):** **sono → cognição/disposição do dia seguinte**; co-agonista **NMDA** — alta dose (30–60 g) adjuvante na esquizofrenia (sintomas negativos + cognição); sinais antidepressivo/TOC/ansiedade (pequenos). A casa usa glicina no eixo neuromodulador (GABA/serotonina) e no combo com Mg treonato.
+- 🚨🩺 **Segurança:** muito segura (adocicada; GI em dose alta). 🩺 precursor menor de **oxalato** (glioxilato) → atenção teórica em formador de cálculo em dose muito alta; cautela geral de aminoácido em DRC avançada. **Glicina IV de irrigação cirúrgica (RTU) é tóxica** — irrelevante aqui (a IM do coquetel é baixa dose).
+
+**Card — Glicina:** **ORAL** — **sono 3 g à noite** (destaque), **colágeno** (pele/articulação, c/ vit C+silício), GlyNAC (longevidade) · casa: **Mg glicinato** + combo **Mg treonato+glicina+malato**; neuromodulador (GABA/serotonina) · **IM**: componente do **coquetel lipotrópico de emagrecimento da casa** (baixa dose) · 🧠 sono/NMDA forte · 🚨 oxalato/DRC em dose muito alta; sem IV de irrigação.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1084,7 +1101,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) feitas. **PRÓXIMA = glicina.** Depois: lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) feitas. **PRÓXIMA = lisina.** Depois: · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
