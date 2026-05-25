@@ -757,6 +757,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 📚 **RAG (alvos da casa) — eixo metilação:** itens **Homocisteína + MTHFR C677T** — **Hcy alvo 4,5–8 µmol/L** (≤10 seguro, ≥11 intervir); B12 >500 pg/mL, **folato no quartil superior**, AMM (padrão-ouro de B12), excluir renal/TSH. É o painel da casa que ancora o uso de 5-MTHF + B12 + B6.
 
+📚 **RAG / aulas MFI:** **confirmam a postura do doc** — aulas **criticam ácido fólico sintético em alta dose e recomendam metilfolato/5-MTHF**; B9 = metilação + **reparo de DNA** + controle de homocisteína (deficiência → quebras de DNA, hipometilação, risco trombótico/cirúrgico → perioperatório); MTHFR converte folato→metilfolato; B9 no "básico neuro" (Jéssica) e no eixo submetilação (com B12/P5P/TMG). ⚠️ excesso de ácido fólico prejudica absorção de zinco.
+
 **Card — B9:** **5-MTHF (metilfolato) ORAL** — ácido fólico **vetado**, sem IV/IM · forma > via (oral=sublingual=strip em absorção; strip/spray só adesão) · gate: homocisteína alta (com B12+B6), humor adjuvante, deficiência/pré-concepção · **regra: nunca sem B12** (mascara neuropatia) · combo natural: spray/strip 5-MTHF + metilB12 · disclaimer: corrige marcador, não promete evento CV.
 
 ### 13.13 Vitamina A (retinol) — ORAL, repor só o deficiente; IM descartada
