@@ -932,6 +932,19 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Glutamina:** **ORAL de nicho** (pó 5–15 g) — **SII / estresse intestinal do exercício / imune-recuperação**; **NÃO anabólica em saudável**; sinal de ↓peso fraco/a confirmar · **🔴 sem IV eletivo** (dipeptídeo IV = NPT hospitalar) · **🚨 gates: hepatopatia/encefalopatia (amônia), câncer ativo (combustível tumoral), DRC avançada com acidose (amoniagênese).**
 
+### 13.29 Arginina — ORAL; efeitos NO reais mas biodisponibilidade-limitados (citrulina entrega melhor)
+- **Formas/biodisp.:** L-arginina HCl/base; silicato de arginina-inositol (Nitrosigine) mais sustentado. 🚫 **~40–50% degradada por arginase intestinal + first-pass hepático** → oral ineficiente p/ elevar arginina plasmática. ➡️ **citrulina (§13.30) escapa da arginase/first-pass, vira arginina no rim e eleva arginina plasmática ~100% mais** + inibe arginase → **para NO, citrulina > arginina** (combo é sinérgico). BR: cápsulas 500–1.000 mg (often c/ ornitina).
+- **Indicações:**
+  - 🟢 **Cicatrização/úlcera de pressão (imunonutrição, com diretriz):** **arginina ~6 g + vit C + zinco** acelera cicatrização (↑colágeno/hidroxiprolina; revisão 15 estudos/1.085 pts). Integra C (§7) + zinco (§13.5) — combo de cicatrização (pós-procedimento/ferida crônica).
+  - 🟢 **Imunonutrição perioperatória:** arginina + ômega-3 pré-op melhora desfecho cirúrgico (ASPEN/ESPEN) — prehab.
+  - 🟢 **Saúde masculina:** disfunção erétil **leve-moderada** (3 m ↑escore; melhor c/ citrulina/iPDE5) + **fertilidade** (↑contagem/motilidade/volume espermático).
+  - 🟡 **PA/endotélio** (6,4–30 g/d ↓PA, ↑FMD) · **glicose/insulina** · **pump/performance** (agudo ↑pico potência 2–4%) · função sexual feminina (fluxo). Modesto; **citrulina preferível**.
+- ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **não anabólica** em saudável (substrato de creatina/GH só teórico; GH só em IV alta de teste). Benefício é **indireto** (perfusão/pump → suporte ao treino). Sem sinal de gordura/peso.
+- 🔴🚨 **Cautelas que mudam conduta:** **DAP — NÃO usar oral crônico** (RCT NO-PAIN: arginina **pior** que placebo); **🚨 pós-IAM — NÃO** (sinal de ↑mortalidade; melhora sintoma de angina mas não dilata vaso estenosado).
+- 🚨🩺 **Gates:** **herpes recorrente** (arginina replica HSV; lisina antagoniza); **hipotensão** (soma com anti-HAS/iPDE5); 🩺 **dose alta crônica em DRC/rim senescente** acelera declínio renal/vascular (cautela idoso/DRC). **IV existe** (teste de GH, sepse) — **não eletivo**.
+
+**Card — Arginina:** **ORAL** — usos fortes: **cicatrização (combo arg+vit C+zinco ~6 g)**, **imunonutrição perioperatória (+ômega-3)**, **saúde masculina (ED leve-moderada + fertilidade)**; PA/pump modesto (**citrulina entrega melhor o NO**) · **não anabólica** (composição = suporte indireto) · **🔴 sem IV eletivo; NÃO em DAP oral crônico (NO-PAIN); 🚨 NÃO pós-IAM** · 🚨 gates herpes (HSV), hipotensão (anti-HAS/iPDE5), DRC/rim senescente.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -947,7 +960,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) feita. **PRÓXIMA = arginina.** Depois: citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) feitas. **PRÓXIMA = citrulina.** Depois: ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
