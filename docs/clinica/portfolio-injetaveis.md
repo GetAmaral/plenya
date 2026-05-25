@@ -393,6 +393,7 @@ por indicação: a discutir.)
 - **Manipulado:** não se aplica (ferro IV é todo industrializado).
 - **Resumo:** carboximaltose carro-chefe (dose plena/1 visita); derisomaltose reserva (menos hipofosfatemia, cursos repetidos); sacarato p/ diálise/fracionado. Dose por peso/Hb. Gate: ferropenia documentada.
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** corrigir ferropenia **mesmo sem anemia** melhora fadiga, VO₂pico e capacidade física (Cochrane, 21 ECRs/3.514 pessoas) → **habilita treino**, com ganho muscular indireto. Sem efeito sobre peso/gordura. Mecanismo: ferro é central na respiração mitocondrial; deficiência empurra para glicólise anaeróbia. Eixo = **performance/treinabilidade**, não emagrecimento. IV indicado quando oral falha/insuficiente.
+- 🧠 **Cognição/humor/disposição:** **eixo forte na deficiência, mesmo SEM anemia** — ferro é cofator de dopamina/mielina → fadiga, "brain fog", ↓concentração, irritabilidade, **humor (ansiedade/depressão)** e **síndrome das pernas inquietas/insônia**; coorte 13 anos: deficiência +52% risco de diagnóstico psiquiátrico. Sintomas melhoram ao corrigir o ferro. Mulher em idade fértil é o alvo clássico (cobrir ferritina em fadiga/humor inexplicados).
 
 | | Carboximaltose | Derisomaltose | Sacarato |
 |---|---|---|---|
@@ -409,6 +410,7 @@ por indicação: a discutir.)
 - **Manipulado:** metilcobalamina 1–5 mg/mL IM/IV lenta, **fotoprotegido**.
 - **Resumo:** hidroxo IM padrão; oral 1–2 mg/dia 1ª linha em muitos casos; metil manipulada quando se quer a forma metilada; **B12 IV não** (excreção renal). Em DRC, hidroxo (não ciano).
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** sem efeito direto; melhora fadiga/desempenho **só no deficiente** (em repleto B12 não dá energia nem performance — dado consistente). É o componente "energia" das **injeções lipotrópicas de emagrecimento (MIC + B12)** — papel coadjuvante de bem-estar/adesão, **não queima de gordura** por si. Cofator do metabolismo de ácidos graxos/aminoácidos.
+- 🧠 **Cognição/humor/disposição:** deficiência dá alterações de humor (depressão/mania/agitação), declínio cognitivo, até psicose — **corrigir ajuda o DEFICIENTE**; porém RCTs em deficiência moderada/repletos = **sem ganho cognitivo/humor**. Não é nootrópico em repleto. Compõe o eixo homocisteína (com folato/B6). Triar B12 em idoso/vegano/metformina com queixa cognitiva ou de humor.
 
 | | Hidroxocobalamina (indústria) | Metilcobalamina (manipulado) |
 |---|---|---|
@@ -422,6 +424,7 @@ por indicação: a discutir.)
 - **Manipulado:** colecalciferol IM ~600.000 UI/mL **oleoso**.
 - **Resumo:** padrão é oral diário/semanal. Injetável só manipulado IM, **nicho** (má absorção + falha do oral, ou não-adesão); é mega-bolus (risco Sanders). Não é cardápio.
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **MÚSCULO = eixo forte.** Deficiência liga-se a **sarcopenia/quedas**; repor (alvo **>30 ng/mL**) preserva massa magra e força — num ECR em pós-menopausa, +25% força de perna e preservação de massa magra vs −6,8% no placebo. Ganho real **principalmente com proteína + exercício** (DO-HEALTH foi **negativo em idoso replets/saudável**). **EMAGRECIMENTO = fraco:** deficiência de D é fortemente associada à obesidade (sequestro no tecido adiposo), mas **suplementar não emagrece** (meta-análises inconclusivas; talvez ligeira ↓cintura). Corrigir no obeso é correto, sem prometer perda de peso.
+- 🧠 **Cognição/humor/disposição:** **depressão** — meta-análises ↓sintomas (SMD ~−0,36) **só no deficiente (<20 ng/mL)** e em inflamatório, com dose baixa prolongada (alvo >30 ng/mL); **SAD misto**. Cognição: anti-inflamatório/neuroprotetor, sinal fraco. Eixo = corrigir deficiência ajuda humor (não trata depressão em repleto).
 
 | Campo | Vitamina D IM (manipulado) |
 |---|---|
@@ -436,6 +439,7 @@ por indicação: a discutir.)
 - **Manipulado:** não isolado; só componente de combo custom sem conservante.
 - **Resumo:** usar o registrado. 1 g MgSO₄ ≈ 8,1 mEq ≈ ~98 mg Mg elementar. Gate renal o mais rígido.
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **MÚSCULO:** magnesemia é correlato independente de **força de preensão, potência de perna e desempenho físico** (InCHIANTI); suplementar melhorou performance física (tempo de chair-stand) **sobretudo em idoso e deficiente** (evidência moderada). Papel na contração muscular e metabolismo energético. **METABÓLICO:** melhora sensibilidade à insulina. Sem efeito direto sobre gordura/peso. Eixo = **performance/sarcopenia no deficiente**.
+- 🧠 **Cognição/humor/disposição — eixo forte:** RCT (248 mg) ↓**depressão e ansiedade**; regula HPA/neurotransmissores → **sono e estresse**; **magnésio L-treonato (Magtein)** ↑**cognição** (em CCL, ganho equivalente a ~9 anos) e qualidade do sono. **Forma treonato** é a de alvo cerebral; glicinato/treonato para sono/ansiedade. Um dos melhores eixos humor/sono/cognição do doc.
 
 | Campo | Sulfato de Mg (indústria) |
 |---|---|
@@ -450,6 +454,7 @@ por indicação: a discutir.)
 - **Manipulado:** tiamina alta dose sem conservante · combos B **sem fenol** · vitaminas B individuais.
 - **Resumo:** tiamina IV alta dose = estrela (Wernicke/etilismo/bariátrica/hiperêmese). Citoneurin IM = neurotrópico (neuropatia/lombalgia adjuvante). Genérico IV = reposição (lento, fenol/nicotinamida→flushing). B12 IV não. **Teto B6 somatório** (≤100 mg).
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** as vitaminas B são **cofatores do metabolismo energético** (descarboxilação, oxidação de ácidos graxos); complexo B melhorou antifadiga e desempenho no exercício em ECR; ingestão de **B1 e B2 inversamente associada a IMC**, e maior ingestão de B1/B2/B3/B6/folato a menor risco de síndrome metabólica. Tiamina é especialmente relevante no **pós-bariátrico** (deficiência comum no emagrecimento cirúrgico/hiperêmese). Benefício real **só corrigindo deficiência** — não "queima gordura".
+- 🧠 **Cognição/humor/disposição (bom eixo disposição/estresse):** B-complexo ↓cortisol/estresse percebido e ↑vigor/clareza mental; **tiamina 50 mg/d** → relato de mais lúcido, composto e energético; B1/B6/B12 são cofatores de serotonina/dopamina/GABA. Tiamina alta dose é central no eixo neuro do etilismo/Wernicke (já é a indicação). Efeito de "energia/disposição" sobretudo no deficiente/estressado.
 
 | | Tiamina IV | Citoneurin | Complexo B genérico IV |
 |---|---|---|---|
@@ -466,6 +471,7 @@ por indicação: a discutir.)
 - **Manipulado:** ascorbato de sódio **tamponado, sem metabissulfito** (~500 mg/mL) p/ média/alta dose.
 - **Resumo:** ≤2–3 g → registrado serve (cuidado sulfito em asmático); acima → manipulado sem conservante. Menu funcional baixa-média dose (zóster/alergia/QoL). Trilhos G6PD + renal; alta dose 25–100 g fora.
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **GORDURA/MÚSCULO via deficiência.** Status marginal de vit. C reduz **~25% a oxidação de gordura** no exercício submáximo; repor depletado (500 mg) **quadruplica** o gasto de gordura no exercício. É **cofator da síntese de carnitina e de colágeno** → vit. C baixa associa-se a **menor massa muscular**. Corrigir deficiência **destrava a oxidação de gordura** (ligação direta com a L-carnitina, §13.6); **não emagrece em repleto**. Antioxidante em dose alta pode atrasar adaptação ao treino (ver vit. E).
+- 🧠 **Cognição/humor/disposição:** **vitalidade mental / atenção / fadiga** — RCT em baixo-C ↑atenção e tendência de ↓fadiga; humor melhora **só em baixo basal/subclínico** (meta-análise geral negativa). Cofator de noradrenalina/dopamina. Eixo = corrigir deficiência → disposição e atenção; não antidepressivo em repleto.
 
 | Campo | Vitamina C IV |
 |---|---|
@@ -480,6 +486,7 @@ por indicação: a discutir.)
 - **Manipulado:** ALA IV **trometamol 25 mg/mL** (600 mg ≈ 24 mL).
 - **Resumo:** oral é a base; IV manipulado p/ **indução em neuropatia diabética** (nível A). Eliminação não renal (sem ajuste DRC). Atenção: hipoglicemia, **Hirata**, quelante (espaçar de Fe/Ca/Mg).
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **EMAGRECIMENTO:** meta-análises → **−0,7 a −1,3 kg** e **↓IMC (~0,4)**, mais forte em **obeso e mulher**; reduz apetite (ECR 24 sem: −5% peso, −9% gordura em mulheres/obesos). **GORDURA/METABÓLICO:** ativa **AMPK** e transloca **GLUT4** no músculo esquelético (↑captação de glicose até 300% em modelo, ↑oxidação de ácidos graxos) → melhora sensibilidade à insulina (DM2/SOP/síndrome metabólica). Sinal **modesto porém consistente**; o **IV manipulado já previsto** habilita uso injetável no eixo metabólico/emagrecimento.
+- 🧠 **Cognição/humor/disposição:** **mista/limitada** — ALA + ômega-3 por 1 ano = menos declínio na DA leve; mas cocktail antioxidante (ALA+E+C) **piorou** cognição em 16 sem; sem RCT que comprove. Forte mesmo é na **neuropatia diabética** (já é a indicação IV/oral). Não usar como nootrópico.
 
 | Campo | ALA IV (manipulado) |
 |---|---|
@@ -505,6 +512,7 @@ por indicação: a discutir.)
   - **Oral** (lipossomal) é redundante: o **precursor NAC/GlyNAC eleva GSH melhor e é registrado** → migrar o ângulo "glutationa" para NAC.
 - **Resumo:** glutationa praticamente **fora do portfólio**; IV só em uso terapêutico individualizado raríssimo (oncológico) com gate G6PD/asma/função renal, fotoproteção e preparo na hora.
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** o sinal de composição corporal (↑força/marcha, ↓gordura e cintura) pertence ao **precursor GlyNAC (§13.2)**, não à glutationa IV — que segue fora do portfólio. Não usar "glutationa drip" com pretexto de emagrecimento/massa.
+- 🧠 **Cognição/humor/disposição:** o ângulo neuro (estresse oxidativo cerebral) pertence ao precursor **NAC/GlyNAC (§13.2)**; glutationa IV segue fora do portfólio. Sem uso neuro próprio.
 
 ### 13.2 NAC (N-acetilcisteína) + GlyNAC — ativo de glutationa defensável (ORAL)
 - **Indústria:** **Fluimucil** oral (granulado/sachê 200 e 600 mg) **e IV (registrado)**; genéricos 600 mg.
@@ -521,6 +529,7 @@ por indicação: a discutir.)
 - **Segurança:** oral muito segura (odor sulfuroso ↓adesão); IV **anafilactoide taxa-dependente** + broncoespasmo em asmático + **potencializa nitratos**; **renal seguro/favorável**.
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **GlyNAC oral = eixo forte.** RCT Baylor em idosos (24 sem): ↑**força muscular**, velocidade de marcha e capacidade de exercício, **↓gordura corporal e circunferência de cintura**, ↓HOMA-IR — **benefício reverte ao parar** (emergente: RCT pequeno, monogrupo, não replicado). NAC isolado: na **SOP**, sinal de ↓peso/IMC, ↓insulina e melhora lipídica (meta-análise); em obeso, ↑UCP1 no tecido adiposo visceral. ⚠️ Atleta: dose alta crônica peri-treino pode **embotar a adaptação** (mitohormese). Eixo oral; IV só agudo.
+🧠 **Cognição/humor/disposição — eixo psiquiátrico real (oral, co-manejo):** NAC adjuvante em **TOC, tricotilomania/escoriação, bipolar (depressão), craving/dependência** (já citado §13.2); **GlyNAC** ↑cognição em idoso (RCT Baylor); modula glutationa cerebral e glutamato. Bom eixo humor/comportamento **com psiquiatra**; não monoterapia.
 
 **Cards NAC:**
 | | A — GlyNAC oral (longevidade) | B — NAC oral (DPOC/adjuvante) | C — NAC IV (AGUDO, não eletivo) |
@@ -557,6 +566,8 @@ por indicação: a discutir.)
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** precursores de NAD+ (NR/NMN) mostram **↓gordura/peso e ↑sensibilidade insulínica em animal**, e NR ↑biogênese mitocondrial muscular em estudo de gêmeos; porém **ensaios humanos em geral falham** em adiposidade/composição corporal (NMN 250 mg melhorou só sensibilidade insulínica muscular, sem mudar composição). Meta-análise de precursores de NAD+ para peso = inconclusiva. **Sem uso de emagrecimento defensável; NMN proibido no BR.** Niacina/niacinamida não emagrecem.
 
+🧠 **Cognição/humor/disposição:** **pelagra** (deficiência grave de B3) = demência/confusão **reversível**; NR ↑cognição e ↓comportamento depressivo **só em animal** — **nenhum estudo humano** mostrou ganho cognitivo (RCT de NR em CCL sem benefício claro). Não vender NAD/NR como nootrópico; niacinamida não tem uso de humor/cognição fora da pelagra.
+
 **Card — Niacinamida oral (chemoprevenção de pele):** 500 mg 2×/dia contínuo · gate: ≥2 cânceres de pele
 não-melanoma/ceratose actínica em 5 anos, fotoexposto **imunocompetente** · monitor: homocisteína se dose
 alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal); não indicar em transplantado.
@@ -572,6 +583,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - **Renal (ângulo do Dr.):** osmólito renal; **renoproteção/antiproteinúria só pré-clínica (animal)** — hipótese, não promessa. **Cautela em DRC 4–5/diálise** (risco de acúmulo, sem dose validada → não suplementar às cegas).
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **ADJUVANTE.** ~3 g/dia melhora lipídios, insulina, HbA1c e **controle de apetite/gasto energético** em obeso, com sinal de composição corporal em mulher obesa (em dieta). **GORDURA:** ~1,66 g pré-exercício ↑**oxidação de gordura até 16%**. **MÚSCULO/PERFORMANCE:** 1–3 g melhora força, reduz fadiga e dano muscular (CK/lactato) — achados mistos para recuperação. Oral (quase 100% absorvida; TauT saturável) → **sem IV eletivo**.
+
+🧠 **Cognição/humor/disposição:** ansiedade/depressão **principalmente em animal** (antidepressivo em modelos de estresse; taurina baixa em ansiosos); cognição humana **modesta/inconsistente** (8 RCTs em saudáveis). **1 RCT humano:** 4 g/d adjuvante a antipsicótico ↓psicopatologia em **1º episódio de psicose**. Emergente, não estabelecido; não é nootrópico/ansiolítico comprovado em saudável.
 
 **Card — Taurina oral:** 1,5–3 g/dia (até 6 g seguro); performance 1–3 g 1–2 h pré-treino · **sem IV eletivo** · gate de exclusão: DRC 4–5/diálise sem individualização, gestação/lactação · monitor: PA (somação c/ anti-hipertensivo), HbA1c se uso metabólico · disclaimer: adjuvante modesto (coração/pressão/metabólico); longevidade é dado animal, refutado em humanos; não substitui o tratamento principal.
 
@@ -590,6 +603,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **EMAGRECIMENTO** modesto/inconsistente (meta-análise: ↓0,55 kg e ↓IMC em sobrepeso/obeso saudável). **MÚSCULO:** sustenta testosterona, síntese proteica e sinalização mTOR — porém o ganho de massa/força via zinco aparece **só no deficiente** (zinco-deficiente tem testosterona baixa; repor restaura). **NÃO é booster anabólico em repleto.** Mantém a regra da casa: repor o deficiente (interpretar com PCR), monitorar cobre. Sem IV eletivo.
 
+🧠 **Cognição/humor/disposição:** **depressão = adjuvante** (zinco baixo associa-se a depressão; potencializa antidepressivo em ECRs); cofator de neurotransmissão/BDNF. Benefício no **deficiente/adjuvante** (interpretar com PCR), não isolado nem em repleto.
+
 **Card — Zinco oral:** elementar — manutenção 8–11 mg, correção 25–40 mg, acne 30–50 mg, resfriado pastilha ≥75 mg <24h, DMRI 25 mg (+cobre 2 mg) · forma bisglicinato (crônico)/acetato (pastilha), evitar óxido · **gate: deficiência interpretada com PCR** · **monitor obrigatório: cobre** (>25 mg/d >4 sem → cobre + Zn:Cu); atenção redobrada em DRC · **sem IV eletivo** (só NPT/disabsorção grave).
 
 ### 13.6 L-carnitina — agente terapêutico de precisão; IV na diálise (a confirmar no BR)
@@ -602,6 +617,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - **Dosagem laboratorial no BR:** carnitina livre/total e perfil de acilcarnitinas **existem** (Hermes Pardini/DASA, Fleury), mas são **send-out, lentos e caros (~R$ 1.216)** → o gate <40 µmol/L é **viável caso a caso** (premium), não triagem de massa.
 - 🔴 **Não fazer:** "energia/vitalidade" genérica, recuperação esportiva super-vendida, longevidade crônica oral indiscriminada. (Emagrecimento **não** está aqui — é uso legítimo modesto; ver linha de composição corporal abaixo.)
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura) — EIXO MAIS FORTE do portfólio para gordura/recomposição:** meta-análises (37–43 ECRs, ~2.300 pessoas) → **↓peso 1,1–1,3 kg, ↓IMC ~0,3 e ↓massa gorda ~1,2 kg**, mais forte em **sobrepeso/obeso**; dose-resposta ótima **~2.000 mg/dia** (em ECRs de alta qualidade confirma-se sobretudo o peso). Mecanismo: transporta ácidos graxos para a mitocôndria → **↑oxidação de gordura**, poupa glicogênio; em **idoso**, ↑massa muscular com ↓peso (recomposição) e ↓fadiga (Malaguarnera, grupo único). **Via:** IV/IM têm absorção superior ao oral (oral cai com dose). ⚠️ **DRC: preferir IV** (não eleva TMAO). É a molécula com melhor racional de **gordura + injetável** — reposiciona o antigo "~1 kg trivial": modesto, porém consistente e citável.
+- 🧠 **Cognição/humor/disposição:** o éster neuro é a **ALCAR (acetil-L-carnitina)** — adjuvante em **depressão do idoso** e **neuropatia diabética dolorosa** (já citado), com sinal em **cognição/fadiga do idoso**. LC isolada tem menos efeito central. Eixo humor/cognição/disposição **no idoso via ALCAR**.
 
 **Cards:**
 | | A — IV intradialítica (uso nobre) | B — Oral (consultório) |
@@ -623,6 +639,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** 🔴 **NEGATIVO para emagrecimento** — meta-análise (20 ECRs, 976 pessoas): **sem efeito** em peso, IMC ou cintura. Não vender com esse pretexto (obeso tem CoQ10 mais baixo, mas suplementar não emagrece). **MÚSCULO:** em sintomas musculares por estatina (SAMS) o resultado é **misto** (meta-análise positiva; ECR rigoroso com mialgia confirmada = negativo); performance no exercício incerta. Não usar com fim de composição corporal.
 
+🧠 **Cognição/humor/disposição:** **4/8 ensaios** ↑cognição + ↑fluxo cerebral (ubiquinol 150 mg melhorou cognição/autonômico); **depressão/ansiedade** sinal positivo pequeno (300 mg); **fibromialgia/fadiga crônica** ↓dor, fadiga e humor. 🔴 **Parkinson/Huntington/ELA = negativo** (já citado). Eixo = **fadiga/humor em estados mitocondriais** (FM/CFS), não neurodegeneração.
+
 **Card — CoQ10 (oral):** ubiquinona oleosa com gordura (padrão) / CAVAQ10 hidrodispersível (sem gordura) / ubiquinol Kaneka (casos selecionados) · **dose em CoQ10 elementar:** IC/enxaqueca 300 mg/d, estatina 100–300, fertilidade 200–600 (≥3 m), reposição 100–200 (industrial 200 mg/dose → 2 cáps ou manipular) · gate: IC sobre terapia otimizada; SAMS testar 8–12 sem · monitor: **INR se varfarina**, PA, tolerância GI · disclaimer: suplemento; sem IV/IM; sem promessa de longevidade; Parkinson/Alzheimer não.
 
 ### 13.8 Vitamina B2 (riboflavina) — oral; destaque MTHFR-hipertensão (nefro)
@@ -637,6 +655,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - **Segurança:** excelente, **sem UL**, sem toxicidade renal.
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** cofator (FAD) da **oxidação de ácidos graxos** e do metabolismo energético; ingestão de **B2 inversamente associada a IMC** e a menor síndrome metabólica (epidemiológico). Benefício real **só corrigindo deficiência**; sem efeito direto de emagrecimento ou ganho muscular.
+
+🧠 **Cognição/humor/disposição:** **enxaqueca** é o uso neuro (já citado); B1/B2 com sinal fraco em ansiedade/sono/estresse; humor só via cofator/deficiência. Sem nootrópico.
 
 **Card — Riboflavina (B2):** oral · doses: manutenção 1,1–1,6 mg; **MTHFR-HAS 1,6 mg**; enxaqueca/mitocondrial 100–400 mg (fracionar) · gate: MTHFR TT + HAS · enxaqueca adulto · deficiência · ferropenia refratária com B2 baixa · monitor: PAS, frequência de crises, Hb, flavinúria (adesão) · disclaimer: 400 mg off-label magistral; enxaqueca efeito modesto; HAS só genótipo TT.
 
@@ -654,6 +674,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** B5 é componente da **CoA** e da ácido-graxo-sintase (metabolismo lipídico); a **pantetina** age sobre lipídios (já registrado). **Sem dado de perda de peso ou de massa muscular** — não há indicação de emagrecimento/composição corporal.
 
+🧠 **Cognição/humor/disposição:** sem dado relevante (papel da CoA na síntese de acetilcolina é teórico). Sem uso neuro.
+
 **Card — B5:** **dislipidemia: pantetina 600 mg/dia** (reavaliar lipidograma 12–16 sem) · **pele: dexpantenol tópico** · **atonia GI: dexpantenol IM/IV** (hospitalar) · **capilar: dexpantenol IM 250–500 mg** (adjuvante, evidência fraca) · disclaimer: efeito lipídico é da **pantetina** (não pantotenato); acne megadose/adrenal sem base; injetável isolado via magistral.
 
 ### 13.10 Vitamina B6 (piridoxina / P5P) — contexto adulto funcional/longevidade
@@ -668,6 +690,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - **Fora do escopo deste centro (não usar):** antídoto/toxicologia (isoniazida, hidrazinas, etilenoglicol), convulsão neonatal/genética. *(Existem, mas são emergência/hospitalar — irrelevantes aqui.)*
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** o **músculo armazena a maior parte do B6** corporal (turnover lento); maior ingestão de B6 associada a menor risco de síndrome metabólica (epidemiológico). **Sem efeito direto de emagrecimento ou ganho de massa** — relevância só como cofator no deficiente.
+
+🧠 **Cognição/humor/disposição — eixo real no deficiente/TPM:** B6 é **cofator-chave de serotonina, dopamina, GABA, melatonina, noradrenalina** → deficiência ~dobra risco de depressão; **TPM** (humor/irritabilidade/fadiga, 50 mg — efeito com forte componente placebo); "brain fog" no deficiente. 🚨 **teto de neuropatia** limita dose alta crônica. Eixo humor no deficiente/TPM, não nootrópico genérico.
 
 **Card — B6:** P5P (ativa) preferível; oral resolve a maioria · doses: deficiência 1,3–2 mg; **hiperoxalúria 5–10 mg/kg/d (monitorado)**; TPM 50–100 mg · injetável só no combo neurotrópico/reposição IM · gate: homocisteína alta (com B12/folato), formador de cálculo de oxalato, deficiência, dialítico · monitor: **neuropatia sensitiva** (dose alta), oxalúria 24h, somar fontes de B6 · disclaimer: teto de neuropatia; sem B6 IV isolado de wellness.
 
@@ -684,6 +708,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** efeito **metabólico leve** (ativa glucoquinase, ↓glicemia/lipídios, sobretudo em combo com **cromo**) já registrado; **sem dado de perda de peso ou de massa muscular**. Aparece no rótulo de "fat burners" sem base própria de emagrecimento.
 
+🧠 **Cognição/humor/disposição:** sem uso relevante (a alta dose em esclerose múltipla **falhou** — SPI2, já citado). Sem eixo neuro.
+
 **Card — B7:** **ORAL apenas** (correção de deficiência + ajuste metabólico leve, opcional combo c/ cromo) · **sem IV/IM** (oral ~100% biodisponível, parenteral não agrega) · gate: deficiência comprovada / suporte metabólico · **regra operacional fixa: suspender 48–72 h antes de coleta** (interferência troponina/TSH) · disclaimer: sem promessa capilar em não-deficiente; MS alta dose descartada (SPI2 negativo).
 
 ### 13.12 Vitamina B9 (folato) — só 5-MTHF (metilfolato); ácido fólico vetado; ORAL
@@ -698,6 +724,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** maior ingestão de folato associada a menor síndrome metabólica (epidemiológico, via homocisteína); **sem efeito direto de emagrecimento ou massa muscular.** Relevância de composição corporal = nula fora do contexto metabólico/metilação.
 
+🧠 **Cognição/humor/disposição — eixo humor real:** **5-MTHF = adjuvante antidepressivo** (potencializa ISRS, em folato baixo E normal; cofator de serotonina/dopamina/noradrenalina) — já é uso central (§13.12). Cognição/demência **limitada** (sem prova de tratar demência). Sempre com B12 (homocisteína).
+
 **Card — B9:** **5-MTHF (metilfolato) ORAL** — ácido fólico **vetado**, sem IV/IM · forma > via (oral=sublingual=strip em absorção; strip/spray só adesão) · gate: homocisteína alta (com B12+B6), humor adjuvante, deficiência/pré-concepção · **regra: nunca sem B12** (mascara neuropatia) · combo natural: spray/strip 5-MTHF + metilB12 · disclaimer: corrige marcador, não promete evento CV.
 
 ### 13.13 Vitamina A (retinol) — ORAL, repor só o deficiente; IM descartada
@@ -711,6 +739,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🟢 **Eixo lipossolúvel A-D-K2:** A pré-formada e D **protegem mutuamente da toxicidade** (sinergia osso/imunidade). Como usamos D alta (§3), garantir **A adequada equilibrada com K2 (MK-7)** — desenhar trio coerente, não molécula solta. Diferencial premium = **medir e equilibrar A-D-K2 + nutrigenética BCMO1**, não dose alta.
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** o **ácido retinoico** inibe adipogênese branca e induz "browning" do tecido adiposo (↓peso, ↑tolerância à glicose) — **mas só em modelo animal/farmacológico**; em humano o **teto de toxicidade** (UL 10.000 UI, teratogênese) impede dose com esse fim. **Sem uso de emagrecimento/composição na prática** — vit. A continua sendo reposição de deficiência.
+
+🧠 **Cognição/humor/disposição:** retinoides têm papel em plasticidade/aprendizado, mas **sem indicação de suplemento** p/ cognição/humor (e teto de toxicidade). Sem eixo neuro prático.
 
 **Card — A:** **ORAL apenas** (palmitato/acetato oleoso c/ refeição) · sem IV/IM · dose **perto do RDA, teto 10.000 UI** · gate: **repor só deficiente**; **🚨 mulher fértil**; betacaroteno alto **vetado em fumante / conversor BCMO1 lento** · pensar **eixo A-D-K2** + BCMO1 · disclaimer: não é "drip de longevidade", é reposição de precisão.
 
@@ -727,6 +757,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** 🔴 dado **inconclusivo** em sarcopenia; pior, **antioxidantes em dose alta (vit. E/C) podem atrasar a recuperação e embotar a adaptação muscular ao treino** (bloqueiam a sinalização redox do exercício). **Sem efeito de emagrecimento.** Não usar com fim de composição corporal — e atenção a não prejudicar o ganho muscular de quem treina.
 
+🧠 **Cognição/humor/disposição:** **Alzheimer/declínio — misto:** 2.000 UI retardou declínio funcional na DA leve-moderada em 1 RCT, **mas dose alta = risco SELECT/mortalidade**; α-tocoferol não previne progressão de CCL. Vit. E **da dieta** (α+γ) > suplemento. Não usar como nootrópico em dose alta.
+
 **Card — E:** **ORAL apenas**, dose **baixa-moderada (≤400–800 UI)**, **tocoferóis mistos naturais** · usos: **saúde da mulher** (dismenorreia/mastalgia/fogacho não-hormonal), **NASH selecionado** (800 UI d-alfa), câimbra (tentativa; forte no cirrótico) · **🔴 sem drip/dose-alta antioxidante** (próstata/mortalidade) · gate: anticoagulado, pré-op, câncer de próstata.
 
 ### 13.15 Vitamina K2 (menaquinona MK-7) — ORAL, par fixo da vit. D; fecha o eixo A-D-K2
@@ -741,6 +773,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - **Sem indução IV/IM.**
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** sinal **misto** — ECR não viu efeito na recuperação muscular pós-treino; outro mostrou **↑força de preensão e massa muscular em DM2** (via AKT/mTOR, contra a atrofia da resistência insulínica). Promissor-mecanístico, **não comprovado**; **sem dado de emagrecimento.** Eixo principal segue osso/vascular.
+
+🧠 **Cognição/humor/disposição:** sem uso relevante (papel em esfingolipídios cerebrais é mecanístico/pré-clínico). Sem eixo neuro prático.
 
 **Card — K2:** **MK-7 ORAL 100–200 mcg/d** · sem IV/IM · **par fixo da vit. D** (especialmente em D alta) — fecha eixo A-D-K2 · uso forte: **osso pós-menopausa/osteopenia** (com D+Ca); vascular = mecanístico, sem promessa de desfecho · **🚨 gate: varfarina (monitorar INR); tranquilo com DOAC** · molécula limpa/barata/segura.
 
@@ -760,6 +794,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** deficiência causa **miopatia** (CK alto, fraqueza proximal); combo antioxidante (E+C+Zn+Se) melhorou força/endurance de quadríceps, mas **selênio isolado sem efeito muscular significativo**. **Sem emagrecimento** — e **excesso piora** o metabólico (NAFLD/síndrome metabólica, +DM2 no SELECT). Só corrigir deficiência; não usar em composição corporal.
 
+🧠 **Cognição/humor/disposição:** status baixo liga-se a **humor deprimido/ansiedade** e a **declínio cognitivo** (queda de Se acompanhou declínio em 9 anos na DA); pequeno ensaio (60 mcg) ↓depressão em idoso. **Só no deficiente** — curva em U (excesso não ajuda e prejudica).
+
 **Card — Se:** **selenometionina ORAL 100–200 mcg** · sem IV/IM · **medir selenemia antes, repor SÓ o deficiente** · usos: **Graves leve (guideline, 200 mcg/6 m)**, Hashimoto/pós-parto anti-TPO+, correção de deficiência; marginais (humor/imune/fertilidade) só no deficiente · **🚨 curva em U: SELECT (próstata+DM2), NAFLD, espermatogênese, teto 400 mcg** · jamais drip em repleto.
 
 ### 13.17 Cobre — ORAL; contrapeso obrigatório do zinco; medir e (quase sempre) NÃO suplementar
@@ -775,6 +811,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** relação **em curva/inversa do esperado**: obesidade associa-se a cobre sérico **alto** (não baixo) e o cobre **regula a lipólise**. **Não há racional de suplementar cobre para emagrecer** — reforça "medir, não empurrar". Músculo: só a **deficiência grave** (ex.: por excesso de zinco) dá mieloneuropatia/fraqueza (já registrado). Sem uso de composição corporal.
 
+🧠 **Cognição/humor/disposição:** **lado escuro** — cobre **livre** alto liga-se a **Alzheimer/cuproptose** (já citado); deficiência grave dá disfunção neuro. **Não há uso pró-cognição** — o cuidado é não ter excesso (medir, não empurrar).
+
 **Card — Cu:** **ORAL** bisglicinato/gluconato · sem IV/IM · **contrapeso obrigatório do zinco**: quem usa Zn prolongado → cobre manutenção + monitorar (cobre/ceruloplasmina/hemograma) · usos: deficiência (zinco alto, bariátrica, mielopatia/anemia/neutropenia) · marginais (vascular/lisil-oxidase, imune, pele→GHK-Cu) só **reforçam "não deixar faltar"** · **🚨 NÃO suplementar repleto** (cuproptose/AD, glicemia); Wilson contraindicado; teto 10 mg; equilíbrio Cu:Zn.
 
 ### 13.18 Cromo — ORAL; nicho real = fissura por carboidrato/compulsão + adjuvante metabólico
@@ -789,6 +827,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🚨 **Segurança:** **picolinato** gera dano de DNA *in vitro* (in vivo misto; EFSA estima ampla margem em dose nutricional); relatos de **rabdomiólise/insuficiência renal** com picolinato OTC. Preferir **≤250 mcg (teto ANVISA)** para uso contínuo; se usar os 600 mcg do ECR de depressão atípica, **curso limitado** e considerar forma GTF/nicotinato.
 - **Sem indução IV/IM** (injetável estético sem vantagem comprovada sobre o oral).
 
+🧠 **Cognição/humor/disposição:** **depressão atípica com fissura por carboidrato** é literalmente o nicho do cromo (§13.18; ECR 600 mcg ↑resposta HAM-D) — o eixo humor/comportamento alimentar **já é a indicação central**. Sem ação cognitiva geral.
+
 **Card — Cromo:** **ORAL** (preferir GTF/nicotinato p/ uso contínuo; picolinato é o estudado) · dose **≤250 mcg/d (teto ANVISA)**; ECR de fissura usou 600 mcg (curso limitado) · **nicho real: fissura por carboidrato / compulsão / depressão atípica com avidez por doce** + adjuvante SOP (insulina/lipídios) · DM2 = fraco/inconsistente, não antidiabético · **sem IV/IM** (estético sem vantagem) · 🚨 gate: picolinato (genotoxicidade in vitro, rabdo/renal em relatos) → dose baixa/curso limitado.
 
 ### 13.19 Manganês — ORAL só em deficiência/combo; postura defensiva; toxicidade domina
@@ -801,6 +841,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🚨 **Segurança domina — manganismo:** Mn acumula no **globus pallidus** → **síndrome parkinsoniana** (movimento/cognição/comportamento). **A via IV é a perigosa:** eliminação é **biliar, não renal** → o corpo não excreta bem Mn IV (NPT crônica = causa clássica de manganismo). **Hepatopatia/colestase = acúmulo** (contraindicação relativa). Teto EFSA.
 - 🩺 **Gate nefrológico (forte):** **DRC ACUMULA manganês** (Mn plasmático sobe conforme cai a TFG; relação em U com anemia) → **suplementar Mn é especificamente desaconselhado em renal**. Autoridade do nefrologista para **não dar Mn em DRC**.
 - 🔴 **Sem indução IV/IM eletiva** (manganismo); só dose ínfima de NPT, fora do escopo.
+
+🧠 **Cognição/humor/disposição:** 🚨 **o eixo neuro do Mn é DANO, não benefício** — excesso causa **manganismo/parkinsonismo** (já citado). Nenhum uso pró-cognição; é molécula a NÃO empurrar.
 
 **Card — Mn:** **ORAL apenas, só em deficiência comprovada (rara) ou como componente de combo articular (glucosamina/condroitina) / ósseo (Ca-Zn-Cu)** — nunca protagonista · **🔴 sem IV/IM eletivo** (manganismo; excreção biliar, não renal) · **🚨 contraindicado em DRC e hepatopatia/colestase** (acúmulo) · composição corporal = pré-clínico · medir e não empurrar; respeitar teto.
 
@@ -817,6 +859,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🩺 **Gate nefrológico:** **excreção 60–90% renal** → na **DRC acumula**; não suplementar Mo em renal sem necessidade documentada.
 - 🔴 **Sem IV/IM eletivo** (só NPT); sem uso de composição corporal.
 
+🧠 **Cognição/humor/disposição:** sem uso (erros congênitos do cofator de molibdênio dão dano neuro neonatal — fora do escopo). Sem eixo neuro.
+
 **Card — Mo:** **essencialmente FORA do portfólio eletivo** · oral só em deficiência real (praticamente só **NPT longa** — intolerância a aminoácidos revertida com molibdato) · tentativa fraca em **sensibilidade a sulfito** com Mo baixo · **🔴 sem IV/IM eletivo, sem composição corporal** · 🚨 gate DRC (acúmulo) + antagonismo com cobre · **TTM é fármaco anticobre (Wilson), não suplemento.**
 
 ### 13.21 Iodo — ORAL; uso clínico real mas gateado pela tireoide; sem IV/IM
@@ -830,6 +874,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🚨 **Curva em U estreita (ponto central):** **Wolff-Chaikoff** (dose alta → hipotireoidismo, sobretudo Hashimoto) · **Jod-Basedow** (nódulo/bócio/Graves dormente → hipertireoidismo) · **excesso dispara/agrava tireoidite autoimune (Hashimoto)**. Parear com **selênio (§13.16) + zinco** atenua. Teto rotineiro 500 mcg; doses fibrocísticas (mg) só monitoradas.
 - 🩺 **Nefrológico:** KI **contraindicado em doença renal/desidratação** (carga de K + acúmulo de iodeto); cautela com dose alta em DRC. Autoridade do Dr. também no risco de **contraste iodado IV** (Jod-Basedow).
 - 🔴 **Sem IV/IM.**
+
+🧠 **Cognição/humor/disposição:** **via tireoide** — hipotireoidismo por carência dá lentidão cognitiva/depressão, revertidas ao corrigir; em **eutireóideo, suplementar não melhora** (e excesso piora). Eixo = corrigir deficiência/função tireoidiana.
 
 **Card — Iodo:** **ORAL** (KI, não kelp) · **nutricional 150 mcg** p/ deficiência/bócio; **dose alta (mg) só em mama fibrocística com monitor de TSH/anti-TPO** · **🔴 sem IV/IM; sem emagrecimento em eutireóideo** (excesso ↓T4→T3) · **🚨 gate tireoidiano:** rastrear Hashimoto/nódulo antes de dose alta (Wolff-Chaikoff/Jod-Basedow), teto rotineiro 500 mcg, parear selênio · cautela renal.
 
@@ -847,6 +893,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🩺 **DRC:** carga de cálcio + calcificação vascular (debate dos quelantes de fosfato à base de Ca) → **não dar Ca drip/alto em renal**; vigiar carga.
 - 🔴 **Sem IV eletivo.**
 
+🧠 **Cognição/humor/disposição:** sem uso de suplemento (sinalização neuronal é fisiológica; hipercalcemia causa confusão, mas é dano). Sem eixo neuro.
+
 **Card — Cálcio:** **priorizar DIETA**; suplemento só da lacuna **≤500–600 mg COM refeição, fracionado, no eixo D-K2** (bisglicinato/citrato) · pré-eclâmpsia em gestante de baixa ingestão · **🔴 sem IV eletivo (só emergência/antídoto Mg); sem emagrecimento** · **🚨 gates: CV** (bolus/entre refeições/pós-menopausa → parear K2, com refeição); **cálculo renal** (sempre com refeição, citrato de K, hipercalciúria); **DRC** (carga/calcificação).
 
 ### 13.23 Potássio — PRESCRIÇÃO (eletrólito), não infusão/suplemento; uso central = citrato p/ cálculo
@@ -861,6 +909,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🚨🚨 **Hipercalemia (tema central):** **DRC = contraindicação prática** (rim não excreta; risco 3×; **IECA/BRA e substitutos de sal agravam**). IV = risco de parada. **Gate absoluto = função renal + medicação** antes de qualquer K.
 - 🔴 **Sem IV eletivo; sem composição corporal; não é item de "soro".**
 
+🧠 **Cognição/humor/disposição:** sem uso (eletrólito; alterações neuro só em dis/hipercalemia = dano). Sem eixo neuro.
+
 **Card — K:** **PRESCRIÇÃO, não infusão/suplemento** · uso central = **citrato de potássio oral na prevenção de cálculo** (protocolo nefro c/ §13.22 + §13.10) · PA/osso = dietético/alcalino · **🔴 sem K IV eletivo (cardíaco); sem composição corporal** · **🚨 gate absoluto: TFG + IECA/BRA — contraindicado/cautela máxima em DRC** (hipercalemia).
 
 ### 13.24 Fósforo — FORA do eletivo; o tema é RESTRINGIR, não suplementar (diferencial nefro)
@@ -871,6 +921,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **nenhum dado relevante** (ergogênico teórico não toca composição). Não é molécula de composição.
 - 🚨🩺 **Inversão nefrológica (diferencial do Dr.):** o **excesso de fosfato é toxina CV e renal** mesmo na população geral — hiperfosfatemia + **FGF23** → **calcificação vascular, HVE, HAS, disfunção endotelial**, progressão de DRC, mortalidade. **A postura da clínica é o OPOSTO de suplementar: orientar REDUÇÃO de fosfato** (aditivos/ultraprocessados — "fósforo oculto") como proteção CV/renal/longevidade. Suplementar eletivamente = ativamente nocivo. Central na DRC (quelantes/restrição).
 - 🔴 **Sem suplemento/IV eletivo; sem composição corporal.**
+
+🧠 **Cognição/humor/disposição:** sem uso (encefalopatia só em distúrbios graves de fosfato). Sem eixo neuro; tema segue restrição.
 
 **Card — P:** **FORA do portfólio eletivo** · reposição só em **hipofosfatemia documentada** (realimentação/clínico; IV só hospitalar) · **🔴 sem suplemento/IV de wellness; sem composição corporal** · 🩺 **tema real = RESTRINGIR fosfato** (aditivos/ultraprocessados) como proteção CV/renal — diferencial nefro; atenção máxima em DRC.
 
@@ -883,6 +935,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **sem efeito direto** — o ensaio que mediu mostrou que massa magra/força vieram do **treino, não do boro**; testosterona livre ↑ mas **não virou músculo**. Sem dados de gordura/peso. Não vender como anabólico/emagrecedor.
 - 🚨 **Segurança:** dos mais seguros em dose nutricional (3–10 mg; UL 20); **toxicidade reprodutiva em dose alta** (animal) → cautela gestação; **excreção >90% renal** → cautela DRC (acúmulo).
 - 🔴 **Sem IV/IM** (oral).
+
+🧠 **Cognição/humor/disposição:** sinal **preliminar** de ↑atenção/memória/coordenação com boro adequado (já citado); fraco, não estabelecido.
 
 **Card — Boro:** **ORAL coadjuvante 3–6 mg** (calcium fructoborate) · uso principal = **osso/articulação no eixo D-K2-Ca** (prolonga meia-vida da vit. D); testosterona livre = **sinal preliminar honesto** (não comprovou desfecho/massa) · **🔴 sem IV; sem composição corporal/anabólico** · 🚨 teto 20 mg; cautela gestação (repro) e DRC (excreção renal).
 
@@ -904,6 +958,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🚨 **Segurança:** muito seguro em dose de suplemento; 🩺 **cálculo de sílica** existe mas é raro e ligado a **antiácidos de sílica/trissilicato de Mg em excesso** (insolúvel), não ao ch-OSA/Exsynutriment; excreção renal → cautela leve em DRC.
 - 🔴 **Sem IV/IM** (oral).
 
+🧠 **Cognição/humor/disposição:** ângulo neuro = **redução de alumínio / hipótese do Alzheimer** (já citado) — **especulativo**. Sem uso pró-cognição comprovado.
+
 **Card — Silício:** **ORAL silanol biodisponível** — no BR **Exsynutriment® 100–600 mg/d em jejum** (padrão magistral) ou **SiliciuMax® (MMST)**; ch-OSA/BioSil = referência de RCT (importado); **evitar cavalinha/bambu** (biodisp. 3–5%) · uso: **pele/cabelo/unhas** (melhor) + **osso/articulação-colágeno** (adjunto no eixo D-K2-Ca-boro) · **🔴 sem IV; sem composição corporal/músculo** (é conjuntivo) · biomateriais (cicatrização/aterosclerose) ≠ cápsula oral · muito seguro; cautela leve DRC.
 
 ### 13.27 Lítio (orotato, microdose) — neuroproteção emergente; nefrologista como diferencial de segurança
@@ -915,6 +971,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🚨🩺 **Segurança (terreno do Dr.):** lítio **farmacológico** = diabetes insipidus nefrogênico (até 40%), **DRC/DRET após >15 anos**, tireoide. **Microdose (<1 mg elementar):** litemia ordens de grandeza abaixo da faixa nefrotóxica; 40+ anos sem toxicidade renal relatada; RCT 2 anos de baixa dose em idoso não comprometeu rim — **mas faltam estudos de longo prazo do orotato.** **O lítio que destrói rim é a dose psiquiátrica, não a microdose** — e o **nefrologista é exatamente quem distingue as faixas e monitora** (litemia, TFG, TSH; evitar em DRC; AINEs/IECA/diuréticos elevam litemia). Transforma suplemento "cinza" em algo prescrito/vigiado com autoridade.
 - 🔲 **Pendência regulatória:** carbonato é Rx no BR; **orotato de lítio — status ANVISA NÃO confirmado** (provável zona cinzenta/importação; pode estar fora, como o NMN). **Confirmar antes de oferecer.**
 - 🔴 **Sem IV/IM.**
+
+🧠 **Cognição/humor/disposição:** **é A molécula neuro do bloco** — neuroproteção/demência, humor, suicídio (microdose emergente) já são o corpo da §13.27. Eixo principal.
 
 **Card — Lítio:** **microdose oral (orotato, alguns mg de Li elementar)** p/ **neuroproteção/humor — comunicar EMERGENTE**, monitorado (litemia/TFG/TSH) · 🚫 desfazer claim de biodisponibilidade do orotato · **🔴 sem IV; sem composição corporal** · 🚨 gate renal/tireoide, evitar DRC, interações (AINE/IECA/diurético); nefrotoxicidade séria é da dose psiquiátrica — **nefrologista = diferencial de segurança** · 🔲 **confirmar status ANVISA do orotato.**
 
@@ -930,6 +988,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🚨🩺 **Segurança (pontos do nefrologista):** oral muito segura em saudável; **🚨 hepatopatia/encefalopatia hepática = contraindicada** (metaboliza a **amônia** → edema cerebral); **câncer ativo** = cautela (combustível tumoral/glutaminólise); 🩺 **DRC avançada com acidose** = cautela (glutamina é substrato da **amoniagênese renal** → amônio). Autoridade do Dr. nas 3.
 - 🔴 **Sem IV eletivo** (oral).
 
+🧠 **Cognição/humor/disposição:** sem uso (precursor de glutamato, mas suplementar não modula humor/cognição em saudável; em **encefalopatia hepática é deletéria** — amônia). Sem eixo neuro benéfico.
+
 **Card — Glutamina:** **ORAL de nicho** (pó 5–15 g) — **SII / estresse intestinal do exercício / imune-recuperação**; **NÃO anabólica em saudável**; sinal de ↓peso fraco/a confirmar · **🔴 sem IV eletivo** (dipeptídeo IV = NPT hospitalar) · **🚨 gates: hepatopatia/encefalopatia (amônia), câncer ativo (combustível tumoral), DRC avançada com acidose (amoniagênese).**
 
 ### 13.29 Arginina — ORAL; efeitos NO reais mas biodisponibilidade-limitados (citrulina entrega melhor)
@@ -942,6 +1002,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **não anabólica** em saudável (substrato de creatina/GH só teórico; GH só em IV alta de teste). Benefício é **indireto** (perfusão/pump → suporte ao treino). Sem sinal de gordura/peso.
 - 🔴🚨 **Cautelas que mudam conduta:** **DAP — NÃO usar oral crônico** (RCT NO-PAIN: arginina **pior** que placebo); **🚨 pós-IAM — NÃO** (sinal de ↑mortalidade; melhora sintoma de angina mas não dilata vaso estenosado).
 - 🚨🩺 **Gates:** **herpes recorrente** (arginina replica HSV; lisina antagoniza); **hipotensão** (soma com anti-HAS/iPDE5); 🩺 **dose alta crônica em DRC/rim senescente** acelera declínio renal/vascular (cautela idoso/DRC). **IV existe** (teste de GH, sepse) — **não eletivo**.
+
+🧠 **Cognição/humor/disposição:** via NO/fluxo cerebral, sinal **fraco** (como citrulina, mas pior biodisponibilidade); sem RCT humano de cognição/humor. Mínimo.
 
 **Card — Arginina:** **ORAL** — usos fortes: **cicatrização (combo arg+vit C+zinco ~6 g)**, **imunonutrição perioperatória (+ômega-3)**, **saúde masculina (ED leve-moderada + fertilidade)**; PA/pump modesto (**citrulina entrega melhor o NO**) · **não anabólica** (composição = suporte indireto) · **🔴 sem IV eletivo; NÃO em DAP oral crônico (NO-PAIN); 🚨 NÃO pós-IAM** · 🚨 gates herpes (HSV), hipotensão (anti-HAS/iPDE5), DRC/rim senescente.
 
@@ -978,7 +1040,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
 **BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) feitas. **PRÓXIMA = ornitina.** Depois: glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
 
-⚠️ **TAREFA PENDENTE (pedido do Dr. 2026-05): revisar TODAS as moléculas já fechadas (§1–§13.30) no eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO** com literatura nova — eixo não foi varrido sistematicamente (foco anterior foi composição corporal ⚖️). Adicionar tag **🧠** em cada seção. A partir de agora, avaliar 4 eixos por molécula: ⚖️ composição corporal + 🧠 cognição/humor/disposição + os usos clínicos + segurança.
+✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
