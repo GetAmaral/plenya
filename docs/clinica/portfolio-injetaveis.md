@@ -1647,6 +1647,21 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.67 Fucoidana — ORAL-ONLY; polissacarídeo de alga marrom (imuno + senoterapêutico); menor relação evidência/hype do bloco; FECHA o bloco geroprotetor
+- **Identidade:** polissacarídeo sulfatado de **algas marrons** (*Fucus*, *Undaria*/mekabu, *Cladosiphon*/mozuku, *Laminaria*, *Macrocystis*). Duas caras: **imunomodulador** (NK, adjuvante de vacina) + **senoterapêutico emergente** (ativa SIRT6, ↑reparo de DNA).
+- **🔴 Via / biodisp. (calcanhar de Aquiles):** molécula **grande e sulfatada → biodisp. oral BAIXA**. Potência anti-câncer/antitrombótica *in vitro* **NÃO se traduz** em benefício clínico (pouco absorvida). Limite central. Sem racional/produto IV.
+- **🇧🇷 Disponibilidade BR:** **importada** (Doctor's Best 70%, Life Extension Maritech), cápsula 1–4 g. Não aprovada como fármaco em nenhum país. Sem injetável.
+- **🛡️ Imune/vacina (melhor dado humano, ecoa o tema do bloco):** RCT idosos japoneses (n=70, ~87a): **300 mg mekabu × 4 sem pré-vacina gripe → ↑anticorpos nas 3 cepas (mantidos >20 sem) + ↑NK transitório**; RCT mozuku → ↑NK (esp. ♂). Mesmo eixo "rejuvenescimento imune" da rapamicina/espermidina.
+- **🚀 Longevidade/senescência (pré-clínico):** camundongo +13% lifespan (♂), **ativa SIRT6**, ↓senescência/SASP, ↑reparo DNA (senoterapêutico). Só animal.
+- **Câncer/cognição:** câncer = *in vitro*/adjuvante + ensaios em curso (caquexia/radioproteção), **fora do core, não comprovado**; cognição = pré-clínico (↓amiloide), ensaios humanos sem resultado.
+- **⚖️ Composição corporal:** sem dados humanos. Não é eixo.
+- **🚨 Segurança — 2 gates reais:** **🔴 anticoagulante (heparina-símile)** → sangramento c/ varfarina/AAS, **suspender ~2 sem pré-cirurgia** (MSKCC); **🔴 iodo + metais pesados (origem alga)** → gate tireoidiano (igual iodo/kelp §13.21) + arsênico/cádmio/chumbo/mercúrio → exige **produto testado/baixo contaminante, teor de iodo conhecido**. Senão, bem tolerada (GI leve).
+- 📚 **RAG:** **zerado** — sem `score_item`/aula. Não é da casa.
+
+**Card — Fucoidana:** **ORAL-ONLY** (1–4 g, importada), **IV/IM NÃO-ofertada** (polissacarídeo grande, mal absorvido, sem forma estéril) · **adjunto imune-longevidade de NICHO** · 🛡️ melhor dado = **imune/resposta vacinal em idosos (NK/anticorpos, RCT)** · 🚀 longevidade/SIRT6 só pré-clínico (+13% lifespan camundongo) · **🔴 biodisp. baixa = freio real** · **🚨 gates = anticoagulante/cirurgia (sangramento) + iodo/metais pesados (tireoide, produto testado)** · ⚖️/🧠 sem dado humano · RAG zerado · **não é pilar — molécula mais "early" do bloco**; perfil = idoso foco imunidade/vacinação, fora de anticoagulado/tireoidopata. **FECHA o bloco geroprotetor.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1674,8 +1689,9 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
 **BLOCO POLIFENÓIS/FITOQUÍMICOS — ✅ FECHADO:** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) · luteolina (§13.58) · apigenina (§13.59) · berberina (§13.60) · silimarina (§13.61). **TODAS ORAL-ONLY (IV não-ofertada em todas — flavonoides instáveis/sem forma estéril/sem racional; curcumina IV vetada por hemólise+óbito; quercetina IV nefrotóxica; silimarina IV existe mas é antídoto de Amanita = fora de escopo). Eixos de destaque: berberina = pilar metabólico (metformina natural); quercetina = dossiê RCT mais amplo; curcumina = anti-inflamatório all-rounder; EGCG = termogênico; sulforafano = detox/Nrf2; silimarina = hepatoprotetor. 🔴 Gates hepáticos: curcumina (DILI, pior c/ piperina) e EGCG (EFSA ≥800 mg). 🔴 Berberina: interações (estatina) + gestação (kernicterus).**
 
-**BLOCO LONGEVIDADE/GEROPROTETORES (EM CURSO):** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66, fármaco metabólico da casa / longevidade cética) feitas. **PRÓXIMA = fucoidana** (FECHA o bloco geroprotetor).
-Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
+**BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
+
+**BLOCO PEPTÍDEOS (PRÓXIMO) — aqui a via INJETÁVEL volta a ser central (SC/IM):** **PRÓXIMA = BPC-157.** Restantes: TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
