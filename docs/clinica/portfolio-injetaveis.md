@@ -683,6 +683,19 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — A:** **ORAL apenas** (palmitato/acetato oleoso c/ refeição) · sem IV/IM · dose **perto do RDA, teto 10.000 UI** · gate: **repor só deficiente**; **🚨 mulher fértil**; betacaroteno alto **vetado em fumante / conversor BCMO1 lento** · pensar **eixo A-D-K2** + BCMO1 · disclaimer: não é "drip de longevidade", é reposição de precisão.
 
+### 13.14 Vitamina E (tocoferóis/tocotrienóis) — ORAL; dose baixa-moderada; sem drip antioxidante
+- **Sem injetável** (não há apresentação BR relevante; sem gargalo de absorção). **Molécula oral.**
+- **Formas:** 8 moléculas (4 tocoferóis α/β/γ/δ + 4 tocotrienóis). Suplemento comum = só **alfa-tocoferol**, que **em dose alta derruba o gama plasmático 30–50%** (gama tem ação antiinflamatória/anti-RNS própria) → preferir **tocoferóis MISTOS naturais** em dose baixa. **Natural d-alfa (RRR) ~2× sintético (dl-alfa/all-rac).** Tocotrienol (γ): inibe HMG-CoA redutase ("statin-like") + sinal cerebral — nicho, evidência imatura.
+- **Disponibilidade BR:** oral abundante (acetato de alfa-tocoferol cáps. 400 UI; mistos/tocotrienol em magistral/nutracêutico).
+- **Indicações ORAIS (o leque útil está em dose ≤400–800 UI, abaixo da faixa de risco):**
+  - 🟢 **Saúde da mulher (melhor nicho oral, público da clínica):** dismenorreia primária (↓dor/PMS) · mastalgia fibrocística/pré-menstrual (até 1.200 UI) · **fogachos/vasomotores da menopausa** (200 UI 2×/d por 8 sem; opção **não-hormonal** quando TH contraindicada; ACOG até 800 UI).
+  - 🟢 **NASH/esteato-hepatite (único desfecho duro):** PIVENS **d-alfa 800 UI/d × 96 sem → 43% resolução histológica vs 19%**. Só adulto **não-diabético, não-cirrótico, histologia agressiva**; consentir risco prostático + checar sangramento.
+  - 🟡 **Câimbra noturna:** evidência mista (ECR 1992 negativo vs quinino) **mas forte no cirrótico** (200 mg 3×/d). Tentativa baixo risco. RLS: relato fraco.
+  - 🔴 **Fora:** antioxidante/longevidade/nootrópico genérico em **dose alta** (SELECT: +17% câncer de próstata a 400 UI; >400 UI/d: +mortalidade; cognição só pela vit. E **da dieta**, não suplemento). Claudicação e discinesia tardia: evidência insuficiente.
+- 🚨 **Segurança:** dose alta = câncer de próstata (SELECT) + mortalidade (Miller); **antiplaquetário + antagonismo da vit. K** → cautela com anticoagulante/antiagregante e pré-operatório.
+
+**Card — E:** **ORAL apenas**, dose **baixa-moderada (≤400–800 UI)**, **tocoferóis mistos naturais** · usos: **saúde da mulher** (dismenorreia/mastalgia/fogacho não-hormonal), **NASH selecionado** (800 UI d-alfa), câimbra (tentativa; forte no cirrótico) · **🔴 sem drip/dose-alta antioxidante** (próstata/mortalidade) · gate: anticoagulado, pré-op, câncer de próstata.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -694,10 +707,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 4. **Contexto/público (filtro duro):** centro ADULTO, medicina funcional integrativa, **saúde/performance/longevidade**. **Excluir** (nem citar): emergência, toxicologia/antídoto, neonatal/pediátrico, erros genéticos, agudo hospitalar.
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13).
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14).
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**PRÓXIMA = vitamina E.** Depois: vitamina K2 (MK-7).
+**PRÓXIMA = vitamina K2 (MK-7).** (Fecha as lipossolúveis → fecha o eixo A-D-K2.)
 Minerais: selênio · cobre · cromo · manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato).
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
