@@ -1709,6 +1709,21 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.71 GHK-Cu (tripeptídeo de cobre) — 🟢 TÓPICO ofertável / 🔴 INJETÁVEL não-ofertado; a resposta se parte pela VIA (encaixa no "máx. tópico" da casa)
+- **Identidade:** tripeptídeo endógeno do plasma (Pickart, 1973) complexado a cobre; **cai ~60% dos 20→60 anos** (interesse longevidade); modula >4.000 genes (regeneração/antiox/anti-inflam) — mas **cultura de células**, não benefício sistêmico provado. Decisão-chave = **tópico (sim) vs injetável (não)**.
+- **🟢 Tópico — ofertável, aprovado, dado humano real:** forma **cosmética (Copper Tripeptide-1) aprovada/segura no Brasil**; encaixa no "máx. tópico" da casa:
+  - **Pós-laser fracionado (multicêntrico 2024):** gel 0,05% → **epitelização 25% mais rápida + menos eritema 72h** vs padrão.
+  - **Cicatrização:** gel 2% → fechamento **3× mais rápido** vs placebo, menos infecção (RCT).
+  - **Cabelo/couro cabeludo:** melhora modesta de densidade (cosmético). Disponível BR como sérum/gel magistral.
+- **🔴 Injetável/sistêmico — não recomendar:** **FDA Cat 2 (2023) por imunogenicidade** (agregação + impurezas no manipulado; removido 2026 só por retirada de nomeação = limbo); **ampolas injetáveis (5/100 mg) em mercado cinza no BR** (imprensa alertou 2026); **carga de cobre sistêmica** (mesma preocupação Cu:Zn/sobrecarga do §13.17); claims sistêmicos (músculo/anti-inflam) = extrapolação do tópico, **não comprovados em humano**.
+- **🟢 WADA:** **não proibido** (≠ TB-500).
+- **Eixos:** 🩹 pele/cicatrização (tópico) = eixo real c/ RCT; ⚖️/🧠 não; longevidade/4.000 genes = mecanístico/cultura, sem desfecho humano.
+- 📚 **RAG:** **zerado** — não da casa (cobre mineral §13.17 é coisa diferente).
+
+**Card — GHK-Cu:** **resposta se parte pela VIA** · **🟢 TÓPICO OFERTÁVEL** (sérum/gel cosmético Copper Tripeptide-1, aprovado BR; pós-procedimento estético/cicatrização/couro cabeludo; RCT: epitelização +25% pós-laser, fechamento 3× em ferida) — encaixa no "máx. tópico" da casa · **🔴 INJETÁVEL/SC NÃO-OFERTADO** (FDA Cat 2 imunogenicidade, mercado cinza BR, evidência sistêmica ausente, carga de cobre) · **🟢 WADA liberado** · longevidade/4.000 genes = cultura, sem desfecho humano · RAG zerado. **1º caso do bloco "sim tópico, não injetável".**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1738,7 +1753,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) feitos. **PRÓXIMA = GHK-Cu.** Restantes: ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) feitos. **PRÓXIMA = secretagogos de GH (ipamorelina/CJC-1295/sermorelina).** Restantes: MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
