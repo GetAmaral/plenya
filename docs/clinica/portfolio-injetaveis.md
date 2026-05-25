@@ -794,6 +794,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** 🔴 dado **inconclusivo** em sarcopenia; pior, **antioxidantes em dose alta (vit. E/C) podem atrasar a recuperação e embotar a adaptação muscular ao treino** (bloqueiam a sinalização redox do exercício). **Sem efeito de emagrecimento.** Não usar com fim de composição corporal — e atenção a não prejudicar o ganho muscular de quem treina.
 
 🧠 **Cognição/humor/disposição:** **Alzheimer/declínio — misto:** 2.000 UI retardou declínio funcional na DA leve-moderada em 1 RCT, **mas dose alta = risco SELECT/mortalidade**; α-tocoferol não previne progressão de CCL. Vit. E **da dieta** (α+γ) > suplemento. Não usar como nootrópico em dose alta.
+📚 **RAG / aulas MFI:** **cãibra 100 mg/d** (apoia o uso de câimbra do doc) + inibe contrações uterinas; **pré-eclâmpsia** (antioxidante); regenerada pelo **ALA**; antioxidante adrenal/HPA. Doses baixas e tocoferóis mistos (coerente com o veto à dose alta).
 
 📚 **RAG (alvos da casa):** alfa-tocoferol sérico **<5 mg/L grave** (investigar má-absorção de gordura) · 5–7 leve/moderada · **7–15 adequado**.
 
