@@ -653,7 +653,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 🧠 **Cognição/humor/disposição:** **4/8 ensaios** ↑cognição + ↑fluxo cerebral (ubiquinol 150 mg melhorou cognição/autonômico); **depressão/ansiedade** sinal positivo pequeno (300 mg); **fibromialgia/fadiga crônica** ↓dor, fadiga e humor. 🔴 **Parkinson/Huntington/ELA = negativo** (já citado). Eixo = **fadiga/humor em estados mitocondriais** (FM/CFS), não neurodegeneração.
 
-📚 **RAG (alvos da casa):** CoQ10 sérico reduzido → considerar suplementar; **monitorar periodicamente em usuário de estatina** (depleção progressiva). Confirma a conduta do doc.
+📚 **RAG / score_item (alvos da casa):** CoQ10 sérico reduzido → considerar suplementar; **monitorar periodicamente em usuário de estatina** (depleção progressiva). Confirma a conduta do doc.
+📚 **RAG / aulas MFI:** **combo selênio + CoQ10** com sinal de **↓mortalidade CV** (tipo KiSel-10); **CoQ10 profilática perioperatória em cirurgia cardíaca** (Sorrentino); **farmacogenética**: polimorfismos da síntese de colesterol → fortes candidatos a CoQ10 / risco com estatina (Cardiologia II/V); **stack mitocondrial** (CoQ10 + carnitina + ALA + glicina + taurina + complexo B). ⚠️ Divergência: aulas otimistas em **Parkinson** alta dose (300–1.200 mg), mas grandes ensaios = negativos → manter postura do doc (não em neurodegeneração).
 
 **Card — CoQ10 (oral):** ubiquinona oleosa com gordura (padrão) / CAVAQ10 hidrodispersível (sem gordura) / ubiquinol Kaneka (casos selecionados) · **dose em CoQ10 elementar:** IC/enxaqueca 300 mg/d, estatina 100–300, fertilidade 200–600 (≥3 m), reposição 100–200 (industrial 200 mg/dose → 2 cáps ou manipular) · gate: IC sobre terapia otimizada; SAMS testar 8–12 sem · monitor: **INR se varfarina**, PA, tolerância GI · disclaimer: suplemento; sem IV/IM; sem promessa de longevidade; Parkinson/Alzheimer não.
 
