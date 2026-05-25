@@ -525,6 +525,7 @@ por indicação: a discutir.)
 - **Resumo:** glutationa praticamente **fora do portfólio**; IV só em uso terapêutico individualizado raríssimo (oncológico) com gate G6PD/asma/função renal, fotoproteção e preparo na hora.
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** o sinal de composição corporal (↑força/marcha, ↓gordura e cintura) pertence ao **precursor GlyNAC (§13.2)**, não à glutationa IV — que segue fora do portfólio. Não usar "glutationa drip" com pretexto de emagrecimento/massa.
 - 🧠 **Cognição/humor/disposição:** o ângulo neuro (estresse oxidativo cerebral) pertence ao precursor **NAC/GlyNAC (§13.2)**; glutationa IV segue fora do portfólio. Sem uso neuro próprio.
+- 📚 **RAG / aulas MFI:** glutationa é sintetizada via **GPX/sistema antioxidante** (glicina + cisteína[NAC] + glutamato; cofator **selênio**); ⚠️ as aulas de emagrecimento incluem **glutationa IM em baixa dose** num coquetel metabólico (resistência insulínica) — distinto do "whitening/glow drip" IV vetado (§13.1 segue vetado para fim estético/antioxidante eletivo). Migrar o ângulo "glutationa" para **NAC/GlyNAC oral** (§13.2).
 
 ### 13.2 NAC (N-acetilcisteína) + GlyNAC — ativo de glutationa defensável (ORAL)
 - **Indústria:** **Fluimucil** oral (granulado/sachê 200 e 600 mg) **e IV (registrado)**; genéricos 600 mg.
@@ -542,6 +543,7 @@ por indicação: a discutir.)
 
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **GlyNAC oral = eixo forte.** RCT Baylor em idosos (24 sem): ↑**força muscular**, velocidade de marcha e capacidade de exercício, **↓gordura corporal e circunferência de cintura**, ↓HOMA-IR — **benefício reverte ao parar** (emergente: RCT pequeno, monogrupo, não replicado). NAC isolado: na **SOP**, sinal de ↓peso/IMC, ↓insulina e melhora lipídica (meta-análise); em obeso, ↑UCP1 no tecido adiposo visceral. ⚠️ Atleta: dose alta crônica peri-treino pode **embotar a adaptação** (mitohormese). Eixo oral; IV só agudo.
 🧠 **Cognição/humor/disposição — eixo psiquiátrico real (oral, co-manejo):** NAC adjuvante em **TOC, tricotilomania/escoriação, bipolar (depressão), craving/dependência** (já citado §13.2); **GlyNAC** ↑cognição em idoso (RCT Baylor); modula glutationa cerebral e glutamato. Bom eixo humor/comportamento **com psiquiatra**; não monoterapia.
+📚 **RAG / aulas MFI:** **NAC para resistência insulínica** (com benfotiamina/P5P/canela — Emagrecimento IX); NAC = precursora de glutationa (entrega cisteína, substrato limitante); glutationa também depende de **glicina + selênio (GPX)**. Reforça GlyNAC/NAC oral como o ângulo "glutationa" do portfólio.
 
 **Cards NAC:**
 | | A — GlyNAC oral (longevidade) | B — NAC oral (DPOC/adjuvante) | C — NAC IV (AGUDO, não eletivo) |
