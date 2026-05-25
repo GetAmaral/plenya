@@ -77,10 +77,10 @@ Coordenação/concierge **absorvida por Getúlio + EMR** no MVP. Remove R$ 1.200
 
 ## C_fixo MVP final (Trims #1–4)
 
-| | Ideal | MVP final | Break-even |
+| | Ideal | MVP final | Break-even (0%) |
 |---|---:|---:|---:|
-| Semestral | 38.092 | **R$ 28.878** | ~R$ 37.176 |
-| Anual | 62.462 | **R$ 50.571** | ~R$ 65.102 |
+| Semestral | 38.092 | **R$ 28.878** | ~R$ 34.928 |
+| Anual | 62.462 | **R$ 50.571** | ~R$ 61.165 |
 
 ## PREÇO MVP FINAL — margem 5% (`P = C_fixo / 0,7768`)
 
@@ -91,8 +91,24 @@ Coordenação/concierge **absorvida por Getúlio + EMR** no MVP. Remove R$ 1.200
 
 > **Add-on opcional:** painel genético LIFECODE (custo ~R$ 1.900 + interpretação Getúlio R$ 900),
 > cobrado à parte de quem optar.
->
-> **Parcelamento sem juros:** semestral 6× R$ 6.167 · anual 12× R$ 5.417.
+
+### Política de pagamento (LOCK 25/05)
+
+Decisão: **a operação não precisa do caixa adiantado** → recebemos o parcelado pingando mês a mês
+(sem antecipação) e o à vista fica só com o desconto margem-neutro.
+
+| | Parcelado (sem juros, recebido mensal) | À vista (Pix) |
+|---|---|---|
+| **Semestral** | R$ 37.000 (6× R$ 6.167) | **R$ 36.000** (−~3%) |
+| **Anual** | R$ 65.000 (12× R$ 5.417) | **R$ 63.000** (−~3%) |
+
+- **À vista = desconto de ~3% (só o gateway de 2,99% que economizamos)** → margem-neutro. Mais que
+  isso só se valorizássemos caixa-agora (não é o caso).
+- **Custo real do parcelamento:** gateway 2,99% se recebido mensal. **NÃO antecipar** — antecipação
+  Asaas custa a partir de 1,25%/mês (~7-10% num 12×), o que daria prejuízo na margem de 5%.
+- **Exibição no deck (Rota A):** mostra só investimento + parcelamento; o à vista de 3% é cortesia
+  de fechamento (verbal), coberta por "As condições de pagamento, ajustamos juntos." O rótulo
+  "à vista" foi removido das linhas de preço (estava errado — à vista real é R$ 36k/63k).
 
 ---
 
