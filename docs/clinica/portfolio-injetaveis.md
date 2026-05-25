@@ -855,6 +855,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** relação **em curva/inversa do esperado**: obesidade associa-se a cobre sérico **alto** (não baixo) e o cobre **regula a lipólise**. **Não há racional de suplementar cobre para emagrecer** — reforça "medir, não empurrar". Músculo: só a **deficiência grave** (ex.: por excesso de zinco) dá mieloneuropatia/fraqueza (já registrado). Sem uso de composição corporal.
 
 🧠 **Cognição/humor/disposição:** **lado escuro** — cobre **livre** alto liga-se a **Alzheimer/cuproptose** (já citado); deficiência grave dá disfunção neuro. **Não há uso pró-cognição** — o cuidado é não ter excesso (medir, não empurrar).
+📚 **RAG / aulas MFI:** **eixo cobre-ferro** — cobre é cofator da **ceruloplasmina/ferroxidase** (Fe²⁺→Fe³⁺, libera ferro da ferritina p/ transferrina) e da **ferroquelatase** (incorpora ferro ao heme) → **deficiência de cobre causa anemia ferro-refratária**; ingestão no BR costuma ser adequada (reforça "medir, não empurrar").
 
 📚 **RAG (alvos da casa):** cobre sérico **funcional 80–110 µg/dL**; **<80 deficiência**; >110–140 excesso; **se baixo, dosar zinco** (suspeitar excesso de Zn). Alinha com o contrapeso Cu:Zn do doc.
 
