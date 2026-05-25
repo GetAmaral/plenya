@@ -709,6 +709,22 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — K2:** **MK-7 ORAL 100–200 mcg/d** · sem IV/IM · **par fixo da vit. D** (especialmente em D alta) — fecha eixo A-D-K2 · uso forte: **osso pós-menopausa/osteopenia** (com D+Ca); vascular = mecanístico, sem promessa de desfecho · **🚨 gate: varfarina (monitorar INR); tranquilo com DOAC** · molécula limpa/barata/segura.
 
+## 13-bis. Minerais (decisões individuais)
+
+### 13.16 Selênio — ORAL (selenometionina); medir antes, repor só o deficiente
+- **Formas:** **selenometionina (orgânica)** é a de escolha — absorção >90%, melhor retenção, menos tóxica; **selenometionina > selenito** em baixar anti-TPO. Levedura de Se = veículo orgânico. **Selenito/selenato (inorgânico)** absorção ~50%, mais tóxico — é a forma das ampolas.
+- **Disponibilidade BR:** oral abundante (selenometionina/levedura 50–200 mcg). **Injetável REGISTRADO** existe — Selit (selenito 50 mcg/mL), Selenoz (ác. selenioso 60 mcg/mL) — mas **indicação é NPT / via oral indisponível** (e EV alta dose em choque séptico/UTI). **Fora do nosso escopo**: oral repõe muito melhor (>90% vs ~50%) e mais seguro.
+- **Indicações (todas com a regra "medir selenemia antes, repor só o deficiente"):**
+  - 🟢 **Orbitopatia de Graves LEVE — uso com GUIDELINE (ETA/EUGOGO 2016):** selênio 200 mcg/d (selenito) × 6 meses melhora proptose/edema/QoL e reduz progressão (12% pioram vs 25%). Só forma **leve**; efeito **some se Se basal >120 µg/L**. Indicação mais sólida das "marginais".
+  - 🟢 **Hashimoto com Se baixo:** meta-análises ↓anti-TPO e leve ↓TSH em 3–6 meses (selenometionina), concentrado em deficientes; adjuvante, não muda desfecho duro.
+  - 🟢 **Tireoidite/depressão pós-parto:** suplementar na gestação em **anti-TPO+** preveniu disfunção tireoidiana e hipotireoidismo permanente.
+  - 🟢 **Correção de deficiência** (má-absorção, NPT, dieta/solo pobre). Keshan (cardiomiopatia) e Kashin-Beck (osteocondropatia) = prova de princípio da deficiência grave.
+  - 🟡 **Marginais, só no deficiente, sinal fraco:** humor/depressão · declínio cognitivo · imune/viral (influenza, HIV, COVID) · asma alérgica · fertilidade masculina (estrutural; 🚨 **curva em U** — excesso prejudica espermatogênese).
+- 🚨 **Segurança / curva em U (gate central):** UL **400 mcg/d**, selenose acima. **SELECT:** 200 mcg/d em repletos → **+91% câncer de próstata alto grau** + sinal de **+DM2**. **Se alto associa-se a mais NAFLD/síndrome metabólica** (argumento contra empurrar no público metabólico). Câncer: intervenção em repletos **não protege**. **Nunca suplementar repleto; medir antes; evitar em homem com Se já alto.**
+- **Sem indução IV/IM** no contexto funcional (injetável pertence a NPT/UTI).
+
+**Card — Se:** **selenometionina ORAL 100–200 mcg** · sem IV/IM · **medir selenemia antes, repor SÓ o deficiente** · usos: **Graves leve (guideline, 200 mcg/6 m)**, Hashimoto/pós-parto anti-TPO+, correção de deficiência; marginais (humor/imune/fertilidade) só no deficiente · **🚨 curva em U: SELECT (próstata+DM2), NAFLD, espermatogênese, teto 400 mcg** · jamais drip em repleto.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -723,7 +739,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15). **✅ Lipossolúveis fechadas — eixo A-D-K2 completo.**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**PRÓXIMA = minerais, começando por selênio.** Depois: cobre · cromo · manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato). *(zinco já feito em §13.5, magnésio em §4, ferro em §1.)*
+Minerais feitos: selênio (§13.16). **PRÓXIMA = cobre.** Depois: cromo · manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato). *(zinco já feito em §13.5, magnésio em §4, ferro em §1.)*
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
