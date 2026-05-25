@@ -874,6 +874,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - **Sem indução IV/IM** (injetável estético sem vantagem comprovada sobre o oral).
 
 🧠 **Cognição/humor/disposição:** **depressão atípica com fissura por carboidrato** é literalmente o nicho do cromo (§13.18; ECR 600 mcg ↑resposta HAM-D) — o eixo humor/comportamento alimentar **já é a indicação central**. Sem ação cognitiva geral.
+📚 **RAG / aulas MFI:** **resistência insulínica** (formas picolinato/GTF, **antes das refeições**) — confirma o nicho metabólico/glicêmico; também no coquetel IM de emagrecimento (§13.32). ⚠️ aulas usam **300–600 mcg 2×/d**, acima do **teto ANVISA 250 mcg** que o doc registra → manter cautela (picolinato/genotox) e preferir GTF/nicotinato p/ uso contínuo.
 
 📚 **RAG (alvos da casa):** cromo baixo → **investigar deficiência funcional em resistência insulínica, DM2, dislipidemia ou dieta ultraprocessada**. Alinha com o nicho metabólico do doc.
 
