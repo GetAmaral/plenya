@@ -1518,6 +1518,30 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.60 Berberina — ORAL-ONLY; o pilar metabólico do bloco ("metformina natural", 46 itens da casa); 🔴 interações sérias + contraindicação absoluta na gestação
+- **Identidade:** alcaloide isoquinolínico (*Berberis*, *Coptis*), **ativador de AMPK** (eixo da metformina). No EMR é o **insulino-sensibilizador nutracêutico de 1ª linha da casa** ("efeito similar à metformina"). Maior peso metabólico do portfólio fitoquímico.
+- **Via / biodisp. + formas BR:** biodisp. oral **<1%** (first-pass maciço). Opções, da mais barata à melhor absorvida:
+  - **Cloridrato (HCl) 500 mg 2–3×/d com refeições** — dose da casa; barato; **mais GI**.
+  - **BioBerON®** (Fagron — *Berberis aristata* + matriz fosfolipídica/lipossomal, **~10× biodisp.**, análogo BR do Berbevis/Indena): **160 mg 2×/d antes das refeições** (160 mg ≈ 1.000–1.500 mg de HCl pela biodisp.); marca posicionada como "berberina da saúde da mulher" (SOP/RI); **menos GI** pela dose menor.
+  - **Di-hidroberberina (DHB, ~5×)** — alternativa de melhor absorção.
+  - Sem racional IV (existe IV em pesquisa/China com histórico antiarrítmico, sem produto registrado; toda evidência é oral).
+- **🇧🇷 Disponibilidade BR:** **magistral super-consolidado e barato** — HCl 250/300/500/700 mg; BioBerON®/DHB insumáveis. **Sem injetável.**
+- **🩺 Metabólico (eixo-âncora, melhor meta do bloco):** metas (até 50 estudos, 2024) — **HbA1c −0,63 a −0,73%, glicemia jejum −0,8 a −0,86 mmol/L, glicemia 2h −1,2**; em confrontos diretos **iguala/supera metformina** no controle glicêmico. **Diferencial único no bloco — lipídios:** ↓TG, ↓LDL, ↓colesterol total (via ↑receptor de LDL hepático), ↓cintura, ↓IMC.
+- **Saúde da mulher / SOP:** ↓insulina jejum, ↑HOMA-IR/tolerância à glicose, apoia ovulação (alternativa/adjunto ao inositol). Público feminino metabólico.
+- **Intestino/microbioma:** antimicrobiano → SIBO/disbiose/leaky gut (a casa usa nesse eixo). Modula microbioma (parte do mecanismo metabólico).
+- **⚖️ Composição corporal:** ↓peso/cintura **modesto**, secundário ao efeito insulínico (não termogênico/anorexígeno). Coadjuvante de recomposição.
+- **🧠 Cognição/humor:** pré-clínico/emergente (AMPK central); sem RCT humano. Não é eixo da molécula.
+- **🚨 Segurança — gates que pesam:**
+  - **GI dominante:** diarreia/cólica 15–25% a 1.000–1.500 mg/d; **>1.500 mg/d** severa. DHB/fitossoma (BioBerON®) reduzem (dose menor).
+  - **🔴 Interações sérias (mais que os flavonoides):** inibe **CYP3A4, CYP2D6, glicoproteína-P** → ↑**estatinas (miopatia), varfarina, ciclosporina, digoxina**; **hipoglicemia aditiva** c/ antidiabéticos/insulina. **A maior biodisp. (BioBerON®) pode ACENTUAR as interações** — revisar medicações.
+  - **🔴 Gestação/lactação — CONTRAINDICAÇÃO ABSOLUTA:** atravessa placenta, contração uterina, **desloca bilirrubina → kernicterus no neonato**. Não é "cautela", é proibido.
+  - Sem toxicidade hepática/renal específica; cautela DRC (hipoglicemia/interação).
+- 📚 **RAG — entre os mais fortes (46 score_items):** conduta metabólica transversal — **gordura visceral** ("similar à metformina"), **glicemia jejum/KCNJ11** ("500 mg 2–3×/d c/ refeições, AMPK"), **RI confirmada** ("quando medicação não é o 1º recurso"), **autoimune** (FOXP3/Treg), **artrite/SIBO/disbiose/flatulência/leaky gut**. Aulas: *Emagrecimento IX/X/XI*, *Microbioma I/II/III*, *Glicação*, *Cardiologia V*, *Psiquiatria 11*. **Timing da casa: espaçar de minerais (selênio/zinco/magnésio antes da berberina).**
+
+**Card — Berberina:** **ORAL-ONLY** (**HCl 500 mg 2–3×/d c/ refeições** = dose da casa, barato/mais GI · **OU BioBerON® fitossoma 160 mg 2×/d**, ~10× biodisp., menos GI, opção SOP/feminino · OU DHB ~5×), **IV/IM NÃO-ofertada** (sem produto registrado, histórico antiarrítmico; evidência só oral) · 🇧🇷 magistral super-consolidado · **pilar metabólico do bloco "metformina natural"** = glicemia (≥ metformina em metas, HbA1c −0,63 a −0,73%) + **lipídios (único com ↓LDL real)** + SOP + intestino · ⚖️ modesto (via insulina) · 🧠 pré-clínico · **🔴 gates = estatina/varfarina/digoxina (CYP3A4/P-gp), hipoglicemia aditiva, GI dose-dep., CONTRAINDICAÇÃO ABSOLUTA gestação (kernicterus)** · **profundamente da casa (46 itens).**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1543,7 +1567,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ✅ **`full_content`/aulas MFI revisado molécula a molécula (TODAS, §1–§13.32 — 2026-05)**, tag 📚 RAG/aulas por seção. **Temas transversais das aulas:** (1) **coquetel IM lipotrópico de emagrecimento** (metilfolato+5-HTP IM+glutationa+ALA+carnitina+cromo+niacinamida+glicina; ~8 sessões 2×/sem — Emagrecimento XVII); (2) **eixo cicatrização/perioperatório** (arginina+vitC+zinco+selênio+cobre+complexoB+vitA+CoQ10 — aulas Sorrentino/Cirurgia); (3) **framework de submetilação** (5-MTHF+metilB12+P5P+TMG; MTHFR/CBS; Hcy 5–8); (4) **stack mitocondrial** (CoQ10+carnitina+ALA+glicina+taurina+complexoB+Mg); (5) **fórmula de Sinatra** (cardio: CoQ10+carnitina+ribose+taurina+Mg); (6) **hepcidina×vit D** (utilização de ferro); (7) **eixo neuro "básico"** (Mg+B12+D+folato+ferro). **Divergências mantidas (MBE do doc):** vit A teratogenicidade (aulas chamam de "mito" → doc mantém gate), niacina lipídios/ortomolecular, CoQ10 Parkinson, dose de cromo > teto ANVISA, iodo via kelp (doc prefere KI). **Sem conteúdo de aula:** molibdênio, boro, lítio, ornitina (zero); cálcio/potássio/fósforo só menções incidentais (eletrólitos/painéis).
 - **REGRA:** consultar RAG (score_items + full_content/aulas) em TODA molécula (ver [[pesquisa_moleculas_online_exaustiva]]).
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
-**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) · luteolina (§13.58) · apigenina (§13.59) feitas. **PRÓXIMA = berberina.** Restante: silimarina.
+**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) · luteolina (§13.58) · apigenina (§13.59) · berberina (§13.60) feitas. **PRÓXIMA = silimarina** (FECHA o bloco polifenóis).
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
