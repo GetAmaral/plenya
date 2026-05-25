@@ -1065,6 +1065,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🚨🩺 **Gates:** **herpes recorrente** (arginina replica HSV; lisina antagoniza); **hipotensão** (soma com anti-HAS/iPDE5); 🩺 **dose alta crônica em DRC/rim senescente** acelera declínio renal/vascular (cautela idoso/DRC). **IV existe** (teste de GH, sepse) — **não eletivo**.
 
 🧠 **Cognição/humor/disposição:** via NO/fluxo cerebral, sinal **fraco** (como citrulina, mas pior biodisponibilidade); sem RCT humano de cognição/humor. Mínimo.
+📚 **RAG / aulas MFI:** **confirmam** o eixo cicatrização/perioperatório (arginina precursora de NO + prolina → síntese de colágeno e neovascularização — Sorrentino); também precursora de creatina (com glicina+SAM). Nada novo além de confirmação.
 
 **Card — Arginina:** **ORAL** — usos fortes: **cicatrização (combo arg+vit C+zinco ~6 g)**, **imunonutrição perioperatória (+ômega-3)**, **saúde masculina (ED leve-moderada + fertilidade)**; PA/pump modesto (**citrulina entrega melhor o NO**) · **não anabólica** (composição = suporte indireto) · **🔴 sem IV eletivo; NÃO em DAP oral crônico (NO-PAIN); 🚨 NÃO pós-IAM** · 🚨 gates herpes (HSV), hipotensão (anti-HAS/iPDE5), DRC/rim senescente.
 
