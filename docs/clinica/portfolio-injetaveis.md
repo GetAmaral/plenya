@@ -1724,6 +1724,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.72 Secretagogos de GH (sermorelina · CJC-1295 · ipamorelina) — ⚠️ alternativa de programa selecionado, NÃO "anti-aging" (paradoxo IGF-1); a casa já é cética; eixo = sarcopenia/composição no não-atleta
+- **Identidade:** estimulam a secreção **endógena e pulsátil de GH** (→ ↑IGF-1), ≠ GH exógeno. **Sermorelina** (GHRH 1-29) = a mais legítima (ex-FDA Geref, descontinuada por razão comercial não-segurança, **manipulável 503A**, preserva pulsatilidade); **CJC-1295** (análogo GHRH ±DAC) e **ipamorelina** (GHS/mimético grelina) nunca aprovados; stack CJC+ipamo popular (primo oral = MK-677/ibutamoreno).
+- **Evidência:** 2024 prospectivo (n=48, 40–65a, 12m): **↓gordura visceral 10–15% + ganho discreto de magra**; CJC SC ↑GH/IGF-1 dose-dependente (PK). Real mas limitado; **nenhum aprovado p/ anti-aging/composição**.
+- **🔴 Status regulatório:** **🔴 WADA TODOS S2** (GHRH-análogos sermorelina/CJC/tesamorelina E GHS ipamorelina/MK-677) — **banidos dentro/fora de competição (exclui atletas)**; FDA = ipamo/CJC nunca aprovados (Cat 2 limbo 2024), sermorelina ex-aprovada/manipulável c/ atestado; **🇧🇷 ANVISA não aprova** (manipulação/importação cinzenta).
+- **🚨 Paradoxo IGF-1/longevidade (ponto central):** elevar GH/IGF-1 p/ "anti-aging" é **biologicamente ao contrário** — epidemiologia liga **IGF-1 alto a ↑câncer próstata/mama/colorretal** (UK Biobank ~400k); modelos de longevidade: **IGF-1 BAIXO ↔ maior lifespan** (oposto de rapamicina/metformina/RC). + resistência à insulina, edema/retenção, túnel do carpo, ↑cortisol/prolactina (MK-677). **Vender secretagogo como longevidade contradiz a ciência da longevidade.**
+- **⚖️ Composição corporal:** o eixo real (↓gordura visceral, ↑magra discreta) — análogo ao tesamorelina (aprovado p/ lipodistrofia HIV). É a indicação defensável.
+- 📚 **RAG — a casa JÁ é cética (postura certa):** score_items de **IGF-1** já abordam: *"não aprovados FDA; não indicar rotineiramente; cautela cortisol/prolactina/RI; evitar uso indiscriminado como anti-aging; podem restaurar pulsos em idosos sarcopênicos; monitorar IGF-1 + IGF-BP3"*; em ABCC8/diabetes: "preferir metformina/GLP-1 a forçar secreção". Alinho a isso.
+
+**Card — Secretagogos GH (sermorelina/CJC-1295/ipamorelina):** ⚠️ **alternativa de programa selecionado, NÃO balcão, NÃO "anti-aging"** · SC, **preferir sermorelina** (mais regulável/ex-FDA) · **eixo legítimo = sarcopenia OU recomposição/gordura visceral** em **paciente selecionado: não-atleta (🔴 WADA S2), não alto risco oncológico, c/ rastreio de câncer + monitorar IGF-1/IGF-BP3 (faixa fisiológica, não supra)** · **🚨 NÃO posicionar como longevidade (paradoxo IGF-1: eixo que a longevidade BAIXA)** · 🇧🇷 ANVISA não aprova (manipulação/importação) · gates GH = RI/edema/cortisol-prolactina (MK-677) · **a casa já é cética nos itens de IGF-1 — doc consolida.** Eixo GH p/ indicação específica, não geroprotetor.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1753,7 +1765,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) feitos. **PRÓXIMA = secretagogos de GH (ipamorelina/CJC-1295/sermorelina).** Restantes: MOTS-c · epitalon · melanotan · análogos de GLP-1.
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) feitos. **PRÓXIMA = MOTS-c.** Restantes: epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
