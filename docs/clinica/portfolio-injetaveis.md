@@ -945,6 +945,22 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Arginina:** **ORAL** — usos fortes: **cicatrização (combo arg+vit C+zinco ~6 g)**, **imunonutrição perioperatória (+ômega-3)**, **saúde masculina (ED leve-moderada + fertilidade)**; PA/pump modesto (**citrulina entrega melhor o NO**) · **não anabólica** (composição = suporte indireto) · **🔴 sem IV eletivo; NÃO em DAP oral crônico (NO-PAIN); 🚨 NÃO pós-IAM** · 🚨 gates herpes (HSV), hipotensão (anti-HAS/iPDE5), DRC/rim senescente.
 
+### 13.30 Citrulina — precursor de NO SUPERIOR à arginina; vascular/ED/sarcopenia; rim é a "fábrica"
+- **Formas/dose:** L-citrulina (3–6 g) ou **citrulina malato 2:1** (6–8 g ≈ 3,5 g citrulina); fonte = melancia. 30–60 min pré-treino ou fracionada. 🔑 **Escapa da arginase intestinal + first-pass → eleva arginina plasmática MAIS que arginina oral** → para NO, **citrulina > arginina**. BR: L-citrulina/citrulina malato 500 mg abundantes; **sem injetável** (oral).
+- **Indicações:**
+  - 🟢 **Vascular/endotélio/PA:** meta-análises (17+ RCTs) ↑FMD e ↓rigidez arterial em meia-idade/idoso. Mais consistente que arginina.
+  - 🟢 **Disfunção erétil leve:** 1,5 g/d × 1 mês → 50% normalizaram; melhor tolerada que arginina (sem GI).
+  - 🟢🟡 **Sarcopenia / síntese proteica muscular (idoso desnutrido):** escapa do sequestro esplâncnico e **estimula síntese proteica muscular** (+11–22% em estresse), candidato em sarcopenia — **o aminoácido mais pró-anabólico do bloco** no contexto certo.
+  - 🟡 **Performance:** citrulina malato 6–8 g pré → ↑repetições ~6% (mais MMII), inconsistente.
+  - 🟡 **Anemia falciforme/IC** (coadjuvante via NO, emergente).
+  - 🧠 **Cognição/humor/disposição — EMERGENTE-mecanístico:** via NO → **↑fluxo sanguíneo cerebral** + papel do NO na memória/LTP. **Pré-clínico:** melhora memória pós-isquemia (proteção cerebrovascular), previne declínio de LTP em rato idoso, ↑memória em modelo de Alzheimer (camundongo). **Humano:** só sinal indireto (recuperação cerebrovascular pós-exercício; fase 1 em curso). **Sem RCT humano de cognição/humor** → hipótese, não promessa. Fadiga = via recuperação/endurance (modesto).
+  - 🔬 **Citrulina plasmática = biomarcador de massa/função enterocitária** (cai em falência intestinal) — uso de **exame**, não suplemento.
+- ⚖️ **Composição corporal:** eixo forte = **massa muscular/sarcopenia** (síntese proteica, sobretudo idoso/desnutrido; mais pró-anabólica que arginina/glutamina); emagrecimento/gordura modesto/inconsistente. Não é emagrecedor.
+- 🚨🩺 **Segurança:** muito segura, **melhor tolerada que arginina** (sem GI). Herpes: cautela **leve/teórica** (vira arginina, mas entrega gradual; muito menor que arginina). 🩺 **Rim = a fábrica de arginina:** conversão citrulina→arginina é **RENAL** → na DRC a liberação renal de arginina cai (eficácia pode diminuir); sinal pré-clínico de **proteção renal** (diabético t1) e controle de PA na DRC; **DRC grave só com nefrologista**.
+- 🔴 **Sem IV** (oral resolve; é a vantagem dela sobre arginina).
+
+**Card — Citrulina:** **ORAL** (3–6 g / 6–8 g malato) — **precursor de NO superior à arginina**; usos: **vascular/endotélio/PA**, **ED leve (1,5 g/d)**, **sarcopenia/síntese proteica (idoso)** = eixo forte de massa muscular · 🧠 cognição/humor = **emergente-mecanístico** (NO/fluxo cerebral; pré-clínico, sem RCT humano) · 🔬 citrulina plasmática = exame de função intestinal · **🔴 sem IV; não emagrecedor** · 🚨 herpes (cautela leve, < arginina), hipotensão (anti-HAS/iPDE5), **DRC grave só c/ nefrologista** (conversão a arginina é renal).
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -960,7 +976,9 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) feitas. **PRÓXIMA = citrulina.** Depois: ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) feitas. **PRÓXIMA = ornitina.** Depois: glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
+
+⚠️ **TAREFA PENDENTE (pedido do Dr. 2026-05): revisar TODAS as moléculas já fechadas (§1–§13.30) no eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO** com literatura nova — eixo não foi varrido sistematicamente (foco anterior foi composição corporal ⚖️). Adicionar tag **🧠** em cada seção. A partir de agora, avaliar 4 eixos por molécula: ⚖️ composição corporal + 🧠 cognição/humor/disposição + os usos clínicos + segurança.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
