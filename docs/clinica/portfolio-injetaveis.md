@@ -918,6 +918,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Lítio:** **microdose oral (orotato, alguns mg de Li elementar)** p/ **neuroproteção/humor — comunicar EMERGENTE**, monitorado (litemia/TFG/TSH) · 🚫 desfazer claim de biodisponibilidade do orotato · **🔴 sem IV; sem composição corporal** · 🚨 gate renal/tireoide, evitar DRC, interações (AINE/IECA/diurético); nefrotoxicidade séria é da dose psiquiátrica — **nefrologista = diferencial de segurança** · 🔲 **confirmar status ANVISA do orotato.**
 
+## 13-ter. Aminoácidos e derivados (decisões individuais)
+
+### 13.28 Glutamina — ORAL de nicho (intestino/exercício); fama > evidência; gates fígado/câncer/DRC
+- **Formas/BR:** **L-glutamina pó** (doses 5–15 g, até 30 g → pó, não cápsula); **dipeptídeo L-alanil-L-glutamina** p/ via parenteral (glutamina pura é insolúvel/instável em soro). BR: oral abundante (suplemento esportivo); **injetável = Dipeptiven®/Alaglu® (alanil-glutamina) registrado, mas só NPT hospitalar** (0,3–0,5 g/kg/d). **Sem glutamina IV eletiva.**
+- **Indicações:**
+  - 🟡 **Intestino/permeabilidade ("leaky gut"):** evidência **mista** — meta-análise (12 estudos) **sem efeito** global; positivo em nichos: **SII** (15 g/d ↓urgência/dor + marcador) e **estresse intestinal do exercício no calor** (0,9 g/kg MLG). Defensável em SII/exercício, **não "detox intestinal" genérico**.
+  - 🟢 **Anemia falciforme (única aprovação FDA — Endari):** ↓crises; fora do público, mas é o dado duro.
+  - 🟡 **Imune/recuperação** pós-exercício extenuante (modesto) · 🟢 **catabolismo grave/NPT** (dipeptídeo IV hospitalar, fora do escopo).
+- ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **NÃO é anabólica em saudável** — meta-análise (47 estudos) sem ganho robusto de massa magra/performance (músculo já tem glutamina abundante); efeito anticatabólico só em **catabolismo grave** (queimado/UTI). **Peso:** meta-análise achou **↓peso significativa** (mecanismo incerto — incretina/saciedade/microbiota), **sinal isolado a confirmar**. Gordura: sem dado. → não vender como construtor de músculo; sinal de peso é fraco.
+- 🚨🩺 **Segurança (pontos do nefrologista):** oral muito segura em saudável; **🚨 hepatopatia/encefalopatia hepática = contraindicada** (metaboliza a **amônia** → edema cerebral); **câncer ativo** = cautela (combustível tumoral/glutaminólise); 🩺 **DRC avançada com acidose** = cautela (glutamina é substrato da **amoniagênese renal** → amônio). Autoridade do Dr. nas 3.
+- 🔴 **Sem IV eletivo** (oral).
+
+**Card — Glutamina:** **ORAL de nicho** (pó 5–15 g) — **SII / estresse intestinal do exercício / imune-recuperação**; **NÃO anabólica em saudável**; sinal de ↓peso fraco/a confirmar · **🔴 sem IV eletivo** (dipeptídeo IV = NPT hospitalar) · **🚨 gates: hepatopatia/encefalopatia (amônia), câncer ativo (combustível tumoral), DRC avançada com acidose (amoniagênese).**
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -933,7 +947,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados — PRÓXIMA = glutamina.** Depois: arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) feita. **PRÓXIMA = arginina.** Depois: citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
