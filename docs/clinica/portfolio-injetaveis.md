@@ -718,6 +718,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** o **músculo armazena a maior parte do B6** corporal (turnover lento); maior ingestão de B6 associada a menor risco de síndrome metabólica (epidemiológico). **Sem efeito direto de emagrecimento ou ganho de massa** — relevância só como cofator no deficiente.
 
 🧠 **Cognição/humor/disposição — eixo real no deficiente/TPM:** B6 é **cofator-chave de serotonina, dopamina, GABA, melatonina, noradrenalina** → deficiência ~dobra risco de depressão; **TPM** (humor/irritabilidade/fadiga, 50 mg — efeito com forte componente placebo); "brain fog" no deficiente. 🚨 **teto de neuropatia** limita dose alta crônica. Eixo humor no deficiente/TPM, não nootrópico genérico.
+📚 **RAG / aulas MFI:** **P5P preferida sobre piridoxina** (confirma doc; "para erros no metabolismo da B6, usar P5P"); eixo **submetilação/CBS** (CBS é B6-dependente → P5P; com metilfolato+metilB12+TMG+colina); **anti-inflamatório/imunomodulação** (↓IL-1β, inibe inflamassoma) + **ciclo das quinureninas** (triptofano → serotonina/NAD); **fertilidade/náusea gestacional** (30–75 mg; níveis baixos ↔ menor concepção).
 
 📚 **RAG (alvos da casa):** marcador da casa = **PLP (piridoxal-5-fosfato) por HPLC em sangue total**, alvo **>50 nmol/L** (30–50 limítrofe). Casa com a preferência do doc por P5P.
 
