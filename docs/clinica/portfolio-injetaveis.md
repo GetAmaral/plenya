@@ -1173,6 +1173,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Triptofano/5-HTP:** **5-HTP (Griffonia)** preferível · **humor (adjuvante fraco, 50–300 mg) / sono (precursor melatonina) / apetite-saciedade (até 900 mg, eixo emagrecimento)**; 5-HTP IM no coquetel das aulas · framework quinurenina (manejar inflamação + B6) · **🚨 gate: síndrome serotoninérgica (ISRS/IMAO/triptano — "4h" insuficiente, supervisão); EMS → exigir pureza; carbidopa/Parkinson** · oral (IM no coquetel).
 
+### 13.38 Tirosina — disposição/cognição sob estresse agudo (uso situacional); precursora dopamina/tireoide
+- **Formas:** L-tirosina (oral). **RAG/aulas:** via dopaminérgica **fenilalanina→tirosina→L-dopa→dopamina** (BH4 + metilfolato = cofatores da **tirosina-hidroxilase**; berberina ↑BH4); **competição de aminoácidos na BHE** → tomar em **jejum**; entra em combo dopaminérgico de emagrecimento (com Mucuna/feniletilamina — Emagrecimento XVII).
+- **Indicações:**
+  - 🟢 **Cognição/disposição sob ESTRESSE agudo / privação de sono (melhor uso — evidência militar):** **100–150 mg/kg (ou 500–2.000 mg) 30–60 min antes do estressor** → preserva memória de trabalho/vigilância sob frio/sono privado/carga cognitiva. **Situacional, NÃO diário** (sem benefício em não-estressado — repõe catecolaminas depletadas).
+  - 🟡 **Depressão:** precursora de catecolaminas (2 estudos positivos, evidência limitada). 🔴 **TDAH: evidência não apoia.**
+  - 🟡 **Tireoide:** precursora de T4/T3 (com iodo §13.21) — cuidado com medicação tireoidiana (excesso).
+- ⚖️ **Composição corporal:** combo dopaminérgico de apetite (Mucuna/feniletilamina — aulas), modesto; sem efeito direto.
+- 🧠 **Cognição/humor/disposição:** **é o eixo central** — disposição/foco/cognição sob estresse agudo (situacional) é o uso mais distinto e citável do bloco de aminoácidos para "disposição".
+- 🚨🩺 **Segurança (gates):** **IMAO → crise hipertensiva** (tirosina→tiramina); **hipertireoidismo/Graves** (precursora de hormônio tireoidiano → cautela/evitar); **PKU**; cardiovascular; teórico melanoma (→melanina). Sem IV.
+
+**Card — Tirosina:** **ORAL situacional** (500–2.000 mg, jejum, 30–60 min antes) — **disposição/cognição sob estresse agudo/privação de sono** (evidência militar; NÃO diário) · 🟡 depressão adjuvante; tireoide (com iodo); 🔴 não TDAH · ⚖️ combo apetite dopaminérgico (modesto) · **🚨 gate: IMAO (crise hipertensiva), hipertireoidismo/Graves, PKU** · sem IV.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1188,7 +1200,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) · triptofano/5-HTP (§13.37) feitas. **PRÓXIMA = tirosina.** Depois: carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) · triptofano/5-HTP (§13.37) · tirosina (§13.38) feitas. **PRÓXIMA = carnosina/beta-alanina.** Depois: · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
