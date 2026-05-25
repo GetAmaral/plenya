@@ -1116,6 +1116,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Glicina:** **ORAL** — **sono 3 g à noite** (destaque), **colágeno** (pele/articulação, c/ vit C+silício), GlyNAC (longevidade) · casa: **Mg glicinato** + combo **Mg treonato+glicina+malato**; neuromodulador (GABA/serotonina) · **IM**: componente de um **coquetel lipotrópico de emagrecimento ensinado nas aulas MFI** (baixa dose; validar se o Dr. adota) · 🧠 sono/NMDA forte · 🚨 oxalato/DRC em dose muito alta; sem IV de irrigação.
 
+### 13.33 Lisina — ORAL; contrapeso da arginina (herpes) + colágeno/osso + ansiedade
+- **Formas/dose:** L-lisina HCl (cloridrato); BR cápsula 500 mg abundante/barata; ~3 g/d bem tolerada. **RAG: sem score_item; aulas só bioquímica incidental.** Sem IV/IM (oral resolve).
+- **Indicações (WebSearch):**
+  - 🟢 **Herpes/HSV — profilaxia:** **antagoniza arginina** (HSV depende de arginina) → 1 g 3×/d ↓recorrências (evidência **mista**; melhor com razão **lisina:arginina ≥2:1** + dieta pobre em arginina). Profilaxia crônica, **não trata lesão aguda**. É o **contrapeso da arginina** (§13.29, contraindicada em herpes recorrente).
+  - 🟢🟡 **Colágeno/osso:** substrato do **crosslinking do colágeno** (hidroxilisina via lisil-hidroxilase, cofator **vit C**; lisil-oxidase com **cobre**); estimula osteoblastos; **↑absorção intestinal de Ca + ↓excreção renal de Ca** → lisina+cálcio > cálcio isolado em DMO. Integra o eixo conjuntivo/ósseo (vit C §7 + cobre §13.17 + silício §13.26 + colágeno).
+  - 🟢 **Precursor de carnitina** (trimetil-lisina → carnitina) — elo com oxidação de gordura/§13.6.
+- ⚖️ **Composição corporal:** lisina+arginina+HMB ↑massa/força em idosa; deficiência prejudica desenvolvimento muscular; modesto, via **carnitina** + síntese proteica no deficiente. Não é anabólico isolado.
+- 🧠 **Cognição/humor/disposição:** **lisina + arginina ↓ansiedade e cortisol basal** (RCT em saudáveis, sobretudo **baixa ingestão de lisina**); mecanismo: antagonista parcial 5-HT4 + ↑GABA. Sinal real em deficiente; emergente em repleto.
+- 🚨🩺 **Segurança:** ~3 g bem tolerada (GI em dose alta). 🩺 **renal:** **↓calciúria** é favorável ao **formador de cálculo de cálcio** (soma ao protocolo citrato-K §13.23 + B6 §13.10 + cálcio-com-refeição §13.22); **mas dose alta ↓TFG/fluxo urinário** → **cautela em DRC**.
+
+**Card — Lisina:** **ORAL** (HCl, ~1–3 g; herpes 1 g 3×/d) · **herpes profilaxia (antagonista da arginina, razão ≥2:1)**; **colágeno/osso** (com vit C+cobre; ↑absorção/↓excreção de Ca); precursora de **carnitina**; 🧠 ansiedade/cortisol (com arginina, no deficiente) · ⚖️ modesto (carnitina/proteína) · **sem IV/IM** · 🩺 ↓calciúria útil no formador de cálculo, mas dose alta = cautela renal (↓TFG).
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1131,7 +1143,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) feitas. **PRÓXIMA = lisina.** Depois: · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) feitas. **PRÓXIMA = prolina.** Depois: · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
