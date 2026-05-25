@@ -1151,6 +1151,16 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — BCAA/leucina:** **ORAL** · músculo/sarcopenia = **leucina/mTOR, mas proteína inteira/EAA > BCAA isolado** (não supervalorizar) · **EH/cirrose** = uso médico real (razão de Fischer; EASL/ESPEN; co-manejo) · 🟡 fadiga central modesta · **🚨 não no resistente à insulina/metabólico** (BCAA↔RI); 🧠 pode ↓serotonina (cautela humor) · 🩺 **cetoanálogos na DRC** (nefro; cetoácidos ≠ BCAA livre) · sem IV eletivo.
 
+### 13.36 Metionina — FORA do eletivo; o tema na longevidade é RESTRIÇÃO (usos reais são downstream na SAMe)
+- **Conceito:** metionina = doador de metila / precursora de **SAMe** e de creatina (via SAM). **RAG/aulas:** entra no eixo **submetilação** (doador de metila com betaína; hiper-homocisteinemia = marcador de risco CV/SNC); selenometionina é forma de **selênio** (§13.16), não de metionina-suplemento.
+- 🔴 **Longevidade — RESTRIÇÃO de metionina estende vida** (↓mTORC1, ↑autofagia, ↓ROS mitocondrial, ↑H₂S) → **suplementar é o oposto da estratégia**; como o fósforo (§13.24), a postura da clínica é **restringir, não suplementar**.
+- 🚨 **Suplementar ↑homocisteína → risco CV** (relação complexa/paradoxal — MetR também eleva Hcy —, mas o sinal de cautela vale); pior em função renal reduzida.
+- **Usos terapêuticos reais são DOWNSTREAM (SAMe — molécula à parte do roadmap):** depressão (~eficácia de tricíclico, Cochrane fraco; **🚨 contraindicada no bipolar — mania**), **fígado/colestase/NASH** (800–1.200 mg), osteoartrite. L-metionina isolada = antídoto de paracetamol (toxicologia, **fora do escopo**).
+- ⚖️ **Composição corporal:** sem uso (via SAM → creatina é indireto). 🧠 via SAMe (depressão), não a metionina em si.
+- 🔴 **Sem suplemento/IV eletivo de metionina.** Avaliar **SAMe** no seu bloco.
+
+**Card — Metionina:** **FORA do portfólio eletivo** — na longevidade o tema é **RESTRIÇÃO** (↓mTOR/autofagia), não suplementar · suplementar **↑homocisteína/risco CV** · usos reais são **downstream na SAMe** (depressão [não bipolar], fígado/colestase/NASH) — avaliar no bloco SAMe · 🔴 sem suplemento/IV eletivo de metionina.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1166,7 +1176,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) feitas. **PRÓXIMA = metionina.** Depois: triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) · metionina (§13.36) feitas. **PRÓXIMA = triptofano/5-HTP.** Depois: · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
