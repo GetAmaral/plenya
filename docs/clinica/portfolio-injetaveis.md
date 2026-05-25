@@ -1138,6 +1138,19 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Prolina:** **ORAL** coadjuvante 0,5–2 g · **substrato do colágeno** (com glicina+lisina+**vit C** obrigatória) — pele/articulação/cicatrização; condicionalmente essencial · ⚖️/🧠 sem dado · **sem IV/IM** · seguro ≤3 g; cautela renal em dose alta. *(Coadjuvante do eixo colágeno, não protagonista.)*
 
+### 13.35 BCAA / leucina — músculo (leucina/mTOR, mas EAA > isolado); EH hepática; gates metabólico + renal
+- **Formas/dose:** BCAA = leucina:isoleucina:valina (comum 2:1:1); **leucina é o gatilho**. BR abundante (marcas esportivas). **RAG/aulas:** BCAA abundam na proteína animal; "leucina estimula insulina"; **aulas preferem proteína inteira a BCAA isolado** (saciedade/EAA completos).
+- **Indicações:**
+  - 🟡 **Massa muscular/sarcopenia:** **leucina → mTORC1 → síntese proteica**, vence a "resistência anabólica" do idoso (com treino de resistência). **MAS:** BCAA isolado eleva MPS só transitoriamente → **proteína inteira / EAA completo / whey enriquecido em leucina é SUPERIOR**. Não supervalorizar o isolado.
+  - 🟢 **Encefalopatia hepática / cirrose (uso médico real):** BCAA corrige a **razão de Fischer (BCAA/AAA)** → benefício em EH (NNT 5, 16 ECRs; **EASL/ESPEN recomendam** em cirrose/EH e desnutrição hepática). Hepatologia co-manejada.
+  - 🟡 **Fadiga central no exercício:** ↓captação cerebral de triptofano → ↓5-HT → retarda fadiga (hipótese da fadiga central); modesto/inconsistente.
+- ⚖️ **Composição corporal:** leucina/EAA sustentam massa muscular (sobretudo idoso/treino), **mas proteína inteira entrega melhor**; BCAA isolado modesto. Sem efeito de gordura.
+- 🧠 **Cognição/humor/disposição:** fadiga central (acima); **sem benefício cognitivo/humor** — e BCAA competem com triptofano (podem **↓serotonina**) → cautela em transtorno de humor.
+- 🚨🩺 **Segurança/gates:** **metabólico** — BCAA elevados ↔ **resistência insulínica / risco DM2** (provável consequência de catabolismo prejudicado, não causa; mas "leucina estimula insulina") → **não empurrar no resistente à insulina/metabólico**; refluxo, distúrbio do sono em dose alta. 🩺 **renal (terreno do Dr.):** **cetoanálogos de BCAA/EAA** + dieta muito hipoproteica **retardam progressão da DRC** (↓mortalidade pré-diálise) — uso nefrológico real (**cetoácidos**, não BCAA livre).
+- **Sem IV eletivo** (BCAA IV pertence à NPT/fórmulas hepáticas hospitalares); oral.
+
+**Card — BCAA/leucina:** **ORAL** · músculo/sarcopenia = **leucina/mTOR, mas proteína inteira/EAA > BCAA isolado** (não supervalorizar) · **EH/cirrose** = uso médico real (razão de Fischer; EASL/ESPEN; co-manejo) · 🟡 fadiga central modesta · **🚨 não no resistente à insulina/metabólico** (BCAA↔RI); 🧠 pode ↓serotonina (cautela humor) · 🩺 **cetoanálogos na DRC** (nefro; cetoácidos ≠ BCAA livre) · sem IV eletivo.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1153,7 +1166,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) feitas. **PRÓXIMA = BCAA/leucina.** Depois: · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) · BCAA/leucina (§13.35) feitas. **PRÓXIMA = metionina.** Depois: triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
