@@ -1680,6 +1680,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.69 TB-500 — ⚠️ NÃO OFERTAR AGORA (monitorar); fragmento de timosina β4, mesmo perfil do BPC-157 com agravante oncológico + pegadinha do fragmento
+- **Identidade:** vendido como fragmento sintético da **timosina β4 (Tβ4)** (reparo tecidual: actina, migração celular, angiogênese). Parceiro de dupla do BPC-157 nos protocolos de "cura". Duas armadilhas o tornam ainda menos defensável.
+- **🔴 Pegadinha do fragmento (bait-and-switch):** TB-500 é **fragmento de ~7–17 aa (Ac-LKKTETQ, resíduos 17–23)** da Tβ4 completa (43 aa). **O marketing cita "Fase 2/3" — mas esses ensaios usaram Tβ4 COMPLETA, TÓPICA (colírio RGN-259, olho seco/ceratopatia), NÃO o fragmento TB-500 injetável.** Molécula/via/indicação diferentes. **Do TB-500 injetável: ZERO RCT humano** (tudo rato/célula; dado 2024 sugere atividade vir de metabólito, não do peptídeo-pai).
+- **Via / dose:** SC (mg/semana). Via central no bloco — mas o problema não é a via.
+- **🔴 Status regulatório (igualmente desfavorável):** 🇧🇷 ANVISA sem registro (mercado cinza); **🔴 WADA proibido desde 2011, S2 (hormônios peptídicos/fatores de crescimento), banido dentro/fora de competição** (exclui atletas); FDA sem aprovação, Cat 2 (limbo 2026).
+- **🚨 Segurança — concern de câncer MAIS forte que o BPC:** Tβ4 tem papel **documentado em angiogênese E migração celular** (os 2 processos de crescimento tumoral + metástase); literatura mecanística liga **superexpressão de Tβ4 a potencial metastático** (tireoide, hepatocelular, colorretal), e bloquear Tβ4 atenua progressão. Sem evidência de causar câncer de novo, mas **concern de acelerar/favorecer malignidade é teoricamente mais robusto que o BPC**. Sem dados humanos longo prazo + risco produto cinza.
+- 📚 **RAG:** **zerado** — experimental, não da casa.
+
+**Card — TB-500:** ⚠️ **NÃO OFERTAR AGORA** (monitorar regulamentação) · SC mg/sem · **falha nos mesmos 4 eixos do BPC-157 E pior:** ① **ZERO RCT humano do próprio TB-500** + **🔴 pegadinha do fragmento** (a "evidência Fase 2/3" é da Tβ4 completa tópica RGN-259, outra molécula/via) · ② **🇧🇷 ANVISA não aprova** (mercado cinza) · ③ **🔴 WADA S2 banido** (exclui atletas) · ④ **concern metástase MAIS documentado** (Tβ4 ↔ potencial metastático) · RAG zerado. **Recomendação: exclusão clara. Decisão do Dr.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1709,7 +1721,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar/monitorar) feito. **PRÓXIMA = TB-500.** Restantes: timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) feitos. **PRÓXIMA = timosina α1** (esta deve se sair melhor — tem registro/evidência). Restantes: GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
