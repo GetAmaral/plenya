@@ -1616,6 +1616,23 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.65 Rapamicina (sirolimo) — ⚠️ ALTERNATIVA de programa selecionado, NÃO oferta de balcão; FÁRMACO de prescrição off-label; geroprotetor mais robusto em animais
+- **Mudança de categoria:** ≠ nutracêutico — é **imunossupressor de prescrição** (inibidor mTOR), registrado p/ transplante renal e LAM. Uso em longevidade = **off-label, intermitente, baixa dose**. **Posição decidida pelo Dr.: ALTERNATIVA p/ programa de longevidade selecionado, não oferta de rotina.**
+- **Por que é o "padrão-ouro" geroprotetor:** no **NIA ITP** (crivo mais rigoroso) é a intervenção farmacológica que **mais consistentemente estende lifespan em mamíferos**, inclusive iniciada tardiamente, dose-dependente. Nenhuma outra do bloco chega perto. Mecanismo = inibe mTORC1 (mimetiza restrição calórica, induz autofagia).
+- **Via / dose (lógica do intermitente):** oral (drágeas). **Dose semanal 3–10 mg (tipicamente 5–6 mg)** inibe seletivamente **mTORC1 (benefício) poupando mTORC2** (cujo bloqueio crônico causa os efeitos metabólicos ruins). Diária alta = imunossupressão/diabetogênese; semanal = janela geroprotetora c/ risco menor. Sem racional/produto IV.
+- **Evidência humana (melhor do bloco, ainda limitada):**
+  - **Imune (Mannick, Sci Transl Med):** everolimo/RAD001 baixa dose **↑resposta à vacina de gripe ~20% em idosos + ↓infecções** (↓células T PD-1+, ↑imunidade antiviral) — inibir mTOR **rejuvenesce a imunidade** (contraintuitivo p/ "imunossupressor").
+  - **PEARL (RCT 2024, 114 adultos, 5/10 mg/sem × 48 sem):** primário (gordura visceral) **NÃO atingido**, mas **↑massa magra, ↓dor, ↑QoL (sobretudo ♀ 10 mg), sem EAs graves** — firma segurança da dose semanal em 1 ano.
+  - Revisão Lancet Healthy Longevity: sinais favoráveis, **faltam dados de longo prazo**.
+- **🚨 Segurança (o motivo de ser fármaco prescrito):** **imunossupressão** (risco infecção, cautela vacina viva); **metabólico** (dose alta → hiperglicemia/RI/dislipidemia/novo DM; semanal atenua mas monitorar); **aftas/úlceras orais** dose-dependente, edema, atraso de cicatrização (**suspender peri-operatório**), citopenias. **Monitoramento obrigatório:** hemograma, glicemia/HbA1c, lipídios, função renal/hepática, rastreio de infecção. **Contraindicado gestação, infecção ativa, pré-operatório.**
+- **🇧🇷 Disponibilidade:** **Rapamune® (Pfizer), drágeas 1 mg (60)/2 mg (30), controle especial C1 (retenção de receita)**; **caro** (~R$ 3.000–4.400/cx 1 mg). Magistral de sirolimo possível (fármaco de tarja). Sem injetável ambulatorial.
+- **Eixos:** 🧠 autofagia neuronal (mecanismo, **sem RCT humano cognição**); ⚖️ ↑massa magra (PEARL ♀), não emagrecedor; 🩺 imune/longevidade = eixo mais forte.
+- 📚 **RAG:** **zerado** — não é conduta da casa (imunossupressor de transplante).
+
+**Card — Rapamicina:** ⚠️ **ALTERNATIVA de programa selecionado (NÃO balcão)** · **ORAL-ONLY, PRESCRIÇÃO off-label** (dose semanal 5–6 mg; consentimento + rastreio + monitoramento laboratorial seriado), **IV NÃO-ofertada** · 🇧🇷 Rapamune® C1, caro · **geroprotetor MAIS robusto em animais (ITP padrão-ouro)** · evidência humana = **Mannick (imune/vacina +20%) + PEARL (segurança 1 ano, ↑massa magra, sem desfecho duro)** · **🚨 fármaco sério = imunossupressão + metabólico + aftas + suspender peri-op; contraindicado gestação/infecção** · **encaixa no posicionamento "longevidade conduzida por médico, anti-drip-bar"** mas exige seleção/vigilância · RAG zerado. Topo da pirâmide geroprotetora — poderoso, sério, dependente de seleção.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1643,7 +1660,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
 **BLOCO POLIFENÓIS/FITOQUÍMICOS — ✅ FECHADO:** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) · luteolina (§13.58) · apigenina (§13.59) · berberina (§13.60) · silimarina (§13.61). **TODAS ORAL-ONLY (IV não-ofertada em todas — flavonoides instáveis/sem forma estéril/sem racional; curcumina IV vetada por hemólise+óbito; quercetina IV nefrotóxica; silimarina IV existe mas é antídoto de Amanita = fora de escopo). Eixos de destaque: berberina = pilar metabólico (metformina natural); quercetina = dossiê RCT mais amplo; curcumina = anti-inflamatório all-rounder; EGCG = termogênico; sulforafano = detox/Nrf2; silimarina = hepatoprotetor. 🔴 Gates hepáticos: curcumina (DILI, pior c/ piperina) e EGCG (EFSA ≥800 mg). 🔴 Berberina: interações (estatina) + gestação (kernicterus).**
 
-**BLOCO LONGEVIDADE/GEROPROTETORES (EM CURSO):** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) feitas. **PRÓXIMA = rapamicina.** Restantes: metformina · fucoidana.
+**BLOCO LONGEVIDADE/GEROPROTETORES (EM CURSO):** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa de programa selecionado) feitas. **PRÓXIMA = metformina.** Restante: fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
