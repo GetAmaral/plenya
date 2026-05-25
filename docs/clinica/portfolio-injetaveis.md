@@ -1049,6 +1049,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🔴 **Sem IV eletivo** (oral).
 
 🧠 **Cognição/humor/disposição:** sem uso (precursor de glutamato, mas suplementar não modula humor/cognição em saudável; em **encefalopatia hepática é deletéria** — amônia). Sem eixo neuro benéfico.
+📚 **RAG / aulas MFI:** **confirmam o doc** — glutamina útil p/ **imunidade de atletas** e **digestivo** (dieta inadequada), via BCAA→glutamato/glutamina + detox de amônia; **🚨 evitar em câncer** (combustível tumoral). Nada novo além de confirmação.
 
 **Card — Glutamina:** **ORAL de nicho** (pó 5–15 g) — **SII / estresse intestinal do exercício / imune-recuperação**; **NÃO anabólica em saudável**; sinal de ↓peso fraco/a confirmar · **🔴 sem IV eletivo** (dipeptídeo IV = NPT hospitalar) · **🚨 gates: hepatopatia/encefalopatia (amônia), câncer ativo (combustível tumoral), DRC avançada com acidose (amoniagênese).**
 
