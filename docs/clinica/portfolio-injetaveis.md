@@ -1503,6 +1503,21 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.59 Apigenina — ORAL-ONLY; duas narrativas: sono/ansiedade (camomila, GABA-A) + NAD+/CD38 (longevidade, pré-clínico)
+- **Identidade:** flavona da **camomila**, com dois selos raros juntos: (1) **principal ativo ansiolítico/sedativo da camomila** (liga GABA-A, benzo-símile brando); (2) **inibidor do CD38** (principal enzima consumidora de NAD+, que sobe com a idade) → moda de associar a precursores de NAD+ (NMN/NR) — **par conceitual do §13.3 (NAD+)**.
+- **Via / biodisp.:** aglicona de **baixa biodisp. oral**, precisa de forma melhorada. Sem injetável, sem racional IV.
+- **🇧🇷 Disponibilidade BR:** **magistral consolidado** — cápsula 50/150 mg (Apigex) + combos de sono/ansiedade (Serenzo, kefir). Sem injetável.
+- **🧠 Sono/ansiedade/disposição (melhor sinal humano, com ressalva):** **GAD** — 2 RCTs (236 pac., até 38 sem): **camomila ↓ansiedade significativa** (+ ↓peso/PA secundários). **Sono:** misto — qualidade melhora, métricas objetivas (latência/eficiência/tempo total) não. **Ressalva: ensaios usaram camomila padronizada entregando 13–18 mg de apigenina, NÃO apigenina isolada** → isolada herda por inferência. Posição = ansiolítico/regulador circadiano noturno.
+- **🚀 NAD+/longevidade (promessa, não prova):** inibe CD38 → preserva NAD+ em camundongo (sinergia teórica c/ NMN/NR). **Zero endpoint humano** — racional de "tomar com precursor de NAD+", apresentar como mecanístico/pré-clínico, não claim.
+- **⚖️ Composição corporal:** **pré-clínico** — ↓peso/resistência insulínica/dislipidemia em HFD, browning adiposo via autofagia, microbiota. Sem dado humano (RCTs de camomila mostraram ↓peso secundário fraco).
+- **Cognição:** pré-clínico (escopolamina/AlCl3, ↑memória, ansiolítico/antidepressivo-símile). Sem RCT humano.
+- **🩺 Segurança:** geralmente segura; **sedativo** (cautela dirigir + depressores do SNC/benzo/álcool); **🚨 alergia a camomila/Asteraceae** (cruzada c/ ambrósia); cautela gestação (uterotônico teórico); baixa biodisp. limita exposição. Sem toxicidade de órgão.
+- 📚 **RAG — presença leve da casa:** `score_items` em **IL-6** (anti-inflamatório) e **dieta noturna** (circadiano/sono). Aulas MFI: *Emagrecimento XV/XVI*, *Sistema Imune II*, *Ritmo Circadiano/HPA IV*, *Reposição Hormonal*. Nicho sono/circadiano/inflamação, não pilar.
+
+**Card — Apigenina:** **ORAL-ONLY** (50–150 mg **à noite**, ou camomila padronizada 13–18 mg apigenina = o que tem RCT), **IV/IM NÃO-ofertada** (sem forma estéril, sem racional) · 🇧🇷 magistral 50/150 mg (Apigex) + combos sono · **eixo 1 = sono/ansiedade/circadiano (GABA-A; GAD RCT via camomila)** · **eixo 2 = NAD+/CD38 longevidade (par do §13.3, pré-clínico, não claim)** · ⚖️/🧠 só pré-clínico · **gates = sedação/depressores SNC + alergia Asteraceae + gestação** · perfil de segurança benigno · RAG leve (IL-6, dieta noturna).
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1528,7 +1543,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ✅ **`full_content`/aulas MFI revisado molécula a molécula (TODAS, §1–§13.32 — 2026-05)**, tag 📚 RAG/aulas por seção. **Temas transversais das aulas:** (1) **coquetel IM lipotrópico de emagrecimento** (metilfolato+5-HTP IM+glutationa+ALA+carnitina+cromo+niacinamida+glicina; ~8 sessões 2×/sem — Emagrecimento XVII); (2) **eixo cicatrização/perioperatório** (arginina+vitC+zinco+selênio+cobre+complexoB+vitA+CoQ10 — aulas Sorrentino/Cirurgia); (3) **framework de submetilação** (5-MTHF+metilB12+P5P+TMG; MTHFR/CBS; Hcy 5–8); (4) **stack mitocondrial** (CoQ10+carnitina+ALA+glicina+taurina+complexoB+Mg); (5) **fórmula de Sinatra** (cardio: CoQ10+carnitina+ribose+taurina+Mg); (6) **hepcidina×vit D** (utilização de ferro); (7) **eixo neuro "básico"** (Mg+B12+D+folato+ferro). **Divergências mantidas (MBE do doc):** vit A teratogenicidade (aulas chamam de "mito" → doc mantém gate), niacina lipídios/ortomolecular, CoQ10 Parkinson, dose de cromo > teto ANVISA, iodo via kelp (doc prefere KI). **Sem conteúdo de aula:** molibdênio, boro, lítio, ornitina (zero); cálcio/potássio/fósforo só menções incidentais (eletrólitos/painéis).
 - **REGRA:** consultar RAG (score_items + full_content/aulas) em TODA molécula (ver [[pesquisa_moleculas_online_exaustiva]]).
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
-**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) · luteolina (§13.58) feitas. **PRÓXIMA = apigenina.** Restantes: berberina · silimarina.
+**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) · luteolina (§13.58) · apigenina (§13.59) feitas. **PRÓXIMA = berberina.** Restante: silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
