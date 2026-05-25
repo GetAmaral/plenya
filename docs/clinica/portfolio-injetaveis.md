@@ -1748,6 +1748,17 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.74 Epitalon (epithalon, AEDG) — ⚠️ NÃO OFERTAR (monitorar); tetrapeptídeo da telomerase/pineal russo; evidência frágil + paradoxo da telomerase
+- **Identidade:** tetrapeptídeo sintético (Ala-Glu-Asp-Gly), de Khavinson (escola russa, pineal). Ativa **telomerase → alonga telômeros** (em cultura, fibroblastos ultrapassam Hayflick); restaura ritmo de melatonina. Molécula "telômero" da longevidade — mas a de dados mais frágeis e mais dependente da escola russa.
+- **🔴 Evidência humana frágil:** forte em cultura/animal (telômero, lifespan camundongo); em humano **só relatos de caso + pequenos estudos abertos russos** — **nenhum RCT rigoroso, sem banco de segurança humano controlado.**
+- **🔴 Status regulatório:** **🔴 WADA S0 (não-aprovadas)** — proibida no esporte; FDA Cat 2 (2023, não compoundável); EMA/Canadá/Austrália não aprovam; **🇷🇺 só a Rússia aprova**; **🇧🇷 ANVISA não aprova** (mercado cinza/research chemical).
+- **🚨 Paradoxo da telomerase:** ativar telomerase é o que **células cancerosas exploram** p/ imortalidade replicativa → concern teórico de facilitar/sustentar malignidade. Dados animais **não** mostraram ↑câncer, mas **sem banco humano**; evitar em câncer ativo/alto risco. + risco produto cinza.
+- 📚 **RAG:** **zerado** — experimental, não da casa.
+
+**Card — Epitalon:** ⚠️ **NÃO OFERTAR** (monitorar) · tetrapeptídeo telomerase/pineal russo · **falha nos mesmos eixos:** sem RCT humano rigoroso (só observações russas) · **🔴 WADA S0** · ANVISA não aprova (só Rússia) · mercado cinza · **🚨 concern teórico telomerase/câncer** · apelo "telômero/longevidade" forte no marketing, evidência/regulação não sustentam · RAG zerado. **Exclusão clara. Decisão do Dr.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1777,7 +1788,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) feitos. **PRÓXIMA = epitalon.** Restantes: melanotan · análogos de GLP-1.
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) feitos. **PRÓXIMA = melanotan.** Restante: análogos de GLP-1 (este FECHA o bloco — e deve se sair muito bem).
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
