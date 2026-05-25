@@ -1421,6 +1421,39 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.55 Curcumina — ORAL-ONLY (forma de alta biodisp. SEM piperina); o anti-inflamatório mais incorporado à casa (109 itens) + melhor dossiê oral do bloco; IV vetada (hemólise + óbito)
+- **O que é / via:** curcuminoide da *Curcuma longa*. Pura é **quase inútil isolada** (insolúvel, metabolismo/eliminação rápidos) → exige forma de alta biodisponibilidade. **Existe IV (Lipocurc lipossomal), mas é onde mora o veto (ver segurança).**
+- **🇧🇷 Formas magistrais BR (escolher por indicação; preferir SEM piperina):**
+  - **Curcumina 95–99% curcuminoides** (extrato padronizado, base barata — é o que o EMR especifica; **precisa de potencializador**) · ganho 1×.
+  - **Curcumina + piperina (BioPerine)** — combo clássico ~20× MAS **🚨 é a combinação associada à hepatotoxicidade** (ver alerta) → **sai da 1ª linha.**
+  - **Fitossoma Meriva** (Indena, importado) ~29× — **a mais estudada, NÃO depende de piperina**; forma do RCT de OA/DOMS.
+  - **Theracurmin** (coloidal submícron) ~18–40×, níveis sustentados 4–8 h — cruza BHE (cognição).
+  - **NovaSOL** (micelar líquida) até ~185× (a maior).
+  - **Longvida** (partícula lipídica sólida/SLCP) — **otimizada pro SNC**, forma dos RCTs de cognição/amiloide.
+  - **Curcugreen/BCM-95** (óleos essenciais/turmeronas) ~7–10× · **CavaCurmin/γ-ciclodextrina** (sem piperina).
+  - **Sem especialidade IV registrada na Anvisa.** Regra de forma: **alta biodisp. sem piperina**; Longvida/Theracurmin → cérebro, Meriva → articular/inflamatório.
+- **Indicações com RCT/meta positiva:**
+  - **Osteoartrite/dor articular:** **eficácia comparável ao ibuprofeno** (conduta da casa); ↓IL-6/PCR-us/MDA (meta 15 ECRs).
+  - **Recuperação/DOMS:** RCTs (Meriva) ↓dor 24–48 h pós-exercício, ↓CK, ↓inflamação (público performance).
+  - **Depressão/humor:** **4/4 metas positivas** (conduta da casa); PMS/dismenorreia 6/10 RCTs (↑BDNF).
+  - **NAFLD/sd. metabólica:** ↓glicemia jejum, ↓HOMA-IR, ↓transaminases, ↓citocinas (meta 104 RCTs).
+  - **Retocolite ulcerativa:** adjuvante p/ **manutenção de remissão** c/ mesalazina (indução é mista). Conduta da casa.
+  - **Cognição idoso:** Longvida → ↑memória de trabalho, ↓fadiga; trial 18 m ↓amiloide/tau cerebral (meta global neutra, subdomínio memória de trabalho +).
+- **⚖️ Composição corporal:** meta real — ↓peso −0,82 kg, ↓cintura −1,31 cm, ↓%gordura −0,88%, ↓leptina, ↑adiponectina. Modesto, consistente, direção certa.
+- **🧠 Cognição/humor/disposição:** ver acima — memória de trabalho/humor com formas biodisponíveis (Longvida), depressão 4/4. Melhor dado humano de cérebro do bloco até aqui.
+- **🚨 Alertas de segurança (atualizado):**
+  1. **🔴 Hepatotoxicidade (DILI) — sinal recente:** onda crescente de lesão hepática por cúrcuma (LiverTox/NIH; **DILIN 10 casos 2023**; fitovigilância italiana). Risco maior nas **formas de alta biodisp. e SOBRETUDO com piperina** (↑absorção até 2.000% + potencial hepatotóxico); suscetibilidade **HLA-B*35:01**. **Conduta: preferir sem piperina; dosar transaminases antes e periodicamente; suspender se ALT/AST subir; não usar em hepatopata.**
+  2. **Anticoagulante/antiagregante:** atividade antiplaquetária leve, **↑INR da varfarina**, inibe CYPs (a casa já marca).
+  3. **🩺 Oxalato (nefro):** cúrcuma rica em oxalato → ↑oxalato urinário, risco de cálculo de Ca-oxalato; cautela/limitar no litiásico.
+  4. **Ferro:** quela ferro → cautela no ferropênico; espaçar da suplementação.
+  5. **Gestação/lactação:** não usar (uterotônica em dose alta, não comprovada segura). GI leve em dose alta.
+  6. **Via IV:** hemólise dose-limitante (Lipocurc) + **óbito por anafilaxia (Jade Erick, 2017) em clínica de infusão, emulsão manipulada contaminada** → **veto absoluto.**
+- 📚 **RAG — entre os mais fortes (109 score_items):** conduta transversal no EMR — **artrite/OA (tipo-ibuprofeno), autoimune (95–99% curcuminoides, Th1/Th2), depressão** + muitos itens metabólicos/inflamatórios. Aulas MFI: *Mitocôndrias VIII* (curcuminoides máx. 2 g c/ piperina/fitossoma), *Reumatologia* (coringa), *Sistema Imune* (NF-κB/ROS).
+
+**Card — Curcumina:** **ORAL-ONLY, forma de alta biodisp. SEM piperina** (Meriva/Theracurmin/NovaSOL/Longvida; escolher por indicação), **IV VETADA** (hemólise + **óbito por anafilaxia em clínica de infusão**) · 🇧🇷 magistral consolidado (95–99% curcuminoides + formas patenteadas importadas) · **melhor all-rounder oral do bloco + 109 itens da casa** = OA tipo-ibuprofeno, DOMS, depressão (4/4 metas), NAFLD/metabólico, RCU manutenção, cognição (memória de trabalho/↓amiloide) · ⚖️ meta real (↓peso/cintura/%gordura, ↑adiponectina) · **🚨🔴 gate novo = HEPATOTOXICIDADE (DILI, pior com piperina/HLA-B*35:01 → monitorar transaminases) + anticoagulante/INR + oxalato no litiásico + ferro no ferropênico + gestação** · IV = veto absoluto.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1446,7 +1479,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ✅ **`full_content`/aulas MFI revisado molécula a molécula (TODAS, §1–§13.32 — 2026-05)**, tag 📚 RAG/aulas por seção. **Temas transversais das aulas:** (1) **coquetel IM lipotrópico de emagrecimento** (metilfolato+5-HTP IM+glutationa+ALA+carnitina+cromo+niacinamida+glicina; ~8 sessões 2×/sem — Emagrecimento XVII); (2) **eixo cicatrização/perioperatório** (arginina+vitC+zinco+selênio+cobre+complexoB+vitA+CoQ10 — aulas Sorrentino/Cirurgia); (3) **framework de submetilação** (5-MTHF+metilB12+P5P+TMG; MTHFR/CBS; Hcy 5–8); (4) **stack mitocondrial** (CoQ10+carnitina+ALA+glicina+taurina+complexoB+Mg); (5) **fórmula de Sinatra** (cardio: CoQ10+carnitina+ribose+taurina+Mg); (6) **hepcidina×vit D** (utilização de ferro); (7) **eixo neuro "básico"** (Mg+B12+D+folato+ferro). **Divergências mantidas (MBE do doc):** vit A teratogenicidade (aulas chamam de "mito" → doc mantém gate), niacina lipídios/ortomolecular, CoQ10 Parkinson, dose de cromo > teto ANVISA, iodo via kelp (doc prefere KI). **Sem conteúdo de aula:** molibdênio, boro, lítio, ornitina (zero); cálcio/potássio/fósforo só menções incidentais (eletrólitos/painéis).
 - **REGRA:** consultar RAG (score_items + full_content/aulas) em TODA molécula (ver [[pesquisa_moleculas_online_exaustiva]]).
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
-**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) feitas. **PRÓXIMA = curcumina.** Restantes: EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
+**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) feitas. **PRÓXIMA = EGCG.** Restantes: sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
