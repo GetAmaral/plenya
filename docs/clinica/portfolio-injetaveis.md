@@ -1128,6 +1128,16 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Lisina:** **ORAL** (HCl, ~1–3 g; herpes 1 g 3×/d) · **herpes profilaxia (antagonista da arginina, razão ≥2:1)**; **colágeno/osso** (com vit C+cobre; ↑absorção/↓excreção de Ca); precursora de **carnitina**; 🧠 ansiedade/cortisol (com arginina, no deficiente) · ⚖️ modesto (carnitina/proteína) · **sem IV/IM** · 🩺 ↓calciúria útil no formador de cálculo, mas dose alta = cautela renal (↓TFG).
 
+### 13.34 Prolina — ORAL; substrato do colágeno (fecha o trio glicina+prolina+lisina+vit C)
+- **Formas/dose:** L-prolina; **condicionalmente essencial** (sintetizada de arginina/glutamina; pode faltar em crescimento/cicatrização). Dose 500–2.000 mg/d (seguro até ~3 g). **RAG: sem score_item; aulas só bioquímica incidental + Sorrentino** (prolina derivada da arginina, necessária ao colágeno/neovascularização).
+- **Indicações:**
+  - 🟢🟡 **Colágeno/cicatrização/pele:** prolina + hidroxiprolina = **~23% do colágeno**; a hidroxilação (prolil-hidroxilase) é **vit C-dependente** (sem vit C não há tripla-hélice estável). RCT de ferida crônica com supl. contendo prolina ↓área (mas em combo). **Completa o trio do colágeno** com glicina (§13.32) + lisina (§13.33) + vit C (§7).
+- ⚖️ **Composição corporal:** sem dado (substrato conjuntivo, não muscular/gordura).
+- 🧠 **Cognição/humor/disposição:** sem evidência de suplemento (hiperprolinemia genética é dano, fora do escopo). Sem eixo.
+- 🚨🩺 **Segurança:** segura ≤3 g (GI em dose alta); cautela geral de aminoácido em DRC avançada. **Sem IV/IM** (oral).
+
+**Card — Prolina:** **ORAL** coadjuvante 0,5–2 g · **substrato do colágeno** (com glicina+lisina+**vit C** obrigatória) — pele/articulação/cicatrização; condicionalmente essencial · ⚖️/🧠 sem dado · **sem IV/IM** · seguro ≤3 g; cautela renal em dose alta. *(Coadjuvante do eixo colágeno, não protagonista.)*
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1143,7 +1153,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) feitas. **PRÓXIMA = prolina.** Depois: · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) · glicina (§13.32) · lisina (§13.33) · prolina (§13.34) feitas. **PRÓXIMA = BCAA/leucina.** Depois: · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
