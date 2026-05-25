@@ -1075,16 +1075,16 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
   - 🟢 **Sono (destaque, RCT):** **3 g 30–60 min antes de dormir** → ↓latência, ↑qualidade subjetiva, ↓fadiga diurna, ↑cognição matinal, sem sonolência/dependência (↓temperatura central + NMDA no NSQ).
   - 🟢 **Substrato de colágeno** (~33% do colágeno; limitante em cicatrização/recuperação/envelhecimento) — sinergia peptídeos de colágeno + vit C (§7) + silício (§13.26).
   - 🟡 metabólico/glicêmico + anti-inflamatório (modesto) · 🟢 **GlyNAC** (longevidade, §13.2).
-- 📚 **RAG — aulas da casa (MFI):**
-  - **Magnésio glicinato** é forma preferida da casa (relaxamento/resistência insulínica); **combo CNS/mitocondrial: Mg treonato 500 mg + glicina 200 mg + malato 250 mg** (Psiq. Metab. Aula 05).
+- 📚 **RAG — aulas da pós-graduação MFI (Medicina Funcional Integrativa, no RAG):**
+  - **Magnésio glicinato** preferido (relaxamento/resistência insulínica); **combo CNS/mitocondrial: Mg treonato 500 mg + glicina 200 mg + malato 250 mg** (Psiq. Metab. Aula 05).
   - Glicina como **neuromodulador inibitório + precursor** (com B6/taurina/L-teanina/colina) p/ GABA/serotonina/acetilcolina (Psiq. Metab. Aulas 03/06).
   - **Colágeno rico em glicina → modula neuroexcitação, controla fome/estresse**; protocolo fim de tarde MCT + fibra + colágeno (saciedade/adesão) — Emagrecimento VI/XIII.
-  - 🚨 **Glicina é componente do protocolo INJETÁVEL (IM) de emagrecimento da casa** (com metilfolato, **5-HTP IM**, glutationa, ALA, carnitina, cromo, niacinamida; ~8 sessões 2×/sem) — Emagrecimento XVII. IM em baixa dose num coquetel lipotrópico ≠ irrigação IV cirúrgica (tóxica).
+  - 🚨 **Glicina é componente de um protocolo INJETÁVEL (IM) de emagrecimento ensinado nas aulas MFI** (com metilfolato, **5-HTP IM**, glutationa, ALA, carnitina, cromo, niacinamida; ~8 sessões 2×/sem) — Emagrecimento XVII. IM em baixa dose num coquetel lipotrópico ≠ irrigação IV cirúrgica (tóxica). *(Protocolo do curso — validar se o Dr. adota.)*
 - ⚖️ **Composição corporal:** glicina isolada não é anabólica; sinal de composição é do **GlyNAC** (§13.2). Como substrato de colágeno, apoia conjuntivo/recuperação. No contexto da casa, entra no **coquetel IM de emagrecimento** (saciedade/neuroexcitação).
 - 🧠 **Cognição/humor/disposição (eixo forte):** **sono → cognição/disposição do dia seguinte**; co-agonista **NMDA** — alta dose (30–60 g) adjuvante na esquizofrenia (sintomas negativos + cognição); sinais antidepressivo/TOC/ansiedade (pequenos). A casa usa glicina no eixo neuromodulador (GABA/serotonina) e no combo com Mg treonato.
 - 🚨🩺 **Segurança:** muito segura (adocicada; GI em dose alta). 🩺 precursor menor de **oxalato** (glioxilato) → atenção teórica em formador de cálculo em dose muito alta; cautela geral de aminoácido em DRC avançada. **Glicina IV de irrigação cirúrgica (RTU) é tóxica** — irrelevante aqui (a IM do coquetel é baixa dose).
 
-**Card — Glicina:** **ORAL** — **sono 3 g à noite** (destaque), **colágeno** (pele/articulação, c/ vit C+silício), GlyNAC (longevidade) · casa: **Mg glicinato** + combo **Mg treonato+glicina+malato**; neuromodulador (GABA/serotonina) · **IM**: componente do **coquetel lipotrópico de emagrecimento da casa** (baixa dose) · 🧠 sono/NMDA forte · 🚨 oxalato/DRC em dose muito alta; sem IV de irrigação.
+**Card — Glicina:** **ORAL** — **sono 3 g à noite** (destaque), **colágeno** (pele/articulação, c/ vit C+silício), GlyNAC (longevidade) · casa: **Mg glicinato** + combo **Mg treonato+glicina+malato**; neuromodulador (GABA/serotonina) · **IM**: componente de um **coquetel lipotrópico de emagrecimento ensinado nas aulas MFI** (baixa dose; validar se o Dr. adota) · 🧠 sono/NMDA forte · 🚨 oxalato/DRC em dose muito alta; sem IV de irrigação.
 
 ---
 
@@ -1105,7 +1105,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 
-✅ **RAG (fonte primária da casa) cruzado retroativamente (2026-05)** — tag **📚 RAG (alvos da casa)** nas 19 moléculas que têm score_item enriquecido: ferro, B12, vit D (VDR), magnésio (RBC), vit C (SLC23A1), zinco, CoQ10, B2 (MTHFR), B6 (PLP), B9/homocisteína (MTHFR), vit A (BCO1), vit E, selênio, cobre, cromo, manganês, cálcio, potássio, fósforo. **A casa tem painel nutrigenético (BCO1, VDR, SLC23A1, MTHFR, GPX1) + alvos funcionais próprios** (ferritina ≥100, Mg RBC, cobre 80–110, Hcy 4,5–8 etc.). **Sem item no RAG** (score system não rastreia): aminoácidos (glutamina/arginina/citrulina/ornitina/glicina/taurina/carnitina), B5/B7, iodo, K2, lítio, NAC/NAD/ALA, boro, silício. **REGRA: consultar RAG em TODA molécula daqui pra frente** (ver [[pesquisa_moleculas_online_exaustiva]]).
+⚠️ **RAG — 2 camadas, distinguir:** (a) **`score_items` = conduta enriquecida DA CASA** (alvos funcionais + painel nutrigenético BCO1/VDR/SLC23A1/MTHFR/GPX1); (b) **`articles`/aulas = pós-graduação MFI no RAG** (NÃO "da casa").
+- ✅ **score_items cruzados (2026-05)** — tag **📚 RAG (alvos da casa)** nas 19 com item: ferro, B12, vit D, magnésio, vit C, zinco, CoQ10, B2, B6, B9/homocisteína, vit A, vit E, selênio, cobre, cromo, manganês, cálcio, potássio, fósforo (alvos: ferritina ≥100, Mg RBC, cobre 80–110, Hcy 4,5–8 etc.).
+- 🔲 **PENDENTE — revisão do `full_content`/aulas MFI molécula a molécula (só GLICINA feita).** O Dr. exige ler as aulas multi-tema (Psiq. Metab., Emagrecimento, Mitocôndrias, Genética/Epigenética…) de CADA molécula fechada (§1–§13.31), **uma a uma, sem batch**. Achado já: protocolo IM lipotrópico de emagrecimento das aulas MFI (Emagrecimento XVII).
+- **REGRA:** consultar RAG (score_items + full_content/aulas) em TODA molécula (ver [[pesquisa_moleculas_online_exaustiva]]).
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
