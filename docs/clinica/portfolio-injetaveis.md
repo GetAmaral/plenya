@@ -413,7 +413,8 @@ por indicação: a discutir.)
 - **Resumo:** hidroxo IM padrão; oral 1–2 mg/dia 1ª linha em muitos casos; metil manipulada quando se quer a forma metilada; **B12 IV não** (excreção renal). Em DRC, hidroxo (não ciano).
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** sem efeito direto; melhora fadiga/desempenho **só no deficiente** (em repleto B12 não dá energia nem performance — dado consistente). É o componente "energia" das **injeções lipotrópicas de emagrecimento (MIC + B12)** — papel coadjuvante de bem-estar/adesão, **não queima de gordura** por si. Cofator do metabolismo de ácidos graxos/aminoácidos.
 - 🧠 **Cognição/humor/disposição:** deficiência dá alterações de humor (depressão/mania/agitação), declínio cognitivo, até psicose — **corrigir ajuda o DEFICIENTE**; porém RCTs em deficiência moderada/repletos = **sem ganho cognitivo/humor**. Não é nootrópico em repleto. Compõe o eixo homocisteína (com folato/B6). Triar B12 em idoso/vegano/metformina com queixa cognitiva ou de humor.
-- 📚 **RAG (alvos da casa):** B12 **funcional >500–550 pg/mL** (quartil superior); **ácido metilmalônico urinário = padrão-ouro** de utilização celular; painel B12 + folato + homocisteína.
+- 📚 **RAG / score_item (alvos da casa):** B12 **funcional >500–550 pg/mL** (quartil superior); **ácido metilmalônico urinário = padrão-ouro** de utilização celular; painel B12 + folato + homocisteína.
+- 📚 **RAG / aulas MFI:** "deficiência sorrateira" global (sérica pouco fidedigna → usar homocisteína/folato/AMM); **B12 perioperatória / anemia pré-operatória** (prehab — Sorrentino); **pós-bariátrico** = deficiência comum (separação anatômica impede fator intrínseco); 🧠 B12 no "básico neuro" (Mg+B12+D+folato/B9+ferro) de ansiedade/demência; **cluster de metilação MTHFR + CBS** (CBS é B6-dependente → usar **P5P**) — medir B12/folato/homocisteína.
 
 | | Hidroxocobalamina (indústria) | Metilcobalamina (manipulado) |
 |---|---|---|
