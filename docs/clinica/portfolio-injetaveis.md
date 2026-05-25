@@ -1662,6 +1662,24 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+## 13-quinquies. BLOCO PEPTÍDEOS
+> ⚠️ **Aqui a via INJETÁVEL (SC/IM/local) volta a ser central** (≠ blocos polifenóis/geroprotetores, todos orais). **MAS:** muitos peptídeos têm problema **regulatório (ANVISA não aprova / mercado cinza) + WADA (proibido no esporte) + ausência de RCT humano**. Triar caso a caso: timosina α1 e análogos de GLP-1 têm registro/evidência reais; BPC-157/TB-500/epitalon/melanotan são experimentais/proibidos.
+
+### 13.68 BPC-157 — ⚠️ NÃO OFERTAR AGORA (reavaliar se ANVISA criar via legal); peptídeo experimental, sem RCT humano, WADA S0, concern angiogênese; abre o bloco peptídeos
+- **Identidade:** pentadecapeptídeo (15 aa) do suco gástrico ("body protection compound"). Fama de biohacker/esporte como acelerador de **cicatrização de tendão/ligamento/intestino/ferida**. Abre o bloco peptídeos — aqui a **via injetável (SC/local) é a via real** — mas é a molécula de **pior relação fama/evidência-regulatória do portfólio**.
+- **🔴 Evidência humana quase inexistente:** reputação vem de **rato/in vitro**. Humano = **3 pilotos minúsculos** (dor joelho 16 pac. sem controle robusto; cistite intersticial 12 pac. injeção vesical; segurança/PK IV). **NENHUM RCT humano de cicatrização de tendão** — a indicação-estrela é rato.
+- **Via / dose:** **SC 300–500 mcg, 2–3×/sem, ~8 sem**; também oral/injeção local. Injetável é a via — o problema não é a via, é o resto.
+- **🔴 Status regulatório (decisivo, desfavorável):**
+  - **🇧🇷 ANVISA: NÃO aprovado** — sem registro; mercado cinza/manipulação não-regulada (risco contaminação/dose/qualidade); ANVISA apertou cerco a chips/peptídeos out/2024.
+  - **🔴 FDA: Categoria 2 "do not compound" (2023)** — risco significativo (reações imunes, impurezas, sem dados humanos). (Movimento 2026 de retirar da Cat 2 por retirada de nomeação = vácuo regulatório, não aprovação.)
+  - **🔴 WADA: S0 (não-aprovada), banido em TODO esporte** — exclui atleta/competidor automaticamente + risco reputacional.
+- **🚨 Segurança:** **angiogênese/câncer = concern central** (↑VEGF/neovascularização = o que tumor precisa; sem evidência de causar câncer e genotox negativo, estudo 2025 sugere regulação não disparo, MAS sem dados humanos de longo prazo o risco de acelerar malignidade preexistente fica aberto); **qualidade do produto cinza = perigo por si**; eventos raros/longo prazo desconhecidos. ⚖️/🧠 não são eixos (pré-clínico intestino-cérebro).
+- 📚 **RAG:** **zerado** — experimental, não da casa.
+
+**Card — BPC-157:** ⚠️ **NÃO OFERTAR AGORA** (reavaliar só se ANVISA criar via legal) · **SC 300–500 mcg 2–3×/sem** (injetável É a via, mas...) · **falha em 4 eixos do posicionamento da casa:** ① **sem RCT humano de eficácia** (indicação-estrela é rato) · ② **🇧🇷 ANVISA não aprova** (só mercado cinza, risco qualidade) · ③ **🔴 WADA S0 — banido no esporte** (exclui atletas + risco reputacional) · ④ **concern angiogênese/câncer** sem dados humanos longo prazo · numa clínica de nefrologista premium/defensável (CFM/ANVISA) = risco regulatório/imagem desproporcional a evidência inexistente · RAG zerado. **Recomendação: excluir/monitorar regulamentação. Decisão do Dr.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1691,7 +1709,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (PRÓXIMO) — aqui a via INJETÁVEL volta a ser central (SC/IM):** **PRÓXIMA = BPC-157.** Restantes: TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar/monitorar) feito. **PRÓXIMA = TB-500.** Restantes: timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
