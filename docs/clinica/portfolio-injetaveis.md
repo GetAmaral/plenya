@@ -1302,6 +1302,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — D-ribose:** **ORAL-ONLY** (15 g/d fracionado 3×5 g; ICC até 60 g/d) · **IV inviável/não-ofertada** (manipulação estéril extemporânea = Cenário B descartado + carga de açúcar IV amplifica hipoglicemia, contra público metabólico; evidência IV é hospitalar-cardíaca) · IM não-aplicável · 🇧🇷 magistral (pó), sem tarja · eixo = **energia/ATP** (fadiga crônica/fibromialgia/pós-Covid; ICC co-manejo oral); **completa o foursome de Sinatra por boca** (CoQ10+carnitina+Mg) · **🚨 gate = é açúcar → hipoglicemia → cautela em diabético/pré-diabético; ZERO uso de composição corporal.**
 
+### 13.47 Shilajit — ORAL-ONLY; vitalidade masculina/energia; gate dominante = metais pesados
+- **O que é / mecanismo:** exsudato resinoso de altitude (Himalaia). Ativos: **ácido fúlvico** (principal) + **dibenzo-α-pironas (DBPs, incl. urolitinas)** + **40+ minerais**. Fúlvico **preserva função mitocondrial/ATP** e atua como carreador mineral (mecanismo ≠ PQQ/ribose). **Base de evidência pequena** (~15 ensaios de qualidade até 2024).
+- **Via: ORAL apenas** (resina diluída em água morna/leite, ou cápsula). **Sem injetável** (exsudato mineral resinoso — não faz sentido parenteral). Dose **250–500 mg/d purificado**.
+- 🇧🇷 **Disponibilidade BR:** **isento de registro ANVISA** (RDC 27/2010, 28/2011 — suplemento); cápsula/resina + **magistral padronizado 20% ácido fúlvico com laudo de metais**. (Em conteúdo público vale a regra de não citar marcas/varejistas.)
+- **Indicações (eixo = vitalidade masculina / energia):**
+  - 🟡 **Testosterona/fertilidade (uso mais sólido, modesto):** purificado **250 mg 2×/d × 90 d** ↑T total e livre vs placebo em homens saudáveis; ↑motilidade/contagem espermática (Andrologia 2016).
+  - 🟡 **Fadiga/performance:** 8 sem → ↑VO₂máx, ↓fadiga, preservação de força sob fadiga (hidroxiprolina). Suporte mitocondrial/ATP via fúlvico.
+- ⚖️ **Composição corporal:** indireto via testosterona → suporte de massa magra em homens (modesto) + VO₂máx; **sem perda de gordura direta.**
+- 🧠 **Cognição/humor/disposição:** emergente/fraco — fúlvico com sinal **pré-clínico** anti-tau/anti-amiloide (ângulo Alzheimer, não clínico); disposição secundária a T + mitocôndria.
+- 🚨🩺 **Segurança (domina tudo):** **🚨 metais pesados** — shilajit cru concentra Pb/As/Hg/Cd/Al/tálio → **inegociável: só produto PURIFICADO, padronizado (~20% fúlvico), com LAUDO de metais por lote** (Pb <10, As <10 ppm; Hg <1; Cd <0,3 ppm); origem não garante nada. **🚨 sobrecarga de ferro:** fúlvico ↑absorção de ferro → **contraindicado em hemocromatose/sobrecarga**. **Cautela DRC** (carga mineral + risco de metais).
+- 📚 **RAG:** **zerado** — sem `score_items`, sem aula MFI. Evidência 100% externa.
+
+**Card — Shilajit:** **ORAL-ONLY** (250–500 mg/d), **sem injetável** · 🇧🇷 isento de registro (suplemento) + magistral padronizado 20% fúlvico · eixo = **vitalidade masculina (testosterona/fertilidade) + energia/fadiga/VO₂máx + suporte mito via fúlvico** · ⚖️ só indireto via T · **🚨🚨 gates DUROS = só purificado com LAUDO de metais por lote + contraindicado hemocromatose/sobrecarga de ferro + cautela DRC** · evidência pequena · RAG zerado.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1328,7 +1342,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ✅ **score_items cruzados (2026-05)** — tag **📚 RAG (alvos da casa)** nas 19 com item: ferro, B12, vit D, magnésio, vit C, zinco, CoQ10, B2, B6, B9/homocisteína, vit A, vit E, selênio, cobre, cromo, manganês, cálcio, potássio, fósforo (alvos: ferritina ≥100, Mg RBC, cobre 80–110, Hcy 4,5–8 etc.).
 - ✅ **`full_content`/aulas MFI revisado molécula a molécula (TODAS, §1–§13.32 — 2026-05)**, tag 📚 RAG/aulas por seção. **Temas transversais das aulas:** (1) **coquetel IM lipotrópico de emagrecimento** (metilfolato+5-HTP IM+glutationa+ALA+carnitina+cromo+niacinamida+glicina; ~8 sessões 2×/sem — Emagrecimento XVII); (2) **eixo cicatrização/perioperatório** (arginina+vitC+zinco+selênio+cobre+complexoB+vitA+CoQ10 — aulas Sorrentino/Cirurgia); (3) **framework de submetilação** (5-MTHF+metilB12+P5P+TMG; MTHFR/CBS; Hcy 5–8); (4) **stack mitocondrial** (CoQ10+carnitina+ALA+glicina+taurina+complexoB+Mg); (5) **fórmula de Sinatra** (cardio: CoQ10+carnitina+ribose+taurina+Mg); (6) **hepcidina×vit D** (utilização de ferro); (7) **eixo neuro "básico"** (Mg+B12+D+folato+ferro). **Divergências mantidas (MBE do doc):** vit A teratogenicidade (aulas chamam de "mito" → doc mantém gate), niacina lipídios/ortomolecular, CoQ10 Parkinson, dose de cromo > teto ANVISA, iodo via kelp (doc prefere KI). **Sem conteúdo de aula:** molibdênio, boro, lítio, ornitina (zero); cálcio/potássio/fósforo só menções incidentais (eletrólitos/painéis).
 - **REGRA:** consultar RAG (score_items + full_content/aulas) em TODA molécula (ver [[pesquisa_moleculas_online_exaustiva]]).
-**BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) feitas. **PRÓXIMA = shilajit.** Depois: ergotioneína · astaxantina · idebenona · MitoQ.
+**BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) feitas. **PRÓXIMA = ergotioneína.** Depois: astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
