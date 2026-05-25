@@ -833,6 +833,22 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Iodo:** **ORAL** (KI, não kelp) · **nutricional 150 mcg** p/ deficiência/bócio; **dose alta (mg) só em mama fibrocística com monitor de TSH/anti-TPO** · **🔴 sem IV/IM; sem emagrecimento em eutireóideo** (excesso ↓T4→T3) · **🚨 gate tireoidiano:** rastrear Hashimoto/nódulo antes de dose alta (Wolff-Chaikoff/Jod-Basedow), teto rotineiro 500 mcg, parear selênio · cautela renal.
 
+### 13.22 Cálcio — keystone do eixo ósseo, mas o SUPLEMENTO é a parte a manejar com cautela
+- **Formas:** **bisglicinato** (mais biodisp., ~1,8× citrato) > **citrato** (2,5× carbonato, independe de acidez, pode sem refeição) > **carbonato** (barato, exige ácido gástrico, mal absorvido). **Absorção máx. ≤500 mg/dose** → fracionar. RDA 1.000 mg (idoso/pós-menopausa 1.200).
+- **Disponibilidade BR:** oral abundante (carbonato/citrato/bisglicinato, combos c/ D-K2-Mg); **gluconato de cálcio IV** registrado mas **só agudo/hospitalar** (hipocalcemia, hipercalemia, **antídoto de Mg** — §4). **Sem cálcio IV eletivo.**
+- **Indicações:**
+  - 🟢 **Osso/osteoporose (com nuance):** suplemento isolado tem **benefício fraco em fratura** + risco CV; **priorizar cálcio da DIETA**, suplementar só a lacuna **dentro do eixo D + K2** (K2 direciona Ca pro osso, não pra artéria — §13.15). Fecha o trio, mas é o componente que exige mais cuidado.
+  - 🟢 **Pré-eclâmpsia (forte):** suplementar gestante de baixa ingestão reduz pré-eclâmpsia/morbimortalidade (OMS).
+  - 🟡 TPM/mama fibrocística (com Mn/iodo), modesto.
+- ⚖️ **Composição corporal (emagrecimento · massa · gordura):** sinal **pequeno e sobretudo da DIETA** — cálcio dietético ↑excreção fecal de gordura e termogênese (UCP/lipólise); cálcio+D ↓gordura visceral **principalmente em ingestão baixa (<600 mg/d)**. Modesto/controverso, sem efeito de massa muscular. **Não vender como emagrecedor**; ganho real = corrigir ingestão baixa.
+- 🚨 **Segurança — dois grandes:**
+  1. **Risco CV do cálcio SUPLEMENTAR** (controverso): meta-análises com **+27–31% IAM / +12–20% AVC** (pós-menopausa, dose alta, **bolus/entre refeições**); outras sem efeito. Mecanismo = calcificação vascular + pico sérico. **Cálcio da dieta não tem esse risco** → preferir dieta; suplemento **≤500–600 mg COM refeição**, parear **K2**, evitar bolus.
+  2. 🩺 **Cálculo renal (terreno do Dr.):** **dietético 1.000–1.200 mg COM refeição → ↓cálculo 30–51%** (liga oxalato no intestino); **suplemento ENTRE refeições → ↑calciúria sem benefício do oxalato → ↑cálculo.** Regra: **sempre com a refeição**; **citrato de potássio** preferível; cautela em hipercalciúria absortiva.
+- 🩺 **DRC:** carga de cálcio + calcificação vascular (debate dos quelantes de fosfato à base de Ca) → **não dar Ca drip/alto em renal**; vigiar carga.
+- 🔴 **Sem IV eletivo.**
+
+**Card — Cálcio:** **priorizar DIETA**; suplemento só da lacuna **≤500–600 mg COM refeição, fracionado, no eixo D-K2** (bisglicinato/citrato) · pré-eclâmpsia em gestante de baixa ingestão · **🔴 sem IV eletivo (só emergência/antídoto Mg); sem emagrecimento** · **🚨 gates: CV** (bolus/entre refeições/pós-menopausa → parear K2, com refeição); **cálculo renal** (sempre com refeição, citrato de K, hipercalciúria); **DRC** (carga/calcificação).
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -845,10 +861,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 6. **Emagrecimento ESTÁ no escopo** (a clínica trata emagrecimento). Avaliar SEMPRE 3 eixos por molécula: **emagrecimento · preservação/ganho de massa muscular · redução de gordura** — anotar na seção com a tag **⚖️ Composição corporal**, com atenção a IV/IM/SC. "Sem mesoterapia" é restrição de VIA, não de indicação.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-Minerais: **PRÓXIMA = cálcio.** Depois: potássio · fósforo · boro · silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21 já feitos.)*
+Minerais: **PRÓXIMA = potássio.** Depois: fósforo · boro · silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21, cálcio §13.22 já feitos.)*
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
