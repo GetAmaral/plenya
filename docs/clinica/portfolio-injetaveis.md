@@ -874,6 +874,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — P:** **FORA do portfólio eletivo** · reposição só em **hipofosfatemia documentada** (realimentação/clínico; IV só hospitalar) · **🔴 sem suplemento/IV de wellness; sem composição corporal** · 🩺 **tema real = RESTRINGIR fosfato** (aditivos/ultraprocessados) como proteção CV/renal — diferencial nefro; atenção máxima em DRC.
 
+### 13.25 Boro — ORAL coadjuvante; melhor ângulo = osso/articulação no eixo D-K2-Ca
+- **Formas:** **calcium fructoborate (FruiteX-B)** — melhor biodisp. (~20–30% acima do elementar, detectável intacto no sangue), forma mais estudada; também borato de sódio/ácido bórico/glicinato/citrato. **Sem RDA; dose típica 3–6 mg elementar/d; UL 20 mg/d** (EFSA ADI ~11 mg). 🔑 **Solo BR pobre em boro** (lixiviação) → ingestão marginal, dá racional de reposição.
+- **Indicações:**
+  - 🟢🟡 **Osso/articulação (melhor ângulo, integra eixo D-K2-Ca):** boro **prolonga meia-vida do 25-OH-D** e apoia conversão a 1,25-D; ↑utilização Ca/Mg/D; calcium fructoborate ↑retenção de Ca e ↓reabsorção óssea (pós-menopausa, pequeno); **osteoartrite** 6 mg/d melhora modesta de dor/mobilidade. Evidência direta de ↑DMO ainda falta; sinergia com vit. D é o argumento elegante.
+  - 🟡 **Hormônios (ângulo popular, com honestidade):** Naghii — 10 mg/d × 7 d ↑testosterona livre 28%, ↓estradiol 39%, ↓SHBG; **mas n=8, não replicado**; RCT em fisiculturistas (2,5 mg, 7 sem) **sem efeito** além do treino. Sinal preliminar, não traduzido em desfecho.
+  - 🟡 cognição/inflamação (preliminar, fraco).
+- ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **sem efeito direto** — o ensaio que mediu mostrou que massa magra/força vieram do **treino, não do boro**; testosterona livre ↑ mas **não virou músculo**. Sem dados de gordura/peso. Não vender como anabólico/emagrecedor.
+- 🚨 **Segurança:** dos mais seguros em dose nutricional (3–10 mg; UL 20); **toxicidade reprodutiva em dose alta** (animal) → cautela gestação; **excreção >90% renal** → cautela DRC (acúmulo).
+- 🔴 **Sem IV/IM** (oral).
+
+**Card — Boro:** **ORAL coadjuvante 3–6 mg** (calcium fructoborate) · uso principal = **osso/articulação no eixo D-K2-Ca** (prolonga meia-vida da vit. D); testosterona livre = **sinal preliminar honesto** (não comprovou desfecho/massa) · **🔴 sem IV; sem composição corporal/anabólico** · 🚨 teto 20 mg; cautela gestação (repro) e DRC (excreção renal).
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -886,10 +898,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
 6. **Emagrecimento ESTÁ no escopo** (a clínica trata emagrecimento). Avaliar SEMPRE 3 eixos por molécula: **emagrecimento · preservação/ganho de massa muscular · redução de gordura** — anotar na seção com a tag **⚖️ Composição corporal**, com atenção a IV/IM/SC. "Sem mesoterapia" é restrição de VIA, não de indicação.
 
-**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-Minerais: **PRÓXIMA = boro.** Depois: silício · lítio (orotato). *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21, cálcio §13.22, potássio §13.23, fósforo §13.24 já feitos.)*
+Minerais: **PRÓXIMA = silício.** Depois: lítio (orotato) — **fecha o bloco de minerais.** *(zinco §13.5, magnésio §4, ferro §1, selênio §13.16, cobre §13.17, cromo §13.18, manganês §13.19, molibdênio §13.20, iodo §13.21, cálcio §13.22, potássio §13.23, fósforo §13.24, boro §13.25 já feitos.)*
 Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
