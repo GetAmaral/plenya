@@ -632,3 +632,44 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - **Segurança:** excelente, hidrossolúvel, sem toxicidade conhecida; GI em dose alta; sem toxicidade renal.
 
 **Card — B5:** **dislipidemia: pantetina 600 mg/dia** (reavaliar lipidograma 12–16 sem) · **pele: dexpantenol tópico** · **atonia GI: dexpantenol IM/IV** (hospitalar) · **capilar: dexpantenol IM 250–500 mg** (adjuvante, evidência fraca) · disclaimer: efeito lipídico é da **pantetina** (não pantotenato); acne megadose/adrenal sem base; injetável isolado via magistral.
+
+### 13.10 Vitamina B6 (piridoxina / P5P) — contexto adulto funcional/longevidade
+- **Formas:** piridoxina HCl · **P5P (piridoxal-5-fosfato, forma ativa)** — manipulável BR (50–100 mg cáps). Injetável de B6 só **em combos** (neurotrópico B1+B6+B12). Sem "drip de B6" isolado.
+- 🟢 **Eixo metilação/homocisteína** (com B12+folato): P5P é cofator; entra quando a homocisteína não normaliza só com B12/folato. **Oral.** Corrigir o marcador, sem prometer reduzir eventos CV.
+- 🟢 **Cálculo de oxalato de cálcio / hiperoxalúria** (adulto formador recorrente — terreno nefro): piridoxina reduz produção/excreção de oxalato (cofator da AGT). **Oral**, dose mais alta (5–10 mg/kg nos responsivos) → **monitorar neuropatia + oxalúria 24h**.
+- 🟡 **TPM / saúde da mulher** (oral, modesto) · **humor/cognição** (adjuvante, fraco).
+- 🟡 **Neurotrópico B1+B6+B12 IM** (dor/neuropatia) — adjuvante (B6 é componente; ver §5).
+- 🟢 **Correção de deficiência:** vegano, alcoolismo, má absorção/bariátrica, **dialítico** (perda na HD). Oral/IM.
+- **Performance/energia:** só **se deficiente** (cofator) — não "booster" em repleto.
+- 🚨 **Teto de neuropatia (assinatura de segurança):** alta dose crônica **causa** neuropatia sensitiva (UL EFSA 12 mg/dia). Em hiperoxalúria/neurotrópico repetido, **somar todas as fontes de B6 e monitorar sintomas sensitivos**.
+- **Fora do escopo deste centro (não usar):** antídoto/toxicologia (isoniazida, hidrazinas, etilenoglicol), convulsão neonatal/genética. *(Existem, mas são emergência/hospitalar — irrelevantes aqui.)*
+
+**Card — B6:** P5P (ativa) preferível; oral resolve a maioria · doses: deficiência 1,3–2 mg; **hiperoxalúria 5–10 mg/kg/d (monitorado)**; TPM 50–100 mg · injetável só no combo neurotrópico/reposição IM · gate: homocisteína alta (com B12/folato), formador de cálculo de oxalato, deficiência, dialítico · monitor: **neuropatia sensitiva** (dose alta), oxalúria 24h, somar fontes de B6 · disclaimer: teto de neuropatia; sem B6 IV isolado de wellness.
+
+---
+
+## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
+
+**Como trabalhar cada molécula (regra fixa):**
+1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
+2. Cobrir: formas/sais · **indicações ampliadas** · literatura/evidência · **disponibilidade BR (farmácia regular E magistral)** · forma injetável · doses · segurança · ângulo nefrológico.
+3. **Vias do centro:** IV, IM, oral/sublingual, no máximo tópico. **SEM mesoterapia/intradérmico.**
+4. **Contexto/público (filtro duro):** centro ADULTO, medicina funcional integrativa, **saúde/performance/longevidade**. **Excluir** (nem citar): emergência, toxicologia/antídoto, neonatal/pediátrico, erros genéticos, agudo hospitalar.
+5. **Não filtrar/julgar** quais moléculas entram — apresentar a evidência; **quem decide é o Dr.** Ir **uma a uma**, parar para discussão/aprovação, consolidar (§13) e commitar antes da próxima.
+
+**✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10).
+
+**🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
+**PRÓXIMA = B7 (biotina).** Depois: B9 folato · vitamina A · vitamina E · vitamina K2 (MK-7).
+Minerais: selênio · cobre · cromo · manganês · molibdênio · iodo · cálcio · potássio · fósforo · boro · silício · lítio (orotato).
+Aminoácidos/derivados: glutamina · arginina · citrulina · ornitina · glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina.
+Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
+Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
+Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
+Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
+Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
+Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
+Lipotrópicos: MIC (metionina+inositol+colina).
+Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
+Soros/combos: Myers · imunidade (C+zinco) · energia · beleza · hidratação+eletrólitos (base).
+Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
