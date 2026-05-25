@@ -894,6 +894,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - 🔴 **Sem indução IV/IM eletiva** (manganismo); só dose ínfima de NPT, fora do escopo.
 
 🧠 **Cognição/humor/disposição:** 🚨 **o eixo neuro do Mn é DANO, não benefício** — excesso causa **manganismo/parkinsonismo** (já citado). Nenhum uso pró-cognição; é molécula a NÃO empurrar.
+📚 **RAG / aulas MFI:** Mn é cofator da **Mn-SOD** (antioxidante mitocondrial, com Cu/Zn/Se) e do metabolismo do heme/ferro; aulas **concordam com a cautela** — suplementar **só conforme nível sanguíneo** (1–5 mg quelado), medir em **sangue total** (não soro). Sem uso protagonista.
 
 📚 **RAG (alvos da casa):** Mn **funcional 2–25 µg/L em sangue total**; **🚨 nunca dosar em soro/plasma** (resultado falsamente baixo); >25 excesso (investigar exposição ocupacional/hepática). Assay note importante da casa.
 
