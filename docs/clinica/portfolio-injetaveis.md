@@ -1023,6 +1023,19 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Citrulina:** **ORAL** (3–6 g / 6–8 g malato) — **precursor de NO superior à arginina**; usos: **vascular/endotélio/PA**, **ED leve (1,5 g/d)**, **sarcopenia/síntese proteica (idoso)** = eixo forte de massa muscular · 🧠 cognição/humor = **emergente-mecanístico** (NO/fluxo cerebral; pré-clínico, sem RCT humano) · 🔬 citrulina plasmática = exame de função intestinal · **🔴 sem IV; não emagrecedor** · 🚨 herpes (cautela leve, < arginina), hipotensão (anti-HAS/iPDE5), **DRC grave só c/ nefrologista** (conversão a arginina é renal).
 
+### 13.31 Ornitina — ORAL (duas pernas: estresse-sono + NAFLD); sem IV eletivo; gate renal
+- **Formas:** **L-ornitina HCl** (baixa dose, wellness); **LOLA (L-ornitina-L-aspartato; Hepa-Merz)** — forma medicamentosa (entra no ciclo da ureia + glutamina synthetase → depura amônia; também gera glutamina/arginina/**glutationa**). BR: L-ornitina e LOLA oral disponíveis; 🔲 confirmar LOLA IV (Hepa-Merz) no BR.
+- **Indicações (as duas que nos interessam são ORAIS):**
+  - 🟢 **Estresse / sono / disposição (wellness):** RCT **L-ornitina 400 mg/d** → ↓cortisol e razão cortisol/DHEA-S, ↓raiva-hostilidade, ↑qualidade do sono (Athens), ↓cortisol ao despertar; à noite → menos fadiga, mais "refresh" ao acordar.
+  - 🟢 **NAFLD / esteatose NÃO-cirrótica (metabólico — dentro do escopo):** RCT **LOLA oral 6–9 g/d × 12 sem** → ↓ALT e ↓triglicérides dose-dependente, ↓esteatose (relação fígado/baço TC), melhora microcirculação no NASH; mecanismo antioxidante via **glutationa**. Adjuvante hepatoprotetor/metabólico no fígado gorduroso.
+  - 🟡 **Encefalopatia hepática (LOLA):** oral 18 g/d ou **IV 20–30 g/d — mas IV só no agudo/manifesto HOSPITALAR** (não eletivo). 🟡 **Sarcopenia da doença hepática** (LOLA ↑síntese proteica, limita sarcopenia por amônia). 🟡 fadiga/amônia do exercício = misto/fraco.
+- ⚖️ **Composição corporal:** modesto/coadjuvante (combo arg+ornitina ↑força/MLG em 1 estudo; GH = mito); na doença hepática ↑massa via ↓amônia. Não é anabólico de destaque.
+- 🧠 **Cognição/humor/disposição:** **eixo bom** — o pacote ↓cortisol + ↑sono + ↓raiva/fadiga + ↑disposição matinal (RCT 400 mg) é sinal real de **manejo de estresse/sono** (raro ter RCT humano em saudável); via amônia, LOLA melhora cognição na EH mínima (indicação hepática).
+- 🚨🩺 **Segurança:** bem tolerada; GI em dose alta; LOLA seguro até 18 g/6 m. 🩺 **Gate renal:** metabolismo sobrecarrega o **ciclo da ureia** → **cautela/evitar em DRC** (ajuda amônia no fígado, mas é preocupação nitrogenada no rim — autoridade do nefrologista).
+- 🔴 **Sem IV eletivo** (LOLA IV pertence à EH aguda hospitalar).
+
+**Card — Ornitina:** **ORAL, duas pernas:** **L-ornitina 400 mg/noite** (estresse/sono/disposição — eixo 🧠 com RCT) + **LOLA oral 6–9 g/d** (NAFLD/esteatose: ↓ALT/TG, antioxidante via glutationa; e EH co-manejo) · ⚖️ composição modesta · **🔴 sem IV eletivo** (LOLA IV = EH aguda hospitalar) · **🚨 gate renal** (ciclo da ureia → cautela/evitar DRC) · 🔲 confirmar LOLA IV no BR.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1038,7 +1051,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **✅ Feitas:** ferro EV (§1) · B12 (§2) · vitamina D (§3) · magnésio (§4) · complexo B/tiamina + niacinamida B3 (§5) · vitamina C (§7) · ALA (§8) · glutationa (§13.1) · NAC (§13.2) · NAD+/precursores (§13.3) · taurina (§13.4) · zinco (§13.5) · L-carnitina (§13.6) · CoQ10 (§13.7) · B2 riboflavina (§13.8) · B5 pantotênico/pantetina/dexpantenol (§13.9) · B6 piridoxina/P5P (§13.10) · B7 biotina (§13.11) · B9 folato/5-MTHF (§13.12) · vitamina A (§13.13) · vitamina E (§13.14) · vitamina K2 MK-7 (§13.15) · selênio (§13.16) · cobre (§13.17) · **cromo (§13.18)** · **manganês (§13.19)** · **molibdênio (§13.20)** · **iodo (§13.21)** · **cálcio (§13.22)** · **potássio (§13.23)** · **fósforo (§13.24)** · **boro (§13.25)** · **silício (§13.26)** · **lítio orotato (§13.27)**. **✅ Lipossolúveis fechadas (eixo A-D-K2). ✅ MINERAIS FECHADOS. ✅ Eixo composição corporal (⚖️) revisado em TODAS as moléculas acima (2026-05).**
 
 **🔲 Próximas, na ordem do inventário (o Dr. decide o que entra/sai):**
-**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) feitas. **PRÓXIMA = ornitina.** Depois: glicina · lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
+**BLOCO AMINOÁCIDOS/derivados (§13-ter):** glutamina (§13.28) · arginina (§13.29) · citrulina (§13.30) · ornitina (§13.31) feitas. **PRÓXIMA = glicina.** Depois: lisina · prolina · BCAA/leucina · metionina · triptofano/5-HTP · tirosina · carnosina/beta-alanina · creatina · betaína (TMG) · SAMe · GABA · L-teanina. *(NB: glicina já parcialmente coberta em GlyNAC §13.2.)*
 
 ✅ **Eixo 🧠 COGNIÇÃO/MEMÓRIA/HUMOR/DISPOSIÇÃO revisado em TODAS as moléculas (§1–§13.30) com literatura nova (2026-05)** — tag **🧠** em cada seção. Daqui pra frente, avaliar 4 eixos por molécula: usos clínicos + segurança + ⚖️ composição corporal + 🧠 cognição/humor/disposição.
 Antioxidantes/mitocondriais: PQQ · D-ribose · shilajit · ergotioneína · astaxantina · idebenona · MitoQ.
