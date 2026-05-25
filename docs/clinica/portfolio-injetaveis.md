@@ -1373,6 +1373,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.52 Pterostilbeno (trans-pterostilbeno) — ORAL-ONLY; "resveratrol com farmacocinética consertada"; 🚨 sinal de ↑LDL na monoterapia em dose alta
+- **O que é / via:** éter dimetílico do resveratrol (mirtilo). As 2 hidroxilas viram metoxilas → ~4× mais lipofílico → **biodisp. oral ~80% (vs ~20% do resveratrol), t½ 105 min (vs ~14 min), melhor passagem pela BHE.** Resolve o gargalo farmacocinético do resveratrol **por via oral** — o que **mata qualquer racional de IV** (a molécula existe pra ser oral).
+- **🇧🇷 Disponibilidade BR:** **magistral consolidado** — extrato seco 99% em cápsula 25/50/75/100 mg + combos prontos (resveratrol/quercetina/chá verde). Suplemento/isento. **Sem injetável em lugar nenhum.**
+- **⚖️ Composição corporal:** sinal **fraco, majoritariamente pré-clínico** (prevenção de acúmulo de gordura em animais; combo pterostilbeno+NR ↑razão músculo/gordura num estudo de ELA; faixa metabólica 215–430 mg/d). Sem RCT humano robusto de composição. Coadjuvante metabólico, não emagrecedor.
+- **🧠 Cognição/humor/disposição:** **mecanicamente o estilbeno mais promissor pro cérebro** (cruza BHE melhor que resveratrol; pré-clínico rico — ↑BDNF, anti-tau/anti-amiloide, ↓ansiedade, ↑memória de trabalho; modelos Alzheimer 2025). **Teto honesto: NENHUM RCT humano de cognição/demência.** Promessa mecanística, dado humano ausente.
+- **🩺 Segurança / nefro-CV:** seguro até 250 mg/d. **PA:** 125 mg 2×/d → PAS −7,8 / PAD −7,3 mmHg (dislipidêmicos). **🚨 LDL:** **250 mg/d em monoterapia ELEVOU LDL +17 mg/dL** — efeito **some quando combinado com extrato de uva**. É o **oposto do resveratrol**; numa população de risco CV, pterostilbeno isolado em dose alta piora o perfil lipídico → **dose ≤100 mg/d e/ou não usar isolado.**
+- 📚 **RAG:** **zerado** — sem `score_item` e sem menção nas aulas MFI. Diferente do resveratrol (conduta da casa), entraria como **ativo novo**, baseado só em evidência externa.
+
+**Card — Pterostilbeno:** **ORAL-ONLY** (cápsula 50–100 mg/d; **evitar 250 mg isolado**), **IV/IM NÃO-ofertada** (biodisp. oral já ~80% — a molécula existe pra ser oral; sem forma estéril, sem racional) · 🇧🇷 magistral 99% consolidado · é o **"resveratrol com PK consertada"** (biodisp. 80% vs 20%, t½ 105 vs 14 min, melhor BHE) · eixo = **cérebro (mecanístico forte, SEM RCT humano) + PA (−7,8/−7,3 mmHg)** · ⚖️ fraco/pré-clínico · 🧠 promissor mas não-comprovado em humano · **🚨 gate = ↑LDL +17 mg/dL em monoterapia 250 mg (some com extrato de uva); usar ≤100 mg ou combinado** · **RAG zerado (≠ resveratrol, que é da casa).**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1398,7 +1410,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ✅ **`full_content`/aulas MFI revisado molécula a molécula (TODAS, §1–§13.32 — 2026-05)**, tag 📚 RAG/aulas por seção. **Temas transversais das aulas:** (1) **coquetel IM lipotrópico de emagrecimento** (metilfolato+5-HTP IM+glutationa+ALA+carnitina+cromo+niacinamida+glicina; ~8 sessões 2×/sem — Emagrecimento XVII); (2) **eixo cicatrização/perioperatório** (arginina+vitC+zinco+selênio+cobre+complexoB+vitA+CoQ10 — aulas Sorrentino/Cirurgia); (3) **framework de submetilação** (5-MTHF+metilB12+P5P+TMG; MTHFR/CBS; Hcy 5–8); (4) **stack mitocondrial** (CoQ10+carnitina+ALA+glicina+taurina+complexoB+Mg); (5) **fórmula de Sinatra** (cardio: CoQ10+carnitina+ribose+taurina+Mg); (6) **hepcidina×vit D** (utilização de ferro); (7) **eixo neuro "básico"** (Mg+B12+D+folato+ferro). **Divergências mantidas (MBE do doc):** vit A teratogenicidade (aulas chamam de "mito" → doc mantém gate), niacina lipídios/ortomolecular, CoQ10 Parkinson, dose de cromo > teto ANVISA, iodo via kelp (doc prefere KI). **Sem conteúdo de aula:** molibdênio, boro, lítio, ornitina (zero); cálcio/potássio/fósforo só menções incidentais (eletrólitos/painéis).
 - **REGRA:** consultar RAG (score_items + full_content/aulas) em TODA molécula (ver [[pesquisa_moleculas_online_exaustiva]]).
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
-**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) feita. **PRÓXIMA = pterostilbeno.** Restantes: quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
+**BLOCO POLIFENÓIS/FITOQUÍMICOS (EM CURSO):** resveratrol (§13.51) · pterostilbeno (§13.52) feitas. **PRÓXIMA = quercetina.** Restantes: fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
