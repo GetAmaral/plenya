@@ -74,14 +74,21 @@ jobs:
 
   maestro-smoke:
     needs: typecheck
-    if: ${{ secrets.MAESTRO_API_KEY != '' }}
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    env:
+      MAESTRO_API_KEY: ${{ secrets.MAESTRO_API_KEY }}
     steps:
+      - name: Skip if no Maestro key
+        if: ${{ env.MAESTRO_API_KEY == '' }}
+        run: echo "MAESTRO_API_KEY não configurado — pulando smoke."
       - uses: actions/checkout@v4
+        if: ${{ env.MAESTRO_API_KEY != '' }}
       - name: Run Maestro Cloud smoke
+        if: ${{ env.MAESTRO_API_KEY != '' }}
         uses: mobile-dev-inc/action-maestro-cloud@v1
         with:
-          api-key: ${{ secrets.MAESTRO_API_KEY }}
+          api-key: ${{ env.MAESTRO_API_KEY }}
           app-file: apps/mobile-pro/build/preview.apk
           include-tags: smoke
           flows: apps/mobile-pro/maestro
