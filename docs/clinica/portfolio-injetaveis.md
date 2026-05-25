@@ -498,6 +498,7 @@ por indicação: a discutir.)
 - **Resumo:** oral é a base; IV manipulado p/ **indução em neuropatia diabética** (nível A). Eliminação não renal (sem ajuste DRC). Atenção: hipoglicemia, **Hirata**, quelante (espaçar de Fe/Ca/Mg).
 - ⚖️ **Composição corporal (emagrecimento · massa · gordura):** **EMAGRECIMENTO:** meta-análises → **−0,7 a −1,3 kg** e **↓IMC (~0,4)**, mais forte em **obeso e mulher**; reduz apetite (ECR 24 sem: −5% peso, −9% gordura em mulheres/obesos). **GORDURA/METABÓLICO:** ativa **AMPK** e transloca **GLUT4** no músculo esquelético (↑captação de glicose até 300% em modelo, ↑oxidação de ácidos graxos) → melhora sensibilidade à insulina (DM2/SOP/síndrome metabólica). Sinal **modesto porém consistente**; o **IV manipulado já previsto** habilita uso injetável no eixo metabólico/emagrecimento.
 - 🧠 **Cognição/humor/disposição:** **mista/limitada** — ALA + ômega-3 por 1 ano = menos declínio na DA leve; mas cocktail antioxidante (ALA+E+C) **piorou** cognição em 16 sem; sem RCT que comprove. Forte mesmo é na **neuropatia diabética** (já é a indicação IV/oral). Não usar como nootrópico.
+- 📚 **RAG / aulas MFI:** **destaque no manejo de resistência insulínica/diabetes/esteatose** — **modulador de PPAR-γ**, regenera vit C/E, **↑glutationa**, anti-NF-κB; **componente do coquetel IM de resistência insulínica/emagrecimento** (com glutationa/carnitina — mesmo protocolo §13.32); cofator mitocondrial (stack c/ CoQ10/carnitina/glicina/taurina/B); forma **liberação lenta 600 mg**.
 
 | Campo | ALA IV (manipulado) |
 |---|---|
