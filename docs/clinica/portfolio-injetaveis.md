@@ -820,7 +820,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 🧠 **Cognição/humor/disposição:** status baixo liga-se a **humor deprimido/ansiedade** e a **declínio cognitivo** (queda de Se acompanhou declínio em 9 anos na DA); pequeno ensaio (60 mcg) ↓depressão em idoso. **Só no deficiente** — curva em U (excesso não ajuda e prejudica).
 
-📚 **RAG (alvos da casa):** selênio sérico — referência 40–190 µg/L; **alvo funcional = quartil superior** (perto do máximo sem exceder); **45–60 µg/L = funcionalmente insuficiente**. Alinha com a curva em U (não exceder).
+📚 **RAG / score_item (alvos da casa):** selênio sérico — referência 40–190 µg/L; **alvo funcional = quartil superior** (perto do máximo sem exceder); **45–60 µg/L = funcionalmente insuficiente**. Alinha com a curva em U (não exceder).
+📚 **RAG / artigo + aulas MFI:** artigo — selênio sérico mais alto associado a **↓mortalidade em idosos pré-frágeis/frágeis** (longevidade; reforça corrigir o deficiente, sem exceder). Aulas — cofator da **GPX (glutationa-peroxidase)** no sistema antioxidante enzimático (com Cu/Zn/Mn–SOD); compõe o combo de **cicatrização** (com zinco/cobre/vit C); regra: **essenciais antes de fitoterápicos**.
 
 **Card — Se:** **selenometionina ORAL 100–200 mcg** · sem IV/IM · **medir selenemia antes, repor SÓ o deficiente** · usos: **Graves leve (guideline, 200 mcg/6 m)**, Hashimoto/pós-parto anti-TPO+, correção de deficiência; marginais (humor/imune/fertilidade) só no deficiente · **🚨 curva em U: SELECT (próstata+DM2), NAFLD, espermatogênese, teto 400 mcg** · jamais drip em repleto.
 
