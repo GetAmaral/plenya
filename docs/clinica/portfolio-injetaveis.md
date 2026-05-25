@@ -701,6 +701,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 ⚖️ **Composição corporal (emagrecimento · massa · gordura):** B5 é componente da **CoA** e da ácido-graxo-sintase (metabolismo lipídico); a **pantetina** age sobre lipídios (já registrado). **Sem dado de perda de peso ou de massa muscular** — não há indicação de emagrecimento/composição corporal.
 
 🧠 **Cognição/humor/disposição:** sem dado relevante (papel da CoA na síntese de acetilcolina é teórico). Sem uso neuro.
+📚 **RAG / aulas MFI:** B5 = **CoA** (acetil-CoA → energia, hormônios, acetilcolina), cofator mitocondrial (síntese de heme A/complexo IV; necessidade ↑ com estresse); aulas usam **alta dose (até 1.000 mg) para cansaço/eixo HPA-adrenal** — ⚠️ baixa evidência, doc mantém cautela ("adrenal fatigue" sem base sólida).
 
 **Card — B5:** **dislipidemia: pantetina 600 mg/dia** (reavaliar lipidograma 12–16 sem) · **pele: dexpantenol tópico** · **atonia GI: dexpantenol IM/IV** (hospitalar) · **capilar: dexpantenol IM 250–500 mg** (adjuvante, evidência fraca) · disclaimer: efeito lipídico é da **pantetina** (não pantotenato); acne megadose/adrenal sem base; injetável isolado via magistral.
 
