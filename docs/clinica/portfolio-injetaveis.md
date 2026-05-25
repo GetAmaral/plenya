@@ -1576,6 +1576,24 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.63 Urolitina A (Mitopure) — ORAL-ONLY; a molécula da MITOFAGIA; melhor dado humano de músculo/mitocôndria do bloco ("real mas modesto"); contorna a loteria do microbioma
+- **Identidade:** metabólito que a microbiota produz a partir de **elagitaninos** (romã, nozes). Mecanismo = **mitofagia** (limpa mitocôndrias danificadas). **Ponto-chave que justifica suplementar:** só **~40% das pessoas** convertem elagitanino → urolitina A (metabótipos UM-A/UM-B/**não-produtores UM-0**); **comer romã não funciona p/ maioria** → urolitina A sintética direta (**Mitopure**) **contorna a loteria do microbioma**. Melhor argumento da molécula.
+- **Via / biodisp.:** usar urolitina A sintética direta (não depende do microbioma). Sem racional IV.
+- **🇧🇷 Disponibilidade BR:** **importada** (Mitopure/Timeline; matéria-prima magistral menos estabelecida no BR). **Sem injetável.** Ponto fraco logístico — cara e dependente de importação.
+- **💪 Músculo/mitocôndria (melhor RCT do bloco, "real mas modesto"):**
+  - **Cell Reports Medicine 2022 (meia-idade, 500/1000 mg × 4 m):** **+~12% força** (isquiotibiais), ↑endurance aeróbia/6MWT, **↓acilcarnitinas + ↓PCR** (eficiência mito + ↓inflamação). **Endpoint primário (pico de potência) NÃO atingido.**
+  - **Idosos 65–90 (1000 mg × 4 m):** endpoints primários (6MWT, ATP) **NÃO atingidos**; algumas medidas de endurance melhoraram.
+  - **Revisão 2024 (5 estudos, 250 pessoas):** "real porém modesto" — biomarcadores/endurance consistentes, endpoints funcionais primários mistos.
+- **🩹 Pele (tópico):** urolitina A tópica 1% → ↓vermelhidão 13%, retarda envelhecimento intrínseco/fotodano UVB (adjunto, via tópica permitida).
+- **🧠 Cognição:** pré-clínico (mitofagia Alzheimer, ↓amiloide); **sem RCT humano** (só associação urinária c/ menor perda hipocampal). Promessa, não claim.
+- **⚖️ Composição corporal:** não emagrecedor; ganho é **funcional muscular/mitocondrial** (força/endurance/recuperação), não gordura. Coadjuvante sarcopenia/performance.
+- **🩺 Segurança:** **excelente** — **FDA GRAS até 1.000 mg/porção**; sem efeitos toxicológicos (28/90 d); sem interações documentadas; GI leve em dose alta. Faixa 250–1.000 mg/d. Dos mais limpos do portfólio.
+- 📚 **RAG:** **zerado** — sem `score_item`/aula. Não é da casa; ativo novo.
+
+**Card — Urolitina A:** **ORAL-ONLY** (urolitina A sintética direta/Mitopure, 500–1.000 mg/d), **IV/IM NÃO-ofertada** (sem forma estéril, sem racional) · 🇧🇷 **importada/cara** (sem magistral estabelecido) · **melhor dado humano de músculo/mitofagia do bloco** = +12% força + endurance + ↓PCR/acilcarnitinas (mas endpoints primários frequentemente falharam = "real mas modesto") · **diferencial = contorna a loteria do microbioma (só 40% produzem)** · 🩹 pele tópico (↓vermelhidão 13%) · 🧠 só pré-clínico · ⚖️ funcional (não gordura) · **segurança GRAS excelente** · melhor candidato sarcopenia/performance no envelhecimento · RAG zerado.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1603,7 +1621,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
 **BLOCO POLIFENÓIS/FITOQUÍMICOS — ✅ FECHADO:** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) · luteolina (§13.58) · apigenina (§13.59) · berberina (§13.60) · silimarina (§13.61). **TODAS ORAL-ONLY (IV não-ofertada em todas — flavonoides instáveis/sem forma estéril/sem racional; curcumina IV vetada por hemólise+óbito; quercetina IV nefrotóxica; silimarina IV existe mas é antídoto de Amanita = fora de escopo). Eixos de destaque: berberina = pilar metabólico (metformina natural); quercetina = dossiê RCT mais amplo; curcumina = anti-inflamatório all-rounder; EGCG = termogênico; sulforafano = detox/Nrf2; silimarina = hepatoprotetor. 🔴 Gates hepáticos: curcumina (DILI, pior c/ piperina) e EGCG (EFSA ≥800 mg). 🔴 Berberina: interações (estatina) + gestação (kernicterus).**
 
-**BLOCO LONGEVIDADE/GEROPROTETORES (EM CURSO):** espermidina (§13.62) feita. **PRÓXIMA = urolitina A.** Restantes: alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
+**BLOCO LONGEVIDADE/GEROPROTETORES (EM CURSO):** espermidina (§13.62) · urolitina A (§13.63) feitas. **PRÓXIMA = alfa-cetoglutarato (Ca-AKG).** Restantes: rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
