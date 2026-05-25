@@ -1316,6 +1316,19 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **Card — Shilajit:** **ORAL-ONLY** (250–500 mg/d), **sem injetável** · 🇧🇷 isento de registro (suplemento) + magistral padronizado 20% fúlvico · eixo = **vitalidade masculina (testosterona/fertilidade) + energia/fadiga/VO₂máx + suporte mito via fúlvico** · ⚖️ só indireto via T · **🚨🚨 gates DUROS = só purificado com LAUDO de metais por lote + contraindicado hemocromatose/sobrecarga de ferro + cautela DRC** · evidência pequena · RAG zerado.
 
+### 13.48 Ergotioneína — ORAL-ONLY; "vitamina da longevidade"; eixo cognitivo; segurança excelente
+- **O que é / mecanismo:** aminoácido tiólico antioxidante de origem fúngica (cogumelos = fonte alimentar dominante). Distintivo: **transportador dedicado OCTN1** capta e **estoca ativamente** em cérebro/coração/fígado/hemácias/músculo → hipótese de **"vitamina da longevidade"**. Varre ROS, **ativa Nrf2**, quela metais divalentes (Fe/Cu).
+- **Via: ORAL apenas** (L-ergotioneína sintética/Ergoneine® ou extrato de cogumelo). **Sem injetável** (não estudado e desnecessário — há transporte ativo). Dose **25–30 mg/d** (ensaios 25 mg diário ou 3×/sem).
+- 🇧🇷 **Disponibilidade BR (regulatório complicado):** suplementos de cogumelo **sob fiscalização ativa da ANVISA** (recolhimento de irregulares em 2026 — sem registro/comprovação); disponível sobretudo importado/online; forma sintética isolada menos comum. **Atenção à procedência/registro** (paralelo ao shilajit, por motivo regulatório).
+- **Indicações:**
+  - 🟢🟡 **Longevidade/envelhecimento saudável (epidemiologia forte):** ergotioneína sanguínea baixa ↔ comprometimento cognitivo, neurodegeneração, DCV, fragilidade, **mortalidade**. É **biomarcador** de envelhecimento saudável; hipótese de preservação de telômeros.
+- ⚖️ **Composição corporal:** **nenhum uso** — eixo nulo.
+- 🧠 **Cognição/humor/disposição (eixo PRINCIPAL, onde está a evidência de intervenção):** piloto NUS — **25 mg 3×/sem × 12 m** em **comprometimento cognitivo leve** (n=19) → melhora cognição/memória/sono + **estabilização de biomarcadores de neurodegeneração**; RCT em queixa subjetiva de memória (mesma direção). OCTN1 alto no cérebro. **Promissora, base pequena.**
+- 🩺 **Segurança (excelente — das mais limpas do portfólio):** EFSA segura **até p/ crianças/gestantes/lactantes**, **sem genotoxicidade**, sem ligação a DM/Crohn/AR; **NOAEL 800 mg/kg → margem ~470×**. Única ressalva: **forma complexo com metais divalentes → espaçar de suplementos minerais** (ferro/cobre/zinco).
+- 📚 **RAG:** **zerado** (sem `score_items`, sem aula MFI). Evidência 100% externa.
+
+**Card — Ergotioneína:** **ORAL-ONLY** (25–30 mg/d), **sem injetável** · 🇧🇷 importado/online, **atenção à procedência** (cerco ANVISA a cogumelos 2026) · eixo = **longevidade/antioxidante (Nrf2, "vitamina da longevidade") + cognição/neuroproteção (MCI — única perna com RCT)** · ⚖️ nulo · **segurança excelente** (espaçar de minerais por quelação) · evidência intervencional ainda pequena · RAG zerado.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -1342,7 +1355,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 - ✅ **score_items cruzados (2026-05)** — tag **📚 RAG (alvos da casa)** nas 19 com item: ferro, B12, vit D, magnésio, vit C, zinco, CoQ10, B2, B6, B9/homocisteína, vit A, vit E, selênio, cobre, cromo, manganês, cálcio, potássio, fósforo (alvos: ferritina ≥100, Mg RBC, cobre 80–110, Hcy 4,5–8 etc.).
 - ✅ **`full_content`/aulas MFI revisado molécula a molécula (TODAS, §1–§13.32 — 2026-05)**, tag 📚 RAG/aulas por seção. **Temas transversais das aulas:** (1) **coquetel IM lipotrópico de emagrecimento** (metilfolato+5-HTP IM+glutationa+ALA+carnitina+cromo+niacinamida+glicina; ~8 sessões 2×/sem — Emagrecimento XVII); (2) **eixo cicatrização/perioperatório** (arginina+vitC+zinco+selênio+cobre+complexoB+vitA+CoQ10 — aulas Sorrentino/Cirurgia); (3) **framework de submetilação** (5-MTHF+metilB12+P5P+TMG; MTHFR/CBS; Hcy 5–8); (4) **stack mitocondrial** (CoQ10+carnitina+ALA+glicina+taurina+complexoB+Mg); (5) **fórmula de Sinatra** (cardio: CoQ10+carnitina+ribose+taurina+Mg); (6) **hepcidina×vit D** (utilização de ferro); (7) **eixo neuro "básico"** (Mg+B12+D+folato+ferro). **Divergências mantidas (MBE do doc):** vit A teratogenicidade (aulas chamam de "mito" → doc mantém gate), niacina lipídios/ortomolecular, CoQ10 Parkinson, dose de cromo > teto ANVISA, iodo via kelp (doc prefere KI). **Sem conteúdo de aula:** molibdênio, boro, lítio, ornitina (zero); cálcio/potássio/fósforo só menções incidentais (eletrólitos/painéis).
 - **REGRA:** consultar RAG (score_items + full_content/aulas) em TODA molécula (ver [[pesquisa_moleculas_online_exaustiva]]).
-**BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) feitas. **PRÓXIMA = ergotioneína.** Depois: astaxantina · idebenona · MitoQ.
+**BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) feitas. **PRÓXIMA = astaxantina.** Depois: idebenona · MitoQ.
 Polifenóis/fitoquímicos: resveratrol · pterostilbeno · quercetina · fisetina · curcumina · EGCG · sulforafano · luteolina · apigenina · berberina · silimarina.
 Longevidade/geroprotetores: espermidina · urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
