@@ -1560,6 +1560,22 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+## 13-quater. BLOCO LONGEVIDADE / GEROPROTETORES
+
+### 13.62 Espermidina — ORAL-ONLY; a indutora de autofagia / mimética de restrição calórica; abre o bloco geroprotetor (tema: mecanismo forte, epidemiologia forte, prova intervencional fraca)
+- **Identidade:** poliamina natural (gérmen de trigo, queijos curados, soja fermentada). Induz **autofagia** de forma conservada (levedura→mamífero), **estende lifespan** em todos os modelos. "Mimética de restrição calórica/jejum", oposto do mTOR.
+- **Via / biodisp. (ponto honesto):** oral ~60–75% absorvida em camundongo, MAS **PK humano mostra que dose alta oral NÃO eleva espermidina no plasma/saliva** (pool de poliaminas é regulado endogenamente). "Tomar mais" não leva proporcionalmente mais ao sangue. Sem racional IV.
+- **🇧🇷 Disponibilidade BR:** **magistral consolidado** — extrato de gérmen de trigo, cápsula 3/30 mg (Dermapelle 30 mg) + combos c/ NMN. Sem injetável.
+- **🧠 Cognição (a mais decepcionante):** **SmartAge (RCT, 100 idosos com declínio cognitivo subjetivo, 12 m): NEGATIVO** — sem benefício em memória (dose baixíssima 0,9 mg/d; ensaio menor anterior sugeriu ganho modesto). Escalonamento de dose 40–400 mg/d em estudo. **Hoje cognição = não comprovada (RCT bom foi negativo).**
+- **🩺 CV/mortalidade (a mais forte, mas epidemiológica):** ingestão dietética **inversamente associada a mortalidade total e CV** (NHANES, UK Biobank, NHANES coreano; meta 48 países) + cardioproteção pré-clínica. **Sem RCT de suplemento mostrando ↓mortalidade** — correlação dietética, não intervenção.
+- **Cabelo / composição:** cabelo — prolonga anágena, ↑queratinas de células-tronco foliculares (K15/K19), sinal humano pequeno (adjunto capilar). Composição corporal: dados mínimos.
+- **🩺 Segurança:** **excelente** — EFSA limite seguro **6 mg/d (dietético)**; 40 mg/d seguro em idosos 28 d. Composto alimentar, perfil benigno. Cautela teórica (poliamina = combustível de proliferação) em câncer ativo, sem sinal clínico.
+- 📚 **RAG:** **zerado** — sem `score_item`/aula dedicada (só textbook de referência). Não é conduta da casa; ativo novo de longevidade.
+
+**Card — Espermidina:** **ORAL-ONLY** (1–6 mg/d faixa alimentar/EFSA, ou maior em protocolo experimental), **IV/IM NÃO-ofertada** (composto dietético, pool regulado endogenamente, sem forma estéril/racional) · 🇧🇷 magistral gérmen de trigo 3/30 mg · **autofagia/longevidade de BAIXO RISCO ("padrão alimentar em cápsula")** · 🩺 **epidemiologia CV/mortalidade forte** (observacional, não RCT) · 🧠 **SmartAge NEGATIVO — sem claim de cognição** · cabelo = adjunto menor · ressalva PK (sangue não sobe tanto) · segurança alimentar (EFSA 6 mg/d) · **RAG zerado.** Abre o bloco e dá o tom: mecanismo/epidemiologia ≫ prova intervencional.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1587,7 +1603,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO ANTIOXIDANTES/MITOCONDRIAIS (EM CURSO):** PQQ (§13.45) · D-ribose (§13.46) · shilajit (§13.47) · ergotioneína (§13.48) · astaxantina (§13.49) · MitoQ (§13.50) feitas. **❌ Idebenona REMOVIDA (decisão do Dr., 2026-05 — "não me interessa": indicações fortes são genéticas/raras = fora do escopo; no adulto de longevidade é um CoQ10 mais caro/não-registrado/mais contraindicações, sem vantagem). ✅ BLOCO ANTIOXIDANTES/MITOCONDRIAIS FECHADO. PRÓXIMA = resveratrol** (abre o bloco Polifenóis/fitoquímicos).
 **BLOCO POLIFENÓIS/FITOQUÍMICOS — ✅ FECHADO:** resveratrol (§13.51) · pterostilbeno (§13.52) · quercetina (§13.53) · fisetina (§13.54) · curcumina (§13.55) · EGCG (§13.56) · sulforafano (§13.57) · luteolina (§13.58) · apigenina (§13.59) · berberina (§13.60) · silimarina (§13.61). **TODAS ORAL-ONLY (IV não-ofertada em todas — flavonoides instáveis/sem forma estéril/sem racional; curcumina IV vetada por hemólise+óbito; quercetina IV nefrotóxica; silimarina IV existe mas é antídoto de Amanita = fora de escopo). Eixos de destaque: berberina = pilar metabólico (metformina natural); quercetina = dossiê RCT mais amplo; curcumina = anti-inflamatório all-rounder; EGCG = termogênico; sulforafano = detox/Nrf2; silimarina = hepatoprotetor. 🔴 Gates hepáticos: curcumina (DILI, pior c/ piperina) e EGCG (EFSA ≥800 mg). 🔴 Berberina: interações (estatina) + gestação (kernicterus).**
 
-**BLOCO LONGEVIDADE/GEROPROTETORES (PRÓXIMO):** **PRÓXIMA = espermidina.** Restantes: urolitina A · alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
+**BLOCO LONGEVIDADE/GEROPROTETORES (EM CURSO):** espermidina (§13.62) feita. **PRÓXIMA = urolitina A.** Restantes: alfa-cetoglutarato (Ca-AKG) · rapamicina · metformina · fucoidana.
 Peptídeos: BPC-157 · TB-500 · timosina α1 · GHK-Cu · ipamorelina/CJC-1295/sermorelina · MOTS-c · epitalon · melanotan · análogos de GLP-1.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
