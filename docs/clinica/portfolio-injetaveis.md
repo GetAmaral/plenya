@@ -2028,7 +2028,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.94 "Outros" AAS (boldenona/drostanolona/trembolona/metandrostenolona) — 🔴 FORA DO PORTFÓLIO (nota de fechamento; sem indicação humana)
+Convergem todos — **sem análise individual** porque **nenhum tem indicação médica humana atual:**
+- **Boldenona (Equipoise):** descontinuada p/ humanos (anos 70); hoje **veterinária (cavalos)**; uso humano ilícito.
+- **Drostanolona (Masteron):** antineoplásico (câncer de mama) **descontinuado**; análogo metasterona/Superdrol = suplemento ilícito.
+- **Trembolona (Finajet):** **só veterinária (gado)**, nunca aprovada p/ humano; um dos AAS de pior perfil; uso humano ilícito.
+- **Metandrostenolona/metandienona (Dianabol):** descontinuada; só **mercado ilícito**.
+
+**Convergência:** sem registro humano + sem indicação terapêutica + veterinário/mercado paralelo + **CFM veda (puramente estética/performance)** + WADA proibidos. **Recusa categórica — não há nuance.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
+
+> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** Próximo passo = decisão do Dr. (novo bloco? consolidar protocolo de soros/combos? priorizar ofertáveis p/ montar o cardápio real da clínica?).
 
 **Como trabalhar cada molécula (regra fixa):**
 1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
@@ -2063,7 +2076,8 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) · estrogênio/estradiol (§13.84, 🟢 THM na janela) · progesterona (§13.85, 🟢 micronizada padrão-ouro) · tireoide (§13.86, 🟢 T4 padrão/T3 nichos/combinação DIO2) · GH (§13.87, 🟢 só GHD por teste; 🔴 nunca anti-aging) · ocitocina (§13.88, 🟡 nicho gel vaginal GSM) feitas. **✅ BLOCO HORMÔNIOS FECHADO.**
 **Resumo hormônios (§13.80–13.88) — governança CFM 2.333/2023 domina:** 🟢 **ofertáveis com disciplina:** testosterona (só hipogonadismo Dx, card-referência) · DHEA (magistral, prasterona vaginal=ouro) · melatonina (oral, dose magistral≠suplemento) · estradiol (THM na janela) · progesterona micronizada (padrão-ouro) · tireoide T4 (padrão; T3/combinação DIO2) · GH (só GHD por teste) · ocitocina (só gel vaginal GSM). 🔴 **não ofertável:** pregnenolona (magistral proibida RE 685/2018). 🔑 **Princípios do bloco:** (1) **CFM = hormônio só com deficiência comprovada + nexo causal; NUNCA anti-aging/estético/performance/otimização de eugonádico**; (2) **checar legislação molécula a molécula** (DHEA permitida NT 165/2019 × pregnenolona proibida RE 685/2018 — opostos); (3) **paradoxo da longevidade**: GH/IGF-1/testosterona altos ↔ menos vida/+câncer — forçar esses eixos é o oposto da longevidade; (4) **"bioidêntico" como molécula registrada = ok; como marketing manipulado superior/nano/implante = vedado**; (5) a **disciplina diagnóstica é o produto** — blinda CFM/CRM-PR.
 
-**BLOCO ESTEROIDES SINTÉTICOS / ANABOLIZANTES (EM CURSO):** oxandrolona (§13.89, 🟡 restrito — prescrição legal/manipulação frágil no PR) · nandrolona (§13.90, 🟡 restrito — registrada Deca + magistral livre; nicho wasting DRC) · estanozolol (§13.91, 🔴 fora) · oximetolona (§13.92, 🔴 fora — hematológico/black box) · mesterolona (§13.93, 🟡 restrito — mais benigno/registrado) feitas. **PRÓXIMA = "outros" AAS (boldenona/drostanolona/trembolona/metandrostenolona) — nota de fechamento (veterinário/ilícito, sem indicação humana).** Restantes: estanozolol · oximetolona · mesterolona · outros (boldenona/drostanolona/trembolona = só veterinário/ilícito). (UM A UM.) **🔑 2 camadas: CFM 2.333/2023 (estética/massa/performance VEDADO) + ANVISA NT 104/2019 (manipulação contestada — TJMG afastou MAS 🔴 TJPR MANTEVE → no PR manipulação é frágil; prescrição C5 é legal; obter via importação nominal RDC 81/2008).**
+**BLOCO ESTEROIDES SINTÉTICOS / ANABOLIZANTES — ✅ FECHADO:** oxandrolona (§13.89) · nandrolona (§13.90) · estanozolol (§13.91) · oximetolona (§13.92) · mesterolona (§13.93) · outros (§13.94).
+**Balanço:** 🟡 **OFERTÁVEIS RESTRITOS (só indicação catabólica/deficiência documentada, NUNCA estética):** **nandrolona** (mais fácil — Deca registrado + magistral livre, fora da NT 104; nicho wasting/sarcopenia DRC) · **mesterolona** (mais benigna — Proviron registrado, NÃO-hepatotóxico; androgênio fraco p/ deficiência/fertilidade) · **oxandrolona** (catabólico/queimados/wasting; no PR manipulação frágil → importação nominal). 🔴 **FORA:** estanozolol (AEH superado + NT 104 + mais hepatotóxico) · oximetolona (só hematológico + black box) · outros boldenona/drostanolona/trembolona/metandrostenolona (veterinário/ilícito, sem indicação humana). **🔑 2 camadas: (1) CFM 2.333/2023 veda EAA p/ estética/massa/performance = a demanda real; (2) ANVISA NT 104/2019 proíbe manipulação de oxandrolona/estanozolol/metenolona/metiltestosterona/T3 (contestada — TJMG afasta, 🔴 TJPR MANTÉM → frágil no PR); nandrolona/mesterolona estão FORA da NT 104 + têm registro = vias mais limpas. Lei 9.965/2000 = CID + CPF do prescritor. NENHUM anabolizante é produto de longevidade/estética legítimo.**
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
