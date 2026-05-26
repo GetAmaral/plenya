@@ -2005,6 +2005,17 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.92 Oximetolona (Hemogenin / Anadrol) — 🔴 FORA DO PORTFÓLIO; registrada MAS uso só hematológico (especialista) + black box hepático
+- **Identidade:** AAS oral 17α-alquilado potente. **🇧🇷 REGISTRADA — Hemogenin (Sanofi, 50 mg), C5**, em farmácia (produto registrado, como Deca; ≠ oxandrolona/estanozolol).
+- **Indicação legítima — puramente HEMATOLÓGICA (especialista):** anemias por produção deficiente de hemácias — **anemia aplásica adquirida/congênita, mielofibrose, anemia hipoplásica por mielotóxicos, Fanconi**. Doença grave de falência medular, domínio do hematologista. **Nenhuma indicação longevidade/metabólica/performance.**
+- **🚨 Segurança — BLACK BOX, pior perfil hepático da classe (c/ estanozolol):** peliose hepática (insuf. hepática), **tumores hepáticos malignos fatais**, hiperlipidemia.
+- **🔴 CFM:** demanda real ("Hemogenin/Anadrol") = bulking fisiculturismo = vedação direta.
+- 📚 **RAG:** mínimo/irrelevante.
+
+**Card — Oximetolona:** 🔴 **FORA DO PORTFÓLIO** · **registrada (Hemogenin, C5)** MAS uso legítimo só **HEMATOLÓGICO** (anemia aplásica/mielofibrose/Fanconi = hematologista, doença grave) · **🚨 BLACK BOX hepático (peliose/tumor maligno fatal)** = pior perfil do bloco c/ estanozolol · CFM veda demanda estética · **≠ nandrolona (sem nicho anabólico de longevidade — só hematologia)** → não entra. **Recusar; anemia de falência medular = hematologista.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -2040,7 +2051,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) · estrogênio/estradiol (§13.84, 🟢 THM na janela) · progesterona (§13.85, 🟢 micronizada padrão-ouro) · tireoide (§13.86, 🟢 T4 padrão/T3 nichos/combinação DIO2) · GH (§13.87, 🟢 só GHD por teste; 🔴 nunca anti-aging) · ocitocina (§13.88, 🟡 nicho gel vaginal GSM) feitas. **✅ BLOCO HORMÔNIOS FECHADO.**
 **Resumo hormônios (§13.80–13.88) — governança CFM 2.333/2023 domina:** 🟢 **ofertáveis com disciplina:** testosterona (só hipogonadismo Dx, card-referência) · DHEA (magistral, prasterona vaginal=ouro) · melatonina (oral, dose magistral≠suplemento) · estradiol (THM na janela) · progesterona micronizada (padrão-ouro) · tireoide T4 (padrão; T3/combinação DIO2) · GH (só GHD por teste) · ocitocina (só gel vaginal GSM). 🔴 **não ofertável:** pregnenolona (magistral proibida RE 685/2018). 🔑 **Princípios do bloco:** (1) **CFM = hormônio só com deficiência comprovada + nexo causal; NUNCA anti-aging/estético/performance/otimização de eugonádico**; (2) **checar legislação molécula a molécula** (DHEA permitida NT 165/2019 × pregnenolona proibida RE 685/2018 — opostos); (3) **paradoxo da longevidade**: GH/IGF-1/testosterona altos ↔ menos vida/+câncer — forçar esses eixos é o oposto da longevidade; (4) **"bioidêntico" como molécula registrada = ok; como marketing manipulado superior/nano/implante = vedado**; (5) a **disciplina diagnóstica é o produto** — blinda CFM/CRM-PR.
 
-**BLOCO ESTEROIDES SINTÉTICOS / ANABOLIZANTES (EM CURSO):** oxandrolona (§13.89, 🟡 restrito — prescrição legal/manipulação frágil no PR) · nandrolona (§13.90, 🟡 restrito — registrada Deca + magistral livre; nicho wasting DRC) · estanozolol (§13.91, 🔴 fora do portfólio) feitas. **PRÓXIMA = oximetolona.** Restantes: mesterolona · outros (boldenona/drostanolona/trembolona = veterinário/ilícito). Restantes: estanozolol · oximetolona · mesterolona · outros (boldenona/drostanolona/trembolona = só veterinário/ilícito). (UM A UM.) **🔑 2 camadas: CFM 2.333/2023 (estética/massa/performance VEDADO) + ANVISA NT 104/2019 (manipulação contestada — TJMG afastou MAS 🔴 TJPR MANTEVE → no PR manipulação é frágil; prescrição C5 é legal; obter via importação nominal RDC 81/2008).**
+**BLOCO ESTEROIDES SINTÉTICOS / ANABOLIZANTES (EM CURSO):** oxandrolona (§13.89, 🟡 restrito — prescrição legal/manipulação frágil no PR) · nandrolona (§13.90, 🟡 restrito — registrada Deca + magistral livre; nicho wasting DRC) · estanozolol (§13.91, 🔴 fora) · oximetolona (§13.92, 🔴 fora — hematológico/black box) feitas. **PRÓXIMA = mesterolona (Proviron).** Restantes: outros (boldenona/drostanolona/trembolona = veterinário/ilícito). Restantes: estanozolol · oximetolona · mesterolona · outros (boldenona/drostanolona/trembolona = só veterinário/ilícito). (UM A UM.) **🔑 2 camadas: CFM 2.333/2023 (estética/massa/performance VEDADO) + ANVISA NT 104/2019 (manipulação contestada — TJMG afastou MAS 🔴 TJPR MANTEVE → no PR manipulação é frágil; prescrição C5 é legal; obter via importação nominal RDC 81/2008).**
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
