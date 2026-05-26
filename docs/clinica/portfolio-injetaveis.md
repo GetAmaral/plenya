@@ -1759,6 +1759,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.75 Melanotan (II e I/afamelanotida) — 🔴 NÃO OFERTAR (exclusão mais fácil do portfólio); MT-II é PERIGOSO (veto nefrológico), afamelanotida é EPP/fora de escopo
+- **São DUAS coisas:** **MT-II** = "peptídeo do bronzeado/libido" do mercado cinza (análogo α-MSH não-seletivo MC1R–MC5R), **nunca aprovado**; **MT-I = afamelanotida (Scenesse)** = **fármaco aprovado (FDA 2019/EMA 2016) só para protoporfiria eritropoiética (EPP)**, fotodermatose **genética rara**.
+- **🔴 MT-II — PERIGOSO (dano documentado, não risco teórico):**
+  - **🩺 Rabdomiólise → lesão renal aguda** = veto nefrológico direto (quebra muscular + pigmentos lesam rim). Argumento de recusa mais forte do portfólio.
+  - **Melanoma/nevos:** estimula TODOS os melanócitos (inclusive pintas) → escurecimento/novos nevos + **relatos de melanoma**; **mascara vigilância de pintas**.
+  - **Priapismo** (emergência), náusea **50–80%**, flushing 40–60%, sonolência, lesões de mucosa oral.
+  - Não aprovado FDA/EMA/TGA/ANVISA; mercado cinza; **WADA proibido no esporte**; TGA emite alerta ativo.
+- **Afamelanotida (MT-I) — fármaco real, fora do escopo:** aprovada **só para EPP (genético/raro = filtro DURO de exclusão)**; usar como bronzeador = off-label de implante caro, sem indicação no público da clínica. Não é oferta de bronzeamento/wellness defensável.
+- 📚 **RAG:** **zerado** — não da casa.
+
+**Card — Melanotan:** **🔴 NÃO OFERTAR — exclusão firme (a mais fácil do portfólio)** · **MT-II = agente PERIGOSO** (🩺 rabdomiólise/IRA = veto nefrológico + melanoma/nevos + priapismo + náusea 50–80%; não-aprovado, mercado cinza, WADA) — não é "monitorar", é recusa categórica · **afamelanotida (MT-I) = aprovada SÓ p/ EPP (genético/raro = fora de escopo)**, não entra como bronzeador · **bronzeamento injetável NÃO faz parte do portfólio** · RAG zerado.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1788,7 +1802,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) feitos. **PRÓXIMA = melanotan.** Restante: análogos de GLP-1 (este FECHA o bloco — e deve se sair muito bem).
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) feitos. **PRÓXIMA = análogos de GLP-1** (FECHA o bloco peptídeos — e deve se sair muito bem).
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
