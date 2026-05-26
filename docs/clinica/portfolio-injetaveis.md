@@ -1876,6 +1876,19 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.83 Melatonina — 🟢 ORAL/SUBLINGUAL-ONLY (IV não-ofertada); molécula do sono/ritmo circadiano; dose terapêutica via magistral ≠ suplemento 0,21 mg
+- **Identidade:** hormônio pineal do **ritmo circadiano** (regulador do sono) + pleiotrópico (antioxidante/anti-inflamatório/imunomodulador). Hormônio de governança mais leve do bloco; eixo sono/circadiano que a casa já trabalha (76 itens).
+- **Evidência (sono/circadiano sólida):** insônia — meta dose-resposta 2024 ↓latência/↑tempo total, **pico ~4 mg**; jet lag 0,5–5 mg; circadiano (avança fase — **fase atrasada, turno, idoso**). **Timing > dose:** ~3 h antes do alvo (cronobiótico) ou ao deitar (hipnótico).
+- **🇧🇷 Detalhe regulatório central — dose do suplemento é inútil:** ANVISA liberou como **suplemento só até 0,21 mg/d** (IN 28/2018, subterapêutico); **a dose clínica (0,5–5 mg) vem por MAGISTRAL/prescrição** (RDC 67/2007). **Suplemento de balcão ≠ tratamento.** Sem produto industrializado registrado.
+- **🔴 Via parenteral — NÃO ofertada:** **IV existe só em pesquisa/cuidado crítico** (sepse 60 mg/d soro glicosado, perioperatório, COVID) = **filtro duro (agudo hospitalar)**; **sem produto IV registrado no BR** → exigiria manipulação estéril extemporânea (Cenário B rejeitado); **sem vantagem** (sono/circadiano se resolve oral/sublingual). IM/SC sem racional. → **oral/sublingual only.**
+- **Pleiotrópico:** antioxidante/anti-inflamatório, adjuvante oncológico (AMPLCaRe pulmão, misto), neuroproteção/anti-aging mecanístico — **adjuvante/emergente, não claim primário.**
+- **🩺 Segurança:** muito benigna; cautela **gestação/lactação/crianças** (advertência ANVISA, proibido suplemento infantil) + direção (sonolência); interações leves (anticoag/imunossupressor/anti-HAS). **WADA não proibida.**
+- 📚 **RAG:** 76 score_items (eixo sono/circadiano/HPA da casa) — conduta consolidada.
+
+**Card — Melatonina:** 🟢 **ORAL/SUBLINGUAL-ONLY** (**dose terapêutica magistral 0,5–5 mg — NÃO o suplemento 0,21 mg subterapêutico**), **IV/IM/SC NÃO-ofertada** (IV só em sepse/perioperatório hospitalar = fora de escopo + sem registro BR + manipulação estéril rejeitada + sem vantagem p/ sono) · **timing > dose** (3 h pré-alvo cronobiótico / ao deitar hipnótico) · indicações = insônia de início, jet lag, fase circadiana atrasada/turno, idoso · pleiotrópico (antiox/onco/anti-aging) = adjuvante não-claim · cautela gestação/lactação/crianças/direção · WADA ok · RAG 76 (eixo sono da casa). **Educar: a dose que funciona não é a do pote.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1908,7 +1921,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) · liraglutida (§13.78, 🟡 backup) · retatrutida (§13.79, ⏳ deixar pro futuro) feitos. **✅ BLOCO PEPTÍDEOS FECHADO.**
 **Resumo peptídeos (§13.68–13.79):** 🟢 **OFERTÁVEIS:** timosina α1 (imune/imunossenescência) · GHK-Cu **tópico** · semaglutida · tirzepatida (+ magistral legal). 🟡 backup: liraglutida. ⚠️ **alternativa selecionada:** secretagogos GH (não anti-aging, paradoxo IGF-1). ⏳ **futuro (aguardar registro):** retatrutida (~2027). 🔴 **NÃO OFERTAR:** BPC-157, TB-500, MOTS-c, epitalon (experimentais/WADA/mercado cinza), GHK-Cu **injetável**, melanotan (MT-II perigoso). 🔑 **Lições do bloco:** (1) triar regulatório+WADA+evidência caso a caso, não pela hype; (2) GLP-1 são o pilar do emagrecimento (halo renal FLOW + CV SELECT = ouro pro nefrologista); (3) semaglutida/liraglutida NÃO manipuláveis (biotec), tirzepatida SIM (síntese química, NT 200/2025); (4) GLP-1 sempre em PROGRAMA c/ treino+proteína (preserva magra, oposto da metformina).
 
-**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) feitas. **PRÓXIMA = melatonina.** Restantes: estrogênio/progesterona · tireoide · GH · ocitocina. (UM A UM — não agrupar.)
+**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) feitas. **PRÓXIMA = estrogênio/progesterona.** Restantes: tireoide · GH · ocitocina. (UM A UM — não agrupar.)
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
