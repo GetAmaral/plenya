@@ -2226,6 +2226,19 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 **Card — SGLT2 (dapagliflozina/empagliflozina):** **🟢 OFERTÁVEL ORAL** · indicação clara = **proteção renal (DRC/albuminúria, incl. não-diabético) · IC · adjuvante metabólico/peso · geroproteção selecionada (CR-mimetic/senolítico)** · 🩺 **trunfo nefrológico (DAPA-CKD/EMPA-KIDNEY)** · 🚨 **cetoacidose euglicêmica (suspender em jejum/keto/perioperatório!)** + infecção genital + volume/eGFR + **cautela sarcopenia no idoso** · 🇧🇷 registrado/barato · não é claim anti-aging — é medicina cardiorrenal com bônus de longevidade.
 
+### 13.109 Naltrexona baixa dose (LDN) — 🟢 OFERTÁVEL ORAL; imunomoduladora/dor crônica que a casa já usa
+- **Identidade:** antagonista opioide (50 mg na adicção); em **baixa dose (1,5–4,5 mg à noite)** muda de função por **mecanismo duplo**: (1) **bloqueio opioide transitório** → rebote de endorfina/encefalina + ↑densidade de receptores; (2) **antagonismo de TLR4 na micróglia** → ↓neuroinflamação/citocinas.
+- **Evidência:** 🟢 **fibromialgia** (a mais estudada — RCTs pequenos + revisão: ↓dor/severidade, modesto-real); 🟡 **Crohn/DII** (reduz imunossupressor); 🟡 autoimunes (AR/lúpus), EM, SDCR, dor crônica, fadiga, endometriose (off-label crescente, **evidência baixa**, ainda experimental); 🧬 longevidade/SASP (anti-inflamatório/senescência, emergente).
+- ⚖️ **Composição corporal:** nulo.
+- 🧠 **Cognição/humor/disposição:** indireto (↓dor/sono/fadiga/disposição via ↓neuroinflamação); não é nootrópico.
+- 🩺 **Nefro/segurança:** **perfil muito bom**; EA comuns = sonhos vívidos (~10%)/insônia (~10%), transitórios; sem questão renal (hepatotox é da dose alta, não da LDN).
+- 🚨 **Gate dominante:** **uso atual de OPIOIDE = contraindicação** (bloqueia receptor → abstinência/anula analgesia). **Triar opioides; suspender antes de cirurgia com opioide.**
+- **Forma/via/dose:** **ORAL-only.** Comercial só 50 mg → **LDN é MAGISTRAL** (1,5–4,5 mg, titular; **4,5 mg à noite** padrão).
+- **🇧🇷 BR / via:** magistral; uso crescente (Sul/Sudeste); off-label.
+- 📚 **RAG:** **da lógica da casa** — aula autoimunes/dor: LDN "grande moduladora da dor crônica e imunomoduladora", **antagonista TLR4/LPS**, **reduz imunossupressor na AR**, citada em lúpus/fibromialgia; aula longevidade/SASP lista LDN com CoQ10/Mg/vit D.
+
+**Card — LDN (naltrexona baixa dose):** **🟢 OFERTÁVEL ORAL** off-label · **magistral 1,5–4,5 mg à noite** (titular) · mecanismo duplo (rebote endorfina + **antagonismo TLR4/anti-neuroinflamação**) · nicho = **fibromialgia/dor crônica + modulação autoimune/inflamatória** (pode poupar imunossupressor) · 🚨 **contraindicado com opioide (triar; suspender pré-cirurgia)** · EA leves transitórios (sonhos vívidos/insônia) · ⚖️ nulo · **evidência majoritariamente baixa → adjuvante, expectativa realista** · a casa já usa.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -2242,7 +2255,7 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 >
 > **Achados-chave:** (1) **auditoria evitou retrabalho** — NAD+/NMN/NR (§13.3), MIC lipotrópico (§13.32) e tesamorelina (§13.72) já estavam no doc; (2) **TRT-adjuntos completam o §13.80** — hCG (injetável) + clomifeno/enclomifeno + anastrozol/letrozol fecham o eixo androgênico masculino (preservar fertilidade/eixo, alternativa à TRT, controle de E2); (3) **padrão de governança reforçado** — o nefrologista veta vanádio e EDTA por toxicidade renal; NAD+ IV/cerebrolisina/EDTA caem na mesma recusa de "drip de longevidade"; (4) **dieta hCG = fraude** (recusa explícita numa clínica de emagrecimento). **A varredura de centros BR não revelou injetável ofertável novo além do hCG.**
 
-🔄 **BLOCO COMPLEMENTAR II §13-nonies EM CURSO (2ª varredura, 2026-05-26):** ✅ azul de metileno (§13.107, 🟡 restrito) · ✅ SGLT2 (§13.108, 🟢 oral). 🔲 PRÓXIMA = **LDN** (§13.109), depois: cluster peptídeos experimentais (§13.110) · PDRN (§13.111).
+🔄 **BLOCO COMPLEMENTAR II §13-nonies EM CURSO (2ª varredura, 2026-05-26):** ✅ azul de metileno (§13.107, 🟡 restrito) · ✅ SGLT2 (§13.108, 🟢 oral) · ✅ LDN (§13.109, 🟢 oral). 🔲 PRÓXIMA = **cluster peptídeos experimentais** (§13.110, carta única), depois: PDRN (§13.111).
 
 🔲 **PRÓXIMO PASSO (após §13-nonies) = decisão do Dr.** (consolidar protocolo de soros/combos ofertáveis? priorizar o cardápio real da clínica a partir dos 🟢?).
 
