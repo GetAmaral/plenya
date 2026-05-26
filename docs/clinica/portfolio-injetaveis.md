@@ -1866,6 +1866,16 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.82 Pregnenolona — 🔴 NÃO OFERTÁVEL no Brasil (magistral PROIBIDA, RE 685/2018); o OPOSTO regulatório da DHEA; evidência psiquiátrica, não anti-aging
+- **Identidade:** "hormônio-mãe" no topo da esteroidogênese (precursor de DHEA/progesterona/cortisol). Interesse = **neuroesteroide** (excitabilidade/plasticidade, neuroproteção, humor, cognição; via metabólito **alopregnanolona**/GABA-A). Vendida como nootrópico/anti-aging cognitivo.
+- **Evidência — psiquiátrica, NEGATIVA em saudável:** bipolar (add-on **500 mg/d** → remissão 61% vs 37%); esquizofrenia (adjuvante sintomas negativos/cognição, piloto; melhora ↔ ↑alopregnanolona); ansiedade/craving em uso de substância. **🔴 Em adulto SAUDÁVEL: estudo controlado (17 voluntários, 4 sem) SEM efeito em humor/memória/sono** → benefício é em DOENÇA psiquiátrica (especialista), não na "cognição/anti-aging" do hígido (uso pretendido na clínica).
+- **🔴 Status regulatório BR — OPOSTO da DHEA (sua lição de checar caso a caso):** **ANVISA RE 685/2018 PROÍBE especificamente** importação/fabricação/distribuição/comercialização/**MANIPULAÇÃO e uso** do insumo pregnenolona (eficácia não avaliada; vigente, reforçada no Despacho 97/2025). **Farmácia que manipular = apreensão/destruição + auto de infração.** Nuance: **médico pode prescrever, mas só via importação nominal** (pessoa física, receita) — não magistral nacional. **Contraste didático: DHEA manipulação PERMITIDA (NT 165/2019) × pregnenolona PROIBIDA (RE 685/2018) — não generalizar "pró-hormônio", é molécula a molécula.**
+- 📚 **RAG:** 15 score_items — marcador/via de esteroidogênese, não terapia.
+
+**Card — Pregnenolona:** 🔴 **NÃO OFERTÁVEL no Brasil** · **🔴 magistral PROIBIDA (RE 685/2018, específica e vigente — apreensão/infração)** · só via **importação nominal** c/ prescrição (logística do paciente, não oferta da casa) · evidência **psiquiátrica** (bipolar/esquizofrenia = domínio psiquiatra), **NEGATIVA em saudável** → não sustenta "cognição/anti-aging" · **contraste com DHEA = pró-hormônios, desfechos regulatórios OPOSTOS (checar molécula a molécula)** · RAG 15 (marcador). **Fora do portfólio; manter como marcador do eixo esteroidogênese.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1898,7 +1908,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) · liraglutida (§13.78, 🟡 backup) · retatrutida (§13.79, ⏳ deixar pro futuro) feitos. **✅ BLOCO PEPTÍDEOS FECHADO.**
 **Resumo peptídeos (§13.68–13.79):** 🟢 **OFERTÁVEIS:** timosina α1 (imune/imunossenescência) · GHK-Cu **tópico** · semaglutida · tirzepatida (+ magistral legal). 🟡 backup: liraglutida. ⚠️ **alternativa selecionada:** secretagogos GH (não anti-aging, paradoxo IGF-1). ⏳ **futuro (aguardar registro):** retatrutida (~2027). 🔴 **NÃO OFERTAR:** BPC-157, TB-500, MOTS-c, epitalon (experimentais/WADA/mercado cinza), GHK-Cu **injetável**, melanotan (MT-II perigoso). 🔑 **Lições do bloco:** (1) triar regulatório+WADA+evidência caso a caso, não pela hype; (2) GLP-1 são o pilar do emagrecimento (halo renal FLOW + CV SELECT = ouro pro nefrologista); (3) semaglutida/liraglutida NÃO manipuláveis (biotec), tirzepatida SIM (síntese química, NT 200/2025); (4) GLP-1 sempre em PROGRAMA c/ treino+proteína (preserva magra, oposto da metformina).
 
-**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) feitas. **PRÓXIMA = pregnenolona.** Restantes: melatonina · estrogênio/progesterona · tireoide · GH · ocitocina. (UM A UM — não agrupar.)
+**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) feitas. **PRÓXIMA = melatonina.** Restantes: estrogênio/progesterona · tireoide · GH · ocitocina. (UM A UM — não agrupar.)
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
