@@ -1915,6 +1915,24 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.86 Tireoide (T4/T3/combinação) — 🟢 OFERTÁVEL (medicina básica, disciplina de guideline); destaque = combinação guiada por DIO2; ❌ não tratar por rT3/low-T3 no eutireóideo
+- **Identidade/escopo:** reposição tireoidiana — **medicina básica, NÃO "hormônio de longevidade"**. Onde clínicas funcionais escorregam (tratar subclínico/eutireóideo p/ energia/peso). Linha defensável: tratar hipotireoidismo por guideline, não otimizar TSH no eutireóideo. Eixo gigante no EMR (358 itens).
+- **T4 (levotiroxina) — padrão-ouro, monoterapia:** 🇧🇷 registrada/abundante (Puran T4/Euthyrox/Synthroid/Levoid). Indicações:
+  1. Hipotireoidismo clínico (1º/2º/3º).
+  2. Subclínico: **TSH >10 tratar; 5–10 só sintomático/risco/DAC-IC; idoso conservador**.
+  3. **🩺 Supressão de TSH no câncer diferenciado de tireoide** (pós-tireoidectomia, dose suprafisiológica).
+  4. **❌ Bócio benigno/nódulo iodo-suficiente: supressão NÃO indicada** (sem benefício + hipertireoidismo iatrogênico).
+  5. Gestação: alvos TSH por trimestre (0,1–2,5/0,2–3,0/0,3–3,0); não suprafisiológico.
+- **T3 (liotironina) — nichos, não rotina:** **🔴 sem registro ativo ANVISA → só magistral** (preferir **slow-release** p/ níveis estáveis); augmentação de antidepressivo em depressão resistente (psiquiatra); coma mixedematoso (IV hospitalar, fora de escopo); componente de combinação. **Não monoterapia crônica.**
+- **🧬 Combinação T4/T3 — o ângulo funcional COM evidência (DIO2):** polimorfismo **DIO2 Thr92Ala (rs225014)** ↓atividade da deiodinase-2 → ↓conversão T4→T3 tecidual/cerebral; portadores têm T3 tecidual baixa não compensada por T4 e **melhoram com adição de T3** (Ala92 causa estresse de RE/UPR; T3 melhora cognição). Explica o subgrupo "não se sente bem só com T4/TSH normal". **ETA 2021: trial individualizado de combinação em sintomático JÁ otimizado com T4 (≥1,2 µg/kg/d).** **🔑 Genotipar DIO2 encaixa no painel nutrigenético da casa** → personalizar a decisão de combinar (funcional baseado em evidência, não no chute); T3 slow-release magistral.
+- **🔴 Armadilha a NÃO cair — rT3/"low T3 syndrome" no eutireóideo:** **rT3 NÃO diferencia** hipo de eutireóideo doente; **não há racional para medir rT3** p/ iniciar/ajustar reposição (único teste = TSH); **NTIS/euthyroid sick = adaptação à doença, NÃO tratar**. Não dosar rT3 para guiar; não tratar "T3 baixo" em eutireóideo. ❌ **Tireoide dessecada** não recomendada (proporção não-fisiológica/padronização/ATA).
+- **Via/segurança:** oral; **sem injetável eletivo** (T3 IV só coma mixedematoso). Sobre-reposição → **tireotoxicose iatrogênica (FA, osteoporose)** — monitorar TSH, não suprimir. CFM: hormônio só com deficiência comprovada. WADA ok.
+- 📚 **RAG — núcleo da casa (358 itens):** TSH/T4L/T3/anti-TPO — arcabouço completo.
+
+**Card — Tireoide:** 🟢 **OFERTÁVEL (medicina básica, disciplina de guideline)** · **T4 (levotiroxina registrada) = padrão**: hipo clínico/subclínico (TSH >10, ou 5–10 sintomático) + supressão em câncer de tireoide (não bócio benigno) + gestação (alvos); **NÃO tratar TSH normal p/ energia/peso/anti-aging** · **T3 (só magistral BR, slow-release) = nichos** (augmentação antidepressiva/combinação), não monoterapia · **🧬 combinação T4/T3 = trial individualizado em sintomático otimizado, guiado por DIO2 Thr92Ala (encaixa painel nutrigenético da casa)** = o funcional legítimo · **🔴 NÃO dosar/tratar rT3 ou "low-T3" no eutireóideo (evidência contra); dessecada fora** · oral, sem injetável eletivo · monitorar TSH (FA/osso) · RAG 358 itens. **Disciplina = não sobre-tratar.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1947,7 +1965,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) · liraglutida (§13.78, 🟡 backup) · retatrutida (§13.79, ⏳ deixar pro futuro) feitos. **✅ BLOCO PEPTÍDEOS FECHADO.**
 **Resumo peptídeos (§13.68–13.79):** 🟢 **OFERTÁVEIS:** timosina α1 (imune/imunossenescência) · GHK-Cu **tópico** · semaglutida · tirzepatida (+ magistral legal). 🟡 backup: liraglutida. ⚠️ **alternativa selecionada:** secretagogos GH (não anti-aging, paradoxo IGF-1). ⏳ **futuro (aguardar registro):** retatrutida (~2027). 🔴 **NÃO OFERTAR:** BPC-157, TB-500, MOTS-c, epitalon (experimentais/WADA/mercado cinza), GHK-Cu **injetável**, melanotan (MT-II perigoso). 🔑 **Lições do bloco:** (1) triar regulatório+WADA+evidência caso a caso, não pela hype; (2) GLP-1 são o pilar do emagrecimento (halo renal FLOW + CV SELECT = ouro pro nefrologista); (3) semaglutida/liraglutida NÃO manipuláveis (biotec), tirzepatida SIM (síntese química, NT 200/2025); (4) GLP-1 sempre em PROGRAMA c/ treino+proteína (preserva magra, oposto da metformina).
 
-**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) · estrogênio/estradiol (§13.84, 🟢 THM na janela) · progesterona (§13.85, 🟢 micronizada padrão-ouro) feitas. **PRÓXIMA = tireoide.** Restantes: GH · ocitocina. (🚨 UM A UM — NÃO agrupar; o Dr. reforçou 2×.)
+**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) · estrogênio/estradiol (§13.84, 🟢 THM na janela) · progesterona (§13.85, 🟢 micronizada padrão-ouro) · tireoide (§13.86, 🟢 T4 padrão/T3 nichos/combinação DIO2) feitas. **PRÓXIMA = GH.** Restante: ocitocina. (🚨 UM A UM — NÃO agrupar; o Dr. reforçou 2×.)
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
