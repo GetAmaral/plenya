@@ -2217,6 +2217,15 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 **Card — Azul de metileno:** **🟡 RESTRITO** · adjunto do **soro mitocondrial** (IV diluído lento) + oral em **solução** (0,5–2 mg/d microdose) · 🔴 **grau farmacêutico** · 🚨 **triagem obrigatória: serotoninérgicos (MAO-A→síndrome serotoninérgica) + G6PD (hemólise)** · mecanismo mito/cognição forte, **evidência humana fraca → não é claim isolado** · ⚖️ nulo · urina azul (avisar) · a casa já o trata como secundário.
 
+### 13.108 Inibidores de SGLT2 (dapagliflozina / empagliflozina) — 🟢 OFERTÁVEL ORAL; o trunfo cardiorrenal-longevidade do nefrologista
+- **Identidade:** gliflozinas bloqueiam reabsorção de glicose no túbulo proximal → glicosúria → ↓glicemia, ↓insulina, perda de peso modesta, ↓PA, cetogênese. **ORAL (sem injetável).** Provavelmente o oral mais defensável que faltava numa clínica de nefrologista.
+- **Evidência (trunfo):** 🩺 **DAPA-CKD + EMPA-KIDNEY** retardam DRC + ↓albuminúria **inclusive em não-diabético** (o fármaco do nefrologista); ❤️ ↓IC/morte CV (ICFEr+ICFEp, incl. não-diabético; empa 1º a ↓mortalidade); ⚖️ perda de peso **modesta** (~2–3 kg) + ↓gordura visceral/PA, **adjuvante ao GLP-1**; 🧬 **mimético de restrição calórica** (↑AMPK/SIRT1, ↓mTOR/IGF-1, ↑autofagia, ↑cetonas) + **senoterapêutico** (↓senescência em pré-diabético idoso, preliminar) — alinha à rapamicina (§13.65)/metformina (§13.66). **ADA recomenda p/ DRC/IC/ASCVD independente de diabetes.**
+- 🚨 **Gates (relevantes p/ esta clínica):** **cetoacidose euglicêmica** (glicemia pode ser <250; risco em **jejum/low-carb/keto/perioperatório/álcool — suspender antes!**); infecção genital micótica (vulvovaginite/balanite), ITU, rara **gangrena de Fournier**; depleção de volume/hipotensão (idoso+diurético) + **queda transitória de eGFR (esperada, não suspender)**; ⚠️ **sarcopenia** (perda de peso inclui massa magra → cautela no idoso frágil; parear proteína/treino, HMB §13.97/creatina §13.40); ❌ não em DM1.
+- **🇧🇷 BR / via:** **REGISTRADOS, amplamente disponíveis** — Forxiga/dapagliflozina (genérico), Jardiance/empagliflozina; dapagliflozina **gratuita na Farmácia Popular (2025)**. Baratos. **ORAL.**
+- 📚 **RAG:** a casa já referencia **empagliflozina** (estudo jejum 5:2 vs metformina/empa), SGLT2 no eixo cardiorrenal + ↓hiperinsulinemia; `score_items` "Metformina/GLP-1/SGLT2i conforme perfil". É da lógica da casa.
+
+**Card — SGLT2 (dapagliflozina/empagliflozina):** **🟢 OFERTÁVEL ORAL** · indicação clara = **proteção renal (DRC/albuminúria, incl. não-diabético) · IC · adjuvante metabólico/peso · geroproteção selecionada (CR-mimetic/senolítico)** · 🩺 **trunfo nefrológico (DAPA-CKD/EMPA-KIDNEY)** · 🚨 **cetoacidose euglicêmica (suspender em jejum/keto/perioperatório!)** + infecção genital + volume/eGFR + **cautela sarcopenia no idoso** · 🇧🇷 registrado/barato · não é claim anti-aging — é medicina cardiorrenal com bônus de longevidade.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -2233,7 +2242,7 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 >
 > **Achados-chave:** (1) **auditoria evitou retrabalho** — NAD+/NMN/NR (§13.3), MIC lipotrópico (§13.32) e tesamorelina (§13.72) já estavam no doc; (2) **TRT-adjuntos completam o §13.80** — hCG (injetável) + clomifeno/enclomifeno + anastrozol/letrozol fecham o eixo androgênico masculino (preservar fertilidade/eixo, alternativa à TRT, controle de E2); (3) **padrão de governança reforçado** — o nefrologista veta vanádio e EDTA por toxicidade renal; NAD+ IV/cerebrolisina/EDTA caem na mesma recusa de "drip de longevidade"; (4) **dieta hCG = fraude** (recusa explícita numa clínica de emagrecimento). **A varredura de centros BR não revelou injetável ofertável novo além do hCG.**
 
-🔄 **BLOCO COMPLEMENTAR II §13-nonies EM CURSO (2ª varredura, 2026-05-26):** ✅ azul de metileno (§13.107, 🟡 restrito). 🔲 PRÓXIMA = **SGLT2** (§13.108), depois: LDN (§13.109) · cluster peptídeos experimentais (§13.110) · PDRN (§13.111).
+🔄 **BLOCO COMPLEMENTAR II §13-nonies EM CURSO (2ª varredura, 2026-05-26):** ✅ azul de metileno (§13.107, 🟡 restrito) · ✅ SGLT2 (§13.108, 🟢 oral). 🔲 PRÓXIMA = **LDN** (§13.109), depois: cluster peptídeos experimentais (§13.110) · PDRN (§13.111).
 
 🔲 **PRÓXIMO PASSO (após §13-nonies) = decisão do Dr.** (consolidar protocolo de soros/combos ofertáveis? priorizar o cardápio real da clínica a partir dos 🟢?).
 
