@@ -1824,6 +1824,33 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+## 13-sexies. BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS
+> ⚠️ **Governança regulatória pesada: CFM (Resolução 2.333/2023) + controle especial ANVISA.** A régua de governança vale para todo o bloco — ver §13.80 (referência).
+
+### 13.80 Testosterona — 🟢 OFERTÁVEL SÓ em deficiência diagnosticada (NUNCA anti-aging/estético/esporte — vedação CFM); card-referência de governança hormonal
+- **Natureza do bloco:** hormônio registrado/conhecido, mas com **governança CFM + controle especial**. Tentadora p/ "performance/longevidade" — por isso a **linha vermelha do CFM é o que protege a clínica**.
+- **🚨 CFM Resolução 2.333/2023 — o que define:** NÃO cria corte numérico; estabelece **princípio** = terapia hormonal só com **deficiência específica comprovada + nexo causal** com o quadro clínico. **🔴 VEDADO:** testosterona sem comprovação diagnóstica de deficiência · EAA p/ estética · EAA p/ desempenho esportivo · hormônios "bioidênticos"/"nano"/nome comercial sem superioridade comprovada.
+- **🟢 Indicações terapêuticas RECONHECIDAS (não-proibidas) + régua aplicada à clínica adulto/longevidade:**
+
+  | Indicação permitida | Cabe? | Régua |
+  |---|---|---|
+  | **DAEM / hipogonadismo tardio ♂** | ✅ **porta principal** | TT <264 (ou zona cinza + cFT <6,5) **+ sintomas + investigar causa**. **NÃO** otimizar homem T-normal (vedado). |
+  | **Hipogonadismo 1º/2º clássico** | ✅ | mesmo critério + etiologia (testicular vs hipofisária). |
+  | **Caquexia** (doença crônica) | ⚠️ nicho | perda muscular por DOENÇA, não "sarcopenia do envelhecimento" como pretexto. |
+  | **TDSH feminino pós-menopausa** | ⚠️ permitida mas espinhosa | **sem formulação ♀ aprovada ANVISA**; nota conjunta SBEM+FEBRASGO+SBC pede cautela; off-label, dose ~1/10 da ♂, excluir outras causas, monitorar. |
+  | **Hormonioterapia trans masculinizante** | ✅ legal (linha própria) | protocolo específico; decisão do Dr. se quer essa frente. |
+  | Puberdade tardia / micropênis neonatal | ❌ | pediátrico, fora do escopo. |
+
+- **🩺 Critério diagnóstico SBEM/SBU (o "número" que o CFM cobra):** síndrome **clínica + confirmação laboratorial** (precisa dos DOIS). TT manhã (7–10h), jejum, **≥2 dosagens**: **TT <264 ng/dL** sustenta · **>350** improvável · **264–350 (zona cinza) ou SHBG alterada (obesidade/DM)** → calcular **testosterona livre (Vermeulen), corte cFT <6,5 ng/dL (~65 pg/mL)**. **🔑 Muito homem de meia-idade que quer "TRT de longevidade" cai na zona 264–350 → CFM/SBEM OBRIGA o cFT antes de prescrever; não tratar TT "baixa-normal" no olho.**
+- **Evidência:** **TRAVERSE (5.246 hipogonádicos alto risco CV): TRT não-inferior ao placebo em MACE** (segurança CV quando indicada) MAS **↑embolia pulmonar, ↑fibrilação atrial, ↑LRA** + trial de fraturas paradoxal ↑fraturas. ⚖️ no hipogonádico = agente mais forte p/ ↑massa magra/força/↓gordura (corrige deficiência, não "turbina" normal).
+- **🇧🇷 Disponibilidade:** **Deposteron** (cipionato 200 mg/2 mL IM ~q2sem), **Nebido** (undecanoato 1.000 mg/4 mL IM q10–14sem), gel/transdérmico, genéricos. **Controle especial C5 (Portaria 344/98)**, receita retida, validade 30 dias.
+- **🚨 Monitoramento (eixo nefro/uro):** **eritrocitose → ↑Hct** (suspender se >54%; liga c/ PE/AFib do TRAVERSE); **🩺 LRA** (sinal TRAVERSE); **PSA/próstata** (não causa câncer mas desmascara; contraindicado câncer próstata/mama ativo); **suprime espermatogênese** (alerta fertilidade); apneia do sono, ginecomastia (aromatização), acne. **WADA proibido.**
+- 📚 **RAG — núcleo da casa (256 score_items):** TT/livre/SHBG, hipogonadismo, eixo gonadal — arcabouço de dosagem/interpretação já existe.
+
+**Card — Testosterona (REFERÊNCIA de governança hormonal):** 🟢 **OFERTÁVEL SÓ em deficiência diagnosticada** · **🔴 NUNCA anti-aging/estético/esporte/otimização de eugonádico (vedação CFM 2.333/2023)** · **diagnóstico = clínica + lab: TT <264 (ou 264–350/SHBG alterada → cFT <6,5), ≥2 dosagens matinais + sintomas + nexo causal** · indicações permitidas = DAEM·hipogonadismo 1º/2º·caquexia·TDSH ♀ pós-menopausa (espinhosa, sem produto ANVISA)·trans masculinizante · **🇧🇷 Deposteron/Nebido/gel, C5 receita retida** · TRAVERSE: CV não-inferior mas **↑PE/AFib/LRA + Hct** · monitorar Hct/PSA/fertilidade · WADA proibido · RAG 256 itens. **A disciplina diagnóstica É o produto — separa reposição legítima de passivo ético/CFM.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1856,7 +1883,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) · liraglutida (§13.78, 🟡 backup) · retatrutida (§13.79, ⏳ deixar pro futuro) feitos. **✅ BLOCO PEPTÍDEOS FECHADO.**
 **Resumo peptídeos (§13.68–13.79):** 🟢 **OFERTÁVEIS:** timosina α1 (imune/imunossenescência) · GHK-Cu **tópico** · semaglutida · tirzepatida (+ magistral legal). 🟡 backup: liraglutida. ⚠️ **alternativa selecionada:** secretagogos GH (não anti-aging, paradoxo IGF-1). ⏳ **futuro (aguardar registro):** retatrutida (~2027). 🔴 **NÃO OFERTAR:** BPC-157, TB-500, MOTS-c, epitalon (experimentais/WADA/mercado cinza), GHK-Cu **injetável**, melanotan (MT-II perigoso). 🔑 **Lições do bloco:** (1) triar regulatório+WADA+evidência caso a caso, não pela hype; (2) GLP-1 são o pilar do emagrecimento (halo renal FLOW + CV SELECT = ouro pro nefrologista); (3) semaglutida/liraglutida NÃO manipuláveis (biotec), tirzepatida SIM (síntese química, NT 200/2025); (4) GLP-1 sempre em PROGRAMA c/ treino+proteína (preserva magra, oposto da metformina).
 
-**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (PRÓXIMO):** **PRÓXIMA = testosterona.** Restantes: DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina. (Fazer UM A UM — não agrupar.)
+**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) feita. **PRÓXIMA = DHEA.** Restantes: pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina. (UM A UM — não agrupar.)
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
