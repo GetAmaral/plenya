@@ -1799,6 +1799,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.78 Liraglutida (Saxenda / Victoza) — 🟡 BACKUP, não prioritária; GLP-1 de 1ª geração, superada por sema/tirzepatida
+- **Identidade:** GLP-1 mais antigo, **injeção DIÁRIA** (≠ semanal). Victoza 1,8 mg (DM2) / Saxenda 3,0 mg (peso). Pioneiro, hoje ultrapassado.
+- **⚖️ Eficácia — a mais fraca:** **~6–8%** (SCALE) vs ~15% sema vs ~20% tirzepatida; head-to-head 15,8% (sema) vs 6,4% (lira).
+- **🫀 CV:** LEADER **−13% MACE só em DM2 c/ DCV** (< SELECT). Sem trial renal dedicado.
+- **Desvantagem prática:** **injeção diária → pior adesão.** Difícil justificar sobre sema/tirzepatida.
+- **Nicho (onde ainda faz sentido):** **meia-vida curta/reversibilidade rápida** (frágil/idoso, tolerância incerta, washout pré-gravidez) ou maior experiência acumulada. Fora disso, 2ª/3ª linha.
+- **🇧🇷 Disponibilidade/manipulação:** registrada (Saxenda/Victoza); **🔴 NÃO manipulável** (biotecnológica + sem produto sintético registrado → proibido NT 200/2025, igual semaglutida ≠ tirzepatida); atenção a falsificações (ANVISA alertou Victoza/Saxenda "em gotas" falsos).
+- **🚨 Segurança:** efeitos de classe (GI/sarcopenia→programa/vesícula/pancreatite/tireoide-MEN2/gravidez); WADA ok.
+- 📚 **RAG:** da casa (48 itens GLP-1).
+
+**Card — Liraglutida:** 🟡 **BACKUP / NÃO PRIORITÁRIA** (decisão do Dr.) · GLP-1 1ª geração **diário**, **eficácia mais fraca** (~6–8% vs 15% sema / 20% tirzepatida), CV menor (LEADER −13% só DM2), sem renal dedicado · **🔴 não manipulável** (biotecnológica) · **nicho = reversibilidade rápida/washout** (frágil/idoso/pré-gravidez) · preferir sempre **semaglutida ou tirzepatida** · registrada/segura mas raramente 1ª escolha.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1828,7 +1842,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) feitos. **GLP-1 sendo feitos UM A UM (não agrupar).** **PRÓXIMA = liraglutida.** Restante GLP-1: retatrutida (FECHA o bloco peptídeos).
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) · liraglutida (§13.78, 🟡 backup/não-prioritária) feitos. **GLP-1 sendo feitos UM A UM (não agrupar).** **PRÓXIMA = retatrutida** (FECHA o bloco peptídeos).
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
