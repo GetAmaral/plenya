@@ -2058,11 +2058,29 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 **Card — Inositol:** **ORAL-ONLY** · **SOP/RI: MI:DCI 40:1, 2–4 g/d** (ou MI 1–2 g das aulas) · 🟢 nicho metabólico/saúde da mulher + 🟡 sono/ansiedade dose alta (pânico, evidência mista) · stack metabólico da casa (Mg+cromo+ALA) · 🇧🇷 magistral+comercial · segurança excelente (seguro na gestação) · **IV/IM só no combo MIC (§13.32)**.
 
+### 13.97 HMB (β-hidroxi-β-metilbutirato) — ORAL-ONLY; anti-catabólico de massa magra no estado catabólico/sarcopenia
+- **Identidade:** metabólito da **leucina** (via α-cetoisocaproato; ~5% da leucina vira HMB). Mecanismo: **estimula síntese proteica (mTOR) + inibe degradação (ubiquitina-proteassoma)** — mais **anti-catabólico** que anabólico. Complementa §13.35 (BCAA/leucina) pela ponta da preservação de massa.
+- **Formas:** **HMB-Ca (sal de cálcio)** vs HMB-FA (ácido livre). PK 2024 derruba o marketing antigo: **HMB-Ca biodisponibilidade superior** (~105% vs ~62% do FA), pico mais rápido em água. **Preferir o sal de cálcio.** Dose clássica **3 g/d** fracionada (Nissen).
+- ⚖️ **Composição corporal (eixo central):**
+  - 🟢 **Sarcopenia/idoso:** meta-análises → **↑massa e força** em >50a/sarcopênicos, **melhor com treino resistido**; **sem benefício claro em performance física**.
+  - 🟢 **Desuso/repouso (sinal mais limpo):** **preserva massa magra em 10 dias de repouso no leito** em idosos — nicho anti-catabólico legítimo (pós-cirurgia eletiva, imobilização, internação programada).
+  - 🟡 **Caquexia do câncer:** HMB + arginina + glutamina ↑massa livre de gordura (combo, não isolado).
+  - 🟡 **DPOC:** estudos pequenos, possível ganho de função pulmonar.
+  - 🟡 **Jovem saudável/atleta:** dose alta de médio prazo **não mudou composição** (RCT 2025) — valor é no catabolismo/envelhecimento.
+  - Sinal menor: meta 2025 — HMB **↑testosterona** sem mexer em cortisol/IGF-1/GH.
+- 🧠 **Cognição/humor:** sem dado relevante. Não é molécula neuro.
+- 🩺 **Nefro/segurança:** **muito seguro** (≤3 g/d bem tolerado; sem EA mesmo a 6 g/mês); HMB-Ca agrega carga discreta de cálcio; sem gate maior. **Ângulo nefro: sarcopenia/wasting da DRC** — adjuvante benigno (paralelo à nandrolona §13.90, sem o ônus androgênico).
+- **Via:** **ORAL-ONLY.** HMB IV/injetável só existe em patente/teórico — mesmo em ensaios de UTI, "injetar" = sonda enteral. Sem forma estéril registrada/magistral. Sem racional injetável.
+- **🇧🇷 BR:** suplemento oral (Ca-HMB cápsula/pó), magistral viável; comum na nutrição esportiva. **Oral.**
+- 📚 **RAG:** sem `score_item`. Referências (terceiros): **NSCA** detalha como anti-catabólico (ubiquitina-proteassoma, Nissen 1,5/3 g, não banido pelo esporte); McArdle cobre na fisiologia do exercício.
+
+**Card — HMB:** **ORAL-ONLY** (sem injetável real) · **HMB-Ca 3 g/d fracionado** + treino resistido · 🟢 nicho = **preservação de massa magra em estado catabólico** (sarcopenia, repouso/imobilização, idoso, wasting da DRC) · 🟡 caquexia/DPOC em combo · modesto no jovem saudável · segurança excelente · complementa BCAA/leucina (§13.35).
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
-> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95). 🔲 PRÓXIMA = **HMB** (2º parcial), depois lacunas reais: citicolina/alfa-GPC · vanádio · TRT-adjuntos (hCG/clomifeno/anastrozol — fecham §13.80) · cerebrolisina · PT-141 · EDTA (exclusão).
+> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97). **Parciais fechados.** 🔲 PRÓXIMA = **citicolina/alfa-GPC** (1ª lacuna real), depois: vanádio · TRT-adjuntos (hCG/clomifeno/anastrozol — fecham §13.80) · cerebrolisina · PT-141 · EDTA (exclusão).
 
 **Como trabalhar cada molécula (regra fixa):**
 1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
