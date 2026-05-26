@@ -2116,11 +2116,32 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 **Card — Vanádio:** **🔴 FORA** · insulino-mimético real mas **sem evidência rigorosa** + **nefrotóxico (BEOV descontinuado por dano renal)** + janela estreita/GI · **armadilha da dose** (produto BR subterapêutico = teatro; dose eficaz = tóxica) · ⚖️ nulo (McArdle desmente massa muscular) · **veto nefrológico** · substituído por berberina/inositol/cromo/ALA/metformina.
 
+### 13.101 hCG (gonadotrofina coriônica) — 🟢 OFERTÁVEL; adjuvante que preserva fertilidade/testículo na terapia androgênica
+- **Identidade:** glicoproteína **análoga do LH** (mesmo receptor LHR) → estimula células de Leydig → **testosterona intratesticular** + **mantém espermatogênese e volume testicular** (cAMP/PKA). É a peça que o card testosterona (§13.80) não tinha. Mesma governança: deficiência + nexo causal, **nunca anti-aging/performance**.
+- **Núcleo masculino (escopo adulto):**
+  - 🟢 **Preservação de fertilidade durante a TRT (uso-chave):** TRT exógena suprime o eixo HPG → atrofia testicular + azoospermia. **hCG baixa dose (500 UI SC 2–3×/sem) concomitante** preserva T intratesticular e espermatogênese sem estourar a T sérica.
+  - 🟢 **Hipogonadismo hipogonadotrófico (secundário):** restaura **T endógena + fertilidade** (75–225 UI 2–3×/sem; doses maiores conforme T). Só na causa **funcional/secundária** (eixo íntegro), não na lesão estrutural hipofisária.
+  - 🟢 **Recuperação do eixo pós-AAS / pós-TRT (azoospermia):** resgate 1.500–3.000 UI; **hCG+FSH = 86% vs 40% monoterapia** (espermatogênese completa).
+  - 🟡 **Monoterapia p/ sintomas hipogonádicos com T basal >300 ng/dL:** segura/eficaz em estudo — alternativa quando preservar fertilidade/volume importa mais que repor T.
+- **Indicações ampliadas:**
+  - 🔴 **"Dieta hCG" (Simeons: hCG diário + 500 kcal) — FRAUDE, recusa obrigatória.** FDA fraudulento desde 1975; duplo-cego = **placebo caro** (emagrecimento vem só da restrição); FDA/FTC retiraram OTC. **O que mais vão pedir numa clínica de emagrecimento — a resposta é não.** Emagrecimento real = GLP-1 (§13.76–77).
+  - 🟡 **Mulher — gatilho de ovulação + suporte de fase lútea em RA (FIV):** padrão-ouro (surrogato do pico de LH + corpo lúteo/progesterona). Registrada e legítima, mas **território de reprodução assistida = co-manejo/encaminhamento**, não core.
+  - 🚫 **Criptorquidia (hCG baixa dose):** pediátrico → fora do escopo.
+  - 🔴 **Doping (governança):** **WADA proíbe em HOMENS** (estimula T endógena + mascara andrógenos); TUE improvável. Não ofertar a atleta competitivo homem.
+  - ⚗️ **Imunomodulação/implantação:** real na gestação, mas pré-clínico/obstétrico — não ofertável.
+- ⚖️ **Composição corporal:** indireto (restaura T → benefícios mediados por T) + **previne atrofia testicular**. Não é agente direto.
+- 🧠 **Cognição/humor:** via restauração de T (humor/vitalidade); sem efeito direto.
+- 🩺 **Nefro/segurança:** sem questão renal específica. **Gate estrogênico:** hCG **dirige aromatização → ↑estradiol** (ginecomastia) — pode exigir inibidor de aromatase (§13.103); monitorar E2; ER-stress só em dose muito alta (pré-clínico); hematócrito sobe menos que com T isolada.
+- **🇧🇷 BR / via:** **REGISTRADO — Choriomon-M (hCG urinário 5.000 UI, Besins; bula ANVISA 03/2024), IM ou SC**; hCG recombinante (choriogonadotropina alfa) SC; importação RDC 81/2008 quando preciso. **Prescrição** (governança de hipogonadismo, não anti-aging).
+- 📚 **RAG:** artigo de biologia da célula de Leydig/eixo HPG (terceiros) detalha hCG/LH e posologia (75–225 UI 2–3×/sem; 1.500 UI; até 10.000 UI refratário; +FSH se azoospermia >3–4 meses); aulas de fertilidade masculina cobrem **obesidade→aromatase→↑estradiol→feedback negativo**.
+
+**Card — hCG:** **🟢 OFERTÁVEL** (governança §13.80: deficiência+nexo, nunca anti-aging) · **SC/IM, REGISTRADO (Choriomon-M 5.000 UI)** · **núcleo = homem:** preservar fertilidade/volume na TRT (500 UI 2–3×/sem) · hipogonadismo secundário (restaura T+fertilidade) · recuperação pós-AAS (±FSH) · 🟡 **mulher:** gatilho de ovulação/fase lútea = **co-manejo RA** · 🔴 **dieta hCG de emagrecimento = FRAUDE (FDA), recusar** · 🔴 **WADA proíbe em homem (doping/masking)** · 🚨 gate estrogênico (↑E2→pode pedir IA; monitorar) · complementa testosterona §13.80.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
-> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97) · ✅ citicolina (§13.98, base oral) · ✅ alfa-GPC (§13.99, 🟡 restrito/gate AVC) · ✅ vanádio (§13.100, 🔴 fora/veto nefro). 🔲 PRÓXIMA = **TRT-adjuntos** (hCG/clomifeno/anastrozol — fecham §13.80), depois: cerebrolisina · PT-141 · EDTA (exclusão).
+> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97) · ✅ citicolina (§13.98, base oral) · ✅ alfa-GPC (§13.99, 🟡 restrito/gate AVC) · ✅ vanádio (§13.100, 🔴 fora/veto nefro) · ✅ hCG (§13.101, 🟢 ofertável + ampliadas). **TRT-adjuntos em curso.** 🔲 PRÓXIMA = **clomifeno/enclomifeno** (SERM, §13.102), depois: anastrozol/letrozol (§13.103) · cerebrolisina · PT-141 · EDTA (exclusão).
 
 **Como trabalhar cada molécula (regra fixa):**
 1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
