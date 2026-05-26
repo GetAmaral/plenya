@@ -1958,6 +1958,25 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+## 13-septies. BLOCO ESTEROIDES SINTÉTICOS / ANABOLIZANTES
+> ⚠️ **Bloco dominado por DUAS camadas regulatórias: (1) CFM 2.333/2023 (EAA p/ estética/massa/performance = PROIBIDO; só com deficiência/indicação terapêutica comprovada); (2) ANVISA NT 104/2019 (proíbe MANIPULAÇÃO de oxandrolona/estanozolol/metenolona/metiltestosterona/T3 — juridicamente contestada, varia por estado).** Conferir jurisprudência ESTADUAL (≠ por UF).
+
+### 13.89 Oxandrolona (Anavar) — 🟡 OFERTÁVEL RESTRITO (prescritível C5; manipulação contestada — 🔴 desfavorável no PR); só indicação catabólica/wasting documentada; ❌ vedada p/ estética (CFM)
+- **Identidade:** esteroide anabolizante oral (17α-alquilado, atipicamente resistente ao fígado). Anabolizante com mais indicações terapêuticas legítimas.
+- **Indicações terapêuticas reais:** **queimaduras graves** (melhor evidência — meta 2019 J Burn Care Res, 24 RCTs: ↑massa magra, sem ↑mortalidade, sem piora hepática progressiva); estados catabólicos/**wasting** (HIV, pós-cirurgia/trauma de grande porte, doença neuromuscular, hepatite alcoólica, **sarcopenia DE DOENÇA**); Turner (pediátrico).
+- **🇧🇷 Status legal (corrigido — NÃO é "proibida"):**
+  - **Prescrição = LEGAL:** C5 (Portaria 344/98), **receituário de controle especial** + **Lei 9.965/2000 (anabolizante: CID + CPF do prescritor obrigatórios)** + RDC 357/2020 (limites ~6 meses/18 ampolas). Qualquer CRM; telemedicina (CFM 2.314/2022).
+  - **Manipulação = CONTESTADA:** **NT 104/2019** proíbe manipular; **TJMG (2021/22) AFASTOU** (RDC 67/2007: insumo magistral ≠ industrializado); **🔴 mas o TJPR MANTEVE a proibição** (negou liminares, confirmou em 2ª instância) → **no Paraná a manipulação local é frágil/arriscada** (VISA-PR pode autuar). Sem produto industrial registrado no BR.
+  - **🔑 Saída no PR:** **importação nominal** (medicamento não-registrado, RDC 81/2008, c/ prescrição) ou via judicial individual — **não a magistral local**. Muda logística/custo.
+- **🇺🇸 EUA:** FDA retirou aprovação comercial (jun/2023, Oxandrin+genéricos) → **virou só 503A compounding**; segue legal/prescrita (Schedule III) p/ indicações legítimas. Não "banida".
+- **📚 RAG (aula MFI, referência de terceiros — NÃO conduta da casa):** *Abordagem Funcional Integrativa XVIII* é PRÓ-oxandrolona em **queimados** (meta) e **propõe uso pós-op de cirurgia de contorno corporal** p/ preservar massa magra (dose baixa, monitorar LFT/lipídios, consentimento). **⚠️ A perna "contorno corporal" flerta com a linha estética vedada pelo CFM** — documentar nexo catabólico/pós-cirúrgico, não estético.
+- **🚨 Segurança:** hepatotox (peliose/tumor hepático raros; ↑TGO/TGP), **dislipidemia (↓HDL)/aterosclerose**, virilização ♀. WADA proibido. Monitorar LFT/lipídios.
+- **🔴 Régua CFM (o constraint real, não a disponibilidade):** 🟢 legítima em **catabólico/wasting documentado**; **🔴 vedada p/ estética/massa/performance/"recomposição" em saudável**.
+
+**Card — Oxandrolona:** 🟡 **OFERTÁVEL RESTRITO** (correção: NÃO é "proibida") · **prescrição LEGAL** (C5, receituário controle especial, Lei 9.965/2000 = CID + CPF obrigatórios) · **🔴 manipulação no PARANÁ frágil** (TJPR manteve NT 104, ≠ TJMG que afastou) → **obter via importação nominal (RDC 81/2008) ou judicial, não magistral local** · indicação SÓ **catabólica/wasting documentada** (queimados/pós-op grande porte/wasting/sarcopenia de doença); **❌ vedada estética/massa/performance (CFM)** · aula MFI pró em queimados/pós-op (contorno = zona cinzenta) · 🚨 LFT/dislipidemia/virilização/WADA · EUA = só 503A compounding. **Brecha real = prescrição legal; gargalo = suprimento no PR + régua CFM.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1993,7 +2012,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) · estrogênio/estradiol (§13.84, 🟢 THM na janela) · progesterona (§13.85, 🟢 micronizada padrão-ouro) · tireoide (§13.86, 🟢 T4 padrão/T3 nichos/combinação DIO2) · GH (§13.87, 🟢 só GHD por teste; 🔴 nunca anti-aging) · ocitocina (§13.88, 🟡 nicho gel vaginal GSM) feitas. **✅ BLOCO HORMÔNIOS FECHADO.**
 **Resumo hormônios (§13.80–13.88) — governança CFM 2.333/2023 domina:** 🟢 **ofertáveis com disciplina:** testosterona (só hipogonadismo Dx, card-referência) · DHEA (magistral, prasterona vaginal=ouro) · melatonina (oral, dose magistral≠suplemento) · estradiol (THM na janela) · progesterona micronizada (padrão-ouro) · tireoide T4 (padrão; T3/combinação DIO2) · GH (só GHD por teste) · ocitocina (só gel vaginal GSM). 🔴 **não ofertável:** pregnenolona (magistral proibida RE 685/2018). 🔑 **Princípios do bloco:** (1) **CFM = hormônio só com deficiência comprovada + nexo causal; NUNCA anti-aging/estético/performance/otimização de eugonádico**; (2) **checar legislação molécula a molécula** (DHEA permitida NT 165/2019 × pregnenolona proibida RE 685/2018 — opostos); (3) **paradoxo da longevidade**: GH/IGF-1/testosterona altos ↔ menos vida/+câncer — forçar esses eixos é o oposto da longevidade; (4) **"bioidêntico" como molécula registrada = ok; como marketing manipulado superior/nano/implante = vedado**; (5) a **disciplina diagnóstica é o produto** — blinda CFM/CRM-PR.
 
-**BLOCO ESTEROIDES SINTÉTICOS / ANABOLIZANTES (PRÓXIMO — análise pedida pelo Dr.):** ⚠️ **bloco dominado pela vedação CFM 2.333/2023** (EAA para estética/massa/performance = PROIBIDO); só restam nichos terapêuticos estreitos. **PRÓXIMA = oxandrolona.** Restantes: nandrolona (ângulo nefro = anemia DRC) · estanozolol · oximetolona · mesterolona · outros (boldenona/drostanolona/trembolona = só veterinário/ilícito). (UM A UM.)
+**BLOCO ESTEROIDES SINTÉTICOS / ANABOLIZANTES (EM CURSO):** oxandrolona (§13.89, 🟡 ofertável restrito — prescrição legal/manipulação frágil no PR) feita. **PRÓXIMA = nandrolona** (ângulo nefro = anemia DRC). Restantes: estanozolol · oximetolona · mesterolona · outros (boldenona/drostanolona/trembolona = só veterinário/ilícito). (UM A UM.) **🔑 2 camadas: CFM 2.333/2023 (estética/massa/performance VEDADO) + ANVISA NT 104/2019 (manipulação contestada — TJMG afastou MAS 🔴 TJPR MANTEVE → no PR manipulação é frágil; prescrição C5 é legal; obter via importação nominal RDC 81/2008).**
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
