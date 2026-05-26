@@ -2091,11 +2091,23 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 **Card — Citicolina:** **base ORAL** (CCL/memória 500 mg–2 g/d; **glaucoma 1.600 mg oral ≈ 1.000 mg IM**) · **IM magistral = opção pontual; IV não agrega; Somazina injetável provavelmente descontinuada — 🔲 confirmar ANVISA** · 🟢🟡 nicho = **declínio cognitivo da idade/CCL + neuroproteção no glaucoma (co-manejo oftalmo)** · segurança excelente, **sem o gate CV do alfa-GPC** · não previne demência.
 
+### 13.99 Alfa-GPC (colina alfoscerato) — 🟡 RESTRITO; gate de AVC no público longevidade
+- **Identidade:** doador de colina que **cruza bem a BHE** → acetilcolina + fosfolípides de membrana. O nootrópico/ergogênico colinérgico mais potente do par, mas o perfil de segurança o derruba para o público >50.
+- **Evidência (a favor):** 🟢 ganho cognitivo agudo em jovens saudáveis; 🟢 performance física (↑potência/força, **salto vertical +8,5%**); 🟡 Alzheimer (ASCOMALVA alfa-GPC + donepezila positivo; coorte coreana de retardo de conversão).
+- 🚨 **GATE DOMINANTE — sinal de AVC:** coorte coreana 2021 (**>12 mi, ≥50a, sem DCV prévia**) → **+46% risco de AVC em 10a, dose-dependente**. Mecanismo hipotético: **colina → TMAO → risco CV**. Não é causalidade provada, mas **incide no nosso público (>50, longevidade)** e contraria o discurso da clínica. **A citicolina (§13.98) NÃO carrega esse sinal** → é a preferida do par.
+- 🧠 **Cognição/performance:** o melhor agudo do par; ganho não justifica o risco crônico no idoso.
+- ⚖️ **Composição corporal:** nulo.
+- 🩺 **Nefro/governança:** **flag CV/AVC + eixo TMAO** incompatível com longevidade. Se usado, só **jovem CV-limpo, curto prazo/agudo, com ciência do sinal**.
+- **🇧🇷 BR / via:** suplemento **oral** (magistral/importado); injetável (Gliatilin IM/IV) Europa/Ásia, **não padrão BR**. Sem racional injetável.
+- 📚 **RAG:** mesma menção da citicolina (Pedro Neuro 2, "sinalização colinérgica"); a aula não pondera o sinal de AVC → **divergência mantida (MBE do doc): preferir citicolina.**
+
+**Card — Alfa-GPC:** **🟡 RESTRITO** · oral, **só jovem CV-limpo, uso agudo/performance, curto prazo** · 🚨 **+46% AVC em 10a no >50 (eixo TMAO), dose-dependente** → **evitar no público longevidade; citicolina é a preferida** · sem injetável BR · sem uso de composição corporal.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
-> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97) · ✅ citicolina (§13.98, base oral). 🔲 PRÓXIMA = **alfa-GPC** (§13.99, carta separada — gate de AVC), depois: vanádio · TRT-adjuntos (hCG/clomifeno/anastrozol — fecham §13.80) · cerebrolisina · PT-141 · EDTA (exclusão).
+> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97) · ✅ citicolina (§13.98, base oral) · ✅ alfa-GPC (§13.99, 🟡 restrito/gate AVC). 🔲 PRÓXIMA = **vanádio**, depois: TRT-adjuntos (hCG/clomifeno/anastrozol — fecham §13.80) · cerebrolisina · PT-141 · EDTA (exclusão).
 
 **Como trabalhar cada molécula (regra fixa):**
 1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
