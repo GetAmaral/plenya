@@ -1851,6 +1851,21 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.81 DHEA (deidroepiandrosterona) — 🟢 OFERTÁVEL via magistral (C5, dose personalizada); indicação ancorada em deficiência/sintoma documentado; prasterona VAGINAL é o uso de ouro
+- **Identidade:** pró-hormônio adrenal, precursor de andrógenos/estrógenos; **DHEA-S cai com a idade** (daí o apelo anti-aging). Marcador laboratorial consolidado (142 score_items).
+- **🇧🇷 Status regulatório CORRIGIDO (o Dr. puxou certo — minha "porta fechada" estava errada):** 3 coisas distintas → **(1) suplemento alimentar com DHEA = PROIBIDO** (hormônio em suplemento vedado); **(2) industrializado/importado = sem registro, vedado**; **(3) MAGISTRAL sob prescrição = PERMITIDO** (ANVISA **Nota Técnica 165/2019**: manipulação ≠ importação/fabricação/comercialização de industrializado). DHEA/prasterona é **controle especial C5** (Portaria 344/98 → arcabouço RDC 786/2023 + RDC 999/2025), **receita de controle especial retida**; magistral permite **dose personalizada** (cápsula/gel/óvulo). **Não** há industrializado registrado.
+- **Indicações por evidência:**
+  - **🟢 Prasterona VAGINAL — GSM/dispareunia pós-menopausa (MELHOR indicação):** **6,5 mg/d** (Intrarosa, FDA 2016; 3 RCTs/436 ♀): ↑histologia vaginal, ↓pH, ↓dispareunia, **eficácia ≥ estrogênio vaginal**; **ação LOCAL** (convertida no tecido, exposição sistêmica mínima → **escapa do gate androgênico sistêmico**). Magistrável (óvulo/creme). Ideal p/ público ♀ pós-menopausa da casa; régua CFM fácil (sintoma + atrofia).
+  - **🟢 Reposição sistêmica em insuf. adrenal c/ DHEA-S baixo (mais alinhada ao CFM):** **25–50 mg/d manhã** (Addison/hipopituitarismo, DHEA-S comprovadamente baixo) → ↑bem-estar/humor/fadiga/autoestima + libido (NEJM 1999/JCEM 2000); efeito modesto mas documentado; reposição de deficiência comprovada.
+  - **⚠️ Nichos de especialista:** reserva ovariana diminuída/má respondedora FIV (**75 mg/d** priming — evidência RCT MISTA; reprodução assistida); depressão de meia-idade (RCT NIMH 90→450 mg, ~50% resposta — dose alta/2ª linha); lúpus leve-moderado (prasterona 100–200 mg — pouca ∆SLEDAI, leve ↑bem-estar/poupador de corticoide; reumato); osso (modesto, sem dado de fratura).
+  - **❌ VEDADO:** anti-aging/composição/"otimização" em DHEA-S NORMAL (vedação CFM + evidência negativa — cognição/bem-estar em adrenal normal = insignificante).
+- **🚨 Segurança:** gate androgênico na mulher (acne, seborreia, hirsutismo, ↓HDL) → monitorar (a forma vaginal minimiza); sistêmico cai na régua CFM (deficiência comprovada).
+- 📚 **RAG:** DHEA-S em **142 score_items** — como **marcador/exame** (eixo adrenal/androgênico), base p/ documentar a deficiência que autoriza repor.
+
+**Card — DHEA:** 🟢 **OFERTÁVEL via MAGISTRAL** (C5 receita retida, **dose personalizada** — NT 165/2019 permite manipulação; ❌ suplemento e industrializado vedados) · indicação SÓ por **deficiência/sintoma documentado** · **🥇 uso de ouro = prasterona VAGINAL 6,5 mg p/ GSM/dispareunia pós-menopausa** (melhor evidência, ação local, foge do gate sistêmico) · 🟢 sistêmico 25–50 mg só em **insuf. adrenal c/ DHEA-S baixo** · nichos (FIV/depressão/lúpus) = especialista · **❌ NUNCA anti-aging em DHEA-S normal (CFM + evidência negativa)** · gate androgênico ♀ · RAG 142 itens (marcador). **Correção: DHEA É utilizável (magistral legal); o limite é indicação por deficiência, não a manipulação.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1883,7 +1898,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) · liraglutida (§13.78, 🟡 backup) · retatrutida (§13.79, ⏳ deixar pro futuro) feitos. **✅ BLOCO PEPTÍDEOS FECHADO.**
 **Resumo peptídeos (§13.68–13.79):** 🟢 **OFERTÁVEIS:** timosina α1 (imune/imunossenescência) · GHK-Cu **tópico** · semaglutida · tirzepatida (+ magistral legal). 🟡 backup: liraglutida. ⚠️ **alternativa selecionada:** secretagogos GH (não anti-aging, paradoxo IGF-1). ⏳ **futuro (aguardar registro):** retatrutida (~2027). 🔴 **NÃO OFERTAR:** BPC-157, TB-500, MOTS-c, epitalon (experimentais/WADA/mercado cinza), GHK-Cu **injetável**, melanotan (MT-II perigoso). 🔑 **Lições do bloco:** (1) triar regulatório+WADA+evidência caso a caso, não pela hype; (2) GLP-1 são o pilar do emagrecimento (halo renal FLOW + CV SELECT = ouro pro nefrologista); (3) semaglutida/liraglutida NÃO manipuláveis (biotec), tirzepatida SIM (síntese química, NT 200/2025); (4) GLP-1 sempre em PROGRAMA c/ treino+proteína (preserva magra, oposto da metformina).
 
-**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) feita. **PRÓXIMA = DHEA.** Restantes: pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina. (UM A UM — não agrupar.)
+**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) feitas. **PRÓXIMA = pregnenolona.** Restantes: melatonina · estrogênio/progesterona · tireoide · GH · ocitocina. (UM A UM — não agrupar.)
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
