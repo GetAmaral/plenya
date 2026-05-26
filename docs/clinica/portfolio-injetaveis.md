@@ -2039,9 +2039,30 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 ---
 
+## 13-octies. BLOCO COMPLEMENTAR (lacunas pós-inventário)
+
+> Varredura de cardápios de centros de infusão/longevidade BR + referências da área (2026-05-26) para capturar moléculas injetáveis/IV/IM/SC que tinham ficado de fora. **Resultado da auditoria:** NAD+ IV/NMN/NR já estavam em §13.3; coquetel lipotrópico MIC já mapeado em §13.32/§14; tesamorelina já em §13.72. Restaram **2 parciais** (citados sem decisão própria → ganham card aqui) + **lacunas reais** (citicolina/alfa-GPC · vanádio · PT-141 · TRT-adjuntos · cerebrolisina · EDTA).
+
+### 13.95 Inositol (myo + D-chiro) — ORAL-ONLY; nicho metabólico/SOP da casa, com perna 🧠 em dose alta
+- **Identidade:** pseudovitamina ("B8"), poliol cíclico, **segundo mensageiro da sinalização da insulina** (inositol-fosfoglicanos + via PI3K/fosfatidilinositol — eixo que a aula HAS II da casa aponta ligando hiperinsulinemia a dano vascular). Isômeros clínicos: **mio-inositol (MI)** + **D-chiro-inositol (DCI)**.
+- **Formas/proporção:** MI isolado ou **MI:DCI 40:1** (proporção plasmática fisiológica; consenso internacional para SOP; folicular 100:1). ⚠️ **DCI isolado em excesso piora qualidade oocitária ("paradoxo do DCI")** — preferir 40:1.
+- 🟢 **SOP (indicação mais forte):** melhora marcadores metabólicos + hormonais, evidência moderada de restaurar ovulação, sensibiliza à insulina; **alternativa/adjuvante à metformina, melhor tolerada**.
+- 🟢 **Resistência insulínica / síndrome metabólica:** insulino-mimético; encaixa no eixo metabólico/longevidade. **Componente do stack metabólico da casa** (inositol + Mg + cromo + ALA + B3/B12).
+- 🟡 **Diabetes gestacional (prevenção):** seguro na gestação, ↓incidência de DMG em sobrepeso/obesidade. Uso conhecido, gestante fora do núcleo adulto-longevidade (citar, não destacar).
+- ⚖️ **Composição corporal:** indireto via sensibilização insulínica (modesto); não é queimador direto.
+- 🧠 **Cognição/humor/disposição:** nicho real mas **inconsistente** — **dose alta (12–18 g) tem o melhor sinal em transtorno do pânico** (comparável à fluvoxamina, RCT crossover pequeno), TOC/TPM; **meta-análise 2014 não-significativa** no geral. Nicho de dose alta, não claim. Também **Mg 200 mg + inositol 1–2 g à noite** (relaxamento/sono/constipação — sachê das aulas).
+- 🩺 **Nefro/segurança:** manejo renal tranquilo; **um dos perfis mais limpos do portfólio** — GI (náusea/gases) só em dose psiquiátrica alta; **seguro na gestação**; sem interação relevante; sem gate maior.
+- **🇧🇷 BR:** amplamente disponível — magistral (MI + D-chiro, combos 40:1 p/ SOP) + comercial. **Oral.**
+- **Via:** **ORAL-ONLY.** Injetável só como **componente do coquetel MIC lipotrópico** já documentado (§13.32/§14); sem racional para IV/IM isolado nem forma estéril registrada.
+- 📚 **RAG:** sem `score_item` dedicado, mas os alvos da casa (`score_item` Pré-diabetes/RI, SNP **IRS1 rs1801278**, curva insulinêmica-glicêmica) **são** o caso de uso. Aulas MFI (terceiros, candidato adotado): **MI "forma mais eficaz para RI e SOP, 1–2 g/dia"** (Emagrecimento IX); combo noturno Mg+inositol+L-triptofano; stack metabólico; HAS II ancora o mecanismo (PI3K).
+
+**Card — Inositol:** **ORAL-ONLY** · **SOP/RI: MI:DCI 40:1, 2–4 g/d** (ou MI 1–2 g das aulas) · 🟢 nicho metabólico/saúde da mulher + 🟡 sono/ansiedade dose alta (pânico, evidência mista) · stack metabólico da casa (Mg+cromo+ALA) · 🇧🇷 magistral+comercial · segurança excelente (seguro na gestação) · **IV/IM só no combo MIC (§13.32)**.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
-> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** Próximo passo = decisão do Dr. (novo bloco? consolidar protocolo de soros/combos? priorizar ofertáveis p/ montar o cardápio real da clínica?).
+> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95). 🔲 PRÓXIMA = **HMB** (2º parcial), depois lacunas reais: citicolina/alfa-GPC · vanádio · TRT-adjuntos (hCG/clomifeno/anastrozol — fecham §13.80) · cerebrolisina · PT-141 · EDTA (exclusão).
 
 **Como trabalhar cada molécula (regra fixa):**
 1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
