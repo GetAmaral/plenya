@@ -2199,6 +2199,26 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 ---
 
+## 13-nonies. BLOCO COMPLEMENTAR II (2ª varredura — lacunas finais)
+
+> 2ª varredura de moléculas/peptídeos esquecidos (2026-05-26). Cross-check confirmou que vitaminas/minerais/aminoácidos/antiox-mito/polifenóis/geroprotetores/hormônios/esteroides/GLP-1 estão cobertos. Restaram: azul de metileno (§13.107) · SGLT2 (§13.108) · LDN (§13.109) · cluster de peptídeos experimentais (§13.110, carta única) · PDRN/polinucleotídeos (§13.111, decisão de escopo).
+
+### 13.107 Azul de metileno (cloreto de metiltionínio) — 🟡 OFERTÁVEL RESTRITO; adjunto mito de microdose, com triagem obrigatória
+- **Identidade:** corante fenotiazínico, **mediador redox** — carreador alternativo de elétrons que contorna complexos disfuncionais da cadeia respiratória, sustenta ATP e ↓EROS. **Inibidor potente de MAO-A** (origem do gate serotoninérgico) + guanilato-ciclase. **Dose hormética (U invertido).**
+- 🧬 **Mito/longevidade:** ↑função mito + **↑maximal lifespan** em camundongo (UM-HET3 fêmea). Mecanismo forte, **longevidade humana não provada**.
+- 🧠 **Cognição:** ↑conectividade cerebral (2023, n=26, sem teste de desempenho); memória em idoso/animal; Alzheimer/tau (LMTX/TauRx **falhou fase 3**). **Precoce/inconclusivo, fora de guideline.**
+- ⚖️ **Composição corporal:** nulo.
+- 🚫 **Fora do escopo:** antídoto de metemoglobinemia, vasoplegia, encefalopatia por ifosfamida (agudo/toxicologia).
+- 🚨 **Gates (definem o restrito):** **síndrome serotoninérgica** (MAO-A + ISRS/IRSN/IMAO = potencialmente fatal — **triagem obrigatória de serotoninérgicos**); **G6PD** (hemólise — mesmo gate já triado na vit C §7); cautela renal/hepática; gestação evitar; **urina/pele azul** (avisar); dose alta pró-oxidante (>50 mg/kg).
+- **Forma/via/dose:** **IV** (soro mito, diluído, lento) **+ oral em SOLUÇÃO** (~72% biodisp; **cápsula seca ruim ~6,5% AUC IV**). **Microdose 0,5–2 mg/d**; clínico 0,5–2 mg/kg. 🔴 **grau FARMACÊUTICO obrigatório** (jamais industrial/aquário).
+- 🩺 **Nefro/governança:** cautela renal; disciplina = grau farmacêutico + triagem (G6PD + serotoninérgicos) + microdose + protocolo. A casa já o trata como **secundário**.
+- **🇧🇷 BR / via:** farmacêutico existe (injetável metemoglobinemia; magistral oral/solução). IV + oral solução.
+- 📚 **RAG:** **Mitocôndrias VII** (candidato) — IV no soro mito (CoQ10 100 mg IM mesma sessão), **explicitamente "uso secundário"** (má utilização/urina azul); Bioquímica (antídoto); Pós-COVID.
+
+**Card — Azul de metileno:** **🟡 RESTRITO** · adjunto do **soro mitocondrial** (IV diluído lento) + oral em **solução** (0,5–2 mg/d microdose) · 🔴 **grau farmacêutico** · 🚨 **triagem obrigatória: serotoninérgicos (MAO-A→síndrome serotoninérgica) + G6PD (hemólise)** · mecanismo mito/cognição forte, **evidência humana fraca → não é claim isolado** · ⚖️ nulo · urina azul (avisar) · a casa já o trata como secundário.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 > **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97) · ✅ citicolina (§13.98, base oral) · ✅ alfa-GPC (§13.99, 🟡 restrito/gate AVC) · ✅ vanádio (§13.100, 🔴 fora/veto nefro) · ✅ hCG (§13.101, 🟢 ofertável + ampliadas) · ✅ clomifeno/enclomifeno (§13.102, 🟢 oral-only) · ✅ anastrozol/letrozol (§13.103, 🟡 restrito oral). **✅ TRT-ADJUNTOS FECHADOS** (hCG injetável + clomifeno/enclomifeno + anastrozol/letrozol orais — completam o card testosterona §13.80). ✅ cerebrolisina (§13.104, 🔴 fora) · ✅ PT-141 (§13.105, ⚠️🔴 sem oferta) · ✅ EDTA/quelação (§13.106, 🔴 fora). **✅ BLOCO COMPLEMENTAR §13-octies FECHADO (2026-05-26).**
@@ -2213,7 +2233,9 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 >
 > **Achados-chave:** (1) **auditoria evitou retrabalho** — NAD+/NMN/NR (§13.3), MIC lipotrópico (§13.32) e tesamorelina (§13.72) já estavam no doc; (2) **TRT-adjuntos completam o §13.80** — hCG (injetável) + clomifeno/enclomifeno + anastrozol/letrozol fecham o eixo androgênico masculino (preservar fertilidade/eixo, alternativa à TRT, controle de E2); (3) **padrão de governança reforçado** — o nefrologista veta vanádio e EDTA por toxicidade renal; NAD+ IV/cerebrolisina/EDTA caem na mesma recusa de "drip de longevidade"; (4) **dieta hCG = fraude** (recusa explícita numa clínica de emagrecimento). **A varredura de centros BR não revelou injetável ofertável novo além do hCG.**
 
-🔲 **PRÓXIMO PASSO = decisão do Dr.** (novo eixo a investigar? consolidar protocolo de soros/combos ofertáveis? priorizar o cardápio real da clínica a partir dos 🟢?).
+🔄 **BLOCO COMPLEMENTAR II §13-nonies EM CURSO (2ª varredura, 2026-05-26):** ✅ azul de metileno (§13.107, 🟡 restrito). 🔲 PRÓXIMA = **SGLT2** (§13.108), depois: LDN (§13.109) · cluster peptídeos experimentais (§13.110) · PDRN (§13.111).
+
+🔲 **PRÓXIMO PASSO (após §13-nonies) = decisão do Dr.** (consolidar protocolo de soros/combos ofertáveis? priorizar o cardápio real da clínica a partir dos 🟢?).
 
 **Como trabalhar cada molécula (regra fixa):**
 1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
