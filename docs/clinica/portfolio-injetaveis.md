@@ -2239,6 +2239,25 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 **Card — LDN (naltrexona baixa dose):** **🟢 OFERTÁVEL ORAL** off-label · **magistral 1,5–4,5 mg à noite** (titular) · mecanismo duplo (rebote endorfina + **antagonismo TLR4/anti-neuroinflamação**) · nicho = **fibromialgia/dor crônica + modulação autoimune/inflamatória** (pode poupar imunossupressor) · 🚨 **contraindicado com opioide (triar; suspender pré-cirurgia)** · EA leves transitórios (sonhos vívidos/insônia) · ⚖️ nulo · **evidência majoritariamente baixa → adjuvante, expectativa realista** · a casa já usa.
 
+### 13.110 Outros peptídeos experimentais (cluster) — ⚠️🔴 NÃO OFERTAR; sem via legal no BR, monitorar revisão 2026
+- **Identidade do balde:** carta única (como o §13.94 fez com "outros AAS") para os peptídeos sem via legal — mesmo grupo de BPC-157 (§13.68)/TB-500 (§13.69)/MOTS-c (§13.73)/epitalon (§13.74).
+- **Por subgrupo:**
+  - 🧠 **Semax · Selank** (nootrópico/ansiolítico): **registrados SÓ na Rússia**, zero fase 1–3 sob FDA; intranasal/SC. Os mais "legítimos", ainda sem via BR.
+  - 😴 **DSIP/emideltida** (sono/estresse): dados fracos/inconsistentes.
+  - 🔥 **AOD-9604** (frag GH p/ gordura): ~900 pacientes, bom perfil, **mas desenvolvimento descontinuado em 2007 por eficácia mista** (não emagrece significativo) — GLP-1 (§13.76–77) faz o trabalho.
+  - 🔥 **5-Amino-1MQ** (inibidor NNMT): **só pré-clínico, zero humano**.
+  - 💪 **ACE-031 · follistatina-344 · IGF-1 LR3 · MGF** (músculo): ACE-031 +5,1% volume de coxa em dose única **mas ensaios PARADOS por sangramento/telangiectasia**; IGF-1/MGF = **paradoxo IGF-1/câncer (§13.72)** + hipoglicemia/acromegalia + **WADA**; follistatina = hype de terapia gênica.
+  - 🦠 **KPV** (frag α-MSH, anti-inflamatório intestinal): pré-clínico. **LL-37** (catelicidina): experimental, concern pró-inflamatório.
+  - 🧠 **Dihexa** (análogo angiotensina IV, sinaptogênese): **zero dado humano**, concern teórico de câncer (HGF/c-Met).
+- 🚨 **BASE REGULATÓRIA BR (o motivo de fundo, confirmado):**
+  1. **Registro de medicamento ANVISA = ZERO** — ANVISA/CRM listam explicitamente BPC-157/Semax/Selank/AOD-9604/CJC/ipamorelina/GHK-Cu/tesamorelina **sem registro p/ uso injetável no BR**; Semax/Selank registrados **só na Rússia**.
+  2. **Magistral = BARRADO** — pela lógica NT 200/2025 + Despacho 97/2025 (a mesma do tirzepatida×semaglutida), manipular peptídeo sintético **só é permitido se já houver medicamento de referência registrado no BR** (+ QC do importador). **Nenhum tem referência registrada → todos reprovam.** Soma: RE 4.424/2023 (veda injetável estético magistral) + nota CRM-PR sobre peptídeo invasivo + fiscalização 2025-26.
+  3. **O que se vende ("peptídeo de pesquisa")** é rotulado **"não para uso humano"** = mercado cinza, não via legal.
+- ⚖️ os de gordura/músculo: **GLP-1 + HMB/creatina + treino** já entregam com evidência; 🧠 nootrópicos sem fase 3; 🩺 alguns com concern real (ACE-031 vascular, dihexa câncer-teórico, IGF-1 paradoxo).
+- 📚 **RAG:** sem conteúdo da casa (só "miostatina" em fisiologia do exercício, mecanístico).
+
+**Card — Outros peptídeos experimentais (Semax·Selank·DSIP·AOD-9604·5-Amino-1MQ·ACE-031·follistatina·IGF-1 LR3·MGF·KPV·LL-37·dihexa):** **⚠️🔴 NÃO OFERTAR (carta única)** · **ZERO registro ANVISA + magistral barrado (sem medicamento de referência registrado no BR — regra NT 200/2025) + só "peptídeo de pesquisa/não uso humano"** · FDA Cat 2 (revisão PCAC jul/2026) · concern real em vários (ACE-031 vascular, dihexa câncer-teórico, IGF-1 paradoxo/WADA) · **única porta teórica = se ganhar referência registrada no BR (lógica tirzepatida) → reavaliar caso a caso** · mesmo balde de §13.68/69/73/74.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -2255,7 +2274,7 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 >
 > **Achados-chave:** (1) **auditoria evitou retrabalho** — NAD+/NMN/NR (§13.3), MIC lipotrópico (§13.32) e tesamorelina (§13.72) já estavam no doc; (2) **TRT-adjuntos completam o §13.80** — hCG (injetável) + clomifeno/enclomifeno + anastrozol/letrozol fecham o eixo androgênico masculino (preservar fertilidade/eixo, alternativa à TRT, controle de E2); (3) **padrão de governança reforçado** — o nefrologista veta vanádio e EDTA por toxicidade renal; NAD+ IV/cerebrolisina/EDTA caem na mesma recusa de "drip de longevidade"; (4) **dieta hCG = fraude** (recusa explícita numa clínica de emagrecimento). **A varredura de centros BR não revelou injetável ofertável novo além do hCG.**
 
-🔄 **BLOCO COMPLEMENTAR II §13-nonies EM CURSO (2ª varredura, 2026-05-26):** ✅ azul de metileno (§13.107, 🟡 restrito) · ✅ SGLT2 (§13.108, 🟢 oral) · ✅ LDN (§13.109, 🟢 oral). 🔲 PRÓXIMA = **cluster peptídeos experimentais** (§13.110, carta única), depois: PDRN (§13.111).
+🔄 **BLOCO COMPLEMENTAR II §13-nonies EM CURSO (2ª varredura, 2026-05-26):** ✅ azul de metileno (§13.107, 🟡 restrito) · ✅ SGLT2 (§13.108, 🟢 oral) · ✅ LDN (§13.109, 🟢 oral) · ✅ cluster peptídeos experimentais (§13.110, ⚠️🔴 sem via legal). 🔲 PRÓXIMA = **PDRN/polinucleotídeos** (§13.111, decisão de escopo) — fecha o bloco II.
 
 🔲 **PRÓXIMO PASSO (após §13-nonies) = decisão do Dr.** (consolidar protocolo de soros/combos ofertáveis? priorizar o cardápio real da clínica a partir dos 🟢?).
 
