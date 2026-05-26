@@ -1977,6 +1977,24 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.90 Nandrolona (decanoato/NPP — Deca-Durabolin) — 🟡 OFERTÁVEL RESTRITO; a MAIS fácil do bloco (tem produto registrado + magistral fora da NT 104); ângulo nefro = wasting/sarcopenia da DRC
+- **Identidade:** éster injetável de nandrolona (IM). **Vantagem-chave vs oxandrolona: tem produto REGISTRADO + magistral permitida** (não cai na NT 104) — logística mais limpa no PR.
+- **Indicações aprovadas (bula Deca):** balanço nitrogenado negativo (doença debilitante crônica, corticoterapia prolongada, pós-cirurgia/trauma de grande porte), osso (↓reabsorção/↑formação), eritropoiese.
+- **🩺 Ângulo nefro (2 pernas, pesos diferentes):**
+  - **🟢 Massa/wasting na DRC (perna boa):** RCT dose-finding (54 DRC estágio 5, 50–200 mg/sem) → **↑massa magra apendicular dose-dependente**, benefício nutricional pré-diálise **sem alterar função renal**. Útil no **protein-energy wasting/sarcopenia da DRC** — domínio nefro legítimo.
+  - **🔴 Anemia da DRC (superada):** estimula EPO renal/sensibilidade eritroide, MAS **na era da EPO NÃO melhora resposta à eritropoetina + efeitos adversos → superada pela EPO/ESA.** Não usar p/ anemia hoje (salvo recurso limitado).
+- **🇧🇷 3 vias (distinguir):**
+  1. **🟢 Registrado — Deca-Durabolin (decanoato 50 mg)**, ANVISA reg. 1376401660030, C5 retenção de receita, venda física: **via mais limpa, resolve maioria dos casos sem manipular.**
+  2. **🟢 Magistral (decanoato ou fenilpropionato/NPP)** — **PERMITIDA (nandrolona FORA da lista da NT 104/2019)**, C5, farmácia idônea; **NPP = éster curto** (ação rápida/washout, ajuste fino) que o decanoato (longo) não dá.
+  3. **🔴 Mercado paralelo/UGL** ("NPP Landerlan/Pharmacom/AES") = anabolizante de academia/veterinário/underground — **NÃO é magistral legítima**, risco de procedência → fora de questão.
+- **🔴 Régua CFM 2.333/2023:** **vedada estética/massa/performance** (a demanda "Deca" do fisiculturismo); legítima só com **indicação catabólica/wasting documentada** + Lei 9.965/2000 (CID + CPF do prescritor).
+- **🚨 Segurança:** virilização ♀, **↓HDL/dislipidemia**, supressão gonadal/**disfunção erétil**, retenção hídrica; hepatotox < 17-aa orais (éster injetável). IM. WADA proibido.
+- 📚 **RAG:** mínimo/irrelevante — não é conduta da casa.
+
+**Card — Nandrolona:** 🟡 **OFERTÁVEL RESTRITO — a MAIS fácil do bloco** · **3 vias: (1) 🟢 Deca-Durabolin REGISTRADO (decanoato, C5) = mais limpa; (2) 🟢 magistral decanoato/NPP PERMITIDA (fora da NT 104, ≠ oxandrolona); (3) 🔴 UGL/paralelo Landerlan = fora de questão** · **🩺 nicho nefro = wasting/sarcopenia da DRC pré-diálise (RCT ↑massa magra sem piorar função renal)**; **🔴 anemia DRC superada pela EPO** · **❌ estética/massa vedada (CFM)** · C5 + CID + CPF (Lei 9.965/2000) · 🚨 ↓HDL/disfunção erétil/virilização/IM/WADA · RAG irrelevante. **Sem gargalo da oxandrolona (registrado + magistral livre).**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -2012,7 +2030,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) · estrogênio/estradiol (§13.84, 🟢 THM na janela) · progesterona (§13.85, 🟢 micronizada padrão-ouro) · tireoide (§13.86, 🟢 T4 padrão/T3 nichos/combinação DIO2) · GH (§13.87, 🟢 só GHD por teste; 🔴 nunca anti-aging) · ocitocina (§13.88, 🟡 nicho gel vaginal GSM) feitas. **✅ BLOCO HORMÔNIOS FECHADO.**
 **Resumo hormônios (§13.80–13.88) — governança CFM 2.333/2023 domina:** 🟢 **ofertáveis com disciplina:** testosterona (só hipogonadismo Dx, card-referência) · DHEA (magistral, prasterona vaginal=ouro) · melatonina (oral, dose magistral≠suplemento) · estradiol (THM na janela) · progesterona micronizada (padrão-ouro) · tireoide T4 (padrão; T3/combinação DIO2) · GH (só GHD por teste) · ocitocina (só gel vaginal GSM). 🔴 **não ofertável:** pregnenolona (magistral proibida RE 685/2018). 🔑 **Princípios do bloco:** (1) **CFM = hormônio só com deficiência comprovada + nexo causal; NUNCA anti-aging/estético/performance/otimização de eugonádico**; (2) **checar legislação molécula a molécula** (DHEA permitida NT 165/2019 × pregnenolona proibida RE 685/2018 — opostos); (3) **paradoxo da longevidade**: GH/IGF-1/testosterona altos ↔ menos vida/+câncer — forçar esses eixos é o oposto da longevidade; (4) **"bioidêntico" como molécula registrada = ok; como marketing manipulado superior/nano/implante = vedado**; (5) a **disciplina diagnóstica é o produto** — blinda CFM/CRM-PR.
 
-**BLOCO ESTEROIDES SINTÉTICOS / ANABOLIZANTES (EM CURSO):** oxandrolona (§13.89, 🟡 ofertável restrito — prescrição legal/manipulação frágil no PR) feita. **PRÓXIMA = nandrolona** (ângulo nefro = anemia DRC). Restantes: estanozolol · oximetolona · mesterolona · outros (boldenona/drostanolona/trembolona = só veterinário/ilícito). (UM A UM.) **🔑 2 camadas: CFM 2.333/2023 (estética/massa/performance VEDADO) + ANVISA NT 104/2019 (manipulação contestada — TJMG afastou MAS 🔴 TJPR MANTEVE → no PR manipulação é frágil; prescrição C5 é legal; obter via importação nominal RDC 81/2008).**
+**BLOCO ESTEROIDES SINTÉTICOS / ANABOLIZANTES (EM CURSO):** oxandrolona (§13.89, 🟡 restrito — prescrição legal/manipulação frágil no PR) · nandrolona (§13.90, 🟡 restrito — registrada Deca + magistral livre; nicho wasting DRC) feitas. **PRÓXIMA = estanozolol.** Restantes: estanozolol · oximetolona · mesterolona · outros (boldenona/drostanolona/trembolona = só veterinário/ilícito). (UM A UM.) **🔑 2 camadas: CFM 2.333/2023 (estética/massa/performance VEDADO) + ANVISA NT 104/2019 (manipulação contestada — TJMG afastou MAS 🔴 TJPR MANTEVE → no PR manipulação é frágil; prescrição C5 é legal; obter via importação nominal RDC 81/2008).**
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
