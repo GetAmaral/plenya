@@ -1787,6 +1787,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.77 Tirzepatida (Mounjaro / Zepbound) — 🟢 OFERTÁVEL; GLP-1 mais potente (duplo GIP/GLP-1); a que VIABILIZA dose personalizada magistral legal
+- **Identidade:** **agonista DUPLO GIP + GLP-1** (1º da classe; ≠ semaglutida só-GLP-1). SC semanal. Mais potente que a semaglutida — e a que **pode ser manipulada legalmente** (síntese química).
+- **⚖️ Eficácia — superior à semaglutida (head-to-head):** **SURMOUNT-5 (72 sem): tirzepatida −20,2% vs semaglutida −13,7%** (~47% mais perda relativa); **32% perderam ≥25% do peso** (vs 16%); superior também em PA/HbA1c/insulina/TG/HDL. **Emagrecedor farmacológico mais eficaz disponível.**
+- **🫀🩺 Cardiometabólico/cardiorrenal:** **SUMMIT (HFpEF+obesidade): −38% morte CV/piora de IC** (benefício mantido no subgrupo DRC; ↓sobrecarga volêmica/dano cardiorrenal); **SURMOUNT-OSA: melhora apneia do sono**. **Ressalva vs semaglutida: sinais cardiorrenais fortes MAS sem trial renal dedicado tipo FLOW** → tirzepatida ganha em potência+IC/apneia+magistral; semaglutida lidera evidência renal dedicada. Complementares.
+- **🟢 A diferença-chave (dose personalizada legal):** tirzepatida = **síntese química** + Mounjaro registrado (set/2023) → **NT 200/2025 PERMITE manipulação magistral** (caminho legal de dose personalizada de GLP-1, ≠ semaglutida biotecnológica proibida), DESDE QUE: IFA de fonte avaliada/regularizada + **prescrição individualizada + RDC 67/2007 + QC rigoroso por lote (HPLC/UV, mapa de peptídeo, pH, doseamento, impurezas, esterilidade, endotoxinas) + rastreabilidade auditável**. Exige **farmácia de alto nível** (não qualquer uma). Alternativa mais limpa = **Mounjaro registrado** (titulável 2,5→15 mg). As duas coexistem.
+- **🚨 Segurança (efeitos de classe):** GI (titular devagar); **🚨 sarcopenia → PROGRAMA c/ treino+proteína**; vesícula; pancreatite leve/monitorada; **tireoide: contraindicado carcinoma medular/MEN2**; gravidez suspender; **WADA não proibido**; sem novos sinais.
+- 📚 **RAG:** da casa — nos **48 score_items** de GLP-1 (eixo metabólico/emagrecimento).
+
+**Card — Tirzepatida:** 🟢 **OFERTÁVEL — GLP-1 MAIS POTENTE + o que viabiliza dose personalizada** · **2 vias: (1) Mounjaro registrado (titulável 2,5→15 mg, mais limpo); (2) magistral LEGAL (≠ semaglutida — síntese química) com QC completo NT 200/2025 (HPLC/mapa peptídeo/esterilidade/endotoxinas/rastreabilidade) — só farmácia de alto nível** · duplo GIP/GLP-1, **SURMOUNT-5: −20,2% vs −13,7% da semaglutida** · 🫀 SUMMIT −38% morte CV/IC + apneia (cardiorrenal forte, mas **sem FLOW dedicado**) · **🚨 sempre PROGRAMA c/ treino+proteína** · gates GI/vesícula/pancreatite/tireoide-MEN2/gravidez · WADA ok. **Resposta à demanda por dose personalizada de GLP-1.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1816,7 +1828,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) feitos. **GLP-1 sendo feitos UM A UM (não agrupar).** **PRÓXIMA = tirzepatida** (aqui entra a opção de dose personalizada magistral legal — síntese química). Restantes GLP-1: liraglutida · retatrutida.
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) feitos. **GLP-1 sendo feitos UM A UM (não agrupar).** **PRÓXIMA = liraglutida.** Restante GLP-1: retatrutida (FECHA o bloco peptídeos).
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
