@@ -1901,6 +1901,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.85 Progesterona (micronizada) — 🟢 OFERTÁVEL; progestagênio padrão-ouro (Utrogestan registrado); proteção endometrial + sono/ciclo; preferir à sintética
+- **Identidade:** progesterona **micronizada natural** (idêntica à endógena) = progestagênio de escolha das diretrizes. **🇧🇷 Utrogestan 100/200 mg oral/vaginal, registrado** + magistral. Dois papéis distintos.
+- **Papel 1 — proteção endometrial na THM (parceira obrigatória do estradiol):** estrogênio + útero → progesterona **obrigatória** (previne hiperplasia/câncer endometrial). Esquema: **200 mg 12–14 d/mês** cíclico ou 100 mg contínuo. Complemento do §13.84.
+- **Papel 2 — usos próprios:** **🌙 sono/ansiedade na menopausa** (micronizada ORAL à noite → sedativo via alopregnanolona/GABA-A — bônus real, eixo sono); insuficiência lútea/TPM/perimenopausa/doença mamária benigna/menstruação irregular (200–300 mg, dias 16–25); suporte lútea em reprodução (vaginal/IM, domínio de reprodução).
+- **🚨 Micronizada > sintético (MPA):** **mais segura p/ mama** (menor risco mamário/coronariano), efeito **neutro/favorável** em lipídios/PA/glicose. **Trade-off honesto:** proteção endometrial discretamente menos robusta que sintéticos (PROBES em curso), mas o ganho mama/CV favorece micronizada como 1ª linha (didrogesterona = alternativa favorável).
+- **Via:** **oral (à noite, aproveita sonolência) ou vaginal** (mesmas doses; vaginal evita sonolência/vertigem). **Não IV; IM (oleosa) só suporte lútea/reprodução** (nicho, ≠ via da menopausa).
+- **🚨 Linha CFM:** micronizada **é bioidêntica de fato + padrão registrado (Utrogestan) = correto/preferível**; vedado = marketing "bioidêntica manipulada superior"/nano. Usar registrada.
+- **🩺 Segurança:** sonolência/tontura (oral — vira vantagem à noite); contraindicações tromboembólicas/hepáticas; cautela câncer mama; gestação = usada em suporte lútea (segura nesse contexto).
+- 📚 **RAG:** eixo feminino (197 itens) — climatério/fase lútea/progesterona consolidado.
+
+**Card — Progesterona:** 🟢 **OFERTÁVEL — micronizada registrada (Utrogestan), PADRÃO-OURO** · **2 usos: (1) proteção endometrial na THM** (obrigatória c/ estradiol se útero, 200 mg 12–14 d/mês ou 100 mg contínuo); **(2) 🌙 sono/ansiedade menopausa** (oral à noite, alopregnanolona) + insuf. lútea/TPM/perimenopausa · **preferir micronizada a sintético** (segurança mama/CV) · **registrada, não marketing bioidêntico** · **oral à noite/vaginal, não IV** (IM só reprodução) · contraindicação tromboembólica/mama · RAG eixo feminino.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1933,7 +1947,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) · liraglutida (§13.78, 🟡 backup) · retatrutida (§13.79, ⏳ deixar pro futuro) feitos. **✅ BLOCO PEPTÍDEOS FECHADO.**
 **Resumo peptídeos (§13.68–13.79):** 🟢 **OFERTÁVEIS:** timosina α1 (imune/imunossenescência) · GHK-Cu **tópico** · semaglutida · tirzepatida (+ magistral legal). 🟡 backup: liraglutida. ⚠️ **alternativa selecionada:** secretagogos GH (não anti-aging, paradoxo IGF-1). ⏳ **futuro (aguardar registro):** retatrutida (~2027). 🔴 **NÃO OFERTAR:** BPC-157, TB-500, MOTS-c, epitalon (experimentais/WADA/mercado cinza), GHK-Cu **injetável**, melanotan (MT-II perigoso). 🔑 **Lições do bloco:** (1) triar regulatório+WADA+evidência caso a caso, não pela hype; (2) GLP-1 são o pilar do emagrecimento (halo renal FLOW + CV SELECT = ouro pro nefrologista); (3) semaglutida/liraglutida NÃO manipuláveis (biotec), tirzepatida SIM (síntese química, NT 200/2025); (4) GLP-1 sempre em PROGRAMA c/ treino+proteína (preserva magra, oposto da metformina).
 
-**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) · estrogênio/estradiol (§13.84, 🟢 THM na janela) feitas. **PRÓXIMA = progesterona.** Restantes: tireoide · GH · ocitocina. (🚨 UM A UM — NÃO agrupar, nem estrogênio+progesterona; o Dr. reforçou.)
+**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) · estrogênio/estradiol (§13.84, 🟢 THM na janela) · progesterona (§13.85, 🟢 micronizada padrão-ouro) feitas. **PRÓXIMA = tireoide.** Restantes: GH · ocitocina. (🚨 UM A UM — NÃO agrupar; o Dr. reforçou 2×.)
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
