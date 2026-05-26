@@ -2372,3 +2372,19 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 - **A6 · Reposição do etilista/desnutrido** — *combo:* tiamina IV (ANTES de glicose) + complexo B + magnésio IV (**gate renal crítico**) + correção das deficiências mapeadas. *Escopo:* ambulatorial no **estável** (Wernicke agudo é hospitalar, fora); prevenção de realimentação. *Gate:* Mg suspende se Cr ≥1,3/ClCr<20; reflexo patelar/FR/PA; antídoto gluconato de cálcio.
 
 **Princípios do eixo:** indicação laboratorial sempre · veículo oleoso (D) = IM nunca IV · B12 nunca IV · teto B6 somatório · carrinho + observação ≥30 min nos IV de risco (ferro/tiamina).
+
+### Eixo B · Neuro / dor (neurotrópico)
+**Regra do eixo:** alívio sintomático com base de evidência; **nunca prometer "regenerar nervo".** A base modificadora (controle glicêmico na neuropatia) precede a injeção.
+
+**Simples (monoagente):**
+- **B1 · Complexo B neurotrópico IM** (Citoneurin 5000/1000) — *indicação:* neuropatia/dor neuropática adjuvante, lombalgia aguda. *Mecânica (§9):* 1 amp (I+II) a cada 3 dias; lombalgia ~3–6 aplicações → oral. **IM profunda, NUNCA IV.** *Gate:* **teto B6 somatório** (Citoneurin 100 mg/amp → acumula rápido → neuropatia sensitiva; série curta).
+- **B2 · ALA IV** (manipulado, trometamol 600 mg) — *indicação:* **indução em neuropatia diabética** (nível A; oral mantém). *Mecânica (§9):* só SF 100–250 mL, ~30 min (≤50 mg/min), âmbar/preparar na hora. *Gates:* **sem ajuste renal** (eliminação não renal) · hipoglicemia/Hirata · espaçar de Fe/Ca/Mg.
+
+**Combos:**
+- **B3 · Neuropatia diabética (manejo patogenético)** — §6.1: **controle glicêmico** (única coisa que modifica a doença) + **ALA 600 mg** (oral Thioctacid ou **IV indução**) + **benfotiamina 300 mg 2×/d** + **metilcobalamina/B12** + duloxetina/pregabalina se dor. *Disclaimer:* alívio de sintoma, **não regeneração**.
+- **B4 · Lombalgia / dor musculoesquelética aguda** — Citoneurin IM série curta + analgesia oral. ⚠️ **Dolo-Neurobion** (B+diclofenaco+lidocaína) só **se registro ANVISA da forma injetável confirmado** (🔲 §9) e **AINE contraindicado ClCr<30/nefropata** — preferir não estocar; analgesia oral separada é mais segura.
+
+**Exploratório / cardápio (com disclaimer):**
+- **B5 · Adjuvantes MSK orais** — **CRPS pós-fratura: vit C oral 500 mg/d × 50 dias** (Zollinger, nível B) · **tendão/ligamento: 15 g gelatina/colágeno + vit C oral 30–60 min antes da fisioterapia** (Shaw). Orais, baratos; pacote de recuperação MSK (não injetável).
+
+**Princípios do eixo:** controle glicêmico antes de tudo na neuropatia · teto B6 somatório (vigiar Citoneurin) · ALA IV é indução, oral mantém · AINE injetável = gate renal (evitar) · **nunca "regenera nervo".**
