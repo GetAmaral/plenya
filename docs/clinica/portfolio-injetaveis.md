@@ -1889,6 +1889,18 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.84 Estrogênio (estradiol) — 🟢 OFERTÁVEL na THM da menopausa (janela de oportunidade); transdérmico registrado, não "bioidêntico marketing"/implante
+- **Identidade:** estrogênio principal da THM. **1ª linha** p/ sintomas vasomotores (fogachos) e GSM; previne perda óssea/fraturas; ↑modesto sono/humor/QoL. Eixo feminino da casa.
+- **🔑 Janela de oportunidade:** iniciar **<10 anos de menopausa / <60 anos** = benefício-risco **favorável** (sintomas, osso, CV neutro-a-favorável, ↓íntima-média carotídea <6a); tardio (>10a) = sem benefício CV, mais risco. **Prevenção CV NÃO é indicação.**
+- **Via — transdérmico preferido:** **estradiol transdérmico (gel/adesivo/spray)** evita 1ª passagem → **menos TEV** que oral; oral disponível (maior risco trombótico); **GSM = estrogênio vaginal local dose baixa** (estriol/estradiol, mínima exposição sistêmica). **Não IV; IM (cipionato/valerato) e implante não são via moderna** (implante estético vedado).
+- **🚨 Segurança:** **mama = estrogênio ISOLADO (pós-histerectomia) neutro-a-favorável** (≠ combinado); **🔴 endométrio: estrogênio sem oposição em mulher COM útero → hiperplasia/câncer endometrial → OBRIGATÓRIO associar progestagênio (§13.85)**; TEV/AVC (oral; transdérmico atenua); contraindicado TEV/trombofilia, câncer de mama, hepatopatia, sangramento não investigado.
+- **🚨 Linha CFM "bioidênticos":** estradiol é molécula **bioidêntica de fato** e é o padrão registrado — **correto usar**; **vedado = marketing de "estrogênio bioidêntico manipulado superior"/nano/implante estético** (CFM 2.333/2023; ANVISA baniu chips). Usar **estradiol registrado**.
+- 📚 **RAG:** eixo climatério/estradiol extenso no EMR (parte dos 197 itens do eixo feminino).
+
+**Card — Estrogênio (estradiol):** 🟢 **OFERTÁVEL — THM menopausa sintomática na JANELA (<10a/<60a)** · **estradiol transdérmico registrado** preferido (menos TEV); **GSM = vaginal local**; **🔴 se útero presente, SEMPRE + progestagênio (§13.85, proteção endometrial)** · mama: isolado neutro-a-favorável · **não prevenção CV** · **❌ marketing bioidêntico/nano/implante vedado (usar registrado)** · transdérmico/oral/vaginal, **não IV** · contraindicado câncer mama/TEV/trombofilia · rastreio mama/endométrio/trombose · RAG eixo feminino.
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1921,7 +1933,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 **BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) · liraglutida (§13.78, 🟡 backup) · retatrutida (§13.79, ⏳ deixar pro futuro) feitos. **✅ BLOCO PEPTÍDEOS FECHADO.**
 **Resumo peptídeos (§13.68–13.79):** 🟢 **OFERTÁVEIS:** timosina α1 (imune/imunossenescência) · GHK-Cu **tópico** · semaglutida · tirzepatida (+ magistral legal). 🟡 backup: liraglutida. ⚠️ **alternativa selecionada:** secretagogos GH (não anti-aging, paradoxo IGF-1). ⏳ **futuro (aguardar registro):** retatrutida (~2027). 🔴 **NÃO OFERTAR:** BPC-157, TB-500, MOTS-c, epitalon (experimentais/WADA/mercado cinza), GHK-Cu **injetável**, melanotan (MT-II perigoso). 🔑 **Lições do bloco:** (1) triar regulatório+WADA+evidência caso a caso, não pela hype; (2) GLP-1 são o pilar do emagrecimento (halo renal FLOW + CV SELECT = ouro pro nefrologista); (3) semaglutida/liraglutida NÃO manipuláveis (biotec), tirzepatida SIM (síntese química, NT 200/2025); (4) GLP-1 sempre em PROGRAMA c/ treino+proteína (preserva magra, oposto da metformina).
 
-**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) feitas. **PRÓXIMA = estrogênio/progesterona.** Restantes: tireoide · GH · ocitocina. (UM A UM — não agrupar.)
+**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (EM CURSO):** testosterona (§13.80, 🟢 só deficiência diagnosticada — card-referência de governança CFM) · DHEA (§13.81, 🟢 magistral em deficiência; prasterona vaginal = ouro) · pregnenolona (§13.82, 🔴 não ofertável — magistral proibida RE 685/2018) · melatonina (§13.83, 🟢 oral/sublingual only) · estrogênio/estradiol (§13.84, 🟢 THM na janela) feitas. **PRÓXIMA = progesterona.** Restantes: tireoide · GH · ocitocina. (🚨 UM A UM — NÃO agrupar, nem estrogênio+progesterona; o Dr. reforçou.)
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
