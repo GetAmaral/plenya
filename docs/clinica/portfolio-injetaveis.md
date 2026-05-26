@@ -2346,3 +2346,29 @@ Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
 Soros/combos: Myers · imunidade (C+zinco) · energia · beleza · hidratação+eletrólitos (base).
 Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
+
+---
+
+## 15. Protocolos ofertáveis (simples e combos) — IV / IM / SC
+
+> Consolidação dos protocolos a partir do portfólio (§1–§13.111). Organizado por **objetivo clínico** (eixos A–G); cada protocolo = **simples (monoagente)** e/ou **combo**, com a mecânica do §9. **Regra-mãe (gate clínico universal, §0.1):** todo protocolo exige avaliação médica + indicação em prontuário — **nunca balcão**. Combos exploratórios entram com **disclaimer honesto** (experiência/QoL, não cura). Construído eixo a eixo com o Dr.
+
+### Eixo A · Reposição / deficiência documentada
+**Regra do eixo:** deficiência laboratorial documentada + indicação em prontuário. Núcleo mais defensável — repor o que falta, na via que entrega.
+
+**Simples (monoagente):**
+- **A1 · Ferro EV** (carro-chefe) — *indicação:* deficiência de ferro/anemia ferropriva documentada (ferritina+TSAT), falha/intolerância ao oral, recarga rápida. *Mecânica (§9):* carboximaltose ≤1.000 mg/sem (SF, ≥15 min) · derisomaltose (preferir em cursos repetidos — menos hipofosfatemia 8% vs 74%) · sacarato (test-dose 1ª). *Gates:* observação ≥30 min + carrinho · **fosfato basal e ~2 sem se repetir** (nefro) · diálise carboximaltose máx 200 mg · extravasamento = mancha permanente.
+- **A2 · B12 IM** (hidroxocobalamina) — *indicação:* deficiência documentada/má absorção/vegano/pós-bariátrica/metformina crônica. *Mecânica:* 1 mg IM ataque 3×/sem ×2 sem → manut. cada 2–3 m. **B12 IV não** (excreção renal imediata); SC possível 🔲. *Gate:* nunca repor folato sem checar B12.
+- **A3 · Vitamina D IM** (nicho estrito) — *indicação:* **só** má absorção/não-adesão documentada (senão oral). *Mecânica:* colecalciferol oleoso ~600.000 UI **IM Z-track, NUNCA IV** (oleoso→embolia); dosar 25-OH-D+cálcio antes de re-dosar. *Gate:* mega-bolus herda sinal Sanders (+quedas/fraturas) → preferir oral; cautela litíase/DRC.
+- **A4 · Tiamina / Complexo B** (IV ou IM) — *indicação:* reposição em etilista/desnutrido/pós-bariátrica. *Mecânica:* tiamina IV lenta ≥30 min, **B1 ANTES de glicose**; complexo B genérico diluído 500–1.000 mL IV lenta (fenol/nicotinamida→flushing) ou IM. *Gate:* **teto B6 somatório**; acúmulo em IR.
+
+**Combos:**
+- **A5 · Programa capilar (em camadas, honesto)** — *a parte injetável é correção de deficiência = adjuvante; a eficácia real é oral/tópico.*
+  - **Camada 0 — Diagnóstico (a casa já tem no EMR — `score_items` Queda/Enfraquecimento capilar):** anamnese dirigida (gatilho 3–6 m, padrão, eixo hormonal/menstrual, medicações, dieta, AGA familiar, **rastrear síndrome pós-finasterida**) + workup: hemograma, **ferritina meta >70 ng/mL** (não o valor de referência), TSAT, 25-OH-D, B12, zinco, TSH/T4FL, ± androgênios. Classificar **eflúvio telógeno × AGA × misto**.
+  - **Camada 1 — Correção de deficiência (injetável, nosso escopo):** ferro EV (A1) se ferritina baixa/alvo capilar com falha oral · B12 IM (A2) · vit D corrigir (A3) · zinco oral só se deficiente. ⚠️ biotina só em deficiência real + **suspender 48–72 h antes de coletas**.
+  - **Camada 2 — Terapia modificadora (eficácia real, ORAL/tópico):** 🟢 **minoxidil oral baixa dose 0,25–5 mg/d** (a grande adição — tão eficaz quanto tópico 5% na AGA; 86% melhora no eflúvio telógeno crônico; gates: hipertricose dose-dependente, edema/taquicardia→avaliar cardio, *shedding* inicial) · minoxidil tópico 5% · **finasterida/dutasterida** (AGA♂, rastrear sd. pós-finasterida) · **espironolactona** (FPHL♀, combina c/ minoxidil oral) · 🟡 cistina+B6 · 🟡 dexpantenol (pró-anágeno, evidência humana pequena → adjuvante).
+  - **Camada 3 — Fora do escopo de via:** 🔴 **PRP de couro cabeludo + mesoterapia capilar (dutasterida/minoxidil intradérmico) = intradérmico que a clínica exclui** → co-manejo/encaminhamento dermato, ou decisão do Dr. de exceção.
+  - *Honestidade:* investigação + correção do que falta + terapia modificadora (minoxidil oral é o motor); IV/IM é adjuvante, **não "soro que faz cabelo nascer".**
+- **A6 · Reposição do etilista/desnutrido** — *combo:* tiamina IV (ANTES de glicose) + complexo B + magnésio IV (**gate renal crítico**) + correção das deficiências mapeadas. *Escopo:* ambulatorial no **estável** (Wernicke agudo é hospitalar, fora); prevenção de realimentação. *Gate:* Mg suspende se Cr ≥1,3/ClCr<20; reflexo patelar/FR/PA; antídoto gluconato de cálcio.
+
+**Princípios do eixo:** indicação laboratorial sempre · veículo oleoso (D) = IM nunca IV · B12 nunca IV · teto B6 somatório · carrinho + observação ≥30 min nos IV de risco (ferro/tiamina).
