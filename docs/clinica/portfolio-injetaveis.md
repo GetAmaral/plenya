@@ -1773,6 +1773,20 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.76 Semaglutida (Ozempic / Wegovy / Rybelsus) — 🟢 OFERTÁVEL; pilar farmacológico do emagrecimento; halo renal (FLOW) + CV (SELECT); marca registrada, NÃO manipulável (biotecnológica)
+- **Identidade:** agonista do receptor de GLP-1, meia-vida longa (SC semanal ou oral diário). Saciedade central, esvaziamento gástrico lento, insulina glicose-dependente, ↓glucagon. O GLP-1 com **maior corpo de desfecho duro**.
+- **🇧🇷 Apresentações registradas ANVISA:** **Ozempic** (SC sem. 0,25→0,5→1,0→2,0 mg, DM2) · **Wegovy** (SC sem. titulação até **2,4 mg**, peso) · **Rybelsus** (oral 3/7/14 mg, DM2). Medicamento de prateleira, não mercado cinza.
+- **⚖️ Peso/composição (STEP):** semaglutida 2,4 mg → **−10% mantido 2 anos (STEP 5)**, ~15% médio; **SEMALEAN: gordura −18%/12m, massa magra cai no início (−3 kg) e estabiliza** (maioria perdida é gordura, mas perda de magra é real → contrapeso treino+proteína). Dose 7,2 mg (STEP UP) supera 2,4 mg.
+- **🫀 CV:** **SELECT (17.604, obesos SEM diabetes, DCV): −20% MACE** → indicação FDA 2024 p/ risco CV; SUSTAIN-6 −26% MACE em DM2.
+- **🩺 Renal (trunfo nefrológico):** **FLOW (DM2+DRC, 1,0 mg): −24% eventos renais maiores, −18% MACE, −20% mortalidade** (independe de SGLT2i/MRA); SELECT desfecho renal HR 0,78 mesmo em não-diabético. **Emagrecedor que protege rim e coração.**
+- **🚨 Segurança:** GI (titular lento); **🚨 sarcopenia/perda de magra** na perda rápida → **exige treino de força + proteína** (sinergia c/ a missão da casa, OPOSTO da metformina que embota o treino — semaglutida PRECISA do treino como contrapeso → ofertar dentro de PROGRAMA); vesícula (colelitíase); pancreatite leve/monitorada (câncer pancreático afastado); **tireoide: contraindicado em carcinoma medular/MEN2** (rastrear); gravidez suspender; **WADA não proibido.**
+- **🇧🇷 Por que NÃO manipular (correção importante — é técnico, não burocrático):** a semaglutida **registrada é BIOTECNOLÓGICA** (fermentação recombinante). ANVISA (Despacho 97/2025 + NT 200/2025): segurança/eficácia de IFA **biológico** está amarrada ao **processo produtivo do fabricante, não extrapolável** → "semaglutida sintética" de magistral ≠ molécula validada, sem produto registrado por trás → **manipulação PROIBIDA** (liraglutida junto). **Personalização ainda existe — via TITULAÇÃO da caneta registrada** (dose/velocidade/manutenção por paciente); o que não dá é mg sob medida em magistral. (Quem quer dose magistral personalizada de GLP-1 → caminho legal é a **tirzepatida §13.77**, que é síntese química.) Retenção de receita + SNGPC obrigatórios. Usar marca registrada **reforça o posicionamento premium/defensável** vs "GLP-1 manipulado barato".
+- 📚 **RAG — profundamente da casa:** GLP-1 em **48 score_items** (gordura visceral, RI, "Metformina/GLP-1/SGLT2i conforme perfil"). A clínica trata emagrecimento — semaglutida é peça central.
+
+**Card — Semaglutida:** 🟢 **OFERTÁVEL — pilar do emagrecimento da clínica** · marca registrada (Ozempic/Wegovy/Rybelsus), **titulável (personalização via caneta)**, **NÃO manipulável (biotecnológica — proibido ANVISA 2025)** · **halo 🩺 renal FLOW (−24% eventos renais) + 🫀 CV SELECT (−20% MACE) = narrativa perfeita pro nefrologista** · ⚖️ −10–15% peso, gordura −18% · **🚨 sempre em PROGRAMA c/ treino de força + proteína** (preserva magra; oposto da metformina) · gates = GI/vesícula/pancreatite/tireoide-MEN2/gravidez · WADA ok · RAG 48 itens. **O oposto dos peptídeos experimentais: registro + evidência massiva + segurança.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1802,7 +1816,7 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) feitos. **PRÓXIMA = análogos de GLP-1** (FECHA o bloco peptídeos — e deve se sair muito bem).
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) feitos. **GLP-1 sendo feitos UM A UM (não agrupar).** **PRÓXIMA = tirzepatida** (aqui entra a opção de dose personalizada magistral legal — síntese química). Restantes GLP-1: liraglutida · retatrutida.
 Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
