@@ -2258,6 +2258,16 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 **Card — Outros peptídeos experimentais (Semax·Selank·DSIP·AOD-9604·5-Amino-1MQ·ACE-031·follistatina·IGF-1 LR3·MGF·KPV·LL-37·dihexa):** **⚠️🔴 NÃO OFERTAR (carta única)** · **ZERO registro ANVISA + magistral barrado (sem medicamento de referência registrado no BR — regra NT 200/2025) + só "peptídeo de pesquisa/não uso humano"** · FDA Cat 2 (revisão PCAC jul/2026) · concern real em vários (ACE-031 vascular, dihexa câncer-teórico, IGF-1 paradoxo/WADA) · **única porta teórica = se ganhar referência registrada no BR (lógica tirzepatida) → reavaliar caso a caso** · mesmo balde de §13.68/69/73/74.
 
+### 13.111 PDRN / polinucleotídeos (DNA de salmão) — 🔴 FORA DE ESCOPO; via excluída + injetável não-autorizado (fecha o bloco II)
+- **Identidade:** polidesoxirribonucleotídeo de DNA de salmão; **agonismo do receptor A2A de adenosina** → ↑cAMP/PKA → VEGF/angiogênese, fibroblasto/colágeno, anti-inflamatório. Biorremodelador/regenerador.
+- **Evidência (real, mas no território errado p/ nós):** 🟢 cicatrização/úlcera de pé diabético; 🟡 osteoartrite (**intra-articular**); 🟡 tendinopatia (**peritendíneo**); boom estético = **biorremodelação de pele intradérmica**.
+- 🚨 **Decisão de escopo (dois cortes):** (1) **VIA** — uso consagrado é **intradérmico estético/drug-delivery por microagulhamento = mesoterapia/intradérmico que a clínica exclui**; uso músculo-esquelético = **intra-articular/peritendíneo = procedimento ortopédico**, não soro de longevidade. (2) **REGULATÓRIO BR** — ANVISA aprovou **só o PDRN TÓPICO cosmético**; **injetável NÃO autorizado** (falta de estudos). A forma com interesse clínico **não tem via legal**; a legal (tópico) é **cosmético, fora do portfólio de injetáveis/infusão**.
+- ⚖️ nulo · 🧠 nulo · 🩺 sem ângulo nefro; segurança boa (reação local leve; alergia a peixe rara). Decisão = **escopo + regulatório**, não toxicidade.
+- **🇧🇷 BR / via:** tópico cosmético aprovado; injetável não-autorizado; uso real = intradérmico (fora). Marcas (Placentex etc.).
+- 📚 **RAG:** sem conteúdo da casa.
+
+**Card — PDRN/polinucleotídeos:** **🔴 FORA DE ESCOPO** · biorremodelador A2A com evidência real em ferida/OA/tendão, **mas:** (1) via consagrada = **intradérmico estético/intra-articular = fora do escopo de via**; (2) **ANVISA só aprova o TÓPICO cosmético — injetável não-autorizado**. Forma útil sem via legal; forma legal é cosmético · ⚖️/🧠 nulo · **fecha o bloco complementar II §13-nonies**.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
@@ -2274,9 +2284,27 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 >
 > **Achados-chave:** (1) **auditoria evitou retrabalho** — NAD+/NMN/NR (§13.3), MIC lipotrópico (§13.32) e tesamorelina (§13.72) já estavam no doc; (2) **TRT-adjuntos completam o §13.80** — hCG (injetável) + clomifeno/enclomifeno + anastrozol/letrozol fecham o eixo androgênico masculino (preservar fertilidade/eixo, alternativa à TRT, controle de E2); (3) **padrão de governança reforçado** — o nefrologista veta vanádio e EDTA por toxicidade renal; NAD+ IV/cerebrolisina/EDTA caem na mesma recusa de "drip de longevidade"; (4) **dieta hCG = fraude** (recusa explícita numa clínica de emagrecimento). **A varredura de centros BR não revelou injetável ofertável novo além do hCG.**
 
-🔄 **BLOCO COMPLEMENTAR II §13-nonies EM CURSO (2ª varredura, 2026-05-26):** ✅ azul de metileno (§13.107, 🟡 restrito) · ✅ SGLT2 (§13.108, 🟢 oral) · ✅ LDN (§13.109, 🟢 oral) · ✅ cluster peptídeos experimentais (§13.110, ⚠️🔴 sem via legal). 🔲 PRÓXIMA = **PDRN/polinucleotídeos** (§13.111, decisão de escopo) — fecha o bloco II.
+✅ **BLOCO COMPLEMENTAR II §13-nonies FECHADO (2026-05-26)** — azul de metileno (§13.107) · SGLT2 (§13.108) · LDN (§13.109) · cluster peptídeos experimentais (§13.110) · PDRN (§13.111).
 
-🔲 **PRÓXIMO PASSO (após §13-nonies) = decisão do Dr.** (consolidar protocolo de soros/combos ofertáveis? priorizar o cardápio real da clínica a partir dos 🟢?).
+> **🗺 BALANÇO DO BLOCO COMPLEMENTAR II §13-nonies (5 cartas, §13.107–111):**
+> | Status | Moléculas |
+> |---|---|
+> | 🟢 **Ofertável** | **SGLT2** (§13.108, oral — trunfo cardiorrenal/geroproteção) · **LDN** (§13.109, oral magistral — dor/autoimune, a casa já usa) |
+> | 🟡 **Restrito** | **Azul de metileno** (§13.107, IV/oral — adjunto mito microdose, grau farmacêutico + triagem G6PD/serotoninérgicos) |
+> | ⚠️🔴 **Sem oferta** | **Cluster peptídeos experimentais** (§13.110 — zero registro/magistral barrado) |
+> | 🔴 **Fora** | **PDRN** (§13.111 — via intradérmica excluída + injetável não-autorizado) |
+>
+> **Achados-chave:** (1) os dois 🟢 são **orais** — SGLT2 é o ativo de longevidade mais defensável p/ nefrologista; LDN já é repertório da casa; (2) azul de metileno entra **só com disciplina** (grau farmacêutico + triagem dupla); (3) **a barreira regulatória brasileira é decisiva** — confirmado que peptídeos experimentais não têm registro NEM magistral legal (regra NT 200/2025: sem medicamento de referência registrado, não manipula); (4) **a 2ª varredura NÃO achou novo injetável ofertável** (azul de metileno já estava no soro mito; SGLT2/LDN são orais) — o portfólio injetável ofertável está estável.
+
+---
+
+## 🏁 SÍNTESE GERAL DO PORTFÓLIO (2026-05-26) — inventário original + 2 blocos complementares COMPLETOS
+
+**Injetáveis ofertáveis (o que vai à sala de infusão):** ferro EV (§1) · B12 IM (§2) · complexo B/tiamina IM (§5) · vitamina C IV funcional (§7) · ALA IV (§8) · SAMe IV/IM (§13.42) · PQQ no soro mito + azul de metileno adjunto (§13.45/107) · timosina α1 SC (§13.70) · GLP-1 SC (semaglutida §13.76 / tirzepatida §13.77) · testosterona (§13.80) · DHEA (§13.81) · estradiol/progesterona THM (§13.84/85) · tireoide (§13.86) · GH em GHD (§13.87) · **hCG SC/IM (§13.101)** · nandrolona/mesterolona restritos (§13.90/93).
+**Orais que sustentam o portfólio:** maioria dos micronutrientes/aminoácidos/polifenóis/geroprotetores + **SGLT2 (§13.108)** + **LDN (§13.109)** + clomifeno/enclomifeno (§13.102) + anastrozol/letrozol (§13.103) + inositol (§13.95) + HMB (§13.97) + citicolina (§13.98).
+**Recusas de governança (âncoras):** NAD+ IV (§13.3) · glutationa clareamento (§13.1) · BPC/TB/MOTS/epitalon/melanotan (§13.68–75) · vanádio (§13.100) · cerebrolisina (§13.104) · EDTA/quelação (§13.106) · cluster peptídeos experimentais (§13.110) · PDRN (§13.111). **Fio condutor: disciplina diagnóstica + veto nefrológico + governança CFM/ANVISA — não somos drip-bar.**
+
+🔲 **PRÓXIMO PASSO = decisão do Dr.:** (a) consolidar **protocolo de soros/combos ofertáveis** (mecânica de sala: diluições, tempos, gates G6PD/renal); (b) montar o **CARDÁPIO REAL** priorizando os 🟢; (c) novo eixo. **Aguardar escolha — não iniciar sem direção.**
 
 **Como trabalhar cada molécula (regra fixa):**
 1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
