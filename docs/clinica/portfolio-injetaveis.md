@@ -1813,6 +1813,17 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 ---
 
+### 13.79 Retatrutida — ⏳ DEIXAR PRO FUTURO (aguardar registro ANVISA ~2027); agonista TRIPLO, o emagrecedor mais potente já testado, mas hoje não-aprovado/proibido; FECHA o bloco peptídeos
+- **Identidade:** **agonista TRIPLO GLP-1 + GIP + glucagon** (Lilly) — evolução sobre a tirzepatida (dupla). Braço **glucagon** → além de ↓apetite, **↑gasto energético + oxidação de gordura**. O emagrecedor mais potente já testado.
+- **⚖️ Eficácia — nível bariátrico:** TRIUMPH-1 **−28,3% (80 sem, 12 mg), 45% perderam ≥30%**; estendido a 104 sem **−30,3%**; + alívio de osteoartrite de joelho (TRIUMPH-4). Supera tirzepatida e semaglutida.
+- **🔴 Status decisivo — não aprovada + ANVISA proibiu:** investigacional (NDA fim/2026, aprovação FDA provável **2027**); **🔴 ANVISA PROIBIU (jan/2026) venda/importação/fabricação/propaganda/uso de TODAS as marcas/lotes** (canetas de mercado cinza no Instagram, sem registro). **Hoje, ofertar no Brasil é ilegal.**
+- **🚨 Sinal novo:** **disestesia** (sensação tátil anormal/dolorosa) **8,8% (9 mg) / 20,9% (12 mg)** vs 0,7% placebo — efeito do braço glucagon; vigiar ↑FC/glicêmico. Perfil ainda em caracterização.
+- 📚 **RAG:** só nível de classe GLP-1 (48 itens); molécula não nomeada (nova demais).
+
+**Card — Retatrutida:** ⏳ **DEIXAR PRO FUTURO** (decisão do Dr.) · agonista TRIPLO (GLP-1/GIP/glucagon), **emagrecedor MAIS POTENTE já testado** (TRIUMPH −28–30%, nível bariátrico) · **🔴 hoje FORA: não-aprovada + ANVISA PROIBIU explicitamente (jan/2026, mercado cinza Instagram)** · ⚠️ **≠ lixo experimental — é ciência excelente, só prematura/ilegal** · **reavaliar como provável PILAR quando registrar (~2027)** c/ gates de classe + novo gate disestesia · revisão programada pós-aprovação ANVISA. **FECHA o bloco peptídeos.**
+
+---
+
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
 **Como trabalhar cada molécula (regra fixa):**
@@ -1842,8 +1853,10 @@ alta · disclaimer: reduz incidência enquanto em uso (não modifica risco basal
 
 **BLOCO LONGEVIDADE/GEROPROTETORES — ✅ FECHADO:** espermidina (§13.62) · urolitina A (§13.63) · Ca-AKG (§13.64) · rapamicina (§13.65, ⚠️ alternativa) · metformina (§13.66) · fucoidana (§13.67). **Todas ORAL-ONLY (IV não-ofertada). Destaques: urolitina A = melhor dado de músculo/mitofagia; rapamicina = geroprotetor mais robusto em animal (alternativa de programa selecionado, fármaco); Ca-AKG = âncora óssea + relógio epigenético; espermidina/fucoidana = autofagia/imune com prova intervencional fraca; metformina = fármaco metabólico da casa, cética como geroprotetor (embota o treino). 🔑 Tema do bloco: mecanismo/epidemiologia ≫ prova intervencional; eixo imune-aging recorrente (rapamicina/espermidina/fucoidana).**
 
-**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) · liraglutida (§13.78, 🟡 backup/não-prioritária) feitos. **GLP-1 sendo feitos UM A UM (não agrupar).** **PRÓXIMA = retatrutida** (FECHA o bloco peptídeos).
-Hormônios/pró-hormônios: testosterona · DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina.
+**BLOCO PEPTÍDEOS (EM CURSO) — via INJETÁVEL SC/IM volta a ser central:** BPC-157 (§13.68, ⚠️ não ofertar) · TB-500 (§13.69, ⚠️ não ofertar) · timosina α1 (§13.70, 🟢 OFERTÁVEL) · GHK-Cu (§13.71, 🟢 tópico / 🔴 injetável) · secretagogos GH (§13.72, ⚠️ alternativa selecionada) · MOTS-c (§13.73, ⚠️ não ofertar) · epitalon (§13.74, ⚠️ não ofertar) · melanotan (§13.75, 🔴 não ofertar) · semaglutida (§13.76, 🟢 OFERTÁVEL) · tirzepatida (§13.77, 🟢 OFERTÁVEL + magistral legal) · liraglutida (§13.78, 🟡 backup) · retatrutida (§13.79, ⏳ deixar pro futuro) feitos. **✅ BLOCO PEPTÍDEOS FECHADO.**
+**Resumo peptídeos (§13.68–13.79):** 🟢 **OFERTÁVEIS:** timosina α1 (imune/imunossenescência) · GHK-Cu **tópico** · semaglutida · tirzepatida (+ magistral legal). 🟡 backup: liraglutida. ⚠️ **alternativa selecionada:** secretagogos GH (não anti-aging, paradoxo IGF-1). ⏳ **futuro (aguardar registro):** retatrutida (~2027). 🔴 **NÃO OFERTAR:** BPC-157, TB-500, MOTS-c, epitalon (experimentais/WADA/mercado cinza), GHK-Cu **injetável**, melanotan (MT-II perigoso). 🔑 **Lições do bloco:** (1) triar regulatório+WADA+evidência caso a caso, não pela hype; (2) GLP-1 são o pilar do emagrecimento (halo renal FLOW + CV SELECT = ouro pro nefrologista); (3) semaglutida/liraglutida NÃO manipuláveis (biotec), tirzepatida SIM (síntese química, NT 200/2025); (4) GLP-1 sempre em PROGRAMA c/ treino+proteína (preserva magra, oposto da metformina).
+
+**BLOCO HORMÔNIOS / PRÓ-HORMÔNIOS (PRÓXIMO):** **PRÓXIMA = testosterona.** Restantes: DHEA · pregnenolona · melatonina · estrogênio/progesterona · tireoide · GH · ocitocina. (Fazer UM A UM — não agrupar.)
 Nootrópicos/colinérgicos: colina · citicolina · alfa-GPC · fosfatidilserina · inositol/mio-inositol.
 Lipotrópicos: MIC (metionina+inositol+colina).
 Botânicos/biológicos: visco (mistletoe) · artemisinina · curcumina IV.
