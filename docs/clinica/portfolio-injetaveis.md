@@ -2185,11 +2185,35 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 **Card — PT-141 (bremelanotida):** **⚠️🔴 NÃO OFERTAR AGORA** (reavaliar se ANVISA registrar) · SC, agonista melanocortina central (desejo) · **nicho legítimo = HSDD feminino (FDA/Vyleesi)**, off-label no homem (DE) · 🚨 náusea ~40%, **↑PA/contraindicação DCV**, melanoma/MC1R, hiperpigmentação, ≤8 doses/mês · **🇧🇷 sem registro — só peptídeo cinza "de pesquisa"** · ⚖️ nulo · balde dos peptídeos sem via legal (§13.68/69/73).
 
+### 13.106 EDTA / quelação IV — 🔴 NÃO OFERTAR (categórico); vedação CFM + veto nefrológico (fecha o bloco)
+- **Identidade:** **EDTA** (ácido etilenodiaminotetracético), quelante de metais divalentes. **CaNa₂EDTA** (legítimo no chumbo, não causa hipocalcemia) vs **Na₂EDTA** (causa **hipocalcemia fatal**). Vendido por ortomoleculares como "soro quelante anti-aging/antiaterosclerose".
+- **Evidência (claim CV morto):** TACT (2013) ↓modesta de eventos CV (18% geral, 41% diabéticos), **muito criticado** (quebra de cegamento, dropouts, multivitamínico). 🚫 **TACT2 (2024) — definitivo:** diabéticos pós-IAM, **NEGATIVO** (35,6% vs 35,7% placebo) apesar de reduzir chumbo sérico. Encerra o claim.
+- 🚨 **Toxicidade-assinatura RENAL:** complexo metal-EDTA retido nos túbulos → **necrose tubular proximal/IRA** (pior em DRC prévia); **hipocalcemia letal** (Na₂EDTA → tetania/arritmia, ≥3 óbitos); proteinúria. Infusão rápida mata.
+- **Uso legítimo:** só **intoxicação por chumbo + sobrecarga de ferro** (CaNa₂EDTA, FDA) = **toxicologia aguda → excluída pelo filtro duro**.
+- **🇧🇷 CFM:** **VEDA** EDTA fora de intoxicação aguda/crônica, e **VEDA EDTA+procaína como antienvelhecimento/anticâncer/antiaterosclerose/crônico-degenerativo** (resolução ortomolecular). Proibição expressa.
+- ⚖️/🧠 sem base · 🩺 **veto duplo: CFM proíbe o eletivo + toxicidade-assinatura é renal** → recusa categórica numa clínica de nefrologista; define por contraste o que somos (disciplina diagnóstica, não quelação de balcão).
+- **🇧🇷 BR / via:** IV; sem espaço eletivo. (As menções de "quelante" no doc = quelantes de **fosfato** na DRC, §13.24, tema oposto.)
+- 📚 **RAG:** sem conteúdo de aula sobre quelação; a casa nunca propôs.
+
+**Card — EDTA/quelação:** **🔴 NÃO OFERTAR (categórico)** · **CFM VEDA** uso eletivo (anti-aging/antiaterosclerose/crônico-degenerativo) · **TACT2 2024 negativo** (claim CV morto) · 🚨 **nefrotoxicidade (necrose tubular/IRA) + hipocalcemia letal (Na₂EDTA, óbitos)** · uso legítimo = só intoxicação por chumbo (toxicologia aguda, fora do escopo) · **veto nefrológico + âncora de governança (não somos drip-bar de quelação)** · fecha o bloco complementar §13-octies.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
-> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97) · ✅ citicolina (§13.98, base oral) · ✅ alfa-GPC (§13.99, 🟡 restrito/gate AVC) · ✅ vanádio (§13.100, 🔴 fora/veto nefro) · ✅ hCG (§13.101, 🟢 ofertável + ampliadas) · ✅ clomifeno/enclomifeno (§13.102, 🟢 oral-only) · ✅ anastrozol/letrozol (§13.103, 🟡 restrito oral). **✅ TRT-ADJUNTOS FECHADOS** (hCG injetável + clomifeno/enclomifeno + anastrozol/letrozol orais — completam o card testosterona §13.80). ✅ cerebrolisina (§13.104, 🔴 fora) · ✅ PT-141 (§13.105, ⚠️🔴 sem oferta). 🔲 PRÓXIMA = **EDTA/quelação** (§13.106, exclusão) — **FECHA o bloco complementar §13-octies**.
+> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97) · ✅ citicolina (§13.98, base oral) · ✅ alfa-GPC (§13.99, 🟡 restrito/gate AVC) · ✅ vanádio (§13.100, 🔴 fora/veto nefro) · ✅ hCG (§13.101, 🟢 ofertável + ampliadas) · ✅ clomifeno/enclomifeno (§13.102, 🟢 oral-only) · ✅ anastrozol/letrozol (§13.103, 🟡 restrito oral). **✅ TRT-ADJUNTOS FECHADOS** (hCG injetável + clomifeno/enclomifeno + anastrozol/letrozol orais — completam o card testosterona §13.80). ✅ cerebrolisina (§13.104, 🔴 fora) · ✅ PT-141 (§13.105, ⚠️🔴 sem oferta) · ✅ EDTA/quelação (§13.106, 🔴 fora). **✅ BLOCO COMPLEMENTAR §13-octies FECHADO (2026-05-26).**
+
+> **🗺 BALANÇO DO BLOCO COMPLEMENTAR §13-octies (12 cartas, §13.95–106):**
+> | Status | Moléculas |
+> |---|---|
+> | 🟢 **Ofertável** | inositol (§13.95, oral) · HMB (§13.97, oral) · citicolina (§13.98, base oral; IM pontual) · hCG (§13.101, **SC/IM — único injetável novo ofertável**) · clomifeno/enclomifeno (§13.102, oral) |
+> | 🟡 **Restrito/nicho** | alfa-GPC (§13.99, gate AVC — citicolina preferida) · anastrozol/letrozol (§13.103, só E2 alto+nexo) |
+> | ⚠️🔴 **Sem oferta agora** | PT-141 (§13.105, sem registro BR/peptídeo cinza) |
+> | 🔴 **Fora** | vanádio (§13.100, veto nefro) · cerebrolisina (§13.104, não-registrada/Cochrane negativo) · EDTA (§13.106, vedação CFM + nefrotox) |
+>
+> **Achados-chave:** (1) **auditoria evitou retrabalho** — NAD+/NMN/NR (§13.3), MIC lipotrópico (§13.32) e tesamorelina (§13.72) já estavam no doc; (2) **TRT-adjuntos completam o §13.80** — hCG (injetável) + clomifeno/enclomifeno + anastrozol/letrozol fecham o eixo androgênico masculino (preservar fertilidade/eixo, alternativa à TRT, controle de E2); (3) **padrão de governança reforçado** — o nefrologista veta vanádio e EDTA por toxicidade renal; NAD+ IV/cerebrolisina/EDTA caem na mesma recusa de "drip de longevidade"; (4) **dieta hCG = fraude** (recusa explícita numa clínica de emagrecimento). **A varredura de centros BR não revelou injetável ofertável novo além do hCG.**
+
+🔲 **PRÓXIMO PASSO = decisão do Dr.** (novo eixo a investigar? consolidar protocolo de soros/combos ofertáveis? priorizar o cardápio real da clínica a partir dos 🟢?).
 
 **Como trabalhar cada molécula (regra fixa):**
 1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
