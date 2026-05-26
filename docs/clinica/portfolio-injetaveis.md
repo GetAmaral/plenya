@@ -2103,11 +2103,24 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 **Card — Alfa-GPC:** **🟡 RESTRITO** · oral, **só jovem CV-limpo, uso agudo/performance, curto prazo** · 🚨 **+46% AVC em 10a no >50 (eixo TMAO), dose-dependente** → **evitar no público longevidade; citicolina é a preferida** · sem injetável BR · sem uso de composição corporal.
 
+### 13.100 Vanádio (vanadil sulfato / BMOV) — 🔴 FORA; o insulino-mimético que o rim derruba
+- **Identidade:** elemento ultratraço **insulino-mimético** (ativa fosforilação do receptor de insulina/IRS-1, ↑GLUT4, inibe PTP-1B). Formas: inorgânico (vanadil sulfato VOSO₄, metavanadato) + orgânico (BMOV/BEOV, mais biodisponível).
+- **Evidência glicêmica (único atrativo, fraco):** estudos pequenos (100–150 mg/d, 3–6 sem) em DM2 → ↓glicemia jejum, **↓HbA1c ~0,5–0,8%**, ↑sensibilidade (clamp +88%). 🚫 **Revisão sistemática: sem evidência rigorosa, uso de rotina não recomendado** (ensaios curtos, inconsistentes).
+- 🚨 **GATE DOMINANTE — toxicidade renal:** vanádio **nefrotóxico in vivo**, acumula em osso/rim/fígado no uso crônico. **Desenvolvimento do BEOV p/ diabetes DESCONTINUADO por alterações renais** no programa de segurança. GI na dose terapêutica (náusea/diarreia/cólica/língua esverdeada); janela estreita; hepatotox no acúmulo.
+- **Armadilha da dose:** produtos BR **subterapêuticos** (quelato 250 mcg, sulfato 2–10 mg) = teatro; a dose eficaz (100–150 mg) = a que agride o rim. Sem meio-termo seguro. Numa clínica de **nefrologista**, incoerente.
+- ⚖️ **Composição corporal:** **nulo** — referência da casa (**McArdle**) desmente o claim de massa muscular ("cromo, boro, vanadil sulfato, HMB… nenhuma capaz de aumentar massa muscular").
+- 🧠 **Cognição:** sem dado; espectro de toxicidade inclui neurotoxicidade.
+- 🩺 **Nefro/governança:** **veto nefrológico** — nefrotoxicidade documentada + programa clínico encerrado por dano renal.
+- **🇧🇷 BR / via:** suplemento **oral** (vanadil sulfato 2/10 mg, quelato 250 mcg; magistral). **Sem injetável — IV de vanádio = preocupação toxicológica, jamais.**
+- 📚 **RAG:** McArdle desmascara o claim de massa magra; Emagrecimento IX cita junto ao cromo (RI). **Substituído por berberina (§13.60)/inositol (§13.95)/cromo (§13.18)/ALA (§8)/metformina (§13.66).**
+
+**Card — Vanádio:** **🔴 FORA** · insulino-mimético real mas **sem evidência rigorosa** + **nefrotóxico (BEOV descontinuado por dano renal)** + janela estreita/GI · **armadilha da dose** (produto BR subterapêutico = teatro; dose eficaz = tóxica) · ⚖️ nulo (McArdle desmente massa muscular) · **veto nefrológico** · substituído por berberina/inositol/cromo/ALA/metformina.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
-> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97) · ✅ citicolina (§13.98, base oral) · ✅ alfa-GPC (§13.99, 🟡 restrito/gate AVC). 🔲 PRÓXIMA = **vanádio**, depois: TRT-adjuntos (hCG/clomifeno/anastrozol — fecham §13.80) · cerebrolisina · PT-141 · EDTA (exclusão).
+> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97) · ✅ citicolina (§13.98, base oral) · ✅ alfa-GPC (§13.99, 🟡 restrito/gate AVC) · ✅ vanádio (§13.100, 🔴 fora/veto nefro). 🔲 PRÓXIMA = **TRT-adjuntos** (hCG/clomifeno/anastrozol — fecham §13.80), depois: cerebrolisina · PT-141 · EDTA (exclusão).
 
 **Como trabalhar cada molécula (regra fixa):**
 1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
