@@ -2388,3 +2388,25 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 - **B5 · Adjuvantes MSK orais** — **CRPS pós-fratura: vit C oral 500 mg/d × 50 dias** (Zollinger, nível B) · **tendão/ligamento: 15 g gelatina/colágeno + vit C oral 30–60 min antes da fisioterapia** (Shaw). Orais, baratos; pacote de recuperação MSK (não injetável).
 
 **Princípios do eixo:** controle glicêmico antes de tudo na neuropatia · teto B6 somatório (vigiar Citoneurin) · ALA IV é indução, oral mantém · AINE injetável = gate renal (evitar) · **nunca "regenera nervo".**
+
+### Eixo C · Mitocondrial / energia / disposição / cognição
+**Regra do eixo:** valor real **majoritariamente ORAL** — injetáveis são adjuvantes pontuais, não "soro mágico de energia". Disclaimer de QoL/experiência, nunca cura/anti-aging.
+
+**Simples (monoagente):**
+- **C1 · ALA IV** 600 mg (manipulado) — energia/metabólico/mitocondrial (mesma molécula do B2; aqui ângulo mito/RI). SF 100–250 mL, ~30 min; **sem ajuste renal**; hipoglicemia/Hirata.
+- **C2 · SAMe IV/IM** (§13.42, ademetionina) — **disposição/humor (depressão) + colestase**; forma IV/IM registrada. Gate bipolar (vira mania)/serotoninérgico.
+- **C3 · Azul de metileno** (§13.107) — mito/cognição; **IV diluído lento (soro mito) ou oral em solução, microdose 0,5–2 mg/d**. 🔴 grau farmacêutico · 🚨 **triagem G6PD + serotoninérgicos (MAO-A)** · urina azul (avisar).
+
+**Combos:**
+- **C4 · Soro mitocondrial** (proposta da aula MFI *Mitocôndrias VII* — **candidato, não conduta vigente**): **PQQ + niacinamida + acetil-L-carnitina + complexo B (IV)** + **CoQ10 100 mg IM** na mesma sessão (1º soro = ALA IV). ⚠️ **Ressalvas:** (1) **CoQ10 IM diverge do veredito §13.7 (CoQ10 é ORAL)** — forma IM é proposta da aula, evidência fraca → opcional; (2) gates **G6PD + serotoninérgicos** (azul de metileno); (3) **niacinamida → flushing** se IV rápido. *Disclaimer:* QoL/disposição, não cura.
+- **C5 · Stack cardio-mito "Sinatra"** — **CoQ10 + L-carnitina + D-ribose + taurina + Mg** — **ORAL** (cardiologia metabólica/IC). Combo oral defensável, não injetável.
+
+**Sub-protocolo · Cognição / Memória (oral-dominante):**
+- **Base ORAL (eficácia real):** stack colinérgico (**citicolina** oral 500 mg–2 g; huperzina; **alfa-GPC só jovem CV-limpo — gate AVC §13.99**) + **"trio foco" L-teanina + cafeína + fosfatidilserina** + suporte mito (CoQ10/PQQ/creatina).
+- **Injetável (adjuvante pontual):** **citicolina IM** (§13.98, base oral) + **azul de metileno** (do soro mito C4).
+- **Nicho com evidência:** citicolina = **declínio cognitivo da idade/CCL + neuroproteção no glaucoma** (co-manejo oftalmo). *Disclaimer:* **não previne demência**; cognição é programa **oral**.
+
+**Exploratório / cardápio (com disclaimer):**
+- **C6 · "Energia/disposição" (QoL)** — Myers-like com viés mito (ver Eixo G); medir VAS de fadiga antes/depois; **experiência/bem-estar documentado, não cura**.
+
+**Princípios do eixo:** base é ORAL · azul de metileno só com triagem dupla (G6PD/serotoninérgicos) + grau farmacêutico · CoQ10 é oral (IM = proposta de aula, opcional) · disclaimer de QoL · **sem claim de longevidade/anti-aging.**
