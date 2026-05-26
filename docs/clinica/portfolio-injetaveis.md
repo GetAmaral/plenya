@@ -2076,11 +2076,26 @@ Convergem todos — **sem análise individual** porque **nenhum tem indicação 
 
 **Card — HMB:** **ORAL-ONLY** (sem injetável real) · **HMB-Ca 3 g/d fracionado** + treino resistido · 🟢 nicho = **preservação de massa magra em estado catabólico** (sarcopenia, repouso/imobilização, idoso, wasting da DRC) · 🟡 caquexia/DPOC em combo · modesto no jovem saudável · segurança excelente · complementa BCAA/leucina (§13.35).
 
+### 13.98 Citicolina (CDP-colina) — ORAL principal; neuroprotetor colinérgico com nicho cognitivo + glaucoma
+- **Identidade:** doa **colina (→ acetilcolina) + citidina (→ uridina)** e **estabiliza/repara membrana neuronal** (intermediário da via Kennedy de fosfatidilcolina).
+- **Indicações (por força de evidência, escopo adulto/longevidade):**
+  - 🟢 **Declínio cognitivo relacionado à idade / CCL (uso central):** melhora **memória verbal** em 50–85a vs placebo; ganho modesto, consistente (≠ atenção, ≠ AVD).
+  - 🟢 **Glaucoma — neuroproteção do nervo óptico (indicação ampliada mais robusta):** 2–8 anos **retardam/estabilizam** a disfunção visual glaucomatosa (antiapoptótico em células ganglionares + regeneração axonal). **Oral 1.600 mg ≈ IM 1.000 mg (equivalentes)**; colírio também. EUGS 2025 = complementar à redução de PIO (investigacional). Nicho de co-manejo com oftalmo.
+  - 🟡 **Componente cognitivo de doença cerebrovascular crônica / reabilitação de sequela:** ganho pequeno (memória/comportamento/CGI — Cochrane). Adjuvante.
+  - 🚫 **Fora/negativos:** AVC agudo (ICTUS 2012 negativo) e TCE (COBRIT negativo) = agudo hospitalar; cocaína/adicção (trials grandes negativos); ambliopia (pediátrico). **Não previne demência** — sem claim.
+- 🧠 **Cognição (eixo central):** memória da idade/CCL + neuroproteção visual (glaucoma). Modesto.
+- ⚖️ **Composição corporal:** nulo.
+- 🩺 **Nefro/segurança:** **excelente tolerância**, **sem o sinal CV/AVC do alfa-GPC** (metabolismo distinto, não gera a mesma carga de TMAO). Sem gate maior.
+- **🇧🇷 Via injetável (revisada):** **Somazina injetável** (ampola 500 mg/1 g, IM ou IV lenta) tem bula no BR mas **registro do injetável aparentemente inativo/descontinuado** (busca ANVISA "apresentações inativas"; cancelamento formal não confirmado). **🔲 Confirmar em consultas.anvisa.gov.br.** Oral disponível (comprimido/solução/magistral 500 mg). **Magistral estéril IV/IM viável sob encomenda** (InjectCenter/Victa/Octalab). **Como oral equivale ao IM (inclusive no glaucoma), base = ORAL; IM magistral = opção pontual; IV não agrega.**
+- 📚 **RAG:** sem `score_item`. Aula **Pedro Neuro 2** (terceiros, candidato): lista **citicolina + alfa-GPC + huperzina A** como "sinalização colinérgica" no protocolo de memória (combina com trio foco L-teanina+cafeína+fosfatidilserina + suporte mitocondrial).
+
+**Card — Citicolina:** **base ORAL** (CCL/memória 500 mg–2 g/d; **glaucoma 1.600 mg oral ≈ 1.000 mg IM**) · **IM magistral = opção pontual; IV não agrega; Somazina injetável provavelmente descontinuada — 🔲 confirmar ANVISA** · 🟢🟡 nicho = **declínio cognitivo da idade/CCL + neuroproteção no glaucoma (co-manejo oftalmo)** · segurança excelente, **sem o gate CV do alfa-GPC** · não previne demência.
+
 ---
 
 ## 14. Roadmap de moléculas (estado + ordem) — checklist para continuar após compactação
 
-> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97). **Parciais fechados.** 🔲 PRÓXIMA = **citicolina/alfa-GPC** (1ª lacuna real), depois: vanádio · TRT-adjuntos (hCG/clomifeno/anastrozol — fecham §13.80) · cerebrolisina · PT-141 · EDTA (exclusão).
+> **🗺 STATUS GERAL (2026-05-26):** ✅ Blocos FECHADOS: nutrientes base/vitaminas/minerais (§1–§13.42) · aminoácidos/derivados · antioxidantes-mitocondriais · **polifenóis/fitoquímicos (§13.51–61)** · **longevidade/geroprotetores (§13.62–67)** · **peptídeos (§13.68–79)** · **hormônios (§13.80–88)** · **esteroides sintéticos (§13.89–94)**. **O inventário planejado original está COMPLETO.** 🔄 **BLOCO COMPLEMENTAR EM CURSO (§13-octies, varredura centros BR 2026-05-26):** ✅ inositol (§13.95) · ✅ HMB (§13.97) · ✅ citicolina (§13.98, base oral). 🔲 PRÓXIMA = **alfa-GPC** (§13.99, carta separada — gate de AVC), depois: vanádio · TRT-adjuntos (hCG/clomifeno/anastrozol — fecham §13.80) · cerebrolisina · PT-141 · EDTA (exclusão).
 
 **Como trabalhar cada molécula (regra fixa):**
 1. **Pesquisa online exaustiva SEMPRE** (WebSearch — liberado, não pede aprovação). **NÃO** usar agentes de pesquisa/WebFetch (pedem autorização por domínio e travam o usuário).
