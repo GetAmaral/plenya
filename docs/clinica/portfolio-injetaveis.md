@@ -2357,7 +2357,7 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 **Regra do eixo:** deficiência laboratorial documentada + indicação em prontuário. Núcleo mais defensável — repor o que falta, na via que entrega.
 
 **Simples (monoagente):**
-- **A1 · Ferro EV** (carro-chefe) — *indicação:* deficiência de ferro/anemia ferropriva documentada (ferritina+TSAT), falha/intolerância ao oral, recarga rápida. *Mecânica (§9):* carboximaltose ≤1.000 mg/sem (SF, ≥15 min) · derisomaltose (preferir em cursos repetidos — menos hipofosfatemia 8% vs 74%) · sacarato (test-dose 1ª). *Gates:* observação ≥30 min + carrinho · **fosfato basal e ~2 sem se repetir** (nefro) · diálise carboximaltose máx 200 mg · extravasamento = mancha permanente.
+- **A1 · Ferro EV** (carro-chefe) — *indicação:* deficiência de ferro/anemia ferropriva documentada (ferritina+TSAT), falha/intolerância ao oral, recarga rápida. *Mecânica (§9):* carboximaltose ≤1.000 mg/sem (SF, ≥15 min) · derisomaltose (preferir em cursos repetidos — menos hipofosfatemia 8% vs 74%) · sacarato (test-dose 1ª). *Gates:* observação ≥30 min + carrinho · **fosfato basal e ~2 sem se repetir** (nefro) · diálise carboximaltose máx 200 mg · extravasamento = mancha permanente. 💡 **Princípio hepcidina×vit D (a casa documenta):** corrigir 25-OH-D **otimiza a utilização do ferro** (↓hepcidina) → checar/repor vit D junto, melhora resposta à reposição férrica.
 - **A2 · B12 IM** (hidroxocobalamina) — *indicação:* deficiência documentada/má absorção/vegano/pós-bariátrica/metformina crônica. *Mecânica:* 1 mg IM ataque 3×/sem ×2 sem → manut. cada 2–3 m. **B12 IV não** (excreção renal imediata); SC possível 🔲. *Gate:* nunca repor folato sem checar B12.
 - **A3 · Vitamina D IM** (nicho estrito) — *indicação:* **só** má absorção/não-adesão documentada (senão oral). *Mecânica:* colecalciferol oleoso ~600.000 UI **IM Z-track, NUNCA IV** (oleoso→embolia); dosar 25-OH-D+cálcio antes de re-dosar. *Gate:* mega-bolus herda sinal Sanders (+quedas/fraturas) → preferir oral; cautela litíase/DRC.
 - **A4 · Tiamina / Complexo B** (IV ou IM) — *indicação:* reposição em etilista/desnutrido/pós-bariátrica. *Mecânica:* tiamina IV lenta ≥30 min, **B1 ANTES de glicose**; complexo B genérico diluído 500–1.000 mL IV lenta (fenol/nicotinamida→flushing) ou IM. *Gate:* **teto B6 somatório**; acúmulo em IR.
@@ -2370,8 +2370,10 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
   - **Camada 3 — Fora do escopo de via:** 🔴 **PRP de couro cabeludo + mesoterapia capilar (dutasterida/minoxidil intradérmico) = intradérmico que a clínica exclui** → co-manejo/encaminhamento dermato, ou decisão do Dr. de exceção.
   - *Honestidade:* investigação + correção do que falta + terapia modificadora (minoxidil oral é o motor); IV/IM é adjuvante, **não "soro que faz cabelo nascer".**
 - **A6 · Reposição do etilista/desnutrido** — *combo:* tiamina IV (ANTES de glicose) + complexo B + magnésio IV (**gate renal crítico**) + correção das deficiências mapeadas. *Escopo:* ambulatorial no **estável** (Wernicke agudo é hospitalar, fora); prevenção de realimentação. *Gate:* Mg suspende se Cr ≥1,3/ClCr<20; reflexo patelar/FR/PA; antídoto gluconato de cálcio.
+- **A7 · Submetilação (MTHFR/CBS)** — *framework que a casa documenta (§14).* **5-MTHF (metilfolato) + metil-B12 (IM se deficiente) + P5P (B6) + TMG (betaína)**; **meta de homocisteína 5–8**. *Indicação:* MTHFR C677T/A1298C ou homocisteína elevada, com impacto transversal (risco CV, cognição, fertilidade, enxaqueca — ver B6). Majoritariamente **oral + B12 IM**. *Gates:* **ácido fólico vetado** (só metilfolato); nunca repor folato sem B12; P5P ≤teto; reavaliar Hcy.
+- **A8 · Eixo neuro básico (fundacional)** — stack de deficiência neuro que sustenta os demais: **Mg + B12 + vit D + folato (5-MTHF) + ferro** — corrigir o que falta antes de camadas mais caras. Majoritariamente oral; B12 IM / ferro EV se indicado.
 
-**Princípios do eixo:** indicação laboratorial sempre · veículo oleoso (D) = IM nunca IV · B12 nunca IV · teto B6 somatório · carrinho + observação ≥30 min nos IV de risco (ferro/tiamina).
+**Princípios do eixo:** indicação laboratorial sempre · veículo oleoso (D) = IM nunca IV · B12 nunca IV · teto B6 somatório · carrinho + observação ≥30 min nos IV de risco (ferro/tiamina) · hepcidina×vit D (corrigir D melhora utilização do ferro) · submetilação só com metilfolato (ácido fólico vetado).
 
 ### Eixo B · Neuro / dor (neurotrópico)
 **Regra do eixo:** alívio sintomático com base de evidência; **nunca prometer "regenerar nervo".** A base modificadora (controle glicêmico na neuropatia) precede a injeção.
@@ -2386,8 +2388,9 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 
 **Exploratório / cardápio (com disclaimer):**
 - **B5 · Adjuvantes MSK orais** — **CRPS pós-fratura: vit C oral 500 mg/d × 50 dias** (Zollinger, nível B) · **tendão/ligamento: 15 g gelatina/colágeno + vit C oral 30–60 min antes da fisioterapia** (Shaw). Orais, baratos; pacote de recuperação MSK (não injetável).
+- **B6 · Enxaqueca (agudo + profilaxia + metilação)** — *combo em 3 camadas:* (1) **agudo: magnésio IV** (evidência real no ataque; mecânica de Mg do §9, **gate renal**); (2) **profilaxia oral: riboflavina 400 mg + Mg 400–600 mg (+ CoQ10)** (§6.2, nível B); (3) **correção de metilação se MTHFR C677T / homocisteína alta** (metilfolato + metil-B12 + B6 — liga MTHFR↔enxaqueca via homocisteína; cruza A7). *Disclaimer:* reduz frequência/intensidade, não "cura" enxaqueca.
 
-**Princípios do eixo:** controle glicêmico antes de tudo na neuropatia · teto B6 somatório (vigiar Citoneurin) · ALA IV é indução, oral mantém · AINE injetável = gate renal (evitar) · **nunca "regenera nervo".**
+**Princípios do eixo:** controle glicêmico antes de tudo na neuropatia · teto B6 somatório (vigiar Citoneurin) · ALA IV é indução, oral mantém · AINE injetável = gate renal (evitar) · Mg IV no agudo da enxaqueca (gate renal) · **nunca "regenera nervo".**
 
 ### Eixo C · Mitocondrial / energia / disposição / cognição
 **Regra do eixo:** valor real **majoritariamente ORAL** — injetáveis são adjuvantes pontuais, não "soro mágico de energia". Disclaimer de QoL/experiência, nunca cura/anti-aging.
@@ -2408,6 +2411,7 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 
 **Exploratório / cardápio (com disclaimer):**
 - **C6 · "Energia/disposição" (QoL)** — Myers-like com viés mito (ver Eixo G); medir VAS de fadiga antes/depois; **experiência/bem-estar documentado, não cura**.
+- **C7 · Fadiga pós-viral / long COVID / ME-CFS (mitocondrial)** — *combo:* **soro mito (C4)** + **L-carnitina** (§13.6 — oral 2 g/d ou IV; **dado 2024: ↓escore de fadiga 6,7→2,1, ↑QoL e ↑função renal em pós-COVID**) + **vit C IV QoL** + B12. *Disclaimer:* adjuvante de fadiga/QoL com medida (VAS/SF-12), **não cura**; base do quadro é reabilitação/manejo. *Gates:* os do soro mito (G6PD/serotoninérgicos do azul de metileno).
 
 **Princípios do eixo:** base é ORAL · azul de metileno só com triagem dupla (G6PD/serotoninérgicos) + grau farmacêutico · CoQ10 é oral (IM = proposta de aula, opcional) · disclaimer de QoL · **sem claim de longevidade/anti-aging.**
 
@@ -2477,3 +2481,19 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 - **G5 · "Beleza/pele" — reposicionado** — 🔴 **glutationa para clareamento VETADA (ABRAN + eventos graves)**; a clínica **não faz soro de clareamento**. Oferta honesta = **eixo oral do colágeno** (glicina+prolina+lisina+vit C+silício §13.26/34), não IV de beleza.
 
 **Princípios do eixo:** experiência/QoL com disclaimer, nunca cura · medir VAS/SF-12/PSQI e declarar subjetivo · gate renal pelo Mg (Myers) · **clareamento vetado** · proibido "detox/anti-aging/cura" · vitrine da disciplina (avaliação médica + indicação em prontuário mesmo no soro de bem-estar).
+
+### 15.1 Índice dos protocolos (eixos A–G)
+| Eixo | Simples (injetável) | Combos |
+|---|---|---|
+| **A · Reposição** | ferro EV · B12 IM · vit D IM · tiamina/cplx B | A5 capilar · A6 etilista · **A7 submetilação** · **A8 eixo neuro básico** |
+| **B · Neuro/dor** | Citoneurin IM · ALA IV | B3 neuropatia diabética · B4 lombalgia · B5 MSK oral · **B6 enxaqueca** |
+| **C · Mito/energia/cognição** | ALA IV · SAMe IV/IM · azul de metileno | C4 soro mito · C5 Sinatra (oral) · Cognição/Memória · **C7 fadiga pós-viral** |
+| **D · Metabólico/peso** | GLP-1 SC | D2 GLP-1 em programa · D3 lipotrópico IM · D4 stack metabólico oral |
+| **E · Hormonal** | testosterona IM/SC · hCG SC · GH SC | E5 TRT+hCG±IA · E6 alternativa SERM · E7 THM · E8 esteroides restritos |
+| **F · Imune/recuperação** | timosina α1 SC · vit C IV | F3 cicatrização/perioperatório · F4 imune sazonal |
+| **G · Bem-estar/QoL** | — | G1 Myers · G2 hidratação · G3 recarga C |
+
+### 15.2 Combos RECUSADOS (governança — não ofertar)
+- 🔴 **"Antioxidante/detox master" (glutationa + vit C alta + ALA IV)** — o detox drip mais vendido. **Evidência 2024:** ALA + vit C alta dose **aumentou toxicidade** (vit C alta age por peróxido; ALA tiol interfere) sem benefício; interações pouco entendidas. Reforça o veto ao modelo de drip antioxidante.
+- 🔴 **NAD+ IV / "NAD+ + glutationa detox"** (§13.3) · 🔴 **"beleza"/clareamento com glutationa** (§13.1, ABRAN) · 🔴 **soro de imunidade vendido como preventivo/cura** · 🔴 **qualquer combo com claim de cura/anti-aging/detox.**
+- **Fio:** combos só com lastro + disclaimer honesto; o que a maioria dos "drip bars" vende (detox/antioxidante/beleza/NAD) é justamente o que recusamos. **A varredura de campo não revelou injetável novo ofertável — só combinações de moléculas que já temos.**
