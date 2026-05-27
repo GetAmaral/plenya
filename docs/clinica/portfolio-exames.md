@@ -72,8 +72,45 @@ composição corporal + **ângulo de fase (biomarcador de mortalidade/sarcopenia
 (trunfo nefro)** · R$ 25–90 mil · sem radiação · baseline+reavaliação fecha o loop do programa de massa
 magra · padronizar condições · **DEXA fica fora (parceria pontual p/ densidade óssea).**
 
+## 2. Preensão palmar / dinamometria — ✅ ESSENCIAL Fase 1 (próprio)
+**Veredito: ✅ próprio no dia 1.** CAPEX irrisório, marcador validado, alto valor por custo. Forma com
+a bioimpedância (§1) o **par de sarcopenia** (massa + força).
+
+- **O que entrega:** força de preensão manual = marcador de **força muscular global** e proxy de função.
+- **Evidência (desfecho duro — forte):** preensão baixa **prediz mortalidade por todas as causas,
+  incapacidade, hospitalização**. Cortes EWGSOP2: **<27 kg (♂) / <16 kg (♀)** = força baixa (sarcopenia
+  provável). No ELSA (14 anos), **força baixa + marcha lenta** foi o **melhor preditor de mortalidade**.
+  *Caveat:* cortes padrão podem subdiagnosticar → idealmente **cortes populacionais**.
+- **Como fecha o diagnóstico:** EWGSOP2 = força baixa (grip) **+** massa baixa (bioimpedância §1) **+**
+  desempenho (marcha). Grip + BIA dão o diagnóstico de sarcopenia quase completo.
+- **🩺 Ângulo nefro:** sarcopenia/wasting da DRC é enorme; grip prediz mortalidade em DRC/diálise.
+  Conecta com preservação de massa (HMB §13.97, creatina §13.40, nandrolona restrita §13.90, GLP-1 em
+  programa).
+- **🇧🇷 Equipamento (a questão da sinergia InBody):**
+  | Opção | Preço BR | Nota |
+  |---|---|---|
+  | **InBody InGrip** | 🔲 ~R$ 3–8 mil (importado) | wireless, load-cell, Bluetooth 5.0 — **integra no ecossistema InBody** → mesmo relatório da bioimpedância, fluxo único, sinergia de fornecedor/preço |
+  | **Jamar hidráulico** | ~R$ 4.800 | **padrão-ouro de referência** (cortes EWGSOP2 vêm dele); 5 posições |
+  | **Saehan digital** | ~R$ 1.160 | **validado vs Jamar** (r=0,98), load-cell, o mais barato |
+  - **Recomendação:** com bioimpedância **InBody**, o **InGrip** pela **sinergia de ecossistema** (dado
+    flui pro mesmo relatório, mesmo fornecedor); precisão load-cell adequada. ⚠️ cortes derivados no
+    **Jamar** → o que importa é **padronizar** (mesmo aparelho/posição/instrução; reprodutibilidade da
+    tendência). Robusto: **InGrip rotina + Jamar âncora de referência** (custo baixo). Saehan = alternativa
+    validada barata sem ecossistema.
+- **Regulatório:** **nenhum** (sem radiação); registro ANVISA de correlato. Trivial.
+- **Próprio × parceria:** **PRÓPRIO dia-1** (custo irrisório, instantâneo).
+- **Integração na jornada:** baseline + reavaliação; **"força = idade funcional"**; cruza com
+  bioimpedância (sarcopenia) e com o programa de massa magra (ganho de força vira número).
+- **Limitações:** depende de esforço/cooperação e técnica (posição padronizada, melhor de 3 por mão);
+  calibrar; referência por idade/sexo.
+
+**Card — Preensão palmar:** ✅ **Fase 1 própria** · marcador validado de **sarcopenia + mortalidade**
+(EWGSOP2 <27/<16 kg) · fecha o diagnóstico de sarcopenia com a bioimpedância · **InBody InGrip pela
+sinergia de ecossistema/relatório** ± Jamar como âncora; Saehan = alternativa validada barata · CAPEX
+R$ 1–8 mil · sem radiação · padronizar medida (reprodutibilidade é o que conta).
+
 ---
 
 ## Próximos (Fase 1, na ordem)
-🔲 **PRÓXIMO = preensão palmar (dinamometria)** · depois: posto de coleta laboratorial + coleta
-genética/epigenética · espirometria · (se caixa permitir) ITB/VOP.
+🔲 **PRÓXIMO = posto de coleta laboratorial + coleta genética/epigenética** · depois: espirometria ·
+(se caixa permitir) ITB/VOP.
