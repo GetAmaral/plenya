@@ -2410,3 +2410,18 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 - **C6 · "Energia/disposição" (QoL)** — Myers-like com viés mito (ver Eixo G); medir VAS de fadiga antes/depois; **experiência/bem-estar documentado, não cura**.
 
 **Princípios do eixo:** base é ORAL · azul de metileno só com triagem dupla (G6PD/serotoninérgicos) + grau farmacêutico · CoQ10 é oral (IM = proposta de aula, opcional) · disclaimer de QoL · **sem claim de longevidade/anti-aging.**
+
+### Eixo D · Metabólico / emagrecimento
+**Regra do eixo:** pilar farmacológico = **GLP-1**, sempre em **PROGRAMA** (déficit + proteína + treino resistido), não injeção isolada. GLP-1 preserva massa magra **só** com proteína+treino (oposto da metformina).
+
+**Simples (injetável):**
+- **D1 · GLP-1 SC (o pilar)** — **semaglutida** (§13.76) / **tirzepatida** (§13.77, mais potente). *Halo:* renal (FLOW) + CV (SELECT). *Fonte:* canetas registradas (Ozempic/Wegovy/Mounjaro); **tirzepatida magistral legal** (NT 200/2025); **semaglutida NÃO manipulável** (biotec). *Gates:* GI, pancreatite, **contraindicação MTC/MEN2**, colelitíase, **perda de magra → exige proteína+treino**; suspender pré-anestesia.
+
+**Combos:**
+- **D2 · GLP-1 em PROGRAMA (o jeito certo)** — GLP-1 SC + **proteína 1,2–1,6 g/kg** + **treino resistido** + retaguarda oral conforme perfil (D4). *Protocolo central de emagrecimento da clínica.*
+- **D3 · Coquetel lipotrópico IM** (§13.32, aula MFI *Emagrecimento XVII* — **candidato**): metilfolato + **5-HTP IM** + glutationa + ALA + carnitina + cromo + niacinamida + glicina; ~8 sessões 2×/sem. ⚠️ *Disclaimer:* **adjuvante de bem-estar/adesão, NÃO queima gordura por si** — motor é GLP-1+déficit+treino. *Gates:* 5-HTP serotoninérgico, niacinamida flushing.
+
+**Retaguarda ORAL (cardápio, conforme perfil):**
+- **D4 · Stack metabólico oral** — **SGLT2** (§13.108, cardiorrenal+peso, gate cetoacidose euglicêmica) · **inositol** (§13.95, RI/SOP 40:1) · **berberina** (§13.60, interações estatina/gestação) · **metformina** (§13.66) · ALA oral · cromo (§13.18) · EGCG (§13.56, teto hepático). Conforme RI/SOP/perfil glicêmico.
+
+**Princípios do eixo:** GLP-1 sempre em programa (proteína+treino preservam magra) · lipotrópico é adjuvante de adesão · semaglutida não-manipulável / tirzepatida sim · SGLT2 suspender em jejum/keto/perioperatório · **não vender soro como emagrecedor isolado.**
