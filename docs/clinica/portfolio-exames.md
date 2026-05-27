@@ -111,6 +111,59 @@ R$ 1–8 mil · sem radiação · padronizar medida (reprodutibilidade é o que 
 
 ---
 
+## 3. Posto de coleta laboratorial + coleta genética/epigenética — ✅ ESSENCIAL Fase 1 (próprio só a pré-analítica)
+**Veredito: ✅ próprio no dia 1 (só a coleta) + lab de apoio.** É o **coração da medicina de
+longevidade** — o sangue avançado é onde mora o diferencial e o ticket alto, e a casa já tem o painel
+enriquecido no Escore. CAPEX baixo, valor altíssimo.
+
+### 3.1 Posto de coleta (pré-analítica)
+- **Enquadramento:** **Serviço Tipo II (RDC 978/2025)** — só **pré-analítica** (coleta/armazenamento/
+  acondicionamento/transporte); a análise fica no **laboratório de apoio Tipo III vinculado**.
+- **Requisitos:** box/sala de coleta (RDC 50 — pode compartilhar consultório se cumprir requisitos) ·
+  **RT habilitado + supervisor técnico** · **contrato com lab de apoio** (regularidade sanitária +
+  qualidade analítica via proficiência) · **CIQ + CEQ in loco** (a RDC 978 ampliou p/ Tipo I e II).
+- **CAPEX REAL (corrigido):** equipamento próprio enxuto **~R$ 8–20 mil** — cadeira de coleta (~R$ 740),
+  bancada/armário (R$ 1,5–3 mil), **centrífuga** (R$ 1,5–6 mil), **geladeira de amostras 2–8 °C +
+  datalogger** (R$ 2–8 mil), perfurocortante/EPI/consumíveis (R$ 0,5–2 mil). **🔑 Ou ~ZERO se o lab de
+  apoio equipar** (modelo comum BR — CientificaLab/Pardini Lab-to-Lab/DB fornecem materiais, LIS,
+  treinamento e às vezes reforma em troca do volume). *(Os R$ 30–80 mil antes citados estavam inchados —
+  confundiam posto de coleta com laboratório completo; software/LIS o apoio fornece, reforma é da obra geral.)*
+- **Regulatório:** licença sanitária + RT + contrato; **sem radiação**.
+
+### 3.2 Painel de longevidade avançado (o produto)
+- **Biomarcadores:** **ApoB** (partículas aterogênicas > LDL) · **Lp(a)** (risco CV genético) · **hsPCR**
+  (inflamação) · **homocisteína** (metilação/CV) · **HOMA-IR/insulina jejum** (RI, correlaciona idade
+  biológica) · HbA1c · **ômega-3 index** · **cistatina C** (eGFR preciso — nefro) · Mg RBC.
+- **Evidência:** ApoB/Lp(a)/HbA1c+insulina/composição/grip = os "não-negociáveis"; idade biológica <
+  cronológica → +sobrevida.
+- **🩺 Nefro:** cistatina C + creatinina (eGFR), albuminúria, ácido úrico, ApoB/Lp(a) na DRC — painel
+  onde o nefrologista lidera.
+- **📚 RAG — JÁ É DA CASA:** ApoB/ApoA1, Lp(a), Apo B, PCR-us, homocisteína, HOMA-IR, FADS1/2 (ômega-3),
+  MTHFR já no Escore como conduta enriquecida. O posto **operacionaliza** o que a casa já prescreve.
+
+### 3.3 Coleta genética / epigenética (própria só a coleta; análise terceirizada)
+- **Nutrigenética:** painel de SNPs já no Escore (FADS1/2, MTHFR, VDR, BCO1, GPX1…) — **coleta própria,
+  análise terceirizada** (labs nacionais). CAPEX ~zero.
+- **Idade biológica epigenética (metilação de DNA):** TruAge/TruDiagnostic (>1 mi sites CpG → idade
+  biológica, ritmo de envelhecimento, telômeros, idade imune; poucas gotas). Coleta própria, análise
+  terceirizada. 🔲 confirmar parceiro/importação BR.
+- ⚠️ *Honestidade:* idade epigenética = **forte valor de marketing**, **utilidade clínica acionável
+  ainda emergente** — comunicar como **métrica de acompanhamento**, não diagnóstico/claim.
+
+**Próprio × parceria:** **próprio = só a coleta**; **análise SEMPRE terceirizada** (lab apoio Tipo III +
+parceiro genético/epigenético).
+
+**Integração na jornada:** **núcleo do relatório integrado** — sangue avançado + composição (BIA §1) +
+força (grip §2) → devolutiva. O premium está no fechamento integrado.
+
+**Card — Posto de coleta + genética/epigenética:** ✅ **Fase 1 própria (só pré-analítica) + lab de
+apoio** · Serviço Tipo II RDC 978/2025 (RT + supervisor + contrato apoio + CIQ/CEQ) · **CAPEX ~R$ 8–20
+mil enxuto, ou ~zero se o apoio equipar** · **painel de longevidade que a casa já prescreve**
+(ApoB/Lp(a)/hsPCR/homocisteína/HOMA-IR/ômega-3/cistatina C) · nutrigenética + idade epigenética =
+**coleta própria, análise terceirizada, CAPEX ~zero** · sem radiação · **coração do relatório integrado**
+· epigenética = métrica de acompanhamento, não claim.
+
+---
+
 ## Próximos (Fase 1, na ordem)
-🔲 **PRÓXIMO = posto de coleta laboratorial + coleta genética/epigenética** · depois: espirometria ·
-(se caixa permitir) ITB/VOP.
+🔲 **PRÓXIMO = espirometria** · depois: (se caixa permitir) ITB/VOP — fecham a Fase 1.

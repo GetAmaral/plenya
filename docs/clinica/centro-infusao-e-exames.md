@@ -165,7 +165,7 @@ supervisor de proteção radiológica, levantamento radiométrico).
 |---|---|---|---|
 | **Bioimpedância** | ✅ **ESSENCIAL (próprio, dia 1)** | R$ 25–90 mil | Barato, rápido, alta percepção de valor, casa com nutrologia |
 | **Preensão palmar (dinamometria)** | ✅ **ESSENCIAL (próprio, dia 1)** | R$ 1–8 mil | Marcador validado de sarcopenia/mortalidade; custo irrisório |
-| **Posto de coleta laboratorial** | ✅ **ESSENCIAL (próprio, pré-analítica) + lab de apoio** | R$ 30–80 mil setup | Coração da medicina de longevidade; só coleta e envia |
+| **Posto de coleta laboratorial** | ✅ **ESSENCIAL (próprio, pré-analítica) + lab de apoio** | **~R$ 8–20 mil enxuto, ou ~zero se o lab de apoio equipar** (modelo comum BR) | Coração da medicina de longevidade; só coleta e envia. *(Valor antes de R$ 30–80 mil estava inchado — confundia com laboratório completo; ver `portfolio-exames.md` §3.)* |
 | **Coleta de teste genético** | ✅ **Próprio só a coleta / análise terceirizada** | ~zero (kits do parceiro) | Alto valor percebido, CAPEX zero |
 | **USG Doppler** (abdome/visceral, carótidas, membros) | 🟡 **RECOMENDADO (próprio, Fase 2)** | R$ 30–300 mil | Multiuso, sem radiação; gargalo é o **operador médico**, não a máquina |
 | **Ecocardiograma** | 🟡 **RECOMENDADO (compartilha o US)** | +R$ 30–120 mil sobre o US | Sinergia de equipamento; exige cardiologista/ecocardiografista |
@@ -205,8 +205,11 @@ municipal) + RT médico. Posto de coleta = **Serviço Tipo II** (só pré-analí
 com RT habilitado + supervisor técnico. Contratos com **laboratório de apoio** (análises) e **serviço
 de imagem** parceiro (DEXA, TC, RM).
 
-**Fase 1 — Dia 1 (≈ R$ 150–300 mil, baixo risco regulatório):** bioimpedância · preensão palmar ·
-posto de coleta + coleta genética/epigenética · espirometria · (se o caixa permitir) ITB/VOP.
+**Fase 1 — Dia 1 (baixo risco regulatório; CAPEX revisado p/ baixo — ver `portfolio-exames.md`):**
+bioimpedância (R$ 25–90 mil) · preensão palmar (R$ 1–8 mil) · posto de coleta + coleta genética/
+epigenética (**~R$ 8–20 mil ou ~zero se o apoio equipar**) · espirometria (R$ 5–25 mil) · (se o caixa
+permitir) ITB/VOP. *Os equipamentos próprios do dia-1 são enxutos; o "coração" (sangue avançado) tem
+CAPEX baixo porque a análise é terceirizada.*
 Parcerias para DEXA, eco/US, escore de cálcio, TC/RM e análises. Já entrega uma jornada one-stop
 convincente com **relatório integrado de longevidade**.
 
