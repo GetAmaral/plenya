@@ -2463,3 +2463,17 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 **Adjuntos ORAIS:** vit D (§3) · zinco (§13.5) · selênio (§13.16) · **LDN** (§13.109, autoimune/inflamatória) · glutationa só oral/NAC (IV fora, §13.1).
 
 **Princípios do eixo:** timosina α1 = imunomodulador defensável (registrado, não-WADA) · vit C IV = nicho zóster/alergia/QoL com gates G6PD+renal · perioperatório é oral, vit C IV só na fase de reparo (nunca endurance) · soro de imunidade = QoL com disclaimer.
+
+### Eixo G · Bem-estar / QoL
+**Regra do eixo:** soros de bem-estar ofertáveis **como experiência/QoL com disclaimer, NUNCA cura/detox/anti-aging** (§10). Medir VAS fadiga / SF-12 / PSQI antes-depois, declarar desfecho **subjetivo**. É onde a governança anti-"drip bar" mais aperta.
+
+**Combos (soros de QoL):**
+- **G1 · Myers cocktail** (§7, carro-chefe de QoL) — vit C 1–7,5 g + Mg 1–4 g + Ca gluconato 100–300 mg + B12 ~1.000 µg + B6 ~100 mg + B5 ~250 mg + complexo B. *Mecânica:* 100–250 mL SF/SG, **30–60 min**; semanal ×4–10. 🚨 **gate renal pelo Mg** (reduzir/omitir em DRC); teto B6 somatório. *Disclaimer:* **RCT Katz não superou placebo → experiência/QoL, não cura.**
+- **G2 · Hidratação + eletrólitos (base)** — SF/Ringer + eletrólitos; desidratação/pós-viral/pós-exercício. *Disclaimer:* reidratação/QoL pontual; gate renal/cardíaco no volume.
+- **G3 · Recarga/QoL vit C** (§7) — 7,5–10 g, 250–500 mL SF, 20–40 min, semanal ×4–6; bem-estar/fadiga; VAS antes/depois; gates G6PD+renal.
+
+**Exploratório / cardápio (com disclaimer forte):**
+- **G4 · "Energia/disposição"** — Myers-like com viés mito (cruza Eixo C); QoL documentada, não cura.
+- **G5 · "Beleza/pele" — reposicionado** — 🔴 **glutationa para clareamento VETADA (ABRAN + eventos graves)**; a clínica **não faz soro de clareamento**. Oferta honesta = **eixo oral do colágeno** (glicina+prolina+lisina+vit C+silício §13.26/34), não IV de beleza.
+
+**Princípios do eixo:** experiência/QoL com disclaimer, nunca cura · medir VAS/SF-12/PSQI e declarar subjetivo · gate renal pelo Mg (Myers) · **clareamento vetado** · proibido "detox/anti-aging/cura" · vitrine da disciplina (avaliação médica + indicação em prontuário mesmo no soro de bem-estar).
