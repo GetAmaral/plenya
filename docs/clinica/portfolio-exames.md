@@ -165,5 +165,53 @@ mil enxuto, ou ~zero se o apoio equipar** · **painel de longevidade que a casa 
 
 ---
 
+## 4. Espirometria — ✅ Fase 1 (própria ou comodato; base do cardiopulmonar)
+**Veredito: ✅ própria no dia 1.** Barata, sem radiação, e o **FEV1 é biomarcador sistêmico de
+mortalidade** (não só respiratório). Base para o **cardiopulmonar/VO₂máx** (Fase 2) e entrega "idade
+pulmonar" no relatório.
+
+- **O que entrega:** **FEV1, FVC, FEV1/FVC** (padrão obstrutivo × restritivo) + "idade pulmonar".
+- **Evidência (desfecho duro — forte):** **FEV1 prediz mortalidade por todas as causas e CV**, mesmo na
+  faixa normal — **FEV1 80–89% do previsto ≈ 2× mortalidade em 20 anos** (FDNY/NHANES); FEV1 baixo no
+  adulto jovem → comorbidade/mortalidade precoce.
+- **🩺 Ângulo sistêmico/nefro:** função pulmonar cruza com saúde CV/metabólica; padrão restritivo pode
+  refletir sobrecarga de volume (elo leve). Valor maior = **biomarcador sistêmico + triagem antes do
+  teste de esforço**.
+- **🇧🇷 Equipamento + CAPEX:** **portátil/USB** (Spirobank II / Minispir MIR) **~R$ 5–25 mil**; mesa
+  (Spirostik ~R$ 26,8 mil). **Comodato/aluguel** disponível (pacote de laudos por telemedicina — CAPEX
+  zero, custo recorrente). Exige equipamento **microprocessado, calibrável, com curvas gráficas**
+  (norma ATS/SBPT).
+- **🩺 Quem realiza × quem lauda (regulatório):** **NÃO é ato exclusivo de pneumologista**, mas
+  SBPT/CFM o **recomendam**; médico não-especialista pode laudar, porém **assume responsabilidade
+  ético-civil-penal maior**. Quem **executa** = **técnico em espirometria** (CBO desde 2017) ou téc.
+  enfermagem treinado; quem **lauda** = médico com CRM do estado. **Modelo adotado para a Plenya:
+  técnico realiza + LAUDO POR PNEUMOLOGISTA VIA TELEMEDICINA** (Morsch/Athos/Portal Telemedicina; pode
+  vir com aparelho em comodato) — tira a responsabilidade do nefrologista e blinda.
+- **Regulatório:** **sem radiação**; **laudo médico CRM do estado**; **calibração diária** (seringa
+  3 L); filtro descartável/paciente. Diretriz SBPT atualizada em **2024**; referência GLI raça-neutro.
+- **Próprio × parceria:** **própria dia-1** (barata) ou **comodato**; laudo por telemedicina (sem
+  pneumo no time).
+- **Integração na jornada:** "idade pulmonar" no relatório; **pré-requisito do cardiopulmonar (VO₂máx,
+  Fase 2)** — triage obstrutivo/restritivo antes do esforço; cruza com tabagismo/Escore.
+- **Limitações:** **esforço-dependente** (coaching/técnica; 3 manobras aceitáveis/reprodutíveis);
+  calibração/higiene; valores de referência.
+
+**Card — Espirometria:** ✅ **Fase 1 própria (ou comodato)** · **FEV1 = biomarcador de mortalidade
+sistêmica** (80–89% previsto ≈ 2× mortalidade 20a) + "idade pulmonar" · portátil USB R$ 5–25 mil · **sem
+radiação** · **técnico realiza + laudo pneumo por telemedicina** (não é ato exclusivo, mas blinda) +
+calibração diária · **base do cardiopulmonar/VO₂máx (Fase 2)** · esforço-dependente.
+
+> **⏭️ Pré-mapa Fase 2 — ergoespirometria (VO₂máx) é OUTRO exame:** teste de **esforço máximo**
+> (esteira/bike + máscara + **ECG/oximetria/PA contínuos**), **VO₂máx = preditor +forte de mortalidade
+> ("joia da coroa")**. **Exige médico CARDIOLOGISTA / medicina do esporte PRESENTE** durante o exame
+> (risco cardíaco — diretriz SBC/SBMEE 2019; ≠ "técnico + laudo à distância" da espirometria simples).
+> CAPEX R$ 80–150 mil. **Gargalo = pessoal médico, não máquina** → depende de trazer cardiologista/
+> fisiologista ao time (o Dr. é nefrologista). Por isso **Fase 2**, detalhada quando lá chegarmos.
+
+---
+
 ## Próximos (Fase 1, na ordem)
-🔲 **PRÓXIMO = espirometria** · depois: (se caixa permitir) ITB/VOP — fecham a Fase 1.
+🔲 **PRÓXIMO = (se caixa permitir) ITB/VOP** (índice tornozelo-braço + rigidez arterial / "idade
+vascular") — fecha a Fase 1. Depois: **Fase 2** (USG Doppler/eco · teste ergométrico · **ergoespirometria/
+VO₂máx** · calorimetria/RMR · retinografia · Holter/MAPA · sono domiciliar · triagem cognitiva+olfativa ·
+CGM).
