@@ -2425,3 +2425,26 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 - **D4 · Stack metabólico oral** — **SGLT2** (§13.108, cardiorrenal+peso, gate cetoacidose euglicêmica) · **inositol** (§13.95, RI/SOP 40:1) · **berberina** (§13.60, interações estatina/gestação) · **metformina** (§13.66) · ALA oral · cromo (§13.18) · EGCG (§13.56, teto hepático). Conforme RI/SOP/perfil glicêmico.
 
 **Princípios do eixo:** GLP-1 sempre em programa (proteína+treino preservam magra) · lipotrópico é adjuvante de adesão · semaglutida não-manipulável / tirzepatida sim · SGLT2 suspender em jejum/keto/perioperatório · **não vender soro como emagrecedor isolado.**
+
+### Eixo E · Hormonal (governança CFM 2.333/2023)
+**Regra do eixo (inegociável):** hormônio **só com deficiência comprovada + nexo causal**; **NUNCA** anti-aging/estético/performance/otimização de eugonádico. Checar legislação **molécula a molécula**. **Paradoxo da longevidade:** GH/IGF-1/T altos ↔ menos vida/+câncer. A disciplina diagnóstica é o produto.
+
+**Simples (injetável):**
+- **E1 · Testosterona IM/SC** (§13.80, card-referência) — **só hipogonadismo diagnosticado** (TT <264, ou 264–350 + T livre baixa/Vermeulen). Cipionato/undecanoato IM ou SC. *Monitorar:* hematócrito, PSA, E2. **Nunca** otimização de eugonádico.
+- **E2 · hCG SC/IM** (§13.101, registrado Choriomon-M) — preservar fertilidade/volume na TRT (500 UI 2–3×/sem) · hipogonadismo secundário · recuperação pós-AAS (±FSH). Gate estrogênico (↑E2).
+- **E3 · GH SC** (§13.87) — **SÓ GHD do adulto por teste de estímulo**; **🔴 NUNCA anti-aging**.
+
+**THM / saúde da mulher (várias vias):**
+- **E4 · THM na janela** — **estradiol transdérmico** (§13.84, registrado, não implante/"bioidêntico marketing") + **progesterona micronizada** (§13.85, oral/vaginal — proteção endometrial se útero intacto). **GSM:** prasterona/DHEA vaginal (§13.81) ou ocitocina gel vaginal (§13.88, não-hormonal).
+
+**Combos:**
+- **E5 · Programa androgênico masculino: TRT + hCG (± IA)** — testosterona (E1) + **hCG** (preserva fertilidade/eixo/volume) **± anastrozol** (§13.103) **só se E2 comprovadamente alto, titular, nunca zerar**. Monitorar hematócrito/PSA/E2.
+- **E6 · Alternativa SEM testosterona (preservar fertilidade)** — **clomifeno/enclomifeno oral** (§13.102) ± hCG — hipogonadismo **funcional/secundário** no homem que quer fertilidade / evitar supressão+policitemia da TRT. (WADA proíbe SERM/hCG/IA em homem.)
+- **E7 · THM combinada** — estradiol transdérmico + progesterona micronizada (útero intacto), na janela da menopausa.
+
+**Restrito (esteroides — só catabólico/wasting documentado):**
+- **E8 · Nandrolona IM / mesterolona oral** (§13.90/93) — **só wasting/sarcopenia da DRC / catabolismo documentado, NUNCA estética/massa/performance** (vedação CFM). Nandrolona = via mais limpa (registrada + fora NT 104); mesterolona = mais benigna (não-hepatotóxica).
+
+**Adjuntos ORAIS:** tireoide (§13.86) · DHEA oral (§13.81) · SERM (§13.102) · IA (§13.103).
+
+**Princípios do eixo:** deficiência+nexo sempre · checar legislação por molécula (DHEA permitida × pregnenolona proibida) · paradoxo da longevidade · "bioidêntico registrado = ok; marketing manipulado superior = vedado" · WADA proíbe T/hCG/SERM/IA/GH em atleta · **a disciplina diagnóstica blinda a clínica.**
