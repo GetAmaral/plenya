@@ -210,8 +210,64 @@ calibração diária · **base do cardiopulmonar/VO₂máx (Fase 2)** · esforç
 
 ---
 
-## Próximos (Fase 1, na ordem)
-🔲 **PRÓXIMO = (se caixa permitir) ITB/VOP** (índice tornozelo-braço + rigidez arterial / "idade
-vascular") — fecha a Fase 1. Depois: **Fase 2** (USG Doppler/eco · teste ergométrico · **ergoespirometria/
-VO₂máx** · calorimetria/RMR · retinografia · Holter/MAPA · sono domiciliar · triagem cognitiva+olfativa ·
-CGM).
+## 5. ITB + VOP / rigidez arterial ("idade vascular") — ✅ Fase 1 (própria, baixo custo)
+**Veredito: ✅ própria no dia 1.** Sem radiação, baixo custo, narrativa premium de **"idade vascular"** e
+**trunfo nefrológico direto**. Fecha a Fase 1.
+
+**São duas medições → dois equipamentos (concreto):**
+| Medição | O que é | Equipamento | Preço aprox. |
+|---|---|---|---|
+| **VOP / "idade vascular"** | rigidez arterial (envelhecimento das artérias) | **Mobil-O-Graph** (oscilométrico de braço; faz **VOP + pressão central + MAPA 24h** num só aparelho) | 🔲 ~R$ 15–40 mil |
+| **ITB** | razão PA tornozelo ÷ braço (detecta DAP/aterosclerose) | **Doppler vascular portátil + manguito comum** (técnico/enfermeiro faz) | ~R$ 2–5 mil |
+
+- **Evidência (desfecho duro — forte):** **ITB <0,9 → 3–4× risco de morte CV**; **VOP ≥10 m/s = risco CV
+  aumentado** (rigidez arterial = preditor robusto de eventos CV e morte por todas as causas, meta-análises
+  2024–2025).
+- **🩺 Nefro (o diferencial):** **VOP prediz progressão de DRC E mortalidade** (estudo CRIC); a DRC
+  **acelera** a rigidez aórtica; aPWV é preditor **independente** de mortalidade na DRC 2–4. "Idade
+  vascular" + estratificação de risco renal num exame só — território do nefrologista.
+- **🔑 Sinergia do Mobil-O-Graph:** um aparelho (manguito de braço, automático) resolve **a idade vascular
+  agora (Fase 1)** E o **MAPA depois (Fase 2)** — evita comprar dois. (Descartados Complior/SphygmoCor —
+  padrão-ouro tonométrico, mas caros/importação restrita a pesquisa e operador-dependentes.)
+- **Regulatório:** **sem radiação**; só registro ANVISA do equipamento. Operador-leve.
+- **Próprio × parceria / integração:** **própria dia-1** (baixo custo, multiuso); **"idade vascular"
+  comunicável** (premium barato e impactante); pareia com painel CV do sangue (**ApoB/Lp(a)/hsPCR** §3) +
+  composição (§1) → relatório integrado.
+- **Limitações:** ITB é técnica/operador-dependente; padronizar repouso/posição; valores de referência por
+  idade.
+
+**Card — ITB + VOP:** ✅ **Fase 1 própria** · **2 equipamentos: Mobil-O-Graph** (VOP "idade vascular" +
+pressão central + **MAPA** → sinergia Fase 1+2) **+ Doppler portátil** (para o ITB) · ITB <0,9 = 3–4×
+morte CV; VOP ≥10 m/s = risco↑ · **🩺 VOP prediz progressão de DRC + mortalidade (CRIC) — trunfo nefro** ·
+R$ 15–40 mil (Mobil-O-Graph) + R$ 2–5 mil (Doppler) · sem radiação · narrativa premium de baixo custo.
+
+---
+
+## 🗺 BALANÇO DA FASE 1 (dia-1) — CAPEX consolidado e o que entrega
+| § | Exame | Equipamento | CAPEX próprio | Radiação |
+|---|---|---|---|---|
+| 1 | Bioimpedância | InBody 270+ (octapolar) | R$ 25–90 mil | não |
+| 2 | Preensão palmar | InBody InGrip ± Jamar | R$ 1–8 mil | não |
+| 3 | Posto de coleta + genética/epigenética | centrífuga + geladeira + cadeira (ou apoio equipa) | **~R$ 8–20 mil ou ~zero** | não |
+| 4 | Espirometria | portátil USB (ou comodato) | R$ 5–25 mil | não |
+| 5 | ITB + VOP | Mobil-O-Graph + Doppler | R$ 17–45 mil | não |
+
+**CAPEX total Fase 1 (próprio, enxuto): ~R$ 56–188 mil** (bem abaixo dos R$ 150–300 mil antes citados —
+a correção do posto de coleta puxou pra baixo). **Tudo sem radiação, operador-leve, análise terceirizada
+onde precisa (sangue/genética/laudos).** Já entrega a **jornada one-stop de longevidade**: composição
+corporal + força + sangue avançado + função pulmonar + idade vascular → **relatório integrado**.
+
+🩺 **Diferencial nefro embutido na Fase 1:** status de fluido (BIA), cistatina C/eGFR (sangue), VOP/risco
+renal — o nefrologista lidera 3 dos 5.
+
+🔲 **Pendências Fase 1:** cotações formais · enquadramento posto de coleta (RDC 978/2025) na VISA ·
+parceiro genético/epigenético BR · modelo de laudo de espirometria (telemedicina pneumo).
+
+---
+
+## FASE 2 — Expansão cardiometabólica (com fluxo)
+🔲 **A detalhar quando o Dr. avançar:** USG Doppler + Ecocardiograma (1 aparelho) · teste ergométrico ·
+**ergoespirometria/VO₂máx** (joia da coroa — exige **cardiologista/medicina do esporte presente**) ·
+calorimetria/RMR (custo marginal sobre o VO₂máx) · retinografia ("idade retiniana") · **MAPA** (já coberto
+pelo Mobil-O-Graph da Fase 1) · Holter · estudo de sono domiciliar · triagem cognitiva (MoCA) + olfativa ·
+CGM (glicose contínua, receita recorrente).
