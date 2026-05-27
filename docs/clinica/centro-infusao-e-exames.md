@@ -171,7 +171,7 @@ supervisor de proteção radiológica, levantamento radiométrico).
 | **Ecocardiograma** | 🟡 **RECOMENDADO (compartilha o US)** | +R$ 30–120 mil sobre o US | Sinergia de equipamento; exige cardiologista/ecocardiografista |
 | **Teste ergométrico (esteira)** | 🟡 **RECOMENDADO (próprio, Fase 2)** | R$ 40–90 mil | Base para o cardiopulmonar; exige cardiologista presente + RCP |
 | **Cardiopulmonar / espiroergométrico (VO₂máx)** | 🟡 **RECOMENDADO — joia da coroa** | R$ 80–150 mil (reusa a esteira) | VO₂máx é dos preditores mais fortes de mortalidade; **ninguém faz bem em Londrina** |
-| **DEXA** (densidade óssea + composição) | 🟡 **RECOMENDADO (próprio só Fase 3; terceirizar antes)** | R$ 120–600 mil + obra blindada | Padrão-ouro, diferencial de marca, mas radiação + CAPEX alto |
+| **DEXA** (densidade óssea + composição) | 🔴 **FORA do próprio (definitivo — decisão do Dr. 2026-05; nem Fase 3)** — **terceirizar** quando densidade óssea/composição padrão-ouro for clinicamente necessária | R$ 200–500 mil + obra blindada | Padrão-ouro, MAS vira serviço de radiologia (RDC 611/2022 + CNEN: físico/PR, blindagem, levantamento radiométrico, dosimetria, laudo de radiologista, QC) — desproporção regulatória não compensa. **Composição recorrente fica com a bioimpedância** (AF + fluido, que a DEXA não tem). Ver `portfolio-exames.md`. |
 
 ## II.2 Ideias adicionais (não estavam na lista) — priorizadas
 
@@ -215,9 +215,10 @@ aparelho) · Teste ergométrico + VO₂máx + Calorimetria/RMR (esteira + analis
 conjunto "assinatura performance/longevidade") · Retinografia · Holter/MAPA · sono domiciliar ·
 triagem cognitiva+olfativa · CGM como serviço recorrente.
 
-**Fase 3 — Diferenciação avançada (maturidade):** DEXA próprio (internaliza a parceria, melhora
-margem) · plataforma de força/análise de marcha (se houver vertical esportiva) · avaliar TC própria
-**somente** se o volume justificar CAPEX + licenciamento radiológico.
+**Fase 3 — Diferenciação avançada (maturidade):** ~~DEXA próprio~~ **(DEXA descartada do próprio em
+definitivo — ver II.1; densidade óssea sempre por parceria)** · plataforma de força/análise de marcha
+(se houver vertical esportiva) · avaliar TC própria **somente** se o volume justificar CAPEX +
+licenciamento radiológico.
 
 **Regra de bolso próprio×parceria:** próprio = tudo **sem radiação**, multiuso e com profissional
 disponível (US/eco, ergo/cardiopulmonar, bioimpedância, grip, coleta, retinografia, VOP). Parceria =
