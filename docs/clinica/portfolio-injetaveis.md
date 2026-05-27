@@ -2448,3 +2448,18 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 **Adjuntos ORAIS:** tireoide (§13.86) · DHEA oral (§13.81) · SERM (§13.102) · IA (§13.103).
 
 **Princípios do eixo:** deficiência+nexo sempre · checar legislação por molécula (DHEA permitida × pregnenolona proibida) · paradoxo da longevidade · "bioidêntico registrado = ok; marketing manipulado superior = vedado" · WADA proíbe T/hCG/SERM/IA/GH em atleta · **a disciplina diagnóstica blinda a clínica.**
+
+### Eixo F · Imune / recuperação
+**Regra do eixo:** imunomodulação com base real (timosina α1 registrada) + nicho de vit C IV; perioperatório é **oral-dominante**. Soros de "imunidade" = adjuvante/QoL, **não previnem infecção magicamente**.
+
+**Simples (injetável):**
+- **F1 · Timosina α1 SC** (§13.70) — **imunomodulador REGISTRADO** (timalfasina/Zadaxin), evidência real, **não banido WADA**; eixo = **imunossenescência/suporte imune**. O 🟢 mais sólido do bloco peptídeos.
+- **F2 · Vit C IV funcional** (≤15 g, §7) — *nicho:* **zóster/dor zosteriana** (adjuvante ao antiviral) · **alergia/histamina** · **energia/QoL pontual**. *Mecânica:* SF/SG, <250 mg/min, 20–40 min. 🚨 **gates G6PD + renal/oxalato + insumo SEM metabissulfito** acima de 2–3 g. Cards no §7.
+
+**Combos:**
+- **F3 · Cicatrização / perioperatório** (aulas Sorrentino/Cirurgia — candidato): **arginina + vit C + zinco + selênio + cobre + complexo B + vit A + CoQ10** — **MAJORITARIAMENTE ORAL**; vit C IV pontual **na fase de reparo**. ⚠️ *Timing:* vit C **liberada em reparo/pós-op** (ROS=dano), **vetada em bloco adaptativo de endurance** (ROS=adaptação que ela apaga).
+- **F4 · Imune agudo/sazonal (cardápio, com disclaimer)** — **vit C IV 7,5–10 g + zinco oral ± selênio**; experiência/QoL na infecção aguda. *Disclaimer:* adjuvante, **não previne nem cura infecção**; medir VAS.
+
+**Adjuntos ORAIS:** vit D (§3) · zinco (§13.5) · selênio (§13.16) · **LDN** (§13.109, autoimune/inflamatória) · glutationa só oral/NAC (IV fora, §13.1).
+
+**Princípios do eixo:** timosina α1 = imunomodulador defensável (registrado, não-WADA) · vit C IV = nicho zóster/alergia/QoL com gates G6PD+renal · perioperatório é oral, vit C IV só na fase de reparo (nunca endurance) · soro de imunidade = QoL com disclaimer.
