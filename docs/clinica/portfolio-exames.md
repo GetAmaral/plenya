@@ -266,8 +266,52 @@ parceiro genético/epigenético BR · modelo de laudo de espirometria (telemedic
 ---
 
 ## FASE 2 — Expansão cardiometabólica (com fluxo)
-🔲 **A detalhar quando o Dr. avançar:** USG Doppler + Ecocardiograma (1 aparelho) · teste ergométrico ·
-**ergoespirometria/VO₂máx** (joia da coroa — exige **cardiologista/medicina do esporte presente**) ·
-calorimetria/RMR (custo marginal sobre o VO₂máx) · retinografia ("idade retiniana") · **MAPA** (já coberto
-pelo Mobil-O-Graph da Fase 1) · Holter · estudo de sono domiciliar · triagem cognitiva (MoCA) + olfativa ·
-CGM (glicose contínua, receita recorrente).
+
+### 6. Bloco metabólico-cardiorrespiratório (RMR + VO₂máx) — reestruturado p/ caber no time atual
+**Decisão do Dr. (2026-05):** **desacoplar a RMR da ergoespirometria.** RMR isolada própria agora (barata,
+sem cardiologista); **VO₂máx ESTIMADO (submáximo)** como ponte; **ergoespirometria máxima (padrão-ouro)
+adiada/terceirizada** até ter cardiologista/medicina do esporte + volume.
+
+**6a · RMR / calorimetria de repouso — ✅ PRÓPRIA AGORA (não espera Fase 2 plena)**
+- **O que mede:** taxa metabólica de repouso **medida** (O₂/CO₂, erro ~1%) + quociente respiratório
+  (substrato). **≠ bioimpedância**, que só *estima* o metabolismo por equação (massa magra × coeficiente,
+  erro ±10–20% no indivíduo). A RMR **mede o gasto real e detecta metabolismo adaptado/"travado"**
+  (pós-dieta, sob GLP-1) — invisível à equação da bio. É a base da prescrição calórica individualizada do
+  Eixo D (emagrecimento).
+- **Equipamento:** **calorímetro de RMR isolado** — **HandyMET FIT** (nacional, MDI/Sigeral, feito p/
+  nutrólogo: calibração automática, laudo imediato) · **Cosmed Fitmate** (portátil, validado) · **Quark
+  RMR**. **Operado pelo time atual (você/nutri), em repouso, SEM cardiologista, SEM esforço.** Calorímetro
+  só-O₂ é o mais barato. CAPEX 🔲 (fração da cadeia completa; bem abaixo dos R$ 80–150 mil do conjunto com
+  esteira).
+- **Regulatório:** sem radiação; sem médico presente (é repouso). Simples.
+- **Maior valor:** emagrecimento com platô, pós-dieta, sob GLP-1, obeso, suspeita de metabolismo lento.
+
+**6b · VO₂máx ESTIMADO (submáximo) — ✅ ponte de baixo custo agora**
+- **O que é:** teste **submáximo** (esteira/bike + FC, ou estimado pelo Fitmate/PNOĒ) → **estimativa** de
+  aptidão cardiorrespiratória **sem esforço máximo**, **sem a exigência de médico presente** do teste
+  máximo. ⚠️ **É estimativa, não o padrão-ouro.** Triar risco cardíaco antes (ECG de repouso/PAR-Q;
+  espirometria §4 já triage o pulmonar).
+- **Por que vale:** VO₂máx (mesmo estimado) é **dos preditores +fortes de mortalidade** (alta vs baixa
+  aptidão = 41–53% menos mortalidade; +1 MET = 13–15% menos mortalidade) — entra no relatório de
+  longevidade já, sem o gargalo.
+
+**6c · Ergoespirometria máxima (VO₂máx padrão-ouro) — ⏳ ADIADA / terceirizar**
+- **Por quê:** cadeia cara (**esteira + analisador metabólico + ECG, R$ 80–150 mil** — Inbramed nacional/
+  Cosmed) **+ exige CARDIOLOGISTA/medicina do esporte PRESENTE em todas as etapas (CFM 2.021/2013;
+  delegar = falta de ética)**. O Dr. é nefrologista → **gargalo de pessoal, não de máquina**.
+- **Quando internalizar:** só com o cardiologista/medicina do esporte no time + volume. **Terceirizar
+  pontualmente** quem precisar do VO₂máx máximo nesse meio-tempo.
+
+**Card — Bloco RMR + VO₂máx:** **6a RMR própria AGORA** (calorímetro isolado HandyMET FIT/Fitmate; mede
+metabolismo real vs estimativa da bio; detecta metabolismo travado; sem cardiologista; base do Eixo D) ·
+**6b VO₂máx ESTIMADO submáximo** como ponte (preditor de mortalidade, sem médico presente, triar CV antes;
+é estimativa) · **6c ergoespirometria máxima ADIADA/terceirizada** (R$ 80–150 mil + cardiologista presente
+CFM 2.021/2013 — gargalo de pessoal).
+
+---
+
+## Próximos (Fase 2, na ordem)
+🔲 **PRÓXIMO = bloco de ultrassom (USG Doppler + Ecocardiograma — 1 aparelho, 2 exames; gargalo de operador
+ultrassonografista/cardiologista).** Depois: retinografia ("idade retiniana") · **MAPA** (já coberto pelo
+Mobil-O-Graph §5) · Holter · estudo de sono domiciliar · triagem cognitiva (MoCA) + olfativa · CGM (glicose
+contínua, receita recorrente).
