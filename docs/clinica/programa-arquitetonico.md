@@ -132,3 +132,79 @@ abrigo de resíduos reforçado). + **previsão** da Zona 6 para quando vier o ca
 > **Mensagem central para o arquiteto:** clínica ambulatorial premium, **sem radiação e sem sala limpa**;
 > o que define a complexidade regulatória é o **centro de infusão** (RDC 50 + enfermagem + rede frio +
 > resíduos). O resto é avaliação funcional leve + coleta + consultórios, agrupáveis para caber no imóvel.
+
+---
+
+## 📐 Dimensionamento (m²) — sizing CONFORTÁVEL e total
+
+> Tamanhos **confortáveis** (premium, acima do mínimo RDC 50), não apertados. Ordem de grandeza — o
+> projetista confirma. "Net" = área útil dos ambientes; o total construído soma **~35% de circulação**
+> (corredores ≥1,20–1,50 m, paredes, shafts, acessibilidade).
+
+### Zona 1 — Acolhimento e apoio
+| Ambiente | m² confortável |
+|---|---|
+| Recepção + espera (lounge sereno) | 28 |
+| Sanitários (2 unissex + 1 PCD Ø1,50 m) | 10 |
+| Copa/apoio da equipe | 6 |
+| DML (depósito limpeza) | 3 |
+| Abrigo de resíduos (PGRSS) | 4 |
+| Administrativo/gestão | 11 |
+| **Subtotal Z1** | **62** |
+
+### Zona 2 — Consulta e devolutiva
+| Ambiente | m² |
+|---|---|
+| Consultório 1 (entrada) | 12 |
+| Consultório 2 / sala de devolutiva | 12 |
+| **Subtotal Z2** | **24** |
+
+### Zona 3 — Avaliação funcional (exames leves)
+| Ambiente | m² |
+|---|---|
+| Sala de composição/funcional (bio + grip + retina + MoCA) | 12 |
+| Sala de repouso cardiometabólica (RMR + ITB/VOP + VO₂ estimado) | 12 |
+| **Subtotal Z3** | **24** |
+
+### Zona 4 — Coleta laboratorial
+| Ambiente | m² |
+|---|---|
+| Sala/box de coleta (2 cadeiras) | 8 |
+| Bancada de processamento pré-analítico (centrífuga + geladeira amostras) | 4 |
+| Sanitário vinculado (coleta urina) | 3 |
+| **Subtotal Z4** | **15** |
+
+### Zona 5 — Centro de infusão (se entrar)
+| Ambiente | m² |
+|---|---|
+| Sala de aplicação | 5 |
+| Lounge de infusão — **4 poltronas × ~6 m²** | 24 |
+| Posto de enfermagem | 6 |
+| Sala de preparo (produto pronto) + rede frio | 6 |
+| **Subtotal Z5** | **41** |
+
+### Zona 6 — Expansão cardiorrespiratória/imagem (previsão)
+| Ambiente | m² |
+|---|---|
+| Sala de ergometria/ergoespirometria (esteira + ECG + emergência) | 18 |
+| Sala de ultrassom/eco (maca, penumbra) | 12 |
+| **Subtotal Z6** | **30** |
+| *(opcional)* plataforma de força — só se vertical esportiva | +20 |
+
+### 🧮 Totais (com ~35% de circulação)
+| Cenário | Ambientes (net) | **Total construído** |
+|---|---|---|
+| **A — Núcleo** (exames + consulta, sem infusão) = Z1+2+3+4 | ~125 m² | **~170 m²** |
+| **B — Com infusão** = Z1+2+3+4+5 | ~166 m² | **~225 m²** |
+| **C — Completo** (+ previsão Z6) = Z1→6 | ~196 m² | **~265 m²** |
+| *C + plataforma de força (esportivo)* | ~216 m² | **~290 m²** |
+
+**Leitura prática:**
+- Para abrir **confortável como centro de exames + consulta**: mire **~170 m²**.
+- **Com centro de infusão** (lounge de 4 poltronas + enfermagem): **~225 m²**.
+- **Tudo, já deixando a sala de esforço e o ultrassom previstos**: **~265 m²** (~290 com plataforma de força).
+
+> **Ajustes fáceis de metragem:** o lounge de infusão escala direto pelo nº de poltronas (~6 m² cada — 3
+> poltronas tiram ~6 m², 6 poltronas somam ~12 m²). As Zonas 3, 4 e 6 podem **compartilhar salas** num
+> imóvel apertado (ex.: ultrassom na sala de repouso cardiometabólica; processamento dentro da coleta),
+> baixando 15–25 m². Versão **compacta** (mínimos RDC 50, não premium) reduz o total em ~20–25%.
