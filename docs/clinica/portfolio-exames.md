@@ -310,8 +310,44 @@ CFM 2.021/2013 — gargalo de pessoal).
 
 ---
 
+### 7. Bloco de ultrassom: USG Doppler + Ecocardiograma — 🟡 RECOMENDADO (1 aparelho, vários exames; gargalo = operador)
+**1 aparelho → vários exames** (multiuso, sem radiação):
+| Exame | Entrega | Quem opera |
+|---|---|---|
+| **Doppler de carótidas** | EIM + **placa carotídea** (aterosclerose subclínica) | ultrassonografista/médico habilitado |
+| **USG abdominal + quantificação de gordura** | gordura visceral + **esteatose hepática (MASLD/NAFLD)** | idem |
+| **Doppler vascular** (membros/renal) | fluxo arterial/venoso; complementa o ITB (§5) | idem |
+| **Ecocardiograma** | função cardíaca estrutural | **cardiologista com título em eco** |
+
+- **Evidência (desfecho duro):** **placa carotídea > EIM isolada** como preditor de risco CV (reclassifica
+  risco; visualização direta do ateroma); **esteatose (MASLD)** = marcador metabólico central, USG é **1ª
+  linha de triagem/seguimento** (cruza com Eixo D e painel metabólico §3).
+- **🩺 Nefro:** Doppler renal (estenose/índice de resistividade) + carótida como janela da aterosclerose
+  sistêmica que acomete o rim. Diferencial natural.
+- **🇧🇷 Equipamento + CAPEX:** **carrinho com Doppler colorido + transdutores** (linear carótida/vascular +
+  convexo abdome + setorial/cardio eco). Portátil c/ Doppler a partir de **~R$ 9 mil** (entrada); cart-based
+  clínico **R$ 30–300 mil** conforme qualidade; seminovo é opção. Elastografia hepática = recurso premium em
+  aparelhos superiores. Sem radiação; só registro ANVISA.
+- **🚨 Gargalo de OPERADOR (não de máquina):** USG é fortemente operador-dependente; **CFM 2.330/2023** =
+  ultrassonografia geral é área de atuação (formação/título); **eco exige cardiologista com título em
+  ecocardiografia**. O Dr. é nefrologista → depende de **trazer ultrassonografista** (e o eco, um
+  cardiologista-ecocardiografista). **Não comprar o aparelho antes de ter quem opere.** 🔑 **O cardiologista
+  destrava eco + ergoespirometria (§6c) na MESMA contratação.**
+- **Próprio × parceria:** próprio quando houver operador + fluxo; antes, **terceirizar/agenda de
+  ultrassonografista visitante**.
+- **Integração:** carótida + esteatose + Doppler renal fecham o **mapa vascular/metabólico** do relatório
+  (cruzam com ITB/VOP §5, ApoB/Lp(a) §3, composição §1).
+
+**Card — Bloco ultrassom:** 🟡 **Fase 2** · **1 aparelho (Doppler colorido + transdutores), R$ 30–300 mil**
+(seminovo/portátil baixa a entrada) → carótida (placa > EIM), esteatose/gordura visceral (MASLD), Doppler
+vascular/renal, + eco se cardiologista · **🩺 carótida/Doppler renal = diferencial nefro** · 🚨 **gargalo =
+OPERADOR (ultrassonografista; eco exige cardiologista-ecocardiografista, CFM 2.330/2023) — não comprar antes
+de ter quem opere** · **cardiologista destrava eco + ergoespirometria (§6c) na mesma contratação** · sem
+radiação.
+
+---
+
 ## Próximos (Fase 2, na ordem)
-🔲 **PRÓXIMO = bloco de ultrassom (USG Doppler + Ecocardiograma — 1 aparelho, 2 exames; gargalo de operador
-ultrassonografista/cardiologista).** Depois: retinografia ("idade retiniana") · **MAPA** (já coberto pelo
-Mobil-O-Graph §5) · Holter · estudo de sono domiciliar · triagem cognitiva (MoCA) + olfativa · CGM (glicose
-contínua, receita recorrente).
+🔲 **PRÓXIMO = itens leves da Fase 2** (baixo CAPEX, sem gargalo de especialista): retinografia ("idade
+retiniana") · Holter · estudo de sono domiciliar · triagem cognitiva (MoCA) + olfativa · CGM (glicose
+contínua, receita recorrente). **MAPA já coberto pelo Mobil-O-Graph (§5).**
