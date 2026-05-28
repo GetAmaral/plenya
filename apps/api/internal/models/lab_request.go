@@ -52,7 +52,7 @@ type LabRequest struct {
 	QRCodeData *string `gorm:"type:text" json:"qrCodeData,omitempty"`
 
 	// Data/hora da assinatura digital
-	SignedAt *time.Time `gorm:"type:timestamp" json:"signedAt,omitempty"`
+	SignedAt *time.Time `gorm:"type:timestamptz" json:"signedAt,omitempty"`
 
 	// Número de série do certificado usado na assinatura
 	// @example 1234567890ABCDEF

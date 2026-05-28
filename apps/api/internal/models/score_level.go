@@ -48,7 +48,7 @@ type ScoreLevel struct {
 
 	// Data da última revisão dos campos clínicos
 	// @example 2026-01-25T10:30:00Z
-	LastReview *time.Time `gorm:"type:timestamp" json:"lastReview,omitempty"`
+	LastReview *time.Time `gorm:"type:timestamptz" json:"lastReview,omitempty"`
 
 	// Foreign Keys
 	// @example 550e8400-e29b-41d4-a716-446655440000

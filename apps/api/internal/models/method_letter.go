@@ -38,7 +38,7 @@ type MethodLetter struct {
 	Conduct *string `gorm:"type:text" json:"conduct,omitempty"`
 
 	// Última revisão dos campos clínicos
-	LastReview *time.Time `gorm:"type:timestamp" json:"lastReview,omitempty"`
+	LastReview *time.Time `gorm:"type:timestamptz" json:"lastReview,omitempty"`
 
 	// Cor (para UI)
 	// @example #10B981

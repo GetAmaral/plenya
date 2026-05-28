@@ -58,7 +58,7 @@ type PatientDocument struct {
 	ContentType string `gorm:"type:varchar(100);not null" json:"contentType"`
 	SizeBytes   int64  `gorm:"not null" json:"sizeBytes"`
 
-	IssuedAt time.Time `gorm:"type:timestamp;not null" json:"issuedAt"`
+	IssuedAt time.Time `gorm:"type:timestamptz;not null" json:"issuedAt"`
 
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`

@@ -121,6 +121,66 @@ func AutoMigrate() error {
 		WHEN undefined_column THEN
 			NULL;
 		END $$`,
+
+		// TZ-HARDENING — converte TODAS as colunas de timestamp "naive"
+		// (timestamp without time zone) para timestamptz em todo o schema.
+		//
+		// Por quê: colunas naive não carregam fuso. O app sempre gravou/leu em UTC
+		// (container TZ=UTC, sessão Postgres TZ=UTC, GORM NowFunc=time.Now().UTC()),
+		// mas o tipo naive é frágil: qualquer camada que assuma outro fuso corrompe
+		// o instante silenciosamente. Foi a raiz de um bug de off-by-one no
+		// agendamento. timestamptz fixa o instante de forma inequívoca.
+		//
+		// USING ... AT TIME ZONE 'UTC': interpreta o valor naive existente COMO UTC
+		// (que é o que ele sempre foi) e produz o timestamptz no mesmo instante —
+		// preserva os dados, não desloca nada.
+		//
+		// Guardado por "scheduled_at ainda é naive": roda uma vez; após converter,
+		// vira no-op. Em DB novo (tabela ainda não existe) cai no EXCEPTION e o
+		// AutoMigrate cria tudo já como timestamptz (models declaram timestamptz).
+		//
+		// A EXCLUDE constraint anti-overlap usa tsrange(scheduled_at,...) e bloqueia
+		// o ALTER TYPE; é dropada aqui e recriada com tstzrange(scheduled_at,end_at)
+		// no bloco de índices (após o AutoMigrate). end_at é coluna materializada
+		// nova (ver model Appointment.EndAt) — criada e backfillada aqui.
+		`DO $$
+		DECLARE r record;
+		BEGIN
+			IF EXISTS (
+				SELECT 1 FROM information_schema.columns
+				 WHERE table_name = 'appointments'
+				   AND column_name = 'scheduled_at'
+				   AND data_type = 'timestamp without time zone'
+			) THEN
+				ALTER TABLE appointments DROP CONSTRAINT IF EXISTS appointments_no_overlap;
+
+				FOR r IN
+					SELECT c.table_name, c.column_name
+					  FROM information_schema.columns c
+					  JOIN information_schema.tables t
+					    ON t.table_schema = c.table_schema
+					   AND t.table_name = c.table_name
+					 WHERE c.table_schema = 'public'
+					   AND c.data_type = 'timestamp without time zone'
+					   AND t.table_type = 'BASE TABLE'
+				LOOP
+					EXECUTE format(
+						'ALTER TABLE %I ALTER COLUMN %I TYPE timestamptz USING %I AT TIME ZONE ''UTC''',
+						r.table_name, r.column_name, r.column_name
+					);
+				END LOOP;
+
+				-- end_at materializado p/ a EXCLUDE constraint (tstzrange precisa de
+				-- expressão IMMUTABLE; scheduled_at + interval não é sobre timestamptz).
+				ALTER TABLE appointments ADD COLUMN IF NOT EXISTS end_at timestamptz;
+				UPDATE appointments
+				   SET end_at = scheduled_at + (duration_minutes * interval '1 minute')
+				 WHERE end_at IS NULL;
+				ALTER TABLE appointments ALTER COLUMN end_at SET NOT NULL;
+			END IF;
+		EXCEPTION WHEN undefined_table THEN
+			NULL;
+		END $$`,
 	}
 	for _, stmt := range preMigrateStmts {
 		if err := DB.Exec(stmt).Error; err != nil {
@@ -334,21 +394,16 @@ func AutoMigrate() error {
 		`CREATE EXTENSION IF NOT EXISTS btree_gist`,
 		// Notas IMPORTANTES sobre essa constraint:
 		//
-		// 1. Usamos `tsrange` (timestamp without time zone) em vez de `tstzrange`
-		//    porque a coluna `scheduled_at` é declarada como `timestamp` (sem TZ).
-		//    `tstzrange()` exige conversão implícita timestamp→timestamptz que
-		//    depende da sessão (TimeZone) → NÃO é IMMUTABLE → Postgres rejeita
-		//    em index expression. `tsrange` opera direto na coluna sem cast.
+		// 1. Usamos `tstzrange(scheduled_at, end_at)` sobre as colunas timestamptz.
+		//    end_at é coluna materializada (Appointment.EndAt, mantida pelo hook
+		//    BeforeSave). Construir o fim inline — `scheduled_at + interval` — NÃO
+		//    é IMMUTABLE sobre timestamptz (a soma com interval pode cruzar DST),
+		//    então o Postgres rejeita em index expression. `tstzrange(timestamptz,
+		//    timestamptz)` É IMMUTABLE — por isso materializamos end_at.
 		//
-		// 2. Usamos `duration_minutes * interval '1 minute'` em vez do cast
-		//    string→interval `(duration_minutes || ' minutes')::interval`. O
-		//    cast também não é IMMUTABLE (depende de DateStyle). Multiplicação
-		//    por interval literal é IMMUTABLE.
-		//
-		// 3. Application layer DEVE armazenar scheduled_at sempre em UTC pra
-		//    consistência. O ranges são comparados timestamp-a-timestamp,
-		//    então qualquer drift de TZ entre escrita e leitura cria bugs.
-		//    GORM config `NowFunc: time.Now().UTC()` já garante isso.
+		// 2. Application layer grava scheduled_at/end_at sempre em UTC (timestamptz
+		//    é inequívoco quanto ao instante). GORM `NowFunc: time.Now().UTC()` e o
+		//    parse RFC3339 garantem isso.
 		`DO $$ BEGIN
 			IF NOT EXISTS (
 				SELECT 1 FROM pg_constraint WHERE conname = 'appointments_no_overlap'
@@ -356,7 +411,7 @@ func AutoMigrate() error {
 				ALTER TABLE appointments ADD CONSTRAINT appointments_no_overlap
 				EXCLUDE USING gist (
 					doctor_id WITH =,
-					tsrange(scheduled_at, scheduled_at + (duration_minutes * interval '1 minute')) WITH &&
+					tstzrange(scheduled_at, end_at) WITH &&
 				) WHERE (status NOT IN ('cancelled', 'no_show') AND deleted_at IS NULL);
 			END IF;
 		END $$`,

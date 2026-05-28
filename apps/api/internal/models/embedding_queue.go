@@ -32,7 +32,7 @@ type EmbeddingQueue struct {
 
 	// Timestamps
 	CreatedAt   time.Time  `gorm:"autoCreateTime" json:"createdAt"`
-	ProcessedAt *time.Time `gorm:"type:timestamp" json:"processedAt,omitempty"`
+	ProcessedAt *time.Time `gorm:"type:timestamptz" json:"processedAt,omitempty"`
 }
 
 // TableName especifica o nome da tabela no banco de dados

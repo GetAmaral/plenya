@@ -32,7 +32,7 @@ type MethodPillar struct {
 	Conduct *string `gorm:"type:text" json:"conduct,omitempty"`
 
 	// Última revisão
-	LastReview *time.Time `gorm:"type:timestamp" json:"lastReview,omitempty"`
+	LastReview *time.Time `gorm:"type:timestamptz" json:"lastReview,omitempty"`
 
 	// Ordem de exibição
 	Order int `gorm:"type:integer;not null;default:0;index:idx_method_pillar_order" json:"order" validate:"gte=0,lte=9999"`

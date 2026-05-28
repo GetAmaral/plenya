@@ -42,7 +42,7 @@ type PatientSubscription struct {
 	EndDate         *time.Time `gorm:"type:date" json:"endDate,omitempty" example:"2027-02-15"`
 	TrialEndDate    *time.Time `gorm:"type:date" json:"trialEndDate,omitempty" example:"2026-03-15"`
 	NextBillingDate *time.Time `gorm:"type:date" json:"nextBillingDate,omitempty" example:"2026-03-15"`
-	CancelledAt     *time.Time `gorm:"type:timestamp" json:"cancelledAt,omitempty" example:"2026-12-31T23:59:59Z"`
+	CancelledAt     *time.Time `gorm:"type:timestamptz" json:"cancelledAt,omitempty" example:"2026-12-31T23:59:59Z"`
 
 	// Customization (overrides plan defaults)
 	DiscountPercent   float64 `gorm:"type:decimal(5,2);not null;default:0;check:discount_percent >= 0 AND discount_percent <= 100" json:"discountPercent" binding:"min=0,max=100" example:"10"`

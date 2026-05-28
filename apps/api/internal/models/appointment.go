@@ -60,10 +60,18 @@ type Appointment struct {
 	DoctorID uuid.UUID `gorm:"type:uuid;not null;index" json:"doctorId"`
 
 	// Data e hora da consulta
-	ScheduledAt time.Time `gorm:"type:timestamp;not null;index" json:"scheduledAt"`
+	ScheduledAt time.Time `gorm:"type:timestamptz;not null;index" json:"scheduledAt"`
 
 	// Duração estimada em minutos
 	DurationMinutes int `gorm:"type:int;not null;default:30" json:"durationMinutes"`
+
+	// EndAt = ScheduledAt + DurationMinutes. Coluna materializada, mantida pelo
+	// hook BeforeSave. Existe porque a EXCLUDE constraint anti-overlap precisa de
+	// uma expressão IMMUTABLE — `tstzrange(scheduled_at, end_at)`. Calcular o fim
+	// inline (`scheduled_at + interval`) NÃO é IMMUTABLE sobre timestamptz (a
+	// soma com interval pode cruzar DST), então o Postgres rejeita em index
+	// expression. Materializar o fim numa coluna resolve.
+	EndAt time.Time `gorm:"type:timestamptz;not null;index" json:"endAt"`
 
 	// Tipo de consulta. CHECK constraint garante apenas valores válidos no DB.
 	// Validação de payload Go via tag `validate:"oneof=..."` (parsed pelo
@@ -96,13 +104,13 @@ type Appointment struct {
 	ContinuumItemID *uuid.UUID `gorm:"type:uuid;index" json:"continuumItemId,omitempty"`
 
 	// Data de confirmação
-	ConfirmedAt *time.Time `gorm:"type:timestamp" json:"confirmedAt,omitempty"`
+	ConfirmedAt *time.Time `gorm:"type:timestamptz" json:"confirmedAt,omitempty"`
 
 	// Data de conclusão
-	CompletedAt *time.Time `gorm:"type:timestamp" json:"completedAt,omitempty"`
+	CompletedAt *time.Time `gorm:"type:timestamptz" json:"completedAt,omitempty"`
 
 	// Data de cancelamento
-	CancelledAt *time.Time `gorm:"type:timestamp" json:"cancelledAt,omitempty"`
+	CancelledAt *time.Time `gorm:"type:timestamptz" json:"cancelledAt,omitempty"`
 
 	// Motivo do cancelamento
 	CancellationReason *string `gorm:"type:text" json:"cancellationReason,omitempty"`
@@ -123,20 +131,20 @@ type Appointment struct {
 
 	// Quando a notificação de confirmação (email + WA template) foi enviada.
 	// Usado pra evitar reenvio se o sync async retentar.
-	ConfirmationSentAt *time.Time `gorm:"type:timestamp" json:"confirmationSentAt,omitempty"`
+	ConfirmationSentAt *time.Time `gorm:"type:timestamptz" json:"confirmationSentAt,omitempty"`
 
 	// Quando o reminder T-24h foi enviado (cron AppointmentReminderJob).
 	// NULL = ainda não enviado; setado = job já processou.
-	ReminderSentAt *time.Time `gorm:"type:timestamp" json:"reminderSentAt,omitempty"`
+	ReminderSentAt *time.Time `gorm:"type:timestamptz" json:"reminderSentAt,omitempty"`
 
 	// Quando o push T-1h foi enviado pro paciente (cron AppointmentPushReminderJob).
 	// NULL = ainda não enviado; setado = job já processou. Independente do WA T-24h.
-	PushReminder1hSentAt *time.Time `gorm:"type:timestamp" json:"pushReminder1hSentAt,omitempty"`
+	PushReminder1hSentAt *time.Time `gorm:"type:timestamptz" json:"pushReminder1hSentAt,omitempty"`
 
 	// Quando o paciente clicou "Confirmar presença" no portal
 	// (minha.plenyasaude.com.br/consultas/[id]). Diferente de ConfirmedAt,
 	// que é a confirmação geral via Confirm() (também pode vir da IA).
-	PatientConfirmedAt *time.Time `gorm:"type:timestamp" json:"patientConfirmedAt,omitempty"`
+	PatientConfirmedAt *time.Time `gorm:"type:timestamptz" json:"patientConfirmedAt,omitempty"`
 
 	// Título computado para exibição no frontend (não persistido)
 	DisplayTitle string `gorm:"-" json:"displayTitle"`
@@ -188,5 +196,17 @@ func (a *Appointment) BeforeCreate(tx *gorm.DB) error {
 	if a.ID == uuid.Nil {
 		a.ID = uuid.Must(uuid.NewV7())
 	}
+	return nil
+}
+
+// BeforeSave mantém EndAt = ScheduledAt + DurationMinutes em sincronia. Roda em
+// Create e Update (Save). EndAt alimenta a EXCLUDE constraint anti-overlap, que
+// precisa de tstzrange(scheduled_at, end_at) — ver comentário no campo EndAt.
+func (a *Appointment) BeforeSave(tx *gorm.DB) error {
+	dur := a.DurationMinutes
+	if dur <= 0 {
+		dur = 30
+	}
+	a.EndAt = a.ScheduledAt.Add(time.Duration(dur) * time.Minute)
 	return nil
 }

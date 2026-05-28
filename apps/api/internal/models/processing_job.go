@@ -77,10 +77,10 @@ type ProcessingJob struct {
 	CreatedAt time.Time `gorm:"not null;autoCreateTime;index:idx_job_created" json:"createdAt"`
 
 	// Data de início do processamento
-	StartedAt *time.Time `gorm:"type:timestamp" json:"startedAt,omitempty"`
+	StartedAt *time.Time `gorm:"type:timestamptz" json:"startedAt,omitempty"`
 
 	// Data de conclusão (sucesso ou falha)
-	CompletedAt *time.Time `gorm:"type:timestamp" json:"completedAt,omitempty"`
+	CompletedAt *time.Time `gorm:"type:timestamptz" json:"completedAt,omitempty"`
 
 	// Data de atualização
 	UpdatedAt time.Time `gorm:"not null;autoUpdateTime" json:"updatedAt"`

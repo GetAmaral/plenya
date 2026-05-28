@@ -37,10 +37,10 @@ type LabResultBatch struct {
 	LaboratoryName string `gorm:"type:varchar(200);not null" json:"laboratoryName" validate:"required,max=200"`
 
 	// Data da coleta
-	CollectionDate time.Time `gorm:"type:timestamp;not null;index" json:"collectionDate" validate:"required"`
+	CollectionDate time.Time `gorm:"type:timestamptz;not null;index" json:"collectionDate" validate:"required"`
 
 	// Data de disponibilização dos resultados
-	ResultDate *time.Time `gorm:"type:timestamp;index" json:"resultDate,omitempty"`
+	ResultDate *time.Time `gorm:"type:timestamptz;index" json:"resultDate,omitempty"`
 
 	// Status do lote
 	// @enum pending,partial,completed

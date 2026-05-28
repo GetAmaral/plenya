@@ -39,7 +39,7 @@ type Anamnesis struct {
 
 	// Data da consulta
 	// @example 2026-01-25T14:30:00Z
-	ConsultationDate time.Time `gorm:"type:timestamp;not null;index:idx_anamnesis_consultation_date" json:"consultationDate" validate:"required"`
+	ConsultationDate time.Time `gorm:"type:timestamptz;not null;index:idx_anamnesis_consultation_date" json:"consultationDate" validate:"required"`
 
 	// Conteúdo completo da anamnese (texto plano para busca/indexação)
 	// @example Paciente do sexo masculino, 45 anos, comparece à consulta com queixa de...

@@ -74,7 +74,7 @@ type Notification struct {
 	Read bool `gorm:"type:boolean;not null;default:false;index:idx_notifications_read" json:"read"`
 
 	// Data de leitura
-	ReadAt *time.Time `gorm:"type:timestamp" json:"readAt,omitempty"`
+	ReadAt *time.Time `gorm:"type:timestamptz" json:"readAt,omitempty"`
 
 	// Timestamps
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`

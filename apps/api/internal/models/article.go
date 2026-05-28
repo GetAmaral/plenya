@@ -91,13 +91,13 @@ type Article struct {
 
 	// Metadados do Sistema
 	IndexedAt      time.Time  `gorm:"autoCreateTime" json:"indexedAt"`
-	LastAccessedAt *time.Time `gorm:"type:timestamp" json:"lastAccessedAt,omitempty"`
+	LastAccessedAt *time.Time `gorm:"type:timestamptz" json:"lastAccessedAt,omitempty"`
 
 	// RAG Semantic Search - Embedding Status
 	// @enum pending,processing,completed,failed
 	EmbeddingStatus string     `gorm:"type:varchar(20);default:'pending';check:embedding_status IN ('pending','processing','completed','failed')" json:"embeddingStatus"`
 	ChunkCount      int        `gorm:"type:integer;default:0" json:"chunkCount"`
-	LastEmbeddedAt  *time.Time `gorm:"type:timestamp" json:"lastEmbeddedAt,omitempty"`
+	LastEmbeddedAt  *time.Time `gorm:"type:timestamptz" json:"lastEmbeddedAt,omitempty"`
 
 	// Audit
 	CreatedBy *uuid.UUID `gorm:"type:uuid" json:"createdBy,omitempty"` // User ID que criou

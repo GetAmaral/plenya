@@ -43,7 +43,7 @@ type Prescription struct {
 
 	// Data da prescrição
 	// @required
-	PrescriptionDate time.Time `gorm:"type:timestamp;not null;index" json:"prescriptionDate" validate:"required"`
+	PrescriptionDate time.Time `gorm:"type:timestamptz;not null;index" json:"prescriptionDate" validate:"required"`
 
 	// Data de validade (calculada automaticamente baseada na categoria)
 	// @required
@@ -74,7 +74,7 @@ type Prescription struct {
 	QRCodeData *string `gorm:"type:text" json:"qrCodeData,omitempty"`
 
 	// Data/hora da assinatura digital
-	SignedAt *time.Time `gorm:"type:timestamp" json:"signedAt,omitempty"`
+	SignedAt *time.Time `gorm:"type:timestamptz" json:"signedAt,omitempty"`
 
 	// Número de série do certificado usado na assinatura
 	// @example 1234567890ABCDEF
@@ -90,7 +90,7 @@ type Prescription struct {
 	IsUsed bool `gorm:"type:boolean;not null;default:false;index" json:"isUsed"`
 
 	// Data/hora da dispensação
-	DispensedAt *time.Time `gorm:"type:timestamp" json:"dispensedAt,omitempty"`
+	DispensedAt *time.Time `gorm:"type:timestamptz" json:"dispensedAt,omitempty"`
 
 	// Título computado para exibição no frontend (não persistido)
 	DisplayTitle string `gorm:"-" json:"displayTitle"`

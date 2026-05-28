@@ -24,7 +24,7 @@ type PatientScoreSnapshot struct {
 
 	// Data e hora do cálculo
 	// @example 2026-02-12T10:30:00Z
-	CalculatedAt time.Time `gorm:"type:timestamp;not null;index:idx_snapshot_date" json:"calculatedAt" validate:"required"`
+	CalculatedAt time.Time `gorm:"type:timestamptz;not null;index:idx_snapshot_date" json:"calculatedAt" validate:"required"`
 
 	// Pontos reais obtidos (soma de todos itens avaliados)
 	// @minimum 0

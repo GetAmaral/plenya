@@ -31,14 +31,14 @@ type PatientContinuum struct {
 
 	Status ContinuumStatus `gorm:"type:varchar(20);not null;default:'active';check:status IN ('active','paused','completed','cancelled')" json:"status"`
 
-	StartDate time.Time `gorm:"type:timestamp;not null" json:"startDate"`
-	EndDate   time.Time `gorm:"type:timestamp;not null" json:"endDate"`
+	StartDate time.Time `gorm:"type:timestamptz;not null" json:"startDate"`
+	EndDate   time.Time `gorm:"type:timestamptz;not null" json:"endDate"`
 
 	// Médico coordenador do plano integrado (recebe alertas de atraso).
 	CoordinatorDoctorID *uuid.UUID `gorm:"type:uuid;index" json:"coordinatorDoctorId,omitempty"`
 
 	IntegratedPlanMarkdown  string     `gorm:"type:text" json:"integratedPlanMarkdown"`
-	IntegratedPlanUpdatedAt *time.Time `gorm:"type:timestamp" json:"integratedPlanUpdatedAt,omitempty"`
+	IntegratedPlanUpdatedAt *time.Time `gorm:"type:timestamptz" json:"integratedPlanUpdatedAt,omitempty"`
 	IntegratedPlanUpdatedBy *uuid.UUID `gorm:"type:uuid" json:"integratedPlanUpdatedBy,omitempty"`
 
 	WhatsappGroupName       *string `gorm:"type:varchar(160)" json:"whatsappGroupName,omitempty"`
@@ -89,8 +89,8 @@ type PatientContinuumItem struct {
 	Description string `gorm:"type:text" json:"description"`
 
 	WeekOffset    int       `gorm:"not null" json:"weekOffset"`
-	ExpectedDate  time.Time `gorm:"type:timestamp;not null;index:idx_continuum_item_expected" json:"expectedDate"`
-	LateAfterDate time.Time `gorm:"type:timestamp;not null" json:"lateAfterDate"`
+	ExpectedDate  time.Time `gorm:"type:timestamptz;not null;index:idx_continuum_item_expected" json:"expectedDate"`
+	LateAfterDate time.Time `gorm:"type:timestamptz;not null" json:"lateAfterDate"`
 
 	Status ContinuumItemStatus `gorm:"type:varchar(20);not null;default:'pending';check:status IN ('pending','scheduled','completed','missed','cancelled','skipped')" json:"status"`
 
@@ -100,7 +100,7 @@ type PatientContinuumItem struct {
 	// Quando o item é Type=box, referencia o registro logístico do box.
 	BoxID *uuid.UUID `gorm:"type:uuid" json:"boxId,omitempty"`
 
-	CompletedAt *time.Time `gorm:"type:timestamp" json:"completedAt,omitempty"`
+	CompletedAt *time.Time `gorm:"type:timestamptz" json:"completedAt,omitempty"`
 
 	// Referência genérica ao "evento" que satisfez o marco — pra reassessment
 	// pode apontar pra patient_score_snapshot, pra milestone pode ser anamnesis.
@@ -144,9 +144,9 @@ type PatientContinuumBox struct {
 	Contents        string                    `gorm:"type:text" json:"contents"`
 	Status          PatientContinuumBoxStatus `gorm:"type:varchar(20);not null;default:'planned';check:status IN ('planned','preparing','shipped','delivered','cancelled')" json:"status"`
 
-	PreparedAt   *time.Time `gorm:"type:timestamp" json:"preparedAt,omitempty"`
-	ShippedAt    *time.Time `gorm:"type:timestamp" json:"shippedAt,omitempty"`
-	DeliveredAt  *time.Time `gorm:"type:timestamp" json:"deliveredAt,omitempty"`
+	PreparedAt   *time.Time `gorm:"type:timestamptz" json:"preparedAt,omitempty"`
+	ShippedAt    *time.Time `gorm:"type:timestamptz" json:"shippedAt,omitempty"`
+	DeliveredAt  *time.Time `gorm:"type:timestamptz" json:"deliveredAt,omitempty"`
 	TrackingCode *string    `gorm:"type:varchar(60)" json:"trackingCode,omitempty"`
 	Carrier      *string    `gorm:"type:varchar(40)" json:"carrier,omitempty"` // "Correios", "Loggi"...
 

@@ -74,7 +74,7 @@ type ScoreItem struct {
 
 	// Data da última revisão dos campos clínicos ou artigos associados
 	// @example 2026-01-25T10:30:00Z
-	LastReview *time.Time `gorm:"type:timestamp" json:"lastReview,omitempty"`
+	LastReview *time.Time `gorm:"type:timestamptz" json:"lastReview,omitempty"`
 
 	// @minimum 0
 	// @maximum 100

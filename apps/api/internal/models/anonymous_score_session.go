@@ -51,7 +51,7 @@ type AnonymousScoreSession struct {
 	ClaimedByPatientID *uuid.UUID `gorm:"type:uuid;index:idx_anon_session_patient" json:"claimedByPatientId,omitempty"`
 
 	// Timestamp do claim
-	ClaimedAt *time.Time `gorm:"type:timestamp" json:"claimedAt,omitempty"`
+	ClaimedAt *time.Time `gorm:"type:timestamptz" json:"claimedAt,omitempty"`
 
 	// Email informado durante o claim (usado para login posterior via magic link)
 	// @example paciente@exemplo.com
@@ -77,14 +77,14 @@ type AnonymousScoreSession struct {
 
 	// Data de expiração — sessões não-claimed são limpas após 90 dias.
 	// Sessões claimed têm ExpiresAt = NULL (não expiram).
-	ExpiresAt *time.Time `gorm:"type:timestamp;index:idx_anon_session_expires" json:"expiresAt,omitempty"`
+	ExpiresAt *time.Time `gorm:"type:timestamptz;index:idx_anon_session_expires" json:"expiresAt,omitempty"`
 
 	// LGPD — Registro de consentimento (art. 8º §6º: ônus da prova é do controlador)
 	// Versão da Política de Privacidade aceita pelo titular no momento da criação da sessão.
 	// @example 2026-04-22.1
 	ConsentVersion *string `gorm:"type:varchar(20)" json:"consentVersion,omitempty"`
 	// Timestamp do aceite (UTC)
-	ConsentTimestamp *time.Time `gorm:"type:timestamp" json:"consentTimestamp,omitempty"`
+	ConsentTimestamp *time.Time `gorm:"type:timestamptz" json:"consentTimestamp,omitempty"`
 	// Hash SHA-256 do IP no momento do aceite (não plain — prova sem expor IP)
 	ConsentIPHash *string `gorm:"type:varchar(64)" json:"-"`
 

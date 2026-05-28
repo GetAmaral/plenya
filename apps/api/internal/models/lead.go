@@ -74,7 +74,7 @@ type Lead struct {
 
 	// LGPD — registro de consentimento (art. 8º §6º: ônus da prova é do controlador)
 	ConsentVersion   *string    `gorm:"type:varchar(20)" json:"consentVersion,omitempty"`
-	ConsentTimestamp *time.Time `gorm:"type:timestamp" json:"consentTimestamp,omitempty"`
+	ConsentTimestamp *time.Time `gorm:"type:timestamptz" json:"consentTimestamp,omitempty"`
 	ConsentIPHash    *string    `gorm:"type:varchar(64)" json:"-"`
 
 	// Vinculação opcional com sessão Light (lead originado de claim).
@@ -93,11 +93,11 @@ type Lead struct {
 
 	// Timestamp da última mensagem inbound do cliente (WhatsApp). Usado pra checar
 	// janela de 24h pra session messages free-form. Atualizado pelo webhook a cada inbound.
-	LastInboundAt *time.Time `gorm:"type:timestamp;index:idx_leads_last_inbound" json:"lastInboundAt,omitempty"`
+	LastInboundAt *time.Time `gorm:"type:timestamptz;index:idx_leads_last_inbound" json:"lastInboundAt,omitempty"`
 
 	// Conversão em Patient
 	ConvertedPatientID *uuid.UUID `gorm:"type:uuid;index:idx_leads_patient" json:"convertedPatientId,omitempty"`
-	ConvertedAt        *time.Time `gorm:"type:timestamp" json:"convertedAt,omitempty"`
+	ConvertedAt        *time.Time `gorm:"type:timestamptz" json:"convertedAt,omitempty"`
 	ConvertedByUserID  *uuid.UUID `gorm:"type:uuid" json:"convertedByUserId,omitempty"`
 
 	// Atribuição manual a um membro do time (Fase 2 vai automatizar)
