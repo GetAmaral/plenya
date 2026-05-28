@@ -399,3 +399,79 @@ relatório.
 
 🔲 **Pendências Fase 2:** cotações formais · recrutamento de cardiologista-ecocardiografista (destrava 2B) ·
 ultrassonografista (PJ/visitante) · parcerias de telemedicina (retina/sono) · contrato de consumível CGM.
+
+---
+
+# FASE 3 — Diferenciação avançada (maturidade)
+
+## 9. Itens avançados — padrão: radiação/CAPEX alto = parceria; só plataforma de força é própria viável
+**Regra da Fase 3:** divisão por **radiação + CAPEX**. Tudo com tomógrafo/RM = serviço de imagem de alto
+custo + licenciamento CNEN → **parceria** (mesma lógica que descartou a DEXA). A Plenya **agrega lendo e
+integrando o laudo, não comprando o equipamento**.
+
+**9a · Escore de cálcio coronário (CAC) — 🤝 PARCERIA**
+- TC de coração sem contraste → cálcio coronário (aterosclerose calcificada); marcador de longevidade CV
+  dos mais fortes. **CAC=0 ("power of zero")** = altíssimo VPN → permite **suspender estatina** em
+  baixo-intermediário risco; **CAC ≥400** → mortalidade 15a 18–23,5%. Radiação baixa (~1 mSv).
+- **Por que parceria:** exige tomógrafo (CAPEX milionário) + **licenciamento CNEN (NN 6.02/3.01) + físico/
+  proteção radiológica + radiologista** — desproporcional. **Terceirizar; a casa interpreta/integra** o CAC
+  ao relatório (nefro/cardio lê o laudo).
+
+**9b · Angio-TC de coronárias — 🤝 PARCERIA** — extensão do CAC com contraste (anatomia); mesmo tomógrafo,
+mesma lógica. Diagnóstico dirigido, **não triagem de longevidade** → parceria/encaminhamento quando indicado.
+
+**9c · RM de corpo inteiro (whole-body MRI) — 🤝 PARCERIA + ⚠️ posição cautelosa**
+- "Assinatura" dos centros top (Prenuvo/Human Longevity), sem radiação. ⚠️ **Evidência fraca:** detecta
+  câncer confirmado em **~1,6%** (1/63), mas **~30% têm achado incidental** e **62% das biópsias são
+  benignas** (cascata de ansiedade/procedimentos); **ACR NÃO recomenda** em assintomático de risco médio;
+  ~US$ 2.500/exame.
+- **Posição Plenya:** não internalizar (RM proibitiva); como parceria, **oferecer com parcimônia +
+  disclaimer honesto** (não vender como "rastreio que salva vida"; paciente informado/alto risco, não
+  balcão). Coerente com a postura anti-hype.
+
+**9d · Plataforma de força / análise de marcha — ✅ PRÓPRIO só se vertical esportiva**
+- Salto vertical/simetria/força/RFD + equilíbrio/marcha (performance **e** rastreio de quedas no idoso).
+  CAPEX **baixo** (salto por acelerômetro ~R$ 1,8 mil; plataformas clínicas R$ 30–120 mil); sem radiação,
+  sem gargalo médico.
+- **Condicional:** **só se houver vertical esportiva/performance.** Senão, **grip (§2) + bioimpedância (§1)
+  + marcha simples** já cobrem sarcopenia/função no público longevidade. **Opcional, não essencial** —
+  decisão do Dr. sobre a vertical.
+
+**Card — Fase 3:** **9a CAC** (🤝 parceria — power of zero/decisão de estatina; casa interpreta/integra) ·
+**9b angio-TC** (🤝 parceria, diagnóstico dirigido) · **9c RM corpo inteiro** (🤝 parceria + **disclaimer
+forte: ACR não recomenda, 30% incidentais/62% biópsias benignas**) · **9d plataforma de força** (✅ própria
+barata **só se vertical esportiva**; senão grip+bio bastam). **Radiação/CAPEX alto = parceria.**
+
+---
+
+# 🏁 SÍNTESE GERAL DO CENTRO DE EXAMES (2026-05-27) — Fases 1+2+3 completas
+
+**Próprio (sem radiação, o que a clínica internaliza):**
+- **Fase 1 (dia-1, ~R$ 56–188 mil):** bioimpedância · preensão palmar · posto de coleta + genética/
+  epigenética · espirometria · ITB+VOP (Mobil-O-Graph + Doppler).
+- **Fase 2A (entra cedo, sem gargalo):** RMR (calorímetro isolado) · VO₂máx estimado · retinografia · CGM
+  (CAPEX zero) · sono domiciliar · MoCA+olfato.
+- **Fase 2B (espera profissional):** ergoespirometria máxima + eco + USG Doppler — **cardiologista-
+  ecocardiografista + ultrassonografista** (1 cardiologista destrava 2 itens).
+- **Fase 3 própria:** plataforma de força — **só se vertical esportiva**.
+
+**Parceria/terceirizado (sempre):** análise laboratorial + genética/epigenética · laudos por telemedicina
+(retina/sono/espirometria) · **tudo com radiação/CAPEX milionário: DEXA, CAC, angio-TC, RM corpo inteiro.**
+
+**🔑 Princípios que governam o portfólio inteiro:**
+1. **A máquina raramente é o gargalo — o profissional é.** Não imobilizar capital antes de ter quem opere.
+2. **Próprio = sem radiação, multiuso, com profissional.** Radiação/CAPEX alto = parceria (a casa agrega
+   interpretando/integrando, não comprando).
+3. **O produto é o RELATÓRIO INTEGRADO**, não o exame avulso — jornada consulta→exames→devolutiva→reavaliação.
+4. **Anti-drip-bar / anti-hype:** disclaimer honesto onde a evidência é fraca (idade epigenética/retiniana,
+   RM corpo inteiro); exame nunca sem indicação em prontuário.
+5. **Diferencial nefro embutido:** fluido (BIA) · cistatina C/eGFR/ApoB/Lp(a) (sangue) · VOP/risco renal ·
+   Doppler renal · MoCA na DRC — o nefrologista lidera a leitura.
+
+🔲 **Pendências gerais:** cotações formais · enquadramento posto de coleta (RDC 978/2025) na VISA Londrina ·
+recrutamento cardiologista-ecocardiografista + ultrassonografista · parcerias (imagem com radiação +
+telemedicina) · parceiro genético/epigenético BR · decisão sobre vertical esportiva (plataforma de força).
+
+**PRÓXIMO PASSO = decisão do Dr.:** (a) **relatório integrado / jornada** (como os exames + Escore viram a
+devolutiva premium — o produto); (b) **cardápio comercial / precificação** (exames + infusões §15);
+(c) **cardápio real das infusões** (§15 → o que lança primeiro). Não iniciar sem direção.
