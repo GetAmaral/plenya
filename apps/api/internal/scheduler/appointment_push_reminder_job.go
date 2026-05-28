@@ -65,7 +65,7 @@ func (j *AppointmentPushReminderJob) Run() error {
 			models.AppointmentScheduled,
 			models.AppointmentConfirmed,
 		}).
-		Where("a.push_reminder_1h_sent_at IS NULL").
+		Where("a.push_reminder1h_sent_at IS NULL").
 		Where("a.deleted_at IS NULL").
 		Scan(&rows).Error
 	if err != nil {
@@ -115,7 +115,7 @@ func (j *AppointmentPushReminderJob) markSent(ctx context.Context, id string, t 
 	if err := j.db.WithContext(ctx).
 		Model(&models.Appointment{}).
 		Where("id = ?", id).
-		Update("push_reminder_1h_sent_at", t).Error; err != nil {
+		Update("push_reminder1h_sent_at", t).Error; err != nil {
 		log.Printf("⚠️  [PUSH REMINDER 1h] markSent apt=%s: %v", id, err)
 	}
 }
