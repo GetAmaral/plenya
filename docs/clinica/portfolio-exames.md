@@ -347,7 +347,55 @@ radiação.
 
 ---
 
-## Próximos (Fase 2, na ordem)
-🔲 **PRÓXIMO = itens leves da Fase 2** (baixo CAPEX, sem gargalo de especialista): retinografia ("idade
-retiniana") · Holter · estudo de sono domiciliar · triagem cognitiva (MoCA) + olfativa · CGM (glicose
-contínua, receita recorrente). **MAPA já coberto pelo Mobil-O-Graph (§5).**
+### 8. Itens leves da Fase 2: retinografia · CGM · sono domiciliar · MoCA+olfativo — 🟡 baixo CAPEX, sem gargalo de especialista
+Viabilizam a Fase 2 **antes** do cardiologista/ultrassonografista — baixo custo, operação leve, laudos por
+telemedicina.
+
+**8a · Retinografia ("idade retiniana")** — foto de fundo de olho → microvasculatura retiniana (janela
+vascular/neuro sistêmica); IA estima **"idade retiniana"** (~3,5 anos de precisão) e prediz risco CV **sem
+sangue/PA**. CAPEX **R$ 30–120 mil** (handheld baixa a entrada); sem radiação; captura por técnico + **laudo
+oftalmo por telemedicina**/IA; bônus = retinopatia DM/HAS. *Honestidade:* idade retiniana = métrica de
+acompanhamento (acionabilidade emergente).
+
+**8b · CGM (glicose contínua)** — **SEM CAPEX, receita recorrente.** Glicemia 24h/14 d (FreeStyle Libre) →
+**variabilidade glicêmica + picos pós-prandiais** no não-diabético (52% têm pico >180 em 7 d; liga-se a
+longevidade). **Sensor descartável = margem recorrente**; casa com Eixo D/nutrologia/coaching. *Cuidado:*
+ferramenta educativa por período, sem "ansiedade glicêmica" no saudável.
+
+**8c · Estudo de sono domiciliar (poligrafia tipo III/IV)** — triagem de **apneia obstrutiva do sono**
+(fluxo nasal, SpO₂, esforço, ronco, pulso) em casa; apneia tem alta prevalência e impacto CV/metabólico/
+cognitivo. CAPEX **R$ 20–60 mil ou locação/comodato** (Respirox/VitalAire-Polywatch) + **laudo médico do
+sono por telemedicina**. Cruza com sono do Escore, MAPA, metabólico.
+
+**8d · Triagem cognitiva (MoCA) + olfativo (Sniffin' Sticks)** — **custo mínimo.** MoCA (CCL) + olfato
+(**hiposmia = sinal precoce de Parkinson**; disfunção olfativa ↔ Alzheimer). 🩺 **MoCA validado no rastreio
+de CCL na DRC pré-dialítica** (JBN/SciELO) — encaixe nefro direto. CAPEX mínimo (papel/licença + kit
+olfativo consumível); equipe treinada. *Limitação:* olfato completo é demorado → usar subteste de
+identificação na triagem.
+
+**Card — Itens leves Fase 2:** 🟡 todos **baixo CAPEX, sem gargalo de especialista** (laudos por
+telemedicina) · **retinografia** (idade retiniana, R$ 30–120 mil) · **CGM** (CAPEX zero, receita recorrente,
+casa com emagrecimento) · **sono domiciliar** (apneia, R$ 20–60 mil ou comodato) · **MoCA + olfato** (custo
+mínimo; MoCA validado na DRC) · entram **antes** do cardiologista/ultrassonografista.
+
+---
+
+## 🗺 BALANÇO DA FASE 2 + CONSOLIDADO (por gargalo)
+**A Fase 2 se divide por DEPENDÊNCIA, não por valor:**
+
+| Camada | Itens | Quando entra |
+|---|---|---|
+| **2A — sem gargalo (entra cedo)** | **RMR própria** (§6a) · **VO₂máx estimado** (§6b) · **retinografia** · **CGM** · **sono domiciliar** · **MoCA+olfato** (§8) | assim que houver fluxo; operação leve + laudos por telemedicina |
+| **2B — gargalo de PESSOAL** | **ergoespirometria máxima** (§6c) · **eco + USG Doppler** (§7) | só com **cardiologista/medicina do esporte + ultrassonografista** — **1 cardiologista destrava eco E ergoespirometria** |
+
+**🔑 Regra de ouro do faseamento:** **a máquina quase nunca é o gargalo — o profissional é.** Comprar
+equipamento de esforço/USG **antes** de ter quem opere é imobilizar capital parado. A Fase 2A entrega muito
+valor (metabolismo, idade vascular/retiniana, apneia, cognição, glicemia) sem depender de contratar
+especialista; a 2B espera a contratação certa.
+
+🩺 **Diferencial nefro acumulado (Fase 1+2):** status de fluido (BIA §1) · cistatina C/eGFR + ApoB/Lp(a)
+(sangue §3) · VOP/risco renal (§5) · Doppler renal (§7) · MoCA na DRC (§8d). O nefrologista lidera o
+relatório.
+
+🔲 **Pendências Fase 2:** cotações formais · recrutamento de cardiologista-ecocardiografista (destrava 2B) ·
+ultrassonografista (PJ/visitante) · parcerias de telemedicina (retina/sono) · contrato de consumível CGM.
