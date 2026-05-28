@@ -65,9 +65,16 @@ func (h *CalendarSlotHandler) List(c *fiber.Ctx) error {
 			"message": "date is required (YYYY-MM-DD)",
 		})
 	}
-	// Aceita YYYY-MM-DD ou full RFC3339. Layout "2006-01-02" parseia em UTC,
-	// mas o service vai re-localizar pro TZ correto.
-	date, err := time.Parse("2006-01-02", dateStr)
+	// Aceita YYYY-MM-DD ou full RFC3339. A data-only DEVE ser parseada no TZ do
+	// slot picker (America/Sao_Paulo) — não em UTC. Parsear "2026-05-28" em UTC
+	// dava meia-noite UTC, que o service re-localizava pra BRT (UTC-3) e caía no
+	// dia 27 (off-by-one: consulta gravada um dia antes). ParseInLocation fixa o
+	// dia no fuso correto. RFC3339 já carrega offset próprio, então segue direto.
+	loc, locErr := time.LoadLocation(services.SlotPickerTimezone)
+	if locErr != nil {
+		loc = time.UTC
+	}
+	date, err := time.ParseInLocation("2006-01-02", dateStr, loc)
 	if err != nil {
 		date, err = time.Parse(time.RFC3339, dateStr)
 		if err != nil {

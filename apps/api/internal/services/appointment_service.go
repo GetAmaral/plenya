@@ -841,6 +841,11 @@ func (s *AppointmentService) createDailyRoom(apptID uuid.UUID, scheduled time.Ti
 	// Prefix legível usando primeiros 8 chars do UUID.
 	prefix := "plenya-" + apptID.String()[:8]
 	exp := scheduled.Add(time.Duration(duration)*time.Minute + 1*time.Hour)
+	// Daily recusa criar sala com exp no passado (400 invalid-request-error).
+	// Consulta imediata/backdated cairia nisso — garante piso no futuro.
+	if min := time.Now().Add(2 * time.Hour); exp.Before(min) {
+		exp = min
+	}
 
 	room, err := s.dailyCoSvc.CreateRoom(ctx, prefix, exp)
 	if err != nil {

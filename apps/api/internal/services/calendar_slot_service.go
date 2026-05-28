@@ -42,7 +42,10 @@ import (
 )
 
 // SlotPickerTimezone — V1 hardcoded. V2: ler de User.Timezone.
-const slotPickerTimezone = "America/Sao_Paulo"
+// SlotPickerTimezone — TZ de referência do slot picker (Calendar V1).
+// Exportado pra que o handler parseie a data-only (YYYY-MM-DD) NESTE fuso,
+// evitando off-by-one (meia-noite UTC relida em BRT cai no dia anterior).
+const SlotPickerTimezone = "America/Sao_Paulo"
 
 type CalendarSlotService struct {
 	db        *gorm.DB
@@ -101,7 +104,7 @@ func defaultDurationFor(t models.AppointmentType) int {
 func (s *CalendarSlotService) ListAvailable(ctx context.Context, p ListSlotsParams) ([]Slot, error) {
 	// Carrega TZ do médico (V1 hardcoded). Se loadLocation falhar (image sem
 	// tzdata), cai pra UTC — slots vão estar em UTC e UI converte.
-	loc, err := time.LoadLocation(slotPickerTimezone)
+	loc, err := time.LoadLocation(SlotPickerTimezone)
 	if err != nil {
 		loc = time.UTC
 	}
