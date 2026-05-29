@@ -14,14 +14,16 @@
 
 | Campo | Valor |
 |---|---|
-| **Nome legal** | Plenya Saúde |
+| **Razão social** | Plenya Serviços de Saúde Ltda. |
+| **Nome legal (display)** | Plenya Saúde |
 | **Nome curto** | Plenya |
 | **Categoria primária** | Clínica médica · Medicina funcional integrativa |
 | **Categorias secundárias** | Nefrologia · Medicina preventiva · Longevidade |
-| **CNPJ** | `[PREENCHER]` |
-| **Endereço completo** | `[PREENCHER — Rua, número, bairro, Londrina, PR, CEP]` |
-| **Telefone fixo** | `[PREENCHER — formato (43) 9999-9999]` |
-| **WhatsApp** | `[PREENCHER — formato +55 43 99999-9999]` |
+| **CNPJ** | 66.991.259/0001-50 |
+| **Endereço sede (CNPJ/fiscal)** | Av. Gil de Abreu e Souza, 2335, Casa 634 — Bairro Esperança, Londrina/PR, 86058-100. Uso APENAS legal (LGPD/termos, controlador). NUNCA em SEO local. |
+| **Endereço de atendimento (NAP)** | Av. Ayrton Senna da Silva, 500 — Edifício Torre Pietra, sala 1402, Gleba Palhano, Londrina/PR, 86050-460 (Clínica Cronos). NAP canônico: IDÊNTICO em GBP, Doctoralia, schema `address`+`geo`, footer, /contato. **Geo:** -23.3296924, -51.1779253 (Nominatim/OSM, prédio Condomínio Torre Pietra). |
+| **Telefone fixo** | +55 43 99974-8899 (mesmo número do WhatsApp — fixo e WhatsApp juntos) |
+| **WhatsApp** | +55 43 99974-8899 |
 | **Email** | contato@plenyasaude.com.br |
 | **Site** | https://plenyasaude.com.br |
 | **Horário** | Segunda a sexta, 8h às 18h |
@@ -103,12 +105,17 @@ CRM-PR 21.876 · RQE 16.038
 
 ## Checklist de propagação (após preencher dados acima)
 
-- [ ] Atualizar `packages/brand/src/brand.ts` adicionando `address`, `phone`, `whatsapp`
-- [ ] Atualizar `apps/site/components/layout/site-footer.tsx` com endereço/telefone visível
-- [ ] Atualizar `apps/site/app/[locale]/contato/page.tsx` com endereço completo + `<address>` semântico
-- [ ] Atualizar `apps/site/components/seo/medical-clinic-schema.tsx` adicionando `address.streetAddress` + `telephone` + `geo.latitude/longitude`
+- [x] Adicionar `cnpj` + `companyName` + `address` (atendimento) + `phone` em `packages/brand/src/brand.ts` (2026-05-27/29)
+- [x] Adicionar `taxID` + `legalName` (razão social) em `organization-schema.tsx` + `medical-clinic-schema.tsx` (2026-05-27)
+- [x] Exibir CNPJ no rodapé de `apps/site/components/layout/site-footer.tsx` (2026-05-27)
+- [x] Atualizar `site-footer.tsx` com endereço de atendimento visível (`<address>`) (2026-05-29)
+- [x] Atualizar `apps/site/app/[locale]/contato/page.tsx` com `<address>` semântico + telefone/WhatsApp (2026-05-29)
+- [x] Atualizar `medical-clinic-schema.tsx` com `address.streetAddress` + `postalCode` + `geo` + `hasMap` (2026-05-29)
+- [x] Corrigir endereço do controlador (sede CNPJ) em `apps/site/lib/legal.ts` — era `Rua Duque de Caxias` (errado) (2026-05-29)
 - [ ] Atualizar `apps/site-getulio/components/seo/clinics-schema.tsx` com endereços reais
-- [ ] Criar Google Business Profile (ver `02-...md`)
-- [ ] Cadastrar Doctoralia + BoaConsulta + CatalogoMed (ver `03` e `04`)
+- [ ] Criar Google Business Profile (ver `02-...md`) — ✅ desbloqueado (endereço atendimento pronto)
+- [ ] Cadastrar Doctoralia + BoaConsulta + CatalogoMed (ver `03` e `04`) — ✅ desbloqueado
+- [ ] Aplicar LinkedIn Community Management API (CNPJ + razão social + sede disponíveis)
+- [ ] Iniciar Meta WhatsApp Business Verification (CNPJ + contrato social)
 
 > Quando você preencher os campos acima, me avise — eu propago automático nos arquivos de código (passos 1-5) e te entrego prontas as cartas de cadastro nas plataformas.

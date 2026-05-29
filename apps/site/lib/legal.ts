@@ -11,7 +11,10 @@ export const LEGAL_CONTACT = {
   dpoEmail: 'dpo@plenyasaude.com.br',
   dpoName: 'Dr. Getúlio Amaral',
   dpoTitle: 'Encarregado de Proteção de Dados (DPO)',
-  controllerName: 'Plenya Saúde Ltda.',
+  controllerName: 'Plenya Serviços de Saúde Ltda.',
+  controllerCnpj: '66.991.259/0001-50',
   controllerEmail: 'contato@plenyasaude.com.br',
-  controllerAddress: 'Rua Duque de Caxias, 1371 — Londrina/PR, Brasil',
+  // Endereço da SEDE (CNPJ/fiscal) — uso legal apenas. O endereço de
+  // atendimento (NAP público) vive em `@plenya/brand` → brand.address.
+  controllerAddress: 'Av. Gil de Abreu e Souza, 2335, Casa 634 — Bairro Esperança, Londrina/PR, 86058-100',
 } as const;

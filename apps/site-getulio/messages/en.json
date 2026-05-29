@@ -20,6 +20,7 @@
     "contact": "Contact",
     "clinicLabel": "(clinic)",
     "whatsapp": "WhatsApp +55 43 99974-8899",
+    "plenyaAddress": "Plenya · Av. Ayrton Senna da Silva, 500 — Torre Pietra, suite 1402, Gleba Palhano, Londrina/PR",
     "disclaimer": "© {year} · Educational content. Does not replace medical consultation.",
     "menuAriaOpen": "Menu",
     "menuAriaClose": "Close menu"
@@ -216,7 +217,7 @@
     "faq": [
       {
         "q": "Where does Dr. Getúlio practice?",
-        "a": "<p>I practice in Londrina/PR across three fronts:</p><p><strong>Outpatient consultation — Av. Duque de Caxias, 1371 (same building):</strong> Plenya (integrative functional medicine, preventive medicine and longevity) and Nefroclínica Londrina (clinical nephrology, main kidney diseases and kidney transplant).</p><p><strong>Hospital nephrology care:</strong> inpatient consultations and follow-up at Santa Casa de Londrina (Rua Espírito Santo, 523 — Centro), Hospital Araucária (Rua Campo Grande, 211 — Jardim Colina Verde) and Hospital Unimed Londrina (Av. dos Expedicionários, 750 — south zone, near Jardim Botânico).</p><p><strong>Hemodialysis:</strong> technical director of DaVita Intra Hospitalar Londrina (in-hospital hemodialysis) and attending nephrologist at DaVita Londrina (outpatient hemodialysis and peritoneal dialysis — Av. Duque de Caxias, 1371).</p>"
+        "a": "<p>I practice in Londrina/PR across three fronts:</p><p><strong>Outpatient consultation:</strong> Plenya (integrative functional medicine, preventive medicine and longevity — Av. Ayrton Senna da Silva, 500, Torre Pietra Building, suite 1402, Gleba Palhano) and Nefroclínica Londrina (clinical nephrology, main kidney diseases and kidney transplant — Av. Duque de Caxias, 1371, Jardim Petrópolis).</p><p><strong>Hospital nephrology care:</strong> inpatient consultations and follow-up at Santa Casa de Londrina (Rua Espírito Santo, 523 — Centro), Hospital Araucária (Rua Campo Grande, 211 — Jardim Colina Verde) and Hospital Unimed Londrina (Av. dos Expedicionários, 750 — south zone, near Jardim Botânico).</p><p><strong>Hemodialysis:</strong> technical director of DaVita Intra Hospitalar Londrina (in-hospital hemodialysis) and attending nephrologist at DaVita Londrina (outpatient hemodialysis and peritoneal dialysis — Av. Duque de Caxias, 1371).</p>"
       },
       {
         "q": "What is Dr. Getúlio's medical specialty?",
@@ -321,7 +322,7 @@
     "breadcrumbHome": "Home",
     "breadcrumbCurrent": "How to consult",
     "consultsKicker": "Outpatient practice",
-    "consultsLead": "Two consultation pathways in the same building (Av. Duque de Caxias, 1371). Each with a distinct clinical focus:",
+    "consultsLead": "Two consultation pathways in Londrina, each with a distinct address and clinical focus:",
     "hospitalNefroKicker": "Hospital nephrology care",
     "hospitalNefroLead": "Inpatient consultations and follow-up at three Londrina hospitals. These are not outpatient consultation channels — listed here for full transparency on the scope of my practice.",
     "hospitalKicker": "Hemodialysis and renal replacement therapy",
@@ -346,8 +347,8 @@
         "role": "Clinical director",
         "tagline": "For longevity, prevention and functional medicine · in person or online",
         "body": "Preventive health and longevity program. Integrative functional medicine with a strong focus on nutrology, evidence-based supplementation, performance and advanced biomarker analysis. Multidisciplinary team (physician, nutritionist, psychologist, exercise physiologist) working the same patient under the same plan. In person in Londrina or online via telemedicine, with the same clinical depth. Here I serve as your care-managing physician — coordinating care between the Plenya team and the professionals you already see outside the clinic.",
-        "address": "Av. Duque de Caxias, 1371 — Londrina/PR, Brazil",
-        "mapsUrl": "https://maps.google.com/?q=Av.+Duque+de+Caxias%2C+1371%2C+Londrina%2C+PR",
+        "address": "Av. Ayrton Senna da Silva, 500 — Torre Pietra Building, suite 1402 · Gleba Palhano · Londrina/PR · 86050-460, Brazil (Clínica Cronos)",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=-23.3296924,-51.1779253",
         "whatsappUrl": "https://wa.me/5543999748899",
         "whatsappLabel": "+55 43 99974-8899",
         "siteUrl": "https://plenyasaude.com.br",
@@ -448,8 +449,8 @@
     "whatsappDisplay": "+55 43 99974-8899",
     "labelPlenya": "Plenya · longevity",
     "labelNefroclinica": "Nefroclínica · nephrology",
-    "localKicker": "Location",
-    "localValue": "Londrina · Paraná · Brazil"
+    "localKicker": "Plenya practice",
+    "localValue": "Av. Ayrton Senna da Silva, 500 — Torre Pietra Building, suite 1402, Gleba Palhano, Londrina/PR, 86050-460, Brazil (Clínica Cronos)"
   },
   "escritos": {
     "metaTitle": "Articles",

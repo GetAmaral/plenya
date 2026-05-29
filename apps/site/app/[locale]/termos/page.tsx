@@ -133,7 +133,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
           </Section>
 
           <p className="text-petrol/50 text-sm pt-8 border-t border-petrol/10">
-            Versão {TERMS_VERSION} · {LEGAL_CONTACT.controllerName} · {LEGAL_CONTACT.controllerAddress}
+            Versão {TERMS_VERSION} · {LEGAL_CONTACT.controllerName} · CNPJ {LEGAL_CONTACT.controllerCnpj} · {LEGAL_CONTACT.controllerAddress}
           </p>
         </div>
       </section>

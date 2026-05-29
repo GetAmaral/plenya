@@ -44,7 +44,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
 
           <Section n="1" title="Quem somos">
             <p>
-              <strong>{LEGAL_CONTACT.controllerName}</strong> ({LEGAL_CONTACT.controllerAddress}) é a
+              <strong>{LEGAL_CONTACT.controllerName}</strong> (CNPJ {LEGAL_CONTACT.controllerCnpj}, {LEGAL_CONTACT.controllerAddress}) é a
               controladora dos dados pessoais tratados nos serviços online disponíveis em{' '}
               <a href="https://plenyasaude.com.br" className="text-gold underline underline-offset-4">plenyasaude.com.br</a>,
               incluindo o <strong>Escore Plenya Light</strong> (autoavaliação anônima em

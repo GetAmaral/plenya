@@ -68,8 +68,24 @@ export default async function ContactPage({ params }: { params: Params }) {
                 </a>
               </div>
               <div className="space-y-2">
+                <p className="label-upper text-gold">{t('phoneLabel')}</p>
+                <a
+                  href={brand.whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-petrol text-base hover:text-gold transition"
+                >
+                  {brand.phone}
+                </a>
+              </div>
+              <div className="space-y-2">
                 <p className="label-upper text-gold">{t('addressLabel')}</p>
-                <p className="text-petrol text-base">{t('addressValue')}</p>
+                <address className="text-petrol text-base not-italic leading-relaxed">
+                  {brand.address.street}<br />
+                  {brand.address.complement}<br />
+                  {brand.address.neighborhood} · {brand.address.city}/{brand.address.state}<br />
+                  {brand.address.postalCode}
+                </address>
               </div>
               <div className="space-y-2">
                 <p className="label-upper text-gold">{t('hoursLabel')}</p>

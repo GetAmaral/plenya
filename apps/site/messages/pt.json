@@ -548,6 +548,7 @@
     "whyDesc": "Cada mensagem é lida pela equipe, e a primeira resposta orienta o próximo passo, seja uma Consulta Plenya, o programa Continuum ou apenas uma dúvida clínica.",
     "emailLabel": "Email",
     "instagramLabel": "Instagram",
+    "phoneLabel": "Telefone e WhatsApp",
     "addressLabel": "Endereço",
     "addressValue": "Londrina, PR",
     "hoursLabel": "Horário",

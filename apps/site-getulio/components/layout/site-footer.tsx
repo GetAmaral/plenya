@@ -86,6 +86,7 @@ export function SiteFooter() {
                 plenyasaude.com.br ↗
               </a>
             </p>
+            <p className="text-paper/60 leading-relaxed pt-1">{t('plenyaAddress')}</p>
           </address>
         </div>
       </div>

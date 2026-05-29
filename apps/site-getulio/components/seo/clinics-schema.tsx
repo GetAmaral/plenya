@@ -8,6 +8,7 @@ type Clinic = {
   postalCode?: string;
   city: string;
   state: string;
+  geo?: { latitude: number; longitude: number };
   role:
     | 'medicalDirector'
     | 'physician'
@@ -26,9 +27,12 @@ const clinics: Clinic[] = [
     descriptionEn:
       'Integrative functional medicine clinic with a multidisciplinary team. Continuum Plenya program — preventive health and longevity. In-person in Londrina or online via telemedicine.',
     url: 'https://plenyasaude.com.br',
-    street: 'Av. Duque de Caxias, 1371',
+    street: 'Av. Ayrton Senna da Silva, 500 — Edifício Torre Pietra, sala 1402',
+    neighborhood: 'Gleba Palhano',
+    postalCode: '86050-460',
     city: 'Londrina',
     state: 'PR',
+    geo: { latitude: -23.3296924, longitude: -51.1779253 },
     role: 'medicalDirector',
   },
   {
@@ -130,6 +134,9 @@ export function ClinicsSchema({ locale = 'pt' }: { locale?: string } = {}) {
         addressRegion: c.state,
         addressCountry: 'BR',
       },
+      ...(c.geo
+        ? { geo: { '@type': 'GeoCoordinates', latitude: c.geo.latitude, longitude: c.geo.longitude } }
+        : {}),
       areaServed: { '@type': 'City', name: c.city },
       ...(c.role === 'medicalDirector'
         ? { medicalDirector: { '@id': `${BASE}/#person` } }

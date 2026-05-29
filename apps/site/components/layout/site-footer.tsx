@@ -48,7 +48,11 @@ export function SiteFooter() {
             >
               {t('bookExternalLink')}
             </a>
-            <span className="text-cream/55">{t('city')}</span>
+            <address className="text-cream/55 not-italic leading-relaxed">
+              {brand.address.street}<br />
+              {brand.address.complement}<br />
+              {brand.address.neighborhood} · {brand.address.city}/{brand.address.state} · {brand.address.postalCode}
+            </address>
           </div>
         </div>
 
@@ -102,7 +106,7 @@ export function SiteFooter() {
 
       <div className="relative border-t border-cream/10">
         <div className="site-container py-6 flex flex-col md:flex-row justify-between gap-4 text-cream/40 text-xs">
-          <span>© {year} {brand.legalName}. {t('rights')}</span>
+          <span>© {year} {brand.companyName} · CNPJ {brand.cnpj}. {t('rights')}</span>
           <div className="flex gap-6 flex-wrap">
             <Link href="/privacidade" className="hover:text-cream/70 transition">{t('privacy')}</Link>
             <Link href="/termos" className="hover:text-cream/70 transition">{t('terms')}</Link>

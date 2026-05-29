@@ -68,6 +68,7 @@ export default async function DPOPage({ params }: { params: Promise<{ locale: st
             <h2 className="heading-section text-petrol text-2xl">Identidade do Controlador</h2>
             <p>
               <strong>{LEGAL_CONTACT.controllerName}</strong><br />
+              CNPJ {LEGAL_CONTACT.controllerCnpj}<br />
               {LEGAL_CONTACT.controllerAddress}<br />
               Email: <a href={`mailto:${LEGAL_CONTACT.controllerEmail}`} className="text-gold underline underline-offset-4">{LEGAL_CONTACT.controllerEmail}</a>
             </p>

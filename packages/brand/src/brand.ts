@@ -1,6 +1,8 @@
 export const brand = {
   name: 'Plenya',
   legalName: 'Plenya Saúde',
+  companyName: 'Plenya Serviços de Saúde Ltda.',
+  cnpj: '66.991.259/0001-50',
   tagline: 'Saúde, Performance & Longevidade',
   claim: 'Viva bem, viva mais.',
   domain: 'plenyasaude.com.br',
@@ -8,6 +10,26 @@ export const brand = {
   appUrl: 'https://app.plenyasaude.com.br',
   apiUrl: 'https://api.plenyasaude.com.br',
   email: 'contato@plenyasaude.com.br',
+  phone: '+55 43 99974-8899',
+  phoneE164: '+5543999748899',
+  whatsappUrl: 'https://wa.me/5543999748899',
+  /**
+   * Endereço de ATENDIMENTO (NAP canônico — clínica onde o paciente vai).
+   * Vai idêntico em GBP, Doctoralia, schema.org, footer e /contato.
+   * NÃO confundir com a sede fiscal do CNPJ, que vive só nas páginas legais
+   * (`apps/site/lib/legal.ts` → controllerAddress).
+   */
+  address: {
+    street: 'Av. Ayrton Senna da Silva, 500',
+    complement: 'Edifício Torre Pietra, sala 1402 (Clínica Cronos)',
+    neighborhood: 'Gleba Palhano',
+    city: 'Londrina',
+    state: 'PR',
+    postalCode: '86050-460',
+    country: 'BR',
+    geo: { latitude: -23.3296924, longitude: -51.1779253 },
+    full: 'Av. Ayrton Senna da Silva, 500 — Edifício Torre Pietra, sala 1402, Gleba Palhano, Londrina/PR, 86050-460',
+  },
   social: {
     instagram: 'https://instagram.com/plenyaSaude',
   },

@@ -80,7 +80,7 @@ export default async function LGPDHubPage({ params }: { params: Promise<{ locale
               <a href={`mailto:${LEGAL_CONTACT.dpoEmail}`} className="text-gold underline underline-offset-4">{LEGAL_CONTACT.dpoEmail}</a>
             </p>
             <p>
-              <strong>Controlador:</strong> {LEGAL_CONTACT.controllerName} · {LEGAL_CONTACT.controllerAddress}
+              <strong>Controlador:</strong> {LEGAL_CONTACT.controllerName} · CNPJ {LEGAL_CONTACT.controllerCnpj} · {LEGAL_CONTACT.controllerAddress}
             </p>
             <p>
               <strong>Reclamação à autoridade:</strong>{' '}
