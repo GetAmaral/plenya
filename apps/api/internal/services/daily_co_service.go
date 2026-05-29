@@ -108,8 +108,8 @@ func (s *DailyCoService) CreateRoom(ctx context.Context, namePrefix string, expi
 	//   participante precisa de um meeting_token (gerado via
 	//   CreateMeetingToken). Token carrega is_owner, user_name, exp e
 	//   permissões granulares (enable_screenshare).
-	// • enable_screenshare default=false: o token do médico libera, o do
-	//   paciente não — vetor de exfiltração mitigado por padrão.
+	// • enable_screenshare=true: liberado para todos (médico e paciente). O
+	//   paciente também pode mostrar a tela (ex: exibir um exame na tela dele).
 	// • enable_chat=true: chat textual é útil pra trocar links/anotações
 	//   durante a consulta.
 	body := map[string]any{
@@ -118,7 +118,7 @@ func (s *DailyCoService) CreateRoom(ctx context.Context, namePrefix string, expi
 		"properties": map[string]any{
 			"exp":                expiresAt.UTC().Unix(),
 			"eject_at_room_exp":  true,
-			"enable_screenshare": false,
+			"enable_screenshare": true,
 			"enable_chat":        true,
 		},
 	}
@@ -162,7 +162,7 @@ func (s *DailyCoService) CreateRoom(ctx context.Context, namePrefix string, expi
 //   - ExpiresAt: token deixa de valer após esse instante (Unix segundos).
 //     Usar janela curta (closesAt do lobby) — token vazado fica inútil
 //     rapidamente.
-//   - EnableScreenshare: true só pro médico. Paciente nem vê o botão.
+//   - EnableScreenshare: liberado pra médico e paciente (ambos podem mostrar a tela).
 type MeetingTokenParams struct {
 	RoomName          string
 	UserName          string

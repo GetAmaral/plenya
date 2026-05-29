@@ -34,7 +34,7 @@ const (
 //
 // HIGH H9 — quando dailyCoSvc é injetado, Resolve troca a URL crua da sala por
 // uma URL com meeting_token (?t=...) escopado ao paciente (is_owner=false,
-// enable_screenshare=false, exp=closesAt). Isso permite que a sala seja
+// enable_screenshare=true, exp=closesAt). Isso permite que a sala seja
 // privacy=private no Daily.co — URL sem token retorna 401.
 type TelemedLobbyService struct {
 	db         *gorm.DB
@@ -194,7 +194,7 @@ func (s *TelemedLobbyService) Resolve(token string) (*LobbyView, error) {
 			UserName:          view.PatientFirstName,
 			IsOwner:           false,
 			ExpiresAt:         closesAt,
-			EnableScreenshare: false,
+			EnableScreenshare: true, // paciente também pode compartilhar a tela
 		})
 		if terr != nil {
 			// Degradação grácil: paciente vê "sala temporariamente indisponível".
