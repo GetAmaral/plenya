@@ -95,6 +95,12 @@ type User struct {
 	// @example Cardiologia
 	Specialty *string `gorm:"type:varchar(100)" json:"specialty,omitempty"`
 
+	// Gênero do profissional — usado para o tratamento correto (Dr./Dra.) em
+	// e-mails e mensagens ao paciente. Valores: "male" | "female". Vazio/nulo =
+	// indefinido (tratamento padrão "Dr.").
+	// @example female
+	Gender *string `gorm:"type:varchar(10)" json:"gender,omitempty" validate:"omitempty,oneof=male female"`
+
 	// Endereço profissional completo
 	// @example Rua das Flores, 123 - Centro - São Paulo/SP - CEP 01234-567
 	ProfessionalAddress *string `gorm:"type:text" json:"professionalAddress,omitempty"`

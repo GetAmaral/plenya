@@ -273,6 +273,7 @@ func (s *UserService) toDTO(user *models.User) *dto.UserResponse {
 		ProfessionalPhone:   user.ProfessionalPhone,
 		ProfessionalAddress: user.ProfessionalAddress,
 		Specialty:           user.Specialty,
+		Gender:              user.Gender,
 		CRM:                 user.CRM,
 		CRMUF:               user.CRMUF,
 		RQE:                 user.RQE,

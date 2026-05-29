@@ -219,18 +219,22 @@ func (s *AppointmentNotificationService) SendCancellation(ctx context.Context, a
 	// Email (sem .ics — só notificação)
 	if appt.Patient.Email != nil && strings.TrimSpace(*appt.Patient.Email) != "" {
 		subject := fmt.Sprintf("Consulta cancelada · %s %s", dateBR, timeBR)
-		bodyText := fmt.Sprintf(`Sua consulta foi cancelada:
+		dateLong, timeTz := formatBRDateTimeLong(appt.ScheduledAt)
+		bodyText := fmt.Sprintf(`%s
+
+Sua consulta na Plenya foi cancelada.
 
 Tipo: %s
-Data: %s às %s
+Data: %s
+Horário: %s
 Profissional: %s
 
-Se quiser remarcar, é só responder por WhatsApp ou email.
+Para remarcar, responda este e-mail ou fale com a gente no WhatsApp %s.
 
-— Equipe Plenya`, typeLabel, dateBR, timeBR, doctorName)
+%s`, greeting(appt.Patient.Name), typeLabel, dateLong, timeTz, doctorName, plenyaWhatsAppDisplay, emailFooterText())
 
 		bodyHTML := buildSimpleHTML(bodyText)
-		if err := s.emailSvc.send(*appt.Patient.Email, subject, bodyText, bodyHTML); err != nil {
+		if err := s.sendEmailWithICS(*appt.Patient.Email, subject, bodyText, bodyHTML, nil); err != nil {
 			log.Printf("⚠️  [APPT NOTIF] cancellation email apt=%s: %v", apptID, err)
 		}
 	}
@@ -264,20 +268,27 @@ func (s *AppointmentNotificationService) SendReschedule(ctx context.Context, app
 
 	if appt.Patient.Email != nil && strings.TrimSpace(*appt.Patient.Email) != "" {
 		subject := fmt.Sprintf("Consulta remarcada · %s %s", dateBR, timeBR)
-		bodyText := fmt.Sprintf(`Sua consulta foi remarcada:
+		newDateLong, newTimeTz := formatBRDateTimeLong(appt.ScheduledAt)
+		bodyText := fmt.Sprintf(`%s
+
+Sua consulta na Plenya foi remarcada.
 
 Tipo: %s
 De: %s às %s
-Para: %s às %s
-Profissional: %s
-%s
+Para: %s, %s
+Profissional: %s%s
 
-— Equipe Plenya`,
+Para cancelar, remarcar de novo ou tirar dúvidas, responda este e-mail ou fale com a gente no WhatsApp %s.
+
+%s`,
+			greeting(appt.Patient.Name),
 			typeLabel,
 			oldDateBR, oldTimeBR,
-			dateBR, timeBR,
+			newDateLong, newTimeTz,
 			doctorName,
-			dailyLine(dailyURL),
+			telemedBlockText(dailyURL),
+			plenyaWhatsAppDisplay,
+			emailFooterText(),
 		)
 		bodyHTML := buildSimpleHTML(bodyText)
 		ics := buildICS(appt, typeLabel, dailyURL)
@@ -315,8 +326,9 @@ func (s *AppointmentNotificationService) loadAppointment(ctx context.Context, id
 	return &appt, nil
 }
 
-// doctorDisplayName retorna "Dr. {Name}" / "Dra. {Name}" quando possível,
-// ou só Name. Heurística simples — User.Name pode vir com prefixo já.
+// doctorDisplayName retorna "Dr. {Name}" / "Dra. {Name}" conforme o gênero
+// cadastrado no profissional (User.Gender). Gênero indefinido (nil/vazio) usa
+// "Dr." como tratamento padrão. Se o nome já vier com prefixo, mantém.
 func (s *AppointmentNotificationService) doctorDisplayName(doctor *models.User) string {
 	name := strings.TrimSpace(doctor.Name)
 	if name == "" {
@@ -326,7 +338,11 @@ func (s *AppointmentNotificationService) doctorDisplayName(doctor *models.User) 
 	if strings.HasPrefix(low, "dr.") || strings.HasPrefix(low, "dra.") || strings.HasPrefix(low, "dr ") {
 		return name
 	}
-	return "Dr(a). " + name
+	title := "Dr."
+	if doctor.Gender != nil && strings.EqualFold(strings.TrimSpace(*doctor.Gender), "female") {
+		title = "Dra."
+	}
+	return title + " " + name
 }
 
 // sendEmailWithICS envia email via Resend com .ics anexo. Reusa o cliente HTTP do
@@ -354,22 +370,35 @@ func (s *AppointmentNotificationService) sendResendWithICS(to, subject, bodyText
 		from = fmt.Sprintf("%s <%s>", name, from)
 	}
 
+	// Reply-To aponta pra um endereço REAL e monitorado (contato@, ingerido pelo
+	// CRM). O FROM é noreply@ (transacional), então sem Reply-To o "responda este
+	// e-mail" do corpo soaria contraditório. Com Reply-To, a resposta do paciente
+	// vai visivelmente pra contato@ e cai na Central de Conversas.
+	replyTo := s.cfg.Email.LeadReplyFromAddress
+	if replyTo == "" {
+		replyTo = "contato@plenyasaude.com.br"
+	}
+
 	payload := map[string]any{
-		"from":    from,
-		"to":      []string{to},
-		"subject": subject,
-		"text":    bodyText,
-		"html":    bodyHTML,
+		"from":     from,
+		"to":       []string{to},
+		"reply_to": replyTo,
+		"subject":  subject,
+		"text":     bodyText,
+		"html":     bodyHTML,
 		"headers": map[string]string{
 			XPlenyaSourceHeader: XPlenyaSourceEMR,
 		},
-		"attachments": []map[string]string{
+	}
+	// .ics é opcional — cancelamento envia sem anexo (ics == nil).
+	if len(ics) > 0 {
+		payload["attachments"] = []map[string]string{
 			{
 				"filename":     icsAttachmentName,
 				"content":      base64.StdEncoding.EncodeToString(ics),
 				"content_type": "text/calendar; charset=utf-8; method=REQUEST",
 			},
-		},
+		}
 	}
 
 	raw, err := json.Marshal(payload)
@@ -431,7 +460,15 @@ func appointmentTypeLabel(t models.AppointmentType) string {
 	}
 }
 
+// Contatos públicos canônicos da Plenya (fonte: NAP master + footer do site).
+const (
+	plenyaWhatsAppLink    = "https://wa.me/5543999748899"
+	plenyaWhatsAppDisplay = "(43) 99974-8899"
+	plenyaSiteDisplay     = "plenyasaude.com.br"
+)
+
 // formatBRDateTime devolve ("23/04/2026", "14:30") em horário local de São Paulo.
+// Formato curto — usado no assunto do e-mail e nos params dos templates WhatsApp.
 func formatBRDateTime(t time.Time) (string, string) {
 	loc, err := time.LoadLocation("America/Sao_Paulo")
 	if err != nil {
@@ -441,53 +478,114 @@ func formatBRDateTime(t time.Time) (string, string) {
 	return local.Format("02/01/2006"), local.Format("15:04")
 }
 
-func dailyLine(url string) string {
-	if url == "" {
-		return ""
+// formatBRDateTimeLong devolve data por extenso ("quinta-feira, 29/05/2026") e
+// horário com fuso ("11:30 (horário de Brasília)") — usado no corpo dos e-mails.
+func formatBRDateTimeLong(t time.Time) (string, string) {
+	loc, err := time.LoadLocation("America/Sao_Paulo")
+	if err != nil {
+		loc = time.UTC
 	}
-	return "Link teleconsulta: " + url
+	local := t.In(loc)
+	return weekdayPT(local.Weekday()) + ", " + local.Format("02/01/2006"),
+		local.Format("15:04") + " (horário de Brasília)"
 }
 
-func buildConfirmationBody(appt *models.Appointment, doctor, dateBR, timeBR, typeLabel, dailyURL string) string {
-	durLabel := fmt.Sprintf("%d minutos", appt.DurationMinutes)
-	dailyPart := ""
-	if dailyURL != "" {
-		dailyPart = "\n\nLink teleconsulta:\n" + dailyURL
+func weekdayPT(d time.Weekday) string {
+	switch d {
+	case time.Sunday:
+		return "domingo"
+	case time.Monday:
+		return "segunda-feira"
+	case time.Tuesday:
+		return "terça-feira"
+	case time.Wednesday:
+		return "quarta-feira"
+	case time.Thursday:
+		return "quinta-feira"
+	case time.Friday:
+		return "sexta-feira"
+	default:
+		return "sábado"
 	}
-	return fmt.Sprintf(`Sua consulta na Plenya está confirmada:
+}
+
+// greeting monta "Olá, {primeiro nome}," (ou "Olá," se nome vazio).
+func greeting(fullName string) string {
+	fields := strings.Fields(strings.TrimSpace(fullName))
+	if len(fields) == 0 {
+		return "Olá,"
+	}
+	return "Olá, " + fields[0] + ","
+}
+
+// emailFooterText é a assinatura + rodapé de contato (sem travessões, voz de marca).
+func emailFooterText() string {
+	return "Equipe Plenya\nPlenya Saúde · " + plenyaSiteDisplay + " · WhatsApp " + plenyaWhatsAppDisplay
+}
+
+func emailFooterHTML() string {
+	return fmt.Sprintf(`<p style="color:#888;font-size:12px;margin-top:18px">Equipe Plenya<br>`+
+		`Plenya Saúde · <a href="https://%s" style="color:#888">%s</a> · WhatsApp <a href="%s" style="color:#888">%s</a></p>`,
+		plenyaSiteDisplay, plenyaSiteDisplay, plenyaWhatsAppLink, plenyaWhatsAppDisplay)
+}
+
+// telemedBlockText / telemedBlockHTML: bloco de link + instruções da teleconsulta.
+// Vazio quando não há link (consulta presencial).
+func telemedBlockText(dailyURL string) string {
+	if dailyURL == "" {
+		return ""
+	}
+	return "\n\nLink da teleconsulta:\n" + dailyURL +
+		"\n\nComo entrar: abra o link no navegador do celular ou do computador e autorize o acesso à câmera e ao microfone. A sala fica disponível a partir de 3 horas antes do horário agendado."
+}
+
+func telemedBlockHTML(dailyURL string) string {
+	if dailyURL == "" {
+		return ""
+	}
+	return fmt.Sprintf(`<p><strong>Link da teleconsulta:</strong><br><a href="%s">%s</a></p>`+
+		`<p style="color:#444">Como entrar: abra o link no navegador do celular ou do computador e autorize o acesso à câmera e ao microfone. A sala fica disponível a partir de 3 horas antes do horário agendado.</p>`,
+		dailyURL, dailyURL)
+}
+
+func buildConfirmationBody(appt *models.Appointment, doctor, _, _, typeLabel, dailyURL string) string {
+	dateLong, timeTz := formatBRDateTimeLong(appt.ScheduledAt)
+	return fmt.Sprintf(`%s
+
+Sua consulta na Plenya está confirmada.
 
 Tipo: %s
 Data: %s
-Hora: %s
-Duração: %s
+Horário: %s
+Duração: %d minutos
 Profissional: %s%s
 
-Adicionamos um arquivo de calendário em anexo (consulta-plenya.ics) — abrir no celular adiciona automaticamente na sua agenda.
+Adicionamos um arquivo de calendário em anexo (consulta-plenya.ics): abrir no celular adiciona o horário automaticamente à sua agenda.
 
-Se precisar cancelar ou remarcar, é só responder esta mensagem ou nos chamar no WhatsApp.
+Para cancelar, remarcar ou tirar dúvidas, responda este e-mail ou fale com a gente no WhatsApp %s.
 
-— Equipe Plenya`, typeLabel, dateBR, timeBR, durLabel, doctor, dailyPart)
+%s`, greeting(appt.Patient.Name), typeLabel, dateLong, timeTz, appt.DurationMinutes, doctor,
+		telemedBlockText(dailyURL), plenyaWhatsAppDisplay, emailFooterText())
 }
 
-func buildConfirmationHTML(appt *models.Appointment, doctor, dateBR, timeBR, typeLabel, dailyURL string) string {
-	dailyPart := ""
-	if dailyURL != "" {
-		dailyPart = fmt.Sprintf(`<p><strong>Link teleconsulta:</strong><br><a href="%s">%s</a></p>`, dailyURL, dailyURL)
-	}
+func buildConfirmationHTML(appt *models.Appointment, doctor, _, _, typeLabel, dailyURL string) string {
+	dateLong, timeTz := formatBRDateTimeLong(appt.ScheduledAt)
 	return fmt.Sprintf(`<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#222">
+<p>%s</p>
 <p>Sua consulta na Plenya está confirmada.</p>
 <p>
 <strong>Tipo:</strong> %s<br>
 <strong>Data:</strong> %s<br>
-<strong>Hora:</strong> %s<br>
+<strong>Horário:</strong> %s<br>
 <strong>Duração:</strong> %d minutos<br>
 <strong>Profissional:</strong> %s
 </p>
 %s
-<p>Adicionamos um arquivo de calendário em anexo — abrir no celular adiciona automaticamente na sua agenda.</p>
-<p>Se precisar cancelar ou remarcar, é só responder esta mensagem ou nos chamar no WhatsApp.</p>
-<p>— Equipe Plenya</p>
-</div>`, typeLabel, dateBR, timeBR, appt.DurationMinutes, doctor, dailyPart)
+<p>Adicionamos um arquivo de calendário em anexo: abrir no celular adiciona o horário automaticamente à sua agenda.</p>
+<p>Para cancelar, remarcar ou tirar dúvidas, responda este e-mail ou fale com a gente no WhatsApp <a href="%s">%s</a>.</p>
+%s
+</div>`, greeting(appt.Patient.Name), typeLabel, dateLong, timeTz, appt.DurationMinutes, doctor,
+		telemedBlockHTML(dailyURL), plenyaWhatsAppLink, plenyaWhatsAppDisplay, emailFooterHTML())
 }
 
 func buildSimpleHTML(plain string) string {
@@ -516,10 +614,12 @@ func buildICS(appt *models.Appointment, typeLabel, dailyURL string) []byte {
 	dtstamp := time.Now().UTC().Format("20060102T150405Z")
 
 	location := "Plenya Saúde"
+	description := ""
 	if dailyURL != "" {
 		location = dailyURL
+		description = "Link da teleconsulta: " + dailyURL
 	}
-	summary := fmt.Sprintf("Plenya — %s", typeLabel)
+	summary := fmt.Sprintf("Plenya · %s", typeLabel)
 
 	// CRLF entre linhas conforme RFC 5545.
 	lines := []string{
@@ -533,9 +633,10 @@ func buildICS(appt *models.Appointment, typeLabel, dailyURL string) []byte {
 		"DTSTAMP:" + dtstamp,
 		"DTSTART:" + start,
 		"DTEND:" + end,
+		"ORGANIZER;CN=Plenya Saúde:mailto:contato@plenyasaude.com.br",
 		"SUMMARY:" + escapeICSText(summary),
 		"LOCATION:" + escapeICSText(location),
-		"DESCRIPTION:",
+		"DESCRIPTION:" + escapeICSText(description),
 		"STATUS:CONFIRMED",
 		"TRANSP:OPAQUE",
 		"END:VEVENT",

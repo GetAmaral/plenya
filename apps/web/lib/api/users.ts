@@ -7,6 +7,13 @@ export interface User {
   cpf?: string
   roles: string[]
   twoFactorEnabled: boolean
+  professionalPhone?: string | null
+  professionalAddress?: string | null
+  specialty?: string | null
+  gender?: string | null
+  crm?: string | null
+  crmUF?: string | null
+  rqe?: string | null
   createdAt: string
   updatedAt: string
 }

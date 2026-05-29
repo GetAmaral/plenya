@@ -30,6 +30,7 @@ export function ProfileForm({ user, onSuccess }: ProfileFormProps) {
   const [professionalPhone, setProfessionalPhone] = useState((user as any).professionalPhone || '')
   const [professionalAddress, setProfessionalAddress] = useState((user as any).professionalAddress || '')
   const [specialty, setSpecialty] = useState((user as any).specialty || '')
+  const [gender, setGender] = useState((user as any).gender || '')
   const [crm, setCrm] = useState((user as any).crm || '')
   const [crmUF, setCrmUF] = useState((user as any).crmUF || '')
   const [rqe, setRqe] = useState((user as any).rqe || '')
@@ -75,6 +76,7 @@ export function ProfileForm({ user, onSuccess }: ProfileFormProps) {
       cpf: sanitizeCPF(cpf) || null,  // Remove formatação antes de enviar
       professionalPhone: professionalPhone.trim() || null,
       professionalAddress: professionalAddress.trim() || null,
+      gender: gender || null,  // tratamento Dr./Dra. em e-mails ao paciente
     }
 
     if (isDoctor) {
@@ -189,6 +191,24 @@ export function ProfileForm({ user, onSuccess }: ProfileFormProps) {
             placeholder="Rua, número, complemento, bairro, cidade, estado, CEP"
             rows={3}
           />
+        </div>
+
+        {/* Gênero (tratamento Dr./Dra. nos e-mails ao paciente) */}
+        <div>
+          <Label htmlFor="gender">Tratamento</Label>
+          <select
+            id="gender"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            <option value="">Não informado (usa Dr.)</option>
+            <option value="male">Dr. (masculino)</option>
+            <option value="female">Dra. (feminino)</option>
+          </select>
+          <p className="text-xs text-muted-foreground mt-1">
+            Define o tratamento usado nas mensagens automáticas ao paciente.
+          </p>
         </div>
 
         {/* Campos específicos para médicos */}

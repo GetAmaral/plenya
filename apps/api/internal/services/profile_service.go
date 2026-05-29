@@ -96,6 +96,14 @@ func (s *ProfileService) UpdateProfile(userID uuid.UUID, req *dto.UpdateProfileR
 		}
 	}
 
+	if req.Gender != nil {
+		if *req.Gender == "" {
+			updates["gender"] = nil
+		} else {
+			updates["gender"] = *req.Gender
+		}
+	}
+
 	if req.CRM != nil {
 		if *req.CRM == "" {
 			updates["crm"] = nil
@@ -146,6 +154,7 @@ func (s *ProfileService) toDTO(user *models.User) *dto.UserResponse {
 		ProfessionalPhone:   user.ProfessionalPhone,
 		ProfessionalAddress: user.ProfessionalAddress,
 		Specialty:           user.Specialty,
+		Gender:              user.Gender,
 		CRM:                 user.CRM,
 		CRMUF:               user.CRMUF,
 		RQE:                 user.RQE,
