@@ -13,7 +13,7 @@
  * Polling 15s pra status; sala telemed é aberta on-demand via meeting_token
  * (HIGH H9: sala Daily.co é privacy=private; URL crua não funciona).
  */
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -91,6 +91,60 @@ export default function AppointmentDetailPage() {
   // Reschedule modal state
   const [reschedDate, setReschedDate] = useState('');
   const [reschedSlot, setReschedSlot] = useState<CalendarSlot | null>(null);
+
+  // Teleconsulta em janela separada — médico segue navegando no prontuário.
+  const callWindowRef = useRef<Window | null>(null);
+  const [callOpen, setCallOpen] = useState(false);
+  const [popupBlocked, setPopupBlocked] = useState(false);
+
+  // Reseta o painel quando o médico fecha a janela da teleconsulta.
+  useEffect(() => {
+    if (!callOpen) return;
+    const t = setInterval(() => {
+      if (!callWindowRef.current || callWindowRef.current.closed) {
+        callWindowRef.current = null;
+        setCallOpen(false);
+      }
+    }, 2000);
+    return () => clearInterval(t);
+  }, [callOpen]);
+
+  // Abre a teleconsulta numa janela separada. O window.open é chamado JÁ no
+  // gesto do clique (antes do await do token) — senão o bloqueador de popup
+  // barra a janela. Se for bloqueado, cai pro embed inline.
+  const openTelemedWindow = async () => {
+    setJoinError(null);
+    setPopupBlocked(false);
+    const features =
+      'width=1180,height=800,menubar=no,toolbar=no,location=no,status=no';
+    const win = window.open('', 'plenya-teleconsulta', features);
+    if (win) {
+      win.document.write(
+        '<!doctype html><title>Teleconsulta Plenya</title>' +
+          '<body style="margin:0;font-family:Arial,Helvetica,sans-serif;display:flex;' +
+          'align-items:center;justify-content:center;height:100vh;color:#555">' +
+          'Conectando à teleconsulta…</body>',
+      );
+    }
+    try {
+      const res = await telemedTokenMutation.mutateAsync();
+      setJoinUrl(res.joinUrl);
+      if (win && !win.closed) {
+        win.location.href = res.joinUrl;
+        win.focus();
+        callWindowRef.current = win;
+        setCallOpen(true);
+      } else {
+        setPopupBlocked(true);
+        setShowVideo(true);
+      }
+    } catch (err) {
+      if (win && !win.closed) win.close();
+      setJoinError(
+        err instanceof Error ? err.message : 'Erro ao gerar acesso à sala',
+      );
+    }
+  };
 
   const isActionable = useMemo(() => {
     if (!appt) return false;
@@ -202,14 +256,50 @@ export default function AppointmentDetailPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {joinUrl && showVideo ? (
-                  <DailyCoEmbed
-                    roomURL={joinUrl}
-                    onLeave={() => {
-                      setShowVideo(false);
-                      setJoinUrl(null);
-                    }}
-                  />
+                {popupBlocked && joinUrl && showVideo ? (
+                  // Fallback: navegador bloqueou a janela separada → embute inline.
+                  <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground">
+                      Seu navegador bloqueou a janela separada. Permita pop-ups deste
+                      site para abrir a teleconsulta em janela própria e continuar
+                      navegando pelo prontuário.
+                    </p>
+                    <DailyCoEmbed
+                      roomURL={joinUrl}
+                      onLeave={() => {
+                        setShowVideo(false);
+                        setJoinUrl(null);
+                        setPopupBlocked(false);
+                      }}
+                    />
+                  </div>
+                ) : callOpen ? (
+                  // Sala aberta em janela separada — EMR livre pra navegação.
+                  <div className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      A teleconsulta está aberta em outra janela. Você pode continuar
+                      navegando pelo prontuário aqui.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => callWindowRef.current?.focus()}
+                      >
+                        <Video className="mr-2 h-4 w-4" />
+                        Trazer janela pra frente
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        onClick={() => {
+                          callWindowRef.current?.close();
+                          callWindowRef.current = null;
+                          setCallOpen(false);
+                        }}
+                      >
+                        Encerrar
+                      </Button>
+                    </div>
+                  </div>
                 ) : (
                   <div className="space-y-3">
                     {joinError && (
@@ -218,21 +308,7 @@ export default function AppointmentDetailPage() {
                         <span>{joinError}</span>
                       </div>
                     )}
-                    <Button
-                      onClick={async () => {
-                        setJoinError(null);
-                        try {
-                          const res = await telemedTokenMutation.mutateAsync();
-                          setJoinUrl(res.joinUrl);
-                          setShowVideo(true);
-                        } catch (err) {
-                          const msg =
-                            err instanceof Error ? err.message : 'Erro ao gerar acesso à sala';
-                          setJoinError(msg);
-                        }
-                      }}
-                      disabled={telemedTokenMutation.isPending}
-                    >
+                    <Button onClick={openTelemedWindow} disabled={telemedTokenMutation.isPending}>
                       {telemedTokenMutation.isPending ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -241,13 +317,14 @@ export default function AppointmentDetailPage() {
                       ) : (
                         <>
                           <Video className="mr-2 h-4 w-4" />
-                          {joinUrl ? 'Reabrir sala' : 'Abrir sala'}
+                          Abrir sala em nova janela
                         </>
                       )}
                     </Button>
                     <p className="text-xs text-muted-foreground">
-                      A sala fica disponível de 3 horas antes a 3 horas depois do horário
-                      agendado.
+                      A sala abre em uma janela separada, para você continuar no
+                      prontuário durante a consulta. Disponível de 3 horas antes a 3
+                      horas depois do horário agendado.
                     </p>
                   </div>
                 )}
