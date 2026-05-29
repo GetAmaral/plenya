@@ -632,10 +632,6 @@ func (s *AppointmentService) GetTelemedJoinURL(ctx context.Context, appointmentI
 	if appt.Type != models.AppointmentTelemedicine {
 		return "", ErrAppointmentNotTelemed
 	}
-	if appt.DailyRoomURL == nil || appt.DailyRoomName == nil {
-		return "", ErrAppointmentRoomNotReady
-	}
-
 	// Janela: -TelemedWindowBefore até +duration+TelemedWindowAfter do scheduledAt.
 	// Bloqueia geração de token muito antes/depois — limita superfície de abuso.
 	duration := appt.DurationMinutes
@@ -650,8 +646,23 @@ func (s *AppointmentService) GetTelemedJoinURL(ctx context.Context, appointmentI
 	}
 
 	if s.dailyCoSvc == nil || !s.dailyCoSvc.IsConfigured() {
-		// Backcompat dev: devolve URL crua.
-		return *appt.DailyRoomURL, nil
+		// Backcompat dev: sem Daily, devolve URL crua se já existir.
+		if appt.DailyRoomURL != nil {
+			return *appt.DailyRoomURL, nil
+		}
+		return "", ErrDailyNotConfigured
+	}
+
+	// Sala sob demanda: se a criação assíncrona (no create do appointment) ainda
+	// não terminou — ou falhou — cria agora, sincronamente. Elimina a race de
+	// clicar "Abrir sala" logo após criar a consulta (antes devolvia 409).
+	if appt.DailyRoomURL == nil || appt.DailyRoomName == nil {
+		name, url, cerr := s.ensureDailyRoomSync(ctx, appt.ID, appt.ScheduledAt, duration)
+		if cerr != nil {
+			return "", cerr
+		}
+		appt.DailyRoomName = &name
+		appt.DailyRoomURL = &url
 	}
 
 	doctorName := strings.TrimSpace(appt.Doctor.Name)
@@ -828,18 +839,44 @@ func (s *AppointmentService) deleteGoogleEvent(apptID, doctorID uuid.UUID, event
 	}
 }
 
-// createDailyRoom cria sala Daily.co pra teleconsulta. Persiste URL+Name.
-//
-// Expiração: scheduled + duration + 1h buffer (paciente atrasado, etc).
+// createDailyRoom cria sala Daily.co pra teleconsulta (chamado async no create
+// do appointment). Best-effort — erros só logam. A criação real fica em
+// ensureDailyRoomSync, reusada também sob demanda no GetTelemedJoinURL.
 func (s *AppointmentService) createDailyRoom(apptID uuid.UUID, scheduled time.Time, duration int) {
 	if s.dailyCoSvc == nil || !s.dailyCoSvc.IsConfigured() {
 		return
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
+	if _, _, err := s.ensureDailyRoomSync(ctx, apptID, scheduled, duration); err != nil {
+		log.Printf("⚠️  [APPT] daily create apt=%s: %v", apptID, err)
+	}
+}
+
+// ensureDailyRoomSync garante (sincronamente) que o appointment tem sala Daily +
+// lobby token. Idempotente: se já existe sala, devolve a existente sem recriar
+// (re-lê do banco pra cobrir a goroutine async que pode ter populado no meio).
+// Retorna (roomName, roomURL).
+func (s *AppointmentService) ensureDailyRoomSync(ctx context.Context, apptID uuid.UUID, scheduled time.Time, duration int) (string, string, error) {
+	if s.dailyCoSvc == nil || !s.dailyCoSvc.IsConfigured() {
+		return "", "", ErrDailyNotConfigured
+	}
+
+	// Re-lê: a criação async pode ter populado entre o load do caller e agora.
+	var cur models.Appointment
+	if err := s.db.WithContext(ctx).
+		Select("daily_room_url", "daily_room_name").
+		Where("id = ?", apptID).First(&cur).Error; err == nil {
+		if cur.DailyRoomURL != nil && cur.DailyRoomName != nil {
+			return *cur.DailyRoomName, *cur.DailyRoomURL, nil
+		}
+	}
 
 	// Prefix legível usando primeiros 8 chars do UUID.
 	prefix := "plenya-" + apptID.String()[:8]
+	if duration <= 0 {
+		duration = 60
+	}
 	// Sala precisa sobreviver até o fim da janela de acesso (closesAt =
 	// scheduled + duration + TelemedWindowAfter) + margem, senão a janela diz
 	// "aberta" mas a sala já foi auto-deletada pelo Daily.
@@ -852,8 +889,7 @@ func (s *AppointmentService) createDailyRoom(apptID uuid.UUID, scheduled time.Ti
 
 	room, err := s.dailyCoSvc.CreateRoom(ctx, prefix, exp)
 	if err != nil {
-		log.Printf("⚠️  [APPT] daily create apt=%s: %v", apptID, err)
-		return
+		return "", "", err
 	}
 	if err := s.db.WithContext(ctx).Model(&models.Appointment{}).
 		Where("id = ?", apptID).
@@ -871,6 +907,7 @@ func (s *AppointmentService) createDailyRoom(apptID uuid.UUID, scheduled time.Ti
 			log.Printf("⚠️  [APPT] telemed lobby token apt=%s: %v", apptID, err)
 		}
 	}
+	return room.Name, room.URL, nil
 }
 
 // deleteDailyRoom remove sala (idempotente).
