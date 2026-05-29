@@ -607,7 +607,7 @@ func (s *AppointmentService) Confirm(ctx context.Context, appointmentID uuid.UUI
 //   - ErrAppointmentNotFound — id inválido
 //   - ErrAppointmentNotTelemed — type != telemedicine
 //   - ErrAppointmentRoomNotReady — sala ainda não criada (async em flight)
-//   - ErrAppointmentOutsideWindow — fora de [-30min, +duration+30min]
+//   - ErrAppointmentOutsideWindow — fora de [-TelemedWindowBefore, +duration+TelemedWindowAfter]
 //   - ErrDailyNotConfigured — Daily.co API key não setada
 func (s *AppointmentService) GetTelemedJoinURL(ctx context.Context, appointmentID, userID uuid.UUID, userRole models.Role) (string, error) {
 	var appt models.Appointment
@@ -636,15 +636,15 @@ func (s *AppointmentService) GetTelemedJoinURL(ctx context.Context, appointmentI
 		return "", ErrAppointmentRoomNotReady
 	}
 
-	// Janela: -30min até +duration+30min do scheduledAt. Bloqueia geração de
-	// token muito antes/depois — limita superfície de abuso.
+	// Janela: -TelemedWindowBefore até +duration+TelemedWindowAfter do scheduledAt.
+	// Bloqueia geração de token muito antes/depois — limita superfície de abuso.
 	duration := appt.DurationMinutes
 	if duration <= 0 {
 		duration = 60
 	}
 	now := time.Now().UTC()
-	opensAt := appt.ScheduledAt.Add(-30 * time.Minute)
-	closesAt := appt.ScheduledAt.Add(time.Duration(duration)*time.Minute + 30*time.Minute)
+	opensAt := appt.ScheduledAt.Add(-TelemedWindowBefore)
+	closesAt := appt.ScheduledAt.Add(time.Duration(duration)*time.Minute + TelemedWindowAfter)
 	if now.Before(opensAt) || now.After(closesAt) {
 		return "", ErrAppointmentOutsideWindow
 	}
@@ -840,10 +840,13 @@ func (s *AppointmentService) createDailyRoom(apptID uuid.UUID, scheduled time.Ti
 
 	// Prefix legível usando primeiros 8 chars do UUID.
 	prefix := "plenya-" + apptID.String()[:8]
-	exp := scheduled.Add(time.Duration(duration)*time.Minute + 1*time.Hour)
+	// Sala precisa sobreviver até o fim da janela de acesso (closesAt =
+	// scheduled + duration + TelemedWindowAfter) + margem, senão a janela diz
+	// "aberta" mas a sala já foi auto-deletada pelo Daily.
+	exp := scheduled.Add(time.Duration(duration)*time.Minute + TelemedWindowAfter + 30*time.Minute)
 	// Daily recusa criar sala com exp no passado (400 invalid-request-error).
 	// Consulta imediata/backdated cairia nisso — garante piso no futuro.
-	if min := time.Now().Add(2 * time.Hour); exp.Before(min) {
+	if min := time.Now().Add(TelemedWindowAfter + 30*time.Minute); exp.Before(min) {
 		exp = min
 	}
 

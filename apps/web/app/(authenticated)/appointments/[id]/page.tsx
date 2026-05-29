@@ -246,7 +246,7 @@ export default function AppointmentDetailPage() {
                       )}
                     </Button>
                     <p className="text-xs text-muted-foreground">
-                      A sala fica disponível de 30 minutos antes a 30 minutos depois do horário
+                      A sala fica disponível de 3 horas antes a 3 horas depois do horário
                       agendado.
                     </p>
                   </div>

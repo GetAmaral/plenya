@@ -339,7 +339,7 @@ func (h *AppointmentHandler) GetTelemedToken(c *fiber.Ctx) error {
 		case errors.Is(err, services.ErrAppointmentOutsideWindow):
 			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{
 				Error:   "outside window",
-				Message: "a sala só pode ser acessada -30min até +30min após o fim agendado",
+				Message: "a sala só pode ser acessada a partir de 3h antes até 3h após o horário agendado",
 			})
 		case errors.Is(err, services.ErrDailyNotConfigured):
 			return c.Status(fiber.StatusServiceUnavailable).JSON(dto.ErrorResponse{

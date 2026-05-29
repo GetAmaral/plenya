@@ -20,6 +20,16 @@ var (
 	ErrLobbyTokenExpired  = errors.New("lobby token expired")
 )
 
+// Janela de acesso à teleconsulta — tempo antes do horário programado e depois
+// do fim programado em que a sala pode ser aberta. Vale tanto pro staff
+// (GetTelemedJoinURL) quanto pro paciente (lobby Resolve), e baliza também a
+// expiração do token do lobby e da sala Daily — todos derivam daqui pra não
+// haver descompasso (janela "aberta" com sala/token já expirados).
+const (
+	TelemedWindowBefore = 3 * time.Hour
+	TelemedWindowAfter  = 3 * time.Hour
+)
+
 // TelemedLobbyService gera/valida tokens de entrada pública na sala Daily.co.
 //
 // HIGH H9 — quando dailyCoSvc é injetado, Resolve troca a URL crua da sala por
@@ -88,14 +98,15 @@ func (s *TelemedLobbyService) EnsureTokenForAppointment(appt *models.Appointment
 		return nil, err
 	}
 
-	// HIGH H9 — janela reduzida: opens 15min antes, fecha 15min após o fim
-	// programado. Antes era 4h fixo (atacante com link velho podia entrar
-	// muito depois). Janela mais apertada = menor oportunidade de abuso.
+	// Janela de acesso: abre TelemedWindowBefore antes e fecha TelemedWindowAfter
+	// após o fim programado. O token do lobby expira no fechamento da janela
+	// (mesmo instante de closesAt no Resolve) — assim o link público não vale
+	// além da janela.
 	durationMin := appt.DurationMinutes
 	if durationMin <= 0 {
 		durationMin = 60 // sane default
 	}
-	expiresAt := appt.ScheduledAt.Add(time.Duration(durationMin)*time.Minute + 15*time.Minute)
+	expiresAt := appt.ScheduledAt.Add(time.Duration(durationMin)*time.Minute + TelemedWindowAfter)
 	t := models.TelemedLobbyToken{
 		AppointmentID: appt.ID,
 		Token:         token,
@@ -119,8 +130,8 @@ type LobbyView struct {
 	DoctorName       string    `json:"doctorName"`
 	ScheduledAt      time.Time `json:"scheduledAt"`
 	DurationMinutes  int       `json:"durationMinutes"`
-	OpensAt          time.Time `json:"opensAt"`  // -15min do scheduledAt
-	ClosesAt         time.Time `json:"closesAt"` // +duration+15min do scheduledAt
+	OpensAt          time.Time `json:"opensAt"`  // -TelemedWindowBefore do scheduledAt
+	ClosesAt         time.Time `json:"closesAt"` // +duration+TelemedWindowAfter do scheduledAt
 	DailyJoinURL     *string   `json:"dailyJoinUrl,omitempty"` // só dentro da janela, com meeting_token
 	IsOpen           bool      `json:"isOpen"`
 }
@@ -152,13 +163,13 @@ func (s *TelemedLobbyService) Resolve(token string) (*LobbyView, error) {
 		doctorName = doctor.Name
 	}
 
-	// HIGH H9 — janela: -15min até +duration+15min do scheduledAt.
+	// Janela: -TelemedWindowBefore até +duration+TelemedWindowAfter do scheduledAt.
 	durationMin := appt.DurationMinutes
 	if durationMin <= 0 {
 		durationMin = 60
 	}
-	opensAt := appt.ScheduledAt.Add(-15 * time.Minute)
-	closesAt := appt.ScheduledAt.Add(time.Duration(durationMin)*time.Minute + 15*time.Minute)
+	opensAt := appt.ScheduledAt.Add(-TelemedWindowBefore)
+	closesAt := appt.ScheduledAt.Add(time.Duration(durationMin)*time.Minute + TelemedWindowAfter)
 	now := time.Now().UTC()
 	isOpen := now.After(opensAt) && now.Before(closesAt)
 

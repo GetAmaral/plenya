@@ -155,7 +155,7 @@ export default function MyAppointmentDetailPage({ params }: { params: Promise<{ 
           <CardContent className="space-y-2 py-6 text-center">
             <Video className="mx-auto h-6 w-6 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">
-              A sala abre 30 minutos antes do horário agendado.
+              A sala abre 3 horas antes do horário agendado.
             </p>
           </CardContent>
         </Card>
