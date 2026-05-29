@@ -7,6 +7,7 @@ export interface UpdateProfileRequest {
   professionalAddress?: string | null
   specialty?: string | null
   gender?: string | null
+  treatment?: string | null
   crm?: string | null
   crmUF?: string | null
   rqe?: string | null

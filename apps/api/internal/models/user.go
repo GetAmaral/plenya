@@ -95,11 +95,16 @@ type User struct {
 	// @example Cardiologia
 	Specialty *string `gorm:"type:varchar(100)" json:"specialty,omitempty"`
 
-	// Gênero do profissional — usado para o tratamento correto (Dr./Dra.) em
-	// e-mails e mensagens ao paciente. Valores: "male" | "female". Vazio/nulo =
-	// indefinido (tratamento padrão "Dr.").
+	// Gênero do profissional — registro cadastral (uso futuro). NÃO é usado para
+	// inferir o tratamento; o título vem de Treatment. Valores: "male" | "female".
 	// @example female
 	Gender *string `gorm:"type:varchar(10)" json:"gender,omitempty" validate:"omitempty,oneof=male female"`
+
+	// Treatment — pronome de tratamento usado em TODA comunicação ao paciente
+	// (e-mail, WhatsApp). Renderizado direto, sem inferência por gênero. Vazio/nulo
+	// = sem título (usa só o nome). Valores: dr | dra | sr | sra | enf | enfa.
+	// @example dra
+	Treatment *string `gorm:"type:varchar(10)" json:"treatment,omitempty" validate:"omitempty,oneof=dr dra sr sra enf enfa"`
 
 	// Endereço profissional completo
 	// @example Rua das Flores, 123 - Centro - São Paulo/SP - CEP 01234-567

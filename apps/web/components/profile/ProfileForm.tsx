@@ -31,6 +31,7 @@ export function ProfileForm({ user, onSuccess }: ProfileFormProps) {
   const [professionalAddress, setProfessionalAddress] = useState((user as any).professionalAddress || '')
   const [specialty, setSpecialty] = useState((user as any).specialty || '')
   const [gender, setGender] = useState((user as any).gender || '')
+  const [treatment, setTreatment] = useState((user as any).treatment || '')
   const [crm, setCrm] = useState((user as any).crm || '')
   const [crmUF, setCrmUF] = useState((user as any).crmUF || '')
   const [rqe, setRqe] = useState((user as any).rqe || '')
@@ -76,7 +77,8 @@ export function ProfileForm({ user, onSuccess }: ProfileFormProps) {
       cpf: sanitizeCPF(cpf) || null,  // Remove formatação antes de enviar
       professionalPhone: professionalPhone.trim() || null,
       professionalAddress: professionalAddress.trim() || null,
-      gender: gender || null,  // tratamento Dr./Dra. em e-mails ao paciente
+      gender: gender || null,        // registro cadastral (uso futuro)
+      treatment: treatment || null,  // título usado nas mensagens ao paciente
     }
 
     if (isDoctor) {
@@ -193,21 +195,43 @@ export function ProfileForm({ user, onSuccess }: ProfileFormProps) {
           />
         </div>
 
-        {/* Gênero (tratamento Dr./Dra. nos e-mails ao paciente) */}
+        {/* Tratamento — título usado nas mensagens automáticas ao paciente */}
         <div>
-          <Label htmlFor="gender">Tratamento</Label>
+          <Label htmlFor="treatment">Tratamento nas mensagens</Label>
+          <select
+            id="treatment"
+            value={treatment}
+            onChange={(e) => setTreatment(e.target.value)}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            <option value="">Sem título (usar só o nome)</option>
+            <option value="dr">Dr.</option>
+            <option value="dra">Dra.</option>
+            <option value="sr">Sr.</option>
+            <option value="sra">Sra.</option>
+            <option value="enf">Enf.</option>
+            <option value="enfa">Enfª.</option>
+          </select>
+          <p className="text-xs text-muted-foreground mt-1">
+            Como você aparece nos e-mails e mensagens ao paciente. Ex: &quot;Profissional: Dra. Ana Costa&quot;.
+          </p>
+        </div>
+
+        {/* Gênero — registro cadastral (não define o tratamento) */}
+        <div>
+          <Label htmlFor="gender">Gênero</Label>
           <select
             id="gender"
             value={gender}
             onChange={(e) => setGender(e.target.value)}
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
-            <option value="">Não informado (usa Dr.)</option>
-            <option value="male">Dr. (masculino)</option>
-            <option value="female">Dra. (feminino)</option>
+            <option value="">Não informado</option>
+            <option value="male">Masculino</option>
+            <option value="female">Feminino</option>
           </select>
           <p className="text-xs text-muted-foreground mt-1">
-            Define o tratamento usado nas mensagens automáticas ao paciente.
+            Registro cadastral. Não define o tratamento acima.
           </p>
         </div>
 

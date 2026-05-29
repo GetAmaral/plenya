@@ -326,9 +326,10 @@ func (s *AppointmentNotificationService) loadAppointment(ctx context.Context, id
 	return &appt, nil
 }
 
-// doctorDisplayName retorna "Dr. {Name}" / "Dra. {Name}" conforme o gênero
-// cadastrado no profissional (User.Gender). Gênero indefinido (nil/vazio) usa
-// "Dr." como tratamento padrão. Se o nome já vier com prefixo, mantém.
+// doctorDisplayName antepõe o pronome de tratamento (User.Treatment) ao nome do
+// profissional, conforme cadastrado no perfil. Renderiza direto, SEM inferência
+// por gênero. Sem tratamento definido = só o nome. Se o nome já vier com prefixo
+// "Dr."/"Dra.", mantém como veio.
 func (s *AppointmentNotificationService) doctorDisplayName(doctor *models.User) string {
 	name := strings.TrimSpace(doctor.Name)
 	if name == "" {
@@ -338,11 +339,34 @@ func (s *AppointmentNotificationService) doctorDisplayName(doctor *models.User) 
 	if strings.HasPrefix(low, "dr.") || strings.HasPrefix(low, "dra.") || strings.HasPrefix(low, "dr ") {
 		return name
 	}
-	title := "Dr."
-	if doctor.Gender != nil && strings.EqualFold(strings.TrimSpace(*doctor.Gender), "female") {
-		title = "Dra."
+	if title := treatmentLabel(doctor.Treatment); title != "" {
+		return title + " " + name
 	}
-	return title + " " + name
+	return name
+}
+
+// treatmentLabel mapeia o código de tratamento (User.Treatment) para o rótulo
+// exibido. Vazio/desconhecido = "" (sem título).
+func treatmentLabel(t *string) string {
+	if t == nil {
+		return ""
+	}
+	switch strings.ToLower(strings.TrimSpace(*t)) {
+	case "dr":
+		return "Dr."
+	case "dra":
+		return "Dra."
+	case "sr":
+		return "Sr."
+	case "sra":
+		return "Sra."
+	case "enf":
+		return "Enf."
+	case "enfa":
+		return "Enfª."
+	default:
+		return ""
+	}
 }
 
 // sendEmailWithICS envia email via Resend com .ics anexo. Reusa o cliente HTTP do

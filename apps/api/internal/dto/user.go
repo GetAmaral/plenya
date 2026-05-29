@@ -30,6 +30,7 @@ type UserResponse struct {
 	ProfessionalAddress *string  `json:"professionalAddress,omitempty"`
 	Specialty           *string  `json:"specialty,omitempty"`
 	Gender              *string  `json:"gender,omitempty"`
+	Treatment           *string  `json:"treatment,omitempty"`
 	CRM                 *string  `json:"crm,omitempty"`
 	CRMUF               *string  `json:"crmUF,omitempty"`
 	RQE                 *string  `json:"rqe,omitempty"`
@@ -53,6 +54,7 @@ type UpdateProfileRequest struct {
 	ProfessionalAddress *string `json:"professionalAddress,omitempty"`
 	Specialty           *string `json:"specialty,omitempty" validate:"omitempty,max=100"`
 	Gender              *string `json:"gender,omitempty" validate:"omitempty,oneof=male female"`
+	Treatment           *string `json:"treatment,omitempty" validate:"omitempty,oneof=dr dra sr sra enf enfa"`
 	CRM                 *string `json:"crm,omitempty" validate:"omitempty,max=20"`
 	CRMUF               *string `json:"crmUF,omitempty" validate:"omitempty,len=2"`
 	RQE                 *string `json:"rqe,omitempty" validate:"omitempty,max=20"`
