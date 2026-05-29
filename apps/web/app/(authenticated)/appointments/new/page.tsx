@@ -71,6 +71,7 @@ export default function NewAppointmentPage() {
   const [patientSearch, setPatientSearch] = useState('');
   const [doctorId, setDoctorId] = useState<string>('');
   const [type, setType] = useState<AppointmentType>('initial_assessment');
+  const [presetKey, setPresetKey] = useState<string>('initial_assessment');
   const [date, setDate] = useState<string>(TODAY_YMD);
   const [duration, setDuration] = useState<number>(
     APPOINTMENT_TYPE_DEFAULT_DURATION.initial_assessment,
@@ -88,10 +89,30 @@ export default function NewAppointmentPage() {
     }
   }, [doctorId, isDoctor, isStaff, doctors, user?.id]);
 
-  // Quando type muda, atualiza duração default + reset slot.
-  const handleTypeChange = (newType: AppointmentType) => {
-    setType(newType);
-    setDuration(APPOINTMENT_TYPE_DEFAULT_DURATION[newType]);
+  // Opções de consulta = preset de tipo + duração. Teleconsulta tem dois presets
+  // (30 e 60 min): ambos gravam type=telemedicine, mudando só a duração — sem
+  // criar tipo novo no backend.
+  const CONSULTATION_OPTIONS: {
+    key: string;
+    type: AppointmentType;
+    duration: number;
+    label: string;
+  }[] = [
+    { key: 'initial_assessment', type: 'initial_assessment', duration: APPOINTMENT_TYPE_DEFAULT_DURATION.initial_assessment, label: APPOINTMENT_TYPE_LABELS.initial_assessment },
+    { key: 'follow_up', type: 'follow_up', duration: APPOINTMENT_TYPE_DEFAULT_DURATION.follow_up, label: APPOINTMENT_TYPE_LABELS.follow_up },
+    { key: 'telemedicine', type: 'telemedicine', duration: APPOINTMENT_TYPE_DEFAULT_DURATION.telemedicine, label: APPOINTMENT_TYPE_LABELS.telemedicine },
+    { key: 'telemedicine_60', type: 'telemedicine', duration: 60, label: APPOINTMENT_TYPE_LABELS.telemedicine },
+    { key: 'procedure', type: 'procedure', duration: APPOINTMENT_TYPE_DEFAULT_DURATION.procedure, label: APPOINTMENT_TYPE_LABELS.procedure },
+    { key: 'results_review', type: 'results_review', duration: APPOINTMENT_TYPE_DEFAULT_DURATION.results_review, label: APPOINTMENT_TYPE_LABELS.results_review },
+  ];
+
+  // Troca de preset: define tipo + duração default e reseta slot.
+  const handlePresetChange = (key: string) => {
+    const opt = CONSULTATION_OPTIONS.find((o) => o.key === key);
+    if (!opt) return;
+    setPresetKey(key);
+    setType(opt.type);
+    setDuration(opt.duration);
     setSlot(null);
   };
 
@@ -231,18 +252,14 @@ export default function NewAppointmentPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="type-select">Tipo de consulta</Label>
-                  <Select value={type} onValueChange={(v) => handleTypeChange(v as AppointmentType)}>
+                  <Select value={presetKey} onValueChange={handlePresetChange}>
                     <SelectTrigger id="type-select">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {(
-                        Object.keys(APPOINTMENT_TYPE_LABELS) as AppointmentType[]
-                      ).map((t) => (
-                        <SelectItem key={t} value={t}>
-                          {APPOINTMENT_TYPE_LABELS[t]}
-                          {' '}
-                          ({APPOINTMENT_TYPE_DEFAULT_DURATION[t]} min)
+                      {CONSULTATION_OPTIONS.map((o) => (
+                        <SelectItem key={o.key} value={o.key}>
+                          {o.label} ({o.duration} min)
                         </SelectItem>
                       ))}
                     </SelectContent>
