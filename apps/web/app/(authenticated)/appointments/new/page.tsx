@@ -21,6 +21,7 @@ import { toast } from 'sonner';
 
 import { useRequireAuth } from '@/lib/use-auth';
 import { useAuthStore, isGranted } from '@/lib/auth-store';
+import { useSelectedPatient } from '@/lib/use-selected-patient';
 import { usePatients } from '@/lib/api/patient-api';
 import {
   APPOINTMENT_TYPE_DEFAULT_DURATION,
@@ -55,6 +56,7 @@ export default function NewAppointmentPage() {
   const { user } = useAuthStore();
 
   // Continuum (Fase 3): query params pra ancorar a consulta a um marco do programa.
+  const { selectedPatient, selectedPatientId } = useSelectedPatient();
   const prefilledPatientId = search?.get('patientId') ?? '';
   const continuumItemId = search?.get('continuumItemId') ?? '';
   const prefilledSpecialty = search?.get('specialty') ?? ''; // doctor|nutritionist|psychologist|physicalEducator
@@ -67,7 +69,9 @@ export default function NewAppointmentPage() {
   const { data: doctors } = useDoctors();
   const createMutation = useCreateAppointment();
 
-  const [patientId, setPatientId] = useState<string>(prefilledPatientId);
+  const [patientId, setPatientId] = useState<string>(
+    prefilledPatientId || selectedPatientId || '',
+  );
   const [patientSearch, setPatientSearch] = useState('');
   const [doctorId, setDoctorId] = useState<string>('');
   const [type, setType] = useState<AppointmentType>('initial_assessment');
@@ -88,6 +92,16 @@ export default function NewAppointmentPage() {
       setDoctorId(doctors[0]!.id);
     }
   }, [doctorId, isDoctor, isStaff, doctors, user?.id]);
+
+  // Pré-seleciona o paciente do contexto (selectedPatient) como padrão — mesmo
+  // padrão dos demais itens de prontuário. Só preenche se nada veio na URL e o
+  // usuário ainda não escolheu (não sobrescreve troca manual). Cobre o caso do
+  // store rehidratar depois do primeiro render.
+  useEffect(() => {
+    if (!patientId && selectedPatientId) {
+      setPatientId(selectedPatientId);
+    }
+  }, [patientId, selectedPatientId]);
 
   // Opções de consulta = preset de tipo + duração. Teleconsulta tem dois presets
   // (30 e 60 min): ambos gravam type=telemedicine, mudando só a duração — sem
@@ -125,17 +139,27 @@ export default function NewAppointmentPage() {
   // Filtragem client-side dos pacientes
   const filteredPatients = useMemo(() => {
     const list = patients ?? [];
-    if (!patientSearch.trim()) return list.slice(0, 50);
-    const q = patientSearch.toLowerCase();
-    return list
-      .filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          (p.email ?? '').toLowerCase().includes(q) ||
-          (p.cpf ?? '').includes(q),
-      )
-      .slice(0, 50);
-  }, [patients, patientSearch]);
+    const base = !patientSearch.trim()
+      ? list.slice(0, 50)
+      : list
+          .filter(
+            (p) =>
+              p.name.toLowerCase().includes(patientSearch.toLowerCase()) ||
+              (p.email ?? '').toLowerCase().includes(patientSearch.toLowerCase()) ||
+              (p.cpf ?? '').includes(patientSearch),
+          )
+          .slice(0, 50);
+
+    // Garante que o paciente já escolhido apareça na lista (senão o trigger do
+    // Select fica em branco quando ele está fora da fatia/filtro).
+    if (patientId && !base.some((p) => p.id === patientId)) {
+      const chosen =
+        list.find((p) => p.id === patientId) ??
+        (selectedPatient?.id === patientId ? selectedPatient : null);
+      if (chosen) return [chosen, ...base];
+    }
+    return base;
+  }, [patients, patientSearch, patientId, selectedPatient]);
 
   const canSubmit =
     !!patientId && !!doctorId && !!slot && reason.trim().length > 0 && !createMutation.isPending;
