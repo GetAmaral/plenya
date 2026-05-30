@@ -68,7 +68,15 @@ export default function LoginPage() {
         description: `Bem-vindo de volta, ${response.user.email}`,
       });
 
-      router.push("/dashboard");
+      // Secretaria (sem papel clinico) cai direto na Recepcao. Demais papeis
+      // mantem o destino padrao /dashboard.
+      const roles = response.user.roles ?? [];
+      const secretaryOnly =
+        roles.includes("secretary") &&
+        !roles.some((r) =>
+          ["doctor", "nurse", "nutritionist", "psychologist", "physicalEducator"].includes(r),
+        );
+      router.push(secretaryOnly ? "/recepcao" : "/dashboard");
     } catch (err) {
       toast.error("Erro ao fazer login", {
         description: err instanceof Error ? err.message : "Credenciais inválidas",

@@ -1,6 +1,6 @@
 services:
   db:
-    image: pgvector/pgvector:pg17
+    image: pgvector/pgvector:pg18
     container_name: plenya-db
     restart: unless-stopped
     command: "postgres -c timezone=${TZ:-America/Sao_Paulo}"
@@ -13,9 +13,12 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-      # UUID v7 initialization script (auto-executed on first DB creation)
-      - ./apps/api/database/init.sql:/docker-entrypoint-initdb.d/01_uuid_v7.sql:ro
+      # PG18: montar no PARENT /var/lib/postgresql (dados vão p/ subdir /18/docker,
+      # layout novo da imagem 18). Montar em .../data faz o PG18 abortar.
+      - pgdata:/var/lib/postgresql
+      # init.sql (uuid_v7) removido: a função agora vem da baseline goose
+      # (database/migrations/00001_baseline.sql). Manter ambos conflita no boot
+      # de um DB novo. Ver docs/emr/migrations-decisao.md.
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U plenya_user -d plenya_db"]
       interval: 10s

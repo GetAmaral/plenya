@@ -17,20 +17,21 @@ clean: ## Limpar binários e cache
 	rm -rf bin/
 	go clean
 
-# Migrations (Atlas)
-migrate-up: ## Aplicar migrations
-	@echo "Aplicando migrations..."
-	atlas migrate apply --env dev
+# Migrations (goose) — ver docs/emr/migrations-decisao.md
+# Rodam dentro do container: docker compose exec -w /app api go run ./cmd/migrate <cmd>
+migrate-up: ## Aplicar migrations pendentes
+	docker compose exec -w /app api go run ./cmd/migrate up
 
-migrate-down: ## Reverter última migration
-	@echo "Revertendo migration..."
-	atlas migrate down --env dev
+migrate-down: ## Reverter última migration (apenas dev)
+	docker compose exec -w /app api go run ./cmd/migrate down
 
 migrate-status: ## Ver status das migrations
-	atlas migrate status --env dev
+	docker compose exec -w /app api go run ./cmd/migrate status
 
-migrate-create: ## Criar nova migration (use NAME=nome)
-	atlas migrate diff $(NAME) --env dev
+migrate-create: ## Criar nova migration SQL (use NAME=nome) no formato goose
+	@ts=$$(date +%Y%m%d%H%M%S); f="database/migrations/$${ts}_$(NAME).sql"; \
+	printf -- '-- +goose Up\n-- +goose StatementBegin\n\n-- +goose StatementEnd\n\n-- +goose Down\n-- +goose StatementBegin\n\n-- +goose StatementEnd\n' > $$f; \
+	echo "criada $$f"
 
 # Swagger
 swagger: ## Gerar documentação Swagger

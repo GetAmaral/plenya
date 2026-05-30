@@ -139,10 +139,12 @@ func (h *PatientHandler) List(c *fiber.Ctx) error {
 		limit = 100
 	}
 
+	search := c.Query("search")
+
 	userID := middleware.GetUserID(c)
 	userRole := middleware.GetPrimaryRole(c)
 
-	resp, err := h.patientService.List(userID, userRole, limit, offset)
+	resp, err := h.patientService.List(userID, userRole, limit, offset, search)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error:   "internal server error",

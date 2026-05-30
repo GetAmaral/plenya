@@ -1,5 +1,12 @@
 # 03 - Arquitetura: Única Fonte de Verdade
 
+> ⚠️ **DESATUALIZADO quanto a MIGRATIONS.** Este documento descreve Atlas gerando migrations a
+> partir dos models — isso **nunca foi a prática** e foi substituído. O schema é gerenciado por
+> **goose** (migrations SQL à mão, aplicadas no deploy via `cmd/migrate`; AutoMigrate desligado por
+> default). OpenAPI/tipos TS continuam gerados dos models. Fonte canônica de migrations:
+> [docs/emr/migrations-decisao.md](../docs/emr/migrations-decisao.md). As seções de Atlas abaixo
+> ficam só como histórico até serem reescritas.
+
 ## Princípio Fundamental
 
 **CRÍTICO:** Go models são a **ÚNICA fonte de verdade**. Tudo é gerado automaticamente a partir deles.

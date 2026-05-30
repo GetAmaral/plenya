@@ -597,6 +597,70 @@ func (s *AppointmentService) Confirm(ctx context.Context, appointmentID uuid.UUI
 	return nil
 }
 
+// CheckIn registra a chegada do paciente no balcão (status -> checked_in).
+// Usado pela recepção. Idempotente: se já está checked_in/in_progress, no-op.
+//
+// Transições válidas: scheduled|confirmed -> checked_in.
+// Bloqueia consultas canceladas/concluídas/no-show.
+func (s *AppointmentService) CheckIn(ctx context.Context, appointmentID, actorUserID uuid.UUID) (*dto.AppointmentResponse, error) {
+	var appt models.Appointment
+	if err := s.db.WithContext(ctx).Preload("Patient").Preload("Doctor").
+		Where("id = ?", appointmentID).First(&appt).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrAppointmentNotFound
+		}
+		return nil, err
+	}
+	// Idempotente — já chegou (ou já está em atendimento).
+	if appt.Status == models.AppointmentCheckedIn || appt.Status == models.AppointmentInProgress {
+		return s.toDTO(&appt), nil
+	}
+	if appt.Status != models.AppointmentScheduled && appt.Status != models.AppointmentConfirmed {
+		return nil, fmt.Errorf("appointment %s status=%s não pode receber check-in", appointmentID, appt.Status)
+	}
+
+	now := time.Now().UTC()
+	appt.Status = models.AppointmentCheckedIn
+	appt.CheckedInAt = &now
+	if err := s.db.WithContext(ctx).Save(&appt).Error; err != nil {
+		return nil, err
+	}
+	return s.toDTO(&appt), nil
+}
+
+// StartConsultation marca o início do atendimento (status -> in_progress).
+// Normalmente acionado pelo médico ao iniciar. Idempotente se já in_progress.
+//
+// Transições válidas: scheduled|confirmed|checked_in -> in_progress.
+// Se não houve check-in prévio (atendimento direto), CheckedInAt fica nulo e o
+// tempo de espera não é computado.
+func (s *AppointmentService) StartConsultation(ctx context.Context, appointmentID, actorUserID uuid.UUID) (*dto.AppointmentResponse, error) {
+	var appt models.Appointment
+	if err := s.db.WithContext(ctx).Preload("Patient").Preload("Doctor").
+		Where("id = ?", appointmentID).First(&appt).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrAppointmentNotFound
+		}
+		return nil, err
+	}
+	if appt.Status == models.AppointmentInProgress {
+		return s.toDTO(&appt), nil
+	}
+	if appt.Status != models.AppointmentScheduled &&
+		appt.Status != models.AppointmentConfirmed &&
+		appt.Status != models.AppointmentCheckedIn {
+		return nil, fmt.Errorf("appointment %s status=%s não pode iniciar atendimento", appointmentID, appt.Status)
+	}
+
+	now := time.Now().UTC()
+	appt.Status = models.AppointmentInProgress
+	appt.StartedAt = &now
+	if err := s.db.WithContext(ctx).Save(&appt).Error; err != nil {
+		return nil, err
+	}
+	return s.toDTO(&appt), nil
+}
+
 // GetTelemedJoinURL gera meeting_token de owner pro staff (médico/secretaria)
 // e retorna a URL completa pra abrir a sala.
 //
@@ -998,6 +1062,14 @@ func (s *AppointmentService) toDTO(appointment *models.Appointment) *dto.Appoint
 	if appointment.ConfirmedAt != nil {
 		ca := appointment.ConfirmedAt.Format(time.RFC3339)
 		resp.ConfirmedAt = &ca
+	}
+	if appointment.CheckedInAt != nil {
+		ci := appointment.CheckedInAt.Format(time.RFC3339)
+		resp.CheckedInAt = &ci
+	}
+	if appointment.StartedAt != nil {
+		st := appointment.StartedAt.Format(time.RFC3339)
+		resp.StartedAt = &st
 	}
 	if appointment.CompletedAt != nil {
 		ca := appointment.CompletedAt.Format(time.RFC3339)

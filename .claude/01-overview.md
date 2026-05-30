@@ -123,7 +123,7 @@ Fornecer solução EMR acessível para clínicas pequenas/médias no Brasil, com
 - Monorepo setup
 - Docker development
 - Go + PostgreSQL
-- Atlas migrations
+- goose migrations (ver docs/emr/migrations-decisao.md)
 
 ### Fase 2: Backend Core ✅
 - Auth (JWT)

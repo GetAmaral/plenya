@@ -43,7 +43,15 @@ export function GoogleOAuthButton() {
         description: `Bem-vindo, ${authResponse.user.email}`,
       });
 
-      router.push("/dashboard");
+      // Secretaria (sem papel clinico) cai direto na Recepcao. Demais papeis
+      // mantem o destino padrao /dashboard.
+      const roles: string[] = authResponse.user.roles ?? [];
+      const secretaryOnly =
+        roles.includes("secretary") &&
+        !roles.some((r) =>
+          ["doctor", "nurse", "nutritionist", "psychologist", "physicalEducator"].includes(r),
+        );
+      router.push(secretaryOnly ? "/recepcao" : "/dashboard");
     } catch (err) {
       toast.error("Erro ao fazer login com Google", {
         description: err instanceof Error ? err.message : "Erro desconhecido",

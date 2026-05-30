@@ -71,11 +71,15 @@ trabalhando.
 
 ```
 apps/api/internal/models/*.go  ← EDITAR AQUI
-         ├─→ Atlas → apps/api/database/migrations/*.sql        (gerado)
          ├─→ Swag  → apps/api/docs/swagger.json                (gerado)
          ├─→ openapi-typescript → packages/types/src/generated/api-types.ts   (gerado)
          └─→ openapi-zod-client → packages/types/src/generated/api-schemas.ts (gerado)
 ```
+
+**Schema/migrations NÃO são derivados automaticamente dos models.** São migrations **goose**
+escritas à mão (`apps/api/database/migrations/`), aplicadas no deploy via `cmd/migrate`; AutoMigrate
+fica desligado por default. Mudou um model → escreva a migration SQL correspondente.
+Ver [docs/emr/migrations-decisao.md](docs/emr/migrations-decisao.md).
 
 Para conteúdo de marca/clínico, a fonte é o **site** + os arquivos canônicos
 (`apps/site/lib/agir-structure.ts`, brandbook). Antes de gerar deck/post/copy, leia a fonte —
@@ -107,7 +111,11 @@ Performance & Longevidade". Detalhes na memória (`MEMORY.md`) e em `.claude/soc
 docker compose exec db psql -U plenya_user -d plenya_db
 docker compose exec db psql -U plenya_user -d plenya_db -c "\d score_items"
 
-# Geração após editar Go models (migrations + OpenAPI + TS types + Zod)
+# Migrations (goose) — schema NÃO é auto-derivado dos models
+docker compose exec -w /app api go run ./cmd/migrate up        # aplica pendentes
+docker compose exec -w /app api go run ./cmd/migrate status    # estado
+
+# Geração de OpenAPI + tipos TS/Zod após editar Go models (NÃO inclui migrations)
 pnpm generate
 
 # Compilar Go (não há Go local — usar container)

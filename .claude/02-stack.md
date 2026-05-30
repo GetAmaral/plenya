@@ -39,8 +39,8 @@
 
 ### Database & ORM
 - **Database:** PostgreSQL 17
-- **ORM:** GORM v1.25
-- **Migrations:** Atlas (schema-as-code)
+- **ORM:** GORM v1.31
+- **Migrations:** goose (SQL versionado à mão, aplicado no deploy — ver docs/emr/migrations-decisao.md)
 - **Extensions PostgreSQL:**
   - pgcrypto (criptografia)
   - uuid-ossp (UUID generation)
@@ -210,10 +210,10 @@ packages/
     "build": "turbo run build",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "generate": "pnpm generate:migrations && pnpm generate:swagger && pnpm generate:types",
-    "generate:migrations": "cd apps/api && atlas migrate diff --env dev",
+    "generate": "pnpm generate:swagger && pnpm generate:types",
     "generate:swagger": "cd apps/api && swag init -g cmd/server/main.go -o docs",
-    "generate:types": "cd packages/types && pnpm run generate"
+    "generate:types": "cd packages/types && pnpm run generate",
+    "migrate:up": "docker compose exec -w /app api go run ./cmd/migrate up"
   }
 }
 ```
@@ -443,7 +443,7 @@ Opcionais:
 
 ### Por que GORM?
 - Idiomatic Go
-- Auto migrations (via Atlas)
+- Hooks (BeforeCreate/BeforeSave/AfterFind) — UUID v7, cripto CPF/RG
 - Preload/Joins
 - Hooks (BeforeCreate, AfterFind)
 - Type-safe

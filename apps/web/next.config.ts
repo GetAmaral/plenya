@@ -16,7 +16,8 @@ const nextConfig: NextConfig = {
   //   2. Zerar errors.
   //   3. Validar que `pnpm --filter @plenya/web build` passa sem essas flags.
   typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
+  // (chave `eslint` removida: Next 16 removeu o lint embutido no build; a config
+  //  não é mais reconhecida. ESLint roda via `pnpm lint`/CI, não no `next build`.)
 
   // Transpile ESM-only packages
   transpilePackages: ['react-reader'],

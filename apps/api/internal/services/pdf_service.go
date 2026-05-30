@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/jung-kurt/gofpdf/v2"
+	gofpdf "codeberg.org/go-pdf/fpdf"
 	"github.com/skip2/go-qrcode"
 	"github.com/plenya/api/internal/crypto"
 	"github.com/plenya/api/internal/models"

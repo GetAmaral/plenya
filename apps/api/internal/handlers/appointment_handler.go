@@ -300,6 +300,56 @@ func (h *AppointmentHandler) Confirm(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusNoContent)
 }
 
+// CheckIn registra a chegada do paciente (status -> checked_in).
+// POST /api/v1/appointments/:id/check-in
+// Auth: RequireAnyStaff (recepção/médico).
+func (h *AppointmentHandler) CheckIn(c *fiber.Ctx) error {
+	appointmentID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid appointment id",
+			Message: "appointment id must be a valid UUID",
+		})
+	}
+	userID := middleware.GetUserID(c)
+	resp, err := h.appointmentService.CheckIn(c.Context(), appointmentID, userID)
+	if err != nil {
+		if errors.Is(err, services.ErrAppointmentNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "appointment not found"})
+		}
+		return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+			Error:   "invalid transition",
+			Message: err.Error(),
+		})
+	}
+	return c.JSON(resp)
+}
+
+// StartConsultation marca o início do atendimento (status -> in_progress).
+// POST /api/v1/appointments/:id/start
+// Auth: RequireAnyStaff (médico/recepção).
+func (h *AppointmentHandler) StartConsultation(c *fiber.Ctx) error {
+	appointmentID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid appointment id",
+			Message: "appointment id must be a valid UUID",
+		})
+	}
+	userID := middleware.GetUserID(c)
+	resp, err := h.appointmentService.StartConsultation(c.Context(), appointmentID, userID)
+	if err != nil {
+		if errors.Is(err, services.ErrAppointmentNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "appointment not found"})
+		}
+		return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+			Error:   "invalid transition",
+			Message: err.Error(),
+		})
+	}
+	return c.JSON(resp)
+}
+
 // GetTelemedToken POST /api/v1/appointments/:id/telemed-token
 //
 // HIGH H9 — gera meeting_token de owner pro staff (médico/secretaria) e

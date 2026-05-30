@@ -25,6 +25,8 @@ import { apiClient } from '../api-client';
 export type AppointmentStatus =
   | 'scheduled'
   | 'confirmed'
+  | 'checked_in'
+  | 'in_progress'
   | 'completed'
   | 'cancelled'
   | 'no_show';
@@ -50,6 +52,8 @@ export interface Appointment {
   diagnosis?: string;
   anamnesisId?: string;
   confirmedAt?: string;
+  checkedInAt?: string;
+  startedAt?: string;
   completedAt?: string;
   cancelledAt?: string;
   cancellationReason?: string;
@@ -382,6 +386,41 @@ export function useConfirmAppointment(id: string) {
   });
 }
 
+// Recepção registra a chegada do paciente (status -> checked_in).
+export function useCheckInAppointment(id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () =>
+      apiClient.post<Appointment>(`/api/v1/appointments/${id}/check-in`),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: calendarKeys.appointment(id) });
+      qc.invalidateQueries({ queryKey: calendarKeys.all });
+    },
+  });
+}
+
+// Início do atendimento (status -> in_progress).
+export function useStartAppointment(id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () =>
+      apiClient.post<Appointment>(`/api/v1/appointments/${id}/start`),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: calendarKeys.appointment(id) });
+      qc.invalidateQueries({ queryKey: calendarKeys.all });
+    },
+  });
+}
+
+// Tempo de espera em minutos (StartedAt - CheckedInAt), ou null se indisponível.
+export function waitMinutes(appt: Appointment): number | null {
+  if (!appt.checkedInAt) return null;
+  const end = appt.startedAt ? new Date(appt.startedAt) : new Date();
+  const start = new Date(appt.checkedInAt);
+  const diff = Math.round((end.getTime() - start.getTime()) / 60000);
+  return diff >= 0 ? diff : null;
+}
+
 // =====================================================
 // Working hours
 // =====================================================
@@ -512,6 +551,8 @@ export const APPOINTMENT_TYPE_COLORS: Record<AppointmentType, string> = {
 export const APPOINTMENT_STATUS_LABELS: Record<AppointmentStatus, string> = {
   scheduled: 'Agendada',
   confirmed: 'Confirmada',
+  checked_in: 'Aguardando',
+  in_progress: 'Em atendimento',
   completed: 'Concluída',
   cancelled: 'Cancelada',
   no_show: 'Não compareceu',
@@ -520,9 +561,11 @@ export const APPOINTMENT_STATUS_LABELS: Record<AppointmentStatus, string> = {
 export const APPOINTMENT_STATUS_COLORS: Record<AppointmentStatus, string> = {
   scheduled: 'bg-blue-100 text-blue-900 border-blue-200',
   confirmed: 'bg-emerald-100 text-emerald-900 border-emerald-200',
+  checked_in: 'bg-amber-100 text-amber-900 border-amber-200',
+  in_progress: 'bg-violet-100 text-violet-900 border-violet-200',
   completed: 'bg-stone-100 text-stone-900 border-stone-200',
   cancelled: 'bg-rose-100 text-rose-900 border-rose-200',
-  no_show: 'bg-amber-100 text-amber-900 border-amber-200',
+  no_show: 'bg-orange-100 text-orange-900 border-orange-200',
 };
 
 export const WEEKDAY_LABELS = [

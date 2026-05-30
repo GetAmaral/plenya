@@ -69,27 +69,27 @@ func main() {
 	}
 	defer database.Close()
 
-	// Auto migrate: sempre em dev; em prod só se MIGRATIONS_AUTO=true.
-	// M9 — adicional: MIGRATIONS_AUTO=false força skip mesmo em dev (útil pra
-	// debugar schema travado / Atlas piloto).
+	// Schema é gerenciado por migrations goose (cmd/migrate), aplicadas como passo
+	// do deploy (dev: entrypoint.sh; prod: prod-entrypoint.sh) — NUNCA no boot da app.
+	// GORM AutoMigrate fica como escape hatch manual de prototipagem: só roda quando
+	// MIGRATIONS_AUTO=true é setado explicitamente. Default = desligado (dev e prod).
+	// Ver docs/emr/migrations-decisao.md.
 	migrationsAutoEnv := os.Getenv("MIGRATIONS_AUTO")
 	shouldRun := false
 	switch migrationsAutoEnv {
-	case "false", "0", "no":
-		shouldRun = false
 	case "true", "1", "yes":
 		shouldRun = true
 	default:
-		shouldRun = cfg.Server.Environment == "development"
+		shouldRun = false
 	}
 	if shouldRun {
-		log.Println("🔄 Running auto migrations...")
+		log.Println("🔄 AutoMigrate manual (MIGRATIONS_AUTO=true) — escape hatch de dev...")
 		if err := database.AutoMigrate(); err != nil {
 			log.Fatalf("❌ Failed to auto migrate: %v", err)
 		}
-		log.Println("✅ Auto migrations completed")
+		log.Println("✅ AutoMigrate concluído")
 	} else {
-		log.Println("⏭️  AutoMigrate skipped (MIGRATIONS_AUTO=false ou prod sem flag)")
+		log.Println("⏭️  AutoMigrate desligado — schema via migrations goose (cmd/migrate)")
 	}
 
 	// H8 — em produção, revoga UPDATE/DELETE de audit_logs no DB (não-fatal).
@@ -267,6 +267,8 @@ func setupRoutes(
 	appointmentService := services.NewAppointmentService(
 		database.DB, googleCalendarService, dailyCoService, appointmentNotificationService, cfg,
 	)
+	waitlistService := services.NewWaitlistService(database.DB)
+	paymentService := services.NewPaymentService(database.DB)
 	prescriptionService := services.NewPrescriptionService(database.DB)
 	labResultService := services.NewLabResultService(database.DB)
 	scoreService := services.NewScoreService(scoreRepo)
@@ -320,6 +322,8 @@ func setupRoutes(
 	anamnesisHandler := handlers.NewAnamnesisHandler(anamnesisService)
 	anamnesisTemplateHandler := handlers.NewAnamnesisTemplateHandler(anamnesisTemplateService)
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
+	waitlistHandler := handlers.NewWaitlistHandler(waitlistService)
+	paymentHandler := handlers.NewPaymentHandler(paymentService)
 	prescriptionHandler := handlers.NewPrescriptionHandler(prescriptionService, prescriptionPDFService)
 	labResultHandler := handlers.NewLabResultHandler(labResultService)
 	labResultBatchHandler := handlers.NewLabResultBatchHandler(labResultBatchService, processingJobService)
@@ -700,10 +704,42 @@ func setupRoutes(
 	appointments.Put("/:id", appointmentHandler.Update)
 	appointments.Post("/:id/cancel", appointmentHandler.Cancel)
 	appointments.Post("/:id/confirm", appointmentHandler.Confirm)
+	// Fluxo de balcão: recepção registra chegada (check-in) e início do atendimento.
+	appointments.Post("/:id/check-in", appointmentHandler.CheckIn)
+	appointments.Post("/:id/start", appointmentHandler.StartConsultation)
 	// HIGH H9 — emite meeting_token de owner pro staff. POST porque cada
 	// chamada gera token novo (sem cache) — inviável como GET.
 	appointments.Post("/:id/telemed-token", appointmentHandler.GetTelemedToken)
 	appointments.Delete("/:id", middleware.RequireAdmin(), appointmentHandler.Delete)
+
+	// Lista de espera (encaixe) — operacional do balcão. Qualquer staff opera.
+	waitlist := v1.Group("/waitlist")
+	waitlist.Use(middleware.Auth(cfg))
+	waitlist.Use(middleware.RequireAnyStaff())
+	waitlist.Use(middleware.AuditLog(database.DB))
+	waitlist.Get("/", waitlistHandler.List)
+	waitlist.Post("/", waitlistHandler.Create)
+	waitlist.Put("/:id", waitlistHandler.Update)
+	waitlist.Delete("/:id", waitlistHandler.Delete)
+
+	// Pagamentos de consulta + recibo — operações de recepção/financeiro.
+	// RequireAdminOps = admin/manager/secretary (não-clínicos).
+	payments := v1.Group("/payments")
+	payments.Use(middleware.Auth(cfg))
+	payments.Use(middleware.RequireAdminOps())
+	payments.Use(middleware.AuditLog(database.DB))
+	payments.Get("/", paymentHandler.List)
+	payments.Post("/", paymentHandler.Create)
+	payments.Post("/:id/refund", paymentHandler.Refund)
+	payments.Get("/:id/receipt", paymentHandler.Receipt)
+
+	// Preços por tipo de consulta — leitura para recepção (AdminOps),
+	// escrita só admin.
+	prices := v1.Group("/consultation-prices")
+	prices.Use(middleware.Auth(cfg))
+	prices.Use(middleware.AuditLog(database.DB))
+	prices.Get("/", middleware.RequireAdminOps(), paymentHandler.ListPrices)
+	prices.Put("/", middleware.RequireAdmin(), paymentHandler.UpsertPrice)
 
 	// Prescriptions routes (protegidas).
 	// C2 — bloqueia patient role. Pacientes usam /patient/me/prescriptions.

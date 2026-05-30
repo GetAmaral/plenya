@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -11,6 +12,18 @@ import (
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/models"
 )
+
+// digitsOnly extrai apenas os dígitos de uma string (para busca por
+// telefone/CPF, que podem vir formatados).
+func digitsOnly(s string) string {
+	var b strings.Builder
+	for _, r := range s {
+		if r >= '0' && r <= '9' {
+			b.WriteByte(byte(r))
+		}
+	}
+	return b.String()
+}
 
 var (
 	ErrPatientNotFound     = errors.New("patient not found")
@@ -34,10 +47,21 @@ func (s *PatientService) Create(userID uuid.UUID, req *dto.CreatePatientRequest)
 		return nil, ErrPatientAlreadyExists
 	}
 
-	// Parse da data de nascimento
-	birthDate, err := time.Parse("2006-01-02", req.BirthDate)
-	if err != nil {
-		return nil, errors.New("invalid birth date format, expected YYYY-MM-DD")
+	// Parse da data de nascimento (opcional no cadastro rápido). Ausente => zero,
+	// e CalculateAge trata a data zerada (Age=0, AgeText="").
+	var birthDate time.Time
+	if req.BirthDate != "" {
+		parsed, err := time.Parse("2006-01-02", req.BirthDate)
+		if err != nil {
+			return nil, errors.New("invalid birth date format, expected YYYY-MM-DD")
+		}
+		birthDate = parsed
+	}
+
+	// Gênero default 'other' quando omitido (cadastro rápido).
+	gender := req.Gender
+	if gender == "" {
+		gender = models.GenderOther
 	}
 
 	// Criar paciente
@@ -47,7 +71,7 @@ func (s *PatientService) Create(userID uuid.UUID, req *dto.CreatePatientRequest)
 		CPF:              req.CPF,              // Será criptografado pelo hook
 		RG:               req.RG,               // Será criptografado pelo hook
 		BirthDate:        birthDate,
-		Gender:           req.Gender,
+		Gender:           gender,
 		SocialGender:     req.SocialGender,
 		Email:            req.Email,
 		Phone:            req.Phone,
@@ -121,13 +145,34 @@ func (s *PatientService) FindByCPF(cpfPlain string) (*models.Patient, error) {
 }
 
 // List lista todos os pacientes (com paginação)
-func (s *PatientService) List(userID uuid.UUID, userRole models.Role, limit, offset int) ([]dto.PatientResponse, error) {
+func (s *PatientService) List(userID uuid.UUID, userRole models.Role, limit, offset int, search string) ([]dto.PatientResponse, error) {
 	var patients []models.Patient
 	query := s.db.Limit(limit).Offset(offset).Order("created_at DESC")
 
 	// Pacientes só podem ver seus próprios dados
 	if userRole == models.RolePatient {
 		query = query.Where("user_id = ?", userID)
+	}
+
+	// Busca global (recepção / Cmd+K). Nome e telefone são texto puro → ILIKE.
+	// CPF é criptografado (não dá ILIKE): se o termo tiver 11 dígitos, casa exato
+	// via blind index. 11 dígitos também pode ser celular (DDD+9), então nesse
+	// caso buscamos por nome OU telefone OU CPF ao mesmo tempo.
+	if search = strings.TrimSpace(search); search != "" {
+		digits := digitsOnly(search)
+		namePat := "%" + search + "%"
+		switch {
+		case len(digits) == 11:
+			cpfIdx, _ := crypto.BlindIndexCPF(digits)
+			query = query.Where(
+				"name ILIKE ? OR phone ILIKE ? OR cpf_blind_index = ?",
+				namePat, "%"+digits+"%", cpfIdx,
+			)
+		case len(digits) >= 3:
+			query = query.Where("name ILIKE ? OR phone ILIKE ?", namePat, "%"+digits+"%")
+		default:
+			query = query.Where("name ILIKE ?", namePat)
+		}
 	}
 
 	if err := query.Find(&patients).Error; err != nil {
@@ -255,13 +300,20 @@ func (s *PatientService) Delete(patientID, userID uuid.UUID, userRole models.Rol
 
 // toDTO converte Patient para PatientResponse
 func (s *PatientService) toDTO(patient *models.Patient) *dto.PatientResponse {
+	// Cadastro rápido sem data de nascimento grava a data zero (0001-01-01).
+	// Devolvemos string vazia em vez de "0001-01-01" para o frontend.
+	birthDate := ""
+	if !patient.BirthDate.IsZero() {
+		birthDate = patient.BirthDate.Format("2006-01-02")
+	}
+
 	return &dto.PatientResponse{
 		ID:               patient.ID.String(),
 		UserID:           patient.UserID.String(),
 		Name:             patient.Name,
 		CPF:              patient.CPF,              // Já foi descriptografado pelo AfterFind hook
 		RG:               patient.RG,               // Já foi descriptografado pelo AfterFind hook
-		BirthDate:        patient.BirthDate.Format("2006-01-02"),
+		BirthDate:        birthDate,
 		Gender:           patient.Gender,
 		SocialGender:     patient.SocialGender,
 		Age:              patient.Age,

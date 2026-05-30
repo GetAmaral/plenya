@@ -2,15 +2,13 @@
 
 set -e
 
-echo "🔄 Gerando migrations, OpenAPI e TypeScript types..."
+echo "🔄 Gerando OpenAPI e TypeScript types..."
 
-# 1. Gerar migrations com Atlas
-echo "📝 Gerando migrations com Atlas..."
-cd apps/api
-atlas migrate diff --dev-url 'docker://postgres/17/plenya_dev' --to 'file://internal/models' --dir 'file://database/migrations' || echo "⚠️  Nenhuma nova migration necessária"
-cd ../..
+# Migrations NÃO entram aqui: o schema é gerenciado por migrations goose, criadas
+# à mão e aplicadas no deploy via cmd/migrate. Ver docs/emr/migrations-decisao.md.
+#   docker compose exec -w /app api go run ./cmd/migrate up|status|version
 
-# 2. Gerar OpenAPI docs
+# 1. Gerar OpenAPI docs
 echo "📚 Gerando OpenAPI docs..."
 cd apps/api
 swag init -g cmd/server/main.go -o docs || echo "⚠️  Erro ao gerar OpenAPI docs"

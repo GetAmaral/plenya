@@ -181,6 +181,34 @@ func AutoMigrate() error {
 		EXCEPTION WHEN undefined_table THEN
 			NULL;
 		END $$`,
+
+		// Fluxo de check-in — amplia chk_appointments_status com os status novos
+		// checked_in (paciente chegou, aguardando) e in_progress (em atendimento).
+		//
+		// A tag `check:` do GORM só cria a constraint na criação da tabela; numa
+		// tabela existente o conjunto de valores não é atualizado pelo AutoMigrate.
+		// Recriamos aqui explicitamente (idempotente: só dropa se o def atual ainda
+		// não contempla 'checked_in').
+		//
+		// A EXCLUDE anti-overlap NÃO muda: ela exclui só cancelled/no_show, então
+		// checked_in/in_progress continuam contando como ocupação do horário.
+		`DO $$ BEGIN
+			IF EXISTS (
+				SELECT 1 FROM pg_constraint
+				 WHERE conname = 'chk_appointments_status'
+				   AND pg_get_constraintdef(oid) NOT LIKE '%checked_in%'
+			) THEN
+				ALTER TABLE appointments DROP CONSTRAINT chk_appointments_status;
+			END IF;
+			IF NOT EXISTS (
+				SELECT 1 FROM pg_constraint WHERE conname = 'chk_appointments_status'
+			) THEN
+				ALTER TABLE appointments ADD CONSTRAINT chk_appointments_status
+				CHECK (status IN ('scheduled','confirmed','checked_in','in_progress','completed','cancelled','no_show'));
+			END IF;
+		EXCEPTION WHEN undefined_table THEN
+			NULL;
+		END $$`,
 	}
 	for _, stmt := range preMigrateStmts {
 		if err := DB.Exec(stmt).Error; err != nil {
@@ -277,6 +305,10 @@ func AutoMigrate() error {
 		&models.WorkingHours{},
 		&models.DoctorAbsence{},
 		&models.AppointmentResource{},
+		&models.WaitlistEntry{},
+		&models.ConsultationPrice{},
+		&models.PaymentReceiptCounter{},
+		&models.AppointmentPayment{},
 
 		// Continuum — programa de acompanhamento longitudinal.
 		// Templates primeiro (referenciados por items); depois inscrição,

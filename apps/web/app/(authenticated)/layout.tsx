@@ -3,6 +3,7 @@
 import { useRequireAuth } from "@/lib/use-auth";
 import { CollapsibleSidebar, useSidebarWidth } from "@/components/layout/collapsible-sidebar";
 import { GlobalProcessingMonitor } from "@/components/processing/GlobalProcessingMonitor";
+import { GlobalSearch } from "@/components/global-search";
 import { TopBar } from "@/components/layout/top-bar";
 import { PatientContextBar } from "@/components/layout/patient-context-bar";
 import { PageHeaderProvider } from "@/lib/page-context";
@@ -24,6 +25,9 @@ export default function AuthenticatedLayout({
         <div className="print:hidden">
           <GlobalProcessingMonitor />
         </div>
+        {/* Busca global de pacientes (Cmd/Ctrl+K). Renderizada uma vez,
+            disponível em todas as telas autenticadas do staff. */}
+        <GlobalSearch />
         <main
           className="min-h-screen transition-all duration-300 ease-in-out print:ml-0"
           style={{ marginLeft: `${sidebarWidth}px` }}

@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/jung-kurt/gofpdf/v2"
+	gofpdf "codeberg.org/go-pdf/fpdf"
 	"github.com/skip2/go-qrcode"
 	"gorm.io/gorm"
 

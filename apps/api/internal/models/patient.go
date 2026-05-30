@@ -88,7 +88,9 @@ type Patient struct {
 
 	// Data de nascimento
 	// @example 1990-01-01
-	BirthDate time.Time `gorm:"type:date;not null" json:"birthDate" validate:"required"`
+	// Cadastro rápido pode não ter data de nascimento (grava 0001-01-01);
+	// por isso a coluna não é NOT NULL.
+	BirthDate time.Time `gorm:"type:date" json:"birthDate" validate:"omitempty"`
 
 	// Gênero biológico do paciente
 	// @enum male,female,other
@@ -209,6 +211,13 @@ func (Patient) TableName() string {
 func (p *Patient) CalculateAge() {
 	now := time.Now()
 	birthDate := p.BirthDate
+
+	// Cadastro rápido sem data de nascimento: idade indefinida.
+	if birthDate.IsZero() {
+		p.Age = 0
+		p.AgeText = ""
+		return
+	}
 
 	// Calcula anos completos
 	years := now.Year() - birthDate.Year()

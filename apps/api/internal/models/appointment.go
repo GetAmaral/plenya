@@ -12,11 +12,13 @@ import (
 type AppointmentStatus string
 
 const (
-	AppointmentScheduled AppointmentStatus = "scheduled" // Agendada
-	AppointmentConfirmed AppointmentStatus = "confirmed" // Confirmada
-	AppointmentCompleted AppointmentStatus = "completed" // Realizada
-	AppointmentCancelled AppointmentStatus = "cancelled" // Cancelada
-	AppointmentNoShow    AppointmentStatus = "no_show"   // Paciente não compareceu
+	AppointmentScheduled  AppointmentStatus = "scheduled"   // Agendada
+	AppointmentConfirmed  AppointmentStatus = "confirmed"   // Confirmada
+	AppointmentCheckedIn  AppointmentStatus = "checked_in"  // Paciente chegou, aguardando atendimento
+	AppointmentInProgress AppointmentStatus = "in_progress" // Em atendimento
+	AppointmentCompleted  AppointmentStatus = "completed"   // Realizada
+	AppointmentCancelled  AppointmentStatus = "cancelled"   // Cancelada
+	AppointmentNoShow     AppointmentStatus = "no_show"     // Paciente não compareceu
 )
 
 // AppointmentType define os tipos de consulta.
@@ -78,8 +80,11 @@ type Appointment struct {
 	// validator no service/handler layer).
 	Type AppointmentType `gorm:"type:varchar(20);not null;check:type IN ('initial_assessment','follow_up','telemedicine','procedure','results_review')" json:"type" validate:"oneof=initial_assessment follow_up telemedicine procedure results_review"`
 
-	// Status da consulta
-	Status AppointmentStatus `gorm:"type:varchar(20);not null;default:'scheduled';check:status IN ('scheduled','confirmed','completed','cancelled','no_show')" json:"status"`
+	// Status da consulta. CHECK constraint garante valores válidos no DB.
+	// A tag `check:` do GORM só cria a constraint na criação da tabela; alterar
+	// o conjunto de valores numa tabela existente exige um bloco pré-AutoMigrate
+	// em database.go que recria chk_appointments_status.
+	Status AppointmentStatus `gorm:"type:varchar(20);not null;default:'scheduled';check:status IN ('scheduled','confirmed','checked_in','in_progress','completed','cancelled','no_show')" json:"status"`
 
 	// Motivo da consulta
 	Reason string `gorm:"type:text;not null" json:"reason" validate:"required"`
@@ -105,6 +110,14 @@ type Appointment struct {
 
 	// Data de confirmação
 	ConfirmedAt *time.Time `gorm:"type:timestamptz" json:"confirmedAt,omitempty"`
+
+	// Quando a recepção registrou a chegada do paciente (status -> checked_in).
+	// Base, junto com StartedAt, para o cálculo do tempo de espera no balcão.
+	CheckedInAt *time.Time `gorm:"type:timestamptz" json:"checkedInAt,omitempty"`
+
+	// Quando o atendimento começou de fato (status -> in_progress).
+	// StartedAt - CheckedInAt = tempo de espera do paciente.
+	StartedAt *time.Time `gorm:"type:timestamptz" json:"startedAt,omitempty"`
 
 	// Data de conclusão
 	CompletedAt *time.Time `gorm:"type:timestamptz" json:"completedAt,omitempty"`

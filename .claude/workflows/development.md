@@ -103,7 +103,7 @@ docker compose down -v
 - Ver logs: `docker compose logs -f web`
 
 **Database:**
-- Mudanças em migrations requerem `atlas migrate apply`
+- Mudanças de schema = nova migration goose + `go run ./cmd/migrate up` (ver docs/emr/migrations-decisao.md)
 
 ## Adicionar Dependências
 
@@ -294,6 +294,13 @@ docker compose exec web pnpm test:watch --filter web
 ```
 
 ## Migrations
+
+> ⚠️ **Esta seção está DESATUALIZADA (Atlas).** O projeto usa **goose**: migrations SQL escritas à
+> mão e aplicadas no deploy via `cmd/migrate` (AutoMigrate desligado por default). Comandos reais:
+> `docker compose exec -w /app api go run ./cmd/migrate up|status|version`. Nova migration: criar
+> `apps/api/database/migrations/<ts>_<nome>.sql` no formato goose (`-- +goose Up`/`Down`). Fonte
+> canônica: [docs/emr/migrations-decisao.md](../../docs/emr/migrations-decisao.md). O bloco abaixo
+> (Atlas) é histórico.
 
 ### Criar Migration
 

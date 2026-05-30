@@ -19,7 +19,7 @@ type CreateAppointmentRequest struct {
 // UpdateAppointmentRequest representa o payload de atualização de consulta
 type UpdateAppointmentRequest struct {
 	ScheduledAt *string                  `json:"scheduledAt,omitempty"` // formato: RFC3339
-	Status      *models.AppointmentStatus `json:"status,omitempty" validate:"omitempty,oneof=scheduled confirmed completed cancelled no_show"`
+	Status      *models.AppointmentStatus `json:"status,omitempty" validate:"omitempty,oneof=scheduled confirmed checked_in in_progress completed cancelled no_show"`
 	DoctorNotes *string                  `json:"doctorNotes,omitempty"`
 	Diagnosis   *string                  `json:"diagnosis,omitempty"`
 }
@@ -45,6 +45,8 @@ type AppointmentResponse struct {
 	AnamnesisID        *string                   `json:"anamnesisId,omitempty"`
 	ContinuumItemID    *string                   `json:"continuumItemId,omitempty"`
 	ConfirmedAt        *string                   `json:"confirmedAt,omitempty"`
+	CheckedInAt        *string                   `json:"checkedInAt,omitempty"`
+	StartedAt          *string                   `json:"startedAt,omitempty"`
 	CompletedAt        *string                   `json:"completedAt,omitempty"`
 	CancelledAt        *string                   `json:"cancelledAt,omitempty"`
 	CancellationReason *string                   `json:"cancellationReason,omitempty"`

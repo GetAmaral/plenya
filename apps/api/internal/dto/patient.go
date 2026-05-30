@@ -7,8 +7,12 @@ type CreatePatientRequest struct {
 	Name             string               `json:"name" validate:"required,min=3,max=200"`
 	CPF              *string              `json:"cpf,omitempty" validate:"omitempty,len=11"`
 	RG               *string              `json:"rg,omitempty" validate:"omitempty,max=20"`
-	BirthDate        string               `json:"birthDate" validate:"required"` // formato: YYYY-MM-DD
-	Gender           models.Gender        `json:"gender" validate:"required,oneof=male female other"`
+	// Cadastro rápido (recepção): birthDate e gender são opcionais para permitir
+	// cadastrar com o mínimo (nome + telefone) no meio de uma ligação e completar
+	// depois. Quando ausentes: birthDate fica vazia (idade não computada) e gender
+	// assume 'other'. O cadastro completo continua enviando ambos.
+	BirthDate        string               `json:"birthDate,omitempty"` // formato: YYYY-MM-DD
+	Gender           models.Gender        `json:"gender,omitempty" validate:"omitempty,oneof=male female other"`
 	SocialGender     *models.SocialGender `json:"socialGender,omitempty" validate:"omitempty,oneof=male female non_binary trans_male trans_female other prefer_not_to_say"`
 	Email            *string              `json:"email,omitempty" validate:"omitempty,email,max=200"`
 	Phone            *string              `json:"phone,omitempty" validate:"omitempty,min=10,max=20"`

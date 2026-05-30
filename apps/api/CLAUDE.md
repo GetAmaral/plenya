@@ -5,7 +5,7 @@ aqui geram migrations, OpenAPI e os tipos TS dos packages. Leia também as Regra
 [CLAUDE.md raiz](../../CLAUDE.md).
 
 ## Stack
-Go 1.25 · Fiber v2.52 · GORM v1.31 · PostgreSQL 17 + pgvector · Atlas (migrations) · Swag (OpenAPI).
+Go 1.25 · Fiber v2.52 · GORM v1.31 · PostgreSQL 17 + pgvector · goose (migrations) · Swag (OpenAPI).
 **Não há Go instalado localmente** — compile no container: `docker compose exec -w /app api go build ./...`.
 
 ## Estrutura (`internal/`)
@@ -22,7 +22,8 @@ scheduler/    ← cron interno
 config/ utils/ database/ templates/
 ```
 Rotas: registradas em `cmd/server/main.go` (majoritariamente inline; treino extraído em
-`registerTrainingRoutes()`). Migrations geradas em `database/migrations/` (58 .sql) — **nunca editar**.
+`registerTrainingRoutes()`). Migrations goose em `database/migrations/` (baseline + incrementais,
+escritas à mão; legados em `_legacy/`). Ver [docs/emr/migrations-decisao.md](../../docs/emr/migrations-decisao.md).
 
 ## Domínios (handlers)
 Patients · Scores (Group→Subgroup→Item→Level + snapshots + anonymous/escore-light) · Labs
@@ -44,12 +45,24 @@ Notifications · Users/auth · uploads · processing_job · certificates.
   códigos clínicos em `models/clinical_codes.go` — nunca hardcode códigos.
 - Auditoria: writes passam por `middleware.AuditLog` (imutável em prod).
 
-## Geração
+## Migrations (goose) e Geração
+
+**Schema** é gerenciado por **goose**, não por Atlas nem AutoMigrate. Mudou um model? Crie uma
+migration SQL incremental e aplique:
 ```bash
-pnpm generate        # atlas diff → swag init → openapi-typescript → openapi-zod-client
+docker compose exec -w /app api go run ./cmd/migrate status   # estado atual
+docker compose exec -w /app api go run ./cmd/migrate up        # aplica pendentes (auto no entrypoint dev)
+# nova migration: edite database/migrations/<ts>_<nome>.sql (formato goose) e rode up
 ```
-Saídas geradas (não editar): `database/migrations/*.sql`, `docs/swagger.json`,
-`packages/types/src/generated/*.ts`.
+AutoMigrate fica desligado por default (escape hatch via `MIGRATIONS_AUTO=true`). Em prod as
+migrations rodam no deploy via `prod-entrypoint.sh` (gate `RUN_MIGRATIONS=true`). Detalhes e
+racional em [docs/emr/migrations-decisao.md](../../docs/emr/migrations-decisao.md).
+
+**Geração de OpenAPI/tipos** (separado das migrations):
+```bash
+pnpm generate        # swag init → openapi-typescript → openapi-zod-client
+```
+Saídas geradas (não editar): `docs/swagger.json`, `packages/types/src/generated/*.ts`.
 
 ## Banco direto (dev)
 ```bash
