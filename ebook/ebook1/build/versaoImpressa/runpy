@@ -1,0 +1,2 @@
+#!/bin/bash
+exec /home/user/plenya/ebook/ebook1/build/.venv-figures/bin/python3 "$@"

@@ -1,0 +1,138 @@
+"""
+Cap05 Fig02 (PT-BR, B&W vetorial) — Idade Cronológica vs. Idade Arterial.
+"""
+from pathlib import Path
+import matplotlib.pyplot as plt
+from matplotlib import rcParams
+from matplotlib.patches import Rectangle, Circle, Ellipse
+
+rcParams["font.family"] = "sans-serif"
+rcParams["font.sans-serif"] = ["Inter", "Open Sans", "DejaVu Sans"]
+rcParams["axes.unicode_minus"] = False
+rcParams["pdf.fonttype"] = 42
+rcParams["ps.fonttype"] = 42
+
+BG       = "#FFFFFF"
+INK      = "#000000"
+INK_SOFT = "#3A3A3A"
+TICK     = "#555555"
+FOOT     = "#666666"
+GRAY_DOT = "#888888"
+
+fig = plt.figure(figsize=(11.0, 7.0))
+fig.patch.set_facecolor(BG)
+
+LEFT = 0.025
+
+# Título
+fig.text(LEFT, 0.945, "Figura 2 — Idade Cronológica vs. Idade Arterial",
+         fontsize=17, color=INK, weight="bold")
+fig.text(LEFT, 0.895,
+         "O escore de cálcio traduzido em anos de envelhecimento arterial.",
+         fontsize=10, color=INK_SOFT)
+
+# Sub-headers das colunas
+HEADER_Y = 0.815
+CHRONO_X = 0.32
+DELTA_X  = 0.54
+ARTERIAL_X = 0.84
+
+fig.text(CHRONO_X, HEADER_Y, "IDADE CRONOLÓGICA",
+         fontsize=10, color=INK, weight="bold", ha="center")
+fig.text(CHRONO_X, HEADER_Y - 0.025, "(idade real)",
+         fontsize=8.5, color=INK_SOFT, ha="center", style="italic")
+
+fig.text(ARTERIAL_X, HEADER_Y, "IDADE ARTERIAL",
+         fontsize=10, color=INK, weight="bold", ha="center")
+fig.text(ARTERIAL_X, HEADER_Y - 0.025, "(equivalente pelo percentil 50 da MESA)",
+         fontsize=8.5, color=INK_SOFT, ha="center", style="italic")
+
+# ---------- 2 linhas de pacientes ----------
+patients = [
+    ("MARCOS",  "CAC 412",   "57", "+23", "~80"),
+    ("RICARDO", "CAC ≈187",  "52", "+16", "~68"),
+]
+
+ROW_Y = [0.62, 0.36]
+
+for (name, cac, chrono, delta, arterial), y in zip(patients, ROW_Y):
+    # Nome do paciente
+    fig.text(0.10, y + 0.020, name,
+             fontsize=18, color=INK, weight="bold",
+             ha="center", va="center")
+    fig.text(0.10, y - 0.015, cac,
+             fontsize=9, color=INK_SOFT, ha="center", va="center")
+
+    # Idade cronológica
+    fig.text(CHRONO_X, y + 0.040, chrono,
+             fontsize=30, color=INK, weight="bold",
+             ha="center", va="center")
+    fig.text(CHRONO_X, y + 0.010, "anos",
+             fontsize=9, color=INK_SOFT, ha="center", va="center")
+
+    # Delta
+    fig.text(DELTA_X, y + 0.040, delta,
+             fontsize=30, color=INK, weight="bold",
+             ha="center", va="center")
+    fig.text(DELTA_X, y + 0.010, "anos",
+             fontsize=9, color=INK_SOFT, ha="center", va="center")
+
+    # Idade arterial
+    fig.text(ARTERIAL_X, y + 0.040, arterial,
+             fontsize=30, color=INK, weight="bold",
+             ha="center", va="center")
+    fig.text(ARTERIAL_X, y + 0.010, "anos",
+             fontsize=9, color=INK_SOFT, ha="center", va="center")
+
+    # Linha horizontal conectando os 3 pontos
+    bar_y = y - 0.040
+    BAR_LEFT  = CHRONO_X
+    BAR_RIGHT = ARTERIAL_X
+
+    # Linha principal
+    fig.lines.append(plt.Line2D(
+        [BAR_LEFT, BAR_RIGHT], [bar_y, bar_y],
+        color=INK, linewidth=2.5, transform=fig.transFigure, zorder=2
+    ))
+
+    # Dot esquerdo (chronological - cinza) — Ellipse corrigida pelo aspect ratio
+    # figsize=(11,7) → x:y = 11:7 → para círculo visual, height precisa ser maior
+    r = 0.012
+    aspect = 11.0 / 7.0
+    fig.patches.append(Ellipse(
+        (BAR_LEFT, bar_y), width=r*2, height=r*2*aspect,
+        facecolor=GRAY_DOT, edgecolor=INK, linewidth=1.0,
+        transform=fig.transFigure, zorder=4
+    ))
+    fig.patches.append(Ellipse(
+        (BAR_RIGHT, bar_y), width=r*2, height=r*2*aspect,
+        facecolor=INK, edgecolor=INK, linewidth=1.0,
+        transform=fig.transFigure, zorder=4
+    ))
+
+# ---------- linha separadora ----------
+SEP_Y = 0.16
+fig.lines.append(plt.Line2D(
+    [LEFT, 1 - LEFT], [SEP_Y, SEP_Y],
+    color="#CFCFCF", linewidth=0.5, transform=fig.transFigure
+))
+
+# Footer
+fig.text(0.5, 0.105,
+         "♥  Suas artérias parecem ter anos a mais que você.",
+         fontsize=13, color=INK, weight="bold", style="italic",
+         ha="center")
+
+out_dir = Path(__file__).resolve().parents[1] / "figuras-bw"
+out_dir.mkdir(parents=True, exist_ok=True)
+pdf_path = out_dir / "Cap05_Fig02.pdf"
+png_path = out_dir / "_preview_Cap05_Fig02.png"
+# Tight crop sem padding lateral/topo; 0.08" no inferior pra não colar na legenda.
+from matplotlib.transforms import Bbox as _Bbox
+fig.canvas.draw()
+_tb = fig.get_tightbbox(fig.canvas.get_renderer())  # já em inches
+_bbox_in = _Bbox.from_extents(_tb.x0, _tb.y0 - 0.08, _tb.x1, _tb.y1)
+plt.savefig(pdf_path, facecolor=BG, bbox_inches=_bbox_in)
+plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches=_bbox_in)
+print(f"saved → {pdf_path}")
+print(f"preview → {png_path}")

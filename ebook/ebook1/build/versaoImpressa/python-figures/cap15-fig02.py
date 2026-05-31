@@ -1,0 +1,164 @@
+"""
+Cap15 Fig02 (PT-BR, B&W vetorial) — Rastreamento por década.
+3 colunas (40s | 50s | 60s+) com 6 seções estruturadas por coluna.
+"""
+from pathlib import Path
+import matplotlib.pyplot as plt
+from matplotlib import rcParams
+from matplotlib.patches import Rectangle, FancyBboxPatch
+
+rcParams["font.family"] = "sans-serif"
+rcParams["font.sans-serif"] = ["Inter", "Open Sans", "DejaVu Sans"]
+rcParams["axes.unicode_minus"] = False
+rcParams["pdf.fonttype"] = 42
+rcParams["ps.fonttype"] = 42
+
+BG       = "#FFFFFF"
+INK      = "#000000"
+INK_SOFT = "#3A3A3A"
+TICK     = "#555555"
+FOOT     = "#666666"
+HEAD_BG  = "#3A3A3A"
+COL_1    = "#F4F4F4"
+COL_2    = "#E8E8E8"
+COL_3    = "#DCDCDC"
+BAND     = "#EDEDED"
+
+fig = plt.figure(figsize=(11.0, 12.5))
+fig.patch.set_facecolor(BG)
+
+LEFT = 0.025
+
+fig.text(LEFT, 0.970,
+         "Figura 2 — Rastreamento por década — exames e avaliações que se acumulam a cada janela etária.",
+         fontsize=13, color=INK, weight="bold")
+fig.text(LEFT, 0.952,
+         "Cada década acrescenta exames e avaliações à lista anterior, sem subotimizá-los.",
+         fontsize=9, color=INK_SOFT, style="italic")
+
+# 3 colunas
+COL_X = [0.030, 0.345, 0.660]
+COL_W = 0.305
+
+# Header colorido das colunas
+HEAD_Y_TOP = 0.920
+HEAD_Y_BOT = 0.880
+col_heads = [
+    ("REVERSIBILIDADE", "40 a 49 anos"),
+    ("INTERVENÇÃO",     "50 a 59 anos"),
+    ("PRESERVAÇÃO",     "60 anos em diante"),
+]
+for i, (head, sub) in enumerate(col_heads):
+    x = COL_X[i]
+    fig.patches.append(Rectangle(
+        (x, HEAD_Y_BOT), COL_W, HEAD_Y_TOP - HEAD_Y_BOT,
+        facecolor=HEAD_BG, edgecolor="none",
+        transform=fig.transFigure, zorder=2
+    ))
+    fig.text(x + COL_W/2, HEAD_Y_TOP - 0.012, head,
+             fontsize=11, color="white", weight="bold", ha="center", va="center")
+    fig.text(x + COL_W/2, HEAD_Y_BOT + 0.010, sub,
+             fontsize=10, color="white", weight="bold", ha="center", va="center")
+
+# Background colunas
+col_bg = [COL_1, COL_2, COL_3]
+BODY_TOP = 0.875
+BODY_BOT = 0.090
+for i in range(3):
+    fig.patches.append(Rectangle(
+        (COL_X[i], BODY_BOT), COL_W, BODY_TOP - BODY_BOT,
+        facecolor=col_bg[i], edgecolor="none",
+        transform=fig.transFigure, zorder=0
+    ))
+
+# Conteúdo em texto único por coluna, com seções marcadas
+content = [
+    # Coluna 1: 40-49
+    [
+        ("FOCO DA DÉCADA",
+         "Detecção precoce. Identificar fatores de risco antes do dano."),
+        ("O QUE ENTRA NESTA DÉCADA",
+         "• Painel ampliado anual (ApoB, PCR-us, HbA1c,\n  insulina jejum, homocisteína, NT-proBNP,\n  ácido úrico, ferritina, TFGe, microalbuminúria)\n• CAC\n• MTHFR, APOE\n• Composição corporal (bioimpedância,\n  DEXA bianual)\n• Tireoide completo (TSH, T4 livre, anti-TPO)\n• Colonoscopia a partir dos 45 anos\n• Mamografia a partir de 45 anos (M)\n• PSA basal a partir de 45 anos (H)"),
+        ("DIFERENCIAIS DO FOCO",
+         "Maior impacto das intervenções: cada\nmudança de hábito ainda reverte trajetória."),
+        ("O QUE SE ACUMULA",
+         "(início da lista)"),
+        ("PACIENTE-ÂNCORA",
+         "Fernanda, 41 anos: rastreio detectou\nalterações sutis 5 anos antes do que o\ncheck-up básico veria."),
+    ],
+    # Coluna 2: 50-59
+    [
+        ("FOCO DA DÉCADA",
+         "Ação máxima. Intervir intensamente para reduzir risco e impacto."),
+        ("O QUE ENTRA NESTA DÉCADA",
+         "• CAC novamente (se primeira década\n  não fez)\n• TC tórax baixa dose (DR 80kg, ex-\n  tabagistas, fumantes ou exposição prévia)\n• Endoscopia digestiva alta\n• Painel hormonal masculino (H):\n  testosterona, DHEA-S, SHBG\n• Avaliação cognitiva basal\n• Audiometria\n• Avaliação ginecológica (M): USG\n  transvaginal (peri-menopausa)\n• Avaliação inicial óssea — DEXA"),
+        ("DIFERENCIAIS DO FOCO",
+         "Maior impacto das estatinas, CPAP,\ntreino de força. Janela curta\npara reverter."),
+        ("O QUE SE ACUMULA",
+         "Tudo do anterior continua."),
+        ("PACIENTE-ÂNCORA",
+         "Marcos, 57 anos: CAC 412 foi seu\nmarcador estrutural de mudança\nde era da vida."),
+    ],
+    # Coluna 3: 60+
+    [
+        ("FOCO DA DÉCADA",
+         "Preservação funcional. Manter capacidade, autonomia e qualidade de vida."),
+        ("O QUE ENTRA NESTA DÉCADA",
+         "• Avaliação funcional (handgrip, SPPB,\n  marcha cronometrada)\n• Composição corporal (DEXA)\n• Avaliação cognitiva periódica\n  (MoCA, p-tau217 quando indicado)\n• Avaliação geriátrica funcional\n• Revisão de medicações com\n  desprescrição planejada\n• Avaliação de risco de quedas\n• Vacinas atualizadas (zóster,\n  pneumocócica, COVID, gripe)"),
+        ("DIFERENCIAIS DO FOCO",
+         "Preservar independência, mobilidade,\nfunção. Prevenir fragilidade."),
+        ("O QUE SE ACUMULA",
+         "Tudo dos blocos anteriores."),
+        ("PACIENTE-ÂNCORA",
+         "A década que mostra se o programa\nfuncionou."),
+    ],
+]
+
+# Renderizar cada coluna com seções empilhadas
+SECTION_START_Y = BODY_TOP - 0.020
+SECTION_GAP = 0.012
+
+for col_idx, col_content in enumerate(content):
+    x = COL_X[col_idx] + 0.012
+    y_current = SECTION_START_Y
+
+    for section_idx, (section_title, section_text) in enumerate(col_content):
+        # Header da seção
+        fig.text(x, y_current, section_title,
+                 fontsize=7.5, color=INK, weight="bold",
+                 va="top")
+        y_current -= 0.018
+
+        # Texto da seção
+        # Conta linhas pra calcular altura
+        n_lines = section_text.count("\n") + 1
+        fig.text(x, y_current, section_text,
+                 fontsize=7.5, color=INK, va="top",
+                 linespacing=1.3)
+        y_current -= n_lines * 0.012 + SECTION_GAP
+
+        # Linha separadora entre seções
+        if section_idx < len(col_content) - 1:
+            fig.lines.append(plt.Line2D(
+                [COL_X[col_idx] + 0.008, COL_X[col_idx] + COL_W - 0.008],
+                [y_current + 0.005, y_current + 0.005],
+                color="#BBBBBB", linewidth=0.4,
+                transform=fig.transFigure, zorder=2
+            ))
+
+# Footer
+fig.text(LEFT, 0.060,
+         "M = mulheres; H = homens; CAC = cálcio coronariano; ASMI = índice de massa muscular apendicular.",
+         fontsize=7, color=FOOT, style="italic")
+fig.text(LEFT, 0.040,
+         "A lógica: cada década adiciona exames à lista anterior — ela se aprofunda, não diminui.",
+         fontsize=8, color=INK, weight="bold", style="italic")
+
+out_dir = Path(__file__).resolve().parents[1] / "figuras-bw"
+out_dir.mkdir(parents=True, exist_ok=True)
+pdf_path = out_dir / "Cap15_Fig02.pdf"
+png_path = out_dir / "_preview_Cap15_Fig02.png"
+plt.savefig(pdf_path, facecolor=BG, bbox_inches="tight", pad_inches=0.15)
+plt.savefig(png_path, dpi=160, facecolor=BG, bbox_inches="tight", pad_inches=0.15)
+print(f"saved → {pdf_path}")
+print(f"preview → {png_path}")
