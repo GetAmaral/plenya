@@ -1,0 +1,110 @@
+# responded-log.yaml — Log de itens JÁ RESPONDIDOS em @drgetulioamaralfilho
+#
+# Propósito: evitar re-flag de itens já tratados, principalmente quando a resposta
+# foi dada PESSOALMENTE pelo Dr (no app), que nem sempre é óbvio na varredura.
+# A skill /responder-insta deve LER este arquivo na Fase B (junto com contacts.yaml)
+# e ATUALIZAR na Fase E.1 com tudo que foi respondido na sessão.
+#
+# Pessoas próximas / catálogo de contatos: ver contacts.yaml (mesmo diretório).
+#
+# Convenção de "by":
+#   dr_app      = Dr respondeu manualmente no app do celular/web
+#   dr_api      = resposta postada via skill/Composio (drgetulioamaralfilho)
+#   page        = respondido pela Página FB "Clínica médica Dr Getulio" (id 1046561478538408)
+
+last_updated: '2026-05-26'
+
+# ── DMs ─────────────────────────────────────────────────────────────────────
+dms:
+  '@renalmentevivos':   # Taynara Fratoni — sócia/nefrologista
+    last_answered: '2026-05-23'
+    by: dr_app
+    re: "Sugestão do primo Alessandro (ex-prefeito de Leópolis) como paciente piloto. Dr respondeu pessoalmente."
+  '@dr_danilo_cunha':   # Danilo — cunhado/sócio
+    last_answered: '2026-05-23'
+    by: dr_app
+    re: "Sugestão de post sobre visão do Papa ('IA para auxiliar, jamais substituir'). Dr respondeu pessoalmente."
+  '@hoamdigital':       # agência HOAM Digital
+    last_answered: '2026-05-23'
+    by: dr_app
+    re: "Mandou link de Google Doc (briefing/conteúdo). Dr tratou pessoalmente."
+  '@gaulsamuyenga':
+    last_answered: '2026-05-19'
+    by: na
+    re: "Mensagem vazia (share de reel). Sem texto — não requer resposta."
+  '@nitomazella':
+    last_answered: '2026-05-18'
+    by: na
+    re: "Mensagem vazia (share). Sem texto."
+  '@malugarib':
+    last_answered: '2026-05-23'
+    by: na
+    re: "Mensagens vazias recorrentes (shares de reel). Sem texto — não requer resposta."
+  '@cavalheiromari':
+    last_answered: '2026-05-26'
+    by: dr_app
+    re: "Pergunta clínica: histórico de trombose venosa profunda (2022), pode usar GLP-1 pra emagrecer? Não é contraindicação; obesidade é fator de risco p/ nova trombose, emagrecer reduz; investigar causa da TVP + anticoagulação + hidratar no início. Dr postou manual."
+  '@tatiamaral.financas':
+    last_answered: '2026-05-25'
+    by: na
+    re: "Mensagem vazia (share). Sem texto. Provável família (amaral)."
+  '@douwe.dejong.7':
+    last_answered: '2026-05-24'
+    by: ignorar
+    re: "GOLPE/phishing: 'aviso sobre conta de publicidade, escaneie QR code'. NÃO interagir, não clicar. Marcar como spam/denunciar no app."
+
+# Conversas inacessíveis via API (subcode 33) — checar manualmente no app:
+conversas_inacessiveis:
+  - id: aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUyNTAzNjY5NzI4MDgzMzc2
+    visto_em: '2026-05-26'
+    updated_time: '2026-05-25T21:41'
+    nota: "API retorna 'object does not exist / missing permissions'. Padrão de ID difere das demais (provável PEDIDO DE MENSAGEM de não-seguidor). Checar aba 'Solicitações' no app. Ver memória responder_insta_message_requests_first."
+
+# ── Baseline de comentários (varredura completa 2026-05-23) ──────────────────
+# Nesta data foram varridos os 35 posts orgânicos + os 3 ads ativos (GLP-1 ep1/ep2/ep7),
+# lados IG e FB. RESULTADO: praticamente tudo já respondido pelo Dr até 20/05.
+# Registro só o que ficou PENDENTE nesta data (o resto = respondido, não re-flaggar
+# comentários com timestamp <= a data abaixo a menos que tenham reply nova do usuário).
+comments_baseline_swept_through: '2026-05-22'
+
+# Itens que ficaram ABERTOS em 2026-05-23 (decisão do Dr sobre responder ou não):
+open_as_of_2026-05-23:
+  organic: []   # C1 resolvido em 23/05 (ver answered abaixo)
+
+answered_this_session:
+  - post: Magnésio (id 17970084240062620)
+    comment_id: 17924959080122185
+    who: '@marciojosecoutinhofreitas'
+    when: '2026-05-23'
+    by: dr_api
+    reply_id: '18163764169436861'
+    re: "Magnésio em hemodiálise: lógica invertida (risco de acúmulo), controlado pelo banho de diálise; causas de hipoMg (IBP, perdas GI, ingestão pobre, DM, dialisato baixo); decidir com o médico, cautela."
+  - ad: GLP-1 ep1 (ig_media 17997938657731054)
+    comment_id: 18585713854035686
+    who: '@eluz_90'
+    when: '2026-05-23'
+    by: dr_api
+    reply_id: '18263922994294705'
+    re: "MASH + Wegovy prescrito pela hepatologista. Acolhimento: semaglutida ajuda na MASH; reforço de proteína/treino/dieta; seguir com a médica dela."
+  - ad: GLP-1 ep1 (ig_media 17997938657731054)
+    comment_id: 17915406501182636
+    who: '@vettoratoadriana'
+    when: '2026-05-23'
+    by: dr_api
+    reply_id: '17894419980466236'
+    re: "Opinião sobre acesso/custo. Validação + cenário melhorando (patentes/genéricos/orais) + estilo de vida como pilar acessível. Sem marca/preço."
+  ads_ig_side: []   # A1 (@eluz_90) e A2 (@vettoratoadriana) resolvidos em 23/05 (ver answered_this_session)
+  ads_fb_side:
+    - ad: GLP-1 ep2 (story 1046561478538408_1646264863054912)
+      comment_id: 1646264863054912_2249996829139311
+      who: anônimo/crítico
+      text: "O monjaro está enriquecendo as indústrias e médicos. Enquanto que os iludidos empobrecem…"
+      type: crítico
+      status: STAND-BY / monitorar
+      decidido: '2026-05-23'
+      nota: "Decisão do Dr (23/05): NÃO responder por ora, deixar em stand-by e monitorar. Não re-flaggar como pendente — está em espera consciente. Reavaliar só se gerar engajamento/desdobramento (mesma lógica da política Noraci em contacts.yaml)."
+
+# Notas operacionais que esta sessão consolidou:
+notas:
+  - "Lado IG dos ads NÃO oculta autor: buscar via conexão IG Business (INSTAGRAM_GET_IG_MEDIA_COMMENTS no effective_instagram_media_id) popula from{username} + replies. O curl com Marketing API é que mascara. Ver memória responder_insta_ads_dark_fb."
+  - "Em 23/05 a API Composio estava instável (muitos 'Streamable HTTP error') — reenviar chamadas que falham."

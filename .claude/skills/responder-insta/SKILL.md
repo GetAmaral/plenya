@@ -157,11 +157,17 @@ Pra cada superfície não-coberta, é decisão consciente baseada em valor/custo
 
 ## Fase B — Filtragem e classificação
 
-**Antes de filtrar, carregue o catálogo de contatos:**
+**Antes de filtrar, carregue o catálogo de contatos E o log de já-respondidos:**
 
 ```bash
 cat /home/user/plenya/.claude/skills/responder-insta/contacts.yaml
+cat /home/user/plenya/.claude/skills/responder-insta/responded-log.yaml
 ```
+
+O `responded-log.yaml` registra itens **já tratados** — em especial DMs que o Dr respondeu
+**pessoalmente no app** (que podem reaparecer como "pendentes" se a API não capturou a resposta).
+Cruze cada item pendente com esse log: se já consta como respondido (e não há mensagem nova do
+usuário depois), **pule sem perguntar**. Atualize o log na Fase E.1.
 
 Esse arquivo (YAML) contém ~30+ contatos categorizados com:
 - `rel` — tipo de relação (esposa, irmã, primo, sogra, paciente, etc.)
@@ -306,9 +312,16 @@ Após postar com sucesso, guardar em memória de sessão:
 
 ## Fase E — Resumo final + atualizar catálogo + likes manuais
 
-### E.1 — Atualizar contacts.yaml
+### E.1 — Atualizar contacts.yaml + responded-log.yaml
 
-**Sempre** atualizar `contacts.yaml` no fim da sessão. Para cada contato respondido nesta sessão:
+**Sempre** atualizar os DOIS arquivos no fim da sessão.
+
+No `responded-log.yaml`: registrar tudo que foi respondido nesta sessão (DM, comentário, ad),
+com `by` (`dr_app` / `dr_api` / `page`), data e `re` curto. Se o Dr disse "essa eu já respondi
+pessoalmente", grave como `by: dr_app` — é exatamente o caso que o log existe pra cobrir. Atualizar
+`last_updated` e `comments_baseline_swept_through`.
+
+No `contacts.yaml`. Para cada contato respondido nesta sessão:
 
 - **Já existe no catálogo?** → atualizar o campo `last` com a data + breve contexto
   ```

@@ -19,7 +19,7 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-05-18'  # 10ª iteração — message-requests-first rule estabelecida; +geancarloo (treino); pedro.hoam/angelique/antonio.junior/nitomazella atualizados
+last_updated: '2026-05-20'  # 11ª iteração — +renalmentevivos (Dra Taynara, sócia), +monicacoletti (autoimune), +emanuelle_zocoler/oliveiranan06 (seguidores)
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
 # Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
@@ -545,8 +545,8 @@ contacts:
     side: lado Amaral (do Dr)
     tone: familiar-afetuoso
     notes: |
-      Prima do Dr (lado Amaral).
-    last: "2026-05-11 - reply Dia das Mães"
+      Prima do Dr (lado Amaral). Engaja com frequência (emoji-only).
+    last: "2026-05-20 - reply Reel 6K (☺️❤️)"
 
   '@willyan_osti':
     rel: primo
@@ -657,9 +657,29 @@ contacts:
     tone: clínico-respeitoso
     notes: |
       Seguidora com pergunta clínica. Alta míope, retina fina periférica,
-      já fez laser preventivo. Cogitando GLP-1. Tom direto, técnico-leigo,
-      sem bajulação. Tratamento "Roberta" pelo nome.
-    last: "2026-05-12 - reply em Reel Jejum Intermitente (pergunta clínica retina + GLP-1)"
+      já fez laser preventivo. Apneia grave + sobrepeso, cogitando GLP-1. Tom direto,
+      técnico-leigo, sem bajulação. Tratamento "Roberta" pelo nome.
+      Converteu: marcou consultas após orientação (13/05).
+    last: "2026-05-20 - reply fechamento ep3 ('Que bom que já marcou')"
+
+  '@monicacoletti':
+    rel: seguidora
+    name: Mônica (Coletti)
+    tone: clínico-respeitoso
+    notes: |
+      Seguidora com pergunta clínica técnica (GLP-1 e inflamação em pacientes
+      autoimunes). Perfil de quem tem interesse aprofundado, possível paciente
+      ou profissional. Respondida com nuance (efeito anti-inflamatório real mas
+      complementar, não substitui imunossupressor).
+    last: "2026-05-20 - reply Reel GLP-1 ep3 (anti-inflamatório + autoimunes)"
+
+  '@emanuelle_zocoler':
+    rel: seguidora
+    last: "2026-05-20 - reply Dia das Mães (☺️❤️)"
+
+  '@oliveiranan06':
+    rel: seguidora
+    last: "2026-05-20 - reply Dia das Mães (☺️❤️)"
 
   '@abetelima':
     rel: seguidora
@@ -790,6 +810,19 @@ contacts:
       MANUAL-ONLY FOREVER: janela Composio queimada (subcode 2534022 confirmado
       18/05). Ver [[responder_insta_message_requests_first]].
     last: "2026-05-18 - DM enviada manual (tirzepatida + checklist pré-início + amamentação)"
+
+  '@renalmentevivos':
+    rel: sócia Plenya + colega nefrologista
+    name: Taynara (Dra Taynara Fratoni)
+    title: "Dra (nefrologista)"
+    call_dr: "Get"
+    tone: igual-pra-igual (colega de especialidade + sócia)
+    notes: |
+      Médica nefrologista, sócia da Plenya. Usa "Get". Manda DMs com sugestões
+      de pacientes piloto pro programa Plenya e ideias de pauta.
+      Tom igual-pra-igual entre sócios/colegas. Decisões sobre pacientes piloto
+      são do Dr — não responder clinicamente em nome dele sem alinhar.
+    last: "2026-05-20 - DM sugerindo Alessandro (primo dela, ex-prefeito Leópolis) como paciente piloto"
 
   '@geancarloo':
     rel: seguidor com perfil treino
