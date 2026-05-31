@@ -191,7 +191,7 @@ posts:
 - slug: healthspan-vs-lifespan-comprimir-a-morbidade
   block: 1
   order: 5
-  status: approved
+  status: published
   scheduled_at: '2026-05-20 07:41:00-03:00'
   commentary: 'O João tem 78 anos. Diabetes desde os 64, infarto aos 68, fibrilação atrial aos 72, prótese de quadril aos
     74, fratura de fêmur aos 76. Onze comprimidos por dia. Caminha com bengala desde os 71.
@@ -233,10 +233,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/healthspan-vs-lifespan-comprimir-a-morbidade/figura-1.webp
   image_title: 'Healthspan versus lifespan: comprimir a morbidade'
+  published_at: '2026-05-20T07:45:01-03:00'
+  post_urn: urn:li:share:7462815648033779713
 - slug: quando-tudo-normal-nao-basta
   block: 1
   order: 6
-  status: approved
+  status: published
   scheduled_at: '2026-05-21 13:09:00-03:00'
   commentary: '"Doutor, eu fiz check-up há quatro meses, está tudo normal, mas eu sinto que não está."
 
@@ -280,10 +282,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/quando-tudo-normal-nao-basta/figura-1.webp
   image_title: Quando 'tudo normal' não basta
+  published_at: '2026-05-21T13:15:00-03:00'
+  post_urn: urn:li:share:7463261090005831680
 - slug: cardio-reno-metabolico
   block: 1
   order: 7
-  status: approved
+  status: published
   scheduled_at: '2026-05-26 09:03:00-03:00'
   commentary: 'Quem treina em nefrologia aprende cedo uma coisa: o rim costuma sinalizar primeiro.
 
@@ -327,10 +331,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/cardio-reno-metabolico/figura-1.webp
   image_title: 'Por que o nefrologista vê antes: o eixo cardio-reno-metabólico'
+  published_at: '2026-05-26T09:15:00-03:00'
+  post_urn: urn:li:share:7465012620811685889
 - slug: quatro-assassinos-silenciosos-depois-dos-40
   block: 1
   order: 8
-  status: approved
+  status: published
   scheduled_at: '2026-05-27 07:38:00-03:00'
   commentary: 'Recebo de tempos em tempos um perfil que se repete: executivo de 50 e poucos anos, check-up todo ano há uma
     década, exames sempre dentro da referência. Uma manhã, indo trabalhar, sente o aperto no peito. Cateterismo de urgência.
@@ -377,11 +383,13 @@ posts:
     '
   image_path: apps/site/public/images/blog/quatro-assassinos-silenciosos-depois-dos-40/figura-1.webp
   image_title: Os quatro assassinos silenciosos depois dos 40
+  published_at: '2026-05-27T07:45:01-03:00'
+  post_urn: urn:li:share:7465352367568244736
 - slug: metodo-agir-introducao
   block: 1
   order: 9
-  status: approved
-  scheduled_at: '2026-05-28 09:24:00-03:00'
+  status: published
+  scheduled_at: '2026-05-29 12:19:05-03:00'
   commentary: 'Atendo gente que veio de seis especialistas em três anos. Sai do cardiologista com uma receita, do endocrinologista
     com outra, do nutricionista com terceiro plano. Cada um excelente no que faz. Mas o conjunto desabou na própria pessoa.
     E ela me procura porque cansou de ser a costureira do próprio cuidado.
@@ -426,6 +434,8 @@ posts:
     '
   image_path: apps/site/public/images/blog/metodo-agir-introducao/figura-1.webp
   image_title: 'Método AGIR: uma introdução ao cuidado integrado'
+  published_at: '2026-05-29T12:21:22-03:00'
+  post_urn: urn:li:share:7466146686609031168
 - slug: escore-de-calcio-coronariano-o-exame-que-muda-uma-decada
   block: 2
   order: 10

@@ -32,7 +32,8 @@ QUEUE_PATH = BASE / "queue.yaml"
 ENV_PATH = BASE / ".env"
 LOG_PATH = BASE / "publisher.log"
 LINKEDIN_VERSION = "202604"
-FIRE_WINDOW = timedelta(minutes=60)  # cron miss tolerance
+ONTIME_WINDOW = timedelta(minutes=60)   # considered "on time"
+CATCHUP_WINDOW = timedelta(hours=12)    # catch-up: recover posts missed by cron gaps (machine off)
 TOKEN_WARN_DAYS = 7
 
 logging.basicConfig(
@@ -171,7 +172,10 @@ def parse_iso(s) -> datetime:
 
 
 def in_fire_window(scheduled_at: datetime, now: datetime) -> bool:
-    return scheduled_at <= now <= scheduled_at + FIRE_WINDOW
+    # Catch-up: fire any post whose scheduled time has passed, up to CATCHUP_WINDOW later.
+    # Tolerates cron gaps (machine off/asleep) within the same workday without firing
+    # a morning post in the middle of the night.
+    return scheduled_at <= now <= scheduled_at + CATCHUP_WINDOW
 
 
 def main() -> int:
@@ -208,7 +212,12 @@ def main() -> int:
             continue
 
         slug = entry["slug"]
-        log.info("publishing %s (scheduled %s)", slug, sched_raw)
+        late = now > sched + ONTIME_WINDOW
+        if late:
+            mins = int((now - sched).total_seconds() // 60)
+            log.warning("CATCH-UP publishing %s (scheduled %s, %d min late — cron gap?)", slug, sched_raw, mins)
+        else:
+            log.info("publishing %s (scheduled %s)", slug, sched_raw)
         ok, post_urn, err = publish_post(entry, author, token)
         if ok:
             entry["status"] = "published"
