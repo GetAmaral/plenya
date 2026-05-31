@@ -168,8 +168,15 @@ func main() {
 			allowedOrigins[strings.ToLower(o)] = true
 		}
 	}
+	// CORS_ORIGIN (singular) também aceita CSV — splita por vírgula em vez de
+	// tratar a string inteira como uma origin (corrige allowlist em dev).
 	if cfg.Server.CORSOrigin != "" {
-		allowedOrigins[strings.ToLower(cfg.Server.CORSOrigin)] = true
+		for _, o := range strings.Split(cfg.Server.CORSOrigin, ",") {
+			o = strings.TrimSpace(o)
+			if o != "" {
+				allowedOrigins[strings.ToLower(o)] = true
+			}
+		}
 	}
 	log.Printf("🌐 CORS allowed origins: %v", keysOf(allowedOrigins))
 	app.Use(cors.New(cors.Config{
