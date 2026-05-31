@@ -109,4 +109,15 @@ pela API. No dev (compose próprio) o fix foi montar o volume no parent `/var/li
 ainda não deployadas — secretaria/payments/waitlist). Isso é o cutover de schema/goose + deploy de
 código, não o PG18.
 
-**⏳ Restante:** Tailwind v4 (janela dedicada); Fiber v3 (adiado). Nada commitado.
+**✅ DEPLOY CONSOLIDADO + PARIDADE DE SCHEMA (2026-05-30):** commit `a2c0b8f6` (126 arquivos do EMR,
+excluindo lixo não-relacionado) → push → Coolify rebuildou api + web. Prod no código novo (goose infra
+gated, secretaria backend, deps, gofpdf). AutoMigrate criou as 4 tabelas da secretaria (77→81). Depois
+reconciliei o drift pré-existente: prod estava sem ~10 tabelas reais (patient_score_*, enrichment,
+api_usage, auto_link_*, etc.) que vinham de .sql legados fora do AutoMigrate — extraí o schema do dev e
+criei no prod (81→91, vazias). Corrigida a `.gitignore` que ignorava as migrations goose (quebraria o
+build). **Paridade real atingida:** prod=91 tabelas; diff vs dev só nos 2 backups-fantasma + goose_db_version.
+Dados de prod 100% preservados (38.277 embeddings etc.). api/web no ar, PG 18.4.
+
+**⏳ Restante:** (a) **cutover goose no prod** (opcional; prod segue em AutoMigrate, funcional — adotar
+goose = stamp baseline + RUN_MIGRATIONS=true + MIGRATIONS_AUTO=false); (b) **Tailwind v4** (janela
+dedicada); (c) Fiber v3 (adiado); (d) smoke visual do /recepcao pelo usuário.
