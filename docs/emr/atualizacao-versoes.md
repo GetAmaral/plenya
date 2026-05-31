@@ -78,8 +78,10 @@ Web (`pnpm -F web build` → **EXIT 0**, verificado):
 
 Nota de ambiente: `node_modules`/`.next` de vários workspaces estavam **root-owned** (criados por containers que rodam como root), bloqueando `pnpm`/build; corrigido com `chown -R 1000:1000` via container root.
 
-**⏳ NÃO aplicado (decisão consciente):**
-- "C/ CUIDADO" (zod 4.4.3, pgvector-go 0.4.0, @types/react 19.2.x, lucide 1.17.0 major, pdfjs, tremor, @types/node): exigem teste isolado; aplicar um a um.
-- Majors segurados: **Fiber v3** (442 `*fiber.Ctx`), **Tailwind v4** (toca @plenya/brand + ~260 componentes), **gofpdf órfão** — migrações dedicadas.
+**✅ Rodada 2 — Tier 1+2 APLICADOS e deployados (2026-05-31):**
+- Tier 1 (baixo risco): @types/react 19.2.15, @types/react-dom 19.2.3, @tremor/react 3.18.7, framer-motion 12.40.0.
+- Tier 2 (c/ cuidado, um a um, build verde cada): zod 4.4.3, pgvector-go 0.4.0 (runtime RAG verificado), @types/node 24.12.4 (alinha ao Node 24 de runtime), lucide-react 1.17.0 (major; 194 arquivos sem ícone quebrado).
+- **2 fixes de runtime** (pegos por QA Playwright, invisíveis ao build): react-query **deduplicado** (estava split 5.99/5.100 → "No QueryClient set" no dev) e **CORS** (`CORS_ORIGIN` singular CSV → splita por vírgula). Ver memória `emr_qa_visual_playwright`.
+- Secretaria `/hoje` resolvido (página única `/recepcao`, Fase 2 concluída e deployada).
 
-**⚠️ Não-bloqueador (pré-existente, não-regressão):** o build do web só fica verde com o `/hoje` órfão da secretaria removido (importa exports inexistentes de calendar-api.ts). Esse é o débito da tarefa da secretaria (pausada), não das atualizações. Verifiquei movendo `/hoje` temporariamente; restaurado depois.
+**⏳ Ainda segurado:** **Tailwind v4** (janela dedicada, QA visual Playwright pré/pós), **Fiber v3** (adiado), **eslint 10** (compat eslint-config-next), **pdfjs 6** (preso ao react-pdf 10), **swag v2** (RC). Sem pressão de segurança.
