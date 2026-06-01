@@ -342,6 +342,43 @@ export function useUpdateAppointment(id: string) {
   });
 }
 
+/**
+ * Reagendamento otimista — usado pelo drag-and-drop do calendário.
+ *
+ * Diferente de useUpdateAppointment(id), que fixa o id na criação do hook,
+ * este recebe {id, scheduledAt} por chamada — necessário no grid, onde a
+ * consulta arrastada só é conhecida no drop. Aplica update otimista em TODAS
+ * as listas de appointments em cache (o bloco "salta" na hora) e faz rollback
+ * se o backend recusar (ex.: 409 de conflito de horário do médico).
+ */
+export function useRescheduleAppointment() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, scheduledAt }: { id: string; scheduledAt: string }) =>
+      apiClient.put<Appointment>(`/api/v1/appointments/${id}`, { scheduledAt }),
+    onMutate: async ({ id, scheduledAt }) => {
+      const listKey = [...calendarKeys.all, 'appointments'];
+      // Cancela refetches em voo (polling 15s) pra não sobrescrever o otimista.
+      await qc.cancelQueries({ queryKey: listKey });
+      const previous = qc.getQueriesData<Appointment[]>({ queryKey: listKey });
+      qc.setQueriesData<Appointment[]>({ queryKey: listKey }, (old) =>
+        old ? old.map((a) => (a.id === id ? { ...a, scheduledAt } : a)) : old,
+      );
+      return { previous };
+    },
+    onError: (_err, _vars, context) => {
+      // Rollback: restaura todas as listas tocadas pro estado pré-otimista.
+      context?.previous?.forEach(([key, data]) => {
+        qc.setQueryData(key, data);
+      });
+    },
+    onSettled: () => {
+      // Reconcilia com a verdade do servidor (sucesso ou erro).
+      qc.invalidateQueries({ queryKey: calendarKeys.all });
+    },
+  });
+}
+
 export function useCancelAppointment(id: string) {
   const qc = useQueryClient();
   return useMutation({

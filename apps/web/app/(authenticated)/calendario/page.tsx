@@ -85,6 +85,12 @@ export default function CalendarioPage() {
     isGranted(user, 'secretary') ||
     isProfessional;
 
+  // Reagendar (drag): admin/secretária/gerente mexem em qualquer agenda; os
+  // demais (inclusive médicos) só na própria — espelha a auth do backend e
+  // evita o "pulo + rollback + 403" ao arrastar consulta de colega.
+  const canManageOthersAgenda =
+    isGranted(user, 'admin') || isGranted(user, 'manager') || isGranted(user, 'secretary');
+
   const { data: doctors } = useDoctors();
 
   const [view, setView] = useState<ViewMode>('week');
@@ -222,6 +228,8 @@ export default function CalendarioPage() {
           onSelectAppointment={(a) => setDrawerAppt(a)}
           colorByDoctor={selectedDoctorIds.length > 1}
           onSlotClick={(ymd) => router.push(`/appointments/new?date=${ymd}`)}
+          enableDragDrop
+          canDragAppointment={(a) => canManageOthersAgenda || a.doctorId === user?.id}
         />
       )}
 
