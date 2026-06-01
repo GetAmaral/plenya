@@ -84,4 +84,6 @@ Nota de ambiente: `node_modules`/`.next` de vários workspaces estavam **root-ow
 - **2 fixes de runtime** (pegos por QA Playwright, invisíveis ao build): react-query **deduplicado** (estava split 5.99/5.100 → "No QueryClient set" no dev) e **CORS** (`CORS_ORIGIN` singular CSV → splita por vírgula). Ver memória `emr_qa_visual_playwright`.
 - Secretaria `/hoje` resolvido (página única `/recepcao`, Fase 2 concluída e deployada).
 
-**⏳ Ainda segurado:** **Tailwind v4** (janela dedicada, QA visual Playwright pré/pós), **Fiber v3** (adiado), **eslint 10** (compat eslint-config-next), **pdfjs 6** (preso ao react-pdf 10), **swag v2** (RC). Sem pressão de segurança.
+**✅ Tailwind v3.4 → v4.3 CONCLUÍDO (2026-05-31):** os 3 apps web (site-getulio CSS-first; site + web via `@config` preservando o preset `@plenya/brand`) + `tw-animate-css` no lugar do `tailwindcss-animate` + `@utility container` no web. QA visual Playwright pré/pós fiel. Commits `7381e7a3`/`b9b456ec`/`24086914`. Detalhes e aprendizados em `docs/emr/tailwind-v4-migracao.md`.
+
+**⏳ Ainda segurado (sem pressão de segurança):** **Fiber v3** (adiado, toca núcleo auth), **eslint 10** (compat eslint-config-next), **pdfjs 6** (preso ao react-pdf 10), **swag v2** (RC). Mobile/NativeWind seguem em Tailwind v3 (intencional).
