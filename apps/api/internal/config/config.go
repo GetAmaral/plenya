@@ -180,7 +180,7 @@ type JWTConfig struct {
 // quebre o outro.
 type MagicLinkConfig struct {
 	Secret string        // MAGIC_LINK_SECRET
-	TTL    time.Duration // MAGIC_LINK_TTL — default 30m
+	TTL    time.Duration // MAGIC_LINK_TTL — default 7d (link de claim do Escore chega por email; precisa durar dias, não minutos)
 }
 
 type SecurityConfig struct {
@@ -355,7 +355,7 @@ func Load() (*Config, error) {
 		},
 		MagicLink: MagicLinkConfig{
 			Secret: getEnv("MAGIC_LINK_SECRET", ""),
-			TTL:    parseDurationOrDefault(getEnv("MAGIC_LINK_TTL", ""), 30*time.Minute),
+			TTL:    parseDurationOrDefault(getEnv("MAGIC_LINK_TTL", ""), 7*24*time.Hour),
 		},
 		Dev: DevConfig{
 			BypassAuth: getEnvAsBool("DEV_BYPASS_AUTH", false),

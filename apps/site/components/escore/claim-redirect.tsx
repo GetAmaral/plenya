@@ -11,7 +11,6 @@ const EMR_BASE_URL =
 export function ClaimRedirect({ token }: { token: string }) {
   const t = useTranslations('escoreLight');
   const [status, setStatus] = useState<'pending' | 'success' | 'error'>('pending');
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -37,7 +36,8 @@ export function ClaimRedirect({ token }: { token: string }) {
         window.location.href = `${EMR_BASE_URL}/patient-portal/escore-light?${params.toString()}`;
       } catch (err) {
         if (cancelled) return;
-        setErrorMsg(err instanceof Error ? err.message : null);
+        // Nunca expor o erro técnico cru da API ao usuário — só registra pra debug.
+        console.error('[escore-light/claim-confirm] failed', err);
         setStatus('error');
       }
     })();
@@ -77,7 +77,7 @@ export function ClaimRedirect({ token }: { token: string }) {
               {t('claimErrorTitle')}
             </h1>
             <p className="text-petrol/70 mt-6 leading-relaxed">
-              {errorMsg ?? t('claimErrorDescDefault')}
+              {t('claimErrorDescDefault')}
             </p>
             <div className="pt-8">
               <Link href="/escore-plenya/avaliar" className="btn-gold">

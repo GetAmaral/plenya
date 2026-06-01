@@ -84,7 +84,7 @@ type RequestClaimInput struct {
 	IPHash          string // SHA-256 hex do IP — não passar IP plano
 }
 
-// RequestClaim gera um magic link JWT (15min) e envia pelos canais escolhidos.
+// RequestClaim gera um magic link JWT (TTL via MAGIC_LINK_TTL, default 7d) e envia pelos canais escolhidos.
 // Cria/atualiza um Lead idempotente (vinculado à session). Sempre retorna nil pra
 // não revelar existência da sessão (anti-enumeração de códigos públicos).
 func (s *AnonymousScoreService) RequestClaim(code string, in RequestClaimInput) error {
@@ -164,8 +164,9 @@ func (s *AnonymousScoreService) RequestClaim(code string, in RequestClaimInput) 
 
 	// HIGH H4 — Magic link com:
 	//  • secret separado (cfg.MagicLink.Secret, fallback JWT.Secret com warning)
-	//  • TTL reduzido pra 30min (era 7 dias — janela enorme de phishing)
-	//  • jti único persistido em refresh_tokens (tipo=magic_link) pra single-use
+	//  • TTL configurável (MAGIC_LINK_TTL, default 7d — link chega por email e
+	//    precisa durar dias; encurtar reduz janela de phishing mas frustra o usuário)
+	//  • jti único persistido em magic_link_tokens pra single-use
 	jti := uuid.Must(uuid.NewV7()).String()
 	ttl := s.cfg.MagicLink.TTL
 	if ttl == 0 {

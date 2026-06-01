@@ -71,7 +71,7 @@ func (r *SubscriptionRepository) GetExpiringTrials(daysUntilExpiry int) ([]model
 		SELECT * FROM patient_subscriptions
 		WHERE status = ?
 		AND trial_end_date IS NOT NULL
-		AND trial_end_date <= CURRENT_DATE + INTERVAL '? days'
+		AND trial_end_date <= CURRENT_DATE + make_interval(days => ?)
 		AND trial_end_date >= CURRENT_DATE
 		AND deleted_at IS NULL
 	`
@@ -89,7 +89,7 @@ func (r *SubscriptionRepository) GetUpcomingRenewals(daysUntilRenewal int) ([]mo
 		WHERE status = ?
 		AND auto_renew = true
 		AND next_billing_date IS NOT NULL
-		AND next_billing_date <= CURRENT_DATE + INTERVAL '? days'
+		AND next_billing_date <= CURRENT_DATE + make_interval(days => ?)
 		AND next_billing_date >= CURRENT_DATE
 		AND deleted_at IS NULL
 	`
