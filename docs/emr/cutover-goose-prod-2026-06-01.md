@@ -54,8 +54,13 @@ e `lab_test_definitions_backup_consolidation` (backups só no dev).
 - [x] 4 migration — **00003 já existia** (recepcao, commit ed824925, cria appointment_recalls); minha reconciliação virou **`00004_reconcile_prod_schema.sql`** (só colunas + birth_date)
 - [x] 5 dev `migrate up` → v4 (00003+00004 no-op no dev)
 - [x] **Validação de ouro:** restaurei o schema de prod em `prod_sim`, rodei `migrate up` (auto-stamp baseline + 02/03/04) e diffei contra dev → **1236=1236 colunas, zero drift**; tabelas idênticas (fora o backup-fantasma do dev). Cutover provado.
-- [ ] 6 cutover prod (RUN_MIGRATIONS=true + MIGRATIONS_AUTO=false + redeploy)
-- [ ] 7 verificação
+- [x] 6 cutover prod — envs no Coolify (`RUN_MIGRATIONS=true`, `MIGRATIONS_AUTO=false`; removidas 2 entradas duplicadas: MIGRATIONS_AUTO 'true' e RUN_MIGRATIONS). Deploy `tsgli03mve59x13ukyzk3r7v`. Boot: "RUN_MIGRATIONS=true — aplicando migrations" + adoptIfLegacy carimbou baseline + aplicou 02/03/04; depois "⏭️ AutoMigrate desligado — schema via migrations goose".
+- [x] 7 verificação — `goose_db_version` = 0,1,2,3,4; appointment_recalls + users.oauth_* + prescriptions.* presentes; patients.birth_date NOT NULL; health 200. **Diff final prod×dev: 1236=1236 colunas, ZERO drift.**
+
+## ✅ CONCLUÍDO 2026-06-01
+Prod agora roda **goose** como mecanismo único de schema (AutoMigrate desligado). `goose_db_version`
+em 4. Daqui pra frente: model novo → migration goose `0000N_*.sql` (caminho único; não precisa
+mais registrar no AutoMigrate). Backup pré-cutover: `~/.plenya-vps-secrets/backups/prod_20260601_pre_goose_cutover.dump`.
 
 > Nota: o `migrate up` faz o stamp da baseline sozinho (`adoptIfLegacy`) quando acha schema sem `goose_db_version`. Não precisa stamp manual em prod.
 
