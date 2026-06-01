@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import type { Appointment } from "@/lib/api/calendar-api";
+import type { Payment } from "@/lib/api/payments";
 import { AppointmentRow } from "./appointment-row";
 import { EmptyState } from "./empty-state";
 import { ErrorState } from "./error-state";
@@ -18,11 +19,13 @@ export function AgendaHojeCard({
   isLoading,
   isError,
   onRetry,
+  paidByAppointment,
 }: {
   appointments: Appointment[];
   isLoading: boolean;
   isError?: boolean;
   onRetry?: () => void;
+  paidByAppointment?: Map<string, Payment>;
 }) {
   const sorted = [...appointments].sort(
     (a, b) =>
@@ -63,7 +66,11 @@ export function AgendaHojeCard({
         ) : (
           <div className="space-y-3">
             {sorted.map((a) => (
-              <AppointmentRow key={a.id} appointment={a} />
+              <AppointmentRow
+                key={a.id}
+                appointment={a}
+                payment={paidByAppointment?.get(a.id)}
+              />
             ))}
           </div>
         )}

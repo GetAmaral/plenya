@@ -71,6 +71,23 @@ export function usePayments(patientId?: string) {
   });
 }
 
+// Pagamentos num período (ex: o dia, no cockpit) — usado pra marcar consultas
+// já pagas na agenda. Backend filtra por from/to (RFC3339).
+export function useDayPayments(fromIso?: string, toIso?: string) {
+  return useQuery({
+    queryKey: [...paymentKeys.all, "range", fromIso, toIso],
+    queryFn: () => {
+      const p = new URLSearchParams();
+      if (fromIso) p.set("from", fromIso);
+      if (toIso) p.set("to", toIso);
+      return apiClient.get<Payment[]>(`/api/v1/payments?${p.toString()}`);
+    },
+    enabled: !!fromIso,
+    staleTime: 30_000,
+    refetchInterval: 30_000,
+  });
+}
+
 export function useConsultationPrices() {
   return useQuery({
     queryKey: paymentKeys.prices,

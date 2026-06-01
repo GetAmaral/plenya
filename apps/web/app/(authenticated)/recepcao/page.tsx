@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 import { useAppointments, useDoctors } from "@/lib/api/calendar-api";
 import type { Appointment } from "@/lib/api/calendar-api";
+import { useDayPayments, type Payment } from "@/lib/api/payments";
 import { useSelectedPatient } from "@/lib/use-selected-patient";
 import { QuickAddPatientDialog } from "@/components/patients/quick-add-patient-dialog";
 import { AgendaHojeCard } from "@/components/recepcao/agenda-hoje-card";
@@ -93,6 +94,17 @@ export default function RecepcaoPage() {
     refetchAppointments();
   };
 
+  // Pagamentos do dia → mapa por consulta, pra marcar "Pago" na agenda e evitar
+  // cobrança em duplicidade. Mesma janela das consultas (hoje + amanhã).
+  const { data: dayPayments = [] } = useDayPayments(dateFrom, dateTo);
+  const paidByAppointment = useMemo(() => {
+    const m = new Map<string, Payment>();
+    for (const p of dayPayments) {
+      if (p.status === "paid" && p.appointmentId) m.set(p.appointmentId, p);
+    }
+    return m;
+  }, [dayPayments]);
+
   // Hoje vs hoje+amanha — derivados client-side da mesma janela.
   const todayStart = todayStartMs;
   const tomorrowStart = todayStartMs + 24 * 60 * 60 * 1000;
@@ -164,6 +176,7 @@ export default function RecepcaoPage() {
             isLoading={isLoading}
             isError={isError}
             onRetry={retryAgenda}
+            paidByAppointment={paidByAppointment}
           />
         </motion.div>
 

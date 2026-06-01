@@ -31,6 +31,7 @@ import {
   waitMinutes,
 } from "@/lib/api/calendar-api";
 import { useWaitlist } from "@/lib/api/waitlist";
+import { formatBRL, type Payment } from "@/lib/api/payments";
 import {
   STATUS_BADGE_VARIANT,
   STATUS_DOT_CLASS,
@@ -52,7 +53,13 @@ import {
  * Cada acao e uma mutation propria por linha — cada linha monta seus hooks
  * com o id da consulta. As mutations ja invalidam as queries do calendario.
  */
-export function AppointmentRow({ appointment }: { appointment: Appointment }) {
+export function AppointmentRow({
+  appointment,
+  payment,
+}: {
+  appointment: Appointment;
+  payment?: Payment;
+}) {
   const confirmMutation = useConfirmAppointment(appointment.id);
   const checkInMutation = useCheckInAppointment(appointment.id);
   const startMutation = useStartAppointment(appointment.id);
@@ -307,16 +314,26 @@ export function AppointmentRow({ appointment }: { appointment: Appointment }) {
           </Button>
         )}
 
-        {patientId && (
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => setPayOpen(true)}
-            title="Registrar pagamento"
+        {payment ? (
+          <Badge
+            variant="outline"
+            className="border-emerald-200 bg-emerald-100 text-emerald-900"
+            title={`Recibo ${payment.receiptNumber}`}
           >
-            <DollarSign className="h-4 w-4" />
-            <span className="hidden sm:inline">Pagamento</span>
-          </Button>
+            Pago {formatBRL(payment.amountCents)}
+          </Badge>
+        ) : (
+          patientId && (
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setPayOpen(true)}
+              title="Registrar pagamento"
+            >
+              <DollarSign className="h-4 w-4" />
+              <span className="hidden sm:inline">Pagamento</span>
+            </Button>
+          )
         )}
 
         <Button asChild size="sm" variant="ghost">
