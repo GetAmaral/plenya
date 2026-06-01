@@ -1,6 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@config "../tailwind.config.ts";
+
+/* v4 preflight compat: v4 deixa botões com cursor:default; restaura pointer (como no v3) */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 @layer base {
   :root {
@@ -95,7 +104,7 @@
 
   /* Focus styles modernos */
   *:focus-visible {
-    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+    @apply outline-hidden ring-2 ring-ring ring-offset-2 ring-offset-background;
   }
 
   /* Selection color */
@@ -104,119 +113,117 @@
   }
 }
 
-@layer components {
-  /* Tipografia Plenya — usar em headings de seção / hero / labels uppercase */
-  .heading-hero {
-    font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
-    font-weight: 400;
-    line-height: 1.08;
-    letter-spacing: -0.015em;
-  }
-  .heading-section {
-    font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
-    font-weight: 400;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-  }
-  .label-upper {
-    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-    font-size: 0.6875rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
+/* Tipografia Plenya — usar em headings de seção / hero / labels uppercase */
+@utility heading-hero {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+@utility heading-section {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+@utility label-upper {
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
 
-  /* Botão dourado Plenya (CTAs primários fora do shadcn Button).
-     Usa hex direto em vez de @apply bg-gold para não depender do preset Tailwind. */
-  .btn-gold {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #b38645;
-    color: #063b4f;
-    padding: 0.75rem 2rem;
-    border-radius: 9999px;
-    font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    transition: all 300ms ease-out;
-  }
-  .btn-gold:hover {
+/* Botão dourado Plenya (CTAs primários fora do shadcn Button).
+   Usa hex direto em vez de @apply bg-gold para não depender do preset Tailwind. */
+@utility btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #b38645;
+  color: #063b4f;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 300ms ease-out;
+  &:hover {
     background-color: #9d7338;
     transform: translateY(-1px);
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 }
 
-@layer utilities {
-  /* Glassmorphism utilities */
-  .glass {
-    @apply bg-white/70 dark:bg-gray-950/70 backdrop-blur-xl border border-white/20 dark:border-gray-800/50;
-  }
+/* Glassmorphism utilities */
+@utility glass {
+  @apply bg-white/70 dark:bg-gray-950/70 backdrop-blur-xl border border-white/20 dark:border-gray-800/50;
+}
+@utility glass-card {
+  @apply glass rounded-2xl shadow-xl;
+}
 
-  .glass-card {
-    @apply glass rounded-2xl shadow-xl;
-  }
+/* Gradient utilities */
+@utility gradient-primary {
+  @apply bg-linear-to-br from-primary to-primary/80;
+}
+@utility gradient-medical {
+  @apply bg-linear-to-br from-blue-500 via-blue-600 to-blue-700;
+}
 
-  /* Gradient utilities */
-  .gradient-primary {
-    @apply bg-gradient-to-br from-primary to-primary/80;
-  }
+/* Bento Grid utilities */
+@utility bento-grid {
+  @apply grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+@utility bento-item {
+  @apply relative overflow-hidden rounded-2xl bg-card border border-border p-6 shadow-xs transition-all hover:shadow-md;
+}
+@utility bento-item-large {
+  @apply md:col-span-2;
+}
+@utility bento-item-tall {
+  @apply md:row-span-2;
+}
 
-  .gradient-medical {
-    @apply bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700;
-  }
+/* Skeleton loading */
+@utility skeleton {
+  @apply animate-pulse bg-muted rounded-sm;
+}
 
-  /* Bento Grid utilities */
-  .bento-grid {
-    @apply grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
-  }
+/* Smooth transitions */
+@utility transition-smooth {
+  @apply transition-all duration-300 ease-out;
+}
 
-  .bento-item {
-    @apply relative overflow-hidden rounded-2xl bg-card border border-border p-6 shadow-sm transition-all hover:shadow-md;
-  }
-
-  .bento-item-large {
-    @apply md:col-span-2;
-  }
-
-  .bento-item-tall {
-    @apply md:row-span-2;
-  }
-
-  /* Skeleton loading */
-  .skeleton {
-    @apply animate-pulse bg-muted rounded;
-  }
-
-  /* Smooth transitions */
-  .transition-smooth {
-    @apply transition-all duration-300 ease-out;
-  }
-
-  /* Text gradients */
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60;
-  }
+/* Text gradients */
+@utility text-gradient {
+  @apply bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/60;
 }
 
 /* Custom scrollbar */
-@layer utilities {
-  .scrollbar-thin::-webkit-scrollbar {
+@utility scrollbar-thin {
+  &::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
-
-  .scrollbar-thin::-webkit-scrollbar-track {
+  &::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
     @apply bg-border rounded-full;
   }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  &::-webkit-scrollbar-thumb:hover {
     @apply bg-border/80;
+  }
+}
+
+/* v4 removeu theme.container{center,padding,screens}; replicamos via @utility
+   (centralizado, padding 2rem, max-width 1400px no breakpoint 2xl — igual ao config v3) */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= 1400px) {
+    max-width: 1400px;
   }
 }
 

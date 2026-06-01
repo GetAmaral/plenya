@@ -89,7 +89,7 @@ function WorkoutContent() {
                         <img
                           src={`${API_URL}${ex.exercise.gifUrl}`}
                           alt={ex.exercise.namePt || ex.exercise.name}
-                          className="w-20 h-20 rounded object-cover flex-shrink-0"
+                          className="w-20 h-20 rounded object-cover shrink-0"
                           loading="lazy"
                         />
                       )}

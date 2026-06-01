@@ -41,7 +41,7 @@ export const SubgroupNode = memo(({ data }: NodeProps) => {
                   )}
                 </button>
               )}
-              <div className="font-semibold text-sm leading-tight break-words flex-1">{data.name}</div>
+              <div className="font-semibold text-sm leading-tight wrap-break-word flex-1">{data.name}</div>
             </div>
 
             <div className="flex items-center gap-2 text-xs text-muted-foreground">

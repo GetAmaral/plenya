@@ -101,18 +101,18 @@ function BookChapterList({ bookId }: { bookId: string }) {
           href={`/articles/${ch.id}`}
           className="flex items-center gap-3 px-4 py-3 hover:bg-muted transition-colors group"
         >
-          <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary text-xs font-semibold flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+          <span className="shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary text-xs font-semibold flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
             {ch.chapterNumber}
           </span>
           <span className="flex-1 text-sm font-medium line-clamp-1 group-hover:text-primary transition-colors">
             {ch.chapterTitle || ch.title}
           </span>
           {ch.fileSize && (
-            <span className="text-xs text-muted-foreground flex-shrink-0">
+            <span className="text-xs text-muted-foreground shrink-0">
               {Math.round((ch.fileSize / 1024))} KB
             </span>
           )}
-          <ChevronDown className="h-4 w-4 text-muted-foreground flex-shrink-0 -rotate-90 group-hover:text-primary transition-colors" />
+          <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0 -rotate-90 group-hover:text-primary transition-colors" />
         </Link>
       ))}
     </div>
@@ -566,7 +566,7 @@ export default function ArticleDetailPage({ params }: PageProps) {
           <Card className="border-muted">
             <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground flex items-start gap-2">
-                <Database className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                <Database className="h-4 w-4 mt-0.5 shrink-0" />
                 O embedding e a busca semântica funcionam por capítulo. Cada capítulo
                 é indexado individualmente para maior precisão na busca semântica.
               </p>

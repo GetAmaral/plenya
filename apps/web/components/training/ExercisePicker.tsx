@@ -101,7 +101,7 @@ export function ExercisePicker({ onSelect, trigger }: ExercisePickerProps) {
                       <img
                         src={`${API_URL}${ex.gifUrl}`}
                         alt={ex.namePt || ex.name}
-                        className="w-14 h-14 rounded object-cover flex-shrink-0 bg-muted"
+                        className="w-14 h-14 rounded object-cover shrink-0 bg-muted"
                         loading="lazy"
                       />
                     )}

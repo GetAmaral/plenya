@@ -92,7 +92,7 @@ function SortableItem({
       className="rounded-lg transition-all flex items-start gap-1 group"
     >
       {/* Coluna de controles à esquerda */}
-      <div className="flex-shrink-0 flex flex-col gap-0.5 pt-2.5">
+      <div className="shrink-0 flex flex-col gap-0.5 pt-2.5">
         {/* Drag Handle */}
         <div
           {...attributes}
@@ -626,7 +626,7 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
                             </Badge>
                           </div>
                         </AccordionTrigger>
-                        <div className="flex gap-0.5 ml-2 flex-shrink-0">
+                        <div className="flex gap-0.5 ml-2 shrink-0">
                           <Button
                             variant="ghost"
                             size="sm"

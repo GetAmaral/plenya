@@ -87,11 +87,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-linear-to-br from-blue-50 via-white to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
       {/* Animated background gradient orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 opacity-20 blur-3xl"
+          className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-linear-to-br from-blue-400 to-blue-600 opacity-20 blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             rotate: [0, 90, 0],
@@ -103,7 +103,7 @@ export default function LoginPage() {
           }}
         />
         <motion.div
-          className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-gradient-to-br from-purple-400 to-pink-600 opacity-20 blur-3xl"
+          className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-linear-to-br from-purple-400 to-pink-600 opacity-20 blur-3xl"
           animate={{
             scale: [1.2, 1, 1.2],
             rotate: [90, 0, 90],
@@ -133,7 +133,7 @@ export default function LoginPage() {
                 transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                 className="mb-4 flex justify-center"
               >
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-blue-500 to-blue-700 shadow-lg">
                   <Activity className="h-8 w-8 text-white" />
                 </div>
               </motion.div>
@@ -234,7 +234,7 @@ export default function LoginPage() {
               >
                 <Button
                   type="submit"
-                  className="group relative h-11 w-full overflow-hidden bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]"
+                  className="group relative h-11 w-full overflow-hidden bg-linear-to-r from-blue-600 to-blue-700 text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]"
                   disabled={isLoading}
                 >
                   {isLoading ? (

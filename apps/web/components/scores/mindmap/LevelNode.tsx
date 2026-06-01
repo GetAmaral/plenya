@@ -48,7 +48,7 @@ export const LevelNode = memo(({ data }: NodeProps) => {
                 </div>
               )}
             </div>
-            <div className="text-xs font-medium leading-tight break-words">{data.name}</div>
+            <div className="text-xs font-medium leading-tight wrap-break-word">{data.name}</div>
           </div>
         </div>
       </ContextMenuTrigger>

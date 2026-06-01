@@ -320,7 +320,7 @@ export function AnamnesisFullscreenForm({ onSuccess, onCancel }: AnamnesisFullsc
                                 <div className="text-sm text-muted-foreground mt-1">{template.area}</div>
                               </div>
                               {selectedTemplateId === template.id && (
-                                <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                                <Check className="h-5 w-5 text-primary shrink-0" />
                               )}
                             </div>
                           </button>

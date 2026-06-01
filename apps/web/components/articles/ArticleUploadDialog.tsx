@@ -236,7 +236,7 @@ export function ArticleUploadDialog({ open, onOpenChange }: ArticleUploadDialogP
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="max-w-2xl flex flex-col max-h-[90vh]">
-        <DialogHeader className="flex-shrink-0">
+        <DialogHeader className="shrink-0">
           <DialogTitle>Importar Artigos e Livros</DialogTitle>
           <DialogDescription>
             Selecione um ou mais arquivos. Cada arquivo é processado de forma
@@ -251,7 +251,7 @@ export function ArticleUploadDialog({ open, onOpenChange }: ArticleUploadDialogP
               {...getRootProps()}
               className={`
                 border-2 border-dashed rounded-lg p-6 text-center cursor-pointer
-                transition-colors duration-200 flex-shrink-0
+                transition-colors duration-200 shrink-0
                 ${isDragActive
                   ? 'border-primary bg-primary/5'
                   : 'border-border hover:border-primary/50 hover:bg-muted/50'}
@@ -289,7 +289,7 @@ export function ArticleUploadDialog({ open, onOpenChange }: ArticleUploadDialogP
 
           {/* Dica quando lista está vazia */}
           {files.length === 0 && (
-            <div className="bg-muted/50 rounded-lg p-4 flex-shrink-0">
+            <div className="bg-muted/50 rounded-lg p-4 shrink-0">
               <h4 className="font-medium text-sm mb-2">O que será extraído automaticamente:</h4>
               <ul className="text-sm text-muted-foreground space-y-1">
                 <li>• <strong>DOI e PMID</strong> (se presentes no PDF)</li>
@@ -302,7 +302,7 @@ export function ArticleUploadDialog({ open, onOpenChange }: ArticleUploadDialogP
         </div>
 
         {/* Rodapé */}
-        <div className="flex items-center justify-between gap-3 pt-3 flex-shrink-0 border-t">
+        <div className="flex items-center justify-between gap-3 pt-3 shrink-0 border-t">
           <p className="text-sm text-muted-foreground">
             {files.length === 0
               ? 'Nenhum arquivo selecionado'
@@ -367,7 +367,7 @@ function FileEntryRow({ entry, isProcessing, onRemove, onToggleBook }: FileEntry
     >
       <div className="flex items-start gap-3">
         {/* Ícone de status */}
-        <div className="flex-shrink-0 mt-0.5">
+        <div className="shrink-0 mt-0.5">
           {status === 'done' ? (
             <CheckCircle2 className="h-5 w-5 text-green-600" />
           ) : status === 'duplicate' ? (
@@ -402,7 +402,7 @@ function FileEntryRow({ entry, isProcessing, onRemove, onToggleBook }: FileEntry
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-6 w-6 flex-shrink-0"
+                className="h-6 w-6 shrink-0"
                 onClick={onRemove}
               >
                 <X className="h-3.5 w-3.5" />

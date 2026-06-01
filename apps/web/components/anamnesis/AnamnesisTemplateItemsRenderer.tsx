@@ -420,7 +420,7 @@ export function AnamnesisTemplateItemsRenderer({
 
                     {hasMaxSelect && selectedCount >= subgroup.maxSelect && (
                       <div className="flex items-center gap-2 p-3 bg-blue-50 text-blue-900 rounded-lg text-sm">
-                        <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                        <AlertCircle className="h-4 w-4 shrink-0" />
                         <p>Máximo atingido. Desmarque um item para selecionar outro.</p>
                       </div>
                     )}
@@ -458,10 +458,10 @@ export function AnamnesisTemplateItemsRenderer({
                                     items
                                   )
                                 }
-                                className="h-5 w-5 flex-shrink-0"
+                                className="h-5 w-5 shrink-0"
                               />
                               <Label className={cn(
-                                'font-medium flex-shrink-0 cursor-pointer min-w-[200px]',
+                                'font-medium shrink-0 cursor-pointer min-w-[200px]',
                                 compact ? 'text-sm' : 'text-base'
                               )}>
                                 {scoreItem.name}
@@ -479,7 +479,7 @@ export function AnamnesisTemplateItemsRenderer({
                                   <TooltipTrigger asChild>
                                     <button
                                       type="button"
-                                      className="text-muted-foreground hover:text-foreground transition-colors flex-shrink-0"
+                                      className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
                                     >
                                       <HelpCircle className="h-4 w-4" />
                                     </button>
@@ -515,7 +515,7 @@ export function AnamnesisTemplateItemsRenderer({
                               <div className="flex items-start justify-between gap-3">
                                 <div className="flex items-center gap-3 flex-1">
                                   {isFilled && !compact && (
-                                    <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" />
+                                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
                                   )}
                                   <div className="flex-1">
                                     <Label className={cn(

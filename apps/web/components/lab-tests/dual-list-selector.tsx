@@ -231,7 +231,7 @@ export function DualListSelector({
                           <div className="text-xs text-muted-foreground">TUSS: {test.tussCode}</div>
                         )}
                       </div>
-                      <X className="h-4 w-4 text-muted-foreground group-hover:text-destructive flex-shrink-0 mt-0.5" />
+                      <X className="h-4 w-4 text-muted-foreground group-hover:text-destructive shrink-0 mt-0.5" />
                     </div>
                   </div>
                 ))

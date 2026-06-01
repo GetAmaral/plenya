@@ -312,7 +312,7 @@ export default function ScoresPage() {
     <div className="space-y-4">
       {/* Loading Overlay durante geração de PDF */}
       {isDownloadingPoster && (
-        <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex items-center justify-center">
+        <div className="fixed inset-0 z-100 bg-background/95 backdrop-blur-sm flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="h-16 w-16 animate-spin text-primary" />
             <div className="text-center">

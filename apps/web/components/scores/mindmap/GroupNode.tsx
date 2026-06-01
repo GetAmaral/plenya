@@ -40,7 +40,7 @@ export const GroupNode = memo(({ data }: NodeProps) => {
                   )}
                 </button>
               )}
-              <h3 className="font-bold text-base leading-tight break-words flex-1">{data.name}</h3>
+              <h3 className="font-bold text-base leading-tight wrap-break-word flex-1">{data.name}</h3>
             </div>
 
             <div className="flex items-center justify-between gap-2 text-xs opacity-90">

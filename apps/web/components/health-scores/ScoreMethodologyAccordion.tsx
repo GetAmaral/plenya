@@ -256,7 +256,7 @@ export function ScoreMethodologyAccordion({ snapshot }: ScoreMethodologyAccordio
                 )}
               </div>
 
-              <div className="flex items-start gap-1 flex-shrink-0">
+              <div className="flex items-start gap-1 shrink-0">
                 <div className="flex flex-col items-end gap-1 w-16">
                   {parentScore && (
                     <Badge className={`${getBadgeScoreColor(parentScore.percentage)} text-[9px] whitespace-nowrap`}>
@@ -546,7 +546,7 @@ export function ScoreMethodologyAccordion({ snapshot }: ScoreMethodologyAccordio
               className="rounded-lg border-2 transition-all"
               style={{ borderColor: (letterData.letter as any).color || 'hsl(var(--border))' }}
             >
-              <div className="relative bg-gradient-to-r from-primary/10 to-primary/5 rounded-t-lg">
+              <div className="relative bg-linear-to-r from-primary/10 to-primary/5 rounded-t-lg">
                 <AccordionTrigger className="py-4 px-4 hover:no-underline">
                   <div className="flex items-center gap-3 flex-1">
                     <div className="text-left">
@@ -669,7 +669,7 @@ export function ScoreMethodologyAccordion({ snapshot }: ScoreMethodologyAccordio
               value={group.groupId}
               className="rounded-lg border-2 transition-all"
             >
-              <div className="relative bg-gradient-to-r from-muted/50 to-muted/30">
+              <div className="relative bg-linear-to-r from-muted/50 to-muted/30">
                 <AccordionTrigger className="py-3 px-4 hover:no-underline">
                   <div className="flex items-center w-full pr-4">
                     <h3 className="text-base font-semibold flex-1 text-left">{group.groupName}</h3>

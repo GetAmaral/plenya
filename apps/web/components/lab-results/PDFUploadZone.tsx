@@ -138,7 +138,7 @@ export function PDFUploadZone({ batchId, onUploadSuccess, onBeforeUpload, disabl
       {selectedFile && (
         <div className="border rounded-lg p-4">
           <div className="flex items-start gap-4">
-            <FileText className="h-10 w-10 text-primary flex-shrink-0" />
+            <FileText className="h-10 w-10 text-primary shrink-0" />
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1">

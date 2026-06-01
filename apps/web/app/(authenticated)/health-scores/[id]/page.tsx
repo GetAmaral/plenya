@@ -672,7 +672,7 @@ export default function HealthScoreDetailPage() {
               </div>
 
               {/* Badges column - aligned right with fixed width */}
-              <div className="flex items-start gap-1 flex-shrink-0">
+              <div className="flex items-start gap-1 shrink-0">
                 <div className="flex flex-col items-end gap-1 w-16">
                   {/* Parent score badge (if has children) - smallest size */}
                   {parentScore && (
@@ -874,7 +874,7 @@ export default function HealthScoreDetailPage() {
 
       {/* View Mode Toggle - only show if methodology view is available */}
       {itemsByMethodology && (
-        <Card className="bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
+        <Card className="bg-linear-to-r from-primary/5 to-primary/10 border-primary/20">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
@@ -925,7 +925,7 @@ export default function HealthScoreDetailPage() {
               style={{ borderColor: (letterData.letter as any).color || 'hsl(var(--border))' }}
             >
               {/* LETTER HEADER */}
-              <div className="relative bg-gradient-to-r from-primary/10 to-primary/5 rounded-t-lg">
+              <div className="relative bg-linear-to-r from-primary/10 to-primary/5 rounded-t-lg">
                 <AccordionTrigger className="py-4 px-4 hover:no-underline">
                   <div className="flex items-center gap-3 flex-1">
                     <div className="text-left">

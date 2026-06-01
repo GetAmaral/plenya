@@ -298,7 +298,7 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
                         )}
                       </div>
                       {selectedTemplateId === template.id && (
-                        <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                        <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                       )}
                     </div>
                   </div>
@@ -497,7 +497,7 @@ function EditLabRequestForm({
                         )}
                       </div>
                       {selectedTemplateId === template.id && (
-                        <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                        <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                       )}
                     </div>
                   </div>
@@ -703,7 +703,7 @@ function DuplicateLabRequestForm({
                         )}
                       </div>
                       {selectedTemplateId === template.id && (
-                        <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                        <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                       )}
                     </div>
                   </div>
@@ -773,7 +773,7 @@ function LabRequestCard({
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 mb-3">
-            <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+            <Calendar className="h-4 w-4 text-muted-foreground shrink-0" />
             <span className="text-sm font-medium">
               {(() => {
                 // Extrair apenas a data (antes do T) para evitar problemas de timezone
@@ -823,7 +823,7 @@ function LabRequestCard({
           </div>
         </div>
 
-        <div className="flex gap-2 flex-shrink-0">
+        <div className="flex gap-2 shrink-0">
           {!request.pdfUrl && (
             <Button
               variant="outline"

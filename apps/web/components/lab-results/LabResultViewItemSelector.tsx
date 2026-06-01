@@ -61,13 +61,13 @@ function SortableItem({ test, onClick }: SortableItemProps) {
       <div
         {...attributes}
         {...listeners}
-        className="cursor-grab active:cursor-grabbing flex-shrink-0"
+        className="cursor-grab active:cursor-grabbing shrink-0"
         onClick={(e) => e.stopPropagation()}
       >
         <GripVertical className="h-4 w-4 text-muted-foreground" />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="font-medium break-words">{test.name}</div>
+        <div className="font-medium wrap-break-word">{test.name}</div>
         {test.code && (
           <div className="text-xs text-muted-foreground">{test.code}</div>
         )}

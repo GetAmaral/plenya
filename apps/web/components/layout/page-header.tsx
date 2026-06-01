@@ -80,7 +80,7 @@ export function PageHeader({
 
       {/* Actions */}
       {(actions.length > 0 || children) && (
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           {actions.map((action, index) => {
             if (isDropdown(action)) {
               return (

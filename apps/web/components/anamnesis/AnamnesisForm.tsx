@@ -328,7 +328,7 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
                         <div className="text-xs text-muted-foreground mt-1">{template.area}</div>
                       </div>
                       {selectedTemplateId === template.id && (
-                        <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                        <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                       )}
                     </div>
                   </div>
@@ -671,7 +671,7 @@ export function EditAnamnesisForm({ anamnesis, focusScoreItemId, onSuccess, onCa
                         <div className="text-xs text-muted-foreground mt-1">{template.area}</div>
                       </div>
                       {selectedTemplateId === template.id && (
-                        <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                        <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                       )}
                     </div>
                   </div>

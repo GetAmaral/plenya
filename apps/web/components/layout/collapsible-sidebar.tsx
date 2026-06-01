@@ -271,7 +271,7 @@ export function CollapsibleSidebar() {
               <Link href="/profile">
                 <div className="flex items-center gap-3 rounded-lg bg-accent/50 p-3 cursor-pointer hover:bg-accent transition-colors">
                   <Avatar className="h-10 w-10 shrink-0">
-                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
+                    <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
                       {user?.name?.substring(0, 2).toUpperCase() || user?.email.substring(0, 2).toUpperCase() || "US"}
                     </AvatarFallback>
                   </Avatar>
@@ -396,7 +396,7 @@ export function CollapsibleSidebar() {
               <Link href="/profile">
                 <div className="flex items-center gap-3 rounded-lg bg-accent/50 p-3 cursor-pointer hover:bg-accent transition-colors">
                   <Avatar className="h-10 w-10 shrink-0">
-                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
+                    <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
                       {user?.name?.substring(0, 2).toUpperCase() || user?.email.substring(0, 2).toUpperCase() || "US"}
                     </AvatarFallback>
                   </Avatar>
@@ -465,7 +465,7 @@ export function CollapsibleSidebar() {
 
               <Link href="/profile" title="Meu Perfil">
                 <Avatar className="h-10 w-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all">
-                  <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
+                  <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
                     {user?.name?.substring(0, 2).toUpperCase() || user?.email.substring(0, 2).toUpperCase() || "US"}
                   </AvatarFallback>
                 </Avatar>

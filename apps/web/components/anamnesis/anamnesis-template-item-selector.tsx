@@ -71,14 +71,14 @@ function SortableItemInBlock({ item, onRemove }: SortableItemInBlockProps) {
         <div
           {...attributes}
           {...listeners}
-          className="cursor-grab active:cursor-grabbing flex-shrink-0"
+          className="cursor-grab active:cursor-grabbing shrink-0"
           onClick={(e) => e.stopPropagation()}
         >
           <GripVertical className="h-4 w-4 text-muted-foreground" />
         </div>
       )}
       <div className="flex-1 min-w-0">
-        <div className="font-medium break-words">{item.name}</div>
+        <div className="font-medium wrap-break-word">{item.name}</div>
       </div>
     </div>
   )
@@ -105,16 +105,16 @@ function SortableBlockHeader({ blockId, type, children }: { blockId: string; typ
       {type === 'group' ? (
         <div className="bg-primary text-primary-foreground rounded-lg px-3 py-2">
           <div className="flex items-center gap-2 min-w-0">
-            <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing flex-shrink-0">
+            <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing shrink-0">
               <GripVertical className="h-4 w-4 text-primary-foreground" />
             </div>
             {children}
           </div>
         </div>
       ) : (
-        <div className="bg-gradient-to-br from-muted to-muted/50 rounded-lg p-2 border border-primary/20">
+        <div className="bg-linear-to-br from-muted to-muted/50 rounded-lg p-2 border border-primary/20">
           <div className="flex items-center gap-2 min-w-0">
-            <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing flex-shrink-0">
+            <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing shrink-0">
               <GripVertical className="h-4 w-4" />
             </div>
             {children}
@@ -139,14 +139,14 @@ function SortableBlock({ block, onRemoveItem, showGroupHeader }: SortableBlockPr
       {/* Cabeçalho do Grupo - só mostra se for o primeiro bloco do grupo */}
       {showGroupHeader && groupName && (
         <SortableBlockHeader blockId={groupHeaderId} type="group">
-          <h4 className="text-sm font-bold break-words min-w-0 flex-1">{groupName}</h4>
+          <h4 className="text-sm font-bold wrap-break-word min-w-0 flex-1">{groupName}</h4>
         </SortableBlockHeader>
       )}
 
       {/* Cabeçalho do Subgrupo */}
       {subgroupName && (
         <SortableBlockHeader blockId={subgroupHeaderId} type="subgroup">
-          <h5 className="text-xs font-bold break-words min-w-0 flex-1">{subgroupName}</h5>
+          <h5 className="text-xs font-bold wrap-break-word min-w-0 flex-1">{subgroupName}</h5>
         </SortableBlockHeader>
       )}
 
@@ -192,19 +192,19 @@ function SortableItem({ item, onRemove, showGroup, showSubgroup }: SortableItemP
       {showGroup && groupName && (
         <div className="bg-primary text-primary-foreground rounded-lg px-3 py-2">
           <div className="flex items-center gap-2 min-w-0">
-            <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing flex-shrink-0">
+            <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing shrink-0">
               <GripVertical className="h-4 w-4 text-primary-foreground" />
             </div>
-            <h4 className="text-sm font-bold break-words min-w-0 flex-1">{groupName}</h4>
+            <h4 className="text-sm font-bold wrap-break-word min-w-0 flex-1">{groupName}</h4>
           </div>
         </div>
       )}
 
       {/* Cabeçalho do Subgrupo */}
       {showSubgroup && subgroupName && (
-        <div className="bg-gradient-to-br from-muted to-muted/50 rounded-lg p-2 border border-primary/20">
+        <div className="bg-linear-to-br from-muted to-muted/50 rounded-lg p-2 border border-primary/20">
           <div className="flex items-center gap-2 min-w-0">
-            <h5 className="text-xs font-bold break-words min-w-0 flex-1">{subgroupName}</h5>
+            <h5 className="text-xs font-bold wrap-break-word min-w-0 flex-1">{subgroupName}</h5>
           </div>
         </div>
       )}
@@ -219,11 +219,11 @@ function SortableItem({ item, onRemove, showGroup, showSubgroup }: SortableItemP
         }}
         onClick={onRemove}
       >
-        <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing flex-shrink-0">
+        <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing shrink-0">
           <GripVertical className="h-4 w-4 text-muted-foreground" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="font-medium break-words">{item.name}</div>
+          <div className="font-medium wrap-break-word">{item.name}</div>
         </div>
       </div>
     </div>
@@ -612,10 +612,10 @@ export function AnamnesisTemplateItemSelector({
                     tabIndex={0}
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-foreground/20 text-xs font-bold flex-shrink-0">
+                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-foreground/20 text-xs font-bold shrink-0">
                         {groupIndex + 1}
                       </div>
-                      <h4 className="text-sm font-bold break-words min-w-0 flex-1">{group.groupName}</h4>
+                      <h4 className="text-sm font-bold wrap-break-word min-w-0 flex-1">{group.groupName}</h4>
                     </div>
                   </div>
 
@@ -623,7 +623,7 @@ export function AnamnesisTemplateItemSelector({
                   {group.subgroups.map((subgroup, subgroupIndex) => (
                     <div
                       key={subgroup.subgroupId}
-                      className="bg-gradient-to-br from-muted to-muted/50 rounded-lg p-2 border border-primary/20"
+                      className="bg-linear-to-br from-muted to-muted/50 rounded-lg p-2 border border-primary/20"
                     >
                       {/* Cabeçalho do Subgrupo */}
                       <div
@@ -637,10 +637,10 @@ export function AnamnesisTemplateItemSelector({
                         tabIndex={0}
                       >
                         <div className="flex items-center gap-2 min-w-0">
-                          <div className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-xs font-bold text-primary flex-shrink-0">
+                          <div className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/10 text-xs font-bold text-primary shrink-0">
                             {groupIndex + 1}.{subgroupIndex + 1}
                           </div>
-                          <h5 className="text-xs font-bold break-words min-w-0 flex-1">{subgroup.subgroupName}</h5>
+                          <h5 className="text-xs font-bold wrap-break-word min-w-0 flex-1">{subgroup.subgroupName}</h5>
                         </div>
                       </div>
 
@@ -668,7 +668,7 @@ export function AnamnesisTemplateItemSelector({
                             >
                               <div className="flex items-start justify-between gap-2 min-w-0">
                                 <div className="flex-1 min-w-0">
-                                  <div className="text-sm font-medium break-words">{item.name}</div>
+                                  <div className="text-sm font-medium wrap-break-word">{item.name}</div>
                                 </div>
                               </div>
                             </div>

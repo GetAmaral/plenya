@@ -43,7 +43,7 @@ export const ItemNode = memo(({ data }: NodeProps) => {
                   )}
                 </button>
               )}
-              <div className="font-medium text-sm leading-tight break-words flex-1">{data.name}</div>
+              <div className="font-medium text-sm leading-tight wrap-break-word flex-1">{data.name}</div>
             </div>
 
             <div className="flex items-center flex-wrap gap-2 text-xs">

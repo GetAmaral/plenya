@@ -372,7 +372,7 @@ function ThreadItem({ thread, onReply }: { thread: Thread; onReply: () => void }
                 </span>
                 <span className="shrink-0">{format(new Date(m.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}</span>
               </div>
-              <p className="whitespace-pre-wrap break-words">{m.content || '(corpo vazio)'}</p>
+              <p className="whitespace-pre-wrap wrap-break-word">{m.content || '(corpo vazio)'}</p>
             </div>
           ))}
           <div className="flex justify-end">

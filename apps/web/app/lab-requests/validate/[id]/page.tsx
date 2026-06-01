@@ -188,7 +188,7 @@ export default function ValidateLabRequestPage({ params }: { params: Promise<{ i
                   </h3>
                   <div className="rounded-lg border-2 p-4 bg-green-50 border-green-500">
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         <div className="bg-green-600 text-white px-2 py-1 rounded text-xs font-bold">
                           ICP-BRASIL
                         </div>

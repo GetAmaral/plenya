@@ -147,7 +147,7 @@ export function SubscriptionPlanCard({ plan, onEdit, onDuplicate, showActions = 
               <div className="space-y-1.5">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-start gap-2 text-sm">
-                    <Check className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
                     <span>{feature}</span>
                   </div>
                 ))}

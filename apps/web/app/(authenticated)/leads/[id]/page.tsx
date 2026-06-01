@@ -106,7 +106,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
         <CardHeader>
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
-              <CardTitle className="text-2xl break-words">{lead.name ?? '(sem nome)'}</CardTitle>
+              <CardTitle className="text-2xl wrap-break-word">{lead.name ?? '(sem nome)'}</CardTitle>
               <p className="mt-1 text-sm text-muted-foreground">
                 Capturado {format(new Date(lead.createdAt), "dd 'de' MMMM 'às' HH:mm", { locale: ptBR })} via{' '}
                 <Badge variant="outline">{SOURCE_LABELS[lead.source]}</Badge>
@@ -462,14 +462,14 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                       <li key={a.id} className="flex gap-3 border-l-2 border-muted pl-4">
                         <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
                         <div className="min-w-0 flex-1">
-                          <div className="text-xs text-muted-foreground break-words">
+                          <div className="text-xs text-muted-foreground wrap-break-word">
                             {format(new Date(a.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })} ·{' '}
                             <span className="capitalize">{a.type.replace('_', ' ')}</span>
                             {a.channel !== 'internal' && <span> · {a.channel}</span>}
                             {a.actor && <span> · por {a.actor.name}</span>}
                           </div>
                           {a.content && (
-                            <p className="mt-1 whitespace-pre-wrap break-words text-sm">{a.content}</p>
+                            <p className="mt-1 whitespace-pre-wrap wrap-break-word text-sm">{a.content}</p>
                           )}
                           {childStatuses.length > 0 && (
                             <div className="mt-1 flex flex-wrap gap-2 text-xs">

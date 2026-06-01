@@ -90,7 +90,7 @@ function ChapterList({ bookId }: { bookId: string }) {
           href={`/articles/${ch.id}`}
           className="flex items-start gap-2 rounded px-1 py-0.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors group/ch"
         >
-          <span className="flex-shrink-0 tabular-nums text-muted-foreground/60 group-hover/ch:text-muted-foreground w-5 text-right">
+          <span className="shrink-0 tabular-nums text-muted-foreground/60 group-hover/ch:text-muted-foreground w-5 text-right">
             {ch.chapterNumber}.
           </span>
           <span className="line-clamp-1 flex-1">
@@ -184,7 +184,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
                 {/* Ícone de livro antes do título */}
                 {isBook && (
                   <div className="flex items-center gap-1.5 mb-1">
-                    <BookOpen className="h-4 w-4 text-primary flex-shrink-0" />
+                    <BookOpen className="h-4 w-4 text-primary shrink-0" />
                     <span className="text-xs font-medium text-primary uppercase tracking-wide">
                       Livro
                     </span>
@@ -237,7 +237,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
               </div>
             </div>
 
-            <div className="flex items-center gap-1 flex-shrink-0">
+            <div className="flex items-center gap-1 shrink-0">
               <Button
                 variant="ghost"
                 size="icon"

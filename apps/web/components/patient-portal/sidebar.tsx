@@ -216,7 +216,7 @@ function SidebarBody({
       <div className="border-t border-border p-3">
         <Link href="/perfil" className={cn("flex items-center gap-3 rounded-lg p-2 hover:bg-accent", collapsed && "justify-center")}>
           <Avatar className="h-9 w-9 shrink-0">
-            <AvatarFallback className="bg-gradient-to-br from-emerald-500 to-emerald-700 text-sm font-semibold text-white">
+            <AvatarFallback className="bg-linear-to-br from-emerald-500 to-emerald-700 text-sm font-semibold text-white">
               {initials}
             </AvatarFallback>
           </Avatar>

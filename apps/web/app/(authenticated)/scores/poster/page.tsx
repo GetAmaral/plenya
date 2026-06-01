@@ -192,7 +192,7 @@ export default function ScorePosterPage() {
     <>
       {/* Loading Overlay durante geração de PDF */}
       {isGeneratingPDF && (
-        <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex items-center justify-center">
+        <div className="fixed inset-0 z-100 bg-background/95 backdrop-blur-sm flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="h-16 w-16 animate-spin text-primary" />
             <div className="text-center">
@@ -374,7 +374,7 @@ function PosterContent({ groups }: { groups: any[] }) {
   return (
     <div className="print-container bg-white" style={{ width: '3000mm', height: '600mm' }}>
       {/* Header do pôster */}
-      <div className="border-b-8 border-primary bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-16 py-8">
+      <div className="border-b-8 border-primary bg-linear-to-r from-primary to-primary/80 text-primary-foreground px-16 py-8">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-[80px] font-black tracking-tight leading-none">
@@ -447,7 +447,7 @@ function PosterContent({ groups }: { groups: any[] }) {
       </div>
 
       {/* Rodapé */}
-      <div className="absolute bottom-0 left-0 right-0 border-t-4 border-primary bg-gradient-to-r from-primary/5 to-primary/10 px-16 py-6">
+      <div className="absolute bottom-0 left-0 right-0 border-t-4 border-primary bg-linear-to-r from-primary/5 to-primary/10 px-16 py-6">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-[24px] font-bold">Plenya - Sistema de Prontuário Médico Eletrônico</p>

@@ -105,7 +105,7 @@ export default function TrainingAIAgentPage() {
                 className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 {msg.role === "assistant" && (
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                     <Bot className="h-4 w-4 text-primary" />
                   </div>
                 )}
@@ -129,7 +129,7 @@ export default function TrainingAIAgentPage() {
                   )}
                 </div>
                 {msg.role === "user" && (
-                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
                     <User className="h-4 w-4 text-primary-foreground" />
                   </div>
                 )}
@@ -162,7 +162,7 @@ export default function TrainingAIAgentPage() {
               onClick={handleSend}
               disabled={!input.trim() || chatMutation.isPending}
               size="icon"
-              className="flex-shrink-0"
+              className="shrink-0"
             >
               <Send className="h-4 w-4" />
             </Button>

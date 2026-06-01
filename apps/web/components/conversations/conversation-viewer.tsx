@@ -361,7 +361,7 @@ function MessageBubble({
           <span className="capitalize">{msg.type.replace(/_/g, ' ')}</span>
           <span>{format(new Date(msg.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}</span>
         </div>
-        {msg.content && <p className="mt-1 whitespace-pre-wrap break-words">{msg.content}</p>}
+        {msg.content && <p className="mt-1 whitespace-pre-wrap wrap-break-word">{msg.content}</p>}
       </div>
     );
   }
@@ -398,12 +398,12 @@ function MessageBubble({
           </span>
         </div>
         {subject && msg.channel === 'email' && (
-          <p className="mb-1 text-xs font-semibold text-foreground/90 break-words">{subject}</p>
+          <p className="mb-1 text-xs font-semibold text-foreground/90 wrap-break-word">{subject}</p>
         )}
         {msg.content?.trim() ? (
-          <p className="whitespace-pre-wrap break-words">{msg.content}</p>
+          <p className="whitespace-pre-wrap wrap-break-word">{msg.content}</p>
         ) : !msg.mediaType ? (
-          <p className="whitespace-pre-wrap break-words">
+          <p className="whitespace-pre-wrap wrap-break-word">
             <span className="italic text-muted-foreground">(corpo vazio)</span>
           </p>
         ) : null}

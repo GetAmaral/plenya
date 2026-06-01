@@ -336,10 +336,10 @@ function TemplateCard({ template, availableScoreItems, onEdit, onDelete }: Templ
                         {showGroup && groupName && (
                           <div className="bg-primary text-primary-foreground rounded-lg px-3 py-2">
                             <div className="flex items-center gap-2 min-w-0">
-                              <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-foreground/20 text-xs font-bold flex-shrink-0">
+                              <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-foreground/20 text-xs font-bold shrink-0">
                                 {index + 1}
                               </div>
-                              <h4 className="text-sm font-bold break-words min-w-0 flex-1">
+                              <h4 className="text-sm font-bold wrap-break-word min-w-0 flex-1">
                                 {groupName}
                               </h4>
                             </div>
@@ -348,9 +348,9 @@ function TemplateCard({ template, availableScoreItems, onEdit, onDelete }: Templ
 
                         {/* Cabeçalho do Subgrupo */}
                         {showSubgroup && subgroupName && (
-                          <div className="bg-gradient-to-br from-muted to-muted/50 rounded-lg p-2 border border-primary/20">
+                          <div className="bg-linear-to-br from-muted to-muted/50 rounded-lg p-2 border border-primary/20">
                             <div className="flex items-center gap-2 min-w-0">
-                              <h5 className="text-xs font-bold break-words min-w-0 flex-1">
+                              <h5 className="text-xs font-bold wrap-break-word min-w-0 flex-1">
                                 {subgroupName}
                               </h5>
                             </div>
@@ -366,7 +366,7 @@ function TemplateCard({ template, availableScoreItems, onEdit, onDelete }: Templ
                             paddingLeft: isChild ? '12px' : undefined,
                           }}
                         >
-                          <div className="font-medium break-words">{fullScoreItem.name}</div>
+                          <div className="font-medium wrap-break-word">{fullScoreItem.name}</div>
                         </div>
                       </div>
                     )

@@ -288,7 +288,7 @@ export default function DashboardPage() {
                     >
                       <div className="flex items-center gap-3">
                         <Avatar className="h-10 w-10">
-                          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-700 text-white">
+                          <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-white">
                             {patient.avatar}
                           </AvatarFallback>
                         </Avatar>
@@ -366,7 +366,7 @@ export default function DashboardPage() {
           transition={{ delay: 0.5 }}
           className="mt-6"
         >
-          <Card className="border-0 shadow-md bg-gradient-to-br from-blue-500 to-blue-700 text-white">
+          <Card className="border-0 shadow-md bg-linear-to-br from-blue-500 to-blue-700 text-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>

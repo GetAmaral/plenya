@@ -603,7 +603,7 @@ export function ConversationComposer({
             </span>
           )}
           {!validation.ok ? (
-            <p className="break-words text-amber-700" role="alert">
+            <p className="wrap-break-word text-amber-700" role="alert">
               {validation.reason}
             </p>
           ) : (

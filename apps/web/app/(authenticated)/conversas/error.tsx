@@ -19,7 +19,7 @@ export default function ConversasError({
       <h2 className="text-lg font-semibold mb-2 text-rose-700">
         Erro ao carregar /conversas
       </h2>
-      <pre className="bg-rose-50 border border-rose-200 p-3 rounded text-xs whitespace-pre-wrap break-words mb-3">
+      <pre className="bg-rose-50 border border-rose-200 p-3 rounded text-xs whitespace-pre-wrap wrap-break-word mb-3">
         <strong>{error.name}:</strong> {error.message}
         {error.digest && (
           <>

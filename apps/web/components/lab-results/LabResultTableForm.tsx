@@ -251,7 +251,7 @@ export function LabResultTableForm({
                         variant="ghost"
                         size="sm"
                         onClick={() => toggleManualMode(index)}
-                        className="h-8 w-8 p-0 mt-0 flex-shrink-0"
+                        className="h-8 w-8 p-0 mt-0 shrink-0"
                         title={manualModeRows[index] ? "Voltar para busca no catálogo" : "Preencher manualmente"}
                       >
                         <MoreHorizontal className="h-4 w-4" />
