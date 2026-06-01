@@ -13,28 +13,36 @@
  *
  * Drag-and-drop (enableDragDrop): arrastar um bloco reagenda a consulta.
  *   - Só consultas 'scheduled'/'confirmed' são arrastáveis.
- *   - PointerSensor com activationConstraint distance:6px → clique (<6px) continua
- *     abrindo o detalhe e o clique no vazio continua criando; só >6px vira arrasto.
+ *   - Mouse: distance 6px → clique (<6px) continua abrindo o detalhe e o clique
+ *     no vazio continua criando; só >6px vira arrasto.
+ *   - Touch: press-and-hold 250ms (flick de scroll sobre o bloco rola a página).
+ *   - Teclado: foco + Espaço pega; setas movem (↑↓ = horário 15min, ←→ = dia);
+ *     Espaço confirma, Esc cancela. Enter segue abrindo o detalhe.
  *   - delta.y → minutos (snap 15min); coluna de destino (over) → novo dia.
- *   - Reagendamento otimista (useRescheduleAppointment) com rollback + toast no 409.
+ *   - Reagendamento otimista (useRescheduleAppointment) com rollback + toast
+ *     amigável no 409 (conflito) e 403 (consulta de outro profissional).
+ *   - DragOverlay flutua a cópia do bloco (escapa do clip do container de scroll).
  *
  * Performance: simples client-side render — O(N appointments). Pra clinics
  * com >500 consultas/semana otimizar com virtualização.
  */
-import { useMemo, useRef, type MutableRefObject } from 'react';
+import { useMemo, useRef, useState, type MutableRefObject } from 'react';
 import { addDays, format, isSameDay, startOfDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import {
   DndContext,
+  DragOverlay,
   MouseSensor,
   TouchSensor,
+  KeyboardSensor,
   useSensor,
   useSensors,
   useDraggable,
   useDroppable,
   type DragEndEvent,
+  type DragStartEvent,
+  type KeyboardCoordinateGetter,
 } from '@dnd-kit/core';
-import { CSS } from '@dnd-kit/utilities';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import {
@@ -51,10 +59,43 @@ const HOUR_HEIGHT_PX = 56; // px por hora
 const TOTAL_HEIGHT = (HOUR_END - HOUR_START) * HOUR_HEIGHT_PX;
 const SNAP_MINUTES = 15;
 
+// Passo do teclado durante o arrasto: ¼ de hora na vertical, ~1 coluna na horizontal.
+const KEY_V_STEP_PX = HOUR_HEIGHT_PX / 4; // 14px ≈ 15 min
+const KEY_H_STEP_PX = 150; // ≈ uma coluna de dia
+
+// Classes visuais compartilhadas entre o bloco-fonte e a cópia do DragOverlay.
+const BLOCK_SHELL =
+  'overflow-hidden rounded border px-1.5 py-1 text-left text-xs shadow-sm';
+
 /** Só consultas ainda "vivas" podem ser arrastadas pra reagendar. */
 function canDragStatus(status: Appointment['status']): boolean {
   return status === 'scheduled' || status === 'confirmed';
 }
+
+function blockColorClass(a: Appointment, colorByDoctor: boolean): string {
+  return colorByDoctor
+    ? cn('border-l-4', doctorBlockClass(a.doctorId))
+    : APPOINTMENT_TYPE_COLORS[a.type];
+}
+
+/** Setas movem o bloco no teclado, em passos alinhados à grade. */
+const calendarKeyboardCoordinates: KeyboardCoordinateGetter = (event, { currentCoordinates }) => {
+  switch (event.code) {
+    case 'ArrowDown':
+      event.preventDefault();
+      return { x: currentCoordinates.x, y: currentCoordinates.y + KEY_V_STEP_PX };
+    case 'ArrowUp':
+      event.preventDefault();
+      return { x: currentCoordinates.x, y: currentCoordinates.y - KEY_V_STEP_PX };
+    case 'ArrowRight':
+      event.preventDefault();
+      return { x: currentCoordinates.x + KEY_H_STEP_PX, y: currentCoordinates.y };
+    case 'ArrowLeft':
+      event.preventDefault();
+      return { x: currentCoordinates.x - KEY_H_STEP_PX, y: currentCoordinates.y };
+  }
+  return undefined;
+};
 
 interface CalendarGridProps {
   /** Modo: 'day' (1 col) ou 'week' (7 cols). */
@@ -104,6 +145,8 @@ export function CalendarGrid({
   // Flag que "engole" o clique sintético disparado logo após um arrasto, pra
   // não abrir o detalhe (clique no bloco) nem criar consulta (clique no vazio).
   const justDraggedRef = useRef(false);
+  // Consulta sendo arrastada — alimenta o DragOverlay (cópia flutuante).
+  const [activeAppt, setActiveAppt] = useState<Appointment | null>(null);
 
   const sensors = useSensors(
     // Desktop: 6px separa clique (abre detalhe / cria) de arrasto (reagenda).
@@ -111,9 +154,19 @@ export function CalendarGrid({
     // Touch: press-and-hold (250ms) — assim um flick de scroll sobre um bloco
     // rola a página normalmente e só vira arrasto num toque deliberado.
     useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 8 } }),
+    // Teclado: Espaço pega/solta, Esc cancela (Enter fica livre p/ abrir detalhe).
+    useSensor(KeyboardSensor, {
+      keyboardCodes: { start: ['Space'], cancel: ['Escape'], end: ['Space'] },
+      coordinateGetter: calendarKeyboardCoordinates,
+    }),
   );
 
+  function handleDragStart(event: DragStartEvent) {
+    setActiveAppt((event.active.data.current?.appt as Appointment | undefined) ?? null);
+  }
+
   function handleDragEnd(event: DragEndEvent) {
+    setActiveAppt(null);
     justDraggedRef.current = true;
     // Reseta após o ciclo de eventos atual (o click sintético vem logo depois).
     window.setTimeout(() => {
@@ -183,8 +236,31 @@ export function CalendarGrid({
     );
   }
 
+  const announceName = (active: { data: { current?: Record<string, unknown> | null } }) =>
+    (active.data.current?.appt as Appointment | undefined)?.patient?.name ?? 'consulta';
+
   return (
-    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragCancel={() => setActiveAppt(null)}
+      accessibility={{
+        screenReaderInstructions: {
+          draggable:
+            'Para reagendar: foque numa consulta e pressione Espaço para pegá-la. ' +
+            'Mova com as setas (cima e baixo mudam o horário, esquerda e direita mudam o dia) ' +
+            'e pressione Espaço para confirmar, ou Esc para cancelar.',
+        },
+        announcements: {
+          onDragStart: ({ active }) =>
+            `Pegou a consulta de ${announceName(active)}. Mova com as setas; Espaço confirma.`,
+          onDragOver: () => undefined,
+          onDragEnd: ({ active }) => `Consulta de ${announceName(active)} reposicionada.`,
+          onDragCancel: ({ active }) => `Reagendamento de ${announceName(active)} cancelado.`,
+        },
+      }}
+    >
       <div className="overflow-x-auto rounded-lg border bg-background">
         <div
           className="grid"
@@ -250,6 +326,21 @@ export function CalendarGrid({
           })}
         </div>
       </div>
+
+      {/* Cópia flutuante do bloco arrastado — escapa do clip do scroll container. */}
+      <DragOverlay dropAnimation={null}>
+        {activeAppt ? (
+          <div
+            className={cn(
+              BLOCK_SHELL,
+              blockColorClass(activeAppt, colorByDoctor),
+              'h-full w-full cursor-grabbing opacity-95 shadow-lg ring-2 ring-primary/60',
+            )}
+          >
+            <AppointmentBlockContent appointment={activeAppt} colorByDoctor={colorByDoctor} />
+          </div>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 }
@@ -335,7 +426,7 @@ function AppointmentBlock({
   onSelect,
   justDraggedRef,
 }: AppointmentBlockProps) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: a.id,
     data: { appt: a },
     disabled: !draggable,
@@ -347,9 +438,6 @@ function AppointmentBlock({
   if (startMinutesFromGrid < 0) return null;
   const top = (startMinutesFromGrid / 60) * HOUR_HEIGHT_PX;
   const height = Math.max(20, (a.durationMinutes / 60) * HOUR_HEIGHT_PX - 2);
-  const baseClass = colorByDoctor
-    ? cn('border-l-4', doctorBlockClass(a.doctorId))
-    : APPOINTMENT_TYPE_COLORS[a.type];
   const patientName = a.patient?.name ?? 'Paciente';
   const typeLabel = APPOINTMENT_TYPE_LABELS[a.type];
   const doctorName = a.doctor?.name;
@@ -370,15 +458,37 @@ function AppointmentBlock({
         onSelect(a);
       }}
       className={cn(
-        'absolute left-1 right-1 overflow-hidden rounded border px-1.5 py-1 text-left text-xs shadow-sm transition-colors',
-        baseClass,
+        'absolute left-1 right-1 transition-colors',
+        BLOCK_SHELL,
+        blockColorClass(a, colorByDoctor),
         a.status === 'cancelled' && 'opacity-50 line-through',
         draggable && 'cursor-grab active:cursor-grabbing',
-        isDragging && 'z-30 cursor-grabbing opacity-90 shadow-lg ring-2 ring-primary/50',
+        // Durante o arrasto o bloco vira fantasma no lugar; o DragOverlay flutua.
+        isDragging && 'opacity-30',
       )}
-      style={{ top, height, transform: CSS.Translate.toString(transform) }}
+      style={{ top, height }}
       title={titleParts.join(' · ')}
+      aria-roledescription={draggable ? 'Consulta arrastável' : undefined}
     >
+      <AppointmentBlockContent appointment={a} colorByDoctor={colorByDoctor} />
+    </button>
+  );
+}
+
+/** Conteúdo visual do bloco — reaproveitado pelo bloco-fonte e pelo DragOverlay. */
+function AppointmentBlockContent({
+  appointment: a,
+  colorByDoctor,
+}: {
+  appointment: Appointment;
+  colorByDoctor: boolean;
+}) {
+  const start = new Date(a.scheduledAt);
+  const patientName = a.patient?.name ?? 'Paciente';
+  const typeLabel = APPOINTMENT_TYPE_LABELS[a.type];
+  const doctorName = a.doctor?.name;
+  return (
+    <>
       <div className="truncate font-semibold">
         {format(start, 'HH:mm')} {patientName}
       </div>
@@ -388,6 +498,6 @@ function AppointmentBlock({
           <span className="truncate font-medium">{doctorName.split(' ')[0]}</span>
         )}
       </div>
-    </button>
+    </>
   );
 }

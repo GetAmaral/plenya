@@ -14,7 +14,6 @@ import { Check, ChevronDown, Users } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -116,16 +115,29 @@ export function DoctorMultiSelect({
                   <button
                     key={d.id}
                     type="button"
+                    role="checkbox"
+                    aria-checked={checked}
                     onClick={() => toggle(d.id)}
                     className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent"
                   >
-                    <Checkbox checked={checked} className="pointer-events-none" />
+                    {/* Indicador visual (não é um <button> aninhado — evita o
+                        warning de hidratação que o Radix Checkbox causava). */}
+                    <span
+                      aria-hidden
+                      className={cn(
+                        'flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border',
+                        checked
+                          ? 'border-primary bg-primary text-primary-foreground'
+                          : 'border-input',
+                      )}
+                    >
+                      {checked && <Check className="h-3 w-3" />}
+                    </span>
                     <span
                       className={cn('h-2 w-2 rounded-full', doctorDotClass(d.id))}
                       aria-hidden
                     />
                     <span className="flex-1 truncate text-left">{d.name}</span>
-                    {checked && <Check className="h-3.5 w-3.5 text-primary" />}
                   </button>
                 );
               })
