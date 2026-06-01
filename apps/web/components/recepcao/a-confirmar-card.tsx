@@ -13,6 +13,7 @@ import {
   useConfirmAppointment,
 } from "@/lib/api/calendar-api";
 import { EmptyState } from "./empty-state";
+import { ErrorState } from "./error-state";
 import { formatTimeBRT, formatRelativeDayTime } from "./recepcao-helpers";
 
 /**
@@ -76,9 +77,13 @@ function ConfirmRow({ appointment }: { appointment: Appointment }) {
 export function AConfirmarCard({
   appointments,
   isLoading,
+  isError,
+  onRetry,
 }: {
   appointments: Appointment[];
   isLoading: boolean;
+  isError?: boolean;
+  onRetry?: () => void;
 }) {
   const pending = [...appointments]
     .filter((a) => a.status === "scheduled")
@@ -101,7 +106,12 @@ export function AConfirmarCard({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
+        {isError ? (
+          <ErrorState
+            title="Nao foi possivel carregar as confirmacoes"
+            onRetry={onRetry}
+          />
+        ) : isLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 3 }).map((_, i) => (
               <Skeleton key={i} className="h-14 w-full" />

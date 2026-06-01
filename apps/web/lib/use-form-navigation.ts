@@ -2,9 +2,11 @@ import { useEffect, RefObject } from "react";
 
 interface UseFormNavigationOptions {
   /**
-   * Ref do formulário onde aplicar a navegação
+   * Ref do formulário onde aplicar a navegação.
+   * Aceita | null: React 19 tipa useRef<T>(null) como RefObject<T | null>, e o
+   * corpo do hook já é null-safe (guardas !formRef.current).
    */
-  formRef: RefObject<HTMLFormElement>;
+  formRef: RefObject<HTMLFormElement | null>;
 
   /**
    * Se true, desabilita a navegação automática

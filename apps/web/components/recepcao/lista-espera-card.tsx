@@ -49,6 +49,7 @@ import {
   type WaitlistEntry,
 } from "@/lib/api/waitlist";
 import { EmptyState } from "./empty-state";
+import { ErrorState } from "./error-state";
 
 const TYPE_OPTIONS = Object.entries(APPOINTMENT_TYPE_LABELS) as [
   AppointmentType,
@@ -361,7 +362,7 @@ function AddWaitlistDialog({
  */
 export function ListaEsperaCard() {
   const [addOpen, setAddOpen] = useState(false);
-  const { data: entries = [], isLoading } = useWaitlist("waiting");
+  const { data: entries = [], isLoading, isError, refetch } = useWaitlist("waiting");
 
   return (
     <Card className="border-0 shadow-md">
@@ -377,7 +378,12 @@ export function ListaEsperaCard() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {isLoading ? (
+        {isError ? (
+          <ErrorState
+            title="Nao foi possivel carregar a lista de espera"
+            onRetry={() => refetch()}
+          />
+        ) : isLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 3 }).map((_, i) => (
               <Skeleton key={i} className="h-16 w-full" />

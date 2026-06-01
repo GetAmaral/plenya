@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLeads, SOURCE_LABELS } from "@/lib/api/leads-api";
 import { EmptyState } from "./empty-state";
+import { ErrorState } from "./error-state";
 import { formatRelativeDayTime } from "./recepcao-helpers";
 
 /**
@@ -17,7 +18,7 @@ import { formatRelativeDayTime } from "./recepcao-helpers";
  */
 export function LeadsNovosCard() {
   // page=0, pageSize=5 — backend ja ordena do mais recente pro mais antigo.
-  const { data, isLoading } = useLeads({ status: "new" }, 0, 5);
+  const { data, isLoading, isError, refetch } = useLeads({ status: "new" }, 0, 5);
 
   const items = data?.items ?? [];
   const total = data?.total ?? 0;
@@ -36,7 +37,12 @@ export function LeadsNovosCard() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {isLoading ? (
+        {isError ? (
+          <ErrorState
+            title="Nao foi possivel carregar os leads"
+            onRetry={() => refetch()}
+          />
+        ) : isLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 3 }).map((_, i) => (
               <Skeleton key={i} className="h-14 w-full" />

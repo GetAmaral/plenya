@@ -40,8 +40,8 @@ const item = {
  * amanha), mensagens nao lidas e leads novos, mais acoes rapidas.
  *
  * Polling: as consultas vem de useAppointments (refetchInterval 15s, igual ao
- * Calendario), entao a agenda fica viva. Mensagens (20s) e leads herdam o
- * polling/staleTime dos seus proprios hooks.
+ * Calendario). Mensagens, leads e lista de espera tambem fazem polling (~30s)
+ * nos seus proprios hooks, entao o cockpit inteiro fica vivo sem refresh manual.
  */
 export default function RecepcaoPage() {
   const router = useRouter();
@@ -49,7 +49,12 @@ export default function RecepcaoPage() {
   const [quickAddOpen, setQuickAddOpen] = useState(false);
   const { setSelectedPatient } = useSelectedPatient();
 
-  const { data: doctors = [], isLoading: doctorsLoading } = useDoctors();
+  const {
+    data: doctors = [],
+    isLoading: doctorsLoading,
+    isError: doctorsError,
+    refetch: refetchDoctors,
+  } = useDoctors();
   const doctorIds = useMemo(() => doctors.map((d) => d.id), [doctors]);
 
   // Janela [hoje 00:00, depois-de-amanha 00:00): cobre hoje (Agenda) e
@@ -66,18 +71,27 @@ export default function RecepcaoPage() {
     };
   }, []);
 
-  const { data: appointments = [], isLoading: appointmentsLoading } =
-    useAppointments({
-      doctorIds,
-      dateFrom,
-      dateTo,
-      limit: 500,
-    });
+  const {
+    data: appointments = [],
+    isLoading: appointmentsLoading,
+    isError: appointmentsError,
+    refetch: refetchAppointments,
+  } = useAppointments({
+    doctorIds,
+    dateFrom,
+    dateTo,
+    limit: 500,
+  });
 
   // Enquanto a lista de medicos nao resolve, useAppointments fica desabilitado
   // (enabled=false => isLoading false). Tratamos como "carregando" pra mostrar
   // skeletons em vez de piscar estados vazios.
   const isLoading = doctorsLoading || appointmentsLoading;
+  const isError = doctorsError || appointmentsError;
+  const retryAgenda = () => {
+    refetchDoctors();
+    refetchAppointments();
+  };
 
   // Hoje vs hoje+amanha — derivados client-side da mesma janela.
   const todayStart = todayStartMs;
@@ -148,6 +162,8 @@ export default function RecepcaoPage() {
           <AgendaHojeCard
             appointments={todayAppointments}
             isLoading={isLoading}
+            isError={isError}
+            onRetry={retryAgenda}
           />
         </motion.div>
 
@@ -156,6 +172,8 @@ export default function RecepcaoPage() {
           <AConfirmarCard
             appointments={todayAndTomorrow}
             isLoading={isLoading}
+            isError={isError}
+            onRetry={retryAgenda}
           />
         </motion.div>
 

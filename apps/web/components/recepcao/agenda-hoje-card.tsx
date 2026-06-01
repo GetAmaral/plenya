@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import type { Appointment } from "@/lib/api/calendar-api";
 import { AppointmentRow } from "./appointment-row";
 import { EmptyState } from "./empty-state";
+import { ErrorState } from "./error-state";
 
 /**
  * "Agenda de hoje": todas as consultas do dia, todos os medicos, ordenadas por
@@ -15,9 +16,13 @@ import { EmptyState } from "./empty-state";
 export function AgendaHojeCard({
   appointments,
   isLoading,
+  isError,
+  onRetry,
 }: {
   appointments: Appointment[];
   isLoading: boolean;
+  isError?: boolean;
+  onRetry?: () => void;
 }) {
   const sorted = [...appointments].sort(
     (a, b) =>
@@ -38,7 +43,12 @@ export function AgendaHojeCard({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
+        {isError ? (
+          <ErrorState
+            title="Nao foi possivel carregar a agenda"
+            onRetry={onRetry}
+          />
+        ) : isLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 4 }).map((_, i) => (
               <Skeleton key={i} className="h-16 w-full" />

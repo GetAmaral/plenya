@@ -126,8 +126,10 @@ class APIClient {
 
       // Create error object with the message
       const apiError = new Error(errorMessage);
-      // Attach original error data for debugging
+      // Attach original error data + HTTP status (ex: 409 conflito de horario)
+      // para o chamador decidir a mensagem amigavel.
       (apiError as any).data = error;
+      (apiError as any).status = response.status;
       throw apiError;
     }
 

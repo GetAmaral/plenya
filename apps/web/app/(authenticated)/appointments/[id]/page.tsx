@@ -191,8 +191,14 @@ export default function AppointmentDetailPage() {
       setReschedSlot(null);
       setReschedDate('');
     } catch (err) {
+      const status = (err as { status?: number }).status;
       toast.error('Erro ao reagendar', {
-        description: err instanceof Error ? err.message : undefined,
+        description:
+          status === 409
+            ? 'Esse horário já foi reservado para o médico. Escolha outro.'
+            : err instanceof Error
+              ? err.message
+              : undefined,
       });
     }
   };

@@ -214,6 +214,12 @@ func (h *AppointmentHandler) Update(c *fiber.Ctx) error {
 				Message: "you do not have permission to update this appointment",
 			})
 		}
+		if errors.Is(err, services.ErrAppointmentConflict) {
+			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+				Error:   "appointment conflict",
+				Message: "doctor already has an appointment at this time",
+			})
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error:   "internal server error",
 			Message: err.Error(),

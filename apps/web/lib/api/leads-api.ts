@@ -119,12 +119,15 @@ export function useLeads(
   filter: LeadFilter,
   page = 0,
   pageSize = 25,
-  options?: { enabled?: boolean }
+  options?: { enabled?: boolean; refetchInterval?: number }
 ) {
   return useQuery({
     queryKey: leadKeys.list(filter, page, pageSize),
     queryFn: () => apiClient.get<LeadListResult>(`/api/v1/leads?${buildQuery(filter, page, pageSize)}`),
     enabled: options?.enabled ?? true,
+    // Polling: lead novo (IG/site/WhatsApp) aparece sozinho no cockpit e na
+    // inbox sem refresh manual. Override via options pra casos especificos.
+    refetchInterval: options?.refetchInterval ?? 30_000,
   });
 }
 

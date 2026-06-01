@@ -37,6 +37,8 @@ export function useWaitlist(status = "waiting") {
     queryFn: () =>
       apiClient.get<WaitlistEntry[]>(`/api/v1/waitlist?status=${status}`),
     staleTime: 30_000,
+    // Polling: encaixe novo aparece sozinho no cockpit (igual a agenda/leads).
+    refetchInterval: 30_000,
   });
 }
 

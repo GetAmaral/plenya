@@ -11,6 +11,7 @@ import {
   useConversationsUnreadCount,
 } from "@/lib/api/conversations-api";
 import { EmptyState } from "./empty-state";
+import { ErrorState } from "./error-state";
 import { CHANNEL_LABELS, formatRelativeDayTime } from "./recepcao-helpers";
 
 /**
@@ -25,7 +26,12 @@ import { CHANNEL_LABELS, formatRelativeDayTime } from "./recepcao-helpers";
 export function MensagensCard() {
   const { data: unreadTotal, isLoading: countLoading } =
     useConversationsUnreadCount();
-  const { data: list, isLoading: listLoading } = useConversations({
+  const {
+    data: list,
+    isLoading: listLoading,
+    isError: listError,
+    refetch,
+  } = useConversations({
     unreadOnly: true,
     limit: 5,
   });
@@ -47,7 +53,12 @@ export function MensagensCard() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {listLoading ? (
+        {listError ? (
+          <ErrorState
+            title="Nao foi possivel carregar as mensagens"
+            onRetry={() => refetch()}
+          />
+        ) : listLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 3 }).map((_, i) => (
               <Skeleton key={i} className="h-14 w-full" />

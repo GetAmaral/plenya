@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -14,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createPatient, type Patient } from "@/lib/api/patients";
+import { useCreatePatient, type Patient } from "@/lib/api/patient-api";
 import { useFormNavigation } from "@/lib/use-form-navigation";
 
 interface QuickAddPatientDialogProps {
@@ -33,25 +32,11 @@ export function QuickAddPatientDialog({
 }: QuickAddPatientDialogProps) {
   const formRef = useRef<HTMLFormElement>(null);
   useFormNavigation({ formRef });
-  const queryClient = useQueryClient();
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
-  const createMutation = useMutation({
-    mutationFn: () => createPatient({ name: name.trim(), phone: phone.trim() || undefined }),
-    onSuccess: (patient) => {
-      queryClient.invalidateQueries({ queryKey: ["patients"] });
-      toast.success("Paciente cadastrado");
-      setName("");
-      setPhone("");
-      onOpenChange(false);
-      onCreated?.(patient);
-    },
-    onError: (e: unknown) => {
-      toast.error(e instanceof Error ? e.message : "Falha ao cadastrar");
-    },
-  });
+  const createMutation = useCreatePatient();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +44,21 @@ export function QuickAddPatientDialog({
       toast.error("Informe o nome completo (mínimo 3 letras)");
       return;
     }
-    createMutation.mutate();
+    createMutation.mutate(
+      { name: name.trim(), phone: phone.trim() || undefined },
+      {
+        onSuccess: (patient) => {
+          toast.success("Paciente cadastrado");
+          setName("");
+          setPhone("");
+          onOpenChange(false);
+          onCreated?.(patient);
+        },
+        onError: (e: unknown) => {
+          toast.error(e instanceof Error ? e.message : "Falha ao cadastrar");
+        },
+      },
+    );
   };
 
   return (

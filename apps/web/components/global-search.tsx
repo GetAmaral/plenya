@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/command";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { apiClient } from "@/lib/api-client";
-import type { Patient } from "@/lib/api/patients";
+import type { Patient } from "@/lib/api/patient-api";
 
 // Busca global de pacientes (nome / CPF / telefone). Atalho Cmd/Ctrl+K,
 // disponível de qualquer tela do EMR.
