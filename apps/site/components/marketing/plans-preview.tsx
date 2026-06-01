@@ -34,7 +34,7 @@ export function PlansPreview() {
       <PlenyaSymbol
         aria-hidden="true"
         focusable="false"
-        className="hidden md:block absolute -top-6 right-8 lg:right-20 h-40 lg:h-56 w-auto text-petrol/[0.06] pointer-events-none"
+        className="hidden md:block absolute -top-6 right-8 lg:right-20 h-40 lg:h-56 w-auto text-petrol/6 pointer-events-none"
       />
       <div className="relative site-container section">
         <div className="flex items-center gap-4 mb-6">

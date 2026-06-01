@@ -1,6 +1,150 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../tailwind.config.ts';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility site-container {
+  /* Containers */
+  @apply mx-auto max-w-[1200px] px-6 md:px-10;
+}
+
+@utility site-narrow {
+  @apply mx-auto max-w-[720px] px-6 md:px-10;
+}
+
+@utility section {
+  /* Section spacing — generous */
+  @apply py-24 md:py-32;
+}
+
+@utility heading-hero {
+  /* Typography — leading apertado (feedback branding 2026-04: serifa display
+     com line-height grande não passa sofisticação). */
+  font-family: var(--font-heading), 'Cormorant Garamond', serif;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+@utility heading-section {
+  font-family: var(--font-heading), 'Cormorant Garamond', serif;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+}
+
+@utility label-upper {
+  /* Eyebrow/kicker — aumentado +30% (feedback branding: estavam pequenos demais
+     em todas as seções: O QUE NOS MOVE, MÉTODO AGIR, DIAGNÓSTICO, EQUIPE, etc) */
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 0.875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@utility label-upper-sm {
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@utility btn-gold {
+  /* Buttons — contraste corrigido + tamanho maior (feedback branding 2026-04:
+     texto petrol sobre gold ficava ilegível; botões pequenos demais). */
+  @apply inline-flex items-center justify-center bg-gold text-cream px-12 py-5 rounded-full transition-all duration-300;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  &:hover {
+    @apply bg-gold-600 -translate-y-px shadow-lg shadow-gold/30;
+  }
+}
+
+@utility btn-outline-dark {
+  @apply inline-flex items-center justify-center border border-petrol/40 text-petrol px-10 py-5 rounded-full transition-all duration-300;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  &:hover {
+    @apply border-petrol bg-petrol text-cream;
+  }
+}
+
+@utility btn-outline-light {
+  @apply inline-flex items-center justify-center border border-cream/50 text-cream px-10 py-5 rounded-full transition-all duration-300;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  &:hover {
+    @apply border-cream bg-cream text-petrol;
+  }
+}
+
+@utility nav-pill {
+  /* Nav pills — matching mockup */
+  @apply inline-flex items-center justify-center border border-cream/50 text-cream/90 px-5 py-1.5 rounded-full transition-all duration-300;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  &:hover {
+    @apply bg-cream/15 border-cream/80 text-cream;
+  }
+  &[data-active='true'] {
+    @apply bg-cream/15 border-cream/80 text-cream;
+  }
+}
+
+@utility form-input {
+  /* Form inputs */
+  @apply w-full bg-paper border border-petrol/15 px-5 py-3.5 text-petrol text-sm transition;
+  &:focus {
+    @apply outline-hidden border-gold;
+  }
+  &::placeholder {
+    @apply text-petrol/40;
+  }
+}
+
+@utility post-card-featured {
+  /* Post card */
+  @apply border-t border-petrol/15 pt-10 pb-6;
+}
+
+@utility post-card {
+  /* Cards em grid — sem border-top (o grid faz o spacing) */
+  @apply pb-2;
+}
+
+@utility animate-fade-in {
+  animation: plenya-fade-in 220ms ease-out;
+}
 
 @layer base {
   html {
@@ -18,120 +162,9 @@
   h1, h2, h3 { text-wrap: balance; }
 }
 
-@layer components {
-  /* Containers */
-  .site-container { @apply mx-auto max-w-[1200px] px-6 md:px-10; }
-  .site-narrow   { @apply mx-auto max-w-[720px] px-6 md:px-10; }
-
-  /* Section spacing — generous */
-  .section { @apply py-24 md:py-32; }
-
-  /* Typography — leading apertado (feedback branding 2026-04: serifa display
-     com line-height grande não passa sofisticação). */
-  .heading-hero {
-    font-family: var(--font-heading), 'Cormorant Garamond', serif;
-    font-weight: 400;
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-  }
-  .heading-section {
-    font-family: var(--font-heading), 'Cormorant Garamond', serif;
-    font-weight: 400;
-    line-height: 1.02;
-    letter-spacing: -0.015em;
-  }
-  /* Eyebrow/kicker — aumentado +30% (feedback branding: estavam pequenos demais
-     em todas as seções: O QUE NOS MOVE, MÉTODO AGIR, DIAGNÓSTICO, EQUIPE, etc) */
-  .label-upper {
-    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-    font-size: 0.875rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-  .label-upper-sm {
-    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  /* Buttons — contraste corrigido + tamanho maior (feedback branding 2026-04:
-     texto petrol sobre gold ficava ilegível; botões pequenos demais). */
-  .btn-gold {
-    @apply inline-flex items-center justify-center bg-gold text-cream px-12 py-5 rounded-full transition-all duration-300;
-    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .btn-gold:hover {
-    @apply bg-gold-600 -translate-y-px shadow-lg shadow-gold/30;
-  }
-  .btn-outline-dark {
-    @apply inline-flex items-center justify-center border border-petrol/40 text-petrol px-10 py-5 rounded-full transition-all duration-300;
-    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .btn-outline-dark:hover {
-    @apply border-petrol bg-petrol text-cream;
-  }
-  .btn-outline-light {
-    @apply inline-flex items-center justify-center border border-cream/50 text-cream px-10 py-5 rounded-full transition-all duration-300;
-    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .btn-outline-light:hover {
-    @apply border-cream bg-cream text-petrol;
-  }
-
-  /* Nav pills — matching mockup */
-  .nav-pill {
-    @apply inline-flex items-center justify-center border border-cream/50 text-cream/90 px-5 py-1.5 rounded-full transition-all duration-300;
-    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-    font-size: 0.625rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .nav-pill:hover, .nav-pill[data-active="true"] {
-    @apply bg-cream/15 border-cream/80 text-cream;
-  }
-
-  /* Form inputs */
-  .form-input {
-    @apply w-full bg-paper border border-petrol/15 px-5 py-3.5 text-petrol text-sm transition;
-  }
-  .form-input:focus {
-    @apply outline-none border-gold;
-  }
-  .form-input::placeholder {
-    @apply text-petrol/40;
-  }
-
-  /* Post card */
-  .post-card-featured {
-    @apply border-t border-petrol/15 pt-10 pb-6;
-  }
-  /* Cards em grid — sem border-top (o grid faz o spacing) */
-  .post-card {
-    @apply pb-2;
-  }
-}
-
 @layer utilities {
   @keyframes plenya-fade-in {
     from { opacity: 0; transform: translateY(2px); }
     to   { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fade-in {
-    animation: plenya-fade-in 220ms ease-out;
   }
 }

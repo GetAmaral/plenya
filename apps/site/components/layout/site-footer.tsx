@@ -20,7 +20,7 @@ export function SiteFooter() {
       <PlenyaSymbol
         aria-hidden="true"
         focusable="false"
-        className="hidden md:block absolute -bottom-10 -right-10 h-72 w-auto text-cream/[0.03] pointer-events-none"
+        className="hidden md:block absolute -bottom-10 -right-10 h-72 w-auto text-cream/3 pointer-events-none"
       />
       <div className="relative site-container py-20 grid gap-12 md:grid-cols-2 lg:grid-cols-6">
         <div className="lg:col-span-2 space-y-4">

@@ -51,7 +51,7 @@ export default async function TeamPage({ params }: { params: Params }) {
             <p className="text-cream/80 text-lg mt-6 leading-relaxed">{t('heroP1')}</p>
             <p className="text-cream/60 mt-4 leading-relaxed">{t('heroP2')}</p>
           </div>
-          <div className="relative w-full max-w-md lg:w-[360px] lg:max-w-none aspect-[1064/1891] overflow-hidden bg-petrol/40">
+          <div className="relative w-full max-w-md lg:w-[360px] lg:max-w-none aspect-1064/1891 overflow-hidden bg-petrol/40">
             <Image
               src="/images/team/equipe-formal.jpg"
               alt={t('heroAlt')}
@@ -78,7 +78,7 @@ export default async function TeamPage({ params }: { params: Params }) {
               href="/dr-getulio"
               className="group grid md:grid-cols-[460px_1fr] gap-10 lg:gap-16 items-start bg-paper hover:bg-cream-100 transition-colors duration-300 p-6 md:p-10"
             >
-              <div className="relative aspect-[3/4] overflow-hidden">
+              <div className="relative aspect-3/4 overflow-hidden">
                 {direcao.photo && (
                   <Image
                     src={direcao.photo}

@@ -69,7 +69,7 @@ ${t('emailFooter')}
         </label>
         <div className="space-y-2">
           {RIGHT_IDS.map((id) => (
-            <label key={id} className="flex gap-3 items-start cursor-pointer hover:bg-cream/60 p-2 rounded transition">
+            <label key={id} className="flex gap-3 items-start cursor-pointer hover:bg-cream/60 p-2 rounded-sm transition">
               <input
                 type="radio"
                 name="right"
@@ -97,7 +97,7 @@ ${t('emailFooter')}
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+            className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-hidden"
           />
         </div>
         <div>
@@ -109,7 +109,7 @@ ${t('emailFooter')}
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+            className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-hidden"
             placeholder={t('formEmailPlaceholder')}
           />
         </div>
@@ -124,7 +124,7 @@ ${t('emailFooter')}
           value={sessionCode}
           onChange={(e) => setSessionCode(e.target.value)}
           placeholder={t('formSessionCodePlaceholder')}
-          className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none font-mono text-sm"
+          className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-hidden font-mono text-sm"
         />
         <p className="text-petrol/55 text-xs mt-1">
           {t('formSessionCodeHelpPart1')}
@@ -141,7 +141,7 @@ ${t('emailFooter')}
           value={details}
           onChange={(e) => setDetails(e.target.value)}
           rows={4}
-          className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+          className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-hidden"
           placeholder={t('formDetailsPlaceholder')}
         />
       </div>

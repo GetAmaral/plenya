@@ -15,7 +15,7 @@ export function DoctorCard({ doctor, locale = defaultLocale }: { doctor: Doctor;
       href={href}
       className="group block bg-paper hover:bg-cream-100 transition-colors duration-300"
     >
-      <div className="relative aspect-[3/4] overflow-hidden">
+      <div className="relative aspect-3/4 overflow-hidden">
         {doctor.photo ? (
           <Image
             src={doctor.photo}

@@ -219,7 +219,7 @@ export function EscoreLightResultado({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder={t('resultClaimEmailPlaceholder')}
-                      className="ml-7 w-[calc(100%-1.75rem)] border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+                      className="ml-7 w-[calc(100%-1.75rem)] border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-hidden"
                     />
                   )}
                 </div>
@@ -239,7 +239,7 @@ export function EscoreLightResultado({
                       <PhoneInput
                         value={phoneE164}
                         onChange={setPhoneE164}
-                        className="ml-7 w-[calc(100%-1.75rem)] border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+                        className="ml-7 w-[calc(100%-1.75rem)] border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-hidden"
                       />
                       <p className="ml-7 text-xs text-petrol/55 leading-relaxed">
                         {t('resultClaimWhatsAppNotePart1')}
@@ -346,14 +346,14 @@ export function EscoreLightResultado({
                 <button
                   type="button"
                   onClick={handleDelete}
-                  className="px-4 py-2 bg-red-700 text-cream rounded text-sm hover:bg-red-800 transition"
+                  className="px-4 py-2 bg-red-700 text-cream rounded-sm text-sm hover:bg-red-800 transition"
                 >
                   {t('resultLgpdConfirmYes')}
                 </button>
                 <button
                   type="button"
                   onClick={() => setDeleteStatus('idle')}
-                  className="px-4 py-2 border border-petrol/30 text-petrol rounded text-sm hover:bg-petrol/5 transition"
+                  className="px-4 py-2 border border-petrol/30 text-petrol rounded-sm text-sm hover:bg-petrol/5 transition"
                 >
                   {t('resultLgpdConfirmCancel')}
                 </button>

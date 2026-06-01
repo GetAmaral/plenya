@@ -158,9 +158,9 @@ export default async function ScorePage({ params }: { params: Params }) {
             {bands.map((f) => (
               <div
                 key={f.label}
-                className="flex items-center gap-3 p-4 border border-petrol/10 rounded-sm"
+                className="flex items-center gap-3 p-4 border border-petrol/10 rounded-xs"
               >
-                <span className={`w-3 h-10 rounded-sm ${f.color} flex-shrink-0`} aria-hidden />
+                <span className={`w-3 h-10 rounded-xs ${f.color} shrink-0`} aria-hidden />
                 <div>
                   <p className="heading-section text-petrol text-base leading-tight">{f.label}</p>
                   <p className="font-mono text-xs text-petrol/50 mt-0.5">{f.range}</p>
@@ -277,7 +277,7 @@ export default async function ScorePage({ params }: { params: Params }) {
       {/* IMAGEM ÂNCORA */}
       <section className="bg-cream">
         <div className="site-container">
-          <div className="relative aspect-[16/7] overflow-hidden">
+          <div className="relative aspect-16/7 overflow-hidden">
             <Image
               src="/images/hero-score.jpg"
               alt={t('anchorImageAlt')}

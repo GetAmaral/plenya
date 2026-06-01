@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss';
-import animate from 'tailwindcss-animate';
 import plenyaPreset from '@plenya/brand/tailwind-preset';
 
 const config: Config = {
@@ -13,7 +12,7 @@ const config: Config = {
   theme: {
     extend: {},
   },
-  plugins: [animate],
+  plugins: [],
 };
 
 export default config;

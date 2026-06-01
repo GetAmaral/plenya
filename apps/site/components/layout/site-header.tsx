@@ -92,8 +92,8 @@ export function SiteHeader() {
         className={cn(
           'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
           scrolled
-            ? 'bg-petrol/95 backdrop-blur-md shadow-sm'
-            : 'bg-petrol/30 backdrop-blur-sm',
+            ? 'bg-petrol/95 backdrop-blur-md shadow-xs'
+            : 'bg-petrol/30 backdrop-blur-xs',
         )}
       >
         <div className="site-container flex items-center justify-between py-5">
@@ -142,7 +142,7 @@ export function SiteHeader() {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-50 bg-petrol/40 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-petrol/40 backdrop-blur-xs"
             onClick={() => setOpen(false)}
           />
 

@@ -76,7 +76,7 @@ export default async function DrGetulioPage({ params }: { params: Params }) {
               </a>
             </div>
           </div>
-          <div className="relative aspect-[3/4] overflow-hidden">
+          <div className="relative aspect-3/4 overflow-hidden">
             <Image
               src="/images/dr-getulio.jpg"
               alt={`${t('heroNameLine1')} ${t('heroNameLine2')}`}
@@ -151,7 +151,7 @@ export default async function DrGetulioPage({ params }: { params: Params }) {
         <div className="site-container section">
           <p className="label-upper text-gold mb-10">{t('practiceLabel')}</p>
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-            <div className="relative aspect-[3/4] overflow-hidden">
+            <div className="relative aspect-3/4 overflow-hidden">
               <Image
                 src="/images/getulio-estetoscopio.jpg"
                 alt={t('photo1Alt')}
@@ -160,7 +160,7 @@ export default async function DrGetulioPage({ params }: { params: Params }) {
                 sizes="(min-width: 768px) 540px, 100vw"
               />
             </div>
-            <div className="relative aspect-[3/4] overflow-hidden">
+            <div className="relative aspect-3/4 overflow-hidden">
               <Image
                 src="/images/getulio-consulta.jpg"
                 alt={t('photo2Alt')}
@@ -181,7 +181,7 @@ export default async function DrGetulioPage({ params }: { params: Params }) {
               href={locale === 'en' ? 'https://drgetulioamaralfilho.com.br/en/livros/antes' : 'https://drgetulioamaralfilho.com.br/livros/antes'}
               target="_blank"
               rel="noreferrer"
-              className="relative aspect-[2/3] w-full max-w-[180px] mx-auto md:mx-0 shadow-xl block"
+              className="relative aspect-2/3 w-full max-w-[180px] mx-auto md:mx-0 shadow-xl block"
             >
               <Image
                 src="/images/livro-capa.jpg"

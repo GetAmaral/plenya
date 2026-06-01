@@ -54,7 +54,7 @@ export function VideoPlayer({ provider, videoId, poster, title, className, aspec
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
             />
           ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-petrol via-petrol-light to-petrol" />
+            <div className="absolute inset-0 bg-linear-to-br from-petrol via-petrol-light to-petrol" />
           )}
           <div className="absolute inset-0 bg-petrol/30 group-hover:bg-petrol/20 transition" />
           <div className="absolute inset-0 flex items-center justify-center">

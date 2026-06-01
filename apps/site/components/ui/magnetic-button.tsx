@@ -4,7 +4,7 @@ import { useMagnetic } from '@/lib/hooks/use-magnetic';
 import { cn } from '@/lib/cn';
 
 type Props = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  variant?: 'primary' | 'outline' | 'outline-cream';
+  variant?: 'primary' | 'outline-solid' | 'outline-cream';
   strength?: number;
   children: React.ReactNode;
 };

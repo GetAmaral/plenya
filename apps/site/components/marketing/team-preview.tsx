@@ -25,7 +25,7 @@ export function TeamPreview() {
             </Link>
           </div>
         </div>
-        <div className="relative w-full max-w-md lg:w-[380px] lg:max-w-none aspect-[1064/1891] overflow-hidden bg-petrol/5">
+        <div className="relative w-full max-w-md lg:w-[380px] lg:max-w-none aspect-1064/1891 overflow-hidden bg-petrol/5">
           <Image
             src="/images/team/equipe-formal.jpg"
             alt={t('teamLabel')}

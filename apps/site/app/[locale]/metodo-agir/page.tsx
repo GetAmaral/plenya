@@ -68,7 +68,7 @@ export default async function MethodPage({ params }: { params: Params }) {
           className="object-cover object-top opacity-40"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-petrol/70 via-petrol/60 to-petrol" />
+        <div className="absolute inset-0 bg-linear-to-b from-petrol/70 via-petrol/60 to-petrol" />
         <div className="relative site-container pt-32 pb-24 md:pt-40 md:pb-32">
           <p className="label-upper text-gold mb-6">{t('heroLabel')}</p>
           <h1 className="heading-hero text-[clamp(2.8rem,7vw,5.5rem)] text-cream max-w-3xl">

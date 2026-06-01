@@ -51,7 +51,7 @@ export async function BookReferenceBlock({
             href={url}
             target="_blank"
             rel="noreferrer"
-            className="relative aspect-[2/3] w-full max-w-[180px] mx-auto md:mx-0 shadow-xl block"
+            className="relative aspect-2/3 w-full max-w-[180px] mx-auto md:mx-0 shadow-xl block"
           >
             <Image
               src="/images/livro-capa.jpg"

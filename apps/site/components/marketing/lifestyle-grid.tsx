@@ -12,7 +12,7 @@ export function LifestyleGrid() {
       <div className="site-container">
         <div className="grid md:grid-cols-3 gap-3">
           {tiles.map((tile) => (
-            <div key={tile.src} className="relative aspect-[4/3] overflow-hidden">
+            <div key={tile.src} className="relative aspect-4/3 overflow-hidden">
               <Image
                 src={tile.src}
                 alt={tile.alt}

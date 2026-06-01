@@ -81,7 +81,7 @@ export default async function DoctorPage({ params }: { params: Promise<{ locale:
               )}
             </div>
           </div>
-          <div className="relative aspect-[3/4] overflow-hidden">
+          <div className="relative aspect-3/4 overflow-hidden">
             {doctor.photo ? (
               <Image
                 src={doctor.photo}

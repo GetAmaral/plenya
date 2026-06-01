@@ -50,7 +50,7 @@ export function FaqAccordion({
                   <ChevronDown
                     size={20}
                     className={cn(
-                      'flex-shrink-0 text-petrol/50 transition-transform duration-300',
+                      'shrink-0 text-petrol/50 transition-transform duration-300',
                       isOpen && 'rotate-180 text-gold',
                     )}
                   />

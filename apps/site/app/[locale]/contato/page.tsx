@@ -51,7 +51,7 @@ export default async function ContactPage({ params }: { params: Params }) {
                 <p className="label-upper text-gold">{t('emailLabel')}</p>
                 <a
                   href={`mailto:${brand.email}`}
-                  className="text-petrol text-base hover:text-gold transition break-words"
+                  className="text-petrol text-base hover:text-gold transition wrap-break-word"
                 >
                   {brand.email}
                 </a>
@@ -100,7 +100,7 @@ export default async function ContactPage({ params }: { params: Params }) {
       <section className="bg-cream-100">
         <div className="site-container pb-24 md:pb-32">
           <figure className="space-y-4">
-            <div className="relative aspect-[3/2] overflow-hidden">
+            <div className="relative aspect-3/2 overflow-hidden">
               <Image
                 src="/images/clinic-exterior.jpg"
                 alt={t('clinicCaptionValue')}

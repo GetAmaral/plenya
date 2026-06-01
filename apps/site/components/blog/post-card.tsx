@@ -11,7 +11,7 @@ export function PostCard({ post, featured = false, locale = defaultLocale }: { p
       className={`group block ${featured ? 'post-card-featured' : 'post-card'}`}
     >
       {post.cover && (
-        <div className={`relative overflow-hidden mb-6 bg-petrol/5 ${featured ? 'aspect-[3/2]' : 'aspect-[16/10]'}`}>
+        <div className={`relative overflow-hidden mb-6 bg-petrol/5 ${featured ? 'aspect-3/2' : 'aspect-16/10'}`}>
           <Image
             src={post.cover}
             alt={post.title}

@@ -10,7 +10,7 @@ export function DrGetulioPreview() {
   return (
     <section className="bg-paper">
       <div className="site-container section grid gap-16 lg:grid-cols-2 items-center">
-        <div className="relative aspect-[3/4] overflow-hidden">
+        <div className="relative aspect-3/4 overflow-hidden">
           <Image
             src="/images/dr-getulio.jpg"
             alt={t('drGetulioName')}

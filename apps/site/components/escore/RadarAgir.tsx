@@ -276,7 +276,7 @@ export function RadarAgir() {
   return (
     <figure className="flex flex-col items-center gap-5 select-none">
       <div
-        className="relative w-80 h-80 md:w-[26rem] md:h-[26rem]"
+        className="relative w-80 h-80 md:w-104 md:h-104"
         onMouseLeave={() => setHovered({ type: 'none' })}
       >
         <svg

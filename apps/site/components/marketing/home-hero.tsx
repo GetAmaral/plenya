@@ -8,7 +8,7 @@ export function HomeHero() {
   const tCta = useTranslations('cta');
 
   return (
-    <section className="relative min-h-[100svh] flex items-end overflow-hidden">
+    <section className="relative min-h-svh flex items-end overflow-hidden">
       {/* Photo background */}
       <Image
         src="/images/hero.jpg"
@@ -22,7 +22,7 @@ export function HomeHero() {
       />
       {/* Overlay mais escuro embaixo pra ancorar o título contra a foto e
          garantir contraste do .heading-hero (line-height 0.95). */}
-      <div className="absolute inset-0 bg-gradient-to-b from-petrol/30 via-petrol/40 to-petrol/85" />
+      <div className="absolute inset-0 bg-linear-to-b from-petrol/30 via-petrol/40 to-petrol/85" />
 
       {/* Decorative infinity-P watermark — símbolo de continuidade do cuidado */}
       <PlenyaInfinity

@@ -98,7 +98,7 @@ export default async function ConsultasPage({ params }: { params: Params }) {
         <div className="site-container section-sm">
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             <figure className="space-y-3">
-              <div className="relative aspect-[4/5] overflow-hidden">
+              <div className="relative aspect-4/5 overflow-hidden">
                 <Image
                   src="/images/getulio-consulta.jpg"
                   alt={t('photoInPersonAlt')}
@@ -110,7 +110,7 @@ export default async function ConsultasPage({ params }: { params: Params }) {
               <figcaption className="label-upper text-gold">{t('photoInPersonCaption')}</figcaption>
             </figure>
             <figure className="space-y-3">
-              <div className="relative aspect-[4/5] overflow-hidden">
+              <div className="relative aspect-4/5 overflow-hidden">
                 <Image
                   src="/images/getulio-consulta-online.jpg"
                   alt={t('photoOnlineAlt')}

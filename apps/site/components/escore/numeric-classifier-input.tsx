@@ -260,9 +260,9 @@ export function NumericClassifierInput({
               if (!Number.isNaN(n)) onChange(n);
             }
           }}
-          className={`flex-1 border px-4 py-3 text-petrol text-lg tabular-nums focus:outline-none ${
+          className={`flex-1 border px-4 py-3 text-petrol text-lg tabular-nums focus:outline-hidden ${
             readOnly
-              ? 'border-petrol/10 bg-petrol/[0.03] cursor-not-allowed'
+              ? 'border-petrol/10 bg-petrol/3 cursor-not-allowed'
               : 'border-petrol/20 bg-cream focus:border-gold'
           }`}
           placeholder={readOnly ? t('classifierWaiting') : placeholderForLocalized(item, locale)}

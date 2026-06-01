@@ -351,7 +351,7 @@ export function EscoreLightForm({
               {/* Tooltip ao passar o mouse */}
               <span
                 role="tooltip"
-                className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-petrol text-cream text-[11px] rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-lg"
+                className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-petrol text-cream text-[11px] rounded-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-lg"
               >
                 {d.label}
               </span>
@@ -445,7 +445,7 @@ export function EscoreLightForm({
             onChange={(e) =>
               setDemo({ ...demo, age: e.target.value === '' ? '' : Number(e.target.value) })
             }
-            className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+            className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-hidden"
             placeholder={t('formDemoAgePlaceholder')}
           />
         </label>
@@ -486,7 +486,7 @@ export function EscoreLightForm({
                   height: e.target.value === '' ? '' : Number(e.target.value),
                 })
               }
-              className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+              className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-hidden"
               placeholder={t('formDemoHeightPlaceholder')}
             />
           </label>
@@ -501,7 +501,7 @@ export function EscoreLightForm({
                   weight: e.target.value === '' ? '' : Number(e.target.value),
                 })
               }
-              className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+              className="w-full border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-hidden"
               placeholder={t('formDemoWeightPlaceholder')}
             />
           </label>
@@ -703,7 +703,7 @@ export function EscoreLightForm({
                   setResponse(item.id, { numericValue: Number(e.target.value) });
                 }
               }}
-              className="flex-1 border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-none"
+              className="flex-1 border border-petrol/20 bg-cream px-4 py-3 text-petrol focus:border-gold focus:outline-hidden"
               placeholder={item.unit ?? t('formNumericPlaceholder')}
             />
             {item.unit && <span className="text-petrol/60">{item.unit}</span>}

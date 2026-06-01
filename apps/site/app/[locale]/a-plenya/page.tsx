@@ -45,7 +45,7 @@ export default async function AboutPage({ params }: { params: Params }) {
           className="object-cover opacity-50"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-petrol via-petrol/80 to-petrol/40" />
+        <div className="absolute inset-0 bg-linear-to-r from-petrol via-petrol/80 to-petrol/40" />
         <div className="relative site-container pt-32 pb-24 md:pt-40 md:pb-32 max-w-3xl">
           <p className="label-upper text-gold mb-10">{t('manifestoLabel')}</p>
           <div className="space-y-5 heading-section text-3xl md:text-5xl text-cream/95">
@@ -92,7 +92,7 @@ export default async function AboutPage({ params }: { params: Params }) {
       <section className="bg-cream">
         <div className="site-container pt-4">
           <figure className="space-y-4">
-            <div className="relative aspect-[3/2] overflow-hidden">
+            <div className="relative aspect-3/2 overflow-hidden">
               <Image
                 src="/images/clinic-interior.jpg"
                 alt={t('clinicCaption')}
@@ -113,7 +113,7 @@ export default async function AboutPage({ params }: { params: Params }) {
       <section className="bg-cream">
         <div className="site-container pt-12 md:pt-16">
           <figure className="space-y-4">
-            <div className="relative aspect-[3/2] overflow-hidden">
+            <div className="relative aspect-3/2 overflow-hidden">
               <Image
                 src="/images/team/equipe-candid.jpg"
                 alt={t('teamCaption')}
