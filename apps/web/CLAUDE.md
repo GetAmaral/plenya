@@ -4,8 +4,8 @@ Um único app Next.js que serve **dois públicos**: o EMR profissional e o porta
 Veja as Regras de Ouro no [CLAUDE.md raiz](../../CLAUDE.md).
 
 ## Stack
-Next 16.2 (Turbopack) · React 19.2 · TanStack Query v5.99 · Zustand 5 · shadcn/Radix ·
-Tailwind 3.4 (+ `@plenya/brand`) · react-hook-form + Zod · Recharts/Tremor · Tiptap.
+Next 16.2 (Turbopack) · React 19.2 · TanStack Query v5.100 · Zustand 5 · shadcn/Radix ·
+Tailwind v4 (`@config` + preset `@plenya/brand`; `tw-animate-css`) · react-hook-form + Zod · Recharts/Tremor · Tiptap.
 `next.config.ts` tem `ignoreBuildErrors: true` (dívida TS pré-existente).
 
 ## Roteamento (dois portais, um codebase)

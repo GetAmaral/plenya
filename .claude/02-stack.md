@@ -7,7 +7,7 @@
 - **React:** 19.2 (React Compiler habilitado)
 - **TypeScript:** 5.9.3
 - **UI Library:** shadcn/ui (componentes Radix UI)
-- **Styling:** Tailwind CSS 4.0
+- **Styling:** Tailwind CSS 4.3 (web/site via `@config` + preset `@plenya/brand`; site-getulio CSS-first `@theme`; animações via `tw-animate-css`)
 - **Forms:** React Hook Form + Zod validation
 - **State Management:**
   - TanStack Query v5 (server state)
@@ -38,7 +38,7 @@
 - **Middleware:** Fiber middleware ecosystem
 
 ### Database & ORM
-- **Database:** PostgreSQL 17
+- **Database:** PostgreSQL 18 (pgvector 0.8.2)
 - **ORM:** GORM v1.31
 - **Migrations:** goose (SQL versionado à mão, aplicado no deploy — ver docs/emr/migrations-decisao.md)
 - **Extensions PostgreSQL:**
@@ -68,7 +68,7 @@
 ## Infrastructure
 
 ### Monorepo
-- **Tool:** Turborepo 2.7.5
+- **Tool:** Turborepo 2.9.6
 - **Package Manager:** pnpm 10.28.1
 - **Workspaces:** pnpm workspaces
 - **Node.js:** 24 LTS (Krypton)
@@ -79,7 +79,7 @@
 - **Base Images:**
   - Go: golang:1.25-alpine
   - Node: node:24-alpine
-  - PostgreSQL: postgres:17-alpine
+  - PostgreSQL: pgvector/pgvector:pg18
 
 ### Development Tools
 - **Go:**
@@ -123,7 +123,7 @@
   - Page Rules
 
 ### Database Production
-- **Primary:** PostgreSQL 17
+- **Primary:** PostgreSQL 18 (pgvector 0.8.2)
 - **Backups:**
   - Daily automated (Coolify)
   - Weekly snapshots (Hetzner)
@@ -187,7 +187,7 @@ packages/
 ### Runtime
 - **Node.js:** >= 24.0.0 LTS
 - **Go:** >= 1.25
-- **PostgreSQL:** >= 17
+- **PostgreSQL:** >= 18
 - **Docker:** >= 27.0
 
 ### Browsers (Web)
@@ -315,18 +315,25 @@ SENTRY_DSN=<sentry-dsn>
 ```go
 module github.com/plenya/api
 
-go 1.25
+go 1.25.9
 
 require (
-    github.com/gofiber/fiber/v2 v2.52.10
+    github.com/gofiber/fiber/v2 v2.52.12
     github.com/google/uuid v1.6.0
-    gorm.io/gorm v1.25.12
-    gorm.io/driver/postgres v1.5.9
-    github.com/golang-jwt/jwt/v5 v5.2.1
-    github.com/go-playground/validator/v10 v10.22.1
-    github.com/swaggo/swag v1.16.3
-    github.com/spf13/viper v1.19.0
-    golang.org/x/crypto v0.28.0
+    gorm.io/gorm v1.31.1
+    gorm.io/driver/postgres v1.6.0
+    github.com/jackc/pgx/v5 v5.9.2
+    github.com/pgvector/pgvector-go v0.4.0
+    github.com/pressly/goose/v3 v3.27.1
+    github.com/golang-jwt/jwt/v5 v5.3.1
+    github.com/go-playground/validator/v10 v10.30.2
+    github.com/swaggo/swag v1.16.7   // pre-release (OpenAPI 2; swag v2 RC segurado)
+    github.com/liushuangls/go-anthropic/v2 v2.20.2
+    github.com/sashabaranov/go-openai v1.41.2
+    github.com/go-rod/rod v0.116.2
+    codeberg.org/go-pdf/fpdf v0.12.0
+    github.com/joho/godotenv v1.5.1
+    golang.org/x/crypto v0.52.0
 )
 ```
 
@@ -335,23 +342,26 @@ require (
 ```json
 {
   "dependencies": {
-    "next": "16.1.0",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
-    "@tanstack/react-query": "^5.62.11",
-    "zustand": "^5.0.2",
-    "react-hook-form": "^7.54.2",
-    "zod": "^3.24.1",
-    "tailwindcss": "^4.0.0",
-    "lucide-react": "^0.469.0",
-    "date-fns": "^4.1.0",
-    "recharts": "^2.15.0"
+    "next": "^16.2.6",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "@tanstack/react-query": "^5.100.14",
+    "zustand": "^5.0.3",
+    "react-hook-form": "^7.76.1",
+    "zod": "^4.4.3",
+    "lucide-react": "^1.17.0",
+    "date-fns": "^4.4.0",
+    "recharts": "^3.8.1",
+    "@tremor/react": "^3.18.7",
+    "framer-motion": "^12.40.0"
   },
   "devDependencies": {
-    "typescript": "5.9.3",
-    "eslint": "^9.17.0",
-    "prettier": "^3.4.2",
-    "turbo": "2.7.5"
+    "tailwindcss": "^4.3.0",
+    "@tailwindcss/postcss": "^4.3.0",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "^6.0.3",
+    "eslint": "^9.39.2",
+    "turbo": "^2.9.6"
   }
 }
 ```
@@ -361,14 +371,15 @@ require (
 ```json
 {
   "dependencies": {
-    "expo": "~56.0.0",
-    "react-native": "0.77.0",
-    "expo-router": "~4.0.0",
-    "@tanstack/react-query": "^5.62.11",
-    "zustand": "^5.0.2",
-    "react-hook-form": "^7.54.2",
-    "zod": "^3.24.1",
-    "expo-secure-store": "~14.0.0"
+    "expo": "~52.0.0",
+    "react-native": "0.76.5",
+    "expo-router": "~4.0.9",
+    "nativewind": "^4.1.23",
+    "@tanstack/react-query": "^5.100.14",
+    "zustand": "^5.0.3",
+    "react-hook-form": "^7.76.1",
+    "zod": "^4.4.3",
+    "expo-secure-store": "~14.0.1"
   }
 }
 ```
@@ -420,7 +431,7 @@ Opcionais:
 
 ## Justificativas Técnicas
 
-### Por que Next.js 16.1?
+### Por que Next.js 16.2?
 - App Router estável
 - React Server Components
 - Turbopack (build 700% mais rápido)
@@ -433,7 +444,7 @@ Opcionais:
 - Low memory footprint
 - Static typing
 
-### Por que PostgreSQL 17?
+### Por que PostgreSQL 18?
 - ACID compliant
 - JSON support (JSONB)
 - Full-text search

@@ -5,7 +5,7 @@ aqui geram migrations, OpenAPI e os tipos TS dos packages. Leia também as Regra
 [CLAUDE.md raiz](../../CLAUDE.md).
 
 ## Stack
-Go 1.25 · Fiber v2.52 · GORM v1.31 · PostgreSQL 17 + pgvector · goose (migrations) · Swag (OpenAPI).
+Go 1.25 · Fiber v2.52 · GORM v1.31 · PostgreSQL 18 + pgvector 0.8.2 · goose (migrations) · Swag (OpenAPI).
 **Não há Go instalado localmente** — compile no container: `docker compose exec -w /app api go build ./...`.
 
 ## Estrutura (`internal/`)

@@ -35,8 +35,8 @@ trabalhando.
 
 | App | O que é | Stack | CLAUDE.md |
 |-----|---------|-------|-----------|
-| **api** | Backend EMR — fonte única dos dados (74 models, RAG/pgvector, CRM, portal, telemed, calendar, training, subscriptions) | Go 1.25 + Fiber v2 + GORM v1.31 + PostgreSQL 17 | [apps/api/CLAUDE.md](apps/api/CLAUDE.md) |
-| **web** | Frontend EMR profissional **+ portal do paciente** (mesmo app, roteado por subdomínio via middleware) | Next 16.2 + React 19.2 + TanStack Query v5 + shadcn/ui | [apps/web/CLAUDE.md](apps/web/CLAUDE.md) |
+| **api** | Backend EMR — fonte única dos dados (74 models, RAG/pgvector, CRM, portal, telemed, calendar, training, subscriptions) | Go 1.25 + Fiber v2 + GORM v1.31 + PostgreSQL 18 (pgvector) | [apps/api/CLAUDE.md](apps/api/CLAUDE.md) |
+| **web** | Frontend EMR profissional **+ portal do paciente** (mesmo app, roteado por subdomínio via middleware) | Next 16.2 + React 19.2 + TanStack Query v5 + Tailwind v4 + shadcn/ui | [apps/web/CLAUDE.md](apps/web/CLAUDE.md) |
 | **site** | plenyasaude.com.br — site institucional (blog MDX, escore-light, leads→CRM) | Next 16.2 + next-intl + MDX | [apps/site/CLAUDE.md](apps/site/CLAUDE.md) |
 | **site-getulio** | drgetulioamaralfilho.com.br — site pessoal do Dr. Getúlio (livros, palestras, artigos) | Next 16.2 + next-intl + MDX | [apps/site-getulio/CLAUDE.md](apps/site-getulio/CLAUDE.md) |
 | **social-mcp** | Servidor MCP (Python) que conecta o Claude ao Instagram/Facebook via Meta Graph API | Python 3.11 + MCP + httpx | [apps/social-mcp/CLAUDE.md](apps/social-mcp/CLAUDE.md) |

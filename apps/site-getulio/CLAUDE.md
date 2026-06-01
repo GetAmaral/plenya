@@ -5,7 +5,7 @@ institucional Plenya). Regras editoriais no [CLAUDE.md raiz](../../CLAUDE.md).
 
 ## Stack
 Next 16.2 (Turbopack, porta 3003) · next-intl 4.9 (pt/en, todas as rotas com slug traduzido) ·
-MDX · Tailwind (paleta custom, **não** usa `@plenya/brand`) · nodemailer.
+MDX · Tailwind v4 (CSS-first `@theme`, paleta custom, **não** usa `@plenya/brand`) · nodemailer.
 
 ## Estrutura
 ```

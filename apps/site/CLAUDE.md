@@ -9,7 +9,7 @@ Site de marca institucional Plenya. Voz **institucional** (não pessoal do Dr. G
 
 ## Stack
 Next 16.2 (Turbopack, porta 3002) · next-intl 4.9 (pt default, en; es legado) · MDX
-(next-mdx-remote + gray-matter) · Tailwind + `@plenya/brand` · Plausible · nodemailer.
+(next-mdx-remote + gray-matter) · Tailwind v4 (`@config` + preset `@plenya/brand`) · Plausible · nodemailer.
 
 ## Estrutura
 ```
