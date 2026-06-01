@@ -57,7 +57,7 @@ export default async function LivrosPage({
                   href={{ pathname: '/livros/[slug]', params: { slug: b.slug } }}
                   className="block py-12 md:py-16 grid md:grid-cols-[200px_1fr] gap-8 md:gap-12 group items-start"
                 >
-                  <div className="relative aspect-[2/3] w-full max-w-[200px] mx-auto md:mx-0 shadow-xl">
+                  <div className="relative aspect-2/3 w-full max-w-[200px] mx-auto md:mx-0 shadow-xl">
                     <Image
                       src={b.cover}
                       alt={loc.title}

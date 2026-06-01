@@ -95,7 +95,7 @@ export default async function BookDetailPage({
       {/* Hero */}
       <section className="editorial-container pb-20">
         <div className="grid lg:grid-cols-[320px_1fr] gap-12 lg:gap-20 items-start">
-          <div className="relative aspect-[2/3] w-full max-w-[320px] mx-auto lg:mx-0 shadow-2xl">
+          <div className="relative aspect-2/3 w-full max-w-[320px] mx-auto lg:mx-0 shadow-2xl">
             <Image
               src={book.cover}
               alt={loc.title}
@@ -160,7 +160,7 @@ export default async function BookDetailPage({
                 <Link href="/o-medico" className="link-text">{t('authorCta')}</Link>
               </p>
             </div>
-            <div className="relative aspect-[3/4] w-full max-w-[320px] mx-auto md:mx-0 order-1 md:order-2">
+            <div className="relative aspect-3/4 w-full max-w-[320px] mx-auto md:mx-0 order-1 md:order-2">
               <Image
                 src="/images/getulio-autor.jpg"
                 alt={t('authorPortraitAlt')}

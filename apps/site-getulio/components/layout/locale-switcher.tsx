@@ -42,7 +42,7 @@ export function LocaleSwitcher({ tone = 'light' }: { tone?: 'light' | 'dark' }) 
           <button
             disabled={isPending}
             onClick={() => switchTo(l)}
-            className={`px-1.5 py-0.5 rounded-sm transition-colors ${
+            className={`px-1.5 py-0.5 rounded-xs transition-colors ${
               l === current
                 ? `${active} font-semibold ring-1 ring-current/20`
                 : inactive

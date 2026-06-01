@@ -80,7 +80,7 @@ export default async function OndeAtendoPage({
       </header>
 
       <section className="editorial-container pb-12">
-        <div className="relative aspect-[16/10] w-full overflow-hidden">
+        <div className="relative aspect-16/10 w-full overflow-hidden">
           <Image
             src="/images/getulio-clinico.jpg"
             alt={t('portraitAlt')}
@@ -281,7 +281,7 @@ export default async function OndeAtendoPage({
             {faq.map((item) => (
               <details
                 key={item.q}
-                className="group py-5 md:py-6 [&_a]:link-text [&_p]:mb-3 last:[&_p]:mb-0 [&_p]:font-serif [&_p]:text-ink-soft [&_p]:leading-relaxed"
+                className="group py-5 md:py-6 [&_a]:link-text [&_p]:mb-3 [&_p]:last:mb-0 [&_p]:font-serif [&_p]:text-ink-soft [&_p]:leading-relaxed"
               >
                 <summary className="cursor-pointer list-none flex items-baseline justify-between gap-4">
                   <h3 className="font-serif text-lg md:text-xl text-ink leading-snug">

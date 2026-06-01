@@ -44,7 +44,7 @@ export function Hero() {
 
           {/* Retrato editorial — agora prominente ao lado do bloco texto */}
           <div className="order-1 md:order-2">
-            <div className="relative aspect-[3/4] w-full max-w-[400px] mx-auto md:mx-0 shadow-xl ring-1 ring-gold/20">
+            <div className="relative aspect-3/4 w-full max-w-[400px] mx-auto md:mx-0 shadow-xl ring-1 ring-gold/20">
               <Image
                 src="/images/getulio-hero-bw.jpg"
                 alt={t('portraitAlt')}

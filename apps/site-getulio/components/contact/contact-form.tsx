@@ -112,7 +112,7 @@ export function ContactForm() {
         <textarea
           name="message"
           rows={5}
-          className="w-full bg-transparent border-b border-rule focus:border-bordo outline-none py-2 font-serif text-ink resize-none transition-colors"
+          className="w-full bg-transparent border-b border-rule focus:border-bordo outline-hidden py-2 font-serif text-ink resize-none transition-colors"
         />
       </div>
 
@@ -162,7 +162,7 @@ function FieldText({
         name={name}
         type={type}
         required={required}
-        className="w-full bg-transparent border-b border-rule focus:border-bordo outline-none py-2 font-serif text-ink transition-colors"
+        className="w-full bg-transparent border-b border-rule focus:border-bordo outline-hidden py-2 font-serif text-ink transition-colors"
         {...rest}
       />
     </div>

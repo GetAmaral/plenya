@@ -8,7 +8,7 @@ export function BookStrip() {
     <section className="bg-navy text-paper">
       <div className="editorial-container py-20 md:py-28">
         <div className="grid md:grid-cols-[280px_1fr] gap-10 md:gap-16 items-center">
-          <div className="relative aspect-[2/3] w-full max-w-[280px] mx-auto md:mx-0 shadow-2xl">
+          <div className="relative aspect-2/3 w-full max-w-[280px] mx-auto md:mx-0 shadow-2xl">
             <Image
               src="/images/livro-capa.jpg"
               alt={t('coverAlt')}

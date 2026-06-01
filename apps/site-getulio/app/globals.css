@@ -1,6 +1,161 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-paper: #f0e8d8;
+  --color-paper-soft: #e6dcc4;
+  --color-ink: #1a1a1a;
+  --color-ink-soft: #3a3a3a;
+  --color-ink-muted: #6b6b6b;
+  --color-gold: #b48a4a;
+  --color-gold-soft: #c79f63;
+  --color-bordo: #b48a4a;
+  --color-bordo-soft: #c79f63;
+  --color-navy: #0d1f2e;
+  --color-navy-soft: #173248;
+  --color-rule: #d4c8aa;
+
+  --tracking-widest: 0.2em;
+  --tracking-wordmark: 0.32em;
+}
+
+/* next/font injeta --font-serif (Cormorant) e --font-sans (Inter) no <html>.
+   Usamos @theme inline para que a utility expanda o valor direto
+   (font-family: var(--font-serif), Georgia, serif) — como era no v3 — em vez de
+   emitir um --font-* no :root, que seria circular e colidiria com o next/font,
+   fazendo o corpo cair em system-ui (drift de métrica vertical). */
+@theme inline {
+  --font-serif: var(--font-serif), Georgia, serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility editorial-container {
+  /* Container editorial — narrow + generoso */
+  @apply mx-auto w-full px-6 md:px-10;
+  max-width: 1180px;
+}
+
+@utility editorial-narrow {
+  @apply mx-auto w-full px-6 md:px-10;
+  /* Aumentado de 760→880 (medida de leitura ~78 chars).
+       Coluna anterior parecia espremida no desktop com vastas margens. */
+  max-width: 880px;
+}
+
+@utility heading-display {
+  /* Tipografia editorial */
+  @apply font-serif font-light text-ink;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+}
+
+@utility heading-section {
+  @apply font-serif font-light text-ink;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+@utility label-meta {
+  @apply font-sans uppercase tracking-widest text-xs text-ink-muted;
+}
+
+@utility label-meta-lg {
+  @apply font-sans uppercase text-sm text-ink-muted;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+}
+
+@utility btn-gold {
+  /* Botão dourado editorial — usado em CTAs de livro/contato/palestras.
+     Texto cream sobre gold com sombra suave. */
+  @apply inline-flex items-center justify-center bg-gold text-paper px-8 py-4 transition-all duration-300;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px -4px rgba(180, 138, 74, 0.4);
+  &:hover {
+    background-color: #9a7740;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px -4px rgba(180, 138, 74, 0.45);
+  }
+}
+
+@utility btn-outline {
+  @apply inline-flex items-center justify-center border border-ink/30 text-ink px-8 py-4 transition-all duration-300;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  &:hover {
+    @apply border-ink bg-ink text-paper;
+  }
+}
+
+@utility prose-body {
+  @apply font-serif text-ink-soft;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  & p + p {
+    margin-top: 1.4em;
+  }
+}
+
+@utility link-text {
+  /* Link texto editorial — sublinha em hover, sem botão */
+  @apply text-ink underline-offset-4 decoration-gold/50 hover:underline transition-all;
+}
+
+@utility link-text-light {
+  @apply text-paper underline-offset-4 decoration-paper/40 hover:underline transition-all;
+}
+
+@utility rule-gold {
+  /* Filetes do branding — divisores dourados finos */
+  @apply h-px w-full bg-gold/50;
+}
+
+@utility filete-gold {
+  @apply inline-block h-px w-12 bg-gold align-middle;
+}
+
+@utility wordmark-name {
+  /* Wordmark — espaçamento e geometria do logo institucional */
+  @apply font-serif uppercase text-ink;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+}
+
+@utility wordmark-prefix {
+  @apply font-serif uppercase text-ink;
+  letter-spacing: 0.32em;
+  font-weight: 400;
+}
+
+@utility wordmark-tagline {
+  @apply font-serif italic text-ink-soft;
+  letter-spacing: 0.12em;
+  font-weight: 300;
+}
 
 @layer base {
   html {
@@ -15,107 +170,5 @@
   ::selection {
     background-color: #b48a4a;
     color: #f0e8d8;
-  }
-}
-
-@layer components {
-  /* Container editorial — narrow + generoso */
-  .editorial-container {
-    @apply mx-auto w-full px-6 md:px-10;
-    max-width: 1180px;
-  }
-  .editorial-narrow {
-    @apply mx-auto w-full px-6 md:px-10;
-    /* Aumentado de 760→880 (medida de leitura ~78 chars).
-       Coluna anterior parecia espremida no desktop com vastas margens. */
-    max-width: 880px;
-  }
-
-  /* Tipografia editorial */
-  .heading-display {
-    @apply font-serif font-light text-ink;
-    line-height: 1.02;
-    letter-spacing: -0.015em;
-  }
-  .heading-section {
-    @apply font-serif font-light text-ink;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-  }
-  .label-meta {
-    @apply font-sans uppercase tracking-widest text-xs text-ink-muted;
-  }
-  .label-meta-lg {
-    @apply font-sans uppercase text-sm text-ink-muted;
-    letter-spacing: 0.18em;
-    font-weight: 500;
-  }
-  /* Botão dourado editorial — usado em CTAs de livro/contato/palestras.
-     Texto cream sobre gold com sombra suave. */
-  .btn-gold {
-    @apply inline-flex items-center justify-center bg-gold text-paper px-8 py-4 transition-all duration-300;
-    font-family: theme('fontFamily.sans');
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    box-shadow: 0 4px 12px -4px rgba(180, 138, 74, 0.4);
-  }
-  .btn-gold:hover {
-    background-color: #9a7740;
-    transform: translateY(-1px);
-    box-shadow: 0 8px 20px -4px rgba(180, 138, 74, 0.45);
-  }
-  .btn-outline {
-    @apply inline-flex items-center justify-center border border-ink/30 text-ink px-8 py-4 transition-all duration-300;
-    font-family: theme('fontFamily.sans');
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .btn-outline:hover {
-    @apply border-ink bg-ink text-paper;
-  }
-  .prose-body {
-    @apply font-serif text-ink-soft;
-    font-size: 1.125rem;
-    line-height: 1.7;
-  }
-  .prose-body p + p {
-    margin-top: 1.4em;
-  }
-
-  /* Link texto editorial — sublinha em hover, sem botão */
-  .link-text {
-    @apply text-ink underline-offset-4 decoration-gold/50 hover:underline transition-all;
-  }
-  .link-text-light {
-    @apply text-paper underline-offset-4 decoration-paper/40 hover:underline transition-all;
-  }
-
-  /* Filetes do branding — divisores dourados finos */
-  .rule-gold {
-    @apply h-px w-full bg-gold/50;
-  }
-  .filete-gold {
-    @apply inline-block h-px w-12 bg-gold align-middle;
-  }
-
-  /* Wordmark — espaçamento e geometria do logo institucional */
-  .wordmark-name {
-    @apply font-serif uppercase text-ink;
-    letter-spacing: 0.08em;
-    font-weight: 400;
-  }
-  .wordmark-prefix {
-    @apply font-serif uppercase text-ink;
-    letter-spacing: 0.32em;
-    font-weight: 400;
-  }
-  .wordmark-tagline {
-    @apply font-serif italic text-ink-soft;
-    letter-spacing: 0.12em;
-    font-weight: 300;
   }
 }

@@ -106,7 +106,7 @@ export default async function EscritosPage({
                 className="group block grid md:grid-cols-2 gap-8 md:gap-12 items-center"
               >
                 {featured.cover && (
-                  <div className="relative aspect-[4/3] overflow-hidden bg-paper order-1">
+                  <div className="relative aspect-4/3 overflow-hidden bg-paper order-1">
                     <Image
                       src={absoluteCover(featured.cover)!}
                       alt={featured.title}
@@ -145,7 +145,7 @@ export default async function EscritosPage({
                     className="group block space-y-4"
                   >
                     {p.cover && (
-                      <div className="relative aspect-[16/10] overflow-hidden bg-paper">
+                      <div className="relative aspect-16/10 overflow-hidden bg-paper">
                         <Image
                           src={absoluteCover(p.cover)!}
                           alt={p.title}
