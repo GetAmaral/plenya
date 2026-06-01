@@ -17,6 +17,7 @@ import { AConfirmarCard } from "@/components/recepcao/a-confirmar-card";
 import { MensagensCard } from "@/components/recepcao/mensagens-card";
 import { LeadsNovosCard } from "@/components/recepcao/leads-novos-card";
 import { ListaEsperaCard } from "@/components/recepcao/lista-espera-card";
+import { RetornosCard } from "@/components/recepcao/retornos-card";
 import { PatientQuickSearch } from "@/components/recepcao/patient-quick-search";
 import {
   addDays,
@@ -203,6 +204,11 @@ export default function RecepcaoPage() {
         {/* Lista de espera */}
         <motion.div variants={item}>
           <ListaEsperaCard />
+        </motion.div>
+
+        {/* Retornos previstos */}
+        <motion.div variants={item}>
+          <RetornosCard />
         </motion.div>
       </motion.div>
 

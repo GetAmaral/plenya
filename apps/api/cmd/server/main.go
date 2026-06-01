@@ -275,6 +275,7 @@ func setupRoutes(
 		database.DB, googleCalendarService, dailyCoService, appointmentNotificationService, cfg,
 	)
 	waitlistService := services.NewWaitlistService(database.DB)
+	recallService := services.NewRecallService(database.DB)
 	paymentService := services.NewPaymentService(database.DB)
 	prescriptionService := services.NewPrescriptionService(database.DB)
 	labResultService := services.NewLabResultService(database.DB)
@@ -330,6 +331,7 @@ func setupRoutes(
 	anamnesisTemplateHandler := handlers.NewAnamnesisTemplateHandler(anamnesisTemplateService)
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
 	waitlistHandler := handlers.NewWaitlistHandler(waitlistService)
+	recallHandler := handlers.NewRecallHandler(recallService)
 	paymentHandler := handlers.NewPaymentHandler(paymentService)
 	prescriptionHandler := handlers.NewPrescriptionHandler(prescriptionService, prescriptionPDFService)
 	labResultHandler := handlers.NewLabResultHandler(labResultService)
@@ -728,6 +730,16 @@ func setupRoutes(
 	waitlist.Post("/", waitlistHandler.Create)
 	waitlist.Put("/:id", waitlistHandler.Update)
 	waitlist.Delete("/:id", waitlistHandler.Delete)
+
+	// Retornos previstos (recall) — fila interna da recepção, sem auto-msg.
+	recalls := v1.Group("/recalls")
+	recalls.Use(middleware.Auth(cfg))
+	recalls.Use(middleware.RequireAnyStaff())
+	recalls.Use(middleware.AuditLog(database.DB))
+	recalls.Get("/", recallHandler.List)
+	recalls.Post("/", recallHandler.Create)
+	recalls.Put("/:id", recallHandler.Update)
+	recalls.Delete("/:id", recallHandler.Delete)
 
 	// Pagamentos de consulta + recibo — operações de recepção/financeiro.
 	// RequireAdminOps = admin/manager/secretary (não-clínicos).

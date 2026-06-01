@@ -20,6 +20,7 @@ import { ptBR } from 'date-fns/locale';
 import {
   ArrowLeft,
   Calendar as CalendarIcon,
+  CalendarClock,
   Clock,
   Stethoscope,
   Video,
@@ -30,6 +31,7 @@ import {
   Loader2,
   AlertTriangle,
 } from 'lucide-react';
+import { ScheduleRecallDialog } from '@/components/recepcao/schedule-recall-dialog';
 import { toast } from 'sonner';
 
 import { useRequireAuth } from '@/lib/use-auth';
@@ -84,6 +86,7 @@ export default function AppointmentDetailPage() {
 
   const [showCancel, setShowCancel] = useState(false);
   const [showReschedule, setShowReschedule] = useState(false);
+  const [showRecall, setShowRecall] = useState(false);
   const [showVideo, setShowVideo] = useState(true);
 
   const [cancelReason, setCancelReason] = useState('');
@@ -417,8 +420,18 @@ export default function AppointmentDetailPage() {
               )}
               {!isActionable && (
                 <p className="text-sm italic text-muted-foreground">
-                  Sem ações disponíveis para consulta {APPOINTMENT_STATUS_LABELS[appt.status].toLowerCase()}.
+                  Sem ações de agenda para consulta {APPOINTMENT_STATUS_LABELS[appt.status].toLowerCase()}.
                 </p>
+              )}
+              {appt.patient && (
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setShowRecall(true)}
+                >
+                  <CalendarClock className="mr-2 h-4 w-4" />
+                  Agendar retorno
+                </Button>
               )}
             </CardContent>
           </Card>
@@ -539,6 +552,17 @@ export default function AppointmentDetailPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {appt.patient && (
+        <ScheduleRecallDialog
+          open={showRecall}
+          onOpenChange={setShowRecall}
+          patientId={appt.patient.id}
+          doctorId={appt.doctorId}
+          sourceAppointmentId={appointmentId}
+          patientName={appt.patient.name}
+        />
+      )}
     </div>
   );
 }

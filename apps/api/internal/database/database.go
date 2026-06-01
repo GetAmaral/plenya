@@ -308,6 +308,7 @@ func AutoMigrate() error {
 		&models.DoctorAbsence{},
 		&models.AppointmentResource{},
 		&models.WaitlistEntry{},
+		&models.AppointmentRecall{},
 		&models.ConsultationPrice{},
 		&models.PaymentReceiptCounter{},
 		&models.AppointmentPayment{},
