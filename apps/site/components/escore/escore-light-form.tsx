@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Link, useRouter } from '@/lib/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import type {
   LightConfig,
@@ -97,7 +97,6 @@ function levelLabel(level: { name: string; lowerLimit?: string; upperLimit?: str
 
 export function EscoreLightForm({
   config,
-  locale,
   tierLabel = 'Escore Plenya',
 }: {
   config: LightConfig;
@@ -277,7 +276,10 @@ export function EscoreLightForm({
         ...utm,
       };
       const session = await createSession(payload);
-      router.push(`/${locale}/escore-plenya/resultado/${session.publicCode}`);
+      router.push({
+        pathname: '/escore-plenya/resultado/[code]',
+        params: { code: session.publicCode },
+      });
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : t('formErrorSubmit'));
       setSubmitting(false);
@@ -400,13 +402,13 @@ export function EscoreLightForm({
           />
           <span className="text-petrol/80 text-sm leading-relaxed">
             {t('formConsentPart1')}
-            <a href={`/${locale}/privacidade`} target="_blank" rel="noopener noreferrer" className="text-gold underline underline-offset-4">
+            <Link href="/privacidade" target="_blank" rel="noopener noreferrer" className="text-gold underline underline-offset-4">
               {t('formConsentPrivacyLink')}
-            </a>
+            </Link>
             {t('formConsentPart2')}
-            <a href={`/${locale}/termos`} target="_blank" rel="noopener noreferrer" className="text-gold underline underline-offset-4">
+            <Link href="/termos" target="_blank" rel="noopener noreferrer" className="text-gold underline underline-offset-4">
               {t('formConsentTermsLink')}
-            </a>
+            </Link>
             {t('formConsentPart3')}
             <strong>{t('formConsentNotDiagnosis')}</strong>
             {t('formConsentPart4')}

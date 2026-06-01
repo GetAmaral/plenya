@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Link } from '@/lib/i18n/navigation';
+import { Link, useRouter } from '@/lib/i18n/navigation';
 import { ScoreRadarChart } from './score-radar-chart';
 import { PhoneInput } from '@/components/forms/phone-input';
 import { requestClaim, deleteSession, exportSessionURL } from '@/lib/score-light/api';
@@ -19,7 +18,6 @@ function scoreLabel(pct: number, t: (k: string) => string): string {
 
 export function EscoreLightResultado({
   session,
-  locale,
 }: {
   session: PublicSession;
   locale: string;
@@ -45,7 +43,7 @@ export function EscoreLightResultado({
     try {
       await deleteSession(session.publicCode);
       setDeleteStatus('done');
-      setTimeout(() => router.push(`/${locale}`), 2000);
+      setTimeout(() => router.push('/'), 2000);
     } catch (err) {
       setDeleteError(err instanceof Error ? err.message : t('resultLgpdDeleteError'));
       setDeleteStatus('error');
