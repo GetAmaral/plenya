@@ -43,6 +43,12 @@ func (h *PaymentHandler) Create(c *fiber.Ctx) error {
 	userID := middleware.GetUserID(c)
 	resp, err := h.paymentService.Create(userID, &req)
 	if err != nil {
+		if errors.Is(err, services.ErrPaymentAlreadyExists) {
+			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+				Error:   "payment already exists",
+				Message: "já existe um pagamento registrado para esta consulta",
+			})
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error:   "internal server error",
 			Message: err.Error(),

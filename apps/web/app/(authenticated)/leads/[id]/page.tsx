@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import {
   ArrowLeft,
+  CalendarPlus,
   ExternalLink,
   Mail,
   MessageSquare,
@@ -16,6 +17,7 @@ import {
   Activity,
   ShieldCheck,
 } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -271,6 +273,34 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                 <UserCheck className="mr-1 h-4 w-4" /> Abrir paciente
               </Button>
             )}
+            <Button
+              size="sm"
+              variant={lead.status === 'converted' ? 'default' : 'outline'}
+              disabled={convertLead.isPending}
+              onClick={() => {
+                // Handoff funil -> agenda. Se já é paciente, vai direto; senão
+                // faz uma conversão leve (usa os dados do lead) e então agenda.
+                if (lead.convertedPatientId) {
+                  router.push(`/appointments/new?patientId=${lead.convertedPatientId}`);
+                  return;
+                }
+                convertLead.mutate(
+                  {},
+                  {
+                    onSuccess: (patient) => {
+                      router.push(`/appointments/new?patientId=${patient.id}`);
+                    },
+                    onError: (e) =>
+                      toast.error('Não foi possível agendar', {
+                        description: e instanceof Error ? e.message : undefined,
+                      }),
+                  },
+                );
+              }}
+            >
+              <CalendarPlus className="mr-1 h-4 w-4" />
+              {convertLead.isPending ? 'Agendando…' : 'Agendar consulta'}
+            </Button>
           </div>
 
           {convertOpen && lead.status !== 'converted' && (

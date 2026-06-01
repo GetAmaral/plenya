@@ -26,9 +26,10 @@ func digitsOnly(s string) string {
 }
 
 var (
-	ErrPatientNotFound     = errors.New("patient not found")
+	ErrPatientNotFound      = errors.New("patient not found")
 	ErrPatientAlreadyExists = errors.New("patient already exists for this user")
-	ErrUnauthorized        = errors.New("unauthorized")
+	ErrPatientCPFExists     = errors.New("patient with this CPF already exists")
+	ErrUnauthorized         = errors.New("unauthorized")
 )
 
 type PatientService struct {
@@ -45,6 +46,14 @@ func (s *PatientService) Create(userID uuid.UUID, req *dto.CreatePatientRequest)
 	var existing models.Patient
 	if err := s.db.Where("user_id = ?", userID).First(&existing).Error; err == nil {
 		return nil, ErrPatientAlreadyExists
+	}
+
+	// Dedupe por CPF: um CPF = um paciente. Sem isso, a violação de unique no
+	// banco vira 500 cru no balcão; aqui devolvemos erro tratável (409 amigável).
+	if req.CPF != nil && *req.CPF != "" {
+		if found, _ := s.FindByCPF(*req.CPF); found != nil {
+			return nil, ErrPatientCPFExists
+		}
 	}
 
 	// Parse da data de nascimento (opcional no cadastro rápido). Ausente => zero,

@@ -30,11 +30,14 @@ func NewWorkingHoursHandler(db *gorm.DB) *WorkingHoursHandler {
 }
 
 // canManageDoctor retorna true se o caller pode gerenciar configs do doctorID:
-// admin/manager (sempre) ou o próprio doctor.
+// admin/manager/secretary (sempre) ou o próprio doctor. A secretária é quem mais
+// opera a agenda (horários de trabalho, ausências) no dia a dia da recepção.
 func canManageDoctor(c *fiber.Ctx, doctorID uuid.UUID) bool {
 	roles := middleware.GetUserRoles(c)
 	for _, r := range roles {
-		if r == string(models.RoleAdmin) || r == string(models.RoleManager) {
+		if r == string(models.RoleAdmin) ||
+			r == string(models.RoleManager) ||
+			r == string(models.RoleSecretary) {
 			return true
 		}
 	}

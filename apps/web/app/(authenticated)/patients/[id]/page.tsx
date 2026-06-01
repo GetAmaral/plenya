@@ -28,6 +28,7 @@ import { useRequireAuth } from "@/lib/use-auth";
 import { PageHeader } from "@/components/layout/page-header";
 import { PortalAccessCard } from "@/components/patients/portal-access-card";
 import { CheckInsCard } from "@/components/patients/check-ins-card";
+import { PatientFinanceCard } from "@/components/patients/patient-finance-card";
 
 interface Patient {
   id: string;
@@ -358,6 +359,8 @@ export default function PatientDetailPage() {
           <CheckInsCard patientId={patientId} />
 
           <PortalAccessCard patientId={patientId} />
+
+          <PatientFinanceCard patientId={patientId} />
         </motion.div>
       </div>
     </div>

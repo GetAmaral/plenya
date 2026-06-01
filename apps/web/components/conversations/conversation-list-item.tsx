@@ -37,6 +37,9 @@ export function ConversationListRow({ item, active, onSelect }: Props) {
   const ChannelIcon = channelIcon(item.lastChannel);
   const DirectionIcon = item.lastDirection === 'in' ? ArrowDownLeft : ArrowUpRight;
   const isUnread = item.unreadCount > 0;
+  // SLA: se a última mensagem foi do contato (inbound), estamos devendo resposta.
+  const waitingSince =
+    item.lastDirection === 'in' ? item.lastInboundAt ?? item.lastAt : null;
 
   return (
     <button
@@ -101,6 +104,15 @@ export function ConversationListRow({ item, active, onSelect }: Props) {
           >
             {item.ownerType === 'patient' ? 'Paciente' : 'Lead'}
           </Badge>
+          {waitingSince && (
+            <Badge
+              variant="outline"
+              className="text-[10px] border-amber-300 bg-amber-50 text-amber-900"
+              title={`Aguardando resposta desde ${waitingSince}`}
+            >
+              Aguardando {relativeTime(waitingSince)}
+            </Badge>
+          )}
           {item.channels.includes('email') && (
             <Badge variant="secondary" className="text-[10px]">Email</Badge>
           )}

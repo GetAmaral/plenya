@@ -89,6 +89,14 @@ export function RegisterPaymentDialog({
           });
         },
         onError: (err: unknown) => {
+          // 409: já existe pagamento ativo para esta consulta (dedupe no backend).
+          const status = (err as { status?: number }).status;
+          if (status === 409) {
+            toast.error("Esta consulta já tem um pagamento registrado", {
+              description: "Confira o histórico financeiro do paciente antes de cobrar de novo.",
+            });
+            return;
+          }
           toast.error(err instanceof Error ? err.message : "Falha ao registrar");
         },
       },

@@ -53,6 +53,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ROLES, ROLE_BADGE_COLORS, getRoleColor, getRoleLabel } from "@/lib/roles";
 import { useConversationsUnreadCount } from "@/lib/api/conversations-api";
+import { useLeads } from "@/lib/api/leads-api";
 
 type NavigationItem = {
   name: string;
@@ -63,9 +64,9 @@ type NavigationItem = {
   // requiredRoles: visível apenas se usuário tem PELO MENOS UM dos roles listados.
   // Útil quando staff genérico não basta — ex: apenas admin/secretary/manager.
   requiredRoles?: UserRole[];
-  // badgeKey: chave que identifica qual hook usar pra contar não-lidas.
-  // Atualmente só 'conversations' (useConversationsUnreadCount).
-  badgeKey?: 'conversations';
+  // badgeKey: chave que identifica qual contagem exibir no badge.
+  // 'conversations' (mensagens não lidas) ou 'leads' (leads novos aguardando).
+  badgeKey?: 'conversations' | 'leads';
 };
 
 const navigation: NavigationItem[] = [
@@ -74,7 +75,7 @@ const navigation: NavigationItem[] = [
   { name: "Calendário", href: "/calendario", icon: Calendar, staffOnly: true },
   { name: "Conversas", href: "/conversas", icon: MessageSquare, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'conversations' },
   { name: "Pacientes", href: "/patients", icon: Users, staffOnly: true },
-  { name: "Leads", href: "/leads", icon: UserPlus, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
+  { name: "Leads", href: "/leads", icon: UserPlus, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'leads' },
   { name: "Dashboard de Leads", href: "/leads/dashboard", icon: BarChart3, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
   { name: "Campanhas", href: "/campaigns", icon: Megaphone, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
   { name: "Consultas", href: "/appointments", icon: Calendar },
@@ -543,8 +544,18 @@ function NavItemRow({
   const Icon = item.icon;
   const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
   const conversationsUnread = useConversationsUnreadCount();
+  // Contagem de leads novos: gateada por badgeKey pra rodar só na linha de Leads
+  // (que só aparece pra admin/secretary/manager), evitando 403 nos demais perfis.
+  const leadsNew = useLeads({ status: 'new' }, 0, 1, {
+    enabled: item.badgeKey === 'leads',
+  });
   const badgeValue =
-    item.badgeKey === 'conversations' ? conversationsUnread.data ?? 0 : 0;
+    item.badgeKey === 'conversations'
+      ? conversationsUnread.data ?? 0
+      : item.badgeKey === 'leads'
+        ? leadsNew.data?.total ?? 0
+        : 0;
+  const badgeNoun = item.badgeKey === 'leads' ? 'novos' : 'não lidas';
   const showBadge = badgeValue > 0;
 
   return (
@@ -557,7 +568,7 @@ function NavItemRow({
             : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
           collapsed && 'justify-center'
         )}
-        title={collapsed ? `${item.name}${showBadge ? ` (${badgeValue} não lidas)` : ''}` : undefined}
+        title={collapsed ? `${item.name}${showBadge ? ` (${badgeValue} ${badgeNoun})` : ''}` : undefined}
       >
         <div className="relative shrink-0">
           <Icon className="h-5 w-5" />

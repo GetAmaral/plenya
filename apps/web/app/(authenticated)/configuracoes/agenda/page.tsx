@@ -35,8 +35,12 @@ export default function ConfigAgendaPage() {
   const { user } = useAuthStore();
   const { data: doctors, isLoading: loadingDoctors } = useDoctors();
 
-  const isAdminOrManager =
-    isGranted(user, 'admin') || isGranted(user, 'manager');
+  // admin/manager/secretary podem escolher e configurar a agenda de qualquer
+  // médico; doctor configura a própria. A secretária é quem mais opera a agenda.
+  const canSelectDoctor =
+    isGranted(user, 'admin') ||
+    isGranted(user, 'manager') ||
+    isGranted(user, 'secretary');
   const isDoctor = isGranted(user, 'doctor');
 
   const [selectedDoctorId, setSelectedDoctorId] = useState<string | undefined>(undefined);
@@ -46,14 +50,14 @@ export default function ConfigAgendaPage() {
     if (selectedDoctorId) return;
     if (isDoctor && user?.id) {
       setSelectedDoctorId(user.id);
-    } else if (isAdminOrManager && doctors && doctors.length > 0) {
+    } else if (canSelectDoctor && doctors && doctors.length > 0) {
       setSelectedDoctorId(doctors[0]!.id);
     }
-  }, [isDoctor, isAdminOrManager, doctors, user?.id, selectedDoctorId]);
+  }, [isDoctor, canSelectDoctor, doctors, user?.id, selectedDoctorId]);
 
   // ReadOnly: doctor olhando outro doctor (não permite por enquanto pelo backend, mas guardamos a UI).
   const readOnly =
-    !isAdminOrManager && isDoctor && !!selectedDoctorId && selectedDoctorId !== user?.id;
+    !canSelectDoctor && isDoctor && !!selectedDoctorId && selectedDoctorId !== user?.id;
 
   return (
     <div className="container mx-auto space-y-6 py-8">
@@ -63,8 +67,8 @@ export default function ConfigAgendaPage() {
         description="Configure horários padrão de atendimento e períodos de ausência."
       />
 
-      {/* Doctor picker (admin/manager) */}
-      {isAdminOrManager && (
+      {/* Doctor picker (admin/manager/secretary) */}
+      {canSelectDoctor && (
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Médico</CardTitle>

@@ -60,9 +60,10 @@ type SortDir = "asc" | "desc";
 const PAGE_SIZE = 25;
 
 /**
- * Endpoint /api/v1/patients hoje aceita só `limit` + `offset`.
- * Pra suportar busca/filtros sem mexer em backend, baixamos um lote maior
- * (até MAX_BUFFER) e filtramos client-side. Acima disso, paginamos client-side.
+ * Busca é server-side: /api/v1/patients?search= casa nome/telefone (ILIKE) e
+ * CPF (blind index HMAC, já que o CPF é criptografado). Sem termo, baixamos um
+ * lote (MAX_BUFFER) pra navegação paginada client-side. Os filtros de período/
+ * plano e a ordenação seguem client-side sobre o conjunto retornado.
  */
 const MAX_BUFFER = 500;
 
@@ -93,10 +94,15 @@ export default function PatientsPage() {
 
   // ---- fetch (buffer maior pra suportar filtros client-side) ----------------
   const { data, isLoading } = useQuery({
-    queryKey: ["patients", "buffer", MAX_BUFFER],
+    queryKey: ["patients", "list", debouncedSearch],
     queryFn: async () => {
+      // Com termo: busca server-side (sem teto de buffer, CPF funciona via blind
+      // index). Sem termo: lote pra navegação paginada client-side.
+      const qs = debouncedSearch
+        ? `limit=100&search=${encodeURIComponent(debouncedSearch)}`
+        : `limit=${MAX_BUFFER}&offset=0`;
       const result = await apiClient.get<Patient[] | PatientsResponse>(
-        `/api/v1/patients?limit=${MAX_BUFFER}&offset=0`,
+        `/api/v1/patients?${qs}`,
       );
 
       if (Array.isArray(result)) {
@@ -116,16 +122,8 @@ export default function PatientsPage() {
   const filtered = useMemo(() => {
     let items = data?.data ?? [];
 
-    if (debouncedSearch) {
-      const q = debouncedSearch.toLowerCase();
-      // CPF é criptografado mas pode vir mascarado — tenta match em todas
-      // colunas-string seguras.
-      items = items.filter((p) => {
-        const fields = [p.name, p.email ?? "", p.phone ?? "", p.cpf ?? ""];
-        return fields.some((f) => f.toLowerCase().includes(q));
-      });
-    }
-
+    // Busca já foi aplicada server-side (ver useQuery). Aqui só os filtros
+    // locais de período/plano e a ordenação sobre o conjunto retornado.
     if (dateRange?.from) {
       const fromMs = dateRange.from.getTime();
       items = items.filter((p) => new Date(p.createdAt).getTime() >= fromMs);
@@ -157,7 +155,6 @@ export default function PatientsPage() {
     return items;
   }, [
     data?.data,
-    debouncedSearch,
     dateRange,
     onlyActivePlan,
     sortKey,

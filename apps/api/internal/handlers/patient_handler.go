@@ -66,6 +66,12 @@ func (h *PatientHandler) Create(c *fiber.Ctx) error {
 				Message: "a patient profile already exists for this user",
 			})
 		}
+		if errors.Is(err, services.ErrPatientCPFExists) {
+			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+				Error:   "cpf already exists",
+				Message: "já existe um paciente cadastrado com este CPF",
+			})
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error:   "internal server error",
 			Message: err.Error(),

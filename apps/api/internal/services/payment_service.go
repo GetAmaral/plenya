@@ -17,8 +17,9 @@ import (
 )
 
 var (
-	ErrPaymentNotFound = errors.New("payment not found")
-	ErrPriceNotFound   = errors.New("consultation price not found")
+	ErrPaymentNotFound      = errors.New("payment not found")
+	ErrPriceNotFound        = errors.New("consultation price not found")
+	ErrPaymentAlreadyExists = errors.New("payment already registered for this appointment")
 )
 
 // Dados fiscais da clínica para o recibo (nome legal + CNPJ + endereço fiscal).
@@ -75,6 +76,20 @@ func (s *PaymentService) Create(createdBy uuid.UUID, req *dto.CreatePaymentReque
 			return nil, errors.New("invalid appointment id")
 		}
 		payment.AppointmentID = &aid
+	}
+
+	// Dedupe: não registrar dois pagamentos ativos para a mesma consulta (evita
+	// cobrança em duplicidade no balcão por duplo clique ou recarga).
+	if payment.AppointmentID != nil {
+		var count int64
+		if err := s.db.Model(&models.AppointmentPayment{}).
+			Where("appointment_id = ? AND status = ?", *payment.AppointmentID, models.PaymentStatusPaid).
+			Count(&count).Error; err != nil {
+			return nil, err
+		}
+		if count > 0 {
+			return nil, ErrPaymentAlreadyExists
+		}
 	}
 
 	// Transação: numeração de recibo atômica (UPSERT com RETURNING) + insert.

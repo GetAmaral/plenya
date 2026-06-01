@@ -12,8 +12,10 @@ import {
   Send,
   Sparkles,
   X,
+  Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { CANNED_REPLIES, applyCannedReply } from '@/lib/canned-replies';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -139,6 +141,7 @@ export function ConversationComposer({
   const [channel, setChannel] = useState<Channel>(() => defaultChannel(item));
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
+  const [showCanned, setShowCanned] = useState(false);
   const [attachments, setAttachments] = useState<AttachmentState[]>([]);
   // Template (reabre conversa fora da janela 24h).
   const [showTemplate, setShowTemplate] = useState(false);
@@ -309,6 +312,14 @@ export function ConversationComposer({
         },
       }
     );
+  };
+
+  // Insere uma resposta rápida no corpo (anexa se já houver rascunho), com {nome}
+  // resolvido pelo primeiro nome do contato.
+  const insertCanned = (text: string) => {
+    const applied = applyCannedReply(text, item.name);
+    setBody((prev) => (prev.trim() ? `${prev.trim()}\n\n${applied}` : applied));
+    setShowCanned(false);
   };
 
   const handleSend = () => {
@@ -580,6 +591,23 @@ export function ConversationComposer({
         </ul>
       )}
 
+      {/* Respostas rápidas (canned text) */}
+      {showCanned && (
+        <div className="mt-2 flex flex-wrap gap-1.5 rounded-md border border-border bg-muted/30 p-2">
+          {CANNED_REPLIES.map((r) => (
+            <button
+              key={r.id}
+              type="button"
+              onClick={() => insertCanned(r.text)}
+              title={applyCannedReply(r.text, item.name)}
+              className="rounded-full border border-border bg-background px-2.5 py-1 text-xs font-medium hover:bg-muted"
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
         <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1 text-xs">
           {showAttachUI && (
@@ -592,6 +620,18 @@ export function ConversationComposer({
               <Paperclip className="h-3.5 w-3.5" /> Anexar
             </button>
           )}
+          <button
+            type="button"
+            onClick={() => setShowCanned((v) => !v)}
+            className={cn(
+              'inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium hover:bg-muted',
+              showCanned
+                ? 'border-primary/40 bg-primary/5'
+                : 'border-border bg-background'
+            )}
+          >
+            <Zap className="h-3.5 w-3.5" /> Respostas rápidas
+          </button>
           {showAttachUI && attachments.length > 0 && (
             <span
               className={cn(
