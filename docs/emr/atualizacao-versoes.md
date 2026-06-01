@@ -87,3 +87,19 @@ Nota de ambiente: `node_modules`/`.next` de vários workspaces estavam **root-ow
 **✅ Tailwind v3.4 → v4.3 CONCLUÍDO (2026-05-31):** os 3 apps web (site-getulio CSS-first; site + web via `@config` preservando o preset `@plenya/brand`) + `tw-animate-css` no lugar do `tailwindcss-animate` + `@utility container` no web. QA visual Playwright pré/pós fiel. Commits `7381e7a3`/`b9b456ec`/`24086914`. Detalhes e aprendizados em `docs/emr/tailwind-v4-migracao.md`.
 
 **⏳ Ainda segurado (sem pressão de segurança):** **Fiber v3** (adiado, toca núcleo auth), **eslint 10** (compat eslint-config-next), **pdfjs 6** (preso ao react-pdf 10), **swag v2** (RC). Mobile/NativeWind seguem em Tailwind v3 (intencional).
+
+## Rodada 3 — varredura (2026-06-01)
+
+Scan `go list -m -u all` (api) + `npm view` por dep direto (o `pnpm outdated -r` sofreu timeout do registry no sandbox). **Conclusão: stack essencialmente current** — só drift cosmético de patch/minor; nenhum major importante ficou pra trás.
+
+**✅ Aplicado (patch/minor, dentro dos ranges `^`, build verde 4 apps) — commit `ca35261a`:**
+- Go: `gofiber/fiber/v2` 2.52.12→2.52.13, `go-playground/validator/v10` 10.30.2→10.30.3.
+- Frontend: `react-hook-form` 7.76.1→7.77.0, `zustand` 5.0.9→5.0.14, `turbo` 2.9.6→2.9.16, `@tiptap/*` 3.23.6→3.24.0, `next-intl` →4.13.0.
+
+**Já no latest (sem ação):** next 16.2.6, react/react-dom 19.2.6, @tanstack/react-query 5.100.14, @tanstack/react-table 8.21.3, zod 4.4.3, tailwindcss 4.3.0, lucide-react 1.17.0, recharts 3.8.1, @tremor/react 3.18.7, framer-motion 12.40.0, date-fns 4.4.0, typescript 6.0.3, @types/react 19.2.15, react-pdf 10.4.1.
+
+**⏳ Majors mantidos segurados (decisão, não esquecimento):**
+- `eslint` 9→**10**: bloqueado pela compat do `eslint-config-next` 16.
+- `@types/node` 24→**25**: fixado no **24 de propósito** p/ casar com o runtime Node 24 LTS (paridade). NÃO bumpar até subir o runtime.
+- `pdfjs-dist` 5→**6**: peer-locked pelo `react-pdf` 10.
+- `swag` v2 (RC, OpenAPI 3), `Fiber` v3: migrações dedicadas, sem pressão.
