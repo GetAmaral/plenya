@@ -190,14 +190,11 @@ func (s *AnonymousScoreService) RequestClaim(code string, in RequestClaimInput) 
 		return fmt.Errorf("failed to sign magic token: %w", err)
 	}
 
-	// Persiste jti pra single-use enforcement.
-	// UserID é nil neste estágio (usuário ainda não existe). Reusa tabela
-	// refresh_tokens com Type="magic_link" pra economizar nova migration.
-	// Truque: UserID exige NOT NULL no model — usamos uuid.Nil como placeholder.
-	mt := models.RefreshToken{
-		UserID:    uuid.Nil,
+	// Persiste jti pra single-use enforcement em tabela própria (sem FK de
+	// usuário) — o User só existe no ConfirmClaim. Antes isto gravava em
+	// refresh_tokens com UserID=uuid.Nil, violando a FK refresh_tokens→users.
+	mt := models.MagicLinkToken{
 		TokenHash: hashTokenSimple(jti),
-		Type:      "magic_link",
 		ExpiresAt: expires,
 	}
 	if err := s.db.Create(&mt).Error; err != nil {
@@ -272,8 +269,8 @@ func (s *AnonymousScoreService) ConfirmClaim(token string, authSvc *AuthService)
 		// Em prod, recomenda forçar reissue após deploy do H4.
 	} else {
 		jtiHash := hashTokenSimple(claims.ID)
-		var mt models.RefreshToken
-		if err := s.db.Where("token_hash = ? AND type = ?", jtiHash, "magic_link").First(&mt).Error; err != nil {
+		var mt models.MagicLinkToken
+		if err := s.db.Where("token_hash = ?", jtiHash).First(&mt).Error; err != nil {
 			return nil, errors.New("magic link not registered or expired")
 		}
 		if !mt.IsActive() {
@@ -678,7 +675,7 @@ type LightGroupConfig struct {
 
 // LightConfig é o payload completo exportado para o site.
 type LightConfig struct {
-	Version     string             `json:"version"`     // hash baseado em contagem + última atualização
+	Version     string             `json:"version"` // hash baseado em contagem + última atualização
 	GeneratedAt time.Time          `json:"generatedAt"`
 	ItemCount   int                `json:"itemCount"`
 	Groups      []LightGroupConfig `json:"groups"`
@@ -1070,8 +1067,8 @@ func evaluateLightItem(
 
 // matchLevelForResponse encontra o ScoreLevel correspondente à resposta dada.
 // Suporta dois modos:
-//   1. SelectedLevel preenchido — encontra level por número
-//   2. NumericValue preenchido — usa EvaluatesTrue (ordenado por level ASC)
+//  1. SelectedLevel preenchido — encontra level por número
+//  2. NumericValue preenchido — usa EvaluatesTrue (ordenado por level ASC)
 func matchLevelForResponse(item models.ScoreItem, resp SessionResponseDTO) *models.ScoreLevel {
 	if resp.SelectedLevel != nil {
 		for i := range item.Levels {

@@ -251,20 +251,25 @@ export function EscoreLightForm({
   async function submit() {
     setSubmitting(true);
     setSubmitError(null);
+    // Validações locais — mensagens amigáveis traduzidas.
+    if (typeof demo.age !== 'number' || !demo.gender) {
+      setSubmitError(t('formErrorIncompleteDemo'));
+      setSubmitting(false);
+      return;
+    }
+    // Só envia respostas de fato preenchidas — items em branco ficam fora do cálculo
+    const validResponses = Object.values(responses).filter(
+      (r) =>
+        r.selectedLevel !== undefined ||
+        r.numericValue !== undefined ||
+        (r.textValue !== undefined && r.textValue !== ''),
+    );
+    if (validResponses.length === 0) {
+      setSubmitError(t('formErrorAnswerOne'));
+      setSubmitting(false);
+      return;
+    }
     try {
-      if (typeof demo.age !== 'number' || !demo.gender) {
-        throw new Error(t('formErrorIncompleteDemo'));
-      }
-      // Só envia respostas de fato preenchidas — items em branco ficam fora do cálculo
-      const validResponses = Object.values(responses).filter(
-        (r) =>
-          r.selectedLevel !== undefined ||
-          r.numericValue !== undefined ||
-          (r.textValue !== undefined && r.textValue !== ''),
-      );
-      if (validResponses.length === 0) {
-        throw new Error(t('formErrorAnswerOne'));
-      }
       const utm = utmToPayload(captureUTMFromURL());
       const payload = {
         age: demo.age,
@@ -281,7 +286,9 @@ export function EscoreLightForm({
         params: { code: session.publicCode },
       });
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : t('formErrorSubmit'));
+      // Nunca expor o erro técnico cru da API — só registra pra debug.
+      console.error('[escore-light/submit] createSession failed', err);
+      setSubmitError(t('formErrorSubmit'));
       setSubmitting(false);
     }
   }

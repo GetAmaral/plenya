@@ -94,7 +94,9 @@ export function EscoreLightResultado({
       });
       setClaimStatus('sent');
     } catch (err) {
-      setClaimError(err instanceof Error ? err.message : t('resultClaimSubmitError'));
+      // Nunca expor o erro técnico cru da API ao usuário — só registra pra debug.
+      console.error('[escore-light/claim] request failed', err);
+      setClaimError(t('resultClaimSubmitError'));
       setClaimStatus('error');
     }
   }

@@ -75,6 +75,7 @@ func Connect(cfg *config.Config) error {
 // O caller (cmd/server/main.go) gate AutoMigrate por env:
 //   - DEV  : sempre roda
 //   - PROD : roda apenas se MIGRATIONS_AUTO=true (default false)
+//
 // Esse gate é defesa em profundidade contra rollback acidental de schema.
 func AutoMigrate() error {
 	if err := DB.Exec(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY)`).Error; err != nil {
@@ -221,7 +222,8 @@ func AutoMigrate() error {
 		&models.User{},
 		&models.Patient{},
 		&models.AuditLog{},
-		&models.RefreshToken{}, // C3 — refresh token rotation + revocation
+		&models.RefreshToken{},   // C3 — refresh token rotation + revocation
+		&models.MagicLinkToken{}, // magic link single-use do Escore Light (sem FK de user)
 
 		// Anamnesis
 		&models.AnamnesisTemplate{},
