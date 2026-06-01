@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, RefreshCw, Sparkles } from 'lucide-react';
+import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, CalendarPlus, RefreshCw, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
@@ -616,6 +616,23 @@ export function ConversationViewer({ item, onBack }: Props) {
             <Sparkles className="mr-1 h-3.5 w-3.5" />
           )}
           Resumir
+        </Button>
+        <Button
+          asChild
+          variant="outline"
+          size="sm"
+          className="hidden shrink-0 sm:inline-flex"
+        >
+          <Link
+            href={
+              item.ownerType === 'patient'
+                ? `/appointments/new?patientId=${item.ownerId}`
+                : `/leads/${item.ownerId}`
+            }
+            title="Agendar consulta para este contato"
+          >
+            <CalendarPlus className="mr-1 h-3.5 w-3.5" /> Agendar
+          </Link>
         </Button>
         <Link
           href={detailHref(item)}

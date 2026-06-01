@@ -68,6 +68,20 @@ export default function ConversasPage() {
   const { data, isLoading, isError } = useConversations(filters);
 
   const items = data?.items ?? [];
+  // SLA: conversas aguardando resposta (última msg inbound) sobem ao topo da
+  // página carregada, da mais antiga aguardando pra mais nova; o resto segue por
+  // recência. Ordenação dentro da página carregada (cross-page server-side = follow-up).
+  const sortedItems = useMemo(() => {
+    const waitMs = (it: ConversationItem) =>
+      new Date(it.lastInboundAt ?? it.lastAt).getTime();
+    return [...items].sort((a, b) => {
+      const aw = a.lastDirection === 'in' ? 0 : 1;
+      const bw = b.lastDirection === 'in' ? 0 : 1;
+      if (aw !== bw) return aw - bw;
+      if (aw === 0) return waitMs(a) - waitMs(b);
+      return new Date(b.lastAt).getTime() - new Date(a.lastAt).getTime();
+    });
+  }, [items]);
   const totalUnread = useMemo(
     () => items.reduce((sum, it) => sum + it.unreadCount, 0),
     [items]
@@ -82,10 +96,10 @@ export default function ConversasPage() {
   useEffect(() => {
     if (selected) return;
     if (typeof window !== 'undefined' && window.innerWidth < 768) return;
-    if (items.length > 0) {
-      setSelected({ type: items[0].ownerType, id: items[0].ownerId });
+    if (sortedItems.length > 0) {
+      setSelected({ type: sortedItems[0].ownerType, id: sortedItems[0].ownerId });
     }
-  }, [items, selected]);
+  }, [sortedItems, selected]);
 
   // Se a conversa selecionada sumir da lista (ex: filtro mudou), limpa a seleção
   useEffect(() => {
@@ -202,7 +216,7 @@ export default function ConversasPage() {
             ) : items.length === 0 ? (
               <EmptyList unreadOnly={unreadOnly} hasSearch={!!debouncedSearch.trim()} />
             ) : (
-              items.map((item) => (
+              sortedItems.map((item) => (
                 <div role="listitem" key={`${item.ownerType}:${item.ownerId}`}>
                   <ConversationListRow
                     item={item}

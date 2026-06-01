@@ -23,6 +23,7 @@ import {
   type Lead,
   type LeadActivity,
 } from '@/lib/api/leads-api';
+import { CANNED_REPLIES, applyCannedReply } from '@/lib/canned-replies';
 
 type Props = {
   lead: Lead;
@@ -190,6 +191,12 @@ export function EmailReplyBlock({ lead, fromAddress = DEFAULT_FROM }: Props) {
     setReplyBody('');
   };
 
+  // Resposta rápida: insere no corpo (anexa se já houver texto), com {nome} resolvido.
+  const insertCanned = (text: string) => {
+    const applied = applyCannedReply(text, lead.name ?? undefined);
+    setReplyBody((prev) => (prev.trim() ? `${prev.trim()}\n\n${applied}` : applied));
+  };
+
   const handleSend = () => {
     const body = replyBody.trim();
     if (!body) {
@@ -302,6 +309,19 @@ export function EmailReplyBlock({ lead, fromAddress = DEFAULT_FROM }: Props) {
             </label>
             <label className="block">
               <span className="text-xs uppercase tracking-wide text-muted-foreground">Mensagem</span>
+              <div className="mt-1 flex flex-wrap gap-1.5">
+                {CANNED_REPLIES.map((r) => (
+                  <button
+                    key={r.id}
+                    type="button"
+                    onClick={() => insertCanned(r.text)}
+                    title={applyCannedReply(r.text, lead.name ?? undefined)}
+                    className="rounded-full border border-border bg-background px-2.5 py-1 text-xs font-medium hover:bg-muted"
+                  >
+                    {r.label}
+                  </button>
+                ))}
+              </div>
               <textarea
                 value={replyBody}
                 onChange={(e) => setReplyBody(e.target.value)}

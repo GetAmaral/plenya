@@ -11,6 +11,7 @@ import {
   Play,
   CheckCheck,
   DollarSign,
+  UserX,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +30,7 @@ import {
   useTelemedToken,
   waitMinutes,
 } from "@/lib/api/calendar-api";
+import { useWaitlist } from "@/lib/api/waitlist";
 import {
   STATUS_BADGE_VARIANT,
   STATUS_DOT_CLASS,
@@ -56,6 +58,8 @@ export function AppointmentRow({ appointment }: { appointment: Appointment }) {
   const startMutation = useStartAppointment(appointment.id);
   const completeMutation = useUpdateAppointment(appointment.id);
   const telemedMutation = useTelemedToken(appointment.id);
+  // Encaixe ativo: ao liberar vaga (falta), avisamos quantos aguardam encaixe.
+  const { data: waitlist = [] } = useWaitlist("waiting");
 
   const [payOpen, setPayOpen] = useState(false);
 
@@ -115,6 +119,22 @@ export function AppointmentRow({ appointment }: { appointment: Appointment }) {
     }
   }
 
+  async function handleNoShow() {
+    try {
+      await completeMutation.mutateAsync({ status: "no_show" });
+      toast.success("Falta registrada", {
+        description:
+          waitlist.length > 0
+            ? `Vaga livre. ${waitlist.length} na lista de espera para encaixar.`
+            : `${patientName} nao compareceu.`,
+      });
+    } catch (err) {
+      toast.error("Nao foi possivel registrar a falta", {
+        description: err instanceof Error ? err.message : "Tente novamente.",
+      });
+    }
+  }
+
   async function handleStartTelemed() {
     try {
       const { joinUrl } = await telemedMutation.mutateAsync();
@@ -133,6 +153,7 @@ export function AppointmentRow({ appointment }: { appointment: Appointment }) {
   const canCheckIn = status === "scheduled" || status === "confirmed";
   const canStart = status === "confirmed" || status === "checked_in";
   const canComplete = status === "in_progress";
+  const canNoShow = status === "scheduled" || status === "confirmed";
 
   // Tempo de espera, mostrado discreto ao lado do status enquanto aguarda ou
   // ja esta em atendimento.
@@ -253,6 +274,20 @@ export function AppointmentRow({ appointment }: { appointment: Appointment }) {
               <CheckCheck className="h-4 w-4" />
             )}
             <span className="hidden sm:inline">Concluir</span>
+          </Button>
+        )}
+
+        {canNoShow && (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={handleNoShow}
+            disabled={completeMutation.isPending}
+            title="Marcar como nao compareceu"
+            className="text-muted-foreground hover:text-rose-700"
+          >
+            <UserX className="h-4 w-4" />
+            <span className="hidden sm:inline">Faltou</span>
           </Button>
         )}
 

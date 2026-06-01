@@ -109,15 +109,17 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
               <CardTitle className="text-2xl wrap-break-word">{lead.name ?? '(sem nome)'}</CardTitle>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Capturado {format(new Date(lead.createdAt), "dd 'de' MMMM 'às' HH:mm", { locale: ptBR })} via{' '}
+              <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm text-muted-foreground">
+                <span>
+                  Capturado {format(new Date(lead.createdAt), "dd 'de' MMMM 'às' HH:mm", { locale: ptBR })} via
+                </span>
                 <Badge variant="outline">{SOURCE_LABELS[lead.source]}</Badge>
                 {lead.source === 'whatsapp_inbound' && lead.convertedPatientId && (
-                  <Badge className="ml-2 bg-emerald-100 text-emerald-900 border-emerald-200">
+                  <Badge className="bg-emerald-100 text-emerald-900 border-emerald-200">
                     Paciente cadastrado
                   </Badge>
                 )}
-              </p>
+              </div>
             </div>
             <span
               className={`inline-flex items-center rounded-md border px-3 py-1 text-sm ${STATUS_COLORS[lead.status]}`}

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, DollarSign } from "lucide-react";
 
 const DEV_BYPASS_AUTH = process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === 'true';
 import {
@@ -104,6 +104,7 @@ const navigation: NavigationItem[] = [
   { name: "Continuum", href: "/continuum", icon: Workflow, staffOnly: true },
   { name: "Boxes", href: "/continuum/boxes", icon: Package, staffOnly: true },
   { name: "Configurar Agenda", href: "/configuracoes/agenda", icon: Settings, staffOnly: true },
+  { name: "Preços de Consulta", href: "/configuracoes/precos", icon: DollarSign, staffOnly: true, requiredRoles: ['admin', 'manager'] },
   { name: "Templates Continuum", href: "/configuracoes/continuum-templates", icon: Workflow, staffOnly: true, requiredRoles: ['admin', 'manager'] },
   { name: "Templates de Box", href: "/configuracoes/box-templates", icon: Package, staffOnly: true, requiredRoles: ['admin', 'manager'] },
   { name: "Integrações", href: "/configuracoes/integracoes", icon: Plug, staffOnly: true },

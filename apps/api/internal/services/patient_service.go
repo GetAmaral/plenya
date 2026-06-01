@@ -170,17 +170,18 @@ func (s *PatientService) List(userID uuid.UUID, userRole models.Role, limit, off
 	if search = strings.TrimSpace(search); search != "" {
 		digits := digitsOnly(search)
 		namePat := "%" + search + "%"
+		// unaccent() nos dois lados do nome: "Joao" casa "João" (extensão unaccent).
 		switch {
 		case len(digits) == 11:
 			cpfIdx, _ := crypto.BlindIndexCPF(digits)
 			query = query.Where(
-				"name ILIKE ? OR phone ILIKE ? OR cpf_blind_index = ?",
+				"unaccent(name) ILIKE unaccent(?) OR phone ILIKE ? OR cpf_blind_index = ?",
 				namePat, "%"+digits+"%", cpfIdx,
 			)
 		case len(digits) >= 3:
-			query = query.Where("name ILIKE ? OR phone ILIKE ?", namePat, "%"+digits+"%")
+			query = query.Where("unaccent(name) ILIKE unaccent(?) OR phone ILIKE ?", namePat, "%"+digits+"%")
 		default:
-			query = query.Where("name ILIKE ?", namePat)
+			query = query.Where("unaccent(name) ILIKE unaccent(?)", namePat)
 		}
 	}
 
