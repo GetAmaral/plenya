@@ -221,6 +221,7 @@ export default function CalendarioPage() {
           appointments={appointments}
           onSelectAppointment={(a) => setDrawerAppt(a)}
           colorByDoctor={selectedDoctorIds.length > 1}
+          onSlotClick={(ymd) => router.push(`/appointments/new?date=${ymd}`)}
         />
       )}
 

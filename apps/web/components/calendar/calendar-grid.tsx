@@ -41,6 +41,8 @@ interface CalendarGridProps {
    * Útil quando há multi-doctor view. Caller passa true se selecionou >1.
    */
   colorByDoctor?: boolean;
+  /** Clique em área vazia de um dia → callback com a data (yyyy-MM-dd). */
+  onSlotClick?: (dateYmd: string) => void;
 }
 
 export function CalendarGrid({
@@ -49,6 +51,7 @@ export function CalendarGrid({
   appointments,
   onSelectAppointment,
   colorByDoctor = false,
+  onSlotClick,
 }: CalendarGridProps) {
   const days = useMemo(() => {
     if (view === 'day') return [startOfDay(referenceDate)];
@@ -111,8 +114,10 @@ export function CalendarGrid({
           return (
             <div
               key={d.toISOString()}
-              className="relative border-r"
+              className={cn('relative border-r', onSlotClick && 'cursor-pointer')}
               style={{ height: TOTAL_HEIGHT }}
+              onClick={() => onSlotClick?.(format(d, 'yyyy-MM-dd'))}
+              title={onSlotClick ? 'Clique para agendar neste dia' : undefined}
             >
               {/* Hour gridlines */}
               {Array.from({ length: HOUR_END - HOUR_START }, (_, i) => i).map((i) => (
@@ -145,7 +150,10 @@ export function CalendarGrid({
                   <button
                     key={a.id}
                     type="button"
-                    onClick={() => onSelectAppointment(a)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectAppointment(a);
+                    }}
                     className={cn(
                       'absolute left-1 right-1 overflow-hidden rounded border px-1.5 py-1 text-left text-xs shadow-sm transition-colors',
                       baseClass,

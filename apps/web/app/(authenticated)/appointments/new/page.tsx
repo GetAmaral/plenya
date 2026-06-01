@@ -60,6 +60,7 @@ export default function NewAppointmentPage() {
   const prefilledPatientId = search?.get('patientId') ?? '';
   const continuumItemId = search?.get('continuumItemId') ?? '';
   const prefilledSpecialty = search?.get('specialty') ?? ''; // doctor|nutritionist|psychologist|physicalEducator
+  const prefilledDate = search?.get('date') ?? ''; // YYYY-MM-DD vindo do slot-click do calendário
 
   const isDoctor = isGranted(user, 'doctor');
   const isStaff =
@@ -76,7 +77,7 @@ export default function NewAppointmentPage() {
   const [doctorId, setDoctorId] = useState<string>('');
   const [type, setType] = useState<AppointmentType>('initial_assessment');
   const [presetKey, setPresetKey] = useState<string>('initial_assessment');
-  const [date, setDate] = useState<string>(TODAY_YMD);
+  const [date, setDate] = useState<string>(prefilledDate || TODAY_YMD);
   const [duration, setDuration] = useState<number>(
     APPOINTMENT_TYPE_DEFAULT_DURATION.initial_assessment,
   );
