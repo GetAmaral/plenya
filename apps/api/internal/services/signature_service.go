@@ -26,11 +26,41 @@ func NewSignatureService(certService *CertificateService) *SignatureService {
 	}
 }
 
-// SignPrescriptionPDF assina PDF com certificado do médico
-// Retorna: PDF assinado, hash SHA-256, erro
+// SignPrescriptionPDF assina PDF de prescrição com certificado do médico.
+// Mantido como wrapper p/ não quebrar prescription_pdf_service / lab_request_pdf_service.
+// Retorna: PDF assinado, hash SHA-256, erro.
 func (s *SignatureService) SignPrescriptionPDF(
 	pdfBytes []byte,
 	doctorID uuid.UUID,
+) (signedPDF []byte, signatureHash string, err error) {
+	return s.signPDF(pdfBytes, doctorID,
+		"Assinatura Digital de Prescrição Médica",
+		"Plenya EMR - Sistema de Prescrição Digital")
+}
+
+// SignDocumentPDF assina qualquer PDF clínico (atestado/declaração/laudo/relatório) com o
+// certificado ICP-Brasil do médico. `reason` e `name` parametrizam os metadados PAdES.
+func (s *SignatureService) SignDocumentPDF(
+	pdfBytes []byte,
+	doctorID uuid.UUID,
+	reason string,
+	name string,
+) (signedPDF []byte, signatureHash string, err error) {
+	if reason == "" {
+		reason = "Assinatura Digital de Documento Médico"
+	}
+	if name == "" {
+		name = "Plenya EMR - Documentos Clínicos"
+	}
+	return s.signPDF(pdfBytes, doctorID, reason, name)
+}
+
+// signPDF é o assinador PAdES/ICP-Brasil genérico (núcleo compartilhado).
+func (s *SignatureService) signPDF(
+	pdfBytes []byte,
+	doctorID uuid.UUID,
+	reason string,
+	name string,
 ) (signedPDF []byte, signatureHash string, err error) {
 	// 1. Obter certificado do médico
 	cert, privateKey, err := s.certService.GetActiveCertificate(doctorID)
@@ -48,9 +78,9 @@ func (s *SignatureService) SignPrescriptionPDF(
 	signData := sign.SignData{
 		Signature: sign.SignDataSignature{
 			Info: sign.SignDataSignatureInfo{
-				Name:        "Plenya EMR - Sistema de Prescrição Digital",
+				Name:        name,
 				Location:    "Brasil",
-				Reason:      "Assinatura Digital de Prescrição Médica",
+				Reason:      reason,
 				ContactInfo: "https://plenya.com.br",
 			},
 			CertType:   sign.CertificationSignature,

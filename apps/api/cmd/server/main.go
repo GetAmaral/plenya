@@ -420,6 +420,12 @@ func setupRoutes(
 	appointmentNotificationService.WithTelemedLobby(telemedLobbyService)
 	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService, patientScoresService, patientProfileService, patientDocumentsService, patientWorkoutsService, patientCheckInsService, notificationPreferencesService, notificationService)
 
+	// Documentos clínicos emitidos/assináveis (P3 frente 2) — reusa signature_service (ICP-Brasil)
+	// + patient_documents_service (publica no portal). DocumentPDFService gera o PDF (gofpdf).
+	documentPDFService := services.NewDocumentPDFService()
+	issuedDocumentService := services.NewIssuedDocumentService(database.DB, documentPDFService, signatureService, patientDocumentsService, "/app/uploads")
+	issuedDocumentHandler := handlers.NewIssuedDocumentHandler(issuedDocumentService)
+
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
 	// pra fechar o ciclo sem dep direta entre services.
@@ -804,9 +810,21 @@ func setupRoutes(
 	prescriptions.Delete("/:id", prescriptionHandler.Delete)
 	prescriptions.Post("/:id/sign", middleware.RequireDoctor(), prescriptionHandler.SignAndGenerate)
 
+	// Documentos clínicos emitidos (P3 frente 2): atestado/declaração/laudo assináveis.
+	// Emitir/assinar é ato médico → RequireDoctor. Leitura/download = qualquer staff. Writes auditados.
+	issuedDocs := v1.Group("/issued-documents")
+	issuedDocs.Use(middleware.Auth(cfg))
+	issuedDocs.Use(middleware.RequireAnyStaff())
+	issuedDocs.Use(middleware.AuditLog(database.DB))
+	issuedDocs.Get("/:docId", issuedDocumentHandler.GetByID)
+	issuedDocs.Get("/:docId/pdf", issuedDocumentHandler.DownloadPDF)
+	issuedDocs.Post("/:docId/sign", middleware.RequireDoctor(), issuedDocumentHandler.Sign)
+	issuedDocs.Delete("/:docId", middleware.RequireDoctor(), issuedDocumentHandler.Delete)
+
 	// Validation routes (public - no auth)
 	v1.Get("/prescriptions/validate/:id", prescriptionHandler.ValidatePublic)
 	v1.Get("/lab-requests/validate/:id", labRequestHandler.ValidatePublic)
+	v1.Get("/documents/validate/:id", issuedDocumentHandler.ValidatePublic)
 
 	// Certificates routes (admin only)
 	adminCertificates := v1.Group("/admin/certificates")
@@ -1152,6 +1170,10 @@ func setupRoutes(
 	patients.Post("/:id/medications", medicationInUseHandler.Create)
 	patients.Put("/:id/medications/:medId", medicationInUseHandler.Update)
 	patients.Delete("/:id/medications/:medId", medicationInUseHandler.Delete)
+
+	// Documentos emitidos por paciente (P3 frente 2). Emitir = ato médico (RequireDoctor).
+	patients.Get("/:id/issued-documents", issuedDocumentHandler.ListByPatient)
+	patients.Post("/:id/issued-documents", middleware.RequireDoctor(), issuedDocumentHandler.Create)
 
 	// Catálogo CID-10 (curado) — busca para autocomplete do problem list.
 	cidCodes := v1.Group("/cid-codes")

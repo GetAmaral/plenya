@@ -396,10 +396,25 @@ func (p *Patient) AfterFind(tx *gorm.DB) error {
 	return nil
 }
 
-// isEncrypted verifica se uma string está no formato base64 (indicando criptografia)
+// isEncrypted verifica se uma string está cifrada (formato legacy base64 OU
+// envelope versionado "vN:" introduzido no hardening de cripto).
 func isEncrypted(s string) bool {
-	// CPF descriptografado tem 11 caracteres
-	// Se tiver mais e for base64 válido, provavelmente está criptografado
+	// Envelope versionado "v<N>:..." (ex.: "v1:..."). O colon quebra base64, então
+	// precisa ser detectado ANTES do heurístico legacy (senão CPF/RG v1: nunca
+	// são descriptografados no AfterFind e o ciphertext vaza). Espelha a detecção
+	// de prefixo de crypto.DecryptWithDefaultKey.
+	if len(s) > 3 && s[0] == 'v' {
+		for i := 1; i < len(s) && i < 8; i++ {
+			if s[i] == ':' {
+				return i > 1 // ao menos um dígito de versão antes do ':'
+			}
+			if s[i] < '0' || s[i] > '9' {
+				break
+			}
+		}
+	}
+
+	// Legacy: CPF descriptografado tem 11 caracteres; base64 mais longo = cifrado.
 	if len(s) <= 11 {
 		return false
 	}

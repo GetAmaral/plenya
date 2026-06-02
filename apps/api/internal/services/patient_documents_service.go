@@ -135,7 +135,8 @@ type CreateFromBytesInput struct {
 	Title             string
 	Type              models.PatientDocumentType
 	Source            models.PatientDocumentSource
-	OriginWAMessageID *string // idempotência do webhook
+	OriginWAMessageID *string    // idempotência do webhook
+	UploadedBy        *uuid.UUID // staff responsável (ex: documento gerado pelo médico); nil em inbound
 }
 
 // CreateFromBytes salva um arquivo (bytes) como documento de prontuário.
@@ -200,7 +201,7 @@ func (s *PatientDocumentsService) CreateFromBytes(in CreateFromBytesInput) (*mod
 	doc := &models.PatientDocument{
 		ID:                docID,
 		PatientID:         in.PatientID,
-		UploadedBy:        nil, // inbound não tem usuário staff
+		UploadedBy:        in.UploadedBy, // staff responsável (doc gerado) ou nil (inbound)
 		Source:            source,
 		OriginWAMessageID: in.OriginWAMessageID,
 		Type:              docType,

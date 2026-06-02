@@ -335,6 +335,9 @@ func AutoMigrate() error {
 		&models.PatientMagicLink{},
 		&models.TelemedLobbyToken{},
 		&models.PatientDocument{},
+
+		// Documentos clínicos emitidos/assináveis (P3 frente 2)
+		&models.IssuedDocument{},
 	); err != nil {
 		return err
 	}

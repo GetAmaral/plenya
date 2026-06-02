@@ -1,0 +1,96 @@
+'use client';
+
+/**
+ * Documentos clínicos emitidos/assináveis (P3 frente 2): atestado, declaração, laudo.
+ * Cria rascunho → assina (ICP-Brasil quando há cert; degrada p/ assinatura manual) →
+ * publicado no portal do paciente. Download autenticado via getBlob.
+ */
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { apiClient } from '../api-client';
+
+export type IssuedDocumentType = 'certificate' | 'declaration' | 'report';
+export type IssuedDocumentStatus = 'draft' | 'signed';
+
+export interface IssuedDocument {
+  id: string;
+  patientId: string;
+  appointmentId?: string;
+  doctorId: string;
+  doctorName?: string;
+  type: IssuedDocumentType;
+  title: string;
+  body: string;
+  purpose?: string;
+  daysOff?: number;
+  includesCid: boolean;
+  cidCode?: string;
+  cidConsent: boolean;
+  status: IssuedDocumentStatus;
+  hasDigitalSignature: boolean;
+  signedAt?: string;
+  signedPdfHash?: string;
+  certificateSerial?: string;
+  qrCodeData?: string;
+  patientDocumentId?: string;
+  issuedByUserId: string;
+  issuedAt: string;
+  createdAt: string;
+}
+
+export interface CreateIssuedDocumentPayload {
+  appointmentId?: string;
+  type: IssuedDocumentType;
+  title: string;
+  body?: string;
+  purpose?: string;
+  daysOff?: number;
+  includesCid?: boolean;
+  cidCode?: string;
+  cidConsent?: boolean;
+}
+
+export const issuedDocKeys = {
+  byPatient: (patientId: string) => ['issued-documents', patientId] as const,
+};
+
+export function useIssuedDocuments(patientId: string | undefined) {
+  return useQuery({
+    queryKey: issuedDocKeys.byPatient(patientId ?? ''),
+    enabled: !!patientId,
+    queryFn: () => apiClient.get<IssuedDocument[]>(`/api/v1/patients/${patientId}/issued-documents`),
+  });
+}
+
+export function useCreateIssuedDocument(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: CreateIssuedDocumentPayload) =>
+      apiClient.post<IssuedDocument>(`/api/v1/patients/${patientId}/issued-documents`, payload),
+    onSuccess: () => qc.invalidateQueries({ queryKey: issuedDocKeys.byPatient(patientId) }),
+  });
+}
+
+export function useSignIssuedDocument(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (docId: string) => apiClient.post<IssuedDocument>(`/api/v1/issued-documents/${docId}/sign`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: issuedDocKeys.byPatient(patientId) }),
+  });
+}
+
+export function useDeleteIssuedDocument(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (docId: string) => apiClient.delete<void>(`/api/v1/issued-documents/${docId}`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: issuedDocKeys.byPatient(patientId) }),
+  });
+}
+
+/** Baixa o PDF assinado (autenticado) e abre numa nova aba. */
+export async function openIssuedDocumentPDF(docId: string) {
+  const blob = await apiClient.getBlob(`/api/v1/issued-documents/${docId}/pdf`);
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+}
