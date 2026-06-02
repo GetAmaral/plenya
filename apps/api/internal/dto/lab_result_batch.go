@@ -71,6 +71,9 @@ type LabResultBatchResponse struct {
 	Attachments        *string                      `json:"attachments,omitempty"`
 	PDFContentJSON     *string                      `json:"pdfContentJson,omitempty"`
 	ResultCount        int                          `json:"resultCount"`
+	IsCritical         bool                         `json:"isCritical"`
+	WorstLevel         *int                         `json:"worstLevel,omitempty"`
+	ReviewedAt         *string                      `json:"reviewedAt,omitempty"`
 	CreatedAt          string                       `json:"createdAt"`
 	UpdatedAt          string                       `json:"updatedAt"`
 }
@@ -89,9 +92,34 @@ type LabResultBatchDetailResponse struct {
 	Attachments        *string                      `json:"attachments,omitempty"`
 	PDFContentJSON     *string                      `json:"pdfContentJson,omitempty"`
 	ResultCount        int                          `json:"resultCount"`
+	IsCritical         bool                         `json:"isCritical"`
+	WorstLevel         *int                         `json:"worstLevel,omitempty"`
+	ReviewedAt         *string                      `json:"reviewedAt,omitempty"`
 	LabResults         []LabResultInBatchResponse   `json:"labResults"`
 	CreatedAt          string                       `json:"createdAt"`
 	UpdatedAt          string                       `json:"updatedAt"`
+}
+
+// LabInboxItemResponse representa um lote na fila "Exames a revisar" (cross-patient).
+type LabInboxItemResponse struct {
+	ID             string                      `json:"id"`
+	PatientID      string                      `json:"patientId"`
+	PatientName    string                      `json:"patientName"`
+	LaboratoryName string                      `json:"laboratoryName"`
+	CollectionDate string                      `json:"collectionDate"`
+	ResultDate     *string                     `json:"resultDate,omitempty"`
+	Status         models.LabResultBatchStatus `json:"status"`
+	IsCritical     bool                        `json:"isCritical"`
+	WorstLevel     *int                        `json:"worstLevel,omitempty"`
+	AbnormalCount  int                         `json:"abnormalCount"` // results com level <= 2
+	TotalResults   int                         `json:"totalResults"`
+	ReviewedAt     *string                     `json:"reviewedAt,omitempty"`
+}
+
+// LabInboxCountResponse — contadores para o badge do sidebar.
+type LabInboxCountResponse struct {
+	Total    int64 `json:"total"`
+	Critical int64 `json:"critical"`
 }
 
 // LabTestDefinitionResponse representa os dados essenciais de uma definição de exame

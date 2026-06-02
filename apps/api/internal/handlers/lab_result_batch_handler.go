@@ -673,6 +673,111 @@ func (h *LabResultBatchHandler) Classify(c *fiber.Ctx) error {
 	})
 }
 
+// Inbox lista lotes a revisar de TODOS os pacientes (Results inbox, cross-patient).
+// @Summary Fila de exames a revisar
+// @Tags LabResultBatch
+// @Produce json
+// @Param limit query int false "Limite" default(100)
+// @Param offset query int false "Offset" default(0)
+// @Success 200 {array} dto.LabInboxItemResponse
+// @Router /api/v1/lab-result-inbox [get]
+func (h *LabResultBatchHandler) Inbox(c *fiber.Ctx) error {
+	limit, _ := strconv.Atoi(c.Query("limit", "100"))
+	offset, _ := strconv.Atoi(c.Query("offset", "0"))
+
+	items, err := h.labResultBatchService.ListPendingReview(limit, offset)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to list pending review",
+			Message: err.Error(),
+		})
+	}
+	return c.JSON(items)
+}
+
+// InboxCount retorna contadores (total/críticos) da fila — usado no badge do sidebar.
+// @Summary Contador de exames a revisar
+// @Tags LabResultBatch
+// @Produce json
+// @Success 200 {object} dto.LabInboxCountResponse
+// @Router /api/v1/lab-result-inbox/count [get]
+func (h *LabResultBatchHandler) InboxCount(c *fiber.Ctx) error {
+	total, critical, err := h.labResultBatchService.CountPendingReview()
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to count pending review",
+			Message: err.Error(),
+		})
+	}
+	return c.JSON(dto.LabInboxCountResponse{Total: total, Critical: critical})
+}
+
+// GetForReview busca o detalhe de um lote para revisão (cross-patient, sem gate de selectedPatient).
+// @Summary Detalhe de lote para revisão
+// @Tags LabResultBatch
+// @Produce json
+// @Param id path string true "ID do lote"
+// @Success 200 {object} dto.LabResultBatchDetailResponse
+// @Router /api/v1/lab-result-inbox/{id} [get]
+func (h *LabResultBatchHandler) GetForReview(c *fiber.Ctx) error {
+	batchID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid batch id",
+			Message: err.Error(),
+		})
+	}
+
+	batch, err := h.labResultBatchService.GetByIDForReview(batchID)
+	if err != nil {
+		if errors.Is(err, services.ErrLabResultBatchNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error:   "lab result batch not found",
+				Message: err.Error(),
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to get lab result batch",
+			Message: err.Error(),
+		})
+	}
+	return c.JSON(batch)
+}
+
+// Acknowledge registra a ciência clínica de um lote (cross-patient).
+// @Summary Dar ciência de um lote de resultados
+// @Tags LabResultBatch
+// @Produce json
+// @Param id path string true "ID do lote"
+// @Success 200 {object} dto.LabResultBatchDetailResponse
+// @Router /api/v1/lab-result-inbox/{id}/acknowledge [post]
+func (h *LabResultBatchHandler) Acknowledge(c *fiber.Ctx) error {
+	batchID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid batch id",
+			Message: err.Error(),
+		})
+	}
+
+	userID := middleware.GetUserID(c)
+
+	batch, err := h.labResultBatchService.AcknowledgeBatch(batchID, userID)
+	if err != nil {
+		if errors.Is(err, services.ErrLabResultBatchNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error:   "lab result batch not found",
+				Message: err.Error(),
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to acknowledge batch",
+			Message: err.Error(),
+		})
+	}
+	return c.JSON(batch)
+}
+
 // ensureDir cria diretório se não existir
 func ensureDir(dir string) error {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {

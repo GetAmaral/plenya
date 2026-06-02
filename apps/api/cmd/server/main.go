@@ -874,6 +874,17 @@ func setupRoutes(
 	// Classification route - re-classifica resultados do batch
 	labResultBatches.Post("/:id/classify", middleware.RequireClinician(), labResultBatchHandler.Classify)
 
+	// Results inbox (P3) — fila cross-patient de exames a revisar (NÃO selectedPatient-scoped).
+	// Revisar exame é ato clínico → RequireClinician (exclui secretary/manager). Writes auditados.
+	labInbox := v1.Group("/lab-result-inbox")
+	labInbox.Use(middleware.Auth(cfg))
+	labInbox.Use(middleware.RequireClinician())
+	labInbox.Use(middleware.AuditLog(database.DB))
+	labInbox.Get("/", labResultBatchHandler.Inbox)
+	labInbox.Get("/count", labResultBatchHandler.InboxCount)
+	labInbox.Get("/:id", labResultBatchHandler.GetForReview)
+	labInbox.Post("/:id/acknowledge", labResultBatchHandler.Acknowledge)
+
 	// Processing Jobs routes (protegidas)
 	processingJobs := v1.Group("/processing-jobs")
 	processingJobs.Use(middleware.Auth(cfg))

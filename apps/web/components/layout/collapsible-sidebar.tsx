@@ -54,6 +54,7 @@ import { Badge } from "@/components/ui/badge";
 import { ROLES, ROLE_BADGE_COLORS, getRoleColor, getRoleLabel } from "@/lib/roles";
 import { useConversationsUnreadCount } from "@/lib/api/conversations-api";
 import { useLeads } from "@/lib/api/leads-api";
+import { useLabReviewCount } from "@/lib/api/lab-inbox";
 
 type NavigationItem = {
   name: string;
@@ -65,8 +66,8 @@ type NavigationItem = {
   // Útil quando staff genérico não basta — ex: apenas admin/secretary/manager.
   requiredRoles?: UserRole[];
   // badgeKey: chave que identifica qual contagem exibir no badge.
-  // 'conversations' (mensagens não lidas) ou 'leads' (leads novos aguardando).
-  badgeKey?: 'conversations' | 'leads';
+  // 'conversations' (mensagens não lidas), 'leads' (leads novos) ou 'lab-review' (exames a revisar).
+  badgeKey?: 'conversations' | 'leads' | 'lab-review';
 };
 
 type NavGroup = { title: string; items: NavigationItem[] };
@@ -84,6 +85,7 @@ const navGroups: NavGroup[] = [
       { name: "Escores de Saúde", href: "/health-scores", icon: Activity },
       { name: "Prescrições", href: "/prescriptions", icon: FileText },
       { name: "Exames", href: "/lab-results", icon: Microscope },
+      { name: "Exames a revisar", href: "/lab-results/revisar", icon: Microscope, staffOnly: true, badgeKey: 'lab-review' },
       { name: "Pedidos de Exames", href: "/lab-requests", icon: ClipboardList, staffOnly: true },
       { name: "Views de Resultados", href: "/lab-result-views", icon: LayoutList, staffOnly: true },
       { name: "Continuum", href: "/continuum", icon: Workflow, staffOnly: true },
@@ -617,13 +619,18 @@ function NavItemRow({
   const leadsNew = useLeads({ status: 'new' }, 0, 1, {
     enabled: item.badgeKey === 'leads',
   });
+  // Exames a revisar: gateado por badgeKey (a rota é RequireClinician — evita 403 fora da linha).
+  const labReview = useLabReviewCount({ enabled: item.badgeKey === 'lab-review' });
   const badgeValue =
     item.badgeKey === 'conversations'
       ? conversationsUnread.data ?? 0
       : item.badgeKey === 'leads'
         ? leadsNew.data?.total ?? 0
-        : 0;
-  const badgeNoun = item.badgeKey === 'leads' ? 'novos' : 'não lidas';
+        : item.badgeKey === 'lab-review'
+          ? labReview.data?.total ?? 0
+          : 0;
+  const badgeNoun =
+    item.badgeKey === 'leads' ? 'novos' : item.badgeKey === 'lab-review' ? 'a revisar' : 'não lidas';
   const showBadge = badgeValue > 0;
 
   return (

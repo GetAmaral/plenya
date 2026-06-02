@@ -711,6 +711,12 @@ func (s *LabResultBatchService) toResponse(batch *models.LabResultBatch) dto.Lab
 		resultDate = &date
 	}
 
+	var reviewedAt *string
+	if batch.ReviewedAt != nil {
+		date := batch.ReviewedAt.Format(time.RFC3339)
+		reviewedAt = &date
+	}
+
 	return dto.LabResultBatchResponse{
 		ID:                 batch.ID.String(),
 		PatientID:          batch.PatientID.String(),
@@ -724,6 +730,9 @@ func (s *LabResultBatchService) toResponse(batch *models.LabResultBatch) dto.Lab
 		Attachments:        batch.Attachments,
 		PDFContentJSON:     batch.PDFContentJSON,
 		ResultCount:        len(batch.LabResults),
+		IsCritical:         batch.IsCritical,
+		WorstLevel:         batch.WorstLevel,
+		ReviewedAt:         reviewedAt,
 		CreatedAt:          batch.CreatedAt.Format(time.RFC3339),
 		UpdatedAt:          batch.UpdatedAt.Format(time.RFC3339),
 	}
@@ -750,6 +759,9 @@ func (s *LabResultBatchService) toDetailResponse(batch *models.LabResultBatch) *
 		Attachments:        baseResp.Attachments,
 		PDFContentJSON:     baseResp.PDFContentJSON,
 		ResultCount:        baseResp.ResultCount,
+		IsCritical:         baseResp.IsCritical,
+		WorstLevel:         baseResp.WorstLevel,
+		ReviewedAt:         baseResp.ReviewedAt,
 		LabResults:         results,
 		CreatedAt:          baseResp.CreatedAt,
 		UpdatedAt:          baseResp.UpdatedAt,
@@ -901,5 +913,146 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 		}
 	}
 
-	return nil
+	// 8. Recomputa criticidade do lote (worst_level/is_critical) p/ a Results inbox.
+	return s.recomputeBatchCriticality(batchID)
+}
+
+// recomputeBatchCriticality recalcula worst_level/is_critical do lote a partir do level dos results.
+// worst_level = menor level (0 = pior); is_critical = worst_level ∈ {0,1}. Persiste no batch.
+func (s *LabResultBatchService) recomputeBatchCriticality(batchID uuid.UUID) error {
+	var minLevel *int
+	if err := s.db.Model(&models.LabResult{}).
+		Where("lab_result_batch_id = ? AND level IS NOT NULL", batchID).
+		Select("MIN(level)").
+		Scan(&minLevel).Error; err != nil {
+		return err
+	}
+
+	isCritical := minLevel != nil && (*minLevel == 0 || *minLevel == 1)
+
+	return s.db.Model(&models.LabResultBatch{}).
+		Where("id = ?", batchID).
+		Updates(map[string]interface{}{
+			"worst_level": minLevel,
+			"is_critical": isCritical,
+		}).Error
+}
+
+// ListPendingReview lista lotes a revisar de TODOS os pacientes (cross-patient, NÃO selectedPatient).
+// Pendente = resultados chegaram (result_date != NULL) e ninguém deu ciência (reviewed_at == NULL).
+// Ordem: críticos primeiro, depois pior level, depois mais recentes.
+func (s *LabResultBatchService) ListPendingReview(limit, offset int) ([]*dto.LabInboxItemResponse, error) {
+	if limit <= 0 || limit > 200 {
+		limit = 100
+	}
+	var batches []models.LabResultBatch
+	err := s.db.
+		Preload("Patient").
+		Preload("LabResults").
+		Where("result_date IS NOT NULL AND reviewed_at IS NULL").
+		Order("is_critical DESC").
+		Order("worst_level ASC NULLS LAST").
+		Order("result_date DESC").
+		Limit(limit).
+		Offset(offset).
+		Find(&batches).Error
+	if err != nil {
+		return nil, err
+	}
+
+	out := make([]*dto.LabInboxItemResponse, len(batches))
+	for i := range batches {
+		out[i] = s.toInboxItem(&batches[i])
+	}
+	return out, nil
+}
+
+// CountPendingReview retorna (total, críticos) de lotes a revisar — usado no badge do sidebar.
+func (s *LabResultBatchService) CountPendingReview() (int64, int64, error) {
+	var total, critical int64
+	if err := s.db.Model(&models.LabResultBatch{}).
+		Where("result_date IS NOT NULL AND reviewed_at IS NULL").
+		Count(&total).Error; err != nil {
+		return 0, 0, err
+	}
+	if err := s.db.Model(&models.LabResultBatch{}).
+		Where("result_date IS NOT NULL AND reviewed_at IS NULL AND is_critical = true").
+		Count(&critical).Error; err != nil {
+		return 0, 0, err
+	}
+	return total, critical, nil
+}
+
+// GetByIDForReview busca o detalhe de um lote SEM gate de selectedPatient (a inbox é cross-patient:
+// qualquer clínico pode revisar). Inclui results + definições + paciente.
+func (s *LabResultBatchService) GetByIDForReview(batchID uuid.UUID) (*dto.LabResultBatchDetailResponse, error) {
+	var batch models.LabResultBatch
+	err := s.db.
+		Preload("Patient").
+		Preload("LabResults.LabTestDefinition").
+		First(&batch, batchID).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrLabResultBatchNotFound
+		}
+		return nil, err
+	}
+	return s.toDetailResponse(&batch), nil
+}
+
+// AcknowledgeBatch registra a ciência clínica de um lote (cross-patient). Idempotente.
+func (s *LabResultBatchService) AcknowledgeBatch(batchID, userID uuid.UUID) (*dto.LabResultBatchDetailResponse, error) {
+	var batch models.LabResultBatch
+	if err := s.db.First(&batch, batchID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrLabResultBatchNotFound
+		}
+		return nil, err
+	}
+
+	if batch.ReviewedAt == nil {
+		now := time.Now()
+		if err := s.db.Model(&batch).Updates(map[string]interface{}{
+			"reviewed_at":         now,
+			"reviewed_by_user_id": userID,
+		}).Error; err != nil {
+			return nil, err
+		}
+	}
+	return s.GetByIDForReview(batchID)
+}
+
+// toInboxItem monta o item resumido da fila "Exames a revisar".
+func (s *LabResultBatchService) toInboxItem(batch *models.LabResultBatch) *dto.LabInboxItemResponse {
+	var resultDate, reviewedAt *string
+	if batch.ResultDate != nil {
+		d := batch.ResultDate.Format(time.RFC3339)
+		resultDate = &d
+	}
+	if batch.ReviewedAt != nil {
+		d := batch.ReviewedAt.Format(time.RFC3339)
+		reviewedAt = &d
+	}
+
+	abnormal := 0
+	for i := range batch.LabResults {
+		if l := batch.LabResults[i].Level; l != nil && *l <= 2 {
+			abnormal++
+		}
+	}
+
+	return &dto.LabInboxItemResponse{
+		ID:             batch.ID.String(),
+		PatientID:      batch.PatientID.String(),
+		PatientName:    batch.Patient.Name,
+		LaboratoryName: batch.LaboratoryName,
+		CollectionDate: batch.CollectionDate.Format(time.RFC3339),
+		ResultDate:     resultDate,
+		Status:         batch.Status,
+		IsCritical:     batch.IsCritical,
+		WorstLevel:     batch.WorstLevel,
+		AbnormalCount:  abnormal,
+		TotalResults:   len(batch.LabResults),
+		ReviewedAt:     reviewedAt,
+	}
 }

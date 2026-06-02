@@ -64,6 +64,16 @@ type LabResultBatch struct {
 	// Conteúdo processado pela IA em formato JSON estruturado
 	PDFContentJSON *string `gorm:"type:text" json:"pdfContentJson,omitempty"`
 
+	// Revisão clínica (Results inbox) — DISTINTA do Status (que é completude da digitação/OCR).
+	// ReviewedAt != nil = um clínico deu ciência do lote.
+	ReviewedAt       *time.Time `gorm:"type:timestamptz;index" json:"reviewedAt,omitempty"`
+	ReviewedByUserID *uuid.UUID `gorm:"type:uuid" json:"reviewedByUserId,omitempty"`
+
+	// Criticidade derivada dos resultados: WorstLevel = menor level (0=pior/vermelho .. 5=melhor);
+	// IsCritical = WorstLevel ∈ {0,1}. Recomputados em ClassifyBatchResults; backfill na migration 00008.
+	IsCritical bool `gorm:"not null;default:false" json:"isCritical"`
+	WorstLevel *int `gorm:"type:smallint" json:"worstLevel,omitempty"`
+
 	// Título computado para exibição no frontend (não persistido)
 	DisplayTitle string `gorm:"-" json:"displayTitle"`
 
