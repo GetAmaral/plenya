@@ -265,12 +265,50 @@ Implementação direto no `master` (regra do projeto), commit/deploy só quando 
 
 ---
 
-## STATUS DA IMPLEMENTAÇÃO
+## ✅ STATUS FINAL — CONCLUÍDO (2026-06-01, prod @14287d43)
+
+**A feature Recepção/Secretária está completa, deployada e verificada.** As 6 features originais +
+todos os itens não-excluídos do P0/P1/P2 da reavaliação estão presentes, ligados ponta a ponta e
+corretos. Verificação final por workflow adversarial de 9 agentes (7 verificadores por grupo +
+crítico de completude + síntese): veredito **GO**, zero blockers.
+
+- **6 features originais:** Dashboard `/recepcao` (cards reais + RBAC), check-in Chegou/Iniciar/
+  Concluir + tempo de espera (BE idempotente com guarda de transição), cadastro rápido + `/patients/new`,
+  GlobalSearch Cmd+K (montado 1× no layout autenticado), waitlist (card + dialog), financeiro
+  (RegisterPaymentDialog + recibo PDF com ReceiptNumber sequencial atômico + CNPJ real).
+- **P0 (4 bugs):** cadastro consertado (aposentou `lib/api/patients.ts`), `isError` distinto do
+  empty-state nos cards, 409 de conflito mapeado no reagendamento, polling 30s em leads/waitlist.
+- **P1 (8):** handoff lead→agenda (via conversão de lead → `?patientId`), RBAC secretária em
+  working_hours, telas financeiras (PatientFinanceCard: histórico+reimprimir+estorno gateado),
+  dedupe CPF + dedupe pagamento, busca server-side, badge de lead + SLA na inbox, respostas rápidas.
+- **P2:** no_show ("Faltou"), encaixe ativo (nudge interno), handoff no viewer, admin de preços
+  (`/configuracoes/precos`), badge "Pago R$X", SLA-sort, canned no EmailReplyBlock, busca unaccent,
+  recall de retorno (stack completo, **interno**, migration 00003), slot-click, **drag-and-drop**
+  (@dnd-kit: mouse/touch/teclado + DragOverlay + update otimista).
+- **Excluídos (confirmado AUSENTES e sem código morto):** ingestão IG/FB DMs, win-back, e
+  **qualquer mensageria automática ao paciente** (régua 48h/24h/2h). Recall, encaixe e no_show são
+  **internos** — verificado que NÃO disparam mensagem automática ao paciente.
+- **Hardening de sign-off (commit desta data):** estorno restrito a admin/gerente também no backend
+  (`POST /payments/:id/refund` ganhou `RequireRole(admin, manager)` — antes só a UI escondia o botão,
+  a secretária ainda podia estornar via API) + guarda anti-duplo-estorno (`ErrPaymentAlreadyRefunded`).
+- **Integridade:** `go build ./...` exit 0; tsc web = 812 (baseline, 0 erro novo); migrations
+  00001-00004 aplicadas (goose); `HEAD == origin/master == prod`.
+
+**Follow-ups aceitos (não-bloqueantes, fora do escopo desta entrega):** QuickAdd sem dedupe de
+telefone (cadastro mínimo por design); recall fica `pending` após "Agendar" (falta auto-linkar o
+`scheduled_appointment_id` — backend já suporta); picker de `appointments/new` ainda carrega
+pacientes client-side (busca server-side só foi pra lista `/patients`); janela de horas 08-20
+hardcoded; pré-intake/dashboard do gestor/NFS-e (P3).
+
+---
+
+## STATUS DA IMPLEMENTAÇÃO (histórico — pré-conclusão, mantido como registro)
 
 > Reconstruído em 2026-05-30 lendo os transcripts das duas sessões anteriores (`c36529d5` =
 > sessão 1, e a sessão de refactor seguinte) + verificação direta no codebase e no git. Corrige
 > uma primeira auditoria que tinha errado dois pontos ("pnpm generate nunca rodou" e "GlobalSearch
-> nunca montado"). **Tudo abaixo está untracked/uncommitted no git.** Atualizar conforme avança.
+> nunca montado"). **Conteúdo abaixo é o snapshot da época (`/hoje` vs `/recepcao`, drag-drop
+> ausente, etc.) — SUPERSEDIDO pelo STATUS FINAL acima.** Mantido pela cronologia das 2 sessões.
 
 ### O que realmente aconteceu (cronologia das 2 sessões)
 

@@ -219,7 +219,16 @@ por ângulo:
 
 ---
 
-**Status:** reavaliação concluída em 2026-06-01. Próximo passo aguarda decisão do usuário sobre o
-escopo a executar (sugestão: começar pelos 4 bugs P0, que são baratos e destravam o fluxo central).
-Quando um escopo for aprovado, atualizar `plano-recepcao-secretaria.md` e a memória
-[[recepcao_secretaria_status]].
+**Status:** reavaliação concluída em 2026-06-01 e **escopo executado** (P0 + P1 + P2, menos os
+excluídos pelo usuário: ingestão IG/FB DMs, win-back e qualquer mensageria automática ao paciente).
+Feature marcada como CONCLUÍDA — ver STATUS FINAL em `plano-recepcao-secretaria.md` e a memória
+[[recepcao_secretaria_status]]. Verificação final por workflow adversarial (9 agentes): GO.
+
+> **Correções de drift pós-implementação** (este doc é o snapshot pré-execução; abaixo o que mudou):
+> - §4/§5: `no_show` **agora tem gatilho na UI** (botão "Não compareceu" no `appointment-row`,
+>   ainda **interno**, sem mensagem automática ao paciente).
+> - P1 #5: o handoff lead→agenda foi feito por **conversão do lead → `?patientId`** (não por um
+>   param `leadId` em `appointments/new`); funcionalmente completo e evita consulta órfã de lead
+>   não-convertido.
+> - §5 (Financeiro): o estorno passou a ser restrito a admin/gerente **também no backend** (não só
+>   na UI) no sign-off de 2026-06-01.

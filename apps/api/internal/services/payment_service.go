@@ -17,9 +17,10 @@ import (
 )
 
 var (
-	ErrPaymentNotFound      = errors.New("payment not found")
-	ErrPriceNotFound        = errors.New("consultation price not found")
-	ErrPaymentAlreadyExists = errors.New("payment already registered for this appointment")
+	ErrPaymentNotFound        = errors.New("payment not found")
+	ErrPriceNotFound          = errors.New("consultation price not found")
+	ErrPaymentAlreadyExists   = errors.New("payment already registered for this appointment")
+	ErrPaymentAlreadyRefunded = errors.New("payment already refunded")
 )
 
 // Dados fiscais da clínica para o recibo (nome legal + CNPJ + endereço fiscal).
@@ -144,6 +145,11 @@ func (s *PaymentService) Refund(id uuid.UUID, req *dto.RefundPaymentRequest) (*d
 			return nil, ErrPaymentNotFound
 		}
 		return nil, err
+	}
+	// Guarda contra duplo-estorno: estornar de novo sobrescreveria o carimbo e
+	// o motivo originais, sujando a auditoria. Só pagamentos pagos estornam.
+	if p.Status != models.PaymentStatusPaid {
+		return nil, ErrPaymentAlreadyRefunded
 	}
 	now := time.Now().UTC()
 	p.Status = models.PaymentStatusRefunded

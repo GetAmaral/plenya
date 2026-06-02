@@ -110,6 +110,12 @@ func (h *PaymentHandler) Refund(c *fiber.Ctx) error {
 		if errors.Is(err, services.ErrPaymentNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "payment not found"})
 		}
+		if errors.Is(err, services.ErrPaymentAlreadyRefunded) {
+			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+				Error:   "payment already refunded",
+				Message: "este pagamento já foi estornado",
+			})
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error:   "internal server error",
 			Message: err.Error(),

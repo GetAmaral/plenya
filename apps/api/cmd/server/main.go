@@ -749,7 +749,10 @@ func setupRoutes(
 	payments.Use(middleware.AuditLog(database.DB))
 	payments.Get("/", paymentHandler.List)
 	payments.Post("/", paymentHandler.Create)
-	payments.Post("/:id/refund", paymentHandler.Refund)
+	// Estorno é mais restrito que o resto do grupo: secretária cobra mas não
+	// estorna (integridade financeira). Só admin/gerente — espelha a UI, que
+	// já esconde o botão de estorno da secretária.
+	payments.Post("/:id/refund", middleware.RequireRole(models.RoleAdmin, models.RoleManager), paymentHandler.Refund)
 	payments.Get("/:id/receipt", paymentHandler.Receipt)
 
 	// Preços por tipo de consulta — leitura para recepção (AdminOps),
