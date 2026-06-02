@@ -191,17 +191,21 @@ func (s *IssuedDocumentService) Sign(id, userID uuid.UUID) (*dto.IssuedDocumentR
 		hash = hex.EncodeToString(sum[:])
 	}
 
-	// 2. Publicar como PatientDocument (portal + download autenticado; resolve /uploads não-estático)
+	// 2. Publicar como PatientDocument (portal + download autenticado; resolve /uploads não-estático).
+	// Chave de idempotência por documento: um retry após falha do Updates reaproveita a publicação
+	// existente em vez de duplicar/orfanar (CreateFromBytes deduplica por OriginWAMessageID).
 	uploadedBy := doc.DoctorID
 	filename := fmt.Sprintf("%s_%s.pdf", doc.Type, doc.ID)
+	idemKey := "issued:" + doc.ID.String()
 	patientDoc, err := s.documents.CreateFromBytes(CreateFromBytesInput{
-		PatientID:  doc.PatientID,
-		Bytes:      finalPDF,
-		Filename:   filename,
-		Title:      doc.Title,
-		Type:       patientDocTypeFromIssued(doc.Type),
-		Source:     models.DocumentSourceStaffUpload,
-		UploadedBy: &uploadedBy,
+		PatientID:         doc.PatientID,
+		Bytes:             finalPDF,
+		Filename:          filename,
+		Title:             doc.Title,
+		Type:              patientDocTypeFromIssued(doc.Type),
+		Source:            models.DocumentSourceStaffUpload,
+		UploadedBy:        &uploadedBy,
+		OriginWAMessageID: &idemKey,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("erro ao publicar documento: %w", err)

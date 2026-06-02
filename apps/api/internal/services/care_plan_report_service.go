@@ -123,16 +123,18 @@ func (s *CarePlanReportService) GenerateAndPublish(patientID, doctorID uuid.UUID
 		hash = hex.EncodeToString(sum[:])
 	}
 
-	// 2. Publicar no portal.
+	// 2. Publicar no portal (idempotente por doc.ID — retry após falha do Updates não duplica).
 	uploadedBy := doctorID
+	idemKey := "report:" + doc.ID.String()
 	patientDoc, err := s.documents.CreateFromBytes(CreateFromBytesInput{
-		PatientID:  patientID,
-		Bytes:      finalPDF,
-		Filename:   fmt.Sprintf("relatorio_agir_%s.pdf", doc.ID),
-		Title:      doc.Title,
-		Type:       models.DocumentTypeReport,
-		Source:     models.DocumentSourceStaffUpload,
-		UploadedBy: &uploadedBy,
+		PatientID:         patientID,
+		Bytes:             finalPDF,
+		Filename:          fmt.Sprintf("relatorio_agir_%s.pdf", doc.ID),
+		Title:             doc.Title,
+		Type:              models.DocumentTypeReport,
+		Source:            models.DocumentSourceStaffUpload,
+		UploadedBy:        &uploadedBy,
+		OriginWAMessageID: &idemKey,
 	})
 	if err != nil {
 		return "", fmt.Errorf("erro ao publicar relatório: %w", err)
@@ -201,7 +203,7 @@ func (s *CarePlanReportService) buildReportHTML(
 	b.WriteString(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><style>`)
 	b.WriteString(`
 * { box-sizing: border-box; }
-body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #1f2937; margin: 0; padding: 40px 48px; }
+body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #1f2937; margin: 0; padding: 0; }
 h1 { font-size: 22px; letter-spacing: 4px; font-weight: 600; color: #1f2937; margin: 0 0 2px; }
 .tag { color: #6b7280; font-size: 12px; letter-spacing: 1px; }
 .meta { margin: 18px 0 24px; font-size: 13px; color: #374151; }
@@ -218,7 +220,7 @@ td { padding: 5px 6px; border-bottom: 1px solid #f1f5f9; }
 .rec .target { color: #6b7280; font-size: 12px; }
 .footer { margin-top: 36px; padding-top: 14px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #6b7280; }
 .footer .sig { color: #047857; font-weight: 600; }
-@media print { body { padding: 24px; } }
+@media print { body { padding: 0; } }
 `)
 	b.WriteString(`</style></head><body>`)
 
@@ -273,7 +275,7 @@ td { padding: 5px 6px; border-bottom: 1px solid #f1f5f9; }
 	b.WriteString(`<div class="footer">`)
 	crm := ""
 	if doctor.CRM != nil && doctor.CRMUF != nil {
-		crm = "CRM-" + *doctor.CRMUF + " " + *doctor.CRM
+		crm = "CRM-" + esc(*doctor.CRMUF) + " " + esc(*doctor.CRM)
 	}
 	if hasDigital {
 		b.WriteString(`<span class="sig">Documento assinado digitalmente (ICP-Brasil)</span> · ` + esc(doctor.Name) + ` · ` + crm + `<br>`)

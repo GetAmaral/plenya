@@ -85,7 +85,7 @@ const navGroups: NavGroup[] = [
       { name: "Escores de Saúde", href: "/health-scores", icon: Activity },
       { name: "Prescrições", href: "/prescriptions", icon: FileText },
       { name: "Exames", href: "/lab-results", icon: Microscope },
-      { name: "Exames a revisar", href: "/lab-results/revisar", icon: Microscope, staffOnly: true, badgeKey: 'lab-review' },
+      { name: "Exames a revisar", href: "/lab-results/revisar", icon: Microscope, staffOnly: true, requiredRoles: ['admin', 'doctor', 'nurse', 'psychologist', 'nutritionist', 'physicalEducator'], badgeKey: 'lab-review' },
       { name: "Pedidos de Exames", href: "/lab-requests", icon: ClipboardList, staffOnly: true },
       { name: "Views de Resultados", href: "/lab-result-views", icon: LayoutList, staffOnly: true },
       { name: "Continuum", href: "/continuum", icon: Workflow, staffOnly: true },
