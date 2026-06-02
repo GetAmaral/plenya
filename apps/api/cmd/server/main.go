@@ -263,6 +263,8 @@ func setupRoutes(
 	patientService := services.NewPatientService(database.DB)
 	anamnesisService := services.NewAnamnesisService(database.DB)
 	clinicalNoteService := services.NewClinicalNoteService(database.DB)
+	allergyService := services.NewAllergyService(database.DB)
+	vitalsService := services.NewVitalsService(database.DB)
 	anamnesisTemplateService := services.NewAnamnesisTemplateService(anamnesisTemplateRepo)
 	// Calendar V1 (Bloco E) — AppointmentService depende de google/daily/notif.
 	googleCalendarService := services.NewGoogleCalendarService(cfg, database.DB)
@@ -330,6 +332,8 @@ func setupRoutes(
 	patientHandler := handlers.NewPatientHandler(patientService)
 	anamnesisHandler := handlers.NewAnamnesisHandler(anamnesisService)
 	clinicalNoteHandler := handlers.NewClinicalNoteHandler(clinicalNoteService)
+	allergyHandler := handlers.NewAllergyHandler(allergyService)
+	vitalsHandler := handlers.NewVitalsHandler(vitalsService)
 	anamnesisTemplateHandler := handlers.NewAnamnesisTemplateHandler(anamnesisTemplateService)
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
 	waitlistHandler := handlers.NewWaitlistHandler(waitlistService)
@@ -1112,6 +1116,15 @@ func setupRoutes(
 	patients.Post("/:id/score-snapshots", scoreSnapshotHandler.CalculateSnapshot)
 	patients.Get("/:id/score-snapshots", scoreSnapshotHandler.GetSnapshotsByPatientID)
 	patients.Get("/:id/score-snapshots/latest", scoreSnapshotHandler.GetLatestSnapshotByPatientID)
+
+	// Esqueleto clínico P2a — alergias + sinais vitais por consulta, escopados
+	// por paciente (path). RequireAnyStaff (já no grupo patients) + AuditLog.
+	patients.Get("/:id/allergies", allergyHandler.ListByPatient)
+	patients.Post("/:id/allergies", allergyHandler.Create)
+	patients.Put("/:id/allergies/:allergyId", allergyHandler.Update)
+	patients.Delete("/:id/allergies/:allergyId", allergyHandler.Delete)
+	patients.Get("/:id/vitals", vitalsHandler.ListByPatient)
+	patients.Post("/:id/vitals", vitalsHandler.Create)
 
 	// Score Snapshots routes (global).
 	// C2 — bloqueia patient role. Pacientes usam /patient/me/score-snapshots/:id.

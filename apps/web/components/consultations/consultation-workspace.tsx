@@ -34,6 +34,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { ScheduleRecallDialog } from '@/components/recepcao/schedule-recall-dialog';
+import { AllergiesCard } from '@/components/clinical/allergies-card';
+import { VitalsPanel } from '@/components/clinical/vitals-panel';
 import { useSelectedPatient } from '@/lib/use-selected-patient';
 import { useLatestHealthScore } from '@/lib/api/health-score-api';
 import {
@@ -274,6 +276,9 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
             </Button>
           </CardContent>
         </Card>
+
+        <AllergiesCard patientId={appt.patientId} />
+        <VitalsPanel patientId={appt.patientId} appointmentId={appt.id} />
       </div>
 
       {/* CENTRO — Nota de evolução */}

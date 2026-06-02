@@ -234,6 +234,8 @@ func AutoMigrate() error {
 		// Appointments & Prescriptions
 		&models.Appointment{},
 		&models.ClinicalNote{},
+		&models.PatientAllergy{},
+		&models.ConsultationVitals{},
 		&models.Prescription{},
 		&models.PrescriptionMedication{},
 

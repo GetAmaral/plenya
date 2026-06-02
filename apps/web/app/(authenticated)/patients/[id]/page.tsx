@@ -35,6 +35,7 @@ import { PortalAccessCard } from "@/components/patients/portal-access-card";
 import { CheckInsCard } from "@/components/patients/check-ins-card";
 import { PatientFinanceCard } from "@/components/patients/patient-finance-card";
 import { RadarAgir, type RadarLetter, type RadarPillar } from "@/components/health-scores/RadarAgir";
+import { AllergiesCard } from "@/components/clinical/allergies-card";
 import {
   useLatestHealthScore,
   type PatientScoreSnapshot,
@@ -208,6 +209,9 @@ export default function PatientDetailPage() {
           },
         ]}
       />
+
+      {/* Alergias — segurança clínica, sempre no topo */}
+      <AllergiesCard patientId={patientId} />
 
       {/* ===== SÍNTESE ===== */}
       {scoreLoading ? (

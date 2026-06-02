@@ -30,6 +30,7 @@ import { SelectedPatientHeader } from '@/components/patients/SelectedPatientHead
 import { createPrescription, signPrescription } from '@/lib/api/prescriptions'
 import { numberToWordsWithUnit } from '@/lib/utils/number-to-words'
 import { MedicationSearch } from '@/components/prescriptions/MedicationSearch'
+import { useAllergies, matchAllergies } from '@/lib/api/clinical-skeleton'
 import type { MedicationDefinition } from '@/lib/api/medication-definitions'
 
 // Medication schema
@@ -243,6 +244,23 @@ export default function NewPrescriptionPage() {
   const c1Count = form.watch('medications').filter(m => m.category === 'c1').length
   const hasControlled = form.watch('medications').some(m => m.category !== 'simple')
 
+  // CDS não-bloqueante: cruza o princípio ativo de cada medicação com as
+  // alergias ATIVAS do paciente (match por substring normalizada).
+  const { data: patientAllergies = [] } = useAllergies(selectedPatient?.id)
+  const allergyConflicts = (() => {
+    const seen = new Set<string>()
+    const out: { med: string; substance: string }[] = []
+    for (const m of form.watch('medications')) {
+      for (const a of matchAllergies(patientAllergies, m.activeIngredient || '')) {
+        const key = `${m.activeIngredient}|${a.id}`
+        if (seen.has(key)) continue
+        seen.add(key)
+        out.push({ med: m.medicationName || m.activeIngredient, substance: a.substance })
+      }
+    }
+    return out
+  })()
+
   if (loadingPatient) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -327,6 +345,26 @@ export default function NewPrescriptionPage() {
               <br />
               GLP-1 Agonista: 90 dias de validade.
             </p>
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {allergyConflicts.length > 0 && (
+        <Alert variant="destructive" className="mb-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Alerta de alergia</AlertTitle>
+          <AlertDescription>
+            <p className="text-sm">
+              O paciente tem alergia registrada que pode conflitar com esta prescrição:
+            </p>
+            <ul className="mt-1 list-disc pl-5 text-sm">
+              {allergyConflicts.map((c, i) => (
+                <li key={i}>
+                  <strong>{c.med}</strong> — alergia a <strong>{c.substance}</strong>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-xs">Revise antes de assinar. Este alerta não bloqueia a prescrição.</p>
           </AlertDescription>
         </Alert>
       )}
