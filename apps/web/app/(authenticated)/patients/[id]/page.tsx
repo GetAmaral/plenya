@@ -36,6 +36,8 @@ import { CheckInsCard } from "@/components/patients/check-ins-card";
 import { PatientFinanceCard } from "@/components/patients/patient-finance-card";
 import { RadarAgir, type RadarLetter, type RadarPillar } from "@/components/health-scores/RadarAgir";
 import { AllergiesCard } from "@/components/clinical/allergies-card";
+import { ProblemsCard } from "@/components/clinical/problems-card";
+import { MedicationsCard } from "@/components/clinical/medications-card";
 import {
   useLatestHealthScore,
   type PatientScoreSnapshot,
@@ -212,6 +214,12 @@ export default function PatientDetailPage() {
 
       {/* Alergias — segurança clínica, sempre no topo */}
       <AllergiesCard patientId={patientId} />
+
+      {/* Problemas + medicações em uso */}
+      <div className="grid gap-6 md:grid-cols-2">
+        <ProblemsCard patientId={patientId} />
+        <MedicationsCard patientId={patientId} />
+      </div>
 
       {/* ===== SÍNTESE ===== */}
       {scoreLoading ? (

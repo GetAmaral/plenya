@@ -236,6 +236,9 @@ func AutoMigrate() error {
 		&models.ClinicalNote{},
 		&models.PatientAllergy{},
 		&models.ConsultationVitals{},
+		&models.PatientProblem{},
+		&models.MedicationInUse{},
+		&models.CIDCode{},
 		&models.Prescription{},
 		&models.PrescriptionMedication{},
 

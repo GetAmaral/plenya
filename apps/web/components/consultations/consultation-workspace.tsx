@@ -36,6 +36,8 @@ import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { ScheduleRecallDialog } from '@/components/recepcao/schedule-recall-dialog';
 import { AllergiesCard } from '@/components/clinical/allergies-card';
 import { VitalsPanel } from '@/components/clinical/vitals-panel';
+import { ProblemsCard } from '@/components/clinical/problems-card';
+import { MedicationsCard } from '@/components/clinical/medications-card';
 import { useSelectedPatient } from '@/lib/use-selected-patient';
 import { useLatestHealthScore } from '@/lib/api/health-score-api';
 import {
@@ -278,6 +280,8 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
         </Card>
 
         <AllergiesCard patientId={appt.patientId} />
+        <ProblemsCard patientId={appt.patientId} />
+        <MedicationsCard patientId={appt.patientId} />
         <VitalsPanel patientId={appt.patientId} appointmentId={appt.id} />
       </div>
 

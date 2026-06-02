@@ -169,3 +169,176 @@ export function matchAllergies(
     return sub.length > 2 && (ing.includes(sub) || sub.includes(ing));
   });
 }
+
+// ============================================================
+// P2b — Problem list + Medicações em uso + CID-10
+// ============================================================
+
+export type ProblemStatus = 'active' | 'resolved' | 'inactive';
+
+export interface PatientProblem {
+  id: string;
+  patientId: string;
+  description: string;
+  cidCode?: string;
+  cidVersion: string;
+  status: ProblemStatus;
+  onsetDate?: string;
+  resolvedDate?: string;
+  onsetAppointmentId?: string;
+  notes?: string;
+  recordedByUserId: string;
+  recordedByName?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateProblemPayload {
+  description: string;
+  cidCode?: string;
+  onsetDate?: string;
+  onsetAppointmentId?: string;
+  notes?: string;
+}
+export interface UpdateProblemPayload {
+  description?: string;
+  cidCode?: string;
+  status?: ProblemStatus;
+  onsetDate?: string;
+  resolvedDate?: string;
+  notes?: string;
+}
+
+export type MedicationSource = 'prescribed_here' | 'external' | 'patient_reported';
+export type MedicationInUseStatus = 'active' | 'suspended' | 'stopped';
+
+export interface MedicationInUse {
+  id: string;
+  patientId: string;
+  medicationName: string;
+  activeIngredient: string;
+  dosage: string;
+  frequency: string;
+  route: string;
+  source: MedicationSource;
+  status: MedicationInUseStatus;
+  sourcePrescriptionId?: string;
+  reconciledAppointmentId?: string;
+  startDate?: string;
+  endDate?: string;
+  notes?: string;
+  recordedByUserId: string;
+  recordedByName?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateMedicationPayload {
+  medicationName: string;
+  activeIngredient?: string;
+  dosage?: string;
+  frequency?: string;
+  route?: string;
+  source?: MedicationSource;
+  startDate?: string;
+  notes?: string;
+}
+export interface UpdateMedicationPayload {
+  medicationName?: string;
+  activeIngredient?: string;
+  dosage?: string;
+  frequency?: string;
+  route?: string;
+  status?: MedicationInUseStatus;
+  endDate?: string;
+  notes?: string;
+}
+
+export interface CIDCode {
+  code: string;
+  description: string;
+  chapter?: string;
+  version: string;
+}
+
+export const problemKeys = { byPatient: (p: string) => ['problems', p] as const };
+export const medicationKeys = { byPatient: (p: string) => ['medications-in-use', p] as const };
+
+// ---- Problemas ----
+export function useProblems(patientId: string | undefined, includeResolved = false) {
+  return useQuery({
+    queryKey: [...problemKeys.byPatient(patientId ?? ''), includeResolved],
+    enabled: !!patientId,
+    queryFn: () =>
+      apiClient.get<PatientProblem[]>(
+        `/api/v1/patients/${patientId}/problems${includeResolved ? '?includeResolved=true' : ''}`,
+      ),
+  });
+}
+export function useCreateProblem(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: CreateProblemPayload) =>
+      apiClient.post<PatientProblem>(`/api/v1/patients/${patientId}/problems`, payload),
+    onSuccess: () => qc.invalidateQueries({ queryKey: problemKeys.byPatient(patientId) }),
+  });
+}
+export function useUpdateProblem(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: UpdateProblemPayload }) =>
+      apiClient.put<PatientProblem>(`/api/v1/patients/${patientId}/problems/${id}`, payload),
+    onSuccess: () => qc.invalidateQueries({ queryKey: problemKeys.byPatient(patientId) }),
+  });
+}
+export function useDeleteProblem(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => apiClient.delete<void>(`/api/v1/patients/${patientId}/problems/${id}`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: problemKeys.byPatient(patientId) }),
+  });
+}
+
+// ---- Medicações em uso ----
+export function useMedicationsInUse(patientId: string | undefined, includeInactive = false) {
+  return useQuery({
+    queryKey: [...medicationKeys.byPatient(patientId ?? ''), includeInactive],
+    enabled: !!patientId,
+    queryFn: () =>
+      apiClient.get<MedicationInUse[]>(
+        `/api/v1/patients/${patientId}/medications${includeInactive ? '?includeInactive=true' : ''}`,
+      ),
+  });
+}
+export function useCreateMedication(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: CreateMedicationPayload) =>
+      apiClient.post<MedicationInUse>(`/api/v1/patients/${patientId}/medications`, payload),
+    onSuccess: () => qc.invalidateQueries({ queryKey: medicationKeys.byPatient(patientId) }),
+  });
+}
+export function useUpdateMedication(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: UpdateMedicationPayload }) =>
+      apiClient.put<MedicationInUse>(`/api/v1/patients/${patientId}/medications/${id}`, payload),
+    onSuccess: () => qc.invalidateQueries({ queryKey: medicationKeys.byPatient(patientId) }),
+  });
+}
+export function useDeleteMedication(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => apiClient.delete<void>(`/api/v1/patients/${patientId}/medications/${id}`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: medicationKeys.byPatient(patientId) }),
+  });
+}
+
+// ---- CID-10 autocomplete ----
+export function useCIDSearch(q: string, enabled = true) {
+  return useQuery({
+    queryKey: ['cid-codes', q],
+    enabled: enabled && q.trim().length >= 2,
+    queryFn: () => apiClient.get<CIDCode[]>(`/api/v1/cid-codes?q=${encodeURIComponent(q.trim())}`),
+  });
+}

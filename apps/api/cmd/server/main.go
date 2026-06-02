@@ -265,6 +265,9 @@ func setupRoutes(
 	clinicalNoteService := services.NewClinicalNoteService(database.DB)
 	allergyService := services.NewAllergyService(database.DB)
 	vitalsService := services.NewVitalsService(database.DB)
+	problemService := services.NewProblemService(database.DB)
+	medicationInUseService := services.NewMedicationInUseService(database.DB)
+	cidService := services.NewCIDService(database.DB)
 	anamnesisTemplateService := services.NewAnamnesisTemplateService(anamnesisTemplateRepo)
 	// Calendar V1 (Bloco E) — AppointmentService depende de google/daily/notif.
 	googleCalendarService := services.NewGoogleCalendarService(cfg, database.DB)
@@ -334,6 +337,9 @@ func setupRoutes(
 	clinicalNoteHandler := handlers.NewClinicalNoteHandler(clinicalNoteService)
 	allergyHandler := handlers.NewAllergyHandler(allergyService)
 	vitalsHandler := handlers.NewVitalsHandler(vitalsService)
+	problemHandler := handlers.NewProblemHandler(problemService)
+	medicationInUseHandler := handlers.NewMedicationInUseHandler(medicationInUseService)
+	cidHandler := handlers.NewCIDHandler(cidService)
 	anamnesisTemplateHandler := handlers.NewAnamnesisTemplateHandler(anamnesisTemplateService)
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
 	waitlistHandler := handlers.NewWaitlistHandler(waitlistService)
@@ -1125,6 +1131,22 @@ func setupRoutes(
 	patients.Delete("/:id/allergies/:allergyId", allergyHandler.Delete)
 	patients.Get("/:id/vitals", vitalsHandler.ListByPatient)
 	patients.Post("/:id/vitals", vitalsHandler.Create)
+
+	// Esqueleto clínico P2b — lista de problemas (CID-10) + medicações em uso.
+	patients.Get("/:id/problems", problemHandler.ListByPatient)
+	patients.Post("/:id/problems", problemHandler.Create)
+	patients.Put("/:id/problems/:problemId", problemHandler.Update)
+	patients.Delete("/:id/problems/:problemId", problemHandler.Delete)
+	patients.Get("/:id/medications", medicationInUseHandler.ListByPatient)
+	patients.Post("/:id/medications", medicationInUseHandler.Create)
+	patients.Put("/:id/medications/:medId", medicationInUseHandler.Update)
+	patients.Delete("/:id/medications/:medId", medicationInUseHandler.Delete)
+
+	// Catálogo CID-10 (curado) — busca para autocomplete do problem list.
+	cidCodes := v1.Group("/cid-codes")
+	cidCodes.Use(middleware.Auth(cfg))
+	cidCodes.Use(middleware.RequireAnyStaff())
+	cidCodes.Get("/", cidHandler.Search)
 
 	// Score Snapshots routes (global).
 	// C2 — bloqueia patient role. Pacientes usam /patient/me/score-snapshots/:id.
