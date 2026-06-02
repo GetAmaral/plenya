@@ -661,6 +661,59 @@ func (s *AppointmentService) StartConsultation(ctx context.Context, appointmentI
 	return s.toDTO(&appt), nil
 }
 
+// TelemedConsentTermText — termo canônico de consentimento de telemedicina (CFM 2.314/2022),
+// versão com cláusula de gravação. É o texto exibido ao registrar e gravado em
+// Appointment.TelemedConsentText (prova do que foi apresentado). Fonte versionada:
+// docs/emr/termo-consentimento-telemedicina.md. Alterar aqui ao revisar o termo.
+const TelemedConsentTermText = `TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO PARA ATENDIMENTO POR TELEMEDICINA
+
+Atendimento prestado por Plenya Serviços de Saúde Ltda. (CNPJ 66.991.259/0001-50), nos termos da Resolução CFM nº 2.314/2022.
+
+Declaro estar ciente e de acordo com o seguinte:
+
+1. Este atendimento será realizado por telemedicina, de forma remota, por meio de vídeo em plataforma segura, sem a presença física do médico no mesmo ambiente.
+2. Fui informado(a) de que tenho o direito de optar pelo atendimento presencial a qualquer momento, sem qualquer prejuízo ao meu cuidado.
+3. Compreendo que a telemedicina possui limitações — em especial quanto ao exame físico — e que o médico poderá recomendar avaliação presencial, exames complementares ou encaminhamento sempre que julgar necessário para a minha segurança.
+4. Mantêm-se integralmente o sigilo médico e a proteção dos meus dados pessoais e de saúde, tratados conforme a legislação aplicável (LGPD).
+5. Posso interromper o atendimento a qualquer momento e esclarecer dúvidas com o médico.
+6. Em caso de emergência ou urgência, devo procurar imediatamente um serviço de pronto atendimento presencial.
+7. Autorizo a gravação desta teleconsulta, que integrará o meu prontuário e ficará sujeita ao mesmo sigilo e proteção de dados.
+
+Declaro que fui devidamente esclarecido(a), tive a oportunidade de tirar dúvidas e consinto livremente com a realização do atendimento por telemedicina.`
+
+// RegisterTelemedConsent carimba o consentimento de telemedicina no prontuário (CFM 2.314/2022).
+// Só para Type=telemedicine. Idempotente (não re-carimba se já registrado). Mode default 'verbal'.
+func (s *AppointmentService) RegisterTelemedConsent(ctx context.Context, appointmentID, actorUserID uuid.UUID, mode string) (*dto.AppointmentResponse, error) {
+	var appt models.Appointment
+	if err := s.db.WithContext(ctx).Preload("Patient").Preload("Doctor").
+		Where("id = ?", appointmentID).First(&appt).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrAppointmentNotFound
+		}
+		return nil, err
+	}
+	if appt.Type != models.AppointmentTelemedicine {
+		return nil, ErrAppointmentNotTelemed
+	}
+	if appt.TelemedConsentAt != nil {
+		return s.toDTO(&appt), nil // idempotente
+	}
+	if mode != "written" {
+		mode = "verbal"
+	}
+
+	now := time.Now().UTC()
+	text := TelemedConsentTermText
+	appt.TelemedConsentAt = &now
+	appt.TelemedConsentText = &text
+	appt.TelemedConsentByUserID = &actorUserID
+	appt.TelemedConsentMode = &mode
+	if err := s.db.WithContext(ctx).Save(&appt).Error; err != nil {
+		return nil, err
+	}
+	return s.toDTO(&appt), nil
+}
+
 // GetTelemedJoinURL gera meeting_token de owner pro staff (médico/secretaria)
 // e retorna a URL completa pra abrir a sala.
 //
@@ -1079,6 +1132,11 @@ func (s *AppointmentService) toDTO(appointment *models.Appointment) *dto.Appoint
 		ca := appointment.CancelledAt.Format(time.RFC3339)
 		resp.CancelledAt = &ca
 	}
+	if appointment.TelemedConsentAt != nil {
+		tc := appointment.TelemedConsentAt.Format(time.RFC3339)
+		resp.TelemedConsentAt = &tc
+	}
+	resp.TelemedConsentMode = appointment.TelemedConsentMode
 
 	// Nested patient/doctor (preloaded). Apenas projeção mínima — nada sensível.
 	if appointment.Patient.ID != uuid.Nil {

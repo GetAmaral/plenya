@@ -62,6 +62,9 @@ export interface Appointment {
   // Pra abrir a sala, chame POST /api/v1/appointments/:id/telemed-token via
   // useTelemedToken() — retorna {joinUrl} com meeting_token escopado.
   dailyRoomName?: string;
+  // Consentimento de telemedicina (CFM 2.314/2022) — só type=telemedicine.
+  telemedConsentAt?: string;
+  telemedConsentMode?: string;
   confirmationSentAt?: string;
   reminderSentAt?: string;
   displayTitle?: string;
@@ -409,6 +412,31 @@ export function useTelemedToken(id: string) {
   return useMutation({
     mutationFn: () =>
       apiClient.post<TelemedTokenResponse>(`/api/v1/appointments/${id}/telemed-token`),
+  });
+}
+
+// Termo de consentimento de telemedicina (texto canônico, do backend).
+export interface TelemedConsentTerm {
+  text: string;
+}
+export function useTelemedConsentTerm() {
+  return useQuery({
+    queryKey: ['telemed-consent-term'],
+    queryFn: () => apiClient.get<TelemedConsentTerm>('/api/v1/appointments/telemed-consent-term'),
+    staleTime: 60 * 60 * 1000, // termo muda raramente
+  });
+}
+
+// Registra o consentimento de telemedicina (CFM 2.314/2022). Mode default 'verbal'.
+export function useRegisterTelemedConsent(id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (mode: 'verbal' | 'written' = 'verbal') =>
+      apiClient.post<Appointment>(`/api/v1/appointments/${id}/telemed-consent`, { mode }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: calendarKeys.appointment(id) });
+      qc.invalidateQueries({ queryKey: calendarKeys.all });
+    },
   });
 }
 

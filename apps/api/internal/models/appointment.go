@@ -159,6 +159,14 @@ type Appointment struct {
 	// que é a confirmação geral via Confirm() (também pode vir da IA).
 	PatientConfirmedAt *time.Time `gorm:"type:timestamptz" json:"patientConfirmedAt,omitempty"`
 
+	// Consentimento de telemedicina (CFM 2.314/2022) — só Type=telemedicine.
+	// TelemedConsentAt != nil = consentimento registrado no prontuário. TelemedConsentText
+	// guarda o texto exato apresentado (prova). Mode: 'verbal' (médico registra) | 'written'.
+	TelemedConsentAt         *time.Time `gorm:"type:timestamptz" json:"telemedConsentAt,omitempty"`
+	TelemedConsentText       *string    `gorm:"type:text" json:"telemedConsentText,omitempty"`
+	TelemedConsentByUserID   *uuid.UUID `gorm:"type:uuid" json:"telemedConsentByUserId,omitempty"`
+	TelemedConsentMode       *string    `gorm:"type:varchar(10)" json:"telemedConsentMode,omitempty"`
+
 	// Título computado para exibição no frontend (não persistido)
 	DisplayTitle string `gorm:"-" json:"displayTitle"`
 

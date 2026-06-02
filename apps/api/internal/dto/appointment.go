@@ -50,10 +50,22 @@ type AppointmentResponse struct {
 	CompletedAt        *string                   `json:"completedAt,omitempty"`
 	CancelledAt        *string                   `json:"cancelledAt,omitempty"`
 	CancellationReason *string                   `json:"cancellationReason,omitempty"`
+	TelemedConsentAt   *string                   `json:"telemedConsentAt,omitempty"`
+	TelemedConsentMode *string                   `json:"telemedConsentMode,omitempty"`
 	CreatedAt          string                    `json:"createdAt"`
 	UpdatedAt          string                    `json:"updatedAt"`
 	Patient            *AppointmentParty         `json:"patient,omitempty"`
 	Doctor             *AppointmentParty         `json:"doctor,omitempty"`
+}
+
+// TelemedConsentTermResponse — texto canônico do termo (frontend exibe; backend grava ao registrar).
+type TelemedConsentTermResponse struct {
+	Text string `json:"text"`
+}
+
+// RegisterTelemedConsentRequest — modo de captura (default 'verbal').
+type RegisterTelemedConsentRequest struct {
+	Mode string `json:"mode,omitempty" validate:"omitempty,oneof=verbal written"`
 }
 
 // AppointmentParty — projeção mínima embutida em AppointmentResponse pra

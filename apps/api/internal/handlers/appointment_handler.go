@@ -356,6 +356,41 @@ func (h *AppointmentHandler) StartConsultation(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
+// GetTelemedConsentTerm GET /api/v1/appointments/telemed-consent-term
+// Devolve o texto canônico do termo (frontend exibe antes de registrar).
+func (h *AppointmentHandler) GetTelemedConsentTerm(c *fiber.Ctx) error {
+	return c.JSON(dto.TelemedConsentTermResponse{Text: services.TelemedConsentTermText})
+}
+
+// RegisterTelemedConsent POST /api/v1/appointments/:id/telemed-consent
+// Carimba o consentimento de telemedicina (CFM 2.314/2022) no prontuário. Idempotente.
+func (h *AppointmentHandler) RegisterTelemedConsent(c *fiber.Ctx) error {
+	appointmentID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid appointment id",
+			Message: "appointment id must be a valid UUID",
+		})
+	}
+	var req dto.RegisterTelemedConsentRequest
+	_ = c.BodyParser(&req) // body opcional; mode default 'verbal'
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
+	}
+	userID := middleware.GetUserID(c)
+	resp, err := h.appointmentService.RegisterTelemedConsent(c.Context(), appointmentID, userID, req.Mode)
+	if err != nil {
+		if errors.Is(err, services.ErrAppointmentNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "appointment not found"})
+		}
+		if errors.Is(err, services.ErrAppointmentNotTelemed) {
+			return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "not a telemedicine appointment", Message: err.Error()})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: "failed to register consent", Message: err.Error()})
+	}
+	return c.JSON(resp)
+}
+
 // GetTelemedToken POST /api/v1/appointments/:id/telemed-token
 //
 // HIGH H9 — gera meeting_token de owner pro staff (médico/secretaria) e

@@ -732,6 +732,8 @@ func setupRoutes(
 
 	appointments.Get("/", appointmentHandler.List)
 	appointments.Post("/", appointmentHandler.Create)
+	// Termo de consentimento de telemedicina (texto canônico) — estático, ANTES de /:id.
+	appointments.Get("/telemed-consent-term", appointmentHandler.GetTelemedConsentTerm)
 	appointments.Get("/:id", appointmentHandler.GetByID)
 	appointments.Put("/:id", appointmentHandler.Update)
 	appointments.Post("/:id/cancel", appointmentHandler.Cancel)
@@ -739,6 +741,8 @@ func setupRoutes(
 	// Fluxo de balcão: recepção registra chegada (check-in) e início do atendimento.
 	appointments.Post("/:id/check-in", appointmentHandler.CheckIn)
 	appointments.Post("/:id/start", appointmentHandler.StartConsultation)
+	// Consentimento de telemedicina (CFM 2.314/2022) — clínico registra no início da sala. Auditado.
+	appointments.Post("/:id/telemed-consent", middleware.RequireClinician(), appointmentHandler.RegisterTelemedConsent)
 	// HIGH H9 — emite meeting_token de owner pro staff. POST porque cada
 	// chamada gera token novo (sem cache) — inviável como GET.
 	appointments.Post("/:id/telemed-token", appointmentHandler.GetTelemedToken)

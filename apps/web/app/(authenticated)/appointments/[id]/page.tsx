@@ -64,6 +64,8 @@ import {
   useConfirmAppointment,
   useStartAppointment,
   useTelemedToken,
+  useTelemedConsentTerm,
+  useRegisterTelemedConsent,
   useUpdateAppointment,
   type CalendarSlot,
 } from '@/lib/api/calendar-api';
@@ -86,6 +88,21 @@ export default function AppointmentDetailPage() {
   const telemedTokenMutation = useTelemedToken(appointmentId);
   const [joinUrl, setJoinUrl] = useState<string | null>(null);
   const [joinError, setJoinError] = useState<string | null>(null);
+
+  // Consentimento de telemedicina (CFM 2.314/2022) — carimbado no prontuário.
+  const consentTerm = useTelemedConsentTerm();
+  const registerConsent = useRegisterTelemedConsent(appointmentId);
+  const [showTerm, setShowTerm] = useState(false);
+  const handleRegisterConsent = async () => {
+    try {
+      await registerConsent.mutateAsync('verbal');
+      toast.success('Consentimento de telemedicina registrado no prontuário');
+    } catch (e) {
+      toast.error('Falha ao registrar consentimento', {
+        description: e instanceof Error ? e.message : undefined,
+      });
+    }
+  };
 
   const [showCancel, setShowCancel] = useState(false);
   const [showReschedule, setShowReschedule] = useState(false);
@@ -308,6 +325,48 @@ export default function AppointmentDetailPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
+                {/* Consentimento de telemedicina (CFM 2.314/2022) — registrar no início. */}
+                <div className="mb-4">
+                  {appt.telemedConsentAt ? (
+                    <div className="flex items-center gap-2 rounded border border-emerald-200 bg-emerald-50 p-2 text-sm text-emerald-900">
+                      <CheckCircle2 className="h-4 w-4 shrink-0" />
+                      <span>
+                        Consentimento de telemedicina registrado em{' '}
+                        {format(new Date(appt.telemedConsentAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                        {appt.telemedConsentMode === 'verbal' ? ' (verbal)' : ''}.
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="space-y-2 rounded border border-amber-200 bg-amber-50 p-3">
+                      <div className="flex items-start gap-2 text-sm text-amber-900">
+                        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                        <span>
+                          Antes de iniciar, registre o consentimento do paciente para o atendimento
+                          por telemedicina (Resolução CFM nº 2.314/2022).
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Button size="sm" onClick={handleRegisterConsent} disabled={registerConsent.isPending}>
+                          {registerConsent.isPending ? (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          ) : (
+                            <CheckCircle2 className="mr-2 h-4 w-4" />
+                          )}
+                          Registrar consentimento (verbal)
+                        </Button>
+                        <Button size="sm" variant="ghost" onClick={() => setShowTerm((v) => !v)}>
+                          {showTerm ? 'Ocultar termo' : 'Ver termo'}
+                        </Button>
+                      </div>
+                      {showTerm && (
+                        <pre className="max-h-64 overflow-y-auto whitespace-pre-wrap rounded bg-background/60 p-3 text-xs leading-relaxed text-foreground">
+                          {consentTerm.data?.text ?? 'Carregando termo…'}
+                        </pre>
+                      )}
+                    </div>
+                  )}
+                </div>
+
                 {popupBlocked && joinUrl && showVideo ? (
                   // Fallback: navegador bloqueou a janela separada → embute inline.
                   <div className="space-y-2">
