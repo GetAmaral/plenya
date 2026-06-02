@@ -338,6 +338,9 @@ func AutoMigrate() error {
 
 		// Documentos clínicos emitidos/assináveis (P3 frente 2)
 		&models.IssuedDocument{},
+
+		// Plano de cuidado AGIR (P3 frente 3)
+		&models.CarePlanItem{},
 	); err != nil {
 		return err
 	}

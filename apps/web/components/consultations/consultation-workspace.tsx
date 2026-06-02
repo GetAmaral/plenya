@@ -39,6 +39,7 @@ import { VitalsPanel } from '@/components/clinical/vitals-panel';
 import { ProblemsCard } from '@/components/clinical/problems-card';
 import { MedicationsCard } from '@/components/clinical/medications-card';
 import { IssuedDocumentsCard } from '@/components/clinical/issued-documents-card';
+import { CarePlanCard } from '@/components/clinical/care-plan-card';
 import { useSelectedPatient } from '@/lib/use-selected-patient';
 import { useLatestHealthScore } from '@/lib/api/health-score-api';
 import {
@@ -284,6 +285,7 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
         <ProblemsCard patientId={appt.patientId} />
         <MedicationsCard patientId={appt.patientId} />
         <VitalsPanel patientId={appt.patientId} appointmentId={appt.id} />
+        <CarePlanCard patientId={appt.patientId} />
         <IssuedDocumentsCard patientId={appt.patientId} appointmentId={appt.id} />
       </div>
 

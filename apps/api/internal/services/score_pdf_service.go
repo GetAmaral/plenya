@@ -22,6 +22,12 @@ func NewScorePDFService() *ScorePDFService {
 	return &ScorePDFService{}
 }
 
+// GeneratePDFFromHTML converte HTML em PDF (Chromium headless via go-rod). Wrapper exportado
+// reusado pelo relatório longitudinal AGIR (P3 frente 3b).
+func (s *ScorePDFService) GeneratePDFFromHTML(html string) ([]byte, error) {
+	return s.generatePDFFromHTML(html)
+}
+
 // GeneratePosterPDF generates a PDF poster (60cm x 300cm) for all scores
 func (s *ScorePDFService) GeneratePosterPDF(groups []models.ScoreGroup) ([]byte, error) {
 	fmt.Printf("[PDF] Starting PDF generation for %d groups\n", len(groups))

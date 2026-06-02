@@ -426,6 +426,11 @@ func setupRoutes(
 	issuedDocumentService := services.NewIssuedDocumentService(database.DB, documentPDFService, signatureService, patientDocumentsService, "/app/uploads")
 	issuedDocumentHandler := handlers.NewIssuedDocumentHandler(issuedDocumentService)
 
+	// Plano de cuidado AGIR (P3 frente 3) + relatório longitudinal (3b) reusando go-rod + assinatura.
+	carePlanService := services.NewCarePlanService(database.DB)
+	carePlanReportService := services.NewCarePlanReportService(database.DB, scoreSnapshotRepo, carePlanService, services.NewScorePDFService(), signatureService, patientDocumentsService)
+	carePlanHandler := handlers.NewCarePlanHandler(carePlanService, carePlanReportService)
+
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
 	// pra fechar o ciclo sem dep direta entre services.
@@ -1174,6 +1179,14 @@ func setupRoutes(
 	// Documentos emitidos por paciente (P3 frente 2). Emitir = ato médico (RequireDoctor).
 	patients.Get("/:id/issued-documents", issuedDocumentHandler.ListByPatient)
 	patients.Post("/:id/issued-documents", middleware.RequireDoctor(), issuedDocumentHandler.Create)
+
+	// Plano de cuidado AGIR (P3 frente 3). Writes = clínicos (multidisciplinar).
+	patients.Get("/:id/care-plan-items", carePlanHandler.ListByPatient)
+	patients.Post("/:id/care-plan-items", middleware.RequireClinician(), carePlanHandler.Create)
+	patients.Put("/:id/care-plan-items/:itemId", middleware.RequireClinician(), carePlanHandler.Update)
+	patients.Delete("/:id/care-plan-items/:itemId", middleware.RequireClinician(), carePlanHandler.Delete)
+	// Relatório longitudinal AGIR — gera/assina/publica no portal (RequireDoctor).
+	patients.Post("/:id/care-plan-report", middleware.RequireDoctor(), carePlanHandler.GenerateReport)
 
 	// Catálogo CID-10 (curado) — busca para autocomplete do problem list.
 	cidCodes := v1.Group("/cid-codes")

@@ -39,6 +39,7 @@ import { AllergiesCard } from "@/components/clinical/allergies-card";
 import { ProblemsCard } from "@/components/clinical/problems-card";
 import { MedicationsCard } from "@/components/clinical/medications-card";
 import { IssuedDocumentsCard } from "@/components/clinical/issued-documents-card";
+import { CarePlanCard } from "@/components/clinical/care-plan-card";
 import {
   useLatestHealthScore,
   type PatientScoreSnapshot,
@@ -221,6 +222,9 @@ export default function PatientDetailPage() {
         <ProblemsCard patientId={patientId} />
         <MedicationsCard patientId={patientId} />
       </div>
+
+      {/* Plano de cuidado AGIR */}
+      <CarePlanCard patientId={patientId} />
 
       {/* Documentos emitidos (atestado/declaração/laudo) */}
       <IssuedDocumentsCard patientId={patientId} />
