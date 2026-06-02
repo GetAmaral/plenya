@@ -69,48 +69,75 @@ type NavigationItem = {
   badgeKey?: 'conversations' | 'leads';
 };
 
-const navigation: NavigationItem[] = [
-  { name: "Dashboard", href: "/dashboard", icon: Home },
-  { name: "Recepção", href: "/recepcao", icon: ClipboardList, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
-  { name: "Calendário", href: "/calendario", icon: Calendar, staffOnly: true },
-  { name: "Conversas", href: "/conversas", icon: MessageSquare, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'conversations' },
-  { name: "Pacientes", href: "/patients", icon: Users, staffOnly: true },
-  { name: "Leads", href: "/leads", icon: UserPlus, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'leads' },
-  { name: "Dashboard de Leads", href: "/leads/dashboard", icon: BarChart3, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
-  { name: "Campanhas", href: "/campaigns", icon: Megaphone, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
-  { name: "Consultas", href: "/appointments", icon: Calendar },
-  { name: "Anamneses", href: "/anamnesis", icon: Stethoscope },
-  { name: "Templates de Anamnese", href: "/anamnesis-templates", icon: FileCheck, staffOnly: true },
-  { name: "Escores de Saúde", href: "/health-scores", icon: Activity },
-  { name: "Prescrições", href: "/prescriptions", icon: FileText },
-  { name: "Exames", href: "/lab-results", icon: Microscope },
-  { name: "Views de Resultados", href: "/lab-result-views", icon: LayoutList, staffOnly: true },
-  { name: "Pedidos de Exames", href: "/lab-requests", icon: ClipboardList, staffOnly: true },
-  { name: "Template de Pedido de Exame", href: "/lab-request-templates", icon: LayoutTemplate, staffOnly: true },
-  { name: "Escores", href: "/scores", icon: Network, staffOnly: true },
-  { name: "Metodologias", href: "/methods", icon: Target, staffOnly: true },
-  { name: "Planos de Assinatura", href: "/admin/subscription-plans", icon: LayoutList, adminOnly: true },
-  { name: "Assinaturas", href: "/admin/subscriptions", icon: CreditCard, adminOnly: true },
-  { name: "Avaliação Física", href: "/training/physical-assessments", icon: Activity, staffOnly: true },
-  { name: "Testes de Fitness", href: "/training/fitness-tests", icon: Target, staffOnly: true },
-  { name: "Avaliação Postural", href: "/training/posture", icon: UserIcon, staffOnly: true },
-  { name: "Planos de Treino", href: "/training/workout-plans", icon: Dumbbell, staffOnly: true },
-  { name: "Periodização", href: "/training/periodization", icon: Timer, staffOnly: true },
-  { name: "Exercícios", href: "/training/exercises", icon: Library, staffOnly: true },
-  { name: "Agente IA Treino", href: "/training/ai-agent", icon: Bot, staffOnly: true },
-  { name: "Artigos", href: "/articles", icon: BookOpen },
-  // Continuum (acompanhamento clínico) e Boxes (operação logística) são uso
-  // diário e ficam no topo da seção. Templates ficam em Configurações abaixo.
-  { name: "Continuum", href: "/continuum", icon: Workflow, staffOnly: true },
-  { name: "Boxes", href: "/continuum/boxes", icon: Package, staffOnly: true },
-  { name: "Configurar Agenda", href: "/configuracoes/agenda", icon: Settings, staffOnly: true },
-  { name: "Preços de Consulta", href: "/configuracoes/precos", icon: DollarSign, staffOnly: true, requiredRoles: ['admin', 'manager'] },
-  { name: "Templates Continuum", href: "/configuracoes/continuum-templates", icon: Workflow, staffOnly: true, requiredRoles: ['admin', 'manager'] },
-  { name: "Templates de Box", href: "/configuracoes/box-templates", icon: Package, staffOnly: true, requiredRoles: ['admin', 'manager'] },
-  { name: "Integrações", href: "/configuracoes/integracoes", icon: Plug, staffOnly: true },
-  { name: "Usuários", href: "/admin/users", icon: Shield, adminOnly: true },
-  { name: "Definições de Medicamentos", href: "/admin/medication-definitions", icon: Pill, adminOnly: true },
-  { name: "Certificados Digitais", href: "/admin/certificates", icon: ShieldCheck, adminOnly: true },
+type NavGroup = { title: string; items: NavigationItem[] };
+
+// Navegação agrupada por IA: as ferramentas clínicas diárias do médico no topo,
+// depois operação (balcão/CRM), treino, biblioteca/config e admin.
+const navGroups: NavGroup[] = [
+  {
+    title: "Clínico",
+    items: [
+      { name: "Início", href: "/dashboard", icon: Home },
+      { name: "Pacientes", href: "/patients", icon: Users, staffOnly: true },
+      { name: "Consultas", href: "/appointments", icon: Calendar },
+      { name: "Anamneses", href: "/anamnesis", icon: Stethoscope },
+      { name: "Escores de Saúde", href: "/health-scores", icon: Activity },
+      { name: "Prescrições", href: "/prescriptions", icon: FileText },
+      { name: "Exames", href: "/lab-results", icon: Microscope },
+      { name: "Pedidos de Exames", href: "/lab-requests", icon: ClipboardList, staffOnly: true },
+      { name: "Views de Resultados", href: "/lab-result-views", icon: LayoutList, staffOnly: true },
+      { name: "Continuum", href: "/continuum", icon: Workflow, staffOnly: true },
+      { name: "Boxes", href: "/continuum/boxes", icon: Package, staffOnly: true },
+    ],
+  },
+  {
+    title: "Operação",
+    items: [
+      { name: "Recepção", href: "/recepcao", icon: ClipboardList, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
+      { name: "Calendário", href: "/calendario", icon: Calendar, staffOnly: true },
+      { name: "Conversas", href: "/conversas", icon: MessageSquare, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'conversations' },
+      { name: "Leads", href: "/leads", icon: UserPlus, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'leads' },
+      { name: "Dashboard de Leads", href: "/leads/dashboard", icon: BarChart3, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
+      { name: "Campanhas", href: "/campaigns", icon: Megaphone, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
+    ],
+  },
+  {
+    title: "Treino",
+    items: [
+      { name: "Avaliação Física", href: "/training/physical-assessments", icon: Activity, staffOnly: true },
+      { name: "Testes de Fitness", href: "/training/fitness-tests", icon: Target, staffOnly: true },
+      { name: "Avaliação Postural", href: "/training/posture", icon: UserIcon, staffOnly: true },
+      { name: "Planos de Treino", href: "/training/workout-plans", icon: Dumbbell, staffOnly: true },
+      { name: "Periodização", href: "/training/periodization", icon: Timer, staffOnly: true },
+      { name: "Exercícios", href: "/training/exercises", icon: Library, staffOnly: true },
+      { name: "Agente IA Treino", href: "/training/ai-agent", icon: Bot, staffOnly: true },
+    ],
+  },
+  {
+    title: "Biblioteca & Config",
+    items: [
+      { name: "Artigos", href: "/articles", icon: BookOpen },
+      { name: "Escores", href: "/scores", icon: Network, staffOnly: true },
+      { name: "Metodologias", href: "/methods", icon: Target, staffOnly: true },
+      { name: "Templates de Anamnese", href: "/anamnesis-templates", icon: FileCheck, staffOnly: true },
+      { name: "Template de Pedido de Exame", href: "/lab-request-templates", icon: LayoutTemplate, staffOnly: true },
+      { name: "Configurar Agenda", href: "/configuracoes/agenda", icon: Settings, staffOnly: true },
+      { name: "Preços de Consulta", href: "/configuracoes/precos", icon: DollarSign, staffOnly: true, requiredRoles: ['admin', 'manager'] },
+      { name: "Templates Continuum", href: "/configuracoes/continuum-templates", icon: Workflow, staffOnly: true, requiredRoles: ['admin', 'manager'] },
+      { name: "Templates de Box", href: "/configuracoes/box-templates", icon: Package, staffOnly: true, requiredRoles: ['admin', 'manager'] },
+      { name: "Integrações", href: "/configuracoes/integracoes", icon: Plug, staffOnly: true },
+    ],
+  },
+  {
+    title: "Admin",
+    items: [
+      { name: "Planos de Assinatura", href: "/admin/subscription-plans", icon: LayoutList, adminOnly: true },
+      { name: "Assinaturas", href: "/admin/subscriptions", icon: CreditCard, adminOnly: true },
+      { name: "Usuários", href: "/admin/users", icon: Shield, adminOnly: true },
+      { name: "Definições de Medicamentos", href: "/admin/medication-definitions", icon: Pill, adminOnly: true },
+      { name: "Certificados Digitais", href: "/admin/certificates", icon: ShieldCheck, adminOnly: true },
+    ],
+  },
 ];
 
 // Helper: check if user is patient-only (only has patient role, no other roles)
@@ -255,17 +282,14 @@ export function CollapsibleSidebar() {
 
             {/* Navigation */}
             <nav className="flex-1 space-y-1 overflow-y-auto p-4 pt-1">
-              {navigation
-                .filter((item) => {
-                  if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) return false;
-                  if (item.staffOnly && isHydrated && isPatientOnly(user)) return false;
-                  if (item.requiredRoles && isHydrated && !item.requiredRoles.some((r) => isGranted(user, r))) return false;
-                  if (searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-                  return true;
-                })
-                .map((item) => (
-                  <NavItemRow key={item.name} item={item} pathname={pathname} collapsed={false} />
-                ))}
+              <NavGroupsView
+                groups={navGroups}
+                user={user}
+                isHydrated={isHydrated}
+                searchQuery={searchQuery}
+                pathname={pathname}
+                collapsed={false}
+              />
             </nav>
 
             {/* User section */}
@@ -378,17 +402,14 @@ export function CollapsibleSidebar() {
 
         {/* Navigation */}
         <nav className="flex-1 space-y-1 overflow-y-auto p-4 pt-1">
-          {navigation
-            .filter((item) => {
-              if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) return false;
-              if (item.staffOnly && isHydrated && isPatientOnly(user)) return false;
-              if (item.requiredRoles && isHydrated && !item.requiredRoles.some((r) => isGranted(user, r))) return false;
-              if (!isCollapsed && searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-              return true;
-            })
-            .map((item) => (
-              <NavItemRow key={item.name} item={item} pathname={pathname} collapsed={isCollapsed} />
-            ))}
+          <NavGroupsView
+            groups={navGroups}
+            user={user}
+            isHydrated={isHydrated}
+            searchQuery={searchQuery}
+            pathname={pathname}
+            collapsed={isCollapsed}
+          />
         </nav>
 
         {/* User Section */}
@@ -529,6 +550,52 @@ export function useSidebarWidth() {
   }, [isMobile]);
 
   return width;
+}
+
+// NavGroupsView: renderiza a navegação agrupada (Clínico/Operação/…), aplicando
+// o gating por role + filtro de busca. Reusado no sidebar mobile e desktop.
+// Grupos sem itens visíveis somem; o cabeçalho da seção só aparece expandido.
+function NavGroupsView({
+  groups,
+  user,
+  isHydrated,
+  searchQuery,
+  pathname,
+  collapsed,
+}: {
+  groups: NavGroup[];
+  user: any;
+  isHydrated: boolean;
+  searchQuery: string;
+  pathname: string;
+  collapsed: boolean;
+}) {
+  return (
+    <>
+      {groups.map((group) => {
+        const items = group.items.filter((item) => {
+          if (item.adminOnly && (!isHydrated || !isGranted(user, 'admin'))) return false;
+          if (item.staffOnly && isHydrated && isPatientOnly(user)) return false;
+          if (item.requiredRoles && isHydrated && !item.requiredRoles.some((r) => isGranted(user, r))) return false;
+          if (searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+          return true;
+        });
+        if (items.length === 0) return null;
+        return (
+          <div key={group.title} className="space-y-1 pb-1">
+            {!collapsed && (
+              <p className="px-3 pb-1 pt-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                {group.title}
+              </p>
+            )}
+            {items.map((item) => (
+              <NavItemRow key={item.name} item={item} pathname={pathname} collapsed={collapsed} />
+            ))}
+          </div>
+        );
+      })}
+    </>
+  );
 }
 
 // NavItemRow: linha do menu que opcionalmente exibe badge de não-lidas.
