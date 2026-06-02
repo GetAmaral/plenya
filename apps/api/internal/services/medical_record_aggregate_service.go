@@ -32,6 +32,7 @@ type MedicalRecordEntry struct {
 	Title       string    `json:"title"`
 	Subtitle    string    `json:"subtitle,omitempty"`
 	Status      string    `json:"status,omitempty"`
+	HasNote     bool      `json:"hasNote"` // só relevante p/ type=appointment: existe ClinicalNote vinculada
 	AuthorID    uuid.UUID `json:"authorId"`
 	AuthorName  string    `json:"authorName,omitempty"`
 	AuthorRoles string    `json:"authorRoles,omitempty"` // CSV pra filtro por especialidade no front
@@ -82,13 +83,17 @@ func (s *MedicalRecordAggregateService) List(patientID uuid.UUID, filter Aggrega
 		typeSet[t] = true
 	}
 
+	// Cada subquery projeta 10 colunas na MESMA ordem (a última, has_note, é só
+	// relevante para appointment; nas demais é FALSE). O alias AS has_note vai em
+	// TODAS as partes porque o nome de coluna do UNION vem da primeira incluída —
+	// e qualquer tipo pode ser o primeiro dependendo do filtro.
 	parts := []string{}
 	if typeSet["anamnesis"] {
 		parts = append(parts, `
 SELECT id, 'anamnesis'::text AS type, consultation_date AS event_date,
        COALESCE(NULLIF(notes,''), 'Anamnese') AS title,
        ''::text AS subtitle, ''::text AS status,
-       author_id AS author_id, patient_id, created_at
+       author_id AS author_id, patient_id, created_at, FALSE AS has_note
   FROM anamnesis WHERE patient_id = ? AND deleted_at IS NULL`)
 	}
 	if typeSet["lab_batch"] {
@@ -98,7 +103,7 @@ SELECT id, 'lab_batch'::text, COALESCE(result_date, collection_date),
        COALESCE(observations,'')::text,
        status::text,
        COALESCE(requesting_doctor_id, '00000000-0000-0000-0000-000000000000'::uuid),
-       patient_id, created_at
+       patient_id, created_at, FALSE AS has_note
   FROM lab_result_batches WHERE patient_id = ? AND deleted_at IS NULL`)
 	}
 	if typeSet["score_snapshot"] {
@@ -107,7 +112,7 @@ SELECT id, 'score_snapshot'::text, calculated_at,
        'Escore Plenya — ' || ROUND(total_score_percentage::numeric, 1) || '%',
        'Itens avaliados: ' || items_evaluated_count,
        ''::text,
-       calculated_by_user_id, patient_id, created_at
+       calculated_by_user_id, patient_id, created_at, FALSE AS has_note
   FROM patient_score_snapshots WHERE patient_id = ? AND deleted_at IS NULL`)
 	}
 	if typeSet["physical_assessment"] {
@@ -116,7 +121,7 @@ SELECT id, 'physical_assessment'::text, assessment_date::timestamp,
        'Avaliação Física',
        COALESCE(acsm_risk_level::text, ''),
        ''::text,
-       created_by_id, patient_id, created_at
+       created_by_id, patient_id, created_at, FALSE AS has_note
   FROM physical_assessments WHERE patient_id = ? AND deleted_at IS NULL`)
 	}
 	if typeSet["fitness_test"] {
@@ -125,7 +130,7 @@ SELECT id, 'fitness_test'::text, assessment_date::timestamp,
        'Teste de Fitness — ' || overall_classification,
        'Pontos: ' || overall_score,
        ''::text,
-       created_by_id, patient_id, created_at
+       created_by_id, patient_id, created_at, FALSE AS has_note
   FROM fitness_test_results WHERE patient_id = ? AND deleted_at IS NULL`)
 	}
 	if typeSet["postural_assessment"] {
@@ -134,7 +139,7 @@ SELECT id, 'postural_assessment'::text, assessment_date::timestamp,
        'Avaliação Postural — ' || postural_classification,
        'Pontos: ' || postural_score,
        ''::text,
-       created_by_id, patient_id, created_at
+       created_by_id, patient_id, created_at, FALSE AS has_note
   FROM postural_assessments WHERE patient_id = ? AND deleted_at IS NULL`)
 	}
 	if typeSet["prescription"] {
@@ -143,7 +148,7 @@ SELECT id, 'prescription'::text, prescription_date,
        'Prescrição',
        COALESCE(general_instructions,''),
        status::text,
-       doctor_id, patient_id, created_at
+       doctor_id, patient_id, created_at, FALSE AS has_note
   FROM prescriptions WHERE patient_id = ? AND deleted_at IS NULL`)
 	}
 	if typeSet["appointment"] {
@@ -152,7 +157,8 @@ SELECT id, 'appointment'::text, scheduled_at,
        reason,
        type::text,
        status::text,
-       doctor_id, patient_id, created_at
+       doctor_id, patient_id, created_at,
+       EXISTS(SELECT 1 FROM clinical_notes cn WHERE cn.appointment_id = appointments.id AND cn.deleted_at IS NULL) AS has_note
   FROM appointments WHERE patient_id = ? AND deleted_at IS NULL`)
 	}
 
@@ -191,7 +197,7 @@ SELECT id, 'appointment'::text, scheduled_at,
 	sql := `
 WITH events AS (` + strings.Join(parts, "\nUNION ALL\n") + `
 )
-SELECT e.id, e.type, e.event_date, e.title, e.subtitle, e.status,
+SELECT e.id, e.type, e.event_date, e.title, e.subtitle, e.status, e.has_note,
        e.author_id, COALESCE(u.name, '') AS author_name,
        COALESCE(u.roles::text, '') AS author_roles,
        e.patient_id, e.created_at

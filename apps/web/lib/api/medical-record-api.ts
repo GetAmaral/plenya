@@ -24,6 +24,7 @@ export interface MedicalRecordEntry {
   title: string;
   subtitle?: string;
   status?: string;
+  hasNote?: boolean; // só p/ type=appointment: existe nota de evolução vinculada
   authorId: string;
   authorName?: string;
   authorRoles?: string; // CSV

@@ -1,392 +1,244 @@
 "use client";
 
-import { motion } from "framer-motion";
+/**
+ * Home do médico — agenda do dia + atendimentos em curso + próximas consultas.
+ *
+ * Dados reais via useAppointments (mesma query da Recepção, polling 15s).
+ * Substitui o dashboard mock anterior (dados hardcoded que não navegavam).
+ */
+import { useMemo } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import {
-  Activity,
+  AlertTriangle,
+  ArrowRight,
   Calendar,
-  FileText,
-  Users,
+  CheckCircle2,
   Clock,
-  TrendingUp,
+  Loader2,
+  Plus,
+  Stethoscope,
+  Video,
 } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AreaChart, BarChart, DonutChart } from "@tremor/react";
 import { PageHeader } from "@/components/layout/page-header";
-
-// Animation variants
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-};
-
-// Mock data
-const stats = [
-  {
-    title: "Pacientes Ativos",
-    value: "127",
-    change: "+12%",
-    trend: "up",
-    icon: Users,
-    color: "text-blue-600",
-    bgColor: "bg-blue-50 dark:bg-blue-950/30",
-  },
-  {
-    title: "Consultas Hoje",
-    value: "24",
-    change: "+8",
-    trend: "up",
-    icon: Calendar,
-    color: "text-emerald-600",
-    bgColor: "bg-emerald-50 dark:bg-emerald-950/30",
-  },
-  {
-    title: "Prescrições",
-    value: "18",
-    change: "Pendentes",
-    icon: FileText,
-    color: "text-amber-600",
-    bgColor: "bg-amber-50 dark:bg-amber-950/30",
-  },
-  {
-    title: "Exames",
-    value: "9",
-    change: "Novos",
-    icon: Activity,
-    color: "text-purple-600",
-    bgColor: "bg-purple-50 dark:bg-purple-950/30",
-  },
-];
-
-const recentPatients = [
-  {
-    name: "João Santos",
-    status: "stable",
-    time: "10:30",
-    avatar: "JS",
-  },
-  {
-    name: "Maria Silva",
-    status: "observation",
-    time: "11:00",
-    avatar: "MS",
-  },
-  {
-    name: "Pedro Costa",
-    status: "stable",
-    time: "14:00",
-    avatar: "PC",
-  },
-];
-
-const upcomingAppointments = [
-  { patient: "Ana Oliveira", time: "15:00", type: "Consulta" },
-  { patient: "Carlos Mendes", time: "15:30", type: "Retorno" },
-  { patient: "Lucia Ferreira", time: "16:00", type: "Exame" },
-];
-
-// Chart data
-const patientTrendData = [
-  { month: "Jan", pacientes: 98 },
-  { month: "Fev", pacientes: 102 },
-  { month: "Mar", pacientes: 115 },
-  { month: "Abr", pacientes: 118 },
-  { month: "Mai", pacientes: 123 },
-  { month: "Jun", pacientes: 127 },
-];
-
-const appointmentsByTypeData = [
-  { tipo: "Consulta", quantidade: 42 },
-  { tipo: "Retorno", quantidade: 28 },
-  { tipo: "Exame", quantidade: 18 },
-  { tipo: "Emergência", quantidade: 12 },
-];
-
-const patientStatusData = [
-  { status: "Estável", pacientes: 87 },
-  { status: "Observação", pacientes: 32 },
-  { status: "Crítico", pacientes: 8 },
-];
+import { useRequireAuth } from "@/lib/use-auth";
+import {
+  APPOINTMENT_STATUS_COLORS,
+  APPOINTMENT_STATUS_LABELS,
+  APPOINTMENT_TYPE_LABELS,
+  useAppointments,
+  type Appointment,
+} from "@/lib/api/calendar-api";
 
 export default function DashboardPage() {
+  useRequireAuth();
+  const router = useRouter();
+
+  const { from, to } = useMemo(() => {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    return { from: start.toISOString(), to: end.toISOString() };
+  }, []);
+
+  const { data: appts = [], isLoading, isError } = useAppointments({
+    dateFrom: from,
+    dateTo: to,
+    limit: 200,
+  });
+
+  const sorted = useMemo(
+    () =>
+      [...appts].sort(
+        (a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime(),
+      ),
+    [appts],
+  );
+
+  const emAtendimento = sorted.filter(
+    (a) => a.status === "in_progress" || a.status === "checked_in",
+  );
+  const concluidas = sorted.filter((a) => a.status === "completed");
+  const ativas = sorted.filter((a) => a.status !== "cancelled" && a.status !== "no_show");
+  const proximas = useMemo(() => {
+    const nowMs = Date.now();
+    return sorted.filter(
+      (a) =>
+        (a.status === "scheduled" || a.status === "confirmed") &&
+        new Date(a.scheduledAt).getTime() >= nowMs - 60 * 60 * 1000,
+    );
+  }, [sorted]);
+  const proximaTime = proximas[0] ? format(new Date(proximas[0].scheduledAt), "HH:mm") : "—";
+
   return (
-    <div className="container mx-auto py-8 space-y-8">
-        {/* Header */}
-        <PageHeader
-          title="Dashboard"
-          description="Bem-vindo de volta! Aqui está um resumo do seu dia."
-        />
+    <div className="container mx-auto space-y-6 py-8">
+      <PageHeader
+        title="Início"
+        description={format(new Date(), "EEEE, dd 'de' MMMM yyyy", { locale: ptBR })}
+        actions={[
+          {
+            label: "Calendário",
+            icon: <Calendar className="h-4 w-4" />,
+            variant: "outline",
+            onClick: () => router.push("/calendario"),
+          },
+          {
+            label: "Nova consulta",
+            icon: <Plus className="h-4 w-4" />,
+            variant: "default",
+            onClick: () => router.push("/appointments/new"),
+          },
+        ]}
+      />
 
-        {/* Stats Grid - Bento Layout */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6"
-        >
-          {stats.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <motion.div key={stat.title} variants={item}>
-                <Card className="group relative overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground">
-                          {stat.title}
-                        </p>
-                        <div className="flex items-baseline gap-2 mt-2">
-                          <h3 className="text-3xl font-bold">{stat.value}</h3>
-                          {stat.change && (
-                            <span
-                              className={`text-sm font-medium ${
-                                stat.trend === "up"
-                                  ? "text-emerald-600"
-                                  : "text-gray-600"
-                              }`}
-                            >
-                              {stat.change}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div
-                        className={`${stat.bgColor} ${stat.color} p-3 rounded-2xl group-hover:scale-110 transition-transform`}
-                      >
-                        <Icon className="h-6 w-6" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+      {/* KPIs */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard icon={Calendar} label="Consultas hoje" value={ativas.length} tone="blue" />
+        <StatCard icon={Stethoscope} label="Em atendimento" value={emAtendimento.length} tone="amber" />
+        <StatCard icon={CheckCircle2} label="Concluídas hoje" value={concluidas.length} tone="emerald" />
+        <StatCard icon={Clock} label="Próxima" value={proximaTime} tone="violet" />
+      </div>
 
-        {/* Charts Section */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="grid gap-6 lg:grid-cols-3 mb-6"
-        >
-          {/* Patient Trend Chart */}
-          <motion.div variants={item} className="lg:col-span-2">
-            <Card className="border-0 shadow-md">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-blue-600" />
-                  Crescimento de Pacientes
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <AreaChart
-                  className="h-72"
-                  data={patientTrendData}
-                  index="month"
-                  categories={["pacientes"]}
-                  colors={["blue"]}
-                  valueFormatter={(number: number) =>
-                    `${Intl.NumberFormat("pt-BR").format(number)} pacientes`
-                  }
-                  showLegend={false}
-                  showGridLines={false}
-                  curveType="monotone"
-                />
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Patient Status Donut Chart */}
-          <motion.div variants={item}>
-            <Card className="border-0 shadow-md">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Activity className="h-5 w-5 text-purple-600" />
-                  Status dos Pacientes
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <DonutChart
-                  className="h-72"
-                  data={patientStatusData}
-                  category="pacientes"
-                  index="status"
-                  colors={["emerald", "amber", "red"]}
-                  valueFormatter={(number: number) =>
-                    `${Intl.NumberFormat("pt-BR").format(number)} pacientes`
-                  }
-                  showAnimation={true}
-                />
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Appointments by Type Chart */}
-          <motion.div variants={item} className="lg:col-span-3">
-            <Card className="border-0 shadow-md">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-emerald-600" />
-                  Consultas por Tipo
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <BarChart
-                  className="h-64"
-                  data={appointmentsByTypeData}
-                  index="tipo"
-                  categories={["quantidade"]}
-                  colors={["emerald"]}
-                  valueFormatter={(number: number) =>
-                    `${Intl.NumberFormat("pt-BR").format(number)} consultas`
-                  }
-                  showLegend={false}
-                  showGridLines={false}
-                />
-              </CardContent>
-            </Card>
-          </motion.div>
-        </motion.div>
-
-        {/* Bento Grid - Main Content */}
+      {isError ? (
+        <Card>
+          <CardContent className="flex items-center gap-3 py-8 text-sm text-destructive">
+            <AlertTriangle className="h-5 w-5 shrink-0" />
+            Não foi possível carregar a agenda de hoje. Verifique a conexão e tente novamente.
+          </CardContent>
+        </Card>
+      ) : (
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* Recent Patients - Large Card */}
-          <motion.div
-            variants={item}
-            initial="hidden"
-            animate="show"
-            className="lg:col-span-2"
-          >
-            <Card className="h-full border-0 shadow-md">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-blue-600" />
-                  Pacientes Recentes
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {recentPatients.map((patient, index) => (
-                    <motion.div
-                      key={patient.name}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center justify-between p-4 rounded-lg border border-border hover:bg-accent/50 transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-10 w-10">
-                          <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-white">
-                            {patient.avatar}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-medium">{patient.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            Última consulta: {patient.time}
-                          </p>
-                        </div>
-                      </div>
-                      <Badge
-                        variant={
-                          patient.status === "stable" ? "stable" : "observation"
-                        }
-                      >
-                        {patient.status === "stable"
-                          ? "Estável"
-                          : "Observação"}
-                      </Badge>
-                    </motion.div>
+          {/* Agenda de hoje */}
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Calendar className="h-5 w-5 text-blue-600" />
+                Agenda de hoje
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <div className="flex h-32 items-center justify-center">
+                  <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                </div>
+              ) : ativas.length === 0 ? (
+                <p className="py-8 text-center text-sm text-muted-foreground">
+                  Nenhuma consulta agendada para hoje.
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  {ativas.map((a) => (
+                    <AppointmentRow key={a.id} appt={a} onClick={() => router.push(`/appointments/${a.id}`)} />
                   ))}
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Upcoming Appointments */}
-          <motion.div
-            variants={item}
-            initial="hidden"
-            animate="show"
-            transition={{ delay: 0.2 }}
-          >
-            <Card className="h-full border-0 shadow-md">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-emerald-600" />
-                  Próximas Consultas
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {upcomingAppointments.map((apt, index) => (
-                    <motion.div
-                      key={apt.patient}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.3 + index * 0.1 }}
-                      className="flex items-start gap-3 p-3 rounded-lg bg-accent/30"
-                    >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-950/30">
-                        <Clock className="h-5 w-5 text-emerald-600" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-sm">{apt.patient}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {apt.type}
-                        </p>
-                        <p className="text-xs font-medium text-emerald-600 mt-1">
-                          {apt.time}
-                        </p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-
-        {/* Quick Actions */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mt-6"
-        >
-          <Card className="border-0 shadow-md bg-linear-to-br from-blue-500 to-blue-700 text-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold">Ações Rápidas</h3>
-                  <p className="text-sm text-blue-100 mt-1">
-                    Acesse rapidamente as funcionalidades principais
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <button className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
-                    Novo Paciente
-                  </button>
-                  <button className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
-                    Nova Consulta
-                  </button>
-                </div>
-              </div>
+              )}
             </CardContent>
           </Card>
-      </motion.div>
+
+          {/* Em atendimento agora */}
+          <Card className="h-fit">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-base">
+                <Stethoscope className="h-5 w-5 text-amber-600" />
+                Em atendimento agora
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {emAtendimento.length === 0 ? (
+                <p className="py-6 text-center text-sm text-muted-foreground">
+                  Nenhum atendimento em curso.
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  {emAtendimento.map((a) => (
+                    <Link
+                      key={a.id}
+                      href={`/appointments/${a.id}`}
+                      className="block rounded-lg border border-amber-200 bg-amber-50/60 p-3 transition hover:border-amber-300"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="truncate text-sm font-medium">{a.patient?.name ?? "Paciente"}</p>
+                        <Badge variant="outline" className={APPOINTMENT_STATUS_COLORS[a.status]}>
+                          {APPOINTMENT_STATUS_LABELS[a.status]}
+                        </Badge>
+                      </div>
+                      <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                        <span>{APPOINTMENT_TYPE_LABELS[a.type]}</span>
+                        <span>·</span>
+                        <span>{format(new Date(a.scheduledAt), "HH:mm")}</span>
+                        <ArrowRight className="ml-auto h-3.5 w-3.5" />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
+  );
+}
+
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  tone,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: number | string;
+  tone: "blue" | "amber" | "emerald" | "violet";
+}) {
+  const tones: Record<string, string> = {
+    blue: "bg-blue-50 text-blue-600 dark:bg-blue-950/30",
+    amber: "bg-amber-50 text-amber-600 dark:bg-amber-950/30",
+    emerald: "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30",
+    violet: "bg-violet-50 text-violet-600 dark:bg-violet-950/30",
+  };
+  return (
+    <Card>
+      <CardContent className="flex items-center justify-between p-5">
+        <div>
+          <p className="text-sm text-muted-foreground">{label}</p>
+          <p className="mt-1 text-2xl font-bold">{value}</p>
+        </div>
+        <div className={`rounded-xl p-3 ${tones[tone]}`}>
+          <Icon className="h-5 w-5" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function AppointmentRow({ appt, onClick }: { appt: Appointment; onClick: () => void }) {
+  const isTelemed = appt.type === "telemedicine";
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex w-full items-center gap-3 rounded-lg border border-border p-3 text-left transition hover:bg-accent/50"
+    >
+      <div className="flex w-14 shrink-0 flex-col items-center">
+        <span className="text-sm font-semibold">{format(new Date(appt.scheduledAt), "HH:mm")}</span>
+        <span className="text-[10px] text-muted-foreground">{appt.durationMinutes}min</span>
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium">{appt.patient?.name ?? "Paciente"}</p>
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          {isTelemed && <Video className="h-3 w-3" />}
+          <span>{APPOINTMENT_TYPE_LABELS[appt.type]}</span>
+        </div>
+      </div>
+      <Badge variant="outline" className={APPOINTMENT_STATUS_COLORS[appt.status]}>
+        {APPOINTMENT_STATUS_LABELS[appt.status]}
+      </Badge>
+    </button>
   );
 }

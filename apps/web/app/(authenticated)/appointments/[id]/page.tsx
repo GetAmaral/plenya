@@ -62,10 +62,12 @@ import {
   useAppointment,
   useCancelAppointment,
   useConfirmAppointment,
+  useStartAppointment,
   useTelemedToken,
   useUpdateAppointment,
   type CalendarSlot,
 } from '@/lib/api/calendar-api';
+import { ConsultationWorkspace } from '@/components/consultations/consultation-workspace';
 
 export default function AppointmentDetailPage() {
   useRequireAuth();
@@ -77,6 +79,7 @@ export default function AppointmentDetailPage() {
   const confirmMutation = useConfirmAppointment(appointmentId);
   const cancelMutation = useCancelAppointment(appointmentId);
   const updateMutation = useUpdateAppointment(appointmentId);
+  const startMutation = useStartAppointment(appointmentId);
   // HIGH H9 — sala Daily.co é privacy=private. Pedimos um meeting_token de
   // owner (médico = is_owner=true, screenshare=true) sob demanda. Token novo
   // a cada clique em "Abrir sala" — janela curta limita superfície de abuso.
@@ -154,6 +157,17 @@ export default function AppointmentDetailPage() {
     return appt.status === 'scheduled' || appt.status === 'confirmed';
   }, [appt]);
 
+  const handleStart = async () => {
+    try {
+      await startMutation.mutateAsync();
+      toast.success('Atendimento iniciado');
+    } catch (err) {
+      toast.error('Erro ao iniciar o atendimento', {
+        description: err instanceof Error ? err.message : undefined,
+      });
+    }
+  };
+
   const handleConfirm = async () => {
     try {
       await confirmMutation.mutateAsync();
@@ -217,6 +231,12 @@ export default function AppointmentDetailPage() {
 
   const start = new Date(appt.scheduledAt);
   const statusColor = APPOINTMENT_STATUS_COLORS[appt.status];
+  // Atendimento ativo (ou concluído): mostra o workspace de consulta.
+  const isAtendimento =
+    appt.status === 'checked_in' ||
+    appt.status === 'in_progress' ||
+    appt.status === 'completed';
+  const canStart = appt.status === 'scheduled' || appt.status === 'confirmed';
 
   return (
     <div className="container mx-auto space-y-6 py-8">
@@ -250,6 +270,29 @@ export default function AppointmentDetailPage() {
           </Badge>
         )}
       </div>
+
+      {canStart && (
+        <Card>
+          <CardContent className="flex flex-wrap items-center justify-between gap-3 py-4">
+            <div>
+              <p className="text-sm font-medium">Pronto para atender?</p>
+              <p className="text-xs text-muted-foreground">
+                Inicie o atendimento para documentar a evolução nesta tela.
+              </p>
+            </div>
+            <Button onClick={handleStart} disabled={startMutation.isPending}>
+              {startMutation.isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Stethoscope className="mr-2 h-4 w-4" />
+              )}
+              Iniciar atendimento
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      {isAtendimento && <ConsultationWorkspace appt={appt} />}
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Coluna principal */}

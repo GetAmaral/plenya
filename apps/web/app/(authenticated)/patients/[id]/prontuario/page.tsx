@@ -23,13 +23,13 @@ import {
   Pill,
   Calendar,
   Stethoscope,
+  Check,
 } from 'lucide-react';
 
 import { useRequireAuth } from '@/lib/use-auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
 import { PageHeader } from '@/components/layout/page-header';
 import {
   useMedicalRecord,
@@ -124,6 +124,8 @@ export default function MedicalRecordPage() {
                 <button
                   key={t}
                   type="button"
+                  role="checkbox"
+                  aria-checked={checked}
                   onClick={() => toggleType(t)}
                   className={cn(
                     'flex items-center gap-1 rounded-md border px-2 py-1 text-xs transition',
@@ -132,7 +134,16 @@ export default function MedicalRecordPage() {
                       : 'border-border bg-background hover:bg-accent',
                   )}
                 >
-                  <Checkbox checked={checked} className="h-3 w-3 pointer-events-none" />
+                  <span
+                    className={cn(
+                      'flex h-3 w-3 items-center justify-center rounded-[3px] border',
+                      checked
+                        ? 'border-primary bg-primary text-primary-foreground'
+                        : 'border-muted-foreground/40',
+                    )}
+                  >
+                    {checked && <Check className="h-2.5 w-2.5" />}
+                  </span>
                   {MR_TYPE_LABELS[t]}
                 </button>
               );
@@ -214,6 +225,19 @@ export default function MedicalRecordPage() {
                             </Badge>
                             {e.status && (
                               <span className="text-xs text-muted-foreground">{e.status}</span>
+                            )}
+                            {e.type === 'appointment' && (
+                              <Badge
+                                variant="outline"
+                                className={cn(
+                                  'text-xs',
+                                  e.hasNote
+                                    ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                                    : 'border-amber-200 bg-amber-50 text-amber-700',
+                                )}
+                              >
+                                {e.hasNote ? 'Nota registrada' : 'Sem nota'}
+                              </Badge>
                             )}
                           </div>
                           <p className="mt-1 text-sm font-medium">{e.title}</p>

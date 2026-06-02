@@ -262,6 +262,7 @@ func setupRoutes(
 	authService := services.NewAuthService(database.DB, cfg)
 	patientService := services.NewPatientService(database.DB)
 	anamnesisService := services.NewAnamnesisService(database.DB)
+	clinicalNoteService := services.NewClinicalNoteService(database.DB)
 	anamnesisTemplateService := services.NewAnamnesisTemplateService(anamnesisTemplateRepo)
 	// Calendar V1 (Bloco E) — AppointmentService depende de google/daily/notif.
 	googleCalendarService := services.NewGoogleCalendarService(cfg, database.DB)
@@ -328,6 +329,7 @@ func setupRoutes(
 	oauthHandler := handlers.NewOAuthHandler(oauthService)
 	patientHandler := handlers.NewPatientHandler(patientService)
 	anamnesisHandler := handlers.NewAnamnesisHandler(anamnesisService)
+	clinicalNoteHandler := handlers.NewClinicalNoteHandler(clinicalNoteService)
 	anamnesisTemplateHandler := handlers.NewAnamnesisTemplateHandler(anamnesisTemplateService)
 	appointmentHandler := handlers.NewAppointmentHandler(appointmentService)
 	waitlistHandler := handlers.NewWaitlistHandler(waitlistService)
@@ -720,6 +722,21 @@ func setupRoutes(
 	// chamada gera token novo (sem cache) — inviável como GET.
 	appointments.Post("/:id/telemed-token", appointmentHandler.GetTelemedToken)
 	appointments.Delete("/:id", middleware.RequireAdmin(), appointmentHandler.Delete)
+
+	// Notas de evolução clínica (SOAP/APSO) — documentação por consulta.
+	// C2 — bloqueia patient role. Profissional autenticado documenta a visita;
+	// nota assinada é imutável (correção via adendo).
+	clinicalNotes := v1.Group("/clinical-notes")
+	clinicalNotes.Use(middleware.Auth(cfg))
+	clinicalNotes.Use(middleware.RequireAnyStaff())
+	clinicalNotes.Use(middleware.AuditLog(database.DB))
+	clinicalNotes.Get("/", clinicalNoteHandler.List) // ?appointmentId= retorna a nota da consulta
+	clinicalNotes.Post("/", clinicalNoteHandler.Create)
+	clinicalNotes.Get("/:id", clinicalNoteHandler.GetByID)
+	clinicalNotes.Put("/:id", clinicalNoteHandler.Update)
+	clinicalNotes.Post("/:id/sign", clinicalNoteHandler.Sign)
+	clinicalNotes.Post("/:id/amend", clinicalNoteHandler.Amend)
+	clinicalNotes.Delete("/:id", clinicalNoteHandler.Delete)
 
 	// Lista de espera (encaixe) — operacional do balcão. Qualquer staff opera.
 	waitlist := v1.Group("/waitlist")
