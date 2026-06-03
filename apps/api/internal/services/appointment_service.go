@@ -786,12 +786,18 @@ func (s *AppointmentService) GetTelemedJoinURL(ctx context.Context, appointmentI
 	if doctorName == "" {
 		doctorName = "Médico"
 	}
+	// Gravação + transcrição auto-iniciam SÓ com consentimento de telemedicina
+	// registrado (CFM 2.314/2022, cláusula de gravação). Sem consentimento, o
+	// token do médico não liga nada — a sala continua só de vídeo.
+	withConsent := appt.TelemedConsentAt != nil
 	tok, err := s.dailyCoSvc.CreateMeetingToken(ctx, MeetingTokenParams{
-		RoomName:          *appt.DailyRoomName,
-		UserName:          doctorName,
-		IsOwner:           true,
-		ExpiresAt:         closesAt,
-		EnableScreenshare: true,
+		RoomName:               *appt.DailyRoomName,
+		UserName:               doctorName,
+		IsOwner:                true,
+		ExpiresAt:              closesAt,
+		EnableScreenshare:      true,
+		StartCloudRecording:    withConsent,
+		AutoStartTranscription: withConsent,
 	})
 	if err != nil {
 		return "", err

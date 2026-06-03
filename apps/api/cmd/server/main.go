@@ -407,6 +407,13 @@ func setupRoutes(
 	telemedLobbyService := services.NewTelemedLobbyService(database.DB, cfg).WithDailyCo(dailyCoService)
 	telemedLobbyHandler := handlers.NewTelemedLobbyHandler(telemedLobbyService)
 
+	// Gravação + transcrição da teleconsulta (Daily.co cloud recording + Deepgram nova-3).
+	// O webhook do Daily entrega os artefatos; o handler de gravação expõe status +
+	// link de download sob demanda do MP4 (referência, não armazenado).
+	telemedRecordingService := services.NewTelemedRecordingService(database.DB, dailyCoService, "/app/uploads")
+	telemedRecordingHandler := handlers.NewTelemedRecordingHandler(telemedRecordingService)
+	dailyWebhookHandler := handlers.NewDailyWebhookHandler(cfg, dailyCoService, telemedRecordingService)
+
 	// HIGH H9 — patientAppointmentService precisa do DailyCo pra emitir
 	// meeting_token quando paciente abre detalhe da consulta no portal.
 	patientAppointmentService.WithDailyCo(dailyCoService)
@@ -478,6 +485,10 @@ func setupRoutes(
 	// WhatsApp Business webhook (público — Meta valida via HMAC X-Hub-Signature-256)
 	v1.Get("/webhooks/whatsapp", whatsappWebhookHandler.Verify)
 	v1.Post("/webhooks/whatsapp", whatsappWebhookHandler.Receive)
+
+	// Daily.co webhook (público — valida via HMAC X-Webhook-Signature). Entrega
+	// gravação + transcrição da teleconsulta (recording.* / transcript.*).
+	v1.Post("/webhooks/daily", dailyWebhookHandler.Receive)
 
 	// Leads — POST público (form contato com rate limit), GET/PATCH autenticado (admin/staff)
 	leadCreateLimiter := middleware.NewIPRateLimiter(5, time.Hour)
@@ -746,6 +757,10 @@ func setupRoutes(
 	// HIGH H9 — emite meeting_token de owner pro staff. POST porque cada
 	// chamada gera token novo (sem cache) — inviável como GET.
 	appointments.Post("/:id/telemed-token", appointmentHandler.GetTelemedToken)
+	// Gravação + transcrição da teleconsulta — clínico vê status e baixa o MP4
+	// (link assinado sob demanda). Conteúdo clínico → RequireClinician.
+	appointments.Get("/:id/telemed-recording", middleware.RequireClinician(), telemedRecordingHandler.GetForAppointment)
+	appointments.Get("/:id/telemed-recording/download", middleware.RequireClinician(), telemedRecordingHandler.Download)
 	appointments.Delete("/:id", middleware.RequireAdmin(), appointmentHandler.Delete)
 
 	// Notas de evolução clínica (SOAP/APSO) — documentação por consulta.

@@ -82,6 +82,11 @@ type GoogleConfig struct {
 type DailyCoConfig struct {
 	APIKey string // DAILY_CO_API_KEY
 	Domain string // DAILY_CO_DOMAIN — subdomínio (ex: "plenya")
+	// WebhookSecret — segredo HMAC (base64) retornado por POST /v1/webhooks ao
+	// registrar o webhook do domínio. Usado pra verificar a assinatura
+	// X-Webhook-Signature dos eventos recording.*/transcript.*. Vazio = webhook
+	// rejeitado em prod (fail-closed); rode cmd/daily-webhook pra obter o segredo.
+	WebhookSecret string // DAILY_CO_WEBHOOK_SECRET
 }
 
 // EmailConfig — Provider escolhe a implementação. Quando vazio (ou Provider="smtp" com SMTPHost vazio),
@@ -347,8 +352,9 @@ func Load() (*Config, error) {
 			RedirectURL:  getEnv("GOOGLE_REDIRECT_URL", "https://app.plenyasaude.com.br/api/v1/integrations/google/callback"),
 		},
 		DailyCo: DailyCoConfig{
-			APIKey: getEnv("DAILY_CO_API_KEY", ""),
-			Domain: getEnv("DAILY_CO_DOMAIN", ""),
+			APIKey:        getEnv("DAILY_CO_API_KEY", ""),
+			Domain:        getEnv("DAILY_CO_DOMAIN", ""),
+			WebhookSecret: getEnv("DAILY_CO_WEBHOOK_SECRET", ""),
 		},
 		PatientPortal: PatientPortalConfig{
 			PublicURL: getEnv("PATIENT_PORTAL_URL", "http://localhost:3000"),

@@ -341,6 +341,9 @@ func AutoMigrate() error {
 
 		// Plano de cuidado AGIR (P3 frente 3)
 		&models.CarePlanItem{},
+
+		// Gravação + transcrição da teleconsulta (Daily.co + Deepgram)
+		&models.TelemedRecording{},
 	); err != nil {
 		return err
 	}

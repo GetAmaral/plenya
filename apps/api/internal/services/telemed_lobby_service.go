@@ -190,11 +190,12 @@ func (s *TelemedLobbyService) Resolve(token string) (*LobbyView, error) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 		tok, terr := s.dailyCoSvc.CreateMeetingToken(ctx, MeetingTokenParams{
-			RoomName:          *appt.DailyRoomName,
-			UserName:          view.PatientFirstName,
-			IsOwner:           false,
-			ExpiresAt:         closesAt,
-			EnableScreenshare: true, // paciente também pode compartilhar a tela
+			RoomName:           *appt.DailyRoomName,
+			UserName:           view.PatientFirstName,
+			IsOwner:            false,
+			ExpiresAt:          closesAt,
+			EnableScreenshare:  true, // paciente também pode compartilhar a tela
+			DisableRecordingUI: true, // paciente não liga/desliga gravação (só o médico)
 		})
 		if terr != nil {
 			// Degradação grácil: paciente vê "sala temporariamente indisponível".

@@ -22,7 +22,10 @@ package services
 import (
 	"bytes"
 	"context"
+	"crypto/hmac"
 	"crypto/rand"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
@@ -30,6 +33,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -37,8 +41,14 @@ import (
 )
 
 const (
-	dailyAPIBaseURL          = "https://api.daily.co/v1"
-	dailyHTTPClientTimeout   = 15 * time.Second
+	dailyAPIBaseURL        = "https://api.daily.co/v1"
+	dailyHTTPClientTimeout = 15 * time.Second
+
+	// Transcrição nativa do Daily (Deepgram). Configurável aqui num único lugar.
+	// nova-3 tem PT-BR GA com o maior ganho de WER da rodada; se o backend de
+	// transcrição do Daily rejeitar nova-3, trocar por "nova-2-general".
+	dailyTranscriptionModel    = "nova-3-general"
+	dailyTranscriptionLanguage = "pt-BR"
 )
 
 // Erros públicos.
@@ -112,14 +122,34 @@ func (s *DailyCoService) CreateRoom(ctx context.Context, namePrefix string, expi
 	//   paciente também pode mostrar a tela (ex: exibir um exame na tela dele).
 	// • enable_chat=true: chat textual é útil pra trocar links/anotações
 	//   durante a consulta.
+	// Gravação + transcrição (follow-up telemed): a sala é CAPAZ de gravar/transcrever,
+	// mas só INICIA de fato quando o token do owner (médico) traz start_cloud_recording
+	// + auto_start_transcription — e isso só acontece com consentimento registrado
+	// (ver GetTelemedJoinURL). Aqui apenas habilitamos a capacidade na sala:
+	//   • enable_recording="cloud": gravação composta MP4 no storage gerenciado do Daily.
+	//   • enable_transcription_storage=true: salva o WebVTT da transcrição (default é só
+	//     caption ao vivo, sem persistir).
+	//   • auto_transcription_settings: opções usadas quando auto_start_transcription liga
+	//     — pt-BR, Deepgram nova-3, pontuação e diarização (rotula médico×paciente).
 	body := map[string]any{
 		"name":    name,
 		"privacy": "private",
 		"properties": map[string]any{
-			"exp":                expiresAt.UTC().Unix(),
-			"eject_at_room_exp":  true,
-			"enable_screenshare": true,
-			"enable_chat":        true,
+			"exp":                          expiresAt.UTC().Unix(),
+			"eject_at_room_exp":            true,
+			"enable_screenshare":           true,
+			"enable_chat":                  true,
+			"enable_recording":             "cloud",
+			"enable_transcription_storage": true,
+			"auto_transcription_settings": map[string]any{
+				"language":  dailyTranscriptionLanguage,
+				"model":     dailyTranscriptionModel,
+				"punctuate": true,
+				"extra": map[string]any{
+					"diarize":      true,
+					"smart_format": true,
+				},
+			},
 		},
 	}
 
@@ -169,6 +199,17 @@ type MeetingTokenParams struct {
 	IsOwner           bool
 	ExpiresAt         time.Time
 	EnableScreenshare bool
+
+	// StartCloudRecording — auto-inicia a gravação cloud quando este participante
+	// entra. Só no token do médico (owner) e só com consentimento de telemedicina
+	// registrado. Exige a sala (ou o token) com enable_recording="cloud".
+	StartCloudRecording bool
+	// AutoStartTranscription — auto-inicia a transcrição (Deepgram, settings da sala)
+	// quando o OWNER entra. Idem: só com consentimento.
+	AutoStartTranscription bool
+	// DisableRecordingUI — esconde o botão de gravar do Prebuilt pra este
+	// participante. Usado no token do paciente (não deve ligar/desligar gravação).
+	DisableRecordingUI bool
 }
 
 // CreateMeetingToken gera um meeting_token escopado a uma sala + participante.
@@ -198,15 +239,26 @@ func (s *DailyCoService) CreateMeetingToken(ctx context.Context, p MeetingTokenP
 		displayName = "Plenya"
 	}
 
-	body := map[string]any{
-		"properties": map[string]any{
-			"room_name":          p.RoomName,
-			"user_name":          displayName,
-			"is_owner":           p.IsOwner,
-			"exp":                exp.UTC().Unix(),
-			"enable_screenshare": p.EnableScreenshare,
-		},
+	props := map[string]any{
+		"room_name":          p.RoomName,
+		"user_name":          displayName,
+		"is_owner":           p.IsOwner,
+		"exp":                exp.UTC().Unix(),
+		"enable_screenshare": p.EnableScreenshare,
 	}
+	if p.StartCloudRecording {
+		// Garante a capacidade no próprio token (defesa: salas antigas podem não
+		// ter sido criadas com enable_recording) + auto-inicia ao entrar.
+		props["enable_recording"] = "cloud"
+		props["start_cloud_recording"] = true
+	}
+	if p.AutoStartTranscription {
+		props["auto_start_transcription"] = true
+	}
+	if p.DisableRecordingUI {
+		props["enable_recording_ui"] = false
+	}
+	body := map[string]any{"properties": props}
 
 	resp, err := s.do(ctx, http.MethodPost, dailyAPIBaseURL+"/meeting-tokens", body)
 	if err != nil {
@@ -270,6 +322,145 @@ func (s *DailyCoService) DeleteRoom(ctx context.Context, name string) error {
 	default:
 		return fmt.Errorf("daily delete room: status %d", resp.StatusCode)
 	}
+}
+
+// ============================================================
+// Gravação + transcrição: access-links e download (follow-up telemed)
+// ============================================================
+
+// GetRecordingAccessLink gera um link assinado de download do MP4 da gravação
+// (GET /recordings/:id/access-link). NÃO baixamos o vídeo — só repassamos esse
+// link temporário sob demanda (decisão "referência + link sob demanda").
+// validForSecs default 3600 (1h); máx 12h.
+func (s *DailyCoService) GetRecordingAccessLink(ctx context.Context, recordingID string, validForSecs int) (string, error) {
+	if !s.IsConfigured() {
+		return "", ErrDailyNotConfigured
+	}
+	if strings.TrimSpace(recordingID) == "" {
+		return "", errors.New("daily recording access-link: empty recording id")
+	}
+	if validForSecs <= 0 {
+		validForSecs = 3600
+	}
+	url := fmt.Sprintf("%s/recordings/%s/access-link?valid_for_secs=%d", dailyAPIBaseURL, recordingID, validForSecs)
+	resp, err := s.do(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return "", fmt.Errorf("daily recording access-link http: %w", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		errBody, _ := io.ReadAll(resp.Body)
+		return "", fmt.Errorf("daily recording access-link: status %d body=%s", resp.StatusCode, string(errBody))
+	}
+	var parsed struct {
+		DownloadLink string `json:"download_link"`
+		Link         string `json:"link"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&parsed); err != nil {
+		return "", fmt.Errorf("daily recording access-link decode: %w", err)
+	}
+	if parsed.DownloadLink != "" {
+		return parsed.DownloadLink, nil
+	}
+	if parsed.Link != "" {
+		return parsed.Link, nil
+	}
+	return "", errors.New("daily recording access-link: empty link in response")
+}
+
+// GetTranscriptAccessLink gera o link assinado pro arquivo WebVTT da transcrição
+// (GET /transcript/:id/access-link, válido por 1h). O texto é pequeno — baixamos
+// e persistimos (diferente do MP4, que é só referenciado).
+func (s *DailyCoService) GetTranscriptAccessLink(ctx context.Context, transcriptID string) (string, error) {
+	if !s.IsConfigured() {
+		return "", ErrDailyNotConfigured
+	}
+	if strings.TrimSpace(transcriptID) == "" {
+		return "", errors.New("daily transcript access-link: empty transcript id")
+	}
+	url := fmt.Sprintf("%s/transcript/%s/access-link", dailyAPIBaseURL, transcriptID)
+	resp, err := s.do(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return "", fmt.Errorf("daily transcript access-link http: %w", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		errBody, _ := io.ReadAll(resp.Body)
+		return "", fmt.Errorf("daily transcript access-link: status %d body=%s", resp.StatusCode, string(errBody))
+	}
+	var parsed struct {
+		Link         string `json:"link"`
+		DownloadLink string `json:"download_link"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&parsed); err != nil {
+		return "", fmt.Errorf("daily transcript access-link decode: %w", err)
+	}
+	if parsed.Link != "" {
+		return parsed.Link, nil
+	}
+	if parsed.DownloadLink != "" {
+		return parsed.DownloadLink, nil
+	}
+	return "", errors.New("daily transcript access-link: empty link in response")
+}
+
+// FetchSignedURL baixa o conteúdo de uma URL assinada (S3) — sem Authorization
+// (o link já é autenticado pelo querystring). Usado pra puxar o WebVTT.
+func (s *DailyCoService) FetchSignedURL(ctx context.Context, signedURL string) ([]byte, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, signedURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := s.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return nil, fmt.Errorf("fetch signed url: status %d", resp.StatusCode)
+	}
+	// Limite defensivo: VTT de teleconsulta tem KBs; 16MB cobre folga.
+	return io.ReadAll(io.LimitReader(resp.Body, 16<<20))
+}
+
+// VerifyWebhookSignature valida a assinatura HMAC dos webhooks do Daily.
+//
+// Receita oficial: HMAC-SHA256 sobre (timestamp + "." + corpo_cru), com o segredo
+// DECODIFICADO de base64 como chave, saída em base64, comparada com o header
+// X-Webhook-Signature. timestamp é o header X-Webhook-Timestamp.
+//
+// Rejeita timestamp muito antigo (replay). Falha fechado se o segredo não está
+// configurado (caller decide o comportamento por ambiente).
+func (s *DailyCoService) VerifyWebhookSignature(signatureHeader, timestampHeader string, body []byte) error {
+	secret := strings.TrimSpace(s.cfg.DailyCo.WebhookSecret)
+	if secret == "" {
+		return errors.New("daily webhook secret not configured")
+	}
+	if signatureHeader == "" || timestampHeader == "" {
+		return errors.New("daily webhook: missing signature/timestamp headers")
+	}
+	// Replay protection: rejeita timestamps fora de ±5min.
+	if ts, err := strconv.ParseInt(strings.TrimSpace(timestampHeader), 10, 64); err == nil {
+		skew := time.Now().UTC().Unix() - ts
+		if skew < 0 {
+			skew = -skew
+		}
+		if skew > 300 {
+			return fmt.Errorf("daily webhook: stale timestamp (skew=%ds)", skew)
+		}
+	}
+	key, err := base64.StdEncoding.DecodeString(secret)
+	if err != nil {
+		// Alguns segredos podem não ser base64 — usa cru como fallback.
+		key = []byte(secret)
+	}
+	mac := hmac.New(sha256.New, key)
+	mac.Write([]byte(timestampHeader + "." + string(body)))
+	expected := base64.StdEncoding.EncodeToString(mac.Sum(nil))
+	if !hmac.Equal([]byte(expected), []byte(strings.TrimSpace(signatureHeader))) {
+		return errors.New("daily webhook: signature mismatch")
+	}
+	return nil
 }
 
 // do é o helper HTTP — adiciona Authorization Bearer + Content-Type JSON.

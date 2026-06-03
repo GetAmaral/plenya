@@ -30,6 +30,9 @@ import {
   MessageSquare,
   Loader2,
   AlertTriangle,
+  Download,
+  FileText,
+  Mic,
 } from 'lucide-react';
 import { ScheduleRecallDialog } from '@/components/recepcao/schedule-recall-dialog';
 import { toast } from 'sonner';
@@ -66,6 +69,8 @@ import {
   useTelemedToken,
   useTelemedConsentTerm,
   useRegisterTelemedConsent,
+  useTelemedRecording,
+  useTelemedRecordingDownload,
   useUpdateAppointment,
   type CalendarSlot,
 } from '@/lib/api/calendar-api';
@@ -93,6 +98,27 @@ export default function AppointmentDetailPage() {
   const consentTerm = useTelemedConsentTerm();
   const registerConsent = useRegisterTelemedConsent(appointmentId);
   const [showTerm, setShowTerm] = useState(false);
+
+  // Gravação + transcrição (Daily.co + Deepgram). Auto-iniciam com consentimento;
+  // chegam por webhook, então fazemos poll enquanto pendente.
+  const isTelemed = appt?.type === 'telemedicine';
+  const telemedRecording = useTelemedRecording(appointmentId, {
+    enabled: isTelemed,
+    expectRecording: !!appt?.telemedConsentAt,
+  });
+  const recordingDownload = useTelemedRecordingDownload(appointmentId);
+  const [showTranscript, setShowTranscript] = useState(false);
+  const handleDownloadRecording = async () => {
+    try {
+      const { downloadUrl } = await recordingDownload.mutateAsync();
+      window.open(downloadUrl, '_blank', 'noopener');
+    } catch (e) {
+      toast.error('Falha ao gerar o link da gravação', {
+        description: e instanceof Error ? e.message : undefined,
+      });
+    }
+  };
+
   const handleRegisterConsent = async () => {
     try {
       await registerConsent.mutateAsync('verbal');
@@ -437,6 +463,107 @@ export default function AppointmentDetailPage() {
                       prontuário durante a consulta. Disponível de 3 horas antes a 3
                       horas depois do horário agendado.
                     </p>
+                  </div>
+                )}
+
+                {/* Gravação + transcrição (Daily.co + Deepgram). Auto-iniciam com
+                    consentimento; chegam por webhook ao fim da consulta. */}
+                {appt.telemedConsentAt && (
+                  <div className="mt-4 space-y-3 border-t pt-4">
+                    <div className="flex items-center gap-2 text-sm font-medium">
+                      <Mic className="h-4 w-4 text-muted-foreground" />
+                      Gravação e transcrição
+                    </div>
+
+                    {!telemedRecording.data ? (
+                      <p className="text-xs text-muted-foreground">
+                        Esta teleconsulta é gravada e transcrita (consentimento registrado).
+                        A gravação e a transcrição aparecem aqui ao final da consulta.
+                      </p>
+                    ) : (
+                      <div className="space-y-3 text-sm">
+                        {/* Gravação */}
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Video className="h-4 w-4 shrink-0" />
+                            {telemedRecording.data.recordingStatus === 'finished' &&
+                            telemedRecording.data.hasRecording ? (
+                              <span>
+                                Gravação disponível
+                                {telemedRecording.data.recordingDurationSeconds
+                                  ? ` (${Math.round(
+                                      telemedRecording.data.recordingDurationSeconds / 60,
+                                    )} min)`
+                                  : ''}
+                              </span>
+                            ) : telemedRecording.data.recordingStatus === 'error' ? (
+                              <span className="text-destructive">Falha na gravação</span>
+                            ) : (
+                              <span className="flex items-center gap-1">
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                Gravação em processamento…
+                              </span>
+                            )}
+                          </div>
+                          {telemedRecording.data.recordingStatus === 'finished' &&
+                            telemedRecording.data.hasRecording && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={handleDownloadRecording}
+                                disabled={recordingDownload.isPending}
+                              >
+                                {recordingDownload.isPending ? (
+                                  <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+                                ) : (
+                                  <Download className="mr-2 h-3.5 w-3.5" />
+                                )}
+                                Baixar gravação
+                              </Button>
+                            )}
+                        </div>
+
+                        {/* Transcrição */}
+                        <div className="space-y-2">
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <FileText className="h-4 w-4 shrink-0" />
+                              {telemedRecording.data.hasTranscript ? (
+                                <span>Transcrição disponível (médico e paciente)</span>
+                              ) : telemedRecording.data.transcriptStatus === 'in_progress' ? (
+                                <span className="flex items-center gap-1">
+                                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                  Transcrição em processamento…
+                                </span>
+                              ) : telemedRecording.data.transcriptStatus === 'failed' ? (
+                                <span className="text-destructive">Falha na transcrição</span>
+                              ) : (
+                                <span>Transcrição indisponível</span>
+                              )}
+                            </div>
+                            {telemedRecording.data.hasTranscript && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => setShowTranscript((v) => !v)}
+                              >
+                                {showTranscript ? 'Ocultar' : 'Ver transcrição'}
+                              </Button>
+                            )}
+                          </div>
+                          {showTranscript && telemedRecording.data.transcriptText && (
+                            <pre className="max-h-72 overflow-y-auto whitespace-pre-wrap rounded bg-muted/50 p-3 text-xs leading-relaxed text-foreground">
+                              {telemedRecording.data.transcriptText}
+                            </pre>
+                          )}
+                        </div>
+
+                        <p className="text-[11px] text-muted-foreground">
+                          A gravação fica em armazenamento seguro e o link é gerado sob demanda.
+                          Revise a transcrição antes de usá-la na nota clínica.
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
               </CardContent>

@@ -440,6 +440,65 @@ export function useRegisterTelemedConsent(id: string) {
   });
 }
 
+// Gravação + transcrição da teleconsulta (Daily.co cloud recording + Deepgram nova-3).
+// Os artefatos chegam de forma assíncrona via webhook do Daily, então fazemos poll
+// enquanto algo ainda está em processamento. 404 = ainda não há gravação (null).
+export interface TelemedRecording {
+  id: string;
+  appointmentId?: string;
+  patientId?: string;
+  recordingStatus: 'pending' | 'started' | 'finished' | 'error';
+  hasRecording: boolean;
+  recordingReadyAt?: string;
+  recordingDurationSeconds?: number;
+  recordingError?: string;
+  transcriptStatus: 'none' | 'in_progress' | 'finished' | 'failed';
+  hasTranscript: boolean;
+  transcriptReadyAt?: string;
+  transcriptText?: string;
+  transcriptError?: string;
+  updatedAt: string;
+}
+
+export function useTelemedRecording(
+  id: string | undefined,
+  opts?: { enabled?: boolean; expectRecording?: boolean },
+) {
+  const expect = opts?.expectRecording ?? false;
+  return useQuery({
+    queryKey: ['telemed-recording', id ?? ''],
+    enabled: (opts?.enabled ?? true) && !!id,
+    queryFn: async (): Promise<TelemedRecording | null> => {
+      try {
+        return await apiClient.get<TelemedRecording>(
+          `/api/v1/appointments/${id}/telemed-recording`,
+        );
+      } catch (err) {
+        if ((err as { status?: number }).status === 404) return null;
+        throw err;
+      }
+    },
+    refetchInterval: (query) => {
+      const d = query.state.data as TelemedRecording | null | undefined;
+      // Sem linha ainda: faz poll só se esperamos gravação (consentimento dado).
+      if (!d) return expect ? 15000 : false;
+      const pendingRec = d.recordingStatus === 'pending' || d.recordingStatus === 'started';
+      const pendingTr = d.transcriptStatus === 'in_progress';
+      return pendingRec || pendingTr ? 15000 : false;
+    },
+  });
+}
+
+// Link assinado de download do MP4, gerado sob demanda (a gravação fica no Daily).
+export function useTelemedRecordingDownload(id: string) {
+  return useMutation({
+    mutationFn: () =>
+      apiClient.get<{ downloadUrl: string }>(
+        `/api/v1/appointments/${id}/telemed-recording/download`,
+      ),
+  });
+}
+
 export function useConfirmAppointment(id: string) {
   const qc = useQueryClient();
   return useMutation({
