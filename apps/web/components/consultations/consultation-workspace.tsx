@@ -21,6 +21,8 @@ import {
   Activity,
   CalendarClock,
   CheckCircle2,
+  ClipboardPaste,
+  FileText,
   FlaskConical,
   Loader2,
   Lock,
@@ -45,6 +47,7 @@ import { useLatestHealthScore } from '@/lib/api/health-score-api';
 import {
   type Appointment,
   useStartAppointment,
+  useTelemedRecording,
   useUpdateAppointment,
 } from '@/lib/api/calendar-api';
 import {
@@ -66,6 +69,19 @@ const LAYOUT_ORDER: Record<ClinicalNoteLayout, Array<keyof typeof SECTION_LABELS
   soap: ['subjective', 'objective', 'assessment', 'plan'],
   apso: ['assessment', 'plan', 'subjective', 'objective'],
 };
+
+// Converte o diálogo transcrito (texto, "Falante N: ...") em HTML pro editor da
+// nota. Escapa caracteres especiais e quebra uma linha por parágrafo.
+function transcriptToHtml(text: string): string {
+  const esc = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const lines = text
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean);
+  const body = lines.map((l) => `<p>${esc(l)}</p>`).join('');
+  return `<p><strong>Transcrição da teleconsulta:</strong></p>${body}`;
+}
 
 export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
   const router = useRouter();
@@ -97,6 +113,20 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
   const [assessment, setAssessment] = useState('');
   const [plan, setPlan] = useState('');
   const [showRecall, setShowRecall] = useState(false);
+
+  // Transcrição da teleconsulta (Daily/Deepgram) — disponível pós-chamada. NÃO
+  // entra sozinha na nota: o médico insere com 1 clique no Subjetivo e revisa
+  // antes de assinar (texto de ASR pode ter erro; a nota é ato assinável).
+  const telemedRec = useTelemedRecording(appt.id, { enabled: appt.type === 'telemedicine' });
+  const [transcriptInserted, setTranscriptInserted] = useState(false);
+  function insertTranscript() {
+    const t = telemedRec.data?.transcriptText;
+    if (!t) return;
+    const html = transcriptToHtml(t);
+    setSubjective((prev) => (prev && prev.replace(/<[^>]*>/g, '').trim() ? prev + html : html));
+    setTranscriptInserted(true);
+    toast.success('Transcrição inserida no Subjetivo — revise antes de assinar.');
+  }
 
   // Hidrata os campos a partir da nota existente (uma vez).
   const hydrated = useRef(false);
@@ -322,6 +352,34 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
           )}
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Transcrição da teleconsulta — inserir no Subjetivo (1 clique, revisável). */}
+          {appt.type === 'telemedicine' && telemedRec.data?.hasTranscript && !readOnly && (
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed bg-muted/30 p-2">
+              <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <FileText className="h-3.5 w-3.5" />
+                Transcrição da teleconsulta disponível
+              </span>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={insertTranscript}
+                disabled={transcriptInserted}
+              >
+                {transcriptInserted ? (
+                  <>
+                    <CheckCircle2 className="mr-2 h-4 w-4" />
+                    Inserida no Subjetivo
+                  </>
+                ) : (
+                  <>
+                    <ClipboardPaste className="mr-2 h-4 w-4" />
+                    Inserir no Subjetivo
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
+
           {LAYOUT_ORDER[layout].map((key) => (
             <div key={key} className="space-y-1">
               <p className="text-xs font-medium uppercase text-muted-foreground">
