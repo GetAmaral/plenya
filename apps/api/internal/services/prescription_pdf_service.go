@@ -2,13 +2,15 @@ package services
 
 import (
 	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"os"
 	"path/filepath"
 	"time"
 
-	"github.com/google/uuid"
 	gofpdf "codeberg.org/go-pdf/fpdf"
+	"github.com/google/uuid"
 	"github.com/skip2/go-qrcode"
 	"gorm.io/gorm"
 
@@ -41,7 +43,18 @@ func (s *PrescriptionPDFService) GetDB() *gorm.DB {
 	return s.db
 }
 
-// GenerateSignedPrescriptionPDF - Fluxo completo de geração e assinatura
+// VerifySignature delega ao SignatureService a verificação criptográfica da assinatura PAdES.
+func (s *PrescriptionPDFService) VerifySignature(pdfBytes []byte) (*SignatureVerification, error) {
+	return s.signatureService.VerifySignature(pdfBytes)
+}
+
+// GenerateSignedPrescriptionPDF gera o PDF da prescrição e define o modo de assinatura:
+//
+//   - CONTROLADO (C1/C5): SEMPRE modo MANUAL. O sistema gera a receita para o médico
+//     IMPRIMIR, CARIMBAR e ASSINAR à mão. Sem número SNCR (a integração ainda não abriu,
+//     ver docs/emr/lei-receita-cfm-anvisa-2026.md) e sem assinatura digital fingindo validade.
+//   - NÃO CONTROLADO: assina digitalmente com ICP-Brasil se o médico tiver certificado ativo;
+//     se não tiver (ou a assinatura falhar), degrada graciosamente para o modo manual.
 func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 	prescriptionID uuid.UUID,
 ) (pdfURL string, err error) {
@@ -63,65 +76,68 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 		return "", fmt.Errorf("prescrição sem medicamentos")
 	}
 
-	// 3. Verificar se precisa de SNCR (se tem algum medicamento controlado)
-	needsSNCR := false
-	for _, med := range prescription.Medications {
-		if med.Category == models.MedCategoryC1 || med.Category == models.MedCategoryC5 {
-			needsSNCR = true
-			break
-		}
-	}
+	// 3. Decidir o modo de assinatura.
+	hasControlled := prescriptionHasControlled(&prescription)
+	// Controlado => manual obrigatório. Não controlado => digital se houver cert ativo.
+	manual := hasControlled || !prescription.Doctor.CertificateActive
 
-	// 4. Solicitar número SNCR (se controlado e ainda não tem)
-	if needsSNCR && prescription.SNCRNumber == nil {
-		// Para SNCR, usamos o primeiro medicamento controlado como referência
-		// (O SNCR é por prescrição, não por medicamento)
-		sncrNumber, err := s.sncrService.RequestNumber(&prescription)
-		if err != nil {
-			return "", fmt.Errorf("erro ao solicitar número SNCR: %v", err)
-		}
-		if sncrNumber != "" {
-			prescription.SNCRNumber = &sncrNumber
-			status := "active"
-			prescription.SNCRStatus = &status
-			s.db.Save(&prescription)
-		}
-	}
-
-	// 4. Gerar PDF base (não assinado)
-	unsignedPDF, err := s.generatePDFContent(&prescription)
+	// 4. Gerar o PDF base (layout muda conforme o modo).
+	unsignedPDF, err := s.generatePDFContent(&prescription, manual)
 	if err != nil {
 		return "", fmt.Errorf("erro ao gerar PDF: %v", err)
 	}
 
-	// 5. Assinar PDF com certificado do médico
-	signedPDF, signatureHash, err := s.signatureService.SignPrescriptionPDF(
-		unsignedPDF,
-		prescription.DoctorID,
-	)
-	if err != nil {
-		return "", fmt.Errorf("erro ao assinar PDF: %v", err)
+	var finalPDF []byte
+	var signatureHash string
+	mode := "manual"
+
+	if manual {
+		finalPDF = unsignedPDF
+		sum := sha256.Sum256(unsignedPDF)
+		signatureHash = hex.EncodeToString(sum[:])
+	} else {
+		signed, sigHash, sErr := s.signatureService.SignPrescriptionPDF(unsignedPDF, prescription.DoctorID)
+		if sErr != nil {
+			// Degradação graciosa (padrão IssuedDocument): regenera em modo manual.
+			manualPDF, bErr := s.generatePDFContent(&prescription, true)
+			if bErr != nil {
+				return "", fmt.Errorf("erro ao regenerar PDF: %v", bErr)
+			}
+			finalPDF = manualPDF
+			sum := sha256.Sum256(manualPDF)
+			signatureHash = hex.EncodeToString(sum[:])
+		} else {
+			finalPDF = signed
+			signatureHash = sigHash
+			mode = "digital"
+		}
 	}
 
-	// 6. Salvar PDF assinado
+	// 5. Salvar PDF
 	prescriptionsDir := filepath.Join(s.uploadsPath, "prescriptions")
 	os.MkdirAll(prescriptionsDir, 0755)
 
 	filename := fmt.Sprintf("prescription_%s_signed.pdf", prescriptionID)
 	pdfPath := filepath.Join(prescriptionsDir, filename)
 
-	if err := os.WriteFile(pdfPath, signedPDF, 0644); err != nil {
+	if err := os.WriteFile(pdfPath, finalPDF, 0644); err != nil {
 		return "", fmt.Errorf("erro ao salvar PDF: %v", err)
 	}
 
-	// 7. Atualizar prescrição com metadados
+	// 6. Atualizar prescrição com metadados
 	now := time.Now()
 	prescription.SignedPDFPath = &pdfPath
 	prescription.SignedPDFHash = &signatureHash
 	prescription.SignedAt = &now
-
-	if prescription.Doctor.CertificateSerial != nil {
+	prescription.SignatureMode = &mode
+	if mode == "digital" && prescription.Doctor.CertificateSerial != nil {
 		prescription.CertificateSerial = prescription.Doctor.CertificateSerial
+	} else {
+		prescription.CertificateSerial = nil
+	}
+	// Modo manual não tem validação digital por QR.
+	if mode != "digital" {
+		prescription.QRCodeData = nil
 	}
 
 	if err := s.db.Save(&prescription).Error; err != nil {
@@ -131,15 +147,29 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 	return fmt.Sprintf("/uploads/prescriptions/%s", filename), nil
 }
 
-// generatePDFContent gera o conteúdo do PDF conforme CFM/ANVISA
+// prescriptionHasControlled indica se há medicamento de controle especial (C1/C5).
+func prescriptionHasControlled(prescription *models.Prescription) bool {
+	for _, med := range prescription.Medications {
+		if med.Category == models.MedCategoryC1 || med.Category == models.MedCategoryC5 {
+			return true
+		}
+	}
+	return false
+}
+
+// generatePDFContent gera o conteúdo do PDF. Quando manual=true, monta a receita para
+// impressão/assinatura à mão (bloco de assinatura+carimbo, sem QR/selo digital).
 func (s *PrescriptionPDFService) generatePDFContent(
 	prescription *models.Prescription,
+	manual bool,
 ) ([]byte, error) {
+	hasControlled := prescriptionHasControlled(prescription)
+
 	// Create PDF (A4 portrait)
 	pdf := gofpdf.New("P", "mm", "A4", "")
-	pdf.SetAuthor("Plenya EMR - Prescrição Digital", true)
+	pdf.SetAuthor("Plenya EMR - Prescrição", true)
 	pdf.SetCreator("Plenya EMR", true)
-	pdf.SetTitle("Prescrição Médica Digital", true)
+	pdf.SetTitle("Receita Médica", true)
 
 	// Load fonts
 	regularFont, err := os.ReadFile("/usr/share/fonts/opensans/OpenSans-Regular.ttf")
@@ -168,19 +198,19 @@ func (s *PrescriptionPDFService) generatePDFContent(
 
 	y := 50.0
 
-	// === HEADER: PRESCRIÇÃO DIGITAL ===
+	// === HEADER ===
+	title := "PRESCRIÇÃO MÉDICA DIGITAL"
+	if manual {
+		if hasControlled {
+			title = "RECEITA DE CONTROLE ESPECIAL"
+		} else {
+			title = "RECEITA MÉDICA"
+		}
+	}
 	pdf.SetFont("OpenSans", "B", 16)
 	pdf.SetXY(20, y)
-	pdf.Cell(170, 10, "PRESCRIÇÃO MÉDICA DIGITAL")
+	pdf.Cell(170, 10, title)
 	y += 15
-
-	// SNCR Number (se existir)
-	if prescription.SNCRNumber != nil {
-		pdf.SetFont("OpenSans", "B", 10)
-		pdf.SetXY(20, y)
-		pdf.Cell(170, 6, fmt.Sprintf("SNCR: %s", *prescription.SNCRNumber))
-		y += 8
-	}
 
 	// Datas
 	pdf.SetFont("OpenSans", "", 10)
@@ -241,7 +271,6 @@ func (s *PrescriptionPDFService) generatePDFContent(
 	pdf.Cell(170, 6, "MEDICAMENTOS PRESCRITOS")
 	y += 8
 
-	// Iterar pelos medicamentos
 	for i, med := range prescription.Medications {
 		pdf.SetFont("OpenSans", "B", 10)
 		pdf.SetXY(20, y)
@@ -277,28 +306,11 @@ func (s *PrescriptionPDFService) generatePDFContent(
 		y += 15
 	}
 
-	// === QR CODE ===
-	qrCodeData := fmt.Sprintf("https://plenya.com.br/prescriptions/validate/%s", prescription.ID)
-	qrCode, _ := qrcode.Encode(qrCodeData, qrcode.Medium, 256)
-
-	// Salvar QR temporário
-	qrPath := fmt.Sprintf("/tmp/qr_%s.png", prescription.ID)
-	os.WriteFile(qrPath, qrCode, 0644)
-	defer os.Remove(qrPath)
-
-	// Adicionar QR ao PDF
-	pdf.Image(qrPath, 20, y, 40, 40, false, "", 0, "")
-
-	// Texto ao lado do QR
-	pdf.SetFont("OpenSans", "", 9)
-	pdf.SetXY(65, y)
-	qrText := "Validar prescrição:\n" + qrCodeData + "\n\n"
-	qrText += "Documento assinado digitalmente\ncom certificado ICP-Brasil"
-	pdf.MultiCell(125, 4, qrText, "", "", false)
-
-	// Salvar QR code data na prescrição
-	prescription.QRCodeData = &qrCodeData
-	s.db.Save(prescription)
+	if manual {
+		s.addManualSignatureBlock(pdf, y, hasControlled)
+	} else {
+		s.addDigitalSignatureBlock(pdf, prescription, y)
+	}
 
 	// Gerar bytes do PDF
 	var buf bytes.Buffer
@@ -307,6 +319,56 @@ func (s *PrescriptionPDFService) generatePDFContent(
 	}
 
 	return buf.Bytes(), nil
+}
+
+// addManualSignatureBlock — receita para impressão: linha de assinatura + carimbo.
+// Para controlados, acrescenta a nota de dispensação física (Portaria SVS/MS 344/98).
+func (s *PrescriptionPDFService) addManualSignatureBlock(pdf *gofpdf.Fpdf, y float64, hasControlled bool) {
+	if y > 245 {
+		y = 245
+	}
+	y += 16
+	pdf.Line(60, y, 150, y)
+	pdf.SetFont("OpenSans", "", 9)
+	pdf.SetXY(25, y+2)
+	pdf.Cell(120, 5, "Assinatura e Carimbo do Médico")
+	y += 10
+
+	pdf.SetFont("OpenSans", "", 7)
+	pdf.SetTextColor(60, 60, 60)
+	pdf.SetXY(20, y)
+	pdf.Cell(170, 3, "Receita para impressão, assinatura e carimbo do médico. Sem assinatura digital.")
+	if hasControlled {
+		y += 3
+		pdf.SetXY(20, y)
+		pdf.MultiCell(170, 3,
+			"Medicamento sujeito a controle especial (Portaria SVS/MS 344/98): dispensação mediante "+
+				"receituário/Notificação de Receita em via física, conforme a regulamentação vigente.",
+			"", "", false)
+	}
+	pdf.SetTextColor(0, 0, 0)
+}
+
+// addDigitalSignatureBlock — QR de validação + selo "assinado digitalmente" (modo digital).
+func (s *PrescriptionPDFService) addDigitalSignatureBlock(pdf *gofpdf.Fpdf, prescription *models.Prescription, y float64) {
+	qrCodeData := fmt.Sprintf("https://plenya.com.br/prescriptions/validate/%s", prescription.ID)
+	qrCode, _ := qrcode.Encode(qrCodeData, qrcode.Medium, 256)
+
+	qrPath := fmt.Sprintf("/tmp/qr_%s.png", prescription.ID)
+	os.WriteFile(qrPath, qrCode, 0644)
+	defer os.Remove(qrPath)
+
+	pdf.Image(qrPath, 20, y, 40, 40, false, "", 0, "")
+
+	pdf.SetFont("OpenSans", "", 9)
+	pdf.SetXY(65, y)
+	qrText := "Validar prescrição:\n" + qrCodeData + "\n\n"
+	qrText += "Documento assinado digitalmente com certificado ICP-Brasil (PAdES).\n"
+	qrText += "Verificar assinatura: https://validar.iti.gov.br"
+	pdf.MultiCell(125, 4, qrText, "", "", false)
+
+	// Persistido pelo Save final em GenerateSignedPrescriptionPDF.
+	prescription.QRCodeData = &qrCodeData
 }
 
 // formatCPF já definido em certificate_service.go (função compartilhada no package)

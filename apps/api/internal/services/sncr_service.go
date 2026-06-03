@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -31,14 +30,12 @@ func NewSNCRStubProvider(db *gorm.DB) *SNCRStubProvider {
 }
 
 func (s *SNCRStubProvider) RequestPrescriptionNumber(prescription *models.Prescription) (string, error) {
-	// Gera número FAKE: BR-STUB-2026-00000001
-	var count int64
-	s.db.Model(&models.Prescription{}).
-		Where("sncr_number LIKE ?", "BR-STUB-%").
-		Count(&count)
-
-	number := fmt.Sprintf("BR-STUB-%d-%08d", time.Now().Year(), count+1)
-	return number, nil
+	// NÃO gera número fictício. A integração ao SNCR ainda não abriu (prorrogada p/ 30/09/2026,
+	// API de emissores não publicada — ver docs/emr/lei-receita-cfm-anvisa-2026.md). Estampar um
+	// número falso numa receita de controlado seria emitir documento inválido com numeração
+	// inventada. Por isso o controlado sai impresso para assinatura física (ver prescription_pdf_service).
+	// Quando o SNCR abrir, usar SNCRProductionProvider (SNCR_PRODUCTION_MODE=true).
+	return "", nil
 }
 
 func (s *SNCRStubProvider) MarkAsUsed(sncrNumber string) error {
@@ -46,8 +43,8 @@ func (s *SNCRStubProvider) MarkAsUsed(sncrNumber string) error {
 	return s.db.Model(&models.Prescription{}).
 		Where("sncr_number = ?", sncrNumber).
 		Updates(map[string]interface{}{
-			"is_used":     true,
-			"sncr_status": status,
+			"is_used":      true,
+			"sncr_status":  status,
 			"dispensed_at": time.Now(),
 		}).Error
 }

@@ -141,6 +141,31 @@ type User struct {
 	// @example true
 	CertificateActive bool `gorm:"type:boolean;default:false" json:"certificateActive"`
 
+	// Assinatura em nuvem (e-CPF em nuvem / PSC — NGS2)
+	// A chave privada fica num HSM do provedor; o backend dispara a assinatura por API
+	// e o titular confirma (push/OTP). Aqui guardamos só referências e o cert público.
+
+	// Modo de assinatura ativo: "local" (A1 em arquivo) ou "cloud" (e-CPF em nuvem).
+	// @example local
+	CertificateMode string `gorm:"type:varchar(20);not null;default:'local'" json:"certificateMode"`
+
+	// Provedor do certificado em nuvem (ex: integraicp, certillion, vidaas, birdid, safeid).
+	// @example integraicp
+	CloudCertProvider *string `gorm:"type:varchar(40)" json:"cloudCertProvider,omitempty"`
+
+	// Certificado público (PEM) do e-CPF em nuvem, usado para embutir no PAdES. Não é segredo.
+	CloudCertPEM *string `gorm:"type:text" json:"-"`
+
+	// Referência da credencial/chave no PSC (id da credencial em nuvem do titular).
+	CloudCredentialRef *string `gorm:"type:varchar(200)" json:"cloudCredentialRef,omitempty"`
+
+	// Token da credencial autorizada (cifrado AES-256-GCM, nunca exposto no JSON).
+	// Obtido após o titular autorizar a sessão de assinatura no app do PSC (push/OTP).
+	CloudCredentialToken *string `gorm:"type:text" json:"-"`
+
+	// Expiração da credencial autorizada em nuvem (janela em que o backend pode assinar em lote).
+	CloudCredentialExpiry *time.Time `gorm:"type:timestamptz" json:"cloudCredentialExpiry,omitempty"`
+
 	// Data em que o usuário aceitou o termo LGPD/consentimento de uso. Null = nunca aceitou.
 	// Coletado no primeiro login do app mobile e ao criar conta.
 	// @example 2026-04-24T10:30:00Z
@@ -156,8 +181,8 @@ type User struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 
 	// Relações
-	SelectedPatient *Patient       `gorm:"foreignKey:SelectedPatientID;constraint:OnDelete:SET NULL" json:"selectedPatient,omitempty"`
-	DeviceTokens    []DeviceToken  `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE" json:"-"`
+	SelectedPatient *Patient      `gorm:"foreignKey:SelectedPatientID;constraint:OnDelete:SET NULL" json:"selectedPatient,omitempty"`
+	DeviceTokens    []DeviceToken `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE" json:"-"`
 }
 
 // TableName especifica o nome da tabela

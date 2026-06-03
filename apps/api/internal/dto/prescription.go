@@ -20,10 +20,10 @@ type MedicationRequest struct {
 
 // CreatePrescriptionRequest representa o payload de criação de prescrição digital
 type CreatePrescriptionRequest struct {
-	PatientID            string              `json:"patientId" validate:"required,uuid"`
-	Medications          []MedicationRequest `json:"medications" validate:"required,min=1,max=10,dive"`
-	GeneralInstructions  *string             `json:"generalInstructions,omitempty"`
-	PrescriptionDate     string              `json:"prescriptionDate" validate:"required"` // formato: RFC3339
+	PatientID           string              `json:"patientId" validate:"required,uuid"`
+	Medications         []MedicationRequest `json:"medications" validate:"required,min=1,max=10,dive"`
+	GeneralInstructions *string             `json:"generalInstructions,omitempty"`
+	PrescriptionDate    string              `json:"prescriptionDate" validate:"required"` // formato: RFC3339
 }
 
 // UpdatePrescriptionRequest representa o payload de atualização de prescrição
@@ -67,8 +67,10 @@ type PrescriptionResponse struct {
 	QRCodeData          *string                   `json:"qrCodeData,omitempty"`
 	SignedAt            *string                   `json:"signedAt,omitempty"`
 	CertificateSerial   *string                   `json:"certificateSerial,omitempty"`
-	IsUsed              bool                      `json:"isUsed"`
-	DispensedAt         *string                   `json:"dispensedAt,omitempty"`
-	CreatedAt           string                    `json:"createdAt"`
-	UpdatedAt           string                    `json:"updatedAt"`
+	// SignatureMode: "digital" (ICP-Brasil) ou "manual" (impressão + assinatura/carimbo à mão).
+	SignatureMode *string `json:"signatureMode,omitempty"`
+	IsUsed        bool    `json:"isUsed"`
+	DispensedAt   *string `json:"dispensedAt,omitempty"`
+	CreatedAt     string  `json:"createdAt"`
+	UpdatedAt     string  `json:"updatedAt"`
 }

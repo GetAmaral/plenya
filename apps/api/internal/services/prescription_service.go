@@ -32,11 +32,11 @@ func calculateValidUntil(prescriptionDate time.Time, medications []dto.Medicatio
 
 	// Mapear categorias para dias de validade
 	categoryDays := map[models.MedicationCategory]int{
-		models.MedCategoryAntibiotic: 10,  // 10 dias
-		models.MedCategoryC1:         30,  // 30 dias
-		models.MedCategoryC5:         30,  // 30 dias
-		models.MedCategoryGLP1:       90,  // 90 dias
-		models.MedCategorySimple:     30,  // 30 dias
+		models.MedCategoryAntibiotic: 10, // 10 dias
+		models.MedCategoryC1:         30, // 30 dias
+		models.MedCategoryC5:         30, // 30 dias
+		models.MedCategoryGLP1:       90, // 90 dias
+		models.MedCategorySimple:     30, // 30 dias
 	}
 
 	// Encontrar a validade mais restritiva (menor número de dias)
@@ -383,6 +383,7 @@ func (s *PrescriptionService) toDTO(prescription *models.Prescription) *dto.Pres
 		SignedPDFHash:       prescription.SignedPDFHash,
 		QRCodeData:          prescription.QRCodeData,
 		CertificateSerial:   prescription.CertificateSerial,
+		SignatureMode:       prescription.SignatureMode,
 		IsUsed:              prescription.IsUsed,
 		CreatedAt:           prescription.CreatedAt.Format(time.RFC3339),
 		UpdatedAt:           prescription.UpdatedAt.Format(time.RFC3339),

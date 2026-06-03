@@ -80,6 +80,13 @@ type Prescription struct {
 	// @example 1234567890ABCDEF
 	CertificateSerial *string `gorm:"type:varchar(100)" json:"certificateSerial,omitempty"`
 
+	// Modo de assinatura efetivo do PDF:
+	//   "digital" — assinado com certificado ICP-Brasil (PAdES); validade jurídica plena.
+	//   "manual"  — gerado para o médico IMPRIMIR, CARIMBAR e ASSINAR à mão (controlados,
+	//               ou quando não há certificado digital ativo). Sem validade digital.
+	// @enum digital,manual
+	SignatureMode *string `gorm:"type:varchar(20)" json:"signatureMode,omitempty"`
+
 	// Status e Controle
 
 	// Status da prescrição

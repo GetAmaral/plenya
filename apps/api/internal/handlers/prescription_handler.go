@@ -288,12 +288,24 @@ func (h *PrescriptionHandler) SignAndGenerate(c *fiber.Ctx) error {
 		})
 	}
 
-	// Buscar prescrição atualizada para pegar SNCR number
+	// Buscar prescrição atualizada para pegar o modo de assinatura efetivo.
 	h.prescriptionPDFService.GetDB().First(&prescription, prescriptionID)
 
+	mode := ""
+	if prescription.SignatureMode != nil {
+		mode = *prescription.SignatureMode
+	}
+	// Mensagem para o frontend orientar o médico no modo manual (controlado ou sem certificado).
+	message := "Prescrição assinada digitalmente (ICP-Brasil)."
+	if mode == "manual" {
+		message = "Receita gerada para impressão. Imprima, carimbe e assine à mão."
+	}
+
 	return c.JSON(fiber.Map{
-		"signedPdfUrl": pdfURL,
-		"sncrNumber":   prescription.SNCRNumber,
+		"signedPdfUrl":  pdfURL,
+		"signatureMode": mode,
+		"message":       message,
+		"sncrNumber":    prescription.SNCRNumber,
 	})
 }
 
@@ -331,17 +343,33 @@ func (h *PrescriptionHandler) ValidatePublic(c *fiber.Ctx) error {
 	isExpired := time.Now().After(prescription.ValidUntil)
 	isUsed := prescription.IsUsed
 
-	// Verificar hash do PDF (integridade)
+	sigMode := ""
+	if prescription.SignatureMode != nil {
+		sigMode = *prescription.SignatureMode
+	}
+
+	// Ler o PDF uma vez: confere integridade (re-hash) e, no modo digital, valida a
+	// assinatura PAdES de verdade (cadeia/integridade criptográfica), não só o hash.
 	pdfIntact := true
+	var sigVerification *services.SignatureVerification
 	if prescription.SignedPDFPath != nil && prescription.SignedPDFHash != nil {
-		pdfBytes, err := os.ReadFile(*prescription.SignedPDFPath)
-		if err == nil {
+		pdfBytes, readErr := os.ReadFile(*prescription.SignedPDFPath)
+		if readErr == nil {
 			currentHash := sha256.Sum256(pdfBytes)
-			currentHashStr := hex.EncodeToString(currentHash[:])
-			if currentHashStr != *prescription.SignedPDFHash {
+			if hex.EncodeToString(currentHash[:]) != *prescription.SignedPDFHash {
 				pdfIntact = false
 			}
+			if sigMode == "digital" {
+				sigVerification, _ = h.prescriptionPDFService.VerifySignature(pdfBytes)
+			}
 		}
+	}
+
+	// No modo digital, a validade exige assinatura PAdES íntegra. No modo manual, a
+	// validade jurídica vem da assinatura/carimbo físico (não há assinatura digital a aferir).
+	signatureValid := true
+	if sigVerification != nil {
+		signatureValid = sigVerification.Valid
 	}
 
 	// Converter medications para resposta
@@ -359,8 +387,9 @@ func (h *PrescriptionHandler) ValidatePublic(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(fiber.Map{
-		"valid":      !isExpired && !isUsed && pdfIntact,
-		"pdfIntact":  pdfIntact,
+		"valid":         !isExpired && !isUsed && pdfIntact && signatureValid,
+		"pdfIntact":     pdfIntact,
+		"signatureMode": sigMode,
 		"prescription": fiber.Map{
 			"id":               prescription.ID,
 			"prescriptionDate": prescription.PrescriptionDate,
@@ -380,9 +409,11 @@ func (h *PrescriptionHandler) ValidatePublic(c *fiber.Ctx) error {
 		},
 		"medications": medications,
 		"signature": fiber.Map{
-			"signedAt":         prescription.SignedAt,
+			"mode":              sigMode,
+			"signedAt":          prescription.SignedAt,
 			"certificateSerial": prescription.CertificateSerial,
-			"signedPdfUrl":     prescription.SignedPDFPath,
+			"signedPdfUrl":      prescription.SignedPDFPath,
+			"verification":      sigVerification,
 		},
 	})
 }

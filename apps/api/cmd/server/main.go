@@ -308,8 +308,19 @@ func setupRoutes(
 	medicationDefinitionService := services.NewMedicationDefinitionService(database.DB)
 
 	// Digital prescription services (Phase 4)
-	certificateService := services.NewCertificateService(database.DB, cfg.Security.EncryptionKey)
-	signatureService := services.NewSignatureService(certificateService)
+	// Assinatura em nuvem (e-CPF em nuvem / PSC) — gated off por default (ICP_CLOUD_ENABLED).
+	cloudSignatureProvider := services.NewCloudSignatureProvider(services.CloudSignatureConfig{
+		Enabled:  cfg.Signature.CloudEnabled,
+		Provider: cfg.Signature.CloudProvider,
+		BaseURL:  cfg.Signature.CloudBaseURL,
+		APIKey:   cfg.Signature.CloudAPIKey,
+	})
+	certificateService := services.NewCertificateService(database.DB, cfg.Security.EncryptionKey, cloudSignatureProvider)
+	signatureService := services.NewSignatureService(certificateService, services.SignatureOptions{
+		TSAURL:      cfg.Signature.TSAURL,
+		TSAUsername: cfg.Signature.TSAUsername,
+		TSAPassword: cfg.Signature.TSAPassword,
+	})
 	sncrConfig := services.SNCRConfig{
 		Enabled:        cfg.SNCR.Enabled,
 		ProductionMode: cfg.SNCR.ProductionMode,
@@ -865,6 +876,9 @@ func setupRoutes(
 	certificates.Use(middleware.Auth(cfg))
 	certificates.Get("/", certificateHandler.ListCertificates)
 	certificates.Get("/status", certificateHandler.GetCertificateStatus)
+	// e-CPF em nuvem (o próprio médico vincula/autoriza o seu certificado)
+	certificates.Post("/cloud/link", middleware.RequireDoctor(), certificateHandler.LinkCloudCertificate)
+	certificates.Post("/cloud/authorize", middleware.RequireDoctor(), certificateHandler.AuthorizeCloudSigning)
 	certificates.Delete("/:userId", certificateHandler.DeleteCertificate)
 
 	// Medication Definitions routes

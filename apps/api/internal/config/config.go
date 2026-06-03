@@ -19,6 +19,7 @@ type Config struct {
 	Security      SecurityConfig
 	OAuth         OAuthConfig
 	SNCR          SNCRConfig
+	Signature     SignatureConfig
 	Claude        ClaudeConfig
 	OpenAI        OpenAIConfig
 	VoyageAI      VoyageAIConfig
@@ -216,6 +217,28 @@ type SNCRConfig struct {
 	APIKey         string
 }
 
+// SignatureConfig — assinatura ICP-Brasil (hardening + e-CPF em nuvem).
+//
+// CARIMBO DE TEMPO (RFC 3161 / PAdES-T): quando TSAURL vazio, assina em PAdES básico
+// (AD-RB — válido para CFM/ITI). Quando configurado com uma ACT credenciada ICP-Brasil,
+// embute carimbo de tempo (prova a data independente do relógio do servidor; recomendado
+// para controlados). TSAs ICP-Brasil costumam exigir credenciais.
+//
+// E-CPF EM NUVEM (PSC/broker): quando CloudEnabled e o médico tiver certificado em nuvem
+// vinculado, a assinatura é disparada via API do PSC (Certillion/IntegraICP/VIDaaS/BirdID/
+// SafeID). A chave privada nunca sai do HSM do provedor; o titular autoriza por push/OTP.
+// Gated off por default (padrão SNCRProductionProvider) até haver contrato/credencial do PSC.
+type SignatureConfig struct {
+	TSAURL      string // ICP_TSA_URL — endpoint da ACT (RFC 3161). Vazio = sem carimbo de tempo.
+	TSAUsername string // ICP_TSA_USER
+	TSAPassword string // ICP_TSA_PASS
+
+	CloudEnabled  bool   // ICP_CLOUD_ENABLED — liga o provedor de assinatura em nuvem
+	CloudProvider string // ICP_CLOUD_PROVIDER — integraicp (default) | certillion
+	CloudBaseURL  string // ICP_CLOUD_BASE_URL — base da API REST do PSC/broker
+	CloudAPIKey   string // ICP_CLOUD_API_KEY — credencial do app integrador (Bearer)
+}
+
 type ClaudeConfig struct {
 	APIKey string
 	Model  string
@@ -293,10 +316,22 @@ func Load() (*Config, error) {
 			ApplePrivateKey:    getEnv("OAUTH_APPLE_PRIVATE_KEY", ""),
 		},
 		SNCR: SNCRConfig{
-			Enabled:        getEnvAsBool("SNCR_ENABLED", true),
+			// Default false: o SNCR ainda não é obrigatório (prorrogado p/ 30/09/2026) e a API
+			// de emissores não foi publicada. Receita de controlado sai impressa p/ assinatura
+			// manual. Ligar (com PRODUCTION_MODE + API_URL/KEY) quando a Anvisa abrir a integração.
+			Enabled:        getEnvAsBool("SNCR_ENABLED", false),
 			ProductionMode: getEnvAsBool("SNCR_PRODUCTION_MODE", false),
 			APIURL:         getEnv("SNCR_API_URL", "https://sncr.anvisa.gov.br/api/v1"),
 			APIKey:         getEnv("SNCR_API_KEY", ""),
+		},
+		Signature: SignatureConfig{
+			TSAURL:        getEnv("ICP_TSA_URL", ""),
+			TSAUsername:   getEnv("ICP_TSA_USER", ""),
+			TSAPassword:   getEnv("ICP_TSA_PASS", ""),
+			CloudEnabled:  getEnvAsBool("ICP_CLOUD_ENABLED", false),
+			CloudProvider: getEnv("ICP_CLOUD_PROVIDER", "integraicp"),
+			CloudBaseURL:  getEnv("ICP_CLOUD_BASE_URL", ""),
+			CloudAPIKey:   getEnv("ICP_CLOUD_API_KEY", ""),
 		},
 		Claude: ClaudeConfig{
 			APIKey:    getEnv("CLAUDE_API_KEY", ""),

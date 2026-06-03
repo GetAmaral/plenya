@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"io"
 
 	"github.com/gofiber/fiber/v2"
@@ -106,12 +107,12 @@ func (h *CertificateHandler) UploadCertificate(c *fiber.Ctx) error {
 		// Se for erro de CPF divergente, retornar warning com dados para confirmação
 		if err == services.ErrCPFMismatch && validationResult != nil {
 			return c.Status(409).JSON(fiber.Map{
-				"success":             false,
-				"error":               "CPF_MISMATCH",
-				"message":             "O CPF do certificado não corresponde ao CPF do usuário",
+				"success":              false,
+				"error":                "CPF_MISMATCH",
+				"message":              "O CPF do certificado não corresponde ao CPF do usuário",
 				"requiresConfirmation": true,
-				"userCPF":             validationResult.UserCPF,
-				"certificateCPF":      validationResult.CertificateCPF,
+				"userCPF":              validationResult.UserCPF,
+				"certificateCPF":       validationResult.CertificateCPF,
 			})
 		}
 
@@ -225,11 +226,11 @@ func (h *CertificateHandler) GetCertificateStatus(c *fiber.Ctx) error {
 	daysUntilExpiry := int(user.CertificateExpiry.Sub(c.Context().Time()).Hours() / 24)
 
 	return c.JSON(fiber.Map{
-		"hasCertificate":      true,
-		"validUntil":          user.CertificateExpiry,
-		"certificateSerial":   user.CertificateSerial,
-		"daysUntilExpiry":     daysUntilExpiry,
-		"needsRenewal":        daysUntilExpiry <= 30,
+		"hasCertificate":    true,
+		"validUntil":        user.CertificateExpiry,
+		"certificateSerial": user.CertificateSerial,
+		"daysUntilExpiry":   daysUntilExpiry,
+		"needsRenewal":      daysUntilExpiry <= 30,
 	})
 }
 
@@ -299,6 +300,82 @@ func (h *CertificateHandler) ToggleCertificateActive(c *fiber.Ctx) error {
 		"success":           true,
 		"certificateActive": newStatus,
 		"message":           "Certificado " + statusText + " com sucesso",
+	})
+}
+
+// LinkCloudCertificate godoc
+// @Summary Vincula certificado ICP-Brasil em nuvem (e-CPF em nuvem) ao médico logado
+// @Description Vincula um certificado em nuvem (PSC) ao médico. Envia o certificado público (PEM)
+// @Description e a referência da credencial no provedor. Após vincular, é preciso autorizar a assinatura.
+// @Tags Certificates
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} dto.ErrorResponse
+// @Router /certificates/cloud/link [post]
+func (h *CertificateHandler) LinkCloudCertificate(c *fiber.Ctx) error {
+	doctorID := middleware.GetUserID(c)
+
+	var req struct {
+		Provider       string `json:"provider"`
+		CredentialRef  string `json:"credentialRef"`
+		CertificatePEM string `json:"certificatePem"`
+	}
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(400).JSON(dto.ErrorResponse{Error: "invalid request body", Message: err.Error()})
+	}
+	if req.CredentialRef == "" || req.CertificatePEM == "" {
+		return c.Status(400).JSON(dto.ErrorResponse{Error: "credentialRef e certificatePem são obrigatórios"})
+	}
+	if req.Provider == "" {
+		req.Provider = "integraicp"
+	}
+
+	if err := h.certService.LinkCloudCertificate(doctorID, req.Provider, req.CredentialRef, req.CertificatePEM); err != nil {
+		switch {
+		case errors.Is(err, services.ErrCPFMismatch):
+			return c.Status(409).JSON(dto.ErrorResponse{Error: "CPF_MISMATCH", Message: "O CPF do certificado não corresponde ao CPF do médico"})
+		case errors.Is(err, services.ErrNotICPBrasil):
+			return c.Status(400).JSON(dto.ErrorResponse{Error: "certificado não é ICP-Brasil"})
+		case errors.Is(err, services.ErrCertificateExpired):
+			return c.Status(400).JSON(dto.ErrorResponse{Error: "certificado expirado"})
+		default:
+			return c.Status(400).JSON(dto.ErrorResponse{Error: err.Error()})
+		}
+	}
+
+	return c.JSON(fiber.Map{
+		"success": true,
+		"message": "Certificado em nuvem vinculado. Autorize a assinatura (push/OTP no app do provedor) para começar a usar.",
+	})
+}
+
+// AuthorizeCloudSigning godoc
+// @Summary Autoriza uma sessão de assinatura em nuvem (push/OTP) para o médico logado
+// @Description Dispara a autorização do titular no PSC e guarda o token com a janela de validade.
+// @Description Dentro da janela, o backend assina em lote sem nova confirmação.
+// @Tags Certificates
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} dto.ErrorResponse
+// @Router /certificates/cloud/authorize [post]
+func (h *CertificateHandler) AuthorizeCloudSigning(c *fiber.Ctx) error {
+	doctorID := middleware.GetUserID(c)
+
+	expiresAt, err := h.certService.AuthorizeCloudSigning(doctorID)
+	if err != nil {
+		if errors.Is(err, services.ErrCloudSigningDisabled) {
+			return c.Status(400).JSON(dto.ErrorResponse{Error: "assinatura em nuvem desabilitada (ICP_CLOUD_ENABLED=false)"})
+		}
+		return c.Status(400).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+
+	return c.JSON(fiber.Map{
+		"success":         true,
+		"authorizedUntil": expiresAt,
+		"message":         "Assinatura em nuvem autorizada.",
 	})
 }
 
