@@ -219,6 +219,10 @@ type SNCRConfig struct {
 type ClaudeConfig struct {
 	APIKey string
 	Model  string
+	// NoteModel — modelo usado p/ gerar nota clínica/anamnese a partir do transcript
+	// da teleconsulta (mais capaz que o Model default). Configurável; se indisponível
+	// na conta, o serviço cai pro Model.
+	NoteModel string // CLAUDE_NOTE_MODEL
 }
 
 type OpenAIConfig struct {
@@ -295,8 +299,9 @@ func Load() (*Config, error) {
 			APIKey:         getEnv("SNCR_API_KEY", ""),
 		},
 		Claude: ClaudeConfig{
-			APIKey: getEnv("CLAUDE_API_KEY", ""),
-			Model:  getEnv("CLAUDE_MODEL", "claude-3-5-haiku-20241022"),
+			APIKey:    getEnv("CLAUDE_API_KEY", ""),
+			Model:     getEnv("CLAUDE_MODEL", "claude-3-5-haiku-20241022"),
+			NoteModel: getEnv("CLAUDE_NOTE_MODEL", "claude-sonnet-4-6"),
 		},
 		OpenAI: OpenAIConfig{
 			APIKey:         getEnv("OPENAI_API_KEY", ""),

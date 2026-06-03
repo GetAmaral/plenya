@@ -11,6 +11,7 @@ package services
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -31,16 +32,21 @@ var (
 	ErrTelemedRecordingNotFound = errors.New("telemed recording not found")
 	// ErrTelemedNoRecording — consulta sem gravação pronta (nada pra baixar).
 	ErrTelemedNoRecording = errors.New("telemed recording not available")
+	// ErrTelemedNoTranscript — sem transcrição pronta (nada pra resumir).
+	ErrTelemedNoTranscript = errors.New("telemed transcript not available")
+	// ErrTelemedNoteFormat — formato de nota inválido.
+	ErrTelemedNoteFormat = errors.New("invalid note format")
 )
 
 type TelemedRecordingService struct {
 	db          *gorm.DB
 	dailyCoSvc  *DailyCoService
+	aiService   *AIService
 	uploadsRoot string
 }
 
-func NewTelemedRecordingService(db *gorm.DB, dailyCoSvc *DailyCoService, uploadsRoot string) *TelemedRecordingService {
-	return &TelemedRecordingService{db: db, dailyCoSvc: dailyCoSvc, uploadsRoot: uploadsRoot}
+func NewTelemedRecordingService(db *gorm.DB, dailyCoSvc *DailyCoService, aiService *AIService, uploadsRoot string) *TelemedRecordingService {
+	return &TelemedRecordingService{db: db, dailyCoSvc: dailyCoSvc, aiService: aiService, uploadsRoot: uploadsRoot}
 }
 
 // upsertByRoom resolve (ou cria) a linha a partir do nome da sala Daily.
@@ -256,6 +262,88 @@ func (s *TelemedRecordingService) RecordingDownloadLink(ctx context.Context, app
 	return s.dailyCoSvc.GetRecordingAccessLink(ctx, *rec.RecordingID, 3600)
 }
 
+// GenerateNote gera (via Claude) a nota clínica estruturada a partir do transcript
+// e guarda como RASCUNHO (não assinável). Síncrono (~5-15s). Exige transcript pronto.
+func (s *TelemedRecordingService) GenerateNote(ctx context.Context, appointmentID uuid.UUID, format string) (*dto.TelemedRecordingResponse, error) {
+	if format == "" {
+		format = NoteFormatAnamnese
+	}
+	if _, ok := noteTemplate(format); !ok {
+		return nil, ErrTelemedNoteFormat
+	}
+
+	var rec models.TelemedRecording
+	if err := s.db.WithContext(ctx).Where("appointment_id = ?", appointmentID).First(&rec).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrTelemedRecordingNotFound
+		}
+		return nil, err
+	}
+	if rec.TranscriptText == nil || strings.TrimSpace(*rec.TranscriptText) == "" {
+		return nil, ErrTelemedNoTranscript
+	}
+	if s.aiService == nil || !s.aiService.IsConfigured() {
+		return nil, ErrAINotConfigured
+	}
+
+	raw, gerr := s.aiService.GenerateClinicalNoteFromTranscript(*rec.TranscriptText, format)
+	now := time.Now().UTC()
+	rec.GeneratedNoteFormat = &format
+	rec.GeneratedNoteAt = &now
+	if gerr != nil {
+		msg := gerr.Error()
+		rec.GeneratedNoteStatus = models.GeneratedNoteStatusFailed
+		rec.GeneratedNoteError = &msg
+		_ = s.db.WithContext(ctx).Save(&rec).Error
+		return nil, gerr
+	}
+	model := s.aiService.noteModel
+	if model == "" {
+		model = s.aiService.model
+	}
+	rec.GeneratedNoteJSON = &raw
+	rec.GeneratedNoteModel = &model
+	rec.GeneratedNoteStatus = models.GeneratedNoteStatusDone
+	rec.GeneratedNoteError = nil
+	if err := s.db.WithContext(ctx).Save(&rec).Error; err != nil {
+		return nil, err
+	}
+	return s.toDTO(&rec), nil
+}
+
+// parseGeneratedNote converte a saída bruta (tool_use) em seções ordenadas pro DTO,
+// usando o template do formato (ordem/título/alvo SOAP). Campo vazio → "não informado".
+func parseGeneratedNote(rawJSON, format string) *dto.GeneratedNote {
+	tmpl, ok := noteTemplate(format)
+	if !ok {
+		return nil
+	}
+	var m map[string]json.RawMessage
+	if err := json.Unmarshal([]byte(rawJSON), &m); err != nil {
+		return nil
+	}
+	out := &dto.GeneratedNote{Format: format}
+	for _, sec := range tmpl {
+		var txt string
+		if v, ok := m[sec.Key]; ok {
+			_ = json.Unmarshal(v, &txt)
+		}
+		if strings.TrimSpace(txt) == "" {
+			txt = "não informado"
+		}
+		out.Sections = append(out.Sections, dto.GeneratedNoteSection{
+			Chave: sec.Key, Titulo: sec.Titulo, Texto: txt, SoapTarget: sec.SoapTarget,
+		})
+	}
+	if v, ok := m["itens_ambiguos_para_revisao_medica"]; ok {
+		_ = json.Unmarshal(v, &out.ItensAmbiguos)
+	}
+	if v, ok := m["papeis"]; ok {
+		_ = json.Unmarshal(v, &out.Papeis)
+	}
+	return out
+}
+
 func (s *TelemedRecordingService) toDTO(rec *models.TelemedRecording) *dto.TelemedRecordingResponse {
 	out := &dto.TelemedRecordingResponse{
 		ID:                       rec.ID.String(),
@@ -269,7 +357,19 @@ func (s *TelemedRecordingService) toDTO(rec *models.TelemedRecording) *dto.Telem
 		TranscriptReadyAt:        rec.TranscriptReadyAt,
 		TranscriptText:           rec.TranscriptText,
 		TranscriptError:          rec.TranscriptError,
+		GeneratedNoteStatus:      rec.GeneratedNoteStatus,
+		GeneratedNoteFormat:      rec.GeneratedNoteFormat,
+		GeneratedNoteModel:       rec.GeneratedNoteModel,
+		GeneratedNoteAt:          rec.GeneratedNoteAt,
+		GeneratedNoteError:       rec.GeneratedNoteError,
 		UpdatedAt:                rec.UpdatedAt,
+	}
+	if rec.GeneratedNoteStatus == models.GeneratedNoteStatusDone && rec.GeneratedNoteJSON != nil {
+		format := NoteFormatAnamnese
+		if rec.GeneratedNoteFormat != nil {
+			format = *rec.GeneratedNoteFormat
+		}
+		out.GeneratedNote = parseGeneratedNote(*rec.GeneratedNoteJSON, format)
 	}
 	if rec.AppointmentID != nil {
 		id := rec.AppointmentID.String()

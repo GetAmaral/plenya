@@ -457,7 +457,29 @@ export interface TelemedRecording {
   transcriptReadyAt?: string;
   transcriptText?: string;
   transcriptError?: string;
+  // Nota clínica gerada por IA (AI scribe) — rascunho revisável, não assinável.
+  generatedNoteStatus: 'none' | 'generating' | 'done' | 'failed';
+  generatedNoteFormat?: string;
+  generatedNoteModel?: string;
+  generatedNoteAt?: string;
+  generatedNoteError?: string;
+  generatedNote?: TelemedGeneratedNote;
   updatedAt: string;
+}
+
+export type TelemedNoteFormat = 'anamnese' | 'soap';
+export type SoapTarget = 'subjective' | 'objective' | 'assessment' | 'plan';
+export interface TelemedGeneratedNoteSection {
+  chave: string;
+  titulo: string;
+  texto: string;
+  soapTarget: SoapTarget;
+}
+export interface TelemedGeneratedNote {
+  format: string;
+  sections: TelemedGeneratedNoteSection[];
+  itensAmbiguos?: string[];
+  papeis?: Record<string, string>;
 }
 
 export function useTelemedRecording(
@@ -496,6 +518,23 @@ export function useTelemedRecordingDownload(id: string) {
       apiClient.get<{ downloadUrl: string }>(
         `/api/v1/appointments/${id}/telemed-recording/download`,
       ),
+  });
+}
+
+// Gera (via IA) a nota clínica estruturada (anamnese|soap) a partir do transcript.
+// Síncrono (~5-15s). Retorna o recording com generatedNote; invalida o cache.
+export function useGenerateTelemedNote(id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (format: TelemedNoteFormat = 'anamnese') =>
+      apiClient.post<TelemedRecording>(
+        `/api/v1/appointments/${id}/telemed-recording/generate-note`,
+        { format },
+      ),
+    onSuccess: (data) => {
+      qc.setQueryData(['telemed-recording', id], data);
+      qc.invalidateQueries({ queryKey: ['telemed-recording', id] });
+    },
   });
 }
 

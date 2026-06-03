@@ -154,6 +154,7 @@ func min(a, b int) int {
 type AIService struct {
 	apiKey     string
 	model      string
+	noteModel  string
 	httpClient *http.Client
 }
 
@@ -162,9 +163,13 @@ func NewAIService(cfg *config.Config) *AIService {
 	return &AIService{
 		apiKey:     cfg.Claude.APIKey,
 		model:      cfg.Claude.Model,
+		noteModel:  cfg.Claude.NoteModel,
 		httpClient: &http.Client{Timeout: 180 * time.Second}, // 3 minutos para processar laudos grandes
 	}
 }
+
+// IsConfigured retorna true se a CLAUDE_API_KEY está setada.
+func (s *AIService) IsConfigured() bool { return s.apiKey != "" }
 
 // InterpretLabResult - interpreta laudo médico via Claude API com structured output
 // Retorna JSON string diretamente com exames extraídos
@@ -176,7 +181,7 @@ func (s *AIService) InterpretLabResult(
 	payload := map[string]interface{}{
 		"model":       s.model,
 		"max_tokens":  8192, // Máximo permitido pelo Haiku (8192)
-		"temperature": 0.2,   // Baixa temperatura para extração factual
+		"temperature": 0.2,  // Baixa temperatura para extração factual
 		"messages": []map[string]string{
 			{"role": "user", "content": prompt},
 		},

@@ -410,7 +410,7 @@ func setupRoutes(
 	// Gravação + transcrição da teleconsulta (Daily.co cloud recording + Deepgram nova-3).
 	// O webhook do Daily entrega os artefatos; o handler de gravação expõe status +
 	// link de download sob demanda do MP4 (referência, não armazenado).
-	telemedRecordingService := services.NewTelemedRecordingService(database.DB, dailyCoService, "/app/uploads")
+	telemedRecordingService := services.NewTelemedRecordingService(database.DB, dailyCoService, aiService, "/app/uploads")
 	telemedRecordingHandler := handlers.NewTelemedRecordingHandler(telemedRecordingService)
 	dailyWebhookHandler := handlers.NewDailyWebhookHandler(cfg, dailyCoService, telemedRecordingService)
 
@@ -761,6 +761,8 @@ func setupRoutes(
 	// (link assinado sob demanda). Conteúdo clínico → RequireClinician.
 	appointments.Get("/:id/telemed-recording", middleware.RequireClinician(), telemedRecordingHandler.GetForAppointment)
 	appointments.Get("/:id/telemed-recording/download", middleware.RequireClinician(), telemedRecordingHandler.Download)
+	// AI scribe: gera anamnese/SOAP a partir do transcript (rascunho revisável).
+	appointments.Post("/:id/telemed-recording/generate-note", middleware.RequireClinician(), telemedRecordingHandler.GenerateNote)
 	appointments.Delete("/:id", middleware.RequireAdmin(), appointmentHandler.Delete)
 
 	// Notas de evolução clínica (SOAP/APSO) — documentação por consulta.

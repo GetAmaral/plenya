@@ -36,6 +36,35 @@ func (h *TelemedRecordingHandler) GetForAppointment(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
+// GenerateNote — POST /api/v1/appointments/:id/telemed-recording/generate-note
+// Gera (via IA) a nota clínica estruturada a partir do transcript. body {format}.
+// Rascunho não assinável; o médico revisa e insere na nota.
+func (h *TelemedRecordingHandler) GenerateNote(c *fiber.Ctx) error {
+	appointmentID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid appointment id"})
+	}
+	var body struct {
+		Format string `json:"format"`
+	}
+	_ = c.BodyParser(&body)
+
+	resp, err := h.svc.GenerateNote(c.Context(), appointmentID, body.Format)
+	if err != nil {
+		switch {
+		case errors.Is(err, services.ErrTelemedRecordingNotFound), errors.Is(err, services.ErrTelemedNoTranscript):
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "no transcript available"})
+		case errors.Is(err, services.ErrTelemedNoteFormat):
+			return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid format", Message: "use anamnese ou soap"})
+		case errors.Is(err, services.ErrAINotConfigured):
+			return c.Status(fiber.StatusServiceUnavailable).JSON(dto.ErrorResponse{Error: "ai not configured"})
+		default:
+			return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: "generation failed", Message: err.Error()})
+		}
+	}
+	return c.JSON(resp)
+}
+
 // Download — GET /api/v1/appointments/:id/telemed-recording/download
 // Gera link assinado temporário do MP4 (a gravação fica no storage do Daily).
 func (h *TelemedRecordingHandler) Download(c *fiber.Ctx) error {

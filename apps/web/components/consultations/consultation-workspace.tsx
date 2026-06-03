@@ -19,6 +19,7 @@ import { toast } from 'sonner';
 import DOMPurify from 'isomorphic-dompurify';
 import {
   Activity,
+  AlertTriangle,
   CalendarClock,
   CheckCircle2,
   ClipboardPaste,
@@ -28,6 +29,7 @@ import {
   Lock,
   Pill,
   Save,
+  Sparkles,
   Stethoscope,
 } from 'lucide-react';
 
@@ -46,6 +48,8 @@ import { useSelectedPatient } from '@/lib/use-selected-patient';
 import { useLatestHealthScore } from '@/lib/api/health-score-api';
 import {
   type Appointment,
+  type TelemedNoteFormat,
+  useGenerateTelemedNote,
   useStartAppointment,
   useTelemedRecording,
   useUpdateAppointment,
@@ -70,16 +74,18 @@ const LAYOUT_ORDER: Record<ClinicalNoteLayout, Array<keyof typeof SECTION_LABELS
   apso: ['assessment', 'plan', 'subjective', 'objective'],
 };
 
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 // Converte o diálogo transcrito (texto, "Falante N: ...") em HTML pro editor da
 // nota. Escapa caracteres especiais e quebra uma linha por parágrafo.
 function transcriptToHtml(text: string): string {
-  const esc = (s: string) =>
-    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const lines = text
     .split('\n')
     .map((l) => l.trim())
     .filter(Boolean);
-  const body = lines.map((l) => `<p>${esc(l)}</p>`).join('');
+  const body = lines.map((l) => `<p>${escapeHtml(l)}</p>`).join('');
   return `<p><strong>Transcrição da teleconsulta:</strong></p>${body}`;
 }
 
@@ -126,6 +132,45 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
     setSubjective((prev) => (prev && prev.replace(/<[^>]*>/g, '').trim() ? prev + html : html));
     setTranscriptInserted(true);
     toast.success('Transcrição inserida no Subjetivo — revise antes de assinar.');
+  }
+
+  // AI scribe: gera anamnese/SOAP estruturada a partir do transcript (rascunho).
+  const generateNote = useGenerateTelemedNote(appt.id);
+  const [genFormat, setGenFormat] = useState<TelemedNoteFormat>('anamnese');
+  const [noteInserted, setNoteInserted] = useState(false);
+  const generatedNote = telemedRec.data?.generatedNote;
+
+  async function handleGenerate() {
+    try {
+      await generateNote.mutateAsync(genFormat);
+      setNoteInserted(false);
+    } catch (e) {
+      toast.error('Falha ao gerar a nota com IA', {
+        description: e instanceof Error ? e.message : undefined,
+      });
+    }
+  }
+
+  // Insere o rascunho da IA nos campos SOAP, agrupando seções pelo soapTarget.
+  function insertGeneratedNote() {
+    const g = telemedRec.data?.generatedNote;
+    if (!g) return;
+    const groups: Record<string, { titulo: string; texto: string }[]> = {};
+    for (const s of g.sections) (groups[s.soapTarget] ||= []).push(s);
+    const toHtml = (secs: { titulo: string; texto: string }[]) =>
+      secs.length === 1
+        ? `<p>${escapeHtml(secs[0].texto)}</p>`
+        : secs
+            .map((s) => `<p><strong>${escapeHtml(s.titulo)}:</strong> ${escapeHtml(s.texto)}</p>`)
+            .join('');
+    const append = (prev: string, html: string) =>
+      prev && prev.replace(/<[^>]*>/g, '').trim() ? prev + html : html;
+    if (groups.subjective) setSubjective((p) => append(p, toHtml(groups.subjective)));
+    if (groups.objective) setObjective((p) => append(p, toHtml(groups.objective)));
+    if (groups.assessment) setAssessment((p) => append(p, toHtml(groups.assessment)));
+    if (groups.plan) setPlan((p) => append(p, toHtml(groups.plan)));
+    setNoteInserted(true);
+    toast.success('Rascunho da IA inserido na nota — revise antes de assinar.');
   }
 
   // Hidrata os campos a partir da nota existente (uma vez).
@@ -352,31 +397,102 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
           )}
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Transcrição da teleconsulta — inserir no Subjetivo (1 clique, revisável). */}
+          {/* Teleconsulta: transcrição + AI scribe (anamnese/SOAP). Tudo revisável. */}
           {appt.type === 'telemedicine' && telemedRec.data?.hasTranscript && !readOnly && (
-            <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed bg-muted/30 p-2">
-              <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                <FileText className="h-3.5 w-3.5" />
-                Transcrição da teleconsulta disponível
-              </span>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={insertTranscript}
-                disabled={transcriptInserted}
-              >
-                {transcriptInserted ? (
-                  <>
-                    <CheckCircle2 className="mr-2 h-4 w-4" />
-                    Inserida no Subjetivo
-                  </>
-                ) : (
-                  <>
-                    <ClipboardPaste className="mr-2 h-4 w-4" />
-                    Inserir no Subjetivo
-                  </>
-                )}
-              </Button>
+            <div className="space-y-3 rounded-md border border-dashed bg-muted/30 p-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <FileText className="h-3.5 w-3.5" />
+                  Transcrição da teleconsulta disponível
+                </span>
+                <Button size="sm" variant="outline" onClick={insertTranscript} disabled={transcriptInserted}>
+                  {transcriptInserted ? (
+                    <>
+                      <CheckCircle2 className="mr-2 h-4 w-4" />
+                      Transcrição inserida
+                    </>
+                  ) : (
+                    <>
+                      <ClipboardPaste className="mr-2 h-4 w-4" />
+                      Inserir transcrição crua
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {/* Gerar anamnese/SOAP por IA */}
+              <div className="flex flex-wrap items-center gap-2 border-t pt-2">
+                <span className="text-xs text-muted-foreground">Gerar com IA:</span>
+                <div className="flex rounded-md border p-0.5 text-xs">
+                  {(['anamnese', 'soap'] as TelemedNoteFormat[]).map((f) => (
+                    <button
+                      key={f}
+                      type="button"
+                      onClick={() => setGenFormat(f)}
+                      className={`rounded px-2 py-0.5 uppercase ${
+                        genFormat === f ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'
+                      }`}
+                    >
+                      {f}
+                    </button>
+                  ))}
+                </div>
+                <Button size="sm" onClick={handleGenerate} disabled={generateNote.isPending}>
+                  {generateNote.isPending ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Sparkles className="mr-2 h-4 w-4" />
+                  )}
+                  Gerar {genFormat === 'anamnese' ? 'anamnese' : 'SOAP'}
+                </Button>
+              </div>
+
+              {/* Rascunho gerado pela IA */}
+              {generatedNote && (
+                <div className="space-y-2 rounded border bg-background p-2">
+                  <div className="flex items-center gap-1.5 rounded bg-amber-50 p-1.5 text-[11px] text-amber-900">
+                    <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                    Rascunho gerado por IA
+                    {telemedRec.data?.generatedNoteModel ? ` (${telemedRec.data.generatedNoteModel})` : ''}
+                    . Revise cada seção antes de inserir e assinar — não é a nota final.
+                  </div>
+                  <div className="max-h-72 space-y-2 overflow-y-auto">
+                    {generatedNote.sections.map((s) => (
+                      <div key={s.chave}>
+                        <p className="text-[11px] font-medium uppercase text-muted-foreground">{s.titulo}</p>
+                        <p className="whitespace-pre-wrap text-sm">{s.texto}</p>
+                      </div>
+                    ))}
+                  </div>
+                  {generatedNote.itensAmbiguos && generatedNote.itensAmbiguos.length > 0 && (
+                    <div className="rounded bg-amber-50 p-2">
+                      <p className="mb-1 text-[11px] font-medium uppercase text-amber-900">
+                        Revisar com atenção
+                      </p>
+                      <ul className="list-disc space-y-0.5 pl-4 text-xs text-amber-900">
+                        {generatedNote.itensAmbiguos.map((it, i) => (
+                          <li key={i}>{it}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  <div className="flex justify-end">
+                    <Button size="sm" variant="outline" onClick={insertGeneratedNote} disabled={noteInserted}>
+                      {noteInserted ? (
+                        <>
+                          <CheckCircle2 className="mr-2 h-4 w-4" />
+                          Inserida na nota
+                        </>
+                      ) : (
+                        <>
+                          <ClipboardPaste className="mr-2 h-4 w-4" />
+                          Inserir na nota
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

@@ -23,6 +23,14 @@ const (
 	TranscriptStatusFailed     = "failed"      // transcript.error
 )
 
+// Status da nota clínica gerada por IA (AI scribe).
+const (
+	GeneratedNoteStatusNone       = "none"
+	GeneratedNoteStatusGenerating = "generating"
+	GeneratedNoteStatusDone       = "done"
+	GeneratedNoteStatusFailed     = "failed"
+)
+
 // TelemedRecording — artefatos (gravação + transcrição) de uma teleconsulta.
 //
 // Uma linha por consulta (upsert por AppointmentID). Os eventos chegam de forma
@@ -57,6 +65,16 @@ type TelemedRecording struct {
 	TranscriptText    *string    `gorm:"type:text" json:"transcriptText,omitempty"`             // diálogo rotulado, legível
 	TranscriptError   *string    `gorm:"type:text" json:"transcriptError,omitempty"`
 
+	// Nota clínica gerada por IA a partir do transcript (AI scribe). Rascunho NÃO
+	// assinável: o médico revisa e insere na ClinicalNote. GeneratedNoteJSON é a
+	// saída estruturada bruta (tool_use); o service parseia em seções pro DTO.
+	GeneratedNoteJSON   *string    `gorm:"type:text" json:"-"`
+	GeneratedNoteFormat *string    `gorm:"type:varchar(16)" json:"generatedNoteFormat,omitempty"` // anamnese|soap
+	GeneratedNoteStatus string     `gorm:"type:varchar(16);not null;default:'none'" json:"generatedNoteStatus"`
+	GeneratedNoteModel  *string    `gorm:"type:varchar(64)" json:"generatedNoteModel,omitempty"`
+	GeneratedNoteAt     *time.Time `gorm:"type:timestamptz" json:"generatedNoteAt,omitempty"`
+	GeneratedNoteError  *string    `gorm:"type:text" json:"generatedNoteError,omitempty"`
+
 	CreatedAt time.Time      `gorm:"not null;autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"not null;autoUpdateTime" json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
@@ -73,6 +91,9 @@ func (r *TelemedRecording) BeforeCreate(tx *gorm.DB) error {
 	}
 	if r.TranscriptStatus == "" {
 		r.TranscriptStatus = TranscriptStatusNone
+	}
+	if r.GeneratedNoteStatus == "" {
+		r.GeneratedNoteStatus = GeneratedNoteStatusNone
 	}
 	return nil
 }

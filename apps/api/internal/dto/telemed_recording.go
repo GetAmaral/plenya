@@ -25,7 +25,31 @@ type TelemedRecordingResponse struct {
 	TranscriptText    *string    `json:"transcriptText,omitempty"`
 	TranscriptError   *string    `json:"transcriptError,omitempty"`
 
+	// Nota clínica gerada por IA (AI scribe) — rascunho revisável, não assinável.
+	GeneratedNoteStatus string         `json:"generatedNoteStatus"`
+	GeneratedNoteFormat *string        `json:"generatedNoteFormat,omitempty"`
+	GeneratedNoteModel  *string        `json:"generatedNoteModel,omitempty"`
+	GeneratedNoteAt     *time.Time     `json:"generatedNoteAt,omitempty"`
+	GeneratedNoteError  *string        `json:"generatedNoteError,omitempty"`
+	GeneratedNote       *GeneratedNote `json:"generatedNote,omitempty"`
+
 	UpdatedAt time.Time `json:"updatedAt"`
+}
+
+// GeneratedNote — nota clínica estruturada gerada por IA, já parseada em seções
+// ordenadas prontas pra exibir/inserir. soapTarget liga cada seção ao campo da nota.
+type GeneratedNote struct {
+	Format        string                 `json:"format"`
+	Sections      []GeneratedNoteSection `json:"sections"`
+	ItensAmbiguos []string               `json:"itensAmbiguos,omitempty"`
+	Papeis        map[string]string      `json:"papeis,omitempty"`
+}
+
+type GeneratedNoteSection struct {
+	Chave      string `json:"chave"`
+	Titulo     string `json:"titulo"`
+	Texto      string `json:"texto"`
+	SoapTarget string `json:"soapTarget"` // subjective|objective|assessment|plan
 }
 
 // TelemedRecordingDownloadResponse — link assinado temporário pro MP4 da gravação.
