@@ -13,18 +13,17 @@ paciente conhece o Dr. Getúlio e a medicina da casa. O programa **Continuum** (
 meses com a equipe) é apresentado depois, pelo médico, na própria consulta. A recepção **não fecha o
 Continuum nem fala valor dele**. A recepção agenda a consulta e deixa a porta do Continuum aberta.
 
-**A única coisa que você precisa preencher antes de usar este script:**
+**Condições da consulta (fixas):**
 
 | Dado | Valor |
 |---|---|
-| **Valor da Consulta Plenya** | `R$ _______` *(preencher; sem isso o script não vai pro ar)* |
-| Forma de pagamento aceita | `_______` *(Pix, cartão, link; preencher)* |
-| Política de sinal/antecipação | `_______` *(se houver; preencher)* |
+| **Valor da Consulta Plenya** | **R$ 800,00**, valor único e não negociável |
+| Formas de pagamento | À vista: Pix ou cartão |
+| Quando se paga | Antecipado, antes do início da consulta |
 
-> ⚠️ **Abatimento no Continuum:** a consulta paga vale como 1ª consulta do Continuum, com o valor
-> considerado caso o paciente entre no programa. **Confirmar enquadramento fiscal e de publicidade
-> médica (contador + jurídico) antes de a recepção afirmar isso ao paciente.** Até essa confirmação,
-> use a versão neutra das falas (marcada com 🔸 no banco de objeções).
+> O valor é fixo e não negociável. Não há desconto, cortesia nem negociação de preço. A recepção
+> informa o valor com naturalidade e firmeza gentil. Não falar de Continuum nem de qualquer valor a
+> ele ligado: a recepção trata só da consulta.
 
 ### Dados da clínica (use exatamente assim)
 
@@ -41,7 +40,7 @@ Continuum nem fala valor dele**. A recepção agenda a consulta e deixa a porta 
 
 ### Sobre a Consulta (o que você precisa saber de cor)
 
-- **Duração:** 60 a 90 minutos na primeira consulta. Retornos costumam durar 45 a 60 minutos.
+- **Duração:** em média 60 minutos. É uma avaliação completa, não uma consulta rápida de rotina.
 - **Formato:** presencial em Londrina ou online por telemedicina, com a mesma profundidade.
 - **Pagamento:** particular. A clínica não trabalha com convênios. Despesas médicas são dedutíveis no
   Imposto de Renda como gasto com saúde.
@@ -129,8 +128,8 @@ Que bom ter você por aqui. Posso entender um pouco do seu momento para te orien
 ```
 Oi, [nome], tudo bem? Aqui é a [seu nome], da Plenya.
 Te respondo já o valor, sim. Antes só de uma coisa rápida: a consulta com o Dr. Getúlio é particular
-e leva de 60 a 90 minutos, porque é uma avaliação completa, não uma consulta de quinze minutos.
-O valor é R$ [valor]. Quer que eu já veja uma data para você?
+e leva cerca de 60 minutos, porque é uma avaliação completa, não uma consulta de quinze minutos.
+O valor é R$ 800,00. Quer que eu já veja uma data para você?
 ```
 *(Para o público que pergunta preço a frio, responder o valor rápido e ancorado é melhor do que enrolar.
 Ver objeção 1 se vier o "tá caro".)*
@@ -155,7 +154,7 @@ Use a resposta da pessoa. Exemplos por situação:
 *Cansaço / "faço tudo certo e não vejo resultado":*
 ```
 Esse é exatamente o tipo de situação que a Consulta Plenya foi pensada para olhar.
-São 60 a 90 minutos: o Dr. revisa sua história, seus exames e sua rotina, e trabalha com um painel
+São cerca de 60 minutos: o Dr. revisa sua história, seus exames e sua rotina, e trabalha com um painel
 de exames mais amplo que o de rotina, lido entre o "normal" e o que de fato seria o ideal para você.
 No fim, você sai com uma conduta clara, não só com a informação de que "está tudo normal".
 ```
@@ -185,7 +184,7 @@ Tenho [dia] às [hora] ou [dia] às [hora]. Algum desses funciona para você?
 Ao confirmar:
 ```
 Perfeito. Deixei reservado: [dia], [hora], [formato], com o Dr. Getúlio.
-A consulta é particular, no valor de R$ [valor], pago [forma de pagamento].
+A consulta é particular, no valor de R$ 800,00, pago de forma antecipada, no Pix ou cartão.
 Para a consulta render bem, traga seus exames mais recentes e a lista de medicamentos que usa.
 Vou te enviar a confirmação e, perto da data, um lembrete. Combinado?
 ```
@@ -234,7 +233,7 @@ Se for um bom momento, segue. Se não:
 
 ### 4.4 Valor (exemplo)
 > "Pelo que você me conta, é exatamente o tipo de situação que a consulta com o Dr. Getúlio foi pensada
-> para olhar. É uma avaliação completa, de 60 a 90 minutos. Ele revisa sua história, seus exames, sua
+> para olhar. É uma avaliação completa, de cerca de 60 minutos. Ele revisa sua história, seus exames, sua
 > rotina, e trabalha com um painel mais amplo que o de rotina. No fim, você sai com uma conduta clara, e não
 > apenas com um 'está tudo normal'."
 
@@ -249,7 +248,7 @@ Se for um bom momento, segue. Se não:
 > "Eu tenho [dia] às [hora] ou [dia] às [hora]. Qual fica melhor?"
 >
 > *(ao confirmar)* "Fechado. Vou deixar reservado para você: [dia], às [hora], [formato]. A consulta é
-> particular, no valor de R$ [valor]. No dia, traga seus exames mais recentes e a lista de remédios que você
+> particular, no valor de R$ 800,00, pago de forma antecipada. No dia, traga seus exames mais recentes e a lista de remédios que você
 > usa. Pode me confirmar seu nome completo e um WhatsApp para eu te enviar a confirmação?"
 
 ### 4.7 Encerramento da ligação
@@ -266,31 +265,39 @@ soe na defensiva.
 
 ### Objeção 1: "Tá caro" / "Por que tão caro?"
 **Princípio:** não defenda o preço, mostre o que está dentro dele. Ancore na consulta longa e na conduta.
-- **WhatsApp:** "Entendo. O valor reflete uma consulta completa, de 60 a 90 minutos, com leitura de um
+O valor é fixo; não ofereça desconto nem negocie.
+- **WhatsApp:** "Entendo. O valor reflete uma consulta completa, de cerca de 60 minutos, com leitura de um
   painel de exames mais amplo e uma conduta construída para o seu caso, não uma consulta rápida de rotina.
   É um cuidado pensado para durar. Quer que eu veja uma data para você conhecer o Dr. e avaliar se faz
   sentido?"
-- **Telefone:** "Faz sentido pesar. Só para você ter clareza do que está incluso: é uma avaliação de 60 a
-  90 minutos, com um painel de exames ampliado e uma conduta feita para você. É diferente de uma consulta
+- **Telefone:** "Faz sentido pesar. Só para você ter clareza do que está incluso: é uma avaliação de cerca
+  de 60 minutos, com um painel de exames ampliado e uma conduta feita para você. É diferente de uma consulta
   comum. Posso te reservar um horário para você conhecer e decidir com calma?"
-- 🔸 **Quando o abatimento estiver confirmado, pode acrescentar:** "E vale dizer: se você seguir depois
-  para o acompanhamento contínuo, o valor da consulta é considerado no programa."
 
-### Objeção 2: "Vocês não atendem convênio?"
+### Objeção 2: "Tem desconto?" / "Dá para parcelar?" / "Dá para negociar?"
+**Princípio:** firmeza gentil. O valor é único e não negociável, e isso se diz com tranquilidade, sem
+constrangimento. Não invente condição que não existe.
+- **WhatsApp:** "O valor da consulta é único, R$ 800,00, e não temos negociação de preço. O pagamento é à
+  vista, no Pix ou no cartão, feito antes da consulta. Quer que eu veja uma data para você?"
+- **Telefone:** "A consulta tem um valor único, de R$ 800,00, e a gente não trabalha com desconto nem
+  negociação, viu? O pagamento é à vista, no Pix ou no cartão, antes da consulta. Posso reservar um horário
+  para você?"
+
+### Objeção 3: "Vocês não atendem convênio?"
 **Princípio:** afirme com naturalidade, sem pedir desculpa, e ofereça o benefício fiscal.
 - **WhatsApp:** "Não, o atendimento é exclusivamente particular. Uma informação útil: despesas médicas são
   dedutíveis no Imposto de Renda como gasto com saúde. Quer que eu veja uma data para você?"
 - **Telefone:** "Atendemos só no particular, sim. Vale lembrar que a consulta é dedutível no Imposto de
   Renda, como toda despesa médica. Posso ver um horário para você?"
 
-### Objeção 3: "Prefiro presencial" (ou o contrário, "queria que fosse online")
+### Objeção 4: "Prefiro presencial" (ou o contrário, "queria que fosse online")
 **Princípio:** a Plenya faz os dois com a mesma profundidade. Acolha a preferência.
 - **WhatsApp:** "Os dois funcionam, e você escolhe. Presencial aqui em Londrina ou online por
   telemedicina, com a mesma profundidade clínica. Qual fica melhor para você?"
 - **Telefone:** "Pode ficar tranquilo, atendemos das duas formas, presencial em Londrina e online, com a
   mesma qualidade. Qual você prefere?"
 
-### Objeção 4: "Já tenho meu médico" / "Já faço check-up"
+### Objeção 5: "Já tenho meu médico" / "Já faço check-up"
 **Princípio:** a Plenya não substitui, articula. Posicione contra cuidado fragmentado, nunca contra o
 outro médico.
 - **WhatsApp:** "Que ótimo, e a ideia não é substituir ninguém. O Dr. Getúlio atua como um médico que
@@ -301,7 +308,7 @@ outro médico.
   O Dr. olha o conjunto, conduz no longo prazo e conversa com quem já te acompanha. E olha além do 'está
   normal', para o que ainda dá para melhorar. Faz sentido você conhecer?"
 
-### Objeção 5: "Meus exames deram normais, eu estou bem"
+### Objeção 6: "Meus exames deram normais, eu estou bem"
 **Princípio:** o conceito da janela silenciosa, sem assustar. Antecipar, não amedrontar.
 - **WhatsApp:** "Que bom que estão normais. E é justamente aí que entra o nosso olhar: normal não é a mesma
   coisa que ótimo. Existe um intervalo, às vezes de anos, entre um exame 'normal' e algo que muda a rota, e
@@ -310,7 +317,7 @@ outro médico.
   medicina que o Dr. pratica olha esse intervalo entre os dois, que é onde ainda dá para mudar a trajetória.
   Vale como uma avaliação preventiva. Posso ver uma data?"
 
-### Objeção 6: "Preciso pensar" / "Vou falar com meu marido/esposa"
+### Objeção 7: "Preciso pensar" / "Vou falar com meu marido/esposa"
 **Princípio:** respeite, não pressione, mas segure um próximo passo concreto.
 - **WhatsApp:** "Claro, é uma decisão sua e faz sentido conversar em casa. Posso fazer uma coisa: deixo um
   horário pré-reservado para [dia] e te retorno [dia/hora combinada] para confirmar. Se não for o momento,
@@ -318,18 +325,18 @@ outro médico.
 - **Telefone:** "Imagina, decisão de saúde a gente toma com calma mesmo. Que tal o seguinte: eu seguro uma
   data provisória e te ligo [dia], aí você já conversou e me diz. Combinamos assim?"
 
-### Objeção 7: "Qual a diferença de uma consulta comum?"
+### Objeção 8: "Qual a diferença de uma consulta comum?"
 **Princípio:** quatro diferenças concretas, sem floreio.
-- **WhatsApp:** "São quatro coisas, na prática: a consulta dura de 60 a 90 minutos, não quinze; o Dr.
+- **WhatsApp:** "São quatro coisas, na prática: a consulta dura cerca de 60 minutos, não quinze; o Dr.
   trabalha com um painel de exames mais amplo que o de rotina; quando o caso pede, existe uma equipe
   (nutrição, psicologia, educação física) que conversa entre si sobre o seu caso; e o seu progresso é
   acompanhado por uma medida própria, o Escore Plenya, que mostra a evolução no tempo. É um cuidado
   contínuo, não uma consulta avulsa."
-- **Telefone:** "Basicamente, a consulta é longa, de 60 a 90 minutos; o Dr. olha um painel de exames mais
+- **Telefone:** "Basicamente, a consulta é longa, cerca de 60 minutos; o Dr. olha um painel de exames mais
   completo; tem uma equipe que atua junto quando o caso pede; e o seu progresso é medido ao longo do tempo
   pelo nosso Escore. É outro tipo de acompanhamento."
 
-### Objeção 8: "Esse Continuum é muito tempo, muito compromisso"
+### Objeção 9: "Esse Continuum é muito tempo, muito compromisso"
 **Princípio:** separe consulta de programa. Tire a pressão.
 - **WhatsApp:** "Entendo, e fica tranquilo: o Continuum é um passo bem mais à frente, e só faz sentido para
   quem quer construir saúde ao longo de meses. O que estamos falando agora é só a consulta, que já resolve
@@ -337,7 +344,7 @@ outro médico.
 - **Telefone:** "Pode ficar à vontade. O Continuum é outra etapa, para quem decide acompanhar a longo
   prazo. Por ora é só a consulta, que já tem valor sozinha. Sem compromisso nenhum além disso."
 
-### Objeção 9: "Vou pesquisar e depois eu vejo"
+### Objeção 10: "Vou pesquisar e depois eu vejo"
 **Princípio:** não force; deixe a porta aberta com um próximo passo leve.
 - **WhatsApp:** "Perfeito, pesquise com calma. Vou deixar meu contato salvo aqui e, se quiser, te mando o
   link do nosso site para você conhecer o método e o Dr. Getúlio. Quando quiser marcar, é só me chamar
@@ -345,7 +352,7 @@ outro médico.
 - **Telefone:** "Claro, faça com calma. Posso te mandar por WhatsApp o nosso site, com a explicação do
   método e do Dr. Quando você quiser, me chama que eu já vejo a agenda. Pode ser?"
 
-### Objeção 10: "Estou sem tempo agora"
+### Objeção 11: "Estou sem tempo agora"
 **Princípio:** ofereça a telemedicina e horários flexíveis; agende mesmo que à frente.
 - **WhatsApp:** "Entendo a correria. Por isso a consulta online ajuda bastante, você faz de onde estiver,
   sem deslocamento. E posso ver um horário mais para frente que caiba melhor na sua semana. Quer que eu
@@ -353,14 +360,14 @@ outro médico.
 - **Telefone:** "Imagino. A gente tem o formato online justamente para isso, sem você precisar se deslocar.
   E consigo um horário um pouco mais à frente, se ajudar. Quer que eu veja?"
 
-### Objeção 11: "Não sou de Londrina"
+### Objeção 12: "Não sou de Londrina"
 **Princípio:** a telemedicina resolve. Trate como não-problema.
 - **WhatsApp:** "Sem problema nenhum. A consulta online tem a mesma profundidade da presencial, e atendemos
   pacientes de todo o Brasil por telemedicina. Você faz de onde estiver. Quer que eu veja uma data?"
 - **Telefone:** "Tranquilo, atendemos por telemedicina pacientes do Brasil inteiro, com a mesma qualidade da
   presencial. Você participa de onde estiver. Posso reservar um horário?"
 
-### Objeção 12: "Isso funciona mesmo? Cadê a prova?"
+### Objeção 13: "Isso funciona mesmo? Cadê a prova?"
 **Princípio:** credibilidade do médico e do método, sem prometer resultado (CFM).
 - **WhatsApp:** "Pergunta justa. O Dr. Getúlio é médico nefrologista com vinte anos de prática, coordena a
   residência de Nefrologia da Santa Casa de Londrina e é autor do livro 'Antes'. O cuidado segue um método
@@ -389,8 +396,8 @@ diz "acho que faz sentido". Quando ouvir isso, vá para o agendamento, não cont
 **Sempre confirme em voz alta / por escrito o combinado:** dia, hora, formato, valor e o que trazer
 (exames + medicamentos). A confirmação evita 80% dos mal-entendidos.
 
-**Pagamento:** informe o valor da consulta com naturalidade e a forma de pagamento aceita
-(`[preencher]`). Se houver sinal/antecipação, explique de forma simples, sem burocratizar.
+**Pagamento:** informe com naturalidade que a consulta custa R$ 800,00, valor único e não negociável, pago
+de forma antecipada (à vista, no Pix ou cartão) antes do início. O pagamento confirma o horário reservado.
 
 ---
 
@@ -446,14 +453,14 @@ Use para reconhecer o momento da pessoa e devolver com as palavras dela.
 **Clínica:** Plenya · (43) 99974-8899 · Av. Ayrton Senna da Silva, 500, Torre Pietra, sala 1402, Gleba
 Palhano, Londrina/PR · Seg a sex, 8h às 18h · plenyasaude.com.br · @plenyaSaude
 
-**Consulta:** particular, R$ `[preencher]` · 60 a 90 min · presencial (Londrina) ou online · sem convênio
+**Consulta:** particular, R$ 800,00 (à vista/Pix/cartão, antecipado, não negociável) · cerca de 60 min · presencial (Londrina) ou online · sem convênio
 (dedutível no IR) · trazer exames + lista de medicamentos.
 
-**3 diferenças em uma linha:** consulta longa (60 a 90 min), painel de exames ampliado lido entre o normal e
+**3 diferenças em uma linha:** consulta longa (cerca de 60 min), painel de exames ampliado lido entre o normal e
 o ótimo, e acompanhamento medido no tempo pelo Escore Plenya, com equipe integrada quando o caso pede.
 
 **Top 5 objeções (resposta de bolso):**
-1. *Tá caro* → "É uma avaliação completa de 60 a 90 min com conduta para o seu caso, não uma consulta
+1. *Tá caro* → "É uma avaliação completa de cerca de 60 min com conduta para o seu caso, não uma consulta
    rápida. Quer conhecer e decidir com calma?"
 2. *Não tem convênio?* → "É particular, e é dedutível no IR. Vejo uma data?"
 3. *Já tenho médico* → "Não substituímos, integramos. O Dr. conduz e conversa com quem já te acompanha."
@@ -490,5 +497,5 @@ Conteúdo derivado das fontes canônicas da Plenya. Ao atualizar, conferir contr
 - `apps/site/messages/pt.json` (seções `consultas`, `continuum`, `escore`, perfis "para quem é/não é").
 - `packages/brand/src/brand.ts` (tagline, claim, pilares AGIR, público, tom de voz).
 - `apps/site-getulio/messages/pt.json` e `docs/seo/01-NAP-master.md` (bio, credenciais, NAP).
-- `docs/continuum/plano-aquisicao-marketing.md` (funil, consulta como porta de entrada, abatimento).
+- `docs/continuum/plano-aquisicao-marketing.md` (funil, consulta como porta de entrada).
 - `scripts/deck-builder/continuum/EDITORIAL.md` (arco comercial, regras de voz, "para quem não é").
