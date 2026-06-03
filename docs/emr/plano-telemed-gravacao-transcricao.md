@@ -1,12 +1,13 @@
 # Plano — Gravação + Transcrição da Teleconsulta (Daily.co + Deepgram nova-3)
 
-> **Status:** IMPLEMENTADO + QA em dev (2026-06-02). Backend completo (model 00012,
-> webhook HMAC, service, endpoints), frontend (bloco "Gravação e transcrição" no card de
-> teleconsulta), testes unitários (VTT parser + HMAC) verdes, e2e do webhook verificado
-> (recording.ready + transcript.ready → upsert + DTO, idempotente, degradação grácil sem
-> DAILY_CO_API_KEY). **Falta só o setup out-of-band em prod** (ver no fim): habilitar
-> gravação/transcrição no plano/domínio Daily, registrar o webhook (`cmd/daily-webhook`) e
-> pôr `DAILY_CO_WEBHOOK_SECRET` no Coolify. Decisões do
+> **Status:** ✅ NO AR EM PROD + VERIFICADO (2026-06-02). Backend (model 00012, webhook HMAC,
+> service, endpoints), frontend (bloco "Gravação e transcrição" no card de teleconsulta),
+> testes unitários verdes, e2e do webhook verificado. **Setup de prod concluído:** conta Daily
+> com recording+transcrição+nova-3 confirmados; webhook registrado (ACTIVE, uuid
+> `0c42b5d6-7cf1-446b-a1da-328b0844e8bb`); `DAILY_CO_WEBHOOK_SECRET` no Coolify + redeploy do api;
+> POST sem assinatura passou de 503→401 (HMAC enforced), smoke 200, goose v12. **Pendente só
+> compliance:** DPA/BAA Daily+Deepgram + registro no RIPD (cláusula de transferência internacional
+> já no termo). Decisões do
 > usuário (Getúlio):
 > - **Gravação:** "referência + link sob demanda" — o MP4 fica no storage gerenciado do Daily;
 >   guardamos só metadados e geramos link assinado de download quando preciso (auditado). NÃO
