@@ -140,19 +140,22 @@ da sede e indicar **Diretor Técnico médico**. Acionar com o Getúlio.
   graciosa** p/ assinatura manual, publicação como `PatientDocument`, CID com consentimento.
 - `medication_definition.go` — catálogo com flags `RequiresDigitalSignature/RequiresSNCR/...`.
 
-### Ressalvas / lacunas (priorizadas)
-1. **Controlado não é válido:** `SNCRProductionProvider` é TODO; stub gera número fake
-   `BR-STUB-{ano}-{seq}`. **Não usar para controlado em produção.** Sem modelos de Notificação A/B,
-   sem Receita de Controle Especial em 2 vias, sem identificação do comprador.
-2. **Só A1 em arquivo:** sem nuvem/PSC/HSM, sem A3/PKCS#11. Verificação de cadeia por string-match de
-   issuer, não validação criptográfica contra a AC-Raiz.
-3. **`VerifySignature()` é stub (`return true`):** validação pública só re-hasheia o PDF; não valida
-   a assinatura PAdES/cadeia. Validação "oficial" depende do ITI externo.
-4. **Sem carimbo de tempo** (RFC 3161 / PAdES-T/LTV).
-5. **PDF de prescrição servido por `/uploads` estático** (não como `PatientDocument` autenticado),
-   diferente do `IssuedDocument` — risco LGPD + divergência de fluxo de entrega.
-6. **`SignAndGenerate` não checa cert ativo antes de assinar** (sem a degradação graciosa do
-   `IssuedDocument`). Sem validação de posologia/quantidade/duração por categoria controlada.
+### Estado das ressalvas (atualizado 2026-06-03 — commits `30e0ef9e`, `0ef5ce98`)
+1. **Controlado:** ✅ RESOLVIDO — controlado (C1/C5) gera receita **manual** (imprimir, carimbar,
+   assinar à mão); o stub deixou de fabricar número (`BR-STUB`); `SNCR_ENABLED=false` por default.
+   PENDENTE: integração real ao SNCR + modelos de Notificação de Receita A/B e Controle Especial em
+   2 vias (ver §5b, alvo 30/09/2026).
+2. **Assinatura em nuvem:** ✅ e-CPF em nuvem implementado (PSC/broker, gated off por `ICP_CLOUD_ENABLED`).
+   PENDENTE: **A3/token (PKCS#11)** não suportado; verificação de cadeia ICP-Brasil ainda por
+   **string-match de issuer**, não validação criptográfica contra a AC-Raiz.
+3. **`VerifySignature()`:** ✅ RESOLVIDO — verificação real via `pdfsign/verify` (integridade
+   criptográfica + signatário), usada no validador público da prescrição.
+4. **Carimbo de tempo:** ✅ suporte a PAdES-T (RFC 3161) opcional via `ICP_TSA_URL` (config-gated;
+   sem ACT configurada continua AD-RB, válido). LTV (AD-RA) fica para depois.
+5. **Entrega do PDF:** ✅ RESOLVIDO — prescrição publicada como `PatientDocument` e baixada por
+   **endpoint autenticado** (`GET /prescriptions/:id/download`); fim do `/uploads` estático.
+6. **`SignAndGenerate`:** ✅ RESOLVIDO — degradação graciosa (sem certificado ativo → modo manual).
+   PENDENTE: validação fina de posologia/quantidade/duração máxima por categoria controlada.
 
 ### Arquivos-chave
 `signature_service.go`, `certificate_service.go`, `models/user.go:119-142`, `sncr_service.go`,
@@ -164,17 +167,38 @@ da sede e indicar **Diretor Técnico médico**. Acionar com o Getúlio.
 
 ## 5. Roadmap recomendado (substitui "Memed/CFM" do P3)
 
-1. **Imediato (clínico):** liberar para uso **só receita comum + atestado/laudo** (já válidos), com o
-   médico tendo subido um **certificado ICP-Brasil real**. **Bloquear/avisar** que controlado sai por
-   talonário físico (o número SNCR atual é fake).
-2. **Hardening de assinatura:** carimbo de tempo (AD-RT), `VerifySignature` real (validar cadeia +
-   integridade), servir prescrição como `PatientDocument` autenticado, checar cert ativo no
-   `SignAndGenerate` com degradação graciosa.
-3. **e-CPF em nuvem:** plugar PSC/broker (Certillion ou IntegraICP) no `certificate_service` /
-   `signature_service` para assinatura server-side com confirmação do médico. Remove o atrito do A1.
-4. **Compliance de plataforma:** inscrição no CRM + Diretor Técnico (CFM 2.299/2021 art. 5º).
-5. **Controlados via SNCR (alvo 30/09/2026):** implementar `SNCRProductionProvider` real contra a API
-   da Anvisa quando a doc sair (jun/2026); modelar Notificação de Receita e Controle Especial.
+1. ✅ **Imediato (clínico):** receita comum + atestado/laudo já válidos; controlado sai por
+   impressão/assinatura manual (sem número SNCR fictício).
+2. ✅ **Hardening de assinatura:** carimbo de tempo (PAdES-T opcional), `VerifySignature` real,
+   prescrição servida como `PatientDocument` autenticado, degradação graciosa no `SignAndGenerate`.
+3. ✅ **e-CPF em nuvem:** abstração de PSC/broker (Certillion/IntegraICP) plugada no
+   `certificate_service`/`signature_service`; gated off por `ICP_CLOUD_ENABLED` até haver credencial.
+4. ⏳ **Compliance de plataforma:** inscrição no CRM + Diretor Técnico (CFM 2.299/2021 art. 5º). [PENDENTE]
+5. ⏳ **Controlados via SNCR (alvo 30/09/2026):** implementar `SNCRProductionProvider` real contra a
+   API da Anvisa quando a doc sair; modelar Notificação de Receita e Controle Especial. [PENDENTE — §5b]
+
+## 5c. Pendências (o que falta — não bloqueante para o uso atual)
+
+> Consolidação das pendências em aberto após as entregas de 2026-06-03. Nenhuma impede o uso clínico
+> de receita comum, atestado e laudo (já válidos), nem a receita controlada por via física.
+
+**Externas / compliance (dependem de ação humana, lentas):**
+- **Inscrição da Plenya no CRM + Diretor Técnico médico** — exigência do art. 5º da Res. CFM 2.299/2021
+  para operar uma plataforma de prescrição. Acionar com o Getúlio.
+- **AFE + acesso gov.br ao SNCR** — pré-requisito para a integração de controlados (ver §5b).
+- **Credencial/contrato de PSC** (VIDaaS/BirdID/SafeID via Certillion ou IntegraICP) para ligar o
+  e-CPF em nuvem (`ICP_CLOUD_ENABLED=true`); confirmar caminhos/payloads REST na doc do PSC.
+
+**Técnicas (código, quando houver demanda):**
+- **A3 / token (PKCS#11)** — não suportado; hoje só A1 em arquivo ou nuvem. Avaliar só se algum médico
+  usar token físico.
+- **Validação criptográfica da cadeia ICP-Brasil** — hoje o reconhecimento do emissor é por
+  string-match (lista de ACs); o ideal é validar a cadeia até a AC-Raiz da ICP-Brasil. A validação de
+  confiança/revogação oficial para terceiros continua sendo o validador do ITI.
+- **LTV (PAdES-A / AD-RA)** — embutir dados de revogação (OCSP/LCR) para verificabilidade de longo prazo
+  além do carimbo de tempo; recomendável sobretudo para controlados.
+- **Integração SNCR + Notificação de Receita A/B + Controle Especial em 2 vias** — quando a API abrir
+  (§5b); inclui validação fina de posologia/quantidade/duração máxima por categoria controlada.
 
 ## 5b. Plano de retomada — integração ao SNCR (quando a Anvisa abrir a API)
 
@@ -183,7 +207,7 @@ da sede e indicar **Diretor Técnico médico**. Acionar com o Getúlio.
 > plataformas de prescrição começa em **junho/2026**; obrigatoriedade em **30/09/2026**). Hoje
 > (jun/2026) a API de integração para emissores **ainda não foi publicada** e o acesso será
 > **vinculado à AFE** + login gov.br (posicionamento Anvisa 13/05/2026). Por isso a receita de
-> controlado, por ora, é **impressa, carimbada e assinada à mão** (ver §6 do estado do código).
+> controlado, por ora, é **impressa, carimbada e assinada à mão** (ver §4, estado do código).
 
 **Pré-requisitos que travam, resolver em paralelo (são lentos):**
 1. **AFE / acesso gov.br ao SNCR** para a Plenya como serviço de prescrição (confirmar qual o
