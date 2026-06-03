@@ -88,11 +88,13 @@ A mesma espinha vale para WhatsApp e telefone. As etapas não são um interrogat
 4. PLANTAR CONTINUUM  Mencionar de leve que existe um acompanhamento maior, sem fechar.
 5. OBJEÇÕES           Acolher a dúvida, responder com clareza, voltar ao próximo passo.
 6. AGENDAMENTO        Marcar dia, formato e coletar os dados. Confirmar o combinado.
-7. PÓS                Confirmar com antecedência, lembrar, preparar a consulta.
+7. PREPARAÇÃO         Após pago: enviar exames anteriores e o formulário, para otimizar a consulta.
+8. PÓS                Confirmar com antecedência, lembrar, prevenir falta.
 ```
 
 Regra de ouro do fluxo: **você só fala de valor (etapa 3) depois de ter escutado (etapa 2).** Quem pula a
-descoberta vende no escuro.
+descoberta vende no escuro. E a preparação (etapa 7) só começa **depois de agendar e pagar**, nunca antes:
+exame e formulário jamais são condição para marcar.
 
 ---
 
@@ -401,7 +403,75 @@ de forma antecipada (à vista, no Pix ou cartão) antes do início. O pagamento 
 
 ---
 
-## 7. Anti-falta (no-show) e follow-up
+## 7. Preparação da consulta (após agendar e pagar)
+
+Depois que a consulta está marcada e paga, começa a preparação. Ela existe para o paciente chegar com o
+quadro completo e o tempo dele render. **Nada disso é condição para marcar:** é um cuidado que vem depois,
+e é apresentado como vantagem, não como tarefa.
+
+> Fluxo completo (operacional e plano de build) em [`fluxo-pre-consulta.md`](fluxo-pre-consulta.md).
+> Esta seção é só a parte que a recepção fala.
+
+**Regra de tempo:** o envio de exames antigos vale sempre. O loop de exames complementares (o Dr. olhar
+antes e pedir o que falta para já trazer) só fecha se a consulta for em **7 dias ou mais**, porque exame de
+laboratório leva alguns dias. Se a consulta for antes disso, peça só os exames que o paciente já tem; os
+novos o Dr. pede na própria consulta.
+
+> **LGPD:** sempre peça o consentimento do paciente antes de ele enviar qualquer exame. A recepção apenas
+> recebe e organiza os arquivos, **não interpreta nem comenta resultado**. Leitura de exame é com o médico.
+
+### 7.1 Pedir os exames anteriores (dois canais)
+
+O paciente escolhe o canal mais confortável: pelo portal (link que você envia) ou aqui pelo WhatsApp.
+
+**WhatsApp:**
+```
+[nome], para a sua consulta render bem, o Dr. Getúlio gosta de olhar seus exames antes.
+Se você tiver exames recentes (sangue, imagem, laudos), pode me enviar por aqui ou pelo seu portal,
+que eu organizo no seu prontuário. Tudo confidencial. Posso te enviar agora?
+```
+Após o "sim":
+```
+Pode mandar em PDF ou foto, no seu tempo. Se preferir, te envio o link do seu portal para subir por lá.
+```
+
+**Telefone:**
+> "Uma coisa que ajuda bastante: o Dr. Getúlio gosta de olhar seus exames antes da consulta. Se você tiver
+> exames recentes, pode enviar pelo WhatsApp ou pelo seu portal, que a gente organiza no seu prontuário,
+> tudo confidencial. Prefere que eu te mande o link do portal ou por WhatsApp mesmo?"
+
+### 7.2 Explicar o pedido de exames complementares
+
+Quando o Dr. analisa os exames enviados e pede exames novos para o paciente já trazer:
+```
+[nome], o Dr. Getúlio deu uma olhada nos seus exames e separou alguns complementares para você fazer
+antes da consulta. Assim ele já constrói a conduta no dia, sem você precisar voltar depois.
+Vou te enviar o pedido. Você faz no laboratório de sua preferência e, quando sair, me manda o resultado.
+```
+> Se a consulta estiver muito próxima e não der tempo do exame ficar pronto, não force. Combine que o
+> paciente leva o que tem, e o Dr. pede o resto na consulta.
+
+### 7.3 Enviar o formulário de preparação
+
+Um formulário curto (cerca de 5 a 8 minutos) que o paciente preenche antes, com história e dados
+relevantes, para o Dr. já chegar preparado.
+```
+[nome], para adiantar, preparei um formulário rápido, leva uns 5 minutos.
+São perguntas sobre sua saúde, rotina e histórico, para o Dr. já conhecer seu quadro antes da consulta.
+Quanto mais ele souber antes, melhor a gente aproveita o tempo de vocês no dia. Aqui está: [link]
+```
+*Lembrete, se não preencher (1 a 2 dias antes):*
+```
+Oi, [nome]. Se puder preencher aquele formulário rápido antes da sua consulta, ajuda bastante o Dr. a
+se preparar. Leva uns 5 minutos: [link]. Qualquer dúvida, estou por aqui.
+```
+
+> **Não pergunte o conteúdo clínico você mesma por mensagem** (sintomas, diagnósticos, resultados). O
+> formulário e o portal são o lugar disso, com consentimento. A recepção envia o link, não faz a anamnese.
+
+---
+
+## 8. Anti-falta (no-show) e follow-up
 
 **Cadência de confirmação:**
 - No ato: mensagem de confirmação com dia, hora, formato e endereço (ou aviso de que o link virá no dia).
@@ -420,7 +490,7 @@ Se não responder, registre e não insista. Pressão queima o contato para o fut
 
 ---
 
-## 8. Qualificação: os 6 perfis (e para quem não é)
+## 9. Qualificação: os 6 perfis (e para quem não é)
 
 Use para reconhecer o momento da pessoa e devolver com as palavras dela.
 
@@ -446,7 +516,7 @@ Use para reconhecer o momento da pessoa e devolver com as palavras dela.
 
 ---
 
-## 9. Cartão de referência rápida
+## 10. Cartão de referência rápida
 
 > Para deixar ao lado do telefone.
 
@@ -471,7 +541,7 @@ o ótimo, e acompanhamento medido no tempo pelo Escore Plenya, com equipe integr
 
 ---
 
-## 10. Guardrails (o que nunca fazer)
+## 11. Guardrails (o que nunca fazer)
 
 - **Não diagnosticar nem prometer.** A recepção não dá orientação clínica, não interpreta exame, não promete
   cura nem resultado. Isso é do médico, na consulta (CFM).
@@ -480,8 +550,10 @@ o ótimo, e acompanhamento medido no tempo pelo Escore Plenya, com equipe integr
 - **Não usar o termo "medicina preditiva".** A linguagem da casa é prevenção, antecipação, longevidade.
 - **Não citar marcas, produtos ou lojas** (wearables, suplementos, varejistas). Fale por categoria, nunca
   por marca.
-- **Não pedir dados clínicos sensíveis por mensagem** (sintomas detalhados, resultados de exame,
-  diagnósticos). Pergunte só o contexto geral. O histórico é levantado na consulta (LGPD).
+- **Não perguntar nem interpretar dados clínicos** (sintomas detalhados, resultados de exame,
+  diagnósticos). Na conversa de venda, pergunte só o contexto geral. O histórico estruturado é levantado
+  pelo formulário/portal (com consentimento) e pelo médico na consulta. Receber e organizar exames que o
+  paciente envia depois de agendar é permitido e faz parte da preparação (seção 7); interpretar, não (LGPD/CFM).
 - **Não posicionar contra "médico mais barato".** A comparação certa é com cuidado fragmentado, nunca com
   preço de concorrente.
 - **Não pressionar.** Sem urgência forçada, sem insistência depois do não. O público da Plenya recua quando
