@@ -5,7 +5,6 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"os"
 	"strconv"
 	"time"
 
@@ -309,6 +308,38 @@ func (h *PrescriptionHandler) SignAndGenerate(c *fiber.Ctx) error {
 	})
 }
 
+// Download godoc
+// @Summary Download autenticado do PDF da prescrição
+// @Description Entrega o PDF da prescrição via PatientDocument (substitui o /uploads estático).
+// @Tags Prescriptions
+// @Produce application/pdf
+// @Param id path string true "Prescription UUID"
+// @Security BearerAuth
+// @Success 200 {file} file
+// @Failure 404 {object} dto.ErrorResponse
+// @Router /prescriptions/{id}/download [get]
+func (h *PrescriptionHandler) Download(c *fiber.Ctx) error {
+	prescriptionID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid prescription id",
+			Message: "prescription id must be a valid UUID",
+		})
+	}
+
+	full, fileName, contentType, err := h.prescriptionPDFService.GetForDownload(prescriptionID)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+			Error:   "pdf indisponível",
+			Message: err.Error(),
+		})
+	}
+
+	c.Set("Content-Type", contentType)
+	c.Set("Content-Disposition", `inline; filename="`+fileName+`"`)
+	return c.SendFile(full)
+}
+
 // ValidatePublic godoc
 // @Summary Validate prescription (public - no auth)
 // @Description Public endpoint for validating prescription authenticity via QR code
@@ -353,7 +384,7 @@ func (h *PrescriptionHandler) ValidatePublic(c *fiber.Ctx) error {
 	pdfIntact := true
 	var sigVerification *services.SignatureVerification
 	if prescription.SignedPDFPath != nil && prescription.SignedPDFHash != nil {
-		pdfBytes, readErr := os.ReadFile(*prescription.SignedPDFPath)
+		pdfBytes, readErr := h.prescriptionPDFService.ReadSignedPDF(&prescription)
 		if readErr == nil {
 			currentHash := sha256.Sum256(pdfBytes)
 			if hex.EncodeToString(currentHash[:]) != *prescription.SignedPDFHash {
@@ -412,8 +443,10 @@ func (h *PrescriptionHandler) ValidatePublic(c *fiber.Ctx) error {
 			"mode":              sigMode,
 			"signedAt":          prescription.SignedAt,
 			"certificateSerial": prescription.CertificateSerial,
-			"signedPdfUrl":      prescription.SignedPDFPath,
-			"verification":      sigVerification,
+			// Não expõe URL do PDF no validador público (download é autenticado, evita
+			// vazar o PDF do paciente sem auth). A validação confere autenticidade, não baixa.
+			"signedPdfUrl": nil,
+			"verification": sigVerification,
 		},
 	})
 }

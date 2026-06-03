@@ -11,11 +11,12 @@ import (
 type PatientDocumentType string
 
 const (
-	DocumentTypeCertificate PatientDocumentType = "certificate" // atestado
-	DocumentTypeReport      PatientDocumentType = "report"      // relatório
-	DocumentTypeReferral    PatientDocumentType = "referral"    // encaminhamento
-	DocumentTypeDeclaration PatientDocumentType = "declaration" // declaração
-	DocumentTypeOther       PatientDocumentType = "other"
+	DocumentTypeCertificate  PatientDocumentType = "certificate"  // atestado
+	DocumentTypeReport       PatientDocumentType = "report"       // relatório
+	DocumentTypeReferral     PatientDocumentType = "referral"     // encaminhamento
+	DocumentTypeDeclaration  PatientDocumentType = "declaration"  // declaração
+	DocumentTypePrescription PatientDocumentType = "prescription" // receita médica
+	DocumentTypeOther        PatientDocumentType = "other"
 )
 
 // PatientDocumentSource indica a origem do documento (auditoria).
@@ -49,7 +50,7 @@ type PatientDocument struct {
 	// então uploads manuais sem origem não conflitam).
 	OriginWAMessageID *string `gorm:"type:varchar(120);uniqueIndex:uq_patient_documents_wa_msg" json:"-"`
 
-	Type        PatientDocumentType `gorm:"type:varchar(30);not null;check:type IN ('certificate','report','referral','declaration','other')" json:"type"`
+	Type        PatientDocumentType `gorm:"type:varchar(30);not null;check:type IN ('certificate','report','referral','declaration','other','prescription')" json:"type"`
 	Title       string              `gorm:"type:varchar(200);not null" json:"title"`
 	Description string              `gorm:"type:text" json:"description"`
 

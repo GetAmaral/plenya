@@ -32,6 +32,8 @@ import {
   updatePrescription,
   createPrescription,
   signPrescription,
+  openPrescriptionPdf,
+  type SignPrescriptionResponse,
 } from '@/lib/api/prescriptions'
 import { numberToWordsWithUnit } from '@/lib/utils/number-to-words'
 import { MedicationSearch } from '@/components/prescriptions/MedicationSearch'
@@ -76,7 +78,8 @@ export default function EditPrescriptionPage() {
   const queryClient = useQueryClient()
   const formRef = useRef<HTMLFormElement>(null)
   const prescriptionId = params.id as string
-  const [signedPdfUrl, setSignedPdfUrl] = useState<string | null>(null)
+  const [signedPrescriptionId, setSignedPrescriptionId] = useState<string | null>(null)
+  const [signResult, setSignResult] = useState<SignPrescriptionResponse | null>(null)
 
   // OBRIGATÓRIO: Verificar paciente selecionado
   const { selectedPatient, isLoading: loadingPatient } = useRequireSelectedPatient()
@@ -177,13 +180,21 @@ export default function EditPrescriptionPage() {
     mutationFn: async () => {
       return signPrescription(prescriptionId)
     },
-    onSuccess: (signResult) => {
-      setSignedPdfUrl(signResult.signedPdfUrl)
-      toast.success('Prescrição assinada com sucesso!', {
-        description: signResult.sncrNumber
-          ? `SNCR: ${signResult.sncrNumber}`
-          : 'PDF assinado digitalmente com certificado ICP-Brasil',
-      })
+    onSuccess: (result) => {
+      setSignedPrescriptionId(prescriptionId)
+      setSignResult(result)
+      toast.success(
+        result.signatureMode === 'manual'
+          ? 'Receita gerada para impressão'
+          : 'Prescrição assinada com sucesso!',
+        {
+          description:
+            result.message ||
+            (result.sncrNumber
+              ? `SNCR: ${result.sncrNumber}`
+              : 'PDF assinado digitalmente com certificado ICP-Brasil'),
+        }
+      )
       queryClient.invalidateQueries({ queryKey: ['prescriptions'] })
       queryClient.invalidateQueries({ queryKey: ['prescription', prescriptionId] })
     },
@@ -306,34 +317,48 @@ export default function EditPrescriptionPage() {
     )
   }
 
-  // Se prescrição já foi assinada, mostrar view somente leitura
+  // Se prescrição já foi gerada, mostrar view somente leitura
   const isSigned = !!prescription.signedPdfPath
 
-  // Se acabou de assinar, mostrar resultado
-  if (signedPdfUrl) {
+  // Se acabou de gerar, mostrar resultado
+  if (signedPrescriptionId) {
+    const isManual = signResult?.signatureMode === 'manual'
     return (
       <div className="container mx-auto py-8 max-w-3xl">
         <SelectedPatientHeader />
 
         <Alert className="border-green-500 bg-green-50 dark:bg-green-950 mb-6">
           <FileCheck className="h-4 w-4 text-green-600" />
-          <AlertTitle className="text-green-600">Prescrição Assinada com Sucesso!</AlertTitle>
+          <AlertTitle className="text-green-600">
+            {isManual ? 'Receita Gerada para Impressão' : 'Prescrição Assinada com Sucesso!'}
+          </AlertTitle>
           <AlertDescription className="text-green-600">
-            A prescrição foi assinada digitalmente e está pronta para download.
+            {isManual
+              ? 'Imprima, carimbe e assine à mão. Receita de medicamento controlado segue o receituário físico.'
+              : 'A prescrição foi assinada digitalmente e está pronta para download.'}
           </AlertDescription>
         </Alert>
 
         <Card>
           <CardHeader>
-            <CardTitle>PDF Assinado Digitalmente</CardTitle>
+            <CardTitle>{isManual ? 'Receita para Impressão' : 'PDF Assinado Digitalmente'}</CardTitle>
             <CardDescription>
-              Prescrição com assinatura ICP-Brasil e QR Code de validação.
+              {isManual
+                ? 'Documento para assinatura e carimbo do médico (sem assinatura digital).'
+                : 'Prescrição com assinatura ICP-Brasil e QR Code de validação.'}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-4">
-              <Button onClick={() => window.open(signedPdfUrl, '_blank')} className="flex-1">
-                Baixar PDF Assinado
+              <Button
+                onClick={() =>
+                  openPrescriptionPdf(signedPrescriptionId).catch((e) =>
+                    toast.error(e?.message ?? 'Falha ao baixar o PDF')
+                  )
+                }
+                className="flex-1"
+              >
+                {isManual ? 'Baixar para Imprimir' : 'Baixar PDF Assinado'}
               </Button>
               <Button variant="outline" onClick={() => router.push('/prescriptions')}>
                 Ver Todas Prescrições
@@ -443,14 +468,18 @@ export default function EditPrescriptionPage() {
             )}
 
             <div className="flex gap-3 pt-4">
-              {prescription.signedPdfPath && (
+              {isSigned && (
                 <Button
                   variant="outline"
-                  onClick={() => window.open(prescription.signedPdfPath!, '_blank')}
+                  onClick={() =>
+                    openPrescriptionPdf(prescription.id).catch((e) =>
+                      toast.error(e?.message ?? 'Falha ao baixar o PDF')
+                    )
+                  }
                   className="flex-1"
                 >
                   <FileCheck className="mr-2 h-4 w-4" />
-                  Baixar PDF Assinado
+                  Baixar PDF
                 </Button>
               )}
               <Button

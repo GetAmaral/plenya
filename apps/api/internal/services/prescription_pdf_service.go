@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"os"
-	"path/filepath"
 	"time"
 
 	gofpdf "codeberg.org/go-pdf/fpdf"
@@ -21,6 +21,7 @@ type PrescriptionPDFService struct {
 	db               *gorm.DB
 	signatureService *SignatureService
 	sncrService      *SNCRService
+	documents        *PatientDocumentsService
 	uploadsPath      string
 }
 
@@ -28,12 +29,14 @@ func NewPrescriptionPDFService(
 	db *gorm.DB,
 	signatureService *SignatureService,
 	sncrService *SNCRService,
+	documents *PatientDocumentsService,
 	uploadsPath string,
 ) *PrescriptionPDFService {
 	return &PrescriptionPDFService{
 		db:               db,
 		signatureService: signatureService,
 		sncrService:      sncrService,
+		documents:        documents,
 		uploadsPath:      uploadsPath,
 	}
 }
@@ -113,20 +116,29 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 		}
 	}
 
-	// 5. Salvar PDF
-	prescriptionsDir := filepath.Join(s.uploadsPath, "prescriptions")
-	os.MkdirAll(prescriptionsDir, 0755)
-
-	filename := fmt.Sprintf("prescription_%s_signed.pdf", prescriptionID)
-	pdfPath := filepath.Join(prescriptionsDir, filename)
-
-	if err := os.WriteFile(pdfPath, finalPDF, 0644); err != nil {
-		return "", fmt.Errorf("erro ao salvar PDF: %v", err)
+	// 5. Publicar como PatientDocument (download autenticado; o /uploads estático foi removido
+	//    porque vazava PDFs sem auth). Re-assinatura substitui o documento anterior.
+	now := time.Now()
+	if prescription.PatientDocumentID != nil {
+		_ = s.documents.Delete(*prescription.PatientDocumentID)
+	}
+	uploadedBy := prescription.DoctorID
+	patientDoc, err := s.documents.CreateFromBytes(CreateFromBytesInput{
+		PatientID:  prescription.PatientID,
+		Bytes:      finalPDF,
+		Filename:   fmt.Sprintf("receita_%s.pdf", prescriptionID),
+		Title:      "Receita médica - " + now.Format("02/01/2006"),
+		Type:       models.DocumentTypePrescription,
+		Source:     models.DocumentSourceStaffUpload,
+		UploadedBy: &uploadedBy,
+	})
+	if err != nil {
+		return "", fmt.Errorf("erro ao publicar prescrição: %v", err)
 	}
 
 	// 6. Atualizar prescrição com metadados
-	now := time.Now()
-	prescription.SignedPDFPath = &pdfPath
+	prescription.PatientDocumentID = &patientDoc.ID
+	prescription.SignedPDFPath = &patientDoc.FilePath // relativo ao uploadsPath
 	prescription.SignedPDFHash = &signatureHash
 	prescription.SignedAt = &now
 	prescription.SignatureMode = &mode
@@ -144,7 +156,40 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 		return "", fmt.Errorf("erro ao atualizar prescrição: %v", err)
 	}
 
-	return fmt.Sprintf("/uploads/prescriptions/%s", filename), nil
+	// URL de download autenticado (a web baixa via fetch+blob com o Bearer token).
+	return fmt.Sprintf("/api/v1/prescriptions/%s/download", prescriptionID), nil
+}
+
+// GetForDownload resolve o PDF da prescrição (via PatientDocument) para download autenticado.
+func (s *PrescriptionPDFService) GetForDownload(prescriptionID uuid.UUID) (fullPath, fileName, contentType string, err error) {
+	var p models.Prescription
+	if e := s.db.First(&p, prescriptionID).Error; e != nil {
+		return "", "", "", e
+	}
+	if p.PatientDocumentID == nil {
+		return "", "", "", errors.New("prescrição ainda não gerada/assinada")
+	}
+	pdoc, full, e := s.documents.GetForDownload(p.PatientID, *p.PatientDocumentID)
+	if e != nil {
+		return "", "", "", e
+	}
+	return full, pdoc.FileName, pdoc.ContentType, nil
+}
+
+// ReadSignedPDF lê os bytes do PDF assinado (para validação pública por hash/assinatura).
+// Prefere o PatientDocument; cai pro caminho legado (absoluto) em prescrições antigas.
+func (s *PrescriptionPDFService) ReadSignedPDF(p *models.Prescription) ([]byte, error) {
+	if p.PatientDocumentID != nil {
+		_, full, err := s.documents.GetForDownload(p.PatientID, *p.PatientDocumentID)
+		if err != nil {
+			return nil, err
+		}
+		return os.ReadFile(full)
+	}
+	if p.SignedPDFPath == nil {
+		return nil, errors.New("sem PDF assinado")
+	}
+	return os.ReadFile(*p.SignedPDFPath)
 }
 
 // prescriptionHasControlled indica se há medicamento de controle especial (C1/C5).

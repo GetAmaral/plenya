@@ -328,10 +328,12 @@ func setupRoutes(
 		APIKey:         cfg.SNCR.APIKey,
 	}
 	sncrService := services.NewSNCRService(sncrConfig, database.DB)
+	patientDocumentsService := services.NewPatientDocumentsService(database.DB, "/app/uploads")
 	prescriptionPDFService := services.NewPrescriptionPDFService(
 		database.DB,
 		signatureService,
 		sncrService,
+		patientDocumentsService,
 		"/app/uploads",
 	)
 	// TODO: labRequestPDFService will be integrated later for signed lab requests
@@ -403,7 +405,7 @@ func setupRoutes(
 	patientLabsService := services.NewPatientLabsService(database.DB)
 	patientScoresService := services.NewPatientScoresService(database.DB)
 	patientProfileService := services.NewPatientProfileService(database.DB)
-	patientDocumentsService := services.NewPatientDocumentsService(database.DB, "/app/uploads")
+	// patientDocumentsService criado acima (junto com os serviços de prescrição).
 	whatsappMediaService := services.NewWhatsAppMediaService("/app/uploads")
 	// WhatsApp Fase 2: roteia mídia inbound (arquivo de paciente → prontuário;
 	// áudio/lead → bucket cifrado da conversa).
@@ -846,6 +848,7 @@ func setupRoutes(
 	prescriptions.Put("/:id", prescriptionHandler.Update)
 	prescriptions.Delete("/:id", prescriptionHandler.Delete)
 	prescriptions.Post("/:id/sign", middleware.RequireDoctor(), prescriptionHandler.SignAndGenerate)
+	prescriptions.Get("/:id/download", prescriptionHandler.Download)
 
 	// Documentos clínicos emitidos (P3 frente 2): atestado/declaração/laudo assináveis.
 	// Emitir/assinar é ato médico → RequireDoctor. Leitura/download = qualquer staff. Writes auditados.

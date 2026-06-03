@@ -1,5 +1,8 @@
 import { apiClient } from '../api-client'
+import { useAuthStore } from '../auth-store'
 import type { components } from '@plenya/types'
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
 // Types from OpenAPI schema
 export type Prescription = components['schemas']['models.Prescription']
@@ -46,6 +49,8 @@ export interface PrescriptionListResponse {
 
 export interface SignPrescriptionResponse {
   signedPdfUrl: string
+  signatureMode?: 'digital' | 'manual'
+  message?: string
   sncrNumber?: string
 }
 
@@ -155,4 +160,29 @@ export async function validatePublic(id: string): Promise<ValidationResult> {
     `/prescriptions/validate/${id}`
   )
   return response.data
+}
+
+/**
+ * URL do download autenticado do PDF da prescrição.
+ * O servir estático de /uploads foi removido (vazava PDFs sem auth); o PDF agora é
+ * entregue como PatientDocument por endpoint autenticado.
+ */
+export function prescriptionDownloadURL(id: string): string {
+  return `${API_URL}/api/v1/prescriptions/${id}/download`
+}
+
+/**
+ * Baixa o PDF da prescrição com o token (Bearer) e abre numa nova aba.
+ * window.open direto não funciona porque o endpoint exige autenticação.
+ */
+export async function openPrescriptionPdf(id: string): Promise<void> {
+  const token = useAuthStore.getState().accessToken
+  const res = await fetch(prescriptionDownloadURL(id), {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  })
+  if (!res.ok) throw new Error('Não foi possível baixar o PDF da prescrição')
+  const blob = await res.blob()
+  const url = URL.createObjectURL(blob)
+  window.open(url, '_blank')
+  setTimeout(() => URL.revokeObjectURL(url), 60_000)
 }

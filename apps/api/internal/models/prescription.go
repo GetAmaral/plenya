@@ -87,6 +87,9 @@ type Prescription struct {
 	// @enum digital,manual
 	SignatureMode *string `gorm:"type:varchar(20)" json:"signatureMode,omitempty"`
 
+	// PatientDocument que entrega o PDF por download autenticado (substitui /uploads estático).
+	PatientDocumentID *uuid.UUID `gorm:"type:uuid;index" json:"patientDocumentId,omitempty"`
+
 	// Status e Controle
 
 	// Status da prescrição
