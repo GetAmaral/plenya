@@ -1,11 +1,13 @@
 # Termo de Consentimento — Telemedicina (CFM 2.314/2022)
 
-> **Status:** VALIDADO e IMPLANTADO (2026-06-02). Decisões do Getúlio: **gravação incluída**
-> (cláusula 7) + captura **verbal** (médico registra no início da sala). Texto canônico vive em
+> **Status:** IMPLANTADO (2026-06-03). Cláusulas: **gravação** (7), **transcrição + IA de apoio
+> com direito de recusa** (8, CFM 2.454/2026), **transferência internacional de dados** (9, LGPD).
+> Captura **verbal** (médico registra no início da sala). Texto canônico vive em
 > `services/appointment_service.go` const `TelemedConsentTermText` (alterar lá ao revisar).
-> Base: Resolução CFM nº 2.314/2022 (regula a telemedicina no Brasil). O consentimento de
+> Base: Resolução CFM nº 2.314/2022 (telemedicina) + 2.454/2026 (IA de apoio). O consentimento de
 > telemedicina é exigência **médica/CFM** (consentir com o *formato remoto*), distinto da base
-> LGPD do ato clínico ("tutela da saúde") e do consentimento de CID em atestado.
+> LGPD do ato clínico ("tutela da saúde"); o mecanismo de transferência internacional (DPA dos
+> provedores) é requisito LGPD à parte (ver `plano-anamnese-ia-transcript.md`).
 
 ## O que o CFM 2.314/2022 exige (e este termo cobre)
 1. Consentimento **livre e esclarecido** do paciente (ou representante legal) para o atendimento remoto.
@@ -38,15 +40,23 @@ Declaro estar ciente e de acordo com o seguinte:
 5. Posso **interromper** o atendimento a qualquer momento e esclarecer dúvidas com o médico.
 6. Em caso de **emergência ou urgência**, devo procurar imediatamente um serviço de pronto
    atendimento presencial.
+7. **Autorizo a gravação** desta teleconsulta, que integrará o meu prontuário e ficará sujeita ao
+   mesmo sigilo e proteção de dados.
+8. Fui informado(a) de que a gravação **poderá ser transcrita** e de que **ferramentas de
+   inteligência artificial poderão ser utilizadas como apoio ao médico** para organizar e resumir
+   as informações da consulta no prontuário. Esses recursos são apenas de apoio: o médico
+   permanece integralmente responsável pelo conteúdo, que é por ele revisado e validado. **Posso
+   recusar** o uso dessas ferramentas a qualquer momento, sem qualquer prejuízo ao meu atendimento.
+9. Para viabilizar o vídeo, a gravação e a transcrição, meus dados pessoais e de saúde poderão ser
+   processados por **prestadores de serviço de tecnologia contratados pela Plenya, inclusive
+   localizados no exterior**, sempre sob contrato com cláusulas de proteção de dados e o mesmo dever
+   de sigilo, nos termos da LGPD. O arquivamento do meu prontuário permanece no Brasil.
 
 Declaro que fui devidamente esclarecido(a), tive a oportunidade de tirar dúvidas e **consinto
-livremente** com a realização do atendimento por telemedicina.
+livremente** com a realização do atendimento por telemedicina, inclusive com a gravação, a
+transcrição e o uso de ferramentas de inteligência artificial de apoio acima descritos.
 
 _(Registrado no prontuário do paciente em <data/hora>, no início da teleconsulta.)_
-
-### Cláusula opcional de gravação (incluir só se a clínica for gravar)
-Autorizo a **gravação** desta teleconsulta, que integrará o meu prontuário e ficará sujeita ao
-mesmo sigilo e proteção de dados.
 
 ---
 

@@ -661,8 +661,9 @@ func (s *AppointmentService) StartConsultation(ctx context.Context, appointmentI
 	return s.toDTO(&appt), nil
 }
 
-// TelemedConsentTermText — termo canônico de consentimento de telemedicina (CFM 2.314/2022),
-// versão com cláusula de gravação. É o texto exibido ao registrar e gravado em
+// TelemedConsentTermText — termo canônico de consentimento de telemedicina (CFM 2.314/2022
+// + 2.454/2026 sobre IA de apoio), com cláusulas de gravação, transcrição, uso de IA de apoio
+// e transferência internacional de dados (LGPD). É o texto exibido ao registrar e gravado em
 // Appointment.TelemedConsentText (prova do que foi apresentado). Fonte versionada:
 // docs/emr/termo-consentimento-telemedicina.md. Alterar aqui ao revisar o termo.
 const TelemedConsentTermText = `TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO PARA ATENDIMENTO POR TELEMEDICINA
@@ -678,8 +679,10 @@ Declaro estar ciente e de acordo com o seguinte:
 5. Posso interromper o atendimento a qualquer momento e esclarecer dúvidas com o médico.
 6. Em caso de emergência ou urgência, devo procurar imediatamente um serviço de pronto atendimento presencial.
 7. Autorizo a gravação desta teleconsulta, que integrará o meu prontuário e ficará sujeita ao mesmo sigilo e proteção de dados.
+8. Fui informado(a) de que a gravação poderá ser transcrita e de que ferramentas de inteligência artificial poderão ser utilizadas como apoio ao médico para organizar e resumir as informações da consulta no prontuário. Esses recursos são apenas de apoio: o médico permanece integralmente responsável pelo conteúdo, que é por ele revisado e validado. Posso recusar o uso dessas ferramentas a qualquer momento, sem qualquer prejuízo ao meu atendimento.
+9. Para viabilizar o vídeo, a gravação e a transcrição, meus dados pessoais e de saúde poderão ser processados por prestadores de serviço de tecnologia contratados pela Plenya, inclusive localizados no exterior, sempre sob contrato com cláusulas de proteção de dados e o mesmo dever de sigilo, nos termos da LGPD. O arquivamento do meu prontuário permanece no Brasil.
 
-Declaro que fui devidamente esclarecido(a), tive a oportunidade de tirar dúvidas e consinto livremente com a realização do atendimento por telemedicina.`
+Declaro que fui devidamente esclarecido(a), tive a oportunidade de tirar dúvidas e consinto livremente com a realização do atendimento por telemedicina, inclusive com a gravação, a transcrição e o uso de ferramentas de inteligência artificial de apoio acima descritos.`
 
 // RegisterTelemedConsent carimba o consentimento de telemedicina no prontuário (CFM 2.314/2022).
 // Só para Type=telemedicine. Idempotente (não re-carimba se já registrado). Mode default 'verbal'.
