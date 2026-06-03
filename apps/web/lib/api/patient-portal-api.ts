@@ -608,3 +608,124 @@ export function useCreatePortalInvite(patientId: string) {
     },
   });
 }
+
+// ============================================================================
+// Preparação pré-consulta (Fase 2): formulário curado + upload de exames
+// ============================================================================
+
+export interface PrepLevelConfig {
+  id: string;
+  level: number;
+  name: string;
+  lowerLimit?: string;
+  upperLimit?: string;
+  operator: string;
+  patientExplanation?: string;
+}
+
+export interface PrepItemConfig {
+  id: string;
+  name: string;
+  lightQuestion: string;
+  unit?: string;
+  gender?: string;
+  points?: number;
+  lightOrder: number;
+  patientExplanation?: string;
+  levels: PrepLevelConfig[];
+}
+
+export interface PrepSubgroupConfig {
+  id: string;
+  name: string;
+  order: number;
+  items: PrepItemConfig[];
+}
+
+export interface PrepGroupConfig {
+  id: string;
+  name: string;
+  order: number;
+  subgroups: PrepSubgroupConfig[];
+}
+
+export interface PrepConfig {
+  version: string;
+  generatedAt: string;
+  itemCount: number;
+  groups: PrepGroupConfig[];
+}
+
+export interface PrepResponse {
+  scoreItemId: string;
+  numericValue?: number;
+  selectedLevel?: number;
+  textValue?: string;
+}
+
+export interface ConsultationPrepView {
+  id: string;
+  patientId: string;
+  appointmentId?: string;
+  status: "draft" | "submitted";
+  chiefComplaint?: string;
+  submittedAt?: string;
+  responses: PrepResponse[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SubmitPrepRequest {
+  appointmentId?: string;
+  chiefComplaint?: string;
+  responses: PrepResponse[];
+  consentVersion?: string;
+  submit?: boolean;
+}
+
+export const consultationPrepApi = {
+  config: () => apiClient.get<PrepConfig>("/api/v1/patient/me/prep/config"),
+  get: (appointmentId?: string) =>
+    apiClient.get<ConsultationPrepView | null>(
+      `/api/v1/patient/me/prep${appointmentId ? `?appointmentId=${appointmentId}` : ""}`,
+    ),
+  submit: (payload: SubmitPrepRequest) =>
+    apiClient.post<ConsultationPrepView>("/api/v1/patient/me/prep", payload),
+  uploadExam: (formData: FormData) =>
+    apiClient.post<unknown>("/api/v1/patient/me/documents", formData),
+};
+
+export function usePrepConfig() {
+  return useQuery({
+    queryKey: ["patient-prep-config"],
+    queryFn: () => consultationPrepApi.config(),
+    staleTime: 5 * 60_000,
+  });
+}
+
+export function useMyPrep(appointmentId?: string) {
+  return useQuery({
+    queryKey: ["patient-prep", appointmentId ?? null],
+    queryFn: () => consultationPrepApi.get(appointmentId),
+  });
+}
+
+export function useSubmitPrep() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: SubmitPrepRequest) => consultationPrepApi.submit(payload),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["patient-prep"] });
+    },
+  });
+}
+
+export function useUploadExam() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (formData: FormData) => consultationPrepApi.uploadExam(formData),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["patient-documents"] });
+    },
+  });
+}

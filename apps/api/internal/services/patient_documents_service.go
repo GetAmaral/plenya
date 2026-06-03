@@ -35,10 +35,11 @@ var allowedDocContentTypes = map[string]bool{
 
 const maxDocSize = 20 * 1024 * 1024 // 20MB
 
-// CreateInput é o payload do CreateDocument (uso staff).
+// CreateInput é o payload do CreateDocument (uso staff ou portal do paciente).
 type CreateDocumentInput struct {
 	PatientID   uuid.UUID
 	UploadedBy  uuid.UUID
+	Source      models.PatientDocumentSource // opcional; default staff_upload
 	Type        models.PatientDocumentType
 	Title       string
 	Description string
@@ -103,11 +104,15 @@ func (s *PatientDocumentsService) Create(in CreateDocumentInput) (*models.Patien
 	}
 
 	uploadedBy := in.UploadedBy
+	source := in.Source
+	if source == "" {
+		source = models.DocumentSourceStaffUpload
+	}
 	doc := &models.PatientDocument{
 		ID:          docID,
 		PatientID:   in.PatientID,
 		UploadedBy:  &uploadedBy,
-		Source:      models.DocumentSourceStaffUpload,
+		Source:      source,
 		Type:        in.Type,
 		Title:       in.Title,
 		Description: in.Description,

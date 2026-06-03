@@ -440,6 +440,10 @@ func setupRoutes(
 	appointmentNotificationService.WithTelemedLobby(telemedLobbyService)
 	patientPortalHandler := handlers.NewPatientPortalHandler(patientPortalService, patientDashboardService, nil, patientAppointmentService, patientMessagesService, patientLabsService, patientScoresService, patientProfileService, patientDocumentsService, patientWorkoutsService, patientCheckInsService, notificationPreferencesService, notificationService)
 
+	// Preparação pré-consulta (Fase 2): formulário curado pós-agendamento + upload de exames pelo paciente.
+	consultationPrepService := services.NewConsultationPrepService(database.DB)
+	consultationPrepHandler := handlers.NewConsultationPrepHandler(consultationPrepService, anonymousScoreService, patientDocumentsService)
+
 	// Documentos clínicos emitidos/assináveis (P3 frente 2) — reusa signature_service (ICP-Brasil)
 	// + patient_documents_service (publica no portal). DocumentPDFService gera o PDF (gofpdf).
 	documentPDFService := services.NewDocumentPDFService()
@@ -720,6 +724,12 @@ func setupRoutes(
 	patientMe.Post("/check-ins", patientPortalHandler.CreateCheckIn)
 	patientMe.Get("/notification-preferences", patientPortalHandler.GetNotificationPreferences)
 	patientMe.Patch("/notification-preferences", patientPortalHandler.PatchNotificationPreferences)
+
+	// Preparação pré-consulta (formulário curado + upload de exames pelo paciente)
+	patientMe.Get("/prep/config", consultationPrepHandler.GetConfig)
+	patientMe.Get("/prep", consultationPrepHandler.GetPrep)
+	patientMe.Post("/prep", consultationPrepHandler.SubmitPrep)
+	patientMe.Post("/documents", consultationPrepHandler.UploadExam)
 
 	// Anamnesis routes (protegidas - profissionais autenticados).
 	// C2 — bloqueia patient role.

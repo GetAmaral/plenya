@@ -25,6 +25,7 @@ import {
   ChevronRight,
   Package,
   FileText,
+  ClipboardList,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -37,6 +38,7 @@ const items: Item[] = [
   { name: "Início", href: "/", icon: Home },
   { name: "Meu Continuum", href: "/continuum", icon: Workflow },
   { name: "Consultas", href: "/consultas", icon: Calendar },
+  { name: "Preparação", href: "/preparacao", icon: ClipboardList },
   { name: "Exames", href: "/exames", icon: Microscope },
   { name: "Escores", href: "/escores", icon: Activity },
   { name: "Mensagens", href: "/mensagens", icon: MessageSquare },

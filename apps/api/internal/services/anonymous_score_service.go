@@ -895,6 +895,81 @@ func mapItemToLightConfig(it models.ScoreItem) LightItemConfig {
 	}
 }
 
+// BuildPrepConfig retorna a árvore de items marcados para o formulário de preparação
+// pré-consulta (PrepOrder != nil), preservando Group → Subgroup → Item → Level.
+// Reusa o DTO LightConfig: o campo LightOrder recebe o valor de PrepOrder para que o
+// frontend (mesmo motor da Triagem) ordene corretamente. Item-agnóstico: enquanto a
+// curadoria não marcar itens, o retorno vem vazio.
+func (s *AnonymousScoreService) BuildPrepConfig() (*LightConfig, error) {
+	groups, err := s.scoreRepo.GetAllScoreGroupTrees()
+	if err != nil {
+		return nil, fmt.Errorf("failed to load score tree: %w", err)
+	}
+
+	out := &LightConfig{
+		GeneratedAt: time.Now(),
+		Groups:      []LightGroupConfig{},
+	}
+	itemCount := 0
+
+	mapPrep := func(it models.ScoreItem) LightItemConfig {
+		cfg := mapItemToLightConfig(it)
+		if it.PrepOrder != nil {
+			cfg.LightOrder = *it.PrepOrder
+		}
+		return cfg
+	}
+
+	for _, g := range groups {
+		gOut := LightGroupConfig{
+			ID:        g.ID,
+			Name:      g.Name,
+			Order:     g.Order,
+			Subgroups: []LightSubgroupConfig{},
+		}
+
+		for _, sg := range g.Subgroups {
+			sgOut := LightSubgroupConfig{
+				ID:    sg.ID,
+				Name:  sg.Name,
+				Order: sg.Order,
+				Items: []LightItemConfig{},
+			}
+
+			seen := make(map[uuid.UUID]bool)
+			for _, it := range sg.Items {
+				if it.PrepOrder == nil || seen[it.ID] {
+					continue
+				}
+				sgOut.Items = append(sgOut.Items, mapPrep(it))
+				seen[it.ID] = true
+				itemCount++
+
+				for _, child := range it.ChildItems {
+					if child.PrepOrder == nil || seen[child.ID] {
+						continue
+					}
+					sgOut.Items = append(sgOut.Items, mapPrep(child))
+					seen[child.ID] = true
+					itemCount++
+				}
+			}
+
+			if len(sgOut.Items) > 0 {
+				gOut.Subgroups = append(gOut.Subgroups, sgOut)
+			}
+		}
+
+		if len(gOut.Subgroups) > 0 {
+			out.Groups = append(out.Groups, gOut)
+		}
+	}
+
+	out.ItemCount = itemCount
+	out.Version = fmt.Sprintf("prep-v%d-%d", itemCount, out.GeneratedAt.Unix())
+	return out, nil
+}
+
 // ============================================================
 // CreateSession — recebe respostas, persiste sessão + snapshot
 // ============================================================

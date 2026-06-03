@@ -101,6 +101,13 @@ type ScoreItem struct {
 	// @example Você fuma atualmente?
 	LightQuestion *string `gorm:"type:text" json:"lightQuestion,omitempty"`
 
+	// Ordem de exibição do item no formulário de preparação pré-consulta (subset curado,
+	// independente de Order/LightOrder). Item entra no formulário quando PrepOrder != nil.
+	// @minimum 0
+	// @maximum 9999
+	// @example 5
+	PrepOrder *int `gorm:"type:integer;index:idx_score_item_prep_order" json:"prepOrder,omitempty" validate:"omitempty,gte=0,lte=9999"`
+
 	// Foreign Keys
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	SubgroupID uuid.UUID `gorm:"type:uuid;not null;index:idx_score_item_subgroup" json:"subgroupId" validate:"required"`
