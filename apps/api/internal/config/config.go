@@ -45,6 +45,7 @@ type ReceptionBotConfig struct {
 	DefaultMode     string // RECEPTION_BOT_DEFAULT_MODE — off|copilot|auto (default off)
 	FallbackMinutes int    // RECEPTION_BOT_FALLBACK_MINUTES — min sem resposta humana antes do bot (default 5)
 	MaxMsgsPerHour  int    // RECEPTION_BOT_MAX_MSGS_HOUR — anti-spam por conversa (default 6)
+	ConsultDoctorID string // RECEPTION_CONSULT_DOCTOR_ID — médico da Consulta Plenya p/ ofertar horários (vazio = 1º doctor)
 }
 
 // TurnstileConfig — M10 — Cloudflare Turnstile CAPTCHA (lead form público).
@@ -399,6 +400,7 @@ func Load() (*Config, error) {
 			DefaultMode:     getEnv("RECEPTION_BOT_DEFAULT_MODE", "off"),
 			FallbackMinutes: getEnvAsInt("RECEPTION_BOT_FALLBACK_MINUTES", 5),
 			MaxMsgsPerHour:  getEnvAsInt("RECEPTION_BOT_MAX_MSGS_HOUR", 6),
+			ConsultDoctorID: getEnv("RECEPTION_CONSULT_DOCTOR_ID", ""),
 		},
 		Site: SiteConfig{
 			PublicURL: getEnv("SITE_PUBLIC_URL", "http://localhost:3002"),

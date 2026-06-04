@@ -121,6 +121,41 @@ free-form dentro da janela de 24h.
     métricas retornam JSON. `go build` verde; tsc web sem erro novo. **Nenhuma migration nova.**
   - **NÃO feito (fora de escopo desta rodada):** expansão IG/site (precisa envio IG no backend / widget).
 
+## Revisão pré-deploy (2026-06-04) — achados corrigidos
+Revisão adversarial de código + a11y antes do rollout. Corrigido (migration nova **00019**):
+- **C1 (corrida de envio duplo):** o job re-checa `stillSendable` imediatamente antes de enviar
+  (inbound ainda sem resposta + não pausada + modo auto). Evita a IA falar por cima de um humano
+  que respondeu durante a chamada do Claude.
+- **C2 (custo/latência):** `BuildUpcomingSlotsText` cacheia o texto de horários por médico
+  (`receptionSlotsCacheTTL` 10 min). Antes fazia até 10 chamadas ao free/busy do Google por
+  reception-reply (copiloto + cada candidato do job/min).
+- **H1 (LGPD):** o job pula qualquer conversa cuja última mensagem seja stop-keyword
+  (`IsUnsubscribeKeyword`), cobrindo **paciente** (que não tem flag de opt-out como o lead). Enforce,
+  não confia só no prompt.
+- **H2 (médico errado):** horários vêm de `RECEPTION_CONSULT_DOCTOR_ID` (quando setado e ainda doctor);
+  fallback = 1º doctor por nome. Evita ofertar agenda do médico errado quando houver >1 doctor.
+- **H3 (Claude em loop):** falha persistente de envio (não-handoff) agora pausa a conversa por
+  `sendFailCooldown` (15 min), em vez de re-chamar o Claude a cada minuto.
+- **M1 (privilégio do bot):** usuário-bot rebaixado de `secretary` p/ role própria `bot` (migration
+  00019); não aparece mais em listas/notificações de staff. (Sem login: sem password_hash.)
+- **M2/M3/M4:** limpeza de var morta no `Set`; métricas com `deleted_at` só onde a tabela tem
+  (leads sim; lead_activities é log imutável sem a coluna); `sanitizeReceptionVoice` não mexe em
+  en-dash colado a números (ex. faixas "18,5–24,9").
+- **a11y:** `SheetContent` do viewer mobile (`/conversas`) ganhou `SheetTitle` (sr-only). Era a fonte
+  do aviso "DialogContent requires DialogTitle". QA console: **zero erros** agora.
+- Verificado em dev: copiloto OK (slots reais + cache, 0 travessões), job OK (happy path envia 1/2;
+  lead "PARAR" pulado), métricas sem erro de coluna. `go build` verde; tsc web sem erro novo.
+
+## Checklist de deploy em produção
+1. `migrate up` (chega na **00019**: cria automation + bot user, fix notifications, rebaixa role do bot).
+2. Envs no Coolify (app api):
+   - `RECEPTION_BOT_ENABLED=true` (kill switch; deixe `false` p/ rollout só-copiloto).
+   - `RECEPTION_CONSULT_DOCTOR_ID=<user id do Dr. Getúlio>` (recomendado; senão usa o 1º doctor).
+   - opcional: `RECEPTION_BOT_FALLBACK_MINUTES` (default 5), `RECEPTION_BOT_MAX_MSGS_HOUR` (default 6).
+3. **Mantenha `RECEPTION_BOT_DEFAULT_MODE=off`**: o job só processa conversas com **linha** `mode=auto`
+   (criada pelo toggle no `/conversas`). Default global `auto` NÃO é auto-aplicado sem linha por conversa.
+4. Rollout sugerido: começar só-copiloto (kill switch off), depois ligar `auto` por conversa via toggle.
+
 ## Como ligar em produção
 1. Setar no Coolify (app api): `RECEPTION_BOT_ENABLED=true` (+ ajustar `RECEPTION_BOT_FALLBACK_MINUTES`
    se quiser ≠ 5). Rodar `migrate up` (chega na 00018).

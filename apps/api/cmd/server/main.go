@@ -1322,7 +1322,7 @@ func setupRoutes(
 
 	// Recepcionista virtual Fase 3: provê horários reais ao cérebro do bot (best-effort).
 	conversationService.SetReceptionSlotsProvider(func(ctx context.Context) string {
-		return services.BuildUpcomingSlotsText(ctx, database.DB, calendarSlotService)
+		return services.BuildUpcomingSlotsText(ctx, database.DB, calendarSlotService, cfg.ReceptionBot.ConsultDoctorID)
 	})
 
 	// /api/v1/integrations/google

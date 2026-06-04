@@ -82,7 +82,6 @@ func (s *ConversationAutomationService) Set(ctx context.Context, ownerType strin
 	err := s.db.WithContext(ctx).
 		Where("owner_type = ? AND owner_id = ?", ownerType, ownerID).
 		First(&row).Error
-	now := time.Now().UTC()
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
 		row = models.ConversationAutomation{
@@ -102,7 +101,6 @@ func (s *ConversationAutomationService) Set(ctx context.Context, ownerType strin
 		row.FallbackMinutes = fallbackMinutes
 		row.UpdatedBy = &updatedBy
 		row.PausedUntil = nil // reativar limpa pausa
-		_ = now
 		if err := s.db.WithContext(ctx).Save(&row).Error; err != nil {
 			return nil, err
 		}
@@ -171,6 +169,7 @@ func (s *ConversationAutomationService) ComputeMetrics(ctx context.Context, days
 		Where("metadata ->> 'ai_handoff' = ?", "true").
 		Count(&m.Handoffs)
 
+	// Nota: lead_activities é log imutável append-only (sem coluna deleted_at).
 	s.db.WithContext(ctx).Raw(`
 		SELECT count(DISTINCT coalesce(lead_id::text, patient_id::text))
 		FROM lead_activities
@@ -179,7 +178,7 @@ func (s *ConversationAutomationService) ComputeMetrics(ctx context.Context, days
 
 	s.db.WithContext(ctx).Raw(`
 		SELECT count(*) FROM leads
-		WHERE status = 'converted' AND id IN (
+		WHERE status = 'converted' AND deleted_at IS NULL AND id IN (
 			SELECT DISTINCT lead_id FROM lead_activities
 			WHERE lead_id IS NOT NULL AND type = ? AND created_at > ? AND metadata ->> 'ai_generated' = 'true'
 		)`, models.LeadActivityMessageSent, since).Scan(&m.ConvertedAfterBot)

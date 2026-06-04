@@ -30,6 +30,7 @@ const (
 	autoReplyJobTimeout  = 4 * time.Minute
 	autoReplyWindowHours = 24 * time.Hour
 	handoffPauseDuration = 24 * time.Hour
+	sendFailCooldown     = 15 * time.Minute
 )
 
 type ConversationAutoReplyJob struct {
@@ -120,6 +121,12 @@ func (j *ConversationAutoReplyJob) eligible(ctx context.Context, ownerType strin
 		return false // sem inbound → nada a responder
 	}
 
+	// Pedido de parar/descadastrar (qualquer canal/owner): a IA não responde. Enforce,
+	// não confia só no prompt. Cobre paciente (que não tem flag de opt-out como o lead).
+	if lastIn.Content != nil && services.IsUnsubscribeKeyword(*lastIn.Content) {
+		return false
+	}
+
 	now := time.Now().UTC()
 	age := now.Sub(lastIn.CreatedAt)
 	if age < time.Duration(fallbackMin)*time.Minute {
@@ -155,11 +162,55 @@ func (j *ConversationAutoReplyJob) eligible(ctx context.Context, ownerType strin
 	return true
 }
 
+// stillSendable re-verifica, imediatamente antes do envio, que a conversa ainda precisa de
+// resposta: há inbound recente sem resposta posterior e a automação não foi pausada nem
+// trocada de modo no meio-tempo. Fecha a corrida do intervalo do Claude.
+func (j *ConversationAutoReplyJob) stillSendable(ctx context.Context, ownerType string, ownerID uuid.UUID) bool {
+	ownerCol := "lead_id"
+	if ownerType == string(models.ConversationOwnerPatient) {
+		ownerCol = "patient_id"
+	}
+	var lastIn models.LeadActivity
+	if err := j.db.WithContext(ctx).
+		Where(ownerCol+" = ?", ownerID).
+		Where("type = ?", models.LeadActivityMessageReceived).
+		Where("channel = ?", models.LeadChannelWhatsApp).
+		Order("created_at DESC").First(&lastIn).Error; err != nil {
+		return false
+	}
+	var answered int64
+	j.db.WithContext(ctx).Model(&models.LeadActivity{}).
+		Where(ownerCol+" = ?", ownerID).
+		Where("type = ?", models.LeadActivityMessageSent).
+		Where("created_at > ?", lastIn.CreatedAt).Count(&answered)
+	if answered > 0 {
+		return false
+	}
+	var auto models.ConversationAutomation
+	if err := j.db.WithContext(ctx).
+		Where("owner_type = ? AND owner_id = ?", ownerType, ownerID).First(&auto).Error; err == nil {
+		if auto.Mode != models.ConversationAutomationAuto {
+			return false
+		}
+		if auto.PausedUntil != nil && auto.PausedUntil.After(time.Now().UTC()) {
+			return false
+		}
+	}
+	return true
+}
+
 // handleOne gera e age sobre uma conversa. Retorna (agiu, foiHandoff).
 func (j *ConversationAutoReplyJob) handleOne(ctx context.Context, ownerType string, ownerID uuid.UUID) (bool, bool) {
 	res, err := j.convSvc.GenerateReceptionReply(ctx, ownerType, ownerID)
 	if err != nil {
 		log.Printf("⚠️  [RECEPÇÃO IA] gerar resposta owner=%s/%s: %v", ownerType, ownerID, err)
+		return false, false
+	}
+
+	// Re-checa logo antes de enviar: o Claude leva ~segundos; nesse intervalo um humano
+	// (ou o copiloto) pode ter respondido, ou a conversa pode ter sido pausada. Fecha a
+	// janela de corrida pra IA não falar por cima de alguém da equipe.
+	if !j.stillSendable(ctx, ownerType, ownerID) {
 		return false, false
 	}
 
@@ -180,6 +231,9 @@ func (j *ConversationAutoReplyJob) handleOne(ctx context.Context, ownerType stri
 			j.doHandoff(ctx, ownerType, ownerID, res.HandoffReason)
 			return true, true
 		}
+		// Falha persistente (ex: Meta rejeitou, janela expirou na corrida): pausa por um
+		// cooldown curto pra não re-chamar o Claude a cada minuto nessa conversa.
+		_ = j.autoSvc.Pause(ctx, ownerType, ownerID, time.Now().UTC().Add(sendFailCooldown))
 		return false, false
 	}
 

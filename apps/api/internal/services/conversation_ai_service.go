@@ -235,10 +235,11 @@ func (s *ConversationService) GenerateReceptionReply(
 // prompt — sobretudo o travessão (AI-tell em 2026, banido na voz Plenya). Troca por vírgula.
 func sanitizeReceptionVoice(s string) string {
 	out := s
+	// Travessão usado como pontuação (com espaços) → vírgula. Inclui o em-dash colado
+	// (AI-tell típico). Não mexe no en-dash colado a números (ex: "9–10h", "18,5–24,9").
 	out = strings.ReplaceAll(out, " — ", ", ")
 	out = strings.ReplaceAll(out, " – ", ", ")
 	out = strings.ReplaceAll(out, "—", ", ")
-	out = strings.ReplaceAll(out, "–", ", ")
 	out = strings.ReplaceAll(out, " ,", ",")
 	out = strings.ReplaceAll(out, ",,", ",")
 	out = strings.ReplaceAll(out, "  ", " ")

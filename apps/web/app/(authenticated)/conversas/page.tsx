@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { PageHeader } from '@/components/layout/page-header';
 import {
   type ConversationItem,
@@ -260,6 +260,7 @@ export default function ConversasPage() {
           side="right"
           className="w-full max-w-full p-0 sm:max-w-full md:hidden"
         >
+          <SheetTitle className="sr-only">Conversa</SheetTitle>
           {selectedItem && (
             <div className="flex h-full min-h-0 flex-col">
               <ConversationViewer
