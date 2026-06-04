@@ -84,4 +84,32 @@ free-form dentro da janela de 24h.
   Inclui **fix:** `aiModelSuggestion` era snapshot inválido `claude-sonnet-4-6-20251001` (404 na
   Anthropic) → alias `claude-sonnet-4-6` (conserta também o "Sugerir resposta" pré-existente) +
   `sanitizeReceptionVoice` remove travessões que o modelo insere.
-- [ ] Fase 2 (modo automático + fallback timer + handoff + disclosure + toggle) · [ ] Fase 3
+- [x] **Fase 2 CONCLUÍDA (2026-06-04):** modo automático com fallback por tempo.
+  - Model `ConversationAutomation` (owner_type/owner_id, mode off|copilot|auto, fallback_minutes,
+    paused_until, last_bot_at) + migration **00017** (tabela + seed do usuário-bot "Assistente Plenya",
+    UUID fixo `019e9301-0000-7000-a000-0000000b0b01` = `services.BotUserID`).
+  - Config `ReceptionBotConfig` (env): `RECEPTION_BOT_ENABLED` (kill switch global, **default false**),
+    `RECEPTION_BOT_DEFAULT_MODE`, `RECEPTION_BOT_FALLBACK_MINUTES` (5), `RECEPTION_BOT_MAX_MSGS_HOUR` (6).
+  - `ConversationAutomationService` (Get efetivo/Set/Pause/TouchLastBot/ListAutoCandidates).
+  - Job `scheduler/conversation_auto_reply_job.go` (ticker 1 min): elegibilidade (inbound sem resposta
+    humana ≥ fallback, dentro da janela 24h, anti-spam por hora) → `GenerateReceptionReply` →
+    `SendMessage` (bot user, `AIGenerated`) → idempotente. `action=handoff` → envia cortesia + pausa
+    (paused_until) + notifica staff (bot excluído). Só roda com kill switch ligado.
+  - `SendMessageInput.AIGenerated/AIModel` → metadata `ai_generated` na activity.
+  - Endpoints `GET/PUT /conversations/:type/:id/automation`.
+  - Frontend: toggle Off/Copiloto/Automático no header do viewer (`automation-toggle.tsx`), badge
+    "respondido pela IA" nas mensagens, hooks `useConversationAutomation`/`useSetConversationAutomation`.
+  - **FIX pré-existente (migration 00018):** `notifications` tinha 2 check constraints de `type` no
+    baseline; a legada `notifications_type_check` (só tipos antigos) bloqueava silenciosamente TODA
+    notificação de lead (lead_new/lead_assigned/handoff) — **inclusive em prod**. Removida; fica só
+    `chk_notifications_type`.
+  - **Verificado end-to-end em dev** (kill switch ligado temporariamente): auto-reply enviado pelo bot
+    (ai_generated, idempotente), handoff em dúvida clínica (cortesia + pausa + 3 notificações ao staff),
+    toggle GET/PUT. `go build` verde; tsc web sem erro novo. **Próxima migration = 00019.**
+- [ ] Fase 3 (propor horários do calendar, métricas, IG/site)
+
+## Como ligar em produção
+1. Setar no Coolify (app api): `RECEPTION_BOT_ENABLED=true` (+ ajustar `RECEPTION_BOT_FALLBACK_MINUTES`
+   se quiser ≠ 5). Rodar `migrate up` (chega na 00018).
+2. Por conversa, o atendente escolhe Off/Copiloto/Automático no `/conversas`. Default global =
+   `RECEPTION_BOT_DEFAULT_MODE` (off).

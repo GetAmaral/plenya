@@ -34,6 +34,17 @@ type Config struct {
 	MagicLink     MagicLinkConfig
 	Dev           DevConfig
 	Turnstile     TurnstileConfig
+	ReceptionBot  ReceptionBotConfig
+}
+
+// ReceptionBotConfig — recepcionista virtual (Fase 2, modo automático).
+// Enabled é o kill switch global do auto-envio: com false, a IA nunca envia sozinha
+// (o Copiloto continua funcionando). DefaultMode é o modo de conversas sem override.
+type ReceptionBotConfig struct {
+	Enabled         bool   // RECEPTION_BOT_ENABLED — liga o auto-envio (default false)
+	DefaultMode     string // RECEPTION_BOT_DEFAULT_MODE — off|copilot|auto (default off)
+	FallbackMinutes int    // RECEPTION_BOT_FALLBACK_MINUTES — min sem resposta humana antes do bot (default 5)
+	MaxMsgsPerHour  int    // RECEPTION_BOT_MAX_MSGS_HOUR — anti-spam por conversa (default 6)
 }
 
 // TurnstileConfig — M10 — Cloudflare Turnstile CAPTCHA (lead form público).
@@ -382,6 +393,12 @@ func Load() (*Config, error) {
 		CRM: CRMConfig{
 			AdminURL:          getEnv("CRM_ADMIN_URL", "http://localhost:3000"),
 			LeadNotifyUserIDs: parseCSV(getEnv("CRM_LEAD_NOTIFY_USER_IDS", "")),
+		},
+		ReceptionBot: ReceptionBotConfig{
+			Enabled:         getEnvAsBool("RECEPTION_BOT_ENABLED", false),
+			DefaultMode:     getEnv("RECEPTION_BOT_DEFAULT_MODE", "off"),
+			FallbackMinutes: getEnvAsInt("RECEPTION_BOT_FALLBACK_MINUTES", 5),
+			MaxMsgsPerHour:  getEnvAsInt("RECEPTION_BOT_MAX_MSGS_HOUR", 6),
 		},
 		Site: SiteConfig{
 			PublicURL: getEnv("SITE_PUBLIC_URL", "http://localhost:3002"),

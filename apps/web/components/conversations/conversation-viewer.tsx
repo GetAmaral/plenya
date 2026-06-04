@@ -35,6 +35,7 @@ import {
   useSaveToProntuario,
 } from '@/lib/api/conversations-api';
 import { ConversationComposer } from './conversation-composer';
+import { AutomationToggle } from './automation-toggle';
 
 type Props = {
   item: ConversationItem;
@@ -392,6 +393,11 @@ function MessageBubble({
                 via app
               </span>
             )}
+            {Boolean(msg.metadata?.ai_generated) && (
+              <span className="shrink-0 rounded bg-violet-100 px-1 text-[10px] font-medium text-violet-800">
+                respondido pela IA
+              </span>
+            )}
           </span>
           <span className="shrink-0">
             {format(new Date(msg.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}
@@ -600,6 +606,7 @@ export function ConversationViewer({ item, onBack }: Props) {
             )}
           </div>
         </div>
+        <AutomationToggle ownerType={item.ownerType} ownerId={item.ownerId} />
         <Button
           type="button"
           variant="ghost"

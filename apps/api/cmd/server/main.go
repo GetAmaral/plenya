@@ -393,7 +393,8 @@ func setupRoutes(
 	campaignHandler := handlers.NewCampaignHandler(campaignService)
 	whatsappWebhookHandler := handlers.NewWhatsAppWebhookHandler(cfg, whatsappService, leadService)
 	conversationService := services.NewConversationService(database.DB, leadService, emailService, whatsappService, notificationService, aiService)
-	conversationHandler := handlers.NewConversationHandler(conversationService)
+	conversationAutomationService := services.NewConversationAutomationService(database.DB, cfg)
+	conversationHandler := handlers.NewConversationHandler(conversationService, conversationAutomationService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
 	// Portal do Paciente (minha.plenyasaude.com.br) — auth + dashboard + appointments.
@@ -561,6 +562,8 @@ func setupRoutes(
 	conv.Post("/:type/:id/ai/summary", conversationAILimiter.Middleware(), conversationHandler.AISummary)
 	conv.Post("/:type/:id/ai/suggest-reply", conversationAILimiter.Middleware(), conversationHandler.AISuggestReply)
 	conv.Post("/:type/:id/ai/reception-reply", conversationAILimiter.Middleware(), conversationHandler.AIReceptionReply)
+	conv.Get("/:type/:id/automation", conversationHandler.GetAutomation)
+	conv.Put("/:type/:id/automation", conversationHandler.SetAutomation)
 
 	// Auth routes (públicas).
 	// CRITICAL C4 — rate limit em login/register (anti brute-force).
@@ -1508,6 +1511,11 @@ func setupRoutes(
 	// 4) Workout reminder diário no horário configurado pelo paciente.
 	workoutReminderJob := scheduler.NewWorkoutReminderJob(database.DB, pushService, notificationPreferencesService)
 	workoutReminderJob.Start()
+
+	// 5) Recepcionista virtual (Fase 2): auto-resposta por fallback de tempo.
+	//    Só inicia se RECEPTION_BOT_ENABLED=true (kill switch global).
+	conversationAutoReplyJob := scheduler.NewConversationAutoReplyJob(database.DB, conversationService, conversationAutomationService, notificationService, cfg)
+	conversationAutoReplyJob.Start()
 }
 
 // registerTrainingRoutes registra as rotas do módulo de treinamento

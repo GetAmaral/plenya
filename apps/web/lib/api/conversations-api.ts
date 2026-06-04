@@ -515,6 +515,48 @@ export interface ReceptionReplyResult {
   model: string;
 }
 
+export type AutomationMode = 'off' | 'copilot' | 'auto';
+
+export interface ConversationAutomationView {
+  ownerType: string;
+  ownerId: string;
+  mode: AutomationMode;
+  fallbackMinutes: number;
+  pausedUntil?: string;
+  globallyEnabled: boolean;
+}
+
+/** Modo do recepcionista virtual desta conversa (off|copilot|auto) + fallback. */
+export function useConversationAutomation(
+  type: ConversationOwnerType,
+  id: string
+) {
+  return useQuery({
+    queryKey: ['conversation-automation', type, id],
+    queryFn: () =>
+      apiClient.get<ConversationAutomationView>(
+        `/api/v1/conversations/${type}/${id}/automation`
+      ),
+    staleTime: 30_000,
+  });
+}
+
+export function useSetConversationAutomation(
+  type: ConversationOwnerType,
+  id: string
+) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: { mode: AutomationMode; fallbackMinutes?: number }) =>
+      apiClient.put<ConversationAutomationView>(
+        `/api/v1/conversations/${type}/${id}/automation`,
+        body
+      ),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: ['conversation-automation', type, id] }),
+  });
+}
+
 /**
  * Recepcionista virtual: gera a próxima mensagem ancorada no script da recepção +
  * banco de objeções + guardrails (CFM/LGPD/marca). No Copiloto, o atendente revisa o

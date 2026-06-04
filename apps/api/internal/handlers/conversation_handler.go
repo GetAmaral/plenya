@@ -19,12 +19,14 @@ import (
 // ConversationHandler expõe os endpoints da Central de Conversas (Bloco B).
 type ConversationHandler struct {
 	service   *services.ConversationService
+	autoSvc   *services.ConversationAutomationService
 	validator *validator.Validate
 }
 
-func NewConversationHandler(s *services.ConversationService) *ConversationHandler {
+func NewConversationHandler(s *services.ConversationService, autoSvc *services.ConversationAutomationService) *ConversationHandler {
 	return &ConversationHandler{
 		service:   s,
+		autoSvc:   autoSvc,
 		validator: validator.New(),
 	}
 }
@@ -656,6 +658,50 @@ func (h *ConversationHandler) AIReceptionReply(c *fiber.Ctx) error {
 	}
 	res, err := h.service.GenerateReceptionReply(c.UserContext(), ownerType, ownerID)
 	return writeAIResult(c, res, err)
+}
+
+// GetAutomation GET /conversations/:type/:id/automation
+// Retorna o modo efetivo do recepcionista virtual para a conversa.
+func (h *ConversationHandler) GetAutomation(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	eff, err := h.autoSvc.Get(c.UserContext(), ownerType, ownerID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(eff)
+}
+
+// SetAutomationRequest é o payload do toggle de automação.
+type SetAutomationRequest struct {
+	Mode            string `json:"mode" validate:"required,oneof=off copilot auto"`
+	FallbackMinutes int    `json:"fallbackMinutes" validate:"omitempty,gte=0,lte=1440"`
+}
+
+// SetAutomation PUT /conversations/:type/:id/automation
+// Define o modo (off|copilot|auto) e o fallback da conversa. Reativar limpa a pausa.
+func (h *ConversationHandler) SetAutomation(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	var req SetAutomationRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+	eff, err := h.autoSvc.Set(c.UserContext(), ownerType, ownerID, req.Mode, req.FallbackMinutes, middleware.GetUserID(c))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(eff)
 }
 
 // writeAIResult mapeia erros do AI service pra HTTP semântico.

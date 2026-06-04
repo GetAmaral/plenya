@@ -890,6 +890,8 @@ type SendMessageInput struct {
 	InReplyTo   string // só email
 	References  []string
 	Attachments []OutboundAttachment // só email
+	AIGenerated bool                 // true quando enviado pelo recepcionista virtual
+	AIModel     string               // modelo usado (quando AIGenerated)
 }
 
 // SendMessage rota mensagem outbound pro canal escolhido. Reusa EmailService /
@@ -1133,11 +1135,18 @@ func (s *ConversationService) sendWhatsApp(ctx context.Context, in SendMessageIn
 	}
 
 	// Persiste LeadActivity outbound — espelha lead_service.go::SendWhatsAppText.
-	metaJSON, _ := json.Marshal(map[string]any{
+	metaMap := map[string]any{
 		"wa_message_id": wamid,
 		"sent_at":       time.Now().UTC(),
 		"recipient":     phone,
-	})
+	}
+	if in.AIGenerated {
+		metaMap["ai_generated"] = true
+		if in.AIModel != "" {
+			metaMap["ai_model"] = in.AIModel
+		}
+	}
+	metaJSON, _ := json.Marshal(metaMap)
 	var contentPtr *string
 	if body != "" {
 		contentPtr = &body
