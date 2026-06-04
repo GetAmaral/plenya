@@ -24,6 +24,7 @@ import {
   type ConversationItem,
   type SendConversationEmailAttachment,
   useConversationAISuggestion,
+  useConversationReceptionReply,
   useSendConversationEmail,
   useSendConversationWhatsApp,
   useSendConversationWhatsAppTemplate,
@@ -194,6 +195,7 @@ export function ConversationComposer({
     );
   };
   const suggest = useConversationAISuggestion(item.ownerType, item.ownerId);
+  const reception = useConversationReceptionReply(item.ownerType, item.ownerId);
 
   const emailValidation = useMemo(() => validateEmail(item), [item]);
   const waValidation = useMemo(() => validateWhatsApp(item), [item]);
@@ -314,6 +316,29 @@ export function ConversationComposer({
     );
   };
 
+  // Recepcionista virtual (Copiloto): gera a resposta ancorada no script + objeções e
+  // insere no campo pro atendente revisar e enviar. Avisa quando o caso pede handoff.
+  const handleReceptionReply = () => {
+    reception.mutate(undefined, {
+      onSuccess: (data) => {
+        setBody(data.reply);
+        onSuggestionApplied?.(data.reply);
+        if (data.action === 'handoff') {
+          toast.warning(
+            data.handoffReason
+              ? `IA sugere passar para um humano: ${data.handoffReason}`
+              : 'IA sugere passar este atendimento para um humano.'
+          );
+        } else {
+          toast.info('Resposta da recepção inserida. Revise antes de enviar.');
+        }
+      },
+      onError: (err: unknown) => {
+        toast.error(err instanceof Error ? err.message : 'Falha ao gerar resposta da recepção');
+      },
+    });
+  };
+
   // Insere uma resposta rápida no corpo (anexa se já houver rascunho), com {nome}
   // resolvido pelo primeiro nome do contato.
   const insertCanned = (text: string) => {
@@ -423,7 +448,26 @@ export function ConversationComposer({
           <MessageSquare className="h-3.5 w-3.5" /> WhatsApp
         </button>
 
-        {/* Sugestão IA — só email no MVP. */}
+        {/* Recepcionista virtual (Copiloto) — ancorado no script + objeções; ambos canais. */}
+        <button
+          type="button"
+          onClick={handleReceptionReply}
+          disabled={!validation.ok || isPending || reception.isPending}
+          title="Gerar resposta da recepção (script + objeções)"
+          className={cn(
+            'ml-auto inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-white px-3 py-1.5 text-xs font-medium text-emerald-900 transition-colors hover:bg-emerald-50',
+            'disabled:cursor-not-allowed disabled:opacity-50'
+          )}
+        >
+          {reception.isPending ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <Sparkles className="h-3.5 w-3.5" />
+          )}
+          {reception.isPending ? 'Pensando…' : 'Recepção IA'}
+        </button>
+
+        {/* Sugestão IA genérica — só email no MVP. */}
         {channel === 'email' && (
           <button
             type="button"
@@ -431,7 +475,7 @@ export function ConversationComposer({
             disabled={!validation.ok || isPending || suggest.isPending}
             title="Gerar sugestão de resposta com IA"
             className={cn(
-              'ml-auto inline-flex items-center gap-1.5 rounded-full border border-violet-300 bg-white px-3 py-1.5 text-xs font-medium text-violet-900 transition-colors hover:bg-violet-50',
+              'inline-flex items-center gap-1.5 rounded-full border border-violet-300 bg-white px-3 py-1.5 text-xs font-medium text-violet-900 transition-colors hover:bg-violet-50',
               'disabled:cursor-not-allowed disabled:opacity-50'
             )}
           >

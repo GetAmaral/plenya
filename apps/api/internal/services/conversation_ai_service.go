@@ -51,17 +51,28 @@ type AISuggestionResult struct {
 	Model      string `json:"model"`
 }
 
+// ReceptionReplyResult é a saída estruturada do recepcionista virtual. Reusada tanto pelo
+// modo Copiloto (humano revisa o Reply e envia) quanto pelo Automático (Fase 2).
+type ReceptionReplyResult struct {
+	Reply         string `json:"reply"`
+	Action        string `json:"action"`        // ask|answer|handle_objection|propose_schedule|handoff
+	HandoffReason string `json:"handoffReason"` // preenchido quando Action == handoff
+	DiscloseAI    bool   `json:"discloseAI"`    // true quando a resposta deve identificar-se como assistente
+	Model         string `json:"model"`
+}
+
 // Constantes pra controle de contexto. Calibrados pra ficar < 8k tokens em pt-BR
 // (1 token ≈ 3.5 chars em PT) com folga: 50 msgs * 500 chars = 25k chars ≈ 7k tokens.
 const (
 	aiSummaryMaxMessages    = 50
 	aiSuggestionMaxMessages = 10
+	aiReceptionMaxMessages  = 14
 	aiMaxContentChars       = 500
 
 	// Modelos. Haiku pra resumo (barato + rápido); Sonnet pra escrita (qualidade
 	// do tom Plenya). Atualize aqui quando subir versão (claude-md doc).
 	aiModelSummary    = "claude-haiku-4-5-20251001"
-	aiModelSuggestion = "claude-sonnet-4-6-20251001"
+	aiModelSuggestion = "claude-sonnet-4-6"
 
 	// Cache: resumo idêntico (mesmas msgs) reusado por 1h. Refresh manual via ?force=true.
 	aiSummaryCacheTTL = 1 * time.Hour
@@ -168,6 +179,89 @@ func (s *ConversationService) SuggestReply(
 		Suggestion: suggestion,
 		Model:      aiModelSuggestion,
 	}, nil
+}
+
+// GenerateReceptionReply gera a próxima mensagem do recepcionista virtual, ancorada no
+// cérebro (reception_brain.go: script + objeções + guardrails). Saída estruturada com a
+// ação sugerida e se deve identificar-se como IA. Não persiste (efêmero no Copiloto; no
+// Automático quem persiste é o job ao enviar).
+func (s *ConversationService) GenerateReceptionReply(
+	ctx context.Context,
+	ownerType string,
+	ownerID uuid.UUID,
+) (*ReceptionReplyResult, error) {
+	if s.aiService == nil {
+		return nil, fmt.Errorf("conversation: ai service não configurado")
+	}
+	if !isValidOwnerType(ownerType) || ownerID == uuid.Nil {
+		return nil, ErrConversationOwnerInvalid
+	}
+
+	activities, err := s.loadConversationActivities(ctx, ownerType, ownerID, aiReceptionMaxMessages)
+	if err != nil {
+		return nil, err
+	}
+	if len(activities) == 0 {
+		return nil, ErrAIConversationEmpty
+	}
+
+	transcript := buildTranscript(activities)
+	prompt := buildReceptionPrompt(transcript)
+
+	raw, err := s.aiService.CompleteText(ctx, prompt, CompleteTextOptions{
+		Model:       aiModelSuggestion,
+		MaxTokens:   900,
+		Temperature: 0.5,
+		Timeout:     20 * time.Second,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	res := parseReceptionReply(raw)
+	res.Reply = sanitizeReceptionVoice(res.Reply)
+	res.Model = aiModelSuggestion
+	if strings.TrimSpace(res.Reply) == "" {
+		return nil, ErrAIConversationEmpty
+	}
+	return res, nil
+}
+
+// sanitizeReceptionVoice remove maneirismos de IA que o modelo às vezes insere apesar do
+// prompt — sobretudo o travessão (AI-tell em 2026, banido na voz Plenya). Troca por vírgula.
+func sanitizeReceptionVoice(s string) string {
+	out := s
+	out = strings.ReplaceAll(out, " — ", ", ")
+	out = strings.ReplaceAll(out, " – ", ", ")
+	out = strings.ReplaceAll(out, "—", ", ")
+	out = strings.ReplaceAll(out, "–", ", ")
+	out = strings.ReplaceAll(out, " ,", ",")
+	out = strings.ReplaceAll(out, ",,", ",")
+	out = strings.ReplaceAll(out, "  ", " ")
+	return strings.TrimSpace(out)
+}
+
+// parseReceptionReply extrai o JSON da resposta do modelo de forma tolerante (lida com
+// markdown ou texto antes/depois). Se o parse falhar, trata o texto inteiro como Reply.
+func parseReceptionReply(raw string) *ReceptionReplyResult {
+	res := &ReceptionReplyResult{Action: "answer"}
+	trimmed := strings.TrimSpace(raw)
+
+	start := strings.Index(trimmed, "{")
+	end := strings.LastIndex(trimmed, "}")
+	if start >= 0 && end > start {
+		var parsed ReceptionReplyResult
+		if err := json.Unmarshal([]byte(trimmed[start:end+1]), &parsed); err == nil && strings.TrimSpace(parsed.Reply) != "" {
+			if parsed.Action == "" {
+				parsed.Action = "answer"
+			}
+			return &parsed
+		}
+	}
+
+	// Fallback: modelo não devolveu JSON — usa o texto cru como resposta.
+	res.Reply = trimmed
+	return res
 }
 
 // loadConversationActivities lê as últimas N activities elegíveis (channel email|whatsapp,

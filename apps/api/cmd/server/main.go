@@ -560,6 +560,7 @@ func setupRoutes(
 	conversationAILimiter := middleware.NewRateLimiter(10, time.Minute)
 	conv.Post("/:type/:id/ai/summary", conversationAILimiter.Middleware(), conversationHandler.AISummary)
 	conv.Post("/:type/:id/ai/suggest-reply", conversationAILimiter.Middleware(), conversationHandler.AISuggestReply)
+	conv.Post("/:type/:id/ai/reception-reply", conversationAILimiter.Middleware(), conversationHandler.AIReceptionReply)
 
 	// Auth routes (públicas).
 	// CRITICAL C4 — rate limit em login/register (anti brute-force).

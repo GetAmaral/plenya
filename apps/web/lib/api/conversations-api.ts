@@ -507,6 +507,32 @@ export function useConversationAISuggestion(
   });
 }
 
+export interface ReceptionReplyResult {
+  reply: string;
+  action: 'ask' | 'answer' | 'handle_objection' | 'propose_schedule' | 'handoff';
+  handoffReason?: string;
+  discloseAI: boolean;
+  model: string;
+}
+
+/**
+ * Recepcionista virtual: gera a próxima mensagem ancorada no script da recepção +
+ * banco de objeções + guardrails (CFM/LGPD/marca). No Copiloto, o atendente revisa o
+ * `reply` e envia. `action=handoff` indica que o caso deve ir para um humano.
+ */
+export function useConversationReceptionReply(
+  type: ConversationOwnerType,
+  id: string
+) {
+  return useMutation({
+    mutationFn: () =>
+      apiClient.post<ReceptionReplyResult>(
+        `/api/v1/conversations/${type}/${id}/ai/reception-reply`,
+        {}
+      ),
+  });
+}
+
 // =====================================================
 // Helpers visuais
 // =====================================================

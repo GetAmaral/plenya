@@ -635,6 +635,29 @@ func (h *ConversationHandler) AISuggestReply(c *fiber.Ctx) error {
 	return writeAIResult(c, res, err)
 }
 
+// AIReceptionReply gera a próxima mensagem do recepcionista virtual (ancorada no script +
+// objeções + guardrails). No Copiloto, o atendente revisa o reply e envia.
+//
+// @Summary  Resposta do recepcionista virtual
+// @Tags     conversations
+// @Security BearerAuth
+// @Produce  json
+// @Param    type path string true "lead | patient"
+// @Param    id   path string true "Owner ID"
+// @Success  200 {object} services.ReceptionReplyResult
+// @Failure  404 {object} dto.ErrorResponse
+// @Failure  422 {object} dto.ErrorResponse "Conversa sem mensagens"
+// @Failure  502 {object} dto.ErrorResponse "Claude API falhou"
+// @Router   /conversations/{type}/{id}/ai/reception-reply [post]
+func (h *ConversationHandler) AIReceptionReply(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	res, err := h.service.GenerateReceptionReply(c.UserContext(), ownerType, ownerID)
+	return writeAIResult(c, res, err)
+}
+
 // writeAIResult mapeia erros do AI service pra HTTP semântico.
 //
 // LGPD: NÃO inclui Message com detalhes do erro upstream em status 502/504 — o erro

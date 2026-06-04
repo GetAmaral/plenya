@@ -1,0 +1,87 @@
+# Plano — Recepcionista virtual com IA acoplado ao CRM
+
+> Plano aprovado 2026-06-04. Cópia versionada do plano de implementação (regra: persistir plano em arquivo).
+
+## Contexto
+
+Os leads da Plenya chegam por WhatsApp (funil IG → site/form → WhatsApp no 43 99974-8899). Hoje o
+CRM já tem IA pontual (sugestão de resposta manual, resumo de conversa, auto-confirmação de consulta
+por intenção), mas **não existe um recepcionista virtual** que atenda. O guia/script da recepção +
+banco de 12 objeções (`docs/atendimento/`) é a **base de conhecimento** que a IA usa para atender.
+
+Objetivo: um recepcionista virtual **híbrido e intercambiável** acoplado ao CRM. Por conversa, o
+atendente escolhe **Copiloto** (IA redige, humano envia) ou **Automático** (IA atende sozinha). O
+modo automático **entra sozinho se nenhum humano responder após X minutos** (configurável), para não
+deixar lead esperando (cobre noite/fim de semana naturalmente). O bot **se identifica** como
+assistente virtual, segue os guardrails CFM/LGPD/marca, e **faz handoff** pro humano em sinal de
+fechamento, dúvida clínica ou incerteza. Canal: **WhatsApp + copiloto no `/conversas`**. IG/site
+widget ficam para depois (envio de IG não existe no backend; não há widget de site).
+
+## Decisões fixadas (usuário, 2026-06-04)
+- Híbrido **copiloto ⇄ automático**, alternável por conversa (e default global), ligado/desligado pelo atendente.
+- Automático dispara **fallback por tempo**: se humano não responde em **X min** (configurável), a IA assume.
+- Bot **se identifica** como assistente virtual na primeira mensagem automática.
+- Canal WhatsApp + copiloto no CRM. IG/site = expansão futura.
+
+## Arquitetura e reuso (o que já existe)
+- **Geração de texto:** `AIService.CompleteText` (`services/ai_service.go`) e o padrão de
+  `ConversationService.SuggestReply` / `SummarizeConversation` (`services/conversation_ai_service.go`).
+- **Cérebro (knowledge):** system prompt versionado derivado do script + objeções
+  (`docs/atendimento/script-recepcao-conversao-leads.md`), inline no prompt. Inclui R$ 800 fixo e os guardrails.
+- **Envio:** `ConversationService.SendMessage`/`sendWhatsApp` (`services/conversation_service.go`) —
+  já valida opt-in e a **janela de 24h** via `Lead.LastInboundAt`. Fora da janela, vira sugestão/handoff.
+- **Gatilho inbound:** padrão `PatientInboundWAHook` (`lead_service.go SetPatientInboundWAHook` +
+  `cmd/server/appointment_intent_hook.go`). Estender para cobrir **lead** também.
+- **Scheduler:** molde `scheduler/appointment_reminder_job.go` para o job de fallback por tempo.
+- **Handoff/notificação:** `NotificationService` (reuso).
+
+## Fase 1 (executável agora) — Copiloto ancorado no script + cérebro
+1. **Cérebro:** `services/reception_brain.go` com o system prompt (script condensado + objeções +
+   guardrails + R$ 800 + voz da marca + regra de handoff).
+2. **Geração ancorada:** `ConversationService.GenerateReceptionReply(ctx, ownerType, ownerID)` em
+   `conversation_ai_service.go`, reusando `CompleteText`, saída estruturada
+   `{reply, action: ask|answer|handle_objection|propose_schedule|handoff, handoffReason, discloseAI}`.
+3. **Handler + rota:** `POST /conversations/:type/:id/ai/reception-reply` (junto das rotas AI em `main.go`).
+4. **Frontend:** botão "Resposta da recepção" em `conversation-composer.tsx` → insere no compositor
+   para revisar e enviar com 1 clique (humano sempre envia).
+
+## Fase 2 — Modo automático + fallback timer + handoff + disclosure
+1. Model `ConversationAutomation` (owner_type/owner_id XOR, `mode` off|copilot|auto, `fallback_minutes`,
+   `paused_until`, `last_bot_at`, `updated_by`) + migration goose **`00017_conversation_automation.sql`**.
+   Default global via config (`RECEPTION_BOT_DEFAULT_MODE`, `RECEPTION_BOT_FALLBACK_MINUTES`).
+2. Usuário "Assistente Plenya" (seed) para `ActorUserID` das mensagens do bot.
+3. Job `scheduler/conversation_auto_reply_job.go` (~1 min): conversas `mode=auto` com inbound sem
+   resposta humana há ≥ fallback_minutes → `GenerateReceptionReply` → guardrails → `SendMessage`
+   (janela 24h) → `LeadActivity{message_sent, metadata:{ai_generated:true}}` + `last_bot_at`. 1ª msg do bot identifica-se.
+4. Handoff: `action=handoff`/sinais → `paused_until` + notifica equipe; "Assumir" no UI pausa o bot.
+5. Frontend: toggle Off/Copiloto/Automático + `fallback_minutes` por conversa, default global em
+   configurações, badge "respondido pela IA", botão "Assumir".
+6. Anti-spam: limite de N mensagens do bot por conversa/hora.
+
+## Fase 3 — Refinos (outline)
+Propor horários reais (slots do calendar), métricas do bot, ajuste fino do cérebro, expansão IG/site.
+
+## Guardrails do bot (lei)
+Identifica-se como assistente; **nunca** diagnostica, interpreta exame ou promete resultado (CFM);
+não pede dado clínico sensível (LGPD); **não fala preço do Continuum**; consulta é **R$ 800 fixo, não
+negociável**; sem marcas/varejo, sem "medicina preditiva", sem maneirismos de IA nem travessão; voz
+clínica conectiva PT-BR; **handoff imediato** em dúvida clínica ou sinal de fechamento; só envia
+free-form dentro da janela de 24h.
+
+## Verificação
+- **Fase 1:** unit do prompt builder; Claude real em dev gera resposta ancorada (cita R$ 800, trata
+  objeção, sem violar guardrails); Playwright no `/conversas`; `go build ./...` verde.
+- **Fase 2:** migrate up/down 00017; teste do job; handoff pausa + notifica; toggle; rate-limit. QA + DB.
+- **Guardrails:** bateria adversarial (diagnóstico, preço Continuum, "é robô?", negociar preço).
+
+## Status de execução
+- [x] **Fase 1 CONCLUÍDA (2026-06-04):** `reception_brain.go` (cérebro) + `GenerateReceptionReply`
+  (saída estruturada reply/action/handoffReason/discloseAI) + handler `AIReceptionReply` + rota
+  `POST /conversations/:type/:id/ai/reception-reply` + frontend (hook `useConversationReceptionReply`
+  + botão "Recepção IA" no compositor, ambos canais). Verificado com Claude real em dev: resposta
+  ancorada (segura R$ 800, sem desconto, sem preço do Continuum), **handoff** em dúvida clínica (não
+  diagnostica/medica), **disclosure** na 1ª mensagem. `go build` verde, tsc web sem erro novo.
+  Inclui **fix:** `aiModelSuggestion` era snapshot inválido `claude-sonnet-4-6-20251001` (404 na
+  Anthropic) → alias `claude-sonnet-4-6` (conserta também o "Sugerir resposta" pré-existente) +
+  `sanitizeReceptionVoice` remove travessões que o modelo insere.
+- [ ] Fase 2 (modo automático + fallback timer + handoff + disclosure + toggle) · [ ] Fase 3
