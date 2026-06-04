@@ -82,6 +82,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
       apple: '/apple-touch-icon.svg',
     },
+    // Verificação Search Console / Bing por env (mesmo padrão do site-getulio).
+    // Quando os códigos chegarem, colar GOOGLE_SITE_VERIFICATION / BING_SITE_VERIFICATION
+    // no Coolify (app Plenya) e redeploy — sem mexer em código.
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+      other: {
+        'msvalidate.01': process.env.BING_SITE_VERIFICATION || '',
+      },
+    },
   };
 }
 
