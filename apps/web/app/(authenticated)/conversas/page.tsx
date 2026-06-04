@@ -22,6 +22,7 @@ import {
 import { ConversationListRow } from '@/components/conversations/conversation-list-item';
 import { ConversationViewer } from '@/components/conversations/conversation-viewer';
 import { NewEmailDialog } from '@/components/conversations/new-email-dialog';
+import { ReceptionMetricsBar } from '@/components/conversations/reception-metrics-bar';
 
 type AssignedFilter = 'all' | 'mine';
 type ChannelFilter = 'all' | 'email' | 'whatsapp';
@@ -141,6 +142,8 @@ export default function ConversasPage() {
           }
         }}
       />
+
+      <ReceptionMetricsBar />
 
       {/* Filtros */}
       <div className="flex flex-wrap items-center gap-2">

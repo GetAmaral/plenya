@@ -704,6 +704,17 @@ func (h *ConversationHandler) SetAutomation(c *fiber.Ctx) error {
 	return c.JSON(eff)
 }
 
+// ReceptionMetrics GET /conversations/ai/metrics?days=30
+// Métricas de atuação do recepcionista virtual.
+func (h *ConversationHandler) ReceptionMetrics(c *fiber.Ctx) error {
+	days := c.QueryInt("days", 30)
+	m, err := h.autoSvc.ComputeMetrics(c.UserContext(), days)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(m)
+}
+
 // writeAIResult mapeia erros do AI service pra HTTP semântico.
 //
 // LGPD: NÃO inclui Message com detalhes do erro upstream em status 502/504 — o erro

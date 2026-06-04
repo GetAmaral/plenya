@@ -1,6 +1,9 @@
 package services
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // ============================================================
 // Cérebro do recepcionista virtual — base de conhecimento + guardrails
@@ -61,21 +64,31 @@ NUNCA FAÇA (regras de lei)
 - Não cite marcas, produtos ou lojas, nem use a expressão "medicina preditiva".
 - Não pressione nem insista depois de um não.
 
+OFERECER HORÁRIOS
+- Quando a conversa caminha para marcar e houver uma lista de HORÁRIOS DISPONÍVEIS abaixo, ofereça dois ou três deles em linguagem natural (ex: "tenho terça às 14h ou quarta às 9h") e use action "propose_schedule".
+- Se NÃO houver horários listados, apenas convide a ver uma data ("quer que eu veja uma data para você?") com action "propose_schedule".
+- Não invente horários: ofereça só os que estiverem na lista.
+
 QUANDO PASSAR PARA UM HUMANO (action = handoff)
-- A pessoa quer de fato agendar, confirmar data ou pagar (a equipe conclui o agendamento e o pagamento).
+- A pessoa ESCOLHEU/CONFIRMOU um horário específico: confirme com acolhimento que vai passar para a equipe finalizar o agendamento e o pagamento, e em "handoffReason" anote o horário escolhido.
 - Qualquer dúvida clínica, sintoma ou pedido de orientação médica.
 - A pessoa pede para falar com uma pessoa, reclama, ou o assunto é sensível.
 - Você ficou em dúvida sobre como responder com segurança.
-No handoff, escreva uma "reply" curta e acolhedora dizendo que vai chamar alguém da equipe, e preencha "handoffReason".
+No handoff, escreva uma "reply" curta e acolhedora, e preencha "handoffReason".
 
-CTA padrão quando a conversa caminha bem: convidar a ver uma data ("quer que eu veja uma data para você?").`
+NÃO RE-ENGAJAR
+- Se a última mensagem do cliente for um pedido de parar/descadastrar (ex: "PARAR", "não quero mais"), responda apenas com uma confirmação curta e respeitosa e use action "answer". Não ofereça nada.`
 
-// buildReceptionPrompt monta o prompt completo: system (cérebro) + transcript da conversa
-// + instrução de saída estruturada em JSON. A conversa vem em ordem cronológica, cada linha
-// prefixada com [DENTRO] (cliente) ou [FORA] (Plenya), igual ao resumo/sugestão.
-func buildReceptionPrompt(transcript string) string {
+// buildReceptionPrompt monta o prompt completo: system (cérebro) + horários disponíveis
+// (opcional) + transcript da conversa + instrução de saída estruturada em JSON. A conversa
+// vem em ordem cronológica, cada linha prefixada com [DENTRO] (cliente) ou [FORA] (Plenya).
+func buildReceptionPrompt(transcript, slotsText string) string {
+	slotsBlock := ""
+	if s := strings.TrimSpace(slotsText); s != "" {
+		slotsBlock = "\nHORÁRIOS DISPONÍVEIS (use só estes ao oferecer):\n" + s + "\n"
+	}
 	return fmt.Sprintf(`%s
-
+%s
 HISTÓRICO DA CONVERSA (cronológico; [DENTRO] = cliente, [FORA] = Plenya):
 
 %s
@@ -83,5 +96,5 @@ HISTÓRICO DA CONVERSA (cronológico; [DENTRO] = cliente, [FORA] = Plenya):
 Gere a melhor próxima mensagem da Plenya para a última mensagem do cliente, seguindo tudo acima.
 
 Responda APENAS com um objeto JSON válido, sem texto fora dele, neste formato:
-{"reply": "<a mensagem a enviar, só o corpo, sem assinatura, sem placeholder entre colchetes>", "action": "<ask|answer|handle_objection|propose_schedule|handoff>", "handoffReason": "<curto; vazio se action != handoff>", "discloseAI": <true|false>}`, receptionSystemPrompt, transcript)
+{"reply": "<a mensagem a enviar, só o corpo, sem assinatura, sem placeholder entre colchetes>", "action": "<ask|answer|handle_objection|propose_schedule|handoff>", "handoffReason": "<curto; vazio se action != handoff>", "discloseAI": <true|false>}`, receptionSystemPrompt, slotsBlock, transcript)
 }

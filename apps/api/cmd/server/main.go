@@ -546,6 +546,7 @@ func setupRoutes(
 	conv.Use(middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager))
 	conv.Use(middleware.AuditLog(database.DB))
 	conv.Get("/", conversationHandler.List)
+	conv.Get("/ai/metrics", conversationHandler.ReceptionMetrics)
 	conv.Post("/attachments/upload", conversationAttachmentHandler.Upload)
 	conv.Post("/compose", conversationHandler.Compose)
 	conv.Get("/:type/:id/messages", conversationHandler.Messages)
@@ -1318,6 +1319,11 @@ func setupRoutes(
 	calendarSlotService := services.NewCalendarSlotService(database.DB, googleCalendarService)
 	googleOAuthHandler := handlers.NewGoogleOAuthHandler(cfg, googleCalendarService, database.DB)
 	calendarSlotHandler := handlers.NewCalendarSlotHandler(calendarSlotService)
+
+	// Recepcionista virtual Fase 3: provê horários reais ao cérebro do bot (best-effort).
+	conversationService.SetReceptionSlotsProvider(func(ctx context.Context) string {
+		return services.BuildUpcomingSlotsText(ctx, database.DB, calendarSlotService)
+	})
 
 	// /api/v1/integrations/google
 	// Importante: callback NÃO usa middleware Auth (Google redirect não traz JWT;

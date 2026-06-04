@@ -11,11 +11,13 @@ package scheduler
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/datatypes"
 	"gorm.io/gorm"
 
 	"github.com/plenya/api/internal/config"
@@ -93,6 +95,17 @@ func (j *ConversationAutoReplyJob) eligible(ctx context.Context, ownerType strin
 	ownerCol := "lead_id"
 	if ownerType == string(models.ConversationOwnerPatient) {
 		ownerCol = "patient_id"
+	}
+
+	// Lead que pediu descadastro ou sem opt-in não recebe resposta da IA (LGPD).
+	if ownerType == string(models.ConversationOwnerLead) {
+		var l models.Lead
+		if err := j.db.WithContext(ctx).Select("status", "whats_app_opt_in").First(&l, "id = ?", ownerID).Error; err != nil {
+			return false
+		}
+		if l.Status == models.LeadStatusUnsubscribed || !l.WhatsAppOptIn {
+			return false
+		}
 	}
 
 	// Última mensagem recebida do cliente (WhatsApp).
@@ -183,9 +196,6 @@ func (j *ConversationAutoReplyJob) handleOne(ctx context.Context, ownerType stri
 func (j *ConversationAutoReplyJob) doHandoff(ctx context.Context, ownerType string, ownerID uuid.UUID, reason string) {
 	_ = j.autoSvc.Pause(ctx, ownerType, ownerID, time.Now().UTC().Add(handoffPauseDuration))
 
-	if j.notifSvc == nil {
-		return
-	}
 	var leadID, patientID *uuid.UUID
 	if ownerType == string(models.ConversationOwnerPatient) {
 		id := ownerID
@@ -193,6 +203,27 @@ func (j *ConversationAutoReplyJob) doHandoff(ctx context.Context, ownerType stri
 	} else {
 		id := ownerID
 		leadID = &id
+	}
+
+	// Registra o handoff como activity interna (auditoria + métrica).
+	note := "Recepção IA encaminhou para humano"
+	if reason != "" {
+		note = note + ": " + reason
+	}
+	metaJSON, _ := json.Marshal(map[string]any{"ai_handoff": true})
+	botID := services.BotUserID
+	_ = j.db.WithContext(ctx).Create(&models.LeadActivity{
+		LeadID:      leadID,
+		PatientID:   patientID,
+		Type:        models.LeadActivityNoteAdded,
+		Channel:     models.LeadChannelInternal,
+		Content:     &note,
+		Metadata:    datatypes.JSON(metaJSON),
+		ActorUserID: &botID,
+	}).Error
+
+	if j.notifSvc == nil {
+		return
 	}
 	title := "Recepção IA pediu ajuda humana"
 	msg := reason

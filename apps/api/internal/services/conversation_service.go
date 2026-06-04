@@ -53,6 +53,17 @@ type ConversationService struct {
 	// Interpretador de exames (2.0b), injetado via SetExamInterpreter.
 	labBatches     *LabResultBatchService
 	processingJobs *ProcessingJobService
+
+	// Provedor de horários disponíveis (recepcionista virtual Fase 3), injetado via
+	// SetReceptionSlotsProvider. Retorna um bloco de texto pronto pro prompt, ou "".
+	receptionSlots func(ctx context.Context) string
+}
+
+// SetReceptionSlotsProvider injeta o provedor de horários reais usado pelo recepcionista
+// virtual para oferecer datas concretas. Best-effort: se nil ou retornar "", o bot apenas
+// convida a ver uma data sem citar horários.
+func (s *ConversationService) SetReceptionSlotsProvider(fn func(ctx context.Context) string) {
+	s.receptionSlots = fn
 }
 
 // SetMediaServices injeta os serviços de mídia (WhatsApp Fase 2) após DI em main.go.

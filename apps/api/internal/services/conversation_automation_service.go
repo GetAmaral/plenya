@@ -140,6 +140,63 @@ func (s *ConversationAutomationService) TouchLastBot(ctx context.Context, ownerT
 		Update("last_bot_at", now)
 }
 
+// ReceptionMetrics resume a atuação do recepcionista virtual num período.
+type ReceptionMetrics struct {
+	PeriodDays           int              `json:"periodDays"`
+	AutoReplies          int64            `json:"autoReplies"`
+	Handoffs             int64            `json:"handoffs"`
+	ConversationsWithBot int64            `json:"conversationsWithBot"`
+	ConvertedAfterBot    int64            `json:"convertedAfterBot"`
+	ByMode               map[string]int64 `json:"byMode"`
+	GloballyEnabled      bool             `json:"globallyEnabled"`
+}
+
+// ComputeMetrics calcula as métricas do bot nos últimos `days` dias.
+func (s *ConversationAutomationService) ComputeMetrics(ctx context.Context, days int) (*ReceptionMetrics, error) {
+	if days <= 0 {
+		days = 30
+	}
+	since := time.Now().UTC().AddDate(0, 0, -days)
+	m := &ReceptionMetrics{PeriodDays: days, ByMode: map[string]int64{}, GloballyEnabled: s.cfg.ReceptionBot.Enabled}
+
+	s.db.WithContext(ctx).Model(&models.LeadActivity{}).
+		Where("type = ?", models.LeadActivityMessageSent).
+		Where("created_at > ?", since).
+		Where("metadata ->> 'ai_generated' = ?", "true").
+		Count(&m.AutoReplies)
+
+	s.db.WithContext(ctx).Model(&models.LeadActivity{}).
+		Where("type = ?", models.LeadActivityNoteAdded).
+		Where("created_at > ?", since).
+		Where("metadata ->> 'ai_handoff' = ?", "true").
+		Count(&m.Handoffs)
+
+	s.db.WithContext(ctx).Raw(`
+		SELECT count(DISTINCT coalesce(lead_id::text, patient_id::text))
+		FROM lead_activities
+		WHERE type = ? AND created_at > ? AND metadata ->> 'ai_generated' = 'true'`,
+		models.LeadActivityMessageSent, since).Scan(&m.ConversationsWithBot)
+
+	s.db.WithContext(ctx).Raw(`
+		SELECT count(*) FROM leads
+		WHERE status = 'converted' AND id IN (
+			SELECT DISTINCT lead_id FROM lead_activities
+			WHERE lead_id IS NOT NULL AND type = ? AND created_at > ? AND metadata ->> 'ai_generated' = 'true'
+		)`, models.LeadActivityMessageSent, since).Scan(&m.ConvertedAfterBot)
+
+	type modeCount struct {
+		Mode  string
+		Count int64
+	}
+	var rows []modeCount
+	s.db.WithContext(ctx).Model(&models.ConversationAutomation{}).
+		Select("mode, count(*) as count").Group("mode").Scan(&rows)
+	for _, r := range rows {
+		m.ByMode[r.Mode] = r.Count
+	}
+	return m, nil
+}
+
 // ListAutoCandidates retorna as conversas em modo auto não pausadas.
 func (s *ConversationAutomationService) ListAutoCandidates(ctx context.Context) ([]models.ConversationAutomation, error) {
 	var rows []models.ConversationAutomation

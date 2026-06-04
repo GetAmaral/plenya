@@ -106,7 +106,20 @@ free-form dentro da janela de 24h.
   - **Verificado end-to-end em dev** (kill switch ligado temporariamente): auto-reply enviado pelo bot
     (ai_generated, idempotente), handoff em dúvida clínica (cortesia + pausa + 3 notificações ao staff),
     toggle GET/PUT. `go build` verde; tsc web sem erro novo. **Próxima migration = 00019.**
-- [ ] Fase 3 (propor horários do calendar, métricas, IG/site)
+- [x] **Fase 3 (parcial) CONCLUÍDA (2026-06-04):** horários reais + métricas + guardrails.
+  - **Horários reais:** `BuildUpcomingSlotsText` (`reception_slots.go`) busca a disponibilidade real
+    via `CalendarSlotService.ListAvailable` (médico padrão = 1º user role doctor; consulta 60 min) e
+    injeta no cérebro via `ConversationService.SetReceptionSlotsProvider`. O bot oferece horários
+    concretos (action `propose_schedule`); quando o paciente escolhe, vira `handoff` com o horário no
+    `handoffReason` (humano finaliza agendamento + pagamento; NÃO auto-booka). Sem working_hours → cai
+    gracioso em "quer que eu veja uma data?".
+  - **Métricas:** `ComputeMetrics` + `GET /conversations/ai/metrics?days=30` (auto-respostas, handoffs,
+    conversas atendidas, convertidos após bot, por modo) + faixa `ReceptionMetricsBar` no topo do `/conversas`.
+  - **Guardrails:** job pula lead `unsubscribed`/sem opt-in; handoff registrado como `LeadActivity`
+    (`metadata.ai_handoff`, auditoria + métrica); cérebro não re-engaja após "PARAR".
+  - **Verificado em dev:** ofereceu slots reais (seed de working_hours) → escolha → handoff com horário;
+    métricas retornam JSON. `go build` verde; tsc web sem erro novo. **Nenhuma migration nova.**
+  - **NÃO feito (fora de escopo desta rodada):** expansão IG/site (precisa envio IG no backend / widget).
 
 ## Como ligar em produção
 1. Setar no Coolify (app api): `RECEPTION_BOT_ENABLED=true` (+ ajustar `RECEPTION_BOT_FALLBACK_MINUTES`

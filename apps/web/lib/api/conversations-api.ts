@@ -557,6 +557,26 @@ export function useSetConversationAutomation(
   });
 }
 
+export interface ReceptionMetrics {
+  periodDays: number;
+  autoReplies: number;
+  handoffs: number;
+  conversationsWithBot: number;
+  convertedAfterBot: number;
+  byMode: Record<string, number>;
+  globallyEnabled: boolean;
+}
+
+/** Métricas de atuação do recepcionista virtual (últimos N dias). */
+export function useReceptionMetrics(days = 30) {
+  return useQuery({
+    queryKey: ['reception-metrics', days],
+    queryFn: () =>
+      apiClient.get<ReceptionMetrics>(`/api/v1/conversations/ai/metrics?days=${days}`),
+    staleTime: 60_000,
+  });
+}
+
 /**
  * Recepcionista virtual: gera a próxima mensagem ancorada no script da recepção +
  * banco de objeções + guardrails (CFM/LGPD/marca). No Copiloto, o atendente revisa o

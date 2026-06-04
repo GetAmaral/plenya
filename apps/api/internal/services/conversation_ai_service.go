@@ -206,7 +206,11 @@ func (s *ConversationService) GenerateReceptionReply(
 	}
 
 	transcript := buildTranscript(activities)
-	prompt := buildReceptionPrompt(transcript)
+	slotsText := ""
+	if s.receptionSlots != nil {
+		slotsText = s.receptionSlots(ctx)
+	}
+	prompt := buildReceptionPrompt(transcript, slotsText)
 
 	raw, err := s.aiService.CompleteText(ctx, prompt, CompleteTextOptions{
 		Model:       aiModelSuggestion,
