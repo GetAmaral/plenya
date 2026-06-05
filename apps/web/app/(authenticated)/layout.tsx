@@ -6,6 +6,7 @@ import { GlobalProcessingMonitor } from "@/components/processing/GlobalProcessin
 import { GlobalSearch } from "@/components/global-search";
 import { TopBar } from "@/components/layout/top-bar";
 import { PatientContextBar } from "@/components/layout/patient-context-bar";
+import { WhatsAppDock } from "@/components/conversations/whatsapp-dock";
 import { PageHeaderProvider } from "@/lib/page-context";
 
 export default function AuthenticatedLayout({
@@ -28,6 +29,8 @@ export default function AuthenticatedLayout({
         {/* Busca global de pacientes (Cmd/Ctrl+K). Renderizada uma vez,
             disponível em todas as telas autenticadas do staff. */}
         <GlobalSearch />
+        {/* Dock global de WhatsApp — persiste entre navegações (responder de qualquer tela). */}
+        <WhatsAppDock />
         <main
           className="min-h-screen transition-all duration-300 ease-in-out print:ml-0"
           style={{ marginLeft: `${sidebarWidth}px` }}
