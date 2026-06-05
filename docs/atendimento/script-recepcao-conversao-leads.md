@@ -136,18 +136,38 @@ O valor é R$ 800,00. Quer que eu já veja uma data para você?
 *(Para o público que pergunta preço a frio, responder o valor rápido e ancorado é melhor do que enrolar.
 Ver objeção 1 se vier o "tá caro".)*
 
-### 3.2 Descoberta (1 a 3 perguntas, nunca um questionário)
+### 3.2 Descoberta (conversa em quatro tempos, nunca um questionário)
+
+A descoberta segue quatro tempos, em ritmo de conversa. Não dispare as quatro de uma vez: faça uma,
+escute, e deixe a resposta puxar a próxima. Os dois primeiros tempos quase sempre bastam; os dois
+últimos entram quando a pessoa abre espaço.
+
 ```
-Me conta um pouco: o que te fez procurar um acompanhamento agora?
-```
-Conforme a resposta, uma segunda pergunta natural:
-```
-Entendi. E você já fez exames recentes ou faz acompanhamento com algum médico hoje?
+1. Contexto       — "Me conta um pouco: o que te fez procurar um acompanhamento agora?"
+2. Incômodo       — "Entendi. E o que mais tem te incomodado nisso?"
+3. Peso na vida   — "Isso tem pesado no seu dia a dia, na sua rotina?"
+4. Cenário ideal  — "E como você imagina se sentir se isso entrasse nos eixos?"
 ```
 
-> **LGPD e CFM:** não peça histórico clínico detalhado por mensagem. Pergunte o contexto geral
-> ("o que te trouxe", "faz acompanhamento hoje"), não diagnósticos, sintomas detalhados ou resultados de
-> exame. O lugar disso é a consulta, com o médico.
+A ordem importa: ela leva a pessoa do fato (contexto) ao que de fato move (como seria melhor), e é isso
+que dá sentido ao valor da consulta quando ele vier. Se em qualquer ponto a pessoa já pedir para marcar,
+pare a descoberta e vá agendar.
+
+> **LGPD e CFM:** os tempos 3 e 4 falam de **vida e rotina**, nunca de sintoma, resultado de exame ou
+> diagnóstico. "Tem pesado na sua rotina?" é contexto; "que exame deu alterado?" é anamnese, e isso é da
+> consulta, com o médico. Não peça histórico clínico detalhado por mensagem.
+
+### 3.2.1 Espelhar e aprofundar
+
+Antes de seguir para o valor, mostre que escutou. A técnica é simples: pegue a palavra ou a emoção que a
+pessoa usou e devolva com uma pergunta. Reduz a defesa, aprofunda a descoberta, e não promete nada.
+
+```
+Lead: "ando exausta o tempo todo."
+Você: "Quando você diz exausta o tempo todo, como isso aparece no seu dia?"
+```
+Não force a técnica em toda fala; use quando a pessoa traz uma palavra carregada (exausta, perdida,
+travada, sem ânimo). Espelhar o termo dela vale mais do que reformular com as suas palavras.
 
 ### 3.3 Valor (conectar a dor ao que a consulta entrega)
 
@@ -167,6 +187,10 @@ Faz todo sentido procurar agora. A medicina da Plenya é justamente sobre anteci
 dá para mudar. Na consulta, o Dr. Getúlio faz uma leitura completa do seu histórico e dos seus exames e
 monta um plano com você. Quer que eu veja uma data?
 ```
+
+> **Pedir passagem para avançar.** Em vez de empurrar para o agendamento, peça licença para o próximo
+> passo: "quer que eu te mostre como funciona na prática?" ou "quer que eu veja uma data para você?". A
+> pessoa concede o passo; você conduz sem forçar. Vale na transição para a etapa 4 e para a 6.
 
 ### 3.4 Plantar o Continuum (de leve, sem fechar)
 ```
@@ -226,12 +250,21 @@ Se for um bom momento, segue. Se não:
 > "Sem problema. Qual horário costuma ser melhor para você, de manhã ou à tarde? Te ligo de volta."
 *(Marque o retorno com dia e hora. Não deixe em aberto.)*
 
-### 4.3 Descoberta
-> "O que te fez procurar um acompanhamento agora?"
+### 4.3 Descoberta (os quatro tempos, em voz)
+> "O que te fez procurar um acompanhamento agora?" *(contexto)*
 >
 > *(escuta)*
 >
-> "E hoje você faz acompanhamento com algum médico, fez exames recentes?"
+> "Entendi. E o que mais tem te incomodado nisso?" *(incômodo)*
+>
+> *(se a pessoa abrir espaço)*
+>
+> "Isso tem pesado no seu dia a dia?" *(peso na vida)* … "Como você imagina se sentir se isso entrasse
+> nos eixos?" *(cenário ideal)*
+
+Mesma regra do WhatsApp: uma pergunta de cada vez, sem interrogatório, e os tempos 3 e 4 falam de vida e
+rotina, nunca de sintoma ou exame. Se ouvir uma palavra carregada, espelhe antes de seguir: "quando você
+diz [palavra], como isso aparece no seu dia?".
 
 ### 4.4 Valor (exemplo)
 > "Pelo que você me conta, é exatamente o tipo de situação que a consulta com o Dr. Getúlio foi pensada
@@ -265,9 +298,23 @@ Estrutura de cada item: o que a pessoa diz, o princípio para responder, e a res
 Regra geral: **acolha primeiro, responda com clareza, devolva o próximo passo.** Nunca discuta, nunca
 soe na defensiva.
 
+> **Antes de responder, leia o que é a objeção.** Há dois tipos, e o tom muda entre eles:
+> - **Dúvida real** — pergunta concreta (prazo, formato, como funciona, o que está incluso, convênio).
+>   Quem pergunta quer entender. Responda direto e com clareza, e devolva o próximo passo.
+> - **Evasiva** — "vou pesquisar", "depois eu vejo", "preciso pensar" sem nenhuma pergunta atrás. Quem
+>   foge não quer informação, quer espaço. Acolha, segure um próximo passo leve, e não insista.
+>
+> À dúvida, clareza; à evasiva, espaço com uma porta aberta. Tratar evasiva com argumento empurra, e o
+> público da Plenya recua quando sente que está sendo conduzido à força.
+
 ### Objeção 1: "Tá caro" / "Por que tão caro?"
 **Princípio:** não defenda o preço, mostre o que está dentro dele. Ancore na consulta longa e na conduta.
 O valor é fixo; não ofereça desconto nem negocie.
+
+> **Regra do preço.** Quando você disser o valor (aqui ou no agendamento), diga em uma frase calma e
+> pare. Não emende parcelamento, justificativa ou "mas inclui X, Y e Z" logo depois: isso soa como
+> insegurança. O contexto do que a consulta entrega vem **antes** do preço, não depois. Dito o valor,
+> deixe a pessoa reagir.
 - **WhatsApp:** "Entendo. O valor reflete uma consulta completa, de cerca de 60 minutos, com leitura de um
   painel de exames mais amplo e uma conduta construída para o seu caso, não uma consulta rápida de rotina.
   É um cuidado pensado para durar. Quer que eu veja uma data para você conhecer o Dr. e avaliar se faz
@@ -387,6 +434,22 @@ outro médico.
 
 **Sinais de que é hora de fechar:** a pessoa pergunta sobre horários, valor, como funciona o pagamento, ou
 diz "acho que faz sentido". Quando ouvir isso, vá para o agendamento, não continue vendendo.
+
+### 6.0 Recapitular antes de falar o valor (lead aquecido)
+
+Quando a pessoa já se abriu na descoberta e o clima é de avançar, recapitule o que ela trouxe antes de
+dizer o preço. Costura a conversa, confirma que você escutou, e faz o valor chegar num terreno já
+preparado. Sem nenhuma promessa de resultado: você descreve a qualidade do olhar, nunca um desfecho.
+
+```
+"Então, pelo que você me conta, o que mais pesa é [a situação dela, nas palavras dela]. A consulta foi
+pensada justamente para olhar isso com calma: cerca de 60 minutos, com um painel de exames ampliado e
+uma conduta para o seu caso. Faz sentido até aqui?"
+```
+
+Depois do "sim", o valor, em uma frase (ver Regra do preço, objeção 1). O "faz sentido até aqui?" não é
+pedir validação: é mais um ponto de acordo antes de chegar no preço. Se a pessoa hesitar nesse ponto, ela
+ainda tem uma dúvida; volte a escutar antes de avançar.
 
 **Dados a coletar (mínimo necessário):**
 - Nome completo
@@ -529,6 +592,15 @@ Palhano, Londrina/PR · Seg a sex, 8h às 18h · plenyasaude.com.br · @plenyaSa
 **3 diferenças em uma linha:** consulta longa (cerca de 60 min), painel de exames ampliado lido entre o normal e
 o ótimo, e acompanhamento medido no tempo pelo Escore Plenya, com equipe integrada quando o caso pede.
 
+**Descoberta (4 tempos):** Contexto → Incômodo → Peso na rotina → Como seria melhor. Uma de cada vez.
+Palavra carregada? Espelhe: "quando você diz [palavra], como isso aparece no seu dia?".
+
+**Antes do preço (lead aquecido):** recapitule a dor dela → "faz sentido até aqui?" → valor em uma frase,
+e pare. Contexto antes do preço, nunca depois.
+
+**Dúvida vs. evasiva:** pergunta concreta → responda direto; "vou pensar/pesquisar" sem pergunta → acolha,
+porta aberta, não insista.
+
 **Top 5 objeções (resposta de bolso):**
 1. *Tá caro* → "É uma avaliação completa de cerca de 60 min com conduta para o seu caso, não uma consulta
    rápida. Quer conhecer e decidir com calma?"
@@ -560,6 +632,38 @@ o ótimo, e acompanhamento medido no tempo pelo Escore Plenya, com equipe integr
   sente pressão.
 - **Tom escrito e falado:** frases inteiras e conectadas. Sem travessão, sem gírias, sem fechos de efeito,
   sem excesso de emoji ou exclamação.
+
+---
+
+## 12. Do método: o que tomamos e o que deixamos de fora
+
+Boa parte das técnicas deste guia (descoberta em quatro tempos, espelhamento, recapitular antes do preço,
+disciplina ao dizer o valor, distinguir dúvida de evasiva) vem de um método de vendas consultivas. Não
+adotamos o método inteiro. A Plenya é uma clínica regulada, e a voz da marca é anti-pressão e
+anti-promessa. O que aproveitamos é a **engenharia da escuta**; o que descartamos é a **condução
+comercial forçada**. Para manutenção futura, fica registrado o filtro:
+
+**O que trouxemos (e por quê):**
+- **Ordem das perguntas na descoberta** — leva a pessoa do fato ao que realmente move, e dá sentido ao
+  valor antes do preço.
+- **Espelhar a palavra da pessoa** — mostra escuta, reduz a defesa, aprofunda sem prometer.
+- **Recapitular e confirmar antes do preço** — o valor chega em terreno preparado, não no escuro.
+- **Dizer o preço em uma frase e parar** — firmeza tranquila lê como segurança; emendar álibis lê como
+  insegurança.
+- **Distinguir dúvida real de evasiva** — clareza para quem pergunta, espaço para quem hesita.
+- **Pedir passagem para o próximo passo** — conduz sem empurrar.
+
+**O que deixamos de fora (e por quê):**
+- **Agressividade comercial** ("ser mais agressivo", criar urgência, "quando você vai decidir?"). O
+  público da Plenya recua quando sente pressão.
+- **Medo como alavanca** ("imagina o que você perde se não fizer"). Usamos só a janela silenciosa, com
+  calma, nunca o susto. Antecipar não é amedrontar.
+- **Promessa de transformação ou resultado** ("vamos resolver os problemas da sua vida"). Isso é vedado
+  pelo CFM e pela voz da marca. Descrevemos a qualidade do cuidado, nunca um desfecho de saúde.
+- **Negociar escopo para dar desconto.** O preço é único e não há escopo a reduzir. A firmeza gentil é a
+  versão correta e superior.
+- **Escada de micro-sins mecânica, bajulação, fechos de efeito, "não é X, é Y".** Já vetados pela voz da
+  casa.
 
 ---
 
