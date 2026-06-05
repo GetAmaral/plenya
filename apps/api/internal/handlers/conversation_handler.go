@@ -242,6 +242,7 @@ func (h *ConversationHandler) Messages(c *fiber.Ctx) error {
 		OwnerID:   ownerID,
 		Limit:     limit,
 		Before:    before,
+		Channel:   c.Query("channel"),
 	})
 	if err != nil {
 		if errors.Is(err, services.ErrConversationOwnerInvalid) {

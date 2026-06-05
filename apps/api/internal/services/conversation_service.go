@@ -774,9 +774,20 @@ func decryptIfNeeded(s string) string {
 	if s == "" {
 		return ""
 	}
-	// Heurística rápida: ciphertext do nosso crypto é base64 puro (sem espaço/newline)
-	// e tipicamente >40 chars. Texto plano normal tem espaços e/ou é mais curto.
 	trimmed := strings.TrimSpace(s)
+	// Envelope versionado do nosso crypto: "vN:base64" (ex.: "v1:LJwa63..."). O ':' quebra
+	// o pré-check de base64 abaixo (e por isso o preview saía cifrado), então tratamos esse
+	// caso direto — DecryptWithDefaultKey já entende e remove o prefixo vN:.
+	if len(trimmed) > 3 && trimmed[0] == 'v' {
+		if i := strings.IndexByte(trimmed, ':'); i > 0 && i <= 4 {
+			if decrypted, err := crypto.DecryptWithDefaultKey(trimmed); err == nil {
+				return decrypted
+			}
+			// decrypt falhou: cai pra heurística/retorno original abaixo.
+		}
+	}
+	// Heurística rápida (legado sem prefixo): ciphertext do nosso crypto é base64 puro (sem
+	// espaço/newline) e tipicamente >40 chars. Texto plano normal tem espaços e/ou é mais curto.
 	if len(trimmed) < 40 || strings.ContainsAny(trimmed, " \n\r\t") {
 		return s
 	}
@@ -804,6 +815,7 @@ type GetMessagesParams struct {
 	OwnerID   uuid.UUID
 	Limit     int        // default 100, max 500
 	Before    *time.Time // pra paginação infinite scroll
+	Channel   string     // "" = todos; "email"|"whatsapp" filtra o thread (+ internal sempre)
 }
 
 // Messages retorna activities dum owner em ordem cronológica DESC (mais recente primeiro)
@@ -833,6 +845,11 @@ func (s *ConversationService) Messages(ctx context.Context, p GetMessagesParams)
 	}
 	if p.Before != nil {
 		q = q.Where("created_at < ?", *p.Before)
+	}
+	// Separação por canal (página/dock WhatsApp vs caixa de e-mail). Inclui sempre 'internal'
+	// pra notas e mudanças de status não sumirem do thread filtrado.
+	if p.Channel == string(models.LeadChannelEmail) || p.Channel == string(models.LeadChannelWhatsApp) {
+		q = q.Where("channel IN ?", []string{p.Channel, string(models.LeadChannelInternal)})
 	}
 
 	var activities []models.LeadActivity

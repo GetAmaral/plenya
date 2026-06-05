@@ -99,14 +99,16 @@ export interface ConversationListFilters {
 
 /**
  * Conta total de conversas não-lidas (Lead + Patient unificado).
- * Usado pelo badge do sidebar — polling 20s pra não bater muito.
+ * Com `channel`, conta só aquele canal — usado pelos badges separados de WhatsApp e E-mail
+ * na sidebar/dock. Sem `channel`, conta tudo. Polling 20s pra não bater muito.
  */
-export function useConversationsUnreadCount() {
+export function useConversationsUnreadCount(channel?: 'whatsapp' | 'email') {
   return useQuery({
-    queryKey: ['conversations', 'unread-count'],
+    queryKey: ['conversations', 'unread-count', channel ?? 'all'],
     queryFn: async () => {
+      const ch = channel ? `&channel=${channel}` : '';
       const data = await apiClient.get<ConversationListResult>(
-        '/api/v1/conversations?unread_only=true&limit=200'
+        `/api/v1/conversations?unread_only=true&limit=200${ch}`
       );
       return data.items.reduce((sum, it) => sum + it.unreadCount, 0);
     },
@@ -120,8 +122,8 @@ export const conversationKeys = {
   all: ['conversations'] as const,
   list: (filters: ConversationListFilters) =>
     [...conversationKeys.all, 'list', filters] as const,
-  messages: (type: ConversationOwnerType, id: string) =>
-    [...conversationKeys.all, 'messages', type, id] as const,
+  messages: (type: ConversationOwnerType, id: string, channel?: string) =>
+    [...conversationKeys.all, 'messages', type, id, channel ?? 'all'] as const,
 };
 
 // =====================================================
@@ -171,15 +173,17 @@ export function useConversations(filters: ConversationListFilters) {
  */
 export function useConversationMessages(
   type: ConversationOwnerType | null,
-  id: string | null
+  id: string | null,
+  channel?: 'whatsapp' | 'email'
 ) {
   const qc = useQueryClient();
   return useQuery({
-    queryKey: type && id ? conversationKeys.messages(type, id) : ['conversations', 'messages', 'noop'],
+    queryKey: type && id ? conversationKeys.messages(type, id, channel) : ['conversations', 'messages', 'noop'],
     queryFn: async () => {
       if (!type || !id) return [] as ConversationMessage[];
+      const ch = channel ? `?channel=${channel}` : '';
       const raw = await apiClient.get<ConversationMessage[] | { items: ConversationMessage[] }>(
-        `/api/v1/conversations/${type}/${id}/messages`
+        `/api/v1/conversations/${type}/${id}/messages${ch}`
       );
       const data = Array.isArray(raw) ? raw : raw?.items ?? [];
       // Side-effect: backend marcou como lido. Invalidamos só a list (não a si mesmo
