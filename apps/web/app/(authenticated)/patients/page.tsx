@@ -86,8 +86,9 @@ export default function PatientsPage() {
     };
   }, [fromIso, toIso]);
   const onlyActivePlan = params.get("activePlan") === "1";
-  const sortKey = (params.get("sort") as SortKey | null) ?? "createdAt";
-  const sortDir = (params.get("dir") as SortDir | null) ?? "desc";
+  // Default alfabético por nome (antes era por data de cadastro desc).
+  const sortKey = (params.get("sort") as SortKey | null) ?? "name";
+  const sortDir = (params.get("dir") as SortDir | null) ?? "asc";
   const page = Math.max(0, parseInt(params.get("page") ?? "0", 10));
 
   const debouncedSearch = useDebouncedValue(search, 300);
@@ -141,7 +142,7 @@ export default function PatientsPage() {
     items = [...items].sort((a, b) => {
       switch (sortKey) {
         case "name":
-          return a.name.localeCompare(b.name) * dir;
+          return a.name.localeCompare(b.name, "pt", { sensitivity: "base" }) * dir;
         case "age":
           return (a.age - b.age) * dir;
         case "createdAt":
@@ -351,11 +352,10 @@ export default function PatientsPage() {
                     >
                       <td className="px-4 py-3">
                         <div className="font-medium">{patient.name}</div>
-                        {patient.email && (
-                          <div className="text-xs text-muted-foreground">
-                            {patient.email}
-                          </div>
-                        )}
+                        <div className="text-xs text-muted-foreground">
+                          <span className="font-mono">#{patient.id.slice(-6).toUpperCase()}</span>
+                          {patient.email && <span> · {patient.email}</span>}
+                        </div>
                       </td>
                       <td className="px-4 py-3">
                         <div className="text-sm">
