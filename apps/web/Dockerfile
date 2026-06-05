@@ -22,6 +22,11 @@ RUN pnpm install --frozen-lockfile --filter "@plenya/web..."
 FROM base AS builder
 COPY --from=deps /repo/node_modules ./node_modules
 COPY --from=deps /repo/apps/web/node_modules ./apps/web/node_modules
+# @plenya/ui é transpilado pelo web (transpilePackages) → precisa do node_modules
+# dele (react peer) no isolated-install do Docker. (web tem ignoreBuildErrors,
+# então o tsc não bloqueia, mas mantém o type-check de packages/ui funcional e
+# espelha o Dockerfile do site.)
+COPY --from=deps /repo/packages/ui/node_modules ./packages/ui/node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ARG NEXT_PUBLIC_API_URL

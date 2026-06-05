@@ -23,6 +23,10 @@ FROM base AS builder
 COPY --from=deps /repo/node_modules ./node_modules
 COPY --from=deps /repo/apps/site/node_modules ./apps/site/node_modules
 COPY --from=deps /repo/packages/brand/node_modules ./packages/brand/node_modules
+# @plenya/ui é transpilado pelo site (transpilePackages) → o tsc type-checa os
+# fontes dele; precisa do node_modules dele (react peer) no isolated-install do
+# Docker, senão "Cannot find module 'react'" em packages/ui/src/score-radar.
+COPY --from=deps /repo/packages/ui/node_modules ./packages/ui/node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 
