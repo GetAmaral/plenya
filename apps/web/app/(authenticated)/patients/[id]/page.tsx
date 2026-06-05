@@ -34,7 +34,8 @@ import { PageHeader } from "@/components/layout/page-header";
 import { PortalAccessCard } from "@/components/patients/portal-access-card";
 import { CheckInsCard } from "@/components/patients/check-ins-card";
 import { PatientFinanceCard } from "@/components/patients/patient-finance-card";
-import { RadarAgir, type RadarLetter, type RadarPillar } from "@/components/health-scores/RadarAgir";
+import { RadarAgir } from "@/components/health-scores/RadarAgir";
+import { buildAgir } from "@/components/health-scores/build-agir";
 import { AllergiesCard } from "@/components/clinical/allergies-card";
 import { ProblemsCard } from "@/components/clinical/problems-card";
 import { MedicationsCard } from "@/components/clinical/medications-card";
@@ -78,50 +79,8 @@ const LEVEL_META: Record<number, { label: string; chip: string }> = {
   6: { label: "Reservado", chip: "border-gray-300 bg-gray-50 text-gray-800" },
 };
 
-// Deriva letras/pilares AGIR do próprio snapshot (itemResults carregam
-// item.methodPillars). Retorna null se o snapshot não tiver mapeamento de método.
-function buildAgir(snapshot: PatientScoreSnapshot): { letters: RadarLetter[]; pillars: RadarPillar[] } | null {
-  const items = (snapshot.itemResults ?? []).filter(
-    (ir) => ir.status === "evaluated" && (ir.item?.methodPillars?.length ?? 0) > 0,
-  );
-  if (items.length === 0) return null;
-
-  const pillarMap = new Map<string, { name: string; letter: string; actual: number; max: number }>();
-  const letterMap = new Map<string, { name: string; color: string; order: number; actual: number; max: number }>();
-
-  for (const ir of items) {
-    for (const mp of ir.item?.methodPillars ?? []) {
-      const letter = mp.letter;
-      if (!letter) continue;
-      const p = pillarMap.get(mp.id) ?? { name: mp.name, letter: letter.code, actual: 0, max: 0 };
-      p.actual += ir.actualPoints;
-      p.max += ir.maxPoints;
-      pillarMap.set(mp.id, p);
-
-      const l = letterMap.get(letter.code) ?? {
-        name: letter.name,
-        color: letter.color || "#94a3b8",
-        order: letter.order ?? 0,
-        actual: 0,
-        max: 0,
-      };
-      l.actual += ir.actualPoints;
-      l.max += ir.maxPoints;
-      letterMap.set(letter.code, l);
-    }
-  }
-  if (letterMap.size === 0) return null;
-
-  const letters: RadarLetter[] = [...letterMap.entries()]
-    .sort((a, b) => a[1].order - b[1].order)
-    .map(([code, l]) => ({ code, name: l.name, color: l.color, score: l.max > 0 ? (l.actual / l.max) * 100 : 0 }));
-  const pillars: RadarPillar[] = [...pillarMap.values()].map((p) => ({
-    letter: p.letter,
-    name: p.name,
-    score: p.max > 0 ? (p.actual / p.max) * 100 : 0,
-  }));
-  return { letters, pillars };
-}
+// buildAgir() — fonte ÚNICA do radar AGIR — vive em
+// components/health-scores/build-agir.ts (usada também pelo painel /health-scores).
 
 function fmtValue(ir: PatientScoreItemResult): string {
   if (ir.valueUsed === undefined || ir.valueUsed === null) return "";
