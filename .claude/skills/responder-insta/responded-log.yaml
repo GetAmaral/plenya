@@ -136,6 +136,31 @@ answered_2026-06-05:
       reply_id: '18401347636155079'
       by: dr_api
       re: "Precisa tomar pra sempre? Reganho ~2/3 ao parar (obesidade crônica); medicamento como alavanca + base de estilo de vida permite reduzir/espaçar/suspender com acompanhamento."
+    # --- 2ª passada (posts ep3 orgânico, varredura que faltou) ---
+    - post: GLP-1 ep3 (18151615408450415)
+      comment_id: 18118222498834265
+      who: '@criss_turcatto'
+      reply_id: '17875966734486977'
+      by: dr_api
+      re: "Depoimento 'meu sono mudou completamente'; acolhimento + sono melhora via redução de apneia ligada ao peso."
+    - post: GLP-1 ep3 (18151615408450415)
+      comment_id: 18104156944959749
+      who: '@eliana.donasilva1'
+      reply_id: '18114420232663897'
+      by: dr_api
+      re: "Clínica: 73 anos pode monjaro? Idade não impede; avaliar rins/massa/remédios/desidratação; proteger músculo (proteína+musculação); dose baixa+acompanhamento."
+    - post: GLP-1 ep3 (18151615408450415)
+      comment_id: 17892939624494945
+      who: '@ryanrosangelaricardo'
+      reply_id: '18078396233235810'
+      by: dr_api
+      re: "Clínica: hipoglicemia pode tomar TG? Tirzepatida sozinha = baixo risco; risco com insulina/sulfonilureias (glibenclamida, gliclazida, glimepirida); investigar causa dos picos."
+    - post: GLP-1 ep3 (18151615408450415)
+      comment_id: 18079661429197423
+      who: '@gessiana.renata'
+      reply_id: '18075620906647302'
+      by: dr_api
+      re: "Engajamento: animada pra começar; medicação ajuda mas resultado vem com alimentação+treino+sono+acompanhamento."
   dms_postadas_manual_dr_app:  # janela 24h fechada via API → Dr postou no app
     - who: '@silvanagoncalves105'  # GLP-1 multimorbidade (esteatose/vesícula/rins/gastrite)
     - who: '@sonalypereira'        # refluxo+SIBO+vonoprazana(Inzelm)+gastro (versão curta <1000 caracteres)

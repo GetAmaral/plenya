@@ -30,8 +30,11 @@ Antes da Fase C, confirme explicitamente cada item (✅ varrido / ⚠️ inacess
 NUNCA omitir em silêncio):
 
 - [ ] **Todos os posts orgânicos do IG** — paginar `GET_IG_USER_MEDIA` via cursor `after`
-      até esgotar (NÃO só a 1ª página). Buscar comments de TODO post com `comments_count > 0`,
-      inclusive Reels antigos.
+      até esgotar (NÃO só a 1ª página). **LISTAR posts ≠ VARRER posts:** é obrigatório rodar
+      `GET_IG_MEDIA_COMMENTS` em CADA post com `comments_count > 0` das DUAS páginas de media,
+      inclusive Reels antigos. (2026-06-05: 2ª falha na mesma sessão — listei a página 2 mas
+      não busquei os comments de ep1/ep2/ep3 orgânicos; o usuário pegou um depoimento "meu
+      sono mudou completamente" que passou batido. Buscar comments de tudo, sempre.)
 - [ ] **Todas as conversas DM** — `LIST_ALL_CONVERSATIONS` (paginar se houver `after`),
       `LIST_ALL_MESSAGES` em cada conversa nova desde a última varredura.
 - [ ] **Mentions/tags** — `GET_IG_USER_TAGS`.

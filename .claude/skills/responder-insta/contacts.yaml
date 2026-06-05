@@ -902,3 +902,37 @@ contacts:
       post de Jejum. Receptiva.
     last: "2026-06-05 - reply post Jejum (acolhimento de relato)"
 
+  '@criss_turcatto':
+    rel: seguidora / em tratamento
+    name: Criss
+    tone: clínico-respeitoso afetuoso
+    notes: |
+      Em uso de GLP-1, relatou no post ep3 que o sono melhorou completamente. Depoimento
+      positivo. Sono melhor ligado à redução de apneia.
+    last: "2026-06-05 - reply post GLP-1 ep3 (depoimento sono)"
+
+  '@eliana.donasilva1':
+    rel: seguidora / paciente potencial
+    name: Eliana
+    tone: clínico-respeitoso
+    notes: |
+      73 anos, perguntou no post ep3 se pode aplicar monjaro. Idade não impede; cuidado
+      com massa muscular (musculação) e desidratação no idoso.
+    last: "2026-06-05 - reply post GLP-1 ep3 (clínica, idoso 73 anos)"
+
+  '@ryanrosangelaricardo':
+    rel: seguidor
+    tone: clínico-respeitoso
+    notes: |
+      Perguntou no post ep3 se quem tem picos de hipoglicemia pode tomar tirzepatida.
+      Baixo risco isolado; cuidado com insulina/sulfonilureias.
+    last: "2026-06-05 - reply post GLP-1 ep3 (clínica, hipoglicemia)"
+
+  '@gessiana.renata':
+    rel: seguidora
+    name: Gessiana
+    tone: familiar-afetuoso
+    notes: |
+      Animada pra começar o tratamento, comentou empolgada no post ep3. Engajamento.
+    last: "2026-06-05 - reply post GLP-1 ep3 (engajamento)"
+
