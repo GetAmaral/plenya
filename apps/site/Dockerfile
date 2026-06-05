@@ -13,6 +13,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY apps/site/package.json ./apps/site/
 COPY packages/brand/package.json ./packages/brand/
 COPY packages/types/package.json ./packages/types/
+COPY packages/ui/package.json ./packages/ui/
 RUN pnpm install --frozen-lockfile --filter "@plenya/site..."
 
 ###
@@ -46,6 +47,7 @@ ENV PORT=3002
 COPY --from=builder /repo/package.json /repo/pnpm-lock.yaml /repo/pnpm-workspace.yaml /repo/turbo.json ./
 COPY --from=builder /repo/apps/site/package.json ./apps/site/
 COPY --from=builder /repo/packages/brand ./packages/brand
+COPY --from=builder /repo/packages/ui ./packages/ui
 COPY --from=builder /repo/apps/site/.next ./apps/site/.next
 COPY --from=builder /repo/apps/site/public ./apps/site/public
 COPY --from=builder /repo/apps/site/next.config.ts ./apps/site/

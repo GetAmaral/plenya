@@ -13,6 +13,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY apps/web/package.json ./apps/web/
 COPY packages/brand/package.json ./packages/brand/
 COPY packages/types/package.json ./packages/types/
+COPY packages/ui/package.json ./packages/ui/
 RUN pnpm install --frozen-lockfile --filter "@plenya/web..."
 
 ###
@@ -42,6 +43,7 @@ COPY --from=builder /repo/package.json /repo/pnpm-lock.yaml /repo/pnpm-workspace
 COPY --from=builder /repo/apps/web/package.json ./apps/web/
 COPY --from=builder /repo/packages/brand ./packages/brand
 COPY --from=builder /repo/packages/types ./packages/types
+COPY --from=builder /repo/packages/ui ./packages/ui
 COPY --from=builder /repo/apps/web/.next ./apps/web/.next
 COPY --from=builder /repo/apps/web/public ./apps/web/public
 COPY --from=builder /repo/apps/web/next.config.ts ./apps/web/

@@ -1033,6 +1033,7 @@ func setupRoutes(
 	// Score Versions (Triagem/Light) — CRUD staff (config público fica em /score-light/config/:slug)
 	scoreVersions := v1.Group("/score-versions")
 	scoreVersions.Use(middleware.Auth(cfg))
+	scoreVersions.Use(middleware.RequireAnyStaff()) // curadoria de versions é staff-only (não vaza p/ paciente)
 	scoreVersions.Use(middleware.AuditLog(database.DB))
 	scoreVersions.Get("/", scoreVersionHandler.List)
 	scoreVersions.Get("/:id", scoreVersionHandler.Get)
