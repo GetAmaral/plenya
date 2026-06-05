@@ -46,6 +46,10 @@ type ScoreLevel struct {
 	// @example Manter acompanhamento regular. Otimizar controle de fatores de risco cardiovascular (pressão arterial, diabetes, colesterol). Considerar ecocardiograma de controle em 12 meses
 	Conduct *string `gorm:"type:text" json:"conduct,omitempty"`
 
+	// Legenda leiga do que este nível significa, para o site público (≠ PatientExplanation clínica).
+	// @example Seu coração está bombeando bem. Resultado normal.
+	SiteLegend *string `gorm:"type:text" json:"siteLegend,omitempty"`
+
 	// Data da última revisão dos campos clínicos
 	// @example 2026-01-25T10:30:00Z
 	LastReview *time.Time `gorm:"type:timestamptz" json:"lastReview,omitempty"`

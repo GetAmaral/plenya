@@ -101,6 +101,21 @@ type ScoreItem struct {
 	// @example Você fuma atualmente?
 	LightQuestion *string `gorm:"type:text" json:"lightQuestion,omitempty"`
 
+	// ── Campos de exibição no SITE público (leigo) — fonte do gerador de score_versions ──
+
+	// Tipo de input renderizado no site público (≠ inferência usada na anamnese/exame do EMR).
+	// @enum level_choice,numeric_classifier,boolean,text,scale_0_3
+	// @example level_choice
+	SiteRenderType *string `gorm:"type:varchar(40)" json:"siteRenderType,omitempty" validate:"omitempty,oneof=level_choice numeric_classifier boolean text scale_0_3"`
+
+	// Pergunta reescrita para o site público (leigo). Substitui LightQuestion (migrado na 00021).
+	// @example Você fuma atualmente?
+	SiteQuestion *string `gorm:"type:text" json:"siteQuestion,omitempty"`
+
+	// Explicação leiga genérica do item para o site público (≠ PatientExplanation clínica).
+	// @example Fumar acelera o envelhecimento dos vasos e aumenta o risco cardiovascular.
+	SiteExplanation *string `gorm:"type:text" json:"siteExplanation,omitempty"`
+
 	// Ordem de exibição do item no formulário de preparação pré-consulta (subset curado,
 	// independente de Order/LightOrder). Item entra no formulário quando PrepOrder != nil.
 	// @minimum 0

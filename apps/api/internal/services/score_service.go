@@ -91,6 +91,11 @@ type UpdateScoreItemDTO struct {
 	IsLightVersion *bool   `json:"isLightVersion,omitempty"`
 	LightOrder     *int    `json:"lightOrder,omitempty" validate:"omitempty,gte=0,lte=9999"`
 	LightQuestion  *string `json:"lightQuestion,omitempty"`
+
+	// Site público (leigo)
+	SiteRenderType  *string `json:"siteRenderType,omitempty" validate:"omitempty,oneof=level_choice numeric_classifier boolean text scale_0_3"`
+	SiteQuestion    *string `json:"siteQuestion,omitempty"`
+	SiteExplanation *string `json:"siteExplanation,omitempty"`
 }
 
 // CreateScoreLevelDTO represents the request to create a score level
@@ -110,6 +115,7 @@ type UpdateScoreLevelDTO struct {
 	LowerLimit *string `json:"lowerLimit,omitempty" validate:"omitempty,max=50"`
 	UpperLimit *string `json:"upperLimit,omitempty" validate:"omitempty,max=50"`
 	Operator   *string `json:"operator,omitempty" validate:"omitempty,oneof== > >= < <= between"`
+	SiteLegend *string `json:"siteLegend,omitempty"`
 }
 
 // ============================================================
@@ -427,6 +433,17 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 		item.LightQuestion = dto.LightQuestion
 	}
 
+	// Site público (leigo)
+	if dto.SiteRenderType != nil {
+		item.SiteRenderType = dto.SiteRenderType
+	}
+	if dto.SiteQuestion != nil {
+		item.SiteQuestion = dto.SiteQuestion
+	}
+	if dto.SiteExplanation != nil {
+		item.SiteExplanation = dto.SiteExplanation
+	}
+
 	// DEBUG: Log before saving
 	fmt.Printf("🟢 SERVICE UpdateItem AFTER UPDATE: item.ParentItemID=%v (isNil=%v)\n", item.ParentItemID, item.ParentItemID == nil)
 
@@ -519,6 +536,9 @@ func (s *ScoreService) UpdateLevel(id uuid.UUID, dto UpdateScoreLevelDTO) (*mode
 	}
 	if dto.Operator != nil {
 		level.Operator = *dto.Operator
+	}
+	if dto.SiteLegend != nil {
+		level.SiteLegend = dto.SiteLegend
 	}
 
 	// Validate operator and limits
