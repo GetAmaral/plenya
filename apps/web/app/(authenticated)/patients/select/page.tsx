@@ -1,292 +1,257 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { Users, Search, MapPin, Calendar, Phone, Loader2 } from "lucide-react";
+import { Users, Search, MapPin, Phone, Loader2, Cake, ChevronRight, X } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiClient } from "@/lib/api-client";
 import { useRequireAuth } from "@/lib/use-auth";
 import { useSelectedPatient } from "@/lib/use-selected-patient";
 import { Patient } from "@/lib/auth-store";
+import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format, differenceInYears } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
+type SortBy = "name" | "recent";
+
+function initials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function genderLabel(gender: string): string {
+  return { male: "Masc.", female: "Fem.", other: "Outro" }[gender] || gender;
+}
+
+/** Nº de registro curto (MRN-like) — mesmo padrão da barra de contexto do paciente. */
+function recordId(id: string): string {
+  return id.slice(-6).toUpperCase();
+}
+
 export default function PatientSelectPage() {
   useRequireAuth();
   const router = useRouter();
-  const { setSelectedPatient, isLoading: isUpdating } = useSelectedPatient();
+  const { setSelectedPatient } = useSelectedPatient();
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [municipalityFilter, setMunicipalityFilter] = useState<string>("all");
   const [stateFilter, setStateFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<SortBy>("name");
+  const [selectingId, setSelectingId] = useState<string | null>(null);
 
-  // Fetch all patients
   const { data: patients = [], isLoading } = useQuery<Patient[]>({
     queryKey: ["patients"],
-    queryFn: async () => {
-      return apiClient.get<Patient[]>("/api/v1/patients?limit=1000");
-    },
+    queryFn: async () => apiClient.get<Patient[]>("/api/v1/patients?limit=1000"),
   });
 
-  // Get unique municipalities and states for filters
-  const municipalities = Array.from(
-    new Set(patients.map((p) => p.municipality).filter(Boolean))
-  ).sort() as string[];
+  const states = useMemo(
+    () => Array.from(new Set(patients.map((p) => p.state).filter(Boolean))).sort() as string[],
+    [patients]
+  );
 
-  const states = Array.from(
-    new Set(patients.map((p) => p.state).filter(Boolean))
-  ).sort() as string[];
-
-  // Filter patients
-  const filteredPatients = patients.filter((patient) => {
-    const matchesSearch =
-      !searchTerm ||
-      patient.name.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const matchesMunicipality =
-      !municipalityFilter || municipalityFilter === "all" || patient.municipality === municipalityFilter;
-
-    const matchesState = !stateFilter || stateFilter === "all" || patient.state === stateFilter;
-
-    return matchesSearch && matchesMunicipality && matchesState;
-  });
+  const filteredPatients = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    const list = patients.filter((p) => {
+      const matchesSearch =
+        !term ||
+        p.name.toLowerCase().includes(term) ||
+        (p.phone || "").toLowerCase().includes(term) ||
+        recordId(p.id).toLowerCase().includes(term);
+      const matchesState = stateFilter === "all" || p.state === stateFilter;
+      return matchesSearch && matchesState;
+    });
+    list.sort((a, b) =>
+      sortBy === "name"
+        ? a.name.localeCompare(b.name, "pt", { sensitivity: "base" })
+        : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    return list;
+  }, [patients, searchTerm, stateFilter, sortBy]);
 
   const handleSelectPatient = async (patientId: string) => {
-    await setSelectedPatient(patientId);
-
-    // Check if there's a redirect path saved
-    const redirectPath =
-      typeof window !== "undefined"
-        ? sessionStorage.getItem("plenya-redirect-after-patient-select")
-        : null;
-
-    // Clear the saved path
-    if (typeof window !== "undefined") {
-      sessionStorage.removeItem("plenya-redirect-after-patient-select");
+    setSelectingId(patientId);
+    try {
+      await setSelectedPatient(patientId);
+      const redirectPath =
+        typeof window !== "undefined"
+          ? sessionStorage.getItem("plenya-redirect-after-patient-select")
+          : null;
+      if (typeof window !== "undefined") {
+        sessionStorage.removeItem("plenya-redirect-after-patient-select");
+      }
+      router.push(redirectPath || "/dashboard");
+    } catch {
+      setSelectingId(null);
     }
-
-    // Redirect to saved path or dashboard
-    router.push(redirectPath || "/dashboard");
   };
 
-  const calculateAge = (birthDate: string) => {
-    return differenceInYears(new Date(), new Date(birthDate));
-  };
-
-  const getGenderLabel = (gender: string) => {
-    const labels = {
-      male: "Masculino",
-      female: "Feminino",
-      other: "Outro",
-    };
-    return labels[gender as keyof typeof labels] || gender;
-  };
+  const hasFilters = !!searchTerm || stateFilter !== "all";
 
   return (
-    <div className="min-h-screen p-6 bg-linear-to-br from-blue-50 via-white to-purple-50">
-      <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <PageHeader
-          title="Selecionar Paciente"
-          description="Escolha um paciente para visualizar e gerenciar seus registros médicos"
-        />
+    <div className="mx-auto max-w-4xl p-4 sm:p-6">
+      <PageHeader
+        title="Selecionar Paciente"
+        description="Escolha um paciente para abrir o prontuário."
+      />
 
-        {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <Card className="mb-6 border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle>Filtros de Busca</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-3">
-                {/* Search by name */}
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    placeholder="Buscar por nome..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-9"
-                  />
-                </div>
-
-                {/* Filter by municipality */}
-                <Select value={municipalityFilter} onValueChange={setMunicipalityFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Município" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos os municípios</SelectItem>
-                    {municipalities.map((municipality) => (
-                      <SelectItem key={municipality} value={municipality}>
-                        {municipality}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                {/* Filter by state */}
-                <Select value={stateFilter} onValueChange={setStateFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Estado" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos os estados</SelectItem>
-                    {states.map((state) => (
-                      <SelectItem key={state} value={state}>
-                        {state}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Active filters summary */}
-              {(searchTerm || (municipalityFilter && municipalityFilter !== "all") || (stateFilter && stateFilter !== "all")) && (
-                <div className="mt-4 flex gap-2 flex-wrap">
-                  {searchTerm && (
-                    <Badge variant="secondary" className="gap-1">
-                      Busca: {searchTerm}
-                    </Badge>
-                  )}
-                  {municipalityFilter && municipalityFilter !== "all" && (
-                    <Badge variant="secondary" className="gap-1">
-                      {municipalityFilter}
-                    </Badge>
-                  )}
-                  {stateFilter && stateFilter !== "all" && (
-                    <Badge variant="secondary" className="gap-1">
-                      {stateFilter}
-                    </Badge>
-                  )}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      setSearchTerm("");
-                      setMunicipalityFilter("all");
-                      setStateFilter("all");
-                    }}
-                  >
-                    Limpar filtros
-                  </Button>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Results count */}
-        <div className="mb-4 text-sm text-muted-foreground">
-          {isLoading ? (
-            <Skeleton className="h-4 w-48" />
-          ) : (
-            <>
-              Exibindo {filteredPatients.length} de {patients.length} pacientes
-            </>
-          )}
+      {/* Busca + filtros (compactos) */}
+      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            autoFocus
+            placeholder="Buscar por nome, telefone ou nº de registro…"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-9"
+          />
         </div>
+        <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortBy)}>
+          <SelectTrigger className="w-full sm:w-[170px]">
+            <SelectValue placeholder="Ordenar" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="name">Nome (A–Z)</SelectItem>
+            <SelectItem value="recent">Mais recentes</SelectItem>
+          </SelectContent>
+        </Select>
+        {states.length > 0 && (
+          <Select value={stateFilter} onValueChange={setStateFilter}>
+            <SelectTrigger className="w-full sm:w-[130px]">
+              <SelectValue placeholder="Estado" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos UF</SelectItem>
+              {states.map((s) => (
+                <SelectItem key={s} value={s}>
+                  {s}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+      </div>
 
-        {/* Patient Cards */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {isLoading ? (
-            Array.from({ length: 6 }).map((_, i) => (
-              <Card key={i} className="border-0 shadow-md">
-                <CardContent className="p-6">
-                  <Skeleton className="h-6 w-3/4 mb-4" />
-                  <Skeleton className="h-4 w-1/2 mb-2" />
-                  <Skeleton className="h-4 w-2/3 mb-2" />
-                  <Skeleton className="h-10 w-full mt-4" />
-                </CardContent>
-              </Card>
-            ))
-          ) : filteredPatients.length === 0 ? (
-            <div className="col-span-full">
-              <Card className="border-0 shadow-md">
-                <CardContent className="p-12 text-center">
-                  <Users className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">
-                    Nenhum paciente encontrado
-                  </h3>
-                  <p className="text-muted-foreground">
-                    Tente ajustar os filtros ou limpar a busca
-                  </p>
-                </CardContent>
-              </Card>
+      {/* Contagem */}
+      <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+        {isLoading ? (
+          <Skeleton className="h-4 w-40" />
+        ) : (
+          <span>
+            {filteredPatients.length} de {patients.length} paciente
+            {patients.length === 1 ? "" : "s"}
+          </span>
+        )}
+        {hasFilters && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 gap-1 px-2 text-xs"
+            onClick={() => {
+              setSearchTerm("");
+              setStateFilter("all");
+            }}
+          >
+            <X className="h-3 w-3" /> Limpar
+          </Button>
+        )}
+      </div>
+
+      {/* Lista densa */}
+      <div className="mt-2 overflow-hidden rounded-lg border border-border bg-card">
+        {isLoading ? (
+          <div className="divide-y divide-border">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-3 p-3">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-1/3" />
+                  <Skeleton className="h-3 w-2/3" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filteredPatients.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-3 p-12 text-center">
+            <Users className="h-12 w-12 text-muted-foreground/50" />
+            <div>
+              <p className="font-medium">Nenhum paciente encontrado</p>
+              <p className="text-sm text-muted-foreground">Ajuste a busca ou os filtros.</p>
             </div>
-          ) : (
-            filteredPatients.map((patient) => (
-              <motion.div
-                key={patient.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Card className="border-0 shadow-md hover:shadow-xl transition-shadow h-full">
-                  <CardContent className="p-6">
-                    <div className="mb-4">
-                      <h3 className="text-xl font-bold mb-1">{patient.name}</h3>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Calendar className="h-3 w-3" />
-                        <span>
-                          {calculateAge(patient.birthDate)} anos •{" "}
-                          {getGenderLabel(patient.gender)}
+          </div>
+        ) : (
+          <ul className="divide-y divide-border" role="list">
+            {filteredPatients.map((p) => {
+              const busy = selectingId === p.id;
+              const dob = p.birthDate
+                ? format(new Date(p.birthDate), "dd/MM/yyyy", { locale: ptBR })
+                : null;
+              const age = p.birthDate ? differenceInYears(new Date(), new Date(p.birthDate)) : null;
+              const city = [p.municipality, p.state].filter(Boolean).join(" - ");
+              return (
+                <li key={p.id}>
+                  <button
+                    type="button"
+                    onClick={() => handleSelectPatient(p.id)}
+                    disabled={!!selectingId}
+                    className={cn(
+                      "flex w-full items-center gap-3 p-3 text-left transition-colors hover:bg-muted/60 focus-visible:bg-muted focus-visible:outline-none disabled:opacity-60",
+                      busy && "bg-muted"
+                    )}
+                  >
+                    <Avatar className="h-10 w-10 shrink-0">
+                      <AvatarFallback className="bg-primary/10 text-sm font-semibold text-primary">
+                        {initials(p.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="truncate font-semibold">{p.name}</span>
+                        <span className="shrink-0 font-mono text-[11px] text-muted-foreground">
+                          #{recordId(p.id)}
                         </span>
                       </div>
-                    </div>
-
-                    <div className="space-y-2 mb-4">
-                      {patient.phone && (
-                        <div className="flex items-center gap-2 text-sm">
-                          <Phone className="h-3 w-3 text-muted-foreground" />
-                          <span>{patient.phone}</span>
-                        </div>
-                      )}
-
-                      {(patient.municipality || patient.state) && (
-                        <div className="flex items-center gap-2 text-sm">
-                          <MapPin className="h-3 w-3 text-muted-foreground" />
-                          <span>
-                            {patient.municipality}
-                            {patient.municipality && patient.state && " - "}
-                            {patient.state}
+                      <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted-foreground">
+                        {dob && (
+                          <span className="inline-flex items-center gap-1">
+                            <Cake className="h-3 w-3" />
+                            {dob}
+                            {age !== null && ` (${age} anos)`}
                           </span>
-                        </div>
-                      )}
+                        )}
+                        <span>{genderLabel(p.gender)}</span>
+                        {city && (
+                          <span className="inline-flex items-center gap-1">
+                            <MapPin className="h-3 w-3" />
+                            {city}
+                          </span>
+                        )}
+                        {p.phone && (
+                          <span className="inline-flex items-center gap-1">
+                            <Phone className="h-3 w-3" />
+                            {p.phone}
+                          </span>
+                        )}
+                      </div>
                     </div>
-
-                    <Button
-                      className="w-full"
-                      onClick={() => handleSelectPatient(patient.id)}
-                      disabled={isUpdating}
-                    >
-                      {isUpdating ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Selecionando...
-                        </>
-                      ) : (
-                        "Selecionar Paciente"
-                      )}
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))
-          )}
-        </div>
+                    {busy ? (
+                      <Loader2 className="h-4 w-4 shrink-0 animate-spin text-muted-foreground" />
+                    ) : (
+                      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/50" />
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </div>
   );
