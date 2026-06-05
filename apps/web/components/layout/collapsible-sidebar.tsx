@@ -44,6 +44,7 @@ import {
   Megaphone,
   Package,
   Mail,
+  Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -119,6 +120,7 @@ const navGroups: NavGroup[] = [
     items: [
       { name: "Artigos", href: "/articles", icon: BookOpen },
       { name: "Escores", href: "/scores", icon: Network, staffOnly: true },
+      { name: "Versões de Escore", href: "/scores/versions", icon: Layers, adminOnly: true },
       { name: "Metodologias", href: "/methods", icon: Target, staffOnly: true },
       { name: "Templates de Anamnese", href: "/anamnesis-templates", icon: FileCheck, staffOnly: true },
       { name: "Template de Pedido de Exame", href: "/lab-request-templates", icon: LayoutTemplate, staffOnly: true },

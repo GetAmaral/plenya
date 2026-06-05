@@ -40,6 +40,8 @@ export interface ScoreItem {
   lastReview?: string
   points?: number
   order: number
+  fullName?: string
+  isLightVersion?: boolean
   subgroupId: string
   parentItemId?: string
   subgroup?: ScoreSubgroup
@@ -315,6 +317,16 @@ export function useScoreItem(id: string) {
     queryKey: scoreKeys.item(id),
     queryFn: () => apiClient.get<ScoreItem>(`/api/v1/score-items/${id}`),
     enabled: !!id,
+  })
+}
+
+// Lista plana de TODOS os score items (com subgroup/group preenchidos + fullName).
+// Usado pelo picker de itens das versões de escore. Sem levels (payload leve).
+export function useAllScoreItems() {
+  return useQuery({
+    queryKey: scoreKeys.items(),
+    queryFn: () => apiClient.get<ScoreItem[]>('/api/v1/score-items'),
+    staleTime: 5 * 60 * 1000, // 5 minutes
   })
 }
 
