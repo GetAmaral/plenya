@@ -55,8 +55,8 @@ func (s *UserService) List(role *string, group string, limit, offset int) (*dto.
 		return nil, err
 	}
 
-	// Get paginated results
-	if err := query.Order("created_at DESC").
+	// Get paginated results — ordem alfabética por nome (case-insensitive), tie-break estável.
+	if err := query.Order("lower(name) ASC, created_at DESC").
 		Limit(limit).
 		Offset(offset).
 		Find(&users).Error; err != nil {
