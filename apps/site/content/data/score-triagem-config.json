@@ -1,6 +1,6 @@
 {
   "version": "triagem-36",
-  "generatedAt": "2026-06-05T09:07:08.800816926-03:00",
+  "generatedAt": "2026-06-05T09:28:47.662792215-03:00",
   "itemCount": 36,
   "groups": [
     {
@@ -22,42 +22,50 @@
               "lightOrder": 4,
               "anamneseItemCode": "QUALIDADE_DA_ALIMENTACAO_NA_VIDA_ADULTA",
               "patientExplanation": "A qualidade do que você come ao longo da vida adulta é um dos fatores que mais influencia sua saúde a longo prazo. Uma alimentação ruim — com muito pão, açúcar, ultraprocessados e gorduras ruins — cria uma inflamação silenciosa que, ao longo dos anos, aumenta o risco de diabetes, doenças do coração, obesidade e problemas cognitivos.\n\nUma alimentação de qualidade não precisa ser complicada. O essencial é priorizar alimentos de verdade: legumes, verduras, frutas, proteínas naturais (ovos, carnes, peixes) e gorduras boas (azeite, abacate, castanhas). Reduzir industrializados e farináceos é o passo com maior impacto na saúde metabólica.\n\nSeu histórico alimentar é avaliado porque os hábitos acumulados deixam marcas nos exames e no metabolismo. Melhorar a alimentação gradualmente traz benefícios reais e mensuráveis em poucos meses.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A qualidade do que você come ao longo da vida adulta é um dos fatores que mais influencia sua saúde a longo prazo. Uma alimentação ruim — com muito pão, açúcar, ultraprocessados e gorduras ruins — cria uma inflamação silenciosa que, ao longo dos anos, aumenta o risco de diabetes, doenças do coração, obesidade e problemas cognitivos.\n\nUma alimentação de qualidade não precisa ser complicada. O essencial é priorizar alimentos de verdade: legumes, verduras, frutas, proteínas naturais (ovos, carnes, peixes) e gorduras boas (azeite, abacate, castanhas). Reduzir industrializados e farináceos é o passo com maior impacto na saúde metabólica.\n\nSeu histórico alimentar é avaliado porque os hábitos acumulados deixam marcas nos exames e no metabolismo. Melhorar a alimentação gradualmente traz benefícios reais e mensuráveis em poucos meses.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7928-b1be-28b264d5a9cb",
                   "level": 0,
                   "name": "Falta de alimentos / fome frequentemente",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Falta frequente de comida na vida adulta, situação que precisa de atenção."
                 },
                 {
                   "id": "019bf31d-2ef0-74c6-b5a2-fc94fd1db171",
                   "level": 1,
                   "name": "Junk food predominante",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Alimentação predominantemente ultraprocessada na vida adulta, merece mudança."
                 },
                 {
                   "id": "019bf31d-2ef0-7e13-9fde-b7a5ad9e3101",
                   "level": 2,
                   "name": "Muito seletivo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Alimentacao muito restrita na vida adulta, vale diversificar."
                 },
                 {
                   "id": "019bf31d-2ef0-7212-9fa3-530fee904b4c",
                   "level": 3,
                   "name": "Alimentação adequada com escapes periódicos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Alimentação adequada na maior parte do tempo, com escapes de vez em quando."
                 },
                 {
                   "id": "019bf31d-2ef0-7f75-99ce-0c6cc67e2e36",
                   "level": 4,
                   "name": "Alimentação adequada",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Alimentação adequada na vida adulta, hábito que favorece a saúde."
                 },
                 {
                   "id": "019bf31d-2ef0-7b8a-be53-30394c9973c1",
                   "level": 5,
                   "name": "Alimentação adequada com suplementação adequada",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Alimentação adequada com suplementação bem feita na vida adulta."
                 }
               ]
             }
@@ -77,20 +85,24 @@
               "lightOrder": 5,
               "anamneseItemCode": "CONSUMO_DE_VERDURAS_E_LEGUMES",
               "patientExplanation": "Verduras e legumes são alimentos fundamentais para a sua saúde. Eles fornecem fibras que alimentam as bactérias boas do seu intestino, vitaminas que protegem suas células do envelhecimento precoce e compostos naturais que reduzem inflamação no corpo. Quando o consumo desses alimentos é baixo ou irregular, o organismo fica mais vulnerável a doenças como diabetes, problemas no coração, inflamações crônicas e até alguns tipos de câncer. A boa notícia é que pequenas mudanças já fazem diferença: aumentar a variedade e a quantidade de vegetais coloridos no prato — folhas verdes, vegetais laranja, roxos e vermelhos — já contribui significativamente para a saúde no longo prazo. Priorizar alimentos como brócolis, couve, cenoura, beterraba, pimentão, berinjela e vagens é uma das formas mais eficazes e acessíveis de cuidar da saúde de forma integral.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Verduras e legumes são alimentos fundamentais para a sua saúde. Eles fornecem fibras que alimentam as bactérias boas do seu intestino, vitaminas que protegem suas células do envelhecimento precoce e compostos naturais que reduzem inflamação no corpo. Quando o consumo desses alimentos é baixo ou irregular, o organismo fica mais vulnerável a doenças como diabetes, problemas no coração, inflamações crônicas e até alguns tipos de câncer. A boa notícia é que pequenas mudanças já fazem diferença: aumentar a variedade e a quantidade de vegetais coloridos no prato — folhas verdes, vegetais laranja, roxos e vermelhos — já contribui significativamente para a saúde no longo prazo. Priorizar alimentos como brócolis, couve, cenoura, beterraba, pimentão, berinjela e vagens é uma das formas mais eficazes e acessíveis de cuidar da saúde de forma integral.",
               "levels": [
                 {
                   "id": "019c5376-ca26-75e5-afdf-314adec44399",
                   "level": 0,
                   "name": "Não consome",
                   "lowerLimit": "0",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Não come verduras nem legumes. Importante incluir na alimentação."
                 },
                 {
                   "id": "019c5376-cb00-7115-b9f1-96b801637e35",
                   "level": 1,
                   "name": "Esporadicamente",
                   "lowerLimit": "0.5",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Come verduras e legumes só de vez em quando, vale aumentar."
                 },
                 {
                   "id": "019c5376-cb22-750e-a006-56a69f6806a3",
@@ -98,7 +110,8 @@
                   "name": "Em 1 refeição / dia",
                   "lowerLimit": "1",
                   "upperLimit": "1.5",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Come verduras e legumes em uma refeição por dia."
                 },
                 {
                   "id": "019c5376-cb2e-79d6-9950-6642d2fd10da",
@@ -106,7 +119,8 @@
                   "name": "Em 2 ou mais refeições / dia",
                   "lowerLimit": "3",
                   "upperLimit": "2",
-                  "operator": ">="
+                  "operator": ">=",
+                  "siteLegend": "Verduras e legumes em duas ou mais refeições por dia."
                 }
               ]
             },
@@ -119,24 +133,29 @@
               "lightOrder": 6,
               "anamneseItemCode": "REFRIGERANTES_E_ENERGETICOS",
               "patientExplanation": "Refrigerantes e bebidas energéticas são líquidos com muito açúcar, corantes, aditivos químicos e, no caso dos energéticos, cafeína em doses altas. Mesmo os refrigerantes 'zero' ou 'diet' contêm substâncias que podem prejudicar o intestino, estimular mais fome e bagunçar o metabolismo.\n\nO açúcar presente nesses líquidos vai direto para o fígado em grande quantidade, sobrecarregando esse órgão e favorecendo o acúmulo de gordura no fígado, o aumento dos triglicerídeos no sangue e a resistência à insulina — que é o primeiro passo para o diabetes tipo 2.\n\nJá os energéticos somam esse problema ao estímulo excessivo do coração e do sistema nervoso, podendo causar palpitações, aumento da pressão arterial e, em casos mais graves, arritmias.\n\nO consumo frequente desses líquidos também prejudica os dentes, aumenta o peso corporal e piora marcadores de inflamação. A boa notícia é que eliminar ou reduzir significativamente esses líquidos da dieta traz benefícios rápidos e mensuráveis no metabolismo. A água continua sendo a melhor bebida para hidratação.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Refrigerantes e bebidas energéticas são líquidos com muito açúcar, corantes, aditivos químicos e, no caso dos energéticos, cafeína em doses altas. Mesmo os refrigerantes 'zero' ou 'diet' contêm substâncias que podem prejudicar o intestino, estimular mais fome e bagunçar o metabolismo.\n\nO açúcar presente nesses líquidos vai direto para o fígado em grande quantidade, sobrecarregando esse órgão e favorecendo o acúmulo de gordura no fígado, o aumento dos triglicerídeos no sangue e a resistência à insulina — que é o primeiro passo para o diabetes tipo 2.\n\nJá os energéticos somam esse problema ao estímulo excessivo do coração e do sistema nervoso, podendo causar palpitações, aumento da pressão arterial e, em casos mais graves, arritmias.\n\nO consumo frequente desses líquidos também prejudica os dentes, aumenta o peso corporal e piora marcadores de inflamação. A boa notícia é que eliminar ou reduzir significativamente esses líquidos da dieta traz benefícios rápidos e mensuráveis no metabolismo. A água continua sendo a melhor bebida para hidratação.",
               "levels": [
                 {
                   "id": "019c535e-d7ce-72a9-8a12-dedebe0481ea",
                   "level": 0,
                   "name": "Consumo refrigerante/energético com açúcar",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Consome refrigerante ou energético com açúcar, hábito a reduzir."
                 },
                 {
                   "id": "019c535e-d934-7cb9-977c-496cea63452b",
                   "level": 2,
                   "name": "Consumo apenas versões sem açúcar (zero/diet)",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Consome só refrigerante sem açúcar, dá para reduzir mais."
                 },
                 {
                   "id": "019c535e-d948-7091-adba-fa64065749af",
                   "level": 5,
                   "name": "Não consumo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Ótimo: você não consome refrigerantes nem energéticos."
                 }
               ]
             }
@@ -163,42 +182,50 @@
               "lightOrder": 2,
               "anamneseItemCode": "LESOES_RELACIONADAS_AO_EXERCICIO",
               "patientExplanation": "Lesões relacionadas ao exercício são machucados que acontecem durante ou por causa da prática de atividade física. Podem ser lesões repentinas, como uma torção ou distensão muscular, ou lesões que aparecem aos poucos por excesso de treino, como tendinites ou dores crônicas nos músculos e articulações.\n\nEsses episódios são mais comuns do que parecem: muitas pessoas que praticam exercício regularmente já tiveram pelo menos uma lesão significativa. O problema é que, quando não tratadas corretamente ou quando o retorno ao exercício é feito antes da hora, as lesões tendem a voltar — às vezes com mais gravidade.\n\nConhecer seu histórico de lesões ajuda o médico a entender como o seu corpo responde ao exercício, se você tem vulnerabilidades específicas em algum músculo ou articulação, e se o seu treino está sendo adequado para a sua capacidade de recuperação. Isso permite criar um plano de atividade física que seja seguro, eficiente e compatível com a sua saúde. Lesões não precisam ser um obstáculo permanente: com a abordagem certa, a maioria das pessoas consegue retornar às atividades com segurança e até melhorar seu desempenho.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Lesões relacionadas ao exercício são machucados que acontecem durante ou por causa da prática de atividade física. Podem ser lesões repentinas, como uma torção ou distensão muscular, ou lesões que aparecem aos poucos por excesso de treino, como tendinites ou dores crônicas nos músculos e articulações.\n\nEsses episódios são mais comuns do que parecem: muitas pessoas que praticam exercício regularmente já tiveram pelo menos uma lesão significativa. O problema é que, quando não tratadas corretamente ou quando o retorno ao exercício é feito antes da hora, as lesões tendem a voltar — às vezes com mais gravidade.\n\nConhecer seu histórico de lesões ajuda o médico a entender como o seu corpo responde ao exercício, se você tem vulnerabilidades específicas em algum músculo ou articulação, e se o seu treino está sendo adequado para a sua capacidade de recuperação. Isso permite criar um plano de atividade física que seja seguro, eficiente e compatível com a sua saúde. Lesões não precisam ser um obstáculo permanente: com a abordagem certa, a maioria das pessoas consegue retornar às atividades com segurança e até melhorar seu desempenho.",
               "levels": [
                 {
                   "id": "019bf7af-d85e-72dd-ae23-b11c16fb2ce6",
                   "level": 0,
                   "name": "Tive uma lesão grave que deixou limitação permanente",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Teve lesão grave no exercício com limitação permanente."
                 },
                 {
                   "id": "019bf7af-d85e-7fe7-8971-d296366467b4",
                   "level": 1,
                   "name": "Tive uma lesão leve que deixou limitação permanente",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Lesão leve do exercício deixou limitação permanente."
                 },
                 {
                   "id": "019bf7af-d85e-76d3-bf7f-85a03ca38fb4",
                   "level": 2,
                   "name": "Tive lesão que limitou minha rotina por 1 a 5 anos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Teve lesão no exercício que limitou a rotina por alguns anos."
                 },
                 {
                   "id": "019bf7af-d85e-72ba-9dd6-60ce7e723c74",
                   "level": 3,
                   "name": "Tive lesão grave nos últimos 12 meses",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Teve lesão grave no exercício no último ano, hoje em recuperação."
                 },
                 {
                   "id": "019bf7af-d85e-7332-a258-dd2152fe7499",
                   "level": 4,
                   "name": "Tive lesão leve nos últimos 12 meses",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Apenas lesão leve no último ano, recuperação tranquila."
                 },
                 {
                   "id": "019bf7af-d85e-74a5-b21e-3c72fbaea05a",
                   "level": 5,
                   "name": "Nunca tive lesão grave",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Nunca teve lesão grave por exercício."
                 }
               ]
             }
@@ -218,42 +245,50 @@
               "lightOrder": 1,
               "anamneseItemCode": "ESTRATEGIA_MACRO_ATUAL",
               "patientExplanation": "A estratégia macro de treino é o plano geral que organiza como, com que intensidade e com que objetivo você se exercita ao longo do tempo. Não basta treinar — é preciso treinar do jeito certo para o seu momento de saúde e para o que você quer alcançar.\n\nO seu corpo se adapta ao exercício rapidamente: o que gerava resultado há alguns meses pode não gerar mais. Por isso, mudar periodicamente o tipo de treino, a intensidade ou a alimentação em torno do exercício é fundamental para continuar evoluindo.\n\nCada pessoa responde de forma diferente ao mesmo treino. Por isso, o médico avalia não só o que você faz na academia, mas como o seu corpo reage a esse esforço — por meio de exames, medidas corporais e sintomas. Com base nisso, é possível ajustar o plano para que o exercício seja uma ferramenta de saúde real: emagrecer com preservação de músculo, ganhar força sem overtraining, melhorar o metabolismo e reduzir riscos de doenças crônicas. Um plano bem estruturado respeita o seu estado hormonal, seu nível de estresse e seu sono — não só a carga na barra.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A estratégia macro de treino é o plano geral que organiza como, com que intensidade e com que objetivo você se exercita ao longo do tempo. Não basta treinar — é preciso treinar do jeito certo para o seu momento de saúde e para o que você quer alcançar.\n\nO seu corpo se adapta ao exercício rapidamente: o que gerava resultado há alguns meses pode não gerar mais. Por isso, mudar periodicamente o tipo de treino, a intensidade ou a alimentação em torno do exercício é fundamental para continuar evoluindo.\n\nCada pessoa responde de forma diferente ao mesmo treino. Por isso, o médico avalia não só o que você faz na academia, mas como o seu corpo reage a esse esforço — por meio de exames, medidas corporais e sintomas. Com base nisso, é possível ajustar o plano para que o exercício seja uma ferramenta de saúde real: emagrecer com preservação de músculo, ganhar força sem overtraining, melhorar o metabolismo e reduzir riscos de doenças crônicas. Um plano bem estruturado respeita o seu estado hormonal, seu nível de estresse e seu sono — não só a carga na barra.",
               "levels": [
                 {
                   "id": "019bf7af-d85e-79c2-aa11-e09f21f74082",
                   "level": 0,
                   "name": "Sedentário",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem rotina de exercícios no momento, sedentário, merece atenção."
                 },
                 {
                   "id": "019bf7af-d85e-7911-9a05-39a5df624132",
                   "level": 1,
                   "name": "Leve",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Estratégia alimentar atual está em ritmo leve."
                 },
                 {
                   "id": "019bf7af-d85e-7665-9eba-468b4d074512",
                   "level": 2,
                   "name": "Moderado",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Estratégia alimentar em nível intermediário, dá para aprimorar."
                 },
                 {
                   "id": "019bf7af-d85e-7dd3-9076-bb365cc46f0d",
                   "level": 3,
                   "name": "Intenso",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Estratégia alimentar atual de intensidade alta."
                 },
                 {
                   "id": "019bf7af-d85e-75ec-8b3c-cf4284147686",
                   "level": 4,
                   "name": "Atleta amador",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Bom nível de treino, perfil de atleta amador."
                 },
                 {
                   "id": "019bf7af-d85e-771c-a107-7ea7e796d7e8",
                   "level": 5,
                   "name": "Atleta elite",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sua estratégia alimentar é de nível atleta de alto rendimento, excelente."
                 }
               ]
             }
@@ -273,13 +308,16 @@
               "points": 10,
               "lightOrder": 3,
               "anamneseItemCode": "RESISTENCIA_NEUROMUSCULAR_PRANCHA_2",
+              "siteRenderType": "numeric_classifier",
+              "siteExplanation": "Teste físico que mede por quanto tempo o homem sustenta a posição de prancha, avaliando a resistência dos músculos do tronco.",
               "levels": [
                 {
                   "id": "019cbe7a-213f-7b75-9810-24a2409883f5",
                   "level": 0,
                   "name": "Fraco (até 61 segundos)",
                   "upperLimit": "61",
-                  "operator": "<="
+                  "operator": "<=",
+                  "siteLegend": "Resistência da prancha fraca, há bastante espaço para melhorar."
                 },
                 {
                   "id": "019cbe7a-2143-75a3-830a-896586f9abf5",
@@ -287,7 +325,8 @@
                   "name": "Abaixo da Média (62-96 s)",
                   "lowerLimit": "62",
                   "upperLimit": "96",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Tempo de prancha abaixo da média, força do tronco a melhorar."
                 },
                 {
                   "id": "019cbe7a-2144-76ca-8bdf-942a854e5454",
@@ -295,7 +334,8 @@
                   "name": "Média (97-156 s)",
                   "lowerLimit": "97",
                   "upperLimit": "156",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Resistência do abdômen e tronco na média."
                 },
                 {
                   "id": "019cbe7a-2144-7e6e-946a-aa4aa04dab84",
@@ -303,14 +343,16 @@
                   "name": "Acima da Média (157-200 s)",
                   "lowerLimit": "157",
                   "upperLimit": "200",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Resistência de prancha acima da média, bom resultado."
                 },
                 {
                   "id": "019cbe7a-2145-7858-8fbc-5f8eff3d4f51",
                   "level": 5,
                   "name": "Excelente (201 segundos ou mais)",
                   "lowerLimit": "201",
-                  "operator": ">="
+                  "operator": ">=",
+                  "siteLegend": "Resistência do tronco excelente, segurou a prancha por muito tempo."
                 }
               ]
             }
@@ -337,6 +379,8 @@
               "lightOrder": 70,
               "anamneseItemCode": "TEMPO_DE_SONO",
               "patientExplanation": "O tempo de sono é um dos pilares mais importantes da sua saúde. Dormir bem não é luxo — é uma necessidade biológica fundamental. A recomendação geral para adultos é de 8 horas de sono por noite, e mesmo uma redução pequena, como dormir 6 horas no lugar de 8, já é suficiente para provocar inflamação no organismo, alterar os hormônios da fome (fazendo você sentir mais vontade de comer, especialmente doces), reduzir a sensibilidade do corpo à insulina e enfraquecer o sistema imunológico.\n\nQuando dormimos pouco ou mal por um longo período, aumenta o risco de desenvolver doenças como diabetes, pressão alta, obesidade, depressão e até câncer. O sono é o momento em que o corpo se regenera, consolida a memória e regula os hormônios. Sem esse descanso adequado, praticamente todos os sistemas do organismo são afetados.\n\nA boa notícia: o sono é um dos fatores de saúde mais modificáveis. Pequenas mudanças nos hábitos noturnos podem gerar grandes melhorias na energia, humor, peso e saúde geral.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "O tempo de sono é um dos pilares mais importantes da sua saúde. Dormir bem não é luxo — é uma necessidade biológica fundamental. A recomendação geral para adultos é de 8 horas de sono por noite, e mesmo uma redução pequena, como dormir 6 horas no lugar de 8, já é suficiente para provocar inflamação no organismo, alterar os hormônios da fome (fazendo você sentir mais vontade de comer, especialmente doces), reduzir a sensibilidade do corpo à insulina e enfraquecer o sistema imunológico.\n\nQuando dormimos pouco ou mal por um longo período, aumenta o risco de desenvolver doenças como diabetes, pressão alta, obesidade, depressão e até câncer. O sono é o momento em que o corpo se regenera, consolida a memória e regula os hormônios. Sem esse descanso adequado, praticamente todos os sistemas do organismo são afetados.\n\nA boa notícia: o sono é um dos fatores de saúde mais modificáveis. Pequenas mudanças nos hábitos noturnos podem gerar grandes melhorias na energia, humor, peso e saúde geral.",
               "levels": [
                 {
                   "id": "019c53a6-f1bf-74e9-a0c1-f139ac3b6c24",
@@ -344,7 +388,8 @@
                   "name": "mais que 10 horas/dia",
                   "lowerLimit": "10",
                   "upperLimit": "5",
-                  "operator": ">"
+                  "operator": ">",
+                  "siteLegend": "Dorme mais de 10 horas por dia, excesso que pode indicar algum problema."
                 },
                 {
                   "id": "019c53a6-f2f7-725f-ab15-e255fa6f5725",
@@ -352,7 +397,8 @@
                   "name": "menos que 4 horas/dia",
                   "lowerLimit": "4",
                   "upperLimit": "21",
-                  "operator": "<"
+                  "operator": "<",
+                  "siteLegend": "Dorme menos de quatro horas por dia. Sono muito insuficiente."
                 },
                 {
                   "id": "019c53a6-f31b-76e3-badc-95536d03f373",
@@ -360,7 +406,8 @@
                   "name": "4 a 6 horas/dia",
                   "lowerLimit": "4",
                   "upperLimit": "6",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Dorme entre quatro e seis horas, um pouco abaixo do ideal para descanso."
                 },
                 {
                   "id": "019c53a6-f313-7554-af7f-5b53eb223478",
@@ -368,7 +415,8 @@
                   "name": "8 a 10 horas/dia",
                   "lowerLimit": "8",
                   "upperLimit": "10",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Boa quantidade de sono por noite."
                 },
                 {
                   "id": "019c53a6-f323-734a-a78f-eeff912c153f",
@@ -376,7 +424,8 @@
                   "name": "6 a 8 horas/dia",
                   "lowerLimit": "6",
                   "upperLimit": "8",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Dorme entre seis e oito horas por noite, dentro do recomendado."
                 }
               ]
             },
@@ -389,6 +438,8 @@
               "lightOrder": 71,
               "anamneseItemCode": "HORA_DE_DORMIR",
               "patientExplanation": "A hora em que você vai dormir é tão importante quanto quantas horas dorme. Nosso corpo tem um relógio interno — o ritmo circadiano — que regula hormônios, imunidade, digestão e muito mais. Esse relógio começa a preparar o corpo para dormir por volta das 20–21h, com a produção de melatonina (hormônio do sono). Quando você vai dormir muito tarde, atrapalha esse processo natural.\n\nDormir tarde de forma habitual está ligado a maior risco de problemas emocionais, ganho de peso, diabetes, doenças cardiovasculares e até câncer. Apenas duas noites seguidas de sono ruim já são suficientes para aumentar a fome, piorar o controle da glicose e gerar inflamação no corpo. O ideal é que adultos durmam cerca de 8 horas por noite, começando entre 21h e 23h, de acordo com o ritmo biológico natural. Pequenas mudanças no horário de dormir podem trazer grandes benefícios para sua saúde, disposição e metabolismo.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A hora em que você vai dormir é tão importante quanto quantas horas dorme. Nosso corpo tem um relógio interno — o ritmo circadiano — que regula hormônios, imunidade, digestão e muito mais. Esse relógio começa a preparar o corpo para dormir por volta das 20–21h, com a produção de melatonina (hormônio do sono). Quando você vai dormir muito tarde, atrapalha esse processo natural.\n\nDormir tarde de forma habitual está ligado a maior risco de problemas emocionais, ganho de peso, diabetes, doenças cardiovasculares e até câncer. Apenas duas noites seguidas de sono ruim já são suficientes para aumentar a fome, piorar o controle da glicose e gerar inflamação no corpo. O ideal é que adultos durmam cerca de 8 horas por noite, começando entre 21h e 23h, de acordo com o ritmo biológico natural. Pequenas mudanças no horário de dormir podem trazer grandes benefícios para sua saúde, disposição e metabolismo.",
               "levels": [
                 {
                   "id": "019c5396-0eb0-72b7-88b9-5002918767f8",
@@ -396,7 +447,8 @@
                   "name": "Após 5h (ou antes as 19h)",
                   "lowerLimit": "5",
                   "upperLimit": "19",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Hora de dormir muito fora do ideal, prejudica o descanso."
                 },
                 {
                   "id": "019c53a2-5130-79af-9be9-0a074df4142d",
@@ -404,7 +456,8 @@
                   "name": "2 as 5h",
                   "lowerLimit": "2",
                   "upperLimit": "5",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Costuma dormir de madrugada, horário desfavorável ao descanso."
                 },
                 {
                   "id": "019c5395-cb5a-7c55-9da6-97fbe98db43e",
@@ -412,7 +465,8 @@
                   "name": "00:30 as 2h",
                   "lowerLimit": "00:30",
                   "upperLimit": "5",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Dorme tarde, entre meia-noite e duas da manhã."
                 },
                 {
                   "id": "019c5395-88e1-7249-ba0e-7286a4b99584",
@@ -420,7 +474,8 @@
                   "name": "23 as 00:30h",
                   "lowerLimit": "23",
                   "upperLimit": "00:30",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Vai dormir um pouco tarde, dá para antecipar um pouco."
                 },
                 {
                   "id": "019c5395-493c-757d-8cac-dd86f0499b0e",
@@ -428,7 +483,8 @@
                   "name": "19 as 21h",
                   "lowerLimit": "19",
                   "upperLimit": "21",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Costuma dormir cedo, entre 19h e 21h, bom para o sono."
                 },
                 {
                   "id": "019c5395-0c3b-7d4c-86f4-c26395a3738c",
@@ -436,7 +492,8 @@
                   "name": "21 as 23h",
                   "lowerLimit": "21",
                   "upperLimit": "23",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Vai dormir em horário saudável, ótimo para o descanso."
                 }
               ]
             },
@@ -449,30 +506,36 @@
               "lightOrder": 72,
               "anamneseItemCode": "QUALIDADE_PERCEBIDA_DO_SONO",
               "patientExplanation": "A qualidade do sono é a percepção de como você dormiu: se acordou descansado, se o sono foi contínuo e suficiente para restaurar seu corpo e mente. Dormir bem não é apenas uma questão de conforto — é uma necessidade biológica fundamental. Durante o sono, seu corpo regula hormônios importantes como o cortisol, a insulina e a melatonina, consolida memórias, repara tecidos e equilibra o sistema imunológico. Quando o sono é de má qualidade de forma recorrente, o organismo entra em desequilíbrio: o apetite aumenta (especialmente por doces e alimentos calóricos), a resistência à insulina piora, a inflamação cresce e o risco de doenças como diabetes, problemas cardiovasculares e até câncer aumenta. A boa notícia é que a qualidade do sono responde muito bem a mudanças de hábito, ajustes na rotina, manejo do estresse e, quando necessário, suplementação orientada pelo seu médico.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A qualidade do sono é a percepção de como você dormiu: se acordou descansado, se o sono foi contínuo e suficiente para restaurar seu corpo e mente. Dormir bem não é apenas uma questão de conforto — é uma necessidade biológica fundamental. Durante o sono, seu corpo regula hormônios importantes como o cortisol, a insulina e a melatonina, consolida memórias, repara tecidos e equilibra o sistema imunológico. Quando o sono é de má qualidade de forma recorrente, o organismo entra em desequilíbrio: o apetite aumenta (especialmente por doces e alimentos calóricos), a resistência à insulina piora, a inflamação cresce e o risco de doenças como diabetes, problemas cardiovasculares e até câncer aumenta. A boa notícia é que a qualidade do sono responde muito bem a mudanças de hábito, ajustes na rotina, manejo do estresse e, quando necessário, suplementação orientada pelo seu médico.",
               "levels": [
                 {
                   "id": "019bf7af-d85e-7d30-ab7f-eae69544bd38",
                   "level": 0,
                   "name": "Passo o dia todo cansado, sonolento e sem energia",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sono não restaura: dia todo cansado e sem energia, precisa de cuidado."
                 },
                 {
                   "id": "019bf7af-d85e-7d1a-8541-bd84d63a4237",
                   "level": 2,
                   "name": "Acordo bem, mas a energia acaba no meio do dia",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Acorda descansado, mas a energia cai no meio do dia."
                 },
                 {
                   "id": "019bf7af-d85e-7637-9990-500c80e7dc9d",
                   "level": 3,
                   "name": "Acordo cansado e depois \"pego no tranco\"",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Acorda cansado e demora a engatar no dia."
                 },
                 {
                   "id": "019bf7af-d85e-777c-8385-b26bb631f43a",
                   "level": 5,
                   "name": "É reparador, com energia o dia todo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sono reparador, com energia o dia todo."
                 }
               ]
             },
@@ -485,12 +548,15 @@
               "lightOrder": 75,
               "anamneseItemCode": "APNEIAS",
               "patientExplanation": "Apneias são pausas na respiração que acontecem enquanto você dorme, geralmente sem que você perceba. Durante essas pausas, o oxigênio no sangue cai, o cérebro acorda brevemente para retomar a respiração, e esse ciclo pode se repetir dezenas ou até centenas de vezes por noite. O resultado é um sono fragmentado e não reparador, mesmo que você passe muitas horas na cama. Além do cansaço e da sonolência durante o dia, as apneias sobrecarregam o coração, elevam a pressão arterial, alteram hormônios como a testosterona e aumentam o risco de problemas metabólicos e até cognitivos ao longo do tempo. A boa notícia é que, uma vez diagnosticada (por meio de um exame chamado polissonografia), a apneia tem tratamento eficaz — o mais comum é o uso de um aparelho chamado CPAP, que mantém as vias aéreas abertas durante o sono. Perda de peso e mudanças no estilo de vida também fazem grande diferença. Tratar as apneias melhora a energia, o humor, a pressão arterial e a saúde geral.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Apneias são pausas na respiração que acontecem enquanto você dorme, geralmente sem que você perceba. Durante essas pausas, o oxigênio no sangue cai, o cérebro acorda brevemente para retomar a respiração, e esse ciclo pode se repetir dezenas ou até centenas de vezes por noite. O resultado é um sono fragmentado e não reparador, mesmo que você passe muitas horas na cama. Além do cansaço e da sonolência durante o dia, as apneias sobrecarregam o coração, elevam a pressão arterial, alteram hormônios como a testosterona e aumentam o risco de problemas metabólicos e até cognitivos ao longo do tempo. A boa notícia é que, uma vez diagnosticada (por meio de um exame chamado polissonografia), a apneia tem tratamento eficaz — o mais comum é o uso de um aparelho chamado CPAP, que mantém as vias aéreas abertas durante o sono. Perda de peso e mudanças no estilo de vida também fazem grande diferença. Tratar as apneias melhora a energia, o humor, a pressão arterial e a saúde geral.",
               "levels": [
                 {
                   "id": "019bf7af-d85e-7255-a34f-a5b007066afe",
                   "level": 0,
                   "name": "Frequentes e intensas (várias por noite)",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Paradas frequentes e intensas na respiracao durante o sono, pedem atencao."
                 },
                 {
                   "id": "019bf7af-d85e-7ae4-9b37-17c8d50afc91",
@@ -498,7 +564,8 @@
                   "name": "Algumas por semana (5 a 10 por noite)",
                   "lowerLimit": "5",
                   "upperLimit": "10",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Pausas na respiração algumas vezes por semana durante o sono, merece atenção."
                 },
                 {
                   "id": "019bf7af-d85e-723f-87e2-f25832a1b4ac",
@@ -506,13 +573,15 @@
                   "name": "Esporádicas (1 episódio por noite)",
                   "lowerLimit": "1",
                   "upperLimit": "5",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Pausas raras na respiração ao dormir, cerca de uma por noite."
                 },
                 {
                   "id": "019bf7af-d85e-7716-852c-cc36b5965665",
                   "level": 5,
                   "name": "Não apresento (que eu saiba)",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem pausas na respiração durante o sono, sinal tranquilizador."
                 }
               ]
             },
@@ -525,24 +594,29 @@
               "lightOrder": 76,
               "anamneseItemCode": "RONCOS",
               "patientExplanation": "Roncar é o som que ocorre quando o ar passa por vias aéreas parcialmente bloqueadas durante o sono, fazendo vibrar estruturas da garganta. Muitas pessoas acham que é apenas um incômodo, mas roncos frequentes e intensos podem ser sinal de um problema chamado apneia do sono — quando a respiração para por alguns segundos várias vezes durante a noite. Isso pode fazer com que você acorde sem se sentir descansado, fique com sono durante o dia, tenha dificuldade de concentração e, ao longo do tempo, aumente o risco de pressão alta, problemas no coração e alterações hormonais. A boa notícia é que, identificando a causa, é possível tratar com mudanças de hábitos, dispositivos específicos ou outros recursos, melhorando muito a qualidade do sono e a saúde geral.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Roncar é o som que ocorre quando o ar passa por vias aéreas parcialmente bloqueadas durante o sono, fazendo vibrar estruturas da garganta. Muitas pessoas acham que é apenas um incômodo, mas roncos frequentes e intensos podem ser sinal de um problema chamado apneia do sono — quando a respiração para por alguns segundos várias vezes durante a noite. Isso pode fazer com que você acorde sem se sentir descansado, fique com sono durante o dia, tenha dificuldade de concentração e, ao longo do tempo, aumente o risco de pressão alta, problemas no coração e alterações hormonais. A boa notícia é que, identificando a causa, é possível tratar com mudanças de hábitos, dispositivos específicos ou outros recursos, melhorando muito a qualidade do sono e a saúde geral.",
               "levels": [
                 {
                   "id": "019c164e-e439-72c1-a506-6e3427502a33",
                   "level": 0,
                   "name": "Ronco com frequência e intensidade",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Ronco frequente e intenso, vale investigar o sono."
                 },
                 {
                   "id": "019c164e-e439-78da-8967-8cffe2c1aae4",
                   "level": 1,
                   "name": "Ronco esporadicamente",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Ronco ocasional durante o sono, vale observar."
                 },
                 {
                   "id": "019c164e-e439-78d8-b08b-9f9e73410aba",
                   "level": 5,
                   "name": "Não ronco",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Não ronca, bom sinal para a qualidade do sono."
                 }
               ]
             }
@@ -569,13 +643,16 @@
               "lightOrder": 63,
               "anamneseItemCode": "ESCALA_PHQ_9_27",
               "patientExplanation": "O PHQ-9 é um questionário com 9 perguntas que mede o quanto sintomas de tristeza, desânimo, falta de prazer e outros sinais de depressão estão presentes na sua vida. Cada resposta vale de 0 a 3 pontos, e o total vai de 0 a 27. Quanto maior a pontuação, mais intensos os sintomas. Uma pontuação baixa (abaixo de 5) indica que você está bem nesse aspecto. Entre 5 e 9 os sintomas são leves; de 10 a 14 são moderados; acima de 15 são mais intensos e precisam de atenção especializada.\n\nEssa avaliação é muito importante porque a depressão afeta não só o humor, mas também a energia, o sono, a digestão, a imunidade e a capacidade de cuidar da saúde. Os sintomas emocionais muitas vezes têm causas físicas identificáveis e tratáveis, como deficiências de vitaminas, alterações no intestino ou desequilíbrios hormonais. O resultado do PHQ-9 ajuda o médico a entender melhor como você está se sentindo e a montar um plano personalizado que vai além dos remédios convencionais.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "O PHQ-9 é um questionário com 9 perguntas que mede o quanto sintomas de tristeza, desânimo, falta de prazer e outros sinais de depressão estão presentes na sua vida. Cada resposta vale de 0 a 3 pontos, e o total vai de 0 a 27. Quanto maior a pontuação, mais intensos os sintomas. Uma pontuação baixa (abaixo de 5) indica que você está bem nesse aspecto. Entre 5 e 9 os sintomas são leves; de 10 a 14 são moderados; acima de 15 são mais intensos e precisam de atenção especializada.\n\nEssa avaliação é muito importante porque a depressão afeta não só o humor, mas também a energia, o sono, a digestão, a imunidade e a capacidade de cuidar da saúde. Os sintomas emocionais muitas vezes têm causas físicas identificáveis e tratáveis, como deficiências de vitaminas, alterações no intestino ou desequilíbrios hormonais. O resultado do PHQ-9 ajuda o médico a entender melhor como você está se sentindo e a montar um plano personalizado que vai além dos remédios convencionais.",
               "levels": [
                 {
                   "id": "019bf7af-ba01-703a-bfca-bffdacb23d96",
                   "level": 0,
                   "name": "20 ou mais",
                   "lowerLimit": "20",
-                  "operator": ">="
+                  "operator": ">=",
+                  "siteLegend": "Sinais importantes de humor deprimido, merece cuidado próximo."
                 },
                 {
                   "id": "019bf7af-ba01-77e0-a4c5-68dc7d6ceda9",
@@ -583,7 +660,8 @@
                   "name": "15 a 19",
                   "lowerLimit": "15",
                   "upperLimit": "19",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Questionário de humor aponta sintomas depressivos importantes, merece atenção."
                 },
                 {
                   "id": "019bf7af-ba01-7179-9afe-a1878e6987ee",
@@ -591,7 +669,8 @@
                   "name": "10 a 14",
                   "lowerLimit": "10",
                   "upperLimit": "14",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Questionário aponta sintomas de humor de intensidade moderada."
                 },
                 {
                   "id": "019bf7af-ba01-75e8-bd15-fc7b36ccc451",
@@ -599,7 +678,8 @@
                   "name": "5 a 9",
                   "lowerLimit": "5",
                   "upperLimit": "9",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Questionário de humor sugere sintomas leves de depressão."
                 },
                 {
                   "id": "019bf7af-ba01-7ffe-bfc7-da959b34db97",
@@ -607,14 +687,16 @@
                   "name": "2 a 4",
                   "lowerLimit": "2",
                   "upperLimit": "4",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Humor com sinais mínimos de tristeza, resultado tranquilo."
                 },
                 {
                   "id": "019bf7af-ba01-7668-9325-aa403a63369d",
                   "level": 5,
                   "name": "1 ou menos",
                   "upperLimit": "1",
-                  "operator": "<="
+                  "operator": "<=",
+                  "siteLegend": "Humor estável, sem sinais de depressão no questionário."
                 }
               ]
             },
@@ -627,42 +709,50 @@
               "lightOrder": 64,
               "anamneseItemCode": "CAPACIDADE_DA_MEMORIA_PERCEBIDA",
               "patientExplanation": "A 'capacidade da memória percebida' avalia como você sente que sua memória está funcionando agora. Quando você percebe que está esquecendo coisas com mais frequência, sentindo a cabeça 'pesada' ou com dificuldade de lembrar nomes e fatos do dia a dia, isso é um sinal importante que merece atenção — mesmo antes de qualquer alteração aparecer em testes formais.\n\nEssa percepção pode surgir anos antes de qualquer problema mais sério: significa que existe uma janela para investigar e agir. Causas comuns incluem deficiências de vitaminas (B12, D, B9), alterações no sono, açúcar elevado, inflamação e estresse crônico. A maioria é tratável quando identificada cedo.\n\nCuidar da memória hoje é cuidar da sua independência no futuro. Uma avaliação completa pode identificar a causa e orientar mudanças no estilo de vida, na alimentação e, quando necessário, na suplementação.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A 'capacidade da memória percebida' avalia como você sente que sua memória está funcionando agora. Quando você percebe que está esquecendo coisas com mais frequência, sentindo a cabeça 'pesada' ou com dificuldade de lembrar nomes e fatos do dia a dia, isso é um sinal importante que merece atenção — mesmo antes de qualquer alteração aparecer em testes formais.\n\nEssa percepção pode surgir anos antes de qualquer problema mais sério: significa que existe uma janela para investigar e agir. Causas comuns incluem deficiências de vitaminas (B12, D, B9), alterações no sono, açúcar elevado, inflamação e estresse crônico. A maioria é tratável quando identificada cedo.\n\nCuidar da memória hoje é cuidar da sua independência no futuro. Uma avaliação completa pode identificar a causa e orientar mudanças no estilo de vida, na alimentação e, quando necessário, na suplementação.",
               "levels": [
                 {
                   "id": "019bf7af-d85e-74cc-86a5-881648722367",
                   "level": 0,
                   "name": "Pior fase da vida",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Memória na pior fase já percebida, merece atenção."
                 },
                 {
                   "id": "019bf7af-d85e-71d2-857a-abacec602649",
                   "level": 1,
                   "name": "Hoje é 20% do meu auge",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Você sente a memória bem abaixo do seu melhor, vale investigar."
                 },
                 {
                   "id": "019bf7af-d85e-7216-8373-34d95f6489d1",
                   "level": 2,
                   "name": "Hoje é 40% do meu auge",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sente a memória bem abaixo do seu melhor, vale acompanhar."
                 },
                 {
                   "id": "019bf7af-d85e-783a-956c-deecaa1a9e09",
                   "level": 3,
                   "name": "Hoje é 60% do meu auge",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Memória hoje em cerca de 60% do melhor momento, queda perceptível."
                 },
                 {
                   "id": "019bf7af-d85e-7066-b9f9-2f5216e17ce8",
                   "level": 4,
                   "name": "Hoje é 80% do meu auge",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Memória percebida ainda muito boa, perto do seu melhor momento."
                 },
                 {
                   "id": "019bf7af-d85e-744e-8851-02f8de80bdf0",
                   "level": 5,
                   "name": "Estou no auge",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Ótimo: você percebe sua memória no melhor momento."
                 }
               ]
             }
@@ -689,42 +779,50 @@
               "lightOrder": 66,
               "anamneseItemCode": "FONTES_DE_STRESS_PERCEBIDAS_ATUALMENTE",
               "patientExplanation": "Este parâmetro avalia quais situações da sua vida você percebe atualmente como estressantes — como pressão no trabalho, conflitos familiares, preocupações com doenças ou dificuldades financeiras. O estresse não é apenas uma sensação: ele ativa um sistema hormonal no seu corpo (chamado eixo HPA) que libera cortisol, o hormônio do estresse. Em doses certas e por tempo curto, o cortisol é útil e necessário. O problema surge quando o estresse é constante: o cortisol fica elevado por longos períodos, prejudicando o coração, o sono, a memória, o sistema imunológico, os hormônios e o metabolismo. Identificar de onde vem o seu estresse é o primeiro passo para tratá-lo de forma eficaz, porque sem resolver as causas, outros tratamentos tendem a ter resultados limitados.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Este parâmetro avalia quais situações da sua vida você percebe atualmente como estressantes — como pressão no trabalho, conflitos familiares, preocupações com doenças ou dificuldades financeiras. O estresse não é apenas uma sensação: ele ativa um sistema hormonal no seu corpo (chamado eixo HPA) que libera cortisol, o hormônio do estresse. Em doses certas e por tempo curto, o cortisol é útil e necessário. O problema surge quando o estresse é constante: o cortisol fica elevado por longos períodos, prejudicando o coração, o sono, a memória, o sistema imunológico, os hormônios e o metabolismo. Identificar de onde vem o seu estresse é o primeiro passo para tratá-lo de forma eficaz, porque sem resolver as causas, outros tratamentos tendem a ter resultados limitados.",
               "levels": [
                 {
                   "id": "019bf7af-d85e-77d9-802c-ce6a3a0d38a5",
                   "level": 0,
                   "name": "Estou em burnout completo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Esgotamento total pelo estresse, precisa de cuidado urgente."
                 },
                 {
                   "id": "019bf7af-d85e-76ef-a35c-394faa0323ed",
                   "level": 1,
                   "name": "Estou em estresse intenso, próximo do colapso",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Estresse intenso, perto do limite, precisa de cuidado."
                 },
                 {
                   "id": "019bf7af-d85e-7efb-86c9-d9bf436fb286",
                   "level": 2,
                   "name": "Tenho estresse difícil de manejar, com sintomas físicos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Estresse difícil de controlar, já com sintomas no corpo."
                 },
                 {
                   "id": "019bf7af-d85e-727c-9e5e-95ba01ca6f34",
                   "level": 3,
                   "name": "Tenho muitas fontes de estresse, mas bem manejadas",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Muitas fontes de estresse, porém bem administradas no dia a dia."
                 },
                 {
                   "id": "019bf7af-d85e-762c-b90f-06db0430b781",
                   "level": 4,
                   "name": "Tenho pouco estresse, bem manejado",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Pouco estresse e bem administrado, situação muito boa."
                 },
                 {
                   "id": "019bf7af-d85e-7dca-bc5a-4d8599a19b01",
                   "level": 5,
                   "name": "Não percebo estresse danoso na minha vida",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Não percebe estresse prejudicial na vida, ótimo."
                 }
               ]
             }
@@ -751,13 +849,16 @@
               "lightOrder": 10,
               "anamneseItemCode": "ABDOMINAL_HOMEM",
               "patientExplanation": "A medida da cintura é um dos exames mais simples e importantes que existem para avaliar a sua saúde. Ela mostra quanto de gordura está acumulada na barriga — especificamente a gordura que fica em volta dos órgãos internos (chamada de gordura visceral). Esse tipo de gordura é diferente da gordura que aparece debaixo da pele: ela libera substâncias inflamatórias que prejudicam o coração, o fígado, os rins e o cérebro.\n\nPara homens, uma cintura abaixo de 90 cm é considerada ideal. Entre 94 e 101 cm o risco já está aumentado, e acima de 102 cm o risco é muito alto — associado a diabetes tipo 2, pressão alta, doenças do coração e outros problemas sérios de saúde.\n\nA boa notícia é que a gordura visceral responde bem a mudanças de hábito. Exercícios como musculação e treinos intervalados de alta intensidade (HIIT), uma alimentação com menos açúcar e farináceos, sono de qualidade e manejo do estresse são estratégias comprovadas para reduzir a cintura e melhorar todos os marcadores de saúde ao mesmo tempo. Pequenas reduções já fazem diferença: cada centímetro a menos na cintura representa melhora real nos seus exames de sangue e na sua saúde cardiovascular.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A medida da cintura é um dos exames mais simples e importantes que existem para avaliar a sua saúde. Ela mostra quanto de gordura está acumulada na barriga — especificamente a gordura que fica em volta dos órgãos internos (chamada de gordura visceral). Esse tipo de gordura é diferente da gordura que aparece debaixo da pele: ela libera substâncias inflamatórias que prejudicam o coração, o fígado, os rins e o cérebro.\n\nPara homens, uma cintura abaixo de 90 cm é considerada ideal. Entre 94 e 101 cm o risco já está aumentado, e acima de 102 cm o risco é muito alto — associado a diabetes tipo 2, pressão alta, doenças do coração e outros problemas sérios de saúde.\n\nA boa notícia é que a gordura visceral responde bem a mudanças de hábito. Exercícios como musculação e treinos intervalados de alta intensidade (HIIT), uma alimentação com menos açúcar e farináceos, sono de qualidade e manejo do estresse são estratégias comprovadas para reduzir a cintura e melhorar todos os marcadores de saúde ao mesmo tempo. Pequenas reduções já fazem diferença: cada centímetro a menos na cintura representa melhora real nos seus exames de sangue e na sua saúde cardiovascular.",
               "levels": [
                 {
                   "id": "019bf7af-ba01-7db8-90a2-063e667898ba",
                   "level": 0,
                   "name": "mais que 102",
                   "lowerLimit": "102",
-                  "operator": ">"
+                  "operator": ">",
+                  "siteLegend": "Cintura bem acima do ideal nos homens, fora do esperado."
                 },
                 {
                   "id": "019bf7af-ba01-73e2-b00b-ab2edaac7249",
@@ -765,7 +866,8 @@
                   "name": "94 a 102",
                   "lowerLimit": "94",
                   "upperLimit": "102",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Cintura aumentada, sinal de gordura abdominal a observar."
                 },
                 {
                   "id": "019bf7af-ba01-739f-8c40-7560be6cb3f0",
@@ -773,14 +875,16 @@
                   "name": "90 a 93,9",
                   "lowerLimit": "90",
                   "upperLimit": "93.9",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Cintura levemente acima do ideal, vale acompanhar."
                 },
                 {
                   "id": "019bf7af-ba01-7b93-94af-13bc6329ab29",
                   "level": 5,
                   "name": "menos que 90",
                   "upperLimit": "90",
-                  "operator": "<"
+                  "operator": "<",
+                  "siteLegend": "Cintura dentro do recomendado para homem."
                 }
               ]
             },
@@ -793,13 +897,16 @@
               "lightOrder": 10,
               "anamneseItemCode": "ABDOMINAL_MULHER",
               "patientExplanation": "A circunferência abdominal mede a gordura acumulada na barriga, especialmente a gordura que fica dentro do abdome, em torno dos órgãos. Esse tipo de gordura — chamada de gordura visceral — é diferente da gordura que fica embaixo da pele: ela libera substâncias que inflamam o corpo e dificultam o funcionamento da insulina, hormônio que controla o açúcar no sangue.\n\nPara mulheres, valores acima de 80 cm já indicam atenção aumentada à saúde do coração e ao metabolismo; valores acima de 88 cm indicam risco elevado. Importante: mesmo mulheres com peso considerado normal pelo IMC podem ter risco aumentado se a medida da barriga estiver acima desses valores.\n\nA boa notícia é que a gordura visceral responde bem a mudanças no estilo de vida: alimentação adequada, exercícios (especialmente musculação e treinos intervalados) e qualidade do sono são as ferramentas mais eficazes para reduzi-la. Cada centímetro a menos na cintura já representa uma melhora real no funcionamento do coração e do metabolismo.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A circunferência abdominal mede a gordura acumulada na barriga, especialmente a gordura que fica dentro do abdome, em torno dos órgãos. Esse tipo de gordura — chamada de gordura visceral — é diferente da gordura que fica embaixo da pele: ela libera substâncias que inflamam o corpo e dificultam o funcionamento da insulina, hormônio que controla o açúcar no sangue.\n\nPara mulheres, valores acima de 80 cm já indicam atenção aumentada à saúde do coração e ao metabolismo; valores acima de 88 cm indicam risco elevado. Importante: mesmo mulheres com peso considerado normal pelo IMC podem ter risco aumentado se a medida da barriga estiver acima desses valores.\n\nA boa notícia é que a gordura visceral responde bem a mudanças no estilo de vida: alimentação adequada, exercícios (especialmente musculação e treinos intervalados) e qualidade do sono são as ferramentas mais eficazes para reduzi-la. Cada centímetro a menos na cintura já representa uma melhora real no funcionamento do coração e do metabolismo.",
               "levels": [
                 {
                   "id": "019bf7af-ba01-78b8-a657-eb3954d50e4b",
                   "level": 0,
                   "name": "mais que 88",
                   "lowerLimit": "88",
-                  "operator": ">"
+                  "operator": ">",
+                  "siteLegend": "Medida da cintura acima do recomendado, situação que pede cuidado."
                 },
                 {
                   "id": "019bf7af-ba01-7085-b9cb-4a81381c2e32",
@@ -807,7 +914,8 @@
                   "name": "84 a 88",
                   "lowerLimit": "84",
                   "upperLimit": "88",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Cintura acima do ideal, precisa de atenção."
                 },
                 {
                   "id": "019bf7af-ba01-7f13-91bd-d5e1ddacdebf",
@@ -815,14 +923,16 @@
                   "name": "80 a 83,9",
                   "lowerLimit": "80",
                   "upperLimit": "83.9",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Cintura levemente acima do ideal na mulher, vale observar."
                 },
                 {
                   "id": "019bf7af-ba01-7dac-a45d-61b5d7c2693e",
                   "level": 5,
                   "name": "menos que 80",
                   "upperLimit": "80",
-                  "operator": "<"
+                  "operator": "<",
+                  "siteLegend": "Cintura abaixo do limite de risco para mulheres. Resultado excelente."
                 }
               ]
             },
@@ -835,13 +945,16 @@
               "lightOrder": 11,
               "anamneseItemCode": "PESCOCO_HOMEM",
               "patientExplanation": "A medida da circunferência do pescoço é uma forma simples de avaliar o acúmulo de gordura na região cervical, que está relacionado ao acúmulo de gordura interna no corpo — especialmente na barriga. Em homens, um pescoço com circunferência acima de 37–40 cm pode indicar que o organismo está acumulando gordura em excesso em locais que aumentam os riscos para a saúde.\n\nEsse acúmulo de gordura cervical está ligado a problemas como resistência à insulina (quando o açúcar não entra bem nas células), síndrome metabólica, pressão alta, alterações no colesterol, risco de diabetes tipo 2, doenças do coração e até ronco e apneia do sono. Também pode afetar os níveis de testosterona e a saúde sexual.\n\nA boa notícia é que essa medida responde bem a mudanças no estilo de vida: alimentação de qualidade, prática regular de exercícios físicos (especialmente aeróbicos e de força), melhora do sono e controle do estresse são as principais ferramentas para reduzir esse risco. Acompanhar essa medida ao longo do tempo ajuda o médico a entender sua evolução e ajustar o tratamento de forma personalizada.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A medida da circunferência do pescoço é uma forma simples de avaliar o acúmulo de gordura na região cervical, que está relacionado ao acúmulo de gordura interna no corpo — especialmente na barriga. Em homens, um pescoço com circunferência acima de 37–40 cm pode indicar que o organismo está acumulando gordura em excesso em locais que aumentam os riscos para a saúde.\n\nEsse acúmulo de gordura cervical está ligado a problemas como resistência à insulina (quando o açúcar não entra bem nas células), síndrome metabólica, pressão alta, alterações no colesterol, risco de diabetes tipo 2, doenças do coração e até ronco e apneia do sono. Também pode afetar os níveis de testosterona e a saúde sexual.\n\nA boa notícia é que essa medida responde bem a mudanças no estilo de vida: alimentação de qualidade, prática regular de exercícios físicos (especialmente aeróbicos e de força), melhora do sono e controle do estresse são as principais ferramentas para reduzir esse risco. Acompanhar essa medida ao longo do tempo ajuda o médico a entender sua evolução e ajustar o tratamento de forma personalizada.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-76f2-b9b5-1977a4d7913f",
                   "level": 0,
                   "name": "mais que 40",
                   "lowerLimit": "40",
-                  "operator": ">"
+                  "operator": ">",
+                  "siteLegend": "Circunferência do pescoço elevada no homem, sinal de atenção metabólica."
                 },
                 {
                   "id": "019bf31d-2ef0-76be-a70b-3fc93eb4bc71",
@@ -849,7 +962,8 @@
                   "name": "38,5 a 40",
                   "lowerLimit": "38.5",
                   "upperLimit": "40",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Medida do pescoço um pouco elevada, sinal de gordura a observar."
                 },
                 {
                   "id": "019bf31d-2ef0-7fa2-89b2-f27556fb9fdf",
@@ -857,14 +971,16 @@
                   "name": "37 a 38,4",
                   "lowerLimit": "37",
                   "upperLimit": "38.4",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Medida do pescoço um pouco acima do ideal, aceitável com margem para melhorar."
                 },
                 {
                   "id": "019bf31d-2ef0-7186-822e-2c56a2a49a84",
                   "level": 5,
                   "name": "menos que 37",
                   "upperLimit": "37",
-                  "operator": "<"
+                  "operator": "<",
+                  "siteLegend": "Medida do pescoço dentro do esperado, sem sinal de risco."
                 }
               ]
             },
@@ -877,13 +993,16 @@
               "lightOrder": 11,
               "anamneseItemCode": "PESCOCO_MULHER",
               "patientExplanation": "A medida do pescoço é uma forma simples e rápida de avaliar se há acúmulo de gordura em regiões importantes do corpo. Quando essa medida está acima do valor saudável (geralmente 34 cm para mulheres), pode indicar que o organismo está armazenando gordura em lugares que aumentam o risco de desenvolver problemas como pressão alta, diabetes tipo 2, colesterol alterado e doenças do coração. Essa gordura no pescoço também pode estar relacionada a ronco e apneia do sono — quando a respiração para por alguns momentos durante a noite — o que cansa muito o corpo e afeta os hormônios. A boa notícia é que essa medida pode melhorar com mudanças no estilo de vida, como alimentação equilibrada, prática regular de exercícios físicos e melhora do sono. Medir o pescoço é rápido, não dói e ajuda o médico a entender melhor sua saúde metabólica, complementando outras avaliações como o exame de sangue e a circunferência abdominal.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A medida do pescoço é uma forma simples e rápida de avaliar se há acúmulo de gordura em regiões importantes do corpo. Quando essa medida está acima do valor saudável (geralmente 34 cm para mulheres), pode indicar que o organismo está armazenando gordura em lugares que aumentam o risco de desenvolver problemas como pressão alta, diabetes tipo 2, colesterol alterado e doenças do coração. Essa gordura no pescoço também pode estar relacionada a ronco e apneia do sono — quando a respiração para por alguns momentos durante a noite — o que cansa muito o corpo e afeta os hormônios. A boa notícia é que essa medida pode melhorar com mudanças no estilo de vida, como alimentação equilibrada, prática regular de exercícios físicos e melhora do sono. Medir o pescoço é rápido, não dói e ajuda o médico a entender melhor sua saúde metabólica, complementando outras avaliações como o exame de sangue e a circunferência abdominal.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-72ec-ad15-c2ce6e559331",
                   "level": 0,
                   "name": "mais que 35,75",
                   "lowerLimit": "35.75",
-                  "operator": ">"
+                  "operator": ">",
+                  "siteLegend": "Pescoço bem largo, sinal de gordura acumulada que pede atenção."
                 },
                 {
                   "id": "019bf31d-2ef0-7193-890a-3699b47545df",
@@ -891,7 +1010,8 @@
                   "name": "34,5 a 35,57",
                   "lowerLimit": "34.5",
                   "upperLimit": "35.57",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Circunferência do pescoço elevada, sinaliza risco que merece atenção."
                 },
                 {
                   "id": "019bf31d-2ef0-70d5-8da1-6a0b7d0bd779",
@@ -899,14 +1019,16 @@
                   "name": "32,5 a 34,4",
                   "lowerLimit": "32.5",
                   "upperLimit": "34.4",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Medida do pescoço um pouco acima do ideal, vale ficar de olho."
                 },
                 {
                   "id": "019bf31d-2ef0-72cb-9c78-5a69f0db40fb",
                   "level": 5,
                   "name": "menos que 32,5",
                   "upperLimit": "32.5",
-                  "operator": "<"
+                  "operator": "<",
+                  "siteLegend": "Medida do pescoço dentro do esperado, sinal favorável para a saúde."
                 }
               ]
             },
@@ -919,13 +1041,16 @@
               "lightOrder": 12,
               "anamneseItemCode": "IMC",
               "patientExplanation": "O IMC (Índice de Massa Corporal) é um cálculo simples feito a partir do seu peso e altura que serve para verificar se o seu peso está dentro de uma faixa saudável. Ele é amplamente usado por médicos no mundo todo como uma primeira referência.\n\nNo entanto, é importante saber que o IMC tem limitações: ele não distingue gordura de músculo. Por isso, uma pessoa com muito músculo pode ter IMC elevado sem excesso de gordura, enquanto outra com peso considerado 'normal' pode ter excesso de gordura corporal e pouca musculatura — situação chamada de obesidade sarcopênica, que também traz riscos à saúde.\n\nQuando o IMC está elevado de forma consistente, o excesso de gordura pode promover inflamação no corpo, dificultar o trabalho da insulina (hormônio que regula o açúcar no sangue), sobrecarregar o coração, fígado, rins e articulações, além de aumentar o risco de diversas doenças crônicas. Por isso, além do IMC, seu médico pode solicitar exames de composição corporal e laboratoriais para ter um retrato completo da sua saúde metabólica. O mais importante é entender que pequenas mudanças no estilo de vida — alimentação, exercícios, sono e manejo do estresse — têm grande impacto na melhora desses indicadores.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "O IMC (Índice de Massa Corporal) é um cálculo simples feito a partir do seu peso e altura que serve para verificar se o seu peso está dentro de uma faixa saudável. Ele é amplamente usado por médicos no mundo todo como uma primeira referência.\n\nNo entanto, é importante saber que o IMC tem limitações: ele não distingue gordura de músculo. Por isso, uma pessoa com muito músculo pode ter IMC elevado sem excesso de gordura, enquanto outra com peso considerado 'normal' pode ter excesso de gordura corporal e pouca musculatura — situação chamada de obesidade sarcopênica, que também traz riscos à saúde.\n\nQuando o IMC está elevado de forma consistente, o excesso de gordura pode promover inflamação no corpo, dificultar o trabalho da insulina (hormônio que regula o açúcar no sangue), sobrecarregar o coração, fígado, rins e articulações, além de aumentar o risco de diversas doenças crônicas. Por isso, além do IMC, seu médico pode solicitar exames de composição corporal e laboratoriais para ter um retrato completo da sua saúde metabólica. O mais importante é entender que pequenas mudanças no estilo de vida — alimentação, exercícios, sono e manejo do estresse — têm grande impacto na melhora desses indicadores.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7efc-9700-c9c1d19bc352",
                   "level": 0,
                   "name": "40 ou mais",
                   "lowerLimit": "40",
-                  "operator": ">="
+                  "operator": ">=",
+                  "siteLegend": "Peso muito elevado para a altura, fora do esperado e pede cuidado."
                 },
                 {
                   "id": "019bf31d-2ef0-7591-9f1d-9c9685031742",
@@ -933,7 +1058,8 @@
                   "name": "35-39,9",
                   "lowerLimit": "35",
                   "upperLimit": "39.9",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Peso bem acima do saudável para sua altura, merece atenção."
                 },
                 {
                   "id": "019bf31d-2ef0-785d-9446-7e133553c1bc",
@@ -941,14 +1067,16 @@
                   "name": "30-34,9",
                   "lowerLimit": "30",
                   "upperLimit": "34.9",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Peso na faixa de obesidade inicial, merece atenção."
                 },
                 {
                   "id": "019bf31d-2ef0-76fc-84ef-2de42929745e",
                   "level": 3,
                   "name": "menos que 18,5",
                   "upperLimit": "18.5",
-                  "operator": "<"
+                  "operator": "<",
+                  "siteLegend": "Peso abaixo do ideal para a altura, vale acompanhar."
                 },
                 {
                   "id": "019bf31d-2ef0-73c5-b391-1e6c2398c8b9",
@@ -956,7 +1084,8 @@
                   "name": "25-29,9",
                   "lowerLimit": "25",
                   "upperLimit": "29.9",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Peso um pouco acima do ideal para a altura."
                 },
                 {
                   "id": "019bf31d-2ef0-7466-b333-d08b427690bf",
@@ -964,7 +1093,8 @@
                   "name": "18,5-24,9",
                   "lowerLimit": "18.5",
                   "upperLimit": "24.9",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Peso adequado para a sua altura."
                 }
               ]
             },
@@ -977,13 +1107,16 @@
               "lightOrder": 13,
               "anamneseItemCode": "RAZAO_CINTURA_ALTURA",
               "patientExplanation": "A razão cintura/altura é uma medida simples que compara o tamanho da sua barriga com a sua altura. Para calculá-la, basta dividir a medida da cintura pela sua altura — ambas em centímetros. O resultado ideal é um número menor que 0,5, o que significa que sua cintura é menor que a metade da sua altura.\n\nEssa medida é importante porque a gordura acumulada na barriga — especialmente a que fica ao redor dos órgãos internos — é diferente da gordura que fica nos braços ou nas coxas. A gordura abdominal libera substâncias que aumentam o risco de doenças do coração, diabetes, pressão alta e outros problemas de saúde.\n\nO que torna essa medida especial é que ela funciona para pessoas de qualquer altura. Pessoas com peso considerado normal pelo IMC podem ainda ter um valor elevado nessa razão, o que significa que a gordura está concentrada em um lugar perigoso mesmo sem sobrepeso aparente.\n\nSe o seu resultado estiver acima de 0,5, isso é um sinal de alerta importante para conversar com seu médico sobre mudanças no estilo de vida — alimentação, exercício físico e outros hábitos que podem reduzir essa gordura e melhorar sua saúde a longo prazo.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A razão cintura/altura é uma medida simples que compara o tamanho da sua barriga com a sua altura. Para calculá-la, basta dividir a medida da cintura pela sua altura — ambas em centímetros. O resultado ideal é um número menor que 0,5, o que significa que sua cintura é menor que a metade da sua altura.\n\nEssa medida é importante porque a gordura acumulada na barriga — especialmente a que fica ao redor dos órgãos internos — é diferente da gordura que fica nos braços ou nas coxas. A gordura abdominal libera substâncias que aumentam o risco de doenças do coração, diabetes, pressão alta e outros problemas de saúde.\n\nO que torna essa medida especial é que ela funciona para pessoas de qualquer altura. Pessoas com peso considerado normal pelo IMC podem ainda ter um valor elevado nessa razão, o que significa que a gordura está concentrada em um lugar perigoso mesmo sem sobrepeso aparente.\n\nSe o seu resultado estiver acima de 0,5, isso é um sinal de alerta importante para conversar com seu médico sobre mudanças no estilo de vida — alimentação, exercício físico e outros hábitos que podem reduzir essa gordura e melhorar sua saúde a longo prazo.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7809-8986-7393ce8fba76",
                   "level": 0,
                   "name": "mais que 0,66",
                   "lowerLimit": "0.66",
-                  "operator": ">"
+                  "operator": ">",
+                  "siteLegend": "Cintura muito alta em relação à altura, fora do esperado."
                 },
                 {
                   "id": "019bf31d-2ef0-7a82-a9e8-22396af1b561",
@@ -991,7 +1124,8 @@
                   "name": "0,6 a 0,65",
                   "lowerLimit": "0.6",
                   "upperLimit": "0.65",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Relação cintura-altura elevada, sinal de gordura abdominal. Vale atenção."
                 },
                 {
                   "id": "019bf31d-2ef0-7ced-a98d-afa2ec96d91e",
@@ -999,14 +1133,16 @@
                   "name": "0,56 a 0,59",
                   "lowerLimit": "0.56",
                   "upperLimit": "0.59",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Cintura um pouco alta em relação à altura."
                 },
                 {
                   "id": "019bf31d-2ef0-744a-8a0a-47f56efbc37f",
                   "level": 3,
                   "name": "menos que 0,4",
                   "upperLimit": "0.4",
-                  "operator": "<"
+                  "operator": "<",
+                  "siteLegend": "Cintura bem proporcional à altura, sinal favorável."
                 },
                 {
                   "id": "019bf31d-2ef0-7982-be0b-7f655ed89cc0",
@@ -1014,7 +1150,8 @@
                   "name": "0,4 a 0,49",
                   "lowerLimit": "0.4",
                   "upperLimit": "0.49",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Relação entre cintura e altura quase ideal, com pouca gordura na barriga."
                 },
                 {
                   "id": "019bf31d-2ef0-77a4-b247-fd57d1e93ce4",
@@ -1022,7 +1159,8 @@
                   "name": "0,5 a 0,55",
                   "lowerLimit": "0.5",
                   "upperLimit": "0.55",
-                  "operator": "between"
+                  "operator": "between",
+                  "siteLegend": "Relação entre cintura e altura dentro do saudável."
                 }
               ]
             }
@@ -1049,43 +1187,51 @@
               "lightOrder": 17,
               "anamneseItemCode": "DOENCA_CARDIOVASCULAR",
               "patientExplanation": "Doença cardiovascular inclui condições graves do coração e dos vasos sanguíneos, como infarto do miocárdio (quando uma artéria do coração fica bloqueada), AVC (quando isso acontece no cérebro), e procedimentos como colocação de stent ou cirurgia para desobstruir as artérias. Essas doenças ocorrem quando gordura, inflamação e outras substâncias se acumulam nas paredes dos vasos ao longo dos anos, formando placas que podem romper e causar um evento agudo. Ter histórico dessas condições é muito importante para seu médico saber, pois indica que você possui risco elevado de novos eventos e precisa de um acompanhamento mais intensivo — com metas mais rigorosas para colesterol, pressão arterial, inflamação e estilo de vida. Quanto mais bem controlados estiverem esses fatores, menor a chance de um novo problema cardiovascular acontecer. Por isso, relatar qualquer cirurgia cardíaca, internação por infarto, AVC ou procedimento vascular no passado é fundamental para montar o plano de saúde mais adequado para você.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Doença cardiovascular inclui condições graves do coração e dos vasos sanguíneos, como infarto do miocárdio (quando uma artéria do coração fica bloqueada), AVC (quando isso acontece no cérebro), e procedimentos como colocação de stent ou cirurgia para desobstruir as artérias. Essas doenças ocorrem quando gordura, inflamação e outras substâncias se acumulam nas paredes dos vasos ao longo dos anos, formando placas que podem romper e causar um evento agudo. Ter histórico dessas condições é muito importante para seu médico saber, pois indica que você possui risco elevado de novos eventos e precisa de um acompanhamento mais intensivo — com metas mais rigorosas para colesterol, pressão arterial, inflamação e estilo de vida. Quanto mais bem controlados estiverem esses fatores, menor a chance de um novo problema cardiovascular acontecer. Por isso, relatar qualquer cirurgia cardíaca, internação por infarto, AVC ou procedimento vascular no passado é fundamental para montar o plano de saúde mais adequado para você.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-734a-975d-d3ebad1ecc23",
                   "level": 0,
                   "name": "Tive 2 ou mais eventos graves",
                   "lowerLimit": "2",
-                  "operator": ">="
+                  "operator": ">=",
+                  "siteLegend": "Dois ou mais eventos cardíacos graves no passado, exige cuidado contínuo."
                 },
                 {
                   "id": "019bf31d-2ef0-75ec-aa63-51faa67afa8a",
                   "level": 1,
                   "name": "Tive pelo menos um evento grave",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Já teve um evento grave do coração, exige cuidado contínuo."
                 },
                 {
                   "id": "019bf31d-2ef0-736e-8bef-f30114d0008e",
                   "level": 2,
                   "name": "Tive mais de um evento leve sem sequelas",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Mais de um evento cardiovascular leve, sem sequelas."
                 },
                 {
                   "id": "019bf31d-2ef0-7093-be12-e6af6ed947ea",
                   "level": 3,
                   "name": "Tive um único evento leve, sem sequelas",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Você teve um evento cardiovascular leve, sem deixar sequelas."
                 },
                 {
                   "id": "019bf31d-2ef0-717a-8147-605f90430a64",
                   "level": 4,
                   "name": "Nunca tive, mas tenho histórico familiar forte",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Nunca teve evento cardíaco, mas há histórico forte na família."
                 },
                 {
                   "id": "019bf31d-2ef0-7cdf-aab7-1ded9fc61475",
                   "level": 5,
                   "name": "Nunca tive",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Nunca teve infarto, derrame ou problema cardiovascular grave, ótimo sinal."
                 }
               ]
             },
@@ -1098,42 +1244,50 @@
               "lightOrder": 18,
               "anamneseItemCode": "INSUFICIENCIA_CARDIACA",
               "patientExplanation": "Insuficiência cardíaca significa que o seu coração não consegue bombear sangue com a força necessária para que todo o seu corpo funcione bem. Isso pode acontecer por várias razões: pressão alta não controlada por muito tempo, infarto antigo, problemas nas válvulas do coração, diabetes ou outras doenças crônicas. Os sintomas mais comuns são cansaço fácil, falta de ar ao fazer esforços ou mesmo em repouso, e inchaço nas pernas e tornozelos.\n\nTer esse diagnóstico no seu histórico é uma informação muito importante para o seu médico, porque o coração insuficiente precisa de cuidado especial em todas as decisões de saúde — desde medicamentos até exercícios e alimentação. A boa notícia é que, com tratamento correto e acompanhamento regular, muitas pessoas com insuficiência cardíaca vivem bem por muitos anos. O controle rigoroso do peso, da pressão, do açúcar no sangue e de hábitos de vida saudáveis faz diferença real na qualidade de vida e na evolução da doença.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Insuficiência cardíaca significa que o seu coração não consegue bombear sangue com a força necessária para que todo o seu corpo funcione bem. Isso pode acontecer por várias razões: pressão alta não controlada por muito tempo, infarto antigo, problemas nas válvulas do coração, diabetes ou outras doenças crônicas. Os sintomas mais comuns são cansaço fácil, falta de ar ao fazer esforços ou mesmo em repouso, e inchaço nas pernas e tornozelos.\n\nTer esse diagnóstico no seu histórico é uma informação muito importante para o seu médico, porque o coração insuficiente precisa de cuidado especial em todas as decisões de saúde — desde medicamentos até exercícios e alimentação. A boa notícia é que, com tratamento correto e acompanhamento regular, muitas pessoas com insuficiência cardíaca vivem bem por muitos anos. O controle rigoroso do peso, da pressão, do açúcar no sangue e de hábitos de vida saudáveis faz diferença real na qualidade de vida e na evolução da doença.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7cd2-a2a7-920bdf79044b",
                   "level": 0,
                   "name": "Tenho, em descompensação atual (sintomas piorando)",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Coração descompensado com sintomas piorando, situação séria que exige cuidado imediato."
                 },
                 {
                   "id": "019bf31d-2ef0-718d-a1eb-411f11965256",
                   "level": 1,
                   "name": "Tenho em estado grave",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Coração com bombeamento bastante comprometido; precisa de cuidado próximo."
                 },
                 {
                   "id": "019bf31d-2ef0-78d6-9a8a-f1427ad361b0",
                   "level": 2,
                   "name": "Tenho em estado moderado",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Tem insuficiencia do coracao em grau moderado."
                 },
                 {
                   "id": "019bf31d-2ef0-778a-9785-07ad4445d9cf",
                   "level": 3,
                   "name": "Tenho em estado leve",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Tem insuficiencia do coracao em grau leve."
                 },
                 {
                   "id": "019bf31d-2ef0-78d7-9851-29b77eefd5f5",
                   "level": 4,
                   "name": "Não tenho, mas tenho histórico familiar forte",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem insuficiência cardíaca, mas com forte histórico na família para acompanhar."
                 },
                 {
                   "id": "019bf31d-2ef0-7502-ba34-04421e3f28f1",
                   "level": 5,
                   "name": "Não tenho",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem insuficiência cardíaca, coração sem esse comprometimento."
                 }
               ]
             },
@@ -1146,42 +1300,50 @@
               "lightOrder": 19,
               "anamneseItemCode": "DIABETES_MELLITUS",
               "patientExplanation": "Diabetes mellitus é uma doença em que o açúcar (glicose) fica em nível alto no sangue porque o organismo não produz ou não usa bem a insulina, o hormônio responsável por levar a glicose para dentro das células. Com o tempo, o excesso de açúcar no sangue vai danificando vasos sanguíneos e nervos em todo o corpo, podendo afetar o coração, rins, olhos e pés.\n\nTer diabetes no histórico de saúde é uma informação muito importante porque ela influencia diretamente como o seu corpo processa alimentos, responde a exercícios e lida com outros fatores de risco. Mesmo que o diabetes esteja controlado atualmente, ele deixa marcas no metabolismo que precisam ser consideradas no planejamento do seu cuidado de saúde.\n\nA boa notícia é que o diabetes tipo 2, em muitos casos, pode ser significativamente controlado — e às vezes até revertido — com mudanças no estilo de vida, alimentação adequada, atividade física regular e, quando necessário, medicamentos. Quanto melhor o controle do açúcar no sangue, menor o risco de complicações a longo prazo. Informar há quanto tempo tem diabetes, qual o grau de controle atual e quais tratamentos já foram utilizados ajuda a construir um plano de saúde personalizado e muito mais eficaz para você.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Diabetes mellitus é uma doença em que o açúcar (glicose) fica em nível alto no sangue porque o organismo não produz ou não usa bem a insulina, o hormônio responsável por levar a glicose para dentro das células. Com o tempo, o excesso de açúcar no sangue vai danificando vasos sanguíneos e nervos em todo o corpo, podendo afetar o coração, rins, olhos e pés.\n\nTer diabetes no histórico de saúde é uma informação muito importante porque ela influencia diretamente como o seu corpo processa alimentos, responde a exercícios e lida com outros fatores de risco. Mesmo que o diabetes esteja controlado atualmente, ele deixa marcas no metabolismo que precisam ser consideradas no planejamento do seu cuidado de saúde.\n\nA boa notícia é que o diabetes tipo 2, em muitos casos, pode ser significativamente controlado — e às vezes até revertido — com mudanças no estilo de vida, alimentação adequada, atividade física regular e, quando necessário, medicamentos. Quanto melhor o controle do açúcar no sangue, menor o risco de complicações a longo prazo. Informar há quanto tempo tem diabetes, qual o grau de controle atual e quais tratamentos já foram utilizados ajuda a construir um plano de saúde personalizado e muito mais eficaz para você.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7ba0-afbd-5bc4cca87ec4",
                   "level": 0,
                   "name": "Tenho há mais de 5 anos, com controle inadequado",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Diabetes há mais de cinco anos e mal controlado, exige cuidado intensivo."
                 },
                 {
                   "id": "019bf31d-2ef0-739c-92b7-d677e7120dd2",
                   "level": 1,
                   "name": "Tenho há menos de 5 anos, com controle inadequado",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Diabetes recente com açúcar ainda mal controlado, requer ajuste."
                 },
                 {
                   "id": "019bf31d-2ef0-7917-a621-ca059ffb046a",
                   "level": 2,
                   "name": "Tenho há mais de 5 anos, com controle adequado",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Diabetes de longa data, porém bem controlado."
                 },
                 {
                   "id": "019bf31d-2ef0-78b7-bf70-d4db11569e7e",
                   "level": 3,
                   "name": "Tenho há menos de 5 anos, com controle adequado",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Diabetes há menos de cinco anos e bem controlado."
                 },
                 {
                   "id": "019bf31d-2ef0-742d-97bf-f03e1eb914af",
                   "level": 4,
                   "name": "Não tenho, mas tenho histórico familiar forte",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem diabetes, mas com histórico forte na família."
                 },
                 {
                   "id": "019bf31d-2ef0-7d7b-b175-4d72482bbd84",
                   "level": 5,
                   "name": "Não tenho",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Não tem diabetes, situação favorável."
                 }
               ]
             },
@@ -1194,42 +1356,50 @@
               "lightOrder": 20,
               "anamneseItemCode": "PRE_DIABETES_RESISTENCIA_A_INSULINA",
               "patientExplanation": "Pré-diabetes e resistência à insulina significam que o seu corpo está tendo dificuldade de usar o açúcar do sangue de forma eficiente. A insulina é um hormônio que funciona como uma 'chave' para abrir as células e deixar a glicose (açúcar) entrar. Quando há resistência à insulina, essa chave não funciona bem, e o pâncreas precisa produzir cada vez mais insulina para compensar. Por anos, o corpo consegue manter o açúcar no sangue em níveis normais, mas esse esforço excessivo vai desgastando o organismo.\n\nEssa condição é muito mais comum do que se imagina e, se não tratada, pode evoluir para diabetes tipo 2, além de aumentar o risco de problemas no coração, fígado, rins e até no cérebro. A boa notícia é que pré-diabetes e resistência à insulina têm tratamento eficaz com mudanças no estilo de vida: alimentação adequada, prática regular de exercícios, boa qualidade de sono e controle do estresse já fazem grande diferença. Com acompanhamento médico e as estratégias certas, é completamente possível reverter essa condição e prevenir o diabetes.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Pré-diabetes e resistência à insulina significam que o seu corpo está tendo dificuldade de usar o açúcar do sangue de forma eficiente. A insulina é um hormônio que funciona como uma 'chave' para abrir as células e deixar a glicose (açúcar) entrar. Quando há resistência à insulina, essa chave não funciona bem, e o pâncreas precisa produzir cada vez mais insulina para compensar. Por anos, o corpo consegue manter o açúcar no sangue em níveis normais, mas esse esforço excessivo vai desgastando o organismo.\n\nEssa condição é muito mais comum do que se imagina e, se não tratada, pode evoluir para diabetes tipo 2, além de aumentar o risco de problemas no coração, fígado, rins e até no cérebro. A boa notícia é que pré-diabetes e resistência à insulina têm tratamento eficaz com mudanças no estilo de vida: alimentação adequada, prática regular de exercícios, boa qualidade de sono e controle do estresse já fazem grande diferença. Com acompanhamento médico e as estratégias certas, é completamente possível reverter essa condição e prevenir o diabetes.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7fc4-9be1-a22a07c0e507",
                   "level": 0,
                   "name": "Tenho diabetes já confirmado",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Diabetes já confirmado, requer acompanhamento contínuo."
                 },
                 {
                   "id": "019bf31d-2ef0-75ca-a2fc-5b993eadc043",
                   "level": 1,
                   "name": "Tenho pré-diabetes",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Açúcar no sangue um pouco alterado, fase inicial que pede cuidado."
                 },
                 {
                   "id": "019bf31d-2ef0-7cc7-b1c8-074257b0bb0a",
                   "level": 2,
                   "name": "Tenho resistência insulínica alta",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Resistência à insulina já alta. Merece atenção para evitar diabetes."
                 },
                 {
                   "id": "019bf31d-2ef0-7e02-89ab-18ac57c43e34",
                   "level": 3,
                   "name": "Tenho resistência insulínica moderada",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Dificuldade moderada do corpo em usar a insulina."
                 },
                 {
                   "id": "019bf31d-2ef0-75d4-a19e-86ba338b16c8",
                   "level": 4,
                   "name": "Tenho resistência insulínica leve",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Resistência leve à insulina, dá pra reverter com hábitos."
                 },
                 {
                   "id": "019bf31d-2ef0-7ba2-89e4-6c06767b7124",
                   "level": 5,
                   "name": "Não tenho",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Você não tem pré-diabetes nem resistência à insulina, ótimo."
                 }
               ]
             }
@@ -1249,42 +1419,50 @@
               "lightOrder": 33,
               "anamneseItemCode": "DOR_TORACICA",
               "patientExplanation": "Dor no peito é um sintoma que pode ter muitas causas diferentes — desde algo simples como tensão muscular ou azia, até condições mais sérias relacionadas ao coração, pulmões ou grandes vasos do sangue. Por isso, relatar ao seu médico qualquer episódio de dor torácica que você já teve — mesmo que tenha passado — ou que esteja sentindo agora é muito importante.\n\nQuando você descreve como é essa dor (aperto, queimação, pontada), quanto tempo ela dura, se piora com esforço ou estresse, se vai para o braço, pescoço ou costas, e se vem acompanhada de falta de ar, suor frio ou enjoo, você ajuda o médico a identificar rapidamente de onde vem o problema.\n\nAlgumas causas de dor no peito precisam de atenção imediata. Por isso, nunca ignore esse sintoma — especialmente se ele for novo, intenso ou diferente do habitual. Com as informações certas, o histórico detalhado e os exames adequados, é possível identificar a causa e construir um plano de cuidado personalizado para proteger a sua saúde do coração e do organismo como um todo.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Dor no peito é um sintoma que pode ter muitas causas diferentes — desde algo simples como tensão muscular ou azia, até condições mais sérias relacionadas ao coração, pulmões ou grandes vasos do sangue. Por isso, relatar ao seu médico qualquer episódio de dor torácica que você já teve — mesmo que tenha passado — ou que esteja sentindo agora é muito importante.\n\nQuando você descreve como é essa dor (aperto, queimação, pontada), quanto tempo ela dura, se piora com esforço ou estresse, se vai para o braço, pescoço ou costas, e se vem acompanhada de falta de ar, suor frio ou enjoo, você ajuda o médico a identificar rapidamente de onde vem o problema.\n\nAlgumas causas de dor no peito precisam de atenção imediata. Por isso, nunca ignore esse sintoma — especialmente se ele for novo, intenso ou diferente do habitual. Com as informações certas, o histórico detalhado e os exames adequados, é possível identificar a causa e construir um plano de cuidado personalizado para proteger a sua saúde do coração e do organismo como um todo.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7573-ad0d-5d49a554c1bd",
                   "level": 0,
                   "name": "Tenho atualmente",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Dor no peito presente agora, sinal de alerta que precisa avaliação."
                 },
                 {
                   "id": "019bf31d-2ef0-7e9e-abf4-d1d345beba82",
                   "level": 1,
                   "name": "Tive episódio grave no último ano",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Episódio grave de dor no peito no último ano, merece atenção."
                 },
                 {
                   "id": "019bf31d-2ef0-7d11-9d1f-ae49b900c29e",
                   "level": 2,
                   "name": "Tive episódio leve no último ano",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Teve um episódio leve de dor no peito no último ano."
                 },
                 {
                   "id": "019bf31d-2ef0-779d-8216-8397e75f7780",
                   "level": 3,
                   "name": "Já tive um episódio grave (no passado)",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Teve um episodio grave de dor no peito no passado."
                 },
                 {
                   "id": "019bf31d-2ef0-784f-b7df-f960cb55ca55",
                   "level": 4,
                   "name": "Já tive no passado, sem deixar sequela",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Já teve dor no peito no passado, sem deixar consequências."
                 },
                 {
                   "id": "019bf31d-2ef0-7662-be5d-be99c9dc986e",
                   "level": 5,
                   "name": "Nunca senti",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Nunca sentiu dor no peito, sinal tranquilizador."
                 }
               ]
             },
@@ -1297,42 +1475,50 @@
               "lightOrder": 34,
               "anamneseItemCode": "DISPNEIA",
               "patientExplanation": "A dispneia é a sensação de falta de ar ou dificuldade para respirar. Ela pode aparecer ao fazer esforço — como subir uma escada ou caminhar rápido — ou mesmo em repouso e à noite, e pode variar de leve a muito intensa.\n\nEssa sensação pode ter muitas origens diferentes: pulmões com inflamação (como na asma ou na DPOC), coração com dificuldade de bombear o sangue de forma eficiente, falta de glóbulos vermelhos suficientes para transportar oxigênio (anemia) ou até alterações nas vias aéreas após infecções como a COVID-19. Cada uma dessas situações tem um tratamento específico e pode ser controlada quando identificada cedo.\n\nMesmo que a falta de ar tenha ocorrido no passado e você esteja bem agora, esse histórico é muito importante para o seu médico. Ele ajuda a entender padrões, prevenir recaídas e identificar condições que talvez ainda estejam ativas de forma silenciosa. Cuidar da respiração é cuidar da sua energia, do seu sono, do seu coração e da sua qualidade de vida.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A dispneia é a sensação de falta de ar ou dificuldade para respirar. Ela pode aparecer ao fazer esforço — como subir uma escada ou caminhar rápido — ou mesmo em repouso e à noite, e pode variar de leve a muito intensa.\n\nEssa sensação pode ter muitas origens diferentes: pulmões com inflamação (como na asma ou na DPOC), coração com dificuldade de bombear o sangue de forma eficiente, falta de glóbulos vermelhos suficientes para transportar oxigênio (anemia) ou até alterações nas vias aéreas após infecções como a COVID-19. Cada uma dessas situações tem um tratamento específico e pode ser controlada quando identificada cedo.\n\nMesmo que a falta de ar tenha ocorrido no passado e você esteja bem agora, esse histórico é muito importante para o seu médico. Ele ajuda a entender padrões, prevenir recaídas e identificar condições que talvez ainda estejam ativas de forma silenciosa. Cuidar da respiração é cuidar da sua energia, do seu sono, do seu coração e da sua qualidade de vida.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7fab-9ab1-26259656ac48",
                   "level": 0,
                   "name": "Tenho atualmente",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Falta de ar presente no momento, merece avaliação."
                 },
                 {
                   "id": "019bf31d-2ef0-7a78-920f-1684388269ac",
                   "level": 1,
                   "name": "Tive episódio grave no último ano",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Teve um episódio grave de falta de ar no último ano."
                 },
                 {
                   "id": "019bf31d-2ef0-7ba5-aeb4-d1d257016e3d",
                   "level": 2,
                   "name": "Tive episódio leve no último ano",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Teve falta de ar leve no último ano, vale investigar."
                 },
                 {
                   "id": "019bf31d-2ef0-7c92-9239-1f1312799d58",
                   "level": 3,
                   "name": "Já tive um episódio grave (no passado)",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Já teve falta de ar grave no passado, importante manter acompanhamento."
                 },
                 {
                   "id": "019bf31d-2ef0-782e-9d40-109ca54a86a9",
                   "level": 4,
                   "name": "Já tive no passado, sem deixar sequela",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Já teve falta de ar no passado, mas sem deixar sequelas."
                 },
                 {
                   "id": "019bf31d-2ef0-767c-80cb-d9a67dd4d263",
                   "level": 5,
                   "name": "Nunca senti",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Nunca sente falta de ar, ótimo sinal de fôlego."
                 }
               ]
             },
@@ -1345,42 +1531,50 @@
               "lightOrder": 36,
               "anamneseItemCode": "CLAUDICACAO",
               "patientExplanation": "A claudicação é uma dor, cãibra ou sensação de peso nas pernas que aparece quando você caminha e desaparece quando para para descansar. Ela acontece porque as artérias que levam sangue para as pernas estão parcialmente entupidas por aterosclerose — acúmulo de gordura nas paredes dos vasos — fazendo com que os músculos não recebam oxigênio suficiente durante o esforço físico.\n\nEsse sintoma é um sinal importante de que a circulação nas pernas não está funcionando bem, e também pode indicar que outras artérias do corpo, como as do coração e do cérebro, podem estar comprometidas. Por isso, é fundamental investigar esse sintoma com o seu médico.\n\nCom exames simples, como a medição da pressão no tornozelo comparada ao braço, é possível confirmar o diagnóstico. A boa notícia é que com tratamento adequado, mudanças no estilo de vida e especialmente um programa de caminhada supervisionada, é possível melhorar muito a capacidade de caminhar e a qualidade de vida. Parar de fumar, quando aplicável, é uma das medidas de maior impacto.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "A claudicação é uma dor, cãibra ou sensação de peso nas pernas que aparece quando você caminha e desaparece quando para para descansar. Ela acontece porque as artérias que levam sangue para as pernas estão parcialmente entupidas por aterosclerose — acúmulo de gordura nas paredes dos vasos — fazendo com que os músculos não recebam oxigênio suficiente durante o esforço físico.\n\nEsse sintoma é um sinal importante de que a circulação nas pernas não está funcionando bem, e também pode indicar que outras artérias do corpo, como as do coração e do cérebro, podem estar comprometidas. Por isso, é fundamental investigar esse sintoma com o seu médico.\n\nCom exames simples, como a medição da pressão no tornozelo comparada ao braço, é possível confirmar o diagnóstico. A boa notícia é que com tratamento adequado, mudanças no estilo de vida e especialmente um programa de caminhada supervisionada, é possível melhorar muito a capacidade de caminhar e a qualidade de vida. Parar de fumar, quando aplicável, é uma das medidas de maior impacto.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7ac5-8120-0d53d51d9e3d",
                   "level": 0,
                   "name": "Tenho atualmente, em forma grave",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Dor nas pernas ao caminhar, em forma grave e atual; merece atenção."
                 },
                 {
                   "id": "019bf31d-2ef0-7280-8118-30335fbffd69",
                   "level": 1,
                   "name": "Tenho atualmente, em forma leve",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Dor leve nas pernas ao caminhar, merece atenção."
                 },
                 {
                   "id": "019bf31d-2ef0-725d-b3fd-3da778747208",
                   "level": 2,
                   "name": "Tive episódio grave no último ano",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Teve um episódio grave de dor nas pernas ao caminhar no último ano."
                 },
                 {
                   "id": "019bf31d-2ef0-77a7-b952-e1327b36b5a7",
                   "level": 3,
                   "name": "Tive episódio leve no último ano",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Teve uma dor leve nas pernas ao caminhar no último ano."
                 },
                 {
                   "id": "019bf31d-2ef0-7797-a361-ac82a449cd9e",
                   "level": 4,
                   "name": "Já tive no passado, há anos não tenho",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Dor nas pernas ao caminhar só no passado, hoje sem sintomas."
                 },
                 {
                   "id": "019bf31d-2ef0-7f90-9068-09f549220e60",
                   "level": 5,
                   "name": "Nunca senti",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Nunca sentiu dor nas pernas ao caminhar, boa circulação."
                 }
               ]
             },
@@ -1393,42 +1587,50 @@
               "lightOrder": 37,
               "anamneseItemCode": "EDEMA",
               "patientExplanation": "Edema é o acúmulo de líquido nos tecidos do corpo, causando inchaço — mais frequentemente nos pés, tornozelos e pernas. Quando isso acontece nos membros (braços ou pernas), pode ser sinal de diferentes condições de saúde, desde algo simples como ficar muito tempo em pé, até problemas mais sérios no coração, rins, fígado ou circulação.\n\nO inchaço pode aparecer pelo uso de certos medicamentos (como remédios para pressão ou anti-inflamatórios), por problemas nas veias das pernas (varizes e insuficiência venosa), por obstrução dos vasos linfáticos (linfedema), ou por alterações hormonais — inclusive relacionadas ao estresse crônico e ao cortisol elevado, que faz o corpo reter sal e água.\n\nÉ importante informar ao seu médico se você já teve ou tem inchaço nos membros, em qual situação ele aparece (manhã, tarde, após ficar sentado), se é em um lado só ou nos dois, se piora ou melhora com determinadas posições, e se está relacionado ao uso de algum medicamento. Essas informações ajudam a identificar a causa e orientar o tratamento correto. Na maioria das vezes, quando a causa é identificada e tratada, o edema melhora significativamente.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Edema é o acúmulo de líquido nos tecidos do corpo, causando inchaço — mais frequentemente nos pés, tornozelos e pernas. Quando isso acontece nos membros (braços ou pernas), pode ser sinal de diferentes condições de saúde, desde algo simples como ficar muito tempo em pé, até problemas mais sérios no coração, rins, fígado ou circulação.\n\nO inchaço pode aparecer pelo uso de certos medicamentos (como remédios para pressão ou anti-inflamatórios), por problemas nas veias das pernas (varizes e insuficiência venosa), por obstrução dos vasos linfáticos (linfedema), ou por alterações hormonais — inclusive relacionadas ao estresse crônico e ao cortisol elevado, que faz o corpo reter sal e água.\n\nÉ importante informar ao seu médico se você já teve ou tem inchaço nos membros, em qual situação ele aparece (manhã, tarde, após ficar sentado), se é em um lado só ou nos dois, se piora ou melhora com determinadas posições, e se está relacionado ao uso de algum medicamento. Essas informações ajudam a identificar a causa e orientar o tratamento correto. Na maioria das vezes, quando a causa é identificada e tratada, o edema melhora significativamente.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7c08-a5eb-5b8b9657e46a",
                   "level": 0,
                   "name": "Inchaço severo no corpo todo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Inchaço intenso por todo o corpo, exige avaliação urgente."
                 },
                 {
                   "id": "019bf31d-2ef0-7ded-944e-dcbe722dc35d",
                   "level": 1,
                   "name": "Inchaço intenso ao longo do dia",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Inchaço forte no corpo ao longo do dia, merece avaliação."
                 },
                 {
                   "id": "019bf31d-2ef0-7fce-b374-5caf43580afb",
                   "level": 2,
                   "name": "Inchaço leve persistente o dia todo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Inchaço leve que persiste o dia todo, vale acompanhar."
                 },
                 {
                   "id": "019bf31d-2ef0-7ceb-a658-2f4ad1c147d7",
                   "level": 3,
                   "name": "Inchaço nas pernas no fim do dia",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Pernas incham no fim do dia, sinal a observar."
                 },
                 {
                   "id": "019bf31d-2ef0-70c2-862b-7b998a09b480",
                   "level": 4,
                   "name": "Inchaço esporádico em mãos e pés",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Inchaço ocasional nas mãos e nos pés, leve e passageiro."
                 },
                 {
                   "id": "019bf31d-2ef0-785c-a8d4-1b19ecf8dfb0",
                   "level": 5,
                   "name": "Não tenho",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem inchaço nas pernas ou no corpo."
                 }
               ]
             }
@@ -1448,18 +1650,22 @@
               "lightOrder": 29,
               "anamneseItemCode": "ANTI_HIPERTENSIVOS",
               "patientExplanation": "Anti-hipertensivos são medicamentos que controlam a pressão arterial elevada (hipertensão). Usar esses remédios significa que sua pressão está sendo tratada ativamente — algo muito importante, pois a pressão alta é a principal causa de AVC e infarto no mundo. Existem vários tipos (IECA, BRA, bloqueadores do canal de cálcio, diuréticos) e cada um age de forma diferente para manter sua pressão em nível seguro. Além dos remédios, mudanças no estilo de vida fazem grande diferença: perder peso, praticar exercícios e reduzir açúcar e ultraprocessados pode baixar a pressão em até 30-40 mmHg. Nunca interrompa o uso sem orientação médica, mesmo se sentindo bem — a hipertensão geralmente não causa sintomas, mas continua causando danos silenciosos quando não controlada.",
+              "siteRenderType": "boolean",
+              "siteExplanation": "Anti-hipertensivos são medicamentos que controlam a pressão arterial elevada (hipertensão). Usar esses remédios significa que sua pressão está sendo tratada ativamente — algo muito importante, pois a pressão alta é a principal causa de AVC e infarto no mundo. Existem vários tipos (IECA, BRA, bloqueadores do canal de cálcio, diuréticos) e cada um age de forma diferente para manter sua pressão em nível seguro. Além dos remédios, mudanças no estilo de vida fazem grande diferença: perder peso, praticar exercícios e reduzir açúcar e ultraprocessados pode baixar a pressão em até 30-40 mmHg. Nunca interrompa o uso sem orientação médica, mesmo se sentindo bem — a hipertensão geralmente não causa sintomas, mas continua causando danos silenciosos quando não controlada.",
               "levels": [
                 {
                   "id": "019bf7af-ba01-7c3b-a328-40b8f9f87d14",
                   "level": 0,
                   "name": "Sim",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Uso de remédios para pressão alta, indica condição que pede acompanhamento."
                 },
                 {
                   "id": "019bf7af-ba01-7835-8a41-79132cb59123",
                   "level": 5,
                   "name": "Não",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Não usa remédios para pressão alta."
                 }
               ]
             },
@@ -1472,18 +1678,22 @@
               "lightOrder": 30,
               "anamneseItemCode": "ESTATINAS_HIPOLIPEMIANTES",
               "patientExplanation": "Estatinas são medicamentos usados para controlar o colesterol e proteger o coração. Além de reduzir o colesterol, elas têm um efeito anti-inflamatório nas artérias, ajudando a estabilizar placas que poderiam causar infartos ou derrames.\n\nAo bloquear a enzima que produz colesterol, as estatinas também reduzem a produção de coenzima Q10 (CoQ10), essencial para que suas células gerem energia. Isso pode causar cansaço e dores musculares. Por isso, quem usa estatina geralmente se beneficia de suplementar CoQ10.\n\nEstatinas também podem elevar levemente o risco de diabetes, pois afetam a forma como o corpo usa a insulina. O acompanhamento médico regular com exames de glicemia é essencial.\n\nInformar ao seu médico sobre o uso de estatinas é fundamental, pois elas interagem com outros medicamentos e suplementos, e o médico precisa dessas informações para cuidar bem da sua saúde.",
+              "siteRenderType": "boolean",
+              "siteExplanation": "Estatinas são medicamentos usados para controlar o colesterol e proteger o coração. Além de reduzir o colesterol, elas têm um efeito anti-inflamatório nas artérias, ajudando a estabilizar placas que poderiam causar infartos ou derrames.\n\nAo bloquear a enzima que produz colesterol, as estatinas também reduzem a produção de coenzima Q10 (CoQ10), essencial para que suas células gerem energia. Isso pode causar cansaço e dores musculares. Por isso, quem usa estatina geralmente se beneficia de suplementar CoQ10.\n\nEstatinas também podem elevar levemente o risco de diabetes, pois afetam a forma como o corpo usa a insulina. O acompanhamento médico regular com exames de glicemia é essencial.\n\nInformar ao seu médico sobre o uso de estatinas é fundamental, pois elas interagem com outros medicamentos e suplementos, e o médico precisa dessas informações para cuidar bem da sua saúde.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7011-a927-629f9d1cb374",
                   "level": 0,
                   "name": "Sim",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Você usa remédio para baixar o colesterol, sinal de que merece acompanhamento do coração."
                 },
                 {
                   "id": "019bf31d-2ef0-791c-9254-0d9338899471",
                   "level": 5,
                   "name": "Não",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem uso de remédio para baixar o colesterol."
                 }
               ]
             }
@@ -1503,42 +1713,50 @@
               "lightOrder": 67,
               "anamneseItemCode": "TABACO",
               "patientExplanation": "O tabaco — seja cigarro, charuto, cigarro eletrônico ou qualquer outra forma — é uma das substâncias mais prejudiciais que existem para o corpo humano. Quando você fuma, milhares de substâncias tóxicas entram no seu organismo e causam inflamação em todos os sistemas: coração, pulmões, vasos sanguíneos, cérebro e até células do DNA. Isso aumenta muito o risco de infarto, AVC, câncer (principalmente de pulmão, boca, garganta e bexiga), doenças pulmonares como bronquite crônica e enfisema, além de prejudicar a fertilidade e o envelhecimento saudável. Mesmo quem parou de fumar há algum tempo ainda carrega riscos que diminuem gradualmente com os anos. Por isso é importante relatar ao médico tanto o uso atual quanto o histórico passado — o tipo de produto usado, a quantidade por dia e por quantos anos. Essa informação é essencial para calcular seu risco real e definir quais exames preventivos você precisa fazer.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "O tabaco — seja cigarro, charuto, cigarro eletrônico ou qualquer outra forma — é uma das substâncias mais prejudiciais que existem para o corpo humano. Quando você fuma, milhares de substâncias tóxicas entram no seu organismo e causam inflamação em todos os sistemas: coração, pulmões, vasos sanguíneos, cérebro e até células do DNA. Isso aumenta muito o risco de infarto, AVC, câncer (principalmente de pulmão, boca, garganta e bexiga), doenças pulmonares como bronquite crônica e enfisema, além de prejudicar a fertilidade e o envelhecimento saudável. Mesmo quem parou de fumar há algum tempo ainda carrega riscos que diminuem gradualmente com os anos. Por isso é importante relatar ao médico tanto o uso atual quanto o histórico passado — o tipo de produto usado, a quantidade por dia e por quantos anos. Essa informação é essencial para calcular seu risco real e definir quais exames preventivos você precisa fazer.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7bb3-a13d-7c174676990e",
                   "level": 0,
                   "name": "Sou fumante atual, com longa história (≈ 1 maço/dia por 20+ anos)",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Fumante de longa data, com alto consumo diário, atenção máxima."
                 },
                 {
                   "id": "019bf31d-2ef0-75e5-a23d-b11bacb9aff0",
                   "level": 1,
                   "name": "Sou fumante atual, com história mais curta ou menos cigarros",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Fuma atualmente, mesmo em menor quantidade ou há menos tempo, vale parar."
                 },
                 {
                   "id": "019bf31d-2ef0-76ca-84bc-5387f84d921f",
                   "level": 2,
                   "name": "Sou ex-fumante (parei há até 10 anos)",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Ex-fumante que parou há até dez anos."
                 },
                 {
                   "id": "019bf31d-2ef0-7a9f-9b53-14be1f094424",
                   "level": 3,
                   "name": "Sou ex-fumante (parei há mais de 10 anos), com longa história de fumo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Ex-fumante há mais de dez anos, com longa história de cigarro no passado."
                 },
                 {
                   "id": "019bf31d-2ef0-781a-8bdf-69dbd221f91a",
                   "level": 4,
                   "name": "Sou ex-fumante (parei há mais de 10 anos), com história curta de fumo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Ex-fumante que parou há mais de dez anos e fumou pouco tempo, situação favorável."
                 },
                 {
                   "id": "019bf31d-2ef0-7b07-b511-fea9495225d5",
                   "level": 5,
                   "name": "Nunca fumei",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Nunca fumou, o melhor cenário para a saúde."
                 }
               ]
             },
@@ -1551,42 +1769,50 @@
               "lightOrder": 68,
               "anamneseItemCode": "ALCOOL_2",
               "patientExplanation": "O álcool é uma das substâncias mais prejudiciais para o organismo quando consumida regularmente, mesmo em pequenas quantidades. Quando você bebe, o fígado converte o álcool em uma substância chamada acetaldeído, que é tóxica para as células do corpo — incluindo células do fígado, do intestino, do cérebro e até do DNA.\n\nEstudos científicos de grande porte mostraram que não existe uma quantidade de álcool completamente segura: o consumo aumenta o risco de vários tipos de câncer (esôfago, fígado, intestino, mama, entre outros) e eleva a mortalidade geral. Além disso, o álcool prejudica o sono — apesar de parecer que relaxa e ajuda a adormecer, ele impede que o corpo atinja as fases mais profundas e recuperadoras do sono.\n\nO álcool também interfere em processos fundamentais do organismo, como a produção de vitaminas do complexo B, a regulação dos neurotransmissores e a saúde do intestino. Para quem tem determinadas variações genéticas (como no gene ALDH2), o dano pode ser ainda maior mesmo com doses pequenas.\n\nA melhor notícia: ao reduzir ou eliminar o consumo de álcool, muitos desses efeitos negativos são reversíveis, e o organismo tem grande capacidade de se recuperar.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "O álcool é uma das substâncias mais prejudiciais para o organismo quando consumida regularmente, mesmo em pequenas quantidades. Quando você bebe, o fígado converte o álcool em uma substância chamada acetaldeído, que é tóxica para as células do corpo — incluindo células do fígado, do intestino, do cérebro e até do DNA.\n\nEstudos científicos de grande porte mostraram que não existe uma quantidade de álcool completamente segura: o consumo aumenta o risco de vários tipos de câncer (esôfago, fígado, intestino, mama, entre outros) e eleva a mortalidade geral. Além disso, o álcool prejudica o sono — apesar de parecer que relaxa e ajuda a adormecer, ele impede que o corpo atinja as fases mais profundas e recuperadoras do sono.\n\nO álcool também interfere em processos fundamentais do organismo, como a produção de vitaminas do complexo B, a regulação dos neurotransmissores e a saúde do intestino. Para quem tem determinadas variações genéticas (como no gene ALDH2), o dano pode ser ainda maior mesmo com doses pequenas.\n\nA melhor notícia: ao reduzir ou eliminar o consumo de álcool, muitos desses efeitos negativos são reversíveis, e o organismo tem grande capacidade de se recuperar.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7759-9eb6-226d60f42381",
                   "level": 0,
                   "name": "Tenho dependência ativa, com complicações",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Dependência ativa de álcool com complicações, situação que pede cuidado urgente."
                 },
                 {
                   "id": "019bf31d-2ef0-770e-a558-5b5d2757ea64",
                   "level": 1,
                   "name": "Tenho consumo alto, todo dia (mais de 4 doses/dia)",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Consumo alto de bebida todo dia, traz risco importante a saude."
                 },
                 {
                   "id": "019bf31d-2ef0-7013-a821-7f92b0fac159",
                   "level": 2,
                   "name": "Bebo de 2 a 4 doses por dia",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Consumo de bebida acima do recomendado, vale reduzir."
                 },
                 {
                   "id": "019bf31d-2ef0-714d-95a2-2667b5a0ed84",
                   "level": 3,
                   "name": "Bebo até 1 dose por dia",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Consumo leve de bebida, até uma dose por dia."
                 },
                 {
                   "id": "019bf31d-2ef0-7eb3-97d4-8ec86e9aa6d8",
                   "level": 4,
                   "name": "Sou ex-etilista, ou bebo só ocasionalmente em eventos sociais",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Bebe pouco, só de vez em quando em eventos."
                 },
                 {
                   "id": "019bf31d-2ef0-7d7e-8a44-9a5881aa643a",
                   "level": 5,
                   "name": "Não bebo (ou bebo raramente)",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Não bebe álcool ou bebe muito raramente, ótimo para a saúde."
                 }
               ]
             }
@@ -1613,30 +1839,36 @@
               "lightOrder": 23,
               "anamneseItemCode": "DOENCA_CARDIOVASCULAR_2",
               "patientExplanation": "O histórico familiar de doenças do coração e dos vasos sanguíneos — como infarto, cirurgias cardíacas, arritmias e derrame — em parentes próximos como pais, irmãos, avós, tios e filhos é uma informação muito importante para avaliar sua saúde. Isso ocorre porque parte do risco para essas doenças é herdada geneticamente, ou seja, passa de geração em geração. Ter familiares com essas condições não significa que você vai desenvolvê-las, mas indica que é preciso estar mais atento e fazer acompanhamento preventivo regular. A boa notícia é que mesmo quem tem predisposição genética pode reduzir muito esse risco com hábitos saudáveis: alimentação adequada, atividade física, controle do estresse, sono de qualidade, não fumar e manter o peso em níveis saudáveis. Conhecer esse histórico permite que seu médico solicite exames mais detalhados e personalizados para você, agindo de forma preventiva muito antes de qualquer problema aparecer.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "O histórico familiar de doenças do coração e dos vasos sanguíneos — como infarto, cirurgias cardíacas, arritmias e derrame — em parentes próximos como pais, irmãos, avós, tios e filhos é uma informação muito importante para avaliar sua saúde. Isso ocorre porque parte do risco para essas doenças é herdada geneticamente, ou seja, passa de geração em geração. Ter familiares com essas condições não significa que você vai desenvolvê-las, mas indica que é preciso estar mais atento e fazer acompanhamento preventivo regular. A boa notícia é que mesmo quem tem predisposição genética pode reduzir muito esse risco com hábitos saudáveis: alimentação adequada, atividade física, controle do estresse, sono de qualidade, não fumar e manter o peso em níveis saudáveis. Conhecer esse histórico permite que seu médico solicite exames mais detalhados e personalizados para você, agindo de forma preventiva muito antes de qualquer problema aparecer.",
               "levels": [
                 {
                   "id": "019bf7af-ba01-7cd5-bde7-38311c940e04",
                   "level": 0,
                   "name": "Sim, 3 ou mais parentes próximos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Vários parentes próximos com doença do coração, risco familiar alto."
                 },
                 {
                   "id": "019bf7af-ba01-754a-af01-a081d29f3581",
                   "level": 1,
                   "name": "Sim, 2 parentes próximos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Dois parentes próximos com doença do coração, atenção ao histórico."
                 },
                 {
                   "id": "019bf7af-ba01-79f6-9eb3-fa0c6551f4bb",
                   "level": 2,
                   "name": "Sim, 1 parente próximo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Um parente próximo com doença do coração, atenção ao histórico familiar."
                 },
                 {
                   "id": "019bf7af-ba01-7589-8be1-f4287185761f",
                   "level": 5,
                   "name": "Não tenho conhecimento de casos na família",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem casos de doença do coração na família, sinal tranquilizador."
                 }
               ]
             },
@@ -1649,30 +1881,36 @@
               "lightOrder": 24,
               "anamneseItemCode": "CANCER",
               "patientExplanation": "O histórico de câncer na família — como pais, irmãos, avós, filhos, tios ou sobrinhos — é uma informação muito importante para a sua saúde. Quando parentes próximos tiveram câncer, especialmente do mesmo tipo ou em mais de uma pessoa, isso pode indicar que existe uma tendência genética que merece atenção. Isso não significa que você vai desenvolver câncer, mas que pode ser necessário um acompanhamento mais cuidadoso e personalizado. Cerca de 10% dos cânceres de mama, por exemplo, têm relação com genes herdados — e os outros 90% dependem muito do estilo de vida, que pode ser modificado com escolhas saudáveis. Saber sobre o histórico da sua família ajuda o médico a indicar exames preventivos no momento certo, e também a identificar se há necessidade de orientação genética especializada. A genética não é um destino: muitos fatores de risco podem ser controlados com alimentação, exercício físico, sono de qualidade e manejo do estresse.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "O histórico de câncer na família — como pais, irmãos, avós, filhos, tios ou sobrinhos — é uma informação muito importante para a sua saúde. Quando parentes próximos tiveram câncer, especialmente do mesmo tipo ou em mais de uma pessoa, isso pode indicar que existe uma tendência genética que merece atenção. Isso não significa que você vai desenvolver câncer, mas que pode ser necessário um acompanhamento mais cuidadoso e personalizado. Cerca de 10% dos cânceres de mama, por exemplo, têm relação com genes herdados — e os outros 90% dependem muito do estilo de vida, que pode ser modificado com escolhas saudáveis. Saber sobre o histórico da sua família ajuda o médico a indicar exames preventivos no momento certo, e também a identificar se há necessidade de orientação genética especializada. A genética não é um destino: muitos fatores de risco podem ser controlados com alimentação, exercício físico, sono de qualidade e manejo do estresse.",
               "levels": [
                 {
                   "id": "019bf7af-d85e-77be-9407-da4e7cc47c2c",
                   "level": 0,
                   "name": "Sim, 3 ou mais parentes próximos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Vários casos de câncer na família próxima, ponto de atenção importante."
                 },
                 {
                   "id": "019bf7af-d85e-7fd9-8da5-a4dd07b88151",
                   "level": 1,
                   "name": "Sim, 2 parentes próximos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Dois parentes próximos com câncer, fator a considerar no acompanhamento."
                 },
                 {
                   "id": "019bf7af-d85e-77f4-8d6e-a8209754799b",
                   "level": 2,
                   "name": "Sim, 1 parente próximo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Um parente próximo teve câncer."
                 },
                 {
                   "id": "019bf7af-d85e-73fd-af45-0bc1efe93006",
                   "level": 5,
                   "name": "Não tenho conhecimento de casos na família",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem casos de câncer conhecidos na família, predisposição favorável."
                 }
               ]
             },
@@ -1685,30 +1923,36 @@
               "lightOrder": 25,
               "anamneseItemCode": "DIABETES_MELLITUS_PRE_DIABETES_RESISTENCIA_INSULINICA",
               "patientExplanation": "Ter familiares próximos — como pais, irmãos, avós ou filhos — com diabetes, pré-diabetes ou dificuldade de usar bem a insulina aumenta a sua chance de desenvolver essas condições. Isso acontece porque parte da forma como o corpo regula o açúcar no sangue é herdada geneticamente. A boa notícia é que a genética não é destino: escolhas de alimentação, exercício, sono e manejo do estresse têm grande poder de prevenir ou retardar o aparecimento do diabetes, mesmo em quem tem predisposição familiar. O pré-diabetes e a resistência à insulina costumam se instalar silenciosamente por anos antes de qualquer sintoma, por isso saber que há histórico na família é uma oportunidade valiosa para agir cedo, com exames preventivos e mudanças de hábito que realmente fazem diferença.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Ter familiares próximos — como pais, irmãos, avós ou filhos — com diabetes, pré-diabetes ou dificuldade de usar bem a insulina aumenta a sua chance de desenvolver essas condições. Isso acontece porque parte da forma como o corpo regula o açúcar no sangue é herdada geneticamente. A boa notícia é que a genética não é destino: escolhas de alimentação, exercício, sono e manejo do estresse têm grande poder de prevenir ou retardar o aparecimento do diabetes, mesmo em quem tem predisposição familiar. O pré-diabetes e a resistência à insulina costumam se instalar silenciosamente por anos antes de qualquer sintoma, por isso saber que há histórico na família é uma oportunidade valiosa para agir cedo, com exames preventivos e mudanças de hábito que realmente fazem diferença.",
               "levels": [
                 {
                   "id": "019bf7af-ba01-78a6-a2fe-1aa6b36580be",
                   "level": 0,
                   "name": "Sim, 3 ou mais parentes próximos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Vários parentes próximos com diabetes ou resistência à insulina, merece atenção."
                 },
                 {
                   "id": "019bf7af-ba01-7114-9baf-4be4b09bb50f",
                   "level": 1,
                   "name": "Sim, 2 parentes próximos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Dois parentes próximos com diabetes ou tendência ao açúcar alto."
                 },
                 {
                   "id": "019bf7af-ba01-70ae-8a79-ed4c3fd4ca62",
                   "level": 2,
                   "name": "Sim, 1 parente próximo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Um familiar próximo com diabetes, aumenta seu risco."
                 },
                 {
                   "id": "019bf7af-ba01-7fa8-af4c-f766816b3eb6",
                   "level": 5,
                   "name": "Não tenho conhecimento de casos na família",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem casos de diabetes na família, fator favorável."
                 }
               ]
             },
@@ -1721,30 +1965,36 @@
               "lightOrder": 27,
               "anamneseItemCode": "HIPERTENSAO_ARTERIAL",
               "patientExplanation": "Ter parentes próximos — como pais, irmãos, avós ou filhos — com pressão alta significa que você pode ter uma chance maior de desenvolver essa condição ao longo da vida. A pressão alta raramente causa sintomas, mas quando não controlada, pode sobrecarregar o coração, os rins e os vasos sanguíneos, aumentando o risco de infarto e derrame.\n\nEssa informação não significa que você vai desenvolver pressão alta — significa que vale a pena prestar mais atenção à sua saúde cardiovascular. Com hábitos saudáveis como alimentação equilibrada, prática regular de exercícios, controle do peso e monitoramento periódico da pressão, é possível prevenir ou retardar o surgimento da doença, mesmo tendo predisposição genética.\n\nConverse com seu médico sobre a frequência ideal de verificar sua pressão arterial e quais outros exames podem ser úteis para o seu caso.",
+              "siteRenderType": "level_choice",
+              "siteExplanation": "Ter parentes próximos — como pais, irmãos, avós ou filhos — com pressão alta significa que você pode ter uma chance maior de desenvolver essa condição ao longo da vida. A pressão alta raramente causa sintomas, mas quando não controlada, pode sobrecarregar o coração, os rins e os vasos sanguíneos, aumentando o risco de infarto e derrame.\n\nEssa informação não significa que você vai desenvolver pressão alta — significa que vale a pena prestar mais atenção à sua saúde cardiovascular. Com hábitos saudáveis como alimentação equilibrada, prática regular de exercícios, controle do peso e monitoramento periódico da pressão, é possível prevenir ou retardar o surgimento da doença, mesmo tendo predisposição genética.\n\nConverse com seu médico sobre a frequência ideal de verificar sua pressão arterial e quais outros exames podem ser úteis para o seu caso.",
               "levels": [
                 {
                   "id": "019bf7af-d85e-7df0-84f9-d67732959e97",
                   "level": 0,
                   "name": "Sim, 3 ou mais parentes próximos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Vários parentes próximos com pressão alta, atenção ao histórico familiar."
                 },
                 {
                   "id": "019bf7af-d85e-7dcf-a7a3-faef7067f5d2",
                   "level": 1,
                   "name": "Sim, 2 parentes próximos",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Dois parentes próximos com pressão alta, atenção ao histórico familiar."
                 },
                 {
                   "id": "019bf7af-d85e-74ce-bede-a6915860ea07",
                   "level": 2,
                   "name": "Sim, 1 parente próximo",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Um familiar próximo com pressão alta, fator a considerar."
                 },
                 {
                   "id": "019bf7af-d85e-7794-a133-26da4b254639",
                   "level": 5,
                   "name": "Não tenho conhecimento de casos na família",
-                  "operator": "="
+                  "operator": "=",
+                  "siteLegend": "Sem casos de pressão alta na família, fator a favor."
                 }
               ]
             }
