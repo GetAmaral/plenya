@@ -45,7 +45,7 @@ import {
   Workflow,
   Megaphone,
   Package,
-  Inbox,
+  Mail,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
@@ -100,7 +100,7 @@ const navGroups: NavGroup[] = [
       { name: "Recepção", href: "/recepcao", icon: ClipboardList, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
       { name: "Calendário", href: "/calendario", icon: Calendar, staffOnly: true },
       { name: "WhatsApp", href: "/conversas/whatsapp", icon: MessageSquare, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'whatsapp' },
-      { name: "Conversas", href: "/conversas", icon: Inbox, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'conversations' },
+      { name: "E-mails", href: "/conversas/email", icon: Mail, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'email' },
       { name: "Leads", href: "/leads", icon: UserPlus, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'], badgeKey: 'leads' },
       { name: "Dashboard de Leads", href: "/leads/dashboard", icon: BarChart3, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
       { name: "Campanhas", href: "/campaigns", icon: Megaphone, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager'] },
@@ -616,7 +616,6 @@ function NavItemRow({
 }) {
   const Icon = item.icon;
   const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-  const conversationsUnread = useConversationsUnreadCount();
   const whatsappUnread = useConversationsUnreadCount('whatsapp');
   const emailUnread = useConversationsUnreadCount('email');
   // Contagem de leads novos: gateada por badgeKey pra rodar só na linha de Leads
@@ -627,17 +626,15 @@ function NavItemRow({
   // Exames a revisar: gateado por badgeKey (a rota é RequireClinician — evita 403 fora da linha).
   const labReview = useLabReviewCount({ enabled: item.badgeKey === 'lab-review' });
   const badgeValue =
-    item.badgeKey === 'conversations'
-      ? conversationsUnread.data ?? 0
-      : item.badgeKey === 'whatsapp'
-        ? whatsappUnread.data ?? 0
-        : item.badgeKey === 'email'
-          ? emailUnread.data ?? 0
-          : item.badgeKey === 'leads'
-            ? leadsNew.data?.total ?? 0
-            : item.badgeKey === 'lab-review'
-              ? labReview.data?.total ?? 0
-              : 0;
+    item.badgeKey === 'whatsapp'
+      ? whatsappUnread.data ?? 0
+      : item.badgeKey === 'email'
+        ? emailUnread.data ?? 0
+        : item.badgeKey === 'leads'
+          ? leadsNew.data?.total ?? 0
+          : item.badgeKey === 'lab-review'
+            ? labReview.data?.total ?? 0
+            : 0;
   const badgeNoun =
     item.badgeKey === 'leads' ? 'novos' : item.badgeKey === 'lab-review' ? 'a revisar' : 'não lidas';
   const showBadge = badgeValue > 0;

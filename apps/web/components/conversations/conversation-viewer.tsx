@@ -646,12 +646,14 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-60">
-              <div className="px-2 py-1.5">
-                <p className="mb-1 text-[10px] uppercase tracking-wide text-muted-foreground">
-                  Recepção IA
-                </p>
-                <AutomationToggle ownerType={item.ownerType} ownerId={item.ownerId} />
-              </div>
+              {channel !== 'email' && (
+                <div className="px-2 py-1.5">
+                  <p className="mb-1 text-[10px] uppercase tracking-wide text-muted-foreground">
+                    Recepção IA
+                  </p>
+                  <AutomationToggle ownerType={item.ownerType} ownerId={item.ownerId} />
+                </div>
+              )}
               <DropdownMenuItem
                 onSelect={(e) => {
                   e.preventDefault();
@@ -675,7 +677,9 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
           </DropdownMenu>
         ) : (
           <>
-            <AutomationToggle ownerType={item.ownerType} ownerId={item.ownerId} />
+            {channel !== 'email' && (
+              <AutomationToggle ownerType={item.ownerType} ownerId={item.ownerId} />
+            )}
             <Button
               type="button"
               variant="ghost"

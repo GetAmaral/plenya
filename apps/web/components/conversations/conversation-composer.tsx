@@ -461,7 +461,9 @@ export function ConversationComposer({
           </>
         )}
 
-        {/* Recepcionista virtual (Copiloto) — ancorado no script + objeções; ambos canais. */}
+        {/* Recepcionista virtual (Copiloto) — ancorado no script + objeções. É um recurso de
+            WhatsApp (conversão de leads); não aparece na caixa de e-mail. */}
+        {lockChannel !== 'email' && (
         <button
           type="button"
           onClick={handleReceptionReply}
@@ -479,6 +481,7 @@ export function ConversationComposer({
           )}
           {reception.isPending ? 'Pensando…' : 'Recepção IA'}
         </button>
+        )}
 
         {/* Sugestão IA genérica — só email no MVP. */}
         {channel === 'email' && (
