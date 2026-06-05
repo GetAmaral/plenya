@@ -92,6 +92,7 @@ export function ScoreLevelDialog({
       clinicalRelevance: level?.clinicalRelevance || '',
       patientExplanation: level?.patientExplanation || '',
       conduct: level?.conduct || '',
+      siteLegend: level?.siteLegend || '',
       itemId: itemId,
     },
   })
@@ -109,6 +110,7 @@ export function ScoreLevelDialog({
       clinicalRelevance: level.clinicalRelevance || '',
       patientExplanation: level.patientExplanation || '',
       conduct: level.conduct || '',
+      siteLegend: level.siteLegend || '',
       itemId: level.itemId,
     } : {
       level: 5,
@@ -119,6 +121,7 @@ export function ScoreLevelDialog({
       clinicalRelevance: '',
       patientExplanation: '',
       conduct: '',
+      siteLegend: '',
       itemId: itemId,
     }
 
@@ -136,6 +139,7 @@ export function ScoreLevelDialog({
         clinicalRelevance: data.clinicalRelevance || undefined,
         patientExplanation: data.patientExplanation || undefined,
         conduct: data.conduct || undefined,
+        siteLegend: data.siteLegend || undefined,
       }
 
       if (isEditing) {
@@ -150,6 +154,7 @@ export function ScoreLevelDialog({
             clinicalRelevance: payload.clinicalRelevance,
             patientExplanation: payload.patientExplanation,
             conduct: payload.conduct,
+            siteLegend: payload.siteLegend,
           } as UpdateScoreLevelDTO,
         })
         toast.success('Nível atualizado com sucesso')
@@ -338,6 +343,19 @@ export function ScoreLevelDialog({
               />
               <p className="text-xs text-muted-foreground">
                 Orientações de conduta clínica recomendada para este nível
+              </p>
+            </div>
+
+            <div className="space-y-2 border-t pt-4">
+              <Label htmlFor="siteLegend">Legenda no site (leigo)</Label>
+              <Textarea
+                id="siteLegend"
+                placeholder="O que este nível significa em linguagem simples para o público..."
+                rows={2}
+                {...register('siteLegend')}
+              />
+              <p className="text-xs text-muted-foreground">
+                Mensagem pública/leiga deste nível (≠ explicação clínica do EMR).
               </p>
             </div>
           </div>

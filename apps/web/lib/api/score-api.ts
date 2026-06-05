@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from '../api-client'
 
 // Types based on Go models
+export type SiteRenderType = 'level_choice' | 'numeric_classifier' | 'boolean' | 'text' | 'scale_0_3'
+
 export interface ScoreLevel {
   id: string
   level: number
@@ -12,6 +14,7 @@ export interface ScoreLevel {
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
+  siteLegend?: string
   lastReview?: string
   itemId: string
   createdAt: string
@@ -31,6 +34,9 @@ export interface ScoreItem {
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
+  siteRenderType?: SiteRenderType
+  siteQuestion?: string
+  siteExplanation?: string
   lastReview?: string
   points?: number
   order: number
@@ -95,6 +101,9 @@ export interface CreateScoreItemDTO {
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
+  siteRenderType?: SiteRenderType
+  siteQuestion?: string
+  siteExplanation?: string
   points?: number
   subgroupId: string
   parentItemId?: string
@@ -108,6 +117,9 @@ export interface UpdateScoreItemDTO {
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
+  siteRenderType?: SiteRenderType
+  siteQuestion?: string
+  siteExplanation?: string
   points?: number
   order?: number
   subgroupId?: string
@@ -123,6 +135,7 @@ export interface CreateScoreLevelDTO {
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
+  siteLegend?: string
   itemId: string
 }
 
@@ -135,6 +148,7 @@ export interface UpdateScoreLevelDTO {
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
+  siteLegend?: string
 }
 
 // Query keys

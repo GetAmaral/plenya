@@ -139,6 +139,9 @@ export function ScoreItemDialog({
       clinicalRelevance: item?.clinicalRelevance || '',
       patientExplanation: item?.patientExplanation || '',
       conduct: item?.conduct || '',
+      siteRenderType: item?.siteRenderType,
+      siteQuestion: item?.siteQuestion || '',
+      siteExplanation: item?.siteExplanation || '',
       points: item?.points || 0,
       order: item?.order || 0,
       subgroupId: selectedSubgroupId,
@@ -163,6 +166,9 @@ export function ScoreItemDialog({
         clinicalRelevance: item.clinicalRelevance || '',
         patientExplanation: item.patientExplanation || '',
         conduct: item.conduct || '',
+        siteRenderType: item.siteRenderType,
+        siteQuestion: item.siteQuestion || '',
+        siteExplanation: item.siteExplanation || '',
         points: item.points,
         order: item.order,
         subgroupId: item.subgroupId,
@@ -183,6 +189,9 @@ export function ScoreItemDialog({
         clinicalRelevance: '',
         patientExplanation: '',
         conduct: '',
+        siteRenderType: undefined,
+        siteQuestion: '',
+        siteExplanation: '',
         points: 0,
         order: 0,
         subgroupId: subgroupId,
@@ -221,6 +230,9 @@ export function ScoreItemDialog({
         clinicalRelevance: data.clinicalRelevance || null,
         patientExplanation: data.patientExplanation || null,
         conduct: data.conduct || null,
+        siteRenderType: data.siteRenderType || null,
+        siteQuestion: data.siteQuestion || null,
+        siteExplanation: data.siteExplanation || null,
       }
 
       if (isEditing) {
@@ -237,6 +249,9 @@ export function ScoreItemDialog({
             clinicalRelevance: payload.clinicalRelevance,
             patientExplanation: payload.patientExplanation,
             conduct: payload.conduct,
+            siteRenderType: payload.siteRenderType,
+            siteQuestion: payload.siteQuestion,
+            siteExplanation: payload.siteExplanation,
             points: payload.points,
             order: payload.order,
             subgroupId: selectedSubgroupId,
@@ -618,6 +633,46 @@ export function ScoreItemDialog({
               <p className="text-xs text-muted-foreground">
                 Orientações de conduta clínica baseadas em evidências
               </p>
+            </div>
+
+            {/* ── Site público (leigo) ── */}
+            <div className="space-y-2 border-t pt-4">
+              <Label htmlFor="siteRenderType">Tipo de input no site (leigo)</Label>
+              <select
+                id="siteRenderType"
+                {...register('siteRenderType')}
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+              >
+                <option value="">(inferir automaticamente)</option>
+                <option value="level_choice">Escolha de nível (botões)</option>
+                <option value="numeric_classifier">Número com classificação</option>
+                <option value="boolean">Sim / Não</option>
+                <option value="text">Texto livre</option>
+                <option value="scale_0_3">Escala 0–3 (PHQ-like)</option>
+              </select>
+              <p className="text-xs text-muted-foreground">
+                Como este item é renderizado no questionário público do site (≠ anamnese/exame do EMR).
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="siteQuestion">Pergunta no site (leigo)</Label>
+              <Textarea
+                id="siteQuestion"
+                placeholder="Pergunta reescrita em linguagem simples para o público..."
+                rows={2}
+                {...register('siteQuestion')}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="siteExplanation">Explicação no site (leigo)</Label>
+              <Textarea
+                id="siteExplanation"
+                placeholder="Explicação leiga genérica deste item para o site..."
+                rows={2}
+                {...register('siteExplanation')}
+              />
             </div>
           </div>
 
