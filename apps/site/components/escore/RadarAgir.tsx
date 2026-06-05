@@ -45,21 +45,39 @@ function displayCode(letter: LetterCode, isEn: boolean): DisplayCode {
   return letter === 'G' ? 'C' : letter === 'I' ? 'T' : letter === 'R' ? 'S' : 'A';
 }
 
-// Mock scores hardcoded (radar é exemplo visual).
-const pillarScoresByLetter: Record<LetterCode, number[]> = {
+// Scores-semente (radar é exemplo visual). Índices além do array recebem um
+// valor derivado determinístico — assim o radar NUNCA gera NaN quando a
+// taxonomia em agir-structure cresce (ex.: pilar G expandido para 14 áreas).
+const pillarScoreSeed: Record<LetterCode, number[]> = {
   A: [82, 78, 86, 74],
   G: [76, 70, 80, 72, 84, 78, 71, 82, 76, 73],
   I: [68, 72, 75, 70, 74],
   R: [84, 88, 80],
 };
 
-// Ângulos dos pontos no radar — fixos por posição, independem do nome.
-const pillarAnglesByLetter: Record<LetterCode, number[]> = {
-  A: [-33.75, -11.25, 11.25, 33.75],
-  G: [49.5, 58.5, 67.5, 76.5, 85.5, 94.5, 103.5, 112.5, 121.5, 130.5],
-  I: [144, 162, 180, 198, 216],
-  R: [240, 270, 300],
-};
+function pillarScore(letter: LetterCode, idx: number): number {
+  const seed = pillarScoreSeed[letter];
+  if (idx < seed.length) return seed[idx];
+  // Onda suave determinística (±8) em torno do score-base da letra — sem
+  // Math.random (evita hydration mismatch SSR/CSR) e sempre numérica.
+  const wave = Math.round(Math.sin(idx * 1.7) * 8);
+  return Math.max(60, Math.min(92, letterScores[letter] + wave));
+}
+
+// Setor de 90° por letra (mesmo do arco externo). Os pontos são distribuídos
+// uniformemente DENTRO do setor conforme a contagem REAL de pilares — dinâmico,
+// nunca desalinha com agir-structure.
+const SECTOR_MID: Record<LetterCode, number> = { A: 0, G: 90, I: 180, R: 270 };
+const SECTOR_HALF = 45;
+const SECTOR_MARGIN = 11.25; // respiro nas bordas do setor
+
+function pillarAngle(letter: LetterCode, idx: number, count: number): number {
+  const mid = SECTOR_MID[letter];
+  if (count <= 1) return mid;
+  const start = mid - SECTOR_HALF + SECTOR_MARGIN;
+  const span = 2 * (SECTOR_HALF - SECTOR_MARGIN);
+  return start + (span * (idx + 0.5)) / count;
+}
 
 type Pillar = { letter: LetterCode; angle: number; score: number; name: string };
 
@@ -71,8 +89,8 @@ function buildRadarPillars(isEn: boolean): Pillar[] {
     names.forEach((name, idx) => {
       pillars.push({
         letter,
-        angle: pillarAnglesByLetter[letter][idx],
-        score: pillarScoresByLetter[letter][idx],
+        angle: pillarAngle(letter, idx, names.length),
+        score: pillarScore(letter, idx),
         name,
       });
     });
