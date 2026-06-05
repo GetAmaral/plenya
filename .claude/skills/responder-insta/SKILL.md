@@ -19,11 +19,39 @@ Independente do modo, segue o workflow abaixo, pulando fases não aplicáveis.
 
 ---
 
+## 🚧 Fase 0 — GATE de varredura completa (OBRIGATÓRIO, não pular)
+
+**Regra de lei:** no MODO COMPLETO, é PROIBIDO apresentar a triagem (Fase C) antes de
+fechar 100% deste checklist. Varredura parcial (só posts recentes, "pulei os ads") é
+falha de skill — já aconteceu (2026-06-05, Claude foi relapso: triou só posts recentes e
+pulou Fase A2). Pague o custo de varrer tudo, sempre.
+
+Antes da Fase C, confirme explicitamente cada item (✅ varrido / ⚠️ inacessível-com-motivo —
+NUNCA omitir em silêncio):
+
+- [ ] **Todos os posts orgânicos do IG** — paginar `GET_IG_USER_MEDIA` via cursor `after`
+      até esgotar (NÃO só a 1ª página). Buscar comments de TODO post com `comments_count > 0`,
+      inclusive Reels antigos.
+- [ ] **Todas as conversas DM** — `LIST_ALL_CONVERSATIONS` (paginar se houver `after`),
+      `LIST_ALL_MESSAGES` em cada conversa nova desde a última varredura.
+- [ ] **Mentions/tags** — `GET_IG_USER_TAGS`.
+- [ ] **Fase A2 — Ads dark do FB**, OS DOIS LADOS de CADA ad ativo:
+      lado IG (`effective_instagram_media_id`) **e** lado FB (`effective_object_story_id`).
+- [ ] **Fase A3 — FB Page Messenger** (`FACEBOOK_GET_PAGE_CONVERSATIONS`).
+
+Se alguma superfície ficar inacessível (token sem permissão, toolkit não conectado,
+subcode 33/permissions), **declare como gap explícito na triagem** ("FB-side dos ads:
+não varrido — toolkit FB desconectado") em vez de fingir cobertura. "No silent caps."
+
+Cruzar TUDO com `contacts.yaml` + `responded-log.yaml` (Fase B) antes de classificar.
+
+---
+
 ## Fase A — Coleta de pendências (uma chamada paralela)
 
 Dispara **em paralelo**, em uma única mensagem com múltiplas tool calls:
 
-1. `mcp__composio-plenya__INSTAGRAM_GET_IG_USER_MEDIA` (ig_user_id="me", limit=10) — últimos 10 posts
+1. `mcp__composio-plenya__INSTAGRAM_GET_IG_USER_MEDIA` (ig_user_id="me", limit=25) — **paginar via `after` até esgotar TODOS os posts** (não parar na 1ª página — ver Fase 0)
 2. `mcp__composio-plenya__INSTAGRAM_LIST_ALL_CONVERSATIONS` (limit=25) — últimas conversas DM
 3. `mcp__composio-plenya__INSTAGRAM_GET_IG_USER_TAGS` (ig_user_id="me", limit=10) — mentions
 4. `mcp__composio-plenya__INSTAGRAM_GET_USER_INFO` (sanity check — só faz se modo COMPLETO)

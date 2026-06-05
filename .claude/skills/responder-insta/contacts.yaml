@@ -19,7 +19,7 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-05-20'  # 11ª iteração — +renalmentevivos (Dra Taynara, sócia), +monicacoletti (autoimune), +emanuelle_zocoler/oliveiranan06 (seguidores)
+last_updated: '2026-06-05'  # 12ª iteração — varredura completa (39 posts + ads IG/FB + Messenger); +silvanagoncalves105, +sonalypereira (DMs clínicas fora janela), +_geralciaramicarla87, +valeriaclcarmo
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
 # Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
@@ -855,4 +855,50 @@ contacts:
       18/05). Direcionada de volta à médica dela.
       Ver [[responder_insta_message_requests_first]].
     last: "2026-05-18 - DM enviada manual (não pular dose, conversar com médica)"
+
+  # ============================================
+  # NOVOS 2026-06-05 (varredura completa)
+  # ============================================
+
+  '@silvanagoncalves105':
+    rel: seguidora / paciente potencial (DM)
+    name: Silvana
+    tone: clínico-respeitoso
+    platform: instagram-dm-fora-janela
+    notes: |
+      DM 04/06: pode tomar Monjaro tendo esteatose hepática + cálculos renais +
+      cálculo e pólipo de vesícula + gastrite. Perfil multimorbidade. Draft respondido
+      05/06 mas janela DM fechada (subcode 2534022) → Dr cola manual no app.
+      Vesícula (pedra+pólipo) é o ponto de atenção; esteatose favorece o uso.
+      Dr postou manual no app (janela API fechada).
+    last: "2026-06-05 - resposta GLP-1 multimorbidade (Dr postou manual)"
+
+  '@sonalypereira':
+    rel: seguidora / paciente potencial (DM)
+    name: Sonaly
+    tone: clínico-respeitoso
+    platform: instagram-dm-fora-janela
+    notes: |
+      DM 31/05: refluxo (DRGE) controlado c/ esomeprazol piorou muito após iniciar
+      Mounjaro 2,5 (tosse seca, pigarro, rouquidão, mau hálito); começou Motilium.
+      Draft v2 (05/06): esvaziamento lento→refluxo laringofaríngeo + SIBO + vonoprazana
+      (Inzelm) + acompanhamento gastro. Versão curta (<1000 caracteres). Dr postou manual no app.
+    last: "2026-06-05 - resposta refluxo+SIBO+Inzelm (Dr postou manual, versão curta)"
+
+  '@_geralciaramicarla87':
+    rel: seguidora
+    tone: clínico-respeitoso breve
+    notes: |
+      Comentou no post Proteína perguntando se whey isolado é o indicado p/ quem fez
+      bariátrica. Respondida (sim, isolado/hidrolisado, baixa lactose, pouco volume).
+    last: "2026-06-05 - reply post Proteína (whey isolado bariátrica)"
+
+  '@valeriaclcarmo':
+    rel: seguidora
+    name: Valéria
+    tone: familiar-afetuoso
+    notes: |
+      Faz jejum intermitente em alguns dias da semana. Engaja com relato pessoal no
+      post de Jejum. Receptiva.
+    last: "2026-06-05 - reply post Jejum (acolhimento de relato)"
 

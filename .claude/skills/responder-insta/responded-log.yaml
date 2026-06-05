@@ -12,7 +12,7 @@
 #   dr_api      = resposta postada via skill/Composio (drgetulioamaralfilho)
 #   page        = respondido pela Página FB "Clínica médica Dr Getulio" (id 1046561478538408)
 
-last_updated: '2026-05-26'
+last_updated: '2026-06-05'
 
 # ── DMs ─────────────────────────────────────────────────────────────────────
 dms:
@@ -52,6 +52,14 @@ dms:
     last_answered: '2026-05-24'
     by: ignorar
     re: "GOLPE/phishing: 'aviso sobre conta de publicidade, escaneie QR code'. NÃO interagir, não clicar. Marcar como spam/denunciar no app."
+  '@silvanagoncalves105':
+    last_answered: '2026-06-05'
+    by: dr_app
+    re: "Pergunta clínica: pode tomar Monjaro tendo esteatose + cálculos renais/vesícula + pólipo de vesícula + gastrite. Resposta (vesícula=atenção/cirurgião antes; esteatose favorece; hidratar p/ rins; gastrite=dose lenta). Janela DM fechada via API (subcode 2534022) → Dr postou manual no app em 05/06."
+  '@sonalypereira':
+    last_answered: '2026-06-05'
+    by: dr_app
+    re: "Pergunta clínica: refluxo (DRGE) piorou após Mounjaro 2,5 (tosse/pigarro/rouquidão/hálito), iniciou Motilium. Resposta versão curta (esvaziamento lento→refluxo laringofaríngeo + SIBO + vonoprazana/Inzelm + acompanhamento gastro). Janela fechada via API → Dr postou manual no app em 05/06."
 
 # Conversas inacessíveis via API (subcode 33) — checar manualmente no app:
 conversas_inacessiveis:
@@ -59,13 +67,17 @@ conversas_inacessiveis:
     visto_em: '2026-05-26'
     updated_time: '2026-05-25T21:41'
     nota: "API retorna 'object does not exist / missing permissions'. Padrão de ID difere das demais (provável PEDIDO DE MENSAGEM de não-seguidor). Checar aba 'Solicitações' no app. Ver memória responder_insta_message_requests_first."
+  - id: aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUyMzU1Mzg3NTE2NzQzMzg1
+    visto_em: '2026-06-05'
+    updated_time: '2026-06-01T21:21'
+    nota: "API subcode 33 (object does not exist/permissions). ID padrão 281152... = provável PEDIDO DE MENSAGEM de não-seguidor. Checar aba 'Solicitações' no app. Ver responder_insta_message_requests_first."
 
 # ── Baseline de comentários (varredura completa 2026-05-23) ──────────────────
 # Nesta data foram varridos os 35 posts orgânicos + os 3 ads ativos (GLP-1 ep1/ep2/ep7),
 # lados IG e FB. RESULTADO: praticamente tudo já respondido pelo Dr até 20/05.
 # Registro só o que ficou PENDENTE nesta data (o resto = respondido, não re-flaggar
 # comentários com timestamp <= a data abaixo a menos que tenham reply nova do usuário).
-comments_baseline_swept_through: '2026-05-22'
+comments_baseline_swept_through: '2026-06-05'  # varredura COMPLETA 05/06: 39 posts + ads IG+FB + FB Messenger
 
 # Itens que ficaram ABERTOS em 2026-05-23 (decisão do Dr sobre responder ou não):
 open_as_of_2026-05-23:
@@ -103,6 +115,33 @@ answered_this_session:
       status: STAND-BY / monitorar
       decidido: '2026-05-23'
       nota: "Decisão do Dr (23/05): NÃO responder por ora, deixar em stand-by e monitorar. Não re-flaggar como pendente — está em espera consciente. Reavaliar só se gerar engajamento/desdobramento (mesma lógica da política Noraci em contacts.yaml)."
+
+answered_2026-06-05:
+  comments:
+    - post: Proteína (18319058521286620)
+      comment_id: 17912563722201303
+      who: '@_geralciaramicarla87'
+      reply_id: '18605235049027730'
+      by: dr_api
+      re: "Whey isolado/hidrolisado é a melhor escolha p/ bariátrica (quase sem lactose, alto valor, pouco volume); acertar dose com nutri."
+    - post: Jejum intermitente (18118227826769286)
+      comment_id: 18355755679243354
+      who: '@valeriaclcarmo'
+      reply_id: '18085480130436022'
+      by: dr_api
+      re: "Engajamento: relato de jejum em alguns dias; acolhimento + qualidade na janela + proteína."
+    - ad: GLP-1 ep1 lado IG (17997938657731054)
+      comment_id: 18081774890162490
+      who: anônimo
+      reply_id: '18401347636155079'
+      by: dr_api
+      re: "Precisa tomar pra sempre? Reganho ~2/3 ao parar (obesidade crônica); medicamento como alavanca + base de estilo de vida permite reduzir/espaçar/suspender com acompanhamento."
+  dms_postadas_manual_dr_app:  # janela 24h fechada via API → Dr postou no app
+    - who: '@silvanagoncalves105'  # GLP-1 multimorbidade (esteatose/vesícula/rins/gastrite)
+    - who: '@sonalypereira'        # refluxo+SIBO+vonoprazana(Inzelm)+gastro (versão curta <1000 caracteres)
+
+# Varredura 2026-06-05 — FB-side dos ads (recuperado após reconexão Composio): sem pendência clínica nova.
+# Noraci (crítico Monjaro, FB ep2) segue STAND-BY (sem engajamento novo). Ver contacts.yaml.
 
 # Notas operacionais que esta sessão consolidou:
 notas:
