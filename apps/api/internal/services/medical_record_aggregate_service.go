@@ -194,8 +194,12 @@ SELECT id, 'appointment'::text, scheduled_at,
 	}
 	args = append(args, filter.Limit, filter.Offset)
 
+	// Nomes de coluna explícitos na CTE: o UNION herda os nomes da PRIMEIRA
+	// subquery, e só a de anamnesis aliasa tudo. Sem isso, qualquer filtro que
+	// exclua anamnesis (ex.: types=appointment) quebra com "column e.author_id
+	// does not exist". Fixar aqui torna a nomeação independente do alias de cada parte.
 	sql := `
-WITH events AS (` + strings.Join(parts, "\nUNION ALL\n") + `
+WITH events(id, type, event_date, title, subtitle, status, author_id, patient_id, created_at, has_note) AS (` + strings.Join(parts, "\nUNION ALL\n") + `
 )
 SELECT e.id, e.type, e.event_date, e.title, e.subtitle, e.status, e.has_note,
        e.author_id, COALESCE(u.name, '') AS author_name,
