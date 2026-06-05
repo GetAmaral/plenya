@@ -6,7 +6,7 @@ const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts');
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  transpilePackages: ['@plenya/brand'],
+  transpilePackages: ['@plenya/brand', '@plenya/ui'],
   // Expose server-only env (Turbopack filtra process.env não-NEXT_PUBLIC_ no Server Components).
   // INTERNAL_API_URL aponta pro nome do serviço Docker quando rodando em container,
   // pra evitar que SSR tente alcançar localhost (que é o próprio container, não o host).

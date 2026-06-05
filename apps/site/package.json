@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@plenya/brand": "workspace:*",
+    "@plenya/ui": "workspace:*",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
     "lenis": "^1.3.4",

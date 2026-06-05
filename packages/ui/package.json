@@ -1,0 +1,25 @@
+{
+  "name": "@plenya/ui",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Componentes React compartilhados entre EMR (apps/web) e site (apps/site). Começa pelo radar de escore AGIR (fonte única de geração).",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./score-radar": "./src/score-radar/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .ts,.tsx",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.7",
+    "react": "^19.2.0",
+    "typescript": "^6.0.2"
+  }
+}

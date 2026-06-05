@@ -371,6 +371,9 @@ importers:
       '@plenya/brand':
         specifier: workspace:*
         version: link:../../packages/brand
+      '@plenya/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -541,6 +544,9 @@ importers:
       '@plenya/types':
         specifier: workspace:*
         version: link:../../packages/types
+      '@plenya/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.15))(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -851,6 +857,21 @@ importers:
       '@types/node':
         specifier: ^22.10.2
         version: 22.19.3
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
+
+  packages/ui:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.19.3
+      '@types/react':
+        specifier: ^19.0.7
+        version: 19.2.15
+      react:
+        specifier: ^19.2.0
+        version: 19.2.6
       typescript:
         specifier: ^6.0.2
         version: 6.0.3
