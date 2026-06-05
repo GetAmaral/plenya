@@ -26,6 +26,8 @@ interface RadarAgirProps {
   /** Override de largura via style (ex.: min(100%, 40rem, calc(100svh - 18rem))
    *  pra o radar quadrado caber na altura útil da tela). Tem precedência sobre maxWidthClass. */
   widthStyle?: React.CSSProperties
+  /** Mostra a legenda de letras abaixo do radar. Off quando a legenda vai pro lado. */
+  showLegend?: boolean
 }
 
 // ── Paleta Plenya (mesma do radar do site /escore-plenya) ───────────────
@@ -41,7 +43,7 @@ const POLYGON_COLOR = '#b38645' // gold — silhueta única (AGIR como um todo)
 const CENTER_FILL = '#fbfaf6' // cream
 const INK = '#063b4f' // petrol
 
-function resolveColor(code: string, fallback?: string): string {
+export function resolveColor(code: string, fallback?: string): string {
   return PLENYA_PALETTE[code] ?? fallback ?? '#94a3b8'
 }
 
@@ -90,7 +92,7 @@ function tooltipPlacementForAngle(angle: number) {
   return { horizontal: 'right' as const, vertical: 'center' as const }
 }
 
-export function RadarAgir({ letters, pillars, globalScore, ariaLabel, maxWidthClass = 'max-w-[26rem]', widthStyle }: RadarAgirProps) {
+export function RadarAgir({ letters, pillars, globalScore, ariaLabel, maxWidthClass = 'max-w-[26rem]', widthStyle, showLegend = true }: RadarAgirProps) {
   const [hovered, setHovered] = useState<Hovered>({ type: 'none' })
 
   // Largura angular de cada letra PROPORCIONAL ao seu nº de pilares VISÍVEIS,
@@ -408,17 +410,19 @@ export function RadarAgir({ letters, pillars, globalScore, ariaLabel, maxWidthCl
         </div>
       </div>
 
-      {/* Legenda das letras (sempre visível) — letra vazia mostra "—" */}
-      <div className="flex flex-wrap justify-center gap-4 md:gap-6 font-mono text-[11px] uppercase tracking-[0.2em]">
-        {letterArcs.map((l) => (
-          <span key={l.code} className="flex items-center gap-2 text-foreground/70">
-            <span className="w-2 h-2 rounded-full" style={{ background: l.color, opacity: l.count === 0 ? 0.5 : 1 }} />
-            <span className={l.count === 0 ? 'text-foreground/40' : undefined}>
-              {l.code} {l.count === 0 ? '—' : l.score.toFixed(0)}
+      {/* Legenda das letras — letra vazia mostra "—". Off quando vai pro painel lateral. */}
+      {showLegend && (
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6 font-mono text-[11px] uppercase tracking-[0.2em]">
+          {letterArcs.map((l) => (
+            <span key={l.code} className="flex items-center gap-2 text-foreground/70">
+              <span className="w-2 h-2 rounded-full" style={{ background: l.color, opacity: l.count === 0 ? 0.5 : 1 }} />
+              <span className={l.count === 0 ? 'text-foreground/40' : undefined}>
+                {l.code} {l.count === 0 ? '—' : l.score.toFixed(0)}
+              </span>
             </span>
-          </span>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </figure>
   )
 }

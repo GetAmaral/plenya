@@ -1,12 +1,12 @@
 "use client"
 
 import { PatientScoreSnapshot } from "@/lib/api/health-score-api"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Activity } from "lucide-react"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { RadarAgir } from "./RadarAgir"
+import { RadarAgir, resolveColor } from "./RadarAgir"
 import { buildAgir } from "./build-agir"
 
 interface ScoreRadarChartProps {
@@ -29,66 +29,106 @@ function scoreColor(p: number) {
 }
 
 /**
- * Card PRIMÁRIA do escore: o radar AGIR é o elemento de destaque (grande, ~50%
- * em telas médias/grandes, 100% no mobile). O score total não vira uma card
- * separada — vai no centro do radar + os números de apoio no rodapé desta card.
- * Fonte única (buildAgir) — mesmo radar da capa e do portal.
+ * Card PRIMÁRIA do escore. O radar AGIR ocupa a ALTURA da área útil da tela
+ * (tamanho = min(largura disponível, altura útil) — quadrado), e as infos de apoio
+ * ficam à DIREITA (no mobile, empilham abaixo). Fonte única (buildAgir).
  */
 export function ScoreRadarChart({ snapshot }: ScoreRadarChartProps) {
   const agir = buildAgir(snapshot)
   const pct = snapshot.totalScorePercentage
   const color = scoreColor(pct)
 
+  // pilares visíveis por letra (pra mostrar "—" em letra vazia)
+  const visibleByLetter = new Map<string, number>()
+  agir?.pillars.forEach((p) => visibleByLetter.set(p.letter, (visibleByLetter.get(p.letter) ?? 0) + 1))
+
+  if (!agir) {
+    return (
+      <Card>
+        <CardContent className="flex h-[300px] items-center justify-center text-muted-foreground">
+          Este escore não tem mapeamento de pilares AGIR.
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              <Activity className="h-5 w-5 text-primary" />
-              Escore Plenya
-              <Badge
-                variant="outline"
-                style={{ backgroundColor: color + "20", color, borderColor: color }}
-              >
-                {scoreLabel(pct)}
-              </Badge>
-            </CardTitle>
-            <CardDescription>
-              Método AGIR · calculado em{" "}
-              {format(new Date(snapshot.calculatedAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
-            </CardDescription>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {agir ? (
-          <div className="py-2">
+      <CardContent className="p-4 lg:p-6">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
+          {/* Radar — altura = área útil da tela; quadrado. No mobile, largura cheia. */}
+          <div
+            className="mx-auto w-full lg:mx-0 lg:shrink-0"
+            style={{ width: "min(100%, calc(100svh - 14.5rem))" }}
+          >
             <RadarAgir
               letters={agir.letters}
               pillars={agir.pillars}
               globalScore={pct}
-              widthStyle={{ width: "min(100%, 40rem, calc(100svh - 22rem))" }}
+              maxWidthClass="max-w-none"
+              showLegend={false}
             />
           </div>
-        ) : (
-          <div className="flex items-center justify-center h-[300px] text-muted-foreground">
-            Este escore não tem mapeamento de pilares AGIR.
-          </div>
-        )}
 
-        {/* Rodapé — números de apoio (antes uma card de resumo redundante) */}
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-1 border-t pt-4 text-sm text-muted-foreground">
-          <span>
-            <strong style={{ color }}>{pct.toFixed(1)}%</strong> geral
-          </span>
-          <span>
-            {snapshot.totalActualPoints.toFixed(0)} / {snapshot.totalPossiblePoints.toFixed(0)} pontos
-          </span>
-          <span>{snapshot.itemsEvaluatedCount} itens avaliados</span>
-          {snapshot.itemsNotEvaluatedCount > 0 && (
-            <span>{snapshot.itemsNotEvaluatedCount} sem dados</span>
-          )}
+          {/* Infos — à direita (desktop) / abaixo (mobile) */}
+          <div className="flex flex-1 flex-col justify-center gap-5">
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <Activity className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold">Escore Plenya</h2>
+                <Badge
+                  variant="outline"
+                  style={{ backgroundColor: color + "20", color, borderColor: color }}
+                >
+                  {scoreLabel(pct)}
+                </Badge>
+              </div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Método AGIR · calculado em{" "}
+                {format(new Date(snapshot.calculatedAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+              </p>
+            </div>
+
+            <div className="border-t pt-4">
+              <div className="text-4xl font-bold" style={{ color }}>
+                {pct.toFixed(1)}%
+              </div>
+              <div className="text-sm text-muted-foreground">escore geral</div>
+            </div>
+
+            <dl className="grid grid-cols-3 gap-4 border-t pt-4 text-sm">
+              <div>
+                <dt className="text-muted-foreground">Pontos</dt>
+                <dd className="font-medium text-foreground">
+                  {snapshot.totalActualPoints.toFixed(0)} / {snapshot.totalPossiblePoints.toFixed(0)}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Avaliados</dt>
+                <dd className="font-medium text-foreground">{snapshot.itemsEvaluatedCount}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">Sem dados</dt>
+                <dd className="font-medium text-foreground">{snapshot.itemsNotEvaluatedCount}</dd>
+              </div>
+            </dl>
+
+            {/* Letras (movidas da legenda de baixo do radar) */}
+            <div className="flex flex-wrap gap-x-4 gap-y-2 border-t pt-4 font-mono text-[11px] uppercase tracking-[0.18em]">
+              {agir.letters.map((l) => {
+                const vis = visibleByLetter.get(l.code) ?? 0
+                const c = resolveColor(l.code, l.color)
+                return (
+                  <span key={l.code} className="flex items-center gap-2 text-foreground/70">
+                    <span className="h-2 w-2 rounded-full" style={{ background: c, opacity: vis === 0 ? 0.5 : 1 }} />
+                    <span className={vis === 0 ? "text-foreground/40" : undefined}>
+                      {l.code} {vis === 0 ? "—" : l.score.toFixed(0)}
+                    </span>
+                  </span>
+                )
+              })}
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>
