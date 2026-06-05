@@ -30,7 +30,8 @@ messages/{pt,en,es}.json
   integracao-corpo-mente, ritmo-circadiano, longevidade.
 - **Imagens de blog:** geradas via `scripts/blog-generator/` (gpt-image-2). Ficam em
   `public/images/blog/<slug>/`. Ver [.claude/content/images.md](../../.claude/content/images.md).
-- **Escore Light:** `content/data/score-light-config.json` vem do EMR via `pnpm sync:score-light`.
+- **Escore Light/Triagem:** `content/data/score-{light,triagem}-config.json` vêm do EMR via
+  `pnpm sync:score-versions` (gerador por score_version; substituiu `sync:score-light`).
 - Validação pré-build: `pnpm validate-content`.
 
 ## Leads / CRM

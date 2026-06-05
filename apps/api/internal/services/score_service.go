@@ -87,11 +87,6 @@ type UpdateScoreItemDTO struct {
 	Conduct            *string     `json:"conduct,omitempty"`
 	LastReview         *time.Time  `json:"lastReview,omitempty"`
 
-	// Escore Light — curadoria pelo admin (subset público)
-	IsLightVersion *bool   `json:"isLightVersion,omitempty"`
-	LightOrder     *int    `json:"lightOrder,omitempty" validate:"omitempty,gte=0,lte=9999"`
-	LightQuestion  *string `json:"lightQuestion,omitempty"`
-
 	// Site público (leigo)
 	SiteRenderType  *string `json:"siteRenderType,omitempty" validate:"omitempty,oneof=level_choice numeric_classifier boolean text scale_0_3"`
 	SiteQuestion    *string `json:"siteQuestion,omitempty"`
@@ -420,17 +415,6 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 	// LastReview is optional but not typically cleared
 	if dto.LastReview != nil {
 		item.LastReview = dto.LastReview
-	}
-
-	// Escore Light — campos de curadoria
-	if dto.IsLightVersion != nil {
-		item.IsLightVersion = *dto.IsLightVersion
-	}
-	if dto.LightOrder != nil {
-		item.LightOrder = dto.LightOrder
-	}
-	if dto.LightQuestion != nil {
-		item.LightQuestion = dto.LightQuestion
 	}
 
 	// Site público (leigo)

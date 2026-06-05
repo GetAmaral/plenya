@@ -86,22 +86,8 @@ type ScoreItem struct {
 	// @example 1
 	Order int `gorm:"type:integer;not null;default:0;index:idx_score_item_order" json:"order" validate:"gte=0,lte=9999"`
 
-	// Indica se este item compõe a versão Light do Escore (subset público para auto-avaliação anônima)
-	// @example false
-	IsLightVersion bool `gorm:"type:boolean;not null;default:false;index:idx_score_item_light" json:"isLightVersion"`
-
-	// Ordem de exibição do item dentro do Escore Light (independente de Order)
-	// @minimum 0
-	// @maximum 9999
-	// @example 5
-	LightOrder *int `gorm:"type:integer;index:idx_score_item_light_order" json:"lightOrder,omitempty" validate:"omitempty,gte=0,lte=9999"`
-
-	// Texto da pergunta reescrito para o paciente leigo (usado no formulário Light).
-	// Quando vazio, o frontend deve usar PatientExplanation ou Name como fallback.
-	// @example Você fuma atualmente?
-	LightQuestion *string `gorm:"type:text" json:"lightQuestion,omitempty"`
-
 	// ── Campos de exibição no SITE público (leigo) — fonte do gerador de score_versions ──
+	// (O "conjunto Light" deixou de ser o flag is_light_version; agora é a score_version slug="light".)
 
 	// Tipo de input renderizado no site público (≠ inferência usada na anamnese/exame do EMR).
 	// @enum level_choice,numeric_classifier,boolean,text,scale_0_3

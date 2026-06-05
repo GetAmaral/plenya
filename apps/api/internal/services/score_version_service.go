@@ -86,10 +86,20 @@ func (s *ScoreVersionService) Create(dto CreateScoreVersionDTO) (*models.ScoreVe
 	return v, nil
 }
 
+// isReservedVersionSlug marca as versões CORE de que o site e o scoring anônimo dependem.
+// Não podem ser renomeadas, excluídas, nem esvaziadas pela UI de admin (senão o /escore-light
+// e o radar público quebram silenciosamente).
+func isReservedVersionSlug(slug string) bool {
+	return slug == "light" || slug == "triagem"
+}
+
 func (s *ScoreVersionService) Update(id uuid.UUID, dto UpdateScoreVersionDTO) (*models.ScoreVersion, error) {
 	var v models.ScoreVersion
 	if err := s.db.First(&v, "id = ?", id).Error; err != nil {
 		return nil, errors.New("score version not found")
+	}
+	if dto.Slug != nil && *dto.Slug != v.Slug && isReservedVersionSlug(v.Slug) {
+		return nil, fmt.Errorf("a versão %q é reservada e o slug não pode ser alterado", v.Slug)
 	}
 	if dto.Name != nil {
 		v.Name = *dto.Name
@@ -116,11 +126,25 @@ func (s *ScoreVersionService) Update(id uuid.UUID, dto UpdateScoreVersionDTO) (*
 }
 
 func (s *ScoreVersionService) Delete(id uuid.UUID) error {
+	var v models.ScoreVersion
+	if err := s.db.First(&v, "id = ?", id).Error; err != nil {
+		return errors.New("score version not found")
+	}
+	if isReservedVersionSlug(v.Slug) {
+		return fmt.Errorf("a versão %q é reservada e não pode ser excluída", v.Slug)
+	}
 	return s.db.Delete(&models.ScoreVersion{}, "id = ?", id).Error
 }
 
 // SetItems substitui TODOS os itens da version (replace). Hard-delete + insert em transação.
 func (s *ScoreVersionService) SetItems(versionID uuid.UUID, items []VersionItemDTO) error {
+	var v models.ScoreVersion
+	if err := s.db.First(&v, "id = ?", versionID).Error; err != nil {
+		return errors.New("score version not found")
+	}
+	if isReservedVersionSlug(v.Slug) && len(items) == 0 {
+		return fmt.Errorf("a versão %q é reservada e não pode ficar sem itens", v.Slug)
+	}
 	return s.db.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Where("version_id = ?", versionID).Delete(&models.ScoreVersionItem{}).Error; err != nil {
 			return err

@@ -30,7 +30,7 @@ func hashTokenSimple(s string) string {
 // ============================================================
 
 // AnonymousScoreService gerencia o fluxo público do Escore Plenya Light:
-// (1) exporta a configuração dos itens marcados como IsLightVersion para o site,
+// (1) exporta a configuração dos itens da score_version (Light/Triagem) para o site,
 // (2) recebe respostas anônimas, persiste sessão + snapshot e
 // (3) permite o claim posterior via magic link (email e/ou WhatsApp).
 type AnonymousScoreService struct {
@@ -583,8 +583,8 @@ func toPublicSession(s *models.AnonymousScoreSession) *PublicSession {
 	for _, it := range s.Items {
 		question := ""
 		if it.ScoreItem != nil {
-			if it.ScoreItem.LightQuestion != nil && *it.ScoreItem.LightQuestion != "" {
-				question = *it.ScoreItem.LightQuestion
+			if it.ScoreItem.SiteQuestion != nil && *it.ScoreItem.SiteQuestion != "" {
+				question = *it.ScoreItem.SiteQuestion
 			} else {
 				question = it.ScoreItem.Name
 			}
@@ -787,88 +787,15 @@ type CreateSessionRequest struct {
 	UTMTerm     *string `json:"utmTerm,omitempty"     validate:"omitempty,max=120"`
 }
 
-// ============================================================
-// BuildLightConfig — exporta config do Light para o site
-// ============================================================
-
-// BuildLightConfig retorna toda a árvore de items marcados como IsLightVersion,
-// preservando agrupamento Group → Subgroup → Item → Level.
-// Esse é o JSON consumido pelo script de sync do site.
-func (s *AnonymousScoreService) BuildLightConfig() (*LightConfig, error) {
-	groups, err := s.scoreRepo.GetAllScoreGroupTrees()
-	if err != nil {
-		return nil, fmt.Errorf("failed to load score tree: %w", err)
-	}
-
-	out := &LightConfig{
-		GeneratedAt: time.Now(),
-		Groups:      []LightGroupConfig{},
-	}
-	itemCount := 0
-
-	for _, g := range groups {
-		gOut := LightGroupConfig{
-			ID:        g.ID,
-			Name:      g.Name,
-			Order:     g.Order,
-			Subgroups: []LightSubgroupConfig{},
-		}
-
-		for _, sg := range g.Subgroups {
-			sgOut := LightSubgroupConfig{
-				ID:    sg.ID,
-				Name:  sg.Name,
-				Order: sg.Order,
-				Items: []LightItemConfig{},
-			}
-
-			seen := make(map[uuid.UUID]bool)
-			for _, it := range sg.Items {
-				if !it.IsLightVersion || seen[it.ID] {
-					continue
-				}
-				sgOut.Items = append(sgOut.Items, mapItemToLightConfig(it))
-				seen[it.ID] = true
-				itemCount++
-
-				// Child items também entram se marcados (e ainda não vistos)
-				for _, child := range it.ChildItems {
-					if !child.IsLightVersion || seen[child.ID] {
-						continue
-					}
-					sgOut.Items = append(sgOut.Items, mapItemToLightConfig(child))
-					seen[child.ID] = true
-					itemCount++
-				}
-			}
-
-			if len(sgOut.Items) > 0 {
-				gOut.Subgroups = append(gOut.Subgroups, sgOut)
-			}
-		}
-
-		if len(gOut.Subgroups) > 0 {
-			out.Groups = append(out.Groups, gOut)
-		}
-	}
-
-	out.ItemCount = itemCount
-	out.Version = fmt.Sprintf("v%d-%d", itemCount, out.GeneratedAt.Unix())
-	return out, nil
-}
-
 func mapItemToLightConfig(it models.ScoreItem) LightItemConfig {
-	// Prompt leigo: site_question (novo) > light_question (legado) > nome.
+	// Prompt leigo: site_question (curado) > nome.
 	question := it.Name
 	if it.SiteQuestion != nil && *it.SiteQuestion != "" {
 		question = *it.SiteQuestion
-	} else if it.LightQuestion != nil && *it.LightQuestion != "" {
-		question = *it.LightQuestion
 	}
+	// LightOrder é campo de wire do config; o caller define o valor real:
+	// BuildConfig usa o display_order da version, BuildPrepConfig usa o PrepOrder.
 	lightOrder := 0
-	if it.LightOrder != nil {
-		lightOrder = *it.LightOrder
-	}
 
 	levels := make([]LightLevelConfig, 0, len(it.Levels))
 	for _, lv := range it.Levels {
@@ -1020,6 +947,17 @@ func (s *AnonymousScoreService) CreateSession(req CreateSessionRequest) (*Public
 		return nil, fmt.Errorf("failed to load score tree: %w", err)
 	}
 
+	// Conjunto Light = itens da score_version slug="light" (substitui o flag is_light_version).
+	lightIDs, err := s.scoreRepo.GetVersionItemIDsBySlug("light")
+	if err != nil {
+		return nil, fmt.Errorf("failed to load light version items: %w", err)
+	}
+	// Falha ALTO (e não com radar todo-zero silencioso) se a version light sumiu/esvaziou.
+	// A version "light" é protegida contra rename/delete/esvaziamento no ScoreVersionService.
+	if len(lightIDs) == 0 {
+		return nil, fmt.Errorf("light score version is missing or empty")
+	}
+
 	pseudoPatient := session.ToPatientForApplies()
 
 	err = s.db.Transaction(func(tx *gorm.DB) error {
@@ -1057,12 +995,12 @@ func (s *AnonymousScoreService) CreateSession(req CreateSessionRequest) (*Public
 			seen := make(map[uuid.UUID]bool)
 			for _, sg := range g.Subgroups {
 				for _, it := range sg.Items {
-					if it.IsLightVersion && !seen[it.ID] {
+					if lightIDs[it.ID] && !seen[it.ID] {
 						evaluateLightItem(it, pseudoPatient, respByItem, snapshot, gr)
 						seen[it.ID] = true
 					}
 					for _, child := range it.ChildItems {
-						if child.IsLightVersion && !seen[child.ID] {
+						if lightIDs[child.ID] && !seen[child.ID] {
 							evaluateLightItem(child, pseudoPatient, respByItem, snapshot, gr)
 							seen[child.ID] = true
 						}
@@ -1109,7 +1047,7 @@ func (s *AnonymousScoreService) CreateSession(req CreateSessionRequest) (*Public
 }
 
 // evaluateLightItem avalia um único item Light e atualiza os agregados (snapshot + group result).
-// Pré-condição: caller já confirmou item.IsLightVersion.
+// Pré-condição: caller já confirmou que o item pertence ao conjunto Light (score_version).
 func evaluateLightItem(
 	item models.ScoreItem,
 	pseudoPatient *models.Patient,

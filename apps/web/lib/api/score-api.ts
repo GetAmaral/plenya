@@ -41,7 +41,6 @@ export interface ScoreItem {
   points?: number
   order: number
   fullName?: string
-  isLightVersion?: boolean
   subgroupId: string
   parentItemId?: string
   subgroup?: ScoreSubgroup

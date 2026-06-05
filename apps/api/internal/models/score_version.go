@@ -10,7 +10,7 @@ import (
 // ScoreVersion — uma versão PÚBLICA do escore (ex.: "Triagem", "Light"). Seleciona e ordena
 // um subconjunto de ScoreItems (via ScoreVersionItem). Grupos/subgrupos/pilares vêm do próprio
 // ScoreItem — a version NÃO duplica taxonomia, só escolhe e ordena. Fonte do gerador de configs
-// estáticas do site. Substitui o flag is_light_version (removido na próxima migration).
+// estáticas do site. Substituiu o flag is_light_version (removido na migration 00023).
 // @Description Versão pública do escore (subset de itens, ordenado)
 type ScoreVersion struct {
 	// @example 5c012e51-0000-7000-8000-000000000002

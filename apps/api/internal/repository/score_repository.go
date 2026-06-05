@@ -19,6 +19,26 @@ func NewScoreRepository(db *gorm.DB) *ScoreRepository {
 	return &ScoreRepository{db: db}
 }
 
+// GetVersionItemIDsBySlug retorna o conjunto de score_item IDs que compõem a score_version
+// de slug informado (ex: "light"). Substitui a leitura da coluna legada is_light_version:
+// o "conjunto Light" passa a ser dirigido pela tela de Versões de Escore (score_version_items).
+func (r *ScoreRepository) GetVersionItemIDsBySlug(slug string) (map[uuid.UUID]bool, error) {
+	var ids []uuid.UUID
+	err := r.db.
+		Table("score_version_items AS svi").
+		Joins("JOIN score_versions sv ON sv.id = svi.version_id").
+		Where("sv.slug = ? AND sv.deleted_at IS NULL", slug).
+		Pluck("svi.score_item_id", &ids).Error
+	if err != nil {
+		return nil, err
+	}
+	set := make(map[uuid.UUID]bool, len(ids))
+	for _, id := range ids {
+		set[id] = true
+	}
+	return set, nil
+}
+
 // ============================================================
 // ScoreGroup Operations
 // ============================================================

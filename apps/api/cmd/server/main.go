@@ -491,7 +491,6 @@ func setupRoutes(
 
 	// Score Light (públicas — site público de avaliação anônima)
 	scoreLight := v1.Group("/score-light")
-	scoreLight.Get("/config", anonymousScoreHandler.GetConfig)
 	scoreLight.Get("/config/:slug", scoreVersionHandler.GetConfig) // config por score_version (gerador)
 	scoreLight.Post("/sessions", anonymousScoreHandler.CreateSession)
 	scoreLight.Get("/sessions/:code", anonymousScoreHandler.GetSession)

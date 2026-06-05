@@ -118,7 +118,12 @@ func (s *AnonymousLabPDFService) ExtractFromPDF(pdfPath string) (*LightLabExtrac
 
 	var lightItems []models.ScoreItem
 	if err := s.db.
-		Where("is_light_version = ? AND lab_test_code IS NOT NULL AND deleted_at IS NULL", true).
+		Where("lab_test_code IS NOT NULL AND deleted_at IS NULL").
+		Where("id IN (?)", s.db.
+			Table("score_version_items AS svi").
+			Select("svi.score_item_id").
+			Joins("JOIN score_versions sv ON sv.id = svi.version_id").
+			Where("sv.slug = ? AND sv.deleted_at IS NULL", "light")).
 		Find(&lightItems).Error; err != nil {
 		return nil, fmt.Errorf("falha ao carregar items Light: %w", err)
 	}

@@ -105,26 +105,6 @@ func (h *AnonymousScoreHandler) ExtractLabsFromPDF(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
-// GetConfig retorna a configuração completa do Escore Light (todos os items
-// marcados como IsLightVersion + levels). Cacheável no edge.
-//
-// @Summary  Configuração pública do Escore Plenya Light
-// @Tags     score-light
-// @Produce  json
-// @Success  200 {object} services.LightConfig
-// @Router   /score-light/config [get]
-func (h *AnonymousScoreHandler) GetConfig(c *fiber.Ctx) error {
-	cfg, err := h.service.BuildLightConfig()
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
-			Error:   "failed to build light config",
-			Message: err.Error(),
-		})
-	}
-	c.Set("Cache-Control", "public, max-age=300, s-maxage=3600")
-	return c.JSON(cfg)
-}
-
 // CreateSession cria uma nova sessão anônima com as respostas do paciente
 // e retorna o snapshot calculado.
 //
