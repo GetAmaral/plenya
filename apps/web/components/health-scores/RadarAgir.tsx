@@ -23,6 +23,9 @@ interface RadarAgirProps {
   ariaLabel?: string
   /** Classe Tailwind de largura máxima do radar (responsivo: w-full + cap). */
   maxWidthClass?: string
+  /** Override de largura via style (ex.: min(100%, 40rem, calc(100svh - 18rem))
+   *  pra o radar quadrado caber na altura útil da tela). Tem precedência sobre maxWidthClass. */
+  widthStyle?: React.CSSProperties
 }
 
 // ── Paleta Plenya (mesma do radar do site /escore-plenya) ───────────────
@@ -87,7 +90,7 @@ function tooltipPlacementForAngle(angle: number) {
   return { horizontal: 'right' as const, vertical: 'center' as const }
 }
 
-export function RadarAgir({ letters, pillars, globalScore, ariaLabel, maxWidthClass = 'max-w-[26rem]' }: RadarAgirProps) {
+export function RadarAgir({ letters, pillars, globalScore, ariaLabel, maxWidthClass = 'max-w-[26rem]', widthStyle }: RadarAgirProps) {
   const [hovered, setHovered] = useState<Hovered>({ type: 'none' })
 
   // Largura angular de cada letra PROPORCIONAL ao seu nº de pilares VISÍVEIS,
@@ -250,7 +253,10 @@ export function RadarAgir({ letters, pillars, globalScore, ariaLabel, maxWidthCl
       : 0)
 
   return (
-    <figure className={`flex flex-col items-center gap-5 select-none w-full ${maxWidthClass} mx-auto`}>
+    <figure
+      className={`flex flex-col items-center gap-5 select-none mx-auto${widthStyle ? '' : ` w-full ${maxWidthClass}`}`}
+      style={widthStyle}
+    >
       <div
         className="relative w-full aspect-square"
         onMouseLeave={() => setHovered({ type: 'none' })}

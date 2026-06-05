@@ -68,7 +68,7 @@ export function ScoreRadarChart({ snapshot }: ScoreRadarChartProps) {
               letters={agir.letters}
               pillars={agir.pillars}
               globalScore={pct}
-              maxWidthClass="max-w-[40rem]"
+              widthStyle={{ width: "min(100%, 40rem, calc(100svh - 22rem))" }}
             />
           </div>
         ) : (
