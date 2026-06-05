@@ -126,6 +126,18 @@ export interface CalculateSnapshotDTO {
   notes?: string
 }
 
+// Sessão do Escore Plenya (Light/Triagem) claimed por um paciente — Fase 4 (import pro prontuário).
+export interface AnonymousSessionSummary {
+  publicCode: string
+  createdAt: string
+  /** id do patient_score_snapshot já materializado a partir desta sessão, se houver. */
+  importedSnapshotId?: string
+  snapshot?: {
+    totalScorePercentage: number
+    itemsEvaluatedCount: number
+  }
+}
+
 // API Functions
 export const healthScoreApi = {
   // Calculate new snapshot
@@ -162,6 +174,26 @@ export const healthScoreApi = {
   deleteSnapshot: async (id: string): Promise<void> => {
     return apiClient.delete(`/api/v1/score-snapshots/${id}`)
   },
+
+  // Fase 4 — sessões do Escore Plenya claimed de um paciente (staff)
+  getPatientAnonymousSessions: async (
+    patientId: string
+  ): Promise<AnonymousSessionSummary[]> => {
+    return apiClient.get<AnonymousSessionSummary[]>(
+      `/api/v1/patients/${patientId}/anonymous-sessions`
+    )
+  },
+
+  // Fase 4 — importa uma sessão pro prontuário (materializa patient_score_snapshot)
+  importAnonymousSession: async (
+    patientId: string,
+    sessionCode: string
+  ): Promise<PatientScoreSnapshot> => {
+    return apiClient.post<PatientScoreSnapshot>(
+      `/api/v1/patients/${patientId}/score-snapshots/import-anonymous`,
+      { sessionCode }
+    )
+  },
 }
 
 // React Query Hooks
@@ -174,6 +206,31 @@ export const healthScoreKeys = {
   details: () => [...healthScoreKeys.all, 'detail'] as const,
   detail: (id: string) => [...healthScoreKeys.details(), id] as const,
   latest: (patientId: string) => [...healthScoreKeys.all, 'latest', patientId] as const,
+  anonymousSessions: (patientId: string) =>
+    [...healthScoreKeys.all, 'anon-sessions', patientId] as const,
+}
+
+// Fase 4 — lista sessões do Escore Plenya claimed do paciente (staff)
+export function usePatientAnonymousSessions(patientId: string) {
+  return useQuery({
+    queryKey: healthScoreKeys.anonymousSessions(patientId),
+    queryFn: () => healthScoreApi.getPatientAnonymousSessions(patientId),
+    enabled: !!patientId,
+  })
+}
+
+// Fase 4 — importa uma sessão pro prontuário; invalida escores + lista de sessões
+export function useImportAnonymousSession(patientId: string) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (sessionCode: string) =>
+      healthScoreApi.importAnonymousSession(patientId, sessionCode),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: healthScoreKeys.list(patientId) })
+      queryClient.invalidateQueries({ queryKey: healthScoreKeys.latest(patientId) })
+      queryClient.invalidateQueries({ queryKey: healthScoreKeys.anonymousSessions(patientId) })
+    },
+  })
 }
 
 // Get all snapshots for a patient

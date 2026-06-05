@@ -360,3 +360,59 @@ func (h *AnonymousScoreHandler) MySessions(c *fiber.Ctx) error {
 	}
 	return c.JSON(sessions)
 }
+
+// ListPatientAnonymousSessions lista as sessões do Escore Plenya (Light/Triagem) claimed por um
+// paciente, marcando quais já foram importadas. STAFF only (grupo /patients). Fase 4.
+//
+// @Summary  Lista sessões do Escore Plenya de um paciente (staff)
+// @Tags     score-light
+// @Security BearerAuth
+// @Produce  json
+// @Success  200 {array} services.PublicSession
+// @Router   /patients/{id}/anonymous-sessions [get]
+func (h *AnonymousScoreHandler) ListPatientAnonymousSessions(c *fiber.Ctx) error {
+	patientID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid patient id", Message: err.Error()})
+	}
+	sessions, err := h.service.GetPublicSessionsByPatientID(patientID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to load sessions",
+			Message: err.Error(),
+		})
+	}
+	return c.JSON(sessions)
+}
+
+// ImportAnonymousSession materializa um patient_score_snapshot a partir de uma sessão claimed
+// (body: {"sessionCode": "..."}). Idempotente. STAFF only. Fase 4.
+//
+// @Summary  Importa uma sessão do Escore Plenya pro prontuário (staff)
+// @Tags     score-light
+// @Security BearerAuth
+// @Accept   json
+// @Produce  json
+// @Success  201 {object} models.PatientScoreSnapshot
+// @Router   /patients/{id}/score-snapshots/import-anonymous [post]
+func (h *AnonymousScoreHandler) ImportAnonymousSession(c *fiber.Ctx) error {
+	patientID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid patient id", Message: err.Error()})
+	}
+	var body struct {
+		SessionCode string `json:"sessionCode"`
+	}
+	if err := c.BodyParser(&body); err != nil || body.SessionCode == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid body", Message: "sessionCode é obrigatório"})
+	}
+	userID := middleware.GetUserID(c)
+	if userID == uuid.Nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorResponse{Error: "unauthorized"})
+	}
+	snap, err := h.service.ConvertSessionToPatientSnapshot(body.SessionCode, patientID, userID)
+	if err != nil {
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(dto.ErrorResponse{Error: "import failed", Message: err.Error()})
+	}
+	return c.Status(fiber.StatusCreated).JSON(snap)
+}

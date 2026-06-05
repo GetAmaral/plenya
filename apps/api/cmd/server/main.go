@@ -1229,6 +1229,9 @@ func setupRoutes(
 	patients.Post("/:id/score-snapshots", scoreSnapshotHandler.CalculateSnapshot)
 	patients.Get("/:id/score-snapshots", scoreSnapshotHandler.GetSnapshotsByPatientID)
 	patients.Get("/:id/score-snapshots/latest", scoreSnapshotHandler.GetLatestSnapshotByPatientID)
+	// Fase 4 — conversão anônimo→paciente (Escore Plenya Light/Triagem → prontuário)
+	patients.Get("/:id/anonymous-sessions", anonymousScoreHandler.ListPatientAnonymousSessions)
+	patients.Post("/:id/score-snapshots/import-anonymous", anonymousScoreHandler.ImportAnonymousSession)
 
 	// Esqueleto clínico P2a — alergias + sinais vitais por consulta, escopados
 	// por paciente (path). RequireAnyStaff (já no grupo patients) + AuditLog.

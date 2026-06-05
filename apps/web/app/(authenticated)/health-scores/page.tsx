@@ -14,6 +14,7 @@ import { CalculateScoreDialog } from "@/components/health-scores/CalculateScoreD
 import { ScoreRadarChart } from "@/components/health-scores/ScoreRadarChart"
 import { ScoreEvolutionChart } from "@/components/health-scores/ScoreEvolutionChart"
 import { ScoreMethodologyAccordion } from "@/components/health-scores/ScoreMethodologyAccordion"
+import { AnonymousSessionsCard } from "@/components/health-scores/AnonymousSessionsCard"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
@@ -47,6 +48,9 @@ export default function HealthScoresPage() {
           Calcular Escore
         </Button>
       </PageHeader>
+
+      {/* Sessões do Escore Plenya (Light/Triagem) importáveis pro prontuário — Fase 4 */}
+      <AnonymousSessionsCard patientId={selectedPatient?.id || ""} />
 
       {/* Latest Snapshot Summary */}
       {isLoadingLatest ? (

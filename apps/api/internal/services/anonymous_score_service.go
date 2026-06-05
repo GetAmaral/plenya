@@ -593,6 +593,9 @@ type PublicSession struct {
 	IsClaimed     bool                       `json:"isClaimed"`
 	Items         []PublicAnonymousScoreItem `json:"items"`
 	Snapshot      *PublicSnapshot            `json:"snapshot,omitempty"`
+	// Preenchido só no contexto STAFF (lista de sessões do paciente): id do patient_score_snapshot
+	// já materializado a partir desta sessão, se houver. Permite a UI mostrar "já importada".
+	ImportedSnapshotID *uuid.UUID `json:"importedSnapshotId,omitempty"`
 }
 
 // toPublicSession converte um modelo persistido em payload público seguro.
@@ -1296,4 +1299,148 @@ func (s *AnonymousScoreService) GetSessionsByCurrentUser(userID uuid.UUID) ([]Pu
 		out = append(out, *toPublicSession(&rawSessions[i]))
 	}
 	return out, nil
+}
+
+// ============================================================
+// Fase 4 — Conversão anônimo → paciente (materialização manual)
+// ============================================================
+
+// GetPublicSessionsByPatientID lista as sessões claimed de um paciente (uso STAFF), marcando
+// quais já foram importadas pro prontuário (ImportedSnapshotID).
+func (s *AnonymousScoreService) GetPublicSessionsByPatientID(patientID uuid.UUID) ([]PublicSession, error) {
+	rawSessions, err := s.GetSessionsByPatientID(patientID)
+	if err != nil {
+		return nil, err
+	}
+	// Mapeia sessão → patient_score_snapshot já materializado (se houver).
+	imported := make(map[uuid.UUID]uuid.UUID, len(rawSessions))
+	if len(rawSessions) > 0 {
+		ids := make([]uuid.UUID, 0, len(rawSessions))
+		for i := range rawSessions {
+			ids = append(ids, rawSessions[i].ID)
+		}
+		type row struct {
+			SourceSessionID uuid.UUID
+			ID              uuid.UUID
+		}
+		var rows []row
+		s.db.Model(&models.PatientScoreSnapshot{}).
+			Select("source_session_id, id").
+			Where("source_session_id IN ?", ids).
+			Scan(&rows)
+		for _, r := range rows {
+			imported[r.SourceSessionID] = r.ID
+		}
+	}
+	out := make([]PublicSession, 0, len(rawSessions))
+	for i := range rawSessions {
+		ps := toPublicSession(&rawSessions[i])
+		if snapID, ok := imported[rawSessions[i].ID]; ok {
+			id := snapID
+			ps.ImportedSnapshotID = &id
+		}
+		out = append(out, *ps)
+	}
+	return out, nil
+}
+
+// ConvertSessionToPatientSnapshot materializa um patient_score_snapshot PARCIAL a partir de uma
+// sessão anônima já claimed pelo paciente. Reusa os resultados já computados (Fase 3): copia
+// snapshot + group_results + item_results. Idempotente por source_session_id. Ação STAFF
+// (calculatedByUserID = quem importou). NÃO recalcula.
+func (s *AnonymousScoreService) ConvertSessionToPatientSnapshot(code string, patientID, calculatedByUserID uuid.UUID) (*models.PatientScoreSnapshot, error) {
+	session, err := s.loadSessionByPublicCode(code)
+	if err != nil {
+		return nil, err
+	}
+	if session.ClaimedByPatientID == nil || *session.ClaimedByPatientID != patientID {
+		return nil, errors.New("sessão não pertence a este paciente")
+	}
+	if session.Snapshot == nil {
+		return nil, errors.New("sessão sem resultado calculado para importar")
+	}
+
+	// Idempotência: já importada? Retorna o snapshot existente.
+	var existing models.PatientScoreSnapshot
+	if err := s.db.Where("source_session_id = ?", session.ID).First(&existing).Error; err == nil {
+		return s.reloadPatientSnapshot(existing.ID)
+	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, err
+	}
+
+	anon := session.Snapshot
+	source := "anonymous_import"
+	sid := session.ID
+	notes := fmt.Sprintf("Importado do Escore Plenya (sessão %s, %s)",
+		session.PublicCode, anon.CreatedAt.Format("02/01/2006"))
+
+	var newID uuid.UUID
+	err = s.db.Transaction(func(tx *gorm.DB) error {
+		snap := &models.PatientScoreSnapshot{
+			PatientID:              patientID,
+			CalculatedByUserID:     calculatedByUserID,
+			CalculatedAt:           anon.CreatedAt, // preserva a data da avaliação original
+			TotalActualPoints:      anon.TotalActualPoints,
+			TotalPossiblePoints:    anon.TotalPossiblePoints,
+			TotalScorePercentage:   anon.TotalScorePercentage,
+			ItemsEvaluatedCount:    anon.ItemsEvaluatedCount,
+			ItemsNotEvaluatedCount: anon.ItemsNotEvaluatedCount,
+			Notes:                  &notes,
+			Source:                 &source,
+			SourceSessionID:        &sid,
+		}
+		if err := tx.Create(snap).Error; err != nil {
+			return fmt.Errorf("failed to create patient snapshot: %w", err)
+		}
+		for _, gr := range anon.GroupResults {
+			pgr := models.PatientScoreGroupResult{
+				SnapshotID:          snap.ID,
+				GroupID:             gr.GroupID,
+				ActualPoints:        gr.ActualPoints,
+				PossiblePoints:      gr.PossiblePoints,
+				ScorePercentage:     gr.ScorePercentage,
+				ItemsEvaluatedCount: gr.ItemsEvaluatedCount,
+			}
+			if err := tx.Create(&pgr).Error; err != nil {
+				return fmt.Errorf("failed to create group result: %w", err)
+			}
+		}
+		if len(anon.ItemResults) > 0 {
+			pirs := make([]models.PatientScoreItemResult, 0, len(anon.ItemResults))
+			for _, ir := range anon.ItemResults {
+				pirs = append(pirs, models.PatientScoreItemResult{
+					SnapshotID:     snap.ID,
+					ItemID:         ir.ItemID,
+					GroupID:        ir.GroupID,
+					Status:         ir.Status,
+					ValueUsed:      ir.ValueUsed,
+					LevelMatchedID: ir.LevelMatchedID,
+					LevelNumber:    ir.LevelNumber,
+					MaxPoints:      ir.MaxPoints,
+					ActualPoints:   ir.ActualPoints,
+				})
+			}
+			if err := tx.Create(&pirs).Error; err != nil {
+				return fmt.Errorf("failed to create item results: %w", err)
+			}
+		}
+		newID = snap.ID
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return s.reloadPatientSnapshot(newID)
+}
+
+// reloadPatientSnapshot recarrega o snapshot do paciente com relations p/ o payload de resposta.
+func (s *AnonymousScoreService) reloadPatientSnapshot(id uuid.UUID) (*models.PatientScoreSnapshot, error) {
+	var snap models.PatientScoreSnapshot
+	if err := s.db.
+		Preload("GroupResults.Group").
+		Preload("CalculatedByUser").
+		First(&snap, "id = ?", id).Error; err != nil {
+		return nil, err
+	}
+	return &snap, nil
 }

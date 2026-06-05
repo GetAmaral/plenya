@@ -56,6 +56,13 @@ type PatientScoreSnapshot struct {
 	// @example Primeira avaliação após diagnóstico
 	Notes *string `gorm:"type:text" json:"notes,omitempty"`
 
+	// Origem do snapshot. Nulo = cálculo normal pelo staff; "anonymous_import" = materializado a
+	// partir de uma sessão do Escore Plenya (Light/Triagem) — snapshot PARCIAL. @example anonymous_import
+	Source *string `gorm:"type:varchar(50);index:idx_snapshot_source" json:"source,omitempty"`
+
+	// Sessão anônima de origem (quando Source = anonymous_import) — idempotência + rastreio.
+	SourceSessionID *uuid.UUID `gorm:"type:uuid;index:idx_snapshot_source_session" json:"sourceSessionId,omitempty"`
+
 	// Título computado para exibição no frontend (não persistido)
 	DisplayTitle string `gorm:"-" json:"displayTitle"`
 
