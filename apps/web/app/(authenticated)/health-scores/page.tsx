@@ -71,13 +71,13 @@ export default function HealthScoresPage() {
           {/* Radar AGIR — elemento primário, grande, no topo da tela */}
           <ScoreRadarChart snapshot={latestSnapshot} />
 
-          {/* Accordion de metodologia (igual à página de detalhes) */}
-          <ScoreMethodologyAccordion snapshot={latestSnapshot} />
-
-          {/* Evolution Chart */}
+          {/* Curva de evolução — logo abaixo do radar */}
           {snapshots && snapshots.length > 1 && (
             <ScoreEvolutionChart snapshots={snapshots} />
           )}
+
+          {/* Accordion de metodologia (igual à página de detalhes) */}
+          <ScoreMethodologyAccordion snapshot={latestSnapshot} />
         </>
       ) : null}
 
