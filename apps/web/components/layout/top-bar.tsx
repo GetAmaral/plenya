@@ -1,11 +1,25 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { Loader2, Home, ChevronRight } from "lucide-react";
+import { Loader2, Home, ChevronRight, User as UserIcon, LogOut } from "lucide-react";
 import { useProcessingJobStore } from "@/lib/processing-job-store";
 import { useAuth } from "@/lib/use-auth";
 import { usePageHeader, type PageBreadcrumb } from "@/lib/page-context";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { getRoleColor, getRoleLabel, ROLE_BADGE_COLORS } from "@/lib/roles";
+import type { UserRole } from "@/lib/auth-store";
 import dynamic from "next/dynamic";
+
+const DEV_BYPASS_AUTH = process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === "true";
 
 const NotificationBell = dynamic(
   () =>
@@ -83,20 +97,75 @@ function ProcessingIndicator() {
   );
 }
 
-function UserAvatar() {
-  const { user } = useAuth();
+function UserMenu() {
+  const { user, logout } = useAuth();
   const router = useRouter();
   const initials = user?.name
     ? user.name.split(" ").slice(0, 2).map((n) => n[0]).join("").toUpperCase()
     : user?.email?.[0]?.toUpperCase() ?? "U";
+
+  const primaryRole = user?.roles?.[0] as UserRole | undefined;
+  const extraRoles = (user?.roles?.length ?? 0) - 1;
+  const badge = primaryRole
+    ? ROLE_BADGE_COLORS[getRoleColor(primaryRole) as keyof typeof ROLE_BADGE_COLORS]
+    : null;
+
   return (
-    <button
-      onClick={() => router.push("/profile")}
-      className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-semibold hover:opacity-80 transition-opacity"
-      title="Perfil"
-    >
-      {initials}
-    </button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-semibold transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          title="Conta"
+          aria-label="Menu da conta"
+        >
+          {initials}
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-64">
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col gap-1">
+            <span className="truncate text-sm font-semibold leading-tight">
+              {user?.name || user?.email || "Usuário"}
+            </span>
+            {user?.email && (
+              <span className="truncate text-xs font-normal text-muted-foreground">
+                {user.email}
+              </span>
+            )}
+            {primaryRole && (
+              <div className="mt-1 flex flex-wrap gap-1">
+                <Badge
+                  variant="outline"
+                  className={cn("text-[10px] border", badge?.active, badge?.border)}
+                >
+                  {getRoleLabel(primaryRole)}
+                </Badge>
+                {extraRoles > 0 && (
+                  <Badge variant="outline" className="text-[10px]">
+                    +{extraRoles}
+                  </Badge>
+                )}
+              </div>
+            )}
+            {DEV_BYPASS_AUTH && (
+              <span className="mt-1 text-[10px] font-semibold text-amber-600 dark:text-amber-400">
+                ⚠️ DEV BYPASS MODE
+              </span>
+            )}
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={() => router.push("/profile")}>
+          <UserIcon className="mr-2 h-4 w-4" /> Meu perfil
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={logout}
+          className="text-destructive focus:text-destructive"
+        >
+          <LogOut className="mr-2 h-4 w-4" /> {DEV_BYPASS_AUTH ? "Reload" : "Sair"}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
@@ -165,7 +234,7 @@ export function TopBar() {
       <div className="flex items-center gap-2 ml-auto">
         <ProcessingIndicator />
         <NotificationBell />
-        <UserAvatar />
+        <UserMenu />
       </div>
     </div>
   );

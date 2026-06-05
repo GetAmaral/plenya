@@ -7,14 +7,12 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Search, DollarSign } from "lucide-react";
 
-const DEV_BYPASS_AUTH = process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === 'true';
 import {
   Calendar,
   FileText,
   Home,
   Users,
   Microscope,
-  LogOut,
   Stethoscope,
   Network,
   BookOpen,
@@ -50,9 +48,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/use-auth";
 import { isGranted, type UserRole } from "@/lib/auth-store";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { ROLES, ROLE_BADGE_COLORS, getRoleColor, getRoleLabel } from "@/lib/roles";
 import { useConversationsUnreadCount } from "@/lib/api/conversations-api";
 import { useLeads } from "@/lib/api/leads-api";
 import { useLabReviewCount } from "@/lib/api/lab-inbox";
@@ -153,7 +149,7 @@ const isPatientOnly = (user: any) => {
 
 export function CollapsibleSidebar() {
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -297,53 +293,7 @@ export function CollapsibleSidebar() {
               />
             </nav>
 
-            {/* User section */}
-            <div className="border-t border-border p-4">
-              <Link href="/profile">
-                <div className="flex items-center gap-3 rounded-lg bg-accent/50 p-3 cursor-pointer hover:bg-accent transition-colors">
-                  <Avatar className="h-10 w-10 shrink-0">
-                    <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
-                      {user?.name?.substring(0, 2).toUpperCase() || user?.email.substring(0, 2).toUpperCase() || "US"}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 overflow-hidden">
-                    <p className="truncate text-sm font-medium">
-                      {user?.name || user?.email || "Usuário"}
-                    </p>
-                    {user?.roles && user.roles.length > 0 && (
-                      <div className="mt-1 flex flex-wrap gap-1">
-                        {(() => {
-                          const primaryRole = user.roles[0];
-                          const colorScheme = getRoleColor(primaryRole as UserRole);
-                          const badgeClasses = ROLE_BADGE_COLORS[colorScheme as keyof typeof ROLE_BADGE_COLORS];
-                          return (
-                            <Badge
-                              variant="outline"
-                              className={cn("text-xs border", badgeClasses.active, badgeClasses.border)}
-                            >
-                              {getRoleLabel(primaryRole as UserRole)}
-                            </Badge>
-                          );
-                        })()}
-                        {user.roles.length > 1 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{user.roles.length - 1}
-                          </Badge>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Link>
-
-              <button
-                onClick={logout}
-                className="mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
-              >
-                <LogOut className="h-4 w-4" />
-                Sair
-              </button>
-            </div>
+            {/* Conta movida pro menu do avatar no topo direito (top-bar.tsx). */}
           </div>
         </aside>
       </>
@@ -417,98 +367,8 @@ export function CollapsibleSidebar() {
           />
         </nav>
 
-        {/* User Section */}
-        <div className="border-t border-border p-4">
-          {!isCollapsed ? (
-            <>
-              <Link href="/profile">
-                <div className="flex items-center gap-3 rounded-lg bg-accent/50 p-3 cursor-pointer hover:bg-accent transition-colors">
-                  <Avatar className="h-10 w-10 shrink-0">
-                    <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
-                      {user?.name?.substring(0, 2).toUpperCase() || user?.email.substring(0, 2).toUpperCase() || "US"}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 overflow-hidden">
-                    <p className="truncate text-sm font-medium">
-                      {user?.name || user?.email || "Usuário"}
-                    </p>
-                    {user?.roles && user.roles.length > 0 && (
-                      <div className="mt-1 flex flex-wrap gap-1">
-                        {(() => {
-                          const primaryRole = user.roles[0];
-                          const colorScheme = getRoleColor(primaryRole as UserRole);
-                          const badgeClasses = ROLE_BADGE_COLORS[colorScheme as keyof typeof ROLE_BADGE_COLORS];
-                          return (
-                            <Badge
-                              variant="outline"
-                              className={cn("text-xs border", badgeClasses.active, badgeClasses.border)}
-                            >
-                              {getRoleLabel(primaryRole as UserRole)}
-                            </Badge>
-                          );
-                        })()}
-                        {user.roles.length > 1 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{user.roles.length - 1}
-                          </Badge>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Link>
-
-              {DEV_BYPASS_AUTH && (
-                <div className="mt-2 rounded-lg bg-amber-500/10 border border-amber-500/20 p-2">
-                  <p className="text-xs font-semibold text-amber-600 dark:text-amber-400 text-center">
-                    ⚠️ DEV BYPASS MODE
-                  </p>
-                </div>
-              )}
-
-              <button
-                onClick={logout}
-                className="mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
-                title={DEV_BYPASS_AUTH ? "Recarregar página (DEV MODE)" : "Sair do sistema"}
-              >
-                <LogOut className="h-4 w-4" />
-                {DEV_BYPASS_AUTH ? "Reload" : "Sair"}
-              </button>
-
-              <div className="mt-3 text-center">
-                <p className="text-xs text-muted-foreground">
-                  <kbd className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">⌘</kbd>
-                  {" + "}
-                  <kbd className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">B</kbd>
-                </p>
-              </div>
-            </>
-          ) : (
-            <div className="flex flex-col items-center gap-2">
-              {DEV_BYPASS_AUTH && (
-                <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center" title="DEV BYPASS MODE">
-                  <span className="text-amber-600 dark:text-amber-400 text-xs font-bold">⚠️</span>
-                </div>
-              )}
-
-              <Link href="/profile" title="Meu Perfil">
-                <Avatar className="h-10 w-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all">
-                  <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-sm font-semibold text-white">
-                    {user?.name?.substring(0, 2).toUpperCase() || user?.email.substring(0, 2).toUpperCase() || "US"}
-                  </AvatarFallback>
-                </Avatar>
-              </Link>
-
-              <button
-                onClick={logout}
-                className="flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
-                title={DEV_BYPASS_AUTH ? "Reload (DEV MODE)" : "Sair"}
-              >
-                <LogOut className="h-4 w-4" />
-              </button>
-            </div>
-          )}
-        </div>
+        {/* Conta (nome, função, perfil, sair) movida pro menu do avatar no topo direito
+            (top-bar.tsx) — libera o rodapé da sidebar pra navegação. */}
       </div>
     </motion.aside>
   );
