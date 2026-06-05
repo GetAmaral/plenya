@@ -123,12 +123,17 @@ func (r *ScoreSnapshotRepository) GetLatestByPatientID(patientID uuid.UUID) (*mo
 	return &snapshot, nil
 }
 
-// GetTodaySnapshotByPatientID retrieves the snapshot for today (if exists)
+// GetTodaySnapshotByPatientID retrieves the snapshot for today (if exists).
+// IMPORTANTE: só considera snapshots de cálculo do staff (source IS NULL). Snapshots importados
+// do Escore Plenya (source = 'anonymous_import') NÃO são candidatos ao dedup diário — senão um
+// "Calcular Escore" no mesmo dia sobrescreveria/destruiria o import e herdaria a origem errada.
 func (r *ScoreSnapshotRepository) GetTodaySnapshotByPatientID(patientID uuid.UUID) (*models.PatientScoreSnapshot, error) {
 	var snapshot models.PatientScoreSnapshot
 	err := r.db.
 		Where("patient_id = ?", patientID).
 		Where("DATE(calculated_at) = CURRENT_DATE").
+		Where("source IS NULL").
+		Order("calculated_at DESC").
 		First(&snapshot).Error
 
 	if err != nil {

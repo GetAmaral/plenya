@@ -16,6 +16,9 @@ export interface PatientScoreSnapshot {
   itemsEvaluatedCount: number
   itemsNotEvaluatedCount: number
   notes?: string
+  /** "anonymous_import" = snapshot PARCIAL materializado de uma sessão do Escore Plenya (Fase 4). */
+  source?: string
+  sourceSessionId?: string
   displayTitle?: string
   groupResults?: PatientScoreGroupResult[]
   itemResults?: PatientScoreItemResult[]

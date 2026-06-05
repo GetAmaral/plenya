@@ -1428,6 +1428,14 @@ func (s *AnonymousScoreService) ConvertSessionToPatientSnapshot(code string, pat
 		return nil
 	})
 	if err != nil {
+		// Corrida: outra importação concorrente da mesma sessão venceu (índice único parcial
+		// uq_snapshot_source_session). Trata como idempotente — retorna o snapshot existente.
+		if isUniqueViolation(err) {
+			var existing models.PatientScoreSnapshot
+			if e := s.db.Where("source_session_id = ?", session.ID).First(&existing).Error; e == nil {
+				return s.reloadPatientSnapshot(existing.ID)
+			}
+		}
 		return nil, err
 	}
 	return s.reloadPatientSnapshot(newID)

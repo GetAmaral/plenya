@@ -75,6 +75,15 @@ func (s *PatientScoresService) ListAll(patientID uuid.UUID) ([]ScoreEntryView, e
 		out = append(out, entry)
 	}
 
+	// Sessões já importadas pro prontuário (viram snapshot "complete") não devem aparecer
+	// TAMBÉM como "light" — evita o mesmo escore duplicado no histórico.
+	importedSessions := make(map[uuid.UUID]bool)
+	for i := range completes {
+		if completes[i].SourceSessionID != nil {
+			importedSessions[*completes[i].SourceSessionID] = true
+		}
+	}
+
 	// Light (autoavaliações claimed pelo paciente)
 	var lights []models.AnonymousScoreSession
 	err = s.db.
@@ -87,7 +96,7 @@ func (s *PatientScoresService) ListAll(patientID uuid.UUID) ([]ScoreEntryView, e
 	}
 	for i := range lights {
 		sess := &lights[i]
-		if sess.Snapshot == nil {
+		if sess.Snapshot == nil || importedSessions[sess.ID] {
 			continue
 		}
 		entry := ScoreEntryView{

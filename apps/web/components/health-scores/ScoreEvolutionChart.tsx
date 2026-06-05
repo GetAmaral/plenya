@@ -82,7 +82,10 @@ export function ScoreEvolutionChart({ snapshots }: ScoreEvolutionChartProps) {
       "1y": subYears(now, 1),
     }[timeRange]
 
-    return snapshots.filter((s) => isAfter(new Date(s.calculatedAt), cutoffDate))
+    // Exclui imports parciais do Escore Plenya (denominador diferente — distorceriam a curva).
+    return snapshots.filter(
+      (s) => s.source !== "anonymous_import" && isAfter(new Date(s.calculatedAt), cutoffDate)
+    )
   }, [snapshots, timeRange])
 
   // Transform snapshots into chart data

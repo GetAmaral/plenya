@@ -113,6 +113,9 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 			snapshot.ItemsEvaluatedCount = 0
 			snapshot.ItemsNotEvaluatedCount = 0
 			snapshot.Notes = dto.Notes
+			// Defensivo: um recálculo do staff nunca deve carregar origem de import.
+			snapshot.Source = nil
+			snapshot.SourceSessionID = nil
 		} else {
 			// Initialize new snapshot
 			snapshot = &models.PatientScoreSnapshot{
