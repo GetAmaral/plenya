@@ -1,6 +1,6 @@
 {
   "version": "triagem-36",
-  "generatedAt": "2026-06-05T09:28:47.662792215-03:00",
+  "generatedAt": "2026-06-05T09:39:12.386369517-03:00",
   "itemCount": 36,
   "groups": [
     {
@@ -23,7 +23,7 @@
               "anamneseItemCode": "QUALIDADE_DA_ALIMENTACAO_NA_VIDA_ADULTA",
               "patientExplanation": "A qualidade do que você come ao longo da vida adulta é um dos fatores que mais influencia sua saúde a longo prazo. Uma alimentação ruim — com muito pão, açúcar, ultraprocessados e gorduras ruins — cria uma inflamação silenciosa que, ao longo dos anos, aumenta o risco de diabetes, doenças do coração, obesidade e problemas cognitivos.\n\nUma alimentação de qualidade não precisa ser complicada. O essencial é priorizar alimentos de verdade: legumes, verduras, frutas, proteínas naturais (ovos, carnes, peixes) e gorduras boas (azeite, abacate, castanhas). Reduzir industrializados e farináceos é o passo com maior impacto na saúde metabólica.\n\nSeu histórico alimentar é avaliado porque os hábitos acumulados deixam marcas nos exames e no metabolismo. Melhorar a alimentação gradualmente traz benefícios reais e mensuráveis em poucos meses.",
               "siteRenderType": "level_choice",
-              "siteExplanation": "A qualidade do que você come ao longo da vida adulta é um dos fatores que mais influencia sua saúde a longo prazo. Uma alimentação ruim — com muito pão, açúcar, ultraprocessados e gorduras ruins — cria uma inflamação silenciosa que, ao longo dos anos, aumenta o risco de diabetes, doenças do coração, obesidade e problemas cognitivos.\n\nUma alimentação de qualidade não precisa ser complicada. O essencial é priorizar alimentos de verdade: legumes, verduras, frutas, proteínas naturais (ovos, carnes, peixes) e gorduras boas (azeite, abacate, castanhas). Reduzir industrializados e farináceos é o passo com maior impacto na saúde metabólica.\n\nSeu histórico alimentar é avaliado porque os hábitos acumulados deixam marcas nos exames e no metabolismo. Melhorar a alimentação gradualmente traz benefícios reais e mensuráveis em poucos meses.",
+              "siteExplanation": "A qualidade do que você come ao longo da vida adulta é um dos fatores que mais influência sua saúde a longo prazo. Uma alimentação ruim — com muito pão, açúcar, ultraprocessados e gorduras ruins — cria uma inflamação silenciosa que, ao longo dos anos, aumenta o risco de diabetes, doenças do coração, obesidade e problemas cognitivos.\n\nUma alimentação de qualidade não precisa ser complicada. O essencial é priorizar alimentos de verdade: legumes, verduras, frutas, proteínas naturais (ovos, carnes, peixes) e gorduras boas (azeite, abacate, castanhas). Reduzir industrializados e farináceos é o passo com maior impacto na saúde metabólica.\n\nSeu histórico alimentar é avaliado porque os hábitos acumulados deixam marcas nos exames e no metabolismo. Melhorar a alimentação gradualmente traz benefícios reais e mensuráveis em poucos meses.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7928-b1be-28b264d5a9cb",
@@ -44,7 +44,7 @@
                   "level": 2,
                   "name": "Muito seletivo",
                   "operator": "=",
-                  "siteLegend": "Alimentacao muito restrita na vida adulta, vale diversificar."
+                  "siteLegend": "Alimentação muito restrita na vida adulta, vale diversificar."
                 },
                 {
                   "id": "019bf31d-2ef0-7212-9fa3-530fee904b4c",
@@ -556,7 +556,7 @@
                   "level": 0,
                   "name": "Frequentes e intensas (várias por noite)",
                   "operator": "=",
-                  "siteLegend": "Paradas frequentes e intensas na respiracao durante o sono, pedem atencao."
+                  "siteLegend": "Paradas frequentes e intensas na respiração durante o sono, pedem atenção."
                 },
                 {
                   "id": "019bf7af-d85e-7ae4-9b37-17c8d50afc91",
@@ -1266,14 +1266,14 @@
                   "level": 2,
                   "name": "Tenho em estado moderado",
                   "operator": "=",
-                  "siteLegend": "Tem insuficiencia do coracao em grau moderado."
+                  "siteLegend": "Tem insuficiência do coração em grau moderado."
                 },
                 {
                   "id": "019bf31d-2ef0-778a-9785-07ad4445d9cf",
                   "level": 3,
                   "name": "Tenho em estado leve",
                   "operator": "=",
-                  "siteLegend": "Tem insuficiencia do coracao em grau leve."
+                  "siteLegend": "Tem insuficiência do coração em grau leve."
                 },
                 {
                   "id": "019bf31d-2ef0-78d7-9851-29b77eefd5f5",
@@ -1301,7 +1301,7 @@
               "anamneseItemCode": "DIABETES_MELLITUS",
               "patientExplanation": "Diabetes mellitus é uma doença em que o açúcar (glicose) fica em nível alto no sangue porque o organismo não produz ou não usa bem a insulina, o hormônio responsável por levar a glicose para dentro das células. Com o tempo, o excesso de açúcar no sangue vai danificando vasos sanguíneos e nervos em todo o corpo, podendo afetar o coração, rins, olhos e pés.\n\nTer diabetes no histórico de saúde é uma informação muito importante porque ela influencia diretamente como o seu corpo processa alimentos, responde a exercícios e lida com outros fatores de risco. Mesmo que o diabetes esteja controlado atualmente, ele deixa marcas no metabolismo que precisam ser consideradas no planejamento do seu cuidado de saúde.\n\nA boa notícia é que o diabetes tipo 2, em muitos casos, pode ser significativamente controlado — e às vezes até revertido — com mudanças no estilo de vida, alimentação adequada, atividade física regular e, quando necessário, medicamentos. Quanto melhor o controle do açúcar no sangue, menor o risco de complicações a longo prazo. Informar há quanto tempo tem diabetes, qual o grau de controle atual e quais tratamentos já foram utilizados ajuda a construir um plano de saúde personalizado e muito mais eficaz para você.",
               "siteRenderType": "level_choice",
-              "siteExplanation": "Diabetes mellitus é uma doença em que o açúcar (glicose) fica em nível alto no sangue porque o organismo não produz ou não usa bem a insulina, o hormônio responsável por levar a glicose para dentro das células. Com o tempo, o excesso de açúcar no sangue vai danificando vasos sanguíneos e nervos em todo o corpo, podendo afetar o coração, rins, olhos e pés.\n\nTer diabetes no histórico de saúde é uma informação muito importante porque ela influencia diretamente como o seu corpo processa alimentos, responde a exercícios e lida com outros fatores de risco. Mesmo que o diabetes esteja controlado atualmente, ele deixa marcas no metabolismo que precisam ser consideradas no planejamento do seu cuidado de saúde.\n\nA boa notícia é que o diabetes tipo 2, em muitos casos, pode ser significativamente controlado — e às vezes até revertido — com mudanças no estilo de vida, alimentação adequada, atividade física regular e, quando necessário, medicamentos. Quanto melhor o controle do açúcar no sangue, menor o risco de complicações a longo prazo. Informar há quanto tempo tem diabetes, qual o grau de controle atual e quais tratamentos já foram utilizados ajuda a construir um plano de saúde personalizado e muito mais eficaz para você.",
+              "siteExplanation": "Diabetes mellitus é uma doença em que o açúcar (glicose) fica em nível alto no sangue porque o organismo não produz ou não usa bem a insulina, o hormônio responsável por levar a glicose para dentro das células. Com o tempo, o excesso de açúcar no sangue vai danificando vasos sanguíneos e nervos em todo o corpo, podendo afetar o coração, rins, olhos e pés.\n\nTer diabetes no histórico de saúde é uma informação muito importante porque ela influência diretamente como o seu corpo processa alimentos, responde a exercícios e lida com outros fatores de risco. Mesmo que o diabetes esteja controlado atualmente, ele deixa marcas no metabolismo que precisam ser consideradas no planejamento do seu cuidado de saúde.\n\nA boa notícia é que o diabetes tipo 2, em muitos casos, pode ser significativamente controlado — e às vezes até revertido — com mudanças no estilo de vida, alimentação adequada, atividade física regular e, quando necessário, medicamentos. Quanto melhor o controle do açúcar no sangue, menor o risco de complicações a longo prazo. Informar há quanto tempo tem diabetes, qual o grau de controle atual e quais tratamentos já foram utilizados ajuda a construir um plano de saúde personalizado e muito mais eficaz para você.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7ba0-afbd-5bc4cca87ec4",
@@ -1784,7 +1784,7 @@
                   "level": 1,
                   "name": "Tenho consumo alto, todo dia (mais de 4 doses/dia)",
                   "operator": "=",
-                  "siteLegend": "Consumo alto de bebida todo dia, traz risco importante a saude."
+                  "siteLegend": "Consumo alto de bebida todo dia, traz risco importante a saúde."
                 },
                 {
                   "id": "019bf31d-2ef0-7013-a821-7f92b0fac159",

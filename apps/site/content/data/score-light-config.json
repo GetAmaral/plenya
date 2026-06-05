@@ -1,6 +1,6 @@
 {
   "version": "light-83",
-  "generatedAt": "2026-06-05T09:28:47.744524752-03:00",
+  "generatedAt": "2026-06-05T09:39:12.468552567-03:00",
   "itemCount": 83,
   "groups": [
     {
@@ -23,7 +23,7 @@
               "anamneseItemCode": "QUALIDADE_DA_ALIMENTACAO_NA_VIDA_ADULTA",
               "patientExplanation": "A qualidade do que você come ao longo da vida adulta é um dos fatores que mais influencia sua saúde a longo prazo. Uma alimentação ruim — com muito pão, açúcar, ultraprocessados e gorduras ruins — cria uma inflamação silenciosa que, ao longo dos anos, aumenta o risco de diabetes, doenças do coração, obesidade e problemas cognitivos.\n\nUma alimentação de qualidade não precisa ser complicada. O essencial é priorizar alimentos de verdade: legumes, verduras, frutas, proteínas naturais (ovos, carnes, peixes) e gorduras boas (azeite, abacate, castanhas). Reduzir industrializados e farináceos é o passo com maior impacto na saúde metabólica.\n\nSeu histórico alimentar é avaliado porque os hábitos acumulados deixam marcas nos exames e no metabolismo. Melhorar a alimentação gradualmente traz benefícios reais e mensuráveis em poucos meses.",
               "siteRenderType": "level_choice",
-              "siteExplanation": "A qualidade do que você come ao longo da vida adulta é um dos fatores que mais influencia sua saúde a longo prazo. Uma alimentação ruim — com muito pão, açúcar, ultraprocessados e gorduras ruins — cria uma inflamação silenciosa que, ao longo dos anos, aumenta o risco de diabetes, doenças do coração, obesidade e problemas cognitivos.\n\nUma alimentação de qualidade não precisa ser complicada. O essencial é priorizar alimentos de verdade: legumes, verduras, frutas, proteínas naturais (ovos, carnes, peixes) e gorduras boas (azeite, abacate, castanhas). Reduzir industrializados e farináceos é o passo com maior impacto na saúde metabólica.\n\nSeu histórico alimentar é avaliado porque os hábitos acumulados deixam marcas nos exames e no metabolismo. Melhorar a alimentação gradualmente traz benefícios reais e mensuráveis em poucos meses.",
+              "siteExplanation": "A qualidade do que você come ao longo da vida adulta é um dos fatores que mais influência sua saúde a longo prazo. Uma alimentação ruim — com muito pão, açúcar, ultraprocessados e gorduras ruins — cria uma inflamação silenciosa que, ao longo dos anos, aumenta o risco de diabetes, doenças do coração, obesidade e problemas cognitivos.\n\nUma alimentação de qualidade não precisa ser complicada. O essencial é priorizar alimentos de verdade: legumes, verduras, frutas, proteínas naturais (ovos, carnes, peixes) e gorduras boas (azeite, abacate, castanhas). Reduzir industrializados e farináceos é o passo com maior impacto na saúde metabólica.\n\nSeu histórico alimentar é avaliado porque os hábitos acumulados deixam marcas nos exames e no metabolismo. Melhorar a alimentação gradualmente traz benefícios reais e mensuráveis em poucos meses.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7928-b1be-28b264d5a9cb",
@@ -44,7 +44,7 @@
                   "level": 2,
                   "name": "Muito seletivo",
                   "operator": "=",
-                  "siteLegend": "Alimentacao muito restrita na vida adulta, vale diversificar."
+                  "siteLegend": "Alimentação muito restrita na vida adulta, vale diversificar."
                 },
                 {
                   "id": "019bf31d-2ef0-7212-9fa3-530fee904b4c",
@@ -791,7 +791,7 @@
                   "level": 0,
                   "name": "Frequentes e intensas (várias por noite)",
                   "operator": "=",
-                  "siteLegend": "Paradas frequentes e intensas na respiracao durante o sono, pedem atencao."
+                  "siteLegend": "Paradas frequentes e intensas na respiração durante o sono, pedem atenção."
                 },
                 {
                   "id": "019bf7af-d85e-7ae4-9b37-17c8d50afc91",
@@ -1874,7 +1874,7 @@
                   "lowerLimit": "20",
                   "upperLimit": "24.9",
                   "operator": "between",
-                  "siteLegend": "Percentual de gordura corporal em bom nivel para mulher."
+                  "siteLegend": "Percentual de gordura corporal em bom nível para mulher."
                 },
                 {
                   "id": "019bf7af-ba01-7fc2-a389-9292be5b74f1",
@@ -1988,14 +1988,14 @@
                   "level": 2,
                   "name": "Tenho em estado moderado",
                   "operator": "=",
-                  "siteLegend": "Tem insuficiencia do coracao em grau moderado."
+                  "siteLegend": "Tem insuficiência do coração em grau moderado."
                 },
                 {
                   "id": "019bf31d-2ef0-778a-9785-07ad4445d9cf",
                   "level": 3,
                   "name": "Tenho em estado leve",
                   "operator": "=",
-                  "siteLegend": "Tem insuficiencia do coracao em grau leve."
+                  "siteLegend": "Tem insuficiência do coração em grau leve."
                 },
                 {
                   "id": "019bf31d-2ef0-78d7-9851-29b77eefd5f5",
@@ -2023,7 +2023,7 @@
               "anamneseItemCode": "DIABETES_MELLITUS",
               "patientExplanation": "Diabetes mellitus é uma doença em que o açúcar (glicose) fica em nível alto no sangue porque o organismo não produz ou não usa bem a insulina, o hormônio responsável por levar a glicose para dentro das células. Com o tempo, o excesso de açúcar no sangue vai danificando vasos sanguíneos e nervos em todo o corpo, podendo afetar o coração, rins, olhos e pés.\n\nTer diabetes no histórico de saúde é uma informação muito importante porque ela influencia diretamente como o seu corpo processa alimentos, responde a exercícios e lida com outros fatores de risco. Mesmo que o diabetes esteja controlado atualmente, ele deixa marcas no metabolismo que precisam ser consideradas no planejamento do seu cuidado de saúde.\n\nA boa notícia é que o diabetes tipo 2, em muitos casos, pode ser significativamente controlado — e às vezes até revertido — com mudanças no estilo de vida, alimentação adequada, atividade física regular e, quando necessário, medicamentos. Quanto melhor o controle do açúcar no sangue, menor o risco de complicações a longo prazo. Informar há quanto tempo tem diabetes, qual o grau de controle atual e quais tratamentos já foram utilizados ajuda a construir um plano de saúde personalizado e muito mais eficaz para você.",
               "siteRenderType": "level_choice",
-              "siteExplanation": "Diabetes mellitus é uma doença em que o açúcar (glicose) fica em nível alto no sangue porque o organismo não produz ou não usa bem a insulina, o hormônio responsável por levar a glicose para dentro das células. Com o tempo, o excesso de açúcar no sangue vai danificando vasos sanguíneos e nervos em todo o corpo, podendo afetar o coração, rins, olhos e pés.\n\nTer diabetes no histórico de saúde é uma informação muito importante porque ela influencia diretamente como o seu corpo processa alimentos, responde a exercícios e lida com outros fatores de risco. Mesmo que o diabetes esteja controlado atualmente, ele deixa marcas no metabolismo que precisam ser consideradas no planejamento do seu cuidado de saúde.\n\nA boa notícia é que o diabetes tipo 2, em muitos casos, pode ser significativamente controlado — e às vezes até revertido — com mudanças no estilo de vida, alimentação adequada, atividade física regular e, quando necessário, medicamentos. Quanto melhor o controle do açúcar no sangue, menor o risco de complicações a longo prazo. Informar há quanto tempo tem diabetes, qual o grau de controle atual e quais tratamentos já foram utilizados ajuda a construir um plano de saúde personalizado e muito mais eficaz para você.",
+              "siteExplanation": "Diabetes mellitus é uma doença em que o açúcar (glicose) fica em nível alto no sangue porque o organismo não produz ou não usa bem a insulina, o hormônio responsável por levar a glicose para dentro das células. Com o tempo, o excesso de açúcar no sangue vai danificando vasos sanguíneos e nervos em todo o corpo, podendo afetar o coração, rins, olhos e pés.\n\nTer diabetes no histórico de saúde é uma informação muito importante porque ela influência diretamente como o seu corpo processa alimentos, responde a exercícios e lida com outros fatores de risco. Mesmo que o diabetes esteja controlado atualmente, ele deixa marcas no metabolismo que precisam ser consideradas no planejamento do seu cuidado de saúde.\n\nA boa notícia é que o diabetes tipo 2, em muitos casos, pode ser significativamente controlado — e às vezes até revertido — com mudanças no estilo de vida, alimentação adequada, atividade física regular e, quando necessário, medicamentos. Quanto melhor o controle do açúcar no sangue, menor o risco de complicações a longo prazo. Informar há quanto tempo tem diabetes, qual o grau de controle atual e quais tratamentos já foram utilizados ajuda a construir um plano de saúde personalizado e muito mais eficaz para você.",
               "levels": [
                 {
                   "id": "019bf31d-2ef0-7ba0-afbd-5bc4cca87ec4",
@@ -2716,7 +2716,7 @@
                   "level": 0,
                   "name": "Sim",
                   "operator": "=",
-                  "siteLegend": "Em uso de medicacao para emagrecimento ou diabetes."
+                  "siteLegend": "Em uso de medicação para emagrecimento ou diabetes."
                 },
                 {
                   "id": "019bf7af-ba01-7678-8948-04aeb1d0a6a0",
@@ -2842,7 +2842,7 @@
                   "level": 1,
                   "name": "Tenho consumo alto, todo dia (mais de 4 doses/dia)",
                   "operator": "=",
-                  "siteLegend": "Consumo alto de bebida todo dia, traz risco importante a saude."
+                  "siteLegend": "Consumo alto de bebida todo dia, traz risco importante a saúde."
                 },
                 {
                   "id": "019bf31d-2ef0-7013-a821-7f92b0fac159",
@@ -3152,7 +3152,7 @@
                   "level": 0,
                   "name": "Sim, 3 ou mais parentes próximos",
                   "operator": "=",
-                  "siteLegend": "Tres ou mais parentes proximos com colesterol alto, atencao redobrada."
+                  "siteLegend": "Três ou mais parentes próximos com colesterol alto, atenção redobrada."
                 },
                 {
                   "id": "019bf7af-d85e-71a7-8d69-7d6d4e46d3a9",
@@ -3327,7 +3327,7 @@
                   "level": 5,
                   "name": "Tenho rede familiar sólida e relações harmoniosas",
                   "operator": "between",
-                  "siteLegend": "Familia presente e relacoes harmoniosas, otimo apoio."
+                  "siteLegend": "Família presente e relações harmoniosas, ótimo apoio."
                 }
               ]
             }
@@ -3391,7 +3391,7 @@
                   "lowerLimit": "70",
                   "upperLimit": "79",
                   "operator": "between",
-                  "siteLegend": "Particulas que carregam colesterol em nivel bom."
+                  "siteLegend": "Particulas que carregam colesterol em nível bom."
                 },
                 {
                   "id": "019bf31d-2ef0-7343-bf1e-2231188510c1",
@@ -3854,7 +3854,7 @@
                   "lowerLimit": "125",
                   "upperLimit": "299",
                   "operator": "between",
-                  "siteLegend": "Marcador do coracao levemente elevado, vale acompanhar."
+                  "siteLegend": "Marcador do coração levemente elevado, vale acompanhar."
                 },
                 {
                   "id": "019bf31d-2ef0-7c0e-8628-0b33402ea0d5",
@@ -3933,7 +3933,7 @@
                   "lowerLimit": "75",
                   "upperLimit": "249",
                   "operator": "between",
-                  "siteLegend": "Marcador do coracao dentro da faixa esperada para a idade."
+                  "siteLegend": "Marcador do coração dentro da faixa esperada para a idade."
                 },
                 {
                   "id": "019bf31d-2ef0-72cc-8ca1-7eb792a15042",
@@ -3975,7 +3975,7 @@
                   "lowerLimit": "1800",
                   "upperLimit": "4000",
                   "operator": "between",
-                  "siteLegend": "Marcador do coracao bem elevado para a idade, precisa de atencao."
+                  "siteLegend": "Marcador do coração bem elevado para a idade, precisa de atenção."
                 },
                 {
                   "id": "019bf7af-d85e-7d94-93ba-c800d4243eab",
@@ -4010,7 +4010,7 @@
                   "name": "menos que 125",
                   "upperLimit": "125",
                   "operator": "<",
-                  "siteLegend": "Marcador de esforco do coracao em otimo nivel."
+                  "siteLegend": "Marcador de esforco do coração em ótimo nível."
                 }
               ]
             },
@@ -4149,7 +4149,7 @@
               "labTestCode": "PLN1BF562ED",
               "patientExplanation": "A vitamina D é muito mais do que uma vitamina comum — na verdade, ela age como um hormônio no seu corpo e influencia centenas de funções importantes. Quase todas as células do seu organismo têm receptores para ela, o que significa que ela participa da regulação do sistema imunológico, da saúde dos ossos, do humor, da memória, da função cardíaca, do controle do açúcar no sangue e até da prevenção de certos tipos de câncer.\n\nO exame de 25-hidroxivitamina D mede a quantidade desse hormônio no seu sangue. Apesar de o laboratório considerar 20 ng/mL como valor normal, para uma saúde plena e prevenção de doenças, o ideal é manter-se acima de 40 ng/mL. Estima-se que 60% das pessoas no mundo tenham níveis insuficientes, pois a exposição ao sol — principal fonte de vitamina D — é frequentemente inadequada no estilo de vida moderno.\n\nNíveis baixos de vitamina D podem estar relacionados a maior cansaço, infecções frequentes, dores musculares e ósseas, alterações de humor e maior risco de doenças crônicas. Caso seus níveis estejam abaixo do ideal, seu médico poderá indicar suplementação com acompanhamento periódico — não se preocupe, a reposição é segura quando feita corretamente e os benefícios para sua saúde podem ser significativos.",
               "siteRenderType": "numeric_classifier",
-              "siteExplanation": "A vitamina D é muito mais do que uma vitamina comum — na verdade, ela age como um hormônio no seu corpo e influencia centenas de funções importantes. Quase todas as células do seu organismo têm receptores para ela, o que significa que ela participa da regulação do sistema imunológico, da saúde dos ossos, do humor, da memória, da função cardíaca, do controle do açúcar no sangue e até da prevenção de certos tipos de câncer.\n\nO exame de 25-hidroxivitamina D mede a quantidade desse hormônio no seu sangue. Apesar de o laboratório considerar 20 ng/mL como valor normal, para uma saúde plena e prevenção de doenças, o ideal é manter-se acima de 40 ng/mL. Estima-se que 60% das pessoas no mundo tenham níveis insuficientes, pois a exposição ao sol — principal fonte de vitamina D — é frequentemente inadequada no estilo de vida moderno.\n\nNíveis baixos de vitamina D podem estar relacionados a maior cansaço, infecções frequentes, dores musculares e ósseas, alterações de humor e maior risco de doenças crônicas. Caso seus níveis estejam abaixo do ideal, seu médico poderá indicar suplementação com acompanhamento periódico — não se preocupe, a reposição é segura quando feita corretamente e os benefícios para sua saúde podem ser significativos.",
+              "siteExplanation": "A vitamina D é muito mais do que uma vitamina comum — na verdade, ela age como um hormônio no seu corpo e influência centenas de funções importantes. Quase todas as células do seu organismo têm receptores para ela, o que significa que ela participa da regulação do sistema imunológico, da saúde dos ossos, do humor, da memória, da função cardíaca, do controle do açúcar no sangue e até da prevenção de certos tipos de câncer.\n\nO exame de 25-hidroxivitamina D mede a quantidade desse hormônio no seu sangue. Apesar de o laboratório considerar 20 ng/mL como valor normal, para uma saúde plena e prevenção de doenças, o ideal é manter-se acima de 40 ng/mL. Estima-se que 60% das pessoas no mundo tenham níveis insuficientes, pois a exposição ao sol — principal fonte de vitamina D — é frequentemente inadequada no estilo de vida moderno.\n\nNíveis baixos de vitamina D podem estar relacionados a maior cansaço, infecções frequentes, dores musculares e ósseas, alterações de humor e maior risco de doenças crônicas. Caso seus níveis estejam abaixo do ideal, seu médico poderá indicar suplementação com acompanhamento periódico — não se preocupe, a reposição é segura quando feita corretamente e os benefícios para sua saúde podem ser significativos.",
               "levels": [
                 {
                   "id": "019bf7af-ba01-74a0-8638-c7d51dbb0863",
@@ -4366,7 +4366,7 @@
                   "name": "menos que 0.1",
                   "upperLimit": "0.1",
                   "operator": "<",
-                  "siteLegend": "Hormonio da tireoide bem baixo, sinal de tireoide acelerada."
+                  "siteLegend": "Hormônio da tireoide bem baixo, sinal de tireoide acelerada."
                 },
                 {
                   "id": "019bf31d-2ef0-71bf-9c6e-07d6039d0be0",
@@ -4780,7 +4780,7 @@
                   "name": "acima de -1.0 (Normal)",
                   "lowerLimit": "-1.0",
                   "operator": ">",
-                  "siteLegend": "Densidade do osso do quadril normal, resultado otimo."
+                  "siteLegend": "Densidade do osso do quadril normal, resultado ótimo."
                 }
               ]
             }
