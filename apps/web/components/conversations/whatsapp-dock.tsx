@@ -36,6 +36,24 @@ export function WhatsAppDock() {
     return () => window.removeEventListener('keydown', onKey);
   }, [toggle, close]);
 
+  // Trava a rolagem do fundo enquanto o dock está aberto: a barra de rolagem vertical
+  // passa a ser a do painel de WhatsApp, não a da página atrás. Cliques no fundo seguem
+  // funcionando (não-modal) — só o scroll é bloqueado. Compensa a largura da barra pra
+  // não dar "pulo" de layout ao abrir/fechar.
+  useEffect(() => {
+    if (!isOpen) return;
+    const body = document.body;
+    const prevOverflow = body.style.overflow;
+    const prevPadding = body.style.paddingRight;
+    const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    body.style.overflow = 'hidden';
+    if (scrollbarW > 0) body.style.paddingRight = `${scrollbarW}px`;
+    return () => {
+      body.style.overflow = prevOverflow;
+      body.style.paddingRight = prevPadding;
+    };
+  }, [isOpen]);
+
   const allowed =
     isGranted(user, 'admin') || isGranted(user, 'secretary') || isGranted(user, 'manager');
   if (!allowed) return null;
