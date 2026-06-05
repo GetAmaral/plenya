@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { differenceInYears, format } from "date-fns";
 import { useSelectedPatient } from "@/lib/use-selected-patient";
 
@@ -24,9 +24,13 @@ function getGenderLabel(gender: string): string {
 
 export function PatientContextBar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { selectedPatient } = useSelectedPatient();
 
   if (!selectedPatient) return null;
+  // Inbox de CRM (conversas) não é tela clínica — esconde o contexto de paciente
+  // pra não confundir com o contato da conversa (lead/paciente da própria thread).
+  if (pathname?.includes('/conversas')) return null;
 
   const age = differenceInYears(new Date(), new Date(selectedPatient.birthDate));
   const dob = format(new Date(selectedPatient.birthDate), "dd/MM/yyyy");

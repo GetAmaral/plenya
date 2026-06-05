@@ -2,15 +2,21 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { format } from 'date-fns';
+import { format, isSameDay, isToday, isYesterday } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, CalendarPlus, RefreshCw, Sparkles } from 'lucide-react';
+import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, CalendarPlus, RefreshCw, Sparkles, MoreVertical } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import {
   Dialog,
   DialogContent,
@@ -39,13 +45,27 @@ import { AutomationToggle } from './automation-toggle';
 
 type Props = {
   item: ConversationItem;
-  /** Mostra botão "voltar" no header — usado em mobile drawer. */
+  /** Mostra botão "voltar" no header — usado em mobile drawer e no dock. */
   onBack?: () => void;
+  /** Trava o canal do thread + compositor (ex.: 'whatsapp' na página/dock dedicados). */
+  channel?: 'whatsapp' | 'email';
+  /** Agrupa os controles avançados (Resumir/Agendar/Ver ficha/IA) num menu "•••". */
+  menuControls?: boolean;
+  /** Modo enxuto (dock): paddings menores no compositor. */
+  compact?: boolean;
 };
 
 function detailHref(item: ConversationItem): string {
   if (item.ownerType === 'patient') return `/patients/${item.ownerId}`;
   return `/leads/${item.ownerId}`;
+}
+
+/** Rótulo do separador de dia na timeline (Hoje / Ontem / data). */
+function dateDividerLabel(iso: string): string {
+  const d = new Date(iso);
+  if (isToday(d)) return 'Hoje';
+  if (isYesterday(d)) return 'Ontem';
+  return format(d, "d 'de' MMMM 'de' yyyy", { locale: ptBR });
 }
 
 /** Formata bytes pra rótulo curto. */
@@ -472,8 +492,8 @@ function SummaryBullets({ summary }: { summary: string }) {
   return <p className="whitespace-pre-wrap text-sm leading-relaxed">{summary}</p>;
 }
 
-export function ConversationViewer({ item, onBack }: Props) {
-  const { data: messages, isLoading } = useConversationMessages(item.ownerType, item.ownerId);
+export function ConversationViewer({ item, onBack, channel, menuControls, compact }: Props) {
+  const { data: messages, isLoading } = useConversationMessages(item.ownerType, item.ownerId, channel);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const lastScrollKeyRef = useRef<string | null>(null);
 
@@ -551,6 +571,11 @@ export function ConversationViewer({ item, onBack }: Props) {
     );
   }, [messages]);
 
+  const agendarHref =
+    item.ownerType === 'patient'
+      ? `/appointments/new?patientId=${item.ownerId}`
+      : `/leads/${item.ownerId}`;
+
   return (
     <div className="flex h-full min-h-0 flex-col bg-background">
       {/* Header */}
@@ -606,47 +631,81 @@ export function ConversationViewer({ item, onBack }: Props) {
             )}
           </div>
         </div>
-        <AutomationToggle ownerType={item.ownerType} ownerId={item.ownerId} />
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => handleSummarize(false)}
-          disabled={summary.isPending}
-          className="hidden shrink-0 sm:inline-flex"
-          aria-label="Resumir conversa com IA"
-          title="Resumir conversa com IA"
-        >
-          {summary.isPending ? (
-            <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
-          ) : (
-            <Sparkles className="mr-1 h-3.5 w-3.5" />
-          )}
-          Resumir
-        </Button>
-        <Button
-          asChild
-          variant="outline"
-          size="sm"
-          className="hidden shrink-0 sm:inline-flex"
-        >
-          <Link
-            href={
-              item.ownerType === 'patient'
-                ? `/appointments/new?patientId=${item.ownerId}`
-                : `/leads/${item.ownerId}`
-            }
-            title="Agendar consulta para este contato"
-          >
-            <CalendarPlus className="mr-1 h-3.5 w-3.5" /> Agendar
-          </Link>
-        </Button>
-        <Link
-          href={detailHref(item)}
-          className="hidden shrink-0 items-center gap-1 text-xs text-blue-600 hover:underline sm:inline-flex"
-        >
-          Ver detalhe <ExternalLink className="h-3 w-3" />
-        </Link>
+        {menuControls ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="shrink-0"
+                aria-label="Mais ações da conversa"
+                title="Mais ações"
+              >
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-60">
+              <div className="px-2 py-1.5">
+                <p className="mb-1 text-[10px] uppercase tracking-wide text-muted-foreground">
+                  Recepção IA
+                </p>
+                <AutomationToggle ownerType={item.ownerType} ownerId={item.ownerId} />
+              </div>
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+                  handleSummarize(false);
+                }}
+                disabled={summary.isPending}
+              >
+                <Sparkles className="mr-2 h-4 w-4" /> Resumir conversa
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={agendarHref}>
+                  <CalendarPlus className="mr-2 h-4 w-4" /> Agendar consulta
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={detailHref(item)}>
+                  <ExternalLink className="mr-2 h-4 w-4" /> Ver ficha completa
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <>
+            <AutomationToggle ownerType={item.ownerType} ownerId={item.ownerId} />
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => handleSummarize(false)}
+              disabled={summary.isPending}
+              className="hidden shrink-0 sm:inline-flex"
+              aria-label="Resumir conversa com IA"
+              title="Resumir conversa com IA"
+            >
+              {summary.isPending ? (
+                <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Sparkles className="mr-1 h-3.5 w-3.5" />
+              )}
+              Resumir
+            </Button>
+            <Button asChild variant="outline" size="sm" className="hidden shrink-0 sm:inline-flex">
+              <Link href={agendarHref} title="Agendar consulta para este contato">
+                <CalendarPlus className="mr-1 h-3.5 w-3.5" /> Agendar
+              </Link>
+            </Button>
+            <Link
+              href={detailHref(item)}
+              className="hidden shrink-0 items-center gap-1 text-xs text-blue-600 hover:underline sm:inline-flex"
+            >
+              Ver detalhe <ExternalLink className="h-3 w-3" />
+            </Link>
+          </>
+        )}
       </div>
 
       {/* Timeline */}
@@ -669,15 +728,28 @@ export function ConversationViewer({ item, onBack }: Props) {
           </div>
         ) : (
           <div className="space-y-3">
-            {sortedMessages.map((msg) => (
-              <MessageBubble
-                key={msg.id}
-                msg={msg}
-                ownerName={item.name}
-                ownerType={item.ownerType}
-                ownerId={item.ownerId}
-              />
-            ))}
+            {sortedMessages.map((msg, i) => {
+              const prev = i > 0 ? sortedMessages[i - 1] : null;
+              const showDivider =
+                !prev || !isSameDay(new Date(prev.createdAt), new Date(msg.createdAt));
+              return (
+                <div key={msg.id} className="space-y-3">
+                  {showDivider && (
+                    <div className="flex justify-center py-1">
+                      <span className="rounded-full bg-background/80 px-3 py-0.5 text-[11px] font-medium text-muted-foreground shadow-sm ring-1 ring-border">
+                        {dateDividerLabel(msg.createdAt)}
+                      </span>
+                    </div>
+                  )}
+                  <MessageBubble
+                    msg={msg}
+                    ownerName={item.name}
+                    ownerType={item.ownerType}
+                    ownerId={item.ownerId}
+                  />
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
@@ -688,6 +760,8 @@ export function ConversationViewer({ item, onBack }: Props) {
         draftBody={draftBody}
         draftToken={draftToken}
         onSuggestionApplied={handleSuggestionInjected}
+        lockChannel={channel}
+        compact={compact}
       />
 
       {/* Dialog: Resumo IA */}

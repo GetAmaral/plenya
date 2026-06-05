@@ -44,6 +44,13 @@ type Props = {
   draftToken?: number;
   /** Callback quando IA gera sugestão e ela é injetada no campo. */
   onSuggestionApplied?: (text: string) => void;
+  /**
+   * Trava o canal (esconde as abas Email/WhatsApp). Usado nas superfícies dedicadas
+   * (página/dock WhatsApp e caixa de e-mail). Default: deixa o usuário escolher.
+   */
+  lockChannel?: Channel;
+  /** Modo enxuto (dock): textarea menor e padding reduzido. */
+  compact?: boolean;
 };
 
 // Limites: por arquivo 10MB (alinha com handler), total 40MB (limite Resend).
@@ -138,8 +145,10 @@ export function ConversationComposer({
   draftBody,
   draftToken,
   onSuggestionApplied,
+  lockChannel,
+  compact,
 }: Props) {
-  const [channel, setChannel] = useState<Channel>(() => defaultChannel(item));
+  const [channel, setChannel] = useState<Channel>(() => lockChannel ?? defaultChannel(item));
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
   const [showCanned, setShowCanned] = useState(false);
@@ -155,8 +164,8 @@ export function ConversationComposer({
     setSubject('');
     setBody('');
     setAttachments([]);
-    setChannel(defaultChannel(item));
-  }, [item.ownerType, item.ownerId]);
+    setChannel(lockChannel ?? defaultChannel(item));
+  }, [item.ownerType, item.ownerId, lockChannel]);
 
   // Prefill via prop quando o pai (viewer) injeta uma sugestão IA. Effect dispara
   // só quando draftToken muda — permite reaplicar mesmo se vendedor digitou no meio.
@@ -410,43 +419,47 @@ export function ConversationComposer({
   const showAttachUI = true;
 
   return (
-    <div className="border-t border-border bg-background p-3 sm:p-4">
+    <div className={cn('border-t border-border bg-background', compact ? 'p-2' : 'p-3 sm:p-4')}>
       {/* Channel switcher */}
-      <div className="mb-3 flex flex-wrap items-center gap-2" role="tablist" aria-label="Canal de envio">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={channel === 'email'}
-          onClick={() => setChannel('email')}
-          disabled={emailValidation.ok === false && emailValidation.reason === 'Sem email cadastrado.'}
-          title={emailValidation.ok ? '' : emailValidation.reason}
-          className={cn(
-            'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
-            channel === 'email'
-              ? 'border-sky-300 bg-sky-100 text-sky-900'
-              : 'border-border bg-background text-muted-foreground hover:bg-muted',
-            !item.email && 'cursor-not-allowed opacity-50'
-          )}
-        >
-          <Mail className="h-3.5 w-3.5" /> Email
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={channel === 'whatsapp'}
-          onClick={() => setChannel('whatsapp')}
-          disabled={waValidation.ok === false && waValidation.reason === 'Sem WhatsApp cadastrado.'}
-          title={waValidation.ok ? '' : waValidation.reason}
-          className={cn(
-            'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
-            channel === 'whatsapp'
-              ? 'border-emerald-300 bg-emerald-100 text-emerald-900'
-              : 'border-border bg-background text-muted-foreground hover:bg-muted',
-            !item.phone && 'cursor-not-allowed opacity-50'
-          )}
-        >
-          <MessageSquare className="h-3.5 w-3.5" /> WhatsApp
-        </button>
+      <div className={cn('flex flex-wrap items-center gap-2', compact ? 'mb-2' : 'mb-3')} role="tablist" aria-label="Canal de envio">
+        {!lockChannel && (
+          <>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={channel === 'email'}
+              onClick={() => setChannel('email')}
+              disabled={emailValidation.ok === false && emailValidation.reason === 'Sem email cadastrado.'}
+              title={emailValidation.ok ? '' : emailValidation.reason}
+              className={cn(
+                'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
+                channel === 'email'
+                  ? 'border-sky-300 bg-sky-100 text-sky-900'
+                  : 'border-border bg-background text-muted-foreground hover:bg-muted',
+                !item.email && 'cursor-not-allowed opacity-50'
+              )}
+            >
+              <Mail className="h-3.5 w-3.5" /> Email
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={channel === 'whatsapp'}
+              onClick={() => setChannel('whatsapp')}
+              disabled={waValidation.ok === false && waValidation.reason === 'Sem WhatsApp cadastrado.'}
+              title={waValidation.ok ? '' : waValidation.reason}
+              className={cn(
+                'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
+                channel === 'whatsapp'
+                  ? 'border-emerald-300 bg-emerald-100 text-emerald-900'
+                  : 'border-border bg-background text-muted-foreground hover:bg-muted',
+                !item.phone && 'cursor-not-allowed opacity-50'
+              )}
+            >
+              <MessageSquare className="h-3.5 w-3.5" /> WhatsApp
+            </button>
+          </>
+        )}
 
         {/* Recepcionista virtual (Copiloto) — ancorado no script + objeções; ambos canais. */}
         <button
@@ -570,7 +583,7 @@ export function ConversationComposer({
         <textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          rows={4}
+          rows={compact ? 2 : 4}
           placeholder={
             channel === 'email'
               ? 'Escreva o email… (arraste arquivos pra anexar)'
