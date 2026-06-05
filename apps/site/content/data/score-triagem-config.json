@@ -1,6 +1,7 @@
 {
-  "generatedAt": "2026-04-22T14:51:08.646725188-03:00",
-  "version": "triagem-1.0",
+  "version": "triagem-36",
+  "generatedAt": "2026-06-05T09:07:08.800816926-03:00",
+  "itemCount": 36,
   "groups": [
     {
       "id": "019bf31d-2ef0-7059-b778-96fc5a818e16",
@@ -328,38 +329,54 @@
           "order": 2,
           "items": [
             {
-              "id": "c77cedd3-2800-735f-bf28-c5d07d7d7092",
-              "name": "Qualidade percebida do sono",
-              "lightQuestion": "Como você percebe a qualidade do seu sono?",
+              "id": "019c53a6-f1a3-7704-9868-354859c750cd",
+              "name": "Tempo de sono",
+              "lightQuestion": "Quantas horas, em média, você dorme por noite?",
               "gender": "not_applicable",
-              "points": 14,
-              "lightOrder": 72,
-              "anamneseItemCode": "QUALIDADE_PERCEBIDA_DO_SONO",
-              "patientExplanation": "A qualidade do sono é a percepção de como você dormiu: se acordou descansado, se o sono foi contínuo e suficiente para restaurar seu corpo e mente. Dormir bem não é apenas uma questão de conforto — é uma necessidade biológica fundamental. Durante o sono, seu corpo regula hormônios importantes como o cortisol, a insulina e a melatonina, consolida memórias, repara tecidos e equilibra o sistema imunológico. Quando o sono é de má qualidade de forma recorrente, o organismo entra em desequilíbrio: o apetite aumenta (especialmente por doces e alimentos calóricos), a resistência à insulina piora, a inflamação cresce e o risco de doenças como diabetes, problemas cardiovasculares e até câncer aumenta. A boa notícia é que a qualidade do sono responde muito bem a mudanças de hábito, ajustes na rotina, manejo do estresse e, quando necessário, suplementação orientada pelo seu médico.",
+              "points": 20,
+              "lightOrder": 70,
+              "anamneseItemCode": "TEMPO_DE_SONO",
+              "patientExplanation": "O tempo de sono é um dos pilares mais importantes da sua saúde. Dormir bem não é luxo — é uma necessidade biológica fundamental. A recomendação geral para adultos é de 8 horas de sono por noite, e mesmo uma redução pequena, como dormir 6 horas no lugar de 8, já é suficiente para provocar inflamação no organismo, alterar os hormônios da fome (fazendo você sentir mais vontade de comer, especialmente doces), reduzir a sensibilidade do corpo à insulina e enfraquecer o sistema imunológico.\n\nQuando dormimos pouco ou mal por um longo período, aumenta o risco de desenvolver doenças como diabetes, pressão alta, obesidade, depressão e até câncer. O sono é o momento em que o corpo se regenera, consolida a memória e regula os hormônios. Sem esse descanso adequado, praticamente todos os sistemas do organismo são afetados.\n\nA boa notícia: o sono é um dos fatores de saúde mais modificáveis. Pequenas mudanças nos hábitos noturnos podem gerar grandes melhorias na energia, humor, peso e saúde geral.",
               "levels": [
                 {
-                  "id": "019bf7af-d85e-7d30-ab7f-eae69544bd38",
+                  "id": "019c53a6-f1bf-74e9-a0c1-f139ac3b6c24",
                   "level": 0,
-                  "name": "Passo o dia todo cansado, sonolento e sem energia",
-                  "operator": "="
+                  "name": "mais que 10 horas/dia",
+                  "lowerLimit": "10",
+                  "upperLimit": "5",
+                  "operator": ">"
                 },
                 {
-                  "id": "019bf7af-d85e-7d1a-8541-bd84d63a4237",
-                  "level": 2,
-                  "name": "Acordo bem, mas a energia acaba no meio do dia",
-                  "operator": "="
+                  "id": "019c53a6-f2f7-725f-ab15-e255fa6f5725",
+                  "level": 1,
+                  "name": "menos que 4 horas/dia",
+                  "lowerLimit": "4",
+                  "upperLimit": "21",
+                  "operator": "<"
                 },
                 {
-                  "id": "019bf7af-d85e-7637-9990-500c80e7dc9d",
+                  "id": "019c53a6-f31b-76e3-badc-95536d03f373",
                   "level": 3,
-                  "name": "Acordo cansado e depois \"pego no tranco\"",
-                  "operator": "="
+                  "name": "4 a 6 horas/dia",
+                  "lowerLimit": "4",
+                  "upperLimit": "6",
+                  "operator": "between"
                 },
                 {
-                  "id": "019bf7af-d85e-777c-8385-b26bb631f43a",
+                  "id": "019c53a6-f313-7554-af7f-5b53eb223478",
+                  "level": 4,
+                  "name": "8 a 10 horas/dia",
+                  "lowerLimit": "8",
+                  "upperLimit": "10",
+                  "operator": "between"
+                },
+                {
+                  "id": "019c53a6-f323-734a-a78f-eeff912c153f",
                   "level": 5,
-                  "name": "É reparador, com energia o dia todo",
-                  "operator": "="
+                  "name": "6 a 8 horas/dia",
+                  "lowerLimit": "6",
+                  "upperLimit": "8",
+                  "operator": "between"
                 }
               ]
             },
@@ -424,83 +441,37 @@
               ]
             },
             {
-              "id": "019c53a6-f1a3-7704-9868-354859c750cd",
-              "name": "Tempo de sono",
-              "lightQuestion": "Quantas horas, em média, você dorme por noite?",
-              "gender": "not_applicable",
-              "points": 20,
-              "lightOrder": 70,
-              "anamneseItemCode": "TEMPO_DE_SONO",
-              "patientExplanation": "O tempo de sono é um dos pilares mais importantes da sua saúde. Dormir bem não é luxo — é uma necessidade biológica fundamental. A recomendação geral para adultos é de 8 horas de sono por noite, e mesmo uma redução pequena, como dormir 6 horas no lugar de 8, já é suficiente para provocar inflamação no organismo, alterar os hormônios da fome (fazendo você sentir mais vontade de comer, especialmente doces), reduzir a sensibilidade do corpo à insulina e enfraquecer o sistema imunológico.\n\nQuando dormimos pouco ou mal por um longo período, aumenta o risco de desenvolver doenças como diabetes, pressão alta, obesidade, depressão e até câncer. O sono é o momento em que o corpo se regenera, consolida a memória e regula os hormônios. Sem esse descanso adequado, praticamente todos os sistemas do organismo são afetados.\n\nA boa notícia: o sono é um dos fatores de saúde mais modificáveis. Pequenas mudanças nos hábitos noturnos podem gerar grandes melhorias na energia, humor, peso e saúde geral.",
-              "levels": [
-                {
-                  "id": "019c53a6-f1bf-74e9-a0c1-f139ac3b6c24",
-                  "level": 0,
-                  "name": "mais que 10 horas/dia",
-                  "lowerLimit": "10",
-                  "upperLimit": "5",
-                  "operator": ">"
-                },
-                {
-                  "id": "019c53a6-f2f7-725f-ab15-e255fa6f5725",
-                  "level": 1,
-                  "name": "menos que 4 horas/dia",
-                  "lowerLimit": "4",
-                  "upperLimit": "21",
-                  "operator": "<"
-                },
-                {
-                  "id": "019c53a6-f31b-76e3-badc-95536d03f373",
-                  "level": 3,
-                  "name": "4 a 6 horas/dia",
-                  "lowerLimit": "4",
-                  "upperLimit": "6",
-                  "operator": "between"
-                },
-                {
-                  "id": "019c53a6-f313-7554-af7f-5b53eb223478",
-                  "level": 4,
-                  "name": "8 a 10 horas/dia",
-                  "lowerLimit": "8",
-                  "upperLimit": "10",
-                  "operator": "between"
-                },
-                {
-                  "id": "019c53a6-f323-734a-a78f-eeff912c153f",
-                  "level": 5,
-                  "name": "6 a 8 horas/dia",
-                  "lowerLimit": "6",
-                  "upperLimit": "8",
-                  "operator": "between"
-                }
-              ]
-            },
-            {
-              "id": "019c164e-cb2c-747a-bfc7-ffb3e787229f",
-              "name": "Roncos",
-              "lightQuestion": "Você ronca durante o sono?",
+              "id": "c77cedd3-2800-735f-bf28-c5d07d7d7092",
+              "name": "Qualidade percebida do sono",
+              "lightQuestion": "Como você percebe a qualidade do seu sono?",
               "gender": "not_applicable",
               "points": 14,
-              "lightOrder": 76,
-              "anamneseItemCode": "RONCOS",
-              "patientExplanation": "Roncar é o som que ocorre quando o ar passa por vias aéreas parcialmente bloqueadas durante o sono, fazendo vibrar estruturas da garganta. Muitas pessoas acham que é apenas um incômodo, mas roncos frequentes e intensos podem ser sinal de um problema chamado apneia do sono — quando a respiração para por alguns segundos várias vezes durante a noite. Isso pode fazer com que você acorde sem se sentir descansado, fique com sono durante o dia, tenha dificuldade de concentração e, ao longo do tempo, aumente o risco de pressão alta, problemas no coração e alterações hormonais. A boa notícia é que, identificando a causa, é possível tratar com mudanças de hábitos, dispositivos específicos ou outros recursos, melhorando muito a qualidade do sono e a saúde geral.",
+              "lightOrder": 72,
+              "anamneseItemCode": "QUALIDADE_PERCEBIDA_DO_SONO",
+              "patientExplanation": "A qualidade do sono é a percepção de como você dormiu: se acordou descansado, se o sono foi contínuo e suficiente para restaurar seu corpo e mente. Dormir bem não é apenas uma questão de conforto — é uma necessidade biológica fundamental. Durante o sono, seu corpo regula hormônios importantes como o cortisol, a insulina e a melatonina, consolida memórias, repara tecidos e equilibra o sistema imunológico. Quando o sono é de má qualidade de forma recorrente, o organismo entra em desequilíbrio: o apetite aumenta (especialmente por doces e alimentos calóricos), a resistência à insulina piora, a inflamação cresce e o risco de doenças como diabetes, problemas cardiovasculares e até câncer aumenta. A boa notícia é que a qualidade do sono responde muito bem a mudanças de hábito, ajustes na rotina, manejo do estresse e, quando necessário, suplementação orientada pelo seu médico.",
               "levels": [
                 {
-                  "id": "019c164e-e439-72c1-a506-6e3427502a33",
+                  "id": "019bf7af-d85e-7d30-ab7f-eae69544bd38",
                   "level": 0,
-                  "name": "Ronco com frequência e intensidade",
+                  "name": "Passo o dia todo cansado, sonolento e sem energia",
                   "operator": "="
                 },
                 {
-                  "id": "019c164e-e439-78da-8967-8cffe2c1aae4",
-                  "level": 1,
-                  "name": "Ronco esporadicamente",
+                  "id": "019bf7af-d85e-7d1a-8541-bd84d63a4237",
+                  "level": 2,
+                  "name": "Acordo bem, mas a energia acaba no meio do dia",
                   "operator": "="
                 },
                 {
-                  "id": "019c164e-e439-78d8-b08b-9f9e73410aba",
+                  "id": "019bf7af-d85e-7637-9990-500c80e7dc9d",
+                  "level": 3,
+                  "name": "Acordo cansado e depois \"pego no tranco\"",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf7af-d85e-777c-8385-b26bb631f43a",
                   "level": 5,
-                  "name": "Não ronco",
+                  "name": "É reparador, com energia o dia todo",
                   "operator": "="
                 }
               ]
@@ -544,6 +515,36 @@
                   "operator": "="
                 }
               ]
+            },
+            {
+              "id": "019c164e-cb2c-747a-bfc7-ffb3e787229f",
+              "name": "Roncos",
+              "lightQuestion": "Você ronca durante o sono?",
+              "gender": "not_applicable",
+              "points": 14,
+              "lightOrder": 76,
+              "anamneseItemCode": "RONCOS",
+              "patientExplanation": "Roncar é o som que ocorre quando o ar passa por vias aéreas parcialmente bloqueadas durante o sono, fazendo vibrar estruturas da garganta. Muitas pessoas acham que é apenas um incômodo, mas roncos frequentes e intensos podem ser sinal de um problema chamado apneia do sono — quando a respiração para por alguns segundos várias vezes durante a noite. Isso pode fazer com que você acorde sem se sentir descansado, fique com sono durante o dia, tenha dificuldade de concentração e, ao longo do tempo, aumente o risco de pressão alta, problemas no coração e alterações hormonais. A boa notícia é que, identificando a causa, é possível tratar com mudanças de hábitos, dispositivos específicos ou outros recursos, melhorando muito a qualidade do sono e a saúde geral.",
+              "levels": [
+                {
+                  "id": "019c164e-e439-72c1-a506-6e3427502a33",
+                  "level": 0,
+                  "name": "Ronco com frequência e intensidade",
+                  "operator": "="
+                },
+                {
+                  "id": "019c164e-e439-78da-8967-8cffe2c1aae4",
+                  "level": 1,
+                  "name": "Ronco esporadicamente",
+                  "operator": "="
+                },
+                {
+                  "id": "019c164e-e439-78d8-b08b-9f9e73410aba",
+                  "level": 5,
+                  "name": "Não ronco",
+                  "operator": "="
+                }
+              ]
             }
           ]
         }
@@ -559,54 +560,6 @@
           "name": "Atual",
           "order": 2,
           "items": [
-            {
-              "id": "c77cedd3-2800-7bec-942e-c1eed243a6a0",
-              "name": "Capacidade da memória percebida",
-              "lightQuestion": "Como está a sua memória hoje, comparada ao seu auge?",
-              "gender": "not_applicable",
-              "points": 12,
-              "lightOrder": 64,
-              "anamneseItemCode": "CAPACIDADE_DA_MEMORIA_PERCEBIDA",
-              "patientExplanation": "A 'capacidade da memória percebida' avalia como você sente que sua memória está funcionando agora. Quando você percebe que está esquecendo coisas com mais frequência, sentindo a cabeça 'pesada' ou com dificuldade de lembrar nomes e fatos do dia a dia, isso é um sinal importante que merece atenção — mesmo antes de qualquer alteração aparecer em testes formais.\n\nEssa percepção pode surgir anos antes de qualquer problema mais sério: significa que existe uma janela para investigar e agir. Causas comuns incluem deficiências de vitaminas (B12, D, B9), alterações no sono, açúcar elevado, inflamação e estresse crônico. A maioria é tratável quando identificada cedo.\n\nCuidar da memória hoje é cuidar da sua independência no futuro. Uma avaliação completa pode identificar a causa e orientar mudanças no estilo de vida, na alimentação e, quando necessário, na suplementação.",
-              "levels": [
-                {
-                  "id": "019bf7af-d85e-74cc-86a5-881648722367",
-                  "level": 0,
-                  "name": "Pior fase da vida",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf7af-d85e-71d2-857a-abacec602649",
-                  "level": 1,
-                  "name": "Hoje é 20% do meu auge",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf7af-d85e-7216-8373-34d95f6489d1",
-                  "level": 2,
-                  "name": "Hoje é 40% do meu auge",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf7af-d85e-783a-956c-deecaa1a9e09",
-                  "level": 3,
-                  "name": "Hoje é 60% do meu auge",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf7af-d85e-7066-b9f9-2f5216e17ce8",
-                  "level": 4,
-                  "name": "Hoje é 80% do meu auge",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf7af-d85e-744e-8851-02f8de80bdf0",
-                  "level": 5,
-                  "name": "Estou no auge",
-                  "operator": "="
-                }
-              ]
-            },
             {
               "id": "c77cedd3-2800-721b-94d8-b5515b895753",
               "name": "Escala PHQ-9 (humor): ___/27",
@@ -662,6 +615,54 @@
                   "name": "1 ou menos",
                   "upperLimit": "1",
                   "operator": "<="
+                }
+              ]
+            },
+            {
+              "id": "c77cedd3-2800-7bec-942e-c1eed243a6a0",
+              "name": "Capacidade da memória percebida",
+              "lightQuestion": "Como está a sua memória hoje, comparada ao seu auge?",
+              "gender": "not_applicable",
+              "points": 12,
+              "lightOrder": 64,
+              "anamneseItemCode": "CAPACIDADE_DA_MEMORIA_PERCEBIDA",
+              "patientExplanation": "A 'capacidade da memória percebida' avalia como você sente que sua memória está funcionando agora. Quando você percebe que está esquecendo coisas com mais frequência, sentindo a cabeça 'pesada' ou com dificuldade de lembrar nomes e fatos do dia a dia, isso é um sinal importante que merece atenção — mesmo antes de qualquer alteração aparecer em testes formais.\n\nEssa percepção pode surgir anos antes de qualquer problema mais sério: significa que existe uma janela para investigar e agir. Causas comuns incluem deficiências de vitaminas (B12, D, B9), alterações no sono, açúcar elevado, inflamação e estresse crônico. A maioria é tratável quando identificada cedo.\n\nCuidar da memória hoje é cuidar da sua independência no futuro. Uma avaliação completa pode identificar a causa e orientar mudanças no estilo de vida, na alimentação e, quando necessário, na suplementação.",
+              "levels": [
+                {
+                  "id": "019bf7af-d85e-74cc-86a5-881648722367",
+                  "level": 0,
+                  "name": "Pior fase da vida",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf7af-d85e-71d2-857a-abacec602649",
+                  "level": 1,
+                  "name": "Hoje é 20% do meu auge",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf7af-d85e-7216-8373-34d95f6489d1",
+                  "level": 2,
+                  "name": "Hoje é 40% do meu auge",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf7af-d85e-783a-956c-deecaa1a9e09",
+                  "level": 3,
+                  "name": "Hoje é 60% do meu auge",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf7af-d85e-7066-b9f9-2f5216e17ce8",
+                  "level": 4,
+                  "name": "Hoje é 80% do meu auge",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf7af-d85e-744e-8851-02f8de80bdf0",
+                  "level": 5,
+                  "name": "Estou no auge",
+                  "operator": "="
                 }
               ]
             }
@@ -741,64 +742,6 @@
           "name": "Medidas Objetivas",
           "order": 10,
           "items": [
-            {
-              "id": "019bf31d-2ef0-7bb8-8305-e0e0285aeb80",
-              "name": "IMC (kg/m²)",
-              "lightQuestion": "IMC calculado automaticamente a partir do seu peso e altura.",
-              "gender": "not_applicable",
-              "points": 18,
-              "lightOrder": 12,
-              "anamneseItemCode": "IMC",
-              "patientExplanation": "O IMC (Índice de Massa Corporal) é um cálculo simples feito a partir do seu peso e altura que serve para verificar se o seu peso está dentro de uma faixa saudável. Ele é amplamente usado por médicos no mundo todo como uma primeira referência.\n\nNo entanto, é importante saber que o IMC tem limitações: ele não distingue gordura de músculo. Por isso, uma pessoa com muito músculo pode ter IMC elevado sem excesso de gordura, enquanto outra com peso considerado 'normal' pode ter excesso de gordura corporal e pouca musculatura — situação chamada de obesidade sarcopênica, que também traz riscos à saúde.\n\nQuando o IMC está elevado de forma consistente, o excesso de gordura pode promover inflamação no corpo, dificultar o trabalho da insulina (hormônio que regula o açúcar no sangue), sobrecarregar o coração, fígado, rins e articulações, além de aumentar o risco de diversas doenças crônicas. Por isso, além do IMC, seu médico pode solicitar exames de composição corporal e laboratoriais para ter um retrato completo da sua saúde metabólica. O mais importante é entender que pequenas mudanças no estilo de vida — alimentação, exercícios, sono e manejo do estresse — têm grande impacto na melhora desses indicadores.",
-              "levels": [
-                {
-                  "id": "019bf31d-2ef0-7efc-9700-c9c1d19bc352",
-                  "level": 0,
-                  "name": "40 ou mais",
-                  "lowerLimit": "40",
-                  "operator": ">="
-                },
-                {
-                  "id": "019bf31d-2ef0-7591-9f1d-9c9685031742",
-                  "level": 1,
-                  "name": "35-39,9",
-                  "lowerLimit": "35",
-                  "upperLimit": "39.9",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-785d-9446-7e133553c1bc",
-                  "level": 2,
-                  "name": "30-34,9",
-                  "lowerLimit": "30",
-                  "upperLimit": "34.9",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-76fc-84ef-2de42929745e",
-                  "level": 3,
-                  "name": "menos que 18,5",
-                  "upperLimit": "18.5",
-                  "operator": "<"
-                },
-                {
-                  "id": "019bf31d-2ef0-73c5-b391-1e6c2398c8b9",
-                  "level": 4,
-                  "name": "25-29,9",
-                  "lowerLimit": "25",
-                  "upperLimit": "29.9",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7466-b333-d08b427690bf",
-                  "level": 5,
-                  "name": "18,5-24,9",
-                  "lowerLimit": "18.5",
-                  "upperLimit": "24.9",
-                  "operator": "between"
-                }
-              ]
-            },
             {
               "id": "c77cedd3-2800-7aac-985c-c075f020e9e0",
               "name": "Abdominal (cintura em cm) - homem",
@@ -880,64 +823,6 @@
                   "name": "menos que 80",
                   "upperLimit": "80",
                   "operator": "<"
-                }
-              ]
-            },
-            {
-              "id": "019bf31d-2ef0-7171-a061-3bcc500957f7",
-              "name": "Razão cintura/altura (cm/cm)",
-              "lightQuestion": "Razão cintura/altura calculada automaticamente.",
-              "gender": "not_applicable",
-              "points": 22,
-              "lightOrder": 13,
-              "anamneseItemCode": "RAZAO_CINTURA_ALTURA",
-              "patientExplanation": "A razão cintura/altura é uma medida simples que compara o tamanho da sua barriga com a sua altura. Para calculá-la, basta dividir a medida da cintura pela sua altura — ambas em centímetros. O resultado ideal é um número menor que 0,5, o que significa que sua cintura é menor que a metade da sua altura.\n\nEssa medida é importante porque a gordura acumulada na barriga — especialmente a que fica ao redor dos órgãos internos — é diferente da gordura que fica nos braços ou nas coxas. A gordura abdominal libera substâncias que aumentam o risco de doenças do coração, diabetes, pressão alta e outros problemas de saúde.\n\nO que torna essa medida especial é que ela funciona para pessoas de qualquer altura. Pessoas com peso considerado normal pelo IMC podem ainda ter um valor elevado nessa razão, o que significa que a gordura está concentrada em um lugar perigoso mesmo sem sobrepeso aparente.\n\nSe o seu resultado estiver acima de 0,5, isso é um sinal de alerta importante para conversar com seu médico sobre mudanças no estilo de vida — alimentação, exercício físico e outros hábitos que podem reduzir essa gordura e melhorar sua saúde a longo prazo.",
-              "levels": [
-                {
-                  "id": "019bf31d-2ef0-7809-8986-7393ce8fba76",
-                  "level": 0,
-                  "name": "mais que 0,66",
-                  "lowerLimit": "0.66",
-                  "operator": ">"
-                },
-                {
-                  "id": "019bf31d-2ef0-7a82-a9e8-22396af1b561",
-                  "level": 1,
-                  "name": "0,6 a 0,65",
-                  "lowerLimit": "0.6",
-                  "upperLimit": "0.65",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-7ced-a98d-afa2ec96d91e",
-                  "level": 2,
-                  "name": "0,56 a 0,59",
-                  "lowerLimit": "0.56",
-                  "upperLimit": "0.59",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-744a-8a0a-47f56efbc37f",
-                  "level": 3,
-                  "name": "menos que 0,4",
-                  "upperLimit": "0.4",
-                  "operator": "<"
-                },
-                {
-                  "id": "019bf31d-2ef0-7982-be0b-7f655ed89cc0",
-                  "level": 4,
-                  "name": "0,4 a 0,49",
-                  "lowerLimit": "0.4",
-                  "upperLimit": "0.49",
-                  "operator": "between"
-                },
-                {
-                  "id": "019bf31d-2ef0-77a4-b247-fd57d1e93ce4",
-                  "level": 5,
-                  "name": "0,5 a 0,55",
-                  "lowerLimit": "0.5",
-                  "upperLimit": "0.55",
-                  "operator": "between"
                 }
               ]
             },
@@ -1024,6 +909,122 @@
                   "operator": "<"
                 }
               ]
+            },
+            {
+              "id": "019bf31d-2ef0-7bb8-8305-e0e0285aeb80",
+              "name": "IMC (kg/m²)",
+              "lightQuestion": "IMC calculado automaticamente a partir do seu peso e altura.",
+              "gender": "not_applicable",
+              "points": 18,
+              "lightOrder": 12,
+              "anamneseItemCode": "IMC",
+              "patientExplanation": "O IMC (Índice de Massa Corporal) é um cálculo simples feito a partir do seu peso e altura que serve para verificar se o seu peso está dentro de uma faixa saudável. Ele é amplamente usado por médicos no mundo todo como uma primeira referência.\n\nNo entanto, é importante saber que o IMC tem limitações: ele não distingue gordura de músculo. Por isso, uma pessoa com muito músculo pode ter IMC elevado sem excesso de gordura, enquanto outra com peso considerado 'normal' pode ter excesso de gordura corporal e pouca musculatura — situação chamada de obesidade sarcopênica, que também traz riscos à saúde.\n\nQuando o IMC está elevado de forma consistente, o excesso de gordura pode promover inflamação no corpo, dificultar o trabalho da insulina (hormônio que regula o açúcar no sangue), sobrecarregar o coração, fígado, rins e articulações, além de aumentar o risco de diversas doenças crônicas. Por isso, além do IMC, seu médico pode solicitar exames de composição corporal e laboratoriais para ter um retrato completo da sua saúde metabólica. O mais importante é entender que pequenas mudanças no estilo de vida — alimentação, exercícios, sono e manejo do estresse — têm grande impacto na melhora desses indicadores.",
+              "levels": [
+                {
+                  "id": "019bf31d-2ef0-7efc-9700-c9c1d19bc352",
+                  "level": 0,
+                  "name": "40 ou mais",
+                  "lowerLimit": "40",
+                  "operator": ">="
+                },
+                {
+                  "id": "019bf31d-2ef0-7591-9f1d-9c9685031742",
+                  "level": 1,
+                  "name": "35-39,9",
+                  "lowerLimit": "35",
+                  "upperLimit": "39.9",
+                  "operator": "between"
+                },
+                {
+                  "id": "019bf31d-2ef0-785d-9446-7e133553c1bc",
+                  "level": 2,
+                  "name": "30-34,9",
+                  "lowerLimit": "30",
+                  "upperLimit": "34.9",
+                  "operator": "between"
+                },
+                {
+                  "id": "019bf31d-2ef0-76fc-84ef-2de42929745e",
+                  "level": 3,
+                  "name": "menos que 18,5",
+                  "upperLimit": "18.5",
+                  "operator": "<"
+                },
+                {
+                  "id": "019bf31d-2ef0-73c5-b391-1e6c2398c8b9",
+                  "level": 4,
+                  "name": "25-29,9",
+                  "lowerLimit": "25",
+                  "upperLimit": "29.9",
+                  "operator": "between"
+                },
+                {
+                  "id": "019bf31d-2ef0-7466-b333-d08b427690bf",
+                  "level": 5,
+                  "name": "18,5-24,9",
+                  "lowerLimit": "18.5",
+                  "upperLimit": "24.9",
+                  "operator": "between"
+                }
+              ]
+            },
+            {
+              "id": "019bf31d-2ef0-7171-a061-3bcc500957f7",
+              "name": "Razão cintura/altura (cm/cm)",
+              "lightQuestion": "Razão cintura/altura calculada automaticamente.",
+              "gender": "not_applicable",
+              "points": 22,
+              "lightOrder": 13,
+              "anamneseItemCode": "RAZAO_CINTURA_ALTURA",
+              "patientExplanation": "A razão cintura/altura é uma medida simples que compara o tamanho da sua barriga com a sua altura. Para calculá-la, basta dividir a medida da cintura pela sua altura — ambas em centímetros. O resultado ideal é um número menor que 0,5, o que significa que sua cintura é menor que a metade da sua altura.\n\nEssa medida é importante porque a gordura acumulada na barriga — especialmente a que fica ao redor dos órgãos internos — é diferente da gordura que fica nos braços ou nas coxas. A gordura abdominal libera substâncias que aumentam o risco de doenças do coração, diabetes, pressão alta e outros problemas de saúde.\n\nO que torna essa medida especial é que ela funciona para pessoas de qualquer altura. Pessoas com peso considerado normal pelo IMC podem ainda ter um valor elevado nessa razão, o que significa que a gordura está concentrada em um lugar perigoso mesmo sem sobrepeso aparente.\n\nSe o seu resultado estiver acima de 0,5, isso é um sinal de alerta importante para conversar com seu médico sobre mudanças no estilo de vida — alimentação, exercício físico e outros hábitos que podem reduzir essa gordura e melhorar sua saúde a longo prazo.",
+              "levels": [
+                {
+                  "id": "019bf31d-2ef0-7809-8986-7393ce8fba76",
+                  "level": 0,
+                  "name": "mais que 0,66",
+                  "lowerLimit": "0.66",
+                  "operator": ">"
+                },
+                {
+                  "id": "019bf31d-2ef0-7a82-a9e8-22396af1b561",
+                  "level": 1,
+                  "name": "0,6 a 0,65",
+                  "lowerLimit": "0.6",
+                  "upperLimit": "0.65",
+                  "operator": "between"
+                },
+                {
+                  "id": "019bf31d-2ef0-7ced-a98d-afa2ec96d91e",
+                  "level": 2,
+                  "name": "0,56 a 0,59",
+                  "lowerLimit": "0.56",
+                  "upperLimit": "0.59",
+                  "operator": "between"
+                },
+                {
+                  "id": "019bf31d-2ef0-744a-8a0a-47f56efbc37f",
+                  "level": 3,
+                  "name": "menos que 0,4",
+                  "upperLimit": "0.4",
+                  "operator": "<"
+                },
+                {
+                  "id": "019bf31d-2ef0-7982-be0b-7f655ed89cc0",
+                  "level": 4,
+                  "name": "0,4 a 0,49",
+                  "lowerLimit": "0.4",
+                  "upperLimit": "0.49",
+                  "operator": "between"
+                },
+                {
+                  "id": "019bf31d-2ef0-77a4-b247-fd57d1e93ce4",
+                  "level": 5,
+                  "name": "0,5 a 0,55",
+                  "lowerLimit": "0.5",
+                  "upperLimit": "0.55",
+                  "operator": "between"
+                }
+              ]
             }
           ]
         }
@@ -1039,6 +1040,103 @@
           "name": "Doenças crônicas (Questionar ativamente as doenças crônicas mais comuns, perguntar sobre duração, grau de controle e tratamentos utilizados no passado e atualmente)",
           "order": 1,
           "items": [
+            {
+              "id": "019bf31d-2ef0-7de7-a98d-603c41d12ae6",
+              "name": "Doença cardiovascular (IAM, revascularização, AVC, etc)",
+              "lightQuestion": "Você tem ou já teve doença cardiovascular (infarto, angioplastia, AVC)?",
+              "gender": "not_applicable",
+              "points": 35,
+              "lightOrder": 17,
+              "anamneseItemCode": "DOENCA_CARDIOVASCULAR",
+              "patientExplanation": "Doença cardiovascular inclui condições graves do coração e dos vasos sanguíneos, como infarto do miocárdio (quando uma artéria do coração fica bloqueada), AVC (quando isso acontece no cérebro), e procedimentos como colocação de stent ou cirurgia para desobstruir as artérias. Essas doenças ocorrem quando gordura, inflamação e outras substâncias se acumulam nas paredes dos vasos ao longo dos anos, formando placas que podem romper e causar um evento agudo. Ter histórico dessas condições é muito importante para seu médico saber, pois indica que você possui risco elevado de novos eventos e precisa de um acompanhamento mais intensivo — com metas mais rigorosas para colesterol, pressão arterial, inflamação e estilo de vida. Quanto mais bem controlados estiverem esses fatores, menor a chance de um novo problema cardiovascular acontecer. Por isso, relatar qualquer cirurgia cardíaca, internação por infarto, AVC ou procedimento vascular no passado é fundamental para montar o plano de saúde mais adequado para você.",
+              "levels": [
+                {
+                  "id": "019bf31d-2ef0-734a-975d-d3ebad1ecc23",
+                  "level": 0,
+                  "name": "Tive 2 ou mais eventos graves",
+                  "lowerLimit": "2",
+                  "operator": ">="
+                },
+                {
+                  "id": "019bf31d-2ef0-75ec-aa63-51faa67afa8a",
+                  "level": 1,
+                  "name": "Tive pelo menos um evento grave",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-736e-8bef-f30114d0008e",
+                  "level": 2,
+                  "name": "Tive mais de um evento leve sem sequelas",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-7093-be12-e6af6ed947ea",
+                  "level": 3,
+                  "name": "Tive um único evento leve, sem sequelas",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-717a-8147-605f90430a64",
+                  "level": 4,
+                  "name": "Nunca tive, mas tenho histórico familiar forte",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-7cdf-aab7-1ded9fc61475",
+                  "level": 5,
+                  "name": "Nunca tive",
+                  "operator": "="
+                }
+              ]
+            },
+            {
+              "id": "019bf31d-2ef0-7e03-bb24-dbdc747e5fd4",
+              "name": "Insuficiência cardíaca",
+              "lightQuestion": "Você tem diagnóstico de insuficiência cardíaca? (condição em que o coração tem dificuldade de bombear sangue)",
+              "gender": "not_applicable",
+              "points": 35,
+              "lightOrder": 18,
+              "anamneseItemCode": "INSUFICIENCIA_CARDIACA",
+              "patientExplanation": "Insuficiência cardíaca significa que o seu coração não consegue bombear sangue com a força necessária para que todo o seu corpo funcione bem. Isso pode acontecer por várias razões: pressão alta não controlada por muito tempo, infarto antigo, problemas nas válvulas do coração, diabetes ou outras doenças crônicas. Os sintomas mais comuns são cansaço fácil, falta de ar ao fazer esforços ou mesmo em repouso, e inchaço nas pernas e tornozelos.\n\nTer esse diagnóstico no seu histórico é uma informação muito importante para o seu médico, porque o coração insuficiente precisa de cuidado especial em todas as decisões de saúde — desde medicamentos até exercícios e alimentação. A boa notícia é que, com tratamento correto e acompanhamento regular, muitas pessoas com insuficiência cardíaca vivem bem por muitos anos. O controle rigoroso do peso, da pressão, do açúcar no sangue e de hábitos de vida saudáveis faz diferença real na qualidade de vida e na evolução da doença.",
+              "levels": [
+                {
+                  "id": "019bf31d-2ef0-7cd2-a2a7-920bdf79044b",
+                  "level": 0,
+                  "name": "Tenho, em descompensação atual (sintomas piorando)",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-718d-a1eb-411f11965256",
+                  "level": 1,
+                  "name": "Tenho em estado grave",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-78d6-9a8a-f1427ad361b0",
+                  "level": 2,
+                  "name": "Tenho em estado moderado",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-778a-9785-07ad4445d9cf",
+                  "level": 3,
+                  "name": "Tenho em estado leve",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-78d7-9851-29b77eefd5f5",
+                  "level": 4,
+                  "name": "Não tenho, mas tenho histórico familiar forte",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-7502-ba34-04421e3f28f1",
+                  "level": 5,
+                  "name": "Não tenho",
+                  "operator": "="
+                }
+              ]
+            },
             {
               "id": "019bf31d-2ef0-7f17-a053-7f45b7162dd2",
               "name": "Diabetes mellitus",
@@ -1134,103 +1232,6 @@
                   "operator": "="
                 }
               ]
-            },
-            {
-              "id": "019bf31d-2ef0-7e03-bb24-dbdc747e5fd4",
-              "name": "Insuficiência cardíaca",
-              "lightQuestion": "Você tem diagnóstico de insuficiência cardíaca? (condição em que o coração tem dificuldade de bombear sangue)",
-              "gender": "not_applicable",
-              "points": 35,
-              "lightOrder": 18,
-              "anamneseItemCode": "INSUFICIENCIA_CARDIACA",
-              "patientExplanation": "Insuficiência cardíaca significa que o seu coração não consegue bombear sangue com a força necessária para que todo o seu corpo funcione bem. Isso pode acontecer por várias razões: pressão alta não controlada por muito tempo, infarto antigo, problemas nas válvulas do coração, diabetes ou outras doenças crônicas. Os sintomas mais comuns são cansaço fácil, falta de ar ao fazer esforços ou mesmo em repouso, e inchaço nas pernas e tornozelos.\n\nTer esse diagnóstico no seu histórico é uma informação muito importante para o seu médico, porque o coração insuficiente precisa de cuidado especial em todas as decisões de saúde — desde medicamentos até exercícios e alimentação. A boa notícia é que, com tratamento correto e acompanhamento regular, muitas pessoas com insuficiência cardíaca vivem bem por muitos anos. O controle rigoroso do peso, da pressão, do açúcar no sangue e de hábitos de vida saudáveis faz diferença real na qualidade de vida e na evolução da doença.",
-              "levels": [
-                {
-                  "id": "019bf31d-2ef0-7cd2-a2a7-920bdf79044b",
-                  "level": 0,
-                  "name": "Tenho, em descompensação atual (sintomas piorando)",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-718d-a1eb-411f11965256",
-                  "level": 1,
-                  "name": "Tenho em estado grave",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-78d6-9a8a-f1427ad361b0",
-                  "level": 2,
-                  "name": "Tenho em estado moderado",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-778a-9785-07ad4445d9cf",
-                  "level": 3,
-                  "name": "Tenho em estado leve",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-78d7-9851-29b77eefd5f5",
-                  "level": 4,
-                  "name": "Não tenho, mas tenho histórico familiar forte",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-7502-ba34-04421e3f28f1",
-                  "level": 5,
-                  "name": "Não tenho",
-                  "operator": "="
-                }
-              ]
-            },
-            {
-              "id": "019bf31d-2ef0-7de7-a98d-603c41d12ae6",
-              "name": "Doença cardiovascular (IAM, revascularização, AVC, etc)",
-              "lightQuestion": "Você tem ou já teve doença cardiovascular (infarto, angioplastia, AVC)?",
-              "gender": "not_applicable",
-              "points": 35,
-              "lightOrder": 17,
-              "anamneseItemCode": "DOENCA_CARDIOVASCULAR",
-              "patientExplanation": "Doença cardiovascular inclui condições graves do coração e dos vasos sanguíneos, como infarto do miocárdio (quando uma artéria do coração fica bloqueada), AVC (quando isso acontece no cérebro), e procedimentos como colocação de stent ou cirurgia para desobstruir as artérias. Essas doenças ocorrem quando gordura, inflamação e outras substâncias se acumulam nas paredes dos vasos ao longo dos anos, formando placas que podem romper e causar um evento agudo. Ter histórico dessas condições é muito importante para seu médico saber, pois indica que você possui risco elevado de novos eventos e precisa de um acompanhamento mais intensivo — com metas mais rigorosas para colesterol, pressão arterial, inflamação e estilo de vida. Quanto mais bem controlados estiverem esses fatores, menor a chance de um novo problema cardiovascular acontecer. Por isso, relatar qualquer cirurgia cardíaca, internação por infarto, AVC ou procedimento vascular no passado é fundamental para montar o plano de saúde mais adequado para você.",
-              "levels": [
-                {
-                  "id": "019bf31d-2ef0-734a-975d-d3ebad1ecc23",
-                  "level": 0,
-                  "name": "Tive 2 ou mais eventos graves",
-                  "lowerLimit": "2",
-                  "operator": ">="
-                },
-                {
-                  "id": "019bf31d-2ef0-75ec-aa63-51faa67afa8a",
-                  "level": 1,
-                  "name": "Tive pelo menos um evento grave",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-736e-8bef-f30114d0008e",
-                  "level": 2,
-                  "name": "Tive mais de um evento leve sem sequelas",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-7093-be12-e6af6ed947ea",
-                  "level": 3,
-                  "name": "Tive um único evento leve, sem sequelas",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-717a-8147-605f90430a64",
-                  "level": 4,
-                  "name": "Nunca tive, mas tenho histórico familiar forte",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-7cdf-aab7-1ded9fc61475",
-                  "level": 5,
-                  "name": "Nunca tive",
-                  "operator": "="
-                }
-              ]
             }
           ]
         },
@@ -1239,54 +1240,6 @@
           "name": "Histórico de saúde (Questionar ativamente sobre doenças/sintomas - passado ou atual):",
           "order": 2,
           "items": [
-            {
-              "id": "019bf31d-2ef0-71ae-8f72-8330e3072647",
-              "name": "Dispnéia",
-              "lightQuestion": "Você sente falta de ar (dispneia) em situações cotidianas?",
-              "gender": "not_applicable",
-              "points": 20,
-              "lightOrder": 34,
-              "anamneseItemCode": "DISPNEIA",
-              "patientExplanation": "A dispneia é a sensação de falta de ar ou dificuldade para respirar. Ela pode aparecer ao fazer esforço — como subir uma escada ou caminhar rápido — ou mesmo em repouso e à noite, e pode variar de leve a muito intensa.\n\nEssa sensação pode ter muitas origens diferentes: pulmões com inflamação (como na asma ou na DPOC), coração com dificuldade de bombear o sangue de forma eficiente, falta de glóbulos vermelhos suficientes para transportar oxigênio (anemia) ou até alterações nas vias aéreas após infecções como a COVID-19. Cada uma dessas situações tem um tratamento específico e pode ser controlada quando identificada cedo.\n\nMesmo que a falta de ar tenha ocorrido no passado e você esteja bem agora, esse histórico é muito importante para o seu médico. Ele ajuda a entender padrões, prevenir recaídas e identificar condições que talvez ainda estejam ativas de forma silenciosa. Cuidar da respiração é cuidar da sua energia, do seu sono, do seu coração e da sua qualidade de vida.",
-              "levels": [
-                {
-                  "id": "019bf31d-2ef0-7fab-9ab1-26259656ac48",
-                  "level": 0,
-                  "name": "Tenho atualmente",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-7a78-920f-1684388269ac",
-                  "level": 1,
-                  "name": "Tive episódio grave no último ano",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-7ba5-aeb4-d1d257016e3d",
-                  "level": 2,
-                  "name": "Tive episódio leve no último ano",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-7c92-9239-1f1312799d58",
-                  "level": 3,
-                  "name": "Já tive um episódio grave (no passado)",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-782e-9d40-109ca54a86a9",
-                  "level": 4,
-                  "name": "Já tive no passado, sem deixar sequela",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf31d-2ef0-767c-80cb-d9a67dd4d263",
-                  "level": 5,
-                  "name": "Nunca senti",
-                  "operator": "="
-                }
-              ]
-            },
             {
               "id": "019bf31d-2ef0-73fc-b353-73eadb4940d5",
               "name": "Dor torácica",
@@ -1329,6 +1282,54 @@
                 },
                 {
                   "id": "019bf31d-2ef0-7662-be5d-be99c9dc986e",
+                  "level": 5,
+                  "name": "Nunca senti",
+                  "operator": "="
+                }
+              ]
+            },
+            {
+              "id": "019bf31d-2ef0-71ae-8f72-8330e3072647",
+              "name": "Dispnéia",
+              "lightQuestion": "Você sente falta de ar (dispneia) em situações cotidianas?",
+              "gender": "not_applicable",
+              "points": 20,
+              "lightOrder": 34,
+              "anamneseItemCode": "DISPNEIA",
+              "patientExplanation": "A dispneia é a sensação de falta de ar ou dificuldade para respirar. Ela pode aparecer ao fazer esforço — como subir uma escada ou caminhar rápido — ou mesmo em repouso e à noite, e pode variar de leve a muito intensa.\n\nEssa sensação pode ter muitas origens diferentes: pulmões com inflamação (como na asma ou na DPOC), coração com dificuldade de bombear o sangue de forma eficiente, falta de glóbulos vermelhos suficientes para transportar oxigênio (anemia) ou até alterações nas vias aéreas após infecções como a COVID-19. Cada uma dessas situações tem um tratamento específico e pode ser controlada quando identificada cedo.\n\nMesmo que a falta de ar tenha ocorrido no passado e você esteja bem agora, esse histórico é muito importante para o seu médico. Ele ajuda a entender padrões, prevenir recaídas e identificar condições que talvez ainda estejam ativas de forma silenciosa. Cuidar da respiração é cuidar da sua energia, do seu sono, do seu coração e da sua qualidade de vida.",
+              "levels": [
+                {
+                  "id": "019bf31d-2ef0-7fab-9ab1-26259656ac48",
+                  "level": 0,
+                  "name": "Tenho atualmente",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-7a78-920f-1684388269ac",
+                  "level": 1,
+                  "name": "Tive episódio grave no último ano",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-7ba5-aeb4-d1d257016e3d",
+                  "level": 2,
+                  "name": "Tive episódio leve no último ano",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-7c92-9239-1f1312799d58",
+                  "level": 3,
+                  "name": "Já tive um episódio grave (no passado)",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-782e-9d40-109ca54a86a9",
+                  "level": 4,
+                  "name": "Já tive no passado, sem deixar sequela",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf31d-2ef0-767c-80cb-d9a67dd4d263",
                   "level": 5,
                   "name": "Nunca senti",
                   "operator": "="
@@ -1604,71 +1605,35 @@
           "order": 1,
           "items": [
             {
-              "id": "c77cedd3-2800-75fe-b483-ea0183478225",
-              "name": "Hipertensão arterial",
-              "lightQuestion": "Algum parente próximo tem hipertensão arterial?",
+              "id": "c77cedd3-2800-70c7-942e-a1134e3aa05e",
+              "name": "Doença cardiovascular (IAM, revascularização, arritmias, AVC)",
+              "lightQuestion": "Algum parente próximo (pais, irmãos, avós) tem ou teve doença cardiovascular?",
               "gender": "not_applicable",
-              "points": 14,
-              "lightOrder": 27,
-              "anamneseItemCode": "HIPERTENSAO_ARTERIAL",
-              "patientExplanation": "Ter parentes próximos — como pais, irmãos, avós ou filhos — com pressão alta significa que você pode ter uma chance maior de desenvolver essa condição ao longo da vida. A pressão alta raramente causa sintomas, mas quando não controlada, pode sobrecarregar o coração, os rins e os vasos sanguíneos, aumentando o risco de infarto e derrame.\n\nEssa informação não significa que você vai desenvolver pressão alta — significa que vale a pena prestar mais atenção à sua saúde cardiovascular. Com hábitos saudáveis como alimentação equilibrada, prática regular de exercícios, controle do peso e monitoramento periódico da pressão, é possível prevenir ou retardar o surgimento da doença, mesmo tendo predisposição genética.\n\nConverse com seu médico sobre a frequência ideal de verificar sua pressão arterial e quais outros exames podem ser úteis para o seu caso.",
+              "points": 25,
+              "lightOrder": 23,
+              "anamneseItemCode": "DOENCA_CARDIOVASCULAR_2",
+              "patientExplanation": "O histórico familiar de doenças do coração e dos vasos sanguíneos — como infarto, cirurgias cardíacas, arritmias e derrame — em parentes próximos como pais, irmãos, avós, tios e filhos é uma informação muito importante para avaliar sua saúde. Isso ocorre porque parte do risco para essas doenças é herdada geneticamente, ou seja, passa de geração em geração. Ter familiares com essas condições não significa que você vai desenvolvê-las, mas indica que é preciso estar mais atento e fazer acompanhamento preventivo regular. A boa notícia é que mesmo quem tem predisposição genética pode reduzir muito esse risco com hábitos saudáveis: alimentação adequada, atividade física, controle do estresse, sono de qualidade, não fumar e manter o peso em níveis saudáveis. Conhecer esse histórico permite que seu médico solicite exames mais detalhados e personalizados para você, agindo de forma preventiva muito antes de qualquer problema aparecer.",
               "levels": [
                 {
-                  "id": "019bf7af-d85e-7df0-84f9-d67732959e97",
+                  "id": "019bf7af-ba01-7cd5-bde7-38311c940e04",
                   "level": 0,
                   "name": "Sim, 3 ou mais parentes próximos",
                   "operator": "="
                 },
                 {
-                  "id": "019bf7af-d85e-7dcf-a7a3-faef7067f5d2",
+                  "id": "019bf7af-ba01-754a-af01-a081d29f3581",
                   "level": 1,
                   "name": "Sim, 2 parentes próximos",
                   "operator": "="
                 },
                 {
-                  "id": "019bf7af-d85e-74ce-bede-a6915860ea07",
+                  "id": "019bf7af-ba01-79f6-9eb3-fa0c6551f4bb",
                   "level": 2,
                   "name": "Sim, 1 parente próximo",
                   "operator": "="
                 },
                 {
-                  "id": "019bf7af-d85e-7794-a133-26da4b254639",
-                  "level": 5,
-                  "name": "Não tenho conhecimento de casos na família",
-                  "operator": "="
-                }
-              ]
-            },
-            {
-              "id": "c77cedd3-2800-7524-9049-f4559170db14",
-              "name": "Diabetes mellitus / pré-diabetes / resistência insulínica",
-              "lightQuestion": "Algum parente próximo tem diabetes, pré-diabetes ou resistência insulínica?",
-              "gender": "not_applicable",
-              "points": 18,
-              "lightOrder": 25,
-              "anamneseItemCode": "DIABETES_MELLITUS_PRE_DIABETES_RESISTENCIA_INSULINICA",
-              "patientExplanation": "Ter familiares próximos — como pais, irmãos, avós ou filhos — com diabetes, pré-diabetes ou dificuldade de usar bem a insulina aumenta a sua chance de desenvolver essas condições. Isso acontece porque parte da forma como o corpo regula o açúcar no sangue é herdada geneticamente. A boa notícia é que a genética não é destino: escolhas de alimentação, exercício, sono e manejo do estresse têm grande poder de prevenir ou retardar o aparecimento do diabetes, mesmo em quem tem predisposição familiar. O pré-diabetes e a resistência à insulina costumam se instalar silenciosamente por anos antes de qualquer sintoma, por isso saber que há histórico na família é uma oportunidade valiosa para agir cedo, com exames preventivos e mudanças de hábito que realmente fazem diferença.",
-              "levels": [
-                {
-                  "id": "019bf7af-ba01-78a6-a2fe-1aa6b36580be",
-                  "level": 0,
-                  "name": "Sim, 3 ou mais parentes próximos",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf7af-ba01-7114-9baf-4be4b09bb50f",
-                  "level": 1,
-                  "name": "Sim, 2 parentes próximos",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf7af-ba01-70ae-8a79-ed4c3fd4ca62",
-                  "level": 2,
-                  "name": "Sim, 1 parente próximo",
-                  "operator": "="
-                },
-                {
-                  "id": "019bf7af-ba01-7fa8-af4c-f766816b3eb6",
+                  "id": "019bf7af-ba01-7589-8be1-f4287185761f",
                   "level": 5,
                   "name": "Não tenho conhecimento de casos na família",
                   "operator": "="
@@ -1712,35 +1677,71 @@
               ]
             },
             {
-              "id": "c77cedd3-2800-70c7-942e-a1134e3aa05e",
-              "name": "Doença cardiovascular (IAM, revascularização, arritmias, AVC)",
-              "lightQuestion": "Algum parente próximo (pais, irmãos, avós) tem ou teve doença cardiovascular?",
+              "id": "c77cedd3-2800-7524-9049-f4559170db14",
+              "name": "Diabetes mellitus / pré-diabetes / resistência insulínica",
+              "lightQuestion": "Algum parente próximo tem diabetes, pré-diabetes ou resistência insulínica?",
               "gender": "not_applicable",
-              "points": 25,
-              "lightOrder": 23,
-              "anamneseItemCode": "DOENCA_CARDIOVASCULAR_2",
-              "patientExplanation": "O histórico familiar de doenças do coração e dos vasos sanguíneos — como infarto, cirurgias cardíacas, arritmias e derrame — em parentes próximos como pais, irmãos, avós, tios e filhos é uma informação muito importante para avaliar sua saúde. Isso ocorre porque parte do risco para essas doenças é herdada geneticamente, ou seja, passa de geração em geração. Ter familiares com essas condições não significa que você vai desenvolvê-las, mas indica que é preciso estar mais atento e fazer acompanhamento preventivo regular. A boa notícia é que mesmo quem tem predisposição genética pode reduzir muito esse risco com hábitos saudáveis: alimentação adequada, atividade física, controle do estresse, sono de qualidade, não fumar e manter o peso em níveis saudáveis. Conhecer esse histórico permite que seu médico solicite exames mais detalhados e personalizados para você, agindo de forma preventiva muito antes de qualquer problema aparecer.",
+              "points": 18,
+              "lightOrder": 25,
+              "anamneseItemCode": "DIABETES_MELLITUS_PRE_DIABETES_RESISTENCIA_INSULINICA",
+              "patientExplanation": "Ter familiares próximos — como pais, irmãos, avós ou filhos — com diabetes, pré-diabetes ou dificuldade de usar bem a insulina aumenta a sua chance de desenvolver essas condições. Isso acontece porque parte da forma como o corpo regula o açúcar no sangue é herdada geneticamente. A boa notícia é que a genética não é destino: escolhas de alimentação, exercício, sono e manejo do estresse têm grande poder de prevenir ou retardar o aparecimento do diabetes, mesmo em quem tem predisposição familiar. O pré-diabetes e a resistência à insulina costumam se instalar silenciosamente por anos antes de qualquer sintoma, por isso saber que há histórico na família é uma oportunidade valiosa para agir cedo, com exames preventivos e mudanças de hábito que realmente fazem diferença.",
               "levels": [
                 {
-                  "id": "019bf7af-ba01-7cd5-bde7-38311c940e04",
+                  "id": "019bf7af-ba01-78a6-a2fe-1aa6b36580be",
                   "level": 0,
                   "name": "Sim, 3 ou mais parentes próximos",
                   "operator": "="
                 },
                 {
-                  "id": "019bf7af-ba01-754a-af01-a081d29f3581",
+                  "id": "019bf7af-ba01-7114-9baf-4be4b09bb50f",
                   "level": 1,
                   "name": "Sim, 2 parentes próximos",
                   "operator": "="
                 },
                 {
-                  "id": "019bf7af-ba01-79f6-9eb3-fa0c6551f4bb",
+                  "id": "019bf7af-ba01-70ae-8a79-ed4c3fd4ca62",
                   "level": 2,
                   "name": "Sim, 1 parente próximo",
                   "operator": "="
                 },
                 {
-                  "id": "019bf7af-ba01-7589-8be1-f4287185761f",
+                  "id": "019bf7af-ba01-7fa8-af4c-f766816b3eb6",
+                  "level": 5,
+                  "name": "Não tenho conhecimento de casos na família",
+                  "operator": "="
+                }
+              ]
+            },
+            {
+              "id": "c77cedd3-2800-75fe-b483-ea0183478225",
+              "name": "Hipertensão arterial",
+              "lightQuestion": "Algum parente próximo tem hipertensão arterial?",
+              "gender": "not_applicable",
+              "points": 14,
+              "lightOrder": 27,
+              "anamneseItemCode": "HIPERTENSAO_ARTERIAL",
+              "patientExplanation": "Ter parentes próximos — como pais, irmãos, avós ou filhos — com pressão alta significa que você pode ter uma chance maior de desenvolver essa condição ao longo da vida. A pressão alta raramente causa sintomas, mas quando não controlada, pode sobrecarregar o coração, os rins e os vasos sanguíneos, aumentando o risco de infarto e derrame.\n\nEssa informação não significa que você vai desenvolver pressão alta — significa que vale a pena prestar mais atenção à sua saúde cardiovascular. Com hábitos saudáveis como alimentação equilibrada, prática regular de exercícios, controle do peso e monitoramento periódico da pressão, é possível prevenir ou retardar o surgimento da doença, mesmo tendo predisposição genética.\n\nConverse com seu médico sobre a frequência ideal de verificar sua pressão arterial e quais outros exames podem ser úteis para o seu caso.",
+              "levels": [
+                {
+                  "id": "019bf7af-d85e-7df0-84f9-d67732959e97",
+                  "level": 0,
+                  "name": "Sim, 3 ou mais parentes próximos",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf7af-d85e-7dcf-a7a3-faef7067f5d2",
+                  "level": 1,
+                  "name": "Sim, 2 parentes próximos",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf7af-d85e-74ce-bede-a6915860ea07",
+                  "level": 2,
+                  "name": "Sim, 1 parente próximo",
+                  "operator": "="
+                },
+                {
+                  "id": "019bf7af-d85e-7794-a133-26da4b254639",
                   "level": 5,
                   "name": "Não tenho conhecimento de casos na família",
                   "operator": "="
@@ -1751,6 +1752,5 @@
         }
       ]
     }
-  ],
-  "itemCount": 36
+  ]
 }

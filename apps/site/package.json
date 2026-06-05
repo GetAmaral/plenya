@@ -10,7 +10,7 @@
     "lint": "next lint",
     "validate-content": "tsx scripts/validate-content.ts",
     "clean": "rm -rf .next node_modules",
-    "sync:score-light": "tsx scripts/sync-score-light.ts"
+    "sync:score-versions": "tsx scripts/sync-score-versions.ts"
   },
   "dependencies": {
     "@plenya/brand": "workspace:*",
