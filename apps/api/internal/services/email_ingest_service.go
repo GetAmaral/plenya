@@ -33,14 +33,15 @@ import (
 // Inbox → ProcessInboundEmail (cria/atualiza Lead).
 // Sent  → RecordOutboundEmailMirror (registra histórico, não cria Lead).
 type EmailIngestService struct {
-	db      *gorm.DB
-	cfg     *config.Config
-	leadSvc *LeadService
+	db       *gorm.DB
+	cfg      *config.Config
+	leadSvc  *LeadService
+	notifSvc *NotificationEmailService
 }
 
 // NewEmailIngestService constrói o serviço (não inicia o worker — chame Start).
-func NewEmailIngestService(db *gorm.DB, cfg *config.Config, leadSvc *LeadService) *EmailIngestService {
-	return &EmailIngestService{db: db, cfg: cfg, leadSvc: leadSvc}
+func NewEmailIngestService(db *gorm.DB, cfg *config.Config, leadSvc *LeadService, notifSvc *NotificationEmailService) *EmailIngestService {
+	return &EmailIngestService{db: db, cfg: cfg, leadSvc: leadSvc, notifSvc: notifSvc}
 }
 
 // Start lança um worker por folder configurado. Retorna imediatamente.
@@ -261,7 +262,29 @@ func (s *EmailIngestService) processEmail(folder string, uid uint32, raw []byte)
 	}
 
 	if IsBot(fromAddr) {
-		log.Printf("📧 [MAIL INGEST %s] uid=%d skip (bot/newsletter): %s", folder, uid, fromAddr)
+		// E-mail automático não vira Lead, mas vai pro bucket "Notificações" (caixa de
+		// e-mail) — só inbound; Sent automático a gente ignora de fato.
+		if !isSentFolder(folder) && s.notifSvc != nil {
+			recv := pe.Date
+			if recv.IsZero() {
+				recv = time.Now().UTC()
+			}
+			var msgID *string
+			if m := strings.TrimSpace(pe.MessageID); m != "" {
+				msgID = &m
+			}
+			if err := s.notifSvc.Record(NotificationEmailInput{
+				FromEmail:  fromAddr,
+				FromName:   fromName,
+				Subject:    pe.Subject,
+				BodyText:   pe.BodyText,
+				MessageID:  msgID,
+				ReceivedAt: recv,
+			}); err != nil {
+				log.Printf("⚠️  [MAIL INGEST %s] uid=%d record notification: %v", folder, uid, err)
+			}
+		}
+		log.Printf("📧 [MAIL INGEST %s] uid=%d bucket Notificações (bot/newsletter): %s", folder, uid, fromAddr)
 		return nil
 	}
 

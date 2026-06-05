@@ -295,7 +295,8 @@ func setupRoutes(
 	whatsappService := services.NewWhatsAppService(cfg)
 	leadService := services.NewLeadService(database.DB, notificationService, whatsappService, emailService, cfg)
 	// Email ingest worker (IMAP IDLE → LeadActivity). No-op se MAIL_INGEST_ENABLED=false.
-	emailIngestService := services.NewEmailIngestService(database.DB, cfg, leadService)
+	notificationEmailService := services.NewNotificationEmailService(database.DB)
+	emailIngestService := services.NewEmailIngestService(database.DB, cfg, leadService, notificationEmailService)
 	emailIngestService.Start(context.Background())
 	anonymousScoreService := services.NewAnonymousScoreService(database.DB, scoreRepo, cfg, emailService, whatsappService, leadService)
 	labResultValueService := services.NewLabResultValueService(labResultValueRepo)
@@ -395,6 +396,7 @@ func setupRoutes(
 	conversationService := services.NewConversationService(database.DB, leadService, emailService, whatsappService, notificationService, aiService)
 	conversationAutomationService := services.NewConversationAutomationService(database.DB, cfg)
 	conversationHandler := handlers.NewConversationHandler(conversationService, conversationAutomationService)
+	notificationEmailHandler := handlers.NewNotificationEmailHandler(notificationEmailService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
 	// Portal do Paciente (minha.plenyasaude.com.br) — auth + dashboard + appointments.
@@ -547,6 +549,10 @@ func setupRoutes(
 	conv.Use(middleware.AuditLog(database.DB))
 	conv.Get("/", conversationHandler.List)
 	conv.Get("/ai/metrics", conversationHandler.ReceptionMetrics)
+	// Bucket "Notificações" (e-mails automáticos). Rotas estáticas — antes das paramétricas
+	// /:type/:id pra não colidir.
+	conv.Get("/notifications", notificationEmailHandler.List)
+	conv.Post("/notifications/:id/read", notificationEmailHandler.MarkRead)
 	conv.Post("/attachments/upload", conversationAttachmentHandler.Upload)
 	conv.Post("/compose", conversationHandler.Compose)
 	conv.Get("/:type/:id/messages", conversationHandler.Messages)

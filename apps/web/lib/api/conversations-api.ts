@@ -628,3 +628,51 @@ export function initials(name: string): string {
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
+
+// =====================================================
+// Bucket "Notificações" — e-mails automáticos (no-reply, newsletters)
+// =====================================================
+
+export interface NotificationEmail {
+  id: string;
+  fromEmail: string;
+  fromName?: string;
+  subject: string;
+  bodyText: string;
+  messageId?: string;
+  receivedAt: string;
+  isRead: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface NotificationEmailList {
+  items: NotificationEmail[];
+  unreadCount: number;
+}
+
+/** Lista e-mails automáticos do bucket Notificações. Polling leve (30s). */
+export function useNotificationEmails(unreadOnly = false) {
+  return useQuery({
+    queryKey: ['conversations', 'notifications', { unreadOnly }],
+    queryFn: () =>
+      apiClient.get<NotificationEmailList>(
+        `/api/v1/conversations/notifications?limit=200${unreadOnly ? '&unread_only=true' : ''}`
+      ),
+    staleTime: 15_000,
+    refetchInterval: 30_000,
+    refetchOnWindowFocus: true,
+  });
+}
+
+/** Marca uma notificação como lida. */
+export function useMarkNotificationRead() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) =>
+      apiClient.post(`/api/v1/conversations/notifications/${id}/read`, {}),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['conversations', 'notifications'] });
+    },
+  });
+}
