@@ -21,6 +21,8 @@ interface RadarAgirProps {
   pillars: RadarPillar[]
   globalScore?: number
   ariaLabel?: string
+  /** Classe Tailwind de largura máxima do radar (responsivo: w-full + cap). */
+  maxWidthClass?: string
 }
 
 // ── Paleta Plenya (mesma do radar do site /escore-plenya) ───────────────
@@ -85,7 +87,7 @@ function tooltipPlacementForAngle(angle: number) {
   return { horizontal: 'right' as const, vertical: 'center' as const }
 }
 
-export function RadarAgir({ letters, pillars, globalScore, ariaLabel }: RadarAgirProps) {
+export function RadarAgir({ letters, pillars, globalScore, ariaLabel, maxWidthClass = 'max-w-[26rem]' }: RadarAgirProps) {
   const [hovered, setHovered] = useState<Hovered>({ type: 'none' })
 
   // Largura angular de cada letra PROPORCIONAL ao seu nº de pilares VISÍVEIS,
@@ -248,9 +250,9 @@ export function RadarAgir({ letters, pillars, globalScore, ariaLabel }: RadarAgi
       : 0)
 
   return (
-    <figure className="flex flex-col items-center gap-5 select-none">
+    <figure className={`flex flex-col items-center gap-5 select-none w-full ${maxWidthClass} mx-auto`}>
       <div
-        className="relative w-full max-w-[26rem] aspect-square"
+        className="relative w-full aspect-square"
         onMouseLeave={() => setHovered({ type: 'none' })}
       >
         <svg

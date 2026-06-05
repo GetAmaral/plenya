@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Activity, Plus, AlertCircle } from "lucide-react"
 import { useLatestHealthScore, useHealthScores } from "@/lib/api/health-score-api"
-import { ScoreSnapshotSummary } from "@/components/health-scores/ScoreSnapshotSummary"
 import { ScoreHistoryTable } from "@/components/health-scores/ScoreHistoryTable"
 import { CalculateScoreDialog } from "@/components/health-scores/CalculateScoreDialog"
 import { ScoreRadarChart } from "@/components/health-scores/ScoreRadarChart"
@@ -69,10 +68,8 @@ export default function HealthScoresPage() {
         </Alert>
       ) : latestSnapshot ? (
         <>
-          {/* Card de Score Total (sem os cards de detalhes) */}
-          <ScoreSnapshotSummary snapshot={latestSnapshot} showDetailCards={false}>
-            <ScoreRadarChart snapshot={latestSnapshot} />
-          </ScoreSnapshotSummary>
+          {/* Radar AGIR — elemento primário, grande, no topo da tela */}
+          <ScoreRadarChart snapshot={latestSnapshot} />
 
           {/* Accordion de metodologia (igual à página de detalhes) */}
           <ScoreMethodologyAccordion snapshot={latestSnapshot} />
