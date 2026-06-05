@@ -1,13 +1,29 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import {
+  RadarAgir as SharedRadarAgir,
+  buildAgir,
+  type RadarLabels,
+} from '@plenya/ui/score-radar';
 import { Link, useRouter } from '@/lib/i18n/navigation';
 import { ScoreRadarChart } from './score-radar-chart';
 import { PhoneInput } from '@/components/forms/phone-input';
 import { requestClaim, deleteSession, exportSessionURL } from '@/lib/score-light/api';
 import { PRIVACY_POLICY_VERSION } from '@/lib/legal';
 import type { PublicSession } from '@/lib/score-light/types';
+
+// Glifo AGIR (PT) → ACTS (EN): A→A, G→C, I→T, R→S. O `code` interno segue A/G/I/R.
+const EN_DISPLAY: Record<string, string> = { A: 'A', G: 'C', I: 'T', R: 'S' };
+
+const EN_LABELS: RadarLabels = {
+  letterTag: (code, count) =>
+    count === 0
+      ? `Letter ${code} · no data`
+      : `Letter ${code} · ${count} ${count === 1 ? 'pillar' : 'pillars'}`,
+  pillarTag: (code) => `Pillar · letter ${code}`,
+};
 
 function scoreLabel(pct: number, t: (k: string) => string): string {
   if (pct >= 80) return t('resultScoreLabelExcellent');
@@ -23,6 +39,7 @@ export function EscoreLightResultado({
   locale: string;
 }) {
   const t = useTranslations('escoreLight');
+  const isEn = useLocale() === 'en';
   const snapshot = session.snapshot;
   const router = useRouter();
   const [wantEmail, setWantEmail] = useState(true);
@@ -75,6 +92,10 @@ export function EscoreLightResultado({
   const radarData = snapshot.groupResults
     .filter((g) => g.itemsEvaluatedCount > 0)
     .map((g) => ({ label: g.groupName, value: g.scorePercentage }));
+
+  // Radar por PILAR (AGIR) quando a sessão tem per-item results com pilares (Fase 3+).
+  // Sessões antigas (sem itemResults) → buildAgir retorna null → fallback por grupo.
+  const agir = buildAgir(snapshot);
 
   const emailValid = wantEmail ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) : true;
   const phoneValid = wantWhatsApp ? /^\+55\d{2}9\d{8}$/.test(phoneE164) : true;
@@ -135,7 +156,20 @@ export function EscoreLightResultado({
             </p>
           </div>
           <div className="flex justify-center">
-            {radarData.length >= 3 ? (
+            {/* Radar por pilar só quando há ≥3 pilares preenchidos (o polígono precisa de 3
+                vértices). Com menos, cai no radar por grupo — simétrico ao guard do fallback. */}
+            {agir && agir.pillars.length >= 3 ? (
+              <SharedRadarAgir
+                letters={agir.letters.map((l) => ({
+                  ...l,
+                  label: isEn ? (EN_DISPLAY[l.code] ?? l.code) : undefined,
+                }))}
+                pillars={agir.pillars}
+                globalScore={Math.round(totalPct)}
+                maxWidthClass="max-w-[26rem] md:max-w-[28rem]"
+                labels={isEn ? EN_LABELS : undefined}
+              />
+            ) : radarData.length >= 3 ? (
               <ScoreRadarChart data={radarData} size={400} />
             ) : (
               <p className="text-petrol/60">

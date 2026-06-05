@@ -264,6 +264,7 @@ func AutoMigrate() error {
 		&models.AnonymousScoreItem{},
 		&models.AnonymousScoreSnapshot{},
 		&models.AnonymousScoreGroupResult{},
+		&models.AnonymousScoreItemResult{},
 
 		// CRM — Leads
 		&models.Lead{},

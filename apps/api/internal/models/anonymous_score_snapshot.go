@@ -40,8 +40,9 @@ type AnonymousScoreSnapshot struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 
 	// Relationships
-	Session      *AnonymousScoreSession           `gorm:"foreignKey:SessionID;constraint:OnDelete:CASCADE" json:"-"`
-	GroupResults []AnonymousScoreGroupResult      `gorm:"foreignKey:SnapshotID;constraint:OnDelete:CASCADE" json:"groupResults,omitempty"`
+	Session      *AnonymousScoreSession      `gorm:"foreignKey:SessionID;constraint:OnDelete:CASCADE" json:"-"`
+	GroupResults []AnonymousScoreGroupResult `gorm:"foreignKey:SnapshotID;constraint:OnDelete:CASCADE" json:"groupResults,omitempty"`
+	ItemResults  []AnonymousScoreItemResult  `gorm:"foreignKey:SnapshotID;constraint:OnDelete:CASCADE" json:"itemResults,omitempty"`
 }
 
 // TableName specifies the table name

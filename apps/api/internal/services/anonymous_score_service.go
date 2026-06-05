@@ -540,6 +540,34 @@ type PublicGroupResult struct {
 	ItemsEvaluatedCount int       `json:"itemsEvaluatedCount"`
 }
 
+// PublicMethodLetter/Pillar/ItemResult expõem o resultado por-item com o pilar AGIR, no shape
+// que @plenya/ui buildAgir consome (itemResults[].item.methodPillars[].letter) → radar por pilar.
+type PublicMethodLetter struct {
+	Code  string  `json:"code"`
+	Name  string  `json:"name"`
+	Color *string `json:"color,omitempty"`
+	Order int     `json:"order"`
+}
+
+type PublicMethodPillar struct {
+	ID     uuid.UUID           `json:"id"`
+	Name   string              `json:"name"`
+	Order  int                 `json:"order"`
+	Letter *PublicMethodLetter `json:"letter,omitempty"`
+}
+
+type PublicItemResultItem struct {
+	MethodPillars []PublicMethodPillar `json:"methodPillars"`
+}
+
+// PublicItemResult é o resultado por-item (só avaliados) — alimenta o radar por pilar.
+type PublicItemResult struct {
+	Status       string                `json:"status"`
+	ActualPoints float64               `json:"actualPoints"`
+	MaxPoints    float64               `json:"maxPoints"`
+	Item         *PublicItemResultItem `json:"item,omitempty"`
+}
+
 // PublicSnapshot é o radar resultante (sem snapshotId interno, sem timestamps).
 type PublicSnapshot struct {
 	TotalActualPoints      float64             `json:"totalActualPoints"`
@@ -548,6 +576,7 @@ type PublicSnapshot struct {
 	ItemsEvaluatedCount    int                 `json:"itemsEvaluatedCount"`
 	ItemsNotEvaluatedCount int                 `json:"itemsNotEvaluatedCount"`
 	GroupResults           []PublicGroupResult `json:"groupResults"`
+	ItemResults            []PublicItemResult  `json:"itemResults,omitempty"`
 }
 
 // PublicSession é o payload público devolvido pelos endpoints /score-light/sessions.
@@ -618,6 +647,31 @@ func toPublicSession(s *models.AnonymousScoreSession) *PublicSession {
 				pr.GroupName = gr.Group.Name
 			}
 			ps.GroupResults = append(ps.GroupResults, pr)
+		}
+		// Per-item results com pilares → radar por pilar (buildAgir) no site.
+		for _, ir := range s.Snapshot.ItemResults {
+			pir := PublicItemResult{
+				Status:       string(ir.Status),
+				ActualPoints: ir.ActualPoints,
+				MaxPoints:    ir.MaxPoints,
+			}
+			if ir.Item != nil && len(ir.Item.MethodPillars) > 0 {
+				item := &PublicItemResultItem{MethodPillars: make([]PublicMethodPillar, 0, len(ir.Item.MethodPillars))}
+				for _, mp := range ir.Item.MethodPillars {
+					pmp := PublicMethodPillar{ID: mp.ID, Name: mp.Name, Order: mp.Order}
+					if mp.Letter != nil {
+						pmp.Letter = &PublicMethodLetter{
+							Code:  mp.Letter.Code,
+							Name:  mp.Letter.Name,
+							Color: mp.Letter.Color,
+							Order: mp.Letter.Order,
+						}
+					}
+					item.MethodPillars = append(item.MethodPillars, pmp)
+				}
+				pir.Item = item
+			}
+			ps.ItemResults = append(ps.ItemResults, pir)
 		}
 		out.Snapshot = ps
 	}
@@ -985,6 +1039,7 @@ func (s *AnonymousScoreService) CreateSession(req CreateSessionRequest) (*Public
 			SessionID: session.ID,
 		}
 		groupResultsMap := make(map[uuid.UUID]*models.AnonymousScoreGroupResult)
+		var itemResults []models.AnonymousScoreItemResult
 
 		for _, g := range groups {
 			gr := &models.AnonymousScoreGroupResult{
@@ -996,12 +1051,16 @@ func (s *AnonymousScoreService) CreateSession(req CreateSessionRequest) (*Public
 			for _, sg := range g.Subgroups {
 				for _, it := range sg.Items {
 					if lightIDs[it.ID] && !seen[it.ID] {
-						evaluateLightItem(it, pseudoPatient, respByItem, snapshot, gr)
+						if r := evaluateLightItem(it, g.ID, pseudoPatient, respByItem, snapshot, gr); r != nil {
+							itemResults = append(itemResults, *r)
+						}
 						seen[it.ID] = true
 					}
 					for _, child := range it.ChildItems {
 						if lightIDs[child.ID] && !seen[child.ID] {
-							evaluateLightItem(child, pseudoPatient, respByItem, snapshot, gr)
+							if r := evaluateLightItem(child, g.ID, pseudoPatient, respByItem, snapshot, gr); r != nil {
+								itemResults = append(itemResults, *r)
+							}
 							seen[child.ID] = true
 						}
 					}
@@ -1017,9 +1076,17 @@ func (s *AnonymousScoreService) CreateSession(req CreateSessionRequest) (*Public
 			snapshot.TotalScorePercentage = (snapshot.TotalActualPoints / snapshot.TotalPossiblePoints) * 100
 		}
 
-		// 4. Persiste snapshot + group results
+		// 4. Persiste snapshot + group results + item results (radar por pilar)
 		if err := tx.Create(snapshot).Error; err != nil {
 			return fmt.Errorf("failed to create snapshot: %w", err)
+		}
+		if len(itemResults) > 0 {
+			for i := range itemResults {
+				itemResults[i].SnapshotID = snapshot.ID
+			}
+			if err := tx.Create(&itemResults).Error; err != nil {
+				return fmt.Errorf("failed to create item results: %w", err)
+			}
 		}
 		for _, gr := range groupResultsMap {
 			if gr.PossiblePoints == 0 && gr.ActualPoints == 0 && gr.ItemsEvaluatedCount == 0 {
@@ -1050,26 +1117,27 @@ func (s *AnonymousScoreService) CreateSession(req CreateSessionRequest) (*Public
 // Pré-condição: caller já confirmou que o item pertence ao conjunto Light (score_version).
 func evaluateLightItem(
 	item models.ScoreItem,
+	groupID uuid.UUID,
 	pseudoPatient *models.Patient,
 	responses map[uuid.UUID]SessionResponseDTO,
 	snapshot *models.AnonymousScoreSnapshot,
 	groupResult *models.AnonymousScoreGroupResult,
-) {
+) *models.AnonymousScoreItemResult {
 	if !item.AppliesToPatient(pseudoPatient) {
 		snapshot.ItemsNotEvaluatedCount++
-		return
+		return nil
 	}
 
 	resp, ok := responses[item.ID]
 	if !ok {
 		snapshot.ItemsNotEvaluatedCount++
-		return
+		return nil
 	}
 
 	matched := matchLevelForResponse(item, resp)
 	if matched == nil {
 		snapshot.ItemsNotEvaluatedCount++
-		return
+		return nil
 	}
 
 	maxPoints := 0.0
@@ -1086,6 +1154,20 @@ func evaluateLightItem(
 	groupResult.ActualPoints += actual
 	groupResult.PossiblePoints += maxPoints
 	groupResult.ItemsEvaluatedCount++
+
+	// Per-item result (radar por pilar) — só itens avaliados.
+	levelNum := matched.Level
+	levelID := matched.ID
+	return &models.AnonymousScoreItemResult{
+		ItemID:         item.ID,
+		GroupID:        groupID,
+		Status:         models.EvaluationStatusEvaluated,
+		LevelNumber:    &levelNum,
+		LevelMatchedID: &levelID,
+		ValueUsed:      resp.NumericValue,
+		MaxPoints:      maxPoints,
+		ActualPoints:   actual,
+	}
 }
 
 // matchLevelForResponse encontra o ScoreLevel correspondente à resposta dada.
@@ -1135,6 +1217,10 @@ func (s *AnonymousScoreService) loadSessionByPublicCode(code string) (*models.An
 	var session models.AnonymousScoreSession
 	err := s.db.
 		Preload("Snapshot.GroupResults.Group").
+		Preload("Snapshot.ItemResults.Item.MethodPillars", func(db *gorm.DB) *gorm.DB {
+			return db.Where("deleted_at IS NULL").Order(`"order" ASC`)
+		}).
+		Preload("Snapshot.ItemResults.Item.MethodPillars.Letter", "deleted_at IS NULL").
 		Preload("Items.ScoreItem").
 		Where("public_code = ?", code).
 		First(&session).Error
@@ -1181,6 +1267,10 @@ func (s *AnonymousScoreService) GetSessionsByPatientID(patientID uuid.UUID) ([]m
 	var sessions []models.AnonymousScoreSession
 	err := s.db.
 		Preload("Snapshot.GroupResults.Group").
+		Preload("Snapshot.ItemResults.Item.MethodPillars", func(db *gorm.DB) *gorm.DB {
+			return db.Where("deleted_at IS NULL").Order(`"order" ASC`)
+		}).
+		Preload("Snapshot.ItemResults.Item.MethodPillars.Letter", "deleted_at IS NULL").
 		Where("claimed_by_patient_id = ?", patientID).
 		Order("created_at DESC").
 		Find(&sessions).Error

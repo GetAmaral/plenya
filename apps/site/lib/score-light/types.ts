@@ -90,6 +90,29 @@ export type PublicGroupResult = {
   itemsEvaluatedCount: number;
 };
 
+// === Per-item results (radar por pilar) — shape consumido por @plenya/ui buildAgir ===
+
+export type PublicMethodLetter = {
+  code: string;
+  name: string;
+  color?: string;
+  order: number;
+};
+
+export type PublicMethodPillar = {
+  id: string;
+  name: string;
+  order: number;
+  letter?: PublicMethodLetter;
+};
+
+export type PublicItemResult = {
+  status: string;
+  actualPoints: number;
+  maxPoints: number;
+  item?: { methodPillars?: PublicMethodPillar[] };
+};
+
 export type PublicSnapshot = {
   totalActualPoints: number;
   totalPossiblePoints: number;
@@ -97,6 +120,8 @@ export type PublicSnapshot = {
   itemsEvaluatedCount: number;
   itemsNotEvaluatedCount: number;
   groupResults: PublicGroupResult[];
+  /** Presente para sessões da Fase 3+ (radar por pilar). Ausente em sessões antigas. */
+  itemResults?: PublicItemResult[];
 };
 
 export type PublicAnonymousScoreItem = {
