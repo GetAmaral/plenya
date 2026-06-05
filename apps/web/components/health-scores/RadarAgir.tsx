@@ -26,7 +26,6 @@ interface RadarAgirProps {
 // ── Paleta Plenya (mesma do radar do site /escore-plenya) ───────────────
 // A cor do método no banco é genérica (#10B981, #3B82F6…); aqui cravamos a
 // paleta de marca por letra para o radar ter o design elegante do site.
-// Fallback para a cor da prop (e cinza) caso surja uma letra fora de AGIR.
 const PLENYA_PALETTE: Record<string, string> = {
   A: '#92b8b4', // sage
   G: '#b38645', // gold
@@ -49,6 +48,8 @@ const RADAR_MAX = 150
 const ARC_RADIUS = RADAR_MAX + 18
 const LETTER_LABEL_RADIUS = ARC_RADIUS + 20
 const ARC_GAP = 2.5 // respiro angular entre os arcos de letras
+// Cada LETRA ocupa no mínimo este arco, mesmo sem nenhum pilar visível.
+const MIN_LETTER_DEG = 10
 
 const round1 = (n: number) => Math.round(n * 10) / 10
 
@@ -62,7 +63,7 @@ function polar(angleDeg: number, radius: number) {
 }
 
 // Arco entre dois ângulos. large-arc-flag dinâmico — essencial para letras
-// que ocupam mais de 180° (ex.: G com 23 pilares ≈ 197°).
+// que ocupam mais de 180° (ex.: G com muitos pilares).
 function arcPath(startAngle: number, endAngle: number, radius: number) {
   const s = polar(startAngle, radius)
   const e = polar(endAngle, radius)
@@ -87,51 +88,56 @@ function tooltipPlacementForAngle(angle: number) {
 export function RadarAgir({ letters, pillars, globalScore, ariaLabel }: RadarAgirProps) {
   const [hovered, setHovered] = useState<Hovered>({ type: 'none' })
 
-  // Largura angular de cada letra PROPORCIONAL ao seu nº de pilares.
-  // Cada pilar ocupa um "slot" de 360/total graus; os pilares de uma letra
-  // formam um bloco contíguo. Os vértices ficam igualmente espaçados no
-  // círculo inteiro (G não fica mais espremido em 90°). Começa no topo.
+  // Largura angular de cada letra PROPORCIONAL ao seu nº de pilares VISÍVEIS,
+  // com piso de MIN_LETTER_DEG por letra. Cada pilar visível ocupa a mesma
+  // largura (perPillar) em todo o círculo. Letras vazias aparecem só com o
+  // arco mínimo + rótulo (sem pontos). A primeira letra (A) centrada no topo.
   const { letterArcs, radarPoints, polygonStr, letterByCode } = useMemo(() => {
-    // Pilares agrupados por letra, na ordem das letras (já ordenadas por order).
     const byLetter = new Map<string, RadarPillar[]>()
     for (const p of pillars) {
       if (!byLetter.has(p.letter)) byLetter.set(p.letter, [])
       byLetter.get(p.letter)!.push(p)
     }
 
-    const total = pillars.length || 1
-    const slot = 360 / total
-    // Centraliza a PRIMEIRA letra (A, por order) no topo (12h): rotaciona
-    // todos os ângulos para que o meio do arco de A caia em 0°.
-    const firstCount = (byLetter.get(letters[0]?.code) ?? []).length
-    const ROT = -(firstCount * slot) / 2
+    const total = pillars.length
+    const L = letters.length || 1
+    const reserved = L * MIN_LETTER_DEG
+    const remaining = Math.max(0, 360 - reserved)
+    const perPillar = total > 0 ? remaining / total : 0
+    // span de uma letra com vp pilares visíveis (degenerado: divide igual).
+    const spanOf = (vp: number) => (total > 0 ? MIN_LETTER_DEG + vp * perPillar : 360 / L)
+    // padding interno que centraliza os pilares dentro do arco da letra.
+    const innerPad = total > 0 ? MIN_LETTER_DEG / 2 : 0
+
+    // Centraliza a 1ª letra (A, por order) no topo (12h).
+    const firstVp = (byLetter.get(letters[0]?.code) ?? []).length
+    const ROT = -spanOf(firstVp) / 2
 
     const points: Array<RadarPillar & { x: number; y: number; angle: number; color: string }> = []
     const letterArcs: Array<RadarLetter & { start: number; end: number; midAngle: number; count: number; color: string }> = []
 
-    let cursor = 0 // índice de slot acumulado
+    let cursor = 0
     for (const l of letters) {
       const ps = byLetter.get(l.code) ?? []
-      const count = ps.length
-      const start = cursor * slot + ROT
-      const end = (cursor + count) * slot + ROT
+      const vp = ps.length
+      const span = spanOf(vp)
+      const start = cursor + ROT
+      const end = cursor + span + ROT
       const color = resolveColor(l.code, l.color)
 
       ps.forEach((p, i) => {
-        const angle = (cursor + i + 0.5) * slot + ROT // centro do slot
+        const angle = start + innerPad + perPillar * (i + 0.5)
         const r = (Math.max(0, Math.min(100, p.score)) / 100) * RADAR_MAX
         const { x, y } = polar(angle, r)
         points.push({ ...p, angle, x, y, color })
       })
 
-      if (count > 0) {
-        letterArcs.push({ ...l, color, start, end, midAngle: (start + end) / 2, count })
-      }
-      cursor += count
+      letterArcs.push({ ...l, color, start, end, midAngle: (start + end) / 2, count: vp })
+      cursor += span
     }
 
     const polygonStr = points.map((p) => `${p.x},${p.y}`).join(' ')
-    const letterByCode = new Map(letterArcs.map((l) => [l.code, l]))
+    const letterByCode = new Map(letterArcs.map((a) => [a.code, a]))
 
     return { letterArcs, radarPoints: points, polygonStr, letterByCode }
   }, [letters, pillars])
@@ -160,18 +166,21 @@ export function RadarAgir({ letters, pillars, globalScore, ariaLabel }: RadarAgi
     if (hovered.type === 'letter') {
       const l = letterByCode.get(hovered.code)
       if (!l) return null
+      const empty = l.count === 0
       return (
         <>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full" style={{ background: l.color }} />
             <span className="label-upper text-[9px]" style={{ color: l.color }}>
-              Letra {l.code} · {l.count} {l.count === 1 ? 'pilar' : 'pilares'}
+              Letra {l.code} · {empty ? 'sem dados' : `${l.count} ${l.count === 1 ? 'pilar' : 'pilares'}`}
             </span>
           </div>
           <p className="heading-section text-foreground text-base leading-tight max-w-[24ch]">{l.name}</p>
-          <p className="font-mono text-foreground/60 text-xs mt-1.5">
-            {l.score.toFixed(1)} <span className="text-foreground/35">/ 100</span>
-          </p>
+          {!empty && (
+            <p className="font-mono text-foreground/60 text-xs mt-1.5">
+              {l.score.toFixed(1)} <span className="text-foreground/35">/ 100</span>
+            </p>
+          )}
         </>
       )
     }
@@ -248,7 +257,7 @@ export function RadarAgir({ letters, pillars, globalScore, ariaLabel }: RadarAgi
           viewBox={`0 0 ${VIEWBOX} ${VIEWBOX}`}
           className="w-full h-full"
           role="img"
-          aria-label={ariaLabel || `Escore Plenya: ${pillars.length} pilares organizados em ${letters.length} letras. Score global ${computedGlobal.toFixed(0)}.`}
+          aria-label={ariaLabel || `Escore Plenya: ${pillars.length} pilares em ${letters.length} letras. Score global ${computedGlobal.toFixed(0)}.`}
         >
           {/* Anéis concêntricos */}
           {[37.5, 75, 112.5, 150].map((r) => (
@@ -273,18 +282,20 @@ export function RadarAgir({ letters, pillars, globalScore, ariaLabel }: RadarAgi
             />
           )}
 
-          {/* Anel externo colorido por letra — largura proporcional, interativo */}
+          {/* Anel externo colorido por letra — largura proporcional, interativo.
+              Letras vazias mostram só o arco mínimo + rótulo. */}
           {letterArcs.map((arc) => {
             const active = isLetterActive(arc.code)
+            const gap = Math.min(ARC_GAP, (arc.end - arc.start) / 3)
             return (
               <path
                 key={`arc-${arc.code}`}
-                d={arcPath(arc.start + ARC_GAP, arc.end - ARC_GAP, ARC_RADIUS)}
+                d={arcPath(arc.start + gap, arc.end - gap, ARC_RADIUS)}
                 fill="none"
                 stroke={arc.color}
                 strokeWidth={active ? 10 : 7}
                 strokeLinecap="round"
-                opacity={hovered.type === 'none' ? 0.85 : active ? 1 : 0.3}
+                opacity={hovered.type === 'none' ? (arc.count === 0 ? 0.5 : 0.85) : active ? 1 : 0.3}
                 onMouseEnter={() => setHovered({ type: 'letter', code: arc.code })}
                 style={{ transition: 'stroke-width 180ms, opacity 180ms', cursor: 'pointer' }}
               />
@@ -335,7 +346,7 @@ export function RadarAgir({ letters, pillars, globalScore, ariaLabel }: RadarAgi
             )
           })}
 
-          {/* Labels das letras — no meio do arco proporcional */}
+          {/* Labels das letras — no meio do arco (proporcional) */}
           {letterArcs.map((arc) => {
             const p = polar(arc.midAngle, LETTER_LABEL_RADIUS)
             const active = isLetterActive(arc.code)
@@ -349,7 +360,7 @@ export function RadarAgir({ letters, pillars, globalScore, ariaLabel }: RadarAgi
                 fontSize="26"
                 fontWeight="500"
                 fill={active ? arc.color : INK}
-                opacity={hovered.type === 'none' ? 1 : active ? 1 : 0.35}
+                opacity={hovered.type === 'none' ? (arc.count === 0 ? 0.55 : 1) : active ? 1 : 0.35}
                 onMouseEnter={() => setHovered({ type: 'letter', code: arc.code })}
                 style={{ transition: 'fill 180ms, opacity 180ms', cursor: 'pointer' }}
               >
@@ -389,12 +400,14 @@ export function RadarAgir({ letters, pillars, globalScore, ariaLabel }: RadarAgi
         </div>
       </div>
 
-      {/* Legenda das letras (sempre visível) — score + nº de pilares */}
+      {/* Legenda das letras (sempre visível) — letra vazia mostra "—" */}
       <div className="flex flex-wrap justify-center gap-4 md:gap-6 font-mono text-[11px] uppercase tracking-[0.2em]">
         {letterArcs.map((l) => (
           <span key={l.code} className="flex items-center gap-2 text-foreground/70">
-            <span className="w-2 h-2 rounded-full" style={{ background: l.color }} />
-            <span>{l.code} {l.score.toFixed(0)}</span>
+            <span className="w-2 h-2 rounded-full" style={{ background: l.color, opacity: l.count === 0 ? 0.5 : 1 }} />
+            <span className={l.count === 0 ? 'text-foreground/40' : undefined}>
+              {l.code} {l.count === 0 ? '—' : l.score.toFixed(0)}
+            </span>
           </span>
         ))}
       </div>

@@ -7,17 +7,11 @@ import { useMemo } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Loader2, Activity, ArrowUp, ArrowDown } from "lucide-react";
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  ResponsiveContainer,
-} from "recharts";
 
 import { useRequirePatientAuth } from "@/lib/use-patient-auth";
-import { useMyScores, type ScoreEntryView } from "@/lib/api/patient-portal-api";
+import { useMyScores, useMyLatestSnapshot, type ScoreEntryView } from "@/lib/api/patient-portal-api";
+import { RadarAgir } from "@/components/health-scores/RadarAgir";
+import { buildAgir } from "@/components/health-scores/build-agir";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -26,16 +20,13 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://plenyasaude.com.br
 export default function MyScoresPage() {
   const { ready } = useRequirePatientAuth();
   const { data, isLoading } = useMyScores();
+  const { data: latestSnapshot } = useMyLatestSnapshot();
 
-  const radarData = useMemo(() => {
-    if (!data?.length) return [];
-    const latest = data[0];
-    return latest.groupResults.map((g) => ({
-      name: g.groupName,
-      score: parseFloat(g.scorePercentage.toFixed(1)),
-      fullMark: 100,
-    }));
-  }, [data]);
+  // Radar AGIR do escore completo mais recente — MESMA fonte (buildAgir) do EMR.
+  const agir = useMemo(
+    () => (latestSnapshot ? buildAgir(latestSnapshot) : null),
+    [latestSnapshot],
+  );
 
   if (!ready || isLoading) {
     return (
@@ -70,31 +61,20 @@ export default function MyScoresPage() {
         </Card>
       ) : (
         <>
-          {/* Radar do mais recente */}
-          {radarData.length > 0 && (
+          {/* Radar AGIR do escore completo mais recente — mesmo radar do EMR */}
+          {agir && latestSnapshot && (
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">
-                  Radar atual · {format(new Date(data[0].createdAt), "d 'de' MMM 'de' yyyy", { locale: ptBR })}
+                  Radar AGIR · {format(new Date(latestSnapshot.calculatedAt), "d 'de' MMM 'de' yyyy", { locale: ptBR })}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-[320px] w-full">
-                  <ResponsiveContainer>
-                    <RadarChart data={radarData}>
-                      <PolarGrid />
-                      <PolarAngleAxis dataKey="name" tick={{ fontSize: 11 }} />
-                      <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 10 }} />
-                      <Radar
-                        name="Escore"
-                        dataKey="score"
-                        stroke="hsl(var(--primary))"
-                        fill="hsl(var(--primary))"
-                        fillOpacity={0.3}
-                      />
-                    </RadarChart>
-                  </ResponsiveContainer>
-                </div>
+              <CardContent className="flex justify-center py-2">
+                <RadarAgir
+                  letters={agir.letters}
+                  pillars={agir.pillars}
+                  globalScore={latestSnapshot.totalScorePercentage}
+                />
               </CardContent>
             </Card>
           )}

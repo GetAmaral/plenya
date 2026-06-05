@@ -10,6 +10,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api-client";
+import type { PatientScoreSnapshot } from "@/lib/api/health-score-api";
 import type { User, Patient } from "@/lib/auth-store";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
@@ -451,10 +452,18 @@ export interface ScoreEntryView {
 
 export const patientScoresApi = {
   list: () => apiClient.get<ScoreEntryView[]>("/api/v1/patient/me/scores"),
+  // Escore COMPLETO mais recente (com pilares AGIR) — null se o paciente só tem Light.
+  latestSnapshot: () =>
+    apiClient.get<PatientScoreSnapshot | null>("/api/v1/patient/me/score-snapshots/latest"),
 };
 
 export function useMyScores() {
   return useQuery({ queryKey: ["patient-scores"], queryFn: patientScoresApi.list });
+}
+
+// Radar AGIR do portal — MESMA fonte (buildAgir) do EMR staff.
+export function useMyLatestSnapshot() {
+  return useQuery({ queryKey: ["patient-latest-snapshot"], queryFn: patientScoresApi.latestSnapshot });
 }
 
 // ============================================================
