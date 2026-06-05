@@ -638,6 +638,7 @@ type LightLevelConfig struct {
 	UpperLimit         *string   `json:"upperLimit,omitempty"`
 	Operator           string    `json:"operator"`
 	PatientExplanation *string   `json:"patientExplanation,omitempty"`
+	SiteLegend         *string   `json:"siteLegend,omitempty"`
 }
 
 // LightItemConfig representa um ScoreItem do Light já filtrado e empacotado.
@@ -655,6 +656,8 @@ type LightItemConfig struct {
 	LabTestCode        *string            `json:"labTestCode,omitempty"`
 	AnamneseItemCode   *string            `json:"anamneseItemCode,omitempty"`
 	PatientExplanation *string            `json:"patientExplanation,omitempty"`
+	SiteRenderType     *string            `json:"siteRenderType,omitempty"`
+	SiteExplanation    *string            `json:"siteExplanation,omitempty"`
 	Levels             []LightLevelConfig `json:"levels"`
 }
 
@@ -855,8 +858,11 @@ func (s *AnonymousScoreService) BuildLightConfig() (*LightConfig, error) {
 }
 
 func mapItemToLightConfig(it models.ScoreItem) LightItemConfig {
+	// Prompt leigo: site_question (novo) > light_question (legado) > nome.
 	question := it.Name
-	if it.LightQuestion != nil && *it.LightQuestion != "" {
+	if it.SiteQuestion != nil && *it.SiteQuestion != "" {
+		question = *it.SiteQuestion
+	} else if it.LightQuestion != nil && *it.LightQuestion != "" {
 		question = *it.LightQuestion
 	}
 	lightOrder := 0
@@ -874,6 +880,7 @@ func mapItemToLightConfig(it models.ScoreItem) LightItemConfig {
 			UpperLimit:         lv.UpperLimit,
 			Operator:           lv.Operator,
 			PatientExplanation: lv.PatientExplanation,
+			SiteLegend:         lv.SiteLegend,
 		})
 	}
 
@@ -891,6 +898,8 @@ func mapItemToLightConfig(it models.ScoreItem) LightItemConfig {
 		LabTestCode:        it.LabTestCode,
 		AnamneseItemCode:   it.AnamneseItemCode,
 		PatientExplanation: it.PatientExplanation,
+		SiteRenderType:     it.SiteRenderType,
+		SiteExplanation:    it.SiteExplanation,
 		Levels:             levels,
 	}
 }
