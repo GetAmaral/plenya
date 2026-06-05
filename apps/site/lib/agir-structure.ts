@@ -1,9 +1,13 @@
 /**
  * Estrutura completa do Método AGIR (PT) ↔ The ACTS Method (EN).
  * Usada pelas páginas /escore-plenya e /metodo-agir. Reflete a hierarquia do EMR:
- * Method → MethodLetter → MethodPillar (com agrupamento visual quando houver muitos pilares).
+ * Method → MethodLetter → MethodPillar.
  *
  * Mapping de letras: A→A, G→C, I→T, R→S.
+ *
+ * ⚙️ Sincronizado do banco do EMR (42 pilares) — gerado a partir de method_letters +
+ *    method_pillars. Os scores do radar são MOCK (dados fictícios de marketing; sem
+ *    paciente real). Para re-sincronizar, repuxe os pilares do EMR e regenere este arquivo.
  *
  * Inlined em apps/site para evitar problemas de cache do Turbopack
  * com export indireto de @plenya/brand.
@@ -15,7 +19,7 @@ export type AgirLetterRaw = {
   name: string;
   nameEn: string;
   pillarCount: number;
-  itemCount: number; // estimativa agregada
+  itemCount: number; // contagem real de itens do EMR (estimativa agregada)
   /** Quando há muitos pilares (>6), agrupar visualmente. */
   groups: { label?: string; labelEn?: string; pillars: string[]; pillarsEn: string[] }[];
 };
@@ -26,21 +30,27 @@ export const agirLettersRaw: AgirLetterRaw[] = [
     codeEn: 'A',
     name: 'Atividade Física, Alimentação e Suplementação Inteligente',
     nameEn: 'Activity, Alimentation & Smart Adjuncts',
-    pillarCount: 4,
-    itemCount: 120,
+    pillarCount: 7,
+    itemCount: 290,
     groups: [
       {
         pillars: [
-          'Avaliação Nutricional',
-          'Prescrição de Exercícios',
-          'Composição Corporal',
-          'Suplementação',
+          'Alimentação (Qualidade e Padrão)',
+          'Tolerância Alimentar e Suplementação',
+          'Atividade Física (Hábito)',
+          'Capacidade Física (Testes)',
+          'Adiposidade e Risco Cardiometabólico',
+          'Massa Muscular e Hidratação Celular',
+          'Trajetória e Origens',
         ],
         pillarsEn: [
-          'Nutritional Assessment',
-          'Exercise Prescription',
-          'Body Composition',
-          'Supplementation',
+          'Nutrition (Quality & Pattern)',
+          'Food Tolerance & Supplementation',
+          'Physical Activity (Habit)',
+          'Physical Capacity (Testing)',
+          'Adiposity & Cardiometabolic Risk',
+          'Muscle Mass & Cellular Hydration',
+          'Trajectory & Origins',
         ],
       },
     ],
@@ -50,41 +60,59 @@ export const agirLettersRaw: AgirLetterRaw[] = [
     codeEn: 'C',
     name: 'Gestão Clínica e Metabólica',
     nameEn: 'Clinical Optimization',
-    pillarCount: 14,
-    itemCount: 672,
+    pillarCount: 23,
+    itemCount: 1027,
     groups: [
       {
         pillars: [
           'Cardiovascular',
-          'Gastrointestinal',
-          'Genético',
-          'Hematológico',
+          'Metabólico',
+          'Renal',
           'Hepático',
+          'Gastrointestinal',
+          'Pulmonar',
+          'Hematológico',
           'Hormonal',
           'Imune e Inflamatório',
-          'Metabólico',
           'Neurológico',
-          'Nutrologia e Micronutrientes',
           'Osteomuscular',
-          'Pulmonar',
+          'Nutrologia e Micronutrientes',
           'Rastreio Oncológico',
-          'Renal',
+          'Genético',
+          'Infeccioso',
+          'Toxicológico e Detoxificação',
+          'Dermatológico',
+          'Saúde Urogenital e Reprodutiva',
+          'Órgãos dos Sentidos',
+          'Odontológico',
+          'Medicamentos',
+          'História Cirúrgica',
+          'Hábitos e Vícios',
         ],
         pillarsEn: [
-          'Cancer Screening',
           'Cardiovascular',
-          'Gastrointestinal',
-          'Genetic',
-          'Hematological',
+          'Metabolic',
+          'Renal',
           'Hepatic',
+          'Gastrointestinal',
+          'Pulmonary',
+          'Hematological',
           'Hormonal',
           'Immune & Inflammatory',
-          'Metabolic',
-          'Musculoskeletal',
           'Neurological',
+          'Musculoskeletal',
           'Nutritional Medicine & Micronutrients',
-          'Pulmonary',
-          'Renal',
+          'Cancer Screening',
+          'Genetic',
+          'Infectious',
+          'Toxicology & Detoxification',
+          'Dermatological',
+          'Urogenital & Reproductive Health',
+          'Sensory Organs',
+          'Dental',
+          'Medications',
+          'Surgical History',
+          'Habits & Addictions',
         ],
       },
     ],
@@ -94,23 +122,27 @@ export const agirLettersRaw: AgirLetterRaw[] = [
     codeEn: 'T',
     name: 'Integração Mente-Corpo',
     nameEn: 'Tending Mind, Body & Bonds',
-    pillarCount: 5,
-    itemCount: 140,
+    pillarCount: 7,
+    itemCount: 199,
     groups: [
       {
         pillars: [
-          'Avaliação Psicológica',
-          'Técnicas de Relaxamento',
+          'Humor',
           'Função Cognitiva',
+          'Vitalidade e Disposição',
+          'Estresse, Trauma e Resiliência',
           'Vida Sexual',
           'Vínculos Sociais e Suporte',
+          'Contexto e Determinantes de Vida',
         ],
         pillarsEn: [
-          'Psychological Assessment',
-          'Relaxation Techniques',
+          'Mood',
           'Cognitive Function',
+          'Vitality & Energy',
+          'Stress, Trauma & Resilience',
           'Sexual Health',
           'Social Bonds & Support',
+          'Life Context & Determinants',
         ],
       },
     ],
@@ -120,12 +152,24 @@ export const agirLettersRaw: AgirLetterRaw[] = [
     codeEn: 'S',
     name: 'Ritmo Circadiano e Repouso',
     nameEn: 'Sleep, Rhythm & Recovery',
-    pillarCount: 3,
-    itemCount: 50,
+    pillarCount: 5,
+    itemCount: 71,
     groups: [
       {
-        pillars: ['Qualidade do Sono', 'Cronobiologia', 'Exposição à Luz'],
-        pillarsEn: ['Sleep Quality', 'Chronobiology', 'Light Exposure'],
+        pillars: [
+          'Qualidade e Arquitetura do Sono',
+          'Cronobiologia e Ritmo',
+          'Exposição à Luz',
+          'Higiene e Ambiente do Sono',
+          'Distúrbios do Sono',
+        ],
+        pillarsEn: [
+          'Sleep Quality & Architecture',
+          'Chronobiology & Rhythm',
+          'Light Exposure',
+          'Sleep Hygiene & Environment',
+          'Sleep Disorders',
+        ],
       },
     ],
   },
