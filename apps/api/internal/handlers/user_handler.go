@@ -42,6 +42,7 @@ func (h *UserHandler) GetUsers(c *fiber.Ctx) error {
 	limit, _ := strconv.Atoi(c.Query("limit", "20"))
 	offset, _ := strconv.Atoi(c.Query("offset", "0"))
 	role := c.Query("role")
+	group := c.Query("group") // "staff" | "patient" | "" (todos)
 
 	var rolePtr *string
 	if role != "" {
@@ -49,7 +50,7 @@ func (h *UserHandler) GetUsers(c *fiber.Ctx) error {
 	}
 
 	// Get users
-	result, err := h.userService.List(rolePtr, limit, offset)
+	result, err := h.userService.List(rolePtr, group, limit, offset)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error: "Failed to get users: " + err.Error(),

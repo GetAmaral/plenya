@@ -26,8 +26,11 @@ func NewUserService(db *gorm.DB) *UserService {
 	return &UserService{db: db}
 }
 
-// List lista usuários com filtros e paginação
-func (s *UserService) List(role *string, limit, offset int) (*dto.UserListResponse, error) {
+// List lista usuários com filtros e paginação.
+// group separa as duas populações: "staff" (qualquer papel de equipe) vs "patient"
+// (conta de portal). role refina dentro do grupo (ex.: só médicos). Mistura proposital
+// foi removida da UI — equipe e pacientes viram abas separadas.
+func (s *UserService) List(role *string, group string, limit, offset int) (*dto.UserListResponse, error) {
 	var users []models.User
 	var total int64
 
@@ -36,6 +39,15 @@ func (s *UserService) List(role *string, limit, offset int) (*dto.UserListRespon
 	// Filter by role if provided (usando JSONB contains)
 	if role != nil && *role != "" {
 		query = query.Where("roles @> ?", `["`+*role+`"]`)
+	}
+
+	// Filter by population group (equipe vs paciente). jsonb_exists_any evita o operador
+	// `?|` (que colide com o placeholder `?` do GORM).
+	switch group {
+	case "staff":
+		query = query.Where("jsonb_exists_any(roles, '{admin,doctor,nurse,nutritionist,psychologist,physicalEducator,secretary,manager}')")
+	case "patient":
+		query = query.Where("roles @> ?", `["patient"]`)
 	}
 
 	// Get total count

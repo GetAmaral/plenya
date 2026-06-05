@@ -53,9 +53,17 @@ import {
 export default function UsersPage() {
   const { user: currentUser } = useRequireAuth();
 
+  const [tab, setTab] = useState<"staff" | "patient">("staff");
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState<string>("all");
   const [showCreateForm, setShowCreateForm] = useState(false);
+
+  // Troca de aba: zera subfiltro de papel e volta pra primeira página.
+  const switchTab = (next: "staff" | "patient") => {
+    setTab(next);
+    setRoleFilter("all");
+    setPagination((p) => ({ ...p, pageIndex: 0 }));
+  };
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [deletingUser, setDeletingUser] = useState<User | null>(null);
   const [pagination, setPagination] = useState({
@@ -66,9 +74,10 @@ export default function UsersPage() {
   const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["users", roleFilter, pagination.pageIndex, pagination.pageSize],
+    queryKey: ["users", tab, roleFilter, pagination.pageIndex, pagination.pageSize],
     queryFn: () => getAllUsers({
-      role: roleFilter === "all" ? undefined : roleFilter,
+      group: tab,
+      role: tab === "staff" && roleFilter !== "all" ? roleFilter : undefined,
       limit: pagination.pageSize,
       offset: pagination.pageIndex * pagination.pageSize,
     }),
@@ -154,6 +163,30 @@ export default function UsersPage() {
         }
       />
 
+      {/* Abas: Equipe (profissionais) | Pacientes (contas de portal) */}
+      <div className="flex items-center gap-1 self-start rounded-lg border border-border bg-muted/40 p-1">
+        <button
+          type="button"
+          onClick={() => switchTab("staff")}
+          className={cn(
+            "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
+            tab === "staff" ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          Equipe
+        </button>
+        <button
+          type="button"
+          onClick={() => switchTab("patient")}
+          className={cn(
+            "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
+            tab === "patient" ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          Pacientes
+        </button>
+      </div>
+
       {/* Filters */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -164,24 +197,37 @@ export default function UsersPage() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Buscar por nome ou email..."
+            placeholder={tab === "staff" ? "Buscar por nome ou email..." : "Buscar paciente por nome ou email..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
           />
         </div>
-        <Select value={roleFilter} onValueChange={setRoleFilter}>
-          <SelectTrigger className="w-full sm:w-[200px]">
-            <SelectValue placeholder="Filtrar por role" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todos</SelectItem>
-            <SelectItem value="admin">Administradores</SelectItem>
-            <SelectItem value="doctor">Médicos</SelectItem>
-            <SelectItem value="nurse">Enfermeiros</SelectItem>
-            <SelectItem value="patient">Pacientes</SelectItem>
-          </SelectContent>
-        </Select>
+        {/* Subfiltro de papel só faz sentido na Equipe (paciente é sempre 'paciente'). */}
+        {tab === "staff" && (
+          <Select
+            value={roleFilter}
+            onValueChange={(v) => {
+              setRoleFilter(v);
+              setPagination((p) => ({ ...p, pageIndex: 0 }));
+            }}
+          >
+            <SelectTrigger className="w-full sm:w-[220px]">
+              <SelectValue placeholder="Filtrar por papel" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos os papéis</SelectItem>
+              <SelectItem value="admin">Administradores</SelectItem>
+              <SelectItem value="manager">Gerentes</SelectItem>
+              <SelectItem value="doctor">Médicos</SelectItem>
+              <SelectItem value="nurse">Enfermeiros</SelectItem>
+              <SelectItem value="nutritionist">Nutricionistas</SelectItem>
+              <SelectItem value="psychologist">Psicólogos</SelectItem>
+              <SelectItem value="physicalEducator">Educadores Físicos</SelectItem>
+              <SelectItem value="secretary">Secretárias</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
       </motion.div>
 
       {/* Error State */}

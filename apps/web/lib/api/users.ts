@@ -44,10 +44,12 @@ export interface UserListResponse {
 
 export async function getAllUsers(params: {
   role?: string
+  /** "staff" (equipe) | "patient" (portal). Separa as duas populações nas abas. */
+  group?: 'staff' | 'patient'
   limit?: number
   offset?: number
 }): Promise<UserListResponse> {
-  const { role, limit = 20, offset = 0 } = params
+  const { role, group, limit = 20, offset = 0 } = params
   const queryParams = new URLSearchParams({
     limit: limit.toString(),
     offset: offset.toString(),
@@ -55,6 +57,9 @@ export async function getAllUsers(params: {
 
   if (role) {
     queryParams.append('role', role)
+  }
+  if (group) {
+    queryParams.append('group', group)
   }
 
   return apiClient.get<UserListResponse>(
