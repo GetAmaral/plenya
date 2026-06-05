@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Guia da Recepção Plenya</title>
+<style>
+  :root{
+    --petrol:#063b4f; --petrol2:#0a4f68;
+    --gold:#b38645;  --gold-d:#946d34;
+    --ocean:#417e8e; --sage:#92b8b4; --cream:#eae7da;
+    --ink:#22201c;   --mut:#6f6a60;
+    --line:#e0d9c8;  --line2:#d4cbb6;
+    --paper:#fffdf8; --creamsoft:#f6f2e8; --goldsoft:#f3ebda;
+    --green:#356b4f; --greensoft:#e9f1ea; --greenline:#bcd6c4;
+    --red:#9a3b34;   --redsoft:#f7ece9;   --redline:#e6c7c1;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  @page{ size:A4; margin:0; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ font-family:"EB Garamond","Cormorant Garamond",Georgia,serif; color:var(--ink);
+        font-size:10.6px; line-height:1.46; }
+  .lbl{ font-family:"Inter",sans-serif; }
+
+  .sheet{ width:210mm; min-height:297mm; padding:13mm 13mm 11mm; background:var(--paper);
+          position:relative; page-break-after:always; display:flex; flex-direction:column; }
+  .sheet:last-child{ page-break-after:auto; }
+  .pagefoot{ margin-top:auto; padding-top:8px; border-top:1px solid var(--line);
+             display:flex; justify-content:space-between; font-family:"Inter",sans-serif;
+             font-size:7.6px; letter-spacing:.4px; color:var(--mut); text-transform:uppercase; }
+  .pagefoot b{ color:var(--gold-d); }
+
+  /* ---------- Masthead ---------- */
+  .mast{ display:flex; justify-content:space-between; align-items:flex-end;
+         padding-bottom:9px; border-bottom:2px solid var(--gold); position:relative; }
+  .mast::after{ content:""; position:absolute; left:0; right:0; bottom:-5px; height:1px; background:var(--gold); opacity:.45; }
+  .brand .wm{ font-family:"Playfair Display",serif; font-weight:800; font-size:30px;
+              color:var(--petrol); letter-spacing:3px; line-height:.9; }
+  .brand .tg{ font-family:"Inter",sans-serif; font-size:7.8px; letter-spacing:3.4px;
+              text-transform:uppercase; color:var(--gold-d); margin-top:5px; }
+  .mast .doc{ text-align:right; }
+  .mast .doc .k{ font-family:"Playfair Display",serif; font-style:italic; font-size:16px; color:var(--ocean); }
+  .mast .doc .s{ font-family:"Inter",sans-serif; font-size:7.6px; letter-spacing:1px;
+                 text-transform:uppercase; color:var(--mut); margin-top:3px; }
+
+  .kicker{ font-family:"Inter",sans-serif; font-size:9px; font-weight:600; letter-spacing:2px;
+           text-transform:uppercase; color:var(--gold-d); margin:14px 0 9px;
+           display:flex; align-items:center; gap:9px; }
+  .kicker::before{ content:""; width:18px; height:2px; background:var(--gold); }
+  .kicker.tight{ margin-top:11px; }
+
+  h2.sec{ font-family:"Inter",sans-serif; font-size:10px; font-weight:600; letter-spacing:1.4px;
+          text-transform:uppercase; color:var(--petrol); display:flex; align-items:center; gap:9px; margin:0 0 8px; }
+  h2.sec::after{ content:""; flex:1; height:1px; background:var(--line); }
+  h2.sec .num{ font-family:"Playfair Display",serif; font-style:italic; font-weight:700;
+               font-size:14px; color:var(--gold); letter-spacing:0; }
+
+  .row{ display:flex; gap:11px; }  .col{ flex:1; }
+  .g2{ display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .g3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px; }
+
+  .lede{ font-size:12.5px; line-height:1.5; color:#3a372f; }
+  .lede .dc{ float:left; font-family:"Playfair Display",serif; font-weight:800; color:var(--gold);
+             font-size:40px; line-height:.78; padding:3px 9px 0 0; }
+
+  .box{ border:1px solid var(--line); border-radius:8px; padding:11px 13px; background:#fff; }
+  .box.cream{ background:var(--creamsoft); }
+  small.cap{ font-family:"Inter",sans-serif; font-size:7.4px; font-weight:600; letter-spacing:1px;
+             text-transform:uppercase; color:var(--gold-d); display:block; margin-bottom:5px; }
+
+  /* ---------- Consulta hero ---------- */
+  .hero{ background:linear-gradient(150deg,var(--petrol),var(--petrol2)); border-radius:10px;
+         padding:15px 17px; color:#f3efe6; position:relative; overflow:hidden; }
+  .hero::after{ content:"∞"; position:absolute; right:6px; bottom:-22px; font-family:"Playfair Display",serif;
+                font-size:120px; color:#fff; opacity:.06; }
+  .hero .price{ font-family:"Playfair Display",serif; font-weight:800; font-size:42px; color:#fff; line-height:.95; }
+  .hero .price sup{ font-size:17px; font-weight:600; top:-1.1em; margin-right:2px; }
+  .hero .pl{ font-family:"Inter",sans-serif; font-size:8px; letter-spacing:1.6px; text-transform:uppercase;
+             color:var(--sage); margin-top:6px; }
+  .hero .facts{ margin-top:11px; border-top:1px solid rgba(255,255,255,.16); }
+  .hero .facts div{ display:flex; gap:9px; padding:4px 0; border-bottom:1px solid rgba(255,255,255,.1); font-size:10px; }
+  .hero .facts div:last-child{ border-bottom:none; }
+  .hero .facts b{ font-family:"Inter",sans-serif; font-weight:600; font-size:8.2px; letter-spacing:.5px;
+                  text-transform:uppercase; color:var(--sage); min-width:62px; flex-shrink:0; padding-top:1px; }
+
+  .nap div{ padding:5px 0; border-bottom:1px dotted var(--line); }
+  .nap div:last-child{ border-bottom:none; }
+  .nap b{ font-family:"Inter",sans-serif; font-size:7.2px; font-weight:600; letter-spacing:.8px;
+          text-transform:uppercase; color:var(--ocean); display:block; margin-bottom:1px; }
+
+  /* ---------- Flow band ---------- */
+  .flow{ display:flex; gap:0; }
+  .flow .st{ flex:1; text-align:center; padding:0 6px; position:relative; }
+  .flow .st::after{ content:""; position:absolute; top:13px; right:-1px; width:2px; height:14px; background:var(--line2); }
+  .flow .st:last-child::after{ display:none; }
+  .flow .n{ width:26px; height:26px; margin:0 auto 5px; border-radius:50%; background:#fff;
+            border:1.5px solid var(--gold); color:var(--gold-d); font-family:"Playfair Display",serif;
+            font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .flow .st.key .n{ background:var(--gold); color:#fff; border-color:var(--gold); }
+  .flow .lb{ font-family:"Inter",sans-serif; font-weight:600; font-size:8.4px; letter-spacing:.4px;
+             text-transform:uppercase; color:var(--petrol); display:block; }
+  .flow .ds{ font-size:8.8px; color:var(--mut); line-height:1.28; display:block; margin-top:2px; }
+
+  /* ---------- Principles strip ---------- */
+  .princ{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px; }
+  .princ .p{ border-left:2.5px solid var(--gold); padding:2px 0 2px 9px; }
+  .princ .p .t{ font-family:"Inter",sans-serif; font-weight:600; font-size:9px; color:var(--petrol); display:block; margin-bottom:1px; }
+  .princ .p .d{ font-size:9.2px; color:var(--mut); line-height:1.32; }
+
+  /* ---------- Tempos (descoberta) ---------- */
+  .tempos{ display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .tempo{ background:#fff; border:1px solid var(--line); border-radius:9px; padding:12px 13px 12px 14px;
+          position:relative; overflow:hidden; }
+  .tempo::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--gold); }
+  .tempo .hd{ display:flex; align-items:baseline; gap:8px; margin-bottom:4px; }
+  .tempo .tn{ font-family:"Playfair Display",serif; font-weight:800; font-size:21px; color:var(--gold); line-height:1; }
+  .tempo .tt{ font-family:"Inter",sans-serif; font-weight:600; font-size:10.5px; letter-spacing:.4px;
+              text-transform:uppercase; color:var(--petrol); }
+  .tempo .q{ font-style:italic; font-size:12px; color:#33302b; }
+  .tempo .q::before{ content:"“"; color:var(--gold); font-family:"Playfair Display",serif; font-size:14px; }
+  .tempo .q::after{ content:"”"; color:var(--gold); font-family:"Playfair Display",serif; font-size:14px; }
+
+  /* ---------- Talk track ---------- */
+  .say{ background:var(--creamsoft); border-radius:7px; border-left:3px solid var(--gold);
+        padding:8px 12px; margin-bottom:7px; }
+  .say .who{ font-family:"Inter",sans-serif; font-size:7.4px; font-weight:600; letter-spacing:1px;
+             text-transform:uppercase; color:var(--gold-d); display:block; margin-bottom:2px; }
+  .say p{ font-style:italic; font-size:11.4px; color:#33302b; }
+  .say p + p{ margin-top:4px; }
+
+  /* ---------- callouts ---------- */
+  .note{ border-radius:7px; padding:8px 12px; font-size:9.8px; line-height:1.4; }
+  .note.rule{ background:var(--goldsoft); border-left:3px solid var(--gold); }
+  .note.rule b{ color:var(--gold-d); font-family:"Inter",sans-serif; font-weight:600; }
+  .note.guard{ background:var(--redsoft); border-left:3px solid var(--red); }
+  .note.guard b{ color:var(--red); font-family:"Inter",sans-serif; font-weight:600; }
+  .note.ok{ background:var(--greensoft); border-left:3px solid var(--green); }
+  .note.ok b{ color:var(--green); font-family:"Inter",sans-serif; font-weight:600; }
+
+  /* ---------- do / dont ---------- */
+  .dd{ border-radius:8px; padding:11px 13px; }
+  .dd.do{ background:var(--greensoft); border:1px solid var(--greenline); }
+  .dd.dont{ background:var(--redsoft); border:1px solid var(--redline); }
+  .dd h3{ font-family:"Inter",sans-serif; font-size:9px; font-weight:700; letter-spacing:1.2px;
+          text-transform:uppercase; margin-bottom:7px; display:flex; align-items:center; gap:6px; }
+  .dd.do h3{ color:var(--green); }  .dd.dont h3{ color:var(--red); }
+  .dd h3 .mk{ width:15px; height:15px; border-radius:50%; display:inline-flex; align-items:center;
+              justify-content:center; color:#fff; font-size:9px; font-weight:700; }
+  .dd.do h3 .mk{ background:var(--green); }  .dd.dont h3 .mk{ background:var(--red); }
+  .dd li{ list-style:none; padding:3px 0 3px 14px; position:relative; font-size:9.7px; line-height:1.36;
+          border-top:1px solid rgba(0,0,0,.05); }
+  .dd li:first-child{ border-top:none; }
+  .dd li::before{ content:""; position:absolute; left:2px; top:8px; width:5px; height:5px; border-radius:50%; }
+  .dd.do li::before{ background:var(--green); }  .dd.dont li::before{ background:var(--red); }
+  .dd li b{ color:var(--ink); font-family:"Inter",sans-serif; font-weight:600; font-size:9.2px; }
+
+  /* ---------- objection cards ---------- */
+  .obj{ border:1px solid var(--line); border-radius:8px; overflow:hidden; background:#fff; break-inside:avoid; }
+  .obj .oh{ background:var(--petrol); color:#fff; padding:6px 12px; font-family:"Inter",sans-serif;
+            font-weight:600; font-size:10px; display:flex; align-items:center; gap:8px; }
+  .obj .oh::before{ content:""; width:5px; height:5px; border-radius:50%; background:var(--gold);
+            flex-shrink:0; }
+  .obj .oh .q{ font-family:"EB Garamond",serif; font-style:italic; font-weight:400; }
+  .obj .ob{ padding:8px 11px; }
+  .obj .pr{ font-size:9px; color:var(--mut); margin-bottom:5px; padding-bottom:5px; border-bottom:1px dotted var(--line); }
+  .obj .pr b{ font-family:"Inter",sans-serif; font-weight:600; color:var(--gold-d); font-size:8px;
+              letter-spacing:.5px; text-transform:uppercase; }
+  .obj .rp{ font-style:italic; font-size:10.4px; color:#33302b; }
+
+  /* ---------- pocket card ---------- */
+  .pocket{ background:linear-gradient(150deg,var(--petrol),var(--petrol2)); border-radius:10px;
+           padding:14px 16px; color:#eee8db; }
+  .pocket h3{ font-family:"Playfair Display",serif; font-weight:700; font-style:italic; font-size:15px;
+              color:#fff; margin-bottom:9px; }
+  .pocket .p5 div{ padding:5px 0; border-bottom:1px solid rgba(255,255,255,.12); font-size:9.8px; line-height:1.34; }
+  .pocket .p5 div:last-child{ border-bottom:none; }
+  .pocket .p5 b{ font-family:"Inter",sans-serif; font-weight:600; color:var(--sage); font-size:9px; }
+  .pocket .cta{ margin-top:11px; background:var(--gold); color:#fff; border-radius:7px; padding:9px 12px;
+                text-align:center; }
+  .pocket .cta .l{ font-family:"Inter",sans-serif; font-size:7.4px; letter-spacing:1.4px; text-transform:uppercase; opacity:.85; }
+  .pocket .cta .b{ font-family:"Playfair Display",serif; font-style:italic; font-size:14px; margin-top:2px; }
+
+  .filt{ display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-top:2px; }
+  .miniq{ font-family:"Playfair Display",serif; font-style:italic; color:var(--ocean); font-size:13px;
+          text-align:center; padding:9px 0; line-height:1.4; }
+  .miniq b{ color:var(--gold-d); font-style:normal; font-weight:700; }
+</style>
+</head>
+<body>
+
+<!-- ============================ PAGE 1 ============================ -->
+<section class="sheet">
+  <div class="mast">
+    <div class="brand">
+      <div class="wm">PLENYA</div>
+      <div class="tg">Saúde · Performance · Longevidade</div>
+    </div>
+    <div class="doc">
+      <div class="k">Guia da Recepção</div>
+      <div class="s">Atendimento &amp; conversão de leads · WhatsApp e telefone</div>
+    </div>
+  </div>
+
+  <div class="kicker">A casa em uma frase</div>
+  <p class="lede"><span class="dc">A</span> recepção tem uma tarefa só: transformar o contato em uma
+  <b>Consulta Plenya agendada</b>. Você não fecha o Continuum nem fala valor dele, isso é com o médico, na
+  consulta. Escute antes de oferecer, conduza sem pressa, e deixe a porta aberta. O público da Plenya recua
+  quando sente pressão e se aproxima quando sente que foi ouvido.</p>
+
+  <div class="kicker tight">A consulta &amp; a clínica</div>
+  <div class="row">
+    <div class="col" style="flex:1.05">
+      <div class="hero">
+        <div class="price"><sup>R$</sup>800<span style="font-size:17px">,00</span></div>
+        <div class="pl">Valor único · não negociável · sem desconto</div>
+        <div class="facts">
+          <div><b>Pagamento</b><span>À vista, Pix ou cartão, antecipado, antes da consulta.</span></div>
+          <div><b>Duração</b><span>Cerca de 60 minutos. Avaliação completa, não consulta de rotina.</span></div>
+          <div><b>Formato</b><span>Presencial em Londrina ou online, com a mesma profundidade.</span></div>
+          <div><b>Particular</b><span>Sem convênio. Dedutível no Imposto de Renda.</span></div>
+          <div><b>Traz</b><span>Exames anteriores e a lista de medicações em uso.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="box nap" style="height:100%">
+        <small class="cap">Dados — use exatamente assim</small>
+        <div><b>Telefone / WhatsApp</b>(43) 99974-8899</div>
+        <div><b>Endereço</b>Av. Ayrton Senna da Silva, 500, Torre Pietra, sala 1402, Gleba Palhano, Londrina/PR</div>
+        <div><b>Site · Instagram</b>plenyasaude.com.br · @plenyaSaude</div>
+        <div><b>Horário</b>Segunda a sexta, 8h às 18h</div>
+        <div><b>Direção clínica</b>Dr. Getúlio Amaral Filho, nefrologista — CRM-PR 21.876, RQE 16.038</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kicker tight">O mapa da conversa</div>
+  <div class="box cream">
+    <div class="flow">
+      <div class="st"><div class="n">1</div><span class="lb">Acolher</span><span class="ds">Receber, identificar, criar conforto.</span></div>
+      <div class="st key"><div class="n">2</div><span class="lb">Descobrir</span><span class="ds">Entender o motivo e o momento da pessoa.</span></div>
+      <div class="st key"><div class="n">3</div><span class="lb">Valor</span><span class="ds">Ligar o que ela trouxe ao que a consulta entrega.</span></div>
+      <div class="st"><div class="n">4</div><span class="lb">Continuum</span><span class="ds">Plantar de leve. Sem fechar, sem valor.</span></div>
+      <div class="st"><div class="n">5</div><span class="lb">Objeções</span><span class="ds">Acolher, esclarecer, voltar ao próximo passo.</span></div>
+      <div class="st key"><div class="n">6</div><span class="lb">Agendar</span><span class="ds">Dia, formato, dados. Confirmar tudo.</span></div>
+    </div>
+    <div class="note rule" style="margin-top:11px"><b>Regra de ouro do fluxo.</b> Você só fala de valor (3)
+    depois de ter escutado (2). Quem pula a descoberta vende no escuro. Exame e formulário vêm depois de
+    agendar e pagar, nunca como condição para marcar.</div>
+  </div>
+
+  <div class="kicker tight">Seis princípios</div>
+  <div class="princ">
+    <div class="p"><span class="t lbl">Escutar antes de oferecer</span><span class="d">Descubra o motivo antes de apresentar a consulta. Quem entende primeiro conduz.</span></div>
+    <div class="p"><span class="t lbl">Espelhar o momento</span><span class="d">Devolva com as palavras dela. Reconhecimento converte mais que argumento.</span></div>
+    <div class="p"><span class="t lbl">Conduzir, não pressionar</span><span class="d">Cada etapa termina num próximo passo fácil. A pressa assusta.</span></div>
+    <div class="p"><span class="t lbl">Clareza acima de tudo</span><span class="d">Se não é o momento da pessoa, diga com tranquilidade. Também é cuidado.</span></div>
+    <div class="p"><span class="t lbl">Próximo passo concreto</span><span class="d">Nenhuma conversa termina no ar. Agenda, retorno marcado, ou registro.</span></div>
+    <div class="p"><span class="t lbl">Tom da casa</span><span class="d">Prosa clínica, calma, conectiva. Nunca prometa cura, resultado ou diagnóstico.</span></div>
+  </div>
+
+  <div class="pagefoot lbl"><span>Plenya · Guia da Recepção</span><span>Escute primeiro · conduza sem pressão · <b>1 / 4</b></span></div>
+</section>
+
+<!-- ============================ PAGE 2 ============================ -->
+<section class="sheet">
+  <h2 class="sec"><span class="num">2</span> A descoberta, em quatro tempos</h2>
+  <p style="font-size:11px; color:#3a372f; margin-bottom:9px">Uma pergunta de cada vez, em ritmo de conversa,
+  nunca um questionário. A ordem leva a pessoa do fato ao que de fato a move, e é isso que dá sentido ao valor
+  quando ele vier. Os dois primeiros tempos quase sempre bastam; os dois últimos entram quando ela abre espaço.</p>
+
+  <div class="tempos">
+    <div class="tempo"><div class="hd"><span class="tn">1</span><span class="tt lbl">Contexto</span></div>
+      <p class="q">o que te fez procurar um acompanhamento agora?</p></div>
+    <div class="tempo"><div class="hd"><span class="tn">2</span><span class="tt lbl">Incômodo</span></div>
+      <p class="q">e o que mais tem te incomodado nisso?</p></div>
+    <div class="tempo"><div class="hd"><span class="tn">3</span><span class="tt lbl">Peso na rotina</span></div>
+      <p class="q">isso tem pesado no seu dia a dia?</p></div>
+    <div class="tempo"><div class="hd"><span class="tn">4</span><span class="tt lbl">Cenário ideal</span></div>
+      <p class="q">como você imagina se sentir se isso entrasse nos eixos?</p></div>
+  </div>
+
+  <div class="note guard" style="margin-top:10px"><b>Trava LGPD / CFM.</b> Os tempos 3 e 4 falam de
+  <b>vida e rotina</b>, nunca de sintoma, exame ou diagnóstico. "Tem pesado na sua rotina?" é contexto;
+  "que exame deu alterado?" é anamnese, e isso é da consulta, com o médico. Se a pessoa já pedir para marcar,
+  pare a descoberta e vá agendar.</div>
+
+  <div class="kicker tight">Espelhar e aprofundar</div>
+  <div class="row">
+    <div class="col" style="flex:1.15">
+      <p style="font-size:10.6px; color:#3a372f; margin-bottom:8px">Antes de seguir para o valor, mostre que
+      escutou. Pegue a palavra ou a emoção que a pessoa usou e devolva com uma pergunta. Reduz a defesa,
+      aprofunda, e não promete nada. Use quando vier uma palavra carregada — <i>exausta, perdida, travada,
+      sem ânimo</i> — vale mais espelhar o termo dela do que reformular com os seus.</p>
+    </div>
+    <div class="col" style="flex:1.4">
+      <div class="say"><span class="who lbl">Lead</span><p>ando exausta o tempo todo.</p></div>
+      <div class="say" style="border-left-color:var(--ocean)"><span class="who lbl" style="color:var(--ocean)">Você</span>
+        <p>quando você diz <b>exausta o tempo todo</b>, como isso aparece no seu dia?</p></div>
+    </div>
+  </div>
+
+  <div class="kicker tight">Do valor ao preço</div>
+  <div class="g2">
+    <div class="box cream">
+      <small class="cap">Recapitule antes de dizer o valor</small>
+      <p style="font-size:10.2px; color:#3a372f; margin-bottom:7px">Com o lead aquecido, costure o que ela
+      trouxe e confirme <b>antes</b> do preço. O valor chega em terreno preparado, não no escuro.</p>
+      <div class="say"><span class="who lbl">Você</span>
+        <p>pelo que você me conta, o que mais pesa é <b>[a situação dela, nas palavras dela]</b>. A consulta foi
+        pensada para olhar isso com calma: cerca de 60 minutos, painel ampliado e uma conduta para o seu caso.
+        Faz sentido até aqui?</p></div>
+      <p style="font-size:9.4px; color:var(--mut); margin-top:6px">O "faz sentido até aqui?" não pede validação:
+      é um ponto de acordo antes do preço. Se hesitar, ainda há dúvida — volte a escutar.</p>
+    </div>
+    <div class="col" style="display:flex; flex-direction:column; gap:11px">
+      <div class="note rule"><b>A regra do preço.</b> Dito o "sim", diga o valor em <b>uma frase calma e
+      pare</b>. Não emende parcelamento, justificativa nem "mas inclui X, Y e Z". O contexto vem antes do
+      preço, não depois. Firmeza tranquila lê como segurança; emendar álibis lê como insegurança.</div>
+      <div class="note guard"><b>Sem promessa.</b> A recapitulação descreve a <b>qualidade do cuidado</b>,
+      jamais um desfecho de saúde. Antecipar não é amedrontar, e nada de "vamos resolver os seus problemas".</div>
+      <div class="note ok"><b>Pedir passagem.</b> Para avançar sem empurrar, peça licença para o próximo passo:
+      "quer que eu te mostre como funciona?" ou "quer que eu veja uma data para você?".</div>
+    </div>
+  </div>
+
+  <div class="pagefoot lbl"><span>Plenya · Guia da Recepção</span><span>A engenharia da escuta · <b>2 / 4</b></span></div>
+</section>
+
+<!-- ============================ PAGE 3 ============================ -->
+<section class="sheet">
+  <h2 class="sec"><span class="num">3</span> Banco de objeções</h2>
+  <p style="font-size:10.6px; color:#3a372f; margin-bottom:9px"><b>Antes de responder, leia o que é a
+  objeção.</b> Pergunta concreta é <b>dúvida real</b>: responda direto e devolva o próximo passo. "Vou pensar /
+  pesquisar" sem pergunta é <b>evasiva</b>: acolha, segure um passo leve, não insista. À dúvida, clareza; à
+  evasiva, espaço com uma porta aberta.</p>
+
+  <div class="g2" style="gap:10px">
+    <div class="obj"><div class="oh lbl"><span class="q">"Tá caro / por que tão caro?"</span></div>
+      <div class="ob"><div class="pr"><b>Princípio</b> Não defenda o preço, mostre o que está dentro dele.</div>
+      <p class="rp">É uma avaliação completa de cerca de 60 minutos, com painel ampliado e conduta para o seu
+      caso, não uma consulta rápida. Quer conhecer o Dr. e decidir com calma?</p></div></div>
+
+    <div class="obj"><div class="oh lbl"><span class="q">"Tem desconto? Dá para negociar?"</span></div>
+      <div class="ob"><div class="pr"><b>Princípio</b> Firmeza gentil, sem constrangimento.</div>
+      <p class="rp">O valor é único, R$ 800, e não temos negociação. O pagamento é à vista, no Pix ou cartão,
+      antes da consulta. Quer que eu veja uma data?</p></div></div>
+
+    <div class="obj"><div class="oh lbl"><span class="q">"Não atende convênio?"</span></div>
+      <div class="ob"><div class="pr"><b>Princípio</b> Afirme sem pedir desculpa; ofereça o benefício fiscal.</div>
+      <p class="rp">É exclusivamente particular. Uma informação útil: a consulta é dedutível no Imposto de
+      Renda, como toda despesa médica. Vejo um horário para você?</p></div></div>
+
+    <div class="obj"><div class="oh lbl"><span class="q">"Já tenho médico / faço check-up"</span></div>
+      <div class="ob"><div class="pr"><b>Princípio</b> Não substitui, integra. Nunca contra o outro médico.</div>
+      <p class="rp">A ideia não é substituir ninguém. O Dr. conduz seu cuidado no tempo e conversa com quem já
+      te acompanha. Muita gente chega com exames normais sentindo que algo não fecha. Quer experimentar?</p></div></div>
+
+    <div class="obj"><div class="oh lbl"><span class="q">"Meus exames deram normais"</span></div>
+      <div class="ob"><div class="pr"><b>Princípio</b> A janela silenciosa, sem assustar. Antecipar, não amedrontar.</div>
+      <p class="rp">Que bom que estão normais. É justamente aí que entra o nosso olhar: normal não é o mesmo que
+      ótimo. Existe um intervalo, às vezes de anos, e é nele que dá para agir. Quer conhecer?</p></div></div>
+
+    <div class="obj"><div class="oh lbl"><span class="q">"Preciso pensar / falar em casa"</span></div>
+      <div class="ob"><div class="pr"><b>Princípio</b> Evasiva: respeite, não pressione, segure um passo leve.</div>
+      <p class="rp">Claro, é uma decisão sua e faz sentido conversar em casa. Deixo um horário pré-reservado e te
+      retorno [dia] para confirmar. Se não for o momento, é só me avisar. Pode ser?</p></div></div>
+
+    <div class="obj"><div class="oh lbl"><span class="q">"Qual a diferença de uma consulta comum?"</span></div>
+      <div class="ob"><div class="pr"><b>Princípio</b> Quatro diferenças concretas, sem floreio.</div>
+      <p class="rp">Cerca de 60 minutos, não quinze; um painel de exames mais amplo; equipe que conversa entre
+      si quando o caso pede; e o progresso medido no tempo pelo Escore Plenya. É outro tipo de acompanhamento.</p></div></div>
+
+    <div class="obj"><div class="oh lbl"><span class="q">"Isso funciona mesmo? Cadê a prova?"</span></div>
+      <div class="ob"><div class="pr"><b>Princípio</b> Credibilidade do médico e do método, sem prometer (CFM).</div>
+      <p class="rp">O Dr. Getúlio é nefrologista com vinte anos de prática e autor do livro "Antes". O cuidado
+      segue um método, o AGIR, medido no tempo. Não prometemos milagre; oferecemos acompanhamento sério. A
+      consulta é o melhor jeito de sentir isso. Quer marcar?</p></div></div>
+  </div>
+
+  <div class="note rule" style="margin-top:10px"><b>Não sou de Londrina · estou sem tempo.</b> A telemedicina
+  resolve: mesma profundidade da presencial, atende o Brasil todo, sem deslocamento, e dá para achar um
+  horário mais à frente. Trate como não-problema.</div>
+
+  <div class="pagefoot lbl"><span>Plenya · Guia da Recepção</span><span>Acolher · esclarecer · próximo passo · <b>3 / 4</b></span></div>
+</section>
+
+<!-- ============================ PAGE 4 ============================ -->
+<section class="sheet">
+  <h2 class="sec"><span class="num">4</span> O que nunca fazer &amp; o cartão de bolso</h2>
+
+  <div class="g2">
+    <div class="dd dont">
+      <h3 class="lbl"><span class="mk">✕</span> Nunca, em hipótese alguma</h3>
+      <ul>
+        <li><b>Diagnosticar ou prometer.</b> Sem orientação clínica, sem interpretar exame, sem prometer cura ou resultado. É do médico (CFM).</li>
+        <li><b>Falar valor do Continuum.</b> A recepção só informa o valor da consulta. O Continuum é com o médico.</li>
+        <li><b>Pressão e urgência forçada.</b> Nada de "quando você vai decidir?" ou "vaga acabando". O público recua.</li>
+        <li><b>Medo como alavanca.</b> "Imagina o que você perde" não entra. Antecipar não é amedrontar.</li>
+        <li><b>Desconto ou negociar escopo.</b> Valor único; não há escopo a reduzir nem condição a inventar.</li>
+        <li><b>"Medicina preditiva", marcas, lojas.</b> Fale por categoria. A linguagem é prevenção e longevidade.</li>
+        <li><b>Travessão, gíria, fecho de efeito, emoji em excesso.</b> Frases inteiras e conectadas.</li>
+      </ul>
+    </div>
+    <div class="col" style="display:flex; flex-direction:column; gap:11px">
+      <div class="pocket">
+        <h3>Cartão de bolso</h3>
+        <div class="p5">
+          <div><b>Tá caro</b> → avaliação completa de ~60 min com conduta para o seu caso, não consulta rápida. Quer conhecer e decidir com calma?</div>
+          <div><b>Sem convênio?</b> → particular, e dedutível no IR. Vejo uma data?</div>
+          <div><b>Já tenho médico</b> → não substituímos, integramos. O Dr. conversa com quem já te acompanha.</div>
+          <div><b>Exames normais</b> → normal não é o mesmo que ótimo. A consulta olha esse intervalo.</div>
+          <div><b>Preciso pensar</b> → deixo um horário pré-reservado e te retorno [dia] para confirmar?</div>
+        </div>
+        <div class="cta"><div class="l lbl">CTA padrão</div><div class="b">Quer que eu veja uma data para você?</div></div>
+      </div>
+      <div class="dd do">
+        <h3 class="lbl"><span class="mk">✓</span> Três diferenças, em uma linha</h3>
+        <ul>
+          <li>Consulta longa, cerca de 60 minutos.</li>
+          <li>Painel de exames ampliado, lido entre o normal e o ótimo.</li>
+          <li>Progresso medido no tempo pelo Escore Plenya, com equipe integrada quando o caso pede.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="kicker tight">Do método: o que tomamos e o que deixamos de fora</div>
+  <div class="filt">
+    <div class="dd do" style="padding-bottom:9px">
+      <h3 class="lbl"><span class="mk">✓</span> Trouxemos — a engenharia da escuta</h3>
+      <ul>
+        <li><b>Descoberta em 4 tempos.</b> Do fato ao que move, dá sentido ao valor.</li>
+        <li><b>Espelhar a palavra dela.</b> Escuta que reduz a defesa.</li>
+        <li><b>Recapitular antes do preço.</b> O valor chega em terreno preparado.</li>
+        <li><b>Preço em uma frase.</b> Firmeza tranquila, sem álibis.</li>
+        <li><b>Dúvida vs. evasiva · pedir passagem.</b> Conduzir sem empurrar.</li>
+      </ul>
+    </div>
+    <div class="dd dont" style="padding-bottom:9px">
+      <h3 class="lbl"><span class="mk">✕</span> Deixamos de fora — a pressão comercial</h3>
+      <ul>
+        <li><b>Agressividade e urgência forçada.</b> O público da Plenya recua.</li>
+        <li><b>Medo como alavanca.</b> Usamos a janela silenciosa, com calma.</li>
+        <li><b>Promessa de transformação.</b> Vedado por CFM e pela voz da marca.</li>
+        <li><b>Negociar escopo por desconto.</b> Preço único e firme.</li>
+        <li><b>Escada de "sins", bajulação, fecho-slogan.</b> Já vetados pela voz.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="miniq">A Plenya <b>orienta sem impor, educa sem simplificar demais, inspira sem exageros.</b><br>
+  Tudo neste guia passa por esse filtro.</div>
+
+  <div class="pagefoot lbl"><span>Plenya · Guia da Recepção</span><span>Anti-pressão · anti-promessa · <b>4 / 4</b></span></div>
+</section>
+
+</body>
+</html>
