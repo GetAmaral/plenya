@@ -19,13 +19,13 @@
   },
   "dependencies": {
     "@plenya/types": "workspace:*",
-    "zod": "^4.4.3"
+    "zod": "catalog:"
   },
   "peerDependencies": {
-    "@tanstack/react-query": "^5.90.0"
+    "@tanstack/react-query": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "typescript": "^6.0.2"
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
   }
 }

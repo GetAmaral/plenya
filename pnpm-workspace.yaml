@@ -1,3 +1,44 @@
+# Fonte ÚNICA de versionamento dos apps WEB (web, site, site-getulio) + packages compartilhados.
+# Cada package.json referencia `catalog:` em vez de fixar versão → mesma versão sempre, definida aqui.
+# Mobile (apps/mobile-*, packages/ui-mobile) NÃO usa este catálogo: Expo/React Native ditam versões
+# próprias (react 19.0.0, tailwind 3.4 p/ nativewind, etc.) que não podem ser unificadas com o web.
+# Atualizar versão = editar AQUI e rodar `pnpm install`.
 packages:
   - "apps/*"
   - "packages/*"
+
+catalog:
+  # ── Framework Next/React (web) ───────────────────────────────────────────
+  next: ^16.2.7
+  next-intl: ^4.13.0
+  next-mdx-remote: ^5.0.0          # 6.x é major (API MDX nova) — segurar até validar o blog
+  react: ^19.2.7
+  react-dom: ^19.2.7
+  eslint-config-next: ^16.2.7
+  eslint: ^9.39.2                  # 10.x é major — eslint-config-next ainda em 9
+
+  # ── Types + linguagem ────────────────────────────────────────────────────
+  "@types/react": ^19.2.16
+  "@types/react-dom": ^19.2.3
+  "@types/node": ^24.12.4          # alinhado ao runtime node:24
+  typescript: ^6.0.3
+
+  # ── Estilo (web = Tailwind v4) ───────────────────────────────────────────
+  tailwindcss: ^4.3.0
+  "@tailwindcss/postcss": ^4.3.0
+  postcss: ^8.5.15
+  tailwind-merge: ^3.6.0
+  clsx: ^2.1.1
+  lucide-react: ^1.17.0            # unifica site/getulio (eram 0.469) com o web
+
+  # ── Dados / forms / estado ───────────────────────────────────────────────
+  "@tanstack/react-query": ~5.100.14        # 5.101 cria split de query-core no EMR; combo provado
+  "@tanstack/react-query-devtools": ~5.100.14
+  "@tanstack/react-table": ^8.21.3
+  react-hook-form: ^7.77.0
+  zod: ^4.4.3
+  zustand: ^5.0.14
+
+  # ── Tooling ──────────────────────────────────────────────────────────────
+  tsx: ^4.22.4
+  turbo: ^2.9.16

@@ -20,13 +20,13 @@
     "clean": "rm -rf dist"
   },
   "peerDependencies": {
-    "react": "^19.0.0"
+    "react": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "@types/react": "^19.0.7",
-    "react": "^19.2.0",
-    "tailwindcss": "^4.3.0",
-    "typescript": "^6.0.2"
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "react": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
   }
 }

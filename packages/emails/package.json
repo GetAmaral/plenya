@@ -10,12 +10,12 @@
   "dependencies": {
     "@react-email/components": "^0.0.30",
     "@react-email/render": "^1.0.3",
-    "react": "^19.0.0"
+    "react": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^22.10.0",
-    "@types/react": "^19.0.0",
-    "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
   }
 }
