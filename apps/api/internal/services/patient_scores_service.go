@@ -144,3 +144,35 @@ func (s *PatientScoresService) GetCompleteSnapshot(patientID, snapshotID uuid.UU
 	}
 	return &snap, nil
 }
+
+// GetLatestCompleteSnapshot retorna o escore COMPLETO mais recente do paciente,
+// com itens + pilares AGIR pré-carregados, para o radar do portal usar a MESMA
+// fonte (buildAgir) do EMR staff. Retorna (nil, nil) se o paciente não tiver
+// nenhum escore completo (pode ter só Light, que é por grupo e sem pilares).
+func (s *PatientScoresService) GetLatestCompleteSnapshot(patientID uuid.UUID) (*models.PatientScoreSnapshot, error) {
+	var snap models.PatientScoreSnapshot
+	err := s.db.
+		Where("patient_id = ?", patientID).
+		Preload("GroupResults", func(db *gorm.DB) *gorm.DB {
+			return db.Order("score_percentage DESC")
+		}).
+		Preload("GroupResults.Group", "deleted_at IS NULL").
+		Preload("ItemResults", func(db *gorm.DB) *gorm.DB {
+			return db.Order("actual_points DESC")
+		}).
+		Preload("ItemResults.Item", "deleted_at IS NULL").
+		Preload("ItemResults.Item.MethodPillars", func(db *gorm.DB) *gorm.DB {
+			return db.Where("deleted_at IS NULL").Order("\"order\" ASC")
+		}).
+		Preload("ItemResults.Item.MethodPillars.Letter", "deleted_at IS NULL").
+		Preload("ItemResults.Item.MethodPillars.Letter.Method", "deleted_at IS NULL").
+		Order("calculated_at DESC").
+		First(&snap).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return &snap, nil
+}

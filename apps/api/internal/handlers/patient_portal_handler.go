@@ -216,6 +216,20 @@ func (h *PatientPortalHandler) GetCompleteSnapshot(c *fiber.Ctx) error {
 	return c.JSON(out)
 }
 
+// GetLatestSnapshot GET /api/v1/patient/me/score-snapshots/latest
+// Escore COMPLETO mais recente do paciente (com pilares AGIR) para o radar do
+// portal. 204 quando o paciente não tem escore completo (só Light, sem pilares).
+func (h *PatientPortalHandler) GetLatestSnapshot(c *fiber.Ctx) error {
+	out, err := h.scores.GetLatestCompleteSnapshot(middleware.GetPatientID(c))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	if out == nil {
+		return c.JSON(nil) // 200 + null: paciente sem escore completo
+	}
+	return c.JSON(out)
+}
+
 // ============================================================
 // Labs / Prescriptions / Physical Assessments
 // ============================================================

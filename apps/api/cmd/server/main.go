@@ -714,6 +714,7 @@ func setupRoutes(
 	patientMe.Get("/physical-assessments", patientPortalHandler.ListPhysicalAssessments)
 	patientMe.Get("/physical-assessments/:id/html", patientPortalHandler.GetPhysicalAssessmentHTML)
 	patientMe.Get("/scores", patientPortalHandler.ListScores)
+	patientMe.Get("/score-snapshots/latest", patientPortalHandler.GetLatestSnapshot)
 	patientMe.Get("/score-snapshots/:id", patientPortalHandler.GetCompleteSnapshot)
 	patientMe.Put("/profile", patientPortalHandler.UpdateProfile)
 	patientMe.Get("/boxes", patientPortalHandler.ListBoxes)
