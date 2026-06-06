@@ -12,7 +12,6 @@ import {
   Send,
   Sparkles,
   X,
-  Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { CANNED_REPLIES, applyCannedReply } from '@/lib/canned-replies';
@@ -52,6 +51,21 @@ type Props = {
   /** Modo enxuto (dock): textarea menor e padding reduzido. */
   compact?: boolean;
 };
+
+// Templates WhatsApp aprovados (Meta) p/ reabrir conversa fora da janela de 24h.
+// Mantém em sincronia com docs/lgpd/whatsapp-templates.md. `lead_alert` é interno
+// (notificação ao time, não ao paciente) → fora deste seletor de atendimento.
+// TODO: trocar por lista viva da Graph API (status APPROVED) via endpoint do backend.
+type WaTemplate = { name: string; label: string; lang: string; params: string[] };
+const WA_TEMPLATES: WaTemplate[] = [
+  { name: 'reengajamento_lead', label: 'Reengajar lead frio', lang: 'pt_BR', params: ['Nome'] },
+  { name: 'confirmacao_consulta_semana', label: 'Confirmação de consulta — na semana', lang: 'pt_BR', params: ['Nome', 'Data', 'Hora', 'Modalidade'] },
+  { name: 'confirmacao_consulta_vespera', label: 'Confirmação de consulta — véspera', lang: 'pt_BR', params: ['Nome', 'Hora', 'Modalidade'] },
+  { name: 'confirmacao_consulta_dia', label: 'Confirmação de consulta — no dia', lang: 'pt_BR', params: ['Nome', 'Hora', 'Detalhe'] },
+  { name: 'followup_pos_consulta', label: 'Follow-up pós-consulta', lang: 'pt_BR', params: ['Nome'] },
+  // magic_link e lead_alert ficam fora: o 1º é enviado automaticamente pelo sistema
+  // (precisa de URL de token gerada), o 2º é notificação interna ao time.
+];
 
 // Limites: por arquivo 10MB (alinha com handler), total 40MB (limite Resend).
 const MAX_PER_FILE = 10 * 1024 * 1024;
@@ -151,19 +165,23 @@ export function ConversationComposer({
   const [channel, setChannel] = useState<Channel>(() => lockChannel ?? defaultChannel(item));
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
-  const [showCanned, setShowCanned] = useState(false);
+  // Respostas rápidas (canned) desativadas por ora — painel dormante (sem gatilho).
+  const showCanned = false;
   const [attachments, setAttachments] = useState<AttachmentState[]>([]);
-  // Template (reabre conversa fora da janela 24h).
+  // Template (reabre conversa fora da janela 24h): seleção + valores dos parâmetros.
   const [showTemplate, setShowTemplate] = useState(false);
   const [tplName, setTplName] = useState('');
-  const [tplLang, setTplLang] = useState('pt_BR');
-  const [tplParams, setTplParams] = useState('');
+  const [tplValues, setTplValues] = useState<string[]>([]);
+  const selectedTpl = WA_TEMPLATES.find((t) => t.name === tplName);
 
   // Reset campos ao trocar de conversa
   useEffect(() => {
     setSubject('');
     setBody('');
     setAttachments([]);
+    setShowTemplate(false);
+    setTplName('');
+    setTplValues([]);
     setChannel(lockChannel ?? defaultChannel(item));
   }, [item.ownerType, item.ownerId, lockChannel]);
 
@@ -181,22 +199,24 @@ export function ConversationComposer({
   const upload = useUploadConversationAttachment();
 
   const handleSendTemplate = () => {
-    if (!tplName.trim()) {
-      toast.error('Informe o nome do template aprovado.');
+    const tpl = WA_TEMPLATES.find((t) => t.name === tplName);
+    if (!tpl) {
+      toast.error('Escolha um template.');
       return;
     }
-    const params = tplParams
-      .split('\n')
-      .map((p) => p.trim())
-      .filter(Boolean);
+    const params = tpl.params.map((_, i) => (tplValues[i] ?? '').trim());
+    if (params.some((p) => !p)) {
+      toast.error('Preencha todos os campos do template.');
+      return;
+    }
     sendTpl.mutate(
-      { name: tplName.trim(), language: tplLang.trim() || 'pt_BR', params: params.length ? params : undefined },
+      { name: tpl.name, language: tpl.lang, params: params.length ? params : undefined },
       {
         onSuccess: () => {
           toast.success('Template enviado.');
           setShowTemplate(false);
           setTplName('');
-          setTplParams('');
+          setTplValues([]);
         },
         onError: (err: unknown) =>
           toast.error(err instanceof Error ? err.message : 'Falha ao enviar template'),
@@ -419,9 +439,9 @@ export function ConversationComposer({
   const showAttachUI = true;
 
   return (
-    <div className={cn('border-t border-border bg-background', compact ? 'p-2' : 'p-3 sm:p-4')}>
+    <div className={cn('border-t border-border bg-background', compact ? 'p-2' : 'p-2.5 sm:p-3')}>
       {/* Channel switcher */}
-      <div className={cn('flex flex-wrap items-center gap-2', compact ? 'mb-2' : 'mb-3')} role="tablist" aria-label="Canal de envio">
+      <div className={cn('flex flex-wrap items-center gap-2', compact ? 'mb-2' : 'mb-2')} role="tablist" aria-label="Canal de envio">
         {!lockChannel && (
           <>
             <button
@@ -461,48 +481,26 @@ export function ConversationComposer({
           </>
         )}
 
-        {/* Recepcionista virtual (Copiloto) — ancorado no script + objeções. É um recurso de
-            WhatsApp (conversão de leads); não aparece na caixa de e-mail. */}
-        {lockChannel !== 'email' && (
+        {/* IA: um único botão de rascunho. No WhatsApp usa o cérebro da recepção
+            (script + objeções + guardrails); no e-mail, a sugestão genérica. O modo
+            (Off/Copiloto/Automático) fica no seletor do cabeçalho, não aqui. */}
         <button
           type="button"
-          onClick={handleReceptionReply}
-          disabled={!validation.ok || isPending || reception.isPending}
-          title="Gerar resposta da recepção (script + objeções)"
+          onClick={channel === 'whatsapp' ? handleReceptionReply : handleSuggest}
+          disabled={!validation.ok || isPending || reception.isPending || suggest.isPending}
+          title="Gerar um rascunho de resposta com IA (revise antes de enviar)"
           className={cn(
-            'ml-auto inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-white px-3 py-1.5 text-xs font-medium text-emerald-900 transition-colors hover:bg-emerald-50',
+            'ml-auto inline-flex items-center gap-1.5 rounded-full border border-violet-300 bg-white px-3 py-1.5 text-xs font-medium text-violet-900 transition-colors hover:bg-violet-50',
             'disabled:cursor-not-allowed disabled:opacity-50'
           )}
         >
-          {reception.isPending ? (
+          {reception.isPending || suggest.isPending ? (
             <Loader2 className="h-3.5 w-3.5 animate-spin" />
           ) : (
             <Sparkles className="h-3.5 w-3.5" />
           )}
-          {reception.isPending ? 'Pensando…' : 'Recepção IA'}
+          {reception.isPending || suggest.isPending ? 'Pensando…' : 'Sugerir com IA'}
         </button>
-        )}
-
-        {/* Sugestão IA genérica — só email no MVP. */}
-        {channel === 'email' && (
-          <button
-            type="button"
-            onClick={handleSuggest}
-            disabled={!validation.ok || isPending || suggest.isPending}
-            title="Gerar sugestão de resposta com IA"
-            className={cn(
-              'inline-flex items-center gap-1.5 rounded-full border border-violet-300 bg-white px-3 py-1.5 text-xs font-medium text-violet-900 transition-colors hover:bg-violet-50',
-              'disabled:cursor-not-allowed disabled:opacity-50'
-            )}
-          >
-            {suggest.isPending ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
-            ) : (
-              <Sparkles className="h-3.5 w-3.5" />
-            )}
-            {suggest.isPending ? 'Pensando…' : 'Sugerir resposta'}
-          </button>
-        )}
 
         {/* Template — só WhatsApp; reabre conversa fora da janela 24h. */}
         {channel === 'whatsapp' && (
@@ -511,7 +509,7 @@ export function ConversationComposer({
             onClick={() => setShowTemplate((v) => !v)}
             title="Enviar template aprovado (fora da janela de 24h)"
             className={cn(
-              'ml-auto inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
+              'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors',
               showTemplate
                 ? 'border-emerald-400 bg-emerald-100 text-emerald-900'
                 : 'border-emerald-300 bg-white text-emerald-900 hover:bg-emerald-50'
@@ -526,34 +524,49 @@ export function ConversationComposer({
       {channel === 'whatsapp' && showTemplate && (
         <div className="mb-2 space-y-2 rounded-md border border-emerald-200 bg-emerald-50/40 p-3">
           <p className="text-xs text-muted-foreground">
-            Use um template aprovado pela Meta pra reabrir a conversa fora da janela de 24h.
+            Escolha um template aprovado pela Meta pra reabrir a conversa fora da janela de 24h.
           </p>
-          <div className="flex gap-2">
-            <Input
-              value={tplName}
-              onChange={(e) => setTplName(e.target.value)}
-              placeholder="Nome do template (ex: reengajamento)"
-              className="text-sm"
-            />
-            <Input
-              value={tplLang}
-              onChange={(e) => setTplLang(e.target.value)}
-              placeholder="pt_BR"
-              className="w-28 text-sm"
-            />
-          </div>
-          <textarea
-            value={tplParams}
-            onChange={(e) => setTplParams(e.target.value)}
-            rows={2}
-            placeholder="Parâmetros do corpo ({{1}}, {{2}}…), um por linha (opcional)"
-            className="w-full resize-y rounded-md border border-input bg-transparent p-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
-          />
+          <select
+            value={tplName}
+            onChange={(e) => {
+              setTplName(e.target.value);
+              setTplValues([]);
+            }}
+            aria-label="Template"
+            className="w-full rounded-md border border-input bg-background p-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+          >
+            <option value="">Escolha um template…</option>
+            {WA_TEMPLATES.map((t) => (
+              <option key={t.name} value={t.name}>
+                {t.label}
+              </option>
+            ))}
+          </select>
+          {selectedTpl && selectedTpl.params.length > 0 && (
+            <div className="space-y-1.5">
+              {selectedTpl.params.map((label, i) => (
+                <Input
+                  key={`${selectedTpl.name}-${i}`}
+                  value={tplValues[i] ?? ''}
+                  onChange={(e) =>
+                    setTplValues((prev) => {
+                      const next = [...prev];
+                      next[i] = e.target.value;
+                      return next;
+                    })
+                  }
+                  placeholder={label}
+                  aria-label={label}
+                  className="text-sm"
+                />
+              ))}
+            </div>
+          )}
           <div className="flex justify-end">
             <Button
               type="button"
               size="sm"
-              disabled={sendTpl.isPending || !tplName.trim()}
+              disabled={sendTpl.isPending || !selectedTpl}
               onClick={handleSendTemplate}
             >
               {sendTpl.isPending && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
@@ -586,7 +599,7 @@ export function ConversationComposer({
         <textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          rows={compact ? 2 : 4}
+          rows={compact ? 2 : 3}
           placeholder={
             channel === 'email'
               ? 'Escreva o email… (arraste arquivos pra anexar)'
@@ -680,18 +693,9 @@ export function ConversationComposer({
               <Paperclip className="h-3.5 w-3.5" /> Anexar
             </button>
           )}
-          <button
-            type="button"
-            onClick={() => setShowCanned((v) => !v)}
-            className={cn(
-              'inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium hover:bg-muted',
-              showCanned
-                ? 'border-primary/40 bg-primary/5'
-                : 'border-border bg-background'
-            )}
-          >
-            <Zap className="h-3.5 w-3.5" /> Respostas rápidas
-          </button>
+          {/* Respostas rápidas (canned) removidas por ora (decisão 2026-06-06).
+              Restaurar quando houver biblioteca curada. O painel `showCanned` segue
+              no código, só sem gatilho. */}
           {showAttachUI && attachments.length > 0 && (
             <span
               className={cn(
