@@ -108,4 +108,11 @@ compositor `conversation-composer.tsx` (já recebe rascunho via `draftBody`/`dra
 `GET/PUT /api/v1/reception/settings`. Falta o endpoint do passo 1. Mapeamento Manual=`off`.
 
 ## Status
-Backend (Partes 1 e 2) **concluído e commitado**. Frontend (Parte 3) **a iniciar** — pronto para compactar.
+Partes 1, 2 e 3 **concluídas, commitadas e DEPLOYADAS em prod** (2026-06-06).
+- Front+back no commit `9e35144a`; api+web rebuildados no Coolify (api `kgcuxgvmnbx6yya35e3ca2v0`,
+  web `nwbhak0fscs2th13gz5g9zjm`); migration **00028 aplicada** (RUN_MIGRATIONS=true + prod-entrypoint
+  `set -e` → server saudável prova que subiu). Rotas `/reception/settings` e `/suggested-reply` no ar (401 sem auth).
+- **`RECEPTION_BOT_ENABLED=false`** setado explícito no app da API → **bot OFF**: UI visível, nada
+  rascunhado/enviado sozinho. `pnpm generate` pulado (front usa tipos manuais).
+- ⬜ **Pendente:** teste end-to-end em runtime (ligar o kill switch num teste controlado) + confirmar
+  janela com o Getúlio antes de ativar Copiloto/Auto no número real.
