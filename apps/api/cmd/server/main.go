@@ -1554,7 +1554,7 @@ func setupRoutes(
 
 	// 5) Recepcionista virtual (Fase 2): auto-resposta por fallback de tempo.
 	//    Só inicia se RECEPTION_BOT_ENABLED=true (kill switch global).
-	conversationAutoReplyJob := scheduler.NewConversationAutoReplyJob(database.DB, conversationService, conversationAutomationService, notificationService, cfg)
+	conversationAutoReplyJob := scheduler.NewConversationAutoReplyJob(database.DB, conversationService, conversationAutomationService, receptionSettingsService, notificationService, cfg)
 	conversationAutoReplyJob.Start()
 }
 
