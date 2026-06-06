@@ -371,15 +371,42 @@ export function RadarAgir({
       </div>
 
       {showLegend && (
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6 font-mono text-[11px] uppercase tracking-[0.2em]">
-          {letterArcs.map((l) => (
-            <span key={l.code} className="flex items-center gap-2" style={{ color: INK_70 }}>
-              <span className="w-2 h-2 rounded-full" style={{ background: l.color, opacity: l.count === 0 ? 0.5 : 1 }} />
-              <span style={l.count === 0 ? { color: INK_40 } : undefined}>
-                {l.label ?? l.code} {l.count === 0 ? '—' : l.score.toFixed(0)}
+        <div className="flex flex-wrap justify-center gap-2 md:gap-2.5">
+          {letterArcs.map((l) => {
+            const empty = l.count === 0
+            return (
+              <span
+                key={l.code}
+                className="inline-flex items-center gap-2 rounded-full py-1 pl-1 pr-3"
+                style={{
+                  background: empty ? 'transparent' : `${l.color}14`,
+                  border: `1px solid ${empty ? INK_12 : `${l.color}55`}`,
+                }}
+              >
+                <span
+                  className="grid place-items-center rounded-full"
+                  style={{
+                    width: 22,
+                    height: 22,
+                    background: empty ? INK_12 : l.color,
+                    color: empty ? INK_40 : CENTER_FILL,
+                    fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
+                    fontSize: 15,
+                    fontWeight: 600,
+                    lineHeight: 1,
+                  }}
+                >
+                  {l.label ?? l.code}
+                </span>
+                <span
+                  className="font-mono text-[12px] tabular-nums"
+                  style={{ color: empty ? INK_40 : INK_70 }}
+                >
+                  {empty ? '—' : l.score.toFixed(0)}
+                </span>
               </span>
-            </span>
-          ))}
+            )
+          })}
         </div>
       )}
     </figure>
