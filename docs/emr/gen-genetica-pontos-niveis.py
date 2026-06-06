@@ -192,10 +192,11 @@ if '--sql' in sys.argv:
         for r,pts,lad,note in out:
             sym=symbol(r['item'])
             labcode='GEN_'+r['id'].replace('-','')
+            labid=str(uuid.uuid5(NS, f"plenya-genelabdef|{labcode}"))
             nm=r['item'].replace("'","''"); sh=sym[:50].replace("'","''")
-            f.write("INSERT INTO lab_test_definitions (code,name,short_name,category,result_type,"
+            f.write("INSERT INTO lab_test_definitions (id,code,name,short_name,category,result_type,"
                     "is_requestable,is_active,display_order,description,created_at,updated_at) VALUES "
-                    f"('{labcode}','{nm}','{sh}','genetics','categorical',true,true,0,"
+                    f"('{labid}','{labcode}','{nm}','{sh}','genetics','categorical',true,true,0,"
                     "'Genótipo — exame genético (painel Plenya)',now(),now()) ON CONFLICT (code) DO NOTHING;\n")
             f.write(f"UPDATE score_items SET lab_test_code='{labcode}', updated_at=now() WHERE id='{r['id']}';\n")
         f.write("COMMIT;\n")
