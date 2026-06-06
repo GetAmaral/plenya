@@ -93,20 +93,25 @@ NÃO RE-ENGAJAR
 // buildReceptionPrompt monta o prompt completo: system (cérebro) + horários disponíveis
 // (opcional) + transcript da conversa + instrução de saída estruturada em JSON. A conversa
 // vem em ordem cronológica, cada linha prefixada com [DENTRO] (cliente) ou [FORA] (Plenya).
-func buildReceptionPrompt(transcript, slotsText, nowLine string) string {
+func buildReceptionPrompt(transcript, slotsText, businessHours, nowLine string) string {
 	slotsBlock := ""
 	if s := strings.TrimSpace(slotsText); s != "" {
 		slotsBlock = "\nHORÁRIOS DISPONÍVEIS (use só estes ao oferecer):\n" + s + "\n"
+	}
+	bizBlock := ""
+	if b := strings.TrimSpace(businessHours); b != "" {
+		bizBlock = "\nHORÁRIO DE FUNCIONAMENTO da clínica (use para responder dúvidas de horário e para saber se está aberto agora; é diferente dos horários de consulta disponíveis acima):\n" + b + "\n"
 	}
 	nowBlock := ""
 	if n := strings.TrimSpace(nowLine); n != "" {
 		nowBlock = "\nAGORA (horário de Londrina/PR, referência real): " + n +
 			".\nSaúde conforme o período do dia (madrugada 0h-5h, manhã 5h-12h, tarde 12h-18h, noite 18h-24h). " +
 			"NUNCA anuncie o horário exato (\"são X horas\") nem deduza a hora pelos carimbos do histórico. " +
-			"Na madrugada, seja sóbrio: nada de \"bom dia\" e sem energia excessiva.\n"
+			"Na madrugada, seja sóbrio: nada de \"bom dia\" e sem energia excessiva. " +
+			"Se a pessoa escrever fora do horário de funcionamento, pode acolher e dizer que a equipe retoma no próximo horário de atendimento, sem prometer resposta humana imediata.\n"
 	}
 	return fmt.Sprintf(`%s
-%s%s
+%s%s%s
 HISTÓRICO DA CONVERSA (cronológico; [DENTRO] = cliente, [FORA] = Plenya):
 
 %s
@@ -114,5 +119,5 @@ HISTÓRICO DA CONVERSA (cronológico; [DENTRO] = cliente, [FORA] = Plenya):
 Gere a melhor próxima mensagem da Plenya para a última mensagem do cliente, seguindo tudo acima.
 
 Responda APENAS com um objeto JSON válido, sem texto fora dele, neste formato:
-{"reply": "<a mensagem a enviar, só o corpo, sem assinatura, sem placeholder entre colchetes>", "action": "<ask|answer|handle_objection|propose_schedule|handoff>", "handoffReason": "<curto; vazio se action != handoff>", "discloseAI": <true|false>}`, receptionSystemPrompt, slotsBlock, nowBlock, transcript)
+{"reply": "<a mensagem a enviar, só o corpo, sem assinatura, sem placeholder entre colchetes>", "action": "<ask|answer|handle_objection|propose_schedule|handoff>", "handoffReason": "<curto; vazio se action != handoff>", "discloseAI": <true|false>}`, receptionSystemPrompt, slotsBlock, bizBlock, nowBlock, transcript)
 }

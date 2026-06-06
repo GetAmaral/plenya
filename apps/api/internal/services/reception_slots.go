@@ -119,6 +119,45 @@ func BuildUpcomingSlotsText(ctx context.Context, db *gorm.DB, slotSvc *CalendarS
 	return text
 }
 
+// minToHHMM formata minutos-desde-meia-noite em "HH:MM".
+func minToHHMM(m int) string {
+	if m >= 1440 {
+		m = 1439 // 24:00 vira 23:59 pra não confundir
+	}
+	return fmt.Sprintf("%02d:%02d", m/60, m%60)
+}
+
+// BuildBusinessHoursText resume o horário de FUNCIONAMENTO da clínica (working_hours do médico
+// de consulta) num bloco curto pro prompt, pra IA saber quando a clínica atende. Ex.:
+// "seg 08:00–12:00 e 14:00–18:00; ter 08:00–18:00; ...; dom fechado". "" se não houver dados.
+func BuildBusinessHoursText(ctx context.Context, db *gorm.DB, configuredDoctorID string) string {
+	doctorID, ok := resolveConsultDoctorID(ctx, db, configuredDoctorID)
+	if !ok {
+		return ""
+	}
+	var blocks []models.WorkingHours
+	if err := db.WithContext(ctx).
+		Where("doctor_id = ?", doctorID).
+		Order("weekday ASC, start_minute ASC").
+		Find(&blocks).Error; err != nil || len(blocks) == 0 {
+		return ""
+	}
+	byDay := map[int][]string{}
+	for _, b := range blocks {
+		byDay[b.Weekday] = append(byDay[b.Weekday], fmt.Sprintf("%s–%s", minToHHMM(b.StartMinute), minToHHMM(b.EndMinute)))
+	}
+	names := []string{"dom", "seg", "ter", "qua", "qui", "sex", "sáb"}
+	var parts []string
+	for wd := 0; wd < 7; wd++ {
+		if rngs, ok := byDay[wd]; ok {
+			parts = append(parts, fmt.Sprintf("%s %s", names[wd], strings.Join(rngs, " e ")))
+		} else {
+			parts = append(parts, names[wd]+" fechado")
+		}
+	}
+	return strings.Join(parts, "; ")
+}
+
 // resolveConsultDoctorID usa o médico configurado (RECEPTION_CONSULT_DOCTOR_ID) quando válido
 // e ainda for um doctor; senão cai no primeiro user com role doctor (por nome). Evita oferecer
 // a agenda do médico errado quando há mais de um doctor.

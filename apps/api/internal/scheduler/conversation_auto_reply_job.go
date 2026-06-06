@@ -197,7 +197,8 @@ func (j *ConversationAutoReplyJob) handleConversation(ctx context.Context, owner
 		if age >= x+x/3 {
 			j.sendAuto(ctx, ownerType, ownerID)
 		} else if age >= x {
-			j.ensureDraft(ctx, ownerType, ownerID, lastIn.ID) // rascunho pronto + janela de preview X/3
+			j.convSvc.MarkConversationTyping(ctx, ownerType, ownerID) // "digitando…" durante o preview X/3
+			j.ensureDraft(ctx, ownerType, ownerID, lastIn.ID)         // rascunho pronto + janela de preview X/3
 		}
 	}
 }
@@ -268,6 +269,9 @@ func (j *ConversationAutoReplyJob) sendAuto(ctx context.Context, ownerType strin
 	if botLastHour >= int64(j.cfg.ReceptionBot.MaxMsgsPerHour) {
 		return
 	}
+
+	// Mostra "digitando…" pro cliente enquanto a IA gera a resposta (e marca a msg como lida).
+	j.convSvc.MarkConversationTyping(ctx, ownerType, ownerID)
 
 	res, err := j.convSvc.GenerateReceptionReply(ctx, ownerType, ownerID)
 	if err != nil {

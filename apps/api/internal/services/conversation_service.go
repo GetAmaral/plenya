@@ -57,6 +57,10 @@ type ConversationService struct {
 	// Provedor de horários disponíveis (recepcionista virtual Fase 3), injetado via
 	// SetReceptionSlotsProvider. Retorna um bloco de texto pronto pro prompt, ou "".
 	receptionSlots func(ctx context.Context) string
+
+	// Provedor do horário de FUNCIONAMENTO da clínica (working_hours), injetado via
+	// SetReceptionBusinessHoursProvider. Texto pronto pro prompt, ou "".
+	receptionBusinessHours func(ctx context.Context) string
 }
 
 // SetReceptionSlotsProvider injeta o provedor de horários reais usado pelo recepcionista
@@ -64,6 +68,48 @@ type ConversationService struct {
 // convida a ver uma data sem citar horários.
 func (s *ConversationService) SetReceptionSlotsProvider(fn func(ctx context.Context) string) {
 	s.receptionSlots = fn
+}
+
+// SetReceptionBusinessHoursProvider injeta o provedor do horário de funcionamento da clínica
+// (pra IA saber quando atende e responder dúvidas de horário). Best-effort.
+func (s *ConversationService) SetReceptionBusinessHoursProvider(fn func(ctx context.Context) string) {
+	s.receptionBusinessHours = fn
+}
+
+// MarkConversationTyping mostra "digitando…" pro cliente no WhatsApp (e marca a última
+// mensagem recebida como lida), usado pelo Atendimento IA antes de gerar/enviar no Auto.
+// Best-effort: erros são apenas logados.
+func (s *ConversationService) MarkConversationTyping(ctx context.Context, ownerType string, ownerID uuid.UUID) {
+	if s.whatsappService == nil {
+		return
+	}
+	ownerCol := "lead_id"
+	if ownerType == string(models.ConversationOwnerPatient) {
+		ownerCol = "patient_id"
+	}
+	var lastIn models.LeadActivity
+	if err := s.db.WithContext(ctx).
+		Where(ownerCol+" = ?", ownerID).
+		Where("type = ?", models.LeadActivityMessageReceived).
+		Where("channel = ?", models.LeadChannelWhatsApp).
+		Order("created_at DESC").First(&lastIn).Error; err != nil {
+		return
+	}
+	wamid := ""
+	if len(lastIn.Metadata) > 0 {
+		var m map[string]any
+		if json.Unmarshal(lastIn.Metadata, &m) == nil {
+			if v, ok := m["wa_message_id"].(string); ok {
+				wamid = v
+			}
+		}
+	}
+	if wamid == "" {
+		return
+	}
+	if err := s.whatsappService.SendTypingIndicator(wamid); err != nil {
+		log.Printf("⚠️  [ATENDIMENTO IA] typing: %v", err)
+	}
 }
 
 // SetMediaServices injeta os serviços de mídia (WhatsApp Fase 2) após DI em main.go.

@@ -1361,6 +1361,9 @@ func setupRoutes(
 	conversationService.SetReceptionSlotsProvider(func(ctx context.Context) string {
 		return services.BuildUpcomingSlotsText(ctx, database.DB, calendarSlotService, cfg.ReceptionBot.ConsultDoctorID)
 	})
+	conversationService.SetReceptionBusinessHoursProvider(func(ctx context.Context) string {
+		return services.BuildBusinessHoursText(ctx, database.DB, cfg.ReceptionBot.ConsultDoctorID)
+	})
 
 	// /api/v1/integrations/google
 	// Importante: callback NÃO usa middleware Auth (Google redirect não traz JWT;

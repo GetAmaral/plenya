@@ -234,6 +234,53 @@ func (s *WhatsAppService) SendTextMessage(toE164, body string) (string, error) {
 	return msgID, nil
 }
 
+// SendTypingIndicator marca a última mensagem do cliente como lida e mostra o "digitando…"
+// no WhatsApp dele (Cloud API: status=read + typing_indicator). Dura até ~25s ou até a próxima
+// mensagem que enviarmos. Best-effort: o erro não deve abortar o fluxo de resposta.
+func (s *WhatsAppService) SendTypingIndicator(inboundWAMessageID string) error {
+	if inboundWAMessageID == "" {
+		return nil
+	}
+	if s.cfg.WhatsApp.PhoneNumberID == "" || s.cfg.WhatsApp.AccessToken == "" {
+		return nil // sem credenciais (dev) — no-op silencioso
+	}
+
+	payload := map[string]any{
+		"messaging_product": "whatsapp",
+		"status":            "read",
+		"message_id":        inboundWAMessageID,
+		"typing_indicator":  map[string]string{"type": "text"},
+	}
+	raw, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	apiVersion := s.cfg.WhatsApp.GraphAPIVersion
+	if apiVersion == "" {
+		apiVersion = "v18.0"
+	}
+	url := fmt.Sprintf("https://graph.facebook.com/%s/%s/messages", apiVersion, s.cfg.WhatsApp.PhoneNumberID)
+
+	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(raw))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Authorization", "Bearer "+s.cfg.WhatsApp.AccessToken)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := s.client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		b, _ := io.ReadAll(io.LimitReader(resp.Body, 1024))
+		return fmt.Errorf("whatsapp: typing status %d: %s", resp.StatusCode, string(b))
+	}
+	return nil
+}
+
 // maxWhatsAppMediaBytes é o teto de tamanho de mídia inbound que aceitamos baixar.
 // Áudio/vídeo do WhatsApp raramente passam disso; protege contra OOM/abuso.
 const maxWhatsAppMediaBytes = 30 * 1024 * 1024 // 30MB

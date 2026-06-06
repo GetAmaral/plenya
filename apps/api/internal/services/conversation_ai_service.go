@@ -210,7 +210,11 @@ func (s *ConversationService) GenerateReceptionReply(
 	if s.receptionSlots != nil {
 		slotsText = s.receptionSlots(ctx)
 	}
-	prompt := buildReceptionPrompt(transcript, slotsText, receptionNowLine())
+	bizHours := ""
+	if s.receptionBusinessHours != nil {
+		bizHours = s.receptionBusinessHours(ctx)
+	}
+	prompt := buildReceptionPrompt(transcript, slotsText, bizHours, receptionNowLine())
 
 	raw, err := s.aiService.CompleteText(ctx, prompt, CompleteTextOptions{
 		Model:       aiModelSuggestion,
