@@ -376,6 +376,24 @@ func (r *ScoreRepository) GetLevelsByItemID(itemID uuid.UUID) ([]models.ScoreLev
 	return levels, err
 }
 
+// GetLevelsByLabTestCode retorna os níveis (opções) do score item vinculado a um
+// lab_test_code — usado pela tela de entrada de exame qualitativo (ex.: genótipo)
+// para listar as opções e gravar result_text+level. Ordena do melhor (5) ao pior (0).
+func (r *ScoreRepository) GetLevelsByLabTestCode(code string) ([]models.ScoreLevel, error) {
+	var item models.ScoreItem
+	if err := r.db.
+		Where("lab_test_code = ? AND deleted_at IS NULL", code).
+		First(&item).Error; err != nil {
+		return nil, err
+	}
+	var levels []models.ScoreLevel
+	err := r.db.
+		Where("item_id = ?", item.ID).
+		Order("level DESC").
+		Find(&levels).Error
+	return levels, err
+}
+
 // UpdateScoreLevel updates an existing score level
 func (r *ScoreRepository) UpdateScoreLevel(level *models.ScoreLevel) error {
 	return r.db.Save(level).Error

@@ -1,7 +1,10 @@
 "use client";
 
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { UseFormReturn } from "react-hook-form";
-import { Trash2, TestTube, Sparkles } from "lucide-react";
+import { Trash2, TestTube, Sparkles, Dna } from "lucide-react";
+import { labTestDefinitionApi } from "@/lib/api/lab-test-definition-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -33,14 +36,27 @@ interface LabResultInBatchFormProps {
   canRemove: boolean;
 }
 
+// Cor do badge por nível (0=pior … 5=melhor), reaproveitada do seletor de nível.
+const levelColor = (level: number): string =>
+  ["bg-red-100 border-red-500",
+   "bg-orange-100 border-orange-500",
+   "bg-yellow-100 border-yellow-500",
+   "bg-blue-100 border-blue-500",
+   "bg-green-100 border-green-500",
+   "bg-emerald-100 border-emerald-500"][level] ?? "bg-muted border-border";
+
 export function LabResultInBatchForm({
   form,
   index,
   onRemove,
   canRemove,
 }: LabResultInBatchFormProps) {
+  // Exame selecionado do catálogo (guarda resultType/code p/ decidir o tipo de entrada).
+  const [selectedTest, setSelectedTest] = useState<LabTestDefinition | null>(null);
+
   // Handler para quando seleciona um exame do catálogo
   const handleTestSelect = (test: LabTestDefinition | null) => {
+    setSelectedTest(test);
     if (test) {
       // Auto-preencher campos com dados do catálogo
       form.setValue(`labResults.${index}.labTestDefinitionId`, test.id);
@@ -54,6 +70,26 @@ export function LabResultInBatchForm({
       // Limpar seleção
       form.setValue(`labResults.${index}.labTestDefinitionId`, undefined);
     }
+  };
+
+  // Exame qualitativo (ex.: genótipo): busca as opções (níveis) e deixa selecionar uma,
+  // gravando result_text + level de uma vez. Vale p/ qualquer exame categórico com opções.
+  const isCategorical = selectedTest?.resultType === "categorical";
+  const isGenetic = selectedTest?.category === "genetics";
+  const { data: options } = useQuery({
+    queryKey: ["qualitative-options", selectedTest?.code],
+    queryFn: () => labTestDefinitionApi.getQualitativeOptions(selectedTest!.code),
+    enabled: !!selectedTest?.code && isCategorical,
+  });
+  const hasOptions = isCategorical && (options?.length ?? 0) > 0;
+  const currentLevel = form.watch(`labResults.${index}.level`);
+
+  const handleOptionSelect = (levelStr: string) => {
+    const opt = options?.find((o) => o.level === parseInt(levelStr));
+    if (!opt) return;
+    form.setValue(`labResults.${index}.level`, opt.level);
+    form.setValue(`labResults.${index}.resultText`, opt.name);
+    form.setValue(`labResults.${index}.resultNumeric`, undefined);
   };
 
   return (
@@ -169,6 +205,48 @@ export function LabResultInBatchForm({
 
         <Separator />
 
+        {hasOptions ? (
+          /* Exame qualitativo (genótipo/categórico): uma única seleção define result_text + level */
+          <FormField
+            control={form.control}
+            name={`labResults.${index}.level`}
+            render={() => (
+              <FormItem>
+                <FormLabel className="flex items-center gap-2">
+                  <Dna className="h-4 w-4" />
+                  {isGenetic ? "Genótipo" : "Resultado"} *
+                </FormLabel>
+                <Select
+                  onValueChange={handleOptionSelect}
+                  value={currentLevel != null ? String(currentLevel) : ""}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={isGenetic ? "Selecione o genótipo" : "Selecione o resultado"}
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {options!.map((opt) => (
+                      <SelectItem key={opt.id} value={String(opt.level)}>
+                        <div className="flex items-center gap-2">
+                          <div className={`w-3 h-3 rounded border ${levelColor(opt.level)}`} />
+                          <span>{opt.name}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  A opção define o resultado e o nível do escore (maior = melhor).
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : (
+        <>
         {/* Resultado - Texto OU Numérico */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -302,6 +380,8 @@ export function LabResultInBatchForm({
             </FormItem>
           )}
         />
+        </>
+        )}
 
         {/* Interpretação */}
         <FormField

@@ -681,6 +681,29 @@ func (h *ScoreHandler) GetLevelsByItemID(c *fiber.Ctx) error {
 	return c.JSON(levels)
 }
 
+// GetLevelsByLabTestCode godoc
+// @Summary Lista as opções (níveis) do exame qualitativo vinculado a um lab_test_code
+// @Description Usado pela entrada de exame qualitativo (ex.: genótipo) para listar as opções e gravar result_text+level
+// @Tags Scores
+// @Produce json
+// @Param code path string true "Lab test code"
+// @Success 200 {array} models.ScoreLevel
+// @Router /score-items/by-lab-code/{code}/levels [get]
+func (h *ScoreHandler) GetLevelsByLabTestCode(c *fiber.Ctx) error {
+	code := c.Params("code")
+	if code == "" {
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Missing lab test code"})
+	}
+
+	levels, err := h.service.GetLevelsByLabTestCode(code)
+	if err != nil {
+		// Sem score item vinculado a esse código → sem opções (não é erro fatal).
+		return c.JSON([]any{})
+	}
+
+	return c.JSON(levels)
+}
+
 // GetScoreLevelByID godoc
 // @Summary Get score level by ID
 // @Description Get a single score level by ID

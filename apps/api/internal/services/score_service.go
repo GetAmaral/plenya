@@ -499,6 +499,11 @@ func (s *ScoreService) GetLevelsByItemID(itemID uuid.UUID) ([]models.ScoreLevel,
 	return s.repo.GetLevelsByItemID(itemID)
 }
 
+// GetLevelsByLabTestCode retorna as opções (níveis) do exame qualitativo vinculado ao código.
+func (s *ScoreService) GetLevelsByLabTestCode(code string) ([]models.ScoreLevel, error) {
+	return s.repo.GetLevelsByLabTestCode(code)
+}
+
 // UpdateLevel updates an existing score level
 func (s *ScoreService) UpdateLevel(id uuid.UUID, dto UpdateScoreLevelDTO) (*models.ScoreLevel, error) {
 	level, err := s.repo.GetScoreLevelByID(id)
