@@ -640,6 +640,9 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
   const sendWa = useSendConversationWhatsApp(item.ownerType, item.ownerId);
   // updatedAt do último rascunho já injetado no compositor (evita reinjetar a cada poll).
   const lastInjectedDraftRef = useRef<string | null>(null);
+  // Marca se havia um rascunho do servidor visível — quando ele some (enviado pelo Auto), limpamos
+  // o compositor pra não correr o risco de o atendente reenviar e duplicar.
+  const hadServerDraftRef = useRef(false);
 
   const handleSummarize = useCallback(
     (force = false) => {
@@ -677,17 +680,27 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
     setDraftToken(0);
     setSummaryDialog({ open: false });
     lastInjectedDraftRef.current = null;
+    hadServerDraftRef.current = false;
   }, [item.ownerType, item.ownerId]);
 
-  // Injeta o rascunho do servidor no compositor quando ele aparece/muda (novo inbound →
-  // novo rascunho com updatedAt diferente). Reusa o mecanismo de prefill (draftBody/token).
+  // Sincroniza o compositor com o rascunho do servidor:
+  //  - aparece/muda (novo inbound) → injeta no campo (preview).
+  //  - some (o Auto enviou e limpou o rascunho) → ESVAZIA o campo, pra não reenviar/duplicar.
   useEffect(() => {
     const d = suggested.data;
-    if (!d || !d.reply) return;
-    if (lastInjectedDraftRef.current === d.updatedAt) return;
-    lastInjectedDraftRef.current = d.updatedAt;
-    setDraftBody(d.reply);
-    setDraftToken((t) => t + 1);
+    if (d?.reply) {
+      hadServerDraftRef.current = true;
+      if (lastInjectedDraftRef.current !== d.updatedAt) {
+        lastInjectedDraftRef.current = d.updatedAt;
+        setDraftBody(d.reply);
+        setDraftToken((t) => t + 1);
+      }
+    } else if (hadServerDraftRef.current) {
+      hadServerDraftRef.current = false;
+      lastInjectedDraftRef.current = null;
+      setDraftBody('');
+      setDraftToken((t) => t + 1);
+    }
   }, [suggested.data]);
 
   const handleAssume = useCallback(() => {
