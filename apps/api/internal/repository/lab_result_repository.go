@@ -55,7 +55,7 @@ func (r *LabResultRepository) GetHistoricalResultsByLabTestCode(patientID uuid.U
 			INNER JOIN lab_result_batches lrb ON lr.lab_result_batch_id = lrb.id
 			INNER JOIN lab_test_definitions ltd ON lr.lab_test_definition_id = ltd.id
 			WHERE lrb.patient_id = ?
-				AND lr.result_numeric IS NOT NULL
+				AND (lr.result_numeric IS NOT NULL OR lr.level IS NOT NULL)
 				AND ltd.code IS NOT NULL
 				AND lr.deleted_at IS NULL
 				AND lrb.deleted_at IS NULL

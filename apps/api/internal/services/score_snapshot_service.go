@@ -322,29 +322,51 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 	// Try to find value from LabResult (if LabTestCode is set)
 	if item.LabTestCode != nil && *item.LabTestCode != "" {
 		if labResult, found := labResultsByCode[*item.LabTestCode]; found {
-			// Lab result: use numeric value and evaluate against levels
-			valueUsed = labResult.ResultNumeric
-			ds := models.DataSourceLabResult
-			dataSource = &ds
-			labResultID = &labResult.ID
+			if labResult.ResultNumeric != nil {
+				// Exame numérico: avalia o valor contra os limites dos níveis.
+				valueUsed = labResult.ResultNumeric
+				ds := models.DataSourceLabResult
+				dataSource = &ds
+				labResultID = &labResult.ID
 
-			// Evaluate level using EvaluatesTrue (for numeric lab results)
-			// Sort levels by level number ASC (0→6) - most critical first
-			levels := item.Levels
-			SortLevelsAsc(levels)
+				// Sort levels by level number ASC (0→6) - most critical first
+				levels := item.Levels
+				SortLevelsAsc(levels)
 
-			for i := range levels {
-				if levels[i].EvaluatesTrue(*valueUsed) {
-					matchedLevel = &levels[i]
-					break // Use FIRST match (most critical level that applies)
+				for i := range levels {
+					if levels[i].EvaluatesTrue(*valueUsed) {
+						matchedLevel = &levels[i]
+						break // Use FIRST match (most critical level that applies)
+					}
+				}
+
+				if matchedLevel == nil {
+					reason := fmt.Sprintf("Valor %.2f não corresponde a nenhum nível definido", *valueUsed)
+					result.NotEvaluatedReason = &reason
+					return result
+				}
+			} else if labResult.Level != nil {
+				// Exame qualitativo (ex.: genótipo, categórico): o valor não é numérico.
+				// Usa o nível pré-casado na entrada/ingestão (lab_results.level) para
+				// selecionar o score level pelo número — direção alto=bom / 0=ruim.
+				ds := models.DataSourceLabResult
+				dataSource = &ds
+				labResultID = &labResult.ID
+
+				for i := range item.Levels {
+					if item.Levels[i].Level == *labResult.Level {
+						matchedLevel = &item.Levels[i]
+						break
+					}
+				}
+
+				if matchedLevel == nil {
+					reason := fmt.Sprintf("Nível %d não existe na configuração do item", *labResult.Level)
+					result.NotEvaluatedReason = &reason
+					return result
 				}
 			}
-
-			if matchedLevel == nil {
-				reason := fmt.Sprintf("Valor %.2f não corresponde a nenhum nível definido", *valueUsed)
-				result.NotEvaluatedReason = &reason
-				return result
-			}
+			// Sem result_numeric e sem level: não seta dataSource → tenta anamnese / no_data.
 		}
 	}
 

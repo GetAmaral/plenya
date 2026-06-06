@@ -185,3 +185,18 @@ if '--sql' in sys.argv:
                         f"('{lid}',{lv},'{nm_esc}','=','{r['id']}',now(),now());\n")
         f.write("COMMIT;\n")
     print("\nSQL -> /tmp/genes_points_levels.sql")
+    # lab_test_definitions + lab_test_code (gene = exame qualitativo/categórico)
+    with open('/tmp/genes_labdefs.sql','w') as f:
+        f.write("-- Genes como EXAMES: cria lab_test_definitions (categorical/genótipo) e seta\n")
+        f.write("-- score_items.lab_test_code. Idempotente. Captura via lab_results (não anamnese).\nBEGIN;\n")
+        for r,pts,lad,note in out:
+            sym=symbol(r['item'])
+            labcode='GEN_'+r['id'].replace('-','')
+            nm=r['item'].replace("'","''"); sh=sym[:50].replace("'","''")
+            f.write("INSERT INTO lab_test_definitions (code,name,short_name,category,result_type,"
+                    "is_requestable,is_active,display_order,description,created_at,updated_at) VALUES "
+                    f"('{labcode}','{nm}','{sh}','genetics','categorical',true,true,0,"
+                    "'Genótipo — exame genético (painel Plenya)',now(),now()) ON CONFLICT (code) DO NOTHING;\n")
+            f.write(f"UPDATE score_items SET lab_test_code='{labcode}', updated_at=now() WHERE id='{r['id']}';\n")
+        f.write("COMMIT;\n")
+    print("LABDEFS -> /tmp/genes_labdefs.sql")

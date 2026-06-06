@@ -12,8 +12,26 @@
 - **APOE-ε** refeito (estava invertido) → proteção=5 … risco=0, 6 níveis distintos.
 - Artefatos canônicos: `genetica-pontos-niveis.sql` (apply idempotente) · `gen-genetica-pontos-niveis.py`
   (gerador determinístico) · `genetica-pontos-niveis-plano.csv` (auditoria por gene).
-- **Pendência aberta:** os genes só entram no escore de um paciente quando houver **anamnese genética**
-  preenchendo o genótipo (`anamnesis_items.numeric_value` = nº do nível). Sem isso, avaliam `no_data`.
+## Captura: gene é EXAME (não anamnese) — 2026-06-06
+Decisão do Dr.: gene é exame laboratorial **qualitativo** (genótipo, não número), capturado via
+`lab_results`, não anamnese. Descobertas:
+- O motor, no caminho de exame, avaliava **só numérico** (`result_numeric` + `EvaluatesTrue`); ignorava
+  `result_text` e `lab_results.level`. Exame categórico de verdade (retinopatia, angio-TC) **nunca casava**.
+- **Fix de backend (2 arquivos):**
+  - `score_snapshot_service.go`: no ramo de lab, se `ResultNumeric==nil` mas `Level!=nil`, casa o
+    `score_level` pelo **número do nível** (`lab_results.level` pré-casado na entrada). Direção alto=bom.
+  - `lab_result_repository.go` (`GetHistoricalResultsByLabTestCode`): filtro relaxado de
+    `result_numeric IS NOT NULL` → `(result_numeric IS NOT NULL OR level IS NOT NULL)` p/ qualitativo
+    chegar ao scorer. Blast radius=0 (nenhum exame não-gene tinha level sem numeric).
+  - Bônus: conserta TODOS os exames categóricos que estavam quebrados.
+- **Dados:** cada gene virou `lab_test_definition` (`result_type=categorical`, categoria `genetics`,
+  code `GEN_<id-hex>` único/determinístico) + `score_items.lab_test_code` setado (361/361).
+  SQL `genetica-exames-labdefs.sql`. Os `score_levels` (genótipo→severidade) são as **opções** do exame
+  E a escada de pontuação.
+- **Captura do resultado:** `lab_results` guarda `result_text` (genótipo "AT") + `level` (severidade).
+  Validado E2E no dev: FTO genótipo AT (level 2) → `data_source=lab_result`, actual=8×0,4=**3,20**. ✓
+- **Pendência (frontend):** a tela de entrada de exame ainda precisa, p/ teste categórico/genótipo,
+  listar as opções (score_levels) e gravar `result_text`+`level`. Backend já aceita (DTO tem `level`).
 
 **Histórico:** em execução (dev) · 2026-06-05
 **Objetivo:** fazer os ~361 itens do grupo **Genética** efetivamente pontuarem no Escore,
