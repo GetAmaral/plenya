@@ -80,18 +80,25 @@ Display: **Manual · Copiloto · Auto**. Enum armazenado (não mudar): `off`=Man
   envia após X+X/3), handoff→pausa+alerta, anti-spam, stillSendable. Gated por `RECEPTION_BOT_ENABLED`.
 - ⚠️ ainda não exercitado end-to-end em runtime (precisa ligar kill switch + WhatsApp; fazer junto com o front).
 
-### ⬜ Parte 3/3 — frontend (A FAZER — os 7 passos)
-Config NÃO é dialog: vai numa **tela dedicada** (rota própria, ex.: `/configuracoes/atendimento-ia`).
-1. **Backend (pequeno):** `GET /conversations/:type/:id/suggested-reply` — compositor lê o rascunho salvo.
-2. **Hooks TanStack:** `useReceptionSettings` (GET/PUT `/reception/settings`), `useSuggestedReply` (GET).
-3. **Controle global** "Atendimento IA: Manual · Copiloto · Auto" no topo do `/conversas` (sem a config detalhada).
-4. **Banner de estado** ("Atendimento IA: Auto até 08:00") no topo do `/conversas`.
-5. **Tela dedicada de config:** grade semanal (faixas por dia, estilo Google) + campos X/Y/Z. Rota própria.
-6. **Preview X/3 no compositor:** quando aberto, preenche o rascunho + countdown + "assumir/enviar agora/cancelar".
-7. **Relabel** do `AutomationToggle` por conversa → Manual/Copiloto/Auto + `pnpm generate` (tipos) + deploy web
-   (junto com a otimização do `/conversas` já commitada em `a8f65208`).
+### ✅ Parte 3/3 — frontend (CÓDIGO FEITO — falta só `pnpm generate` opcional + deploy)
+Config numa **tela dedicada** (`/configuracoes/atendimento-ia`), não dialog. Todos os 7 passos:
+1. ✅ **Backend:** `GET /conversations/:type/:id/suggested-reply` — lê o rascunho salvo + `effectiveMode`
+   (resolve override→global c/ janela, via `autoSvc.ResolveEffectiveMode`). 204 quando não há rascunho.
+2. ✅ **Hooks TanStack:** `useReceptionSettings` (GET/PUT) + `useUpdateReceptionSettings` + `useSuggestedReply`
+   (poll 8s, normaliza 204→null) em `conversations-api.ts`.
+3. ✅ **Controle global** `AtendimentoIAGlobalBar` (Manual·Copiloto·Auto) no topo do `/conversas/whatsapp`.
+4. ✅ **Banner de estado** embutido na mesma barra ("Auto até HH:MM" quando a janela eleva; replica
+   `isAutoActiveAt` no cliente p/ achar o fim da janela) + atalho "Configurar".
+5. ✅ **Tela dedicada de config** `/configuracoes/atendimento-ia`: modo baseline + grade semanal (faixas/dia,
+   cruza meia-noite, "dia todo", "aplicar exemplo") + X/Y/Z. PUT único do schedule inteiro.
+6. ✅ **Preview X/3 no compositor:** `AIDraftBar` no viewer — injeta o rascunho no campo (reusa draftBody/token),
+   countdown ao vivo até `updatedAt + X/3` no Auto + ações "Assumir" (→copilot) e "Enviar agora". Copiloto/handoff
+   mostram aviso sem countdown.
+7. ✅ **Relabel** do `AutomationToggle` por conversa → Manual/Copiloto/Auto. ⬜ `pnpm generate` (opcional — front
+   usa tipos manuais) + ⬜ **deploy** (api + web) junto com a otimização `a8f65208`.
 
-Split sugerido: **3a** = passos 1,2,3,4,7(relabel) (controle global utilizável rápido) · **3b** = passos 5,6.
+⚠️ Falta: **deploy de prod** (api+web via Coolify; 00028 sobe sozinha com `RUN_MIGRATIONS=true`) + ligar
+`RECEPTION_BOT_ENABLED` + **teste end-to-end em runtime** (job nunca exercitado). Confirmar janela com o Getúlio.
 
 ## 🧭 Retomada após /compact
 Ler este doc + `git log --oneline` (procurar `bae103fd`/`158005dc`). Backend pronto e commitado; começar

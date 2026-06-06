@@ -66,6 +66,62 @@ func (s *ConversationAutomationService) Get(ctx context.Context, ownerType strin
 	return eff, nil
 }
 
+// SuggestedReplyView é o rascunho ATUAL da IA salvo para uma conversa (Copiloto/Auto),
+// produzido pelo job após o debounce X. nil quando não há rascunho pendente.
+type SuggestedReplyView struct {
+	Reply             string     `json:"reply"`
+	Action            string     `json:"action"`
+	Model             string     `json:"model,omitempty"`
+	BasedOnActivityID *uuid.UUID `json:"basedOnActivityId,omitempty"`
+	UpdatedAt         time.Time  `json:"updatedAt"`
+}
+
+// GetSuggestedReply retorna o rascunho atual da IA para a conversa (ou nil se não houver).
+// O compositor usa isto para preencher o campo no Copiloto/Auto sem regerar.
+func (s *ConversationAutomationService) GetSuggestedReply(ctx context.Context, ownerType string, ownerID uuid.UUID) (*SuggestedReplyView, error) {
+	if !isValidOwnerType(ownerType) || ownerID == uuid.Nil {
+		return nil, ErrConversationOwnerInvalid
+	}
+	var row models.ConversationSuggestedReply
+	err := s.db.WithContext(ctx).
+		Where("owner_type = ? AND owner_id = ?", ownerType, ownerID).
+		First(&row).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return &SuggestedReplyView{
+		Reply:             row.Reply,
+		Action:            row.Action,
+		Model:             row.Model,
+		BasedOnActivityID: row.BasedOnActivityID,
+		UpdatedAt:         row.UpdatedAt,
+	}, nil
+}
+
+// ResolveEffectiveMode devolve o modo efetivo de uma conversa (mesma regra do job): se há
+// linha de override → o modo dela (e se está pausada por handoff); senão → o modo global
+// efetivo passado em globalEffective (já com a janela de horário aplicada pelo chamador).
+func (s *ConversationAutomationService) ResolveEffectiveMode(ctx context.Context, ownerType string, ownerID uuid.UUID, globalEffective string) (mode string, paused bool, err error) {
+	if !isValidOwnerType(ownerType) || ownerID == uuid.Nil {
+		return "", false, ErrConversationOwnerInvalid
+	}
+	var row models.ConversationAutomation
+	qErr := s.db.WithContext(ctx).Where("owner_type = ? AND owner_id = ?", ownerType, ownerID).First(&row).Error
+	if qErr == nil {
+		if row.PausedUntil != nil && row.PausedUntil.After(time.Now().UTC()) {
+			return row.Mode, true, nil
+		}
+		return row.Mode, false, nil
+	}
+	if errors.Is(qErr, gorm.ErrRecordNotFound) {
+		return globalEffective, false, nil
+	}
+	return "", false, qErr
+}
+
 // Set faz upsert do modo/fallback de uma conversa (ação do atendente). Reativar (mode
 // copilot/auto) limpa a pausa.
 func (s *ConversationAutomationService) Set(ctx context.Context, ownerType string, ownerID uuid.UUID, mode string, fallbackMinutes int, updatedBy uuid.UUID) (*EffectiveAutomation, error) {

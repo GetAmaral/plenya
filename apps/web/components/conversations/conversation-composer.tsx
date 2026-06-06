@@ -373,7 +373,6 @@ export function ConversationComposer({
   const insertCanned = (text: string) => {
     const applied = applyCannedReply(text, item.name);
     setBody((prev) => (prev.trim() ? `${prev.trim()}\n\n${applied}` : applied));
-    setShowCanned(false);
   };
 
   const handleSend = () => {

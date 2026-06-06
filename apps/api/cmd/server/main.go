@@ -574,6 +574,7 @@ func setupRoutes(
 	conv.Post("/:type/:id/ai/reception-reply", conversationAILimiter.Middleware(), conversationHandler.AIReceptionReply)
 	conv.Get("/:type/:id/automation", conversationHandler.GetAutomation)
 	conv.Put("/:type/:id/automation", conversationHandler.SetAutomation)
+	conv.Get("/:type/:id/suggested-reply", conversationHandler.GetSuggestedReply)
 
 	// Atendimento IA — config GLOBAL (modo baseline + janela de horário + tempos X/Y/Z).
 	// Grupo próprio p/ incluir o médico (o grupo conv não tem doctor).
@@ -1095,6 +1096,8 @@ func setupRoutes(
 	// Score Items with Method associations (must be before /:id routes)
 	scoreItems.Get("/unassigned", methodHandler.GetUnassignedScoreItems)
 	scoreItems.Get("/with-pillars", methodHandler.GetAllScoreItemsWithPillars)
+	// Opções (níveis) de exame qualitativo por lab_test_code — entrada de genótipo.
+	scoreItems.Get("/by-lab-code/:code/levels", scoreHandler.GetLevelsByLabTestCode)
 
 	scoreItems.Get("/:id", scoreHandler.GetScoreItemByID)
 	scoreItems.Get("/:itemId/levels", scoreHandler.GetLevelsByItemID)

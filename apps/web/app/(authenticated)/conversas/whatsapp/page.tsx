@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { useRequireAuth } from '@/lib/use-auth';
 import { PageHeader } from '@/components/layout/page-header';
+import { AtendimentoIAGlobalBar } from '@/components/conversations/atendimento-ia-global-bar';
 import { ReceptionMetricsBar } from '@/components/conversations/reception-metrics-bar';
 import { WhatsAppChat, type ChatSelection } from '@/components/conversations/whatsapp-chat';
 
@@ -22,6 +23,7 @@ export default function ConversasWhatsAppPage() {
   return (
     <div className="-mx-4 -mb-4 -mt-6 flex h-[calc(100vh-4rem)] flex-col gap-2 p-2 sm:-m-6 sm:p-3 lg:-m-8">
       <PageHeader title="WhatsApp" />
+      <AtendimentoIAGlobalBar />
       <ReceptionMetricsBar />
       <WhatsAppChat variant="page" selected={selected} onSelect={setSelected} />
     </div>

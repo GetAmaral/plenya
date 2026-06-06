@@ -600,6 +600,106 @@ export function useConversationReceptionReply(
 }
 
 // =====================================================
+// Atendimento IA — config GLOBAL (singleton) + rascunho salvo
+// =====================================================
+
+export interface ScheduleTimeRange {
+  start: string; // "HH:MM"
+  end: string; // "HH:MM" — end < start => cruza a meia-noite
+}
+
+/** Janela semanal estilo Google: dia (mon..sun) → faixas ativas do Auto. */
+export type WeeklySchedule = Partial<Record<string, ScheduleTimeRange[]>>;
+
+/** Config global do Atendimento IA (espelha models.ReceptionSettings + estado computado). */
+export interface ReceptionSettings {
+  id: string;
+  /** Manual=off na UI. */
+  baselineMode: AutomationMode;
+  scheduleEnabled: boolean;
+  schedule: WeeklySchedule;
+  /** X — debounce/atraso do Auto (segundos). */
+  debounceSeconds: number;
+  /** Y — minutos sem resposta no Copiloto antes de escalar p/ Auto. */
+  copilotFallbackMinutes: number;
+  /** Z — minutos sem resposta no Off (herdado) antes de alertar o admin. */
+  offAlertMinutes: number;
+  updatedBy?: string;
+  updatedAt: string;
+  /** Modo global resolvido agora (janela aplicada). */
+  effectiveMode: AutomationMode;
+  /** Janela do Auto ativa neste momento. */
+  autoActiveNow: boolean;
+}
+
+/** Atualização parcial — só os campos presentes são alterados. */
+export interface UpdateReceptionSettingsPayload {
+  baselineMode?: AutomationMode;
+  scheduleEnabled?: boolean;
+  schedule?: WeeklySchedule;
+  debounceSeconds?: number;
+  copilotFallbackMinutes?: number;
+  offAlertMinutes?: number;
+}
+
+/** Config global do Atendimento IA. Polling 30s pra refletir mudança de janela/modo. */
+export function useReceptionSettings() {
+  return useQuery({
+    queryKey: ['reception-settings'],
+    queryFn: () => apiClient.get<ReceptionSettings>('/api/v1/reception/settings'),
+    staleTime: 20_000,
+    refetchInterval: 60_000,
+    refetchOnWindowFocus: true,
+  });
+}
+
+export function useUpdateReceptionSettings() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: UpdateReceptionSettingsPayload) =>
+      apiClient.put<ReceptionSettings>('/api/v1/reception/settings', payload),
+    onSuccess: (data) => {
+      qc.setQueryData(['reception-settings'], data);
+      qc.invalidateQueries({ queryKey: ['reception-settings'] });
+    },
+  });
+}
+
+export interface SuggestedReply {
+  reply: string;
+  action: 'ask' | 'answer' | 'handle_objection' | 'propose_schedule' | 'handoff';
+  model?: string;
+  basedOnActivityId?: string;
+  updatedAt: string;
+  /** Modo efetivo da conversa agora (off|copilot|auto) — Auto mostra o countdown X/3. */
+  effectiveMode?: AutomationMode;
+}
+
+/**
+ * Rascunho atual da IA salvo para a conversa (Copiloto/Auto), gerado pelo job após o
+ * debounce X. Backend devolve 204 (→ `{}`) quando não há rascunho; normalizamos para null.
+ * Polling 8s pra pegar o rascunho que o job acabou de salvar.
+ */
+export function useSuggestedReply(
+  type: ConversationOwnerType | null,
+  id: string | null
+) {
+  return useQuery({
+    queryKey: ['suggested-reply', type, id],
+    queryFn: async () => {
+      if (!type || !id) return null;
+      const data = await apiClient.get<SuggestedReply | Record<string, never>>(
+        `/api/v1/conversations/${type}/${id}/suggested-reply`
+      );
+      return data && 'reply' in data ? (data as SuggestedReply) : null;
+    },
+    enabled: !!type && !!id,
+    staleTime: 4_000,
+    refetchInterval: 8_000,
+  });
+}
+
+// =====================================================
 // Helpers visuais
 // =====================================================
 

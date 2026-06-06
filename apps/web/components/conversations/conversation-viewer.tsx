@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { format, isSameDay, isToday, isYesterday } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, CalendarPlus, RefreshCw, Sparkles, MoreVertical } from 'lucide-react';
+import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, CalendarPlus, RefreshCw, Sparkles, MoreVertical, Bot, Hand, SendHorizonal } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
@@ -38,7 +38,12 @@ import {
   useConversationAISummary,
   useConversationMessages,
   useInterpretExam,
+  useReceptionSettings,
   useSaveToProntuario,
+  useSendConversationWhatsApp,
+  useSetConversationAutomation,
+  useSuggestedReply,
+  type SuggestedReply,
 } from '@/lib/api/conversations-api';
 import { ConversationComposer } from './conversation-composer';
 import { AutomationToggle } from './automation-toggle';
@@ -492,6 +497,101 @@ function SummaryBullets({ summary }: { summary: string }) {
   return <p className="whitespace-pre-wrap text-sm leading-relaxed">{summary}</p>;
 }
 
+/**
+ * AIDraftBar — barra acima do compositor quando há rascunho do servidor (Atendimento IA).
+ * No modo Auto mostra o countdown X/3 (a IA envia ao zerar) + ações "Assumir" e "Enviar agora".
+ * No Copiloto é só um aviso de que o rascunho foi preenchido para revisão.
+ */
+function AIDraftBar({
+  draft,
+  debounceSeconds,
+  onAssume,
+  onSendNow,
+  assuming,
+  sending,
+}: {
+  draft: SuggestedReply;
+  debounceSeconds: number;
+  onAssume: () => void;
+  onSendNow: () => void;
+  assuming: boolean;
+  sending: boolean;
+}) {
+  const isAuto = draft.effectiveMode === 'auto';
+  const isHandoff = draft.action === 'handoff';
+
+  // Auto envia em lastInbound + X + X/3; o rascunho foi salvo ~em lastInbound + X, logo o
+  // envio acontece ~em updatedAt + X/3. Countdown ao vivo até esse instante.
+  const deadline = useMemo(
+    () => new Date(draft.updatedAt).getTime() + (debounceSeconds / 3) * 1000,
+    [draft.updatedAt, debounceSeconds]
+  );
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!isAuto) return;
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [isAuto, draft.updatedAt]);
+
+  const remainingSec = Math.max(0, Math.ceil((deadline - now) / 1000));
+
+  if (isHandoff) {
+    return (
+      <div className="flex items-center gap-2 border-t border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+        <Hand className="h-3.5 w-3.5 shrink-0" />
+        <span>A IA sugere passar este atendimento para um humano. O rascunho foi preenchido como cortesia.</span>
+      </div>
+    );
+  }
+
+  if (!isAuto) {
+    // Copiloto (ou qualquer outro modo com rascunho): só aviso, sem auto-envio.
+    return (
+      <div className="flex items-center gap-2 border-t border-violet-200 bg-violet-50 px-3 py-2 text-xs text-violet-900">
+        <Bot className="h-3.5 w-3.5 shrink-0" />
+        <span>Rascunho da IA preenchido no compositor. Revise e envie.</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-2 border-t border-violet-200 bg-violet-50 px-3 py-2 text-xs text-violet-900">
+      <Bot className="h-3.5 w-3.5 shrink-0" />
+      <span className="font-medium">
+        {remainingSec > 0
+          ? `A IA envia em ${remainingSec}s`
+          : 'A IA está enviando…'}
+      </span>
+      <span className="text-violet-700">Revise o texto no compositor ou intervenha.</span>
+      <div className="ml-auto flex items-center gap-1.5">
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          className="h-7 gap-1 px-2 text-[11px]"
+          disabled={assuming}
+          onClick={onAssume}
+          title="Assumir a conversa (a IA para de enviar sozinha)"
+        >
+          {assuming ? <Loader2 className="h-3 w-3 animate-spin" /> : <Hand className="h-3 w-3" />}
+          Assumir
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          className="h-7 gap-1 px-2 text-[11px]"
+          disabled={sending}
+          onClick={onSendNow}
+          title="Enviar o rascunho agora"
+        >
+          {sending ? <Loader2 className="h-3 w-3 animate-spin" /> : <SendHorizonal className="h-3 w-3" />}
+          Enviar agora
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 export function ConversationViewer({ item, onBack, channel, menuControls, compact }: Props) {
   const { data: messages, isLoading } = useConversationMessages(item.ownerType, item.ownerId, channel);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -506,6 +606,18 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
   const [draftToken, setDraftToken] = useState(0);
 
   const summary = useConversationAISummary(item.ownerType, item.ownerId);
+
+  // ===== Rascunho do servidor (Atendimento IA) — só WhatsApp =====
+  const isWhatsApp = channel !== 'email';
+  const suggested = useSuggestedReply(
+    isWhatsApp ? item.ownerType : null,
+    isWhatsApp ? item.ownerId : null
+  );
+  const receptionSettings = useReceptionSettings();
+  const setAutomation = useSetConversationAutomation(item.ownerType, item.ownerId);
+  const sendWa = useSendConversationWhatsApp(item.ownerType, item.ownerId);
+  // updatedAt do último rascunho já injetado no compositor (evita reinjetar a cada poll).
+  const lastInjectedDraftRef = useRef<string | null>(null);
 
   const handleSummarize = useCallback(
     (force = false) => {
@@ -542,7 +654,46 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
     setDraftBody(null);
     setDraftToken(0);
     setSummaryDialog({ open: false });
+    lastInjectedDraftRef.current = null;
   }, [item.ownerType, item.ownerId]);
+
+  // Injeta o rascunho do servidor no compositor quando ele aparece/muda (novo inbound →
+  // novo rascunho com updatedAt diferente). Reusa o mecanismo de prefill (draftBody/token).
+  useEffect(() => {
+    const d = suggested.data;
+    if (!d || !d.reply) return;
+    if (lastInjectedDraftRef.current === d.updatedAt) return;
+    lastInjectedDraftRef.current = d.updatedAt;
+    setDraftBody(d.reply);
+    setDraftToken((t) => t + 1);
+  }, [suggested.data]);
+
+  const handleAssume = useCallback(() => {
+    setAutomation.mutate(
+      { mode: 'copilot' },
+      {
+        onSuccess: () => toast.info('Você assumiu a conversa. A IA não envia sozinha; revise e envie.'),
+        onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao assumir'),
+      }
+    );
+  }, [setAutomation]);
+
+  const handleSendNow = useCallback(() => {
+    const d = suggested.data;
+    if (!d?.reply) return;
+    sendWa.mutate(
+      { bodyText: d.reply },
+      {
+        onSuccess: () => {
+          toast.success('Resposta da IA enviada.');
+          setDraftBody('');
+          setDraftToken((t) => t + 1);
+          lastInjectedDraftRef.current = null;
+        },
+        onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao enviar'),
+      }
+    );
+  }, [suggested.data, sendWa]);
 
   // Auto-scroll pro fim:
   //   1. ao trocar de conversa (ownerId mudou)
@@ -757,6 +908,18 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
           </div>
         )}
       </div>
+
+      {/* Barra do rascunho do servidor (Atendimento IA) — preview X/3 no Auto */}
+      {isWhatsApp && suggested.data?.reply && (
+        <AIDraftBar
+          draft={suggested.data}
+          debounceSeconds={receptionSettings.data?.debounceSeconds ?? 30}
+          onAssume={handleAssume}
+          onSendNow={handleSendNow}
+          assuming={setAutomation.isPending}
+          sending={sendWa.isPending}
+        />
+      )}
 
       {/* Composer */}
       <ConversationComposer

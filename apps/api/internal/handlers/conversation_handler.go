@@ -677,6 +677,41 @@ func (h *ConversationHandler) GetAutomation(c *fiber.Ctx) error {
 	return c.JSON(eff)
 }
 
+// SuggestedReplyResponse — rascunho salvo + modo efetivo da conversa (p/ o preview X/3 do Auto).
+type SuggestedReplyResponse struct {
+	*services.SuggestedReplyView
+	EffectiveMode string `json:"effectiveMode"` // off|copilot|auto resolvido p/ esta conversa
+}
+
+// GetSuggestedReply GET /conversations/:type/:id/suggested-reply
+// Rascunho atual da IA (Copiloto/Auto), produzido pelo job após o debounce X.
+// 204 No Content quando não há rascunho pendente.
+func (h *ConversationHandler) GetSuggestedReply(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	view, err := h.autoSvc.GetSuggestedReply(c.UserContext(), ownerType, ownerID)
+	if err != nil {
+		if errors.Is(err, services.ErrConversationOwnerInvalid) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "owner not found"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	if view == nil {
+		return c.SendStatus(fiber.StatusNoContent)
+	}
+	// Modo efetivo (override da conversa → global com janela) p/ o frontend decidir entre
+	// só mostrar o rascunho (Copiloto) ou mostrar o countdown X/3 (Auto).
+	st, sErr := h.settingsSvc.Get(c.UserContext())
+	mode := ""
+	if sErr == nil {
+		globalEff := h.settingsSvc.EffectiveGlobalMode(st, time.Now())
+		mode, _, _ = h.autoSvc.ResolveEffectiveMode(c.UserContext(), ownerType, ownerID, globalEff)
+	}
+	return c.JSON(SuggestedReplyResponse{SuggestedReplyView: view, EffectiveMode: mode})
+}
+
 // SetAutomationRequest é o payload do toggle de automação.
 type SetAutomationRequest struct {
 	Mode            string `json:"mode" validate:"required,oneof=off copilot auto"`

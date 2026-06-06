@@ -16,10 +16,11 @@ import {
   useSetConversationAutomation,
 } from '@/lib/api/conversations-api';
 
+// Rótulos alinhados ao controle global (Manual = enum `off`).
 const OPTIONS: { value: AutomationMode; label: string; title: string }[] = [
-  { value: 'off', label: 'Off', title: 'IA desligada nesta conversa' },
-  { value: 'copilot', label: 'Copiloto', title: 'IA sugere; você revisa e envia' },
-  { value: 'auto', label: 'Automático', title: 'IA responde sozinha após o tempo de fallback' },
+  { value: 'off', label: 'Manual', title: 'IA não age nesta conversa; você responde' },
+  { value: 'copilot', label: 'Copiloto', title: 'IA rascunha; você revisa e envia' },
+  { value: 'auto', label: 'Auto', title: 'IA responde sozinha após o tempo de resposta' },
 ];
 
 export function AutomationToggle({
@@ -48,7 +49,7 @@ export function AutomationToggle({
   };
 
   return (
-    <div className="hidden items-center gap-2 md:flex" title="Recepcionista virtual">
+    <div className="hidden items-center gap-2 md:flex" title="Atendimento IA desta conversa (sobrepõe o global por 24h)">
       <span className="text-[10px] uppercase tracking-wide text-muted-foreground">IA</span>
       <div className="inline-flex overflow-hidden rounded-md border border-border">
         {OPTIONS.map((opt) => (
