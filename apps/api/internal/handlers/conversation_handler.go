@@ -674,6 +674,15 @@ func (h *ConversationHandler) GetAutomation(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: err.Error()})
 	}
+	// Sem override explícito, o modo efetivo é o baseline GLOBAL do Atendimento IA
+	// (reception_settings + janela de horário), não o default de ambiente. Mantém o toggle
+	// por conversa coerente com o que o job realmente faz (resolveMode).
+	if st, sErr := h.settingsSvc.Get(c.UserContext()); sErr == nil {
+		globalEff := h.settingsSvc.EffectiveGlobalMode(st, time.Now())
+		if mode, _, rErr := h.autoSvc.ResolveEffectiveMode(c.UserContext(), ownerType, ownerID, globalEff); rErr == nil {
+			eff.Mode = mode
+		}
+	}
 	return c.JSON(eff)
 }
 

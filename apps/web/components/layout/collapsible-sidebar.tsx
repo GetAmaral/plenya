@@ -129,6 +129,7 @@ const navGroups: NavGroup[] = [
       { name: "Templates Continuum", href: "/configuracoes/continuum-templates", icon: Workflow, staffOnly: true, requiredRoles: ['admin', 'manager'] },
       { name: "Templates de Box", href: "/configuracoes/box-templates", icon: Package, staffOnly: true, requiredRoles: ['admin', 'manager'] },
       { name: "Integrações", href: "/configuracoes/integracoes", icon: Plug, staffOnly: true },
+      { name: "Atendimento IA", href: "/configuracoes/atendimento-ia", icon: Bot, staffOnly: true, requiredRoles: ['admin', 'secretary', 'manager', 'doctor'] },
     ],
   },
   {

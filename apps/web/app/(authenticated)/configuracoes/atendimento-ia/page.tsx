@@ -127,13 +127,16 @@ export default function ConfigAtendimentoIAPage() {
   }, [schedule]);
 
   const handleSave = () => {
+    // Blinda contra campo vazio/NaN (limpar o input vira NaN) batendo nas regras do backend.
+    const clamp = (v: number, lo: number, hi: number, fallback: number) =>
+      Number.isFinite(v) ? Math.min(hi, Math.max(lo, Math.round(v))) : fallback;
     const payload: UpdateReceptionSettingsPayload = {
       baselineMode: baseline,
       scheduleEnabled,
       schedule: cleanedSchedule,
-      debounceSeconds,
-      copilotFallbackMinutes,
-      offAlertMinutes,
+      debounceSeconds: clamp(debounceSeconds, 0, 3600, 30),
+      copilotFallbackMinutes: clamp(copilotFallbackMinutes, 1, 1440, 10),
+      offAlertMinutes: clamp(offAlertMinutes, 1, 1440, 20),
     };
     update.mutate(payload, {
       onSuccess: () => toast.success('Atendimento IA salvo.'),
