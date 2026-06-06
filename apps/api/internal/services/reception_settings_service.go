@@ -48,6 +48,7 @@ func (s *ReceptionSettingsService) Get(ctx context.Context) (*models.ReceptionSe
 			BaselineMode:           models.ConversationAutomationOff,
 			Schedule:               datatypes.JSON([]byte("{}")),
 			DebounceSeconds:        30,
+			PreviewSeconds:         10,
 			CopilotFallbackMinutes: 10,
 			OffAlertMinutes:        20,
 		}
@@ -68,6 +69,7 @@ type UpdateReceptionSettingsInput struct {
 	ScheduleEnabled        *bool
 	Schedule               *models.WeeklySchedule
 	DebounceSeconds        *int
+	PreviewSeconds         *int
 	CopilotFallbackMinutes *int
 	OffAlertMinutes        *int
 }
@@ -104,6 +106,12 @@ func (s *ReceptionSettingsService) Update(ctx context.Context, in UpdateReceptio
 			return nil, errors.New("debounceSeconds fora do intervalo (0-3600)")
 		}
 		st.DebounceSeconds = *in.DebounceSeconds
+	}
+	if in.PreviewSeconds != nil {
+		if *in.PreviewSeconds < 1 || *in.PreviewSeconds > 600 {
+			return nil, errors.New("previewSeconds fora do intervalo (1-600)")
+		}
+		st.PreviewSeconds = *in.PreviewSeconds
 	}
 	if in.CopilotFallbackMinutes != nil {
 		if *in.CopilotFallbackMinutes < 1 || *in.CopilotFallbackMinutes > 1440 {

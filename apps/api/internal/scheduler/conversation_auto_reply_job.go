@@ -200,7 +200,10 @@ func (j *ConversationAutoReplyJob) handleConversation(ctx context.Context, owner
 			// que foi criado. Garante que a mensagem aparece antes de sair, mesmo com X pequeno.
 			j.convSvc.MarkConversationTyping(ctx, ownerType, ownerID)
 			j.ensureDraft(ctx, ownerType, ownerID, lastIn.ID)
-			preview := x / 3
+			preview := time.Duration(settings.PreviewSeconds) * time.Second // X2 (janela de preview)
+			if preview <= 0 {
+				preview = x / 3
+			}
 			if view, _ := j.autoSvc.GetSuggestedReply(ctx, ownerType, ownerID); view != nil &&
 				view.BasedOnActivityID != nil && *view.BasedOnActivityID == lastIn.ID &&
 				time.Since(view.UpdatedAt) >= preview {

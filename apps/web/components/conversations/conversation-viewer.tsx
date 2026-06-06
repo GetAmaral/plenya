@@ -526,14 +526,14 @@ function SummaryBullets({ summary }: { summary: string }) {
  */
 function AIDraftBar({
   draft,
-  debounceSeconds,
+  previewSeconds,
   onAssume,
   onSendNow,
   assuming,
   sending,
 }: {
   draft: SuggestedReply;
-  debounceSeconds: number;
+  previewSeconds: number;
   onAssume: () => void;
   onSendNow: () => void;
   assuming: boolean;
@@ -542,11 +542,11 @@ function AIDraftBar({
   const isAuto = draft.effectiveMode === 'auto';
   const isHandoff = draft.action === 'handoff';
 
-  // Auto envia em lastInbound + X + X/3; o rascunho foi salvo ~em lastInbound + X, logo o
-  // envio acontece ~em updatedAt + X/3. Countdown ao vivo até esse instante.
+  // Auto envia X2 (janela de preview) segundos depois do rascunho ficar pronto. O rascunho foi
+  // salvo ~em updatedAt, logo o envio acontece ~em updatedAt + X2. Countdown ao vivo até lá.
   const deadline = useMemo(
-    () => new Date(draft.updatedAt).getTime() + (debounceSeconds / 3) * 1000,
-    [draft.updatedAt, debounceSeconds]
+    () => new Date(draft.updatedAt).getTime() + previewSeconds * 1000,
+    [draft.updatedAt, previewSeconds]
   );
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
@@ -965,7 +965,7 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
       {isWhatsApp && suggested.data?.reply && (
         <AIDraftBar
           draft={suggested.data}
-          debounceSeconds={receptionSettings.data?.debounceSeconds ?? 30}
+          previewSeconds={receptionSettings.data?.previewSeconds ?? 10}
           onAssume={handleAssume}
           onSendNow={handleSendNow}
           assuming={setAutomation.isPending}

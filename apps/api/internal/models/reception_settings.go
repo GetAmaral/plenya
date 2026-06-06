@@ -36,6 +36,10 @@ type ReceptionSettings struct {
 	// X — debounce/atraso do Auto, em segundos (conta do último inbound; reseta a cada msg).
 	DebounceSeconds int `gorm:"not null;default:30" json:"debounceSeconds"`
 
+	// X2 — janela de preview do Auto, em segundos: tempo que o rascunho fica visível no
+	// compositor (countdown) antes do envio automático. Separado do debounce.
+	PreviewSeconds int `gorm:"not null;default:10" json:"previewSeconds"`
+
 	// Y — minutos sem resposta no Copiloto antes de escalar para Auto.
 	CopilotFallbackMinutes int `gorm:"not null;default:10" json:"copilotFallbackMinutes"`
 

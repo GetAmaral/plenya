@@ -43,6 +43,10 @@ const DAYS: { key: string; label: string }[] = [
   { key: 'sun', label: 'Domingo' },
 ];
 
+// X (debounce) e X2 (janela de preview do Auto) — selects com valores fixos.
+const DEBOUNCE_OPTIONS = [5, 10, 15, 20, 30, 45, 60, 120, 180, 300];
+const PREVIEW_OPTIONS = [5, 10, 15, 30];
+
 const MODES: { value: AutomationMode; label: string; desc: string }[] = [
   { value: 'off', label: 'Manual', desc: 'A IA não age; a equipe responde tudo.' },
   { value: 'copilot', label: 'Copiloto', desc: 'A IA rascunha; a equipe revisa e envia.' },
@@ -75,6 +79,7 @@ export default function ConfigAtendimentoIAPage() {
   const [scheduleEnabled, setScheduleEnabled] = useState(false);
   const [schedule, setSchedule] = useState<WeeklySchedule>({});
   const [debounceSeconds, setDebounceSeconds] = useState(30);
+  const [previewSeconds, setPreviewSeconds] = useState(10);
   const [copilotFallbackMinutes, setCopilotFallbackMinutes] = useState(10);
   const [offAlertMinutes, setOffAlertMinutes] = useState(20);
   const [loaded, setLoaded] = useState(false);
@@ -86,6 +91,7 @@ export default function ConfigAtendimentoIAPage() {
     setScheduleEnabled(data.scheduleEnabled);
     setSchedule(cloneSchedule(data.schedule ?? {}));
     setDebounceSeconds(data.debounceSeconds);
+    setPreviewSeconds(data.previewSeconds);
     setCopilotFallbackMinutes(data.copilotFallbackMinutes);
     setOffAlertMinutes(data.offAlertMinutes);
     setLoaded(true);
@@ -135,6 +141,7 @@ export default function ConfigAtendimentoIAPage() {
       scheduleEnabled,
       schedule: cleanedSchedule,
       debounceSeconds: clamp(debounceSeconds, 0, 3600, 30),
+      previewSeconds: clamp(previewSeconds, 1, 600, 10),
       copilotFallbackMinutes: clamp(copilotFallbackMinutes, 1, 1440, 10),
       offAlertMinutes: clamp(offAlertMinutes, 1, 1440, 20),
     };
@@ -322,23 +329,41 @@ export default function ConfigAtendimentoIAPage() {
                 Controlam quando a IA rascunha, envia, escala e alerta.
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-4 sm:grid-cols-3">
+            <CardContent className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
                 <Label htmlFor="x">Tempo de resposta (X)</Label>
-                <div className="flex items-center gap-2">
-                  <Input
-                    id="x"
-                    type="number"
-                    min={0}
-                    max={3600}
-                    value={debounceSeconds}
-                    onChange={(e) => setDebounceSeconds(Number(e.target.value))}
-                    className="h-9"
-                  />
-                  <span className="text-xs text-muted-foreground">seg</span>
-                </div>
+                <select
+                  id="x"
+                  value={debounceSeconds}
+                  onChange={(e) => setDebounceSeconds(Number(e.target.value))}
+                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                >
+                  {DEBOUNCE_OPTIONS.map((s) => (
+                    <option key={s} value={s}>
+                      {s < 60 ? `${s} segundos` : `${s / 60} ${s === 60 ? 'minuto' : 'minutos'}`}
+                    </option>
+                  ))}
+                </select>
                 <p className="text-xs text-muted-foreground">
                   Espera após a última mensagem antes de rascunhar/enviar. Reseta a cada nova mensagem.
+                </p>
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="x2">Preview no Auto (X2)</Label>
+                <select
+                  id="x2"
+                  value={previewSeconds}
+                  onChange={(e) => setPreviewSeconds(Number(e.target.value))}
+                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                >
+                  {PREVIEW_OPTIONS.map((s) => (
+                    <option key={s} value={s}>
+                      {s} segundos
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-muted-foreground">
+                  Tempo que o rascunho fica visível no compositor (countdown) antes do envio automático.
                 </p>
               </div>
               <div className="space-y-1.5">

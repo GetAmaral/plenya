@@ -620,6 +620,8 @@ export interface ReceptionSettings {
   schedule: WeeklySchedule;
   /** X — debounce/atraso do Auto (segundos). */
   debounceSeconds: number;
+  /** X2 — janela de preview do Auto (segundos que o rascunho fica visível antes do envio). */
+  previewSeconds: number;
   /** Y — minutos sem resposta no Copiloto antes de escalar p/ Auto. */
   copilotFallbackMinutes: number;
   /** Z — minutos sem resposta no Off (herdado) antes de alertar o admin. */
@@ -638,6 +640,7 @@ export interface UpdateReceptionSettingsPayload {
   scheduleEnabled?: boolean;
   schedule?: WeeklySchedule;
   debounceSeconds?: number;
+  previewSeconds?: number;
   copilotFallbackMinutes?: number;
   offAlertMinutes?: number;
 }
