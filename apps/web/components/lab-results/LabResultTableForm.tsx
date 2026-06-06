@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { UseFormReturn } from "react-hook-form";
-import { Trash2, Plus, MoreHorizontal } from "lucide-react";
+import { Trash2, Plus, MoreHorizontal, Dna } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { getScoreLevelColorSimple } from "@/lib/utils/score-level-colors";
+import { labTestDefinitionApi } from "@/lib/api/lab-test-definition-api";
 import {
   FormControl,
   FormField,
@@ -32,6 +34,185 @@ import { LabTestDefinitionSelect } from "./LabTestDefinitionSelect";
 import { UnmatchedBadge } from "./UnmatchedBadge";
 import type { LabResultBatchFormValues } from "@/lib/validations/lab-result-batch";
 import type { LabTestDefinition } from "@/lib/api/lab-test-definition-api";
+
+// Células de resultado de UMA linha. Quando o exame é categórico (ex.: genótipo de gene),
+// substitui Valor/Unid/Texto por um único dropdown de opções que grava result_text + level;
+// caso contrário, mantém os inputs numérico/unidade/texto/nível.
+function ResultValueCells({
+  form,
+  index,
+  resultInputRefs,
+}: {
+  form: UseFormReturn<LabResultBatchFormValues>;
+  index: number;
+  resultInputRefs: { current: (HTMLInputElement | null)[] };
+}) {
+  const code = form.watch(`labResults.${index}.labTestCode` as any) as string | undefined;
+  const resultType = form.watch(`labResults.${index}.testResultType` as any) as string | undefined;
+  const isCategorical = resultType === "categorical";
+  const { data: options } = useQuery({
+    queryKey: ["qualitative-options", code],
+    queryFn: () => labTestDefinitionApi.getQualitativeOptions(code!),
+    enabled: !!code && isCategorical,
+  });
+  const hasOptions = isCategorical && (options?.length ?? 0) > 0;
+  const level = form.watch(`labResults.${index}.level`);
+
+  if (hasOptions) {
+    return (
+      <>
+        <TableCell colSpan={3} className="px-2 py-1.5">
+          <Select
+            value={level != null ? String(level) : ""}
+            onValueChange={(v) => {
+              const opt = options!.find((o) => o.level === parseInt(v));
+              if (!opt) return;
+              form.setValue(`labResults.${index}.level`, opt.level);
+              form.setValue(`labResults.${index}.resultText`, opt.name);
+              form.setValue(`labResults.${index}.resultNumeric`, undefined);
+            }}
+          >
+            <SelectTrigger className="h-8 text-sm">
+              <span className="flex items-center gap-1.5 truncate">
+                <Dna className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                <SelectValue placeholder="Selecione o genótipo / resultado" />
+              </span>
+            </SelectTrigger>
+            <SelectContent>
+              {options!.map((opt) => (
+                <SelectItem key={opt.id} value={String(opt.level)}>
+                  <div className="flex items-center gap-1.5">
+                    <div className={`w-2.5 h-2.5 rounded border ${getScoreLevelColorSimple(opt.level)}`} />
+                    <span className="text-xs">{opt.name}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </TableCell>
+        <TableCell className="px-2 py-1.5">
+          {level != null ? (
+            <div className="flex items-center gap-1.5">
+              <div className={`w-2.5 h-2.5 rounded border ${getScoreLevelColorSimple(level)}`} />
+              <span className="text-xs">N{level}</span>
+            </div>
+          ) : (
+            <span className="text-xs text-muted-foreground">—</span>
+          )}
+        </TableCell>
+      </>
+    );
+  }
+
+  return (
+    <>
+      {/* Resultado Numérico */}
+      <TableCell className="px-2 py-1.5">
+        <FormField
+          control={form.control}
+          name={`labResults.${index}.resultNumeric`}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type="number"
+                  step="any"
+                  placeholder="0.00"
+                  className="h-8 text-sm"
+                  {...field}
+                  ref={(el) => {
+                    resultInputRefs.current[index] = el;
+                  }}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value === "" ? undefined : parseFloat(value));
+                  }}
+                  value={field.value ?? ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </TableCell>
+
+      {/* Unidade */}
+      <TableCell className="px-2 py-1.5">
+        <FormField
+          control={form.control}
+          name={`labResults.${index}.unit`}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="mg/dL"
+                  className="h-8 text-sm"
+                  value={field.value || ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </TableCell>
+
+      {/* Resultado Textual */}
+      <TableCell className="px-2 py-1.5">
+        <FormField
+          control={form.control}
+          name={`labResults.${index}.resultText`}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Negativo"
+                  className="h-8 text-sm"
+                  value={field.value || ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </TableCell>
+
+      {/* Nível */}
+      <TableCell className="px-2 py-1.5">
+        <FormField
+          control={form.control}
+          name={`labResults.${index}.level`}
+          render={({ field }) => (
+            <FormItem>
+              <Select
+                onValueChange={(value) => field.onChange(value ? parseInt(value) : undefined)}
+                value={field.value?.toString() || ""}
+              >
+                <FormControl>
+                  <SelectTrigger className="h-8 text-sm">
+                    <SelectValue placeholder="Nível" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {[0, 1, 2, 3, 4, 5].map((lvl) => (
+                    <SelectItem key={lvl} value={lvl.toString()}>
+                      <div className="flex items-center gap-1.5">
+                        <div className={`w-2.5 h-2.5 rounded border ${getScoreLevelColorSimple(lvl)}`} />
+                        <span className="text-xs">N{lvl}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </TableCell>
+    </>
+  );
+}
 
 interface LabResultTableFormProps {
   form: UseFormReturn<LabResultBatchFormValues>;
@@ -122,6 +303,10 @@ export function LabResultTableForm({
       if (test.unit) {
         form.setValue(`labResults.${index}.unit`, test.unit);
       }
+      // Campos UI-only p/ entrada qualitativa (ex.: genótipo): guarda código + tipo do exame
+      // pra a linha decidir entre dropdown de opções vs. inputs numérico/texto.
+      form.setValue(`labResults.${index}.labTestCode` as any, test.code);
+      form.setValue(`labResults.${index}.testResultType` as any, test.resultType);
 
       // Focar no campo de resultado após seleção
       setTimeout(() => {
@@ -259,112 +444,8 @@ export function LabResultTableForm({
                     </div>
                   </TableCell>
 
-                  {/* Resultado Numérico */}
-                  <TableCell className="px-2 py-1.5">
-                    <FormField
-                      control={form.control}
-                      name={`labResults.${index}.resultNumeric`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              step="any"
-                              placeholder="0.00"
-                              className="h-8 text-sm"
-                              {...field}
-                              ref={(el) => {
-                                resultInputRefs.current[index] = el;
-                              }}
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                field.onChange(value === "" ? undefined : parseFloat(value));
-                              }}
-                              value={field.value ?? ""}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </TableCell>
-
-                  {/* Unidade */}
-                  <TableCell className="px-2 py-1.5">
-                    <FormField
-                      control={form.control}
-                      name={`labResults.${index}.unit`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              placeholder="mg/dL"
-                              className="h-8 text-sm"
-                              value={field.value || ""}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </TableCell>
-
-                  {/* Resultado Textual */}
-                  <TableCell className="px-2 py-1.5">
-                    <FormField
-                      control={form.control}
-                      name={`labResults.${index}.resultText`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              placeholder="Negativo"
-                              className="h-8 text-sm"
-                              value={field.value || ""}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </TableCell>
-
-                  {/* Nível */}
-                  <TableCell className="px-2 py-1.5">
-                    <FormField
-                      control={form.control}
-                      name={`labResults.${index}.level`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <Select
-                            onValueChange={(value) =>
-                              field.onChange(value ? parseInt(value) : undefined)
-                            }
-                            value={field.value?.toString() || ""}
-                          >
-                            <FormControl>
-                              <SelectTrigger className="h-8 text-sm">
-                                <SelectValue placeholder="Nível" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {[0, 1, 2, 3, 4, 5].map((level) => (
-                                <SelectItem key={level} value={level.toString()}>
-                                  <div className="flex items-center gap-1.5">
-                                    <div className={`w-2.5 h-2.5 rounded border ${getScoreLevelColorSimple(level)}`} />
-                                    <span className="text-xs">N{level}</span>
-                                  </div>
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </TableCell>
+                  {/* Valor/Unid/Texto/Nível — ou dropdown de genótipo se exame categórico */}
+                  <ResultValueCells form={form} index={index} resultInputRefs={resultInputRefs} />
 
                   {/* Interpretação */}
                   <TableCell className="px-2 py-1.5">
