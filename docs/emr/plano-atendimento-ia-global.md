@@ -63,12 +63,42 @@
 - **Guardrails mantidos:** kill switch `RECEPTION_BOT_ENABLED`, opt-out LGPD, anti-spam/hora, janela 24h
   (free-form só dentro; fora = template).
 
-## Ordem de build
-1. Backend: model/migration (setting global + flag por conversa com timestamp/origem) → serviço (resolver
-   modo efetivo: flag → janela → global) → rotas (GET/PUT global + config) → evolução do job (X/Y/Z +
-   janela + draft persistido + handoff). Compilar no container.
-2. Frontend: controle global + tela de config + banner + preview X/3 no compositor + alinhar rótulos do
-   toggle por conversa p/ Off/Copiloto/Auto.
+## Rótulos (UI) vs enum (storage)
+Display: **Manual · Copiloto · Auto**. Enum armazenado (não mudar): `off`=Manual, `copilot`, `auto`.
+
+## Progresso
+
+### ✅ Parte 1/3 — backend data layer + controle global (commit `bae103fd`)
+- migration `00028_atendimento_ia.sql`: `reception_settings` (singleton) + `conversation_suggested_replies`.
+- models `ReceptionSettings` (+ `WeeklySchedule`/`ParsedSchedule`) e `ConversationSuggestedReply`.
+- `ReceptionSettingsService` (Get/Update + janela cruza meia-noite TZ America/Sao_Paulo + EffectiveGlobalMode/AutoActiveNow).
+- endpoints **`GET/PUT /api/v1/reception/settings`** (admin/secretary/manager/doctor).
+
+### ✅ Parte 2/3 — job da máquina de estados (commit `158005dc`)
+- `conversation_auto_reply_job` reescrito (tick 15s): resolveMode (flag ≤24h → global c/ janela),
+  expireStaleFlags (sweep 24h), Off+Z→alerta, Copiloto (draft após X; escala no Y), Auto (draft após X;
+  envia após X+X/3), handoff→pausa+alerta, anti-spam, stillSendable. Gated por `RECEPTION_BOT_ENABLED`.
+- ⚠️ ainda não exercitado end-to-end em runtime (precisa ligar kill switch + WhatsApp; fazer junto com o front).
+
+### ⬜ Parte 3/3 — frontend (A FAZER — os 7 passos)
+Config NÃO é dialog: vai numa **tela dedicada** (rota própria, ex.: `/configuracoes/atendimento-ia`).
+1. **Backend (pequeno):** `GET /conversations/:type/:id/suggested-reply` — compositor lê o rascunho salvo.
+2. **Hooks TanStack:** `useReceptionSettings` (GET/PUT `/reception/settings`), `useSuggestedReply` (GET).
+3. **Controle global** "Atendimento IA: Manual · Copiloto · Auto" no topo do `/conversas` (sem a config detalhada).
+4. **Banner de estado** ("Atendimento IA: Auto até 08:00") no topo do `/conversas`.
+5. **Tela dedicada de config:** grade semanal (faixas por dia, estilo Google) + campos X/Y/Z. Rota própria.
+6. **Preview X/3 no compositor:** quando aberto, preenche o rascunho + countdown + "assumir/enviar agora/cancelar".
+7. **Relabel** do `AutomationToggle` por conversa → Manual/Copiloto/Auto + `pnpm generate` (tipos) + deploy web
+   (junto com a otimização do `/conversas` já commitada em `a8f65208`).
+
+Split sugerido: **3a** = passos 1,2,3,4,7(relabel) (controle global utilizável rápido) · **3b** = passos 5,6.
+
+## 🧭 Retomada após /compact
+Ler este doc + `git log --oneline` (procurar `bae103fd`/`158005dc`). Backend pronto e commitado; começar
+pela **Parte 3a**. Arquivos-chave: API `apps/web/lib/api/conversations-api.ts`; toggle por conversa
+`apps/web/components/conversations/automation-toggle.tsx`; tela `apps/web/app/(authenticated)/conversas/`;
+compositor `conversation-composer.tsx` (já recebe rascunho via `draftBody`/`draftToken`). Endpoints prontos:
+`GET/PUT /api/v1/reception/settings`. Falta o endpoint do passo 1. Mapeamento Manual=`off`.
 
 ## Status
-**Plano fechado.** Aguardando "go" pra começar pelo backend.
+Backend (Partes 1 e 2) **concluído e commitado**. Frontend (Parte 3) **a iniciar** — pronto para compactar.
