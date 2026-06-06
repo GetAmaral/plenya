@@ -3,153 +3,151 @@
 <head>
 <meta charset="utf-8">
 <title>Guia da Recepção Plenya</title>
+<!--
+  Piso de fonte: 12px = 9.0pt (Chromium imprime CSS px a 96/pol; PDF a 72/pol → 1px=0.75pt).
+  Nenhuma fonte abaixo de 12px. Hierarquia por peso, caixa, cor e espaço — não por tamanho.
+-->
 <style>
   :root{
     --petrol:#063b4f; --gold:#b38645; --gold-d:#8f6a31; --ocean:#417e8e;
-    --ink:#211f1b; --soft:#6c665b; --faint:#9a9387;
+    --ink:#211f1b; --soft:#5f594e; --faint:#928b7e;
     --line:#dcd4c4; --hair:#e7e0d2; --paper:#fcfaf4; --wash:#f5f1e7;
     --red:#9a3b34;
   }
   *{box-sizing:border-box; margin:0; padding:0}
   @page{ size:A4; margin:0; }
   html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  /* 12px floor everywhere */
   body{ font-family:"EB Garamond","Cormorant Garamond",Georgia,serif; color:var(--ink);
-        font-size:10.4px; line-height:1.5; }
+        font-size:12px; line-height:1.44; }
   .s{ font-family:"Inter",sans-serif; }
 
   .page{ width:210mm; min-height:297mm; padding:16mm 17mm 12mm; background:var(--paper);
          position:relative; page-break-after:always; display:flex; flex-direction:column; }
   .page:last-child{ page-break-after:auto; }
 
-  /* labels & rules */
-  .eyebrow{ font-family:"Inter",sans-serif; font-size:7.6px; font-weight:600; letter-spacing:2.4px;
+  .eyebrow{ font-family:"Inter",sans-serif; font-size:12px; font-weight:600; letter-spacing:1.4px;
             text-transform:uppercase; color:var(--gold-d); }
-  .secnum{ font-family:"Playfair Display",serif; font-style:italic; font-weight:700; color:var(--gold); }
-  .sechead{ display:flex; align-items:baseline; gap:8px; border-bottom:1px solid var(--line);
-            padding-bottom:5px; margin-bottom:11px; }
-  .sechead .t{ font-family:"Inter",sans-serif; font-size:9.4px; font-weight:600; letter-spacing:1.6px;
+  .sechead{ display:flex; align-items:baseline; gap:9px; border-bottom:1px solid var(--line);
+            padding-bottom:6px; margin-bottom:13px; }
+  .sechead .t{ font-family:"Inter",sans-serif; font-size:12.5px; font-weight:600; letter-spacing:1.4px;
                text-transform:uppercase; color:var(--petrol); }
-  .sechead .n{ font-family:"Playfair Display",serif; font-style:italic; font-weight:700; font-size:13px; color:var(--gold); }
-  .sechead .x{ margin-left:auto; font-family:"EB Garamond",serif; font-style:italic; font-size:9.6px; color:var(--faint); }
+  .sechead .n{ font-family:"Playfair Display",serif; font-style:italic; font-weight:700; font-size:17px; color:var(--gold); }
+  .sechead .x{ margin-left:auto; font-family:"EB Garamond",serif; font-style:italic; font-size:12px; color:var(--faint); }
 
   /* ---------- masthead ---------- */
   .mast{ display:flex; justify-content:space-between; align-items:flex-end; }
-  .wm{ font-family:"Playfair Display",serif; font-weight:800; font-size:33px; color:var(--petrol); letter-spacing:3.5px; line-height:.85; }
-  .tag{ font-family:"Inter",sans-serif; font-size:7.4px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-d); margin-top:6px; }
+  .wm{ font-family:"Playfair Display",serif; font-weight:800; font-size:36px; color:var(--petrol); letter-spacing:4px; line-height:.85; }
+  .tag{ font-family:"Inter",sans-serif; font-size:12px; letter-spacing:2.2px; text-transform:uppercase; color:var(--gold-d); margin-top:7px; }
   .mast .r{ text-align:right; }
-  .mast .r .d1{ font-family:"Playfair Display",serif; font-style:italic; font-size:17px; color:var(--ocean); }
-  .mast .r .d2{ font-family:"Inter",sans-serif; font-size:7.2px; letter-spacing:.8px; text-transform:uppercase; color:var(--soft); margin-top:2px; }
-  .rule-gold{ height:2px; background:var(--gold); margin-top:9px; position:relative; }
+  .mast .r .d1{ font-family:"Playfair Display",serif; font-style:italic; font-size:19px; color:var(--ocean); }
+  .mast .r .d2{ font-family:"Inter",sans-serif; font-size:12px; letter-spacing:.4px; color:var(--soft); margin-top:3px; }
+  .rule-gold{ height:2px; background:var(--gold); margin-top:10px; position:relative; }
   .rule-gold::after{ content:""; position:absolute; left:0; bottom:-4px; width:100%; height:1px; background:var(--gold); opacity:.4; }
 
-  .creed{ font-family:"Playfair Display",serif; font-size:14.5px; font-style:italic; color:var(--petrol);
-          line-height:1.45; margin:13px 0 2px; }
+  .creed{ font-family:"Playfair Display",serif; font-size:16px; font-style:italic; color:var(--petrol);
+          line-height:1.5; margin:15px 0 4px; }
   .creed b{ color:var(--gold-d); font-style:normal; font-weight:700; }
 
   /* ---------- flow ribbon ---------- */
-  .flow{ display:flex; margin-top:6px; }
-  .flow .st{ flex:1; padding-right:13px; position:relative; }
+  .flow{ display:flex; }
+  .flow .st{ flex:1; padding-right:13px; }
   .flow .st + .st{ padding-left:13px; border-left:1px solid var(--hair); }
-  .flow .k{ font-family:"Playfair Display",serif; font-style:italic; font-size:11px; color:var(--gold); }
-  .flow .l{ font-family:"Inter",sans-serif; font-weight:600; font-size:8.6px; letter-spacing:.4px;
-            text-transform:uppercase; color:var(--petrol); display:block; margin:1px 0; }
-  .flow .d{ font-size:8.8px; color:var(--soft); line-height:1.3; display:block; }
+  .flow .k{ font-family:"Playfair Display",serif; font-style:italic; font-size:15px; color:var(--gold); }
+  .flow .l{ font-family:"Inter",sans-serif; font-weight:600; font-size:12px; letter-spacing:.3px;
+            text-transform:uppercase; color:var(--petrol); display:block; margin:2px 0; }
+  .flow .d{ font-size:12px; color:var(--soft); line-height:1.32; display:block; }
   .flow .st.hl .l{ color:var(--gold-d); }
 
-  /* ---------- two-col body ---------- */
-  .cols{ display:grid; grid-template-columns:1.5fr 1fr; gap:24px; margin-top:5px; }
-  .colrule{ border-left:1px solid var(--hair); padding-left:24px; }
+  /* ---------- consulta + clínica (page 1) ---------- */
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  .colrule{ border-left:1px solid var(--hair); padding-left:26px; }
 
-  /* tempos */
-  .tempo{ display:grid; grid-template-columns:auto 1fr; gap:11px; padding:8px 0; border-top:1px solid var(--hair); }
+  .price{ font-family:"Playfair Display",serif; font-weight:800; font-size:46px; color:var(--petrol); line-height:.9; }
+  .price sup{ font-size:18px; top:-1.3em; color:var(--gold-d); margin-right:2px; }
+  .price .c{ font-size:21px; }
+  .pricel{ font-family:"Inter",sans-serif; font-size:12px; letter-spacing:.6px; text-transform:uppercase; color:var(--gold-d); margin-top:5px; }
+  .spec{ margin-top:13px; }
+  .spec div{ display:grid; grid-template-columns:74px 1fr; gap:11px; padding:7px 0; border-top:1px solid var(--hair); font-size:12px; line-height:1.4; }
+  .spec b{ font-family:"Inter",sans-serif; font-weight:600; font-size:12px; letter-spacing:.3px;
+           text-transform:uppercase; color:var(--ocean); }
+
+  .nap div{ padding:7px 0; border-top:1px solid var(--hair); font-size:12px; line-height:1.42; }
+  .nap div:first-child{ border-top:none; }
+  .nap b{ font-family:"Inter",sans-serif; font-weight:600; font-size:12px; letter-spacing:.3px;
+          text-transform:uppercase; color:var(--gold-d); display:block; margin-bottom:1px; }
+
+  /* principles */
+  .princ{ display:grid; grid-template-columns:repeat(3,1fr); gap:13px 26px; }
+  .princ .p{ display:grid; grid-template-columns:auto 1fr; gap:10px; }
+  .princ .p .pn{ font-family:"Playfair Display",serif; font-style:italic; font-weight:700; font-size:18px; color:var(--gold); line-height:1; }
+  .princ .p .pt{ font-family:"Inter",sans-serif; font-weight:600; font-size:12.5px; color:var(--petrol); display:block; }
+  .princ .p .pd{ font-size:12px; color:var(--soft); line-height:1.34; }
+
+  /* ---------- method (page 2) ---------- */
+  .tempo{ display:grid; grid-template-columns:auto 1fr; gap:14px; padding:11px 0; border-top:1px solid var(--hair); }
   .tempo:first-of-type{ border-top:none; }
-  .tempo .n{ font-family:"Playfair Display",serif; font-weight:800; font-size:23px; color:var(--gold); line-height:.8; }
-  .tempo .lab{ font-family:"Inter",sans-serif; font-weight:600; font-size:8.6px; letter-spacing:.8px;
+  .tempo .n{ font-family:"Playfair Display",serif; font-weight:800; font-size:30px; color:var(--gold); line-height:.8; }
+  .tempo .lab{ font-family:"Inter",sans-serif; font-weight:600; font-size:12.5px; letter-spacing:.6px;
                text-transform:uppercase; color:var(--petrol); }
-  .tempo .ask{ font-style:italic; font-size:11.6px; color:#34302a; display:block; margin-top:1px; }
+  .tempo .ask{ font-style:italic; font-size:16px; color:#34302a; display:block; margin-top:2px; }
   .tempo .ask::before{ content:"“"; color:var(--gold); } .tempo .ask::after{ content:"”"; color:var(--gold); }
 
-  .micro{ font-size:9.6px; color:var(--soft); line-height:1.42; margin-top:7px; }
-  .micro .pin{ font-family:"Inter",sans-serif; font-weight:600; font-size:8px; letter-spacing:.6px;
+  .micro{ font-size:12px; color:var(--soft); line-height:1.46; margin-top:11px; padding-left:13px; border-left:2px solid var(--red); }
+  .micro .pin{ font-family:"Inter",sans-serif; font-weight:600; font-size:12px; letter-spacing:.4px;
                text-transform:uppercase; color:var(--red); }
-  .micro .pin.g{ color:var(--gold-d); }
 
-  .subhead{ font-family:"Inter",sans-serif; font-size:8.4px; font-weight:600; letter-spacing:1.4px;
-            text-transform:uppercase; color:var(--petrol); margin:15px 0 6px; display:flex; align-items:center; gap:8px; }
+  .subhead{ font-family:"Inter",sans-serif; font-size:12.5px; font-weight:600; letter-spacing:1.2px;
+            text-transform:uppercase; color:var(--petrol); margin:20px 0 9px; display:flex; align-items:center; gap:9px; }
   .subhead::after{ content:""; flex:1; height:1px; background:var(--hair); }
 
-  .ex{ font-size:10.4px; line-height:1.5; }
-  .ex .you{ color:var(--ocean); font-style:italic; } .ex b{ color:var(--ink); }
-  .ex .q{ font-style:italic; color:#34302a; }
+  .ex{ font-size:13px; line-height:1.52; } .ex .you{ color:var(--ocean); font-style:italic; } .ex .q{ font-style:italic; color:#34302a; }
+  .ex .who{ font-family:"Inter",sans-serif; font-weight:600; font-size:12px; }
 
-  .stack > div{ padding:7px 0; border-top:1px solid var(--hair); }
-  .stack > div:first-child{ border-top:none; padding-top:0; }
-  .stack .h{ font-family:"Inter",sans-serif; font-weight:600; font-size:9px; color:var(--petrol); }
-  .stack .h .em{ color:var(--gold-d); }
-  .stack p{ font-size:9.7px; color:var(--soft); line-height:1.4; margin-top:1px; }
-  .stack p i{ color:#34302a; }
+  .stack{ display:grid; grid-template-columns:1fr 1fr; gap:0 26px; }
+  .stack > div{ padding:10px 0; border-top:1px solid var(--hair); }
+  .stack > div.full{ grid-column:1 / -1; }
+  .stack .h{ font-family:"Inter",sans-serif; font-weight:600; font-size:12.5px; color:var(--petrol); }
+  .stack .h .em{ color:var(--gold-d); font-weight:400; font-style:italic; font-family:"EB Garamond",serif; }
+  .stack p{ font-size:12px; color:var(--soft); line-height:1.46; margin-top:3px; }
+  .stack p i{ color:#34302a; } .stack p b{ color:var(--ink); }
 
-  /* spec sheet (consulta) */
-  .price{ font-family:"Playfair Display",serif; font-weight:800; font-size:40px; color:var(--petrol); line-height:.9; }
-  .price sup{ font-size:15px; top:-1.2em; color:var(--gold-d); margin-right:1px; }
-  .price .c{ font-size:18px; }
-  .pricel{ font-family:"Inter",sans-serif; font-size:7.4px; letter-spacing:1.2px; text-transform:uppercase; color:var(--gold-d); margin-top:3px; }
-  .spec{ margin-top:11px; }
-  .spec div{ display:grid; grid-template-columns:58px 1fr; gap:9px; padding:5px 0; border-top:1px solid var(--hair); font-size:9.7px; line-height:1.34; }
-  .spec b{ font-family:"Inter",sans-serif; font-weight:600; font-size:7.4px; letter-spacing:.5px;
-           text-transform:uppercase; color:var(--ocean); padding-top:2px; }
-
-  .nap{ margin-top:13px; }
-  .nap div{ padding:4px 0; border-top:1px solid var(--hair); font-size:9.5px; line-height:1.34; }
-  .nap div:first-child{ border-top:none; }
-  .nap b{ font-family:"Inter",sans-serif; font-weight:600; font-size:7px; letter-spacing:.5px;
-          text-transform:uppercase; color:var(--gold-d); display:block; }
-
-  /* principles footer */
-  .princ{ display:grid; grid-template-columns:repeat(3,1fr); gap:9px 22px; margin-top:8px; }
-  .princ .p{ display:grid; grid-template-columns:auto 1fr; gap:8px; }
-  .princ .p .pn{ font-family:"Playfair Display",serif; font-style:italic; font-weight:700; font-size:12px; color:var(--gold); }
-  .princ .p .pt{ font-family:"Inter",sans-serif; font-weight:600; font-size:8.6px; color:var(--petrol); display:block; }
-  .princ .p .pd{ font-size:9px; color:var(--soft); line-height:1.3; }
-
-  .foot{ margin-top:auto; padding-top:9px; display:flex; justify-content:space-between;
-         font-family:"Inter",sans-serif; font-size:7.2px; letter-spacing:.5px; text-transform:uppercase; color:var(--faint); }
-  .foot b{ color:var(--gold-d); }
-
-  /* ---------- page 2: objections ---------- */
-  .lens{ display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-bottom:13px; }
-  .lens .col{ padding-left:13px; border-left:2px solid var(--gold); }
+  /* ---------- objections (page 3) ---------- */
+  .lens{ display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-bottom:15px; }
+  .lens .col{ padding-left:14px; border-left:2px solid var(--gold); }
   .lens .col.r{ border-left-color:var(--ocean); }
-  .lens .lh{ font-family:"Inter",sans-serif; font-weight:600; font-size:8.6px; letter-spacing:.8px;
-             text-transform:uppercase; color:var(--petrol); margin-bottom:2px; }
-  .lens p{ font-size:9.8px; color:var(--soft); line-height:1.42; }
-  .lens p b{ color:var(--ink); }
+  .lens .lh{ font-family:"Inter",sans-serif; font-weight:600; font-size:12.5px; letter-spacing:.6px;
+             text-transform:uppercase; color:var(--petrol); margin-bottom:3px; }
+  .lens p{ font-size:12px; color:var(--soft); line-height:1.46; } .lens p b{ color:var(--ink); }
 
-  .obj2{ display:grid; grid-template-columns:1fr 1fr; gap:0 26px; }
-  .obj{ padding:7px 0; border-top:1px solid var(--hair); break-inside:avoid; }
-  .obj .o{ font-family:"Playfair Display",serif; font-style:italic; font-size:11.5px; color:var(--petrol); }
+  .obj2{ display:grid; grid-template-columns:1fr 1fr; gap:0 28px; }
+  .obj{ padding:9px 0; border-top:1px solid var(--hair); break-inside:avoid; }
+  .obj .o{ font-family:"Playfair Display",serif; font-style:italic; font-size:14px; color:var(--petrol); }
   .obj .o::before{ content:"«"; color:var(--gold); font-style:normal; } .obj .o::after{ content:"»"; color:var(--gold); font-style:normal; }
-  .obj .a{ font-size:9.7px; color:#3c372f; line-height:1.4; margin-top:2px; }
+  .obj .a{ font-size:12px; color:#3c372f; line-height:1.44; margin-top:3px; }
 
-  .limits{ margin-top:7px; }
-  .limit{ display:grid; grid-template-columns:auto 1fr; gap:9px; padding:5px 0; border-top:1px solid var(--hair); }
+  .limit{ display:grid; grid-template-columns:auto 1fr; gap:11px; padding:8px 0; border-top:1px solid var(--hair); }
   .limit:first-child{ border-top:none; }
-  .limit .x{ font-family:"Inter",sans-serif; color:var(--red); font-weight:700; font-size:10px; line-height:1.3; }
-  .limit p{ font-size:9.7px; line-height:1.38; color:#3c372f; }
-  .limit p b{ font-family:"Inter",sans-serif; font-weight:600; font-size:9px; color:var(--ink); }
+  .limit .x{ font-family:"Inter",sans-serif; color:var(--red); font-weight:700; font-size:14px; line-height:1.3; }
+  .limit p{ font-size:12px; line-height:1.46; color:#3c372f; }
+  .limit p b{ font-family:"Inter",sans-serif; font-weight:600; font-size:12.5px; color:var(--ink); }
 
-  .closing{ margin-top:14px; display:grid; grid-template-columns:1.4fr 1fr; gap:24px; align-items:center;
-            border-top:2px solid var(--gold); padding-top:13px; }
-  .closing .voice{ font-family:"Playfair Display",serif; font-style:italic; font-size:13.5px; color:var(--petrol); line-height:1.45; }
+  .closing{ margin-top:18px; display:grid; grid-template-columns:1.4fr 1fr; gap:26px; align-items:center;
+            border-top:2px solid var(--gold); padding-top:15px; }
+  .closing .voice{ font-family:"Playfair Display",serif; font-style:italic; font-size:16px; color:var(--petrol); line-height:1.5; }
   .closing .voice b{ color:var(--gold-d); font-style:normal; font-weight:700; }
   .cta{ text-align:center; }
-  .cta .l{ font-family:"Inter",sans-serif; font-size:7.2px; letter-spacing:1.6px; text-transform:uppercase; color:var(--gold-d); }
-  .cta .b{ font-family:"Playfair Display",serif; font-style:italic; font-size:16px; color:var(--petrol); margin-top:3px; line-height:1.2; }
+  .cta .l{ font-family:"Inter",sans-serif; font-size:12px; letter-spacing:1.2px; text-transform:uppercase; color:var(--gold-d); }
+  .cta .b{ font-family:"Playfair Display",serif; font-style:italic; font-size:19px; color:var(--petrol); margin-top:4px; line-height:1.25; }
+
+  .foot{ margin-top:auto; padding-top:11px; display:flex; justify-content:space-between;
+         font-family:"Inter",sans-serif; font-size:12px; letter-spacing:.3px; color:var(--faint); }
+  .foot b{ color:var(--gold-d); font-weight:600; }
 </style>
 </head>
 <body>
 
-<!-- =================== PAGE 1 — A CONVERSA =================== -->
+<!-- =================== PAGE 1 — REFERÊNCIA =================== -->
 <section class="page">
   <div class="mast">
     <div>
@@ -166,6 +164,7 @@
   <p class="creed">A recepção tem uma tarefa: transformar o contato em uma <b>Consulta agendada.</b>
   Escute antes de oferecer, conduza sem pressa, deixe a porta aberta.</p>
 
+  <div class="sechead" style="margin-top:6px"><span class="t">O mapa da conversa</span></div>
   <div class="flow">
     <div class="st"><span class="k">1</span><span class="l">Acolher</span><span class="d">Receber, criar conforto.</span></div>
     <div class="st hl"><span class="k">2</span><span class="l">Descobrir</span><span class="d">Entender o motivo e o momento.</span></div>
@@ -175,46 +174,8 @@
     <div class="st hl"><span class="k">6</span><span class="l">Agendar</span><span class="d">Dia, formato, dados. Confirmar.</span></div>
   </div>
 
-  <div class="cols">
-    <!-- LEFT: the method -->
+  <div class="two" style="margin-top:22px">
     <div>
-      <div class="sechead"><span class="n">2</span><span class="t">A descoberta, em quatro tempos</span>
-        <span class="x">uma de cada vez, nunca um questionário</span></div>
-
-      <div class="tempo"><span class="n">1</span><div><span class="lab">Contexto</span>
-        <span class="ask">o que te fez procurar um acompanhamento agora?</span></div></div>
-      <div class="tempo"><span class="n">2</span><div><span class="lab">Incômodo</span>
-        <span class="ask">e o que mais tem te incomodado nisso?</span></div></div>
-      <div class="tempo"><span class="n">3</span><div><span class="lab">Peso na rotina</span>
-        <span class="ask">isso tem pesado no seu dia a dia?</span></div></div>
-      <div class="tempo"><span class="n">4</span><div><span class="lab">Cenário ideal</span>
-        <span class="ask">como você imagina se sentir se isso entrasse nos eixos?</span></div></div>
-
-      <p class="micro"><span class="pin">Trava LGPD/CFM ·</span> os tempos 3 e 4 falam de vida e rotina,
-      nunca de sintoma, exame ou diagnóstico. Isso é da consulta, com o médico. Se já quiser marcar, agende.</p>
-
-      <div class="subhead">Espelhar e aprofundar</div>
-      <p class="ex" style="margin-bottom:5px">Veio uma palavra carregada? Devolva a palavra dela com uma pergunta.
-      Reduz a defesa, aprofunda, não promete nada.</p>
-      <p class="ex"><b>Lead:</b> <span class="q">ando exausta o tempo todo.</span><br>
-      <b class="s" style="font-weight:600">Você:</b> <span class="you">quando você diz exausta o tempo todo, como isso aparece no seu dia?</span></p>
-
-      <div class="subhead">Do valor ao preço</div>
-      <div class="stack">
-        <div><span class="h">Recapitule, depois o preço <span class="em">— lead aquecido</span></span>
-          <p><i>“pelo que você me conta, o que mais pesa é [a situação dela]. A consulta foi pensada para olhar
-          isso com calma: cerca de 60 min, painel ampliado e conduta para o seu caso. Faz sentido até aqui?”</i>
-          O “faz sentido?” é um ponto de acordo, não validação. Hesitou, ainda há dúvida: volte a escutar.</p></div>
-        <div><span class="h">A regra do preço</span>
-          <p>Dito o sim, diga o valor em <b style="color:var(--ink)">uma frase calma e pare</b>. Não emende
-          parcelamento nem “mas inclui X, Y, Z”: firmeza lê como segurança; álibi lê como insegurança.</p></div>
-        <div><span class="h">Pedir passagem</span>
-          <p>Avance sem empurrar: <i>“quer que eu te mostre como funciona?”</i>, <i>“quer que eu veja uma data?”</i>.</p></div>
-      </div>
-    </div>
-
-    <!-- RIGHT: consulta spec + NAP -->
-    <div class="colrule">
       <div class="sechead"><span class="t">A consulta</span></div>
       <div class="price"><sup>R$</sup>800<span class="c">,00</span></div>
       <div class="pricel">Valor único · não negociável · sem desconto</div>
@@ -225,40 +186,83 @@
         <div><b>Particular</b><span>Sem convênio. Dedutível no Imposto de Renda.</span></div>
         <div><b>Traz</b><span>Exames anteriores e lista de medicações.</span></div>
       </div>
-
-      <div class="sechead" style="margin-top:15px"><span class="t">A clínica</span></div>
+    </div>
+    <div class="colrule">
+      <div class="sechead"><span class="t">A clínica</span></div>
       <div class="nap">
         <div><b>WhatsApp / Telefone</b>(43) 99974-8899</div>
         <div><b>Endereço</b>Av. Ayrton Senna da Silva, 500, Torre Pietra, sala 1402, Gleba Palhano, Londrina/PR</div>
-        <div><b>Online</b>plenyasaude.com.br · @plenyaSaude · Seg a sex, 8h–18h</div>
-        <div><b>Direção clínica</b>Dr. Getúlio Amaral Filho, nefrologista · CRM-PR 21.876 · RQE 16.038</div>
+        <div><b>Online · Horário</b>plenyasaude.com.br · @plenyaSaude · Seg a sex, 8h–18h</div>
+        <div><b>Direção clínica</b>Dr. Getúlio Amaral Filho, médico nefrologista · CRM-PR 21.876 · RQE 16.038</div>
       </div>
     </div>
   </div>
 
-  <div class="sechead" style="margin-top:18px"><span class="t">Os seis princípios</span></div>
+  <div class="sechead" style="margin-top:24px"><span class="t">Os seis princípios</span></div>
   <div class="princ">
-    <div class="p"><span class="pn">1</span><div><span class="pt s">Escutar antes de oferecer</span><span class="pd">Quem entende primeiro conduz; quem oferece no escuro empurra.</span></div></div>
-    <div class="p"><span class="pn">2</span><div><span class="pt s">Espelhar o momento</span><span class="pd">Devolva com as palavras dela. Reconhecimento converte.</span></div></div>
-    <div class="p"><span class="pn">3</span><div><span class="pt s">Conduzir, não pressionar</span><span class="pd">Cada etapa termina num passo fácil. A pressa assusta.</span></div></div>
-    <div class="p"><span class="pn">4</span><div><span class="pt s">Clareza acima de tudo</span><span class="pd">Se não é o momento, diga com calma. Também é cuidado.</span></div></div>
-    <div class="p"><span class="pn">5</span><div><span class="pt s">Próximo passo concreto</span><span class="pd">Nada termina no ar: agenda, retorno marcado ou registro.</span></div></div>
-    <div class="p"><span class="pn">6</span><div><span class="pt s">Tom da casa</span><span class="pd">Prosa clínica, calma. Nunca cura, resultado ou diagnóstico.</span></div></div>
+    <div class="p"><span class="pn">1</span><div><span class="pt">Escutar antes de oferecer</span><span class="pd">Quem entende primeiro conduz; quem oferece no escuro empurra.</span></div></div>
+    <div class="p"><span class="pn">2</span><div><span class="pt">Espelhar o momento</span><span class="pd">Devolva com as palavras dela. Reconhecimento converte.</span></div></div>
+    <div class="p"><span class="pn">3</span><div><span class="pt">Conduzir, não pressionar</span><span class="pd">Cada etapa termina num passo fácil. A pressa assusta.</span></div></div>
+    <div class="p"><span class="pn">4</span><div><span class="pt">Clareza acima de tudo</span><span class="pd">Se não é o momento, diga com calma. Também é cuidado.</span></div></div>
+    <div class="p"><span class="pn">5</span><div><span class="pt">Próximo passo concreto</span><span class="pd">Nada termina no ar: agenda, retorno marcado ou registro.</span></div></div>
+    <div class="p"><span class="pn">6</span><div><span class="pt">Tom da casa</span><span class="pd">Prosa clínica, calma. Nunca cura, resultado ou diagnóstico.</span></div></div>
   </div>
 
-  <div class="foot"><span>Plenya · Guia da Recepção</span><span>Escute primeiro · conduza sem pressão · <b>1 / 2</b></span></div>
+  <div class="foot"><span>Plenya · Guia da Recepção</span><span>Referência · <b>1 / 3</b></span></div>
 </section>
 
-<!-- =================== PAGE 2 — OBJEÇÕES & LIMITES =================== -->
+<!-- =================== PAGE 2 — A CONVERSA =================== -->
+<section class="page">
+  <div class="sechead"><span class="n">2</span><span class="t">A descoberta, em quatro tempos</span>
+    <span class="x">uma de cada vez, nunca um questionário</span></div>
+
+  <div class="tempo"><span class="n">1</span><div><span class="lab">Contexto</span>
+    <span class="ask">o que te fez procurar um acompanhamento agora?</span></div></div>
+  <div class="tempo"><span class="n">2</span><div><span class="lab">Incômodo</span>
+    <span class="ask">e o que mais tem te incomodado nisso?</span></div></div>
+  <div class="tempo"><span class="n">3</span><div><span class="lab">Peso na rotina</span>
+    <span class="ask">isso tem pesado no seu dia a dia?</span></div></div>
+  <div class="tempo"><span class="n">4</span><div><span class="lab">Cenário ideal</span>
+    <span class="ask">como você imagina se sentir se isso entrasse nos eixos?</span></div></div>
+
+  <p class="micro"><span class="pin">Trava LGPD / CFM ·</span> os tempos 3 e 4 falam de vida e rotina,
+  nunca de sintoma, exame ou diagnóstico. Isso é da consulta, com o médico. Se a pessoa já quiser marcar,
+  pare a descoberta e vá agendar.</p>
+
+  <div class="subhead">Espelhar e aprofundar</div>
+  <p class="ex" style="margin-bottom:8px">Veio uma palavra carregada? Devolva a palavra dela com uma pergunta.
+  Reduz a defesa, aprofunda, e não promete nada.</p>
+  <p class="ex"><span class="who">Lead:</span> <span class="q">ando exausta o tempo todo.</span><br>
+  <span class="who">Você:</span> <span class="you">quando você diz exausta o tempo todo, como isso aparece no seu dia?</span></p>
+
+  <div class="subhead">Do valor ao preço</div>
+  <div class="stack">
+    <div class="full"><span class="h">Recapitule, depois o preço <span class="em">— com o lead aquecido</span></span>
+      <p><i>“pelo que você me conta, o que mais pesa é [a situação dela]. A consulta foi pensada para olhar isso
+      com calma: cerca de 60 minutos, painel ampliado e uma conduta para o seu caso. Faz sentido até aqui?”</i>
+      &nbsp;O “faz sentido?” é um ponto de acordo antes do preço, não pedido de validação. Se hesitar, ainda há
+      dúvida: volte a escutar.</p></div>
+    <div><span class="h">A regra do preço</span>
+      <p>Dito o sim, diga o valor em <b>uma frase calma e pare</b>. Não emende parcelamento nem “mas inclui X,
+      Y, Z”. Firmeza lê como segurança; álibi lê como insegurança.</p></div>
+    <div><span class="h">Pedir passagem</span>
+      <p>Avance sem empurrar, peça licença para o próximo passo: <i>“quer que eu te mostre como funciona?”</i>,
+      <i>“quer que eu veja uma data para você?”</i>.</p></div>
+  </div>
+
+  <div class="foot"><span>Plenya · Guia da Recepção</span><span>A engenharia da escuta · <b>2 / 3</b></span></div>
+</section>
+
+<!-- =================== PAGE 3 — OBJEÇÕES & LIMITES =================== -->
 <section class="page">
   <div class="sechead"><span class="n">3</span><span class="t">Objeções</span>
-    <span class="x">acolha primeiro · esclareça · devolva o próximo passo</span></div>
+    <span class="x">acolha · esclareça · devolva o próximo passo</span></div>
 
   <div class="lens">
-    <div class="col"><div class="lh s">Dúvida real</div>
+    <div class="col"><div class="lh">Dúvida real</div>
       <p>Pergunta concreta — prazo, formato, o que inclui, convênio. Quem pergunta quer entender:
       <b>responda direto e devolva o próximo passo.</b></p></div>
-    <div class="col r"><div class="lh s">Evasiva</div>
+    <div class="col r"><div class="lh">Evasiva</div>
       <p>“Vou pensar / pesquisar” sem pergunta. Quem foge quer espaço: <b>acolha, segure um passo leve,
       não insista.</b> Argumentar empurra.</p></div>
   </div>
@@ -276,15 +280,13 @@
     <div class="obj"><div class="o">O Continuum é muito compromisso</div><div class="a">O Continuum é um passo à frente. Agora é só a consulta, que já vale por si, sem compromisso além dela.</div></div>
   </div>
 
-  <div class="sechead" style="margin-top:18px"><span class="n">4</span><span class="t">Limites — nunca, em hipótese alguma</span></div>
-  <div class="limits">
-    <div class="limit"><span class="x">✕</span><p><b>Diagnosticar ou prometer.</b> Sem orientação clínica, sem interpretar exame, sem prometer cura ou resultado. É do médico, na consulta (CFM).</p></div>
-    <div class="limit"><span class="x">✕</span><p><b>Falar valor do Continuum.</b> A recepção só informa o valor da consulta; o Continuum é apresentado pelo médico.</p></div>
-    <div class="limit"><span class="x">✕</span><p><b>Pressão, urgência forçada ou medo.</b> Nada de “quando vai decidir?” ou “imagina o que você perde”. Antecipar não é amedrontar.</p></div>
-    <div class="limit"><span class="x">✕</span><p><b>Desconto ou negociar escopo.</b> Valor único; não há condição a inventar nem escopo a reduzir.</p></div>
-    <div class="limit"><span class="x">✕</span><p><b>“Medicina preditiva”, marcas ou lojas.</b> Fale por categoria. A linguagem é prevenção, antecipação, longevidade.</p></div>
-    <div class="limit"><span class="x">✕</span><p><b>Travessão, gíria, fecho de efeito, emoji em excesso.</b> Frases inteiras e conectadas, tom da casa.</p></div>
-  </div>
+  <div class="sechead" style="margin-top:22px"><span class="n">4</span><span class="t">Limites — nunca, em hipótese alguma</span></div>
+  <div class="limit"><span class="x">✕</span><p><b>Diagnosticar ou prometer.</b> Sem orientação clínica, sem interpretar exame, sem prometer cura ou resultado. É do médico, na consulta (CFM).</p></div>
+  <div class="limit"><span class="x">✕</span><p><b>Falar valor do Continuum.</b> A recepção só informa o valor da consulta; o Continuum é apresentado pelo médico.</p></div>
+  <div class="limit"><span class="x">✕</span><p><b>Pressão, urgência forçada ou medo.</b> Nada de “quando vai decidir?” ou “imagina o que você perde”. Antecipar não é amedrontar.</p></div>
+  <div class="limit"><span class="x">✕</span><p><b>Desconto ou negociar escopo.</b> Valor único; não há condição a inventar nem escopo a reduzir.</p></div>
+  <div class="limit"><span class="x">✕</span><p><b>“Medicina preditiva”, marcas ou lojas.</b> Fale por categoria. A linguagem é prevenção, antecipação, longevidade.</p></div>
+  <div class="limit"><span class="x">✕</span><p><b>Travessão, gíria, fecho de efeito, emoji em excesso.</b> Frases inteiras e conectadas, tom da casa.</p></div>
 
   <div class="closing">
     <div class="voice">A Plenya <b>orienta sem impor, educa sem simplificar demais, inspira sem exageros.</b>
@@ -292,7 +294,7 @@
     <div class="cta"><div class="l">CTA padrão</div><div class="b">Quer que eu veja<br>uma data para você?</div></div>
   </div>
 
-  <div class="foot"><span>Plenya · Guia da Recepção</span><span>Anti-pressão · anti-promessa · <b>2 / 2</b></span></div>
+  <div class="foot"><span>Plenya · Guia da Recepção</span><span>Anti-pressão · anti-promessa · <b>3 / 3</b></span></div>
 </section>
 
 </body>
