@@ -1824,8 +1824,11 @@ func (s *LeadService) RecordWhatsAppStatus(waMessageID, status, recipientID stri
 		return
 	}
 	var orig models.LeadActivity
-	// JSONB: metadata->>'wa_message_id' = ?
+	// JSONB: metadata->>'wa_message_id' = ? — restringe à mensagem ENVIADA. Sem o filtro de
+	// type, os próprios eventos de status (que também guardam wa_message_id) eram encontrados,
+	// fazendo o "delivered/read" apontar para o evento "sent" em vez da mensagem original.
 	err := s.db.Where("metadata->>'wa_message_id' = ?", waMessageID).
+		Where("type = ?", models.LeadActivityMessageSent).
 		Order("created_at DESC").
 		First(&orig).Error
 	if err != nil {

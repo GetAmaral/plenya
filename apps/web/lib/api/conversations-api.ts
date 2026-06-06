@@ -694,8 +694,8 @@ export function useSuggestedReply(
       return data && 'reply' in data ? (data as SuggestedReply) : null;
     },
     enabled: !!type && !!id,
-    staleTime: 4_000,
-    refetchInterval: 8_000,
+    staleTime: 1_500,
+    refetchInterval: 3_000, // curto: a janela de preview do Auto é breve
   });
 }
 

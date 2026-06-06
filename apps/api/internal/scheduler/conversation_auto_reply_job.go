@@ -34,7 +34,7 @@ import (
 )
 
 const (
-	autoReplyJobInterval = 15 * time.Second
+	autoReplyJobInterval = 5 * time.Second // tick curto pra honrar X pequeno e dar janela de preview
 	autoReplyJobTimeout  = 4 * time.Minute
 	autoReplyWindowHours = 24 * time.Hour
 	handoffPauseDuration = 24 * time.Hour
@@ -194,11 +194,18 @@ func (j *ConversationAutoReplyJob) handleConversation(ctx context.Context, owner
 			j.ensureDraft(ctx, ownerType, ownerID, lastIn.ID)
 		}
 	case models.ConversationAutomationAuto:
-		if age >= x+x/3 {
-			j.sendAuto(ctx, ownerType, ownerID)
-		} else if age >= x {
-			j.convSvc.MarkConversationTyping(ctx, ownerType, ownerID) // "digitando…" durante o preview X/3
-			j.ensureDraft(ctx, ownerType, ownerID, lastIn.ID)         // rascunho pronto + janela de preview X/3
+		if age >= x {
+			// Sempre rascunha primeiro (preenche o compositor + "digitando…"); só envia depois
+			// que o rascunho ficou visível pela janela de preview (x/3), nunca no mesmo tick em
+			// que foi criado. Garante que a mensagem aparece antes de sair, mesmo com X pequeno.
+			j.convSvc.MarkConversationTyping(ctx, ownerType, ownerID)
+			j.ensureDraft(ctx, ownerType, ownerID, lastIn.ID)
+			preview := x / 3
+			if view, _ := j.autoSvc.GetSuggestedReply(ctx, ownerType, ownerID); view != nil &&
+				view.BasedOnActivityID != nil && *view.BasedOnActivityID == lastIn.ID &&
+				time.Since(view.UpdatedAt) >= preview {
+				j.sendAuto(ctx, ownerType, ownerID)
+			}
 		}
 	}
 }

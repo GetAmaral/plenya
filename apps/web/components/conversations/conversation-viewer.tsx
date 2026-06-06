@@ -758,7 +758,10 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
 
   const deliveryStatusFor = useCallback(
     (m: ConversationMessage): string | undefined =>
-      statusById[m.id] ?? (m.metadata?.wa_message_id ? statusByWamid[m.metadata.wa_message_id] : undefined),
+      // Prioriza o casamento por wa_message_id (agrega o status mais avançado da mensagem):
+      // os eventos delivered/read podem ter original_activity errado, mas todos compartilham
+      // o wa_message_id da mensagem enviada. Cai pro id da atividade como reforço.
+      (m.metadata?.wa_message_id ? statusByWamid[m.metadata.wa_message_id] : undefined) ?? statusById[m.id],
     [statusById, statusByWamid]
   );
 
