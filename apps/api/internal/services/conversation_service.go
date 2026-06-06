@@ -1242,6 +1242,12 @@ func (s *ConversationService) sendWhatsApp(ctx context.Context, in SendMessageIn
 	if err := s.db.WithContext(ctx).Create(activity).Error; err != nil {
 		return nil, fmt.Errorf("conversation: persist activity: %w", err)
 	}
+	// Conversa respondida (por humano OU bot) → o rascunho da IA fica obsoleto. Apaga pra não
+	// reaparecer no compositor (re-injeção do poll de suggested-reply) nem manter a barra de
+	// rascunho aberta. Best-effort: erro aqui não deve falhar o envio já concluído.
+	s.db.WithContext(ctx).
+		Where("owner_type = ? AND owner_id = ?", in.OwnerType, in.OwnerID).
+		Delete(&models.ConversationSuggestedReply{})
 	// Refetch pra rodar AfterFind (decrypt content).
 	return s.fetchActivity(ctx, activity.ID)
 }

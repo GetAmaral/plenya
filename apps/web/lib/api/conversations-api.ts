@@ -428,6 +428,8 @@ export function useSendConversationWhatsApp(
     onSuccess: async () => {
       await qc.refetchQueries({ queryKey: conversationKeys.messages(type, id) });
       qc.invalidateQueries({ queryKey: [...conversationKeys.all, 'list'] });
+      // O backend apaga o rascunho da IA ao enviar; refetch pra a barra/compositor limparem já.
+      qc.invalidateQueries({ queryKey: ['suggested-reply', type, id] });
     },
   });
 }
