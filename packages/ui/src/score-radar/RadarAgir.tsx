@@ -371,21 +371,40 @@ export function RadarAgir({
       </div>
 
       {showLegend && (
-        <div className="flex flex-wrap justify-center gap-2 md:gap-2.5">
+        // Estilos inline (não Tailwind): este é um componente de pacote compartilhado e o
+        // consumidor pode não escanear `packages/ui/src` no content do Tailwind — as utilities
+        // do legend não seriam geradas e os chips colapsariam (bug do site /escore, 2026-06-06).
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 8,
+          }}
+        >
           {letterArcs.map((l) => {
             const empty = l.count === 0
             return (
               <span
                 key={l.code}
-                className="inline-flex items-center gap-2 rounded-full py-1 pl-1 pr-3"
                 style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  borderRadius: 9999,
+                  paddingTop: 4,
+                  paddingBottom: 4,
+                  paddingLeft: 4,
+                  paddingRight: 12,
                   background: empty ? 'transparent' : `${l.color}14`,
                   border: `1px solid ${empty ? INK_12 : `${l.color}55`}`,
                 }}
               >
                 <span
-                  className="grid place-items-center rounded-full"
                   style={{
+                    display: 'grid',
+                    placeItems: 'center',
+                    borderRadius: 9999,
                     width: 22,
                     height: 22,
                     background: empty ? INK_12 : l.color,
@@ -399,8 +418,13 @@ export function RadarAgir({
                   {l.label ?? l.code}
                 </span>
                 <span
-                  className="font-mono text-[12px] tabular-nums"
-                  style={{ color: empty ? INK_40 : INK_70 }}
+                  style={{
+                    fontFamily:
+                      "var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace",
+                    fontSize: 12,
+                    fontVariantNumeric: 'tabular-nums',
+                    color: empty ? INK_40 : INK_70,
+                  }}
                 >
                   {empty ? '—' : l.score.toFixed(0)}
                 </span>
