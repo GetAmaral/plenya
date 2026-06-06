@@ -210,7 +210,7 @@ func (s *ConversationService) GenerateReceptionReply(
 	if s.receptionSlots != nil {
 		slotsText = s.receptionSlots(ctx)
 	}
-	prompt := buildReceptionPrompt(transcript, slotsText)
+	prompt := buildReceptionPrompt(transcript, slotsText, receptionNowLine())
 
 	raw, err := s.aiService.CompleteText(ctx, prompt, CompleteTextOptions{
 		Model:       aiModelSuggestion,
@@ -323,12 +323,19 @@ func buildTranscript(activities []models.LeadActivity) string {
 		content = strings.ReplaceAll(content, "\r\n", "\n")
 		fmt.Fprintf(&sb, "[%s %s %s] %s\n",
 			direction,
-			a.CreatedAt.Format("02/01 15:04"),
+			a.CreatedAt.In(brLocation).Format("02/01 15:04"), // horário de Londrina/SP, não UTC
 			string(a.Channel),
 			content,
 		)
 	}
 	return sb.String()
+}
+
+// receptionNowLine devolve o "agora" em horário de Londrina/SP (o container roda em UTC; sem
+// isto a IA deduz a hora pelos carimbos do histórico e erra a saudação). Ex.: "sábado, 06/06 03:51".
+func receptionNowLine() string {
+	t := time.Now().In(brLocation)
+	return fmt.Sprintf("%s, %s", ptWeekday[t.Weekday()], t.Format("02/01 15:04"))
 }
 
 // buildSummaryPrompt monta prompt pra resumo executivo em PT-BR.
