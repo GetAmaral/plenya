@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { format, isSameDay, isToday, isYesterday } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, CalendarPlus, RefreshCw, Sparkles, MoreVertical, Bot, Hand, SendHorizonal } from 'lucide-react';
+import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, CalendarPlus, RefreshCw, Sparkles, MoreVertical, Bot, Hand, SendHorizonal, Check, CheckCheck } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
@@ -352,16 +352,35 @@ function InterpretExamButton({
   );
 }
 
+/** Ticks de entrega (estilo WhatsApp) — dobram os eventos sent/delivered/read num só ícone. */
+function DeliveryTicks({ status }: { status: string }) {
+  if (status === 'failed') {
+    return <span className="text-rose-600" title="Falha no envio">· falhou</span>;
+  }
+  if (status === 'read') {
+    return <CheckCheck className="h-3 w-3 text-sky-500" aria-label="Lida" />;
+  }
+  if (status === 'delivered') {
+    return <CheckCheck className="h-3 w-3" aria-label="Entregue" />;
+  }
+  if (status === 'sent') {
+    return <Check className="h-3 w-3" aria-label="Enviada" />;
+  }
+  return null;
+}
+
 function MessageBubble({
   msg,
   ownerName,
   ownerType,
   ownerId,
+  deliveryStatus,
 }: {
   msg: ConversationMessage;
   ownerName: string;
   ownerType: ConversationOwnerType;
   ownerId: string;
+  deliveryStatus?: string;
 }) {
   const isStatus = msg.type === 'message_status_changed';
   const isInbound = msg.type === 'message_received';
@@ -424,8 +443,11 @@ function MessageBubble({
               </span>
             )}
           </span>
-          <span className="shrink-0">
+          <span className="inline-flex shrink-0 items-center gap-1">
             {format(new Date(msg.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}
+            {isOutbound && msg.channel === 'whatsapp' && deliveryStatus && (
+              <DeliveryTicks status={deliveryStatus} />
+            )}
           </span>
         </div>
         {subject && msg.channel === 'email' && (
@@ -714,12 +736,38 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
     }
   }, [scrollKey]);
 
+  // Eventos de status de entrega (sent/delivered/read) viram ticks na bolha, não linhas
+  // soltas. Mapeia por id da mensagem original (metadata.original_activity) e por wa_message_id,
+  // guardando o status mais avançado (failed > read > delivered > sent).
+  const STATUS_RANK: Record<string, number> = { sent: 1, delivered: 2, read: 3, failed: 4 };
+  const { statusById, statusByWamid } = useMemo(() => {
+    const byId: Record<string, string> = {};
+    const byWamid: Record<string, string> = {};
+    for (const m of messages ?? []) {
+      if (m.type !== 'message_status_changed') continue;
+      const st = m.metadata?.status;
+      if (!st) continue;
+      const origId = m.metadata?.original_activity as string | undefined;
+      const wamid = m.metadata?.wa_message_id;
+      const better = (cur?: string) => !cur || (STATUS_RANK[st] ?? 0) > (STATUS_RANK[cur] ?? 0);
+      if (origId && better(byId[origId])) byId[origId] = st;
+      if (wamid && better(byWamid[wamid])) byWamid[wamid] = st;
+    }
+    return { statusById: byId, statusByWamid: byWamid };
+  }, [messages]);
+
+  const deliveryStatusFor = useCallback(
+    (m: ConversationMessage): string | undefined =>
+      statusById[m.id] ?? (m.metadata?.wa_message_id ? statusByWamid[m.metadata.wa_message_id] : undefined),
+    [statusById, statusByWamid]
+  );
+
   const sortedMessages = useMemo(() => {
     if (!messages) return [];
-    // Backend retorna ASC, mas garantimos defensivamente
-    return [...messages].sort(
-      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    );
+    // Esconde os eventos de status (viram ticks) e ordena ASC defensivamente.
+    return [...messages]
+      .filter((m) => m.type !== 'message_status_changed')
+      .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
   }, [messages]);
 
   const agendarHref =
@@ -901,6 +949,7 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
                     ownerName={item.name}
                     ownerType={item.ownerType}
                     ownerId={item.ownerId}
+                    deliveryStatus={deliveryStatusFor(msg)}
                   />
                 </div>
               );
