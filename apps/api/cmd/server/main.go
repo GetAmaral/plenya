@@ -397,7 +397,8 @@ func setupRoutes(
 	whatsappWebhookHandler := handlers.NewWhatsAppWebhookHandler(cfg, whatsappService, leadService)
 	conversationService := services.NewConversationService(database.DB, leadService, emailService, whatsappService, notificationService, aiService)
 	conversationAutomationService := services.NewConversationAutomationService(database.DB, cfg)
-	conversationHandler := handlers.NewConversationHandler(conversationService, conversationAutomationService)
+	receptionSettingsService := services.NewReceptionSettingsService(database.DB)
+	conversationHandler := handlers.NewConversationHandler(conversationService, conversationAutomationService, receptionSettingsService)
 	notificationEmailHandler := handlers.NewNotificationEmailHandler(notificationEmailService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
@@ -573,6 +574,15 @@ func setupRoutes(
 	conv.Post("/:type/:id/ai/reception-reply", conversationAILimiter.Middleware(), conversationHandler.AIReceptionReply)
 	conv.Get("/:type/:id/automation", conversationHandler.GetAutomation)
 	conv.Put("/:type/:id/automation", conversationHandler.SetAutomation)
+
+	// Atendimento IA — config GLOBAL (modo baseline + janela de horário + tempos X/Y/Z).
+	// Grupo próprio p/ incluir o médico (o grupo conv não tem doctor).
+	reception := v1.Group("/reception")
+	reception.Use(middleware.Auth(cfg))
+	reception.Use(middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager, models.RoleDoctor))
+	reception.Use(middleware.AuditLog(database.DB))
+	reception.Get("/settings", conversationHandler.GetGlobalAutomation)
+	reception.Put("/settings", conversationHandler.SetGlobalAutomation)
 
 	// Auth routes (públicas).
 	// CRITICAL C4 — rate limit em login/register (anti brute-force).

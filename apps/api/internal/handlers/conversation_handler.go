@@ -18,16 +18,18 @@ import (
 
 // ConversationHandler expõe os endpoints da Central de Conversas (Bloco B).
 type ConversationHandler struct {
-	service   *services.ConversationService
-	autoSvc   *services.ConversationAutomationService
-	validator *validator.Validate
+	service     *services.ConversationService
+	autoSvc     *services.ConversationAutomationService
+	settingsSvc *services.ReceptionSettingsService
+	validator   *validator.Validate
 }
 
-func NewConversationHandler(s *services.ConversationService, autoSvc *services.ConversationAutomationService) *ConversationHandler {
+func NewConversationHandler(s *services.ConversationService, autoSvc *services.ConversationAutomationService, settingsSvc *services.ReceptionSettingsService) *ConversationHandler {
 	return &ConversationHandler{
-		service:   s,
-		autoSvc:   autoSvc,
-		validator: validator.New(),
+		service:     s,
+		autoSvc:     autoSvc,
+		settingsSvc: settingsSvc,
+		validator:   validator.New(),
 	}
 }
 
@@ -714,6 +716,66 @@ func (h *ConversationHandler) ReceptionMetrics(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: err.Error()})
 	}
 	return c.JSON(m)
+}
+
+// GlobalAutomationResponse — settings globais + estado computado (banner).
+type GlobalAutomationResponse struct {
+	*models.ReceptionSettings
+	EffectiveMode string `json:"effectiveMode"` // modo global resolvido agora (janela aplicada)
+	AutoActiveNow bool   `json:"autoActiveNow"` // janela do Auto ativa neste momento
+}
+
+// GetGlobalAutomation GET /reception/settings — config global do Atendimento IA.
+func (h *ConversationHandler) GetGlobalAutomation(c *fiber.Ctx) error {
+	st, err := h.settingsSvc.Get(c.UserContext())
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(GlobalAutomationResponse{
+		ReceptionSettings: st,
+		EffectiveMode:     h.settingsSvc.EffectiveGlobalMode(st, time.Now()),
+		AutoActiveNow:     h.settingsSvc.AutoActiveNow(st),
+	})
+}
+
+// SetGlobalAutomationRequest — atualização parcial (ponteiro = mexer; nil = manter).
+type SetGlobalAutomationRequest struct {
+	BaselineMode           *string                `json:"baselineMode" validate:"omitempty,oneof=off copilot auto"`
+	ScheduleEnabled        *bool                  `json:"scheduleEnabled"`
+	Schedule               *models.WeeklySchedule `json:"schedule"`
+	DebounceSeconds        *int                   `json:"debounceSeconds" validate:"omitempty,gte=0,lte=3600"`
+	CopilotFallbackMinutes *int                   `json:"copilotFallbackMinutes" validate:"omitempty,gte=1,lte=1440"`
+	OffAlertMinutes        *int                   `json:"offAlertMinutes" validate:"omitempty,gte=1,lte=1440"`
+}
+
+// SetGlobalAutomation PUT /reception/settings — atualiza a config global.
+func (h *ConversationHandler) SetGlobalAutomation(c *fiber.Ctx) error {
+	var req SetGlobalAutomationRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+	st, err := h.settingsSvc.Update(c.UserContext(), services.UpdateReceptionSettingsInput{
+		BaselineMode:           req.BaselineMode,
+		ScheduleEnabled:        req.ScheduleEnabled,
+		Schedule:               req.Schedule,
+		DebounceSeconds:        req.DebounceSeconds,
+		CopilotFallbackMinutes: req.CopilotFallbackMinutes,
+		OffAlertMinutes:        req.OffAlertMinutes,
+	}, middleware.GetUserID(c))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(GlobalAutomationResponse{
+		ReceptionSettings: st,
+		EffectiveMode:     h.settingsSvc.EffectiveGlobalMode(st, time.Now()),
+		AutoActiveNow:     h.settingsSvc.AutoActiveNow(st),
+	})
 }
 
 // writeAIResult mapeia erros do AI service pra HTTP semântico.
