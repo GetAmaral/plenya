@@ -286,39 +286,17 @@ Redeploy (não restart). Depois: smoke test (WhatsApp → lead em /conversas →
 
 ---
 
-## Template de aniversário (Lívia — item 2 / Fase E) — APROVADO p/ criar no Meta
+## Template de aniversário (Lívia — item 2 / Fase E) — ✅ CRIADO, ⏳ PENDING aprovação Meta
 
-Cópia aprovada pelo Getúlio (2026-06-07). Falta só criar/aprovar no Meta (test token estava
-expirado em 07/06; criação de template é ação no WhatsApp Manager + aprovação assíncrona da Meta).
+Cópia aprovada pelo Getúlio e **submetido em 2026-06-07** na **WABA real `827642893502160`**
+(id `1304293918582848`, categoria MARKETING) via token real do cofre. Aguardando aprovação
+assíncrona da Meta. Fonte de verdade: `docs/lgpd/whatsapp-templates.md`.
 
-**Definição do template:**
-- **name:** `aniversario_plenya`  (minúsculo, sem espaços — exigência Meta)
-- **category:** `MARKETING` (saudação sem transação; a Meta costuma classificar greeting como marketing)
-- **language:** `pt_BR`
+- **name:** `aniversario_plenya` · **language:** `pt_BR` · **{{1}}** = primeiro nome
 - **body:** `Oi, {{1}}! Hoje é seu aniversário e a equipe da Plenya passa para desejar um dia feliz e um ano de saúde e bem-estar. Conte com a gente.`
-- **exemplo do {{1}}:** `Maria`
-- sem header, sem footer, sem botões.
 
-**Como criar via Graph API** (rodar com um token que tenha `whatsapp_business_management` + o WABA ID;
-o WABA ID NÃO está no cofre hoje — pegar no WhatsApp Manager ou via `GET /{phone_number_id}` autorizado):
-
-```bash
-curl -X POST "https://graph.facebook.com/v25.0/<WABA_ID>/message_templates" \
-  -H "Authorization: Bearer <MGMT_TOKEN>" -H "Content-Type: application/json" \
-  -d '{
-    "name": "aniversario_plenya",
-    "category": "MARKETING",
-    "language": "pt_BR",
-    "components": [
-      {"type":"BODY",
-       "text":"Oi, {{1}}! Hoje é seu aniversário e a equipe da Plenya passa para desejar um dia feliz e um ano de saúde e bem-estar. Conte com a gente.",
-       "example": {"body_text": [["Maria"]]}}
-    ]
-  }'
-```
-
-**Depois de aprovado:** setar a env `WHATSAPP_TEMPLATE_BIRTHDAY=aniversario_plenya` no Coolify (api).
+**Quando a Meta aprovar:** setar a env `WHATSAPP_TEMPLATE_BIRTHDAY=aniversario_plenya` no Coolify (api).
 Sem isso, o job só notifica o time (não envia). O auto-envio ainda exige: Atendimento IA em `auto` +
 kill switch ligado + aniversário próprio não-restrito no dia.
 
-**Pré-requisito atual:** renovar o token do WhatsApp (o de teste no cofre venceu em 04/06/2026).
+**Status dos tokens:** o token REAL do cofre está válido (usado aqui). O de TESTE venceu em 04/06/2026.

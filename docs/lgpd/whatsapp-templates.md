@@ -141,3 +141,27 @@ olhos da Meta, promocional). Submetido como UTILITY; se a Meta reclassificar/rec
 ```
 Olá, {{1}}. Aqui é da Plenya. Conversamos sobre a Consulta Plenya e você ficou de avaliar com calma. Seguimos à disposição para esclarecer dúvidas e ver uma data quando fizer sentido para você. Se preferir não receber mais mensagens, responda PARAR.
 ```
+
+---
+
+## Template: `aniversario_plenya` (Lívia — auto-cumprimento de aniversário)
+
+| Campo | Valor |
+|-------|-------|
+| **Nome técnico** | `aniversario_plenya` |
+| **Categoria** | `MARKETING` (saudação, não-transacional; submetido já como MARKETING) |
+| **Idioma** | `pt_BR` |
+| **Variáveis** | `{{1}}` = primeiro nome |
+| **Status atual** | ⏳ PENDING (submetido 2026-06-07 na WABA real `827642893502160`, id `1304293918582848`) |
+| **Justificativa categoria** | Cumprimento de relacionamento, sem transação nem ação iniciada pelo usuário → MARKETING (honesto; evita reclassificação). |
+| **Uso** | `RelationshipEventReminderJob` envia automático no dia do aniversário PRÓPRIO (não-restrito), só em modo `auto` + `WHATSAPP_TEMPLATE_BIRTHDAY=aniversario_plenya` + kill switch ligado. Senão, vira aviso ao time. |
+
+### Versão 1.0 (2026-06-07)
+```
+Oi, {{1}}! Hoje é seu aniversário e a equipe da Plenya passa para desejar um dia feliz e um ano de saúde e bem-estar. Conte com a gente.
+```
+
+### Histórico de versões
+| Versão | Data | Mudança | Submetido | Aprovado |
+|--------|------|---------|-----------|----------|
+| 1.0    | 2026-06-07 | Criação inicial | 2026-06-07 | ⏳ PENDING |
