@@ -191,7 +191,9 @@ NOOP benigno; (d) FactRow recarrega valor ao editar.
 - **§5 cumprimento automático:** o job de avisos só **notifica o time**; não envia nada sozinho (postura
   conservadora, humano no loop). A allowlist de "óbvio" do §10.3 não foi feita.
 - **Memória só mantida em conversas de WhatsApp** (o job de auto-reply é WhatsApp); e-mail não alimenta o dossiê.
-- Eventos não-recorrentes vencidos durante downtime do job diário podem não gerar aviso.
+- ~~Eventos não-recorrentes vencidos durante downtime do job diário podem não gerar aviso.~~ ✅ resolvido
+  em dev (commit local, não-deployado): job roda **3x/dia (9/12/16 horário de SP)** — 1ª pega a maioria,
+  as outras duas pegam falhas (idempotente).
 
 ## 10. Decisões — FECHADAS (2026-06-06)
 
@@ -244,3 +246,52 @@ Detecção Continuum: `patient_continuum` + `patient_subscription`. Conversão l
 - CRM de relacionamento/eventos: crm.org, monday.com, Streak (personal CRM), Visionary Square (life-event touchpoints).
 - LGPD/CFM: cartilha CFM sobre LGPD, CRM-DF manual LGPD, Migalhas (bases legais em saúde), ConJur (sigilo médico).
 - Segurança de memória/PII: MemTrust (zero-trust memory), FutureAGI (PII redaction), Oracle (observability).
+
+## 12. Fase E (PROPOSTA — em discussão, NÃO implementada) — Consultas alimentam o 360 + dado restrito + 360 do médico
+
+> Pedido do Getúlio (2026-06-07): a transcrição/elaboração da consulta deve ter a MESMA capacidade da
+> Lívia de achar informação relevante no texto e salvar no Relacionamento 360, com **filtro forte**
+> separando **clínico** (fica no prontuário/anamnese) de **social** (vai pro 360). O médico vê os dados
+> extraídos **após a elaboração** e pode **excluir** facilmente ou marcar como **restrito**. Fato social
+> restrito **aparece pra equipe no EMR, mas NÃO aparece pra IA** quando ela avalia o que sabe do paciente.
+
+### 12.1 Como o sistema de consulta funciona hoje (levantado no código)
+- Áudio→texto: `services/transcription_service.go` (Whisper).
+- Elaboração texto→nota: `services/ai_note_service.go` `GenerateClinicalNoteFromTranscript(transcript, format)`
+  (Claude tool_use, JSON estruturado, regras anti-alucinação). Disparada em telemed por
+  `services/telemed_recording_service.go:289 GenerateNote()` e no front por
+  `components/consultations/consultation-workspace.tsx` (`useGenerateTelemedNote` → insere nas seções SOAP).
+- Nota: `models/clinical_note.go` (SOAP, ancorada ao Appointment; signed = imutável).
+- Anamnese: `models/anamnesis.go` + `anamnesis_item.go` (item liga a um `ScoreItem`).
+
+### 12.2 Desenho proposto
+**A. Extração social pós-elaboração.** Endpoint novo (ex.: `POST /appointments/:id/extract-social`) que pega
+o transcript (do `telemed_recording` ou enviado pelo front), roda extração **social-only** e grava no 360 do
+paciente com `source="consulta"`. Reutiliza o motor da Lívia: fatorar de `MaintainRelationshipMemory` um
+`applyExtraction(ownerType, ownerID, ext, source)` + um prompt de consulta com o MESMO guardrail
+anti-clínico (`factLooksClinical`) e instrução forte "clínico→prontuário, social→360". Retorna os itens
+criados pro front exibir a revisão.
+
+**B. Dado "restrito".** Reusar o campo **já existente** `relationship_facts.sensitive` (hoje sem uso) com a
+semântica "restrito" — **sem migration**. Exposto como `restricted` na API/UI. Split de leitura:
+- IA (`buildReceptionMemory`/`ListActive`): **exclui** restritos (já filtra `sensitive=false`).
+- Equipe (`GetDossier`): **inclui** restritos, com badge "restrito" (hoje `GetDossier` usa `ListActive`, que
+  esconde — precisa de uma leitura que traga todos os ativos com a flag).
+Novo endpoint p/ alternar: `PATCH .../dossier/facts/:id` aceitando `restricted`.
+
+**C. Revisão do médico.** Painel no `consultation-workspace.tsx` "Dados sociais detectados nesta consulta"
+com os fatos `source=consulta`: excluir (1 clique) e alternar restrito. Requer dar acesso ao 360 para
+`doctor` (+ nutricionista/psicólogo/educador físico) no RBAC dos endpoints do dossiê (hoje só
+admin/secretary/manager).
+
+**D. 360 do médico (da pendência §4).** Aba "Relacionamento/360" na ficha do paciente reusando o painel do
+dossiê; o painel da consulta é o caso específico "o que saiu desta consulta".
+
+### 12.3 Decisões a confirmar (discutir antes de implementar)
+1. **Clínico→anamnese automático?** Proposta: **NÃO agora**. O clínico já vai pra nota SOAP (prontuário) na
+   elaboração; auto-popular `AnamnesisItem` exige mapear texto→`ScoreItem` (outra empreitada). A Fase E
+   garante o filtro (clínico **não** vaza pro 360); popular anamnese estruturada fica para depois.
+2. **Os extraídos da consulta nascem visíveis pra IA, ou só após o médico revisar?** Proposta: nascem
+   **"a revisar" (restritos por padrão)** → não vão pra IA até o médico confirmar/desmarcar. Assim nada
+   entra na boca da Lívia sem o médico ver. (Alternativa: nascem ativos e o médico curadoria depois.)
+3. **Restrito vale só p/ fatos, ou também pessoas/eventos?** Proposta: começar por **fatos** (foi o pedido).
