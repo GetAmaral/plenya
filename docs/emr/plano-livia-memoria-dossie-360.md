@@ -164,7 +164,11 @@ timing inteligente. Aplicado à Plenya:
   Janela 14→40 + `relationship_profiles.rolling_summary` (social) mantido pelo job (+5 msgs ou fim do
   atendimento) + injeção no prompt (bloco MEMÓRIA DA PESSOA) + flag lead/paciente + guardrail anti-clínico
   no resumo (§3.1). Resolve "esquecer/repetir". Continuum/frequente ficaram para a Fase D.
-- **Fase B — Dossiê (Feature 2):** `relationship_fact` + extração IA + tela 360 (leitura) + edição manual.
+- **Fase B — Dossiê (Feature 2): ✅ DEPLOYADA em prod (2026-06-06, commit `fe921039`, migration 00031).**
+  `relationship_facts` (validade temporal, 1 ativo por key) + extração IA combinada com o resumo
+  (uma chamada → {summary, facts ADD/UPDATE/DELETE/NOOP}) + backstop anti-clínico (`factLooksClinical`)
+  + injeção de FATOS CONHECIDOS no prompt + tela 360 (painel Dossiê no `/conversas`: resumo + fatos por
+  categoria com proveniência IA/equipe, add/edit/remove). Endpoints `/conversations/:type/:id/dossier[/facts]`.
 - **Fase C — Rede + Eventos + Avisos:** `important_person` + `relationship_event` + job de avisos + painel.
 - **Fase D — Refinos:** flags derivadas (Continuum/frequente), migração lead→paciente robusta, métricas.
 
@@ -198,7 +202,9 @@ espelhamento = UMA pergunta; reforço anti-pressão no NUNCA FAÇA. Guia humano 
 - guardrail §3.1: clínico só na janela curta, nunca no rolling_summary (prompt de resumo é social-only). ✓
 - ⏳ Continuum/frequente (flags derivadas mais ricas) → adiado para Fase D.
 
-**Próxima fase (a iniciar com diff p/ aprovação): Fase B** dossiê (`relationship_fact` + extração + tela 360 leitura/edição) · C rede+eventos+avisos
+**Fase B — ✅ FEITA e em prod (2026-06-06, commit `fe921039`, migration 00031).** Ver §9.
+
+**Próxima fase (a iniciar com diff p/ aprovação): Fase C** rede+eventos+avisos
 (`important_person`, `relationship_event`, job de avisos, painel) · D flags derivadas + migração lead→paciente + métricas.
 
 **Arquivos-chave:** `apps/api/internal/services/conversation_ai_service.go` (janela/prompt) ·
