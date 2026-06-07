@@ -36,13 +36,16 @@ Documento consolidado a partir do branding deck (28 imagens). Referência única
 
 ## 3. Paleta de Cores
 
-| Nome              | Hex       | Uso principal                                    |
-|-------------------|-----------|--------------------------------------------------|
-| Dourado/Ouro      | `#A08456` | Acentos premium, CTAs, detalhes, hover states    |
-| Azul Petróleo     | `#0E3B4F` | Background principal escuro, headers, footer     |
-| Azul Acinzentado  | `#417A86` | Backgrounds secundários, cards, seções alternadas |
-| Verde Suavizado   | `#C2C9B1` | Backgrounds claros, overlays, estados sutis      |
-| Bege/Off-White    | `#E6E1D8` | Background geral claro, áreas de respiro         |
+> Valores **oficiais do brandbook** (abr/2026). Fonte de verdade dos tokens no código:
+> [`packages/brand/src/tokens/colors.ts`](../../packages/brand/src/tokens/colors.ts).
+
+| Nome              | Hex       | RGB           | Uso principal                                    |
+|-------------------|-----------|---------------|--------------------------------------------------|
+| Dourado/Ocre      | `#b38645` | 179/134/69    | Acentos premium, CTAs, detalhes, hover states    |
+| Azul Petróleo     | `#063b4f` | 6/60/79       | Background principal escuro, headers, footer     |
+| Azul Acinzentado  | `#417e8e` | 65/127/142    | Backgrounds secundários, cards, wordmark principal |
+| Verde Suave/Sálvia| `#92b8b4` | 146/184/180   | Backgrounds claros, overlays, estados sutis      |
+| Bege/Off-White    | `#eae7da` | 234/231/218   | Background geral claro, áreas de respiro         |
 
 ### Diretrizes de aplicação
 - **Fundo escuro** (Azul Petróleo) para seções de impacto: hero, manifesto, método AGIR, footer.
@@ -314,14 +317,17 @@ Contato
 
 ## 16. Diretrizes Técnicas para Implementação
 
+> Não copie hex à mão: consuma os tokens de [`packages/brand`](../../packages/brand) (preset Tailwind
+> + `tokens/colors.ts`). Os valores abaixo são só ilustrativos e refletem o brandbook oficial.
+
 ### CSS Variables (sugestão)
 ```css
 :root {
-  --color-gold: #A08456;
-  --color-petrol: #0E3B4F;
-  --color-petrol-light: #417A86;
-  --color-sage: #C2C9B1;
-  --color-cream: #E6E1D8;
+  --color-gold: #b38645;
+  --color-petrol: #063b4f;
+  --color-petrol-light: #417e8e;
+  --color-sage: #92b8b4;
+  --color-cream: #eae7da;
   --color-white: #FAFAF7;
 
   --font-heading: 'Nalieta', serif;
@@ -333,10 +339,10 @@ Contato
 ### Tailwind config (extensão)
 ```js
 colors: {
-  gold: '#A08456',
-  petrol: { DEFAULT: '#0E3B4F', light: '#417A86' },
-  sage: '#C2C9B1',
-  cream: '#E6E1D8',
+  gold: '#b38645',
+  petrol: { DEFAULT: '#063b4f', light: '#417e8e' },
+  sage: '#92b8b4',
+  cream: '#eae7da',
 }
 ```
 

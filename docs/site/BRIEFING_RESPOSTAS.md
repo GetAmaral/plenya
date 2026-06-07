@@ -275,11 +275,11 @@ Se a Plenya fosse uma pessoa, ela seria: **Segura. Clara. Presente. Consistente.
 
 | Cor | Hex | Uso |
 |---|---|---|
-| Azul Petróleo | `#0E3B4F` | Background principal escuro, hero, footer |
-| Dourado/Ouro | `#A08456` | Acentos premium — CTAs, ícones, linhas decorativas (nunca em grandes áreas) |
-| Azul Acinzentado | `#417A86` | Backgrounds intermediários, cards, transições |
-| Verde Suavizado (Sage) | `#C2C9B1` | Backgrounds claros, overlays sutis |
-| Bege/Off-white | `#E6E1D8` | Background geral claro, áreas de respiro |
+| Azul Petróleo | `#063b4f` | Background principal escuro, hero, footer |
+| Dourado/Ouro | `#b38645` | Acentos premium — CTAs, ícones, linhas decorativas (nunca em grandes áreas) |
+| Azul Acinzentado | `#417e8e` | Backgrounds intermediários, cards, transições |
+| Verde Suavizado (Sage) | `#92b8b4` | Backgrounds claros, overlays sutis |
+| Bege/Off-white | `#eae7da` | Background geral claro, áreas de respiro |
 
 ### Fotos
 **Pessoais e produzidas, com banco de dados como apoio.**
@@ -291,7 +291,7 @@ Se a Plenya fosse uma pessoa, ela seria: **Segura. Clara. Presente. Consistente.
 - **Proibido:** stock genérico, estética fitness/academia, filtros saturados, microsorrisos artificiais, mãos em "OK".
 
 ### Códigos de cor (em RGB/CMYK para impressão)
-Ver tabela acima — referência primária em HEX. Para impressão, converter Azul Petróleo `#0E3B4F` e Dourado `#A08456` com prova de cor (são as cores institucionais críticas).
+Ver tabela acima — referência primária em HEX. Para impressão, converter Azul Petróleo `#063b4f` e Dourado `#b38645` com prova de cor (são as cores institucionais críticas).
 
 ### Tipos de música
 **Atmosférica, instrumental, contemplativa.**

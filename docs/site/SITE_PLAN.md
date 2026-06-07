@@ -42,11 +42,11 @@ Ver detalhes completos em [BRAND_GUIDE.md](./BRAND_GUIDE.md). Resumo:
 ### Cores
 | Nome | Hex | Uso |
 |---|---|---|
-| Dourado | `#A08456` | CTAs, acentos, hover |
-| Azul Petróleo | `#0E3B4F` | Background escuro, header, footer |
-| Azul Acinzentado | `#417A86` | Cards, seções alternadas |
-| Verde Suavizado | `#C2C9B1` | Backgrounds claros |
-| Bege/Off-White | `#E6E1D8` | Background geral claro |
+| Dourado | `#b38645` | CTAs, acentos, hover |
+| Azul Petróleo | `#063b4f` | Background escuro, header, footer |
+| Azul Acinzentado | `#417e8e` | Cards, seções alternadas |
+| Verde Suavizado | `#92b8b4` | Backgrounds claros |
+| Bege/Off-White | `#eae7da` | Background geral claro |
 
 ### Tipografia
 - **Nalieta** (serif) — headings
