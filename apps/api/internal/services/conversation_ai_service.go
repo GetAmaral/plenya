@@ -632,13 +632,23 @@ func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ow
 		cat := normalizeFactCategory(op.Category)
 		switch strings.ToUpper(strings.TrimSpace(op.Op)) {
 		case "ADD", "UPDATE":
-			if key == "" || val == "" || factLooksClinical(key, val) {
+			if key == "" || val == "" {
 				continue
 			}
-			_, _ = factSvc.SetFact(ctx, ownerType, ownerID, cat, key, val, models.RelationshipSourceAI, nil, &conf)
+			if factLooksClinical(key, val) {
+				// Guardrail §3.1 acionado: a IA tentou gravar algo clínico. Loga sem PII (só a key)
+				// para auditar a frequência; o valor (potencialmente clínico) NÃO é logado.
+				fmt.Printf("🛡️  [DOSSIÊ] fato clínico descartado pelo backstop (key=%s)\n", key)
+				continue
+			}
+			if _, err := factSvc.SetFact(ctx, ownerType, ownerID, cat, key, val, models.RelationshipSourceAI, nil, &conf); err != nil {
+				fmt.Printf("⚠️  [DOSSIÊ] SetFact key=%s: %v\n", key, err)
+			}
 		case "DELETE":
 			if key != "" {
-				_ = factSvc.CloseFact(ctx, ownerType, ownerID, key)
+				if err := factSvc.CloseFact(ctx, ownerType, ownerID, key); err != nil {
+					fmt.Printf("⚠️  [DOSSIÊ] CloseFact key=%s: %v\n", key, err)
+				}
 			}
 		}
 	}
@@ -656,14 +666,21 @@ func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ow
 		if !bday.IsZero() {
 			bdayPtr = &bday
 		}
-		if person, err := personSvc.Upsert(ctx, ownerType, ownerID, name, p.Relation, bdayPtr, p.Notes, models.RelationshipSourceAI, nil); err == nil && person != nil {
-			personByName[strings.ToLower(name)] = person.ID
-			// Aniversário de pessoa da rede vira evento recorrente.
-			if bdayPtr != nil {
-				pid := person.ID
-				_, _ = NewRelationshipEventService(s.db).Upsert(ctx, ownerType, ownerID, &pid,
-					models.RelationshipEventBirthday, "Aniversário de "+name, *bdayPtr, true, 7,
-					models.RelationshipSourceAI, "", nil)
+		person, err := personSvc.Upsert(ctx, ownerType, ownerID, name, p.Relation, bdayPtr, p.Notes, models.RelationshipSourceAI, nil)
+		if err != nil || person == nil {
+			if err != nil {
+				fmt.Printf("⚠️  [DOSSIÊ] Upsert pessoa: %v\n", err)
+			}
+			continue
+		}
+		personByName[strings.ToLower(name)] = person.ID
+		// Aniversário de pessoa da rede vira evento recorrente.
+		if bdayPtr != nil {
+			pid := person.ID
+			if _, eErr := NewRelationshipEventService(s.db).Upsert(ctx, ownerType, ownerID, &pid,
+				models.RelationshipEventBirthday, "Aniversário de "+name, *bdayPtr, true, 7,
+				models.RelationshipSourceAI, "", nil); eErr != nil {
+				fmt.Printf("⚠️  [DOSSIÊ] Upsert aniversário (rede): %v\n", eErr)
 			}
 		}
 	}
@@ -684,7 +701,9 @@ func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ow
 			}
 		}
 		recurring := etype == models.RelationshipEventBirthday
-		_, _ = eventSvc.Upsert(ctx, ownerType, ownerID, relatedPtr, etype, title, when, recurring, 7, models.RelationshipSourceAI, "", nil)
+		if _, err := eventSvc.Upsert(ctx, ownerType, ownerID, relatedPtr, etype, title, when, recurring, 7, models.RelationshipSourceAI, "", nil); err != nil {
+			fmt.Printf("⚠️  [DOSSIÊ] Upsert evento: %v\n", err)
+		}
 	}
 }
 
@@ -885,18 +904,42 @@ func normalizeFactCategory(c string) string {
 	}
 }
 
-// factClinicalTerms é um backstop simples: se a key/valor contém um termo clínico, o fato é
-// descartado (o clínico fica só na janela curta da conversa; longo prazo é só social — §3.1).
+// factClinicalTerms é um backstop (segunda linha após o prompt): se a key/valor contém um termo
+// clínico, o fato é descartado (o clínico fica só na janela curta da conversa; longo prazo é só
+// social — §3.1). Termos em minúsculas e SEM acento (o haystack é normalizado por foldPT antes do
+// match), então "diabético" e "diabetico" casam igual. Lista propositalmente ampla.
 var factClinicalTerms = []string{
-	"sintoma", "dor ", "doença", "doenca", "diagnós", "diagnos", "exame", "exames",
-	"medicament", "remédio", "remedio", "medicação", "medicacao", "pressão alta", "pressao alta",
-	"diabet", "câncer", "cancer", "depress", "ansiedad", "insônia", "insonia", "colesterol",
-	"glicose", "hipertens", "tireoide", "tireóide", "cirurgia", "tratament", "laudo", "receita",
+	"sintoma", "queixa", "dor ", "doenca", "diagnos", "exame", "laudo", "receita", "prescric",
+	"medicament", "remedio", "medicac", "comprimido", "dose ", "miligrama", " mg",
+	"pressao alta", "hipertens", "diabet", "glicemia", "glicose", "insulina", "colesterol",
+	"trigliceri", "tireoid", "hormonio", "cancer", "tumor", "nodulo", "biopsia", "metastase",
+	"quimio", "radioterap", "cirurgia", "cirurgic", "transplante", "dialise", "hemodialise",
+	"renal", "creatinina", "figado", "hepatic", "cardiac", "arritmia", "infarto", "avc",
+	"marca-passo", "marcapasso", "trombose", "anticoagul", "depress", "ansiedad", "panico",
+	"insonia", "bipolar", "esquizo", "psiquiatr", "antidepress", "tdah", "autis", "demencia",
+	"alzheimer", "parkinson", "convuls", "epileps", "enxaqueca", "asma", "dpoc", "alergi",
+	"anemia", "obesidade", "gravid", "gestant", "gestac", "menopausa", "covid", "hiv",
+	"hepatite", "dengue", "vacina", "internac", "internou", "uti ", "pronto-socorro", "pronto socorro",
+	"losartana", "metformina", "omeprazol", "sertralina", "fluoxetina", "atenolol", "sinvastatina",
 }
 
-// factLooksClinical retorna true se o fato parece conter dado clínico (backstop do guardrail).
+// foldPT normaliza acentos comuns do PT-BR (e ç) para casar termos independente de acentuação.
+func foldPT(s string) string {
+	return ptAccentReplacer.Replace(strings.ToLower(s))
+}
+
+var ptAccentReplacer = strings.NewReplacer(
+	"á", "a", "à", "a", "â", "a", "ã", "a", "ä", "a",
+	"é", "e", "ê", "e", "è", "e", "ë", "e",
+	"í", "i", "î", "i", "ì", "i", "ï", "i",
+	"ó", "o", "ô", "o", "õ", "o", "ò", "o", "ö", "o",
+	"ú", "u", "û", "u", "ù", "u", "ü", "u",
+	"ç", "c",
+)
+
+// factLooksClinical retorna true se o fato parece conter dado clínico (backstop do guardrail §3.1).
 func factLooksClinical(key, value string) bool {
-	hay := strings.ToLower(key + " " + value)
+	hay := foldPT(key + " " + value)
 	for _, term := range factClinicalTerms {
 		if strings.Contains(hay, term) {
 			return true

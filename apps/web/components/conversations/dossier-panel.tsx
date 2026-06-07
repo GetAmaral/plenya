@@ -492,7 +492,16 @@ function FactRow({
         <span className="font-medium">{fact.value}</span>
       </span>
       <span className="flex shrink-0 gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
-        <Button type="button" size="icon" variant="ghost" className="h-6 w-6" onClick={() => setEditing(true)}>
+        <Button
+          type="button"
+          size="icon"
+          variant="ghost"
+          className="h-6 w-6"
+          onClick={() => {
+            setValue(fact.value);
+            setEditing(true);
+          }}
+        >
           <Pencil className="h-3 w-3" />
         </Button>
         <Button type="button" size="icon" variant="ghost" className="h-6 w-6" onClick={onDelete}>

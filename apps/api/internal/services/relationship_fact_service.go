@@ -82,6 +82,11 @@ func (s *RelationshipFactService) SetFact(
 			Confidence: confidence,
 		}
 		if cErr := tx.Create(nf).Error; cErr != nil {
+			// Corrida no índice único parcial (outra goroutine inseriu o mesmo key ativo entre o
+			// nosso SELECT e o INSERT): trata como NOOP benigno, não erro.
+			if isUniqueViolation(cErr) {
+				return nil
+			}
 			return cErr
 		}
 		changed = true
