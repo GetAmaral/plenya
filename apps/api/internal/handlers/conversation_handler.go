@@ -824,6 +824,95 @@ func (h *ConversationHandler) SetGlobalAutomation(c *fiber.Ctx) error {
 	})
 }
 
+// ============================================================
+// Dossiê 360 (social) — leitura + edição manual pela equipe
+// ============================================================
+
+// GetDossier GET /conversations/:type/:id/dossier
+// Visão 360 social (resumo + fatos) da pessoa. Nada clínico (LGPD/CFM).
+func (h *ConversationHandler) GetDossier(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	view, err := h.service.GetDossier(c.UserContext(), ownerType, ownerID)
+	if err != nil {
+		if errors.Is(err, services.ErrConversationOwnerInvalid) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "owner not found"})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// DossierFactRequest é o payload para adicionar/editar um fato social.
+type DossierFactRequest struct {
+	Category string `json:"category" validate:"omitempty,max=40"`
+	Key      string `json:"key" validate:"omitempty,max=60"`
+	Value    string `json:"value" validate:"required,max=2000"`
+}
+
+// AddDossierFact POST /conversations/:type/:id/dossier/facts
+func (h *ConversationHandler) AddDossierFact(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	var req DossierFactRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
+	}
+	view, err := h.service.AddDossierFact(c.UserContext(), ownerType, ownerID, req.Category, req.Key, req.Value, middleware.GetUserID(c))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// UpdateDossierFact PATCH /conversations/:type/:id/dossier/facts/:factId
+func (h *ConversationHandler) UpdateDossierFact(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	factID, err := uuid.Parse(c.Params("factId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid fact id"})
+	}
+	var req DossierFactRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
+	}
+	view, err := h.service.UpdateDossierFact(c.UserContext(), ownerType, ownerID, factID, req.Value, middleware.GetUserID(c))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// DeleteDossierFact DELETE /conversations/:type/:id/dossier/facts/:factId
+func (h *ConversationHandler) DeleteDossierFact(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	factID, err := uuid.Parse(c.Params("factId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid fact id"})
+	}
+	view, err := h.service.DeleteDossierFact(c.UserContext(), ownerType, ownerID, factID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
 // writeAIResult mapeia erros do AI service pra HTTP semântico.
 //
 // LGPD: NÃO inclui Message com detalhes do erro upstream em status 502/504 — o erro

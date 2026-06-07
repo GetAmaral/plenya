@@ -514,6 +514,19 @@ func (s *ConversationService) buildReceptionMemory(ctx context.Context, ownerTyp
 		sb.WriteString("RELAÇÃO: ainda é um lead (não é paciente).\n")
 	}
 
+	// Fatos sociais conhecidos (memória semântica): lista compacta key: value por categoria.
+	facts, _ := NewRelationshipFactService(s.db).ListActive(ctx, ownerType, ownerID)
+	if len(facts) > 0 {
+		sb.WriteString("FATOS CONHECIDOS (já registrados; não pergunte de novo o que já está aqui):\n")
+		for _, f := range facts {
+			sb.WriteString("- ")
+			sb.WriteString(factLabel(f.Key))
+			sb.WriteString(": ")
+			sb.WriteString(f.Value)
+			sb.WriteString("\n")
+		}
+	}
+
 	rp := NewRelationshipProfileService(s.db)
 	prof, err := rp.Get(ctx, ownerType, ownerID)
 	if err == nil && prof != nil {
@@ -526,12 +539,12 @@ func (s *ConversationService) buildReceptionMemory(ctx context.Context, ownerTyp
 	return strings.TrimSpace(sb.String())
 }
 
-// MaintainRelationshipSummary regenera (best-effort) o rolling_summary SOCIAL da pessoa quando
-// acumulou >= 5 mensagens novas desde o último resumo (force=false), ou sempre que houver
-// mensagens não resumidas (force=true, p.ex. ao fim do atendimento). Guardrail §3.1: o resumo é
-// SÓ social/relacional; nada clínico entra (o clínico fica só na janela curta da conversa).
-// Não falha o fluxo do job: erros apenas retornam.
-func (s *ConversationService) MaintainRelationshipSummary(ctx context.Context, ownerType string, ownerID uuid.UUID, force bool) {
+// MaintainRelationshipMemory regenera (best-effort) a memória SOCIAL de longo prazo da pessoa:
+// o rolling_summary E os fatos atômicos (ADD/UPDATE/DELETE), numa única chamada de IA. Roda
+// quando acumulou >= 5 mensagens novas (force=false) ou sempre que houver mensagens não resumidas
+// (force=true, ex. fim do atendimento). Guardrail §3.1: SÓ social/relacional; nada clínico entra
+// (prompt + backstop factLooksClinical). Não falha o fluxo do job: erros apenas retornam.
+func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ownerType string, ownerID uuid.UUID, force bool) {
 	if s.aiService == nil || !isValidOwnerType(ownerType) || ownerID == uuid.Nil {
 		return
 	}
@@ -559,21 +572,45 @@ func (s *ConversationService) MaintainRelationshipSummary(ctx context.Context, o
 		return
 	}
 	transcript := buildTranscript(activities)
-	prompt := buildRelationshipSummaryPrompt(transcript, prof.RollingSummary)
 
-	summary, err := s.aiService.CompleteText(ctx, prompt, CompleteTextOptions{
+	factSvc := NewRelationshipFactService(s.db)
+	current, _ := factSvc.ListActive(ctx, ownerType, ownerID)
+
+	prompt := buildRelationshipMemoryPrompt(transcript, prof.RollingSummary, current)
+	raw, err := s.aiService.CompleteText(ctx, prompt, CompleteTextOptions{
 		Model:       aiModelRelationship,
-		MaxTokens:   500,
-		Temperature: 0.3,
-		Timeout:     20 * time.Second,
+		MaxTokens:   700,
+		Temperature: 0.2,
+		Timeout:     25 * time.Second,
 	})
 	if err != nil {
 		return
 	}
-	summary = sanitizeRelationshipSummary(summary)
+	ext := parseRelationshipExtraction(raw)
 
+	// 1) Resumo social.
+	summary := sanitizeRelationshipSummary(ext.Summary)
 	if err := rp.SaveSummary(ctx, prof.ID, summary, total); err != nil {
 		fmt.Printf("⚠️  relationship summary persist: %v\n", err)
+	}
+
+	// 2) Fatos sociais (ADD/UPDATE/DELETE) com backstop anti-clínico.
+	conf := float32(0.7)
+	for _, op := range ext.Facts {
+		key := normalizeFactKey(op.Key)
+		val := strings.TrimSpace(op.Value)
+		cat := normalizeFactCategory(op.Category)
+		switch strings.ToUpper(strings.TrimSpace(op.Op)) {
+		case "ADD", "UPDATE":
+			if key == "" || val == "" || factLooksClinical(key, val) {
+				continue
+			}
+			_, _ = factSvc.SetFact(ctx, ownerType, ownerID, cat, key, val, models.RelationshipSourceAI, nil, &conf)
+		case "DELETE":
+			if key != "" {
+				_ = factSvc.CloseFact(ctx, ownerType, ownerID, key)
+			}
+		}
 	}
 }
 
@@ -607,28 +644,152 @@ func (s *ConversationService) countConversationMessages(ctx context.Context, own
 	return int(n)
 }
 
-// buildRelationshipSummaryPrompt monta o prompt de resumo SOCIAL incremental. Guardrail forte
-// anti-clínico: símtomas/exames/diagnósticos/medicações NÃO entram (vão pro prontuário, não pro CRM).
-func buildRelationshipSummaryPrompt(transcript, previous string) string {
-	prevBlock := ""
-	if p := strings.TrimSpace(previous); p != "" {
-		prevBlock = "\nRESUMO ANTERIOR (atualize e funda com o que houver de novo, sem perder o que já era verdade):\n" + p + "\n"
+// relationshipExtraction é a saída estruturada da manutenção de memória social: resumo + ops de fato.
+type relationshipExtraction struct {
+	Summary string               `json:"summary"`
+	Facts   []relationshipFactOp `json:"facts"`
+}
+
+// relationshipFactOp é uma operação proposta pela IA sobre um fato social.
+type relationshipFactOp struct {
+	Op       string `json:"op"`       // ADD|UPDATE|DELETE|NOOP
+	Category string `json:"category"` // taxonomia §3
+	Key      string `json:"key"`
+	Value    string `json:"value"`
+}
+
+// buildRelationshipMemoryPrompt monta o prompt que atualiza o resumo SOCIAL + extrai fatos atômicos
+// sociais. Guardrail forte anti-clínico: sintomas/exames/diagnósticos/medicações NÃO entram (vão
+// pro prontuário, não pro CRM). Recebe o resumo anterior e os fatos já conhecidos (p/ UPDATE/DELETE).
+func buildRelationshipMemoryPrompt(transcript, previousSummary string, current []models.RelationshipFact) string {
+	prevBlock := "(nenhum)"
+	if p := strings.TrimSpace(previousSummary); p != "" {
+		prevBlock = p
 	}
-	return fmt.Sprintf(`Você mantém a MEMÓRIA SOCIAL de uma pessoa em contato com a Plenya, uma clínica brasileira. O objetivo é a recepção nunca esquecer quem é a pessoa nem repetir perguntas já respondidas.
+	knownBlock := "(nenhum)"
+	if len(current) > 0 {
+		var sb strings.Builder
+		for _, f := range current {
+			fmt.Fprintf(&sb, "- %s = %s (categoria: %s)\n", f.Key, f.Value, f.Category)
+		}
+		knownBlock = strings.TrimRight(sb.String(), "\n")
+	}
+	return fmt.Sprintf(`Você mantém a MEMÓRIA SOCIAL de uma pessoa em contato com a Plenya, uma clínica brasileira. Objetivo: a recepção nunca esquecer quem é a pessoa nem repetir perguntas já respondidas.
 
-Produza um resumo CURTO e factual (no máximo 6 linhas, em português), só com informação SOCIAL/RELACIONAL/ADMINISTRATIVA útil para o relacionamento, por exemplo:
-- como a pessoa gosta de ser chamada, profissão/ocupação, cidade;
-- família e rede (cônjuge, filhos, quem a acompanha ou influenciou a procurar a clínica);
-- preferências de atendimento (canal, presencial vs online, melhor horário);
-- como conheceu a Plenya / quem indicou / o que motivou o contato (motivo NÃO clínico);
-- estágio do relacionamento (só conversando, quer agendar, já agendou) e sensibilidades de abordagem ("não gosta de insistência").
+Você produz DUAS coisas: (1) um resumo social curto e (2) uma lista de operações sobre FATOS sociais atômicos.
 
-PROIBIDO terminantemente (isso é do prontuário, com o médico — NÃO entra aqui): sintomas, queixas de saúde, resultados de exame, diagnósticos, medicações, condutas ou qualquer dado clínico. Se a pessoa mencionou algo clínico, IGNORE no resumo.
+SÓ informação SOCIAL/RELACIONAL/ADMINISTRATIVA entra. Categorias válidas e exemplos de "key":
+- identidade_social: apelido, profissao, cidade, idioma
+- familia_rede: conjuge, filhos, indicado_por, acompanhante
+- preferencias_atendimento: canal_preferido, formato_preferido (presencial/online), melhor_horario
+- contexto_chegada: como_conheceu, motivo_contato (NÃO clínico, ex.: "quer cuidar da saúde com mais atenção")
+- relacionamento: estagio (conversando/quer_agendar/agendou), sensibilidade (ex.: "não gosta de insistência")
 
-Não invente: registre só o que aparece na conversa. Se não houver NENHUMA informação social aproveitável, responda exatamente "NADA".
+PROIBIDO terminantemente (é do prontuário, com o médico — NÃO entra aqui): sintomas, queixas de saúde, resultados de exame, diagnósticos, doenças, medicações, condutas, ou qualquer dado clínico. Se a pessoa mencionou algo clínico, IGNORE completamente (não vire fato, não entre no resumo).
+
+Operações de fato (op): "ADD" novo fato; "UPDATE" valor mudou; "DELETE" deixou de ser verdade; "NOOP" nada a fazer. Use a MESMA key dos fatos já conhecidos ao atualizar. Não invente: só o que aparece na conversa. key em snake_case, minúsculas.
+
+RESUMO ANTERIOR (atualize fundindo o novo, sem perder o que já era verdade; "" se não houver nada social):
 %s
+
+FATOS JÁ CONHECIDOS:
+%s
+
 CONVERSA (cronológica; [DENTRO] = a pessoa, [FORA] = Plenya):
 %s
 
-Responda APENAS com o resumo social atualizado (ou "NADA"), em linhas com "- ", sem cabeçalho e sem comentários.`, prevBlock, transcript)
+Responda APENAS com um objeto JSON válido, sem texto fora dele:
+{"summary": "<resumo social curto, máx 6 linhas, ou string vazia>", "facts": [{"op":"ADD|UPDATE|DELETE|NOOP","category":"<categoria>","key":"<snake_case>","value":"<valor curto>"}]}`, prevBlock, knownBlock, transcript)
+}
+
+// parseRelationshipExtraction extrai o JSON tolerante (lida com markdown/texto ao redor).
+func parseRelationshipExtraction(raw string) relationshipExtraction {
+	var ext relationshipExtraction
+	trimmed := strings.TrimSpace(raw)
+	start := strings.Index(trimmed, "{")
+	end := strings.LastIndex(trimmed, "}")
+	if start >= 0 && end > start {
+		_ = json.Unmarshal([]byte(trimmed[start:end+1]), &ext)
+	}
+	return ext
+}
+
+// normalizeFactKey normaliza a key: minúsculas, espaços→_, só [a-z0-9_], teto de 60 chars.
+func normalizeFactKey(k string) string {
+	k = strings.ToLower(strings.TrimSpace(k))
+	k = strings.ReplaceAll(k, " ", "_")
+	var b strings.Builder
+	for _, r := range k {
+		if (r >= 'a' && r <= 'z') || (r >= '0' && r <= '9') || r == '_' {
+			b.WriteRune(r)
+		}
+	}
+	out := strings.Trim(b.String(), "_")
+	if len(out) > 60 {
+		out = out[:60]
+	}
+	return out
+}
+
+// normalizeFactCategory mapeia para uma das categorias válidas; default relacionamento.
+func normalizeFactCategory(c string) string {
+	switch strings.ToLower(strings.TrimSpace(c)) {
+	case models.RelationshipCategoryIdentity:
+		return models.RelationshipCategoryIdentity
+	case models.RelationshipCategoryFamily:
+		return models.RelationshipCategoryFamily
+	case models.RelationshipCategoryPreferences:
+		return models.RelationshipCategoryPreferences
+	case models.RelationshipCategoryArrival:
+		return models.RelationshipCategoryArrival
+	default:
+		return models.RelationshipCategoryRelationship
+	}
+}
+
+// factClinicalTerms é um backstop simples: se a key/valor contém um termo clínico, o fato é
+// descartado (o clínico fica só na janela curta da conversa; longo prazo é só social — §3.1).
+var factClinicalTerms = []string{
+	"sintoma", "dor ", "doença", "doenca", "diagnós", "diagnos", "exame", "exames",
+	"medicament", "remédio", "remedio", "medicação", "medicacao", "pressão alta", "pressao alta",
+	"diabet", "câncer", "cancer", "depress", "ansiedad", "insônia", "insonia", "colesterol",
+	"glicose", "hipertens", "tireoide", "tireóide", "cirurgia", "tratament", "laudo", "receita",
+}
+
+// factLooksClinical retorna true se o fato parece conter dado clínico (backstop do guardrail).
+func factLooksClinical(key, value string) bool {
+	hay := strings.ToLower(key + " " + value)
+	for _, term := range factClinicalTerms {
+		if strings.Contains(hay, term) {
+			return true
+		}
+	}
+	return false
+}
+
+// factLabel devolve um rótulo legível para uma key de fato (para a injeção no prompt e a tela 360).
+func factLabel(key string) string {
+	if lbl, ok := factKeyLabels[key]; ok {
+		return lbl
+	}
+	return strings.ReplaceAll(key, "_", " ")
+}
+
+// factKeyLabels mapeia keys comuns para rótulos em PT-BR (humaniza a tela 360 e o prompt).
+var factKeyLabels = map[string]string{
+	"apelido":           "como gosta de ser chamado",
+	"profissao":         "profissão",
+	"cidade":            "cidade",
+	"idioma":            "idioma",
+	"conjuge":           "cônjuge",
+	"filhos":            "filhos",
+	"indicado_por":      "indicado por",
+	"acompanhante":      "quem acompanha",
+	"canal_preferido":   "canal preferido",
+	"formato_preferido": "formato preferido",
+	"melhor_horario":    "melhor horário",
+	"como_conheceu":     "como conheceu a Plenya",
+	"motivo_contato":    "motivo do contato",
+	"estagio":           "estágio",
+	"sensibilidade":     "sensibilidade de abordagem",
 }

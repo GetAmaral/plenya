@@ -781,3 +781,82 @@ export function useMarkNotificationRead() {
     },
   });
 }
+
+// =====================================================
+// Dossiê 360 (social) — memória de relacionamento da Lívia
+// =====================================================
+
+export interface DossierFact {
+  id: string;
+  category: string;
+  key: string;
+  label: string;
+  value: string;
+  source: 'ai' | 'staff' | 'form' | 'consulta';
+  updatedAt: string;
+}
+
+export interface DossierView {
+  ownerType: ConversationOwnerType;
+  ownerId: string;
+  isPatient: boolean;
+  rollingSummary: string;
+  summaryUpdatedAt?: string | null;
+  relationshipStage: string;
+  facts: DossierFact[];
+}
+
+/** Rótulos PT-BR das categorias de fato social (espelha a taxonomia do backend). */
+export const DOSSIER_CATEGORY_LABELS: Record<string, string> = {
+  identidade_social: 'Identidade',
+  familia_rede: 'Família e rede',
+  preferencias_atendimento: 'Preferências de atendimento',
+  contexto_chegada: 'Como chegou',
+  relacionamento: 'Relacionamento',
+};
+
+/** Visão 360 social (resumo + fatos) da pessoa. Só dado social — nada clínico. */
+export function useDossier(type: ConversationOwnerType, id: string) {
+  return useQuery({
+    queryKey: ['dossier', type, id],
+    queryFn: () =>
+      apiClient.get<DossierView>(`/api/v1/conversations/${type}/${id}/dossier`),
+    enabled: Boolean(type && id),
+    staleTime: 30_000,
+  });
+}
+
+export function useAddDossierFact(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: { category?: string; key?: string; value: string }) =>
+      apiClient.post<DossierView>(
+        `/api/v1/conversations/${type}/${id}/dossier/facts`,
+        body
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+export function useUpdateDossierFact(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ factId, value }: { factId: string; value: string }) =>
+      apiClient.patch<DossierView>(
+        `/api/v1/conversations/${type}/${id}/dossier/facts/${factId}`,
+        { value }
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+export function useDeleteDossierFact(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (factId: string) =>
+      apiClient.delete<DossierView>(
+        `/api/v1/conversations/${type}/${id}/dossier/facts/${factId}`
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { format, isSameDay, isToday, isYesterday } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, CalendarPlus, RefreshCw, Sparkles, MoreVertical, Bot, Hand, SendHorizonal, Check, CheckCheck } from 'lucide-react';
+import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, CalendarPlus, RefreshCw, Sparkles, MoreVertical, Bot, Hand, SendHorizonal, Check, CheckCheck, IdCard } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
@@ -47,6 +47,7 @@ import {
 } from '@/lib/api/conversations-api';
 import { ConversationComposer } from './conversation-composer';
 import { AutomationToggle } from './automation-toggle';
+import { DossierPanel } from './dossier-panel';
 
 type Props = {
   item: ConversationItem;
@@ -621,6 +622,7 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
 
   // ===== IA =====
   const [summaryDialog, setSummaryDialog] = useState<SummaryDialogState>({ open: false });
+  const [dossierOpen, setDossierOpen] = useState(false);
   /** Texto sugerido pela IA (controlado externo do composer pra prefill). */
   const [draftBody, setDraftBody] = useState<string | null>(null);
   /** Token incrementado a cada nova sugestão pra forçar o composer a aceitar o prefill
@@ -679,6 +681,7 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
     setDraftBody(null);
     setDraftToken(0);
     setSummaryDialog({ open: false });
+    setDossierOpen(false);
     lastInjectedDraftRef.current = null;
     hadServerDraftRef.current = false;
   }, [item.ownerType, item.ownerId]);
@@ -872,6 +875,14 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
               <DropdownMenuItem
                 onSelect={(e) => {
                   e.preventDefault();
+                  setDossierOpen(true);
+                }}
+              >
+                <IdCard className="mr-2 h-4 w-4" /> Dossiê
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
                   handleSummarize(false);
                 }}
                 disabled={summary.isPending}
@@ -895,6 +906,17 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
             {channel !== 'email' && (
               <AutomationToggle ownerType={item.ownerType} ownerId={item.ownerId} />
             )}
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => setDossierOpen(true)}
+              className="hidden shrink-0 sm:inline-flex"
+              aria-label="Ver dossiê do contato"
+              title="Dossiê — o que sabemos sobre o contato"
+            >
+              <IdCard className="mr-1 h-3.5 w-3.5" /> Dossiê
+            </Button>
             <Button
               type="button"
               variant="ghost"
@@ -994,6 +1016,15 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
         onSuggestionApplied={handleSuggestionInjected}
         lockChannel={channel}
         compact={compact}
+      />
+
+      {/* Painel: Dossiê 360 (social) */}
+      <DossierPanel
+        ownerType={item.ownerType}
+        ownerId={item.ownerId}
+        name={item.name}
+        open={dossierOpen}
+        onOpenChange={setDossierOpen}
       />
 
       {/* Dialog: Resumo IA */}

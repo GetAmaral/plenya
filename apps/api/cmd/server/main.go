@@ -575,6 +575,11 @@ func setupRoutes(
 	conv.Get("/:type/:id/automation", conversationHandler.GetAutomation)
 	conv.Put("/:type/:id/automation", conversationHandler.SetAutomation)
 	conv.Get("/:type/:id/suggested-reply", conversationHandler.GetSuggestedReply)
+	// Dossiê 360 (social) — leitura + edição manual pela equipe.
+	conv.Get("/:type/:id/dossier", conversationHandler.GetDossier)
+	conv.Post("/:type/:id/dossier/facts", conversationHandler.AddDossierFact)
+	conv.Patch("/:type/:id/dossier/facts/:factId", conversationHandler.UpdateDossierFact)
+	conv.Delete("/:type/:id/dossier/facts/:factId", conversationHandler.DeleteDossierFact)
 
 	// Atendimento IA — config GLOBAL (modo baseline + janela de horário + tempos X/Y/Z).
 	// Grupo próprio p/ incluir o médico (o grupo conv não tem doctor).
