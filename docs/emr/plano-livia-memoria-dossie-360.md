@@ -247,7 +247,11 @@ Detecção Continuum: `patient_continuum` + `patient_subscription`. Conversão l
 - LGPD/CFM: cartilha CFM sobre LGPD, CRM-DF manual LGPD, Migalhas (bases legais em saúde), ConJur (sigilo médico).
 - Segurança de memória/PII: MemTrust (zero-trust memory), FutureAGI (PII redaction), Oracle (observability).
 
-## 12. Fase E (PROPOSTA — em discussão, NÃO implementada) — Consultas alimentam o 360 + dado restrito + 360 do médico
+## 12. Fase E — ✅ DEPLOYADA em prod (2026-06-07, commit `70956682`, migration 00033) — Consultas alimentam o 360 + dado restrito + 360 do médico
+
+> Em prod: goose v33, `restricted` nas 3 tabelas, api+web no ar. Pendente só: Meta aprovar o template
+> `aniversario_plenya` (id `1304293918582848`, PENDING) → então setar env `WHATSAPP_TEMPLATE_BIRTHDAY`.
+> Adiado (opcional): aba 360 fixa na ficha do paciente (hoje o médico abre o Dossiê pela tela da consulta).
 
 > Pedido do Getúlio (2026-06-07): a transcrição/elaboração da consulta deve ter a MESMA capacidade da
 > Lívia de achar informação relevante no texto e salvar no Relacionamento 360, com **filtro forte**
