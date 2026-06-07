@@ -174,7 +174,24 @@ timing inteligente. Aplicado à Plenya:
   ({summary, facts, people, events}) + pessoas injetadas no prompt + dossiê 360 com seções Pessoas/Datas +
   `RelationshipEventReminderJob` diário (sincroniza aniversários de pacientes engajados + notifica o time,
   idempotente por ocorrência) + card "Próximos" na Recepção + `GET /reception/upcoming-events`.
-- **Fase D — Refinos:** flags derivadas (Continuum/frequente), migração lead→paciente robusta, métricas.
+- **Fase D — Refinos: ✅ DEPLOYADA em prod (2026-06-07, commits `e6576148` + review `783007c2`).**
+  Flags derivadas (Continuum/assinatura ativa, nº consultas, última consulta, frequente≥3) no prompt +
+  badges no 360; repoint do dossiê na conversão lead→paciente (`repointRelationshipDossier`). Sem migration.
+
+### Revisão de implementação (2026-06-07) — corrigido + pendências conscientes
+Revisão por 2 agentes (backend Go + frontend) cruzando com este plano. **Sem bug crítico.** Corrigido no
+commit `783007c2`: (a) guardrail anti-clínico ampliado + foldPT (ignora acentos) + LOG quando descarta;
+(b) erros de persistência da extração deixam de ser engolidos; (c) corrida no índice único de facts vira
+NOOP benigno; (d) FactRow recarrega valor ao editar.
+
+**Pendências conscientes (NÃO implementadas — decidir se viram nova fase):**
+- **§4 360 do médico:** os endpoints do dossiê estão no grupo `conv` (admin/secretary/manager) — **o médico
+  não acessa**. Falta a aba "360/Relacionamento" na ficha do paciente (`/patients/:id`) e o campo "anotar algo"
+  na tela clínica. Hoje o dossiê só existe no painel da Central de Conversas (recepção).
+- **§5 cumprimento automático:** o job de avisos só **notifica o time**; não envia nada sozinho (postura
+  conservadora, humano no loop). A allowlist de "óbvio" do §10.3 não foi feita.
+- **Memória só mantida em conversas de WhatsApp** (o job de auto-reply é WhatsApp); e-mail não alimenta o dossiê.
+- Eventos não-recorrentes vencidos durante downtime do job diário podem não gerar aviso.
 
 ## 10. Decisões — FECHADAS (2026-06-06)
 
