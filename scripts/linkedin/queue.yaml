@@ -439,7 +439,7 @@ posts:
 - slug: escore-de-calcio-coronariano-o-exame-que-muda-uma-decada
   block: 2
   order: 10
-  status: approved
+  status: published
   scheduled_at: '2026-06-02 13:11:00-03:00'
   commentary: 'Atendo recorrentemente um perfil que se repete: homem entre 40 e 50 anos, exames de sangue todos dentro da
     referência, pai que infartou cedo. Vem com a frase que reconheço de longe: "o cardiologista do meu pai disse que tava
@@ -476,10 +476,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/escore-de-calcio-coronariano-o-exame-que-muda-uma-decada/figura-1.webp
   image_title: 'Escore de cálcio coronariano: o exame que muda uma década'
+  published_at: '2026-06-02T13:15:00-03:00'
+  post_urn: urn:li:share:7467609730723782656
 - slug: lipoproteina-a-exame-que-cardiologista-nao-pediu
   block: 2
   order: 11
-  status: approved
+  status: published
   scheduled_at: '2026-06-03 09:02:00-03:00'
   commentary: 'Uma em cada cinco pessoas tem lipoproteína(a) elevada e quase nunca soube. É hereditária, codificada por um
     único gene (LPA), e o nível permanece praticamente constante a vida toda, dieta, estatina e treino não modificam significativamente
@@ -523,10 +525,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/lipoproteina-a-exame-que-cardiologista-nao-pediu/figura-1.webp
   image_title: 'Lp(a): o exame hereditário que se mede uma vez na vida'
+  published_at: '2026-06-03T09:15:01-03:00'
+  post_urn: urn:li:share:7467911729960730624
 - slug: ferritina-30-a-100-normalidade-que-esgota-mulheres
   block: 2
   order: 12
-  status: approved
+  status: published
   scheduled_at: '2026-06-04 08:26:00-03:00'
   commentary: 'Mulher de 38 anos, dois filhos, ciclo menstrual regular e abundante. Cansaço que o café não resolve há dois
     anos. Cabelo caindo no banho. Falta de ar subindo dois lances de escada. Treino que rendia 7 km, agora 4 e parece o triplo.
@@ -569,6 +573,8 @@ posts:
     '
   image_path: apps/site/public/images/blog/ferritina-30-a-100-normalidade-que-esgota-mulheres/figura-1.webp
   image_title: 'Ferritina entre 30 e 100: a normalidade que esgota mulheres'
+  published_at: '2026-06-04T08:30:01-03:00'
+  post_urn: urn:li:share:7468262790999482368
 - slug: 12-exames-que-valem-cada-centavo-e-12-que-sao-desperdicio
   block: 2
   order: 13
