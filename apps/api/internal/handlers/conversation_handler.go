@@ -913,6 +913,187 @@ func (h *ConversationHandler) DeleteDossierFact(c *fiber.Ctx) error {
 	return c.JSON(view)
 }
 
+// parseDossierDate aceita "AAAA-MM-DD" (ou "" → nil). Usado p/ aniversário e data de evento.
+func parseDossierDate(s string) (*time.Time, error) {
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return nil, nil
+	}
+	t, err := time.Parse("2006-01-02", s)
+	if err != nil {
+		return nil, errors.New("data inválida (use AAAA-MM-DD)")
+	}
+	return &t, nil
+}
+
+// DossierPersonRequest é o payload para adicionar/editar uma pessoa importante.
+type DossierPersonRequest struct {
+	Name     string `json:"name" validate:"required,max=160"`
+	Relation string `json:"relation" validate:"omitempty,max=60"`
+	Birthday string `json:"birthday" validate:"omitempty"`
+	Notes    string `json:"notes" validate:"omitempty,max=2000"`
+}
+
+// AddDossierPerson POST /conversations/:type/:id/dossier/people
+func (h *ConversationHandler) AddDossierPerson(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	var req DossierPersonRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
+	}
+	bday, err := parseDossierDate(req.Birthday)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	view, err := h.service.AddDossierPerson(c.UserContext(), ownerType, ownerID, req.Name, req.Relation, bday, req.Notes, middleware.GetUserID(c))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// UpdateDossierPerson PATCH /conversations/:type/:id/dossier/people/:personId
+func (h *ConversationHandler) UpdateDossierPerson(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	personID, err := uuid.Parse(c.Params("personId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid person id"})
+	}
+	var req DossierPersonRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
+	}
+	bday, err := parseDossierDate(req.Birthday)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	view, err := h.service.UpdateDossierPerson(c.UserContext(), ownerType, ownerID, personID, req.Name, req.Relation, bday, req.Notes)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// DeleteDossierPerson DELETE /conversations/:type/:id/dossier/people/:personId
+func (h *ConversationHandler) DeleteDossierPerson(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	personID, err := uuid.Parse(c.Params("personId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid person id"})
+	}
+	view, err := h.service.DeleteDossierPerson(c.UserContext(), ownerType, ownerID, personID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// DossierEventRequest é o payload para adicionar um evento de relacionamento.
+type DossierEventRequest struct {
+	Type         string `json:"type" validate:"omitempty,max=20"`
+	Title        string `json:"title" validate:"required,max=200"`
+	Date         string `json:"date" validate:"required"`
+	Recurring    bool   `json:"recurring"`
+	LeadTimeDays int    `json:"leadTimeDays" validate:"omitempty,gte=0,lte=365"`
+	Notes        string `json:"notes" validate:"omitempty,max=2000"`
+}
+
+// AddDossierEvent POST /conversations/:type/:id/dossier/events
+func (h *ConversationHandler) AddDossierEvent(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	var req DossierEventRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
+	}
+	when, err := parseDossierDate(req.Date)
+	if err != nil || when == nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "data inválida (use AAAA-MM-DD)"})
+	}
+	view, err := h.service.AddDossierEvent(c.UserContext(), ownerType, ownerID, req.Type, req.Title, *when, req.Recurring, req.LeadTimeDays, req.Notes, middleware.GetUserID(c))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// DossierEventStatusRequest é o payload para mudar o status de um evento.
+type DossierEventStatusRequest struct {
+	Status string `json:"status" validate:"required,oneof=pending acknowledged done dismissed"`
+}
+
+// UpdateDossierEvent PATCH /conversations/:type/:id/dossier/events/:eventId (muda status)
+func (h *ConversationHandler) UpdateDossierEvent(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	eventID, err := uuid.Parse(c.Params("eventId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid event id"})
+	}
+	var req DossierEventStatusRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
+	}
+	view, err := h.service.UpdateDossierEventStatus(c.UserContext(), ownerType, ownerID, eventID, req.Status)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// DeleteDossierEvent DELETE /conversations/:type/:id/dossier/events/:eventId
+func (h *ConversationHandler) DeleteDossierEvent(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	eventID, err := uuid.Parse(c.Params("eventId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid event id"})
+	}
+	view, err := h.service.DeleteDossierEvent(c.UserContext(), ownerType, ownerID, eventID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// UpcomingEvents GET /reception/upcoming-events?days=14
+// Próximos eventos de relacionamento (todos os contatos) para o painel da Recepção.
+func (h *ConversationHandler) UpcomingEvents(c *fiber.Ctx) error {
+	days := c.QueryInt("days", 14)
+	items, err := h.service.UpcomingEvents(c.UserContext(), days, time.Now())
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(fiber.Map{"items": items})
+}
+
 // writeAIResult mapeia erros do AI service pra HTTP semântico.
 //
 // LGPD: NÃO inclui Message com detalhes do erro upstream em status 502/504 — o erro

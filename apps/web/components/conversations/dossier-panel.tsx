@@ -8,7 +8,7 @@
  */
 
 import { useMemo, useState } from 'react';
-import { Bot, Check, Pencil, Plus, Trash2, User, X } from 'lucide-react';
+import { Bot, Cake, Check, Gift, Pencil, Plus, Trash2, User, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 import {
@@ -30,12 +30,20 @@ import {
 } from '@/components/ui/select';
 import {
   DOSSIER_CATEGORY_LABELS,
+  DOSSIER_EVENT_TYPE_LABELS,
+  useAddDossierEvent,
   useAddDossierFact,
+  useAddDossierPerson,
+  useDeleteDossierEvent,
   useDeleteDossierFact,
+  useDeleteDossierPerson,
   useDossier,
+  useUpdateDossierEvent,
   useUpdateDossierFact,
   type ConversationOwnerType,
+  type DossierEvent,
   type DossierFact,
+  type DossierPerson,
 } from '@/lib/api/conversations-api';
 
 const CATEGORY_ORDER = [
@@ -59,6 +67,11 @@ export function DossierPanel({ ownerType, ownerId, name, open, onOpenChange }: P
   const addFact = useAddDossierFact(ownerType, ownerId);
   const updateFact = useUpdateDossierFact(ownerType, ownerId);
   const deleteFact = useDeleteDossierFact(ownerType, ownerId);
+  const addPerson = useAddDossierPerson(ownerType, ownerId);
+  const deletePerson = useDeleteDossierPerson(ownerType, ownerId);
+  const addEvent = useAddDossierEvent(ownerType, ownerId);
+  const updateEvent = useUpdateDossierEvent(ownerType, ownerId);
+  const deleteEvent = useDeleteDossierEvent(ownerType, ownerId);
 
   const grouped = useMemo(() => {
     const g: Record<string, DossierFact[]> = {};
@@ -153,11 +166,239 @@ export function DossierPanel({ ownerType, ownerId, name, open, onOpenChange }: P
                   )
                 }
               />
+
+              {/* Pessoas importantes */}
+              <PeopleSection
+                people={data?.people ?? []}
+                pending={addPerson.isPending}
+                onAdd={(name, relation, birthday) =>
+                  addPerson.mutate(
+                    { name, relation, birthday },
+                    { onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao adicionar pessoa') }
+                  )
+                }
+                onDelete={(id) =>
+                  deletePerson.mutate(id, {
+                    onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao remover'),
+                  })
+                }
+              />
+
+              {/* Eventos / datas */}
+              <EventsSection
+                events={data?.events ?? []}
+                pending={addEvent.isPending}
+                onAdd={(type, title, date, recurring) =>
+                  addEvent.mutate(
+                    { type, title, date, recurring },
+                    { onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao adicionar evento') }
+                  )
+                }
+                onStatus={(eventId, status) =>
+                  updateEvent.mutate(
+                    { eventId, status },
+                    { onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao atualizar') }
+                  )
+                }
+                onDelete={(id) =>
+                  deleteEvent.mutate(id, {
+                    onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao remover'),
+                  })
+                }
+              />
             </div>
           )}
         </div>
       </SheetContent>
     </Sheet>
+  );
+}
+
+function sourceIcon(source: string) {
+  return source === 'ai' ? (
+    <Bot className="h-3.5 w-3.5" />
+  ) : source === 'system' ? (
+    <Cake className="h-3.5 w-3.5" />
+  ) : (
+    <User className="h-3.5 w-3.5" />
+  );
+}
+
+function formatDateBR(iso?: string | null): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+}
+
+function PeopleSection({
+  people,
+  pending,
+  onAdd,
+  onDelete,
+}: {
+  people: DossierPerson[];
+  pending: boolean;
+  onAdd: (name: string, relation: string, birthday?: string) => void;
+  onDelete: (id: string) => void;
+}) {
+  const [name, setName] = useState('');
+  const [relation, setRelation] = useState('');
+  const [birthday, setBirthday] = useState('');
+
+  const submit = () => {
+    if (!name.trim()) return;
+    onAdd(name.trim(), relation.trim(), birthday || undefined);
+    setName('');
+    setRelation('');
+    setBirthday('');
+  };
+
+  return (
+    <section className="border-t border-border pt-4">
+      <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        Pessoas importantes
+      </h3>
+      {people.length > 0 && (
+        <ul className="mb-3 space-y-1.5">
+          {people.map((p) => (
+            <li key={p.id} className="group flex items-start gap-2 text-sm">
+              <span className="mt-0.5 shrink-0 text-muted-foreground" title={p.source === 'ai' ? 'Registrado pela Lívia' : 'Registrado pela equipe'}>
+                {sourceIcon(p.source)}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="font-medium">{p.name}</span>
+                {p.relation ? <span className="text-muted-foreground"> · {p.relation}</span> : null}
+                {p.birthday ? (
+                  <span className="text-muted-foreground"> · 🎂 {formatDateBR(p.birthday)}</span>
+                ) : null}
+              </span>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                className="h-6 w-6 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+                onClick={() => onDelete(p.id)}
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div className="space-y-2">
+        <div className="flex items-center gap-1.5">
+          <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome" className="h-8 text-sm" />
+          <Input value={relation} onChange={(e) => setRelation(e.target.value)} placeholder="Relação (filha, esposo…)" className="h-8 text-sm" />
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Input
+            type="date"
+            value={birthday}
+            onChange={(e) => setBirthday(e.target.value)}
+            className="h-8 text-sm"
+            title="Aniversário (opcional)"
+          />
+          <Button type="button" size="icon" className="h-8 w-8 shrink-0" disabled={pending} onClick={submit}>
+            <Plus className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function EventsSection({
+  events,
+  pending,
+  onAdd,
+  onStatus,
+  onDelete,
+}: {
+  events: DossierEvent[];
+  pending: boolean;
+  onAdd: (type: string, title: string, date: string, recurring: boolean) => void;
+  onStatus: (eventId: string, status: 'done' | 'dismissed') => void;
+  onDelete: (id: string) => void;
+}) {
+  const [type, setType] = useState('birthday');
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
+
+  const submit = () => {
+    if (!title.trim() || !date) return;
+    onAdd(type, title.trim(), date, type === 'birthday');
+    setTitle('');
+    setDate('');
+  };
+
+  return (
+    <section className="border-t border-border pt-4">
+      <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        Datas e eventos
+      </h3>
+      {events.length > 0 && (
+        <ul className="mb-3 space-y-1.5">
+          {events.map((e) => (
+            <li key={e.id} className="group flex items-start gap-2 text-sm">
+              <span className="mt-0.5 shrink-0 text-muted-foreground">
+                <Gift className="h-3.5 w-3.5" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="font-medium">{e.title}</span>
+                <span className="text-muted-foreground">
+                  {' '}
+                  · {DOSSIER_EVENT_TYPE_LABELS[e.type] ?? e.type} · {formatDateBR(e.eventDate)}
+                  {e.recurring ? ' (todo ano)' : ''}
+                  {e.status === 'done' ? ' · ✓' : ''}
+                </span>
+              </span>
+              <span className="flex shrink-0 gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+                {e.status !== 'done' && (
+                  <Button type="button" size="icon" variant="ghost" className="h-6 w-6" title="Marcar como feito" onClick={() => onStatus(e.id, 'done')}>
+                    <Check className="h-3 w-3" />
+                  </Button>
+                )}
+                <Button type="button" size="icon" variant="ghost" className="h-6 w-6" onClick={() => onDelete(e.id)}>
+                  <Trash2 className="h-3 w-3" />
+                </Button>
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div className="space-y-2">
+        <div className="flex items-center gap-1.5">
+          <Select value={type} onValueChange={setType}>
+            <SelectTrigger className="h-8 w-40 text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(DOSSIER_EVENT_TYPE_LABELS).map(([v, label]) => (
+                <SelectItem key={v} value={v} className="text-sm">
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="h-8 text-sm" />
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Ex.: Formatura da filha; aniversário"
+            className="h-8 text-sm"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') submit();
+            }}
+          />
+          <Button type="button" size="icon" className="h-8 w-8 shrink-0" disabled={pending} onClick={submit}>
+            <Plus className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    </section>
   );
 }
 

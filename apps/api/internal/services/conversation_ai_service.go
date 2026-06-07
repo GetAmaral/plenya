@@ -527,6 +527,22 @@ func (s *ConversationService) buildReceptionMemory(ctx context.Context, ownerTyp
 		}
 	}
 
+	// Pessoas importantes da rede (cônjuge, filhos, quem indicou…).
+	people, _ := NewRelationshipPersonService(s.db).ListByOwner(ctx, ownerType, ownerID)
+	if len(people) > 0 {
+		sb.WriteString("PESSOAS IMPORTANTES (cite com naturalidade se fizer sentido; não force):\n")
+		for _, p := range people {
+			sb.WriteString("- ")
+			sb.WriteString(p.Name)
+			if r := strings.TrimSpace(p.Relation); r != "" {
+				sb.WriteString(" (")
+				sb.WriteString(r)
+				sb.WriteString(")")
+			}
+			sb.WriteString("\n")
+		}
+	}
+
 	rp := NewRelationshipProfileService(s.db)
 	prof, err := rp.Get(ctx, ownerType, ownerID)
 	if err == nil && prof != nil {
@@ -612,6 +628,91 @@ func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ow
 			}
 		}
 	}
+
+	// 3) Pessoas importantes (rede). Dedupe por nome (Upsert).
+	personSvc := NewRelationshipPersonService(s.db)
+	personByName := map[string]uuid.UUID{}
+	for _, p := range ext.People {
+		name := strings.TrimSpace(p.Name)
+		if name == "" || factLooksClinical(p.Relation, p.Notes) {
+			continue
+		}
+		bday, _ := parseAIDate(p.Birthday)
+		var bdayPtr *time.Time
+		if !bday.IsZero() {
+			bdayPtr = &bday
+		}
+		if person, err := personSvc.Upsert(ctx, ownerType, ownerID, name, p.Relation, bdayPtr, p.Notes, models.RelationshipSourceAI, nil); err == nil && person != nil {
+			personByName[strings.ToLower(name)] = person.ID
+			// Aniversário de pessoa da rede vira evento recorrente.
+			if bdayPtr != nil {
+				pid := person.ID
+				_, _ = NewRelationshipEventService(s.db).Upsert(ctx, ownerType, ownerID, &pid,
+					models.RelationshipEventBirthday, "Aniversário de "+name, *bdayPtr, true, 7,
+					models.RelationshipSourceAI, "", nil)
+			}
+		}
+	}
+
+	// 4) Eventos/datas de relacionamento.
+	eventSvc := NewRelationshipEventService(s.db)
+	for _, e := range ext.Events {
+		title := strings.TrimSpace(e.Title)
+		when, ok := parseAIDate(e.Date)
+		if title == "" || !ok || factLooksClinical(e.Type, e.Title) {
+			continue
+		}
+		etype := normalizeEventType(e.Type)
+		var relatedPtr *uuid.UUID
+		if pn := strings.ToLower(strings.TrimSpace(e.Person)); pn != "" {
+			if id, found := personByName[pn]; found {
+				relatedPtr = &id
+			}
+		}
+		recurring := etype == models.RelationshipEventBirthday
+		_, _ = eventSvc.Upsert(ctx, ownerType, ownerID, relatedPtr, etype, title, when, recurring, 7, models.RelationshipSourceAI, "", nil)
+	}
+}
+
+// parseAIDate aceita "AAAA-MM-DD", "DD/MM/AAAA" e "DD/MM" (sem ano → 1900, usado só pelo
+// mês/dia em recorrências). Retorna (zero, false) se não parsear.
+func parseAIDate(s string) (time.Time, bool) {
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return time.Time{}, false
+	}
+	for _, layout := range []string{"2006-01-02", "02/01/2006", "2006/01/02"} {
+		if t, err := time.Parse(layout, s); err == nil {
+			return t, true
+		}
+	}
+	// DD/MM sem ano.
+	if t, err := time.Parse("02/01", s); err == nil {
+		return time.Date(1900, t.Month(), t.Day(), 0, 0, 0, 0, time.UTC), true
+	}
+	return time.Time{}, false
+}
+
+// normalizeEventType mapeia para um tipo válido; default custom.
+func normalizeEventType(t string) string {
+	switch strings.ToLower(strings.TrimSpace(t)) {
+	case models.RelationshipEventBirthday:
+		return models.RelationshipEventBirthday
+	case models.RelationshipEventGraduation:
+		return models.RelationshipEventGraduation
+	case models.RelationshipEventBirth:
+		return models.RelationshipEventBirth
+	case models.RelationshipEventWedding:
+		return models.RelationshipEventWedding
+	case models.RelationshipEventLoss:
+		return models.RelationshipEventLoss
+	case models.RelationshipEventMilestone:
+		return models.RelationshipEventMilestone
+	case models.RelationshipEventFollowup:
+		return models.RelationshipEventFollowup
+	default:
+		return models.RelationshipEventCustom
+	}
 }
 
 // sanitizeRelationshipSummary normaliza a saída do resumo. Se o modelo sinalizar que não há
@@ -644,10 +745,13 @@ func (s *ConversationService) countConversationMessages(ctx context.Context, own
 	return int(n)
 }
 
-// relationshipExtraction é a saída estruturada da manutenção de memória social: resumo + ops de fato.
+// relationshipExtraction é a saída estruturada da manutenção de memória social: resumo + ops de
+// fato + pessoas importantes + eventos/datas.
 type relationshipExtraction struct {
-	Summary string               `json:"summary"`
-	Facts   []relationshipFactOp `json:"facts"`
+	Summary string                 `json:"summary"`
+	Facts   []relationshipFactOp   `json:"facts"`
+	People  []relationshipPersonOp `json:"people"`
+	Events  []relationshipEventOp  `json:"events"`
 }
 
 // relationshipFactOp é uma operação proposta pela IA sobre um fato social.
@@ -656,6 +760,22 @@ type relationshipFactOp struct {
 	Category string `json:"category"` // taxonomia §3
 	Key      string `json:"key"`
 	Value    string `json:"value"`
+}
+
+// relationshipPersonOp é uma pessoa importante mencionada (cônjuge, filho, quem indicou…).
+type relationshipPersonOp struct {
+	Name     string `json:"name"`
+	Relation string `json:"relation"`
+	Birthday string `json:"birthday"` // "AAAA-MM-DD" ou "DD/MM" (ano opcional); vazio se não souber
+	Notes    string `json:"notes"`
+}
+
+// relationshipEventOp é uma data/evento de relacionamento (aniversário, formatura, nascimento…).
+type relationshipEventOp struct {
+	Type   string `json:"type"`   // birthday|graduation|birth|wedding|loss|milestone|followup|custom
+	Title  string `json:"title"`
+	Date   string `json:"date"`   // "AAAA-MM-DD" ou "DD/MM"
+	Person string `json:"person"` // nome da pessoa da rede (vazio = a própria pessoa)
 }
 
 // buildRelationshipMemoryPrompt monta o prompt que atualiza o resumo SOCIAL + extrai fatos atômicos
@@ -676,7 +796,7 @@ func buildRelationshipMemoryPrompt(transcript, previousSummary string, current [
 	}
 	return fmt.Sprintf(`Você mantém a MEMÓRIA SOCIAL de uma pessoa em contato com a Plenya, uma clínica brasileira. Objetivo: a recepção nunca esquecer quem é a pessoa nem repetir perguntas já respondidas.
 
-Você produz DUAS coisas: (1) um resumo social curto e (2) uma lista de operações sobre FATOS sociais atômicos.
+Você produz: (1) um resumo social curto; (2) operações sobre FATOS sociais atômicos; (3) PESSOAS importantes citadas; (4) EVENTOS/datas de relacionamento.
 
 SÓ informação SOCIAL/RELACIONAL/ADMINISTRATIVA entra. Categorias válidas e exemplos de "key":
 - identidade_social: apelido, profissao, cidade, idioma
@@ -689,6 +809,10 @@ PROIBIDO terminantemente (é do prontuário, com o médico — NÃO entra aqui):
 
 Operações de fato (op): "ADD" novo fato; "UPDATE" valor mudou; "DELETE" deixou de ser verdade; "NOOP" nada a fazer. Use a MESMA key dos fatos já conhecidos ao atualizar. Não invente: só o que aparece na conversa. key em snake_case, minúsculas.
 
+PESSOAS (people): pessoas importantes citadas (cônjuge, filhos, mãe, sócio, quem indicou) com "name", "relation" e, se a pessoa disser, "birthday" (formato AAAA-MM-DD, ou DD/MM se não souber o ano; vazio se não souber). Só registre quem realmente aparece.
+
+EVENTOS (events): datas/eventos sociais para a equipe lembrar (aniversário, formatura, nascimento, casamento, luto, marco, follow-up), com "type", "title" curto, "date" (AAAA-MM-DD ou DD/MM) e "person" (nome de alguém da rede, ou vazio para a própria pessoa). Se a pessoa informar a própria data de nascimento, gere um event type "birthday". NÃO invente datas.
+
 RESUMO ANTERIOR (atualize fundindo o novo, sem perder o que já era verdade; "" se não houver nada social):
 %s
 
@@ -699,7 +823,7 @@ CONVERSA (cronológica; [DENTRO] = a pessoa, [FORA] = Plenya):
 %s
 
 Responda APENAS com um objeto JSON válido, sem texto fora dele:
-{"summary": "<resumo social curto, máx 6 linhas, ou string vazia>", "facts": [{"op":"ADD|UPDATE|DELETE|NOOP","category":"<categoria>","key":"<snake_case>","value":"<valor curto>"}]}`, prevBlock, knownBlock, transcript)
+{"summary": "<resumo social curto, máx 6 linhas, ou string vazia>", "facts": [{"op":"ADD|UPDATE|DELETE|NOOP","category":"<categoria>","key":"<snake_case>","value":"<valor curto>"}], "people": [{"name":"<nome>","relation":"<relação>","birthday":"<AAAA-MM-DD|DD/MM|>","notes":"<curto|>"}], "events": [{"type":"<tipo>","title":"<curto>","date":"<AAAA-MM-DD|DD/MM>","person":"<nome|>"}]}`, prevBlock, knownBlock, transcript)
 }
 
 // parseRelationshipExtraction extrai o JSON tolerante (lida com markdown/texto ao redor).

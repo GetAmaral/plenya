@@ -796,6 +796,27 @@ export interface DossierFact {
   updatedAt: string;
 }
 
+export interface DossierPerson {
+  id: string;
+  name: string;
+  relation: string;
+  birthday?: string | null;
+  notes: string;
+  source: 'ai' | 'staff' | 'form' | 'consulta';
+}
+
+export type DossierEventStatus = 'pending' | 'acknowledged' | 'done' | 'dismissed';
+
+export interface DossierEvent {
+  id: string;
+  type: string;
+  title: string;
+  eventDate: string;
+  recurring: boolean;
+  status: DossierEventStatus;
+  source: 'ai' | 'staff' | 'form' | 'consulta' | 'system';
+}
+
 export interface DossierView {
   ownerType: ConversationOwnerType;
   ownerId: string;
@@ -804,7 +825,21 @@ export interface DossierView {
   summaryUpdatedAt?: string | null;
   relationshipStage: string;
   facts: DossierFact[];
+  people: DossierPerson[];
+  events: DossierEvent[];
 }
+
+/** Rótulos PT-BR dos tipos de evento de relacionamento (espelha o backend). */
+export const DOSSIER_EVENT_TYPE_LABELS: Record<string, string> = {
+  birthday: 'Aniversário',
+  graduation: 'Formatura',
+  birth: 'Nascimento',
+  wedding: 'Casamento',
+  loss: 'Luto',
+  milestone: 'Marco',
+  followup: 'Follow-up',
+  custom: 'Outro',
+};
 
 /** Rótulos PT-BR das categorias de fato social (espelha a taxonomia do backend). */
 export const DOSSIER_CATEGORY_LABELS: Record<string, string> = {
@@ -858,5 +893,114 @@ export function useDeleteDossierFact(type: ConversationOwnerType, id: string) {
         `/api/v1/conversations/${type}/${id}/dossier/facts/${factId}`
       ),
     onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+// ----- Pessoas importantes (rede) -----
+
+export function useAddDossierPerson(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: { name: string; relation?: string; birthday?: string; notes?: string }) =>
+      apiClient.post<DossierView>(`/api/v1/conversations/${type}/${id}/dossier/people`, body),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+export function useUpdateDossierPerson(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      personId,
+      ...body
+    }: {
+      personId: string;
+      name: string;
+      relation?: string;
+      birthday?: string;
+      notes?: string;
+    }) =>
+      apiClient.patch<DossierView>(
+        `/api/v1/conversations/${type}/${id}/dossier/people/${personId}`,
+        body
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+export function useDeleteDossierPerson(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (personId: string) =>
+      apiClient.delete<DossierView>(
+        `/api/v1/conversations/${type}/${id}/dossier/people/${personId}`
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+// ----- Eventos / avisos -----
+
+export function useAddDossierEvent(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: {
+      type?: string;
+      title: string;
+      date: string;
+      recurring?: boolean;
+      leadTimeDays?: number;
+      notes?: string;
+    }) => apiClient.post<DossierView>(`/api/v1/conversations/${type}/${id}/dossier/events`, body),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+export function useUpdateDossierEvent(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ eventId, status }: { eventId: string; status: DossierEventStatus }) =>
+      apiClient.patch<DossierView>(
+        `/api/v1/conversations/${type}/${id}/dossier/events/${eventId}`,
+        { status }
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+export function useDeleteDossierEvent(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (eventId: string) =>
+      apiClient.delete<DossierView>(
+        `/api/v1/conversations/${type}/${id}/dossier/events/${eventId}`
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+// ----- Próximos eventos (Recepção, cross-contato) -----
+
+export interface UpcomingEventItem {
+  id: string;
+  ownerType: ConversationOwnerType;
+  ownerId: string;
+  ownerName: string;
+  type: string;
+  title: string;
+  nextDate: string;
+  daysUntil: number;
+  leadTimeDays: number;
+  status: DossierEventStatus;
+}
+
+export function useUpcomingEvents(days = 14) {
+  return useQuery({
+    queryKey: ['upcoming-events', days],
+    queryFn: () =>
+      apiClient.get<{ items: UpcomingEventItem[] }>(
+        `/api/v1/reception/upcoming-events?days=${days}`
+      ),
+    staleTime: 60_000,
   });
 }

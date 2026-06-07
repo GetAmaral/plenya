@@ -580,6 +580,12 @@ func setupRoutes(
 	conv.Post("/:type/:id/dossier/facts", conversationHandler.AddDossierFact)
 	conv.Patch("/:type/:id/dossier/facts/:factId", conversationHandler.UpdateDossierFact)
 	conv.Delete("/:type/:id/dossier/facts/:factId", conversationHandler.DeleteDossierFact)
+	conv.Post("/:type/:id/dossier/people", conversationHandler.AddDossierPerson)
+	conv.Patch("/:type/:id/dossier/people/:personId", conversationHandler.UpdateDossierPerson)
+	conv.Delete("/:type/:id/dossier/people/:personId", conversationHandler.DeleteDossierPerson)
+	conv.Post("/:type/:id/dossier/events", conversationHandler.AddDossierEvent)
+	conv.Patch("/:type/:id/dossier/events/:eventId", conversationHandler.UpdateDossierEvent)
+	conv.Delete("/:type/:id/dossier/events/:eventId", conversationHandler.DeleteDossierEvent)
 
 	// Atendimento IA — config GLOBAL (modo baseline + janela de horário + tempos X/Y/Z).
 	// Grupo próprio p/ incluir o médico (o grupo conv não tem doctor).
@@ -589,6 +595,7 @@ func setupRoutes(
 	reception.Use(middleware.AuditLog(database.DB))
 	reception.Get("/settings", conversationHandler.GetGlobalAutomation)
 	reception.Put("/settings", conversationHandler.SetGlobalAutomation)
+	reception.Get("/upcoming-events", conversationHandler.UpcomingEvents)
 
 	// Auth routes (públicas).
 	// CRITICAL C4 — rate limit em login/register (anti brute-force).
@@ -1567,6 +1574,10 @@ func setupRoutes(
 	//    Só inicia se RECEPTION_BOT_ENABLED=true (kill switch global).
 	conversationAutoReplyJob := scheduler.NewConversationAutoReplyJob(database.DB, conversationService, conversationAutomationService, receptionSettingsService, notificationService, cfg)
 	conversationAutoReplyJob.Start()
+
+	// Avisos de relacionamento (aniversários/eventos) — Fase C da Lívia.
+	relationshipEventReminderJob := scheduler.NewRelationshipEventReminderJob(database.DB, conversationService, notificationService)
+	relationshipEventReminderJob.Start()
 }
 
 // registerTrainingRoutes registra as rotas do módulo de treinamento
