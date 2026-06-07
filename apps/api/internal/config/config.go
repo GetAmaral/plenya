@@ -143,6 +143,7 @@ type WhatsAppConfig struct {
 	TemplateMagicLink  string // WHATSAPP_TEMPLATE_MAGIC_LINK — nome do template (default: "magic_link")
 	TemplateLeadAlert  string // WHATSAPP_TEMPLATE_LEAD_ALERT — notificação interna (default: "lead_alert")
 	TemplateBirthday   string // WHATSAPP_TEMPLATE_BIRTHDAY — cumprimento de aniversário (default: "" = desligado)
+	TemplatePrepInvite string // WHATSAPP_TEMPLATE_PREP_INVITE — convite de preparação pré-consulta. Default "magic_link" (aprovado); trocar p/ "consultation_prep_invite" quando o dedicado for aprovado pela Meta.
 	GraphAPIVersion    string // WHATSAPP_GRAPH_API_VERSION — ex: "v18.0" (default)
 	// CoexistenceEnabled trata ecos (mensagens enviadas pelo app do celular) que
 	// chegam no webhook quando o número roda em coexistence. WHATSAPP_COEXISTENCE.
@@ -390,6 +391,7 @@ func Load() (*Config, error) {
 			TemplateMagicLink:  getEnv("WHATSAPP_TEMPLATE_MAGIC_LINK", "magic_link"),
 			TemplateLeadAlert:  getEnv("WHATSAPP_TEMPLATE_LEAD_ALERT", "lead_alert"),
 			TemplateBirthday:   getEnv("WHATSAPP_TEMPLATE_BIRTHDAY", ""),
+			TemplatePrepInvite: getEnv("WHATSAPP_TEMPLATE_PREP_INVITE", "magic_link"),
 			GraphAPIVersion:    getEnv("WHATSAPP_GRAPH_API_VERSION", "v18.0"),
 			CoexistenceEnabled: getEnv("WHATSAPP_COEXISTENCE", "true") != "false",
 		},

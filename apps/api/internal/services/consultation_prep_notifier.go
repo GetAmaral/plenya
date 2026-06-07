@@ -52,12 +52,11 @@ func (n *ConsultationPrepNotifier) SendPrepInvite(ctx context.Context, apptID uu
 		}
 	}
 
-	// WhatsApp proativo: reusa o template aprovado "magic_link" (recebe o link como parâmetro).
-	// Quando houver um template dedicado "consultation_prep_invite" aprovado na WABA, basta
-	// trocar para s.whatsapp.SendTemplate(phone, "consultation_prep_invite", "pt_BR", []string{url}).
+	// WhatsApp proativo via template aprovado (nome configurável: default "magic_link",
+	// troca p/ "consultation_prep_invite" via WHATSAPP_TEMPLATE_PREP_INVITE quando a Meta aprovar).
 	// Em dev (sem credenciais) o WhatsAppService loga em vez de enviar.
 	if n.whatsapp != nil && appt.Patient.Phone != nil && strings.TrimSpace(*appt.Patient.Phone) != "" {
-		if err := n.whatsapp.SendMagicLink(strings.TrimSpace(*appt.Patient.Phone), url); err != nil {
+		if err := n.whatsapp.SendConsultationPrepInvite(strings.TrimSpace(*appt.Patient.Phone), url); err != nil {
 			log.Printf("⚠️  [PREP INVITE] whatsapp apt=%s: %v", apptID, err)
 		}
 	}

@@ -69,6 +69,17 @@ func (s *WhatsAppService) SendMagicLink(toE164, magicLink string) error {
 	return s.SendTemplate(toE164, templateName, "pt_BR", []string{magicLink})
 }
 
+// SendConsultationPrepInvite envia o convite de preparação pré-consulta com o magic link como
+// parâmetro {{1}}. Nome do template via WHATSAPP_TEMPLATE_PREP_INVITE (default "magic_link" — já
+// aprovado; trocar p/ "consultation_prep_invite" quando o dedicado for aprovado pela Meta).
+func (s *WhatsAppService) SendConsultationPrepInvite(toE164, link string) error {
+	templateName := s.cfg.WhatsApp.TemplatePrepInvite
+	if templateName == "" {
+		templateName = "magic_link"
+	}
+	return s.SendTemplate(toE164, templateName, "pt_BR", []string{link})
+}
+
 // SendTemplate envia uma mensagem de template aprovado pela Meta.
 func (s *WhatsAppService) SendTemplate(toE164, templateName, langCode string, bodyParams []string) error {
 	if s.cfg.WhatsApp.PhoneNumberID == "" || s.cfg.WhatsApp.AccessToken == "" {
