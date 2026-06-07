@@ -160,8 +160,10 @@ timing inteligente. Aplicado à Plenya:
 
 ## 9. Faseamento (cada fase atrás de revisão/aprovação)
 
-- **Fase A — Memória (Feature 1):** subir janela 14→~40 + `relationship_profile.rolling_summary`
-  mantido pelo job + injeção no prompt. Resolve "esquecer/repetir" já. (Menor risco.)
+- **Fase A — Memória (Feature 1): ✅ DEPLOYADA em prod (2026-06-06, commit `a50b0429`, migration 00030).**
+  Janela 14→40 + `relationship_profiles.rolling_summary` (social) mantido pelo job (+5 msgs ou fim do
+  atendimento) + injeção no prompt (bloco MEMÓRIA DA PESSOA) + flag lead/paciente + guardrail anti-clínico
+  no resumo (§3.1). Resolve "esquecer/repetir". Continuum/frequente ficaram para a Fase D.
 - **Fase B — Dossiê (Feature 2):** `relationship_fact` + extração IA + tela 360 (leitura) + edição manual.
 - **Fase C — Rede + Eventos + Avisos:** `important_person` + `relationship_event` + job de avisos + painel.
 - **Fase D — Refinos:** flags derivadas (Continuum/frequente), migração lead→paciente robusta, métricas.
@@ -183,20 +185,20 @@ timing inteligente. Aplicado à Plenya:
 diff pra aprovação do Getúlio antes de deploy (`RECEPTION_BOT_ENABLED` é kill switch). Ver
 [[livia_cerebro_processo]] — não sair deployando sem ok.
 
-**Pendência separada (não perder):** a revisão de TOM já aprovada pelo usuário (ritmo / acolhimento sem
-bajulação / sem agressividade) ainda **NÃO foi aplicada** no `reception_brain.go`. O texto proposto está
-no histórico da conversa; prod hoje (commit `80b2c963`) ainda tem a regra "máximo 2 perguntas". Aplicar
-junto ou antes da Fase A, com diff.
+**Revisão de TOM — ✅ APLICADA e em prod (2026-06-06, commit `22fbe3f5`).** "Máximo 2 perguntas" virou
+RITMO DA CONVERSA (passo atrás se a pessoa responde curto); VOZ ganhou anti-bajulação/empatia fingida;
+espelhamento = UMA pergunta; reforço anti-pressão no NUNCA FAÇA. Guia humano espelhado.
 
-**Fase A (começar por aqui) — Memória, menor risco:**
-- migration goose (00030) `relationship_profile` (owner_type, owner_id, rolling_summary, summary_updated_at, summary_msg_count, relationship_stage).
-- model + service `RelationshipProfile` (get/upsert por owner).
-- subir `aiReceptionMaxMessages` 14→~40 e reduzir truncamento (`aiMaxContentChars`) em `conversation_ai_service.go`.
-- job: manter `rolling_summary` (social) — extração/resumo a cada 5 msgs ou no fim do atendimento.
-- `buildReceptionPrompt`: injetar `rolling_summary` + flags derivadas (lead/paciente, Continuum, frequente).
-- guardrail §3.1: clínico só no curto prazo (janela), nunca no rolling_summary.
+**Fase A — ✅ FEITA e em prod (2026-06-06, commit `a50b0429`, migration 00030):**
+- migration 00030 `relationship_profiles` (owner_type, owner_id, rolling_summary, summary_updated_at, summary_msg_count, relationship_stage). ✓
+- model `RelationshipProfile` (UUID v7) + `RelationshipProfileService` (Get/GetOrCreate/SaveSummary). ✓
+- `aiReceptionMaxMessages` 14→40 em `conversation_ai_service.go`. ✓
+- job: `MaintainRelationshipSummary` (force no fim do atendimento; +5 msgs em conversa). ✓
+- `buildReceptionPrompt`: injeta bloco MEMÓRIA DA PESSOA (rolling_summary + flag lead/paciente). ✓
+- guardrail §3.1: clínico só na janela curta, nunca no rolling_summary (prompt de resumo é social-only). ✓
+- ⏳ Continuum/frequente (flags derivadas mais ricas) → adiado para Fase D.
 
-**Fases seguintes:** B dossiê (`relationship_fact` + extração + tela 360 leitura/edição) · C rede+eventos+avisos
+**Próxima fase (a iniciar com diff p/ aprovação): Fase B** dossiê (`relationship_fact` + extração + tela 360 leitura/edição) · C rede+eventos+avisos
 (`important_person`, `relationship_event`, job de avisos, painel) · D flags derivadas + migração lead→paciente + métricas.
 
 **Arquivos-chave:** `apps/api/internal/services/conversation_ai_service.go` (janela/prompt) ·
