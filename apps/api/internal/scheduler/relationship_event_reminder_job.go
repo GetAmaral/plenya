@@ -26,10 +26,13 @@ import (
 )
 
 const (
-	relEventReminderInterval = 24 * time.Hour
-	relEventReminderTimeout  = 5 * time.Minute
-	relEventScanWindowDays   = 60 // janela ampla; o filtro real é o lead_time de cada evento
+	relEventReminderTimeout = 5 * time.Minute
+	relEventScanWindowDays  = 60 // janela ampla; o filtro real é o lead_time de cada evento
 )
+
+// Horários (horário de Londrina/SP) em que o job roda. A 1ª passada pega a maioria; as outras
+// duas pegam qualquer falha. A idempotência (marcador por evento+ocorrência) evita aviso dobrado.
+var relEventReminderHours = []int{9, 12, 16}
 
 type RelationshipEventReminderJob struct {
 	db       *gorm.DB
@@ -192,19 +195,31 @@ func relEventTitle(t string) string {
 }
 
 func (j *RelationshipEventReminderJob) Start() {
-	log.Printf("🎂 [AVISOS] RelationshipEventReminderJob iniciado (interval=%s)", relEventReminderInterval)
+	loc, err := time.LoadLocation("America/Sao_Paulo")
+	if err != nil {
+		loc = time.UTC
+	}
+	log.Printf("🎂 [AVISOS] RelationshipEventReminderJob iniciado (roda às %v, horário de SP)", relEventReminderHours)
 	go func() {
-		// Primeira passada após um pequeno atraso (deixa o boot assentar).
-		time.Sleep(2 * time.Minute)
-		if err := j.Run(); err != nil {
-			log.Printf("⚠️  [AVISOS] erro: %v", err)
-		}
-		ticker := time.NewTicker(relEventReminderInterval)
-		defer ticker.Stop()
-		for range ticker.C {
+		for {
+			next := nextReminderRun(time.Now().In(loc), relEventReminderHours, loc)
+			time.Sleep(time.Until(next))
 			if err := j.Run(); err != nil {
 				log.Printf("⚠️  [AVISOS] erro: %v", err)
 			}
 		}
 	}()
+}
+
+// nextReminderRun devolve o próximo horário de execução (entre os horários do dia, senão o
+// primeiro horário de amanhã).
+func nextReminderRun(now time.Time, hours []int, loc *time.Location) time.Time {
+	for _, h := range hours {
+		cand := time.Date(now.Year(), now.Month(), now.Day(), h, 0, 0, 0, loc)
+		if cand.After(now) {
+			return cand
+		}
+	}
+	t := now.AddDate(0, 0, 1)
+	return time.Date(t.Year(), t.Month(), t.Day(), hours[0], 0, 0, 0, loc)
 }
