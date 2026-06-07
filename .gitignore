@@ -3,6 +3,16 @@ node_modules/
 .pnp
 .pnp.js
 
+# Python virtualenvs (ferramentas de figuras do ebook etc.) — nunca versionar
+.venv/
+**/.venv/
+
+# Binários grandes / assets pesados (estouram o limite de 100MB do GitHub).
+# O brandbook PDF mora fora do git (drive/asset storage).
+docs/branding/plenya_BRANDBOOK.pdf
+backups/
+*.dump
+
 # Generated files (DO NOT EDIT - auto-generated)
 packages/types/src/generated/
 apps/api/docs/swagger.json
@@ -31,6 +41,9 @@ dist/
 ebook/**/build/work-*/
 ebook/**/build/**/work-*/
 ebook/**/build/.venv*/
+# venv das ferramentas de figuras (qualquer profundidade) — re-exclui após o !ebook/**/build/**
+ebook/**/.venv/
+ebook/**/_tools/.venv/
 
 # Misc
 .DS_Store
