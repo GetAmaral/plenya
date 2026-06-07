@@ -36,14 +36,24 @@ LEFT_X1, LEFT_X2 = 0.04, 0.38       # coluna FREIA
 MID_X1, MID_X2   = 0.40, 0.60       # coluna velocidade
 RIGHT_X1, RIGHT_X2 = 0.62, 0.96     # coluna ACELERA
 
-# Headers
+# Headers — com sublinhado decorativo abaixo (cor da coluna no original; preto em B&W)
 HEADER_Y = 0.85
 # Esquerda
-fig.text((LEFT_X1 + LEFT_X2) / 2, HEADER_Y, "O QUE FREIA",
-         fontsize=13, color=INK, weight="bold", ha="center")
+hx_l = (LEFT_X1 + LEFT_X2) / 2
+fig.text(hx_l, HEADER_Y, "O QUE FREIA",
+         fontsize=14, color=INK, weight="bold", ha="center")
+fig.add_artist(plt.Line2D(
+    [hx_l - 0.060, hx_l + 0.060], [HEADER_Y - 0.025, HEADER_Y - 0.025],
+    color=INK, linewidth=1.4, transform=fig.transFigure, zorder=3
+))
 # Direita
-fig.text((RIGHT_X1 + RIGHT_X2) / 2, HEADER_Y, "O QUE ACELERA",
-         fontsize=13, color=INK, weight="bold", ha="center")
+hx_r = (RIGHT_X1 + RIGHT_X2) / 2
+fig.text(hx_r, HEADER_Y, "O QUE ACELERA",
+         fontsize=14, color=INK, weight="bold", ha="center")
+fig.add_artist(plt.Line2D(
+    [hx_r - 0.065, hx_r + 0.065], [HEADER_Y - 0.025, HEADER_Y - 0.025],
+    color=INK, linewidth=1.4, transform=fig.transFigure, zorder=3
+))
 
 # Centro: velocidade do envelhecimento biológico
 fig.text((MID_X1 + MID_X2) / 2, HEADER_Y, "Velocidade do",
@@ -70,12 +80,22 @@ fig.patches.append(FancyArrowPatch(
     transform=fig.transFigure
 ))
 
-# Caixa central cinza claro (background da coluna velocidade)
+# Caixa central com GRADIENTE horizontal (claro=LENTA esquerda, escuro=RÁPIDA direita)
 COL_Y1, COL_Y2 = 0.18, HEADER_Y - 0.090
-fig.patches.append(Rectangle(
-    (MID_X1, COL_Y1), MID_X2 - MID_X1, COL_Y2 - COL_Y1,
-    facecolor=COL_BG, edgecolor="none", transform=fig.transFigure, zorder=1
-))
+# Gradiente via N bandas verticais finas
+import numpy as np
+N_BANDS = 80
+for k in range(N_BANDS):
+    frac = k / (N_BANDS - 1)
+    # Interpola entre claro (#F5F5F5) e escuro (#999999)
+    g = int(245 - frac * (245 - 153))  # 245 → 153
+    col = f"#{g:02X}{g:02X}{g:02X}"
+    bx0 = MID_X1 + (MID_X2 - MID_X1) * (k / N_BANDS)
+    bw  = (MID_X2 - MID_X1) / N_BANDS + 0.001
+    fig.patches.append(Rectangle(
+        (bx0, COL_Y1), bw, COL_Y2 - COL_Y1,
+        facecolor=col, edgecolor="none", transform=fig.transFigure, zorder=1
+    ))
 # Texto central da coluna
 fig.text((MID_X1 + MID_X2) / 2, (COL_Y1 + COL_Y2) / 2,
          "Processos biológicos\nmoduláveis",
@@ -105,26 +125,35 @@ ROW_SPACE = (ROW_TOP - ROW_BOTTOM) / (len(items_left) - 1)
 for i, ((name_l, desc_l), (name_r, desc_r)) in enumerate(zip(items_left, items_right)):
     y = ROW_TOP - i * ROW_SPACE
 
-    # Marker à esquerda (▶ apontando p/ centro)
-    fig.text(LEFT_X1 + 0.005, y, "▶", fontsize=11, color=INK,
+    # === Coluna LEFT ===
+    fig.text(LEFT_X1 + 0.010, y, name_l,
+             fontsize=11.5, color=INK, weight="bold",
              ha="left", va="center")
-    # Nome
-    fig.text(LEFT_X1 + 0.030, y, name_l,
-             fontsize=11, color=INK, weight="bold",
-             ha="left", va="center")
-    fig.text(LEFT_X1 + 0.030, y - 0.022, desc_l,
-             fontsize=8.5, color=INK_SOFT,
+    # Sublinhado curto decorativo abaixo do título (cor da coluna no original)
+    # Largura ~ proporcional ao texto
+    underline_w = 0.005 * len(name_l) * 0.7
+    fig.add_artist(plt.Line2D(
+        [LEFT_X1 + 0.010, LEFT_X1 + 0.010 + underline_w],
+        [y - 0.015, y - 0.015],
+        color=INK, linewidth=1.0, transform=fig.transFigure, zorder=3
+    ))
+    fig.text(LEFT_X1 + 0.010, y - 0.030, desc_l,
+             fontsize=9, color=INK_SOFT,
              ha="left", va="center", style="italic")
 
-    # Marker direita (◀ apontando p/ centro)
-    fig.text(RIGHT_X2 - 0.005, y, "◀", fontsize=11, color=INK,
+    # === Coluna RIGHT ===
+    fig.text(RIGHT_X2 - 0.010, y, name_r,
+             fontsize=11.5, color=INK, weight="bold",
              ha="right", va="center")
-    # Nome
-    fig.text(RIGHT_X2 - 0.030, y, name_r,
-             fontsize=11, color=INK, weight="bold",
-             ha="right", va="center")
-    fig.text(RIGHT_X2 - 0.030, y - 0.022, desc_r,
-             fontsize=8.5, color=INK_SOFT,
+    # Sublinhado curto decorativo abaixo do título (alinhado à direita)
+    underline_w = 0.005 * len(name_r) * 0.7
+    fig.add_artist(plt.Line2D(
+        [RIGHT_X2 - 0.010 - underline_w, RIGHT_X2 - 0.010],
+        [y - 0.015, y - 0.015],
+        color=INK, linewidth=1.0, transform=fig.transFigure, zorder=3
+    ))
+    fig.text(RIGHT_X2 - 0.010, y - 0.030, desc_r,
+             fontsize=9, color=INK_SOFT,
              ha="right", va="center", style="italic")
 
 # ---------- caixa inferior ----------

@@ -19,43 +19,64 @@ TICK     = "#555555"
 FOOT     = "#666666"
 GRAY_DOT = "#888888"
 
-fig = plt.figure(figsize=(11.0, 7.0))
+fig = plt.figure(figsize=(11.0, 6.4))
 fig.patch.set_facecolor(BG)
 
 LEFT = 0.025
 
-# Título
-fig.text(LEFT, 0.945, "Figura 2 — Idade Cronológica vs. Idade Arterial",
-         fontsize=17, color=INK, weight="bold")
-fig.text(LEFT, 0.895,
+# ---------- "FIGURA 2" tag (caixa preta com texto branco como label) ----------
+TAG_X1, TAG_Y1 = LEFT, 0.910
+TAG_W, TAG_H   = 0.085, 0.045
+fig.patches.append(Rectangle(
+    (TAG_X1, TAG_Y1), TAG_W, TAG_H,
+    facecolor=INK, edgecolor=INK, transform=fig.transFigure, zorder=2
+))
+fig.text(TAG_X1 + TAG_W / 2, TAG_Y1 + TAG_H / 2, "FIGURA 2",
+         fontsize=10, color="white", weight="bold",
+         ha="center", va="center", zorder=3)
+
+# Título — depois da tag
+fig.text(TAG_X1 + TAG_W + 0.015, TAG_Y1 + TAG_H / 2,
+         "Idade Cronológica vs. Idade Arterial",
+         fontsize=18, color=INK, weight="bold", va="center")
+fig.text(LEFT, 0.860,
          "O escore de cálcio traduzido em anos de envelhecimento arterial.",
          fontsize=10, color=INK_SOFT)
 
-# Sub-headers das colunas
-HEADER_Y = 0.815
-CHRONO_X = 0.32
-DELTA_X  = 0.54
-ARTERIAL_X = 0.84
+# ---------- Escala de IDADES compartilhada (mesma X scale pras 2 rows) ----------
+# Mapeia idade → posição X em fig coords
+AGE_MIN, AGE_MAX = 50, 85
+AGE_X_START, AGE_X_END = 0.32, 0.92  # range visual
 
-fig.text(CHRONO_X, HEADER_Y, "IDADE CRONOLÓGICA",
+def age_to_x(age):
+    return AGE_X_START + (age - AGE_MIN) / (AGE_MAX - AGE_MIN) * (AGE_X_END - AGE_X_START)
+
+# Sub-headers das colunas — posicionados em "57" (típico cronológica) e "80" (extremo)
+HEADER_Y = 0.760
+fig.text(age_to_x(57), HEADER_Y, "IDADE CRONOLÓGICA",
          fontsize=10, color=INK, weight="bold", ha="center")
-fig.text(CHRONO_X, HEADER_Y - 0.025, "(idade real)",
+fig.text(age_to_x(57), HEADER_Y - 0.025, "(idade real)",
          fontsize=8.5, color=INK_SOFT, ha="center", style="italic")
 
-fig.text(ARTERIAL_X, HEADER_Y, "IDADE ARTERIAL",
+fig.text(age_to_x(80), HEADER_Y, "IDADE ARTERIAL",
          fontsize=10, color=INK, weight="bold", ha="center")
-fig.text(ARTERIAL_X, HEADER_Y - 0.025, "(equivalente pelo percentil 50 da MESA)",
+fig.text(age_to_x(80), HEADER_Y - 0.025, "(equivalente pelo percentil 50 da MESA)",
          fontsize=8.5, color=INK_SOFT, ha="center", style="italic")
 
-# ---------- 2 linhas de pacientes ----------
+# ---------- 2 linhas de pacientes (cronológica + delta + arterial proporcionais à idade) ----------
 patients = [
-    ("MARCOS",  "CAC 412",   "57", "+23", "~80"),
-    ("RICARDO", "CAC ≈187",  "52", "+16", "~68"),
+    # (nome, CAC, chrono_idade, delta_anos, arterial_idade)
+    ("MARCOS",  "CAC 412",   57, 23, 80),
+    ("RICARDO", "CAC ≈187",  52, 16, 68),
 ]
 
-ROW_Y = [0.62, 0.36]
+ROW_Y = [0.55, 0.28]
 
-for (name, cac, chrono, delta, arterial), y in zip(patients, ROW_Y):
+for (name, cac, chrono_age, delta_age, arterial_age), y in zip(patients, ROW_Y):
+    chrono_x   = age_to_x(chrono_age)
+    arterial_x = age_to_x(arterial_age)
+    delta_x    = (chrono_x + arterial_x) / 2
+
     # Nome do paciente
     fig.text(0.10, y + 0.020, name,
              fontsize=18, color=INK, weight="bold",
@@ -64,62 +85,57 @@ for (name, cac, chrono, delta, arterial), y in zip(patients, ROW_Y):
              fontsize=9, color=INK_SOFT, ha="center", va="center")
 
     # Idade cronológica
-    fig.text(CHRONO_X, y + 0.040, chrono,
+    fig.text(chrono_x, y + 0.040, str(chrono_age),
              fontsize=30, color=INK, weight="bold",
              ha="center", va="center")
-    fig.text(CHRONO_X, y + 0.010, "anos",
+    fig.text(chrono_x, y + 0.010, "anos",
              fontsize=9, color=INK_SOFT, ha="center", va="center")
 
-    # Delta
-    fig.text(DELTA_X, y + 0.040, delta,
+    # Delta (+anos) no meio do dumbbell desta row
+    fig.text(delta_x, y + 0.040, f"+{delta_age}",
              fontsize=30, color=INK, weight="bold",
              ha="center", va="center")
-    fig.text(DELTA_X, y + 0.010, "anos",
+    fig.text(delta_x, y + 0.010, "anos",
              fontsize=9, color=INK_SOFT, ha="center", va="center")
 
-    # Idade arterial
-    fig.text(ARTERIAL_X, y + 0.040, arterial,
+    # Idade arterial (com ~)
+    fig.text(arterial_x, y + 0.040, f"~{arterial_age}",
              fontsize=30, color=INK, weight="bold",
              ha="center", va="center")
-    fig.text(ARTERIAL_X, y + 0.010, "anos",
+    fig.text(arterial_x, y + 0.010, "anos",
              fontsize=9, color=INK_SOFT, ha="center", va="center")
 
-    # Linha horizontal conectando os 3 pontos
+    # Linha horizontal proporcional à idade (de chrono até arterial)
     bar_y = y - 0.040
-    BAR_LEFT  = CHRONO_X
-    BAR_RIGHT = ARTERIAL_X
-
-    # Linha principal
     fig.lines.append(plt.Line2D(
-        [BAR_LEFT, BAR_RIGHT], [bar_y, bar_y],
+        [chrono_x, arterial_x], [bar_y, bar_y],
         color=INK, linewidth=2.5, transform=fig.transFigure, zorder=2
     ))
 
-    # Dot esquerdo (chronological - cinza) — Ellipse corrigida pelo aspect ratio
-    # figsize=(11,7) → x:y = 11:7 → para círculo visual, height precisa ser maior
+    # Dots: cinza esquerda (cronológica), preto direita (arterial)
     r = 0.012
-    aspect = 11.0 / 7.0
+    aspect = 11.0 / 6.4
     fig.patches.append(Ellipse(
-        (BAR_LEFT, bar_y), width=r*2, height=r*2*aspect,
+        (chrono_x, bar_y), width=r*2, height=r*2*aspect,
         facecolor=GRAY_DOT, edgecolor=INK, linewidth=1.0,
         transform=fig.transFigure, zorder=4
     ))
     fig.patches.append(Ellipse(
-        (BAR_RIGHT, bar_y), width=r*2, height=r*2*aspect,
+        (arterial_x, bar_y), width=r*2, height=r*2*aspect,
         facecolor=INK, edgecolor=INK, linewidth=1.0,
         transform=fig.transFigure, zorder=4
     ))
 
 # ---------- linha separadora ----------
-SEP_Y = 0.16
+SEP_Y = 0.13
 fig.lines.append(plt.Line2D(
     [LEFT, 1 - LEFT], [SEP_Y, SEP_Y],
     color="#CFCFCF", linewidth=0.5, transform=fig.transFigure
 ))
 
-# Footer
-fig.text(0.5, 0.105,
-         "♥  Suas artérias parecem ter anos a mais que você.",
+# Footer — coração OUTLINE (♡), não filled (♥)
+fig.text(0.5, 0.075,
+         "♡  Suas artérias parecem ter anos a mais que você.",
          fontsize=13, color=INK, weight="bold", style="italic",
          ha="center")
 

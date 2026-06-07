@@ -1,0 +1,2831 @@
+{
+  "frame": [
+    1480,
+    986
+  ],
+  "words": [
+    {
+      "text": "“Os",
+      "bbox": [
+        56,
+        69,
+        147,
+        118
+      ],
+      "conf": 95.0,
+      "block": 1,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "exames",
+      "bbox": [
+        166,
+        83,
+        353,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "estão",
+      "bbox": [
+        370,
+        70,
+        502,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "bons.",
+      "bbox": [
+        520,
+        70,
+        649,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "Eu",
+      "bbox": [
+        669,
+        70,
+        724,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "não",
+      "bbox": [
+        744,
+        70,
+        830,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "estou.”",
+      "bbox": [
+        846,
+        70,
+        1012,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "Ricardo,",
+      "bbox": [
+        57,
+        142,
+        133,
+        163
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "18",
+      "bbox": [
+        143,
+        142,
+        164,
+        160
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "meses",
+      "bbox": [
+        174,
+        147,
+        233,
+        160
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "após",
+      "bbox": [
+        242,
+        142,
+        286,
+        164
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "o",
+      "bbox": [
+        295,
+        147,
+        305,
+        160
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "infarto:",
+      "bbox": [
+        314,
+        141,
+        381,
+        160
+      ],
+      "conf": 95.0,
+      "block": 2,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "painel",
+      "bbox": [
+        391,
+        142,
+        448,
+        164
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "biológico",
+      "bbox": [
+        458,
+        141,
+        544,
+        165
+      ],
+      "conf": 95.0,
+      "block": 2,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "em",
+      "bbox": [
+        553,
+        147,
+        580,
+        160
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "ordem,",
+      "bbox": [
+        589,
+        142,
+        655,
+        163
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "dimensão",
+      "bbox": [
+        665,
+        142,
+        757,
+        160
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "relacional",
+      "bbox": [
+        766,
+        142,
+        859,
+        160
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "em",
+      "bbox": [
+        868,
+        147,
+        895,
+        160
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "colapso.",
+      "bbox": [
+        904,
+        142,
+        983,
+        164
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "O",
+      "bbox": [
+        56,
+        174,
+        69,
+        192
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "trabalho",
+      "bbox": [
+        77,
+        174,
+        158,
+        192
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "em",
+      "bbox": [
+        167,
+        180,
+        194,
+        192
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "conexão,",
+      "bbox": [
+        203,
+        175,
+        288,
+        195
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "propósito",
+      "bbox": [
+        298,
+        174,
+        389,
+        197
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "e",
+      "bbox": [
+        398,
+        180,
+        407,
+        192
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "sentido",
+      "bbox": [
+        416,
+        174,
+        485,
+        192
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "restaurou",
+      "bbox": [
+        495,
+        176,
+        585,
+        192
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "os",
+      "bbox": [
+        594,
+        180,
+        615,
+        192
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "dois",
+      "bbox": [
+        623,
+        174,
+        662,
+        192
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "lados.",
+      "bbox": [
+        671,
+        174,
+        726,
+        192
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "T+18m",
+      "bbox": [
+        475,
+        216,
+        550,
+        238
+      ],
+      "conf": 91.0,
+      "block": 4,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "T+21m",
+      "bbox": [
+        807,
+        216,
+        884,
+        238
+      ],
+      "conf": 57.0,
+      "block": 5,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "T+30m",
+      "bbox": [
+        1180,
+        216,
+        1261,
+        238
+      ],
+      "conf": 90.0,
+      "block": 6,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Colapso",
+      "bbox": [
+        440,
+        257,
+        505,
+        277
+      ],
+      "conf": 96.0,
+      "block": 7,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "silencioso",
+      "bbox": [
+        512,
+        257,
+        592,
+        273
+      ],
+      "conf": 96.0,
+      "block": 7,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Intervenção",
+      "bbox": [
+        752,
+        257,
+        848,
+        277
+      ],
+      "conf": 93.0,
+      "block": 8,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "multi-frente",
+      "bbox": [
+        855,
+        256,
+        951,
+        273
+      ],
+      "conf": 92.0,
+      "block": 8,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Recuperação",
+      "bbox": [
+        1127,
+        257,
+        1232,
+        277
+      ],
+      "conf": 96.0,
+      "block": 9,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "completa",
+      "bbox": [
+        1238,
+        256,
+        1314,
+        277
+      ],
+      "conf": 96.0,
+      "block": 9,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "e",
+      "bbox": [
+        506,
+        289,
+        520,
+        303
+      ],
+      "conf": 84.0,
+      "block": 10,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "e",
+      "bbox": [
+        840,
+        289,
+        855,
+        303
+      ],
+      "conf": 82.0,
+      "block": 11,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "e",
+      "bbox": [
+        1214,
+        289,
+        1229,
+        303
+      ],
+      "conf": 78.0,
+      "block": 12,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Vida",
+      "bbox": [
+        198,
+        317,
+        239,
+        335
+      ],
+      "conf": 96.0,
+      "block": 13,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "sexual",
+      "bbox": [
+        246,
+        317,
+        303,
+        335
+      ],
+      "conf": 96.0,
+      "block": 13,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "O",
+      "bbox": [
+        405,
+        329,
+        426,
+        351
+      ],
+      "conf": 92.0,
+      "block": 14,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "gmesessem",
+      "bbox": [
+        447,
+        332,
+        565,
+        350
+      ],
+      "conf": 62.0,
+      "block": 14,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "retomada",
+      "bbox": [
+        756,
+        318,
+        843,
+        336
+      ],
+      "conf": 96.0,
+      "block": 15,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "incipiente",
+      "bbox": [
+        851,
+        318,
+        939,
+        341
+      ],
+      "conf": 96.0,
+      "block": 15,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "plena,",
+      "bbox": [
+        1132,
+        319,
+        1185,
+        341
+      ],
+      "conf": 96.0,
+      "block": 16,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "com",
+      "bbox": [
+        199,
+        352,
+        235,
+        364
+      ],
+      "conf": 96.0,
+      "block": 17,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Marina",
+      "bbox": [
+        244,
+        347,
+        305,
+        364
+      ],
+      "conf": 96.0,
+      "block": 17,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "+",
+      "bbox": [
+        756,
+        353,
+        766,
+        364
+      ],
+      "conf": 92.0,
+      "block": 18,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "tadalafila",
+      "bbox": [
+        773,
+        348,
+        858,
+        366
+      ],
+      "conf": 92.0,
+      "block": 18,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "5",
+      "bbox": [
+        865,
+        349,
+        876,
+        366
+      ],
+      "conf": 95.0,
+      "block": 18,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "mg/dia",
+      "bbox": [
+        883,
+        348,
+        947,
+        371
+      ],
+      "conf": 95.0,
+      "block": 18,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "qualidade",
+      "bbox": [
+        1132,
+        349,
+        1220,
+        371
+      ],
+      "conf": 96.0,
+      "block": 19,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": ">",
+      "bbox": [
+        1227,
+        354,
+        1237,
+        364
+      ],
+      "conf": 93.0,
+      "block": 19,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "pré-lAM",
+      "bbox": [
+        1245,
+        349,
+        1315,
+        371
+      ],
+      "conf": 65.0,
+      "block": 19,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "DIMENSÃO",
+      "bbox": [
+        45,
+        404,
+        151,
+        428
+      ],
+      "conf": 96.0,
+      "block": 20,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Amigos",
+      "bbox": [
+        198,
+        406,
+        258,
+        427
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "próximos",
+      "bbox": [
+        265,
+        406,
+        337,
+        426
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "(nº)",
+      "bbox": [
+        343,
+        405,
+        367,
+        425
+      ],
+      "conf": 94.0,
+      "block": 21,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "“0",
+      "bbox": [
+        405,
+        403,
+        459,
+        424
+      ],
+      "conf": 48.0,
+      "block": 22,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "1",
+      "bbox": [
+        754,
+        405,
+        760,
+        423
+      ],
+      "conf": 96.0,
+      "block": 23,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "3",
+      "bbox": [
+        1132,
+        405,
+        1142,
+        423
+      ],
+      "conf": 96.0,
+      "block": 24,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "HUMANA",
+      "bbox": [
+        45,
+        439,
+        135,
+        458
+      ],
+      "conf": 96.0,
+      "block": 25,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "sim,",
+      "bbox": [
+        449,
+        453,
+        484,
+        473
+      ],
+      "conf": 96.0,
+      "block": 26,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "(não",
+      "bbox": [
+        44,
+        470,
+        73,
+        486
+      ],
+      "conf": 96.0,
+      "block": 27,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "bioquímica)",
+      "bbox": [
+        79,
+        470,
+        157,
+        487
+      ],
+      "conf": 94.0,
+      "block": 27,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Celular",
+      "bbox": [
+        199,
+        468,
+        258,
+        485
+      ],
+      "conf": 96.0,
+      "block": 28,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "no",
+      "bbox": [
+        264,
+        474,
+        283,
+        485
+      ],
+      "conf": 96.0,
+      "block": 28,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "quarto",
+      "bbox": [
+        290,
+        470,
+        343,
+        489
+      ],
+      "conf": 96.0,
+      "block": 28,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "º",
+      "bbox": [
+        405,
+        465,
+        426,
+        487
+      ],
+      "conf": 58.0,
+      "block": 29,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "checagem",
+      "bbox": [
+        449,
+        482,
+        535,
+        503
+      ],
+      "conf": 93.0,
+      "block": 30,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "3h-5h",
+      "bbox": [
+        543,
+        482,
+        595,
+        499
+      ],
+      "conf": 63.0,
+      "block": 30,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "retirado",
+      "bbox": [
+        756,
+        465,
+        826,
+        483
+      ],
+      "conf": 96.0,
+      "block": 31,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "10",
+      "bbox": [
+        1132,
+        466,
+        1150,
+        483
+      ],
+      "conf": 96.0,
+      "block": 32,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "meses",
+      "bbox": [
+        1158,
+        471,
+        1211,
+        483
+      ],
+      "conf": 96.0,
+      "block": 32,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "sem",
+      "bbox": [
+        1218,
+        471,
+        1252,
+        483
+      ],
+      "conf": 96.0,
+      "block": 32,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "mentoria",
+      "bbox": [
+        756,
+        521,
+        837,
+        539
+      ],
+      "conf": 91.0,
+      "block": 33,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "voluntária",
+      "bbox": [
+        844,
+        521,
+        936,
+        539
+      ],
+      "conf": 97.0,
+      "block": 33,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Propósito",
+      "bbox": [
+        199,
+        536,
+        273,
+        557
+      ],
+      "conf": 96.0,
+      "block": 34,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "profissional",
+      "bbox": [
+        279,
+        536,
+        364,
+        557
+      ],
+      "conf": 96.0,
+      "block": 34,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "º",
+      "bbox": [
+        405,
+        533,
+        426,
+        554
+      ],
+      "conf": 68.0,
+      "block": 35,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "esvaziado",
+      "bbox": [
+        447,
+        536,
+        534,
+        553
+      ],
+      "conf": 96.0,
+      "block": 36,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "iniciada",
+      "bbox": [
+        756,
+        548,
+        825,
+        566
+      ],
+      "conf": 96.0,
+      "block": 37,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "ritual",
+      "bbox": [
+        1132,
+        536,
+        1177,
+        553
+      ],
+      "conf": 96.0,
+      "block": 38,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "semanal",
+      "bbox": [
+        1184,
+        535,
+        1257,
+        553
+      ],
+      "conf": 91.0,
+      "block": 38,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "firme",
+      "bbox": [
+        1263,
+        535,
+        1309,
+        553
+      ],
+      "conf": 91.0,
+      "block": 38,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "caminhada",
+      "bbox": [
+        756,
+        590,
+        855,
+        608
+      ],
+      "conf": 96.0,
+      "block": 39,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "silenciosa",
+      "bbox": [
+        862,
+        590,
+        951,
+        608
+      ],
+      "conf": 96.0,
+      "block": 39,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Ritual",
+      "bbox": [
+        199,
+        601,
+        240,
+        617
+      ],
+      "conf": 96.0,
+      "block": 40,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "laico",
+      "bbox": [
+        246,
+        601,
+        278,
+        617
+      ],
+      "conf": 93.0,
+      "block": 40,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "com",
+      "bbox": [
+        283,
+        606,
+        311,
+        617
+      ],
+      "conf": 96.0,
+      "block": 40,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "Marina",
+      "bbox": [
+        318,
+        601,
+        365,
+        617
+      ],
+      "conf": 96.0,
+      "block": 40,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "º",
+      "bbox": [
+        405,
+        601,
+        426,
+        622
+      ],
+      "conf": 71.0,
+      "block": 41,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "—",
+      "bbox": [
+        448,
+        612,
+        467,
+        614
+      ],
+      "conf": 87.0,
+      "block": 42,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "e",
+      "bbox": [
+        712,
+        600,
+        733,
+        622
+      ],
+      "conf": 35.0,
+      "block": 43,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "52",
+      "bbox": [
+        1132,
+        603,
+        1153,
+        620
+      ],
+      "conf": 93.0,
+      "block": 44,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "domingos/ano",
+      "bbox": [
+        1160,
+        602,
+        1287,
+        624
+      ],
+      "conf": 91.0,
+      "block": 44,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "dominical",
+      "bbox": [
+        756,
+        617,
+        842,
+        635
+      ],
+      "conf": 96.0,
+      "block": 45,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "PCR",
+      "bbox": [
+        199,
+        666,
+        233,
+        683
+      ],
+      "conf": 93.0,
+      "block": 46,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "ultrassensível",
+      "bbox": [
+        241,
+        666,
+        353,
+        683
+      ],
+      "conf": 92.0,
+      "block": 46,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "CONTROLE",
+      "bbox": [
+        44,
+        683,
+        139,
+        700
+      ],
+      "conf": 96.0,
+      "block": 47,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "(mg/L)",
+      "bbox": [
+        199,
+        692,
+        250,
+        711
+      ],
+      "conf": 93.0,
+      "block": 48,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "e",
+      "bbox": [
+        405,
+        675,
+        437,
+        696
+      ],
+      "conf": 34.0,
+      "block": 49,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "14",
+      "bbox": [
+        452,
+        677,
+        478,
+        699
+      ],
+      "conf": 34.0,
+      "block": 49,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "10",
+      "bbox": [
+        778,
+        677,
+        806,
+        699
+      ],
+      "conf": 88.0,
+      "block": 50,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": ">",
+      "bbox": [
+        1062,
+        680,
+        1071,
+        693
+      ],
+      "conf": 41.0,
+      "block": 51,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "0",
+      "bbox": [
+        1087,
+        675,
+        1106,
+        696
+      ],
+      "conf": 41.0,
+      "block": 51,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "0,6",
+      "bbox": [
+        1132,
+        677,
+        1165,
+        699
+      ],
+      "conf": 96.0,
+      "block": 52,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "BIOLÓGICO",
+      "bbox": [
+        45,
+        706,
+        143,
+        728
+      ],
+      "conf": 96.0,
+      "block": 53,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Cortisol",
+      "bbox": [
+        199,
+        733,
+        267,
+        751
+      ],
+      "conf": 92.0,
+      "block": 54,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "matinal",
+      "bbox": [
+        274,
+        733,
+        338,
+        751
+      ],
+      "conf": 96.0,
+      "block": 54,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "(marcadores)",
+      "bbox": [
+        44,
+        740,
+        143,
+        757
+      ],
+      "conf": 96.0,
+      "block": 55,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "17",
+      "bbox": [
+        778,
+        744,
+        801,
+        763
+      ],
+      "conf": 89.0,
+      "block": 57,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": ">",
+      "bbox": [
+        1062,
+        746,
+        1071,
+        760
+      ],
+      "conf": 43.0,
+      "block": 58,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "0",
+      "bbox": [
+        1088,
+        742,
+        1106,
+        763
+      ],
+      "conf": 43.0,
+      "block": 58,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "15",
+      "bbox": [
+        1132,
+        744,
+        1155,
+        763
+      ],
+      "conf": 96.0,
+      "block": 59,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "(ug/dL)",
+      "bbox": [
+        199,
+        760,
+        254,
+        779
+      ],
+      "conf": 85.0,
+      "block": 60,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "“Doutor,",
+      "bbox": [
+        285,
+        824,
+        404,
+        853
+      ],
+      "conf": 96.0,
+      "block": 61,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "eu",
+      "bbox": [
+        415,
+        833,
+        446,
+        849
+      ],
+      "conf": 97.0,
+      "block": 61,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "achei",
+      "bbox": [
+        456,
+        824,
+        529,
+        849
+      ],
+      "conf": 96.0,
+      "block": 61,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "que",
+      "bbox": [
+        538,
+        832,
+        586,
+        855
+      ],
+      "conf": 96.0,
+      "block": 61,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "ia",
+      "bbox": [
+        596,
+        825,
+        619,
+        849
+      ],
+      "conf": 95.0,
+      "block": 61,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "sair",
+      "bbox": [
+        628,
+        824,
+        680,
+        849
+      ],
+      "conf": 96.0,
+      "block": 61,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "dessa",
+      "bbox": [
+        688,
+        824,
+        761,
+        849
+      ],
+      "conf": 96.0,
+      "block": 61,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "história",
+      "bbox": [
+        771,
+        824,
+        876,
+        849
+      ],
+      "conf": 96.0,
+      "block": 61,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "mais",
+      "bbox": [
+        887,
+        824,
+        951,
+        849
+      ],
+      "conf": 96.0,
+      "block": 61,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "frágil.",
+      "bbox": [
+        955,
+        824,
+        1041,
+        855
+      ],
+      "conf": 96.0,
+      "block": 61,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "6",
+      "bbox": [
+        182,
+        817,
+        209,
+        862
+      ],
+      "conf": 96.0,
+      "block": 62,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Eu",
+      "bbox": [
+        283,
+        861,
+        320,
+        884
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "acho",
+      "bbox": [
+        330,
+        860,
+        395,
+        884
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "que",
+      "bbox": [
+        405,
+        868,
+        453,
+        891
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "saí",
+      "bbox": [
+        462,
+        861,
+        504,
+        884
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "mais",
+      "bbox": [
+        511,
+        860,
+        575,
+        884
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "inteiro.”",
+      "bbox": [
+        586,
+        860,
+        702,
+        884
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "—",
+      "bbox": [
+        1062,
+        873,
+        1079,
+        875
+      ],
+      "conf": 92.0,
+      "block": 64,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Ricardo,",
+      "bbox": [
+        1087,
+        864,
+        1157,
+        883
+      ],
+      "conf": 92.0,
+      "block": 64,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "T+30m.",
+      "bbox": [
+        1165,
+        864,
+        1227,
+        880
+      ],
+      "conf": 86.0,
+      "block": 64,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "Fonte:",
+      "bbox": [
+        51,
+        922,
+        97,
+        935
+      ],
+      "conf": 93.0,
+      "block": 65,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "caso-tipo",
+      "bbox": [
+        104,
+        924,
+        172,
+        939
+      ],
+      "conf": 90.0,
+      "block": 65,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "do",
+      "bbox": [
+        178,
+        922,
+        196,
+        935
+      ],
+      "conf": 97.0,
+      "block": 65,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "Capítulo",
+      "bbox": [
+        202,
+        922,
+        263,
+        939
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "13.",
+      "bbox": [
+        270,
+        922,
+        289,
+        935
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "Princeton",
+      "bbox": [
+        297,
+        922,
+        364,
+        935
+      ],
+      "conf": 93.0,
+      "block": 65,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "Consensus",
+      "bbox": [
+        371,
+        922,
+        448,
+        935
+      ],
+      "conf": 92.0,
+      "block": 65,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "Ill",
+      "bbox": [
+        455,
+        923,
+        467,
+        935
+      ],
+      "conf": 77.0,
+      "block": 65,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "(Nehra",
+      "bbox": [
+        474,
+        922,
+        522,
+        938
+      ],
+      "conf": 93.0,
+      "block": 65,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "et",
+      "bbox": [
+        528,
+        924,
+        542,
+        935
+      ],
+      "conf": 91.0,
+      "block": 65,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "al.,",
+      "bbox": [
+        547,
+        922,
+        567,
+        937
+      ],
+      "conf": 91.0,
+      "block": 65,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "Mayo",
+      "bbox": [
+        574,
+        922,
+        613,
+        939
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "Clinic",
+      "bbox": [
+        619,
+        922,
+        658,
+        935
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "Proc",
+      "bbox": [
+        663,
+        922,
+        695,
+        935
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "2012);",
+      "bbox": [
+        700,
+        922,
+        743,
+        938
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 15
+    },
+    {
+      "text": "AHA",
+      "bbox": [
+        51,
+        947,
+        84,
+        960
+      ],
+      "conf": 92.0,
+      "block": 66,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Sexual",
+      "bbox": [
+        91,
+        947,
+        138,
+        960
+      ],
+      "conf": 93.0,
+      "block": 66,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Activity",
+      "bbox": [
+        145,
+        947,
+        199,
+        964
+      ],
+      "conf": 93.0,
+      "block": 66,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "and",
+      "bbox": [
+        206,
+        947,
+        231,
+        960
+      ],
+      "conf": 93.0,
+      "block": 66,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "CVD",
+      "bbox": [
+        239,
+        947,
+        271,
+        960
+      ],
+      "conf": 92.0,
+      "block": 66,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "(Levine",
+      "bbox": [
+        278,
+        946,
+        329,
+        962
+      ],
+      "conf": 95.0,
+      "block": 66,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "et",
+      "bbox": [
+        336,
+        949,
+        349,
+        960
+      ],
+      "conf": 92.0,
+      "block": 66,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "al.,",
+      "bbox": [
+        355,
+        947,
+        375,
+        962
+      ],
+      "conf": 91.0,
+      "block": 66,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "Circulation",
+      "bbox": [
+        382,
+        947,
+        459,
+        960
+      ],
+      "conf": 92.0,
+      "block": 66,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "2012).",
+      "bbox": [
+        466,
+        946,
+        506,
+        962
+      ],
+      "conf": 74.0,
+      "block": 66,
+      "line": 1,
+      "word": 10
+    }
+  ],
+  "lines": [
+    {
+      "text": "“Os exames estão bons. Eu não estou.”",
+      "bbox": [
+        56,
+        69,
+        1012,
+        118
+      ],
+      "conf": 95.9
+    },
+    {
+      "text": "Ricardo, 18 meses após o infarto: painel biológico em ordem, dimensão relacional em colapso.",
+      "bbox": [
+        57,
+        141,
+        983,
+        165
+      ],
+      "conf": 95.9
+    },
+    {
+      "text": "O trabalho em conexão, propósito e sentido restaurou os dois lados.",
+      "bbox": [
+        56,
+        174,
+        726,
+        197
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "T+18m",
+      "bbox": [
+        475,
+        216,
+        550,
+        238
+      ],
+      "conf": 91.0
+    },
+    {
+      "text": "T+21m",
+      "bbox": [
+        807,
+        216,
+        884,
+        238
+      ],
+      "conf": 57.0
+    },
+    {
+      "text": "T+30m",
+      "bbox": [
+        1180,
+        216,
+        1261,
+        238
+      ],
+      "conf": 90.0
+    },
+    {
+      "text": "Colapso silencioso",
+      "bbox": [
+        440,
+        257,
+        592,
+        277
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Intervenção multi-frente",
+      "bbox": [
+        752,
+        256,
+        951,
+        277
+      ],
+      "conf": 92.5
+    },
+    {
+      "text": "Recuperação completa",
+      "bbox": [
+        1127,
+        256,
+        1314,
+        277
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "e",
+      "bbox": [
+        506,
+        289,
+        520,
+        303
+      ],
+      "conf": 84.0
+    },
+    {
+      "text": "e",
+      "bbox": [
+        840,
+        289,
+        855,
+        303
+      ],
+      "conf": 82.0
+    },
+    {
+      "text": "e",
+      "bbox": [
+        1214,
+        289,
+        1229,
+        303
+      ],
+      "conf": 78.0
+    },
+    {
+      "text": "Vida sexual",
+      "bbox": [
+        198,
+        317,
+        303,
+        335
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "O gmesessem",
+      "bbox": [
+        405,
+        329,
+        565,
+        351
+      ],
+      "conf": 77.0
+    },
+    {
+      "text": "retomada incipiente",
+      "bbox": [
+        756,
+        318,
+        939,
+        341
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "plena,",
+      "bbox": [
+        1132,
+        319,
+        1185,
+        341
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "com Marina",
+      "bbox": [
+        199,
+        347,
+        305,
+        364
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "+ tadalafila 5 mg/dia",
+      "bbox": [
+        756,
+        348,
+        947,
+        371
+      ],
+      "conf": 93.5
+    },
+    {
+      "text": "qualidade > pré-lAM",
+      "bbox": [
+        1132,
+        349,
+        1315,
+        371
+      ],
+      "conf": 84.7
+    },
+    {
+      "text": "DIMENSÃO",
+      "bbox": [
+        45,
+        404,
+        151,
+        428
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Amigos próximos (nº)",
+      "bbox": [
+        198,
+        405,
+        367,
+        427
+      ],
+      "conf": 95.3
+    },
+    {
+      "text": "“0",
+      "bbox": [
+        405,
+        403,
+        459,
+        424
+      ],
+      "conf": 48.0
+    },
+    {
+      "text": "1",
+      "bbox": [
+        754,
+        405,
+        760,
+        423
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "3",
+      "bbox": [
+        1132,
+        405,
+        1142,
+        423
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "HUMANA",
+      "bbox": [
+        45,
+        439,
+        135,
+        458
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "sim,",
+      "bbox": [
+        449,
+        453,
+        484,
+        473
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "(não bioquímica)",
+      "bbox": [
+        44,
+        470,
+        157,
+        487
+      ],
+      "conf": 95.0
+    },
+    {
+      "text": "Celular no quarto",
+      "bbox": [
+        199,
+        468,
+        343,
+        489
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "º",
+      "bbox": [
+        405,
+        465,
+        426,
+        487
+      ],
+      "conf": 58.0
+    },
+    {
+      "text": "checagem 3h-5h",
+      "bbox": [
+        449,
+        482,
+        595,
+        503
+      ],
+      "conf": 78.0
+    },
+    {
+      "text": "retirado",
+      "bbox": [
+        756,
+        465,
+        826,
+        483
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "10 meses sem",
+      "bbox": [
+        1132,
+        466,
+        1252,
+        483
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "mentoria voluntária",
+      "bbox": [
+        756,
+        521,
+        936,
+        539
+      ],
+      "conf": 94.0
+    },
+    {
+      "text": "Propósito profissional",
+      "bbox": [
+        199,
+        536,
+        364,
+        557
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "º",
+      "bbox": [
+        405,
+        533,
+        426,
+        554
+      ],
+      "conf": 68.0
+    },
+    {
+      "text": "esvaziado",
+      "bbox": [
+        447,
+        536,
+        534,
+        553
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "iniciada",
+      "bbox": [
+        756,
+        548,
+        825,
+        566
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "ritual semanal firme",
+      "bbox": [
+        1132,
+        535,
+        1309,
+        553
+      ],
+      "conf": 92.7
+    },
+    {
+      "text": "caminhada silenciosa",
+      "bbox": [
+        756,
+        590,
+        951,
+        608
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Ritual laico com Marina",
+      "bbox": [
+        199,
+        601,
+        365,
+        617
+      ],
+      "conf": 95.2
+    },
+    {
+      "text": "º",
+      "bbox": [
+        405,
+        601,
+        426,
+        622
+      ],
+      "conf": 71.0
+    },
+    {
+      "text": "—",
+      "bbox": [
+        448,
+        612,
+        467,
+        614
+      ],
+      "conf": 87.0
+    },
+    {
+      "text": "e",
+      "bbox": [
+        712,
+        600,
+        733,
+        622
+      ],
+      "conf": 35.0
+    },
+    {
+      "text": "52 domingos/ano",
+      "bbox": [
+        1132,
+        602,
+        1287,
+        624
+      ],
+      "conf": 92.0
+    },
+    {
+      "text": "dominical",
+      "bbox": [
+        756,
+        617,
+        842,
+        635
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "PCR ultrassensível",
+      "bbox": [
+        199,
+        666,
+        353,
+        683
+      ],
+      "conf": 92.5
+    },
+    {
+      "text": "CONTROLE",
+      "bbox": [
+        44,
+        683,
+        139,
+        700
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "(mg/L)",
+      "bbox": [
+        199,
+        692,
+        250,
+        711
+      ],
+      "conf": 93.0
+    },
+    {
+      "text": "e 14",
+      "bbox": [
+        405,
+        675,
+        478,
+        699
+      ],
+      "conf": 34.0
+    },
+    {
+      "text": "10",
+      "bbox": [
+        778,
+        677,
+        806,
+        699
+      ],
+      "conf": 88.0
+    },
+    {
+      "text": "> 0",
+      "bbox": [
+        1062,
+        675,
+        1106,
+        696
+      ],
+      "conf": 41.0
+    },
+    {
+      "text": "0,6",
+      "bbox": [
+        1132,
+        677,
+        1165,
+        699
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "BIOLÓGICO",
+      "bbox": [
+        45,
+        706,
+        143,
+        728
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Cortisol matinal",
+      "bbox": [
+        199,
+        733,
+        338,
+        751
+      ],
+      "conf": 94.0
+    },
+    {
+      "text": "(marcadores)",
+      "bbox": [
+        44,
+        740,
+        143,
+        757
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "17",
+      "bbox": [
+        778,
+        744,
+        801,
+        763
+      ],
+      "conf": 89.0
+    },
+    {
+      "text": "> 0",
+      "bbox": [
+        1062,
+        742,
+        1106,
+        763
+      ],
+      "conf": 43.0
+    },
+    {
+      "text": "15",
+      "bbox": [
+        1132,
+        744,
+        1155,
+        763
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "(ug/dL)",
+      "bbox": [
+        199,
+        760,
+        254,
+        779
+      ],
+      "conf": 85.0
+    },
+    {
+      "text": "“Doutor, eu achei que ia sair dessa história mais frágil.",
+      "bbox": [
+        285,
+        824,
+        1041,
+        855
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "6",
+      "bbox": [
+        182,
+        817,
+        209,
+        862
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Eu acho que saí mais inteiro.”",
+      "bbox": [
+        283,
+        860,
+        702,
+        891
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "— Ricardo, T+30m.",
+      "bbox": [
+        1062,
+        864,
+        1227,
+        883
+      ],
+      "conf": 90.0
+    },
+    {
+      "text": "Fonte: caso-tipo do Capítulo 13. Princeton Consensus Ill (Nehra et al., Mayo Clinic Proc 2012);",
+      "bbox": [
+        51,
+        922,
+        743,
+        939
+      ],
+      "conf": 92.9
+    },
+    {
+      "text": "AHA Sexual Activity and CVD (Levine et al., Circulation 2012).",
+      "bbox": [
+        51,
+        946,
+        506,
+        964
+      ],
+      "conf": 90.7
+    }
+  ]
+}

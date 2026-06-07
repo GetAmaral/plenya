@@ -1,0 +1,1572 @@
+{
+  "frame": [
+    1480,
+    986
+  ],
+  "words": [
+    {
+      "text": "Ikigai:",
+      "bbox": [
+        45,
+        67,
+        228,
+        132
+      ],
+      "conf": 92.0,
+      "block": 1,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "o",
+      "bbox": [
+        249,
+        83,
+        283,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "que",
+      "bbox": [
+        301,
+        83,
+        408,
+        131
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "te",
+      "bbox": [
+        426,
+        74,
+        482,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "faz",
+      "bbox": [
+        500,
+        66,
+        587,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "levantar",
+      "bbox": [
+        606,
+        67,
+        847,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "da",
+      "bbox": [
+        864,
+        67,
+        935,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "cama.",
+      "bbox": [
+        952,
+        83,
+        1123,
+        118
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "Quatro",
+      "bbox": [
+        46,
+        141,
+        128,
+        166
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "círculos",
+      "bbox": [
+        138,
+        141,
+        232,
+        163
+      ],
+      "conf": 94.0,
+      "block": 2,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "que",
+      "bbox": [
+        242,
+        148,
+        286,
+        169
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "se",
+      "bbox": [
+        296,
+        148,
+        322,
+        163
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "cruzam",
+      "bbox": [
+        332,
+        148,
+        420,
+        163
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "num",
+      "bbox": [
+        432,
+        148,
+        483,
+        163
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "ponto.",
+      "bbox": [
+        494,
+        144,
+        568,
+        169
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "O",
+      "bbox": [
+        580,
+        141,
+        597,
+        163
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "estudo",
+      "bbox": [
+        607,
+        141,
+        688,
+        163
+      ],
+      "conf": 93.0,
+      "block": 2,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "Ohsaki",
+      "bbox": [
+        699,
+        141,
+        781,
+        163
+      ],
+      "conf": 91.0,
+      "block": 2,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "(2008)",
+      "bbox": [
+        792,
+        140,
+        874,
+        167
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "associou",
+      "bbox": [
+        885,
+        141,
+        989,
+        163
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "a",
+      "bbox": [
+        46,
+        183,
+        58,
+        198
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "resposta",
+      "bbox": [
+        68,
+        179,
+        170,
+        204
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "afirmativa",
+      "bbox": [
+        179,
+        176,
+        298,
+        198
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "à",
+      "bbox": [
+        308,
+        176,
+        320,
+        198
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "pergunta",
+      "bbox": [
+        330,
+        179,
+        436,
+        204
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "a",
+      "bbox": [
+        445,
+        183,
+        458,
+        198
+      ],
+      "conf": 93.0,
+      "block": 3,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "30-50%",
+      "bbox": [
+        467,
+        177,
+        568,
+        198
+      ],
+      "conf": 92.0,
+      "block": 3,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "menos",
+      "bbox": [
+        578,
+        183,
+        656,
+        198
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "mortalidade",
+      "bbox": [
+        667,
+        176,
+        810,
+        198
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "em",
+      "bbox": [
+        820,
+        183,
+        854,
+        198
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "7",
+      "bbox": [
+        865,
+        177,
+        878,
+        198
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "anos.",
+      "bbox": [
+        888,
+        183,
+        949,
+        198
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "Pergunta",
+      "bbox": [
+        1080,
+        341,
+        1203,
+        372
+      ],
+      "conf": 96.0,
+      "block": 4,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "clínica:",
+      "bbox": [
+        1211,
+        340,
+        1307,
+        365
+      ],
+      "conf": 96.0,
+      "block": 4,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "PAIXÃO",
+      "bbox": [
+        382,
+        413,
+        472,
+        439
+      ],
+      "conf": 96.0,
+      "block": 5,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "MISSÃO",
+      "bbox": [
+        627,
+        413,
+        723,
+        439
+      ],
+      "conf": 96.0,
+      "block": 6,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "“Qual",
+      "bbox": [
+        1079,
+        410,
+        1154,
+        439
+      ],
+      "conf": 95.0,
+      "block": 7,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "é",
+      "bbox": [
+        1161,
+        411,
+        1176,
+        435
+      ],
+      "conf": 96.0,
+      "block": 7,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "o",
+      "bbox": [
+        1184,
+        418,
+        1200,
+        435
+      ],
+      "conf": 96.0,
+      "block": 7,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "motivo",
+      "bbox": [
+        1208,
+        411,
+        1298,
+        435
+      ],
+      "conf": 96.0,
+      "block": 7,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "que",
+      "bbox": [
+        1307,
+        418,
+        1355,
+        442
+      ],
+      "conf": 97.0,
+      "block": 7,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "te",
+      "bbox": [
+        1363,
+        413,
+        1388,
+        435
+      ],
+      "conf": 96.0,
+      "block": 7,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "faz",
+      "bbox": [
+        1078,
+        453,
+        1118,
+        478
+      ],
+      "conf": 96.0,
+      "block": 8,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "levantar",
+      "bbox": [
+        1125,
+        453,
+        1234,
+        478
+      ],
+      "conf": 96.0,
+      "block": 8,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "da",
+      "bbox": [
+        1241,
+        453,
+        1273,
+        478
+      ],
+      "conf": 96.0,
+      "block": 8,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "cama",
+      "bbox": [
+        1282,
+        460,
+        1353,
+        478
+      ],
+      "conf": 96.0,
+      "block": 8,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "de",
+      "bbox": [
+        1362,
+        453,
+        1393,
+        478
+      ],
+      "conf": 96.0,
+      "block": 8,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "manhã?”",
+      "bbox": [
+        1077,
+        495,
+        1197,
+        519
+      ],
+      "conf": 96.0,
+      "block": 9,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "IKIGAI",
+      "bbox": [
+        488,
+        504,
+        613,
+        539
+      ],
+      "conf": 91.0,
+      "block": 10,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "A",
+      "bbox": [
+        504,
+        555,
+        521,
+        576
+      ],
+      "conf": 94.0,
+      "block": 11,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "razão",
+      "bbox": [
+        529,
+        555,
+        592,
+        576
+      ],
+      "conf": 94.0,
+      "block": 11,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "de",
+      "bbox": [
+        483,
+        587,
+        511,
+        609
+      ],
+      "conf": 96.0,
+      "block": 12,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "acordar.",
+      "bbox": [
+        519,
+        587,
+        613,
+        609
+      ],
+      "conf": 96.0,
+      "block": 12,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Se",
+      "bbox": [
+        1078,
+        598,
+        1104,
+        618
+      ],
+      "conf": 96.0,
+      "block": 13,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "não",
+      "bbox": [
+        1113,
+        598,
+        1152,
+        618
+      ],
+      "conf": 96.0,
+      "block": 13,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "houver",
+      "bbox": [
+        1161,
+        597,
+        1236,
+        618
+      ],
+      "conf": 96.0,
+      "block": 13,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "resposta",
+      "bbox": [
+        1245,
+        600,
+        1338,
+        623
+      ],
+      "conf": 97.0,
+      "block": 13,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "clara",
+      "bbox": [
+        1346,
+        597,
+        1399,
+        618
+      ],
+      "conf": 96.0,
+      "block": 13,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "em",
+      "bbox": [
+        1078,
+        645,
+        1110,
+        660
+      ],
+      "conf": 96.0,
+      "block": 14,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "um",
+      "bbox": [
+        1120,
+        645,
+        1153,
+        660
+      ],
+      "conf": 96.0,
+      "block": 14,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "adulto",
+      "bbox": [
+        1162,
+        639,
+        1231,
+        660
+      ],
+      "conf": 93.0,
+      "block": 14,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "pós-40",
+      "bbox": [
+        1240,
+        639,
+        1319,
+        665
+      ],
+      "conf": 91.0,
+      "block": 14,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "anos,",
+      "bbox": [
+        1328,
+        645,
+        1385,
+        663
+      ],
+      "conf": 96.0,
+      "block": 14,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "PROFISSÃO",
+      "bbox": [
+        361,
+        659,
+        495,
+        684
+      ],
+      "conf": 96.0,
+      "block": 15,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "VOCAÇÃO",
+      "bbox": [
+        620,
+        659,
+        736,
+        690
+      ],
+      "conf": 96.0,
+      "block": 16,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "há",
+      "bbox": [
+        1079,
+        679,
+        1104,
+        700
+      ],
+      "conf": 95.0,
+      "block": 17,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "uma",
+      "bbox": [
+        1113,
+        685,
+        1159,
+        700
+      ],
+      "conf": 96.0,
+      "block": 17,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "camada",
+      "bbox": [
+        1167,
+        679,
+        1254,
+        700
+      ],
+      "conf": 96.0,
+      "block": 17,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "do",
+      "bbox": [
+        1262,
+        679,
+        1289,
+        700
+      ],
+      "conf": 96.0,
+      "block": 17,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "plano",
+      "bbox": [
+        1298,
+        679,
+        1358,
+        705
+      ],
+      "conf": 96.0,
+      "block": 17,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "que",
+      "bbox": [
+        1078,
+        726,
+        1118,
+        746
+      ],
+      "conf": 96.0,
+      "block": 18,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "está",
+      "bbox": [
+        1126,
+        720,
+        1171,
+        740
+      ],
+      "conf": 96.0,
+      "block": 18,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "faltando.",
+      "bbox": [
+        1179,
+        719,
+        1275,
+        740
+      ],
+      "conf": 96.0,
+      "block": 18,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "Fonte:",
+      "bbox": [
+        44,
+        890,
+        96,
+        905
+      ],
+      "conf": 96.0,
+      "block": 19,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "conceito",
+      "bbox": [
+        104,
+        890,
+        175,
+        905
+      ],
+      "conf": 96.0,
+      "block": 19,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "japonês",
+      "bbox": [
+        181,
+        890,
+        248,
+        909
+      ],
+      "conf": 96.0,
+      "block": 19,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "tradicional.",
+      "bbox": [
+        254,
+        890,
+        349,
+        905
+      ],
+      "conf": 96.0,
+      "block": 19,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "Evidência:",
+      "bbox": [
+        44,
+        918,
+        131,
+        934
+      ],
+      "conf": 93.0,
+      "block": 20,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Sone",
+      "bbox": [
+        139,
+        918,
+        181,
+        933
+      ],
+      "conf": 93.0,
+      "block": 20,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "et",
+      "bbox": [
+        189,
+        920,
+        205,
+        933
+      ],
+      "conf": 96.0,
+      "block": 20,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "al.",
+      "bbox": [
+        212,
+        918,
+        230,
+        933
+      ],
+      "conf": 95.0,
+      "block": 20,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "(“Sense",
+      "bbox": [
+        240,
+        917,
+        306,
+        936
+      ],
+      "conf": 96.0,
+      "block": 20,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "of",
+      "bbox": [
+        313,
+        918,
+        331,
+        933
+      ],
+      "conf": 95.0,
+      "block": 20,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "Life",
+      "bbox": [
+        337,
+        918,
+        368,
+        933
+      ],
+      "conf": 95.0,
+      "block": 20,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "Worth",
+      "bbox": [
+        376,
+        918,
+        427,
+        933
+      ],
+      "conf": 96.0,
+      "block": 20,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "Living",
+      "bbox": [
+        434,
+        918,
+        485,
+        937
+      ],
+      "conf": 96.0,
+      "block": 20,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "and",
+      "bbox": [
+        491,
+        918,
+        523,
+        933
+      ],
+      "conf": 93.0,
+      "block": 20,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "Mortality",
+      "bbox": [
+        530,
+        918,
+        607,
+        937
+      ],
+      "conf": 93.0,
+      "block": 20,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "in",
+      "bbox": [
+        614,
+        918,
+        628,
+        933
+      ],
+      "conf": 96.0,
+      "block": 20,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "Japan:",
+      "bbox": [
+        634,
+        918,
+        690,
+        937
+      ],
+      "conf": 93.0,
+      "block": 20,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "Ohsaki",
+      "bbox": [
+        697,
+        918,
+        756,
+        933
+      ],
+      "conf": 92.0,
+      "block": 20,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "Study”),",
+      "bbox": [
+        762,
+        918,
+        829,
+        937
+      ],
+      "conf": 96.0,
+      "block": 20,
+      "line": 1,
+      "word": 15
+    },
+    {
+      "text": "Psychosomatic",
+      "bbox": [
+        44,
+        946,
+        171,
+        965
+      ],
+      "conf": 92.0,
+      "block": 21,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Medicine",
+      "bbox": [
+        177,
+        946,
+        254,
+        961
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "2008,",
+      "bbox": [
+        260,
+        946,
+        309,
+        964
+      ],
+      "conf": 93.0,
+      "block": 21,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "70(6):709-715.",
+      "bbox": [
+        317,
+        946,
+        448,
+        964
+      ],
+      "conf": 90.0,
+      "block": 21,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "Coorte",
+      "bbox": [
+        456,
+        946,
+        512,
+        961
+      ],
+      "conf": 92.0,
+      "block": 21,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "de",
+      "bbox": [
+        519,
+        946,
+        539,
+        961
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "43.391",
+      "bbox": [
+        546,
+        946,
+        605,
+        961
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "adultos,",
+      "bbox": [
+        613,
+        946,
+        680,
+        964
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "7",
+      "bbox": [
+        688,
+        946,
+        697,
+        961
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "anos",
+      "bbox": [
+        704,
+        950,
+        744,
+        961
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "de",
+      "bbox": [
+        751,
+        946,
+        770,
+        961
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "seguimento.",
+      "bbox": [
+        778,
+        946,
+        881,
+        966
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 12
+    }
+  ],
+  "lines": [
+    {
+      "text": "Ikigai: o que te faz levantar da cama.",
+      "bbox": [
+        45,
+        66,
+        1123,
+        132
+      ],
+      "conf": 95.5
+    },
+    {
+      "text": "Quatro círculos que se cruzam num ponto. O estudo Ohsaki (2008) associou",
+      "bbox": [
+        46,
+        140,
+        989,
+        169
+      ],
+      "conf": 95.2
+    },
+    {
+      "text": "a resposta afirmativa à pergunta a 30-50% menos mortalidade em 7 anos.",
+      "bbox": [
+        46,
+        176,
+        949,
+        204
+      ],
+      "conf": 95.4
+    },
+    {
+      "text": "Pergunta clínica:",
+      "bbox": [
+        1080,
+        340,
+        1307,
+        372
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "PAIXÃO",
+      "bbox": [
+        382,
+        413,
+        472,
+        439
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "MISSÃO",
+      "bbox": [
+        627,
+        413,
+        723,
+        439
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "“Qual é o motivo que te",
+      "bbox": [
+        1079,
+        410,
+        1388,
+        442
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "faz levantar da cama de",
+      "bbox": [
+        1078,
+        453,
+        1393,
+        478
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "manhã?”",
+      "bbox": [
+        1077,
+        495,
+        1197,
+        519
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "IKIGAI",
+      "bbox": [
+        488,
+        504,
+        613,
+        539
+      ],
+      "conf": 91.0
+    },
+    {
+      "text": "A razão",
+      "bbox": [
+        504,
+        555,
+        592,
+        576
+      ],
+      "conf": 94.0
+    },
+    {
+      "text": "de acordar.",
+      "bbox": [
+        483,
+        587,
+        613,
+        609
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Se não houver resposta clara",
+      "bbox": [
+        1078,
+        597,
+        1399,
+        623
+      ],
+      "conf": 96.2
+    },
+    {
+      "text": "em um adulto pós-40 anos,",
+      "bbox": [
+        1078,
+        639,
+        1385,
+        665
+      ],
+      "conf": 94.4
+    },
+    {
+      "text": "PROFISSÃO",
+      "bbox": [
+        361,
+        659,
+        495,
+        684
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "VOCAÇÃO",
+      "bbox": [
+        620,
+        659,
+        736,
+        690
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "há uma camada do plano",
+      "bbox": [
+        1079,
+        679,
+        1358,
+        705
+      ],
+      "conf": 95.8
+    },
+    {
+      "text": "que está faltando.",
+      "bbox": [
+        1078,
+        719,
+        1275,
+        746
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Fonte: conceito japonês tradicional.",
+      "bbox": [
+        44,
+        890,
+        349,
+        909
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Evidência: Sone et al. (“Sense of Life Worth Living and Mortality in Japan: Ohsaki Study”),",
+      "bbox": [
+        44,
+        917,
+        829,
+        937
+      ],
+      "conf": 94.5
+    },
+    {
+      "text": "Psychosomatic Medicine 2008, 70(6):709-715. Coorte de 43.391 adultos, 7 anos de seguimento.",
+      "bbox": [
+        44,
+        946,
+        881,
+        966
+      ],
+      "conf": 94.6
+    }
+  ]
+}

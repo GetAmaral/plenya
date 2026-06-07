@@ -1,0 +1,3800 @@
+{
+  "frame": [
+    1536,
+    1024
+  ],
+  "words": [
+    {
+      "text": "FIGURA",
+      "bbox": [
+        35,
+        23,
+        120,
+        41
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "2",
+      "bbox": [
+        130,
+        23,
+        142,
+        41
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "O",
+      "bbox": [
+        35,
+        57,
+        67,
+        104
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "preço",
+      "bbox": [
+        83,
+        69,
+        203,
+        116
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "da",
+      "bbox": [
+        218,
+        56,
+        268,
+        104
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "solidão:",
+      "bbox": [
+        284,
+        56,
+        448,
+        104
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "impacto",
+      "bbox": [
+        465,
+        56,
+        641,
+        116
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "na",
+      "bbox": [
+        657,
+        69,
+        707,
+        104
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "mortalidade",
+      "bbox": [
+        724,
+        56,
+        984,
+        104
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "por",
+      "bbox": [
+        1000,
+        69,
+        1072,
+        116
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "todas",
+      "bbox": [
+        1085,
+        56,
+        1204,
+        104
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "as",
+      "bbox": [
+        1218,
+        69,
+        1264,
+        104
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "causas",
+      "bbox": [
+        1279,
+        69,
+        1424,
+        104
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "Aumento",
+      "bbox": [
+        35,
+        128,
+        129,
+        146
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "do",
+      "bbox": [
+        137,
+        127,
+        162,
+        146
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "risco",
+      "bbox": [
+        171,
+        128,
+        219,
+        146
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "de",
+      "bbox": [
+        228,
+        127,
+        252,
+        146
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "morte",
+      "bbox": [
+        261,
+        129,
+        321,
+        146
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "em",
+      "bbox": [
+        329,
+        133,
+        359,
+        146
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "comparação",
+      "bbox": [
+        368,
+        128,
+        493,
+        151
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "a",
+      "bbox": [
+        502,
+        133,
+        511,
+        146
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "quem",
+      "bbox": [
+        521,
+        133,
+        577,
+        151
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "não",
+      "bbox": [
+        587,
+        128,
+        622,
+        146
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "tem",
+      "bbox": [
+        630,
+        129,
+        668,
+        146
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "o",
+      "bbox": [
+        671,
+        123,
+        682,
+        155
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "fator.",
+      "bbox": [
+        697,
+        127,
+        750,
+        146
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "FATORES",
+      "bbox": [
+        170,
+        174,
+        252,
+        191
+      ],
+      "conf": 96.0,
+      "block": 4,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "DE",
+      "bbox": [
+        261,
+        174,
+        284,
+        191
+      ],
+      "conf": 96.0,
+      "block": 4,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "RISCO",
+      "bbox": [
+        292,
+        174,
+        349,
+        191
+      ],
+      "conf": 95.0,
+      "block": 4,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "AUMENTO",
+      "bbox": [
+        795,
+        174,
+        891,
+        191
+      ],
+      "conf": 96.0,
+      "block": 5,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "DO",
+      "bbox": [
+        900,
+        174,
+        926,
+        191
+      ],
+      "conf": 96.0,
+      "block": 5,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "RISCO",
+      "bbox": [
+        935,
+        174,
+        991,
+        191
+      ],
+      "conf": 96.0,
+      "block": 5,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "DE",
+      "bbox": [
+        999,
+        174,
+        1023,
+        191
+      ],
+      "conf": 96.0,
+      "block": 5,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "MORTE",
+      "bbox": [
+        1031,
+        174,
+        1096,
+        191
+      ],
+      "conf": 93.0,
+      "block": 5,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "(%)",
+      "bbox": [
+        1105,
+        172,
+        1134,
+        194
+      ],
+      "conf": 91.0,
+      "block": 5,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "ps",
+      "bbox": [
+        167,
+        218,
+        178,
+        223
+      ],
+      "conf": 30.0,
+      "block": 6,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Viver",
+      "bbox": [
+        201,
+        225,
+        254,
+        245
+      ],
+      "conf": 96.0,
+      "block": 7,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "sozinho",
+      "bbox": [
+        262,
+        225,
+        339,
+        245
+      ],
+      "conf": 96.0,
+      "block": 7,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Fatores",
+      "bbox": [
+        1300,
+        241,
+        1367,
+        259
+      ],
+      "conf": 97.0,
+      "block": 8,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "sociais",
+      "bbox": [
+        1375,
+        241,
+        1437,
+        259
+      ],
+      "conf": 93.0,
+      "block": 8,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "—",
+      "bbox": [
+        1444,
+        251,
+        1461,
+        253
+      ],
+      "conf": 93.0,
+      "block": 8,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "(mora",
+      "bbox": [
+        201,
+        255,
+        250,
+        275
+      ],
+      "conf": 96.0,
+      "block": 9,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "sem",
+      "bbox": [
+        258,
+        260,
+        291,
+        272
+      ],
+      "conf": 96.0,
+      "block": 9,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "companhia)",
+      "bbox": [
+        299,
+        255,
+        399,
+        276
+      ],
+      "conf": 96.0,
+      "block": 9,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "raramente",
+      "bbox": [
+        1300,
+        274,
+        1395,
+        291
+      ],
+      "conf": 96.0,
+      "block": 10,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "avaliados",
+      "bbox": [
+        1402,
+        272,
+        1489,
+        291
+      ],
+      "conf": 96.0,
+      "block": 10,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "FATORES",
+      "bbox": [
+        46,
+        292,
+        144,
+        313
+      ],
+      "conf": 96.0,
+      "block": 11,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Isolamento",
+      "bbox": [
+        202,
+        304,
+        315,
+        324
+      ],
+      "conf": 96.0,
+      "block": 12,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "social",
+      "bbox": [
+        324,
+        304,
+        381,
+        324
+      ],
+      "conf": 96.0,
+      "block": 12,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "no",
+      "bbox": [
+        1300,
+        309,
+        1322,
+        322
+      ],
+      "conf": 96.0,
+      "block": 13,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "consultório,",
+      "bbox": [
+        1329,
+        303,
+        1439,
+        325
+      ],
+      "conf": 96.0,
+      "block": 13,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "SOCIAIS",
+      "bbox": [
+        50,
+        327,
+        141,
+        349
+      ],
+      "conf": 96.0,
+      "block": 14,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "(pouco",
+      "bbox": [
+        201,
+        335,
+        260,
+        356
+      ],
+      "conf": 96.0,
+      "block": 15,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "contato",
+      "bbox": [
+        267,
+        337,
+        333,
+        351
+      ],
+      "conf": 96.0,
+      "block": 15,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "social)",
+      "bbox": [
+        340,
+        335,
+        395,
+        355
+      ],
+      "conf": 96.0,
+      "block": 15,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "mas",
+      "bbox": [
+        1300,
+        340,
+        1337,
+        353
+      ],
+      "conf": 96.0,
+      "block": 16,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "com",
+      "bbox": [
+        1344,
+        340,
+        1383,
+        353
+      ],
+      "conf": 96.0,
+      "block": 16,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "impacto",
+      "bbox": [
+        1390,
+        335,
+        1465,
+        357
+      ],
+      "conf": 96.0,
+      "block": 16,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "comparável",
+      "bbox": [
+        1300,
+        366,
+        1406,
+        389
+      ],
+      "conf": 96.0,
+      "block": 17,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "a",
+      "bbox": [
+        1414,
+        371,
+        1424,
+        384
+      ],
+      "conf": 95.0,
+      "block": 17,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Solidão",
+      "bbox": [
+        201,
+        383,
+        278,
+        403
+      ],
+      "conf": 96.0,
+      "block": 18,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "fatores",
+      "bbox": [
+        1299,
+        396,
+        1365,
+        415
+      ],
+      "conf": 96.0,
+      "block": 19,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "clássicos.",
+      "bbox": [
+        1372,
+        397,
+        1461,
+        415
+      ],
+      "conf": 95.0,
+      "block": 19,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "(sentimento",
+      "bbox": [
+        201,
+        413,
+        304,
+        433
+      ],
+      "conf": 95.0,
+      "block": 20,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "de",
+      "bbox": [
+        312,
+        413,
+        332,
+        429
+      ],
+      "conf": 97.0,
+      "block": 20,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "solidão)",
+      "bbox": [
+        339,
+        412,
+        406,
+        433
+      ],
+      "conf": 96.0,
+      "block": 20,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "Tabagismo",
+      "bbox": [
+        200,
+        484,
+        307,
+        508
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Referência",
+      "bbox": [
+        1335,
+        487,
+        1419,
+        503
+      ],
+      "conf": 96.0,
+      "block": 22,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "clássica",
+      "bbox": [
+        1426,
+        487,
+        1487,
+        503
+      ],
+      "conf": 94.0,
+      "block": 22,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "(fumante",
+      "bbox": [
+        201,
+        512,
+        275,
+        532
+      ],
+      "conf": 95.0,
+      "block": 23,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "atual)",
+      "bbox": [
+        282,
+        512,
+        328,
+        532
+      ],
+      "conf": 95.0,
+      "block": 23,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "70",
+      "bbox": [
+        1221,
+        476,
+        1257,
+        547
+      ],
+      "conf": 36.0,
+      "block": 24,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "de",
+      "bbox": [
+        1334,
+        514,
+        1353,
+        530
+      ],
+      "conf": 95.0,
+      "block": 25,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "fator",
+      "bbox": [
+        1360,
+        514,
+        1399,
+        530
+      ],
+      "conf": 95.0,
+      "block": 25,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "de",
+      "bbox": [
+        1406,
+        514,
+        1425,
+        530
+      ],
+      "conf": 96.0,
+      "block": 25,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "risco",
+      "bbox": [
+        1432,
+        515,
+        1471,
+        530
+      ],
+      "conf": 96.0,
+      "block": 25,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "modificável.",
+      "bbox": [
+        1335,
+        542,
+        1432,
+        558
+      ],
+      "conf": 90.0,
+      "block": 26,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "FATORES",
+      "bbox": [
+        52,
+        561,
+        140,
+        580
+      ],
+      "conf": 95.0,
+      "block": 27,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Sedentarismo",
+      "bbox": [
+        201,
+        556,
+        344,
+        575
+      ],
+      "conf": 91.0,
+      "block": 28,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "(inatividade",
+      "bbox": [
+        201,
+        585,
+        299,
+        604
+      ],
+      "conf": 96.0,
+      "block": 29,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "física)",
+      "bbox": [
+        306,
+        585,
+        356,
+        604
+      ],
+      "conf": 96.0,
+      "block": 29,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "CLÁSSICOS",
+      "bbox": [
+        41,
+        590,
+        150,
+        614
+      ],
+      "conf": 96.0,
+      "block": 31,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Obesidade",
+      "bbox": [
+        201,
+        628,
+        306,
+        647
+      ],
+      "conf": 96.0,
+      "block": 32,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "(IMC",
+      "bbox": [
+        201,
+        656,
+        240,
+        676
+      ],
+      "conf": 95.0,
+      "block": 33,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": ">",
+      "bbox": [
+        248,
+        661,
+        258,
+        673
+      ],
+      "conf": 92.0,
+      "block": 33,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "30)",
+      "bbox": [
+        266,
+        656,
+        293,
+        676
+      ],
+      "conf": 92.0,
+      "block": 33,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "Poluição",
+      "bbox": [
+        201,
+        698,
+        285,
+        722
+      ],
+      "conf": 96.0,
+      "block": 34,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "do",
+      "bbox": [
+        293,
+        698,
+        317,
+        717
+      ],
+      "conf": 96.0,
+      "block": 34,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "ar",
+      "bbox": [
+        325,
+        704,
+        344,
+        717
+      ],
+      "conf": 96.0,
+      "block": 34,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "(exposição",
+      "bbox": [
+        201,
+        727,
+        289,
+        748
+      ],
+      "conf": 96.0,
+      "block": 35,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "a",
+      "bbox": [
+        297,
+        732,
+        304,
+        743
+      ],
+      "conf": 92.0,
+      "block": 35,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "PM2.5)",
+      "bbox": [
+        313,
+        727,
+        371,
+        746
+      ],
+      "conf": 92.0,
+      "block": 35,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "0",
+      "bbox": [
+        465,
+        768,
+        475,
+        784
+      ],
+      "conf": 80.0,
+      "block": 36,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "10",
+      "bbox": [
+        574,
+        768,
+        592,
+        784
+      ],
+      "conf": 96.0,
+      "block": 37,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "20",
+      "bbox": [
+        685,
+        768,
+        706,
+        784
+      ],
+      "conf": 96.0,
+      "block": 38,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "30",
+      "bbox": [
+        797,
+        768,
+        818,
+        784
+      ],
+      "conf": 96.0,
+      "block": 39,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "40",
+      "bbox": [
+        910,
+        768,
+        932,
+        784
+      ],
+      "conf": 93.0,
+      "block": 40,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "50",
+      "bbox": [
+        1015,
+        768,
+        1036,
+        784
+      ],
+      "conf": 96.0,
+      "block": 41,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "60",
+      "bbox": [
+        1111,
+        768,
+        1132,
+        784
+      ],
+      "conf": 61.0,
+      "block": 42,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "70",
+      "bbox": [
+        1201,
+        768,
+        1221,
+        784
+      ],
+      "conf": 96.0,
+      "block": 43,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "80",
+      "bbox": [
+        1282,
+        768,
+        1303,
+        784
+      ],
+      "conf": 70.0,
+      "block": 44,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Aumento",
+      "bbox": [
+        716,
+        792,
+        796,
+        830
+      ],
+      "conf": 96.0,
+      "block": 48,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "do",
+      "bbox": [
+        803,
+        797,
+        824,
+        813
+      ],
+      "conf": 96.0,
+      "block": 48,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "risco",
+      "bbox": [
+        832,
+        797,
+        874,
+        813
+      ],
+      "conf": 96.0,
+      "block": 48,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "de",
+      "bbox": [
+        881,
+        797,
+        901,
+        813
+      ],
+      "conf": 96.0,
+      "block": 48,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "morte",
+      "bbox": [
+        909,
+        799,
+        961,
+        813
+      ],
+      "conf": 96.0,
+      "block": 48,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "(6)",
+      "bbox": [
+        969,
+        796,
+        997,
+        826
+      ],
+      "conf": 60.0,
+      "block": 48,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "—",
+      "bbox": [
+        792,
+        825,
+        807,
+        826
+      ],
+      "conf": 52.0,
+      "block": 49,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "COMO",
+      "bbox": [
+        121,
+        844,
+        169,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "LER",
+      "bbox": [
+        176,
+        844,
+        203,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "ESTE",
+      "bbox": [
+        210,
+        844,
+        246,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "GRÁFICO:",
+      "bbox": [
+        253,
+        840,
+        327,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "As",
+      "bbox": [
+        333,
+        844,
+        349,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "barras",
+      "bbox": [
+        355,
+        843,
+        398,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "mostram",
+      "bbox": [
+        404,
+        845,
+        464,
+        857
+      ],
+      "conf": 95.0,
+      "block": 50,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "o",
+      "bbox": [
+        470,
+        847,
+        477,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "quanto",
+      "bbox": [
+        483,
+        845,
+        530,
+        860
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "o",
+      "bbox": [
+        536,
+        847,
+        544,
+        857
+      ],
+      "conf": 94.0,
+      "block": 50,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "risco",
+      "bbox": [
+        550,
+        844,
+        582,
+        857
+      ],
+      "conf": 94.0,
+      "block": 50,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "de",
+      "bbox": [
+        587,
+        844,
+        603,
+        857
+      ],
+      "conf": 95.0,
+      "block": 50,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "morte",
+      "bbox": [
+        609,
+        845,
+        650,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "aumenta",
+      "bbox": [
+        656,
+        845,
+        715,
+        857
+      ],
+      "conf": 93.0,
+      "block": 50,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "em",
+      "bbox": [
+        721,
+        847,
+        740,
+        857
+      ],
+      "conf": 93.0,
+      "block": 50,
+      "line": 1,
+      "word": 15
+    },
+    {
+      "text": "pessoas",
+      "bbox": [
+        747,
+        847,
+        801,
+        860
+      ],
+      "conf": 95.0,
+      "block": 50,
+      "line": 1,
+      "word": 16
+    },
+    {
+      "text": "que",
+      "bbox": [
+        807,
+        847,
+        831,
+        860
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 17
+    },
+    {
+      "text": "têm",
+      "bbox": [
+        836,
+        844,
+        862,
+        857
+      ],
+      "conf": 97.0,
+      "block": 50,
+      "line": 1,
+      "word": 18
+    },
+    {
+      "text": "o",
+      "bbox": [
+        868,
+        847,
+        875,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 19
+    },
+    {
+      "text": "fator",
+      "bbox": [
+        881,
+        843,
+        913,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 20
+    },
+    {
+      "text": "(ou",
+      "bbox": [
+        919,
+        843,
+        940,
+        859
+      ],
+      "conf": 94.0,
+      "block": 50,
+      "line": 1,
+      "word": 21
+    },
+    {
+      "text": "estão",
+      "bbox": [
+        945,
+        844,
+        982,
+        857
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 22
+    },
+    {
+      "text": "expostas)",
+      "bbox": [
+        987,
+        843,
+        1053,
+        860
+      ],
+      "conf": 96.0,
+      "block": 50,
+      "line": 1,
+      "word": 23
+    },
+    {
+      "text": "Não",
+      "bbox": [
+        1105,
+        842,
+        1131,
+        855
+      ],
+      "conf": 96.0,
+      "block": 51,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "é",
+      "bbox": [
+        1137,
+        842,
+        1144,
+        855
+      ],
+      "conf": 96.0,
+      "block": 51,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "uma",
+      "bbox": [
+        1150,
+        845,
+        1178,
+        855
+      ],
+      "conf": 96.0,
+      "block": 51,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "comparação",
+      "bbox": [
+        1184,
+        842,
+        1268,
+        858
+      ],
+      "conf": 93.0,
+      "block": 51,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "direta",
+      "bbox": [
+        1274,
+        841,
+        1313,
+        855
+      ],
+      "conf": 94.0,
+      "block": 51,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "com",
+      "bbox": [
+        1319,
+        845,
+        1347,
+        855
+      ],
+      "conf": 95.0,
+      "block": 51,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "a",
+      "bbox": [
+        1350,
+        831,
+        1356,
+        865
+      ],
+      "conf": 95.0,
+      "block": 51,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "Figura",
+      "bbox": [
+        1366,
+        842,
+        1408,
+        858
+      ],
+      "conf": 96.0,
+      "block": 51,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "1",
+      "bbox": [
+        1415,
+        842,
+        1419,
+        855
+      ],
+      "conf": 87.0,
+      "block": 51,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "do",
+      "bbox": [
+        1427,
+        841,
+        1444,
+        855
+      ],
+      "conf": 87.0,
+      "block": 51,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "em",
+      "bbox": [
+        121,
+        871,
+        141,
+        880
+      ],
+      "conf": 96.0,
+      "block": 53,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "comparação",
+      "bbox": [
+        147,
+        867,
+        232,
+        883
+      ],
+      "conf": 96.0,
+      "block": 53,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "que",
+      "bbox": [
+        296,
+        871,
+        321,
+        883
+      ],
+      "conf": 96.0,
+      "block": 53,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "não",
+      "bbox": [
+        327,
+        867,
+        352,
+        880
+      ],
+      "conf": 96.0,
+      "block": 53,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "têm",
+      "bbox": [
+        357,
+        867,
+        383,
+        880
+      ],
+      "conf": 94.0,
+      "block": 53,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "(ou",
+      "bbox": [
+        390,
+        867,
+        410,
+        883
+      ],
+      "conf": 96.0,
+      "block": 53,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "não",
+      "bbox": [
+        417,
+        867,
+        441,
+        880
+      ],
+      "conf": 94.0,
+      "block": 53,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "estão",
+      "bbox": [
+        447,
+        867,
+        483,
+        880
+      ],
+      "conf": 96.0,
+      "block": 53,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "expostas).",
+      "bbox": [
+        489,
+        867,
+        559,
+        884
+      ],
+      "conf": 96.0,
+      "block": 53,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "Valores",
+      "bbox": [
+        565,
+        867,
+        615,
+        880
+      ],
+      "conf": 96.0,
+      "block": 53,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "são",
+      "bbox": [
+        621,
+        867,
+        644,
+        880
+      ],
+      "conf": 92.0,
+      "block": 53,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "aproximados,",
+      "bbox": [
+        649,
+        867,
+        741,
+        884
+      ],
+      "conf": 91.0,
+      "block": 53,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "derivados",
+      "bbox": [
+        747,
+        867,
+        814,
+        880
+      ],
+      "conf": 94.0,
+      "block": 53,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "de",
+      "bbox": [
+        820,
+        867,
+        836,
+        880
+      ],
+      "conf": 93.0,
+      "block": 53,
+      "line": 1,
+      "word": 15
+    },
+    {
+      "text": "meta-análises",
+      "bbox": [
+        842,
+        867,
+        938,
+        880
+      ],
+      "conf": 62.0,
+      "block": 53,
+      "line": 1,
+      "word": 16
+    },
+    {
+      "text": "Capitulo",
+      "bbox": [
+        1105,
+        864,
+        1160,
+        881
+      ],
+      "conf": 86.0,
+      "block": 54,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "7",
+      "bbox": [
+        1165,
+        865,
+        1172,
+        878
+      ],
+      "conf": 93.0,
+      "block": 54,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "(hazard",
+      "bbox": [
+        1177,
+        864,
+        1227,
+        880
+      ],
+      "conf": 92.0,
+      "block": 54,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "ratios",
+      "bbox": [
+        1233,
+        865,
+        1270,
+        878
+      ],
+      "conf": 93.0,
+      "block": 54,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "de",
+      "bbox": [
+        1276,
+        864,
+        1291,
+        878
+      ],
+      "conf": 96.0,
+      "block": 54,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "extremos",
+      "bbox": [
+        1297,
+        866,
+        1360,
+        878
+      ],
+      "conf": 96.0,
+      "block": 54,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "de",
+      "bbox": [
+        1365,
+        864,
+        1381,
+        878
+      ],
+      "conf": 97.0,
+      "block": 54,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "aptidão).",
+      "bbox": [
+        1387,
+        864,
+        1446,
+        881
+      ],
+      "conf": 96.0,
+      "block": 54,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "de",
+      "bbox": [
+        121,
+        892,
+        137,
+        906
+      ],
+      "conf": 96.0,
+      "block": 55,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "grandes",
+      "bbox": [
+        143,
+        892,
+        199,
+        909
+      ],
+      "conf": 95.0,
+      "block": 55,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "estudos",
+      "bbox": [
+        205,
+        892,
+        259,
+        906
+      ],
+      "conf": 96.0,
+      "block": 55,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "populacionais.",
+      "bbox": [
+        265,
+        892,
+        366,
+        909
+      ],
+      "conf": 95.0,
+      "block": 55,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "Aqui,",
+      "bbox": [
+        1104,
+        888,
+        1138,
+        904
+      ],
+      "conf": 94.0,
+      "block": 56,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "as",
+      "bbox": [
+        1144,
+        891,
+        1158,
+        901
+      ],
+      "conf": 96.0,
+      "block": 56,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "estimativas",
+      "bbox": [
+        1164,
+        888,
+        1240,
+        901
+      ],
+      "conf": 96.0,
+      "block": 56,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "são",
+      "bbox": [
+        1246,
+        888,
+        1268,
+        901
+      ],
+      "conf": 96.0,
+      "block": 56,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "populacionais:",
+      "bbox": [
+        1275,
+        888,
+        1372,
+        904
+      ],
+      "conf": 96.0,
+      "block": 56,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "“com",
+      "bbox": [
+        1378,
+        888,
+        1412,
+        901
+      ],
+      "conf": 96.0,
+      "block": 56,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "vs.",
+      "bbox": [
+        1418,
+        891,
+        1436,
+        901
+      ],
+      "conf": 96.0,
+      "block": 56,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "sem”",
+      "bbox": [
+        1105,
+        910,
+        1138,
+        923
+      ],
+      "conf": 86.0,
+      "block": 57,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "o",
+      "bbox": [
+        1144,
+        914,
+        1152,
+        923
+      ],
+      "conf": 86.0,
+      "block": 57,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "fator.",
+      "bbox": [
+        1157,
+        910,
+        1192,
+        923
+      ],
+      "conf": 96.0,
+      "block": 57,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "—",
+      "bbox": [
+        75,
+        943,
+        114,
+        944
+      ],
+      "conf": 43.0,
+      "block": 58,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "—",
+      "bbox": [
+        328,
+        943,
+        337,
+        944
+      ],
+      "conf": 47.0,
+      "block": 60,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "-",
+      "bbox": [
+        360,
+        943,
+        365,
+        944
+      ],
+      "conf": 78.0,
+      "block": 61,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "—",
+      "bbox": [
+        629,
+        943,
+        642,
+        944
+      ],
+      "conf": 55.0,
+      "block": 62,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "=",
+      "bbox": [
+        799,
+        943,
+        810,
+        944
+      ],
+      "conf": 84.0,
+      "block": 63,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "—",
+      "bbox": [
+        1142,
+        943,
+        1151,
+        944
+      ],
+      "conf": 46.0,
+      "block": 64,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "-",
+      "bbox": [
+        1261,
+        943,
+        1266,
+        944
+      ],
+      "conf": 78.0,
+      "block": 65,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "-",
+      "bbox": [
+        1368,
+        943,
+        1376,
+        944
+      ],
+      "conf": 58.0,
+      "block": 66,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "—",
+      "bbox": [
+        1419,
+        943,
+        1458,
+        944
+      ],
+      "conf": 41.0,
+      "block": 67,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Fontes:",
+      "bbox": [
+        43,
+        961,
+        94,
+        975
+      ],
+      "conf": 93.0,
+      "block": 68,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Holt-Lunstad",
+      "bbox": [
+        102,
+        961,
+        195,
+        975
+      ],
+      "conf": 92.0,
+      "block": 68,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "et",
+      "bbox": [
+        201,
+        963,
+        215,
+        975
+      ],
+      "conf": 97.0,
+      "block": 68,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "al.",
+      "bbox": [
+        221,
+        961,
+        241,
+        977
+      ],
+      "conf": 64.0,
+      "block": 68,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "PLOS",
+      "bbox": [
+        248,
+        961,
+        286,
+        975
+      ],
+      "conf": 93.0,
+      "block": 68,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "Medicine,",
+      "bbox": [
+        293,
+        961,
+        362,
+        977
+      ],
+      "conf": 96.0,
+      "block": 68,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "2010;",
+      "bbox": [
+        369,
+        961,
+        408,
+        977
+      ],
+      "conf": 96.0,
+      "block": 68,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "Holt-Lunstad",
+      "bbox": [
+        415,
+        939,
+        509,
+        984
+      ],
+      "conf": 52.0,
+      "block": 68,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "etal.,",
+      "bbox": [
+        516,
+        961,
+        555,
+        977
+      ],
+      "conf": 90.0,
+      "block": 68,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "Perspectives",
+      "bbox": [
+        563,
+        961,
+        656,
+        979
+      ],
+      "conf": 96.0,
+      "block": 68,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "on",
+      "bbox": [
+        662,
+        965,
+        679,
+        975
+      ],
+      "conf": 96.0,
+      "block": 68,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "Psychological",
+      "bbox": [
+        687,
+        961,
+        786,
+        979
+      ],
+      "conf": 96.0,
+      "block": 68,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "Science,",
+      "bbox": [
+        793,
+        961,
+        853,
+        977
+      ],
+      "conf": 96.0,
+      "block": 68,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "2015;",
+      "bbox": [
+        860,
+        961,
+        899,
+        977
+      ],
+      "conf": 96.0,
+      "block": 68,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "Em",
+      "bbox": [
+        1101,
+        956,
+        1121,
+        969
+      ],
+      "conf": 96.0,
+      "block": 69,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "2023,",
+      "bbox": [
+        1128,
+        956,
+        1167,
+        971
+      ],
+      "conf": 96.0,
+      "block": 69,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "o",
+      "bbox": [
+        1173,
+        960,
+        1181,
+        969
+      ],
+      "conf": 91.0,
+      "block": 69,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "Surgeon",
+      "bbox": [
+        1187,
+        943,
+        1244,
+        972
+      ],
+      "conf": 92.0,
+      "block": 69,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "General",
+      "bbox": [
+        1251,
+        956,
+        1304,
+        969
+      ],
+      "conf": 96.0,
+      "block": 69,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "dos",
+      "bbox": [
+        1311,
+        956,
+        1335,
+        969
+      ],
+      "conf": 96.0,
+      "block": 69,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "EUA",
+      "bbox": [
+        1342,
+        956,
+        1370,
+        969
+      ],
+      "conf": 95.0,
+      "block": 69,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "classificou",
+      "bbox": [
+        1376,
+        955,
+        1450,
+        969
+      ],
+      "conf": 95.0,
+      "block": 69,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "Banks",
+      "bbox": [
+        43,
+        986,
+        86,
+        1000
+      ],
+      "conf": 96.0,
+      "block": 70,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "et",
+      "bbox": [
+        93,
+        988,
+        106,
+        1000
+      ],
+      "conf": 93.0,
+      "block": 70,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "al.,",
+      "bbox": [
+        113,
+        986,
+        133,
+        1002
+      ],
+      "conf": 86.0,
+      "block": 70,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "BMJ,",
+      "bbox": [
+        141,
+        987,
+        175,
+        1002
+      ],
+      "conf": 94.0,
+      "block": 70,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "2015;",
+      "bbox": [
+        183,
+        987,
+        222,
+        1002
+      ],
+      "conf": 96.0,
+      "block": 70,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "The",
+      "bbox": [
+        228,
+        986,
+        255,
+        1000
+      ],
+      "conf": 97.0,
+      "block": 70,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "Lancet,",
+      "bbox": [
+        263,
+        987,
+        315,
+        1002
+      ],
+      "conf": 96.0,
+      "block": 70,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "2016;",
+      "bbox": [
+        323,
+        987,
+        362,
+        1002
+      ],
+      "conf": 96.0,
+      "block": 70,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "Lee",
+      "bbox": [
+        370,
+        987,
+        394,
+        1000
+      ],
+      "conf": 96.0,
+      "block": 70,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "et",
+      "bbox": [
+        401,
+        988,
+        414,
+        1000
+      ],
+      "conf": 93.0,
+      "block": 70,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "al.,",
+      "bbox": [
+        420,
+        986,
+        441,
+        1002
+      ],
+      "conf": 92.0,
+      "block": 70,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "Lancet,",
+      "bbox": [
+        449,
+        987,
+        502,
+        1002
+      ],
+      "conf": 96.0,
+      "block": 70,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "2012;",
+      "bbox": [
+        509,
+        987,
+        549,
+        1002
+      ],
+      "conf": 96.0,
+      "block": 70,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "WHO",
+      "bbox": [
+        556,
+        987,
+        594,
+        1000
+      ],
+      "conf": 96.0,
+      "block": 70,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "Global",
+      "bbox": [
+        601,
+        986,
+        648,
+        1000
+      ],
+      "conf": 95.0,
+      "block": 70,
+      "line": 1,
+      "word": 15
+    },
+    {
+      "text": "Health",
+      "bbox": [
+        656,
+        986,
+        703,
+        1000
+      ],
+      "conf": 93.0,
+      "block": 70,
+      "line": 1,
+      "word": 16
+    },
+    {
+      "text": "Risks",
+      "bbox": [
+        711,
+        986,
+        749,
+        1000
+      ],
+      "conf": 92.0,
+      "block": 70,
+      "line": 1,
+      "word": 17
+    },
+    {
+      "text": "/",
+      "bbox": [
+        755,
+        987,
+        761,
+        1001
+      ],
+      "conf": 92.0,
+      "block": 70,
+      "line": 1,
+      "word": 18
+    },
+    {
+      "text": "GBD,",
+      "bbox": [
+        768,
+        987,
+        803,
+        1002
+      ],
+      "conf": 92.0,
+      "block": 70,
+      "line": 1,
+      "word": 19
+    },
+    {
+      "text": "2020.",
+      "bbox": [
+        810,
+        987,
+        852,
+        1000
+      ],
+      "conf": 96.0,
+      "block": 70,
+      "line": 1,
+      "word": 20
+    },
+    {
+      "text": "&)",
+      "bbox": [
+        1028,
+        955,
+        1070,
+        1006
+      ],
+      "conf": 49.0,
+      "block": 71,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "a",
+      "bbox": [
+        1100,
+        982,
+        1107,
+        991
+      ],
+      "conf": 96.0,
+      "block": 72,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "solidão",
+      "bbox": [
+        1113,
+        978,
+        1162,
+        991
+      ],
+      "conf": 94.0,
+      "block": 72,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "como",
+      "bbox": [
+        1168,
+        982,
+        1205,
+        991
+      ],
+      "conf": 94.0,
+      "block": 72,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "problema",
+      "bbox": [
+        1211,
+        978,
+        1276,
+        995
+      ],
+      "conf": 96.0,
+      "block": 72,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "de",
+      "bbox": [
+        1282,
+        978,
+        1298,
+        991
+      ],
+      "conf": 96.0,
+      "block": 72,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "saúde",
+      "bbox": [
+        1304,
+        978,
+        1344,
+        991
+      ],
+      "conf": 97.0,
+      "block": 72,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "pública",
+      "bbox": [
+        1351,
+        978,
+        1400,
+        995
+      ],
+      "conf": 96.0,
+      "block": 72,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "de",
+      "bbox": [
+        1406,
+        978,
+        1422,
+        991
+      ],
+      "conf": 96.0,
+      "block": 72,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "prioridade",
+      "bbox": [
+        1101,
+        1000,
+        1172,
+        1017
+      ],
+      "conf": 96.0,
+      "block": 73,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "nacional.",
+      "bbox": [
+        1179,
+        1000,
+        1241,
+        1013
+      ],
+      "conf": 95.0,
+      "block": 73,
+      "line": 1,
+      "word": 2
+    }
+  ],
+  "lines": [
+    {
+      "text": "FIGURA 2",
+      "bbox": [
+        35,
+        23,
+        142,
+        41
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "O preço da solidão: impacto na mortalidade por todas as causas",
+      "bbox": [
+        35,
+        56,
+        1424,
+        116
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Aumento do risco de morte em comparação a quem não tem o fator.",
+      "bbox": [
+        35,
+        123,
+        750,
+        155
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "FATORES DE RISCO",
+      "bbox": [
+        170,
+        174,
+        349,
+        191
+      ],
+      "conf": 95.7
+    },
+    {
+      "text": "AUMENTO DO RISCO DE MORTE (%)",
+      "bbox": [
+        795,
+        172,
+        1134,
+        194
+      ],
+      "conf": 94.7
+    },
+    {
+      "text": "ps",
+      "bbox": [
+        167,
+        218,
+        178,
+        223
+      ],
+      "conf": 30.0
+    },
+    {
+      "text": "Viver sozinho",
+      "bbox": [
+        201,
+        225,
+        339,
+        245
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Fatores sociais —",
+      "bbox": [
+        1300,
+        241,
+        1461,
+        259
+      ],
+      "conf": 94.3
+    },
+    {
+      "text": "(mora sem companhia)",
+      "bbox": [
+        201,
+        255,
+        399,
+        276
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "raramente avaliados",
+      "bbox": [
+        1300,
+        272,
+        1489,
+        291
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "FATORES",
+      "bbox": [
+        46,
+        292,
+        144,
+        313
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Isolamento social",
+      "bbox": [
+        202,
+        304,
+        381,
+        324
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "no consultório,",
+      "bbox": [
+        1300,
+        303,
+        1439,
+        325
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "SOCIAIS",
+      "bbox": [
+        50,
+        327,
+        141,
+        349
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "(pouco contato social)",
+      "bbox": [
+        201,
+        335,
+        395,
+        356
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "mas com impacto",
+      "bbox": [
+        1300,
+        335,
+        1465,
+        357
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "comparável a",
+      "bbox": [
+        1300,
+        366,
+        1424,
+        389
+      ],
+      "conf": 95.5
+    },
+    {
+      "text": "Solidão",
+      "bbox": [
+        201,
+        383,
+        278,
+        403
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "fatores clássicos.",
+      "bbox": [
+        1299,
+        396,
+        1461,
+        415
+      ],
+      "conf": 95.5
+    },
+    {
+      "text": "(sentimento de solidão)",
+      "bbox": [
+        201,
+        412,
+        406,
+        433
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Tabagismo",
+      "bbox": [
+        200,
+        484,
+        307,
+        508
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Referência clássica",
+      "bbox": [
+        1335,
+        487,
+        1487,
+        503
+      ],
+      "conf": 95.0
+    },
+    {
+      "text": "(fumante atual)",
+      "bbox": [
+        201,
+        512,
+        328,
+        532
+      ],
+      "conf": 95.0
+    },
+    {
+      "text": "70",
+      "bbox": [
+        1221,
+        476,
+        1257,
+        547
+      ],
+      "conf": 36.0
+    },
+    {
+      "text": "de fator de risco",
+      "bbox": [
+        1334,
+        514,
+        1471,
+        530
+      ],
+      "conf": 95.5
+    },
+    {
+      "text": "modificável.",
+      "bbox": [
+        1335,
+        542,
+        1432,
+        558
+      ],
+      "conf": 90.0
+    },
+    {
+      "text": "FATORES",
+      "bbox": [
+        52,
+        561,
+        140,
+        580
+      ],
+      "conf": 95.0
+    },
+    {
+      "text": "Sedentarismo",
+      "bbox": [
+        201,
+        556,
+        344,
+        575
+      ],
+      "conf": 91.0
+    },
+    {
+      "text": "(inatividade física)",
+      "bbox": [
+        201,
+        585,
+        356,
+        604
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "CLÁSSICOS",
+      "bbox": [
+        41,
+        590,
+        150,
+        614
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Obesidade",
+      "bbox": [
+        201,
+        628,
+        306,
+        647
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "(IMC > 30)",
+      "bbox": [
+        201,
+        656,
+        293,
+        676
+      ],
+      "conf": 93.0
+    },
+    {
+      "text": "Poluição do ar",
+      "bbox": [
+        201,
+        698,
+        344,
+        722
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "(exposição a PM2.5)",
+      "bbox": [
+        201,
+        727,
+        371,
+        748
+      ],
+      "conf": 93.3
+    },
+    {
+      "text": "0",
+      "bbox": [
+        465,
+        768,
+        475,
+        784
+      ],
+      "conf": 80.0
+    },
+    {
+      "text": "10",
+      "bbox": [
+        574,
+        768,
+        592,
+        784
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "20",
+      "bbox": [
+        685,
+        768,
+        706,
+        784
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "30",
+      "bbox": [
+        797,
+        768,
+        818,
+        784
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "40",
+      "bbox": [
+        910,
+        768,
+        932,
+        784
+      ],
+      "conf": 93.0
+    },
+    {
+      "text": "50",
+      "bbox": [
+        1015,
+        768,
+        1036,
+        784
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "60",
+      "bbox": [
+        1111,
+        768,
+        1132,
+        784
+      ],
+      "conf": 61.0
+    },
+    {
+      "text": "70",
+      "bbox": [
+        1201,
+        768,
+        1221,
+        784
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "80",
+      "bbox": [
+        1282,
+        768,
+        1303,
+        784
+      ],
+      "conf": 70.0
+    },
+    {
+      "text": "Aumento do risco de morte (6)",
+      "bbox": [
+        716,
+        792,
+        997,
+        830
+      ],
+      "conf": 90.0
+    },
+    {
+      "text": "—",
+      "bbox": [
+        792,
+        825,
+        807,
+        826
+      ],
+      "conf": 52.0
+    },
+    {
+      "text": "COMO LER ESTE GRÁFICO: As barras mostram o quanto o risco de morte aumenta em pessoas que têm o fator (ou estão expostas)",
+      "bbox": [
+        121,
+        840,
+        1053,
+        860
+      ],
+      "conf": 95.4
+    },
+    {
+      "text": "Não é uma comparação direta com a Figura 1 do",
+      "bbox": [
+        1105,
+        831,
+        1444,
+        865
+      ],
+      "conf": 93.5
+    },
+    {
+      "text": "em comparação que não têm (ou não estão expostas). Valores são aproximados, derivados de meta-análises",
+      "bbox": [
+        121,
+        867,
+        938,
+        884
+      ],
+      "conf": 92.5
+    },
+    {
+      "text": "Capitulo 7 (hazard ratios de extremos de aptidão).",
+      "bbox": [
+        1105,
+        864,
+        1446,
+        881
+      ],
+      "conf": 93.6
+    },
+    {
+      "text": "de grandes estudos populacionais.",
+      "bbox": [
+        121,
+        892,
+        366,
+        909
+      ],
+      "conf": 95.5
+    },
+    {
+      "text": "Aqui, as estimativas são populacionais: “com vs.",
+      "bbox": [
+        1104,
+        888,
+        1436,
+        904
+      ],
+      "conf": 95.7
+    },
+    {
+      "text": "sem” o fator.",
+      "bbox": [
+        1105,
+        910,
+        1192,
+        923
+      ],
+      "conf": 89.3
+    },
+    {
+      "text": "—",
+      "bbox": [
+        75,
+        943,
+        114,
+        944
+      ],
+      "conf": 43.0
+    },
+    {
+      "text": "—",
+      "bbox": [
+        328,
+        943,
+        337,
+        944
+      ],
+      "conf": 47.0
+    },
+    {
+      "text": "-",
+      "bbox": [
+        360,
+        943,
+        365,
+        944
+      ],
+      "conf": 78.0
+    },
+    {
+      "text": "—",
+      "bbox": [
+        629,
+        943,
+        642,
+        944
+      ],
+      "conf": 55.0
+    },
+    {
+      "text": "=",
+      "bbox": [
+        799,
+        943,
+        810,
+        944
+      ],
+      "conf": 84.0
+    },
+    {
+      "text": "—",
+      "bbox": [
+        1142,
+        943,
+        1151,
+        944
+      ],
+      "conf": 46.0
+    },
+    {
+      "text": "-",
+      "bbox": [
+        1261,
+        943,
+        1266,
+        944
+      ],
+      "conf": 78.0
+    },
+    {
+      "text": "-",
+      "bbox": [
+        1368,
+        943,
+        1376,
+        944
+      ],
+      "conf": 58.0
+    },
+    {
+      "text": "—",
+      "bbox": [
+        1419,
+        943,
+        1458,
+        944
+      ],
+      "conf": 41.0
+    },
+    {
+      "text": "Fontes: Holt-Lunstad et al. PLOS Medicine, 2010; Holt-Lunstad etal., Perspectives on Psychological Science, 2015;",
+      "bbox": [
+        43,
+        939,
+        899,
+        984
+      ],
+      "conf": 89.5
+    },
+    {
+      "text": "Em 2023, o Surgeon General dos EUA classificou",
+      "bbox": [
+        1101,
+        943,
+        1450,
+        972
+      ],
+      "conf": 94.6
+    },
+    {
+      "text": "Banks et al., BMJ, 2015; The Lancet, 2016; Lee et al., Lancet, 2012; WHO Global Health Risks / GBD, 2020.",
+      "bbox": [
+        43,
+        986,
+        852,
+        1002
+      ],
+      "conf": 94.2
+    },
+    {
+      "text": "&)",
+      "bbox": [
+        1028,
+        955,
+        1070,
+        1006
+      ],
+      "conf": 49.0
+    },
+    {
+      "text": "a solidão como problema de saúde pública de",
+      "bbox": [
+        1100,
+        978,
+        1422,
+        995
+      ],
+      "conf": 95.6
+    },
+    {
+      "text": "prioridade nacional.",
+      "bbox": [
+        1101,
+        1000,
+        1241,
+        1017
+      ],
+      "conf": 95.5
+    }
+  ]
+}

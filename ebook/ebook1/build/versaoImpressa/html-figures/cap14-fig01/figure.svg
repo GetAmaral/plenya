@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 841" width="1480" height="841">
+<rect x="1305" y="220" width="150" height="180" fill="none" stroke="#000" stroke-width="1.5" rx="6" ry="6"/>
+<rect x="1248" y="505" width="207" height="175" fill="none" stroke="#000" stroke-width="1.5" rx="6" ry="6"/>
+<rect x="24" y="150" width="264" height="33" fill="#000" rx="10" ry="10"/>
+<rect x="24" y="442" width="255" height="54" fill="#000" rx="10" ry="10"/>
+<rect x="413" y="125" width="241" height="75" fill="none" stroke="#000" stroke-width="1.5" rx="8" ry="8"/>
+<rect x="893" y="125" width="265" height="75" fill="none" stroke="#000" stroke-width="1.5" rx="8" ry="8"/>
+<rect x="358" y="452" width="252" height="48" fill="none" stroke="#000" stroke-width="1.5" rx="8" ry="8"/>
+<rect x="918" y="438" width="162" height="62" fill="none" stroke="#000" stroke-width="1.5" rx="8" ry="8"/>
+<line x1="175" y1="395" x2="1280" y2="395" stroke="#888" stroke-width="1.5"/>
+<line x1="175" y1="682" x2="1240" y2="682" stroke="#888" stroke-width="1.5"/>
+<line x1="170" y1="222" x2="175" y2="222" stroke="#888" stroke-width="1.5"/>
+<line x1="170" y1="252" x2="175" y2="252" stroke="#888" stroke-width="1.5"/>
+<line x1="170" y1="282" x2="175" y2="282" stroke="#888" stroke-width="1.5"/>
+<line x1="170" y1="312" x2="175" y2="312" stroke="#888" stroke-width="1.5"/>
+<line x1="170" y1="346" x2="175" y2="346" stroke="#888" stroke-width="1.5"/>
+<line x1="170" y1="522" x2="175" y2="522" stroke="#888" stroke-width="1.5"/>
+<line x1="170" y1="552" x2="175" y2="552" stroke="#888" stroke-width="1.5"/>
+<line x1="170" y1="582" x2="175" y2="582" stroke="#888" stroke-width="1.5"/>
+<line x1="170" y1="612" x2="175" y2="612" stroke="#888" stroke-width="1.5"/>
+<line x1="170" y1="643" x2="175" y2="643" stroke="#888" stroke-width="1.5"/>
+<line x1="195" y1="395" x2="197" y2="395" stroke="#888" stroke-width="1.5"/>
+<line x1="328" y1="395" x2="330" y2="395" stroke="#888" stroke-width="1.5"/>
+<line x1="466" y1="395" x2="468" y2="395" stroke="#888" stroke-width="1.5"/>
+<line x1="594" y1="395" x2="596" y2="395" stroke="#888" stroke-width="1.5"/>
+<line x1="724" y1="395" x2="726" y2="395" stroke="#888" stroke-width="1.5"/>
+<line x1="854" y1="395" x2="856" y2="395" stroke="#888" stroke-width="1.5"/>
+<line x1="985" y1="395" x2="987" y2="395" stroke="#888" stroke-width="1.5"/>
+<line x1="1116" y1="395" x2="1118" y2="395" stroke="#888" stroke-width="1.5"/>
+<line x1="1246" y1="395" x2="1248" y2="395" stroke="#888" stroke-width="1.5"/>
+<line x1="175" y1="222" x2="1295" y2="222" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="175" y1="252" x2="1295" y2="252" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="175" y1="282" x2="1295" y2="282" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="175" y1="312" x2="1295" y2="312" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="175" y1="346" x2="1295" y2="346" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="175" y1="522" x2="1235" y2="522" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="175" y1="552" x2="1235" y2="552" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="175" y1="582" x2="1235" y2="582" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="175" y1="612" x2="1235" y2="612" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="175" y1="643" x2="1235" y2="643" stroke="#ddd" stroke-width="1" stroke-dasharray="4 4"/>
+<polyline points="195,222 223,222 223,282 235,282 235,312 262,312 262,346 330,346 330,312 367,312 367,282 375,282 375,252 404,252 404,282 409,282 409,312 438,312 438,346 484,346 484,312 520,312 520,282 530,282 530,252 562,252 562,282 571,282 571,312 591,312 591,346 592,346 592,312 593,312 593,346 594,346 594,312 595,312 595,346 625,346 625,312 650,312 650,282 658,282 658,252 708,252 708,282 717,282 717,312 749,312 749,346 785,346 785,312 786,312 786,346 787,346 787,312 793,312 793,282 844,282 844,252 901,252 901,282 913,282 913,312 974,312 974,282 999,282 999,252 1071,252 1071,282 1087,282 1087,312 1142,312 1142,282 1171,282 1171,252 1172,252 1172,282 1173,282 1173,252 1289,252" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="miter"/>
+<polyline points="195,522 230,522 230,582 242,582 242,612 252,612 252,643 269,643 269,612 273,612 273,552 279,552 279,612 297,612 297,582 299,582 299,522 305,522 305,582 316,582 316,612 336,612 336,552 339,552 339,582 352,582 352,612 359,612 359,643 372,643 372,612 379,612 379,582 381,582 381,552 383,552 383,522 385,522 385,552 386,552 386,522 387,522 387,552 400,552 400,522 404,522 404,582 413,582 413,612 440,612 440,582 442,582 442,522 445,522 445,552 447,552 447,582 451,582 451,612 456,612 456,643 465,643 465,612 473,612 473,582 474,582 474,522 477,522 477,582 487,582 487,612 510,612 510,582 511,582 511,552 524,552 524,582 531,582 531,612 536,612 536,643 537,643 537,612 538,612 538,643 544,643 544,612 545,612 545,643 546,643 546,522 552,522 552,612 561,612 561,643 577,643 577,612 578,612 578,643 579,643 579,612 583,612 583,522 588,522 588,582 592,582 592,612 619,612 619,552 630,552 630,522 631,522 631,552 634,552 634,612 651,612 651,582 652,582 652,522 654,522 654,582 656,582 656,612 670,612 670,643 671,643 671,612 672,612 672,643 680,643 680,612 684,612 684,582 699,582 699,522 701,522 701,582 708,582 708,612 732,612 732,582 737,582 737,522 740,522 740,582 744,582 744,522 745,522 745,582 748,582 748,612 771,612 771,582 784,582 784,522 790,522 790,612 797,612 797,643 813,643 813,612 820,612 820,522 825,522 825,582 839,582 839,612 866,612 866,522 868,522 868,552 874,552 874,612 920,612 920,522 926,522 926,582 930,582 930,612 977,612 977,643 992,643 992,612 993,612 993,643 994,643 994,612 1002,612 1002,522 1005,522 1005,582 1008,582 1008,612 1047,612 1047,582 1056,582 1056,552 1057,552 1057,522 1058,522 1058,552 1059,552 1059,522 1061,522 1061,552 1081,552 1081,582 1094,582 1094,612 1121,612 1121,522 1126,522 1126,552 1127,552 1127,582 1132,582 1132,612 1147,612 1147,582 1157,582 1157,522 1162,522 1162,552 1180,552 1180,582 1200,582 1200,522 1201,522 1201,582 1229,582" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="miter"/>
+<path d="M 180 218 Q 180 213 192 213 L 521 213 Q 533 213 533 200 Q 533 213 545 213 L 678 213 Q 690 213 690 218" fill="none" stroke="#888" stroke-width="1.2" stroke-linecap="round"/>
+<path d="M 700 218 Q 700 213 712 213 L 1013 213 Q 1025 213 1025 200 Q 1025 213 1037 213 L 1268 213 Q 1280 213 1280 218" fill="none" stroke="#888" stroke-width="1.2" stroke-linecap="round"/>
+<line x1="380" y1="498" x2="304.8" y2="519.4" stroke="#444" stroke-width="1.5"/><polygon points="299,521 304.0,516.5 305.6,522.2" fill="#444"/>
+<line x1="415" y1="498" x2="405.0" y2="515.8" stroke="#444" stroke-width="1.5"/><polygon points="402,521 402.3,514.3 407.6,517.3" fill="#444"/>
+<line x1="455" y1="498" x2="471.1" y2="516.5" stroke="#444" stroke-width="1.5"/><polygon points="475,521 468.8,518.4 473.3,514.5" fill="#444"/>
+<line x1="495" y1="498" x2="577.2" y2="519.5" stroke="#444" stroke-width="1.5"/><polygon points="583,521 576.4,522.4 578.0,516.6" fill="#444"/>
+<line x1="535" y1="498" x2="646.1" y2="519.8" stroke="#444" stroke-width="1.5"/><polygon points="652,521 645.5,522.8 646.7,516.9" fill="#444"/>
+<line x1="580" y1="498" x2="731.1" y2="520.1" stroke="#444" stroke-width="1.5"/><polygon points="737,521 730.6,523.1 731.5,517.2" fill="#444"/>
+<line x1="981" y1="498" x2="960.0" y2="558.3" stroke="#444" stroke-width="1.5"/><polygon points="958,564 957.1,557.3 962.8,559.3" fill="#444"/>
+<rect x="20" y="8" width="95" height="27" rx="10" ry="10" fill="#000"/>
+<text x="68" y="26" font-size="12" font-family="Inter, sans-serif" font-weight="700" letter-spacing="0.5" fill="#fff" text-anchor="middle">FIGURA 1</text>
+<text x="20" y="76" font-size="53" font-family="'Playfair Display', 'Cormorant Garamond', serif" font-weight="900" fill="#000" text-anchor="start" textLength="1070" lengthAdjust="spacingAndGlyphs">A arquitetura de uma noite: o que distingue dormir de descansar</text>
+<text x="22" y="116" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start" textLength="613" lengthAdjust="spacingAndGlyphs">Mesmo tempo na cama, resultados completamente diferentes.</text>
+<text x="534" y="148" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="700" fill="#000" text-anchor="middle">Primeira metade da noite</text>
+<text x="534" y="171" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#222" text-anchor="middle">Clearance glinfático ativo</text>
+<text x="534" y="192" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle" font-style="italic">(remoção de beta-amiloide)</text>
+<text x="1026" y="148" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="700" fill="#000" text-anchor="middle">Segunda metade da noite</text>
+<text x="1026" y="171" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#222" text-anchor="middle">REM prolongado — consolidação</text>
+<text x="1026" y="192" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle" font-style="italic">emocional e procedural</text>
+<text x="118" y="226" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="end">Acordado</text>
+<text x="118" y="256" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="end">REM</text>
+<text x="118" y="286" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="end">N1</text>
+<text x="118" y="316" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="end">N2</text>
+<text x="118" y="351" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="end">N3</text>
+<text x="33" y="374" font-size="16" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">(sono profundo)</text>
+<text x="196" y="412" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">23:00</text>
+<text x="329" y="412" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">00:00</text>
+<text x="467" y="412" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">01:00</text>
+<text x="595" y="412" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">02:00</text>
+<text x="725" y="412" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">03:00</text>
+<text x="855" y="412" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">04:00</text>
+<text x="986" y="412" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">05:00</text>
+<text x="1117" y="412" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">06:00</text>
+<text x="1247" y="412" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">07:00</text>
+<text x="716" y="435" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle" font-style="italic">Tempo (horas)</text>
+<text x="1380" y="248" font-size="18" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle" textLength="140" lengthAdjust="spacingAndGlyphs">4–5 ciclos</text>
+<text x="1380" y="266" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#444" text-anchor="middle" textLength="140" lengthAdjust="spacingAndGlyphs">de ~90 min</text>
+<text x="1380" y="298" font-size="18" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle" textLength="140" lengthAdjust="spacingAndGlyphs">N3 profundo</text>
+<text x="1380" y="316" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#444" text-anchor="middle" textLength="140" lengthAdjust="spacingAndGlyphs">e prolongado na</text>
+<text x="1380" y="334" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#444" text-anchor="middle" textLength="140" lengthAdjust="spacingAndGlyphs">primeira metade;</text>
+<text x="1380" y="364" font-size="18" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle" textLength="140" lengthAdjust="spacingAndGlyphs">REM mais longo</text>
+<text x="1380" y="382" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#444" text-anchor="middle" textLength="140" lengthAdjust="spacingAndGlyphs">na segunda.</text>
+<text x="152" y="465" font-size="19" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="700" fill="#fff" text-anchor="middle">Arquitetura fragmentada</text>
+<text x="152" y="487" font-size="17" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#fff" text-anchor="middle">pela apneia (Paulo, pré-CPAP)</text>
+<text x="484" y="474" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="700" fill="#000" text-anchor="middle">Cada apneia = queda de saturação</text>
+<text x="484" y="494" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#333" text-anchor="middle">+ micro-despertar</text>
+<text x="999" y="456" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="700" fill="#000" text-anchor="middle">Sono profundo</text>
+<text x="999" y="476" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#333" text-anchor="middle">interrompido antes</text>
+<text x="999" y="494" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#333" text-anchor="middle">de se aprofundar</text>
+<text x="118" y="527" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="end">Acordado</text>
+<text x="118" y="556" font-size="14" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="end">REM</text>
+<text x="118" y="586" font-size="16" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="end">N1</text>
+<text x="118" y="616" font-size="16" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="end">N2</text>
+<text x="118" y="647" font-size="16" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="end">N3</text>
+<text x="33" y="671" font-size="17" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">(sono profundo)</text>
+<text x="196" y="699" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">23:00</text>
+<text x="329" y="699" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">00:00</text>
+<text x="467" y="699" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">01:00</text>
+<text x="595" y="699" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">02:00</text>
+<text x="725" y="699" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">03:00</text>
+<text x="855" y="699" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">04:00</text>
+<text x="986" y="699" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">05:00</text>
+<text x="1115" y="699" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">06:00</text>
+<text x="1207" y="699" font-size="13" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle">07:00</text>
+<text x="716" y="721" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="middle" font-style="italic">Tempo (horas)</text>
+<text x="1352" y="527" font-size="20" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle" textLength="193" lengthAdjust="spacingAndGlyphs">Múltiplos micro-despertares</text>
+<text x="1352" y="548" font-size="16" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#444" text-anchor="middle" textLength="193" lengthAdjust="spacingAndGlyphs">(≈ 15–20 na noite)</text>
+<text x="1352" y="589" font-size="20" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle" textLength="193" lengthAdjust="spacingAndGlyphs">N3 &lt; 5% do total</text>
+<text x="1352" y="634" font-size="18" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle" textLength="193" lengthAdjust="spacingAndGlyphs">REM frequente, mas</text>
+<text x="1352" y="656" font-size="18" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#444" text-anchor="middle" textLength="193" lengthAdjust="spacingAndGlyphs">truncado e instável.</text>
+<text x="25" y="758" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#333" text-anchor="start">Hipnogramas ilustrativos</text>
+<text x="220" y="758" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic"> representando (acima) arquitetura normal de sono em adulto saudável, com 4–5 ciclos de ~90 min,</text>
+<text x="25" y="778" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" textLength="1220" lengthAdjust="spacingAndGlyphs">com N3 concentrado na primeira metade da noite e REM prolongado na segunda; (abaixo) arquitetura fragmentada por</text>
+<text x="25" y="798" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" textLength="1255" lengthAdjust="spacingAndGlyphs">apneia obstrutiva do sono, com múltiplos despertares breves, N3 reduzido a menos de 5% do tempo total e REM truncado.</text>
+<text x="25" y="818" font-size="15" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" textLength="775" lengthAdjust="spacingAndGlyphs">O tempo de permanência na cama pode ser semelhante — o tempo de sono funcional, não.</text>
+<rect x="24" y="150" width="264" height="33" rx="10" ry="10" fill="#000"/>
+<text x="156" y="172" font-size="15" font-family="Inter, sans-serif" font-weight="700" letter-spacing="0.5" fill="#fff" text-anchor="middle">Arquitetura normal</text>
+</svg>

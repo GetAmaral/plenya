@@ -19,11 +19,11 @@ INK_SOFT = "#3A3A3A"
 TICK     = "#555555"
 FOOT     = "#666666"
 
-SHADE_1 = "#5A5A5A"   # estímulo — escuro
-SHADE_2 = "#7A7A7A"   # HPA — médio escuro
-SHADE_3 = "#9A9A9A"   # consequências — médio
-SHADE_4 = "#B5B5B5"   # desfechos — médio claro
-SHADE_INSIDE = "#F0F0F0"
+SHADE_1 = "#FFFFFF"   # todas as bandas em branco
+SHADE_2 = "#FFFFFF"
+SHADE_3 = "#FFFFFF"
+SHADE_4 = "#FFFFFF"
+SHADE_INSIDE = "#FFFFFF"
 
 _FIG_W, _FIG_H = 8.4, 11.4
 _ASPECT = _FIG_W / _FIG_H
@@ -57,10 +57,10 @@ def draw_floor(y_top, y_bot, color, number, title, subtitle):
              fontsize=14, color=INK, weight="bold",
              ha="center", va="center", zorder=5)
     # Title
-    fig.text(LEFT_MARGIN + 0.080, y_top - 0.020, title,
-             fontsize=10, color="white", weight="bold", va="center")
-    fig.text(LEFT_MARGIN + 0.080, y_top - 0.040, subtitle,
-             fontsize=11, color="white", weight="bold", va="center")
+    fig.text(LEFT_MARGIN + 0.080, y_top - 0.025, title,
+             fontsize=10, color=INK, weight="bold", va="center")
+    fig.text(LEFT_MARGIN + 0.080, y_top - 0.048, subtitle,
+             fontsize=11, color=INK, weight="bold", va="center")
 
 # Andar 1 — ESTÍMULO PSICOLÓGICO
 F1_TOP, F1_BOT = 0.910, 0.795
@@ -69,7 +69,7 @@ draw_floor(F1_TOP, F1_BOT, SHADE_1, "1",
            "Estresse crônico, ruminação, ansiedade")
 
 # Conteúdo interno (3 exemplos)
-F1_ICONS_Y = 0.815
+F1_ICONS_Y = 0.808
 for x_offset, label in [(0.10, "E-mails após\no expediente"),
                          (0.40, "Preocupação\ncom filhos"),
                          (0.70, "Pressão\nfinanceira")]:
@@ -77,7 +77,7 @@ for x_offset, label in [(0.10, "E-mails após\no expediente"),
     fig.patches.append(FancyBboxPatch(
         (x, F1_ICONS_Y - 0.010), 0.18, 0.040,
         boxstyle="round,pad=0.002,rounding_size=0.005",
-        facecolor=SHADE_INSIDE, edgecolor="none",
+        facecolor=SHADE_INSIDE, edgecolor=INK, linewidth=0.5,
         transform=fig.transFigure, zorder=2
     ))
     fig.text(x + 0.090, F1_ICONS_Y + 0.010, label,
@@ -100,7 +100,7 @@ draw_floor(F2_TOP, F2_BOT, SHADE_2, "2",
            "Eixo Hipotálamo–Hipófise–Adrenal em alerta permanente")
 
 # 3 caixas internas (Hipotálamo, Hipófise, Suprarrenais)
-F2_BOXES_Y = 0.665
+F2_BOXES_Y = 0.660
 for x_offset, label in [(0.04, "Hipotálamo\n→ CRH"),
                          (0.36, "Hipófise\n→ ACTH"),
                          (0.68, "Suprarrenais\n→ Cortisol")]:
@@ -139,24 +139,41 @@ draw_floor(F3_TOP, F3_BOT, SHADE_3, "3",
            "CONSEQUÊNCIAS BIOQUÍMICAS",
            "Cascata bioquímica")
 
-# 6 itens (2 colunas)
-F3_ITEMS = [
-    "Citocinas inflamatórias\n(IL-6, TNF-α, PCR) ↑",
-    "Resistência insulínica ↑",
-    "Gordura visceral ↑",
-    "Hormônios sexuais ↓",
-    "Função imune ↓",
-    "Hipocampo / memória ↓",
+# 2 colunas, cada uma um quadro único com 3 itens
+F3_COLS = [
+    [
+        "● Citocinas inflamatórias (IL-6, TNF-α, PCR) ↑",
+        "● Resistência insulínica ↑",
+        "● Gordura visceral ↑",
+    ],
+    [
+        "● Hormônios sexuais ↓",
+        "● Função imune ↓",
+        "● Hipocampo / memória ↓",
+    ],
 ]
 
-for idx, item in enumerate(F3_ITEMS):
-    col = idx // 3
-    row = idx % 3
-    x = LEFT_MARGIN + 0.04 + col * 0.46
-    y = 0.535 - row * 0.040
-    fig.text(x, y, "● " + item,
-             fontsize=8.5, color=INK, weight="bold",
-             linespacing=1.2, va="center")
+F3_BOX_TOP    = 0.545
+F3_BOX_BOT    = 0.408
+F3_BOX_W      = 0.435
+F3_COL_GAP    = 0.020
+
+for col_idx, items in enumerate(F3_COLS):
+    x = LEFT_MARGIN + 0.030 + col_idx * (F3_BOX_W + F3_COL_GAP)
+    fig.patches.append(FancyBboxPatch(
+        (x, F3_BOX_BOT), F3_BOX_W, F3_BOX_TOP - F3_BOX_BOT,
+        boxstyle="round,pad=0.002,rounding_size=0.006",
+        facecolor=SHADE_INSIDE, edgecolor=INK, linewidth=0.5,
+        transform=fig.transFigure, zorder=2
+    ))
+    # 3 linhas centralizadas verticalmente
+    n = len(items)
+    line_spacing = (F3_BOX_TOP - F3_BOX_BOT - 0.020) / n
+    y_start = F3_BOX_TOP - 0.010 - line_spacing/2
+    for li, line in enumerate(items):
+        fig.text(x + 0.014, y_start - li * line_spacing, line,
+                 fontsize=8.5, color=INK, weight="bold",
+                 va="center", ha="left")
 
 # Seta 3→4
 fig.patches.append(FancyArrowPatch(
@@ -174,7 +191,7 @@ draw_floor(F4_TOP, F4_BOT, SHADE_4, "4",
            "As quatro doenças crônicas do Capítulo 2")
 
 # 4 caixas das doenças
-F4_BOXES_Y = 0.275
+F4_BOXES_Y = 0.260
 DISEASES = [
     "Doença\ncardiovascular",
     "Doença\nmetabólica",

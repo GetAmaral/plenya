@@ -1,14 +1,16 @@
 """
 Cap06 Fig03 (PT-BR, B&W vetorial) — Da Resistência Insulínica ao Diabetes:
 A Timeline que o Check-up Não Vê.
+
+Posições baseadas em detecção pixel-a-pixel do original (1536×1024, aspect 1.5).
 """
 from pathlib import Path
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
-from matplotlib.patches import Rectangle, Circle, Ellipse, FancyArrowPatch
+from matplotlib.patches import Rectangle, Ellipse, FancyArrowPatch
 
-# figsize=(11,7.5) → aspect correction
-_FIG_ASPECT = 11.0 / 7.5
+_FIG_W, _FIG_H = 11.0, 7.333
+_FIG_ASPECT = _FIG_W / _FIG_H  # 1.5
 
 rcParams["font.family"] = "sans-serif"
 rcParams["font.sans-serif"] = ["Inter", "Open Sans", "DejaVu Sans"]
@@ -19,24 +21,58 @@ rcParams["ps.fonttype"] = 42
 BG       = "#FFFFFF"
 INK      = "#000000"
 INK_SOFT = "#3A3A3A"
-TICK     = "#555555"
-FOOT     = "#666666"
 BAR_LIGHT = "#E0E0E0"
-BAR_DARK  = "#9A9A9A"
-BAND      = "#EDEDED"
+BAR_MID   = "#BDBDBD"
+BAR_DARK  = "#7E7E7E"
 
-fig = plt.figure(figsize=(11.0, 7.5))
+fig = plt.figure(figsize=(_FIG_W, _FIG_H))
 fig.patch.set_facecolor(BG)
 
-LEFT = 0.025
+# ============= LINHAS HORIZONTAIS AUXILIARES (Y detectados no original) =============
+# Y=0.408 (separador bio details / check-up quotes)
+# Y=0.314 (separador check-up quotes / Fernanda+bracket)
+# Y=0.089 (separador acima do rodapé)
+GUIDE_X_FROM = 0.020
+GUIDE_X_TO   = 0.980
+for hy in (0.408, 0.314, 0.089):
+    fig.lines.append(plt.Line2D(
+        [GUIDE_X_FROM, GUIDE_X_TO], [hy, hy],
+        color="#D0D0D0", linewidth=0.6,
+        transform=fig.transFigure, zorder=0
+    ))
 
-# Título
-fig.text(LEFT, 0.945, "Figura 3 — Da Resistência Insulínica ao Diabetes:",
-         fontsize=16, color=INK, weight="bold")
-fig.text(LEFT, 0.905, "A Timeline que o Check-up Não Vê",
-         fontsize=16, color=INK, weight="bold")
+# ============= LINHAS VERTICAIS AUXILIARES (X detectados no original) =============
+# Guias leves entre F1-F2 (X=0.356) e F3-F4 (X=0.755).
+# A vertical entre F2-F3 é a dashed principal "aqui o check-up começa a ver" (X=0.568, desenhada abaixo).
+GUIDE_Y_TOP    = 0.700
+GUIDE_Y_BOTTOM = 0.196
+for vx in (0.356, 0.755):
+    fig.lines.append(plt.Line2D(
+        [vx, vx], [GUIDE_Y_BOTTOM, GUIDE_Y_TOP],
+        color="#D0D0D0", linewidth=0.6,
+        transform=fig.transFigure, zorder=0
+    ))
 
-# ---------- 4 fases — header com nomes ----------
+# ============= FIGURA 3 TAG (substitui vermelho do original) =============
+TAG_X, TAG_Y = 0.014, 0.918
+TAG_W, TAG_H = 0.097, 0.057
+fig.patches.append(Rectangle(
+    (TAG_X, TAG_Y), TAG_W, TAG_H,
+    facecolor=INK, edgecolor=INK, transform=fig.transFigure, zorder=2
+))
+fig.text(TAG_X + TAG_W/2, TAG_Y + TAG_H/2, "FIGURA 3",
+         fontsize=11, color="white", weight="bold",
+         ha="center", va="center", zorder=3)
+
+# ============= TÍTULO (Y detectado: 0.945 / 0.877) =============
+TITLE_X = TAG_X + TAG_W + 0.018
+fig.text(TITLE_X, 0.945, "Da Resistência Insulínica ao Diabetes:",
+         fontsize=17, color=INK, weight="bold", va="center")
+fig.text(TITLE_X, 0.877, "A Timeline que o Check-up Não Vê",
+         fontsize=17, color=INK, weight="bold", va="center")
+
+# ============= 4 COLUNAS FASE (cx detectado) =============
+PHASE_X = [0.237, 0.451, 0.650, 0.847]
 PHASE_TITLES = [
     ("FASE 1", "Resistência insulínica\ncompensada"),
     ("FASE 2", "Disfunção\nmetabólica manifesta"),
@@ -44,153 +80,147 @@ PHASE_TITLES = [
     ("FASE 4", "Diabetes\ntipo 2"),
 ]
 
-# 4 colunas equidistantes
-PHASE_X = [0.16, 0.40, 0.64, 0.88]
-HEADER_Y = 0.825
+HEADER_Y   = 0.785
+SUBTIT_Y1  = 0.729
 
 for x, (phase, title) in zip(PHASE_X, PHASE_TITLES):
     fig.text(x, HEADER_Y, phase,
-             fontsize=10, color=INK, weight="bold", ha="center")
-    fig.text(x, HEADER_Y - 0.030, title,
-             fontsize=8.5, color=INK_SOFT, ha="center",
-             linespacing=1.15)
+             fontsize=12, color=INK, weight="bold", ha="center", va="center")
+    fig.text(x, SUBTIT_Y1, title,
+             fontsize=9.5, color=INK_SOFT, ha="center", va="center",
+             linespacing=1.20)
 
-# ---------- "O QUE ESTÁ ACONTECENDO" — barra horizontal de progressão ----------
-fig.text(LEFT, 0.715, "O QUE ESTÁ\nACONTECENDO",
-         fontsize=8.5, color=INK_SOFT, weight="bold", va="center",
-         linespacing=1.15)
+# ============= TIMELINE =============
+LEFT_LABEL_X = 0.018
+fig.text(LEFT_LABEL_X, 0.644, "O QUE ESTÁ\nACONTECENDO",
+         fontsize=9, color=INK_SOFT, weight="bold", va="center",
+         linespacing=1.20)
 
-# Barra principal — vai de PHASE_X[0] a PHASE_X[3], gradiente cinza
-BAR_Y = 0.715
-BAR_HEIGHT = 0.016
+BAR_Y = 0.644
+BAR_HEIGHT = 0.014
 
-# Segments: 1-2 light, 2-3 médio, 3-4 escuro
+# Segmentos (gradiente 1→4: claro → escuro)
+seg_colors = [BAR_LIGHT, BAR_MID, BAR_DARK]
 for i in range(3):
     fig.patches.append(Rectangle(
         (PHASE_X[i], BAR_Y - BAR_HEIGHT/2),
         PHASE_X[i+1] - PHASE_X[i], BAR_HEIGHT,
-        facecolor=BAR_LIGHT if i == 0 else (BAR_DARK if i == 2 else "#C0C0C0"),
-        edgecolor="none", transform=fig.transFigure, zorder=1
+        facecolor=seg_colors[i], edgecolor="none",
+        transform=fig.transFigure, zorder=1
     ))
 
-# Markers (círculos) em cada fase
+# 4 markers (círculos abertos)
 for x in PHASE_X:
-    r = 0.012
+    r = 0.013
     fig.patches.append(Ellipse(
         (x, BAR_Y), width=r*2, height=r*2*_FIG_ASPECT,
-        facecolor="white", edgecolor=INK, linewidth=1.2,
+        facecolor="white", edgecolor=INK, linewidth=1.4,
         transform=fig.transFigure, zorder=3
     ))
 
-# Detalhes biológicos por fase (texto abaixo do marker)
+# ============= BIO DETAILS (block Y=0.595 top, ~4 lines) =============
+BIO_Y_TOP = 0.595
 bio_details = [
     "Insulina ↑\nGlicose normal",
     "Triglicerídeos ↑\nHDL ↓\nGordura hepática ↑\nInflamação ↑",
-    "HbA1c\n> 5,7%",
-    "HbA1c\n> 6,5%\nDiagnóstico formal",
+    "HbA1c > 5,7%",
+    "HbA1c > 6,5%\nDiagnóstico formal",
 ]
-
 for x, detail in zip(PHASE_X, bio_details):
-    fig.text(x, BAR_Y - 0.030, detail,
-             fontsize=8, color=INK, ha="center", va="top",
-             linespacing=1.2)
+    fig.text(x, BIO_Y_TOP, detail,
+             fontsize=9, color=INK, ha="center", va="top",
+             linespacing=1.30)
 
-# ---------- linha tracejada vertical entre FASE 2 e FASE 3 ("aqui o check-up começa a ver") ----------
-VERT_X = (PHASE_X[1] + PHASE_X[2]) / 2
+# ============= "O QUE O CHECK-UP DIZ" (Y=0.369 detectado) =============
+CHECKUP_Y = 0.369
+fig.text(LEFT_LABEL_X, CHECKUP_Y, "O QUE O\nCHECK-UP DIZ",
+         fontsize=9, color=INK_SOFT, weight="bold", va="center",
+         linespacing=1.20)
+
+checkup_quotes = [
+    '"Tudo normal"',
+    '"Limítrofe,\nacompanhar"',
+    '"Pré-diabetes,\ndieta e exercício"',
+    '"Diabetes,\niniciar tratamento"',
+]
+for x, q in zip(PHASE_X, checkup_quotes):
+    fig.text(x, CHECKUP_Y, q,
+             fontsize=10.5, color=INK, ha="center", va="center",
+             linespacing=1.25, style="italic")
+
+# ============= LINHA DASHED VERTICAL (X=0.568, detectado no original) =============
+VERT_X = 0.568
 fig.lines.append(plt.Line2D(
-    [VERT_X, VERT_X], [0.27, 0.78],
-    color=INK, linewidth=0.9, linestyle=(0, (3, 3)),
+    [VERT_X, VERT_X], [0.196, 0.700],
+    color=INK, linewidth=1.0, linestyle=(0, (3, 3)),
     transform=fig.transFigure, zorder=2
 ))
-# Label "Aqui o check-up começa a ver"
-fig.text(VERT_X + 0.005, 0.490, "Aqui o check-up\ncomeça a ver",
-         fontsize=8, color=INK, weight="bold", ha="left", va="center",
-         linespacing=1.2)
+
+# ============= ANNOTATION "Aqui o check-up começa a ver" (Y=0.317) =============
+ANNOT_Y = 0.317
+fig.text(VERT_X + 0.012, ANNOT_Y, "Aqui o check-up\ncomeça a ver",
+         fontsize=9, color=INK, weight="bold", ha="left", va="center",
+         linespacing=1.25)
 fig.patches.append(FancyArrowPatch(
-    (VERT_X - 0.005, 0.485), (VERT_X - 0.020, 0.485),
-    arrowstyle="<-", color=INK, lw=0.9, mutation_scale=10,
+    (VERT_X + 0.010, ANNOT_Y), (VERT_X + 0.001, ANNOT_Y),
+    arrowstyle="-|>", color=INK, lw=1.0, mutation_scale=10,
     transform=fig.transFigure, zorder=3
 ))
 
-# ---------- "O QUE O CHECK-UP DIZ" ----------
-fig.text(LEFT, 0.450, "O QUE O\nCHECK-UP DIZ",
-         fontsize=8.5, color=INK_SOFT, weight="bold", va="center",
-         linespacing=1.15)
-
-checkup_quotes = [
-    "\"Tudo normal\"",
-    "\"Limítrofe,\nacompanhar\"",
-    "\"Pré-diabetes —\ndieta e exercício\"",
-    "\"Diabetes —\niniciar tratamento\"",
-]
-CHECKUP_Y = 0.450
-
-for x, q in zip(PHASE_X, checkup_quotes):
-    fig.text(x, CHECKUP_Y, q,
-             fontsize=9, color=INK, ha="center", va="center",
-             linespacing=1.2, style="italic")
-
-# ---------- Fernanda + Janela de intervenção ----------
-# Marker da Fernanda — entre fase 1 e fase 2
-FERN_X = PHASE_X[0] + 0.45 * (PHASE_X[1] - PHASE_X[0]) + 0.02
-FERN_Y = 0.340
-
-_r = 0.012
+# ============= FERNANDA (marker @ 0.352, 0.315) =============
+FERN_X = 0.352
+FERN_Y = 0.315
+_r = 0.014
 fig.patches.append(Ellipse(
     (FERN_X, FERN_Y), width=_r*2, height=_r*2*_FIG_ASPECT,
     facecolor=INK, edgecolor=INK, linewidth=1.0,
     transform=fig.transFigure, zorder=3
 ))
-fig.text(FERN_X, FERN_Y - 0.025, "Fernanda\n(41 anos)",
-         fontsize=8.5, color=INK, weight="bold", ha="center", va="top",
-         linespacing=1.2)
+# Labels: Y=0.265 e Y=0.236 detectados
+fig.text(FERN_X, 0.265, "Fernanda",
+         fontsize=10, color=INK, weight="bold", ha="center", va="center")
+fig.text(FERN_X, 0.236, "(41 anos)",
+         fontsize=9, color=INK, ha="center", va="center")
 
-# Janela de intervenção: barra abaixo
-JI_Y = 0.265
-JI_X1 = PHASE_X[0] - 0.02
-JI_X2 = (PHASE_X[1] + PHASE_X[2]) / 2
-
+# ============= BRACKET JANELA (X=0.193 → 0.530, Y=0.196) =============
+JI_Y = 0.196
+JI_X1 = 0.193
+JI_X2 = 0.530
 fig.lines.append(plt.Line2D(
     [JI_X1, JI_X2], [JI_Y, JI_Y],
-    color=INK, linewidth=2.0, transform=fig.transFigure
+    color=INK, linewidth=2.2, transform=fig.transFigure
 ))
 fig.lines.append(plt.Line2D(
-    [JI_X1, JI_X1], [JI_Y - 0.010, JI_Y + 0.010],
-    color=INK, linewidth=1.2, transform=fig.transFigure
+    [JI_X1, JI_X1], [JI_Y - 0.012, JI_Y + 0.012],
+    color=INK, linewidth=1.4, transform=fig.transFigure
 ))
 fig.lines.append(plt.Line2D(
-    [JI_X2, JI_X2], [JI_Y - 0.010, JI_Y + 0.010],
-    color=INK, linewidth=1.2, transform=fig.transFigure
+    [JI_X2, JI_X2], [JI_Y - 0.012, JI_Y + 0.012],
+    color=INK, linewidth=1.4, transform=fig.transFigure
 ))
 
-fig.text((JI_X1 + JI_X2) / 2, JI_Y - 0.025,
+# JANELA Y=0.166, "5 a 10 anos" Y=0.136
+fig.text((JI_X1 + JI_X2)/2, 0.166,
          "JANELA DE INTERVENÇÃO",
-         fontsize=10, color=INK, weight="bold", ha="center", va="top")
-fig.text((JI_X1 + JI_X2) / 2, JI_Y - 0.052,
+         fontsize=11, color=INK, weight="bold", ha="center", va="center")
+fig.text((JI_X1 + JI_X2)/2, 0.136,
          "5 a 10 anos antes do diagnóstico",
-         fontsize=9, color=INK_SOFT, ha="center", va="top", style="italic")
+         fontsize=10, color=INK_SOFT, ha="center", va="center", style="italic")
 
-# ---------- linha separadora ----------
-SEP_Y = 0.130
-fig.lines.append(plt.Line2D(
-    [LEFT, 1 - LEFT], [SEP_Y, SEP_Y],
-    color="#CFCFCF", linewidth=0.5, transform=fig.transFigure
-))
-
-# Footer
-fig.text(0.5, 0.085,
+# ============= FOOTER (Y=0.054) =============
+fig.text(0.5, 0.054,
          "A doença já estava lá. O diagnóstico é que chegou tarde.",
-         fontsize=11, color=INK, weight="bold", style="italic",
-         ha="center")
+         fontsize=12, color=INK, weight="bold", style="italic",
+         ha="center", va="center")
 
+# ============= EXPORT =============
 out_dir = Path(__file__).resolve().parents[1] / "figuras-bw"
 out_dir.mkdir(parents=True, exist_ok=True)
 pdf_path = out_dir / "Cap06_Fig03.pdf"
 png_path = out_dir / "_preview_Cap06_Fig03.png"
-# Tight crop sem padding lateral/topo; 0.08" no inferior pra não colar na legenda.
 from matplotlib.transforms import Bbox as _Bbox
 fig.canvas.draw()
-_tb = fig.get_tightbbox(fig.canvas.get_renderer())  # já em inches
+_tb = fig.get_tightbbox(fig.canvas.get_renderer())
 _bbox_in = _Bbox.from_extents(_tb.x0, _tb.y0 - 0.08, _tb.x1, _tb.y1)
 plt.savefig(pdf_path, facecolor=BG, bbox_inches=_bbox_in)
 plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches=_bbox_in)

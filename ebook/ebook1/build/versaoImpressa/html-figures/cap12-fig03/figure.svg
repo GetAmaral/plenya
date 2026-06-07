@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 3072" width="2048" height="3072">
+<rect x="670" y="1085" width="580" height="220" fill="#000" rx="18" ry="18"/>
+<rect x="1406" y="728" width="574" height="2100" fill="none" stroke="#000" stroke-width="3" rx="28" ry="28"/>
+<rect x="1412" y="2481" width="562" height="304" fill="#ececec" rx="20" ry="20"/>
+<rect x="92" y="740" width="30" height="560" fill="#000" rx="15" ry="15"/>
+<rect x="92" y="1355" width="30" height="335" fill="#000" rx="15" ry="15"/>
+<rect x="92" y="1720" width="30" height="360" fill="#000" rx="15" ry="15"/>
+<rect x="92" y="2115" width="30" height="345" fill="#000" rx="15" ry="15"/>
+<rect x="92" y="2490" width="30" height="300" fill="#000" rx="15" ry="15"/>
+<line x1="1530" y1="1672" x2="1960" y2="1672" stroke="#888" stroke-width="1"/>
+<line x1="1530" y1="2040" x2="1960" y2="2040" stroke="#888" stroke-width="1"/>
+<line x1="1530" y1="2430" x2="1960" y2="2430" stroke="#888" stroke-width="1"/>
+<line x1="557" y1="832" x2="1330" y2="832" stroke="#000" stroke-width="3"/>
+<line x1="557" y1="1448" x2="1320" y2="1448" stroke="#000" stroke-width="3"/>
+<line x1="557" y1="1810" x2="1324" y2="1810" stroke="#000" stroke-width="3"/>
+<line x1="557" y1="2206" x2="1323" y2="2206" stroke="#000" stroke-width="3"/>
+<line x1="557" y1="2575" x2="1302" y2="2575" stroke="#000" stroke-width="3"/>
+<line x1="60" y1="2870" x2="1300" y2="2870" stroke="#888" stroke-width="1"/>
+<line x1="565" y1="820" x2="565" y2="844" stroke="#000" stroke-width="3"/>
+<line x1="738" y1="820" x2="738" y2="844" stroke="#000" stroke-width="3"/>
+<line x1="915" y1="818" x2="915" y2="846" stroke="#000" stroke-width="5"/>
+<line x1="1110" y1="820" x2="1110" y2="844" stroke="#000" stroke-width="3"/>
+<line x1="1310" y1="820" x2="1310" y2="844" stroke="#000" stroke-width="3"/>
+<line x1="565" y1="1436" x2="565" y2="1460" stroke="#000" stroke-width="3"/>
+<line x1="738" y1="1436" x2="738" y2="1460" stroke="#000" stroke-width="3"/>
+<line x1="914" y1="1434" x2="914" y2="1462" stroke="#000" stroke-width="5"/>
+<line x1="1091" y1="1436" x2="1091" y2="1460" stroke="#000" stroke-width="3"/>
+<line x1="1305" y1="1436" x2="1305" y2="1460" stroke="#000" stroke-width="3"/>
+<line x1="565" y1="1798" x2="565" y2="1822" stroke="#000" stroke-width="3"/>
+<line x1="745" y1="1796" x2="745" y2="1824" stroke="#000" stroke-width="5"/>
+<line x1="952" y1="1796" x2="952" y2="1824" stroke="#000" stroke-width="5"/>
+<line x1="1304" y1="1798" x2="1304" y2="1822" stroke="#000" stroke-width="3"/>
+<line x1="565" y1="2194" x2="565" y2="2218" stroke="#000" stroke-width="3"/>
+<line x1="923" y1="2192" x2="923" y2="2220" stroke="#000" stroke-width="5"/>
+<line x1="1303" y1="2194" x2="1303" y2="2218" stroke="#000" stroke-width="3"/>
+<line x1="565" y1="2563" x2="565" y2="2587" stroke="#000" stroke-width="3"/>
+<line x1="782" y1="2563" x2="782" y2="2587" stroke="#000" stroke-width="3"/>
+<line x1="1023" y1="2561" x2="1023" y2="2589" stroke="#000" stroke-width="5"/>
+<line x1="1294" y1="2563" x2="1294" y2="2587" stroke="#000" stroke-width="3"/>
+<circle cx="720" cy="1190" r="38" fill="white"/>
+<circle cx="915" cy="832" r="20" fill="#000"/>
+<circle cx="914" cy="1448" r="20" fill="#000"/>
+<circle cx="745" cy="1810" r="20" fill="#000"/>
+<circle cx="952" cy="1810" r="20" fill="#000"/>
+<circle cx="923" cy="2206" r="20" fill="#000"/>
+<circle cx="1023" cy="2575" r="20" fill="#000"/>
+<text x="720" y="1210" font-size="56" font-family="Inter, sans-serif" font-weight="900" fill="black" text-anchor="middle">!</text>
+<rect x="55" y="60" width="265" height="72" fill="#000"/>
+<text x="188" y="112" font-size="40" font-family="Inter, sans-serif" font-weight="bold" letter-spacing="4" fill="#fff" text-anchor="middle">FIGURA 3</text>
+<text x="77" y="255" font-size="140" font-family="'Cormorant Garamond', 'DejaVu Serif', Georgia, serif" font-weight="900" fill="#000" text-anchor="start">Cinco instrumentos que</text>
+<text x="76" y="355" font-size="114" font-family="'Cormorant Garamond', 'DejaVu Serif', Georgia, serif" font-weight="900" fill="#000" text-anchor="start">mudam a consulta em</text>
+<text x="76" y="474" font-size="110" font-family="'Cormorant Garamond', 'DejaVu Serif', Georgia, serif" font-weight="900" fill="#000" text-anchor="start">cinco minutos.</text>
+<text x="80" y="580" font-size="53" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">O mínimo necessário para identificar quando</text>
+<text x="80" y="653" font-size="53" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">o plano deixa de ser biológico.</text>
+<circle cx="153" cy="781" r="38" fill="#000"/>
+<text x="153" y="797" font-size="46" font-family="Inter, sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+<text x="220" y="802" font-size="77" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start">PHQ-9</text>
+<text x="219" y="881" font-size="41" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">Depressão</text>
+<text x="218" y="947" font-size="34" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">Sintomas depressivos</text>
+<text x="218" y="986" font-size="27" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">nas últimas 2 semanas.</text>
+<text x="567" y="794" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">0</text>
+<text x="738" y="794" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">5</text>
+<text x="912" y="793" font-size="39" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle">10</text>
+<text x="1109" y="794" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">15</text>
+<text x="1310" y="794" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">20</text>
+<text x="714" y="908" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">leve</text>
+<text x="854" y="908" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">moderada</text>
+<text x="1047" y="908" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">moderada-</text>
+<text x="1074" y="948" font-size="17" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">severa</text>
+<text x="1264" y="910" font-size="17" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">severa</text>
+<text x="673" y="1044" font-size="41" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">→ ≥ 10 → entra no plano agora.</text>
+<text x="780" y="1130" font-size="35" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#fff" text-anchor="start">Qualquer resposta positiva</text>
+<text x="780" y="1177" font-size="36" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#fff" text-anchor="start">sobre ideação suicida =</text>
+<text x="780" y="1222" font-size="32" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#fff" text-anchor="start">conversa imediata, antes do</text>
+<text x="780" y="1272" font-size="35" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#fff" text-anchor="start">paciente sair.</text>
+<circle cx="153" cy="1395" r="38" fill="#000"/>
+<text x="153" y="1411" font-size="46" font-family="Inter, sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+<text x="220" y="1416" font-size="78" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start">GAD-7</text>
+<text x="217" y="1482" font-size="33" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">Ansiedade</text>
+<text x="217" y="1539" font-size="43" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">generalizada</text>
+<text x="218" y="1594" font-size="27" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">Sintomas de ansiedade</text>
+<text x="218" y="1638" font-size="26" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">nas últimas 2 semanas.</text>
+<text x="568" y="1406" font-size="30" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">0</text>
+<text x="738" y="1406" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">5</text>
+<text x="912" y="1405" font-size="36" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle">10</text>
+<text x="1090" y="1406" font-size="30" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">15</text>
+<text x="1305" y="1405" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">21</text>
+<text x="713" y="1520" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">leve</text>
+<text x="854" y="1520" font-size="24" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">moderada</text>
+<text x="1050" y="1521" font-size="17" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">severa</text>
+<text x="673" y="1631" font-size="34" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">→ ≥ 10 → ansiedade relevante.</text>
+<circle cx="153" cy="1762" r="38" fill="#000"/>
+<text x="153" y="1778" font-size="46" font-family="Inter, sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">3</text>
+<text x="220" y="1783" font-size="78" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start">AUDIT</text>
+<text x="218" y="1843" font-size="30" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">Consumo</text>
+<text x="219" y="1894" font-size="39" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">problemático</text>
+<text x="218" y="1934" font-size="31" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">de álcool</text>
+<text x="219" y="1984" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">Padrões de uso</text>
+<text x="218" y="2024" font-size="26" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">de álcool.</text>
+<text x="568" y="1769" font-size="30" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">0</text>
+<text x="746" y="1769" font-size="34" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle">8</text>
+<text x="949" y="1769" font-size="34" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle">16</text>
+<text x="1304" y="1769" font-size="30" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">40</text>
+<text x="715" y="1890" font-size="24" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">risco</text>
+<text x="889" y="1887" font-size="28" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">uso nocivo /</text>
+<text x="886" y="1929" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">dependência</text>
+<text x="673" y="2000" font-size="36" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">→ ≥ 8 → risco mesmo em uso social.</text>
+<text x="672" y="2051" font-size="30" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">Sobretudo em paciente que diz &quot;só bebo socialmente&quot;.</text>
+<circle cx="153" cy="2153" r="38" fill="#000"/>
+<text x="153" y="2169" font-size="46" font-family="Inter, sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">4</text>
+<text x="220" y="2174" font-size="78" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start">PCL-5</text>
+<text x="217" y="2228" font-size="31" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">Transtorno de</text>
+<text x="218" y="2279" font-size="39" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">estresse pós-</text>
+<text x="217" y="2318" font-size="31" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">traumático</text>
+<text x="218" y="2368" font-size="26" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">Sintomas relacionados</text>
+<text x="218" y="2408" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">a evento traumático.</text>
+<text x="568" y="2165" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">0</text>
+<text x="924" y="2165" font-size="32" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle">33</text>
+<text x="1302" y="2165" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">80</text>
+<text x="673" y="2344" font-size="48" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">→ ≥ 33 → investigar trauma.</text>
+<text x="672" y="2391" font-size="30" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">Aplicar se a pergunta de trauma na</text>
+<text x="673" y="2431" font-size="30" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">anamnese foi positiva.</text>
+<circle cx="153" cy="2530" r="38" fill="#000"/>
+<text x="153" y="2546" font-size="46" font-family="Inter, sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">5</text>
+<text x="220" y="2551" font-size="77" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start">UCLA-3</text>
+<text x="218" y="2612" font-size="39" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">Solidão percebida</text>
+<text x="219" y="2672" font-size="32" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">Percepção subjetiva de</text>
+<text x="216" y="2717" font-size="40" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start">conexão e pertencimento.</text>
+<text x="568" y="2532" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">0</text>
+<text x="782" y="2532" font-size="31" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">3</text>
+<text x="1024" y="2532" font-size="32" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="middle">6</text>
+<text x="1292" y="2532" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="middle">9</text>
+<text x="748" y="2640" font-size="24" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">baixa</text>
+<text x="976" y="2640" font-size="24" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">elevada</text>
+<text x="673" y="2717" font-size="34" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="start">→ ≥ 6 → solidão relevante.</text>
+<text x="674" y="2773" font-size="32" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">Mesmo em paciente que diz ter &quot;muitos amigos&quot;.</text>
+<circle cx="1525" cy="880" r="60" fill="#000"/>
+<text x="1525" y="905" font-size="72" font-family="Inter, sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">★</text>
+<text x="1462" y="1036" font-size="73" font-family="'Cormorant Garamond', 'DejaVu Serif', Georgia, serif" font-weight="bold" fill="#000" text-anchor="start">Quando o</text>
+<text x="1464" y="1125" font-size="78" font-family="'Cormorant Garamond', 'DejaVu Serif', Georgia, serif" font-weight="bold" fill="#000" text-anchor="start">psicológico</text>
+<text x="1461" y="1211" font-size="77" font-family="'Cormorant Garamond', 'DejaVu Serif', Georgia, serif" font-weight="bold" fill="#000" text-anchor="start">vira prioridade</text>
+<text x="1462" y="1295" font-size="77" font-family="'Cormorant Garamond', 'DejaVu Serif', Georgia, serif" font-weight="bold" fill="#000" text-anchor="start">do plano:</text>
+<circle cx="1480" cy="1452" r="34" fill="#000"/>
+<text x="1480" y="1466" font-size="41" font-family="Inter, sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+<text x="1558" y="1482" font-size="48" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">PCR persistente</text>
+<text x="1497" y="1534" font-size="47" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">≥ 1,5 apesar de</text>
+<text x="1558" y="1594" font-size="48" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">pilares biológicos</text>
+<text x="1557" y="1648" font-size="37" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">otimizados.</text>
+<circle cx="1480" cy="1820" r="34" fill="#000"/>
+<text x="1480" y="1834" font-size="41" font-family="Inter, sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+<text x="1558" y="1817" font-size="45" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">Pontuação</text>
+<text x="1558" y="1879" font-size="47" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">≥ ponto de corte</text>
+<text x="1557" y="1940" font-size="48" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">em qualquer</text>
+<text x="1557" y="1994" font-size="37" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">escala acima.</text>
+<circle cx="1480" cy="2160" r="34" fill="#000"/>
+<text x="1480" y="2174" font-size="41" font-family="Inter, sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">3</text>
+<text x="1559" y="2164" font-size="47" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">Ideação suicida</text>
+<text x="1557" y="2219" font-size="34" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">ou trauma</text>
+<text x="1558" y="2279" font-size="37" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">relatados em</text>
+<text x="1557" y="2349" font-size="47" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">qualquer</text>
+<text x="1558" y="2403" font-size="37" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start">intensidade.</text>
+<text x="1681" y="2553" font-size="40" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="middle">Identificar cedo muda</text>
+<text x="1684" y="2620" font-size="51" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="middle">a direção do plano</text>
+<text x="1686" y="2672" font-size="41" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="middle">e o desfecho do</text>
+<text x="1688" y="2737" font-size="50" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="bold" fill="#000" text-anchor="middle">paciente.</text>
+<text x="70" y="2912" font-size="37" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">Fontes: PHQ-9 (Kroenke et al., JGIM 2001); GAD-7 (Spitzer et al., Arch Intern Med 2006);</text>
+<text x="68" y="2952" font-size="34" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">AUDIT (Saunders et al., Addiction 1993); PCL-5 (Weathers et al., NCPTSD 2013);</text>
+<text x="71" y="2995" font-size="37" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" font-style="italic">UCLA-3 (Hughes et al., Research on Aging 2004). Todos validados em português brasileiro.</text>
+</svg>

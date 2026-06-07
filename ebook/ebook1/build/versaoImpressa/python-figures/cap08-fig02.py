@@ -1,11 +1,16 @@
 """
 Cap08 Fig02 (PT-BR, B&W vetorial) — Finasterida: quando sim, quando não.
-Fluxograma de decisão clínica.
+
+Fluxograma clínico convertido pra B&W. Mantém semântica via ícones, peso de borda
+e shape (não cor). Layout vertical compacto pra caber 1024 px de altura sem overlap.
 """
-from pathlib import Path
+from pathlib import Path as _Path
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
-from matplotlib.patches import FancyBboxPatch, Polygon, FancyArrowPatch, Rectangle
+from matplotlib.patches import (
+    Rectangle, FancyBboxPatch, Polygon, Circle, FancyArrowPatch, Ellipse
+)
+import numpy as np
 
 rcParams["font.family"] = "sans-serif"
 rcParams["font.sans-serif"] = ["Inter", "Open Sans", "DejaVu Sans"]
@@ -13,214 +18,308 @@ rcParams["axes.unicode_minus"] = False
 rcParams["pdf.fonttype"] = 42
 rcParams["ps.fonttype"] = 42
 
-BG       = "#FFFFFF"
-INK      = "#000000"
-INK_SOFT = "#3A3A3A"
-TICK     = "#555555"
-FOOT     = "#666666"
-BAND_OK  = "#EDEDED"     # caixa "SIM"
-BAND_BAD = "#D0D0D0"     # caixa "NÃO"
-BAND_NEU = "#F4F4F4"     # caixas neutras
-BAND_REG = "#E8E8E8"     # base regulatória
+BG    = "#FFFFFF"
+INK   = "#000000"
+SOFT  = "#3A3A3A"
+FOOT  = "#6A6A6A"
+DARK  = "#2A2A2A"
+GRAY1 = "#9E9E9E"
+GRAY2 = "#D9D9D9"
+GRAY3 = "#F2F2F2"
 
-fig = plt.figure(figsize=(11.0, 8.6))
+W_IMG, H_IMG = 1536, 1024
+_FIG_W = 10.0
+_FIG_H = _FIG_W * H_IMG / W_IMG
+fig = plt.figure(figsize=(_FIG_W, _FIG_H))
 fig.patch.set_facecolor(BG)
 
-# Título
-fig.text(0.025, 0.955, "Figura 2 — Finasterida: quando sim, quando não.",
-         fontsize=15, color=INK, weight="bold")
-fig.text(0.025, 0.918,
-         "O posicionamento clínico do autor — indicação regulatória vs. uso cosmético, à luz da síndrome pós-finasterida (PFS).",
-         fontsize=9, color=INK_SOFT, style="italic")
+ax = fig.add_axes([0, 0, 1, 1])
+ax.set_xlim(0, W_IMG)
+ax.set_ylim(H_IMG, 0)
+ax.set_aspect("equal")
+ax.axis("off")
 
-# ---------- Caixa do paciente (topo) ----------
-PAT_BOX = FancyBboxPatch(
-    (0.30, 0.83), 0.40, 0.045,
-    boxstyle="round,pad=0.005,rounding_size=0.005",
-    facecolor=BAND_NEU, edgecolor=INK, linewidth=1.0,
-    transform=fig.transFigure, zorder=2
-)
-fig.patches.append(PAT_BOX)
-fig.text(0.50, 0.852, "Paciente adulto com",
-         fontsize=10, color=INK, weight="bold", ha="center", va="center")
-fig.text(0.50, 0.838, "queda de cabelo e/ou sintomas prostáticos",
-         fontsize=9, color=INK_SOFT, ha="center", va="center")
+# ============================================================
+# CABEÇALHO
+# ============================================================
+ax.add_patch(Rectangle((22, 18), 156-22, 45-18, facecolor=INK, edgecolor="none"))
+ax.text((22+156)/2, (18+45)/2, "FIGURA 2",
+        fontsize=9.5, color="white", weight="bold", va="center", ha="center")
 
-# Seta pra baixo
-fig.patches.append(FancyArrowPatch(
-    (0.50, 0.830), (0.50, 0.795),
-    arrowstyle="->", color=INK, lw=1.2, mutation_scale=14,
-    transform=fig.transFigure, zorder=3
-))
+ax.text(41, 100,
+        "Finasterida: quando sim, quando não.",
+        fontsize=22, color=INK, weight="bold", va="center", ha="left")
 
-# ---------- Diamante de decisão ----------
-diamond_pts = [
-    (0.50, 0.810),  # topo
-    (0.66, 0.745),  # direita
-    (0.50, 0.680),  # fundo
-    (0.34, 0.745),  # esquerda
+ax.text(43, 160,
+        "O posicionamento clínico do autor — indicação regulatória vs. uso cosmético, à luz da síndrome pós-finasterida (PFS).",
+        fontsize=10, color=SOFT, va="center", ha="left")
+
+# ============================================================
+# PILL PACIENTE
+# ============================================================
+pill_x, pill_y, pill_w, pill_h = 412, 212, 589, 78
+pad = pill_h / 2 - 2
+ax.add_patch(FancyBboxPatch(
+    (pill_x + pad, pill_y + pad),
+    pill_w - 2*pad, pill_h - 2*pad,
+    boxstyle=f"round,pad={pad-1},rounding_size={pad-1}",
+    facecolor=DARK, edgecolor="none"))
+
+icx, icy = pill_x + 42, pill_y + pill_h/2
+ax.add_patch(Circle((icx, icy - 10), 9, facecolor="white", edgecolor="none"))
+ax.add_patch(Polygon([
+    (icx-15, icy+18), (icx+15, icy+18), (icx+12, icy+3), (icx-12, icy+3)
+], closed=True, facecolor="white", edgecolor="none"))
+
+ax.text(pill_x + 80, pill_y + 28, "Paciente adulto com",
+        fontsize=11, color="white", weight="bold", va="center", ha="left")
+ax.text(pill_x + 80, pill_y + 55, "queda de cabelo e/ou sintomas prostáticos",
+        fontsize=11, color="white", weight="bold", va="center", ha="left")
+
+# Seta pill → diamond
+ax.add_patch(FancyArrowPatch(
+    (716, pill_y + pill_h), (716, 308),
+    arrowstyle="-|>,head_length=8,head_width=7",
+    color=INK, linewidth=1.5, zorder=3))
+
+# ============================================================
+# DIAMANTE DE DECISÃO — center (716, 370)
+# ============================================================
+DCX, DCY = 716, 370
+DW, DH = 244, 124
+diamond_pts = [(DCX, DCY-DH/2), (DCX+DW/2, DCY), (DCX, DCY+DH/2), (DCX-DW/2, DCY)]
+ax.add_patch(Polygon(diamond_pts, closed=True,
+                     facecolor=GRAY2, edgecolor=INK, linewidth=1.6, zorder=3))
+ax.text(DCX, DCY-22, "Tem HPB",
+        fontsize=11, color=INK, weight="bold", va="center", ha="center", zorder=4)
+ax.text(DCX, DCY, "sintomática",
+        fontsize=11, color=INK, weight="bold", va="center", ha="center", zorder=4)
+ax.text(DCX, DCY+22, "(IPSS ≥ 8)?",
+        fontsize=11, color=INK, weight="bold", va="center", ha="center", zorder=4)
+
+# ============================================================
+# CONECTORES SIM / NÃO
+# ============================================================
+# SIM: diamante esquerdo (594, 370) → horizontal pra (359, 370) → desce pra box1 top (359, 450)
+# Label SIM ACIMA do segmento horizontal
+ax.text(490, 350, "SIM",
+        fontsize=16, color=INK, weight="bold", va="center", ha="center", zorder=4)
+ax.plot([DCX-DW/2, 359], [DCY, DCY], color=INK, linewidth=1.4, zorder=2)
+ax.plot([359, 359], [DCY, 445], color=INK, linewidth=1.4, zorder=2)
+ax.add_patch(Polygon([(355, 445), (363, 445), (359, 453)],
+                     closed=True, facecolor=INK, edgecolor="none", zorder=4))
+
+# NÃO: diamante direito (838, 370) → horizontal (1108, 370) → desce pra red box top (1108, 450)
+ax.text(940, 350, "NÃO",
+        fontsize=16, color=INK, weight="bold", va="center", ha="center", zorder=4)
+ax.plot([DCX+DW/2, 1108], [DCY, DCY], color=INK, linewidth=1.4, zorder=2)
+ax.plot([1108, 1108], [DCY, 445], color=INK, linewidth=1.4, zorder=2)
+ax.add_patch(Polygon([(1104, 445), (1112, 445), (1108, 453)],
+                     closed=True, facecolor=INK, edgecolor="none", zorder=4))
+
+# ============================================================
+# CAIXA SIM 1 — Indicação clínica consistente
+# Layout original: ícone top-left + título à direita do ícone + body abaixo,
+# alinhado em coluna com o título (não cruza o ícone)
+# ============================================================
+gb1_x, gb1_y, gb1_w, gb1_h = 169, 453, 381, 175
+ax.add_patch(FancyBboxPatch(
+    (gb1_x+6, gb1_y+6), gb1_w-12, gb1_h-12,
+    boxstyle="round,pad=4,rounding_size=10",
+    facecolor=BG, edgecolor=INK, linewidth=1.4))
+
+# Icon top-left
+icx, icy = gb1_x + 40, gb1_y + 40
+ax.add_patch(Circle((icx, icy), 20, facecolor=INK, edgecolor="none"))
+ax.plot([icx-10, icx-2, icx+11], [icy, icy+8, icy-9],
+        color="white", linewidth=3, solid_capstyle="round", zorder=5)
+
+# Título à direita do ícone (mesmo y do ícone)
+TEXT_X = gb1_x + 75
+ax.text(TEXT_X, gb1_y + 40, "Indicação clínica consistente",
+        fontsize=9.5, color=INK, weight="bold", va="center", ha="left")
+# Body alinhado no mesmo x do título
+ax.text(TEXT_X, gb1_y + 80, "Finasterida 5 mg/dia OU",
+        fontsize=10, color=SOFT, va="center", ha="left")
+ax.text(TEXT_X, gb1_y + 105, "dutasterida 0,5 mg/dia —",
+        fontsize=10, color=SOFT, va="center", ha="left")
+ax.text(TEXT_X, gb1_y + 130, "décadas de evidência.",
+        fontsize=10, color=SOFT, va="center", ha="left")
+
+# Conector box1 → box2
+ax.plot([359, 359], [gb1_y + gb1_h, 648], color=INK, linewidth=1.2, zorder=2)
+ax.add_patch(Circle((359, 648), 4, facecolor=INK, edgecolor="none", zorder=3))
+
+# ============================================================
+# CAIXA SIM 2 — Consentimento informado
+# Layout: ícone vertical-centro + TODOS os textos à direita do ícone
+# ============================================================
+gb2_x, gb2_y, gb2_w, gb2_h = 170, 648, 379, 135
+ax.add_patch(FancyBboxPatch(
+    (gb2_x+6, gb2_y+6), gb2_w-12, gb2_h-12,
+    boxstyle="round,pad=4,rounding_size=10",
+    facecolor=BG, edgecolor=INK, linewidth=1.4))
+
+# Icon vertical center
+icx, icy = gb2_x + 40, gb2_y + gb2_h/2
+ax.add_patch(Circle((icx, icy), 20, facecolor=INK, edgecolor="none"))
+ax.add_patch(Circle((icx, icy-6), 5, facecolor="white", edgecolor="none"))
+ax.add_patch(Polygon([
+    (icx-9, icy+10), (icx+9, icy+10), (icx+6, icy+1), (icx-6, icy+1)
+], closed=True, facecolor="white", edgecolor="none"))
+
+# Todos os 3 textos à direita do ícone, alinhados em coluna
+TEXT_X = gb2_x + 75
+ax.text(TEXT_X, gb2_y + 38, "Consentimento informado",
+        fontsize=9.5, color=INK, weight="bold", va="center", ha="left")
+ax.text(TEXT_X, gb2_y + 70, "inclui conversa sobre",
+        fontsize=9.5, color=SOFT, va="center", ha="left")
+ax.text(TEXT_X, gb2_y + 92, "efeitos sexuais possíveis.",
+        fontsize=9.5, color=SOFT, va="center", ha="left")
+
+# ============================================================
+# CAIXA NÃO — Indicação cosmética (borda preta grossa)
+# ============================================================
+rb_x, rb_y, rb_w, rb_h = 882, 453, 453, 200
+ax.add_patch(FancyBboxPatch(
+    (rb_x+6, rb_y+6), rb_w-12, rb_h-12,
+    boxstyle="round,pad=4,rounding_size=10",
+    facecolor=BG, edgecolor=INK, linewidth=2.2))
+
+# Icon top-left
+picx, picy = rb_x + 40, rb_y + 40
+ax.add_patch(Circle((picx, picy), 20, facecolor=BG, edgecolor=INK, linewidth=3.0))
+slash = 15
+ax.plot([picx - slash*0.707, picx + slash*0.707],
+        [picy + slash*0.707, picy - slash*0.707],
+        color=INK, linewidth=3.0, solid_capstyle="round")
+
+# TODOS os textos alinhados à direita do ícone, em coluna
+TEXT_X = rb_x + 75
+ax.text(TEXT_X, rb_y + 30, "Indicação apenas cosmética",
+        fontsize=10, color=INK, weight="bold", va="center", ha="left")
+ax.text(TEXT_X, rb_y + 53, "(alopecia androgenética)",
+        fontsize=10, color=INK, weight="bold", va="center", ha="left")
+ax.text(TEXT_X, rb_y + 90, "NÃO prescrever finasterida",
+        fontsize=10, color=INK, weight="bold", va="center", ha="left")
+ax.text(TEXT_X, rb_y + 112, "nem dutasterida.",
+        fontsize=10, color=INK, weight="bold", va="center", ha="left")
+ax.text(TEXT_X, rb_y + 145, "Risco de síndrome pós-finasterida",
+        fontsize=9, color=SOFT, va="center", ha="left")
+ax.text(TEXT_X, rb_y + 165, "(PFS) desproporcional ao desfecho",
+        fontsize=9, color=SOFT, va="center", ha="left")
+ax.text(TEXT_X, rb_y + 185, "estético.",
+        fontsize=9, color=SOFT, va="center", ha="left")
+
+# Conector red → leaf
+ax.plot([1108, 1108], [rb_y + rb_h, 670], color=INK, linewidth=1.2, zorder=2)
+ax.add_patch(Circle((1108, 670), 4, facecolor=INK, edgecolor="none", zorder=3))
+
+# ============================================================
+# CAIXA NÃO 2 — Alternativas com evidência (leaf)
+# ============================================================
+glb_x, glb_y, glb_w, glb_h = 870, 670, 465, 132
+ax.add_patch(FancyBboxPatch(
+    (glb_x+6, glb_y+6), glb_w-12, glb_h-12,
+    boxstyle="round,pad=4,rounding_size=10",
+    facecolor=BG, edgecolor=INK, linewidth=1.4))
+
+# Icon vertical center
+lcx, lcy = glb_x + 40, glb_y + glb_h/2
+ax.add_patch(Circle((lcx, lcy), 20, facecolor=INK, edgecolor="none"))
+ax.add_patch(Ellipse((lcx, lcy), 24, 11, angle=-35,
+                     facecolor="white", edgecolor="none"))
+ax.plot([lcx-8, lcx+10], [lcy+7, lcy-7],
+        color=INK, linewidth=1.4, solid_capstyle="round", zorder=6)
+
+# TODOS os textos à direita do ícone, em coluna
+TEXT_X = glb_x + 75
+ax.text(TEXT_X, glb_y + 22, "Alternativas com evidência:",
+        fontsize=10, color=INK, weight="bold", va="center", ha="left")
+ax.text(TEXT_X, glb_y + 50, "minoxidil tópico 5% ou oral baixa dose;",
+        fontsize=8.5, color=SOFT, va="center", ha="left")
+ax.text(TEXT_X, glb_y + 70, "PRP capilar; microneedling; correção",
+        fontsize=8.5, color=SOFT, va="center", ha="left")
+ax.text(TEXT_X, glb_y + 90, "de ferritina ≥ 40; otimização de vit. D,",
+        fontsize=8.5, color=SOFT, va="center", ha="left")
+ax.text(TEXT_X, glb_y + 110, "B12, zinco, função tireoidiana.",
+        fontsize=8.5, color=SOFT, va="center", ha="left")
+
+# ============================================================
+# BASE REGULATÓRIA + TIMELINE
+# ============================================================
+ax.plot([168, 1110], [820, 820], color=GRAY1, linewidth=1.0, zorder=1)
+ax.text(1329, 820, "BASE REGULATÓRIA",
+        fontsize=11, color=INK, weight="bold", va="center", ha="right",
+        bbox=dict(facecolor=BG, edgecolor="none", pad=4))
+
+NODES = [
+    (288, ["2011 — FDA:", "advertência sobre", "depressão em bula."]),
+    (715, ["2022 — FDA:", "atualização da bula", "alertando sobre",
+           "ideação suicida."]),
+    (1149, ["2025 — EMA:", "reconhecimento formal da",
+            "síndrome pós-finasterida",
+            "(disfunção sexual persistente +",
+            "sintomas neuropsiquiátricos)."]),
 ]
-fig.patches.append(Polygon(
-    diamond_pts, closed=True,
-    facecolor=BAND_NEU, edgecolor=INK, linewidth=1.0,
-    transform=fig.transFigure, zorder=2
-))
-fig.text(0.50, 0.768, "Tem HBP",
-         fontsize=10, color=INK, weight="bold", ha="center", va="center")
-fig.text(0.50, 0.748, "sintomática",
-         fontsize=10, color=INK, weight="bold", ha="center", va="center")
-fig.text(0.50, 0.722, "(IPSS ≥ 8)?",
-         fontsize=10, color=INK, weight="bold", ha="center", va="center")
+# Note: 2022 has 3 lines body, 2025 has 4 lines body. Original confirmed via crop.
 
-# ---------- Setas SIM (esquerda) e NÃO (direita) ----------
-# SIM para a esquerda
-fig.patches.append(FancyArrowPatch(
-    (0.34, 0.745), (0.23, 0.745),
-    arrowstyle="->", color=INK, lw=1.2, mutation_scale=14,
-    transform=fig.transFigure, zorder=3
-))
-fig.text(0.305, 0.757, "SIM", fontsize=11, color=INK, weight="bold",
-         ha="center", va="center")
+ax.plot([NODES[0][0], NODES[-1][0]], [850, 850],
+        color=GRAY1, linewidth=1.0, zorder=1)
+for cx, _ in NODES:
+    ax.add_patch(Circle((cx, 850), 6.5, facecolor=INK, edgecolor="none", zorder=2))
+    ax.plot([cx, cx], [850, 862], color=INK, linewidth=1.0, zorder=2)
 
-# NÃO para a direita
-fig.patches.append(FancyArrowPatch(
-    (0.66, 0.745), (0.77, 0.745),
-    arrowstyle="->", color=INK, lw=1.2, mutation_scale=14,
-    transform=fig.transFigure, zorder=3
-))
-fig.text(0.695, 0.757, "NÃO", fontsize=11, color=INK, weight="bold",
-         ha="center", va="center")
-
-# ---------- Caixa SIM (à esquerda) ----------
-SIM_BOX = FancyBboxPatch(
-    (0.04, 0.45), 0.19, 0.27,
-    boxstyle="round,pad=0.005,rounding_size=0.008",
-    facecolor=BAND_OK, edgecolor=INK, linewidth=1.0,
-    transform=fig.transFigure, zorder=1
-)
-fig.patches.append(SIM_BOX)
-# título com check
-fig.text(0.135, 0.700, "✓  Indicação clínica consistente",
-         fontsize=10, color=INK, weight="bold", ha="center", va="center")
-fig.text(0.135, 0.680, "Finasterida 5 mg/dia OU",
-         fontsize=9, color=INK, ha="center", va="center")
-fig.text(0.135, 0.665, "dutasterida 0,5 mg/dia",
-         fontsize=9, color=INK, ha="center", va="center")
-fig.text(0.135, 0.640, "— décadas de evidência",
-         fontsize=8.5, color=INK_SOFT, style="italic",
-         ha="center", va="center")
-
-# Separador horizontal dentro da caixa
-fig.lines.append(plt.Line2D(
-    [0.06, 0.21], [0.610, 0.610],
-    color="#AAAAAA", linewidth=0.5, transform=fig.transFigure
-))
-
-fig.text(0.135, 0.580, "Consentimento informado",
-         fontsize=9, color=INK, weight="bold",
-         ha="center", va="center")
-fig.text(0.135, 0.560, "sobre efeitos sexuais",
-         fontsize=9, color=INK, ha="center", va="center")
-fig.text(0.135, 0.545, "possíveis.",
-         fontsize=9, color=INK, ha="center", va="center")
-
-# ---------- Caixa NÃO (à direita) ----------
-NAO_BOX = FancyBboxPatch(
-    (0.77, 0.30), 0.19, 0.42,
-    boxstyle="round,pad=0.005,rounding_size=0.008",
-    facecolor=BAND_BAD, edgecolor=INK, linewidth=1.0,
-    transform=fig.transFigure, zorder=1
-)
-fig.patches.append(NAO_BOX)
-# título com X
-fig.text(0.865, 0.700, "✗  Indicação apenas cosmética",
-         fontsize=10, color=INK, weight="bold", ha="center", va="center")
-fig.text(0.865, 0.683, "(alopecia androgenética)",
-         fontsize=8.5, color=INK_SOFT, style="italic",
-         ha="center", va="center")
-
-fig.text(0.865, 0.654, "NÃO prescrever finasterida",
-         fontsize=9, color=INK, weight="bold",
-         ha="center", va="center")
-fig.text(0.865, 0.638, "sem dutasterida.",
-         fontsize=9, color=INK, weight="bold",
-         ha="center", va="center")
-
-fig.text(0.865, 0.614, "Risco de pós-finasterida (PFS)",
-         fontsize=8, color=INK, ha="center", va="center", style="italic")
-fig.text(0.865, 0.600, "— uso cosmético é off-label.",
-         fontsize=8, color=INK, ha="center", va="center", style="italic")
-
-# Separador
-fig.lines.append(plt.Line2D(
-    [0.79, 0.95], [0.578, 0.578],
-    color="#AAAAAA", linewidth=0.5, transform=fig.transFigure
-))
-
-fig.text(0.865, 0.555, "Alternativas com evidência:",
-         fontsize=9, color=INK, weight="bold",
-         ha="center", va="center")
-alt_lines = [
-    "minoxidil tópico 5% ou oral",
-    "em baixa dose; PRP capilar;",
-    "microneedling; correção",
-    "de vitamina D, B12, zinco,",
-    "função tireoidiana.",
+BOXES = [
+    (163, 862, 250, 88),
+    (587, 862, 257, 88),
+    (984, 862, 330, 88),
 ]
-for i, ln in enumerate(alt_lines):
-    fig.text(0.865, 0.530 - i * 0.020, ln,
-             fontsize=8.5, color=INK_SOFT, ha="center", va="center")
+for (bx, by, bw, bh), (cx, lines) in zip(BOXES, NODES):
+    ax.add_patch(FancyBboxPatch(
+        (bx+4, by+4), bw-8, bh-8,
+        boxstyle="round,pad=3,rounding_size=8",
+        facecolor=BG, edgecolor=GRAY1, linewidth=1.0))
+    icx, icy = bx + 26, by + bh/2
+    ax.add_patch(FancyBboxPatch(
+        (icx-16, icy-16), 32, 32,
+        boxstyle="round,pad=0,rounding_size=4",
+        facecolor=GRAY3, edgecolor=GRAY1, linewidth=1.0))
+    ax.add_patch(Rectangle((icx-16, icy-16), 32, 7,
+                           facecolor=GRAY1, edgecolor="none"))
+    ax.plot([icx-9, icx-9], [icy-19, icy-12], color=INK, linewidth=1.6)
+    ax.plot([icx+9, icx+9], [icy-19, icy-12], color=INK, linewidth=1.6)
+    for dx in (-7, 0, 7):
+        for dy in (-2, 5):
+            ax.add_patch(Circle((icx+dx, icy+dy), 1.1,
+                                facecolor=GRAY1, edgecolor="none"))
 
-# ---------- Base regulatória (timeline embaixo) ----------
-fig.text(0.50, 0.22, "BASE REGULATÓRIA",
-         fontsize=10, color=INK_SOFT, weight="bold", ha="center")
+    ax.text(bx + 56, by + 16, lines[0],
+            fontsize=9.5, color=INK, weight="bold", va="center", ha="left")
+    for i, ln in enumerate(lines[1:]):
+        ax.text(bx + 56, by + 32 + i*12, ln,
+                fontsize=7.5, color=SOFT, va="center", ha="left")
 
-# Linha horizontal
-fig.lines.append(plt.Line2D(
-    [0.10, 0.90], [0.180, 0.180],
-    color=INK, linewidth=1.0, transform=fig.transFigure
-))
+# ============================================================
+# SOURCE
+# ============================================================
+# Source — uso matplotlib mathtext pra misturar bold + italic na mesma linha
+ax.text(43, 975,
+        r"$\bf{Fonte:}$ $\it{FDA\ Drug\ Safety\ Communications}$ (2011, 2022); "
+        r"$\it{EMA\ PRAC\ Recommendation}$ (2025).",
+        fontsize=9.5, color=FOOT, va="center", ha="left")
+ax.text(43, 1000,
+        "Posicionamento clínico do autor expresso no Capítulo 8.",
+        fontsize=9.5, color=FOOT, va="center", ha="left")
 
-# 3 marcos
-milestones = [
-    (0.20, "2011 — FDA",  "Sexual adverse\nevents"),
-    (0.50, "2022 — FDA",  "Long-term\npersistence"),
-    (0.80, "2025 — EMA",  "Recomendações\nformais sobre\nsíndrome\npós-finasterida"),
-]
-
-for x, lbl, sub in milestones:
-    # marker
-    fig.patches.append(Rectangle(
-        (x - 0.003, 0.176), 0.006, 0.008,
-        facecolor=INK, edgecolor="none", transform=fig.transFigure, zorder=3
-    ))
-    fig.text(x, 0.160, lbl,
-             fontsize=9, color=INK, weight="bold", ha="center", va="top")
-    fig.text(x, 0.140, sub,
-             fontsize=7.5, color=INK_SOFT, ha="center", va="top",
-             linespacing=1.2, style="italic")
-
-# Footer
-fig.text(0.025, 0.060,
-         "Fonte: FDA Drug Safety Communications (2011, 2022); EMA PRAC Recommendations (2025).",
-         fontsize=8, color=FOOT)
-fig.text(0.025, 0.038,
-         "PFS: post-finasteride syndrome. IPSS: International Prostate Symptom Score. HBP: hiperplasia benigna da próstata.",
-         fontsize=8, color=FOOT)
-fig.text(0.025, 0.015,
-         "Discussão clínica completa do autor no Capítulo 8.",
-         fontsize=8, color=FOOT, style="italic")
-
-out_dir = Path(__file__).resolve().parents[1] / "figuras-bw"
+# ============================================================
+# EXPORT
+# ============================================================
+out_dir = _Path(__file__).resolve().parents[1] / "figuras-bw"
 out_dir.mkdir(parents=True, exist_ok=True)
 pdf_path = out_dir / "Cap08_Fig02.pdf"
 png_path = out_dir / "_preview_Cap08_Fig02.png"
-# Tight crop sem padding lateral/topo; 0.08" no inferior pra não colar na legenda.
-from matplotlib.transforms import Bbox as _Bbox
-fig.canvas.draw()
-_tb = fig.get_tightbbox(fig.canvas.get_renderer())  # já em inches
-_bbox_in = _Bbox.from_extents(_tb.x0, _tb.y0 - 0.08, _tb.x1, _tb.y1)
-plt.savefig(pdf_path, facecolor=BG, bbox_inches=_bbox_in)
-plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches=_bbox_in)
+plt.savefig(pdf_path, facecolor=BG, bbox_inches="tight", pad_inches=0.0)
+plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches="tight", pad_inches=0.0)
 print(f"saved → {pdf_path}")
 print(f"preview → {png_path}")

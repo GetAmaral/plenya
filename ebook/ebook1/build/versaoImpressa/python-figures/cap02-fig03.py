@@ -103,18 +103,22 @@ for x, name in zip(disease_xs, diseases):
 funnel_top_y    = 0.60
 funnel_center_x = 0.50
 
-# Polyline: vertical curto sob o label → diagonal pra dentro → vertical curto entrando na banda
-for x in disease_xs:
+# Cubic bezier: tangente vertical FORTE nas duas pontas (control points longe)
+# produz curva que parece quase vertical nas extremidades com sweep suave no meio.
+# Cada linha chega na banda num X ligeiramente diferente (fan/leque, não ponto único).
+trunk_xs_top = [funnel_center_x - 0.012, funnel_center_x - 0.004,
+                funnel_center_x + 0.004, funnel_center_x + 0.012]
+for x, x_end in zip(disease_xs, trunk_xs_top):
     y_start = disease_y - 0.055
-    y_corner1 = y_start - 0.030          # canto onde vira de vertical pra diagonal
-    y_corner2 = funnel_top_y + 0.030     # canto onde vira de diagonal pra vertical
-    waypoints = [
-        (x, y_start),               # sob o label
-        (x, y_corner1),             # primeiro canto
-        (funnel_center_x, y_corner2),  # segundo canto
-        (funnel_center_x, funnel_top_y),  # entrada na banda
+    dy = y_start - funnel_top_y
+    verts = [
+        (x, y_start),
+        (x, y_start - dy * 0.55),                # c1: forte vertical no start
+        (x_end, funnel_top_y + dy * 0.55),       # c2: forte vertical no end
+        (x_end, funnel_top_y),
     ]
-    path = rounded_polyline(waypoints, radius=0.018)
+    codes = [MPLPath.MOVETO, MPLPath.CURVE4, MPLPath.CURVE4, MPLPath.CURVE4]
+    path = MPLPath(verts, codes)
     fig.patches.append(PathPatch(
         path, facecolor="none", edgecolor=INK, linewidth=1.0,
         capstyle="round", joinstyle="round",
@@ -141,25 +145,29 @@ root_xs = [0.22, 0.50, 0.78]
 root_y_top = 0.34    # topo dos labels das raízes
 funnel_bottom_y = 0.46  # base da banda
 
-# 3 polylines saindo da base da banda em direção a cada raiz
-for x in root_xs:
+# 3 branches saindo da base da banda em direção a cada raiz
+# (mesma estética dos topos: cubic bezier com tangente vertical forte nas pontas)
+trunk_xs_bot = [funnel_center_x - 0.008, funnel_center_x, funnel_center_x + 0.008]
+for x_start_off, x_end in zip(trunk_xs_bot, root_xs):
     y_start = funnel_bottom_y
-    y_corner1 = y_start - 0.030          # primeiro canto (vira pra diagonal)
-    y_corner2 = root_y_top + 0.030       # segundo canto (vira pra vertical)
-    if abs(x - funnel_center_x) < 0.001:
-        # Branch central: linha reta vertical, sem cantos
-        waypoints = [
+    dy = y_start - root_y_top
+    if abs(x_end - funnel_center_x) < 0.001:
+        # Branch central: linha reta vertical (sem curva)
+        verts = [
             (funnel_center_x, y_start),
+            (funnel_center_x, y_start - dy * 0.33),
+            (funnel_center_x, root_y_top + dy * 0.33),
             (funnel_center_x, root_y_top),
         ]
     else:
-        waypoints = [
-            (funnel_center_x, y_start),
-            (funnel_center_x, y_corner1),
-            (x, y_corner2),
-            (x, root_y_top),
+        verts = [
+            (x_start_off, y_start),
+            (x_start_off, y_start - dy * 0.55),
+            (x_end, root_y_top + dy * 0.55),
+            (x_end, root_y_top),
         ]
-    path = rounded_polyline(waypoints, radius=0.018)
+    codes = [MPLPath.MOVETO, MPLPath.CURVE4, MPLPath.CURVE4, MPLPath.CURVE4]
+    path = MPLPath(verts, codes)
     fig.patches.append(PathPatch(
         path, facecolor="none", edgecolor=INK, linewidth=1.0,
         capstyle="round", joinstyle="round",

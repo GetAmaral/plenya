@@ -1,0 +1,1051 @@
+{
+  "frame": [
+    1536,
+    1024
+  ],
+  "shapes": [
+    {
+      "type": "rect_fill",
+      "bbox": [
+        468,
+        226,
+        949,
+        277
+      ],
+      "color": "#1a1a1a"
+    },
+    {
+      "type": "rect_fill",
+      "bbox": [
+        468,
+        304,
+        912,
+        354
+      ],
+      "color": "#1a1a1a"
+    },
+    {
+      "type": "rect_fill",
+      "bbox": [
+        468,
+        380,
+        856,
+        431
+      ],
+      "color": "#1a1a1a"
+    },
+    {
+      "type": "rect_fill",
+      "bbox": [
+        470,
+        480,
+        1211,
+        527
+      ],
+      "color": "#9a9aa0"
+    },
+    {
+      "type": "rect_fill",
+      "bbox": [
+        470,
+        554,
+        752,
+        600
+      ],
+      "color": "#9a9aa0"
+    },
+    {
+      "type": "rect_fill",
+      "bbox": [
+        468,
+        627,
+        689,
+        673
+      ],
+      "color": "#9a9aa0"
+    },
+    {
+      "type": "rect_fill",
+      "bbox": [
+        470,
+        701,
+        640,
+        744
+      ],
+      "color": "#9a9aa0"
+    },
+    {
+      "type": "line_h",
+      "y": 754,
+      "x1": 468,
+      "x2": 1293,
+      "stroke": 3,
+      "color": "#000"
+    },
+    {
+      "type": "line_v",
+      "x": 468,
+      "y1": 752,
+      "y2": 762,
+      "stroke": 3,
+      "color": "#000"
+    },
+    {
+      "type": "line_v",
+      "x": 582,
+      "y1": 752,
+      "y2": 762,
+      "stroke": 3,
+      "color": "#000"
+    },
+    {
+      "type": "line_v",
+      "x": 695,
+      "y1": 752,
+      "y2": 762,
+      "stroke": 3,
+      "color": "#000"
+    },
+    {
+      "type": "line_v",
+      "x": 806,
+      "y1": 752,
+      "y2": 762,
+      "stroke": 3,
+      "color": "#000"
+    },
+    {
+      "type": "line_v",
+      "x": 920,
+      "y1": 752,
+      "y2": 762,
+      "stroke": 3,
+      "color": "#000"
+    },
+    {
+      "type": "line_v",
+      "x": 1025,
+      "y1": 752,
+      "y2": 762,
+      "stroke": 3,
+      "color": "#000"
+    },
+    {
+      "type": "line_v",
+      "x": 1120,
+      "y1": 752,
+      "y2": 762,
+      "stroke": 3,
+      "color": "#000"
+    },
+    {
+      "type": "line_v",
+      "x": 1210,
+      "y1": 752,
+      "y2": 762,
+      "stroke": 3,
+      "color": "#000"
+    },
+    {
+      "type": "line_v",
+      "x": 1292,
+      "y1": 752,
+      "y2": 762,
+      "stroke": 3,
+      "color": "#000"
+    },
+    {
+      "type": "bracket",
+      "x": 1268,
+      "y1": 219,
+      "y2": 431,
+      "side": "left",
+      "depth": 18,
+      "stroke": 2
+    },
+    {
+      "type": "rect_fill",
+      "bbox": [
+        165,
+        218,
+        178,
+        432
+      ],
+      "color": "#1a1a1a"
+    },
+    {
+      "type": "rect_fill",
+      "bbox": [
+        165,
+        480,
+        178,
+        744
+      ],
+      "color": "#9a9aa0"
+    },
+    {
+      "type": "line_h",
+      "y": 458,
+      "x1": 35,
+      "x2": 1480,
+      "stroke": 1,
+      "color": "lightgray"
+    },
+    {
+      "type": "circle_fill",
+      "cx": 82,
+      "cy": 865,
+      "r": 22,
+      "color": "#000"
+    },
+    {
+      "type": "rect_stroke",
+      "bbox": [
+        40,
+        825,
+        1080,
+        931
+      ],
+      "stroke": 2,
+      "rx": 10,
+      "color": "#000"
+    },
+    {
+      "type": "rect_stroke",
+      "bbox": [
+        1085,
+        825,
+        1485,
+        931
+      ],
+      "stroke": 2,
+      "rx": 10,
+      "color": "#000"
+    },
+    {
+      "type": "shield_stroke",
+      "cx": 1049,
+      "cy": 978,
+      "w": 44,
+      "h": 64,
+      "stroke": 2.5,
+      "color": "#000"
+    },
+    {
+      "type": "star",
+      "cx": 1049,
+      "cy": 972,
+      "r": 12,
+      "color": "#000",
+      "inner_ratio": 0.5
+    },
+    {
+      "type": "line_v",
+      "x": 1000,
+      "y1": 955,
+      "y2": 1011,
+      "stroke": 1,
+      "color": "gray"
+    },
+    {
+      "type": "line_h",
+      "y": 942,
+      "x1": 41,
+      "x2": 1471,
+      "stroke": 1,
+      "color": "lightgray"
+    }
+  ],
+  "tick_marks": [],
+  "elements": [
+    {
+      "id": "figura",
+      "role": "small_label_gray",
+      "bbox": [
+        35,
+        23,
+        142,
+        41
+      ],
+      "text": "FIGURA 2",
+      "fit_width": true
+    },
+    {
+      "id": "title",
+      "role": "title_serif_bold",
+      "bbox": [
+        35,
+        56,
+        1424,
+        116
+      ],
+      "text": "O preço da solidão: impacto na mortalidade por todas as causas",
+      "k": 0.85,
+      "ff": "'Inter', sans-serif",
+      "fw": "900",
+      "fit_width": true
+    },
+    {
+      "id": "subtitle",
+      "role": "subtitle_gray",
+      "bbox": [
+        35,
+        123,
+        750,
+        155
+      ],
+      "text": "Aumento do risco de morte em comparação a quem não tem o fator.",
+      "fit_width": true
+    },
+    {
+      "id": "h_risco",
+      "role": "small_label_gray",
+      "bbox": [
+        170,
+        174,
+        349,
+        191
+      ],
+      "text": "FATORES DE RISCO",
+      "fit_width": true
+    },
+    {
+      "id": "h_aumento",
+      "role": "small_label_gray",
+      "bbox": [
+        795,
+        172,
+        1134,
+        194
+      ],
+      "text": "AUMENTO DO RISCO DE MORTE (%)",
+      "fit_width": true
+    },
+    {
+      "id": "soc1",
+      "role": "group_label_plain",
+      "bbox": [
+        46,
+        292,
+        144,
+        313
+      ],
+      "text": "FATORES",
+      "k": 1.0,
+      "fill": "#000",
+      "fit_width": true
+    },
+    {
+      "id": "soc2",
+      "role": "group_label_plain",
+      "bbox": [
+        50,
+        327,
+        141,
+        349
+      ],
+      "text": "SOCIAIS",
+      "k": 1.0,
+      "fill": "#000",
+      "fit_width": true
+    },
+    {
+      "id": "cla1",
+      "role": "group_label_plain",
+      "bbox": [
+        52,
+        561,
+        140,
+        580
+      ],
+      "text": "FATORES",
+      "k": 1.0,
+      "fill": "#000",
+      "fit_width": true
+    },
+    {
+      "id": "cla2",
+      "role": "group_label_plain",
+      "bbox": [
+        41,
+        590,
+        150,
+        614
+      ],
+      "text": "CLÁSSICOS",
+      "k": 1.0,
+      "fill": "#000",
+      "fit_width": true
+    },
+    {
+      "id": "lbl1",
+      "role": "bar_label",
+      "bbox": [
+        201,
+        225,
+        339,
+        245
+      ],
+      "text": "Viver sozinho",
+      "fit_width": true
+    },
+    {
+      "id": "sub1",
+      "role": "bar_label_sub",
+      "bbox": [
+        201,
+        255,
+        399,
+        276
+      ],
+      "text": "(mora sem companhia)",
+      "fit_width": true
+    },
+    {
+      "id": "val1",
+      "role": "bar_value",
+      "bbox": [
+        962,
+        239,
+        1015,
+        263
+      ],
+      "text": "32%",
+      "fit_width": true
+    },
+    {
+      "id": "lbl2",
+      "role": "bar_label",
+      "bbox": [
+        202,
+        304,
+        381,
+        324
+      ],
+      "text": "Isolamento social",
+      "fit_width": true
+    },
+    {
+      "id": "sub2",
+      "role": "bar_label_sub",
+      "bbox": [
+        201,
+        335,
+        395,
+        356
+      ],
+      "text": "(pouco contato social)",
+      "fit_width": true
+    },
+    {
+      "id": "val2",
+      "role": "bar_value",
+      "bbox": [
+        921,
+        318,
+        974,
+        342
+      ],
+      "text": "29%",
+      "fit_width": true
+    },
+    {
+      "id": "lbl3",
+      "role": "bar_label",
+      "bbox": [
+        201,
+        383,
+        278,
+        403
+      ],
+      "text": "Solidão",
+      "fit_width": true
+    },
+    {
+      "id": "sub3",
+      "role": "bar_label_sub",
+      "bbox": [
+        201,
+        412,
+        406,
+        433
+      ],
+      "text": "(sentimento de solidão)",
+      "fit_width": true
+    },
+    {
+      "id": "val3",
+      "role": "bar_value",
+      "bbox": [
+        867,
+        393,
+        920,
+        417
+      ],
+      "text": "26%",
+      "fit_width": true
+    },
+    {
+      "id": "lbl4",
+      "role": "bar_label",
+      "bbox": [
+        200,
+        484,
+        307,
+        508
+      ],
+      "text": "Tabagismo",
+      "fit_width": true
+    },
+    {
+      "id": "sub4",
+      "role": "bar_label_sub",
+      "bbox": [
+        201,
+        512,
+        328,
+        532
+      ],
+      "text": "(fumante atual)",
+      "fit_width": true
+    },
+    {
+      "id": "val4_big",
+      "role": "bar_value",
+      "bbox": [
+        1218,
+        490,
+        1297,
+        514
+      ],
+      "text": "70%",
+      "fit_width": true
+    },
+    {
+      "id": "arrow_to_70",
+      "role": "right_callout",
+      "bbox": [
+        1305,
+        494,
+        1330,
+        514
+      ],
+      "text": "←",
+      "fill": "#000",
+      "fs": ""
+    },
+    {
+      "id": "lbl5",
+      "role": "bar_label",
+      "bbox": [
+        201,
+        556,
+        344,
+        575
+      ],
+      "text": "Sedentarismo",
+      "fit_width": true
+    },
+    {
+      "id": "sub5",
+      "role": "bar_label_sub",
+      "bbox": [
+        201,
+        585,
+        356,
+        604
+      ],
+      "text": "(inatividade física)",
+      "fit_width": true
+    },
+    {
+      "id": "val5",
+      "role": "bar_value",
+      "bbox": [
+        765,
+        571,
+        814,
+        595
+      ],
+      "text": "25%",
+      "fit_width": true
+    },
+    {
+      "id": "lbl6",
+      "role": "bar_label",
+      "bbox": [
+        201,
+        628,
+        306,
+        647
+      ],
+      "text": "Obesidade",
+      "fit_width": true
+    },
+    {
+      "id": "sub6",
+      "role": "bar_label_sub",
+      "bbox": [
+        201,
+        656,
+        293,
+        676
+      ],
+      "text": "(IMC ≥ 30)",
+      "fit_width": true
+    },
+    {
+      "id": "val6",
+      "role": "bar_value",
+      "bbox": [
+        702,
+        639,
+        752,
+        663
+      ],
+      "text": "20%",
+      "fit_width": true
+    },
+    {
+      "id": "lbl7",
+      "role": "bar_label",
+      "bbox": [
+        201,
+        698,
+        344,
+        722
+      ],
+      "text": "Poluição do ar",
+      "fit_width": true
+    },
+    {
+      "id": "sub7",
+      "role": "bar_label_sub",
+      "bbox": [
+        201,
+        727,
+        371,
+        748
+      ],
+      "text": "(exposição a PM2.5)",
+      "fit_width": true
+    },
+    {
+      "id": "val7",
+      "role": "bar_value",
+      "bbox": [
+        652,
+        712,
+        700,
+        736
+      ],
+      "text": "15%",
+      "fit_width": true
+    },
+    {
+      "id": "tk0",
+      "role": "axis_tick",
+      "bbox": [
+        462,
+        768,
+        478,
+        784
+      ],
+      "text": "0"
+    },
+    {
+      "id": "tk10",
+      "role": "axis_tick",
+      "bbox": [
+        570,
+        768,
+        596,
+        784
+      ],
+      "text": "10",
+      "fit_width": true
+    },
+    {
+      "id": "tk20",
+      "role": "axis_tick",
+      "bbox": [
+        683,
+        768,
+        707,
+        784
+      ],
+      "text": "20",
+      "fit_width": true
+    },
+    {
+      "id": "tk30",
+      "role": "axis_tick",
+      "bbox": [
+        794,
+        768,
+        820,
+        784
+      ],
+      "text": "30",
+      "fit_width": true
+    },
+    {
+      "id": "tk40",
+      "role": "axis_tick",
+      "bbox": [
+        908,
+        768,
+        934,
+        784
+      ],
+      "text": "40",
+      "fit_width": true
+    },
+    {
+      "id": "tk50",
+      "role": "axis_tick",
+      "bbox": [
+        1013,
+        768,
+        1037,
+        784
+      ],
+      "text": "50",
+      "fit_width": true
+    },
+    {
+      "id": "tk60",
+      "role": "axis_tick",
+      "bbox": [
+        1109,
+        768,
+        1133,
+        784
+      ],
+      "text": "60",
+      "fit_width": true
+    },
+    {
+      "id": "tk70",
+      "role": "axis_tick",
+      "bbox": [
+        1199,
+        768,
+        1223,
+        784
+      ],
+      "text": "70",
+      "fit_width": true
+    },
+    {
+      "id": "tk80",
+      "role": "axis_tick",
+      "bbox": [
+        1280,
+        768,
+        1304,
+        784
+      ],
+      "text": "80",
+      "fit_width": true
+    },
+    {
+      "id": "xaxis_label",
+      "role": "axis_title",
+      "bbox": [
+        716,
+        800,
+        997,
+        825
+      ],
+      "text": "Aumento do risco de morte (%)",
+      "fit_width": true
+    },
+    {
+      "id": "soc_cal1",
+      "role": "right_callout",
+      "bbox": [
+        1300,
+        241,
+        1461,
+        259
+      ],
+      "text": "Fatores sociais —",
+      "fit_width": true,
+      "fw": "bold"
+    },
+    {
+      "id": "soc_cal2",
+      "role": "right_callout",
+      "bbox": [
+        1300,
+        272,
+        1489,
+        291
+      ],
+      "text": "raramente avaliados",
+      "fit_width": true,
+      "fw": "bold"
+    },
+    {
+      "id": "soc_cal3",
+      "role": "right_callout",
+      "bbox": [
+        1300,
+        303,
+        1439,
+        325
+      ],
+      "text": "no consultório,",
+      "fit_width": true,
+      "fw": "bold"
+    },
+    {
+      "id": "soc_cal4",
+      "role": "right_callout",
+      "bbox": [
+        1300,
+        335,
+        1465,
+        357
+      ],
+      "text": "mas com impacto",
+      "fit_width": true,
+      "fw": "bold"
+    },
+    {
+      "id": "soc_cal5",
+      "role": "right_callout",
+      "bbox": [
+        1300,
+        366,
+        1424,
+        389
+      ],
+      "text": "comparável a",
+      "fit_width": true,
+      "fw": "bold"
+    },
+    {
+      "id": "soc_cal6",
+      "role": "right_callout",
+      "bbox": [
+        1299,
+        396,
+        1461,
+        415
+      ],
+      "text": "fatores clássicos.",
+      "fit_width": true,
+      "fw": "bold"
+    },
+    {
+      "id": "cla_cal1",
+      "role": "right_callout",
+      "bbox": [
+        1335,
+        487,
+        1487,
+        503
+      ],
+      "text": "Referência clássica",
+      "fit_width": true
+    },
+    {
+      "id": "cla_cal2",
+      "role": "right_callout",
+      "bbox": [
+        1334,
+        514,
+        1471,
+        530
+      ],
+      "text": "de fator de risco",
+      "fit_width": true
+    },
+    {
+      "id": "cla_cal3",
+      "role": "right_callout",
+      "bbox": [
+        1335,
+        542,
+        1432,
+        558
+      ],
+      "text": "modificável.",
+      "fit_width": true
+    },
+    {
+      "id": "alert_glyph",
+      "role": "alert_box_text",
+      "bbox": [
+        70,
+        848,
+        94,
+        882
+      ],
+      "text": "i",
+      "ff": "'Cormorant Garamond', Georgia, serif",
+      "fw": "900",
+      "fill": "#fff",
+      "anchor": "middle",
+      "k": 1.4
+    },
+    {
+      "id": "alert_title",
+      "role": "alert_inline_title",
+      "bbox": [
+        121,
+        840,
+        350,
+        860
+      ],
+      "text": "COMO LER ESTE GRÁFICO:",
+      "fit_width": true
+    },
+    {
+      "id": "alert_body1",
+      "role": "alert_inline_text",
+      "bbox": [
+        354,
+        840,
+        1060,
+        860
+      ],
+      "text": " As barras mostram o quanto o risco de morte aumenta em pessoas que têm o fator (ou estão expostas)",
+      "fit_width": true
+    },
+    {
+      "id": "alert_body2",
+      "role": "alert_inline_text",
+      "bbox": [
+        121,
+        867,
+        1060,
+        887
+      ],
+      "text": "em comparação àquelas que não têm (ou não estão expostas). Valores são aproximados, derivados de meta-análises",
+      "fit_width": true
+    },
+    {
+      "id": "alert_body3",
+      "role": "alert_inline_text",
+      "bbox": [
+        121,
+        894,
+        366,
+        911
+      ],
+      "text": "de grandes estudos populacionais.",
+      "fit_width": true
+    },
+    {
+      "id": "right_cal1",
+      "role": "right_callout",
+      "bbox": [
+        1105,
+        842,
+        1444,
+        865
+      ],
+      "text": "Não é uma comparação direta com a Figura 1 do",
+      "fit_width": true
+    },
+    {
+      "id": "right_cal2",
+      "role": "right_callout",
+      "bbox": [
+        1105,
+        866,
+        1446,
+        883
+      ],
+      "text": "Capítulo 7 (hazard ratios de extremos de aptidão).",
+      "fit_width": true
+    },
+    {
+      "id": "right_cal3",
+      "role": "right_callout",
+      "bbox": [
+        1104,
+        890,
+        1436,
+        906
+      ],
+      "text": "Aqui, as estimativas são populacionais: “com vs.",
+      "fit_width": true
+    },
+    {
+      "id": "right_cal4",
+      "role": "right_callout",
+      "bbox": [
+        1105,
+        911,
+        1192,
+        926
+      ],
+      "text": "sem” o fator.",
+      "fit_width": true
+    },
+    {
+      "id": "src1",
+      "role": "footer",
+      "bbox": [
+        43,
+        939,
+        899,
+        962
+      ],
+      "text": "Fontes: Holt-Lunstad et al. PLOS Medicine, 2010; Holt-Lunstad et al., Perspectives on Psychological Science, 2015;",
+      "fit_width": true
+    },
+    {
+      "id": "src2",
+      "role": "footer",
+      "bbox": [
+        43,
+        968,
+        880,
+        990
+      ],
+      "text": "Banks et al., BMJ, 2015; The Lancet, 2016; Lee et al., Lancet, 2012; WHO Global Health Risks / GBD, 2020.",
+      "fit_width": true
+    },
+    {
+      "id": "seal_cal1",
+      "role": "right_callout",
+      "bbox": [
+        1101,
+        946,
+        1450,
+        972
+      ],
+      "text": "Em 2023, o Surgeon General dos EUA classificou",
+      "fit_width": true
+    },
+    {
+      "id": "seal_cal2",
+      "role": "right_callout",
+      "bbox": [
+        1100,
+        978,
+        1422,
+        995
+      ],
+      "text": "a solidão como problema de saúde pública de",
+      "fit_width": true
+    },
+    {
+      "id": "seal_cal3",
+      "role": "right_callout",
+      "bbox": [
+        1101,
+        1000,
+        1241,
+        1017
+      ],
+      "text": "prioridade nacional.",
+      "fit_width": true
+    }
+  ]
+}

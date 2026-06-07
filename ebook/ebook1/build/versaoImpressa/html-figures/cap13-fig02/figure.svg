@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 986" width="1480" height="986">
+<rect x="420" y="248" width="185" height="34" fill="#d8dbe0" rx="16" ry="16"/>
+<rect x="733" y="248" width="234" height="34" fill="#d8dbe0" rx="16" ry="16"/>
+<rect x="1108" y="248" width="222" height="34" fill="#d8dbe0" rx="16" ry="16"/>
+<line x1="40" y1="295" x2="1440" y2="295" stroke="#ddd" stroke-width="1"/>
+<line x1="178" y1="384" x2="1413" y2="384" stroke="#ddd" stroke-width="1"/>
+<line x1="178" y1="442" x2="1413" y2="442" stroke="#ddd" stroke-width="1"/>
+<line x1="178" y1="508" x2="1413" y2="508" stroke="#ddd" stroke-width="1"/>
+<line x1="178" y1="576" x2="1413" y2="576" stroke="#ddd" stroke-width="1"/>
+<line x1="40" y1="647" x2="1413" y2="647" stroke="#888" stroke-width="1.5"/>
+<line x1="178" y1="720" x2="1413" y2="720" stroke="#ddd" stroke-width="1"/>
+<line x1="40" y1="792" x2="1413" y2="792" stroke="#888" stroke-width="1"/>
+<line x1="40" y1="907" x2="1413" y2="907" stroke="#ddd" stroke-width="1"/>
+<line x1="432" y1="685" x2="705" y2="685" stroke="#bbb" stroke-width="1.2"/><polygon points="712,685 705,680.9 705,689.1" fill="#bbb"/>
+<line x1="760" y1="685" x2="1073" y2="685" stroke="#bbb" stroke-width="1.2"/><polygon points="1080,685 1073,680.9 1073,689.1" fill="#bbb"/>
+<line x1="432" y1="752" x2="705" y2="752" stroke="#bbb" stroke-width="1.2"/><polygon points="712,752 705,747.9 705,756.1" fill="#bbb"/>
+<line x1="760" y1="752" x2="1073" y2="752" stroke="#bbb" stroke-width="1.2"/><polygon points="1080,752 1073,747.9 1073,756.1" fill="#bbb"/>
+<circle cx="186.0" cy="838" r="17" fill="#bdbfc4"/><path d="M 176.65 843.1 Q 174.95 857.55 178.35 862.65 Q 184.3 856.7 186.85 854.15 Z" fill="#bdbfc4"/><circle cx="214.0" cy="838" r="17" fill="#bdbfc4"/><path d="M 204.65 843.1 Q 202.95 857.55 206.35 862.65 Q 212.3 856.7 214.85 854.15 Z" fill="#bdbfc4"/>
+<circle cx="513" cy="295" r="5" fill="#1a1a1a"/>
+<circle cx="847" cy="295" r="5" fill="#1a1a1a"/>
+<circle cx="1221" cy="295" r="5" fill="#1a1a1a"/>
+<circle cx="415" cy="340" r="10" fill="#000"/>
+<circle cx="415" cy="413" r="10" fill="#000"/>
+<circle cx="415" cy="475" r="10" fill="#000"/>
+<circle cx="415" cy="543" r="10" fill="#000"/>
+<circle cx="415" cy="611" r="10" fill="#000"/>
+<circle cx="415" cy="685" r="10" fill="#000"/>
+<circle cx="415" cy="752" r="10" fill="#000"/>
+<path d="M 722 330 A 10 10 0 0 0 722 350 Z" fill="#000"/><circle cx="722" cy="340" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<path d="M 722 403 A 10 10 0 0 0 722 423 Z" fill="#000"/><circle cx="722" cy="413" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<path d="M 722 465 A 10 10 0 0 0 722 485 Z" fill="#000"/><circle cx="722" cy="475" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<path d="M 722 533 A 10 10 0 0 0 722 553 Z" fill="#000"/><circle cx="722" cy="543" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<path d="M 722 601 A 10 10 0 0 0 722 621 Z" fill="#000"/><circle cx="722" cy="611" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<path d="M 743 675 A 10 10 0 0 0 743 695 Z" fill="#000"/><circle cx="743" cy="685" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<path d="M 743 742 A 10 10 0 0 0 743 762 Z" fill="#000"/><circle cx="743" cy="752" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<circle cx="1095" cy="340" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<circle cx="1095" cy="413" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<circle cx="1095" cy="475" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<circle cx="1095" cy="543" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<circle cx="1095" cy="611" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<circle cx="1095" cy="685" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<circle cx="1095" cy="752" r="10" fill="none" stroke="#000" stroke-width="2"/>
+<rect x="40" y="19" width="140" height="33" fill="#000"/>
+<text x="110" y="43" font-size="18" font-family="Inter, sans-serif" font-weight="bold" letter-spacing="4" fill="#fff" text-anchor="middle">FIGURA 2</text>
+<text x="40" y="110" font-size="54" font-family="'Inter', sans-serif" font-weight="900" fill="#000" text-anchor="start" textLength="975" lengthAdjust="spacingAndGlyphs">“Os exames estão bons. Eu não estou.”</text>
+<text x="40" y="160" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start" textLength="945" lengthAdjust="spacingAndGlyphs">Ricardo, 18 meses após o infarto: painel biológico em ordem, dimensão relacional em colapso.</text>
+<text x="40" y="192" font-size="24" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start" textLength="690" lengthAdjust="spacingAndGlyphs">O trabalho em conexão, propósito e sentido restaurou os dois lados.</text>
+<text x="512" y="235" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#1a1a1a" text-anchor="middle" textLength="75" lengthAdjust="spacingAndGlyphs">T+18m</text>
+<text x="846" y="235" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#1a1a1a" text-anchor="middle" textLength="77" lengthAdjust="spacingAndGlyphs">T+21m</text>
+<text x="1220" y="235" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#1a1a1a" text-anchor="middle" textLength="81" lengthAdjust="spacingAndGlyphs">T+30m</text>
+<text x="516" y="275" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="600" fill="#1a1a1a" text-anchor="middle" textLength="152" lengthAdjust="spacingAndGlyphs">Colapso silencioso</text>
+<text x="852" y="275" font-size="23" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="600" fill="#1a1a1a" text-anchor="middle" textLength="199" lengthAdjust="spacingAndGlyphs">Intervenção multi-frente</text>
+<text x="1220" y="275" font-size="23" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="600" fill="#1a1a1a" text-anchor="middle" textLength="187" lengthAdjust="spacingAndGlyphs">Recuperação completa</text>
+<text x="45" y="424" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#555" text-anchor="start" textLength="106" lengthAdjust="spacingAndGlyphs">DIMENSÃO</text>
+<text x="45" y="456" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#555" text-anchor="start" textLength="90" lengthAdjust="spacingAndGlyphs">HUMANA</text>
+<text x="42" y="486" font-size="17" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#888" text-anchor="start" font-style="italic" textLength="115" lengthAdjust="spacingAndGlyphs">(não bioquímica)</text>
+<text x="44" y="697" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#555" text-anchor="start" textLength="95" lengthAdjust="spacingAndGlyphs">CONTROLE</text>
+<text x="45" y="723" font-size="24" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#555" text-anchor="start" textLength="98" lengthAdjust="spacingAndGlyphs">BIOLÓGICO</text>
+<text x="42" y="756" font-size="17" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#888" text-anchor="start" font-style="italic" textLength="101" lengthAdjust="spacingAndGlyphs">(marcadores)</text>
+<text x="198" y="333" font-size="20" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="109" lengthAdjust="spacingAndGlyphs">Vida sexual</text>
+<text x="199" y="362" font-size="19" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="106" lengthAdjust="spacingAndGlyphs">com Marina</text>
+<text x="198" y="422" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="172" lengthAdjust="spacingAndGlyphs">Amigos próximos (nº)</text>
+<text x="199" y="485" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="146" lengthAdjust="spacingAndGlyphs">Celular no quarto</text>
+<text x="199" y="553" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="165" lengthAdjust="spacingAndGlyphs">Propósito profissional</text>
+<text x="199" y="615" font-size="18" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="166" lengthAdjust="spacingAndGlyphs">Ritual laico com Marina</text>
+<text x="199" y="681" font-size="19" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="154" lengthAdjust="spacingAndGlyphs">PCR ultrassensível</text>
+<text x="199" y="708" font-size="18" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start" textLength="53" lengthAdjust="spacingAndGlyphs">(mg/L)</text>
+<text x="199" y="748" font-size="19" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="141" lengthAdjust="spacingAndGlyphs">Cortisol matinal</text>
+<text x="199" y="775" font-size="17" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="start" textLength="57" lengthAdjust="spacingAndGlyphs">(μg/dL)</text>
+<text x="440" y="349" font-size="24" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="125" lengthAdjust="spacingAndGlyphs">8 meses sem</text>
+<text x="438" y="422" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="24" lengthAdjust="spacingAndGlyphs">0</text>
+<text x="438" y="474" font-size="20" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="48" lengthAdjust="spacingAndGlyphs">sim,</text>
+<text x="438" y="502" font-size="20" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="158" lengthAdjust="spacingAndGlyphs">checagem 3h–5h</text>
+<text x="438" y="553" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="99" lengthAdjust="spacingAndGlyphs">esvaziado</text>
+<text x="438" y="620" font-size="19" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="32" lengthAdjust="spacingAndGlyphs">—</text>
+<text x="438" y="696" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start" textLength="50" lengthAdjust="spacingAndGlyphs">1,4</text>
+<text x="438" y="764" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start" textLength="40" lengthAdjust="spacingAndGlyphs">19</text>
+<text x="752" y="338" font-size="25" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="187" lengthAdjust="spacingAndGlyphs">retomada incipiente</text>
+<text x="752" y="367" font-size="24" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="198" lengthAdjust="spacingAndGlyphs">+ tadalafila 5 mg/dia</text>
+<text x="749" y="422" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="13" lengthAdjust="spacingAndGlyphs">1</text>
+<text x="752" y="482" font-size="21" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="74" lengthAdjust="spacingAndGlyphs">retirado</text>
+<text x="752" y="538" font-size="20" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="184" lengthAdjust="spacingAndGlyphs">mentoria voluntária</text>
+<text x="752" y="564" font-size="20" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="73" lengthAdjust="spacingAndGlyphs">iniciada</text>
+<text x="752" y="606" font-size="21" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="199" lengthAdjust="spacingAndGlyphs">caminhada silenciosa</text>
+<text x="752" y="633" font-size="20" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="90" lengthAdjust="spacingAndGlyphs">dominical</text>
+<text x="765" y="696" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start" textLength="50" lengthAdjust="spacingAndGlyphs">1,0</text>
+<text x="765" y="764" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start" textLength="40" lengthAdjust="spacingAndGlyphs">17</text>
+<text x="1127" y="338" font-size="23" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="61" lengthAdjust="spacingAndGlyphs">plena,</text>
+<text x="1127" y="368" font-size="24" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="191" lengthAdjust="spacingAndGlyphs">qualidade &gt; pré-IAM</text>
+<text x="1124" y="422" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="22" lengthAdjust="spacingAndGlyphs">3</text>
+<text x="1127" y="482" font-size="21" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="128" lengthAdjust="spacingAndGlyphs">10 meses sem</text>
+<text x="1127" y="551" font-size="20" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="183" lengthAdjust="spacingAndGlyphs">ritual semanal firme</text>
+<text x="1127" y="619" font-size="22" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#000" text-anchor="start" textLength="163" lengthAdjust="spacingAndGlyphs">52 domingos/ano</text>
+<text x="1115" y="696" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start" textLength="55" lengthAdjust="spacingAndGlyphs">0,6</text>
+<text x="1115" y="764" font-size="29" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="900" fill="#000" text-anchor="start" textLength="45" lengthAdjust="spacingAndGlyphs">15</text>
+<text x="290" y="850" font-size="42" font-family="'Cormorant Garamond', 'DejaVu Serif', Georgia, serif" font-weight="600" fill="#1a1a1a" text-anchor="start" font-style="italic" textLength="755" lengthAdjust="spacingAndGlyphs">“Doutor, eu achei que ia sair dessa história mais frágil.</text>
+<text x="290" y="886" font-size="40" font-family="'Cormorant Garamond', 'DejaVu Serif', Georgia, serif" font-weight="600" fill="#1a1a1a" text-anchor="start" font-style="italic" textLength="420" lengthAdjust="spacingAndGlyphs">Eu acho que saí mais inteiro.”</text>
+<text x="1230" y="879" font-size="21" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#555" text-anchor="end" textLength="168" lengthAdjust="spacingAndGlyphs">— Ricardo, T+30m.</text>
+<text x="50" y="937" font-size="21" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" textLength="695" lengthAdjust="spacingAndGlyphs">Fonte: caso-tipo do Capítulo 13. Princeton Consensus III (Nehra et al., Mayo Clinic Proc 2012);</text>
+<text x="50" y="962" font-size="20" font-family="'Inter', 'Liberation Sans', 'DejaVu Sans', sans-serif" font-weight="normal" fill="#666" text-anchor="start" textLength="458" lengthAdjust="spacingAndGlyphs">AHA Sexual Activity and CVD (Levine et al., Circulation 2012).</text>
+</svg>

@@ -1,8 +1,15 @@
 """
 Cap03 Fig01 (PT-BR, B&W vetorial) — Os 5 Marcadores do Envelhecimento.
 
-5 pontos numa elipse, conectados por linhas tracejadas (interligados).
-Cada um com nome + descrição curta. Caixa inferior: "Todos são modificáveis".
+Posições EXATAS dos 5 markers detectadas do PNG original via análise pixel-a-pixel:
+  Inflammaging   (red):    px(216,517)  → fig(0.141, 0.495)
+  Disfunção mit. (orange): px(464,418)  → fig(0.302, 0.592)
+  Senescência    (green):  px(760,392)  → fig(0.495, 0.617)
+  Encurtamento   (blue):   px(1058,418) → fig(0.689, 0.592)
+  Instabilidade  (purple): px(1316,528) → fig(0.857, 0.485)
+Elipse: cx=0.499  cy=0.490  a=0.358  b=0.127  (derivado dos markers)
+
+Figsize 11×7.33 preserva aspect ratio do original (1536×1024 = 1.5:1).
 """
 from pathlib import Path
 import matplotlib.pyplot as plt
@@ -23,80 +30,107 @@ DOT      = "#000000"
 DASH     = "#A0A0A0"
 BAND     = "#EDEDED"
 
-fig = plt.figure(figsize=(11.0, 7.0))
+# Aspect ratio idêntico ao original (1.5:1)
+fig = plt.figure(figsize=(11.0, 7.33))
 fig.patch.set_facecolor(BG)
 
-LEFT = 0.025
-
-# Título
-fig.text(LEFT, 0.945, "Figura 1 — Os 5 Marcadores do Envelhecimento",
-         fontsize=17, color=INK, weight="bold", va="center")
-
-# ---------- elipse com 5 pontos ----------
-# Adicionamos eixo coordenado pra plotar mais facilmente
-ax = fig.add_axes([0.05, 0.20, 0.90, 0.65])
-ax.set_xlim(0, 1)
-ax.set_ylim(0, 1)
-ax.axis("off")
-
-# 5 pontos numa curva côncava (elipse, parte superior)
-# Posições x igualmente espaçadas, y seguindo um arco
-xs_pts = np.linspace(0.06, 0.94, 5)
-ys_pts = 0.50 + 0.18 * np.sin(np.linspace(0.1, np.pi - 0.1, 5))  # arco curvado
-
-# Elipse de fundo (cinza suave) — desenhada como linha contínua
-theta = np.linspace(0, 2*np.pi, 200)
-ellipse_cx, ellipse_cy = 0.50, 0.40
-ellipse_a, ellipse_b   = 0.46, 0.30
-ex = ellipse_cx + ellipse_a * np.cos(theta)
-ey = ellipse_cy + ellipse_b * np.sin(theta)
-ax.plot(ex, ey, color="#888888", linewidth=1.0, zorder=1)
-
-# Reposicionar pontos na elipse superior
-# (mais elegante: pontos exatamente sobre a elipse, distribuídos em arco superior)
-arc_angles = np.linspace(np.pi - 0.3, 0.3, 5)
-xs_pts = ellipse_cx + ellipse_a * np.cos(arc_angles)
-ys_pts = ellipse_cy + ellipse_b * np.sin(arc_angles)
-
-# Linhas tracejadas conectando todos os pontos entre si
-for i in range(len(xs_pts)):
-    for j in range(i + 1, len(xs_pts)):
-        ax.plot([xs_pts[i], xs_pts[j]], [ys_pts[i], ys_pts[j]],
-                color=DASH, linewidth=0.7, linestyle=(0, (3, 3)), zorder=2)
-
-# Pontos
-for x, y in zip(xs_pts, ys_pts):
-    ax.plot([x], [y], "o", color=DOT, markersize=10, zorder=4)
-
-# Rótulos dos marcadores (acima do ponto)
-labels = [
-    ("Inflammaging",          "O fogo silencioso"),
-    ("Disfunção\nmitocondrial",  "Usinas falhando"),
-    ("Senescência\ncelular",     "Células zumbis"),
-    ("Encurtamento\ntelomérico", "Relógios nas pontas"),
-    ("Instabilidade\nepigenética", "Genes ligando\ne desligando"),
+# Coordenadas EXATAS dos markers em figure-fraction (do original)
+markers = [
+    (0.141, 0.495, "Inflammaging",           "O fogo silencioso"),
+    (0.302, 0.592, "Disfunção\nmitocondrial", "Usinas falhando"),
+    (0.495, 0.617, "Senescência\ncelular",    "Células zumbis"),
+    (0.689, 0.592, "Encurtamento\ntelomérico","Relógios nas pontas"),
+    (0.857, 0.485, "Instabilidade\nepigenética","Genes ligando\ne desligando"),
 ]
 
-# Posições verticais dos textos: alguns acima, outros abaixo dependendo da curva
-for i, (x, y, (title, sub)) in enumerate(zip(xs_pts, ys_pts, labels)):
-    # Título acima do ponto
-    ty = y + 0.10
-    ax.text(x, ty, title,
-            fontsize=10.5, color=INK, weight="bold",
-            ha="center", va="bottom", linespacing=1.1)
-    # Subtítulo abaixo do título
-    ax.text(x, ty - 0.06, sub,
-            fontsize=8.5, color=INK_SOFT,
-            ha="center", va="bottom", linespacing=1.1, style="italic")
+# Title — posição detectada Y≈85px → fig y=0.917; X=47px → fig x=0.031
+fig.text(0.031, 0.917, "Figura 1 — Os 5 Marcadores do Envelhecimento",
+         fontsize=20, color=INK, weight="bold", va="center")
 
-# Texto central dentro da elipse
-ax.text(ellipse_cx, ellipse_cy - 0.05,
-        "Processos interligados.\nCada um alimenta os outros.",
-        fontsize=10, color=INK_SOFT,
-        ha="center", va="center", linespacing=1.3)
+# ---------- Elipse ----------
+# Parâmetros EXATOS detectados do original via pixel sweep:
+#   X span: 175-1349 px → a=587 px = 0.382 fig
+#   Y span: 392-830 px → b=219 px = 0.214 fig
+#   Center: (762, 611) → fig (0.496, 0.403)
+# Os markers ficam acima do equador da elipse (não nas vértices).
+ellipse_cx, ellipse_cy = 0.496, 0.403
+ellipse_a, ellipse_b   = 0.382, 0.214
 
-# ---------- caixa inferior ----------
-BOX_X1, BOX_X2 = 0.05, 0.95
+theta = np.linspace(0, 2 * np.pi, 240)
+ex = ellipse_cx + ellipse_a * np.cos(theta)
+ey = ellipse_cy + ellipse_b * np.sin(theta)
+fig.add_artist(plt.Line2D(ex, ey, color="#888888", linewidth=1.0, transform=fig.transFigure, zorder=1))
+
+# ---------- Dashed lines (curvas — bezier com sag descendente, como no original) ----------
+# Cada par de markers conectado por curva tracejada que afunda em direção ao
+# interior da elipse (não é linha reta como flowchart).
+for i in range(len(markers)):
+    for j in range(i + 1, len(markers)):
+        x1, y1 = markers[i][0], markers[i][1]
+        x2, y2 = markers[j][0], markers[j][1]
+        # Gera bezier quadrático em N pontos com control point afundado
+        n_pts = 80
+        t = np.linspace(0, 1, n_pts)
+        mid_x = (x1 + x2) / 2
+        mid_y = (y1 + y2) / 2
+        # Sag: control point abaixo do midpoint (em direção ao centro da elipse)
+        # Sag proporcional à distância horizontal entre os markers (linhas longas afundam mais)
+        dx_h = abs(x2 - x1)
+        sag = 0.08 + 0.20 * (dx_h / 0.72)   # min 0.08, max 0.28
+        ctrl_x = mid_x
+        ctrl_y = mid_y - sag
+        # Bezier quadrático: P(t) = (1-t)²·P0 + 2(1-t)t·C + t²·P1
+        cx_arr = (1 - t) ** 2 * x1 + 2 * (1 - t) * t * ctrl_x + t ** 2 * x2
+        cy_arr = (1 - t) ** 2 * y1 + 2 * (1 - t) * t * ctrl_y + t ** 2 * y2
+        fig.add_artist(plt.Line2D(
+            cx_arr, cy_arr,
+            color=DASH, linewidth=0.7, linestyle=(0, (3, 3)),
+            transform=fig.transFigure, zorder=2
+        ))
+
+# ---------- Markers (círculos pretos preenchidos) ----------
+# Diâmetro original: 21px / 1536 = 1.37% da largura da figura
+# Em pontos: 1.37% × 11" × 72pt/" = 10.8pt
+MARKER_PT = 11
+for x, y, title, sub in markers:
+    fig.add_artist(plt.Line2D(
+        [x], [y],
+        marker='o', markersize=MARKER_PT,
+        markerfacecolor=DOT, markeredgecolor=DOT,
+        transform=fig.transFigure, zorder=4
+    ))
+
+# ---------- Labels (centrados acima dos markers) ----------
+# Estrutura igual original: TÍTULO bold + SUBLINHADO curto + SUBTÍTULO regular + MARKER
+for x, y, title, sub in markers:
+    sub_y     = y + 0.060            # subtítulo regular logo acima do marker
+    underline_y = sub_y + 0.045      # sublinhado decorativo entre title e subtitle
+    title_y   = underline_y + 0.020  # título acima do sublinhado
+
+    # Título (bold, preto)
+    fig.text(x, title_y, title,
+             fontsize=12, color=INK, weight="bold",
+             ha="center", va="bottom", linespacing=1.05)
+    # Sublinhado decorativo curto (no original tem cor do marker; em B&W usamos preto)
+    fig.add_artist(plt.Line2D(
+        [x - 0.045, x + 0.045], [underline_y, underline_y],
+        color=INK, linewidth=1.4, transform=fig.transFigure, zorder=3
+    ))
+    # Subtítulo (regular, não italic)
+    fig.text(x, sub_y, sub,
+             fontsize=10, color=INK_SOFT,
+             ha="center", va="bottom", linespacing=1.1)
+
+# ---------- Texto central dentro da elipse ----------
+# Detectado no original em y=750 px → fig y = 0.268
+fig.text(ellipse_cx, 0.268,
+         "Processos interligados.\nCada um alimenta os outros.",
+         fontsize=11, color=INK_SOFT,
+         ha="center", va="center", linespacing=1.3,
+         transform=fig.transFigure)
+
+# ---------- Banda inferior ----------
+BOX_X1, BOX_X2 = 0.04, 0.96
 BOX_Y1, BOX_Y2 = 0.06, 0.14
 fig.patches.append(Rectangle(
     (BOX_X1, BOX_Y1), BOX_X2 - BOX_X1, BOX_Y2 - BOX_Y1,
@@ -104,18 +138,18 @@ fig.patches.append(Rectangle(
 ))
 fig.text(0.5, (BOX_Y1 + BOX_Y2) / 2,
          "Todos são modificáveis por estilo de vida.",
-         fontsize=13, color=INK, weight="bold",
+         fontsize=14, color=INK, weight="bold",
          ha="center", va="center")
 
-# ---------- save ----------
+# ---------- Save ----------
 out_dir = Path(__file__).resolve().parents[1] / "figuras-bw"
 out_dir.mkdir(parents=True, exist_ok=True)
 pdf_path = out_dir / "Cap03_Fig01.pdf"
 png_path = out_dir / "_preview_Cap03_Fig01.png"
-# Tight crop sem padding lateral/topo; 0.08" no inferior pra não colar na legenda.
+
 from matplotlib.transforms import Bbox as _Bbox
 fig.canvas.draw()
-_tb = fig.get_tightbbox(fig.canvas.get_renderer())  # já em inches
+_tb = fig.get_tightbbox(fig.canvas.get_renderer())
 _bbox_in = _Bbox.from_extents(_tb.x0, _tb.y0 - 0.08, _tb.x1, _tb.y1)
 plt.savefig(pdf_path, facecolor=BG, bbox_inches=_bbox_in)
 plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches=_bbox_in)

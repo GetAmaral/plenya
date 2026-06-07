@@ -1,11 +1,24 @@
 """
-Cap11 Fig01 (PT-BR, B&W vetorial) — Paulo: 6 meses sem reposição — e a trajetória mudou.
-Dot plot com setas de movimento (antes → depois).
+Cap11 Fig01 (PT-BR, B&W vetorial) — Paulo: 6 meses sem reposição.
+
+Chart comparativo de 5 biomarcadores (TESTOSTERONA TOTAL, LIVRE, VITAMINA D,
+hs-CRP, IDADE EPIGENÉTICA) com 3 marcadores cada: Antes (○), Depois (●),
+Alvo (▲). Backgrounds em zonas: salmão (ruim), verde (alvo), peach (intermediário).
+
+Posições e ranges MEDIDOS do original 1536×1024 (ticks detectados via OCR de strip
+abaixo de cada axis_y):
+  Row 1 (T.TOTAL):   y=307, vmin=200, vmax=800, CL=308,  CR=1391
+  Row 2 (T.LIVRE):   y=431, vmin=0,   vmax=18,  CL=265,  CR=1398
+  Row 3 (VIT D):     y=553, vmin=0,   vmax=80,  CL=265,  CR=1379
+  Row 4 (hs-CRP):    y=674, vmin=0,   vmax=3,   CL=265,  CR=1363
+  Row 5 (IDADE):     y=786, vmin=-2,  vmax=6,   CL=281,  CR=1395
 """
-from pathlib import Path
+from pathlib import Path as _Path
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
-from matplotlib.patches import Rectangle, Ellipse, FancyArrowPatch
+from matplotlib.patches import (
+    Rectangle, FancyBboxPatch, Polygon, Circle, FancyArrowPatch
+)
 
 rcParams["font.family"] = "sans-serif"
 rcParams["font.sans-serif"] = ["Inter", "Open Sans", "DejaVu Sans"]
@@ -13,165 +26,275 @@ rcParams["axes.unicode_minus"] = False
 rcParams["pdf.fonttype"] = 42
 rcParams["ps.fonttype"] = 42
 
-BG       = "#FFFFFF"
-INK      = "#000000"
-INK_SOFT = "#3A3A3A"
-TICK     = "#555555"
-FOOT     = "#666666"
-BAND_OK  = "#F4F4F4"
-BAND_MID = "#E0E0E0"
-BAND_BAD = "#BFBFBF"
-BAND     = "#EDEDED"
+BG    = "#FFFFFF"
+INK   = "#000000"
+SOFT  = "#3A3A3A"
+FOOT  = "#6A6A6A"
+GRAY1 = "#9E9E9E"
+ZONE_BAD  = "#D8D8D8"   # darker (pink → escuro)
+ZONE_INT  = "#EDEDED"   # médio (peach)
+ZONE_OK   = "#F6F6F6"   # mais claro (verde)
 
-_FIG_W, _FIG_H = 11.0, 7.5
-_ASPECT = _FIG_W / _FIG_H
-
-# Cada biomarker: (nome, unidade, valor antes, valor depois, alvo,
-#                  pos antes, pos depois, pos alvo)
-biomarkers = [
-    ("TESTOSTERONA\nTOTAL", "(ng/dL)",   "310",  "485",  "> 500", 0.18, 0.55, 0.62),
-    ("TESTOSTERONA\nLIVRE", "(pg/mL)",   "4,8",  "11,2", "> 10",  0.20, 0.62, 0.55),
-    ("VITAMINA D\n(25-OH)", "(ng/mL)",   "24",   "58",   "40-60", 0.22, 0.66, 0.55),
-    ("hs-CRP",              "(mg/L)",    "1,7",  "0,9",  "< 1,0", 0.62, 0.35, 0.30),
-    ("IDADE EPIGENÉTICA",   "(anos vs. cronológica)", "+4", "+2", "0", 0.78, 0.55, 0.25),
-]
-
+W_IMG, H_IMG = 1536, 1024
+_FIG_W = 10.0
+_FIG_H = _FIG_W * H_IMG / W_IMG
 fig = plt.figure(figsize=(_FIG_W, _FIG_H))
 fig.patch.set_facecolor(BG)
 
-LEFT_MARGIN  = 0.025
-BAR_LEFT     = 0.22
-BAR_RIGHT    = 0.83
-ALVO_X       = 0.91
+ax = fig.add_axes([0, 0, 1, 1])
+ax.set_xlim(0, W_IMG); ax.set_ylim(H_IMG, 0)
+ax.set_aspect("equal"); ax.axis("off")
 
-# Título
-fig.text(LEFT_MARGIN, 0.945,
-         "Figura 1 — Paulo: 6 meses sem reposição — e a trajetória mudou.",
-         fontsize=15, color=INK, weight="bold")
-fig.text(LEFT_MARGIN, 0.910,
-         "Otimização de sono, vitamina D e treino de força ajustado — sem uso de reposição de testosterona.",
-         fontsize=9.5, color=INK_SOFT, style="italic")
+# ============================================================
+# CABEÇALHO
+# ============================================================
+ax.text(40, 38, "FIGURA 3",
+        fontsize=10, color=INK, weight="semibold", va="center", ha="left",
+        family="sans-serif")
 
-# Legenda topo
-LEG_Y = 0.860
-def small_circle(x, y, fill, edge=INK):
-    r = 0.0085
-    fig.patches.append(Ellipse(
-        (x, y), width=r*2, height=r*2*_ASPECT,
-        facecolor=fill, edgecolor=edge, linewidth=1.0,
-        transform=fig.transFigure, zorder=4
-    ))
+ax.text(40, 88,
+        "Paulo: 6 meses sem reposição — e a trajetória mudou",
+        fontsize=22, color=INK, weight="bold", va="center", ha="left")
 
-small_circle(LEFT_MARGIN + 0.005, LEG_Y, "white")
-fig.text(LEFT_MARGIN + 0.020, LEG_Y, "Antes (baseline)",
-         fontsize=9, color=INK, weight="bold", va="center")
+ax.text(40, 138,
+        "Otimização de sono, vitamina D e treino de força ajustado — sem uso de reposição de testosterona.",
+        fontsize=11, color=SOFT, va="center", ha="left")
 
-small_circle(LEFT_MARGIN + 0.160, LEG_Y, INK)
-fig.text(LEFT_MARGIN + 0.175, LEG_Y, "Depois (6 meses)",
-         fontsize=9, color=INK, weight="bold", va="center")
+# ============================================================
+# LEGENDA
+# ============================================================
+LEGEND_Y = 200
+ax.add_patch(Circle((310, LEGEND_Y), 9, facecolor=BG, edgecolor=INK,
+                     linewidth=2.0, zorder=5))
+ax.text(330, LEGEND_Y, "Antes (baseline)",
+        fontsize=11, color=INK, va="center", ha="left")
 
-fig.text(LEFT_MARGIN + 0.305, LEG_Y, "▲  Alvo ótimo",
-         fontsize=9, color=INK_SOFT, va="center")
+ax.add_patch(Circle((570, LEGEND_Y), 9, facecolor=INK, edgecolor="none", zorder=5))
+ax.text(590, LEGEND_Y, "Depois (6 meses)",
+        fontsize=11, color=INK, va="center", ha="left")
 
-# Header da coluna direita
-fig.text(ALVO_X, 0.860, "Alvo ótimo",
-         fontsize=8.5, color=TICK, style="italic", ha="center")
+tri_pts = [(840, LEGEND_Y-10), (852, LEGEND_Y+8), (828, LEGEND_Y+8)]
+ax.add_patch(Polygon(tri_pts, closed=True, facecolor=INK, edgecolor="none", zorder=5))
+ax.text(862, LEGEND_Y, "Alvo ótimo",
+        fontsize=11, color=INK, va="center", ha="left")
 
-# Linhas de biomarcadores
-ROW_TOP = 0.785
-ROW_BOTTOM = 0.230
-ROW_SPACE = (ROW_TOP - ROW_BOTTOM) / (len(biomarkers) - 1)
-BAR_HEIGHT = 0.030
+# ============================================================
+# CHART AREA — 5 rows
+# ============================================================
+ROW_HEIGHT = 50
+# Note: posições dos marcadores no original NÃO correspondem ao valor literal da label.
+# O original posiciona em valores "redondos" visualmente legíveis e mostra a label numérica
+# do dado clínico real ao lado. Mantemos a label do dado, mas posicionamos onde o original posiciona.
+ROWS = [
+    {
+        "name": ["TESTOSTERONA", "TOTAL"], "unit": "(ng/dL)",
+        "y_axis": 307,
+        "vmin": 200, "vmax": 800,
+        "chart_left": 308, "chart_right": 1391,
+        "zone_left": 260, "zone_right": 1410,
+        "ticks": [200, 300, 400, 500, 600, 700, 800],
+        "antes_pos": 320, "depois_pos": 500, "alvo_pos": 560,
+        "antes_label": "310", "depois_label": "485", "alvo_label": "> 500",
+        "zones": [(200, 300, "bad"), (300, 500, "int"), (500, 720, "ok"), (720, 800, "int")],
+    },
+    {
+        "name": ["TESTOSTERONA", "LIVRE"], "unit": "(pg/mL)",
+        "y_axis": 431,
+        "vmin": 0, "vmax": 18,
+        "chart_left": 265, "chart_right": 1398,
+        "zone_left": 260, "zone_right": 1410,
+        "ticks": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18],
+        "antes_pos": 4.5, "depois_pos": 10.5, "alvo_pos": 12,
+        "antes_label": "4,8", "depois_label": "11,2", "alvo_label": "> 10",
+        "zones": [(0, 3, "bad"), (3, 9, "int"), (9, 16, "ok"), (16, 18, "int")],
+    },
+    {
+        "name": ["VITAMINA D", "(25-OH)"], "unit": "(ng/mL)",
+        "y_axis": 553,
+        "vmin": 0, "vmax": 80,
+        "chart_left": 265, "chart_right": 1379,
+        "zone_left": 260, "zone_right": 1410,
+        "ticks": [0, 10, 20, 30, 40, 50, 60, 70, 80],
+        "antes_pos": 21, "depois_pos": 60, "alvo_pos": 50,
+        "antes_label": "24", "depois_label": "58", "alvo_label": "40–60",
+        "zones": [(0, 20, "bad"), (20, 40, "int"), (40, 67, "ok"), (67, 80, "int")],
+    },
+    {
+        "name": ["hs-CRP"], "unit": "(mg/L)",
+        "y_axis": 674,
+        "vmin": 0, "vmax": 3.0,
+        "chart_left": 265, "chart_right": 1363,
+        "zone_left": 260, "zone_right": 1410,
+        "ticks": [0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0],
+        "antes_pos": 1.65, "depois_pos": 1.0, "alvo_pos": 0.75,
+        "antes_label": "1,7", "depois_label": "0,9", "alvo_label": "< 1,0",
+        "zones": [(0, 1.3, "ok"), (1.3, 2.0, "int"), (2.0, 3.0, "bad")],
+        "tick_labels": ["0", "0,5", "1,0", "1,5", "2,0", "2,5", "3,0"],
+    },
+    {
+        "name": ["IDADE EPIGENÉTICA"], "subunit": "(relativa à cronológica)", "unit": "(anos)",
+        "y_axis": 786,
+        "vmin": -2, "vmax": 6,
+        "chart_left": 281, "chart_right": 1395,
+        "zone_left": 260, "zone_right": 1410,
+        "ticks": [-2, -1, 0, 1, 2, 3, 4, 5, 6],
+        "antes_pos": 4, "depois_pos": 2, "alvo_pos": 0,
+        "antes_label": "+4", "depois_label": "+2", "alvo_label": "≤ 0",
+        "zones": [(-2, 0, "ok"), (0, 2.5, "int"), (2.5, 6, "bad")],
+        "tick_labels": ["−2", "−1", "0", "+1", "+2", "+3", "+4", "+5", "+6"],
+    },
+]
 
-for i, (name, unit, antes, depois, alvo,
-        pos_antes, pos_depois, pos_alvo) in enumerate(biomarkers):
-    y = ROW_TOP - i * ROW_SPACE
-    bar_w = BAR_RIGHT - BAR_LEFT
+LABEL_X = 40
 
-    # Nome
-    fig.text(LEFT_MARGIN, y + 0.008, name,
-             fontsize=10, color=INK, weight="bold",
-             va="center", linespacing=1.15)
-    fig.text(LEFT_MARGIN, y - 0.030, unit,
-             fontsize=7.5, color=TICK, va="center")
+def value_to_x(val, row):
+    return row["chart_left"] + (val - row["vmin"]) / (row["vmax"] - row["vmin"]) * (row["chart_right"] - row["chart_left"])
 
-    # Barra de fundo (3 zonas)
-    # Pra simplificar: gradient simples — claro à esquerda, escuro à direita
-    # representando "fora do ótimo" → "no ótimo" ou vice-versa
-    fig.patches.extend([
-        Rectangle((BAR_LEFT, y - BAR_HEIGHT/2), bar_w * 0.5, BAR_HEIGHT,
-                  facecolor=BAND_BAD, edgecolor="none",
-                  transform=fig.transFigure, zorder=1),
-        Rectangle((BAR_LEFT + bar_w * 0.5, y - BAR_HEIGHT/2),
-                  bar_w * 0.25, BAR_HEIGHT,
-                  facecolor=BAND_MID, edgecolor="none",
-                  transform=fig.transFigure, zorder=1),
-        Rectangle((BAR_LEFT + bar_w * 0.75, y - BAR_HEIGHT/2),
-                  bar_w * 0.25, BAR_HEIGHT,
-                  facecolor=BAND_OK, edgecolor="none",
-                  transform=fig.transFigure, zorder=1),
-    ])
+for row in ROWS:
+    y_axis = row["y_axis"]
+    y_top = y_axis - ROW_HEIGHT
 
-    x_antes  = BAR_LEFT + bar_w * pos_antes
-    x_depois = BAR_LEFT + bar_w * pos_depois
-    x_alvo   = BAR_LEFT + bar_w * pos_alvo
+    # Label (biomarker name + unit)
+    label_y_start = y_axis - 38
+    for j, line in enumerate(row["name"]):
+        ax.text(LABEL_X, label_y_start + j * 19, line,
+                fontsize=11, color=INK, weight="bold",
+                ha="left", va="center")
+    extra_y = label_y_start + len(row["name"]) * 19
+    if "subunit" in row:
+        ax.text(LABEL_X, extra_y, row["subunit"],
+                fontsize=9.5, color=SOFT, ha="left", va="center")
+        extra_y += 17
+    ax.text(LABEL_X, extra_y, row["unit"],
+            fontsize=9.5, color=SOFT, ha="left", va="center")
 
-    # Seta antes → depois
-    fig.patches.append(FancyArrowPatch(
-        (x_antes, y - 0.022), (x_depois, y - 0.022),
-        arrowstyle="->", color=INK, lw=1.5, mutation_scale=12,
-        transform=fig.transFigure, zorder=4
-    ))
+    # Zone backgrounds
+    for v0, v1, ztype in row["zones"]:
+        x0 = value_to_x(v0, row)
+        x1 = value_to_x(v1, row)
+        if v0 == row["vmin"]: x0 = row["zone_left"]
+        if v1 == row["vmax"]: x1 = row["zone_right"]
+        color = {"bad": ZONE_BAD, "ok": ZONE_OK, "int": ZONE_INT}[ztype]
+        ax.add_patch(Rectangle((x0, y_top), x1-x0, ROW_HEIGHT,
+                                facecolor=color, edgecolor="none", zorder=1))
 
-    # Marker ANTES (círculo branco)
-    small_circle(x_antes, y, "white")
-    fig.text(x_antes, y + 0.030, antes,
-             fontsize=9, color=INK_SOFT, weight="bold", ha="center", va="bottom")
+    # Axis line
+    ax.plot([row["zone_left"], row["zone_right"]], [y_axis, y_axis],
+            color=GRAY1, linewidth=0.8, zorder=2)
 
-    # Marker DEPOIS (círculo preto)
-    small_circle(x_depois, y, INK)
-    fig.text(x_depois, y + 0.030, depois,
-             fontsize=10, color=INK, weight="bold", ha="center", va="bottom")
+    # Tick marks and labels
+    tick_labels = row.get("tick_labels", [str(t) for t in row["ticks"]])
+    for tick, lbl in zip(row["ticks"], tick_labels):
+        tx = value_to_x(tick, row)
+        ax.plot([tx, tx], [y_axis, y_axis+4], color=GRAY1, linewidth=0.7, zorder=2)
+        ax.text(tx, y_axis + 18, lbl,
+                fontsize=9, color=SOFT, ha="center", va="center")
 
-    # Marker ALVO (triângulo)
-    fig.text(x_alvo, y, "▲", fontsize=11, color=INK,
-             ha="center", va="center", zorder=5)
+    # ALVO marker (triangle) — bottom touches axis line
+    alvo_x = value_to_x(row["alvo_pos"], row)
+    tri_half_w = 12
+    tri_h = 22
+    tri = [(alvo_x, y_axis + 2 - tri_h),     # top
+           (alvo_x + tri_half_w, y_axis + 2),  # right
+           (alvo_x - tri_half_w, y_axis + 2)]  # left
+    ax.add_patch(Polygon(tri, closed=True, facecolor=INK, edgecolor="none", zorder=5))
+    ax.text(alvo_x, y_axis - 36, row["alvo_label"],
+            fontsize=9.5, color=INK, weight="bold",
+            ha="center", va="center")
 
-    # Valor alvo na coluna direita
-    fig.text(ALVO_X, y, alvo,
-             fontsize=10, color=INK, weight="bold",
-             ha="center", va="center")
+    # ANTES / DEPOIS
+    antes_x = value_to_x(row["antes_pos"], row)
+    depois_x = value_to_x(row["depois_pos"], row)
+    marker_y = y_axis - 16
 
-# ---------- caixa final ----------
-BOX_X1, BOX_X2 = 0.04, 0.96
-BOX_Y1, BOX_Y2 = 0.090, 0.155
-fig.patches.append(Rectangle(
-    (BOX_X1, BOX_Y1), BOX_X2 - BOX_X1, BOX_Y2 - BOX_Y1,
-    facecolor=BAND, edgecolor=INK, linewidth=0.5,
-    transform=fig.transFigure, zorder=1
-))
-fig.text(0.5, (BOX_Y1 + BOX_Y2) / 2 + 0.010,
-         "Diagnóstico correto.",
-         fontsize=11, color=INK, weight="bold", ha="center", va="center")
-fig.text(0.5, (BOX_Y1 + BOX_Y2) / 2 - 0.012,
-         "Plano integrado e seguimento.",
-         fontsize=10, color=INK, ha="center", va="center", style="italic")
+    # Arrow from ANTES to DEPOIS — discrete: thin line + tiny triangular head
+    sign = 1 if depois_x > antes_x else -1
+    # Stop line a bit before the dot, head sits between line-end and dot
+    line_start_x = antes_x + sign * 8     # leave gap from antes ring
+    head_tip_x = depois_x - sign * 8       # tip just before dot
+    head_base_x = head_tip_x - sign * 7    # head length 7
+    ax.plot([line_start_x, head_base_x], [marker_y, marker_y],
+            color=INK, linewidth=0.9, solid_capstyle="butt", zorder=4)
+    head_tri = [(head_tip_x, marker_y),
+                (head_base_x, marker_y - 3),
+                (head_base_x, marker_y + 3)]
+    ax.add_patch(Polygon(head_tri, closed=True, facecolor=INK,
+                          edgecolor="none", zorder=4))
 
-# Footer
-fig.text(LEFT_MARGIN, 0.055,
-         "DHEA-S aumentou de 145 para 210 µg/dL no período (não exibido no gráfico para manter a clareza visual).",
-         fontsize=7.5, color=FOOT, style="italic")
+    # ANTES hollow circle
+    ax.add_patch(Circle((antes_x, marker_y), 8,
+                         facecolor=BG, edgecolor=INK,
+                         linewidth=1.8, zorder=6))
+    ax.text(antes_x, y_axis - 36, row["antes_label"],
+            fontsize=9.5, color=INK, weight="bold",
+            ha="center", va="center")
 
-out_dir = Path(__file__).resolve().parents[1] / "figuras-bw"
+    # DEPOIS filled circle
+    ax.add_patch(Circle((depois_x, marker_y), 8,
+                         facecolor=INK, edgecolor="none", zorder=6))
+    ax.text(depois_x, y_axis - 36, row["depois_label"],
+            fontsize=9.5, color=INK, weight="bold",
+            ha="center", va="center")
+
+# ============================================================
+# DIAGNOSTIC BOX (bottom-left)
+# ============================================================
+diag_top = 850
+diag_h = 80
+diag_w = 360
+diag_x = 40
+
+ax.add_patch(FancyBboxPatch(
+    (diag_x + 4, diag_top + 4), diag_w - 8, diag_h - 8,
+    boxstyle="round,pad=2,rounding_size=10",
+    facecolor=BG, edgecolor=INK, linewidth=0.8, zorder=3))
+
+chk_cx, chk_cy = diag_x + 44, diag_top + diag_h/2
+ax.add_patch(Circle((chk_cx, chk_cy), 16, facecolor=INK, edgecolor="none", zorder=4))
+ax.plot([chk_cx-7, chk_cx-1.5, chk_cx+8], [chk_cy, chk_cy+6, chk_cy-7],
+        color="white", linewidth=2.4, solid_capstyle="round",
+        solid_joinstyle="round", zorder=5)
+
+text_left = chk_cx + 26
+ax.text(text_left, diag_top + 22, "Diagnóstico correto.",
+        fontsize=11, color=INK, weight="bold", va="center", ha="left")
+ax.text(text_left, diag_top + 42, "Plano integrado.",
+        fontsize=11, color=INK, weight="bold", va="center", ha="left")
+ax.text(text_left, diag_top + 62, "Seguimento.",
+        fontsize=11, color=INK, weight="bold", va="center", ha="left")
+
+# ============================================================
+# SOURCE/FOOTER text (right of diagnostic box)
+# ============================================================
+foot_left = diag_x + diag_w + 30
+ax.text(foot_left, diag_top + 8,
+        "Em escuro, valores de Paulo na primeira consulta. Em claro, valores 6 meses depois.",
+        fontsize=9.5, color=FOOT, va="center", ha="left")
+ax.text(foot_left, diag_top + 28,
+        "As setas mostram a direção da mudança; o triângulo marca o alvo ótimo para longevidade.",
+        fontsize=9.5, color=FOOT, va="center", ha="left")
+ax.text(foot_left, diag_top + 48,
+        "A idade epigenética, medida por relógios de metilação do DNA, reduziu 2 anos —",
+        fontsize=9.5, color=FOOT, va="center", ha="left")
+ax.text(foot_left, diag_top + 68,
+        "sinal biológico de que o envelhecimento desacelerou.",
+        fontsize=9.5, color=FOOT, va="center", ha="left")
+
+# Divider line above DHEA-S note
+ax.plot([40, W_IMG-40], [diag_top + diag_h + 18, diag_top + diag_h + 18],
+        color=GRAY1, linewidth=0.5)
+ax.text(40, diag_top + diag_h + 36,
+        "DHEA-S aumentou de 145 para 210 µg/dL no período (não exibido no gráfico para manter a clareza visual).",
+        fontsize=9, color=FOOT, va="center", ha="left")
+
+# ============================================================
+# EXPORT
+# ============================================================
+out_dir = _Path(__file__).resolve().parents[1] / "figuras-bw"
 out_dir.mkdir(parents=True, exist_ok=True)
 pdf_path = out_dir / "Cap11_Fig01.pdf"
 png_path = out_dir / "_preview_Cap11_Fig01.png"
-# Tight crop sem padding lateral/topo; 0.08" no inferior pra não colar na legenda.
-from matplotlib.transforms import Bbox as _Bbox
-fig.canvas.draw()
-_tb = fig.get_tightbbox(fig.canvas.get_renderer())  # já em inches
-_bbox_in = _Bbox.from_extents(_tb.x0, _tb.y0 - 0.08, _tb.x1, _tb.y1)
-plt.savefig(pdf_path, facecolor=BG, bbox_inches=_bbox_in)
-plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches=_bbox_in)
+plt.savefig(pdf_path, facecolor=BG, bbox_inches="tight", pad_inches=0.0)
+plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches="tight", pad_inches=0.0)
 print(f"saved → {pdf_path}")
 print(f"preview → {png_path}")

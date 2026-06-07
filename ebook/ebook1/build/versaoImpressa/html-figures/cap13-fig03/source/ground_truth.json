@@ -1,0 +1,507 @@
+{
+  "frame": [
+    1480,
+    986
+  ],
+  "shapes": [
+    {
+      "type": "circle_stroke",
+      "cx": 543,
+      "cy": 425,
+      "r": 215,
+      "stroke": 2,
+      "color": "#888"
+    },
+    {
+      "type": "circle_stroke",
+      "cx": 725,
+      "cy": 544,
+      "r": 215,
+      "stroke": 2,
+      "color": "#888"
+    },
+    {
+      "type": "circle_stroke",
+      "cx": 543,
+      "cy": 663,
+      "r": 215,
+      "stroke": 2,
+      "color": "#888"
+    },
+    {
+      "type": "circle_stroke",
+      "cx": 361,
+      "cy": 544,
+      "r": 215,
+      "stroke": 2,
+      "color": "#888"
+    },
+    {
+      "type": "rect_fg_fill",
+      "bbox": [
+        475,
+        488,
+        615,
+        625
+      ],
+      "color": "#fff",
+      "rx": 10
+    },
+    {
+      "type": "rect_fg_stroke",
+      "bbox": [
+        475,
+        488,
+        615,
+        625
+      ],
+      "stroke": 2.5,
+      "color": "#000",
+      "rx": 10
+    },
+    {
+      "type": "rect_stroke",
+      "bbox": [
+        1060,
+        320,
+        1410,
+        770
+      ],
+      "stroke": 2,
+      "color": "#000",
+      "rx": 8
+    }
+  ],
+  "elements": [
+    {
+      "id": "figura_badge",
+      "role": "badge_dark",
+      "bbox": [
+        40,
+        19,
+        180,
+        52
+      ],
+      "text": "FIGURA 3"
+    },
+    {
+      "id": "title",
+      "role": "title_serif_bold",
+      "bbox": [
+        40,
+        75,
+        1125,
+        132
+      ],
+      "text": "Ikigai: o que te faz levantar da cama.",
+      "ff": "'Playfair Display', 'Cormorant Garamond', 'DejaVu Serif', Georgia, serif",
+      "fw": "900",
+      "fit_width": true
+    },
+    {
+      "id": "subtitle_l1",
+      "role": "subtitle_gray",
+      "bbox": [
+        40,
+        140,
+        990,
+        170
+      ],
+      "text": "Quatro círculos que se cruzam num ponto. O estudo Ohsaki (2008) associou",
+      "fit_width": true
+    },
+    {
+      "id": "subtitle_l2",
+      "role": "subtitle_gray",
+      "bbox": [
+        40,
+        176,
+        950,
+        206
+      ],
+      "text": "a resposta afirmativa à pergunta a 30–50% menos mortalidade em 7 anos.",
+      "fit_width": true
+    },
+    {
+      "id": "top_l1",
+      "role": "venn_cardinal",
+      "bbox": [
+        503,
+        250,
+        583,
+        278
+      ],
+      "text": "O que",
+      "anchor": "middle"
+    },
+    {
+      "id": "top_l2",
+      "role": "venn_cardinal",
+      "bbox": [
+        483,
+        285,
+        603,
+        313
+      ],
+      "text": "você ama",
+      "anchor": "middle"
+    },
+    {
+      "id": "right_l1",
+      "role": "venn_cardinal",
+      "bbox": [
+        800,
+        505,
+        905,
+        533
+      ],
+      "text": "Pelo que",
+      "anchor": "middle"
+    },
+    {
+      "id": "right_l2",
+      "role": "venn_cardinal",
+      "bbox": [
+        800,
+        540,
+        920,
+        568
+      ],
+      "text": "pode ser",
+      "anchor": "middle"
+    },
+    {
+      "id": "right_l3",
+      "role": "venn_cardinal",
+      "bbox": [
+        825,
+        575,
+        875,
+        603
+      ],
+      "text": "pago",
+      "anchor": "middle"
+    },
+    {
+      "id": "bot_l1",
+      "role": "venn_cardinal",
+      "bbox": [
+        493,
+        770,
+        593,
+        798
+      ],
+      "text": "O que o",
+      "anchor": "middle"
+    },
+    {
+      "id": "bot_l2",
+      "role": "venn_cardinal",
+      "bbox": [
+        498,
+        803,
+        588,
+        831
+      ],
+      "text": "mundo",
+      "anchor": "middle"
+    },
+    {
+      "id": "bot_l3",
+      "role": "venn_cardinal",
+      "bbox": [
+        495,
+        835,
+        591,
+        863
+      ],
+      "text": "precisa",
+      "anchor": "middle"
+    },
+    {
+      "id": "left_l1",
+      "role": "venn_cardinal",
+      "bbox": [
+        195,
+        510,
+        295,
+        538
+      ],
+      "text": "O que",
+      "anchor": "middle"
+    },
+    {
+      "id": "left_l2",
+      "role": "venn_cardinal",
+      "bbox": [
+        190,
+        543,
+        300,
+        571
+      ],
+      "text": "faz bem",
+      "anchor": "middle"
+    },
+    {
+      "id": "paixao",
+      "role": "venn_intersection",
+      "bbox": [
+        382,
+        413,
+        472,
+        442
+      ],
+      "text": "PAIXÃO",
+      "anchor": "middle"
+    },
+    {
+      "id": "missao",
+      "role": "venn_intersection",
+      "bbox": [
+        627,
+        413,
+        723,
+        442
+      ],
+      "text": "MISSÃO",
+      "anchor": "middle"
+    },
+    {
+      "id": "profissao",
+      "role": "venn_intersection",
+      "bbox": [
+        361,
+        659,
+        495,
+        688
+      ],
+      "text": "PROFISSÃO",
+      "anchor": "middle"
+    },
+    {
+      "id": "vocacao",
+      "role": "venn_intersection",
+      "bbox": [
+        620,
+        659,
+        736,
+        690
+      ],
+      "text": "VOCAÇÃO",
+      "anchor": "middle"
+    },
+    {
+      "id": "ikigai",
+      "role": "sidebar_callout",
+      "bbox": [
+        488,
+        504,
+        613,
+        540
+      ],
+      "text": "IKIGAI",
+      "fill": "#000",
+      "anchor": "middle"
+    },
+    {
+      "id": "ikigai_sub1",
+      "role": "cell_text",
+      "bbox": [
+        495,
+        552,
+        595,
+        577
+      ],
+      "text": "A razão",
+      "fill": "#333",
+      "anchor": "middle",
+      "ff": "'Cormorant Garamond', 'DejaVu Serif', Georgia, serif",
+      "fs": "italic"
+    },
+    {
+      "id": "ikigai_sub2",
+      "role": "cell_text",
+      "bbox": [
+        481,
+        582,
+        609,
+        608
+      ],
+      "text": "de acordar.",
+      "fill": "#333",
+      "anchor": "middle",
+      "ff": "'Cormorant Garamond', 'DejaVu Serif', Georgia, serif",
+      "fs": "italic"
+    },
+    {
+      "id": "callout_header",
+      "role": "alert_inline_title",
+      "bbox": [
+        1080,
+        340,
+        1307,
+        372
+      ],
+      "text": "Pergunta clínica:",
+      "fit_width": true
+    },
+    {
+      "id": "callout_q1",
+      "role": "quote_serif_italic",
+      "bbox": [
+        1079,
+        408,
+        1388,
+        444
+      ],
+      "text": "“Qual é o motivo que te",
+      "fit_width": true,
+      "anchor": "start",
+      "fw": "600",
+      "fill": "#1a1a1a"
+    },
+    {
+      "id": "callout_q2",
+      "role": "quote_serif_italic",
+      "bbox": [
+        1078,
+        450,
+        1393,
+        482
+      ],
+      "text": "faz levantar da cama de",
+      "fit_width": true,
+      "anchor": "start",
+      "fw": "600",
+      "fill": "#1a1a1a"
+    },
+    {
+      "id": "callout_q3",
+      "role": "quote_serif_italic",
+      "bbox": [
+        1077,
+        492,
+        1198,
+        522
+      ],
+      "text": "manhã?”",
+      "fit_width": true,
+      "anchor": "start",
+      "fw": "600",
+      "fill": "#1a1a1a"
+    },
+    {
+      "id": "callout_b1",
+      "role": "cell_text",
+      "bbox": [
+        1078,
+        597,
+        1399,
+        624
+      ],
+      "text": "Se não houver resposta clara",
+      "fit_width": true
+    },
+    {
+      "id": "callout_b2",
+      "role": "cell_text",
+      "bbox": [
+        1078,
+        638,
+        1385,
+        666
+      ],
+      "text": "em um adulto pós-40 anos,",
+      "fit_width": true
+    },
+    {
+      "id": "callout_b3",
+      "role": "cell_text",
+      "bbox": [
+        1079,
+        678,
+        1358,
+        706
+      ],
+      "text": "há uma camada do plano",
+      "fit_width": true
+    },
+    {
+      "id": "callout_b4",
+      "role": "cell_text",
+      "bbox": [
+        1078,
+        718,
+        1275,
+        746
+      ],
+      "text": "que está faltando.",
+      "fit_width": true
+    },
+    {
+      "id": "src_l1_bold",
+      "role": "footer_small",
+      "bbox": [
+        44,
+        890,
+        100,
+        911
+      ],
+      "text": "Fonte:",
+      "fw": "900",
+      "fill": "#333",
+      "anchor": "start"
+    },
+    {
+      "id": "src_l1_normal",
+      "role": "footer_small",
+      "bbox": [
+        115,
+        890,
+        360,
+        911
+      ],
+      "text": "conceito japonês tradicional.",
+      "anchor": "start"
+    },
+    {
+      "id": "src_l2_bold",
+      "role": "footer_small",
+      "bbox": [
+        44,
+        917,
+        130,
+        938
+      ],
+      "text": "Evidência:",
+      "fw": "900",
+      "fill": "#333",
+      "anchor": "start"
+    },
+    {
+      "id": "src_l2_italic",
+      "role": "footer_small",
+      "bbox": [
+        158,
+        917,
+        858,
+        938
+      ],
+      "text": "Sone et al. (“Sense of Life Worth Living and Mortality in Japan: Ohsaki Study”),",
+      "fs": "italic",
+      "anchor": "start"
+    },
+    {
+      "id": "src_l3",
+      "role": "footer_small",
+      "bbox": [
+        44,
+        946,
+        882,
+        968
+      ],
+      "text": "Psychosomatic Medicine 2008, 70(6):709–715. Coorte de 43.391 adultos, 7 anos de seguimento.",
+      "anchor": "start"
+    }
+  ]
+}

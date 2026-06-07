@@ -1,0 +1,125 @@
+{
+  "frame": [1480, 986],
+  "shapes": [
+    {"type": "rect_fill", "bbox": [420, 248, 605, 282], "color": "#d8dbe0", "rx": 16},
+    {"type": "rect_fill", "bbox": [733, 248, 967, 282], "color": "#d8dbe0", "rx": 16},
+    {"type": "rect_fill", "bbox": [1108, 248, 1330, 282], "color": "#d8dbe0", "rx": 16},
+
+    {"type": "line_h", "y": 295, "x1": 40, "x2": 1440, "stroke": 1, "color": "lightgray"},
+
+    {"type": "circle_fill", "cx": 513, "cy": 295, "r": 5, "color": "#1a1a1a"},
+    {"type": "circle_fill", "cx": 847, "cy": 295, "r": 5, "color": "#1a1a1a"},
+    {"type": "circle_fill", "cx": 1221, "cy": 295, "r": 5, "color": "#1a1a1a"},
+
+    {"type": "line_h", "y": 384, "x1": 178, "x2": 1413, "stroke": 1, "color": "lightgray"},
+    {"type": "line_h", "y": 442, "x1": 178, "x2": 1413, "stroke": 1, "color": "lightgray"},
+    {"type": "line_h", "y": 508, "x1": 178, "x2": 1413, "stroke": 1, "color": "lightgray"},
+    {"type": "line_h", "y": 576, "x1": 178, "x2": 1413, "stroke": 1, "color": "lightgray"},
+    {"type": "line_h", "y": 647, "x1": 40,  "x2": 1413, "stroke": 1.5, "color": "gray"},
+    {"type": "line_h", "y": 720, "x1": 178, "x2": 1413, "stroke": 1, "color": "lightgray"},
+    {"type": "line_h", "y": 792, "x1": 40,  "x2": 1413, "stroke": 1, "color": "gray"},
+    {"type": "line_h", "y": 907, "x1": 40,  "x2": 1413, "stroke": 1, "color": "lightgray"},
+
+    {"type": "arrow_h", "x1": 432, "x2": 712, "y": 685, "stroke": 1.2, "color": "lightgray", "head": 7},
+    {"type": "arrow_h", "x1": 760, "x2": 1080, "y": 685, "stroke": 1.2, "color": "lightgray", "head": 7},
+    {"type": "arrow_h", "x1": 432, "x2": 712, "y": 752, "stroke": 1.2, "color": "lightgray", "head": 7},
+    {"type": "arrow_h", "x1": 760, "x2": 1080, "y": 752, "stroke": 1.2, "color": "lightgray", "head": 7},
+
+    {"type": "circle_fill", "cx": 415, "cy": 340, "r": 10, "color": "#000"},
+    {"type": "circle_fill", "cx": 415, "cy": 413, "r": 10, "color": "#000"},
+    {"type": "circle_fill", "cx": 415, "cy": 475, "r": 10, "color": "#000"},
+    {"type": "circle_fill", "cx": 415, "cy": 543, "r": 10, "color": "#000"},
+    {"type": "circle_fill", "cx": 415, "cy": 611, "r": 10, "color": "#000"},
+    {"type": "circle_fill", "cx": 415, "cy": 685, "r": 10, "color": "#000"},
+    {"type": "circle_fill", "cx": 415, "cy": 752, "r": 10, "color": "#000"},
+
+    {"type": "circle_half", "cx": 722, "cy": 340, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_half", "cx": 722, "cy": 413, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_half", "cx": 722, "cy": 475, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_half", "cx": 722, "cy": 543, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_half", "cx": 722, "cy": 611, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_half", "cx": 743, "cy": 685, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_half", "cx": 743, "cy": 752, "r": 10, "color": "#000", "stroke": 2},
+
+    {"type": "circle_stroke", "cx": 1095, "cy": 340, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_stroke", "cx": 1095, "cy": 413, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_stroke", "cx": 1095, "cy": 475, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_stroke", "cx": 1095, "cy": 543, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_stroke", "cx": 1095, "cy": 611, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_stroke", "cx": 1095, "cy": 685, "r": 10, "color": "#000", "stroke": 2},
+    {"type": "circle_stroke", "cx": 1095, "cy": 752, "r": 10, "color": "#000", "stroke": 2},
+
+    {"type": "heavy_quote_open", "cx": 200, "cy": 838, "r": 17, "gap": 28, "color": "#bdbfc4"}
+  ],
+  "elements": [
+    {"id": "figura_badge", "role": "badge_dark", "bbox": [40, 19, 180, 52], "text": "FIGURA 2"},
+
+    {"id": "title", "role": "title_serif_bold", "bbox": [40, 75, 1015, 120], "text": "“Os exames estão bons. Eu não estou.”", "ff": "'Inter', sans-serif", "fw": "900", "fit_width": true},
+    {"id": "subtitle_l1", "role": "subtitle_gray", "bbox": [40, 140, 985, 166], "text": "Ricardo, 18 meses após o infarto: painel biológico em ordem, dimensão relacional em colapso.", "fit_width": true},
+    {"id": "subtitle_l2", "role": "subtitle_gray", "bbox": [40, 173, 730, 198], "text": "O trabalho em conexão, propósito e sentido restaurou os dois lados.", "fit_width": true},
+
+    {"id": "t18_label", "role": "time_header", "bbox": [475, 216, 550, 240], "text": "T+18m", "fit_width": true},
+    {"id": "t21_label", "role": "time_header", "bbox": [807, 216, 884, 240], "text": "T+21m", "fit_width": true},
+    {"id": "t30_label", "role": "time_header", "bbox": [1180, 216, 1261, 240], "text": "T+30m", "fit_width": true},
+
+    {"id": "t18_pill", "role": "time_pill", "bbox": [440, 257, 592, 280], "text": "Colapso silencioso", "fit_width": true},
+    {"id": "t21_pill", "role": "time_pill", "bbox": [752, 256, 951, 280], "text": "Intervenção multi-frente", "fit_width": true},
+    {"id": "t30_pill", "role": "time_pill", "bbox": [1127, 256, 1314, 280], "text": "Recuperação completa", "fit_width": true},
+
+    {"id": "dh_block_l1", "role": "group_block_label", "bbox": [45, 402, 151, 430], "text": "DIMENSÃO", "fit_width": true},
+    {"id": "dh_block_l2", "role": "group_block_label", "bbox": [45, 437, 135, 461], "text": "HUMANA", "fit_width": true},
+    {"id": "dh_block_sub", "role": "group_block_sub", "bbox": [42, 470, 157, 490], "text": "(não bioquímica)", "fit_width": true},
+
+    {"id": "cb_block_l1", "role": "group_block_label", "bbox": [44, 681, 139, 702], "text": "CONTROLE", "fit_width": true},
+    {"id": "cb_block_l2", "role": "group_block_label", "bbox": [45, 705, 143, 728], "text": "BIOLÓGICO", "fit_width": true},
+    {"id": "cb_block_sub", "role": "group_block_sub", "bbox": [42, 740, 143, 760], "text": "(marcadores)", "fit_width": true},
+
+    {"id": "row1_l1", "role": "row_label", "bbox": [198, 317, 307, 337], "text": "Vida sexual", "fit_width": true},
+    {"id": "row1_l2", "role": "row_label", "bbox": [199, 347, 305, 366], "text": "com Marina", "fit_width": true},
+    {"id": "row2_l1", "role": "row_label", "bbox": [198, 405, 370, 427], "text": "Amigos próximos (nº)", "fit_width": true},
+    {"id": "row3_l1", "role": "row_label", "bbox": [199, 468, 345, 490], "text": "Celular no quarto", "fit_width": true},
+    {"id": "row4_l1", "role": "row_label", "bbox": [199, 536, 364, 558], "text": "Propósito profissional", "fit_width": true},
+    {"id": "row5_l1", "role": "row_label", "bbox": [199, 601, 365, 619], "text": "Ritual laico com Marina", "fit_width": true},
+
+    {"id": "row6_l1", "role": "row_label", "bbox": [199, 666, 353, 685], "text": "PCR ultrassensível", "fit_width": true},
+    {"id": "row6_l2", "role": "row_label_sub", "bbox": [199, 692, 252, 712], "text": "(mg/L)", "fit_width": true},
+    {"id": "row7_l1", "role": "row_label", "bbox": [199, 733, 340, 752], "text": "Cortisol matinal", "fit_width": true},
+    {"id": "row7_l2", "role": "row_label_sub", "bbox": [199, 760, 256, 779], "text": "(μg/dL)", "fit_width": true},
+
+    {"id": "c11_l1", "role": "cell_text", "bbox": [440, 330, 565, 354], "text": "8 meses sem", "fit_width": true},
+    {"id": "c12_l1", "role": "cell_text", "bbox": [438, 405, 462, 427], "text": "0", "fit_width": true},
+    {"id": "c13_l1", "role": "cell_text", "bbox": [438, 458, 486, 478], "text": "sim,", "fit_width": true},
+    {"id": "c13_l2", "role": "cell_text", "bbox": [438, 486, 596, 506], "text": "checagem 3h–5h", "fit_width": true},
+    {"id": "c14_l1", "role": "cell_text", "bbox": [438, 536, 537, 558], "text": "esvaziado", "fit_width": true},
+    {"id": "c15_l1", "role": "cell_text", "bbox": [438, 605, 470, 624], "text": "—", "fit_width": true},
+    {"id": "c16_val", "role": "cell_value_big", "bbox": [438, 676, 488, 702], "text": "1,4", "fit_width": true},
+    {"id": "c17_val", "role": "cell_value_big", "bbox": [438, 744, 478, 770], "text": "19", "fit_width": true},
+
+    {"id": "c21_l1", "role": "cell_text", "bbox": [752, 318, 939, 343], "text": "retomada incipiente", "fit_width": true},
+    {"id": "c21_l2", "role": "cell_text", "bbox": [752, 348, 950, 372], "text": "+ tadalafila 5 mg/dia", "fit_width": true},
+    {"id": "c22_l1", "role": "cell_text", "bbox": [749, 405, 762, 427], "text": "1", "fit_width": true},
+    {"id": "c23_l1", "role": "cell_text", "bbox": [752, 466, 826, 487], "text": "retirado", "fit_width": true},
+    {"id": "c24_l1", "role": "cell_text", "bbox": [752, 522, 936, 542], "text": "mentoria voluntária", "fit_width": true},
+    {"id": "c24_l2", "role": "cell_text", "bbox": [752, 548, 825, 568], "text": "iniciada", "fit_width": true},
+    {"id": "c25_l1", "role": "cell_text", "bbox": [752, 590, 951, 611], "text": "caminhada silenciosa", "fit_width": true},
+    {"id": "c25_l2", "role": "cell_text", "bbox": [752, 617, 842, 637], "text": "dominical", "fit_width": true},
+    {"id": "c26_val", "role": "cell_value_big", "bbox": [765, 676, 815, 702], "text": "1,0", "fit_width": true},
+    {"id": "c27_val", "role": "cell_value_big", "bbox": [765, 744, 805, 770], "text": "17", "fit_width": true},
+
+    {"id": "c31_l1", "role": "cell_text", "bbox": [1127, 320, 1188, 343], "text": "plena,", "fit_width": true},
+    {"id": "c31_l2", "role": "cell_text", "bbox": [1127, 349, 1318, 373], "text": "qualidade > pré-IAM", "fit_width": true},
+    {"id": "c32_l1", "role": "cell_text", "bbox": [1124, 405, 1146, 427], "text": "3", "fit_width": true},
+    {"id": "c33_l1", "role": "cell_text", "bbox": [1127, 466, 1255, 487], "text": "10 meses sem", "fit_width": true},
+    {"id": "c34_l1", "role": "cell_text", "bbox": [1127, 535, 1310, 555], "text": "ritual semanal firme", "fit_width": true},
+    {"id": "c35_l1", "role": "cell_text", "bbox": [1127, 602, 1290, 624], "text": "52 domingos/ano", "fit_width": true},
+    {"id": "c36_val", "role": "cell_value_big", "bbox": [1115, 676, 1170, 702], "text": "0,6", "fit_width": true},
+    {"id": "c37_val", "role": "cell_value_big", "bbox": [1115, 744, 1160, 770], "text": "15", "fit_width": true},
+
+    {"id": "quote_l1", "role": "quote_serif_italic", "bbox": [290, 820, 1045, 858], "text": "“Doutor, eu achei que ia sair dessa história mais frágil.", "fit_width": true, "anchor": "start", "fill": "#1a1a1a", "fw": "600"},
+    {"id": "quote_l2", "role": "quote_serif_italic", "bbox": [290, 858, 710, 894], "text": "Eu acho que saí mais inteiro.”", "fit_width": true, "anchor": "start", "fill": "#1a1a1a", "fw": "600"},
+    {"id": "quote_attrib", "role": "quote_attrib", "bbox": [1062, 863, 1230, 884], "text": "— Ricardo, T+30m.", "fit_width": true},
+
+    {"id": "src_l1", "role": "footer_small", "bbox": [50, 920, 745, 942], "text": "Fonte: caso-tipo do Capítulo 13. Princeton Consensus III (Nehra et al., Mayo Clinic Proc 2012);", "fit_width": true},
+    {"id": "src_l2", "role": "footer_small", "bbox": [50, 946, 508, 967], "text": "AHA Sexual Activity and CVD (Levine et al., Circulation 2012).", "fit_width": true}
+  ]
+}

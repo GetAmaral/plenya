@@ -1,0 +1,3335 @@
+{
+  "frame": [
+    1480,
+    841
+  ],
+  "words": [
+    {
+      "text": "FIGURA",
+      "bbox": [
+        24,
+        14,
+        95,
+        30
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "1",
+      "bbox": [
+        105,
+        14,
+        111,
+        30
+      ],
+      "conf": 96.0,
+      "block": 1,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "A",
+      "bbox": [
+        24,
+        44,
+        49,
+        77
+      ],
+      "conf": 90.0,
+      "block": 2,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "arquitetura",
+      "bbox": [
+        62,
+        43,
+        247,
+        86
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "de",
+      "bbox": [
+        259,
+        42,
+        298,
+        77
+      ],
+      "conf": 97.0,
+      "block": 2,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "uma",
+      "bbox": [
+        310,
+        52,
+        381,
+        77
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "noite:",
+      "bbox": [
+        395,
+        43,
+        486,
+        77
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "o",
+      "bbox": [
+        498,
+        52,
+        517,
+        77
+      ],
+      "conf": 95.0,
+      "block": 2,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "que",
+      "bbox": [
+        528,
+        52,
+        586,
+        86
+      ],
+      "conf": 95.0,
+      "block": 2,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "distingue",
+      "bbox": [
+        597,
+        42,
+        746,
+        86
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "dormir",
+      "bbox": [
+        757,
+        42,
+        865,
+        77
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "de",
+      "bbox": [
+        876,
+        42,
+        914,
+        77
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "descansar",
+      "bbox": [
+        925,
+        42,
+        1089,
+        77
+      ],
+      "conf": 96.0,
+      "block": 2,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "Mesmo",
+      "bbox": [
+        25,
+        98,
+        92,
+        116
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "tempo",
+      "bbox": [
+        100,
+        100,
+        160,
+        121
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "na",
+      "bbox": [
+        169,
+        103,
+        190,
+        116
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "cama,",
+      "bbox": [
+        198,
+        103,
+        254,
+        119
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "resultados",
+      "bbox": [
+        263,
+        98,
+        362,
+        116
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "completamente",
+      "bbox": [
+        371,
+        98,
+        521,
+        121
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "diferentes.",
+      "bbox": [
+        529,
+        98,
+        632,
+        116
+      ],
+      "conf": 96.0,
+      "block": 3,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "Primeira",
+      "bbox": [
+        457,
+        137,
+        509,
+        150
+      ],
+      "conf": 96.0,
+      "block": 4,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "metade",
+      "bbox": [
+        515,
+        137,
+        563,
+        150
+      ],
+      "conf": 95.0,
+      "block": 4,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "da",
+      "bbox": [
+        568,
+        137,
+        583,
+        150
+      ],
+      "conf": 95.0,
+      "block": 4,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "noite",
+      "bbox": [
+        588,
+        137,
+        620,
+        150
+      ],
+      "conf": 95.0,
+      "block": 4,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "Segunda",
+      "bbox": [
+        942,
+        133,
+        997,
+        149
+      ],
+      "conf": 97.0,
+      "block": 5,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "metade",
+      "bbox": [
+        1003,
+        133,
+        1051,
+        145
+      ],
+      "conf": 96.0,
+      "block": 5,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "da",
+      "bbox": [
+        1057,
+        133,
+        1072,
+        145
+      ],
+      "conf": 96.0,
+      "block": 5,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "noite",
+      "bbox": [
+        1077,
+        133,
+        1109,
+        145
+      ],
+      "conf": 96.0,
+      "block": 5,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "Clearance",
+      "bbox": [
+        456,
+        157,
+        520,
+        170
+      ],
+      "conf": 92.0,
+      "block": 6,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "glinfático",
+      "bbox": [
+        525,
+        157,
+        585,
+        173
+      ],
+      "conf": 92.0,
+      "block": 6,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "ativo",
+      "bbox": [
+        591,
+        157,
+        621,
+        170
+      ],
+      "conf": 96.0,
+      "block": 6,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "REM",
+      "bbox": [
+        917,
+        154,
+        944,
+        166
+      ],
+      "conf": 93.0,
+      "block": 7,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "prolongado",
+      "bbox": [
+        951,
+        153,
+        1025,
+        169
+      ],
+      "conf": 93.0,
+      "block": 7,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "—",
+      "bbox": [
+        1030,
+        160,
+        1044,
+        162
+      ],
+      "conf": 93.0,
+      "block": 7,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "consolidação",
+      "bbox": [
+        1050,
+        153,
+        1136,
+        169
+      ],
+      "conf": 92.0,
+      "block": 7,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "(remoção",
+      "bbox": [
+        447,
+        177,
+        508,
+        193
+      ],
+      "conf": 90.0,
+      "block": 8,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "de",
+      "bbox": [
+        514,
+        177,
+        529,
+        190
+      ],
+      "conf": 93.0,
+      "block": 8,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "beta-amiloide)",
+      "bbox": [
+        535,
+        177,
+        630,
+        192
+      ],
+      "conf": 89.0,
+      "block": 8,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "emocional",
+      "bbox": [
+        948,
+        174,
+        1015,
+        187
+      ],
+      "conf": 95.0,
+      "block": 9,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "e",
+      "bbox": [
+        1021,
+        178,
+        1028,
+        187
+      ],
+      "conf": 90.0,
+      "block": 9,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "procedural",
+      "bbox": [
+        1033,
+        174,
+        1103,
+        190
+      ],
+      "conf": 91.0,
+      "block": 9,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "Acordado",
+      "bbox": [
+        46,
+        214,
+        116,
+        228
+      ],
+      "conf": 92.0,
+      "block": 10,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "4-5",
+      "bbox": [
+        1314,
+        236,
+        1340,
+        249
+      ],
+      "conf": 93.0,
+      "block": 11,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "ciclos",
+      "bbox": [
+        1346,
+        236,
+        1384,
+        249
+      ],
+      "conf": 96.0,
+      "block": 11,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "REM",
+      "bbox": [
+        82,
+        244,
+        115,
+        258
+      ],
+      "conf": 96.0,
+      "block": 12,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "de",
+      "bbox": [
+        1314,
+        257,
+        1329,
+        270
+      ],
+      "conf": 93.0,
+      "block": 13,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "-90",
+      "bbox": [
+        1335,
+        257,
+        1361,
+        270
+      ],
+      "conf": 69.0,
+      "block": 13,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "min",
+      "bbox": [
+        1367,
+        257,
+        1390,
+        270
+      ],
+      "conf": 96.0,
+      "block": 13,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "=",
+      "bbox": [
+        1405,
+        280,
+        1429,
+        282
+      ],
+      "conf": 87.0,
+      "block": 14,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "N",
+      "bbox": [
+        95,
+        275,
+        113,
+        289
+      ],
+      "conf": 62.0,
+      "block": 15,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "N3",
+      "bbox": [
+        1314,
+        280,
+        1333,
+        304
+      ],
+      "conf": 85.0,
+      "block": 16,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "profundo",
+      "bbox": [
+        1338,
+        291,
+        1398,
+        307
+      ],
+      "conf": 95.0,
+      "block": 16,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "NZ",
+      "bbox": [
+        95,
+        305,
+        115,
+        319
+      ],
+      "conf": 40.0,
+      "block": 17,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "e",
+      "bbox": [
+        1314,
+        316,
+        1321,
+        325
+      ],
+      "conf": 84.0,
+      "block": 18,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "prolongado",
+      "bbox": [
+        1326,
+        312,
+        1401,
+        328
+      ],
+      "conf": 96.0,
+      "block": 18,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "na",
+      "bbox": [
+        1407,
+        316,
+        1422,
+        325
+      ],
+      "conf": 96.0,
+      "block": 18,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "N3",
+      "bbox": [
+        95,
+        339,
+        115,
+        353
+      ],
+      "conf": 79.0,
+      "block": 19,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "primeira",
+      "bbox": [
+        1314,
+        333,
+        1368,
+        349
+      ],
+      "conf": 96.0,
+      "block": 20,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "metade;",
+      "bbox": [
+        1374,
+        333,
+        1427,
+        348
+      ],
+      "conf": 96.0,
+      "block": 20,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "(sono",
+      "bbox": [
+        37,
+        362,
+        70,
+        375
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "profundo)",
+      "bbox": [
+        75,
+        362,
+        135,
+        376
+      ],
+      "conf": 96.0,
+      "block": 21,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "REM",
+      "bbox": [
+        1314,
+        354,
+        1343,
+        367
+      ],
+      "conf": 96.0,
+      "block": 22,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "mais",
+      "bbox": [
+        1349,
+        354,
+        1379,
+        367
+      ],
+      "conf": 96.0,
+      "block": 22,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "longo",
+      "bbox": [
+        1385,
+        354,
+        1421,
+        370
+      ],
+      "conf": 87.0,
+      "block": 22,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "na",
+      "bbox": [
+        1314,
+        378,
+        1329,
+        388
+      ],
+      "conf": 96.0,
+      "block": 23,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "segunda.",
+      "bbox": [
+        1335,
+        375,
+        1394,
+        391
+      ],
+      "conf": 96.0,
+      "block": 23,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "23:00",
+      "bbox": [
+        177,
+        401,
+        215,
+        412
+      ],
+      "conf": 96.0,
+      "block": 24,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "00:00",
+      "bbox": [
+        310,
+        401,
+        348,
+        412
+      ],
+      "conf": 95.0,
+      "block": 25,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "01:00",
+      "bbox": [
+        448,
+        401,
+        486,
+        412
+      ],
+      "conf": 96.0,
+      "block": 26,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "02:00",
+      "bbox": [
+        576,
+        401,
+        614,
+        412
+      ],
+      "conf": 94.0,
+      "block": 27,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "03:00",
+      "bbox": [
+        706,
+        401,
+        744,
+        412
+      ],
+      "conf": 94.0,
+      "block": 28,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "04:00",
+      "bbox": [
+        836,
+        401,
+        875,
+        412
+      ],
+      "conf": 95.0,
+      "block": 29,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "05:00",
+      "bbox": [
+        967,
+        401,
+        1006,
+        412
+      ],
+      "conf": 92.0,
+      "block": 30,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "06:00",
+      "bbox": [
+        1098,
+        401,
+        1136,
+        412
+      ],
+      "conf": 96.0,
+      "block": 31,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "07:00",
+      "bbox": [
+        1229,
+        401,
+        1266,
+        412
+      ],
+      "conf": 96.0,
+      "block": 32,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Tempo",
+      "bbox": [
+        666,
+        424,
+        711,
+        439
+      ],
+      "conf": 96.0,
+      "block": 33,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "(horas)",
+      "bbox": [
+        717,
+        423,
+        766,
+        438
+      ],
+      "conf": 96.0,
+      "block": 33,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Sono",
+      "bbox": [
+        945,
+        445,
+        978,
+        458
+      ],
+      "conf": 96.0,
+      "block": 34,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "profundo",
+      "bbox": [
+        984,
+        444,
+        1045,
+        461
+      ],
+      "conf": 96.0,
+      "block": 34,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Arquitetura",
+      "bbox": [
+        52,
+        449,
+        143,
+        468
+      ],
+      "conf": 96.0,
+      "block": 35,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "fragmentada",
+      "bbox": [
+        150,
+        449,
+        253,
+        468
+      ],
+      "conf": 95.0,
+      "block": 35,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Cada",
+      "bbox": [
+        374,
+        464,
+        407,
+        477
+      ],
+      "conf": 93.0,
+      "block": 36,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "apnei",
+      "bbox": [
+        413,
+        468,
+        449,
+        480
+      ],
+      "conf": 30.0,
+      "block": 36,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "queda",
+      "bbox": [
+        480,
+        464,
+        521,
+        480
+      ],
+      "conf": 88.0,
+      "block": 37,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "de",
+      "bbox": [
+        526,
+        464,
+        542,
+        477
+      ],
+      "conf": 93.0,
+      "block": 37,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "saturaç",
+      "bbox": [
+        548,
+        465,
+        598,
+        480
+      ],
+      "conf": 83.0,
+      "block": 37,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "interrompido",
+      "bbox": [
+        930,
+        465,
+        1018,
+        481
+      ],
+      "conf": 88.0,
+      "block": 38,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "antes",
+      "bbox": [
+        1023,
+        467,
+        1060,
+        478
+      ],
+      "conf": 96.0,
+      "block": 38,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "pela",
+      "bbox": [
+        37,
+        472,
+        68,
+        491
+      ],
+      "conf": 93.0,
+      "block": 39,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "apneia",
+      "bbox": [
+        75,
+        472,
+        126,
+        491
+      ],
+      "conf": 93.0,
+      "block": 39,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "(Paulo,",
+      "bbox": [
+        134,
+        472,
+        185,
+        490
+      ],
+      "conf": 93.0,
+      "block": 39,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "pré-CPAP)",
+      "bbox": [
+        193,
+        472,
+        270,
+        491
+      ],
+      "conf": 91.0,
+      "block": 39,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "icro-despertar",
+      "bbox": [
+        463,
+        485,
+        557,
+        501
+      ],
+      "conf": 79.0,
+      "block": 40,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "de",
+      "bbox": [
+        937,
+        485,
+        952,
+        498
+      ],
+      "conf": 96.0,
+      "block": 41,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "se",
+      "bbox": [
+        958,
+        489,
+        972,
+        498
+      ],
+      "conf": 92.0,
+      "block": 41,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "aprofundar",
+      "bbox": [
+        978,
+        485,
+        1053,
+        502
+      ],
+      "conf": 95.0,
+      "block": 41,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "Acordado",
+      "bbox": [
+        46,
+        515,
+        116,
+        528
+      ],
+      "conf": 91.0,
+      "block": 42,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Múltiplos",
+      "bbox": [
+        1257,
+        516,
+        1316,
+        533
+      ],
+      "conf": 88.0,
+      "block": 43,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "micro-despertares",
+      "bbox": [
+        1321,
+        516,
+        1438,
+        533
+      ],
+      "conf": 91.0,
+      "block": 43,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "(=",
+      "bbox": [
+        1257,
+        537,
+        1271,
+        553
+      ],
+      "conf": 92.0,
+      "block": 44,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "15-20",
+      "bbox": [
+        1278,
+        538,
+        1321,
+        551
+      ],
+      "conf": 92.0,
+      "block": 44,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "na",
+      "bbox": [
+        1326,
+        541,
+        1342,
+        551
+      ],
+      "conf": 93.0,
+      "block": 44,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "noite)",
+      "bbox": [
+        1347,
+        537,
+        1386,
+        553
+      ],
+      "conf": 96.0,
+      "block": 44,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "REM",
+      "bbox": [
+        82,
+        544,
+        115,
+        558
+      ],
+      "conf": 96.0,
+      "block": 45,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "N",
+      "bbox": [
+        95,
+        574,
+        113,
+        588
+      ],
+      "conf": 54.0,
+      "block": 46,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "N3",
+      "bbox": [
+        1258,
+        578,
+        1282,
+        594
+      ],
+      "conf": 91.0,
+      "block": 47,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "<",
+      "bbox": [
+        1290,
+        582,
+        1302,
+        593
+      ],
+      "conf": 91.0,
+      "block": 47,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "5%",
+      "bbox": [
+        1310,
+        578,
+        1337,
+        594
+      ],
+      "conf": 96.0,
+      "block": 47,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "do",
+      "bbox": [
+        1344,
+        580,
+        1361,
+        594
+      ],
+      "conf": 96.0,
+      "block": 47,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "total",
+      "bbox": [
+        1367,
+        580,
+        1400,
+        594
+      ],
+      "conf": 96.0,
+      "block": 47,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "NZ",
+      "bbox": [
+        95,
+        604,
+        115,
+        618
+      ],
+      "conf": 30.0,
+      "block": 48,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "REM",
+      "bbox": [
+        1257,
+        625,
+        1288,
+        637
+      ],
+      "conf": 96.0,
+      "block": 49,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "frequente,",
+      "bbox": [
+        1294,
+        624,
+        1364,
+        641
+      ],
+      "conf": 95.0,
+      "block": 49,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "mas",
+      "bbox": [
+        1371,
+        628,
+        1398,
+        638
+      ],
+      "conf": 96.0,
+      "block": 49,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "N3",
+      "bbox": [
+        95,
+        636,
+        115,
+        650
+      ],
+      "conf": 81.0,
+      "block": 50,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "truncado",
+      "bbox": [
+        1256,
+        646,
+        1318,
+        659
+      ],
+      "conf": 96.0,
+      "block": 51,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "e",
+      "bbox": [
+        1319,
+        642,
+        1326,
+        668
+      ],
+      "conf": 96.0,
+      "block": 51,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "instável.",
+      "bbox": [
+        1336,
+        646,
+        1392,
+        659
+      ],
+      "conf": 91.0,
+      "block": 51,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "(sono",
+      "bbox": [
+        37,
+        658,
+        70,
+        672
+      ],
+      "conf": 96.0,
+      "block": 52,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "profundo)",
+      "bbox": [
+        75,
+        658,
+        134,
+        673
+      ],
+      "conf": 96.0,
+      "block": 52,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "23:00",
+      "bbox": [
+        177,
+        688,
+        215,
+        700
+      ],
+      "conf": 96.0,
+      "block": 53,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "00:00",
+      "bbox": [
+        310,
+        688,
+        348,
+        700
+      ],
+      "conf": 96.0,
+      "block": 54,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "01:00",
+      "bbox": [
+        448,
+        688,
+        486,
+        700
+      ],
+      "conf": 96.0,
+      "block": 55,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "02:00",
+      "bbox": [
+        576,
+        688,
+        614,
+        700
+      ],
+      "conf": 96.0,
+      "block": 56,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "03:00",
+      "bbox": [
+        706,
+        688,
+        745,
+        700
+      ],
+      "conf": 96.0,
+      "block": 57,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "04:00",
+      "bbox": [
+        836,
+        688,
+        875,
+        700
+      ],
+      "conf": 96.0,
+      "block": 58,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "05:00",
+      "bbox": [
+        967,
+        688,
+        1006,
+        700
+      ],
+      "conf": 94.0,
+      "block": 59,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "06:00",
+      "bbox": [
+        1096,
+        688,
+        1134,
+        700
+      ],
+      "conf": 96.0,
+      "block": 60,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "07:00",
+      "bbox": [
+        1188,
+        688,
+        1227,
+        700
+      ],
+      "conf": 96.0,
+      "block": 61,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "Tempo",
+      "bbox": [
+        666,
+        710,
+        711,
+        725
+      ],
+      "conf": 96.0,
+      "block": 62,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "(horas)",
+      "bbox": [
+        717,
+        709,
+        766,
+        725
+      ],
+      "conf": 96.0,
+      "block": 62,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "Hipnogramas",
+      "bbox": [
+        25,
+        747,
+        132,
+        762
+      ],
+      "conf": 92.0,
+      "block": 63,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "ilustrativos",
+      "bbox": [
+        138,
+        747,
+        228,
+        759
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "representando",
+      "bbox": [
+        235,
+        747,
+        338,
+        762
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "(acima)",
+      "bbox": [
+        344,
+        746,
+        396,
+        761
+      ],
+      "conf": 91.0,
+      "block": 63,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "arquitetura",
+      "bbox": [
+        402,
+        747,
+        480,
+        762
+      ],
+      "conf": 91.0,
+      "block": 63,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "normal",
+      "bbox": [
+        487,
+        747,
+        535,
+        759
+      ],
+      "conf": 94.0,
+      "block": 63,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "de",
+      "bbox": [
+        541,
+        747,
+        558,
+        759
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "sono",
+      "bbox": [
+        564,
+        751,
+        597,
+        759
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "em",
+      "bbox": [
+        603,
+        751,
+        623,
+        759
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "adulto",
+      "bbox": [
+        630,
+        747,
+        674,
+        759
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "com",
+      "bbox": [
+        679,
+        751,
+        708,
+        759
+      ],
+      "conf": 97.0,
+      "block": 63,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "aproximadamente",
+      "bbox": [
+        715,
+        747,
+        842,
+        762
+      ],
+      "conf": 95.0,
+      "block": 63,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "7",
+      "bbox": [
+        849,
+        747,
+        856,
+        759
+      ],
+      "conf": 93.0,
+      "block": 63,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "horas",
+      "bbox": [
+        862,
+        747,
+        901,
+        759
+      ],
+      "conf": 87.0,
+      "block": 63,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "e",
+      "bbox": [
+        906,
+        751,
+        913,
+        759
+      ],
+      "conf": 87.0,
+      "block": 63,
+      "line": 1,
+      "word": 15
+    },
+    {
+      "text": "meia",
+      "bbox": [
+        920,
+        747,
+        953,
+        759
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 16
+    },
+    {
+      "text": "de",
+      "bbox": [
+        959,
+        747,
+        975,
+        759
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 17
+    },
+    {
+      "text": "duração,",
+      "bbox": [
+        981,
+        747,
+        1041,
+        762
+      ],
+      "conf": 96.0,
+      "block": 63,
+      "line": 1,
+      "word": 18
+    },
+    {
+      "text": "com",
+      "bbox": [
+        25,
+        771,
+        54,
+        779
+      ],
+      "conf": 90.0,
+      "block": 64,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "N3",
+      "bbox": [
+        61,
+        767,
+        80,
+        779
+      ],
+      "conf": 90.0,
+      "block": 64,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "concentrado",
+      "bbox": [
+        87,
+        767,
+        177,
+        779
+      ],
+      "conf": 96.0,
+      "block": 64,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "na",
+      "bbox": [
+        183,
+        771,
+        199,
+        779
+      ],
+      "conf": 96.0,
+      "block": 64,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "primeira",
+      "bbox": [
+        206,
+        767,
+        264,
+        782
+      ],
+      "conf": 93.0,
+      "block": 64,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "metade",
+      "bbox": [
+        271,
+        767,
+        324,
+        779
+      ],
+      "conf": 97.0,
+      "block": 64,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "da",
+      "bbox": [
+        329,
+        767,
+        346,
+        779
+      ],
+      "conf": 96.0,
+      "block": 64,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "noite",
+      "bbox": [
+        352,
+        768,
+        387,
+        779
+      ],
+      "conf": 95.0,
+      "block": 64,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "e",
+      "bbox": [
+        397,
+        771,
+        400,
+        779
+      ],
+      "conf": 95.0,
+      "block": 64,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "REM",
+      "bbox": [
+        407,
+        767,
+        437,
+        779
+      ],
+      "conf": 97.0,
+      "block": 64,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "prolongado",
+      "bbox": [
+        444,
+        767,
+        526,
+        782
+      ],
+      "conf": 97.0,
+      "block": 64,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "na",
+      "bbox": [
+        532,
+        771,
+        548,
+        779
+      ],
+      "conf": 96.0,
+      "block": 64,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "segunda;",
+      "bbox": [
+        554,
+        767,
+        618,
+        782
+      ],
+      "conf": 96.0,
+      "block": 64,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "(abaixo)",
+      "bbox": [
+        625,
+        766,
+        682,
+        782
+      ],
+      "conf": 96.0,
+      "block": 64,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "arquitetura",
+      "bbox": [
+        689,
+        769,
+        766,
+        782
+      ],
+      "conf": 96.0,
+      "block": 64,
+      "line": 1,
+      "word": 15
+    },
+    {
+      "text": "fragmentada",
+      "bbox": [
+        772,
+        767,
+        863,
+        782
+      ],
+      "conf": 91.0,
+      "block": 64,
+      "line": 1,
+      "word": 16
+    },
+    {
+      "text": "pela",
+      "bbox": [
+        870,
+        767,
+        899,
+        782
+      ],
+      "conf": 96.0,
+      "block": 64,
+      "line": 1,
+      "word": 17
+    },
+    {
+      "text": "síndrome",
+      "bbox": [
+        905,
+        767,
+        972,
+        779
+      ],
+      "conf": 93.0,
+      "block": 64,
+      "line": 1,
+      "word": 18
+    },
+    {
+      "text": "da",
+      "bbox": [
+        978,
+        767,
+        994,
+        779
+      ],
+      "conf": 96.0,
+      "block": 64,
+      "line": 1,
+      "word": 19
+    },
+    {
+      "text": "apneia",
+      "bbox": [
+        25,
+        787,
+        72,
+        802
+      ],
+      "conf": 91.0,
+      "block": 65,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "obstrutiva",
+      "bbox": [
+        78,
+        787,
+        151,
+        799
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "do",
+      "bbox": [
+        157,
+        787,
+        175,
+        799
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "sono,",
+      "bbox": [
+        181,
+        790,
+        219,
+        800
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "com",
+      "bbox": [
+        225,
+        790,
+        255,
+        799
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "múltiplos",
+      "bbox": [
+        262,
+        787,
+        328,
+        802
+      ],
+      "conf": 93.0,
+      "block": 65,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "despertares",
+      "bbox": [
+        334,
+        787,
+        420,
+        802
+      ],
+      "conf": 92.0,
+      "block": 65,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "breves,",
+      "bbox": [
+        426,
+        787,
+        477,
+        801
+      ],
+      "conf": 93.0,
+      "block": 65,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "N3",
+      "bbox": [
+        484,
+        787,
+        503,
+        799
+      ],
+      "conf": 93.0,
+      "block": 65,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "reduzido",
+      "bbox": [
+        510,
+        787,
+        573,
+        799
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "a",
+      "bbox": [
+        578,
+        790,
+        585,
+        799
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "menos",
+      "bbox": [
+        592,
+        790,
+        639,
+        799
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "de",
+      "bbox": [
+        645,
+        787,
+        662,
+        799
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "5%",
+      "bbox": [
+        669,
+        787,
+        691,
+        799
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "do",
+      "bbox": [
+        697,
+        787,
+        714,
+        799
+      ],
+      "conf": 97.0,
+      "block": 65,
+      "line": 1,
+      "word": 15
+    },
+    {
+      "text": "tempo",
+      "bbox": [
+        720,
+        788,
+        766,
+        802
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 16
+    },
+    {
+      "text": "total,",
+      "bbox": [
+        772,
+        787,
+        807,
+        801
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 17
+    },
+    {
+      "text": "e",
+      "bbox": [
+        814,
+        790,
+        821,
+        799
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 18
+    },
+    {
+      "text": "ciclos",
+      "bbox": [
+        827,
+        787,
+        867,
+        799
+      ],
+      "conf": 96.0,
+      "block": 65,
+      "line": 1,
+      "word": 19
+    },
+    {
+      "text": "REM",
+      "bbox": [
+        874,
+        787,
+        904,
+        799
+      ],
+      "conf": 93.0,
+      "block": 65,
+      "line": 1,
+      "word": 20
+    },
+    {
+      "text": "truncados.",
+      "bbox": [
+        911,
+        787,
+        987,
+        799
+      ],
+      "conf": 90.0,
+      "block": 65,
+      "line": 1,
+      "word": 21
+    },
+    {
+      "text": "O",
+      "bbox": [
+        25,
+        807,
+        35,
+        819
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 1
+    },
+    {
+      "text": "tempo",
+      "bbox": [
+        41,
+        809,
+        88,
+        822
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 2
+    },
+    {
+      "text": "de",
+      "bbox": [
+        94,
+        807,
+        111,
+        819
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 3
+    },
+    {
+      "text": "permanência",
+      "bbox": [
+        117,
+        807,
+        210,
+        822
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 4
+    },
+    {
+      "text": "na",
+      "bbox": [
+        217,
+        811,
+        233,
+        819
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 5
+    },
+    {
+      "text": "cama",
+      "bbox": [
+        239,
+        811,
+        277,
+        819
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 6
+    },
+    {
+      "text": "pode",
+      "bbox": [
+        284,
+        807,
+        319,
+        822
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 7
+    },
+    {
+      "text": "ser",
+      "bbox": [
+        325,
+        811,
+        347,
+        819
+      ],
+      "conf": 93.0,
+      "block": 66,
+      "line": 1,
+      "word": 8
+    },
+    {
+      "text": "semelhante",
+      "bbox": [
+        353,
+        807,
+        436,
+        819
+      ],
+      "conf": 93.0,
+      "block": 66,
+      "line": 1,
+      "word": 9
+    },
+    {
+      "text": "—",
+      "bbox": [
+        442,
+        814,
+        458,
+        815
+      ],
+      "conf": 93.0,
+      "block": 66,
+      "line": 1,
+      "word": 10
+    },
+    {
+      "text": "o",
+      "bbox": [
+        464,
+        811,
+        472,
+        819
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 11
+    },
+    {
+      "text": "tempo",
+      "bbox": [
+        478,
+        809,
+        524,
+        822
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 12
+    },
+    {
+      "text": "de",
+      "bbox": [
+        530,
+        807,
+        547,
+        819
+      ],
+      "conf": 97.0,
+      "block": 66,
+      "line": 1,
+      "word": 13
+    },
+    {
+      "text": "sono",
+      "bbox": [
+        553,
+        811,
+        587,
+        819
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 14
+    },
+    {
+      "text": "funcional,",
+      "bbox": [
+        593,
+        807,
+        663,
+        821
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 15
+    },
+    {
+      "text": "não.",
+      "bbox": [
+        670,
+        808,
+        699,
+        819
+      ],
+      "conf": 96.0,
+      "block": 66,
+      "line": 1,
+      "word": 16
+    }
+  ],
+  "lines": [
+    {
+      "text": "FIGURA 1",
+      "bbox": [
+        24,
+        14,
+        111,
+        30
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "A arquitetura de uma noite: o que distingue dormir de descansar",
+      "bbox": [
+        24,
+        42,
+        1089,
+        86
+      ],
+      "conf": 95.4
+    },
+    {
+      "text": "Mesmo tempo na cama, resultados completamente diferentes.",
+      "bbox": [
+        25,
+        98,
+        632,
+        121
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Primeira metade da noite",
+      "bbox": [
+        457,
+        137,
+        620,
+        150
+      ],
+      "conf": 95.2
+    },
+    {
+      "text": "Segunda metade da noite",
+      "bbox": [
+        942,
+        133,
+        1109,
+        149
+      ],
+      "conf": 96.2
+    },
+    {
+      "text": "Clearance glinfático ativo",
+      "bbox": [
+        456,
+        157,
+        621,
+        173
+      ],
+      "conf": 93.3
+    },
+    {
+      "text": "REM prolongado — consolidação",
+      "bbox": [
+        917,
+        153,
+        1136,
+        169
+      ],
+      "conf": 92.8
+    },
+    {
+      "text": "(remoção de beta-amiloide)",
+      "bbox": [
+        447,
+        177,
+        630,
+        193
+      ],
+      "conf": 90.7
+    },
+    {
+      "text": "emocional e procedural",
+      "bbox": [
+        948,
+        174,
+        1103,
+        190
+      ],
+      "conf": 92.0
+    },
+    {
+      "text": "Acordado",
+      "bbox": [
+        46,
+        214,
+        116,
+        228
+      ],
+      "conf": 92.0
+    },
+    {
+      "text": "4-5 ciclos",
+      "bbox": [
+        1314,
+        236,
+        1384,
+        249
+      ],
+      "conf": 94.5
+    },
+    {
+      "text": "REM",
+      "bbox": [
+        82,
+        244,
+        115,
+        258
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "de -90 min",
+      "bbox": [
+        1314,
+        257,
+        1390,
+        270
+      ],
+      "conf": 86.0
+    },
+    {
+      "text": "=",
+      "bbox": [
+        1405,
+        280,
+        1429,
+        282
+      ],
+      "conf": 87.0
+    },
+    {
+      "text": "N",
+      "bbox": [
+        95,
+        275,
+        113,
+        289
+      ],
+      "conf": 62.0
+    },
+    {
+      "text": "N3 profundo",
+      "bbox": [
+        1314,
+        280,
+        1398,
+        307
+      ],
+      "conf": 90.0
+    },
+    {
+      "text": "NZ",
+      "bbox": [
+        95,
+        305,
+        115,
+        319
+      ],
+      "conf": 40.0
+    },
+    {
+      "text": "e prolongado na",
+      "bbox": [
+        1314,
+        312,
+        1422,
+        328
+      ],
+      "conf": 92.0
+    },
+    {
+      "text": "N3",
+      "bbox": [
+        95,
+        339,
+        115,
+        353
+      ],
+      "conf": 79.0
+    },
+    {
+      "text": "primeira metade;",
+      "bbox": [
+        1314,
+        333,
+        1427,
+        349
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "(sono profundo)",
+      "bbox": [
+        37,
+        362,
+        135,
+        376
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "REM mais longo",
+      "bbox": [
+        1314,
+        354,
+        1421,
+        370
+      ],
+      "conf": 93.0
+    },
+    {
+      "text": "na segunda.",
+      "bbox": [
+        1314,
+        375,
+        1394,
+        391
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "23:00",
+      "bbox": [
+        177,
+        401,
+        215,
+        412
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "00:00",
+      "bbox": [
+        310,
+        401,
+        348,
+        412
+      ],
+      "conf": 95.0
+    },
+    {
+      "text": "01:00",
+      "bbox": [
+        448,
+        401,
+        486,
+        412
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "02:00",
+      "bbox": [
+        576,
+        401,
+        614,
+        412
+      ],
+      "conf": 94.0
+    },
+    {
+      "text": "03:00",
+      "bbox": [
+        706,
+        401,
+        744,
+        412
+      ],
+      "conf": 94.0
+    },
+    {
+      "text": "04:00",
+      "bbox": [
+        836,
+        401,
+        875,
+        412
+      ],
+      "conf": 95.0
+    },
+    {
+      "text": "05:00",
+      "bbox": [
+        967,
+        401,
+        1006,
+        412
+      ],
+      "conf": 92.0
+    },
+    {
+      "text": "06:00",
+      "bbox": [
+        1098,
+        401,
+        1136,
+        412
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "07:00",
+      "bbox": [
+        1229,
+        401,
+        1266,
+        412
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Tempo (horas)",
+      "bbox": [
+        666,
+        423,
+        766,
+        439
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Sono profundo",
+      "bbox": [
+        945,
+        444,
+        1045,
+        461
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Arquitetura fragmentada",
+      "bbox": [
+        52,
+        449,
+        253,
+        468
+      ],
+      "conf": 95.5
+    },
+    {
+      "text": "Cada apnei",
+      "bbox": [
+        374,
+        464,
+        449,
+        480
+      ],
+      "conf": 61.5
+    },
+    {
+      "text": "queda de saturaç",
+      "bbox": [
+        480,
+        464,
+        598,
+        480
+      ],
+      "conf": 88.0
+    },
+    {
+      "text": "interrompido antes",
+      "bbox": [
+        930,
+        465,
+        1060,
+        481
+      ],
+      "conf": 92.0
+    },
+    {
+      "text": "pela apneia (Paulo, pré-CPAP)",
+      "bbox": [
+        37,
+        472,
+        270,
+        491
+      ],
+      "conf": 92.5
+    },
+    {
+      "text": "icro-despertar",
+      "bbox": [
+        463,
+        485,
+        557,
+        501
+      ],
+      "conf": 79.0
+    },
+    {
+      "text": "de se aprofundar",
+      "bbox": [
+        937,
+        485,
+        1053,
+        502
+      ],
+      "conf": 94.3
+    },
+    {
+      "text": "Acordado",
+      "bbox": [
+        46,
+        515,
+        116,
+        528
+      ],
+      "conf": 91.0
+    },
+    {
+      "text": "Múltiplos micro-despertares",
+      "bbox": [
+        1257,
+        516,
+        1438,
+        533
+      ],
+      "conf": 89.5
+    },
+    {
+      "text": "(= 15-20 na noite)",
+      "bbox": [
+        1257,
+        537,
+        1386,
+        553
+      ],
+      "conf": 93.2
+    },
+    {
+      "text": "REM",
+      "bbox": [
+        82,
+        544,
+        115,
+        558
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "N",
+      "bbox": [
+        95,
+        574,
+        113,
+        588
+      ],
+      "conf": 54.0
+    },
+    {
+      "text": "N3 < 5% do total",
+      "bbox": [
+        1258,
+        578,
+        1400,
+        594
+      ],
+      "conf": 94.0
+    },
+    {
+      "text": "NZ",
+      "bbox": [
+        95,
+        604,
+        115,
+        618
+      ],
+      "conf": 30.0
+    },
+    {
+      "text": "REM frequente, mas",
+      "bbox": [
+        1257,
+        624,
+        1398,
+        641
+      ],
+      "conf": 95.7
+    },
+    {
+      "text": "N3",
+      "bbox": [
+        95,
+        636,
+        115,
+        650
+      ],
+      "conf": 81.0
+    },
+    {
+      "text": "truncado e instável.",
+      "bbox": [
+        1256,
+        642,
+        1392,
+        668
+      ],
+      "conf": 94.3
+    },
+    {
+      "text": "(sono profundo)",
+      "bbox": [
+        37,
+        658,
+        134,
+        673
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "23:00",
+      "bbox": [
+        177,
+        688,
+        215,
+        700
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "00:00",
+      "bbox": [
+        310,
+        688,
+        348,
+        700
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "01:00",
+      "bbox": [
+        448,
+        688,
+        486,
+        700
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "02:00",
+      "bbox": [
+        576,
+        688,
+        614,
+        700
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "03:00",
+      "bbox": [
+        706,
+        688,
+        745,
+        700
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "04:00",
+      "bbox": [
+        836,
+        688,
+        875,
+        700
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "05:00",
+      "bbox": [
+        967,
+        688,
+        1006,
+        700
+      ],
+      "conf": 94.0
+    },
+    {
+      "text": "06:00",
+      "bbox": [
+        1096,
+        688,
+        1134,
+        700
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "07:00",
+      "bbox": [
+        1188,
+        688,
+        1227,
+        700
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Tempo (horas)",
+      "bbox": [
+        666,
+        709,
+        766,
+        725
+      ],
+      "conf": 96.0
+    },
+    {
+      "text": "Hipnogramas ilustrativos representando (acima) arquitetura normal de sono em adulto com aproximadamente 7 horas e meia de duração,",
+      "bbox": [
+        25,
+        746,
+        1041,
+        762
+      ],
+      "conf": 93.9
+    },
+    {
+      "text": "com N3 concentrado na primeira metade da noite e REM prolongado na segunda; (abaixo) arquitetura fragmentada pela síndrome da",
+      "bbox": [
+        25,
+        766,
+        994,
+        782
+      ],
+      "conf": 94.8
+    },
+    {
+      "text": "apneia obstrutiva do sono, com múltiplos despertares breves, N3 reduzido a menos de 5% do tempo total, e ciclos REM truncados.",
+      "bbox": [
+        25,
+        787,
+        987,
+        802
+      ],
+      "conf": 94.8
+    },
+    {
+      "text": "O tempo de permanência na cama pode ser semelhante — o tempo de sono funcional, não.",
+      "bbox": [
+        25,
+        807,
+        699,
+        822
+      ],
+      "conf": 95.5
+    }
+  ]
+}
