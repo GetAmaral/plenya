@@ -506,10 +506,24 @@ func (s *ConversationService) persistAISummaryCache(
 func (s *ConversationService) buildReceptionMemory(ctx context.Context, ownerType string, ownerID uuid.UUID) string {
 	var sb strings.Builder
 
-	// Flag derivada básica (Fase A): já é paciente ou ainda é lead. Continuum/frequente: Fase D.
+	// Flags derivadas: lead vs paciente + Continuum/assinatura + frequência (Fase D).
 	switch ownerType {
 	case string(models.ConversationOwnerPatient):
 		sb.WriteString("RELAÇÃO: esta pessoa já é paciente da Plenya (não trate como contato novo).\n")
+		flags := s.derivedRelationshipFlags(ctx, ownerType, ownerID)
+		if flags.ContinuumActive {
+			sb.WriteString("- É cliente do Continuum (acompanhamento contínuo ativo). Trate com a familiaridade de quem já é de casa.\n")
+		}
+		if flags.frequent() {
+			line := fmt.Sprintf("- Paciente frequente (%d consultas realizadas", flags.AppointmentsCompleted)
+			if flags.LastConsultAt != nil {
+				line += "; última em " + flags.LastConsultAt.In(brLocation).Format("02/01/2006")
+			}
+			line += ").\n"
+			sb.WriteString(line)
+		} else if flags.LastConsultAt != nil {
+			sb.WriteString("- Última consulta em " + flags.LastConsultAt.In(brLocation).Format("02/01/2006") + ".\n")
+		}
 	case string(models.ConversationOwnerLead):
 		sb.WriteString("RELAÇÃO: ainda é um lead (não é paciente).\n")
 	}

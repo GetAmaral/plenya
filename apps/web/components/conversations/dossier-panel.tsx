@@ -93,14 +93,32 @@ export function DossierPanel({ ownerType, ownerId, name, open, onOpenChange }: P
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-md">
         <SheetHeader className="border-b border-border px-5 py-4">
-          <SheetTitle className="flex items-center gap-2">
+          <SheetTitle className="flex flex-wrap items-center gap-2">
             Dossiê
             <Badge variant="outline" className="text-[10px] uppercase tracking-wide">
               {ownerType === 'patient' ? 'Paciente' : 'Lead'}
             </Badge>
+            {data?.continuumActive && (
+              <Badge className="bg-amber-100 text-amber-900 hover:bg-amber-100 text-[10px] uppercase tracking-wide">
+                Continuum
+              </Badge>
+            )}
+            {data?.frequent && (
+              <Badge className="bg-emerald-100 text-emerald-900 hover:bg-emerald-100 text-[10px] uppercase tracking-wide">
+                Frequente
+              </Badge>
+            )}
           </SheetTitle>
           <SheetDescription className="text-xs">
             O que a equipe e a Lívia sabem sobre {name}. Apenas informações sociais, nada clínico.
+            {data?.appointmentsCompleted ? (
+              <>
+                {' '}
+                {data.appointmentsCompleted} consulta{data.appointmentsCompleted > 1 ? 's' : ''} realizada
+                {data.appointmentsCompleted > 1 ? 's' : ''}
+                {data.lastConsultAt ? ` · última em ${formatDateBR(data.lastConsultAt)}` : ''}.
+              </>
+            ) : null}
           </SheetDescription>
         </SheetHeader>
 

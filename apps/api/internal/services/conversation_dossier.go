@@ -60,6 +60,61 @@ type DossierView struct {
 	Facts             []DossierFact   `json:"facts"`
 	People            []DossierPerson `json:"people"`
 	Events            []DossierEvent  `json:"events"`
+
+	// Flags derivadas (calculadas, não digitadas) — Fase D.
+	ContinuumActive       bool       `json:"continuumActive"`
+	Frequent              bool       `json:"frequent"`
+	AppointmentsCompleted int        `json:"appointmentsCompleted"`
+	LastConsultAt         *time.Time `json:"lastConsultAt,omitempty"`
+}
+
+// frequentThreshold — nº de consultas realizadas a partir do qual a pessoa é "frequente".
+const frequentThreshold = 3
+
+// relationshipFlags são as flags derivadas (calculadas) de um dono.
+type relationshipFlags struct {
+	ContinuumActive       bool
+	AppointmentsCompleted int
+	LastConsultAt         *time.Time
+}
+
+func (f relationshipFlags) frequent() bool { return f.AppointmentsCompleted >= frequentThreshold }
+
+// derivedRelationshipFlags calcula Continuum/assinatura ativa + consultas realizadas + última
+// consulta. Só faz sentido para pacientes (leads não têm consultas/assinatura). Best-effort.
+func (s *ConversationService) derivedRelationshipFlags(ctx context.Context, ownerType string, ownerID uuid.UUID) relationshipFlags {
+	var f relationshipFlags
+	if ownerType != string(models.ConversationOwnerPatient) {
+		return f
+	}
+
+	var continuum int64
+	s.db.WithContext(ctx).Model(&models.PatientContinuum{}).
+		Where("patient_id = ? AND status = ?", ownerID, models.ContinuumActive).Count(&continuum)
+	if continuum == 0 {
+		var sub int64
+		s.db.WithContext(ctx).Model(&models.PatientSubscription{}).
+			Where("patient_id = ? AND status = ?", ownerID, models.SubscriptionActive).Count(&sub)
+		f.ContinuumActive = sub > 0
+	} else {
+		f.ContinuumActive = true
+	}
+
+	var count int64
+	s.db.WithContext(ctx).Model(&models.Appointment{}).
+		Where("patient_id = ? AND status = ?", ownerID, models.AppointmentCompleted).Count(&count)
+	f.AppointmentsCompleted = int(count)
+
+	if count > 0 {
+		var last models.Appointment
+		if err := s.db.WithContext(ctx).
+			Where("patient_id = ? AND status = ?", ownerID, models.AppointmentCompleted).
+			Order("scheduled_at DESC").First(&last).Error; err == nil {
+			t := last.ScheduledAt
+			f.LastConsultAt = &t
+		}
+	}
+	return f
 }
 
 // GetDossier monta a visão 360 social (perfil + fatos ativos) de uma pessoa.
@@ -119,6 +174,12 @@ func (s *ConversationService) GetDossier(ctx context.Context, ownerType string, 
 			Recurring: e.Recurring, Status: e.Status, Source: e.Source,
 		})
 	}
+
+	flags := s.derivedRelationshipFlags(ctx, ownerType, ownerID)
+	view.ContinuumActive = flags.ContinuumActive
+	view.AppointmentsCompleted = flags.AppointmentsCompleted
+	view.LastConsultAt = flags.LastConsultAt
+	view.Frequent = flags.frequent()
 	return view, nil
 }
 

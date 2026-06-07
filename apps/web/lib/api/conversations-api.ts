@@ -827,6 +827,11 @@ export interface DossierView {
   facts: DossierFact[];
   people: DossierPerson[];
   events: DossierEvent[];
+  // Flags derivadas (Fase D).
+  continuumActive: boolean;
+  frequent: boolean;
+  appointmentsCompleted: number;
+  lastConsultAt?: string | null;
 }
 
 /** Rótulos PT-BR dos tipos de evento de relacionamento (espelha o backend). */

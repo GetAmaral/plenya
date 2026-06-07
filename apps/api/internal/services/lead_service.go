@@ -1393,12 +1393,60 @@ func (s *LeadService) MarkConverted(leadID, patientID uuid.UUID, actorUserID *uu
 	if err := s.db.Model(&models.Lead{}).Where("id = ?", leadID).Updates(updates).Error; err != nil {
 		return fmt.Errorf("lead: mark converted: %w", err)
 	}
+
+	// Repointa o dossiê de relacionamento (memória social da Lívia) do lead para o paciente,
+	// para nada se perder na conversão (Fase D / §6 do plano). Best-effort: não falha a conversão.
+	if err := repointRelationshipDossier(s.db, leadID, patientID); err != nil {
+		log.Printf("⚠️  [DOSSIÊ] repoint lead %s → paciente %s: %v", leadID, patientID, err)
+	}
+
 	return s.RecordActivity(RecordActivityInput{
 		LeadID:      &leadID,
 		Type:        models.LeadActivityConverted,
 		Channel:     models.LeadChannelInternal,
 		Content:     ptr(fmt.Sprintf("Lead convertido em paciente %s", patientID.String())),
 		ActorUserID: actorUserID,
+	})
+}
+
+// repointRelationshipDossier move profile + facts + people + events do dono lead/<leadID> para
+// patient/<patientID>, resolvendo conflitos de unicidade (1 profile por dono; 1 fato ativo por
+// key). Só dado social (LGPD/CFM). Idempotente o suficiente para reexecução.
+func repointRelationshipDossier(db *gorm.DB, leadID, patientID uuid.UUID) error {
+	return db.Transaction(func(tx *gorm.DB) error {
+		// 1) Perfil: só move se o paciente ainda não tiver um; senão descarta o do lead.
+		if err := tx.Exec(`
+			UPDATE relationship_profiles SET owner_type='patient', owner_id=?, updated_at=now()
+			WHERE owner_type='lead' AND owner_id=?
+			  AND NOT EXISTS (SELECT 1 FROM relationship_profiles WHERE owner_type='patient' AND owner_id=?)`,
+			patientID, leadID, patientID).Error; err != nil {
+			return err
+		}
+		if err := tx.Exec(`DELETE FROM relationship_profiles WHERE owner_type='lead' AND owner_id=?`, leadID).Error; err != nil {
+			return err
+		}
+
+		// 2) Fatos: fecha os ativos do lead cuja key já está ativa no paciente (evita violar o
+		// índice único parcial), depois move todo o resto.
+		if err := tx.Exec(`
+			UPDATE relationship_facts SET valid_until=now()
+			WHERE owner_type='lead' AND owner_id=? AND valid_until IS NULL
+			  AND key IN (SELECT key FROM relationship_facts WHERE owner_type='patient' AND owner_id=? AND valid_until IS NULL)`,
+			leadID, patientID).Error; err != nil {
+			return err
+		}
+		if err := tx.Exec(`UPDATE relationship_facts SET owner_type='patient', owner_id=?, updated_at=now() WHERE owner_type='lead' AND owner_id=?`, patientID, leadID).Error; err != nil {
+			return err
+		}
+
+		// 3) Pessoas e eventos: sem unicidade, move direto.
+		if err := tx.Exec(`UPDATE important_people SET owner_type='patient', owner_id=?, updated_at=now() WHERE owner_type='lead' AND owner_id=?`, patientID, leadID).Error; err != nil {
+			return err
+		}
+		if err := tx.Exec(`UPDATE relationship_events SET owner_type='patient', owner_id=?, updated_at=now() WHERE owner_type='lead' AND owner_id=?`, patientID, leadID).Error; err != nil {
+			return err
+		}
+		return nil
 	})
 }
 
