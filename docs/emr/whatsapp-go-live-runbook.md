@@ -283,3 +283,42 @@ Redeploy (não restart). Depois: smoke test (WhatsApp → lead em /conversas →
 
 **O que já está pronto e não precisa de nada:** todo o código do CRM/WhatsApp. É só plugar a conta.
 </content>
+
+---
+
+## Template de aniversário (Lívia — item 2 / Fase E) — APROVADO p/ criar no Meta
+
+Cópia aprovada pelo Getúlio (2026-06-07). Falta só criar/aprovar no Meta (test token estava
+expirado em 07/06; criação de template é ação no WhatsApp Manager + aprovação assíncrona da Meta).
+
+**Definição do template:**
+- **name:** `aniversario_plenya`  (minúsculo, sem espaços — exigência Meta)
+- **category:** `MARKETING` (saudação sem transação; a Meta costuma classificar greeting como marketing)
+- **language:** `pt_BR`
+- **body:** `Oi, {{1}}! Hoje é seu aniversário e a equipe da Plenya passa para desejar um dia feliz e um ano de saúde e bem-estar. Conte com a gente.`
+- **exemplo do {{1}}:** `Maria`
+- sem header, sem footer, sem botões.
+
+**Como criar via Graph API** (rodar com um token que tenha `whatsapp_business_management` + o WABA ID;
+o WABA ID NÃO está no cofre hoje — pegar no WhatsApp Manager ou via `GET /{phone_number_id}` autorizado):
+
+```bash
+curl -X POST "https://graph.facebook.com/v25.0/<WABA_ID>/message_templates" \
+  -H "Authorization: Bearer <MGMT_TOKEN>" -H "Content-Type: application/json" \
+  -d '{
+    "name": "aniversario_plenya",
+    "category": "MARKETING",
+    "language": "pt_BR",
+    "components": [
+      {"type":"BODY",
+       "text":"Oi, {{1}}! Hoje é seu aniversário e a equipe da Plenya passa para desejar um dia feliz e um ano de saúde e bem-estar. Conte com a gente.",
+       "example": {"body_text": [["Maria"]]}}
+    ]
+  }'
+```
+
+**Depois de aprovado:** setar a env `WHATSAPP_TEMPLATE_BIRTHDAY=aniversario_plenya` no Coolify (api).
+Sem isso, o job só notifica o time (não envia). O auto-envio ainda exige: Atendimento IA em `auto` +
+kill switch ligado + aniversário próprio não-restrito no dia.
+
+**Pré-requisito atual:** renovar o token do WhatsApp (o de teste no cofre venceu em 04/06/2026).
