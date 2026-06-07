@@ -142,6 +142,7 @@ type WhatsAppConfig struct {
 	WebhookVerifyToken string // WHATSAPP_WEBHOOK_VERIFY_TOKEN — secret aleatório do challenge inicial
 	TemplateMagicLink  string // WHATSAPP_TEMPLATE_MAGIC_LINK — nome do template (default: "magic_link")
 	TemplateLeadAlert  string // WHATSAPP_TEMPLATE_LEAD_ALERT — notificação interna (default: "lead_alert")
+	TemplateBirthday   string // WHATSAPP_TEMPLATE_BIRTHDAY — cumprimento de aniversário (default: "" = desligado)
 	GraphAPIVersion    string // WHATSAPP_GRAPH_API_VERSION — ex: "v18.0" (default)
 	// CoexistenceEnabled trata ecos (mensagens enviadas pelo app do celular) que
 	// chegam no webhook quando o número roda em coexistence. WHATSAPP_COEXISTENCE.
@@ -388,6 +389,7 @@ func Load() (*Config, error) {
 			WebhookVerifyToken: getEnv("WHATSAPP_WEBHOOK_VERIFY_TOKEN", ""),
 			TemplateMagicLink:  getEnv("WHATSAPP_TEMPLATE_MAGIC_LINK", "magic_link"),
 			TemplateLeadAlert:  getEnv("WHATSAPP_TEMPLATE_LEAD_ALERT", "lead_alert"),
+			TemplateBirthday:   getEnv("WHATSAPP_TEMPLATE_BIRTHDAY", ""),
 			GraphAPIVersion:    getEnv("WHATSAPP_GRAPH_API_VERSION", "v18.0"),
 			CoexistenceEnabled: getEnv("WHATSAPP_COEXISTENCE", "true") != "false",
 		},

@@ -8,9 +8,10 @@
  */
 
 import { useMemo, useState } from 'react';
-import { Bot, Cake, Check, Gift, Pencil, Plus, Trash2, User, X } from 'lucide-react';
+import { Bot, Cake, Check, EyeOff, Gift, Lock, Pencil, Plus, Trash2, User, X } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { cn } from '@/lib/utils';
 import {
   Sheet,
   SheetContent,
@@ -38,6 +39,9 @@ import {
   useDeleteDossierFact,
   useDeleteDossierPerson,
   useDossier,
+  useSetDossierEventRestricted,
+  useSetDossierFactRestricted,
+  useSetDossierPersonRestricted,
   useUpdateDossierEvent,
   useUpdateDossierFact,
   type ConversationOwnerType,
@@ -72,6 +76,9 @@ export function DossierPanel({ ownerType, ownerId, name, open, onOpenChange }: P
   const addEvent = useAddDossierEvent(ownerType, ownerId);
   const updateEvent = useUpdateDossierEvent(ownerType, ownerId);
   const deleteEvent = useDeleteDossierEvent(ownerType, ownerId);
+  const restrictFact = useSetDossierFactRestricted(ownerType, ownerId);
+  const restrictPerson = useSetDossierPersonRestricted(ownerType, ownerId);
+  const restrictEvent = useSetDossierEventRestricted(ownerType, ownerId);
 
   const grouped = useMemo(() => {
     const g: Record<string, DossierFact[]> = {};
@@ -157,6 +164,12 @@ export function DossierPanel({ ownerType, ownerId, name, open, onOpenChange }: P
                               { onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao salvar') }
                             )
                           }
+                          onToggleRestricted={() =>
+                            restrictFact.mutate(
+                              { factId: f.id, restricted: !f.restricted },
+                              { onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao atualizar') }
+                            )
+                          }
                           onDelete={() =>
                             deleteFact.mutate(f.id, {
                               onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao remover'),
@@ -195,6 +208,12 @@ export function DossierPanel({ ownerType, ownerId, name, open, onOpenChange }: P
                     { onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao adicionar pessoa') }
                   )
                 }
+                onToggleRestricted={(id, restricted) =>
+                  restrictPerson.mutate(
+                    { personId: id, restricted },
+                    { onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao atualizar') }
+                  )
+                }
                 onDelete={(id) =>
                   deletePerson.mutate(id, {
                     onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao remover'),
@@ -215,6 +234,12 @@ export function DossierPanel({ ownerType, ownerId, name, open, onOpenChange }: P
                 onStatus={(eventId, status) =>
                   updateEvent.mutate(
                     { eventId, status },
+                    { onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao atualizar') }
+                  )
+                }
+                onToggleRestricted={(id, restricted) =>
+                  restrictEvent.mutate(
+                    { eventId: id, restricted },
                     { onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao atualizar') }
                   )
                 }
@@ -253,11 +278,13 @@ function PeopleSection({
   people,
   pending,
   onAdd,
+  onToggleRestricted,
   onDelete,
 }: {
   people: DossierPerson[];
   pending: boolean;
   onAdd: (name: string, relation: string, birthday?: string) => void;
+  onToggleRestricted: (id: string, restricted: boolean) => void;
   onDelete: (id: string) => void;
 }) {
   const [name, setName] = useState('');
@@ -285,21 +312,32 @@ function PeopleSection({
                 {sourceIcon(p.source)}
               </span>
               <span className="min-w-0 flex-1">
-                <span className="font-medium">{p.name}</span>
+                <span className={cn('font-medium', p.restricted && 'text-muted-foreground')}>{p.name}</span>
                 {p.relation ? <span className="text-muted-foreground"> · {p.relation}</span> : null}
                 {p.birthday ? (
                   <span className="text-muted-foreground"> · 🎂 {formatDateBR(p.birthday)}</span>
                 ) : null}
+                {p.restricted && (
+                  <span className="ml-1.5 inline-flex items-center gap-0.5 rounded bg-amber-100 px-1 text-[10px] font-medium text-amber-900">
+                    <EyeOff className="h-2.5 w-2.5" /> restrito
+                  </span>
+                )}
               </span>
-              <Button
-                type="button"
-                size="icon"
-                variant="ghost"
-                className="h-6 w-6 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
-                onClick={() => onDelete(p.id)}
-              >
-                <Trash2 className="h-3 w-3" />
-              </Button>
+              <span className="flex shrink-0 gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="ghost"
+                  className="h-6 w-6"
+                  title={p.restricted ? 'Tornar visível à IA' : 'Marcar como restrito'}
+                  onClick={() => onToggleRestricted(p.id, !p.restricted)}
+                >
+                  <Lock className={cn('h-3 w-3', p.restricted && 'text-amber-600')} />
+                </Button>
+                <Button type="button" size="icon" variant="ghost" className="h-6 w-6" onClick={() => onDelete(p.id)}>
+                  <Trash2 className="h-3 w-3" />
+                </Button>
+              </span>
             </li>
           ))}
         </ul>
@@ -331,12 +369,14 @@ function EventsSection({
   pending,
   onAdd,
   onStatus,
+  onToggleRestricted,
   onDelete,
 }: {
   events: DossierEvent[];
   pending: boolean;
   onAdd: (type: string, title: string, date: string, recurring: boolean) => void;
   onStatus: (eventId: string, status: 'done' | 'dismissed') => void;
+  onToggleRestricted: (id: string, restricted: boolean) => void;
   onDelete: (id: string) => void;
 }) {
   const [type, setType] = useState('birthday');
@@ -363,15 +403,30 @@ function EventsSection({
                 <Gift className="h-3.5 w-3.5" />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="font-medium">{e.title}</span>
+                <span className={cn('font-medium', e.restricted && 'text-muted-foreground')}>{e.title}</span>
                 <span className="text-muted-foreground">
                   {' '}
                   · {DOSSIER_EVENT_TYPE_LABELS[e.type] ?? e.type} · {formatDateBR(e.eventDate)}
                   {e.recurring ? ' (todo ano)' : ''}
                   {e.status === 'done' ? ' · ✓' : ''}
                 </span>
+                {e.restricted && (
+                  <span className="ml-1.5 inline-flex items-center gap-0.5 rounded bg-amber-100 px-1 text-[10px] font-medium text-amber-900">
+                    <EyeOff className="h-2.5 w-2.5" /> restrito
+                  </span>
+                )}
               </span>
               <span className="flex shrink-0 gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="ghost"
+                  className="h-6 w-6"
+                  title={e.restricted ? 'Tornar visível à IA' : 'Marcar como restrito'}
+                  onClick={() => onToggleRestricted(e.id, !e.restricted)}
+                >
+                  <Lock className={cn('h-3 w-3', e.restricted && 'text-amber-600')} />
+                </Button>
                 {e.status !== 'done' && (
                   <Button type="button" size="icon" variant="ghost" className="h-6 w-6" title="Marcar como feito" onClick={() => onStatus(e.id, 'done')}>
                     <Check className="h-3 w-3" />
@@ -423,10 +478,12 @@ function EventsSection({
 function FactRow({
   fact,
   onSave,
+  onToggleRestricted,
   onDelete,
 }: {
   fact: DossierFact;
   onSave: (value: string) => void;
+  onToggleRestricted: () => void;
   onDelete: () => void;
 }) {
   const [editing, setEditing] = useState(false);
@@ -489,9 +546,24 @@ function FactRow({
       </span>
       <span className="min-w-0 flex-1">
         <span className="text-muted-foreground">{fact.label}: </span>
-        <span className="font-medium">{fact.value}</span>
+        <span className={cn('font-medium', fact.restricted && 'text-muted-foreground')}>{fact.value}</span>
+        {fact.restricted && (
+          <span className="ml-1.5 inline-flex items-center gap-0.5 rounded bg-amber-100 px-1 text-[10px] font-medium text-amber-900">
+            <EyeOff className="h-2.5 w-2.5" /> restrito
+          </span>
+        )}
       </span>
       <span className="flex shrink-0 gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+        <Button
+          type="button"
+          size="icon"
+          variant="ghost"
+          className="h-6 w-6"
+          title={fact.restricted ? 'Tornar visível à IA' : 'Marcar como restrito (oculto para a IA)'}
+          onClick={onToggleRestricted}
+        >
+          <Lock className={cn('h-3 w-3', fact.restricted && 'text-amber-600')} />
+        </Button>
         <Button
           type="button"
           size="icon"

@@ -793,6 +793,7 @@ export interface DossierFact {
   label: string;
   value: string;
   source: 'ai' | 'staff' | 'form' | 'consulta';
+  restricted: boolean;
   updatedAt: string;
 }
 
@@ -803,6 +804,7 @@ export interface DossierPerson {
   birthday?: string | null;
   notes: string;
   source: 'ai' | 'staff' | 'form' | 'consulta';
+  restricted: boolean;
 }
 
 export type DossierEventStatus = 'pending' | 'acknowledged' | 'done' | 'dismissed';
@@ -815,6 +817,7 @@ export interface DossierEvent {
   recurring: boolean;
   status: DossierEventStatus;
   source: 'ai' | 'staff' | 'form' | 'consulta' | 'system';
+  restricted: boolean;
 }
 
 export interface DossierView {
@@ -1007,5 +1010,57 @@ export function useUpcomingEvents(days = 14) {
         `/api/v1/reception/upcoming-events?days=${days}`
       ),
     staleTime: 60_000,
+  });
+}
+
+// ----- Restrito (equipe marca/desmarca; restrito some da IA) -----
+
+export function useSetDossierFactRestricted(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ factId, restricted }: { factId: string; restricted: boolean }) =>
+      apiClient.patch<DossierView>(
+        `/api/v1/conversations/${type}/${id}/dossier/facts/${factId}/restricted`,
+        { restricted }
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+export function useSetDossierPersonRestricted(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ personId, restricted }: { personId: string; restricted: boolean }) =>
+      apiClient.patch<DossierView>(
+        `/api/v1/conversations/${type}/${id}/dossier/people/${personId}/restricted`,
+        { restricted }
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+export function useSetDossierEventRestricted(type: ConversationOwnerType, id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ eventId, restricted }: { eventId: string; restricted: boolean }) =>
+      apiClient.patch<DossierView>(
+        `/api/v1/conversations/${type}/${id}/dossier/events/${eventId}/restricted`,
+        { restricted }
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', type, id], view),
+  });
+}
+
+// ----- Extração social a partir do transcrito da consulta (nasce restrito) -----
+
+export function useExtractConsultationSocial(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (transcript: string) =>
+      apiClient.post<DossierView>(
+        `/api/v1/conversations/patient/${patientId}/dossier/extract-consultation`,
+        { transcript }
+      ),
+    onSuccess: (view) => qc.setQueryData(['dossier', 'patient', patientId], view),
   });
 }

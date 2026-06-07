@@ -19,34 +19,37 @@ import (
 
 // DossierFact é um fato social para exibição na tela 360.
 type DossierFact struct {
-	ID        string    `json:"id"`
-	Category  string    `json:"category"`
-	Key       string    `json:"key"`
-	Label     string    `json:"label"`
-	Value     string    `json:"value"`
-	Source    string    `json:"source"` // ai|staff|form|consulta
-	UpdatedAt time.Time `json:"updatedAt"`
+	ID         string    `json:"id"`
+	Category   string    `json:"category"`
+	Key        string    `json:"key"`
+	Label      string    `json:"label"`
+	Value      string    `json:"value"`
+	Source     string    `json:"source"` // ai|staff|form|consulta
+	Restricted bool      `json:"restricted"`
+	UpdatedAt  time.Time `json:"updatedAt"`
 }
 
 // DossierPerson é uma pessoa importante para exibição na tela 360.
 type DossierPerson struct {
-	ID       string     `json:"id"`
-	Name     string     `json:"name"`
-	Relation string     `json:"relation"`
-	Birthday *time.Time `json:"birthday,omitempty"`
-	Notes    string     `json:"notes"`
-	Source   string     `json:"source"`
+	ID         string     `json:"id"`
+	Name       string     `json:"name"`
+	Relation   string     `json:"relation"`
+	Birthday   *time.Time `json:"birthday,omitempty"`
+	Notes      string     `json:"notes"`
+	Source     string     `json:"source"`
+	Restricted bool       `json:"restricted"`
 }
 
 // DossierEvent é um evento/data de relacionamento para exibição na tela 360.
 type DossierEvent struct {
-	ID        string    `json:"id"`
-	Type      string    `json:"type"`
-	Title     string    `json:"title"`
-	EventDate time.Time `json:"eventDate"`
-	Recurring bool      `json:"recurring"`
-	Status    string    `json:"status"`
-	Source    string    `json:"source"`
+	ID         string    `json:"id"`
+	Type       string    `json:"type"`
+	Title      string    `json:"title"`
+	EventDate  time.Time `json:"eventDate"`
+	Recurring  bool      `json:"recurring"`
+	Status     string    `json:"status"`
+	Source     string    `json:"source"`
+	Restricted bool      `json:"restricted"`
 }
 
 // DossierView é a visão 360 social de uma pessoa.
@@ -137,19 +140,20 @@ func (s *ConversationService) GetDossier(ctx context.Context, ownerType string, 
 		view.RelationshipStage = prof.RelationshipStage
 	}
 
-	facts, err := NewRelationshipFactService(s.db).ListActive(ctx, ownerType, ownerID)
+	facts, err := NewRelationshipFactService(s.db).ListAllActive(ctx, ownerType, ownerID)
 	if err != nil {
 		return nil, err
 	}
 	for _, f := range facts {
 		view.Facts = append(view.Facts, DossierFact{
-			ID:        f.ID.String(),
-			Category:  f.Category,
-			Key:       f.Key,
-			Label:     factLabel(f.Key),
-			Value:     f.Value,
-			Source:    f.Source,
-			UpdatedAt: f.UpdatedAt,
+			ID:         f.ID.String(),
+			Category:   f.Category,
+			Key:        f.Key,
+			Label:      factLabel(f.Key),
+			Value:      f.Value,
+			Source:     f.Source,
+			Restricted: f.Restricted,
+			UpdatedAt:  f.UpdatedAt,
 		})
 	}
 
@@ -160,7 +164,7 @@ func (s *ConversationService) GetDossier(ctx context.Context, ownerType string, 
 	for _, p := range people {
 		view.People = append(view.People, DossierPerson{
 			ID: p.ID.String(), Name: p.Name, Relation: p.Relation,
-			Birthday: p.Birthday, Notes: p.Notes, Source: p.Source,
+			Birthday: p.Birthday, Notes: p.Notes, Source: p.Source, Restricted: p.Restricted,
 		})
 	}
 
@@ -171,7 +175,7 @@ func (s *ConversationService) GetDossier(ctx context.Context, ownerType string, 
 	for _, e := range events {
 		view.Events = append(view.Events, DossierEvent{
 			ID: e.ID.String(), Type: e.Type, Title: e.Title, EventDate: e.EventDate,
-			Recurring: e.Recurring, Status: e.Status, Source: e.Source,
+			Recurring: e.Recurring, Status: e.Status, Source: e.Source, Restricted: e.Restricted,
 		})
 	}
 
@@ -218,7 +222,7 @@ func (s *ConversationService) DeleteDossierFact(ctx context.Context, ownerType s
 // ---------- Pessoas importantes (equipe) ----------
 
 func (s *ConversationService) AddDossierPerson(ctx context.Context, ownerType string, ownerID uuid.UUID, name, relation string, birthday *time.Time, notes string, addedBy uuid.UUID) (*DossierView, error) {
-	if _, err := NewRelationshipPersonService(s.db).Upsert(ctx, ownerType, ownerID, name, relation, birthday, notes, models.RelationshipSourceStaff, &addedBy); err != nil {
+	if _, err := NewRelationshipPersonService(s.db).Upsert(ctx, ownerType, ownerID, name, relation, birthday, notes, models.RelationshipSourceStaff, &addedBy, false); err != nil {
 		return nil, err
 	}
 	return s.GetDossier(ctx, ownerType, ownerID)
@@ -241,7 +245,7 @@ func (s *ConversationService) DeleteDossierPerson(ctx context.Context, ownerType
 // ---------- Eventos / avisos (equipe) ----------
 
 func (s *ConversationService) AddDossierEvent(ctx context.Context, ownerType string, ownerID uuid.UUID, eventType, title string, eventDate time.Time, recurring bool, leadTimeDays int, notes string, addedBy uuid.UUID) (*DossierView, error) {
-	if _, err := NewRelationshipEventService(s.db).Upsert(ctx, ownerType, ownerID, nil, normalizeEventType(eventType), title, eventDate, recurring, leadTimeDays, models.RelationshipSourceStaff, notes, &addedBy); err != nil {
+	if _, err := NewRelationshipEventService(s.db).Upsert(ctx, ownerType, ownerID, nil, normalizeEventType(eventType), title, eventDate, recurring, leadTimeDays, models.RelationshipSourceStaff, notes, &addedBy, false); err != nil {
 		return nil, err
 	}
 	return s.GetDossier(ctx, ownerType, ownerID)
@@ -261,18 +265,43 @@ func (s *ConversationService) DeleteDossierEvent(ctx context.Context, ownerType 
 	return s.GetDossier(ctx, ownerType, ownerID)
 }
 
+// ---------- Restrito (equipe marca/desmarca; restrito some da IA) ----------
+
+func (s *ConversationService) SetDossierFactRestricted(ctx context.Context, ownerType string, ownerID, factID uuid.UUID, restricted bool) (*DossierView, error) {
+	if err := NewRelationshipFactService(s.db).SetRestrictedByID(ctx, factID, restricted); err != nil {
+		return nil, err
+	}
+	return s.GetDossier(ctx, ownerType, ownerID)
+}
+
+func (s *ConversationService) SetDossierPersonRestricted(ctx context.Context, ownerType string, ownerID, personID uuid.UUID, restricted bool) (*DossierView, error) {
+	if err := NewRelationshipPersonService(s.db).SetRestrictedByID(ctx, personID, restricted); err != nil {
+		return nil, err
+	}
+	return s.GetDossier(ctx, ownerType, ownerID)
+}
+
+func (s *ConversationService) SetDossierEventRestricted(ctx context.Context, ownerType string, ownerID, eventID uuid.UUID, restricted bool) (*DossierView, error) {
+	if err := NewRelationshipEventService(s.db).SetRestrictedByID(ctx, eventID, restricted); err != nil {
+		return nil, err
+	}
+	return s.GetDossier(ctx, ownerType, ownerID)
+}
+
 // UpcomingEventItem é um item achatado da lista "Próximos" da Recepção (cross-owner).
 type UpcomingEventItem struct {
 	ID        string    `json:"id"`
 	OwnerType string    `json:"ownerType"`
 	OwnerID   string    `json:"ownerId"`
 	OwnerName string    `json:"ownerName"`
-	Type         string    `json:"type"`
-	Title        string    `json:"title"`
-	NextDate     time.Time `json:"nextDate"`
-	DaysUntil    int       `json:"daysUntil"`
-	LeadTimeDays int       `json:"leadTimeDays"`
-	Status       string    `json:"status"`
+	Type            string    `json:"type"`
+	Title           string    `json:"title"`
+	NextDate        time.Time `json:"nextDate"`
+	DaysUntil       int       `json:"daysUntil"`
+	LeadTimeDays    int       `json:"leadTimeDays"`
+	Status          string    `json:"status"`
+	Restricted      bool      `json:"restricted"`
+	RelatedPersonID *string   `json:"relatedPersonId,omitempty"` // != nil → aniversário de alguém da rede, não do próprio
 }
 
 // UpcomingEvents lista os próximos eventos de relacionamento (todos os donos) p/ o painel da Recepção.
@@ -290,10 +319,16 @@ func (s *ConversationService) UpcomingEvents(ctx context.Context, withinDays int
 			name = s.resolveOwnerName(ctx, u.Event.OwnerType, u.Event.OwnerID)
 			nameCache[ck] = name
 		}
+		var relatedPtr *string
+		if u.Event.RelatedPersonID != nil {
+			rid := u.Event.RelatedPersonID.String()
+			relatedPtr = &rid
+		}
 		out = append(out, UpcomingEventItem{
 			ID: u.Event.ID.String(), OwnerType: u.Event.OwnerType, OwnerID: u.Event.OwnerID.String(),
 			OwnerName: name, Type: u.Event.Type, Title: u.Event.Title,
 			NextDate: u.NextDate, DaysUntil: u.DaysUntil, LeadTimeDays: u.Event.LeadTimeDays, Status: u.Event.Status,
+			Restricted: u.Event.Restricted, RelatedPersonID: relatedPtr,
 		})
 	}
 	return out, nil

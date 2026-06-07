@@ -44,6 +44,8 @@ import { ProblemsCard } from '@/components/clinical/problems-card';
 import { MedicationsCard } from '@/components/clinical/medications-card';
 import { IssuedDocumentsCard } from '@/components/clinical/issued-documents-card';
 import { CarePlanCard } from '@/components/clinical/care-plan-card';
+import { DossierPanel } from '@/components/conversations/dossier-panel';
+import { useExtractConsultationSocial } from '@/lib/api/conversations-api';
 import { useSelectedPatient } from '@/lib/use-selected-patient';
 import { useLatestHealthScore } from '@/lib/api/health-score-api';
 import {
@@ -91,7 +93,9 @@ function transcriptToHtml(text: string): string {
 
 export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
   const router = useRouter();
-  const { selectedPatientId, setSelectedPatient } = useSelectedPatient();
+  const { selectedPatient, selectedPatientId, setSelectedPatient } = useSelectedPatient();
+  const [dossierOpen, setDossierOpen] = useState(false);
+  const extractSocial = useExtractConsultationSocial(appt.patientId);
 
   // Seleciona o paciente da consulta ao abrir (uma vez), pra dar contexto aos
   // fluxos embutidos (prescrição/exame). Evita re-disparo via ref.
@@ -346,13 +350,22 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
               </div>
             )}
 
-            <Button
-              variant="link"
-              className="h-auto p-0 text-xs"
-              onClick={() => router.push(`/patients/${appt.patientId}/prontuario`)}
-            >
-              Ver prontuário completo →
-            </Button>
+            <div className="flex flex-col gap-1">
+              <Button
+                variant="link"
+                className="h-auto p-0 text-xs"
+                onClick={() => router.push(`/patients/${appt.patientId}/prontuario`)}
+              >
+                Ver prontuário completo →
+              </Button>
+              <Button
+                variant="link"
+                className="h-auto p-0 text-xs"
+                onClick={() => setDossierOpen(true)}
+              >
+                Dossiê 360 (relacionamento) →
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
@@ -444,6 +457,37 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
                     <Sparkles className="mr-2 h-4 w-4" />
                   )}
                   Gerar {genFormat === 'anamnese' ? 'anamnese' : 'SOAP'}
+                </Button>
+              </div>
+
+              {/* Extração social (360): só dado social, nasce RESTRITO até o médico revisar. */}
+              <div className="flex flex-wrap items-center gap-2 border-t pt-2">
+                <span className="text-xs text-muted-foreground">Relacionamento (360):</span>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  disabled={extractSocial.isPending || !telemedRec.data?.transcriptText}
+                  onClick={() => {
+                    const t = telemedRec.data?.transcriptText;
+                    if (!t) return;
+                    extractSocial.mutate(t, {
+                      onSuccess: () => {
+                        setDossierOpen(true);
+                        toast.success('Dados sociais detectados — revise no Dossiê (nascem restritos, fora da IA até você confirmar).');
+                      },
+                      onError: (e) => toast.error(e instanceof Error ? e.message : 'Falha ao extrair'),
+                    });
+                  }}
+                >
+                  {extractSocial.isPending ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Sparkles className="mr-2 h-4 w-4" />
+                  )}
+                  Detectar dados sociais
+                </Button>
+                <Button size="sm" variant="ghost" onClick={() => setDossierOpen(true)}>
+                  Abrir Dossiê
                 </Button>
               </div>
 
@@ -590,6 +634,14 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
         doctorId={appt.doctorId}
         sourceAppointmentId={appt.id}
         patientName={appt.patient?.name ?? ''}
+      />
+
+      <DossierPanel
+        ownerType="patient"
+        ownerId={appt.patientId}
+        name={appt.patient?.name ?? selectedPatient?.name ?? 'o paciente'}
+        open={dossierOpen}
+        onOpenChange={setDossierOpen}
       />
     </div>
   );

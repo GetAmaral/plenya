@@ -28,15 +28,32 @@ func NewRelationshipPersonService(db *gorm.DB) *RelationshipPersonService {
 	return &RelationshipPersonService{db: db}
 }
 
+// ListByOwner devolve TODAS as pessoas (inclusive restritas) — visão da equipe / 360.
 func (s *RelationshipPersonService) ListByOwner(ctx context.Context, ownerType string, ownerID uuid.UUID) ([]models.ImportantPerson, error) {
+	return s.listByOwner(ctx, ownerType, ownerID, true)
+}
+
+// ListVisibleToAI devolve só as pessoas NÃO restritas (visão da IA).
+func (s *RelationshipPersonService) ListVisibleToAI(ctx context.Context, ownerType string, ownerID uuid.UUID) ([]models.ImportantPerson, error) {
+	return s.listByOwner(ctx, ownerType, ownerID, false)
+}
+
+func (s *RelationshipPersonService) listByOwner(ctx context.Context, ownerType string, ownerID uuid.UUID, includeRestricted bool) ([]models.ImportantPerson, error) {
 	if !isValidOwnerType(ownerType) || ownerID == uuid.Nil {
 		return nil, ErrConversationOwnerInvalid
 	}
+	q := s.db.WithContext(ctx).Where("owner_type = ? AND owner_id = ?", ownerType, ownerID)
+	if !includeRestricted {
+		q = q.Where("restricted = ?", false)
+	}
 	var people []models.ImportantPerson
-	err := s.db.WithContext(ctx).
-		Where("owner_type = ? AND owner_id = ?", ownerType, ownerID).
-		Order("created_at ASC").Find(&people).Error
+	err := q.Order("created_at ASC").Find(&people).Error
 	return people, err
+}
+
+// SetRestrictedByID marca/desmarca uma pessoa como restrita (equipe).
+func (s *RelationshipPersonService) SetRestrictedByID(ctx context.Context, id uuid.UUID, restricted bool) error {
+	return s.db.WithContext(ctx).Model(&models.ImportantPerson{}).Where("id = ?", id).Update("restricted", restricted).Error
 }
 
 // Upsert cria ou atualiza (dedupe por owner + nome, case-insensitive). Atualiza relação/aniversário/
@@ -44,7 +61,7 @@ func (s *RelationshipPersonService) ListByOwner(ctx context.Context, ownerType s
 func (s *RelationshipPersonService) Upsert(
 	ctx context.Context,
 	ownerType string, ownerID uuid.UUID,
-	name, relation string, birthday *time.Time, notes, source string, addedBy *uuid.UUID,
+	name, relation string, birthday *time.Time, notes, source string, addedBy *uuid.UUID, restricted bool,
 ) (*models.ImportantPerson, error) {
 	name = strings.TrimSpace(name)
 	if name == "" || !isValidOwnerType(ownerType) || ownerID == uuid.Nil {
@@ -76,7 +93,7 @@ func (s *RelationshipPersonService) Upsert(
 	p := &models.ImportantPerson{
 		OwnerType: ownerType, OwnerID: ownerID,
 		Name: name, Relation: strings.TrimSpace(relation), Birthday: birthday,
-		Notes: strings.TrimSpace(notes), Source: source, AddedBy: addedBy,
+		Notes: strings.TrimSpace(notes), Source: source, AddedBy: addedBy, Restricted: restricted,
 	}
 	if cErr := s.db.WithContext(ctx).Create(p).Error; cErr != nil {
 		return nil, cErr
@@ -123,7 +140,7 @@ func (s *RelationshipEventService) Upsert(
 	ctx context.Context,
 	ownerType string, ownerID uuid.UUID, relatedPersonID *uuid.UUID,
 	eventType, title string, eventDate time.Time, recurring bool, leadTimeDays int,
-	source, notes string, addedBy *uuid.UUID,
+	source, notes string, addedBy *uuid.UUID, restricted bool,
 ) (*models.RelationshipEvent, error) {
 	title = strings.TrimSpace(title)
 	if title == "" || eventDate.IsZero() || !isValidOwnerType(ownerType) || ownerID == uuid.Nil {
@@ -147,7 +164,7 @@ func (s *RelationshipEventService) Upsert(
 		OwnerType: ownerType, OwnerID: ownerID, RelatedPersonID: relatedPersonID,
 		Type: eventType, Title: title, EventDate: eventDate, Recurring: recurring,
 		LeadTimeDays: leadTimeDays, Status: models.RelationshipEventPending,
-		Source: source, Notes: strings.TrimSpace(notes), AddedBy: addedBy,
+		Source: source, Notes: strings.TrimSpace(notes), AddedBy: addedBy, Restricted: restricted,
 	}
 	if cErr := s.db.WithContext(ctx).Create(e).Error; cErr != nil {
 		return nil, cErr
@@ -166,6 +183,11 @@ func (s *RelationshipEventService) UpdateStatus(ctx context.Context, id uuid.UUI
 
 func (s *RelationshipEventService) DeleteByID(ctx context.Context, id uuid.UUID) error {
 	return s.db.WithContext(ctx).Where("id = ?", id).Delete(&models.RelationshipEvent{}).Error
+}
+
+// SetRestrictedByID marca/desmarca um evento como restrito (equipe). Restrito não dispara auto-envio.
+func (s *RelationshipEventService) SetRestrictedByID(ctx context.Context, id uuid.UUID, restricted bool) error {
+	return s.db.WithContext(ctx).Model(&models.RelationshipEvent{}).Where("id = ?", id).Update("restricted", restricted).Error
 }
 
 // ListUpcomingAll devolve, em todos os donos, os eventos cuja PRÓXIMA ocorrência cai dentro de

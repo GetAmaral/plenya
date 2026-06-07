@@ -1083,6 +1083,100 @@ func (h *ConversationHandler) DeleteDossierEvent(c *fiber.Ctx) error {
 	return c.JSON(view)
 }
 
+// DossierRestrictedRequest — payload do toggle de "restrito".
+type DossierRestrictedRequest struct {
+	Restricted bool `json:"restricted"`
+}
+
+// SetDossierFactRestricted PATCH /conversations/:type/:id/dossier/facts/:factId/restricted
+func (h *ConversationHandler) SetDossierFactRestricted(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	factID, err := uuid.Parse(c.Params("factId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid fact id"})
+	}
+	var req DossierRestrictedRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	view, err := h.service.SetDossierFactRestricted(c.UserContext(), ownerType, ownerID, factID, req.Restricted)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// SetDossierPersonRestricted PATCH /conversations/:type/:id/dossier/people/:personId/restricted
+func (h *ConversationHandler) SetDossierPersonRestricted(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	personID, err := uuid.Parse(c.Params("personId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid person id"})
+	}
+	var req DossierRestrictedRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	view, err := h.service.SetDossierPersonRestricted(c.UserContext(), ownerType, ownerID, personID, req.Restricted)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// SetDossierEventRestricted PATCH /conversations/:type/:id/dossier/events/:eventId/restricted
+func (h *ConversationHandler) SetDossierEventRestricted(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	eventID, err := uuid.Parse(c.Params("eventId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid event id"})
+	}
+	var req DossierRestrictedRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	view, err := h.service.SetDossierEventRestricted(c.UserContext(), ownerType, ownerID, eventID, req.Restricted)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	return c.JSON(view)
+}
+
+// ExtractConsultationRequest — payload da extração social a partir do transcrito da consulta.
+type ExtractConsultationRequest struct {
+	Transcript string `json:"transcript" validate:"required,min=1"`
+}
+
+// ExtractConsultationSocial POST /conversations/:type/:id/dossier/extract-consultation
+// Extrai dados SOCIAIS do transcrito da consulta para o 360 (nascem restritos, a revisar). Só paciente.
+func (h *ConversationHandler) ExtractConsultationSocial(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	if ownerType != string(models.ConversationOwnerPatient) {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "extração de consulta é só para paciente"})
+	}
+	var req ExtractConsultationRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "payload inválido"})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
+	}
+	view, err := h.service.ExtractConsultationSocial(c.UserContext(), ownerID, req.Transcript)
+	return writeAIResult(c, view, err)
+}
+
 // UpcomingEvents GET /reception/upcoming-events?days=14
 // Próximos eventos de relacionamento (todos os contatos) para o painel da Recepção.
 func (h *ConversationHandler) UpcomingEvents(c *fiber.Ctx) error {

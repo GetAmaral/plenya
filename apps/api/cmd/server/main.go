@@ -575,17 +575,28 @@ func setupRoutes(
 	conv.Get("/:type/:id/automation", conversationHandler.GetAutomation)
 	conv.Put("/:type/:id/automation", conversationHandler.SetAutomation)
 	conv.Get("/:type/:id/suggested-reply", conversationHandler.GetSuggestedReply)
-	// Dossiê 360 (social) — leitura + edição manual pela equipe.
-	conv.Get("/:type/:id/dossier", conversationHandler.GetDossier)
-	conv.Post("/:type/:id/dossier/facts", conversationHandler.AddDossierFact)
-	conv.Patch("/:type/:id/dossier/facts/:factId", conversationHandler.UpdateDossierFact)
-	conv.Delete("/:type/:id/dossier/facts/:factId", conversationHandler.DeleteDossierFact)
-	conv.Post("/:type/:id/dossier/people", conversationHandler.AddDossierPerson)
-	conv.Patch("/:type/:id/dossier/people/:personId", conversationHandler.UpdateDossierPerson)
-	conv.Delete("/:type/:id/dossier/people/:personId", conversationHandler.DeleteDossierPerson)
-	conv.Post("/:type/:id/dossier/events", conversationHandler.AddDossierEvent)
-	conv.Patch("/:type/:id/dossier/events/:eventId", conversationHandler.UpdateDossierEvent)
-	conv.Delete("/:type/:id/dossier/events/:eventId", conversationHandler.DeleteDossierEvent)
+	// Dossiê 360 (social) — grupo próprio com RBAC ampliado: além da recepção, o MÉDICO e os
+	// profissionais (nutri/psico/edu. física) acessam e alimentam o 360 (na conversa e na consulta).
+	dossier := v1.Group("/conversations")
+	dossier.Use(middleware.Auth(cfg))
+	dossier.Use(middleware.RequireRole(models.RoleAdmin, models.RoleSecretary, models.RoleManager,
+		models.RoleDoctor, models.RoleNutritionist, models.RolePsychologist, models.RolePhysicalEducator))
+	dossier.Use(middleware.AuditLog(database.DB))
+	dossier.Get("/:type/:id/dossier", conversationHandler.GetDossier)
+	dossier.Post("/:type/:id/dossier/facts", conversationHandler.AddDossierFact)
+	dossier.Patch("/:type/:id/dossier/facts/:factId", conversationHandler.UpdateDossierFact)
+	dossier.Patch("/:type/:id/dossier/facts/:factId/restricted", conversationHandler.SetDossierFactRestricted)
+	dossier.Delete("/:type/:id/dossier/facts/:factId", conversationHandler.DeleteDossierFact)
+	dossier.Post("/:type/:id/dossier/people", conversationHandler.AddDossierPerson)
+	dossier.Patch("/:type/:id/dossier/people/:personId", conversationHandler.UpdateDossierPerson)
+	dossier.Patch("/:type/:id/dossier/people/:personId/restricted", conversationHandler.SetDossierPersonRestricted)
+	dossier.Delete("/:type/:id/dossier/people/:personId", conversationHandler.DeleteDossierPerson)
+	dossier.Post("/:type/:id/dossier/events", conversationHandler.AddDossierEvent)
+	dossier.Patch("/:type/:id/dossier/events/:eventId", conversationHandler.UpdateDossierEvent)
+	dossier.Patch("/:type/:id/dossier/events/:eventId/restricted", conversationHandler.SetDossierEventRestricted)
+	dossier.Delete("/:type/:id/dossier/events/:eventId", conversationHandler.DeleteDossierEvent)
+	// Extração social a partir do transcrito da consulta (nasce restrito, a revisar pelo médico).
+	dossier.Post("/:type/:id/dossier/extract-consultation", conversationHandler.ExtractConsultationSocial)
 
 	// Atendimento IA — config GLOBAL (modo baseline + janela de horário + tempos X/Y/Z).
 	// Grupo próprio p/ incluir o médico (o grupo conv não tem doctor).
@@ -1576,7 +1587,7 @@ func setupRoutes(
 	conversationAutoReplyJob.Start()
 
 	// Avisos de relacionamento (aniversários/eventos) — Fase C da Lívia.
-	relationshipEventReminderJob := scheduler.NewRelationshipEventReminderJob(database.DB, conversationService, notificationService)
+	relationshipEventReminderJob := scheduler.NewRelationshipEventReminderJob(database.DB, conversationService, notificationService, receptionSettingsService, cfg)
 	relationshipEventReminderJob.Start()
 }
 

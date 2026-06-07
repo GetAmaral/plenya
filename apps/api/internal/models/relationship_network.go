@@ -45,6 +45,9 @@ type ImportantPerson struct {
 	Source  string     `gorm:"type:varchar(20);not null;default:'ai'" json:"source"`
 	AddedBy *uuid.UUID `gorm:"type:uuid" json:"addedBy,omitempty"`
 
+	// Restrito: visível à equipe, oculto para a IA (§12).
+	Restricted bool `gorm:"not null;default:false" json:"restricted"`
+
 	CreatedAt time.Time `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updatedAt"`
 }
@@ -82,6 +85,9 @@ type RelationshipEvent struct {
 	Source  string     `gorm:"type:varchar(20);not null;default:'ai'" json:"source"`
 	AddedBy *uuid.UUID `gorm:"type:uuid" json:"addedBy,omitempty"`
 	Notes   string     `gorm:"type:text;not null;default:''" json:"notes"`
+
+	// Restrito: visível à equipe, oculto para a IA/automação (não dispara auto-envio) — §12.
+	Restricted bool `gorm:"not null;default:false" json:"restricted"`
 
 	CreatedAt time.Time `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updatedAt"`

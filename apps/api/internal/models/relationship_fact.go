@@ -46,9 +46,8 @@ type RelationshipFact struct {
 	ValidFrom  time.Time  `gorm:"autoCreateTime" json:"validFrom"`
 	ValidUntil *time.Time `json:"validUntil,omitempty"` // nil = ativo
 
-	// Sempre false neste CRM (guardrail). Se algum dia algo for marcado sensível, fica fora
-	// da injeção no prompt e da tela 360 padrão.
-	Sensitive bool `gorm:"not null;default:false" json:"sensitive"`
+	// Restrito: aparece para a equipe no EMR, mas é EXCLUÍDO do que a IA enxerga (§12). Default false.
+	Restricted bool `gorm:"column:restricted;not null;default:false" json:"restricted"`
 
 	CreatedAt time.Time `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updatedAt"`

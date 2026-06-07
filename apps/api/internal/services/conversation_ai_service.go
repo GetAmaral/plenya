@@ -542,7 +542,7 @@ func (s *ConversationService) buildReceptionMemory(ctx context.Context, ownerTyp
 	}
 
 	// Pessoas importantes da rede (cônjuge, filhos, quem indicou…).
-	people, _ := NewRelationshipPersonService(s.db).ListByOwner(ctx, ownerType, ownerID)
+	people, _ := NewRelationshipPersonService(s.db).ListVisibleToAI(ctx, ownerType, ownerID)
 	if len(people) > 0 {
 		sb.WriteString("PESSOAS IMPORTANTES (cite com naturalidade se fizer sentido; não force):\n")
 		for _, p := range people {
@@ -624,8 +624,15 @@ func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ow
 		fmt.Printf("⚠️  relationship summary persist: %v\n", err)
 	}
 
-	// 2) Fatos sociais (ADD/UPDATE/DELETE) com backstop anti-clínico.
-	conf := float32(0.7)
+	// 2-4) Fatos + pessoas + eventos sociais (conversa: source=ai, não restrito).
+	s.applyExtraction(ctx, ownerType, ownerID, ext, models.RelationshipSourceAI, false, float32(0.7))
+}
+
+// applyExtraction grava no 360 os fatos/pessoas/eventos sociais de uma extração, com backstop
+// anti-clínico. `source` (ai|consulta…) e `restricted` (consulta nasce restrito até o médico
+// revisar — §12) parametrizam a origem e a visibilidade para a IA.
+func (s *ConversationService) applyExtraction(ctx context.Context, ownerType string, ownerID uuid.UUID, ext relationshipExtraction, source string, restricted bool, conf float32) {
+	factSvc := NewRelationshipFactService(s.db)
 	for _, op := range ext.Facts {
 		key := normalizeFactKey(op.Key)
 		val := strings.TrimSpace(op.Value)
@@ -636,12 +643,12 @@ func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ow
 				continue
 			}
 			if factLooksClinical(key, val) {
-				// Guardrail §3.1 acionado: a IA tentou gravar algo clínico. Loga sem PII (só a key)
-				// para auditar a frequência; o valor (potencialmente clínico) NÃO é logado.
-				fmt.Printf("🛡️  [DOSSIÊ] fato clínico descartado pelo backstop (key=%s)\n", key)
+				// Guardrail §3.1 acionado: tentou gravar algo clínico. Loga sem PII (só a key)
+				// para auditar; o valor (potencialmente clínico) NÃO é logado.
+				fmt.Printf("🛡️  [DOSSIÊ] fato clínico descartado pelo backstop (key=%s, source=%s)\n", key, source)
 				continue
 			}
-			if _, err := factSvc.SetFact(ctx, ownerType, ownerID, cat, key, val, models.RelationshipSourceAI, nil, &conf); err != nil {
+			if _, err := factSvc.SetFact(ctx, ownerType, ownerID, cat, key, val, source, nil, &conf, restricted); err != nil {
 				fmt.Printf("⚠️  [DOSSIÊ] SetFact key=%s: %v\n", key, err)
 			}
 		case "DELETE":
@@ -653,8 +660,8 @@ func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ow
 		}
 	}
 
-	// 3) Pessoas importantes (rede). Dedupe por nome (Upsert).
 	personSvc := NewRelationshipPersonService(s.db)
+	eventSvc := NewRelationshipEventService(s.db)
 	personByName := map[string]uuid.UUID{}
 	for _, p := range ext.People {
 		name := strings.TrimSpace(p.Name)
@@ -666,7 +673,7 @@ func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ow
 		if !bday.IsZero() {
 			bdayPtr = &bday
 		}
-		person, err := personSvc.Upsert(ctx, ownerType, ownerID, name, p.Relation, bdayPtr, p.Notes, models.RelationshipSourceAI, nil)
+		person, err := personSvc.Upsert(ctx, ownerType, ownerID, name, p.Relation, bdayPtr, p.Notes, source, nil, restricted)
 		if err != nil || person == nil {
 			if err != nil {
 				fmt.Printf("⚠️  [DOSSIÊ] Upsert pessoa: %v\n", err)
@@ -674,19 +681,16 @@ func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ow
 			continue
 		}
 		personByName[strings.ToLower(name)] = person.ID
-		// Aniversário de pessoa da rede vira evento recorrente.
 		if bdayPtr != nil {
 			pid := person.ID
-			if _, eErr := NewRelationshipEventService(s.db).Upsert(ctx, ownerType, ownerID, &pid,
+			if _, eErr := eventSvc.Upsert(ctx, ownerType, ownerID, &pid,
 				models.RelationshipEventBirthday, "Aniversário de "+name, *bdayPtr, true, 7,
-				models.RelationshipSourceAI, "", nil); eErr != nil {
+				source, "", nil, restricted); eErr != nil {
 				fmt.Printf("⚠️  [DOSSIÊ] Upsert aniversário (rede): %v\n", eErr)
 			}
 		}
 	}
 
-	// 4) Eventos/datas de relacionamento.
-	eventSvc := NewRelationshipEventService(s.db)
 	for _, e := range ext.Events {
 		title := strings.TrimSpace(e.Title)
 		when, ok := parseAIDate(e.Date)
@@ -701,10 +705,67 @@ func (s *ConversationService) MaintainRelationshipMemory(ctx context.Context, ow
 			}
 		}
 		recurring := etype == models.RelationshipEventBirthday
-		if _, err := eventSvc.Upsert(ctx, ownerType, ownerID, relatedPtr, etype, title, when, recurring, 7, models.RelationshipSourceAI, "", nil); err != nil {
+		if _, err := eventSvc.Upsert(ctx, ownerType, ownerID, relatedPtr, etype, title, when, recurring, 7, source, "", nil, restricted); err != nil {
 			fmt.Printf("⚠️  [DOSSIÊ] Upsert evento: %v\n", err)
 		}
 	}
+}
+
+// ExtractConsultationSocial roda uma extração SOCIAL sobre o transcrito de uma consulta e grava no
+// 360 do paciente como source="consulta" e RESTRITO (a revisar): não vai para a IA até o médico
+// confirmar (§12). O clínico é descartado pelo guardrail (fica na nota SOAP/prontuário). Devolve o
+// dossiê atualizado para o médico revisar. Best-effort no apply; erro só no caminho da IA.
+func (s *ConversationService) ExtractConsultationSocial(ctx context.Context, patientID uuid.UUID, transcript string) (*DossierView, error) {
+	if s.aiService == nil {
+		return nil, fmt.Errorf("conversation: ai service não configurado")
+	}
+	transcript = strings.TrimSpace(transcript)
+	if patientID == uuid.Nil || transcript == "" {
+		return nil, ErrConversationOwnerInvalid
+	}
+	// Teto de tamanho para não estourar contexto (consulta pode ser longa).
+	if len(transcript) > 12000 {
+		transcript = transcript[:12000]
+	}
+	ownerType := string(models.ConversationOwnerPatient)
+	prompt := buildConsultationSocialPrompt(transcript)
+	raw, err := s.aiService.CompleteText(ctx, prompt, CompleteTextOptions{
+		Model:       aiModelRelationship,
+		MaxTokens:   800,
+		Temperature: 0.2,
+		Timeout:     30 * time.Second,
+	})
+	if err != nil {
+		return nil, err
+	}
+	ext := parseRelationshipExtraction(raw)
+	// source=consulta, restricted=true (nasce "a revisar"; só vai pra IA após o médico desmarcar).
+	s.applyExtraction(ctx, ownerType, patientID, ext, models.RelationshipSourceConsulta, true, float32(0.8))
+	return s.GetDossier(ctx, ownerType, patientID)
+}
+
+// buildConsultationSocialPrompt extrai SÓ informação social do transcrito da consulta, com a mesma
+// separação forte clínico↔social. O clínico (sintomas, exames, diagnósticos, condutas) NÃO sai daqui
+// (fica na nota clínica/prontuário). Mesmo formato de saída da extração de conversa.
+func buildConsultationSocialPrompt(transcript string) string {
+	return fmt.Sprintf(`Você lê o transcrito de uma CONSULTA médica da Plenya e extrai APENAS informação SOCIAL/RELACIONAL/ADMINISTRATIVA útil para o relacionamento com a pessoa — para a equipe lembrar de quem ela é. NÃO faz resumo clínico.
+
+Categorias válidas de "key" (mesma taxonomia do dossiê):
+- identidade_social: apelido, profissao, cidade, idioma
+- familia_rede: conjuge, filhos, indicado_por, acompanhante
+- preferencias_atendimento: canal_preferido, formato_preferido, melhor_horario
+- contexto_chegada: como_conheceu, motivo_contato (NÃO clínico)
+- relacionamento: estagio, sensibilidade
+
+PROIBIDO terminantemente (é do prontuário, fica na nota clínica — NÃO extraia): sintomas, queixas, exames, resultados, diagnósticos, doenças, medicações, condutas, qualquer dado de saúde. Se em dúvida se algo é clínico, NÃO extraia.
+
+Capture também PESSOAS importantes citadas (nome, relação, aniversário se dito) e EVENTOS sociais/datas (aniversário, formatura, nascimento, casamento, viagem, conquista) com data quando houver. Não invente: só o que aparece no transcrito.
+
+TRANSCRITO DA CONSULTA:
+%s
+
+Responda APENAS com um objeto JSON válido, sem texto fora dele:
+{"summary": "", "facts": [{"op":"ADD","category":"<categoria>","key":"<snake_case>","value":"<valor curto>"}], "people": [{"name":"<nome>","relation":"<relação>","birthday":"<AAAA-MM-DD|DD/MM|>","notes":"<curto|>"}], "events": [{"type":"<tipo>","title":"<curto>","date":"<AAAA-MM-DD|DD/MM>","person":"<nome|>"}]}`, transcript)
 }
 
 // parseAIDate aceita "AAAA-MM-DD", "DD/MM/AAAA" e "DD/MM" (sem ano → 1900, usado só pelo

@@ -28,17 +28,28 @@ func NewRelationshipFactService(db *gorm.DB) *RelationshipFactService {
 }
 
 // ListActive devolve os fatos ativos (valid_until nil, não sensíveis) do dono, por categoria/key.
+// ListActive devolve os fatos ativos NÃO restritos (visão da IA — restrito é oculto p/ a IA).
 func (s *RelationshipFactService) ListActive(ctx context.Context, ownerType string, ownerID uuid.UUID) ([]models.RelationshipFact, error) {
+	return s.listActive(ctx, ownerType, ownerID, false)
+}
+
+// ListAllActive devolve TODOS os fatos ativos, inclusive restritos (visão da equipe / 360).
+func (s *RelationshipFactService) ListAllActive(ctx context.Context, ownerType string, ownerID uuid.UUID) ([]models.RelationshipFact, error) {
+	return s.listActive(ctx, ownerType, ownerID, true)
+}
+
+func (s *RelationshipFactService) listActive(ctx context.Context, ownerType string, ownerID uuid.UUID, includeRestricted bool) ([]models.RelationshipFact, error) {
 	if !isValidOwnerType(ownerType) || ownerID == uuid.Nil {
 		return nil, ErrConversationOwnerInvalid
 	}
-	var facts []models.RelationshipFact
-	err := s.db.WithContext(ctx).
+	q := s.db.WithContext(ctx).
 		Where("owner_type = ? AND owner_id = ?", ownerType, ownerID).
-		Where("valid_until IS NULL").
-		Where("sensitive = ?", false).
-		Order("category ASC, key ASC").
-		Find(&facts).Error
+		Where("valid_until IS NULL")
+	if !includeRestricted {
+		q = q.Where("restricted = ?", false)
+	}
+	var facts []models.RelationshipFact
+	err := q.Order("category ASC, key ASC").Find(&facts).Error
 	return facts, err
 }
 
@@ -48,7 +59,7 @@ func (s *RelationshipFactService) SetFact(
 	ctx context.Context,
 	ownerType string, ownerID uuid.UUID,
 	category, key, value, source string,
-	addedBy *uuid.UUID, confidence *float32,
+	addedBy *uuid.UUID, confidence *float32, restricted bool,
 ) (changed bool, err error) {
 	key = strings.TrimSpace(key)
 	value = strings.TrimSpace(value)
@@ -80,6 +91,7 @@ func (s *RelationshipFactService) SetFact(
 			Source:     source,
 			AddedBy:    addedBy,
 			Confidence: confidence,
+			Restricted: restricted,
 		}
 		if cErr := tx.Create(nf).Error; cErr != nil {
 			// Corrida no índice único parcial (outra goroutine inseriu o mesmo key ativo entre o
@@ -111,7 +123,14 @@ func (s *RelationshipFactService) AddManual(
 	if !isValidOwnerType(ownerType) || ownerID == uuid.Nil {
 		return false, ErrConversationOwnerInvalid
 	}
-	return s.SetFact(ctx, ownerType, ownerID, category, key, value, models.RelationshipSourceStaff, &addedBy, nil)
+	return s.SetFact(ctx, ownerType, ownerID, category, key, value, models.RelationshipSourceStaff, &addedBy, nil, false)
+}
+
+// SetRestrictedByID marca/desmarca um fato ativo como restrito (equipe). Restrito some da IA.
+func (s *RelationshipFactService) SetRestrictedByID(ctx context.Context, id uuid.UUID, restricted bool) error {
+	return s.db.WithContext(ctx).Model(&models.RelationshipFact{}).
+		Where("id = ? AND valid_until IS NULL", id).
+		Update("restricted", restricted).Error
 }
 
 // UpdateValueByID edita o valor de um fato existente (equipe). Atualiza in-place a key ativa.
