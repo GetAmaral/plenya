@@ -168,9 +168,15 @@ func (j *ConversationAutoReplyJob) handleConversation(ctx context.Context, owner
 		Where("type = ?", models.LeadActivityMessageSent).
 		Where("created_at > ?", lastIn.CreatedAt).Count(&answered)
 	if answered > 0 {
+		// Fim do atendimento (alguém respondeu): captura o que sobrou na memória social.
+		j.convSvc.MaintainRelationshipSummary(ctx, ownerType, ownerID, true)
 		j.clearDraft(ctx, ownerType, ownerID)
 		return
 	}
+
+	// Memória de longo prazo (social): regenera o resumo a cada +5 mensagens novas. Best-effort,
+	// gatilho interno barato (só chama a IA quando acumulou o suficiente). Guardrail §3.1.
+	j.convSvc.MaintainRelationshipSummary(ctx, ownerType, ownerID, false)
 
 	mode, explicitFlag, paused := j.resolveMode(ctx, ownerType, ownerID, settings)
 	if paused {

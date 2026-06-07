@@ -66,8 +66,18 @@ type ReceptionReplyResult struct {
 const (
 	aiSummaryMaxMessages    = 50
 	aiSuggestionMaxMessages = 10
-	aiReceptionMaxMessages  = 14
-	aiMaxContentChars       = 500
+	// Janela curta do recepcionista (memória episódica). Subida de 14→40 para que a Lívia
+	// "lembre" de toda a conversa recente e nunca repita pergunta já respondida. O clínico
+	// mencionado fica SÓ aqui (curto prazo), nunca no rolling_summary (§3.1 do plano).
+	// 40 msgs * 500 chars ≈ 20k chars ≈ 6k tokens; com o cérebro (~3k) cabe com folga.
+	aiReceptionMaxMessages = 40
+	aiMaxContentChars      = 500
+
+	// Memória de longo prazo (social): regenera o rolling_summary a cada +5 mensagens novas
+	// (ou no fim do atendimento), lendo até este teto de mensagens.
+	relationshipSummaryEveryMessages = 5
+	relationshipSummaryMaxMessages   = 60
+	aiModelRelationship              = aiModelSummary // Haiku: resumo barato e rápido
 
 	// Modelos. Haiku pra resumo (barato + rápido); Sonnet pra escrita (qualidade
 	// do tom Plenya). Atualize aqui quando subir versão (claude-md doc).
@@ -214,7 +224,8 @@ func (s *ConversationService) GenerateReceptionReply(
 	if s.receptionBusinessHours != nil {
 		bizHours = s.receptionBusinessHours(ctx)
 	}
-	prompt := buildReceptionPrompt(transcript, slotsText, bizHours, receptionNowLine())
+	memory := s.buildReceptionMemory(ctx, ownerType, ownerID)
+	prompt := buildReceptionPrompt(transcript, slotsText, bizHours, receptionNowLine(), memory)
 
 	raw, err := s.aiService.CompleteText(ctx, prompt, CompleteTextOptions{
 		Model:       aiModelSuggestion,
@@ -479,4 +490,145 @@ func (s *ConversationService) persistAISummaryCache(
 		// LGPD: não loga summary. Só estrutura do erro.
 		fmt.Printf("⚠️  ai cache persist: %v\n", err)
 	}
+}
+
+// ============================================================
+// Memória de longo prazo (SOCIAL) da Lívia — relationship_profiles
+// ============================================================
+//
+// Duas camadas no prompt: (1) janela curta = últimas N mensagens (memória episódica, pode
+// conter menção clínica só pra não repetir pergunta na MESMA conversa); (2) rolling_summary =
+// resumo rolante SOCIAL, persistente entre conversas. O clínico nunca entra no rolling_summary
+// (§3.1 do plano). Custo: resumo + janela em vez de history bruto.
+
+// buildReceptionMemory monta o bloco de memória injetado no prompt: flags derivadas (lead vs
+// paciente) + resumo rolante social. Best-effort: "" se não houver nada útil ainda.
+func (s *ConversationService) buildReceptionMemory(ctx context.Context, ownerType string, ownerID uuid.UUID) string {
+	var sb strings.Builder
+
+	// Flag derivada básica (Fase A): já é paciente ou ainda é lead. Continuum/frequente: Fase D.
+	switch ownerType {
+	case string(models.ConversationOwnerPatient):
+		sb.WriteString("RELAÇÃO: esta pessoa já é paciente da Plenya (não trate como contato novo).\n")
+	case string(models.ConversationOwnerLead):
+		sb.WriteString("RELAÇÃO: ainda é um lead (não é paciente).\n")
+	}
+
+	rp := NewRelationshipProfileService(s.db)
+	prof, err := rp.Get(ctx, ownerType, ownerID)
+	if err == nil && prof != nil {
+		if sum := strings.TrimSpace(prof.RollingSummary); sum != "" {
+			sb.WriteString("O QUE JÁ SE SABE (resumo social acumulado de conversas anteriores; use para não repetir perguntas e personalizar, sem citar que tem um \"resumo\"):\n")
+			sb.WriteString(sum)
+			sb.WriteString("\n")
+		}
+	}
+	return strings.TrimSpace(sb.String())
+}
+
+// MaintainRelationshipSummary regenera (best-effort) o rolling_summary SOCIAL da pessoa quando
+// acumulou >= 5 mensagens novas desde o último resumo (force=false), ou sempre que houver
+// mensagens não resumidas (force=true, p.ex. ao fim do atendimento). Guardrail §3.1: o resumo é
+// SÓ social/relacional; nada clínico entra (o clínico fica só na janela curta da conversa).
+// Não falha o fluxo do job: erros apenas retornam.
+func (s *ConversationService) MaintainRelationshipSummary(ctx context.Context, ownerType string, ownerID uuid.UUID, force bool) {
+	if s.aiService == nil || !isValidOwnerType(ownerType) || ownerID == uuid.Nil {
+		return
+	}
+	total := s.countConversationMessages(ctx, ownerType, ownerID)
+	if total == 0 {
+		return
+	}
+
+	rp := NewRelationshipProfileService(s.db)
+	prof, err := rp.GetOrCreate(ctx, ownerType, ownerID)
+	if err != nil || prof == nil {
+		return
+	}
+
+	newMsgs := total - prof.SummaryMsgCount
+	if newMsgs <= 0 {
+		return // nada novo desde o último resumo
+	}
+	if !force && newMsgs < relationshipSummaryEveryMessages {
+		return // ainda não acumulou o gatilho de 5 mensagens
+	}
+
+	activities, err := s.loadConversationActivities(ctx, ownerType, ownerID, relationshipSummaryMaxMessages)
+	if err != nil || len(activities) == 0 {
+		return
+	}
+	transcript := buildTranscript(activities)
+	prompt := buildRelationshipSummaryPrompt(transcript, prof.RollingSummary)
+
+	summary, err := s.aiService.CompleteText(ctx, prompt, CompleteTextOptions{
+		Model:       aiModelRelationship,
+		MaxTokens:   500,
+		Temperature: 0.3,
+		Timeout:     20 * time.Second,
+	})
+	if err != nil {
+		return
+	}
+	summary = sanitizeRelationshipSummary(summary)
+
+	if err := rp.SaveSummary(ctx, prof.ID, summary, total); err != nil {
+		fmt.Printf("⚠️  relationship summary persist: %v\n", err)
+	}
+}
+
+// sanitizeRelationshipSummary normaliza a saída do resumo. Se o modelo sinalizar que não há
+// nada social a guardar, devolve "" (não polui o perfil com ruído).
+func sanitizeRelationshipSummary(s string) string {
+	out := strings.TrimSpace(s)
+	upper := strings.ToUpper(out)
+	if out == "" || upper == "NADA" || upper == "NENHUM" || strings.HasPrefix(upper, "NADA ") {
+		return ""
+	}
+	return out
+}
+
+// countConversationMessages conta as activities elegíveis (mesmo filtro de loadConversationActivities)
+// para decidir o gatilho de regeneração do resumo.
+func (s *ConversationService) countConversationMessages(ctx context.Context, ownerType string, ownerID uuid.UUID) int {
+	q := s.db.WithContext(ctx).Model(&models.LeadActivity{}).
+		Where("channel IN (?, ?)", models.LeadChannelEmail, models.LeadChannelWhatsApp).
+		Where("type IN (?, ?)", models.LeadActivityMessageSent, models.LeadActivityMessageReceived)
+	switch ownerType {
+	case string(models.ConversationOwnerLead):
+		q = q.Where("lead_id = ?", ownerID)
+	case string(models.ConversationOwnerPatient):
+		q = q.Where("patient_id = ?", ownerID)
+	}
+	var n int64
+	if err := q.Count(&n).Error; err != nil {
+		return 0
+	}
+	return int(n)
+}
+
+// buildRelationshipSummaryPrompt monta o prompt de resumo SOCIAL incremental. Guardrail forte
+// anti-clínico: símtomas/exames/diagnósticos/medicações NÃO entram (vão pro prontuário, não pro CRM).
+func buildRelationshipSummaryPrompt(transcript, previous string) string {
+	prevBlock := ""
+	if p := strings.TrimSpace(previous); p != "" {
+		prevBlock = "\nRESUMO ANTERIOR (atualize e funda com o que houver de novo, sem perder o que já era verdade):\n" + p + "\n"
+	}
+	return fmt.Sprintf(`Você mantém a MEMÓRIA SOCIAL de uma pessoa em contato com a Plenya, uma clínica brasileira. O objetivo é a recepção nunca esquecer quem é a pessoa nem repetir perguntas já respondidas.
+
+Produza um resumo CURTO e factual (no máximo 6 linhas, em português), só com informação SOCIAL/RELACIONAL/ADMINISTRATIVA útil para o relacionamento, por exemplo:
+- como a pessoa gosta de ser chamada, profissão/ocupação, cidade;
+- família e rede (cônjuge, filhos, quem a acompanha ou influenciou a procurar a clínica);
+- preferências de atendimento (canal, presencial vs online, melhor horário);
+- como conheceu a Plenya / quem indicou / o que motivou o contato (motivo NÃO clínico);
+- estágio do relacionamento (só conversando, quer agendar, já agendou) e sensibilidades de abordagem ("não gosta de insistência").
+
+PROIBIDO terminantemente (isso é do prontuário, com o médico — NÃO entra aqui): sintomas, queixas de saúde, resultados de exame, diagnósticos, medicações, condutas ou qualquer dado clínico. Se a pessoa mencionou algo clínico, IGNORE no resumo.
+
+Não invente: registre só o que aparece na conversa. Se não houver NENHUMA informação social aproveitável, responda exatamente "NADA".
+%s
+CONVERSA (cronológica; [DENTRO] = a pessoa, [FORA] = Plenya):
+%s
+
+Responda APENAS com o resumo social atualizado (ou "NADA"), em linhas com "- ", sem cabeçalho e sem comentários.`, prevBlock, transcript)
 }

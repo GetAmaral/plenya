@@ -119,10 +119,16 @@ No handoff, escreva uma "reply" curta e acolhedora, e preencha "handoffReason".
 NÃO RE-ENGAJAR
 - Se a última mensagem do cliente for um pedido de parar/descadastrar (ex: "PARAR", "não quero mais"), responda apenas com uma confirmação curta e respeitosa e use action "answer". Não ofereça nada.`
 
-// buildReceptionPrompt monta o prompt completo: system (cérebro) + horários disponíveis
-// (opcional) + transcript da conversa + instrução de saída estruturada em JSON. A conversa
-// vem em ordem cronológica, cada linha prefixada com [DENTRO] (cliente) ou [FORA] (Plenya).
-func buildReceptionPrompt(transcript, slotsText, businessHours, nowLine string) string {
+// buildReceptionPrompt monta o prompt completo: system (cérebro) + memória social (opcional) +
+// horários disponíveis (opcional) + transcript da conversa + instrução de saída estruturada em
+// JSON. A conversa vem em ordem cronológica, cada linha prefixada com [DENTRO] (cliente) ou
+// [FORA] (Plenya). O bloco de memória traz o que já se sabe da pessoa entre conversas (resumo
+// social + flags), para a Lívia não repetir perguntas nem esquecer respostas.
+func buildReceptionPrompt(transcript, slotsText, businessHours, nowLine, memory string) string {
+	memoryBlock := ""
+	if m := strings.TrimSpace(memory); m != "" {
+		memoryBlock = "\nMEMÓRIA DA PESSOA (o que já se sabe; nunca repita uma pergunta cuja resposta já está aqui ou no histórico abaixo):\n" + m + "\n"
+	}
 	slotsBlock := ""
 	if s := strings.TrimSpace(slotsText); s != "" {
 		slotsBlock = "\nHORÁRIOS DISPONÍVEIS (use só estes ao oferecer):\n" + s + "\n"
@@ -140,7 +146,7 @@ func buildReceptionPrompt(transcript, slotsText, businessHours, nowLine string) 
 			"Se a pessoa escrever fora do horário de funcionamento, pode acolher e dizer que a equipe retoma no próximo horário de atendimento, sem prometer resposta humana imediata.\n"
 	}
 	return fmt.Sprintf(`%s
-%s%s%s
+%s%s%s%s
 HISTÓRICO DA CONVERSA (cronológico; [DENTRO] = cliente, [FORA] = Plenya):
 
 %s
@@ -148,5 +154,5 @@ HISTÓRICO DA CONVERSA (cronológico; [DENTRO] = cliente, [FORA] = Plenya):
 Gere a melhor próxima mensagem da Plenya para a última mensagem do cliente, seguindo tudo acima.
 
 Responda APENAS com um objeto JSON válido, sem texto fora dele, neste formato:
-{"reply": "<a mensagem a enviar, só o corpo, sem assinatura, sem placeholder entre colchetes>", "action": "<ask|answer|handle_objection|propose_schedule|handoff>", "handoffReason": "<curto; vazio se action != handoff>", "discloseAI": <true|false>}`, receptionSystemPrompt, slotsBlock, bizBlock, nowBlock, transcript)
+{"reply": "<a mensagem a enviar, só o corpo, sem assinatura, sem placeholder entre colchetes>", "action": "<ask|answer|handle_objection|propose_schedule|handoff>", "handoffReason": "<curto; vazio se action != handoff>", "discloseAI": <true|false>}`, receptionSystemPrompt, memoryBlock, slotsBlock, bizBlock, nowBlock, transcript)
 }
