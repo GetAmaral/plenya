@@ -12,9 +12,10 @@
     "generate": "bash scripts/generate-all.sh",
     "migrate:up": "docker compose exec -w /app api go run ./cmd/migrate up",
     "migrate:status": "docker compose exec -w /app api go run ./cmd/migrate status",
-    "generate:openapi": "cd apps/api && swag init -g cmd/server/main.go -o docs",
-    "generate:types": "cd packages/types && npx openapi-typescript ../../apps/api/docs/swagger.json -o src/generated/api-types.ts",
-    "generate:zod": "cd packages/types && npx openapi-zod-client ../../apps/api/docs/swagger.json -o src/generated/api-schemas.ts --export-schemas",
+    "generate:openapi": "docker compose exec -T -w /app api go run github.com/swaggo/swag/cmd/swag init -g cmd/server/main.go -o docs --overridesFile .swaggo",
+    "generate:openapi3": "cd apps/api && npx swagger2openapi docs/swagger.json -o docs/openapi.json --patch",
+    "generate:types": "cd packages/types && npx openapi-typescript ../../apps/api/docs/openapi.json -o src/generated/api-types.ts",
+    "generate:zod": "cd packages/types && npx openapi-zod-client ../../apps/api/docs/openapi.json -o src/generated/api-schemas.ts --export-schemas",
     "email:build": "pnpm --filter @plenya/emails build",
     "email:sync": "cp packages/emails/dist/*.html apps/api/internal/services/templates/"
   },

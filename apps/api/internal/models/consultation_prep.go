@@ -31,6 +31,11 @@ type ConsultationPrep struct {
 	// @example 550e8400-e29b-41d4-a716-446655440000
 	AppointmentID *uuid.UUID `gorm:"type:uuid;index:idx_consultation_prep_appointment" json:"appointmentId,omitempty"`
 
+	// Formulário (ScoreVersion context=patient_prep) que originou esta preparação. Define
+	// quais itens o paciente respondeu (A1/B1/B2). Copiado da consulta no momento do submit.
+	// @example 550e8400-e29b-41d4-a716-446655440000
+	ScoreVersionID *uuid.UUID `gorm:"type:uuid;index:idx_consultation_prep_version" json:"scoreVersionId,omitempty"`
+
 	// Status: draft (em preenchimento) | submitted (enviado ao Dr.)
 	// @enum draft,submitted
 	// @example draft

@@ -1550,6 +1550,22 @@ func (s *LeadService) ConvertToPatient(leadID, actorUserID uuid.UUID, in Convert
 		return nil, err
 	}
 
+	// Vincula a sessão da Triagem (se o lead veio do Escore Light) ao paciente recém-criado,
+	// para reaproveitar as respostas como prefill na preparação pré-consulta. Best-effort:
+	// não derruba a conversão se falhar; só reivindica sessões ainda não reivindicadas.
+	if lead.AnonymousScoreSessionID != nil {
+		now := time.Now()
+		if err := s.db.Model(&models.AnonymousScoreSession{}).
+			Where("id = ? AND claimed_by_patient_id IS NULL", *lead.AnonymousScoreSessionID).
+			Updates(map[string]interface{}{
+				"claimed_by_patient_id": patient.ID,
+				"claimed_at":            now,
+				"expires_at":            nil,
+			}).Error; err != nil {
+			log.Printf("⚠️  [CONVERT] vincular sessão %s ao paciente %s: %v", *lead.AnonymousScoreSessionID, patient.ID, err)
+		}
+	}
+
 	// Email boas-vindas (best-effort, async, só pra emails reais — não placeholders WA)
 	if s.emailService != nil && patient.Email != nil && !models.IsPlaceholderEmail(*patient.Email) {
 		emailAddr, pname := *patient.Email, patient.Name

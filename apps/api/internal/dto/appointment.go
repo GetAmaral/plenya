@@ -14,6 +14,9 @@ type CreateAppointmentRequest struct {
 	// ContinuumItemID — quando setado, ancora a consulta ao marco do programa
 	// Continuum (PatientContinuumItem.Status vira scheduled).
 	ContinuumItemID *string `json:"continuumItemId,omitempty" validate:"omitempty,uuid"`
+	// PrepFormVersionID — formulário de preparação pré-consulta (ScoreVersion context=patient_prep)
+	// atrelado à consulta. Quando vazio numa avaliação inicial avulsa, o serviço aplica A1 por padrão.
+	PrepFormVersionID *string `json:"prepFormVersionId,omitempty" validate:"omitempty,uuid"`
 }
 
 // UpdateAppointmentRequest representa o payload de atualização de consulta
@@ -44,6 +47,7 @@ type AppointmentResponse struct {
 	Diagnosis          *string                   `json:"diagnosis,omitempty"`
 	AnamnesisID        *string                   `json:"anamnesisId,omitempty"`
 	ContinuumItemID    *string                   `json:"continuumItemId,omitempty"`
+	PrepFormVersionID  *string                   `json:"prepFormVersionId,omitempty"`
 	ConfirmedAt        *string                   `json:"confirmedAt,omitempty"`
 	CheckedInAt        *string                   `json:"checkedInAt,omitempty"`
 	StartedAt          *string                   `json:"startedAt,omitempty"`

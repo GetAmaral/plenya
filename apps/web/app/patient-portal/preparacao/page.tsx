@@ -16,6 +16,7 @@ import { useRequirePatientAuth } from "@/lib/use-patient-auth";
 import {
   useMyAppointments,
   usePrepConfig,
+  usePrepPrefill,
   useMyPrep,
   useSubmitPrep,
   useUploadExam,
@@ -30,8 +31,9 @@ export default function PreparacaoPage() {
   const nextAppt = appointments?.[0];
   const appointmentId = nextAppt?.id;
 
-  const { data: config, isLoading: loadingConfig } = usePrepConfig();
+  const { data: config, isLoading: loadingConfig } = usePrepConfig(appointmentId);
   const { data: existing } = useMyPrep(appointmentId);
+  const { data: prefill } = usePrepPrefill(appointmentId);
   const submit = useSubmitPrep();
   const uploadExam = useUploadExam();
 
@@ -39,20 +41,32 @@ export default function PreparacaoPage() {
   const [answers, setAnswers] = useState<PrepAnswers>({});
   const [savedMsg, setSavedMsg] = useState<string | null>(null);
   const [uploaded, setUploaded] = useState<string[]>([]);
+  const [prefilledFromTriage, setPrefilledFromTriage] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const hydrated = useRef(false);
 
-  // Hidrata do rascunho existente uma vez.
+  // Hidrata uma vez: prefill da Triagem como base, rascunho salvo sobrescreve.
   useEffect(() => {
-    if (hydrated.current || !existing) return;
+    if (hydrated.current) return;
+    if (existing === undefined) return; // ainda carregando o rascunho
+    if (appointmentId && prefill === undefined) return; // espera o prefill quando há consulta
     hydrated.current = true;
-    setChiefComplaint(existing.chiefComplaint ?? "");
+
     const map: PrepAnswers = {};
-    for (const r of existing.responses ?? []) {
+    let usedPrefill = false;
+    for (const r of prefill?.responses ?? []) {
       map[r.scoreItemId] = r;
+      usedPrefill = true;
+    }
+    if (existing) {
+      setChiefComplaint(existing.chiefComplaint ?? "");
+      const saved = existing.responses ?? [];
+      for (const r of saved) map[r.scoreItemId] = r;
+      if (saved.length > 0) usedPrefill = false; // já tem rascunho próprio
     }
     setAnswers(map);
-  }, [existing]);
+    setPrefilledFromTriage(usedPrefill && Object.keys(map).length > 0);
+  }, [existing, prefill, appointmentId]);
 
   const isSubmitted = existing?.status === "submitted";
   const hasItems = useMemo(
@@ -188,7 +202,14 @@ export default function PreparacaoPage() {
               <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
             </div>
           ) : hasItems && config ? (
-            <PrepForm config={config} answers={answers} onChange={setAnswers} />
+            <>
+              {prefilledFromTriage && (
+                <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                  Pré-preenchemos algumas respostas a partir da sua triagem. Confira e atualize o que tiver mudado.
+                </p>
+              )}
+              <PrepForm config={config} answers={answers} onChange={setAnswers} />
+            </>
           ) : (
             <p className="text-sm text-muted-foreground">
               Nada a preencher por enquanto. Você já pode enviar seus exames acima.

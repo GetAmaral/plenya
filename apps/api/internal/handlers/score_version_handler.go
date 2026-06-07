@@ -102,8 +102,18 @@ func (h *ScoreVersionHandler) SetItems(c *fiber.Ctx) error {
 }
 
 // GetConfig GET /api/v1/score-light/config/:slug — PÚBLICO. Config estático para o site (gerador).
+// Só serve versões context='public' (Triagem/Light). Versões de preparação pré-consulta
+// (context='patient_prep') são privadas e atendidas pelo endpoint do paciente logado.
 func (h *ScoreVersionHandler) GetConfig(c *fiber.Ctx) error {
-	out, err := h.service.BuildConfig(c.Params("slug"))
+	slug := c.Params("slug")
+	v, err := h.service.GetBySlug(slug)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
+	}
+	if v.Context != "public" {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "score version not found"})
+	}
+	out, err := h.service.BuildConfig(slug)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
 	}

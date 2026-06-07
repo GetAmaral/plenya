@@ -693,7 +693,14 @@ export interface SubmitPrepRequest {
 }
 
 export const consultationPrepApi = {
-  config: () => apiClient.get<PrepConfig>("/api/v1/patient/me/prep/config"),
+  config: (appointmentId?: string) =>
+    apiClient.get<PrepConfig>(
+      `/api/v1/patient/me/prep/config${appointmentId ? `?appointmentId=${appointmentId}` : ""}`,
+    ),
+  prefill: (appointmentId?: string) =>
+    apiClient.get<{ responses: PrepResponse[] }>(
+      `/api/v1/patient/me/prep/prefill${appointmentId ? `?appointmentId=${appointmentId}` : ""}`,
+    ),
   get: (appointmentId?: string) =>
     apiClient.get<ConsultationPrepView | null>(
       `/api/v1/patient/me/prep${appointmentId ? `?appointmentId=${appointmentId}` : ""}`,
@@ -704,10 +711,19 @@ export const consultationPrepApi = {
     apiClient.post<unknown>("/api/v1/patient/me/documents", formData),
 };
 
-export function usePrepConfig() {
+export function usePrepConfig(appointmentId?: string) {
   return useQuery({
-    queryKey: ["patient-prep-config"],
-    queryFn: () => consultationPrepApi.config(),
+    queryKey: ["patient-prep-config", appointmentId ?? null],
+    queryFn: () => consultationPrepApi.config(appointmentId),
+    staleTime: 5 * 60_000,
+  });
+}
+
+export function usePrepPrefill(appointmentId?: string) {
+  return useQuery({
+    queryKey: ["patient-prep-prefill", appointmentId ?? null],
+    queryFn: () => consultationPrepApi.prefill(appointmentId),
+    enabled: !!appointmentId,
     staleTime: 5 * 60_000,
   });
 }

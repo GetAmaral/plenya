@@ -255,6 +255,35 @@ Se você não solicitou este link, ignore este email — sua conta segue protegi
 	return s.send(toEmail, subject, bodyText, bodyHTML)
 }
 
+// SendConsultationPrepInvite — convida o paciente a preencher a preparação pré-consulta
+// (deep-link via magic link). Best-effort; sem promessa de resultado (publicidade médica).
+func (s *EmailService) SendConsultationPrepInvite(toEmail, patientName, link string) error {
+	subject := "Prepare sua consulta na Plenya"
+	greeting := patientName
+	if strings.TrimSpace(greeting) == "" {
+		greeting = "Olá"
+	}
+	bodyText := fmt.Sprintf(`Olá, %s.
+
+Antes da sua consulta, separamos uma preparação rápida. Preencha pelo link abaixo e, se puder, envie seus exames recentes. Assim o seu médico chega com tudo em mãos e o tempo de vocês rende mais.
+
+%s
+
+Leva poucos minutos e é tudo confidencial.
+
+— Equipe Plenya
+`, greeting, link)
+
+	bodyHTML, err := s.renderTemplate("patient_magic_link", map[string]string{
+		"NAME": patientName,
+		"LINK": link,
+	})
+	if err != nil {
+		bodyHTML = ""
+	}
+	return s.send(toEmail, subject, bodyText, bodyHTML)
+}
+
 // SendPasswordChanged — M5 — notifica paciente que a senha foi alterada.
 // Disparado em SetPasswordWithIP. Best-effort (não bloqueia se template/provider falhar).
 // Inclui IP (best-effort) e timestamp pra que vítima de takeover note imediatamente.

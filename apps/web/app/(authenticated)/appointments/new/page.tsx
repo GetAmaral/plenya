@@ -31,6 +31,7 @@ import {
   type AppointmentType,
   type CalendarSlot,
 } from '@/lib/api/calendar-api';
+import { useScoreVersions } from '@/lib/api/score-version-api';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -84,6 +85,10 @@ export default function NewAppointmentPage() {
   const [slot, setSlot] = useState<CalendarSlot | null>(null);
   const [reason, setReason] = useState('');
   const [patientNotes, setPatientNotes] = useState('');
+  const [prepFormVersionId, setPrepFormVersionId] = useState<string>('');
+
+  const { data: scoreVersions } = useScoreVersions();
+  const prepForms = (scoreVersions ?? []).filter((v) => v.context === 'patient_prep' && v.active);
 
   // Pré-seleciona doctor = self se for doctor.
   useEffect(() => {
@@ -177,6 +182,7 @@ export default function NewAppointmentPage() {
         reason: reason.trim(),
         patientNotes: patientNotes.trim() || undefined,
         continuumItemId: continuumItemId || undefined,
+        prepFormVersionId: prepFormVersionId || undefined,
       });
       toast.success('Consulta agendada!', {
         description: 'Sincronização com Google e Daily.co ocorre em alguns segundos.',
@@ -366,6 +372,29 @@ export default function NewAppointmentPage() {
                   onChange={(e) => setPatientNotes(e.target.value)}
                   rows={3}
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="prep-form">Formulário de preparação</Label>
+                <Select
+                  value={prepFormVersionId || 'auto'}
+                  onValueChange={(v) => setPrepFormVersionId(v === 'auto' ? '' : v)}
+                >
+                  <SelectTrigger id="prep-form">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="auto">Automático (A1 na avaliação inicial avulsa)</SelectItem>
+                    {prepForms.map((v) => (
+                      <SelectItem key={v.id} value={v.id}>
+                        {v.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">
+                  Define o formulário que o paciente preenche (e recebe por link) antes da consulta.
+                </p>
               </div>
             </CardContent>
           </Card>

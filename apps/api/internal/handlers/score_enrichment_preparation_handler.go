@@ -29,9 +29,9 @@ func NewScoreEnrichmentPreparationHandler(db *gorm.DB) *ScoreEnrichmentPreparati
 // @Param id path string true "Score Item ID (UUID)"
 // @Param request body dto.PrepareEnrichmentRequest false "Parâmetros opcionais (limit, minSimilarity)"
 // @Success 200 {object} dto.PrepareEnrichmentResponse "Preparação criada com sucesso"
-// @Failure 400 {object} ErrorResponse "Parâmetros inválidos"
-// @Failure 404 {object} ErrorResponse "Score item não encontrado"
-// @Failure 500 {object} ErrorResponse "Erro ao preparar chunks"
+// @Failure 400 {object} dto.ErrorResponse "Parâmetros inválidos"
+// @Failure 404 {object} dto.ErrorResponse "Score item não encontrado"
+// @Failure 500 {object} dto.ErrorResponse "Erro ao preparar chunks"
 // @Router /api/v1/score-items/{id}/prepare-enrichment [post]
 func (h *ScoreEnrichmentPreparationHandler) PrepareEnrichment(c *fiber.Ctx) error {
 	// Parse score_item_id
@@ -85,8 +85,8 @@ func (h *ScoreEnrichmentPreparationHandler) PrepareEnrichment(c *fiber.Ctx) erro
 // @Produce json
 // @Param id path string true "Score Item ID (UUID)"
 // @Success 200 {object} dto.PrepareEnrichmentResponse "Preparação encontrada"
-// @Failure 404 {object} ErrorResponse "Preparação não encontrada"
-// @Failure 500 {object} ErrorResponse "Erro ao buscar preparação"
+// @Failure 404 {object} dto.ErrorResponse "Preparação não encontrada"
+// @Failure 500 {object} dto.ErrorResponse "Erro ao buscar preparação"
 // @Router /api/v1/score-items/{id}/prepare-enrichment [get]
 func (h *ScoreEnrichmentPreparationHandler) GetPreparation(c *fiber.Ctx) error {
 	scoreItemID, err := uuid.Parse(c.Params("id"))
@@ -115,8 +115,8 @@ func (h *ScoreEnrichmentPreparationHandler) GetPreparation(c *fiber.Ctx) error {
 // @Produce json
 // @Param id path string true "Score Item ID (UUID)"
 // @Success 204 "Preparação deletada com sucesso"
-// @Failure 400 {object} ErrorResponse "ID inválido"
-// @Failure 500 {object} ErrorResponse "Erro ao deletar preparação"
+// @Failure 400 {object} dto.ErrorResponse "ID inválido"
+// @Failure 500 {object} dto.ErrorResponse "Erro ao deletar preparação"
 // @Router /api/v1/score-items/{id}/prepare-enrichment [delete]
 func (h *ScoreEnrichmentPreparationHandler) DeletePreparation(c *fiber.Ctx) error {
 	scoreItemID, err := uuid.Parse(c.Params("id"))
@@ -142,7 +142,7 @@ func (h *ScoreEnrichmentPreparationHandler) DeletePreparation(c *fiber.Ctx) erro
 // @Tags Score Items - Enrichment
 // @Produce json
 // @Success 200 {object} dto.EnrichmentPreparationStatsResponse "Estatísticas"
-// @Failure 500 {object} ErrorResponse "Erro ao buscar estatísticas"
+// @Failure 500 {object} dto.ErrorResponse "Erro ao buscar estatísticas"
 // @Router /api/v1/score-items/enrichment/stats [get]
 func (h *ScoreEnrichmentPreparationHandler) GetStats(c *fiber.Ctx) error {
 	stats, err := h.service.GetStats()

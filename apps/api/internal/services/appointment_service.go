@@ -48,7 +48,15 @@ type AppointmentService struct {
 	dailyCoSvc        *DailyCoService
 	notifSvc          *AppointmentNotificationService
 	telemedLobbySvc   *TelemedLobbyService
+	prepNotifier      *ConsultationPrepNotifier
 	cfg               *config.Config
+}
+
+// WithPrepNotifier injeta o notificador de preparação pré-consulta (convite por magic link ao
+// agendar uma consulta com formulário atrelado). Setter para não quebrar a assinatura do construtor.
+func (s *AppointmentService) WithPrepNotifier(n *ConsultationPrepNotifier) *AppointmentService {
+	s.prepNotifier = n
+	return s
 }
 
 func NewAppointmentService(
@@ -194,6 +202,21 @@ func (s *AppointmentService) Create(userID uuid.UUID, userRole models.Role, req 
 		appointment.ContinuumItemID = &cid
 	}
 
+	// Formulário de preparação pré-consulta: explícito do payload, ou A1 por padrão numa
+	// avaliação inicial avulsa (sem Continuum). Resolvido por slug 'prep-a1' (data-driven).
+	if req.PrepFormVersionID != nil && *req.PrepFormVersionID != "" {
+		pid, err := uuid.Parse(*req.PrepFormVersionID)
+		if err != nil {
+			return nil, errors.New("invalid prepFormVersionId")
+		}
+		appointment.PrepFormVersionID = &pid
+	} else if req.Type == models.AppointmentInitialAssessment && continuumItemID == nil {
+		var v models.ScoreVersion
+		if err := s.db.Where("slug = ? AND context = ?", "prep-a1", "patient_prep").First(&v).Error; err == nil {
+			appointment.PrepFormVersionID = &v.ID
+		}
+	}
+
 	if err := s.db.Create(&appointment).Error; err != nil {
 		// EXCLUDE constraint violation → 409.
 		if isAppointmentOverlapErr(err) {
@@ -215,9 +238,20 @@ func (s *AppointmentService) Create(userID uuid.UUID, userRole models.Role, req 
 	duration := appointment.DurationMinutes
 	patientName := patient.Name
 
+	hasPrepForm := appointment.PrepFormVersionID != nil
+
 	goSafe("appt_sync_google", func() {
 		s.syncGoogleEventCreate(apptID, doctorIDCopy, apptType, scheduled, duration, patientName)
 	})
+
+	// Convite de preparação pré-consulta (magic link) quando a consulta tem formulário atrelado.
+	if hasPrepForm && s.prepNotifier != nil {
+		goSafe("appt_send_prep_invite", func() {
+			if err := s.prepNotifier.SendPrepInvite(context.Background(), apptID); err != nil {
+				log.Printf("⚠️  [APPT] prep invite apt=%s: %v", apptID, err)
+			}
+		})
+	}
 
 	if apptType == models.AppointmentTelemedicine {
 		goSafe("appt_create_daily", func() {
@@ -1120,6 +1154,10 @@ func (s *AppointmentService) toDTO(appointment *models.Appointment) *dto.Appoint
 	if appointment.ContinuumItemID != nil {
 		cid := appointment.ContinuumItemID.String()
 		resp.ContinuumItemID = &cid
+	}
+	if appointment.PrepFormVersionID != nil {
+		pid := appointment.PrepFormVersionID.String()
+		resp.PrepFormVersionID = &pid
 	}
 	if appointment.ConfirmedAt != nil {
 		ca := appointment.ConfirmedAt.Format(time.RFC3339)

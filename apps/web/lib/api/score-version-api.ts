@@ -24,6 +24,7 @@ export interface ScoreVersion {
   siteIntro?: string
   order: number
   active: boolean
+  context: 'public' | 'patient_prep' // public = Triagem/Light; patient_prep = forms de preparação
   items?: ScoreVersionItem[] // só vem no GET /:id (Preload ordenado por displayOrder)
   createdAt: string
   updatedAt: string

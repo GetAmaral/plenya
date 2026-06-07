@@ -39,6 +39,13 @@ type ScoreVersion struct {
 	// @example true
 	Active bool `gorm:"type:boolean;not null;default:true" json:"active"`
 
+	// Contexto da versão: "public" (Triagem/Light, servidas no site) ou "patient_prep"
+	// (formulários de preparação pré-consulta A1/B1/B2, servidos só ao paciente logado).
+	// O endpoint público de config recusa não-"public"; o de prep exige "patient_prep".
+	// @enum public,patient_prep
+	// @example public
+	Context string `gorm:"type:varchar(20);not null;default:'public';check:context IN ('public','patient_prep')" json:"context"`
+
 	// Relationships
 	Items []ScoreVersionItem `gorm:"foreignKey:VersionID;constraint:OnDelete:CASCADE" json:"items,omitempty"`
 

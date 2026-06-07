@@ -6,6 +6,7 @@ node_modules/
 # Generated files (DO NOT EDIT - auto-generated)
 packages/types/src/generated/
 apps/api/docs/swagger.json
+apps/api/docs/openapi.json
 # Migrations goose são FONTE (escritas à mão, embedadas via go:embed) — versionadas.
 # (Antes ignoradas por serem geradas pelo Atlas, que não usamos mais.)
 

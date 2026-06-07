@@ -336,6 +336,24 @@ func (s *PatientDashboardService) pendingActions(patientID uuid.UUID, next *Dash
 		})
 	}
 
+	// Preparação pré-consulta pendente: próxima consulta tem formulário atrelado e ainda não foi enviada.
+	if next != nil {
+		var appt models.Appointment
+		if err := s.db.Select("prep_form_version_id").Where("id = ?", next.ID).First(&appt).Error; err == nil && appt.PrepFormVersionID != nil {
+			var submitted int64
+			_ = s.db.Model(&models.ConsultationPrep{}).
+				Where("patient_id = ? AND appointment_id = ? AND status = ?", patientID, next.ID, models.ConsultationPrepSubmitted).
+				Count(&submitted).Error
+			if submitted == 0 {
+				out = append(out, DashboardPendingAction{
+					Kind:        "prep",
+					Description: "Preencha a preparação para a sua próxima consulta",
+					Link:        "/preparacao",
+				})
+			}
+		}
+	}
+
 	// Pedido de exame pendente
 	var pendingLabs int64
 	_ = s.db.Model(&models.LabRequest{}).

@@ -108,6 +108,16 @@ type Appointment struct {
 	// Cancel não muda o item automaticamente (equipe pode reagendar).
 	ContinuumItemID *uuid.UUID `gorm:"type:uuid;index" json:"continuumItemId,omitempty"`
 
+	// Formulário de preparação pré-consulta (ScoreVersion context=patient_prep) atrelado a esta
+	// consulta — escolhido ao agendar (A1 avulsa, B1 entrada Continuum, B2 complemento). Quando
+	// setado, o paciente vê o form no portal e recebe magic link + lembretes. NULL = sem preparação.
+	PrepFormVersionID *uuid.UUID `gorm:"type:uuid;index" json:"prepFormVersionId,omitempty"`
+
+	// Idempotência dos lembretes de preparação (cron ConsultationPrepReminderJob).
+	// NULL = ainda não enviado; setado = job já processou aquela janela.
+	PrepReminder48hSentAt *time.Time `gorm:"type:timestamptz" json:"prepReminder48hSentAt,omitempty"`
+	PrepReminder24hSentAt *time.Time `gorm:"type:timestamptz" json:"prepReminder24hSentAt,omitempty"`
+
 	// Data de confirmação
 	ConfirmedAt *time.Time `gorm:"type:timestamptz" json:"confirmedAt,omitempty"`
 

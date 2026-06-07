@@ -448,7 +448,11 @@ func setupRoutes(
 
 	// Preparação pré-consulta (Fase 2): formulário curado pós-agendamento + upload de exames pelo paciente.
 	consultationPrepService := services.NewConsultationPrepService(database.DB)
-	consultationPrepHandler := handlers.NewConsultationPrepHandler(consultationPrepService, anonymousScoreService, patientDocumentsService)
+	consultationPrepHandler := handlers.NewConsultationPrepHandler(consultationPrepService, scoreVersionService, patientDocumentsService)
+	// Convite de preparação (magic link por email; WhatsApp atrás de template Meta) — disparo ao
+	// agendar e nos lembretes T-48h/T-24h.
+	consultationPrepNotifier := services.NewConsultationPrepNotifier(database.DB, patientPortalService, emailService, whatsappService)
+	appointmentService.WithPrepNotifier(consultationPrepNotifier)
 
 	// Documentos clínicos emitidos/assináveis (P3 frente 2) — reusa signature_service (ICP-Brasil)
 	// + patient_documents_service (publica no portal). DocumentPDFService gera o PDF (gofpdf).
@@ -775,6 +779,7 @@ func setupRoutes(
 
 	// Preparação pré-consulta (formulário curado + upload de exames pelo paciente)
 	patientMe.Get("/prep/config", consultationPrepHandler.GetConfig)
+	patientMe.Get("/prep/prefill", consultationPrepHandler.GetPrefill)
 	patientMe.Get("/prep", consultationPrepHandler.GetPrep)
 	patientMe.Post("/prep", consultationPrepHandler.SubmitPrep)
 	patientMe.Post("/documents", consultationPrepHandler.UploadExam)
@@ -1569,6 +1574,9 @@ func setupRoutes(
 	// 1) Reminder T-24h: ticker 1h, envia template WA pra appointments na janela.
 	appointmentReminderJob := scheduler.NewAppointmentReminderJob(database.DB, appointmentNotificationService)
 	appointmentReminderJob.Start()
+	// 1b) Preparação pré-consulta: ticker 1h, reenvia magic link (T-48h/T-24h) p/ prep não submetida.
+	consultationPrepReminderJob := scheduler.NewConsultationPrepReminderJob(database.DB, consultationPrepNotifier)
+	consultationPrepReminderJob.Start()
 	// 2) Google token refresh: ticker 30min, renova access tokens cifrados.
 	googleTokenRefreshJob := scheduler.NewGoogleTokenRefreshJob(database.DB, googleCalendarService, notificationService)
 	googleTokenRefreshJob.Start()

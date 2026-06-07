@@ -75,6 +75,13 @@ func (s *ConsultationPrepService) Submit(patientID uuid.UUID, req dto.SubmitPrep
 		}
 
 		existing.ChiefComplaint = req.ChiefComplaint
+		// Carimba o formulário (ScoreVersion) a partir da consulta, se houver.
+		if apptID != nil {
+			var appt models.Appointment
+			if err := tx.Select("prep_form_version_id").Where("id = ?", *apptID).First(&appt).Error; err == nil {
+				existing.ScoreVersionID = appt.PrepFormVersionID
+			}
+		}
 		if req.ConsentVersion != nil {
 			existing.ConsentVersion = req.ConsentVersion
 			existing.ConsentTimestamp = &now
@@ -116,6 +123,79 @@ func (s *ConsultationPrepService) Submit(patientID uuid.UUID, req dto.SubmitPrep
 		return nil, err
 	}
 	return s.Get(patientID, apptID)
+}
+
+// FormVersionForAppointment retorna a ScoreVersion (context=patient_prep) atrelada à consulta
+// do paciente, ou nil quando a consulta não existe, não é do paciente, ou não tem form atrelado.
+func (s *ConsultationPrepService) FormVersionForAppointment(patientID uuid.UUID, appointmentID *uuid.UUID) (*models.ScoreVersion, error) {
+	if appointmentID == nil {
+		return nil, nil
+	}
+	var appt models.Appointment
+	if err := s.db.Where("id = ? AND patient_id = ?", *appointmentID, patientID).First(&appt).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	if appt.PrepFormVersionID == nil {
+		return nil, nil
+	}
+	var v models.ScoreVersion
+	if err := s.db.Where("id = ? AND context = ?", *appt.PrepFormVersionID, "patient_prep").First(&v).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return &v, nil
+}
+
+// PrefillForAppointment devolve respostas sugeridas (vindas da Triagem reivindicada mais recente
+// do paciente) para os itens que aparecem no formulário da consulta. Vazio se não há form/sessão.
+func (s *ConsultationPrepService) PrefillForAppointment(patientID uuid.UUID, appointmentID *uuid.UUID) ([]dto.PrepResponseView, error) {
+	out := []dto.PrepResponseView{}
+	version, err := s.FormVersionForAppointment(patientID, appointmentID)
+	if err != nil || version == nil {
+		return out, err
+	}
+	var vItems []models.ScoreVersionItem
+	if err := s.db.Where("version_id = ?", version.ID).Find(&vItems).Error; err != nil {
+		return out, err
+	}
+	inForm := make(map[uuid.UUID]bool, len(vItems))
+	for _, vi := range vItems {
+		inForm[vi.ScoreItemID] = true
+	}
+	if len(inForm) == 0 {
+		return out, nil
+	}
+	var session models.AnonymousScoreSession
+	err = s.db.Preload("Items").
+		Where("claimed_by_patient_id = ?", patientID).
+		Order("created_at DESC").
+		First(&session).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return out, nil
+	}
+	if err != nil {
+		return out, err
+	}
+	for _, it := range session.Items {
+		if !inForm[it.ScoreItemID] {
+			continue
+		}
+		if it.NumericValue == nil && it.SelectedLevel == nil && (it.TextValue == nil || *it.TextValue == "") {
+			continue
+		}
+		out = append(out, dto.PrepResponseView{
+			ScoreItemID:   it.ScoreItemID.String(),
+			NumericValue:  it.NumericValue,
+			SelectedLevel: it.SelectedLevel,
+			TextValue:     it.TextValue,
+		})
+	}
+	return out, nil
 }
 
 // ToConsultationPrepView mapeia o model para o DTO de leitura.

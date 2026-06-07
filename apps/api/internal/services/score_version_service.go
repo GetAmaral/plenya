@@ -164,6 +164,16 @@ func (s *ScoreVersionService) SetItems(versionID uuid.UUID, items []VersionItemD
 // BuildConfig monta a árvore Group→Subgroup→Item→Level apenas com os itens da version,
 // ordenados por display_order, reusando LightConfig/mapItemToLightConfig. É a FONTE do
 // gerador estático do site (substitui o BuildLightConfig filtrado por is_light_version).
+// GetBySlug retorna a version pelo slug (sem montar o config). Usado para checar o
+// contexto (public × patient_prep) antes de servir, e para resolver o slug a partir de um id.
+func (s *ScoreVersionService) GetBySlug(slug string) (*models.ScoreVersion, error) {
+	var v models.ScoreVersion
+	if err := s.db.First(&v, "slug = ?", slug).Error; err != nil {
+		return nil, errors.New("score version not found")
+	}
+	return &v, nil
+}
+
 func (s *ScoreVersionService) BuildConfig(slug string) (*LightConfig, error) {
 	var v models.ScoreVersion
 	if err := s.db.First(&v, "slug = ?", slug).Error; err != nil {

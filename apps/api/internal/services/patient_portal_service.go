@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	neturl "net/url"
 	"strings"
 	"time"
 	"unicode"
@@ -265,6 +266,25 @@ func (s *PatientPortalService) RequestMagicLink(email string, ipHash *string) er
 		_ = s.emailService.SendPatientMagicLink(email, user.Name, url)
 	}
 	return nil
+}
+
+// MintMagicLinkURL gera um magic link single-use para o User e devolve a URL (com next opcional
+// pra deep-link pós-login, ex.: /preparacao?appointmentId=...). Diferente de RequestMagicLink, NÃO
+// envia — o caller escolhe canal e copy (ex.: convite de preparação pré-consulta).
+func (s *PatientPortalService) MintMagicLinkURL(userID uuid.UUID, next string) (string, error) {
+	token, err := generateRandomToken(32)
+	if err != nil {
+		return "", err
+	}
+	link := models.PatientMagicLink{UserID: userID, TokenHash: hashToken(token)}
+	if err := s.db.Create(&link).Error; err != nil {
+		return "", err
+	}
+	u := fmt.Sprintf("%s/auth/magic?token=%s", s.PortalURL(), token)
+	if strings.TrimSpace(next) != "" {
+		u += "&next=" + neturl.QueryEscape(next)
+	}
+	return u, nil
 }
 
 // ConsumeMagicLink valida o token e devolve sessão JWT.

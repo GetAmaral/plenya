@@ -1,0 +1,6 @@
+replace datatypes.JSON interface{}
+replace datatypes.JSONMap interface{}
+replace gorm.io/datatypes.JSON interface{}
+replace gorm.io/datatypes.JSONMap interface{}
+replace fiber.Map interface{}
+replace github.com/gofiber/fiber/v2.Map interface{}

@@ -13,23 +13,60 @@ import (
 // ConsultationPrepHandler expõe o formulário de preparação pré-consulta e o upload de exames
 // pelo paciente (portal). Todas as rotas são patient-scoped (middleware.RequirePatient).
 type ConsultationPrepHandler struct {
-	prep  *services.ConsultationPrepService
-	score *services.AnonymousScoreService
-	docs  *services.PatientDocumentsService
+	prep     *services.ConsultationPrepService
+	versions *services.ScoreVersionService
+	docs     *services.PatientDocumentsService
 }
 
-func NewConsultationPrepHandler(prep *services.ConsultationPrepService, score *services.AnonymousScoreService, docs *services.PatientDocumentsService) *ConsultationPrepHandler {
-	return &ConsultationPrepHandler{prep: prep, score: score, docs: docs}
+func NewConsultationPrepHandler(prep *services.ConsultationPrepService, versions *services.ScoreVersionService, docs *services.PatientDocumentsService) *ConsultationPrepHandler {
+	return &ConsultationPrepHandler{prep: prep, versions: versions, docs: docs}
 }
 
-// GetConfig GET /api/v1/patient/me/prep/config
-// Retorna o subset curado de ScoreItems (PrepOrder != nil), no mesmo formato da Triagem.
+// GetConfig GET /api/v1/patient/me/prep/config?appointmentId=...
+// Resolve o formulário (ScoreVersion context=patient_prep) atrelado à consulta do paciente e
+// devolve a config no mesmo formato da Triagem. Sem consulta/form atrelado → config vazia.
 func (h *ConsultationPrepHandler) GetConfig(c *fiber.Ctx) error {
-	cfg, err := h.score.BuildPrepConfig()
+	patientID := middleware.GetPatientID(c)
+	var apptID *uuid.UUID
+	if raw := c.Query("appointmentId"); raw != "" {
+		id, err := uuid.Parse(raw)
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "appointmentId inválido"})
+		}
+		apptID = &id
+	}
+	version, err := h.prep.FormVersionForAppointment(patientID, apptID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	if version == nil {
+		return c.JSON(&services.LightConfig{Groups: []services.LightGroupConfig{}})
+	}
+	cfg, err := h.versions.BuildConfig(version.Slug)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 	return c.JSON(cfg)
+}
+
+// GetPrefill GET /api/v1/patient/me/prep/prefill?appointmentId=...
+// Respostas sugeridas (da Triagem reivindicada do paciente) para os itens do formulário da consulta.
+// O front mescla como respostas iniciais marcadas "confirme se mudou".
+func (h *ConsultationPrepHandler) GetPrefill(c *fiber.Ctx) error {
+	patientID := middleware.GetPatientID(c)
+	var apptID *uuid.UUID
+	if raw := c.Query("appointmentId"); raw != "" {
+		id, err := uuid.Parse(raw)
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "appointmentId inválido"})
+		}
+		apptID = &id
+	}
+	items, err := h.prep.PrefillForAppointment(patientID, apptID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return c.JSON(fiber.Map{"responses": items})
 }
 
 // GetPrep GET /api/v1/patient/me/prep?appointmentId=...

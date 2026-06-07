@@ -29,7 +29,11 @@ export default function ConsumeMagicLinkPage() {
       try {
         const resp = await patientAuthApi.consumeMagicLink(token);
         setAuth(resp.user, resp.accessToken, resp.refreshToken);
-        router.replace("/");
+        // Deep-link pós-login (ex.: /preparacao?appointmentId=...). Só caminhos relativos
+        // internos — evita open redirect (rejeita absolutos e protocol-relative "//").
+        const next = params?.get("next");
+        const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : "/";
+        router.replace(dest);
       } catch (err: any) {
         setError(err?.message ?? "Não foi possível validar o link");
       }
