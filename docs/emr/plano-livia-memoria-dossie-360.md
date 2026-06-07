@@ -169,7 +169,11 @@ timing inteligente. Aplicado à Plenya:
   (uma chamada → {summary, facts ADD/UPDATE/DELETE/NOOP}) + backstop anti-clínico (`factLooksClinical`)
   + injeção de FATOS CONHECIDOS no prompt + tela 360 (painel Dossiê no `/conversas`: resumo + fatos por
   categoria com proveniência IA/equipe, add/edit/remove). Endpoints `/conversations/:type/:id/dossier[/facts]`.
-- **Fase C — Rede + Eventos + Avisos:** `important_person` + `relationship_event` + job de avisos + painel.
+- **Fase C — Rede + Eventos + Avisos: ✅ DEPLOYADA em prod (2026-06-07, commit `9041478a`, migration 00032).**
+  `important_people` + `relationship_events` (recorrência, lead_time, status) + extração IA estendida
+  ({summary, facts, people, events}) + pessoas injetadas no prompt + dossiê 360 com seções Pessoas/Datas +
+  `RelationshipEventReminderJob` diário (sincroniza aniversários de pacientes engajados + notifica o time,
+  idempotente por ocorrência) + card "Próximos" na Recepção + `GET /reception/upcoming-events`.
 - **Fase D — Refinos:** flags derivadas (Continuum/frequente), migração lead→paciente robusta, métricas.
 
 ## 10. Decisões — FECHADAS (2026-06-06)
@@ -204,7 +208,11 @@ espelhamento = UMA pergunta; reforço anti-pressão no NUNCA FAÇA. Guia humano 
 
 **Fase B — ✅ FEITA e em prod (2026-06-06, commit `fe921039`, migration 00031).** Ver §9.
 
-**Próxima fase (a iniciar com diff p/ aprovação): Fase C** rede+eventos+avisos
+**Fase C — ✅ FEITA e em prod (2026-06-07, commit `9041478a`, migration 00032).** Ver §9. Deploy precisou
+destravar o bug de lock órfão do Coolify (marcar in_progress/queued como failed) e subir **api + web**.
+
+**Próxima fase (opcional, a iniciar com diff p/ aprovação): Fase D** — refinos: flags derivadas ricas
+(Continuum/frequente no prompt e badges 360), conversão lead→paciente repontando o dossiê (§6), métricas.
 (`important_person`, `relationship_event`, job de avisos, painel) · D flags derivadas + migração lead→paciente + métricas.
 
 **Arquivos-chave:** `apps/api/internal/services/conversation_ai_service.go` (janela/prompt) ·
