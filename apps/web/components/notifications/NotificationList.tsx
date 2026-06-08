@@ -1,6 +1,6 @@
 'use client'
 
-import { useNotifications, useMarkAsRead, useMarkAllAsRead, useDeleteNotification } from '@/lib/api/notification-api'
+import { useUnreadNotifications, useMarkAsRead, useMarkAllAsRead, useDeleteNotification } from '@/lib/api/notification-api'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
@@ -31,7 +31,9 @@ const typeColors = {
 }
 
 export function NotificationList({ onClose }: NotificationListProps) {
-  const { data: notifications, isLoading } = useNotifications(20)
+  // Painel mostra só as não lidas: ao marcar como lida (clique, "marcar todas", ou ao
+  // entrar na tela de WhatsApp) a notificação some daqui.
+  const { data: notifications, isLoading } = useUnreadNotifications()
   const markAsRead = useMarkAsRead()
   const markAllAsRead = useMarkAllAsRead()
   const deleteNotification = useDeleteNotification()

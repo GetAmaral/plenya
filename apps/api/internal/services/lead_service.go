@@ -2121,6 +2121,11 @@ func (s *LeadService) NotifyTeamOfInboundMessage(owner ConversationOwner, channe
 		patientID *uuid.UUID
 	)
 
+	// Inbound de WhatsApp abre direto na tela de WhatsApp (inbox de chat), com a conversa já
+	// selecionada via query param; e-mail mantém a rota antiga. Antes o lead caía em /leads/:id
+	// (página de cadastro do lead, não a conversa) — bug reportado em 2026-06-08.
+	isWhatsApp := channel == models.LeadChannelWhatsApp
+
 	if hasLead {
 		lead := owner.Lead
 		ownerName = "(sem nome)"
@@ -2134,9 +2139,13 @@ func (s *LeadService) NotifyTeamOfInboundMessage(owner ConversationOwner, channe
 		}
 		base := adminBase
 		if base == "" {
-			base = "/leads"
+			base = ""
 		}
-		notifURL = fmt.Sprintf("%s/leads/%s", base, lead.ID.String())
+		if isWhatsApp {
+			notifURL = fmt.Sprintf("%s/conversas/whatsapp?owner=lead&id=%s", base, lead.ID.String())
+		} else {
+			notifURL = fmt.Sprintf("%s/leads/%s", base, lead.ID.String())
+		}
 		id := lead.ID
 		leadID = &id
 	} else {
@@ -2152,8 +2161,12 @@ func (s *LeadService) NotifyTeamOfInboundMessage(owner ConversationOwner, channe
 			fallback = *patient.Phone
 		}
 		base := adminBase
-		// Rota oficial pós-Bloco C: /conversas/patient/:id
-		notifURL = fmt.Sprintf("%s/conversas/patient/%s", base, patient.ID.String())
+		if isWhatsApp {
+			notifURL = fmt.Sprintf("%s/conversas/whatsapp?owner=patient&id=%s", base, patient.ID.String())
+		} else {
+			// Rota oficial pós-Bloco C: /conversas/patient/:id
+			notifURL = fmt.Sprintf("%s/conversas/patient/%s", base, patient.ID.String())
+		}
 		id := patient.ID
 		patientID = &id
 	}

@@ -709,17 +709,20 @@ enriched AS (
 	SELECT
 		u.*,
 		(SELECT la2.channel::text FROM lead_activities la2
-			WHERE (u.owner_type = 'lead' AND la2.lead_id = u.owner_id)
-			   OR (u.owner_type = 'patient' AND la2.patient_id = u.owner_id)
+			WHERE ((u.owner_type = 'lead' AND la2.lead_id = u.owner_id)
+			   OR (u.owner_type = 'patient' AND la2.patient_id = u.owner_id))
+			  AND la2.type IN ('message_received', 'message_sent')
 			ORDER BY la2.created_at DESC LIMIT 1) AS last_channel,
 		(SELECT CASE WHEN la2.actor_user_id IS NULL THEN 'in' ELSE 'out' END
 			FROM lead_activities la2
-			WHERE (u.owner_type = 'lead' AND la2.lead_id = u.owner_id)
-			   OR (u.owner_type = 'patient' AND la2.patient_id = u.owner_id)
+			WHERE ((u.owner_type = 'lead' AND la2.lead_id = u.owner_id)
+			   OR (u.owner_type = 'patient' AND la2.patient_id = u.owner_id))
+			  AND la2.type IN ('message_received', 'message_sent')
 			ORDER BY la2.created_at DESC LIMIT 1) AS last_direction,
 		(SELECT la2.content FROM lead_activities la2
-			WHERE (u.owner_type = 'lead' AND la2.lead_id = u.owner_id)
-			   OR (u.owner_type = 'patient' AND la2.patient_id = u.owner_id)
+			WHERE ((u.owner_type = 'lead' AND la2.lead_id = u.owner_id)
+			   OR (u.owner_type = 'patient' AND la2.patient_id = u.owner_id))
+			  AND la2.type IN ('message_received', 'message_sent')
 			ORDER BY la2.created_at DESC LIMIT 1) AS last_content
 	FROM unioned u
 )

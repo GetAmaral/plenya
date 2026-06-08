@@ -55,7 +55,7 @@ type AISuggestionResult struct {
 // modo Copiloto (humano revisa o Reply e envia) quanto pelo Automático (Fase 2).
 type ReceptionReplyResult struct {
 	Reply         string `json:"reply"`
-	Action        string `json:"action"`        // ask|answer|handle_objection|propose_schedule|handoff
+	Action        string `json:"action"`        // ask|answer|handle_objection|handoff
 	HandoffReason string `json:"handoffReason"` // preenchido quando Action == handoff
 	DiscloseAI    bool   `json:"discloseAI"`    // true quando a resposta deve identificar-se como assistente
 	Model         string `json:"model"`
@@ -216,16 +216,12 @@ func (s *ConversationService) GenerateReceptionReply(
 	}
 
 	transcript := buildTranscript(activities)
-	slotsText := ""
-	if s.receptionSlots != nil {
-		slotsText = s.receptionSlots(ctx)
-	}
 	bizHours := ""
 	if s.receptionBusinessHours != nil {
 		bizHours = s.receptionBusinessHours(ctx)
 	}
 	memory := s.buildReceptionMemory(ctx, ownerType, ownerID)
-	prompt := buildReceptionPrompt(transcript, slotsText, bizHours, receptionNowLine(), memory)
+	prompt := buildReceptionPrompt(transcript, bizHours, receptionNowLine(), memory)
 
 	raw, err := s.aiService.CompleteText(ctx, prompt, CompleteTextOptions{
 		Model:       aiModelSuggestion,

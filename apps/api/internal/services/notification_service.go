@@ -178,6 +178,25 @@ func (s *NotificationService) CreateConversationNotification(
 	title, message, actionURL string,
 ) error {
 	actionText := "Abrir conversa"
+
+	// Dedupe por contato+canal: em vez de uma notificação por mensagem (que empilha sem fim),
+	// atualizamos a notificação existente do mesmo (usuário, lead/patient, tipo) com a última
+	// mensagem, reabrindo como não lida e trazendo pro topo. Mantém UMA notificação por contato.
+	if existing, ferr := s.repo.FindLatestConversationNotification(userID, leadID, patientID, notifType); ferr == nil && existing != nil {
+		existing.Title = title
+		existing.Message = message
+		existing.ActionURL = &actionURL
+		existing.ActionText = &actionText
+		existing.Read = false
+		existing.ReadAt = nil
+		existing.CreatedAt = time.Now()
+		if err := s.repo.Update(existing); err != nil {
+			return err
+		}
+		s.dispatchPush(existing)
+		return nil
+	}
+
 	notification := &models.Notification{
 		UserID:     userID,
 		Type:       notifType,
@@ -198,6 +217,16 @@ func (s *NotificationService) CreateConversationNotification(
 	}
 	s.dispatchPush(notification)
 	return nil
+}
+
+// MarkReadByTypes marca como lidas as notificações não lidas do usuário cujos tipos estão na
+// lista. Usado ao entrar numa superfície de conversa (ex.: a tela de WhatsApp limpa as de WA).
+func (s *NotificationService) MarkReadByTypes(userID string, types []models.NotificationType) error {
+	strs := make([]string, 0, len(types))
+	for _, t := range types {
+		strs = append(strs, string(t))
+	}
+	return s.repo.MarkReadByTypes(userID, strs)
 }
 
 // CheckAndCreateSubscriptionNotifications verifica subscriptions e cria notificações

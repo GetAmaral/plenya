@@ -73,6 +73,20 @@ export function useMarkAllAsRead() {
   })
 }
 
+export function useMarkReadByType() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (types: string[]) =>
+      apiClient.post('/api/v1/notifications/read-by-type', { types }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: notificationKeys.all })
+      queryClient.invalidateQueries({ queryKey: notificationKeys.unread() })
+      queryClient.invalidateQueries({ queryKey: notificationKeys.unreadCount() })
+    },
+  })
+}
+
 export function useDeleteNotification() {
   const queryClient = useQueryClient()
 

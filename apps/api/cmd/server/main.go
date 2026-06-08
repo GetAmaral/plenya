@@ -1364,6 +1364,7 @@ func setupRoutes(
 	notifications.Get("/unread", notificationHandler.GetUnreadNotifications)
 	notifications.Get("/unread/count", notificationHandler.GetUnreadCount)
 	notifications.Post("/read-all", notificationHandler.MarkAllAsRead)
+	notifications.Post("/read-by-type", notificationHandler.MarkReadByType)
 	notifications.Post("/:id/read", notificationHandler.MarkAsRead)
 	notifications.Delete("/:id", notificationHandler.DeleteNotification)
 	notifications.Delete("/", notificationHandler.DeleteAllNotifications)
@@ -1396,10 +1397,10 @@ func setupRoutes(
 	googleOAuthHandler := handlers.NewGoogleOAuthHandler(cfg, googleCalendarService, database.DB)
 	calendarSlotHandler := handlers.NewCalendarSlotHandler(calendarSlotService)
 
-	// Recepcionista virtual Fase 3: provê horários reais ao cérebro do bot (best-effort).
-	conversationService.SetReceptionSlotsProvider(func(ctx context.Context) string {
-		return services.BuildUpcomingSlotsText(ctx, database.DB, calendarSlotService, cfg.ReceptionBot.ConsultDoctorID)
-	})
+	// Recepcionista virtual: a Lívia NUNCA oferece horários (decisão 2026-06-08) — quando a
+	// pessoa quer marcar, ela passa para a equipe, que envia os horários reais e finaliza. Por
+	// isso não injetamos mais o provedor de slots. Mantemos só o horário de FUNCIONAMENTO (pra
+	// responder dúvidas de "quando vocês atendem").
 	conversationService.SetReceptionBusinessHoursProvider(func(ctx context.Context) string {
 		return services.BuildBusinessHoursText(ctx, database.DB, cfg.ReceptionBot.ConsultDoctorID)
 	})

@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
 )
 
@@ -124,6 +125,38 @@ func (h *NotificationHandler) MarkAllAsRead(c *fiber.Ctx) error {
 		})
 	}
 
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
+// MarkReadByType godoc
+// @Summary Mark notifications of given types as read
+// @Description Marks all unread notifications of the given types as read (ex.: ao abrir a tela de WhatsApp)
+// @Tags Notifications
+// @Accept json
+// @Param body body map[string][]string true "types"
+// @Success 204
+// @Failure 400 {object} map[string]string
+// @Router /api/v1/notifications/read-by-type [post]
+// @Security BearerAuth
+func (h *NotificationHandler) MarkReadByType(c *fiber.Ctx) error {
+	userID := c.Locals("userID").(uuid.UUID).String()
+
+	var body struct {
+		Types []string `json:"types"`
+	}
+	if err := c.BodyParser(&body); err != nil || len(body.Types) == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "types obrigatório"})
+	}
+
+	types := make([]models.NotificationType, 0, len(body.Types))
+	for _, t := range body.Types {
+		types = append(types, models.NotificationType(t))
+	}
+	if err := h.service.MarkReadByTypes(userID, types); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to mark notifications as read",
+		})
+	}
 	return c.SendStatus(fiber.StatusNoContent)
 }
 

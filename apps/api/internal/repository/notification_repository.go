@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"github.com/google/uuid"
 	"github.com/plenya/api/internal/models"
 	"gorm.io/gorm"
 )
@@ -82,6 +83,47 @@ func (r *NotificationRepository) MarkAllAsReadByUserID(userID string) error {
 			"read":    true,
 			"read_at": gorm.Expr("NOW()"),
 		}).Error
+}
+
+// MarkReadByTypes marca como lidas as notificações não lidas de um usuário cujos tipos estão
+// na lista (ex.: ao entrar na tela de WhatsApp, marca todas as de WhatsApp inbound).
+func (r *NotificationRepository) MarkReadByTypes(userID string, types []string) error {
+	if len(types) == 0 {
+		return nil
+	}
+	return r.db.Model(&models.Notification{}).
+		Where("user_id = ? AND read = ? AND type IN ?", userID, false, types).
+		Updates(map[string]interface{}{
+			"read":    true,
+			"read_at": gorm.Expr("NOW()"),
+		}).Error
+}
+
+// FindLatestConversationNotification busca a notificação mais recente (lida ou não) de um
+// usuário para um owner (lead OU patient) e tipo específico. Usada para colapsar as
+// notificações de conversa: em vez de criar uma por mensagem, atualizamos a existente do
+// mesmo contato/canal. Retorna (nil, nil) quando não há.
+func (r *NotificationRepository) FindLatestConversationNotification(
+	userID uuid.UUID, leadID, patientID *uuid.UUID, notifType models.NotificationType,
+) (*models.Notification, error) {
+	q := r.db.Where("user_id = ? AND type = ?", userID, notifType)
+	switch {
+	case leadID != nil && *leadID != uuid.Nil:
+		q = q.Where("lead_id = ?", *leadID)
+	case patientID != nil && *patientID != uuid.Nil:
+		q = q.Where("patient_id = ?", *patientID)
+	default:
+		return nil, nil
+	}
+	var n models.Notification
+	err := q.Order("created_at DESC").First(&n).Error
+	if err == gorm.ErrRecordNotFound {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &n, nil
 }
 
 // Delete soft delete de uma notificação
