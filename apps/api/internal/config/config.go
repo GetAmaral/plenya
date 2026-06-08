@@ -446,7 +446,8 @@ func Load() (*Config, error) {
 		WebPush: WebPushConfig{
 			PublicKey:  getEnv("VAPID_PUBLIC_KEY", ""),
 			PrivateKey: getEnv("VAPID_PRIVATE_KEY", ""),
-			Subject:    getEnv("VAPID_SUBJECT", "mailto:contato@plenyasaude.com.br"),
+			// E-mail puro (sem "mailto:") — a webpush-go prefixa sozinha; ver normalizeVAPIDSubject.
+			Subject: getEnv("VAPID_SUBJECT", "contato@plenyasaude.com.br"),
 		},
 	}
 

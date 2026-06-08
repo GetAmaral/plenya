@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 
 	webpush "github.com/SherClockHolmes/webpush-go"
 	"github.com/google/uuid"
@@ -31,8 +32,25 @@ func NewWebPushService(db *gorm.DB, publicKey, privateKey, subject string) *WebP
 		db:         db,
 		publicKey:  publicKey,
 		privateKey: privateKey,
-		subject:    subject,
+		// A webpush-go prefixa "mailto:" sozinha em subjects que não são https.
+		// Se o env já vier "mailto:email", viraria "mailto:mailto:email" e a Apple
+		// rejeita o JWT (BadJwtToken). Normalizamos pra e-mail puro (ou deixamos a
+		// URL https intacta) — robusto a qualquer formato de env.
+		subject: normalizeVAPIDSubject(subject),
 	}
+}
+
+// normalizeVAPIDSubject remove um prefixo "mailto:" redundante (case-insensitive),
+// preservando subjects https:// como estão.
+func normalizeVAPIDSubject(s string) string {
+	t := strings.TrimSpace(s)
+	if strings.HasPrefix(strings.ToLower(t), "https:") {
+		return t
+	}
+	for strings.HasPrefix(strings.ToLower(t), "mailto:") {
+		t = t[len("mailto:"):]
+	}
+	return t
 }
 
 // Enabled indica se há chaves VAPID configuradas.
