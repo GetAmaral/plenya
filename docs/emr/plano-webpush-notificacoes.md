@@ -80,8 +80,12 @@ inbound WA → Notification (in-app, sino) ──┐
   + `WebPushToggle` no painel do sino + metadata/viewport no layout raiz. Typecheck verde.
 - [x] VAPID dev gerado (`apps/api/.env`) — endpoint `/web-push/vapid-public-key` devolve
   `enabled:true`. Subscribe persiste + unsubscribe remove (verificado via API+DB). Assets 200.
+- [x] **DEPLOYADO em prod 2026-06-08** (commit `604ae0d1`): api+web no ar; goose v35 +
+  tabela `web_push_subscriptions` confirmadas; rota `/web-push/*` responde 401 (existe);
+  assets PWA (`sw.js`/`manifest`/ícones) servindo 200 em app.plenyasaude.com.br. VAPID de
+  **prod** (par próprio) gerado, salvo no cofre `webpush-prod.env` e setado nas envs do Coolify
+  (app `plenya-api`). Dev usa par próprio em `apps/api/.env`.
 - [ ] Teste real no navegador (clicar "Ativar" → push de teste chega) — fica pro usuário.
-- [ ] (com ordem) gerar VAPID de prod → cofre + envs Coolify (api) + deploy.
 
 ### Notas de prod (quando liberar)
 - Gerar par VAPID **próprio de produção** (não reusar o de dev) e setar
