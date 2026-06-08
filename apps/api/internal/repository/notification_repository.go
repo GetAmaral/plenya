@@ -66,18 +66,24 @@ func (r *NotificationRepository) Update(notification *models.Notification) error
 	return r.db.Save(notification).Error
 }
 
-// MarkAsRead marca uma notificação como lida
+// MarkAsRead marca uma notificação como lida.
+//
+// Update direcionado (só read/read_at) com SkipHooks: marcar como lido não deve revalidar o
+// Type nem reescrever FKs. O BeforeSave valida o Type, e notificações com tipo legado (fora da
+// lista atual) faziam o Save quebrar com ErrInvalidData/FK — agora não passa mais pelo hook.
 func (r *NotificationRepository) MarkAsRead(id string) error {
-	notification, err := r.GetByID(id)
-	if err != nil {
-		return err
-	}
-	return notification.MarkAsRead(r.db)
+	return r.db.Session(&gorm.Session{SkipHooks: true}).
+		Model(&models.Notification{}).
+		Where("id = ?", id).
+		Updates(map[string]interface{}{"read": true, "read_at": gorm.Expr("NOW()")}).Error
 }
 
-// MarkAllAsReadByUserID marca todas as notificações de um usuário como lidas
+// MarkAllAsReadByUserID marca todas as notificações de um usuário como lidas.
+// SkipHooks: o BeforeSave roda também em Updates, e o model vazio do bulk update tem Type=""
+// (inválido) — sem SkipHooks o update inteiro falha com ErrInvalidData.
 func (r *NotificationRepository) MarkAllAsReadByUserID(userID string) error {
-	return r.db.Model(&models.Notification{}).
+	return r.db.Session(&gorm.Session{SkipHooks: true}).
+		Model(&models.Notification{}).
 		Where("user_id = ? AND read = ?", userID, false).
 		Updates(map[string]interface{}{
 			"read":    true,
@@ -91,7 +97,8 @@ func (r *NotificationRepository) MarkReadByTypes(userID string, types []string) 
 	if len(types) == 0 {
 		return nil
 	}
-	return r.db.Model(&models.Notification{}).
+	return r.db.Session(&gorm.Session{SkipHooks: true}).
+		Model(&models.Notification{}).
 		Where("user_id = ? AND read = ? AND type IN ?", userID, false, types).
 		Updates(map[string]interface{}{
 			"read":    true,
