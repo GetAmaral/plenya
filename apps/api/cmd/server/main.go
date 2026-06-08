@@ -477,7 +477,10 @@ func setupRoutes(
 	lgpdConsentService := services.NewLGPDConsentService(database.DB)
 	mobileConfigService := services.NewMobileConfigService(cfg)
 	pushService := services.NewPushService(database.DB)
-	notificationService.SetPushSender(pushService)
+	webPushService := services.NewWebPushService(database.DB, cfg.WebPush.PublicKey, cfg.WebPush.PrivateKey, cfg.WebPush.Subject)
+	// Fan-out: Expo (mobile) + Web Push (desktop/PWA). Cada canal é fire-and-forget.
+	notificationService.SetPushSender(services.NewCompositePushSender(pushService, webPushService))
+	webPushHandler := handlers.NewWebPushHandler(webPushService, notificationService)
 	dataExportService := services.NewDataExportService(database.DB)
 	meMobileHandler := handlers.NewMeMobileHandler(deviceTokenService, lgpdConsentService, authService, dataExportService)
 	mobileConfigHandler := handlers.NewMobileConfigHandler(mobileConfigService)
@@ -1364,6 +1367,14 @@ func setupRoutes(
 	notifications.Post("/:id/read", notificationHandler.MarkAsRead)
 	notifications.Delete("/:id", notificationHandler.DeleteNotification)
 	notifications.Delete("/", notificationHandler.DeleteAllNotifications)
+
+	// Web Push (VAPID) — avisos do EMR pra desktop/PWA sem app nativo.
+	webPush := v1.Group("/web-push")
+	webPush.Use(middleware.Auth(cfg))
+	webPush.Get("/vapid-public-key", webPushHandler.VAPIDPublicKey)
+	webPush.Post("/subscribe", webPushHandler.Subscribe)
+	webPush.Post("/unsubscribe", webPushHandler.Unsubscribe)
+	webPush.Post("/test", webPushHandler.Test)
 
 	// Favorito e rating (todos usuários autenticados podem usar)
 	articles.Patch("/:id/favorite", articleHandler.ToggleFavorite)

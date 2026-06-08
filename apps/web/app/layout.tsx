@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Cormorant_Garamond, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/lib/query-provider";
@@ -32,6 +32,20 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "Plenya EMR - Sistema de Prontuário Médico Eletrônico",
   description: "Sistema completo de prontuário eletrônico com web app, mobile apps e backend Go",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "Plenya",
+    statusBarStyle: "default",
+  },
+  icons: {
+    icon: "/icon-192.png",
+    apple: "/icon-192.png",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#063b4f",
 };
 
 export default function RootLayout({

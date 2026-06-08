@@ -35,6 +35,16 @@ type Config struct {
 	Dev           DevConfig
 	Turnstile     TurnstileConfig
 	ReceptionBot  ReceptionBotConfig
+	WebPush       WebPushConfig
+}
+
+// WebPushConfig — notificações Web Push (VAPID) pro EMR (desktop + PWA iOS).
+// Quando PublicKey/PrivateKey vazios, o WebPushService fica desligado (graceful):
+// nada é enviado, mas o fluxo de notificação in-app/Expo continua intacto.
+type WebPushConfig struct {
+	PublicKey  string // VAPID_PUBLIC_KEY — chave pública (base64 url-safe), exposta ao frontend
+	PrivateKey string // VAPID_PRIVATE_KEY — chave privada (segredo; cofre + Coolify)
+	Subject    string // VAPID_SUBJECT — mailto: ou URL de contato exigido pelo protocolo
 }
 
 // ReceptionBotConfig — recepcionista virtual (Fase 2, modo automático).
@@ -432,6 +442,11 @@ func Load() (*Config, error) {
 		Turnstile: TurnstileConfig{
 			Secret:  getEnv("TURNSTILE_SECRET", ""),
 			SiteKey: getEnv("TURNSTILE_SITE_KEY", ""),
+		},
+		WebPush: WebPushConfig{
+			PublicKey:  getEnv("VAPID_PUBLIC_KEY", ""),
+			PrivateKey: getEnv("VAPID_PRIVATE_KEY", ""),
+			Subject:    getEnv("VAPID_SUBJECT", "mailto:contato@plenyasaude.com.br"),
 		},
 	}
 

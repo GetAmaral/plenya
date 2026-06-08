@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { CheckCheck, X, Trash2, Bell } from 'lucide-react'
+import { WebPushToggle } from './WebPushToggle'
 import { toast } from 'sonner'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -108,6 +109,9 @@ export function NotificationList({ onClose }: NotificationListProps) {
           </Button>
         )}
       </div>
+
+      {/* Avisos no aparelho (Web Push) */}
+      <WebPushToggle />
 
       {/* List */}
       <ScrollArea className="h-[400px]">
