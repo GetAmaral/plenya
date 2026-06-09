@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import { useRequireAuth } from '@/lib/use-auth';
+import { safeUrl } from '@/lib/security';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -128,7 +129,7 @@ export default function CampaignsPage() {
                       <Copy className="h-4 w-4" />
                     )}
                   </Button>
-                  <a href={c.url} target="_blank" rel="noreferrer">
+                  <a href={safeUrl(c.url)} target="_blank" rel="noreferrer">
                     <Button size="sm" variant="ghost" title="Abrir landing">
                       <ExternalLink className="h-4 w-4" />
                     </Button>

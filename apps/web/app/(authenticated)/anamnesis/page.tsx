@@ -21,7 +21,7 @@ import {
   User,
   Maximize2,
 } from "lucide-react";
-import DOMPurify from "isomorphic-dompurify";
+import { SafeHtml } from "@/components/ui/safe-html";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -287,12 +287,9 @@ export default function AnamnesisPage() {
                   <CardHeader>
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 space-y-2">
-                        {/* HIGH H5 — sanitize via DOMPurify (anamnese tem texto livre digitado por médico) */}
-                        <div
+                        <SafeHtml
                           className="html-content font-semibold"
-                          dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(anamnesis.summaryHtml || anamnesis.summary || "Sem resumo")
-                          }}
+                          html={anamnesis.summaryHtml || anamnesis.summary || "Sem resumo"}
                         />
                         <CardDescription className="flex items-center gap-4 flex-wrap text-sm">
                           <span className="flex items-center gap-1">
@@ -346,13 +343,10 @@ export default function AnamnesisPage() {
                           {(anamnesis.contentHtml || anamnesis.content) && (
                             <div>
                               <h4 className="text-sm font-medium mb-1">Conteúdo:</h4>
-                              {/* HIGH H5 — sanitize HTML que vem do banco */}
-                              <div
+                              <SafeHtml
                                 className="text-sm text-muted-foreground line-clamp-3 html-content"
                                 style={{ whiteSpace: 'pre-wrap' }}
-                                dangerouslySetInnerHTML={{
-                                  __html: DOMPurify.sanitize(anamnesis.contentHtml || anamnesis.content || '')
-                                }}
+                                html={anamnesis.contentHtml || anamnesis.content || ''}
                               />
                             </div>
                           )}

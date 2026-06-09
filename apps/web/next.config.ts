@@ -56,24 +56,9 @@ const nextConfig: NextConfig = {
   },
 
   // HIGH H6 — Security headers (defense in depth).
-  // CSP propositalmente permissiva pra unsafe-inline porque Next gera <script>
-  // inline e estilos inline. Pode ser apertado em uma onda futura usando nonce
-  // por request.
+  // A Content-Security-Policy é estrita com NONCE por request e vive no middleware.ts
+  // (não dá pra gerar nonce por request aqui, que é estático). Os demais headers ficam aqui.
   async headers() {
-    const csp = [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://accounts.google.com https://*.daily.co",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: blob: https:",
-      "font-src 'self' data: https://fonts.gstatic.com",
-      "connect-src 'self' https://api.openai.com https://api.anthropic.com https://*.daily.co wss://*.daily.co " + (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'),
-      "frame-src 'self' https://*.daily.co https://accounts.google.com",
-      "frame-ancestors 'none'",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-    ].join('; ');
-
     return [
       {
         source: '/:path*',
@@ -85,7 +70,6 @@ const nextConfig: NextConfig = {
           { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
           // Permissions-Policy: bloqueia features sensíveis exceto pra daily.co (telemed)
           { key: 'Permissions-Policy', value: 'camera=(self "https://*.daily.co"), microphone=(self "https://*.daily.co"), geolocation=(), payment=(), usb=()' },
-          { key: 'Content-Security-Policy', value: csp },
         ],
       },
       // H9 — sala de telemedicina não pode ser referenciada cross-origin

@@ -8,43 +8,84 @@ const PORTAL_HOST_PATTERNS = [/^minha\./i, /^portal\./i];
 // Path "público" do portal — passa direto sem rewrite.
 const PORTAL_PASSTHROUGH = ["/_next", "/api", "/favicon", "/static"];
 
+// buildCSP — Content-Security-Policy estrita com nonce por requisição.
+//
+// script-src usa nonce + 'strict-dynamic': navegadores modernos IGNORAM
+// 'unsafe-inline'/'self'/host-list e só executam scripts com o nonce do request (ou criados por
+// um script já confiável, ex.: o loader do Google Identity Services). Isso bloqueia <script>
+// inline injetado (XSS). 'unsafe-inline' e https: ficam só como fallback p/ navegadores antigos
+// que não entendem strict-dynamic (eles são ignorados pelos modernos). 'unsafe-eval' foi
+// REMOVIDO (nada no app usa eval). Ver docs/emr/estudo-xss-hardening.md.
+function buildCSP(nonce: string): string {
+  const api = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+  // 'unsafe-eval' SÓ em desenvolvimento: o HMR/react-refresh do Next usa eval. O build de
+  // produção não precisa, então em prod o script-src fica sem eval (mais estrito).
+  const evalSrc = process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
+  return [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline' https:${evalSrc}`,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "img-src 'self' data: blob: https:",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    `connect-src 'self' https://api.openai.com https://api.anthropic.com https://*.daily.co wss://*.daily.co ${api}`,
+    "frame-src 'self' https://*.daily.co https://accounts.google.com",
+    "frame-ancestors 'none'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join("; ");
+}
+
+// withSecurity injeta o nonce no request (pro Next aplicar nos próprios <script>) e a CSP
+// na resposta. Recebe a resposta-base (next ou rewrite) e devolve uma equivalente com o nonce.
+function withSecurity(request: NextRequest, rewriteURL?: URL): NextResponse {
+  const nonce = btoa(crypto.randomUUID());
+  const csp = buildCSP(nonce);
+
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-nonce", nonce);
+  // Next lê a CSP do request pra propagar o nonce aos scripts do framework.
+  requestHeaders.set("content-security-policy", csp);
+
+  const response = rewriteURL
+    ? NextResponse.rewrite(rewriteURL, { request: { headers: requestHeaders } })
+    : NextResponse.next({ request: { headers: requestHeaders } });
+
+  response.headers.set("content-security-policy", csp);
+  return response;
+}
+
 /**
- * Quando a request vem do subdomínio do portal (minha.plenyasaude.com.br),
- * reescreve internamente pra /patient-portal/<path>. O usuário continua
- * vendo a URL limpa "minha.plenyasaude.com.br/perfil" mas o Next serve
- * o conteúdo de app/patient-portal/perfil/page.tsx.
- *
- * No domínio principal (app.plenyasaude.com.br), seguimos com EMR profissional.
- *
- * Exceção: /sala/[token] tem layout próprio (lobby telemedicina sem login),
- * então passa direto sem entrar em /patient-portal.
+ * Reescreve o subdomínio do portal (minha.plenyasaude.com.br) pra /patient-portal e aplica a
+ * CSP com nonce em todas as respostas (EMR + portal). URL fica limpa pro usuário.
+ * Exceção: /sala/[token] (lobby telemedicina) não é reescrito.
  */
 export function middleware(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
   const isPortalHost = PORTAL_HOST_PATTERNS.some((p) => p.test(host));
 
   if (!isPortalHost) {
-    return NextResponse.next();
+    return withSecurity(request);
   }
 
   const url = request.nextUrl;
   const path = url.pathname;
 
   if (PORTAL_PASSTHROUGH.some((prefix) => path.startsWith(prefix))) {
-    return NextResponse.next();
+    return withSecurity(request);
   }
 
   if (path.startsWith("/sala")) {
-    return NextResponse.next();
+    return withSecurity(request);
   }
 
   if (path.startsWith("/patient-portal")) {
-    return NextResponse.next();
+    return withSecurity(request);
   }
 
   const newURL = url.clone();
   newURL.pathname = `/patient-portal${path === "/" ? "" : path}`;
-  return NextResponse.rewrite(newURL);
+  return withSecurity(request, newURL);
 }
 
 export const config = {

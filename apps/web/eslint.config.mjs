@@ -11,6 +11,13 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    // Anti-XSS: HTML cru só via <SafeHtml> (que sanitiza). Bloqueia sink novo sem sanitização.
+    // Ver docs/emr/estudo-xss-hardening.md.
+    rules: {
+      "react/no-danger": "error",
+    },
+  },
 ];
 
 export default eslintConfig;

@@ -16,7 +16,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import DOMPurify from 'isomorphic-dompurify';
+import { SafeHtml } from '@/components/ui/safe-html';
 import {
   Activity,
   AlertTriangle,
@@ -546,11 +546,9 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
                 {SECTION_LABELS[key].label}
               </p>
               {readOnly ? (
-                <div
+                <SafeHtml
                   className="prose prose-sm max-w-none rounded-md border bg-muted/30 p-3 text-sm"
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(htmlBySection[key] || '<p class="text-muted-foreground">—</p>'),
-                  }}
+                  html={htmlBySection[key] || '<p class="text-muted-foreground">—</p>'}
                 />
               ) : (
                 <RichTextEditor

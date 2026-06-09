@@ -9,6 +9,7 @@ import { ptBR } from 'date-fns/locale';
 import { toast } from 'sonner';
 
 import { useRequireAuth } from '@/lib/use-auth';
+import { safeUrl } from '@/lib/security';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -151,7 +152,7 @@ export default function CampaignDetailPage() {
                       </>
                     )}
                   </Button>
-                  <a href={campaign.url} target="_blank" rel="noreferrer">
+                  <a href={safeUrl(campaign.url)} target="_blank" rel="noreferrer">
                     <Button size="sm" variant="outline">
                       <ExternalLink className="mr-2 h-4 w-4" /> Abrir
                     </Button>

@@ -8,6 +8,7 @@ import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquar
 import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
+import { safeUrl } from '@/lib/security';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -274,22 +275,22 @@ function WhatsAppMediaView({
     <div className="mt-2">
       {isImage ? (
         url ? (
-          <a href={url} target="_blank" rel="noopener noreferrer">
+          <a href={safeUrl(url)} target="_blank" rel="noopener noreferrer">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={url} alt={filename} className="max-h-64 rounded-md border" />
+            <img src={safeUrl(url)} alt={filename} className="max-h-64 rounded-md border" />
           </a>
         ) : (
           <Skeleton className="h-40 w-40 rounded-md" />
         )
       ) : isAudio ? (
         url ? (
-          <audio controls src={url} className="w-full max-w-[280px]" />
+          <audio controls src={safeUrl(url)} className="w-full max-w-[280px]" />
         ) : (
           <Skeleton className="h-10 w-[260px] rounded-md" />
         )
       ) : (
         <a
-          href={url ?? undefined}
+          href={safeUrl(url)}
           download={filename}
           target="_blank"
           rel="noopener noreferrer"

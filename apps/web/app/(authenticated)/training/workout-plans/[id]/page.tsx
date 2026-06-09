@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 
 import { ArrowLeft, Copy, FileText, Pencil } from "lucide-react";
 import { toast } from "sonner";
-import DOMPurify from "isomorphic-dompurify";
+import { SafeHtml } from "@/components/ui/safe-html";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -150,11 +150,7 @@ export default function WorkoutPlanDetailPage() {
             <CardTitle className="text-base">Visualização HTML</CardTitle>
           </CardHeader>
           <CardContent>
-            {/* HIGH H5 — sanitize via DOMPurify antes de injetar */}
-            <div
-              className="prose prose-sm max-w-none"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(plan.htmlContent) }}
-            />
+            <SafeHtml className="prose prose-sm max-w-none" html={plan.htmlContent} />
           </CardContent>
         </Card>
       )}
