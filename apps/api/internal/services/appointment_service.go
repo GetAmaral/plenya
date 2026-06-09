@@ -202,9 +202,12 @@ func (s *AppointmentService) Create(userID uuid.UUID, userRole models.Role, req 
 		appointment.ContinuumItemID = &cid
 	}
 
-	// Formulário de preparação pré-consulta: explícito do payload, ou A1 por padrão numa
-	// avaliação inicial avulsa (sem Continuum). Resolvido por slug 'prep-a1' (data-driven).
-	if req.PrepFormVersionID != nil && *req.PrepFormVersionID != "" {
+	// Formulário de preparação pré-consulta (opcional): "Nenhum" (SkipPrepForm) tem precedência;
+	// senão, explícito do payload; senão, A1 por padrão numa avaliação inicial avulsa (sem
+	// Continuum). Resolvido por slug 'prep-a1' (data-driven).
+	if req.SkipPrepForm {
+		// Nenhum formulário — deixa PrepFormVersionID nil (sem convite de preparação).
+	} else if req.PrepFormVersionID != nil && *req.PrepFormVersionID != "" {
 		pid, err := uuid.Parse(*req.PrepFormVersionID)
 		if err != nil {
 			return nil, errors.New("invalid prepFormVersionId")

@@ -17,6 +17,9 @@ type CreateAppointmentRequest struct {
 	// PrepFormVersionID — formulário de preparação pré-consulta (ScoreVersion context=patient_prep)
 	// atrelado à consulta. Quando vazio numa avaliação inicial avulsa, o serviço aplica A1 por padrão.
 	PrepFormVersionID *string `json:"prepFormVersionId,omitempty" validate:"omitempty,uuid"`
+	// SkipPrepForm — quando true, NÃO atrela nenhum formulário de preparação (opção "Nenhum"),
+	// nem o A1 automático. O formulário é opcional. Tem precedência sobre PrepFormVersionID.
+	SkipPrepForm bool `json:"skipPrepForm,omitempty"`
 }
 
 // UpdateAppointmentRequest representa o payload de atualização de consulta

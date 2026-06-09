@@ -86,6 +86,7 @@ export default function NewAppointmentPage() {
   const [reason, setReason] = useState('');
   const [patientNotes, setPatientNotes] = useState('');
   const [prepFormVersionId, setPrepFormVersionId] = useState<string>('');
+  const [skipPrep, setSkipPrep] = useState(false); // "Nenhum" — não enviar formulário
 
   const { data: scoreVersions } = useScoreVersions();
   const prepForms = (scoreVersions ?? []).filter((v) => v.context === 'patient_prep' && v.active);
@@ -182,7 +183,8 @@ export default function NewAppointmentPage() {
         reason: reason.trim(),
         patientNotes: patientNotes.trim() || undefined,
         continuumItemId: continuumItemId || undefined,
-        prepFormVersionId: prepFormVersionId || undefined,
+        prepFormVersionId: skipPrep ? undefined : prepFormVersionId || undefined,
+        skipPrepForm: skipPrep || undefined,
       });
       toast.success('Consulta agendada!', {
         description: 'Sincronização com Google e Daily.co ocorre em alguns segundos.',
@@ -377,13 +379,25 @@ export default function NewAppointmentPage() {
               <div className="space-y-2">
                 <Label htmlFor="prep-form">Formulário de preparação</Label>
                 <Select
-                  value={prepFormVersionId || 'auto'}
-                  onValueChange={(v) => setPrepFormVersionId(v === 'auto' ? '' : v)}
+                  value={skipPrep ? 'none' : prepFormVersionId || 'auto'}
+                  onValueChange={(v) => {
+                    if (v === 'none') {
+                      setSkipPrep(true);
+                      setPrepFormVersionId('');
+                    } else if (v === 'auto') {
+                      setSkipPrep(false);
+                      setPrepFormVersionId('');
+                    } else {
+                      setSkipPrep(false);
+                      setPrepFormVersionId(v);
+                    }
+                  }}
                 >
                   <SelectTrigger id="prep-form">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="none">Nenhum (sem formulário)</SelectItem>
                     <SelectItem value="auto">Automático (A1 na avaliação inicial avulsa)</SelectItem>
                     {prepForms.map((v) => (
                       <SelectItem key={v.id} value={v.id}>

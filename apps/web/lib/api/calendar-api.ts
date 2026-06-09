@@ -89,7 +89,8 @@ export interface CreateAppointmentPayload {
   reason: string;
   patientNotes?: string;
   continuumItemId?: string; // Continuum (Fase 3): ancora a marco do programa.
-  prepFormVersionId?: string; // Formulário de preparação pré-consulta (A1/B1/B2). Vazio = sem preparação (ou A1 auto na avulsa).
+  prepFormVersionId?: string; // Formulário de preparação pré-consulta (A1/B1/B2). Vazio = A1 auto na avulsa.
+  skipPrepForm?: boolean; // "Nenhum": não atrela formulário (nem o A1 automático). Opcional.
 }
 
 export interface UpdateAppointmentPayload {
