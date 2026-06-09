@@ -630,6 +630,13 @@ func setupRoutes(
 	auth.Post("/2fa/enable", middleware.Auth(cfg), authHandler.Enable2FA)
 	auth.Post("/2fa/verify", middleware.Auth(cfg), authHandler.Verify2FA)
 
+	// "Minhas sessões" — listar/revogar aparelhos conectados (autenticado).
+	auth.Get("/sessions", middleware.Auth(cfg), authHandler.ListSessions)
+	auth.Delete("/sessions/:id", middleware.Auth(cfg), authHandler.RevokeSession)
+
+	// Desbloqueio de tela por inatividade — confere senha sem reemitir tokens.
+	auth.Post("/verify-password", middleware.Auth(cfg), authHandler.VerifyPassword)
+
 	// OAuth routes (públicas, com rate limiting)
 	oauthLimiter := middleware.NewRateLimiter(5, time.Minute) // 5 req/min
 	auth.Post("/oauth/google", oauthLimiter.Middleware(), oauthHandler.GoogleCallback)

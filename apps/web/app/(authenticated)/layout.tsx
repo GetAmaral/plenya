@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRequireAuth } from "@/lib/use-auth";
 import { CollapsibleSidebar, useSidebarWidth } from "@/components/layout/collapsible-sidebar";
 import { GlobalProcessingMonitor } from "@/components/processing/GlobalProcessingMonitor";
@@ -7,6 +8,7 @@ import { GlobalSearch } from "@/components/global-search";
 import { TopBar } from "@/components/layout/top-bar";
 import { PatientContextBar } from "@/components/layout/patient-context-bar";
 import { WhatsAppDock } from "@/components/conversations/whatsapp-dock";
+import { InactivityLock } from "@/components/auth/inactivity-lock";
 import { PageHeaderProvider } from "@/lib/page-context";
 
 export default function AuthenticatedLayout({
@@ -17,8 +19,15 @@ export default function AuthenticatedLayout({
   useRequireAuth();
   const sidebarWidth = useSidebarWidth();
 
+  // Pede storage persistente ao navegador (reduz evicção do token no PWA iOS, que é
+  // script-writable e some após ~7 dias sem isso). Best-effort, uma vez.
+  useEffect(() => {
+    navigator.storage?.persist?.().catch(() => {});
+  }, []);
+
   return (
     <PageHeaderProvider>
+      <InactivityLock>
       <div className="min-h-screen bg-background">
         <div className="print:hidden">
           <CollapsibleSidebar />
@@ -53,6 +62,7 @@ export default function AuthenticatedLayout({
           </div>
         </main>
       </div>
+      </InactivityLock>
     </PageHeaderProvider>
   );
 }

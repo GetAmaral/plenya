@@ -100,7 +100,7 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 	}
 
 	// Login (pode retornar MFA challenge em vez de tokens)
-	attempt, err := h.authService.Login(&req)
+	attempt, err := h.authService.Login(&req, c.Get("User-Agent"), c.IP())
 	if err != nil {
 		if errors.Is(err, services.ErrInvalidCredentials) {
 			// Audit: login failure (sem userID válido — log por email + IP)
@@ -167,7 +167,7 @@ func (h *AuthHandler) VerifyMFA(c *fiber.Ctx) error {
 			Error: "validation failed", Details: formatValidationErrors(err),
 		})
 	}
-	resp, err := h.authService.VerifyMFAChallenge(req.MFAToken, req.Code)
+	resp, err := h.authService.VerifyMFAChallenge(req.MFAToken, req.Code, c.Get("User-Agent"), c.IP())
 	if err != nil {
 		log.Printf("[AUDIT] auth.login.mfa_failure ip=%s", c.IP())
 		return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorResponse{
@@ -256,10 +256,10 @@ func (h *AuthHandler) Refresh(c *fiber.Ctx) error {
 		})
 	}
 
-	// Refresh token
-	resp, err := h.authService.RefreshToken(req.RefreshToken)
+	// Refresh token (passa device pra "Minhas sessões" e rotação resiliente)
+	resp, err := h.authService.RefreshToken(req.RefreshToken, c.Get("User-Agent"), c.IP())
 	if err != nil {
-		if errors.Is(err, services.ErrInvalidToken) {
+		if errors.Is(err, services.ErrInvalidToken) || errors.Is(err, services.ErrTokenRevoked) {
 			return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorResponse{
 				Error:   "invalid token",
 				Message: "refresh token is invalid or expired",
@@ -272,6 +272,76 @@ func (h *AuthHandler) Refresh(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(resp)
+}
+
+// VerifyPasswordRequest — payload do POST /auth/verify-password (desbloqueio de tela).
+type VerifyPasswordRequest struct {
+	Password string `json:"password" validate:"required"`
+}
+
+// VerifyPassword godoc
+// @Summary Conferir senha (desbloqueio de tela por inatividade)
+// @Description Valida a senha do usuário autenticado sem emitir novos tokens
+// @Tags auth
+// @Accept json
+// @Param request body VerifyPasswordRequest true "senha"
+// @Success 204
+// @Failure 401 {object} dto.ErrorResponse
+// @Router /auth/verify-password [post]
+// @Security BearerAuth
+func (h *AuthHandler) VerifyPassword(c *fiber.Ctx) error {
+	userID := c.Locals("userID").(uuid.UUID)
+	var req VerifyPasswordRequest
+	if err := c.BodyParser(&req); err != nil || req.Password == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "senha obrigatória"})
+	}
+	if err := h.authService.VerifyPassword(userID, req.Password); err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorResponse{
+			Error: "invalid credentials", Message: "senha incorreta",
+		})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
+// ListSessions godoc
+// @Summary Listar sessões ativas do usuário
+// @Description Aparelhos com sessão ativa (refresh tokens), pra "Minhas sessões"
+// @Tags auth
+// @Produce json
+// @Success 200 {array} services.SessionDTO
+// @Router /auth/sessions [get]
+// @Security BearerAuth
+func (h *AuthHandler) ListSessions(c *fiber.Ctx) error {
+	userID := c.Locals("userID").(uuid.UUID)
+	sessions, err := h.authService.ListSessions(userID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error: "internal server error", Message: err.Error(),
+		})
+	}
+	return c.JSON(sessions)
+}
+
+// RevokeSession godoc
+// @Summary Revogar uma sessão (aparelho)
+// @Description Desconecta um aparelho revogando a família de refresh tokens
+// @Tags auth
+// @Param id path string true "Session (refresh token) ID"
+// @Success 204
+// @Router /auth/sessions/{id} [delete]
+// @Security BearerAuth
+func (h *AuthHandler) RevokeSession(c *fiber.Ctx) error {
+	userID := c.Locals("userID").(uuid.UUID)
+	sessionID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid id"})
+	}
+	if err := h.authService.RevokeSession(userID, sessionID); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error: "internal server error", Message: err.Error(),
+		})
+	}
+	return c.SendStatus(fiber.StatusNoContent)
 }
 
 // Logout godoc

@@ -201,7 +201,13 @@ type DatabaseConfig struct {
 type JWTConfig struct {
 	Secret        string
 	AccessExpiry  string
-	RefreshExpiry string
+	RefreshExpiry string // sessão padrão (sem "manter conectado")
+	// RememberExpiry — validade do refresh em aparelho confiável ("manter conectado"),
+	// deslizante (renovada a cada uso). Ver docs/emr/estudo-sessao-login-persistente.md.
+	RememberExpiry string
+	// RefreshGraceSeconds — janela (s) em que um refresh recém-rotacionado ainda é aceito,
+	// pra não deslogar nas corridas do PWA (rajada de requests ao reabrir). 0 = sem graça.
+	RefreshGraceSeconds int
 }
 
 // MagicLinkConfig — secret separado pra magic links do Score Light (e similares).
@@ -321,8 +327,10 @@ func Load() (*Config, error) {
 		},
 		JWT: JWTConfig{
 			Secret:        getEnv("JWT_SECRET", ""),
-			AccessExpiry:  getEnv("JWT_ACCESS_EXPIRY", "15m"),
-			RefreshExpiry: getEnv("JWT_REFRESH_EXPIRY", "168h"),
+			AccessExpiry:        getEnv("JWT_ACCESS_EXPIRY", "30m"),
+			RefreshExpiry:       getEnv("JWT_REFRESH_EXPIRY", "168h"),
+			RememberExpiry:      getEnv("JWT_REMEMBER_EXPIRY", "720h"), // 30 dias deslizante
+			RefreshGraceSeconds: getEnvAsInt("JWT_REFRESH_GRACE_SECONDS", 60),
 		},
 		Security: SecurityConfig{
 			EncryptionKey:   getEnv("ENCRYPTION_KEY", ""),

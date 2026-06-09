@@ -18,16 +18,28 @@ import (
 //
 // Logout revoga o(s) refresh token(s) ativos do user.
 type RefreshToken struct {
-	ID         uuid.UUID  `gorm:"type:uuid;primaryKey" json:"id"`
-	UserID     uuid.UUID  `gorm:"type:uuid;not null;index" json:"userId"`
-	TokenHash  string     `gorm:"type:varchar(64);not null;uniqueIndex" json:"-"` // SHA-256 hex
-	Type       string     `gorm:"type:varchar(20);not null;default:'refresh';index" json:"type"`
-	ExpiresAt  time.Time  `gorm:"not null;index" json:"expiresAt"`
-	RevokedAt  *time.Time `gorm:"index" json:"revokedAt,omitempty"`
-	UsedAt     *time.Time `gorm:"index" json:"usedAt,omitempty"` // pra magic_link single-use
-	UserAgent  *string    `gorm:"type:text" json:"userAgent,omitempty"`
-	IPAddress  *string    `gorm:"type:varchar(45)" json:"ipAddress,omitempty"`
-	CreatedAt  time.Time  `gorm:"not null;autoCreateTime" json:"createdAt"`
+	ID        uuid.UUID  `gorm:"type:uuid;primaryKey" json:"id"`
+	UserID    uuid.UUID  `gorm:"type:uuid;not null;index" json:"userId"`
+	TokenHash string     `gorm:"type:varchar(64);not null;uniqueIndex" json:"-"` // SHA-256 hex
+	Type      string     `gorm:"type:varchar(20);not null;default:'refresh';index" json:"type"`
+	ExpiresAt time.Time  `gorm:"not null;index" json:"expiresAt"`
+	RevokedAt *time.Time `gorm:"index" json:"revokedAt,omitempty"`
+	UsedAt    *time.Time `gorm:"index" json:"usedAt,omitempty"` // pra magic_link single-use
+	UserAgent *string    `gorm:"type:text" json:"userAgent,omitempty"`
+	IPAddress *string    `gorm:"type:varchar(45)" json:"ipAddress,omitempty"`
+	CreatedAt time.Time  `gorm:"not null;autoCreateTime" json:"createdAt"`
+
+	// Rotação resiliente (ver docs/emr/estudo-sessao-login-persistente.md):
+	// FamilyID agrupa a cadeia de tokens de um login; reuso de token rotacionado fora da
+	// janela de graça revoga a família inteira (defesa contra roubo de refresh token).
+	FamilyID *uuid.UUID `gorm:"type:uuid;index" json:"-"`
+	// RotatedAt — setado quando este token foi trocado por outro no /refresh. A janela de
+	// graça tolera o uso deste token por alguns segundos após RotatedAt (corrida do PWA).
+	RotatedAt *time.Time `json:"-"`
+	// Remember — sessão de aparelho confiável ("manter conectado"): refresh longo deslizante.
+	Remember bool `gorm:"not null;default:false" json:"remember"`
+	// LastUsedAt — última vez que o token foi usado no /refresh (tela "Minhas sessões").
+	LastUsedAt *time.Time `json:"lastUsedAt,omitempty"`
 
 	// Relação opcional pra audit/debug
 	User *User `gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE" json:"-"`

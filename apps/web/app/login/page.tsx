@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { touchActivity } from "@/components/auth/inactivity-lock";
 import { apiClient } from "@/lib/api-client";
 import { useAuthStore } from "@/lib/auth-store";
 import { useFormNavigation } from "@/lib/use-form-navigation";
@@ -40,6 +42,9 @@ export default function LoginPage() {
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
   const [isLoading, setIsLoading] = useState(false);
+  // "Manter conectado": sessão longa deslizante (30 dias) neste aparelho. Marcado por padrão
+  // pra resolver o logout rápido no PWA; o aviso pede pra desmarcar em aparelho compartilhado.
+  const [remember, setRemember] = useState(true);
   const formRef = useRef<HTMLFormElement>(null);
 
   // Navegação por Enter nos campos do formulário
@@ -59,10 +64,11 @@ export default function LoginPage() {
 
       const response = await apiClient.post<LoginResponse>(
         "/api/v1/auth/login",
-        data
+        { ...data, rememberDevice: remember }
       );
 
       setAuth(response.user, response.accessToken, response.refreshToken);
+      touchActivity(); // zera o relógio de inatividade pra não travar logo após o login
 
       toast.success("Login realizado com sucesso!", {
         description: `Bem-vindo de volta, ${response.user.email}`,
@@ -225,6 +231,26 @@ export default function LoginPage() {
                     {errors.password.message}
                   </p>
                 )}
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.7 }}
+                className="flex items-start gap-2"
+              >
+                <Checkbox
+                  id="remember"
+                  checked={remember}
+                  onCheckedChange={(v) => setRemember(v === true)}
+                  className="mt-0.5"
+                />
+                <Label htmlFor="remember" className="text-sm font-normal leading-snug text-gray-600 dark:text-gray-400 cursor-pointer">
+                  Manter conectado neste aparelho
+                  <span className="block text-xs text-gray-400">
+                    Use só em aparelho pessoal. Em computador compartilhado, desmarque.
+                  </span>
+                </Label>
               </motion.div>
 
               <motion.div

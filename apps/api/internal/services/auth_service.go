@@ -56,6 +56,9 @@ type JWTClaims struct {
 	Email  string   `json:"email"`
 	Roles  []string `json:"roles"`
 	Type   string   `json:"type,omitempty"`
+	// Remember carrega a escolha "manter conectado" do login até o /verify-2fa (o par só é
+	// emitido após o 2FA, então a flag viaja no mfa_challenge token).
+	Remember bool `json:"rmb,omitempty"`
 	jwt.RegisteredClaims
 }
 
@@ -111,7 +114,7 @@ type LoginAttempt struct {
 
 // Login autentica um usuário.
 // Retorna LoginAttempt — caller decide o que fazer com MFAToken vs AuthResponse.
-func (s *AuthService) Login(req *dto.LoginRequest) (*LoginAttempt, error) {
+func (s *AuthService) Login(req *dto.LoginRequest, userAgent, ip string) (*LoginAttempt, error) {
 	// Buscar usuário com paciente selecionado
 	var user models.User
 	if err := s.db.Preload("SelectedPatient").Where("email = ?", req.Email).First(&user).Error; err != nil {
@@ -132,9 +135,9 @@ func (s *AuthService) Login(req *dto.LoginRequest) (*LoginAttempt, error) {
 		return nil, ErrInvalidCredentials
 	}
 
-	// 2FA habilitado → emite challenge token, NÃO emite access/refresh.
+	// 2FA habilitado → emite challenge token (carrega remember), NÃO emite access/refresh.
 	if user.TwoFactorEnabled {
-		challenge, err := s.generateMFAChallengeToken(&user)
+		challenge, err := s.generateMFAChallengeToken(&user, req.RememberDevice)
 		if err != nil {
 			return nil, err
 		}
@@ -146,7 +149,7 @@ func (s *AuthService) Login(req *dto.LoginRequest) (*LoginAttempt, error) {
 
 	// 2FA não habilitado, mas role exige (admin/doctor/manager) → flag pro
 	// frontend redirecionar pra setup. Login segue (não bloqueia logins existentes).
-	resp, err := s.generateAuthResponse(&user)
+	resp, err := s.issueTokens(&user, issueOpts{remember: req.RememberDevice, userAgent: userAgent, ip: ip})
 	if err != nil {
 		return nil, err
 	}
@@ -166,11 +169,12 @@ func (s *AuthService) Login(req *dto.LoginRequest) (*LoginAttempt, error) {
 // generateMFAChallengeToken — emite JWT curto (5min) com Type=mfa_challenge.
 // O caller troca esse token + código TOTP pelo par access/refresh em
 // /auth/login/verify-2fa.
-func (s *AuthService) generateMFAChallengeToken(user *models.User) (string, error) {
+func (s *AuthService) generateMFAChallengeToken(user *models.User, remember bool) (string, error) {
 	claims := JWTClaims{
-		UserID: user.ID.String(),
-		Email:  user.Email,
-		Type:   TokenTypeMFAChallenge,
+		UserID:   user.ID.String(),
+		Email:    user.Email,
+		Type:     TokenTypeMFAChallenge,
+		Remember: remember,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(5 * time.Minute)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -184,7 +188,7 @@ func (s *AuthService) generateMFAChallengeToken(user *models.User) (string, erro
 // VerifyMFAChallenge — consome MFAToken + TOTP code, emite par access/refresh.
 // Usa pquerna/otp/totp pra validar (caller injeta validador via parâmetro pra
 // não acoplar dependência aqui — ver auth_2fa.go).
-func (s *AuthService) VerifyMFAChallenge(challengeToken, totpCode string) (*dto.AuthResponse, error) {
+func (s *AuthService) VerifyMFAChallenge(challengeToken, totpCode, userAgent, ip string) (*dto.AuthResponse, error) {
 	claims, err := s.validateToken(challengeToken)
 	if err != nil {
 		return nil, ErrInvalidToken
@@ -206,14 +210,14 @@ func (s *AuthService) VerifyMFAChallenge(challengeToken, totpCode string) (*dto.
 	if !ValidateTOTP(user.TwoFactorSecret, totpCode) {
 		return nil, ErrInvalidCredentials
 	}
-	return s.generateAuthResponse(&user)
+	return s.issueTokens(&user, issueOpts{remember: claims.Remember, userAgent: userAgent, ip: ip})
 }
 
 // RefreshToken gera um novo par (access + refresh) a partir de um refresh token.
 // Política de rotação: revoga o refresh atual antes de emitir o novo, garantindo
 // single-use. Se o token recebido já estiver revogado/usado, retorna ErrTokenRevoked
 // (sinal pra forçar re-login + alerta de possível roubo).
-func (s *AuthService) RefreshToken(refreshToken string) (*dto.AuthResponse, error) {
+func (s *AuthService) RefreshToken(refreshToken, userAgent, ip string) (*dto.AuthResponse, error) {
 	// Validar JWT formato/assinatura
 	claims, err := s.validateToken(refreshToken)
 	if err != nil {
@@ -233,8 +237,27 @@ func (s *AuthService) RefreshToken(refreshToken string) (*dto.AuthResponse, erro
 		// num logout anterior. Tratamos como invalid pra não vazar info.
 		return nil, ErrInvalidToken
 	}
+
+	now := time.Now().UTC()
+	grace := time.Duration(s.cfg.JWT.RefreshGraceSeconds) * time.Second
+
+	// Token não-ativo: distinguir corrida-na-graça de reuso/roubo/logout/expiração.
 	if !rt.IsActive() {
-		return nil, ErrTokenRevoked
+		switch {
+		case rt.ExpiresAt.Before(now):
+			// Expirou de fato → re-login.
+			return nil, ErrTokenRevoked
+		case rt.RotatedAt != nil && now.Sub(*rt.RotatedAt) <= grace:
+			// Rotacionado há poucos segundos: corrida legítima do PWA (rajada de requests
+			// ao reabrir). Tolera e emite um novo par na mesma família — NÃO é roubo.
+		case rt.RotatedAt != nil:
+			// Reuso de token rotacionado FORA da graça → suspeita de roubo: mata a família.
+			s.revokeFamily(rt.FamilyID, rt.UserID)
+			return nil, ErrTokenRevoked
+		default:
+			// Revogado por logout / revogação manual de sessão.
+			return nil, ErrTokenRevoked
+		}
 	}
 
 	// Buscar usuário
@@ -247,14 +270,22 @@ func (s *AuthService) RefreshToken(refreshToken string) (*dto.AuthResponse, erro
 		return nil, ErrInvalidCredentials
 	}
 
-	// Revoga o refresh atual ANTES de emitir o novo (rotação atômica)
-	now := time.Now().UTC()
-	if err := s.db.Model(&rt).Update("revoked_at", now).Error; err != nil {
-		return nil, err
+	// Rotaciona o atual (marca rotacionado+revogado) preservando família/remember. Se já estava
+	// rotacionado (caso da graça), não re-marca — apenas emite novo par na mesma família.
+	if rt.RotatedAt == nil {
+		_ = s.db.Model(&rt).Updates(map[string]interface{}{
+			"rotated_at":   now,
+			"revoked_at":   now,
+			"last_used_at": now,
+		}).Error
 	}
 
-	// Gerar e persistir novo par
-	return s.generateAuthResponse(&user)
+	return s.issueTokens(&user, issueOpts{
+		remember:  rt.Remember,
+		familyID:  rt.FamilyID,
+		userAgent: userAgent,
+		ip:        ip,
+	})
 }
 
 // Logout — revoga TODOS os refresh tokens ativos do user. Implementação
@@ -267,44 +298,145 @@ func (s *AuthService) Logout(userID uuid.UUID) error {
 		Update("revoked_at", now).Error
 }
 
+// SessionDTO — uma sessão (aparelho) ativa do usuário, pra tela "Minhas sessões".
+type SessionDTO struct {
+	ID         string  `json:"id"`
+	UserAgent  *string `json:"userAgent,omitempty"`
+	IPAddress  *string `json:"ipAddress,omitempty"`
+	Remember   bool    `json:"remember"`
+	CreatedAt  string  `json:"createdAt"`
+	LastUsedAt *string `json:"lastUsedAt,omitempty"`
+	ExpiresAt  string  `json:"expiresAt"`
+}
+
+// ListSessions lista as sessões ativas (refresh tokens não revogados/não expirados) do
+// usuário, uma por família (a cabeça atual da cadeia), mais recente primeiro.
+func (s *AuthService) ListSessions(userID uuid.UUID) ([]SessionDTO, error) {
+	var rows []models.RefreshToken
+	if err := s.db.
+		Where("user_id = ? AND type = ? AND revoked_at IS NULL AND expires_at > ?", userID, "refresh", time.Now().UTC()).
+		Order("last_used_at DESC NULLS LAST, created_at DESC").
+		Find(&rows).Error; err != nil {
+		return nil, err
+	}
+	seenFamily := map[string]bool{}
+	out := make([]SessionDTO, 0, len(rows))
+	for i := range rows {
+		r := rows[i]
+		// Dedupe por família (eventual sprawl da janela de graça): mantém só a cabeça.
+		if r.FamilyID != nil {
+			k := r.FamilyID.String()
+			if seenFamily[k] {
+				continue
+			}
+			seenFamily[k] = true
+		}
+		dto := SessionDTO{
+			ID:        r.ID.String(),
+			UserAgent: r.UserAgent,
+			IPAddress: r.IPAddress,
+			Remember:  r.Remember,
+			CreatedAt: r.CreatedAt.Format(time.RFC3339),
+			ExpiresAt: r.ExpiresAt.Format(time.RFC3339),
+		}
+		if r.LastUsedAt != nil {
+			lu := r.LastUsedAt.Format(time.RFC3339)
+			dto.LastUsedAt = &lu
+		}
+		out = append(out, dto)
+	}
+	return out, nil
+}
+
+// RevokeSession revoga uma sessão do usuário pelo ID do refresh token. Revoga a família
+// inteira (mata a cadeia daquele aparelho, não só a cabeça). Só afeta tokens do próprio user.
+func (s *AuthService) RevokeSession(userID, sessionID uuid.UUID) error {
+	var rt models.RefreshToken
+	if err := s.db.Where("id = ? AND user_id = ?", sessionID, userID).First(&rt).Error; err != nil {
+		return err
+	}
+	now := time.Now().UTC()
+	if rt.FamilyID != nil {
+		return s.db.Model(&models.RefreshToken{}).
+			Where("family_id = ? AND user_id = ? AND revoked_at IS NULL", *rt.FamilyID, userID).
+			Update("revoked_at", now).Error
+	}
+	return s.db.Model(&models.RefreshToken{}).
+		Where("id = ? AND user_id = ?", sessionID, userID).
+		Update("revoked_at", now).Error
+}
+
 // GenerateTokensForUser é o entry-point público para serviços externos (ex: magic link
 // do Score Light) gerarem AuthResponse válida sem exigir senha.
 func (s *AuthService) GenerateTokensForUser(user *models.User) (*dto.AuthResponse, error) {
 	return s.generateAuthResponse(user)
 }
 
-// generateAuthResponse gera access token + refresh token, persiste o hash
-// do refresh em refresh_tokens, e retorna o par. AccessToken é stateless
-// (não persistido). RefreshToken é stateful (validado contra DB no /refresh).
-func (s *AuthService) generateAuthResponse(user *models.User) (*dto.AuthResponse, error) {
-	// Parse access expiry
+// issueOpts controla a emissão de um par de tokens.
+type issueOpts struct {
+	remember  bool       // "manter conectado" → refresh longo deslizante
+	familyID  *uuid.UUID // nil → nova família (login novo); setado → rotação na mesma família
+	userAgent string
+	ip        string
+}
+
+// refreshDuration resolve a validade do refresh conforme remember.
+func (s *AuthService) refreshDuration(remember bool) (time.Duration, error) {
+	raw := s.cfg.JWT.RefreshExpiry
+	if remember && s.cfg.JWT.RememberExpiry != "" {
+		raw = s.cfg.JWT.RememberExpiry
+	}
+	d, err := time.ParseDuration(raw)
+	if err != nil {
+		return 0, errors.New("invalid refresh expiry configuration")
+	}
+	return d, nil
+}
+
+// issueTokens gera access + refresh, persiste o hash do refresh (com família, remember,
+// device) e retorna o par. AccessToken é stateless; RefreshToken é stateful (validado no
+// /refresh). Em remember=true a validade é deslizante (renovada a cada refresh).
+func (s *AuthService) issueTokens(user *models.User, opts issueOpts) (*dto.AuthResponse, error) {
 	accessExpiry, err := time.ParseDuration(s.cfg.JWT.AccessExpiry)
 	if err != nil {
 		return nil, errors.New("invalid access expiry configuration")
 	}
-
-	// Parse refresh expiry
-	refreshExpiry, err := time.ParseDuration(s.cfg.JWT.RefreshExpiry)
+	refreshExpiry, err := s.refreshDuration(opts.remember)
 	if err != nil {
-		return nil, errors.New("invalid refresh expiry configuration")
+		return nil, err
 	}
 
-	// Gerar access token (Type=access)
 	accessToken, err := s.generateTypedToken(user, TokenTypeAccess, accessExpiry)
 	if err != nil {
 		return nil, err
 	}
-
-	// Gerar refresh token (Type=refresh) e persistir hash
 	refreshToken, err := s.generateTypedToken(user, TokenTypeRefresh, refreshExpiry)
 	if err != nil {
 		return nil, err
 	}
+
+	famID := opts.familyID
+	if famID == nil {
+		nf := uuid.Must(uuid.NewV7())
+		famID = &nf
+	}
+	now := time.Now().UTC()
 	rt := models.RefreshToken{
-		UserID:    user.ID,
-		TokenHash: hashToken(refreshToken),
-		Type:      "refresh",
-		ExpiresAt: time.Now().UTC().Add(refreshExpiry),
+		UserID:     user.ID,
+		TokenHash:  hashToken(refreshToken),
+		Type:       "refresh",
+		ExpiresAt:  now.Add(refreshExpiry),
+		FamilyID:   famID,
+		Remember:   opts.remember,
+		LastUsedAt: &now,
+	}
+	if opts.userAgent != "" {
+		ua := opts.userAgent
+		rt.UserAgent = &ua
+	}
+	if opts.ip != "" {
+		ip := opts.ip
+		rt.IPAddress = &ip
 	}
 	if err := s.db.Create(&rt).Error; err != nil {
 		return nil, err
@@ -317,6 +449,26 @@ func (s *AuthService) generateAuthResponse(user *models.User) (*dto.AuthResponse
 	}, nil
 }
 
+// generateAuthResponse — emissão padrão (sessão nova, sem remember). Mantido para os callers
+// existentes (Register, OAuth, magic link, Score Light).
+func (s *AuthService) generateAuthResponse(user *models.User) (*dto.AuthResponse, error) {
+	return s.issueTokens(user, issueOpts{})
+}
+
+// revokeFamily revoga todos os refresh tokens ativos de uma família (defesa contra roubo:
+// reuso de token rotacionado fora da janela de graça). Sem família (tokens legados), revoga
+// todos os do usuário por segurança.
+func (s *AuthService) revokeFamily(familyID *uuid.UUID, userID uuid.UUID) {
+	now := time.Now().UTC()
+	q := s.db.Model(&models.RefreshToken{}).Where("revoked_at IS NULL")
+	if familyID != nil {
+		q = q.Where("family_id = ?", *familyID)
+	} else {
+		q = q.Where("user_id = ? AND type = ?", userID, "refresh")
+	}
+	_ = q.Update("revoked_at", now).Error
+}
+
 // generateTypedToken — gera JWT marcando o Type (access|refresh).
 func (s *AuthService) generateTypedToken(user *models.User, tokenType string, expiry time.Duration) (string, error) {
 	claims := JWTClaims{
@@ -325,6 +477,10 @@ func (s *AuthService) generateTypedToken(user *models.User, tokenType string, ex
 		Roles:  user.GetRoles(),
 		Type:   tokenType,
 		RegisteredClaims: jwt.RegisteredClaims{
+			// jti único — sem ele, dois tokens emitidos no mesmo segundo têm claims idênticos
+			// (iat/exp em segundos) → JWT idêntico → mesmo hash → colide no unique de
+			// refresh_tokens (rotação imediata pós-login). Também facilita rastreio.
+			ID:        uuid.Must(uuid.NewV7()).String(),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(expiry)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			Issuer:    "plenya-emr",
@@ -489,6 +645,23 @@ func (s *AuthService) Disable2FA(userID uuid.UUID, password string) error {
 			"two_factor_enabled": false,
 			"two_factor_secret":  "",
 		}).Error
+}
+
+// VerifyPassword confere a senha do usuário autenticado (sem emitir tokens). Usado pelo
+// desbloqueio de tela por inatividade (checagem de presença; a sessão continua a mesma).
+// Retorna ErrInvalidCredentials se não bater (ou se for conta OAuth sem senha).
+func (s *AuthService) VerifyPassword(userID uuid.UUID, password string) error {
+	var user models.User
+	if err := s.db.Select("id", "password_hash").First(&user, userID).Error; err != nil {
+		return ErrInvalidCredentials
+	}
+	if user.PasswordHash == nil {
+		return ErrInvalidCredentials
+	}
+	if err := bcrypt.CompareHashAndPassword([]byte(*user.PasswordHash), []byte(password)); err != nil {
+		return ErrInvalidCredentials
+	}
+	return nil
 }
 
 // UpdatePreferences atualiza as preferências do usuário

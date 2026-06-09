@@ -11,6 +11,9 @@ type RegisterRequest struct {
 type LoginRequest struct {
 	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" validate:"required"`
+	// RememberDevice — "manter conectado neste aparelho": sessão longa deslizante (só em
+	// aparelho pessoal). Ver docs/emr/estudo-sessao-login-persistente.md.
+	RememberDevice bool `json:"rememberDevice"`
 }
 
 // RefreshRequest representa o payload de refresh token
