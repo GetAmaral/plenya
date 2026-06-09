@@ -2043,10 +2043,12 @@ func (s *LeadService) NotifyTeamOfNewLead(lead *models.Lead) {
 	}
 
 	adminBase := strings.TrimRight(s.cfg.CRM.AdminURL, "/")
-	if adminBase == "" {
-		adminBase = "/leads"
-	}
+	// Lead vindo do WhatsApp abre direto na conversa de WA (não na ficha do lead) — mesma
+	// regra de NotifyTeamOfInboundMessage. Bug reportado em 2026-06-08.
 	leadURL := fmt.Sprintf("%s/leads/%s", adminBase, lead.ID.String())
+	if lead.Source == models.LeadSourceWhatsAppInbound {
+		leadURL = fmt.Sprintf("%s/conversas/whatsapp?owner=lead&id=%s", adminBase, lead.ID.String())
+	}
 
 	for _, user := range recipients {
 		// 1. In-app
