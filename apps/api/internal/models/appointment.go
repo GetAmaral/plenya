@@ -115,8 +115,11 @@ type Appointment struct {
 
 	// Idempotência dos lembretes de preparação (cron ConsultationPrepReminderJob).
 	// NULL = ainda não enviado; setado = job já processou aquela janela.
-	PrepReminder48hSentAt *time.Time `gorm:"type:timestamptz" json:"prepReminder48hSentAt,omitempty"`
-	PrepReminder24hSentAt *time.Time `gorm:"type:timestamptz" json:"prepReminder24hSentAt,omitempty"`
+	// column: explícito — GORM derivaria "prep_reminder48h_sent_at" (sem underscore antes do
+	// dígito), mas a migration 00034 criou "prep_reminder_48h_sent_at". Sem isso, todo INSERT/
+	// UPDATE de appointment quebra (column does not exist). Ver memória sobre GORM + dígito.
+	PrepReminder48hSentAt *time.Time `gorm:"column:prep_reminder_48h_sent_at;type:timestamptz" json:"prepReminder48hSentAt,omitempty"`
+	PrepReminder24hSentAt *time.Time `gorm:"column:prep_reminder_24h_sent_at;type:timestamptz" json:"prepReminder24hSentAt,omitempty"`
 
 	// Data de confirmação
 	ConfirmedAt *time.Time `gorm:"type:timestamptz" json:"confirmedAt,omitempty"`
