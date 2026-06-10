@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, type Dispatch, type SetStateAction } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
@@ -8,13 +8,14 @@ import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { HelpCircle, CheckCircle2, AlertCircle } from 'lucide-react'
+import { HelpCircle, CheckCircle2, AlertCircle, ChevronDown, ChevronRight, Plus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import type { AnamnesisTemplate, AnamnesisTemplateItem } from '@/lib/api/anamnesis-templates'
 import type { ScoreGroup, ScoreSubgroup, ScoreItem, ScoreLevel } from '@/lib/api/score-api'
 import type { AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
 import type { Patient } from '@/lib/auth-store'
+import { AnamnesisItemHistory } from './AnamnesisItemHistory'
 
 // Evaluates whether a numeric value satisfies a ScoreLevel's operator/limits
 function evaluatesTrue(value: number, level: ScoreLevel): boolean {
@@ -77,6 +78,10 @@ interface AnamnesisTemplateItemsRendererProps {
   compact?: boolean // For regular form (smaller UI)
   focusScoreItemId?: string | null
   patient?: Patient | null
+  // ID do paciente p/ o histórico por item. Quando ausente, cai em patient?.id.
+  // Útil quando o filtro demográfico usa `patient` mas o id confiável vem de outra fonte
+  // (ex.: appt.patientId no workspace da consulta).
+  patientId?: string | null
 }
 
 // Score level color classes - must be complete strings for Tailwind to detect them
@@ -197,7 +202,9 @@ export function AnamnesisTemplateItemsRenderer({
   compact = false,
   focusScoreItemId,
   patient,
+  patientId,
 }: AnamnesisTemplateItemsRendererProps) {
+  const historyPatientId = patientId ?? patient?.id ?? null
   const [values, setValues] = useState<Map<string, AnamnesisItemFormValue>>(() => {
     const newValues = new Map<string, AnamnesisItemFormValue>()
     initialValues.forEach((val) => {
@@ -210,6 +217,70 @@ export function AnamnesisTemplateItemsRenderer({
   const organized = organizeTemplateItems(template, patient)
   const itemRefs = useRef<Map<string, HTMLDivElement>>(new Map())
   const hasFocused = useRef(false)
+
+  // --- Estado da visão compacta (mobile): accordion de grupos + itens expansíveis ---
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
+    () => new Set(Array.from(organized.groups.keys()).slice(0, 1)) // primeiro grupo aberto
+  )
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
+  const [obsOpen, setObsOpen] = useState<Set<string>>(new Set())
+
+  const toggleSetMember = (
+    setter: Dispatch<SetStateAction<Set<string>>>,
+    id: string
+  ) =>
+    setter((prev) => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+
+  // Ao focar um item (deep link do health score), abre o grupo e o próprio item.
+  useEffect(() => {
+    if (!compact || !focusScoreItemId) return
+    for (const [gid, g] of organized.groups) {
+      for (const sg of g.subgroups.values()) {
+        if (sg.items.some((it) => it.scoreItem.id === focusScoreItemId)) {
+          setExpandedGroups((prev) => new Set(prev).add(gid))
+          setExpandedItems((prev) => new Set(prev).add(focusScoreItemId))
+          return
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [compact, focusScoreItemId])
+
+  // Chip que resume o valor atual do item na linha colapsada.
+  const currentChip = (cur: AnamnesisItemFormValue | undefined, scoreItem: ScoreItem) => {
+    if (cur?.selectedLevel !== undefined) {
+      const lvl = cur.selectedLevel
+      const name = (scoreItem.levels || []).find((l) => l.level === lvl)?.name
+      return (
+        <span
+          className={cn(
+            'whitespace-nowrap rounded-full border-[1.5px] px-2.5 py-0.5 text-[11px] font-bold',
+            LEVEL_COMPACT_SELECTED_CLASSES[lvl] || LEVEL_COMPACT_SELECTED_CLASSES[6]
+          )}
+        >
+          N{lvl}
+          {name ? ` · ${name}` : ''}
+        </span>
+      )
+    }
+    if (cur?.numericValue !== undefined) {
+      return (
+        <span className="whitespace-nowrap rounded-full border-[1.5px] border-border bg-muted px-2.5 py-0.5 text-[11px] font-semibold text-foreground">
+          {cur.numericValue}
+          {scoreItem.unit ? ` ${scoreItem.unit}` : ''}
+        </span>
+      )
+    }
+    return (
+      <span className="whitespace-nowrap rounded-full border-[1.5px] border-dashed border-border px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground">
+        preencher
+      </span>
+    )
+  }
 
   // Auto-scroll and focus on specific item when coming from health score edit
   useEffect(() => {
@@ -375,8 +446,229 @@ export function AnamnesisTemplateItemsRenderer({
     )
   }
 
+  // --- Visão compacta (mobile): accordion denso + item expansível + histórico ---
+  const compactView = (
+    <div className="space-y-2.5">
+      {Array.from(organized.groups.values()).map(({ group, subgroups }) => {
+        const subArr = Array.from(subgroups.values())
+        const allItems = subArr.flatMap((s) => s.items)
+        const filled = allItems.filter(({ scoreItem }) => values.has(scoreItem.id)).length
+        const total = allItems.length
+        const gOpen = expandedGroups.has(group.id)
+
+        return (
+          <div key={group.id} className="overflow-hidden rounded-xl border bg-card">
+            <button
+              type="button"
+              onClick={() => toggleSetMember(setExpandedGroups, group.id)}
+              className="flex w-full items-center gap-2.5 px-3.5 py-3 text-left"
+            >
+              <span className="text-sm font-semibold text-foreground">{group.name}</span>
+              <span className="ml-auto shrink-0 rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
+                {filled}/{total}
+              </span>
+              <ChevronDown
+                className={cn(
+                  'h-4 w-4 shrink-0 text-muted-foreground transition-transform',
+                  gOpen && 'rotate-180'
+                )}
+              />
+            </button>
+
+            {gOpen && (
+              <div className="border-t">
+                {subArr.map(({ subgroup, items }) => {
+                  const hasMaxSelect = subgroup.maxSelect > 0
+                  const selectedCount = items.filter(
+                    ({ scoreItem }) => values.get(scoreItem.id)?.selectedLevel !== undefined
+                  ).length
+
+                  return (
+                    <div key={subgroup.id}>
+                      {subArr.length > 1 && (
+                        <div className="flex items-center justify-between bg-muted/40 px-3.5 py-1.5">
+                          <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                            {subgroup.name}
+                          </span>
+                          {hasMaxSelect && (
+                            <span className="text-[10px] text-muted-foreground">
+                              {selectedCount}/{subgroup.maxSelect}
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {items.map(({ templateItem, scoreItem }) => {
+                        const cur = values.get(scoreItem.id)
+                        const levels = scoreItem.levels || []
+
+                        // maxSelect → linha com checkbox (sem expandir)
+                        if (hasMaxSelect) {
+                          const isSel = cur?.selectedLevel !== undefined
+                          return (
+                            <div
+                              key={templateItem.id}
+                              ref={(el) => {
+                                if (el) itemRefs.current.set(scoreItem.id, el)
+                              }}
+                              className={cn(
+                                'flex items-center gap-2.5 border-b px-3.5 py-2.5 last:border-b-0',
+                                isSel && 'bg-primary/5'
+                              )}
+                            >
+                              <Checkbox
+                                checked={isSel}
+                                onCheckedChange={() =>
+                                  handleCheckboxSelect(
+                                    scoreItem.id,
+                                    templateItem.order,
+                                    subgroup.id,
+                                    subgroup.maxSelect,
+                                    items
+                                  )
+                                }
+                                className="h-5 w-5 shrink-0"
+                              />
+                              <span className="text-[13px] leading-tight text-foreground">
+                                {scoreItem.name}
+                              </span>
+                            </div>
+                          )
+                        }
+
+                        // Item padrão → linha colapsável
+                        const itemOpen = expandedItems.has(scoreItem.id)
+                        const showObs = obsOpen.has(scoreItem.id) || !!cur?.textValue
+
+                        return (
+                          <div
+                            key={templateItem.id}
+                            ref={(el) => {
+                              if (el) itemRefs.current.set(scoreItem.id, el)
+                            }}
+                            className={cn('border-b last:border-b-0', itemOpen && 'bg-amber-50/40')}
+                          >
+                            <button
+                              type="button"
+                              onClick={() => toggleSetMember(setExpandedItems, scoreItem.id)}
+                              className="flex w-full items-center gap-2.5 px-3.5 py-2.5 text-left"
+                            >
+                              <span className="min-w-0 flex-1 text-[13px] leading-tight text-foreground">
+                                {scoreItem.name}
+                                {scoreItem.unit && (
+                                  <span className="ml-1 text-[11px] text-muted-foreground">
+                                    ({scoreItem.unit})
+                                  </span>
+                                )}
+                              </span>
+                              <span className="shrink-0">{currentChip(cur, scoreItem)}</span>
+                              <ChevronRight
+                                className={cn(
+                                  'h-3.5 w-3.5 shrink-0 text-muted-foreground/60 transition-transform',
+                                  itemOpen && 'rotate-90'
+                                )}
+                              />
+                            </button>
+
+                            {itemOpen && (
+                              <div className="space-y-3 px-3.5 pb-3.5">
+                                {scoreItem.unit && (
+                                  <Input
+                                    type="number"
+                                    step="any"
+                                    value={cur?.numericValue ?? ''}
+                                    onChange={(e) =>
+                                      handleNumericChange(
+                                        scoreItem.id,
+                                        e.target.value,
+                                        templateItem.order,
+                                        levels
+                                      )
+                                    }
+                                    placeholder={`Valor em ${scoreItem.unit}`}
+                                    className="h-9 text-sm"
+                                  />
+                                )}
+
+                                {levels.length > 0 && (
+                                  <div className="flex flex-wrap gap-2">
+                                    {levels.map((level) => {
+                                      const sel = cur?.selectedLevel === level.level
+                                      return (
+                                        <button
+                                          key={level.id}
+                                          type="button"
+                                          data-level-button
+                                          onClick={() =>
+                                            handleLevelSelect(scoreItem.id, level, templateItem.order)
+                                          }
+                                          className={cn(
+                                            'rounded-lg border-2 px-3 py-1.5 text-xs font-medium transition-all',
+                                            sel
+                                              ? LEVEL_COMPACT_SELECTED_CLASSES[level.level] ||
+                                                  LEVEL_COMPACT_SELECTED_CLASSES[6]
+                                              : 'border-border bg-background hover:border-primary/50'
+                                          )}
+                                        >
+                                          {level.name} ({level.level})
+                                        </button>
+                                      )
+                                    })}
+                                  </div>
+                                )}
+
+                                {showObs ? (
+                                  <Textarea
+                                    value={cur?.textValue || ''}
+                                    onChange={(e) =>
+                                      handleTextChange(scoreItem.id, e.target.value, templateItem.order)
+                                    }
+                                    placeholder="Observações…"
+                                    rows={2}
+                                    className="resize-none text-sm"
+                                  />
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleSetMember(setObsOpen, scoreItem.id)}
+                                    className="flex items-center gap-1.5 text-xs font-medium text-primary"
+                                  >
+                                    <Plus className="h-3.5 w-3.5" /> Adicionar observação
+                                  </button>
+                                )}
+
+                                {scoreItem.patientExplanation && (
+                                  <p className="text-[11px] leading-snug text-muted-foreground">
+                                    {scoreItem.patientExplanation}
+                                  </p>
+                                )}
+
+                                <AnamnesisItemHistory
+                                  patientId={historyPatientId}
+                                  scoreItemId={scoreItem.id}
+                                  levels={levels}
+                                  unit={scoreItem.unit}
+                                  enabled={itemOpen}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+
   return (
     <TooltipProvider delayDuration={300}>
+      {compact ? compactView : (
       <div className="space-y-6">
         {Array.from(organized.groups.values()).map(({ group, subgroups }) => (
           <Card key={group.id} className="overflow-hidden border-2">
@@ -671,6 +963,7 @@ export function AnamnesisTemplateItemsRenderer({
           </Card>
         ))}
       </div>
+      )}
     </TooltipProvider>
   )
 }

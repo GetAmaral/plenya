@@ -1,7 +1,9 @@
 'use client';
 
 /**
- * Notas de evolução clínica (SOAP/APSO) por consulta.
+ * Notas de evolução clínica por consulta — modelo simplificado (sem SOAP/APSO):
+ * dois campos de texto livre, "História clínica e evolução" (clinicalHistory) e
+ * "Conduta" (conduct).
  *
  * Distinta da anamnese (intake one-shot): é a evolução de cada visita,
  * ancorada ao appointment. Imutável após assinada (correção via adendo).
@@ -11,7 +13,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '../api-client';
 
-export type ClinicalNoteLayout = 'soap' | 'apso';
 export type ClinicalNoteStatus = 'draft' | 'signed';
 export type ClinicalNoteVisibility = 'all' | 'medicalOnly' | 'psychOnly' | 'authorOnly';
 
@@ -20,15 +21,10 @@ export interface ClinicalNote {
   appointmentId?: string;
   patientId: string;
   authorId: string;
-  layout: ClinicalNoteLayout;
-  subjective?: string;
-  subjectiveHtml?: string;
-  objective?: string;
-  objectiveHtml?: string;
-  assessment?: string;
-  assessmentHtml?: string;
-  plan?: string;
-  planHtml?: string;
+  clinicalHistory?: string;
+  clinicalHistoryHtml?: string;
+  conduct?: string;
+  conductHtml?: string;
   status: ClinicalNoteStatus;
   signedAt?: string;
   amendmentOfId?: string;
@@ -42,15 +38,10 @@ export interface ClinicalNote {
 export interface CreateClinicalNotePayload {
   appointmentId?: string;
   patientId?: string;
-  layout?: ClinicalNoteLayout;
-  subjective?: string;
-  subjectiveHtml?: string;
-  objective?: string;
-  objectiveHtml?: string;
-  assessment?: string;
-  assessmentHtml?: string;
-  plan?: string;
-  planHtml?: string;
+  clinicalHistory?: string;
+  clinicalHistoryHtml?: string;
+  conduct?: string;
+  conductHtml?: string;
   visibility?: ClinicalNoteVisibility;
   sign?: boolean;
 }

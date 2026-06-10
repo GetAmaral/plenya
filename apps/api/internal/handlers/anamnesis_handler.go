@@ -61,6 +61,98 @@ func (h *AnamnesisHandler) Create(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(resp)
 }
 
+// GetByAppointment retorna a anamnese vinculada a uma consulta (ou 404 se não houver).
+func (h *AnamnesisHandler) GetByAppointment(c *fiber.Ctx) error {
+	appointmentID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid appointment id",
+			Message: "appointment id must be a valid UUID",
+		})
+	}
+
+	userID := middleware.GetUserID(c)
+	userRole := middleware.GetPrimaryRole(c)
+
+	resp, err := h.anamnesisService.GetByAppointment(appointmentID, userID, userRole)
+	if err != nil {
+		if errors.Is(err, services.ErrAnamnesisNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error:   "anamnesis not found",
+				Message: "no anamnesis linked to this appointment",
+			})
+		}
+		if errors.Is(err, services.ErrAppointmentNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error:   "appointment not found",
+				Message: "no appointment found with the given id",
+			})
+		}
+		if errors.Is(err, services.ErrAnamnesisRestricted) {
+			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{
+				Error:   "forbidden",
+				Message: "you do not have permission to view this anamnesis",
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(resp)
+}
+
+// CreateForAppointment cria (e vincula) a anamnese da consulta.
+func (h *AnamnesisHandler) CreateForAppointment(c *fiber.Ctx) error {
+	appointmentID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid appointment id",
+			Message: "appointment id must be a valid UUID",
+		})
+	}
+
+	var req dto.CreateAnamnesisRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid request body",
+			Message: err.Error(),
+		})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "validation failed",
+			Details: formatValidationErrors(err),
+		})
+	}
+
+	authorID := middleware.GetUserID(c)
+	userRole := middleware.GetPrimaryRole(c)
+
+	resp, err := h.anamnesisService.CreateForAppointment(appointmentID, authorID, userRole, &req)
+	if err != nil {
+		if errors.Is(err, services.ErrAppointmentNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error:   "appointment not found",
+				Message: "no appointment found with the given id",
+			})
+		}
+		if errors.Is(err, services.ErrPatientNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error:   "patient not found",
+				Message: "no patient found for this appointment",
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(resp)
+}
+
 // GetByID busca uma anamnese por ID
 func (h *AnamnesisHandler) GetByID(c *fiber.Ctx) error {
 	anamnesisID, err := uuid.Parse(c.Params("id"))

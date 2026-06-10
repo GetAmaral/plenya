@@ -262,6 +262,7 @@ func setupRoutes(
 	authService := services.NewAuthService(database.DB, cfg)
 	patientService := services.NewPatientService(database.DB)
 	anamnesisService := services.NewAnamnesisService(database.DB)
+	clinicalTimelineService := services.NewClinicalTimelineService(database.DB)
 	clinicalNoteService := services.NewClinicalNoteService(database.DB)
 	allergyService := services.NewAllergyService(database.DB)
 	vitalsService := services.NewVitalsService(database.DB)
@@ -349,6 +350,7 @@ func setupRoutes(
 	oauthHandler := handlers.NewOAuthHandler(oauthService)
 	patientHandler := handlers.NewPatientHandler(patientService)
 	anamnesisHandler := handlers.NewAnamnesisHandler(anamnesisService)
+	clinicalTimelineHandler := handlers.NewClinicalTimelineHandler(clinicalTimelineService)
 	clinicalNoteHandler := handlers.NewClinicalNoteHandler(clinicalNoteService)
 	allergyHandler := handlers.NewAllergyHandler(allergyService)
 	vitalsHandler := handlers.NewVitalsHandler(vitalsService)
@@ -835,6 +837,10 @@ func setupRoutes(
 	appointments.Put("/:id", appointmentHandler.Update)
 	appointments.Post("/:id/cancel", appointmentHandler.Cancel)
 	appointments.Post("/:id/confirm", appointmentHandler.Confirm)
+
+	// Anamnese da consulta — itens linkados ao appointment (workspace embute).
+	appointments.Get("/:id/anamnesis", anamnesisHandler.GetByAppointment)
+	appointments.Post("/:id/anamnesis", anamnesisHandler.CreateForAppointment)
 	// Fluxo de balcão: recepção registra chegada (check-in) e início do atendimento.
 	appointments.Post("/:id/check-in", appointmentHandler.CheckIn)
 	appointments.Post("/:id/start", appointmentHandler.StartConsultation)
@@ -1275,6 +1281,9 @@ func setupRoutes(
 
 	// Rotas específicas do paciente (dentro de /patients/:patientId)
 	patients.Get("/:patientId/lab-values", labResultValueHandler.GetValuesByPatient)
+
+	// Histórico longitudinal de um item clínico (Escore Light + pré-consulta + anamnese).
+	patients.Get("/:id/score-items/:scoreItemId/history", clinicalTimelineHandler.GetItemHistory)
 	patients.Get("/:patientId/lab-values/test/:testId/latest", labResultValueHandler.GetLatestValueForTest)
 
 	// Score Snapshots routes (patient-scoped)

@@ -130,7 +130,7 @@ export default function AnamnesisPage() {
   }) || [];
 
   return (
-    <div className="container mx-auto py-8 space-y-8">
+    <div className="container mx-auto px-3 py-4 sm:px-4 sm:py-8 space-y-4 sm:space-y-8">
       {/* Selected Patient Header */}
       <SelectedPatientHeader />
 

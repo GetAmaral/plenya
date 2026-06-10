@@ -99,30 +99,21 @@ func (s *ClinicalNoteService) Create(authorID uuid.UUID, req *dto.CreateClinical
 		patientID = pid
 	}
 
-	layout := models.ClinicalNoteLayoutSOAP
-	if req.Layout != "" {
-		layout = models.ClinicalNoteLayout(req.Layout)
-	}
 	visibility := models.VisibilityAll
 	if req.Visibility != "" {
 		visibility = models.AnamnesisVisibility(req.Visibility)
 	}
 
 	note := models.ClinicalNote{
-		AppointmentID:  appointmentID,
-		PatientID:      patientID,
-		AuthorID:       authorID,
-		Layout:         layout,
-		Subjective:     req.Subjective,
-		SubjectiveHtml: req.SubjectiveHtml,
-		Objective:      req.Objective,
-		ObjectiveHtml:  req.ObjectiveHtml,
-		Assessment:     req.Assessment,
-		AssessmentHtml: req.AssessmentHtml,
-		Plan:           req.Plan,
-		PlanHtml:       req.PlanHtml,
-		Visibility:     visibility,
-		Status:         models.ClinicalNoteStatusDraft,
+		AppointmentID:       appointmentID,
+		PatientID:           patientID,
+		AuthorID:            authorID,
+		ClinicalHistory:     req.ClinicalHistory,
+		ClinicalHistoryHtml: req.ClinicalHistoryHtml,
+		Conduct:             req.Conduct,
+		ConductHtml:         req.ConductHtml,
+		Visibility:          visibility,
+		Status:              models.ClinicalNoteStatusDraft,
 	}
 	if req.Sign {
 		now := time.Now()
@@ -209,32 +200,17 @@ func (s *ClinicalNoteService) Update(noteID, authorID uuid.UUID, userRole models
 		return nil, ErrClinicalNoteSigned
 	}
 
-	if req.Layout != nil {
-		note.Layout = models.ClinicalNoteLayout(*req.Layout)
+	if req.ClinicalHistory != nil {
+		note.ClinicalHistory = req.ClinicalHistory
 	}
-	if req.Subjective != nil {
-		note.Subjective = req.Subjective
+	if req.ClinicalHistoryHtml != nil {
+		note.ClinicalHistoryHtml = req.ClinicalHistoryHtml
 	}
-	if req.SubjectiveHtml != nil {
-		note.SubjectiveHtml = req.SubjectiveHtml
+	if req.Conduct != nil {
+		note.Conduct = req.Conduct
 	}
-	if req.Objective != nil {
-		note.Objective = req.Objective
-	}
-	if req.ObjectiveHtml != nil {
-		note.ObjectiveHtml = req.ObjectiveHtml
-	}
-	if req.Assessment != nil {
-		note.Assessment = req.Assessment
-	}
-	if req.AssessmentHtml != nil {
-		note.AssessmentHtml = req.AssessmentHtml
-	}
-	if req.Plan != nil {
-		note.Plan = req.Plan
-	}
-	if req.PlanHtml != nil {
-		note.PlanHtml = req.PlanHtml
+	if req.ConductHtml != nil {
+		note.ConductHtml = req.ConductHtml
 	}
 	if req.Visibility != nil {
 		note.Visibility = models.AnamnesisVisibility(*req.Visibility)
@@ -349,23 +325,18 @@ func (s *ClinicalNoteService) loadDTO(noteID, userID uuid.UUID) (*dto.ClinicalNo
 
 func (s *ClinicalNoteService) toDTO(note *models.ClinicalNote) *dto.ClinicalNoteResponse {
 	resp := &dto.ClinicalNoteResponse{
-		ID:             note.ID.String(),
-		PatientID:      note.PatientID.String(),
-		AuthorID:       note.AuthorID.String(),
-		Layout:         string(note.Layout),
-		Subjective:     note.Subjective,
-		SubjectiveHtml: note.SubjectiveHtml,
-		Objective:      note.Objective,
-		ObjectiveHtml:  note.ObjectiveHtml,
-		Assessment:     note.Assessment,
-		AssessmentHtml: note.AssessmentHtml,
-		Plan:           note.Plan,
-		PlanHtml:       note.PlanHtml,
-		Status:         string(note.Status),
-		Visibility:     string(note.Visibility),
-		DisplayTitle:   note.GetTitle(),
-		CreatedAt:      note.CreatedAt.Format(time.RFC3339),
-		UpdatedAt:      note.UpdatedAt.Format(time.RFC3339),
+		ID:                  note.ID.String(),
+		PatientID:           note.PatientID.String(),
+		AuthorID:            note.AuthorID.String(),
+		ClinicalHistory:     note.ClinicalHistory,
+		ClinicalHistoryHtml: note.ClinicalHistoryHtml,
+		Conduct:             note.Conduct,
+		ConductHtml:         note.ConductHtml,
+		Status:              string(note.Status),
+		Visibility:          string(note.Visibility),
+		DisplayTitle:        note.GetTitle(),
+		CreatedAt:           note.CreatedAt.Format(time.RFC3339),
+		UpdatedAt:           note.UpdatedAt.Format(time.RFC3339),
 	}
 	if note.AppointmentID != nil {
 		aid := note.AppointmentID.String()

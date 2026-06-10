@@ -45,6 +45,7 @@ import { MedicationsCard } from '@/components/clinical/medications-card';
 import { IssuedDocumentsCard } from '@/components/clinical/issued-documents-card';
 import { CarePlanCard } from '@/components/clinical/care-plan-card';
 import { DossierPanel } from '@/components/conversations/dossier-panel';
+import { ConsultationAnamnesisPanel } from '@/components/consultations/consultation-anamnesis-panel';
 import { useExtractConsultationSocial } from '@/lib/api/conversations-api';
 import { useSelectedPatient } from '@/lib/use-selected-patient';
 import { useLatestHealthScore } from '@/lib/api/health-score-api';
@@ -57,24 +58,25 @@ import {
   useUpdateAppointment,
 } from '@/lib/api/calendar-api';
 import {
-  type ClinicalNoteLayout,
   useClinicalNoteByAppointment,
   useCreateClinicalNote,
   useSignClinicalNote,
   useUpdateClinicalNote,
 } from '@/lib/api/clinical-notes';
 
-const SECTION_LABELS: Record<string, { label: string; placeholder: string }> = {
-  subjective: { label: 'Subjetivo', placeholder: 'Queixa, história da doença atual, relato do paciente...' },
-  objective: { label: 'Objetivo', placeholder: 'Exame físico, sinais vitais, achados objetivos...' },
-  assessment: { label: 'Avaliação', placeholder: 'Impressão clínica, hipóteses, raciocínio...' },
-  plan: { label: 'Plano', placeholder: 'Conduta, prescrição, exames, orientações, retorno...' },
-};
-
-const LAYOUT_ORDER: Record<ClinicalNoteLayout, Array<keyof typeof SECTION_LABELS>> = {
-  soap: ['subjective', 'objective', 'assessment', 'plan'],
-  apso: ['assessment', 'plan', 'subjective', 'objective'],
-};
+// Modelo simplificado: 2 campos de texto livre (sem SOAP/APSO).
+const NOTE_SECTIONS: Array<{ key: 'clinicalHistory' | 'conduct'; label: string; placeholder: string }> = [
+  {
+    key: 'clinicalHistory',
+    label: 'História clínica e evolução',
+    placeholder: 'História, exame físico, hipóteses, evolução...',
+  },
+  {
+    key: 'conduct',
+    label: 'Conduta',
+    placeholder: 'Plano: prescrição, exames, orientações, retorno...',
+  },
+];
 
 function escapeHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -117,11 +119,8 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
   const startAppt = useStartAppointment(appt.id);
   const completeAppt = useUpdateAppointment(appt.id);
 
-  const [layout, setLayout] = useState<ClinicalNoteLayout>('soap');
-  const [subjective, setSubjective] = useState('');
-  const [objective, setObjective] = useState('');
-  const [assessment, setAssessment] = useState('');
-  const [plan, setPlan] = useState('');
+  const [clinicalHistory, setClinicalHistory] = useState('');
+  const [conduct, setConduct] = useState('');
   const [showRecall, setShowRecall] = useState(false);
 
   // Transcrição da teleconsulta (Daily/Deepgram) — disponível pós-chamada. NÃO
@@ -133,9 +132,9 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
     const t = telemedRec.data?.transcriptText;
     if (!t) return;
     const html = transcriptToHtml(t);
-    setSubjective((prev) => (prev && prev.replace(/<[^>]*>/g, '').trim() ? prev + html : html));
+    setClinicalHistory((prev) => (prev && prev.replace(/<[^>]*>/g, '').trim() ? prev + html : html));
     setTranscriptInserted(true);
-    toast.success('Transcrição inserida no Subjetivo — revise antes de assinar.');
+    toast.success('Transcrição inserida na História clínica — revise antes de assinar.');
   }
 
   // AI scribe: gera anamnese/SOAP estruturada a partir do transcript (rascunho).
@@ -155,24 +154,28 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
     }
   }
 
-  // Insere o rascunho da IA nos campos SOAP, agrupando seções pelo soapTarget.
+  // Insere o rascunho da IA nos 2 campos: subjetivo+objetivo+avaliação → História
+  // clínica e evolução; plano → Conduta (remap do soapTarget que a IA ainda produz).
   function insertGeneratedNote() {
     const g = telemedRec.data?.generatedNote;
     if (!g) return;
     const groups: Record<string, { titulo: string; texto: string }[]> = {};
     for (const s of g.sections) (groups[s.soapTarget] ||= []).push(s);
     const toHtml = (secs: { titulo: string; texto: string }[]) =>
-      secs.length === 1
-        ? `<p>${escapeHtml(secs[0].texto)}</p>`
+      !secs || secs.length === 0
+        ? ''
         : secs
             .map((s) => `<p><strong>${escapeHtml(s.titulo)}:</strong> ${escapeHtml(s.texto)}</p>`)
             .join('');
     const append = (prev: string, html: string) =>
-      prev && prev.replace(/<[^>]*>/g, '').trim() ? prev + html : html;
-    if (groups.subjective) setSubjective((p) => append(p, toHtml(groups.subjective)));
-    if (groups.objective) setObjective((p) => append(p, toHtml(groups.objective)));
-    if (groups.assessment) setAssessment((p) => append(p, toHtml(groups.assessment)));
-    if (groups.plan) setPlan((p) => append(p, toHtml(groups.plan)));
+      !html ? prev : prev && prev.replace(/<[^>]*>/g, '').trim() ? prev + html : html;
+    const historyHtml = toHtml([
+      ...(groups.subjective ?? []),
+      ...(groups.objective ?? []),
+      ...(groups.assessment ?? []),
+    ]);
+    if (historyHtml) setClinicalHistory((p) => append(p, historyHtml));
+    if (groups.plan) setConduct((p) => append(p, toHtml(groups.plan)));
     setNoteInserted(true);
     toast.success('Rascunho da IA inserido na nota — revise antes de assinar.');
   }
@@ -182,11 +185,8 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
   useEffect(() => {
     if (note && !hydrated.current) {
       hydrated.current = true;
-      setLayout(note.layout ?? 'soap');
-      setSubjective(note.subjectiveHtml ?? '');
-      setObjective(note.objectiveHtml ?? '');
-      setAssessment(note.assessmentHtml ?? '');
-      setPlan(note.planHtml ?? '');
+      setClinicalHistory(note.clinicalHistoryHtml ?? '');
+      setConduct(note.conductHtml ?? '');
     }
   }, [note]);
 
@@ -195,26 +195,19 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
   const saving = createNote.isPending || updateNote.isPending;
   const finalizing = signNote.isPending || completeAppt.isPending;
 
-  const htmlBySection: Record<string, string> = {
-    subjective,
-    objective,
-    assessment,
-    plan,
+  const htmlBySection: Record<'clinicalHistory' | 'conduct', string> = {
+    clinicalHistory,
+    conduct,
   };
-  const setterBySection: Record<string, (v: string) => void> = {
-    subjective: setSubjective,
-    objective: setObjective,
-    assessment: setAssessment,
-    plan: setPlan,
+  const setterBySection: Record<'clinicalHistory' | 'conduct', (v: string) => void> = {
+    clinicalHistory: setClinicalHistory,
+    conduct: setConduct,
   };
 
   async function saveDraft(): Promise<string | null> {
     const payload = {
-      layout,
-      subjectiveHtml: subjective,
-      objectiveHtml: objective,
-      assessmentHtml: assessment,
-      planHtml: plan,
+      clinicalHistoryHtml: clinicalHistory,
+      conductHtml: conduct,
     };
     try {
       if (note) {
@@ -377,7 +370,8 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
         <IssuedDocumentsCard patientId={appt.patientId} appointmentId={appt.id} />
       </div>
 
-      {/* CENTRO — Nota de evolução */}
+      {/* CENTRO — Nota de evolução + Anamnese da consulta */}
+      <div className="min-w-0 space-y-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="flex items-center gap-2 text-sm">
@@ -392,22 +386,6 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
               <Badge variant="outline">Rascunho</Badge>
             )}
           </CardTitle>
-          {!readOnly && (
-            <div className="flex rounded-md border p-0.5 text-xs">
-              {(['soap', 'apso'] as ClinicalNoteLayout[]).map((l) => (
-                <button
-                  key={l}
-                  type="button"
-                  onClick={() => setLayout(l)}
-                  className={`rounded px-2 py-0.5 uppercase ${
-                    layout === l ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'
-                  }`}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
-          )}
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Teleconsulta: transcrição + AI scribe (anamnese/SOAP). Tudo revisável. */}
@@ -540,10 +518,10 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
             </div>
           )}
 
-          {LAYOUT_ORDER[layout].map((key) => (
+          {NOTE_SECTIONS.map(({ key, label, placeholder }) => (
             <div key={key} className="space-y-1">
               <p className="text-xs font-medium uppercase text-muted-foreground">
-                {SECTION_LABELS[key].label}
+                {label}
               </p>
               {readOnly ? (
                 <SafeHtml
@@ -555,8 +533,8 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
                   editorId={`note-${key}`}
                   value={htmlBySection[key]}
                   onChange={setterBySection[key]}
-                  placeholder={SECTION_LABELS[key].placeholder}
-                  minHeight="120px"
+                  placeholder={placeholder}
+                  minHeight="140px"
                 />
               )}
             </div>
@@ -572,6 +550,9 @@ export function ConsultationWorkspace({ appt }: { appt: Appointment }) {
           )}
         </CardContent>
       </Card>
+
+      <ConsultationAnamnesisPanel appointmentId={appt.id} patient={selectedPatient} patientId={appt.patientId} />
+      </div>
 
       {/* DIREITA — Ações clínicas */}
       <div className="space-y-4">

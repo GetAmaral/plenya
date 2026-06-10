@@ -19,6 +19,7 @@ interface AnamnesisTemplateItemsFormProps {
   onChange: (values: AnamnesisItemFormValue[]) => void
   focusScoreItemId?: string | null
   patient?: Patient | null
+  patientId?: string | null
 }
 
 export function AnamnesisTemplateItemsForm({
@@ -27,6 +28,7 @@ export function AnamnesisTemplateItemsForm({
   onChange,
   focusScoreItemId,
   patient,
+  patientId,
 }: AnamnesisTemplateItemsFormProps) {
   return (
     <AnamnesisTemplateItemsRenderer
@@ -36,6 +38,7 @@ export function AnamnesisTemplateItemsForm({
       compact={true}
       focusScoreItemId={focusScoreItemId}
       patient={patient}
+      patientId={patientId}
     />
   )
 }

@@ -8,18 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// ClinicalNoteLayout define o layout da nota de evolução.
-//   - soap: Subjetivo · Objetivo · Avaliação · Plano (ordem clássica)
-//   - apso: Avaliação · Plano · Subjetivo · Objetivo (A/P no topo, leitura rápida)
-//
-// É só ordem de exibição no frontend — os 4 campos são os mesmos.
-type ClinicalNoteLayout string
-
-const (
-	ClinicalNoteLayoutSOAP ClinicalNoteLayout = "soap"
-	ClinicalNoteLayoutAPSO ClinicalNoteLayout = "apso"
-)
-
 // ClinicalNoteStatus define o ciclo de vida da nota.
 //   - draft: editável pelo autor
 //   - signed: imutável (correção só por adendo — guarda 20 anos / NGS2)
@@ -30,19 +18,24 @@ const (
 	ClinicalNoteStatusSigned ClinicalNoteStatus = "signed"
 )
 
-// ClinicalNote é a NOTA DE EVOLUÇÃO por consulta (SOAP/APSO).
+// ClinicalNote é a NOTA DE EVOLUÇÃO por consulta.
 //
-// Distinta da Anamnese (que é o intake inicial one-shot, com Items ligados a
-// ScoreItem): a ClinicalNote é a evolução de cada visita, ancorada ao
-// Appointment via AppointmentID. Reaproveita o enum AnamnesisVisibility para
-// governança por papel e o mesmo padrão rich-text (texto plano + HTML Tiptap,
-// sanitizado com DOMPurify no display).
+// Modelo simplificado (sem SOAP/APSO): dois campos de texto livre — "História
+// clínica e evolução" (ClinicalHistory) e "Conduta" (Conduct). SOAP não é
+// exigido por lei; a CFM Res. 1.638/2002 exige o CONTEÚDO (anamnese, exame,
+// hipótese, conduta, evolução), não o formato — e parte do "objetivo" já é
+// estruturada nos cards do workspace (vitais, CID-10, alergias, medicações).
+//
+// Distinta da Anamnese (intake com Items ligados a ScoreItem): a ClinicalNote é
+// a evolução de cada visita, ancorada ao Appointment via AppointmentID.
+// Reaproveita o enum AnamnesisVisibility e o padrão rich-text (texto plano +
+// HTML Tiptap, sanitizado com DOMPurify no display).
 //
 // Imutabilidade: após assinada (Status=signed), a nota é read-only no service.
 // Correção é feita criando uma NOVA nota com AmendmentOfID apontando para a
 // original (adendo), nunca editando a assinada.
 //
-// @Description Nota clínica de evolução por consulta (SOAP/APSO)
+// @Description Nota clínica de evolução por consulta (História clínica + Conduta)
 type ClinicalNote struct {
 	// ID único da nota
 	ID uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
@@ -57,18 +50,14 @@ type ClinicalNote struct {
 	// Profissional autor da nota
 	AuthorID uuid.UUID `gorm:"type:uuid;not null;index" json:"authorId"`
 
-	// Layout de exibição (soap|apso)
-	Layout ClinicalNoteLayout `gorm:"type:varchar(4);not null;default:'soap';check:layout IN ('soap','apso')" json:"layout"`
+	// História clínica e evolução — narrativa da consulta (queixa, HDA, exame,
+	// hipótese, evolução). Texto plano (busca/indexação) + HTML (exibição Tiptap).
+	ClinicalHistory     *string `gorm:"type:text" json:"clinicalHistory,omitempty"`
+	ClinicalHistoryHtml *string `gorm:"type:text" json:"clinicalHistoryHtml,omitempty"`
 
-	// Seções SOAP — texto plano (busca/indexação) + HTML (exibição Tiptap)
-	Subjective     *string `gorm:"type:text" json:"subjective,omitempty"`
-	SubjectiveHtml *string `gorm:"type:text" json:"subjectiveHtml,omitempty"`
-	Objective      *string `gorm:"type:text" json:"objective,omitempty"`
-	ObjectiveHtml  *string `gorm:"type:text" json:"objectiveHtml,omitempty"`
-	Assessment     *string `gorm:"type:text" json:"assessment,omitempty"`
-	AssessmentHtml *string `gorm:"type:text" json:"assessmentHtml,omitempty"`
-	Plan           *string `gorm:"type:text" json:"plan,omitempty"`
-	PlanHtml       *string `gorm:"type:text" json:"planHtml,omitempty"`
+	// Conduta — plano (prescrição, exames, orientações, retorno).
+	Conduct     *string `gorm:"type:text" json:"conduct,omitempty"`
+	ConductHtml *string `gorm:"type:text" json:"conductHtml,omitempty"`
 
 	// Status (draft|signed). Signed = imutável.
 	Status ClinicalNoteStatus `gorm:"type:varchar(10);not null;default:'draft';check:status IN ('draft','signed')" json:"status"`

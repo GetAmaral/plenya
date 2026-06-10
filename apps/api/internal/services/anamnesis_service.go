@@ -47,7 +47,7 @@ func (s *AnamnesisService) CanViewFullContent(anamnesis *models.Anamnesis, userI
 	}
 }
 
-// Create cria uma nova anamnese
+// Create cria uma nova anamnese para o selectedPatient do autor (fluxo standalone).
 func (s *AnamnesisService) Create(authorID uuid.UUID, req *dto.CreateAnamnesisRequest) (*dto.AnamnesisResponse, error) {
 	// CRITICAL SECURITY: Get user's selected patient
 	var user models.User
@@ -61,7 +61,7 @@ func (s *AnamnesisService) Create(authorID uuid.UUID, req *dto.CreateAnamnesisRe
 	}
 
 	// Parse patient ID from request
-	var patientID uuid.UUID
+	patientID := *user.SelectedPatientID
 	if req.PatientID != "" {
 		pid, err := uuid.Parse(req.PatientID)
 		if err != nil {
@@ -72,11 +72,82 @@ func (s *AnamnesisService) Create(authorID uuid.UUID, req *dto.CreateAnamnesisRe
 			return nil, errors.New("patient id does not match selected patient")
 		}
 		patientID = pid
-	} else {
-		// Auto-fill with selectedPatient
-		patientID = *user.SelectedPatientID
 	}
 
+	return s.createForPatient(patientID, authorID, req)
+}
+
+// GetByAppointment retorna a anamnese vinculada a uma consulta (Appointment.AnamnesisID),
+// com itens (centrada na consulta — não depende do selectedPatient).
+func (s *AnamnesisService) GetByAppointment(appointmentID, userID uuid.UUID, userRole models.Role) (*dto.AnamnesisResponse, error) {
+	var appt models.Appointment
+	if err := s.db.Select("id", "patient_id", "anamnesis_id").First(&appt, appointmentID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrAppointmentNotFound
+		}
+		return nil, err
+	}
+	if appt.AnamnesisID == nil {
+		return nil, ErrAnamnesisNotFound
+	}
+
+	var anamnesis models.Anamnesis
+	query := s.db.
+		Preload("Author").
+		Preload("AnamnesisTemplate").
+		Preload("Items", func(db *gorm.DB) *gorm.DB {
+			return db.Order("\"order\" ASC").
+				Preload("ScoreItem.Subgroup.Group").
+				Preload("ScoreItem.Levels", func(db *gorm.DB) *gorm.DB {
+					return db.Order("level ASC")
+				})
+		}).
+		Where("id = ?", *appt.AnamnesisID)
+	if err := query.First(&anamnesis).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrAnamnesisNotFound
+		}
+		return nil, err
+	}
+	if !s.CanViewFullContent(&anamnesis, userID, userRole) {
+		return nil, ErrAnamnesisRestricted
+	}
+	return s.toDTO(&anamnesis, false), nil
+}
+
+// CreateForAppointment cria a anamnese da consulta e a VINCULA ao appointment
+// (Appointment.AnamnesisID). O paciente vem da consulta (não do selectedPatient).
+// Idempotente: se já houver anamnese vinculada, retorna a existente.
+func (s *AnamnesisService) CreateForAppointment(appointmentID, authorID uuid.UUID, userRole models.Role, req *dto.CreateAnamnesisRequest) (*dto.AnamnesisResponse, error) {
+	var appt models.Appointment
+	if err := s.db.Select("id", "patient_id", "anamnesis_id").First(&appt, appointmentID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrAppointmentNotFound
+		}
+		return nil, err
+	}
+	if appt.AnamnesisID != nil {
+		return s.GetByAppointment(appointmentID, authorID, userRole)
+	}
+
+	resp, err := s.createForPatient(appt.PatientID, authorID, req)
+	if err != nil {
+		return nil, err
+	}
+	anamnesisID, err := uuid.Parse(resp.ID)
+	if err != nil {
+		return nil, err
+	}
+	if err := s.db.Model(&models.Appointment{}).
+		Where("id = ?", appointmentID).
+		Update("anamnesis_id", anamnesisID).Error; err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+// createForPatient cria a anamnese + itens para um paciente já resolvido.
+func (s *AnamnesisService) createForPatient(patientID, authorID uuid.UUID, req *dto.CreateAnamnesisRequest) (*dto.AnamnesisResponse, error) {
 	// Verificar se o paciente existe
 	var patient models.Patient
 	if err := s.db.First(&patient, patientID).Error; err != nil {
