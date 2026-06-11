@@ -117,9 +117,10 @@ func buildExamRequest(lr *models.LabRequest) pdfdoc.ExamRequest {
 	}
 }
 
-// renderAndSaveLabRequest gera o PDF vetorial (pdfdoc) e grava no volume de uploads,
-// mantendo o mesmo esquema de nome usado pelo fluxo de assinatura.
-func (s *LabRequestPDFService) renderAndSaveLabRequest(lr *models.LabRequest) (string, error) {
+// renderAndSaveLabRequestPDF gera o PDF vetorial (pdfdoc) e grava no volume de uploads,
+// mantendo o mesmo esquema de nome usado pelo fluxo de assinatura. Função de pacote para
+// ser reusada pelos dois fluxos (LabRequestService ativo + LabRequestPDFService de assinatura).
+func renderAndSaveLabRequestPDF(lr *models.LabRequest) (string, error) {
 	pdfBytes, err := pdfdoc.RenderExamRequest(buildExamRequest(lr))
 	if err != nil {
 		return "", fmt.Errorf("render pdf: %w", err)

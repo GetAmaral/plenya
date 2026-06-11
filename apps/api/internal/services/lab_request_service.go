@@ -148,7 +148,7 @@ func (s *LabRequestService) GenerateLabRequestPDF(id uuid.UUID) (string, error) 
 	}
 
 	// Generate PDF (agora com SignedAt correto)
-	pdfURL, err := s.pdfService.GenerateLabRequestPDF(req)
+	pdfURL, err := renderAndSaveLabRequestPDF(req)
 	if err != nil {
 		return "", err
 	}

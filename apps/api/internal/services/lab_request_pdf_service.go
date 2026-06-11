@@ -67,7 +67,7 @@ func (s *LabRequestPDFService) GenerateSignedLabRequestPDF(
 	labRequest.QRCodeData = &qrCodeData
 
 	// 4. Gerar PDF vetorial (sistema-base pdfdoc) — agora com SignedAt já configurado se digital
-	pdfURL, err = s.renderAndSaveLabRequest(&labRequest)
+	pdfURL, err = renderAndSaveLabRequestPDF(&labRequest)
 	if err != nil {
 		return "", fmt.Errorf("erro ao gerar PDF: %v", err)
 	}
@@ -92,7 +92,7 @@ func (s *LabRequestPDFService) GenerateSignedLabRequestPDF(
 			labRequest.CertificateSerial = nil
 
 			// Regerar PDF sem assinatura digital (SignedAt já zerado acima)
-			pdfURL, err = s.renderAndSaveLabRequest(&labRequest)
+			pdfURL, err = renderAndSaveLabRequestPDF(&labRequest)
 			if err != nil {
 				return "", fmt.Errorf("erro ao gerar PDF sem assinatura: %v", err)
 			}
