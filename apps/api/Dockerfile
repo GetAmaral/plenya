@@ -32,6 +32,14 @@ COPY --from=builder /backfill-patient-phones .
 COPY prod-entrypoint.sh .
 RUN chmod +x prod-entrypoint.sh
 
+# Assets de geração de PDF (gofpdf lê estes caminhos absolutos em runtime).
+# Sem eles, TODO PDF falha: pedidos de exame, prescrições, documentos, pagamentos.
+#   - Fontes OpenSans (Regular/Bold/SemiBold) em /usr/share/fonts/opensans/
+#   - Timbrado, selo ICP-Brasil, logo e watermark em /app/ e /app/assets/
+COPY assets/fonts/opensans/ /usr/share/fonts/opensans/
+COPY PlenyaA4-150dpi.png icp-brasil-seal.png /app/
+COPY assets/logo-only.png assets/watermark-only.png /app/assets/
+
 # Volumes: uploads (PDFs), enrichment-batch (RAG)
 RUN mkdir -p /app/uploads /app/enrichment-batch
 VOLUME ["/app/uploads", "/app/enrichment-batch"]

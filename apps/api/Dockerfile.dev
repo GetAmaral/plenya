@@ -17,6 +17,10 @@ RUN apk add --no-cache git make \
     tesseract-ocr-data-por \
     imagemagick
 
+# Fontes OpenSans usadas na geração de PDF (gofpdf lê /usr/share/fonts/opensans/).
+# As imagens (timbrado, selo, logo, watermark) já chegam pelo bind-mount de ./apps/api em /app.
+COPY assets/fonts/opensans/ /usr/share/fonts/opensans/
+
 # Copiar entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

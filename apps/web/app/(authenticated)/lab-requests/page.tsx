@@ -178,6 +178,8 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
         // Create text with one exam per line
         const examsText = sortedTests.map(test => test.name).join('\n')
         setExams(examsText)
+      } else {
+        toast.info('Este template não tem exames cadastrados ainda')
       }
     } catch (error) {
       toast.error('Erro ao carregar template')
@@ -378,6 +380,8 @@ function EditLabRequestForm({
         )
         const examsText = sortedTests.map(test => test.name).join('\n')
         setExams(examsText)
+      } else {
+        toast.info('Este template não tem exames cadastrados ainda')
       }
     } catch (error) {
       toast.error('Erro ao carregar template')
@@ -581,6 +585,8 @@ function DuplicateLabRequestForm({
         )
         const examsText = sortedTests.map(test => test.name).join('\n')
         setExams(examsText)
+      } else {
+        toast.info('Este template não tem exames cadastrados ainda')
       }
     } catch (error) {
       toast.error('Erro ao carregar template')
