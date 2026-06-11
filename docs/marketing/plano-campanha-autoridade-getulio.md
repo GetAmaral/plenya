@@ -172,9 +172,13 @@ Diagnóstico corrigido após ler a doc atual do Meta + ground truth:
 ### Estrutura final criada (PAUSADA, R$0 gasto)
 - Campanha **`120246291720670590`** — "Autoridade Getúlio — Engajamento/Seguidor",
   OUTCOME_ENGAGEMENT, CBO **R$30/dia**, LOWEST_COST_WITHOUT_CAP.
-- Ad set **`120246291810610590`** — "Interesses — Saúde & Longevidade" (THRUPLAY/ON_VIDEO, BR 25-65,
-  interesses fitness/nutrição/bem-estar/medicina natural, Advantage audience).
-- Ad set **`120246291811950590`** — "Aberto — Advantage (Brasil)" (THRUPLAY/ON_VIDEO, BR 25-65, Advantage).
+- Ad set **`120246338862850590`** — "Interesses — Saúde & Longevidade (IG)" (POST_ENGAGEMENT/ON_POST,
+  **IG-only**, BR 25-65, interesses fitness/nutrição/bem-estar/medicina natural, Advantage audience).
+- Ad set **`120246338863220590`** — "Aberto — Advantage IG (Brasil)" (POST_ENGAGEMENT/ON_POST, IG-only, BR 25-65, Advantage).
+
+> ⚠️ **CORREÇÃO 2026-06-11:** v1 (THRUPLAY + placement automático) vazou **81% do budget pro Facebook**
+> em 12h — view passiva, reels campeões sufocados. Refeita **IG-only + POST_ENGAGEMENT** (ad sets acima).
+> Lição no `.claude/skills/ads/ERRORS.md`.
 - **10 anúncios** (5 reels × 2 ad sets), todos PAUSED:
   Ep1, Ep2, Ep7 (GLP-1) + Proteína + Hidratação.
 - Criativos flat (sem CTA): Ep1 `1881768479183674`, Ep2 `2250980205643279`, Ep7 `1337845195077603`,

@@ -87,8 +87,9 @@ Para impulsionar reels (crescimento/engajamento), usar **exatamente** este camin
 1. **Criativo flat por reel:** `instagram_user_id` + `source_instagram_media_id` (o reel), **SEM `call_to_action_type`**.
 2. **Campanha:** `objective=OUTCOME_ENGAGEMENT`, `status=PAUSED`, `special_ad_categories=[]`,
    `daily_budget=<cents>` (CBO), `bid_strategy=LOWEST_COST_WITHOUT_CAP`.
-3. **Ad sets:** `optimization_goal=THRUPLAY`, `billing_event=IMPRESSIONS`, `destination_type=ON_VIDEO`,
-   `promoted_object={"page_id":"1046561478538408"}`, targeting (Advantage trava idade mín=25), `status=PAUSED`.
+3. **Ad sets:** `optimization_goal=POST_ENGAGEMENT`, `billing_event=IMPRESSIONS`, `destination_type=ON_POST`,
+   `promoted_object={"page_id":"1046561478538408"}`, **`targeting.publisher_platforms=["instagram"]`**
+   (obrigatório — sem isso vaza pro FB), targeting (Advantage trava idade mín=25), `status=PAUSED`.
    Com CBO, **todos os ad sets precisam da MESMA otimização**.
 3. **Anúncios:** `creative={"creative_id":...}`, `status=PAUSED`. 1 anúncio por (reel × ad set).
 
@@ -112,7 +113,9 @@ Para impulsionar reels (crescimento/engajamento), usar **exatamente** este camin
 ---
 
 ## Glossário de objetivo×otimização (ODAX, o que a API aceita)
-- Impulsionar **vídeo/reel** p/ crescimento → `OUTCOME_ENGAGEMENT` + `THRUPLAY` + `ON_VIDEO`. ✅
+- Impulsionar **reel** p/ crescimento do IG → `OUTCOME_ENGAGEMENT` + `POST_ENGAGEMENT` + `ON_POST`
+  + **`publisher_platforms=["instagram"]`** (sem isso, ~80% do budget vaza pro Facebook). ✅
+  (THRUPLAY/ON_VIDEO existe mas compra view passiva barata — evitar p/ crescimento.)
 - **NÃO existem via API** (só interface): objetivo "visitas ao perfil" (`PROFILE_VISIT` → erro 1346001),
   CTA "Ver perfil" (`VIEW_INSTAGRAM_PROFILE` / qualquer `call_to_action_type` em criativo de reel → `#3`).
 - Detalhes e outros combos em `ERRORS.md`.

@@ -64,6 +64,25 @@ tier."* → É chicken-and-egg: precisa **acumular chamadas reais da Ads API por
 importaria se um dia quiséssemos o objetivo "visitas ao perfil"/botão (recursos só-da-interface).
 Recomendação: não perseguir agora; re-submeter em ~2-3 semanas SE decidirmos que vale.
 
+## 🚨 Placement automático VAZA pro Facebook (2026-06-11, custou a 1ª campanha)
+Campanha de crescimento do IG montada com **placement automático** → o Meta jogou **81% do
+budget no Facebook** (feed + facebook_reels), só 18% no Instagram. O usuário olhou o IG e viu
+"resultado péssimo" porque o IG quase não foi servido. CPM caiu pra R$2,75 (inventário barato FB)
+= sinal de lixo, não de eficiência. → **SEMPRE** travar `targeting.publisher_platforms=["instagram"]`
+quando o objetivo é crescer o Instagram. (Opcional: `instagram_positions`; sem isso, usa todas as do IG.)
+
+## THRUPLAY compra view passiva (não engajamento)
+`optimization_goal=THRUPLAY` otimiza por visualização de 15s barata → 1.383 views mas só 20 likes
++ 1 comment em 12h. Parece morto. → Para crescimento/autoridade, preferir **`POST_ENGAGEMENT` +
+`destination_type=ON_POST`** (otimiza curtida/comentário/share/save). Bônus: sob engajamento, os
+reels de alto engajamento (GLP-1) ganham a entrega, em vez do reel de view mais barata.
+THRUPLAY só se o objetivo for puramente alcance/views de vídeo.
+
+## CBO + LOWEST_COST concentra budget no ad mais barato
+CBO jogou R$6,67 de R$7,71 num único anúncio (o mais barato) e **sufocou os reels campeões**
+(GLP-1 receberam ~R$0). → Com `POST_ENGAGEMENT` a concentração tende a favorecer o que engaja
+(melhor). Se ainda starvar os bons, usar orçamento por ad set (ABO) ou menos criativos por ad set.
+
 ## Token vencendo
 `META_MARKETING_TOKEN` é long-lived (~60 dias). Quando perto de vencer: Graph API Explorer →
 app PlenyaMarketing → User Token → escopos (`ads_management,ads_read,read_insights,instagram_basic,

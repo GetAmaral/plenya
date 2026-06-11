@@ -54,22 +54,25 @@ curl -s -X POST "$G/$ACT/campaigns" \
   --data-urlencode "access_token=$T"
 ```
 
-### 3) ad set (THRUPLAY / ON_VIDEO, PAUSED)
+### 3) ad set (POST_ENGAGEMENT / ON_POST, **IG-only**, PAUSED)
 ```bash
 curl -s -X POST "$G/$ACT/adsets" \
   --data-urlencode "name=<nome do público>" \
   --data-urlencode "campaign_id=<CAMPAIGN_ID>" \
   --data-urlencode "status=PAUSED" \
-  --data-urlencode "optimization_goal=THRUPLAY" \
+  --data-urlencode "optimization_goal=POST_ENGAGEMENT" \
   --data-urlencode "billing_event=IMPRESSIONS" \
-  --data-urlencode "destination_type=ON_VIDEO" \
+  --data-urlencode "destination_type=ON_POST" \
   --data-urlencode "promoted_object={\"page_id\":\"$PAGE\"}" \
-  --data-urlencode 'targeting={"age_min":25,"age_max":65,"geo_locations":{"countries":["BR"]},"targeting_automation":{"advantage_audience":1}}' \
+  --data-urlencode 'targeting={"age_min":25,"age_max":65,"geo_locations":{"countries":["BR"]},"publisher_platforms":["instagram"],"targeting_automation":{"advantage_audience":1}}' \
   --data-urlencode "access_token=$T"
+# 🚨 publisher_platforms=["instagram"] é OBRIGATÓRIO p/ crescer o IG — sem isso, placement
+#   automático vaza ~80% do budget pro Facebook (ver ERRORS.md). THRUPLAY/ON_VIDEO compra view
+#   passiva barata; POST_ENGAGEMENT/ON_POST otimiza engajamento real (preferir).
 # com interesses: adicionar "flexible_spec":[{"interests":[{"id":"6003384248805"},...]}] no targeting.
 # Interesses úteis (BR): Saúde e boa forma 6003384248805 · Nutrição humana 6002933862573 ·
 #   Bem Estar 6003147242240 · medicina natural 6003361698660. Buscar mais: GET /search?type=adinterest&q=...
-# CBO → TODOS os ad sets com a MESMA optimization_goal (THRUPLAY).
+# CBO → TODOS os ad sets com a MESMA optimization_goal (POST_ENGAGEMENT).
 ```
 
 ### 4) anúncio (PAUSED) — 1 por (reel × ad set)
@@ -110,8 +113,10 @@ curl -s "$G/<CAMPAIGN_ID>/insights?access_token=$T&date_preset=last_7d&fields=sp
 
 ---
 ## Estado atual (atualizar quando mudar)
-- Campanha ativa: `120246291720670590` (Autoridade Getúlio — Engajamento/Seguidor, R$30/dia).
-  Ad sets `120246291810610590` (Interesses) + `120246291811950590` (Aberto). 10 anúncios.
+- Campanha ativa: `120246291720670590` (Autoridade Getúlio — Engajamento/Seguidor, R$30/dia,
+  POST_ENGAGEMENT/ON_POST, **IG-only**). Ad sets `120246338862850590` (Interesses) +
+  `120246338863220590` (Aberto). 10 anúncios. (v1 THRUPLAY+placement-auto foi refeita em 2026-06-11
+  após vazar 81% pro FB — ver ERRORS.md.)
 - Criativos: Ep1 `1881768479183674` · Ep2 `2250980205643279` · Ep7 `1337845195077603` ·
   Proteína `1576050790745622` · Hidratação `1763630304623063`.
 - GLP-1 (NÃO MEXER, só status): `120240429386620590` — PAUSED desde 2026-06-10.
