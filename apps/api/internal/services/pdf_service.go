@@ -644,6 +644,12 @@ func (s *PDFService) GenerateLabRequestPDF(req *models.LabRequest) (string, erro
 		return "", fmt.Errorf("PDF generation error: %v", pdf.Error())
 	}
 
+	// Garantir que a pasta de destino existe (em prod /app/uploads é um volume
+	// vazio; a subpasta lab-requests não é criada pelo Dockerfile).
+	if err := os.MkdirAll("/app/uploads/lab-requests", 0755); err != nil {
+		return "", fmt.Errorf("failed to create uploads dir: %v", err)
+	}
+
 	err = pdf.OutputFileAndClose(pdfPath)
 	if err != nil {
 		return "", fmt.Errorf("failed to save PDF file: %v", err)

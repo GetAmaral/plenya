@@ -525,6 +525,51 @@ func (h *LabRequestHandler) GeneratePDF(c *fiber.Ctx) error {
 	return c.JSON(updated)
 }
 
+// DownloadPDF serves the generated lab request PDF over an authenticated route.
+// A rota estática /uploads foi removida no hardening H1; o PDF precisa ser servido
+// com autenticação (staff) em vez de link público.
+// @Summary Download autenticado do PDF do pedido de exames
+// @Tags LabRequests
+// @Produce application/pdf
+// @Param id path string true "Lab Request UUID"
+// @Success 200 {file} binary
+// @Failure 404 {object} dto.ErrorResponse
+// @Router /api/v1/lab-requests/{id}/pdf [get]
+func (h *LabRequestHandler) DownloadPDF(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error: "Invalid ID format",
+		})
+	}
+
+	req, err := h.service.GetLabRequestByID(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+			Error: "Lab request not found",
+		})
+	}
+
+	if req.PdfURL == nil || *req.PdfURL == "" {
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+			Error: "PDF ainda não foi gerado para este pedido",
+		})
+	}
+
+	// PdfURL é "/uploads/lab-requests/<arquivo>"; o arquivo físico fica em /app/uploads/...
+	filename := strings.TrimPrefix(*req.PdfURL, "/uploads/lab-requests/")
+	fullPath := "/app/uploads/lab-requests/" + filename
+	if _, statErr := os.Stat(fullPath); statErr != nil {
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+			Error: "Arquivo PDF não encontrado no servidor",
+		})
+	}
+
+	c.Set("Content-Type", "application/pdf")
+	c.Set("Content-Disposition", `inline; filename="`+filename+`"`)
+	return c.SendFile(fullPath)
+}
+
 // ValidatePublic validates a lab request publicly (no authentication required)
 // @Summary Validate lab request publicly
 // @Description Validates a lab request using its ID and QR code (no authentication required)

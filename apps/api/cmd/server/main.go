@@ -1045,6 +1045,7 @@ func setupRoutes(
 	labRequests.Put("/:id", middleware.RequireClinician(), labRequestHandler.UpdateLabRequest)
 	labRequests.Delete("/:id", middleware.RequireAdmin(), labRequestHandler.DeleteLabRequest)
 	labRequests.Post("/:id/generate-pdf", middleware.RequireClinician(), labRequestHandler.GeneratePDF)
+	labRequests.Get("/:id/pdf", labRequestHandler.DownloadPDF)
 
 	// Lab Requests routes dentro de patients
 	patients.Get("/:patientId/lab-requests", labRequestHandler.GetLabRequestsByPatientID)

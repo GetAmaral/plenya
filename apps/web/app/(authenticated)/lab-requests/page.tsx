@@ -28,6 +28,7 @@ import {
   createLabRequest,
   updateLabRequest,
   generateLabRequestPdf,
+  openLabRequestPdf,
   type LabRequest
 } from '@/lib/api/lab-requests'
 import {
@@ -748,14 +749,17 @@ function LabRequestCard({
 
   const generatePdfMutation = useMutation({
     mutationFn: () => generateLabRequestPdf(request.id),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       queryClient.invalidateQueries({ queryKey: ['lab-requests'] })
       toast.success('PDF gerado com sucesso!')
 
-      // Automatically open PDF in new tab
+      // Abre o PDF recém-gerado via download autenticado (rota estática /uploads foi removida)
       if (data.pdfUrl) {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
-        window.open(`${apiUrl}${data.pdfUrl}`, '_blank')
+        try {
+          await openLabRequestPdf(request.id)
+        } catch {
+          toast.error('PDF gerado, mas não foi possível abrir. Tente o botão novamente.')
+        }
       }
     },
     onError: (error: any) => {
@@ -763,13 +767,16 @@ function LabRequestCard({
     }
   })
 
-  const handleGeneratePdf = () => {
+  const handleGeneratePdf = async () => {
     if (request.pdfUrl) {
-      // Open PDF in new tab (add API URL prefix)
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
-      window.open(`${apiUrl}${request.pdfUrl}`, '_blank')
+      // PDF já existe: abrir via download autenticado
+      try {
+        await openLabRequestPdf(request.id)
+      } catch {
+        toast.error('Não foi possível abrir o PDF')
+      }
     } else {
-      // Generate PDF
+      // Gerar PDF
       generatePdfMutation.mutate()
     }
   }

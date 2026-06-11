@@ -99,3 +99,11 @@ export async function deleteLabRequest(id: string): Promise<void> {
 export async function generateLabRequestPdf(id: string): Promise<LabRequest> {
   return apiClient.post<LabRequest>(`/api/v1/lab-requests/${id}/generate-pdf`, {})
 }
+
+/** Baixa o PDF (autenticado) e abre numa nova aba. A rota estática /uploads foi removida (H1). */
+export async function openLabRequestPdf(id: string) {
+  const blob = await apiClient.getBlob(`/api/v1/lab-requests/${id}/pdf`)
+  const url = URL.createObjectURL(blob)
+  window.open(url, '_blank')
+  setTimeout(() => URL.revokeObjectURL(url), 60_000)
+}
