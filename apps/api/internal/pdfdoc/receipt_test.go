@@ -11,7 +11,7 @@ func TestRenderReceipt(t *testing.T) {
 	}
 	in := Receipt{
 		Number: "2026-000123", PayerName: "Maria Helena Soares",
-		AmountBRL: "R$ 850,00", Description: "consulta médica", Method: "PIX",
+		AmountBRL: "R$ 850,00", AmountWords: "oitocentos e cinquenta reais", Description: "consulta médica", Method: "PIX",
 		PaidAt: "10/06/2026", PlaceDate: "Londrina, 10 de junho de 2026",
 		Clinic: Clinic{
 			LegalName: "Plenya Serviços de Saúde Ltda.", CNPJ: "66.991.259/0001-50",

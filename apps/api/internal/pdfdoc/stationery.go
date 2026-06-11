@@ -108,8 +108,10 @@ html,body{ background:#fff; }
 .docbody{ margin-top:20px; font-size:13.5px; line-height:1.75; color:var(--petrol); max-width:170mm; text-align:justify; }
 .docbody p{ margin-bottom:11px; }
 .doccid{ margin-top:14px; font-size:12px; color:var(--ink2); }
-.rcpt-amount{ font-family:'Cormorant',serif; font-size:30px; font-weight:600; color:var(--petrol); margin-top:20px; }
-.rcpt-body{ margin-top:12px; font-size:13.5px; line-height:1.75; color:var(--petrol); max-width:170mm; }
+.rcpt-head{ text-align:right; }
+.rcpt-eyebrow{ font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--gold); font-weight:600; }
+.rcpt-val{ font-size:18px; font-weight:700; color:var(--petrol); margin-top:3px; }
+.rcpt-body{ margin-top:26px; font-size:13.5px; line-height:1.8; color:var(--petrol); max-width:170mm; }
 .rcpt-body b{ font-weight:700; }
 .rcpt-notes{ margin-top:8px; color:var(--ink2); }
 .rcpt-refund{ margin-top:14px; font-size:11px; letter-spacing:.5px; text-transform:uppercase; color:var(--petrol); font-weight:700; border:1px solid var(--gold); border-radius:3px; padding:6px 11px; display:inline-block; }

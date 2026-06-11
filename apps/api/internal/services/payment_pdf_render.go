@@ -35,6 +35,7 @@ func (s *PaymentService) renderReceiptBytes(p *models.AppointmentPayment) ([]byt
 		Number:      p.ReceiptNumber,
 		PayerName:   payer,
 		AmountBRL:   formatBRL(p.AmountCents),
+		AmountWords: valorPorExtenso(p.AmountCents),
 		Description: "serviços de saúde",
 		Method:      paymentMethodLabel(p.Method),
 		PaidAt:      p.PaidAt.In(saoPaulo()).Format("02/01/2006"),

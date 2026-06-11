@@ -6,7 +6,8 @@ type Receipt struct {
 	Number      string // "2026-000123"
 	PayerName   string // pagador (paciente)
 	AmountBRL   string // "R$ 850,00"
-	Description string // "serviços de saúde" / "consulta médica"
+	AmountWords string // "oitocentos e cinquenta reais" (valor por extenso)
+	Description string // "consulta médica" / "serviços de saúde"
 	Method      string // "PIX" / "Cartão" ...
 	PaidAt      string // "10/06/2026"
 	Notes       string
@@ -21,13 +22,20 @@ func RenderReceipt(in Receipt) ([]byte, error) {
 	if (in.Clinic == Clinic{}) {
 		in.Clinic = DefaultClinic()
 	}
+
+	// Cabeçalho + título com campo de valor sóbrio à direita (não um preço gigante).
 	top := headerHTML() +
 		`<div class="titlerow"><div class="title">Recibo</div>` +
-		`<div class="docref">Nº ` + esc(in.Number) + `</div></div><div class="title-rule"></div>`
+		`<div class="rcpt-head"><div class="rcpt-eyebrow">Recibo Nº ` + esc(in.Number) + `</div>` +
+		`<div class="rcpt-val">` + esc(in.AmountBRL) + `</div></div></div>` +
+		`<div class="title-rule"></div>`
 
-	top += `<div class="rcpt-amount">` + esc(in.AmountBRL) + `</div>`
-
-	body := "Recebemos de <b>" + esc(in.PayerName) + "</b> a importância de <b>" + esc(in.AmountBRL) + "</b>"
+	// Narrativa clássica do recibo, com valor por extenso.
+	amount := "<b>" + esc(in.AmountBRL) + "</b>"
+	if in.AmountWords != "" {
+		amount += " (" + esc(in.AmountWords) + ")"
+	}
+	body := "Recebemos de <b>" + esc(in.PayerName) + "</b> a importância de " + amount
 	if in.Description != "" {
 		body += ", referente a " + esc(in.Description)
 	}
