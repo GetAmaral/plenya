@@ -6,9 +6,31 @@ import (
 	"strings"
 	"time"
 
+	"github.com/plenya/api/internal/database"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/pdfdoc"
 )
+
+// resolveExamPages: texto livre do pedido → páginas de ExamItem com TUSS resolvido pelo catálogo
+// (LabTestMatcher). A caixa de texto permanece 100% livre; o TUSS é anexado só no render.
+func resolveExamPages(exams string) [][]pdfdoc.ExamItem {
+	pages := pdfdoc.ExamPagesFromText(exams)
+	if database.DB == nil {
+		return pages
+	}
+	idx, err := NewLabTestMatcher(database.DB).BuildIndex()
+	if err != nil {
+		return pages
+	}
+	for pi := range pages {
+		for ii := range pages[pi] {
+			if d := idx.Resolve(pages[pi][ii].Name); d != nil && d.TussCode != nil && *d.TussCode != "" {
+				pages[pi][ii].Tuss = *d.TussCode
+			}
+		}
+	}
+	return pages
+}
 
 var monthsPT = []string{"", "janeiro", "fevereiro", "março", "abril", "maio", "junho",
 	"julho", "agosto", "setembro", "outubro", "novembro", "dezembro"}
@@ -111,7 +133,7 @@ func buildExamRequest(lr *models.LabRequest) pdfdoc.ExamRequest {
 	return pdfdoc.ExamRequest{
 		Patient:    p,
 		Indication: indic,
-		Exams:      lr.Exams,
+		ExamPages:  resolveExamPages(lr.Exams),
 		Doctor:     doc,
 		Signature:  sig,
 	}

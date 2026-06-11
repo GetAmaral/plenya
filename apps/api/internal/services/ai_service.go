@@ -788,3 +788,75 @@ func (s *AIService) buildArticleMetadataSchema() map[string]interface{} {
 		},
 	}
 }
+
+// ExtractRequestedExams - extrai a LISTA DE NOMES de exames SOLICITADOS num pedido (foto/PDF de
+// outro médico). Sem resultados (é um pedido, não um laudo). Usado p/ dedup ao importar.
+func (s *AIService) ExtractRequestedExams(ocrText string) ([]string, error) {
+	if !s.IsConfigured() {
+		return nil, fmt.Errorf("CLAUDE_API_KEY não configurada")
+	}
+	prompt := "Abaixo está o texto (OCR) de um PEDIDO/SOLICITAÇÃO de exames médicos emitido por outro " +
+		"profissional. Não há resultados — apenas a lista de exames pedidos. Extraia SOMENTE os nomes dos " +
+		"exames solicitados (laboratoriais e de imagem), um por item, sem numeração, sem dados do paciente, " +
+		"sem cabeçalho de laboratório. Mantenha o nome do exame como aparece.\n\n--- TEXTO ---\n" + ocrText
+
+	schema := map[string]interface{}{
+		"type": "object",
+		"properties": map[string]interface{}{
+			"exames": map[string]interface{}{
+				"type":        "array",
+				"items":       map[string]interface{}{"type": "string"},
+				"description": "Nomes dos exames solicitados",
+			},
+		},
+		"required": []string{"exames"},
+	}
+	payload := map[string]interface{}{
+		"model":       s.model,
+		"max_tokens":  4096,
+		"temperature": 0.1,
+		"messages":    []map[string]string{{"role": "user", "content": prompt}},
+		"tools": []map[string]interface{}{{
+			"name": "extract_requested_exams", "description": "Lista de exames solicitados", "input_schema": schema,
+		}},
+		"tool_choice": map[string]string{"type": "tool", "name": "extract_requested_exams"},
+	}
+	jsonPayload, _ := json.Marshal(payload)
+	req, err := http.NewRequest("POST", "https://api.anthropic.com/v1/messages", bytes.NewBuffer(jsonPayload))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("x-api-key", s.apiKey)
+	req.Header.Set("anthropic-version", "2023-06-01")
+	resp, err := s.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, _ := io.ReadAll(resp.Body)
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("claude api error %d: %s", resp.StatusCode, string(body))
+	}
+	var apiResp struct {
+		Content []struct {
+			Type  string          `json:"type"`
+			Input json.RawMessage `json:"input"`
+		} `json:"content"`
+	}
+	if err := json.Unmarshal(body, &apiResp); err != nil {
+		return nil, err
+	}
+	for _, c := range apiResp.Content {
+		if c.Type == "tool_use" {
+			var parsed struct {
+				Exames []string `json:"exames"`
+			}
+			if err := json.Unmarshal(c.Input, &parsed); err != nil {
+				return nil, err
+			}
+			return parsed.Exames, nil
+		}
+	}
+	return nil, fmt.Errorf("no tool_use in response")
+}

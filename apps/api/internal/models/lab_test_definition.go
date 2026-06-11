@@ -66,6 +66,11 @@ type LabTestDefinition struct {
 	// @enum hematology,biochemistry,hormones,immunology,microbiology,urine,imaging,functional,genetics,other
 	Category LabTestCategory `gorm:"type:varchar(30);not null;index" json:"category" validate:"required"`
 
+	// Aplicabilidade por sexo biológico do paciente: 'all' (default), 'male', 'female'.
+	// Filtra exames sexo-específicos (PSA, CA-125, mamografia...) ao carregar um template.
+	// @enum all,male,female
+	SexApplicability string `gorm:"type:varchar(10);not null;default:'all'" json:"sexApplicability"`
+
 	// Indica se o exame pode ser solicitado individualmente
 	// true: pode ser solicitado (ex: Hemograma Completo, Glicemia)
 	// false: só aparece como resultado de outro exame (ex: Hemoglobina, Bilirrubina Indireta)

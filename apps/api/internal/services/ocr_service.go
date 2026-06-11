@@ -112,3 +112,18 @@ func (s *OCRService) extractWithTesseract(pdfPath string) (string, error) {
 
 	return result, nil
 }
+
+// ExtractTextFromImage - OCR direto de uma imagem (jpg/png) com Tesseract (pt-BR).
+func (s *OCRService) ExtractTextFromImage(imgPath string) (string, error) {
+	cmd := exec.Command("tesseract", imgPath, "stdout", "-l", "por")
+	var out, stderr bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &stderr
+	if err := cmd.Run(); err != nil {
+		return "", fmt.Errorf("tesseract (image) failed: %v - %s", err, stderr.String())
+	}
+	if len(strings.TrimSpace(out.String())) < 10 {
+		return "", fmt.Errorf("texto extraído muito curto — OCR pode ter falhado")
+	}
+	return out.String(), nil
+}

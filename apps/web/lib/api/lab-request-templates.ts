@@ -8,6 +8,7 @@ export interface LabTestDefinition {
   altNames?: string[]
   tussCode?: string
   category: string
+  sexApplicability?: 'all' | 'male' | 'female'
   isRequestable: boolean
   unit?: string
   resultType: string

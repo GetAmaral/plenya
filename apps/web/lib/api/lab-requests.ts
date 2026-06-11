@@ -107,3 +107,19 @@ export async function openLabRequestPdf(id: string) {
   window.open(url, '_blank')
   setTimeout(() => URL.revokeObjectURL(url), 60_000)
 }
+
+/** Exame extraído de um pedido externo (foto/PDF), com o match no nosso catálogo. */
+export interface ImportedExam {
+  raw: string
+  matched: boolean
+  code?: string
+  name?: string
+  tussCode?: string
+}
+
+/** Importa um pedido de exames externo (foto/PDF), extrai e casa os exames no catálogo (dedup). */
+export async function importLabRequestExams(file: File): Promise<{ items: ImportedExam[] }> {
+  const form = new FormData()
+  form.append('file', file)
+  return apiClient.post<{ items: ImportedExam[] }>('/api/v1/lab-requests/extract-exams', form)
+}

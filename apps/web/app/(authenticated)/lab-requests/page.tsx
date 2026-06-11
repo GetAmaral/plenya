@@ -29,6 +29,7 @@ import {
   updateLabRequest,
   generateLabRequestPdf,
   openLabRequestPdf,
+  importLabRequestExams,
   type LabRequest
 } from '@/lib/api/lab-requests'
 import {
@@ -36,6 +37,7 @@ import {
   getLabRequestTemplateById,
   type LabRequestTemplate
 } from '@/lib/api/lab-request-templates'
+import { applyTemplate, normalizeName } from '@/lib/lab-request-apply'
 import { toast } from 'sonner'
 import { format, parseISO } from 'date-fns'
 import { PageHeader } from '@/components/layout/page-header'
@@ -131,6 +133,10 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'))
   const [exams, setExams] = useState('')
   const [notes, setNotes] = useState('')
+  const [coveredCodes, setCoveredCodes] = useState<Set<string>>(new Set())
+  const [importing, setImporting] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const { selectedPatient } = useRequireSelectedPatient()
 
   const formRef = useRef<HTMLFormElement>(null)
   useFormNavigation({ formRef })
@@ -171,19 +177,59 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
     try {
       const template = await getLabRequestTemplateById(templateId)
       if (template.labTests && template.labTests.length > 0) {
-        // Sort tests alphabetically by name
-        const sortedTests = [...template.labTests].sort((a, b) =>
-          a.name.localeCompare(b.name)
-        )
-
-        // Create text with one exam per line
-        const examsText = sortedTests.map(test => test.name).join('\n')
+        // Filtra por sexo do paciente (ex.: PSA só ♂) e remove os já cobertos por pedido externo.
+        const examsText = applyTemplate(template.labTests, selectedPatient?.gender, coveredCodes)
         setExams(examsText)
       } else {
         toast.info('Este template não tem exames cadastrados ainda')
       }
     } catch (error) {
       toast.error('Erro ao carregar template')
+    }
+  }
+
+  // Importa um pedido externo (foto/PDF), reconhece os exames e remove do pedido os já solicitados.
+  const handleImportFile = async (file: File) => {
+    setImporting(true)
+    try {
+      const { items } = await importLabRequestExams(file)
+      const matched = items.filter((i) => i.matched && i.code)
+      if (matched.length === 0) {
+        toast.info('Nenhum exame do nosso catálogo foi reconhecido no pedido importado')
+        return
+      }
+      const codes = matched.map((i) => i.code as string)
+      const names = new Set(matched.map((i) => normalizeName(i.name || '')))
+      const prevExams = exams
+      const kept = exams
+        .split('\n')
+        .filter((line) => {
+          const n = normalizeName(line)
+          return n === '' ? true : !names.has(n)
+        })
+        .join('\n')
+      setExams(kept)
+      setCoveredCodes((prev) => new Set([...prev, ...codes]))
+      toast.success(
+        `${matched.length} exame(s) já solicitado(s) removido(s): ${matched.map((i) => i.name).join(', ')}`,
+        {
+          action: {
+            label: 'Desfazer',
+            onClick: () => {
+              setExams(prevExams)
+              setCoveredCodes((prev) => {
+                const n = new Set(prev)
+                codes.forEach((c) => n.delete(c))
+                return n
+              })
+            },
+          },
+        }
+      )
+    } catch (e: any) {
+      toast.error('Erro ao importar pedido: ' + (e?.message || ''))
+    } finally {
+      setImporting(false)
     }
   }
 
@@ -208,7 +254,30 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <Card className="p-6 mb-6">
-      <h2 className="text-xl font-semibold mb-4">Novo Pedido de Exames</h2>
+      <div className="flex items-center justify-between mb-4 gap-3">
+        <h2 className="text-xl font-semibold">Novo Pedido de Exames</h2>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="application/pdf,image/*"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0]
+            if (f) handleImportFile(f)
+            e.currentTarget.value = ''
+          }}
+        />
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          disabled={importing}
+          onClick={() => fileInputRef.current?.click()}
+          title="Importe um pedido de outro médico (foto/PDF); os exames já solicitados serão removidos do seu pedido"
+        >
+          {importing ? 'Importando…' : 'Importar pedido existente'}
+        </Button>
+      </div>
       <form ref={formRef} onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Coluna Principal - Formulário */}
@@ -336,6 +405,7 @@ function EditLabRequestForm({
   const [date, setDate] = useState(request.date.split('T')[0])
   const [exams, setExams] = useState(request.exams)
   const [notes, setNotes] = useState(request.notes || '')
+  const { selectedPatient } = useRequireSelectedPatient()
 
   const formRef = useRef<HTMLFormElement>(null)
   useFormNavigation({ formRef })
@@ -376,10 +446,8 @@ function EditLabRequestForm({
     try {
       const template = await getLabRequestTemplateById(templateId)
       if (template.labTests && template.labTests.length > 0) {
-        const sortedTests = [...template.labTests].sort((a, b) =>
-          a.name.localeCompare(b.name)
-        )
-        const examsText = sortedTests.map(test => test.name).join('\n')
+        // Filtra por sexo do paciente ao carregar o template (PSA só ♂, CA-125 só ♀, etc.).
+        const examsText = applyTemplate(template.labTests, selectedPatient?.gender, new Set<string>())
         setExams(examsText)
       } else {
         toast.info('Este template não tem exames cadastrados ainda')
@@ -537,6 +605,7 @@ function DuplicateLabRequestForm({
   const [date, setDate] = useState(() => format(new Date(), 'yyyy-MM-dd'))
   const [exams, setExams] = useState(request.exams)
   const [notes, setNotes] = useState(request.notes || '')
+  const { selectedPatient } = useRequireSelectedPatient()
 
   // Reset date to today whenever the form is shown
   useEffect(() => {
@@ -581,10 +650,8 @@ function DuplicateLabRequestForm({
     try {
       const template = await getLabRequestTemplateById(templateId)
       if (template.labTests && template.labTests.length > 0) {
-        const sortedTests = [...template.labTests].sort((a, b) =>
-          a.name.localeCompare(b.name)
-        )
-        const examsText = sortedTests.map(test => test.name).join('\n')
+        // Filtra por sexo do paciente ao carregar o template (PSA só ♂, CA-125 só ♀, etc.).
+        const examsText = applyTemplate(template.labTests, selectedPatient?.gender, new Set<string>())
         setExams(examsText)
       } else {
         toast.info('Este template não tem exames cadastrados ainda')

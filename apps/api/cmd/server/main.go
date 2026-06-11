@@ -378,6 +378,8 @@ func setupRoutes(
 	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
 	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
 	labRequestHandler := handlers.NewLabRequestHandler(labRequestService, certificateService)
+	labRequestImportHandler := handlers.NewLabRequestImportHandler(
+		services.NewLabRequestImportService(database.DB, services.NewOCRService(), aiService, services.NewPDFTextCleaner()))
 	labRequestTemplateHandler := handlers.NewLabRequestTemplateHandler(labRequestTemplateService)
 	labResultViewHandler := handlers.NewLabResultViewHandler(labResultViewService)
 	articleHandler := handlers.NewArticleHandler(articleService)
@@ -1046,6 +1048,7 @@ func setupRoutes(
 	labRequests.Delete("/:id", middleware.RequireAdmin(), labRequestHandler.DeleteLabRequest)
 	labRequests.Post("/:id/generate-pdf", middleware.RequireClinician(), labRequestHandler.GeneratePDF)
 	labRequests.Get("/:id/pdf", labRequestHandler.DownloadPDF)
+	labRequests.Post("/extract-exams", middleware.RequireClinician(), labRequestImportHandler.ImportExams)
 
 	// Lab Requests routes dentro de patients
 	patients.Get("/:patientId/lab-requests", labRequestHandler.GetLabRequestsByPatientID)

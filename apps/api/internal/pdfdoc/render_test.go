@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-func sampleExamRequest() ExamRequest {
-	exams := strings.Join([]string{
+func sampleExamsText() string {
+	return strings.Join([]string{
 		"Hemograma completo com plaquetas", "Glicemia de jejum", "Insulina de jejum",
 		"Hemoglobina glicada (HbA1c)", "Colesterol total e frações (HDL, LDL)", "Triglicérides",
 		"Apolipoproteína B", "Lipoproteína (a)", "TSH", "T4 livre", "T3 livre",
@@ -23,10 +23,13 @@ func sampleExamRequest() ExamRequest {
 		"Ultrassonografia de abdome total", "Ecocardiograma transtorácico com Doppler",
 		"Densitometria óssea (coluna lombar e fêmur)", "Tomografia computadorizada de tórax de baixa dose",
 	}, "\n")
+}
+
+func sampleExamRequest() ExamRequest {
 	return ExamRequest{
 		Patient:    Patient{Name: "Maria Helena Soares", BirthInfo: "12/03/1979 · 47 anos", CPFMasked: "***.456.789-**"},
 		Indication: "Avaliação metabólica e de longevidade, rastreio do pilar Gestão do Método AGIR. Paciente assintomática, em programa de acompanhamento contínuo.",
-		Exams:      exams,
+		ExamPages:  ExamPagesFromText(sampleExamsText()),
 		Doctor:     Doctor{Name: "Dr. Getúlio José Mattos do Amaral Filho", Credentials: "CRM-PR 21.876 · RQE 16.038 · Nefrologia"},
 		Signature: Signature{
 			Digital:     true,
@@ -63,7 +66,7 @@ func TestRenderExamRequest(t *testing.T) {
 
 // TestExamPaginationLogic valida paginação/colunas sem precisar de Chromium.
 func TestExamPaginationLogic(t *testing.T) {
-	pages := pagesFromExams(sampleExamRequest().Exams)
+	pages := ExamPagesFromText(sampleExamsText())
 	if len(pages) != 2 {
 		t.Fatalf("esperava 2 páginas (40 lab + bloco imagem), veio %d", len(pages))
 	}
