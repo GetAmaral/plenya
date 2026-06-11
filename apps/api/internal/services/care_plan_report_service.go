@@ -83,12 +83,12 @@ func (s *CarePlanReportService) GenerateAndPublish(patientID, doctorID uuid.UUID
 		return "", err
 	}
 
-	validationURL := fmt.Sprintf("https://plenya.com.br/documentos/validar/%s", doc.ID)
+	validationURL := fmt.Sprintf("https://app.plenyasaude.com.br/documentos/validar/%s", doc.ID)
 	hasDigital := doctor.CertificateActive
+	reportNow := time.Now()
 
 	render := func(digital bool) ([]byte, error) {
-		htmlStr := s.buildReportHTML(&patient, snapshot, items, &doctor, validationURL, digital)
-		return s.pdf.GeneratePDFFromHTML(htmlStr)
+		return renderCarePlanReportBytes(&patient, snapshot, items, &doctor, validationURL, digital, reportNow)
 	}
 
 	pdfBytes, err := render(hasDigital)
