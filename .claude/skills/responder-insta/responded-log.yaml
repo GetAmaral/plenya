@@ -12,7 +12,7 @@
 #   dr_api      = resposta postada via skill/Composio (drgetulioamaralfilho)
 #   page        = respondido pela Página FB "Clínica médica Dr Getulio" (id 1046561478538408)
 
-last_updated: '2026-06-05'
+last_updated: '2026-06-11'
 
 # ── DMs ─────────────────────────────────────────────────────────────────────
 dms:
@@ -77,7 +77,7 @@ conversas_inacessiveis:
 # lados IG e FB. RESULTADO: praticamente tudo já respondido pelo Dr até 20/05.
 # Registro só o que ficou PENDENTE nesta data (o resto = respondido, não re-flaggar
 # comentários com timestamp <= a data abaixo a menos que tenham reply nova do usuário).
-comments_baseline_swept_through: '2026-06-05'  # varredura COMPLETA 05/06: 39 posts + ads IG+FB + FB Messenger
+comments_baseline_swept_through: '2026-06-11'  # varredura COMPLETA 11/06: 41 posts orgânicos (TODOS, inclusive antigos) + ads IG + 25 DMs + FB Messenger + tags
 
 # Itens que ficaram ABERTOS em 2026-05-23 (decisão do Dr sobre responder ou não):
 open_as_of_2026-05-23:
@@ -164,6 +164,60 @@ answered_2026-06-05:
   dms_postadas_manual_dr_app:  # janela 24h fechada via API → Dr postou no app
     - who: '@silvanagoncalves105'  # GLP-1 multimorbidade (esteatose/vesícula/rins/gastrite)
     - who: '@sonalypereira'        # refluxo+SIBO+vonoprazana(Inzelm)+gastro (versão curta <1000 caracteres)
+
+answered_2026-06-11:  # varredura COMPLETA: 41 posts + ads IG + 25 DMs + Messenger. DMs: zero pendência (todas share vazio/última do Dr).
+  comments:
+    - ad: GLP-1 ep1 lado IG (17997938657731054)
+      comment_id: 18132006016511165
+      who: '@monicabezerramarques'
+      reply_id: '17890830750549979'
+      by: dr_api
+      re: "Clínica 'faz bem tomar Mounjaro?'. Benefícios (peso/coração/rim/fígado/pressão/glicose) + indicação×contraindicação individual + base (proteína/treino/hidratação) + decidir com médico."
+    - post: SIBO (18098639315275220)
+      comment_id: 18060079685708025
+      who: '@joceyrcarvalhoguilherme'  # PACIENTE
+      reply_id: '18101942122877016'
+      by: dr_api
+      re: "Gratidão de paciente (atendimento à família). Acolhimento."
+    - post: Jejum & longevidade (18118227826769286)
+      comment_id: 17877540696477482
+      who: '@malugarib'
+      reply_id: '18184696132384500'
+      by: dr_api
+      re: "Engajamento 'estou tentando'. Encorajamento + proteína/qualidade da janela."
+    - post: Ansiedade/intestino (18075774242304958)
+      comment_id: 17905390182261152
+      who: '@patricia.ribeiro.3158'
+      reply_id: '18101621621122263'
+      by: dr_api
+      re: "Engajamento leve (eixo intestino-cérebro)."
+    - post: Ansiedade/intestino (18075774242304958)
+      comment_id: 18595616746036296
+      who: '@marcinha_barreiros'
+      reply_id: '18408386872145156'
+      by: dr_api
+      re: "Respondeu CTA 'SIM'. Acolhimento + promessa de mais conteúdo."
+    - post: SIBO (18098639315275220)
+      comment_id: 18382431592167339
+      who: '@amaralseila'
+      reply_id: '17889123528559230'
+      by: dr_api
+      re: "Elogio. Agradecimento."
+    - post: Sensor de glicose (17945254707198588)
+      comment_id: 18122779126634126
+      who: '@mariadasmercespeixoto'
+      reply_id: '18111625834903627'
+      by: dr_api
+      re: "Elogio. Agradecimento."
+  applause_coracao:  # reply '☺️❤️' padrão do Dr
+    - {who: '@dr_danilo_cunha',   comment_id: 18027499727819076, reply_id: '18100614958870457', post: Ansiedade}
+    - {who: '@regina.garcia.777', comment_id: 18110990764820317, reply_id: '18131032297598276', post: Ansiedade}
+    - {who: '@amaral_eng',        comment_id: 18067592321410819, reply_id: '18458621845114558', post: Ansiedade}
+    - {who: '@amaral_eng',        comment_id: 18474462961100493, reply_id: '18075244484308916', post: SIBO}
+    - {who: '@gustavogarib_',     comment_id: 18089690804617532, reply_id: '18096721132939663', post: SIBO}
+    - {who: '@regina.garcia.777', comment_id: 18591981565015644, reply_id: '18101972132144784', post: SIBO}
+    - {who: '@drpedromarchetto',  comment_id: 18148209937497311, reply_id: '18113908705893922', post: Sensor}
+    - {who: '@gustavogarib_',     comment_id: 18166433362385254, reply_id: '17996075603963098', post: Sensor}
 
 # Varredura 2026-06-05 — FB-side dos ads (recuperado após reconexão Composio): sem pendência clínica nova.
 # Noraci (crítico Monjaro, FB ep2) segue STAND-BY (sem engajamento novo). Ver contacts.yaml.

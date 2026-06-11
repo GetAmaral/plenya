@@ -19,13 +19,43 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-06-05'  # 12ª iteração — varredura completa (39 posts + ads IG/FB + Messenger); +silvanagoncalves105, +sonalypereira (DMs clínicas fora janela), +_geralciaramicarla87, +valeriaclcarmo
+last_updated: '2026-06-11'  # 13ª iteração — varredura COMPLETA (41 posts + ads IG + 25 DMs + Messenger); +joceyrcarvalhoguilherme (paciente), +monicabezerramarques, +amaralseila, +mariadasmercespeixoto
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
 # Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
 # Madrinha da Bianca = @jeane_clucena (prima do Dr).
 
 contacts:
+
+  # ============================================
+  # NOVOS (cadastrados 2026-06-11)
+  # ============================================
+
+  '@joceyrcarvalhoguilherme':
+    rel: paciente
+    tone: clínico-respeitoso / caloroso
+    notes: |
+      Paciente do Dr. Agradece recorrentemente pelo atendimento "à mim e minha família"
+      e relata resultados muito bons do tratamento (GLP-1). Trata o Dr por "meu irmão" às vezes.
+    last: "2026-06-11 — reply em comentário no post SIBO (gratidão de paciente)"
+
+  '@monicabezerramarques':
+    rel: seguidora
+    tone: clínico-respeitoso
+    notes: |
+      Perguntou no anúncio GLP-1 Ep1 "Faz bem tomar o Mounjaro?". Interesse em GLP-1.
+    last: "2026-06-11 — reply clínico (benefícios + indicação individual + médico)"
+
+  '@amaralseila':
+    rel: seguidora
+    tone: familiar-afetuoso
+    notes: "Provável família (sobrenome Amaral). Elogios recorrentes."
+    last: "2026-06-11 — reply de agradecimento (post SIBO)"
+
+  '@mariadasmercespeixoto':
+    rel: seguidora
+    tone: profissional-caloroso
+    last: "2026-06-11 — reply de agradecimento (post Sensor de glicose)"
 
   # ============================================
   # FAMÍLIA DO DR GETÚLIO (sobrenome Amaral)
