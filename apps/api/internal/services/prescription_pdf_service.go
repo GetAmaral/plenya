@@ -84,8 +84,13 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 	// Controlado => manual obrigatório. Não controlado => digital se houver cert ativo.
 	manual := hasControlled || !prescription.Doctor.CertificateActive
 
-	// 4. Gerar o PDF base (layout muda conforme o modo).
-	unsignedPDF, err := s.generatePDFContent(&prescription, manual)
+	// 4. Gerar o PDF base (pipeline pdfdoc; layout muda conforme o modo).
+	// No modo digital, pré-setar SignedAt para o selo ICP-Brasil exibir o carimbo temporal.
+	if !manual {
+		nowSig := time.Now()
+		prescription.SignedAt = &nowSig
+	}
+	unsignedPDF, err := renderPrescriptionBytes(&prescription, manual)
 	if err != nil {
 		return "", fmt.Errorf("erro ao gerar PDF: %v", err)
 	}
@@ -102,7 +107,8 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 		signed, sigHash, sErr := s.signatureService.SignPrescriptionPDF(unsignedPDF, prescription.DoctorID)
 		if sErr != nil {
 			// Degradação graciosa (padrão IssuedDocument): regenera em modo manual.
-			manualPDF, bErr := s.generatePDFContent(&prescription, true)
+			prescription.SignedAt = nil
+			manualPDF, bErr := renderPrescriptionBytes(&prescription, true)
 			if bErr != nil {
 				return "", fmt.Errorf("erro ao regenerar PDF: %v", bErr)
 			}

@@ -62,12 +62,12 @@ func (s *LabRequestPDFService) GenerateSignedLabRequestPDF(
 		}
 	}
 
-	// 3. Gerar QR Code data
-	qrCodeData := fmt.Sprintf("https://plenya.com.br/lab-requests/validate/%s", labRequestID)
+	// 3. Gerar QR Code data (página real de validação por ID)
+	qrCodeData := fmt.Sprintf("https://app.plenyasaude.com.br/lab-requests/validate/%s", labRequestID)
 	labRequest.QRCodeData = &qrCodeData
 
-	// 4. Gerar PDF (agora com SignedAt já configurado se for assinado digitalmente)
-	pdfURL, err = s.pdfService.GenerateLabRequestPDF(&labRequest)
+	// 4. Gerar PDF vetorial (sistema-base pdfdoc) — agora com SignedAt já configurado se digital
+	pdfURL, err = s.renderAndSaveLabRequest(&labRequest)
 	if err != nil {
 		return "", fmt.Errorf("erro ao gerar PDF: %v", err)
 	}
@@ -91,8 +91,8 @@ func (s *LabRequestPDFService) GenerateSignedLabRequestPDF(
 			labRequest.SignedAt = nil
 			labRequest.CertificateSerial = nil
 
-			// Regerar PDF sem assinatura digital
-			pdfURL, err = s.pdfService.GenerateLabRequestPDF(&labRequest)
+			// Regerar PDF sem assinatura digital (SignedAt já zerado acima)
+			pdfURL, err = s.renderAndSaveLabRequest(&labRequest)
 			if err != nil {
 				return "", fmt.Errorf("erro ao gerar PDF sem assinatura: %v", err)
 			}

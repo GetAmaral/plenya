@@ -15,14 +15,20 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /server ./cmd/server \
 # Runtime (imagem final com OCR dependencies)
 FROM alpine:3.21
 
-# Instalar dependências de sistema para OCR e processamento de PDF
+# Dependências de sistema: OCR/processamento de PDF + Chromium (geração de PDF vetorial via go-rod)
 RUN apk --no-cache add \
     ca-certificates \
     tzdata \
     poppler-utils \
     tesseract-ocr \
     tesseract-ocr-data-por \
-    imagemagick
+    imagemagick \
+    # Chromium headless p/ o pacote pdfdoc (papelaria world-class) — assets vão embutidos no binário
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ttf-freefont
 
 WORKDIR /app
 

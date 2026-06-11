@@ -170,7 +170,7 @@ func (s *PaymentService) GenerateReceipt(id uuid.UUID) ([]byte, string, error) {
 		}
 		return nil, "", err
 	}
-	pdf, err := s.buildReceiptPDF(&p)
+	pdf, err := s.renderReceiptBytes(&p)
 	if err != nil {
 		return nil, "", err
 	}

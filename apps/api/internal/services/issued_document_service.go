@@ -158,7 +158,7 @@ func (s *IssuedDocumentService) Sign(id, userID uuid.UUID) (*dto.IssuedDocumentR
 	hasDigital := doctor.CertificateActive
 
 	// 1. Gerar PDF (bloco de assinatura conforme disponibilidade do cert)
-	pdfBytes, err := s.pdfService.BuildDocumentPDF(&doc, &patient, &doctor, hasDigital, validationURL)
+	pdfBytes, err := s.pdfService.RenderDocumentPDF(&doc, &patient, &doctor, hasDigital, validationURL)
 	if err != nil {
 		return nil, fmt.Errorf("erro ao gerar PDF: %w", err)
 	}
@@ -173,7 +173,7 @@ func (s *IssuedDocumentService) Sign(id, userID uuid.UUID) (*dto.IssuedDocumentR
 		if sErr != nil {
 			// Degradação graciosa (padrão lab_request): regenera sem assinatura digital.
 			hasDigital = false
-			unsigned, bErr := s.pdfService.BuildDocumentPDF(&doc, &patient, &doctor, false, validationURL)
+			unsigned, bErr := s.pdfService.RenderDocumentPDF(&doc, &patient, &doctor, false, validationURL)
 			if bErr != nil {
 				return nil, fmt.Errorf("erro ao regenerar PDF: %w", bErr)
 			}
