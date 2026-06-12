@@ -201,11 +201,23 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
       const codes = matched.map((i) => i.code as string)
       const names = new Set(matched.map((i) => normalizeName(i.name || '')))
       const prevExams = exams
+      // Remove os exames casados E as linhas de justificativa (#) que pertencem a eles.
+      let droppingJust = false // dentro das linhas # de um exame que acabou de ser removido?
       const kept = exams
         .split('\n')
         .filter((line) => {
-          const n = normalizeName(line)
-          return n === '' ? true : !names.has(n)
+          const t = line.trim()
+          if (t.startsWith('#')) return !droppingJust // justificativa segue o destino do exame de cima
+          if (t === '') {
+            droppingJust = false // linha em branco = novo bloco/página
+            return true
+          }
+          if (names.has(normalizeName(line))) {
+            droppingJust = true // exame removido → suas justificativas saem junto
+            return false
+          }
+          droppingJust = false
+          return true
         })
         .join('\n')
       setExams(kept)
