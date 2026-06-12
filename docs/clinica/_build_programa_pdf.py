@@ -32,7 +32,7 @@ html,body{ background:#fff; }
   font-family:'Inter',sans-serif; color:var(--petrol); overflow:hidden; page-break-after:always; }
 .page:last-child{ page-break-after:auto; }
 .wm{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.035; z-index:0; }
-.frame{ position:relative; z-index:1; height:100%; padding:15mm 17mm 11mm; display:flex; flex-direction:column; }
+.frame{ position:relative; z-index:1; height:100%; padding:15mm 17mm 18mm; display:flex; flex-direction:column; }
 .head{ display:flex; align-items:center; justify-content:space-between; }
 .head .sym{ height:26px; } .head .mark{ height:20px; }
 .eyebrow{ font-size:9.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--gold); font-weight:600; }
@@ -65,8 +65,9 @@ html,body{ background:#fff; }
 .tcard .tv{ font-family:'Cormorant',serif; font-size:25px; font-weight:700; color:var(--petrol); line-height:1.05; margin-top:2px; }
 .tcard .td{ font-size:9px; color:var(--ink2); margin-top:2px; line-height:1.3; }
 .note{ font-size:9.5px; color:var(--ink3); margin-top:8px; line-height:1.4; }
-.foot{ display:flex; align-items:center; justify-content:space-between; margin-top:9px;
-  padding-top:7px; border-top:1px solid var(--line); font-size:8.6px; color:var(--ink3); letter-spacing:.3px; }
+.foot{ position:absolute; left:17mm; right:17mm; bottom:10mm; display:flex; align-items:center;
+  justify-content:space-between; padding-top:7px; border-top:1px solid var(--line);
+  font-size:8.8px; color:var(--ink3); letter-spacing:.3px; }
 .foot .tag{ text-transform:uppercase; font-weight:600; color:var(--gold); }
 /* callout / blocos */
 .callout{ background:rgba(6,59,79,.05); border:1px solid var(--line); border-left:3px solid var(--gold);
@@ -98,8 +99,8 @@ def header(eb):
             f'<img class="mark" src="{f(ASSETS)}/wordmark-petrol.svg"></div><div class="rule-gold"></div>')
 def foot(n):
     return ('<div class="foot"><span class="tag">Saúde, Performance &amp; Longevidade</span>'
-            f'<span>Programa de necessidades · Clínica Plenya · estrutura multi-clínica · {n}</span>'
-            '<span>ordem de grandeza — projetista (CAU/CREA) confirma</span></div>')
+            f'<span>Programa de necessidades · {n}</span>'
+            '<span>valores: ordem de grandeza</span></div>')
 def grp(title, tot, rows):
     ch = '<div class="colhead"><span class="a">Ambiente</span><span class="b">mín. RDC 50</span><span class="c">adotado</span></div>'
     rr = "".join(f'<div class="row"><span class="nm">{nm}</span><span class="ref">{ref}</span><span class="m">{m}</span></div>' for nm,ref,m in rows)
