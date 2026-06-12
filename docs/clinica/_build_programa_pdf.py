@@ -119,8 +119,8 @@ p1 = page(
       ("<b>Consultório médico premium</b> — Dr. Getúlio <span class='d'>+ devolutiva do relatório</span>","7,5 m²","25 m²"),
       ("<b>Consultório multidisciplinar</b> <span class='d'>menor — nutri/equipe</span>","7,5 m²","12 m²"),
     ])
-  + grp("Exames &nbsp;<span style='font-size:10px;color:var(--ink3)'>(consolidados em 1 sala)</span>", "26 m² útil", [
-      ("<b>Sala de Avaliação Funcional &amp; Longevidade</b><br><span class='d'>bioimpedância · preensão · retinografia · MoCA/olfato · espirometria · ITB/VOP · RMR (calorimetria) · VO₂ estimado · ponto de coleta</span>","—","26 m²"),
+  + grp("Exames &nbsp;<span style='font-size:10px;color:var(--ink3)'>(consolidados em 1 sala)</span>", "28 m² útil", [
+      ("<b>Sala de Avaliação Funcional &amp; Longevidade</b><br><span class='d'>bioimpedância · preensão · retinografia · MoCA/olfato · espirometria · ITB/VOP · RMR (calorimetria) · VO₂ estimado · ponto de coleta</span>","—","28 m²"),
     ])
   + grp("Centro de infusão &nbsp;<span style='font-size:10px;color:var(--ink3)'>(diferencial Plenya)</span>", "46 m² útil", [
       ("<b>Lounge de infusão</b> <span class='d'>4 poltronas × 8 m²</span>","5/polt.","32 m²"),
@@ -134,10 +134,10 @@ p1 = page(
   + '<div class="totals"><div class="tband">'
     '<div class="tcard"><div class="tl">A · Consulta + exames</div><div class="tv">~80 m²</div>'
     '<div class="td">2 consultórios + sala multi-exame</div></div>'
-    '<div class="tcard"><div class="tl">B · Com infusão</div><div class="tv">~135 m²</div>'
+    '<div class="tcard"><div class="tl">B · Com infusão</div><div class="tv">~140 m²</div>'
     '<div class="td">+ lounge / enfermagem / preparo</div></div>'
-    '<div class="tcard"><div class="tl">C · Completo</div><div class="tv">~185 m²</div>'
-    '<div class="td">+ esforço + ultrassom (~165 se compartilhar)</div></div>'
+    '<div class="tcard"><div class="tl">C · Completo</div><div class="tv">~165–185 m²</div>'
+    '<div class="td">+ esforço (ultrassom compart.→dedicado)</div></div>'
     '</div></div>'
   + foot("pág. 1/3")
 )
@@ -185,7 +185,7 @@ p3 = page(
   + block("Os espaços Plenya em uma linha",
     "<b>Consultório premium (25 m²)</b>: entrada da jornada + devolutiva do relatório. "
     "<b>Consultório multidisciplinar (12 m²)</b>: nutri/equipe. "
-    "<b>Sala de Avaliação (26 m²)</b>: todos os exames próprios sem radiação, em estações, + coleta. "
+    "<b>Sala de Avaliação (28 m²)</b>: todos os exames próprios sem radiação, em estações, + coleta. "
     "<b>Centro de infusão</b>: lounge + enfermagem + preparo (dispara enfermagem e classificação de risco). "
     "<b>Esforço + ultrassom</b>: previsão, entram com o cardiologista/ultrassonografista.")
   + '<div class="block"><div class="bh">Sequência regulatória da obra (não pular)</div>'
@@ -207,7 +207,7 @@ p3 = page(
     '<li><b>Metragem real</b> disponível para a Plenya no empreendimento.</li>'
     '</ul></div>'
   + '<div class="callout"><div class="ch">Mensagem central</div>'
-    '<p>A área <b>Plenya-exclusiva é enxuta (~80 a ~185 m²</b> conforme as fases) porque recepção, espera e '
+    '<p>A área <b>Plenya-exclusiva é enxuta (~80 · ~140 · ~165–185 m²</b> nas fases A·B·C) porque recepção, espera e '
     'sanitários são <b>comuns do empreendimento</b> e os exames foram <b>consolidados numa sala multi-exame</b>. '
     'O que define a complexidade regulatória é o <b>centro de infusão</b> — e o empreendimento precisa suportá-lo.</p></div>'
   + foot("pág. 3/3")

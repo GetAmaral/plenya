@@ -34,7 +34,7 @@ E uma decisão de layout: **exames consolidados** — uma sala multi-exame em ve
 ### Exames — CONSOLIDADOS (a otimização)
 | Ambiente | — | **Adotado** |
 |---|---|---|
-| **Sala de Avaliação Funcional & Longevidade** — uma sala, várias estações: bioimpedância · preensão palmar · retinografia · MoCA/olfato · espirometria · ITB/VOP · **RMR (calorimetria)** · VO₂ estimado · **ponto de coleta** (cadeira + bancada c/ centrífuga e geladeira de amostras) | — | **26 m²** |
+| **Sala de Avaliação Funcional & Longevidade** — uma sala, várias estações: bioimpedância · preensão palmar · retinografia · MoCA/olfato · espirometria · ITB/VOP · **RMR (calorimetria)** · VO₂ estimado · **ponto de coleta** (cadeira + bancada c/ centrífuga e geladeira de amostras) | — | **28 m²** |
 
 > Substitui 4–5 salas individuais por **uma sala bem equipada**. Ressalva: a RMR ocupa ~30 min (reclinado)
 > → se o volume crescer, desmembrar uma 2ª "sala de repouso" (~12 m²). **Começa com uma só.** O ponto de
@@ -56,10 +56,10 @@ E uma decisão de layout: **exames consolidados** — uma sala multi-exame em ve
 ### 🧮 Totais Plenya-exclusivo (+25% circulação interna; recepção/corredores são do prédio)
 | Cenário | Útil | **Construído Plenya** |
 |---|---|---|
-| **A — Consulta + exames** (2 consultórios + sala multi-exame) | ~63 m² | **~80 m²** |
-| **B — Com infusão** (+ lounge/enfermagem/preparo) | ~109 m² | **~135 m²** |
-| **C — Completo** (+ esforço + ultrassom dedicada) | ~147 m² | **~185 m²** |
-| *C com ultrassom compartilhando a sala de avaliação* | ~131 m² | **~165 m²** |
+| **A — Consulta + exames** (2 consultórios + sala multi-exame) | ~65 m² | **~80 m²** |
+| **B — Com infusão** (+ lounge/enfermagem/preparo) | ~111 m² | **~140 m²** |
+| **C — Completo, ultrassom compartilhado** (+ esforço) — *recomendado p/ início* | ~133 m² | **~165 m²** |
+| **C — Completo, ultrassom dedicado** (+ esforço + sala de ultrassom) | ~149 m² | **~185 m²** |
 
 ---
 
@@ -84,7 +84,7 @@ VISA Londrina** se a classificação de risco recai só sobre a sala Plenya ou s
 - **Consultório médico premium (25 m²)** — porta de entrada da jornada **e** sala da devolutiva do
   relatório integrado de longevidade (o momento de maior valor). Conforto para paciente + acompanhante.
 - **Consultório multidisciplinar (12 m²)** — nutrólogo/equipe; atendimento de apoio.
-- **Sala de Avaliação Funcional & Longevidade (26 m²)** — coração dos exames próprios, sem radiação:
+- **Sala de Avaliação Funcional & Longevidade (28 m²)** — coração dos exames próprios, sem radiação:
   composição corporal, força, função pulmonar, idade vascular, metabolismo de repouso, cognição/retina +
   ponto de coleta do sangue avançado. **Uma sala, várias estações.**
 - **Centro de infusão (lounge + enfermagem + preparo)** — o diferencial premium; dispara a enfermagem
