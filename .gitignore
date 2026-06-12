@@ -165,3 +165,6 @@ scripts/linkedin/publisher.log
 
 # Python bytecode cache
 scripts/linkedin/__pycache__/
+
+# Pedidos de exame reais de pacientes (PII/LGPD) — nunca versionar
+docs/emr/pedidos/
