@@ -83,14 +83,18 @@ Se o token vencer: gerar novo via Graph API Explorer (mesmos escopos) ou migrar 
 - Entregar tabela rankeada. Snippets em `RECIPES.md §reels`.
 
 ### Fase 3 — Montar campanha (PAUSADA) — receita que funciona
-Para impulsionar reels (crescimento/engajamento), usar **exatamente** este caminho (ver `RECIPES.md §criar`):
-1. **Criativo flat por reel:** `instagram_user_id` + `source_instagram_media_id` (o reel), **SEM `call_to_action_type`**.
-2. **Campanha:** `objective=OUTCOME_ENGAGEMENT`, `status=PAUSED`, `special_ad_categories=[]`,
+Para crescer SEGUIDOR (visitas ao perfil — motor da campanha vencedora), usar **exatamente** este
+caminho, validado entregando ao vivo (ver `RECIPES.md §criar` + `ERRORS.md`):
+1. **Criativo por reel:** `instagram_user_id` + `source_instagram_media_id` (o reel) +
+   `call_to_action={"type":"VIEW_INSTAGRAM_PROFILE","value":{"link":"<URL do perfil>"}}`
+   (formato OBJETO; o scalar `call_to_action_type` dá #3).
+2. **Campanha:** `objective=OUTCOME_TRAFFIC`, `status=PAUSED`, `special_ad_categories=[]`,
    `daily_budget=<cents>` (CBO), `bid_strategy=LOWEST_COST_WITHOUT_CAP`.
-3. **Ad sets:** `optimization_goal=POST_ENGAGEMENT`, `billing_event=IMPRESSIONS`, `destination_type=ON_POST`,
-   `promoted_object={"page_id":"1046561478538408"}`, **`targeting.publisher_platforms=["instagram"]`**
-   (obrigatório — sem isso vaza pro FB), targeting (Advantage trava idade mín=25), `status=PAUSED`.
-   Com CBO, **todos os ad sets precisam da MESMA otimização**.
+3. **Ad sets:** `optimization_goal=VISIT_INSTAGRAM_PROFILE` (NÃO `PROFILE_VISIT` → 1346001),
+   `billing_event=IMPRESSIONS`, `destination_type=INSTAGRAM_PROFILE`,
+   `promoted_object={"page_id":"1046561478538408","instagram_profile_id":"17841470083252518"}`,
+   `attribution_spec=[{event_type:CLICK_THROUGH,window_days:1}]`, targeting (Advantage trava idade mín=25),
+   `status=PAUSED`. Com CBO, todos os ad sets com a MESMA otimização.
 3. **Anúncios:** `creative={"creative_id":...}`, `status=PAUSED`. 1 anúncio por (reel × ad set).
 
 ### Fase 4 — Previews
@@ -113,12 +117,12 @@ Para impulsionar reels (crescimento/engajamento), usar **exatamente** este camin
 ---
 
 ## Glossário de objetivo×otimização (ODAX, o que a API aceita)
-- Impulsionar **reel** p/ crescimento do IG → `OUTCOME_ENGAGEMENT` + `POST_ENGAGEMENT` + `ON_POST`
-  + **`publisher_platforms=["instagram"]`** (sem isso, ~80% do budget vaza pro Facebook). ✅
-  (THRUPLAY/ON_VIDEO existe mas compra view passiva barata — evitar p/ crescimento.)
-- **NÃO existem via API** (só interface): objetivo "visitas ao perfil" (`PROFILE_VISIT` → erro 1346001),
-  CTA "Ver perfil" (`VIEW_INSTAGRAM_PROFILE` / qualquer `call_to_action_type` em criativo de reel → `#3`).
-- Detalhes e outros combos em `ERRORS.md`.
+- Crescer SEGUIDOR (visitas ao perfil) → `OUTCOME_TRAFFIC` + `VISIT_INSTAGRAM_PROFILE` +
+  `destination_type=INSTAGRAM_PROFILE` + `promoted_object{page_id, instagram_profile_id}` +
+  criativo com CTA objeto VIEW_INSTAGRAM_PROFILE. ✅ É o motor da campanha vencedora, 100% via API.
+- ⚠️ Enum: a API MOSTRA `PROFILE_VISIT` ao ler, mas na CRIAÇÃO só aceita `VISIT_INSTAGRAM_PROFILE`.
+- ❌ THRUPLAY e POST_ENGAGEMENT **NÃO geram seguidor** (engajam o dark post invisível) — foram erro.
+- Detalhes e o histórico dos erros em `ERRORS.md`.
 
 ---
 

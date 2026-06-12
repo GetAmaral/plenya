@@ -194,3 +194,23 @@ Diagnóstico corrigido após ler a doc atual do Meta + ground truth:
   variação de seguidores. Escalar o que performar; cortar o que não.
 </content>
 </invoke>
+
+---
+
+## 6. CORREÇÃO FINAL (2026-06-11) — visitas ao perfil É possível via API ✅
+
+Eu havia concluído (errado) que "visitas ao perfil" era só-interface e parti pra THRUPLAY e
+POST_ENGAGEMENT — que **não geram seguidor** (engajam o dark post invisível). O usuário (com razão)
+mandou estudar a fundo. Achado: o erro era **payload/enum**, não capability.
+
+**Receita validada (entregando ao vivo):**
+- Campanha `objective=OUTCOME_TRAFFIC`, CBO, LOWEST_COST_WITHOUT_CAP.
+- Ad set `optimization_goal=VISIT_INSTAGRAM_PROFILE` (a API MOSTRA `PROFILE_VISIT` ao ler, mas na
+  criação só aceita `VISIT_INSTAGRAM_PROFILE`; `PROFILE_VISIT` → 1346001) + `destination_type=INSTAGRAM_PROFILE`
+  + `promoted_object={page_id, instagram_profile_id}`.
+- Criativo: `instagram_user_id` + `source_instagram_media_id` + `call_to_action` no formato OBJETO
+  `{"type":"VIEW_INSTAGRAM_PROFILE","value":{"link":"<URL do perfil>"}}` (scalar dá #3).
+
+**Campanha ativa:** `120246351697660590` (Visitas ao Perfil, R$25/dia, 5 reels × 2 públicos).
+GLP-1 original `120240429386620590` pausada (mesmo motor, realocada). THRUPLAY/POST_ENGAGEMENT deletadas.
+Doc operacional completa: `.claude/skills/ads/{SKILL,ERRORS,RECIPES}.md`.

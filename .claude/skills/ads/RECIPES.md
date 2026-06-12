@@ -32,21 +32,23 @@ Separar educativo (cresce) de pessoal/lifestyle (não impulsionar pra crescer).
 
 ## §criar — campanha de crescimento (impulsionar reels) ✅ caminho que funciona
 
-### 1) criativo flat por reel (SEM CTA)
+### 1) criativo por reel (com CTA "ver perfil")
 ```bash
 curl -s -X POST "$G/$ACT/adcreatives" \
   --data-urlencode "name=AUT - <nome do reel>" \
   --data-urlencode "instagram_user_id=$IG" \
   --data-urlencode "source_instagram_media_id=<IG_MEDIA_ID_DO_REEL>" \
+  --data-urlencode 'call_to_action={"type":"VIEW_INSTAGRAM_PROFILE","value":{"link":"https://www.instagram.com/drgetulioamaralfilho"}}' \
   --data-urlencode "access_token=$T"   # → retorna {"id": creative_id}
 ```
-NÃO passar `call_to_action_type` nem `object_story_spec` (→ erro #3; ver ERRORS.md).
+🚨 CTA SEMPRE no formato OBJETO (`call_to_action={...}`) com `value.link` = URL do PERFIL.
+NUNCA o scalar `call_to_action_type` (→ #3, era payload malformado). NÃO usar `object_story_spec`.
 
-### 2) campanha (OUTCOME_ENGAGEMENT, CBO, PAUSED)
+### 2) campanha (OUTCOME_TRAFFIC, CBO, PAUSED)
 ```bash
 curl -s -X POST "$G/$ACT/campaigns" \
   --data-urlencode "name=<nome>" \
-  --data-urlencode "objective=OUTCOME_ENGAGEMENT" \
+  --data-urlencode "objective=OUTCOME_TRAFFIC" \
   --data-urlencode "status=PAUSED" \
   --data-urlencode "special_ad_categories=[]" \
   --data-urlencode "daily_budget=3000" \  # em centavos = R$30/dia
@@ -54,25 +56,27 @@ curl -s -X POST "$G/$ACT/campaigns" \
   --data-urlencode "access_token=$T"
 ```
 
-### 3) ad set (POST_ENGAGEMENT / ON_POST, **IG-only**, PAUSED)
+### 3) ad set (VISIT_INSTAGRAM_PROFILE / INSTAGRAM_PROFILE, PAUSED) ✅ motor de SEGUIDOR
 ```bash
 curl -s -X POST "$G/$ACT/adsets" \
   --data-urlencode "name=<nome do público>" \
   --data-urlencode "campaign_id=<CAMPAIGN_ID>" \
   --data-urlencode "status=PAUSED" \
-  --data-urlencode "optimization_goal=POST_ENGAGEMENT" \
+  --data-urlencode "optimization_goal=VISIT_INSTAGRAM_PROFILE" \
   --data-urlencode "billing_event=IMPRESSIONS" \
-  --data-urlencode "destination_type=ON_POST" \
-  --data-urlencode "promoted_object={\"page_id\":\"$PAGE\"}" \
-  --data-urlencode 'targeting={"age_min":25,"age_max":65,"geo_locations":{"countries":["BR"]},"publisher_platforms":["instagram"],"targeting_automation":{"advantage_audience":1}}' \
+  --data-urlencode "destination_type=INSTAGRAM_PROFILE" \
+  --data-urlencode "promoted_object={\"page_id\":\"$PAGE\",\"instagram_profile_id\":\"$IG\"}" \
+  --data-urlencode 'attribution_spec=[{"event_type":"CLICK_THROUGH","window_days":1}]' \
+  --data-urlencode 'targeting={"age_min":25,"age_max":65,"geo_locations":{"countries":["BR"]},"flexible_spec":[{"interests":[{"id":"6003384248805"},{"id":"6004115167424"}]}],"targeting_automation":{"advantage_audience":1}}' \
   --data-urlencode "access_token=$T"
-# 🚨 publisher_platforms=["instagram"] é OBRIGATÓRIO p/ crescer o IG — sem isso, placement
-#   automático vaza ~80% do budget pro Facebook (ver ERRORS.md). THRUPLAY/ON_VIDEO compra view
-#   passiva barata; POST_ENGAGEMENT/ON_POST otimiza engajamento real (preferir).
-# com interesses: adicionar "flexible_spec":[{"interests":[{"id":"6003384248805"},...]}] no targeting.
-# Interesses úteis (BR): Saúde e boa forma 6003384248805 · Nutrição humana 6002933862573 ·
-#   Bem Estar 6003147242240 · medicina natural 6003361698660. Buscar mais: GET /search?type=adinterest&q=...
-# CBO → TODOS os ad sets com a MESMA optimization_goal (POST_ENGAGEMENT).
+# 🚨 optimization_goal é VISIT_INSTAGRAM_PROFILE (enum documentado). PROFILE_VISIT (o que a API
+#   MOSTRA na leitura) NÃO é aceito na criação → 1346001. Ver ERRORS.md.
+# 🚨 promoted_object precisa de instagram_profile_id (= IG account id) além de page_id.
+# Esse é o objetivo "visitas ao perfil" = manda pro perfil = seguidor + curtida visível (motor da vencedora).
+# NÃO restringir publisher_platforms (o destino-perfil entrega no IG sozinho).
+# Interesses úteis (BR): Saúde e boa forma 6003384248805 · Exercício físico 6004115167424 ·
+#   Nutrição humana 6002933862573 · Bem Estar 6003147242240 · medicina natural 6003361698660.
+# CBO → todos os ad sets com a MESMA optimization_goal (VISIT_INSTAGRAM_PROFILE).
 ```
 
 ### 4) anúncio (PAUSED) — 1 por (reel × ad set)
@@ -113,10 +117,11 @@ curl -s "$G/<CAMPAIGN_ID>/insights?access_token=$T&date_preset=last_7d&fields=sp
 
 ---
 ## Estado atual (atualizar quando mudar)
-- Campanha ativa: `120246291720670590` (Autoridade Getúlio — Engajamento/Seguidor, R$30/dia,
-  POST_ENGAGEMENT/ON_POST, **IG-only**). Ad sets `120246338862850590` (Interesses) +
-  `120246338863220590` (Aberto). 10 anúncios. (v1 THRUPLAY+placement-auto foi refeita em 2026-06-11
-  após vazar 81% pro FB — ver ERRORS.md.)
-- Criativos: Ep1 `1881768479183674` · Ep2 `2250980205643279` · Ep7 `1337845195077603` ·
-  Proteína `1576050790745622` · Hidratação `1763630304623063`.
-- GLP-1 (NÃO MEXER, só status): `120240429386620590` — PAUSED desde 2026-06-10.
+- **Campanha ativa: `120246351697660590`** (Autoridade Getúlio — Visitas ao Perfil, R$25/dia,
+  OUTCOME_TRAFFIC + **VISIT_INSTAGRAM_PROFILE**/INSTAGRAM_PROFILE). Ad sets `120246351698020590`
+  (Interesses) + `120246351698450590` (Fitness espelho da vencedora). 10 anúncios = 5 reels Tier A × 2.
+  Validada ao vivo 2026-06-11 (10/10 ACTIVE, entrega no IG, cliques-perfil ~R$0,10).
+- **GLP-1 (vencedora original, NÃO MEXER, só status): `120240429386620590`** — PAUSED (realocada
+  pra a nova, que é o mesmo motor + 2 reels a mais).
+- Histórico: campanhas THRUPLAY e POST_ENGAGEMENT foram ERRO (não geram seguidor) — deletadas.
+  Ver ERRORS.md. O caminho certo é VISIT_INSTAGRAM_PROFILE.

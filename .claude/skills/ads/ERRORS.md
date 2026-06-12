@@ -11,17 +11,26 @@ Erro de **capability do app**, NÃO de escopo do token. Tem 3 gatilhos distintos
 1. **App em modo Desenvolvimento.** Criar criativo/post de anúncio exige app **Live**.
    Mensagem reveladora (criativo de link): *"post do criativo foi criado por um app em modo
    de desenvolvimento"* (subcode 1885183). → App Dashboard → virar modo **Ativo/Live**.
-2. **`call_to_action_type` (scalar) num criativo de reel IG.** QUALQUER CTA (LEARN_MORE,
-   VIEW_INSTAGRAM_PROFILE, NO_BUTTON…) dispara `#3`. → **Não passar `call_to_action_type`.**
-   Criativo flat sem CTA funciona. (O botão "Ver perfil" da interface não existe na API.)
-3. **`object_story_spec` com `page_id` num criativo de reel IG.** → Usar forma flat:
-   `instagram_user_id` + `source_instagram_media_id`, sem `object_story_spec`. (A página entra
-   no nível do **ad set**, via `promoted_object={page_id}`, não no criativo.)
+2. **CTA no formato SCALAR (`call_to_action_type=...`)** num criativo de reel IG dispara `#3`.
+   **NÃO era capability — era payload malformado** (descoberto 2026-06-11 após eu concluir errado
+   que era impossível). ✅ FIX: usar o formato OBJETO →
+   `call_to_action={"type":"VIEW_INSTAGRAM_PROFILE","value":{"link":"https://www.instagram.com/drgetulioamaralfilho"}}`.
+   O `value.link` é o URL do PERFIL. Funciona e o anúncio entrega (provado ao vivo).
+3. **`object_story_spec` com `page_id` num criativo de reel IG.** → Não usar `object_story_spec`;
+   o criativo é flat (`instagram_user_id` + `source_instagram_media_id` + `call_to_action` objeto).
 
-## `1346001 — A validation error occurred` (na criação do anúncio)
-Genérico, mas o gatilho documentado é **`optimization_goal=PROFILE_VISIT`**. "Visitas ao perfil"
-é recurso só-da-interface do Meta, sem mapa limpo na API. → Não usar `PROFILE_VISIT` via API.
-Para crescer com reel, usar `OUTCOME_ENGAGEMENT` + `THRUPLAY` + `ON_VIDEO` (testado, valida).
+## `1346001 — A validation error occurred` (na criação do anúncio) — RESOLVIDO
+Causa real: **`optimization_goal=PROFILE_VISIT` é o enum ERRADO** para criação. A API MOSTRA
+`PROFILE_VISIT` quando você lê uma campanha de visitas-ao-perfil (feita no Ads Manager), mas
+**na criação só aceita `VISIT_INSTAGRAM_PROFILE`** (o enum documentado: "Optimize for visits to
+the advertiser's Instagram profile"). Eu perdi horas concluindo que "visitas ao perfil é só
+interface" — ERRADO. ✅ FIX completo (provado entregando ao vivo 2026-06-11):
+- campanha `objective=OUTCOME_TRAFFIC`
+- ad set `optimization_goal=VISIT_INSTAGRAM_PROFILE` + `destination_type=INSTAGRAM_PROFILE`
+- `promoted_object={page_id, instagram_profile_id}`  (precisa do instagram_profile_id = IG account id)
+- criativo com CTA objeto VIEW_INSTAGRAM_PROFILE (acima)
+Esse é o motor de SEGUIDOR (manda pro perfil). THRUPLAY/POST_ENGAGEMENT NÃO geram seguidor
+(engajam o dark post invisível) — foram erro, não usar pra crescimento.
 
 ## `2490408 — A meta de desempenho não está disponível`
 `optimization_goal` incompatível com o `objective` da campanha. Combos válidos testados:
