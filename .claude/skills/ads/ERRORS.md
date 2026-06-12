@@ -92,6 +92,21 @@ CBO jogou R$6,67 de R$7,71 num único anúncio (o mais barato) e **sufocou os re
 (GLP-1 receberam ~R$0). → Com `POST_ENGAGEMENT` a concentração tende a favorecer o que engaja
 (melhor). Se ainda starvar os bons, usar orçamento por ad set (ABO) ou menos criativos por ad set.
 
+## `1885272 — O orçamento é muito baixo` (ABO) — RESOLVIDO
+Ad set em **ABO** (orçamento por ad set) com `optimization_goal=VISIT_INSTAGRAM_PROFILE`
+exige `daily_budget` **> R$5,10** (subcode 1885272, `blame_field_specs=[["daily_budget"]]`,
+title "O orçamento é muito baixo"). `daily_budget=500` (R$5,00) é **rejeitado**. Custou horas
+porque o erro vinha sendo engolido pelo parsing (script só imprimia "adset FAIL" sem o JSON).
+✅ FIX: usar ≥ R$6/dia (`daily_budget=600`). **Lição dupla: sempre imprimir o JSON de erro
+COMPLETO** (`| python3 -m json.tool`), nunca só "FAIL".
+
+## CBO sufoca o reel forte na largada (cold-start) → usar ABO
+Com CBO + LOWEST_COST, o Meta dá a cada anúncio um teste mínimo inicial; quem pega tração
+cedo leva todo o budget. O reel **Proteína** (melhor desempenho orgânico) ficou com ~3-5
+impressões e "morreu". NÃO era bug do criativo (estrutura perfeita) — era starvation do CBO.
+✅ FIX: **ABO** (1 reel por ad set, `daily_budget` em CADA ad set, `bid_strategy` no ad set,
+campanha com `is_adset_budget_sharing_enabled=false`) → cada reel tem entrega garantida.
+
 ## Token vencendo
 `META_MARKETING_TOKEN` é long-lived (~60 dias). Quando perto de vencer: Graph API Explorer →
 app PlenyaMarketing → User Token → escopos (`ads_management,ads_read,read_insights,instagram_basic,

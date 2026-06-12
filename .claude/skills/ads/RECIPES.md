@@ -116,12 +116,28 @@ curl -s "$G/<CAMPAIGN_ID>/insights?access_token=$T&date_preset=last_7d&fields=sp
 ```
 
 ---
+## §abo — orçamento por ad set (1 reel por ad set, sem starvation)
+Quando um reel forte morre na CBO (cold-start), migrar pra ABO:
+```bash
+# campanha SEM daily_budget + is_adset_budget_sharing_enabled=false
+curl -s -X POST "$G/$ACT/campaigns" --data-urlencode "name=<nome> (ABO)" \
+  --data-urlencode "objective=OUTCOME_TRAFFIC" --data-urlencode "status=PAUSED" \
+  --data-urlencode "special_ad_categories=[]" \
+  --data-urlencode "is_adset_budget_sharing_enabled=false" --data-urlencode "access_token=$T"
+# cada ad set carrega SEU daily_budget (≥600 = R$6, mínimo é R$5,10!) + bid_strategy:
+#   --data-urlencode "daily_budget=600"  --data-urlencode "bid_strategy=LOWEST_COST_WITHOUT_CAP"
+#   (resto igual ao §criar passo 3). 1 anúncio por ad set.
+```
+🚨 `daily_budget` < R$5,10 em ABO → erro 1885272 ("orçamento muito baixo"). Usar ≥600.
+🚨 Targeting da vencedora = fitness direcionado (NÃO amplo): `flexible_spec:[{interests:[
+   {id:6003384248805 Saúde e boa forma},{id:6004115167424 Exercício físico}]}]` + Advantage.
+
 ## Estado atual (atualizar quando mudar)
-- **Campanha ativa: `120246351697660590`** (Autoridade Getúlio — Visitas ao Perfil, R$25/dia,
-  OUTCOME_TRAFFIC + **VISIT_INSTAGRAM_PROFILE**/INSTAGRAM_PROFILE). Ad sets `120246351698020590`
-  (Interesses) + `120246351698450590` (Fitness espelho da vencedora). 10 anúncios = 5 reels Tier A × 2.
-  Validada ao vivo 2026-06-11 (10/10 ACTIVE, entrega no IG, cliques-perfil ~R$0,10).
-- **GLP-1 (vencedora original, NÃO MEXER, só status): `120240429386620590`** — PAUSED (realocada
-  pra a nova, que é o mesmo motor + 2 reels a mais).
-- Histórico: campanhas THRUPLAY e POST_ENGAGEMENT foram ERRO (não geram seguidor) — deletadas.
-  Ver ERRORS.md. O caminho certo é VISIT_INSTAGRAM_PROFILE.
+- **Campanha ativa: `120246416551100590`** (Autoridade Getúlio — Visitas ao Perfil **ABO**,
+  R$30/dia = 5 ad sets × R$6, OUTCOME_TRAFFIC + **VISIT_INSTAGRAM_PROFILE**/INSTAGRAM_PROFILE).
+  5 ad sets, 1 reel cada (Ep1 `…198490590` · Ep2 `…201080590` · Ep7 `…203440590` ·
+  Proteína `…205500590` · Hidratação `…208640590`), público = fitness direcionado da vencedora.
+  Ativada 2026-06-12, 5/5 ACTIVE sem WITH_ISSUES. Motivo da ABO: a CBO anterior sufocou a Proteína.
+- **GLP-1 (vencedora original, NÃO MEXER, só status): `120240429386620590`** — PAUSED.
+- Histórico de campanhas deletadas/erradas: a CBO `120246351697660590` (sufocou Proteína) foi
+  substituída por esta ABO. THRUPLAY/POST_ENGAGEMENT/PROFILE_VISIT foram ERRO. Ver ERRORS.md.
