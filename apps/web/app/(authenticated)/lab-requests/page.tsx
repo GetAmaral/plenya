@@ -297,12 +297,12 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
               <Textarea
                 value={exams}
                 onChange={(e) => setExams(e.target.value)}
-                placeholder="Digite os nomes dos exames, um por linha. Exemplo:&#10;Hemograma Completo&#10;Glicemia de Jejum&#10;Colesterol Total"
+                placeholder="Digite os nomes dos exames, um por linha. Comece a linha com # para justificar o exame acima (aparece no PDF sob o exame). Exemplo:&#10;Ressonância de crânio&#10;# Sinais de demência, investigação diagnóstica&#10;Hemograma Completo"
                 rows={16}
                 required
               />
               <p className="text-xs text-muted-foreground mt-1">
-                {exams.split('\n').filter(line => line.trim()).length} exame(s)
+                {exams.split('\n').filter(line => line.trim() && !line.trim().startsWith('#')).length} exame(s)
               </p>
             </div>
 
@@ -497,12 +497,12 @@ function EditLabRequestForm({
               <Textarea
                 value={exams}
                 onChange={(e) => setExams(e.target.value)}
-                placeholder="Digite os nomes dos exames, um por linha. Exemplo:&#10;Hemograma Completo&#10;Glicemia de Jejum&#10;Colesterol Total"
+                placeholder="Digite os nomes dos exames, um por linha. Comece a linha com # para justificar o exame acima (aparece no PDF sob o exame). Exemplo:&#10;Ressonância de crânio&#10;# Sinais de demência, investigação diagnóstica&#10;Hemograma Completo"
                 rows={16}
                 required
               />
               <p className="text-xs text-muted-foreground mt-1">
-                {exams.split('\n').filter(line => line.trim()).length} exame(s)
+                {exams.split('\n').filter(line => line.trim() && !line.trim().startsWith('#')).length} exame(s)
               </p>
             </div>
 
@@ -704,12 +704,12 @@ function DuplicateLabRequestForm({
               <Textarea
                 value={exams}
                 onChange={(e) => setExams(e.target.value)}
-                placeholder="Digite os nomes dos exames, um por linha. Exemplo:&#10;Hemograma Completo&#10;Glicemia de Jejum&#10;Colesterol Total"
+                placeholder="Digite os nomes dos exames, um por linha. Comece a linha com # para justificar o exame acima (aparece no PDF sob o exame). Exemplo:&#10;Ressonância de crânio&#10;# Sinais de demência, investigação diagnóstica&#10;Hemograma Completo"
                 rows={16}
                 required
               />
               <p className="text-xs text-muted-foreground mt-1">
-                {exams.split('\n').filter(line => line.trim()).length} exame(s)
+                {exams.split('\n').filter(line => line.trim() && !line.trim().startsWith('#')).length} exame(s)
               </p>
             </div>
 
@@ -805,14 +805,14 @@ function LabRequestCard({
   onEdit: () => void
   onDuplicate: () => void
 }) {
-  const examsCount = request.exams.split('\n').filter(line => line.trim()).length
   const queryClient = useQueryClient()
 
-  // Parse exams into array
+  // Parse exams into array (ignora linhas de justificativa, que começam com #)
   const examsArray = request.exams
     .split('\n')
-    .filter(line => line.trim())
     .map(line => line.trim())
+    .filter(line => line && !line.startsWith('#'))
+  const examsCount = examsArray.length
 
   const generatePdfMutation = useMutation({
     mutationFn: () => generateLabRequestPdf(request.id),

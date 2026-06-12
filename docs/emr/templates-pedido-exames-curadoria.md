@@ -286,3 +286,31 @@ Em jejum, coletar com glicemia simultânea (a leitura é a dupla peptídeo C × 
    (Inicial ancorado na §6).
 5. Dry-run em clone do prod → aplicar dev → aplicar prod (banco direto, idempotente).
 6. DELETE templates `teste`/`teste2`.
+
+## Justificativa por exame (convenção `#` no texto livre) — 2026-06-12
+
+O médico pode justificar um exame digitando, **logo abaixo dele**, uma linha iniciada por `#`.
+Linhas `#` consecutivas concatenam (justificativa multi-linha; word-wrap automático no PDF).
+`#` órfão (sem exame acima) ou vazio é ignorado. Exemplo no texto livre do pedido:
+
+```
+Ressonância de crânio
+# Paciente com sinais de demência, investigação diagnóstica de causa estrutural.
+# Afastar hidrocefalia de pressão normal.
+Hemograma completo
+```
+
+**Por que `#` e não `>`/aspas:** o médico usa `>`/`<` como limiar ("clearance < 60") no início de
+frases, e aspas sofrem com autocorreção (curvas) e delimitador não-fechado. `#` quase nunca abre
+uma linha clínica → marcador menos ambíguo. Prefixo de linha (não wrapper aberto-fecha) é robusto:
+só precisa do início, nunca colide com pontuação interna.
+
+**Sem schema novo:** a justificativa vive dentro do próprio `LabRequest.Exams` (texto livre);
+persiste de graça, zero migration. No render (`pdfdoc`), vira `ExamItem.Justification` e aparece
+sob o nome do exame, em itálico com barra dourada. A paginação conta só exames (justificativa não
+ocupa "vaga" das 40/página). No EMR, o contador de exames e o preview em badges ignoram linhas `#`.
+
+Arquivos: `apps/api/internal/pdfdoc/exam_request.go` (parser + render), `pdfdoc/stationery.go`
+(`.exjust`), `apps/web/app/(authenticated)/lab-requests/page.tsx` (placeholder + contador + preview).
+Pendência engatilhada: no import/dedup externo, ao remover um exame casado, remover as linhas `#`
+logo abaixo dele junto.

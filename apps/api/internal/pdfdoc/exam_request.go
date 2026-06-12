@@ -7,8 +7,9 @@ import (
 
 // ExamItem — um exame solicitado já resolvido (Name livre + TUSS opcional, anexado no render).
 type ExamItem struct {
-	Name string
-	Tuss string // "" quando a linha não casa com o catálogo
+	Name          string
+	Tuss          string // "" quando a linha não casa com o catálogo
+	Justification string // "" quando não há; multi-linha separada por "\n" (linhas ">" no texto livre)
 }
 
 // ExamRequest — dados para a Solicitação de Exames (PDF). O título do PDF pode diferir do
@@ -25,26 +26,53 @@ type ExamRequest struct {
 
 const maxPerPage = 40 // ≤20 = 1 col; 21–40 = 2 col (20/col); >40 = nova página
 
-// pagesFromExams quebra por linha em branco E a cada 40 exames (2 col × 20).
-func pagesFromExams(text string) [][]string {
-	var blocks [][]string
-	var cur []string
+const justPrefix = "#" // linha de justificativa, anexa ao exame imediatamente acima
+// (escolhido em vez de ">": médico usa ">"/"<" como limiar no início de frases — "# " quase nunca abre linha)
+
+// parseExamBlocks quebra o texto livre em blocos de ExamItem (linha em branco = novo bloco/página).
+// Linha iniciada por "#" é justificativa e adere ao exame de cima; linhas "#" consecutivas
+// concatenam (justificativa multi-linha). "#" órfão (sem exame acima) ou vazio é ignorado.
+func parseExamBlocks(text string) [][]ExamItem {
+	var blocks [][]ExamItem
+	var cur []ExamItem
+	flush := func() {
+		if len(cur) > 0 {
+			blocks = append(blocks, cur)
+			cur = nil
+		}
+	}
 	for _, ln := range strings.Split(text, "\n") {
 		t := strings.TrimSpace(ln)
 		if t == "" {
-			if len(cur) > 0 {
-				blocks = append(blocks, cur)
-				cur = nil
+			flush()
+			continue
+		}
+		if strings.HasPrefix(t, justPrefix) {
+			j := strings.TrimSpace(strings.TrimPrefix(t, justPrefix))
+			if j == "" || len(cur) == 0 {
+				continue // ">" vazio ou justificativa órfã → ignora
+			}
+			last := &cur[len(cur)-1]
+			if last.Justification == "" {
+				last.Justification = j
+			} else {
+				last.Justification += "\n" + j
 			}
 			continue
 		}
-		cur = append(cur, t)
+		cur = append(cur, ExamItem{Name: t})
 	}
-	if len(cur) > 0 {
-		blocks = append(blocks, cur)
-	}
-	var pages [][]string
-	for _, b := range blocks {
+	flush()
+	return blocks
+}
+
+// ExamPagesFromText — conveniência: texto livre (1 exame/linha, "#" = justificativa do exame de
+// cima, linha em branco = nova página) para páginas de ExamItem SEM TUSS. O adaptador resolve o
+// TUSS depois (LabTestMatcher), preservando a caixa de texto 100% livre. A paginação conta só
+// exames (justificativas não ocupam slot).
+func ExamPagesFromText(text string) [][]ExamItem {
+	var pages [][]ExamItem
+	for _, b := range parseExamBlocks(text) {
 		for i := 0; i < len(b); i += maxPerPage {
 			end := i + maxPerPage
 			if end > len(b) {
@@ -54,22 +82,6 @@ func pagesFromExams(text string) [][]string {
 		}
 	}
 	return pages
-}
-
-// ExamPagesFromText — conveniência: texto livre (1 exame/linha, linha em branco = nova página)
-// para páginas de ExamItem SEM TUSS. O adaptador resolve o TUSS depois (LabTestMatcher),
-// preservando a caixa de texto 100% livre.
-func ExamPagesFromText(text string) [][]ExamItem {
-	src := pagesFromExams(text)
-	out := make([][]ExamItem, len(src))
-	for i, pg := range src {
-		items := make([]ExamItem, len(pg))
-		for j, name := range pg {
-			items[j] = ExamItem{Name: name}
-		}
-		out[i] = items
-	}
-	return out
 }
 
 // examPadding — espaçamento dinâmico: generoso com poucos exames, mínimo (1.5px) com 20+ na coluna.
@@ -93,10 +105,14 @@ func examColHTML(items []ExamItem) string {
 	var b strings.Builder
 	b.WriteString(`<ul class="excol">`)
 	for _, it := range items {
-		b.WriteString(`<li class="exitem"><span class="bullet"></span><span class="exname">`)
+		b.WriteString(`<li class="exitem"><span class="bullet"></span><span class="exbody"><span class="exname">`)
 		b.WriteString(esc(it.Name))
 		if it.Tuss != "" {
 			b.WriteString(`<span class="extuss"> (` + esc(it.Tuss) + `)</span>`)
+		}
+		b.WriteString(`</span>`)
+		if it.Justification != "" {
+			b.WriteString(`<span class="exjust">` + strings.ReplaceAll(esc(it.Justification), "\n", "<br>") + `</span>`)
 		}
 		b.WriteString(`</span></li>`)
 	}

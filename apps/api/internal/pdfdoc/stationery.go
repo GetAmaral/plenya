@@ -92,8 +92,10 @@ html,body{ background:#fff; }
 .excol{ list-style:none; flex:1; }
 .exitem{ display:flex; align-items:flex-start; gap:11px; padding:var(--expad,1.5px) 0; }
 .bullet{ flex:0 0 auto; width:4.5px; height:4.5px; background:var(--gold); border-radius:1px; transform:rotate(45deg); margin-top:6px; }
+.exbody{ display:flex; flex-direction:column; min-width:0; }
 .exname{ font-size:13.3px; line-height:1.35; color:var(--petrol); }
 .extuss{ color:var(--ink2); font-size:10.5px; white-space:nowrap; }
+.exjust{ font-size:10.8px; line-height:1.3; color:var(--ink2); font-style:italic; margin-top:2px; padding-left:11px; border-left:2px solid rgba(179,134,69,.35); }
 .ctrltag{ display:inline-block; margin-top:9px; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--gold); font-weight:700; border:1px solid rgba(179,134,69,.5); border-radius:3px; padding:3px 9px; }
 .meds{ margin-top:2px; }
 .med{ padding:8px 0; border-top:1px solid rgba(6,59,79,.08); }

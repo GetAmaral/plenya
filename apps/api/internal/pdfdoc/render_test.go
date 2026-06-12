@@ -20,8 +20,14 @@ func sampleExamsText() string {
 		"VHS (velocidade de hemossedimentação)", "Cortisol matinal", "Testosterona total e livre",
 		"Microalbuminúria em amostra isolada", "Urina tipo I (EAS)",
 		"", // quebra de página: laboratório | imagem
-		"Ultrassonografia de abdome total", "Ecocardiograma transtorácico com Doppler",
-		"Densitometria óssea (coluna lombar e fêmur)", "Tomografia computadorizada de tórax de baixa dose",
+		"Ultrassonografia de abdome total",
+		"# Paciente com esteatose hepática grau II identificada em ultrassonografia prévia realizada há cerca de oito meses, atualmente em programa de reorganização metabólica com perda ponderal progressiva, solicito reavaliação ecográfica para controle evolutivo da infiltração gordurosa hepática e rastreio de eventual fibrose incipiente.",
+		"# Avaliar também vesícula, vias biliares e dimensões do baço.",
+		"Ecocardiograma transtorácico com Doppler",
+		"Densitometria óssea (coluna lombar e fêmur)",
+		"Tomografia computadorizada de tórax de baixa dose",
+		"# História familiar de neoplasia pulmonar e tabagismo prévio (clearance < 60).",
+		"# Rastreio de nódulo pulmonar conforme protocolo, primeira avaliação de baixa dose.",
 	}, "\n")
 }
 
