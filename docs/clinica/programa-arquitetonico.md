@@ -1,210 +1,120 @@
-# Plenya — Programa de necessidades (espaço físico) para discutir com o arquiteto
+# Plenya — Programa de necessidades (espaço físico) para o arquiteto
 
-> Síntese dos dois portfólios — **infusão** (`portfolio-injetaveis.md` + protocolos §15) e **exames**
-> (`portfolio-exames.md`, Fases 1–3) — traduzida em **ambientes físicos reais**. Base regulatória do
-> doc-mãe [centro-infusao-e-exames.md](centro-infusao-e-exames.md) (RDC 50/2002, I.2/I.3).
+> Clínica **dentro de uma estrutura multi-clínica** (empreendimento compartilhado). Este documento
+> separa o que é **Plenya-exclusivo** (constrói/ocupa) do que é **comum do empreendimento**
+> (compartilhado com as outras clínicas). Síntese dos dois portfólios — infusão
+> (`portfolio-injetaveis.md` + protocolos §15) e exames (`portfolio-exames.md`) — traduzida em
+> ambientes reais, com referências RDC 50/2002 + mercado premium.
 >
-> **Para o arquiteto/engenheiro (CAU/CREA):** as áreas (m²) são **ordem de grandeza** — a decisão final é
-> do projetista + VISA Londrina + DAPES/SESA-PR. Este documento diz **quais ambientes existem, o que
-> acontece em cada um e os requisitos que os governam.**
+> **Áreas = ordem de grandeza** (decisão final do projetista CAU/CREA + VISA Londrina). 🔲 = confirmar.
 
 ---
 
-## 🔑 Dois simplificadores que mudam tudo (decisões já tomadas)
+## 🔑 Dois simplificadores (decisões já tomadas)
+1. **Zero ambientes com radiação** — DEXA/TC/RM terceirizados → sem sala blindada, área controlada,
+   levantamento radiométrico ou licenciamento CNEN.
+2. **Não manipula estéril (Cenário A)** — compra pronto/magistral terceirizado → sem sala limpa, cabine de
+   fluxo laminar ou licença de farmácia.
 
-1. **ZERO ambientes com radiação.** DEXA, tomógrafo (escore de cálcio/angio-TC) e RM foram **descartados
-   do próprio / terceirizados** (decisão do Dr.). Consequência arquitetônica: **nenhuma sala blindada,
-   nenhuma área controlada, nenhum levantamento radiométrico, nenhum licenciamento CNEN.** Economia e
-   simplicidade enormes.
-2. **Cenário A — não manipula estéril no local** (compra pronto/magistral terceirizado). Consequência:
-   **nenhuma sala limpa classificada, nenhuma cabine de fluxo laminar, nenhuma licença de farmácia.**
-
-Ou seja: a planta é a de uma **clínica ambulatorial premium**, não de um serviço de imagem nem de uma
-farmácia de manipulação.
+E uma decisão de layout: **exames consolidados** — uma sala multi-exame em vez de uma sala por exame.
 
 ---
 
-## Mapa de ambientes por zona
+# PARTE 1 — PLENYA-EXCLUSIVO (o que a Plenya constrói/ocupa)
 
-### ZONA 1 — Acolhimento e apoio (comum)
-| Ambiente | O que acontece | Requisitos-chave |
+> Referências: RDC 50/2002 (mínimos legais) · mercado premium (consulta c/ acompanhante 15–20 m²,
+> c/ procedimento 20–30; aplicação de infusão mín. 5 m²/poltrona). Sizing **premium**, não mínimo.
+
+### Consulta (2 salas)
+| Ambiente | mín. RDC 50 | **Premium adotado** |
 |---|---|---|
-| **Recepção + espera premium** | chegada; ambiente "spa-clínico" sereno (não bar de vitamina) | conforto, privacidade, climatização, wi-fi |
-| **Sanitários públicos** (masc/fem) **+ PCD** | — | **NBR 9050: PCD com giro Ø 1,50 m + barras**; porta livre ≥80 cm |
-| **Copa/apoio + DML** (depósito material limpeza) | apoio da equipe/operação | pia; segregação limpo×sujo |
-| **Abrigo de resíduos (PGRSS)** | guarda de resíduos até coleta | **RDC 222/2018**: piso/parede laváveis; perfurocortante Grupo E; resíduo farmacológico Grupo B |
-| **Área administrativa** | gestão, prontuário, faturamento | — |
+| **Consultório médico premium** (Dr. Getúlio; abriga também a **devolutiva** do relatório integrado) | 7,5 | **25 m²** |
+| **Consultório multidisciplinar** (menor — nutri/equipe) | 7,5 | **12 m²** |
 
-### ZONA 2 — Consulta e devolutiva (a jornada = o produto)
-| Ambiente | O que acontece | Requisitos |
+### Exames — CONSOLIDADOS (a otimização)
+| Ambiente | — | **Adotado** |
 |---|---|---|
-| **Consultório(s) médico(s)** | porta de entrada (avaliação) **e** devolutiva do **relatório integrado** | lavatório; privacidade; o relatório integrado é o produto premium (consulta→exames→devolutiva→reavaliação) |
+| **Sala de Avaliação Funcional & Longevidade** — uma sala, várias estações: bioimpedância · preensão palmar · retinografia · MoCA/olfato · espirometria · ITB/VOP · **RMR (calorimetria)** · VO₂ estimado · **ponto de coleta** (cadeira + bancada c/ centrífuga e geladeira de amostras) | — | **26 m²** |
 
-> A devolutiva do relatório pode ser no próprio consultório ou numa sala de reunião confortável (decisão de
-> layout). É o momento de maior valor percebido — ambientá-lo bem.
+> Substitui 4–5 salas individuais por **uma sala bem equipada**. Ressalva: a RMR ocupa ~30 min (reclinado)
+> → se o volume crescer, desmembrar uma 2ª "sala de repouso" (~12 m²). **Começa com uma só.** O ponto de
+> coleta deve cumprir RDC 50/978 (lavatório + bancada + privacidade).
 
-### ZONA 3 — Avaliação funcional / longevidade (exames LEVES, sem radiação) — Fase 1 + 2A
-Estes exames são rápidos, não invasivos e sem gargalo de especialista. **Podem ser agrupados** para
-economizar área:
-
-| Ambiente | Exames que abriga | Requisitos |
+### Centro de infusão (o diferencial Plenya, exclusivo)
+| Ambiente | mín. RDC 50 | **Premium adotado** |
 |---|---|---|
-| **Sala de avaliação funcional / composição corporal** | **bioimpedância** (§1, em pé) · **preensão palmar** (§2, sentado) · **retinografia** (§8a) · **triagem cognitiva MoCA + olfato** (§8d) | espaço para o equipamento InBody + cadeira; iluminação controlável p/ retinografia; ambiente calmo p/ MoCA |
-| **Sala de repouso cardiometabólica** | **RMR/calorimetria** (§6a — reclinado ~20–30 min, silêncio) · **ITB + VOP/Mobil-O-Graph** (§5, repouso) · **VO₂máx estimado** (§6b, submáximo) | **poltrona/maca reclinável + silêncio + penumbra** (a calorimetria exige repouso real); climatização estável |
-| *(sem sala dedicada)* | **CGM** (§8b — aplicação do sensor) · **estudo de sono domiciliar** (§8c — entrega do aparelho) | feitos no balcão/consultório; o paciente leva o dispositivo para casa |
+| **Lounge de infusão** (4 poltronas × 8 m²) | 5/poltrona | **32 m²** |
+| Posto de enfermagem | — | 8 m² |
+| Preparo + rede frio (punção feita no lounge) | — | 6 m² |
 
-### ZONA 4 — Coleta laboratorial (posto de coleta, Tipo II)
-| Ambiente | O que acontece | Requisitos |
+### Expansão (previsão — depende de trazer profissional, não de obra)
+| Ambiente | — | **Adotado** |
 |---|---|---|
-| **Sala/box de coleta** | coleta de sangue + coleta genética/epigenética (§3) | **RDC 50 (box de coleta) + RDC 978/2025 Tipo II**; pode compartilhar consultório se cumprir requisitos; cadeira de coleta + bancada + lavatório |
-| **Bancada de processamento pré-analítico** | centrífuga + **geladeira exclusiva de amostras 2–8 °C** | pode ser anexa à sala de coleta; **datalogger de temperatura** |
-| **Sanitário vinculado** | coleta de urina | acesso direto/próximo à coleta |
+| Sala de esforço (ergometria/ergoespirometria — exige médico presente) | — | 22 m² |
+| Ultrassom/eco | — | **compartilha a sala de avaliação** (+maca, 0 extra) ou **dedicada 16 m²** |
 
-> CAPEX deste setor é baixo (~R$ 8–20 mil) ou **~zero se o laboratório de apoio equipar** — mas o
-> **ambiente físico** ainda precisa existir e cumprir a RDC 50/978.
-
-### ZONA 5 — Centro de infusão (gatilho de enfermagem; pode ser fase posterior)
-> ⚠️ É o serviço que **exige enfermagem (ERT COREN-PR)** e dispara a classificação de risco médio/alto. O
-> doc-mãe recomenda **faseá-lo depois do centro de exames**. Decisão de obra: construir já ou deixar
-> previsão (ver "decisões pendentes").
-
-| Ambiente | Área ref. (doc-mãe) | Requisitos |
+### 🧮 Totais Plenya-exclusivo (+25% circulação interna; recepção/corredores são do prédio)
+| Cenário | Útil | **Construído Plenya** |
 |---|---|---|
-| **Sala de aplicação de medicamentos** | ~5,0 m² (9,0 se curativo/procedimento) | lavatório de mãos + bancada |
-| **Sala de observação / lounge de infusão** (poltronas) | ~6,0 m² **por poltrona** | **o lounge premium** — poltrona reclinável individual, privacidade visual, suporte de soro, lavatório próximo, ambiente sereno |
-| **Posto de enfermagem** | ~6,0 m² | lavatório, bancada, climatização, **elétrica de emergência** |
-| **Sala de preparo (produto pronto)** | atributo do posto | bancada com **pia separada** do lavatório de mãos |
-| **Rede frio** | — | **geladeira/câmara exclusiva 2–8 °C** (RDC 430/2020) + monitoramento contínuo |
-| *(equipamento, não sala)* | — | **carrinho de emergência** (adrenalina, O₂, ambu, via aérea, **DEA** 🔲) presente durante toda infusão |
-
-### ZONA 6 — Expansão cardiorrespiratória / imagem (Fase 2B) — DEIXAR PREVISÃO
-> Estes dependem de **trazer profissional** (cardiologista/medicina do esporte + ultrassonografista), não de
-> obra. Mas o arquiteto deve **reservar área + infraestrutura** para não exigir uma 2ª reforma.
-
-| Ambiente | Exames | Requisitos |
-|---|---|---|
-| **Sala de ergometria / ergoespirometria** | teste ergométrico + **VO₂máx máximo** (§6c) | espaço p/ **esteira + analisador metabólico + ECG**; **médico presente (CFM 2.021/2013)**; carrinho de emergência; espaço p/ atender intercorrência; **elétrica reservada** |
-| **Sala de ultrassom / eco** | **USG Doppler + ecocardiograma** (§7) | maca, **penumbra**, lavatório; pode ser dedicada ou compartilhar com a sala de avaliação |
-| *(opcional Fase 3)* | **plataforma de força / marcha** (§9d) | área ampla com piso nivelado — **só se vertical esportiva** |
+| **A — Consulta + exames** (2 consultórios + sala multi-exame) | ~63 m² | **~80 m²** |
+| **B — Com infusão** (+ lounge/enfermagem/preparo) | ~109 m² | **~135 m²** |
+| **C — Completo** (+ esforço + ultrassom dedicada) | ~147 m² | **~185 m²** |
+| *C com ultrassom compartilhando a sala de avaliação* | ~131 m² | **~165 m²** |
 
 ---
 
-## Requisitos transversais (todos os ambientes) — RDC 50 + acessibilidade
-- **Revestimentos laváveis/impermeáveis**, cantos arredondados em área crítica (coleta, infusão, preparo).
-- **Fluxo limpo × sujo** que não cruze preparo de medicamento/amostra com resíduos.
-- **Acessibilidade NBR 9050:** portas livres ≥80 cm; sanitário PCD com giro Ø 1,50 m + barras; circulação.
-- **Climatização** + **elétrica de emergência** nas áreas críticas (infusão, posto de enfermagem, rede frio).
-- 🔲 Pé-direito, larguras de porta/corredor, lavatórios por ambiente — **fechar com o projetista**.
+# PARTE 2 — COMUM / EMPREENDIMENTO (compartilhado — não é CAPEX exclusivo Plenya)
 
----
-
-## Sequência regulatória da OBRA (não pular)
-1. **Projeto arquitetônico aprovado na DAPES/SESA-PR ANTES de reformar** (Res. SESA 1.891/2024 — até 90 dias
-   de análise). **Nada de quebrar parede antes disso.**
-2. **Classificação de risco sanitário** (Res. SESA 1.034/2020) — infusão tende a médio/alto (🔲 confirmar com
-   VISA Londrina; alto risco = inspeção prévia).
-3. Licença Sanitária Municipal + Alvará (Londrina) · CNES · **AVCB/Bombeiros (CBMPR)** · PGRSS aprovado.
-4. RT médico (CRM-PR) + (quando houver infusão) **ERT enfermagem (COREN-PR)**.
-
----
-
-## Dois cenários de obra (núcleo mínimo × completo)
-
-**Cenário enxuto (abrir como centro de exames + consulta, "só médico"):** Zonas 1 + 2 + 3 + 4.
-→ Clínica ambulatorial leve, sem radiação, sem enfermagem, sem sala limpa. Risco regulatório baixo, obra
-mais rápida. Já entrega a **jornada one-stop de longevidade** (composição + força + sangue avançado +
-função pulmonar + idade vascular + metabolismo + retina/cognição) com **relatório integrado**.
-
-**Cenário completo (com infusão):** + Zona 5 (dispara enfermagem ERT + classificação de risco + rede frio +
-abrigo de resíduos reforçado). + **previsão** da Zona 6 para quando vier o cardiologista/ultrassonografista.
-
----
-
-## 🔲 Decisões que o arquiteto precisa do Dr. (levar para a reunião)
-1. **Infusão junto na 1ª obra, ou faseada depois?** (muda metragem, enfermagem, classificação de risco).
-2. **Reservar área da Zona 6** (ergometria + ultrassom) desde já? (evita 2ª reforma quando contratar o
-   cardiologista que destrava eco + ergoespirometria).
-3. **Vertical esportiva** (plataforma de força) entra? (define se precisa de sala ampla extra).
-4. **Nº de poltronas de infusão** (cada uma ~6 m² → dimensiona o lounge).
-5. **Devolutiva**: no consultório ou sala de reunião dedicada?
-6. Metragem total disponível no imóvel a reformar (define quanto agrupar as Zonas 3/4/6).
-
-> **Mensagem central para o arquiteto:** clínica ambulatorial premium, **sem radiação e sem sala limpa**;
-> o que define a complexidade regulatória é o **centro de infusão** (RDC 50 + enfermagem + rede frio +
-> resíduos). O resto é avaliação funcional leve + coleta + consultórios, agrupáveis para caber no imóvel.
-
----
-
-## 📐 Dimensionamento (m²) — sizing CONFORTÁVEL e total
-
-> Tamanhos **confortáveis** (premium, acima do mínimo RDC 50), não apertados. Ordem de grandeza — o
-> projetista confirma. "Net" = área útil dos ambientes; o total construído soma **~35% de circulação**
-> (corredores ≥1,20–1,50 m, paredes, shafts, acessibilidade).
-
-### Zona 1 — Acolhimento e apoio
-| Ambiente | m² confortável |
-|---|---|
-| Recepção + espera (lounge sereno) | 28 |
-| Sanitários (2 unissex + 1 PCD Ø1,50 m) | 10 |
-| Copa/apoio da equipe | 6 |
-| DML (depósito limpeza) | 3 |
-| Abrigo de resíduos (PGRSS) | 4 |
-| Administrativo/gestão | 11 |
-| **Subtotal Z1** | **62** |
-
-### Zona 2 — Consulta e devolutiva
-| Ambiente | m² |
-|---|---|
-| Consultório 1 (entrada) | 12 |
-| Consultório 2 / sala de devolutiva | 12 |
-| **Subtotal Z2** | **24** |
-
-### Zona 3 — Avaliação funcional (exames leves)
-| Ambiente | m² |
-|---|---|
-| Sala de composição/funcional (bio + grip + retina + MoCA) | 12 |
-| Sala de repouso cardiometabólica (RMR + ITB/VOP + VO₂ estimado) | 12 |
-| **Subtotal Z3** | **24** |
-
-### Zona 4 — Coleta laboratorial
-| Ambiente | m² |
-|---|---|
-| Sala/box de coleta (2 cadeiras) | 8 |
-| Bancada de processamento pré-analítico (centrífuga + geladeira amostras) | 4 |
-| Sanitário vinculado (coleta urina) | 3 |
-| **Subtotal Z4** | **15** |
-
-### Zona 5 — Centro de infusão (se entrar)
-| Ambiente | m² |
-|---|---|
-| Sala de aplicação | 5 |
-| Lounge de infusão — **4 poltronas × ~6 m²** | 24 |
-| Posto de enfermagem | 6 |
-| Sala de preparo (produto pronto) + rede frio | 6 |
-| **Subtotal Z5** | **41** |
-
-### Zona 6 — Expansão cardiorrespiratória/imagem (previsão)
-| Ambiente | m² |
-|---|---|
-| Sala de ergometria/ergoespirometria (esteira + ECG + emergência) | 18 |
-| Sala de ultrassom/eco (maca, penumbra) | 12 |
-| **Subtotal Z6** | **30** |
-| *(opcional)* plataforma de força — só se vertical esportiva | +20 |
-
-### 🧮 Totais (com ~35% de circulação)
-| Cenário | Ambientes (net) | **Total construído** |
+A Plenya **depende** destes ambientes do prédio (mas não os constrói sozinha):
+| Ambiente comum | Indicativo | Requisito que a Plenya impõe |
 |---|---|---|
-| **A — Núcleo** (exames + consulta, sem infusão) = Z1+2+3+4 | ~125 m² | **~170 m²** |
-| **B — Com infusão** = Z1+2+3+4+5 | ~166 m² | **~225 m²** |
-| **C — Completo** (+ previsão Z6) = Z1→6 | ~196 m² | **~265 m²** |
-| *C + plataforma de força (esportivo)* | ~216 m² | **~290 m²** |
+| Recepção + espera / lounge | 35–50 m² | ambiência premium (exigência de marca); **1,2 m²/pessoa** (RDC 50) |
+| Sanitários públicos (masc / fem / **PCD**) | ~12 m² | **NBR 9050** — PCD com giro Ø 1,50 m + barras |
+| Copa / estar de funcionários | — | — |
+| DML + **abrigo de resíduos (PGRSS)** | — | 🚨 **deve aceitar Grupo B (farmacológico) + Grupo E (perfurocortante)** — exigência da infusão |
+| Circulação comum (corredores) | — | largura ≥1,20 m (≥2,00 m se maca) |
 
-**Leitura prática:**
-- Para abrir **confortável como centro de exames + consulta**: mire **~170 m²**.
-- **Com centro de infusão** (lounge de 4 poltronas + enfermagem): **~225 m²**.
-- **Tudo, já deixando a sala de esforço e o ultrassom previstos**: **~265 m²** (~290 com plataforma de força).
+🚨 **Alinhar com o empreendimento (crítico):** a **infusão Plenya eleva a classificação de risco
+sanitário** e exige PGRSS/abrigo de resíduos (e possivelmente rede frio) compatíveis. **Confirmar com a
+VISA Londrina** se a classificação de risco recai só sobre a sala Plenya ou sobre o empreendimento inteiro.
 
-> **Ajustes fáceis de metragem:** o lounge de infusão escala direto pelo nº de poltronas (~6 m² cada — 3
-> poltronas tiram ~6 m², 6 poltronas somam ~12 m²). As Zonas 3, 4 e 6 podem **compartilhar salas** num
-> imóvel apertado (ex.: ultrassom na sala de repouso cardiometabólica; processamento dentro da coleta),
-> baixando 15–25 m². Versão **compacta** (mínimos RDC 50, não premium) reduz o total em ~20–25%.
+---
+
+# O que é cada espaço Plenya
+- **Consultório médico premium (25 m²)** — porta de entrada da jornada **e** sala da devolutiva do
+  relatório integrado de longevidade (o momento de maior valor). Conforto para paciente + acompanhante.
+- **Consultório multidisciplinar (12 m²)** — nutrólogo/equipe; atendimento de apoio.
+- **Sala de Avaliação Funcional & Longevidade (26 m²)** — coração dos exames próprios, sem radiação:
+  composição corporal, força, função pulmonar, idade vascular, metabolismo de repouso, cognição/retina +
+  ponto de coleta do sangue avançado. **Uma sala, várias estações.**
+- **Centro de infusão (lounge + enfermagem + preparo)** — o diferencial premium; dispara a enfermagem
+  (ERT COREN-PR) e a classificação de risco. Lounge sereno com poltronas reclináveis individuais.
+- **Sala de esforço + ultrassom (previsão)** — entram quando vier o cardiologista/ultrassonografista
+  (gargalo de pessoal, não de obra) — reservar área + elétrica para evitar 2ª reforma.
+
+---
+
+# Sequência regulatória da obra (não pular)
+1. **Projeto aprovado na DAPES/SESA-PR ANTES de reformar** (Res. SESA 1.891/2024 — até 90 dias). Nada de
+   quebrar parede antes.
+2. **Classificação de risco sanitário** (Res. SESA 1.034/2020) — a infusão tende a médio/alto.
+3. Licença Sanitária Municipal + Alvará (Londrina) · CNES · AVCB/Bombeiros · PGRSS.
+4. RT médico (CRM-PR) + — com infusão — **ERT enfermagem (COREN-PR)**.
+5. Transversais RDC 50: revestimentos laváveis, cantos arredondados em área crítica, **fluxo limpo × sujo**,
+   climatização + elétrica de emergência.
+
+---
+
+# 🔲 Decisões para levar ao arquiteto / empreendimento
+1. **Infusão na 1ª obra ou faseada depois?** Muda metragem, enfermagem e classificação de risco.
+2. **Reservar a área de esforço + ultrassom** desde já? Evita 2ª reforma quando contratar o cardiologista.
+3. **Ultrassom: compartilha a sala de avaliação** (econômico) ou sala dedicada?
+4. **Nº de poltronas de infusão** (~8 m² cada, premium) — dimensiona o lounge.
+5. **Quais áreas comuns o empreendimento garante** (recepção/espera/sanitários/resíduos) e qual o rateio.
+6. **Classificação de risco**: recai sobre a Plenya ou o empreendimento? (define exigências do prédio).
+7. **Metragem real disponível** para a Plenya dentro do empreendimento.
+
+> **Mensagem central:** a Plenya-exclusiva é enxuta (**~80 a ~185 m²** conforme as fases), porque
+> recepção/espera/sanitários são **comuns do empreendimento** e os exames foram **consolidados numa sala
+> multi-exame**. O que define a complexidade regulatória é o **centro de infusão** (RDC 50 + enfermagem +
+> rede frio + resíduos) — e isso precisa ser suportado pelo empreendimento.
