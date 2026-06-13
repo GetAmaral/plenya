@@ -143,7 +143,7 @@ func buildReceptionPrompt(transcript, businessHours, nowLine, memory string) str
 			"Se a pessoa escrever fora do horário de funcionamento, pode acolher e dizer que a equipe retoma no próximo horário de atendimento, sem prometer resposta humana imediata.\n"
 	}
 	return fmt.Sprintf(`%s
-%s%s%s%s
+%s%s%s
 HISTÓRICO DA CONVERSA (cronológico; [DENTRO] = cliente, [FORA] = Plenya):
 
 %s
