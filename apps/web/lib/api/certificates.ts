@@ -36,8 +36,9 @@ export interface UploadCertificateResponse {
  * Listar certificados (admin vê todos, usuário comum vê apenas o próprio)
  */
 export async function listCertificates(): Promise<Certificate[]> {
+  // apiClient.get devolve o corpo JSON já parseado ({ data: [...] }), não um wrapper axios.
   const response = await apiClient.get<CertificateListResponse>('/api/v1/certificates')
-  return response.data.data
+  return response.data
 }
 
 /**
@@ -55,7 +56,7 @@ export async function uploadCertificate(
       },
     }
   )
-  return response.data
+  return response
 }
 
 /**
@@ -65,7 +66,7 @@ export async function deleteCertificate(userId: string): Promise<UploadCertifica
   const response = await apiClient.delete<UploadCertificateResponse>(
     `/api/v1/certificates/${userId}`
   )
-  return response.data
+  return response
 }
 
 /**
@@ -73,7 +74,7 @@ export async function deleteCertificate(userId: string): Promise<UploadCertifica
  */
 export async function getCertificateStatus(): Promise<CertificateStatus> {
   const response = await apiClient.get<CertificateStatus>('/api/v1/certificates/status')
-  return response.data
+  return response
 }
 
 /**
@@ -85,5 +86,5 @@ export async function toggleCertificateActive(userId: string): Promise<{
   message: string
 }> {
   const response = await apiClient.patch(`/api/v1/admin/certificates/${userId}/toggle`)
-  return response.data
+  return response
 }

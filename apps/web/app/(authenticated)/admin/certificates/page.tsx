@@ -101,8 +101,9 @@ export default function CertificatesPage() {
     },
     onError: (error: any) => {
       // Verificar se é erro de CPF divergente (status 409)
-      if (error.response?.status === 409 && error.response?.data?.error === 'CPF_MISMATCH') {
-        const data = error.response.data
+      // apiClient lança Error com .status e .data (corpo de erro), não .response (axios)
+      if (error.status === 409 && error.data?.error === 'CPF_MISMATCH') {
+        const data = error.data
         const userCPF = data.userCPF || 'não cadastrado'
         const certCPF = data.certificateCPF || 'não identificado'
 
@@ -120,7 +121,7 @@ export default function CertificatesPage() {
         })
       } else {
         toast.error('Erro ao enviar certificado', {
-          description: error.response?.data?.error || error.message,
+          description: error.data?.error || error.message,
         })
       }
     },
