@@ -828,28 +828,35 @@ function LabRequestCard({
 
   const generatePdfMutation = useMutation({
     mutationFn: () => generateLabRequestPdf(request.id),
-    onSuccess: () => {
+    onSuccess: async (data) => {
       queryClient.invalidateQueries({ queryKey: ['lab-requests'] })
       toast.success('PDF gerado com sucesso!')
+
+      // Abre o PDF recém-gerado via download autenticado (rota estática /uploads foi removida)
+      if (data.pdfUrl) {
+        try {
+          await openLabRequestPdf(request.id)
+        } catch {
+          toast.error('PDF gerado, mas não foi possível abrir. Tente o botão novamente.')
+        }
+      }
     },
     onError: (error: any) => {
-      toast.error(error.data?.error || error.message || 'Erro ao gerar PDF')
+      toast.error(error.response?.data?.error || 'Erro ao gerar PDF')
     }
   })
 
   const handleGeneratePdf = async () => {
-    // iOS/Safari bloqueia window.open chamado depois de um await. Abrimos a aba JÁ no
-    // gesto do clique e só depois a apontamos pro PDF (gerando antes, se necessário).
-    const win = typeof window !== 'undefined' ? window.open('', '_blank') : null
-    try {
-      if (!request.pdfUrl) {
-        await generatePdfMutation.mutateAsync()
+    if (request.pdfUrl) {
+      // PDF já existe: abrir via download autenticado
+      try {
+        await openLabRequestPdf(request.id)
+      } catch {
+        toast.error('Não foi possível abrir o PDF')
       }
-      await openLabRequestPdf(request.id, win)
-    } catch {
-      if (win && !win.closed) win.close()
-      // Erros de geração já têm toast no onError; aqui cobrimos a abertura.
-      if (request.pdfUrl) toast.error('Não foi possível abrir o PDF')
+    } else {
+      // Gerar PDF
+      generatePdfMutation.mutate()
     }
   }
 

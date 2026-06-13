@@ -100,21 +100,11 @@ export async function generateLabRequestPdf(id: string): Promise<LabRequest> {
   return apiClient.post<LabRequest>(`/api/v1/lab-requests/${id}/generate-pdf`, {})
 }
 
-/** Baixa o PDF (autenticado) e abre numa nova aba. A rota estática /uploads foi removida (H1).
- *  iOS/Safari bloqueia window.open chamado APÓS um await; por isso o chamador pode pré-abrir
- *  uma aba no gesto do clique e passá-la em targetWindow — aqui só apontamos ela pro blob. */
-export async function openLabRequestPdf(id: string, targetWindow?: Window | null) {
+/** Baixa o PDF (autenticado) e abre numa nova aba. A rota estática /uploads foi removida (H1). */
+export async function openLabRequestPdf(id: string) {
   const blob = await apiClient.getBlob(`/api/v1/lab-requests/${id}/pdf`)
   const url = URL.createObjectURL(blob)
-  if (targetWindow && !targetWindow.closed) {
-    targetWindow.location.href = url
-  } else {
-    const w = window.open(url, '_blank')
-    if (!w) {
-      // Popup bloqueado e sem aba pré-aberta: navega a própria aba como último recurso.
-      window.location.href = url
-    }
-  }
+  window.open(url, '_blank')
   setTimeout(() => URL.revokeObjectURL(url), 60_000)
 }
 
