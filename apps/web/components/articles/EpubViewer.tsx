@@ -152,7 +152,7 @@ export function EpubViewer({ url, title }: EpubViewerProps) {
         })
         .then(() => {
           if (cancelled || bookRef.current !== book) return
-          setTotalPages(book.locations.total)
+          setTotalPages((book.locations as any).total)
         })
         .catch(() => {
           if (cancelled || bookRef.current !== book) return
