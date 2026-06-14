@@ -41,9 +41,10 @@ interface PageHeaderDropdown {
 
 interface PageHeaderProps {
   breadcrumbs?: Breadcrumb[]  // still accepted, used to set TopBar title
-  title: string
+  title?: string
   description?: string
-  actions?: (PageHeaderAction | PageHeaderDropdown)[]
+  // array estruturado (renderizado pelo componente) OU JSX livre (legado)
+  actions?: (PageHeaderAction | PageHeaderDropdown)[] | ReactNode
   children?: ReactNode
 }
 
@@ -55,19 +56,23 @@ export function PageHeader({
   breadcrumbs,
   title,
   description,
-  actions = [],
+  actions,
   children,
 }: PageHeaderProps) {
   const { setPageInfo } = usePageHeader()
 
+  // actions pode ser o array estruturado ou JSX livre (legado)
+  const actionItems = Array.isArray(actions) ? actions : []
+  const customActions = Array.isArray(actions) ? null : actions
+
   // Push title + breadcrumbs to TopBar
   useEffect(() => {
-    setPageInfo({ title, breadcrumbs: breadcrumbs ?? [] })
+    setPageInfo({ title: title ?? '', breadcrumbs: breadcrumbs ?? [] })
     return () => setPageInfo({ title: '', breadcrumbs: [] })
   }, [title, breadcrumbs, setPageInfo])
 
   // If nothing to render in body, return null
-  if (!description && actions.length === 0 && !children) return null
+  if (!description && actionItems.length === 0 && !customActions && !children) return null
 
   return (
     <div className="flex items-center justify-between gap-4">
@@ -79,9 +84,9 @@ export function PageHeader({
       </div>
 
       {/* Actions */}
-      {(actions.length > 0 || children) && (
+      {(actionItems.length > 0 || customActions || children) && (
         <div className="flex items-center gap-3 shrink-0">
-          {actions.map((action, index) => {
+          {actionItems.map((action, index) => {
             if (isDropdown(action)) {
               return (
                 <DropdownMenu key={index}>
@@ -128,6 +133,7 @@ export function PageHeader({
             )
           })}
 
+          {customActions}
           {children}
         </div>
       )}
