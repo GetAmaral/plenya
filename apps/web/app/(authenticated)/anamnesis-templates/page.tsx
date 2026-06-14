@@ -300,9 +300,9 @@ function TemplateCard({ template, availableScoreItems, onEdit, onDelete }: Templ
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-4">
-            {((fullTemplate?.items || template.items) && (fullTemplate?.items || template.items).length > 0) ? (
+            {((fullTemplate?.items ?? template.items ?? []) && (fullTemplate?.items ?? template.items ?? []).length > 0) ? (
               <div className="space-y-3">
-                {(fullTemplate?.items || template.items)
+                {(fullTemplate?.items ?? template.items ?? [])
                   .sort((a, b) => a.order - b.order)
                   .map((item, index, sortedItems) => {
                     // Buscar o scoreItem completo com relações do availableScoreItems
@@ -398,7 +398,7 @@ function TemplateEditDialog({
 }: TemplateEditDialogProps) {
   const queryClient = useQueryClient()
   const [name, setName] = useState(template.name)
-  const [area, setArea] = useState<AnamnesisTemplateArea>(template.area)
+  const [area, setArea] = useState<AnamnesisTemplateArea>(template.area as AnamnesisTemplateArea)
   const [selectedScoreItems, setSelectedScoreItems] = useState<ScoreItem[]>([])
 
   // Buscar template completo

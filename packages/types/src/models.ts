@@ -41,17 +41,23 @@ export type Anamnesis = Refine<
   >,
   { items?: AnamnesisItem[] }
 >
-export type AnamnesisItem = WithRequired<
-  Schemas['models.AnamnesisItem'],
-  'id' | 'scoreItemId' | 'order' | 'createdAt' | 'updatedAt'
+export type AnamnesisItem = Refine<
+  WithRequired<
+    Schemas['models.AnamnesisItem'],
+    'id' | 'scoreItemId' | 'order' | 'createdAt' | 'updatedAt'
+  >,
+  { scoreItem?: ScoreItem; selectedLevel?: ScoreLevel }
 >
 export type AnamnesisTemplate = Refine<
   WithRequired<Schemas['models.AnamnesisTemplate'], 'id' | 'name' | 'area' | 'createdAt' | 'updatedAt'>,
   { items?: AnamnesisTemplateItem[] }
 >
-export type AnamnesisTemplateItem = WithRequired<
-  Schemas['models.AnamnesisTemplateItem'],
-  'id' | 'anamnesisTemplateId' | 'scoreItemId' | 'order' | 'createdAt' | 'updatedAt'
+export type AnamnesisTemplateItem = Refine<
+  WithRequired<
+    Schemas['models.AnamnesisTemplateItem'],
+    'id' | 'anamnesisTemplateId' | 'scoreItemId' | 'order' | 'createdAt' | 'updatedAt'
+  >,
+  { scoreItem?: ScoreItem }
 >
 
 /** Snapshot de escore do paciente (resposta da API). */
