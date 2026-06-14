@@ -89,8 +89,8 @@ export const formToApiValues = (values: LabResultBatchFormValues) => {
     labResults: filledResults.map((result) => ({
       id: result.id, // Inclui ID para update (se existir)
       labTestDefinitionId: result.labTestDefinitionId,
-      testName: result.testName,
-      testType: result.testType,
+      testName: result.testName || "", // filledResults já garante presença; satisfaz o tipo
+      testType: result.testType || "",
       resultText: result.resultText,
       resultNumeric: result.resultNumeric,
       unit: result.unit,
