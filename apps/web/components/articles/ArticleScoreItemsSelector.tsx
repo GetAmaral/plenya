@@ -209,7 +209,7 @@ export function ArticleScoreItemsSelector({
                                       </p>
                                     )}
                                   </div>
-                                  {item.points > 0 && (
+                                  {(item.points ?? 0) > 0 && (
                                     <Badge variant="outline" className="text-xs">
                                       {item.points}pt
                                     </Badge>

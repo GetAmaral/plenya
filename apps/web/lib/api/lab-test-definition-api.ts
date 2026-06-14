@@ -29,9 +29,9 @@ export const labTestDefinitionApi = {
 
   // Busca por termo (nome, código, categoria)
   search: async (query: string) =>
-    apiClient.get<LabTestDefinition[]>('/api/v1/lab-tests/definitions/search', {
-      params: { q: query },
-    }),
+    apiClient.get<LabTestDefinition[]>(
+      `/api/v1/lab-tests/definitions/search?q=${encodeURIComponent(query)}`
+    ),
 
   // Busca por ID
   getById: async (id: string) =>

@@ -296,9 +296,7 @@ export function useUnassignItemFromPillar() {
 
   return useMutation({
     mutationFn: ({ itemId, pillarId }: { itemId: string; pillarId: string }) =>
-      apiClient.delete(`/api/v1/method-pillars/${pillarId}/unassign-item`, {
-        data: { itemId }
-      }),
+      apiClient.delete(`/api/v1/method-pillars/${pillarId}/unassign-item`, { itemId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: methodKeys.all })
       queryClient.invalidateQueries({ queryKey: methodKeys.unassignedItems() })

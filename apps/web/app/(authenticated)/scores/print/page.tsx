@@ -232,7 +232,7 @@ export default function ScorePrintPage() {
                                           )}
                                         </h4>
                                       </div>
-                                      {item.points > 0 && (
+                                      {(item.points ?? 0) > 0 && (
                                         <div className="text-right shrink-0">
                                           <div className="text-[10px] font-bold text-primary print:text-[8pt]">
                                             {item.points}pt
@@ -257,7 +257,7 @@ export default function ScorePrintPage() {
                                               <div
                                                 key={level.id}
                                                 className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium ${style.bg} ${style.text} ${style.border} print:px-1.5 print:py-0 print:text-[7pt]`}
-                                                title={`${level.name}${range ? ` (${range})` : ''}${level.definition ? ` - ${level.definition}` : ''}`}
+                                                title={`${level.name}${range ? ` (${range})` : ''}`}
                                               >
                                                 <span className="font-bold">N{level.level}:</span>
                                                 {hasValues ? (

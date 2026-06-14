@@ -162,6 +162,7 @@ interface ArticleResultCardProps {
 
 function ArticleResultCard({ result, rank, onSelect }: ArticleResultCardProps) {
   const { article, similarity, chunkText } = result
+  const articleYear = article.publishDate ? new Date(article.publishDate).getFullYear() : null
   const similarityPercent = Math.round(similarity * 100)
 
   return (
@@ -210,7 +211,7 @@ function ArticleResultCard({ result, rank, onSelect }: ArticleResultCardProps) {
 
         {/* Metadata */}
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          {article.year && <span>{article.year}</span>}
+          {articleYear && <span>{articleYear}</span>}
           {article.journal && (
             <>
               <span>•</span>

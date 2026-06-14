@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from '../api-client'
-import type { Article, ScoreItem } from '@repo/types'
+import type { Article, ScoreItem } from '@plenya/types'
 
 // Types para resultados de busca semântica
 export interface ArticleSearchResult {

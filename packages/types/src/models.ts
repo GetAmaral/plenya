@@ -19,6 +19,12 @@ type Refine<T, R> = Omit<T, keyof R> & R
 /** Paciente (resposta da API). */
 export type Patient = Schemas['models.Patient']
 
+/** Artigo (resposta da API). */
+export type Article = WithRequired<
+  Schemas['models.Article'],
+  'id' | 'title' | 'articleType' | 'publishDate' | 'createdAt' | 'updatedAt'
+>
+
 /** Definição de medicamento (resposta da API). */
 export type MedicationDefinition = WithRequired<
   Schemas['models.MedicationDefinition'],

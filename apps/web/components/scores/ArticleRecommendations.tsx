@@ -125,6 +125,7 @@ interface RecommendedArticleCardProps {
 function RecommendedArticleCard({ result, onLink }: RecommendedArticleCardProps) {
   const { article, similarity } = result
   const similarityPercent = Math.round(similarity * 100)
+  const articleYear = article.publishDate ? new Date(article.publishDate).getFullYear() : null
 
   return (
     <div className="space-y-2">
@@ -157,9 +158,9 @@ function RecommendedArticleCard({ result, onLink }: RecommendedArticleCardProps)
       </div>
 
       {/* Metadata */}
-      {(article.year || article.journal) && (
+      {(articleYear || article.journal) && (
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          {article.year && <span>{article.year}</span>}
+          {articleYear && <span>{articleYear}</span>}
           {article.journal && (
             <>
               <span>•</span>

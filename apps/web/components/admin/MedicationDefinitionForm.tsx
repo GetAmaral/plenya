@@ -39,7 +39,9 @@ export function MedicationDefinitionForm({
   useFormNavigation({ formRef })
 
   const form = useForm<MedicationDefinitionInput>({
-    resolver: zodResolver(medicationDefinitionSchema),
+    // schema usa z.coerce (input unknown ≠ output); destipa só o resolver
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(medicationDefinitionSchema as any),
     defaultValues: {
       commonName: '',
       activeIngredient: '',
