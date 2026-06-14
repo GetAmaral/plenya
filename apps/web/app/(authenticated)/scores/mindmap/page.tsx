@@ -25,6 +25,7 @@ import {
   Search,
   Maximize,
   Minimize,
+  ArrowLeft,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {

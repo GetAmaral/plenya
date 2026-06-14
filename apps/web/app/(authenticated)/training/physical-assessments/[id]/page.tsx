@@ -226,14 +226,14 @@ export default function PhysicalAssessmentDetailPage() {
       )}
 
       {/* ACSM Tags (Structured) */}
-      {a.acsmTagsStructured?.length > 0 && (
+      {(a.acsmTagsStructured?.length ?? 0) > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Tags ACSM</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              {a.acsmTagsStructured.map((tag, i) => (
+              {(a.acsmTagsStructured ?? []).map((tag, i) => (
                 <Badge
                   key={`${tag.label}-${i}`}
                   variant="outline"

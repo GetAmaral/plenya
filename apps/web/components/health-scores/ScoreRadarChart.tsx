@@ -40,7 +40,7 @@ export function ScoreRadarChart({ snapshot }: ScoreRadarChartProps) {
 
   // pilares visíveis por letra (pra mostrar "—" em letra vazia)
   const visibleByLetter = new Map<string, number>()
-  agir?.pillars.forEach((p) => visibleByLetter.set(p.letter, (visibleByLetter.get(p.letter) ?? 0) + 1))
+  agir?.pillars.forEach((p: any) => visibleByLetter.set(p.letter, (visibleByLetter.get(p.letter) ?? 0) + 1))
 
   if (!agir) {
     return (
@@ -115,7 +115,7 @@ export function ScoreRadarChart({ snapshot }: ScoreRadarChartProps) {
 
             {/* Letras (movidas da legenda de baixo do radar) */}
             <div className="flex flex-wrap gap-x-4 gap-y-2 border-t pt-4 font-mono text-[11px] uppercase tracking-[0.18em]">
-              {agir.letters.map((l) => {
+              {agir.letters.map((l: any) => {
                 const vis = visibleByLetter.get(l.code) ?? 0
                 const c = resolveColor(l.code, l.color)
                 return (

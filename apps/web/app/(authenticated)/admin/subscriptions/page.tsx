@@ -161,7 +161,7 @@ export default function AdminSubscriptionsPage() {
 
   // Calculate average ticket
   const avgTicket = totalSubscriptions > 0
-    ? allSubscriptions.reduce((sum, s) => {
+    ? (allSubscriptions ?? []).reduce((sum, s) => {
         let planPrice = 0
         try {
           const snapshot = JSON.parse(s.planSnapshot)
