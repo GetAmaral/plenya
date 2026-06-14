@@ -1,4 +1,5 @@
 'use client'
+import type { JSX } from "react";
 
 import { useState, useEffect } from 'react'
 import { Edit, Trash2, Plus, GripVertical, ChevronRight, ChevronLeft } from 'lucide-react'

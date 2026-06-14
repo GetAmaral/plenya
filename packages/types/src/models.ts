@@ -62,7 +62,8 @@ export type PatientScoreSnapshot = Refine<
     | 'totalPossiblePoints' | 'totalScorePercentage' | 'itemsEvaluatedCount'
     | 'itemsNotEvaluatedCount' | 'createdAt' | 'updatedAt'
   >,
-  { groupResults?: PatientScoreGroupResult[]; itemResults?: PatientScoreItemResult[] }
+  // o detalhe do snapshot sempre traz os resultados materializados (os consumidores assumem presença).
+  { groupResults: PatientScoreGroupResult[]; itemResults: PatientScoreItemResult[] }
 >
 export type PatientScoreGroupResult = WithRequired<
   Schemas['models.PatientScoreGroupResult'],

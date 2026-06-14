@@ -1,4 +1,5 @@
 "use client"
+import type { JSX } from "react";
 
 import { useParams, useRouter } from "next/navigation"
 import { useMemo, useState, useEffect, useRef } from "react"

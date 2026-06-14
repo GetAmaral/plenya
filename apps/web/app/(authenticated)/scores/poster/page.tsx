@@ -1,5 +1,6 @@
 'use client'
 
+import type { JSX } from "react";
 import { useAllScoreGroupTrees, ScoreItem } from '@/lib/api/score-api'
 import { Button } from '@/components/ui/button'
 import { Printer, Loader2, Download, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react'
