@@ -71,14 +71,20 @@ export type PatientScoreSnapshot = Refine<
   // o detalhe do snapshot sempre traz os resultados materializados (os consumidores assumem presença).
   { groupResults: PatientScoreGroupResult[]; itemResults: PatientScoreItemResult[] }
 >
-export type PatientScoreGroupResult = WithRequired<
-  Schemas['models.PatientScoreGroupResult'],
-  | 'id' | 'snapshotId' | 'groupId' | 'actualPoints' | 'possiblePoints'
-  | 'scorePercentage' | 'itemsEvaluatedCount' | 'createdAt' | 'updatedAt'
+export type PatientScoreGroupResult = Refine<
+  WithRequired<
+    Schemas['models.PatientScoreGroupResult'],
+    | 'id' | 'snapshotId' | 'groupId' | 'actualPoints' | 'possiblePoints'
+    | 'scorePercentage' | 'itemsEvaluatedCount' | 'createdAt' | 'updatedAt'
+  >,
+  { group?: ScoreGroup }
 >
-export type PatientScoreItemResult = WithRequired<
-  Schemas['models.PatientScoreItemResult'],
-  'id' | 'snapshotId' | 'itemId' | 'groupId' | 'status' | 'maxPoints' | 'actualPoints' | 'createdAt' | 'updatedAt'
+export type PatientScoreItemResult = Refine<
+  WithRequired<
+    Schemas['models.PatientScoreItemResult'],
+    'id' | 'snapshotId' | 'itemId' | 'groupId' | 'status' | 'maxPoints' | 'actualPoints' | 'createdAt' | 'updatedAt'
+  >,
+  { group?: ScoreGroup; item?: ScoreItem }
 >
 
 /** Pedido de exames (resposta da API). */
