@@ -111,9 +111,13 @@ export type Lead = Refine<
 
 /** Escore: Group → Subgroup → Item → Level + Method/Letter/Pillar (resposta da API).
  *  Refinam as relações aninhadas pros próprios aliases (o gerado aponta pro tipo cru). */
-export type ScoreLevel = WithRequired<
-  Schemas['models.ScoreLevel'],
-  'id' | 'itemId' | 'level' | 'name' | 'operator' | 'createdAt' | 'updatedAt'
+export type ScoreLevel = Refine<
+  WithRequired<
+    Schemas['models.ScoreLevel'],
+    'id' | 'itemId' | 'level' | 'name' | 'operator' | 'createdAt' | 'updatedAt'
+  >,
+  // o swag emite `operator: string`, mas os valores Go são restritos a este conjunto.
+  { operator: '=' | '>' | '>=' | '<' | '<=' | 'between' }
 >
 export type ScoreItem = Refine<
   WithRequired<

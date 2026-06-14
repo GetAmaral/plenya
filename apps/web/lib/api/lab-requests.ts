@@ -47,12 +47,16 @@ export async function getAllLabRequests(params?: {
   limit: number
   offset: number
 }> {
+  const qs = new URLSearchParams()
+  if (params?.limit != null) qs.set('limit', String(params.limit))
+  if (params?.offset != null) qs.set('offset', String(params.offset))
+  const suffix = qs.toString() ? `?${qs}` : ''
   return apiClient.get<{
     data: LabRequest[]
     total: number
     limit: number
     offset: number
-  }>('/api/v1/lab-requests', { params } as any)
+  }>(`/api/v1/lab-requests${suffix}`)
 }
 
 // Get lab requests by date

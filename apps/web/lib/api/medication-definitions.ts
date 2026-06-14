@@ -27,33 +27,31 @@ export interface CreateMedicationDefinitionRequest {
  * Search medications (autocomplete)
  */
 export async function searchMedications(query: string, limit = 10): Promise<MedicationDefinition[]> {
-  const response = await apiClient.get<MedicationDefinition[]>('/medication-definitions/search', {
-    params: { q: query, limit },
-  })
-  return response.data
+  const qs = new URLSearchParams({ q: query, limit: String(limit) })
+  return apiClient.get<MedicationDefinition[]>(`/medication-definitions/search?${qs}`)
 }
 
 /**
- * List all medication definitions
+ * List all medication definitions. O endpoint devolve envelope { data, total, page, limit }.
  */
 export async function listMedicationDefinitions(params?: {
   category?: string
   limit?: number
   offset?: number
 }): Promise<MedicationDefinitionListResponse> {
-  const response = await apiClient.get<MedicationDefinitionListResponse>(
-    '/medication-definitions',
-    { params }
-  )
-  return response.data
+  const qs = new URLSearchParams()
+  if (params?.category) qs.set('category', params.category)
+  if (params?.limit != null) qs.set('limit', String(params.limit))
+  if (params?.offset != null) qs.set('offset', String(params.offset))
+  const suffix = qs.toString() ? `?${qs}` : ''
+  return apiClient.get<MedicationDefinitionListResponse>(`/medication-definitions${suffix}`)
 }
 
 /**
  * Get medication definition by ID
  */
 export async function getMedicationDefinition(id: string): Promise<MedicationDefinition> {
-  const response = await apiClient.get<MedicationDefinition>(`/medication-definitions/${id}`)
-  return response.data
+  return apiClient.get<MedicationDefinition>(`/medication-definitions/${id}`)
 }
 
 /**
@@ -62,8 +60,7 @@ export async function getMedicationDefinition(id: string): Promise<MedicationDef
 export async function createMedicationDefinition(
   data: CreateMedicationDefinitionRequest
 ): Promise<MedicationDefinition> {
-  const response = await apiClient.post<MedicationDefinition>('/medication-definitions', data)
-  return response.data
+  return apiClient.post<MedicationDefinition>('/medication-definitions', data)
 }
 
 /**
@@ -73,11 +70,7 @@ export async function updateMedicationDefinition(
   id: string,
   data: Partial<CreateMedicationDefinitionRequest>
 ): Promise<MedicationDefinition> {
-  const response = await apiClient.put<MedicationDefinition>(
-    `/medication-definitions/${id}`,
-    data
-  )
-  return response.data
+  return apiClient.put<MedicationDefinition>(`/medication-definitions/${id}`, data)
 }
 
 /**

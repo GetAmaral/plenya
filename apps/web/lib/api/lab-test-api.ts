@@ -30,6 +30,9 @@ import type { LabTestDefinition, LabResultValue } from '@plenya/types';
 
 export type { LabTestDefinition, LabResultValue };
 
+// Nó de árvore hierárquica (buildTree) — subTests sempre presente (≠ relação opcional do model).
+export type LabTestTreeNode = LabTestDefinition & { subTests: LabTestTreeNode[] };
+
 export interface CreateLabTestDefinitionDTO {
   code: string;
   name: string;
@@ -360,16 +363,17 @@ export const labTestHelpers = {
   /**
    * Build hierarchical tree from flat lab test definitions
    */
-  buildTree: (tests: LabTestDefinition[]): LabTestDefinition[] => {
-    const testMap = new Map(tests.map((t) => [t.id, { ...t, subTests: [] }]));
-    const roots: LabTestDefinition[] = [];
+  buildTree: (tests: LabTestDefinition[]): LabTestTreeNode[] => {
+    const testMap = new Map<string, LabTestTreeNode>(
+      tests.map((t) => [t.id, { ...t, subTests: [] as LabTestTreeNode[] }])
+    );
+    const roots: LabTestTreeNode[] = [];
 
     tests.forEach((test) => {
       const node = testMap.get(test.id)!;
       if (test.parentTestId) {
         const parent = testMap.get(test.parentTestId);
         if (parent) {
-          parent.subTests = parent.subTests || [];
           parent.subTests.push(node);
         }
       } else {
@@ -378,10 +382,10 @@ export const labTestHelpers = {
     });
 
     // Sort by display order
-    const sortByOrder = (arr: LabTestDefinition[]) => {
-      arr.sort((a, b) => a.displayOrder - b.displayOrder);
+    const sortByOrder = (arr: LabTestTreeNode[]) => {
+      arr.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
       arr.forEach((item) => {
-        if (item.subTests && item.subTests.length > 0) {
+        if (item.subTests.length > 0) {
           sortByOrder(item.subTests);
         }
       });
