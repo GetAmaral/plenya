@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 import plenyaPreset from "@plenya/brand/tailwind-preset";
 
 export default {
-  darkMode: ["class"],
+  darkMode: "class",
   presets: [plenyaPreset as Partial<Config>],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",

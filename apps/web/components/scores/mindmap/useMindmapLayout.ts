@@ -197,8 +197,6 @@ export function buildMindmapLayout(
               target: itemId,
               type: 'smoothstep',
               animated: true,
-              sourcePosition: isParentItem ? 'bottom' : 'right',
-              targetPosition: 'left',
               sourceHandle: isParentItem ? 'bottom' : 'right',
               targetHandle: 'left',
             })
@@ -234,8 +232,6 @@ export function buildMindmapLayout(
                   target: levelId,
                   type: 'smoothstep',
                   animated: true,
-                  sourcePosition: 'right',
-                  targetPosition: 'left',
                   sourceHandle: 'right',
                   targetHandle: 'left',
                   style: {
