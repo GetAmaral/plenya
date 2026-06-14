@@ -56,11 +56,11 @@ export default function NewFitnessTestPage() {
 
     const data: CreateFitnessTestDTO = {
       assessmentDate,
-      abdominal: toInt(abdominal),
-      flexao: toInt(flexao),
-      prancha: toInt(prancha),
-      burpee: toInt(burpee),
-      frt: toInt(frt),
+      abdominalReps: toInt(abdominal),
+      pushupReps: toInt(flexao),
+      plankSeconds: toInt(prancha),
+      burpeeCycles: toInt(burpee),
+      frtReps: toInt(frt),
       notes: notes || undefined,
     };
 

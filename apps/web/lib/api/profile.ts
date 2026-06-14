@@ -14,11 +14,9 @@ export interface UpdateProfileRequest {
 }
 
 export async function updateProfile(data: UpdateProfileRequest): Promise<User> {
-  const response = await apiClient.put('/api/v1/profile', data)
-  return response
+  return apiClient.put<User>('/api/v1/profile', data)
 }
 
 export async function getProfile(): Promise<User> {
-  const response = await apiClient.get('/api/v1/profile')
-  return response
+  return apiClient.get<User>('/api/v1/profile')
 }
