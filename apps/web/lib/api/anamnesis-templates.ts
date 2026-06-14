@@ -1,5 +1,9 @@
 import { apiClient } from '../api-client'
 import { ScoreItem as ScoreItemType } from './score-api'
+// AnamnesisTemplate(+Item) vêm do GERADO (Go model → swag → openapi-typescript), via @plenya/types.
+import type { AnamnesisTemplate, AnamnesisTemplateItem } from '@plenya/types'
+
+export type { AnamnesisTemplate, AnamnesisTemplateItem }
 
 // Re-export ScoreItem from score-api
 export type ScoreItem = ScoreItemType
@@ -7,24 +11,7 @@ export type ScoreItem = ScoreItemType
 // Types
 export type AnamnesisTemplateArea = 'Medicina' | 'Nutricao' | 'Psicologia' | 'Educacao Fisica'
 
-export interface AnamnesisTemplateItem {
-  id: string
-  anamnesisTemplateId: string
-  scoreItemId: string
-  order: number
-  scoreItem?: ScoreItem
-  createdAt: string
-  updatedAt: string
-}
-
-export interface AnamnesisTemplate {
-  id: string
-  name: string
-  area: AnamnesisTemplateArea
-  createdAt: string
-  updatedAt: string
-  items?: AnamnesisTemplateItem[]
-}
+// AnamnesisTemplate e AnamnesisTemplateItem: ver import de @plenya/types no topo.
 
 export interface CreateAnamnesisTemplateRequest {
   name: string

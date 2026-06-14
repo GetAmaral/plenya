@@ -1,19 +1,8 @@
 import { apiClient } from '../api-client'
+// LabTestDefinition vem do GERADO (Go model → swag → openapi-typescript), via @plenya/types.
+import type { LabTestDefinition } from '@plenya/types'
 
-export interface LabTestDefinition {
-  id: string
-  code: string
-  name: string
-  shortName?: string
-  altNames?: string[]
-  category: string
-  isRequestable: boolean
-  unit?: string
-  resultType: string
-  specimenType?: string
-  fastingHours?: number
-  description?: string
-}
+export type { LabTestDefinition }
 
 // Opção de exame qualitativo (ex.: genótipo) — nível + rótulo, vindo dos score_levels.
 export interface QualitativeOption {

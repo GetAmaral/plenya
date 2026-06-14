@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '../api-client';
+// Lead e LeadActivity vêm do GERADO (Go model → swag → openapi-typescript), via @plenya/types.
+import type { Lead, LeadActivity } from '@plenya/types';
+
+export type { Lead, LeadActivity };
 
 export type LeadSource =
   | 'light_claim'
@@ -30,50 +34,8 @@ export type LeadActivityType =
 
 export type LeadActivityChannel = 'email' | 'whatsapp' | 'internal';
 
-export interface LeadActivity {
-  id: string;
-  leadId: string;
-  type: LeadActivityType;
-  channel: LeadActivityChannel;
-  content?: string;
-  metadata?: Record<string, unknown>;
-  actorUserId?: string;
-  actor?: { id: string; name: string; email: string };
-  createdAt: string;
-}
-
-export interface Lead {
-  id: string;
-  source: LeadSource;
-  status: LeadStatus;
-  name?: string;
-  email?: string;
-  phone?: string;
-  message?: string;
-  metadata?: Record<string, unknown>;
-  emailOptIn: boolean;
-  whatsAppOptIn: boolean;
-  newsletterOptIn: boolean;
-  consentVersion?: string;
-  consentTimestamp?: string;
-  anonymousScoreSessionId?: string;
-  convertedPatientId?: string;
-  convertedAt?: string;
-  convertedByUserId?: string;
-  assignedToUserId?: string;
-  /** Última inbound do cliente — usado pra calcular janela 24h de session messages. */
-  lastInboundAt?: string;
-  /** UTM — atribuição de marketing propagada da sessão (Painel/Triagem). */
-  utmSource?: string;
-  utmMedium?: string;
-  utmCampaign?: string;
-  utmTerm?: string;
-  createdAt: string;
-  updatedAt: string;
-  activities?: LeadActivity[];
-  assignedTo?: { id: string; name: string; email: string };
-  convertedPatient?: { id: string; name: string };
-}
+// Lead e LeadActivity: ver import de @plenya/types no topo (tipos gerados).
+// Os unions locais acima seguem para quem os importa; o gerado carrega as mesmas inline.
 
 export interface LeadFilter {
   source?: LeadSource;

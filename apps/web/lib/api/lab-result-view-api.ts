@@ -1,31 +1,8 @@
 import { apiClient } from '../api-client'
+// Models do GERADO (Go model → swag → openapi-typescript), via @plenya/types.
+import type { LabTestDefinition, LabResultView, LabResultViewItem } from '@plenya/types'
 
-export interface LabTestDefinition {
-  id: string
-  name: string
-  code: string
-}
-
-export interface LabResultViewItem {
-  id: string
-  labResultViewId: string
-  labTestDefinitionId: string
-  order: number
-  labTestDefinition?: LabTestDefinition
-  createdAt?: string
-  updatedAt?: string
-}
-
-export interface LabResultView {
-  id: string
-  name: string
-  description?: string
-  isActive: boolean
-  displayOrder: number
-  items?: LabResultViewItem[]
-  createdAt?: string
-  updatedAt?: string
-}
+export type { LabTestDefinition, LabResultView, LabResultViewItem }
 
 export interface CreateLabResultViewRequest {
   name: string

@@ -25,45 +25,10 @@ export type ResultType = "numeric" | "text" | "boolean" | "categorical";
 
 export type Gender = "male" | "female" | "other";
 
-export interface LabTestDefinition {
-  id: string;
-  code: string;
-  name: string;
-  shortName?: string;
-  tussCode?: string;
-  loincCode?: string;
-  category: LabTestCategory;
-  isRequestable: boolean;
-  parentTestId?: string;
-  unit?: string;
-  unitConversion?: string;
-  resultType: ResultType;
-  collectionMethod?: string;
-  fastingHours?: number;
-  specimenType?: string;
-  description?: string;
-  clinicalIndications?: string;
-  displayOrder: number;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-  parentTest?: LabTestDefinition;
-  subTests?: LabTestDefinition[];
-}
+// LabTestDefinition e LabResultValue vêm do GERADO (via @plenya/types).
+import type { LabTestDefinition, LabResultValue } from '@plenya/types';
 
-export interface LabResultValue {
-  id: string;
-  labResultId: string;
-  labTestDefinitionId: string;
-  numericValue?: number;
-  textValue?: string;
-  booleanValue?: boolean;
-  unit?: string;
-  notes?: string;
-  createdAt: string;
-  updatedAt: string;
-  labTestDefinition?: LabTestDefinition;
-}
+export type { LabTestDefinition, LabResultValue };
 
 export interface CreateLabTestDefinitionDTO {
   code: string;

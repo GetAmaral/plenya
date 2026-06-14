@@ -1,28 +1,8 @@
 import { apiClient } from '../api-client'
+// LabRequest vem do GERADO (Go model → swag → openapi-typescript), via @plenya/types.
+import type { LabRequest } from '@plenya/types'
 
-export interface LabRequest {
-  id: string
-  patientId: string
-  date: string
-  exams: string
-  notes?: string
-  doctorId?: string
-  labRequestTemplateId?: string
-  pdfUrl?: string
-  signedPdfHash?: string
-  signedAt?: string
-  qrCodeData?: string
-  createdAt: string
-  updatedAt: string
-  patient?: {
-    id: string
-    name: string
-  }
-  doctor?: {
-    id: string
-    email: string
-  }
-}
+export type { LabRequest }
 
 export interface CreateLabRequestInput {
   patientId?: string // Optional - backend preenche automaticamente do selectedPatient

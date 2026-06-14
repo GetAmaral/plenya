@@ -1,17 +1,8 @@
 import { apiClient } from '../api-client'
-import type { ScoreItem } from './score-api'
+// Anamnesis e AnamnesisItem vêm do GERADO (Go model → swag → openapi-typescript), via @plenya/types.
+import type { Anamnesis, AnamnesisItem } from '@plenya/types'
 
-export interface AnamnesisItem {
-  id: string
-  scoreItemId: string
-  scoreItem?: ScoreItem
-  textValue?: string
-  numericValue?: number
-  selectedLevel?: number
-  order: number
-  createdAt: string
-  updatedAt: string
-}
+export type { Anamnesis, AnamnesisItem }
 
 export interface AnamnesisItemRequest {
   scoreItemId: string
@@ -21,33 +12,7 @@ export interface AnamnesisItemRequest {
   order: number
 }
 
-export interface Anamnesis {
-  id: string
-  patientId: string
-  authorId: string
-  anamnesisTemplateId?: string
-  consultationDate: string
-  content?: string // Plain text for search/indexing
-  contentHtml?: string // HTML for display
-  summary?: string // Plain text for search/indexing
-  summaryHtml?: string // HTML for display
-  visibility: 'all' | 'medicalOnly' | 'psychOnly' | 'authorOnly'
-  notes?: string
-  items?: AnamnesisItem[]
-  createdAt: string
-  updatedAt: string
-  anamnesisTemplate?: {
-    id: string
-    name: string
-    area: string
-  }
-  author?: {
-    id: string
-    name: string
-    email: string
-    role: string
-  }
-}
+// Anamnesis: ver import de @plenya/types no topo (tipo gerado).
 
 export interface CreateAnamnesisRequest {
   patientId?: string // Optional - backend uses selectedPatient from JWT

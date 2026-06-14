@@ -5,124 +5,14 @@ import { apiClient } from '../api-client'
 import { toast } from 'sonner'
 
 // Types
-export interface PatientScoreSnapshot {
-  id: string
-  patientId: string
-  calculatedByUserId: string
-  calculatedAt: string
-  totalActualPoints: number
-  totalPossiblePoints: number
-  totalScorePercentage: number
-  itemsEvaluatedCount: number
-  itemsNotEvaluatedCount: number
-  notes?: string
-  /** "anonymous_import" = snapshot PARCIAL materializado de uma sessão do Escore Plenya (Fase 4). */
-  source?: string
-  sourceSessionId?: string
-  displayTitle?: string
-  groupResults?: PatientScoreGroupResult[]
-  itemResults?: PatientScoreItemResult[]
-  calculatedByUser?: {
-    id: string
-    name: string
-  }
-  patient?: {
-    id: string
-    name: string
-  }
-  createdAt: string
-  updatedAt: string
-}
+// PatientScore* vêm do GERADO (Go model → swag → openapi-typescript), via @plenya/types.
+import type {
+  PatientScoreSnapshot,
+  PatientScoreGroupResult,
+  PatientScoreItemResult,
+} from '@plenya/types'
 
-export interface PatientScoreGroupResult {
-  id: string
-  snapshotId: string
-  groupId: string
-  actualPoints: number
-  possiblePoints: number
-  scorePercentage: number
-  itemsEvaluatedCount: number
-  group?: {
-    id: string
-    name: string
-    description?: string
-    order?: number
-  }
-  createdAt: string
-  updatedAt: string
-}
-
-export interface PatientScoreItemResult {
-  id: string
-  snapshotId: string
-  itemId: string
-  groupId: string
-  status: 'evaluated' | 'not_applicable' | 'no_data_available'
-  dataSource?: 'lab_result' | 'anamnesis_item'
-  labResultId?: string
-  anamnesisItemId?: string
-  valueUsed?: number
-  levelMatchedId?: string
-  levelNumber?: number
-  maxPoints: number
-  actualPoints: number
-  notEvaluatedReason?: string
-  item?: {
-    id: string
-    name: string
-    unit?: string
-    order?: number
-    parentItemId?: string | null
-    subgroupId?: string
-    subgroup?: {
-      id: string
-      name: string
-      order?: number
-    }
-    methodPillars?: Array<{
-      id: string
-      letterId: string
-      name: string
-      order: number
-      letter?: {
-        id: string
-        methodId: string
-        code: string
-        name: string
-        order: number
-        icon?: string
-        color?: string
-        method?: {
-          id: string
-          name: string
-          shortName: string
-        }
-      }
-    }>
-  }
-  levelMatched?: {
-    id: string
-    level: number
-    name: string
-  }
-  labResult?: {
-    id: string
-    labResultBatchId?: string
-    testName?: string
-    labResultBatch?: {
-      id: string
-    }
-  }
-  anamnesisItem?: {
-    id: string
-    anamnesisId?: string
-    anamnesis?: {
-      id: string
-    }
-  }
-  createdAt: string
-  updatedAt: string
-}
+export type { PatientScoreSnapshot, PatientScoreGroupResult, PatientScoreItemResult }
 
 export interface CalculateSnapshotDTO {
   patientId: string
