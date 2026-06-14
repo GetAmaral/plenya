@@ -74,9 +74,17 @@ html,body{ background:#fff; }
 .eyebrow{ font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:var(--petrol); font-weight:600; }
 .sep{ margin:0 9px; color:var(--gold); }
 .head{ display:flex; align-items:center; justify-content:space-between; }
-.head .sym{ height:29px; }
-.head .mark{ height:23px; }
+.head .sym{ height:44px; }
+/* lockup: wordmark PLENYA (SVG) + tagline (texto vetorial Inter, 8pt, centralizada) */
+.lk{ display:flex; flex-direction:column; align-items:center; }
+.lk .word{ height:27px; display:block; }
+.lk .tag{ font-family:'Inter',sans-serif; font-weight:400; font-size:8pt; text-transform:uppercase;
+  letter-spacing:-0.95px; color:var(--petrol); line-height:1; margin-top:7px; white-space:nowrap; }
 .rule-gold{ height:1.2px; background:var(--gold); margin-top:13px; }
+/* claim 'Viva bem, viva mais.' — marca d'água vertical na lateral esquerda */
+.claim-v{ position:absolute; left:9mm; top:50%; transform-origin:left center;
+  transform:rotate(-90deg) translateX(-50%); font-family:'Cormorant',serif; font-weight:500;
+  font-size:19.2px; letter-spacing:3.6px; color:var(--petrol); opacity:.25; white-space:nowrap; z-index:0; }
 .titlerow{ display:flex; align-items:baseline; justify-content:space-between; margin-top:25px; }
 .title{ font-family:'Cormorant',serif; font-size:34px; font-weight:600; letter-spacing:.2px; color:var(--petrol); line-height:1; }
 .title-rule{ width:44px; height:2px; background:var(--gold); margin-top:12px; }
@@ -143,17 +151,22 @@ html,body{ background:#fff; }
 .sigmanline{ display:inline-block; width:86mm; border-top:1px solid var(--petrol); padding-top:8px; font-size:14px; font-weight:600; color:var(--petrol); }
 .sigmansub{ font-size:13.3px; color:var(--ink2); margin-top:2px; }
 .nap{ border-top:1px solid var(--gold); padding-top:11px; display:flex; justify-content:space-between; align-items:flex-start; gap:26px; }
-.napcol{ font-size:11px; line-height:1.6; color:var(--ink2); flex:1; }
+.napcol{ font-size:9pt; line-height:1.6; color:var(--ink2); flex:1; }
 .napcol.c{ text-align:center; }
 .napcol.r{ text-align:right; }
-.napcol b{ display:block; color:var(--petrol); font-weight:700; font-size:11.5px; margin-bottom:1px; }
+.napcol b{ display:block; color:var(--petrol); font-weight:700; font-size:9.5pt; margin-bottom:1px; }
 `
 
 // ---- Blocos compartilhados ----
 
+// claimText — claim canônico da marca, usado como marca d'água nos documentos.
+const claimText = "Viva bem, viva mais."
+
 func headerHTML() string {
 	return `<div class="head">` + imgSVG("symbol-petrol.svg", "sym") +
-		imgSVG("lockup-tagline-petrol.svg", "mark") + `</div><div class="rule-gold"></div>`
+		`<div class="lk">` + imgSVG("wordmark-petrol.svg", "word") +
+		`<div class="tag">Saúde, Performance &amp; Longevidade</div></div>` +
+		`</div><div class="rule-gold"></div>`
 }
 
 func titleHTML(title string) string {
@@ -183,10 +196,13 @@ func indicationHTML(s string) string {
 }
 
 func footerNAPHTML(c Clinic) string {
+	// Endereço em até 3 linhas (1ª " · " vira quebra) e contato com e-mail/site em linhas
+	// separadas — evita "·" órfão e quebra no meio de "Gleba Palhano" (igual ao papel timbrado).
+	addrCont := strings.Replace(esc(c.AddressCont), " · ", "<br>", 1)
 	return `<div class="nap">` +
 		`<div class="napcol"><b>Plenya Saúde</b>` + esc(c.LegalName) + `<br>CNPJ ` + esc(c.CNPJ) + `</div>` +
-		`<div class="napcol c"><b>Atendimento</b>` + esc(c.AddressLine) + `<br>` + esc(c.AddressCont) + `</div>` +
-		`<div class="napcol r"><b>Contato</b>` + esc(c.Phone) + `<br>` + esc(c.Email) + ` · ` + esc(c.Site) + `</div>` +
+		`<div class="napcol c"><b>Atendimento</b>` + esc(c.AddressLine) + `<br>` + addrCont + `</div>` +
+		`<div class="napcol r"><b>Contato</b>` + esc(c.Phone) + `<br>` + esc(c.Email) + `<br>` + esc(c.Site) + `</div>` +
 		`</div>`
 }
 
@@ -215,6 +231,7 @@ func signatureHTML(d Doctor, s Signature) string {
 // pageHTML monta uma folha completa: marca d'água + frame(topo + rodapé).
 func pageHTML(top, foot string) string {
 	return `<div class="page">` + imgSVG("pattern.svg", "wm") +
+		`<div class="claim-v">` + esc(claimText) + `</div>` +
 		`<div class="frame">` + top + `<div class="foot">` + foot + `</div></div></div>`
 }
 

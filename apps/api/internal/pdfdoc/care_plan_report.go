@@ -54,9 +54,12 @@ html,body{ background:var(--cream); }
 /* rodapé NAP fixo: repete no pé de cada página impressa (running footer) */
 .rnap{ position:fixed; left:0; right:0; bottom:0; padding:0 18mm 11mm; }
 .rpt-head{ display:flex; align-items:center; justify-content:space-between; }
-.rpt-head .sym{ height:29px; }
-.rpt-head .mark{ height:23px; }
+.rpt-head .sym{ height:44px; }
 .rpt-rule{ height:1.2px; background:var(--gold); margin-top:13px; }
+/* claim 'Viva bem, viva mais.' — vertical à esquerda, fixo (repete por página) */
+.rclaim{ position:fixed; left:9mm; top:50%; transform-origin:left center;
+  transform:rotate(-90deg) translateX(-50%); font-family:'Cormorant',serif; font-weight:500;
+  font-size:19.2px; letter-spacing:3.6px; color:var(--petrol); opacity:.22; white-space:nowrap; }
 .rpt-title{ font-family:'Cormorant',serif; font-size:29px; font-weight:600; color:var(--petrol); margin-top:16px; line-height:1.1; max-width:150mm; }
 .rpt-title-rule{ width:44px; height:2px; background:var(--gold); margin-top:11px; }
 .rpt-meta{ margin-top:11px; font-size:12.5px; color:var(--ink2); line-height:1.5; }
@@ -113,8 +116,11 @@ func RenderCarePlanReport(in CarePlanReport) ([]byte, error) {
 	var b strings.Builder
 	b.WriteString(`<div class="report">`)
 	// cabeçalho
+	b.WriteString(`<div class="rclaim">` + esc(claimText) + `</div>`)
 	b.WriteString(`<div class="rpt-head">` + imgSVG("symbol-petrol.svg", "sym") +
-		imgSVG("lockup-tagline-petrol.svg", "mark") + `</div><div class="rpt-rule"></div>`)
+		`<div class="lk">` + imgSVG("wordmark-petrol.svg", "word") +
+		`<div class="tag">Saúde, Performance &amp; Longevidade</div></div>` +
+		`</div><div class="rpt-rule"></div>`)
 	// título + paciente/datas
 	b.WriteString(`<div class="rpt-title">` + esc(in.Title) + `</div><div class="rpt-title-rule"></div>`)
 	b.WriteString(`<div class="rpt-meta"><b>` + esc(in.Patient.Name) + `</b><br>`)
