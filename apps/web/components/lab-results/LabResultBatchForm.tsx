@@ -71,8 +71,13 @@ export function LabResultBatchForm({ batchId, initialValues, focusLabResultId }:
   // Disable auto-focus if we need to focus on a specific lab result
   useFormNavigation({ formRef, autoFocus: !focusLabResultId });
 
+  // O schema usa .default()/.transform() — o input inferido pelo zodResolver não casa com o
+  // output (z.infer) e z.input aqui resolve p/ unknown. Destipa só o resolver (runtime correto);
+  // useForm<output> mantém o resto da árvore (Control<>, errors) tipada.
   const form = useForm<LabResultBatchFormValues>({
-    resolver: zodResolver(labResultBatchSchema),
+    // o schema é z.preprocess (input unknown); o cast no schema satisfaz o overload do zodResolver
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(labResultBatchSchema as any),
     defaultValues: initialValues || getDefaultBatchValues(),
     mode: "onBlur",
   });
