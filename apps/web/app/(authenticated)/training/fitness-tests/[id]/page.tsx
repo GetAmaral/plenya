@@ -78,11 +78,11 @@ export default function FitnessTestDetailPage() {
   }
 
   const tests: TestResult[] = [
-    { name: "Abdominal", value: ft.abdominal, unit: "rep/min", level: ft.abdominalLevel },
-    { name: "Flexao", value: ft.flexao, unit: "rep/min", level: ft.flexaoLevel },
-    { name: "Prancha", value: ft.prancha, unit: "segundos", level: ft.pranchaLevel },
-    { name: "Burpee", value: ft.burpee, unit: "ciclos/3min", level: ft.burpeeLevel },
-    { name: "FRT", value: ft.frt, unit: "rep/90s", level: ft.frtLevel },
+    { name: "Abdominal", value: ft.abdominalReps, unit: "rep/min", level: ft.abdominalLevel },
+    { name: "Flexao", value: ft.pushupReps, unit: "rep/min", level: ft.pushupLevel },
+    { name: "Prancha", value: ft.plankSeconds, unit: "segundos", level: ft.plankLevel },
+    { name: "Burpee", value: ft.burpeeCycles, unit: "ciclos/3min", level: ft.burpeeLevel },
+    { name: "FRT", value: ft.frtReps, unit: "rep/90s", level: ft.frtLevel },
   ];
 
   const performedTests = tests.filter((t) => t.value != null);
@@ -96,12 +96,12 @@ export default function FitnessTestDetailPage() {
       />
 
       {/* Overall Score */}
-      {ft.overallScore != null && ft.classification && (
-        <Card className={`border-2 ${classificationColors[ft.classification] || ""}`}>
+      {ft.overallScore != null && ft.overallClassification && (
+        <Card className={`border-2 ${classificationColors[ft.overallClassification] || ""}`}>
           <CardContent className="p-6 text-center">
             <p className="text-5xl font-bold">{ft.overallScore.toFixed(1)}</p>
             <p className="text-xl font-semibold mt-2">
-              {levelLabels[ft.classification] || ft.classification}
+              {levelLabels[ft.overallClassification] || ft.overallClassification}
             </p>
             <p className="text-sm text-muted-foreground mt-1">
               Pontuacao geral baseada em {performedTests.length} teste(s)
