@@ -1,0 +1,9 @@
+# cache/experimentos pesados — não versionar
+__pycache__/
+*.pyc
+/ref/
+/antigos/
+# drafts: versiona só os finais do papel timbrado, ignora os experimentos
+/drafts/*
+!/drafts/timbrado-*-cmyk.pdf
+!/drafts/timbrado-*.png
