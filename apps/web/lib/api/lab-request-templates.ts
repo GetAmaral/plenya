@@ -1,30 +1,9 @@
 import { apiClient } from '../api-client'
+// Tipos de model vêm dos GERADOS (Go models → swag → openapi-typescript), via @plenya/types.
+// Não redeclarar à mão: campos novos do backend propagam sozinhos.
+import type { LabTestDefinition, LabRequestTemplate } from '@plenya/types'
 
-export interface LabTestDefinition {
-  id: string
-  code: string
-  name: string
-  shortName?: string
-  altNames?: string[]
-  tussCode?: string
-  category: string
-  sexApplicability?: 'all' | 'male' | 'female'
-  isRequestable: boolean
-  unit?: string
-  resultType: string
-  isActive: boolean
-}
-
-export interface LabRequestTemplate {
-  id: string
-  name: string
-  description?: string
-  displayOrder: number
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-  labTests?: LabTestDefinition[]
-}
+export type { LabTestDefinition, LabRequestTemplate }
 
 export interface CreateLabRequestTemplateInput {
   name: string

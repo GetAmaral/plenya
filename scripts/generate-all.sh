@@ -1,35 +1,27 @@
 #!/bin/bash
-
-set -e
+# Geração de OpenAPI + tipos TS/Zod a partir dos Go models (fonte única de verdade).
+# FALHA-DURA: qualquer passo que quebrar aborta o script (sem artefato parcial/defasado).
+# Migrations NÃO entram aqui (schema = goose, ver docs/emr/migrations-decisao.md).
+set -euo pipefail
 
 echo "🔄 Gerando OpenAPI e TypeScript types..."
 
-# Migrations NÃO entram aqui: o schema é gerenciado por migrations goose, criadas
-# à mão e aplicadas no deploy via cmd/migrate. Ver docs/emr/migrations-decisao.md.
-#   docker compose exec -w /app api go run ./cmd/migrate up|status|version
+# 1. OpenAPI docs (swag emite Swagger 2.0). Não há Go no host — roda no container api.
+#    .swaggo mapeia tipos externos (datatypes.JSON/JSONMap, fiber.Map) que o swag não resolve.
+echo "📚 [1/4] swag init (Swagger 2.0)..."
+docker compose exec -T -w /app api go tool swag init \
+  -g cmd/server/main.go -o docs --overridesFile .swaggo
 
-# 1. Gerar OpenAPI docs (swag emite Swagger 2.0). Não há Go no host — roda no container api
-# (mesma convenção de migrate:up). swag vem pinado no go.mod; .swaggo mapeia tipos externos
-# (datatypes.JSON/JSONMap, fiber.Map) que o swag não resolve sozinho.
-echo "📚 Gerando OpenAPI docs (container api)..."
-docker compose exec -T -w /app api go run github.com/swaggo/swag/cmd/swag init -g cmd/server/main.go -o docs --overridesFile .swaggo || echo "⚠️  Erro ao gerar OpenAPI docs"
+# 2. Swagger 2.0 -> OpenAPI 3.0 (openapi-typescript v7 exige 3.x).
+echo "🔁 [2/4] swagger2openapi (2.0 -> 3.0)..."
+( cd apps/api && npx swagger2openapi docs/swagger.json -o docs/openapi.json --patch )
 
-# 2. Converter Swagger 2.0 -> OpenAPI 3.0 (openapi-typescript v7 exige 3.x; swagger2openapi já é dep de apps/api)
-echo "🔁 Convertendo Swagger 2.0 -> OpenAPI 3.0..."
-cd apps/api
-npx swagger2openapi docs/swagger.json -o docs/openapi.json --patch || echo "⚠️  Erro ao converter para OpenAPI 3.0"
-cd ../..
+# 3. TypeScript types (única saída consumida pelo front; via @plenya/types).
+echo "🔨 [3/3] openapi-typescript..."
+( cd packages/types && npx openapi-typescript ../../apps/api/docs/openapi.json -o src/generated/api-types.ts )
 
-# 3. Gerar TypeScript types (a partir do OpenAPI 3.0)
-echo "🔨 Gerando TypeScript types..."
-cd packages/types
-npx openapi-typescript ../../apps/api/docs/openapi.json -o src/generated/api-types.ts || echo "⚠️  Erro ao gerar types"
-cd ../..
+# Zod gerado (openapi-zod-client) foi APOSENTADO: nunca foi consumido em runtime (forms usam
+# schemas Zod à mão em apps/web/lib/validations) e o gerador emitia TS inválido. Ver
+# docs/emr/plano-tipos-gerados-migracao.md.
 
-# 4. Gerar Zod schemas (a partir do OpenAPI 3.0)
-echo "✅ Gerando Zod schemas..."
-cd packages/types
-npx openapi-zod-client ../../apps/api/docs/openapi.json -o src/generated/api-schemas.ts --export-schemas || echo "⚠️  Erro ao gerar schemas"
-cd ../..
-
-echo "✅ Geração concluída!"
+echo "✅ Geração concluída."

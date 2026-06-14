@@ -1,19 +1,8 @@
 import { apiClient } from '../api-client'
+// Tipo de model vem do GERADO (Go model → swag → openapi-typescript), via @plenya/types.
+import type { MedicationDefinition } from '@plenya/types'
 
-export interface MedicationDefinition {
-  id: string
-  commonName: string
-  activeIngredient: string
-  category: 'simple' | 'c1' | 'c5' | 'antibiotic' | 'glp1'
-  validityDays: number
-  maxPerPrescription: number
-  maxTreatmentDays: number
-  requiresDigitalSignature: boolean
-  requiresSNCR: boolean
-  anvisaCode?: string
-  createdAt: string
-  updatedAt: string
-}
+export type { MedicationDefinition }
 
 export interface MedicationDefinitionListResponse {
   data: MedicationDefinition[]

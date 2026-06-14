@@ -110,6 +110,11 @@ type LabTestDefinition struct {
 	// Indicações clínicas principais
 	ClinicalIndications *string `gorm:"type:text" json:"clinicalIndications,omitempty"`
 
+	// Justificativa clínica padrão que acompanha o exame no pedido.
+	// Carrega automaticamente quando o exame é selecionado em qualquer painel
+	// (uso primário: exames de alto custo que exigem fundamentação p/ autorização).
+	RequestJustification *string `gorm:"type:text" json:"requestJustification,omitempty"`
+
 	// Significância clínica detalhada (200-400 palavras)
 	// Mecanismos fisiológicos, aplicações clínicas, interpretação de valores alterados
 	ClinicalSignificance *string `gorm:"type:text" json:"clinicalSignificance,omitempty"`

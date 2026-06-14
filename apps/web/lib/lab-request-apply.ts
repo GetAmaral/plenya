@@ -16,7 +16,9 @@ export function normalizeName(s: string): string {
 // applyTemplate — monta o texto da textarea a partir dos exames de um template:
 //  - filtra por sexo do paciente (sexApplicability 'all' ou == gender; ex.: PSA só ♂);
 //  - exclui exames já cobertos por um pedido externo (coveredCodes);
-//  - ordena por nome; 1 por linha.
+//  - ordena por nome; 1 exame por linha;
+//  - exame com justificativa clínica (requestJustification) emite linhas "# ..." logo abaixo
+//    do nome (mesmo padrão que o render do PDF reconhece — pdfdoc.parseExamBlocks).
 export function applyTemplate(
   labTests: LabTestDefinition[],
   gender: string | undefined,
@@ -30,6 +32,16 @@ export function applyTemplate(
       return true
     })
     .sort((a, b) => a.name.localeCompare(b.name))
-    .map((t) => t.name)
+    .map((t) => {
+      const lines = [t.name]
+      const just = (t.requestJustification || '').trim()
+      if (just) {
+        for (const ln of just.split('\n')) {
+          const s = ln.trim()
+          lines.push(s ? `# ${s}` : '#')
+        }
+      }
+      return lines.join('\n')
+    })
     .join('\n')
 }

@@ -1,4 +1,5 @@
 // Core domain types for Plenya EMR
+import type { Patient } from './models'
 
 export interface Method {
   id: string
@@ -147,5 +148,9 @@ export interface Notification {
   subscription?: PatientSubscription
 }
 
-// Re-export generated schemas if needed
-export * from './generated/api-schemas'
+// Tipos gerados (openapi-typescript a partir dos Go models). `components['schemas'][...]`
+// dá acesso a qualquer schema; os aliases ergonômicos ficam em ./models.
+export type { components, paths, operations } from './generated/api-types'
+
+// Aliases de model sobre os tipos gerados (ver models.ts).
+export * from './models'

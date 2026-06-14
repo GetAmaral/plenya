@@ -13,8 +13,12 @@ docs/branding/plenya_BRANDBOOK.pdf
 backups/
 *.dump
 
-# Generated files (DO NOT EDIT - auto-generated)
-packages/types/src/generated/
+# Generated files (DO NOT EDIT - auto-generated via `pnpm generate`).
+# api-types.ts É versionado: o build do web (@plenya/types) depende dele e o
+# Dockerfile não roda generate. Os demais artefatos seguem ignorados.
+packages/types/src/generated/*
+!packages/types/src/generated/api-types.ts
+!packages/types/src/generated/.gitkeep
 apps/api/docs/swagger.json
 apps/api/docs/swagger.yaml
 apps/api/docs/openapi.json
