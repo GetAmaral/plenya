@@ -152,19 +152,10 @@ export default function EditArticlePage({ params }: PageProps) {
       // Atualizar artigo
       await updateMutation.mutateAsync({ id, data: cleanData })
 
-      // Upload de novo PDF se selecionado
+      // Upload de novo PDF se selecionado. O endpoint de upload só lê o arquivo; os metadados
+      // já foram persistidos pelo updateMutation acima (anexá-los ao FormData não tinha efeito).
       if (selectedFile) {
-        const formData = new FormData()
-        formData.append('file', selectedFile)
-        // Adicionar metadados básicos ao FormData
-        formData.append('title', data.title)
-        formData.append('authors', data.authors)
-        formData.append('journal', data.journal)
-        formData.append('publishDate', publishDate || '')
-        formData.append('language', data.language)
-        formData.append('articleType', data.articleType)
-
-        await uploadMutation.mutateAsync(formData)
+        await uploadMutation.mutateAsync({ file: selectedFile })
       }
 
       // Atualizar score items se houve mudanças

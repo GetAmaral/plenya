@@ -179,29 +179,8 @@ export function LabResultInBatchForm({
           />
         </div>
 
-        {/* Status */}
-        <FormField
-          control={form.control}
-          name={`labResults.${index}.status`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Status *</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione o status" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="pending">Pendente</SelectItem>
-                  <SelectItem value="completed">Concluído</SelectItem>
-                  <SelectItem value="cancelled">Cancelado</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* Status é do lote (LabResultBatch), não por-resultado — campo removido (era órfão:
+            não existia no schema/DTO nem era persistido). */}
 
         <Separator />
 
