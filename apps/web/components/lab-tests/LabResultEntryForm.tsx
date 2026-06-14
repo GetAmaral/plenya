@@ -116,7 +116,7 @@ export function LabResultEntryForm({
     if (!selectedTest) return [];
 
     if (selectedTest.subTests && selectedTest.subTests.length > 0) {
-      return [...selectedTest.subTests].sort((a, b) => a.displayOrder - b.displayOrder);
+      return [...selectedTest.subTests].sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
     }
 
     return [selectedTest];

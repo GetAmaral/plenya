@@ -29,8 +29,9 @@ export async function getLabRequestTemplateById(id: string): Promise<LabRequestT
 }
 
 // Get all lab request templates
-export async function getAllLabRequestTemplates(): Promise<LabRequestTemplate[]> {
-  return apiClient.get<LabRequestTemplate[]>('/api/v1/lab-request-templates')
+export async function getAllLabRequestTemplates(withItems = false): Promise<LabRequestTemplate[]> {
+  const suffix = withItems ? '?withItems=true' : ''
+  return apiClient.get<LabRequestTemplate[]>(`/api/v1/lab-request-templates${suffix}`)
 }
 
 // Search lab request templates

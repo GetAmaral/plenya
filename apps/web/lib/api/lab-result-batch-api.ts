@@ -32,7 +32,9 @@ export interface LabResultInBatchResponse {
   testType: string
   resultText?: string
   resultNumeric?: number
+  resultNumericOriginal?: number // valor ORIGINAL antes de conversão de unidade (dto.LabResultInBatchResponse)
   unit?: string
+  unitOriginal?: string // unidade ORIGINAL antes de conversão
   interpretation?: string
   level?: number
   createdAt: string
