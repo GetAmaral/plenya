@@ -36,7 +36,18 @@ func NewPrescriptionHandler(
 	}
 }
 
-// Create cria uma nova prescrição
+// Create godoc
+// @Summary Create prescription
+// @Description Creates a new prescription
+// @Tags Prescriptions
+// @Accept json
+// @Produce json
+// @Param body body dto.CreatePrescriptionRequest true "Prescription data"
+// @Security BearerAuth
+// @Success 201 {object} dto.PrescriptionResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
+// @Router /prescriptions [post]
 func (h *PrescriptionHandler) Create(c *fiber.Ctx) error {
 	var req dto.CreatePrescriptionRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -72,7 +83,18 @@ func (h *PrescriptionHandler) Create(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(resp)
 }
 
-// GetByID busca uma prescrição por ID
+// GetByID godoc
+// @Summary Get prescription by ID
+// @Description Returns a single prescription
+// @Tags Prescriptions
+// @Produce json
+// @Param id path string true "Prescription UUID"
+// @Security BearerAuth
+// @Success 200 {object} dto.PrescriptionResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
+// @Router /prescriptions/{id} [get]
 func (h *PrescriptionHandler) GetByID(c *fiber.Ctx) error {
 	prescriptionID, err := uuid.Parse(c.Params("id"))
 	if err != nil {
@@ -108,7 +130,19 @@ func (h *PrescriptionHandler) GetByID(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
-// List lista prescrições
+// List godoc
+// @Summary List prescriptions
+// @Description Lists prescriptions (optionally filtered by patient/status)
+// @Tags Prescriptions
+// @Produce json
+// @Param patientId query string false "Filter by patient UUID"
+// @Param status query string false "Filter by status"
+// @Param limit query int false "Page size"
+// @Param offset query int false "Offset"
+// @Security BearerAuth
+// @Success 200 {array} dto.PrescriptionResponse
+// @Failure 500 {object} dto.ErrorResponse
+// @Router /prescriptions [get]
 func (h *PrescriptionHandler) List(c *fiber.Ctx) error {
 	limit, _ := strconv.Atoi(c.Query("limit", "20"))
 	offset, _ := strconv.Atoi(c.Query("offset", "0"))
@@ -151,7 +185,20 @@ func (h *PrescriptionHandler) List(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
-// Update atualiza uma prescrição
+// Update godoc
+// @Summary Update prescription
+// @Description Updates an existing prescription
+// @Tags Prescriptions
+// @Accept json
+// @Produce json
+// @Param id path string true "Prescription UUID"
+// @Param body body dto.UpdatePrescriptionRequest true "Fields to update"
+// @Security BearerAuth
+// @Success 200 {object} dto.PrescriptionResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
+// @Router /prescriptions/{id} [put]
 func (h *PrescriptionHandler) Update(c *fiber.Ctx) error {
 	prescriptionID, err := uuid.Parse(c.Params("id"))
 	if err != nil {

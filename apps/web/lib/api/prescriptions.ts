@@ -1,51 +1,18 @@
 import { apiClient } from '../api-client'
 import { useAuthStore } from '../auth-store'
 import type { components } from '@plenya/types'
+// Prescription (= dto.PrescriptionResponse refinado: medications sempre presente) vem do GERADO.
+import type { Prescription } from '@plenya/types'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
-// Types from OpenAPI schema
-export type Prescription = components['schemas']['models.Prescription']
+// Tipos do schema gerado (Go → swag → openapi-typescript).
+export type { Prescription }
 export type PrescriptionStatus = components['schemas']['models.PrescriptionStatus']
 export type MedicationCategory = components['schemas']['models.MedicationCategory']
-
-export interface CreatePrescriptionRequest {
-  patientId: string
-  medicationName: string
-  activeIngredient: string
-  category: MedicationCategory
-  concentration: string
-  dosage: string
-  frequency: string
-  route: string
-  duration: number
-  quantity: number
-  quantityInWords: string
-  instructions?: string
-  prescriptionDate: string // ISO date
-}
-
-export interface UpdatePrescriptionRequest {
-  medicationName?: string
-  activeIngredient?: string
-  category?: MedicationCategory
-  concentration?: string
-  dosage?: string
-  frequency?: string
-  route?: string
-  duration?: number
-  quantity?: number
-  quantityInWords?: string
-  instructions?: string
-  status?: PrescriptionStatus
-}
-
-export interface PrescriptionListResponse {
-  data: Prescription[]
-  total: number
-  page: number
-  limit: number
-}
+// Requests = DTOs gerados (medications[] é a forma real; o flat antigo estava obsoleto).
+export type CreatePrescriptionRequest = components['schemas']['dto.CreatePrescriptionRequest']
+export type UpdatePrescriptionRequest = components['schemas']['dto.UpdatePrescriptionRequest']
 
 export interface SignPrescriptionResponse {
   signedPdfUrl: string
@@ -94,8 +61,7 @@ export interface ValidationResult {
 export async function createPrescription(
   data: CreatePrescriptionRequest
 ): Promise<Prescription> {
-  const response = await apiClient.post<Prescription>('/prescriptions', data)
-  return response.data
+  return apiClient.post<Prescription>('/prescriptions', data)
 }
 
 /**
@@ -104,33 +70,32 @@ export async function createPrescription(
 export async function signPrescription(
   id: string
 ): Promise<SignPrescriptionResponse> {
-  const response = await apiClient.post<SignPrescriptionResponse>(
-    `/prescriptions/${id}/sign`
-  )
-  return response.data
+  return apiClient.post<SignPrescriptionResponse>(`/prescriptions/${id}/sign`)
 }
 
 /**
- * Listar prescrições
+ * Listar prescrições. O endpoint devolve um array puro (`[]dto.PrescriptionResponse`).
  */
 export async function listPrescriptions(params?: {
   patientId?: string
   status?: PrescriptionStatus
   limit?: number
   offset?: number
-}): Promise<PrescriptionListResponse> {
-  const response = await apiClient.get<PrescriptionListResponse>('/prescriptions', {
-    params,
-  })
-  return response.data
+}): Promise<Prescription[]> {
+  const qs = new URLSearchParams()
+  if (params?.patientId) qs.set('patientId', params.patientId)
+  if (params?.status) qs.set('status', params.status)
+  if (params?.limit != null) qs.set('limit', String(params.limit))
+  if (params?.offset != null) qs.set('offset', String(params.offset))
+  const suffix = qs.toString() ? `?${qs}` : ''
+  return apiClient.get<Prescription[]>(`/prescriptions${suffix}`)
 }
 
 /**
  * Obter prescrição por ID
  */
 export async function getPrescription(id: string): Promise<Prescription> {
-  const response = await apiClient.get<Prescription>(`/prescriptions/${id}`)
-  return response.data
+  return apiClient.get<Prescription>(`/prescriptions/${id}`)
 }
 
 /**
@@ -140,8 +105,7 @@ export async function updatePrescription(
   id: string,
   data: UpdatePrescriptionRequest
 ): Promise<Prescription> {
-  const response = await apiClient.put<Prescription>(`/prescriptions/${id}`, data)
-  return response.data
+  return apiClient.put<Prescription>(`/prescriptions/${id}`, data)
 }
 
 /**
@@ -156,10 +120,7 @@ export async function deletePrescription(id: string): Promise<void> {
  * Usado por farmácias via QR Code
  */
 export async function validatePublic(id: string): Promise<ValidationResult> {
-  const response = await apiClient.get<ValidationResult>(
-    `/prescriptions/validate/${id}`
-  )
-  return response.data
+  return apiClient.get<ValidationResult>(`/prescriptions/validate/${id}`)
 }
 
 /**

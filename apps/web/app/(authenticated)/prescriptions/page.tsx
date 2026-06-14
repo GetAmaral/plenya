@@ -72,8 +72,8 @@ export default function PrescriptionsPage() {
     )
   }
 
-  const prescriptions = data?.data || []
-  const hasSignedPrescriptions = prescriptions.some((p) => p.signedPDFPath)
+  const prescriptions = data || []
+  const hasSignedPrescriptions = prescriptions.some((p) => p.signedPdfPath)
 
   return (
     <div className="container mx-auto py-8">
@@ -217,7 +217,7 @@ export default function PrescriptionsPage() {
 
                     {/* PDF Status */}
                     <TableCell>
-                      {prescription.signedPDFPath ? (
+                      {prescription.signedPdfPath ? (
                         <Badge variant="outline" className="bg-green-50 text-green-700">
                           <CheckCircle2 className="mr-1 h-3 w-3" />
                           Assinado
@@ -322,7 +322,7 @@ function PrescriptionActions({
   onRefetch: () => void
   router: any
 }) {
-  const isSigned = !!prescription.signedPDFPath
+  const isSigned = !!prescription.signedPdfPath
   const canEdit = !isSigned
 
   return (
@@ -337,11 +337,11 @@ function PrescriptionActions({
       </Button>
 
       {/* Download PDF (if signed) */}
-      {isSigned && prescription.signedPDFPath && (
+      {isSigned && prescription.signedPdfPath && (
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => window.open(prescription.signedPDFPath!, '_blank')}
+          onClick={() => window.open(prescription.signedPdfPath!, '_blank')}
         >
           <Download className="h-4 w-4" />
         </Button>

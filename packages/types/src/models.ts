@@ -109,6 +109,21 @@ export type Lead = Refine<
 >
 
 
+/** Prescrição (resposta da API = dto.PrescriptionResponse, não o model cru). */
+export type MedicationResponse = WithRequired<
+  Schemas['dto.MedicationResponse'],
+  | 'id' | 'medicationName' | 'activeIngredient' | 'category' | 'concentration'
+  | 'dosage' | 'frequency' | 'route' | 'duration' | 'quantity'
+>
+export type Prescription = Refine<
+  WithRequired<
+    Schemas['dto.PrescriptionResponse'],
+    | 'id' | 'patientId' | 'doctorId' | 'status' | 'prescriptionDate'
+    | 'validUntil' | 'isUsed' | 'createdAt' | 'updatedAt'
+  >,
+  { medications: MedicationResponse[] }
+>
+
 /** Template de pedido de exames (resposta da API). */
 export type LabRequestTemplate = Refine<
   WithRequired<Schemas['models.LabRequestTemplate'], 'id' | 'displayOrder' | 'isActive' | 'createdAt' | 'updatedAt'>,

@@ -14286,6 +14286,109 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/prescriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List prescriptions
+         * @description Lists prescriptions (optionally filtered by patient/status)
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Filter by patient UUID */
+                    patientId?: string;
+                    /** @description Filter by status */
+                    status?: string;
+                    /** @description Page size */
+                    limit?: number;
+                    /** @description Offset */
+                    offset?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PrescriptionResponse"][];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /**
+         * Create prescription
+         * @description Creates a new prescription
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Prescription data */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["dto.CreatePrescriptionRequest"];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PrescriptionResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/prescriptions/validate/{id}": {
         parameters: {
             query?: never;
@@ -14334,6 +14437,133 @@ export interface paths {
             };
         };
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/prescriptions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get prescription by ID
+         * @description Returns a single prescription
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Prescription UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PrescriptionResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        /**
+         * Update prescription
+         * @description Updates an existing prescription
+         */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Prescription UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            /** @description Fields to update */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["dto.UpdatePrescriptionRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PrescriptionResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
         post?: never;
         delete?: never;
         options?: never;
@@ -15284,6 +15514,13 @@ export interface components {
             state?: string;
             weight?: number;
         };
+        "dto.CreatePrescriptionRequest": {
+            generalInstructions?: string;
+            medications: components["schemas"]["dto.MedicationRequest"][];
+            patientId: string;
+            /** @description formato: RFC3339 */
+            prescriptionDate: string;
+        };
         "dto.CreateUserRequest": {
             /** @description Formato: 123.456.789-00 ou sem formatação */
             cpf?: string;
@@ -15418,6 +15655,36 @@ export interface components {
              */
             rememberDevice?: boolean;
         };
+        "dto.MedicationRequest": {
+            activeIngredient: string;
+            /** @enum {unknown} */
+            category: "simple" | "c1" | "c5" | "antibiotic" | "glp1";
+            concentration: string;
+            dosage: string;
+            duration: number;
+            frequency: string;
+            instructions?: string;
+            medicationDefinitionId?: string;
+            medicationName: string;
+            quantity: number;
+            quantityInWords: string;
+            route: string;
+        };
+        "dto.MedicationResponse": {
+            activeIngredient?: string;
+            category?: components["schemas"]["models.MedicationCategory"];
+            concentration?: string;
+            dosage?: string;
+            duration?: number;
+            frequency?: string;
+            id?: string;
+            instructions?: string;
+            medicationDefinitionId?: string;
+            medicationName?: string;
+            quantity?: number;
+            quantityInWords?: string;
+            route?: string;
+        };
         "dto.PaginatedResponse": {
             data?: unknown;
             limit?: number;
@@ -15508,6 +15775,29 @@ export interface components {
              *     @example ready
              */
             status?: string;
+        };
+        "dto.PrescriptionResponse": {
+            certificateSerial?: string;
+            createdAt?: string;
+            dispensedAt?: string;
+            doctorId?: string;
+            generalInstructions?: string;
+            id?: string;
+            isUsed?: boolean;
+            medications?: components["schemas"]["dto.MedicationResponse"][];
+            patientId?: string;
+            prescriptionDate?: string;
+            qrCodeData?: string;
+            /** @description SignatureMode: "digital" (ICP-Brasil) ou "manual" (impressão + assinatura/carimbo à mão). */
+            signatureMode?: string;
+            signedAt?: string;
+            signedPdfHash?: string;
+            signedPdfPath?: string;
+            sncrNumber?: string;
+            sncrStatus?: string;
+            status?: components["schemas"]["models.PrescriptionStatus"];
+            updatedAt?: string;
+            validUntil?: string;
         };
         /** @description Resposta com status do processamento assíncrono */
         "dto.ProcessingJobResponse": {
@@ -15620,6 +15910,12 @@ export interface components {
             socialGender?: "male" | "female" | "non_binary" | "trans_male" | "trans_female" | "other" | "prefer_not_to_say";
             state?: string;
             weight?: number;
+        };
+        "dto.UpdatePrescriptionRequest": {
+            generalInstructions?: string;
+            medications?: components["schemas"]["dto.MedicationRequest"][];
+            /** @enum {unknown} */
+            status?: "active" | "completed" | "cancelled" | "expired";
         };
         "dto.UpdateProfileRequest": {
             /** @description Formato: 123.456.789-00 ou sem formatação */
@@ -17582,6 +17878,8 @@ export interface components {
             /** @example 2024-02-15T10:30:00Z */
             updatedAt?: string;
         };
+        /** @enum {string} */
+        "models.PrescriptionStatus": "active" | "completed" | "cancelled" | "expired";
         /** @enum {string} */
         "models.ProcessingJobStatus": "pending" | "processing" | "completed" | "failed";
         /** @enum {string} */
