@@ -9,6 +9,7 @@ import { ScoreTreeView } from '@/components/scores/ScoreTreeView'
 import { ScoreGroupDialog } from '@/components/scores/ScoreGroupDialog'
 import { ScoreSearch, SearchResult } from '@/components/scores/ScoreSearch'
 import { PageHeader } from '@/components/layout/page-header'
+import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/lib/auth-store'
 
 export default function ScoresPage() {

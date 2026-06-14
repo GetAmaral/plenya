@@ -27,12 +27,14 @@ interface ScoreGroupDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   group?: ScoreGroup
+  onSuccess?: () => void
 }
 
 export function ScoreGroupDialog({
   open,
   onOpenChange,
   group,
+  onSuccess,
 }: ScoreGroupDialogProps) {
   const isEditing = !!group
 
@@ -81,6 +83,7 @@ export function ScoreGroupDialog({
         await createGroup.mutateAsync(data)
         toast.success('Grupo criado com sucesso')
       }
+      onSuccess?.()
       onOpenChange(false)
       reset()
     } catch (error: any) {

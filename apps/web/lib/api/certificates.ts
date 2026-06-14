@@ -85,6 +85,9 @@ export async function toggleCertificateActive(userId: string): Promise<{
   certificateActive: boolean
   message: string
 }> {
-  const response = await apiClient.patch(`/api/v1/admin/certificates/${userId}/toggle`)
-  return response
+  return apiClient.patch<{
+    success: boolean
+    certificateActive: boolean
+    message: string
+  }>(`/api/v1/admin/certificates/${userId}/toggle`)
 }
