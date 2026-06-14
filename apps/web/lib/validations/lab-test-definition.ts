@@ -205,6 +205,9 @@ export const formToApiValues = (values: LabTestDefinitionFormValues) => {
   };
 };
 
+/** Payload da API (saída do formToApiValues — altNames vira JSON string, vazios viram undefined). */
+export type LabTestDefinitionApiValues = ReturnType<typeof formToApiValues>;
+
 /**
  * Category options for select
  */

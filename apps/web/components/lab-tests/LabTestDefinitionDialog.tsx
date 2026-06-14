@@ -15,7 +15,7 @@ import {
   labTestDefinitionsApi,
   type LabTestDefinition,
 } from "@/lib/api/lab-test-api";
-import type { LabTestDefinitionFormValues } from "@/lib/validations/lab-test-definition";
+import type { LabTestDefinitionApiValues } from "@/lib/validations/lab-test-definition";
 
 interface LabTestDefinitionDialogProps {
   mode: "create" | "edit";
@@ -52,8 +52,8 @@ export function LabTestDefinitionDialog({
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<LabTestDefinitionFormValues> }) =>
-      labTestDefinitionsApi.update(id, data),
+    mutationFn: ({ id, data }: { id: string; data: Partial<LabTestDefinitionApiValues> }) =>
+      labTestDefinitionsApi.update(id, data as any),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lab-test-definitions"] });
       toast.success("Definição atualizada", {
@@ -68,7 +68,7 @@ export function LabTestDefinitionDialog({
     },
   });
 
-  const handleSubmit = async (values: LabTestDefinitionFormValues) => {
+  const handleSubmit = async (values: LabTestDefinitionApiValues) => {
     setIsSubmitting(true);
     try {
       if (mode === "create") {

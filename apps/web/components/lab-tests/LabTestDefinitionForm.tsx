@@ -4,11 +4,13 @@ import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useFormNavigation } from "@/lib/use-form-navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   labTestDefinitionSchema,
   type LabTestDefinitionFormValues,
+  type LabTestDefinitionApiValues,
   getDefaultValues,
   apiToFormValues,
   formToApiValues,
@@ -55,7 +57,7 @@ interface LabTestDefinitionFormProps {
   mode: "create" | "edit";
   initialData?: LabTestDefinition;
   availableTests: LabTestDefinition[];
-  onSubmit: (values: LabTestDefinitionFormValues) => Promise<void>;
+  onSubmit: (values: LabTestDefinitionApiValues) => Promise<void>;
   onCancel: () => void;
   isSubmitting?: boolean;
 }
@@ -73,7 +75,14 @@ export function LabTestDefinitionForm({
   const formRef = useRef<HTMLFormElement>(null);
   useFormNavigation({ formRef });
 
-  const form = useForm<LabTestDefinitionFormValues>({
+  // Input vs output: o schema usa .default(), então o INPUT do zodResolver tem campos
+  // opcionais (altNames, booleans, order) enquanto o z.infer (output) os exige. Parametrizar
+  // useForm com <input, ctx, output> alinha o resolver e o handleSubmit sem casts.
+  const form = useForm<
+    z.input<typeof labTestDefinitionSchema>,
+    unknown,
+    LabTestDefinitionFormValues
+  >({
     resolver: zodResolver(labTestDefinitionSchema),
     defaultValues: initialData
       ? apiToFormValues(initialData)
@@ -87,8 +96,7 @@ export function LabTestDefinitionForm({
   const isRequestable = form.watch("isRequestable");
 
   const handleSubmit = async (values: LabTestDefinitionFormValues) => {
-    const apiValues = formToApiValues(values);
-    await onSubmit(apiValues as LabTestDefinitionFormValues);
+    await onSubmit(formToApiValues(values));
   };
 
   return (
