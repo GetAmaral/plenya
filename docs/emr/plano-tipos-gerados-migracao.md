@@ -42,6 +42,45 @@ A Regra de Ouro nº1 (`Go models → swag → OpenAPI → tipos TS/Zod gerados`)
   (LabTestDefinition, LabRequestTemplate), `medication-definitions.ts` (MedicationDefinition),
   + bug pré-existente `Patient` ausente no `index.ts` corrigido.
 
+## Progresso (2026-06-14) — Trilha A concluída + cascatas de consumidor
+
+**web tsc: 231 → 115** (≈ −116; package `@plenya/types` compila com **0 erros**). 11 commits limpos
+(`3e1a5df0`..`cf9190bb`), todos LOCAIS no master (sem push; aguarda ordem).
+
+- ✅ **Trilha A 100% migrada:** todos os `lib/api/*.ts` com interface duplicada agora importam do
+  gerado via `@plenya/types`. Inclui dedup do `index.ts` (Method/MethodLetter/MethodPillar +
+  Score Group/Subgroup/Item/Level — eram duplicados e DIVERGENTES: `index.ts` tinha `level:string`
+  e `ageMin/ageMax`; o gerado tem `level:number` e `ageRangeMin/Max`). `score-api.ts` idem.
+- ✅ **Backend anotado (fechou gap p/ o front):** handlers de prescrição (Create/GetByID/List/Update)
+  ganharam godoc `dto.PrescriptionResponse` → swag passou a emitir `dto.PrescriptionResponse`,
+  `models.PrescriptionStatus`, `dto.Create/UpdatePrescriptionRequest`. Era o ÚNICO gap real de
+  `components['schemas']['models.X']` em todo o front.
+- ✅ **Bugs de RUNTIME que o `any` mascarava (achados pela tipagem concreta):**
+  - `prescriptions.ts` e `medication-definitions.ts` tinham `.data` residual de axios sobre o body
+    já desembrulhado (`apiClient` devolve `response.json()`) → funções retornavam `undefined`.
+    **Lista de prescrições aparecia SEMPRE vazia**; **página /admin/medication-definitions quebrava**
+    no `.filter`. `signedPDFPath` (front) ≠ `signedPdfPath` (json Go) → lia `undefined`.
+  - `apiClient.get` só aceita 1 arg; vários passavam `{params}` (2º arg) — trocado por querystring.
+- ✅ **Cascatas RHF/zod resolvidas** (padrão: `.default()`/`.transform()` faz input≠output do
+  zodResolver): LabTestDefinitionForm (22→0, via `useForm<input,ctx,output>`), LabResultBatchForm
+  (10→1, schema é `z.preprocess` → `zodResolver(schema as any)`), prescrição new/edit (via mesmo cast).
+- ✅ **Refinos de alias:** `ScoreLevel.operator` → union; `PatientScoreSnapshot.itemResults/groupResults`
+  → obrigatórios; `Prescription`/`MedicationResponse`, Score/Method graph com relações aninhadas.
+- ✅ **React 19:** reintroduzido `import type { JSX } from 'react'` onde se anota `JSX.Element`.
+
+### Restante (115) — categorizado
+- **~67 consumidores da migração** (Score charts, anamnesis pages, lab-results pages, articles) —
+  espalhados 1–3 por arquivo. **Próximo alvo** se for pra continuar zerando.
+- **~33 dívida PRÉ-EXISTENTE sem relação com tipos** (training pages, OAuth buttons, calendar.tsx,
+  rich-text-editor, tailwind.config, admin/users, appointments) — sempre existiram; `ignoreBuildErrors`
+  as tolera. Fora do escopo da Regra de Ouro.
+- **~4** resolução de módulo `@plenya/ui/score-radar` (build do package `packages/ui`, não tipos).
+- **~11** recharts `Formatter` / `implicitly any` (libs externas / `noImplicitAny` pré-existente).
+
+### Trilha B (gap de anotação swag) — ainda PENDENTE
+Mesma técnica do prescription handler resolve: `models.Patient` sem `cpf`/`city`/`zipCode`,
+`models.User` sem `cpf`, `LabResult`, `Article`. Anotar o handler/DTO Go → `pnpm generate` → migrar.
+
 ### Duas trilhas descobertas (das 28 interfaces com homônimo gerado)
 
 **Trilha A — limpas (gerado é superset):** migram direto (alias + import). Ex.: MedicationDefinition,
