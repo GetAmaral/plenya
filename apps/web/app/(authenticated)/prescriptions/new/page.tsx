@@ -78,7 +78,9 @@ export default function NewPrescriptionPage() {
 
   // React Hook Form with field array for medications
   const form = useForm<PrescriptionFormData>({
-    resolver: zodResolver(prescriptionSchema),
+    // schema usa .default() (input≠output); destipa só o resolver p/ alinhar com useForm<output>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(prescriptionSchema as any),
     defaultValues: {
       medications: [
         {

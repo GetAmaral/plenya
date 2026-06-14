@@ -327,19 +327,9 @@ export default function ValidatePrescriptionPage({ params }: PageProps) {
           </CardContent>
         </Card>
 
-        {/* Actions */}
+        {/* Actions — o validador público não expõe o PDF (download é autenticado, evita
+            vazar o documento do paciente). Apenas confirma autenticidade. */}
         <div className="flex flex-col sm:flex-row gap-4">
-          {data.signature.signedPdfUrl && (
-            <Button
-              onClick={() => window.open(data.signature.signedPdfUrl!, '_blank')}
-              className="flex-1"
-              size="lg"
-            >
-              <Download className="mr-2 h-4 w-4" />
-              Baixar PDF Assinado
-            </Button>
-          )}
-
           <Button
             variant="outline"
             onClick={() => window.open('https://validar.iti.gov.br/', '_blank')}

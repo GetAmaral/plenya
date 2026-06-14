@@ -93,7 +93,9 @@ export default function EditPrescriptionPage() {
 
   // React Hook Form with field array
   const form = useForm<PrescriptionFormData>({
-    resolver: zodResolver(prescriptionSchema),
+    // schema usa .default() (input≠output); destipa só o resolver p/ alinhar com useForm<output>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(prescriptionSchema as any),
     values: prescription
       ? {
           medications: prescription.medications?.length > 0
@@ -108,7 +110,7 @@ export default function EditPrescriptionPage() {
                 route: med.route,
                 duration: med.duration,
                 quantity: med.quantity,
-                quantityInWords: med.quantityInWords,
+                quantityInWords: med.quantityInWords || '',
                 instructions: med.instructions || '',
               }))
             : [{
@@ -156,7 +158,7 @@ export default function EditPrescriptionPage() {
           route: m.route,
           duration: m.duration,
           quantity: m.quantity,
-          quantityInWords: m.quantityInWords,
+          quantityInWords: m.quantityInWords || '',
           instructions: m.instructions || undefined,
         })),
         generalInstructions: data.generalInstructions || undefined,
@@ -225,7 +227,7 @@ export default function EditPrescriptionPage() {
           route: m.route,
           duration: m.duration,
           quantity: m.quantity,
-          quantityInWords: m.quantityInWords,
+          quantityInWords: m.quantityInWords || '',
           instructions: m.instructions || undefined,
         })),
         generalInstructions: prescription.generalInstructions || undefined,

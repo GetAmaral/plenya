@@ -21,9 +21,11 @@ export interface SignPrescriptionResponse {
   sncrNumber?: string
 }
 
+// Espelha o fiber.Map montado em PrescriptionHandler.ValidatePublic (resposta pública do QR Code).
 export interface ValidationResult {
   valid: boolean
   pdfIntact: boolean
+  signatureMode?: string
   prescription: {
     id: string
     prescriptionDate: string
@@ -31,7 +33,7 @@ export interface ValidationResult {
     isExpired: boolean
     isUsed: boolean
     sncrNumber?: string
-    category: MedicationCategory
+    medicationCount: number
   }
   patient: {
     name: string
@@ -41,17 +43,19 @@ export interface ValidationResult {
     name: string
     crm: string
   }
-  medication: {
+  medications: Array<{
+    id: string
     name: string
     activeIngredient: string
+    category: MedicationCategory
     concentration: string
     quantity: number
     quantityInWords: string
-  }
+  }>
   signature: {
+    mode?: string
     signedAt: string
     certificateSerial?: string
-    signedPdfUrl?: string
   }
 }
 
