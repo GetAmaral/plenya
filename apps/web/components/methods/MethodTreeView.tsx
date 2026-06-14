@@ -161,7 +161,7 @@ export function MethodTreeView({ method, unassignedItems = [] }: MethodTreeViewP
             onToggle={() => toggleLetter(letter.id)}
             expandedPillars={expandedPillars}
             onTogglePillar={togglePillar}
-            isAdmin={isAdmin}
+            isAdmin={isAdmin ?? false}
             onCreatePillar={() => {
               setSelectedLetterId(letter.id)
               setCreatePillarDialogOpen(true)
@@ -325,7 +325,7 @@ function LetterCard({ letter, isExpanded, onToggle, expandedPillars, onTogglePil
                 pillar={pillar}
                 isExpanded={expandedPillars.has(pillar.id)}
                 onToggle={() => onTogglePillar(pillar.id)}
-                isAdmin={isAdmin}
+                isAdmin={isAdmin ?? false}
                 onEdit={() => onEditPillar(pillar)}
                 onDelete={() => onDeletePillar(pillar)}
               />

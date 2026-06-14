@@ -270,7 +270,7 @@ export function ScoreItemDialog({
         await createItem.mutateAsync({
           ...payload,
           subgroupId: selectedSubgroupId,
-        })
+        } as CreateScoreItemDTO)
         toast.success('Item criado com sucesso')
       }
       onOpenChange(false)

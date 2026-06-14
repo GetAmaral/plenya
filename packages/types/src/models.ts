@@ -52,7 +52,7 @@ export type AnamnesisItem = Refine<
     Schemas['models.AnamnesisItem'],
     'id' | 'scoreItemId' | 'order' | 'createdAt' | 'updatedAt'
   >,
-  { scoreItem?: ScoreItem; selectedLevel?: ScoreLevel }
+  { scoreItem?: ScoreItem }
 >
 export type AnamnesisTemplate = Refine<
   WithRequired<Schemas['models.AnamnesisTemplate'], 'id' | 'name' | 'area' | 'createdAt' | 'updatedAt'>,

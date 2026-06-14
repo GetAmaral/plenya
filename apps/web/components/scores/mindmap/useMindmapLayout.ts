@@ -126,7 +126,7 @@ export function buildMindmapLayout(
     if (shouldShowSubgroups) {
       let subgroupY = currentY
 
-      group.subgroups.forEach((subgroup) => {
+      ;(group.subgroups ?? []).forEach((subgroup) => {
         const subgroupId = `subgroup-${subgroup.id}`
         const subgroupExpanded = expandedNodes[subgroupId]
 
@@ -163,7 +163,7 @@ export function buildMindmapLayout(
 
         if (shouldShowItems) {
           let itemY = subgroupY
-          const rootItems = organizeItemsHierarchy(subgroup.items)
+          const rootItems = organizeItemsHierarchy(subgroup.items ?? [])
 
           // Função recursiva para processar item e seus filhos
           const processItemWithChildren = (item: ItemWithChildren, depth: number, parentId: string): number => {
@@ -210,7 +210,7 @@ export function buildMindmapLayout(
             const shouldShowLevels = (showLevels || itemExpanded) && itemExpanded && item.levels && item.levels.length > 0
 
             if (shouldShowLevels) {
-              const sortedLevels = [...item.levels].sort((a, b) => a.level - b.level)
+              const sortedLevels = [...(item.levels ?? [])].sort((a, b) => a.level - b.level)
               let levelY = itemY
               let totalLevelsHeight = 0
 
