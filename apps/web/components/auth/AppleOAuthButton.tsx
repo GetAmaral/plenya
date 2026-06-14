@@ -67,9 +67,10 @@ export function AppleOAuthButton() {
         redirectURI: APPLE_REDIRECT_URI,
         usePopup: true,
       }}
+      uiType="dark"
       onSuccess={handleResponse}
       onError={handleError}
-      render={(props) => (
+      render={(props: any) => (
         <Button
           type="button"
           variant="outline"

@@ -1,4 +1,5 @@
 import { apiClient } from "@/lib/api-client";
+import type { UserRole } from "@/lib/auth-store";
 
 export interface AuthResponse {
   accessToken: string;
@@ -6,7 +7,7 @@ export interface AuthResponse {
   user: {
     id: string;
     email: string;
-    roles: string[];
+    roles: UserRole[];
     twoFactorEnabled: boolean;
     selectedPatientId?: string;
     createdAt: string;

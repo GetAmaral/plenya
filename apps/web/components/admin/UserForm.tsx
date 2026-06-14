@@ -242,7 +242,7 @@ export function EditUserForm({ user, onSuccess, onCancel }: EditUserFormProps) {
 
       // Se editou o próprio usuário, atualizar Zustand store
       if (loggedUser && user.id === loggedUser.id) {
-        updateUserStore(updatedUser)
+        updateUserStore({ ...updatedUser, roles: updatedUser.roles as UserRole[] })
       }
 
       onSuccess()

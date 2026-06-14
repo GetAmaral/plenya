@@ -14,7 +14,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { touchActivity } from "@/components/auth/inactivity-lock";
 import { apiClient } from "@/lib/api-client";
-import { useAuthStore } from "@/lib/auth-store";
+import { useAuthStore, type UserRole } from "@/lib/auth-store";
 import { useFormNavigation } from "@/lib/use-form-navigation";
 import { Activity, ArrowRight, Loader2 } from "lucide-react";
 import { GoogleOAuthButton } from "@/components/auth/GoogleOAuthButton";
@@ -32,7 +32,7 @@ interface LoginResponse {
   user: {
     id: string;
     email: string;
-    roles: string[];
+    roles: UserRole[];
     twoFactorEnabled: boolean;
     createdAt: string;
   };
