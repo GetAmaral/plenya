@@ -109,6 +109,58 @@ export type Lead = Refine<
 >
 
 
+/** Escore: Group → Subgroup → Item → Level + Method/Letter/Pillar (resposta da API).
+ *  Refinam as relações aninhadas pros próprios aliases (o gerado aponta pro tipo cru). */
+export type ScoreLevel = WithRequired<
+  Schemas['models.ScoreLevel'],
+  'id' | 'itemId' | 'level' | 'name' | 'operator' | 'createdAt' | 'updatedAt'
+>
+export type ScoreItem = Refine<
+  WithRequired<
+    Schemas['models.ScoreItem'],
+    'id' | 'name' | 'order' | 'subgroupId' | 'createdAt' | 'updatedAt'
+  >,
+  {
+    subgroup?: ScoreSubgroup
+    levels?: ScoreLevel[]
+    childItems?: ScoreItem[]
+    parentItem?: ScoreItem
+    methodPillars?: MethodPillar[]
+  }
+>
+export type ScoreSubgroup = Refine<
+  WithRequired<
+    Schemas['models.ScoreSubgroup'],
+    'id' | 'name' | 'order' | 'maxSelect' | 'groupId' | 'createdAt' | 'updatedAt'
+  >,
+  { group?: ScoreGroup; items?: ScoreItem[] }
+>
+export type ScoreGroup = Refine<
+  WithRequired<Schemas['models.ScoreGroup'], 'id' | 'name' | 'order' | 'createdAt' | 'updatedAt'>,
+  { subgroups?: ScoreSubgroup[] }
+>
+export type MethodPillar = Refine<
+  WithRequired<
+    Schemas['models.MethodPillar'],
+    'id' | 'letterId' | 'name' | 'order' | 'createdAt' | 'updatedAt'
+  >,
+  { scoreItems?: ScoreItem[]; letter?: MethodLetter }
+>
+export type MethodLetter = Refine<
+  WithRequired<
+    Schemas['models.MethodLetter'],
+    'id' | 'methodId' | 'code' | 'name' | 'order' | 'createdAt' | 'updatedAt'
+  >,
+  { pillars?: MethodPillar[]; method?: Method }
+>
+export type Method = Refine<
+  WithRequired<
+    Schemas['models.Method'],
+    'id' | 'name' | 'shortName' | 'order' | 'isDefault' | 'createdAt' | 'updatedAt'
+  >,
+  { letters?: MethodLetter[] }
+>
+
 /** Prescrição (resposta da API = dto.PrescriptionResponse, não o model cru). */
 export type MedicationResponse = WithRequired<
   Schemas['dto.MedicationResponse'],

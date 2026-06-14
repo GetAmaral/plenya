@@ -1,75 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from '../api-client'
+// Entidades do escore vêm do GERADO (Go model → swag → openapi-typescript), via @plenya/types.
+import type { ScoreItem, ScoreLevel, ScoreSubgroup, ScoreGroup } from '@plenya/types'
 
-// Types based on Go models
+export type { ScoreItem, ScoreLevel, ScoreSubgroup, ScoreGroup }
+
+// Tipo de render do site (espelha models.ScoreItem.siteRenderType; usado pelos DTOs locais).
 export type SiteRenderType = 'level_choice' | 'numeric_classifier' | 'boolean' | 'text' | 'scale_0_3'
-
-export interface ScoreLevel {
-  id: string
-  level: number
-  name: string
-  lowerLimit?: string
-  upperLimit?: string
-  operator: '=' | '>' | '>=' | '<' | '<=' | 'between'
-  clinicalRelevance?: string
-  patientExplanation?: string
-  conduct?: string
-  siteLegend?: string
-  lastReview?: string
-  itemId: string
-  createdAt: string
-  updatedAt: string
-}
-
-export interface ScoreItem {
-  id: string
-  labTestCode?: string
-  name: string
-  unit?: string
-  unitConversion?: string
-  gender?: 'not_applicable' | 'male' | 'female'
-  ageRangeMin?: number
-  ageRangeMax?: number
-  postMenopause?: boolean
-  clinicalRelevance?: string
-  patientExplanation?: string
-  conduct?: string
-  siteRenderType?: SiteRenderType
-  siteQuestion?: string
-  siteExplanation?: string
-  lastReview?: string
-  points?: number
-  order: number
-  fullName?: string
-  subgroupId: string
-  parentItemId?: string
-  subgroup?: ScoreSubgroup
-  levels?: ScoreLevel[]
-  childItems?: ScoreItem[]
-  createdAt: string
-  updatedAt: string
-}
-
-export interface ScoreSubgroup {
-  id: string
-  name: string
-  order: number
-  maxSelect: number
-  groupId: string
-  group?: ScoreGroup
-  items?: ScoreItem[]
-  createdAt: string
-  updatedAt: string
-}
-
-export interface ScoreGroup {
-  id: string
-  name: string
-  order: number
-  subgroups?: ScoreSubgroup[]
-  createdAt: string
-  updatedAt: string
-}
 
 // DTOs for create/update operations
 export interface CreateScoreGroupDTO {
@@ -99,6 +36,11 @@ export interface CreateScoreItemDTO {
   name: string
   unit?: string
   unitConversion?: string
+  labTestCode?: string
+  gender?: 'not_applicable' | 'male' | 'female'
+  ageRangeMin?: number
+  ageRangeMax?: number
+  postMenopause?: boolean
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
@@ -115,6 +57,11 @@ export interface UpdateScoreItemDTO {
   name?: string
   unit?: string
   unitConversion?: string
+  labTestCode?: string
+  gender?: 'not_applicable' | 'male' | 'female'
+  ageRangeMin?: number
+  ageRangeMax?: number
+  postMenopause?: boolean
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
