@@ -163,7 +163,7 @@ export default function NewAppointmentPage() {
       const chosen =
         list.find((p) => p.id === patientId) ??
         (selectedPatient?.id === patientId ? selectedPatient : null);
-      if (chosen) return [chosen, ...base];
+      if (chosen) return [chosen as (typeof base)[number], ...base];
     }
     return base;
   }, [patients, patientSearch, patientId, selectedPatient]);
