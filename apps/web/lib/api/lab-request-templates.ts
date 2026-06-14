@@ -30,7 +30,8 @@ export async function getLabRequestTemplateById(id: string): Promise<LabRequestT
 
 // Get all lab request templates
 export async function getAllLabRequestTemplates(withItems = false): Promise<LabRequestTemplate[]> {
-  const suffix = withItems ? '?withItems=true' : ''
+  // o handler lê QueryBool("withTests") — o nome do param é withTests, não withItems
+  const suffix = withItems ? '?withTests=true' : ''
   return apiClient.get<LabRequestTemplate[]>(`/api/v1/lab-request-templates${suffix}`)
 }
 
