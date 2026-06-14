@@ -43,6 +43,7 @@ interface PageHeaderProps {
   breadcrumbs?: Breadcrumb[]  // still accepted, used to set TopBar title
   title?: string
   description?: string
+  icon?: ReactNode | React.ComponentType<any>  // aceito p/ compat (ícone exibido pelo TopBar)
   // array estruturado (renderizado pelo componente) OU JSX livre (legado)
   actions?: (PageHeaderAction | PageHeaderDropdown)[] | ReactNode
   children?: ReactNode
