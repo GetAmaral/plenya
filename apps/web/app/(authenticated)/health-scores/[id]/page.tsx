@@ -554,7 +554,7 @@ export default function HealthScoreDetailPage() {
     if (!showOnlyEvaluated) return items
 
     return items
-      .map(item => {
+      .map((item): ItemWithChildren | null => {
         // First, recursively filter children
         const filteredChildren = item.children ? filterItemsRecursive(item.children) : []
 

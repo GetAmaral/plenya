@@ -152,7 +152,7 @@ export function ScoreMethodologyAccordion({ snapshot }: ScoreMethodologyAccordio
     if (!showOnlyEvaluated) return items
 
     return items
-      .map(item => {
+      .map((item): ItemWithChildren | null => {
         // First, recursively filter children
         const filteredChildren = item.children ? filterItemsRecursive(item.children) : []
 
@@ -406,7 +406,7 @@ export function ScoreMethodologyAccordion({ snapshot }: ScoreMethodologyAccordio
             .sort((a, b) => a.groupOrder - b.groupOrder)
             .map(g => ({
               ...g,
-              subgroups: Array.from(g.subgroups.values()).sort((a, b) => a.subgroupOrder - b.subgroupOrder)
+              subgroups: Array.from(g.subgroups.values()).sort((a: any, b: any) => a.subgroupOrder - b.subgroupOrder)
             })),
         }
       }).filter(p => p.groups.length > 0)
@@ -479,7 +479,7 @@ export function ScoreMethodologyAccordion({ snapshot }: ScoreMethodologyAccordio
       .sort((a, b) => a.groupOrder - b.groupOrder)
       .map(g => ({
         ...g,
-        subgroups: Array.from(g.subgroups.values()).sort((a, b) => a.subgroupOrder - b.subgroupOrder)
+        subgroups: Array.from(g.subgroups.values()).sort((a: any, b: any) => a.subgroupOrder - b.subgroupOrder)
       }))
   }, [snapshot])
 
