@@ -578,7 +578,7 @@ posts:
 - slug: 12-exames-que-valem-cada-centavo-e-12-que-sao-desperdicio
   block: 2
   order: 13
-  status: approved
+  status: published
   scheduled_at: '2026-06-09 13:29:00-03:00'
   commentary: 'Atendo recorrentemente paciente que chega com pasta grossa de check-up: cinquenta linhas de exames, hemograma,
     glicemia, colesterol total, função renal, urina. Tudo "dentro da referência". Mas sem ApoB. Sem Lp(a). Sem insulina de
@@ -646,10 +646,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/12-exames-que-valem-cada-centavo-e-12-que-sao-desperdicio/figura-1.webp
   image_title: O que um check-up avançado inclui depois dos 40
+  published_at: '2026-06-09T13:30:01-03:00'
+  post_urn: urn:li:share:7470150230374588416
 - slug: o-que-o-checkup-anual-nao-mostra-sobre-o-coracao
   block: 2
   order: 14
-  status: approved
+  status: published
   scheduled_at: '2026-06-10 08:26:00-03:00'
   commentary: 'Metade dos infartos é a primeira manifestação clínica da doença coronariana. Não é descuido do paciente. É
     que o exame de rotina mede a coisa errada.
@@ -693,10 +695,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/o-que-o-checkup-anual-nao-mostra-sobre-o-coracao/figura-1.webp
   image_title: O que o check-up anual não mostra sobre o coração
+  published_at: '2026-06-10T08:30:01-03:00'
+  post_urn: urn:li:share:7470437116771217408
 - slug: hrv-variabilidade-cardiaca-termometro-do-sistema-nervoso
   block: 2
   order: 15
-  status: approved
+  status: published
   scheduled_at: '2026-06-11 08:41:00-03:00'
   commentary: 'Atendo recorrentemente paciente que chega com queixa difícil de nomear. Diz: "treino igual há dois anos, durmo
     as mesmas horas, mas tô morto." O que trouxe não foi exame alterado. Foi uma curva no aplicativo: "Meu HRV caiu pela metade
@@ -754,6 +758,8 @@ posts:
     '
   image_path: apps/site/public/images/blog/hrv-variabilidade-cardiaca-termometro-do-sistema-nervoso/figura-1.webp
   image_title: 'HRV: o termômetro discreto do sistema nervoso'
+  published_at: '2026-06-11T08:45:01-03:00'
+  post_urn: urn:li:share:7470803279887896583
 - slug: apneia-em-quem-nao-ronca-forma-feminina-invisivel
   block: 2
   order: 16
