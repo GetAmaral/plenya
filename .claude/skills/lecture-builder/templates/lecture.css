@@ -1,0 +1,565 @@
+/* ============================================================
+   PLENYA · LECTURE BUILDER — Design System
+   Stack: HTML + CSS + Google Fonts → Playwright headless → PDF/PNG 1920x1080
+   Paleta mista: cerimoniais petrol-deep, conteúdo cream.
+   Tom: aula acadêmica de Nefrologia — Dr. Getúlio Amaral Filho.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Paleta Plenya */
+  --gold:        #B38645;
+  --gold-soft:   #D4A86B;
+  --gold-deep:   #8A6534;
+  --petrol:      #063B4F;
+  --petrol-deep: #041F2A;
+  --petrol-mid:  #0A4A60;
+  --ocean:       #417E8E;
+  --sage:        #92B8B4;
+  --cream:       #EAE7DA;
+  --cream-soft:  #F5F1E8;
+  --white:       #FFFFFF;
+  --ink:         #0A1F26;
+  --ink-soft:    #2A3F45;
+  --muted:       #5A6B70;
+
+  /* Sinalizações clínicas (uso restrito) */
+  --alert:       #8B2E2E;
+  --alert-soft:  #C16B5E;
+  --evidence:    #6B8E5A;
+
+  /* Tipografia — serif para títulos/display, sans para corpo (legibilidade clínica) */
+  --serif:         'Cormorant Garamond', Georgia, serif;
+  --serif-display: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --sans:          'Inter', -apple-system, system-ui, sans-serif;
+
+  /* Régua tipográfica — PISO ABSOLUTO 37px (≈16pt em A4 landscape) para TODO texto.
+     Corpo permanece em 42px; rodapés/legendas/chrome no piso de 37px. */
+  --fs-body-min: 42px;
+  --fs-caps-min: 37px;
+  --fs-foot-min: 37px;
+
+  /* Slide 16:9 Full HD */
+  --slide-w: 1920px;
+  --slide-h: 1080px;
+
+  /* Espaçamento canônico */
+  --pad-side: 110px;
+  --pad-top:  130px;
+  --pad-bot:  100px;
+}
+
+/* ============================================================
+   Reset
+   ============================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #000; }
+body {
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+/* ============================================================
+   Slide container
+   ============================================================ */
+.slide {
+  position: relative;
+  width: var(--slide-w);
+  height: var(--slide-h);
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+  display: flex;
+  font-family: var(--sans);
+}
+.slide:last-child { page-break-after: auto; }
+
+/* Variantes */
+.slide--deep  { background: var(--petrol-deep); color: var(--cream); }
+.slide--cream { background: var(--cream-soft); color: var(--ink); }
+
+/* Conteúdo padrão */
+.slide-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: var(--pad-top) var(--pad-side) var(--pad-bot);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   Chrome — TL brand · TR eyebrow · BR page mark
+   ============================================================ */
+.chrome-brand {
+  position: absolute;
+  top: 46px;
+  left: var(--pad-side);
+  z-index: 5;
+  font-family: var(--sans);
+  font-size: var(--fs-foot-min);
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+.slide--deep  .chrome-brand { color: var(--cream); }
+.slide--cream .chrome-brand { color: var(--ink-soft); }
+
+.chrome-eyebrow {
+  position: absolute;
+  top: 48px;
+  right: var(--pad-side);
+  z-index: 5;
+  font-family: var(--sans);
+  font-size: var(--fs-foot-min);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.slide--deep  .chrome-eyebrow { color: var(--gold-soft); }
+.slide--cream .chrome-eyebrow { color: var(--gold-deep); }
+
+.chrome-page {
+  position: absolute;
+  bottom: 44px;
+  right: var(--pad-side);
+  z-index: 5;
+  font-family: var(--sans);
+  font-size: var(--fs-foot-min);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  opacity: 0.7;
+}
+
+/* Refs footer — bottom-left, multi-line; aparece em TODO slide com claim baseada em literatura */
+.chrome-refs {
+  position: absolute;
+  bottom: 40px;
+  left: var(--pad-side);
+  right: 280px;
+  z-index: 5;
+  font-family: var(--sans);
+  font-size: var(--fs-foot-min);
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+  opacity: 0.7;
+}
+.slide--deep  .chrome-refs { color: var(--cream); }
+.slide--cream .chrome-refs { color: var(--ink-soft); }
+.chrome-refs .ref-tag {
+  font-weight: 600;
+  color: var(--gold-deep);
+  margin-right: 4px;
+}
+.slide--deep .chrome-refs .ref-tag { color: var(--gold-soft); }
+.chrome-refs .ref-sep {
+  opacity: 0.45;
+  margin: 0 8px;
+}
+
+/* Expansão de sigla discreta — usar inline ou abaixo do termo */
+.acronym-def {
+  font-family: var(--sans);
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 400;
+  opacity: 0.7;
+  letter-spacing: 0.01em;
+}
+.slide--deep  .acronym-def { color: var(--gold-soft); }
+.slide--cream .acronym-def { color: var(--gold-deep); }
+.slide--deep  .chrome-page { color: var(--cream); }
+.slide--cream .chrome-page { color: var(--ink-soft); }
+
+/* Cerimoniais omitem chrome via .slide--bare */
+.slide--bare .chrome-brand,
+.slide--bare .chrome-eyebrow,
+.slide--bare .chrome-page { display: none; }
+
+/* ============================================================
+   Tipografia — escala
+   ============================================================ */
+/* ============ TÍTULOS — serif elegante (Fraunces/Cormorant) ============ */
+.t-hook {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 200px;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+.t-display {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 110px;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+}
+.t-h1 {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 72px;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+.t-h2 {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 56px;
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  margin-bottom: 20px;
+}
+.t-h3 {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+}
+.t-subhead {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 1.3;
+}
+.slide--deep  .t-subhead { color: var(--gold-soft); }
+.slide--cream .t-subhead { color: var(--gold-deep); }
+
+/* Eyebrow de seção dentro do slide (não confundir com chrome) */
+.t-section-label {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: var(--fs-caps-min);
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.slide--deep  .t-section-label { color: var(--gold-soft); }
+.slide--cream .t-section-label { color: var(--gold-deep); }
+
+/* ============ CORPO — sans Inter (alta legibilidade, ≥42px) ============ */
+.t-body {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: var(--fs-body-min);
+  line-height: 1.4;
+}
+.t-body-lg {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1.35;
+}
+.t-caption {
+  font-family: var(--sans);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-body-min);
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* Gold accent helpers */
+.gold       { color: var(--gold); }
+.gold-soft  { color: var(--gold-soft); }
+.gold-deep  { color: var(--gold-deep); }
+.sage       { color: var(--sage); }
+.dot        { color: var(--gold); }
+
+/* ============================================================
+   Listas de bullets — sem marcador decorativo
+   ============================================================ */
+.bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.bullets li {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: var(--fs-body-min);
+  line-height: 1.35;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(179, 134, 69, 0.18);
+}
+.bullets li strong { font-weight: 600; }
+.bullets li:last-child { border-bottom: 0; }
+.slide--deep  .bullets li { color: var(--cream); }
+.slide--cream .bullets li { color: var(--ink); }
+
+/* ============================================================
+   Tabelas clínicas
+   ============================================================ */
+.table-clinical {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: var(--fs-body-min);
+  line-height: 1.3;
+}
+.table-clinical th,
+.table-clinical td {
+  padding: 16px 22px;
+  text-align: left;
+  border-bottom: 1px solid rgba(179, 134, 69, 0.25);
+  vertical-align: top;
+}
+.table-clinical thead th {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: var(--fs-caps-min);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding-bottom: 14px;
+  border-bottom: 1.5px solid var(--gold);
+}
+.slide--deep  .table-clinical { color: var(--cream); }
+.slide--deep  .table-clinical thead th { color: var(--gold-soft); }
+.slide--cream .table-clinical { color: var(--ink); }
+.slide--cream .table-clinical thead th { color: var(--gold-deep); }
+
+/* Linhas com ênfase clínica */
+.table-clinical tr.row-emph td {
+  font-weight: 600;
+}
+.table-clinical td.col-key {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   Callouts clínicos
+   ============================================================ */
+.callout {
+  padding: 24px 30px;
+  border-left: 4px solid;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: var(--fs-body-min);
+  line-height: 1.35;
+  margin: 24px 0;
+  border-radius: 2px;
+}
+.callout--concept {
+  background: rgba(179, 134, 69, 0.06);
+  border-color: var(--gold);
+}
+.callout--alert {
+  background: rgba(139, 46, 46, 0.06);
+  border-color: var(--alert);
+}
+.slide--cream .callout--alert { color: var(--alert); }
+.callout--evidence {
+  background: rgba(107, 142, 90, 0.06);
+  border-color: var(--evidence);
+}
+.callout--case {
+  background: rgba(6, 59, 79, 0.05);
+  border-color: var(--petrol);
+  font-style: italic;
+}
+.slide--deep .callout--case {
+  background: rgba(234, 231, 218, 0.05);
+  border-color: var(--gold-soft);
+  color: var(--cream);
+}
+
+.callout-title {
+  display: block;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: var(--fs-caps-min);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: var(--gold-deep);
+}
+.slide--deep .callout-title { color: var(--gold-soft); }
+
+/* ============================================================
+   Citações inline
+   ============================================================ */
+.cite {
+  font-family: var(--sans);
+  font-size: 0.55em;
+  font-weight: 600;
+  color: var(--gold);
+  vertical-align: super;
+  letter-spacing: 0.04em;
+  margin-left: 3px;
+}
+.slide--deep .cite { color: var(--gold-soft); }
+
+/* ============================================================
+   Slide de referências
+   ============================================================ */
+.refs {
+  list-style: none;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: var(--fs-body-min);
+  line-height: 1.3;
+  counter-reset: refnum;
+  column-count: 2;
+  column-gap: 64px;
+}
+.refs li {
+  padding: 10px 0;
+  break-inside: avoid;
+  counter-increment: refnum;
+  text-indent: -36px;
+  padding-left: 36px;
+  margin-bottom: 8px;
+}
+.refs li::before {
+  content: counter(refnum) ". ";
+  color: var(--gold-deep);
+  font-weight: 600;
+}
+.slide--deep .refs li::before { color: var(--gold-soft); }
+.refs .pmid {
+  color: var(--gold-deep);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.slide--deep .refs .pmid { color: var(--gold-soft); }
+
+/* ============================================================
+   Imagem hero
+   ============================================================ */
+.hero-img-fullbleed {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-img-fullbleed img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-img-fullbleed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--petrol-deep) 0%, rgba(4,31,42,0.85) 30%, rgba(4,31,42,0.0) 60%);
+}
+
+.hero-img-right {
+  position: absolute;
+  left: 52%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.hero-img-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-img-right::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: linear-gradient(90deg, var(--cream-soft) 0%, rgba(245,241,232,0.8) 50%, transparent 100%);
+  z-index: 1;
+}
+.slide--deep .hero-img-right::before {
+  background: linear-gradient(90deg, var(--petrol-deep) 0%, rgba(4,31,42,0.85) 50%, transparent 100%);
+}
+
+.hero-img-inset {
+  display: block;
+  width: 100%;
+  max-height: 540px;
+  object-fit: contain;
+  margin: 20px 0;
+}
+
+.img-caption {
+  font-family: var(--sans);
+  font-style: italic;
+  font-size: var(--fs-caps-min);
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.slide--deep .img-caption { color: var(--sage); }
+
+/* ============================================================
+   Grids comuns
+   ============================================================ */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+
+.divider-gold {
+  width: 80px;
+  height: 2px;
+  background: var(--gold);
+  margin: 24px 0;
+}
+
+/* ============================================================
+   Slide cerimonial — capa
+   ============================================================ */
+.cover-title {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 120px;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  color: var(--cream);
+  margin-bottom: 36px;
+  max-width: 1450px;
+}
+.cover-subtitle {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 52px;
+  line-height: 1.3;
+  color: var(--gold-soft);
+  margin-bottom: 80px;
+  max-width: 1200px;
+}
+.cover-byline {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: var(--fs-caps-min);
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: var(--cream);
+  opacity: 0.82;
+}
+
+/* ============================================================
+   Mensagem final — slide blockquote
+   ============================================================ */
+.final-quote {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 76px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+  max-width: 1500px;
+  text-align: left;
+}
+.final-quote .gold { color: var(--gold-soft); }
