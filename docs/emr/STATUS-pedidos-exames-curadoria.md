@@ -5,9 +5,12 @@
 > o que é dev-only são os **DADOS** (painéis/exames/vínculos) + os planos.
 
 ## Próxima tarefa (o que estávamos fazendo)
-**Discutir o PLANO DE SCORE item a item.** O Getúlio achou `plano-score-exames-faltantes.md`
-**raso e superficial** — vamos aprofundar exame por exame (pontos, níveis/cutoffs, pilar AGIR,
-literatura). Compactamos a conversa antes de começar essa discussão. Retomar por aí.
+**PLANO DE SCORE em execução item a item (2026-06-15).** #1–#11 pontuam/ajustados; #12–16 (cluster
+HAS Secundária) fora; **falta revalidar #17–#25** (cortisol salivar, 17-OHP, pregnenolona, estrona,
+anti-dsDNA, CA 19-9, CA 15-3, TTPa, EPO — retomar por **cortisol salivar**). Detalhe em
+`plano-score-exames-faltantes.md` (§Progresso) + refactor de sono em `plano-refactor-score-sono.md`.
+Inclui ajustes além dos "faltantes": **SIBO 63→26**, **refactor objetivo de sono** (IAH/SRI/TST/
+Eficiência), **Rx tórax com 3 achados** (nódulo+ICT+calcif. aórtica), **TI-RADS leve**.
 
 ## O que é esta feature
 Sistema de **templates de pedido de exames** no EMR: 3 painéis macro (Completo/Inicial/Acompanhamento)
