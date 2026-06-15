@@ -14,7 +14,9 @@ SELECT * FROM (VALUES
   (uuid_generate_v7(), 'PLNINSJEJ01', 'Insulina (jejum)',  'Insulina',  '40316360', 'biochemistry', true, 'numeric', 'µUI/mL', 8, 'all', 'Insulina de jejum — sensibilidade insulínica / HOMA-IR.',       0, true, now(), now()),
   (uuid_generate_v7(), 'PLNERITRO01', 'Eritropoietina',    'EPO',       '40305295', 'hematology',   true, 'numeric', 'mUI/mL', NULL, 'all', 'Eritropoietina sérica.',                                       0, true, now(), now()),
   (uuid_generate_v7(), 'PLNUSGTIR01', 'Ultrassonografia de tireoide', 'USG Tireoide', '40901203', 'imaging', true, 'text', NULL, NULL, 'all', 'US de órgãos superficiais (tireoide).',                  0, true, now(), now()),
-  (uuid_generate_v7(), 'PLNRXTORX01', 'Radiografia de tórax PA + perfil', 'RX Tórax PA+P', '40805026', 'imaging', true, 'text', NULL, NULL, 'all', 'RX de tórax, 2 incidências (PA e perfil).',          0, true, now(), now())
+  (uuid_generate_v7(), 'PLNRXTORX01', 'Radiografia de tórax PA + perfil', 'RX Tórax PA+P', '40805026', 'imaging', true, 'text', NULL, NULL, 'all', 'RX de tórax, 2 incidências (PA e perfil).',          0, true, now(), now()),
+  -- Curadoria 2026-06-12: TTPA pareado ao TP/INR (TUSS 40304639, verificado online)
+  (uuid_generate_v7(), 'PLNTTPA0001', 'Tempo de tromboplastina parcial ativada (TTPa)', 'TTPa', '40304639', 'hematology', true, 'numeric', 'segundos', NULL, 'all', 'Via intrínseca da coagulação; pareado ao TP/INR.', 0, true, now(), now())
 ) AS v(id, code, name, short_name, tuss_code, category, is_requestable, result_type, unit, fasting_hours, sex_applicability, description, display_order, is_active, created_at, updated_at)
 WHERE NOT EXISTS (SELECT 1 FROM lab_test_definitions d WHERE d.code = v.code);
 

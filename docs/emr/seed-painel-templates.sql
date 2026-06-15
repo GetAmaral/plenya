@@ -49,7 +49,9 @@ WHERE d.code IN (
 INSERT INTO lab_request_template_tests (lab_request_template_id, lab_test_definition_id)
 SELECT '0c9e7d10-0000-7000-8000-0000000000e1', d.id FROM lab_test_definitions d
 WHERE d.is_active AND d.deleted_at IS NULL AND d.is_requestable AND d.category <> 'genetics'
-  AND d.code NOT IN ('BLASTOS','IST','METAMIELO','MIELO','PDW','PROMIELO','VPM','PLN6885D35A')
+  AND d.code NOT IN ('BLASTOS','IST','METAMIELO','MIELO','PDW','PROMIELO','VPM','PLN6885D35A',
+                     'PLNB384883B',   -- D-dímero: vive só no Painel Risco Vascular (complemento)
+                     'PLNERITRO01')   -- Eritropoietina: vive só no Painel Hematológico (complemento)
 ON CONFLICT DO NOTHING;
 
 -- Remover templates lixo ------------------------------------------------------

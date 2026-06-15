@@ -314,3 +314,26 @@ Arquivos: `apps/api/internal/pdfdoc/exam_request.go` (parser + render), `pdfdoc/
 (`.exjust`), `apps/web/app/(authenticated)/lab-requests/page.tsx` (placeholder + contador + preview).
 Pendência engatilhada: no import/dedup externo, ao remover um exame casado, remover as linhas `#`
 logo abaixo dele junto.
+
+## Curadoria item-a-item do Completo (em curso, 2026-06-12)
+
+Modelo: complementos empilháveis (só exames fora de Inicial/Completo). Completo na ordem 99
+(sempre por último). Decisões aplicadas no DEV (banco direto); seeds de membership a regenerar
+do banco no checkpoint antes de commit/prod.
+
+**Decididos:**
+- D-dímero → **Painel Risco Vascular** (fora do Completo).
+- Eritropoietina → **Painel Hematológico** (fora do Completo).
+- Fibrinogênio → **fica no Completo** (decisão do Dr.).
+- HbA1c, Hemograma → **ficam em todos**.
+- Reticulócitos → **só Completo** (já era).
+- TP/INR → **Completo + Inicial**; **TTPa criado** (TUSS 40304639) e pareado em **Completo + Inicial**.
+- VHS → **Painel Inflamação** (fora do Completo).
+- Ácido fólico: **eritrocitário em todos** (Inicial+Acompanhamento+Completo); **plasmático removido de todos**.
+- 25-OH-Vit D e Ácido úrico: não sinalizados → mantidos (já em Inicial/Acompanhamento/Completo).
+
+**Pendências (decidir depois):**
+- **Ácido metilmalônico** — levantar disponibilidade real nos labs clínicos BR, cobertura por planos
+  e custo médio antes de decidir se fica/sai do Completo.
+
+**Painéis complementares criados:** Risco Vascular (D-dímero), Hematológico (EPO), Inflamação (VHS).
