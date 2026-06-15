@@ -4,6 +4,7 @@ import { useAuthStore } from '@/lib/auth-store'
 import { useRequireAuth } from '@/lib/use-auth'
 import { PageHeader } from '@/components/layout/page-header'
 import { ProfileForm } from '@/components/profile/ProfileForm'
+import { SessionsCard } from '@/components/auth/sessions-card'
 import { User as UserIcon } from 'lucide-react'
 
 export default function ProfilePage() {
@@ -26,8 +27,9 @@ export default function ProfilePage() {
         icon={UserIcon}
       />
 
-      <div className="max-w-3xl">
+      <div className="max-w-3xl space-y-8">
         <ProfileForm user={user as any} onSuccess={handleSuccess} />
+        <SessionsCard />
       </div>
     </div>
   )
