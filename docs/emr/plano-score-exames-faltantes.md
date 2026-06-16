@@ -5,7 +5,8 @@
 **Placar final: 17 exames pontuam · 8 fora.**
 - **Pontuam (17):** #1 ômega-3 · #2 glicemia + #3 insulina (consolidados) · #4 sangue oculto · #5 H.pylori · #6 PSG + #7 HSAT + #8 actigrafia (via achados de sono IAH/SRI/TST/eficiência) · #9 SIBO · #10 USG tireoide (TI-RADS) · #11 Rx tórax (3 achados) · #17 cortisol salivar (ritmo+excesso) · #19 pregnenolona · #20 estrona · #21 anti-dsDNA · #22 CA 19-9 · #23 CA 15-3.
 - **Fora (8):** #12 aldosterona · #13 renina · #14 metanefrinas · #15 catecolaminas · #16 cortisol pós-dexa · #18 17-OHP · #24 TTPa · #25 EPO (diagnósticos dirigidos).
-- Levels (topo→5) + site_legend auditados. Embeddings 17/17 (itens novos). Pendente sob ordem: commit do doc atualizado + seed/prod.
+- Levels (topo→5) + site_legend auditados. Embeddings 17/17 (itens novos).
+- ✅ **DEPLOYADO EM PROD (2026-06-16)** junto com a curadoria de painéis inteira (que também era dev-only). Seed via UPSERT FK-safe (dump→staging→upsert, `session_replication_role=replica`), dry-run em clone do prod restaurado (config ficou byte-equivalente, paciente intacto), aplicado em transação única. PROD agora ≡ DEV: 18 painéis / 437 vínculos / 665 defs / 528 requisitáveis / 1230 score items / 4570 levels / 2674 pilares. teste/teste2 apagados. Embeddings dos 19 novos gerados no prod. Backup prod pré-deploy: `plenya_db_PROD_FULL_20260615-231539.dump` (local + VPS `~/db-backups/`). App redeployada (Coolify `concurrent_builds=1`).
 
 ## ⚠️ Mecânica correta dos levels + checklist por item (aprendido tarde, 2026-06-15)
 **`GetLevelMultiplier` é tabela FIXA pelo nº absoluto do level** (não `level/máx`): 0→0.0 · 1→0.2 · 2→0.4 · 3→0.6 · 4→0.8 · **5→1.0 · 6→1.0**. Convenção: level 0 = pior, **melhor TEM que estar no 5/6**. Binário = level 0 (ruim) e 5 (bom). Itens que criei com topo <5 estavam subpontuando o caso perfeito (bug).

@@ -1,8 +1,11 @@
 # ⭐ STATUS — Curadoria de Pedidos de Exames + Painéis + Score (ÂNCORA DE RETOMADA)
 
-> **LER PRIMEIRO ao retomar.** Atualizado 2026-06-15. Tudo **só no dev** (banco + yml + planos em doc).
-> **Nada commitado, nada em prod.** A mecânica da feature JÁ está em prod (commits antigos, ver abaixo);
-> o que é dev-only são os **DADOS** (painéis/exames/vínculos) + os planos.
+> **LER PRIMEIRO ao retomar.** Atualizado 2026-06-16.
+> ✅ **DEPLOYADO EM PROD (2026-06-16).** Toda a curadoria de painéis (18 painéis, 437 vínculos, 528
+> exames requisitáveis) + a integração de score (25 exames revisados, 17 pontuam) que eram **dev-only**
+> foram subidos pro prod via seed UPSERT (dry-run em clone → transação única → verificado: prod ≡ dev,
+> paciente intacto). teste/teste2 apagados. Backup pré-deploy guardado (local + VPS). App redeployada
+> (Coolify concurrent_builds=1, um app por vez). Commits de doc/yml no master.
 
 ## Próxima tarefa (o que estávamos fazendo)
 **PLANO DE SCORE em execução item a item (2026-06-15).** #1–#11 pontuam/ajustados; #12–16 (cluster
