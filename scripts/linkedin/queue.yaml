@@ -763,7 +763,7 @@ posts:
 - slug: apneia-em-quem-nao-ronca-forma-feminina-invisivel
   block: 2
   order: 16
-  status: approved
+  status: published
   scheduled_at: '2026-06-16 08:52:00-03:00'
   commentary: 'A apneia que a medicina aprendeu a reconhecer é a versão masculina: homem com sobrepeso, ronco alto, pausas
     presenciadas, sonolência diurna. A polissonografia, o IAH (índice de apneia-hipopneia), os questionários de rastreio:
@@ -825,6 +825,8 @@ posts:
     noturna que ninguém leu com a métrica certa.'
   image_path: apps/site/public/images/blog/apneia-em-quem-nao-ronca-forma-feminina-invisivel/figura-1.webp
   image_title: 'Apneia em quem não ronca: a forma feminina invisível'
+  published_at: '2026-06-16T09:00:01-03:00'
+  post_urn: urn:li:share:7472618994441764864
 - slug: pre-diabetes-nao-e-fase-e-janela-de-5-anos
   block: 2
   order: 17
