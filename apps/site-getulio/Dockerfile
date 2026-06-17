@@ -24,29 +24,26 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN pnpm --filter @plenya/site-getulio build
 
 ###
-### runner — minimal production image
+### runner — minimal production image (Next standalone, sem pnpm/node_modules de runtime)
 ###
 FROM node:24-alpine AS runner
-RUN corepack enable && corepack prepare pnpm@10.28.1 --activate
 WORKDIR /repo
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3003
 
-COPY --from=builder /repo/package.json /repo/pnpm-lock.yaml /repo/pnpm-workspace.yaml /repo/turbo.json ./
-COPY --from=builder /repo/apps/site-getulio/package.json ./apps/site-getulio/
-COPY --from=builder /repo/apps/site-getulio/.next ./apps/site-getulio/.next
+# Standalone traz server.js + node_modules tree-shaken (raiz = monorepo via outputFileTracingRoot).
+COPY --from=builder /repo/apps/site-getulio/.next/standalone ./
+# static e public NÃO entram no standalone — copiar pro lado do server.js do app.
+COPY --from=builder /repo/apps/site-getulio/.next/static ./apps/site-getulio/.next/static
 COPY --from=builder /repo/apps/site-getulio/public ./apps/site-getulio/public
-COPY --from=builder /repo/apps/site-getulio/next.config.ts ./apps/site-getulio/
+# Conteúdo MDX: o app é SSG (baked no build), mas copiamos por paridade/segurança — blog.ts lê de
+# process.cwd()/content/blog e o cwd em runtime é /repo/apps/site-getulio (WORKDIR abaixo).
 COPY --from=builder /repo/apps/site-getulio/content ./apps/site-getulio/content
-# Posts mirror — site-getulio lê /apps/site/content/blog/pt em runtime SSR.
-# Sem este COPY o /escritos retorna [] e exibe "Nenhum artigo nesse pilar ainda".
 COPY --from=builder /repo/apps/site/content ./apps/site/content
-
-RUN pnpm install --prod --frozen-lockfile --filter "@plenya/site-getulio..."
 
 EXPOSE 3003
 
 WORKDIR /repo/apps/site-getulio
-CMD ["pnpm", "start"]
+CMD ["node", "server.js"]

@@ -1,9 +1,15 @@
 import type { NextConfig } from 'next';
+import path from 'path';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  // Saída standalone: o build emite um server.js mínimo + node_modules tree-shaken,
+  // rodado por `node server.js` (sem o wrapper `pnpm start`, ~98MB de RAM a menos por app).
+  // outputFileTracingRoot = raiz do monorepo, senão o tracing de deps quebra.
+  output: 'standalone',
+  outputFileTracingRoot: path.join(__dirname, '../../'),
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
