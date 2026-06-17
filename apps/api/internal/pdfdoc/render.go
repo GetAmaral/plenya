@@ -87,6 +87,17 @@ func a4Options() *proto.PagePrintToPDF {
 	}
 }
 
+// RenderHTML converte HTML autossuficiente em PDF vetorial, com paper/margens custom (pôster,
+// A4, etc.), pelo MESMO Chromium serializado que toda a papelaria usa. Ponto de entrada único
+// para quem está fora do pacote (ex.: ScorePDFService) — garante uma fila/browser global, sem
+// dois Chromiums disputando RAM. opts nil cai no A4 padrão.
+func RenderHTML(html string, opts *proto.PagePrintToPDF) ([]byte, error) {
+	if opts == nil {
+		opts = a4Options()
+	}
+	return renderHTMLToPDF(html, opts)
+}
+
 // renderHTMLToPDF converte HTML autossuficiente (fontes/SVGs embutidos via data-URI/inline)
 // em bytes de PDF vetorial usando Chromium headless. Serializado e com timeout duro.
 func renderHTMLToPDF(html string, opts *proto.PagePrintToPDF) (result []byte, err error) {

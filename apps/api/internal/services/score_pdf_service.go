@@ -4,14 +4,12 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
-	"io"
 	"os"
 	"time"
 
-	"github.com/go-rod/rod"
-	"github.com/go-rod/rod/lib/launcher"
 	"github.com/go-rod/rod/lib/proto"
 	"github.com/plenya/api/internal/models"
+	"github.com/plenya/api/internal/pdfdoc"
 )
 
 // ScorePDFService handles PDF generation for scores
@@ -197,65 +195,10 @@ func (s *ScorePDFService) renderPosterHTML(groups []models.ScoreGroup) (string, 
 	return buf.String(), nil
 }
 
-// generatePDFFromHTML converts HTML to PDF using Rod (Headless Chrome).
-// opts define o tamanho de papel/margens (pôster vs A4).
+// generatePDFFromHTML converte HTML em PDF pelo renderizador único e serializado do pacote
+// pdfdoc (mesmo mutex + mesmo Chromium reutilizado que toda a papelaria). Antes esta função
+// tinha a própria cópia do launch-por-request — sob concorrência, dois Chromiums (este + o do
+// pdfdoc) disputavam RAM e penduravam para sempre. opts define o papel (pôster vs A4).
 func (s *ScorePDFService) generatePDFFromHTML(html string, opts *proto.PagePrintToPDF) ([]byte, error) {
-	fmt.Println("[PDF] Launching browser...")
-
-	// Use Chromium from Alpine Linux if available, otherwise auto-detect
-	chromiumPath := "/usr/bin/chromium-browser"
-	if _, err := os.Stat(chromiumPath); os.IsNotExist(err) {
-		// Fallback to auto-detection
-		chromiumPath, _ = launcher.LookPath()
-	}
-	fmt.Printf("[PDF] Browser path: %s\n", chromiumPath)
-
-	// Launch browser with explicit path and headless mode
-	u := launcher.New().
-		Bin(chromiumPath).
-		Headless(true).
-		NoSandbox(true). // Required for Docker/Alpine
-		MustLaunch()
-	fmt.Printf("[PDF] Browser launched at: %s\n", u)
-	browser := rod.New().ControlURL(u).MustConnect()
-	defer browser.MustClose()
-	fmt.Println("[PDF] Browser connected")
-
-	// Create page
-	fmt.Println("[PDF] Creating page...")
-	page := browser.MustPage()
-	defer page.MustClose()
-	fmt.Println("[PDF] Page created")
-
-	// Save HTML to temp file (data URL too large for 1.5MB HTML)
-	tmpFile, err := os.CreateTemp("", "poster-*.html")
-	if err != nil {
-		return nil, fmt.Errorf("failed to create temp file: %v", err)
-	}
-	defer os.Remove(tmpFile.Name())
-
-	if _, err := tmpFile.WriteString(html); err != nil {
-		return nil, fmt.Errorf("failed to write temp file: %v", err)
-	}
-	tmpFile.Close()
-
-	// Navigate to file
-	fileURL := "file://" + tmpFile.Name()
-	fmt.Printf("[PDF] Navigating to: %s\n", fileURL)
-	page.MustNavigate(fileURL).MustWaitLoad()
-	fmt.Println("[PDF] Page loaded")
-
-	// Generate PDF stream com as opções de papel fornecidas (pôster ou A4)
-	pdfStream, err := page.PDF(opts)
-	if err != nil {
-		return nil, fmt.Errorf("failed to generate PDF: %v", err)
-	}
-
-	// Read stream to bytes
-	pdfBytes, err := io.ReadAll(pdfStream)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read PDF stream: %v", err)
-	}
-
-	return pdfBytes, nil
+	return pdfdoc.RenderHTML(html, opts)
 }
