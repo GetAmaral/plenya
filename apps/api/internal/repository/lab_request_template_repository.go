@@ -48,7 +48,7 @@ func (r *LabRequestTemplateRepository) GetAllLabRequestTemplates() ([]models.Lab
 	var templates []models.LabRequestTemplate
 	err := r.db.
 		Where("is_active = ?", true).
-		Order("name ASC").
+		Order("display_order ASC, name ASC").
 		Find(&templates).Error
 	return templates, err
 }
@@ -62,7 +62,7 @@ func (r *LabRequestTemplateRepository) GetAllLabRequestTemplatesWithTests() ([]m
 			return db.Where("is_active = ? AND is_requestable = ?", true, true).
 				Order("name ASC")
 		}).
-		Order("name ASC").
+		Order("display_order ASC, name ASC").
 		Find(&templates).Error
 	return templates, err
 }

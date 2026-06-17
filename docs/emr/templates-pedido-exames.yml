@@ -1,10 +1,10 @@
 # Templates de Pedido de Exames — snapshot do banco DEV (por garantia)
-# Regenerado em 2026-06-14 a partir do banco plenya_db (dev), durante a curadoria item-a-item.
-# Fonte da verdade é o banco; este arquivo é cópia de segurança legível.
-# 18 painéis (3 macro + 15 complementos empilháveis).
-# Seção 'justificativas' = campo request_justification que carrega junto ao selecionar o exame.
+# Regenerado em 2026-06-17 a partir do banco plenya_db (dev), apos renomear paineis (sem 'Painel') e reordenar.
+# Fonte da verdade e o banco; este arquivo e copia de seguranca legivel.
+# 18 paineis (3 macro: Completo/Inicial/Acompanhamento + 15 complementos, em ordem alfabetica).
+# 'sexo' = sex_applicability; 'categoria' distingue laboratorio de imagem (render: imagem 1/pagina).
 templates:
-  - nome: 'Painel Plenya Completo'
+  - nome: 'Completo'
     ordem: 1
     descricao: 'Avaliação ampla — todo o laboratório + imagem.'
     total_itens: 131
@@ -434,11 +434,6 @@ templates:
         categoria: biochemistry
         tuss: '40302750'
         sexo: all
-      - codigo: PLN771B34C5
-        nome: 'Sangue oculto nas fezes (imunoquímico)'
-        categoria: hematology
-        tuss: '40303250'
-        sexo: all
       - codigo: PLNPSGNOI01
         nome: 'Polissonografia de noite inteira (PSG)'
         categoria: functional
@@ -498,6 +493,11 @@ templates:
         nome: 'Rotina de urina'
         categoria: biochemistry
         tuss: '40311210'
+        sexo: all
+      - codigo: PLN771B34C5
+        nome: 'Sangue oculto nas fezes (imunoquímico)'
+        categoria: hematology
+        tuss: '40303250'
         sexo: all
       - codigo: PLNFD087E3B
         nome: 'Selênio'
@@ -664,7 +664,7 @@ templates:
         categoria: biochemistry
         tuss: '40313590'
         sexo: all
-  - nome: 'Painel Inicial'
+  - nome: 'Inicial'
     ordem: 2
     descricao: 'Baseline de 1ª consulta (longevidade/performance).'
     total_itens: 97
@@ -1154,7 +1154,7 @@ templates:
         categoria: biochemistry
         tuss: '40313590'
         sexo: all
-  - nome: 'Painel Acompanhamento'
+  - nome: 'Acompanhamento'
     ordem: 3
     descricao: 'Rotina enxuta de acompanhamento.'
     total_itens: 66
@@ -1489,303 +1489,43 @@ templates:
         categoria: biochemistry
         tuss: '40313590'
         sexo: all
-  - nome: 'Painel Trombose'
+  - nome: 'Autoimune'
     ordem: 4
-    descricao: 'Avaliação de trombose e coagulação (D-dímero, TP/INR, TTPa).'
-    total_itens: 3
+    descricao: 'Painel temático autoimune (pode redundar com o Completo).'
+    total_itens: 6
     itens:
-      - codigo: PLNB384883B
-        nome: 'D-dímero'
-        categoria: hematology
-        tuss: '40304892'
+      - codigo: PLNANTIDNA1
+        nome: 'Anti-DNA nativo (anti-dsDNA)'
+        categoria: immunology
+        tuss: '40306062'
         sexo: all
-      - codigo: PLN5F1CA34C
-        nome: 'Tempo de Protrombina (INR)'
-        categoria: hematology
-        tuss: '40305570'
+      - codigo: PLNB9F4156F
+        nome: 'Anti-LA (SSB)'
+        categoria: immunology
+        tuss: '40306780'
         sexo: all
-      - codigo: PLNTTPA0001
-        nome: 'Tempo de tromboplastina parcial ativada (TTPa)'
-        categoria: hematology
-        tuss: '40304639'
+      - codigo: PLN2312AFA8
+        nome: 'Anti-RO (SSA)'
+        categoria: immunology
+        tuss: '40306810'
         sexo: all
-  - nome: 'Painel Hematológico'
+      - codigo: PLN7100CDFD
+        nome: 'Complemento C3'
+        categoria: immunology
+        tuss: '40306704'
+        sexo: all
+      - codigo: PLN432B90E5
+        nome: 'Complemento C4'
+        categoria: immunology
+        tuss: '40306712'
+        sexo: all
+      - codigo: PLN9F7DA1A9
+        nome: 'FAN'
+        categoria: immunology
+        tuss: '40306941'
+        sexo: all
+  - nome: 'Gastrointestinal'
     ordem: 5
-    descricao: 'Complemento hematológico dirigido — empilha sobre o Inicial ou o Completo.'
-    total_itens: 13
-    itens:
-      - codigo: PLNC2D0EC61
-        nome: 'Eletroforese de proteínas'
-        categoria: biochemistry
-        tuss: '40301761'
-        sexo: all
-      - codigo: PLNERITRO01
-        nome: 'Eritropoietina'
-        categoria: hematology
-        tuss: '40305295'
-        sexo: all
-      - codigo: PLNCEFB97FD
-        nome: 'Ferritina'
-        categoria: biochemistry
-        tuss: '40316270'
-        sexo: all
-      - codigo: PLNF44D1468
-        nome: 'Ferro'
-        categoria: biochemistry
-        tuss: '40301842'
-        sexo: all
-      - codigo: PLNE6DE91C8
-        nome: 'Fibrinogênio'
-        categoria: hematology
-        tuss: '40305260'
-        sexo: all
-      - codigo: PLNDB36E69C
-        nome: 'Hemograma completo'
-        categoria: hematology
-        tuss: '40305627'
-        sexo: all
-      - codigo: PLNF04237AD
-        nome: 'Imunoglobulina A (IgA)'
-        categoria: immunology
-        tuss: '40307166'
-        sexo: all
-      - codigo: PLN3E40984E
-        nome: 'Imunoglobulina E (IgE)'
-        categoria: immunology
-        tuss: '40307190'
-        sexo: all
-      - codigo: PLN1F81B8CF
-        nome: 'Imunoglobulina G (IgG)'
-        categoria: immunology
-        tuss: '40307174'
-        sexo: all
-      - codigo: PLN8DBF8602
-        nome: 'Imunoglobulina M (IgM)'
-        categoria: immunology
-        tuss: '40307182'
-        sexo: all
-      - codigo: PLN66B17E88
-        nome: 'Reticulócitos'
-        categoria: hematology
-        tuss: '40304558'
-        sexo: all
-      - codigo: PLN5F1CA34C
-        nome: 'Tempo de Protrombina (INR)'
-        categoria: hematology
-        tuss: '40305570'
-        sexo: all
-      - codigo: PLNTTPA0001
-        nome: 'Tempo de tromboplastina parcial ativada (TTPa)'
-        categoria: hematology
-        tuss: '40304639'
-        sexo: all
-  - nome: 'Painel Inflamação'
-    ordem: 6
-    descricao: 'Complemento inflamatório dirigido — empilha sobre o Inicial ou o Completo.'
-    total_itens: 5
-    itens:
-      - codigo: PLNCEFB97FD
-        nome: 'Ferritina'
-        categoria: biochemistry
-        tuss: '40316270'
-        sexo: all
-      - codigo: PLNE6DE91C8
-        nome: 'Fibrinogênio'
-        categoria: hematology
-        tuss: '40305260'
-        sexo: all
-      - codigo: PLN4CB5245D
-        nome: 'Interleucina-6 (IL-6)'
-        categoria: immunology
-        tuss: '40308766'
-        sexo: all
-      - codigo: PLNBB0DDBD4
-        nome: 'PCR ultrassensível'
-        categoria: immunology
-        tuss: '40308391'
-        sexo: all
-      - codigo: PLN7472EF93
-        nome: 'VHS (ESR)'
-        categoria: hematology
-        tuss: '40305120'
-        sexo: all
-  - nome: 'Painel Oncologia'
-    ordem: 7
-    descricao: 'Complemento oncológico dirigido — empilha sobre o Inicial ou o Completo.'
-    total_itens: 11
-    itens:
-      - codigo: PLN930A7A2C
-        nome: 'Alfafetoproteína'
-        categoria: biochemistry
-        tuss: '40316068'
-        sexo: all
-      - codigo: PLNFDA4FECB
-        nome: 'CA-125'
-        categoria: biochemistry
-        tuss: '40316025'
-        sexo: female
-      - codigo: PLNCA15301
-        nome: 'CA 15-3'
-        categoria: biochemistry
-        tuss: '40316378'
-        sexo: all
-      - codigo: PLNCA19901
-        nome: 'CA 19-9'
-        categoria: biochemistry
-        tuss: '40316378'
-        sexo: all
-      - codigo: PLN0D470AE3
-        nome: 'CEA'
-        categoria: biochemistry
-        tuss: '40316041'
-        sexo: all
-      - codigo: PLN56898402
-        nome: 'Mamografia digital bilateral'
-        categoria: imaging
-        tuss: '40808041'
-        sexo: female
-      - codigo: PLNE9B271B9
-        nome: 'PSA Livre'
-        categoria: biochemistry
-        tuss: '40316130'
-        sexo: male
-      - codigo: PLN1BFE6CA3
-        nome: 'PSA Total'
-        categoria: biochemistry
-        tuss: '40316149'
-        sexo: male
-      - codigo: PLNC3A4FA11
-        nome: 'USG mamas'
-        categoria: imaging
-        tuss: '40901114'
-        sexo: female
-      - codigo: PLN1B6B4299
-        nome: 'USG próstata (via abdominal)'
-        categoria: imaging
-        tuss: '40901750'
-        sexo: male
-      - codigo: PLNEA1BE0BF
-        nome: 'USG transvaginal (útero, ovário, anexos e vagina)'
-        categoria: imaging
-        tuss: '40901300'
-        sexo: female
-  - nome: 'Painel Pesquisa'
-    ordem: 8
-    descricao: 'Marcadores de pesquisa/uso seletivo — fora da rotina, empilha sob demanda.'
-    total_itens: 4
-    itens:
-      - codigo: PLNF66C0E48
-        nome: 'Adiponectina'
-        categoria: biochemistry
-        tuss: '40321010'
-        sexo: all
-      - codigo: PLN19973FB2
-        nome: 'Coenzima Q10'
-        categoria: biochemistry
-        tuss: '40321126'
-        sexo: all
-      - codigo: PLN0A589AB3
-        nome: 'Leptina'
-        categoria: biochemistry
-        tuss: '40305422'
-        sexo: all
-      - codigo: PLN44FC0853
-        nome: 'Piridoxal-5-fosfato (PLP) por HPLC em sangue total'
-        categoria: biochemistry
-        tuss: ''
-        sexo: all
-  - nome: 'Painel Risco Cardiovascular'
-    ordem: 9
-    descricao: 'Painel temático cardiovascular (pode redundar com o Completo).'
-    total_itens: 17
-    itens:
-      - codigo: PLNAE11F456
-        nome: 'Angiotomografia coronariana'
-        categoria: imaging
-        tuss: '41001230'
-        sexo: all
-      - codigo: PLNA8451657
-        nome: 'Apolipoproteína A1'
-        categoria: biochemistry
-        tuss: '40301354'
-        sexo: all
-      - codigo: PLN543993C6
-        nome: 'Apolipoproteína B'
-        categoria: biochemistry
-        tuss: '40301362'
-        sexo: all
-      - codigo: PLNBDE58BE1
-        nome: 'Doppler colorido de aorta e artérias renais'
-        categoria: imaging
-        tuss: '40901394'
-        sexo: all
-      - codigo: PLNCF217E9B
-        nome: 'Doppler colorido de vasos cervicais arteriais bilateral (carótidas e vertebrais)'
-        categoria: imaging
-        tuss: '40901360'
-        sexo: all
-      - codigo: PLN063AD529
-        nome: 'Ecodopplercardiograma transtorácico'
-        categoria: imaging
-        tuss: '40901106'
-        sexo: all
-      - codigo: PLN8E9D9238
-        nome: 'Eletrocardiograma (ECG 12 derivações)'
-        categoria: imaging
-        tuss: '40101010'
-        sexo: all
-      - codigo: PLN76D37EDC
-        nome: 'Fundoscopia sob midríase (binocular)'
-        categoria: imaging
-        tuss: '41301439'
-        sexo: all
-      - codigo: PLNC01E9624
-        nome: 'Homocisteína'
-        categoria: biochemistry
-        tuss: '40302113'
-        sexo: all
-      - codigo: PLNOMEGA301
-        nome: 'Índice de ômega-3 (EPA+DHA em eritrócitos)'
-        categoria: biochemistry
-        tuss: ''
-        sexo: all
-      - codigo: PLNITBABI01
-        nome: 'Índice tornozelo-braquial (ITB)'
-        categoria: imaging
-        tuss: ''
-        sexo: all
-      - codigo: PLNDC7B5612
-        nome: 'LDL oxidada'
-        categoria: biochemistry
-        tuss: ''
-        sexo: all
-      - codigo: PLNA31F0501
-        nome: 'Lipoproteína A'
-        categoria: biochemistry
-        tuss: '40302210'
-        sexo: all
-      - codigo: PLN4982A6C2
-        nome: 'NT-proBNP'
-        categoria: biochemistry
-        tuss: '40302776'
-        sexo: all
-      - codigo: PLNPSGNOI01
-        nome: 'Polissonografia de noite inteira (PSG)'
-        categoria: functional
-        tuss: '40103528'
-        sexo: all
-      - codigo: PLN1CF5711F
-        nome: 'TC coração para escore de cálcio coronariano'
-        categoria: imaging
-        tuss: '41001087'
-        sexo: all
-      - codigo: PLNE5B39E2C
-        nome: 'Troponina I Ultrassensível'
-        categoria: biochemistry
-        tuss: '40302571'
-        sexo: all
-  - nome: 'Painel Gastrointestinal'
-    ordem: 10
     descricao: 'Painel temático gastrointestinal (pode redundar com o Completo).'
     total_itens: 11
     itens:
@@ -1844,273 +1584,8 @@ templates:
         categoria: imaging
         tuss: ''
         sexo: all
-  - nome: 'Painel Autoimune'
-    ordem: 11
-    descricao: 'Painel temático autoimune (pode redundar com o Completo).'
-    total_itens: 6
-    itens:
-      - codigo: PLNANTIDNA1
-        nome: 'Anti-DNA nativo (anti-dsDNA)'
-        categoria: immunology
-        tuss: '40306062'
-        sexo: all
-      - codigo: PLNB9F4156F
-        nome: 'Anti-LA (SSB)'
-        categoria: immunology
-        tuss: '40306780'
-        sexo: all
-      - codigo: PLN2312AFA8
-        nome: 'Anti-RO (SSA)'
-        categoria: immunology
-        tuss: '40306810'
-        sexo: all
-      - codigo: PLN7100CDFD
-        nome: 'Complemento C3'
-        categoria: immunology
-        tuss: '40306704'
-        sexo: all
-      - codigo: PLN432B90E5
-        nome: 'Complemento C4'
-        categoria: immunology
-        tuss: '40306712'
-        sexo: all
-      - codigo: PLN9F7DA1A9
-        nome: 'FAN'
-        categoria: immunology
-        tuss: '40306941'
-        sexo: all
-  - nome: 'Painel Tireoide'
-    ordem: 12
-    descricao: 'Painel temático de tireoide (pode redundar com o Completo).'
-    total_itens: 8
-    itens:
-      - codigo: PLN2589845E
-        nome: 'Anti-Tireoglobulina'
-        categoria: immunology
-        tuss: '40307034'
-        sexo: all
-      - codigo: PLNF479B8FF
-        nome: 'Anti-TPO'
-        categoria: immunology
-        tuss: '40306933'
-        sexo: all
-      - codigo: PLN26FF1748
-        nome: 'T3 Livre'
-        categoria: hormones
-        tuss: '40316467'
-        sexo: all
-      - codigo: PLN1A1C2F34
-        nome: 'T3 Reverso'
-        categoria: hormones
-        tuss: '40316483'
-        sexo: all
-      - codigo: PLN4BF6D992
-        nome: 'T4 Livre'
-        categoria: hormones
-        tuss: '40316491'
-        sexo: all
-      - codigo: PLN4A89E1DA
-        nome: 'TRAb (Anticorpos Anti-Receptor de TSH)'
-        categoria: hormones
-        tuss: '40323170'
-        sexo: all
-      - codigo: PLND2C05835
-        nome: 'TSH'
-        categoria: hormones
-        tuss: '40316521'
-        sexo: all
-      - codigo: PLNUSGTIR01
-        nome: 'Ultrassonografia de tireoide'
-        categoria: imaging
-        tuss: '40901203'
-        sexo: all
-  - nome: 'Painel Metais Pesados'
-    ordem: 13
-    descricao: 'Dosagem dirigida de metais pesados.'
-    total_itens: 8
-    itens:
-      - codigo: PLN3E15BBBF
-        nome: 'Alumínio'
-        categoria: biochemistry
-        tuss: '40301273'
-        sexo: all
-      - codigo: PLN55B7FE20
-        nome: 'Arsênio fracionado urina (inorgânico + metabólitos)'
-        categoria: functional
-        tuss: '40313190'
-        sexo: all
-      - codigo: PLN63E0685E
-        nome: 'Arsênio total urina'
-        categoria: biochemistry
-        tuss: '40313190'
-        sexo: all
-      - codigo: PLNBACE0E11
-        nome: 'Cádmio urina 24h'
-        categoria: urine
-        tuss: '40313190'
-        sexo: all
-      - codigo: PLN86BB3CA0
-        nome: 'Chumbo'
-        categoria: biochemistry
-        tuss: '40313107'
-        sexo: all
-      - codigo: PLN32A714E9
-        nome: 'Cromo'
-        categoria: biochemistry
-        tuss: '40313190'
-        sexo: all
-      - codigo: PLNA9ED9AB4
-        nome: 'Manganês'
-        categoria: biochemistry
-        tuss: '40313190'
-        sexo: all
-      - codigo: PLN0776AD9A
-        nome: 'Mercúrio'
-        categoria: biochemistry
-        tuss: '40313190'
-        sexo: all
-  - nome: 'Painel Hepático'
-    ordem: 14
-    descricao: 'Painel temático hepático (pode redundar com o Completo).'
-    total_itens: 6
-    itens:
-      - codigo: PLN6885D35A
-        nome: 'Albumina'
-        categoria: biochemistry
-        tuss: '40301222'
-        sexo: all
-      - codigo: PLND3A35A5E
-        nome: 'Bilirrubinas totais e frações'
-        categoria: biochemistry
-        tuss: '40301397'
-        sexo: all
-      - codigo: PLNBE9B2E32
-        nome: 'Fosfatase alcalina'
-        categoria: biochemistry
-        tuss: '40301885'
-        sexo: all
-      - codigo: PLN50BB057B
-        nome: 'Gama GT'
-        categoria: biochemistry
-        tuss: '40301990'
-        sexo: all
-      - codigo: PLNB54EDF5C
-        nome: 'Transaminase oxalacética (AST)'
-        categoria: biochemistry
-        tuss: '40302504'
-        sexo: all
-      - codigo: PLN2F53AA29
-        nome: 'Transaminase pirúvica (ALT)'
-        categoria: biochemistry
-        tuss: '40302512'
-        sexo: all
-  - nome: 'Painel Hormônios Esteroides'
-    ordem: 15
-    descricao: 'Complemento de esteroides — empilha sobre o Inicial ou o Completo.'
-    total_itens: 13
-    itens:
-      - codigo: PLN17OHP001
-        nome: '17-OH-progesterona (17-alfa-hidroxiprogesterona)'
-        categoria: hormones
-        tuss: '40316017'
-        sexo: all
-      - codigo: PLNCORTSAL1
-        nome: 'Cortisol salivar (ritmo, 2 dosagens)'
-        categoria: hormones
-        tuss: '40317374'
-        sexo: all
-      - codigo: PLN82DBE091
-        nome: 'DHEA-S'
-        categoria: hormones
-        tuss: '40316351'
-        sexo: all
-      - codigo: PLN00994110
-        nome: 'Dihidrotestosterona'
-        categoria: hormones
-        tuss: '40316220'
-        sexo: all
-      - codigo: PLNFF2F4B44
-        nome: 'Estradiol'
-        categoria: hormones
-        tuss: '40316246'
-        sexo: all
-      - codigo: ESTRONA
-        nome: 'Estrona'
-        categoria: hormones
-        tuss: '40316262'
-        sexo: all
-      - codigo: PLN93895A61
-        nome: 'FSH'
-        categoria: hormones
-        tuss: '40316289'
-        sexo: all
-      - codigo: PLN7FD1B365
-        nome: 'LH'
-        categoria: hormones
-        tuss: '40316335'
-        sexo: all
-      - codigo: PLNPREGNEN1
-        nome: 'Pregnenolona'
-        categoria: hormones
-        tuss: '40317056'
-        sexo: all
-      - codigo: PLN46A05533
-        nome: 'Progesterona'
-        categoria: hormones
-        tuss: '40316408'
-        sexo: female
-      - codigo: PLN64222EAD
-        nome: 'SHBG'
-        categoria: hormones
-        tuss: '40316300'
-        sexo: all
-      - codigo: PLN20DC8CDB
-        nome: 'Testosterona Livre'
-        categoria: hormones
-        tuss: '40316505'
-        sexo: all
-      - codigo: PLNDE1A5575
-        nome: 'Testosterona Total'
-        categoria: hormones
-        tuss: '40316513'
-        sexo: all
-  - nome: 'Painel Sorologias Virais'
-    ordem: 16
-    descricao: 'Complemento de sorologias virais — empilha sobre o Inicial ou o Completo.'
-    total_itens: 6
-    itens:
-      - codigo: PLN8D242E53
-        nome: 'Hepatite B - Anti-Hbc'
-        categoria: immunology
-        tuss: '40307565'
-        sexo: all
-      - codigo: PLN4FD85B23
-        nome: 'Hepatite B - Anti-Hbs'
-        categoria: immunology
-        tuss: '40307581'
-        sexo: all
-      - codigo: PLND20F95C1
-        nome: 'Hepatite B - HbsAg'
-        categoria: microbiology
-        tuss: '40307603'
-        sexo: all
-      - codigo: PLN7C0E7F9B
-        nome: 'Hepatite C - Anti-HCV'
-        categoria: immunology
-        tuss: '40307620'
-        sexo: all
-      - codigo: PLND9685FCA
-        nome: 'HIV 1+2'
-        categoria: microbiology
-        tuss: '40307735'
-        sexo: all
-      - codigo: PLN8BFAA417
-        nome: 'VDRL'
-        categoria: microbiology
-        tuss: '40310345'
-        sexo: all
-  - nome: 'Painel HAS Secundária'
-    ordem: 17
+  - nome: 'HAS Secundária'
+    ordem: 6
     descricao: 'Rastreio de causas secundárias de hipertensão arterial (hiperaldosteronismo, feocromocitoma, causas endócrinas/renais, apneia do sono).'
     total_itens: 23
     itens:
@@ -2229,8 +1704,433 @@ templates:
         categoria: biochemistry
         tuss: '40302580'
         sexo: all
-  - nome: 'Painel Sono'
-    ordem: 18
+  - nome: 'Hematológico'
+    ordem: 7
+    descricao: 'Complemento hematológico dirigido — empilha sobre o Inicial ou o Completo.'
+    total_itens: 13
+    itens:
+      - codigo: PLNC2D0EC61
+        nome: 'Eletroforese de proteínas'
+        categoria: biochemistry
+        tuss: '40301761'
+        sexo: all
+      - codigo: PLNERITRO01
+        nome: 'Eritropoietina'
+        categoria: hematology
+        tuss: '40305295'
+        sexo: all
+      - codigo: PLNCEFB97FD
+        nome: 'Ferritina'
+        categoria: biochemistry
+        tuss: '40316270'
+        sexo: all
+      - codigo: PLNF44D1468
+        nome: 'Ferro'
+        categoria: biochemistry
+        tuss: '40301842'
+        sexo: all
+      - codigo: PLNE6DE91C8
+        nome: 'Fibrinogênio'
+        categoria: hematology
+        tuss: '40305260'
+        sexo: all
+      - codigo: PLNDB36E69C
+        nome: 'Hemograma completo'
+        categoria: hematology
+        tuss: '40305627'
+        sexo: all
+      - codigo: PLNF04237AD
+        nome: 'Imunoglobulina A (IgA)'
+        categoria: immunology
+        tuss: '40307166'
+        sexo: all
+      - codigo: PLN3E40984E
+        nome: 'Imunoglobulina E (IgE)'
+        categoria: immunology
+        tuss: '40307190'
+        sexo: all
+      - codigo: PLN1F81B8CF
+        nome: 'Imunoglobulina G (IgG)'
+        categoria: immunology
+        tuss: '40307174'
+        sexo: all
+      - codigo: PLN8DBF8602
+        nome: 'Imunoglobulina M (IgM)'
+        categoria: immunology
+        tuss: '40307182'
+        sexo: all
+      - codigo: PLN66B17E88
+        nome: 'Reticulócitos'
+        categoria: hematology
+        tuss: '40304558'
+        sexo: all
+      - codigo: PLN5F1CA34C
+        nome: 'Tempo de Protrombina (INR)'
+        categoria: hematology
+        tuss: '40305570'
+        sexo: all
+      - codigo: PLNTTPA0001
+        nome: 'Tempo de tromboplastina parcial ativada (TTPa)'
+        categoria: hematology
+        tuss: '40304639'
+        sexo: all
+  - nome: 'Hepático'
+    ordem: 8
+    descricao: 'Painel temático hepático (pode redundar com o Completo).'
+    total_itens: 6
+    itens:
+      - codigo: PLN6885D35A
+        nome: 'Albumina'
+        categoria: biochemistry
+        tuss: '40301222'
+        sexo: all
+      - codigo: PLND3A35A5E
+        nome: 'Bilirrubinas totais e frações'
+        categoria: biochemistry
+        tuss: '40301397'
+        sexo: all
+      - codigo: PLNBE9B2E32
+        nome: 'Fosfatase alcalina'
+        categoria: biochemistry
+        tuss: '40301885'
+        sexo: all
+      - codigo: PLN50BB057B
+        nome: 'Gama GT'
+        categoria: biochemistry
+        tuss: '40301990'
+        sexo: all
+      - codigo: PLNB54EDF5C
+        nome: 'Transaminase oxalacética (AST)'
+        categoria: biochemistry
+        tuss: '40302504'
+        sexo: all
+      - codigo: PLN2F53AA29
+        nome: 'Transaminase pirúvica (ALT)'
+        categoria: biochemistry
+        tuss: '40302512'
+        sexo: all
+  - nome: 'Hormônios Esteroides'
+    ordem: 9
+    descricao: 'Complemento de esteroides — empilha sobre o Inicial ou o Completo.'
+    total_itens: 13
+    itens:
+      - codigo: PLN17OHP001
+        nome: '17-OH-progesterona (17-alfa-hidroxiprogesterona)'
+        categoria: hormones
+        tuss: '40316017'
+        sexo: all
+      - codigo: PLNCORTSAL1
+        nome: 'Cortisol salivar (ritmo, 2 dosagens)'
+        categoria: hormones
+        tuss: '40317374'
+        sexo: all
+      - codigo: PLN82DBE091
+        nome: 'DHEA-S'
+        categoria: hormones
+        tuss: '40316351'
+        sexo: all
+      - codigo: PLN00994110
+        nome: 'Dihidrotestosterona'
+        categoria: hormones
+        tuss: '40316220'
+        sexo: all
+      - codigo: PLNFF2F4B44
+        nome: 'Estradiol'
+        categoria: hormones
+        tuss: '40316246'
+        sexo: all
+      - codigo: ESTRONA
+        nome: 'Estrona'
+        categoria: hormones
+        tuss: '40316262'
+        sexo: all
+      - codigo: PLN93895A61
+        nome: 'FSH'
+        categoria: hormones
+        tuss: '40316289'
+        sexo: all
+      - codigo: PLN7FD1B365
+        nome: 'LH'
+        categoria: hormones
+        tuss: '40316335'
+        sexo: all
+      - codigo: PLNPREGNEN1
+        nome: 'Pregnenolona'
+        categoria: hormones
+        tuss: '40317056'
+        sexo: all
+      - codigo: PLN46A05533
+        nome: 'Progesterona'
+        categoria: hormones
+        tuss: '40316408'
+        sexo: female
+      - codigo: PLN64222EAD
+        nome: 'SHBG'
+        categoria: hormones
+        tuss: '40316300'
+        sexo: all
+      - codigo: PLN20DC8CDB
+        nome: 'Testosterona Livre'
+        categoria: hormones
+        tuss: '40316505'
+        sexo: all
+      - codigo: PLNDE1A5575
+        nome: 'Testosterona Total'
+        categoria: hormones
+        tuss: '40316513'
+        sexo: all
+  - nome: 'Inflamação'
+    ordem: 10
+    descricao: 'Complemento inflamatório dirigido — empilha sobre o Inicial ou o Completo.'
+    total_itens: 5
+    itens:
+      - codigo: PLNCEFB97FD
+        nome: 'Ferritina'
+        categoria: biochemistry
+        tuss: '40316270'
+        sexo: all
+      - codigo: PLNE6DE91C8
+        nome: 'Fibrinogênio'
+        categoria: hematology
+        tuss: '40305260'
+        sexo: all
+      - codigo: PLN4CB5245D
+        nome: 'Interleucina-6 (IL-6)'
+        categoria: immunology
+        tuss: '40308766'
+        sexo: all
+      - codigo: PLNBB0DDBD4
+        nome: 'PCR ultrassensível'
+        categoria: immunology
+        tuss: '40308391'
+        sexo: all
+      - codigo: PLN7472EF93
+        nome: 'VHS (ESR)'
+        categoria: hematology
+        tuss: '40305120'
+        sexo: all
+  - nome: 'Metais Pesados'
+    ordem: 11
+    descricao: 'Dosagem dirigida de metais pesados.'
+    total_itens: 8
+    itens:
+      - codigo: PLN3E15BBBF
+        nome: 'Alumínio'
+        categoria: biochemistry
+        tuss: '40301273'
+        sexo: all
+      - codigo: PLN55B7FE20
+        nome: 'Arsênio fracionado urina (inorgânico + metabólitos)'
+        categoria: functional
+        tuss: '40313190'
+        sexo: all
+      - codigo: PLN63E0685E
+        nome: 'Arsênio total urina'
+        categoria: biochemistry
+        tuss: '40313190'
+        sexo: all
+      - codigo: PLNBACE0E11
+        nome: 'Cádmio urina 24h'
+        categoria: urine
+        tuss: '40313190'
+        sexo: all
+      - codigo: PLN86BB3CA0
+        nome: 'Chumbo'
+        categoria: biochemistry
+        tuss: '40313107'
+        sexo: all
+      - codigo: PLN32A714E9
+        nome: 'Cromo'
+        categoria: biochemistry
+        tuss: '40313190'
+        sexo: all
+      - codigo: PLNA9ED9AB4
+        nome: 'Manganês'
+        categoria: biochemistry
+        tuss: '40313190'
+        sexo: all
+      - codigo: PLN0776AD9A
+        nome: 'Mercúrio'
+        categoria: biochemistry
+        tuss: '40313190'
+        sexo: all
+  - nome: 'Oncologia'
+    ordem: 12
+    descricao: 'Complemento oncológico dirigido — empilha sobre o Inicial ou o Completo.'
+    total_itens: 11
+    itens:
+      - codigo: PLN930A7A2C
+        nome: 'Alfafetoproteína'
+        categoria: biochemistry
+        tuss: '40316068'
+        sexo: all
+      - codigo: PLNFDA4FECB
+        nome: 'CA-125'
+        categoria: biochemistry
+        tuss: '40316025'
+        sexo: female
+      - codigo: PLNCA15301
+        nome: 'CA 15-3'
+        categoria: biochemistry
+        tuss: '40316378'
+        sexo: all
+      - codigo: PLNCA19901
+        nome: 'CA 19-9'
+        categoria: biochemistry
+        tuss: '40316378'
+        sexo: all
+      - codigo: PLN0D470AE3
+        nome: 'CEA'
+        categoria: biochemistry
+        tuss: '40316041'
+        sexo: all
+      - codigo: PLN56898402
+        nome: 'Mamografia digital bilateral'
+        categoria: imaging
+        tuss: '40808041'
+        sexo: female
+      - codigo: PLNE9B271B9
+        nome: 'PSA Livre'
+        categoria: biochemistry
+        tuss: '40316130'
+        sexo: male
+      - codigo: PLN1BFE6CA3
+        nome: 'PSA Total'
+        categoria: biochemistry
+        tuss: '40316149'
+        sexo: male
+      - codigo: PLNC3A4FA11
+        nome: 'USG mamas'
+        categoria: imaging
+        tuss: '40901114'
+        sexo: female
+      - codigo: PLN1B6B4299
+        nome: 'USG próstata (via abdominal)'
+        categoria: imaging
+        tuss: '40901750'
+        sexo: male
+      - codigo: PLNEA1BE0BF
+        nome: 'USG transvaginal (útero, ovário, anexos e vagina)'
+        categoria: imaging
+        tuss: '40901300'
+        sexo: female
+  - nome: 'Pesquisa'
+    ordem: 13
+    descricao: 'Marcadores de pesquisa/uso seletivo — fora da rotina, empilha sob demanda.'
+    total_itens: 4
+    itens:
+      - codigo: PLNF66C0E48
+        nome: 'Adiponectina'
+        categoria: biochemistry
+        tuss: '40321010'
+        sexo: all
+      - codigo: PLN19973FB2
+        nome: 'Coenzima Q10'
+        categoria: biochemistry
+        tuss: '40321126'
+        sexo: all
+      - codigo: PLN0A589AB3
+        nome: 'Leptina'
+        categoria: biochemistry
+        tuss: '40305422'
+        sexo: all
+      - codigo: PLN44FC0853
+        nome: 'Piridoxal-5-fosfato (PLP) por HPLC em sangue total'
+        categoria: biochemistry
+        tuss: ''
+        sexo: all
+  - nome: 'Risco Cardiovascular'
+    ordem: 14
+    descricao: 'Painel temático cardiovascular (pode redundar com o Completo).'
+    total_itens: 17
+    itens:
+      - codigo: PLNAE11F456
+        nome: 'Angiotomografia coronariana'
+        categoria: imaging
+        tuss: '41001230'
+        sexo: all
+      - codigo: PLNA8451657
+        nome: 'Apolipoproteína A1'
+        categoria: biochemistry
+        tuss: '40301354'
+        sexo: all
+      - codigo: PLN543993C6
+        nome: 'Apolipoproteína B'
+        categoria: biochemistry
+        tuss: '40301362'
+        sexo: all
+      - codigo: PLNBDE58BE1
+        nome: 'Doppler colorido de aorta e artérias renais'
+        categoria: imaging
+        tuss: '40901394'
+        sexo: all
+      - codigo: PLNCF217E9B
+        nome: 'Doppler colorido de vasos cervicais arteriais bilateral (carótidas e vertebrais)'
+        categoria: imaging
+        tuss: '40901360'
+        sexo: all
+      - codigo: PLN063AD529
+        nome: 'Ecodopplercardiograma transtorácico'
+        categoria: imaging
+        tuss: '40901106'
+        sexo: all
+      - codigo: PLN8E9D9238
+        nome: 'Eletrocardiograma (ECG 12 derivações)'
+        categoria: imaging
+        tuss: '40101010'
+        sexo: all
+      - codigo: PLN76D37EDC
+        nome: 'Fundoscopia sob midríase (binocular)'
+        categoria: imaging
+        tuss: '41301439'
+        sexo: all
+      - codigo: PLNC01E9624
+        nome: 'Homocisteína'
+        categoria: biochemistry
+        tuss: '40302113'
+        sexo: all
+      - codigo: PLNOMEGA301
+        nome: 'Índice de ômega-3 (EPA+DHA em eritrócitos)'
+        categoria: biochemistry
+        tuss: ''
+        sexo: all
+      - codigo: PLNITBABI01
+        nome: 'Índice tornozelo-braquial (ITB)'
+        categoria: imaging
+        tuss: ''
+        sexo: all
+      - codigo: PLNDC7B5612
+        nome: 'LDL oxidada'
+        categoria: biochemistry
+        tuss: ''
+        sexo: all
+      - codigo: PLNA31F0501
+        nome: 'Lipoproteína A'
+        categoria: biochemistry
+        tuss: '40302210'
+        sexo: all
+      - codigo: PLN4982A6C2
+        nome: 'NT-proBNP'
+        categoria: biochemistry
+        tuss: '40302776'
+        sexo: all
+      - codigo: PLNPSGNOI01
+        nome: 'Polissonografia de noite inteira (PSG)'
+        categoria: functional
+        tuss: '40103528'
+        sexo: all
+      - codigo: PLN1CF5711F
+        nome: 'TC coração para escore de cálcio coronariano'
+        categoria: imaging
+        tuss: '41001087'
+        sexo: all
+      - codigo: PLNE5B39E2C
+        nome: 'Troponina I Ultrassensível'
+        categoria: biochemistry
+        tuss: '40302571'
+        sexo: all
+  - nome: 'Sono'
+    ordem: 15
     descricao: 'Avaliação de distúrbios do sono (apneia obstrutiva, insônia, ritmo circadiano) — instrumentos diagnósticos + rastreio de fatores contribuintes.'
     total_itens: 9
     itens:
@@ -2279,37 +2179,103 @@ templates:
         categoria: hormones
         tuss: '40316521'
         sexo: all
-
-justificativas:
-  - codigo: PLN1CF5711F
-    nome: 'TC coração para escore de cálcio coronariano'
-    texto: |
-      Indicação: Tomografia computadorizada para quantificação do escore de cálcio coronariano (método de Agatston).
-
-      A estratificação de risco cardiovascular baseada apenas em fatores clínicos e calculadoras populacionais classifica grande parcela dos pacientes na faixa de risco intermediário, onde a decisão de iniciar ou adiar terapia preventiva permanece incerta. O escore de cálcio coronariano mede diretamente a carga de aterosclerose calcificada subclínica e é o exame de imagem mais validado para refinar essa estratificação.
-
-      O estudo MESA (Multi-Ethnic Study of Atherosclerosis) demonstrou que a adição do escore de cálcio às calculadoras tradicionais melhora de forma significativa a reclassificação do risco, reposicionando corretamente pacientes que viriam a ter eventos para a faixa de risco mais alto e, igualmente importante, pacientes sem doença subclínica para a faixa de risco mais baixo. Um escore zero identifica indivíduos com taxa de eventos cardiovasculares muito baixa ao longo de dez anos (o chamado poder do zero), o que embasa adiar ou suspender terapias farmacológicas com segurança e evita tratamento desnecessário. Em contrapartida, escores elevados (acima de 100, e sobretudo acima de 300 ou no percentil 75 para idade e sexo) reposicionam o paciente em risco alto e justificam intensificação da prevenção.
-
-      As diretrizes vigentes sustentam esse uso: a diretriz multissocietária de manejo da dislipidemia atribui ao escore de cálcio recomendação de classe I para auxiliar a decisão de terapia preventiva em adultos de risco intermediário, e as diretrizes brasileiras da Sociedade Brasileira de Cardiologia o reconhecem como fator reclassificador de risco nas faixas intermediária e limítrofe. O exame é não invasivo, de baixa dose de radiação, dispensa contraste e tem alto valor prognóstico independente dos fatores de risco tradicionais.
-
-      Pelo exposto, a quantificação do escore de cálcio coronariano é solicitada como ferramenta de refinamento da estratificação de risco e de individualização da conduta preventiva.
-
-      Referências:
-      1. Detrano R, et al. Coronary calcium as a predictor of coronary events in four racial or ethnic groups (MESA). N Engl J Med. 2008;358(13):1336-1345.
-      2. Polonsky TS, et al. Coronary artery calcium score and risk classification for coronary heart disease prediction (MESA). JAMA. 2010;303(16):1610-1616.
-      3. Grundy SM, et al. 2018 AHA/ACC/Multisociety Guideline on the Management of Blood Cholesterol. Circulation. 2019;139(25):e1082-e1143.
-      4. Orringer CE, et al. The National Lipid Association scientific statement on coronary artery calcium scoring to guide preventive strategies for ASCVD risk reduction. J Clin Lipidol. 2021;15(1):33-60.
-      5. Blaha MJ, et al. Coronary Artery Calcium Scoring: Is It Time for a Change in Methodology? JACC Cardiovasc Imaging. 2017;10(8):923-937.
-      6. Sociedade Brasileira de Cardiologia. Atualização da Diretriz de Prevenção Cardiovascular da SBC. Arq Bras Cardiol. 2019;113(4):787-891.
-  - codigo: PLN607D3327
-    nome: 'TC tórax'
-    texto: |
-      Indicação: Tomografia computadorizada de tórax.
-
-      Em avaliação ampla orientada à longevidade, a TC de tórax permite a detecção precoce de doença torácica clinicamente silenciosa, com dois achados de relevância prognóstica documentada:
-
-      1. Câncer de pulmão em fase inicial. O câncer de pulmão em pessoas que nunca fumaram representa hoje 10% a 25% dos casos e figura entre as principais causas de morte por câncer no mundo; por não se enquadrarem no perfil clássico de risco, esses casos costumam ser detectados tardiamente. Poluição do ar, radônio, exposição passada à fumaça, suscetibilidade genética e o envelhecimento sustentam a investigação por imagem independentemente do histórico tabágico.
-
-      2. Anormalidades intersticiais pulmonares (ILA). Achado incidental em 2% a 7% dos não fumantes, associa-se de forma independente a maior mortalidade geral (razão de risco ajustada em torno de 3,9 em coortes), a maior incidência de câncer de pulmão e a progressão para fibrose, informação que altera o seguimento e a estratificação de risco.
-
-      Referências: Lung cancer in never smokers: from early detection to prevention. Trends in Cancer 2025 · CT screening amid rising threat of lung cancer in never-smokers. Radiology 2025 · Prevalence, risk factors and outcomes of adult interstitial lung abnormalities: systematic review and meta-analysis. Am J Respir Crit Care Med 2024 · Interstitial lung abnormalities at CT: subtypes and clinical significance. RadioGraphics 2023.
+  - nome: 'Sorologias Virais'
+    ordem: 16
+    descricao: 'Complemento de sorologias virais — empilha sobre o Inicial ou o Completo.'
+    total_itens: 6
+    itens:
+      - codigo: PLN8D242E53
+        nome: 'Hepatite B - Anti-Hbc'
+        categoria: immunology
+        tuss: '40307565'
+        sexo: all
+      - codigo: PLN4FD85B23
+        nome: 'Hepatite B - Anti-Hbs'
+        categoria: immunology
+        tuss: '40307581'
+        sexo: all
+      - codigo: PLND20F95C1
+        nome: 'Hepatite B - HbsAg'
+        categoria: microbiology
+        tuss: '40307603'
+        sexo: all
+      - codigo: PLN7C0E7F9B
+        nome: 'Hepatite C - Anti-HCV'
+        categoria: immunology
+        tuss: '40307620'
+        sexo: all
+      - codigo: PLND9685FCA
+        nome: 'HIV 1+2'
+        categoria: microbiology
+        tuss: '40307735'
+        sexo: all
+      - codigo: PLN8BFAA417
+        nome: 'VDRL'
+        categoria: microbiology
+        tuss: '40310345'
+        sexo: all
+  - nome: 'Tireoide'
+    ordem: 17
+    descricao: 'Painel temático de tireoide (pode redundar com o Completo).'
+    total_itens: 8
+    itens:
+      - codigo: PLN2589845E
+        nome: 'Anti-Tireoglobulina'
+        categoria: immunology
+        tuss: '40307034'
+        sexo: all
+      - codigo: PLNF479B8FF
+        nome: 'Anti-TPO'
+        categoria: immunology
+        tuss: '40306933'
+        sexo: all
+      - codigo: PLN26FF1748
+        nome: 'T3 Livre'
+        categoria: hormones
+        tuss: '40316467'
+        sexo: all
+      - codigo: PLN1A1C2F34
+        nome: 'T3 Reverso'
+        categoria: hormones
+        tuss: '40316483'
+        sexo: all
+      - codigo: PLN4BF6D992
+        nome: 'T4 Livre'
+        categoria: hormones
+        tuss: '40316491'
+        sexo: all
+      - codigo: PLN4A89E1DA
+        nome: 'TRAb (Anticorpos Anti-Receptor de TSH)'
+        categoria: hormones
+        tuss: '40323170'
+        sexo: all
+      - codigo: PLND2C05835
+        nome: 'TSH'
+        categoria: hormones
+        tuss: '40316521'
+        sexo: all
+      - codigo: PLNUSGTIR01
+        nome: 'Ultrassonografia de tireoide'
+        categoria: imaging
+        tuss: '40901203'
+        sexo: all
+  - nome: 'Trombose'
+    ordem: 18
+    descricao: 'Avaliação de trombose e coagulação (D-dímero, TP/INR, TTPa).'
+    total_itens: 3
+    itens:
+      - codigo: PLNB384883B
+        nome: 'D-dímero'
+        categoria: hematology
+        tuss: '40304892'
+        sexo: all
+      - codigo: PLN5F1CA34C
+        nome: 'Tempo de Protrombina (INR)'
+        categoria: hematology
+        tuss: '40305570'
+        sexo: all
+      - codigo: PLNTTPA0001
+        nome: 'Tempo de tromboplastina parcial ativada (TTPa)'
+        categoria: hematology
+        tuss: '40304639'
+        sexo: all

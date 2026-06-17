@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { useRequireAuth } from "@/lib/use-auth";
 import { useCreatePatient } from "@/lib/api/patient-api";
+import { useSelectedPatient } from "@/lib/use-selected-patient";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/layout/page-header";
 
@@ -54,6 +55,7 @@ export default function NewPatientPage() {
   useFormNavigation({ formRef });
 
   const createMutation = useCreatePatient();
+  const { setSelectedPatient } = useSelectedPatient();
 
   const {
     register,
@@ -118,6 +120,8 @@ export default function NewPatientPage() {
     createMutation.mutate(payload, {
       onSuccess: (patient) => {
         toast.success("Paciente cadastrado");
+        // Seleciona automaticamente o paciente recém-criado (vira o selectedPatient do user).
+        setSelectedPatient(patient.id);
         router.push(`/patients/${patient.id}`);
       },
       onError: (error: unknown) => {

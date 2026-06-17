@@ -7,6 +7,17 @@
 > paciente intacto). teste/teste2 apagados. Backup pré-deploy guardado (local + VPS). App redeployada
 > (Coolify concurrent_builds=1, um app por vez). Commits de doc/yml no master.
 
+## Ajuste 2026-06-17 (UX dos painéis — dev-only, prod pendente)
+- **Nomes:** removido o prefixo "Painel " (e "Plenya ") de todos — ex.: "Painel Plenya Completo" → **Completo**.
+- **Ordem:** Completo · Inicial · Acompanhamento, depois os 15 complementos em **ordem alfabética**
+  (via `display_order` 1..18; backend ordena por `display_order, name`; front idem).
+- **Dentro do painel** (`apps/web/lib/lab-request-apply.ts`): **laboratório** primeiro (alfabético,
+  contíguo, pagina automático a 40/pág), depois **imagem** (`category=imaging`) alfabético **um por
+  página** (linha em branco = quebra de página no render `pdfdoc/exam_request.go`).
+- **Isolamento:** `/lab-requests` lista só do `selectedPatient` (era `getAllLabRequests` global — bug).
+- **Novo paciente** vira `selectedPatient` automaticamente também no cadastro completo `patients/new`.
+- yml regenerado do banco. **Prod ainda com nomes "Painel X"** → seed UPSERT (rename + display_order) sob ordem.
+
 ## Próxima tarefa (o que estávamos fazendo)
 **PLANO DE SCORE em execução item a item (2026-06-15).** #1–#11 pontuam/ajustados; #12–16 (cluster
 HAS Secundária) fora; **falta revalidar #17–#25** (cortisol salivar, 17-OHP, pregnenolona, estrona,

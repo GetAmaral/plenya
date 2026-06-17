@@ -24,7 +24,7 @@ import { Plus, FileText, Calendar, Pencil, Check, Copy, Shield } from 'lucide-re
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import {
-  getAllLabRequests,
+  getLabRequestsByPatientId,
   createLabRequest,
   updateLabRequest,
   generateLabRequestPdf,
@@ -50,14 +50,15 @@ export default function LabRequestsPage() {
   const [editingRequest, setEditingRequest] = useState<LabRequest | null>(null)
   const [duplicatingRequest, setDuplicatingRequest] = useState<LabRequest | null>(null)
 
-  // Fetch lab requests (backend filtra automaticamente pelo selectedPatient)
+  // Pedidos SÓ do paciente selecionado (isolamento de prontuário — diretriz do EMR: nunca
+  // listar dados de todos os pacientes). Endpoint dedicado por paciente, não o /lab-requests global.
   const { data: requestsData, isLoading: requestsLoading } = useQuery({
     queryKey: ['lab-requests', selectedPatient?.id],
-    queryFn: () => getAllLabRequests({ limit: 50, offset: 0 }),
+    queryFn: () => getLabRequestsByPatientId(selectedPatient!.id),
     enabled: !!selectedPatient // Só busca quando tiver paciente selecionado
   })
 
-  const requests = requestsData?.data || []
+  const requests = requestsData || []
 
   if (patientLoading) {
     return <div className="container mx-auto py-8">Carregando...</div>
@@ -149,7 +150,9 @@ function CreateLabRequestForm({ onSuccess }: { onSuccess: () => void }) {
     queryFn: () => getAllLabRequestTemplates(false)
   })
 
-  const sortedTemplates = [...templates].sort((a, b) => a.name.localeCompare(b.name))
+  const sortedTemplates = [...templates].sort(
+    (a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0) || a.name.localeCompare(b.name)
+  )
 
   // Create mutation
   const createMutation = useMutation({
@@ -430,7 +433,9 @@ function EditLabRequestForm({
     queryFn: () => getAllLabRequestTemplates(false)
   })
 
-  const sortedTemplates = [...templates].sort((a, b) => a.name.localeCompare(b.name))
+  const sortedTemplates = [...templates].sort(
+    (a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0) || a.name.localeCompare(b.name)
+  )
 
   // Update mutation
   const updateMutation = useMutation({
@@ -635,7 +640,9 @@ function DuplicateLabRequestForm({
     queryFn: () => getAllLabRequestTemplates(false)
   })
 
-  const sortedTemplates = [...templates].sort((a, b) => a.name.localeCompare(b.name))
+  const sortedTemplates = [...templates].sort(
+    (a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0) || a.name.localeCompare(b.name)
+  )
 
   // Create mutation (duplicate is a create operation)
   const createMutation = useMutation({
