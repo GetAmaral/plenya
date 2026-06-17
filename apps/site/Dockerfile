@@ -38,28 +38,26 @@ ENV NEXT_PUBLIC_TURNSTILE_SITE_KEY=$NEXT_PUBLIC_TURNSTILE_SITE_KEY
 RUN pnpm --filter @plenya/site build
 
 ###
-### runner — minimal production image
+### runner — minimal production image (Next standalone, sem pnpm/node_modules de runtime)
 ###
 FROM node:24-alpine AS runner
-RUN corepack enable && corepack prepare pnpm@10.28.1 --activate
 WORKDIR /repo
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3002
 
-COPY --from=builder /repo/package.json /repo/pnpm-lock.yaml /repo/pnpm-workspace.yaml /repo/turbo.json ./
-COPY --from=builder /repo/apps/site/package.json ./apps/site/
-COPY --from=builder /repo/packages/brand ./packages/brand
-COPY --from=builder /repo/packages/ui ./packages/ui
-COPY --from=builder /repo/apps/site/.next ./apps/site/.next
+# Standalone traz server.js + node_modules tree-shaken (inclui @plenya/brand e @plenya/ui
+# transpilados, via outputFileTracingRoot na raiz do monorepo).
+COPY --from=builder /repo/apps/site/.next/standalone ./
+# static e public NÃO entram no standalone — copiar pro lado do server.js do app.
+COPY --from=builder /repo/apps/site/.next/static ./apps/site/.next/static
 COPY --from=builder /repo/apps/site/public ./apps/site/public
-COPY --from=builder /repo/apps/site/next.config.ts ./apps/site/
+# Conteúdo lido em runtime via process.cwd()/content (blog, testimonials, doctors, data) —
+# cwd em runtime é /repo/apps/site (WORKDIR abaixo).
 COPY --from=builder /repo/apps/site/content ./apps/site/content
-
-RUN pnpm install --prod --frozen-lockfile --filter "@plenya/site..."
 
 EXPOSE 3002
 
 WORKDIR /repo/apps/site
-CMD ["pnpm", "start"]
+CMD ["node", "server.js"]

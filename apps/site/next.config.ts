@@ -1,9 +1,14 @@
 import type { NextConfig } from 'next';
+import path from 'path';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  // Saída standalone (server.js mínimo, sem wrapper pnpm). outputFileTracingRoot = raiz do
+  // monorepo p/ o tracing pegar @plenya/brand e @plenya/ui (transpilePackages).
+  output: 'standalone',
+  outputFileTracingRoot: path.join(__dirname, '../../'),
   reactStrictMode: true,
   poweredByHeader: false,
   transpilePackages: ['@plenya/brand', '@plenya/ui'],
