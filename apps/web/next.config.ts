@@ -1,6 +1,13 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
+  // Saída standalone (server.js mínimo, sem wrapper pnpm — ~98MB de RAM a menos).
+  // outputFileTracingRoot = raiz do monorepo p/ o tracing pegar react-reader e @plenya/ui.
+  // O middleware (rewrite de subdomínio + CSP nonce) é embutido no server standalone.
+  output: 'standalone',
+  outputFileTracingRoot: path.join(__dirname, '../../'),
+
   // Otimizações de performance
   reactStrictMode: true,
 

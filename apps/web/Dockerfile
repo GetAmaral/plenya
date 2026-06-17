@@ -34,28 +34,23 @@ ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 RUN pnpm --filter @plenya/web build
 
 ###
-### runner — minimal production image
+### runner — minimal production image (Next standalone, sem pnpm/node_modules de runtime)
 ###
 FROM node:24-alpine AS runner
-RUN corepack enable && corepack prepare pnpm@10.28.1 --activate
 WORKDIR /repo
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 
-COPY --from=builder /repo/package.json /repo/pnpm-lock.yaml /repo/pnpm-workspace.yaml /repo/turbo.json ./
-COPY --from=builder /repo/apps/web/package.json ./apps/web/
-COPY --from=builder /repo/packages/brand ./packages/brand
-COPY --from=builder /repo/packages/types ./packages/types
-COPY --from=builder /repo/packages/ui ./packages/ui
-COPY --from=builder /repo/apps/web/.next ./apps/web/.next
+# Standalone traz server.js + node_modules tree-shaken (inclui react-reader e @plenya/ui
+# transpilados, via outputFileTracingRoot na raiz do monorepo). Middleware embutido.
+COPY --from=builder /repo/apps/web/.next/standalone ./
+# static e public NÃO entram no standalone — copiar pro lado do server.js do app.
+COPY --from=builder /repo/apps/web/.next/static ./apps/web/.next/static
 COPY --from=builder /repo/apps/web/public ./apps/web/public
-COPY --from=builder /repo/apps/web/next.config.ts ./apps/web/
-
-RUN pnpm install --prod --frozen-lockfile --filter "@plenya/web..."
 
 EXPOSE 3000
 
 WORKDIR /repo/apps/web
-CMD ["pnpm", "start"]
+CMD ["node", "server.js"]
