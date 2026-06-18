@@ -16986,6 +16986,12 @@ export interface components {
              *     @example Hemograma Completo, Hemoglobina, Glicemia de Jejum
              */
             name: string;
+            /**
+             * @description PageBreakBefore — campo TRANSIENTE (não persiste): preenchido só quando o exame é devolvido
+             *     dentro de um template (vem do join lab_request_template_tests.page_break_before). Indica que,
+             *     ao aplicar o template, este exame começa em nova página (linha em branco antes).
+             */
+            pageBreakBefore?: boolean;
             /** @description Exame pai (se for um parâmetro/subexame) */
             parentTest?: components["schemas"]["models.LabTestDefinition"];
             /**

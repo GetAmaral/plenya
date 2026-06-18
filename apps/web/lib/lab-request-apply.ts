@@ -30,30 +30,26 @@ function examBlock(t: LabTestDefinition): string {
 // applyTemplate — monta o texto da textarea a partir dos exames de um template:
 //  - filtra por sexo do paciente (sexApplicability 'all' ou == gender; ex.: PSA só ♂);
 //  - exclui exames já cobertos por um pedido externo (coveredCodes);
-//  - LABORATÓRIO primeiro (tudo que não é imagem), em ordem alfabética, todos juntos (fluem na
-//    mesma página, sem linha em branco entre eles);
-//  - IMAGEM depois (category === 'imaging'), em ordem alfabética, UM POR PÁGINA — cada um isolado
-//    por linha em branco (no render do PDF, linha em branco = quebra de página).
+//  - A ORDEM e a PAGINAÇÃO vêm do TEMPLATE (dado), não do código: labTests já chega ordenado por
+//    display_order e cada exame traz `pageBreakBefore`. Insere uma linha em branco (= nova página
+//    no render) ANTES de cada exame marcado. Nenhuma regra de agrupamento aqui.
 export function applyTemplate(
   labTests: LabTestDefinition[],
   gender: string | undefined,
   coveredCodes: Set<string>,
 ): string {
-  const visible = [...labTests].filter((t) => {
+  const visible = labTests.filter((t) => {
     const sex = t.sexApplicability || 'all'
     if (sex !== 'all' && gender && sex !== gender) return false
     if (coveredCodes.has(t.code)) return false
     return true
   })
 
-  const byName = (a: LabTestDefinition, b: LabTestDefinition) => a.name.localeCompare(b.name)
-  const lab = visible.filter((t) => t.category !== 'imaging').sort(byName).map(examBlock)
-  const imaging = visible.filter((t) => t.category === 'imaging').sort(byName).map(examBlock)
-
-  // Laboratório vira um único bloco (juntado por \n, sem página entre exames). Cada exame de
-  // imagem vira seu próprio bloco. join('\n\n') insere a linha em branco que separa as páginas.
-  const parts: string[] = []
-  if (lab.length) parts.push(lab.join('\n'))
-  parts.push(...imaging)
-  return parts.join('\n\n')
+  const out: string[] = []
+  visible.forEach((t, i) => {
+    // linha em branco antes deste exame (nova página) — exceto se for o 1º visível
+    if (i > 0 && t.pageBreakBefore) out.push('')
+    out.push(examBlock(t))
+  })
+  return out.join('\n')
 }

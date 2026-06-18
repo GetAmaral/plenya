@@ -130,6 +130,11 @@ type LabTestDefinition struct {
 	// Ordem de exibição (para organizar parâmetros de um exame)
 	DisplayOrder int `gorm:"type:integer;not null;default:0" json:"displayOrder"`
 
+	// PageBreakBefore — campo TRANSIENTE (não persiste): preenchido só quando o exame é devolvido
+	// dentro de um template (vem do join lab_request_template_tests.page_break_before). Indica que,
+	// ao aplicar o template, este exame começa em nova página (linha em branco antes).
+	PageBreakBefore bool `gorm:"-" json:"pageBreakBefore,omitempty"`
+
 	// Status (ativo/inativo)
 	IsActive bool `gorm:"type:boolean;not null;default:true;index" json:"isActive"`
 

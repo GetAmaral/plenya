@@ -25,12 +25,13 @@ func (r *LabRequestTemplateRepository) CreateLabRequestTemplate(template *models
 }
 
 // GetLabRequestTemplateByID retrieves a lab request template by ID with all associated lab tests
+// ordenados pelo display_order DO TEMPLATE, com page_break_before anexado em cada exame.
 func (r *LabRequestTemplateRepository) GetLabRequestTemplateByID(id uuid.UUID) (*models.LabRequestTemplate, error) {
 	var template models.LabRequestTemplate
 	err := r.db.
 		Preload("LabTests", func(db *gorm.DB) *gorm.DB {
 			return db.Where("is_active = ? AND is_requestable = ?", true, true).
-				Order("name ASC")
+				Order("lab_request_template_tests.display_order ASC, lab_test_definitions.name ASC")
 		}).
 		First(&template, "id = ?", id).Error
 
@@ -40,7 +41,31 @@ func (r *LabRequestTemplateRepository) GetLabRequestTemplateByID(id uuid.UUID) (
 		}
 		return nil, err
 	}
+	if err := r.attachLayout(&template); err != nil {
+		return nil, err
+	}
 	return &template, nil
+}
+
+// attachLayout preenche o campo transiente PageBreakBefore de cada LabTests a partir do join.
+func (r *LabRequestTemplateRepository) attachLayout(templates ...*models.LabRequestTemplate) error {
+	for _, tpl := range templates {
+		if len(tpl.LabTests) == 0 {
+			continue
+		}
+		var links []models.LabRequestTemplateTest
+		if err := r.db.Where("lab_request_template_id = ?", tpl.ID).Find(&links).Error; err != nil {
+			return err
+		}
+		brk := make(map[uuid.UUID]bool, len(links))
+		for _, l := range links {
+			brk[l.LabTestDefinitionID] = l.PageBreakBefore
+		}
+		for i := range tpl.LabTests {
+			tpl.LabTests[i].PageBreakBefore = brk[tpl.LabTests[i].ID]
+		}
+	}
+	return nil
 }
 
 // GetAllLabRequestTemplates retrieves all active lab request templates
@@ -60,11 +85,21 @@ func (r *LabRequestTemplateRepository) GetAllLabRequestTemplatesWithTests() ([]m
 		Where("is_active = ?", true).
 		Preload("LabTests", func(db *gorm.DB) *gorm.DB {
 			return db.Where("is_active = ? AND is_requestable = ?", true, true).
-				Order("name ASC")
+				Order("lab_request_template_tests.display_order ASC, lab_test_definitions.name ASC")
 		}).
 		Order("display_order ASC, name ASC").
 		Find(&templates).Error
-	return templates, err
+	if err != nil {
+		return nil, err
+	}
+	ptrs := make([]*models.LabRequestTemplate, len(templates))
+	for i := range templates {
+		ptrs[i] = &templates[i]
+	}
+	if err := r.attachLayout(ptrs...); err != nil {
+		return nil, err
+	}
+	return templates, nil
 }
 
 // UpdateLabRequestTemplate updates an existing lab request template

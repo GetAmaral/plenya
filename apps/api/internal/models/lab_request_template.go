@@ -55,11 +55,16 @@ func (lrt *LabRequestTemplate) BeforeCreate(tx *gorm.DB) error {
 // LabRequestTemplateTest representa a tabela intermediária many-to-many
 // entre templates e exames laboratoriais
 type LabRequestTemplateTest struct {
-	LabRequestTemplateID uuid.UUID         `gorm:"type:uuid;primaryKey" json:"labRequestTemplateId"`
-	LabTestDefinitionID  uuid.UUID         `gorm:"type:uuid;primaryKey" json:"labTestDefinitionId"`
-	CreatedAt            time.Time         `gorm:"autoCreateTime" json:"createdAt"`
-	LabRequestTemplate   LabRequestTemplate `gorm:"foreignKey:LabRequestTemplateID;constraint:OnDelete:CASCADE" json:"-"`
-	LabTestDefinition    LabTestDefinition  `gorm:"foreignKey:LabTestDefinitionID;constraint:OnDelete:CASCADE" json:"-"`
+	LabRequestTemplateID uuid.UUID `gorm:"type:uuid;primaryKey" json:"labRequestTemplateId"`
+	LabTestDefinitionID  uuid.UUID `gorm:"type:uuid;primaryKey" json:"labTestDefinitionId"`
+	// DisplayOrder define a ordem do exame DENTRO do template (fonte da verdade do layout).
+	DisplayOrder int `gorm:"type:integer;not null;default:0" json:"displayOrder"`
+	// PageBreakBefore: quando true, insere linha em branco (nova página) ANTES deste exame ao
+	// aplicar o template. É o único controle de paginação — nenhuma regra de agrupamento no código.
+	PageBreakBefore    bool               `gorm:"type:boolean;not null;default:false" json:"pageBreakBefore"`
+	CreatedAt          time.Time          `gorm:"autoCreateTime" json:"createdAt"`
+	LabRequestTemplate LabRequestTemplate `gorm:"foreignKey:LabRequestTemplateID;constraint:OnDelete:CASCADE" json:"-"`
+	LabTestDefinition  LabTestDefinition  `gorm:"foreignKey:LabTestDefinitionID;constraint:OnDelete:CASCADE" json:"-"`
 }
 
 // TableName especifica o nome da tabela intermediária
