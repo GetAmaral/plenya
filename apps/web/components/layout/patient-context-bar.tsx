@@ -32,6 +32,15 @@ export function PatientContextBar() {
   // pra não confundir com o contato da conversa (lead/paciente da própria thread).
   if (pathname?.includes('/conversas')) return null;
 
+  // Ao trocar de paciente, volta pra tela de origem (não pro dashboard). A tela de seleção
+  // lê esta chave; mesmo padrão do redirect automático em use-require-selected-patient.
+  const handleTrocar = () => {
+    if (typeof window !== "undefined" && pathname && !pathname.startsWith("/patients/select")) {
+      sessionStorage.setItem("plenya-redirect-after-patient-select", pathname);
+    }
+    router.push("/patients/select");
+  };
+
   const age = differenceInYears(new Date(), new Date(selectedPatient.birthDate));
   const dob = format(new Date(selectedPatient.birthDate), "dd/MM/yyyy");
   const gender = getGenderLabel(selectedPatient.gender);
@@ -77,7 +86,7 @@ export function PatientContextBar() {
 
       {/* Action */}
       <button
-        onClick={() => router.push("/patients/select")}
+        onClick={handleTrocar}
         className="shrink-0 rounded px-2 py-0.5 text-xs font-medium text-blue-700 hover:bg-blue-100 dark:text-blue-300 dark:hover:bg-blue-900/50 transition-colors"
       >
         Trocar ▾
