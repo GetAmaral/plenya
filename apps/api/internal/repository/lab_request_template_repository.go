@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"sort"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -30,8 +31,11 @@ func (r *LabRequestTemplateRepository) GetLabRequestTemplateByID(id uuid.UUID) (
 	var template models.LabRequestTemplate
 	err := r.db.
 		Preload("LabTests", func(db *gorm.DB) *gorm.DB {
+			// NÃO ordenar pela join table aqui: a query de preload many2many do GORM não
+			// expõe lab_request_template_tests no FROM (erro 42P01). A ordem do template
+			// (display_order) é aplicada em Go no attachLayout.
 			return db.Where("is_active = ? AND is_requestable = ?", true, true).
-				Order("lab_request_template_tests.display_order ASC, lab_test_definitions.name ASC")
+				Order("lab_test_definitions.name ASC")
 		}).
 		First(&template, "id = ?", id).Error
 
@@ -47,7 +51,9 @@ func (r *LabRequestTemplateRepository) GetLabRequestTemplateByID(id uuid.UUID) (
 	return &template, nil
 }
 
-// attachLayout preenche o campo transiente PageBreakBefore de cada LabTests a partir do join.
+// attachLayout aplica o LAYOUT do template (vindo da join table) em cima dos LabTests já
+// carregados: ordena por display_order e preenche o campo transiente PageBreakBefore de cada um.
+// (Não dá pra ordenar pela join table na própria query de preload — ver GetLabRequestTemplateByID.)
 func (r *LabRequestTemplateRepository) attachLayout(templates ...*models.LabRequestTemplate) error {
 	for _, tpl := range templates {
 		if len(tpl.LabTests) == 0 {
@@ -58,12 +64,18 @@ func (r *LabRequestTemplateRepository) attachLayout(templates ...*models.LabRequ
 			return err
 		}
 		brk := make(map[uuid.UUID]bool, len(links))
+		order := make(map[uuid.UUID]int, len(links))
 		for _, l := range links {
 			brk[l.LabTestDefinitionID] = l.PageBreakBefore
+			order[l.LabTestDefinitionID] = l.DisplayOrder
 		}
 		for i := range tpl.LabTests {
 			tpl.LabTests[i].PageBreakBefore = brk[tpl.LabTests[i].ID]
 		}
+		// Ordena pelo display_order do template; empate cai no nome (já vem alfabético do preload).
+		sort.SliceStable(tpl.LabTests, func(a, b int) bool {
+			return order[tpl.LabTests[a].ID] < order[tpl.LabTests[b].ID]
+		})
 	}
 	return nil
 }
@@ -84,8 +96,9 @@ func (r *LabRequestTemplateRepository) GetAllLabRequestTemplatesWithTests() ([]m
 	err := r.db.
 		Where("is_active = ?", true).
 		Preload("LabTests", func(db *gorm.DB) *gorm.DB {
+			// ordem do template aplicada em Go no attachLayout (ver GetLabRequestTemplateByID)
 			return db.Where("is_active = ? AND is_requestable = ?", true, true).
-				Order("lab_request_template_tests.display_order ASC, lab_test_definitions.name ASC")
+				Order("lab_test_definitions.name ASC")
 		}).
 		Order("display_order ASC, name ASC").
 		Find(&templates).Error
