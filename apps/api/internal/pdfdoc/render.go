@@ -29,7 +29,7 @@ import (
 
 // renderTimeout — teto duro por render. O normal é ~1 s; passou disso, aborta com erro
 // (handler responde 500 na hora) em vez de pendurar para sempre.
-const renderTimeout = 20 * time.Second
+const renderTimeout = 35 * time.Second
 
 var (
 	browserMu     sync.Mutex // serializa renders + protege o singleton abaixo
@@ -54,7 +54,14 @@ func getBrowser() (*rod.Browser, error) {
 		}
 		sharedBrowser = nil
 	}
-	u, err := launcher.New().Bin(chromiumBin()).Headless(true).NoSandbox(true).Launch()
+	// disable-dev-shm-usage: /dev/shm em container é 64MB; sem isto o Chromium trava em renders
+	// pesados (pedido com muitas páginas) — escreve em /tmp. disable-gpu/disable-software-rasterizer
+	// estabilizam o headless sob limite de memória. Foi o "new page: context deadline exceeded" em prod.
+	u, err := launcher.New().Bin(chromiumBin()).Headless(true).NoSandbox(true).
+		Set("disable-dev-shm-usage").
+		Set("disable-gpu").
+		Set("disable-software-rasterizer").
+		Launch()
 	if err != nil {
 		return nil, fmt.Errorf("launch chromium: %w", err)
 	}
@@ -105,11 +112,17 @@ func renderHTMLToPDF(html string, opts *proto.PagePrintToPDF) (result []byte, er
 	defer browserMu.Unlock()
 
 	// Qualquer panic interno do rod (timeout/conexão) vira erro — nunca derruba a API.
-	// Se o browser ficou em estado ruim, descarta para forçar relançamento no próximo render.
+	// E em QUALQUER falha (panic OU erro retornado, ex.: "new page: context deadline exceeded"),
+	// descarta o browser compartilhado: ele pode ter ficado wedged e, se mantido no singleton,
+	// faria todo render seguinte falhar para sempre. Nulificar força relançar um Chromium limpo.
 	defer func() {
 		if r := recover(); r != nil {
-			sharedBrowser = nil
 			err = fmt.Errorf("pdf render: %v", r)
+		}
+		if err != nil && sharedBrowser != nil {
+			old := sharedBrowser
+			sharedBrowser = nil
+			go old.Close() // assíncrono: não trava o request se o browser estiver pendurado
 		}
 	}()
 
