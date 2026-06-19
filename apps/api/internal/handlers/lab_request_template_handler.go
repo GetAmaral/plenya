@@ -156,9 +156,18 @@ func (h *LabRequestTemplateHandler) UpdateLabRequestTemplate(c *fiber.Ctx) error
 	return c.JSON(updated)
 }
 
-// UpdateLabRequestTemplateTestsRequest represents the request body for updating template tests
+// TemplateTestInput — um exame do template com seu layout (ordem + quebra de página antes).
+type TemplateTestInput struct {
+	TestID          uuid.UUID `json:"testId"`
+	DisplayOrder    int       `json:"displayOrder"`
+	PageBreakBefore bool      `json:"pageBreakBefore"`
+}
+
+// UpdateLabRequestTemplateTestsRequest represents the request body for updating template tests.
+// `tests` (novo) carrega ordem + quebra de página; `testIds` (legado) só os IDs, sem layout.
 type UpdateLabRequestTemplateTestsRequest struct {
-	TestIDs []uuid.UUID `json:"testIds" validate:"required"`
+	TestIDs []uuid.UUID         `json:"testIds"`
+	Tests   []TemplateTestInput `json:"tests"`
 }
 
 // UpdateLabRequestTemplateTests updates the lab tests associated with a template
@@ -186,6 +195,31 @@ func (h *LabRequestTemplateHandler) UpdateLabRequestTemplateTests(c *fiber.Ctx) 
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
 			Error: "Invalid request body",
 		})
+	}
+
+	// Caminho novo: payload com ordem + quebra de página por exame (preserva o layout do template).
+	if len(req.Tests) > 0 {
+		links := make([]models.LabRequestTemplateTest, len(req.Tests))
+		for i, t := range req.Tests {
+			links[i] = models.LabRequestTemplateTest{
+				LabRequestTemplateID: id,
+				LabTestDefinitionID:  t.TestID,
+				DisplayOrder:         t.DisplayOrder,
+				PageBreakBefore:      t.PageBreakBefore,
+			}
+		}
+		if err := h.service.UpdateLabRequestTemplateTestsOrdered(id, links); err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+				Error: err.Error(),
+			})
+		}
+		updated, err := h.service.GetLabRequestTemplateByID(id)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+				Error: err.Error(),
+			})
+		}
+		return c.JSON(updated)
 	}
 
 	if err := h.service.UpdateLabRequestTemplateTests(id, req.TestIDs); err != nil {

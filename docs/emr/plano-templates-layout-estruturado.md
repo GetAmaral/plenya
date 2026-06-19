@@ -1,5 +1,12 @@
 # Plano — Templates de exames com layout estruturado (opção C)
 
+> ✅ **DEPLOYADO EM PROD (2026-06-18).** Commits `a2e54e15` (feature) + `28459442` (fix trocar
+> paciente). migration 00040 aplicada no prod (goose=40). Dados (justificativas reescritas +
+> categoria sono→imagem + layout 437 vínculos) aplicados por seed em transação; **prod ≡ dev**
+> (fingerprints md5 idênticos de layout e justificativas). Backups pré-deploy: dev+prod
+> `~/db-backups/plenya_db_*_20260618-004910.dump` (prod também na VPS). Deploy do web travou num
+> blip de rede VPS→GitHub (clone timeout); fila limpa via coolify-db + redeploy → web novo no ar.
+
 **Decisão (2026-06-18):** o **template** passa a ser estruturado (ordem + quebra de página) e é a
 fonte da verdade do layout; o **pedido** (`lab_requests.exams`) continua **texto livre** (mantém a
 flexibilidade atual). Padrão de *order set* de EHR: catálogo → template ordenado/seccionado →
@@ -33,9 +40,20 @@ Remove TODO o sort/agrupamento. Emite os exames **na ordem do template**; insere
 branco antes** de cada exame com `pageBreakBefore=true`. Mantém só o filtro por sexo + dedup do
 pedido importado. (O `examBlock`/justificativa continua igual.)
 
-## 5. Criar template (UI — follow-up, não-bloqueante)
-Admin reordena (drag) + toggle "quebra de página antes" por exame. Por ora a ordem/quebras são
-**dados**, configurados por SQL.
+## 5. Editor de template (UI) — ✅ FEITO (2026-06-19)
+Antes: o dialog usava `DualListSelector`, que reordenava os selecionados **por nome** (perdia a
+ordem do template), não mostrava quebra de página nem justificativa, e ao salvar chamava o
+replace-all que **zerava `display_order`/`page_break_before`**.
+
+Agora:
+- Novo componente `apps/web/components/lab-tests/template-tests-editor.tsx`: coluna de selecionados
+  **na ordem do template**, com **drag-to-reorder** (`@dnd-kit/sortable`), **toggle "Nova página"**
+  (`page_break_before`) por exame e **preview da justificativa** (read-only — é da definição, global).
+- Backend: `PUT /lab-request-templates/:id/tests` aceita `tests: [{testId, displayOrder,
+  pageBreakBefore}]` (campo `testIds` legado mantido). Novo caminho `UpdateLabRequestTemplateTestsOrdered`
+  (handler→service→repo) faz DELETE+INSERT **gravando display_order + page_break_before** — não
+  zera mais o layout.
+- Verificado em dev: reordenar + marcar quebra → salvar → join table persiste ordem e `page_break_before`.
 
 ## 6. População inicial (seed por template — A DEFINIR o default do layout com o Dr.)
 `display_order`: ordem atual (lab alfabético, depois imagem). `page_break_before`: definir o padrão

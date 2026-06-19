@@ -48,13 +48,20 @@ export async function updateLabRequestTemplate(
   return apiClient.put<LabRequestTemplate>(`/api/v1/lab-request-templates/${id}`, data)
 }
 
-// Update lab request template tests (replace all)
+// Um exame do template com seu layout (ordem + quebra de página antes).
+export interface TemplateTestOrderInput {
+  testId: string
+  displayOrder: number
+  pageBreakBefore: boolean
+}
+
+// Update lab request template tests (replace all) — preserva ordem + quebra de página de cada exame.
 export async function updateLabRequestTemplateTests(
   id: string,
-  testIds: string[]
+  tests: TemplateTestOrderInput[]
 ): Promise<LabRequestTemplate> {
   return apiClient.put<LabRequestTemplate>(`/api/v1/lab-request-templates/${id}/tests`, {
-    testIds
+    tests
   })
 }
 

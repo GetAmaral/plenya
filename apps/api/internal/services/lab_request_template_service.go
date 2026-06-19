@@ -57,6 +57,11 @@ func (s *LabRequestTemplateService) UpdateLabRequestTemplateTests(templateID uui
 	return s.repo.UpdateLabRequestTemplateTests(templateID, testIDs)
 }
 
+// UpdateLabRequestTemplateTestsOrdered substitui os vínculos preservando ordem + quebra de página.
+func (s *LabRequestTemplateService) UpdateLabRequestTemplateTestsOrdered(templateID uuid.UUID, links []models.LabRequestTemplateTest) error {
+	return s.repo.UpdateLabRequestTemplateTestsOrdered(templateID, links)
+}
+
 // AddLabTestToTemplate adds a single lab test to a template
 func (s *LabRequestTemplateService) AddLabTestToTemplate(templateID, testID uuid.UUID) error {
 	return s.repo.AddLabTestToTemplate(templateID, testID)

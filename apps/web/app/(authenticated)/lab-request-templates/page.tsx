@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
 import { Plus, Pencil, Trash2, Save, X } from 'lucide-react'
-import { DualListSelector } from '@/components/lab-tests/dual-list-selector'
+import { TemplateTestsEditor } from '@/components/lab-tests/template-tests-editor'
 import {
   getAllLabRequestTemplates,
   getRequestableLabTests,
@@ -306,10 +306,10 @@ function TemplateEditDialog({
     }
   })
 
-  // Update tests
+  // Update tests — envia a ordem (índice) + a quebra de página de cada exame, preservando o layout.
   const updateTestsMutation = useMutation({
-    mutationFn: (testIds: string[]) =>
-      updateLabRequestTemplateTests(template.id, testIds),
+    mutationFn: (tests: { testId: string; displayOrder: number; pageBreakBefore: boolean }[]) =>
+      updateLabRequestTemplateTests(template.id, tests),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['lab-request-template', template.id] })
     },
@@ -319,9 +319,13 @@ function TemplateEditDialog({
   })
 
   const handleSave = async () => {
-    // Update tests first
-    const testIds = selectedTests.map(t => t.id)
-    await updateTestsMutation.mutateAsync(testIds)
+    // Update tests first — a ordem é a posição no array; pageBreakBefore vem do toggle de cada item.
+    const tests = selectedTests.map((t, i) => ({
+      testId: t.id,
+      displayOrder: i + 1,
+      pageBreakBefore: !!t.pageBreakBefore,
+    }))
+    await updateTestsMutation.mutateAsync(tests)
 
     // Then update basic info (this will close the dialog on success)
     updateInfoMutation.mutate({
@@ -367,7 +371,7 @@ function TemplateEditDialog({
 
             <div>
               <h4 className="font-medium mb-4">Selecionar Exames</h4>
-              <DualListSelector
+              <TemplateTestsEditor
                 availableTests={availableTests}
                 selectedTests={selectedTests}
                 onSelectionChange={setSelectedTests}

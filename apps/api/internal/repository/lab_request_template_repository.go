@@ -151,6 +151,26 @@ func (r *LabRequestTemplateRepository) UpdateLabRequestTemplateTests(templateID 
 	})
 }
 
+// UpdateLabRequestTemplateTestsOrdered substitui TODOS os vínculos do template, gravando
+// display_order e page_break_before de cada um (o caminho replace-all "burro" perdia esses
+// campos e zerava o layout). A ordem é a do slice (índice já vem do front).
+func (r *LabRequestTemplateRepository) UpdateLabRequestTemplateTestsOrdered(templateID uuid.UUID, links []models.LabRequestTemplateTest) error {
+	return r.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Exec("DELETE FROM lab_request_template_tests WHERE lab_request_template_id = ?", templateID).Error; err != nil {
+			return err
+		}
+		for _, l := range links {
+			if err := tx.Exec(
+				"INSERT INTO lab_request_template_tests (lab_request_template_id, lab_test_definition_id, display_order, page_break_before) VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING",
+				templateID, l.LabTestDefinitionID, l.DisplayOrder, l.PageBreakBefore,
+			).Error; err != nil {
+				return err
+			}
+		}
+		return tx.Exec("UPDATE lab_request_templates SET updated_at = NOW() WHERE id = ?", templateID).Error
+	})
+}
+
 // AddLabTestToTemplate adds a single lab test to a template
 func (r *LabRequestTemplateRepository) AddLabTestToTemplate(templateID, testID uuid.UUID) error {
 	return r.db.Transaction(func(tx *gorm.DB) error {
