@@ -267,13 +267,13 @@ function WhatsAppMediaView({
   const sizeLabel = formatBytes(msg.mediaSizeBytes);
   const filename = msg.mediaFilename || mediaKindLabel(kind);
 
-  if (err) {
-    return <p className="mt-2 text-[11px] italic text-rose-600">Falha ao carregar mídia.</p>;
-  }
-
   return (
     <div className="mt-2">
-      {isImage ? (
+      {err ? (
+        // Mídia não carregou (ex: arquivo ausente no storage). Ainda assim a
+        // transcrição abaixo deve aparecer — é o fallback de leitura do áudio.
+        <p className="text-[11px] italic text-rose-600">Falha ao carregar mídia.</p>
+      ) : isImage ? (
         url ? (
           <a href={safeUrl(url)} target="_blank" rel="noopener noreferrer">
             {/* eslint-disable-next-line @next/next/no-img-element */}
