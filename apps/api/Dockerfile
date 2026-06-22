@@ -46,9 +46,12 @@ COPY assets/fonts/opensans/ /usr/share/fonts/opensans/
 COPY PlenyaA4-150dpi.png icp-brasil-seal.png /app/
 COPY assets/logo-only.png assets/watermark-only.png /app/assets/
 
-# Volumes: uploads (PDFs), enrichment-batch (RAG)
+# Diretórios de dados persistentes: uploads (mídia WhatsApp + patient-docs) e
+# enrichment-batch (RAG). NÃO usar a diretiva VOLUME aqui: ela faz o Docker criar
+# um volume ANÔNIMO novo a cada deploy quando não há mount explícito, órfãnando os
+# dados (mídia/exames somem após redeploy). A persistência é garantida por bind
+# mount configurado no Coolify (local_persistent_volumes → /data/coolify/.../uploads).
 RUN mkdir -p /app/uploads /app/enrichment-batch
-VOLUME ["/app/uploads", "/app/enrichment-batch"]
 
 EXPOSE 3001
 
