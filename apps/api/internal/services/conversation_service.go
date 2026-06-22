@@ -418,9 +418,17 @@ func (s *ConversationService) GetActivityMedia(ownerType string, ownerID, activi
 		if err != nil {
 			return nil, ErrConversationAttachmentInvalid
 		}
-		// Re-deriva o MIME dos bytes reais (NÃO confia no MediaMIME do payload Meta)
-		// e clampa pra allowlist — evita XSS via Content-Type forjado servido inline.
+		// Re-deriva o MIME dos bytes reais (NÃO confia cegamente no MediaMIME do
+		// payload Meta) e clampa pra allowlist — evita XSS via Content-Type forjado.
 		mime := clampMediaMIME(DetectBytesMime(data).ContentType)
+		// http.DetectContentType não sniffa M4A/AAC (cai em octet-stream). Nesse caso
+		// cai pro MIME informado pela Meta se for um tipo de áudio da allowlist — o
+		// clamp + nosniff já neutralizam XSS, então áudio safe pode ser confiado.
+		if mime == "application/octet-stream" && act.MediaMIME != nil {
+			if c := clampMediaMIME(*act.MediaMIME); c != "application/octet-stream" {
+				mime = c
+			}
+		}
 		return &ActivityMediaResult{Bytes: data, MIME: mime, Filename: sanitizeDocFilename(filename)}, nil
 	}
 
@@ -431,6 +439,16 @@ func (s *ConversationService) GetActivityMedia(ownerType string, ownerID, activi
 // outro tipo (ex: text/html forjado) vira application/octet-stream. Combinado com
 // X-Content-Type-Options: nosniff no handler, neutraliza XSS via mídia servida.
 func clampMediaMIME(mime string) string {
+	// Tira parâmetros (ex: "audio/ogg; codecs=opus" da Meta) antes de comparar.
+	if i := strings.Index(mime, ";"); i >= 0 {
+		mime = strings.TrimSpace(mime[:i])
+	}
+	// http.DetectContentType (DetectBytesMime) rotula OGG como "application/ogg".
+	// É o formato das notas de voz do WhatsApp; normaliza pra audio/ogg senão cai
+	// no octet-stream e o <audio> do navegador (com nosniff) se recusa a tocar.
+	if mime == "application/ogg" {
+		mime = "audio/ogg"
+	}
 	switch mime {
 	case "image/jpeg", "image/png", "image/webp", "image/gif",
 		"application/pdf",

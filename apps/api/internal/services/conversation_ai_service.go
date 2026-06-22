@@ -324,6 +324,21 @@ func buildTranscript(activities []models.LeadActivity) string {
 		if a.Content != nil {
 			content = strings.TrimSpace(*a.Content)
 		}
+		// Áudio/voz não carrega texto em Content; o conteúdo real está na
+		// transcrição. Sem isto a Lívia ignora a mensagem de voz e responde como
+		// se ela não existisse (bug em prod: lead manda áudio, IA só vê o texto).
+		if content == "" && a.Transcription != nil {
+			if t := strings.TrimSpace(*a.Transcription); t != "" {
+				content = "(áudio transcrito) " + t
+			}
+		}
+		// Mídia sem texto nem transcrição (ex: transcrição ainda async, ou imagem):
+		// ao menos sinaliza que houve um anexo, pra IA não responder no vácuo.
+		if content == "" && a.MediaType != nil {
+			if mt := strings.TrimSpace(*a.MediaType); mt != "" {
+				content = fmt.Sprintf("(enviou %s, sem transcrição disponível)", mt)
+			}
+		}
 		if content == "" {
 			continue
 		}
