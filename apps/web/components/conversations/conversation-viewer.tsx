@@ -35,6 +35,7 @@ import {
   avatarColorClass,
   fetchConversationAttachment,
   fetchConversationMedia,
+  fetchConversationMediaStreamUrl,
   initials,
   useConversationAISummary,
   useConversationMessages,
@@ -249,20 +250,33 @@ function WhatsAppMediaView({
     let objectUrl: string | null = null;
     setUrl(null);
     setErr(false);
-    fetchConversationMedia(ownerType, ownerId, msg.id)
-      .then((blob) => {
-        if (cancelled) return;
-        objectUrl = URL.createObjectURL(blob);
-        setUrl(objectUrl);
-      })
-      .catch(() => {
-        if (!cancelled) setErr(true);
-      });
+    if (isAudio) {
+      // Áudio (e vídeo) precisa de URL direta com Range: o Safari/iOS não toca
+      // mídia de blob: URL. Busca a URL de streaming assinada e aponta no <audio>.
+      fetchConversationMediaStreamUrl(ownerType, ownerId, msg.id)
+        .then((streamUrl) => {
+          if (!cancelled) setUrl(streamUrl);
+        })
+        .catch(() => {
+          if (!cancelled) setErr(true);
+        });
+    } else {
+      // Imagem/documento: blob autenticado (funciona em todo navegador).
+      fetchConversationMedia(ownerType, ownerId, msg.id)
+        .then((blob) => {
+          if (cancelled) return;
+          objectUrl = URL.createObjectURL(blob);
+          setUrl(objectUrl);
+        })
+        .catch(() => {
+          if (!cancelled) setErr(true);
+        });
+    }
     return () => {
       cancelled = true;
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [ownerType, ownerId, msg.id]);
+  }, [ownerType, ownerId, msg.id, isAudio]);
 
   const sizeLabel = formatBytes(msg.mediaSizeBytes);
   const filename = msg.mediaFilename || mediaKindLabel(kind);
@@ -284,7 +298,7 @@ function WhatsAppMediaView({
         )
       ) : isAudio ? (
         url ? (
-          <audio controls src={safeUrl(url)} className="w-full max-w-[280px]" />
+          <audio controls preload="metadata" src={safeUrl(url)} className="w-full max-w-[280px]" />
         ) : (
           <Skeleton className="h-10 w-[260px] rounded-md" />
         )

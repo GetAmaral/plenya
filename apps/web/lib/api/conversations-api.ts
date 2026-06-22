@@ -285,6 +285,23 @@ export function fetchConversationMedia(
   return apiClient.getBlob(conversationMediaEndpoint(type, id, activityId));
 }
 
+/**
+ * URL de streaming direta (autenticada por token assinado) pra tocar áudio/vídeo no
+ * <audio>/<video>. Necessário no Safari/iOS, que não toca mídia de blob: URL e exige
+ * HTTP Range. O backend assina um token escopado àquele arquivo (TTL 2h).
+ */
+export async function fetchConversationMediaStreamUrl(
+  type: ConversationOwnerType,
+  id: string,
+  activityId: string,
+): Promise<string> {
+  const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+  const { url } = await apiClient.get<{ url: string }>(
+    `${conversationMediaEndpoint(type, id, activityId)}/signed`,
+  );
+  return `${base}${url}`;
+}
+
 export interface InterpretExamResult {
   documentId: string;
   batchId: string;

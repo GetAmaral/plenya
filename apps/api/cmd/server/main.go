@@ -402,7 +402,7 @@ func setupRoutes(
 	conversationService := services.NewConversationService(database.DB, leadService, emailService, whatsappService, notificationService, aiService)
 	conversationAutomationService := services.NewConversationAutomationService(database.DB, cfg)
 	receptionSettingsService := services.NewReceptionSettingsService(database.DB)
-	conversationHandler := handlers.NewConversationHandler(conversationService, conversationAutomationService, receptionSettingsService)
+	conversationHandler := handlers.NewConversationHandler(conversationService, conversationAutomationService, receptionSettingsService, cfg.JWT.Secret)
 	notificationEmailHandler := handlers.NewNotificationEmailHandler(notificationEmailService)
 	conversationAttachmentHandler := handlers.NewConversationAttachmentHandler("/app/uploads")
 
@@ -571,6 +571,7 @@ func setupRoutes(
 	conv.Post("/compose", conversationHandler.Compose)
 	conv.Get("/:type/:id/messages", conversationHandler.Messages)
 	conv.Get("/:type/:id/media/:activityId", conversationHandler.Media)
+	conv.Get("/:type/:id/media/:activityId/signed", conversationHandler.SignedMediaURL)
 	conv.Post("/:type/:id/media/:activityId/interpret-exam", conversationHandler.InterpretExam)
 	conv.Get("/:type/:id/messages/:activityId/attachments/:idx", conversationHandler.Attachment)
 	conv.Post("/:type/:id/messages/:activityId/save-to-prontuario", conversationHandler.SaveToProntuario)
@@ -586,6 +587,11 @@ func setupRoutes(
 	conv.Get("/:type/:id/automation", conversationHandler.GetAutomation)
 	conv.Put("/:type/:id/automation", conversationHandler.SetAutomation)
 	conv.Get("/:type/:id/suggested-reply", conversationHandler.GetSuggestedReply)
+	// Streaming de mídia PÚBLICO (autenticado por token HMAC assinado na query, via
+	// SignedMediaURL). Fora do grupo /conversations de propósito: o <audio>/<video> do
+	// navegador não manda header Authorization e o Safari/iOS não toca blob: URL.
+	// Suporta HTTP Range pra o iOS tocar e permitir seek.
+	v1.Get("/media-stream/conversations/:type/:id/:activityId", conversationHandler.MediaStream)
 	// Dossiê 360 (social) — grupo próprio com RBAC ampliado: além da recepção, o MÉDICO e os
 	// profissionais (nutri/psico/edu. física) acessam e alimentam o 360 (na conversa e na consulta).
 	dossier := v1.Group("/conversations")

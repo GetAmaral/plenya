@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -21,14 +22,16 @@ type ConversationHandler struct {
 	service     *services.ConversationService
 	autoSvc     *services.ConversationAutomationService
 	settingsSvc *services.ReceptionSettingsService
+	mediaSecret string
 	validator   *validator.Validate
 }
 
-func NewConversationHandler(s *services.ConversationService, autoSvc *services.ConversationAutomationService, settingsSvc *services.ReceptionSettingsService) *ConversationHandler {
+func NewConversationHandler(s *services.ConversationService, autoSvc *services.ConversationAutomationService, settingsSvc *services.ReceptionSettingsService, mediaSecret string) *ConversationHandler {
 	return &ConversationHandler{
 		service:     s,
 		autoSvc:     autoSvc,
 		settingsSvc: settingsSvc,
+		mediaSecret: mediaSecret,
 		validator:   validator.New(),
 	}
 }
@@ -132,6 +135,102 @@ func serveMedia(c *fiber.Ctx, res *services.ActivityMediaResult) error {
 		c.Set("Content-Disposition", "inline; filename=\""+res.Filename+"\"")
 	}
 	return c.Send(res.Bytes)
+}
+
+// SignedMediaURL — GET /conversations/:type/:id/media/:activityId/signed (autenticado)
+// Devolve uma URL de streaming assinada (curta) pra o <audio>/<video> tocar a mídia
+// direto. Necessário no Safari/iOS, que não toca mídia de blob: URL e exige Range —
+// e o elemento de mídia não manda header Authorization, daí o token na URL.
+func (h *ConversationHandler) SignedMediaURL(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	activityID, perr := uuid.Parse(c.Params("activityId"))
+	if perr != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid activityId"})
+	}
+	tok := services.SignMediaToken(h.mediaSecret, ownerType, ownerID.String(), activityID.String(), 2*time.Hour)
+	url := fmt.Sprintf("/api/v1/media-stream/conversations/%s/%s/%s?mt=%s", ownerType, ownerID, activityID, tok)
+	return c.JSON(fiber.Map{"url": url})
+}
+
+// MediaStream — GET /media-stream/conversations/:type/:id/:activityId?mt=<token> (PÚBLICO)
+// Serve a mídia com suporte a Range (iOS exige), autenticando pelo token assinado da
+// SignedMediaURL. Rota fora do grupo /conversations de propósito: o <audio> precisa
+// acessá-la sem header Authorization.
+func (h *ConversationHandler) MediaStream(c *fiber.Ctx) error {
+	ownerType, ownerID, err := parseOwnerParams(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: err.Error()})
+	}
+	activityID, perr := uuid.Parse(c.Params("activityId"))
+	if perr != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid activityId"})
+	}
+	if !services.VerifyMediaToken(h.mediaSecret, c.Query("mt"), ownerType, ownerID.String(), activityID.String()) {
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorResponse{Error: "invalid or expired media token"})
+	}
+	res, gerr := h.service.GetActivityMedia(ownerType, ownerID, activityID)
+	if gerr != nil {
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "media not found"})
+	}
+	return serveMediaRanged(c, res)
+}
+
+// serveMediaRanged serve bytes com suporte a HTTP Range (Accept-Ranges + 206). iOS
+// Safari faz uma requisição Range ao tocar mídia e recusa quem responde 200 sem
+// Accept-Ranges; também habilita seek. Headers seguros iguais ao serveMedia.
+func serveMediaRanged(c *fiber.Ctx, res *services.ActivityMediaResult) error {
+	c.Set("X-Content-Type-Options", "nosniff")
+	c.Set("Accept-Ranges", "bytes")
+	if res.MIME != "" {
+		c.Set("Content-Type", res.MIME)
+	}
+	total := len(res.Bytes)
+	spec := strings.TrimPrefix(c.Get("Range"), "bytes=")
+	if spec == c.Get("Range") || spec == "" { // sem Range válido → corpo inteiro
+		c.Set("Content-Length", strconv.Itoa(total))
+		return c.Send(res.Bytes)
+	}
+	if i := strings.IndexByte(spec, ','); i >= 0 { // só o primeiro range
+		spec = spec[:i]
+	}
+	dash := strings.IndexByte(spec, '-')
+	if dash < 0 {
+		c.Set("Content-Length", strconv.Itoa(total))
+		return c.Send(res.Bytes)
+	}
+	startStr, endStr := spec[:dash], spec[dash+1:]
+	var start, end int
+	if startStr == "" { // sufixo: bytes=-N (últimos N)
+		n, _ := strconv.Atoi(endStr)
+		if n <= 0 || n > total {
+			n = total
+		}
+		start, end = total-n, total-1
+	} else {
+		start, _ = strconv.Atoi(startStr)
+		if endStr == "" {
+			end = total - 1
+		} else {
+			end, _ = strconv.Atoi(endStr)
+		}
+	}
+	if start < 0 {
+		start = 0
+	}
+	if end >= total {
+		end = total - 1
+	}
+	if total == 0 || start > end || start >= total {
+		c.Set("Content-Range", fmt.Sprintf("bytes */%d", total))
+		return c.SendStatus(fiber.StatusRequestedRangeNotSatisfiable)
+	}
+	c.Status(fiber.StatusPartialContent)
+	c.Set("Content-Range", fmt.Sprintf("bytes %d-%d/%d", start, end, total))
+	c.Set("Content-Length", strconv.Itoa(end-start+1))
+	return c.Send(res.Bytes[start : end+1])
 }
 
 // InterpretExam — POST /conversations/:type/:id/media/:activityId/interpret-exam
