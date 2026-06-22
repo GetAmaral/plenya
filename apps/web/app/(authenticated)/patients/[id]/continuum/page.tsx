@@ -13,7 +13,7 @@
 import { useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { addDays, differenceInWeeks, format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 import { toast } from 'sonner';
 import {
   ArrowLeft,
@@ -244,8 +244,8 @@ function ContinuumTimeline({
           <div>
             <p className="text-xs uppercase text-muted-foreground">Período</p>
             <p className="text-sm font-medium">
-              {format(startDate, "dd 'de' MMM yyyy", { locale: ptBR })} —{' '}
-              {format(endDate, "dd 'de' MMM yyyy", { locale: ptBR })}
+              {formatDate(startDate, "dd 'de' MMM yyyy")} —{' '}
+              {formatDate(endDate, "dd 'de' MMM yyyy")}
             </p>
             <p className="text-xs text-muted-foreground">{totalWeeks} semanas</p>
           </div>
@@ -330,7 +330,7 @@ function ContinuumTimeline({
                     )}
                   </CardTitle>
                   <span className="text-xs text-muted-foreground">
-                    {format(addDays(startDate, week * 7), "dd 'de' MMM", { locale: ptBR })}
+                    {formatDate(addDays(startDate, week * 7), "dd 'de' MMM")}
                   </span>
                 </div>
               </CardHeader>
@@ -369,7 +369,7 @@ function ContinuumTimeline({
                           {ITEM_TYPE_LABELS[it.type]}
                           {it.specialty && ` · ${SPECIALTY_LABELS[it.specialty]}`}
                           {' · '}
-                          {format(new Date(it.expectedDate), "dd/MM", { locale: ptBR })}
+                          {formatDate(it.expectedDate, "dd/MM")}
                           {isLate && (
                             <>
                               {' · '}

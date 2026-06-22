@@ -7,8 +7,7 @@
  * Aparece pra admin/manager/secretary; outros roles podem ver mas não acionam.
  */
 import { useState } from "react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import { toast } from "sonner";
 import { Loader2, Send, Copy, MailCheck, MailWarning, Mail, MessageSquare } from "lucide-react";
 
@@ -95,13 +94,13 @@ export function PortalAccessCard({ patientId }: { patientId: string }) {
         {status?.status === "accepted" && status.acceptedAt && (
           <p className="text-sm text-muted-foreground">
             Acesso ativado em{" "}
-            {format(new Date(status.acceptedAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}.
+            {formatDate(status.acceptedAt, "dd/MM/yyyy 'às' HH:mm")}.
           </p>
         )}
         {status?.status === "pending" && status.expiresAt && (
           <p className="text-sm text-muted-foreground">
             Convite enviado, expira em{" "}
-            {format(new Date(status.expiresAt), "dd/MM/yyyy", { locale: ptBR })}. Reenvie se necessário.
+            {formatDate(status.expiresAt, "dd/MM/yyyy")}. Reenvie se necessário.
           </p>
         )}
 

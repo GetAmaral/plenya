@@ -11,8 +11,7 @@
  */
 import { useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 import {
   Loader2,
   FileText,
@@ -203,7 +202,7 @@ export default function MedicalRecordPage() {
           {grouped.map(([day, entries]) => (
             <div key={day}>
               <p className="mb-2 text-xs font-medium uppercase text-muted-foreground">
-                {format(new Date(day), "EEEE, dd 'de' MMM yyyy", { locale: ptBR })}
+                {formatDate(day, "EEEE, dd 'de' MMM yyyy")}
               </p>
               <div className="space-y-2">
                 {entries.map((e) => {
@@ -251,7 +250,7 @@ export default function MedicalRecordPage() {
                           )}
                         </div>
                         <p className="shrink-0 text-xs text-muted-foreground">
-                          {format(new Date(e.eventDate), 'HH:mm')}
+                          {formatDate(e.eventDate, 'HH:mm')}
                         </p>
                       </CardContent>
                     </Card>

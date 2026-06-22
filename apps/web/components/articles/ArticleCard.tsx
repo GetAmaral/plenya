@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { formatDistanceToNow } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatRelativeToNow } from '@/lib/format-date'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -159,10 +158,8 @@ export function ArticleCard({ article }: ArticleCardProps) {
     window.open(url, '_blank')
   }
 
-  const publishDate = new Date(article.publishDate)
-  const formattedDate = formatDistanceToNow(publishDate, {
+  const formattedDate = formatRelativeToNow(article.publishDate, {
     addSuffix: true,
-    locale: ptBR,
   })
 
   return (

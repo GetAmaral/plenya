@@ -7,8 +7,7 @@
  * Read-only — paciente preenche pelo app, profissional só consome.
  */
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import { Activity, Heart, Moon, Brain, Bed } from "lucide-react";
 
 import { apiClient } from "@/lib/api-client";
@@ -214,9 +213,7 @@ export function CheckInsCard({ patientId }: { patientId: string }) {
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">
-                    {format(new Date(c.createdAt), "dd/MM HH:mm", {
-                      locale: ptBR,
-                    })}
+                    {formatDate(c.createdAt, "dd/MM HH:mm")}
                   </span>
                   {c.pain > 0 && (
                     <Badge variant="destructive" className="text-xs">

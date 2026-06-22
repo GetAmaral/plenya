@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import { Plus, Dumbbell, Copy, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -100,7 +99,7 @@ export default function WorkoutPlansPage() {
                   </div>
                   <p className="text-sm text-muted-foreground">
                     {plan.sessions?.length || 0} sessão(ões) •{" "}
-                    {format(new Date(plan.createdAt), "dd/MM/yyyy", { locale: ptBR })}
+                    {formatDate(plan.createdAt)}
                   </p>
                   <div className="flex gap-2">
                     <Link href={`/training/workout-plans/${plan.id}`} className="flex-1">

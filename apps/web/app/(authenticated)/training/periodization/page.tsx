@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import { Plus, Timer } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -80,7 +79,7 @@ export default function PeriodizationPage() {
                     <Badge>{frameworkLabels[p.framework] || p.framework}</Badge>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    {format(new Date(p.startDate), "dd/MM/yyyy", { locale: ptBR })} •{" "}
+                    {formatDate(p.startDate, "dd/MM/yyyy")} •{" "}
                     {p.totalWeeks} semanas
                   </p>
                 </CardHeader>

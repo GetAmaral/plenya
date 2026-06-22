@@ -13,8 +13,7 @@ import {
   Shield,
   AlertTriangle,
 } from 'lucide-react'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatDate } from '@/lib/format-date'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -256,7 +255,7 @@ export default function CertificatesPage() {
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
-                        {format(new Date(cert.validUntil), 'dd/MM/yyyy', { locale: ptBR })}
+                        {formatDate(cert.validUntil, 'dd/MM/yyyy')}
                       </div>
                       <p className="text-xs text-muted-foreground">
                         {cert.daysUntilExpiry > 0

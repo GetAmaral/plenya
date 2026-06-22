@@ -56,7 +56,7 @@ import {
 } from '@/lib/api/anamnesis-templates'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatDate } from '@/lib/format-date'
 import { RichTextEditor } from '@/components/ui/rich-text-editor'
 import { htmlToPlainText } from '@/lib/html-utils'
 import { AnamnesisFullscreenTemplateItems } from './AnamnesisFullscreenTemplateItems'
@@ -219,7 +219,7 @@ export function AnamnesisFullscreenForm({ onSuccess, onCancel }: AnamnesisFullsc
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm font-medium">
-                      {format(new Date(consultationDate), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                      {formatDate(consultationDate, "dd/MM/yyyy 'às' HH:mm")}
                     </span>
                   </div>
                   {selectedTemplate && (

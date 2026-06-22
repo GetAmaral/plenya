@@ -11,12 +11,15 @@ import type {
   AppointmentStatus,
   AppointmentType,
 } from "@/lib/api/calendar-api";
+import { toDate } from "@/lib/format-date";
 
 const SAO_PAULO_TZ = "America/Sao_Paulo";
 
 /** "2026-05-30T13:00:00Z" -> "10:00" (horario de Brasilia). */
 export function formatTimeBRT(iso: string): string {
-  return new Date(iso).toLocaleTimeString("pt-BR", {
+  const d = toDate(iso);
+  if (!d) return "—";
+  return d.toLocaleTimeString("pt-BR", {
     timeZone: SAO_PAULO_TZ,
     hour: "2-digit",
     minute: "2-digit",
@@ -36,7 +39,9 @@ export function formatFullDatePtBR(date: Date): string {
 
 /** Hora curta de um instante qualquer (mensagens, leads). Ex: "14:32". */
 export function formatShortTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString("pt-BR", {
+  const d = toDate(iso);
+  if (!d) return "—";
+  return d.toLocaleTimeString("pt-BR", {
     timeZone: SAO_PAULO_TZ,
     hour: "2-digit",
     minute: "2-digit",
@@ -48,7 +53,8 @@ export function formatShortTime(iso: string): string {
  * recente foi. Usado nos cartoes de mensagens e leads novos.
  */
 export function formatRelativeDayTime(iso: string): string {
-  const d = new Date(iso);
+  const d = toDate(iso);
+  if (!d) return "—";
   const now = new Date();
   const sameDay = (a: Date, b: Date) =>
     a.toLocaleDateString("pt-BR", { timeZone: SAO_PAULO_TZ }) ===

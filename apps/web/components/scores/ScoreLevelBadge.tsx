@@ -17,8 +17,7 @@ import {
   ContextMenuSeparator,
 } from '@/components/ui/context-menu'
 import { ScoreLevel } from '@/lib/api/score-api'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatDate } from '@/lib/format-date'
 
 interface ScoreLevelBadgeProps {
   level: ScoreLevel
@@ -166,7 +165,7 @@ export function ScoreLevelBadge({
             {level.lastReview && (
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <Calendar className="h-3 w-3" />
-                <span>Revisado em {format(new Date(level.lastReview), "dd/MM/yyyy", { locale: ptBR })}</span>
+                <span>Revisado em {formatDate(level.lastReview, "dd/MM/yyyy")}</span>
               </div>
             )}
             {level.patientExplanation && (

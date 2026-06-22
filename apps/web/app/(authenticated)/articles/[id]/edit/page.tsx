@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useForm, Controller } from 'react-hook-form'
 import { useFormNavigation } from '@/lib/use-form-navigation'
-import { format } from 'date-fns'
+import { formatDate } from '@/lib/format-date'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -71,7 +71,7 @@ export default function EditArticlePage({ params }: PageProps) {
           title: article.title,
           authors: article.authors,
           journal: article.journal,
-          publishDate: format(new Date(article.publishDate), 'yyyy-MM-dd'),
+          publishDate: formatDate(article.publishDate, 'yyyy-MM-dd', { fallback: '' }),
           language: article.language,
           doi: article.doi || '',
           pmid: article.pmid || '',
@@ -89,7 +89,7 @@ export default function EditArticlePage({ params }: PageProps) {
           title: article.title,
           authors: article.authors,
           journal: article.journal,
-          publishDate: format(new Date(article.publishDate), 'yyyy-MM-dd'),
+          publishDate: formatDate(article.publishDate, 'yyyy-MM-dd', { fallback: '' }),
           language: article.language,
           doi: article.doi || '',
           pmid: article.pmid || '',

@@ -15,8 +15,7 @@ import { useSelectedPatient } from "@/lib/use-selected-patient";
 import { Patient } from "@/lib/auth-store";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { format, differenceInYears } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate, calcAge } from "@/lib/format-date";
 
 type SortBy = "name" | "recent";
 
@@ -191,9 +190,9 @@ export default function PatientSelectPage() {
             {filteredPatients.map((p) => {
               const busy = selectingId === p.id;
               const dob = p.birthDate
-                ? format(new Date(p.birthDate), "dd/MM/yyyy", { locale: ptBR })
+                ? formatDate(p.birthDate, "dd/MM/yyyy")
                 : null;
-              const age = p.birthDate ? differenceInYears(new Date(), new Date(p.birthDate)) : null;
+              const age = calcAge(p.birthDate);
               const city = [p.municipality, p.state].filter(Boolean).join(" - ");
               return (
                 <li key={p.id}>

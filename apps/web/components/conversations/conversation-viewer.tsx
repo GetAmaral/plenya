@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { format, isSameDay, isToday, isYesterday } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { isSameDay, isToday, isYesterday } from 'date-fns';
 import { ExternalLink, FileText, Image as ImageIcon, Loader2, Mail, MessageSquare, ArrowLeft, CalendarPlus, RefreshCw, Sparkles, MoreVertical, Bot, Hand, SendHorizonal, Check, CheckCheck, IdCard } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
+import { formatDate } from '@/lib/format-date';
 import { safeUrl } from '@/lib/security';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -72,7 +72,7 @@ function dateDividerLabel(iso: string): string {
   const d = new Date(iso);
   if (isToday(d)) return 'Hoje';
   if (isYesterday(d)) return 'Ontem';
-  return format(d, "d 'de' MMMM 'de' yyyy", { locale: ptBR });
+  return formatDate(iso, "d 'de' MMMM 'de' yyyy");
 }
 
 /** Formata bytes pra rótulo curto. */
@@ -394,7 +394,7 @@ function MessageBubble({
     return (
       <div className="px-2 py-1 text-center text-[11px] text-muted-foreground">
         <span className={cn(failed && 'text-rose-600')}>
-          {format(new Date(msg.createdAt), 'HH:mm:ss')} · {status || msg.type}
+          {formatDate(msg.createdAt, 'HH:mm:ss')} · {status || msg.type}
         </span>
       </div>
     );
@@ -406,7 +406,7 @@ function MessageBubble({
       <div className="rounded-md bg-muted/50 p-2 text-xs text-muted-foreground">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="capitalize">{msg.type.replace(/_/g, ' ')}</span>
-          <span>{format(new Date(msg.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}</span>
+          <span>{formatDate(msg.createdAt, "dd/MM 'às' HH:mm")}</span>
         </div>
         {msg.content && <p className="mt-1 whitespace-pre-wrap wrap-break-word">{msg.content}</p>}
       </div>
@@ -446,7 +446,7 @@ function MessageBubble({
             )}
           </span>
           <span className="inline-flex shrink-0 items-center gap-1">
-            {format(new Date(msg.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}
+            {formatDate(msg.createdAt, "dd/MM 'às' HH:mm")}
             {isOutbound && msg.channel === 'whatsapp' && deliveryStatus && (
               <DeliveryTicks status={deliveryStatus} />
             )}
@@ -1074,7 +1074,7 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
               </Badge>
               <span>
                 gerado às{' '}
-                {format(new Date(summaryDialog.generatedAt), "dd/MM 'às' HH:mm", { locale: ptBR })}
+                {formatDate(summaryDialog.generatedAt, "dd/MM 'às' HH:mm")}
               </span>
             </div>
           )}

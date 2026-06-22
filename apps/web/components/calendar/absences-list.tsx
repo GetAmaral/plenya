@@ -7,10 +7,11 @@
  * Layout: futuras em destaque + passadas colapsáveis.
  */
 import { useMemo, useState } from 'react';
-import { format, isAfter } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { isAfter } from 'date-fns';
 import { Plus, Trash2, ChevronDown, ChevronRight } from 'lucide-react';
 import { toast } from 'sonner';
+
+import { formatDate } from '@/lib/format-date';
 
 import {
   Dialog,
@@ -158,15 +159,13 @@ function AbsenceRow({
   readOnly: boolean;
   onDelete: () => void;
 }) {
-  const start = new Date(absence.startAt);
-  const end = new Date(absence.endAt);
   return (
     <Card className="flex items-center justify-between p-3">
       <div>
         <div className="text-sm font-medium">
-          {format(start, "dd 'de' MMM yyyy, HH:mm", { locale: ptBR })}
+          {formatDate(absence.startAt, "dd 'de' MMM yyyy, HH:mm")}
           {' → '}
-          {format(end, "dd 'de' MMM yyyy, HH:mm", { locale: ptBR })}
+          {formatDate(absence.endAt, "dd 'de' MMM yyyy, HH:mm")}
         </div>
         {absence.reason && (
           <div className="text-xs text-muted-foreground">{absence.reason}</div>

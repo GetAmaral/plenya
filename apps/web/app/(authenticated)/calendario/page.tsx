@@ -14,6 +14,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { addDays, format, startOfDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 
 import { useRequireAuth } from '@/lib/use-auth';
@@ -254,9 +255,7 @@ export default function CalendarioPage() {
                 <div>
                   <p className="text-xs uppercase text-muted-foreground">Data/Hora</p>
                   <p>
-                    {format(new Date(drawerAppt.scheduledAt), "dd 'de' MMM yyyy 'às' HH:mm", {
-                      locale: ptBR,
-                    })}
+                    {formatDate(drawerAppt.scheduledAt, "dd 'de' MMM yyyy 'às' HH:mm")}
                   </p>
                 </div>
                 <div>

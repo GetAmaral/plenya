@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, Copy, Check, Download, Archive, ExternalLink } from 'lucide-react';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 import { toast } from 'sonner';
 
 import { useRequireAuth } from '@/lib/use-auth';
@@ -203,9 +202,7 @@ export default function CampaignDetailPage() {
 
             <p className="text-xs text-muted-foreground">
               Criada em{' '}
-              {format(new Date(campaign.createdAt), "dd 'de' MMMM 'de' yyyy 'às' HH:mm", {
-                locale: ptBR,
-              })}
+              {formatDate(campaign.createdAt, "dd 'de' MMMM 'de' yyyy 'às' HH:mm")}
             </p>
           </div>
 

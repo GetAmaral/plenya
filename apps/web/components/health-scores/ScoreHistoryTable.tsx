@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { format } from "date-fns"
-import { ptBR } from "date-fns/locale"
+import { formatDate } from "@/lib/format-date"
 import { Eye, Trash2 } from "lucide-react"
 import { useDeleteHealthScore } from "@/lib/api/health-score-api"
 import { useRouter } from "next/navigation"
@@ -54,9 +53,7 @@ export function ScoreHistoryTable({ snapshots }: ScoreHistoryTableProps) {
         {snapshots.map((snapshot) => (
           <TableRow key={snapshot.id}>
             <TableCell>
-              {format(new Date(snapshot.calculatedAt), "dd/MM/yyyy 'às' HH:mm", {
-                locale: ptBR,
-              })}
+              {formatDate(snapshot.calculatedAt, "dd/MM/yyyy 'às' HH:mm")}
             </TableCell>
             <TableCell>
               <Badge className={getScoreColor(snapshot.totalScorePercentage)}>

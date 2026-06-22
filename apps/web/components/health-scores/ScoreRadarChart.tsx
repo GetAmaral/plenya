@@ -4,8 +4,7 @@ import { PatientScoreSnapshot } from "@/lib/api/health-score-api"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Activity } from "lucide-react"
-import { format } from "date-fns"
-import { ptBR } from "date-fns/locale"
+import { formatDate } from "@/lib/format-date"
 import { RadarAgir, resolveColor } from "./RadarAgir"
 import { buildAgir } from "./build-agir"
 
@@ -85,7 +84,7 @@ export function ScoreRadarChart({ snapshot }: ScoreRadarChartProps) {
               </div>
               <p className="mt-1 text-sm text-muted-foreground">
                 Método AGIR · calculado em{" "}
-                {format(new Date(snapshot.calculatedAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                {formatDate(snapshot.calculatedAt, "dd/MM/yyyy 'às' HH:mm")}
               </p>
             </div>
 

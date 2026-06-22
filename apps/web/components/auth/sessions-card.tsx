@@ -4,8 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Loader2, LogOut, Monitor, Smartphone } from 'lucide-react'
-import { formatDistanceToNow } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatRelativeToNow } from '@/lib/format-date'
 import { toast } from 'sonner'
 import { useSessions, useRevokeSession, type Session } from '@/lib/api/sessions'
 
@@ -65,7 +64,7 @@ function SessionRow({ session }: { session: Session }) {
           </div>
           <p className="text-xs text-muted-foreground">
             {session.ipAddress ? `${session.ipAddress} · ` : ''}
-            ativo {formatDistanceToNow(new Date(last), { addSuffix: true, locale: ptBR })}
+            ativo {formatRelativeToNow(last, { addSuffix: true })}
           </p>
         </div>
       </div>

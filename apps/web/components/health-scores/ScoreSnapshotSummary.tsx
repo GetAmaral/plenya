@@ -8,8 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { format } from "date-fns"
-import { ptBR } from "date-fns/locale"
+import { formatDate } from "@/lib/format-date"
 import { TrendingUp, TrendingDown, Minus, Activity } from "lucide-react"
 
 interface ScoreSnapshotSummaryProps {
@@ -115,9 +114,7 @@ export function ScoreSnapshotSummary({ snapshot, showDetailCards = true, childre
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
                 Calculado em{" "}
-                {format(new Date(snapshot.calculatedAt), "dd/MM/yyyy 'às' HH:mm", {
-                  locale: ptBR,
-                })}
+                {formatDate(snapshot.calculatedAt, "dd/MM/yyyy 'às' HH:mm")}
               </p>
             </div>
 

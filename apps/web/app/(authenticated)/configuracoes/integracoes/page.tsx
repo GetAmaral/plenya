@@ -9,8 +9,7 @@
  */
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 import {
   Calendar as CalendarIcon,
   CheckCircle2,
@@ -168,9 +167,7 @@ export default function IntegracoesPage() {
               {status.lastSyncAt && (
                 <p className="text-xs text-muted-foreground">
                   Última sincronização:{' '}
-                  {format(new Date(status.lastSyncAt), "dd 'de' MMM yyyy 'às' HH:mm", {
-                    locale: ptBR,
-                  })}
+                  {formatDate(status.lastSyncAt, "dd 'de' MMM yyyy 'às' HH:mm")}
                 </p>
               )}
               <div className="flex gap-2">

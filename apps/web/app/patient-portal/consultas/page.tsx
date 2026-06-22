@@ -6,8 +6,7 @@
  */
 import { useState } from "react";
 import Link from "next/link";
-import { format, formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate, formatRelativeToNow } from "@/lib/format-date";
 import { Loader2, Calendar, Video, CheckCircle2, Clock, XCircle } from "lucide-react";
 
 import { useRequirePatientAuth } from "@/lib/use-patient-auth";
@@ -118,8 +117,8 @@ function AppointmentRow({ a }: { a: MyAppointment }) {
           <div className="min-w-0 flex-1 space-y-1">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <Calendar className="h-3 w-3" />
-              {format(when, "EEEE, d 'de' MMMM", { locale: ptBR })} ·{" "}
-              {format(when, "HH:mm")}
+              {formatDate(when, "EEEE, d 'de' MMMM")} ·{" "}
+              {formatDate(when, "HH:mm")}
             </div>
             <p className="font-medium">{TYPE_LABEL[a.type] ?? a.type}</p>
             <p className="text-sm text-muted-foreground">com {a.doctorName}</p>
@@ -135,7 +134,7 @@ function AppointmentRow({ a }: { a: MyAppointment }) {
               )}
               {isUpcoming && (
                 <Badge variant="secondary">
-                  {formatDistanceToNow(when, { addSuffix: true, locale: ptBR })}
+                  {formatRelativeToNow(when, { addSuffix: true })}
                 </Badge>
               )}
             </div>

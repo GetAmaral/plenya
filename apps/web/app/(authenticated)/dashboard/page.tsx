@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import {
   AlertTriangle,
   ArrowRight,
@@ -73,7 +74,7 @@ export default function DashboardPage() {
         new Date(a.scheduledAt).getTime() >= nowMs - 60 * 60 * 1000,
     );
   }, [sorted]);
-  const proximaTime = proximas[0] ? format(new Date(proximas[0].scheduledAt), "HH:mm") : "—";
+  const proximaTime = proximas[0] ? formatDate(proximas[0].scheduledAt, "HH:mm") : "—";
 
   return (
     <div className="container mx-auto space-y-6 py-8">
@@ -170,7 +171,7 @@ export default function DashboardPage() {
                       <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
                         <span>{APPOINTMENT_TYPE_LABELS[a.type]}</span>
                         <span>·</span>
-                        <span>{format(new Date(a.scheduledAt), "HH:mm")}</span>
+                        <span>{formatDate(a.scheduledAt, "HH:mm")}</span>
                         <ArrowRight className="ml-auto h-3.5 w-3.5" />
                       </div>
                     </Link>
@@ -226,7 +227,7 @@ function AppointmentRow({ appt, onClick }: { appt: Appointment; onClick: () => v
       className="flex w-full items-center gap-3 rounded-lg border border-border p-3 text-left transition hover:bg-accent/50"
     >
       <div className="flex w-14 shrink-0 flex-col items-center">
-        <span className="text-sm font-semibold">{format(new Date(appt.scheduledAt), "HH:mm")}</span>
+        <span className="text-sm font-semibold">{formatDate(appt.scheduledAt, "HH:mm")}</span>
         <span className="text-[10px] text-muted-foreground">{appt.durationMinutes}min</span>
       </div>
       <div className="min-w-0 flex-1">

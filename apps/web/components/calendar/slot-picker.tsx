@@ -9,8 +9,7 @@
  * Backend já intersecciona working_hours ∩ ¬absence ∩ ¬google_busy ∩ ¬appointment.
  * Portanto se um slot aparece, está livre. Slots não retornados = indisponíveis.
  */
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import {
@@ -86,7 +85,7 @@ export function SlotPicker({
     <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
       {slots.map((slot) => {
         const isSelected = selectedSlotUtc === slot.startUtc;
-        const startLabel = format(new Date(slot.startUtc), 'HH:mm', { locale: ptBR });
+        const startLabel = formatDate(slot.startUtc, 'HH:mm');
         return (
           <button
             key={slot.startUtc}

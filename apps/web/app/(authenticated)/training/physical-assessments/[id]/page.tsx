@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import { Heart, Scale, Ruler, Droplets, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -101,7 +100,7 @@ export default function PhysicalAssessmentDetailPage() {
       <SelectedPatientHeader />
       <PageHeader
         title="Avaliacao Fisica"
-        description={format(new Date(a.assessmentDate), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+        description={formatDate(a.assessmentDate, "dd 'de' MMMM 'de' yyyy")}
       />
 
       {/* ACSM Risk Badge */}

@@ -4,8 +4,7 @@
  * /boxes — boxes Plenya (mimos + manipulados) com tracking.
  * Read-only pra paciente — equipe gerencia o fluxo logístico no EMR.
  */
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import {
   Loader2,
   Package,
@@ -104,17 +103,17 @@ function BoxRow({ b }: { b: PatientBoxView }) {
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
           {b.expectedDate && (
             <span>
-              Previsto: {format(new Date(b.expectedDate), "dd 'de' MMM", { locale: ptBR })}
+              Previsto: {formatDate(b.expectedDate, "dd 'de' MMM")}
             </span>
           )}
           {b.shippedAt && (
             <span>
-              Enviado em {format(new Date(b.shippedAt), "dd/MM/yyyy")}
+              Enviado em {formatDate(b.shippedAt)}
             </span>
           )}
           {b.deliveredAt && (
             <span>
-              Entregue em {format(new Date(b.deliveredAt), "dd/MM/yyyy")}
+              Entregue em {formatDate(b.deliveredAt)}
             </span>
           )}
           {b.carrier && <span>via {b.carrier}</span>}

@@ -6,8 +6,7 @@
  */
 import { useMemo } from "react";
 import Link from "next/link";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import {
   Loader2,
   CheckCircle2,
@@ -71,7 +70,7 @@ export default function MyContinuumPage() {
     if (!data?.continuum?.items) return [];
     const groups = new Map<string, PatientContinuumItemView[]>();
     for (const item of data.continuum.items) {
-      const key = format(new Date(item.expectedDate), "yyyy-MM");
+      const key = formatDate(item.expectedDate, "yyyy-MM");
       const arr = groups.get(key) ?? [];
       arr.push(item);
       groups.set(key, arr);
@@ -119,8 +118,8 @@ export default function MyContinuumPage() {
         </p>
         <h1 className="text-3xl font-light md:text-4xl">{c.templateName || "Programa Plenya"}</h1>
         <p className="text-muted-foreground">
-          {format(new Date(c.startDate), "d 'de' MMMM 'de' yyyy", { locale: ptBR })} →{" "}
-          {format(new Date(c.endDate), "d 'de' MMMM 'de' yyyy", { locale: ptBR })}
+          {formatDate(c.startDate, "d 'de' MMMM 'de' yyyy")} →{" "}
+          {formatDate(c.endDate, "d 'de' MMMM 'de' yyyy")}
         </p>
       </header>
 
@@ -151,7 +150,7 @@ export default function MyContinuumPage() {
           <CardContent>
             <p className="text-xl font-medium">{nextItem.title}</p>
             <p className="text-sm text-muted-foreground">
-              {format(new Date(nextItem.expectedDate), "EEEE, d 'de' MMMM", { locale: ptBR })}
+              {formatDate(nextItem.expectedDate, "EEEE, d 'de' MMMM")}
             </p>
             {nextItem.appointmentId && (
               <Link
@@ -173,7 +172,7 @@ export default function MyContinuumPage() {
             {c.integratedPlanUpdatedAt && (
               <p className="text-xs text-muted-foreground">
                 Atualizado em{" "}
-                {format(new Date(c.integratedPlanUpdatedAt), "d 'de' MMMM", { locale: ptBR })}
+                {formatDate(c.integratedPlanUpdatedAt, "d 'de' MMMM")}
               </p>
             )}
           </CardHeader>
@@ -189,7 +188,7 @@ export default function MyContinuumPage() {
         {groupedByMonth.map(([key, items]) => (
           <div key={key} className="space-y-2">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              {format(new Date(key + "-01"), "MMMM 'de' yyyy", { locale: ptBR })}
+              {formatDate(key + "-01", "MMMM 'de' yyyy")}
             </h3>
             <div className="space-y-2">
               {items.map((item) => (
@@ -238,7 +237,7 @@ function ContinuumItemRow({ item }: { item: PatientContinuumItemView }) {
           </Badge>
         </div>
         <p className="mt-0.5 text-xs text-muted-foreground">
-          {format(new Date(item.expectedDate), "d 'de' MMMM", { locale: ptBR })}
+          {formatDate(item.expectedDate, "d 'de' MMMM")}
           {item.specialty && ` · ${item.specialty}`}
         </p>
         {item.description && (

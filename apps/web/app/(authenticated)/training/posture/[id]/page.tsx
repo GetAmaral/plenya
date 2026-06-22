@@ -1,8 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -174,7 +173,7 @@ export default function PosturalAssessmentDetailPage() {
       <SelectedPatientHeader />
       <PageHeader
         title="Avaliacao Postural"
-        description={format(new Date(a.assessmentDate), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+        description={formatDate(a.assessmentDate, "dd 'de' MMMM 'de' yyyy")}
       />
 
       {/* View Type Badge */}

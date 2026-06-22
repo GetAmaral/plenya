@@ -4,8 +4,7 @@
  * /documentos — atestados, declarações, relatórios e outros docs clínicos
  * que a equipe Plenya disponibiliza pra você.
  */
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import { Loader2, FileText, Download } from "lucide-react";
 import { toast } from "sonner";
 
@@ -88,7 +87,7 @@ export default function MyDocumentsPage() {
                 <div className="min-w-0 flex-1 space-y-1">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <FileText className="h-3 w-3" />
-                    {format(new Date(d.issuedAt), "dd 'de' MMM 'de' yyyy", { locale: ptBR })}
+                    {formatDate(d.issuedAt, "dd 'de' MMM 'de' yyyy")}
                   </div>
                   <p className="truncate font-medium">{d.title}</p>
                   {d.description && (

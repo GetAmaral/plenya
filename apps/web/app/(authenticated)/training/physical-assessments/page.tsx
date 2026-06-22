@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import { Plus, Activity } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -77,7 +76,7 @@ export default function PhysicalAssessmentsPage() {
                   <CardHeader className="pb-2">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-sm font-medium">
-                        {format(new Date(assessment.assessmentDate), "dd/MM/yyyy", { locale: ptBR })}
+                        {formatDate(assessment.assessmentDate)}
                       </CardTitle>
                       {assessment.acsmRiskLevel && (
                         <Badge className={riskColors[assessment.acsmRiskLevel] || ""}>

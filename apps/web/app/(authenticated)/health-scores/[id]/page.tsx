@@ -35,6 +35,7 @@ import { RadarAgir } from "@/components/health-scores/RadarAgir"
 import { buildAgir } from "@/components/health-scores/build-agir"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { formatDate } from "@/lib/format-date"
 import { toast } from "sonner"
 
 // Estilos de cor por nível (igual à página de anamnese)
@@ -784,7 +785,7 @@ export default function HealthScoreDetailPage() {
     <div className="flex flex-col gap-6">
       {/* Header */}
       <PageHeader
-        title={snapshot.displayTitle ?? `Snapshot - ${format(new Date(snapshot.calculatedAt), "dd/MM/yyyy HH:mm", { locale: ptBR })}`}
+        title={snapshot.displayTitle ?? `Snapshot - ${formatDate(snapshot.calculatedAt, "dd/MM/yyyy HH:mm")}`}
         breadcrumbs={[{ label: "Escores de Saúde", href: "/health-scores" }]}
       >
         <div className="flex items-center gap-2">

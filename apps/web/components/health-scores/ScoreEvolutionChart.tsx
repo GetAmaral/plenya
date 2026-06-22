@@ -16,8 +16,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts"
-import { format, subDays, subMonths, subYears, isAfter } from "date-fns"
-import { ptBR } from "date-fns/locale"
+import { subDays, subMonths, subYears, isAfter } from "date-fns"
+import { formatDate } from "@/lib/format-date"
 
 interface ScoreEvolutionChartProps {
   snapshots: PatientScoreSnapshot[]
@@ -93,7 +93,7 @@ export function ScoreEvolutionChart({ snapshots }: ScoreEvolutionChartProps) {
     return filteredSnapshots
       .map((snapshot) => {
         const dataPoint: any = {
-          date: format(new Date(snapshot.calculatedAt), "dd/MM", { locale: ptBR }),
+          date: formatDate(snapshot.calculatedAt, "dd/MM"),
           fullDate: new Date(snapshot.calculatedAt),
           total: parseFloat(snapshot.totalScorePercentage.toFixed(1)),
         }

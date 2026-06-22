@@ -16,6 +16,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { format } from 'date-fns';
+import { formatDate } from '@/lib/format-date';
 import { Loader2, Calendar as CalendarIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -433,7 +434,7 @@ export default function NewAppointmentPage() {
                 <p className="text-xs text-muted-foreground">Horário</p>
                 <p className="font-medium">
                   {slot
-                    ? format(new Date(slot.startUtc), 'dd/MM/yyyy HH:mm')
+                    ? formatDate(slot.startUtc, 'dd/MM/yyyy HH:mm')
                     : 'Selecionar slot'}
                 </p>
               </div>

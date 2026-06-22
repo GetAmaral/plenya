@@ -3,8 +3,6 @@
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import {
   ArrowDown,
   ArrowUp,
@@ -28,6 +26,7 @@ import { useRequireAuth } from "@/lib/use-auth";
 import { usePatientGuard } from "@/lib/use-patient-guard";
 import { useDebouncedValue } from "@/lib/use-debounced-value";
 import { useUrlFilters } from "@/lib/use-url-filters";
+import { formatDate } from "@/lib/format-date";
 
 interface Patient {
   id: string;
@@ -361,9 +360,7 @@ export default function PatientsPage() {
                         <div className="text-sm">
                           <span className="font-medium">{patient.age}</span>
                           <span className="text-muted-foreground">
-                            {" "}({format(new Date(patient.birthDate), "dd/MM/yyyy", {
-                              locale: ptBR,
-                            })})
+                            {" "}({formatDate(patient.birthDate)})
                           </span>
                         </div>
                       </td>
@@ -381,9 +378,7 @@ export default function PatientsPage() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="text-sm text-muted-foreground">
-                          {format(new Date(patient.createdAt), "dd/MM/yyyy", {
-                            locale: ptBR,
-                          })}
+                          {formatDate(patient.createdAt)}
                         </div>
                       </td>
                       <td className="px-4 py-3">

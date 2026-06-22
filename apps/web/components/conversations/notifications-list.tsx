@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { BellOff, Check, Mail } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { formatDate } from '@/lib/format-date';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   useMarkNotificationRead,
@@ -81,7 +80,7 @@ export function NotificationsList() {
                           {n.fromName || n.fromEmail}
                         </span>
                         <span className="shrink-0 text-[11px] text-muted-foreground">
-                          {format(new Date(n.receivedAt), "dd/MM HH:mm", { locale: ptBR })}
+                          {formatDate(n.receivedAt, "dd/MM HH:mm")}
                         </span>
                       </div>
                       <p className={cn('truncate text-sm', !n.isRead && 'text-foreground/90')}>

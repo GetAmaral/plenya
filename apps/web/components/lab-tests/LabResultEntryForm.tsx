@@ -6,9 +6,10 @@ import { useFormNavigation } from "@/lib/use-form-navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { CalendarIcon, Check, ChevronsUpDown, Loader2, User2 } from "lucide-react";
-import { format, differenceInYears } from "date-fns";
+import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
+import { calcAge } from "@/lib/format-date";
 import { useSelectedPatient } from "@/lib/use-selected-patient";
 import {
   labResultValuesBatchSchema,
@@ -181,7 +182,7 @@ export function LabResultEntryForm({
                     <div className="flex items-center gap-2">
                       <p className="font-medium">{selectedPatient.name}</p>
                       <Badge variant="outline" className="text-xs">
-                        {differenceInYears(new Date(), new Date(selectedPatient.birthDate))} anos
+                        {calcAge(selectedPatient.birthDate) ?? "—"} anos
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">

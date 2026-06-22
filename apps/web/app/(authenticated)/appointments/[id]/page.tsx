@@ -16,7 +16,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 import {
   ArrowLeft,
   Calendar as CalendarIcon,
@@ -272,7 +272,6 @@ export default function AppointmentDetailPage() {
     );
   }
 
-  const start = new Date(appt.scheduledAt);
   const statusColor = APPOINTMENT_STATUS_COLORS[appt.status];
   // Atendimento ativo (ou concluído): mostra o workspace de consulta.
   const isAtendimento =
@@ -289,7 +288,7 @@ export default function AppointmentDetailPage() {
           { label: appt.patient?.name ?? 'Detalhes' },
         ]}
         title={appt.patient?.name ?? 'Consulta'}
-        description={`${APPOINTMENT_TYPE_LABELS[appt.type]} — ${format(start, "dd 'de' MMM yyyy 'às' HH:mm", { locale: ptBR })}`}
+        description={`${APPOINTMENT_TYPE_LABELS[appt.type]} — ${formatDate(appt.scheduledAt, "dd 'de' MMM yyyy 'às' HH:mm")}`}
       />
 
       <div className="flex items-center gap-3">
@@ -358,7 +357,7 @@ export default function AppointmentDetailPage() {
                       <CheckCircle2 className="h-4 w-4 shrink-0" />
                       <span>
                         Consentimento de telemedicina registrado em{' '}
-                        {format(new Date(appt.telemedConsentAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                        {formatDate(appt.telemedConsentAt, "dd/MM/yyyy 'às' HH:mm")}
                         {appt.telemedConsentMode === 'verbal' ? ' (verbal)' : ''}.
                       </span>
                     </div>
@@ -577,7 +576,7 @@ export default function AppointmentDetailPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <InfoRow icon={CalendarIcon} label="Data/Hora">
-                {format(start, "EEEE, dd 'de' MMM yyyy 'às' HH:mm", { locale: ptBR })}
+                {formatDate(appt.scheduledAt, "EEEE, dd 'de' MMM yyyy 'às' HH:mm")}
               </InfoRow>
               <InfoRow icon={Clock} label="Duração">
                 {appt.durationMinutes} min

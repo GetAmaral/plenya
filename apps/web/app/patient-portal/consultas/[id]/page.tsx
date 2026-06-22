@@ -7,8 +7,7 @@
  */
 import { use, useState } from "react";
 import Link from "next/link";
-import { format, formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate, formatRelativeToNow } from "@/lib/format-date";
 import { toast } from "sonner";
 import {
   Loader2,
@@ -124,15 +123,15 @@ export default function MyAppointmentDetailPage({ params }: { params: Promise<{ 
           )}
         </div>
         <h1 className="text-3xl font-light">
-          {format(when, "EEEE, d 'de' MMMM", { locale: ptBR })}
+          {formatDate(when, "EEEE, d 'de' MMMM")}
         </h1>
         <p className="flex items-center gap-2 text-xl text-muted-foreground">
           <Calendar className="h-4 w-4" />
-          {format(when, "HH:mm")} · {a.durationMinutes} min · com {a.doctorName}
+          {formatDate(when, "HH:mm")} · {a.durationMinutes} min · com {a.doctorName}
         </p>
         {!inPast && (
           <p className="text-sm text-muted-foreground">
-            {formatDistanceToNow(when, { addSuffix: true, locale: ptBR })}
+            {formatRelativeToNow(when, { addSuffix: true })}
           </p>
         )}
       </header>

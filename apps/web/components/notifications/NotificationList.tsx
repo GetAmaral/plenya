@@ -7,8 +7,7 @@ import { Separator } from '@/components/ui/separator'
 import { CheckCheck, X, Trash2, Bell } from 'lucide-react'
 import { WebPushToggle } from './WebPushToggle'
 import { toast } from 'sonner'
-import { formatDistanceToNow } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatRelativeToNow } from '@/lib/format-date'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import type { Notification } from '@plenya/types'
@@ -152,9 +151,8 @@ export function NotificationList({ onClose }: NotificationListProps) {
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(notification.createdAt), {
+                        {formatRelativeToNow(notification.createdAt, {
                           addSuffix: true,
-                          locale: ptBR,
                         })}
                       </span>
                       {notification.actionText && notification.actionUrl && (

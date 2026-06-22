@@ -4,8 +4,7 @@ import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import {
   TestTube,
   Search,
@@ -334,9 +333,7 @@ export default function LabResultsPage() {
                         className="px-3 py-3 text-center font-semibold min-w-[120px]"
                       >
                         <div className="text-xs">
-                          {format(new Date(date), "dd/MM/yyyy", {
-                            locale: ptBR,
-                          })}
+                          {formatDate(date, "dd/MM/yyyy")}
                         </div>
                       </th>
                     ))}

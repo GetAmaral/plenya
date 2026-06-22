@@ -31,6 +31,7 @@ import {
 } from '@/lib/api/anamnesis-templates'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
+import { formatDate } from '@/lib/format-date'
 import { RichTextEditor } from '@/components/ui/rich-text-editor'
 import { htmlToPlainText, hasTextContent } from '@/lib/html-utils'
 import { AnamnesisTemplateItemsForm, type AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
@@ -361,7 +362,7 @@ export function EditAnamnesisForm({ anamnesis, focusScoreItemId, onSuccess, onCa
   )
   const [selectedTemplate, setSelectedTemplate] = useState<AnamnesisTemplate | null>(null)
   const [consultationDate, setConsultationDate] = useState(
-    format(new Date(anamnesis.consultationDate), "yyyy-MM-dd'T'HH:mm")
+    formatDate(anamnesis.consultationDate, "yyyy-MM-dd'T'HH:mm")
   )
   // Use HTML for editing (fallback to plain text for backward compatibility)
   const [summary, setSummary] = useState(anamnesis.summaryHtml || anamnesis.summary || '')

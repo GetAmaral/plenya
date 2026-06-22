@@ -2,8 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import {
   ArrowLeft,
   Calendar,
@@ -101,10 +100,9 @@ export default function LabResultBatchDetailPage() {
           { label: "Detalhes do Lote" },
         ]}
         title={`Lote: ${batch.laboratoryName}`}
-        description={`${batch.resultCount} resultado(s) • Coletado em ${format(
-          new Date(batch.collectionDate),
+        description={`${batch.resultCount} resultado(s) • Coletado em ${formatDate(
+          batch.collectionDate,
           "dd/MM/yyyy",
-          { locale: ptBR }
         )}`}
         actions={[
           {
@@ -143,9 +141,7 @@ export default function LabResultBatchDetailPage() {
               <div>
                 <p className="text-sm text-muted-foreground">Data da Coleta</p>
                 <p className="font-semibold">
-                  {format(new Date(batch.collectionDate), "dd/MM/yyyy", {
-                    locale: ptBR,
-                  })}
+                  {formatDate(batch.collectionDate, "dd/MM/yyyy")}
                 </p>
               </div>
             </div>
@@ -274,26 +270,20 @@ export default function LabResultBatchDetailPage() {
             <div>
               <span className="text-muted-foreground">Criado em:</span>
               <p className="font-medium">
-                {format(new Date(batch.createdAt), "dd/MM/yyyy 'às' HH:mm", {
-                  locale: ptBR,
-                })}
+                {formatDate(batch.createdAt, "dd/MM/yyyy 'às' HH:mm")}
               </p>
             </div>
             <div>
               <span className="text-muted-foreground">Última atualização:</span>
               <p className="font-medium">
-                {format(new Date(batch.updatedAt), "dd/MM/yyyy 'às' HH:mm", {
-                  locale: ptBR,
-                })}
+                {formatDate(batch.updatedAt, "dd/MM/yyyy 'às' HH:mm")}
               </p>
             </div>
             {batch.resultDate && (
               <div>
                 <span className="text-muted-foreground">Data do resultado:</span>
                 <p className="font-medium">
-                  {format(new Date(batch.resultDate), "dd/MM/yyyy", {
-                    locale: ptBR,
-                  })}
+                  {formatDate(batch.resultDate, "dd/MM/yyyy")}
                 </p>
               </div>
             )}

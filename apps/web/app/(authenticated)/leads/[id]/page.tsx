@@ -3,8 +3,7 @@
 import { useState, use } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 import {
   ArrowLeft,
   CalendarPlus,
@@ -111,7 +110,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
               <CardTitle className="text-2xl wrap-break-word">{lead.name ?? '(sem nome)'}</CardTitle>
               <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm text-muted-foreground">
                 <span>
-                  Capturado {format(new Date(lead.createdAt), "dd 'de' MMMM 'às' HH:mm", { locale: ptBR })} via
+                  Capturado {formatDate(lead.createdAt, "dd 'de' MMMM 'às' HH:mm")} via
                 </span>
                 <Badge variant="outline">{SOURCE_LABELS[lead.source]}</Badge>
                 {lead.source === 'whatsapp_inbound' && lead.convertedPatientId && (
@@ -495,7 +494,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                         <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
                         <div className="min-w-0 flex-1">
                           <div className="text-xs text-muted-foreground wrap-break-word">
-                            {format(new Date(a.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })} ·{' '}
+                            {formatDate(a.createdAt, "dd/MM 'às' HH:mm")} ·{' '}
                             <span className="capitalize">{a.type.replace('_', ' ')}</span>
                             {a.channel !== 'internal' && <span> · {a.channel}</span>}
                             {a.actor && <span> · por {a.actor.name}</span>}
@@ -518,7 +517,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                                         : 'text-muted-foreground'
                                     }
                                   >
-                                    {format(new Date(s.createdAt), 'HH:mm:ss')} {status}
+                                    {formatDate(s.createdAt, 'HH:mm:ss')} {status}
                                   </span>
                                 );
                               })}
@@ -550,7 +549,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
             <p>
               Aceito em:{' '}
               <strong>
-                {format(new Date(lead.consentTimestamp), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                {formatDate(lead.consentTimestamp, "dd/MM/yyyy 'às' HH:mm")}
               </strong>
             </p>
           )}

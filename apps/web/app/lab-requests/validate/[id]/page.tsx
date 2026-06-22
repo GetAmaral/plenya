@@ -2,8 +2,7 @@
 
 import { use } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatDate } from '@/lib/format-date'
 import { CheckCircle2, AlertCircle, Shield, Calendar, FileText, Download } from 'lucide-react'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -146,9 +145,7 @@ export default function ValidateLabRequestPage({ params }: { params: Promise<{ i
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm">
                       Solicitado em:{' '}
-                      {format(new Date(data.labRequest.requestDate), "dd 'de' MMMM 'de' yyyy", {
-                        locale: ptBR,
-                      })}
+                      {formatDate(data.labRequest.requestDate, "dd 'de' MMMM 'de' yyyy")}
                     </span>
                   </div>
                   <div className="text-sm">
@@ -219,11 +216,7 @@ export default function ValidateLabRequestPage({ params }: { params: Promise<{ i
                         <div className="text-xs text-green-700 space-y-1">
                           <p>
                             Assinado em:{' '}
-                            {format(
-                              new Date(data.signature.signedAt),
-                              "dd/MM/yyyy 'às' HH:mm",
-                              { locale: ptBR }
-                            )}
+                            {formatDate(data.signature.signedAt, "dd/MM/yyyy 'às' HH:mm")}
                           </p>
                           <p className="font-mono">Serial: {data.signature.certificateSerial}</p>
                           {data.signature.signedPdfHash && (

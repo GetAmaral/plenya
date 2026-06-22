@@ -6,8 +6,6 @@
  * (cross-paciente) e pode ser embutido na timeline do paciente.
  */
 import { useState } from 'react';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { Loader2, Package, Truck, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -30,6 +28,7 @@ import {
   type BoxStatus,
 } from '@/lib/api/continuum-api';
 import { cn } from '@/lib/utils';
+import { formatDate } from '@/lib/format-date';
 
 interface Props {
   box: ContinuumBox;
@@ -86,7 +85,7 @@ export function BoxCard({ box, canManage, showPatient = true }: Props) {
                 </>
               )}
               Semana {box.weekOffset + 1} ·{' '}
-              {format(new Date(box.expectedDate), 'dd/MM/yyyy', { locale: ptBR })}
+              {formatDate(box.expectedDate, 'dd/MM/yyyy')}
             </p>
           </div>
           {canManage && (
@@ -190,20 +189,20 @@ export function BoxCard({ box, canManage, showPatient = true }: Props) {
             {box.preparedAt && (
               <span>
                 Preparado{' '}
-                {format(new Date(box.preparedAt), 'dd/MM', { locale: ptBR })}
+                {formatDate(box.preparedAt, 'dd/MM')}
               </span>
             )}
             {box.shippedAt && (
               <span>
                 Enviado{' '}
-                {format(new Date(box.shippedAt), 'dd/MM', { locale: ptBR })}
+                {formatDate(box.shippedAt, 'dd/MM')}
               </span>
             )}
             {box.deliveredAt && (
               <span className="font-medium text-emerald-700">
                 <CheckCircle2 className="mr-1 inline h-3 w-3" />
                 Entregue{' '}
-                {format(new Date(box.deliveredAt), 'dd/MM', { locale: ptBR })}
+                {formatDate(box.deliveredAt, 'dd/MM')}
               </span>
             )}
           </div>

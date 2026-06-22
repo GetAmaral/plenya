@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { differenceInYears, format } from "date-fns";
+import { calcAge, formatDate } from "@/lib/format-date";
 import { useSelectedPatient } from "@/lib/use-selected-patient";
 
 function getInitials(name: string): string {
@@ -41,8 +41,10 @@ export function PatientContextBar() {
     router.push("/patients/select");
   };
 
-  const age = differenceInYears(new Date(), new Date(selectedPatient.birthDate));
-  const dob = format(new Date(selectedPatient.birthDate), "dd/MM/yyyy");
+  // birthDate pode vir vazio (paciente cadastrado sem data). O util é resiliente
+  // a data inválida (sem ele, date-fns lança e derruba a barra em toda tela).
+  const age = calcAge(selectedPatient.birthDate);
+  const dob = selectedPatient.birthDate ? formatDate(selectedPatient.birthDate, "dd/MM/yyyy", { fallback: "" }) : "";
   const gender = getGenderLabel(selectedPatient.gender);
   const shortId = selectedPatient.id.slice(-6).toUpperCase();
   const initials = getInitials(selectedPatient.name);
@@ -61,15 +63,23 @@ export function PatientContextBar() {
           {selectedPatient.name}
         </span>
 
-        <span className="hidden text-blue-400 sm:inline">·</span>
+        {dob && (
+          <>
+            <span className="hidden text-blue-400 sm:inline">·</span>
 
-        {/* DOB */}
-        <span className="hidden text-muted-foreground sm:inline">{dob}</span>
+            {/* DOB */}
+            <span className="hidden text-muted-foreground sm:inline">{dob}</span>
+          </>
+        )}
 
-        <span className="hidden text-blue-400 sm:inline">·</span>
+        {age !== null && (
+          <>
+            <span className="hidden text-blue-400 sm:inline">·</span>
 
-        {/* Age */}
-        <span className="hidden text-muted-foreground sm:inline">{age} anos</span>
+            {/* Age */}
+            <span className="hidden text-muted-foreground sm:inline">{age} anos</span>
+          </>
+        )}
 
         <span className="hidden text-blue-400 md:inline">·</span>
 

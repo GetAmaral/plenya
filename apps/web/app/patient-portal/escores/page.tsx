@@ -4,9 +4,9 @@
  * /escores — histórico unificado Light + Completo + radar do mais recente.
  */
 import { useMemo } from "react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { Loader2, Activity, ArrowUp, ArrowDown } from "lucide-react";
+
+import { formatDate } from "@/lib/format-date";
 
 import { useRequirePatientAuth } from "@/lib/use-patient-auth";
 import { useMyScores, useMyLatestSnapshot, type ScoreEntryView } from "@/lib/api/patient-portal-api";
@@ -66,7 +66,7 @@ export default function MyScoresPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">
-                  Radar AGIR · {format(new Date(latestSnapshot.calculatedAt), "d 'de' MMM 'de' yyyy", { locale: ptBR })}
+                  Radar AGIR · {formatDate(latestSnapshot.calculatedAt, "d 'de' MMM 'de' yyyy")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex justify-center py-2">
@@ -120,7 +120,7 @@ function ScoreEntryRow({ entry, previous }: { entry: ScoreEntryView; previous?: 
         <CardContent className="flex items-center justify-between gap-3 py-4">
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground">
-              {format(new Date(entry.createdAt), "EEEE, d 'de' MMMM 'de' yyyy", { locale: ptBR })}
+              {formatDate(entry.createdAt, "EEEE, d 'de' MMMM 'de' yyyy")}
             </p>
             <div className="flex items-center gap-2">
               <Badge variant={isLight ? "secondary" : "default"}>

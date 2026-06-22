@@ -8,10 +8,9 @@
  * Os itens do formulário serão curados depois; até lá a config vem vazia.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { Loader2, Upload, FileText, CheckCircle2 } from "lucide-react";
 
+import { formatDate } from "@/lib/format-date";
 import { useRequirePatientAuth } from "@/lib/use-patient-auth";
 import {
   useMyAppointments,
@@ -119,7 +118,7 @@ export default function PreparacaoPage() {
         {nextAppt ? (
           <p className="text-sm text-muted-foreground">
             Consulta em{" "}
-            {format(new Date(nextAppt.scheduledAt), "d 'de' MMMM 'às' HH:mm", { locale: ptBR })}.
+            {formatDate(nextAppt.scheduledAt, "d 'de' MMMM 'às' HH:mm")}.
             Quanto mais o Dr. souber antes, melhor a gente aproveita o tempo de vocês.
           </p>
         ) : (

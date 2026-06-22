@@ -3,8 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatDate } from '@/lib/format-date'
 import {
   Plus,
   FileText,
@@ -196,14 +195,12 @@ export default function PrescriptionsPage() {
 
                     {/* Date */}
                     <TableCell>
-                      {format(new Date(prescription.prescriptionDate), 'dd/MM/yyyy', {
-                        locale: ptBR,
-                      })}
+                      {formatDate(prescription.prescriptionDate, 'dd/MM/yyyy')}
                     </TableCell>
 
                     {/* Valid Until */}
                     <TableCell>
-                      {format(new Date(prescription.validUntil), 'dd/MM/yyyy', { locale: ptBR })}
+                      {formatDate(prescription.validUntil, 'dd/MM/yyyy')}
                     </TableCell>
 
                     {/* Status */}

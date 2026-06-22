@@ -2,8 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import type { DateRange } from 'react-day-picker';
 
@@ -382,7 +381,7 @@ export default function LeadsPage() {
                         onClick={() => router.push(`/leads/${lead.id}`)}
                       >
                         <div>
-                          {format(new Date(lead.createdAt), 'dd/MM HH:mm', { locale: ptBR })}
+                          {formatDate(lead.createdAt, 'dd/MM HH:mm')}
                         </div>
                       </td>
                       <td

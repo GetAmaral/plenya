@@ -1,8 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 import { CheckCircle2, AlertCircle, FileCheck, User, Stethoscope, Shield, ExternalLink } from 'lucide-react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -129,14 +128,14 @@ export default function ValidateDocumentPage({ params }: { params: { id: string 
               <div>
                 <p className="text-sm text-muted-foreground">Emitido em</p>
                 <p className="font-medium">
-                  {format(new Date(data.document.issuedAt), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+                  {formatDate(data.document.issuedAt, "dd 'de' MMMM 'de' yyyy")}
                 </p>
               </div>
               {data.document.signedAt && (
                 <div>
                   <p className="text-sm text-muted-foreground">Assinado em</p>
                   <p className="font-medium">
-                    {format(new Date(data.document.signedAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                    {formatDate(data.document.signedAt, "dd/MM/yyyy 'às' HH:mm")}
                   </p>
                 </div>
               )}

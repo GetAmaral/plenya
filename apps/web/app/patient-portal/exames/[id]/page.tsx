@@ -5,10 +5,9 @@
  */
 import { use } from "react";
 import Link from "next/link";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { Loader2, ArrowLeft, FlaskConical } from "lucide-react";
 
+import { formatDate } from "@/lib/format-date";
 import { useRequirePatientAuth } from "@/lib/use-patient-auth";
 import { useMyLabBatch } from "@/lib/api/patient-portal-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -46,7 +45,7 @@ export default function MyLabBatchDetailPage({ params }: { params: Promise<{ id:
       <header className="space-y-2">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <FlaskConical className="h-4 w-4" />
-          {format(new Date(data.collectionDate), "EEEE, d 'de' MMMM", { locale: ptBR })}
+          {formatDate(data.collectionDate, "EEEE, d 'de' MMMM")}
         </div>
         <h1 className="text-2xl font-light">{data.laboratoryName}</h1>
         <div className="flex flex-wrap gap-1.5">

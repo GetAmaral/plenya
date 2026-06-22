@@ -9,8 +9,6 @@
  * Sem locking concorrente — UI alerta "última edição há X" pra mitigar.
  */
 import { useEffect, useState } from 'react';
-import { formatDistanceToNow, format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { History, Loader2, Save } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -29,6 +27,7 @@ import {
   useUpdateIntegratedPlan,
   type PatientContinuum,
 } from '@/lib/api/continuum-api';
+import { formatDate, formatRelativeToNow } from '@/lib/format-date';
 
 interface Props {
   enrollment: PatientContinuum;
@@ -92,9 +91,8 @@ export function IntegratedPlanEditor({ enrollment, canEdit }: Props) {
           {enrollment.integratedPlanUpdatedAt && (
             <p className="text-xs text-muted-foreground">
               Última edição{' '}
-              {formatDistanceToNow(new Date(enrollment.integratedPlanUpdatedAt), {
+              {formatRelativeToNow(enrollment.integratedPlanUpdatedAt, {
                 addSuffix: true,
-                locale: ptBR,
               })}
               {dirty && (
                 <span className="ml-2 text-amber-600">
@@ -140,9 +138,7 @@ export function IntegratedPlanEditor({ enrollment, canEdit }: Props) {
                         {rev.updatedBy?.name ?? '—'}
                       </span>
                       <span>
-                        {format(new Date(rev.createdAt), "dd 'de' MMM yyyy 'às' HH:mm", {
-                          locale: ptBR,
-                        })}
+                        {formatDate(rev.createdAt, "dd 'de' MMM yyyy 'às' HH:mm")}
                       </span>
                     </div>
                   </CardHeader>

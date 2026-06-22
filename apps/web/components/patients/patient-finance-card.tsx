@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import { Loader2, Receipt, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 
@@ -31,11 +30,7 @@ import {
 } from "@/lib/api/payments";
 
 function fmtDate(iso: string): string {
-  try {
-    return format(new Date(iso), "dd/MM/yyyy", { locale: ptBR });
-  } catch {
-    return "—";
-  }
+  return formatDate(iso, "dd/MM/yyyy");
 }
 
 function PaymentRow({

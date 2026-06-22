@@ -4,8 +4,7 @@ import { use, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatDate } from '@/lib/format-date'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -203,7 +202,6 @@ export default function ArticleDetailPage({ params }: PageProps) {
   }
 
   const articleType = ARTICLE_TYPES.find((t) => t.value === article.articleType)
-  const publishDate = new Date(article.publishDate)
 
   // ── breadcrumbs dinâmicos ──────────────────────────────────────────────────
   const breadcrumbs = isChapter
@@ -218,10 +216,10 @@ export default function ArticleDetailPage({ params }: PageProps) {
 
   // ── header description ─────────────────────────────────────────────────────
   const headerDescription = isBook
-    ? `${article.totalChapters} capítulo${article.totalChapters !== 1 ? 's' : ''} • ${format(publishDate, "yyyy", { locale: ptBR })}`
+    ? `${article.totalChapters} capítulo${article.totalChapters !== 1 ? 's' : ''} • ${formatDate(article.publishDate, "yyyy")}`
     : isChapter
-    ? `${parentBook?.title ?? 'Livro'} • ${format(publishDate, "yyyy", { locale: ptBR })}`
-    : `${article.journal} • ${format(publishDate, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}`
+    ? `${parentBook?.title ?? 'Livro'} • ${formatDate(article.publishDate, "yyyy")}`
+    : `${article.journal} • ${formatDate(article.publishDate, "dd 'de' MMMM 'de' yyyy")}`
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-4xl">
@@ -543,7 +541,7 @@ export default function ArticleDetailPage({ params }: PageProps) {
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Processado em:</span>
                   <span className="text-sm text-muted-foreground">
-                    {format(new Date((article as any).lastEmbeddedAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                    {formatDate((article as any).lastEmbeddedAt, "dd/MM/yyyy 'às' HH:mm")}
                   </span>
                 </div>
               )}

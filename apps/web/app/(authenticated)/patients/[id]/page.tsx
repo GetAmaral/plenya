@@ -12,8 +12,7 @@
 import { useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import {
   Activity,
   AlertTriangle,
@@ -242,7 +241,7 @@ export default function PatientDetailPage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Escore calculado em</span>
-                  <span className="font-medium">{format(new Date(score.calculatedAt), "dd/MM/yyyy")}</span>
+                  <span className="font-medium">{formatDate(score.calculatedAt, "dd/MM/yyyy")}</span>
                 </div>
                 <div className="border-t pt-3">
                   <p className="text-xs uppercase text-muted-foreground">Última consulta</p>
@@ -252,7 +251,7 @@ export default function PatientDetailPage() {
                       onClick={() => router.push(`/appointments/${lastAppointment.id}`)}
                       className="mt-1 flex w-full items-center justify-between gap-2 text-left hover:underline"
                     >
-                      <span>{format(new Date(lastAppointment.eventDate), "dd/MM/yyyy")} — {lastAppointment.title}</span>
+                      <span>{formatDate(lastAppointment.eventDate, "dd/MM/yyyy")} — {lastAppointment.title}</span>
                       <Badge
                         variant="outline"
                         className={cn(
@@ -323,7 +322,7 @@ export default function PatientDetailPage() {
             <CardContent className="space-y-3 text-sm">
               {patient.cpf && <Row label="CPF" value={formatCPF(patient.cpf)} mono />}
               {patient.birthDate && (
-                <Row label="Nascimento" value={format(new Date(patient.birthDate), "dd/MM/yyyy", { locale: ptBR })} />
+                <Row label="Nascimento" value={formatDate(patient.birthDate, "dd/MM/yyyy")} />
               )}
               <Row label="Gênero" value={genderLabel} />
               {patient.phone && <Row label="Telefone" value={patient.phone} />}

@@ -1,8 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { Mail, Plus, Reply } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -24,6 +22,7 @@ import {
   type LeadActivity,
 } from '@/lib/api/leads-api';
 import { CANNED_REPLIES, applyCannedReply } from '@/lib/canned-replies';
+import { formatDate } from '@/lib/format-date';
 
 type Props = {
   lead: Lead;
@@ -372,7 +371,7 @@ function ThreadItem({ thread, onReply }: { thread: Thread; onReply: () => void }
           </p>
         </div>
         <span className="shrink-0 text-xs text-muted-foreground">
-          {format(new Date(last.createdAt), "dd/MM HH:mm", { locale: ptBR })}
+          {formatDate(last.createdAt, "dd/MM HH:mm")}
         </span>
       </button>
       {expanded && (
@@ -390,7 +389,7 @@ function ThreadItem({ thread, onReply }: { thread: Thread; onReply: () => void }
                 <span className="min-w-0 break-all">
                   <strong>{m.from}</strong> · {m.direction === 'in' ? 'recebido' : 'enviado'}
                 </span>
-                <span className="shrink-0">{format(new Date(m.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}</span>
+                <span className="shrink-0">{formatDate(m.createdAt, "dd/MM 'às' HH:mm")}</span>
               </div>
               <p className="whitespace-pre-wrap wrap-break-word">{m.content || '(corpo vazio)'}</p>
             </div>

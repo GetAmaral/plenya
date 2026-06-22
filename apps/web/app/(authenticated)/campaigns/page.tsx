@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Plus, Archive, Trash2, ExternalLink, QrCode, Copy, Check } from 'lucide-react';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { formatDate } from '@/lib/format-date';
 
 import { useRequireAuth } from '@/lib/use-auth';
 import { safeUrl } from '@/lib/security';
@@ -113,7 +112,7 @@ export default function CampaignsPage() {
                   <span>📊 {c.stats?.sessionsCount ?? 0} sessões</span>
                   <span>👤 {c.stats?.leadsCount ?? 0} leads</span>
                   <span className="ml-auto">
-                    {format(new Date(c.createdAt), "dd MMM ''yy", { locale: ptBR })}
+                    {formatDate(c.createdAt, "dd MMM ''yy")}
                   </span>
                 </div>
                 <div className="flex gap-1.5 pt-2">

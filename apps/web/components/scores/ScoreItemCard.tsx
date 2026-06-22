@@ -26,8 +26,7 @@ import { ScoreLevelDialog } from './ScoreLevelDialog'
 import { DeleteConfirmDialog } from './DeleteConfirmDialog'
 import { ScoreItemArticlesSheet } from './ScoreItemArticlesSheet'
 import { toast } from 'sonner'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatDate } from '@/lib/format-date'
 
 interface ScoreItemCardProps {
   item: ScoreItem
@@ -270,7 +269,7 @@ function ScoreItemCardComponent({ item, isExpanded, expandClinicalTexts = false 
                     {item.lastReview && (
                       <Badge variant="outline" className="ml-auto mr-4 text-[10px] px-1.5 py-0">
                         <Calendar className="h-2.5 w-2.5 mr-0.5" />
-                        {format(new Date(item.lastReview), "dd/MM/yy", { locale: ptBR })}
+                        {formatDate(item.lastReview, "dd/MM/yy")}
                       </Badge>
                     )}
                   </div>

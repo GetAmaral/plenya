@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import {
   Users,
   Search,
@@ -334,7 +333,7 @@ export default function UsersPage() {
                                 {user.email}
                               </span>
                               <span className="text-muted-foreground">
-                                Criado em {format(new Date(user.createdAt), "dd/MM/yyyy", { locale: ptBR })}
+                                Criado em {formatDate(user.createdAt, "dd/MM/yyyy")}
                               </span>
                             </CardDescription>
                           </div>

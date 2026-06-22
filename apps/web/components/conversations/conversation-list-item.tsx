@@ -1,10 +1,9 @@
 'use client';
 
 import { Mail, MessageSquare, StickyNote, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 
 import { cn } from '@/lib/utils';
+import { formatRelativeToNow } from '@/lib/format-date';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
@@ -26,11 +25,7 @@ function channelIcon(channel: string) {
 }
 
 function relativeTime(iso: string): string {
-  try {
-    return formatDistanceToNow(new Date(iso), { locale: ptBR, addSuffix: false });
-  } catch {
-    return '';
-  }
+  return formatRelativeToNow(iso, { addSuffix: false, fallback: '' });
 }
 
 export function ConversationListRow({ item, active, onSelect }: Props) {

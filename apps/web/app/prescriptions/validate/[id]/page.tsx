@@ -1,8 +1,6 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 import {
   CheckCircle2,
   AlertCircle,
@@ -23,6 +21,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 
 import { validatePublic } from '@/lib/api/prescriptions'
+import { formatDate } from '@/lib/format-date'
 
 interface PageProps {
   params: {
@@ -143,17 +142,13 @@ export default function ValidatePrescriptionPage({ params }: PageProps) {
               <div>
                 <p className="text-sm text-muted-foreground">Data de Emissão</p>
                 <p className="font-medium">
-                  {format(new Date(data.prescription.prescriptionDate), "dd 'de' MMMM 'de' yyyy", {
-                    locale: ptBR,
-                  })}
+                  {formatDate(data.prescription.prescriptionDate, "dd 'de' MMMM 'de' yyyy")}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Válida Até</p>
                 <p className="font-medium">
-                  {format(new Date(data.prescription.validUntil), "dd 'de' MMMM 'de' yyyy", {
-                    locale: ptBR,
-                  })}
+                  {formatDate(data.prescription.validUntil, "dd 'de' MMMM 'de' yyyy")}
                 </p>
               </div>
             </div>
@@ -305,9 +300,7 @@ export default function ValidatePrescriptionPage({ params }: PageProps) {
               <div>
                 <p className="text-sm">Assinado em:</p>
                 <p className="font-medium">
-                  {format(new Date(data.signature.signedAt), "dd/MM/yyyy 'às' HH:mm", {
-                    locale: ptBR,
-                  })}
+                  {formatDate(data.signature.signedAt, "dd/MM/yyyy 'às' HH:mm")}
                 </p>
               </div>
             )}

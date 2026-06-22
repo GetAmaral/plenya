@@ -6,9 +6,11 @@
  * Polling 30s + marca como lido ao montar.
  */
 import { useEffect, useRef, useState } from "react";
-import { format, formatRelative } from "date-fns";
+import { formatRelative } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Loader2, Send, MessageSquare } from "lucide-react";
+
+import { formatDateTime, toDate } from "@/lib/format-date";
 import { toast } from "sonner";
 
 import { useRequirePatientAuth } from "@/lib/use-patient-auth";
@@ -144,9 +146,11 @@ function MessageBubble({ m }: { m: PatientMessage }) {
             "mt-1 text-[10px] opacity-60",
             fromMe ? "text-right" : "text-left",
           )}
-          title={format(new Date(m.createdAt), "dd/MM/yyyy HH:mm")}
+          title={formatDateTime(m.createdAt)}
         >
-          {formatRelative(new Date(m.createdAt), new Date(), { locale: ptBR })}
+          {toDate(m.createdAt)
+            ? formatRelative(toDate(m.createdAt)!, new Date(), { locale: ptBR })
+            : "—"}
         </p>
       </div>
     </div>

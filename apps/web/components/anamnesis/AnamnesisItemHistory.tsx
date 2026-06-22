@@ -1,8 +1,7 @@
 'use client'
 
 import { TrendingUp, Loader2 } from 'lucide-react'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { formatDate } from '@/lib/format-date'
 import { cn } from '@/lib/utils'
 import { useItemHistory, type ClinicalTimelineSource } from '@/lib/api/clinical-timeline'
 import type { ScoreLevel } from '@/lib/api/score-api'
@@ -79,7 +78,7 @@ export function AnamnesisItemHistory({
                   {e.sourceLabel}
                 </span>
                 <span className="text-[11px] text-muted-foreground">
-                  {format(new Date(e.date), 'dd/MM/yy', { locale: ptBR })}
+                  {formatDate(e.date, 'dd/MM/yy')}
                 </span>
                 <span className="ml-auto text-[11px] font-semibold text-foreground">
                   {formatValue(e)}

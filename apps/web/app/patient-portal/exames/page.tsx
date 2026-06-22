@@ -5,8 +5,6 @@
  */
 import { useState } from "react";
 import Link from "next/link";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import {
   Loader2,
   FlaskConical,
@@ -19,6 +17,7 @@ import {
   Clock,
 } from "lucide-react";
 
+import { formatDate } from "@/lib/format-date";
 import { useRequirePatientAuth } from "@/lib/use-patient-auth";
 import {
   useMyLabBatches,
@@ -89,7 +88,7 @@ function ResultsTab() {
               <div className="min-w-0 flex-1 space-y-1">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <FlaskConical className="h-3 w-3" />
-                  {format(new Date(b.collectionDate), "dd 'de' MMM 'de' yyyy", { locale: ptBR })}
+                  {formatDate(b.collectionDate, "dd 'de' MMM 'de' yyyy")}
                 </div>
                 <p className="truncate font-medium">{b.laboratoryName}</p>
                 <div className="flex flex-wrap gap-1.5">
@@ -135,7 +134,7 @@ function RequestsTab() {
           <CardContent className="space-y-2 py-4">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <ClipboardList className="h-3 w-3" />
-              {format(new Date(r.date), "dd 'de' MMM 'de' yyyy", { locale: ptBR })}
+              {formatDate(r.date, "dd 'de' MMM 'de' yyyy")}
               {r.doctorName && <> · por {r.doctorName}</>}
             </div>
             <p className="whitespace-pre-wrap text-sm">{r.exams}</p>
@@ -168,14 +167,14 @@ function PrescriptionsTab() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <Pill className="h-3 w-3" />
-                {format(new Date(p.issuedAt), "dd 'de' MMM 'de' yyyy", { locale: ptBR })}
+                {formatDate(p.issuedAt, "dd 'de' MMM 'de' yyyy")}
                 {p.doctorName && <> · por {p.doctorName}</>}
               </div>
               <Badge variant={p.status === "active" ? "default" : "outline"}>{statusLabelPx(p.status)}</Badge>
             </div>
             <p className="text-sm">{p.medsCount} medicamento{p.medsCount !== 1 ? "s" : ""}</p>
             <p className="text-xs text-muted-foreground">
-              Válida até {format(new Date(p.validUntil), "dd/MM/yyyy")}
+              Válida até {formatDate(p.validUntil, "dd/MM/yyyy")}
             </p>
             {p.pdfPath && (
               <a
@@ -220,7 +219,7 @@ function AssessmentsTab() {
           <CardContent className="space-y-2 py-4">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <Activity className="h-3 w-3" />
-              {format(new Date(a.assessmentDate), "dd 'de' MMM 'de' yyyy", { locale: ptBR })}
+              {formatDate(a.assessmentDate, "dd 'de' MMM 'de' yyyy")}
               {a.assessorName && <> · por {a.assessorName}</>}
             </div>
             <div className="flex flex-wrap gap-3 text-sm">

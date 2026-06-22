@@ -5,8 +5,7 @@
  * Cada card recebe os dados já filtrados; renderiza estado vazio elegante quando ausente.
  */
 import Link from "next/link";
-import { format, formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate, formatRelativeToNow } from "@/lib/format-date";
 import {
   Calendar,
   Workflow,
@@ -50,7 +49,6 @@ export function NextAppointmentCard({ data }: { data: PatientDashboard["nextAppo
       </Card>
     );
   }
-  const when = new Date(data.scheduledAt);
   const isUpcoming = data.minutesUntilStart > 0;
   const canEnterTelemed =
     data.isTelemedicine && data.minutesUntilStart < 30 && data.minutesUntilStart > -120;
@@ -63,17 +61,17 @@ export function NextAppointmentCard({ data }: { data: PatientDashboard["nextAppo
         </CardTitle>
         <CardDescription>
           {isUpcoming
-            ? `${formatDistanceToNow(when, { addSuffix: true, locale: ptBR })}`
+            ? formatRelativeToNow(data.scheduledAt, { addSuffix: true })
             : "Agora"}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         <div>
           <p className="text-2xl font-light">
-            {format(when, "EEEE, d 'de' MMMM", { locale: ptBR })}
+            {formatDate(data.scheduledAt, "EEEE, d 'de' MMMM")}
           </p>
           <p className="text-3xl font-light tabular-nums">
-            {format(when, "HH:mm")}
+            {formatDate(data.scheduledAt, "HH:mm")}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -151,7 +149,7 @@ export function ContinuumProgressCard({ data }: { data: PatientDashboard["contin
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Próximo marco</p>
             <p className="mt-0.5 text-sm font-medium">{data.nextItemTitle}</p>
             <p className="text-xs text-muted-foreground">
-              {format(new Date(data.nextItemExpectedDate), "d 'de' MMMM", { locale: ptBR })}
+              {formatDate(data.nextItemExpectedDate, "d 'de' MMMM")}
             </p>
           </div>
         )}
@@ -191,7 +189,7 @@ export function LastScoreCard({ data }: { data: PatientDashboard["lastScore"] })
         </CardTitle>
         <CardDescription>
           {data.source === "light" ? "Autoavaliação (Light)" : "Avaliação completa"} ·{" "}
-          {format(new Date(data.createdAt), "d 'de' MMM", { locale: ptBR })}
+          {formatDate(data.createdAt, "d 'de' MMM")}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
