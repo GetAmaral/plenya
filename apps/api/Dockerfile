@@ -23,6 +23,9 @@ RUN apk --no-cache add \
     tesseract-ocr \
     tesseract-ocr-data-por \
     imagemagick \
+    # ffmpeg: transcodifica notas de voz do WhatsApp (OGG/Opus) p/ AAC/MP4 ao servir —
+    # Safari/iOS não toca o container OGG, então sem isto o áudio não roda no iPhone.
+    ffmpeg \
     # Chromium headless p/ o pacote pdfdoc (papelaria world-class) — assets vão embutidos no binário
     chromium \
     nss \

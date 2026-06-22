@@ -429,10 +429,27 @@ func (s *ConversationService) GetActivityMedia(ownerType string, ownerID, activi
 				mime = c
 			}
 		}
+		// Notas de voz do WhatsApp vêm em OGG/Opus, que o Safari/iOS não toca.
+		// Transcodifica pra AAC/MP4 (universal) sob demanda, com cache. Se ffmpeg
+		// faltar ou falhar, cai pro original (toca em Chrome/Firefox/desktop).
+		if mime == "audio/ogg" {
+			if aac, ok := s.waMedia.OpenTranscodedAAC(*act.MediaStorageKey, data); ok {
+				return &ActivityMediaResult{Bytes: aac, MIME: "audio/mp4", Filename: sanitizeDocFilename(swapExt(filename, ".m4a"))}, nil
+			}
+		}
 		return &ActivityMediaResult{Bytes: data, MIME: mime, Filename: sanitizeDocFilename(filename)}, nil
 	}
 
 	return nil, ErrConversationAttachmentInvalid
+}
+
+// swapExt troca a extensão de um filename (ex: "audio.ogg" → "audio.m4a"). Se não
+// houver extensão, apenas concatena. Usado ao servir áudio transcodificado.
+func swapExt(name, newExt string) string {
+	if i := strings.LastIndex(name, "."); i >= 0 {
+		name = name[:i]
+	}
+	return name + newExt
 }
 
 // clampMediaMIME restringe o Content-Type servido a uma allowlist segura; qualquer

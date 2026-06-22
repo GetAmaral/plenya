@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 
@@ -79,6 +80,60 @@ func (s *WhatsAppMediaService) OpenDecrypted(storageKey string) ([]byte, error) 
 		return nil, fmt.Errorf("whatsapp media: decrypt: %w", err)
 	}
 	return plain, nil
+}
+
+// OpenTranscodedAAC devolve a versão AAC/MP4 (Safari/iOS-friendly) de um áudio do
+// bucket, transcodificando OGG/Opus sob demanda e cacheando em disco (cifrado) ao
+// lado do original. Idempotente: na 2ª chamada lê do cache. Devolve ok=false se não
+// houver ffmpeg ou a transcodificação falhar — o caller cai pro original.
+func (s *WhatsAppMediaService) OpenTranscodedAAC(storageKey string, original []byte) ([]byte, bool) {
+	cacheKey := storageKey + ".m4a"
+	if cached, err := s.OpenDecrypted(cacheKey); err == nil && len(cached) > 0 {
+		return cached, true
+	}
+	out, err := transcodeToAAC(original)
+	if err != nil || len(out) == 0 {
+		return nil, false
+	}
+	// Cacheia best-effort (cifrado, mesmo path do original + .m4a). Falha de escrita
+	// não impede servir o que já transcodificou.
+	full := filepath.Join(s.uploadsRoot, cacheKey)
+	if abs, _ := filepath.Abs(full); strings.HasPrefix(abs, mustAbs(s.uploadsRoot)+string(os.PathSeparator)) {
+		if cipher, cerr := crypto.Encrypt(out, crypto.GetDefaultKey()); cerr == nil {
+			_ = os.WriteFile(full, []byte(cipher), 0o600)
+		}
+	}
+	return out, true
+}
+
+func mustAbs(p string) string { a, _ := filepath.Abs(p); return a }
+
+// transcodeToAAC converte bytes de áudio (ex: OGG/Opus do WhatsApp) p/ AAC em
+// container MP4 via ffmpeg. AAC/MP4 toca em todos os navegadores, incluindo
+// Safari/iOS (que não decodifica o container OGG).
+func transcodeToAAC(data []byte) ([]byte, error) {
+	in, err := os.CreateTemp("", "wa-audio-*.in")
+	if err != nil {
+		return nil, err
+	}
+	defer os.Remove(in.Name())
+	if _, err := in.Write(data); err != nil {
+		in.Close()
+		return nil, err
+	}
+	in.Close()
+
+	out := in.Name() + ".m4a"
+	defer os.Remove(out)
+
+	// -vn (sem vídeo), AAC 96k mono-ou-estéreo conforme origem, MP4 com faststart.
+	cmd := exec.Command("ffmpeg", "-y", "-hide_banner", "-loglevel", "error",
+		"-i", in.Name(), "-vn", "-c:a", "aac", "-b:a", "96k",
+		"-movflags", "+faststart", out)
+	if err := cmd.Run(); err != nil {
+		return nil, fmt.Errorf("whatsapp media: transcode aac: %w", err)
+	}
+	return os.ReadFile(out)
 }
 
 // extFromMime devolve uma extensão de arquivo a partir do MIME (best-effort).
