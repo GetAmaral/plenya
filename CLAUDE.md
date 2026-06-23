@@ -137,6 +137,10 @@ docker compose logs -f api
 - Social: [.claude/social/](.claude/social/)
 - Mobile: [setup](.claude/mobile/setup.md) · [security](.claude/mobile/security.md) · [deploy](.claude/mobile/deploy.md) · [ota-policy](.claude/mobile/ota-policy.md) · [release-checklist](.claude/mobile/release-checklist.md)
 - Infra/VPS: ver memórias `plenya_vps*` (Coolify, Stalwart mailserver, deploy git-push)
+- **Backups (banco + uploads): [scripts/backups/README.md](scripts/backups/README.md).** VPS gera por
+  cron (db 03:00 / uploads 03:30, rotação) e a máquina de dev espelha em `/home/user/backups/prod/vps/`.
+  **Sempre salvar backup do Plenya em `/home/user/backups/{dev,prod}` — nunca criar pasta solta.**
+  Persistência dos uploads (bind mount Coolify) em [docs/emr/plano-persistencia-uploads-vps.md](docs/emr/plano-persistencia-uploads-vps.md).
 
 ## 🚀 Roadmap
 
