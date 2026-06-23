@@ -154,7 +154,14 @@ type WhatsAppConfig struct {
 	TemplateLeadAlert  string // WHATSAPP_TEMPLATE_LEAD_ALERT — notificação interna (default: "lead_alert")
 	TemplateBirthday   string // WHATSAPP_TEMPLATE_BIRTHDAY — cumprimento de aniversário (default: "" = desligado)
 	TemplatePrepInvite string // WHATSAPP_TEMPLATE_PREP_INVITE — convite de preparação pré-consulta. Default "magic_link" (aprovado); trocar p/ "consultation_prep_invite" quando o dedicado for aprovado pela Meta.
-	GraphAPIVersion    string // WHATSAPP_GRAPH_API_VERSION — ex: "v18.0" (default)
+	// Templates do ciclo de consulta (UTILITY pt_BR aprovados). Nomes configuráveis;
+	// defaults = templates aprovados na Meta. Ver docs/emr/whatsapp-templates-wiring.md.
+	TemplateApptConfirm string // WHATSAPP_TEMPLATE_APPT_CONFIRM — confirmação no agendamento (default "confirmacao_consulta_semana")
+	TemplateApptVespera string // WHATSAPP_TEMPLATE_APPT_VESPERA — lembrete véspera ~24h (default "confirmacao_consulta_vespera")
+	TemplateApptDia     string // WHATSAPP_TEMPLATE_APPT_DIA — lembrete no dia ~2-4h (default "confirmacao_consulta_dia")
+	TemplateFollowup    string // WHATSAPP_TEMPLATE_FOLLOWUP — follow-up pós-consulta (default "followup_pos_consulta"; "" = OFF)
+	TemplateReengage    string // WHATSAPP_TEMPLATE_REENGAGE — reengajamento de lead frio (default "" = OFF; setar "reengajamento_lead" p/ ativar)
+	GraphAPIVersion     string // WHATSAPP_GRAPH_API_VERSION — ex: "v18.0" (default)
 	// CoexistenceEnabled trata ecos (mensagens enviadas pelo app do celular) que
 	// chegam no webhook quando o número roda em coexistence. WHATSAPP_COEXISTENCE.
 	CoexistenceEnabled bool
@@ -326,7 +333,7 @@ func Load() (*Config, error) {
 			SSLMode:  getEnv("DB_SSL_MODE", "disable"),
 		},
 		JWT: JWTConfig{
-			Secret:        getEnv("JWT_SECRET", ""),
+			Secret:              getEnv("JWT_SECRET", ""),
 			AccessExpiry:        getEnv("JWT_ACCESS_EXPIRY", "30m"),
 			RefreshExpiry:       getEnv("JWT_REFRESH_EXPIRY", "168h"),
 			RememberExpiry:      getEnv("JWT_REMEMBER_EXPIRY", "720h"), // 30 dias deslizante
@@ -402,16 +409,21 @@ func Load() (*Config, error) {
 			AttachmentDir:   getEnv("MAIL_INGEST_ATTACHMENT_DIR", "/app/uploads/email-attachments"),
 		},
 		WhatsApp: WhatsAppConfig{
-			AppSecret:          getEnv("WHATSAPP_APP_SECRET", ""),
-			AccessToken:        getEnv("WHATSAPP_ACCESS_TOKEN", ""),
-			PhoneNumberID:      getEnv("WHATSAPP_PHONE_NUMBER_ID", ""),
-			WebhookVerifyToken: getEnv("WHATSAPP_WEBHOOK_VERIFY_TOKEN", ""),
-			TemplateMagicLink:  getEnv("WHATSAPP_TEMPLATE_MAGIC_LINK", "magic_link"),
-			TemplateLeadAlert:  getEnv("WHATSAPP_TEMPLATE_LEAD_ALERT", "lead_alert"),
-			TemplateBirthday:   getEnv("WHATSAPP_TEMPLATE_BIRTHDAY", ""),
-			TemplatePrepInvite: getEnv("WHATSAPP_TEMPLATE_PREP_INVITE", "magic_link"),
-			GraphAPIVersion:    getEnv("WHATSAPP_GRAPH_API_VERSION", "v18.0"),
-			CoexistenceEnabled: getEnv("WHATSAPP_COEXISTENCE", "true") != "false",
+			AppSecret:           getEnv("WHATSAPP_APP_SECRET", ""),
+			AccessToken:         getEnv("WHATSAPP_ACCESS_TOKEN", ""),
+			PhoneNumberID:       getEnv("WHATSAPP_PHONE_NUMBER_ID", ""),
+			WebhookVerifyToken:  getEnv("WHATSAPP_WEBHOOK_VERIFY_TOKEN", ""),
+			TemplateMagicLink:   getEnv("WHATSAPP_TEMPLATE_MAGIC_LINK", "magic_link"),
+			TemplateLeadAlert:   getEnv("WHATSAPP_TEMPLATE_LEAD_ALERT", "lead_alert"),
+			TemplateBirthday:    getEnv("WHATSAPP_TEMPLATE_BIRTHDAY", ""),
+			TemplatePrepInvite:  getEnv("WHATSAPP_TEMPLATE_PREP_INVITE", "magic_link"),
+			TemplateApptConfirm: getEnv("WHATSAPP_TEMPLATE_APPT_CONFIRM", "confirmacao_consulta_semana"),
+			TemplateApptVespera: getEnv("WHATSAPP_TEMPLATE_APPT_VESPERA", "confirmacao_consulta_vespera"),
+			TemplateApptDia:     getEnv("WHATSAPP_TEMPLATE_APPT_DIA", "confirmacao_consulta_dia"),
+			TemplateFollowup:    getEnv("WHATSAPP_TEMPLATE_FOLLOWUP", "followup_pos_consulta"),
+			TemplateReengage:    getEnv("WHATSAPP_TEMPLATE_REENGAGE", ""),
+			GraphAPIVersion:     getEnv("WHATSAPP_GRAPH_API_VERSION", "v18.0"),
+			CoexistenceEnabled:  getEnv("WHATSAPP_COEXISTENCE", "true") != "false",
 		},
 		CRM: CRMConfig{
 			AdminURL:          getEnv("CRM_ADMIN_URL", "http://localhost:3000"),

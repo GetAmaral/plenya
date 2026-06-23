@@ -7,10 +7,10 @@
 //
 // Decisões:
 //
-//  1. Templates WhatsApp (appointment_confirmation, appointment_reminder_24h,
-//     appointment_cancelled, appointment_rescheduled) AINDA NÃO foram submetidos
-//     ao Meta — Bloco H. Quando WhatsAppService.IsConfigured()=false ou template
-//     ainda não aprovado, log + degrade silencioso (não bloqueia confirmação).
+//  1. Templates WhatsApp do ciclo de consulta (confirmacao_consulta_semana/vespera/dia,
+//     followup_pos_consulta) são aprovados na Meta e configuráveis via cfg.WhatsApp.
+//     Cancelamento/remarcação não têm template aprovado → só e-mail. Quando
+//     IsConfigured()=false, log + degrade silencioso (não bloqueia confirmação).
 //
 //  2. ICS é montado inline (RFC 5545 minimal). Não usamos lib externa pra evitar
 //     dep transitiva — formato é estável e simples (60 linhas).
@@ -45,16 +45,12 @@ import (
 	"github.com/plenya/api/internal/models"
 )
 
-// Templates Meta WhatsApp (UTILITY pt_BR). Nomes podem virar configuráveis no
-// futuro (cfg.WhatsApp.TemplateAppointmentX) — por ora, hardcoded constants.
-const (
-	waTemplateAppointmentConfirmation = "appointment_confirmation"
-	waTemplateAppointmentReminder24h  = "appointment_reminder_24h"
-	waTemplateAppointmentCancelled    = "appointment_cancelled"
-	waTemplateAppointmentRescheduled  = "appointment_rescheduled"
-
-	icsAttachmentName = "consulta-plenya.ics"
-)
+// Templates Meta WhatsApp (UTILITY pt_BR) do ciclo de consulta vêm de
+// cfg.WhatsApp.TemplateApptConfirm/Vespera/Dia + TemplateFollowup. Os nomes
+// aprovados na Meta são confirmacao_consulta_{semana,vespera,dia} e
+// followup_pos_consulta. Cancel/remarcação não têm template aprovado → só e-mail.
+// Ver docs/emr/whatsapp-templates-wiring.md.
+const icsAttachmentName = "consulta-plenya.ics"
 
 // ErrAppointmentMissingPatient → preload do appointment não trouxe Patient.
 // Sinaliza bug no caller (deve preload Patient + Doctor antes de chamar).
@@ -109,7 +105,7 @@ func (s *AppointmentNotificationService) patientLobbyURL(appt *models.Appointmen
 }
 
 // SendConfirmation envia email (Resend, com .ics) + WhatsApp template
-// (appointment_confirmation) imediatamente após criar o appointment.
+// (confirmacao_consulta_semana) imediatamente após criar o appointment.
 //
 // Idempotência: se ConfirmationSentAt != NULL, não reenvia.
 func (s *AppointmentNotificationService) SendConfirmation(ctx context.Context, apptID uuid.UUID) error {
@@ -143,12 +139,18 @@ func (s *AppointmentNotificationService) SendConfirmation(ctx context.Context, a
 		log.Printf("ℹ️  [APPT NOTIF] confirmation email apt=%s skipped (paciente sem email)", apptID)
 	}
 
-	// 2) WhatsApp template
+	// 2) WhatsApp template confirmacao_consulta_semana:
+	//    {{1}} nome · {{2}} data ("12 de junho") · {{3}} hora ("14h") · {{4}} modalidade
 	if appt.Patient.Phone != nil && strings.TrimSpace(*appt.Patient.Phone) != "" {
 		s.sendTemplateBestEffort(
-			waTemplateAppointmentConfirmation,
+			s.cfg.WhatsApp.TemplateApptConfirm,
 			*appt.Patient.Phone,
-			[]string{doctorName, dateBR, timeBR, dailyURL},
+			[]string{
+				firstNameOf(appt.Patient.Name),
+				formatDataExtensoBR(appt.ScheduledAt),
+				formatHoraBR(appt.ScheduledAt),
+				modalidadeCurta(appt),
+			},
 			apptID,
 		)
 	}
@@ -163,8 +165,8 @@ func (s *AppointmentNotificationService) SendConfirmation(ctx context.Context, a
 	return nil
 }
 
-// SendReminder24h envia template WA appointment_reminder_24h. Cron dispara isso
-// pra appointments scheduled_at em [now+23h, now+25h] sem reminder_sent_at.
+// SendReminder24h envia o lembrete da véspera (template confirmacao_consulta_vespera).
+// Cron dispara pra appointments scheduled_at em [now+23h, now+25h] sem reminder_sent_at.
 //
 // Email NÃO é enviado no reminder — paciente já recebeu confirmação com .ics.
 func (s *AppointmentNotificationService) SendReminder24h(ctx context.Context, apptID uuid.UUID) error {
@@ -184,15 +186,15 @@ func (s *AppointmentNotificationService) SendReminder24h(ctx context.Context, ap
 		return nil
 	}
 
-	doctorName := s.doctorDisplayName(&appt.Doctor)
-	dateBR, timeBR := formatBRDateTime(appt.ScheduledAt)
-	// HIGH H9 — paciente recebe URL do lobby (/sala/<token>), não a URL crua.
-	dailyURL := s.patientLobbyURL(appt)
-
+	// confirmacao_consulta_vespera: {{1}} nome · {{2}} hora · {{3}} modalidade
 	s.sendTemplateBestEffort(
-		waTemplateAppointmentReminder24h,
+		s.cfg.WhatsApp.TemplateApptVespera,
 		*appt.Patient.Phone,
-		[]string{doctorName, dateBR, timeBR, dailyURL},
+		[]string{
+			firstNameOf(appt.Patient.Name),
+			formatHoraBR(appt.ScheduledAt),
+			modalidadeCurta(appt),
+		},
 		apptID,
 	)
 
@@ -201,6 +203,81 @@ func (s *AppointmentNotificationService) SendReminder24h(ctx context.Context, ap
 		Where("id = ?", apptID).
 		Update("reminder_sent_at", now).Error; err != nil {
 		log.Printf("⚠️  [APPT NOTIF] persist reminder_sent_at apt=%s: %v", apptID, err)
+	}
+	return nil
+}
+
+// SendReminderDayOf envia o lembrete do dia da consulta (template
+// confirmacao_consulta_dia). Cron dispara pra appointments scheduled_at em
+// [now+2h, now+4h] sem dayof_reminder_sent_at. Independe do reminder da véspera.
+func (s *AppointmentNotificationService) SendReminderDayOf(ctx context.Context, apptID uuid.UUID) error {
+	appt, err := s.loadAppointment(ctx, apptID)
+	if err != nil {
+		return err
+	}
+	if appt.DayofReminderSentAt != nil {
+		return nil
+	}
+
+	if appt.Patient.Phone == nil || strings.TrimSpace(*appt.Patient.Phone) == "" {
+		now := time.Now().UTC()
+		_ = s.db.WithContext(ctx).Model(&models.Appointment{}).
+			Where("id = ?", apptID).Update("dayof_reminder_sent_at", now).Error
+		return nil
+	}
+
+	// confirmacao_consulta_dia: {{1}} nome · {{2}} hora · {{3}} frase de modalidade
+	s.sendTemplateBestEffort(
+		s.cfg.WhatsApp.TemplateApptDia,
+		*appt.Patient.Phone,
+		[]string{
+			firstNameOf(appt.Patient.Name),
+			formatHoraBR(appt.ScheduledAt),
+			modalidadeFraseDia(appt),
+		},
+		apptID,
+	)
+
+	now := time.Now().UTC()
+	if err := s.db.WithContext(ctx).Model(&models.Appointment{}).
+		Where("id = ?", apptID).
+		Update("dayof_reminder_sent_at", now).Error; err != nil {
+		log.Printf("⚠️  [APPT NOTIF] persist dayof_reminder_sent_at apt=%s: %v", apptID, err)
+	}
+	return nil
+}
+
+// SendFollowup envia o follow-up pós-consulta (template followup_pos_consulta).
+// Cron AppointmentFollowupJob dispara pra consultas concluídas (EndAt < now)
+// ainda sem followup_sent_at. Idempotente.
+func (s *AppointmentNotificationService) SendFollowup(ctx context.Context, apptID uuid.UUID) error {
+	template := strings.TrimSpace(s.cfg.WhatsApp.TemplateFollowup)
+	if template == "" {
+		return nil // follow-up desativado
+	}
+	appt, err := s.loadAppointment(ctx, apptID)
+	if err != nil {
+		return err
+	}
+	if appt.FollowupSentAt != nil {
+		return nil
+	}
+
+	if appt.Patient.Phone != nil && strings.TrimSpace(*appt.Patient.Phone) != "" {
+		// followup_pos_consulta: {{1}} nome
+		s.sendTemplateBestEffort(
+			template,
+			*appt.Patient.Phone,
+			[]string{firstNameOf(appt.Patient.Name)},
+			apptID,
+		)
+	}
+
+	now := time.Now().UTC()
+	if err := s.db.WithContext(ctx).Model(&models.Appointment{}).
+		Where("id = ?", apptID).
+		Update("followup_sent_at", now).Error; err != nil {
+		log.Printf("⚠️  [APPT NOTIF] persist followup_sent_at apt=%s: %v", apptID, err)
 	}
 	return nil
 }
@@ -239,15 +316,8 @@ Para remarcar, responda este e-mail ou fale com a gente no WhatsApp %s.
 		}
 	}
 
-	// WA template
-	if appt.Patient.Phone != nil && strings.TrimSpace(*appt.Patient.Phone) != "" {
-		s.sendTemplateBestEffort(
-			waTemplateAppointmentCancelled,
-			*appt.Patient.Phone,
-			[]string{doctorName, dateBR, timeBR},
-			apptID,
-		)
-	}
+	// Cancelamento não tem template WhatsApp aprovado na Meta — notificação só por
+	// e-mail. (Se um template dedicado for aprovado, cabear aqui via cfg.)
 	return nil
 }
 
@@ -298,14 +368,8 @@ Para cancelar, remarcar de novo ou tirar dúvidas, responda este e-mail ou fale 
 		}
 	}
 
-	if appt.Patient.Phone != nil && strings.TrimSpace(*appt.Patient.Phone) != "" {
-		s.sendTemplateBestEffort(
-			waTemplateAppointmentRescheduled,
-			*appt.Patient.Phone,
-			[]string{doctorName, dateBR, timeBR, dailyURL},
-			apptID,
-		)
-	}
+	// Remarcação não tem template WhatsApp aprovado na Meta — notificação só por
+	// e-mail (com novo .ics). (Cabear aqui via cfg se um template for aprovado.)
 	return nil
 }
 
@@ -533,6 +597,58 @@ func weekdayPT(d time.Weekday) string {
 	}
 }
 
+// firstNameOf devolve só o primeiro nome (param {{1}} dos templates de consulta).
+// Vazio → "tudo bem" como fallback neutro (evita "Olá, ." no template).
+func firstNameOf(fullName string) string {
+	fields := strings.Fields(strings.TrimSpace(fullName))
+	if len(fields) == 0 {
+		return "tudo bem"
+	}
+	return fields[0]
+}
+
+// formatDataExtensoBR → "12 de junho" (horário local de São Paulo). Param de data
+// dos templates de confirmação. Reusa monthsPT (1-indexado) de lab_request_pdf_render.go.
+func formatDataExtensoBR(t time.Time) string {
+	loc, err := time.LoadLocation("America/Sao_Paulo")
+	if err != nil {
+		loc = time.UTC
+	}
+	local := t.In(loc)
+	return fmt.Sprintf("%d de %s", local.Day(), monthsPT[int(local.Month())])
+}
+
+// formatHoraBR → "14h" (minuto 0) ou "14h30". Param de hora dos templates.
+func formatHoraBR(t time.Time) string {
+	loc, err := time.LoadLocation("America/Sao_Paulo")
+	if err != nil {
+		loc = time.UTC
+	}
+	local := t.In(loc)
+	if local.Minute() == 0 {
+		return fmt.Sprintf("%dh", local.Hour())
+	}
+	return fmt.Sprintf("%dh%02d", local.Hour(), local.Minute())
+}
+
+// modalidadeCurta → frase curta de modalidade ("na modalidade {{X}}" nos templates
+// semana/véspera). Ex: "presencial em Londrina" / "por telemedicina".
+func modalidadeCurta(appt *models.Appointment) string {
+	if appt.Type == models.AppointmentTelemedicine {
+		return "por telemedicina"
+	}
+	return "presencial em Londrina"
+}
+
+// modalidadeFraseDia → frase completa de modalidade (template do dia, "{{3}}." como
+// sentença independente).
+func modalidadeFraseDia(appt *models.Appointment) string {
+	if appt.Type == models.AppointmentTelemedicine {
+		return "O atendimento é por telemedicina; o link de acesso chega antes do horário"
+	}
+	return "O atendimento é presencial, na nossa unidade em Londrina"
+}
+
 // greeting monta "Olá, {primeiro nome}," (ou "Olá," se nome vazio).
 func greeting(fullName string) string {
 	fields := strings.Fields(strings.TrimSpace(fullName))
@@ -633,7 +749,7 @@ func buildSimpleHTML(plain string) string {
 //   - DESCRIPTION = vazio (privacidade)
 func buildICS(appt *models.Appointment, typeLabel, dailyURL string) []byte {
 	start := appt.ScheduledAt.UTC().Format("20060102T150405Z")
-	end := appt.ScheduledAt.Add(time.Duration(appt.DurationMinutes)*time.Minute).
+	end := appt.ScheduledAt.Add(time.Duration(appt.DurationMinutes) * time.Minute).
 		UTC().Format("20060102T150405Z")
 	dtstamp := time.Now().UTC().Format("20060102T150405Z")
 

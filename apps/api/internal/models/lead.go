@@ -95,6 +95,10 @@ type Lead struct {
 	// janela de 24h pra session messages free-form. Atualizado pelo webhook a cada inbound.
 	LastInboundAt *time.Time `gorm:"type:timestamptz;index:idx_leads_last_inbound" json:"lastInboundAt,omitempty"`
 
+	// Quando o template de reengajamento (reengajamento_lead) foi enviado pelo
+	// LeadReengageJob. NULL = nunca reengajado; idempotência (1 envio por lead).
+	ReengagedAt *time.Time `gorm:"type:timestamptz" json:"reengagedAt,omitempty"`
+
 	// Conversão em Patient
 	ConvertedPatientID *uuid.UUID `gorm:"type:uuid;index:idx_leads_patient" json:"convertedPatientId,omitempty"`
 	ConvertedAt        *time.Time `gorm:"type:timestamptz" json:"convertedAt,omitempty"`

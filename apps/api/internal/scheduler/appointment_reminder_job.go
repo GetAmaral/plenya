@@ -65,22 +65,53 @@ func (j *AppointmentReminderJob) Run() error {
 		return err
 	}
 
-	if len(ids) == 0 {
-		return nil
+	if len(ids) > 0 {
+		log.Printf("⏰ [REMINDER JOB] %d appointments na janela véspera (24h)", len(ids))
+		ok, ko := 0, 0
+		for _, id := range ids {
+			if err := j.notifSvc.SendReminder24h(ctx, id); err != nil {
+				log.Printf("⚠️  [REMINDER JOB] véspera apt=%s: %v", id, err)
+				ko++
+				continue
+			}
+			ok++
+		}
+		log.Printf("✅ [REMINDER JOB] véspera enviados=%d erros=%d", ok, ko)
 	}
 
-	log.Printf("⏰ [REMINDER JOB] %d appointments na janela 24h", len(ids))
-	successCount := 0
-	errorCount := 0
-	for _, id := range ids {
-		if err := j.notifSvc.SendReminder24h(ctx, id); err != nil {
-			log.Printf("⚠️  [REMINDER JOB] apt=%s: %v", id, err)
-			errorCount++
-			continue
-		}
-		successCount++
+	// Segunda janela: lembrete no DIA da consulta (~2-4h antes), template
+	// confirmacao_consulta_dia. Idempotência por dayof_reminder_sent_at.
+	dayFrom := now.Add(2 * time.Hour)
+	dayTo := now.Add(4 * time.Hour)
+	var dayIDs []uuid.UUID
+	if err := j.db.WithContext(ctx).
+		Model(&models.Appointment{}).
+		Where("scheduled_at BETWEEN ? AND ?", dayFrom, dayTo).
+		Where("status IN ?", []models.AppointmentStatus{
+			models.AppointmentScheduled,
+			models.AppointmentConfirmed,
+		}).
+		Where("dayof_reminder_sent_at IS NULL").
+		Where("deleted_at IS NULL").
+		Pluck("id", &dayIDs).Error; err != nil {
+		log.Printf("⚠️  [REMINDER JOB] query dia falhou: %v", err)
+		return err
 	}
-	log.Printf("✅ [REMINDER JOB] enviados=%d erros=%d", successCount, errorCount)
+
+	if len(dayIDs) > 0 {
+		log.Printf("⏰ [REMINDER JOB] %d appointments na janela do dia (2-4h)", len(dayIDs))
+		ok, ko := 0, 0
+		for _, id := range dayIDs {
+			if err := j.notifSvc.SendReminderDayOf(ctx, id); err != nil {
+				log.Printf("⚠️  [REMINDER JOB] dia apt=%s: %v", id, err)
+				ko++
+				continue
+			}
+			ok++
+		}
+		log.Printf("✅ [REMINDER JOB] dia enviados=%d erros=%d", ok, ko)
+	}
+
 	return nil
 }
 

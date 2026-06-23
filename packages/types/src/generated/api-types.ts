@@ -17116,6 +17116,11 @@ export interface components {
              */
             phone?: string;
             /**
+             * @description Quando o template de reengajamento (reengajamento_lead) foi enviado pelo
+             *     LeadReengageJob. NULL = nunca reengajado; idempotência (1 envio por lead).
+             */
+            reengagedAt?: string;
+            /**
              * @description Origem do lead (canal/contexto de captura)
              *     @enum light_claim,contact_form,whatsapp_inbound,newsletter,manual
              *     @example light_claim

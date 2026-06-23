@@ -159,9 +159,17 @@ type Appointment struct {
 	// Usado pra evitar reenvio se o sync async retentar.
 	ConfirmationSentAt *time.Time `gorm:"type:timestamptz" json:"confirmationSentAt,omitempty"`
 
-	// Quando o reminder T-24h foi enviado (cron AppointmentReminderJob).
-	// NULL = ainda não enviado; setado = job já processou.
+	// Quando o reminder da véspera (~T-24h) foi enviado (cron AppointmentReminderJob,
+	// template confirmacao_consulta_vespera). NULL = ainda não enviado.
 	ReminderSentAt *time.Time `gorm:"type:timestamptz" json:"reminderSentAt,omitempty"`
+
+	// Quando o lembrete do dia da consulta (~T-2/4h, template confirmacao_consulta_dia)
+	// foi enviado. Independente do reminder da véspera.
+	DayofReminderSentAt *time.Time `gorm:"type:timestamptz" json:"dayofReminderSentAt,omitempty"`
+
+	// Quando o follow-up pós-consulta (template followup_pos_consulta) foi enviado
+	// pelo AppointmentFollowupJob, após a consulta concluída.
+	FollowupSentAt *time.Time `gorm:"type:timestamptz" json:"followupSentAt,omitempty"`
 
 	// Quando o push T-1h foi enviado pro paciente (cron AppointmentPushReminderJob).
 	// NULL = ainda não enviado; setado = job já processou. Independente do WA T-24h.

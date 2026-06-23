@@ -1612,6 +1612,9 @@ func setupRoutes(
 	// 1) Reminder T-24h: ticker 1h, envia template WA pra appointments na janela.
 	appointmentReminderJob := scheduler.NewAppointmentReminderJob(database.DB, appointmentNotificationService)
 	appointmentReminderJob.Start()
+	// 1a) Follow-up pós-consulta: ticker 1h, template followup_pos_consulta p/ consultas concluídas.
+	appointmentFollowupJob := scheduler.NewAppointmentFollowupJob(database.DB, appointmentNotificationService, cfg.WhatsApp.TemplateFollowup)
+	appointmentFollowupJob.Start()
 	// 1b) Preparação pré-consulta: ticker 1h, reenvia magic link (T-48h/T-24h) p/ prep não submetida.
 	consultationPrepReminderJob := scheduler.NewConsultationPrepReminderJob(database.DB, consultationPrepNotifier)
 	consultationPrepReminderJob.Start()
@@ -1635,6 +1638,11 @@ func setupRoutes(
 	// Avisos de relacionamento (aniversários/eventos) — Fase C da Lívia.
 	relationshipEventReminderJob := scheduler.NewRelationshipEventReminderJob(database.DB, conversationService, notificationService, receptionSettingsService, cfg)
 	relationshipEventReminderJob.Start()
+
+	// Reengajamento de leads frios (template reengajamento_lead). OFF por default —
+	// só inicia se WHATSAPP_TEMPLATE_REENGAGE estiver setado.
+	leadReengageJob := scheduler.NewLeadReengageJob(database.DB, conversationService, cfg.WhatsApp.TemplateReengage)
+	leadReengageJob.Start()
 }
 
 // registerTrainingRoutes registra as rotas do módulo de treinamento
