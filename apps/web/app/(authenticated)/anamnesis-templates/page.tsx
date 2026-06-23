@@ -36,7 +36,7 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Plus, Pencil, Trash2, ChevronDown } from 'lucide-react'
+import { Loader2, Plus, Pencil, Trash2, ChevronDown, Printer } from 'lucide-react'
 import { toast } from 'sonner'
 import { useFormNavigation } from '@/lib/use-form-navigation'
 import {
@@ -280,6 +280,14 @@ function TemplateCard({ template, availableScoreItems, onEdit, onDelete }: Templ
             <CardDescription>{template.area}</CardDescription>
           </div>
           <div className="flex gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              title="Imprimir / PDF para revisão"
+              onClick={() => window.open(`/anamnesis-templates/${template.id}/print`, '_blank')}
+            >
+              <Printer className="h-4 w-4" />
+            </Button>
             <Button variant="ghost" size="icon" onClick={onEdit}>
               <Pencil className="h-4 w-4" />
             </Button>
