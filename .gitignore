@@ -172,3 +172,8 @@ scripts/linkedin/__pycache__/
 
 # Pedidos de exame reais de pacientes (PII/LGPD) — nunca versionar
 docs/emr/pedidos/
+
+# Exceção: scripts/docs de backup SÃO versionados (os dumps seguem ignorados pelo "backups/" acima)
+!scripts/backups/
+!scripts/backups/*.sh
+!scripts/backups/*.md
