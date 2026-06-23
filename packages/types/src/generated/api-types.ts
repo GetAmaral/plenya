@@ -16090,8 +16090,14 @@ export interface components {
             lastSeenAt?: string;
             platform?: string;
         };
+        "handlers.TemplateTestInput": {
+            displayOrder?: number;
+            pageBreakBefore?: boolean;
+            testId?: string;
+        };
         "handlers.UpdateLabRequestTemplateTestsRequest": {
-            testIds: string[];
+            testIds?: string[];
+            tests?: components["schemas"]["handlers.TemplateTestInput"][];
         };
         "handlers.UpdateRequest": {
             assignedToUserId?: string;
@@ -16222,6 +16228,12 @@ export interface components {
              *     @example 1
              */
             order?: number;
+            /**
+             * @description Respostas individuais de escalas somadas (PHQ-9, GAD-7, Epworth, IIEF-5, …) quando o
+             *     item é preenchido pelo widget pergunta-a-pergunta. O nível classificado segue em
+             *     SelectedLevel (fonte do motor de score); este campo guarda o detalhe por pergunta.
+             */
+            scaleResponses?: components["schemas"]["models.ScaleResponseData"];
             scoreItem?: components["schemas"]["models.ScoreItem"];
             /**
              * @description Foreign key to ScoreItem (defines what is being recorded)
@@ -17890,6 +17902,20 @@ export interface components {
         "models.ProcessingJobStatus": "pending" | "processing" | "completed" | "failed";
         /** @enum {string} */
         "models.ProcessingJobType": "pdf_extraction";
+        /** @description Detalhe por pergunta de uma escala clínica somada */
+        "models.ScaleResponseData": {
+            /** @description Índice da pergunta (como string) → valor escolhido */
+            answers?: {
+                [key: string]: number;
+            };
+            /** @description Soma das respostas */
+            total?: number;
+            /**
+             * @description Palavras sorteadas (testes de evocação, ex.: Dubois) — guarda a forma usada nesta
+             *     aplicação para reaplicar com palavras diferentes no futuro.
+             */
+            words?: string[];
+        };
         /** @description Grupo de escores clínicos - categoria principal */
         "models.ScoreGroup": {
             /** @description Timestamps */

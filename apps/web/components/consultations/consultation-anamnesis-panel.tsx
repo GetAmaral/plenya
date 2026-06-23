@@ -64,6 +64,7 @@ export function ConsultationAnamnesisPanel({ appointmentId, patient, patientId }
     numericValue: it.numericValue,
     selectedLevel: it.selectedLevel,
     textValue: it.textValue,
+    scaleResponses: it.scaleResponses,
     order: it.order,
   }))
 

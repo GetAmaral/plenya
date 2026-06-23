@@ -4,11 +4,21 @@ import type { Anamnesis, AnamnesisItem } from '@plenya/types'
 
 export type { Anamnesis, AnamnesisItem }
 
+/** Respostas individuais de uma escala somada (PHQ-9, GAD-7, …) — detalhe por pergunta.
+ *  Campos opcionais para casar com o tipo gerado do backend (models.ScaleResponseData). */
+export interface ScaleResponses {
+  answers?: Record<string, number>
+  total?: number
+  /** Palavras sorteadas nesta aplicação (testes de evocação, ex.: Dubois). */
+  words?: string[]
+}
+
 export interface AnamnesisItemRequest {
   scoreItemId: string
   textValue?: string
   numericValue?: number
   selectedLevel?: number
+  scaleResponses?: ScaleResponses
   order: number
 }
 

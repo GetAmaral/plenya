@@ -16,6 +16,8 @@ import type { ScoreGroup, ScoreSubgroup, ScoreItem, ScoreLevel } from '@/lib/api
 import type { AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
 import type { Patient } from '@/lib/auth-store'
 import { AnamnesisItemHistory } from './AnamnesisItemHistory'
+import { ScaleWidget } from './ScaleWidget'
+import { getScaleDef, pickWordRecallSet, type ChosenWord } from '@plenya/domain'
 
 // Evaluates whether a numeric value satisfies a ScoreLevel's operator/limits
 function evaluatesTrue(value: number, level: ScoreLevel): boolean {
@@ -35,6 +37,46 @@ function evaluatesTrue(value: number, level: ScoreLevel): boolean {
 // Returns the level number that matches a numeric value, or undefined if none
 function detectLevel(value: number, levels: ScoreLevel[]): number | undefined {
   return levels.find(l => evaluatesTrue(value, l))?.level
+}
+
+// Conversões entre as respostas do widget (chaves numéricas) e o JSON persistido (chaves string)
+function toStringKeys(answers: Record<number, number>): Record<string, number> {
+  const out: Record<string, number> = {}
+  for (const [k, v] of Object.entries(answers)) out[k] = v
+  return out
+}
+function toNumberKeys(answers: Record<string, number> | undefined): Record<number, number> | undefined {
+  if (!answers) return undefined
+  const out: Record<number, number> = {}
+  for (const [k, v] of Object.entries(answers)) out[Number(k)] = v
+  return out
+}
+
+// Resolve o conjunto de palavras do teste de evocação (Dubois) UMA vez por anamnese:
+// reaproveita as palavras já persistidas (anamnese carregada) ou sorteia uma forma nova.
+// Imediato e tardio compartilham o mesmo conjunto (mesmas categorias).
+function resolveWordRecallSet(
+  template: AnamnesisTemplate,
+  initialValues: AnamnesisItemFormValue[],
+): ChosenWord[] | null {
+  if (!template.items) return null
+  let spec: Extract<NonNullable<ReturnType<typeof getScaleDef>>['administration'], { type: 'word_recall' }> | null = null
+  const itemIds: string[] = []
+  for (const ti of template.items) {
+    const def = getScaleDef(ti.scoreItem?.anamneseItemCode)
+    if (def?.administration?.type === 'word_recall') {
+      if (!spec) spec = def.administration
+      if (ti.scoreItem) itemIds.push(ti.scoreItem.id)
+    }
+  }
+  if (!spec) return null
+  for (const id of itemIds) {
+    const words = initialValues.find((v) => v.scoreItemId === id)?.scaleResponses?.words
+    if (words && words.length === spec.categories.length) {
+      return spec.categories.map((c, i) => ({ category: c.category, word: words[i] }))
+    }
+  }
+  return pickWordRecallSet(spec, (size) => Math.floor(Math.random() * size))
 }
 
 // Calcula idade a partir da data de nascimento
@@ -213,6 +255,9 @@ export function AnamnesisTemplateItemsRenderer({
     return newValues
   })
   const [focusedItemId, setFocusedItemId] = useState<string | null>(null)
+  // Conjunto de palavras do Dubois, resolvido uma vez (persistido ou sorteado) e compartilhado
+  // entre imediato e tardio nesta anamnese.
+  const [wordRecallSet] = useState<ChosenWord[] | null>(() => resolveWordRecallSet(template, initialValues))
 
   const organized = organizeTemplateItems(template, patient)
   const itemRefs = useRef<Map<string, HTMLDivElement>>(new Map())
@@ -336,6 +381,47 @@ export function AnamnesisTemplateItemsRenderer({
         onChange(Array.from(newValues.values()))
       })
 
+      return newValues
+    })
+  }
+
+  // Resultado de um widget de escala (PHQ-9, GAD-7, …): seta o nível classificado
+  // e guarda o detalhe por pergunta (scaleResponses). `level` undefined = incompleta/limpa.
+  const handleScaleResult = (
+    scoreItemId: string,
+    result: { level: number | undefined; total: number; answers: Record<number, number>; words?: string[] },
+    order: number,
+  ) => {
+    const { level, total, answers, words } = result
+    const answeredCount = Object.keys(answers).length
+    setValues((prev) => {
+      const newValues = new Map(prev)
+      const existing = newValues.get(scoreItemId)
+      if (level === undefined) {
+        // Sem classificação (incompleta/limpa): mantém só se houver respostas parciais ou obs.
+        if (answeredCount === 0 && !existing?.textValue) {
+          newValues.delete(scoreItemId)
+        } else {
+          newValues.set(scoreItemId, {
+            ...existing,
+            scoreItemId,
+            selectedLevel: undefined,
+            numericValue: undefined,
+            scaleResponses:
+              answeredCount > 0 ? { answers: toStringKeys(answers), total, words } : undefined,
+            order,
+          })
+        }
+      } else {
+        newValues.set(scoreItemId, {
+          scoreItemId,
+          selectedLevel: level,
+          textValue: existing?.textValue,
+          scaleResponses: { answers: toStringKeys(answers), total, words },
+          order,
+        })
+      }
+      requestAnimationFrame(() => onChange(Array.from(newValues.values())))
       return newValues
     })
   }
@@ -501,6 +587,7 @@ export function AnamnesisTemplateItemsRenderer({
                       {items.map(({ templateItem, scoreItem }) => {
                         const cur = values.get(scoreItem.id)
                         const levels = scoreItem.levels || []
+                        const scaleDef = getScaleDef(scoreItem.anamneseItemCode)
 
                         // maxSelect → linha com checkbox (sem expandir)
                         if (hasMaxSelect) {
@@ -572,6 +659,24 @@ export function AnamnesisTemplateItemsRenderer({
 
                             {itemOpen && (
                               <div className="space-y-3 px-3.5 pb-3.5">
+                                {scaleDef && (scaleDef.kind === 'sum' || scaleDef.kind === 'administered' || scaleDef.kind === 'custom') ? (
+                                  <ScaleWidget
+                                    def={scaleDef}
+                                    compact
+                                    classify={(t) => detectLevel(t, levels)}
+                                    levelName={(lv) => levels.find((l) => l.level === lv)?.name}
+                                    initialAnswers={toNumberKeys(cur?.scaleResponses?.answers)}
+                                    adminWords={
+                                      scaleDef.administration?.type === 'word_recall'
+                                        ? wordRecallSet ?? undefined
+                                        : undefined
+                                    }
+                                    onResult={(r) =>
+                                      handleScaleResult(scoreItem.id, r, templateItem.order)
+                                    }
+                                  />
+                                ) : (
+                                  <>
                                 {scoreItem.unit && (
                                   <Input
                                     type="number"
@@ -615,6 +720,8 @@ export function AnamnesisTemplateItemsRenderer({
                                       )
                                     })}
                                   </div>
+                                )}
+                                  </>
                                 )}
 
                                 {showObs ? (
@@ -721,6 +828,7 @@ export function AnamnesisTemplateItemsRenderer({
                       {items.map(({ templateItem, scoreItem }) => {
                         const currentValue = values.get(scoreItem.id)
                         const levels = scoreItem.levels || []
+                        const scaleDef = getScaleDef(scoreItem.anamneseItemCode)
                         const hasLevelSelected = currentValue?.selectedLevel !== undefined
                         const hasNumericValue = currentValue?.numericValue !== undefined
                         const isFilled = !!(hasLevelSelected || hasNumericValue || currentValue?.textValue)
@@ -840,6 +948,24 @@ export function AnamnesisTemplateItemsRenderer({
                                 )}
                               </div>
 
+                              {/* Escala (PHQ-9, GAD-7, …): widget pergunta-a-pergunta */}
+                              {scaleDef && (scaleDef.kind === 'sum' || scaleDef.kind === 'administered' || scaleDef.kind === 'custom') ? (
+                                <ScaleWidget
+                                  def={scaleDef}
+                                  classify={(t) => detectLevel(t, levels)}
+                                  levelName={(lv) => levels.find((l) => l.level === lv)?.name}
+                                  initialAnswers={toNumberKeys(currentValue?.scaleResponses?.answers)}
+                                  adminWords={
+                                    scaleDef.administration?.type === 'word_recall'
+                                      ? wordRecallSet ?? undefined
+                                      : undefined
+                                  }
+                                  onResult={(r) =>
+                                    handleScaleResult(scoreItem.id, r, templateItem.order)
+                                  }
+                                />
+                              ) : (
+                                <>
                               {/* Numeric input for items with unit */}
                               {scoreItem.unit && (
                                 <div className="space-y-1">
@@ -911,6 +1037,8 @@ export function AnamnesisTemplateItemsRenderer({
                                     })}
                                   </div>
                                 </div>
+                              )}
+                                </>
                               )}
 
                               {/* Text input */}

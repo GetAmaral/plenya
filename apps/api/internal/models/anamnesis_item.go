@@ -33,6 +33,11 @@ type AnamnesisItem struct {
 	// @example 3
 	SelectedLevel *int `gorm:"type:integer" json:"selectedLevel,omitempty"`
 
+	// Respostas individuais de escalas somadas (PHQ-9, GAD-7, Epworth, IIEF-5, …) quando o
+	// item é preenchido pelo widget pergunta-a-pergunta. O nível classificado segue em
+	// SelectedLevel (fonte do motor de score); este campo guarda o detalhe por pergunta.
+	ScaleResponses *ScaleResponseData `gorm:"type:jsonb;serializer:json" json:"scaleResponses,omitempty"`
+
 	// Order for display (within the anamnesis)
 	// @minimum 0
 	// @maximum 9999
@@ -47,6 +52,19 @@ type AnamnesisItem struct {
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
+}
+
+// ScaleResponseData guarda as respostas individuais de uma escala somada (PHQ-9, GAD-7, …).
+// Persistido como JSONB. `answers` mapeia o índice da pergunta (string) para o valor escolhido.
+// @Description Detalhe por pergunta de uma escala clínica somada
+type ScaleResponseData struct {
+	// Índice da pergunta (como string) → valor escolhido
+	Answers map[string]int `json:"answers"`
+	// Soma das respostas
+	Total int `json:"total"`
+	// Palavras sorteadas (testes de evocação, ex.: Dubois) — guarda a forma usada nesta
+	// aplicação para reaplicar com palavras diferentes no futuro.
+	Words []string `json:"words,omitempty"`
 }
 
 // TableName specifies the table name for AnamnesisItem

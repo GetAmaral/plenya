@@ -211,12 +211,13 @@ func (s *AnamnesisService) createForPatient(patientID, authorID uuid.UUID, req *
 			}
 
 			items[i] = models.AnamnesisItem{
-				AnamnesisID:   anamnesis.ID,
-				ScoreItemID:   scoreItemID,
-				TextValue:     itemReq.TextValue,
-				NumericValue:  itemReq.NumericValue,
-				SelectedLevel: itemReq.SelectedLevel,
-				Order:         itemReq.Order,
+				AnamnesisID:    anamnesis.ID,
+				ScoreItemID:    scoreItemID,
+				TextValue:      itemReq.TextValue,
+				NumericValue:   itemReq.NumericValue,
+				SelectedLevel:  itemReq.SelectedLevel,
+				ScaleResponses: itemReq.ScaleResponses,
+				Order:          itemReq.Order,
 			}
 		}
 
@@ -408,12 +409,13 @@ func (s *AnamnesisService) Update(anamnesisID, authorID uuid.UUID, userRole mode
 				}
 
 				items[i] = models.AnamnesisItem{
-					AnamnesisID:   anamnesis.ID,
-					ScoreItemID:   scoreItemID,
-					TextValue:     itemReq.TextValue,
-					NumericValue:  itemReq.NumericValue,
-					SelectedLevel: itemReq.SelectedLevel,
-					Order:         itemReq.Order,
+					AnamnesisID:    anamnesis.ID,
+					ScoreItemID:    scoreItemID,
+					TextValue:      itemReq.TextValue,
+					NumericValue:   itemReq.NumericValue,
+					SelectedLevel:  itemReq.SelectedLevel,
+					ScaleResponses: itemReq.ScaleResponses,
+					Order:          itemReq.Order,
 				}
 			}
 
@@ -528,14 +530,15 @@ func (s *AnamnesisService) toDTO(anamnesis *models.Anamnesis, restricted bool) *
 		response.Items = make([]dto.AnamnesisItemResponse, len(anamnesis.Items))
 		for i, item := range anamnesis.Items {
 			itemResponse := dto.AnamnesisItemResponse{
-				ID:            item.ID.String(),
-				ScoreItemID:   item.ScoreItemID.String(),
-				TextValue:     item.TextValue,
-				NumericValue:  item.NumericValue,
-				SelectedLevel: item.SelectedLevel,
-				Order:         item.Order,
-				CreatedAt:     item.CreatedAt.Format(time.RFC3339),
-				UpdatedAt:     item.UpdatedAt.Format(time.RFC3339),
+				ID:             item.ID.String(),
+				ScoreItemID:    item.ScoreItemID.String(),
+				TextValue:      item.TextValue,
+				NumericValue:   item.NumericValue,
+				SelectedLevel:  item.SelectedLevel,
+				ScaleResponses: item.ScaleResponses,
+				Order:          item.Order,
+				CreatedAt:      item.CreatedAt.Format(time.RFC3339),
+				UpdatedAt:      item.UpdatedAt.Format(time.RFC3339),
 			}
 
 			// Include ScoreItem if preloaded
@@ -595,18 +598,18 @@ func (s *AnamnesisService) toDTO(anamnesis *models.Anamnesis, restricted bool) *
 					scoreItem.Levels = make([]dto.ScoreLevelBrief, len(item.ScoreItem.Levels))
 					for j, level := range item.ScoreItem.Levels {
 						levelBrief := dto.ScoreLevelBrief{
-							ID:           level.ID.String(),
-							Level:        level.Level,
-							Name:         level.Name,
-							LowerLimit:   level.LowerLimit,
-							UpperLimit:   level.UpperLimit,
-							Operator:     level.Operator,
-							ClinicalRelevance: level.ClinicalRelevance,
+							ID:                 level.ID.String(),
+							Level:              level.Level,
+							Name:               level.Name,
+							LowerLimit:         level.LowerLimit,
+							UpperLimit:         level.UpperLimit,
+							Operator:           level.Operator,
+							ClinicalRelevance:  level.ClinicalRelevance,
 							PatientExplanation: level.PatientExplanation,
-							Conduct:      level.Conduct,
-							ItemID:       level.ItemID.String(),
-							CreatedAt:    level.CreatedAt.Format(time.RFC3339),
-							UpdatedAt:    level.UpdatedAt.Format(time.RFC3339),
+							Conduct:            level.Conduct,
+							ItemID:             level.ItemID.String(),
+							CreatedAt:          level.CreatedAt.Format(time.RFC3339),
+							UpdatedAt:          level.UpdatedAt.Format(time.RFC3339),
 						}
 
 						if level.LastReview != nil {

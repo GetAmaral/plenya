@@ -16,6 +16,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.4.0",
     "@plenya/brand": "workspace:*",
+    "@plenya/domain": "workspace:*",
     "@plenya/types": "workspace:*",
     "@plenya/ui": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.12",

@@ -9,6 +9,7 @@
     ".": "./src/index.ts",
     "./cpf": "./src/cpf.ts",
     "./score": "./src/score.ts",
+    "./scales": "./src/scales.ts",
     "./formatters": "./src/formatters.ts",
     "./version": "./src/version.ts"
   },

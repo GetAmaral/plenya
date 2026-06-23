@@ -10,6 +10,9 @@ export interface AnamnesisItemFormValue {
   numericValue?: number    // real measured value (e.g. 82.3 kg)
   selectedLevel?: number  // classified level (0-6), auto-detected or manually selected
   textValue?: string
+  // Detalhe por pergunta de escalas somadas (PHQ-9, GAD-7, …), quando preenchida via widget.
+  // Campos opcionais para casar com o tipo gerado do backend (models.ScaleResponseData).
+  scaleResponses?: { answers?: Record<string, number>; total?: number; words?: string[] }
   order: number
 }
 

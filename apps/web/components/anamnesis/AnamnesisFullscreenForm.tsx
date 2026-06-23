@@ -184,6 +184,7 @@ export function AnamnesisFullscreenForm({ onSuccess, onCancel }: AnamnesisFullsc
         scoreItemId: item.scoreItemId,
         numericValue: item.numericValue,
         selectedLevel: item.selectedLevel,
+        scaleResponses: item.scaleResponses,
         textValue: item.textValue,
         order: item.order,
       })) : undefined,

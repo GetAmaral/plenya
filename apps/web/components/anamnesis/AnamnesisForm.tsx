@@ -153,6 +153,7 @@ export function CreateAnamnesisForm({ onSuccess }: CreateAnamnesisFormProps) {
         scoreItemId: item.scoreItemId,
         numericValue: item.numericValue,
         selectedLevel: item.selectedLevel,
+        scaleResponses: item.scaleResponses,
         textValue: item.textValue,
         order: item.order,
       })) : undefined,
@@ -378,6 +379,7 @@ export function EditAnamnesisForm({ anamnesis, focusScoreItemId, onSuccess, onCa
       scoreItemId: item.scoreItemId,
       numericValue: item.numericValue,
       selectedLevel: item.selectedLevel,
+      scaleResponses: item.scaleResponses,
       textValue: item.textValue,
       order: item.order,
     })) || []
@@ -497,6 +499,7 @@ export function EditAnamnesisForm({ anamnesis, focusScoreItemId, onSuccess, onCa
         scoreItemId: item.scoreItemId,
         numericValue: item.numericValue,
         selectedLevel: item.selectedLevel,
+        scaleResponses: item.scaleResponses,
         textValue: item.textValue,
         order: item.order,
       })) : undefined,

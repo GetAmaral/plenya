@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
   //  não é mais reconhecida. ESLint roda via `pnpm lint`/CI, não no `next build`.)
 
   // Transpile ESM-only packages
-  transpilePackages: ['react-reader', '@plenya/ui'],
+  transpilePackages: ['react-reader', '@plenya/ui', '@plenya/domain'],
 
   // Otimizar imagens
   images: {
