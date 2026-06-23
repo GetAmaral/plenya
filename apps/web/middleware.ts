@@ -26,6 +26,10 @@ function buildCSP(nonce: string): string {
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline' https:${evalSrc}`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: blob: https:",
+    // media-src é OBRIGATÓRIO p/ <audio>/<video>: sem ele cai no default-src 'self' e
+    // bloqueia o streaming de áudio das conversas (que vem da api, cross-origin) — o
+    // <audio> nem chega a requisitar. blob: cobre mídia montada client-side.
+    `media-src 'self' blob: data: ${api}`,
     "font-src 'self' data: https://fonts.gstatic.com",
     `connect-src 'self' https://api.openai.com https://api.anthropic.com https://*.daily.co wss://*.daily.co ${api}`,
     "frame-src 'self' https://*.daily.co https://accounts.google.com",
