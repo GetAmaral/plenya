@@ -39,6 +39,7 @@ func (r *AnamnesisRepository) GetHistoricalItemsByScoreItemID(patientID uuid.UUI
 				ai.score_item_id,
 				ai.text_value,
 				ai.numeric_value,
+				ai.selected_level,
 				ai."order",
 				ai.created_at,
 				ai.updated_at,
@@ -46,7 +47,7 @@ func (r *AnamnesisRepository) GetHistoricalItemsByScoreItemID(patientID uuid.UUI
 			FROM anamnesis_items ai
 			INNER JOIN anamnesis a ON ai.anamnesis_id = a.id
 			WHERE a.patient_id = ?
-				AND ai.numeric_value IS NOT NULL
+				AND (ai.selected_level IS NOT NULL OR ai.numeric_value IS NOT NULL)
 				AND ai.deleted_at IS NULL
 				AND a.deleted_at IS NULL
 			ORDER BY ai.score_item_id, a.consultation_date DESC, ai.created_at DESC

@@ -14,11 +14,11 @@ import (
 
 // ScoreSnapshotService handles business logic for patient score snapshots
 type ScoreSnapshotService struct {
-	snapshotRepo   *repository.ScoreSnapshotRepository
-	scoreRepo      *repository.ScoreRepository
-	labResultRepo  *repository.LabResultRepository
-	anamnesisRepo  *repository.AnamnesisRepository
-	db             *gorm.DB
+	snapshotRepo  *repository.ScoreSnapshotRepository
+	scoreRepo     *repository.ScoreRepository
+	labResultRepo *repository.LabResultRepository
+	anamnesisRepo *repository.AnamnesisRepository
+	db            *gorm.DB
 }
 
 // NewScoreSnapshotService creates a new score snapshot service instance
@@ -370,28 +370,47 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 		}
 	}
 
-	// If not found in lab results, try AnamnesisItem
+	// If not found in lab results, try AnamnesisItem.
+	// Dois modos (mesma semântica do escore-light/anônimo):
+	//  1. SelectedLevel preenchido → encontra o level pelo número (caminho normal: o
+	//     front grava o nível classificado em selected_level, não em numeric_value).
+	//  2. NumericValue preenchido (sem nível) → avalia o valor contra os limites.
 	if dataSource == nil {
 		if anamnesisItem, found := anamnesisItemsByScoreItemID[item.ID]; found {
-			// Anamnesis item: numeric_value IS the level number directly
-			ds := models.DataSourceAnamnesisItem
-			dataSource = &ds
-			anamnesisItemID = &anamnesisItem.ID
-			valueUsed = anamnesisItem.NumericValue
-
-			// Find the level where Level == numeric_value
-			levelNumber := int(*anamnesisItem.NumericValue)
-			for i := range item.Levels {
-				if item.Levels[i].Level == levelNumber {
-					matchedLevel = &item.Levels[i]
-					break
+			if anamnesisItem.SelectedLevel != nil {
+				levelNumber := *anamnesisItem.SelectedLevel
+				for i := range item.Levels {
+					if item.Levels[i].Level == levelNumber {
+						matchedLevel = &item.Levels[i]
+						break
+					}
+				}
+				if matchedLevel == nil {
+					reason := fmt.Sprintf("Nível %d não existe na configuração do item", levelNumber)
+					result.NotEvaluatedReason = &reason
+					return result
+				}
+			} else if anamnesisItem.NumericValue != nil {
+				levels := item.Levels
+				SortLevelsAsc(levels)
+				for i := range levels {
+					if levels[i].EvaluatesTrue(*anamnesisItem.NumericValue) {
+						matchedLevel = &levels[i]
+						break
+					}
+				}
+				if matchedLevel == nil {
+					reason := fmt.Sprintf("Valor %.2f não corresponde a nenhum nível definido", *anamnesisItem.NumericValue)
+					result.NotEvaluatedReason = &reason
+					return result
 				}
 			}
 
-			if matchedLevel == nil {
-				reason := fmt.Sprintf("Nível %d não existe na configuração do item", levelNumber)
-				result.NotEvaluatedReason = &reason
-				return result
+			if matchedLevel != nil {
+				ds := models.DataSourceAnamnesisItem
+				dataSource = &ds
+				anamnesisItemID = &anamnesisItem.ID
+				valueUsed = anamnesisItem.NumericValue
 			}
 		}
 	}
