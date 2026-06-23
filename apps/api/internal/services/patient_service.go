@@ -40,14 +40,16 @@ func NewPatientService(db *gorm.DB) *PatientService {
 	return &PatientService{db: db}
 }
 
-// Create cria um novo paciente
-func (s *PatientService) Create(userID uuid.UUID, req *dto.CreatePatientRequest) (*dto.PatientResponse, error) {
-	// Verificar se já existe paciente para este usuário
-	var existing models.Patient
-	if err := s.db.Where("user_id = ?", userID).First(&existing).Error; err == nil {
-		return nil, ErrPatientAlreadyExists
-	}
-
+// Create cria um novo paciente.
+//
+// O dono do Patient (user_id) depende de quem está cadastrando, porque
+// patients.user_id é UNIQUE (1 Patient por User):
+//   - callerRole == patient (portal): o paciente cadastra o próprio perfil,
+//     reusa o callerUserID; 1 perfil por usuário.
+//   - staff (balcão / "Novo paciente"): cada paciente ganha um User-sombra
+//     PRÓPRIO. Reutilizar o user do recepcionista quebrava no UNIQUE já no
+//     2º cadastro (erro "já existe"). Mesmo padrão da conversão de Lead.
+func (s *PatientService) Create(callerUserID uuid.UUID, callerRole models.Role, req *dto.CreatePatientRequest) (*dto.PatientResponse, error) {
 	// Dedupe por CPF: um CPF = um paciente. Sem isso, a violação de unique no
 	// banco vira 500 cru no balcão; aqui devolvemos erro tratável (409 amigável).
 	if req.CPF != nil && *req.CPF != "" {
@@ -73,9 +75,7 @@ func (s *PatientService) Create(userID uuid.UUID, req *dto.CreatePatientRequest)
 		gender = models.GenderOther
 	}
 
-	// Criar paciente
 	patient := models.Patient{
-		UserID:           userID,
 		Name:             req.Name,
 		CPF:              req.CPF,              // Será criptografado pelo hook
 		RG:               req.RG,               // Será criptografado pelo hook
@@ -98,11 +98,76 @@ func (s *PatientService) Create(userID uuid.UUID, req *dto.CreatePatientRequest)
 		EmergencyPhone:   req.EmergencyPhone,
 	}
 
-	if err := s.db.Create(&patient).Error; err != nil {
-		return nil, err
+	txErr := s.db.Transaction(func(tx *gorm.DB) error {
+		if callerRole == models.RolePatient {
+			// Portal: 1 perfil por usuário.
+			var existing models.Patient
+			if err := tx.Where("user_id = ?", callerUserID).First(&existing).Error; err == nil {
+				return ErrPatientAlreadyExists
+			} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+				return err
+			}
+			patient.UserID = callerUserID
+			return tx.Create(&patient).Error
+		}
+
+		// Balcão (staff): User-sombra próprio por paciente.
+		user, err := s.resolveOrCreateShadowUser(tx, req)
+		if err != nil {
+			return err
+		}
+		// Idempotência: se esse user-sombra já tem Patient (mesmo email/telefone
+		// já cadastrado antes), reaproveita em vez de estourar o UNIQUE.
+		var existing models.Patient
+		if err := tx.Where("user_id = ?", user.ID).First(&existing).Error; err == nil {
+			patient = existing
+			return nil
+		} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return err
+		}
+		patient.UserID = user.ID
+		if err := tx.Create(&patient).Error; err != nil {
+			return err
+		}
+		user.SelectedPatientID = &patient.ID
+		return tx.Save(user).Error
+	})
+	if txErr != nil {
+		return nil, txErr
 	}
 
 	return s.toDTO(&patient), nil
+}
+
+// resolveOrCreateShadowUser cria (ou reaproveita) o User dono do Patient quando o
+// cadastro vem do balcão (staff). Cada paciente precisa de um user_id próprio
+// porque patients.user_id é UNIQUE. Email do user-sombra:
+//   - email informado → usa (reaproveita user existente com esse email)
+//   - senão, telefone informado → placeholder determinístico por telefone
+//   - senão (só nome) → placeholder anônimo único (anon-<uuid>)
+func (s *PatientService) resolveOrCreateShadowUser(tx *gorm.DB, req *dto.CreatePatientRequest) (*models.User, error) {
+	email := ""
+	if req.Email != nil {
+		email = strings.TrimSpace(*req.Email)
+	}
+	if email == "" && req.Phone != nil {
+		if e164 := models.NormalizePhoneBR(*req.Phone); e164 != "" {
+			email = models.BuildPlaceholderEmail(e164)
+		}
+	}
+	if email == "" {
+		// Só nome: placeholder anônimo único só pra satisfazer User.Email UNIQUE.
+		email = "anon-" + uuid.NewString() + models.PlaceholderEmailSuffix
+	}
+
+	user := models.User{Name: req.Name, Email: email}
+	if err := user.SetRoles([]string{string(models.RolePatient)}); err != nil {
+		return nil, err
+	}
+	if err := tx.Where(models.User{Email: email}).Attrs(user).FirstOrCreate(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 
 // GetByID busca um paciente por ID.

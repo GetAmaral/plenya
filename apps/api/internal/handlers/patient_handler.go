@@ -56,9 +56,10 @@ func (h *PatientHandler) Create(c *fiber.Ctx) error {
 	}
 
 	userID := middleware.GetUserID(c)
+	userRole := middleware.GetPrimaryRole(c)
 
 	// Criar paciente
-	resp, err := h.patientService.Create(userID, &req)
+	resp, err := h.patientService.Create(userID, userRole, &req)
 	if err != nil {
 		if errors.Is(err, services.ErrPatientAlreadyExists) {
 			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
