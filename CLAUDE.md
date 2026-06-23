@@ -126,6 +126,24 @@ docker compose up -d
 docker compose logs -f api
 ```
 
+## 🚀 Deploy (produção / Coolify)
+
+**Auto-deploy está DESLIGADO de propósito.** `git push origin master` NÃO deploya nada — a VPS
+tem 8GB e rebuildar os 3 apps juntos (via webhook) causa OOM. Deploy é **manual, deliberado e
+por-app**: só deploya o app cujo código mudou, um de cada vez.
+
+```bash
+# Deploy de UM app (faz higiene da fila + dispara + espera container novo subir):
+scripts/deploy/deploy-app.sh api    # apps/api  → plenya-api
+scripts/deploy/deploy-app.sh web    # apps/web  → plenya-web (EMR + portal)
+scripts/deploy/deploy-app.sh site   # apps/site → plenya-site
+```
+
+Regras: **nunca deployar sem ordem explícita do usuário** (memória `plenya_no_deploy_sem_ordem`);
+mudou só `apps/web`? deploya só `web`. Migrations goose rodam no deploy do `api`
+(`RUN_MIGRATIONS=true`). Detalhe do procedimento e recuperação de deploy travado nas memórias
+`plenya_deploy_manual` e `coolify_deploy_orphan_lock_procedure`.
+
 ## 📚 Documentação detalhada (`.claude/`)
 
 - Fundação: [01-overview](.claude/01-overview.md) · [02-stack](.claude/02-stack.md) · [03-architecture](.claude/03-architecture.md)
