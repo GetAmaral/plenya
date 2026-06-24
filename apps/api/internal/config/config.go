@@ -278,7 +278,7 @@ type SignatureConfig struct {
 
 type ClaudeConfig struct {
 	APIKey string
-	Model  string
+	Model  string // CLAUDE_MODEL — modelo default (interpretação de PDF de laudo, CRM, training). Default: claude-sonnet-4-6.
 	// NoteModel — modelo usado p/ gerar nota clínica/anamnese a partir do transcript
 	// da teleconsulta (mais capaz que o Model default). Configurável; se indisponível
 	// na conta, o serviço cai pro Model.
@@ -374,7 +374,7 @@ func Load() (*Config, error) {
 		},
 		Claude: ClaudeConfig{
 			APIKey:    getEnv("CLAUDE_API_KEY", ""),
-			Model:     getEnv("CLAUDE_MODEL", "claude-3-5-haiku-20241022"),
+			Model:     getEnv("CLAUDE_MODEL", "claude-sonnet-4-6"),
 			NoteModel: getEnv("CLAUDE_NOTE_MODEL", "claude-sonnet-4-6"),
 		},
 		OpenAI: OpenAIConfig{

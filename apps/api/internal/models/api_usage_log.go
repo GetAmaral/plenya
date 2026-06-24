@@ -90,21 +90,24 @@ func (aul *APIUsageLog) CalculateCost() float64 {
 		}
 
 	case "anthropic":
+		var inPrice, outPrice float64
 		switch aul.Model {
+		case "claude-sonnet-4-6":
+			inPrice, outPrice = 3.00, 15.00 // $/1M tokens (input/output)
 		case "claude-3-5-haiku-20241022":
-			// Haiku: $0.80 / 1M input tokens, $4.00 / 1M output tokens
-			inputCost := 0.0
-			outputCost := 0.0
-			if aul.InputTokens != nil {
-				inputCost = (float64(*aul.InputTokens) / 1_000_000.0) * 0.80
-			}
-			if aul.OutputTokens != nil {
-				outputCost = (float64(*aul.OutputTokens) / 1_000_000.0) * 4.00
-			}
-			return inputCost + outputCost
+			inPrice, outPrice = 0.80, 4.00 // modelo legado (aposentado pela Anthropic em 2026-02)
 		default:
 			return 0.0
 		}
+		inputCost := 0.0
+		outputCost := 0.0
+		if aul.InputTokens != nil {
+			inputCost = (float64(*aul.InputTokens) / 1_000_000.0) * inPrice
+		}
+		if aul.OutputTokens != nil {
+			outputCost = (float64(*aul.OutputTokens) / 1_000_000.0) * outPrice
+		}
+		return inputCost + outputCost
 
 	default:
 		return 0.0
