@@ -50,6 +50,19 @@ export function WhatsAppChat({ variant = 'page', selected, onSelect }: Props) {
   const debouncedSearch = useDebouncedValue(search, 300);
   const [mobileViewerOpen, setMobileViewerOpen] = useState(false);
 
+  // O viewer mobile é um Sheet cujo overlay (bg-black/80, fixed inset-0) NÃO tem
+  // hiding responsivo — só o conteúdo é md:hidden. Se abrir no desktop, o backdrop
+  // cobre a tela inteira sem conteúdo visível = tela preta. Por isso o Sheet só pode
+  // abrir abaixo de md (768px). Reativo a resize pra não travar preto ao redimensionar.
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 767px)');
+    const update = () => setIsMobile(mql.matches);
+    update();
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
+  }, []);
+
   const filters: ConversationListFilters = useMemo(
     () => ({
       channel: 'whatsapp',
@@ -225,7 +238,7 @@ export function WhatsAppChat({ variant = 'page', selected, onSelect }: Props) {
       </div>
 
       <Sheet
-        open={mobileViewerOpen && !!selectedItem}
+        open={mobileViewerOpen && !!selectedItem && isMobile}
         onOpenChange={(open) => {
           if (!open) setMobileViewerOpen(false);
         }}
