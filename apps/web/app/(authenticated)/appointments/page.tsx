@@ -14,8 +14,7 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { formatDate } from "@/lib/format-date";
 import {
   Calendar,
   Search,
@@ -26,6 +25,9 @@ import {
   CheckCircle2,
   XCircle,
   CalendarCheck,
+  UserCheck,
+  PlayCircle,
+  UserX,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -64,13 +66,19 @@ const statusConfig = {
     variant: "default" as const,
     icon: CalendarCheck,
   },
+  checked_in: { label: "Check-in", variant: "outline" as const, icon: UserCheck },
+  in_progress: { label: "Em atendimento", variant: "default" as const, icon: PlayCircle },
   completed: { label: "Concluído", variant: "stable" as const, icon: CheckCircle2 },
   cancelled: {
     label: "Cancelado",
     variant: "destructive" as const,
     icon: XCircle,
   },
+  no_show: { label: "Não compareceu", variant: "destructive" as const, icon: UserX },
 };
+
+// Fallback p/ status fora do mapa (novo status no backend não pode derrubar a página).
+const fallbackStatus = { label: "—", variant: "outline" as const, icon: Clock };
 
 export default function AppointmentsPage() {
   useRequireAuth();
@@ -111,15 +119,13 @@ export default function AppointmentsPage() {
       accessorKey: "scheduledAt",
       header: "Data/Hora",
       cell: ({ row }) => {
-        const date = new Date(row.getValue("scheduledAt"));
+        // Util resiliente: scheduledAt nulo/inválido cai pra "—" em vez de o
+        // format() do date-fns lançar "Invalid time value" e derrubar a página inteira.
+        const raw = row.getValue("scheduledAt") as string | null | undefined;
         return (
           <div>
-            <div className="font-medium">
-              {format(date, "dd/MM/yyyy", { locale: ptBR })}
-            </div>
-            <div className="text-sm text-muted-foreground">
-              {format(date, "HH:mm", { locale: ptBR })}
-            </div>
+            <div className="font-medium">{formatDate(raw, "dd/MM/yyyy")}</div>
+            <div className="text-sm text-muted-foreground">{formatDate(raw, "HH:mm")}</div>
           </div>
         );
       },
@@ -152,7 +158,7 @@ export default function AppointmentsPage() {
       header: "Status",
       cell: ({ row }) => {
         const status = row.getValue("status") as keyof typeof statusConfig;
-        const config = statusConfig[status];
+        const config = statusConfig[status] ?? { ...fallbackStatus, label: String(status ?? "—") };
         const Icon = config.icon;
 
         return (
