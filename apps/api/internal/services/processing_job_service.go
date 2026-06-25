@@ -212,6 +212,27 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 	return nil
 }
 
+// ReprocessResultsFromJSON recria os LabResults de um lote a partir do PDFContentJSON
+// já armazenado (sem refazer OCR/IA) e re-classifica. Útil para um botão "reprocessar"
+// e para recuperar um lote cujos resultados foram perdidos. Retorna (matched, unmatched).
+func (s *ProcessingJobService) ReprocessResultsFromJSON(batchID uuid.UUID) (int, int, error) {
+	var batch models.LabResultBatch
+	if err := s.db.First(&batch, batchID).Error; err != nil {
+		return 0, 0, fmt.Errorf("batch %s: %w", batchID, err)
+	}
+	if batch.PDFContentJSON == nil || *batch.PDFContentJSON == "" {
+		return 0, 0, fmt.Errorf("batch %s sem PDFContentJSON armazenado", batchID)
+	}
+	matched, unmatched, err := s.createLabResultsFromJSON(batchID, *batch.PDFContentJSON)
+	if err != nil {
+		return 0, 0, err
+	}
+	if err := s.labResultBatchService.ClassifyBatchResults(batchID); err != nil {
+		fmt.Printf("⚠️  [Reprocess %s] classify: %v\n", batchID, err)
+	}
+	return matched, unmatched, nil
+}
+
 // savePDFContentToBatch - salva textos full e cleaned no batch
 func (s *ProcessingJobService) savePDFContentToBatch(
 	batchID uuid.UUID,
@@ -413,9 +434,9 @@ func removeAccentsFromString(s string) string {
 func containsSubstring(s, substr string) bool {
 	return len(s) > 0 && len(substr) > 0 && len(s) >= len(substr) &&
 		(s == substr ||
-		 strings.HasPrefix(s, substr) ||
-		 strings.HasSuffix(s, substr) ||
-		 strings.Contains(s, substr))
+			strings.HasPrefix(s, substr) ||
+			strings.HasSuffix(s, substr) ||
+			strings.Contains(s, substr))
 }
 
 // parseNumericResult - tenta converter resultado textual para numérico
