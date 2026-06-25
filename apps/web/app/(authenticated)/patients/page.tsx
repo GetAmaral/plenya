@@ -26,7 +26,7 @@ import { useRequireAuth } from "@/lib/use-auth";
 import { usePatientGuard } from "@/lib/use-patient-guard";
 import { useDebouncedValue } from "@/lib/use-debounced-value";
 import { useUrlFilters } from "@/lib/use-url-filters";
-import { formatDate } from "@/lib/format-date";
+import { formatDate, formatDateOnly } from "@/lib/format-date";
 
 interface Patient {
   id: string;
@@ -360,7 +360,7 @@ export default function PatientsPage() {
                         <div className="text-sm">
                           <span className="font-medium">{patient.age}</span>
                           <span className="text-muted-foreground">
-                            {" "}({formatDate(patient.birthDate)})
+                            {" "}({formatDateOnly(patient.birthDate)})
                           </span>
                         </div>
                       </td>

@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { HelpCircle, CheckCircle2, AlertCircle, ChevronDown, ChevronRight, Plus } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { calcAge } from '@/lib/format-date'
 import { toast } from 'sonner'
 import type { AnamnesisTemplate, AnamnesisTemplateItem } from '@/lib/api/anamnesis-templates'
 import type { ScoreGroup, ScoreSubgroup, ScoreItem, ScoreLevel } from '@/lib/api/score-api'
@@ -79,14 +80,11 @@ function resolveWordRecallSet(
   return pickWordRecallSet(spec, (size) => Math.floor(Math.random() * size))
 }
 
-// Calcula idade a partir da data de nascimento
+// Calcula idade a partir da data de nascimento.
+// Delega para calcAge (TZ-safe: birthDate é data pura em meia-noite UTC; ler em
+// horário local jogava -1 dia/idade perto do aniversário em BRT).
 function calculateAge(birthDate: string): number {
-  const birth = new Date(birthDate)
-  const today = new Date()
-  let age = today.getFullYear() - birth.getFullYear()
-  const m = today.getMonth() - birth.getMonth()
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
-  return age
+  return calcAge(birthDate) ?? 0
 }
 
 // Verifica se um ScoreItem é aplicável ao paciente atual

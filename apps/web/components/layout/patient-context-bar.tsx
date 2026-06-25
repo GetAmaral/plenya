@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { calcAge, formatDate } from "@/lib/format-date";
+import { calcAge, formatDateOnly } from "@/lib/format-date";
 import { useSelectedPatient } from "@/lib/use-selected-patient";
 
 function getInitials(name: string): string {
@@ -44,7 +44,7 @@ export function PatientContextBar() {
   // birthDate pode vir vazio (paciente cadastrado sem data). O util é resiliente
   // a data inválida (sem ele, date-fns lança e derruba a barra em toda tela).
   const age = calcAge(selectedPatient.birthDate);
-  const dob = selectedPatient.birthDate ? formatDate(selectedPatient.birthDate, "dd/MM/yyyy", { fallback: "" }) : "";
+  const dob = selectedPatient.birthDate ? formatDateOnly(selectedPatient.birthDate, "dd/MM/yyyy", { fallback: "" }) : "";
   const gender = getGenderLabel(selectedPatient.gender);
   const shortId = selectedPatient.id.slice(-6).toUpperCase();
   const initials = getInitials(selectedPatient.name);

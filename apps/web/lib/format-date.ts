@@ -43,6 +43,27 @@ export function formatDate(
   return dfFormat(d, pattern, { locale: ptBR, ...fmtOptions });
 }
 
+/**
+ * Formata uma DATA PURA (sem hora) — data de nascimento, validade, etc.
+ *
+ * Datas puras chegam do backend como meia-noite UTC ("1990-01-01T00:00:00Z").
+ * `formatDate`/`new Date(x)` formatam no fuso LOCAL: em BRT (UTC-3) isso vira
+ * 31/12/1989 (o famoso "-1 dia"). Aqui lemos os componentes em UTC e os
+ * reinterpretamos como data local, então o dia exibido é sempre o armazenado,
+ * independente do fuso do navegador. Use SEMPRE isto para birthDate & cia.
+ */
+export function formatDateOnly(
+  value: DateInput,
+  pattern = "dd/MM/yyyy",
+  options?: { fallback?: string } & Parameters<typeof dfFormat>[2],
+): string {
+  const { fallback = "—", ...fmtOptions } = options ?? {};
+  const d = toDate(value);
+  if (!d) return fallback;
+  const cal = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  return dfFormat(cal, pattern, { locale: ptBR, ...fmtOptions });
+}
+
 /** Atalho data + hora (dd/MM/yyyy HH:mm). */
 export function formatDateTime(
   value: DateInput,
@@ -66,7 +87,10 @@ export function formatRelativeToNow(
 export function calcAge(value: DateInput): number | null {
   const d = toDate(value);
   if (!d) return null;
-  return differenceInYears(new Date(), d);
+  // Mesma lógica de formatDateOnly: birthDate é data pura (meia-noite UTC).
+  // Comparar pelo calendário em UTC evita idade -1 perto do aniversário em BRT.
+  const cal = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  return differenceInYears(new Date(), cal);
 }
 
 /** Substitui `new Date(x).toISOString()` (que lança em data inválida). */

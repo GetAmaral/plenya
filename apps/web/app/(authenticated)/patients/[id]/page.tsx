@@ -9,10 +9,10 @@
  * vazio com CTA. Frontend-only: reusa o snapshot mais recente (useLatestHealthScore),
  * o RadarAgir e a timeline agregada (useMedicalRecord) — sem backend novo.
  */
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { formatDate } from "@/lib/format-date";
+import { formatDate, formatDateOnly, calcAge } from "@/lib/format-date";
 import {
   Activity,
   AlertTriangle,
@@ -46,6 +46,7 @@ import {
   type PatientScoreItemResult,
 } from "@/lib/api/health-score-api";
 import { useMedicalRecord } from "@/lib/api/medical-record-api";
+import { useSelectedPatient } from "@/lib/use-selected-patient";
 
 interface Patient {
   id: string;
@@ -93,6 +94,24 @@ export default function PatientDetailPage() {
   const router = useRouter();
   const patientId = params.id as string;
 
+  // Abrir a capa do paciente PASSA a trabalhar com ele: sincroniza o
+  // selectedPatient (que mora no user no backend). Sem isso, fluxos que resolvem
+  // o paciente pelo selectedPatientId no servidor (prescrição, pedido de exame)
+  // criariam itens no prontuário do paciente ANTERIOR. Guard por paciente pra
+  // disparar só na troca. Mesmo padrão do consultation-workspace.
+  const { selectedPatientId, setSelectedPatient } = useSelectedPatient();
+  const syncedFor = useRef<string | null>(null);
+  useEffect(() => {
+    if (!patientId) return;
+    if (syncedFor.current === patientId) return;
+    if (selectedPatientId === patientId) {
+      syncedFor.current = patientId;
+      return;
+    }
+    syncedFor.current = patientId;
+    setSelectedPatient(patientId);
+  }, [patientId, selectedPatientId, setSelectedPatient]);
+
   const { data: patient, isLoading } = useQuery({
     queryKey: ["patient", patientId],
     queryFn: () => apiClient.get<Patient>(`/api/v1/patients/${patientId}`),
@@ -135,9 +154,7 @@ export default function PatientDetailPage() {
     );
   }
 
-  const age = patient.birthDate
-    ? Math.floor((Date.now() - new Date(patient.birthDate).getTime()) / (1000 * 60 * 60 * 24 * 365.25))
-    : null;
+  const age = calcAge(patient.birthDate);
   const genderLabel = { male: "Masculino", female: "Feminino", other: "Outro" }[patient.gender];
   const formatCPF = (cpf: string) => {
     const c = cpf.replace(/\D/g, "");
@@ -322,7 +339,7 @@ export default function PatientDetailPage() {
             <CardContent className="space-y-3 text-sm">
               {patient.cpf && <Row label="CPF" value={formatCPF(patient.cpf)} mono />}
               {patient.birthDate && (
-                <Row label="Nascimento" value={formatDate(patient.birthDate, "dd/MM/yyyy")} />
+                <Row label="Nascimento" value={formatDateOnly(patient.birthDate, "dd/MM/yyyy")} />
               )}
               <Row label="Gênero" value={genderLabel} />
               {patient.phone && <Row label="Telefone" value={patient.phone} />}

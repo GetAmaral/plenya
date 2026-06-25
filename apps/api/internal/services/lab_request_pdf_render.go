@@ -61,11 +61,13 @@ func patientBirthInfo(p *models.Patient) string {
 	if p == nil || p.BirthDate.IsZero() {
 		return ""
 	}
-	loc := saoPaulo()
-	b := p.BirthDate.In(loc)
-	now := time.Now().In(loc)
+	// BirthDate é data pura (coluna DATE → meia-noite UTC). Formatar/contar idade
+	// em UTC, NUNCA via .In(loc): converter pra BRT (UTC-3) joga pra meia-noite menos
+	// 3h = dia anterior, e o documento sai com nascimento -1 dia.
+	b := p.BirthDate.UTC()
+	now := time.Now().In(saoPaulo())
 	age := now.Year() - b.Year()
-	if now.YearDay() < b.YearDay() {
+	if now.Month() < b.Month() || (now.Month() == b.Month() && now.Day() < b.Day()) {
 		age--
 	}
 	return fmt.Sprintf("%s · %d anos", b.Format("02/01/2006"), age)
