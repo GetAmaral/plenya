@@ -1020,6 +1020,9 @@ func setupRoutes(
 	// PDF upload route
 	labResultBatches.Post("/:batchId/upload-pdf", middleware.RequireClinician(), labResultBatchHandler.UploadPDF)
 
+	// Download/visualizar o PDF original do laudo importado
+	labResultBatches.Get("/:id/pdf", labResultBatchHandler.DownloadPDF)
+
 	// Classification route - re-classifica resultados do batch
 	labResultBatches.Post("/:id/classify", middleware.RequireClinician(), labResultBatchHandler.Classify)
 

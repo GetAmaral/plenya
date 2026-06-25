@@ -33,7 +33,7 @@ import { useRequireAuth } from "@/lib/use-auth";
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
 import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
 import { PageHeader } from "@/components/layout/page-header";
-import { labResultBatchApi } from "@/lib/api/lab-result-batch-api";
+import { labResultBatchApi, openLabBatchPDF } from "@/lib/api/lab-result-batch-api";
 import { UnmatchedBadge } from "@/components/lab-results/UnmatchedBadge";
 
 const statusConfig = {
@@ -112,6 +112,17 @@ export default function LabResultBatchDetailPage() {
             onClick: () => router.push("/lab-results"),
             variant: "outline" as const,
           },
+          ...(batch.hasPdf
+            ? [
+                {
+                  label: "Ver PDF",
+                  icon: <FileText className="h-4 w-4" />,
+                  onClick: () =>
+                    openLabBatchPDF(batchId).catch((e) => console.error("open pdf", e)),
+                  variant: "outline" as const,
+                },
+              ]
+            : []),
           {
             label: "Editar Lote",
             icon: <Edit className="h-4 w-4" />,

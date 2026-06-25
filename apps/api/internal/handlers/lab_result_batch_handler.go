@@ -87,6 +87,34 @@ func (h *LabResultBatchHandler) Create(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(resp)
 }
 
+// DownloadPDF transmite o PDF original do laudo importado no lote.
+// @Summary Baixar/visualizar o PDF original do lote
+// @Tags LabResultBatch
+// @Router /lab-result-batches/{id}/pdf [get]
+func (h *LabResultBatchHandler) DownloadPDF(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid batch id", Message: err.Error()})
+	}
+	userID := middleware.GetUserID(c)
+	path, err := h.labResultBatchService.GetPDFPath(id, userID)
+	if err != nil {
+		switch {
+		case errors.Is(err, services.ErrLabResultBatchNotFound), errors.Is(err, services.ErrLabResultBatchPDFNotFound):
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "pdf not found", Message: err.Error()})
+		case errors.Is(err, services.ErrPatientMismatch):
+			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{Error: "forbidden", Message: err.Error()})
+		case errors.Is(err, services.ErrNoPatientSelected):
+			return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "no patient selected", Message: err.Error()})
+		default:
+			return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: "failed to load pdf", Message: err.Error()})
+		}
+	}
+	c.Set("Content-Type", "application/pdf")
+	c.Set("Content-Disposition", `inline; filename="laudo.pdf"`)
+	return c.SendFile(path)
+}
+
 // List lista lotes de resultados do selectedPatient
 // @Summary Listar lotes de resultados
 // @Description Lista lotes de resultados do paciente selecionado

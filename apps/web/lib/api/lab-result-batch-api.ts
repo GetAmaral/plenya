@@ -45,6 +45,7 @@ export interface LabResultInBatchResponse {
 }
 
 export interface LabResultBatchDetailResponse extends LabResultBatchResponse {
+  hasPdf?: boolean // tem PDF original para baixar
   labResults: LabResultInBatchResponse[]
 }
 
@@ -135,4 +136,12 @@ export const labResultBatchApi = {
   classify: async (batchId: string): Promise<{ message: string; batchId: string }> => {
     return apiClient.post<{ message: string; batchId: string }>(`/api/v1/lab-result-batches/${batchId}/classify`, {})
   },
+}
+
+/** Abre o PDF original do laudo importado numa nova aba (autenticado). */
+export async function openLabBatchPDF(batchId: string) {
+  const blob = await apiClient.getBlob(`/api/v1/lab-result-batches/${batchId}/pdf`)
+  const url = URL.createObjectURL(blob)
+  window.open(url, '_blank')
+  setTimeout(() => URL.revokeObjectURL(url), 60_000)
 }

@@ -97,6 +97,7 @@ type LabResultBatchDetailResponse struct {
 	IsCritical         bool                        `json:"isCritical"`
 	WorstLevel         *int                        `json:"worstLevel,omitempty"`
 	ReviewedAt         *string                     `json:"reviewedAt,omitempty"`
+	HasPDF             bool                        `json:"hasPdf"` // tem PDF original p/ baixar
 	LabResults         []LabResultInBatchResponse  `json:"labResults"`
 	CreatedAt          string                      `json:"createdAt"`
 	UpdatedAt          string                      `json:"updatedAt"`

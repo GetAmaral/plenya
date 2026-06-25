@@ -12,9 +12,10 @@ import (
 )
 
 var (
-	ErrLabResultBatchNotFound = errors.New("lab result batch not found")
-	ErrNoPatientSelected      = errors.New("no patient selected - please select a patient first")
-	ErrPatientMismatch        = errors.New("patient id does not match selected patient")
+	ErrLabResultBatchNotFound    = errors.New("lab result batch not found")
+	ErrNoPatientSelected         = errors.New("no patient selected - please select a patient first")
+	ErrPatientMismatch           = errors.New("patient id does not match selected patient")
+	ErrLabResultBatchPDFNotFound = errors.New("lab result batch has no original PDF")
 )
 
 type LabResultBatchService struct {
@@ -748,6 +749,11 @@ func (s *LabResultBatchService) toDetailResponse(batch *models.LabResultBatch) *
 		results[i] = *s.toLabResultResponse(&result)
 	}
 
+	var pdfJobs int64
+	s.db.Model(&models.ProcessingJob{}).
+		Where("lab_result_batch_id = ? AND pdf_path <> ''", batch.ID).
+		Count(&pdfJobs)
+
 	return &dto.LabResultBatchDetailResponse{
 		ID:                 baseResp.ID,
 		PatientID:          baseResp.PatientID,
@@ -764,10 +770,42 @@ func (s *LabResultBatchService) toDetailResponse(batch *models.LabResultBatch) *
 		IsCritical:         baseResp.IsCritical,
 		WorstLevel:         baseResp.WorstLevel,
 		ReviewedAt:         baseResp.ReviewedAt,
+		HasPDF:             pdfJobs > 0,
 		LabResults:         results,
 		CreatedAt:          baseResp.CreatedAt,
 		UpdatedAt:          baseResp.UpdatedAt,
 	}
+}
+
+// GetPDFPath devolve o caminho do PDF original do lote (último ProcessingJob com PDF),
+// verificando que o lote pertence ao paciente selecionado.
+func (s *LabResultBatchService) GetPDFPath(batchID, userID uuid.UUID) (string, error) {
+	var user models.User
+	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
+		return "", err
+	}
+	if user.SelectedPatientID == nil {
+		return "", ErrNoPatientSelected
+	}
+	var batch models.LabResultBatch
+	if err := s.db.First(&batch, batchID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return "", ErrLabResultBatchNotFound
+		}
+		return "", err
+	}
+	if batch.PatientID != *user.SelectedPatientID {
+		return "", ErrPatientMismatch
+	}
+	var job models.ProcessingJob
+	if err := s.db.Where("lab_result_batch_id = ? AND pdf_path <> ''", batchID).
+		Order("created_at DESC").First(&job).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return "", ErrLabResultBatchPDFNotFound
+		}
+		return "", err
+	}
+	return job.PDFPath, nil
 }
 
 func (s *LabResultBatchService) toLabResultResponse(result *models.LabResult) *dto.LabResultInBatchResponse {
