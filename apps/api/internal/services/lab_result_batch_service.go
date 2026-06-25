@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"os"
 	"time"
 
 	"github.com/google/uuid"
@@ -366,16 +367,20 @@ func (s *LabResultBatchService) Update(batchID, userID uuid.UUID, req *dto.Updat
 						return err
 					}
 				} else {
-					// Sem ID: CREATE novo resultado
+					// Sem ID: CREATE novo resultado (guarda nil — campos são ponteiros omitempty)
 					newResult := models.LabResult{
 						LabResultBatchID: batchID,
-						TestName:         *reqResult.TestName,
-						TestType:         *reqResult.TestType,
 						ResultText:       reqResult.ResultText,
 						ResultNumeric:    reqResult.ResultNumeric,
 						Unit:             reqResult.Unit,
 						Interpretation:   reqResult.Interpretation,
 						Level:            reqResult.Level,
+					}
+					if reqResult.TestName != nil {
+						newResult.TestName = *reqResult.TestName
+					}
+					if reqResult.TestType != nil {
+						newResult.TestType = *reqResult.TestType
 					}
 
 					if reqResult.LabTestDefinitionID != nil {
@@ -450,7 +455,7 @@ func (s *LabResultBatchService) AddResultInternal(batchID uuid.UUID, req *dto.Cr
 		labTestDefID = &parsed
 	}
 
-	matched := true
+	matched := labTestDefID != nil // default: casou se tem definição
 	if req.Matched != nil {
 		matched = *req.Matched
 	}
@@ -520,7 +525,7 @@ func (s *LabResultBatchService) AddResult(batchID, userID uuid.UUID, req *dto.Cr
 	}
 
 	// Default matched to true (manual entry is considered matched)
-	matched := true
+	matched := labTestDefID != nil // default: casou se tem definição
 	if req.Matched != nil {
 		matched = *req.Matched
 	}
@@ -804,6 +809,10 @@ func (s *LabResultBatchService) GetPDFPath(batchID, userID uuid.UUID) (string, e
 			return "", ErrLabResultBatchPDFNotFound
 		}
 		return "", err
+	}
+	// O arquivo pode ter sumido do disco (uploads não-persistente em deploys antigos).
+	if _, err := os.Stat(job.PDFPath); err != nil {
+		return "", ErrLabResultBatchPDFNotFound
 	}
 	return job.PDFPath, nil
 }

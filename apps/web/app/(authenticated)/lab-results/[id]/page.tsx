@@ -35,6 +35,7 @@ import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHead
 import { PageHeader } from "@/components/layout/page-header";
 import { labResultBatchApi, openLabBatchPDF } from "@/lib/api/lab-result-batch-api";
 import { UnmatchedBadge } from "@/components/lab-results/UnmatchedBadge";
+import { toast } from "sonner";
 
 const statusConfig = {
   pending: { label: "Pendente", variant: "outline" as const, icon: Minus },
@@ -118,7 +119,9 @@ export default function LabResultBatchDetailPage() {
                   label: "Ver PDF",
                   icon: <FileText className="h-4 w-4" />,
                   onClick: () =>
-                    openLabBatchPDF(batchId).catch((e) => console.error("open pdf", e)),
+                    openLabBatchPDF(batchId).catch(() =>
+                      toast.error("Não foi possível abrir o PDF original"),
+                    ),
                   variant: "outline" as const,
                 },
               ]

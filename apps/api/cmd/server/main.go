@@ -1015,7 +1015,9 @@ func setupRoutes(
 	// Nested routes para results dentro de batch
 	labResultBatches.Post("/:id/results", middleware.RequireClinician(), labResultBatchHandler.AddResult)
 	labResultBatches.Put("/:batchId/results/:resultId", middleware.RequireClinician(), labResultBatchHandler.UpdateResult)
-	labResultBatches.Delete("/:batchId/results/:resultId", middleware.RequireAdmin(), labResultBatchHandler.DeleteResult)
+	// Clínico pode remover exame do lote (mesma permissão de editar/adicionar). Antes era
+	// admin-only, mas com o Update upsert-only a remoção passa por esta rota.
+	labResultBatches.Delete("/:batchId/results/:resultId", middleware.RequireClinician(), labResultBatchHandler.DeleteResult)
 
 	// PDF upload route
 	labResultBatches.Post("/:batchId/upload-pdf", middleware.RequireClinician(), labResultBatchHandler.UploadPDF)

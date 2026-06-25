@@ -241,7 +241,10 @@ func (s *ProcessingJobService) applyExtractedMetadata(batchID uuid.UUID, jsonStr
 	}
 	if extracted.DataColeta != nil {
 		if d, err := parseFlexibleDate(strings.TrimSpace(*extracted.DataColeta)); err == nil {
-			updates["collection_date"] = d
+			// Ignora data no futuro (extração provavelmente errada).
+			if !d.After(time.Now().Add(24 * time.Hour)) {
+				updates["collection_date"] = d
+			}
 		}
 	}
 	if len(updates) == 0 {

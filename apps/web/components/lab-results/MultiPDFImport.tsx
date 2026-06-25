@@ -62,7 +62,7 @@ export function MultiPDFImport() {
   const removeItem = (idx: number) =>
     setItems((prev) => prev.filter((_, i) => i !== idx))
 
-  const uploadOne = async (item: Item, idx: number) => {
+  const uploadOne = async (item: Item, idx: number): Promise<boolean> => {
     // 1) cria o lote (lab/data placeholder — o backend preenche a partir do PDF)
     setStatus(idx, "creating")
     let batchId: string
@@ -76,7 +76,7 @@ export function MultiPDFImport() {
       batchId = batch.id
     } catch (e: any) {
       setStatus(idx, "error", e?.message || "falha ao criar lote")
-      return
+      return false
     }
 
     // 2) upload do PDF → job de interpretação (processa em background)
@@ -95,8 +95,12 @@ export function MultiPDFImport() {
       const data = await resp.json()
       addJob(data.jobId, batchId)
       setStatus(idx, "queued")
+      return true
     } catch (e: any) {
+      // Rollback best-effort do lote órfão (delete é admin-only; ignora se não puder).
+      labResultBatchApi.delete(batchId).catch(() => {})
       setStatus(idx, "error", e?.message || "falha no upload")
+      return false
     }
   }
 
@@ -104,13 +108,13 @@ export function MultiPDFImport() {
     const pending = items.map((it, i) => ({ it, i })).filter(({ it }) => it.status === "pending")
     if (pending.length === 0) return
     setRunning(true)
+    let ok = 0
     // Sequencial para não sobrecarregar o worker/OCR.
     for (const { it, i } of pending) {
-      await uploadOne(it, i)
+      if (await uploadOne(it, i)) ok++
     }
     setRunning(false)
     setDone(true)
-    const ok = items.filter((it) => it.status === "queued").length
     toast.success(`${ok} laudo(s) em processamento`, {
       description: "Cada PDF virou um lote. A interpretação roda em segundo plano.",
     })

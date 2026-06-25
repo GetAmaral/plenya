@@ -88,6 +88,27 @@ export function LabResultBatchForm({ batchId, initialValues, focusLabResultId }:
     name: "labResults",
   });
 
+  // Remoção de linha. Para exame JÁ persistido (tem id), chama a rota dedicada de delete
+  // (o Update é upsert-only e não apaga mais pelo que falta no payload). Para linha nova
+  // (sem id), só remove do formulário.
+  const handleRemoveRow = async (index: number) => {
+    const row = form.getValues(`labResults.${index}`) as { id?: string } | undefined;
+    const dbId = row?.id;
+    const effectiveBatchId = batchId || tempBatchId;
+    if (effectiveBatchId && dbId) {
+      if (!window.confirm("Remover este exame do lote?")) return;
+      try {
+        await labResultBatchApi.deleteResult(effectiveBatchId, dbId);
+        queryClient.invalidateQueries({ queryKey: ["lab-result-batch", effectiveBatchId] });
+        queryClient.invalidateQueries({ queryKey: ["lab-result-batches"] });
+      } catch (e: any) {
+        toast.error("Erro ao remover exame", { description: e?.message });
+        return;
+      }
+    }
+    remove(index);
+  };
+
   const createMutation = useMutation({
     mutationFn: async (values: LabResultBatchFormValues) => {
       const apiData = formToApiValues(values);
@@ -478,7 +499,7 @@ export function LabResultBatchForm({ batchId, initialValues, focusLabResultId }:
                   form={form}
                   fields={fields}
                   append={append}
-                  remove={remove}
+                  remove={handleRemoveRow}
                   getDefaultResultValues={getDefaultResultValues}
                   focusLabResultId={focusLabResultId}
                 />
