@@ -74,8 +74,17 @@ export const getDefaultResultValues = (): LabResultInBatchFormValues => ({
 
 // Helpers de conversão
 export const formToApiValues = (values: LabResultBatchFormValues) => {
-  // Filtrar linhas vazias (sem testName)
-  const filledResults = values.labResults.filter(r => r.testName && r.testName.trim());
+  // Mantém qualquer linha com conteúdo real — MESMO critério do schema (preprocess).
+  // IMPORTANTE: exames CASADOS vêm com testName vazio (o nome fica na definição), então
+  // NÃO filtrar só por testName, senão eles caem fora do payload e o backend os apaga.
+  const filledResults = values.labResults.filter(
+    (r) =>
+      r.id ||
+      r.labTestDefinitionId ||
+      (r.testName && r.testName.trim()) ||
+      r.resultText ||
+      r.resultNumeric !== undefined,
+  );
 
   return {
     laboratoryName: values.laboratoryName,

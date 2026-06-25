@@ -303,10 +303,10 @@ func (s *LabResultBatchService) Update(batchID, userID uuid.UUID, req *dto.Updat
 				existingResultsMap[batch.LabResults[i].ID] = &batch.LabResults[i]
 			}
 
-			// Criar map de IDs do request para detectar quais manter
-			requestedIDs := make(map[uuid.UUID]bool)
-
-			// Processar cada resultado do request
+			// Processar cada resultado do request (upsert-only: NUNCA deletamos em
+			// massa aqui — remoção de exame individual é feita pela rota dedicada
+			// DELETE /:batchId/results/:resultId. Deletar pelo que falta no payload
+			// já causou perda silenciosa de exames classificados ao editar o lote.)
 			for _, reqResult := range req.LabResults {
 				if reqResult.ID != nil && *reqResult.ID != "" {
 					// Tem ID: UPDATE resultado existente
@@ -364,8 +364,6 @@ func (s *LabResultBatchService) Update(batchID, userID uuid.UUID, req *dto.Updat
 					if err := tx.Save(existingResult).Error; err != nil {
 						return err
 					}
-
-					requestedIDs[resultID] = true
 				} else {
 					// Sem ID: CREATE novo resultado
 					newResult := models.LabResult{
@@ -398,14 +396,6 @@ func (s *LabResultBatchService) Update(batchID, userID uuid.UUID, req *dto.Updat
 				}
 			}
 
-			// 3. DELETE resultados que foram removidos (existiam mas não estão no request)
-			for id := range existingResultsMap {
-				if !requestedIDs[id] {
-					if err := tx.Delete(&models.LabResult{}, id).Error; err != nil {
-						return err
-					}
-				}
-			}
 		}
 
 		return nil
