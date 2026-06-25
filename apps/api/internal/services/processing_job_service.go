@@ -171,10 +171,15 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 		// Não falha o job, apenas loga o erro
 	}
 
-	// Step 4: Analisando com IA
+	// Step 4: Analisando com IA. Inclui o CABEÇALHO do OCR bruto (o cleaner remove o
+	// letterhead, onde fica o nome do laboratório e a data) para a IA conseguir extrair
+	// laboratorio/dataColeta, além dos exames do texto limpo.
 	s.updateProgress(job, models.StepAnalyzingWithAI, "Analisando conteúdo com IA")
 	fmt.Printf("🤖 [Job %s] Calling Claude API for extraction...\n", job.ID)
-	jsonStr, err := s.aiService.InterpretLabResult(cleanedText)
+	forAI := "## CABEÇALHO DO LAUDO (use para laboratorio e dataColeta)\n" +
+		firstRunes(ocrText, 1200) +
+		"\n\n## CONTEÚDO (use para os exames)\n" + cleanedText
+	jsonStr, err := s.aiService.InterpretLabResult(forAI)
 	if err != nil {
 		return fmt.Errorf("AI interpretation failed: %v", err)
 	}
@@ -224,6 +229,15 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 
 	fmt.Printf("✅ [Job %s] Processing completed successfully\n", job.ID)
 	return nil
+}
+
+// firstRunes devolve os primeiros n runes de s (truncamento seguro p/ UTF-8).
+func firstRunes(s string, n int) string {
+	r := []rune(s)
+	if len(r) <= n {
+		return s
+	}
+	return string(r[:n])
 }
 
 // applyExtractedMetadata preenche laboratório + data de coleta do lote a partir do JSON
