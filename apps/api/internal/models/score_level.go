@@ -124,16 +124,26 @@ func (sl *ScoreLevel) EvaluatesTrue(value float64) bool {
 		return value >= parseFloat(sl.LowerLimit)
 
 	case "<":
-		if sl.LowerLimit == nil {
+		// O limite de "<X" mora no UpperLimit (convenção dos dados; espelha matchLevel
+		// em packages/domain/src/score.ts). Fallback p/ LowerLimit por defensividade.
+		lim := sl.UpperLimit
+		if lim == nil {
+			lim = sl.LowerLimit
+		}
+		if lim == nil {
 			return false
 		}
-		return value < parseFloat(sl.LowerLimit)
+		return value < parseFloat(lim)
 
 	case "<=":
-		if sl.LowerLimit == nil {
+		lim := sl.UpperLimit
+		if lim == nil {
+			lim = sl.LowerLimit
+		}
+		if lim == nil {
 			return false
 		}
-		return value <= parseFloat(sl.LowerLimit)
+		return value <= parseFloat(lim)
 
 	case "between":
 		if sl.LowerLimit == nil || sl.UpperLimit == nil {
