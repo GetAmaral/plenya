@@ -282,7 +282,13 @@ Analise o texto OCR abaixo e extraia TODOS os exames em formato JSON.
 
 ## INSTRUÇÕES
 
-Para CADA exame encontrado, extraia estes campos:
+### Dados do laudo (no topo, OMITIR se não encontrar)
+- **laboratorio**: nome do laboratório que emitiu o laudo (ex: "Laboratório Oswaldo Cruz").
+- **dataColeta**: data da COLETA do material, no formato **YYYY-MM-DD**. Use a data da COLETA,
+  não a data de emissão/liberação/impressão do laudo. Se houver datas diferentes por exame,
+  use a coleta mais comum/representativa.
+
+### Para CADA exame encontrado, extraia estes campos:
 
 **Obrigatórios:**
 1. **nomeExame**: nome do exame como aparece no laudo
@@ -392,6 +398,14 @@ func (s *AIService) buildJSONSchema() map[string]interface{} {
 		"type":     "object",
 		"required": []string{"exames"},
 		"properties": map[string]interface{}{
+			"laboratorio": map[string]string{
+				"type":        "string",
+				"description": "Nome do laboratório que emitiu o laudo (ex: Oswaldo Cruz, Fleury) - OMITIR se não encontrar",
+			},
+			"dataColeta": map[string]string{
+				"type":        "string",
+				"description": "Data da COLETA do material no formato YYYY-MM-DD (NÃO a data de emissão/liberação/impressão) - OMITIR se não encontrar",
+			},
 			"exames": map[string]interface{}{
 				"type":        "array",
 				"description": "Lista de TODOS os exames extraídos do laudo",

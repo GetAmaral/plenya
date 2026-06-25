@@ -198,6 +198,10 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 		return fmt.Errorf("failed to save PDF content JSON: %v", err)
 	}
 
+	// Preencher laboratório + data de coleta do lote a partir do que a IA extraiu do PDF
+	// (o PDF é a fonte de verdade num import; o usuário ainda pode editar depois).
+	s.applyExtractedMetadata(job.LabResultBatchID, jsonStr)
+
 	// Criar LabResults a partir do JSON extraído
 	fmt.Printf("🔗 [Job %s] Creating lab results from extracted data...\n", job.ID)
 	matchedCount, unmatchedCount, err := s.createLabResultsFromJSON(job.LabResultBatchID, jsonStr)
@@ -220,6 +224,32 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 
 	fmt.Printf("✅ [Job %s] Processing completed successfully\n", job.ID)
 	return nil
+}
+
+// applyExtractedMetadata preenche laboratório + data de coleta do lote a partir do JSON
+// extraído pela IA. Best-effort: só atualiza os campos que vieram preenchidos/parseáveis.
+func (s *ProcessingJobService) applyExtractedMetadata(batchID uuid.UUID, jsonStr string) {
+	var extracted dto.PDFExtractionResponse
+	if err := json.Unmarshal([]byte(jsonStr), &extracted); err != nil {
+		return
+	}
+	updates := map[string]interface{}{}
+	if extracted.Laboratorio != nil {
+		if lab := strings.TrimSpace(*extracted.Laboratorio); lab != "" {
+			updates["laboratory_name"] = lab
+		}
+	}
+	if extracted.DataColeta != nil {
+		if d, err := parseFlexibleDate(strings.TrimSpace(*extracted.DataColeta)); err == nil {
+			updates["collection_date"] = d
+		}
+	}
+	if len(updates) == 0 {
+		return
+	}
+	if err := s.db.Model(&models.LabResultBatch{}).Where("id = ?", batchID).Updates(updates).Error; err != nil {
+		fmt.Printf("⚠️  [Job] apply extracted metadata batch=%s: %v\n", batchID, err)
+	}
 }
 
 // ReprocessResultsFromJSON recria os LabResults de um lote a partir do PDFContentJSON
