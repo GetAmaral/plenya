@@ -109,9 +109,9 @@ func (s *ClinicalNoteService) Create(authorID uuid.UUID, req *dto.CreateClinical
 		PatientID:           patientID,
 		AuthorID:            authorID,
 		ClinicalHistory:     req.ClinicalHistory,
-		ClinicalHistoryHtml: req.ClinicalHistoryHtml,
+		ClinicalHistoryHtml: sanitizeRichHTMLPtr(req.ClinicalHistoryHtml),
 		Conduct:             req.Conduct,
-		ConductHtml:         req.ConductHtml,
+		ConductHtml:         sanitizeRichHTMLPtr(req.ConductHtml),
 		Visibility:          visibility,
 		Status:              models.ClinicalNoteStatusDraft,
 	}
@@ -204,13 +204,13 @@ func (s *ClinicalNoteService) Update(noteID, authorID uuid.UUID, userRole models
 		note.ClinicalHistory = req.ClinicalHistory
 	}
 	if req.ClinicalHistoryHtml != nil {
-		note.ClinicalHistoryHtml = req.ClinicalHistoryHtml
+		note.ClinicalHistoryHtml = sanitizeRichHTMLPtr(req.ClinicalHistoryHtml)
 	}
 	if req.Conduct != nil {
 		note.Conduct = req.Conduct
 	}
 	if req.ConductHtml != nil {
-		note.ConductHtml = req.ConductHtml
+		note.ConductHtml = sanitizeRichHTMLPtr(req.ConductHtml)
 	}
 	if req.Visibility != nil {
 		note.Visibility = models.AnamnesisVisibility(*req.Visibility)

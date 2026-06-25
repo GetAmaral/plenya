@@ -180,9 +180,9 @@ func (s *AnamnesisService) createForPatient(patientID, authorID uuid.UUID, req *
 		AnamnesisTemplateID: anamnesisTemplateID,
 		ConsultationDate:    consultationDate,
 		Content:             req.Content,
-		ContentHtml:         req.ContentHtml,
+		ContentHtml:         sanitizeRichHTMLPtr(req.ContentHtml),
 		Summary:             req.Summary,
-		SummaryHtml:         req.SummaryHtml,
+		SummaryHtml:         sanitizeRichHTMLPtr(req.SummaryHtml),
 		Visibility:          models.AnamnesisVisibility(req.Visibility),
 		Notes:               req.Notes,
 	}
@@ -370,13 +370,13 @@ func (s *AnamnesisService) Update(anamnesisID, authorID uuid.UUID, userRole mode
 		anamnesis.Content = req.Content
 	}
 	if req.ContentHtml != nil {
-		anamnesis.ContentHtml = req.ContentHtml
+		anamnesis.ContentHtml = sanitizeRichHTMLPtr(req.ContentHtml)
 	}
 	if req.Summary != nil {
 		anamnesis.Summary = req.Summary
 	}
 	if req.SummaryHtml != nil {
-		anamnesis.SummaryHtml = req.SummaryHtml
+		anamnesis.SummaryHtml = sanitizeRichHTMLPtr(req.SummaryHtml)
 	}
 	if req.Visibility != nil {
 		anamnesis.Visibility = models.AnamnesisVisibility(*req.Visibility)
