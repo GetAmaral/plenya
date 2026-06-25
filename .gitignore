@@ -173,6 +173,10 @@ scripts/linkedin/__pycache__/
 # Pedidos de exame reais de pacientes (PII/LGPD) — nunca versionar
 docs/emr/pedidos/
 
+# Conversas/exports reais de WhatsApp e importações de paciente (PII/LGPD)
+docs/emr/*.zip
+docs/emr/import-conversa-*.md
+
 # Exceção: scripts/docs de backup SÃO versionados (os dumps seguem ignorados pelo "backups/" acima)
 !scripts/backups/
 !scripts/backups/*.sh
