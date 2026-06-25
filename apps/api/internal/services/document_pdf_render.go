@@ -1,6 +1,7 @@
 package services
 
 import (
+	"strings"
 	"time"
 
 	"github.com/plenya/api/internal/models"
@@ -23,11 +24,24 @@ func buildIssuedDoc(doc *models.IssuedDocument, patient *models.Patient, doctor 
 		n := time.Now()
 		sat = &n
 	}
+	// O título PRINCIPAL do impresso é o título do documento (o que o médico digitou);
+	// a categoria (Atestado/Declaração/…) vira a tarja menor acima. Se não houver
+	// título, cai pra categoria pra não sair em branco.
+	title := strings.TrimSpace(doc.Title)
+	if title == "" {
+		title = docTypeTitle(doc.Type)
+	}
+	bodyHTML := ""
+	if doc.BodyHTML != nil {
+		bodyHTML = *doc.BodyHTML
+	}
 	return pdfdoc.IssuedDoc{
-		Title:   docTypeTitle(doc.Type),
-		Patient: pdfdoc.Patient{Name: patient.Name, BirthInfo: patientBirthInfo(patient), CPFMasked: cpf},
-		Body:    doc.Body,
-		CID:     cid,
+		Kind:     docTypeTitle(doc.Type),
+		Title:    title,
+		Patient:  pdfdoc.Patient{Name: patient.Name, BirthInfo: patientBirthInfo(patient), CPFMasked: cpf},
+		Body:     doc.Body,
+		BodyHTML: bodyHTML,
+		CID:      cid,
 		Doctor:  pdfdoc.Doctor{Name: doctor.Name, Credentials: doctorCredentials(doctor)},
 		Signature: pdfdoc.Signature{
 			Digital:     hasDigital,

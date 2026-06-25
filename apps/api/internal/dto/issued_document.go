@@ -4,9 +4,10 @@ package dto
 // patientId vem do path (/patients/:id/issued-documents).
 type CreateIssuedDocumentRequest struct {
 	AppointmentID *string `json:"appointmentId,omitempty" validate:"omitempty,uuid"`
-	Type          string  `json:"type" validate:"required,oneof=certificate declaration report"`
+	Type          string  `json:"type" validate:"required,oneof=certificate declaration report orientation"`
 	Title         string  `json:"title" validate:"required,max=200"`
 	Body          string  `json:"body" validate:"max=10000"`
+	BodyHtml      *string `json:"bodyHtml,omitempty" validate:"omitempty,max=50000"`
 	Purpose       *string `json:"purpose,omitempty" validate:"omitempty,max=300"`
 	DaysOff       *int    `json:"daysOff,omitempty" validate:"omitempty,min=0,max=365"`
 	IncludesCid   bool    `json:"includesCid"`
@@ -24,6 +25,7 @@ type IssuedDocumentResponse struct {
 	Type                string  `json:"type"`
 	Title               string  `json:"title"`
 	Body                string  `json:"body"`
+	BodyHtml            *string `json:"bodyHtml,omitempty"`
 	Purpose             *string `json:"purpose,omitempty"`
 	DaysOff             *int    `json:"daysOff,omitempty"`
 	IncludesCid         bool    `json:"includesCid"`

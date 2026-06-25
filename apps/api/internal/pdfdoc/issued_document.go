@@ -5,11 +5,13 @@ import (
 	"strings"
 )
 
-// IssuedDoc — atestado, declaração ou laudo/relatório (corpo em texto livre).
+// IssuedDoc — atestado, declaração, laudo ou orientações.
 type IssuedDoc struct {
-	Title     string // "Atestado Médico" / "Declaração" / "Laudo / Relatório"
+	Kind      string // categoria (tarja): "ATESTADO MÉDICO" / "ORIENTAÇÕES" / …
+	Title     string // título do documento (digitado pelo médico) — destaque principal
 	Patient   Patient
-	Body      string // texto livre (parágrafos separados por linha em branco)
+	Body      string // texto livre (fallback dos documentos antigos)
+	BodyHTML  string // corpo rich-text JÁ SANITIZADO; quando presente, vence o Body
 	CID       string // "" ou "CID-10: J45" (apenas com consentimento — LGPD)
 	Doctor    Doctor
 	Signature Signature
@@ -41,7 +43,7 @@ func bodyHTML(body string) string {
 	return b.String()
 }
 
-// RenderIssuedDocument gera o PDF vetorial de atestado/declaração/laudo.
+// RenderIssuedDocument gera o PDF vetorial de atestado/declaração/laudo/orientações.
 func RenderIssuedDocument(in IssuedDoc) ([]byte, error) {
 	if in.Title == "" {
 		in.Title = "Documento"
@@ -49,7 +51,12 @@ func RenderIssuedDocument(in IssuedDoc) ([]byte, error) {
 	if (in.Clinic == Clinic{}) {
 		in.Clinic = DefaultClinic()
 	}
-	top := headerHTML() + titleHTML(in.Title) + patientHTML(in.Patient) + bodyHTML(in.Body)
+	// Corpo: rich-text sanitizado tem prioridade; senão, texto puro com parágrafos.
+	body := bodyHTML(in.Body)
+	if strings.TrimSpace(in.BodyHTML) != "" {
+		body = `<div class="docbody">` + in.BodyHTML + `</div>`
+	}
+	top := headerHTML() + titleKindHTML(in.Kind, in.Title) + patientHTML(in.Patient) + body
 	if in.CID != "" {
 		top += `<div class="doccid">` + esc(in.CID) + `</div>`
 	}

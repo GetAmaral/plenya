@@ -85,8 +85,10 @@ html,body{ background:#fff; }
 .claim-v{ position:absolute; left:9mm; top:50%; transform-origin:left center;
   transform:rotate(-90deg) translateX(-50%); font-family:'Cormorant',serif; font-weight:500;
   font-size:19.2px; letter-spacing:3.6px; color:var(--petrol); opacity:.25; white-space:nowrap; z-index:0; }
-.titlerow{ display:flex; align-items:baseline; justify-content:space-between; margin-top:25px; }
-.title{ font-family:'Cormorant',serif; font-size:34px; font-weight:600; letter-spacing:.2px; color:var(--petrol); line-height:1; }
+.titleblock{ margin-top:25px; }
+.title-kind{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:4px; }
+.titlerow{ display:flex; align-items:baseline; justify-content:space-between; }
+.title{ font-family:'Cormorant',serif; font-size:34px; font-weight:600; letter-spacing:.2px; color:var(--petrol); line-height:1.1; }
 .title-rule{ width:44px; height:2px; background:var(--gold); margin-top:12px; }
 .patient{ margin-top:20px; }
 .pname{ font-size:17px; font-weight:600; color:var(--petrol); }
@@ -118,6 +120,16 @@ html,body{ background:#fff; }
 .validity b{ color:var(--petrol); font-weight:700; }
 .docbody{ margin-top:20px; font-size:13.5px; line-height:1.75; color:var(--petrol); max-width:170mm; text-align:justify; }
 .docbody p{ margin-bottom:11px; }
+.docbody h1,.docbody h2,.docbody h3{ font-family:'Cormorant',serif; color:var(--petrol); line-height:1.2; margin:14px 0 6px; font-weight:600; }
+.docbody h1{ font-size:22px; }
+.docbody h2{ font-size:18px; }
+.docbody h3{ font-size:15px; }
+.docbody ul,.docbody ol{ margin:0 0 11px 22px; }
+.docbody li{ margin-bottom:4px; }
+.docbody strong,.docbody b{ font-weight:700; }
+.docbody u{ text-decoration:underline; }
+.docbody s,.docbody del{ text-decoration:line-through; }
+.docbody mark{ padding:0 2px; }
 .doccid{ margin-top:14px; font-size:12px; color:var(--ink2); }
 .rcpt-head{ text-align:right; }
 .rcpt-eyebrow{ font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--gold); font-weight:600; }
@@ -170,7 +182,20 @@ func headerHTML() string {
 }
 
 func titleHTML(title string) string {
-	return `<div class="titlerow"><div class="title">` + esc(title) + `</div></div><div class="title-rule"></div>`
+	return `<div class="titleblock"><div class="titlerow"><div class="title">` + esc(title) +
+		`</div></div><div class="title-rule"></div></div>`
+}
+
+// titleKindHTML — título com tarja de categoria acima (atestado/declaração/…).
+// O título do documento é o destaque; a categoria é a tarja menor.
+func titleKindHTML(kind, title string) string {
+	k := ""
+	if strings.TrimSpace(kind) != "" {
+		k = `<div class="title-kind">` + esc(kind) + `</div>`
+	}
+	return `<div class="titleblock">` + k +
+		`<div class="titlerow"><div class="title">` + esc(title) + `</div></div>` +
+		`<div class="title-rule"></div></div>`
 }
 
 func patientHTML(p Patient) string {

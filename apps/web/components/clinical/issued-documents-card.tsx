@@ -8,15 +8,15 @@
  */
 
 import { useState } from 'react';
-import { FileSignature, Plus, Loader2, Download, ShieldCheck, PenLine, Trash2 } from 'lucide-react';
+import { FileSignature, Plus, Loader2, Download, ShieldCheck, PenLine, Pencil, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import {
   Dialog,
   DialogContent,
@@ -27,9 +27,11 @@ import {
 import {
   useIssuedDocuments,
   useCreateIssuedDocument,
+  useUpdateIssuedDocument,
   useSignIssuedDocument,
   useDeleteIssuedDocument,
   openIssuedDocumentPDF,
+  type IssuedDocument,
   type IssuedDocumentType,
 } from '@/lib/api/issued-documents';
 
@@ -40,6 +42,7 @@ const TYPE_LABEL: Record<IssuedDocumentType, string> = {
   certificate: 'Atestado',
   declaration: 'Declaração',
   report: 'Laudo/Relatório',
+  orientation: 'Orientações',
 };
 
 export function IssuedDocumentsCard({
@@ -53,13 +56,15 @@ export function IssuedDocumentsCard({
 }) {
   const { data = [], isLoading } = useIssuedDocuments(patientId);
   const createDoc = useCreateIssuedDocument(patientId);
+  const updateDoc = useUpdateIssuedDocument(patientId);
   const signDoc = useSignIssuedDocument(patientId);
   const deleteDoc = useDeleteIssuedDocument(patientId);
 
   const [open, setOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [type, setType] = useState<IssuedDocumentType>('certificate');
   const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+  const [bodyHtml, setBodyHtml] = useState('');
   const [purpose, setPurpose] = useState('');
   const [daysOff, setDaysOff] = useState('');
   const [includeCid, setIncludeCid] = useState(false);
@@ -68,9 +73,10 @@ export function IssuedDocumentsCard({
   const [busy, setBusy] = useState(false);
 
   const reset = () => {
+    setEditingId(null);
     setType('certificate');
     setTitle('');
-    setBody('');
+    setBodyHtml('');
     setPurpose('');
     setDaysOff('');
     setIncludeCid(false);
@@ -78,11 +84,49 @@ export function IssuedDocumentsCard({
     setCidConsent(false);
   };
 
+  const handleNew = () => {
+    reset();
+    setOpen(true);
+  };
+
+  // Abre o dialog em modo edição com o rascunho carregado.
+  const handleEdit = (doc: IssuedDocument) => {
+    setEditingId(doc.id);
+    setType(doc.type);
+    setTitle(doc.title);
+    // Documentos antigos só têm body (texto puro); o editor aceita como parágrafo.
+    setBodyHtml(doc.bodyHtml ?? doc.body ?? '');
+    setPurpose(doc.purpose ?? '');
+    setDaysOff(doc.daysOff != null ? String(doc.daysOff) : '');
+    setIncludeCid(doc.includesCid);
+    setCidCode(doc.cidCode ?? '');
+    setCidConsent(doc.cidConsent);
+    setOpen(true);
+  };
+
+  const handleUpdate = async () => {
+    if (!editingId || !validate()) return;
+    setBusy(true);
+    try {
+      await updateDoc.mutateAsync({ docId: editingId, payload: buildPayload() });
+      toast.success('Rascunho atualizado');
+      setOpen(false);
+      reset();
+    } catch (err) {
+      toast.error('Falha ao salvar', { description: err instanceof Error ? err.message : undefined });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  // Corpo agora é rich-text (HTML). `body` (texto puro legado) vai vazio; o
+  // backend prioriza bodyHtml (sanitizado) e mantém body só como fallback antigo.
   const buildPayload = () => ({
     appointmentId,
     type,
     title: title.trim(),
-    body: body.trim(),
+    body: '',
+    bodyHtml: bodyHtml.trim() || undefined,
     purpose: purpose.trim() || undefined,
     daysOff: type === 'certificate' && daysOff ? parseInt(daysOff, 10) : undefined,
     includesCid: includeCid,
@@ -162,7 +206,7 @@ export function IssuedDocumentsCard({
           <FileSignature className="h-4 w-4 text-primary" />
           Documentos emitidos
         </CardTitle>
-        <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
+        <Button variant="outline" size="sm" onClick={handleNew}>
           <Plus className="mr-1 h-4 w-4" />
           Emitir documento
         </Button>
@@ -213,6 +257,15 @@ export function IssuedDocumentsCard({
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8"
+                        onClick={() => handleEdit(doc)}
+                        title="Editar rascunho"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
                         onClick={() => deleteDoc.mutate(doc.id)}
                         title="Excluir rascunho"
                       >
@@ -231,10 +284,16 @@ export function IssuedDocumentsCard({
         )}
       </CardContent>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={(v) => {
+          setOpen(v);
+          if (!v) reset();
+        }}
+      >
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Emitir documento</DialogTitle>
+            <DialogTitle>{editingId ? 'Editar rascunho' : 'Emitir documento'}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div>
@@ -248,6 +307,7 @@ export function IssuedDocumentsCard({
                 <option value="certificate">Atestado</option>
                 <option value="declaration">Declaração</option>
                 <option value="report">Laudo/Relatório</option>
+                <option value="orientation">Orientações</option>
               </select>
             </div>
             <div>
@@ -256,12 +316,12 @@ export function IssuedDocumentsCard({
             </div>
             <div>
               <Label htmlFor="doc-body">Corpo do documento</Label>
-              <Textarea
-                id="doc-body"
-                rows={5}
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-                placeholder="Texto do atestado/declaração/laudo…"
+              <RichTextEditor
+                editorId="issued-doc-body"
+                value={bodyHtml}
+                onChange={setBodyHtml}
+                minHeight="180px"
+                placeholder="Texto do atestado/declaração/laudo/orientações…"
               />
             </div>
             {type === 'certificate' && (
@@ -302,14 +362,23 @@ export function IssuedDocumentsCard({
             </div>
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={handleSaveDraft} disabled={busy}>
-              {busy && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
-              Salvar rascunho
-            </Button>
-            <Button onClick={handleSignAndIssue} disabled={busy}>
-              {busy && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
-              Assinar e emitir
-            </Button>
+            {editingId ? (
+              <Button onClick={handleUpdate} disabled={busy}>
+                {busy && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
+                Salvar alterações
+              </Button>
+            ) : (
+              <>
+                <Button variant="outline" onClick={handleSaveDraft} disabled={busy}>
+                  {busy && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
+                  Salvar rascunho
+                </Button>
+                <Button onClick={handleSignAndIssue} disabled={busy}>
+                  {busy && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
+                  Assinar e emitir
+                </Button>
+              </>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

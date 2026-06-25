@@ -945,6 +945,7 @@ func setupRoutes(
 	issuedDocs.Use(middleware.AuditLog(database.DB))
 	issuedDocs.Get("/:docId", issuedDocumentHandler.GetByID)
 	issuedDocs.Get("/:docId/pdf", issuedDocumentHandler.DownloadPDF)
+	issuedDocs.Put("/:docId", middleware.RequireDoctor(), issuedDocumentHandler.Update)
 	issuedDocs.Post("/:docId/sign", middleware.RequireDoctor(), issuedDocumentHandler.Sign)
 	issuedDocs.Delete("/:docId", middleware.RequireDoctor(), issuedDocumentHandler.Delete)
 

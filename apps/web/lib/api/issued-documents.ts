@@ -9,7 +9,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '../api-client';
 
-export type IssuedDocumentType = 'certificate' | 'declaration' | 'report';
+export type IssuedDocumentType = 'certificate' | 'declaration' | 'report' | 'orientation';
 export type IssuedDocumentStatus = 'draft' | 'signed';
 
 export interface IssuedDocument {
@@ -21,6 +21,7 @@ export interface IssuedDocument {
   type: IssuedDocumentType;
   title: string;
   body: string;
+  bodyHtml?: string;
   purpose?: string;
   daysOff?: number;
   includesCid: boolean;
@@ -43,6 +44,7 @@ export interface CreateIssuedDocumentPayload {
   type: IssuedDocumentType;
   title: string;
   body?: string;
+  bodyHtml?: string;
   purpose?: string;
   daysOff?: number;
   includesCid?: boolean;
@@ -67,6 +69,15 @@ export function useCreateIssuedDocument(patientId: string) {
   return useMutation({
     mutationFn: (payload: CreateIssuedDocumentPayload) =>
       apiClient.post<IssuedDocument>(`/api/v1/patients/${patientId}/issued-documents`, payload),
+    onSuccess: () => qc.invalidateQueries({ queryKey: issuedDocKeys.byPatient(patientId) }),
+  });
+}
+
+export function useUpdateIssuedDocument(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ docId, payload }: { docId: string; payload: CreateIssuedDocumentPayload }) =>
+      apiClient.put<IssuedDocument>(`/api/v1/issued-documents/${docId}`, payload),
     onSuccess: () => qc.invalidateQueries({ queryKey: issuedDocKeys.byPatient(patientId) }),
   });
 }

@@ -71,6 +71,26 @@ func (h *IssuedDocumentHandler) Create(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(doc)
 }
 
+// Update PUT /api/v1/issued-documents/:docId — edita rascunho (assinado é imutável).
+func (h *IssuedDocumentHandler) Update(c *fiber.Ctx) error {
+	id, err := uuid.Parse(c.Params("docId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid document id", Message: err.Error()})
+	}
+	var req dto.CreateIssuedDocumentRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid request body", Message: err.Error()})
+	}
+	if err := h.validator.Struct(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
+	}
+	doc, err := h.service.Update(id, &req)
+	if err != nil {
+		return h.mapErr(c, err)
+	}
+	return c.JSON(doc)
+}
+
 // Sign POST /api/v1/issued-documents/:docId/sign
 func (h *IssuedDocumentHandler) Sign(c *fiber.Ctx) error {
 	id, err := uuid.Parse(c.Params("docId"))

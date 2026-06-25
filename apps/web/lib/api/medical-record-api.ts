@@ -15,7 +15,8 @@ export type MedicalRecordType =
   | 'fitness_test'
   | 'postural_assessment'
   | 'prescription'
-  | 'appointment';
+  | 'appointment'
+  | 'issued_document';
 
 export interface MedicalRecordEntry {
   id: string;
@@ -41,6 +42,7 @@ export const MR_TYPE_LABELS: Record<MedicalRecordType, string> = {
   postural_assessment: 'Avaliação Postural',
   prescription: 'Prescrição',
   appointment: 'Consulta',
+  issued_document: 'Documento emitido',
 };
 
 export const MR_TYPE_COLORS: Record<MedicalRecordType, string> = {
@@ -52,6 +54,7 @@ export const MR_TYPE_COLORS: Record<MedicalRecordType, string> = {
   postural_assessment: 'bg-sky-50 text-sky-700 border-sky-200',
   prescription: 'bg-pink-50 text-pink-700 border-pink-200',
   appointment: 'bg-blue-50 text-blue-700 border-blue-200',
+  issued_document: 'bg-emerald-50 text-emerald-700 border-emerald-200',
 };
 
 export interface AggregateFilter {

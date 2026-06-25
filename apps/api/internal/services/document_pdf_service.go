@@ -27,6 +27,8 @@ func docTypeTitle(t models.IssuedDocumentType) string {
 		return "DECLARAÇÃO"
 	case models.IssuedDocReport:
 		return "RELATÓRIO MÉDICO"
+	case models.IssuedDocOrientation:
+		return "ORIENTAÇÕES"
 	default:
 		return "DOCUMENTO MÉDICO"
 	}

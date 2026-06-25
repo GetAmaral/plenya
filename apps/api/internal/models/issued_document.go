@@ -15,6 +15,7 @@ const (
 	IssuedDocCertificate IssuedDocumentType = "certificate" // atestado médico
 	IssuedDocDeclaration IssuedDocumentType = "declaration" // declaração de comparecimento
 	IssuedDocReport      IssuedDocumentType = "report"      // relatório/laudo
+	IssuedDocOrientation IssuedDocumentType = "orientation" // orientações ao paciente
 )
 
 // IssuedDocumentStatus — draft (editável) → signed (imutável, PDF gerado/assinado).
@@ -37,10 +38,14 @@ type IssuedDocument struct {
 	AppointmentID *uuid.UUID `gorm:"type:uuid;index" json:"appointmentId,omitempty"`
 	DoctorID      uuid.UUID  `gorm:"type:uuid;not null" json:"doctorId"`
 
-	Type    IssuedDocumentType `gorm:"type:varchar(20);not null;check:type IN ('certificate','declaration','report')" json:"type"`
+	Type    IssuedDocumentType `gorm:"type:varchar(20);not null;check:type IN ('certificate','declaration','report','orientation')" json:"type"`
 	Title   string             `gorm:"type:varchar(200);not null" json:"title"`
 	Body    string             `gorm:"type:text;not null;default:''" json:"body"`
-	Purpose *string            `gorm:"type:varchar(300)" json:"purpose,omitempty"`
+	// BodyHTML — corpo formatável (Word-style) vindo do editor rich-text. Quando
+	// presente, é o que vai pro PDF (sanitizado). Body (texto puro) segue como
+	// fallback de compatibilidade dos documentos antigos.
+	BodyHTML *string `gorm:"type:text;column:body_html" json:"bodyHtml,omitempty"`
+	Purpose  *string `gorm:"type:varchar(300)" json:"purpose,omitempty"`
 
 	// DaysOff — dias de afastamento (atestado).
 	DaysOff *int `gorm:"type:int" json:"daysOff,omitempty"`

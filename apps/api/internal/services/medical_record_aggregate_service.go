@@ -60,6 +60,7 @@ var allTypes = []string{
 	"postural_assessment",
 	"prescription",
 	"appointment",
+	"issued_document",
 }
 
 // List monta UNION ALL das 8 tabelas filtradas por patient_id, depois agrega
@@ -160,6 +161,18 @@ SELECT id, 'appointment'::text, scheduled_at,
        doctor_id, patient_id, created_at,
        EXISTS(SELECT 1 FROM clinical_notes cn WHERE cn.appointment_id = appointments.id AND cn.deleted_at IS NULL) AS has_note
   FROM appointments WHERE patient_id = ? AND deleted_at IS NULL`)
+	}
+	if typeSet["issued_document"] {
+		parts = append(parts, `
+SELECT id, 'issued_document'::text, issued_at,
+       COALESCE(NULLIF(title,''), 'Documento'),
+       CASE type WHEN 'certificate' THEN 'Atestado'
+                 WHEN 'declaration' THEN 'Declaração'
+                 WHEN 'orientation' THEN 'Orientações'
+                 ELSE 'Laudo/Relatório' END,
+       status::text,
+       doctor_id, patient_id, created_at, FALSE AS has_note
+  FROM issued_documents WHERE patient_id = ? AND deleted_at IS NULL`)
 	}
 
 	if len(parts) == 0 {

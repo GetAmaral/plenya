@@ -91,7 +91,59 @@ func (s *IssuedDocumentService) Create(patientID, userID uuid.UUID, req *dto.Cre
 		Status:         models.IssuedDocDraft,
 		IssuedByUserID: userID,
 	}
+	if req.BodyHtml != nil {
+		if san := sanitizeRichHTML(*req.BodyHtml); san != "" {
+			doc.BodyHTML = &san
+		}
+	}
 	if err := s.db.Create(doc).Error; err != nil {
+		return nil, err
+	}
+	return s.GetByID(doc.ID)
+}
+
+// Update edita um RASCUNHO. Documento assinado é imutável (mesmo guard do Delete).
+// Reusa o payload de criação (mesmos campos). Não mexe em DoctorID/IssuedByUserID.
+func (s *IssuedDocumentService) Update(id uuid.UUID, req *dto.CreateIssuedDocumentRequest) (*dto.IssuedDocumentResponse, error) {
+	var doc models.IssuedDocument
+	if err := s.db.First(&doc, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrIssuedDocumentNotFound
+		}
+		return nil, err
+	}
+	if doc.Status == models.IssuedDocSigned {
+		return nil, ErrIssuedDocAlreadySigned
+	}
+	if req.IncludesCid && !req.CidConsent {
+		return nil, ErrCIDConsentRequired
+	}
+
+	var appointmentID *uuid.UUID
+	if req.AppointmentID != nil && *req.AppointmentID != "" {
+		parsed, err := uuid.Parse(*req.AppointmentID)
+		if err != nil {
+			return nil, errors.New("invalid appointment id")
+		}
+		appointmentID = &parsed
+	}
+
+	doc.AppointmentID = appointmentID
+	doc.Type = models.IssuedDocumentType(req.Type)
+	doc.Title = req.Title
+	doc.Body = req.Body
+	doc.BodyHTML = nil
+	if req.BodyHtml != nil {
+		if san := sanitizeRichHTML(*req.BodyHtml); san != "" {
+			doc.BodyHTML = &san
+		}
+	}
+	doc.Purpose = req.Purpose
+	doc.DaysOff = req.DaysOff
+	doc.IncludesCID = req.IncludesCid
+	doc.CIDCode = req.CidCode
+	doc.CIDConsent = req.CidConsent
+	if err := s.db.Save(&doc).Error; err != nil {
 		return nil, err
 	}
 	return s.GetByID(doc.ID)
@@ -320,6 +372,8 @@ func patientDocTypeFromIssued(t models.IssuedDocumentType) models.PatientDocumen
 		return models.DocumentTypeDeclaration
 	case models.IssuedDocReport:
 		return models.DocumentTypeReport
+	case models.IssuedDocOrientation:
+		return models.DocumentTypeReport
 	default:
 		return models.DocumentTypeOther
 	}
@@ -365,6 +419,7 @@ func (s *IssuedDocumentService) toDTO(d *models.IssuedDocument) *dto.IssuedDocum
 		Type:                string(d.Type),
 		Title:               d.Title,
 		Body:                d.Body,
+		BodyHtml:            d.BodyHTML,
 		Purpose:             d.Purpose,
 		DaysOff:             d.DaysOff,
 		IncludesCid:         d.IncludesCID,

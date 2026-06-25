@@ -22,6 +22,7 @@ import {
   Pill,
   Calendar,
   Stethoscope,
+  FileSignature,
   Check,
 } from 'lucide-react';
 
@@ -37,6 +38,7 @@ import {
   type MedicalRecordType,
   type MedicalRecordEntry,
 } from '@/lib/api/medical-record-api';
+import { openIssuedDocumentPDF } from '@/lib/api/issued-documents';
 import { cn } from '@/lib/utils';
 
 const TYPE_ICON: Record<MedicalRecordType, any> = {
@@ -48,6 +50,7 @@ const TYPE_ICON: Record<MedicalRecordType, any> = {
   postural_assessment: UserIcon,
   prescription: Pill,
   appointment: Calendar,
+  issued_document: FileSignature,
 };
 
 // Detecta especialidade a partir do array JSON de roles serializado em texto.
@@ -306,6 +309,14 @@ function navigateTo(router: ReturnType<typeof useRouter>, e: MedicalRecordEntry)
       break;
     case 'postural_assessment':
       router.push(`/training/posture/${e.id}`);
+      break;
+    case 'issued_document':
+      // Assinado abre o PDF; rascunho leva à capa do paciente (onde o card edita/assina).
+      if (e.status === 'signed') {
+        void openIssuedDocumentPDF(e.id);
+      } else {
+        router.push(`/patients/${e.patientId}`);
+      }
       break;
   }
 }
