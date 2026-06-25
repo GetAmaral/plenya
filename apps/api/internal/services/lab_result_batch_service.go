@@ -453,6 +453,10 @@ func (s *LabResultBatchService) AddResultInternal(batchID uuid.UUID, req *dto.Cr
 	if req.Matched != nil {
 		matched = *req.Matched
 	}
+	source := "manual"
+	if req.Source != nil && *req.Source != "" {
+		source = *req.Source
+	}
 
 	result := models.LabResult{
 		LabResultBatchID:    batchID,
@@ -464,6 +468,8 @@ func (s *LabResultBatchService) AddResultInternal(batchID uuid.UUID, req *dto.Cr
 		Unit:                req.Unit,
 		Interpretation:      req.Interpretation,
 		Matched:             matched,
+		Source:              source,
+		MatchReason:         req.MatchReason,
 	}
 
 	// Aplicar conversão de unidade ANTES de criar
@@ -517,6 +523,10 @@ func (s *LabResultBatchService) AddResult(batchID, userID uuid.UUID, req *dto.Cr
 	if req.Matched != nil {
 		matched = *req.Matched
 	}
+	source := "manual"
+	if req.Source != nil && *req.Source != "" {
+		source = *req.Source
+	}
 
 	result := models.LabResult{
 		LabResultBatchID:    batchID,
@@ -528,6 +538,8 @@ func (s *LabResultBatchService) AddResult(batchID, userID uuid.UUID, req *dto.Cr
 		Unit:                req.Unit,
 		Interpretation:      req.Interpretation,
 		Matched:             matched,
+		Source:              source,
+		MatchReason:         req.MatchReason,
 	}
 
 	// Aplicar conversão de unidade ANTES de criar
@@ -791,6 +803,9 @@ func (s *LabResultBatchService) toLabResultResponse(result *models.LabResult) *d
 		UnitOriginal:          result.UnitOriginal,
 		Interpretation:        result.Interpretation,
 		Level:                 result.Level,
+		Matched:               result.Matched,
+		Source:                result.Source,
+		MatchReason:           result.MatchReason,
 		CreatedAt:             result.CreatedAt.Format(time.RFC3339),
 		UpdatedAt:             result.UpdatedAt.Format(time.RFC3339),
 	}

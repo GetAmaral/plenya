@@ -50,6 +50,13 @@ type LabResult struct {
 	// true = matched com LabTestDefinition, false = extraído mas não catalogado
 	Matched bool `gorm:"type:boolean;not null;default:true;index" json:"matched"`
 
+	// Origem do resultado: "pdf" (importado de laudo) ou "manual" (digitado).
+	Source string `gorm:"type:varchar(20);not null;default:'manual'" json:"source"`
+
+	// Motivo quando o exame não casou com o catálogo (ex: "Não encontrado no catálogo
+	// de exames"). NULL quando casou. Usado para mostrar ao usuário por que ficou de fora.
+	MatchReason *string `gorm:"type:text" json:"matchReason,omitempty"`
+
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 

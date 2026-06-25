@@ -351,6 +351,12 @@ func (s *ProcessingJobService) createLabResultsFromJSON(
 
 		// Criar LabResult usando AddResultInternal para aplicar conversão de unidades
 		matched := testDefID != nil
+		source := "pdf"
+		var matchReason *string
+		if !matched {
+			r := "Não encontrado no catálogo de exames"
+			matchReason = &r
+		}
 		req := &dto.CreateLabResultInBatchRequest{
 			TestName:      testName,
 			TestType:      testType,
@@ -358,6 +364,8 @@ func (s *ProcessingJobService) createLabResultsFromJSON(
 			ResultText:    resultText,
 			Unit:          exam.Unidade,
 			Matched:       &matched,
+			Source:        &source,
+			MatchReason:   matchReason,
 		}
 
 		if testDefID != nil {

@@ -34,6 +34,7 @@ import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
 import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
 import { PageHeader } from "@/components/layout/page-header";
 import { labResultBatchApi } from "@/lib/api/lab-result-batch-api";
+import { UnmatchedBadge } from "@/components/lab-results/UnmatchedBadge";
 
 const statusConfig = {
   pending: { label: "Pendente", variant: "outline" as const, icon: Minus },
@@ -196,6 +197,14 @@ export default function LabResultBatchDetailPage() {
       <Card>
         <CardHeader>
           <CardTitle>Resultados do Lote</CardTitle>
+          {batch.labResults && batch.labResults.length > 0 && (
+            <p className="text-sm text-muted-foreground">
+              {batch.labResults.length} exame(s) ·{" "}
+              {batch.labResults.filter((r) => r.level !== undefined && r.level !== null).length}{" "}
+              classificado(s) ·{" "}
+              {batch.labResults.filter((r) => r.matched === false).length} não catalogado(s)
+            </p>
+          )}
         </CardHeader>
         <CardContent>
           <div className="rounded-md border">
@@ -218,10 +227,18 @@ export default function LabResultBatchDetailPage() {
                     const wasConverted = result.resultNumericOriginal !== undefined &&
                                         result.resultNumericOriginal !== null;
 
+                    const examName =
+                      result.labTestDefinition?.name || result.testName || "(sem nome)";
+
                     return (
                       <TableRow key={result.id}>
                         <TableCell className="font-medium">
-                          {result.testName}
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span>{examName}</span>
+                            {result.matched === false && (
+                              <UnmatchedBadge reason={result.matchReason} />
+                            )}
+                          </div>
                         </TableCell>
                         <TableCell className="text-sm text-muted-foreground">
                           {result.testType}

@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-export function UnmatchedBadge() {
+export function UnmatchedBadge({ reason }: { reason?: string | null }) {
   return (
     <TooltipProvider>
       <Tooltip>
@@ -24,8 +24,10 @@ export function UnmatchedBadge() {
         </TooltipTrigger>
         <TooltipContent className="max-w-xs">
           <p>
-            Este exame não foi encontrado no catálogo de exames padronizados. Os dados foram
-            extraídos do PDF, mas sem correspondência automática com as definições do sistema.
+            {reason ||
+              "Este exame não foi encontrado no catálogo de exames padronizados."}{" "}
+            Os dados foram extraídos do PDF e ficam visíveis, mas sem correspondência automática
+            com as definições do sistema (e por isso sem nível/classificação).
           </p>
         </TooltipContent>
       </Tooltip>

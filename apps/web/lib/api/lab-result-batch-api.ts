@@ -37,6 +37,9 @@ export interface LabResultInBatchResponse {
   unitOriginal?: string // unidade ORIGINAL antes de conversão
   interpretation?: string
   level?: number
+  matched: boolean // casou com o catálogo
+  source: string // "pdf" | "manual"
+  matchReason?: string // por que não casou
   createdAt: string
   updatedAt: string
 }

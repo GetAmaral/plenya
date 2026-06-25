@@ -29,19 +29,21 @@ type CreateLabResultInBatchRequest struct {
 	Interpretation      *string  `json:"interpretation,omitempty"`
 	Level               *int     `json:"level,omitempty"`
 	Matched             *bool    `json:"matched,omitempty"` // true se matched com definição catalogada
+	Source              *string  `json:"source,omitempty"`  // "pdf" | "manual" (default manual)
+	MatchReason         *string  `json:"matchReason,omitempty"`
 }
 
 // UpdateLabResultBatchRequest representa a requisição para atualizar um lote
 type UpdateLabResultBatchRequest struct {
-	LabRequestID       *string                          `json:"labRequestId,omitempty"`
-	RequestingDoctorID *string                          `json:"requestingDoctorId,omitempty"`
-	LaboratoryName     *string                          `json:"laboratoryName,omitempty" validate:"omitempty,max=200"`
-	CollectionDate     *string                          `json:"collectionDate,omitempty"` // RFC3339
-	ResultDate         *string                          `json:"resultDate,omitempty"`     // RFC3339
-	Status             *models.LabResultBatchStatus     `json:"status,omitempty"`
-	Observations       *string                          `json:"observations,omitempty"`
-	Attachments        *string                          `json:"attachments,omitempty"`
-	LabResults         []UpdateLabResultInBatchRequest  `json:"labResults,omitempty"` // Nested results sync
+	LabRequestID       *string                         `json:"labRequestId,omitempty"`
+	RequestingDoctorID *string                         `json:"requestingDoctorId,omitempty"`
+	LaboratoryName     *string                         `json:"laboratoryName,omitempty" validate:"omitempty,max=200"`
+	CollectionDate     *string                         `json:"collectionDate,omitempty"` // RFC3339
+	ResultDate         *string                         `json:"resultDate,omitempty"`     // RFC3339
+	Status             *models.LabResultBatchStatus    `json:"status,omitempty"`
+	Observations       *string                         `json:"observations,omitempty"`
+	Attachments        *string                         `json:"attachments,omitempty"`
+	LabResults         []UpdateLabResultInBatchRequest `json:"labResults,omitempty"` // Nested results sync
 }
 
 // UpdateLabResultInBatchRequest - pode ter ID (update) ou não (create)
@@ -59,45 +61,45 @@ type UpdateLabResultInBatchRequest struct {
 
 // LabResultBatchResponse representa a resposta de um lote (sem resultados)
 type LabResultBatchResponse struct {
-	ID                 string                       `json:"id"`
-	PatientID          string                       `json:"patientId"`
-	LabRequestID       *string                      `json:"labRequestId,omitempty"`
-	RequestingDoctorID *string                      `json:"requestingDoctorId,omitempty"`
-	LaboratoryName     string                       `json:"laboratoryName"`
-	CollectionDate     string                       `json:"collectionDate"`
-	ResultDate         *string                      `json:"resultDate,omitempty"`
-	Status             models.LabResultBatchStatus  `json:"status"`
-	Observations       *string                      `json:"observations,omitempty"`
-	Attachments        *string                      `json:"attachments,omitempty"`
-	PDFContentJSON     *string                      `json:"pdfContentJson,omitempty"`
-	ResultCount        int                          `json:"resultCount"`
-	IsCritical         bool                         `json:"isCritical"`
-	WorstLevel         *int                         `json:"worstLevel,omitempty"`
-	ReviewedAt         *string                      `json:"reviewedAt,omitempty"`
-	CreatedAt          string                       `json:"createdAt"`
-	UpdatedAt          string                       `json:"updatedAt"`
+	ID                 string                      `json:"id"`
+	PatientID          string                      `json:"patientId"`
+	LabRequestID       *string                     `json:"labRequestId,omitempty"`
+	RequestingDoctorID *string                     `json:"requestingDoctorId,omitempty"`
+	LaboratoryName     string                      `json:"laboratoryName"`
+	CollectionDate     string                      `json:"collectionDate"`
+	ResultDate         *string                     `json:"resultDate,omitempty"`
+	Status             models.LabResultBatchStatus `json:"status"`
+	Observations       *string                     `json:"observations,omitempty"`
+	Attachments        *string                     `json:"attachments,omitempty"`
+	PDFContentJSON     *string                     `json:"pdfContentJson,omitempty"`
+	ResultCount        int                         `json:"resultCount"`
+	IsCritical         bool                        `json:"isCritical"`
+	WorstLevel         *int                        `json:"worstLevel,omitempty"`
+	ReviewedAt         *string                     `json:"reviewedAt,omitempty"`
+	CreatedAt          string                      `json:"createdAt"`
+	UpdatedAt          string                      `json:"updatedAt"`
 }
 
 // LabResultBatchDetailResponse representa a resposta detalhada (com resultados)
 type LabResultBatchDetailResponse struct {
-	ID                 string                       `json:"id"`
-	PatientID          string                       `json:"patientId"`
-	LabRequestID       *string                      `json:"labRequestId,omitempty"`
-	RequestingDoctorID *string                      `json:"requestingDoctorId,omitempty"`
-	LaboratoryName     string                       `json:"laboratoryName"`
-	CollectionDate     string                       `json:"collectionDate"`
-	ResultDate         *string                      `json:"resultDate,omitempty"`
-	Status             models.LabResultBatchStatus  `json:"status"`
-	Observations       *string                      `json:"observations,omitempty"`
-	Attachments        *string                      `json:"attachments,omitempty"`
-	PDFContentJSON     *string                      `json:"pdfContentJson,omitempty"`
-	ResultCount        int                          `json:"resultCount"`
-	IsCritical         bool                         `json:"isCritical"`
-	WorstLevel         *int                         `json:"worstLevel,omitempty"`
-	ReviewedAt         *string                      `json:"reviewedAt,omitempty"`
-	LabResults         []LabResultInBatchResponse   `json:"labResults"`
-	CreatedAt          string                       `json:"createdAt"`
-	UpdatedAt          string                       `json:"updatedAt"`
+	ID                 string                      `json:"id"`
+	PatientID          string                      `json:"patientId"`
+	LabRequestID       *string                     `json:"labRequestId,omitempty"`
+	RequestingDoctorID *string                     `json:"requestingDoctorId,omitempty"`
+	LaboratoryName     string                      `json:"laboratoryName"`
+	CollectionDate     string                      `json:"collectionDate"`
+	ResultDate         *string                     `json:"resultDate,omitempty"`
+	Status             models.LabResultBatchStatus `json:"status"`
+	Observations       *string                     `json:"observations,omitempty"`
+	Attachments        *string                     `json:"attachments,omitempty"`
+	PDFContentJSON     *string                     `json:"pdfContentJson,omitempty"`
+	ResultCount        int                         `json:"resultCount"`
+	IsCritical         bool                        `json:"isCritical"`
+	WorstLevel         *int                        `json:"worstLevel,omitempty"`
+	ReviewedAt         *string                     `json:"reviewedAt,omitempty"`
+	LabResults         []LabResultInBatchResponse  `json:"labResults"`
+	CreatedAt          string                      `json:"createdAt"`
+	UpdatedAt          string                      `json:"updatedAt"`
 }
 
 // LabInboxItemResponse representa um lote na fila "Exames a revisar" (cross-patient).
@@ -146,6 +148,9 @@ type LabResultInBatchResponse struct {
 	UnitOriginal          *string                    `json:"unitOriginal,omitempty"`          // Unidade ORIGINAL
 	Interpretation        *string                    `json:"interpretation,omitempty"`
 	Level                 *int                       `json:"level,omitempty"`
+	Matched               bool                       `json:"matched"`               // casou com o catálogo
+	Source                string                     `json:"source"`                // "pdf" | "manual"
+	MatchReason           *string                    `json:"matchReason,omitempty"` // por que não casou
 	CreatedAt             string                     `json:"createdAt"`
 	UpdatedAt             string                     `json:"updatedAt"`
 }
