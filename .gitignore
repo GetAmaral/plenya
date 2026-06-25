@@ -102,13 +102,15 @@ apps/api/tmp/
 *.out
 apps/api/vendor/
 
-# Go compiled binaries (build artifacts)
+# Go compiled binaries (build artifacts) — saída de `go build ./cmd/<x>` rodado de apps/api/.
+# Compile sempre com `-o /tmp/...` para não sujar o working tree; o que escapar fica ignorado aqui.
 apps/api/server
 apps/api/main
 apps/api/fill-anamnese-codes
 apps/api/import-books-from-dir
 apps/api/import-exercises
 apps/api/import-score-enrich
+apps/api/reprocess-lab-batch
 
 # Screenshots e arquivos temporários no root
 /q*.png
