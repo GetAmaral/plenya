@@ -19,13 +19,51 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-06-11'  # 13ª iteração — varredura COMPLETA (41 posts + ads IG + 25 DMs + Messenger); +joceyrcarvalhoguilherme (paciente), +monicabezerramarques, +amaralseila, +mariadasmercespeixoto
+last_updated: '2026-06-23'  # 14ª iteração — varredura COMPLETA (43 posts + ads IG/FB + 50 DMs + Messenger); +cristinacarvalho3911 (PACIENTE), +rita.zbinden.39 (lead), +marcia28733 (lead), +marlyrodrigues.apps
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
 # Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
 # Madrinha da Bianca = @jeane_clucena (prima do Dr).
 
 contacts:
+
+  # ============================================
+  # NOVOS (cadastrados 2026-06-23)
+  # ============================================
+
+  '@cristinacarvalho3911':
+    rel: paciente
+    tone: clínico-respeitoso / acolhedor
+    notes: |
+      PACIENTE do Dr. Manda dúvidas clínicas por DM (ITU/dor ao urinar/hematúria,
+      uso de macrodantina). A clínica/secretária é a "Rose" (Dr direciona exames pra ela).
+      Manejo clínico real -> Dr responde PESSOALMENTE no app (skill não rascunha dose).
+    avoid: [confirmar dose/duração de antibiótico via skill]
+    last: "2026-06-23 — DM clínica (ITU/macrodantina) resolvida pelo Dr pessoalmente no app (janela 24h fechada via API)."
+
+  '@rita.zbinden.39':
+    rel: lead (interessada em consulta)
+    tone: profissional-caloroso
+    notes: |
+      Perguntou por DM se o Dr atende online e o valor. Dr respondeu: telemedicina,
+      R$ 800, agendar pelo WhatsApp da clínica (43) 99974-8899.
+    last: "2026-06-22 — Dr respondeu pessoalmente (telemedicina + valor + WhatsApp)"
+
+  '@marcia28733':
+    rel: lead (interessada em consulta)
+    tone: profissional-caloroso
+    notes: |
+      Perguntou "Você atende onde?". Dr respondeu: Plenya Saúde + Nefroclinica (Londrina)
+      e atendimento online se preciso.
+    last: "2026-06-16 — Dr respondeu pessoalmente (locais de atendimento)"
+
+  '@marlyrodrigues.apps':
+    rel: seguidora
+    tone: clínico-respeitoso
+    notes: |
+      Idosa, DM2 em uso de insulina NPH; perguntou se pode usar tirzepatida.
+      Relata também fibromialgia e neuropatia nos pés (dor, dificuldade de andar).
+    last: "2026-06-23 — reply clínico (GLP1 ep2): pode (DM2 é indicação), ajustar insulina, avaliar idoso; fibromialgia investigar à parte"
 
   # ============================================
   # NOVOS (cadastrados 2026-06-11)

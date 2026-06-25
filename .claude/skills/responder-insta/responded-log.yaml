@@ -12,7 +12,7 @@
 #   dr_api      = resposta postada via skill/Composio (drgetulioamaralfilho)
 #   page        = respondido pela Página FB "Clínica médica Dr Getulio" (id 1046561478538408)
 
-last_updated: '2026-06-11'
+last_updated: '2026-06-23'
 
 # ── DMs ─────────────────────────────────────────────────────────────────────
 dms:
@@ -61,6 +61,11 @@ dms:
     by: dr_app
     re: "Pergunta clínica: refluxo (DRGE) piorou após Mounjaro 2,5 (tosse/pigarro/rouquidão/hálito), iniciou Motilium. Resposta versão curta (esvaziamento lento→refluxo laringofaríngeo + SIBO + vonoprazana/Inzelm + acompanhamento gastro). Janela fechada via API → Dr postou manual no app em 05/06."
 
+  '@cristinacarvalho3911':   # PACIENTE
+    last_answered: '2026-06-23'
+    by: dr_app
+    re: "Follow-up clínico (ITU/hematúria, macrodantina, duração). Janela DM 24h fechada via API → Dr respondeu pessoalmente no app. Ver contacts.yaml."
+
 # Conversas inacessíveis via API (subcode 33) — checar manualmente no app:
 conversas_inacessiveis:
   - id: aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUyNTAzNjY5NzI4MDgzMzc2
@@ -77,7 +82,7 @@ conversas_inacessiveis:
 # lados IG e FB. RESULTADO: praticamente tudo já respondido pelo Dr até 20/05.
 # Registro só o que ficou PENDENTE nesta data (o resto = respondido, não re-flaggar
 # comentários com timestamp <= a data abaixo a menos que tenham reply nova do usuário).
-comments_baseline_swept_through: '2026-06-11'  # varredura COMPLETA 11/06: 41 posts orgânicos (TODOS, inclusive antigos) + ads IG + 25 DMs + FB Messenger + tags
+comments_baseline_swept_through: '2026-06-23'  # varredura COMPLETA 23/06: 43 posts orgânicos (TODOS) + ads IG+FB (ep1/ep2/ep7) + 50 DMs + FB Messenger (0) + tags
 
 # Itens que ficaram ABERTOS em 2026-05-23 (decisão do Dr sobre responder ou não):
 open_as_of_2026-05-23:
@@ -218,6 +223,134 @@ answered_2026-06-11:  # varredura COMPLETA: 41 posts + ads IG + 25 DMs + Messeng
     - {who: '@regina.garcia.777', comment_id: 18591981565015644, reply_id: '18101972132144784', post: SIBO}
     - {who: '@drpedromarchetto',  comment_id: 18148209937497311, reply_id: '18113908705893922', post: Sensor}
     - {who: '@gustavogarib_',     comment_id: 18166433362385254, reply_id: '17996075603963098', post: Sensor}
+
+answered_2026-06-23:  # varredura COMPLETA: 43 posts + ads IG/FB + 50 DMs + Messenger(0). Tudo <=11/06 já tratado; abaixo só o novo (>11/06).
+  comments:
+    - post: Jejum & longevidade (18118227826769286)
+      comment_id: 18004215149936179
+      who: '@cardoso_lucinete22'
+      reply_id: '18122426554669217'
+      by: dr_api
+      re: "Prática: pode tomar água no jejum? Sim, água/café preto/chá sem açúcar liberados; o que quebra é caloria."
+    - post: GLP1 ep2 organic (18337463062212973)
+      comment_id: 18123842629638596
+      who: '@marlyrodrigues.apps'
+      reply_id: '18120342940886015'
+      by: dr_api
+      re: "Clínica: DM2 + insulina NPH + idosa, pode tirzepatida? Sim (DM2 é a indicação); ajustar insulina p/ evitar hipo; avaliar rins/massa/hidratação; fibromialgia/neuropatia = investigar à parte. Ela tb comentou fibromialgia (18085158896388567), coberto na mesma resposta."
+    - post: GLP1 ep1 organic (18091184708043047)
+      comment_id: 17907168939426249
+      who: '@abreufrazao'
+      reply_id: '18336232114283769'
+      by: dr_api
+      re: "Clínica: bócio/tireoide e risco CA conforme bula. Contraindicação = só CA medular de tireoide + NEM2; bócio/nódulos comuns não impedem; levar exames ao médico."
+    - post: GLP1 ep1 organic (18091184708043047)
+      comment_id: 18068847617382946
+      who: '@alinecariok'
+      reply_id: '18091683668347524'
+      by: dr_api
+      re: "Clínica: resistência à insulina + medo de Ozempic danificar pâncreas. Resist. insulina é boa indicação; meta-análises recentes não confirmam aumento de pancreatite; acompanhamento."
+    - post: GLP1 ep1 organic (18091184708043047)
+      comment_id: 18095561177599008
+      who: '@danilo_x_eliete'
+      reply_id: '18169660510384986'
+      by: dr_api
+      re: "Clínica (oncológico): CA mama luminal tratado + anastrozol, interação c/ Monjaro? Sem interação anastrozol×tirzepatida; CA mama não é contraindicação; obesidade aumenta recidiva então emagrecer favorece; decidir COM oncologista."
+    - post: GLP1 ep1 organic (18091184708043047)
+      comment_id: 18094611575605977
+      who: '@karina.fiorii'  # straggler pré-baseline (07/06), ficou sem resposta em 11/06
+      reply_id: '18069374915385627'
+      by: dr_api
+      re: "Iniciou Poviztra 0,25 (endócrino indicou), o que acha? Poviztra=semaglutida; 0,25 é dose inicial de adaptação; acompanhamento + proteína + treino."
+    - post: Ansiedade/intestino (18075774242304958)
+      comment_id: 18098466803270041
+      who: '@robertosantos8796'
+      reply_id: '18467070166105540'
+      by: dr_api
+      re: "Resposta ao CTA 'comenta SIM'. Acolhimento + promessa de conteúdo sobre o que investigar no intestino."
+    - post: Ansiedade/intestino (18075774242304958)
+      comment_id: 17994873290969875
+      who: '@alinecariok'  # mesma pessoa do item clínico GLP1 ep1
+      reply_id: '18113929586485991'
+      by: dr_api
+      re: "Resposta ao CTA 'comenta SIM'. Acolhimento."
+    - post: GLP1 ep1 organic (18091184708043047)
+      comment_id: 18012573329858997
+      who: '@arlete_pimentaf'
+      reply_id: '18010881113862988'
+      by: dr_api
+      re: "Relato: histórico familiar cardíaco, médico indicou semaglutida. Validação + bônus cardiovascular da semaglutida; seguir com o médico."
+  ad_ig_side:
+    - ad: GLP1 ep1 lado IG (17997938657731054)
+      comment_id: 18153661102436102
+      who: '@silviaroberto770'
+      reply_id: '18169538029428705'
+      by: dr_api
+      re: "Elogio 'Ótimo'. ☺️❤️"
+    - ad: GLP1 ep2 lado IG (18100461958813577)
+      comment_id: 18134794291575935
+      who: '@leilasoareslaba'
+      reply_id: '18067902614419209'
+      by: dr_api
+      re: "Factoid: fábrica Novo Nordisk em Montes Claros/MG. Confirmado online (InvestNews): aporte R$6,4bi; produção local da semaglutida a partir de 2028. Acolhimento + complemento."
+  ad_fb_side:  # comments anônimos (Meta esconde autor no dark post). FACEBOOK_CREATE_COMMENT c/ comment_id ISOLADO funcionou.
+    - ad: GLP1 ep2 lado FB (story 1046561478538408_1646264863054912)
+      comment_id: 1348303440567256
+      who: anônimo
+      reply_id: '1348303440567256_2263177587804900'
+      by: dr_api
+      re: "Clínica: Pangastrite é seguro? Não é contraindicação; GLP-1 lentifica esvaziamento e pode acentuar sintoma; começar baixo+protetor gástrico+acompanhamento."
+    - ad: GLP1 ep2 lado FB (story 1046561478538408_1646264863054912)
+      comment_id: 2614658758949171
+      who: anônimo
+      reply_id: '2614658758949171_1029420216207418'
+      by: dr_api
+      re: "Clínica: tireoide pode tomar emagrecedor? Só CA medular/NEM2 contraindicam; hipotireoidismo/nódulos comuns liberados; levar exames ao médico."
+  applause_coracao:  # ☺️❤️ padrão do Dr — post Idade biológica (18108895381767543) + 1 emoji ep7
+    - {who: '@amaral_eng',          comment_id: 18091031012367897, reply_id: '18116014567851396', post: IdadeBiologica}
+    - {who: '@beatriz.elo.ana',     comment_id: 18087305336153813, reply_id: '18129683950714626', post: IdadeBiologica}
+    - {who: '@lkueti',              comment_id: 18095273075252061, reply_id: '18093699431020487', post: IdadeBiologica}
+    - {who: '@regina.garcia.777',   comment_id: 18082993325447471, reply_id: '18120056320761747', post: IdadeBiologica}
+    - {who: '@maria_e_moises19',    comment_id: 17900062131459806, reply_id: '17976292602006408', post: IdadeBiologica}
+    - {who: '@anaccorreamattos',    comment_id: 18102137228117326, reply_id: '17935870152268775', post: IdadeBiologica}
+    - {who: '@gustavogarib_',       comment_id: 17999164997780509, reply_id: '18368810368231121', post: IdadeBiologica}
+    - {who: '@draanamaral',         comment_id: 18067452062425443, reply_id: '18332127925271818', post: IdadeBiologica, re: "irmã — 'Obrigado, mana! ❤️'"}
+    - {who: '@ritinhaagenor',       comment_id: 17998200665778121, reply_id: '18207499225343749', post: GLP1ep7}
+  # 2ª passada no mesmo dia (re-varredura completa): follow-ups em tempo real às respostas acima.
+  re_sweep_mesmo_dia:
+    - post: Ansiedade/intestino (18075774242304958)
+      comment_id: 18092770838346036
+      who: '@robertosantos8796'   # PACIENTE histórico — transplante renal feito pelo Dr; acompanhado pela equipe do Dr no SUS
+      reply_id: '18077477543655659'
+      by: dr_api
+      re: "Relato: transplantado renal, ansiedade piorou pós-transplante. Resposta genérica (imunossupressores/corticoide/tacrolimo + adaptação + eixo intestino-cérebro); orienta gastro se sintomas TGI. NÃO chamar p/ consulta (SUS, escopo limitado)."
+    - post: GLP1 ep1 organic (18091184708043047)
+      comment_id: 17956574688151746
+      who: '@karina.fiorii'
+      reply_id: '18090627425575670'
+      by: dr_api
+      re: "Follow-up: 'essa medicação solta o intestino? ontem foi última dose'. GLP-1 altera ritmo intestinal (prende ou solta), transitório; hidratação+fibra; avisar endócrino se forte/persistir."
+    - ad: GLP1 ep2 lado IG (18100461958813577)
+      comment_id: 18100660325135509
+      who: '@leilasoareslaba'
+      reply_id: '18085235558552410'
+      by: dr_api
+      re: "Tréplica: 'Eurofarma fabrica pq Novo perdeu patente'. Correção factual (verificado online): parceria OFICIAL Novo Nordisk+Eurofarma (Poviztra) lançada ANTES do fim da patente; patente da semaglutida está acabando; fábrica Montes Claros é da Novo Nordisk. Tudo favorece acesso."
+    # IGNORADO nesta passada: @hoamdigital 'Sim' (Ansiedade, agência HOAM) — CTA, baixo valor.
+
+# RESOLVIDO pelo Dr pessoalmente no app (confirmado pelo usuário em 23/06) — NÃO re-flaggar:
+resolvido_dr_app_2026-06-23:
+  - who: '@cristinacarvalho3911'   # PACIENTE
+    conv_updated: '2026-06-18T12:36'
+    by: dr_app
+    re: "Manejo clínico real (ITU/hematúria, macrodantina 100mg, duração). Janela DM 24h fechada via API → Dr tratou pessoalmente no app. Resolvido."
+  - tipo: message_requests
+    by: dr_app
+    re: "2 convs subcode 33 (ver conversas_inacessiveis) — Dr checou/tratou na aba 'Solicitações' do app. Resolvido."
+
+# DMs com última mensagem do Dr (já respondidas pessoalmente, sem pendência):
+#   @rita.zbinden.39 (22/06): perguntou telemedicina+valor; Dr respondeu (online, R$800, WhatsApp clínica). LEAD.
+#   @marcia28733 (16/06): perguntou onde atende; Dr respondeu (Plenya + Nefroclinica + online). LEAD.
 
 # Varredura 2026-06-05 — FB-side dos ads (recuperado após reconexão Composio): sem pendência clínica nova.
 # Noraci (crítico Monjaro, FB ep2) segue STAND-BY (sem engajamento novo). Ver contacts.yaml.
