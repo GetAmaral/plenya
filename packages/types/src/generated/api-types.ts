@@ -12724,6 +12724,32 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/lab-result-batches/{id}/pdf": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Baixar/visualizar o PDF original do lote */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: never;
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/leads": {
         parameters: {
             query?: never;
@@ -15469,10 +15495,13 @@ export interface components {
             interpretation?: string;
             labTestDefinitionId?: string;
             level?: number;
+            matchReason?: string;
             /** @description true se matched com definição catalogada */
             matched?: boolean;
             resultNumeric?: number;
             resultText?: string;
+            /** @description "pdf" | "manual" (default manual) */
+            source?: string;
             testName: string;
             testType: string;
             unit?: string;
@@ -15578,6 +15607,8 @@ export interface components {
             attachments?: string;
             collectionDate?: string;
             createdAt?: string;
+            /** @description tem PDF original p/ baixar */
+            hasPdf?: boolean;
             id?: string;
             isCritical?: boolean;
             labRequestId?: string;
@@ -15622,11 +15653,17 @@ export interface components {
             labTestDefinition?: components["schemas"]["dto.LabTestDefinitionResponse"];
             labTestDefinitionId?: string;
             level?: number;
+            /** @description por que não casou */
+            matchReason?: string;
+            /** @description casou com o catálogo */
+            matched?: boolean;
             /** @description Valor CONVERTIDO */
             resultNumeric?: number;
             /** @description Valor ORIGINAL */
             resultNumericOriginal?: number;
             resultText?: string;
+            /** @description "pdf" | "manual" */
+            source?: string;
             testName?: string;
             testType?: string;
             /** @description Unidade CONVERTIDA */
@@ -16776,6 +16813,11 @@ export interface components {
             /** @description Nível/Prioridade do resultado (opcional) */
             level?: number;
             /**
+             * @description Motivo quando o exame não casou com o catálogo (ex: "Não encontrado no catálogo
+             *     de exames"). NULL quando casou. Usado para mostrar ao usuário por que ficou de fora.
+             */
+            matchReason?: string;
+            /**
              * @description Indica se o exame foi matched com uma definição catalogada
              *     true = matched com LabTestDefinition, false = extraído mas não catalogado
              */
@@ -16786,6 +16828,8 @@ export interface components {
             resultNumericOriginal?: number;
             /** @description Resultado em texto (para exames qualitativos) */
             resultText?: string;
+            /** @description Origem do resultado: "pdf" (importado de laudo) ou "manual" (digitado). */
+            source?: string;
             /** @description Nome do exame */
             testName: string;
             /** @description Tipo de exame (ex: hemograma, glicemia, etc) */
