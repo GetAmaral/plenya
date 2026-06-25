@@ -63,10 +63,11 @@ export function matchLevel(
         if (lvl.maxValue !== undefined && n <= lvl.maxValue) return lvl;
         break;
       case 'between':
+        // Meio-aberto: > minValue e <= maxValue (junção pertence à faixa de baixo).
         if (
           lvl.minValue !== undefined &&
           lvl.maxValue !== undefined &&
-          n >= lvl.minValue &&
+          n > lvl.minValue &&
           n <= lvl.maxValue
         ) {
           return lvl;

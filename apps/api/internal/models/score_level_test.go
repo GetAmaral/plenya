@@ -30,12 +30,16 @@ func TestEvaluatesTrue(t *testing.T) {
 		{"> lower: no limite não casa", ">", sptr("120"), nil, 120, false},
 		{">= lower: no limite casa", ">=", sptr("60"), nil, 60, true},
 		{">= lower: abaixo não casa", ">=", sptr("60"), nil, 59, false},
-		// between inclusivo
+		// between meio-aberto: > lower e <= upper
 		{"between dentro", "between", sptr("120"), sptr("159"), 130, true},
-		{"between borda inferior", "between", sptr("120"), sptr("159"), 120, true},
-		{"between borda superior", "between", sptr("120"), sptr("159"), 159, true},
+		{"between borda inferior exclusiva", "between", sptr("120"), sptr("159"), 120, false},
+		{"between logo acima do lower", "between", sptr("120"), sptr("159"), 120.1, true},
+		{"between borda superior inclusiva", "between", sptr("120"), sptr("159"), 159, true},
 		{"between fora acima", "between", sptr("120"), sptr("159"), 160, false},
 		{"between fora abaixo", "between", sptr("120"), sptr("159"), 119, false},
+		// junção: 100 pertence à faixa de baixo (<=100), não à de cima (>100)
+		{"junção pertence à de baixo", "between", sptr("70"), sptr("100"), 100, true},
+		{"junção não pertence à de cima", "between", sptr("100"), sptr("130"), 100, false},
 		// "="
 		{"= casa", "=", sptr("5"), nil, 5, true},
 		{"= não casa", "=", sptr("5"), nil, 6, false},

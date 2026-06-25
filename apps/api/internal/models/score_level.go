@@ -151,7 +151,9 @@ func (sl *ScoreLevel) EvaluatesTrue(value float64) bool {
 		}
 		lower := parseFloat(sl.LowerLimit)
 		upper := parseFloat(sl.UpperLimit)
-		return value >= lower && value <= upper
+		// Meio-aberto: > lower e <= upper. Assim faixas que encostam particionam sem
+		// gap nem sobreposição (o valor de junção pertence à faixa de baixo, que é <=).
+		return value > lower && value <= upper
 
 	default:
 		return false
