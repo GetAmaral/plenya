@@ -160,61 +160,60 @@ func (s *CertificateService) UploadCertificate(
 	return validationResult, nil
 }
 
-// GetActiveCertificate retorna certificado do médico se válido
+// GetActiveCertificate retorna certificado do médico se válido.
 func (s *CertificateService) GetActiveCertificate(
 	doctorID uuid.UUID,
 ) (*x509.Certificate, crypto.PrivateKey, error) {
+	cert, key, _, err := s.loadLocalCertChain(doctorID)
+	return cert, key, err
+}
+
+// loadLocalCertChain descriptografa o .pfx A1 e devolve o certificado folha, a chave e a CADEIA
+// de ACs (intermediárias + raiz) que o .pfx carrega. A cadeia é necessária para o leitor de PDF
+// montar o caminho de confiança até a raiz ICP-Brasil; sem ela, Edge/Adobe mostram "validade
+// desconhecida" mesmo com a assinatura íntegra. Usa pkcs12.DecodeChain (o antigo pkcs12.Decode
+// descartava as ACs).
+func (s *CertificateService) loadLocalCertChain(
+	doctorID uuid.UUID,
+) (*x509.Certificate, crypto.PrivateKey, []*x509.Certificate, error) {
 	var user models.User
 	if err := s.db.Select(
 		"certificate_pfx, certificate_password, certificate_expiry, certificate_active",
 	).First(&user, doctorID).Error; err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 
-	// Verificar se tem certificado
 	if user.CertificatePFX == nil || user.CertificatePassword == nil {
-		return nil, nil, ErrNoCertificate
+		return nil, nil, nil, ErrNoCertificate
 	}
-
-	// Verificar se certificado está ativo
 	if !user.CertificateActive {
-		return nil, nil, errors.New("certificado desativado")
+		return nil, nil, nil, errors.New("certificado desativado")
 	}
-
-	// Verificar validade
 	if user.CertificateExpiry != nil && time.Now().After(*user.CertificateExpiry) {
-		return nil, nil, ErrCertificateExpiredUser
+		return nil, nil, nil, ErrCertificateExpiredUser
 	}
 
-	// Descriptografar PFX
 	pfxBase64, err := internalCrypto.DecryptString(*user.CertificatePFX, s.encryptionKey)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
-
 	pfxBytes, err := base64.StdEncoding.DecodeString(pfxBase64)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
-
-	// Descriptografar senha
 	password, err := internalCrypto.DecryptString(*user.CertificatePassword, s.encryptionKey)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 
-	// Parsear certificado
-	privateKey, cert, err := pkcs12.Decode(pfxBytes, password)
+	privateKey, cert, caCerts, err := pkcs12.DecodeChain(pfxBytes, password)
 	if err != nil {
-		return nil, nil, ErrInvalidCertificate
+		return nil, nil, nil, ErrInvalidCertificate
 	}
-
-	// Verificar validade novamente (double-check)
 	if time.Now().After(cert.NotAfter) {
-		return nil, nil, ErrCertificateExpired
+		return nil, nil, nil, ErrCertificateExpired
 	}
-
-	return cert, privateKey, nil
+	return cert, privateKey, caCerts, nil
 }
 
 // GetSigner retorna o assinador do médico conforme o modo do certificado:
@@ -222,51 +221,54 @@ func (s *CertificateService) GetActiveCertificate(
 //   - "cloud": chave no HSM do PSC (cloudRemoteSigner — assina o hash via API; chave nunca sai do HSM).
 //
 // É o ponto único usado pelo SignatureService, transparente para quem assina.
-func (s *CertificateService) GetSigner(doctorID uuid.UUID) (*x509.Certificate, crypto.Signer, string, error) {
+func (s *CertificateService) GetSigner(doctorID uuid.UUID) (*x509.Certificate, crypto.Signer, []*x509.Certificate, string, error) {
 	var user models.User
 	if err := s.db.Select(
 		"certificate_active, certificate_mode, cloud_cert_pem, cloud_credential_ref, "+
 			"cloud_credential_token, cloud_credential_expiry",
 	).First(&user, doctorID).Error; err != nil {
-		return nil, nil, "", err
+		return nil, nil, nil, "", err
 	}
 	if !user.CertificateActive {
-		return nil, nil, "", ErrNoCertificate
+		return nil, nil, nil, "", ErrNoCertificate
 	}
 
 	if user.CertificateMode == "cloud" {
 		return s.cloudSigner(&user)
 	}
 
-	// Local A1 (recarrega cert+chave do .pfx cifrado).
-	cert, key, err := s.GetActiveCertificate(doctorID)
+	// Local A1 (recarrega cert+chave+cadeia do .pfx cifrado).
+	cert, key, caCerts, err := s.loadLocalCertChain(doctorID)
 	if err != nil {
-		return nil, nil, "", err
+		return nil, nil, nil, "", err
 	}
 	signer, ok := key.(crypto.Signer)
 	if !ok {
-		return nil, nil, "", errors.New("private key does not implement crypto.Signer")
+		return nil, nil, nil, "", errors.New("private key does not implement crypto.Signer")
 	}
-	return cert, signer, "local", nil
+	return cert, signer, caCerts, "local", nil
 }
 
-func (s *CertificateService) cloudSigner(user *models.User) (*x509.Certificate, crypto.Signer, string, error) {
+func (s *CertificateService) cloudSigner(user *models.User) (*x509.Certificate, crypto.Signer, []*x509.Certificate, string, error) {
 	if s.cloud == nil || !s.cloud.Enabled() {
-		return nil, nil, "", ErrCloudSigningDisabled
+		return nil, nil, nil, "", ErrCloudSigningDisabled
 	}
 	if user.CloudCertPEM == nil || user.CloudCredentialRef == nil || user.CloudCredentialToken == nil {
-		return nil, nil, "", ErrCloudAuthExpired
+		return nil, nil, nil, "", ErrCloudAuthExpired
 	}
 	if user.CloudCredentialExpiry == nil || time.Now().After(*user.CloudCredentialExpiry) {
-		return nil, nil, "", ErrCloudAuthExpired
+		return nil, nil, nil, "", ErrCloudAuthExpired
 	}
-	cert, err := parseCertPEM(*user.CloudCertPEM)
+	// O PEM em nuvem pode trazer a cadeia inteira (folha + ACs) concatenada; separa folha do resto.
+	certs, err := parseCertChainPEM(*user.CloudCertPEM)
 	if err != nil {
-		return nil, nil, "", err
+		return nil, nil, nil, "", err
 	}
+	cert := certs[0]
+	caCerts := certs[1:]
 	token, err := internalCrypto.DecryptString(*user.CloudCredentialToken, s.encryptionKey)
 	if err != nil {
-		return nil, nil, "", err
+		return nil, nil, nil, "", err
 	}
 	signer := &cloudRemoteSigner{
 		provider:        s.cloud,
@@ -274,7 +276,7 @@ func (s *CertificateService) cloudSigner(user *models.User) (*x509.Certificate, 
 		credentialToken: token,
 		pub:             cert.PublicKey,
 	}
-	return cert, signer, "cloud", nil
+	return cert, signer, caCerts, "cloud", nil
 }
 
 // LinkCloudCertificate vincula um certificado ICP-Brasil em nuvem ao médico (modo cloud).
@@ -362,6 +364,32 @@ func parseCertPEM(pemStr string) (*x509.Certificate, error) {
 		return nil, errors.New("PEM do certificado em nuvem inválido")
 	}
 	return x509.ParseCertificate(block.Bytes)
+}
+
+// parseCertChainPEM decodifica TODOS os certificados de um PEM concatenado (folha primeiro,
+// depois ACs intermediárias/raiz, quando o PSC as inclui). Retorna ao menos a folha.
+func parseCertChainPEM(pemStr string) ([]*x509.Certificate, error) {
+	var certs []*x509.Certificate
+	rest := []byte(pemStr)
+	for {
+		var block *pem.Block
+		block, rest = pem.Decode(rest)
+		if block == nil {
+			break
+		}
+		if block.Type != "CERTIFICATE" {
+			continue
+		}
+		c, err := x509.ParseCertificate(block.Bytes)
+		if err != nil {
+			return nil, err
+		}
+		certs = append(certs, c)
+	}
+	if len(certs) == 0 {
+		return nil, errors.New("PEM do certificado em nuvem inválido")
+	}
+	return certs, nil
 }
 
 // isICPBrasilCertificate verifica se o certificado é ICP-Brasil

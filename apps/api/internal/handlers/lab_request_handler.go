@@ -1,17 +1,11 @@
 package handlers
 
 import (
-	"crypto"
-	"crypto/sha256"
-	"encoding/hex"
 	"fmt"
-	"io"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/digitorus/pdf"
-	"github.com/digitorus/pdfsign/sign"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	internalcrypto "github.com/plenya/api/internal/crypto"
@@ -24,15 +18,15 @@ import (
 
 // LabRequestHandler handles HTTP requests for lab requests
 type LabRequestHandler struct {
-	service     *services.LabRequestService
-	certService *services.CertificateService
+	service          *services.LabRequestService
+	signatureService *services.SignatureService
 }
 
 // NewLabRequestHandler creates a new lab request handler
-func NewLabRequestHandler(service *services.LabRequestService, certService *services.CertificateService) *LabRequestHandler {
+func NewLabRequestHandler(service *services.LabRequestService, signatureService *services.SignatureService) *LabRequestHandler {
 	return &LabRequestHandler{
-		service:     service,
-		certService: certService,
+		service:          service,
+		signatureService: signatureService,
 	}
 }
 
@@ -426,79 +420,33 @@ func (h *LabRequestHandler) GeneratePDF(c *fiber.Ctx) error {
 	var qrCodeData *string
 	var signedAt *time.Time
 
-	// Verificar se médico tem certificado ativo
-	cert, privateKey, certErr := h.certService.GetActiveCertificate(*req.DoctorID)
-	if certErr == nil {
-		// Médico tem certificado válido e ativo - assinar PDF
-		fmt.Printf("[INFO] Assinando PDF do lab request %s\n", id)
+	pdfPath := "/app/uploads/lab-requests/" + pdfURL[len("/uploads/lab-requests/"):]
 
-		pdfPath := "/app/uploads/lab-requests/" + pdfURL[len("/uploads/lab-requests/"):]
+	// QR Code (independe de assinatura).
+	qrData := fmt.Sprintf("https://plenya.com.br/lab-requests/validate/%s", id)
+	qrCodeData = &qrData
+	if qrCodeBytes, qrErr := qrcode.Encode(qrData, qrcode.Medium, 256); qrErr == nil {
+		os.WriteFile(fmt.Sprintf("/app/uploads/lab-requests/qr_%s.png", id), qrCodeBytes, 0644)
+	}
 
-		// Gerar QR Code
-		qrData := fmt.Sprintf("https://plenya.com.br/lab-requests/validate/%s", id)
-		qrCodeData = &qrData
-		qrCodeBytes, qrErr := qrcode.Encode(qrData, qrcode.Medium, 256)
-		if qrErr == nil {
-			qrPath := fmt.Sprintf("/app/uploads/lab-requests/qr_%s.png", id)
-			os.WriteFile(qrPath, qrCodeBytes, 0644)
-		}
-
-		// Assinar PDF
-		pdfFile, _ := os.Open(pdfPath)
-		if pdfFile != nil {
-			fileInfo, _ := pdfFile.Stat()
-			pdfReader, _ := pdf.NewReader(pdfFile, fileInfo.Size())
-
-			if pdfReader != nil {
-				signedPath := pdfPath + ".signed"
-				outFile, _ := os.Create(signedPath)
-
-				if outFile != nil && privateKey != nil {
-					if signer, ok := privateKey.(crypto.Signer); ok {
-						signData := sign.SignData{
-							Signature: sign.SignDataSignature{
-								Info: sign.SignDataSignatureInfo{
-									Name:        "Plenya EMR",
-									Location:    "Brasil",
-									Reason:      "Pedido de exames",
-									Date:        time.Now(),
-								},
-								CertType:   sign.CertificationSignature,
-								DocMDPPerm: sign.AllowFillingExistingFormFieldsAndSignaturesPerms,
-							},
-							DigestAlgorithm: crypto.SHA256,
-							Certificate:     cert,
-							Signer:          signer,
-						}
-
-						pdfFile.Seek(0, io.SeekStart)
-						signErr := sign.Sign(pdfFile, outFile, pdfReader, fileInfo.Size(), signData)
-
-						outFile.Close()
-						pdfFile.Close()
-
-						if signErr == nil {
-							os.Remove(pdfPath)
-							os.Rename(signedPath, pdfPath)
-
-							signedBytes, _ := os.ReadFile(pdfPath)
-							hash := sha256.Sum256(signedBytes)
-							hashStr := hex.EncodeToString(hash[:])
-							signatureHash = &hashStr
-							now := time.Now()
-							signedAt = &now
-
-							fmt.Printf("[SUCCESS] PDF assinado! Hash: %s\n", hashStr)
-						} else {
-							fmt.Printf("[ERROR] Erro ao assinar: %v\n", signErr)
-							os.Remove(signedPath)
-						}
-					}
-				}
+	// Assinatura PAdES via serviço COMPARTILHADO (mesma do receituário/atestado): embute a cadeia
+	// ICP-Brasil + carimbo de tempo RFC 3161 grátis com fallback pra data do servidor local. Sem
+	// certificado ativo, segue sem assinar (o documento continua válido como não assinado).
+	if unsigned, rerr := os.ReadFile(pdfPath); rerr == nil {
+		if signed, hashStr, sErr := h.signatureService.SignPrescriptionPDF(unsigned, *req.DoctorID); sErr == nil {
+			if wErr := os.WriteFile(pdfPath, signed, 0644); wErr == nil {
+				signatureHash = &hashStr
+				now := time.Now()
+				signedAt = &now
+				fmt.Printf("[SUCCESS] Lab request %s assinado! Hash: %s\n", id, hashStr)
+			} else {
+				fmt.Printf("[ERROR] Falha ao gravar PDF assinado do lab request %s: %v\n", id, wErr)
 			}
+		} else {
+			fmt.Printf("[INFO] Lab request %s não assinado (sem certificado ou erro): %v\n", id, sErr)
 		}
 	} else {
-		fmt.Printf("[INFO] Sem certificado válido: %v\n", certErr)
+		fmt.Printf("[ERROR] Falha ao ler PDF do lab request %s: %v\n", id, rerr)
 	}
 
 	// Update lab request with PDF URL e metadados de assinatura

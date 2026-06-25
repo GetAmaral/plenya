@@ -256,17 +256,21 @@ type SNCRConfig struct {
 
 // SignatureConfig — assinatura ICP-Brasil (hardening + e-CPF em nuvem).
 //
-// CARIMBO DE TEMPO (RFC 3161 / PAdES-T): quando TSAURL vazio, assina em PAdES básico
-// (AD-RB — válido para CFM/ITI). Quando configurado com uma ACT credenciada ICP-Brasil,
-// embute carimbo de tempo (prova a data independente do relógio do servidor; recomendado
-// para controlados). TSAs ICP-Brasil costumam exigir credenciais.
+// CARIMBO DE TEMPO (RFC 3161 / PAdES-T): por padrão usa um TSA RFC 3161 GRÁTIS (DigiCert),
+// cuja raiz é confiável no Windows/Edge — embute hora confiável e habilita validação de longo
+// prazo (LTV). Há FALLBACK gracioso: se o TSA estiver fora do ar, assina em PAdES básico
+// (AD-RB, data do servidor local) em vez de bloquear a emissão. O carimbo é melhoria de UX/LTV,
+// não requisito legal (DOC-ICP-11: documento válido com ou sem carimbo; a validade vem da
+// assinatura ICP-Brasil). O TSA grátis NÃO é uma ACT credenciada ICP-Brasil — para carimbo com
+// status legal ICP-Brasil (controlados), aponte ICP_TSA_URL a uma ACT credenciada (+ credenciais).
+// Para desligar o carimbo, defina ICP_TSA_URL="".
 //
 // E-CPF EM NUVEM (PSC/broker): quando CloudEnabled e o médico tiver certificado em nuvem
 // vinculado, a assinatura é disparada via API do PSC (Certillion/IntegraICP/VIDaaS/BirdID/
 // SafeID). A chave privada nunca sai do HSM do provedor; o titular autoriza por push/OTP.
 // Gated off por default (padrão SNCRProductionProvider) até haver contrato/credencial do PSC.
 type SignatureConfig struct {
-	TSAURL      string // ICP_TSA_URL — endpoint da ACT (RFC 3161). Vazio = sem carimbo de tempo.
+	TSAURL      string // ICP_TSA_URL — endpoint do TSA RFC 3161 (default DigiCert grátis). Vazio = sem carimbo.
 	TSAUsername string // ICP_TSA_USER
 	TSAPassword string // ICP_TSA_PASS
 
@@ -364,7 +368,7 @@ func Load() (*Config, error) {
 			APIKey:         getEnv("SNCR_API_KEY", ""),
 		},
 		Signature: SignatureConfig{
-			TSAURL:        getEnv("ICP_TSA_URL", ""),
+			TSAURL:        getEnv("ICP_TSA_URL", "http://timestamp.digicert.com"),
 			TSAUsername:   getEnv("ICP_TSA_USER", ""),
 			TSAPassword:   getEnv("ICP_TSA_PASS", ""),
 			CloudEnabled:  getEnvAsBool("ICP_CLOUD_ENABLED", false),

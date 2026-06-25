@@ -56,10 +56,25 @@ func RenderIssuedDocument(in IssuedDoc) ([]byte, error) {
 	if strings.TrimSpace(in.BodyHTML) != "" {
 		body = `<div class="docbody">` + in.BodyHTML + `</div>`
 	}
-	top := headerHTML() + titleKindHTML(in.Kind, in.Title) + patientHTML(in.Patient) + body
+	main := titleKindHTML(in.Kind, in.Title) + patientHTML(in.Patient) + body
 	if in.CID != "" {
-		top += `<div class="doccid">` + esc(in.CID) + `</div>`
+		main += `<div class="doccid">` + esc(in.CID) + `</div>`
 	}
-	foot := signatureHTML(in.Doctor, in.Signature) + footerNAPHTML(in.Clinic)
-	return renderHTMLToPDF(documentHTML(pageHTML(top, foot)), a4Options())
+	// A assinatura é um bloco indivisível (break-inside:avoid): flui após o corpo e,
+	// se não couber, abre nova página — em vez de ser cortada como no modelo antigo.
+	main += `<div class="sig-block">` + signatureHTML(in.Doctor, in.Signature) + `</div>`
+	return renderHTMLToPDF(documentHTML(flowDocHTML(headerHTML(), main, footerNAPHTML(in.Clinic))), a4Options())
+}
+
+// flowDocHTML monta um documento de texto livre que pagina sozinho: cabeçalho corrente (thead)
+// e rodapé NAP corrente (tfoot) repetidos em toda página pelo Chromium, miolo fluido no tbody,
+// e marca d'água/claim em camada fixa repetida por página.
+func flowDocHTML(header, main, footer string) string {
+	bg := `<div class="run-bg">` + imgSVG("pattern.svg", "wm") +
+		`<div class="claim-v">` + esc(claimText) + `</div></div>`
+	return bg + `<table class="doc">` +
+		`<thead><tr><td>` + header + `</td></tr></thead>` +
+		`<tfoot><tr><td>` + footer + `</td></tr></tfoot>` +
+		`<tbody><tr><td>` + main + `</td></tr></tbody>` +
+		`</table>`
 }

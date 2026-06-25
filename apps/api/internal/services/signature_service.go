@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"crypto"
 	"crypto/sha256"
+	"crypto/x509"
 	"encoding/hex"
 	"errors"
+	"log"
 
 	"github.com/digitorus/pdf"
 	"github.com/digitorus/pdfsign/sign"
@@ -72,8 +74,8 @@ func (s *SignatureService) signPDF(
 	reason string,
 	name string,
 ) (signedPDF []byte, signatureHash string, err error) {
-	// 1. Obter o assinador do médico (A1 local ou e-CPF em nuvem, transparente).
-	cert, signer, _, err := s.certService.GetSigner(doctorID)
+	// 1. Obter o assinador do médico (A1 local ou e-CPF em nuvem, transparente) + cadeia de ACs.
+	cert, signer, caCerts, _, err := s.certService.GetSigner(doctorID)
 	if err != nil {
 		return nil, "", err
 	}
@@ -95,32 +97,54 @@ func (s *SignatureService) signPDF(
 		Signer:          signer,
 	}
 
-	// 2b. Carimbo de tempo (RFC 3161 / PAdES-T) quando uma ACT credenciada está configurada.
-	if s.opts.TSAURL != "" {
-		signData.TSA = sign.TSA{
-			URL:      s.opts.TSAURL,
-			Username: s.opts.TSAUsername,
-			Password: s.opts.TSAPassword,
+	// 2a. Embutir a cadeia de ACs (intermediárias + raiz ICP-Brasil) junto da folha. Sem isto, o
+	// leitor não consegue ligar o certificado do médico à raiz confiável e mostra "validade
+	// desconhecida" — mesmo a assinatura sendo íntegra. CertificateChains[0] = [folha, ...ACs].
+	if len(caCerts) > 0 {
+		signData.CertificateChains = [][]*x509.Certificate{
+			append([]*x509.Certificate{cert}, caCerts...),
 		}
 	}
 
-	// 4. Criar readers e writers
-	inputReader := bytes.NewReader(pdfBytes)
-	var outputBuffer bytes.Buffer
+	// 3. Assina o PDF. Uma passada = (re)criar readers + chamar sign.Sign; withTSA decide se
+	// embute carimbo de tempo RFC 3161 nesta passada.
+	signOnce := func(withTSA bool) ([]byte, error) {
+		sd := signData // cópia rasa; CertificateChains é só-leitura, TSA é setado por passada
+		if withTSA {
+			sd.TSA = sign.TSA{
+				URL:      s.opts.TSAURL,
+				Username: s.opts.TSAUsername,
+				Password: s.opts.TSAPassword,
+			}
+		}
+		inputReader := bytes.NewReader(pdfBytes)
+		pdfReader, rerr := pdf.NewReader(inputReader, int64(len(pdfBytes)))
+		if rerr != nil {
+			return nil, rerr
+		}
+		var buf bytes.Buffer
+		if serr := sign.Sign(inputReader, &buf, pdfReader, int64(len(pdfBytes)), sd); serr != nil {
+			return nil, serr
+		}
+		return buf.Bytes(), nil
+	}
 
-	// 5. Criar PDF reader
-	pdfReader, err := pdf.NewReader(inputReader, int64(len(pdfBytes)))
+	// 3b. Carimbo de tempo (RFC 3161 / PAdES-T) quando um TSA está configurado — COM FALLBACK
+	// gracioso: se o TSA estiver fora do ar/timeout, assina sem carimbo (data do relógio do
+	// servidor local) em vez de bloquear a emissão do documento. O carimbo é melhoria de
+	// UX/LTV, não requisito legal (DOC-ICP-11: documento válido com ou sem carimbo).
+	if s.opts.TSAURL != "" {
+		signedPDF, err = signOnce(true)
+		if err != nil {
+			log.Printf("[signature] TSA %s indisponível (%v); assinando SEM carimbo de tempo (data do servidor local)", s.opts.TSAURL, err)
+			signedPDF, err = signOnce(false)
+		}
+	} else {
+		signedPDF, err = signOnce(false)
+	}
 	if err != nil {
 		return nil, "", ErrSignatureFailed
 	}
-
-	// 6. Assinar PDF com PAdES
-	err = sign.Sign(inputReader, &outputBuffer, pdfReader, int64(len(pdfBytes)), signData)
-	if err != nil {
-		return nil, "", ErrSignatureFailed
-	}
-
-	signedPDF = outputBuffer.Bytes()
 
 	// 7. Calcular hash SHA-256 do PDF assinado
 	hash := sha256.Sum256(signedPDF)

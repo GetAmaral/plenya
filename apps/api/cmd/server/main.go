@@ -377,7 +377,7 @@ func setupRoutes(
 	anonymousScoreHandler := handlers.NewAnonymousScoreHandler(anonymousScoreService, authService, anonymousLabPDFService)
 	labTestDefHandler := handlers.NewLabTestDefinitionHandler(labTestDefService)
 	labResultValueHandler := handlers.NewLabResultValueHandler(labResultValueService)
-	labRequestHandler := handlers.NewLabRequestHandler(labRequestService, certificateService)
+	labRequestHandler := handlers.NewLabRequestHandler(labRequestService, signatureService)
 	labRequestImportHandler := handlers.NewLabRequestImportHandler(
 		services.NewLabRequestImportService(database.DB, services.NewOCRService(), aiService, services.NewPDFTextCleaner()))
 	labRequestTemplateHandler := handlers.NewLabRequestTemplateHandler(labRequestTemplateService)

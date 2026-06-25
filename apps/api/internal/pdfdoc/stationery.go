@@ -172,6 +172,26 @@ html,body{ background:#fff; }
 .napcol.c{ text-align:center; }
 .napcol.r{ text-align:right; }
 .napcol b{ display:block; color:var(--petrol); font-weight:700; font-size:9.5pt; margin-bottom:1px; }
+
+/* ---- Documento FLUÍDO (texto livre, multipágina): atestado/declaração/laudo/orientações ----
+   Usa <table> com thead/tfoot como cabeçalho/rodapé CORRENTES: o Chromium os repete no topo e no
+   pé de TODA página impressa e reserva o espaço deles, então o miolo (tbody) flui e quebra
+   sozinho — nunca corta a assinatura nem o rodapé (era o bug do modelo de página de altura fixa).
+   A marca d'água/claim ficam num .run-bg position:fixed (repete por página). */
+.run-bg{ position:fixed; inset:0; z-index:0; background:var(--cream); }
+.run-bg .wm{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.04; }
+.doc{ position:relative; z-index:1; width:100%; border-collapse:collapse; }
+.doc > thead > tr > td{ padding:19mm 20mm 0; }
+/* height age como min-height: em doc curto o miolo cresce e empurra o rodapé pro pé da página
+   (igual aos demais docs); em doc longo o conteúdo excede e pagina normalmente. */
+.doc > tbody > tr > td{ padding:7mm 20mm 7mm; vertical-align:top; height:218mm; }
+.doc > tfoot > tr > td{ padding:0 20mm 13mm; }
+.doc .titleblock{ margin-top:0; }
+.doc .docbody{ max-width:none; }
+.doc .indic{ max-width:none; }
+/* assinatura: bloco indivisível; se não couber, o Chromium a joga pra próxima página inteira. */
+.doc .sig-block{ break-inside:avoid; margin-top:26px; }
+.doc .foot{ margin-top:0; }
 `
 
 // ---- Blocos compartilhados ----
