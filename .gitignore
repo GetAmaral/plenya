@@ -111,6 +111,7 @@ apps/api/import-books-from-dir
 apps/api/import-exercises
 apps/api/import-score-enrich
 apps/api/reprocess-lab-batch
+apps/api/reimport-lab-pdfs
 
 # Screenshots e arquivos temporários no root
 /q*.png
