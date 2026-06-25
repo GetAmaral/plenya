@@ -830,7 +830,7 @@ posts:
 - slug: pre-diabetes-nao-e-fase-e-janela-de-5-anos
   block: 2
   order: 17
-  status: approved
+  status: published
   scheduled_at: '2026-06-17 08:43:00-03:00'
   commentary: 'Pré-diabetes não é apenas uma fase: é uma janela de reversibilidade definida em anos.
 
@@ -892,10 +892,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/pre-diabetes-nao-e-fase-e-janela-de-5-anos/figura-1.webp
   image_title: Pré-diabetes não é uma fase, é uma janela de cinco anos
+  published_at: '2026-06-17T08:45:29-03:00'
+  post_urn: urn:li:share:7472977842213998592
 - slug: proteina-meta-que-voce-nao-esta-atingindo
   block: 2
   order: 18
-  status: approved
+  status: published
   scheduled_at: '2026-06-18 12:58:00-03:00'
   commentary: 'A RDA de proteína é 0,8 g/kg/dia. Esse número foi calculado há cinquenta anos pra prevenir balanço nitrogenado
     negativo em adultos jovens, sedentários e saudáveis. Responde "qual a quantidade mínima abaixo da qual o corpo se canibaliza?".
@@ -948,10 +950,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/proteina-meta-que-voce-nao-esta-atingindo/figura-2.webp
   image_title: 'Proteína: a meta que você não está atingindo'
+  published_at: '2026-06-18T22:30:02-03:00'
+  post_urn: urn:li:share:7473547623271170049
 - slug: cansaco-aos-45-nao-e-idade
   block: 3
   order: 19
-  status: approved
+  status: published
   scheduled_at: '2026-06-23 08:51:00-03:00'
   commentary: 'Cansaço aos 45 não costuma ser idade, é sintoma. E sintoma sem causa identificada não cabe como diagnóstico,
     na minha leitura: é investigação interrompida antes do tempo.
@@ -1005,10 +1009,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/cansaco-aos-45-nao-e-idade/figura-1.webp
   image_title: 'Cansaço aos 45 não é idade: é diagnóstico que ninguém fez'
+  published_at: '2026-06-23T09:00:01-03:00'
+  post_urn: urn:li:share:7475155708678762496
 - slug: sono-que-nao-recupera
   block: 3
   order: 20
-  status: approved
+  status: published
   scheduled_at: '2026-06-24 08:47:00-03:00'
   commentary: 'Tempo deitado e sono efetivo não são a mesma coisa.
 
@@ -1063,6 +1069,8 @@ posts:
     inteira.'
   image_path: apps/site/public/images/blog/sono-que-nao-recupera/figura-1.webp
   image_title: Sono que não recupera
+  published_at: '2026-06-24T09:00:01-03:00'
+  post_urn: urn:li:share:7475518104274530304
 - slug: burnout-nao-e-cansaco-resposta-neuroendocrina
   block: 3
   order: 21
