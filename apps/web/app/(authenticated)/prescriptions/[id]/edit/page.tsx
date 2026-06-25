@@ -384,10 +384,10 @@ export default function EditPrescriptionPage() {
           </p>
         </div>
 
-        <Alert className="border-blue-500 bg-blue-50 dark:bg-blue-950 mb-6">
-          <FileCheck className="h-4 w-4 text-blue-600" />
-          <AlertTitle className="text-blue-600">Prescrição com Assinatura Digital</AlertTitle>
-          <AlertDescription className="text-blue-600">
+        <Alert className="border-ocean-500 bg-ocean-50 dark:bg-petrol/30 mb-6">
+          <FileCheck className="h-4 w-4 text-ocean-700" />
+          <AlertTitle className="text-ocean-700">Prescrição com Assinatura Digital</AlertTitle>
+          <AlertDescription className="text-ocean-700">
             Prescrições assinadas com certificado ICP-Brasil não podem ser alteradas por questões
             legais e de segurança. Para fazer alterações, você deve duplicar esta prescrição.
           </AlertDescription>

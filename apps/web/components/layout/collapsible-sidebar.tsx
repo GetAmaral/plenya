@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Search, DollarSign } from "lucide-react";
@@ -48,6 +47,7 @@ import {
   Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PlenyaMark } from "@/components/layout/plenya-mark";
 import { useAuth } from "@/lib/use-auth";
 import { isGranted, type UserRole } from "@/lib/auth-store";
 import { Badge } from "@/components/ui/badge";
@@ -251,17 +251,10 @@ export function CollapsibleSidebar() {
           <div className="flex h-full flex-col">
             {/* Logo and Close Button */}
             <div className="flex h-16 items-center border-b border-border px-4 gap-3">
-              <div className="relative flex h-10 w-10 shrink-0 items-center justify-center">
-                <Image
-                  src="/logo_infinity.svg"
-                  alt="Plenya Logo"
-                  fill
-                  className="object-contain"
-                />
-              </div>
+              <PlenyaMark className="h-10 w-10 shrink-0" />
               <div className="flex-1 min-w-0">
-                <h1 className="text-lg font-bold">Plenya EMR</h1>
-                <p className="text-xs text-muted-foreground">Sistema Médico</p>
+                <h1 className="font-heading text-xl leading-none text-petrol">Plenya</h1>
+                <p className="label-upper mt-1 text-muted-foreground">Prontuário</p>
               </div>
               <button
                 onClick={() => setIsMobileOpen(false)}
@@ -315,19 +308,14 @@ export function CollapsibleSidebar() {
       <div className="flex h-full flex-col">
         {/* Logo and Toggle */}
         <div className="flex h-16 items-center border-b border-border px-4 gap-3">
-          <div className="relative flex h-10 w-10 shrink-0 items-center justify-center">
-            <Image
-              src="/logo_infinity.svg"
-              alt="Plenya Logo"
-              fill
-              className="object-contain"
-            />
-          </div>
+          <PlenyaMark className="h-10 w-10 shrink-0" />
           {!isCollapsed && (
             <div className="flex-1 min-w-0">
-              <h1 className="whitespace-nowrap text-lg font-bold">Plenya EMR</h1>
-              <p className="whitespace-nowrap text-xs text-muted-foreground">
-                Sistema Médico
+              <h1 className="whitespace-nowrap font-heading text-xl leading-none text-petrol">
+                Plenya
+              </h1>
+              <p className="label-upper mt-1 whitespace-nowrap text-muted-foreground">
+                Prontuário
               </p>
             </div>
           )}

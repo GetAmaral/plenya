@@ -73,7 +73,7 @@ export default {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        heading: ["var(--font-cormorant)", "Cormorant Garamond", "serif"],
+        heading: ["var(--font-heading)", "var(--font-cormorant)", "Cormorant Garamond", "serif"],
         mono: ["var(--font-mono)", "IBM Plex Mono", "monospace"],
       },
       keyframes: {

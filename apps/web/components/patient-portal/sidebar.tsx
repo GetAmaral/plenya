@@ -8,7 +8,6 @@
  */
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Home,
@@ -29,6 +28,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { PlenyaMark } from "@/components/layout/plenya-mark";
 import { useAuthStore } from "@/lib/auth-store";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
@@ -169,13 +169,11 @@ function SidebarBody({
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center gap-3 border-b border-border px-4">
-        <div className="relative flex h-10 w-10 shrink-0 items-center justify-center">
-          <Image src="/logo_infinity.svg" alt="Plenya" fill className="object-contain" />
-        </div>
+        <PlenyaMark className="h-10 w-10 shrink-0" />
         {!collapsed && (
           <div className="flex-1 min-w-0">
-            <h1 className="text-lg font-bold">Plenya</h1>
-            <p className="text-xs text-muted-foreground">Área do paciente</p>
+            <h1 className="font-heading text-xl leading-none text-petrol">Plenya</h1>
+            <p className="label-upper mt-1 text-muted-foreground">Área do paciente</p>
           </div>
         )}
         {onClose && (

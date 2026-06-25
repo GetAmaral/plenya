@@ -44,7 +44,7 @@ export function MensagensCard() {
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span className="flex items-center gap-2">
-            <MessageSquare className="h-5 w-5 text-violet-600" />
+            <MessageSquare className="h-5 w-5 text-ocean-700" />
             Mensagens
           </span>
           {!countLoading && total > 0 && (

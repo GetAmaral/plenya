@@ -181,7 +181,7 @@ export default function ArticlesPage() {
             <Button
               variant="outline"
               onClick={() => setShowSemanticSearchDialog(true)}
-              className="flex items-center gap-2 border-purple-300 text-purple-700 hover:bg-purple-50 hover:text-purple-800"
+              className="flex items-center gap-2 border-ocean-200 text-ocean-700 hover:bg-ocean-50 hover:text-ocean-800"
             >
               <Sparkles className="h-4 w-4" />
               Busca Semântica (RAG)

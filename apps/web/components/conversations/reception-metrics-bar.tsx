@@ -24,8 +24,8 @@ export function ReceptionMetricsBar() {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border border-violet-200 bg-violet-50/60 px-3 py-2 text-xs text-muted-foreground">
-      <span className="inline-flex items-center gap-1 font-medium text-violet-800">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border border-ocean-200 bg-ocean-50/60 px-3 py-2 text-xs text-muted-foreground">
+      <span className="inline-flex items-center gap-1 font-medium text-ocean-800">
         <Bot className="h-3.5 w-3.5" /> Recepção IA · 30 dias
       </span>
       <Stat label="respostas" value={data.autoReplies} />

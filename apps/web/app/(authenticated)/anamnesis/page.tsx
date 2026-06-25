@@ -410,9 +410,9 @@ export default function AnamnesisPage() {
                             <h4 className="text-sm font-medium mb-3">Items Preenchidos:</h4>
                             <div className="space-y-3">
                               {Array.from(itemsByGroup.values()).map(({ group, subgroups }) => (
-                                <Card key={group.id} className="overflow-hidden border-gray-200">
-                                  <CardHeader className="bg-gray-50 pb-2">
-                                    <CardTitle className="text-sm font-semibold text-gray-900">
+                                <Card key={group.id} className="overflow-hidden border-border">
+                                  <CardHeader className="bg-muted pb-2">
+                                    <CardTitle className="text-sm font-semibold text-foreground">
                                       {group.name}
                                     </CardTitle>
                                   </CardHeader>

@@ -37,7 +37,7 @@ export function AgendaHojeCard({
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span className="flex items-center gap-2">
-            <CalendarClock className="h-5 w-5 text-blue-600" />
+            <CalendarClock className="h-5 w-5 text-ocean-700" />
             Agenda de hoje
           </span>
           {!isLoading && sorted.length > 0 && (

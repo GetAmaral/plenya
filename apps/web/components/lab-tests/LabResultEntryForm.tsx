@@ -175,7 +175,7 @@ export function LabResultEntryForm({
             {selectedPatient && (
               <div className="rounded-lg border bg-muted/50 p-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
                     <User2 className="h-5 w-5" />
                   </div>
                   <div>

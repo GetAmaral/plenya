@@ -185,17 +185,17 @@ export default function ConfigAtendimentoIAPage() {
                   className={cn(
                     'flex w-full items-start gap-3 rounded-lg border p-3 text-left transition-colors',
                     baseline === m.value
-                      ? 'border-violet-400 bg-violet-50'
+                      ? 'border-ocean-300 bg-ocean-50'
                       : 'border-border hover:bg-muted/50'
                   )}
                 >
                   <span
                     className={cn(
                       'mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border',
-                      baseline === m.value ? 'border-violet-600' : 'border-muted-foreground'
+                      baseline === m.value ? 'border-ocean-600' : 'border-muted-foreground'
                     )}
                   >
-                    {baseline === m.value && <span className="h-2 w-2 rounded-full bg-violet-600" />}
+                    {baseline === m.value && <span className="h-2 w-2 rounded-full bg-ocean-600" />}
                   </span>
                   <span>
                     <span className="block text-sm font-medium">{m.label}</span>

@@ -62,8 +62,8 @@ export function AutomationToggle({
             className={cn(
               'px-2 py-1 text-[11px] font-medium transition-colors disabled:opacity-50',
               current === opt.value
-                ? 'bg-violet-600 text-white'
-                : 'bg-white text-muted-foreground hover:bg-violet-50'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-white text-muted-foreground hover:bg-ocean-50'
             )}
           >
             {opt.value === current && setMode.isPending ? (

@@ -118,7 +118,7 @@ export default function DashboardPage() {
           <Card className="lg:col-span-2">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
-                <Calendar className="h-5 w-5 text-blue-600" />
+                <Calendar className="h-5 w-5 text-ocean-600" />
                 Agenda de hoje
               </CardTitle>
             </CardHeader>
@@ -198,10 +198,10 @@ function StatCard({
   tone: "blue" | "amber" | "emerald" | "violet";
 }) {
   const tones: Record<string, string> = {
-    blue: "bg-blue-50 text-blue-600 dark:bg-blue-950/30",
+    blue: "bg-ocean-50 text-ocean-600 dark:bg-petrol/40",
     amber: "bg-amber-50 text-amber-600 dark:bg-amber-950/30",
     emerald: "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30",
-    violet: "bg-violet-50 text-violet-600 dark:bg-violet-950/30",
+    violet: "bg-gold-50 text-gold-600 dark:bg-gold-900/20",
   };
   return (
     <Card>

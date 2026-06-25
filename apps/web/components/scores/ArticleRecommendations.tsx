@@ -35,18 +35,18 @@ export function ArticleRecommendations({
   }
 
   return (
-    <Card className={cn('border-purple-200 bg-purple-50/50', className)}>
+    <Card className={cn('border-ocean-200 bg-ocean-50/50', className)}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="space-y-1">
             <CardTitle className="flex items-center gap-2 text-base">
-              <Sparkles className="h-4 w-4 text-purple-500" />
+              <Sparkles className="h-4 w-4 text-ocean-700" />
               Artigos Recomendados (RAG)
             </CardTitle>
             <CardDescription className="text-xs">
               Sugestões baseadas em similaridade semântica
               {scoreItemName && (
-                <span className="block mt-1 font-medium text-purple-700">
+                <span className="block mt-1 font-medium text-ocean-700">
                   para: {scoreItemName}
                 </span>
               )}

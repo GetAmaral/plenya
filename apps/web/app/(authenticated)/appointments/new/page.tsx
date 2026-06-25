@@ -210,7 +210,7 @@ export default function NewAppointmentPage() {
         }
       />
       {continuumItemId && (
-        <div className="rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-800">
+        <div className="rounded-md border border-ocean-200 bg-ocean-50 px-3 py-2 text-xs text-ocean-700">
           Esta consulta vai ancorar um marco do Continuum. Quando ela for marcada como
           "completada", o item da timeline atualiza automaticamente.
         </div>

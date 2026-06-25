@@ -423,7 +423,7 @@ export default function AdminSubscriptionsPage() {
                       <TableCell>{formatDate(subscription.startDate)}</TableCell>
                       <TableCell>
                         {subscription.trialEndDate ? (
-                          <div className="text-blue-600 font-medium">
+                          <div className="text-ocean-700 font-medium">
                             Trial: {formatDate(subscription.trialEndDate)}
                           </div>
                         ) : subscription.endDate ? (

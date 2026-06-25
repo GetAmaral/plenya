@@ -54,7 +54,7 @@ export function SemanticSearchDialog({
       <DialogContent className="max-w-3xl max-h-[80vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-purple-500" />
+            <Sparkles className="h-5 w-5 text-ocean-700" />
             Busca Semântica (RAG)
           </DialogTitle>
           <DialogDescription>
@@ -192,7 +192,7 @@ function ArticleResultCard({ result, rank, onSelect }: ArticleResultCardProps) {
 
           {/* Similarity Score */}
           <div className="flex flex-col items-end gap-1">
-            <div className="flex items-center gap-1 text-xs font-medium text-purple-600">
+            <div className="flex items-center gap-1 text-xs font-medium text-ocean-700">
               <TrendingUp className="h-3 w-3" />
               {similarityPercent}%
             </div>

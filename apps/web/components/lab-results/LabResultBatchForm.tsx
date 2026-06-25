@@ -485,7 +485,7 @@ export function LabResultBatchForm({ batchId, initialValues, focusLabResultId }:
                 )}
 
                 {!isEditMode && processingStatus === "completed" && (
-                  <div className="text-sm text-muted-foreground p-4 border rounded-lg bg-blue-50">
+                  <div className="text-sm text-muted-foreground p-4 border rounded-lg bg-ocean-50">
                     ℹ️ Resultados preenchidos automaticamente. Revise os dados abaixo e clique em "Criar Lote" para salvar.
                   </div>
                 )}

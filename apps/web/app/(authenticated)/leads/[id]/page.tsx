@@ -133,7 +133,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
               <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Email</div>
               <div className="mt-1">
                 {lead.email ? (
-                  <a href={`mailto:${lead.email}`} className="text-blue-600 hover:underline">
+                  <a href={`mailto:${lead.email}`} className="text-ocean-700 hover:underline">
                     {lead.email}
                   </a>
                 ) : (
@@ -150,7 +150,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                     href={`https://wa.me/${lead.phone.replace(/\D/g, '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
+                    className="text-ocean-700 hover:underline"
                   >
                     {lead.phone}
                   </a>
@@ -254,7 +254,7 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
                 href={`${SITE_PUBLIC_URL}/pt/escore-plenya/resultado/${lead.anonymousScoreSessionId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline"
+                className="inline-flex items-center gap-1 text-sm text-ocean-700 hover:underline"
               >
                 <ExternalLink className="h-3.5 w-3.5" /> Ver resultado do Light
               </a>

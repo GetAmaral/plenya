@@ -116,7 +116,7 @@ export function EmailInbox({ selected, onSelect }: Props) {
           className={cn(
             'rounded-full border px-2.5 py-1 text-xs font-medium transition-colors',
             assigned === 'mine'
-              ? 'border-sky-300 bg-sky-100 text-sky-900'
+              ? 'border-ocean-300 bg-ocean-100 text-ocean-800'
               : 'border-border bg-background text-muted-foreground hover:bg-muted'
           )}
         >

@@ -326,7 +326,7 @@ export function NewEmailDialog({ open, onOpenChange, onSent }: Props) {
               {...getRootProps()}
               className={cn(
                 'relative rounded-md border border-input transition-colors',
-                isDragActive && 'border-sky-400 bg-sky-50/40 ring-2 ring-sky-200'
+                isDragActive && 'border-ocean-400 bg-ocean-50/40 ring-2 ring-ocean-200'
               )}
             >
               <input {...getInputProps()} />
@@ -344,7 +344,7 @@ export function NewEmailDialog({ open, onOpenChange, onSent }: Props) {
                 )}
               />
               {isDragActive && (
-                <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-md bg-sky-100/60 text-sm font-medium text-sky-900">
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-md bg-ocean-100/60 text-sm font-medium text-ocean-800">
                   Solte os arquivos pra anexar
                 </div>
               )}

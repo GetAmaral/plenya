@@ -369,7 +369,7 @@ export function ListaEsperaCard() {
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span className="flex items-center gap-2">
-            <Clock className="h-5 w-5 text-sky-600" />
+            <Clock className="h-5 w-5 text-ocean-700" />
             Lista de espera
           </span>
           {!isLoading && entries.length > 0 && (

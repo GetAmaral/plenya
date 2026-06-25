@@ -181,10 +181,10 @@ export function SubscriptionCard({ subscription, onEdit, showActions = true }: S
 
             {subscription.trialEndDate && (
               <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-blue-500" />
+                <Calendar className="h-4 w-4 text-ocean-600" />
                 <div>
                   <div className="text-xs text-muted-foreground">Fim Trial</div>
-                  <div className="font-medium text-blue-600">{formatDate(subscription.trialEndDate)}</div>
+                  <div className="font-medium text-ocean-700">{formatDate(subscription.trialEndDate)}</div>
                 </div>
               </div>
             )}

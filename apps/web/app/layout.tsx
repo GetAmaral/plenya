@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Cormorant_Garamond, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { QueryProvider } from "@/lib/query-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -21,6 +22,18 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-cormorant",
+});
+
+// Nalieta — fonte oficial de títulos do brandbook (mesma do site institucional).
+// Não inclui glyphs de dígitos (0-9); excluindo U+0030-0039 do unicode-range, o
+// browser cai per-glyph na próxima fonte da cadeia (Cormorant Garamond).
+const heading = localFont({
+  src: "../node_modules/@plenya/brand/src/fonts/nalieta/Nalieta-Regular.otf",
+  weight: "400",
+  style: "normal",
+  variable: "--font-heading",
+  display: "swap",
+  declarations: [{ prop: "unicode-range", value: "U+0020-002F, U+003A-FFFF" }],
 });
 
 const plexMono = IBM_Plex_Mono({
@@ -55,7 +68,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" data-scroll-behavior="smooth">
-      <body className={`${inter.variable} ${cormorant.variable} ${plexMono.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${cormorant.variable} ${heading.variable} ${plexMono.variable} font-sans antialiased`}>
         <QueryProvider>
           <div className="print:hidden">
             <Suspense fallback={null}>

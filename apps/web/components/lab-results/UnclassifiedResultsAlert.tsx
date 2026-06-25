@@ -109,10 +109,10 @@ export function UnclassifiedResultsAlert({
               className="flex items-center justify-between rounded-md border border-orange-200 bg-white p-2"
             >
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-foreground">
                   {batch.laboratoryName}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground">
                   {new Date(batch.collectionDate).toLocaleDateString("pt-BR")} •{" "}
                   {batch.unclassifiedCount} resultado(s) não classificado(s)
                 </p>

@@ -147,7 +147,7 @@ function AttachmentChips({
                 'inline-flex max-w-[260px] items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium transition-colors',
                 tone === 'inbound'
                   ? 'border-stone-300 bg-white text-stone-800 hover:bg-stone-100'
-                  : 'border-sky-300 bg-white text-sky-900 hover:bg-sky-100'
+                  : 'border-ocean-300 bg-white text-ocean-800 hover:bg-ocean-100'
               )}
             >
               <Icon className="h-3 w-3 shrink-0" aria-hidden />
@@ -440,7 +440,7 @@ function MessageBubble({
           'max-w-[85%] rounded-lg border p-3 text-sm shadow-sm md:max-w-[75%]',
           isInbound
             ? 'border-stone-200 bg-stone-50 text-stone-900'
-            : 'border-sky-200 bg-sky-50 text-sky-900'
+            : 'border-ocean-200 bg-ocean-50 text-ocean-800'
         )}
       >
         <div className="mb-1 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-[11px] text-muted-foreground">
@@ -454,7 +454,7 @@ function MessageBubble({
               </span>
             )}
             {Boolean(msg.metadata?.ai_generated) && (
-              <span className="shrink-0 rounded bg-violet-100 px-1 text-[10px] font-medium text-violet-800">
+              <span className="shrink-0 rounded bg-ocean-100 px-1 text-[10px] font-medium text-ocean-800">
                 respondido pela IA
               </span>
             )}
@@ -585,7 +585,7 @@ function AIDraftBar({
   if (!isAuto) {
     // Copiloto (ou qualquer outro modo com rascunho): só aviso, sem auto-envio.
     return (
-      <div className="flex items-center gap-2 border-t border-violet-200 bg-violet-50 px-3 py-2 text-xs text-violet-900">
+      <div className="flex items-center gap-2 border-t border-ocean-200 bg-ocean-50 px-3 py-2 text-xs text-ocean-800">
         <Bot className="h-3.5 w-3.5 shrink-0" />
         <span>Rascunho da IA preenchido no compositor. Revise e envie.</span>
       </div>
@@ -593,14 +593,14 @@ function AIDraftBar({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2 border-t border-violet-200 bg-violet-50 px-3 py-2 text-xs text-violet-900">
+    <div className="flex flex-wrap items-center gap-2 border-t border-ocean-200 bg-ocean-50 px-3 py-2 text-xs text-ocean-800">
       <Bot className="h-3.5 w-3.5 shrink-0" />
       <span className="font-medium">
         {remainingSec > 0
           ? `A IA envia em ${remainingSec}s`
           : 'A IA está enviando…'}
       </span>
-      <span className="text-violet-700">Revise o texto no compositor ou intervenha.</span>
+      <span className="text-ocean-700">Revise o texto no compositor ou intervenha.</span>
       <div className="ml-auto flex items-center gap-1.5">
         <Button
           type="button"
@@ -956,7 +956,7 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
             </Button>
             <Link
               href={detailHref(item)}
-              className="hidden shrink-0 items-center gap-1 text-xs text-blue-600 hover:underline sm:inline-flex"
+              className="hidden shrink-0 items-center gap-1 text-xs text-ocean-700 hover:underline sm:inline-flex"
             >
               Ver detalhe <ExternalLink className="h-3 w-3" />
             </Link>
@@ -1052,7 +1052,7 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
         <DialogContent className="max-w-xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-violet-600" />
+              <Sparkles className="h-4 w-4 text-ocean-600" />
               Resumo da conversa
             </DialogTitle>
             <DialogDescription>
@@ -1083,7 +1083,7 @@ export function ConversationViewer({ item, onBack, channel, menuControls, compac
 
           {summaryDialog.open && summaryDialog.generatedAt && (
             <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
-              <Badge variant="outline" className="border-violet-300 bg-violet-50 text-violet-900">
+              <Badge variant="outline" className="border-ocean-300 bg-ocean-50 text-ocean-800">
                 IA · {summaryDialog.cached ? 'cache' : 'novo'}
               </Badge>
               <span>

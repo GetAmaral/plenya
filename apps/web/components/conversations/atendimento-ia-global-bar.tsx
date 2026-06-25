@@ -114,8 +114,8 @@ export function AtendimentoIAGlobalBar() {
             className={cn(
               'px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50',
               baseline === opt.value
-                ? 'bg-violet-600 text-white'
-                : 'bg-background text-muted-foreground hover:bg-violet-50'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-background text-muted-foreground hover:bg-ocean-50'
             )}
           >
             {baseline === opt.value && update.isPending ? (

@@ -699,9 +699,9 @@ function DuplicateLabRequestForm({
   }
 
   return (
-    <Card className="p-6 mb-6 border-blue-200 bg-blue-50/50">
+    <Card className="p-6 mb-6 border-ocean-200 bg-ocean-50/50">
       <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-        <Copy className="h-5 w-5 text-blue-600" />
+        <Copy className="h-5 w-5 text-ocean-700" />
         Duplicar Pedido de Exames
       </h2>
       <form ref={formRef} onSubmit={handleSubmit}>
@@ -906,7 +906,7 @@ function LabRequestCard({
                   <Badge
                     key={index}
                     variant="secondary"
-                    className="bg-gray-100 text-gray-700 hover:bg-gray-200 font-normal"
+                    className="bg-muted text-muted-foreground hover:bg-muted/80 font-normal"
                   >
                     {exam}
                   </Badge>

@@ -272,17 +272,17 @@ export default function ValidatePrescriptionPage({ params }: PageProps) {
         </div>
 
         {/* Digital Signature */}
-        <Card className="border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950">
+        <Card className="border-ocean-200 bg-ocean-50 dark:border-petrol-700 dark:bg-petrol/30">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-blue-900 dark:text-blue-100">
+            <CardTitle className="flex items-center gap-2 text-petrol dark:text-cream">
               <Shield className="h-5 w-5" />
               Assinatura Digital ICP-Brasil
             </CardTitle>
-            <CardDescription className="text-blue-700 dark:text-blue-300">
+            <CardDescription className="text-ocean-700 dark:text-ocean-200">
               Documento autêntico com validade jurídica
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3 text-blue-800 dark:text-blue-200">
+          <CardContent className="space-y-3 text-ocean-800 dark:text-ocean-200">
             <div className="flex items-center gap-2">
               {data.pdfIntact ? (
                 <CheckCircle2 className="h-5 w-5 text-green-600" />
@@ -312,7 +312,7 @@ export default function ValidatePrescriptionPage({ params }: PageProps) {
               </div>
             )}
 
-            <div className="text-xs space-y-1 pt-2 border-t border-blue-200 dark:border-blue-800">
+            <div className="text-xs space-y-1 pt-2 border-t border-ocean-200 dark:border-petrol-700">
               <p>✅ Padrão PAdES (PDF Advanced Electronic Signatures)</p>
               <p>✅ Certificado ICP-Brasil válido</p>
               <p>✅ Conforme CFM Resolução 2.299/2021</p>

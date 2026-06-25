@@ -190,7 +190,7 @@ export function AppointmentRow({
           <span
             className={cn(
               "mt-1 h-1.5 w-1.5 rounded-full",
-              dotClass ?? "bg-violet-500",
+              dotClass ?? "bg-ocean-500",
             )}
             aria-hidden
           />

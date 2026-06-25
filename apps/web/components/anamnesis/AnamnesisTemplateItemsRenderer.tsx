@@ -816,7 +816,7 @@ export function AnamnesisTemplateItemsRenderer({
                     </div>
 
                     {hasMaxSelect && selectedCount >= subgroup.maxSelect && (
-                      <div className="flex items-center gap-2 p-3 bg-blue-50 text-blue-900 rounded-lg text-sm">
+                      <div className="flex items-center gap-2 p-3 bg-ocean-50 text-ocean-800 rounded-lg text-sm">
                         <AlertCircle className="h-4 w-4 shrink-0" />
                         <p>Máximo atingido. Desmarque um item para selecionar outro.</p>
                       </div>

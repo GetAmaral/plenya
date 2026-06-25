@@ -134,7 +134,7 @@ export function SubscriptionPlanCard({ plan, onEdit, onDuplicate, showActions = 
 
           {/* Trial Period */}
           {plan.trialPeriodDays > 0 && (
-            <div className="flex items-center gap-2 text-sm text-blue-600">
+            <div className="flex items-center gap-2 text-sm text-ocean-700">
               <Calendar className="h-4 w-4" />
               <span>{plan.trialPeriodDays} dias de teste grátis</span>
             </div>
@@ -177,7 +177,7 @@ export function SubscriptionPlanCard({ plan, onEdit, onDuplicate, showActions = 
                     variant="outline"
                     size="sm"
                     onClick={() => onDuplicate(plan)}
-                    className="flex-1 hover:bg-blue-500 hover:text-white"
+                    className="flex-1 hover:bg-primary hover:text-primary-foreground"
                   >
                     <Copy className="h-4 w-4 mr-1" />
                     Duplicar

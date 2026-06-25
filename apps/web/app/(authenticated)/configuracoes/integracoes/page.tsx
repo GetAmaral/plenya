@@ -125,7 +125,7 @@ export default function IntegracoesPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-blue-700">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-ocean-100 text-ocean-700">
               <CalendarIcon className="h-5 w-5" />
             </div>
             <div className="flex-1">

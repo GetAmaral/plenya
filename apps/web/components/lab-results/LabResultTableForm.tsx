@@ -355,7 +355,7 @@ export function LabResultTableForm({
                   key={field.id}
                   className={cn(
                     "even:bg-muted/30 transition-colors",
-                    focusedRowIndex === index && "bg-blue-50 dark:bg-blue-950/30 ring-2 ring-blue-500/50"
+                    focusedRowIndex === index && "bg-ocean-50 dark:bg-petrol/30 ring-2 ring-ocean-500/50"
                   )}
                   onFocus={() => setFocusedRowIndex(index)}
                   onBlur={() => setFocusedRowIndex(null)}

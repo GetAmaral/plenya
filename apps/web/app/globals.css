@@ -90,8 +90,8 @@
      (CardTitle, labels) e serif fica ilegível em tamanhos reduzidos.
      Use .heading-section explicitamente em h3/h4 que precisem do serif. */
   h1, h2 {
-    font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
-    font-weight: 500;
+    font-family: var(--font-heading), var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
     letter-spacing: -0.01em;
   }
   h1 { line-height: 1.1; }
@@ -115,13 +115,13 @@
 
 /* Tipografia Plenya — usar em headings de seção / hero / labels uppercase */
 @utility heading-hero {
-  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-family: var(--font-heading), var(--font-cormorant), 'Cormorant Garamond', serif;
   font-weight: 400;
   line-height: 1.08;
   letter-spacing: -0.015em;
 }
 @utility heading-section {
-  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-family: var(--font-heading), var(--font-cormorant), 'Cormorant Garamond', serif;
   font-weight: 400;
   line-height: 1.15;
   letter-spacing: -0.01em;
@@ -168,7 +168,7 @@
   @apply bg-linear-to-br from-primary to-primary/80;
 }
 @utility gradient-medical {
-  @apply bg-linear-to-br from-blue-500 via-blue-600 to-blue-700;
+  @apply bg-linear-to-br from-ocean via-ocean-600 to-petrol;
 }
 
 /* Bento Grid utilities */

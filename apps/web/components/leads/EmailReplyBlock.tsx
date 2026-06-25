@@ -382,7 +382,7 @@ function ThreadItem({ thread, onReply }: { thread: Thread; onReply: () => void }
               className={`rounded-md p-3 text-sm ${
                 m.direction === 'in'
                   ? 'bg-stone-50 border border-stone-200'
-                  : 'bg-sky-50 border border-sky-200'
+                  : 'bg-ocean-50 border border-ocean-200'
               }`}
             >
               <div className="mb-1 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 text-xs text-muted-foreground">

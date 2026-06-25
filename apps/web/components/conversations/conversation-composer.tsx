@@ -489,7 +489,7 @@ export function ConversationComposer({
           disabled={!validation.ok || isPending || reception.isPending || suggest.isPending}
           title="Gerar um rascunho de resposta com IA (revise antes de enviar)"
           className={cn(
-            'ml-auto inline-flex items-center gap-1.5 rounded-full border border-violet-300 bg-white px-3 py-1.5 text-xs font-medium text-violet-900 transition-colors hover:bg-violet-50',
+            'ml-auto inline-flex items-center gap-1.5 rounded-full border border-ocean-300 bg-white px-3 py-1.5 text-xs font-medium text-ocean-800 transition-colors hover:bg-ocean-50',
             'disabled:cursor-not-allowed disabled:opacity-50'
           )}
         >
@@ -591,7 +591,7 @@ export function ConversationComposer({
         {...(showAttachUI ? getRootProps() : {})}
         className={cn(
           'relative rounded-md border border-input transition-colors',
-          isDragActive && 'border-sky-400 bg-sky-50/40 ring-2 ring-sky-200'
+          isDragActive && 'border-ocean-400 bg-ocean-50/40 ring-2 ring-ocean-200'
         )}
       >
         {showAttachUI && <input {...getInputProps()} />}
@@ -613,7 +613,7 @@ export function ConversationComposer({
           aria-label={channel === 'email' ? 'Corpo do email' : 'Corpo do WhatsApp'}
         />
         {showAttachUI && isDragActive && (
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-md bg-sky-100/60 text-sm font-medium text-sky-900">
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-md bg-ocean-100/60 text-sm font-medium text-ocean-800">
             Solte os arquivos pra anexar
           </div>
         )}

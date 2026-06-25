@@ -184,7 +184,7 @@ export default function MedicationDefinitionsPage() {
                     </TableCell>
                     <TableCell className="text-center">
                       {medication.requiresDigitalSignature ? (
-                        <Badge variant="outline" className="bg-blue-50 text-blue-700">
+                        <Badge variant="outline" className="bg-ocean-50 text-ocean-700">
                           Sim
                         </Badge>
                       ) : (

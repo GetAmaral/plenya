@@ -16,7 +16,8 @@ import { touchActivity } from "@/components/auth/inactivity-lock";
 import { apiClient } from "@/lib/api-client";
 import { useAuthStore, type UserRole } from "@/lib/auth-store";
 import { useFormNavigation } from "@/lib/use-form-navigation";
-import { Activity, ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
+import { PlenyaMark } from "@/components/layout/plenya-mark";
 import { GoogleOAuthButton } from "@/components/auth/GoogleOAuthButton";
 
 const loginSchema = z.object({
@@ -93,11 +94,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-linear-to-br from-blue-50 via-white to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-linear-to-br from-cream via-paper to-sage-100 dark:from-petrol-800 dark:via-petrol dark:to-petrol-700">
       {/* Animated background gradient orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-linear-to-br from-blue-400 to-blue-600 opacity-20 blur-3xl"
+          className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-linear-to-br from-gold-300 to-gold-500 opacity-20 blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             rotate: [0, 90, 0],
@@ -109,7 +110,7 @@ export default function LoginPage() {
           }}
         />
         <motion.div
-          className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-linear-to-br from-purple-400 to-pink-600 opacity-20 blur-3xl"
+          className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-linear-to-br from-ocean-300 to-petrol opacity-20 blur-3xl"
           animate={{
             scale: [1.2, 1, 1.2],
             rotate: [90, 0, 90],
@@ -139,27 +140,25 @@ export default function LoginPage() {
                 transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                 className="mb-4 flex justify-center"
               >
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-blue-500 to-blue-700 shadow-lg">
-                  <Activity className="h-8 w-8 text-white" />
-                </div>
+                <PlenyaMark className="h-16 w-16 shadow-lg" />
               </motion.div>
 
               <motion.h1
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white"
+                className="font-heading text-4xl tracking-tight text-petrol dark:text-cream"
               >
-                Plenya EMR
+                Plenya
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="mt-2 text-sm text-gray-600 dark:text-gray-400"
+                className="label-upper mt-2 text-muted-foreground"
               >
-                Sistema de Prontuário Médico Eletrônico
+                Prontuário Eletrônico
               </motion.p>
             </div>
 
@@ -260,7 +259,7 @@ export default function LoginPage() {
               >
                 <Button
                   type="submit"
-                  className="group relative h-11 w-full overflow-hidden bg-linear-to-r from-blue-600 to-blue-700 text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]"
+                  className="group relative h-11 w-full overflow-hidden bg-linear-to-r from-gold-500 to-gold-600 text-petrol shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]"
                   disabled={isLoading}
                 >
                   {isLoading ? (
