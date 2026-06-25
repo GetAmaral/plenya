@@ -344,7 +344,7 @@ export default function AnamnesisPage() {
                             <div>
                               <h4 className="text-sm font-medium mb-1">Conteúdo:</h4>
                               <SafeHtml
-                                className="text-sm text-muted-foreground line-clamp-3 html-content"
+                                className="text-sm text-muted-foreground html-content"
                                 style={{ whiteSpace: 'pre-wrap' }}
                                 html={anamnesis.contentHtml || anamnesis.content || ''}
                               />
@@ -353,7 +353,7 @@ export default function AnamnesisPage() {
                           {anamnesis.notes && (
                             <div>
                               <h4 className="text-sm font-medium mb-1">Observações:</h4>
-                              <p className="text-sm text-muted-foreground line-clamp-2 whitespace-pre-wrap">
+                              <p className="text-sm text-muted-foreground whitespace-pre-wrap">
                                 {anamnesis.notes}
                               </p>
                             </div>

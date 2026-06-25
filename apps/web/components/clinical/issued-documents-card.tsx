@@ -17,6 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
+import { SafeHtml } from '@/components/ui/safe-html';
 import {
   Dialog,
   DialogContent,
@@ -49,10 +50,13 @@ export function IssuedDocumentsCard({
   patientId,
   appointmentId,
   className,
+  showContent = false,
 }: {
   patientId: string;
   appointmentId?: string;
   className?: string;
+  /** Mostra o conteúdo do documento inline (página de lista), não só título + PDF. */
+  showContent?: boolean;
 }) {
   const { data = [], isLoading } = useIssuedDocuments(patientId);
   const createDoc = useCreateIssuedDocument(patientId);
@@ -219,7 +223,8 @@ export function IssuedDocumentsCard({
         ) : (
           <ul className="space-y-2">
             {data.map((doc) => (
-              <li key={doc.id} className="flex items-center gap-2 rounded-md border p-2">
+              <li key={doc.id} className="rounded-md border p-2">
+                <div className="flex items-start gap-2">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="truncate text-sm font-medium">{doc.title}</span>
@@ -278,6 +283,18 @@ export function IssuedDocumentsCard({
                     </Button>
                   )}
                 </div>
+                </div>
+                {showContent &&
+                  (doc.bodyHtml ? (
+                    <SafeHtml
+                      className="prose prose-sm mt-2 max-w-none border-t pt-2 text-sm"
+                      html={doc.bodyHtml}
+                    />
+                  ) : doc.body ? (
+                    <p className="mt-2 whitespace-pre-wrap border-t pt-2 text-sm text-muted-foreground">
+                      {doc.body}
+                    </p>
+                  ) : null)}
               </li>
             ))}
           </ul>

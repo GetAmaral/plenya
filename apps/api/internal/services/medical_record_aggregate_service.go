@@ -93,7 +93,7 @@ func (s *MedicalRecordAggregateService) List(patientID uuid.UUID, filter Aggrega
 		parts = append(parts, `
 SELECT id, 'anamnesis'::text AS type, consultation_date AS event_date,
        COALESCE(NULLIF(notes,''), 'Anamnese') AS title,
-       ''::text AS subtitle, ''::text AS status,
+       COALESCE(content, '')::text AS subtitle, ''::text AS status,
        author_id AS author_id, patient_id, created_at, FALSE AS has_note
   FROM anamnesis WHERE patient_id = ? AND deleted_at IS NULL`)
 	}
@@ -156,7 +156,15 @@ SELECT id, 'prescription'::text, prescription_date,
 		parts = append(parts, `
 SELECT id, 'appointment'::text, scheduled_at,
        reason,
-       type::text,
+       COALESCE((
+         SELECT NULLIF(TRIM(
+                  COALESCE(cn.clinical_history, '') ||
+                  CASE WHEN COALESCE(cn.conduct, '') <> '' THEN E'\n\n' || cn.conduct ELSE '' END
+                ), '')
+           FROM clinical_notes cn
+          WHERE cn.appointment_id = appointments.id AND cn.deleted_at IS NULL
+          ORDER BY cn.created_at DESC LIMIT 1
+       ), '') AS subtitle,
        status::text,
        doctor_id, patient_id, created_at,
        EXISTS(SELECT 1 FROM clinical_notes cn WHERE cn.appointment_id = appointments.id AND cn.deleted_at IS NULL) AS has_note

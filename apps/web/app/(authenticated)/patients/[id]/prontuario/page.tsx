@@ -244,7 +244,9 @@ export default function MedicalRecordPage() {
                           </div>
                           <p className="mt-1 text-sm font-medium">{e.title}</p>
                           {e.subtitle && (
-                            <p className="text-xs text-muted-foreground">{e.subtitle}</p>
+                            <p className="mt-1 whitespace-pre-wrap text-sm text-muted-foreground">
+                              {e.subtitle}
+                            </p>
                           )}
                           {e.authorName && (
                             <p className="mt-1 text-xs text-muted-foreground">
