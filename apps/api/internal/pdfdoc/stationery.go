@@ -124,8 +124,13 @@ html,body{ background:#fff; }
 .docbody h1{ font-size:22px; }
 .docbody h2{ font-size:18px; }
 .docbody h3{ font-size:15px; }
-.docbody ul,.docbody ol{ margin:0 0 11px 22px; }
-.docbody li{ margin-bottom:4px; }
+.docbody ol{ margin:0 0 11px 22px; }
+.docbody ol li{ margin-bottom:4px; }
+/* Lista com marcador losango dourado — mesmo bullet do pedido de exames (.bullet). */
+.docbody ul{ list-style:none; margin:0 0 11px 0; padding-left:0; }
+.docbody ul ul{ margin:4px 0 4px 18px; }
+.docbody ul li{ position:relative; padding-left:18px; margin-bottom:5px; }
+.docbody ul li::before{ content:""; position:absolute; left:3px; top:0.62em; width:4.5px; height:4.5px; background:var(--gold); border-radius:1px; transform:rotate(45deg); }
 .docbody strong,.docbody b{ font-weight:700; }
 .docbody u{ text-decoration:underline; }
 .docbody s,.docbody del{ text-decoration:line-through; }
