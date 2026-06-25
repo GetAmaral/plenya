@@ -47,8 +47,10 @@ type LabResult struct {
 	Level *int `gorm:"type:integer" json:"level,omitempty"`
 
 	// Indica se o exame foi matched com uma definição catalogada
-	// true = matched com LabTestDefinition, false = extraído mas não catalogado
-	Matched bool `gorm:"type:boolean;not null;default:true;index" json:"matched"`
+	// true = matched com LabTestDefinition, false = extraído mas não catalogado.
+	// SEM `default:true` de propósito: com default, o GORM omite o valor `false`
+	// (zero-value) no INSERT e o banco aplicava true, anulando o "Não catalogado".
+	Matched bool `gorm:"type:boolean;not null;index" json:"matched"`
 
 	// Origem do resultado: "pdf" (importado de laudo) ou "manual" (digitado).
 	Source string `gorm:"type:varchar(20);not null;default:'manual'" json:"source"`
