@@ -1074,7 +1074,7 @@ posts:
 - slug: burnout-nao-e-cansaco-resposta-neuroendocrina
   block: 3
   order: 21
-  status: approved
+  status: published
   scheduled_at: '2026-06-25 07:32:00-03:00'
   commentary: 'Burnout não é cansaço. É uma resposta neuroendócrina mensurável.
 
@@ -1149,6 +1149,8 @@ posts:
     '
   image_path: apps/site/public/images/blog/burnout-nao-e-cansaco-resposta-neuroendocrina/figura-1.webp
   image_title: 'Burnout não é cansaço: é resposta neuroendócrina mensurável'
+  published_at: '2026-06-25T07:45:01-03:00'
+  post_urn: urn:li:share:7475861611337912320
 - slug: menopausa-precisa-de-equipe-nao-so-de-ginecologista
   block: 3
   order: 22
