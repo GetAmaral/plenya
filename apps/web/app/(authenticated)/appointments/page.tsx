@@ -82,7 +82,7 @@ const fallbackStatus = { label: "—", variant: "outline" as const, icon: Clock 
 
 export default function AppointmentsPage() {
   useRequireAuth();
-  useRequireSelectedPatient();
+  const { selectedPatient } = useRequireSelectedPatient();
   const router = useRouter();
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -93,11 +93,14 @@ export default function AppointmentsPage() {
   });
 
   const { data, isLoading } = useQuery({
-    queryKey: ["appointments", pagination.pageIndex, pagination.pageSize],
+    // Prontuário é SEMPRE isolado pelo paciente selecionado: o patientId entra na
+    // chave (refaz a query ao trocar de paciente) e a query só roda com paciente.
+    queryKey: ["appointments", selectedPatient?.id, pagination.pageIndex, pagination.pageSize],
+    enabled: !!selectedPatient?.id,
     queryFn: async () => {
       const offset = pagination.pageIndex * pagination.pageSize;
       const result = await apiClient.get<Appointment[] | AppointmentsResponse>(
-        `/api/v1/appointments?limit=${pagination.pageSize}&offset=${offset}`
+        `/api/v1/appointments?patientId=${selectedPatient!.id}&limit=${pagination.pageSize}&offset=${offset}`
       );
 
       // Se a API retornar um array direto, converter para o formato esperado
