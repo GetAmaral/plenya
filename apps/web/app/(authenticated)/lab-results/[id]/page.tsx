@@ -35,6 +35,7 @@ import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHead
 import { PageHeader } from "@/components/layout/page-header";
 import { labResultBatchApi, openLabBatchPDF } from "@/lib/api/lab-result-batch-api";
 import { UnmatchedBadge } from "@/components/lab-results/UnmatchedBadge";
+import { UnclassifiedBadge } from "@/components/lab-results/UnclassifiedBadge";
 import { toast } from "sonner";
 
 const statusConfig = {
@@ -249,9 +250,11 @@ export default function LabResultBatchDetailPage() {
                         <TableCell className="font-medium">
                           <div className="flex flex-wrap items-center gap-2">
                             <span>{examName}</span>
-                            {result.matched === false && (
+                            {result.matched === false ? (
                               <UnmatchedBadge reason={result.matchReason} />
-                            )}
+                            ) : (result.level === undefined || result.level === null) ? (
+                              <UnclassifiedBadge reason={result.classifyReason} />
+                            ) : null}
                           </div>
                         </TableCell>
                         <TableCell className="text-sm text-muted-foreground">

@@ -10,7 +10,10 @@ import {
   Search,
   Plus,
   Edit,
+  Eye,
+  FileText,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -33,7 +36,7 @@ import { useRequireAuth } from "@/lib/use-auth";
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
 import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
 import { PageHeader } from "@/components/layout/page-header";
-import { labResultBatchApi } from "@/lib/api/lab-result-batch-api";
+import { labResultBatchApi, openLabBatchPDF } from "@/lib/api/lab-result-batch-api";
 import { labResultViewApi } from "@/lib/api/lab-result-view-api";
 import { useLabResultViewPreference } from "@/hooks/useLabResultViewPreference";
 import { UnclassifiedResultsAlert } from "@/components/lab-results/UnclassifiedResultsAlert";
@@ -245,6 +248,18 @@ export default function LabResultsPage() {
     router.push(`/lab-results/${batchId}/edit`);
   };
 
+  // Abre a tela de detalhe do lote (resultados, status/motivos, Ver PDF)
+  const handleViewBatch = (batchId: string) => {
+    router.push(`/lab-results/${batchId}`);
+  };
+
+  // Abre o PDF original do laudo numa nova aba
+  const handleViewPDF = (batchId: string) => {
+    openLabBatchPDF(batchId).catch(() =>
+      toast.error("Não foi possível abrir o PDF original deste laudo"),
+    );
+  };
+
 
   return (
     <div className="container mx-auto py-8 space-y-8">
@@ -370,7 +385,9 @@ export default function LabResultsPage() {
                                 <ContextMenu>
                                   <ContextMenuTrigger asChild>
                                     <div
-                                      className={`cursor-context-menu p-2 rounded hover:opacity-80 text-center transition-opacity ${getLevelColor(
+                                      onClick={() => handleViewBatch(cell.batchId)}
+                                      title="Clique para ver o lote · botão direito para mais ações"
+                                      className={`cursor-pointer p-2 rounded hover:opacity-80 text-center transition-opacity ${getLevelColor(
                                         cell.level
                                       )}`}
                                     >
@@ -385,6 +402,18 @@ export default function LabResultsPage() {
                                     </div>
                                   </ContextMenuTrigger>
                                   <ContextMenuContent>
+                                    <ContextMenuItem
+                                      onClick={() => handleViewBatch(cell.batchId)}
+                                    >
+                                      <Eye className="h-4 w-4 mr-2" />
+                                      Ver detalhes do lote
+                                    </ContextMenuItem>
+                                    <ContextMenuItem
+                                      onClick={() => handleViewPDF(cell.batchId)}
+                                    >
+                                      <FileText className="h-4 w-4 mr-2" />
+                                      Ver PDF do laudo
+                                    </ContextMenuItem>
                                     <ContextMenuItem
                                       onClick={() =>
                                         handleEditBatch(cell.batchId)

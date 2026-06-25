@@ -1,18 +1,19 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRequireAuth } from "@/lib/use-auth";
 import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
 import { SelectedPatientHeader } from "@/components/patients/SelectedPatientHeader";
 import { PageHeader } from "@/components/layout/page-header";
-import { labResultBatchApi } from "@/lib/api/lab-result-batch-api";
+import { labResultBatchApi, openLabBatchPDF } from "@/lib/api/lab-result-batch-api";
 import { apiToFormValues } from "@/lib/validations/lab-result-batch";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, FileText } from "lucide-react";
 
 const LabResultBatchForm = dynamic(
   () =>
@@ -35,6 +36,7 @@ export default function EditLabResultBatchPage() {
   useRequireAuth();
   useRequireSelectedPatient();
   const params = useParams();
+  const router = useRouter();
   const batchId = params.id as string;
   const [focusLabResultId, setFocusLabResultId] = useState<string | null>(null);
 
@@ -99,6 +101,27 @@ export default function EditLabResultBatchPage() {
         ]}
         title="Editar Lote de Resultados"
         description={`Editando lote: ${batch.laboratoryName}`}
+        actions={[
+          {
+            label: "Ver detalhes",
+            icon: <Eye className="h-4 w-4" />,
+            onClick: () => router.push(`/lab-results/${batchId}`),
+            variant: "outline" as const,
+          },
+          ...((batch as any).hasPdf
+            ? [
+                {
+                  label: "Ver PDF",
+                  icon: <FileText className="h-4 w-4" />,
+                  onClick: () =>
+                    openLabBatchPDF(batchId).catch(() =>
+                      toast.error("Não foi possível abrir o PDF original"),
+                    ),
+                  variant: "outline" as const,
+                },
+              ]
+            : []),
+        ]}
       />
 
       <LabResultBatchForm

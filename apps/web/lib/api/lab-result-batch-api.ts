@@ -13,6 +13,9 @@ export interface LabResultBatchResponse {
   observations?: string
   attachments?: string
   resultCount: number
+  isCritical?: boolean
+  worstLevel?: number
+  hasPdf?: boolean // tem PDF original para baixar
   createdAt: string
   updatedAt: string
 }
@@ -40,6 +43,7 @@ export interface LabResultInBatchResponse {
   matched: boolean // casou com o catálogo
   source: string // "pdf" | "manual"
   matchReason?: string // por que não casou
+  classifyReason?: string // por que não recebeu nível
   createdAt: string
   updatedAt: string
 }

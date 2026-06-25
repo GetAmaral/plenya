@@ -76,6 +76,7 @@ type LabResultBatchResponse struct {
 	IsCritical         bool                        `json:"isCritical"`
 	WorstLevel         *int                        `json:"worstLevel,omitempty"`
 	ReviewedAt         *string                     `json:"reviewedAt,omitempty"`
+	HasPDF             bool                        `json:"hasPdf"` // tem PDF original p/ baixar
 	CreatedAt          string                      `json:"createdAt"`
 	UpdatedAt          string                      `json:"updatedAt"`
 }
@@ -149,9 +150,10 @@ type LabResultInBatchResponse struct {
 	UnitOriginal          *string                    `json:"unitOriginal,omitempty"`          // Unidade ORIGINAL
 	Interpretation        *string                    `json:"interpretation,omitempty"`
 	Level                 *int                       `json:"level,omitempty"`
-	Matched               bool                       `json:"matched"`               // casou com o catálogo
-	Source                string                     `json:"source"`                // "pdf" | "manual"
-	MatchReason           *string                    `json:"matchReason,omitempty"` // por que não casou
+	Matched               bool                       `json:"matched"`                  // casou com o catálogo
+	Source                string                     `json:"source"`                   // "pdf" | "manual"
+	MatchReason           *string                    `json:"matchReason,omitempty"`    // por que não casou
+	ClassifyReason        *string                    `json:"classifyReason,omitempty"` // por que não recebeu nível
 	CreatedAt             string                     `json:"createdAt"`
 	UpdatedAt             string                     `json:"updatedAt"`
 }

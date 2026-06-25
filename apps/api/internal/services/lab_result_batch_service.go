@@ -725,6 +725,11 @@ func (s *LabResultBatchService) toResponse(batch *models.LabResultBatch) dto.Lab
 		reviewedAt = &date
 	}
 
+	var pdfJobs int64
+	s.db.Model(&models.ProcessingJob{}).
+		Where("lab_result_batch_id = ? AND pdf_path <> ''", batch.ID).
+		Count(&pdfJobs)
+
 	return dto.LabResultBatchResponse{
 		ID:                 batch.ID.String(),
 		PatientID:          batch.PatientID.String(),
@@ -741,6 +746,7 @@ func (s *LabResultBatchService) toResponse(batch *models.LabResultBatch) dto.Lab
 		IsCritical:         batch.IsCritical,
 		WorstLevel:         batch.WorstLevel,
 		ReviewedAt:         reviewedAt,
+		HasPDF:             pdfJobs > 0,
 		CreatedAt:          batch.CreatedAt.Format(time.RFC3339),
 		UpdatedAt:          batch.UpdatedAt.Format(time.RFC3339),
 	}
@@ -753,11 +759,6 @@ func (s *LabResultBatchService) toDetailResponse(batch *models.LabResultBatch) *
 	for i, result := range batch.LabResults {
 		results[i] = *s.toLabResultResponse(&result)
 	}
-
-	var pdfJobs int64
-	s.db.Model(&models.ProcessingJob{}).
-		Where("lab_result_batch_id = ? AND pdf_path <> ''", batch.ID).
-		Count(&pdfJobs)
 
 	return &dto.LabResultBatchDetailResponse{
 		ID:                 baseResp.ID,
@@ -775,7 +776,7 @@ func (s *LabResultBatchService) toDetailResponse(batch *models.LabResultBatch) *
 		IsCritical:         baseResp.IsCritical,
 		WorstLevel:         baseResp.WorstLevel,
 		ReviewedAt:         baseResp.ReviewedAt,
-		HasPDF:             pdfJobs > 0,
+		HasPDF:             baseResp.HasPDF,
 		LabResults:         results,
 		CreatedAt:          baseResp.CreatedAt,
 		UpdatedAt:          baseResp.UpdatedAt,
@@ -853,6 +854,7 @@ func (s *LabResultBatchService) toLabResultResponse(result *models.LabResult) *d
 		Matched:               result.Matched,
 		Source:                result.Source,
 		MatchReason:           result.MatchReason,
+		ClassifyReason:        result.ClassifyReason,
 		CreatedAt:             result.CreatedAt.Format(time.RFC3339),
 		UpdatedAt:             result.UpdatedAt.Format(time.RFC3339),
 	}
@@ -886,82 +888,72 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 		return err
 	}
 
-	// 3. Para cada LabResult
+	// 3. Para cada LabResult: define o nível quando classificável; senão, registra o MOTIVO.
 	for i := range batch.LabResults {
 		result := &batch.LabResults[i]
 
-		// Se não tiver LabTestDefinitionID, skip
-		if result.LabTestDefinitionID == nil {
-			continue
-		}
+		var levelToSet *int
+		var reason *string
+		setReason := func(r string) { rr := r; reason = &rr }
 
-		// Se não tiver ResultNumeric, skip (não há como classificar)
-		if result.ResultNumeric == nil {
-			continue
-		}
-
-		// Buscar LabTestDefinition se não estiver preloaded
-		if result.LabTestDefinition == nil {
-			var labTestDef models.LabTestDefinition
-			if err := s.db.First(&labTestDef, *result.LabTestDefinitionID).Error; err != nil {
-				// Log error mas não falha - continua para próximo result
-				continue
-			}
-			result.LabTestDefinition = &labTestDef
-		}
-
-		// 4. Buscar ScoreItems relacionados ao LabTestDefinition.Code
-		var scoreItems []models.ScoreItem
-		if err := s.db.
-			Preload("Levels", func(db *gorm.DB) *gorm.DB {
-				return db.Order("level ASC") // Ordenar por level (0-5)
-			}).
-			Where("lab_test_code = ?", result.LabTestDefinition.Code).
-			Find(&scoreItems).Error; err != nil {
-			// Log error mas não falha
-			continue
-		}
-
-		if len(scoreItems) == 0 {
-			// Nenhum ScoreItem configurado para este exame - skip
-			continue
-		}
-
-		// 5. Filtrar ScoreItems por patient (gender, age, menopause)
-		var applicableItems []models.ScoreItem
-		for _, item := range scoreItems {
-			if item.AppliesToPatient(&patient) {
-				applicableItems = append(applicableItems, item)
-			}
-		}
-
-		if len(applicableItems) == 0 {
-			// Nenhum ScoreItem se aplica a este paciente - skip
-			continue
-		}
-
-		// Se sobrar mais de 1, pegar o primeiro (já filtrado)
-		selectedItem := applicableItems[0]
-
-		// 6. Avaliar níveis (0-5) até encontrar o que satisfaz
-		foundLevel := false
-		for _, level := range selectedItem.Levels {
-			if level.EvaluatesTrue(*result.ResultNumeric) {
-				// Encontrou o nível! Salvar no LabResult
-				result.Level = &level.Level
-				if err := s.db.Model(result).Update("level", level.Level).Error; err != nil {
-					// Log error mas não falha
-					continue
+		switch {
+		case result.LabTestDefinitionID == nil:
+			setReason("Exame não catalogado no sistema")
+		case result.ResultNumeric == nil:
+			setReason("Resultado não numérico (qualitativo/texto)")
+		default:
+			if result.LabTestDefinition == nil {
+				var def models.LabTestDefinition
+				if err := s.db.First(&def, *result.LabTestDefinitionID).Error; err == nil {
+					result.LabTestDefinition = &def
 				}
-				foundLevel = true
+			}
+			if result.LabTestDefinition == nil {
+				setReason("Definição do exame indisponível")
 				break
 			}
+
+			var scoreItems []models.ScoreItem
+			s.db.Preload("Levels", func(db *gorm.DB) *gorm.DB {
+				return db.Order("level ASC")
+			}).Where("lab_test_code = ?", result.LabTestDefinition.Code).Find(&scoreItems)
+
+			if len(scoreItems) == 0 {
+				setReason("Exame não entra no escore (sem item de score configurado)")
+				break
+			}
+
+			var applicable []models.ScoreItem
+			for _, it := range scoreItems {
+				if it.AppliesToPatient(&patient) {
+					applicable = append(applicable, it)
+				}
+			}
+			if len(applicable) == 0 {
+				setReason("Não se aplica a este paciente (sexo/idade/menopausa)")
+				break
+			}
+
+			for _, lvl := range applicable[0].Levels {
+				if lvl.EvaluatesTrue(*result.ResultNumeric) {
+					l := lvl.Level
+					levelToSet = &l
+					break
+				}
+			}
+			if levelToSet == nil {
+				setReason("Valor fora das faixas de classificação configuradas")
+			}
 		}
 
-		// 7. Se nenhum nível satisfez, warning (erro de logística dos níveis)
-		if !foundLevel && len(selectedItem.Levels) > 0 {
-			// TODO: Log warning - nenhum level satisfez o valor (erro de configuração)
-			// Por ora, deixar Level como nil (não forçar 0)
+		// Persiste level + classify_reason juntos (map garante gravar NULL quando nil).
+		result.Level = levelToSet
+		result.ClassifyReason = reason
+		if err := s.db.Model(result).Updates(map[string]interface{}{
+			"level":           levelToSet,
+			"classify_reason": reason,
+		}).Error; err != nil {
+			continue // best-effort
 		}
 	}
 

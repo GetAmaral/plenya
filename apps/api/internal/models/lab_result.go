@@ -59,6 +59,11 @@ type LabResult struct {
 	// de exames"). NULL quando casou. Usado para mostrar ao usuário por que ficou de fora.
 	MatchReason *string `gorm:"type:text" json:"matchReason,omitempty"`
 
+	// Motivo quando o exame NÃO recebeu nível de classificação (Level nulo): sem item de
+	// score, não se aplica ao paciente, valor fora das faixas, não numérico, etc. NULL
+	// quando classificado. Eixo diferente de MatchReason (catálogo vs score).
+	ClassifyReason *string `gorm:"type:text" json:"classifyReason,omitempty"`
+
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 
