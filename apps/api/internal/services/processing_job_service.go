@@ -208,6 +208,16 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 		fmt.Printf("✅ [Job %s] Created %d matched + %d unmatched lab results\n", job.ID, matchedCount, unmatchedCount)
 	}
 
+	// Step 7: Classificar automaticamente (atribui Level 0-5 + criticidade via ScoreItems).
+	// Sem isso, o lote importava mas ficava "não classificado" até o usuário clicar em
+	// "Classificar" manualmente. Best-effort: não falha o job se a classificação falhar.
+	s.updateProgress(job, models.StepSavingResults, "Classificando resultados")
+	if err := s.labResultBatchService.ClassifyBatchResults(job.LabResultBatchID); err != nil {
+		fmt.Printf("⚠️  [Job %s] Classify failed: %v\n", job.ID, err)
+	} else {
+		fmt.Printf("✅ [Job %s] Results classified\n", job.ID)
+	}
+
 	fmt.Printf("✅ [Job %s] Processing completed successfully\n", job.ID)
 	return nil
 }
