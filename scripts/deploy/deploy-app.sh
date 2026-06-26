@@ -29,6 +29,18 @@ ssh plenya "sudo docker exec coolify-db psql -U coolify -d coolify -c \"UPDATE a
 OLD=$(ssh plenya "sudo docker ps --format '{{.Names}}' | grep '^${PREFIX}' || true")
 echo "==> container atual: ${OLD:-(nenhum)}"
 
+# Guard de RAM: o build do web (Next/Turbopack) é faminto de memória; num box de 8GB com os
+# containers rodando, começar sem folga leva a OOM/thrash que derruba o HOST inteiro (ssh+HTTP
+# fora). Abortar antes é mais barato que recuperar. Override: DEPLOY_SKIP_RAM_CHECK=1.
+MIN_MB=1500; [ "$APP" = "web" ] && MIN_MB=2800
+AVAIL_MB=$(ssh plenya "awk '/MemAvailable/{print int(\$2/1024)}' /proc/meminfo" 2>/dev/null || echo 0)
+echo "==> RAM disponível na VPS: ${AVAIL_MB}MB (mínimo p/ ${APP}: ${MIN_MB}MB)"
+if [ "${DEPLOY_SKIP_RAM_CHECK:-0}" != "1" ] && [ "$AVAIL_MB" -lt "$MIN_MB" ]; then
+  echo "ABORTADO: pouca RAM livre na VPS — risco de OOM no build derrubar o host." >&2
+  echo "          Libere memória (ou espere) e tente de novo; ou force com DEPLOY_SKIP_RAM_CHECK=1." >&2
+  exit 3
+fi
+
 echo "==> dispara deploy de plenya-${APP} ($UUID)"
 curl -sS "https://coolify.plenyasaude.com.br/api/v1/deploy?uuid=${UUID}&force=true" \
   -H "Authorization: Bearer $TOKEN"; echo
