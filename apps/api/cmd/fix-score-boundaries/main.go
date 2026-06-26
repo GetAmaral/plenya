@@ -78,8 +78,32 @@ func main() {
 	}
 	var changes []change
 
+	// Itens RE-ESTRUTURADOS à mão (decisões em docs/emr/score-faixas-decisoes.md) — o tool
+	// não toca neles. Os com nível '=' (discretas/qualitativas/dead-= manuais) são pulados abaixo.
+	manualSkip := map[string]bool{
+		"RDW": true, "Homocisteína": true, "Tempo de sono": true,
+		"Consumo de Calorias (profissional calcula com base na taxa metabólica + atividades)": true,
+		"Hora de acordar": true, "Hora de dormir": true,
+		"Regularidade no acordar": true, "Regularidade no dormir": true,
+	}
+
 	for _, key := range order {
 		bands := byItem[key]
+		// Pula itens decididos à mão e itens com nível '=' (escalas discretas tipo digit span,
+		// qualitativos, e os '=' numéricos já tratados manualmente) — não levam ajuste de fronteira.
+		if manualSkip[key] {
+			continue
+		}
+		hasEq := false
+		for _, r := range bands {
+			if r.Operator == "=" {
+				hasEq = true
+				break
+			}
+		}
+		if hasEq {
+			continue
+		}
 		// considera só operadores numéricos com limites parseáveis
 		type b struct {
 			r        *row
@@ -187,11 +211,18 @@ func main() {
 	if *apply {
 		mode = "APLICADO"
 	}
-	fmt.Printf("== %s ==\nuppers ajustados: %d | operadores de extremo trocados: %d\n\n", mode, upper, ops)
-	fmt.Println("Amostra — 25-hidroxivitamina D:")
+	chItems := map[string]bool{}
 	for _, c := range changes {
-		if c.name == "25-hidroxivitamina D" {
-			fmt.Printf("   [%s] %s → %s\n", c.what, c.before, c.after)
+		chItems[c.name] = true
+	}
+	fmt.Printf("== %s ==\nuppers ajustados: %d | operadores de extremo trocados: %d | itens alterados: %d\n",
+		mode, upper, ops, len(chItems))
+	for _, name := range []string{"LDL Colesterol", "Anti-TPO", "Albumina"} {
+		fmt.Printf("\n%s:\n", name)
+		for _, c := range changes {
+			if c.name == name {
+				fmt.Printf("   [%s] %s → %s\n", c.what, c.before, c.after)
+			}
 		}
 	}
 }
