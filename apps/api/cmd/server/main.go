@@ -463,6 +463,8 @@ func setupRoutes(
 	documentPDFService := services.NewDocumentPDFService()
 	issuedDocumentService := services.NewIssuedDocumentService(database.DB, documentPDFService, signatureService, patientDocumentsService, "/app/uploads")
 	issuedDocumentHandler := handlers.NewIssuedDocumentHandler(issuedDocumentService)
+	// Link público por documento (sem portal): token JWT escopado, serve o PDF inline. TTL 30 dias.
+	documentShareHandler := handlers.NewDocumentShareHandler(patientDocumentsService, cfg.MagicLink.Secret, 30*24*time.Hour)
 
 	// Plano de cuidado AGIR (P3 frente 3) + relatório longitudinal (3b) reusando go-rod + assinatura.
 	carePlanService := services.NewCarePlanService(database.DB)
@@ -743,6 +745,8 @@ func setupRoutes(
 	// Documentos clínicos (V2): staff faz upload, paciente baixa pelo portal
 	patients.Get("/:id/documents", patientPortalHandler.StaffListDocuments)
 	patients.Post("/:id/documents", middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse), patientPortalHandler.StaffUploadDocument)
+	// Gera link público por documento (pra enviar ao paciente, ex.: WhatsApp).
+	patients.Post("/:id/documents/:docId/share-link", middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse), documentShareHandler.Mint)
 	v1.Delete("/patient-documents/:id", middleware.Auth(cfg), middleware.RequireRole(models.RoleAdmin, models.RoleManager), patientPortalHandler.StaffDeleteDocument)
 
 	// Endpoints autenticados como paciente (minha.plenyasaude.com.br)
@@ -953,6 +957,8 @@ func setupRoutes(
 	v1.Get("/prescriptions/validate/:id", prescriptionHandler.ValidatePublic)
 	v1.Get("/lab-requests/validate/:id", labRequestHandler.ValidatePublic)
 	v1.Get("/documents/validate/:id", issuedDocumentHandler.ValidatePublic)
+	// Link público por documento (token JWT escopado) — serve o PDF inline, sem login.
+	v1.Get("/documents/shared/:token", documentShareHandler.Serve)
 
 	// Certificates routes (admin only)
 	adminCertificates := v1.Group("/admin/certificates")

@@ -266,6 +266,28 @@ func (s *PatientDocumentsService) GetForDownload(patientID, docID uuid.UUID) (*m
 	return &doc, full, nil
 }
 
+// GetForShare resolve um documento por ID (SEM escopo de paciente) — para o link público por
+// token, onde o próprio token (JWT assinado) já autoriza o acesso àquele documento específico.
+func (s *PatientDocumentsService) GetForShare(docID uuid.UUID) (*models.PatientDocument, string, error) {
+	var doc models.PatientDocument
+	if err := s.db.Where("id = ?", docID).First(&doc).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, "", errors.New("documento não encontrado")
+		}
+		return nil, "", err
+	}
+	full := filepath.Join(s.uploadsRoot, doc.FilePath)
+	abs, _ := filepath.Abs(full)
+	rootAbs, _ := filepath.Abs(s.uploadsRoot)
+	if abs != rootAbs && !strings.HasPrefix(abs, rootAbs+string(os.PathSeparator)) {
+		return nil, "", errors.New("caminho inválido")
+	}
+	if _, err := os.Stat(full); err != nil {
+		return nil, "", errors.New("arquivo não encontrado no storage")
+	}
+	return &doc, full, nil
+}
+
 // Delete remove doc + arquivo (uso staff).
 func (s *PatientDocumentsService) Delete(docID uuid.UUID) error {
 	var doc models.PatientDocument
