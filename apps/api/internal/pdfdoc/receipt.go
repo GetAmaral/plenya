@@ -17,51 +17,56 @@ type Receipt struct {
 	Clinic      Clinic // identidade FISCAL (razão social + CNPJ + endereço fiscal)
 }
 
-// RenderReceipt gera o PDF vetorial do recibo.
+// RenderReceipt gera o PDF do recibo pelo motor único. O recibo não leva selo do médico: a
+// assinatura é a linha da clínica (razão social + CNPJ) — passada como Signature do Doc.
 func RenderReceipt(in Receipt) ([]byte, error) {
 	if (in.Clinic == Clinic{}) {
 		in.Clinic = DefaultClinic()
 	}
 
-	// Cabeçalho + título com campo de valor sóbrio à direita (não um preço gigante).
-	top := headerHTML() +
-		`<div class="titlerow"><div class="title">Recibo</div>` +
-		`<div class="rcpt-head"><div class="rcpt-eyebrow">Recibo Nº ` + esc(in.Number) + `</div>` +
-		`<div class="rcpt-val">` + esc(in.AmountBRL) + `</div></div></div>` +
-		`<div class="title-rule"></div>`
+	// Valor sóbrio à direita do título (não um preço gigante).
+	titleRight := `<div class="rcpt-head"><div class="rcpt-eyebrow">Recibo Nº ` + esc(in.Number) + `</div>` +
+		`<div class="rcpt-val">` + esc(in.AmountBRL) + `</div></div>`
 
 	// Narrativa clássica do recibo, com valor por extenso.
 	amount := "<b>" + esc(in.AmountBRL) + "</b>"
 	if in.AmountWords != "" {
 		amount += " (" + esc(in.AmountWords) + ")"
 	}
-	body := "Recebemos de <b>" + esc(in.PayerName) + "</b> a importância de " + amount
+	narr := "Recebemos de <b>" + esc(in.PayerName) + "</b> a importância de " + amount
 	if in.Description != "" {
-		body += ", referente a " + esc(in.Description)
+		narr += ", referente a " + esc(in.Description)
 	}
 	if in.Method != "" {
-		body += ", paga via " + esc(in.Method)
+		narr += ", paga via " + esc(in.Method)
 	}
 	if in.PaidAt != "" {
-		body += " em " + esc(in.PaidAt)
+		narr += " em " + esc(in.PaidAt)
 	}
-	body += "."
-	top += `<div class="rcpt-body"><p>` + body + `</p>`
+	narr += "."
+
+	body := `<div class="rcpt-body"><p>` + narr + `</p>`
 	if in.Notes != "" {
-		top += `<p class="rcpt-notes">Observações: ` + esc(in.Notes) + `</p>`
+		body += `<p class="rcpt-notes">Observações: ` + esc(in.Notes) + `</p>`
 	}
-	top += `</div>`
+	body += `</div>`
 	if in.Refunded {
 		r := "Pagamento estornado"
 		if in.RefundNote != "" {
 			r += " — " + esc(in.RefundNote)
 		}
-		top += `<div class="rcpt-refund">` + r + `</div>`
+		body += `<div class="rcpt-refund">` + r + `</div>`
 	}
 
-	foot := `<div class="rcpt-sign"><div class="rcpt-date">` + esc(in.PlaceDate) + `.</div>` +
+	sign := `<div class="rcpt-sign"><div class="rcpt-date">` + esc(in.PlaceDate) + `.</div>` +
 		`<div class="rcpt-signline">` + esc(in.Clinic.LegalName) + `<br>` +
-		`<span class="rcpt-signsub">CNPJ ` + esc(in.Clinic.CNPJ) + `</span></div></div>` +
-		footerNAPHTML(in.Clinic)
-	return renderHTMLToPDF(documentHTML(pageHTML(top, foot)), a4Options())
+		`<span class="rcpt-signsub">CNPJ ` + esc(in.Clinic.CNPJ) + `</span></div></div>`
+
+	return renderDocument(Doc{
+		Title:      "Recibo",
+		TitleRight: titleRight,
+		Body:       body,
+		Signature:  sign,
+		Clinic:     in.Clinic,
+	})
 }

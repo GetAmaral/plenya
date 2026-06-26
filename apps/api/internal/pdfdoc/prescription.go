@@ -25,9 +25,9 @@ type Prescription struct {
 	Clinic              Clinic
 }
 
+// medsHTML — cada medicamento é um bloco .med independente (para paginar pelo motor único).
 func medsHTML(meds []Med) string {
 	var b strings.Builder
-	b.WriteString(`<div class="meds">`)
 	for i, m := range meds {
 		b.WriteString(`<div class="med"><div class="medhead">`)
 		b.WriteString(itoa(i + 1))
@@ -51,33 +51,31 @@ func medsHTML(meds []Med) string {
 		}
 		b.WriteString(`</div>`)
 	}
-	b.WriteString(`</div>`)
 	return b.String()
 }
 
-// RenderPrescription gera o PDF vetorial do Receituário.
+// RenderPrescription gera o PDF do Receituário pelo motor único.
 func RenderPrescription(in Prescription) ([]byte, error) {
 	if in.Title == "" {
 		in.Title = "Receituário"
 	}
-	if (in.Clinic == Clinic{}) {
-		in.Clinic = DefaultClinic()
-	}
-
-	top := headerHTML() + titleHTML(in.Title)
+	var body strings.Builder
 	if in.ControlLabel != "" {
-		top += `<div class="ctrltag">` + esc(in.ControlLabel) + `</div>`
+		body.WriteString(`<div class="ctrltag">` + esc(in.ControlLabel) + `</div>`)
 	}
-	top += patientHTML(in.Patient)
-	top += `<div class="sec"><span class="eyebrow">Prescrição</span>` + medsHTML(in.Meds) + `</div>`
+	body.WriteString(`<div class="sec"><span class="eyebrow">Prescrição</span></div>`)
+	body.WriteString(medsHTML(in.Meds))
 	if in.GeneralInstructions != "" {
-		top += `<div class="indic"><span class="eyebrow">Orientações gerais</span>` + esc(in.GeneralInstructions) + `</div>`
+		body.WriteString(`<div class="indic"><span class="eyebrow">Orientações gerais</span>` + esc(in.GeneralInstructions) + `</div>`)
 	}
 	if in.ValidUntil != "" {
-		top += `<div class="validity">Válida até <b>` + esc(in.ValidUntil) + `</b>.</div>`
+		body.WriteString(`<div class="validity">Válida até <b>` + esc(in.ValidUntil) + `</b>.</div>`)
 	}
-
-	foot := signatureHTML(in.Doctor, in.Signature) + footerNAPHTML(in.Clinic)
-	body := pageHTML(top, foot)
-	return renderHTMLToPDF(documentHTML(body), a4Options())
+	return renderDocument(Doc{
+		Title:     in.Title,
+		Patient:   &in.Patient,
+		Body:      body.String(),
+		Signature: signatureBlock(in.Doctor, in.Signature),
+		Clinic:    in.Clinic,
+	})
 }

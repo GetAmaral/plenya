@@ -84,14 +84,14 @@ func ExamPagesFromText(text string) [][]ExamItem {
 	return pages
 }
 
-// examPadding — espaçamento dinâmico: generoso com poucos exames, mínimo (1.5px) com 20+ na coluna.
-func examPadding(items []ExamItem) string {
+// examItemsHTML — cada exame é um bloco .exitem independente (paginado pelo motor único).
+// examPadding — espaçamento dinâmico por item: generoso com poucos exames, mínimo com 20+ na coluna.
+func examPadding(n int) string {
 	const minPad, maxPad = 1.5, 7.0
-	ctrl := len(items)
-	if ctrl > 20 {
-		ctrl = 20
+	if n > 20 {
+		n = 20
 	}
-	pad := minPad + (maxPad-minPad)*float64(20-ctrl)/19.0
+	pad := minPad + (maxPad-minPad)*float64(20-n)/19.0
 	if pad < minPad {
 		pad = minPad
 	}
@@ -101,56 +101,68 @@ func examPadding(items []ExamItem) string {
 	return strconv.FormatFloat(pad, 'f', 2, 64)
 }
 
+func examItemHTML(it ExamItem) string {
+	var b strings.Builder
+	b.WriteString(`<li class="exitem"><span class="bullet"></span><span class="exbody"><span class="exname">`)
+	b.WriteString(esc(it.Name))
+	if it.Tuss != "" {
+		b.WriteString(`<span class="extuss"> (` + esc(it.Tuss) + `)</span>`)
+	}
+	b.WriteString(`</span>`)
+	if it.Justification != "" {
+		b.WriteString(`<span class="exjust">` + strings.ReplaceAll(esc(it.Justification), "\n", "<br>") + `</span>`)
+	}
+	b.WriteString(`</span></li>`)
+	return b.String()
+}
+
 func examColHTML(items []ExamItem) string {
 	var b strings.Builder
 	b.WriteString(`<ul class="excol">`)
 	for _, it := range items {
-		b.WriteString(`<li class="exitem"><span class="bullet"></span><span class="exbody"><span class="exname">`)
-		b.WriteString(esc(it.Name))
-		if it.Tuss != "" {
-			b.WriteString(`<span class="extuss"> (` + esc(it.Tuss) + `)</span>`)
-		}
-		b.WriteString(`</span>`)
-		if it.Justification != "" {
-			b.WriteString(`<span class="exjust">` + strings.ReplaceAll(esc(it.Justification), "\n", "<br>") + `</span>`)
-		}
-		b.WriteString(`</span></li>`)
+		b.WriteString(examItemHTML(it))
 	}
 	b.WriteString(`</ul>`)
 	return b.String()
 }
 
-// examListHTML — ≤20 = 1 coluna; 21–40 = 2 colunas com 20 por coluna (preenche a 1ª até 20).
+// examListHTML — ≤20 exames numa página: 1 coluna; >20: 2 colunas balanceadas (mecanismo do EMR).
 func examListHTML(items []ExamItem) string {
-	pad := examPadding(items)
+	pad := examPadding(len(items))
 	var cols string
 	if len(items) <= 20 {
 		cols = examColHTML(items)
 	} else {
-		cols = examColHTML(items[:20]) + examColHTML(items[20:])
+		mid := (len(items) + 1) / 2
+		cols = examColHTML(items[:mid]) + examColHTML(items[mid:])
 	}
 	return `<div class="exwrap" style="--expad:` + pad + `px">` + cols + `</div>`
 }
 
-// RenderExamRequest gera o PDF vetorial da Solicitação de Exames.
+// RenderExamRequest gera o PDF da Solicitação de Exames pelo motor único.
 func RenderExamRequest(in ExamRequest) ([]byte, error) {
 	if in.Title == "" {
 		in.Title = "Solicitação de Exames"
 	}
-	if (in.Clinic == Clinic{}) {
-		in.Clinic = DefaultClinic()
-	}
-	if len(in.ExamPages) == 0 {
-		in.ExamPages = [][]ExamItem{{}}
-	}
-	indic := indicationHTML(in.Indication)
-	foot := signatureHTML(in.Doctor, in.Signature) + footerNAPHTML(in.Clinic)
-
+	// Grupos de ExamPages são quebras de página INTENCIONAIS (linha em branco no texto): cada grupo
+	// começa em página nova (ex.: laboratoriais × imagem). Preserva a separação original.
 	var body strings.Builder
-	for _, items := range in.ExamPages {
-		top := headerHTML() + titleHTML(in.Title) + patientHTML(in.Patient) + indic +
-			`<div class="sec"><span class="eyebrow">Exames solicitados</span>` + examListHTML(items) + `</div>`
-		body.WriteString(pageHTML(top, foot))
+	body.WriteString(indicationHTML(in.Indication))
+	for i, group := range in.ExamPages {
+		if len(group) == 0 {
+			continue
+		}
+		if i > 0 {
+			body.WriteString(`<div class="page-break"></div>`)
+		}
+		body.WriteString(`<div class="sec"><span class="eyebrow">Exames solicitados</span></div>`)
+		body.WriteString(examListHTML(group))
 	}
-	return renderHTMLToPDF(documentHTML(body.String()), a4Options())
+	return renderDocument(Doc{
+		Title:     in.Title,
+		Patient:   &in.Patient,
+		Body:      body.String(),
+		Signature: signatureBlock(in.Doctor, in.Signature),
+		Clinic:    in.Clinic,
+	})
 }

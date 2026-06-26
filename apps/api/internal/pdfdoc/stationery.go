@@ -173,25 +173,17 @@ html,body{ background:#fff; }
 .napcol.r{ text-align:right; }
 .napcol b{ display:block; color:var(--petrol); font-weight:700; font-size:9.5pt; margin-bottom:1px; }
 
-/* ---- Documento FLUÍDO (texto livre, multipágina): atestado/declaração/laudo/orientações ----
-   Usa <table> com thead/tfoot como cabeçalho/rodapé CORRENTES: o Chromium os repete no topo e no
-   pé de TODA página impressa e reserva o espaço deles, então o miolo (tbody) flui e quebra
-   sozinho — nunca corta a assinatura nem o rodapé (era o bug do modelo de página de altura fixa).
-   A marca d'água/claim ficam num .run-bg position:fixed (repete por página). */
-.run-bg{ position:fixed; inset:0; z-index:0; background:var(--cream); }
-.run-bg .wm{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.04; }
-.doc{ position:relative; z-index:1; width:100%; border-collapse:collapse; }
-.doc > thead > tr > td{ padding:19mm 20mm 0; }
-/* height age como min-height: em doc curto o miolo cresce e empurra o rodapé pro pé da página
-   (igual aos demais docs); em doc longo o conteúdo excede e pagina normalmente. */
-.doc > tbody > tr > td{ padding:7mm 20mm 7mm; vertical-align:top; height:218mm; }
-.doc > tfoot > tr > td{ padding:0 20mm 13mm; }
-.doc .titleblock{ margin-top:0; }
-.doc .docbody{ max-width:none; }
-.doc .indic{ max-width:none; }
-/* assinatura: bloco indivisível; se não couber, o Chromium a joga pra próxima página inteira. */
-.doc .sig-block{ break-inside:avoid; margin-top:26px; }
-.doc .foot{ margin-top:0; }
+/* ---- Documento FLUÍDO (atestado/declaração/laudo/orientações): PAGINAÇÃO REAL em caixas .page.
+   O paginador (paginateIssuedDoc, em Go/JS) mede cada bloco e os distribui em páginas A4 fixas,
+   reusando o modelo .page/.frame/.foot dos demais PDFs: cabeçalho no topo, miolo, e rodapé preso
+   ao PÉ por margin-top:auto. Como cada página é uma caixa de altura fixa e o conteúdo é empacotado
+   pra caber, o rodapé fica SEMPRE colado no pé (inclusive na última página, mesmo curta).
+   .src é a fonte medida fora da tela; .pagebody é o miolo de cada página. */
+.src{ position:absolute; left:-9999px; top:0; width:170mm; }
+.docbody{ max-width:none; }
+.indic{ max-width:none; }
+.pagebody .docbody{ margin-top:14px; }
+.foot .sig-block{ margin-bottom:13px; }
 `
 
 // ---- Blocos compartilhados ----
@@ -204,23 +196,6 @@ func headerHTML() string {
 		`<div class="lk">` + imgSVG("wordmark-petrol.svg", "word") +
 		`<div class="tag">Saúde, Performance &amp; Longevidade</div></div>` +
 		`</div><div class="rule-gold"></div>`
-}
-
-func titleHTML(title string) string {
-	return `<div class="titleblock"><div class="titlerow"><div class="title">` + esc(title) +
-		`</div></div><div class="title-rule"></div></div>`
-}
-
-// titleKindHTML — título com tarja de categoria acima (atestado/declaração/…).
-// O título do documento é o destaque; a categoria é a tarja menor.
-func titleKindHTML(kind, title string) string {
-	k := ""
-	if strings.TrimSpace(kind) != "" {
-		k = `<div class="title-kind">` + esc(kind) + `</div>`
-	}
-	return `<div class="titleblock">` + k +
-		`<div class="titlerow"><div class="title">` + esc(title) + `</div></div>` +
-		`<div class="title-rule"></div></div>`
 }
 
 func patientHTML(p Patient) string {
@@ -256,6 +231,11 @@ func footerNAPHTML(c Clinic) string {
 		`</div>`
 }
 
+// signatureBlock — assinatura embrulhada no .sig-block (espaçamento padrão acima da NAP).
+func signatureBlock(d Doctor, s Signature) string {
+	return `<div class="sig-block">` + signatureHTML(d, s) + `</div>`
+}
+
 // signatureHTML — selo ICP-Brasil (digital) ou carimbo manual.
 func signatureHTML(d Doctor, s Signature) string {
 	if !s.Digital {
@@ -278,15 +258,11 @@ func signatureHTML(d Doctor, s Signature) string {
 		`</div>`
 }
 
-// pageHTML monta uma folha completa: marca d'água + frame(topo + rodapé).
-func pageHTML(top, foot string) string {
-	return `<div class="page">` + imgSVG("pattern.svg", "wm") +
-		`<div class="claim-v">` + esc(claimText) + `</div>` +
-		`<div class="frame">` + top + `<div class="foot">` + foot + `</div></div></div>`
+// documentHTMLCSS embrulha o conteúdo no HTML final com fontes + CSS base + CSS específico do
+// documento (extra). documentHTML é o atalho sem CSS extra.
+func documentHTMLCSS(content, extra string) string {
+	return `<!doctype html><html><head><meta charset="utf-8"><style>` +
+		fontFaces() + baseCSS + extra + `</style></head><body>` + content + `</body></html>`
 }
 
-// documentHTML embrulha as páginas no HTML final com fontes + CSS.
-func documentHTML(pages string) string {
-	return `<!doctype html><html><head><meta charset="utf-8"><style>` +
-		fontFaces() + baseCSS + `</style></head><body>` + pages + `</body></html>`
-}
+func documentHTML(content string) string { return documentHTMLCSS(content, "") }

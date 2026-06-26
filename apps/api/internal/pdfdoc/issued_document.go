@@ -43,38 +43,25 @@ func bodyHTML(body string) string {
 	return b.String()
 }
 
-// RenderIssuedDocument gera o PDF vetorial de atestado/declaração/laudo/orientações.
+// RenderIssuedDocument gera o PDF de atestado/declaração/laudo/orientações pelo motor único.
 func RenderIssuedDocument(in IssuedDoc) ([]byte, error) {
 	if in.Title == "" {
 		in.Title = "Documento"
-	}
-	if (in.Clinic == Clinic{}) {
-		in.Clinic = DefaultClinic()
 	}
 	// Corpo: rich-text sanitizado tem prioridade; senão, texto puro com parágrafos.
 	body := bodyHTML(in.Body)
 	if strings.TrimSpace(in.BodyHTML) != "" {
 		body = `<div class="docbody">` + in.BodyHTML + `</div>`
 	}
-	main := titleKindHTML(in.Kind, in.Title) + patientHTML(in.Patient) + body
 	if in.CID != "" {
-		main += `<div class="doccid">` + esc(in.CID) + `</div>`
+		body += `<div class="doccid">` + esc(in.CID) + `</div>`
 	}
-	// A assinatura é um bloco indivisível (break-inside:avoid): flui após o corpo e,
-	// se não couber, abre nova página — em vez de ser cortada como no modelo antigo.
-	main += `<div class="sig-block">` + signatureHTML(in.Doctor, in.Signature) + `</div>`
-	return renderHTMLToPDF(documentHTML(flowDocHTML(headerHTML(), main, footerNAPHTML(in.Clinic))), a4Options())
-}
-
-// flowDocHTML monta um documento de texto livre que pagina sozinho: cabeçalho corrente (thead)
-// e rodapé NAP corrente (tfoot) repetidos em toda página pelo Chromium, miolo fluido no tbody,
-// e marca d'água/claim em camada fixa repetida por página.
-func flowDocHTML(header, main, footer string) string {
-	bg := `<div class="run-bg">` + imgSVG("pattern.svg", "wm") +
-		`<div class="claim-v">` + esc(claimText) + `</div></div>`
-	return bg + `<table class="doc">` +
-		`<thead><tr><td>` + header + `</td></tr></thead>` +
-		`<tfoot><tr><td>` + footer + `</td></tr></tfoot>` +
-		`<tbody><tr><td>` + main + `</td></tr></tbody>` +
-		`</table>`
+	return renderDocument(Doc{
+		Kind:      in.Kind,
+		Title:     in.Title,
+		Patient:   &in.Patient,
+		Body:      body,
+		Signature: signatureBlock(in.Doctor, in.Signature),
+		Clinic:    in.Clinic,
+	})
 }

@@ -107,7 +107,14 @@ func RenderHTML(html string, opts *proto.PagePrintToPDF) ([]byte, error) {
 
 // renderHTMLToPDF converte HTML autossuficiente (fontes/SVGs embutidos via data-URI/inline)
 // em bytes de PDF vetorial usando Chromium headless. Serializado e com timeout duro.
-func renderHTMLToPDF(html string, opts *proto.PagePrintToPDF) (result []byte, err error) {
+func renderHTMLToPDF(html string, opts *proto.PagePrintToPDF) ([]byte, error) {
+	return renderHTMLToPDFHook(html, opts, nil)
+}
+
+// renderHTMLToPDFHook é o núcleo: opcionalmente roda beforePrint (manipula o DOM após o load e
+// antes de gerar o PDF) — usado pelos documentos fluídos pra ancorar a assinatura no pé da última
+// página depois de saber quantas páginas o documento tem.
+func renderHTMLToPDFHook(html string, opts *proto.PagePrintToPDF, beforePrint func(*rod.Page) error) (result []byte, err error) {
 	browserMu.Lock()
 	defer browserMu.Unlock()
 
@@ -157,6 +164,12 @@ func renderHTMLToPDF(html string, opts *proto.PagePrintToPDF) (result []byte, er
 	}
 	if err := page.WaitLoad(); err != nil {
 		return nil, fmt.Errorf("wait load: %w", err)
+	}
+
+	if beforePrint != nil {
+		if err := beforePrint(page); err != nil {
+			return nil, fmt.Errorf("before print: %w", err)
+		}
 	}
 
 	stream, err := page.PDF(opts)

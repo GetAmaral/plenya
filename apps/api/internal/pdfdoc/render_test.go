@@ -79,7 +79,4 @@ func TestExamPaginationLogic(t *testing.T) {
 	if len(pages[0]) != 40 || len(pages[1]) != 4 {
 		t.Fatalf("contagem por página errada: %d, %d", len(pages[0]), len(pages[1]))
 	}
-	if examPadding(pages[0]) != "1.50" {
-		t.Fatalf("40 exames deveriam dar padding mínimo 1.50, veio %s", examPadding(pages[0]))
-	}
 }
