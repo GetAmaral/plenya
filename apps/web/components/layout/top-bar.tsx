@@ -21,6 +21,12 @@ import dynamic from "next/dynamic";
 
 const DEV_BYPASS_AUTH = process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === "true";
 
+// Sininho de notificações desativado por ora (decisão do usuário, 2026-06): juntava
+// e-mail + WhatsApp e confundia com o dock de WhatsApp. Mantido no código (inativo,
+// escondido) pra reativar depois. E-mail vira só badge no navbar; WhatsApp fica no
+// dock (canto inf. direito) + push PWA.
+const SHOW_NOTIFICATION_BELL = false;
+
 const NotificationBell = dynamic(
   () =>
     import("@/components/notifications/NotificationBell").then(
@@ -233,7 +239,7 @@ export function TopBar() {
       {/* Right: processing + notifications + avatar */}
       <div className="flex items-center gap-2 ml-auto">
         <ProcessingIndicator />
-        <NotificationBell />
+        {SHOW_NOTIFICATION_BELL && <NotificationBell />}
         <UserMenu />
       </div>
     </div>

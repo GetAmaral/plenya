@@ -144,6 +144,11 @@ func (s *NotificationService) CreateLeadNotification(
 	notifType models.NotificationType,
 	title, message, actionURL string,
 ) error {
+	// E-mails inbound não geram mais notificação (in-app nem push): o aviso fica só
+	// no badge de não-lidas do link "E-mails" no navbar. Decisão do usuário (2026-06).
+	if notifType == models.NotificationLeadEmailInbound {
+		return nil
+	}
 	actionText := "Abrir lead"
 	notification := &models.Notification{
 		UserID:     userID,
@@ -177,6 +182,11 @@ func (s *NotificationService) CreateConversationNotification(
 	notifType models.NotificationType,
 	title, message, actionURL string,
 ) error {
+	// E-mails inbound não geram mais notificação (in-app nem push): só o badge de
+	// não-lidas do link "E-mails" no navbar. WhatsApp segue notificando. (2026-06)
+	if notifType == models.NotificationLeadEmailInbound {
+		return nil
+	}
 	actionText := "Abrir conversa"
 
 	// Dedupe por contato+canal: em vez de uma notificação por mensagem (que empilha sem fim),
