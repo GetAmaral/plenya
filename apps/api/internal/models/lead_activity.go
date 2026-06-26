@@ -73,6 +73,11 @@ type LeadActivity struct {
 	// Conteúdo livre — corpo da mensagem, nota, descrição da mudança
 	Content *string `gorm:"type:text" json:"content,omitempty"`
 
+	// ContentHTML — corpo HTML original (e-mail). Content guarda o texto plano
+	// (preview/busca/IA); ContentHTML guarda o HTML pra renderização fiel no viewer
+	// (iframe sandbox + sanitização no front). Cifrado igual a Content (mesmo canal).
+	ContentHTML *string `gorm:"type:text;column:content_html" json:"contentHtml,omitempty"`
+
 	// Metadados estruturados (ex: { "template": "magic_link", "wa_message_id": "wamid.X..." })
 	Metadata datatypes.JSON `gorm:"type:jsonb" json:"metadata,omitempty"`
 
@@ -141,6 +146,9 @@ func (a *LeadActivity) BeforeSave(tx *gorm.DB) error {
 		if err := encryptField(&a.Content); err != nil {
 			return err
 		}
+		if err := encryptField(&a.ContentHTML); err != nil {
+			return err
+		}
 		if err := encryptField(&a.Transcription); err != nil {
 			return err
 		}
@@ -176,6 +184,7 @@ func (a *LeadActivity) AfterFind(tx *gorm.DB) error {
 	// Falha silenciosa por campo: conteúdo plain antigo (pré-criptografia) ou
 	// corrupção não devem crashar a query — loga e mantém o valor cru.
 	decryptField(&a.Content, tx, a.ID, "content")
+	decryptField(&a.ContentHTML, tx, a.ID, "content_html")
 	decryptField(&a.Transcription, tx, a.ID, "transcription")
 	return nil
 }

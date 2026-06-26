@@ -163,7 +163,9 @@ export default function LeadDetailPage({ params }: { params: Promise<{ id: strin
             {lead.message && (
               <div className="sm:col-span-2">
                 <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Primeira mensagem</div>
-                <p className="mt-1 whitespace-pre-wrap text-sm">{lead.message}</p>
+                {/* wrap-break-word: corpo de e-mail traz URLs longas que estouravam a
+                    largura no mobile (whitespace-pre-wrap sozinho não quebra palavra). */}
+                <p className="mt-1 max-h-72 overflow-y-auto whitespace-pre-wrap wrap-break-word rounded-md bg-muted/40 p-3 text-sm">{lead.message}</p>
               </div>
             )}
             {lead.metadata && Object.keys(lead.metadata).length > 0 && (

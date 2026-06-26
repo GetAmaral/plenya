@@ -49,6 +49,7 @@ import {
 } from '@/lib/api/conversations-api';
 import { ConversationComposer } from './conversation-composer';
 import { AutomationToggle } from './automation-toggle';
+import { EmailHtmlView } from './email-html-view';
 import { DossierPanel } from './dossier-panel';
 
 type Props = {
@@ -469,7 +470,9 @@ function MessageBubble({
         {subject && msg.channel === 'email' && (
           <p className="mb-1 text-xs font-semibold text-foreground/90 wrap-break-word">{subject}</p>
         )}
-        {msg.content?.trim() ? (
+        {msg.channel === 'email' && msg.contentHtml?.trim() ? (
+          <EmailHtmlView html={msg.contentHtml} className="mt-1" />
+        ) : msg.content?.trim() ? (
           <p className="whitespace-pre-wrap wrap-break-word">{msg.content}</p>
         ) : !msg.mediaType ? (
           <p className="whitespace-pre-wrap wrap-break-word">

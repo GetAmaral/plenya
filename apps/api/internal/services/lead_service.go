@@ -907,6 +907,13 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*InboundResult,
 	if bodyContent == "" {
 		bodyContent = in.BodyHTML
 	}
+	// HTML original do e-mail (quando houver) — guardado em ContentHTML pra render
+	// fiel no viewer; Content fica com o texto plano (preview/busca/IA).
+	var htmlPtr *string
+	if strings.TrimSpace(in.BodyHTML) != "" {
+		h := in.BodyHTML
+		htmlPtr = &h
+	}
 
 	metadata := map[string]any{
 		"message_id":  in.MessageID,
@@ -926,11 +933,12 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*InboundResult,
 	if patientErr == nil {
 		patientID := existingPatient.ID
 		_ = s.RecordActivity(RecordActivityInput{
-			PatientID: &patientID,
-			Type:      models.LeadActivityMessageReceived,
-			Channel:   models.LeadChannelEmail,
-			Content:   &bodyContent,
-			Metadata:  metadata,
+			PatientID:   &patientID,
+			Type:        models.LeadActivityMessageReceived,
+			Channel:     models.LeadChannelEmail,
+			Content:     &bodyContent,
+			ContentHTML: htmlPtr,
+			Metadata:    metadata,
 		})
 		patientCopy := existingPatient
 		snippet := bodyContent
@@ -954,11 +962,12 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*InboundResult,
 	if err == nil {
 		existingID := existing.ID
 		_ = s.RecordActivity(RecordActivityInput{
-			LeadID:   &existingID,
-			Type:     models.LeadActivityMessageReceived,
-			Channel:  models.LeadChannelEmail,
-			Content:  &bodyContent,
-			Metadata: metadata,
+			LeadID:      &existingID,
+			Type:        models.LeadActivityMessageReceived,
+			Channel:     models.LeadChannelEmail,
+			Content:     &bodyContent,
+			ContentHTML: htmlPtr,
+			Metadata:    metadata,
 		})
 		_ = s.db.Model(&existing).Update("last_inbound_at", now).Error
 		leadCopy := existing
@@ -1001,11 +1010,12 @@ func (s *LeadService) ProcessInboundEmail(in InboundEmailInput) (*InboundResult,
 		Content: ptr("Lead criado via primeira mensagem inbound de email"),
 	})
 	_ = s.RecordActivity(RecordActivityInput{
-		LeadID:   &newLeadID,
-		Type:     models.LeadActivityMessageReceived,
-		Channel:  models.LeadChannelEmail,
-		Content:  &bodyContent,
-		Metadata: metadata,
+		LeadID:      &newLeadID,
+		Type:        models.LeadActivityMessageReceived,
+		Channel:     models.LeadChannelEmail,
+		Content:     &bodyContent,
+		ContentHTML: htmlPtr,
+		Metadata:    metadata,
 	})
 
 	leadCopy := newLead
@@ -1106,6 +1116,11 @@ func (s *LeadService) RecordOutboundEmailMirror(toEmail string, in InboundEmailI
 	if bodyContent == "" {
 		bodyContent = in.BodyHTML
 	}
+	var htmlPtr *string
+	if strings.TrimSpace(in.BodyHTML) != "" {
+		h := in.BodyHTML
+		htmlPtr = &h
+	}
 
 	metadata := map[string]any{
 		"message_id":  in.MessageID,
@@ -1126,11 +1141,12 @@ func (s *LeadService) RecordOutboundEmailMirror(toEmail string, in InboundEmailI
 	if err := s.db.Where("LOWER(email) = ?", to).First(&patient).Error; err == nil {
 		patientID := patient.ID
 		return s.RecordActivity(RecordActivityInput{
-			PatientID: &patientID,
-			Type:      models.LeadActivityMessageSent,
-			Channel:   models.LeadChannelEmail,
-			Content:   &bodyContent,
-			Metadata:  metadata,
+			PatientID:   &patientID,
+			Type:        models.LeadActivityMessageSent,
+			Channel:     models.LeadChannelEmail,
+			Content:     &bodyContent,
+			ContentHTML: htmlPtr,
+			Metadata:    metadata,
 		})
 	}
 
@@ -1141,11 +1157,12 @@ func (s *LeadService) RecordOutboundEmailMirror(toEmail string, in InboundEmailI
 	}
 	leadID := lead.ID
 	return s.RecordActivity(RecordActivityInput{
-		LeadID:   &leadID,
-		Type:     models.LeadActivityMessageSent,
-		Channel:  models.LeadChannelEmail,
-		Content:  &bodyContent,
-		Metadata: metadata,
+		LeadID:      &leadID,
+		Type:        models.LeadActivityMessageSent,
+		Channel:     models.LeadChannelEmail,
+		Content:     &bodyContent,
+		ContentHTML: htmlPtr,
+		Metadata:    metadata,
 	})
 }
 
@@ -1161,6 +1178,7 @@ type RecordActivityInput struct {
 	Type        models.LeadActivityType
 	Channel     models.LeadActivityChannel
 	Content     *string
+	ContentHTML *string // corpo HTML original (e-mail) — render fiel no viewer
 	Metadata    map[string]any
 	ActorUserID *uuid.UUID
 
@@ -1201,6 +1219,7 @@ func (s *LeadService) recordActivityReturning(in RecordActivityInput) (*models.L
 		Type:              in.Type,
 		Channel:           in.Channel,
 		Content:           in.Content,
+		ContentHTML:       in.ContentHTML,
 		Metadata:          metaJSON,
 		ActorUserID:       in.ActorUserID,
 		MediaType:         in.MediaType,

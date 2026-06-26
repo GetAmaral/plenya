@@ -69,6 +69,8 @@ export interface ConversationMessage {
   type: string; // 'message_received' | 'message_sent' | 'message_status_changed' | etc.
   channel: ConversationChannel;
   content?: string;
+  /** Corpo HTML original (e-mail) — renderizado fiel via EmailHtmlView (iframe sandbox). */
+  contentHtml?: string;
   metadata?: ConversationMessageMetadata;
   actorUserId?: string;
   actor?: ConversationMessageActor;

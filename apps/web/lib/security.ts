@@ -12,6 +12,30 @@ export function sanitizeHtml(html: string | null | undefined): string {
 }
 
 /**
+ * sanitizeEmailHtml — sanitização para corpo de E-MAIL inbound (HTML arbitrário,
+ * fonte não-confiável). Mais permissiva que sanitizeHtml (preserva tabelas, imagens
+ * e estilos inline que e-mails reais usam pra layout), mas remove qualquer vetor
+ * ativo: <script>, <iframe>, <object>/<embed>, <form> e controles, <base>/<meta>/<link>
+ * (evita redirecionar âncoras / injetar CSS externo), além dos handlers on* e URLs
+ * javascript: que o DOMPurify já tira por padrão.
+ *
+ * IMPORTANTE: o resultado é renderizado SEMPRE dentro de um <iframe sandbox> (sem
+ * allow-same-origin) pelo EmailHtmlView — dupla barreira: mesmo que algo escape da
+ * allowlist, o sandbox isola origem, cookies e DOM do app.
+ */
+export function sanitizeEmailHtml(html: string | null | undefined): string {
+  if (!html) return "";
+  return DOMPurify.sanitize(html, {
+    FORBID_TAGS: [
+      "script", "iframe", "object", "embed", "form", "input", "button",
+      "textarea", "select", "base", "meta", "link", "title", "noscript",
+    ],
+    // target é controlado pelo <base target="_blank"> do wrapper (abre em nova aba).
+    FORBID_ATTR: ["target", "ping"],
+  });
+}
+
+/**
  * safeUrl — valida URLs vindas de dado não-confiável (links de mensagens, campanhas) antes de
  * usar em href/src. Bloqueia esquemas perigosos (javascript:, data:, vbscript:, file:) que
  * permitiriam XSS ao clicar. Retorna undefined quando a URL não é segura.
