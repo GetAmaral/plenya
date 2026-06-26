@@ -29,6 +29,9 @@ import (
 type WhatsAppService struct {
 	cfg    *config.Config
 	client *http.Client
+	// templateGuard (opcional) valida no catálogo se o template pode ser enviado (APPROVED +
+	// enabled). Injetado via SetTemplateGuard pra evitar ciclo de import com o catálogo.
+	templateGuard func(name, lang string) (bool, string)
 }
 
 func NewWhatsAppService(cfg *config.Config) *WhatsAppService {
@@ -36,6 +39,11 @@ func NewWhatsAppService(cfg *config.Config) *WhatsAppService {
 		cfg:    cfg,
 		client: &http.Client{Timeout: 10 * time.Second},
 	}
+}
+
+// SetTemplateGuard liga o guard do catálogo de templates (chamado em SendTemplate).
+func (s *WhatsAppService) SetTemplateGuard(fn func(name, lang string) (bool, string)) {
+	s.templateGuard = fn
 }
 
 // E.164 regex (RFC 5733): + seguido de 1-15 dígitos. Meta exige sem o +.
@@ -82,6 +90,13 @@ func (s *WhatsAppService) SendConsultationPrepInvite(toE164, link string) error 
 
 // SendTemplate envia uma mensagem de template aprovado pela Meta.
 func (s *WhatsAppService) SendTemplate(toE164, templateName, langCode string, bodyParams []string) error {
+	// Guard do catálogo: não envia template não-aprovado/desabilitado (evita falha silenciosa na Meta).
+	if s.templateGuard != nil {
+		if ok, reason := s.templateGuard(templateName, langCode); !ok {
+			log.Printf("📱 [WHATSAPP] envio bloqueado: template=%s — %s", templateName, reason)
+			return fmt.Errorf("template %q não enviável: %s", templateName, reason)
+		}
+	}
 	if s.cfg.WhatsApp.PhoneNumberID == "" || s.cfg.WhatsApp.AccessToken == "" {
 		log.Printf("📱 [WHATSAPP DEV] SendTemplate to=%s template=%s lang=%s params=%d (sem credenciais — log apenas)",
 			toE164, templateName, langCode, len(bodyParams))

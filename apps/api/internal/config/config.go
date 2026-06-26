@@ -149,6 +149,7 @@ type WhatsAppConfig struct {
 	AppSecret          string // WHATSAPP_APP_SECRET — usado pra validar HMAC do webhook
 	AccessToken        string // WHATSAPP_ACCESS_TOKEN — Permanent Access Token (System User)
 	PhoneNumberID      string // WHATSAPP_PHONE_NUMBER_ID — número Plenya WhatsApp Business
+	WABAID             string // WHATSAPP_WABA_ID — WhatsApp Business Account (catálogo de templates)
 	WebhookVerifyToken string // WHATSAPP_WEBHOOK_VERIFY_TOKEN — secret aleatório do challenge inicial
 	TemplateMagicLink  string // WHATSAPP_TEMPLATE_MAGIC_LINK — nome do template (default: "magic_link")
 	TemplateLeadAlert  string // WHATSAPP_TEMPLATE_LEAD_ALERT — notificação interna (default: "lead_alert")
@@ -416,6 +417,7 @@ func Load() (*Config, error) {
 			AppSecret:           getEnv("WHATSAPP_APP_SECRET", ""),
 			AccessToken:         getEnv("WHATSAPP_ACCESS_TOKEN", ""),
 			PhoneNumberID:       getEnv("WHATSAPP_PHONE_NUMBER_ID", ""),
+			WABAID:              getEnv("WHATSAPP_WABA_ID", "827642893502160"),
 			WebhookVerifyToken:  getEnv("WHATSAPP_WEBHOOK_VERIFY_TOKEN", ""),
 			TemplateMagicLink:   getEnv("WHATSAPP_TEMPLATE_MAGIC_LINK", "magic_link"),
 			TemplateLeadAlert:   getEnv("WHATSAPP_TEMPLATE_LEAD_ALERT", "lead_alert"),

@@ -295,6 +295,12 @@ func setupRoutes(
 	scoreSnapshotService := services.NewScoreSnapshotService(scoreSnapshotRepo, scoreRepo, labResultRepo, anamnesisRepo, database.DB)
 	emailService := services.NewEmailService(cfg).WithDB(database.DB)
 	whatsappService := services.NewWhatsAppService(cfg)
+	// Catálogo de templates WhatsApp (cache + status sincronizado da Meta). Guard liga em ambos os
+	// WhatsAppService pra não enviar template não-aprovado/desabilitado.
+	whatsappTemplateService := services.NewWhatsAppTemplateService(database.DB, cfg)
+	whatsappService.SetTemplateGuard(whatsappTemplateService.IsSendable)
+	whatsappServiceForAppt.SetTemplateGuard(whatsappTemplateService.IsSendable)
+	whatsappTemplateHandler := handlers.NewWhatsAppTemplateHandler(whatsappTemplateService)
 	leadService := services.NewLeadService(database.DB, notificationService, whatsappService, emailService, cfg)
 	// Email ingest worker (IMAP IDLE → LeadActivity). No-op se MAIL_INGEST_ENABLED=false.
 	notificationEmailService := services.NewNotificationEmailService(database.DB)
@@ -959,6 +965,13 @@ func setupRoutes(
 	v1.Get("/documents/validate/:id", issuedDocumentHandler.ValidatePublic)
 	// Link público por documento (token JWT escopado) — serve o PDF inline, sem login.
 	v1.Get("/documents/shared/:token", documentShareHandler.Serve)
+
+	// Catálogo de templates WhatsApp (admin/manager): listar/sincronizar/editar metadados.
+	waTpl := v1.Group("/admin/whatsapp-templates")
+	waTpl.Use(middleware.Auth(cfg))
+	waTpl.Get("/", middleware.RequireRole(models.RoleAdmin, models.RoleManager), whatsappTemplateHandler.List)
+	waTpl.Post("/sync", middleware.RequireRole(models.RoleAdmin, models.RoleManager), whatsappTemplateHandler.Sync)
+	waTpl.Patch("/:id", middleware.RequireRole(models.RoleAdmin, models.RoleManager), whatsappTemplateHandler.Update)
 
 	// Certificates routes (admin only)
 	adminCertificates := v1.Group("/admin/certificates")
@@ -1633,6 +1646,9 @@ func setupRoutes(
 	// 2) Google token refresh: ticker 30min, renova access tokens cifrados.
 	googleTokenRefreshJob := scheduler.NewGoogleTokenRefreshJob(database.DB, googleCalendarService, notificationService)
 	googleTokenRefreshJob.Start()
+
+	whatsappTemplateSyncJob := scheduler.NewWhatsAppTemplateSyncJob(whatsappTemplateService)
+	whatsappTemplateSyncJob.Start()
 
 	// 3) Push reminder T-1h pra app paciente (consulta começa em ~1h).
 	appointmentPushReminderJob := scheduler.NewAppointmentPushReminderJob(database.DB, pushService, notificationPreferencesService)
