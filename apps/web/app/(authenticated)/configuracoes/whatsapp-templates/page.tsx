@@ -92,25 +92,24 @@ export default function WhatsAppTemplatesPage() {
           {templates.map((t) => (
             <Card key={t.id}>
               <CardContent className="py-4 space-y-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="space-y-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-mono font-semibold">{t.name}</span>
-                      <Badge variant={statusVariant(t.status)}>{t.status}</Badge>
-                      <Badge variant="outline">{t.category || '—'}</Badge>
-                      <Badge variant="outline">{t.language}</Badge>
-                      <Badge variant="outline">{t.variableCount} var</Badge>
-                    </div>
-                    {t.purpose && <p className="text-sm text-muted-foreground">{t.purpose}</p>}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                    <Badge variant={statusVariant(t.status)}>{t.status}</Badge>
+                    <Badge variant="outline">{t.category || '—'}</Badge>
+                    <Badge variant="outline">{t.language}</Badge>
+                    <Badge variant="outline">{t.variableCount} var</Badge>
                   </div>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <div className="flex items-center gap-2" title="Habilitado para envio">
-                      <Switch checked={t.enabled} onCheckedChange={(v) => patch.mutate({ id: t.id, body: { enabled: v } })} />
-                      <span className="text-xs text-muted-foreground">{t.enabled ? 'on' : 'off'}</span>
-                    </div>
-                    <Button size="sm" variant="ghost" onClick={() => setEditing(t)}><Pencil className="h-4 w-4" /></Button>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <Switch checked={t.enabled} title="Habilitado para envio"
+                      onCheckedChange={(v) => patch.mutate({ id: t.id, body: { enabled: v } })} />
+                    <Button size="sm" variant="ghost" className="h-8 w-8 p-0" onClick={() => setEditing(t)}>
+                      <Pencil className="h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
+
+                <div className="font-mono font-semibold text-sm break-all">{t.name}</div>
+                {t.purpose && <p className="text-sm text-muted-foreground">{t.purpose}</p>}
 
                 <p className="text-sm whitespace-pre-wrap rounded bg-muted/50 p-3">{t.bodyText || '—'}</p>
 
