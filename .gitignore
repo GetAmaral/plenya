@@ -184,3 +184,5 @@ docs/emr/import-conversa-*.md
 !scripts/backups/
 !scripts/backups/*.sh
 !scripts/backups/*.md
+
+apps/api/fix-score-boundaries
