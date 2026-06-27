@@ -32,6 +32,9 @@ type WhatsAppTemplate struct {
 	Purpose       string                `gorm:"type:text" json:"purpose"`
 	WiringNotes   string                `gorm:"type:text" json:"wiringNotes"`
 	Enabled       bool                  `gorm:"not null;default:true" json:"enabled"`
+	// ChatSelectable: atendente pode escolher este template no compositor de conversas. Independe
+	// de Enabled (que é "o sistema pode enviar"). false p/ internos/automáticos.
+	ChatSelectable bool `gorm:"not null;default:true" json:"chatSelectable"`
 
 	LastSyncedAt *time.Time `gorm:"type:timestamptz" json:"lastSyncedAt,omitempty"`
 	CreatedAt    time.Time  `json:"createdAt"`

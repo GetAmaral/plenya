@@ -31,7 +31,7 @@ interface TemplateVar { index: number; label: string; example: string }
 interface WaTemplate {
   id: string; name: string; language: string; category: string; status: string;
   bodyText: string; variableCount: number; variables: TemplateVar[];
-  purpose: string; wiringNotes: string; enabled: boolean; lastSyncedAt?: string;
+  purpose: string; wiringNotes: string; enabled: boolean; chatSelectable: boolean; lastSyncedAt?: string;
 }
 
 function statusVariant(s: string): 'default' | 'secondary' | 'destructive' | 'outline' {
@@ -98,6 +98,7 @@ export default function WhatsAppTemplatesPage() {
                     <Badge variant="outline">{t.category || '—'}</Badge>
                     <Badge variant="outline">{t.language}</Badge>
                     <Badge variant="outline">{t.variableCount} var</Badge>
+                    {!t.chatSelectable && <Badge variant="outline">fora do chat</Badge>}
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
                     <Switch checked={t.enabled} title="Habilitado para envio"
@@ -150,6 +151,7 @@ function EditDialog({ template, onClose, onSave, saving }: {
 }) {
   const [purpose, setPurpose] = useState(template.purpose ?? '');
   const [wiringNotes, setWiringNotes] = useState(template.wiringNotes ?? '');
+  const [chatSelectable, setChatSelectable] = useState(template.chatSelectable ?? true);
   const [vars, setVars] = useState<TemplateVar[]>(
     template.variables?.length
       ? template.variables
@@ -169,6 +171,13 @@ function EditDialog({ template, onClose, onSave, saving }: {
             <Label>Cabeamento / como usar</Label>
             <Textarea value={wiringNotes} onChange={(e) => setWiringNotes(e.target.value)} rows={2} placeholder="Onde/como é disparado no sistema" />
           </div>
+          <div className="flex items-center justify-between">
+            <div>
+              <Label>Selecionável no chat</Label>
+              <p className="text-xs text-muted-foreground">Atendente pode escolher no compositor de conversas (desligue p/ internos/automáticos).</p>
+            </div>
+            <Switch checked={chatSelectable} onCheckedChange={setChatSelectable} />
+          </div>
           {vars.length > 0 && (
             <div className="space-y-2">
               <Label>Variáveis</Label>
@@ -186,7 +195,7 @@ function EditDialog({ template, onClose, onSave, saving }: {
         </div>
         <DialogFooter>
           <Button variant="ghost" onClick={onClose}>Cancelar</Button>
-          <Button onClick={() => onSave({ purpose, wiringNotes, variables: vars })} disabled={saving}>
+          <Button onClick={() => onSave({ purpose, wiringNotes, chatSelectable, variables: vars })} disabled={saving}>
             {saving && <Loader2 className="h-4 w-4 animate-spin" />} Salvar
           </Button>
         </DialogFooter>

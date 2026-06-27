@@ -28,6 +28,7 @@ import {
   useSendConversationWhatsApp,
   useSendConversationWhatsAppTemplate,
   useUploadConversationAttachment,
+  useWhatsAppSendableTemplates,
 } from '@/lib/api/conversations-api';
 
 type Channel = 'email' | 'whatsapp';
@@ -52,20 +53,9 @@ type Props = {
   compact?: boolean;
 };
 
-// Templates WhatsApp aprovados (Meta) p/ reabrir conversa fora da janela de 24h.
-// Mantém em sincronia com docs/lgpd/whatsapp-templates.md. `lead_alert` é interno
-// (notificação ao time, não ao paciente) → fora deste seletor de atendimento.
-// TODO: trocar por lista viva da Graph API (status APPROVED) via endpoint do backend.
-type WaTemplate = { name: string; label: string; lang: string; params: string[] };
-const WA_TEMPLATES: WaTemplate[] = [
-  { name: 'reengajamento_lead', label: 'Reengajar lead frio', lang: 'pt_BR', params: ['Nome'] },
-  { name: 'confirmacao_consulta_semana', label: 'Confirmação de consulta — na semana', lang: 'pt_BR', params: ['Nome', 'Data', 'Hora', 'Modalidade'] },
-  { name: 'confirmacao_consulta_vespera', label: 'Confirmação de consulta — véspera', lang: 'pt_BR', params: ['Nome', 'Hora', 'Modalidade'] },
-  { name: 'confirmacao_consulta_dia', label: 'Confirmação de consulta — no dia', lang: 'pt_BR', params: ['Nome', 'Hora', 'Detalhe'] },
-  { name: 'followup_pos_consulta', label: 'Follow-up pós-consulta', lang: 'pt_BR', params: ['Nome'] },
-  // magic_link e lead_alert ficam fora: o 1º é enviado automaticamente pelo sistema
-  // (precisa de URL de token gerada), o 2º é notificação interna ao time.
-];
+// Templates WhatsApp p/ reabrir/responder conversa fora da janela de 24h vêm do CATÁLOGO
+// (catálogo whatsapp_templates, só APPROVED + enabled) via useWhatsAppSendableTemplates —
+// sem lista hardcoded. Os rótulos de cada {{n}} (descrição do campo) viram o label dos inputs.
 
 // Limites: por arquivo 10MB (alinha com handler), total 40MB (limite Resend).
 const MAX_PER_FILE = 10 * 1024 * 1024;
@@ -172,7 +162,9 @@ export function ConversationComposer({
   const [showTemplate, setShowTemplate] = useState(false);
   const [tplName, setTplName] = useState('');
   const [tplValues, setTplValues] = useState<string[]>([]);
-  const selectedTpl = WA_TEMPLATES.find((t) => t.name === tplName);
+  const { data: tplCatalog } = useWhatsAppSendableTemplates();
+  const waTemplates = tplCatalog?.data ?? [];
+  const selectedTpl = waTemplates.find((t) => t.name === tplName);
 
   // Reset campos ao trocar de conversa
   useEffect(() => {
@@ -199,18 +191,18 @@ export function ConversationComposer({
   const upload = useUploadConversationAttachment();
 
   const handleSendTemplate = () => {
-    const tpl = WA_TEMPLATES.find((t) => t.name === tplName);
+    const tpl = waTemplates.find((t) => t.name === tplName);
     if (!tpl) {
       toast.error('Escolha um template.');
       return;
     }
-    const params = tpl.params.map((_, i) => (tplValues[i] ?? '').trim());
+    const params = (tpl.variables ?? []).map((_, i) => (tplValues[i] ?? '').trim());
     if (params.some((p) => !p)) {
       toast.error('Preencha todos os campos do template.');
       return;
     }
     sendTpl.mutate(
-      { name: tpl.name, language: tpl.lang, params: params.length ? params : undefined },
+      { name: tpl.name, language: tpl.language, params: params.length ? params : undefined },
       {
         onSuccess: () => {
           toast.success('Template enviado.');
@@ -528,37 +520,54 @@ export function ConversationComposer({
           <select
             value={tplName}
             onChange={(e) => {
+              const t = waTemplates.find((x) => x.name === e.target.value);
+              const firstName = (item.name || '').trim().split(/\s+/)[0] ?? '';
               setTplName(e.target.value);
-              setTplValues([]);
+              // Auto-preenche o 1º campo (nome) com o contato da conversa.
+              setTplValues((t?.variables ?? []).map((_, i) => (i === 0 ? firstName : '')));
             }}
             aria-label="Template"
             className="w-full rounded-md border border-input bg-background p-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
           >
             <option value="">Escolha um template…</option>
-            {WA_TEMPLATES.map((t) => (
+            {waTemplates.map((t) => (
               <option key={t.name} value={t.name}>
-                {t.label}
+                {t.purpose ? `${t.purpose} (${t.name})` : t.name}
               </option>
             ))}
           </select>
-          {selectedTpl && selectedTpl.params.length > 0 && (
+          {selectedTpl && (
+            <div className="rounded bg-white/70 p-2 text-xs">
+              <p className="mb-1 font-medium text-emerald-900">Prévia (o que a paciente recebe)</p>
+              <p className="whitespace-pre-wrap text-muted-foreground">
+                {selectedTpl.bodyText.replace(/\{\{(\d+)\}\}/g, (_, n) =>
+                  (tplValues[Number(n) - 1] || '').trim() || `{{${n}}}`
+                )}
+              </p>
+            </div>
+          )}
+          {selectedTpl && selectedTpl.variables.length > 0 && (
             <div className="space-y-1.5">
-              {selectedTpl.params.map((label, i) => (
-                <Input
-                  key={`${selectedTpl.name}-${i}`}
-                  value={tplValues[i] ?? ''}
-                  onChange={(e) =>
-                    setTplValues((prev) => {
-                      const next = [...prev];
-                      next[i] = e.target.value;
-                      return next;
-                    })
-                  }
-                  placeholder={label}
-                  aria-label={label}
-                  className="text-sm"
-                />
-              ))}
+              {selectedTpl.variables.map((v, i) => {
+                const label = v.label || `Campo ${v.index}`;
+                return (
+                  <Input
+                    key={`${selectedTpl.name}-${v.index}`}
+                    value={tplValues[i] ?? ''}
+                    onChange={(e) =>
+                      setTplValues((prev) => {
+                        const next = [...prev];
+                        // Meta rejeita quebra de linha/tab em variável de template.
+                        next[i] = e.target.value.replace(/[\r\n\t]+/g, ' ');
+                        return next;
+                      })
+                    }
+                    placeholder={label}
+                    aria-label={label}
+                    className="text-sm"
+                  />
+                );
+              })}
             </div>
           )}
           <div className="flex justify-end">

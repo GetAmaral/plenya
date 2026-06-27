@@ -156,10 +156,11 @@ func (s *WhatsAppTemplateService) upsert(mt metaTemplate) error {
 		Category:      mt.Category,
 		Status:        mt.Status,
 		BodyText:      body,
-		VariableCount: nvars,
-		Variables:     vars,
-		Enabled:       true,
-		LastSyncedAt:  &now,
+		VariableCount:  nvars,
+		Variables:      vars,
+		Enabled:        true,
+		ChatSelectable: chatSelectableDefault(mt.Name),
+		LastSyncedAt:   &now,
 	}).Error
 }
 
@@ -199,6 +200,10 @@ func canonicalVarLabels(name string) []string {
 		return []string{"Nome do paciente", "Hora", "Modalidade (presencial/online)"}
 	case "consultation_prep_invite":
 		return []string{"Link seguro de preparação"}
+	case "resposta_atendimento":
+		return []string{"Primeiro nome do paciente", "A resposta enviada (texto livre)"}
+	case "retorno_disponivel":
+		return []string{"Primeiro nome do paciente"}
 	case "documento_disponivel":
 		return []string{"Primeiro nome do paciente", "Tipo do documento (ex.: Receita Médica)", "Link seguro do documento"}
 	case "followup_pos_consulta":
@@ -223,6 +228,26 @@ func (s *WhatsAppTemplateService) List() ([]models.WhatsAppTemplate, error) {
 	return out, err
 }
 
+// ListSendable retorna os templates que o atendente pode escolher no compositor: APPROVED + enabled
+// + chat_selectable (exclui internos/automáticos). Substitui a lista hardcoded.
+func (s *WhatsAppTemplateService) ListSendable() ([]models.WhatsAppTemplate, error) {
+	var out []models.WhatsAppTemplate
+	err := s.db.Where("enabled = ? AND status = ? AND chat_selectable = ?", true, "APPROVED", true).
+		Order("name ASC").Find(&out).Error
+	return out, err
+}
+
+// chatSelectableDefault: templates internos (notificação ao time) ou automáticos (precisam de URL
+// gerada pelo sistema / teste) NÃO são escolhíveis à mão pelo atendente.
+func chatSelectableDefault(name string) bool {
+	switch name {
+	case "lead_alert", "magic_link", "consultation_prep_invite", "documento_disponivel", "hello_world":
+		return false
+	default:
+		return true
+	}
+}
+
 // IsSendable é o GUARD: só permite enviar template APROVADO e habilitado. Se não houver registro
 // no catálogo (ainda não sincronizou), permite (não bloqueia o que já funcionava) mas o caller loga.
 func (s *WhatsAppTemplateService) IsSendable(name, lang string) (bool, string) {
@@ -244,10 +269,11 @@ func (s *WhatsAppTemplateService) IsSendable(name, lang string) (bool, string) {
 
 // UpdateMetaFields atualiza os campos NOSSOS (purpose/variables/wiringNotes/enabled).
 type UpdateTemplateInput struct {
-	Purpose     *string
-	WiringNotes *string
-	Enabled     *bool
-	Variables   *[]models.WhatsAppTemplateVar
+	Purpose        *string
+	WiringNotes    *string
+	Enabled        *bool
+	ChatSelectable *bool
+	Variables      *[]models.WhatsAppTemplateVar
 }
 
 func (s *WhatsAppTemplateService) UpdateMetaFields(id uuid.UUID, in UpdateTemplateInput) (*models.WhatsAppTemplate, error) {
@@ -264,6 +290,9 @@ func (s *WhatsAppTemplateService) UpdateMetaFields(id uuid.UUID, in UpdateTempla
 	}
 	if in.Enabled != nil {
 		upd["enabled"] = *in.Enabled
+	}
+	if in.ChatSelectable != nil {
+		upd["chat_selectable"] = *in.ChatSelectable
 	}
 	if in.Variables != nil {
 		upd["variables"] = *in.Variables

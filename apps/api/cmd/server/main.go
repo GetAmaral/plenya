@@ -571,6 +571,8 @@ func setupRoutes(
 	conv.Use(middleware.AuditLog(database.DB))
 	conv.Get("/", conversationHandler.List)
 	conv.Get("/ai/metrics", conversationHandler.ReceptionMetrics)
+	// Templates enviáveis (catálogo: APPROVED + enabled) pro seletor do compositor. Rota estática.
+	conv.Get("/whatsapp-templates", whatsappTemplateHandler.ListSendable)
 	// Bucket "Notificações" (e-mails automáticos). Rotas estáticas — antes das paramétricas
 	// /:type/:id pra não colidir.
 	conv.Get("/notifications", notificationEmailHandler.List)

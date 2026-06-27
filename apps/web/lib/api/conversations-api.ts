@@ -459,6 +459,26 @@ export interface SendConversationWhatsAppTemplatePayload {
   params?: string[];
 }
 
+/** Template do catálogo (enviável: APPROVED + enabled). */
+export interface WaSendableTemplate {
+  name: string;
+  language: string;
+  category: string;
+  bodyText: string;
+  purpose: string;
+  variables: { index: number; label: string; example: string }[];
+}
+
+/** Lista os templates enviáveis (catálogo, status APPROVED + enabled) pro seletor do compositor. */
+export function useWhatsAppSendableTemplates() {
+  return useQuery({
+    queryKey: ['wa-sendable-templates'],
+    queryFn: () =>
+      apiClient.get<{ data: WaSendableTemplate[] }>('/api/v1/conversations/whatsapp-templates'),
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
 /** Envia template aprovado (reabre conversa fora da janela de 24h). */
 export function useSendConversationWhatsAppTemplate(
   type: ConversationOwnerType,
