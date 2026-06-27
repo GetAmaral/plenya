@@ -49,7 +49,7 @@ func (s *OCRService) extractWithPdfToText(pdfPath string) (string, error) {
 	return out.String(), nil
 }
 
-// extractWithTesseract - OCR completo com ImageMagick + Tesseract
+// extractWithTesseract - OCR completo com pdftoppm (poppler) + Tesseract
 func (s *OCRService) extractWithTesseract(pdfPath string) (string, error) {
 	// Criar diretório temporário para imagens
 	tmpDir := filepath.Join("/tmp", "ocr-"+uuid.NewString())
@@ -59,24 +59,22 @@ func (s *OCRService) extractWithTesseract(pdfPath string) (string, error) {
 		return "", fmt.Errorf("failed to create temp dir: %v", err)
 	}
 
-	// Converter PDF → imagens PNG (300 DPI para boa qualidade OCR)
-	convertCmd := exec.Command(
-		"convert",
-		"-density", "300",       // Alta resolução para OCR
-		pdfPath,
-		"-quality", "90",        // Qualidade da imagem
-		filepath.Join(tmpDir, "page_%d.png"),
-	)
+	// Rasterizar PDF → PNG (300 DPI) com pdftoppm (poppler). NÃO usa o ImageMagick
+	// `convert`, cujo delegate de PDF exige ghostscript (ausente no container) — daí
+	// "no decode delegate for PDF". pdftoppm já vem no poppler (mesmo pacote do
+	// pdftotext) e rasteriza PDF de forma confiável, inclusive escaneado.
+	prefix := filepath.Join(tmpDir, "page")
+	convertCmd := exec.Command("pdftoppm", "-png", "-r", "300", pdfPath, prefix)
 
 	var convertStderr bytes.Buffer
 	convertCmd.Stderr = &convertStderr
 
 	if err := convertCmd.Run(); err != nil {
-		return "", fmt.Errorf("imagemagick convert failed: %v - %s", err, convertStderr.String())
+		return "", fmt.Errorf("pdftoppm failed: %v - %s", err, convertStderr.String())
 	}
 
-	// OCR cada página
-	files, err := filepath.Glob(filepath.Join(tmpDir, "page_*.png"))
+	// OCR cada página (pdftoppm gera page-01.png, page-02.png, ...)
+	files, err := filepath.Glob(filepath.Join(tmpDir, "page*.png"))
 	if err != nil {
 		return "", fmt.Errorf("failed to list images: %v", err)
 	}

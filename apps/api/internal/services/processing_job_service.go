@@ -455,7 +455,66 @@ func (s *ProcessingJobService) matchTestDefinition(
 		}
 	}
 
+	// Busca fuzzy (fallback): tolera typos do laudo (ex.: "trigliceridios" vs
+	// "trigliceridos"). Salvaguardas contra falso-positivo: só nomes >=8 chars,
+	// distância de edição <=1 (<=2 p/ nomes longos), e match ÚNICO na menor distância.
+	if len(normalizedName) >= 8 {
+		maxDist := 1
+		if len(normalizedName) > 15 {
+			maxDist = 2
+		}
+		bestDist := maxDist + 1
+		var bestID uuid.UUID
+		tie := false
+		for defName, id := range defMap {
+			if len(defName) < 8 {
+				continue
+			}
+			if dl := len(defName) - len(normalizedName); dl > maxDist || dl < -maxDist {
+				continue // poda: diferença de tamanho já excede o limite
+			}
+			d := levenshtein(normalizedName, defName)
+			if d < bestDist {
+				bestDist, bestID, tie = d, id, false
+			} else if d == bestDist {
+				tie = true
+			}
+		}
+		if bestDist <= maxDist && !tie {
+			return &bestID
+		}
+	}
+
 	return nil
+}
+
+// levenshtein - distância de edição entre duas strings (já normalizadas).
+func levenshtein(a, b string) int {
+	ra, rb := []rune(a), []rune(b)
+	la, lb := len(ra), len(rb)
+	if la == 0 {
+		return lb
+	}
+	if lb == 0 {
+		return la
+	}
+	prev := make([]int, lb+1)
+	curr := make([]int, lb+1)
+	for j := 0; j <= lb; j++ {
+		prev[j] = j
+	}
+	for i := 1; i <= la; i++ {
+		curr[0] = i
+		for j := 1; j <= lb; j++ {
+			cost := 1
+			if ra[i-1] == rb[j-1] {
+				cost = 0
+			}
+			curr[j] = min(min(prev[j]+1, curr[j-1]+1), prev[j-1]+cost)
+		}
+		prev, curr = curr, prev
+	}
+	return prev[lb]
 }
 
 // normalizeTestName - normaliza nome de teste para matching
