@@ -44,6 +44,10 @@ export interface LabResultInBatchResponse {
   source: string // "pdf" | "manual"
   matchReason?: string // por que não casou
   classifyReason?: string // por que não recebeu nível
+  specimen?: string // espécime (Sangue/Urina/Fezes...)
+  method?: string // método analítico
+  referenceRange?: string // faixa de referência impressa do lab
+  collectionDate?: string // data de coleta DESTE exame (RFC3339; render por ela, fallback p/ a do lote)
   createdAt: string
   updatedAt: string
 }

@@ -152,7 +152,8 @@ export default function LabResultsPage() {
         }
 
         const row = rowsMap.get(key)!;
-        const dateKey = batch.collectionDate;
+        // Coluna pela data DO RESULTADO (laudos trazem coleta por exame); fallback p/ a do lote.
+        const dateKey = result.collectionDate ?? batch.collectionDate;
         datesSet.add(dateKey);
 
         // Valor do resultado (numérico ou texto)
