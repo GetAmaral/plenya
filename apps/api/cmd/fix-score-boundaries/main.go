@@ -85,6 +85,9 @@ func main() {
 		"Consumo de Calorias (profissional calcula com base na taxa metabólica + atividades)": true,
 		"Hora de acordar": true, "Hora de dormir": true,
 		"Regularidade no acordar": true, "Regularidade no dormir": true,
+		// Bidirecionais/negativos com faixas que precisam de ordem ascendente manual
+		// (o prod tinha lower>upper invertido — vide docs/emr/score-faixas-decisoes.md):
+		"Ecodopplercardiograma - GLS": true, "ECG - Eixo Cardíaco": true,
 	}
 
 	for _, key := range order {
