@@ -68,6 +68,7 @@ type CreateScoreItemDTO struct {
 	SubgroupID     uuid.UUID  `json:"subgroupId" validate:"required"`
 	ParentItemID   *uuid.UUID `json:"parentItemId,omitempty"`
 	Order          *int       `json:"order,omitempty"`
+	DefaultLevel5  *bool      `json:"defaultLevel5,omitempty"`
 }
 
 // UpdateScoreItemDTO represents the request to update a score item
@@ -91,6 +92,9 @@ type UpdateScoreItemDTO struct {
 	SiteRenderType  *string `json:"siteRenderType,omitempty" validate:"omitempty,oneof=level_choice numeric_classifier boolean text scale_0_3"`
 	SiteQuestion    *string `json:"siteQuestion,omitempty"`
 	SiteExplanation *string `json:"siteExplanation,omitempty"`
+
+	// Pré-selecionar nível 5 por padrão na anamnese
+	DefaultLevel5 *bool `json:"defaultLevel5,omitempty"`
 }
 
 // CreateScoreLevelDTO represents the request to create a score level
@@ -321,6 +325,9 @@ func (s *ScoreService) CreateItem(dto CreateScoreItemDTO) (*models.ScoreItem, er
 		ParentItemID:   dto.ParentItemID,
 		Order:          order,
 	}
+	if dto.DefaultLevel5 != nil {
+		item.DefaultLevel5 = *dto.DefaultLevel5
+	}
 
 	if err := s.repo.CreateScoreItem(item); err != nil {
 		return nil, err
@@ -389,6 +396,9 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 	}
 	if dto.AgeRangeMax != nil {
 		item.AgeRangeMax = dto.AgeRangeMax
+	}
+	if dto.DefaultLevel5 != nil {
+		item.DefaultLevel5 = *dto.DefaultLevel5
 	}
 	if dto.ClinicalRelevance != nil {
 		item.ClinicalRelevance = dto.ClinicalRelevance

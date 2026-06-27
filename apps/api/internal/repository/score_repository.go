@@ -327,6 +327,7 @@ func (r *ScoreRepository) UpdateScoreItem(item *models.ScoreItem) error {
 		"order":               item.Order,
 		"subgroup_id":         item.SubgroupID,
 		"parent_item_id":      item.ParentItemID, // This will be nil for unindent
+		"default_level5":      item.DefaultLevel5,
 	}
 
 	return r.db.Model(&models.ScoreItem{}).Where("id = ?", item.ID).Updates(updates).Error

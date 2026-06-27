@@ -47,9 +47,36 @@ function applicability(si: ScoreItem): string {
   return out.join(' ')
 }
 
-interface OrgItem { templateOrder: number; scoreItem: ScoreItem }
+interface OrgItem { templateOrder: number; scoreItem: ScoreItem; depth: number }
 interface OrgSubgroup { name: string; order: number; items: OrgItem[] }
 interface OrgGroup { name: string; order: number; subgroups: OrgSubgroup[] }
+
+// Aninha os itens de um subgrupo por parentItemId (espelha o pôster do score):
+// o pai é mantido e os filhos vêm logo abaixo, com profundidade crescente.
+function nestByParent(items: OrgItem[]): OrgItem[] {
+  const byId = new Map<string, OrgItem>()
+  items.forEach((it) => byId.set(it.scoreItem.id, it))
+  const childrenOf = new Map<string, OrgItem[]>()
+  const roots: OrgItem[] = []
+  for (const it of items) {
+    const pid = it.scoreItem.parentItemId
+    if (pid && byId.has(pid)) {
+      const list = childrenOf.get(pid) ?? []
+      list.push(it)
+      childrenOf.set(pid, list)
+    } else {
+      roots.push(it)
+    }
+  }
+  const byOrder = (a: OrgItem, b: OrgItem) => a.templateOrder - b.templateOrder
+  const out: OrgItem[] = []
+  const visit = (it: OrgItem, depth: number) => {
+    out.push({ ...it, depth })
+    ;(childrenOf.get(it.scoreItem.id) ?? []).slice().sort(byOrder).forEach((k) => visit(k, depth + 1))
+  }
+  roots.sort(byOrder).forEach((r) => visit(r, 0))
+  return out
+}
 
 export default function AnamnesisTemplatePrintPage({
   params,
@@ -70,16 +97,10 @@ export default function AnamnesisTemplatePrintPage({
 
   const groups = useMemo<OrgGroup[]>(() => {
     const items = template?.items ?? []
-    const parentIdsWithChildren = new Set<string>()
-    items.forEach((it) => {
-      const pid = (it.scoreItem as ScoreItem | undefined)?.parentItemId
-      if (pid) parentIdsWithChildren.add(pid)
-    })
     const gMap = new Map<string, OrgGroup>()
     for (const it of items) {
       const si = it.scoreItem as ScoreItem | undefined
       if (!si) continue
-      if (parentIdsWithChildren.has(si.id)) continue
       const sg = si.subgroup
       const g = sg?.group
       const gName = g?.name ?? '(Sem grupo)'
@@ -88,12 +109,12 @@ export default function AnamnesisTemplatePrintPage({
       if (!grp) { grp = { name: gName, order: g?.order ?? 999, subgroups: [] }; gMap.set(gName, grp) }
       let sub = grp.subgroups.find((s) => s.name === sgName)
       if (!sub) { sub = { name: sgName, order: sg?.order ?? 999, items: [] }; grp.subgroups.push(sub) }
-      sub.items.push({ templateOrder: it.order ?? 0, scoreItem: si })
+      sub.items.push({ templateOrder: it.order ?? 0, scoreItem: si, depth: 0 })
     }
     const arr = Array.from(gMap.values()).sort((a, b) => a.order - b.order)
     arr.forEach((g) => {
       g.subgroups.sort((a, b) => a.order - b.order)
-      g.subgroups.forEach((s) => s.items.sort((a, b) => a.templateOrder - b.templateOrder))
+      g.subgroups.forEach((s) => { s.items = nestByParent(s.items) })
     })
     return arr
   }, [template])
@@ -128,7 +149,7 @@ export default function AnamnesisTemplatePrintPage({
                 {sub.name && (
                   <p className="mt-0.5 text-[7px] font-semibold uppercase tracking-wide text-zinc-400">{sub.name}</p>
                 )}
-                {sub.items.map(({ scoreItem: si }) => <ItemRow key={si.id} si={si} />)}
+                {sub.items.map((oi) => <ItemRow key={oi.scoreItem.id} si={oi.scoreItem} depth={oi.depth} />)}
               </div>
             ))}
           </section>
@@ -147,7 +168,7 @@ export default function AnamnesisTemplatePrintPage({
   )
 }
 
-function ItemRow({ si }: { si: ScoreItem }) {
+function ItemRow({ si, depth = 0 }: { si: ScoreItem; depth?: number }) {
   const levels = (si.levels ?? []).slice().sort((a, b) => a.level - b.level)
   const scaleDef = getScaleDef(si.anamneseItemCode)
   const apps = applicability(si)
@@ -156,7 +177,11 @@ function ItemRow({ si }: { si: ScoreItem }) {
 
   return (
     <div className="flex items-baseline gap-1.5 border-b border-zinc-100 py-[1px] leading-[1.2] break-inside-avoid">
-      <span className="w-[25%] shrink-0 text-[8.5px] font-medium text-zinc-900">
+      <span
+        className="w-[25%] shrink-0 text-[8.5px] font-medium text-zinc-900"
+        style={depth > 0 ? { paddingLeft: depth * 9, borderLeft: '2px solid #d4d4d8', marginLeft: 1 } : undefined}
+      >
+        {depth > 0 && <span className="mr-0.5 text-zinc-300">└</span>}
         {si.name}
         {si.unit && <span className="text-zinc-400"> ({si.unit})</span>}
         {apps && <span className="ml-1 text-[7px] text-zinc-400">{apps}</span>}

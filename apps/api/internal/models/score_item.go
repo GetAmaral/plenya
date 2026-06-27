@@ -60,6 +60,11 @@ type ScoreItem struct {
 	// @example true
 	PostMenopause *bool `gorm:"type:boolean" json:"postMenopause,omitempty"`
 
+	// Se true, um template de anamnese que inclui este item deve pré-selecionar o nível 5
+	// por padrão (útil para histórico de doença / uso de medicação: padrão = "sem doença" / "sem uso").
+	// @example false
+	DefaultLevel5 bool `gorm:"type:boolean;not null;default:false" json:"defaultLevel5"`
+
 	// Relevância clínica - explicação técnica para profissionais de saúde
 	// @example Valores baixos de hemoglobina indicam anemia, que pode estar associada a fadiga, redução da capacidade funcional e aumento do risco cardiovascular
 	ClinicalRelevance *string `gorm:"type:text" json:"clinicalRelevance,omitempty"`

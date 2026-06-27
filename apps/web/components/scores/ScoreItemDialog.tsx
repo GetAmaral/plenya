@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Select,
   SelectContent,
@@ -136,6 +137,7 @@ export function ScoreItemDialog({
       ageRangeMin: item?.ageRangeMin,
       ageRangeMax: item?.ageRangeMax,
       postMenopause: item?.postMenopause,
+      defaultLevel5: item?.defaultLevel5 ?? false,
       clinicalRelevance: item?.clinicalRelevance || '',
       patientExplanation: item?.patientExplanation || '',
       conduct: item?.conduct || '',
@@ -163,6 +165,7 @@ export function ScoreItemDialog({
         ageRangeMin: item.ageRangeMin,
         ageRangeMax: item.ageRangeMax,
         postMenopause: item.postMenopause,
+        defaultLevel5: item.defaultLevel5 ?? false,
         clinicalRelevance: item.clinicalRelevance || '',
         patientExplanation: item.patientExplanation || '',
         conduct: item.conduct || '',
@@ -186,6 +189,7 @@ export function ScoreItemDialog({
         ageRangeMin: undefined,
         ageRangeMax: undefined,
         postMenopause: undefined,
+        defaultLevel5: false,
         clinicalRelevance: '',
         patientExplanation: '',
         conduct: '',
@@ -227,6 +231,7 @@ export function ScoreItemDialog({
         ageRangeMin: data.ageRangeMin || null,
         ageRangeMax: data.ageRangeMax || null,
         postMenopause: data.postMenopause ?? null,
+        defaultLevel5: data.defaultLevel5 ?? false,
         clinicalRelevance: data.clinicalRelevance || null,
         patientExplanation: data.patientExplanation || null,
         conduct: data.conduct || null,
@@ -246,6 +251,7 @@ export function ScoreItemDialog({
             ageRangeMin: payload.ageRangeMin,
             ageRangeMax: payload.ageRangeMax,
             postMenopause: payload.postMenopause,
+            defaultLevel5: payload.defaultLevel5,
             clinicalRelevance: payload.clinicalRelevance,
             patientExplanation: payload.patientExplanation,
             conduct: payload.conduct,
@@ -537,6 +543,24 @@ export function ScoreItemDialog({
               </p>
             </div>
           )}
+
+          <div className="flex items-start gap-3 rounded-lg border p-3">
+            <Checkbox
+              id="defaultLevel5"
+              checked={!!watch('defaultLevel5')}
+              onCheckedChange={(checked) => setValue('defaultLevel5', checked === true)}
+              className="mt-0.5"
+            />
+            <div className="space-y-1">
+              <Label htmlFor="defaultLevel5" className="cursor-pointer">
+                Pré-selecionar Nível 5 por padrão na anamnese
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                Ao carregar este item num template de anamnese, ele já vem com o Nível 5 selecionado
+                (ex.: histórico de doença ou uso de medicação que começa como &quot;sem doença&quot; / &quot;sem uso&quot;).
+              </p>
+            </div>
+          </div>
 
           <div className="space-y-2">
             <Label htmlFor="points">Pontos Máximos</Label>

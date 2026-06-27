@@ -7,8 +7,8 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { HelpCircle, CheckCircle2, AlertCircle, ChevronDown, ChevronRight, Plus } from 'lucide-react'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { HelpCircle, CheckCircle2, AlertCircle, ChevronDown, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { calcAge } from '@/lib/format-date'
 import { toast } from 'sonner'
@@ -157,15 +157,61 @@ const LEVEL_COMPACT_SELECTED_CLASSES: Record<number, string> = {
   6: 'border-gray-500 bg-gray-100 text-gray-900',
 }
 
+// Chips inline densos (visão compacta): cinza neutro quando NÃO selecionado; ao selecionar,
+// assume a cor do nível como no impresso (N0 vermelho → N5 esmeralda).
+const LEVEL_CHIP_IDLE = 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100'
+const LEVEL_CHIP_SELECTED: Record<number, string> = {
+  0: 'border-red-500 bg-red-100 text-red-900 ring-1 ring-red-400',
+  1: 'border-orange-500 bg-orange-100 text-orange-900 ring-1 ring-orange-400',
+  2: 'border-yellow-500 bg-yellow-100 text-yellow-900 ring-1 ring-yellow-400',
+  3: 'border-blue-500 bg-blue-100 text-blue-900 ring-1 ring-blue-400',
+  4: 'border-green-500 bg-green-100 text-green-900 ring-1 ring-green-400',
+  5: 'border-emerald-500 bg-emerald-100 text-emerald-900 ring-1 ring-emerald-400',
+  6: 'border-gray-500 bg-gray-100 text-gray-900 ring-1 ring-gray-400',
+}
+
 // Organize items by group and subgroup
+interface OrganizedItem {
+  templateItem: AnamnesisTemplateItem
+  scoreItem: ScoreItem
+  depth: number
+}
 interface OrganizedData {
   groups: Map<string, {
     group: ScoreGroup
     subgroups: Map<string, {
       subgroup: ScoreSubgroup
-      items: { templateItem: AnamnesisTemplateItem; scoreItem: ScoreItem }[]
+      items: OrganizedItem[]
     }>
   }>
+}
+
+// Aninha os itens de um subgrupo por parentItemId (mesma lógica do pôster/print do score):
+// o pai é mantido e seus filhos vêm logo abaixo, com profundidade crescente para indentação.
+// Se o pai não estiver presente no subgrupo (ex.: filtrado por demografia), o filho vira raiz.
+function nestByParent(items: OrganizedItem[]): OrganizedItem[] {
+  const byId = new Map<string, OrganizedItem>()
+  items.forEach((it) => byId.set(it.scoreItem.id, it))
+  const childrenOf = new Map<string, OrganizedItem[]>()
+  const roots: OrganizedItem[] = []
+  for (const it of items) {
+    const pid = it.scoreItem.parentItemId
+    if (pid && byId.has(pid)) {
+      const list = childrenOf.get(pid) ?? []
+      list.push(it)
+      childrenOf.set(pid, list)
+    } else {
+      roots.push(it)
+    }
+  }
+  const byOrder = (a: OrganizedItem, b: OrganizedItem) => a.templateItem.order - b.templateItem.order
+  const out: OrganizedItem[] = []
+  const visit = (it: OrganizedItem, depth: number) => {
+    out.push({ ...it, depth })
+    ;(childrenOf.get(it.scoreItem.id) ?? []).slice().sort(byOrder).forEach((k) => visit(k, depth + 1))
+  }
+  roots.sort(byOrder).forEach((r) => visit(r, 0))
+  return out
 }
 
 function organizeTemplateItems(template: AnamnesisTemplate, patient?: Patient | null): OrganizedData {
@@ -177,16 +223,6 @@ function organizeTemplateItems(template: AnamnesisTemplate, patient?: Patient | 
 
   const sortedItems = [...template.items].sort((a, b) => a.order - b.order)
 
-  // Primeiro pass: identificar quais parentItemIds têm filhos no template
-  // (pais com filhos presentes não devem aparecer — só os filhos corretos)
-  const parentIdsWithChildrenInTemplate = new Set<string>()
-  sortedItems.forEach((templateItem) => {
-    const parentId = templateItem.scoreItem?.parentItemId
-    if (parentId) {
-      parentIdsWithChildrenInTemplate.add(parentId)
-    }
-  })
-
   sortedItems.forEach((templateItem) => {
     const scoreItem = templateItem.scoreItem
 
@@ -194,13 +230,7 @@ function organizeTemplateItems(template: AnamnesisTemplate, patient?: Patient | 
       return
     }
 
-    // Suprimir o item pai se ele tiver filhos no template (exibir apenas os filhos)
-    if (parentIdsWithChildrenInTemplate.has(scoreItem.id)) {
-      return
-    }
-
-    // Para itens filhos (com parentItemId): aplicar filtro demográfico
-    // Para itens sem hierarquia: sempre exibir (filtro demográfico também se aplicar)
+    // Filtro demográfico (idade/gênero/menopausa) — aplica a pais e filhos.
     if (!itemAppliesToPatient(scoreItem, patient)) {
       return
     }
@@ -229,10 +259,38 @@ function organizeTemplateItems(template: AnamnesisTemplate, patient?: Patient | 
     }
 
     const subgroupData = groupData.subgroups.get(subgroup.id)
-    subgroupData.items.push({ templateItem, scoreItem })
+    subgroupData.items.push({ templateItem, scoreItem, depth: 0 })
   })
 
+  // Reordena cada subgrupo como árvore pai→filho, atribuindo profundidade p/ indentação.
+  for (const groupData of groups.values()) {
+    for (const subgroupData of groupData.subgroups.values()) {
+      subgroupData.items = nestByParent(subgroupData.items)
+    }
+  }
+
   return { groups }
+}
+
+// "?" de explicação do item. O texto (patientExplanation) já vem com o template — nada de fetch.
+// Popover abre instantaneamente no clique (sem o delay de hover do tooltip).
+function HelpPopover({ text, size = 'sm' }: { text: string; size?: 'sm' | 'md' }) {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          aria-label="Explicação"
+          className="shrink-0 text-muted-foreground/60 transition-colors hover:text-foreground"
+        >
+          <HelpCircle className={size === 'md' ? 'h-4 w-4' : 'h-3.5 w-3.5'} />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="max-w-sm text-sm leading-snug">
+        {text}
+      </PopoverContent>
+    </Popover>
+  )
 }
 
 export function AnamnesisTemplateItemsRenderer({
@@ -261,12 +319,13 @@ export function AnamnesisTemplateItemsRenderer({
   const itemRefs = useRef<Map<string, HTMLDivElement>>(new Map())
   const hasFocused = useRef(false)
 
-  // --- Estado da visão compacta (mobile): accordion de grupos + itens expansíveis ---
+  // --- Estado da visão compacta: accordion de grupos (todos abertos por padrão) ---
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
-    () => new Set(Array.from(organized.groups.keys()).slice(0, 1)) // primeiro grupo aberto
+    () => new Set(organized.groups.keys()) // todos os grupos abertos por padrão
   )
-  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set()) // só escalas colapsam
   const [obsOpen, setObsOpen] = useState<Set<string>>(new Set())
+  const [histOpen, setHistOpen] = useState<Set<string>>(new Set())
 
   const toggleSetMember = (
     setter: Dispatch<SetStateAction<Set<string>>>,
@@ -292,6 +351,33 @@ export function AnamnesisTemplateItemsRenderer({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compact, focusScoreItemId])
+
+  // Pré-seleção do Nível 5 por padrão: itens marcados como defaultLevel5 (histórico de doença /
+  // uso de medicação) já chegam preenchidos como "sem doença"/"sem uso". Só preenche itens
+  // aplicáveis ao paciente e ainda SEM valor (não sobrescreve resposta existente). Roda uma vez.
+  const didInitDefaults = useRef(false)
+  useEffect(() => {
+    if (didInitDefaults.current) return
+    didInitDefaults.current = true
+    setValues((prev) => {
+      const next = new Map(prev)
+      let changed = false
+      for (const ti of template.items ?? []) {
+        const si = ti.scoreItem as ScoreItem | undefined
+        if (!si || !si.defaultLevel5) continue
+        if (next.has(si.id)) continue
+        if (!itemAppliesToPatient(si, patient)) continue
+        const levels = si.levels ?? []
+        if (levels.length === 0) continue
+        const top = levels.some((l) => l.level === 5) ? 5 : Math.max(...levels.map((l) => l.level))
+        next.set(si.id, { scoreItemId: si.id, selectedLevel: top, order: ti.order ?? 0 })
+        changed = true
+      }
+      if (changed) requestAnimationFrame(() => onChange(Array.from(next.values())))
+      return changed ? next : prev
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Chip que resume o valor atual do item na linha colapsada.
   const currentChip = (cur: AnamnesisItemFormValue | undefined, scoreItem: ScoreItem) => {
@@ -530,9 +616,9 @@ export function AnamnesisTemplateItemsRenderer({
     )
   }
 
-  // --- Visão compacta (mobile): accordion denso + item expansível + histórico ---
+  // --- Visão compacta (densa): grupos abertos por padrão, níveis inline coloridos como o impresso ---
   const compactView = (
-    <div className="space-y-2.5">
+    <div className="space-y-2">
       {Array.from(organized.groups.values()).map(({ group, subgroups }) => {
         const subArr = Array.from(subgroups.values())
         const allItems = subArr.flatMap((s) => s.items)
@@ -541,26 +627,26 @@ export function AnamnesisTemplateItemsRenderer({
         const gOpen = expandedGroups.has(group.id)
 
         return (
-          <div key={group.id} className="overflow-hidden rounded-xl border bg-card">
+          <div key={group.id} className="overflow-hidden rounded-lg border bg-card">
             <button
               type="button"
               onClick={() => toggleSetMember(setExpandedGroups, group.id)}
-              className="flex w-full items-center gap-2.5 px-3.5 py-3 text-left"
+              className="flex w-full items-center gap-2 bg-muted/40 px-3 py-1.5 text-left"
             >
-              <span className="text-sm font-semibold text-foreground">{group.name}</span>
-              <span className="ml-auto shrink-0 rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
+              <span className="text-[13px] font-semibold text-foreground">{group.name}</span>
+              <span className="ml-auto shrink-0 rounded-full bg-background px-1.5 py-0.5 text-[10px] text-muted-foreground">
                 {filled}/{total}
               </span>
               <ChevronDown
                 className={cn(
-                  'h-4 w-4 shrink-0 text-muted-foreground transition-transform',
+                  'h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform',
                   gOpen && 'rotate-180'
                 )}
               />
             </button>
 
             {gOpen && (
-              <div className="border-t">
+              <div className="divide-y divide-border/70">
                 {subArr.map(({ subgroup, items }) => {
                   const hasMaxSelect = subgroup.maxSelect > 0
                   const selectedCount = items.filter(
@@ -570,8 +656,8 @@ export function AnamnesisTemplateItemsRenderer({
                   return (
                     <div key={subgroup.id}>
                       {subArr.length > 1 && (
-                        <div className="flex items-center justify-between bg-muted/40 px-3.5 py-1.5">
-                          <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                        <div className="flex items-center justify-between border-b border-border/70 bg-muted/20 px-3 py-1">
+                          <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
                             {subgroup.name}
                           </span>
                           {hasMaxSelect && (
@@ -582,178 +668,170 @@ export function AnamnesisTemplateItemsRenderer({
                         </div>
                       )}
 
-                      {items.map(({ templateItem, scoreItem }) => {
+                      {items.map(({ templateItem, scoreItem, depth }) => {
                         const cur = values.get(scoreItem.id)
                         const levels = scoreItem.levels || []
                         const scaleDef = getScaleDef(scoreItem.anamneseItemCode)
+                        const isScale = !!scaleDef && (scaleDef.kind === 'sum' || scaleDef.kind === 'administered' || scaleDef.kind === 'custom')
+                        const indentStyle = depth > 0 ? { marginLeft: depth * 14 } : undefined
+                        const rowCls = cn(
+                          'px-3 py-1.5 last:border-b-0',
+                          depth > 0 && 'border-l-2 border-l-primary/25'
+                        )
 
-                        // maxSelect → linha com checkbox (sem expandir)
+                        // maxSelect → linha com checkbox
                         if (hasMaxSelect) {
                           const isSel = cur?.selectedLevel !== undefined
                           return (
                             <div
                               key={templateItem.id}
-                              ref={(el) => {
-                                if (el) itemRefs.current.set(scoreItem.id, el)
-                              }}
-                              className={cn(
-                                'flex items-center gap-2.5 border-b px-3.5 py-2.5 last:border-b-0',
-                                isSel && 'bg-primary/5'
-                              )}
+                              ref={(el) => { if (el) itemRefs.current.set(scoreItem.id, el) }}
+                              style={indentStyle}
+                              className={cn('flex items-center gap-2', rowCls, isSel && 'bg-primary/5')}
                             >
                               <Checkbox
                                 checked={isSel}
                                 onCheckedChange={() =>
-                                  handleCheckboxSelect(
-                                    scoreItem.id,
-                                    templateItem.order,
-                                    subgroup.id,
-                                    subgroup.maxSelect,
-                                    items
-                                  )
+                                  handleCheckboxSelect(scoreItem.id, templateItem.order, subgroup.id, subgroup.maxSelect, items)
                                 }
-                                className="h-5 w-5 shrink-0"
+                                className="h-4 w-4 shrink-0"
                               />
-                              <span className="text-[13px] leading-tight text-foreground">
-                                {scoreItem.name}
-                              </span>
+                              <span className="text-[12.5px] leading-tight text-foreground">{scoreItem.name}</span>
                             </div>
                           )
                         }
 
-                        // Item padrão → linha colapsável
-                        const itemOpen = expandedItems.has(scoreItem.id)
-                        const showObs = obsOpen.has(scoreItem.id) || !!cur?.textValue
-
-                        return (
-                          <div
-                            key={templateItem.id}
-                            ref={(el) => {
-                              if (el) itemRefs.current.set(scoreItem.id, el)
-                            }}
-                            className={cn('border-b last:border-b-0', itemOpen && 'bg-amber-50/40')}
-                          >
-                            <button
-                              type="button"
-                              onClick={() => toggleSetMember(setExpandedItems, scoreItem.id)}
-                              className="flex w-full items-center gap-2.5 px-3.5 py-2.5 text-left"
+                        // Escala (PHQ-9, GAD-7, Dubois…) → linha colapsável (widget é grande)
+                        if (isScale) {
+                          const open = expandedItems.has(scoreItem.id)
+                          return (
+                            <div
+                              key={templateItem.id}
+                              ref={(el) => { if (el) itemRefs.current.set(scoreItem.id, el) }}
+                              style={indentStyle}
+                              className={cn(rowCls, 'px-0 py-0', depth > 0 && 'border-l-2 border-l-primary/25')}
                             >
-                              <span className="min-w-0 flex-1 text-[13px] leading-tight text-foreground">
-                                {scoreItem.name}
-                                {scoreItem.unit && (
-                                  <span className="ml-1 text-[11px] text-muted-foreground">
-                                    ({scoreItem.unit})
-                                  </span>
-                                )}
-                              </span>
-                              <span className="shrink-0">{currentChip(cur, scoreItem)}</span>
-                              <ChevronRight
-                                className={cn(
-                                  'h-3.5 w-3.5 shrink-0 text-muted-foreground/60 transition-transform',
-                                  itemOpen && 'rotate-90'
-                                )}
-                              />
-                            </button>
-
-                            {itemOpen && (
-                              <div className="space-y-3 px-3.5 pb-3.5">
-                                {scaleDef && (scaleDef.kind === 'sum' || scaleDef.kind === 'administered' || scaleDef.kind === 'custom') ? (
+                              <button
+                                type="button"
+                                onClick={() => toggleSetMember(setExpandedItems, scoreItem.id)}
+                                className="flex w-full items-center gap-2 px-3 py-1.5 text-left"
+                              >
+                                <span className="min-w-0 flex-1 text-[12.5px] leading-tight text-foreground">
+                                  {depth > 0 && <span className="mr-1 text-muted-foreground/50">└</span>}
+                                  {scoreItem.name}
+                                  <span className="ml-1 rounded bg-muted px-1 text-[9px] text-muted-foreground">escala</span>
+                                </span>
+                                <span className="shrink-0">{currentChip(cur, scoreItem)}</span>
+                                <ChevronRight className={cn('h-3.5 w-3.5 shrink-0 text-muted-foreground/60 transition-transform', open && 'rotate-90')} />
+                              </button>
+                              {open && (
+                                <div className="px-3 pb-3">
                                   <ScaleWidget
-                                    def={scaleDef}
+                                    def={scaleDef!}
                                     compact
                                     classify={(t) => detectLevel(t, levels)}
                                     levelName={(lv) => levels.find((l) => l.level === lv)?.name}
                                     initialAnswers={toNumberKeys(cur?.scaleResponses?.answers)}
-                                    adminWords={
-                                      scaleDef.administration?.type === 'word_recall'
-                                        ? wordRecallSet ?? undefined
-                                        : undefined
-                                    }
-                                    onResult={(r) =>
-                                      handleScaleResult(scoreItem.id, r, templateItem.order)
-                                    }
+                                    adminWords={scaleDef!.administration?.type === 'word_recall' ? wordRecallSet ?? undefined : undefined}
+                                    onResult={(r) => handleScaleResult(scoreItem.id, r, templateItem.order)}
                                   />
-                                ) : (
-                                  <>
-                                {scoreItem.unit && (
-                                  <Input
-                                    type="number"
-                                    step="any"
-                                    value={cur?.numericValue ?? ''}
-                                    onChange={(e) =>
-                                      handleNumericChange(
-                                        scoreItem.id,
-                                        e.target.value,
-                                        templateItem.order,
-                                        levels
-                                      )
-                                    }
-                                    placeholder={`Valor em ${scoreItem.unit}`}
-                                    className="h-9 text-sm"
-                                  />
-                                )}
+                                </div>
+                              )}
+                            </div>
+                          )
+                        }
 
-                                {levels.length > 0 && (
-                                  <div className="flex flex-wrap gap-2">
-                                    {levels.map((level) => {
-                                      const sel = cur?.selectedLevel === level.level
-                                      return (
-                                        <button
-                                          key={level.id}
-                                          type="button"
-                                          data-level-button
-                                          onClick={() =>
-                                            handleLevelSelect(scoreItem.id, level, templateItem.order)
-                                          }
-                                          className={cn(
-                                            'rounded-lg border-2 px-3 py-1.5 text-xs font-medium transition-all',
-                                            sel
-                                              ? LEVEL_COMPACT_SELECTED_CLASSES[level.level] ||
-                                                  LEVEL_COMPACT_SELECTED_CLASSES[6]
-                                              : 'border-border bg-background hover:border-primary/50'
-                                          )}
-                                        >
-                                          {level.name} ({level.level})
-                                        </button>
-                                      )
-                                    })}
-                                  </div>
-                                )}
-                                  </>
-                                )}
+                        // Item padrão → tudo inline (sem abrir): nome + chips coloridos + obs/histórico
+                        const showObs = obsOpen.has(scoreItem.id) || !!cur?.textValue
+                        const showHist = histOpen.has(scoreItem.id)
 
-                                {showObs ? (
-                                  <Textarea
-                                    value={cur?.textValue || ''}
-                                    onChange={(e) =>
-                                      handleTextChange(scoreItem.id, e.target.value, templateItem.order)
-                                    }
-                                    placeholder="Observações…"
-                                    rows={2}
-                                    className="resize-none text-sm"
-                                  />
-                                ) : (
-                                  <button
-                                    type="button"
-                                    onClick={() => toggleSetMember(setObsOpen, scoreItem.id)}
-                                    className="flex items-center gap-1.5 text-xs font-medium text-primary"
-                                  >
-                                    <Plus className="h-3.5 w-3.5" /> Adicionar observação
-                                  </button>
-                                )}
+                        return (
+                          <div
+                            key={templateItem.id}
+                            ref={(el) => { if (el) itemRefs.current.set(scoreItem.id, el) }}
+                            style={indentStyle}
+                            className={cn(rowCls, cur && 'bg-emerald-50/30')}
+                          >
+                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                              <span className="text-[12.5px] font-medium leading-tight text-foreground">
+                                {depth > 0 && <span className="mr-1 text-muted-foreground/50">└</span>}
+                                {scoreItem.name}
+                                {scoreItem.unit && <span className="ml-1 text-[10px] font-normal text-muted-foreground">({scoreItem.unit})</span>}
+                              </span>
 
-                                {scoreItem.patientExplanation && (
-                                  <p className="text-[11px] leading-snug text-muted-foreground">
-                                    {scoreItem.patientExplanation}
-                                  </p>
-                                )}
+                              {scoreItem.patientExplanation && (
+                                <HelpPopover text={scoreItem.patientExplanation} />
+                              )}
 
+                              {scoreItem.unit && (
+                                <Input
+                                  type="number"
+                                  step="any"
+                                  value={cur?.numericValue ?? ''}
+                                  onChange={(e) => handleNumericChange(scoreItem.id, e.target.value, templateItem.order, levels)}
+                                  placeholder={scoreItem.unit}
+                                  className="h-7 w-24 text-xs"
+                                />
+                              )}
+
+                              <div className="ml-auto flex flex-wrap items-center justify-end gap-1">
+                                {levels.map((level) => {
+                                  const sel = cur?.selectedLevel === level.level
+                                  return (
+                                    <button
+                                      key={level.id}
+                                      type="button"
+                                      data-level-button
+                                      onClick={() => handleLevelSelect(scoreItem.id, level, templateItem.order)}
+                                      title={`N${level.level} · ${level.name}`}
+                                      className={cn(
+                                        'rounded-md border px-1.5 py-0.5 text-[11px] leading-tight transition-all',
+                                        sel ? LEVEL_CHIP_SELECTED[level.level] ?? LEVEL_CHIP_SELECTED[6] : LEVEL_CHIP_IDLE
+                                      )}
+                                    >
+                                      <span className="font-bold">N{level.level}</span>
+                                      {level.name && <span className="ml-1">{level.name}</span>}
+                                    </button>
+                                  )
+                                })}
+
+                                <button
+                                  type="button"
+                                  onClick={() => toggleSetMember(setObsOpen, scoreItem.id)}
+                                  title="Observação"
+                                  className={cn('rounded-md border border-dashed px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-muted', showObs && 'border-solid text-foreground')}
+                                >
+                                  obs
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => toggleSetMember(setHistOpen, scoreItem.id)}
+                                  title="Histórico do item"
+                                  className={cn('rounded-md border border-dashed px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-muted', showHist && 'border-solid text-foreground')}
+                                >
+                                  hist
+                                </button>
+                              </div>
+                            </div>
+
+                            {showObs && (
+                              <Textarea
+                                value={cur?.textValue || ''}
+                                onChange={(e) => handleTextChange(scoreItem.id, e.target.value, templateItem.order)}
+                                placeholder="Observações…"
+                                rows={2}
+                                className="mt-1.5 resize-none text-sm"
+                              />
+                            )}
+
+                            {showHist && (
+                              <div className="mt-1.5">
                                 <AnamnesisItemHistory
                                   patientId={historyPatientId}
                                   scoreItemId={scoreItem.id}
                                   levels={levels}
                                   unit={scoreItem.unit}
-                                  enabled={itemOpen}
+                                  enabled={showHist}
                                 />
                               </div>
                             )}
@@ -772,7 +850,7 @@ export function AnamnesisTemplateItemsRenderer({
   )
 
   return (
-    <TooltipProvider delayDuration={300}>
+    <>
       {compact ? compactView : (
       <div className="space-y-6">
         {Array.from(organized.groups.values()).map(({ group, subgroups }) => (
@@ -823,7 +901,7 @@ export function AnamnesisTemplateItemsRenderer({
                     )}
 
                     <div className={cn('space-y-3', hasMaxSelect && 'space-y-2')}>
-                      {items.map(({ templateItem, scoreItem }) => {
+                      {items.map(({ templateItem, scoreItem, depth }) => {
                         const currentValue = values.get(scoreItem.id)
                         const levels = scoreItem.levels || []
                         const scaleDef = getScaleDef(scoreItem.anamneseItemCode)
@@ -831,6 +909,7 @@ export function AnamnesisTemplateItemsRenderer({
                         const hasNumericValue = currentValue?.numericValue !== undefined
                         const isFilled = !!(hasLevelSelected || hasNumericValue || currentValue?.textValue)
                         const isSelected = hasMaxSelect && hasLevelSelected
+                        const indentStyle = depth > 0 ? { marginLeft: depth * 24 } : undefined
 
                         // Compact layout for maxSelect items
                         if (hasMaxSelect) {
@@ -840,8 +919,10 @@ export function AnamnesisTemplateItemsRenderer({
                               ref={(el) => {
                                 if (el) itemRefs.current.set(scoreItem.id, el)
                               }}
+                              style={indentStyle}
                               className={cn(
                                 'flex items-center gap-3 p-3 border rounded-lg transition-all',
+                                depth > 0 && 'border-l-4 border-l-primary/30',
                                 isSelected ? 'border-primary bg-primary/5' : 'border-border'
                               )}
                             >
@@ -873,19 +954,7 @@ export function AnamnesisTemplateItemsRenderer({
                                 className={cn('flex-1', compact ? 'h-9 text-sm' : 'h-10')}
                               />
                               {scoreItem.patientExplanation && (
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <button
-                                      type="button"
-                                      className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
-                                    >
-                                      <HelpCircle className="h-4 w-4" />
-                                    </button>
-                                  </TooltipTrigger>
-                                  <TooltipContent className="max-w-md">
-                                    <p className="text-sm">{scoreItem.patientExplanation}</p>
-                                  </TooltipContent>
-                                </Tooltip>
+                                <HelpPopover text={scoreItem.patientExplanation} size="md" />
                               )}
                             </div>
                           )
@@ -900,8 +969,10 @@ export function AnamnesisTemplateItemsRenderer({
                             ref={(el) => {
                               if (el) itemRefs.current.set(scoreItem.id, el)
                             }}
+                            style={indentStyle}
                             className={cn(
                               'border-2 transition-all',
+                              depth > 0 && 'border-l-4 border-l-primary/30',
                               isThisItemFocused ? 'border-primary bg-primary/5' : 'border-border'
                             )}
                             onFocus={() => setFocusedItemId(scoreItem.id)}
@@ -920,6 +991,7 @@ export function AnamnesisTemplateItemsRenderer({
                                       'font-semibold cursor-pointer',
                                       compact ? 'text-sm' : 'text-base'
                                     )}>
+                                      {depth > 0 && <span className="mr-1 text-muted-foreground/50">└</span>}
                                       {scoreItem.name}
                                       {scoreItem.unit && (
                                         <span className="text-muted-foreground ml-2 font-normal">
@@ -930,19 +1002,7 @@ export function AnamnesisTemplateItemsRenderer({
                                   </div>
                                 </div>
                                 {scoreItem.patientExplanation && (
-                                  <Tooltip>
-                                    <TooltipTrigger asChild>
-                                      <button
-                                        type="button"
-                                        className="text-muted-foreground hover:text-foreground transition-colors p-1"
-                                      >
-                                        <HelpCircle className={compact ? 'h-4 w-4' : 'h-5 w-5'} />
-                                      </button>
-                                    </TooltipTrigger>
-                                    <TooltipContent className="max-w-md">
-                                      <p className="text-sm">{scoreItem.patientExplanation}</p>
-                                    </TooltipContent>
-                                  </Tooltip>
+                                  <HelpPopover text={scoreItem.patientExplanation} size="md" />
                                 )}
                               </div>
 
@@ -1090,6 +1150,6 @@ export function AnamnesisTemplateItemsRenderer({
         ))}
       </div>
       )}
-    </TooltipProvider>
+    </>
   )
 }

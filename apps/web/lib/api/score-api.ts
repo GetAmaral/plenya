@@ -41,6 +41,7 @@ export interface CreateScoreItemDTO {
   ageRangeMin?: number
   ageRangeMax?: number
   postMenopause?: boolean
+  defaultLevel5?: boolean
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string
@@ -62,6 +63,7 @@ export interface UpdateScoreItemDTO {
   ageRangeMin?: number
   ageRangeMax?: number
   postMenopause?: boolean
+  defaultLevel5?: boolean
   clinicalRelevance?: string
   patientExplanation?: string
   conduct?: string

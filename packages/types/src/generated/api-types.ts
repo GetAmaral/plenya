@@ -15629,6 +15629,8 @@ export interface components {
             attachments?: string;
             collectionDate?: string;
             createdAt?: string;
+            /** @description tem PDF original p/ baixar */
+            hasPdf?: boolean;
             id?: string;
             isCritical?: boolean;
             labRequestId?: string;
@@ -15645,6 +15647,8 @@ export interface components {
             worstLevel?: number;
         };
         "dto.LabResultInBatchResponse": {
+            /** @description por que não recebeu nível */
+            classifyReason?: string;
             createdAt?: string;
             id?: string;
             interpretation?: string;
@@ -16796,6 +16800,12 @@ export interface components {
         };
         /** @description Resultado individual de um exame dentro de um lote (batch) */
         "models.LabResult": {
+            /**
+             * @description Motivo quando o exame NÃO recebeu nível de classificação (Level nulo): sem item de
+             *     score, não se aplica ao paciente, valor fora das faixas, não numérico, etc. NULL
+             *     quando classificado. Eixo diferente de MatchReason (catálogo vs score).
+             */
+            classifyReason?: string;
             /** @description Data de criação */
             createdAt?: string;
             /** @description ID único do resultado */
@@ -16819,7 +16829,9 @@ export interface components {
             matchReason?: string;
             /**
              * @description Indica se o exame foi matched com uma definição catalogada
-             *     true = matched com LabTestDefinition, false = extraído mas não catalogado
+             *     true = matched com LabTestDefinition, false = extraído mas não catalogado.
+             *     SEM `default:true` de propósito: com default, o GORM omite o valor `false`
+             *     (zero-value) no INSERT e o banco aplicava true, anulando o "Não catalogado".
              */
             matched?: boolean;
             /** @description Resultado numérico (para exames quantitativos) - CONVERTIDO para unidade padrão */
@@ -17203,6 +17215,12 @@ export interface components {
             channel?: components["schemas"]["models.LeadActivityChannel"];
             /** @description Conteúdo livre — corpo da mensagem, nota, descrição da mudança */
             content?: string;
+            /**
+             * @description ContentHTML — corpo HTML original (e-mail). Content guarda o texto plano
+             *     (preview/busca/IA); ContentHTML guarda o HTML pra renderização fiel no viewer
+             *     (iframe sandbox + sanitização no front). Cifrado igual a Content (mesmo canal).
+             */
+            contentHtml?: string;
             createdAt?: string;
             /** @description @example 550e8400-e29b-41d4-a716-446655440000 */
             id?: string;
@@ -18029,6 +18047,12 @@ export interface components {
             /** @description Timestamps */
             createdAt?: string;
             /**
+             * @description Se true, um template de anamnese que inclui este item deve pré-selecionar o nível 5
+             *     por padrão (útil para histórico de doença / uso de medicação: padrão = "sem doença" / "sem uso").
+             *     @example false
+             */
+            defaultLevel5?: boolean;
+            /**
              * @description Nome completo computado (Group - Subgroup - ParentItem - Name)
              *     @example Hemograma - Série Vermelha - Hemoglobina - Homens
              */
@@ -18623,6 +18647,7 @@ export interface components {
         "services.CreateScoreItemDTO": {
             ageRangeMax?: number;
             ageRangeMin?: number;
+            defaultLevel5?: boolean;
             /** @enum {string} */
             gender?: "not_applicable" | "male" | "female";
             name: string;
@@ -18965,6 +18990,8 @@ export interface components {
             ageRangeMin?: number;
             clinicalRelevance?: string;
             conduct?: string;
+            /** @description Pré-selecionar nível 5 por padrão na anamnese */
+            defaultLevel5?: boolean;
             /** @enum {string} */
             gender?: "not_applicable" | "male" | "female";
             lastReview?: string;
