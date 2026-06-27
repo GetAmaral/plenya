@@ -331,8 +331,14 @@ func (s *ProcessingJobService) createLabResultsFromJSON(
 		return 0, 0, fmt.Errorf("failed to load test definitions: %v", err)
 	}
 
-	// Criar mapa para busca rápida
+	// Criar mapa para busca rápida + mapa de espécime por definição (desambiguação no match)
 	testDefMap := s.buildTestDefinitionMap(testDefinitions)
+	specByID := make(map[uuid.UUID]string, len(testDefinitions))
+	for _, def := range testDefinitions {
+		if def.SpecimenType != nil && *def.SpecimenType != "" {
+			specByID[def.ID] = *def.SpecimenType
+		}
+	}
 
 	matchedCount := 0
 	unmatchedCount := 0
@@ -342,8 +348,10 @@ func (s *ProcessingJobService) createLabResultsFromJSON(
 
 	// Criar LabResult para cada exame extraído
 	for _, exam := range extracted.Exames {
-		// Tentar fazer match com definição de teste
-		testDefID := s.matchTestDefinition(exam.NomeExame, testDefMap)
+		// Espécime normalizado (Sangue/Urina/...) — usado no match e gravado no result
+		specimen := normalizeSpecimen(exam.Material)
+		// Tentar fazer match com definição de teste (desempatando por espécime)
+		testDefID := s.matchTestDefinition(exam.NomeExame, specimen, testDefMap, specByID)
 
 		// Tentar converter resultado para numérico primeiro
 		var resultNumeric *float64
@@ -375,14 +383,18 @@ func (s *ProcessingJobService) createLabResultsFromJSON(
 			matchReason = &r
 		}
 		req := &dto.CreateLabResultInBatchRequest{
-			TestName:      testName,
-			TestType:      testType,
-			ResultNumeric: resultNumeric,
-			ResultText:    resultText,
-			Unit:          exam.Unidade,
-			Matched:       &matched,
-			Source:        &source,
-			MatchReason:   matchReason,
+			TestName:       testName,
+			TestType:       testType,
+			ResultNumeric:  resultNumeric,
+			ResultText:     resultText,
+			Unit:           exam.Unidade,
+			Matched:        &matched,
+			Source:         &source,
+			MatchReason:    matchReason,
+			Specimen:       specimen,
+			Method:         exam.Metodo,
+			ReferenceRange: exam.ValorReferencia,
+			CollectionDate: parseExamDate(exam.DataColetaExame),
 		}
 
 		if testDefID != nil {
@@ -433,25 +445,41 @@ func (s *ProcessingJobService) buildTestDefinitionMap(testDefs []models.LabTestD
 	return defMap
 }
 
-// matchTestDefinition - busca definição de teste usando nome normalizado
+// matchTestDefinition - busca a melhor definição para um exame. Quando há mais de um candidato
+// e o resultado tem espécime conhecido, prefere o candidato cujo specimen_type casa — desambigua
+// exames de mesmo nome em espécimes diferentes (ex.: glicose sangue vs urina). `specByID` mapeia
+// id da definição -> specimen_type; `specimen` é o espécime normalizado do resultado.
 func (s *ProcessingJobService) matchTestDefinition(
 	examName string,
+	specimen *string,
 	defMap map[string]uuid.UUID,
+	specByID map[uuid.UUID]string,
 ) *uuid.UUID {
 	normalizedName := normalizeTestName(examName)
 
-	// Busca exata
+	// Busca exata (chave única → 1 id)
 	if id, found := defMap[normalizedName]; found {
 		return &id
 	}
 
-	// Busca parcial (se nome tem pelo menos 5 caracteres)
+	// Busca parcial (substring): coleta TODOS os candidatos e desempata por espécime.
 	if len(normalizedName) >= 5 {
+		var cands []uuid.UUID
+		seen := map[uuid.UUID]bool{}
 		for defName, id := range defMap {
 			// Se o nome do exame contém o nome da definição OU vice-versa
 			if len(defName) >= 5 && (containsSubstring(normalizedName, defName) || containsSubstring(defName, normalizedName)) {
-				return &id
+				if !seen[id] {
+					cands = append(cands, id)
+					seen[id] = true
+				}
 			}
+		}
+		if len(cands) > 0 {
+			if best := preferBySpecimen(cands, specimen, specByID); best != nil {
+				return best
+			}
+			return &cands[0]
 		}
 	}
 
@@ -485,6 +513,24 @@ func (s *ProcessingJobService) matchTestDefinition(
 		}
 	}
 
+	return nil
+}
+
+// preferBySpecimen - entre candidatos de match, devolve o ÚNICO cujo specimen_type casa com o
+// espécime do resultado. nil se não há espécime, nenhum casa, ou há empate (mantém ambíguo).
+func preferBySpecimen(cands []uuid.UUID, specimen *string, specByID map[uuid.UUID]string) *uuid.UUID {
+	if specimen == nil || *specimen == "" {
+		return nil
+	}
+	var matches []uuid.UUID
+	for _, id := range cands {
+		if specByID != nil && strings.EqualFold(specByID[id], *specimen) {
+			matches = append(matches, id)
+		}
+	}
+	if len(matches) == 1 {
+		return &matches[0]
+	}
 	return nil
 }
 
@@ -552,6 +598,49 @@ func removeAccentsFromString(s string) string {
 	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
 	result, _, _ := transform.String(t, s)
 	return result
+}
+
+// normalizeSpecimen - normaliza o material/espécime extraído do laudo para uma categoria
+// canônica (Sangue/Urina/Fezes/Saliva/Líquor), usada na disambiguação de matching e no
+// prontuário. Família "sangue" agrega sangue/soro/plasma. Desconhecido preserva o original.
+func normalizeSpecimen(material *string) *string {
+	if material == nil {
+		return nil
+	}
+	m := removeAccentsFromString(strings.ToLower(strings.TrimSpace(*material)))
+	if m == "" {
+		return nil
+	}
+	canon := func(s string) *string { return &s }
+	switch {
+	case strings.Contains(m, "urin"):
+		return canon("Urina")
+	case strings.Contains(m, "fezes") || strings.Contains(m, "fecal"):
+		return canon("Fezes")
+	case strings.Contains(m, "saliva"):
+		return canon("Saliva")
+	case strings.Contains(m, "liquor") || strings.Contains(m, "lcr"):
+		return canon("Líquor")
+	case strings.Contains(m, "sangue") || strings.Contains(m, "soro") || strings.Contains(m, "plasm") || strings.Contains(m, "serum"):
+		return canon("Sangue")
+	default:
+		return material // desconhecido: preserva o que veio
+	}
+}
+
+// parseExamDate - converte data de coleta por-exame (YYYY-MM-DD) em time.Time; nil se
+// ausente/inválida. Armazena ao MEIO-DIA UTC para que a exibição em qualquer fuso (±12h)
+// mantenha o dia correto (meia-noite UTC voltaria 1 dia em São Paulo, -3).
+func parseExamDate(d *string) *time.Time {
+	if d == nil || strings.TrimSpace(*d) == "" {
+		return nil
+	}
+	t, err := time.Parse("2006-01-02", strings.TrimSpace(*d))
+	if err != nil {
+		return nil
+	}
+	t = t.Add(12 * time.Hour)
+	return &t
 }
 
 // containsSubstring - verifica se s contém substr (ambos já normalizados)

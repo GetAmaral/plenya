@@ -1,6 +1,8 @@
 package dto
 
 import (
+	"time"
+
 	"github.com/plenya/api/internal/models"
 )
 
@@ -31,6 +33,11 @@ type CreateLabResultInBatchRequest struct {
 	Matched             *bool    `json:"matched,omitempty"` // true se matched com definição catalogada
 	Source              *string  `json:"source,omitempty"`  // "pdf" | "manual" (default manual)
 	MatchReason         *string  `json:"matchReason,omitempty"`
+	// Metadados opcionais (extraídos do PDF). Ver docs/emr/plano-metadados-labtest.md.
+	Specimen       *string    `json:"specimen,omitempty"`       // espécime normalizado (Sangue/Urina/Fezes...)
+	Method         *string    `json:"method,omitempty"`         // método analítico
+	ReferenceRange *string    `json:"referenceRange,omitempty"` // faixa de referência impressa do lab
+	CollectionDate *time.Time `json:"collectionDate,omitempty"` // data de coleta DESTE exame (fallback p/ a do lote)
 }
 
 // UpdateLabResultBatchRequest representa a requisição para atualizar um lote
@@ -154,6 +161,10 @@ type LabResultInBatchResponse struct {
 	Source                string                     `json:"source"`                   // "pdf" | "manual"
 	MatchReason           *string                    `json:"matchReason,omitempty"`    // por que não casou
 	ClassifyReason        *string                    `json:"classifyReason,omitempty"` // por que não recebeu nível
+	Specimen              *string                    `json:"specimen,omitempty"`       // espécime (Sangue/Urina/Fezes...)
+	Method                *string                    `json:"method,omitempty"`         // método analítico
+	ReferenceRange        *string                    `json:"referenceRange,omitempty"` // faixa de referência impressa do lab
+	CollectionDate        *string                    `json:"collectionDate,omitempty"` // data de coleta DESTE exame (RFC3339; renderizar por ela, fallback p/ a do lote)
 	CreatedAt             string                     `json:"createdAt"`
 	UpdatedAt             string                     `json:"updatedAt"`
 }

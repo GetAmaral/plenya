@@ -64,6 +64,23 @@ type LabResult struct {
 	// quando classificado. Eixo diferente de MatchReason (catálogo vs score).
 	ClassifyReason *string `gorm:"type:text" json:"classifyReason,omitempty"`
 
+	// Material/espécime do exame (ex: "Sangue", "Soro", "Urina", "Fezes"). Extraído do laudo
+	// (campo `material`), normalizado. Desambigua exames de mesmo nome em espécimes diferentes
+	// (glicose sangue vs urina) e enriquece o prontuário. Opcional.
+	Specimen *string `gorm:"type:varchar(50)" json:"specimen,omitempty"`
+
+	// Método analítico do exame (ex: "ECLIA", "HPLC", "Enzimático"). Extraído do laudo. Opcional.
+	Method *string `gorm:"type:varchar(150)" json:"method,omitempty"`
+
+	// Faixa de referência impressa pelo laboratório (texto livre, ex: "70 a 99 mg/dL"). Para
+	// exibição e fallback de normal/alterado quando não há item de score. Opcional.
+	ReferenceRange *string `gorm:"type:text" json:"referenceRange,omitempty"`
+
+	// Data de coleta DESTE exame (os laudos trazem "Coletado em:" por exame, que pode diferir
+	// da data do lote). A tabela de resultados renderiza por esta data; se NULL, herda a do
+	// lote (coalesce no read). Opcional.
+	CollectionDate *time.Time `gorm:"type:timestamptz" json:"collectionDate,omitempty"`
+
 	// Data de criação
 	CreatedAt time.Time `gorm:"not null;autoCreateTime" json:"createdAt"`
 

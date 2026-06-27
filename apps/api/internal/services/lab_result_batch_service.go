@@ -476,6 +476,10 @@ func (s *LabResultBatchService) AddResultInternal(batchID uuid.UUID, req *dto.Cr
 		Matched:             matched,
 		Source:              source,
 		MatchReason:         req.MatchReason,
+		Specimen:            req.Specimen,
+		Method:              req.Method,
+		ReferenceRange:      req.ReferenceRange,
+		CollectionDate:      req.CollectionDate,
 	}
 
 	// Aplicar conversão de unidade ANTES de criar
@@ -546,6 +550,10 @@ func (s *LabResultBatchService) AddResult(batchID, userID uuid.UUID, req *dto.Cr
 		Matched:             matched,
 		Source:              source,
 		MatchReason:         req.MatchReason,
+		Specimen:            req.Specimen,
+		Method:              req.Method,
+		ReferenceRange:      req.ReferenceRange,
+		CollectionDate:      req.CollectionDate,
 	}
 
 	// Aplicar conversão de unidade ANTES de criar
@@ -837,6 +845,12 @@ func (s *LabResultBatchService) toLabResultResponse(result *models.LabResult) *d
 		}
 	}
 
+	var collectionDate *string
+	if result.CollectionDate != nil {
+		cd := result.CollectionDate.Format(time.RFC3339)
+		collectionDate = &cd
+	}
+
 	return &dto.LabResultInBatchResponse{
 		ID:                    result.ID.String(),
 		LabResultBatchID:      result.LabResultBatchID.String(),
@@ -855,6 +869,10 @@ func (s *LabResultBatchService) toLabResultResponse(result *models.LabResult) *d
 		Source:                result.Source,
 		MatchReason:           result.MatchReason,
 		ClassifyReason:        result.ClassifyReason,
+		Specimen:              result.Specimen,
+		Method:                result.Method,
+		ReferenceRange:        result.ReferenceRange,
+		CollectionDate:        collectionDate,
 		CreatedAt:             result.CreatedAt.Format(time.RFC3339),
 		UpdatedAt:             result.UpdatedAt.Format(time.RFC3339),
 	}

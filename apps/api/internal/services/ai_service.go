@@ -296,14 +296,20 @@ Analise o texto OCR abaixo e extraia TODOS os exames em formato JSON.
 
 **Opcionais (OMITIR se não encontrar):**
 3. **unidade**: unidade de medida (mg/dL, g/dL, etc)
-4. **material**: material biológico (Soro, Sangue, Urina, etc)
-5. **metodo**: método usado (Enzimático, ELISA, etc)
+4. **material**: material biológico/espécime (Soro, Sangue, Plasma, Urina, Fezes, etc)
+5. **metodo**: método usado (Enzimático, ELISA, ECLIA, HPLC, etc)
+6. **valorReferencia**: faixa de referência impressa do lab para ESTE exame, como texto
+   (ex: "70 a 99 mg/dL", "Inferior a 190 mg/dL", "Negativo"). NÃO é o resultado.
+7. **dataColetaExame**: data da COLETA deste exame (formato YYYY-MM-DD), SEMPRE que o laudo
+   trouxer "Coletado em:" para o exame — mesmo que igual à coleta geral. Usada para renderizar
+   a tabela por data do RESULTADO.
 
 ## REGRAS CRÍTICAS
 
 - Extraia TODOS os exames (Hemograma completo = múltiplos exames separados)
 - **OMITA campos opcionais se não encontrar** (não envie campo vazio para economizar tokens)
-- Descarte valores de referência, interpretações, notas
+- Capture a faixa de referência em **valorReferencia** (não no resultado); descarte
+  interpretações/comentários/notas e os "Resultados Anteriores" (histórico)
 - Números brasileiros: use ponto decimal (1.5 não 1,5)
 - NUNCA invente dados
 
@@ -393,6 +399,16 @@ Deve extrair:
 Aplica-se a Neutrófilos/Segmentados, Linfócitos, Monócitos, Eosinófilos, Basófilos e
 Bastonetes. Se a linha tiver SÓ o %% (sem absoluto), extraia apenas o %%.
 
+## ROTINA DE URINA / EAS - REGRA ESPECIAL
+
+Para componentes do exame de urina (EAS / Rotina de urina / sedimento), use o nome URINÁRIO
+explícito e SEMPRE informe material="Urina" — evita confundir com o exame de SANGUE de mesmo
+nome (glicose, proteínas, hemoglobina têm versão sangue E urina):
+- Glicose → "Glicose Urinária"; Proteínas → "Proteínas Urinárias"; Hemoglobina → "Hemoglobina Urinária"
+- Corpos cetônicos → "Corpos Cetônicos Urinários"; Bilirrubina → "Bilirrubina Urinária"
+- Densidade → "Densidade Urinária"; pH → "pH Urinário"; Nitrito; Urobilinogênio (mantêm o nome)
+- Leucócitos/Hemácias/Células epiteliais/Bactérias/Leveduras/Muco → "<Componente> - Sedimento"
+
 ## EXEMPLO DE SAÍDA
 
 [
@@ -461,7 +477,15 @@ func (s *AIService) buildJSONSchema() map[string]interface{} {
 						},
 						"metodo": map[string]string{
 							"type":        "string",
-							"description": "Método usado (Enzimático, ELISA, etc) - OMITIR se não encontrar",
+							"description": "Método usado (Enzimático, ELISA, ECLIA, HPLC, etc) - OMITIR se não encontrar",
+						},
+						"valorReferencia": map[string]string{
+							"type":        "string",
+							"description": "Faixa de referência impressa do lab para este exame (ex: '70 a 99 mg/dL', 'Negativo') - NÃO é o resultado - OMITIR se não encontrar",
+						},
+						"dataColetaExame": map[string]string{
+							"type":        "string",
+							"description": "Data da coleta DESTE exame (YYYY-MM-DD), SEMPRE que o laudo trouxer 'Coletado em:' para o exame (mesmo se igual à geral) - OMITIR só se não houver",
 						},
 					},
 				},
