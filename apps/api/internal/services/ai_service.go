@@ -363,6 +363,36 @@ Deve extrair:
 
 **NÃO extrair** os valores individuais de Microalbuminúria e Creatinina quando estiver no contexto do exame de Microalbuminúria (esses valores sozinhos não têm valor clínico para este exame específico).
 
+## HEMOGRAMA / LEUCOGRAMA (diferencial) - REGRA ESPECIAL
+
+No LEUCOGRAMA, cada tipo celular costuma ter DOIS valores na MESMA linha: percentual (%%)
+e contagem ABSOLUTA (/mm3 ou /µL). O valor clínico para o escore é o **ABSOLUTO**.
+Extraia DOIS exames por célula:
+- "<Célula> (absoluto)" com a contagem absoluta (/mm3) ← OBRIGATÓRIO
+- "<Célula> (percentual)" com o percentual
+
+Trate "Segmentados" como **Neutrófilos**.
+
+Exemplo no laudo:
+
+    Segmentados.....: 41,17 %%   2.548,42 /mm3
+    Linfócitos......: 42,73 %%   2.644,99 /mm3
+    Monócitos.......: 12,41 %%   768,18 /mm3
+
+Deve extrair:
+
+    [
+      {"nomeExame": "Neutrófilos (absoluto)", "resultado": "2548.42", "unidade": "/mm3"},
+      {"nomeExame": "Neutrófilos (percentual)", "resultado": "41.17", "unidade": "%%"},
+      {"nomeExame": "Linfócitos (absoluto)", "resultado": "2644.99", "unidade": "/mm3"},
+      {"nomeExame": "Linfócitos (percentual)", "resultado": "42.73", "unidade": "%%"},
+      {"nomeExame": "Monócitos (absoluto)", "resultado": "768.18", "unidade": "/mm3"},
+      {"nomeExame": "Monócitos (percentual)", "resultado": "12.41", "unidade": "%%"}
+    ]
+
+Aplica-se a Neutrófilos/Segmentados, Linfócitos, Monócitos, Eosinófilos, Basófilos e
+Bastonetes. Se a linha tiver SÓ o %% (sem absoluto), extraia apenas o %%.
+
 ## EXEMPLO DE SAÍDA
 
 [
