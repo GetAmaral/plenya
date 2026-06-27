@@ -131,28 +131,24 @@ func (s *WhatsAppTemplateService) upsert(mt metaTemplate) error {
 	var existing models.WhatsAppTemplate
 	err := s.db.Where("name = ? AND language = ?", mt.Name, lang).First(&existing).Error
 	if err == nil {
-		// Atualiza só os campos da Meta; preserva purpose/variables/wiringNotes/enabled.
+		// Atualiza campos da Meta; preserva purpose/wiringNotes/enabled. Variáveis: mescla (rótulo
+		// editado à mão tem prioridade; senão usa o canônico; exemplo vem da Meta).
+		vars := mergeVars(nvars, example, canonicalVarLabels(mt.Name), existing.Variables)
 		return s.db.Model(&existing).Updates(map[string]interface{}{
 			"meta_id":        mt.ID,
 			"category":       mt.Category,
 			"status":         mt.Status,
 			"body_text":      body,
 			"variable_count": nvars,
+			"variables":      vars,
 			"last_synced_at": now,
 		}).Error
 	}
 	if err != gorm.ErrRecordNotFound {
 		return err
 	}
-	// Novo: pré-popula variáveis com os exemplos da Meta (rótulo em branco, admin completa depois).
-	vars := make([]models.WhatsAppTemplateVar, 0, nvars)
-	for i := 0; i < nvars; i++ {
-		ex := ""
-		if i < len(example) {
-			ex = example[i]
-		}
-		vars = append(vars, models.WhatsAppTemplateVar{Index: i + 1, Example: ex})
-	}
+	// Novo: variáveis já nascem com rótulo canônico (descrição do campo) + exemplo da Meta.
+	vars := mergeVars(nvars, example, canonicalVarLabels(mt.Name), nil)
 	return s.db.Clauses(clause.OnConflict{DoNothing: true}).Create(&models.WhatsAppTemplate{
 		MetaID:        mt.ID,
 		Name:          mt.Name,
@@ -165,6 +161,59 @@ func (s *WhatsAppTemplateService) upsert(mt metaTemplate) error {
 		Enabled:       true,
 		LastSyncedAt:  &now,
 	}).Error
+}
+
+// mergeVars monta as variáveis: rótulo = o editado à mão (não-vazio) se houver, senão o canônico;
+// exemplo = o da Meta se houver, senão o que já tinha.
+func mergeVars(nvars int, example, canonical []string, prev []models.WhatsAppTemplateVar) []models.WhatsAppTemplateVar {
+	out := make([]models.WhatsAppTemplateVar, 0, nvars)
+	for i := 0; i < nvars; i++ {
+		v := models.WhatsAppTemplateVar{Index: i + 1}
+		if i < len(prev) {
+			v.Label, v.Example = prev[i].Label, prev[i].Example
+		}
+		if v.Label == "" && i < len(canonical) {
+			v.Label = canonical[i]
+		}
+		if i < len(example) && example[i] != "" {
+			v.Example = example[i]
+		}
+		out = append(out, v)
+	}
+	return out
+}
+
+// canonicalVarLabels descreve o que é cada {{n}} de cada template (conhecimento nosso — a Meta não
+// fornece). Garante que todo template venha documentado. Atualizar ao criar/alterar templates.
+func canonicalVarLabels(name string) []string {
+	switch name {
+	case "aniversario_plenya":
+		return []string{"Primeiro nome do paciente"}
+	case "cancelamento_consulta":
+		return []string{"Nome do paciente", "Data da consulta", "Hora"}
+	case "confirmacao_consulta_dia":
+		return []string{"Nome do paciente", "Hora", "Frase do dia (modalidade/local)"}
+	case "confirmacao_consulta_semana":
+		return []string{"Nome do paciente", "Data da consulta", "Hora", "Modalidade (presencial/online)"}
+	case "confirmacao_consulta_vespera":
+		return []string{"Nome do paciente", "Hora", "Modalidade (presencial/online)"}
+	case "consultation_prep_invite":
+		return []string{"Link seguro de preparação"}
+	case "documento_disponivel":
+		return []string{"Primeiro nome do paciente", "Tipo do documento (ex.: Receita Médica)", "Link seguro do documento"}
+	case "followup_pos_consulta":
+		return []string{"Nome do paciente"}
+	case "lead_alert":
+		return []string{"Nome do lead", "Contato (e-mail/telefone)", "Origem do lead", "Link do painel administrativo"}
+	case "magic_link":
+		return []string{"Link do resultado do Escore Light"}
+	case "reengajamento_lead":
+		return []string{"Nome do lead"}
+	case "remarcacao_consulta":
+		return []string{"Nome do paciente", "Nova data", "Nova hora", "Modalidade (presencial/online)"}
+	default:
+		return nil
+	}
 }
 
 // List retorna o catálogo (ordenado por status então nome).

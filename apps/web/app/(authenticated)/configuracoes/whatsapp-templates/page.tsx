@@ -118,7 +118,7 @@ export default function WhatsAppTemplatesPage() {
                     {t.variables.map((v) => (
                       <div key={v.index}>
                         <span className="font-mono">{`{{${v.index}}}`}</span>
-                        {v.label ? ` = ${v.label}` : ' = (sem rótulo)'}
+                        {v.label ? ` = ${v.label}` : ''}
                         {v.example ? ` · ex.: ${v.example}` : ''}
                       </div>
                     ))}
