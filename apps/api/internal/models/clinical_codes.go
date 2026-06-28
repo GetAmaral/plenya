@@ -21,12 +21,12 @@ const (
 
 	// Hábitos e fatores de risco
 	AnamCodeTabaco           AnamneseItemCode = "TABACO"
-	AnamCodeAtividadeFisica  AnamneseItemCode = "ATIVIDADE_FISICA"
-	AnamCodeExercicioFisico  AnamneseItemCode = "EXERCICIO_FISICO"
+	AnamCodeAtividadeFisica  AnamneseItemCode = "ATIVIDADE_FISICA_VIDA_ADULTA"
+	AnamCodeExercicioFisico  AnamneseItemCode = "EXERCICIO_FISICO_VIDA_ADULTA"
 
 	// Doenças
 	AnamCodeDoencaCV         AnamneseItemCode = "DOENCA_CARDIOVASCULAR"
-	AnamCodeDoencaCVFamiliar AnamneseItemCode = "DOENCA_CARDIOVASCULAR_2"
+	AnamCodeDoencaCVFamiliar AnamneseItemCode = "DOENCA_CARDIOVASCULAR_FAMILIAR"
 	AnamCodeSintomas         AnamneseItemCode = "OUTROS_SINTOMAS"
 
 	// Medicações
