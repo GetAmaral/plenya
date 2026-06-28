@@ -137,33 +137,19 @@ export function ScaleWidget({
       </div>
       )}
 
-      {/* Resultado */}
-      <div className="flex items-center justify-between gap-3 border-t pt-3">
-        <div className="text-sm">
-          <span className="text-xs font-medium text-muted-foreground">Pontuação: </span>
-          <span className="font-semibold tabular-nums text-foreground">
-            {answeredCount === 0
-              ? `— / ${def.maxScore}`
-              : complete || admin
-                ? `${total} / ${def.maxScore}`
-                : `${answeredCount} de ${def.questions?.length ?? 0} respondidas`}
-          </span>
-          {complete && level !== undefined && levelName?.(level) && (
-            <span className="ml-2 rounded-full border-[1.5px] border-primary/40 bg-primary/5 px-2 py-0.5 text-[11px] font-semibold text-foreground">
-              N{level} · {levelName(level)}
-            </span>
-          )}
-        </div>
-        {answeredCount > 0 && (
+      {/* Sem bloco de resultado aqui: o total e o nível classificado ficam no cabeçalho
+          do item (renderer), junto de todos os níveis auto-marcados. Aqui só as perguntas. */}
+      {answeredCount > 0 && (
+        <div className="flex justify-end border-t pt-2">
           <button
             type="button"
             onClick={clear}
-            className="shrink-0 text-xs text-muted-foreground underline underline-offset-4 transition hover:text-foreground"
+            className="text-xs text-muted-foreground underline underline-offset-4 transition hover:text-foreground"
           >
-            limpar
+            limpar respostas
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }

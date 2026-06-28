@@ -18,7 +18,7 @@ import type { AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
 import type { Patient } from '@/lib/auth-store'
 import { AnamnesisItemHistory } from './AnamnesisItemHistory'
 import { ScaleWidget } from './ScaleWidget'
-import { getScaleDef, pickWordRecallSet, formatScaleResult, type ChosenWord } from '@plenya/domain'
+import { getScaleDef, pickWordRecallSet, type ChosenWord } from '@plenya/domain'
 
 // Evaluates whether a numeric value satisfies a ScoreLevel's operator/limits
 function evaluatesTrue(value: number, level: ScoreLevel): boolean {
@@ -379,57 +379,6 @@ export function AnamnesisTemplateItemsRenderer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Chip que resume o valor atual do item na linha colapsada.
-  const currentChip = (cur: AnamnesisItemFormValue | undefined, scoreItem: ScoreItem) => {
-    // Escala preenchida: mostra "total/max · N{lvl} · nome" (o total vem do scaleResponses).
-    const scaleDef = getScaleDef(scoreItem.anamneseItemCode)
-    const scaleTotalVal = cur?.scaleResponses?.total ?? cur?.numericValue
-    if (scaleDef && scaleTotalVal !== undefined) {
-      const lvl = cur?.selectedLevel
-      const name = lvl !== undefined ? (scoreItem.levels || []).find((l) => l.level === lvl)?.name : undefined
-      return (
-        <span
-          className={cn(
-            'whitespace-nowrap rounded-full border-[1.5px] px-2.5 py-0.5 text-[11px] font-bold',
-            lvl !== undefined
-              ? LEVEL_COMPACT_SELECTED_CLASSES[lvl] || LEVEL_COMPACT_SELECTED_CLASSES[6]
-              : 'border-border bg-muted text-foreground'
-          )}
-        >
-          {formatScaleResult(scaleTotalVal, scaleDef.maxScore)}
-          {lvl !== undefined ? ` · N${lvl}${name ? ` · ${name}` : ''}` : ''}
-        </span>
-      )
-    }
-    if (cur?.selectedLevel !== undefined) {
-      const lvl = cur.selectedLevel
-      const name = (scoreItem.levels || []).find((l) => l.level === lvl)?.name
-      return (
-        <span
-          className={cn(
-            'whitespace-nowrap rounded-full border-[1.5px] px-2.5 py-0.5 text-[11px] font-bold',
-            LEVEL_COMPACT_SELECTED_CLASSES[lvl] || LEVEL_COMPACT_SELECTED_CLASSES[6]
-          )}
-        >
-          N{lvl}
-          {name ? ` · ${name}` : ''}
-        </span>
-      )
-    }
-    if (cur?.numericValue !== undefined) {
-      return (
-        <span className="whitespace-nowrap rounded-full border-[1.5px] border-border bg-muted px-2.5 py-0.5 text-[11px] font-semibold text-foreground">
-          {cur.numericValue}
-          {scoreItem.unit ? ` ${scoreItem.unit}` : ''}
-        </span>
-      )
-    }
-    return (
-      <span className="whitespace-nowrap rounded-full border-[1.5px] border-dashed border-border px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground">
-        preencher
-      </span>
-    )
-  }
 
   // Auto-scroll and focus on specific item when coming from health score edit
   useEffect(() => {
@@ -727,6 +676,7 @@ export function AnamnesisTemplateItemsRenderer({
                         if (isScale) {
                           const open = expandedItems.has(scoreItem.id)
                           const showHistScale = histOpen.has(scoreItem.id)
+                          const scaleTotalVal = cur?.scaleResponses?.total ?? cur?.numericValue
                           return (
                             <div
                               key={templateItem.id}
@@ -734,28 +684,52 @@ export function AnamnesisTemplateItemsRenderer({
                               style={indentStyle}
                               className={cn(rowCls, 'px-0 py-0', depth > 0 && 'border-l-2 border-l-primary/25')}
                             >
-                              <div className="flex w-full items-center gap-2 px-3 py-1.5">
+                              <div className="flex w-full flex-wrap items-center gap-2 px-3 py-1.5">
                                 <button
                                   type="button"
                                   onClick={() => toggleSetMember(setExpandedItems, scoreItem.id)}
-                                  className="flex min-w-0 flex-1 items-center gap-2 text-left"
+                                  className="flex min-w-0 items-center gap-2 text-left"
+                                  title="Abrir/fechar perguntas"
                                 >
-                                  <span className="min-w-0 flex-1 text-[12.5px] leading-tight text-foreground">
+                                  <span className="min-w-0 text-[12.5px] leading-tight text-foreground">
                                     {depth > 0 && <span className="mr-1 text-muted-foreground/50">└</span>}
                                     {scoreItem.name}
                                     <span className="ml-1 rounded bg-muted px-1 text-[9px] text-muted-foreground">escala</span>
                                   </span>
-                                  <span className="shrink-0">{currentChip(cur, scoreItem)}</span>
                                   <ChevronRight className={cn('h-3.5 w-3.5 shrink-0 text-muted-foreground/60 transition-transform', open && 'rotate-90')} />
                                 </button>
-                                <button
-                                  type="button"
-                                  onClick={() => toggleSetMember(setHistOpen, scoreItem.id)}
-                                  title="Histórico do item"
-                                  className={cn('shrink-0 rounded-md border border-dashed px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-muted', showHistScale && 'border-solid text-foreground')}
-                                >
-                                  hist
-                                </button>
+                                {scaleTotalVal !== undefined && (
+                                  <span className="shrink-0 rounded-full border border-primary/30 bg-primary/5 px-2 py-0.5 text-[11px] font-bold tabular-nums text-foreground">
+                                    {scaleTotalVal}/{scaleDef!.maxScore}
+                                  </span>
+                                )}
+                                {/* Todos os níveis, como qualquer item — o nível certo é auto-marcado pelo cálculo da escala (não clicável). */}
+                                <div className="ml-auto flex flex-wrap items-center justify-end gap-1">
+                                  {levels.map((level) => {
+                                    const sel = cur?.selectedLevel === level.level
+                                    return (
+                                      <span
+                                        key={level.id}
+                                        title={`N${level.level} · ${level.name}`}
+                                        className={cn(
+                                          'rounded-md border px-1.5 py-0.5 text-[11px] leading-tight',
+                                          sel ? LEVEL_CHIP_SELECTED[level.level] ?? LEVEL_CHIP_SELECTED[6] : LEVEL_CHIP_IDLE
+                                        )}
+                                      >
+                                        <span className="font-bold">N{level.level}</span>
+                                        {level.name && <span className="ml-1">{level.name}</span>}
+                                      </span>
+                                    )
+                                  })}
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleSetMember(setHistOpen, scoreItem.id)}
+                                    title="Histórico do item"
+                                    className={cn('shrink-0 rounded-md border border-dashed px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-muted', showHistScale && 'border-solid text-foreground')}
+                                  >
+                                    hist
+                                  </button>
+                                </div>
                               </div>
                               {open && (
                                 <div className="px-3 pb-3">

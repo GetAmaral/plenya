@@ -345,10 +345,11 @@ const SPAN_INVERSO: ScaleDef = {
 // ---------------------------------------------------------------------------
 // Tier C — ASEX (Arizona Sexual Experience Scale)
 // ---------------------------------------------------------------------------
-// 5 itens, 1–6 (1 = melhor função, 6 = pior). A classificação NÃO é pelo total: rastreio
-// positivo para disfunção se total ≥19, ou qualquer item ≥5, ou ≥3 itens ≥4.
-// O nível segue a modelagem do banco (L0 total>18 · L1 ≥3 itens≥4 · L2 1 item≥5 · L5 normal).
-// PROPOSTA (a confirmar com o Dr. Getúlio): redação PT-BR + mapeamento de níveis.
+// 5 itens, cada um 1–6 (1 = melhor função, 6 = pior). Total 5–30 (NÃO 0–25).
+// Fonte: McGahuey et al., 2000 (J Sex Marital Ther) — Arizona Sexual Experience Scale,
+// validação original. Rastreio positivo para disfunção sexual se total ≥19, OU qualquer
+// item ≥5, OU ≥3 itens ≥4. A classificação NÃO é pelo total puro: usa essa regra.
+// Mapeamento de níveis (banco): L0 total>18 · L1 ≥3 itens≥4 · L2 1 item≥5 · L5 normal.
 
 const ASEX_EASE: ScaleOption[] = [
   { value: 1, label: 'Extremamente fácil' },
