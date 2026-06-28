@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"log"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -331,6 +332,24 @@ func (r *ScoreRepository) UpdateScoreItem(item *models.ScoreItem) error {
 	}
 
 	return r.db.Model(&models.ScoreItem{}).Where("id = ?", item.ID).Updates(updates).Error
+}
+
+// InvalidateScoreItemEmbedding marca o embedding do item como stale, enfileira a
+// regeneração e invalida a preparação de enrichment. Roda FORA de qualquer transação
+// (statements em autocommit) e é TOLERANTE A ERRO: uma falha aqui (ex.: drift de schema
+// em prod) é logada mas nunca propaga, para jamais abortar o update que a originou.
+// Chamada por ScoreService.UpdateItem só quando um campo semântico realmente muda — o
+// hook BeforeUpdate não faz isso porque o update via map tem ID nulo (ver score_item.go).
+func (r *ScoreRepository) InvalidateScoreItemEmbedding(id uuid.UUID) {
+	if id == uuid.Nil {
+		return
+	}
+	if err := r.db.Exec(`SELECT invalidate_embedding('score_item', ?, 'ScoreItem update', 0)`, id).Error; err != nil {
+		log.Printf("warn: invalidate_embedding falhou para score_item %s: %v", id, err)
+	}
+	if err := r.db.Exec(`SELECT invalidate_preparation(?, 'ScoreItem update')`, id).Error; err != nil {
+		log.Printf("warn: invalidate_preparation falhou para score_item %s: %v", id, err)
+	}
 }
 
 // DeleteScoreItem soft deletes a score item

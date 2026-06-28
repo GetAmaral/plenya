@@ -303,7 +303,9 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
       await queryClient.invalidateQueries({ queryKey: scoreKeys.allGroupTrees() })
       toast.success('Item indentado')
     } catch (error) {
-      toast.error('Erro ao indentar item')
+      console.error('Erro ao indentar item:', error)
+      const detail = error instanceof Error ? error.message : String(error)
+      toast.error(`Erro ao indentar item: ${detail}`)
     }
   }
 
@@ -346,11 +348,14 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
       const mutations: Promise<any>[] = []
 
       // 1. Incrementar orders dos items que estão no caminho
+      // IMPORTANTE: enviar parentItemId junto — o backend trata "order presente" como
+      // "parentItemId também veio" e, se omitido, zera o parent (vira raiz). Preservamos
+      // o pai atual de cada item ao só mexer no order.
       itemsInNewLevel.forEach(item => {
         mutations.push(
           updateItem.mutateAsync({
             id: item.id,
-            data: { order: item.order + 1 },
+            data: { order: item.order + 1, parentItemId: item.parentItemId ?? null },
           })
         )
       })
@@ -391,7 +396,9 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
         toast.success('Item desindentado')
       }
     } catch (error) {
-      toast.error('Erro ao desindentar item')
+      console.error('Erro ao desindentar item:', error)
+      const detail = error instanceof Error ? error.message : String(error)
+      toast.error(`Erro ao desindentar item: ${detail}`)
     }
   }
 
@@ -501,7 +508,9 @@ export function ScoreTreeView({ groups, expandedNodes = {}, expandClinicalTexts 
         toast.success('Itens reordenados')
       }
     } catch (error) {
-      toast.error('Erro ao reordenar itens')
+      console.error('Erro ao reordenar itens:', error)
+      const detail = error instanceof Error ? error.message : String(error)
+      toast.error(`Erro ao reordenar itens: ${detail}`)
     }
   }
 

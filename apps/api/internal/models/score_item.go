@@ -165,37 +165,35 @@ func (si *ScoreItem) BeforeUpdate(tx *gorm.DB) error {
 		si.LastReview = &now
 	}
 
-	// Invalidate embedding when any field that affects semantic meaning changes
-	embeddingFields := []string{
-		"Name", "ClinicalRelevance", "PatientExplanation", "Conduct",
-		"Gender", "AgeRangeMin", "AgeRangeMax", "PostMenopause", "Unit",
-	}
-
-	needsReembedding := false
-	for _, field := range embeddingFields {
-		if tx.Statement.Changed(field) {
-			needsReembedding = true
-			break
+	// Invalidate embedding when any field that affects semantic meaning changes.
+	//
+	// IMPORTANTE: a invalidação NÃO acontece aqui. O caminho de update real
+	// (ScoreRepository.UpdateScoreItem) usa `Model(&ScoreItem{}).Updates(map)` com um
+	// model VAZIO, então neste hook `si.ID == uuid.Nil` e `Changed(...)` é não-confiável
+	// (compara contra zero-values). Disparar `invalidate_embedding` com ID nulo era um
+	// no-op que ainda por cima ABORTAVA a transação em prod (ON CONFLICT/SQLSTATE 25P02),
+	// derrubando qualquer edição de score item (ex.: indentar). A invalidação correta,
+	// com o ID real e tolerante a erro, é feita em ScoreService.UpdateItem.
+	//
+	// O guard `si.ID != uuid.Nil` mantém o comportamento válido caso algum caminho futuro
+	// atualize via struct completa (Save), sem reintroduzir o abort no caminho atual.
+	if si.ID != uuid.Nil {
+		embeddingFields := []string{
+			"Name", "ClinicalRelevance", "PatientExplanation", "Conduct",
+			"Gender", "AgeRangeMin", "AgeRangeMax", "PostMenopause", "Unit",
 		}
-	}
-
-	if needsReembedding {
-		// Mark embedding as stale
-		tx.Exec(`
-			UPDATE score_item_embeddings
-			SET is_stale = true
-			WHERE score_item_id = ?
-		`, si.ID)
-
-		// Queue for regeneration using helper function
-		tx.Exec(`
-			SELECT invalidate_embedding('score_item', ?, 'Field update via BeforeUpdate hook', 0)
-		`, si.ID)
-
-		// Invalidate preparation (delete for re-preparation with new data)
-		tx.Exec(`
-			SELECT invalidate_preparation(?, 'ScoreItem field update')
-		`, si.ID)
+		needsReembedding := false
+		for _, field := range embeddingFields {
+			if tx.Statement.Changed(field) {
+				needsReembedding = true
+				break
+			}
+		}
+		if needsReembedding {
+			tx.Exec(`UPDATE score_item_embeddings SET is_stale = true WHERE score_item_id = ?`, si.ID)
+			tx.Exec(`SELECT invalidate_embedding('score_item', ?, 'Field update via BeforeUpdate hook', 0)`, si.ID)
+			tx.Exec(`SELECT invalidate_preparation(?, 'ScoreItem field update')`, si.ID)
+		}
 	}
 
 	return nil

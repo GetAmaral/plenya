@@ -364,8 +364,10 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 		return nil, err
 	}
 
-	// DEBUG: Log parentItemId before and after
-	fmt.Printf("🟡 SERVICE UpdateItem BEFORE: id=%s, item.ParentItemID=%v, dto.ParentItemID=%v\n", id, item.ParentItemID, dto.ParentItemID)
+	// Snapshot dos valores ANTES de aplicar o DTO — usado para detectar mudança real
+	// de campos semânticos (decide LastReview e invalidação de embedding). As mutações
+	// abaixo trocam os ponteiros do item, então o snapshot preserva os valores originais.
+	orig := *item
 
 	// Update fields only if provided in DTO
 	if dto.Name != nil {
@@ -427,6 +429,25 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 		item.LastReview = dto.LastReview
 	}
 
+	// Detecta mudança de campos semânticos (vs snapshot) — o hook BeforeUpdate não
+	// consegue fazer isso no caminho de update via map (ID nulo). Ver score_item.go.
+	clinicalChanged := !eqStrPtr(orig.ClinicalRelevance, item.ClinicalRelevance) ||
+		!eqStrPtr(orig.PatientExplanation, item.PatientExplanation) ||
+		!eqStrPtr(orig.Conduct, item.Conduct)
+	semanticChanged := clinicalChanged ||
+		orig.Name != item.Name ||
+		!eqStrPtr(orig.Gender, item.Gender) ||
+		!eqStrPtr(orig.Unit, item.Unit) ||
+		!eqIntPtr(orig.AgeRangeMin, item.AgeRangeMin) ||
+		!eqIntPtr(orig.AgeRangeMax, item.AgeRangeMax) ||
+		!eqBoolPtr(orig.PostMenopause, item.PostMenopause)
+
+	// Mantém o invariante "LastReview marca revisão clínica" mesmo no caminho via map.
+	if clinicalChanged && dto.LastReview == nil {
+		now := time.Now()
+		item.LastReview = &now
+	}
+
 	// Site público (leigo)
 	if dto.SiteRenderType != nil {
 		item.SiteRenderType = dto.SiteRenderType
@@ -438,11 +459,15 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 		item.SiteExplanation = dto.SiteExplanation
 	}
 
-	// DEBUG: Log before saving
-	fmt.Printf("🟢 SERVICE UpdateItem AFTER UPDATE: item.ParentItemID=%v (isNil=%v)\n", item.ParentItemID, item.ParentItemID == nil)
-
 	if err := s.repo.UpdateScoreItem(item); err != nil {
 		return nil, err
+	}
+
+	// Invalidação de embedding/preparation com o ID REAL e tolerante a erro (fora da
+	// transação do update). Só dispara em mudança semântica real — reordenar/indentar
+	// (só order/parent) não invalida. Uma falha aqui nunca derruba o update.
+	if semanticChanged {
+		s.repo.InvalidateScoreItemEmbedding(id)
 	}
 
 	// CRITICAL: Reload item with all relations (levels, child items, etc.)
@@ -453,6 +478,28 @@ func (s *ScoreService) UpdateItem(id uuid.UUID, dto UpdateScoreItemDTO) (*models
 	}
 
 	return item, nil
+}
+
+// eqStrPtr/eqIntPtr/eqBoolPtr — igualdade tolerante a nil para detectar mudança de campo.
+func eqStrPtr(a, b *string) bool {
+	if a == nil || b == nil {
+		return a == b
+	}
+	return *a == *b
+}
+
+func eqIntPtr(a, b *int) bool {
+	if a == nil || b == nil {
+		return a == b
+	}
+	return *a == *b
+}
+
+func eqBoolPtr(a, b *bool) bool {
+	if a == nil || b == nil {
+		return a == b
+	}
+	return *a == *b
 }
 
 // DeleteItem soft deletes a score item
