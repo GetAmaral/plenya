@@ -15455,6 +15455,8 @@ export interface components {
             date?: string;
             /** @description Valor numérico medido, quando houver */
             numericValue?: number;
+            /** @description Respostas da escala (answers/total/words), quando o item for uma escala preenchida */
+            scaleResponses?: components["schemas"]["models.ScaleResponseData"];
             /** @description Nível classificado (0-6), quando houver */
             selectedLevel?: number;
             /** @description Origem: escore_light | pre_consulta | anamnese */
@@ -15492,16 +15494,24 @@ export interface components {
             status: components["schemas"]["models.LabResultBatchStatus"];
         };
         "dto.CreateLabResultInBatchRequest": {
+            /** @description data de coleta DESTE exame (fallback p/ a do lote) */
+            collectionDate?: string;
             interpretation?: string;
             labTestDefinitionId?: string;
             level?: number;
             matchReason?: string;
             /** @description true se matched com definição catalogada */
             matched?: boolean;
+            /** @description método analítico */
+            method?: string;
+            /** @description faixa de referência impressa do lab */
+            referenceRange?: string;
             resultNumeric?: number;
             resultText?: string;
             /** @description "pdf" | "manual" (default manual) */
             source?: string;
+            /** @description Metadados opcionais (extraídos do PDF). Ver docs/emr/plano-metadados-labtest.md. */
+            specimen?: string;
             testName: string;
             testType: string;
             unit?: string;
@@ -15649,6 +15659,8 @@ export interface components {
         "dto.LabResultInBatchResponse": {
             /** @description por que não recebeu nível */
             classifyReason?: string;
+            /** @description data de coleta DESTE exame (RFC3339; renderizar por ela, fallback p/ a do lote) */
+            collectionDate?: string;
             createdAt?: string;
             id?: string;
             interpretation?: string;
@@ -15661,6 +15673,10 @@ export interface components {
             matchReason?: string;
             /** @description casou com o catálogo */
             matched?: boolean;
+            /** @description método analítico */
+            method?: string;
+            /** @description faixa de referência impressa do lab */
+            referenceRange?: string;
             /** @description Valor CONVERTIDO */
             resultNumeric?: number;
             /** @description Valor ORIGINAL */
@@ -15668,6 +15684,8 @@ export interface components {
             resultText?: string;
             /** @description "pdf" | "manual" */
             source?: string;
+            /** @description espécime (Sangue/Urina/Fezes...) */
+            specimen?: string;
             testName?: string;
             testType?: string;
             /** @description Unidade CONVERTIDA */
@@ -16806,6 +16824,12 @@ export interface components {
              *     quando classificado. Eixo diferente de MatchReason (catálogo vs score).
              */
             classifyReason?: string;
+            /**
+             * @description Data de coleta DESTE exame (os laudos trazem "Coletado em:" por exame, que pode diferir
+             *     da data do lote). A tabela de resultados renderiza por esta data; se NULL, herda a do
+             *     lote (coalesce no read). Opcional.
+             */
+            collectionDate?: string;
             /** @description Data de criação */
             createdAt?: string;
             /** @description ID único do resultado */
@@ -16834,6 +16858,13 @@ export interface components {
              *     (zero-value) no INSERT e o banco aplicava true, anulando o "Não catalogado".
              */
             matched?: boolean;
+            /** @description Método analítico do exame (ex: "ECLIA", "HPLC", "Enzimático"). Extraído do laudo. Opcional. */
+            method?: string;
+            /**
+             * @description Faixa de referência impressa pelo laboratório (texto livre, ex: "70 a 99 mg/dL"). Para
+             *     exibição e fallback de normal/alterado quando não há item de score. Opcional.
+             */
+            referenceRange?: string;
             /** @description Resultado numérico (para exames quantitativos) - CONVERTIDO para unidade padrão */
             resultNumeric?: number;
             /** @description Resultado numérico ORIGINAL (antes da conversão de unidade) */
@@ -16842,6 +16873,12 @@ export interface components {
             resultText?: string;
             /** @description Origem do resultado: "pdf" (importado de laudo) ou "manual" (digitado). */
             source?: string;
+            /**
+             * @description Material/espécime do exame (ex: "Sangue", "Soro", "Urina", "Fezes"). Extraído do laudo
+             *     (campo `material`), normalizado. Desambigua exames de mesmo nome em espécimes diferentes
+             *     (glicose sangue vs urina) e enriquece o prontuário. Opcional.
+             */
+            specimen?: string;
             /** @description Nome do exame */
             testName: string;
             /** @description Tipo de exame (ex: hemograma, glicemia, etc) */
