@@ -189,13 +189,16 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 	var parsed struct {
 		Exames []interface{} `json:"exames"`
 	}
-	if err := json.Unmarshal([]byte(jsonStr), &parsed); err == nil {
-		examCount := len(parsed.Exames)
-		message := fmt.Sprintf("Conteúdo analisado pela IA - %d exames identificados", examCount)
-		s.updateProgress(job, models.StepAIComplete, message)
-	} else {
-		s.updateProgress(job, models.StepAIComplete, "Conteúdo analisado pela IA")
+	if err := json.Unmarshal([]byte(jsonStr), &parsed); err != nil {
+		return fmt.Errorf("AI returned unparseable JSON: %v", err)
 	}
+	examCount := len(parsed.Exames)
+	if examCount == 0 {
+		// Extração VAZIA não é sucesso: força falha/retry em vez de marcar "completed"
+		// silenciosamente (causas: OCR sem texto, hiccup da API, saldo de créditos esgotado).
+		return fmt.Errorf("AI extraction returned 0 exams — treating as failure for retry")
+	}
+	s.updateProgress(job, models.StepAIComplete, fmt.Sprintf("Conteúdo analisado pela IA - %d exames identificados", examCount))
 
 	// Step 6: Salvando resultados
 	s.updateProgress(job, models.StepSavingResults, "Salvando resultados no prontuário")
@@ -459,28 +462,25 @@ func (s *ProcessingJobService) matchTestDefinition(
 
 	// Busca exata (chave única → 1 id)
 	if id, found := defMap[normalizedName]; found {
+		// Se o resultado tem espécime e o match exato CONFLITA com ele (ex.: "Hemácias" da
+		// urina batendo na definição de hemácias do SANGUE), procura uma definição do espécime
+		// certo entre os candidatos por substring antes de aceitar o exato.
+		if specimen != nil && *specimen != "" {
+			if st, ok := specByID[id]; ok && st != "" && !strings.EqualFold(st, *specimen) {
+				if best := preferBySpecimen(gatherSubstringCandidates(normalizedName, defMap), specimen, specByID); best != nil {
+					return best
+				}
+			}
+		}
 		return &id
 	}
 
 	// Busca parcial (substring): coleta TODOS os candidatos e desempata por espécime.
-	if len(normalizedName) >= 5 {
-		var cands []uuid.UUID
-		seen := map[uuid.UUID]bool{}
-		for defName, id := range defMap {
-			// Se o nome do exame contém o nome da definição OU vice-versa
-			if len(defName) >= 5 && (containsSubstring(normalizedName, defName) || containsSubstring(defName, normalizedName)) {
-				if !seen[id] {
-					cands = append(cands, id)
-					seen[id] = true
-				}
-			}
+	if cands := gatherSubstringCandidates(normalizedName, defMap); len(cands) > 0 {
+		if best := preferBySpecimen(cands, specimen, specByID); best != nil {
+			return best
 		}
-		if len(cands) > 0 {
-			if best := preferBySpecimen(cands, specimen, specByID); best != nil {
-				return best
-			}
-			return &cands[0]
-		}
+		return &cands[0]
 	}
 
 	// Busca fuzzy (fallback): tolera typos do laudo (ex.: "trigliceridios" vs
@@ -514,6 +514,25 @@ func (s *ProcessingJobService) matchTestDefinition(
 	}
 
 	return nil
+}
+
+// gatherSubstringCandidates - coleta todas as definições cujo nome é substring do nome do exame
+// (ou vice-versa), deduplicadas por id. Base para a desambiguação por espécime.
+func gatherSubstringCandidates(normalizedName string, defMap map[string]uuid.UUID) []uuid.UUID {
+	var cands []uuid.UUID
+	if len(normalizedName) < 5 {
+		return cands
+	}
+	seen := map[uuid.UUID]bool{}
+	for defName, id := range defMap {
+		if len(defName) >= 5 && (containsSubstring(normalizedName, defName) || containsSubstring(defName, normalizedName)) {
+			if !seen[id] {
+				cands = append(cands, id)
+				seen[id] = true
+			}
+		}
+	}
+	return cands
 }
 
 // preferBySpecimen - entre candidatos de match, devolve o ÚNICO cujo specimen_type casa com o
