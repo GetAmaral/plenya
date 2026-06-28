@@ -18,7 +18,7 @@ import type { AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
 import type { Patient } from '@/lib/auth-store'
 import { AnamnesisItemHistory } from './AnamnesisItemHistory'
 import { ScaleWidget } from './ScaleWidget'
-import { getScaleDef, pickWordRecallSet, type ChosenWord } from '@plenya/domain'
+import { getScaleDef, pickWordRecallSet, formatScaleResult, type ChosenWord } from '@plenya/domain'
 
 // Evaluates whether a numeric value satisfies a ScoreLevel's operator/limits
 function evaluatesTrue(value: number, level: ScoreLevel): boolean {
@@ -381,6 +381,26 @@ export function AnamnesisTemplateItemsRenderer({
 
   // Chip que resume o valor atual do item na linha colapsada.
   const currentChip = (cur: AnamnesisItemFormValue | undefined, scoreItem: ScoreItem) => {
+    // Escala preenchida: mostra "total/max · N{lvl} · nome" (o total vem do scaleResponses).
+    const scaleDef = getScaleDef(scoreItem.anamneseItemCode)
+    const scaleTotalVal = cur?.scaleResponses?.total ?? cur?.numericValue
+    if (scaleDef && scaleTotalVal !== undefined) {
+      const lvl = cur?.selectedLevel
+      const name = lvl !== undefined ? (scoreItem.levels || []).find((l) => l.level === lvl)?.name : undefined
+      return (
+        <span
+          className={cn(
+            'whitespace-nowrap rounded-full border-[1.5px] px-2.5 py-0.5 text-[11px] font-bold',
+            lvl !== undefined
+              ? LEVEL_COMPACT_SELECTED_CLASSES[lvl] || LEVEL_COMPACT_SELECTED_CLASSES[6]
+              : 'border-border bg-muted text-foreground'
+          )}
+        >
+          {formatScaleResult(scaleTotalVal, scaleDef.maxScore)}
+          {lvl !== undefined ? ` · N${lvl}${name ? ` · ${name}` : ''}` : ''}
+        </span>
+      )
+    }
     if (cur?.selectedLevel !== undefined) {
       const lvl = cur.selectedLevel
       const name = (scoreItem.levels || []).find((l) => l.level === lvl)?.name
@@ -500,6 +520,8 @@ export function AnamnesisTemplateItemsRenderer({
         newValues.set(scoreItemId, {
           scoreItemId,
           selectedLevel: level,
+          // valor final da escala = medida crua (numeric_value); selected_level é a classificação.
+          numericValue: total,
           textValue: existing?.textValue,
           scaleResponses: { answers: toStringKeys(answers), total, words },
           order,
@@ -831,6 +853,7 @@ export function AnamnesisTemplateItemsRenderer({
                                   scoreItemId={scoreItem.id}
                                   levels={levels}
                                   unit={scoreItem.unit}
+                                  anamneseItemCode={scoreItem.anamneseItemCode}
                                   enabled={showHist}
                                 />
                               </div>

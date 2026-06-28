@@ -1,6 +1,10 @@
 package dto
 
-import "time"
+import (
+	"time"
+
+	"github.com/plenya/api/internal/models"
+)
 
 // ClinicalTimelineSource identifica a origem de uma entrada do histórico de um item clínico.
 const (
@@ -31,6 +35,9 @@ type ClinicalTimelineEntry struct {
 
 	// Valor textual, quando houver
 	TextValue *string `json:"textValue,omitempty"`
+
+	// Respostas da escala (answers/total/words), quando o item for uma escala preenchida
+	ScaleResponses *models.ScaleResponseData `json:"scaleResponses,omitempty"`
 }
 
 // ClinicalItemHistoryResponse é a resposta do histórico de um item clínico.

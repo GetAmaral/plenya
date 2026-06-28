@@ -3,6 +3,7 @@
 import { TrendingUp, Loader2 } from 'lucide-react'
 import { formatDate } from '@/lib/format-date'
 import { cn } from '@/lib/utils'
+import { getScaleDef, formatScaleResult } from '@plenya/domain'
 import { useItemHistory, type ClinicalTimelineSource } from '@/lib/api/clinical-timeline'
 import type { ScoreLevel } from '@/lib/api/score-api'
 
@@ -18,6 +19,8 @@ interface AnamnesisItemHistoryProps {
   scoreItemId: string
   levels?: ScoreLevel[]
   unit?: string
+  /** Código da escala (quando o item é uma escala) — habilita "total/max" no histórico. */
+  anamneseItemCode?: string | null
   enabled: boolean
 }
 
@@ -26,8 +29,10 @@ export function AnamnesisItemHistory({
   scoreItemId,
   levels = [],
   unit,
+  anamneseItemCode,
   enabled,
 }: AnamnesisItemHistoryProps) {
+  const scaleDef = getScaleDef(anamneseItemCode)
   const { data, isLoading } = useItemHistory(patientId, scoreItemId, enabled)
 
   if (!patientId) return null
@@ -44,7 +49,11 @@ export function AnamnesisItemHistory({
       const name = levelName(e.selectedLevel)
       parts.push(`N${e.selectedLevel}${name ? ` · ${name}` : ''}`)
     }
-    if (e.numericValue !== undefined && e.numericValue !== null) {
+    // Escala: "22/30" (total/max) em vez do número solto.
+    const scaleTotal = e.scaleResponses?.total ?? e.numericValue
+    if (scaleDef && scaleTotal !== undefined && scaleTotal !== null) {
+      parts.push(formatScaleResult(scaleTotal, scaleDef.maxScore))
+    } else if (e.numericValue !== undefined && e.numericValue !== null) {
       parts.push(`${e.numericValue}${unit ? ` ${unit}` : ''}`)
     }
     if (!parts.length && e.textValue) parts.push(e.textValue)

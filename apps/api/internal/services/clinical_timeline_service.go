@@ -1,6 +1,7 @@
 package services
 
 import (
+	"encoding/json"
 	"sort"
 	"time"
 
@@ -8,6 +9,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/plenya/api/internal/dto"
+	"github.com/plenya/api/internal/models"
 )
 
 // ClinicalTimelineService monta a linha do tempo longitudinal de um ScoreItem para um
@@ -34,6 +36,20 @@ type rawTimelineRow struct {
 	SelectedLevel *int
 	NumericValue  *float64
 	TextValue     *string
+	// Só a fonte anamnese seleciona este campo (jsonb::text); demais ficam nil.
+	ScaleResponsesJSON *string
+}
+
+// parseScaleResponses desserializa o jsonb scale_responses (lido como texto) em struct.
+func parseScaleResponses(s *string) *models.ScaleResponseData {
+	if s == nil || *s == "" {
+		return nil
+	}
+	var sr models.ScaleResponseData
+	if err := json.Unmarshal([]byte(*s), &sr); err != nil {
+		return nil
+	}
+	return &sr
 }
 
 // GetItemHistory retorna o histórico de um ScoreItem para um paciente, de todas as origens,
@@ -44,7 +60,8 @@ func (s *ClinicalTimelineService) GetItemHistory(patientID, scoreItemID uuid.UUI
 	// 1) Anamnese — itens registrados pela equipe (consultation_date da anamnese).
 	var anamRows []rawTimelineRow
 	if err := s.db.Raw(`
-		SELECT a.consultation_date AS date, ai.selected_level, ai.numeric_value, ai.text_value
+		SELECT a.consultation_date AS date, ai.selected_level, ai.numeric_value, ai.text_value,
+		       ai.scale_responses::text AS scale_responses_json
 		FROM anamnesis_items ai
 		JOIN anamnesis a ON a.id = ai.anamnesis_id AND a.deleted_at IS NULL
 		WHERE ai.score_item_id = ? AND a.patient_id = ? AND ai.deleted_at IS NULL
@@ -53,12 +70,13 @@ func (s *ClinicalTimelineService) GetItemHistory(patientID, scoreItemID uuid.UUI
 	}
 	for _, r := range anamRows {
 		entries = append(entries, dto.ClinicalTimelineEntry{
-			Date:          r.Date,
-			Source:        dto.ClinicalSourceAnamnese,
-			SourceLabel:   "Anamnese",
-			SelectedLevel: r.SelectedLevel,
-			NumericValue:  r.NumericValue,
-			TextValue:     r.TextValue,
+			Date:           r.Date,
+			Source:         dto.ClinicalSourceAnamnese,
+			SourceLabel:    "Anamnese",
+			SelectedLevel:  r.SelectedLevel,
+			NumericValue:   r.NumericValue,
+			TextValue:      r.TextValue,
+			ScaleResponses: parseScaleResponses(r.ScaleResponsesJSON),
 		})
 	}
 

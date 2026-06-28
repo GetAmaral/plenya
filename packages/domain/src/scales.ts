@@ -97,6 +97,16 @@ export function isScaleComplete(def: ScaleDef, answers: Record<number, number>):
   return (def.questions ?? []).every((_, i) => answers[i] !== undefined && answers[i] !== null);
 }
 
+/**
+ * Formata o resultado de uma escala para LEITURA: `"22/30"` ou `"22/30 · Disfunção leve"`.
+ * Usado por todas as telas que exibem uma escala já preenchida (chip da consulta, lista de
+ * anamnese salva, histórico). Mantém uma única forma de mostrar total + classificação.
+ */
+export function formatScaleResult(total: number, maxScore: number, levelName?: string | null): string {
+  const base = `${total}/${maxScore}`;
+  return levelName ? `${base} · ${levelName}` : base;
+}
+
 export function getScaleDef(code?: string | null): ScaleDef | undefined {
   return code ? SCALE_REGISTRY[code] : undefined;
 }

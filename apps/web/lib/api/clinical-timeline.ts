@@ -11,6 +11,7 @@ export interface ClinicalTimelineEntry {
   selectedLevel?: number
   numericValue?: number
   textValue?: string
+  scaleResponses?: { answers?: Record<string, number>; total?: number; words?: string[] }
 }
 
 export interface ClinicalItemHistoryResponse {

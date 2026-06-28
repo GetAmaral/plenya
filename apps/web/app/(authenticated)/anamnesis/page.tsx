@@ -21,6 +21,7 @@ import {
   User,
   Maximize2,
 } from "lucide-react";
+import { getScaleDef, formatScaleResult } from "@plenya/domain";
 import { SafeHtml } from "@/components/ui/safe-html";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -427,13 +428,20 @@ export default function AnamnesisPage() {
                                             const scoreItem = item.scoreItem;
                                             const selectedLevel = scoreItem.levels?.find((l: any) => l.level === item.selectedLevel);
                                             const levelStyle = selectedLevel ? LEVEL_STYLES[selectedLevel.level as keyof typeof LEVEL_STYLES] || LEVEL_STYLES[6] : null;
+                                            // Escala: mostra "total/max" em vez do nome cru com "____/25".
+                                            const scaleDef = getScaleDef(scoreItem.anamneseItemCode);
+                                            const scaleTotalVal = item.scaleResponses?.total ?? item.numericValue;
 
                                             return (
                                               <div key={item.id} className="text-xs border rounded-md p-2 bg-card">
                                                 <div className="flex items-start gap-2">
                                                   <div className="flex-1">
                                                     <span className="font-semibold">{scoreItem.name}</span>
-                                                    {item.numericValue != null && (
+                                                    {scaleDef && scaleTotalVal != null ? (
+                                                      <span className="font-normal text-muted-foreground ml-1">
+                                                        ({formatScaleResult(scaleTotalVal, scaleDef.maxScore)})
+                                                      </span>
+                                                    ) : item.numericValue != null && (
                                                       <span className="font-normal text-muted-foreground ml-1">
                                                         ({item.numericValue}{scoreItem.unit ? ` ${scoreItem.unit}` : ''})
                                                       </span>
