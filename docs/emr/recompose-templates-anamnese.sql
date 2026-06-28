@@ -16,8 +16,10 @@
 -- ============================================================================
 BEGIN;
 
--- Especificação dos moves (item=NULL => todos os itens do subgrupo) -----------
-CREATE TEMP TABLE moves(src uuid, dst uuid, grupo text, subgrupo text, item text) ON COMMIT DROP;
+-- Especificação dos moves. Duas formas de identificar o item:
+--   • por nome: grupo+subgrupo (+item; item=NULL => subgrupo inteiro)
+--   • por código: anamnese_item_code (robusto p/ itens c/ nome frágil, ex.: escalas com "____")
+CREATE TEMP TABLE moves(src uuid, dst uuid, grupo text, subgrupo text, item text, code text) ON COMMIT DROP;
 INSERT INTO moves (src, dst, grupo, subgrupo, item) VALUES
  -- 2026-06-27 · Continuum | Médico | Inicial (…104) -> Complemento (…105)
  ('11111111-1111-7111-8111-111111111104','11111111-1111-7111-8111-111111111105',
@@ -63,14 +65,27 @@ INSERT INTO moves (src, dst, grupo, subgrupo, item) VALUES
  ('11111111-1111-7111-8111-111111111112','11111111-1111-7111-8111-111111111104',
   'Movimento e atividade física','Histórico','Cirurgias realizadas relacionadas ao exercício');
 
--- Resolve nomes -> score_item_id (no ambiente atual) -------------------------
+-- Moves por código (escalas) -------------------------------------------------
+-- 2026-06-27 · inversão ASEX <-> IIEF-5 no par Continuum Médico Inicial<->Complemento
+--   ASEX: Complemento (…105) -> Inicial (…104) · IIEF-5: Inicial (…104) -> Complemento (…105)
+INSERT INTO moves (src, dst, code) VALUES
+ ('11111111-1111-7111-8111-111111111105','11111111-1111-7111-8111-111111111104','ASEX_25'),
+ ('11111111-1111-7111-8111-111111111104','11111111-1111-7111-8111-111111111105','IIEF_5_25');
+
+-- Resolve item -> score_item_id (por nome OU por código, no ambiente atual) ---
 CREATE TEMP TABLE resolved ON COMMIT DROP AS
-SELECT m.src, m.dst, si.id AS score_item_id
-FROM moves m
-JOIN score_groups    g  ON g.name  = m.grupo    AND g.deleted_at  IS NULL
-JOIN score_subgroups sg ON sg.group_id = g.id   AND sg.name = m.subgrupo AND sg.deleted_at IS NULL
-JOIN score_items     si ON si.subgroup_id = sg.id AND si.deleted_at IS NULL
-                        AND (m.item IS NULL OR si.name = m.item);
+  SELECT m.src, m.dst, si.id AS score_item_id          -- por nome
+  FROM moves m
+  JOIN score_groups    g  ON g.name  = m.grupo    AND g.deleted_at  IS NULL
+  JOIN score_subgroups sg ON sg.group_id = g.id   AND sg.name = m.subgrupo AND sg.deleted_at IS NULL
+  JOIN score_items     si ON si.subgroup_id = sg.id AND si.deleted_at IS NULL
+                          AND (m.item IS NULL OR si.name = m.item)
+  WHERE m.code IS NULL
+UNION
+  SELECT m.src, m.dst, si.id                            -- por código
+  FROM moves m
+  JOIN score_items si ON si.anamnese_item_code = m.code AND si.deleted_at IS NULL
+  WHERE m.code IS NOT NULL;
 
 -- 1) remove do template de origem -------------------------------------------
 UPDATE anamnesis_template_items t SET deleted_at = now()
