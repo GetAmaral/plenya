@@ -25,19 +25,19 @@ WHERE name IN ('Teste','Medica Inicial') AND deleted_at IS NULL;
 
 -- 2) Upsert dos 13 templates (UUID fixo p/ idempotência) ---------------------
 INSERT INTO anamnesis_templates (id, name, area, created_at, updated_at) VALUES
- ('11111111-1111-7111-8111-111111111101','Avaliação Médica Inicial','Medicina',now(),now()),
- ('11111111-1111-7111-8111-111111111102','Acompanhamento Médico','Medicina',now(),now()),
- ('11111111-1111-7111-8111-111111111103','Revisão de Exames','Medicina',now(),now()),
- ('11111111-1111-7111-8111-111111111104','Avaliação Médica de Entrada (Continuum)','Medicina',now(),now()),
- ('11111111-1111-7111-8111-111111111105','Complemento da Avaliação Médica (Continuum)','Medicina',now(),now()),
- ('11111111-1111-7111-8111-111111111106','Acompanhamento Médico (Continuum)','Medicina',now(),now()),
- ('11111111-1111-7111-8111-111111111107','Reavaliação Médica Trimestral (Continuum)','Medicina',now(),now()),
- ('11111111-1111-7111-8111-111111111108','Avaliação Nutricional Inicial (Continuum)','Nutricao',now(),now()),
- ('11111111-1111-7111-8111-111111111109','Acompanhamento Nutricional (Continuum)','Nutricao',now(),now()),
- ('11111111-1111-7111-8111-111111111110','Avaliação Psicológica Inicial (Continuum)','Psicologia',now(),now()),
- ('11111111-1111-7111-8111-111111111111','Acompanhamento Psicológico (Continuum)','Psicologia',now(),now()),
- ('11111111-1111-7111-8111-111111111112','Avaliação Física Inicial (Continuum)','Educacao Fisica',now(),now()),
- ('11111111-1111-7111-8111-111111111113','Acompanhamento (Educação Física) (Continuum)','Educacao Fisica',now(),now())
+ ('11111111-1111-7111-8111-111111111101','Médico | Inicial','Medicina',now(),now()),
+ ('11111111-1111-7111-8111-111111111102','Médico | Acompanhamento','Medicina',now(),now()),
+ ('11111111-1111-7111-8111-111111111103','Médico | Revisão de Exames','Medicina',now(),now()),
+ ('11111111-1111-7111-8111-111111111104','Continuum | Médico | Inicial','Medicina',now(),now()),
+ ('11111111-1111-7111-8111-111111111105','Continuum | Médico | Complemento','Medicina',now(),now()),
+ ('11111111-1111-7111-8111-111111111106','Continuum | Médico | Acompanhamento','Medicina',now(),now()),
+ ('11111111-1111-7111-8111-111111111107','Continuum | Médico | Reavaliação Trimestral','Medicina',now(),now()),
+ ('11111111-1111-7111-8111-111111111108','Continuum | Nutri | Inicial','Nutricao',now(),now()),
+ ('11111111-1111-7111-8111-111111111109','Continuum | Nutri | Acompanhamento','Nutricao',now(),now()),
+ ('11111111-1111-7111-8111-111111111110','Continuum | Psico | Inicial','Psicologia',now(),now()),
+ ('11111111-1111-7111-8111-111111111111','Continuum | Psico | Acompanhamento','Psicologia',now(),now()),
+ ('11111111-1111-7111-8111-111111111112','Continuum | Ed. Física | Inicial','Educacao Fisica',now(),now()),
+ ('11111111-1111-7111-8111-111111111113','Continuum | Ed. Física | Acompanhamento','Educacao Fisica',now(),now())
 ON CONFLICT (id) DO UPDATE SET name=EXCLUDED.name, area=EXCLUDED.area, updated_at=now(), deleted_at=NULL;
 
 -- 3) Limpa itens existentes dos 13 -------------------------------------------
