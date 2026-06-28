@@ -2,7 +2,7 @@
 -- MIGRAÇÃO PROD — Templates de anamnese (bundle consolidado, 2026-06-27)
 -- ============================================================================
 -- Roda TUDO de uma vez, na ordem: (1) rename → (2) Tier C soft-delete →
--- (3) recompose (moves item-a-item + renumeração). Todos idempotentes:
+-- (3) recompose (moves item-a-item) → (4) ASEX nome /25→/30. Todos idempotentes:
 -- re-rodar é seguro; o que já estiver aplicado vira no-op.
 --
 -- Como aplicar em prod (via VPS):
@@ -13,10 +13,11 @@
 --   docs/emr/rename-templates-anamnese.sql
 --   docs/emr/escalas-tierC-soft-delete-score.sql
 --   docs/emr/recompose-templates-anamnese.sql
+--   docs/emr/escalas-asex-nome-fix.sql
 -- Editar os fontes e RE-GERAR, nunca editar este arquivo à mão.
 -- ============================================================================
 
--- ████ PARTE 1/3 — RENAME ████████████████████████████████████████████████████
+-- ████ PARTE 1/4 — RENAME ████████████████████████████████████████████████████
 -- ============================================================================
 -- Renomeação dos 13 templates de anamnese — padrão "[Continuum |] Prof | Momento"
 -- ============================================================================
@@ -41,7 +42,7 @@ UPDATE anamnesis_templates SET name='Continuum | Ed. Física | Acompanhamento', 
 SELECT name, area FROM anamnesis_templates WHERE deleted_at IS NULL ORDER BY area, name;
 COMMIT;
 
--- ████ PARTE 2/3 — TIER C SOFT-DELETE ███████████████████████████████████████
+-- ████ PARTE 2/4 — TIER C SOFT-DELETE ███████████████████████████████████████
 -- ============================================================================
 -- Tier C (FSS, FSFI, PSQI) — remover dos templates E soft-delete do escore
 -- ============================================================================
@@ -78,7 +79,7 @@ ORDER BY anamnese_item_code;
 
 COMMIT;
 
--- ████ PARTE 3/3 — RECOMPOSE (moves item-a-item) ████████████████████████████
+-- ████ PARTE 3/4 — RECOMPOSE (moves item-a-item) ████████████████████████████
 -- ============================================================================
 -- Recomposição (curadoria) dos templates de anamnese — DELTA pós-seed
 -- ============================================================================
@@ -210,3 +211,18 @@ GROUP BY at.name ORDER BY at.name;
 
 COMMIT;
 -- ROLLBACK;  -- use enquanto confere; troque por COMMIT para aplicar
+
+-- ████ PARTE 4/4 — ASEX nome /25 -> /30 ██████████████████████████████████████
+-- ============================================================================
+-- Correção do denominador do nome da ASEX no escore: "/25" -> "/30"
+-- ============================================================================
+-- A ASEX (Arizona Sexual Experience Scale) tem 5 itens × 1–6 → total 5–30
+-- (maxScore=30 no SCALE_REGISTRY; cutoff de disfunção ≥19). O nome do score item
+-- trazia "____/25" por engano. Idempotente (só toca se ainda estiver "/25").
+-- Ref.: McGahuey et al. 2000 (J Sex Marital Ther); range 5–30.
+-- ============================================================================
+UPDATE score_items
+SET name = replace(name, '/25', '/30'), updated_at = now()
+WHERE anamnese_item_code = 'ASEX_25' AND name LIKE '%/25%';
+
+SELECT name, anamnese_item_code FROM score_items WHERE anamnese_item_code = 'ASEX_25';

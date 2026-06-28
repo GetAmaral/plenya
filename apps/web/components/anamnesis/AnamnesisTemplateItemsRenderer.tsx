@@ -726,6 +726,7 @@ export function AnamnesisTemplateItemsRenderer({
                         // Escala (PHQ-9, GAD-7, Dubois…) → linha colapsável (widget é grande)
                         if (isScale) {
                           const open = expandedItems.has(scoreItem.id)
+                          const showHistScale = histOpen.has(scoreItem.id)
                           return (
                             <div
                               key={templateItem.id}
@@ -733,19 +734,29 @@ export function AnamnesisTemplateItemsRenderer({
                               style={indentStyle}
                               className={cn(rowCls, 'px-0 py-0', depth > 0 && 'border-l-2 border-l-primary/25')}
                             >
-                              <button
-                                type="button"
-                                onClick={() => toggleSetMember(setExpandedItems, scoreItem.id)}
-                                className="flex w-full items-center gap-2 px-3 py-1.5 text-left"
-                              >
-                                <span className="min-w-0 flex-1 text-[12.5px] leading-tight text-foreground">
-                                  {depth > 0 && <span className="mr-1 text-muted-foreground/50">└</span>}
-                                  {scoreItem.name}
-                                  <span className="ml-1 rounded bg-muted px-1 text-[9px] text-muted-foreground">escala</span>
-                                </span>
-                                <span className="shrink-0">{currentChip(cur, scoreItem)}</span>
-                                <ChevronRight className={cn('h-3.5 w-3.5 shrink-0 text-muted-foreground/60 transition-transform', open && 'rotate-90')} />
-                              </button>
+                              <div className="flex w-full items-center gap-2 px-3 py-1.5">
+                                <button
+                                  type="button"
+                                  onClick={() => toggleSetMember(setExpandedItems, scoreItem.id)}
+                                  className="flex min-w-0 flex-1 items-center gap-2 text-left"
+                                >
+                                  <span className="min-w-0 flex-1 text-[12.5px] leading-tight text-foreground">
+                                    {depth > 0 && <span className="mr-1 text-muted-foreground/50">└</span>}
+                                    {scoreItem.name}
+                                    <span className="ml-1 rounded bg-muted px-1 text-[9px] text-muted-foreground">escala</span>
+                                  </span>
+                                  <span className="shrink-0">{currentChip(cur, scoreItem)}</span>
+                                  <ChevronRight className={cn('h-3.5 w-3.5 shrink-0 text-muted-foreground/60 transition-transform', open && 'rotate-90')} />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => toggleSetMember(setHistOpen, scoreItem.id)}
+                                  title="Histórico do item"
+                                  className={cn('shrink-0 rounded-md border border-dashed px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-muted', showHistScale && 'border-solid text-foreground')}
+                                >
+                                  hist
+                                </button>
+                              </div>
                               {open && (
                                 <div className="px-3 pb-3">
                                   <ScaleWidget
@@ -756,6 +767,18 @@ export function AnamnesisTemplateItemsRenderer({
                                     initialAnswers={toNumberKeys(cur?.scaleResponses?.answers)}
                                     adminWords={scaleDef!.administration?.type === 'word_recall' ? wordRecallSet ?? undefined : undefined}
                                     onResult={(r) => handleScaleResult(scoreItem.id, r, templateItem.order)}
+                                  />
+                                </div>
+                              )}
+                              {showHistScale && (
+                                <div className="px-3 pb-3">
+                                  <AnamnesisItemHistory
+                                    patientId={historyPatientId}
+                                    scoreItemId={scoreItem.id}
+                                    levels={levels}
+                                    unit={scoreItem.unit}
+                                    anamneseItemCode={scoreItem.anamneseItemCode}
+                                    enabled={showHistScale}
                                   />
                                 </div>
                               )}
