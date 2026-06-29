@@ -1357,7 +1357,7 @@ func (s *ConversationService) SendWhatsAppTemplate(ctx context.Context, in SendW
 		return nil, fmt.Errorf("conversation: whatsapp template: %w", err)
 	}
 
-	content := "[template: " + in.TemplateName + "]"
+	content := s.renderTemplateBody(ctx, in.TemplateName, lang, in.Params)
 	metaJSON, _ := json.Marshal(map[string]any{
 		"template":  in.TemplateName,
 		"language":  lang,
@@ -1377,6 +1377,23 @@ func (s *ConversationService) SendWhatsAppTemplate(ctx context.Context, in SendW
 		return nil, fmt.Errorf("conversation: persist activity: %w", err)
 	}
 	return s.fetchActivity(ctx, activity.ID)
+}
+
+// renderTemplateBody monta o texto exibido na conversa para um template enviado: pega o corpo
+// aprovado do catálogo (whatsapp_templates) e substitui {{1}}, {{2}}… pelos params, na mesma
+// ordem que a Meta usa no envio. Fallback para um rótulo legível se o catálogo não tiver o corpo.
+func (s *ConversationService) renderTemplateBody(ctx context.Context, name, lang string, params []string) string {
+	var t models.WhatsAppTemplate
+	if err := s.db.WithContext(ctx).
+		Where("name = ? AND language = ?", name, lang).
+		First(&t).Error; err != nil || strings.TrimSpace(t.BodyText) == "" {
+		return "[template: " + name + "]"
+	}
+	body := t.BodyText
+	for i, p := range params {
+		body = strings.ReplaceAll(body, fmt.Sprintf("{{%d}}", i+1), p)
+	}
+	return body
 }
 
 // findLatestActivity busca a activity mais recente de um owner, do type esperado e
