@@ -11,6 +11,7 @@ import (
 	"log"
 	"mime/multipart"
 	"net/http"
+	"net/textproto"
 	"net/url"
 	"regexp"
 	"strings"
@@ -465,7 +466,14 @@ func (s *WhatsAppService) UploadMedia(data []byte, mime, filename string) (strin
 	w := multipart.NewWriter(&buf)
 	_ = w.WriteField("messaging_product", "whatsapp")
 	_ = w.WriteField("type", mime)
-	part, err := w.CreateFormFile("file", filename)
+	// A Meta valida o Content-Type da PARTE do arquivo, não só o campo "type". O
+	// multipart.CreateFormFile do Go fixa application/octet-stream, que a Meta recusa
+	// (#100 "Received file of type 'application/octet-stream'"). Montamos a parte à mão
+	// com o Content-Type real (ex.: application/pdf) pra passar na validação.
+	partHeader := make(textproto.MIMEHeader)
+	partHeader.Set("Content-Disposition", fmt.Sprintf(`form-data; name="file"; filename=%q`, filename))
+	partHeader.Set("Content-Type", mime)
+	part, err := w.CreatePart(partHeader)
 	if err != nil {
 		return "", fmt.Errorf("whatsapp: upload media form: %w", err)
 	}
