@@ -176,6 +176,7 @@ func (s *WhatsAppService) SendTemplate(toE164, templateName, langCode string, bo
 		return nil
 	}
 
+	log.Printf("📱 [WHATSAPP] ❌ template=%s status %d: to=%s resp=%s", templateName, resp.StatusCode, to, string(body))
 	return fmt.Errorf("whatsapp: status %d: %s", resp.StatusCode, string(body))
 }
 
@@ -237,12 +238,14 @@ func (s *WhatsAppService) SendTextMessage(toE164, body string) (string, error) {
 
 	resp, err := s.client.Do(req)
 	if err != nil {
+		log.Printf("📱 [WHATSAPP] ❌ text msg http erro: to=%s body=%d bytes: %v", to, len(body), err)
 		return "", fmt.Errorf("whatsapp: http: %w", err)
 	}
 	defer resp.Body.Close()
 
 	respBody, _ := io.ReadAll(io.LimitReader(resp.Body, 2048))
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		log.Printf("📱 [WHATSAPP] ❌ text msg status %d: to=%s body=%d bytes resp=%s", resp.StatusCode, to, len(body), string(respBody))
 		return "", fmt.Errorf("whatsapp: status %d: %s", resp.StatusCode, string(respBody))
 	}
 
@@ -488,19 +491,23 @@ func (s *WhatsAppService) UploadMedia(data []byte, mime, filename string) (strin
 	client := &http.Client{Timeout: 60 * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {
+		log.Printf("📱 [WHATSAPP] ❌ upload media http erro: mime=%s bytes=%d file=%q: %v", mime, len(data), filename, err)
 		return "", fmt.Errorf("whatsapp: upload media http: %w", err)
 	}
 	defer resp.Body.Close()
 	respBody, _ := io.ReadAll(io.LimitReader(resp.Body, 2048))
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		log.Printf("📱 [WHATSAPP] ❌ upload media status %d: mime=%s bytes=%d file=%q resp=%s", resp.StatusCode, mime, len(data), filename, string(respBody))
 		return "", fmt.Errorf("whatsapp: upload media status %d: %s", resp.StatusCode, string(respBody))
 	}
 	var out struct {
 		ID string `json:"id"`
 	}
 	if err := json.Unmarshal(respBody, &out); err != nil || out.ID == "" {
+		log.Printf("📱 [WHATSAPP] ❌ upload media sem id: mime=%s file=%q resp=%s", mime, filename, string(respBody))
 		return "", fmt.Errorf("whatsapp: upload media sem id: %s", string(respBody))
 	}
+	log.Printf("📱 [WHATSAPP] media uploaded mime=%s bytes=%d file=%q media_id=%s", mime, len(data), filename, out.ID)
 	return out.ID, nil
 }
 
@@ -551,11 +558,13 @@ func (s *WhatsAppService) SendMediaMessage(toE164, waType, mediaID, caption, fil
 
 	resp, err := s.client.Do(req)
 	if err != nil {
+		log.Printf("📱 [WHATSAPP] ❌ media msg http erro: to=%s type=%s media_id=%s: %v", to, waType, mediaID, err)
 		return "", fmt.Errorf("whatsapp: media msg http: %w", err)
 	}
 	defer resp.Body.Close()
 	respBody, _ := io.ReadAll(io.LimitReader(resp.Body, 2048))
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		log.Printf("📱 [WHATSAPP] ❌ media msg status %d: to=%s type=%s media_id=%s file=%q resp=%s", resp.StatusCode, to, waType, mediaID, filename, string(respBody))
 		return "", fmt.Errorf("whatsapp: media msg status %d: %s", resp.StatusCode, string(respBody))
 	}
 	var meta struct {
