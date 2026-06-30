@@ -39,6 +39,7 @@ import {
 } from '@/lib/api/lab-request-templates'
 import { applyTemplate, normalizeName } from '@/lib/lab-request-apply'
 import { toast } from 'sonner'
+import { SendDocumentWhatsAppButton } from '@/components/clinical/send-document-whatsapp-button'
 import { format, parseISO } from 'date-fns'
 import { PageHeader } from '@/components/layout/page-header'
 
@@ -950,6 +951,13 @@ function LabRequestCard({
           >
             <FileText className="h-4 w-4" />
           </Button>
+          {request.pdfUrl && (
+            <SendDocumentWhatsAppButton
+              patientId={request.patientId}
+              docType="lab_request"
+              docId={request.id}
+            />
+          )}
         </div>
       </div>
     </Card>

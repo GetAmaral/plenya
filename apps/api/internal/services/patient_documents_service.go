@@ -142,6 +142,7 @@ type CreateFromBytesInput struct {
 	Source            models.PatientDocumentSource
 	OriginWAMessageID *string    // idempotência do webhook
 	UploadedBy        *uuid.UUID // staff responsável (ex: documento gerado pelo médico); nil em inbound
+	SourceRef         *string    // ex.: "lab_request:<uuid>" — idempotência da materialização (1 cópia por origem)
 }
 
 // CreateFromBytes salva um arquivo (bytes) como documento de prontuário.
@@ -159,6 +160,19 @@ func (s *PatientDocumentsService) CreateFromBytes(in CreateFromBytesInput) (*mod
 	if in.OriginWAMessageID != nil && *in.OriginWAMessageID != "" {
 		var existing models.PatientDocument
 		err := s.db.Where("origin_wa_message_id = ? AND patient_id = ?", *in.OriginWAMessageID, in.PatientID).First(&existing).Error
+		if err == nil {
+			return &existing, nil
+		}
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, err
+		}
+	}
+
+	// Idempotência da materialização: doc gerado a partir de uma entidade clínica (lab_request etc.)
+	// só é copiado uma vez — reusa o existente em envios seguintes.
+	if in.SourceRef != nil && *in.SourceRef != "" {
+		var existing models.PatientDocument
+		err := s.db.Where("source_ref = ?", *in.SourceRef).First(&existing).Error
 		if err == nil {
 			return &existing, nil
 		}
@@ -215,6 +229,7 @@ func (s *PatientDocumentsService) CreateFromBytes(in CreateFromBytesInput) (*mod
 		FileName:          in.Filename,
 		ContentType:       contentType,
 		SizeBytes:         int64(len(in.Bytes)),
+		SourceRef:         in.SourceRef,
 		IssuedAt:          time.Now().UTC(),
 	}
 	if err := s.db.Create(doc).Error; err != nil {
@@ -224,6 +239,12 @@ func (s *PatientDocumentsService) CreateFromBytes(in CreateFromBytesInput) (*mod
 		if isUniqueViolation(err) && in.OriginWAMessageID != nil && *in.OriginWAMessageID != "" {
 			var existing models.PatientDocument
 			if e := s.db.Where("origin_wa_message_id = ? AND patient_id = ?", *in.OriginWAMessageID, in.PatientID).First(&existing).Error; e == nil {
+				return &existing, nil
+			}
+		}
+		if isUniqueViolation(err) && in.SourceRef != nil && *in.SourceRef != "" {
+			var existing models.PatientDocument
+			if e := s.db.Where("source_ref = ?", *in.SourceRef).First(&existing).Error; e == nil {
 				return &existing, nil
 			}
 		}

@@ -472,6 +472,12 @@ func setupRoutes(
 	// Link público por documento (sem portal): token JWT escopado, serve o PDF inline. TTL 30 dias.
 	documentShareHandler := handlers.NewDocumentShareHandler(patientDocumentsService, cfg.MagicLink.Secret, 30*24*time.Hour)
 
+	// "Enviar por WhatsApp" de documentos clínicos ao paciente (arquivo inline ou link via template),
+	// sem o round-trip de baixar+reanexar. Resolve qualquer doc (pedido/emitido/receita/prontuário)
+	// p/ um PatientDocument e reusa ConversationService (janela 24h + persistência).
+	clinicalDocumentService := services.NewClinicalDocumentService(database.DB, patientDocumentsService, conversationService, "/app/uploads")
+	clinicalDocumentHandler := handlers.NewClinicalDocumentHandler(clinicalDocumentService, cfg.MagicLink.Secret, 30*24*time.Hour)
+
 	// Plano de cuidado AGIR (P3 frente 3) + relatório longitudinal (3b) reusando go-rod + assinatura.
 	carePlanService := services.NewCarePlanService(database.DB)
 	carePlanReportService := services.NewCarePlanReportService(database.DB, scoreSnapshotRepo, carePlanService, services.NewScorePDFService(), signatureService, patientDocumentsService)
@@ -756,6 +762,14 @@ func setupRoutes(
 	// Gera link público por documento (pra enviar ao paciente, ex.: WhatsApp).
 	patients.Post("/:id/documents/:docId/share-link", middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse), documentShareHandler.Mint)
 	v1.Delete("/patient-documents/:id", middleware.Auth(cfg), middleware.RequireRole(models.RoleAdmin, models.RoleManager), patientPortalHandler.StaffDeleteDocument)
+
+	// "Enviar por WhatsApp" de documentos clínicos (pedido de exames / emitido / receita / prontuário):
+	// estado da janela 24h (cartões decidem os botões), listagem p/ o picker do compositor, e o envio
+	// (modo arquivo = mídia inline; modo link = template documento_disponivel).
+	clinicalDocRoles := middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse)
+	patients.Get("/:id/clinical-documents", clinicalDocRoles, clinicalDocumentHandler.ListDocuments)
+	patients.Get("/:id/clinical-documents/whatsapp-window", clinicalDocRoles, clinicalDocumentHandler.WhatsAppWindow)
+	patients.Post("/:id/clinical-documents/send-whatsapp", clinicalDocRoles, clinicalDocumentHandler.SendWhatsApp)
 
 	// Endpoints autenticados como paciente (minha.plenyasaude.com.br)
 	// Rate limit geral pra área do paciente — proteção contra conta comprometida

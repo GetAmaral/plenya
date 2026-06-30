@@ -40,6 +40,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient'
 import { SelectedPatientHeader } from '@/components/patients/SelectedPatientHeader'
+import { SendDocumentWhatsAppButton } from '@/components/clinical/send-document-whatsapp-button'
 import { listPrescriptions } from '@/lib/api/prescriptions'
 import type { Prescription, PrescriptionStatus } from '@/lib/api/prescriptions'
 
@@ -342,6 +343,15 @@ function PrescriptionActions({
         >
           <Download className="h-4 w-4" />
         </Button>
+      )}
+
+      {/* Enviar por WhatsApp (receita assinada/publicada) */}
+      {isSigned && prescription.patientId && (
+        <SendDocumentWhatsAppButton
+          patientId={prescription.patientId}
+          docType="prescription"
+          docId={prescription.id}
+        />
       )}
 
       {/* Edit (if not signed) */}

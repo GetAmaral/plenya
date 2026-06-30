@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import {
   FileText,
+  FolderOpen,
   Image as ImageIcon,
   Loader2,
   Mail,
@@ -15,6 +16,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { CANNED_REPLIES, applyCannedReply } from '@/lib/canned-replies';
+import { AttachEmrDocumentDialog } from '@/components/conversations/attach-emr-document-dialog';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -158,6 +160,7 @@ export function ConversationComposer({
   // Respostas rápidas (canned) desativadas por ora — painel dormante (sem gatilho).
   const showCanned = false;
   const [attachments, setAttachments] = useState<AttachmentState[]>([]);
+  const [emrPickerOpen, setEmrPickerOpen] = useState(false);
   // Template (reabre conversa fora da janela 24h): seleção + valores dos parâmetros.
   const [showTemplate, setShowTemplate] = useState(false);
   const [tplName, setTplName] = useState('');
@@ -701,6 +704,17 @@ export function ConversationComposer({
               <Paperclip className="h-3.5 w-3.5" /> Anexar
             </button>
           )}
+          {showAttachUI && channel === 'whatsapp' && item.ownerType === 'patient' && (
+            <button
+              type="button"
+              onClick={() => setEmrPickerOpen(true)}
+              disabled={isPending}
+              title="Anexar um documento já gerado no EMR (pedido de exames, receita, etc.)"
+              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-xs font-medium hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <FolderOpen className="h-3.5 w-3.5" /> Do EMR
+            </button>
+          )}
           {/* Respostas rápidas (canned) removidas por ora (decisão 2026-06-06).
               Restaurar quando houver biblioteca curada. O painel `showCanned` segue
               no código, só sem gatilho. */}
@@ -731,6 +745,14 @@ export function ConversationComposer({
           {isPending ? 'Enviando…' : hasUploading ? 'Aguardando upload…' : 'Enviar'}
         </Button>
       </div>
+
+      {item.ownerType === 'patient' && (
+        <AttachEmrDocumentDialog
+          patientId={item.ownerId}
+          open={emrPickerOpen}
+          onOpenChange={setEmrPickerOpen}
+        />
+      )}
     </div>
   );
 }

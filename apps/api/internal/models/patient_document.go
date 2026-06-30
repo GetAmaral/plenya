@@ -59,6 +59,11 @@ type PatientDocument struct {
 	ContentType string `gorm:"type:varchar(100);not null" json:"contentType"`
 	SizeBytes   int64  `gorm:"not null" json:"sizeBytes"`
 
+	// SourceRef liga este doc à entidade clínica que o materializou (ex.: "lab_request:<uuid>"),
+	// pra idempotência: não duplicar a cópia compartilhável a cada "Enviar por WhatsApp". NULL p/
+	// uploads manuais / inbound. uniqueIndex parcial (NULLs distintos no Postgres).
+	SourceRef *string `gorm:"type:varchar(80);uniqueIndex:uq_patient_documents_source_ref" json:"-"`
+
 	IssuedAt time.Time `gorm:"type:timestamptz;not null" json:"issuedAt"`
 
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"createdAt"`
