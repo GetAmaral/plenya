@@ -1,0 +1,32 @@
+/* Gymnai — design tokens
+ * Cores AMOSTRADAS dos swatches ROTULADOS do brandbook em alta-res (2026-06-29).
+ * Confiáveis (swatches limpos), salvo leve variação de render. Gradiente do ouro até #D7B975.
+ * Fontes: Cinzel (títulos — alternativa livre ao Trajan Pro) + Montserrat (corpo). Google Fonts.
+ */
+:root {
+  --gym-ouro:        #B4894D; /* OURO (principal; gradiente até #D7B975) */
+  --gym-ouro-claro:  #D7B975; /* realce / topo do gradiente do símbolo */
+  --gym-petrol:      #022837; /* PETROL — fundo predominante */
+  --gym-azul-claro:  #3C6971; /* AZUL CLARO — acento teal */
+  --gym-verde:       #ADB29B; /* VERDE — sage */
+  --gym-creme:       #E1D9CC; /* CREME — texto claro / fundos claros */
+
+  /* Semânticos (dark-first) */
+  --gym-bg:        var(--gym-petrol);
+  --gym-surface:   #0C2E3D;   /* petróleo levemente mais claro p/ cards (derivado) */
+  --gym-brand:     var(--gym-ouro);
+  --gym-brand-hi:  var(--gym-ouro-claro);
+  --gym-text:      var(--gym-creme);
+
+  --gym-font-display: "Cinzel", "Trajan Pro", serif; /* só caixa alta */
+  --gym-font-body:    "Montserrat", system-ui, sans-serif;
+}
+
+/* Tailwind v4 (referência — colar no @theme):
+@theme {
+  --color-ouro: #B4894D;  --color-ouro-claro: #D7B975;
+  --color-petrol: #022837; --color-azul-claro: #3C6971;
+  --color-verde: #ADB29B;  --color-creme: #E1D9CC;
+  --font-display: "Cinzel", serif;  --font-body: "Montserrat", sans-serif;
+}
+*/

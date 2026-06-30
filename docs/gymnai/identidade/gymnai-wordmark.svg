@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="150" viewBox="0 0 640 150">
+  <defs><style>@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&amp;family=Montserrat:wght@500&amp;display=swap');</style>
+  <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D7B975"/><stop offset="1" stop-color="#B4894D"/></linearGradient></defs>
+  <text x="320" y="78" text-anchor="middle" font-family="Cinzel,'Trajan Pro',serif" font-size="62" letter-spacing="14" fill="url(#g)">GYMNAI</text>
+  <text x="320" y="116" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="15" letter-spacing="7" fill="#D5B888">INTELLIGENCE IN MOTION</text>
+</svg>
