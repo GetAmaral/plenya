@@ -140,7 +140,7 @@ func (s *WhatsAppTemplateService) upsert(mt metaTemplate) error {
 			"status":         mt.Status,
 			"body_text":      body,
 			"variable_count": nvars,
-			"variables":      vars,
+			"variables":      variablesExpr(vars),
 			"last_synced_at": now,
 		}).Error
 	}
@@ -150,18 +150,32 @@ func (s *WhatsAppTemplateService) upsert(mt metaTemplate) error {
 	// Novo: variáveis já nascem com rótulo canônico (descrição do campo) + exemplo da Meta.
 	vars := mergeVars(nvars, example, canonicalVarLabels(mt.Name), nil)
 	return s.db.Clauses(clause.OnConflict{DoNothing: true}).Create(&models.WhatsAppTemplate{
-		MetaID:        mt.ID,
-		Name:          mt.Name,
-		Language:      lang,
-		Category:      mt.Category,
-		Status:        mt.Status,
-		BodyText:      body,
+		MetaID:         mt.ID,
+		Name:           mt.Name,
+		Language:       lang,
+		Category:       mt.Category,
+		Status:         mt.Status,
+		BodyText:       body,
 		VariableCount:  nvars,
 		Variables:      vars,
 		Enabled:        true,
 		ChatSelectable: chatSelectableDefault(mt.Name),
 		LastSyncedAt:   &now,
 	}).Error
+}
+
+// variablesExpr serializa as variáveis como JSON array CRU pra gravação em jsonb via gorm.Expr,
+// contornando a ambiguidade do serializer:json do GORM em Updates(map[string]any): naquele caminho
+// um slice de 1 elemento acabava gravado como OBJETO {...} em vez de [{...}], o que fazia a leitura
+// da tabela inteira (Find/First) abortar com "cannot unmarshal object into []WhatsAppTemplateVar"
+// — 500 no catálogo/compositor e sync travado. json.Marshal de um slice é SEMPRE array e gorm.Expr
+// não passa pelo serializer. Ver migration 00060 (CHECK jsonb_typeof(variables)='array').
+func variablesExpr(vars []models.WhatsAppTemplateVar) clause.Expr {
+	if vars == nil {
+		vars = []models.WhatsAppTemplateVar{}
+	}
+	b, _ := json.Marshal(vars) // slice deste tipo nunca falha ao serializar
+	return gorm.Expr("?::jsonb", string(b))
 }
 
 // mergeVars monta as variáveis: rótulo = o editado à mão (não-vazio) se houver, senão o canônico;
@@ -295,7 +309,7 @@ func (s *WhatsAppTemplateService) UpdateMetaFields(id uuid.UUID, in UpdateTempla
 		upd["chat_selectable"] = *in.ChatSelectable
 	}
 	if in.Variables != nil {
-		upd["variables"] = *in.Variables
+		upd["variables"] = variablesExpr(*in.Variables)
 	}
 	if len(upd) > 0 {
 		if err := s.db.Model(&t).Updates(upd).Error; err != nil {
