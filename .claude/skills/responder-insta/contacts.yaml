@@ -19,13 +19,109 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-06-23'  # 14ª iteração — varredura COMPLETA (43 posts + ads IG/FB + 50 DMs + Messenger); +cristinacarvalho3911 (PACIENTE), +rita.zbinden.39 (lead), +marcia28733 (lead), +marlyrodrigues.apps
+last_updated: '2026-07-11'  # 15ª iteração — varredura COMPLETA (46 posts + ads IG/FB + 50 DMs + Messenger); reautenticação IG Composio no início (todas EXPIRED). +nil_negro, +jaquelinecarrador, +ritakassia74, +karina.fiorii, +robertaadami15, +cidabastos122, +tatiana.saliba.7, +dirceschilipack, +magnalucia.silva, +elisanee
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
 # Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
 # Madrinha da Bianca = @jeane_clucena (prima do Dr).
 
 contacts:
+
+  # ============================================
+  # NOVOS (cadastrados 2026-07-11)
+  # ============================================
+
+  '@nil_negro':
+    rel: seguidora
+    tone: clínico-respeitoso
+    notes: |
+      Pergunta clínica no post de Ansiedade/intestino: prisão de ventre pode ser
+      causada pela ansiedade. Respondida (eixo intestino-cérebro, hidratação/fibra/
+      movimento, investigar se persistente).
+    last: "2026-07-11 — reply post Ansiedade (constipação × ansiedade)"
+
+  '@jaquelinecarrador':
+    rel: seguidora / paciente potencial
+    tone: clínico-respeitoso
+    notes: |
+      Perfil complexo: histórico familiar cardíaco, artrite reumatoide, vasculite,
+      alteração de tireoide e lipedema aparecendo. Endócrina receitou Wegovy, ela com
+      medo. Respondida (perfil reúne indicações; autoimune não contraindica mas GLP-1
+      não substitui tto; tireoide só CA medular/NEM2 impedem; seguir endócrina+reumato).
+    last: "2026-07-11 — reply GLP1 ep1 (Wegovy + comorbidades autoimunes/lipedema)"
+
+  '@ritakassia74':
+    rel: seguidora
+    tone: clínico-respeitoso
+    notes: |
+      Perguntou sobre risco de cegueira com GLP-1. Respondida com evidência atual: NAION,
+      efeito muito raro (~1/10mil, EMA/PRAC), evidência conflitante, atenção em
+      retinopatia/diabetes longo, avisar oftalmo.
+    last: "2026-07-11 — reply GLP1 ep1 (NAION/risco de cegueira)"
+
+  '@karina.fiorii':
+    rel: seguidora / em tratamento
+    name: Karina
+    tone: clínico-respeitoso afetuoso
+    notes: |
+      Em uso de Poviztra (semaglutida), endócrino dela acompanha. Ansiosa/insegura no
+      início — terminou 0,25, subindo p/ 0,5, teve 1 episódio de diarreia após saladas,
+      "em pânico kkk", pediu contato pessoal. Tranquilizada (diarreia comum/transitória);
+      NÃO passar contato pessoal, redirecionar ao endócrino dela.
+    avoid: [passar contato pessoal do Dr]
+    last: "2026-07-11 — reply follow-up GLP1 ep1 (diarreia/aumento de dose)"
+
+  '@robertaadami15':
+    rel: seguidora / em tratamento
+    tone: clínico-respeitoso
+    notes: |
+      Começou GLP-1 há 3 dias (via anúncio Ep2), perguntou quanto tempo pra fazer efeito.
+      Respondida (saciedade nos primeiros dias, perda de peso gradual conforme dose sobe).
+    last: "2026-07-11 — reply ad Ep2 IG (tempo de efeito)"
+
+  '@cidabastos122':
+    rel: seguidora
+    tone: profissional-caloroso
+    notes: |
+      Comentou no anúncio Ep1 "eu queria, mas é caro". Respondida com empatia +
+      cenário de acesso melhorando + estilo de vida como pilar acessível.
+    last: "2026-07-11 — reply ad Ep1 IG (custo)"
+
+  '@tatiana.saliba.7':
+    rel: lead (interessada em emagrecer)
+    tone: profissional-caloroso
+    platform: instagram-dm-fora-janela
+    notes: |
+      DM (10/07): "algum medicamento ou suplemento substitui as canetas?". Draft pronto
+      (nenhum suplemento substitui; orais tipo Rybelsus; base estilo de vida; avaliação
+      médica). Fora da janela 24h → Dr respondeu manual no app.
+    last: "2026-07-11 — DM substituto das canetas (Dr respondeu manual no app)"
+
+  '@dirceschilipack':
+    rel: lead (Curitiba)
+    tone: profissional-caloroso
+    notes: |
+      DM: 65 anos, de Curitiba, iniciou Ozempic (fase de adaptação), ganhou peso pós parar
+      de fumar, quer voltar aos 58kg (hj 72). Faz acompanhamento c/ endócrino e nutri.
+      Dr respondeu (06/07): atende presencial em Londrina + telemedicina, WhatsApp clínica
+      (43) 99974-8899. Ela agradeceu (10/07, fechamento).
+    last: "2026-07-06 — DM (atende Londrina + online); fechamento dela 10/07"
+
+  '@magnalucia.silva':
+    rel: seguidora
+    name: Magna Lúcia
+    tone: profissional-caloroso
+    notes: |
+      Ouviu entrevista do Dr na rádio Cale FM (São João do Ivaí). DM de agradecimento;
+      Dr respondeu (07/07). Fechado com emoji dela.
+    last: "2026-07-07 — DM agradecimento (entrevista rádio), Dr respondeu"
+
+  '@elisanee':
+    rel: seguidora
+    tone: clínico-respeitoso breve
+    notes: |
+      Respondeu CTA "sim" no post de Ansiedade. Acolhimento breve.
+    last: "2026-07-11 — reply CTA post Ansiedade"
 
   # ============================================
   # NOVOS (cadastrados 2026-06-23)

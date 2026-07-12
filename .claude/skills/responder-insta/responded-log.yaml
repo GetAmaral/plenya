@@ -12,7 +12,7 @@
 #   dr_api      = resposta postada via skill/Composio (drgetulioamaralfilho)
 #   page        = respondido pela Página FB "Clínica médica Dr Getulio" (id 1046561478538408)
 
-last_updated: '2026-06-23'
+last_updated: '2026-07-11'
 
 # ── DMs ─────────────────────────────────────────────────────────────────────
 dms:
@@ -76,13 +76,17 @@ conversas_inacessiveis:
     visto_em: '2026-06-05'
     updated_time: '2026-06-01T21:21'
     nota: "API subcode 33 (object does not exist/permissions). ID padrão 281152... = provável PEDIDO DE MENSAGEM de não-seguidor. Checar aba 'Solicitações' no app. Ver responder_insta_message_requests_first."
+  - id: aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUyNTAzNjY5NzI4MDgzMzc2
+    visto_em: '2026-07-11'
+    updated_time: '2026-07-11T00:05'
+    nota: "API subcode 33 (object does not exist/permissions). ID padrão 281152... = provável PEDIDO DE MENSAGEM de não-seguidor. Checar aba 'Solicitações' no app."
 
 # ── Baseline de comentários (varredura completa 2026-05-23) ──────────────────
 # Nesta data foram varridos os 35 posts orgânicos + os 3 ads ativos (GLP-1 ep1/ep2/ep7),
 # lados IG e FB. RESULTADO: praticamente tudo já respondido pelo Dr até 20/05.
 # Registro só o que ficou PENDENTE nesta data (o resto = respondido, não re-flaggar
 # comentários com timestamp <= a data abaixo a menos que tenham reply nova do usuário).
-comments_baseline_swept_through: '2026-06-23'  # varredura COMPLETA 23/06: 43 posts orgânicos (TODOS) + ads IG+FB (ep1/ep2/ep7) + 50 DMs + FB Messenger (0) + tags
+comments_baseline_swept_through: '2026-07-11'  # varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
 
 # Itens que ficaram ABERTOS em 2026-05-23 (decisão do Dr sobre responder ou não):
 open_as_of_2026-05-23:
@@ -337,6 +341,102 @@ answered_2026-06-23:  # varredura COMPLETA: 43 posts + ads IG/FB + 50 DMs + Mess
       by: dr_api
       re: "Tréplica: 'Eurofarma fabrica pq Novo perdeu patente'. Correção factual (verificado online): parceria OFICIAL Novo Nordisk+Eurofarma (Poviztra) lançada ANTES do fim da patente; patente da semaglutida está acabando; fábrica Montes Claros é da Novo Nordisk. Tudo favorece acesso."
     # IGNORADO nesta passada: @hoamdigital 'Sim' (Ansiedade, agência HOAM) — CTA, baixo valor.
+
+answered_2026-07-11:  # varredura COMPLETA: 46 posts + ads IG/FB + 50 DMs + Messenger(0). Só o novo (>23/06). IG Composio reautenticado no início.
+  comments:
+    - post: Ansiedade/intestino (18075774242304958)
+      comment_id: 18331863913251770
+      who: '@nil_negro'
+      reply_id: '18107287748045485'
+      by: dr_api
+      re: "Clínica: prisão de ventre pode ser da ansiedade? Sim, estresse desacelera intestino (eixo intestino-cérebro, serotonina); hidratar+fibra+movimento; investigar se persistente/dor/sangramento."
+    - post: GLP1 ep1 organic (18091184708043047)
+      comment_id: 18007130453949694
+      who: '@jaquelinecarrador'
+      reply_id: '18079318067294369'
+      by: dr_api
+      re: "Clínica: Wegovy + histbr cardíaco/AR/vasculite/tireoide/lipedema, com medo. Perfil reúne indicações (benefício CV, lipedema, anti-inflamatório em autoimune sem substituir tto); tireoide só CA medular/NEM2 contraindicam; começar baixo, seguir com endócrina+reumato."
+    - post: GLP1 ep1 organic (18091184708043047)
+      comment_id: 18007062560934945
+      who: '@ritakassia74'
+      reply_id: '18080892470258445'
+      by: dr_api
+      re: "Clínica: risco de cegueira? NAION, efeito muito raro (~1/10mil, EMA/PRAC); evidência conflitante (HR~2,6 vs coorte sem diferença); atenção retinopatia/diabetes longo + não baixar glicose rápido; avisar oftalmo. WebSearch usado (NAION 2025-26)."
+    - post: GLP1 ep1 organic (18091184708043047)
+      comment_id: 18106730303001628
+      who: '@karina.fiorii'  # follow-up (Poviztra/semaglutida, endócrino dela acompanha)
+      reply_id: '18429695089135036'
+      by: dr_api
+      re: "Follow-up: terminou 0,25 vai subir 0,5, pânico c/ 1 diarreia após saladas. Tranquilizada: diarreia comum/transitória, fibra de uma vez solta; hidratar+distribuir fibra; avisar endócrino se forte/persistir. Não passei contato pessoal, redirecionei ao endócrino."
+    - post: GLP1 ep2 organic (18337463062212973)
+      comment_id: 18320610139279432
+      who: '@marlyrodrigues.apps'  # fechamento
+      reply_id: '18124091284778507'
+      by: dr_api
+      re: "Fechamento 'valeu a dica, obrigada'. 'Por nada, fico à disposição ☺️❤️'."
+    - post: Ansiedade/intestino (18075774242304958)
+      comment_id: 18108499721050144
+      who: '@elisanee'
+      reply_id: '18324360466279031'
+      by: dr_api
+      re: "CTA 'sim'. Acolhimento + promessa de conteúdo sobre o que investigar no intestino."
+  ad_ig_side:
+    - ad: GLP1 Ep2 lado IG (18100461958813577)
+      comment_id: 18119795395667587
+      who: '@robertaadami15'
+      reply_id: '18470802286111341'
+      by: dr_api
+      re: "Clínica: quanto tempo pra fazer efeito? Menos fome já nos primeiros dias; perda de peso gradual conforme dose sobe; benefícios extra ao longo das semanas; base proteína/treino/hidratação."
+    - ad: GLP1 Ep1 lado IG (17997938657731054)
+      comment_id: 18109389490956183
+      who: '@cidabastos122'
+      reply_id: '18058760375741476'
+      by: dr_api
+      re: "Custo 'queria mas é caro'. Empatia + cenário melhorando (patente caindo/orais) + estilo de vida como pilar acessível."
+  ad_fb_side:  # FACEBOOK_CREATE_COMMENT com comment_id ISOLADO
+    - ad: GLP1 Ep1 lado FB (1046561478538408_1418583016711401)
+      comment_id: 1528776445643244
+      who: anônimo
+      reply_id: '1528776445643244_1024111450265006'
+      by: dr_api
+      re: "'Qual a diferença entre um e outro?' Semaglutida (1 alvo GLP-1) vs tirzepatida (2 alvos GLP-1+GIP, perda um pouco maior); escolha é do médico."
+    - ad: GLP1 Ep1 lado FB (1046561478538408_1418583016711401)
+      comment_id: 2285469542211417
+      who: anônimo
+      reply_id: '2285469542211417_2447264369092142'
+      by: dr_api
+      re: "Depoimento Mounjaro 5mg: autoimune calma + olhos menos secos (anti-inflamatório) mas fadiga crônica extrema. Acolhi + fadiga merece investigação (proteína/hidratação/ferro/B12/tireoide/própria autoimune)."
+    - ad: GLP1 Ep2 lado FB (1046561478538408_1646264863054912)
+      comment_id: 1720716129057358
+      who: anônimo
+      reply_id: '1720716129057358_28690607447194615'
+      by: dr_api
+      re: "'Liberação das TG no Brasil, laboratórios confiáveis'. Concordância: aprovados/regulamentados Anvisa são seguros; usar com prescrição, fugir de produtos sem procedência."
+  applause_coracao:  # ☺️❤️ padrão do Dr — posts novos 24/06–06/07
+    - {who: '@dr_danilo_cunha',      comment_id: 18004632950958614, reply_id: '18107176712010301', post: Haaland}
+    - {who: '@amaral_eng',           comment_id: 18072951584694679, reply_id: '18106177015830425', post: Haaland}
+    - {who: '@amaral_eng',           comment_id: 18090758669077211, reply_id: '18031633847659494', post: Modric}
+    - {who: '@antonioamaraljunior_', comment_id: 17980705397977415, reply_id: '18347632330247403', post: Modric}
+    - {who: '@gustavogarib_',        comment_id: 18106863767050897, reply_id: '18138754333512792', post: Modric}
+    - {who: '@mateusamaral10',       comment_id: 17881661526670662, reply_id: '18101241908600592', post: Modric}
+    - {who: '@marcinha_barreiros',   comment_id: 18111585757845141, reply_id: '17890449315585509', post: UltimaDancaEp2}
+    - {who: '@regina.garcia.777',    comment_id: 18593097826001654, reply_id: '18109167532961215', post: UltimaDancaEp2}
+    - {who: '@amaral_eng',           comment_id: 17921174553165183, reply_id: '18081725207644223', post: UltimaDancaEp2}
+    - {who: '@sandra.calsavara.1',   comment_id: 18083346683443078, reply_id: '17982517833031076', post: UltimaDancaEp2}
+    - {who: '@gre_078',              comment_id: 17985116177844332, reply_id: '18089682794531102', post: UltimaDancaEp2}
+    - {who: '@dr_danilo_cunha',      comment_id: 17933079888314348, reply_id: '17869341075567850', post: UltimaDancaEp2}
+    - {who: '@anaccorreamattos',     comment_id: 17934798822282087, reply_id: '18086613125404670', post: UltimaDancaEp2}
+    - {who: '@malugarib',            comment_id: 18052000307536336, reply_id: '17939618730266699', post: Hospital}
+    - {who: '@dr_danilo_cunha',      comment_id: 18457504003117055, reply_id: '18028842839828688', post: Hospital}
+    - {who: '@regina.garcia.777',    comment_id: 18357354028246252, reply_id: '18107880653473300', post: Hospital}
+    - {who: '@malugarib',            comment_id: 17859100845658627, reply_id: '18107728387822405', post: IdadeBiologica}
+  dms_resolvidas_dr_app:
+    - who: '@tatiana.saliba.7'  # DM clínica "substituto das canetas?" (10/07, fora janela 24h) → Dr respondeu manual no app
+  ignorados:
+    - "IG Ep2 ad: football banter (@_boorga 'princesa da fifa', @izaiasfirmino 'três copas') — não clínico, descarte"
+    - "@franciele.fabio984 'VV.' (ad Ep1 IG) — spam/sem sentido"
+    - "@magcrissosa DM 'Jorge' (28/06) — palavra solta ambígua, sem pergunta"
+    - "@dirceschilipack DM 'obrigada Dr' (10/07 fechamento fora janela) — provável dr_app"
 
 # RESOLVIDO pelo Dr pessoalmente no app (confirmado pelo usuário em 23/06) — NÃO re-flaggar:
 resolvido_dr_app_2026-06-23:
