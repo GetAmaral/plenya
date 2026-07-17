@@ -127,6 +127,10 @@ apps/api/examples/articles/*.mobi
 uploads/
 apps/api/uploads/
 
+# Exames/laudos de pacientes reais (PHI). NUNCA vai pro git: o origin é GitHub e
+# histórico de git é praticamente irreversível. Mantido só no disco local.
+pacs/
+
 # Database backups
 backup_*.sql
 *.sql.bak
