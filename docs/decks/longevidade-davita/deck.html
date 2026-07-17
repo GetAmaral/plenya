@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Longevidade DaVita Londrina</title>
+<style>
+  :root{
+    --davita:#00539B; --davita-dk:#003C72; --davita-lt:#3E86C6;
+    --gold:#F5A800; --gold-dk:#E08A00;
+    --nefro-dk:#1F7A4D; --nefro-lt:#7AC24A;
+    --ink:#17242E; --slate:#3C4C57; --muted:#6A7C87;
+    --line:#DCE5EC; --bg:#F3F7FA; --card:#FFFFFF;
+    --good:#1F9D6B; --warn:#E4A11B; --bad:#D64550;
+    --sans:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#4a5560}
+  @page{ size:13.333in 7.5in; margin:0; }
+  .slide{
+    position:relative; width:13.333in; height:7.5in; overflow:hidden;
+    background:var(--bg); color:var(--ink); font-family:var(--sans);
+    page-break-after:always; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    padding:0.62in 0.72in 0.5in;
+  }
+  .slide:last-child{page-break-after:auto}
+  .dark{background:linear-gradient(135deg,#003C72 0%,#00539B 55%,#0A6AB0 100%); color:#fff}
+  .kicker{font-size:11pt; letter-spacing:.22em; text-transform:uppercase; font-weight:700; color:var(--davita)}
+  .dark .kicker{color:var(--gold)}
+  h1{font-size:34pt; line-height:1.05; font-weight:700; letter-spacing:-.01em}
+  h2{font-size:27pt; line-height:1.08; font-weight:700; letter-spacing:-.01em; color:var(--davita-dk)}
+  .dark h2{color:#fff}
+  .lead{font-size:14pt; line-height:1.5; color:var(--slate); font-weight:400}
+  .dark .lead{color:#DCEBF7}
+  .foot{position:absolute; left:.72in; right:.72in; bottom:.34in; display:flex; justify-content:space-between;
+        align-items:center; font-size:8.5pt; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
+        border-top:1px solid var(--line); padding-top:8px}
+  .dark .foot{color:#9CC3E4; border-top-color:rgba(255,255,255,.2)}
+  .foot b{color:var(--davita); font-weight:700; letter-spacing:.14em}
+  .dark .foot b{color:var(--gold)}
+
+  /* ---- logos ---- */
+  .davita-logo{display:inline-flex; align-items:flex-end; gap:0; line-height:1}
+  .davita-word{font-weight:800; font-size:30px; color:var(--davita); letter-spacing:-.02em; position:relative}
+  .davita-sub{font-size:10px; letter-spacing:.02em; color:var(--davita); font-weight:600; margin-top:2px}
+  .nefro-logo{display:inline-flex; align-items:center; gap:9px}
+  .nefro-word b{font-weight:800; font-size:22px; color:var(--nefro-dk); letter-spacing:-.01em}
+  .nefro-word span{font-weight:800; font-size:22px; letter-spacing:-.01em;
+        background:linear-gradient(90deg,var(--nefro-dk),var(--nefro-lt)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .nefro-sub{font-size:8.5px; letter-spacing:.28em; color:var(--nefro-lt); font-weight:700; margin-top:1px}
+
+  /* ---- cards / grids ---- */
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:22px}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px 24px;
+        box-shadow:0 1px 0 rgba(20,40,60,.03)}
+  .card.res{border-top:5px solid var(--gold)}
+  .card.proc{border-top:5px solid var(--nefro-dk)}
+  .card h3{font-size:15pt; color:var(--davita-dk); margin-bottom:4px}
+  .card .tag{font-size:10pt; color:var(--muted); font-style:italic; margin-bottom:12px}
+  .card p{font-size:11.5pt; line-height:1.5; color:var(--slate); margin-bottom:9px}
+  .card p b{color:var(--ink)}
+
+  .levers{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:26px}
+  .lever{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; position:relative}
+  .lever .ic{width:34px;height:34px;border-radius:9px;background:#EAF2FA;display:flex;align-items:center;justify-content:center;
+        font-size:17px;margin-bottom:10px}
+  .lever h4{font-size:13pt; color:var(--davita-dk); margin-bottom:3px}
+  .lever p{font-size:9.5pt; color:var(--muted); line-height:1.4}
+
+  /* metric hero */
+  .metric-wrap{display:grid; grid-template-columns:1.05fr 1fr; gap:30px; margin-top:20px; align-items:center}
+  .bignum{font-size:120pt; font-weight:800; line-height:.9; color:var(--davita)}
+  .dark .bignum{color:#fff}
+  .bignum small{font-size:20pt; font-weight:600; color:var(--muted); display:block; letter-spacing:.02em}
+  .dark .bignum small{color:#BFDCF3}
+  .gauge{margin:14px 0}
+  .gauge .lbl{display:flex; justify-content:space-between; font-size:11pt; font-weight:600; color:var(--slate); margin-bottom:6px}
+  .bar{height:26px; border-radius:7px; background:#E7EEF4; position:relative; overflow:hidden}
+  .bar .fill{height:100%; border-radius:7px; background:linear-gradient(90deg,var(--davita-lt),var(--davita))}
+  .bar .target{position:absolute; top:-5px; bottom:-5px; width:3px; background:var(--gold)}
+  .bar .tlbl{position:absolute; top:-20px; transform:translateX(-50%); font-size:8.5pt; font-weight:700; color:var(--gold-dk)}
+  .note{background:#FFF7E8; border-left:4px solid var(--gold); border-radius:0 8px 8px 0; padding:12px 16px;
+        font-size:10.5pt; line-height:1.45; color:var(--slate); margin-top:14px}
+  .note b{color:var(--ink)}
+
+  /* panel table */
+  table.panel{width:100%; border-collapse:collapse; margin-top:14px; font-size:11pt}
+  table.panel th{background:var(--davita); color:#fff; text-align:left; padding:10px 12px; font-weight:600; font-size:10pt;
+        letter-spacing:.02em}
+  table.panel th:first-child{border-radius:8px 0 0 0}
+  table.panel th:last-child{border-radius:0 8px 0 0}
+  table.panel td{padding:9px 12px; border-bottom:1px solid var(--line); color:var(--slate)}
+  table.panel tr td:first-child{font-weight:700; color:var(--ink)}
+  table.panel .pct{font-weight:800}
+  .mini{display:inline-block; width:120px; height:12px; border-radius:6px; background:#E7EEF4; position:relative; vertical-align:middle}
+  .mini .mf{position:absolute; left:0; top:0; height:100%; border-radius:6px; background:var(--davita)}
+  .mini .mt{position:absolute; top:-3px; height:18px; width:2px; background:var(--gold)}
+  .lo{color:var(--bad)!important}
+  .arrow{color:var(--nefro-dk); font-weight:800}
+
+  .roles{display:grid; grid-template-columns:repeat(2,1fr); gap:12px 26px; margin-top:22px; max-width:9.6in}
+  .role{display:flex; gap:12px; align-items:flex-start}
+  .role .d{width:10px;height:10px;border-radius:50%;background:var(--gold); margin-top:6px; flex:none}
+  .role b{color:#fff; font-size:12.5pt}
+  .role span{color:#CFE6F8; font-size:10.5pt; line-height:1.4}
+  .pull{font-size:26pt; line-height:1.28; font-weight:600; color:var(--davita-dk); max-width:10in; margin-top:10px}
+  .pull .g{color:var(--gold-dk)}
+  .cite{font-size:9.5pt; color:var(--muted); margin-top:10px; font-style:italic}
+</style>
+</head>
+<body>
+
+<!-- 1 CAPA -->
+<section class="slide dark">
+  <div style="display:flex; justify-content:space-between; align-items:flex-start">
+    <div class="davita-logo" style="filter:brightness(0) invert(1)">
+      <svg width="0" height="0"></svg>
+    </div>
+  </div>
+  <div style="display:flex; align-items:center; gap:26px; margin-top:2px">
+    <!-- DaVita reconstruído -->
+    <div style="display:flex; align-items:flex-end; gap:2px">
+      <div>
+        <div style="position:relative; display:inline-block">
+          <svg width="26" height="26" viewBox="0 0 24 24" style="position:absolute; right:34px; top:-14px">
+            <path d="M12 0 L14.6 8.4 L23 8.4 L16.2 13.6 L18.8 22 L12 16.8 L5.2 22 L7.8 13.6 L1 8.4 L9.4 8.4 Z" fill="#F5A800"/>
+          </svg>
+          <span style="font-weight:800; font-size:40px; color:#fff; letter-spacing:-.02em">DaVita</span>
+        </div>
+        <div style="font-size:13px; letter-spacing:.02em; color:#CFE6F8; font-weight:600; margin-top:-2px">Tratamento Renal</div>
+      </div>
+    </div>
+    <div style="width:1px; height:52px; background:rgba(255,255,255,.3)"></div>
+    <!-- NefroClínica reconstruído -->
+    <div class="nefro-logo">
+      <svg width="40" height="40" viewBox="0 0 44 44">
+        <path d="M20 4 C10 6 6 16 9 26 C11 33 17 38 21 34 C17 30 15 22 18 15 C20 10 20 6 20 4 Z" fill="#1F7A4D"/>
+        <path d="M24 6 C33 9 37 18 34 28 C32 35 26 39 22 35 C27 31 29 23 26 16 C24 11 24 8 24 6 Z" fill="#7AC24A"/>
+      </svg>
+      <div>
+        <div><b style="color:#fff">Nefro</b><span style="color:#BFE6A8">Clínica</span></div>
+        <div style="font-size:9px; letter-spacing:.28em; color:#BFE6A8; font-weight:700">EQUIPE MÉDICA</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:absolute; left:.72in; bottom:1.5in">
+    <div class="kicker">DaVita Londrina · 2º semestre 2026</div>
+    <h1 style="font-size:52pt; margin-top:14px; max-width:10in">Longevidade<br>na hemodiálise</h1>
+    <p class="lead" style="margin-top:16px; max-width:8.4in; font-size:15pt">
+      Um plano para reduzir a mortalidade da nossa unidade, transformando metas de resultado
+      em comportamentos que a equipe controla todo dia.</p>
+  </div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Longevidade · Metas de resultado e de processo</span><span>01 / 13</span></div>
+</section>
+
+<!-- 2 CONCEITO -->
+<section class="slide">
+  <div class="kicker">O conceito</div>
+  <h2 style="margin-top:10px">Duas formas de olhar uma meta</h2>
+  <p class="lead" style="margin-top:12px; max-width:10.6in">
+    Toda meta pode ser enxergada de dois jeitos. Confundir um com o outro costuma ser a raiz do problema
+    de quem quer melhorar e não sabe por onde.</p>
+  <div class="two">
+    <div class="card res">
+      <h3>Meta de resultado</h3>
+      <div class="tag">Aonde eu quero chegar</div>
+      <p>É o destino, o número final. <b>Reduzir a mortalidade da unidade.</b></p>
+      <p>Depende de coisas que nem sempre controlo por completo, e não diz o que fazer na segunda de manhã.</p>
+      <p>Olhar só para ela gera cobrança e pouca ação: se o mês fecha mal, não se sabe onde errou.</p>
+    </div>
+    <div class="card proc">
+      <h3>Meta de processo</h3>
+      <div class="tag">O que eu faço para chegar lá</div>
+      <p>É o caminho: a lista de comportamentos que a equipe controla e repete todo dia.</p>
+      <p><b>Potássio na meta, volume controlado, fósforo e PTH ajustados, diálise adequada.</b></p>
+      <p>Está na nossa mão. Responde à pergunta mais importante: o que eu preciso fazer agora?</p>
+    </div>
+  </div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Meta de resultado × meta de processo</span><span>02 / 13</span></div>
+</section>
+
+<!-- 3 PUXA PRO CASO -->
+<section class="slide">
+  <div class="kicker">Por que isso muda o nosso trabalho</div>
+  <h2 style="margin-top:10px">Não se muda o resultado olhando o placar</h2>
+  <div class="pull" style="margin-top:26px">
+    A mortalidade é o resultado. Ela melhora quando cuidamos, um a um, dos
+    <span class="g">processos que controlamos</span> em cada sessão.
+  </div>
+  <div class="note" style="max-width:10.4in; margin-top:34px; font-size:12pt">
+    Pense em duas pessoas que querem perder dez quilos. A que vive na balança se frustra.
+    A que foca em caminhar todo dia, cozinhar em casa e dormir bem é quem emagrece.
+    <b>A meta das duas era a mesma. Mudou onde cada uma colocou a atenção.</b>
+  </div>
+  <p class="lead" style="margin-top:26px; font-size:16pt; color:var(--davita-dk); font-weight:600">
+    Quem cuida do processo, cuida do resultado.</p>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Do resultado ao processo</span><span>03 / 13</span></div>
+</section>
+
+<!-- 4 O RESULTADO A MUDAR -->
+<section class="slide dark">
+  <div class="kicker">O nosso resultado a mudar</div>
+  <div class="metric-wrap">
+    <div>
+      <div class="bignum">34<small>óbitos no 1º semestre de 2026</small></div>
+    </div>
+    <div>
+      <p class="lead" style="font-size:15pt; color:#EAF4FF">
+        Um número alto demais para aceitarmos como normal. A mortalidade em hemodiálise
+        no Brasil já é elevada, cerca de <b style="color:#fff">16,5% ao ano</b>
+        (Censo Brasileiro de Diálise, 2024). Queremos ficar muito abaixo disso.</p>
+      <div style="margin-top:26px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
+            border-radius:14px; padding:22px 26px">
+        <div style="font-size:11pt; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); font-weight:700">Meta de resultado</div>
+        <div style="font-size:30pt; font-weight:800; margin-top:6px; line-height:1.1">Reduzir a mortalidade<br>em 50% até dez/2026</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Meta de resultado 2026</span><span>04 / 13</span></div>
+</section>
+
+<!-- 5 MAPA DOS PROCESSOS -->
+<section class="slide">
+  <div class="kicker">A morte em diálise não é aleatória</div>
+  <h2 style="margin-top:10px">Ela tem causas que controlamos</h2>
+  <p class="lead" style="margin-top:10px; max-width:10.6in">
+    Cada óbito evitável passa por processos que medimos e podemos corrigir. Estes são os que
+    viram nossas metas para o segundo semestre.</p>
+  <div class="levers">
+    <div class="lever"><div class="ic">⚡</div><h4>Potássio</h4><p>Arritmia e morte súbita, sobretudo no intervalo longo.</p></div>
+    <div class="lever"><div class="ic">💧</div><h4>Volume (GPID)</h4><p>Ganho acima da UF removível: sobrecarga, congestão, pressão.</p></div>
+    <div class="lever"><div class="ic">🩺</div><h4>Pressão arterial</h4><p>Hipertrofia, insuficiência cardíaca, internação.</p></div>
+    <div class="lever"><div class="ic">🦴</div><h4>Fósforo · PTH · Cálcio</h4><p>Calcificação vascular e risco cardiovascular.</p></div>
+    <div class="lever"><div class="ic">🔄</div><h4>Adequação (Kt/V)</h4><p>Diálise insuficiente acumula toxinas e piora tudo.</p></div>
+    <div class="lever"><div class="ic">🛡️</div><h4>Proteção</h4><p>AAS, estatina, vitaminas, vacinação, controle de infecção.</p></div>
+  </div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Os processos que controlamos</span><span>05 / 13</span></div>
+</section>
+
+<!-- 6 POTASSIO -->
+<section class="slide">
+  <div class="kicker">Processo 1 · o de risco agudo</div>
+  <h2 style="margin-top:10px">Potássio — o que mata rápido</h2>
+  <div class="metric-wrap" style="grid-template-columns:1fr 1.1fr">
+    <div>
+      <div class="bignum" style="font-size:96pt">68%<small>dentro da meta hoje (K ≤ 5,5 mEq/L)</small></div>
+      <div class="note"><b>124 pacientes</b> acima de 5,5 mEq/L. Potássio elevado no pré-diálise
+        é gatilho de arritmia e morte súbita, o risco mais imediato da unidade.</div>
+    </div>
+    <div>
+      <div class="gauge">
+        <div class="lbl"><span>Hoje</span><span>259 / 383 · 68%</span></div>
+        <div class="bar"><div class="fill" style="width:68%"></div>
+          <div class="target" style="left:80%"></div><div class="tlbl" style="left:80%">meta 80%</div></div>
+      </div>
+      <div class="gauge">
+        <div class="lbl"><span>Meta dez/2026</span><span class="arrow">&gt; 80% · fora ≤ 76</span></div>
+        <div class="bar"><div class="fill" style="width:80%; background:linear-gradient(90deg,#1F9D6B,#3ec48a)"></div></div>
+      </div>
+      <div class="note" style="background:#EAF6F0; border-left-color:var(--good)">
+        <b>Processo:</b> orientação dietética a cada sessão, revisão de medicação, e busca ativa
+        do paciente com potássio recorrente alto.</div>
+    </div>
+  </div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Potássio · meta &gt; 80%</span><span>06 / 13</span></div>
+</section>
+
+<!-- 7 VOLUME + PA -->
+<section class="slide">
+  <div class="kicker">Processo 2 · volume e pressão</div>
+  <h2 style="margin-top:10px">Controle de volume: o motor da sobrecarga</h2>
+  <div class="two" style="margin-top:18px">
+    <div class="card" style="border-top:5px solid var(--davita)">
+      <h3>GPID acima da UF máxima</h3>
+      <div class="tag">Ganho maior do que dá para remover na sessão</div>
+      <div class="gauge">
+        <div class="lbl"><span>Hoje · 333 / 383</span><span>87%</span></div>
+        <div class="bar"><div class="fill" style="width:87%"></div>
+          <div class="target" style="left:90%"></div><div class="tlbl" style="left:90%">90%</div></div>
+      </div>
+      <p style="margin-top:6px"><b>50 pacientes</b> ganham mais peso do que a UF consegue tirar, e ficam
+        em sobrecarga. <b>Meta: &gt; 90% dentro.</b></p>
+    </div>
+    <div class="card" style="border-top:5px solid var(--davita)">
+      <h3>Pressão arterial pré-HD</h3>
+      <div class="tag">Sistólica &lt; 160 mmHg</div>
+      <div class="gauge">
+        <div class="lbl"><span>Hoje · 331 / 383</span><span>86%</span></div>
+        <div class="bar"><div class="fill" style="width:86%"></div>
+          <div class="target" style="left:90%"></div><div class="tlbl" style="left:90%">90%</div></div>
+      </div>
+      <p style="margin-top:6px"><b>52 pacientes</b> com sistólica ≥ 160. <b>Meta: &gt; 90% dentro.</b></p>
+    </div>
+  </div>
+  <div class="note"><b>Diálise extra</b> entra como ferramenta de processo do volume: indicada
+    caso a caso, quando o excesso de peso não é removível na sessão de rotina.</div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Volume · GPID &gt; 90% · PA &gt; 90%</span><span>07 / 13</span></div>
+</section>
+
+<!-- 8 DMO -->
+<section class="slide">
+  <div class="kicker">Processo 3 · distúrbio mineral e ósseo</div>
+  <h2 style="margin-top:10px">Fósforo, PTH e cálcio</h2>
+  <p class="lead" style="margin-top:8px; max-width:10.6in">A maior massa de pacientes fora da meta está aqui.
+    Controlar o distúrbio mineral reduz calcificação vascular e risco cardiovascular no longo prazo.</p>
+  <div class="two" style="margin-top:16px">
+    <div class="card" style="border-top:5px solid var(--nefro-dk)">
+      <h3>Fósforo <span style="font-weight:400; font-size:11pt; color:var(--muted)">(≤ 5,5 mg/dL)</span></h3>
+      <div class="gauge" style="margin-top:12px">
+        <div class="lbl"><span>Hoje · 240 / 383</span><span class="lo">63%</span></div>
+        <div class="bar"><div class="fill" style="width:63%"></div>
+          <div class="target" style="left:85%"></div><div class="tlbl" style="left:85%">85%</div></div>
+      </div>
+      <p style="margin-top:6px"><b>143 fora.</b> Meta <b>&gt; 85%</b>. Processo: quelante na dose certa,
+        adesão e orientação alimentar.</p>
+    </div>
+    <div class="card" style="border-top:5px solid var(--nefro-dk)">
+      <h3>PTH <span style="font-weight:400; font-size:11pt; color:var(--muted)">(150–300 pg/mL)</span></h3>
+      <div class="gauge" style="margin-top:12px">
+        <div class="lbl"><span>Hoje · 218 / 383</span><span class="lo">57%</span></div>
+        <div class="bar"><div class="fill" style="width:57%"></div>
+          <div class="target" style="left:85%"></div><div class="tlbl" style="left:85%">85%</div></div>
+      </div>
+      <p style="margin-top:6px"><b>165 fora.</b> Meta <b>&gt; 85%</b>. Processo: titulação de vitamina D
+        e calcimimético, revisão trimestral.</p>
+    </div>
+  </div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>DMO · Fósforo &gt; 85% · PTH &gt; 85%</span><span>08 / 13</span></div>
+</section>
+
+<!-- 9 KTV -->
+<section class="slide">
+  <div class="kicker">Processo 4 · adequação</div>
+  <h2 style="margin-top:10px">Kt/V — diálise que realmente limpa</h2>
+  <div class="metric-wrap" style="grid-template-columns:1fr 1.1fr">
+    <div>
+      <div class="bignum" style="font-size:96pt">84%<small>dentro da meta hoje (Kt/V ≥ 1,3)</small></div>
+      <div class="gauge" style="margin-top:6px">
+        <div class="lbl"><span>Hoje · 322 / 383</span><span>84%</span></div>
+        <div class="bar"><div class="fill" style="width:84%"></div>
+          <div class="target" style="left:90%"></div><div class="tlbl" style="left:90%">90%</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="note" style="font-size:11.5pt"><b>61 pacientes fora.</b> Destes, <b>24 com Kt/V abaixo de 1,3</b>
+        e <b>26 sem Kt/V medido</b> no mês. Medir é o primeiro processo: sem número não há ajuste.</div>
+      <div class="note" style="background:#EAF6F0; border-left-color:var(--good)">
+        <b>Processo:</b> garantir tempo prescrito, fluxo de sangue adequado, punção de bom calibre,
+        cuidado com o acesso (cateter versus fístula) e Kt/V medido em todos.</div>
+      <div class="lbl" style="justify-content:flex-start; gap:12px; margin-top:8px; color:var(--nefro-dk); font-weight:700; font-size:12pt">Meta dez/2026 &nbsp;→&nbsp; &gt; 90% dentro</div>
+    </div>
+  </div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Kt/V · meta &gt; 90%</span><span>09 / 13</span></div>
+</section>
+
+<!-- 10 ESCUDO -->
+<section class="slide">
+  <div class="kicker">Processo 5 · escudo de proteção</div>
+  <h2 style="margin-top:8px">Proteção e tratamento de infecção</h2>
+  <p class="lead" style="margin-top:6px; max-width:10.6in">Medidas de eficácia comprovada com meta de
+    cobertura, e um protocolo padronizado de antibioticoterapia para não sub nem sobretratar.</p>
+
+  <div style="font-size:10pt; letter-spacing:.16em; text-transform:uppercase; font-weight:700; color:var(--muted); margin-top:18px">Cobertura de rotina</div>
+  <div class="levers" style="grid-template-columns:repeat(3,1fr); margin-top:8px">
+    <div class="lever" style="border-top:4px solid var(--gold); padding:12px 16px"><div class="ic" style="width:28px;height:28px;font-size:14px;margin-bottom:6px">💊</div>
+      <h4 style="font-size:12pt">AAS</h4><p>Uso conforme indicação.</p>
+      <div style="font-size:17pt; font-weight:800; color:var(--davita); margin-top:5px">&gt; 95%</div></div>
+    <div class="lever" style="border-top:4px solid var(--gold); padding:12px 16px"><div class="ic" style="width:28px;height:28px;font-size:14px;margin-bottom:6px">🫀</div>
+      <h4 style="font-size:12pt">Estatina</h4><p>Uso conforme indicação.</p>
+      <div style="font-size:17pt; font-weight:800; color:var(--davita); margin-top:5px">&gt; 95%</div></div>
+    <div class="lever" style="border-top:4px solid var(--gold); padding:12px 16px"><div class="ic" style="width:28px;height:28px;font-size:14px;margin-bottom:6px">💉</div>
+      <h4 style="font-size:12pt">Vitaminas</h4><p>Reposição de rotina.</p>
+      <div style="font-size:17pt; font-weight:800; color:var(--davita); margin-top:5px">&gt; 95%</div></div>
+  </div>
+
+  <div style="font-size:10pt; letter-spacing:.16em; text-transform:uppercase; font-weight:700; color:var(--muted); margin-top:20px">Protocolo de antibioticoterapia</div>
+  <div class="two" style="margin-top:8px; gap:18px">
+    <div class="card" style="border-top:5px solid var(--nefro-dk); padding:16px 20px">
+      <h3 style="font-size:13pt">Infecção respiratória</h3>
+      <div style="display:flex; align-items:baseline; gap:10px; margin-top:6px">
+        <span style="font-size:34pt; font-weight:800; color:var(--davita); line-height:1">7</span>
+        <span style="font-size:12pt; color:var(--slate); font-weight:600">doses</span>
+      </div>
+      <p style="font-size:10.5pt; color:var(--muted); margin-top:4px">Esquema fixo de 7 doses.</p>
+    </div>
+    <div class="card" style="border-top:5px solid var(--nefro-dk); padding:16px 20px">
+      <h3 style="font-size:13pt">Infecção de corrente sanguínea</h3>
+      <div style="display:flex; align-items:baseline; gap:10px; margin-top:6px">
+        <span style="font-size:34pt; font-weight:800; color:var(--davita); line-height:1">10</span>
+        <span style="font-size:12pt; color:var(--slate); font-weight:600">doses</span>
+        <span style="font-size:11pt; color:var(--muted)">·&nbsp; cultura no dia 10</span>
+      </div>
+      <p style="font-size:10.5pt; color:var(--slate); margin-top:4px">Se ainda positiva, <b>prorrogar até 14 doses, até negativar.</b></p>
+    </div>
+  </div>
+
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Proteção &gt; 95% · protocolo de infecção</span><span>10 / 13</span></div>
+</section>
+
+<!-- 11 PAINEL -->
+<section class="slide">
+  <div class="kicker">O contrato da equipe</div>
+  <h2 style="margin-top:10px">Painel de metas · base 383 pacientes</h2>
+  <table class="panel">
+    <thead><tr><th>Indicador</th><th>Dentro da meta</th><th>Hoje</th><th style="width:170px">Progresso</th><th>Meta dez/2026</th></tr></thead>
+    <tbody>
+      <tr><td>Potássio</td><td>K ≤ 5,5 mEq/L</td><td class="pct lo">68% <span style="color:var(--muted);font-weight:400">(124 fora)</span></td>
+        <td><span class="mini"><span class="mf" style="width:68%"></span><span class="mt" style="left:80%"></span></span></td><td class="arrow">&gt; 80%</td></tr>
+      <tr><td>Fósforo</td><td>≤ 5,5 mg/dL</td><td class="pct lo">63% <span style="color:var(--muted);font-weight:400">(143 fora)</span></td>
+        <td><span class="mini"><span class="mf" style="width:63%"></span><span class="mt" style="left:85%"></span></span></td><td class="arrow">&gt; 85%</td></tr>
+      <tr><td>PTH</td><td>150–300 pg/mL</td><td class="pct lo">57% <span style="color:var(--muted);font-weight:400">(165 fora)</span></td>
+        <td><span class="mini"><span class="mf" style="width:57%"></span><span class="mt" style="left:85%"></span></span></td><td class="arrow">&gt; 85%</td></tr>
+      <tr><td>Pressão arterial</td><td>sist. &lt; 160 pré-HD</td><td class="pct">86% <span style="color:var(--muted);font-weight:400">(52 fora)</span></td>
+        <td><span class="mini"><span class="mf" style="width:86%"></span><span class="mt" style="left:90%"></span></span></td><td class="arrow">&gt; 90%</td></tr>
+      <tr><td>GPID</td><td>≤ UF máxima</td><td class="pct">87% <span style="color:var(--muted);font-weight:400">(50 fora)</span></td>
+        <td><span class="mini"><span class="mf" style="width:87%"></span><span class="mt" style="left:90%"></span></span></td><td class="arrow">&gt; 90%</td></tr>
+      <tr><td>Kt/V</td><td>≥ 1,3</td><td class="pct">84% <span style="color:var(--muted);font-weight:400">(61 fora)</span></td>
+        <td><span class="mini"><span class="mf" style="width:84%"></span><span class="mt" style="left:90%"></span></span></td><td class="arrow">&gt; 90%</td></tr>
+      <tr><td>AAS · Estatina · Vitaminas</td><td>uso conforme indicação</td><td class="pct" style="color:var(--muted)">cobertura</td>
+        <td><span class="mini"><span class="mf" style="width:0%"></span><span class="mt" style="left:95%"></span></span></td><td class="arrow">&gt; 95%</td></tr>
+    </tbody>
+  </table>
+  <div class="note" style="margin-top:16px">A barra é onde estamos; o traço dourado é a meta. Regra do semestre:
+    <b>cortar pela metade o número de pacientes fora da meta</b>, no mesmo espírito da meta de resultado.</div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Painel de metas de processo</span><span>11 / 13</span></div>
+</section>
+
+<!-- 12 REUNIAO QUINZENAL -->
+<section class="slide">
+  <div class="kicker">Governança · o loop de aprendizado</div>
+  <h2 style="margin-top:10px">Reunião quinzenal de óbitos</h2>
+  <p class="lead" style="margin-top:10px; max-width:10.6in">A cada 15 dias a equipe revisa, sem culpa, os óbitos do período
+    e pergunta: o que poderia ter sido feito para prevenir? Cada resposta vira ajuste de processo.</p>
+  <div class="levers" style="grid-template-columns:repeat(4,1fr); margin-top:28px; gap:14px">
+    <div class="lever" style="border-top:4px solid var(--davita)">
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--davita);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15pt;margin-bottom:10px">1</div>
+      <h4>Óbitos do período</h4><p>Todos os casos das últimas duas semanas na mesa.</p></div>
+    <div class="lever" style="border-top:4px solid var(--davita)">
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--davita);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15pt;margin-bottom:10px">2</div>
+      <h4>Revisão em equipe</h4><p>Discussão aberta, sem culpa, focada em aprender.</p></div>
+    <div class="lever" style="border-top:4px solid var(--davita)">
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--davita);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15pt;margin-bottom:10px">3</div>
+      <h4>O que era evitável?</h4><p>Potássio, volume, acesso, infecção, adequação.</p></div>
+    <div class="lever" style="border-top:4px solid var(--nefro-dk)">
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--nefro-dk);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15pt;margin-bottom:10px">4</div>
+      <h4>Vira ajuste de processo</h4><p>Correção concreta que reflete nas metas do mês seguinte.</p></div>
+  </div>
+  <div class="note" style="margin-top:26px">A conversa muda de "quem falhou" para "quais comportamentos faltaram".
+    A primeira frase culpa; a segunda ensina, e é ela que muda o resultado no próximo período.</div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Reunião quinzenal de óbitos</span><span>12 / 13</span></div>
+</section>
+
+<!-- 13 FECHAMENTO -->
+<section class="slide dark">
+  <div class="kicker">O nosso combinado</div>
+  <div class="pull" style="color:#fff; margin-top:14px; font-size:30pt; max-width:11in">
+    O resultado é a meta. O processo é o caminho.<br><span style="color:var(--gold)">Todo dia, com cada paciente.</span>
+  </div>
+  <div class="roles">
+    <div class="role"><div class="d"></div><div><b>Médicos</b> <span>— titulam medicação, revisam metas, conduzem a busca ativa.</span></div></div>
+    <div class="role"><div class="d"></div><div><b>Enfermagem</b> <span>— garante prescrição, acesso, tempo e Kt/V medido.</span></div></div>
+    <div class="role"><div class="d"></div><div><b>Técnicos</b> <span>— fluxo, punção, controle de peso e pressão a cada sessão.</span></div></div>
+    <div class="role"><div class="d"></div><div><b>Nutrição</b> <span>— potássio, fósforo e volume começam no aconselhamento alimentar.</span></div></div>
+  </div>
+  <div style="position:absolute; right:.72in; bottom:1.15in; display:flex; align-items:center; gap:22px">
+    <div style="text-align:right">
+      <div style="position:relative; display:inline-block">
+        <svg width="18" height="18" viewBox="0 0 24 24" style="position:absolute; right:22px; top:-9px">
+          <path d="M12 0 L14.6 8.4 L23 8.4 L16.2 13.6 L18.8 22 L12 16.8 L5.2 22 L7.8 13.6 L1 8.4 L9.4 8.4 Z" fill="#F5A800"/></svg>
+        <span style="font-weight:800; font-size:26px; color:#fff; letter-spacing:-.02em">DaVita</span>
+      </div>
+      <div style="font-size:9px; letter-spacing:.02em; color:#CFE6F8; font-weight:600">Tratamento Renal</div>
+    </div>
+    <div style="width:1px; height:34px; background:rgba(255,255,255,.3)"></div>
+    <div class="nefro-logo">
+      <svg width="30" height="30" viewBox="0 0 44 44">
+        <path d="M20 4 C10 6 6 16 9 26 C11 33 17 38 21 34 C17 30 15 22 18 15 C20 10 20 6 20 4 Z" fill="#4FA36B"/>
+        <path d="M24 6 C33 9 37 18 34 28 C32 35 26 39 22 35 C27 31 29 23 26 16 C24 11 24 8 24 6 Z" fill="#9BD86B"/>
+      </svg>
+      <div><div><b style="color:#fff; font-size:16px">Nefro</b><span style="color:#BFE6A8; font-size:16px">Clínica</span></div>
+        <div style="font-size:7px; letter-spacing:.24em; color:#BFE6A8; font-weight:700">EQUIPE MÉDICA</div></div>
+    </div>
+  </div>
+  <div class="foot"><b>DAVITA LONDRINA</b><span>Longevidade 2026</span><span>13 / 13</span></div>
+</section>
+
+</body>
+</html>

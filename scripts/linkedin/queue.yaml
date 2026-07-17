@@ -1154,7 +1154,7 @@ posts:
 - slug: menopausa-precisa-de-equipe-nao-so-de-ginecologista
   block: 3
   order: 22
-  status: approved
+  status: published
   scheduled_at: '2026-06-30 08:13:00-03:00'
   commentary: 'A transição menopausal não é só hormonal.
 
@@ -1217,10 +1217,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/menopausa-precisa-de-equipe-nao-so-de-ginecologista/figura-1.webp
   image_title: Menopausa precisa de uma equipe, não só de um ginecologista
+  published_at: '2026-06-30T08:15:07-03:00'
+  post_urn: urn:li:share:7477681132512182275
 - slug: sono-energia-longevidade
   block: 3
   order: 23
-  status: approved
+  status: published
   scheduled_at: '2026-07-01 12:29:00-03:00'
   commentary: '"Durmo 6 horas e estou bem assim." É uma das frases mais comuns no consultório. A literatura é razoavelmente
     unânime no contraditório.
@@ -1261,10 +1263,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/sono-energia-longevidade/figura-1.webp
   image_title: 'Sono, energia e longevidade: por que dormir bem é estratégia clínica'
+  published_at: '2026-07-01T12:30:01-03:00'
+  post_urn: urn:li:share:7478107660517826561
 - slug: jejum-intermitente-quem-se-beneficia-quem-se-prejudica
   block: 3
   order: 24
-  status: approved
+  status: published
   scheduled_at: '2026-07-02 18:18:00-03:00'
   commentary: 'Jejum intermitente não funciona como dieta universal. É uma ferramenta clínica cuja eficácia depende de quem
     está jejuando, qual janela é usada, e em qual momento da vida.
@@ -1341,10 +1345,12 @@ posts:
     que benefício metabólico.'
   image_path: apps/site/public/images/blog/jejum-intermitente-quem-se-beneficia-quem-se-prejudica/figura-1.webp
   image_title: 'Jejum intermitente: quem se beneficia, quem se prejudica'
+  published_at: '2026-07-02T18:30:00-03:00'
+  post_urn: urn:li:share:7478560643315585024
 - slug: alcool-e-sono-2-tacas-destroem-6-horas
   block: 3
   order: 25
-  status: approved
+  status: published
   scheduled_at: '2026-07-07 08:48:00-03:00'
   commentary: 'Duas taças de vinho ao jantar cortam 30 a 50% do sono profundo e 20 a 40% do REM. O tempo na cama é o mesmo,
     a recuperação é completamente diferente.
@@ -1408,10 +1414,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/alcool-e-sono-2-tacas-destroem-6-horas/figura-1.webp
   image_title: 'Álcool e sono: por que duas taças destroem seis horas de descanso'
+  published_at: '2026-07-07T09:00:01-03:00'
+  post_urn: urn:li:share:7480229139736596481
 - slug: solidao-como-fator-de-risco-cardiovascular
   block: 3
   order: 26
-  status: approved
+  status: published
   scheduled_at: '2026-07-08 08:08:00-03:00'
   commentary: '"Quando foi a última vez que você riu até doer a barriga?"
 
@@ -1476,10 +1484,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/solidao-como-fator-de-risco-cardiovascular/figura-1.webp
   image_title: Solidão como fator de risco cardiovascular
+  published_at: '2026-07-08T08:15:01-03:00'
+  post_urn: urn:li:share:7480580199173087232
 - slug: meditacao-que-funciona-em-8-minutos
   block: 3
   order: 27
-  status: approved
+  status: published
   scheduled_at: '2026-07-09 13:29:00-03:00'
   commentary: 'Confesso que demorei a aceitar mindfulness como ferramenta clínica séria.
 
@@ -1544,10 +1554,12 @@ posts:
     '
   image_path: apps/site/public/images/blog/meditacao-que-funciona-em-8-minutos/figura-1.webp
   image_title: Meditação que funciona em 8 minutos
+  published_at: '2026-07-09T13:30:01-03:00'
+  post_urn: urn:li:share:7481021864018976768
 - slug: quatro-profissionais-falando-a-mesma-lingua
   block: 4
   order: 28
-  status: approved
+  status: failed
   scheduled_at: '2026-07-14 18:52:00-03:00'
   commentary: 'Ter quatro profissionais separados não produz o mesmo resultado clínico que ter uma equipe coordenada.
 
@@ -1614,6 +1626,9 @@ posts:
     '
   image_path: apps/site/public/images/blog/quatro-profissionais-falando-a-mesma-lingua/figura-1.webp
   image_title: Quatro profissionais falando a mesma língua
+  failed_at: '2026-07-14T19:00:01-03:00'
+  error: '401: {"status":401,"serviceErrorCode":65602,"code":"EXPIRED_ACCESS_TOKEN","message":"The token used in the request
+    has expired"}'
 - slug: exercicio-o-farmaco
   block: 4
   order: 29
@@ -1664,7 +1679,7 @@ posts:
 - slug: luz-da-manha-remedio-gratuito-que-reseta-metabolismo
   block: 4
   order: 30
-  status: approved
+  status: failed
   scheduled_at: '2026-07-16 08:17:00-03:00'
   commentary: 'A intervenção mais barata e mais ignorada da medicina circadiana é uma só: 10 a 30 minutos de luz natural ao
     ar livre nos primeiros 60 minutos após acordar.
@@ -1728,6 +1743,9 @@ posts:
     '
   image_path: apps/site/public/images/blog/luz-da-manha-remedio-gratuito-que-reseta-metabolismo/figura-1.webp
   image_title: 'Luz da manhã: o remédio gratuito que reseta o metabolismo'
+  failed_at: '2026-07-16T10:15:00-03:00'
+  error: '401: {"status":401,"serviceErrorCode":65602,"code":"EXPIRED_ACCESS_TOKEN","message":"The token used in the request
+    has expired"}'
 - slug: treinar-para-envelhecer-bem-zona-2-e-forca
   block: 4
   order: 31
