@@ -2,14 +2,15 @@ package services
 
 import (
 	"bytes"
+	"encoding/base64"
 	"fmt"
 	"html/template"
-	"os"
 	"time"
 
 	"github.com/go-rod/rod/lib/proto"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/pdfdoc"
+	"github.com/plenya/api/internal/templates"
 )
 
 // ScorePDFService handles PDF generation for scores
@@ -89,17 +90,24 @@ func (s *ScorePDFService) GeneratePosterPDF(groups []models.ScoreGroup) ([]byte,
 	return pdf, nil
 }
 
+// logoDataURI devolve o logo do pôster como data-URI base64. O HTML é renderizado a partir de
+// um arquivo temporário (file://), então um src apontando para o disco do container só resolveria
+// por acidente do bind-mount de dev; embutido, o HTML é autossuficiente em qualquer ambiente.
+// template.URL é obrigatório: html/template troca data: URI cru em src por "#ZgotmplZ".
+func logoDataURI() (template.URL, error) {
+	b, err := templates.FS.ReadFile("logo_infinity.svg")
+	if err != nil {
+		return "", fmt.Errorf("failed to read logo: %v", err)
+	}
+	return template.URL("data:image/svg+xml;base64," + base64.StdEncoding.EncodeToString(b)), nil
+}
+
 // renderPosterHTML renders the poster HTML template with score data
 func (s *ScorePDFService) renderPosterHTML(groups []models.ScoreGroup) (string, error) {
-	// Read template file
-	templatePath := "/app/internal/templates/score_poster.html"
-	fmt.Printf("[PDF] Reading template from: %s\n", templatePath)
-	tmplContent, err := os.ReadFile(templatePath)
+	tmplContent, err := templates.FS.ReadFile("score_poster.html")
 	if err != nil {
-		fmt.Printf("[PDF] Failed to read template: %v\n", err)
 		return "", fmt.Errorf("failed to read template: %v", err)
 	}
-	fmt.Printf("[PDF] Template read successfully (%d bytes)\n", len(tmplContent))
 
 	// Parse template with custom functions
 	funcMap := template.FuncMap{
@@ -179,11 +187,17 @@ func (s *ScorePDFService) renderPosterHTML(groups []models.ScoreGroup) (string, 
 		return "", fmt.Errorf("failed to parse template: %v", err)
 	}
 
+	logo, err := logoDataURI()
+	if err != nil {
+		return "", err
+	}
+
 	// Prepare data
 	data := map[string]interface{}{
 		"Groups":      groups,
 		"GeneratedAt": time.Now().Format("02/01/2006 às 15:04"),
 		"Year":        time.Now().Year(),
+		"LogoURI":     logo,
 	}
 
 	// Execute template
