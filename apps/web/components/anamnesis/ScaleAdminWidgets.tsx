@@ -32,10 +32,11 @@ export function ScaleAdminInput({ spec, answers, onChange, compact, chosenWords 
 // Evocação de palavras (Dubois)
 // ---------------------------------------------------------------------------
 
+// Pesos do score total ponderado do Dubois: espontânea 2, com dica 1, não evocada 0.
 const RECALL_OPTIONS = [
-  { value: 0, label: 'Não lembrou' },
-  { value: 1, label: 'Com dica' },
-  { value: 2, label: 'Espontânea' },
+  { value: 0, label: 'Não lembrou', points: 0 },
+  { value: 1, label: 'Com dica', points: 1 },
+  { value: 2, label: 'Espontânea', points: 2 },
 ]
 
 function WordRecallAdmin({
@@ -101,6 +102,9 @@ function WordRecallAdmin({
                     )}
                   >
                     {opt.label}
+                    <span className={cn('ml-1 tabular-nums', selected ? 'opacity-80' : 'text-muted-foreground')}>
+                      ({opt.points})
+                    </span>
                   </button>
                 )
               })}
@@ -152,9 +156,16 @@ function DigitSpanAdmin({
             )}
           >
             <span className="text-[11px] font-semibold text-muted-foreground">{len} dígitos</span>
-            <span className="flex flex-wrap gap-x-3 font-mono text-sm tracking-widest text-foreground">
+            {/* As duas tentativas do mesmo comprimento precisam ficar visualmente separadas:
+                lado a lado e sem rótulo, "3 8 6" + "6 1 2" se lia como uma sequência de seis. */}
+            <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
               {seqs.map((s, i) => (
-                <span key={i}>{s.join(' ')}</span>
+                <span key={i} className="flex items-baseline gap-1.5">
+                  <span className="text-[10px] text-muted-foreground/70">{i + 1}ª</span>
+                  <span className="rounded border border-border/70 bg-muted/40 px-1.5 py-0.5 font-mono text-sm tracking-widest text-foreground">
+                    {s.join(' ')}
+                  </span>
+                </span>
               ))}
             </span>
             <div className="ml-auto flex gap-1.5">

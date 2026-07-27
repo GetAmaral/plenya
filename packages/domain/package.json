@@ -10,6 +10,7 @@
     "./cpf": "./src/cpf.ts",
     "./score": "./src/score.ts",
     "./scales": "./src/scales.ts",
+    "./anthropometry": "./src/anthropometry.ts",
     "./formatters": "./src/formatters.ts",
     "./version": "./src/version.ts"
   },

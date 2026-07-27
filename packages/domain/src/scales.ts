@@ -268,9 +268,16 @@ const DUBOIS_CATEGORIES = [
   { category: 'Veículo', words: ['Caminhão', 'Trem', 'Navio', 'Bicicleta', 'Avião', 'Ônibus'] },
 ];
 
-// Score de evocação: conta palavras lembradas (espontânea=2 ou com dica=1).
+// Score de evocação = SCORE TOTAL PONDERADO do teste dos 5 palavras, por fase (0-10).
+// Cotação canônica (Dubois 2002; Cowppli-Bony 2005; Croisile 2010; ficha INESSS/HAS):
+//   evocação espontânea (rappel libre)   = 2 pontos
+//   evocação com dica   (rappel indicé)  = 1 ponto
+//   não evocada nem com dica             = 0
+// Imediato (/10) + tardio (/10) = Score Total Ponderado /20 — 19-20 declínio pouco provável,
+// ≤18 investigar. O ponderado dobra o rappel libre e é MAIS discriminante que o "score total"
+// antigo (/5 por fase), que dava o mesmo peso à evocação com dica — era o que fazíamos antes.
 const wordRecallScore = (answers: Record<number, number>): number =>
-  Object.values(answers).filter((v) => v >= 1).length;
+  Object.values(answers).reduce((sum, v) => sum + (v ?? 0), 0);
 
 // Score de span: maior comprimento com pelo menos uma tentativa correta (valor 1).
 const digitSpanScore = (answers: Record<number, number>): number => {
@@ -303,8 +310,8 @@ const DUBOIS_IMEDIATO: ScaleDef = {
   kind: 'administered',
   title: '5 palavras de Dubois — evocação imediata',
   instructions:
-    'Apresente as 5 palavras com a categoria de cada uma. Logo após, peça a evocação livre e, para as não lembradas, ofereça a dica (categoria). Marque como cada palavra foi recuperada.',
-  maxScore: 5,
+    'Apresente as 5 palavras com a categoria de cada uma. Logo após, peça a evocação livre e, para as não lembradas, ofereça a dica (categoria). Marque como cada palavra foi recuperada. Espontânea vale 2 pontos, com dica 1 (score ponderado /10).',
+  maxScore: 10,
   administration: { type: 'word_recall', categories: DUBOIS_CATEGORIES },
   score: wordRecallScore,
 };
@@ -314,8 +321,8 @@ const DUBOIS_TARDIO: ScaleDef = {
   kind: 'administered',
   title: '5 palavras de Dubois — evocação tardia',
   instructions:
-    'Após o intervalo/interferência, peça novamente a evocação das 5 palavras (livre e, se preciso, com dica). Marque como cada palavra foi recuperada.',
-  maxScore: 5,
+    'Após o intervalo/interferência, peça novamente a evocação das 5 palavras (livre e, se preciso, com dica). Marque como cada palavra foi recuperada. Espontânea vale 2 pontos, com dica 1 (score ponderado /10).',
+  maxScore: 10,
   administration: { type: 'word_recall', categories: DUBOIS_CATEGORIES },
   score: wordRecallScore,
 };

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, type Dispatch, type SetStateAction } from 'react'
+import { useState, useEffect, useMemo, useRef, type Dispatch, type SetStateAction } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
@@ -18,19 +18,34 @@ import type { AnamnesisItemFormValue } from './AnamnesisTemplateItemsForm'
 import type { Patient } from '@/lib/auth-store'
 import { AnamnesisItemHistory } from './AnamnesisItemHistory'
 import { ScaleWidget } from './ScaleWidget'
-import { getScaleDef, pickWordRecallSet, type ChosenWord } from '@plenya/domain'
+import {
+  getScaleDef,
+  pickWordRecallSet,
+  getDerivedMetric,
+  computeDerived,
+  DERIVED_INPUT_CODES,
+  type ChosenWord,
+  type DerivedMetric,
+} from '@plenya/domain'
 
-// Evaluates whether a numeric value satisfies a ScoreLevel's operator/limits
+// Evaluates whether a numeric value satisfies a ScoreLevel's operator/limits.
+// Espelha `ScoreLevel.Evaluate` (apps/api/internal/models/score_level.go) e o `matchLevel` de
+// @plenya/domain — o motor de escore é a autoridade, a anamnese só pode concordar com ele:
+//  - "<X" / "<=X" guardam o limite no UpperLimit (convenção dos dados; fallback defensivo p/
+//    LowerLimit). Ler o LowerLimit fazia o nível NUNCA casar — ex.: o N5 "≤10" do Epworth.
+//  - "between" é MEIO-ABERTO (lower, upper]: faixas que se encostam particionam sem gap nem
+//    sobreposição, e o valor de junção pertence à faixa de baixo.
 function evaluatesTrue(value: number, level: ScoreLevel): boolean {
   const lower = level.lowerLimit != null ? parseFloat(level.lowerLimit) : null
   const upper = level.upperLimit != null ? parseFloat(level.upperLimit) : null
+  const upperOrLower = upper ?? lower
   switch (level.operator) {
     case '=':       return lower !== null && value === lower
     case '>':       return lower !== null && value > lower
     case '>=':      return lower !== null && value >= lower
-    case '<':       return lower !== null && value < lower
-    case '<=':      return lower !== null && value <= lower
-    case 'between': return lower !== null && upper !== null && value >= lower && value <= upper
+    case '<':       return upperOrLower !== null && value < upperOrLower
+    case '<=':      return upperOrLower !== null && value <= upperOrLower
+    case 'between': return lower !== null && upper !== null && value > lower && value <= upper
     default: return false
   }
 }
@@ -293,6 +308,14 @@ function HelpPopover({ text, size = 'sm' }: { text: string; size?: 'sm' | 'md' }
   )
 }
 
+// Muitos itens já trazem a unidade no próprio nome ("Peso (kg)", "IMC (kg/m²)"). Só anexamos
+// o sufixo quando ele acrescenta algo — senão vira "Peso (kg) (kg)".
+function unitSuffix(scoreItem: ScoreItem): string | null {
+  const unit = scoreItem.unit?.trim()
+  if (!unit) return null
+  return scoreItem.name.includes(unit) ? null : unit
+}
+
 export function AnamnesisTemplateItemsRenderer({
   template,
   initialValues = [],
@@ -379,6 +402,89 @@ export function AnamnesisTemplateItemsRenderer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+
+  // --- Métricas antropométricas derivadas ------------------------------------------------
+  // IMC, BRI, razões e índices de massa não são medidos: saem de peso/altura/cintura e afins,
+  // que estão no mesmo bloco. Recalculamos a cada digitação e preenchemos o item sozinho, com
+  // o nível auto-detectado. A digitação manual no item derivado sobrepõe e desliga o cálculo.
+  const derivedTargets = useMemo(() => {
+    const out: { scoreItem: ScoreItem; order: number; metric: DerivedMetric }[] = []
+    for (const ti of template.items ?? []) {
+      const si = ti.scoreItem as ScoreItem | undefined
+      const metric = getDerivedMetric(si?.anamneseItemCode)
+      if (si && metric && itemAppliesToPatient(si, patient)) {
+        out.push({ scoreItem: si, order: ti.order ?? 0, metric })
+      }
+    }
+    return out
+  }, [template, patient])
+
+  const codeByItemId = useMemo(() => {
+    const map = new Map<string, string>()
+    for (const ti of template.items ?? []) {
+      const si = ti.scoreItem as ScoreItem | undefined
+      if (si?.anamneseItemCode) map.set(si.id, si.anamneseItemCode)
+    }
+    return map
+  }, [template])
+
+  // Itens derivados que o profissional digitou à mão (não recalcular) e os que preenchemos
+  // automaticamente (podemos limpar quando a entrada some).
+  const manualDerived = useRef<Set<string>>(new Set())
+  const autoDerived = useRef<Set<string>>(new Set())
+  // Só sobrepomos um derivado JÁ GRAVADO depois que alguma medida de entrada muda nesta sessão.
+  // Sem isso, reabrir uma anamnese salva recalcularia por cima do que o profissional gravou.
+  const inputsTouched = useRef(false)
+  const isDerived = (scoreItemId: string) => derivedTargets.some((d) => d.scoreItem.id === scoreItemId)
+
+  useEffect(() => {
+    if (derivedTargets.length === 0) return
+    setValues((prev) => {
+      const measured: Record<string, number | undefined> = {}
+      for (const [id, val] of prev) {
+        const code = codeByItemId.get(id)
+        if (code && val.numericValue !== undefined) measured[code] = val.numericValue
+      }
+
+      const next = new Map(prev)
+      let changed = false
+      for (const { scoreItem, order, metric } of derivedTargets) {
+        if (manualDerived.current.has(scoreItem.id)) continue
+        const cur = next.get(scoreItem.id)
+        const computed = computeDerived(metric, measured)
+
+        if (computed === undefined) {
+          // Só limpa o que nós mesmos preenchemos — nunca um valor salvo ou digitado.
+          if (autoDerived.current.has(scoreItem.id) && cur?.numericValue !== undefined) {
+            autoDerived.current.delete(scoreItem.id)
+            if (!cur.textValue) next.delete(scoreItem.id)
+            else next.set(scoreItem.id, { ...cur, numericValue: undefined, selectedLevel: undefined })
+            changed = true
+          }
+          continue
+        }
+
+        if (cur?.numericValue === computed) continue
+        // Valor gravado (não posto por nós) só é recalculado depois que uma medida muda aqui.
+        if (cur?.numericValue !== undefined && !autoDerived.current.has(scoreItem.id) && !inputsTouched.current) {
+          continue
+        }
+        autoDerived.current.add(scoreItem.id)
+        next.set(scoreItem.id, {
+          ...cur,
+          scoreItemId: scoreItem.id,
+          numericValue: computed,
+          selectedLevel: detectLevel(computed, scoreItem.levels ?? []) ?? cur?.selectedLevel,
+          order,
+        })
+        changed = true
+      }
+
+      if (changed) requestAnimationFrame(() => onChange(Array.from(next.values())))
+      return changed ? next : prev
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values, derivedTargets, codeByItemId])
 
   // Auto-scroll and focus on specific item when coming from health score edit
   useEffect(() => {
@@ -557,6 +663,21 @@ export function AnamnesisTemplateItemsRenderer({
   // Handle numeric input change (for items with unit — real measured value)
   const handleNumericChange = (scoreItemId: string, raw: string, order: number, levels: ScoreLevel[]) => {
     const num = raw === '' ? undefined : parseFloat(raw)
+    // Mexeu numa medida que alimenta algum derivado? A partir daqui o recálculo pode sobrepor
+    // valores gravados (ver `inputsTouched`).
+    const codeDigitado = codeByItemId.get(scoreItemId)
+    if (codeDigitado && DERIVED_INPUT_CODES.has(codeDigitado)) inputsTouched.current = true
+    // Digitou num item derivado? A partir daqui ele é do profissional — paramos de recalcular.
+    // Apagar o campo devolve o item ao cálculo automático.
+    if (isDerived(scoreItemId)) {
+      if (num === undefined) {
+        manualDerived.current.delete(scoreItemId)
+        autoDerived.current.delete(scoreItemId)
+      } else {
+        manualDerived.current.add(scoreItemId)
+        autoDerived.current.delete(scoreItemId)
+      }
+    }
     const autoLevel = num !== undefined && !isNaN(num) ? detectLevel(num, levels) : undefined
     setValues((prev) => {
       const newValues = new Map(prev)
@@ -645,8 +766,10 @@ export function AnamnesisTemplateItemsRenderer({
                         const scaleDef = getScaleDef(scoreItem.anamneseItemCode)
                         const isScale = !!scaleDef && (scaleDef.kind === 'sum' || scaleDef.kind === 'administered' || scaleDef.kind === 'custom')
                         const indentStyle = depth > 0 ? { marginLeft: depth * 14 } : undefined
+                        // Linha fina entre itens: sem ela os itens do subgrupo se confundem
+                        // (o divide-y do bloco só separa SUBgrupos, não os itens dentro deles).
                         const rowCls = cn(
-                          'px-3 py-1.5 last:border-b-0',
+                          'px-3 py-1.5 border-b border-border/60 last:border-b-0',
                           depth > 0 && 'border-l-2 border-l-primary/25'
                         )
 
@@ -775,7 +898,7 @@ export function AnamnesisTemplateItemsRenderer({
                               <span className="text-[12.5px] font-medium leading-tight text-foreground">
                                 {depth > 0 && <span className="mr-1 text-muted-foreground/50">└</span>}
                                 {scoreItem.name}
-                                {scoreItem.unit && <span className="ml-1 text-[10px] font-normal text-muted-foreground">({scoreItem.unit})</span>}
+                                {unitSuffix(scoreItem) && <span className="ml-1 text-[10px] font-normal text-muted-foreground">({unitSuffix(scoreItem)})</span>}
                               </span>
 
                               {scoreItem.patientExplanation && (
@@ -791,6 +914,14 @@ export function AnamnesisTemplateItemsRenderer({
                                   placeholder={scoreItem.unit}
                                   className="h-7 w-24 text-xs"
                                 />
+                              )}
+                              {isDerived(scoreItem.id) && (
+                                <span
+                                  title="Calculado automaticamente a partir das outras medidas. Digitar aqui sobrepõe o cálculo."
+                                  className="rounded bg-ocean-50 px-1 text-[9px] font-semibold uppercase tracking-wide text-ocean-800"
+                                >
+                                  auto
+                                </span>
                               )}
 
                               <div className="ml-auto flex flex-wrap items-center justify-end gap-1">
@@ -1013,9 +1144,9 @@ export function AnamnesisTemplateItemsRenderer({
                                     )}>
                                       {depth > 0 && <span className="mr-1 text-muted-foreground/50">└</span>}
                                       {scoreItem.name}
-                                      {scoreItem.unit && (
+                                      {unitSuffix(scoreItem) && (
                                         <span className="text-muted-foreground ml-2 font-normal">
-                                          ({scoreItem.unit})
+                                          ({unitSuffix(scoreItem)})
                                         </span>
                                       )}
                                     </Label>
@@ -1048,7 +1179,9 @@ export function AnamnesisTemplateItemsRenderer({
                               {scoreItem.unit && (
                                 <div className="space-y-1">
                                   <Label className="text-xs font-medium text-muted-foreground">
-                                    Valor medido ({scoreItem.unit}):
+                                    {isDerived(scoreItem.id)
+                                      ? `Calculado automaticamente (${scoreItem.unit}) — digite para sobrepor:`
+                                      : `Valor medido (${scoreItem.unit}):`}
                                   </Label>
                                   <Input
                                     type="number"
