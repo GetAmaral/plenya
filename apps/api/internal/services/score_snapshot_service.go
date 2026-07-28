@@ -147,10 +147,21 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 			}
 			groupResultsMap[group.ID] = groupResult
 
+			// `Subgroups.Items` já traz os filhos (o Preload não filtra por parent_item_id),
+			// e o laço interno percorre `ChildItems` de novo — sem o `seen` todo item com pai
+			// entrava DUAS vezes no snapshot e no denominador. Mesma guarda que
+			// anonymous_score_service e score_version_service já usam.
+			seen := make(map[uuid.UUID]bool)
+
 			// Process subgroups
 			for _, subgroup := range group.Subgroups {
 				// Process items
 				for _, item := range subgroup.Items {
+					if seen[item.ID] {
+						continue
+					}
+					seen[item.ID] = true
+
 					// Evaluate score item
 					itemResult := s.evaluateScoreItem(
 						&patient,
@@ -178,6 +189,11 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 
 					// Process child items (if any)
 					for _, childItem := range item.ChildItems {
+						if seen[childItem.ID] {
+							continue
+						}
+						seen[childItem.ID] = true
+
 						childItemResult := s.evaluateScoreItem(
 							&patient,
 							&childItem,

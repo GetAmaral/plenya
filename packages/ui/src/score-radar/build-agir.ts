@@ -59,8 +59,10 @@ export function buildAgir(snapshot: AgirSnapshotInput): AgirRadarData | null {
     .map(([code, l]) => ({ code, name: l.name, color: l.color, score: l.max > 0 ? (l.actual / l.max) * 100 : 0 }))
 
   const letterRank = new Map(letters.map((l, i) => [l.code, i]))
+  // `filled > 0` não basta: um pilar cujos itens avaliados têm todos peso 0 fica com max 0 e
+  // sairia como score 0, que no radar lê "péssimo" quando na verdade é "sem peso medido".
   const pillars: RadarPillar[] = [...pillarMap.values()]
-    .filter((p) => p.filled > 0)
+    .filter((p) => p.filled > 0 && p.max > 0)
     .sort(
       (a, b) =>
         (letterRank.get(a.letter) ?? 0) - (letterRank.get(b.letter) ?? 0) || a.order - b.order,
