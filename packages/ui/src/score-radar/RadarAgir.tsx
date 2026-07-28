@@ -24,6 +24,10 @@ interface RadarAgirProps {
   showLegend?: boolean
   /** Textos do tooltip (i18n). Default PT. */
   labels?: RadarLabels
+  /** Clique num pilar do radar. Quando presente, o radar vira navegação. */
+  onPillarClick?: (pillar: RadarPillar) => void
+  /** Nome do pilar em destaque (o painel ao lado está mostrando ele). */
+  selectedPillar?: string
 }
 
 // ── Paleta Plenya (= tokens de @plenya/brand: sage/gold/ocean/petrol/cream) ──
@@ -111,6 +115,8 @@ export function RadarAgir({
   widthStyle,
   showLegend = true,
   labels,
+  onPillarClick,
+  selectedPillar,
 }: RadarAgirProps) {
   const [hovered, setHovered] = useState<Hovered>({ type: 'none' })
   const L10N = { ...DEFAULT_LABELS, ...labels }
@@ -303,7 +309,8 @@ export function RadarAgir({
           })}
 
           {radarPoints.map((p, i) => {
-            const isPointHovered = hovered.type === 'pillar' && hovered.index === i
+            const isSelected = !!selectedPillar && p.name === selectedPillar
+            const isPointHovered = (hovered.type === 'pillar' && hovered.index === i) || isSelected
             const isInActiveLetter = hovered.type === 'letter' && hovered.code === p.letter
             const dimmed = hovered.type !== 'none' && !isPointHovered && !isInActiveLetter
             const radius = isPointHovered ? 6.5 : isInActiveLetter ? 5 : 3.5
@@ -312,7 +319,15 @@ export function RadarAgir({
                 {isPointHovered && (
                   <line x1={RADAR_CX} y1={RADAR_CY} x2={p.x} y2={p.y} stroke={p.color} strokeOpacity="0.4" strokeWidth="1" strokeDasharray="2 2" pointerEvents="none" />
                 )}
-                <circle cx={p.x} cy={p.y} r="12" fill="transparent" onMouseEnter={() => setHovered({ type: 'pillar', index: i })} style={{ cursor: 'pointer' }} />
+                <circle
+                  cx={p.x}
+                  cy={p.y}
+                  r="12"
+                  fill="transparent"
+                  onMouseEnter={() => setHovered({ type: 'pillar', index: i })}
+                  onClick={onPillarClick ? () => onPillarClick(p) : undefined}
+                  style={{ cursor: 'pointer' }}
+                />
                 <circle cx={p.x} cy={p.y} r={radius} fill={p.color} stroke={CENTER_FILL} strokeWidth="1.2" opacity={dimmed ? 0.35 : 1} pointerEvents="none" style={{ transition: 'r 180ms, opacity 180ms' }} />
               </g>
             )

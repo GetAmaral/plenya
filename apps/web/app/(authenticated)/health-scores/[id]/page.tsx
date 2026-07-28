@@ -30,10 +30,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { ArrowLeft, Activity, CheckCircle2, XCircle, MinusCircle, AlertCircle, FlaskConical, MoreVertical, Edit, RefreshCw, Presentation } from "lucide-react"
-import { RadarAgir } from "@/components/health-scores/RadarAgir"
-import { ScoreDevolutiva } from "@/components/health-scores/ScoreDevolutiva"
-import { buildAgir } from "@/components/health-scores/build-agir"
+import { ArrowLeft, Activity, CheckCircle2, XCircle, MinusCircle, AlertCircle, FlaskConical, MoreVertical, Edit, RefreshCw } from "lucide-react"
+import { ScoreOverview } from "@/components/health-scores/ScoreOverview"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { formatDate } from "@/lib/format-date"
@@ -111,7 +109,6 @@ export default function HealthScoreDetailPage() {
   const params = useParams()
   const router = useRouter()
   const snapshotId = params.id as string
-  const [devolutiva, setDevolutiva] = useState(false)
 
   // Preferências de visualização persistidas
   const {
@@ -781,17 +778,6 @@ export default function HealthScoreDetailPage() {
   const evaluatedCount = snapshot.itemResults?.filter((ir) => ir.status === "evaluated").length || 0
   const noDataCount = snapshot.itemResults?.filter((ir) => ir.status === "no_data_available").length || 0
   const notApplicableCount = snapshot.itemResults?.filter((ir) => ir.status === "not_applicable").length || 0
-  const agir = buildAgir(snapshot)
-
-  if (devolutiva) {
-    return (
-      <ScoreDevolutiva
-        snapshot={snapshot}
-        patientName={selectedPatient?.name ?? ""}
-        onExit={() => setDevolutiva(false)}
-      />
-    )
-  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -801,10 +787,6 @@ export default function HealthScoreDetailPage() {
         breadcrumbs={[{ label: "Escores de Saúde", href: "/health-scores" }]}
       >
         <div className="flex items-center gap-2">
-          <Button onClick={() => setDevolutiva(true)}>
-            <Presentation className="mr-2 h-4 w-4" />
-            Devolutiva
-          </Button>
           <Button
             variant="outline"
             onClick={handleRecalculate}
@@ -819,6 +801,9 @@ export default function HealthScoreDetailPage() {
           </Button>
         </div>
       </PageHeader>
+
+      {/* Radar + detalhamento por pilar — sempre visível, é a primeira coisa que abre */}
+      <ScoreOverview snapshot={snapshot} />
 
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-4">
@@ -881,26 +866,6 @@ export default function HealthScoreDetailPage() {
         </Card>
       </div>
 
-      {/* Radar AGIR deste escore */}
-      {agir && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base">
-              <Activity className="h-5 w-5 text-primary" />
-              Radar AGIR
-            </CardTitle>
-            <CardDescription>Distribuição dos escores entre os pilares deste snapshot</CardDescription>
-          </CardHeader>
-          <CardContent className="flex justify-center py-4">
-            <RadarAgir
-              letters={agir.letters}
-              pillars={agir.pillars}
-              globalScore={snapshot.totalScorePercentage}
-              maxWidthClass="max-w-[32rem]"
-            />
-          </CardContent>
-        </Card>
-      )}
 
       {/* Notes */}
       {snapshot.notes && (

@@ -307,7 +307,7 @@ Migration `00064_escore_equilibrio_cafe_aines_alimentacao.sql` + fix do laço em
 | §3.2 (versão parcial) histórico de doenças | ✅ peso de cada item dividido por 2; grupo 2023 → 1023,5 |
 | Café | ✅ 10 pts, migrou de Nutri Inicial para Médico Inicial |
 | AINEs | ✅ item próprio, 12 pts, 4 níveis por frequência; analgésicos ficam com 6 pts |
-| Modo Devolutiva | ✅ protótipo em `components/health-scores/ScoreDevolutiva.tsx` |
+| Devolutiva | ✅ inline na página do escore (`components/health-scores/ScoreOverview.tsx`) |
 
 Efeito medido no mesmo padrão de respostas do caso-âncora: **93,0% → 83,9%**.
 Alimentação saiu de 72,3% para 40,5% (as respostas ruins agora custam). Histórico de doenças
@@ -331,6 +331,29 @@ Pendências abertas para chegar na faixa 65-75%: §3.2 na versão "gate" e §3.3
 4. Restam **3.987 níveis vazios** fora desse template (Exames 1.593, Genética 1.041, e o resto
    do Histórico de doenças). São os que o pipeline de enrichment (`scripts/enrichment/`,
    `cmd/enrich-score-items`) foi feito para cobrir.
+
+### Quarta rodada — a devolutiva sai do wizard e vira a própria página
+
+O modo Devolutiva das rodadas 2 e 3 era um wizard de 5 passos em tela cheia, atrás de um botão
+no header da página do snapshot. Para chegar nele: selecionar paciente, abrir Escores de Saúde,
+clicar num ícone de olho pequeno na linha da tabela, e só então achar o botão. Quatro passos
+para ver o detalhamento do escore que o médico vai usar em toda consulta de retorno.
+Reprovado com razão pelo Dr. Getúlio em 2026-07-28.
+
+`ScoreDevolutiva.tsx` foi deletado. No lugar, `ScoreOverview.tsx`: **radar à esquerda e painel
+de pilares à direita, lado a lado, no topo da página do snapshot** — que já é onde o usuário
+cai assim que o escore é gerado. Sem botão, sem modo, sem navegação.
+
+- O painel abre em "Precisam de atenção (n)", ordenado do pior para o melhor. Os pilares bons
+  ficam recolhidos; os não medidos vão para o rodapé.
+- O **radar virou navegação**: `RadarAgir` ganhou `onPillarClick` e `selectedPillar`
+  (ambos opcionais, o site não passa nada e segue igual). Clicar num ponto abre o pilar no
+  painel e destaca o ponto.
+- Dentro do pilar: "O que puxa para baixo" (nível ≤ 3, com explicação e conduta em destaque) e
+  "O que está bem" em lista enxuta.
+
+Mantido da rodada 3 porque continua certo: cor do item vem do nível e não da razão de pontos,
+e pilar com peso zero é "não medido", não 0%.
 
 ### Terceira rodada — revisão da exibição
 
