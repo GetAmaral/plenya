@@ -1749,7 +1749,7 @@ posts:
 - slug: treinar-para-envelhecer-bem-zona-2-e-forca
   block: 4
   order: 31
-  status: approved
+  status: failed
   scheduled_at: '2026-07-21 08:52:00-03:00'
   commentary: 'A pirâmide do treino aeróbico que a literatura de longevidade sustenta é: 80% em baixa intensidade (Zona 2),
     20% em alta intensidade. Mais força progressiva 2 a 3 vezes na semana.
@@ -1816,10 +1816,13 @@ posts:
     '
   image_path: apps/site/public/images/blog/treinar-para-envelhecer-bem-zona-2-e-forca/figura-1.webp
   image_title: 'Treinar para envelhecer bem: a fórmula é Zona 2 e força'
+  failed_at: '2026-07-21T09:00:01-03:00'
+  error: '401: {"status":401,"serviceErrorCode":65602,"code":"EXPIRED_ACCESS_TOKEN","message":"The token used in the request
+    has expired"}'
 - slug: treinar-muito-e-envelhecer-errado
   block: 4
   order: 32
-  status: approved
+  status: failed
   scheduled_at: '2026-07-22 08:11:00-03:00'
   commentary: 'Recebo recorrentemente o seguinte perfil: paciente que treina três a quatro vezes por semana há vinte anos,
     ciclismo no fim de semana, corrida no meio, musculação porque "tem que fazer", come limpo, dorme razoavelmente. Tem 47
@@ -1883,10 +1886,13 @@ posts:
     '
   image_path: apps/site/public/images/blog/treinar-muito-e-envelhecer-errado/figura-1.webp
   image_title: Treinar muito e envelhecer errado
+  failed_at: '2026-07-22T08:15:01-03:00'
+  error: '401: {"status":401,"serviceErrorCode":65602,"code":"EXPIRED_ACCESS_TOKEN","message":"The token used in the request
+    has expired"}'
 - slug: suplementos-que-fazem-diferenca-depois-dos-40
   block: 4
   order: 33
-  status: approved
+  status: failed
   scheduled_at: '2026-07-23 12:07:00-03:00'
   commentary: 'Atendo recorrentemente paciente que chega com sacola de farmácia e a pergunta certa: gasto fortuna por mês,
     está fazendo alguma coisa?
@@ -1948,3 +1954,6 @@ posts:
     programado.'
   image_path: apps/site/public/images/blog/suplementos-que-fazem-diferenca-depois-dos-40/figura-protocolo.webp
   image_title: 'Suplementação dirigida por exame: protocolo clínico'
+  failed_at: '2026-07-23T12:15:02-03:00'
+  error: '401: {"status":401,"serviceErrorCode":65602,"code":"EXPIRED_ACCESS_TOKEN","message":"The token used in the request
+    has expired"}'

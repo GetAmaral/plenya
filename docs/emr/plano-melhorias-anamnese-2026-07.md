@@ -180,6 +180,35 @@ Levantados na revisão e **descartados pelo Getúlio** — não reabrir:
 - **"Qualidade percebida do sono"** fica com os níveis como estão (N2 "Acordo bem, mas a energia
   acaba no meio do dia" / N3 "Acordo cansado e depois pego no tranco").
 
-## Pendência
+## Deploy (2026-07-27) — ✅ EM PRODUÇÃO
 
-- **Nada deployado.** Migration e código estão só em dev.
+Commit `9c18efca`. Api primeiro (roda a migration), depois web, um de cada vez.
+
+- **api** — container `...171757298319`. Goose aplicou `00062` e `00063` (as 00060/00061 já
+  estavam). Health 200.
+- **web** — container `...174616369320`. Health 200. A **primeira tentativa falhou**: o
+  `git clone` do GitHub caiu no meio (`fetch-pack: unexpected disconnect`) e deixou o container
+  helper órfão segurando a fila, com o deploy parado em `in_progress` por 25 min sem criar
+  container. Recuperado pelo procedimento de sempre (remover o helper órfão → limpar a fila →
+  um deploy). O app antigo ficou no ar o tempo todo, sem indisponibilidade.
+
+Conferido no banco de prod: 47/47 unidades, "Sexo" com `default_level5`, faixas do Dubois em
+/10, 4 raízes remanescentes em Cirurgias/Medicamentos (são os 4 cabeçalhos, correto),
+Cognição/Atual abrindo em "Capacidade da memória percebida" com os 4 testes aninhados, e ASEX
+no Continuum | Médico | Complemento.
+
+### O push também redeployou o site-getulio (comportamento correto)
+
+O `site-getulio` (`qkdzqaauicc001qfkghfur0s`) rebuildou sozinho neste commit. Não é bug: os
+`watch_paths` dele são `apps/site-getulio/**` + **`packages/**`** + `apps/site/content/blog/**`,
+e nós mexemos em `packages/domain`. Subiu bem, no commit `9c18efca`, health 200.
+
+O ponto de atenção é de **agenda, não de configuração**: esse deploy automático rodou ao mesmo
+tempo que o deploy manual do api (ambos ~17:17), e três clones do monorepo concorrendo é a
+hipótese mais provável para o clone do web ter estourado logo em seguida. Ao deployar depois de
+um push que toca `packages/**`, esperar o auto-deploy do getulio terminar antes de disparar o
+próximo app.
+
+Nota: o `plenya-site` NÃO rebuildou (segue em `d1b6ad01`), ou seja, os `watch_paths` dele não
+incluem `packages/**`. Se algum dia o site passar a consumir `@plenya/domain`, isso vira
+divergência dev≡prod silenciosa.
