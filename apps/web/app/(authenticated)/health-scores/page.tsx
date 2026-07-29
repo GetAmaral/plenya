@@ -13,6 +13,7 @@ import { ScoreHistoryTable } from "@/components/health-scores/ScoreHistoryTable"
 import { CalculateScoreDialog } from "@/components/health-scores/CalculateScoreDialog"
 import { ScoreRadarChart } from "@/components/health-scores/ScoreRadarChart"
 import { ScoreEvolutionChart } from "@/components/health-scores/ScoreEvolutionChart"
+import { ScorePillarBreakdown } from "@/components/health-scores/ScorePillarBreakdown"
 import { ScoreMethodologyAccordion } from "@/components/health-scores/ScoreMethodologyAccordion"
 import { AnonymousSessionsCard } from "@/components/health-scores/AnonymousSessionsCard"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -74,6 +75,9 @@ export default function HealthScoresPage() {
         <>
           {/* Radar AGIR — elemento primário, grande, no topo da tela */}
           <ScoreRadarChart snapshot={latestSnapshot} />
+
+          {/* Barras por pilar/subpilar — o detalhamento do que o radar resume */}
+          <ScorePillarBreakdown snapshot={latestSnapshot} />
 
           {/* Curva de evolução — logo abaixo do radar */}
           {snapshots && snapshots.length > 1 && (

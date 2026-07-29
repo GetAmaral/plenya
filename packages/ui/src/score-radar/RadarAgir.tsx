@@ -24,18 +24,23 @@ interface RadarAgirProps {
   showLegend?: boolean
   /** Textos do tooltip (i18n). Default PT. */
   labels?: RadarLabels
-  /** Clique num pilar do radar. Quando presente, o radar vira navegação. */
-  onPillarClick?: (pillar: RadarPillar) => void
-  /** Nome do pilar em destaque (o painel ao lado está mostrando ele). */
-  selectedPillar?: string
 }
 
-// ── Paleta Plenya (= tokens de @plenya/brand: sage/gold/ocean/petrol/cream) ──
+// ── Cores das letras AGIR ────────────────────────────────────────────────────
+// Cada letra tem UMA cor, usada no arco do radar, no glifo, nos pontos e nos subgráficos
+// de barras. A paleta antiga (sage/gold/gold-suave/ocean) reprovava: G #b38645 e I #caa56b
+// eram praticamente o mesmo dourado, ΔE 9,3 em visão normal contra piso 15 — ninguém
+// distinguia as duas nem com visão perfeita.
+//
+// Esta passa em todas as checagens do validador (dataviz/scripts/validate_palette.js) em
+// light e dark: banda de luminosidade, piso de croma, visão normal (pior par ΔE 19,3) e
+// contraste >= 3:1. A separação CVD cai na banda 6-8, legal porque toda letra sempre vem
+// acompanhada do glifo A/G/I/R e do nome por extenso — a cor nunca é o único canal.
 const PLENYA_PALETTE: Record<string, string> = {
-  A: '#92b8b4', // sage
-  G: '#b38645', // gold
-  I: '#caa56b', // gold suave
-  R: '#417e8e', // ocean
+  A: '#0f8f5f', // verde
+  G: '#c07520', // âmbar
+  I: '#b04a8a', // magenta
+  R: '#2a6fb0', // azul
 }
 const POLYGON_COLOR = '#b38645' // gold
 const CENTER_FILL = '#fbfaf6' // cream claro
@@ -115,8 +120,6 @@ export function RadarAgir({
   widthStyle,
   showLegend = true,
   labels,
-  onPillarClick,
-  selectedPillar,
 }: RadarAgirProps) {
   const [hovered, setHovered] = useState<Hovered>({ type: 'none' })
   const L10N = { ...DEFAULT_LABELS, ...labels }
@@ -309,8 +312,7 @@ export function RadarAgir({
           })}
 
           {radarPoints.map((p, i) => {
-            const isSelected = !!selectedPillar && p.name === selectedPillar
-            const isPointHovered = (hovered.type === 'pillar' && hovered.index === i) || isSelected
+            const isPointHovered = hovered.type === 'pillar' && hovered.index === i
             const isInActiveLetter = hovered.type === 'letter' && hovered.code === p.letter
             const dimmed = hovered.type !== 'none' && !isPointHovered && !isInActiveLetter
             const radius = isPointHovered ? 6.5 : isInActiveLetter ? 5 : 3.5
@@ -319,15 +321,7 @@ export function RadarAgir({
                 {isPointHovered && (
                   <line x1={RADAR_CX} y1={RADAR_CY} x2={p.x} y2={p.y} stroke={p.color} strokeOpacity="0.4" strokeWidth="1" strokeDasharray="2 2" pointerEvents="none" />
                 )}
-                <circle
-                  cx={p.x}
-                  cy={p.y}
-                  r="12"
-                  fill="transparent"
-                  onMouseEnter={() => setHovered({ type: 'pillar', index: i })}
-                  onClick={onPillarClick ? () => onPillarClick(p) : undefined}
-                  style={{ cursor: 'pointer' }}
-                />
+                <circle cx={p.x} cy={p.y} r="12" fill="transparent" onMouseEnter={() => setHovered({ type: 'pillar', index: i })} style={{ cursor: 'pointer' }} />
                 <circle cx={p.x} cy={p.y} r={radius} fill={p.color} stroke={CENTER_FILL} strokeWidth="1.2" opacity={dimmed ? 0.35 : 1} pointerEvents="none" style={{ transition: 'r 180ms, opacity 180ms' }} />
               </g>
             )

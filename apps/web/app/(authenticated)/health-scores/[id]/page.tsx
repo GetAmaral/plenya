@@ -31,22 +31,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { ArrowLeft, Activity, CheckCircle2, XCircle, MinusCircle, AlertCircle, FlaskConical, MoreVertical, Edit, RefreshCw } from "lucide-react"
-import { ScoreOverview } from "@/components/health-scores/ScoreOverview"
+import { RadarAgir } from "@/components/health-scores/RadarAgir"
+import { buildAgir } from "@/components/health-scores/build-agir"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { formatDate } from "@/lib/format-date"
 import { toast } from "sonner"
+import { LEVEL_STYLES } from "@/lib/score-level-styles"
 
-// Estilos de cor por nível (igual à página de anamnese)
-const LEVEL_STYLES = {
-  0: { bg: 'bg-red-100', text: 'text-red-900', border: 'border-red-500' },
-  1: { bg: 'bg-orange-100', text: 'text-orange-900', border: 'border-orange-500' },
-  2: { bg: 'bg-yellow-100', text: 'text-yellow-900', border: 'border-yellow-500' },
-  3: { bg: 'bg-blue-100', text: 'text-blue-900', border: 'border-blue-500' },
-  4: { bg: 'bg-green-100', text: 'text-green-900', border: 'border-green-500' },
-  5: { bg: 'bg-emerald-100', text: 'text-emerald-900', border: 'border-emerald-500' },
-  6: { bg: 'bg-gray-100', text: 'text-gray-900', border: 'border-gray-500' },
-} as const
 
 interface ItemWithChildren extends PatientScoreItemResult {
   children?: ItemWithChildren[]
@@ -778,6 +770,7 @@ export default function HealthScoreDetailPage() {
   const evaluatedCount = snapshot.itemResults?.filter((ir) => ir.status === "evaluated").length || 0
   const noDataCount = snapshot.itemResults?.filter((ir) => ir.status === "no_data_available").length || 0
   const notApplicableCount = snapshot.itemResults?.filter((ir) => ir.status === "not_applicable").length || 0
+  const agir = buildAgir(snapshot)
 
   return (
     <div className="flex flex-col gap-6">
@@ -801,9 +794,6 @@ export default function HealthScoreDetailPage() {
           </Button>
         </div>
       </PageHeader>
-
-      {/* Radar + detalhamento por pilar — sempre visível, é a primeira coisa que abre */}
-      <ScoreOverview snapshot={snapshot} />
 
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-4">
@@ -866,6 +856,26 @@ export default function HealthScoreDetailPage() {
         </Card>
       </div>
 
+      {/* Radar AGIR deste escore */}
+      {agir && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Activity className="h-5 w-5 text-primary" />
+              Radar AGIR
+            </CardTitle>
+            <CardDescription>Distribuição dos escores entre os pilares deste snapshot</CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center py-4">
+            <RadarAgir
+              letters={agir.letters}
+              pillars={agir.pillars}
+              globalScore={snapshot.totalScorePercentage}
+              maxWidthClass="max-w-[32rem]"
+            />
+          </CardContent>
+        </Card>
+      )}
 
       {/* Notes */}
       {snapshot.notes && (

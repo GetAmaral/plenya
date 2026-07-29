@@ -25,21 +25,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { FlaskConical, MoreVertical, Edit } from "lucide-react"
+import { LEVEL_STYLES } from "@/lib/score-level-styles"
 
 interface ScoreMethodologyAccordionProps {
   snapshot: PatientScoreSnapshot
 }
 
-// Estilos de cor por nível (igual à página de detalhes)
-const LEVEL_STYLES = {
-  0: { bg: 'bg-red-100', text: 'text-red-900', border: 'border-red-500' },
-  1: { bg: 'bg-orange-100', text: 'text-orange-900', border: 'border-orange-500' },
-  2: { bg: 'bg-yellow-100', text: 'text-yellow-900', border: 'border-yellow-500' },
-  3: { bg: 'bg-blue-100', text: 'text-blue-900', border: 'border-blue-500' },
-  4: { bg: 'bg-green-100', text: 'text-green-900', border: 'border-green-500' },
-  5: { bg: 'bg-emerald-100', text: 'text-emerald-900', border: 'border-emerald-500' },
-  6: { bg: 'bg-gray-100', text: 'text-gray-900', border: 'border-gray-500' },
-} as const
 
 interface ItemWithChildren extends PatientScoreItemResult {
   children?: ItemWithChildren[]
