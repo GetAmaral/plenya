@@ -32,6 +32,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { ArrowLeft, Activity, CheckCircle2, XCircle, MinusCircle, AlertCircle, FlaskConical, MoreVertical, Edit, RefreshCw } from "lucide-react"
 import { RadarAgir } from "@/components/health-scores/RadarAgir"
+import { ScorePillarBreakdown } from "@/components/health-scores/ScorePillarBreakdown"
 import { buildAgir } from "@/components/health-scores/build-agir"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
@@ -876,6 +877,9 @@ export default function HealthScoreDetailPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Barras por pilar/subpilar — mesmo componente do dashboard */}
+      <ScorePillarBreakdown snapshot={snapshot} />
 
       {/* Notes */}
       {snapshot.notes && (

@@ -557,15 +557,25 @@ type PublicMethodPillar struct {
 }
 
 type PublicItemResultItem struct {
+	Name          string               `json:"name,omitempty"`
 	MethodPillars []PublicMethodPillar `json:"methodPillars"`
 }
 
-// PublicItemResult é o resultado por-item (só avaliados) — alimenta o radar por pilar.
+// PublicItemResult é o resultado por-item (só avaliados) — alimenta o radar por pilar e o
+// detalhamento por subpilar no site.
+//
+// Nome do item, nível e rótulo de origem são a MESMA informação que o respondente acabou de
+// ver e preencher (já pública em PublicAnonymousScoreItem). Não entra nada técnico:
+// ClinicalRelevance e Conduct seguem fora do payload público.
 type PublicItemResult struct {
 	Status       string                `json:"status"`
 	ActualPoints float64               `json:"actualPoints"`
 	MaxPoints    float64               `json:"maxPoints"`
-	Item         *PublicItemResultItem `json:"item,omitempty"`
+	LevelNumber  *int                  `json:"levelNumber,omitempty"`
+	LevelName    string                `json:"levelName,omitempty"`
+	// "Grupo · Subgrupo" de origem — agrupa os itens dentro do subpilar aberto.
+	Bloco string                `json:"bloco,omitempty"`
+	Item  *PublicItemResultItem `json:"item,omitempty"`
 }
 
 // PublicSnapshot é o radar resultante (sem snapshotId interno, sem timestamps).
@@ -596,6 +606,17 @@ type PublicSession struct {
 	// Preenchido só no contexto STAFF (lista de sessões do paciente): id do patient_score_snapshot
 	// já materializado a partir desta sessão, se houver. Permite a UI mostrar "já importada".
 	ImportedSnapshotID *uuid.UUID `json:"importedSnapshotId,omitempty"`
+}
+
+// joinBloco monta "Grupo · Subgrupo", omitindo a repetição quando são iguais.
+func joinBloco(grupo, subgrupo string) string {
+	if subgrupo == "" || subgrupo == grupo {
+		return grupo
+	}
+	if grupo == "" {
+		return subgrupo
+	}
+	return grupo + " · " + subgrupo
 }
 
 // toPublicSession converte um modelo persistido em payload público seguro.
@@ -657,9 +678,23 @@ func toPublicSession(s *models.AnonymousScoreSession) *PublicSession {
 				Status:       string(ir.Status),
 				ActualPoints: ir.ActualPoints,
 				MaxPoints:    ir.MaxPoints,
+				LevelNumber:  ir.LevelNumber,
+			}
+			if ir.LevelMatched != nil {
+				pir.LevelName = ir.LevelMatched.Name
+			}
+			if ir.Item != nil && ir.Item.Subgroup != nil {
+				grupo := ""
+				if ir.Item.Subgroup.Group != nil {
+					grupo = ir.Item.Subgroup.Group.Name
+				}
+				pir.Bloco = joinBloco(grupo, ir.Item.Subgroup.Name)
 			}
 			if ir.Item != nil && len(ir.Item.MethodPillars) > 0 {
-				item := &PublicItemResultItem{MethodPillars: make([]PublicMethodPillar, 0, len(ir.Item.MethodPillars))}
+				item := &PublicItemResultItem{
+					Name:          ir.Item.Name,
+					MethodPillars: make([]PublicMethodPillar, 0, len(ir.Item.MethodPillars)),
+				}
 				for _, mp := range ir.Item.MethodPillars {
 					pmp := PublicMethodPillar{ID: mp.ID, Name: mp.Name, Order: mp.Order}
 					if mp.Letter != nil {
@@ -1220,6 +1255,9 @@ func (s *AnonymousScoreService) loadSessionByPublicCode(code string) (*models.An
 	var session models.AnonymousScoreSession
 	err := s.db.
 		Preload("Snapshot.GroupResults.Group").
+		Preload("Snapshot.ItemResults.LevelMatched").
+		Preload("Snapshot.ItemResults.Item.Subgroup").
+		Preload("Snapshot.ItemResults.Item.Subgroup.Group").
 		Preload("Snapshot.ItemResults.Item.MethodPillars", func(db *gorm.DB) *gorm.DB {
 			return db.Where("deleted_at IS NULL").Order(`"order" ASC`)
 		}).
@@ -1270,6 +1308,9 @@ func (s *AnonymousScoreService) GetSessionsByPatientID(patientID uuid.UUID) ([]m
 	var sessions []models.AnonymousScoreSession
 	err := s.db.
 		Preload("Snapshot.GroupResults.Group").
+		Preload("Snapshot.ItemResults.LevelMatched").
+		Preload("Snapshot.ItemResults.Item.Subgroup").
+		Preload("Snapshot.ItemResults.Item.Subgroup.Group").
 		Preload("Snapshot.ItemResults.Item.MethodPillars", func(db *gorm.DB) *gorm.DB {
 			return db.Where("deleted_at IS NULL").Order(`"order" ASC`)
 		}).

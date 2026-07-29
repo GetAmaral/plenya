@@ -332,6 +332,52 @@ Pendências abertas para chegar na faixa 65-75%: §3.2 na versão "gate" e §3.3
    do Histórico de doenças). São os que o pipeline de enrichment (`scripts/enrichment/`,
    `cmd/enrich-score-items`) foi feito para cobrir.
 
+### Quinta rodada — o mesmo detalhamento no Escore Light do site
+
+O detalhamento por pilar/subpilar que nasceu no EMR (rodada 4, commits `bcceef6a` e `c0aeb92e`)
+passou a existir também na página pública de resultado do Escore Light,
+`/escore-plenya/resultado/[code]`. Antes, quem respondia o escore no site via o radar e depois
+uma lista chapada por grupo de anamnese — nada ligava o radar ao que a pessoa tinha acabado de
+responder. **Em dev, ainda não commitado.**
+
+A regra de fonte única foi respeitada: a agregação e a paleta saíram de `apps/web` e viraram
+`@plenya/ui/score-radar`.
+
+| Onde | O quê |
+|---|---|
+| `packages/ui/src/score-radar/build-pillar-breakdown.ts` | agregação item → subpilar → letra, a mesma que alimenta a legenda do radar. Campos que só o EMR tem (unidade, valor de lab, pontos) são opcionais; o site simplesmente mostra menos |
+| `packages/ui/src/score-radar/letter-colors.ts` | paleta AGIR extraída do `RadarAgir` — arco, glifo e barras leem do mesmo lugar |
+| `apps/site/components/escore/score-pillar-breakdown.tsx` | apresentação do site (petrol/cream), não a do prontuário |
+| `apps/web/app/(authenticated)/health-scores/[id]/page.tsx` | o mesmo `ScorePillarBreakdown` do dashboard passou a aparecer também na página do snapshot |
+
+No backend, o payload público (`services.PublicItemResult`) ganhou `name`, `levelNumber`,
+`levelName` e `bloco` ("Grupo · Subgrupo"). Nada técnico entrou junto: `clinical_relevance` e
+`conduct` seguem fora do público. Nome do item e nível são exatamente o que o respondente
+acabou de ver no formulário. Os preloads de `LevelMatched` e `Item.Subgroup.Group` entraram nas
+duas leituras de sessão (`loadSessionByPublicCode` e `GetSessionsByPatientID`).
+
+Rótulo de grupo/subgrupo carrega roteiro de anamnese entre parênteses (instrução para o
+profissional). O site limpa parênteses longos antes de exibir.
+
+Conferido em dev na sessão `1E2W3YEKQvoT` (75 itens): api compila, `apps/site` e `apps/web`
+sem erro de tipo, `pnpm generate` rodado (só `bloco`/`levelName`/`levelNumber`/`name` entraram
+no `api-types.ts`), e a página renderiza em 1440 e em 390 sem erro de console. Um bug pego
+nessa checagem: o componente do site abria com `useTranslations('escore')` — namespace
+inexistente, o certo é `escoreLight`.
+
+Pendências desta rodada:
+
+1. **`semDados` não aparece no site.** O EMR mostra "Sem dados ainda: …" no rodapé do pilar; o
+   site calcula a lista e não usa. É justamente a ponte comercial do §3.5 ("seu escore está
+   incompleto; faltam os exames") — decisão de produto, não bug.
+2. **Base pequena não é sinalizada no site.** "Capacidade Física (Testes) 100" sustentado por um
+   único item lê igual a um subpilar com 19 itens. O EMR já resolveu isso na rodada 3 com
+   `x de y itens medidos`; o site tem o dado (`avaliados`/`total`) e não mostra.
+3. **Badge de nível espremendo o nome do item** no `ScorePillarBreakdown` do EMR quando o card
+   cai numa coluna estreita (layout de 2 colunas da página do snapshot) e o rótulo do nível é
+   longo — ex.: "N2: Consumo apenas versões sem açúcar (zero/diet)". O `sm:` é breakpoint de
+   viewport, não de container, então em 1440 o badge fica `nowrap` mesmo num card de ~660px.
+
 ### Quarta rodada — a devolutiva sai do wizard e vira a própria página
 
 O modo Devolutiva das rodadas 2 e 3 era um wizard de 5 passos em tela cheia, atrás de um botão

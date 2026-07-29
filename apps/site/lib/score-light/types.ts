@@ -110,7 +110,11 @@ export type PublicItemResult = {
   status: string;
   actualPoints: number;
   maxPoints: number;
-  item?: { methodPillars?: PublicMethodPillar[] };
+  levelNumber?: number;
+  levelName?: string;
+  /** "Grupo · Subgrupo" de origem — agrupa os itens dentro do subpilar aberto. */
+  bloco?: string;
+  item?: { name?: string; methodPillars?: PublicMethodPillar[] };
 };
 
 export type PublicSnapshot = {

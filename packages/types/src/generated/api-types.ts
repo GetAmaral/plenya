@@ -16420,6 +16420,7 @@ export interface components {
             item?: components["schemas"]["models.ScoreItem"];
             /** @description Item de score avaliado */
             itemId: string;
+            levelMatched?: components["schemas"]["models.ScoreLevel"];
             levelMatchedId?: string;
             /** @description Nível atingido (0-6, denormalizado) + FK opcional ao ScoreLevel */
             levelNumber?: number;
@@ -18842,12 +18843,17 @@ export interface components {
         };
         "services.PublicItemResult": {
             actualPoints?: number;
+            /** @description "Grupo · Subgrupo" de origem — agrupa os itens dentro do subpilar aberto. */
+            bloco?: string;
             item?: components["schemas"]["services.PublicItemResultItem"];
+            levelName?: string;
+            levelNumber?: number;
             maxPoints?: number;
             status?: string;
         };
         "services.PublicItemResultItem": {
             methodPillars?: components["schemas"]["services.PublicMethodPillar"][];
+            name?: string;
         };
         "services.PublicMethodLetter": {
             code?: string;

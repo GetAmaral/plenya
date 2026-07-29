@@ -43,8 +43,9 @@ type AnonymousScoreItemResult struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 
 	// Relationships
-	Snapshot *AnonymousScoreSnapshot `gorm:"foreignKey:SnapshotID;constraint:OnDelete:CASCADE" json:"-"`
-	Item     *ScoreItem              `gorm:"foreignKey:ItemID" json:"item,omitempty"`
+	Snapshot     *AnonymousScoreSnapshot `gorm:"foreignKey:SnapshotID;constraint:OnDelete:CASCADE" json:"-"`
+	Item         *ScoreItem              `gorm:"foreignKey:ItemID" json:"item,omitempty"`
+	LevelMatched *ScoreLevel             `gorm:"foreignKey:LevelMatchedID" json:"levelMatched,omitempty"`
 }
 
 // TableName specifies the table name

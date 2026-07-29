@@ -251,13 +251,13 @@ function CardPilar({
   return (
     <section
       style={cssVars(pilar.code)}
-      className="rounded-lg border border-[var(--letra)] p-4 dark:border-[var(--letra-dark)]"
+      className="rounded-lg border border-[var(--letra)] p-3 dark:border-[var(--letra-dark)] sm:p-4"
     >
-      <div className="mb-1.5 flex items-baseline gap-2">
+      <div className="mb-1.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
         <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--letra)] text-[11px] font-semibold text-white dark:bg-[var(--letra-dark)]">
           {pilar.code}
         </span>
-        <h3 className="min-w-0 flex-1 truncate text-sm font-semibold">{pilar.name}</h3>
+        <h3 className="min-w-0 flex-1 text-sm font-semibold">{pilar.name}</h3>
         <span className="shrink-0 text-xs text-muted-foreground">
           <span className="text-sm font-semibold text-foreground">{pilar.pct.toFixed(0)}%</span>
           <span className="ml-2">
@@ -344,7 +344,7 @@ function ItensDoSubpilar({ itens }: { itens: Item[] }) {
   }, [itens])
 
   return (
-    <div className="mt-2 space-y-2 border-l pl-3">
+    <div className="mt-2 space-y-2 border-l pl-2 sm:pl-3">
       {blocos.map(([bloco, lista]) => (
         <div key={bloco}>
           <p className="text-[10px] uppercase tracking-wide text-muted-foreground">{bloco}</p>
@@ -354,7 +354,7 @@ function ItensDoSubpilar({ itens }: { itens: Item[] }) {
               return (
                 <li
                   key={it.id}
-                  className="flex items-start gap-2 rounded-md border bg-card p-2.5 text-sm"
+                  className="flex flex-col gap-1.5 rounded-md border bg-card p-2.5 text-sm sm:flex-row sm:items-start sm:gap-2"
                 >
                   <span className="min-w-0 flex-1">
                     <span className="font-semibold">{it.name}</span>
@@ -368,7 +368,7 @@ function ItensDoSubpilar({ itens }: { itens: Item[] }) {
 
                   {ls && (
                     <span
-                      className={`shrink-0 whitespace-nowrap rounded-full border-2 px-2 py-0.5 text-xs font-bold ${ls.bg} ${ls.text} ${ls.border}`}
+                      className={`self-start rounded-full border-2 px-2 py-0.5 text-xs font-bold sm:shrink-0 sm:whitespace-nowrap ${ls.bg} ${ls.text} ${ls.border}`}
                     >
                       {it.fonteLab ? (
                         <span className="flex items-center gap-1">

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
+import { ScorePillarBreakdown } from '@/components/escore/score-pillar-breakdown';
 import {
   RadarAgir as SharedRadarAgir,
   buildAgir,
@@ -96,6 +97,9 @@ export function EscoreLightResultado({
   // Radar por PILAR (AGIR) quando a sessão tem per-item results com pilares (Fase 3+).
   // Sessões antigas (sem itemResults) → buildAgir retorna null → fallback por grupo.
   const agir = buildAgir(snapshot);
+  const temPilares = (snapshot.itemResults ?? []).some(
+    (r) => (r.item?.methodPillars?.length ?? 0) > 0,
+  );
 
   const emailValid = wantEmail ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) : true;
   const phoneValid = wantWhatsApp ? /^\+55\d{2}9\d{8}$/.test(phoneE164) : true;
@@ -184,6 +188,12 @@ export function EscoreLightResultado({
       <section className="bg-paper">
         <div className="site-container section">
           <p className="label-upper text-gold mb-10">{t('resultDetailsLabel')}</p>
+
+          {/* Por pilar → subpilar → itens, mesma estrutura e cores do prontuário.
+              Sessões antigas (sem itemResults) caem na lista por grupo abaixo. */}
+          {temPilares ? (
+            <ScorePillarBreakdown snapshot={snapshot} />
+          ) : (
           <div className="border-t border-petrol/15">
             {snapshot.groupResults
               .filter((g) => g.itemsEvaluatedCount > 0)
@@ -207,6 +217,7 @@ export function EscoreLightResultado({
                 </div>
               ))}
           </div>
+          )}
         </div>
       </section>
 

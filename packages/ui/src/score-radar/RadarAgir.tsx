@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import type { CSSProperties } from 'react'
 import type { RadarLetter, RadarPillar } from './types'
+import { LETTER_COLORS } from './letter-colors'
 
 export type RadarLabels = {
   /** Tag da letra no tooltip. count=0 → "sem dados". */
@@ -26,22 +27,10 @@ interface RadarAgirProps {
   labels?: RadarLabels
 }
 
-// ── Cores das letras AGIR ────────────────────────────────────────────────────
-// Cada letra tem UMA cor, usada no arco do radar, no glifo, nos pontos e nos subgráficos
-// de barras. A paleta antiga (sage/gold/gold-suave/ocean) reprovava: G #b38645 e I #caa56b
-// eram praticamente o mesmo dourado, ΔE 9,3 em visão normal contra piso 15 — ninguém
-// distinguia as duas nem com visão perfeita.
-//
-// Esta passa em todas as checagens do validador (dataviz/scripts/validate_palette.js) em
-// light e dark: banda de luminosidade, piso de croma, visão normal (pior par ΔE 19,3) e
-// contraste >= 3:1. A separação CVD cai na banda 6-8, legal porque toda letra sempre vem
-// acompanhada do glifo A/G/I/R e do nome por extenso — a cor nunca é o único canal.
-const PLENYA_PALETTE: Record<string, string> = {
-  A: '#0f8f5f', // verde
-  G: '#c07520', // âmbar
-  I: '#b04a8a', // magenta
-  R: '#2a6fb0', // azul
-}
+// Paleta das letras: fonte única em ./letter-colors (usada também pelas barras por pilar).
+const PLENYA_PALETTE: Record<string, string> = Object.fromEntries(
+  Object.entries(LETTER_COLORS).map(([k, v]) => [k, v.light]),
+)
 const POLYGON_COLOR = '#b38645' // gold
 const CENTER_FILL = '#fbfaf6' // cream claro
 const INK = '#063b4f' // petrol
