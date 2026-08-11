@@ -190,3 +190,9 @@ docs/emr/import-conversa-*.md
 !scripts/backups/*.md
 
 apps/api/fix-score-boundaries
+
+# Credenciais do servidor de e-mail (Stalwart da VPS): senha de admin e das caixas.
+# SEGREDO — a pasta INTEIRA fica fora do versionamento, não só o arquivo de hoje: nome novo
+# ("security.txt", "senhas.md", um dump do webadmin) nasceria versionável e um `git add -A` de
+# outra sessão o publicaria. Doc de e-mail que PODE ser versionado mora em docs/infra/.
+/docs/mail/
