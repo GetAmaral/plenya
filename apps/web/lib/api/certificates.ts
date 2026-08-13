@@ -47,14 +47,12 @@ export async function listCertificates(): Promise<Certificate[]> {
 export async function uploadCertificate(
   formData: FormData
 ): Promise<UploadCertificateResponse> {
+  // Não setar Content-Type: o browser precisa gerar o boundary do multipart.
+  // Com o header fixo sem boundary, o parser do Fiber não lê os campos e o
+  // backend responde "doctorId and password are required".
   const response = await apiClient.post<UploadCertificateResponse>(
     '/api/v1/admin/certificates/upload',
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }
+    formData
   )
   return response
 }
