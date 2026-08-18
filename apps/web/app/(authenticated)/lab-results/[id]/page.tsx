@@ -1,6 +1,7 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { formatDate } from "@/lib/format-date";
 import {
@@ -15,6 +16,7 @@ import {
   Minus,
   Package,
   ArrowRight,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,6 +38,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { labResultBatchApi, openLabBatchPDF } from "@/lib/api/lab-result-batch-api";
 import { UnmatchedBadge } from "@/components/lab-results/UnmatchedBadge";
 import { UnclassifiedBadge } from "@/components/lab-results/UnclassifiedBadge";
+import { ProcessingStatus } from "@/components/lab-results/ProcessingStatus";
 import { toast } from "sonner";
 
 const statusConfig = {
@@ -52,9 +55,30 @@ export default function LabResultBatchDetailPage() {
   const router = useRouter();
   const batchId = params.id as string;
 
+  const queryClient = useQueryClient();
+  const [reinterpretJobId, setReinterpretJobId] = useState<string | null>(null);
+
   const { data: batch, isLoading } = useQuery({
     queryKey: ["lab-result-batch", batchId],
     queryFn: () => labResultBatchApi.getById(batchId),
+  });
+
+  // Releitura do laudo pela IA: apaga o que veio do PDF (mantém lançamento manual) e
+  // reprocessa. É o caminho para quando o problema está no que foi EXTRAÍDO — reclassificar
+  // não resolve leitura errada.
+  const reinterpretMutation = useMutation({
+    mutationFn: () => labResultBatchApi.reinterpret(batchId),
+    onSuccess: (data) => {
+      toast.success("A IA está relendo o laudo", {
+        description: `${data.removedResults} resultado(s) da leitura anterior foram substituídos.`,
+      });
+      setReinterpretJobId(data.jobId);
+    },
+    onError: (error: any) => {
+      toast.error("Não deu para reinterpretar", {
+        description: error?.message || "Tente novamente",
+      });
+    },
   });
 
   if (isLoading) {
@@ -125,6 +149,14 @@ export default function LabResultBatchDetailPage() {
                     ),
                   variant: "outline" as const,
                 },
+                {
+                  label: reinterpretMutation.isPending
+                    ? "Enviando..."
+                    : "Reinterpretar com IA",
+                  icon: <Sparkles className="h-4 w-4" />,
+                  onClick: () => reinterpretMutation.mutate(),
+                  variant: "outline" as const,
+                },
               ]
             : []),
           {
@@ -192,6 +224,22 @@ export default function LabResultBatchDetailPage() {
       </div>
 
       {/* Observações */}
+      {reinterpretJobId && (
+        <ProcessingStatus
+          jobId={reinterpretJobId}
+          onCompleted={() => {
+            queryClient.invalidateQueries({ queryKey: ["lab-result-batch", batchId] });
+            queryClient.invalidateQueries({ queryKey: ["lab-result-batches"] });
+            toast.success("Laudo reinterpretado");
+            setReinterpretJobId(null);
+          }}
+          onFailed={(error) => {
+            toast.error("A releitura falhou", { description: error });
+            setReinterpretJobId(null);
+          }}
+        />
+      )}
+
       {batch.observations && (
         <Card>
           <CardHeader>
