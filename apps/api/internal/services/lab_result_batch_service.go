@@ -2,7 +2,9 @@ package services
 
 import (
 	"errors"
+	"math"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -933,11 +935,13 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 		var reason *string
 		setReason := func(r string) { rr := r; reason = &rr }
 
+		hasText := result.ResultText != nil && strings.TrimSpace(*result.ResultText) != ""
+
 		switch {
 		case result.LabTestDefinitionID == nil:
 			setReason("Exame não catalogado no sistema")
-		case result.ResultNumeric == nil:
-			setReason("Resultado não numérico (qualitativo/texto)")
+		case result.ResultNumeric == nil && !hasText:
+			setReason("Resultado vazio")
 		default:
 			if result.LabTestDefinition == nil {
 				var def models.LabTestDefinition
@@ -971,15 +975,31 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 				break
 			}
 
-			for _, lvl := range applicable[0].Levels {
-				if lvl.EvaluatesTrue(*result.ResultNumeric) {
-					l := lvl.Level
-					levelToSet = &l
-					break
-				}
+			item := pickScoringItem(applicable)
+			if item == nil {
+				setReason("Exame não entra no escore (item sem faixas configuradas)")
+				break
 			}
-			if levelToSet == nil {
-				setReason("Valor fora das faixas de classificação configuradas")
+
+			if result.ResultNumeric != nil {
+				for _, lvl := range item.Levels {
+					if lvl.EvaluatesTrue(*result.ResultNumeric) {
+						l := lvl.Level
+						levelToSet = &l
+						break
+					}
+				}
+				if levelToSet == nil {
+					setReason("Valor fora das faixas de classificação configuradas")
+				}
+				break
+			}
+
+			// Resultado em texto (sorologia, cultura, etc.): casa com o NOME do nível.
+			if l := matchQualitativeLevel(item.Levels, *result.ResultText); l != nil {
+				levelToSet = l
+			} else {
+				setReason("Resultado em texto não bate com nenhum nível configurado")
 			}
 		}
 
@@ -1136,4 +1156,90 @@ func (s *LabResultBatchService) toInboxItem(batch *models.LabResultBatch) *dto.L
 		TotalResults:   len(batch.LabResults),
 		ReviewedAt:     reviewedAt,
 	}
+}
+
+// pickScoringItem escolhe qual ScoreItem manda quando o mesmo exame tem vários. Um laudo
+// como o IGF-1 tem itens por faixa etária MAIS um item guarda-chuva sem faixa nenhuma;
+// pegar o primeiro da lista deixava o resultado sem nível sempre que o guarda-chuva vinha
+// antes. Regra: só entram itens com faixas; entre eles vence o mais específico (com recorte
+// de idade, e o recorte mais estreito).
+func pickScoringItem(items []models.ScoreItem) *models.ScoreItem {
+	var best *models.ScoreItem
+	bestWidth := math.MaxInt32
+
+	for i := range items {
+		it := &items[i]
+		if len(it.Levels) == 0 {
+			continue
+		}
+
+		width := math.MaxInt32 - 1 // sem recorte de idade: menos específico que qualquer recorte
+		if it.AgeRangeMin != nil || it.AgeRangeMax != nil {
+			min, max := 0, 150
+			if it.AgeRangeMin != nil {
+				min = *it.AgeRangeMin
+			}
+			if it.AgeRangeMax != nil {
+				max = *it.AgeRangeMax
+			}
+			width = max - min
+		}
+
+		if best == nil || width < bestWidth {
+			best, bestWidth = it, width
+		}
+	}
+
+	return best
+}
+
+// qualitativeSynonyms mapeia como os laudos escrevem um resultado qualitativo para o
+// vocabulário usado nos níveis do escore ("Reagente" / "Não-reagente").
+var qualitativeSynonyms = map[string]string{
+	"positivo":       "reagente",
+	"detectavel":     "reagente",
+	"detectado":      "reagente",
+	"presente":       "reagente",
+	"negativo":       "nao reagente",
+	"nao detectavel": "nao reagente",
+	"nao detectado":  "nao reagente",
+	"indetectavel":   "nao reagente",
+	"ausente":        "nao reagente",
+	"nao reagente":   "nao reagente",
+}
+
+// normalizeQualitative deixa o texto comparável: minúsculas, sem acento, sem hífen e com
+// espaços colapsados ("Não-reagente" e "nao reagente" viram a mesma coisa).
+func normalizeQualitative(s string) string {
+	s = strings.ToLower(strings.TrimSpace(s))
+	s = removeAccentsFromString(s)
+	s = strings.ReplaceAll(s, "-", " ")
+	return strings.Join(strings.Fields(s), " ")
+}
+
+// matchQualitativeLevel classifica resultado em texto pelo NOME do nível. Sorologia é o caso
+// típico: os níveis são "Reagente" (0) e "Não-reagente" (5), sem limite numérico nenhum.
+func matchQualitativeLevel(levels []models.ScoreLevel, text string) *int {
+	value := normalizeQualitative(text)
+	if value == "" {
+		return nil
+	}
+
+	match := func(target string) *int {
+		for i := range levels {
+			if normalizeQualitative(levels[i].Name) == target {
+				l := levels[i].Level
+				return &l
+			}
+		}
+		return nil
+	}
+
+	if l := match(value); l != nil {
+		return l
+	}
+	if canonical, ok := qualitativeSynonyms[value]; ok {
+		return match(canonical)
+	}
+	return nil
 }

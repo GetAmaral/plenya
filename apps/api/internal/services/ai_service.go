@@ -453,6 +453,24 @@ Deve extrair:
 - Relação A/G (valor numérico sem unidade)
 - Proteínas totais (g/dL)
 
+## SOROLOGIAS QUALITATIVAS - REGRA ESPECIAL
+
+Exames cujo laudo conclui **Reagente / Não reagente** (HIV, hepatites B e C, sífilis/VDRL,
+Chagas, e IgM/IgG quando o laudo não dá título): o **resultado** é a conclusão em texto
+("Não reagente", "Reagente", "Negativo", "Positivo") — NUNCA o índice/razão numérico do kit.
+O índice, quando existir, vai em valorReferencia junto da faixa impressa.
+
+Exemplo no laudo:
+
+    HIV 1+2 (Anti-HIV).......: 0,268 índice
+    Interpretação............: Não reagente  (não reagente: inferior a 0,90)
+
+Deve extrair:
+
+    [
+      {"nomeExame": "HIV 1+2", "resultado": "Não reagente", "valorReferencia": "não reagente: inferior a 0,90 (índice 0,268)"}
+    ]
+
 ## MICROALBUMINÚRIA - REGRA ESPECIAL
 
 Se encontrar "MICROALBUMINÚRIA" ou "MICROALBUMINURIA", extraia APENAS a relação calculada:
