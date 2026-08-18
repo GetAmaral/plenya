@@ -24,6 +24,14 @@ var (
 	ErrProcessingJobNotFound = errors.New("processing job not found")
 )
 
+// fatalJobError marca uma falha determinística — repetir a mesma chamada daria o mesmo
+// erro. markJobFailed encerra o job na hora em vez de queimar as 3 tentativas (e os
+// tokens) mostrando o mesmo erro ao usuário três vezes.
+type fatalJobError struct{ err error }
+
+func (e fatalJobError) Error() string { return e.err.Error() }
+func (e fatalJobError) Unwrap() error { return e.err }
+
 type ProcessingJobService struct {
 	db                    *gorm.DB
 	ocrService            *OCRService
@@ -150,7 +158,7 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 	fmt.Printf("🔍 [Job %s] Starting OCR extraction...\n", job.ID)
 	ocrText, err := s.ocrService.ExtractText(job.PDFPath)
 	if err != nil {
-		return fmt.Errorf("OCR failed: %v", err)
+		return fmt.Errorf("Não foi possível extrair o texto do PDF. Confirme que o arquivo não está protegido por senha nem corrompido. (%v)", err)
 	}
 
 	// Salvar texto extraído no job
@@ -181,7 +189,12 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 		"\n\n## CONTEÚDO (use para os exames)\n" + cleanedText
 	jsonStr, err := s.aiService.InterpretLabResult(forAI)
 	if err != nil {
-		return fmt.Errorf("AI interpretation failed: %v", err)
+		// Truncagem é determinística: repetir a mesma chamada dá o mesmo resultado.
+		if errors.Is(err, ErrAITruncated) {
+			return fatalJobError{errors.New(
+				"Laudo extenso demais para ser interpretado de uma vez. Divida o PDF em partes menores (por exemplo, um arquivo por página/painel) e envie novamente.")}
+		}
+		return fmt.Errorf("Falha ao interpretar o laudo com a IA. Tente novamente em alguns minutos. (%v)", err)
 	}
 	fmt.Printf("✅ [Job %s] AI extracted data (JSON length: %d chars)\n", job.ID, len(jsonStr))
 
@@ -190,13 +203,13 @@ func (s *ProcessingJobService) processJob(job *models.ProcessingJob) error {
 		Exames []interface{} `json:"exames"`
 	}
 	if err := json.Unmarshal([]byte(jsonStr), &parsed); err != nil {
-		return fmt.Errorf("AI returned unparseable JSON: %v", err)
+		return fmt.Errorf("A IA devolveu uma resposta inválida ao ler o laudo. Tente novamente. (%v)", err)
 	}
 	examCount := len(parsed.Exames)
 	if examCount == 0 {
 		// Extração VAZIA não é sucesso: força falha/retry em vez de marcar "completed"
 		// silenciosamente (causas: OCR sem texto, hiccup da API, saldo de créditos esgotado).
-		return fmt.Errorf("AI extraction returned 0 exams — treating as failure for retry")
+		return fmt.Errorf("A IA não identificou nenhum exame neste PDF. Verifique se o arquivo é um laudo com resultados legíveis (PDF digitalizado sem texto pode não ser lido).")
 	}
 	s.updateProgress(job, models.StepAIComplete, fmt.Sprintf("Conteúdo analisado pela IA - %d exames identificados", examCount))
 
@@ -707,6 +720,11 @@ func (s *ProcessingJobService) markJobCompleted(job *models.ProcessingJob) {
 func (s *ProcessingJobService) markJobFailed(job *models.ProcessingJob, err error) {
 	errMsg := err.Error()
 	job.ErrorMessage = &errMsg
+
+	var fatal fatalJobError
+	if errors.As(err, &fatal) {
+		job.Attempts = job.MaxAttempts
+	}
 
 	if job.Attempts >= job.MaxAttempts {
 		// Atingiu max attempts, marcar como failed definitivo

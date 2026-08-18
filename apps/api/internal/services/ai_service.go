@@ -1,6 +1,7 @@
 package services
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -154,8 +155,13 @@ func min(a, b int) int {
 type AIService struct {
 	apiKey     string
 	model      string
+	labModel   string
 	noteModel  string
 	httpClient *http.Client
+	// labClient é usado só pela extração de laudo, que pode gerar dezenas de milhares de
+	// tokens de saída (ver labExtractionMaxTokens). Roda no worker de processing jobs, fora
+	// do ciclo de request do usuário, então o timeout largo não segura ninguém.
+	labClient *http.Client
 }
 
 // NewAIService cria uma nova instância do serviço de IA
@@ -163,25 +169,56 @@ func NewAIService(cfg *config.Config) *AIService {
 	return &AIService{
 		apiKey:     cfg.Claude.APIKey,
 		model:      cfg.Claude.Model,
+		labModel:   cfg.Claude.LabModel,
 		noteModel:  cfg.Claude.NoteModel,
 		httpClient: &http.Client{Timeout: 180 * time.Second}, // 3 minutos para processar laudos grandes
+		labClient:  &http.Client{Timeout: 10 * time.Minute},
 	}
 }
 
 // IsConfigured retorna true se a CLAUDE_API_KEY está setada.
 func (s *AIService) IsConfigured() bool { return s.apiKey != "" }
 
+// labExtractionMaxTokens é o teto de saída da extração de laudo. Um check-up completo
+// (hemograma + bioquímica + urina + imagem) passa fácil de 200 exames, e cada exame custa
+// ~40-60 tokens no JSON do tool_use. O valor antigo (8192, herdado do Haiku 3) truncava a
+// resposta no meio do array: a API devolve stop_reason=max_tokens e um input parcial que
+// vira "0 exames" — silenciosamente, já que tool_use com JSON incompleto não dá erro HTTP.
+// Os modelos atuais aceitam até 128k de saída e a chamada é em streaming (sem pressão de
+// timeout), então sobra folga: 32k cobre laudo grande + os tokens de thinking, que também
+// contam aqui.
+const labExtractionMaxTokens = 32000
+
+// labExtractionEffort controla quanto o modelo raciocina antes de responder. Ler laudo é
+// transcrição estruturada, não raciocínio aberto: "medium" mantém o cuidado com os casos
+// especiais do prompt (eletroforese, leucograma, urina) sem gastar milhares de tokens de
+// thinking.
+const labExtractionEffort = "medium"
+
+// ErrAITruncated indica que a resposta da IA bateu no teto de max_tokens e veio incompleta.
+// Não adianta repetir a mesma chamada (é determinístico) — o laudo precisa ser dividido.
+var ErrAITruncated = errors.New("ai: resposta truncada por max_tokens")
+
 // InterpretLabResult - interpreta laudo médico via Claude API com structured output
-// Retorna JSON string diretamente com exames extraídos
+// Retorna JSON string diretamente com exames extraídos.
+//
+// Roda em streaming (SSE): com laudo grande a resposta passa de 10k tokens e uma chamada
+// não-streaming ficaria minutos com a conexão parada, sujeita a timeout de infra no meio
+// do caminho. O streaming também dá o stop_reason final de forma confiável.
 func (s *AIService) InterpretLabResult(
 	ocrText string,
 ) (string, error) {
 	prompt := s.buildPrompt(ocrText, nil)
 
+	// Sem "temperature": os modelos atuais (Opus 5 e a família 4.7+) rejeitam parâmetros de
+	// sampling com 400. O que garante extração factual aqui é o schema do tool + o prompt.
 	payload := map[string]interface{}{
-		"model":       s.model,
-		"max_tokens":  8192, // Máximo permitido pelo Haiku (8192)
-		"temperature": 0.2,  // Baixa temperatura para extração factual
+		"model":      s.labModel,
+		"max_tokens": labExtractionMaxTokens,
+		"stream":     true,
+		"output_config": map[string]interface{}{
+			"effort": labExtractionEffort,
+		},
 		"messages": []map[string]string{
 			{"role": "user", "content": prompt},
 		},
@@ -212,59 +249,131 @@ func (s *AIService) InterpretLabResult(
 	req.Header.Set("x-api-key", s.apiKey)
 	req.Header.Set("anthropic-version", "2023-06-01")
 
-	resp, err := s.httpClient.Do(req)
+	start := time.Now()
+	resp, err := s.labClient.Do(req)
 	if err != nil {
 		return "", fmt.Errorf("failed to call Claude API: %v", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
+		// LGPD: o body de erro da Claude pode ecoar trecho do prompt (dado clínico).
 		body, _ := io.ReadAll(resp.Body)
-		return "", fmt.Errorf("claude api error %d: %s", resp.StatusCode, string(body))
+		fmt.Printf("⚠️  Claude InterpretLabResult status=%d size=%d\n", resp.StatusCode, len(body))
+		return "", fmt.Errorf("claude api error %d", resp.StatusCode)
 	}
 
-	var apiResp struct {
-		Content []struct {
-			Type  string          `json:"type"`
-			Input json.RawMessage `json:"input"`
-		} `json:"content"`
-		Usage struct {
-			InputTokens  int `json:"input_tokens"`
-			OutputTokens int `json:"output_tokens"`
-		} `json:"usage"`
-		Model string `json:"model"`
-		ID    string `json:"id"`
-	}
-
-	// Ler body inteiro para debug
-	bodyBytes, err := io.ReadAll(resp.Body)
+	res, err := readToolUseStream(resp.Body, "extract_lab_results")
 	if err != nil {
-		return "", fmt.Errorf("failed to read response body: %v", err)
+		return "", err
 	}
 
-	// LGPD: NÃO logar o body — pode conter valores de exames laboratoriais (dado sensível).
-	// Logamos apenas tamanho da resposta para debug operacional.
-	fmt.Printf("🤖 Claude API Response: %d bytes\n", len(bodyBytes))
+	// LGPD: só metadata — nunca o conteúdo extraído (valores de exames).
+	fmt.Printf("💰 Token Usage - Model: %s, Input: %d tokens, Output: %d tokens, Stop: %s, Latency: %ds\n",
+		res.model, res.inputTokens, res.outputTokens, res.stopReason, int(time.Since(start).Seconds()))
 
-	if err := json.Unmarshal(bodyBytes, &apiResp); err != nil {
-		return "", fmt.Errorf("failed to decode response: %v", err)
+	// Resposta truncada: o tool_use vem com JSON incompleto, o que aparecia downstream como
+	// "0 exames". Falha explícita aqui em vez de gravar um laudo pela metade.
+	if res.stopReason == "max_tokens" {
+		return "", fmt.Errorf("%w (limite de %d tokens de saída)", ErrAITruncated, labExtractionMaxTokens)
 	}
 
-	// Log token usage for cost tracking
-	fmt.Printf("💰 Token Usage - Model: %s, Input: %d tokens, Output: %d tokens, Total: %d tokens\n",
-		apiResp.Model, apiResp.Usage.InputTokens, apiResp.Usage.OutputTokens,
-		apiResp.Usage.InputTokens+apiResp.Usage.OutputTokens)
+	if res.input == "" {
+		return "", fmt.Errorf("no tool_use in response (stop_reason=%s)", res.stopReason)
+	}
+	fmt.Printf("🔍 Tool use input: %d bytes\n", len(res.input))
+	return res.input, nil
+}
 
-	// Extrair resultado do tool_use
-	for _, content := range apiResp.Content {
-		if content.Type == "tool_use" {
-			// LGPD: NÃO logar o conteúdo extraído (contém valores de exames).
-			fmt.Printf("🔍 Tool use input: %d bytes\n", len(content.Input))
-			return string(content.Input), nil
+// streamResult é o que sobra de um stream SSE da Messages API depois de descartar
+// thinking/texto: o JSON do tool_use pedido + a metadata de billing e parada.
+type streamResult struct {
+	input        string
+	model        string
+	stopReason   string
+	inputTokens  int
+	outputTokens int
+}
+
+// readToolUseStream consome o SSE da Messages API e remonta o input JSON do tool_use de
+// nome toolName (que chega em pedaços via input_json_delta). Blocos de thinking e texto são
+// ignorados de propósito — com tool_choice forçado, o dado está no tool_use.
+func readToolUseStream(body io.Reader, toolName string) (streamResult, error) {
+	var res streamResult
+	var jsonParts strings.Builder
+	capturing := false
+
+	sc := bufio.NewScanner(body)
+	// Um input_json_delta é pequeno, mas um bloco de thinking pode vir gordo numa linha só.
+	sc.Buffer(make([]byte, 0, 64*1024), 8*1024*1024)
+
+	for sc.Scan() {
+		line := sc.Text()
+		if !strings.HasPrefix(line, "data: ") {
+			continue // linhas "event:" e brancas não carregam payload
+		}
+
+		var ev struct {
+			Type         string `json:"type"`
+			Index        int    `json:"index"`
+			ContentBlock struct {
+				Type string `json:"type"`
+				Name string `json:"name"`
+			} `json:"content_block"`
+			Delta struct {
+				Type        string `json:"type"`
+				PartialJSON string `json:"partial_json"`
+				StopReason  string `json:"stop_reason"`
+			} `json:"delta"`
+			Message struct {
+				Model string `json:"model"`
+				Usage struct {
+					InputTokens  int `json:"input_tokens"`
+					OutputTokens int `json:"output_tokens"`
+				} `json:"usage"`
+			} `json:"message"`
+			Usage struct {
+				OutputTokens int `json:"output_tokens"`
+			} `json:"usage"`
+			Error struct {
+				Type    string `json:"type"`
+				Message string `json:"message"`
+			} `json:"error"`
+		}
+		if err := json.Unmarshal([]byte(strings.TrimPrefix(line, "data: ")), &ev); err != nil {
+			continue // evento desconhecido/parcial: ignora em vez de derrubar a extração
+		}
+
+		switch ev.Type {
+		case "message_start":
+			res.model = ev.Message.Model
+			res.inputTokens = ev.Message.Usage.InputTokens
+		case "content_block_start":
+			capturing = ev.ContentBlock.Type == "tool_use" && ev.ContentBlock.Name == toolName
+		case "content_block_delta":
+			if capturing && ev.Delta.Type == "input_json_delta" {
+				jsonParts.WriteString(ev.Delta.PartialJSON)
+			}
+		case "content_block_stop":
+			capturing = false
+		case "message_delta":
+			if ev.Delta.StopReason != "" {
+				res.stopReason = ev.Delta.StopReason
+			}
+			if ev.Usage.OutputTokens > 0 {
+				res.outputTokens = ev.Usage.OutputTokens
+			}
+		case "error":
+			// LGPD: a mensagem da API pode ecoar o prompt — só o tipo do erro vai pro log.
+			return res, fmt.Errorf("%w: stream error (%s)", ErrAIUpstream, ev.Error.Type)
 		}
 	}
+	if err := sc.Err(); err != nil {
+		return res, fmt.Errorf("%w: stream interrompido: %v", ErrAIUpstream, err)
+	}
 
-	return "", fmt.Errorf("no tool_use in response")
+	res.input = jsonParts.String()
+	return res, nil
 }
 
 // buildPrompt - prompt otimizado para extração médica estruturada
