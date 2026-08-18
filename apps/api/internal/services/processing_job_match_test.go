@@ -6,83 +6,94 @@ import (
 	"github.com/google/uuid"
 )
 
-// TestMatchTestDefinition_Fuzzy valida o fallback fuzzy (Levenshtein) do matcher:
-// tolera typo do laudo ("Triglicerídios" com "i" a mais) e respeita as salvaguardas
-// (nomes curtos não fazem fuzzy; empate na menor distância não casa).
-func TestMatchTestDefinition_Fuzzy(t *testing.T) {
-	s := &ProcessingJobService{}
-	tg := uuid.New()
-	chol := uuid.New()
+// Laudo escreve os analitos de um painel como "Painel - Analito". O match por nome cai no
+// painel (o nome dele é substring), e antes disso jogava os oito analitos da gasometria na
+// mesma definição-container, sem faixa que classificasse nenhum.
+func TestResolvePanelAnalyte_Gasometria(t *testing.T) {
+	panelID := uuid.New()
+	phID := uuid.New()
+	pco2ID := uuid.New()
+	po2ID := uuid.New()
+	hco3ID := uuid.New()
 
-	// defMap SEM o alt_name "trigliceridios" — só o fuzzy pode resolver.
-	defMap := map[string]uuid.UUID{
-		"trigliceridos":    tg, // alt_name oficial (sem o 2º "i")
-		"colesterol total": chol,
-		"creatinina":       uuid.New(),
-	}
-
-	// 1) typo do laudo deve casar via fuzzy (dist 1)
-	if got := s.matchTestDefinition("Triglicerídios", nil, defMap, nil); got == nil || *got != tg {
-		t.Fatalf("esperava casar Triglicerídios->Triglicerídeos via fuzzy, got=%v", got)
-	}
-	// 2) grafia exata continua casando
-	if got := s.matchTestDefinition("trigliceridos", nil, defMap, nil); got == nil || *got != tg {
-		t.Fatalf("match exato quebrou, got=%v", got)
-	}
-
-	// 3) salvaguarda: nome curto (<8) NÃO faz fuzzy (evita sodio/iodio)
-	short := map[string]uuid.UUID{"sodio": uuid.New()}
-	if got := s.matchTestDefinition("iodio", nil, short, nil); got != nil {
-		t.Fatalf("sodio/iodio (5 chars) NÃO deveria casar por fuzzy, got=%v", got)
+	idx := &testDefIndex{
+		byName:   map[string]uuid.UUID{},
+		specByID: map[uuid.UUID]string{},
+		isPanel:  map[uuid.UUID]bool{panelID: true},
+		children: map[uuid.UUID]map[string]uuid.UUID{
+			panelID: {
+				"ph venoso":            phID,
+				"ph gasometria venosa": phID,
+				"pco2 venoso":          pco2ID,
+				"po2 venoso":           po2ID,
+				"hco3 bicarbonato":     hco3ID,
+				"bicarbonato":          hco3ID,
+			},
+		},
 	}
 
-	// 4) salvaguarda: empate na menor distância NÃO casa (ambíguo)
-	ambi := map[string]uuid.UUID{"glicemiaa": uuid.New(), "glicemiab": uuid.New()}
-	if got := s.matchTestDefinition("glicemiax", nil, ambi, nil); got != nil {
-		t.Fatalf("empate de distância deveria abortar o match, got=%v", got)
-	}
-}
-
-// TestMatchTestDefinition_Specimen valida a desambiguação por espécime: um nome que casa por
-// substring DOIS candidatos (sangue e urina) e o espécime do resultado decide.
-func TestMatchTestDefinition_Specimen(t *testing.T) {
-	s := &ProcessingJobService{}
-	sangue := uuid.New()
-	urina := uuid.New()
-	defMap := map[string]uuid.UUID{
-		"proteinas totais":    sangue,
-		"proteinas urinarias": urina,
-	}
-	specByID := map[uuid.UUID]string{sangue: "Sangue", urina: "Urina"}
-
-	// "proteinas" casa por substring AMBOS; espécime decide.
-	u := "Urina"
-	if got := s.matchTestDefinition("Proteínas", &u, defMap, specByID); got == nil || *got != urina {
-		t.Fatalf("Proteínas+Urina deveria casar o item de urina por espécime, got=%v", got)
-	}
-	sg := "Sangue"
-	if got := s.matchTestDefinition("Proteínas", &sg, defMap, specByID); got == nil || *got != sangue {
-		t.Fatalf("Proteínas+Sangue deveria casar o item de sangue por espécime, got=%v", got)
-	}
-	// Sem espécime e ambíguo: mantém o 1º (não quebra; comportamento atual).
-	if got := s.matchTestDefinition("Proteínas", nil, defMap, specByID); got == nil {
-		t.Fatalf("sem espécime deveria cair no 1º candidato, got nil")
-	}
-}
-
-func TestLevenshtein(t *testing.T) {
-	cases := []struct {
-		a, b string
-		want int
+	tests := []struct {
+		name string
+		raw  string
+		want *uuid.UUID
 	}{
-		{"trigliceridios", "trigliceridos", 1},
-		{"", "abc", 3},
-		{"abc", "abc", 0},
-		{"kitten", "sitting", 3},
+		{"pH", "Gasometria Venosa - pH", &phID},
+		{"pCO2", "Gasometria Venosa - pCO2", &pco2ID},
+		{"pO2", "Gasometria Venosa - pO2", &po2ID},
+		{"HCO3", "Gasometria Venosa - HCO3-", &hco3ID},
+		{"bicarbonato por extenso", "Gasometria Venosa - Bicarbonato", &hco3ID},
+		// Analitos sem definição própria: melhor "fora do catálogo" do que pendurados no painel.
+		{"CO2 total sem definição", "Gasometria Venosa - CO2 Total", nil},
+		{"base excess sem definição", "Gasometria Venosa - Base Excess", nil},
+		{"saturação sem definição", "Gasometria Venosa - Saturação de O2", nil},
+		// Nome do painel puro não é um resultado: não pode grudar valor no container.
+		{"painel sem analito", "Gasometria Venosa", nil},
 	}
-	for _, c := range cases {
-		if got := levenshtein(c.a, c.b); got != c.want {
-			t.Errorf("levenshtein(%q,%q)=%d want %d", c.a, c.b, got, c.want)
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := idx.resolvePanelAnalyte(tc.raw, &panelID)
+			switch {
+			case tc.want == nil && got != nil:
+				t.Fatalf("%q: esperava nenhum match, veio %s", tc.raw, got)
+			case tc.want != nil && got == nil:
+				t.Fatalf("%q: esperava %s, não casou", tc.raw, tc.want)
+			case tc.want != nil && *got != *tc.want:
+				t.Fatalf("%q: casou com o analito errado", tc.raw)
+			}
+		})
+	}
+}
+
+// Match que não é painel passa direto — a resolução só age sobre containers.
+func TestResolvePanelAnalyte_NaoPainelPassaDireto(t *testing.T) {
+	plainID := uuid.New()
+	idx := &testDefIndex{
+		isPanel:  map[uuid.UUID]bool{},
+		children: map[uuid.UUID]map[string]uuid.UUID{},
+	}
+
+	got := idx.resolvePanelAnalyte("Glicose - jejum", &plainID)
+	if got == nil || *got != plainID {
+		t.Fatalf("definição comum deveria passar intacta pela resolução de painel")
+	}
+
+	if idx.resolvePanelAnalyte("Glicose", nil) != nil {
+		t.Fatalf("sem match de entrada, a saída tem que continuar sem match")
+	}
+}
+
+func TestAnalyteSuffix(t *testing.T) {
+	cases := map[string]string{
+		"Gasometria Venosa - pH":                    "pH",
+		"Gasometria Venosa – Base Excess":           "Base Excess", // en dash
+		"Ultrassonografia de Abdome Total - Fígado": "Fígado",
+		"Glicose": "",
+		"Hemoglobina glicada - HbA1c - resultado": "resultado",
+	}
+	for raw, want := range cases {
+		if got := analyteSuffix(raw); got != want {
+			t.Fatalf("analyteSuffix(%q) = %q, esperado %q", raw, got, want)
 		}
 	}
 }

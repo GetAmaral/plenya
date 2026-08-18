@@ -144,6 +144,16 @@ export const labResultBatchApi = {
   classify: async (batchId: string): Promise<{ message: string; batchId: string }> => {
     return apiClient.post<{ message: string; batchId: string }>(`/api/v1/lab-result-batches/${batchId}/classify`, {})
   },
+
+  /**
+   * Manda a IA reler o PDF original do lote. Apaga os resultados vindos do PDF (mantém os
+   * lançados à mão) e recria a partir da nova extração. Devolve o jobId para acompanhar.
+   */
+  reinterpret: async (
+    batchId: string
+  ): Promise<{ message: string; jobId: string; batchId: string; removedResults: number }> => {
+    return apiClient.post(`/api/v1/lab-result-batches/${batchId}/reinterpret`, {})
+  },
 }
 
 /** Abre o PDF original do laudo importado numa nova aba (autenticado). */

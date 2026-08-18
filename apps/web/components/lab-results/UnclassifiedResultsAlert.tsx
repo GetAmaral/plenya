@@ -2,90 +2,162 @@
 
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AlertCircle, RefreshCw } from "lucide-react";
+import {
+  AlertCircle,
+  ChevronDown,
+  ChevronRight,
+  FileText,
+  RefreshCw,
+  Sparkles,
+} from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { labResultBatchApi } from "@/lib/api/lab-result-batch-api";
+import {
+  labResultBatchApi,
+  openLabBatchPDF,
+} from "@/lib/api/lab-result-batch-api";
+import { ProcessingStatus } from "@/components/lab-results/ProcessingStatus";
 import { toast } from "sonner";
+
+interface AlertLabResult {
+  id: string;
+  testName: string;
+  labTestDefinition?: { name: string } | null;
+  resultNumeric?: number | null;
+  resultText?: string | null;
+  unit?: string | null;
+  labTestDefinitionId?: string | null;
+  level?: number | null;
+  classifyReason?: string | null;
+  matchReason?: string | null;
+}
 
 interface UnclassifiedResultsAlertProps {
   batches: Array<{
     id: string;
     laboratoryName: string;
     collectionDate: string;
-    labResults: Array<{
-      id: string;
-      testName: string;
-      resultNumeric?: number | null;
-      labTestDefinitionId?: string | null;
-      level?: number | null;
-    }>;
+    hasPdf?: boolean;
+    labResults: AlertLabResult[];
   }>;
+}
+
+/**
+ * Nem todo "sem nível" é pendência. Dois casos são decisão do sistema, não trabalho parado:
+ * o exame não se aplica ao paciente (sexo/idade/menopausa) e o exame não entra no escore
+ * (sem ScoreItem configurado). Contá-los fazia o aviso nunca zerar, com um botão Classificar
+ * que não tinha o que resolver. Eles continuam visíveis na lista expandida, com o motivo.
+ */
+function isInformationalReason(result: AlertLabResult) {
+  const reason = (result.classifyReason ?? "").toLowerCase();
+  return (
+    reason.startsWith("não se aplica") || reason.includes("não entra no escore")
+  );
+}
+
+function isUnclassified(result: AlertLabResult) {
+  return (
+    result.resultNumeric != null &&
+    result.labTestDefinitionId != null &&
+    result.level == null &&
+    !isInformationalReason(result)
+  );
+}
+
+/** Sem nível por decisão do sistema — listado como contexto, fora da contagem de pendências. */
+function isInformational(result: AlertLabResult) {
+  return (
+    result.labTestDefinitionId != null &&
+    result.level == null &&
+    isInformationalReason(result)
+  );
+}
+
+/** Exame que a IA leu mas não achou no catálogo — fica fora do escore. */
+function isUnmatched(result: AlertLabResult) {
+  return result.labTestDefinitionId == null;
+}
+
+function resultName(result: AlertLabResult) {
+  return result.labTestDefinition?.name || result.testName || "(sem nome)";
+}
+
+function resultValue(result: AlertLabResult) {
+  const value =
+    result.resultNumeric != null
+      ? String(result.resultNumeric)
+      : result.resultText ?? "";
+  return [value, result.unit].filter(Boolean).join(" ");
 }
 
 export function UnclassifiedResultsAlert({
   batches,
 }: UnclassifiedResultsAlertProps) {
   const queryClient = useQueryClient();
-  const [classifyingBatchId, setClassifyingBatchId] = useState<string | null>(
-    null
-  );
+  const [busyBatchId, setBusyBatchId] = useState<string | null>(null);
+  const [expandedBatchId, setExpandedBatchId] = useState<string | null>(null);
+  const [reinterpretJob, setReinterpretJob] = useState<{
+    batchId: string;
+    jobId: string;
+  } | null>(null);
 
-  const unclassifiedStats = batches.reduce(
-    (acc, batch) => {
-      const unclassifiedInBatch = batch.labResults.filter(
-        (result) =>
-          result.resultNumeric != null &&
-          result.labTestDefinitionId != null &&
-          result.level == null
-      );
+  const pendingBatches = batches
+    .map((batch) => ({
+      batch,
+      unclassified: batch.labResults.filter(isUnclassified),
+      unmatched: batch.labResults.filter(isUnmatched),
+      informational: batch.labResults.filter(isInformational),
+    }))
+    .filter((entry) => entry.unclassified.length > 0);
 
-      if (unclassifiedInBatch.length > 0) {
-        acc.batchesWithUnclassified.push({
-          batchId: batch.id,
-          laboratoryName: batch.laboratoryName,
-          collectionDate: batch.collectionDate,
-          unclassifiedCount: unclassifiedInBatch.length,
-        });
-        acc.totalUnclassified += unclassifiedInBatch.length;
-      }
-
-      return acc;
-    },
-    {
-      batchesWithUnclassified: [] as Array<{
-        batchId: string;
-        laboratoryName: string;
-        collectionDate: string;
-        unclassifiedCount: number;
-      }>,
-      totalUnclassified: 0,
-    }
+  const totalUnclassified = pendingBatches.reduce(
+    (sum, entry) => sum + entry.unclassified.length,
+    0
   );
 
   const classifyMutation = useMutation({
-    mutationFn: async (batchId: string) => {
-      return labResultBatchApi.classify(batchId);
-    },
-    onSuccess: (_, batchId) => {
-      toast.success("Lote classificado com sucesso");
+    mutationFn: (batchId: string) => labResultBatchApi.classify(batchId),
+    onSuccess: () => {
+      toast.success("Lote reclassificado");
       queryClient.invalidateQueries({ queryKey: ["lab-result-batches"] });
-      setClassifyingBatchId(null);
+      setBusyBatchId(null);
     },
     onError: (error: any) => {
       toast.error("Erro ao classificar lote", {
-        description: error.message || "Tente novamente",
+        description: error?.message || "Tente novamente",
       });
-      setClassifyingBatchId(null);
+      setBusyBatchId(null);
+    },
+  });
+
+  const reinterpretMutation = useMutation({
+    mutationFn: (batchId: string) => labResultBatchApi.reinterpret(batchId),
+    onSuccess: (data, batchId) => {
+      toast.success("A IA está relendo o laudo", {
+        description: `${data.removedResults} resultado(s) da leitura anterior foram substituídos.`,
+      });
+      setReinterpretJob({ batchId, jobId: data.jobId });
+      setBusyBatchId(null);
+    },
+    onError: (error: any) => {
+      toast.error("Não deu para reinterpretar", {
+        description: error?.message || "Tente novamente",
+      });
+      setBusyBatchId(null);
     },
   });
 
   const handleClassify = (batchId: string) => {
-    setClassifyingBatchId(batchId);
+    setBusyBatchId(batchId);
     classifyMutation.mutate(batchId);
   };
 
-  if (unclassifiedStats.totalUnclassified === 0) {
+  const handleReinterpret = (batchId: string) => {
+    setBusyBatchId(batchId);
+    reinterpretMutation.mutate(batchId);
+  };
+
+  if (totalUnclassified === 0 && !reinterpretJob) {
     return null;
   }
 
@@ -97,53 +169,195 @@ export function UnclassifiedResultsAlert({
       </AlertTitle>
       <AlertDescription className="text-orange-800">
         <p className="mb-3">
-          Há <strong>{unclassifiedStats.totalUnclassified} resultados</strong>{" "}
-          em <strong>{unclassifiedStats.batchesWithUnclassified.length} lotes</strong> que ainda não foram
-          classificados em níveis de risco.
+          Há <strong>{totalUnclassified} resultados</strong> em{" "}
+          <strong>{pendingBatches.length} lote(s)</strong> que ainda não foram
+          classificados em níveis de risco. Abra o lote para ver quais são e o
+          motivo de cada um.
         </p>
 
-        <div className="space-y-2">
-          {unclassifiedStats.batchesWithUnclassified.map((batch) => (
-            <div
-              key={batch.batchId}
-              className="flex items-center justify-between rounded-md border border-orange-200 bg-white p-2"
-            >
-              <div className="flex-1">
-                <p className="text-sm font-medium text-foreground">
-                  {batch.laboratoryName}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {new Date(batch.collectionDate).toLocaleDateString("pt-BR")} •{" "}
-                  {batch.unclassifiedCount} resultado(s) não classificado(s)
-                </p>
-              </div>
+        {/* Progresso da releitura fica fora da lista: quando a IA termina, o lote pode
+            sair da lista de pendentes e o acompanhamento sumiria no meio do caminho. */}
+        {reinterpretJob && (
+          <div className="mb-3">
+            <ProcessingStatus
+              jobId={reinterpretJob.jobId}
+              onCompleted={() => {
+                queryClient.invalidateQueries({
+                  queryKey: ["lab-result-batches"],
+                });
+                toast.success("Laudo reinterpretado");
+                setReinterpretJob(null);
+              }}
+              onFailed={(error) => {
+                toast.error("A releitura falhou", { description: error });
+                setReinterpretJob(null);
+              }}
+            />
+          </div>
+        )}
 
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => handleClassify(batch.batchId)}
-                disabled={classifyingBatchId === batch.batchId}
-                className="ml-2"
+        <div className="space-y-2">
+          {pendingBatches.map(({ batch, unclassified, unmatched, informational }) => {
+            const expanded = expandedBatchId === batch.id;
+            const busy = busyBatchId === batch.id;
+
+            return (
+              <div
+                key={batch.id}
+                className="rounded-md border border-orange-200 bg-white"
               >
-                {classifyingBatchId === batch.batchId ? (
-                  <>
-                    <RefreshCw className="mr-1 h-3 w-3 animate-spin" />
-                    Classificando...
-                  </>
-                ) : (
-                  <>
-                    <RefreshCw className="mr-1 h-3 w-3" />
-                    Classificar
-                  </>
+                <div className="flex flex-wrap items-center justify-between gap-2 p-2">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setExpandedBatchId(expanded ? null : batch.id)
+                    }
+                    className="flex flex-1 items-center gap-2 text-left"
+                    aria-expanded={expanded}
+                  >
+                    {expanded ? (
+                      <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    ) : (
+                      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    )}
+                    <span className="flex-1">
+                      <span className="block text-sm font-medium text-foreground">
+                        {batch.laboratoryName}
+                      </span>
+                      <span className="block text-xs text-muted-foreground">
+                        {new Date(batch.collectionDate).toLocaleDateString(
+                          "pt-BR"
+                        )}{" "}
+                        • {unclassified.length} sem nível
+                        {unmatched.length > 0 &&
+                          ` • ${unmatched.length} fora do catálogo`}
+                        {informational.length > 0 &&
+                          ` • ${informational.length} fora do escore`}
+                      </span>
+                    </span>
+                  </button>
+
+                  <div className="flex items-center gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleClassify(batch.id)}
+                      disabled={busy}
+                    >
+                      <RefreshCw
+                        className={`mr-1 h-3 w-3 ${
+                          busy && classifyMutation.isPending
+                            ? "animate-spin"
+                            : ""
+                        }`}
+                      />
+                      Classificar
+                    </Button>
+
+                    {batch.hasPdf !== false && (
+                      <>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleReinterpret(batch.id)}
+                          disabled={busy}
+                          title="Apaga os resultados vindos do PDF e manda a IA reler o laudo original"
+                        >
+                          <Sparkles className="mr-1 h-3 w-3" />
+                          Reinterpretar com IA
+                        </Button>
+
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => {
+                            openLabBatchPDF(batch.id).catch(() =>
+                              toast.error("Não foi possível abrir o PDF original")
+                            );
+                          }}
+                          title="Abre o laudo original em PDF para conferir o que o laboratório reportou"
+                        >
+                          <FileText className="mr-1 h-3 w-3" />
+                          Ver PDF
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {expanded && (
+                  <div className="overflow-x-auto border-t border-orange-100 p-2">
+                    <table className="w-full min-w-[420px] text-left text-xs">
+                      <thead className="text-muted-foreground">
+                        <tr>
+                          <th className="py-1 pr-2 font-medium">Exame</th>
+                          <th className="py-1 pr-2 font-medium">Resultado</th>
+                          <th className="py-1 font-medium">Motivo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {unclassified.map((result) => (
+                          <tr
+                            key={result.id}
+                            className="border-t border-orange-50"
+                          >
+                            <td className="py-1 pr-2 font-medium text-foreground">
+                              {resultName(result)}
+                            </td>
+                            <td className="py-1 pr-2 tabular-nums">
+                              {resultValue(result)}
+                            </td>
+                            <td className="py-1 text-muted-foreground">
+                              {result.classifyReason ||
+                                "Sem faixa configurada para este exame"}
+                            </td>
+                          </tr>
+                        ))}
+                        {unmatched.map((result) => (
+                          <tr
+                            key={result.id}
+                            className="border-t border-orange-50"
+                          >
+                            <td className="py-1 pr-2 font-medium text-foreground">
+                              {resultName(result)}
+                            </td>
+                            <td className="py-1 pr-2 tabular-nums">
+                              {resultValue(result)}
+                            </td>
+                            <td className="py-1 text-muted-foreground">
+                              {result.matchReason ||
+                                "Não encontrado no catálogo de exames"}
+                            </td>
+                          </tr>
+                        ))}
+                        {informational.map((result) => (
+                          <tr
+                            key={result.id}
+                            className="border-t border-orange-50 text-muted-foreground"
+                          >
+                            <td className="py-1 pr-2 font-medium">
+                              {resultName(result)}
+                            </td>
+                            <td className="py-1 pr-2 tabular-nums">
+                              {resultValue(result)}
+                            </td>
+                            <td className="py-1">{result.classifyReason}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
-              </Button>
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
 
         <p className="mt-3 text-xs text-orange-700">
-          A classificação automática usa os Score Items configurados para
-          determinar o nível de risco baseado nos valores dos exames.
+          &quot;Classificar&quot; reaplica os Score Items configurados sobre os
+          valores já lidos. &quot;Reinterpretar com IA&quot; volta ao PDF
+          original e refaz a leitura — use quando o problema for o que foi
+          extraído, não a faixa de risco.
         </p>
       </AlertDescription>
     </Alert>

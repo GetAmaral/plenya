@@ -637,6 +637,91 @@ func (h *LabResultBatchHandler) UploadPDF(c *fiber.Ctx) error {
 	})
 }
 
+// Reinterpret manda a IA reler o PDF original do lote e refazer os resultados.
+// @Summary Reinterpretar o laudo do lote com IA
+// @Description Enfileira uma nova leitura do PDF original: apaga os resultados que vieram do PDF (mantém os manuais) e recria a partir da extração. Devolve o jobId para acompanhar o progresso.
+// @Tags LabResultBatch
+// @Produce json
+// @Param id path string true "ID do lote"
+// @Success 202 {object} map[string]interface{} "Reinterpretation queued"
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse "lote não encontrado ou sem PDF original"
+// @Failure 500 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /lab-result-batches/{id}/reinterpret [post]
+func (h *LabResultBatchHandler) Reinterpret(c *fiber.Ctx) error {
+	batchID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid batch id",
+			Message: err.Error(),
+		})
+	}
+
+	userID := middleware.GetUserID(c)
+
+	// GetPDFPath já valida ownership + paciente selecionado e confere se o arquivo existe.
+	pdfPath, err := h.labResultBatchService.GetPDFPath(batchID, userID)
+	if err != nil {
+		switch {
+		case errors.Is(err, services.ErrLabResultBatchNotFound):
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error:   "lab result batch not found",
+				Message: err.Error(),
+			})
+		case errors.Is(err, services.ErrLabResultBatchPDFNotFound):
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error:   "no original pdf",
+				Message: "Este lote não tem PDF original guardado — só dá para reinterpretar lotes importados por PDF.",
+			})
+		case errors.Is(err, services.ErrNoPatientSelected):
+			return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+				Error:   "no patient selected",
+				Message: err.Error(),
+			})
+		case errors.Is(err, services.ErrPatientMismatch):
+			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{
+				Error:   "access denied",
+				Message: err.Error(),
+			})
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to get lab result batch",
+			Message: err.Error(),
+		})
+	}
+
+	// Sem isso a releitura duplicaria cada exame. Só os do PDF saem; manuais ficam.
+	deletedAt := time.Now()
+	removed, err := h.labResultBatchService.DeletePDFResultsForReinterpret(batchID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to clear previous results",
+			Message: err.Error(),
+		})
+	}
+
+	job, err := h.processingJobService.Create(batchID, pdfPath)
+	if err != nil {
+		// Sem job não haverá releitura — devolve os resultados apagados em vez de deixar
+		// o lote vazio por causa de uma falha nossa.
+		if restoreErr := h.labResultBatchService.RestorePDFResultsDeletedSince(batchID, deletedAt); restoreErr != nil {
+			fmt.Printf("⚠️  reinterpret: falha ao restaurar resultados do lote %s: %v\n", batchID, restoreErr)
+		}
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "failed to create processing job",
+			Message: err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusAccepted).JSON(fiber.Map{
+		"message":        "Reinterpretação enfileirada",
+		"jobId":          job.ID,
+		"batchId":        batchID,
+		"removedResults": removed,
+	})
+}
+
 // Classify re-classifica todos os resultados de um batch baseado nos ScoreItems
 // @Summary Re-classificar resultados do lote
 // @Description Re-classifica automaticamente os resultados de um batch baseado nos ScoreItems configurados

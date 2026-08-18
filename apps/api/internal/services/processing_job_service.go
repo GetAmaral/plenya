@@ -347,27 +347,22 @@ func (s *ProcessingJobService) createLabResultsFromJSON(
 		return 0, 0, fmt.Errorf("failed to load test definitions: %v", err)
 	}
 
-	// Criar mapa para busca rápida + mapa de espécime por definição (desambiguação no match)
-	testDefMap := s.buildTestDefinitionMap(testDefinitions)
-	specByID := make(map[uuid.UUID]string, len(testDefinitions))
-	for _, def := range testDefinitions {
-		if def.SpecimenType != nil && *def.SpecimenType != "" {
-			specByID[def.ID] = *def.SpecimenType
-		}
-	}
+	// Índice de busca: nomes → id, espécime por definição e a relação painel → analitos
+	testDefIdx := s.buildTestDefIndex(testDefinitions)
 
 	matchedCount := 0
 	unmatchedCount := 0
 
-	// Deletar resultados existentes do batch (se houver)
-	s.db.Where("lab_result_batch_id = ?", batchID).Delete(&models.LabResult{})
+	// Deletar os resultados da leitura anterior do PDF. Escopado por source: o que foi
+	// lançado à mão no lote não pode ser varrido por uma releitura.
+	s.db.Where("lab_result_batch_id = ? AND source = ?", batchID, "pdf").Delete(&models.LabResult{})
 
 	// Criar LabResult para cada exame extraído
 	for _, exam := range extracted.Exames {
 		// Espécime normalizado (Sangue/Urina/...) — usado no match e gravado no result
 		specimen := normalizeSpecimen(exam.Material)
 		// Tentar fazer match com definição de teste (desempatando por espécime)
-		testDefID := s.matchTestDefinition(exam.NomeExame, specimen, testDefMap, specByID)
+		testDefID := s.matchTestDefinition(exam.NomeExame, specimen, testDefIdx)
 
 		// Tentar converter resultado para numérico primeiro
 		var resultNumeric *float64
@@ -461,11 +456,114 @@ func (s *ProcessingJobService) buildTestDefinitionMap(testDefs []models.LabTestD
 	return defMap
 }
 
+// testDefIndex reúne os índices usados no match de um nome extraído com o catálogo.
+// Além do mapa nome→id, guarda quem é PAINEL (definição que tem filhas, ex.: "Gasometria
+// venosa") e o índice das filhas de cada painel — necessário porque o laudo escreve os
+// analitos como "Painel - Analito".
+type testDefIndex struct {
+	byName   map[string]uuid.UUID
+	specByID map[uuid.UUID]string
+	isPanel  map[uuid.UUID]bool
+	children map[uuid.UUID]map[string]uuid.UUID
+}
+
+func (s *ProcessingJobService) buildTestDefIndex(testDefs []models.LabTestDefinition) *testDefIndex {
+	idx := &testDefIndex{
+		byName:   s.buildTestDefinitionMap(testDefs),
+		specByID: make(map[uuid.UUID]string, len(testDefs)),
+		isPanel:  make(map[uuid.UUID]bool),
+		children: make(map[uuid.UUID]map[string]uuid.UUID),
+	}
+
+	for _, def := range testDefs {
+		if def.SpecimenType != nil && *def.SpecimenType != "" {
+			idx.specByID[def.ID] = *def.SpecimenType
+		}
+		if def.ParentTestID == nil {
+			continue
+		}
+		parent := *def.ParentTestID
+		idx.isPanel[parent] = true
+		if idx.children[parent] == nil {
+			idx.children[parent] = make(map[string]uuid.UUID)
+		}
+		idx.children[parent][normalizeTestName(def.Name)] = def.ID
+		if def.ShortName != nil && *def.ShortName != "" {
+			idx.children[parent][normalizeTestName(*def.ShortName)] = def.ID
+		}
+		for _, alt := range def.AltNames {
+			if alt != "" {
+				idx.children[parent][normalizeTestName(alt)] = def.ID
+			}
+		}
+	}
+
+	return idx
+}
+
+// analyteSuffix devolve o que vem depois do último " - " do nome cru ("Gasometria Venosa -
+// pH" → "pH"). Vazio quando o nome não tem esse formato.
+func analyteSuffix(rawName string) string {
+	name := strings.ReplaceAll(rawName, "–", "-") // en dash que alguns laudos usam
+	i := strings.LastIndex(name, " - ")
+	if i < 0 {
+		return ""
+	}
+	return strings.TrimSpace(name[i+3:])
+}
+
+// resolvePanelAnalyte corrige o match quando o nome extraído caiu no PAINEL em vez de no
+// analito. Sem isso, "Gasometria Venosa - pH", "- pCO2", "- HCO3" etc. casavam todos com a
+// definição-container "Gasometria venosa" — que não tem faixa nenhuma — e os oito analitos
+// ficavam sem nível, enquanto as definições-filhas (com escore configurado) ficavam vazias.
+// Sem analito identificável devolve nil: melhor o exame aparecer como "fora do catálogo" do
+// que pendurar um valor num container errado.
+func (idx *testDefIndex) resolvePanelAnalyte(rawName string, matched *uuid.UUID) *uuid.UUID {
+	if matched == nil || !idx.isPanel[*matched] {
+		return matched
+	}
+
+	analyte := normalizeTestName(analyteSuffix(rawName))
+	if len(analyte) < 2 {
+		return nil
+	}
+
+	kids := idx.children[*matched]
+	if id, ok := kids[analyte]; ok {
+		return &id
+	}
+
+	// Substring restrita às filhas DESTE painel — seguro mesmo com analito curto ("ph"),
+	// porque o universo já está limitado aos exames desse laudo-painel.
+	var found *uuid.UUID
+	for name, id := range kids {
+		if !containsSubstring(name, analyte) && !containsSubstring(analyte, name) {
+			continue
+		}
+		if found != nil && *found != id {
+			return nil // ambíguo: não chuta
+		}
+		candidate := id
+		found = &candidate
+	}
+	return found
+}
+
 // matchTestDefinition - busca a melhor definição para um exame. Quando há mais de um candidato
 // e o resultado tem espécime conhecido, prefere o candidato cujo specimen_type casa — desambigua
 // exames de mesmo nome em espécimes diferentes (ex.: glicose sangue vs urina). `specByID` mapeia
 // id da definição -> specimen_type; `specimen` é o espécime normalizado do resultado.
 func (s *ProcessingJobService) matchTestDefinition(
+	examName string,
+	specimen *string,
+	idx *testDefIndex,
+) *uuid.UUID {
+	return idx.resolvePanelAnalyte(examName, s.matchTestDefinitionByName(examName, specimen, idx.byName, idx.specByID))
+}
+
+// matchTestDefinitionByName - match puro por nome (exato → substring → fuzzy), sem a
+// resolução de painel/analito que matchTestDefinition aplica por cima.
+func (s *ProcessingJobService) matchTestDefinitionByName(
 	examName string,
 	specimen *string,
 	defMap map[string]uuid.UUID,

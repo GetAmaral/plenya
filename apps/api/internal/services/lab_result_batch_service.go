@@ -826,6 +826,25 @@ func (s *LabResultBatchService) GetPDFPath(batchID, userID uuid.UUID) (string, e
 	return job.PDFPath, nil
 }
 
+// DeletePDFResultsForReinterpret apaga (soft delete) os resultados que vieram do PDF de um
+// lote, preservando os lançados à mão. Usado antes de mandar a IA reler o laudo: sem isso a
+// releitura duplicaria cada exame. Retorna quantos foram removidos.
+func (s *LabResultBatchService) DeletePDFResultsForReinterpret(batchID uuid.UUID) (int64, error) {
+	tx := s.db.Where("lab_result_batch_id = ? AND source = ?", batchID, "pdf").
+		Delete(&models.LabResult{})
+	return tx.RowsAffected, tx.Error
+}
+
+// RestorePDFResultsDeletedSince desfaz o soft delete acima. Usado quando a releitura não
+// chega nem a ser enfileirada: sem isso o lote ficaria vazio por causa de um erro nosso.
+// O corte por `since` evita ressuscitar exames que o usuário apagou antes, de propósito.
+func (s *LabResultBatchService) RestorePDFResultsDeletedSince(batchID uuid.UUID, since time.Time) error {
+	return s.db.Unscoped().
+		Model(&models.LabResult{}).
+		Where("lab_result_batch_id = ? AND source = ? AND deleted_at >= ?", batchID, "pdf", since).
+		Update("deleted_at", nil).Error
+}
+
 func (s *LabResultBatchService) toLabResultResponse(result *models.LabResult) *dto.LabResultInBatchResponse {
 	var labTestDefID *string
 	if result.LabTestDefinitionID != nil {

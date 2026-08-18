@@ -1063,6 +1063,9 @@ func setupRoutes(
 	// Classification route - re-classifica resultados do batch
 	labResultBatches.Post("/:id/classify", middleware.RequireClinician(), labResultBatchHandler.Classify)
 
+	// Reinterpretação: manda a IA reler o PDF original e refazer os resultados do lote
+	labResultBatches.Post("/:id/reinterpret", middleware.RequireClinician(), labResultBatchHandler.Reinterpret)
+
 	// Results inbox (P3) — fila cross-patient de exames a revisar (NÃO selectedPatient-scoped).
 	// Revisar exame é ato clínico → RequireClinician (exclui secretary/manager). Writes auditados.
 	labInbox := v1.Group("/lab-result-inbox")
