@@ -43,15 +43,17 @@ interface UnclassifiedResultsAlertProps {
 }
 
 /**
- * Nem todo "sem nível" é pendência. Dois casos são decisão do sistema, não trabalho parado:
- * o exame não se aplica ao paciente (sexo/idade/menopausa) e o exame não entra no escore
- * (sem ScoreItem configurado). Contá-los fazia o aviso nunca zerar, com um botão Classificar
+ * Nem todo "sem nível" é pendência. Três casos não são trabalho parado: o exame não se
+ * aplica ao paciente (sexo/idade/menopausa), o exame não entra no escore (sem ScoreItem
+ * configurado) e o laboratório ainda não liberou o resultado. Contá-los fazia o aviso nunca zerar, com um botão Classificar
  * que não tinha o que resolver. Eles continuam visíveis na lista expandida, com o motivo.
  */
 function isInformationalReason(result: AlertLabResult) {
   const reason = (result.classifyReason ?? "").toLowerCase();
   return (
-    reason.startsWith("não se aplica") || reason.includes("não entra no escore")
+    reason.startsWith("não se aplica") ||
+    reason.includes("não entra no escore") ||
+    reason.includes("ainda não liberado")
   );
 }
 

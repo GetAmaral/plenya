@@ -981,24 +981,42 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 				break
 			}
 
-			if result.ResultNumeric != nil {
+			classifyNumeric := func(value float64) {
 				for _, lvl := range item.Levels {
-					if lvl.EvaluatesTrue(*result.ResultNumeric) {
+					if lvl.EvaluatesTrue(value) {
 						l := lvl.Level
 						levelToSet = &l
-						break
+						return
 					}
 				}
+			}
+
+			if result.ResultNumeric != nil {
+				classifyNumeric(*result.ResultNumeric)
 				if levelToSet == nil {
 					setReason("Valor fora das faixas de classificação configuradas")
 				}
 				break
 			}
 
-			// Resultado em texto (sorologia, cultura, etc.): casa com o NOME do nível.
+			// Laudo ainda sem o resultado: não é pendência de classificação, é exame em curso.
+			if isPendingLabText(*result.ResultText) {
+				setReason("Resultado ainda não liberado pelo laboratório")
+				break
+			}
+
+			// Resultado em texto (sorologia, cultura, sedimento): casa com o NOME do nível.
 			if l := matchQualitativeLevel(item.Levels, *result.ResultText); l != nil {
 				levelToSet = l
-			} else {
+				break
+			}
+
+			// "Superior a 1.000,0", "< 5", "maior que 100": o laudo não deu um número puro,
+			// mas deu um número. Classifica por ele em vez de desistir.
+			if value, ok := numericFromComparativeText(*result.ResultText); ok {
+				classifyNumeric(value)
+			}
+			if levelToSet == nil {
 				setReason("Resultado em texto não bate com nenhum nível configurado")
 			}
 		}
@@ -1194,13 +1212,15 @@ func pickScoringItem(items []models.ScoreItem) *models.ScoreItem {
 }
 
 // qualitativeSynonyms mapeia como os laudos escrevem um resultado qualitativo para o
-// vocabulário usado nos níveis do escore ("Reagente" / "Não-reagente").
+// vocabulário usado nos níveis do escore.
 var qualitativeSynonyms = map[string]string{
 	"positivo":       "reagente",
+	"positiva":       "reagente",
 	"detectavel":     "reagente",
 	"detectado":      "reagente",
 	"presente":       "reagente",
 	"negativo":       "nao reagente",
+	"negativa":       "nao reagente",
 	"nao detectavel": "nao reagente",
 	"nao detectado":  "nao reagente",
 	"indetectavel":   "nao reagente",
@@ -1208,38 +1228,170 @@ var qualitativeSynonyms = map[string]string{
 	"nao reagente":   "nao reagente",
 }
 
-// normalizeQualitative deixa o texto comparável: minúsculas, sem acento, sem hífen e com
-// espaços colapsados ("Não-reagente" e "nao reagente" viram a mesma coisa).
+// pendingLabTexts são os avisos que o laboratório imprime no lugar do resultado.
+var pendingLabTexts = []string{
+	"em andamento", "aguardando", "nao realizado", "material insuficiente",
+	"amostra insuficiente", "a liberar", "pendente", "em analise",
+}
+
+// isPendingLabText reconhece laudo sem resultado ainda — não é falha de classificação.
+func isPendingLabText(text string) bool {
+	value := normalizeQualitative(text)
+	for _, marker := range pendingLabTexts {
+		if strings.Contains(value, marker) {
+			return true
+		}
+	}
+	return false
+}
+
+// normalizeQualitative deixa o texto comparável: minúsculas, sem acento, sem hífen, sem o
+// que estiver entre parênteses e com espaços colapsados. "Não-reagente", "nao reagente" e
+// "Negativo (<15)" passam a ser comparáveis entre si.
 func normalizeQualitative(s string) string {
 	s = strings.ToLower(strings.TrimSpace(s))
 	s = removeAccentsFromString(s)
-	s = strings.ReplaceAll(s, "-", " ")
+	s = stripParenthesized(s)
+	s = strings.NewReplacer("-", " ", "/", " / ").Replace(s)
 	return strings.Join(strings.Fields(s), " ")
 }
 
+// stripParenthesized remove trechos entre parênteses ("Negativo (<15)" → "Negativo").
+func stripParenthesized(s string) string {
+	var b strings.Builder
+	depth := 0
+	for _, r := range s {
+		switch r {
+		case '(':
+			depth++
+		case ')':
+			if depth > 0 {
+				depth--
+			}
+		default:
+			if depth == 0 {
+				b.WriteRune(r)
+			}
+		}
+	}
+	return b.String()
+}
+
+// sameWord compara palavras tolerando plural ("ausente" ≡ "ausentes").
+func sameWord(a, b string) bool {
+	return a == b || a == b+"s" || a+"s" == b
+}
+
+// containsPhrase procura a sequência de palavras `phrase` dentro de `tokens`, respeitando
+// limite de palavra — "amostra nao reagente para hiv" contém "nao reagente", mas "reagente"
+// sozinho NUNCA casa com um texto que diz "nao reagente" (a checagem é por sequência).
+func containsPhrase(tokens, phrase []string) bool {
+	if len(phrase) == 0 || len(phrase) > len(tokens) {
+		return false
+	}
+	for i := 0; i+len(phrase) <= len(tokens); i++ {
+		ok := true
+		for j := range phrase {
+			if !sameWord(tokens[i+j], phrase[j]) {
+				ok = false
+				break
+			}
+		}
+		if ok {
+			// "reagente" dentro de "nao reagente" seria o oposto do resultado: recusa.
+			if i > 0 && tokens[i-1] == "nao" && (len(phrase) == 0 || phrase[0] != "nao") {
+				continue
+			}
+			return true
+		}
+	}
+	return false
+}
+
+// levelNameAlternatives quebra o nome do nível nas formas que o laudo pode usar:
+// "Límpido/Cristalino" → ["limpido", "cristalino"].
+func levelNameAlternatives(levelName string) []string {
+	normalized := normalizeQualitative(levelName)
+	var out []string
+	for _, part := range strings.Split(normalized, "/") {
+		if p := strings.TrimSpace(part); p != "" {
+			out = append(out, p)
+		}
+	}
+	return out
+}
+
 // matchQualitativeLevel classifica resultado em texto pelo NOME do nível. Sorologia é o caso
-// típico: os níveis são "Reagente" (0) e "Não-reagente" (5), sem limite numérico nenhum.
+// típico ("Reagente" 0 / "Não-reagente" 5), mas vale também para sedimento ("Ausentes"),
+// cultura ("Negativa") e aspecto da urina ("Límpido/Cristalino"). Empate entre níveis
+// diferentes NÃO classifica: rótulo clínico errado é pior que rótulo nenhum.
 func matchQualitativeLevel(levels []models.ScoreLevel, text string) *int {
 	value := normalizeQualitative(text)
 	if value == "" {
 		return nil
 	}
+	tokens := strings.Fields(value)
 
-	match := func(target string) *int {
+	search := func(target string, targetTokens []string) *int {
+		var found *int
 		for i := range levels {
-			if normalizeQualitative(levels[i].Name) == target {
+			for _, alt := range levelNameAlternatives(levels[i].Name) {
+				altTokens := strings.Fields(alt)
+				if !(target == alt || containsPhrase(tokens, altTokens) || containsPhrase(targetTokens, altTokens)) {
+					continue
+				}
+				if found != nil && *found != levels[i].Level {
+					return nil // ambíguo
+				}
 				l := levels[i].Level
-				return &l
+				found = &l
+				break
 			}
 		}
-		return nil
+		return found
 	}
 
-	if l := match(value); l != nil {
+	if l := search(value, tokens); l != nil {
 		return l
 	}
-	if canonical, ok := qualitativeSynonyms[value]; ok {
-		return match(canonical)
+
+	// Sinônimos: o laudo diz "Amostra NEGATIVA", o nível se chama "Não-reagente".
+	for raw, canonical := range qualitativeSynonyms {
+		if !containsPhrase(tokens, strings.Fields(raw)) {
+			continue
+		}
+		if l := search(canonical, strings.Fields(canonical)); l != nil {
+			return l
+		}
 	}
 	return nil
+}
+
+// comparativePrefixes são as formas com que o laudo entrega um número sem entregar o número
+// ("Superior a 1.000,0"). O valor do limite é o melhor palpite honesto para classificar.
+var comparativePrefixes = []string{
+	"superior a", "maior que", "maior do que", "acima de", ">=", ">",
+	"inferior a", "menor que", "menor do que", "abaixo de", "<=", "<",
+}
+
+// numericFromComparativeText extrai o número de um resultado comparativo.
+func numericFromComparativeText(text string) (float64, bool) {
+	value := normalizeQualitative(text)
+	for _, prefix := range comparativePrefixes {
+		if !strings.HasPrefix(value, prefix) {
+			continue
+		}
+		rest := strings.TrimSpace(strings.TrimPrefix(value, prefix))
+		if rest == "" {
+			continue
+		}
+		// Corta a unidade que às vezes vem colada ("1.000,0 mUI/mL").
+		if fields := strings.Fields(rest); len(fields) > 0 {
+			rest = fields[0]
+		}
+		if n, err := parseNumericResult(rest); err == nil {
+			return n, true
+		}
+	}
+	return 0, false
 }

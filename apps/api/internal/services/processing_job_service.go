@@ -534,9 +534,14 @@ func (idx *testDefIndex) resolvePanelAnalyte(rawName string, matched *uuid.UUID)
 	}
 
 	// Substring restrita às filhas DESTE painel — seguro mesmo com analito curto ("ph"),
-	// porque o universo já está limitado aos exames desse laudo-painel.
+	// porque o universo já está limitado aos exames desse laudo-painel. Apelidos de 1-2
+	// letras ficam de fora: "H+" (Hidrogênio) vira "h" ao normalizar e casaria dentro de
+	// "ph", empatando com o pH Venoso e derrubando os dois.
 	var found *uuid.UUID
 	for name, id := range kids {
+		if len(name) < 3 {
+			continue
+		}
 		if !containsSubstring(name, analyte) && !containsSubstring(analyte, name) {
 			continue
 		}
@@ -787,7 +792,16 @@ func parseNumericResult(result string) (float64, error) {
 	// Remover espaços
 	result = strings.TrimSpace(result)
 
-	// Substituir vírgula por ponto (padrão brasileiro)
+	// Separador decimal brasileiro. Quando há ponto E vírgula ("1.000,0"), o ÚLTIMO
+	// separador é o decimal e os anteriores são milhar — trocar vírgula por ponto direto
+	// gerava "1.000.0", que não parseia e fazia o valor virar texto.
+	if lastComma, lastDot := strings.LastIndex(result, ","), strings.LastIndex(result, "."); lastComma >= 0 && lastDot >= 0 {
+		if lastComma > lastDot {
+			result = strings.ReplaceAll(result, ".", "")
+		} else {
+			result = strings.ReplaceAll(result, ",", "")
+		}
+	}
 	result = strings.ReplaceAll(result, ",", ".")
 
 	// Remover caracteres não numéricos (exceto ponto e sinal)
