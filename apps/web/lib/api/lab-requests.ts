@@ -84,11 +84,49 @@ export async function generateLabRequestPdf(id: string): Promise<LabRequest> {
   return apiClient.post<LabRequest>(`/api/v1/lab-requests/${id}/generate-pdf`, {})
 }
 
-/** Baixa o PDF (autenticado) e abre numa nova aba. A rota estática /uploads foi removida (H1). */
+/**
+ * Baixa o PDF (autenticado) e entrega ao usuário com o NOME certo — o servidor manda algo
+ * como "LuizGustavoJoséCarvalho_PedidoExame_2026-08-19_01a016a2.pdf" no Content-Disposition.
+ *
+ * No celular, abrir o blob numa aba fazia o iOS anexar o arquivo no WhatsApp como
+ * "unknown.pdf": blob URL não carrega nome. Por isso, quando o aparelho sabe compartilhar
+ * arquivo (iPhone/Android), abrimos a folha de compartilhamento com um File nomeado — daí o
+ * WhatsApp recebe o nome certo. No desktop segue abrindo em nova aba pra visualizar.
+ *
+ * A rota estática /uploads foi removida (H1), por isso o download é autenticado.
+ */
 export async function openLabRequestPdf(id: string) {
-  const blob = await apiClient.getBlob(`/api/v1/lab-requests/${id}/pdf`)
-  const url = URL.createObjectURL(blob)
-  window.open(url, '_blank')
+  const { blob, filename } = await apiClient.getBlobWithName(
+    `/api/v1/lab-requests/${id}/pdf`
+  )
+  const name = filename || `PedidoExame_${id.slice(0, 8)}.pdf`
+  const file = new File([blob], name, { type: 'application/pdf' })
+
+  // navigator.share com arquivo: iPhone/Android. Precisa de gesto do usuário — se o
+  // navegador recusar, cai no fluxo de sempre logo abaixo.
+  const canShareFile =
+    typeof navigator !== 'undefined' &&
+    typeof navigator.canShare === 'function' &&
+    navigator.canShare({ files: [file] })
+
+  if (canShareFile) {
+    try {
+      await navigator.share({ files: [file], title: name })
+      return
+    } catch (e: any) {
+      // Usuário fechou a folha de compartilhamento: não é erro, e não abre aba por cima.
+      if (e?.name === 'AbortError') return
+    }
+  }
+
+  const url = URL.createObjectURL(file)
+  // <a download> preserva o nome pra quem salvar; target _blank mantém a pré-visualização.
+  const a = document.createElement('a')
+  a.href = url
+  a.download = name
+  a.target = '_blank'
+  a.rel = 'noopener'
+  a.click()
   setTimeout(() => URL.revokeObjectURL(url), 60_000)
 }
 

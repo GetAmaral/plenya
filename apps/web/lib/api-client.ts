@@ -212,6 +212,17 @@ class APIClient {
 
   /** Faz GET autenticado e devolve o body como Blob — usado pra binários (PNG, PDF). */
   async getBlob(endpoint: string): Promise<Blob> {
+    return (await this.getBlobWithName(endpoint)).blob;
+  }
+
+  /**
+   * Igual ao getBlob, mas devolve também o nome do arquivo que o servidor mandou no
+   * Content-Disposition. Sem isso o arquivo vira "unknown.pdf" ao ser compartilhado do
+   * celular: blob URL não carrega nome nenhum.
+   */
+  async getBlobWithName(
+    endpoint: string
+  ): Promise<{ blob: Blob; filename: string | null }> {
     let response = await this.fetchWithAuth(endpoint, { method: "GET" });
     if (response.status === 401 && endpoint !== "/api/v1/auth/refresh") {
       const outcome = await this.tryRefreshToken();
@@ -220,8 +231,35 @@ class APIClient {
     if (!response.ok) {
       throw new Error(`Falha ao baixar arquivo (${response.status})`);
     }
-    return response.blob();
+    return {
+      blob: await response.blob(),
+      filename: parseContentDispositionFilename(
+        response.headers.get("Content-Disposition")
+      ),
+    };
   }
+}
+
+
+/**
+ * Lê o nome do arquivo de um Content-Disposition. Prefere `filename*=UTF-8''…` (acentos
+ * preservados) e cai pro `filename="…"` clássico. Devolve null quando o header não veio —
+ * o header só chega ao JS se a API expuser via CORS (ExposeHeaders).
+ */
+function parseContentDispositionFilename(header: string | null): string | null {
+  if (!header) return null;
+
+  const utf8 = header.match(/filename\*\s*=\s*UTF-8''([^;]+)/i);
+  if (utf8?.[1]) {
+    try {
+      return decodeURIComponent(utf8[1].trim());
+    } catch {
+      /* header malformado: tenta o clássico abaixo */
+    }
+  }
+
+  const plain = header.match(/filename\s*=\s*"([^"]+)"/i) ?? header.match(/filename\s*=\s*([^;]+)/i);
+  return plain?.[1]?.trim() || null;
 }
 
 export const apiClient = new APIClient(API_URL);

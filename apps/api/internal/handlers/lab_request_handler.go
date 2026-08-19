@@ -2,9 +2,11 @@ package handlers
 
 import (
 	"fmt"
+	"net/url"
 	"os"
 	"strings"
 	"time"
+	"unicode"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -14,6 +16,9 @@ import (
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
 	"github.com/skip2/go-qrcode"
+	"golang.org/x/text/runes"
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 )
 
 // LabRequestHandler handles HTTP requests for lab requests
@@ -491,7 +496,8 @@ func (h *LabRequestHandler) DownloadPDF(c *fiber.Ctx) error {
 		})
 	}
 
-	req, err := h.service.GetLabRequestByID(id)
+	// Com relações: o nome do arquivo leva o nome do paciente (ver labRequestFileName).
+	req, err := h.service.GetLabRequestWithRelations(id)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error: "Lab request not found",
@@ -505,17 +511,85 @@ func (h *LabRequestHandler) DownloadPDF(c *fiber.Ctx) error {
 	}
 
 	// PdfURL é "/uploads/lab-requests/<arquivo>"; o arquivo físico fica em /app/uploads/...
-	filename := strings.TrimPrefix(*req.PdfURL, "/uploads/lab-requests/")
-	fullPath := "/app/uploads/lab-requests/" + filename
+	stored := strings.TrimPrefix(*req.PdfURL, "/uploads/lab-requests/")
+	fullPath := "/app/uploads/lab-requests/" + stored
 	if _, statErr := os.Stat(fullPath); statErr != nil {
 		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error: "Arquivo PDF não encontrado no servidor",
 		})
 	}
 
+	// O arquivo em disco tem nome técnico (uuid). Quem baixa recebe um nome que identifica
+	// o documento sozinho, fora do sistema — o médico reenvia esse PDF pelo WhatsApp dele.
+	download := labRequestFileName(req)
+
 	c.Set("Content-Type", "application/pdf")
-	c.Set("Content-Disposition", `inline; filename="`+filename+`"`)
+	// filename= com ASCII puro (compatibilidade) + filename*= com o nome real acentuado.
+	c.Set("Content-Disposition", fmt.Sprintf(`inline; filename="%s"; filename*=UTF-8''%s`,
+		asciiFallback(download), url.PathEscape(download)))
 	return c.SendFile(fullPath)
+}
+
+// labRequestFileName monta "NomeDoPaciente_PedidoExame_2026-08-19_01a016a2.pdf".
+// O sufixo curto do UUID evita colisão entre pedidos do mesmo paciente no mesmo dia e
+// permite achar o registro a partir do arquivo.
+func labRequestFileName(req *models.LabRequest) string {
+	patient := "Paciente"
+	if req.Patient != nil {
+		if n := compactName(req.Patient.Name); n != "" {
+			patient = n
+		}
+	}
+
+	date := req.CreatedAt
+	if !req.Date.IsZero() {
+		date = req.Date
+	}
+
+	return fmt.Sprintf("%s_PedidoExame_%s_%s.pdf",
+		patient, date.Format("2006-01-02"), req.ID.String()[:8])
+}
+
+// compactName transforma "Luiz Gustavo José Carvalho" em "LuizGustavoJoséCarvalho": junta as
+// palavras em CamelCase e descarta o que não for letra/dígito, para o nome do arquivo não
+// depender de espaço nem de pontuação.
+func compactName(name string) string {
+	var b strings.Builder
+	upperNext := true
+	for _, r := range name {
+		switch {
+		case unicode.IsLetter(r) || unicode.IsDigit(r):
+			if upperNext {
+				b.WriteRune(unicode.ToUpper(r))
+				upperNext = false
+			} else {
+				b.WriteRune(r)
+			}
+		default:
+			upperNext = true
+		}
+	}
+	return b.String()
+}
+
+// asciiFallback tira acentos e qualquer caractere fora do ASCII imprimível — é o nome que
+// vai no filename= "clássico", para cliente antigo que ignora o filename*=UTF-8.
+func asciiFallback(s string) string {
+	normalized, _, err := transform.String(
+		transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC), s)
+	if err != nil {
+		normalized = s
+	}
+	var b strings.Builder
+	for _, r := range normalized {
+		if r > 32 && r < 127 && r != '"' && r != '\\' {
+			b.WriteRune(r)
+		}
+	}
+	if b.Len() == 0 {
+		return "pedido-exame.pdf"
+	}
+	return b.String()
 }
 
 // ValidatePublic validates a lab request publicly (no authentication required)

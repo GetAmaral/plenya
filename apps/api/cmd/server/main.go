@@ -185,6 +185,9 @@ func main() {
 		},
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 		AllowMethods: "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+		// Sem expor Content-Disposition o front não enxerga o nome do arquivo que o
+		// servidor definiu e o PDF acaba salvo/compartilhado como "unknown.pdf".
+		ExposeHeaders: "Content-Disposition",
 	}))
 
 	// HIGH H1 — REMOVIDO app.Static("/uploads", "/app/uploads").
