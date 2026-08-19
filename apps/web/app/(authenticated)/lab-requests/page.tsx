@@ -870,7 +870,10 @@ function LabRequestCard({
 
   return (
     <Card className="p-4">
-      <div className="flex items-start justify-between gap-4">
+      {/* Coluna no celular: com os botões na mesma linha do conteúdo, o card não cabia nos
+          393px do iPhone e a tela ganhava rolagem horizontal (o botão de WhatsApp ficava
+          fora do enquadramento). */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 mb-3">
             <Calendar className="h-4 w-4 text-muted-foreground shrink-0" />
@@ -923,7 +926,7 @@ function LabRequestCard({
           </div>
         </div>
 
-        <div className="flex gap-2 shrink-0">
+        <div className="flex flex-wrap gap-2 sm:shrink-0">
           {!request.pdfUrl && (
             <Button
               variant="outline"

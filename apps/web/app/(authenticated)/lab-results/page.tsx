@@ -293,9 +293,12 @@ export default function LabResultsPage() {
       >
         <Card className="border-0 shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center justify-between gap-4">
+            {/* No celular vira coluna: em linha, o select de 200px + a busca de 256px não
+                cabem nos 393px do iPhone e a tela ganhava rolagem horizontal (a busca
+                ficava fora do enquadramento). */}
+            <CardTitle className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
               <span>Histórico de Exames</span>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                 <Select
                   value={
                     currentOrderBy.type === "view"
@@ -310,7 +313,7 @@ export default function LabResultsPage() {
                     }
                   }}
                 >
-                  <SelectTrigger className="w-[200px]">
+                  <SelectTrigger className="w-full sm:w-[200px]">
                     <SelectValue placeholder="Ordenação" />
                   </SelectTrigger>
                   <SelectContent>
@@ -323,7 +326,7 @@ export default function LabResultsPage() {
                     ))}
                   </SelectContent>
                 </Select>
-                <div className="relative w-64">
+                <div className="relative w-full sm:w-64">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     placeholder="Buscar exame..."
