@@ -9,7 +9,10 @@ export const medicationDefinitionSchema = z.object({
     .string()
     .min(3, 'Princípio ativo deve ter no mínimo 3 caracteres')
     .max(500, 'Princípio ativo deve ter no máximo 500 caracteres'),
-  category: z.enum(['simple', 'c1', 'c5', 'antibiotic', 'glp1'], {
+  // 'a_b' = tarja preta (Notificação de Receita A/B). O EMR não emite esse receituário,
+  // mas as linhas existem no catálogo importado da ANVISA e a tela de admin precisa
+  // conseguir abri-las sem quebrar a validação.
+  category: z.enum(['simple', 'c1', 'c5', 'antibiotic', 'glp1', 'a_b'], {
     error: 'Selecione uma categoria',
   }),
   validityDays: z.coerce

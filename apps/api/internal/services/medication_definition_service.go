@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"time"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -53,15 +54,74 @@ func (s *MedicationDefinitionService) List(category *models.MedicationCategory, 
 func (s *MedicationDefinitionService) Search(query string, limit int) ([]models.MedicationDefinition, error) {
 	var medications []models.MedicationDefinition
 
-	searchPattern := "%" + query + "%"
-
-	if err := s.db.Where("LOWER(common_name) LIKE LOWER(?) OR LOWER(active_ingredient) LIKE LOWER(?)", searchPattern, searchPattern).
-		Limit(limit).
-		Order("common_name ASC").
-		Find(&medications).Error; err != nil {
-		return nil, err
+	if limit <= 0 || limit > 50 {
+		limit = 20
 	}
 
+	// Busca em DOIS NÍVEIS. O catálogo da CMED tem ~26 mil apresentações, mas só ~10,8 mil
+	// combinações (produto, concentração, forma) — que é o que o médico de fato escolhe.
+	// Buscar linha a linha devolveria "dipirona" 60 vezes, variando só laboratório e tamanho
+	// de caixa. Aqui devolvemos um representante por combinação; a apresentação exata sai
+	// depois, por ListPresentations.
+	//
+	// O DISTINCT ON obriga o ORDER BY interno a começar pela chave do grupo, então o ranking
+	// por relevância fica na consulta externa.
+	sql := `
+WITH termo AS (SELECT lower(public.immutable_unaccent(?)) AS t)
+SELECT g.* FROM (
+  SELECT DISTINCT ON (
+           lower(public.immutable_unaccent(m.common_name)),
+           coalesce(m.concentration, ''),
+           coalesce(m.pharmaceutical_form, '')
+         ) m.*
+    FROM medication_definitions m, termo
+   WHERE m.deleted_at IS NULL
+     AND m.is_active
+     AND m.is_prescribable
+     AND ( lower(public.immutable_unaccent(m.common_name))       LIKE '%' || termo.t || '%'
+        OR lower(public.immutable_unaccent(m.active_ingredient)) LIKE '%' || termo.t || '%' )
+   ORDER BY lower(public.immutable_unaccent(m.common_name)),
+            coalesce(m.concentration, ''),
+            coalesce(m.pharmaceutical_form, ''),
+            (m.product_type = 'Genérico') DESC,
+            m.pmc_price ASC NULLS LAST
+   LIMIT 200
+) g, termo
+ORDER BY
+  CASE WHEN lower(public.immutable_unaccent(g.common_name))       LIKE termo.t || '%' THEN 0
+       WHEN lower(public.immutable_unaccent(g.active_ingredient)) LIKE termo.t || '%' THEN 1
+       ELSE 2 END,
+  g.common_name, g.concentration
+LIMIT ?`
+
+	if err := s.db.Raw(sql, query, limit).Scan(&medications).Error; err != nil {
+		return nil, err
+	}
+	return medications, nil
+}
+
+// ListPresentations devolve as apresentações concretas de uma combinação escolhida na busca
+// (laboratórios e tamanhos de embalagem). É o segundo nível: só é consultado quando o médico
+// quer imprimir a caixa exata, e por isso não polui o autocomplete.
+func (s *MedicationDefinitionService) ListPresentations(product, concentration, form string, limit int) ([]models.MedicationDefinition, error) {
+	var medications []models.MedicationDefinition
+
+	if limit <= 0 || limit > 100 {
+		limit = 25
+	}
+
+	sql := `
+SELECT * FROM medication_definitions
+ WHERE deleted_at IS NULL AND is_active AND is_prescribable
+   AND lower(public.immutable_unaccent(common_name)) = lower(public.immutable_unaccent(?))
+   AND coalesce(concentration, '') = ?
+   AND coalesce(pharmaceutical_form, '') = ?
+ ORDER BY (product_type = 'Genérico') DESC, pmc_price ASC NULLS LAST, laboratory
+ LIMIT ?`
+
+	if err := s.db.Raw(sql, product, concentration, form, limit).Scan(&medications).Error; err != nil {
+		return nil, err
+	}
 	return medications, nil
 }
 
@@ -84,7 +144,16 @@ func (s *MedicationDefinitionService) Create(medication *models.MedicationDefini
 }
 
 // Update atualiza uma definição de medicamento
-func (s *MedicationDefinitionService) Update(id uuid.UUID, medication *models.MedicationDefinition) error {
+func (s *MedicationDefinitionService) Update(id uuid.UUID, medication *models.MedicationDefinition, curatedBy *uuid.UUID) error {
+	// Toda edição manual carimba curated_at: é essa marca que faz o reimport mensal da CMED
+	// parar de sobrescrever os campos clínicos desta linha. Sem ela, a correção do médico
+	// duraria até a próxima atualização da lista.
+	now := time.Now().UTC()
+	medication.CuratedAt = &now
+	medication.CuratedBy = curatedBy
+	medication.CategorySource = models.MedCategorySourceManual
+	medication.NeedsReview = false
+
 	result := s.db.Model(&models.MedicationDefinition{}).
 		Where("id = ?", id).
 		Updates(medication)

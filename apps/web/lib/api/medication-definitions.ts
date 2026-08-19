@@ -14,7 +14,7 @@ export interface MedicationDefinitionListResponse {
 export interface CreateMedicationDefinitionRequest {
   commonName: string
   activeIngredient: string
-  category: 'simple' | 'c1' | 'c5' | 'antibiotic' | 'glp1'
+  category: 'simple' | 'c1' | 'c5' | 'antibiotic' | 'glp1' | 'a_b'
   validityDays: number
   maxPerPrescription: number
   maxTreatmentDays: number

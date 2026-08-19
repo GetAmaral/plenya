@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/plenya/api/internal/dto"
+	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
 )
@@ -82,6 +83,12 @@ func (h *MedicationDefinitionHandler) Search(c *fiber.Ctx) error {
 		})
 	}
 
+	// O índice trigram só entra em jogo com 3+ caracteres; com 2 o Postgres varre as 26 mil
+	// linhas e ainda devolve lixo. Melhor pedir mais uma letra.
+	if len([]rune(query)) < 3 {
+		return c.JSON([]models.MedicationDefinition{})
+	}
+
 	limit, _ := strconv.Atoi(c.Query("limit", "10"))
 	if limit > 50 {
 		limit = 50
@@ -95,6 +102,41 @@ func (h *MedicationDefinitionHandler) Search(c *fiber.Ctx) error {
 		})
 	}
 
+	return c.JSON(medications)
+}
+
+// ListPresentations godoc
+// @Summary Apresentações de um medicamento
+// @Description Segundo nível da busca: as apresentações concretas (laboratório, embalagem) de
+// @Description uma combinação produto + concentração + forma escolhida no autocomplete.
+// @Tags MedicationDefinitions
+// @Produce json
+// @Param product query string true "Nome do produto"
+// @Param concentration query string false "Concentração"
+// @Param form query string false "Forma farmacêutica"
+// @Param limit query int false "Máximo de resultados (default 25)"
+// @Success 200 {array} models.MedicationDefinition
+// @Failure 400 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /medication-definitions/presentations [get]
+func (h *MedicationDefinitionHandler) ListPresentations(c *fiber.Ctx) error {
+	product := c.Query("product")
+	if product == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "query parameter 'product' is required",
+			Message: "informe o produto escolhido na busca",
+		})
+	}
+
+	limit, _ := strconv.Atoi(c.Query("limit", "25"))
+
+	medications, err := h.service.ListPresentations(product, c.Query("concentration"), c.Query("form"), limit)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
 	return c.JSON(medications)
 }
 
@@ -197,7 +239,8 @@ func (h *MedicationDefinitionHandler) Update(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := h.service.Update(id, &medication); err != nil {
+	curatedBy := middleware.GetUserID(c)
+	if err := h.service.Update(id, &medication, &curatedBy); err != nil {
 		if errors.Is(err, services.ErrMedicationDefinitionNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 				Error:   "medication definition not found",

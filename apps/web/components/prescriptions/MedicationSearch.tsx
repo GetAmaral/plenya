@@ -47,7 +47,9 @@ export function MedicationSearch({
   const { data: medications = [], isLoading } = useQuery({
     queryKey: ['medication-search', debouncedQuery],
     queryFn: () => searchMedications(debouncedQuery, 10),
-    enabled: debouncedQuery.length >= 2,
+    // 3 caracteres: abaixo disso o índice trigram do catálogo (26 mil apresentações) não
+    // entra em jogo e o resultado é lixo.
+    enabled: debouncedQuery.length >= 3,
   })
 
   const handleSelect = (medication: MedicationDefinition) => {
@@ -99,7 +101,11 @@ export function MedicationSearch({
               </CommandEmpty>
             )}
 
-            {!isLoading && searchQuery.length >= 2 && medications.length === 0 && (
+            {!isLoading && searchQuery.length > 0 && searchQuery.length < 3 && (
+              <CommandEmpty>Digite ao menos 3 letras.</CommandEmpty>
+            )}
+
+            {!isLoading && searchQuery.length >= 3 && medications.length === 0 && (
               <CommandEmpty>Nenhum medicamento encontrado.</CommandEmpty>
             )}
 
@@ -124,10 +130,24 @@ export function MedicationSearch({
                         <CategoryBadge category={medication.category} />
                       </div>
                       <p className="text-sm text-muted-foreground">
-                        {medication.activeIngredient}
+                        {[medication.concentration, formLabel(medication.pharmaceuticalForm), medication.route]
+                          .filter(Boolean)
+                          .join(' · ') || medication.activeIngredient}
                       </p>
+                      {medication.concentration && (
+                        <p className="text-xs text-muted-foreground">{medication.activeIngredient}</p>
+                      )}
                       <div className="flex items-center gap-3 text-xs text-muted-foreground">
                         <span>Validade: {medication.validityDays} dias</span>
+                        {medication.needsReview && (
+                          <Badge
+                            variant="outline"
+                            className="bg-amber-50 text-xs text-amber-700"
+                            title="A categoria veio da lista da ANVISA por dedução, não por curadoria. Confira antes de prescrever."
+                          >
+                            conferir categoria
+                          </Badge>
+                        )}
                         {medication.requiresSNCR && (
                           <Badge variant="outline" className="text-xs">
                             SNCR
@@ -151,6 +171,11 @@ export function MedicationSearch({
   )
 }
 
+/** "comprimido_revestido" → "comprimido revestido" (o catálogo guarda a forma canônica). */
+function formLabel(form?: string | null): string {
+  return form ? form.replace(/_/g, ' ') : ''
+}
+
 function CategoryBadge({ category }: { category: string }) {
   const variants: Record<string, { label: string; className: string }> = {
     simple: { label: 'Simples', className: 'bg-blue-50 text-blue-700 text-xs' },
@@ -158,6 +183,9 @@ function CategoryBadge({ category }: { category: string }) {
     c5: { label: 'C5', className: 'bg-red-50 text-red-700 text-xs' },
     antibiotic: { label: 'Antibiótico', className: 'bg-purple-50 text-purple-700 text-xs' },
     glp1: { label: 'GLP-1', className: 'bg-green-50 text-green-700 text-xs' },
+    // Tarja preta: o EMR não emite Notificação de Receita A/B, então não deveria nem
+    // aparecer na busca — o rótulo existe para o caso de aparecer em tela de catálogo.
+    a_b: { label: 'Notificação A/B', className: 'bg-zinc-800 text-zinc-100 text-xs' },
   }
 
   const variant = variants[category] || variants.simple

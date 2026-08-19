@@ -11,11 +11,36 @@ import (
 type MedicationCategory string
 
 const (
-	MedCategorySimple     MedicationCategory = "simple"      // Receita simples
-	MedCategoryC1         MedicationCategory = "c1"          // Controle Especial (Lista C1)
-	MedCategoryC5         MedicationCategory = "c5"          // Psicotrópicos (Lista C5)
-	MedCategoryAntibiotic MedicationCategory = "antibiotic"  // Antimicrobianos (RDC 471)
-	MedCategoryGLP1       MedicationCategory = "glp1"        // GLP-1 agonistas
+	MedCategorySimple     MedicationCategory = "simple"     // Receita simples
+	MedCategoryC1         MedicationCategory = "c1"         // Controle Especial (Lista C1)
+	MedCategoryC5         MedicationCategory = "c5"         // Psicotrópicos (Lista C5)
+	MedCategoryAntibiotic MedicationCategory = "antibiotic" // Antimicrobianos (RDC 471)
+	MedCategoryGLP1       MedicationCategory = "glp1"       // GLP-1 agonistas
+	// MedCategoryAB — tarja preta: Notificação de Receita A (amarela) ou B (azul) da Portaria
+	// 344/98. O EMR NÃO emite Notificação de Receita, então estes entram no catálogo com
+	// IsPrescribable=false: servem para reconciliar medicação em uso, não para prescrever.
+	MedCategoryAB MedicationCategory = "a_b"
+)
+
+// Procedência da linha do catálogo.
+const (
+	MedSourceManual = "manual" // criada à mão pelo admin
+	MedSourceCMED   = "cmed"   // importada da Lista de Preços de Medicamentos (ANVISA/CMED)
+)
+
+// Como a categoria regulatória foi definida — o que separa fato de palpite.
+const (
+	MedCategorySourceManual   = "manual"        // curada por humano
+	MedCategorySourceDerived  = "cmed_derived"  // derivada com regra defensável
+	MedCategorySourceFallback = "cmed_fallback" // chute conservador: a fonte não permitia afirmar
+)
+
+// Tarja como a CMED publica. NÃO é a Portaria 344 — é o proxy mais próximo que a fonte oferece.
+const (
+	MedStripeRed           = "vermelha"
+	MedStripeRedRestricted = "vermelha_restrita"
+	MedStripeBlack         = "preta"
+	MedStripeNone          = "isento"
 )
 
 // MedicationDefinition representa a definição de um medicamento no catálogo
@@ -35,11 +60,11 @@ type MedicationDefinition struct {
 	// @minLength 3
 	// @maxLength 500
 	// @example Cloridrato de Fluoxetina
-	ActiveIngredient string `gorm:"type:varchar(500);not null" json:"activeIngredient" validate:"required,min=3,max=500"`
+	ActiveIngredient string `gorm:"type:text;not null" json:"activeIngredient" validate:"required,min=3"`
 
 	// Categoria regulatória do medicamento
-	// @enum simple,c1,c5,antibiotic,glp1
-	Category MedicationCategory `gorm:"type:varchar(20);not null;index;check:category IN ('simple','c1','c5','antibiotic','glp1')" json:"category" validate:"required,oneof=simple c1 c5 antibiotic glp1"`
+	// @enum simple,c1,c5,antibiotic,glp1,a_b
+	Category MedicationCategory `gorm:"type:varchar(20);not null;index" json:"category" validate:"required,oneof=simple c1 c5 antibiotic glp1 a_b"`
 
 	// Regras de validação baseadas na categoria
 
@@ -71,6 +96,64 @@ type MedicationDefinition struct {
 	// Código ANVISA do medicamento
 	// @example 1234567890123
 	ANVISACode *string `gorm:"type:varchar(50)" json:"anvisaCode,omitempty"`
+
+	// ── Proveniência (import CMED) ──────────────────────────────────────────────────
+
+	// GGREM — chave natural da CMED, usada na idempotência do reimport mensal.
+	// NULL nas linhas criadas à mão, que por isso ficam imunes ao import.
+	GGREM *string `gorm:"type:varchar(20)" json:"ggrem,omitempty"`
+
+	// @enum manual,cmed
+	Source string `gorm:"type:varchar(10);not null;default:'manual'" json:"source"`
+
+	// Edição da CMED que produziu a linha (YYYYMM). Sem ela, o preço mente sobre a data.
+	SourceVersion  *string    `gorm:"type:varchar(8)" json:"sourceVersion,omitempty"`
+	LastImportedAt *time.Time `json:"lastImportedAt,omitempty"`
+
+	// false = sumiu da lista publicada. Nunca apagamos (há FK de prescrições antigas).
+	IsActive bool `gorm:"type:boolean;not null;default:true" json:"isActive"`
+
+	// ── Identidade comercial ────────────────────────────────────────────────────────
+
+	// Texto da ANVISA com embalagem + forma + concentração ("500 MG COM REV CT BL X 30").
+	Presentation         *string  `gorm:"type:text" json:"presentation,omitempty"`
+	Laboratory           *string  `gorm:"type:varchar(200)" json:"laboratory,omitempty"`
+	ProductType          *string  `gorm:"type:varchar(60)" json:"productType,omitempty"` // Genérico|Similar|Novo|...
+	EAN13                *string  `gorm:"type:varchar(14)" json:"ean13,omitempty"`
+	TherapeuticClass     *string  `gorm:"type:varchar(200)" json:"therapeuticClass,omitempty"`
+	TherapeuticClassCode *string  `gorm:"type:varchar(10)" json:"therapeuticClassCode,omitempty"`
+	Stripe               *string  `gorm:"type:varchar(20)" json:"stripe,omitempty"`
+	PMCPrice             *float64 `gorm:"type:numeric(12,2)" json:"pmcPrice,omitempty"`
+
+	// ── Derivados do texto de apresentação ──────────────────────────────────────────
+
+	Concentration      *string `gorm:"type:varchar(120)" json:"concentration,omitempty"`
+	PharmaceuticalForm *string `gorm:"type:varchar(60)" json:"pharmaceuticalForm,omitempty"`
+	Route              *string `gorm:"type:varchar(40)" json:"route,omitempty"`
+	PackageQuantity    *int    `json:"packageQuantity,omitempty"`
+
+	// @enum high,medium,none
+	DerivationConfidence *string `gorm:"type:varchar(10)" json:"derivationConfidence,omitempty"`
+
+	// ── Honestidade da classificação e curadoria ────────────────────────────────────
+
+	// Lista da Portaria 344/98 (A1..C5). A CMED NÃO traz: só curadoria preenche. Quando
+	// preenchida, manda sobre Category.
+	ControlList *string `gorm:"type:varchar(4)" json:"controlList,omitempty"`
+
+	// @enum manual,cmed_derived,cmed_fallback
+	CategorySource string `gorm:"type:varchar(14);not null;default:'manual'" json:"categorySource"`
+
+	// Classificação derivada de forma imperfeita — a UI avisa antes de prescrever.
+	NeedsReview bool `gorm:"type:boolean;not null;default:false" json:"needsReview"`
+
+	// false = fora do autocomplete de receita, mas presente no catálogo.
+	IsPrescribable bool `gorm:"type:boolean;not null;default:true" json:"isPrescribable"`
+
+	// Enquanto CuratedAt != nil, o reimport mensal só atualiza campos de FONTE e não encosta
+	// nos clínicos — é o que faz a correção do médico sobreviver.
+	CuratedAt *time.Time `json:"curatedAt,omitempty"`
+	CuratedBy *uuid.UUID `gorm:"type:uuid" json:"curatedBy,omitempty"`
 
 	// Timestamps
 	CreatedAt time.Time      `gorm:"not null;autoCreateTime" json:"createdAt"`

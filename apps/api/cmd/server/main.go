@@ -1017,6 +1017,8 @@ func setupRoutes(
 	// Read routes (all authenticated users)
 	medicationDefs.Get("/", medicationDefHandler.List)
 	medicationDefs.Get("/search", medicationDefHandler.Search)
+	// Segundo nível da busca: apresentações de uma combinação já escolhida.
+	medicationDefs.Get("/presentations", medicationDefHandler.ListPresentations)
 	medicationDefs.Get("/:id", medicationDefHandler.GetByID)
 
 	// Write routes (admin only)

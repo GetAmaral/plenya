@@ -13698,6 +13698,64 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/medication-definitions/presentations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Apresentações de um medicamento
+         * @description Segundo nível da busca: as apresentações concretas (laboratório, embalagem) de
+         *     uma combinação produto + concentração + forma escolhida no autocomplete.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Nome do produto */
+                    product: string;
+                    /** @description Concentração */
+                    concentration?: string;
+                    /** @description Forma farmacêutica */
+                    form?: string;
+                    /** @description Máximo de resultados (default 25) */
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MedicationDefinition"][];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/medication-definitions/search": {
         parameters: {
             query?: never;
@@ -17382,7 +17440,7 @@ export interface components {
         /** @enum {string} */
         "models.MaritalStatus": "single" | "married" | "divorced" | "widowed" | "other";
         /** @enum {string} */
-        "models.MedicationCategory": "simple" | "c1" | "c5" | "antibiotic" | "glp1";
+        "models.MedicationCategory": "simple" | "c1" | "c5" | "antibiotic" | "glp1" | "a_b";
         /** @description Definição de medicamento com regras regulatórias (ANVISA) */
         "models.MedicationDefinition": {
             /**
@@ -17399,10 +17457,12 @@ export interface components {
             anvisaCode?: string;
             /**
              * @description Categoria regulatória do medicamento
-             *     @enum simple,c1,c5,antibiotic,glp1
+             *     @enum simple,c1,c5,antibiotic,glp1,a_b
              * @enum {unknown}
              */
-            category: "simple" | "c1" | "c5" | "antibiotic" | "glp1";
+            category: "simple" | "c1" | "c5" | "antibiotic" | "glp1" | "a_b";
+            /** @description @enum manual,cmed_derived,cmed_fallback */
+            categorySource?: string;
             /**
              * @description Nome comercial comum do medicamento
              *     @minLength 3
@@ -17410,13 +17470,39 @@ export interface components {
              *     @example Fluoxetina 20mg
              */
             commonName: string;
+            concentration?: string;
+            /**
+             * @description Lista da Portaria 344/98 (A1..C5). A CMED NÃO traz: só curadoria preenche. Quando
+             *     preenchida, manda sobre Category.
+             */
+            controlList?: string;
             /** @description Timestamps */
             createdAt?: string;
+            /**
+             * @description Enquanto CuratedAt != nil, o reimport mensal só atualiza campos de FONTE e não encosta
+             *     nos clínicos — é o que faz a correção do médico sobreviver.
+             */
+            curatedAt?: string;
+            curatedBy?: string;
+            /** @description @enum high,medium,none */
+            derivationConfidence?: string;
+            ean13?: string;
+            /**
+             * @description GGREM — chave natural da CMED, usada na idempotência do reimport mensal.
+             *     NULL nas linhas criadas à mão, que por isso ficam imunes ao import.
+             */
+            ggrem?: string;
             /**
              * @description ID único da definição
              *     @example 550e8400-e29b-41d4-a716-446655440000
              */
             id?: string;
+            /** @description false = sumiu da lista publicada. Nunca apagamos (há FK de prescrições antigas). */
+            isActive?: boolean;
+            /** @description false = fora do autocomplete de receita, mas presente no catálogo. */
+            isPrescribable?: boolean;
+            laboratory?: string;
+            lastImportedAt?: string;
             /**
              * @description Máximo de substâncias por prescrição
              *     @example 3
@@ -17429,6 +17515,15 @@ export interface components {
              *     C1: 60 dias, Anticonvulsivantes: 180 dias
              */
             maxTreatmentDays: number;
+            /** @description Classificação derivada de forma imperfeita — a UI avisa antes de prescrever. */
+            needsReview?: boolean;
+            packageQuantity?: number;
+            pharmaceuticalForm?: string;
+            pmcPrice?: number;
+            /** @description Texto da ANVISA com embalagem + forma + concentração ("500 MG COM REV CT BL X 30"). */
+            presentation?: string;
+            /** @description Genérico|Similar|Novo|... */
+            productType?: string;
             /**
              * @description Requer assinatura digital ICP-Brasil
              *     true para medicamentos controlados (C1, C5)
@@ -17439,6 +17534,14 @@ export interface components {
              *     true para medicamentos controlados
              */
             requiresSNCR?: boolean;
+            route?: string;
+            /** @description @enum manual,cmed */
+            source?: string;
+            /** @description Edição da CMED que produziu a linha (YYYYMM). Sem ela, o preço mente sobre a data. */
+            sourceVersion?: string;
+            stripe?: string;
+            therapeuticClass?: string;
+            therapeuticClassCode?: string;
             updatedAt?: string;
             /**
              * @description Dias de validade da prescrição

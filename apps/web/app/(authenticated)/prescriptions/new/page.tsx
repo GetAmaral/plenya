@@ -216,6 +216,20 @@ export default function NewPrescriptionPage() {
     saveDraftMutation.mutate(data)
   }
 
+  // O catálogo grava a via sem acento (derivada da forma farmacêutica); o select da tela usa
+  // os rótulos acentuados. Sem esta tradução o preenchimento automático falharia calado
+  // justamente nas vias tópica/subcutânea/oftálmica.
+  const ROUTE_FROM_CATALOG: Record<string, string> = {
+    oral: 'oral',
+    sublingual: 'sublingual',
+    intravenosa: 'intravenosa',
+    intramuscular: 'intramuscular',
+    subcutanea: 'subcutânea',
+    topica: 'tópica',
+    oftalmica: 'oftálmica',
+    nasal: 'nasal',
+  }
+
   // Auto-preencher quantityInWords
   const handleQuantityChange = (index: number, value: string) => {
     const quantity = parseInt(value)
@@ -226,12 +240,29 @@ export default function NewPrescriptionPage() {
     }
   }
 
-  // Handler when medication is selected from search
+  // Handler when medication is selected from search.
+  // O catálogo da ANVISA traz concentração, forma e via derivadas da apresentação — preencher
+  // isso é metade do trabalho manual de cada receita. Tudo continua editável: a derivação
+  // acerta em ~97% das linhas, e o que sobra o médico corrige por cima.
   const handleMedicationSelect = (index: number, medication: MedicationDefinition) => {
     form.setValue(`medications.${index}.medicationDefinitionId`, medication.id)
     form.setValue(`medications.${index}.medicationName`, medication.commonName)
     form.setValue(`medications.${index}.activeIngredient`, medication.activeIngredient)
     form.setValue(`medications.${index}.category`, medication.category as any)
+
+    if (medication.concentration) {
+      form.setValue(`medications.${index}.concentration`, medication.concentration)
+    }
+    // Vias que a tela não oferece (ex.: "injetavel" genérico, "retal") ficam para o médico
+    // escolher — melhor campo vazio que via errada numa receita.
+    const route = medication.route ? ROUTE_FROM_CATALOG[medication.route] : undefined
+    if (route) {
+      form.setValue(`medications.${index}.route`, route)
+    }
+    if (medication.packageQuantity && !form.getValues(`medications.${index}.quantity`)) {
+      form.setValue(`medications.${index}.quantity`, medication.packageQuantity)
+      handleQuantityChange(index, String(medication.packageQuantity))
+    }
   }
 
   // Add new medication
