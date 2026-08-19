@@ -111,6 +111,24 @@
   ::selection {
     @apply bg-primary/20;
   }
+
+  /* iPhone dá zoom automático ao focar campo com fonte < 16px, e depois não volta: a tela
+     fica deslocada e o resto do formulário sai do enquadramento. A regra é do iOS e não tem
+     como desligar sem quebrar acessibilidade (user-scalable=no é pior: impede o usuário de
+     ampliar de propósito). A saída é garantir 16px em TODO campo editável no celular — no
+     desktop as classes do Tailwind seguem mandando.
+
+     !important porque isto é seletor de elemento (0,0,1) e precisa vencer utilitários como
+     text-sm (0,1,0) espalhados pelas telas. Breakpoint alinhado ao md do Tailwind. */
+  @media screen and (max-width: 767px) {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="submit"]):not([type="button"]),
+    select,
+    textarea,
+    [contenteditable="true"],
+    .ProseMirror {
+      font-size: 16px !important;
+    }
+  }
 }
 
 /* Tipografia Plenya — usar em headings de seção / hero / labels uppercase */

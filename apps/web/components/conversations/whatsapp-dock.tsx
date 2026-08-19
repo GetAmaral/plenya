@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { MessageSquare, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -16,11 +17,19 @@ import { WhatsAppChat } from './whatsapp-chat';
  * sem trocar de rota: abre por botão flutuante ou atalho (Ctrl/Cmd+J), responde e fecha,
  * voltando exatamente pro que estava fazendo. Como é não-modal, a tela atrás continua
  * clicável (dá pra navegar com o dock aberto, mantendo o rascunho).
+ *
+ * NO CELULAR o dock não existe: um painel de 400px sobreposto numa tela de 390px é a tela
+ * inteira, só que espremida e com a página atrás travada. Lá o botão flutuante leva direto
+ * pra /conversas/whatsapp, que é a tela feita pra isso, com o voltar do aparelho fazendo o
+ * papel do "fechar".
  */
 export function WhatsAppDock() {
   const { user } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
   const { isOpen, selected, toggle, close, setSelected } = useWhatsAppDock();
   const unread = useConversationsUnreadCount('whatsapp');
+  const isMobile = useIsMobile();
 
   // Atalho global: Ctrl/Cmd+J abre/fecha; Esc fecha quando aberto.
   useEffect(() => {
@@ -54,21 +63,29 @@ export function WhatsAppDock() {
     };
   }, [isOpen]);
 
+  // Virou celular com o dock aberto (rotação, janela redimensionada): fecha, senão o painel
+  // fica ocupando a tela toda sem o botão de fechar acessível no polegar.
+  useEffect(() => {
+    if (isMobile && isOpen) close();
+  }, [isMobile, isOpen, close]);
+
   const allowed =
     isGranted(user, 'admin') || isGranted(user, 'secretary') || isGranted(user, 'manager');
   if (!allowed) return null;
 
   const count = unread.data ?? 0;
+  // Já está na tela de WhatsApp do celular: o botão só cobriria o campo de mensagem.
+  const hideButton = isMobile && pathname?.startsWith('/conversas/whatsapp');
 
   return (
     <>
       {/* Botão flutuante (some quando o dock está aberto) */}
-      {!isOpen && (
+      {!isOpen && !hideButton && (
         <button
           type="button"
-          onClick={toggle}
-          aria-label="Abrir WhatsApp (Ctrl+J)"
-          title="WhatsApp (Ctrl+J)"
+          onClick={() => (isMobile ? router.push('/conversas/whatsapp') : toggle())}
+          aria-label={isMobile ? 'Abrir WhatsApp' : 'Abrir WhatsApp (Ctrl+J)'}
+          title={isMobile ? 'WhatsApp' : 'WhatsApp (Ctrl+J)'}
           className="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition-transform hover:scale-105 hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 print:hidden"
         >
           <MessageSquare className="h-6 w-6" />
@@ -80,7 +97,8 @@ export function WhatsAppDock() {
         </button>
       )}
 
-      {/* Painel não-modal ancorado à direita */}
+      {/* Painel não-modal ancorado à direita — desktop apenas (ver comentário no topo) */}
+      {!isMobile && (
       <div
         role="dialog"
         aria-label="WhatsApp"
@@ -109,6 +127,22 @@ export function WhatsAppDock() {
           )}
         </div>
       </div>
+      )}
     </>
   );
+}
+
+/** true em viewport de celular (mesmo breakpoint md do Tailwind). Reage a rotação/resize. */
+function useIsMobile(): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const apply = () => setIsMobile(mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+
+  return isMobile;
 }
