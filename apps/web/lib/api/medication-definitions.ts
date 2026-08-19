@@ -28,7 +28,7 @@ export interface CreateMedicationDefinitionRequest {
  */
 export async function searchMedications(query: string, limit = 10): Promise<MedicationDefinition[]> {
   const qs = new URLSearchParams({ q: query, limit: String(limit) })
-  return apiClient.get<MedicationDefinition[]>(`/medication-definitions/search?${qs}`)
+  return apiClient.get<MedicationDefinition[]>(`/api/v1/medication-definitions/search?${qs}`)
 }
 
 /**
@@ -44,14 +44,14 @@ export async function listMedicationDefinitions(params?: {
   if (params?.limit != null) qs.set('limit', String(params.limit))
   if (params?.offset != null) qs.set('offset', String(params.offset))
   const suffix = qs.toString() ? `?${qs}` : ''
-  return apiClient.get<MedicationDefinitionListResponse>(`/medication-definitions${suffix}`)
+  return apiClient.get<MedicationDefinitionListResponse>(`/api/v1/medication-definitions${suffix}`)
 }
 
 /**
  * Get medication definition by ID
  */
 export async function getMedicationDefinition(id: string): Promise<MedicationDefinition> {
-  return apiClient.get<MedicationDefinition>(`/medication-definitions/${id}`)
+  return apiClient.get<MedicationDefinition>(`/api/v1/medication-definitions/${id}`)
 }
 
 /**
@@ -60,7 +60,7 @@ export async function getMedicationDefinition(id: string): Promise<MedicationDef
 export async function createMedicationDefinition(
   data: CreateMedicationDefinitionRequest
 ): Promise<MedicationDefinition> {
-  return apiClient.post<MedicationDefinition>('/medication-definitions', data)
+  return apiClient.post<MedicationDefinition>('/api/v1/medication-definitions', data)
 }
 
 /**
@@ -70,12 +70,12 @@ export async function updateMedicationDefinition(
   id: string,
   data: Partial<CreateMedicationDefinitionRequest>
 ): Promise<MedicationDefinition> {
-  return apiClient.put<MedicationDefinition>(`/medication-definitions/${id}`, data)
+  return apiClient.put<MedicationDefinition>(`/api/v1/medication-definitions/${id}`, data)
 }
 
 /**
  * Delete medication definition (admin only)
  */
 export async function deleteMedicationDefinition(id: string): Promise<void> {
-  await apiClient.delete(`/medication-definitions/${id}`)
+  await apiClient.delete(`/api/v1/medication-definitions/${id}`)
 }

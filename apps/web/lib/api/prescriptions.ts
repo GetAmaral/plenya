@@ -65,7 +65,7 @@ export interface ValidationResult {
 export async function createPrescription(
   data: CreatePrescriptionRequest
 ): Promise<Prescription> {
-  return apiClient.post<Prescription>('/prescriptions', data)
+  return apiClient.post<Prescription>('/api/v1/prescriptions', data)
 }
 
 /**
@@ -74,7 +74,7 @@ export async function createPrescription(
 export async function signPrescription(
   id: string
 ): Promise<SignPrescriptionResponse> {
-  return apiClient.post<SignPrescriptionResponse>(`/prescriptions/${id}/sign`)
+  return apiClient.post<SignPrescriptionResponse>(`/api/v1/prescriptions/${id}/sign`)
 }
 
 /**
@@ -92,14 +92,14 @@ export async function listPrescriptions(params?: {
   if (params?.limit != null) qs.set('limit', String(params.limit))
   if (params?.offset != null) qs.set('offset', String(params.offset))
   const suffix = qs.toString() ? `?${qs}` : ''
-  return apiClient.get<Prescription[]>(`/prescriptions${suffix}`)
+  return apiClient.get<Prescription[]>(`/api/v1/prescriptions${suffix}`)
 }
 
 /**
  * Obter prescrição por ID
  */
 export async function getPrescription(id: string): Promise<Prescription> {
-  return apiClient.get<Prescription>(`/prescriptions/${id}`)
+  return apiClient.get<Prescription>(`/api/v1/prescriptions/${id}`)
 }
 
 /**
@@ -109,14 +109,14 @@ export async function updatePrescription(
   id: string,
   data: UpdatePrescriptionRequest
 ): Promise<Prescription> {
-  return apiClient.put<Prescription>(`/prescriptions/${id}`, data)
+  return apiClient.put<Prescription>(`/api/v1/prescriptions/${id}`, data)
 }
 
 /**
  * Deletar prescrição (soft delete)
  */
 export async function deletePrescription(id: string): Promise<void> {
-  await apiClient.delete(`/prescriptions/${id}`)
+  await apiClient.delete(`/api/v1/prescriptions/${id}`)
 }
 
 /**
@@ -124,7 +124,7 @@ export async function deletePrescription(id: string): Promise<void> {
  * Usado por farmácias via QR Code
  */
 export async function validatePublic(id: string): Promise<ValidationResult> {
-  return apiClient.get<ValidationResult>(`/prescriptions/validate/${id}`)
+  return apiClient.get<ValidationResult>(`/api/v1/prescriptions/validate/${id}`)
 }
 
 /**
