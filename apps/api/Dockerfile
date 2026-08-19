@@ -10,7 +10,8 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /server ./cmd/server \
  && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /migrate ./cmd/migrate \
- && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /backfill-patient-phones ./cmd/backfill-patient-phones
+ && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /backfill-patient-phones ./cmd/backfill-patient-phones \
+ && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /import-cmed ./cmd/import-cmed
 
 # Runtime (imagem final com OCR dependencies)
 FROM alpine:3.21
@@ -38,6 +39,9 @@ WORKDIR /app
 COPY --from=builder /server .
 COPY --from=builder /migrate .
 COPY --from=builder /backfill-patient-phones .
+# Import mensal do catálogo de medicamentos (Lista de Preços CMED/ANVISA). Roda por
+# docker exec com o XLSX copiado para /tmp — ver o comentário em cmd/import-cmed.
+COPY --from=builder /import-cmed .
 COPY prod-entrypoint.sh .
 RUN chmod +x prod-entrypoint.sh
 
