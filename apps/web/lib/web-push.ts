@@ -59,12 +59,14 @@ function deviceLabel(): string {
     : /Safari/.test(ua)
     ? 'Safari'
     : 'Navegador'
-  const os = /Windows/.test(ua)
+  // iPhone/iPad se declaram como "like Mac OS X": testar iOS ANTES de Mac, senão o
+  // celular entra em "Aparelhos conectados" como macOS.
+  const os = /iPhone|iPad|iPod/.test(ua)
+    ? 'iOS'
+    : /Windows/.test(ua)
     ? 'Windows'
     : /Mac/.test(ua)
     ? 'macOS'
-    : /iPhone|iPad/.test(ua)
-    ? 'iOS'
     : /Android/.test(ua)
     ? 'Android'
     : /Linux/.test(ua)

@@ -3,16 +3,25 @@ import { toast } from "sonner";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
+/**
+ * Resultado de uma tentativa de renovar a sessão.
+ * - "ok": sessão renovada.
+ * - "invalid": o servidor RECUSOU o refresh (401/403) — a sessão morreu de verdade.
+ * - "offline": não deu pra falar com o servidor (rede caiu, app voltou do background,
+ *   5xx). A sessão continua válida; insistir depois resolve.
+ */
+type RefreshOutcome = "ok" | "invalid" | "offline";
+
 class APIClient {
   private baseURL: string;
   private isRefreshing = false;
-  private refreshPromise: Promise<boolean> | null = null;
+  private refreshPromise: Promise<RefreshOutcome> | null = null;
 
   constructor(baseURL: string) {
     this.baseURL = baseURL;
   }
 
-  private async tryRefreshToken(): Promise<boolean> {
+  private async tryRefreshToken(): Promise<RefreshOutcome> {
     // Se já está fazendo refresh, aguarda a promise existente
     if (this.isRefreshing && this.refreshPromise) {
       return this.refreshPromise;
@@ -30,32 +39,47 @@ class APIClient {
     }
   }
 
-  private async _doRefresh(): Promise<boolean> {
+  private async _doRefresh(): Promise<RefreshOutcome> {
     const { refreshToken } = useAuthStore.getState();
 
     if (!refreshToken) {
-      return false;
+      return "invalid";
     }
 
-    try {
-      const response = await fetch(`${this.baseURL}/api/v1/auth/refresh`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ refreshToken }),
-      });
+    // Uma segunda tentativa cobre o caso mais comum no celular: o PWA volta do background
+    // e dispara o refresh antes de a rede estar de pé.
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const response = await fetch(`${this.baseURL}/api/v1/auth/refresh`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refreshToken }),
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        useAuthStore
-          .getState()
-          .setAuth(data.user, data.accessToken, data.refreshToken);
-        return true;
+        if (response.ok) {
+          const data = await response.json();
+          useAuthStore
+            .getState()
+            .setAuth(data.user, data.accessToken, data.refreshToken);
+          return "ok";
+        }
+
+        // Só 401/403 significam "esta sessão não vale mais". Qualquer outro status é
+        // problema do servidor/rede — derrubar o login aqui era o que fazia o PWA do
+        // celular pedir senha do nada.
+        if (response.status === 401 || response.status === 403) {
+          return "invalid";
+        }
+      } catch (error) {
+        console.error("Error refreshing token:", error);
       }
-    } catch (error) {
-      console.error("Error refreshing token:", error);
+
+      if (attempt === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+      }
     }
 
-    return false;
+    return "offline";
   }
 
   private async fetchWithAuth(
@@ -93,13 +117,13 @@ class APIClient {
 
     // Se 401 e não é o endpoint de refresh, tenta renovar token
     if (response.status === 401 && endpoint !== "/api/v1/auth/refresh") {
-      const refreshed = await this.tryRefreshToken();
+      const outcome = await this.tryRefreshToken();
 
-      if (refreshed) {
+      if (outcome === "ok") {
         // Retry com novo token
         response = await this.fetchWithAuth(endpoint, options);
-      } else {
-        // Refresh falhou - fazer logout e avisar usuário
+      } else if (outcome === "invalid") {
+        // O servidor recusou o refresh: a sessão acabou mesmo.
         useAuthStore.getState().clearAuth();
         toast.error("Sua sessão expirou", {
           description: "Por favor, faça login novamente.",
@@ -113,6 +137,13 @@ class APIClient {
         }, 1500);
 
         throw new Error("Session expired");
+      } else {
+        // Sem rede/servidor fora: mantém a sessão. Ao voltar a conexão o próximo request
+        // renova sozinho — o usuário não perde o login por causa de um sinal ruim.
+        toast.error("Sem conexão com o servidor", {
+          description: "Tente de novo em instantes.",
+        });
+        throw new Error("Network unavailable");
       }
     }
 
@@ -183,8 +214,8 @@ class APIClient {
   async getBlob(endpoint: string): Promise<Blob> {
     let response = await this.fetchWithAuth(endpoint, { method: "GET" });
     if (response.status === 401 && endpoint !== "/api/v1/auth/refresh") {
-      const refreshed = await this.tryRefreshToken();
-      if (refreshed) response = await this.fetchWithAuth(endpoint, { method: "GET" });
+      const outcome = await this.tryRefreshToken();
+      if (outcome === "ok") response = await this.fetchWithAuth(endpoint, { method: "GET" });
     }
     if (!response.ok) {
       throw new Error(`Falha ao baixar arquivo (${response.status})`);

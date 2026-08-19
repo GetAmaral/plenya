@@ -19,16 +19,26 @@ self.addEventListener('push', (event) => {
 
   const title = payload.title || 'Plenya'
   const url = payload.url || '/'
+  // renotify EXIGE tag não-vazia — showNotification joga TypeError sem ela e o aviso não
+  // aparece, mesmo com o push entregue. O payload nem sempre traz data.tag, então cai pra
+  // URL (mensagens do mesmo lead se substituem; leads diferentes viram avisos separados).
+  const tag = (payload.data && payload.data.tag) || url || 'plenya'
   const options = {
     body: payload.body || '',
     icon: '/icon-192.png',
     badge: '/icon-192.png',
-    tag: payload.data && payload.data.tag ? payload.data.tag : undefined,
+    tag: tag,
     renotify: true,
     data: { url, ...(payload.data || {}) },
   }
 
-  event.waitUntil(self.registration.showNotification(title, options))
+  // iOS cobra que TODO push mostre algo: se as opções forem recusadas, mostra o básico em
+  // vez de deixar o evento morrer sem notificação.
+  event.waitUntil(
+    self.registration.showNotification(title, options).catch(() =>
+      self.registration.showNotification(title, { body: payload.body || '', tag: tag })
+    )
+  )
 })
 
 self.addEventListener('notificationclick', (event) => {

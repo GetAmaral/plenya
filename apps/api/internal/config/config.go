@@ -342,10 +342,13 @@ func Load() (*Config, error) {
 			SSLMode:  getEnv("DB_SSL_MODE", "disable"),
 		},
 		JWT: JWTConfig{
-			Secret:              getEnv("JWT_SECRET", ""),
-			AccessExpiry:        getEnv("JWT_ACCESS_EXPIRY", "30m"),
-			RefreshExpiry:       getEnv("JWT_REFRESH_EXPIRY", "168h"),
-			RememberExpiry:      getEnv("JWT_REMEMBER_EXPIRY", "720h"), // 30 dias deslizante
+			Secret:        getEnv("JWT_SECRET", ""),
+			AccessExpiry:  getEnv("JWT_ACCESS_EXPIRY", "30m"),
+			RefreshExpiry: getEnv("JWT_REFRESH_EXPIRY", "168h"),
+			// 7 dias DESLIZANTES: cada uso do refresh emite um novo par com validade cheia,
+			// então quem usa o sistema não desloga nunca; só 7 dias inteiros sem abrir o app
+			// derrubam a sessão. Era 720h — o pedido é 7 dias.
+			RememberExpiry:      getEnv("JWT_REMEMBER_EXPIRY", "168h"),
 			RefreshGraceSeconds: getEnvAsInt("JWT_REFRESH_GRACE_SECONDS", 60),
 		},
 		Security: SecurityConfig{

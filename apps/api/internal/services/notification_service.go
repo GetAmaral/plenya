@@ -46,11 +46,27 @@ func (s *NotificationService) dispatchPush(n *models.Notification) {
 	if n.ActionURL != nil {
 		url = *n.ActionURL
 	}
+	// tag agrupa o aviso no aparelho: mensagens da MESMA conversa se substituem em vez de
+	// empilhar, conversas diferentes viram avisos separados. Sem tag, o service worker não
+	// consegue usar renotify (a API exige tag) e o aviso não aparece.
+	tag := string(n.Type)
+	switch {
+	case n.LeadID != nil:
+		tag += ":lead:" + n.LeadID.String()
+	case n.PatientID != nil:
+		tag += ":patient:" + n.PatientID.String()
+	}
+
 	go func() {
 		_ = s.push.Send(n.UserID, PushPayload{
 			Title: n.Title,
 			Body:  SanitizeBody(n.Message),
 			URL:   url,
+			Data: map[string]any{
+				"tag":            tag,
+				"notificationId": n.ID.String(),
+				"type":           string(n.Type),
+			},
 		})
 	}()
 }

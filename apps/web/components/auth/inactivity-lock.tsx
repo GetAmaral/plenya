@@ -10,10 +10,16 @@ import { Label } from '@/components/ui/label'
 import { apiClient } from '@/lib/api-client'
 import { useAuthStore } from '@/lib/auth-store'
 
-// Bloqueio de tela por inatividade (CFM/SBIS): após 4h sem atividade, cobre o app e exige
-// reautenticação por senha (checagem de presença; a sessão continua a mesma). Ver
+// Bloqueio de tela por inatividade (CFM/SBIS): cobre o app e exige a senha de novo
+// (checagem de presença; a sessão continua a mesma). Ver
 // docs/emr/estudo-sessao-login-persistente.md.
-const INACTIVITY_MS = 4 * 60 * 60 * 1000 // 4 horas
+//
+// Ficava em 4h, o que no celular era o "deslogou de novo" do dia a dia: bastava o app passar
+// a manhã fechado. Agora acompanha a validade da sessão (7 dias sem atividade), então na
+// prática só trava quem largou o EMR aberto e sumiu por uma semana. Para uma máquina
+// compartilhada de consultório vale baixar via NEXT_PUBLIC_INACTIVITY_LOCK_HOURS (ex.: 4).
+const LOCK_HOURS = Number(process.env.NEXT_PUBLIC_INACTIVITY_LOCK_HOURS) || 168
+const INACTIVITY_MS = LOCK_HOURS * 60 * 60 * 1000
 const ACTIVITY_KEY = 'plenya-last-activity'
 const THROTTLE_MS = 15 * 1000
 
