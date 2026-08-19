@@ -77,18 +77,17 @@ export function WhatsAppChat({ variant = 'page', selected, onSelect }: Props) {
   const { data, isLoading, isError } = useConversations(filters);
   const items = data?.items ?? [];
 
-  // SLA: aguardando resposta (último inbound) primeiro, mais antigo no topo; resto por recência.
-  const sortedItems = useMemo(() => {
-    const waitMs = (it: ConversationItem) =>
-      new Date(it.lastInboundAt ?? it.lastAt).getTime();
-    return [...items].sort((a, b) => {
-      const aw = a.lastDirection === 'in' ? 0 : 1;
-      const bw = b.lastDirection === 'in' ? 0 : 1;
-      if (aw !== bw) return aw - bw;
-      if (aw === 0) return waitMs(a) - waitMs(b);
-      return new Date(b.lastAt).getTime() - new Date(a.lastAt).getTime();
-    });
-  }, [items]);
+  // Uma ordem só: mensagem mais recente no topo, seja ela minha ou do contato — igual a
+  // qualquer app de mensagem. Havia aqui uma ordenação por SLA (não respondidas primeiro,
+  // MAIS ANTIGA no topo, respondidas empurradas pra baixo) que, misturada com a ordem do
+  // servidor, fazia a lista parecer aleatória.
+  const sortedItems = useMemo(
+    () =>
+      [...items].sort(
+        (a, b) => new Date(b.lastAt).getTime() - new Date(a.lastAt).getTime()
+      ),
+    [items]
+  );
 
   const selectedItem = useMemo(() => {
     if (!selected) return undefined;

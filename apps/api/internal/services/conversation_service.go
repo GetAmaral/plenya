@@ -642,7 +642,15 @@ func (s *ConversationService) List(ctx context.Context, params ListConversations
 		"userID": params.UserID,
 		"limit":  params.Limit + 1, // +1 pra detectar próxima página
 	}
-	conds := []string{"la.channel IN ('email','whatsapp')"}
+	// last_at (a ordem da lista) sai de MAX(la.created_at) sobre estas activities. Só
+	// MENSAGEM conta: 'message_status_changed' é o recibo de entrega/leitura do WhatsApp e
+	// chega quando o contato ABRE a conversa — às vezes dias depois da última mensagem.
+	// Contando esses recibos, a conversa pulava pro topo sem ninguém ter escrito nada, e a
+	// lista parecia embaralhada.
+	conds := []string{
+		"la.channel IN ('email','whatsapp')",
+		"la.type IN ('message_received','message_sent')",
+	}
 	if params.ChannelFilter != "" {
 		conds = append(conds, "la.channel = @channel")
 		args["channel"] = params.ChannelFilter
