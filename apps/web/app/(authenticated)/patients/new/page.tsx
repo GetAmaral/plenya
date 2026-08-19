@@ -469,19 +469,21 @@ export default function NewPatientPage() {
               </CardContent>
             </Card>
 
-            {/* Actions */}
-            <div className="flex justify-end gap-4">
+            {/* Actions — no celular empilha (o par lado a lado ocupava a largura toda e
+                espremia o formulário); ação principal em cima, na altura do polegar. */}
+            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end sm:gap-4">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => router.push("/patients")}
+                className="w-full sm:w-auto"
               >
                 Cancelar
               </Button>
               <Button
                 type="submit"
                 disabled={createMutation.isPending}
-                className="gap-2"
+                className="w-full gap-2 sm:w-auto"
               >
                 {createMutation.isPending ? (
                   <>Salvando...</>

@@ -97,6 +97,11 @@ export function PageHeader({
                       size="default"
                       disabled={action.disabled}
                       className="gap-2"
+                      /* No celular o rótulo some (fica só o ícone): sem title/aria-label o
+                         botão não tem nome nenhum — nem pra leitor de tela, nem no toque
+                         longo. */
+                      title={action.label}
+                      aria-label={action.label}
                     >
                       {action.icon}
                       <span className="hidden sm:inline">{action.label}</span>
@@ -127,6 +132,8 @@ export function PageHeader({
                 size="default"
                 disabled={action.disabled || action.loading}
                 className="gap-2"
+                title={action.label}
+                aria-label={action.label}
               >
                 {action.icon}
                 <span className="hidden sm:inline">{action.label}</span>

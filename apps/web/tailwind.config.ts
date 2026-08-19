@@ -12,7 +12,9 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      // 2rem fixo custava 64px dos 393px do iPhone — os campos ficavam estreitos e a
+      // linha de botões encostava nas bordas. No celular 1rem; do sm pra cima, 2rem.
+      padding: { DEFAULT: "1rem", sm: "2rem" },
       screens: {
         "2xl": "1400px",
       },

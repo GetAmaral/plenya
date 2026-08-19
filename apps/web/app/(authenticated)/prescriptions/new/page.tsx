@@ -435,7 +435,7 @@ export default function NewPrescriptionPage() {
                 <Separator />
 
                 {/* Manual inputs */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label>Nome Comercial *</Label>
                     <Input
@@ -463,7 +463,7 @@ export default function NewPrescriptionPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div className="space-y-2">
                     <Label>Categoria *</Label>
                     <Select
@@ -518,7 +518,7 @@ export default function NewPrescriptionPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label>Dosagem *</Label>
                     <Input
@@ -536,7 +536,7 @@ export default function NewPrescriptionPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div className="space-y-2">
                     <Label>Duração (dias) *</Label>
                     <Input
