@@ -140,6 +140,94 @@ func (h *MedicationDefinitionHandler) ListPresentations(c *fiber.Ctx) error {
 	return c.JSON(medications)
 }
 
+// ReviewQueue godoc
+// @Summary Fila de conferência do catálogo
+// @Description Substâncias que o import da CMED não conseguiu classificar com segurança,
+// @Description ordenadas pelo que vale a pena conferir primeiro: o que os pacientes já usam,
+// @Description depois o risco de subestimar controle, depois presença no mercado.
+// @Tags MedicationDefinitions
+// @Produce json
+// @Param limit query int false "Itens por página (default 25)"
+// @Param offset query int false "Deslocamento"
+// @Success 200 {object} map[string]interface{}
+// @Security BearerAuth
+// @Router /medication-definitions/review-queue [get]
+func (h *MedicationDefinitionHandler) ReviewQueue(c *fiber.Ctx) error {
+	limit, _ := strconv.Atoi(c.Query("limit", "25"))
+	offset, _ := strconv.Atoi(c.Query("offset", "0"))
+
+	items, total, err := h.service.ReviewQueue(limit, offset)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{"items": items, "total": total, "limit": limit, "offset": offset})
+}
+
+var validCategories = map[models.MedicationCategory]bool{
+	models.MedCategorySimple: true, models.MedCategoryC1: true, models.MedCategoryC5: true,
+	models.MedCategoryAntibiotic: true, models.MedCategoryGLP1: true, models.MedCategoryAB: true,
+}
+
+// CurateSubstanceRequest é a decisão do médico sobre uma substância inteira.
+type CurateSubstanceRequest struct {
+	ActiveIngredient string                    `json:"activeIngredient" validate:"required"`
+	Category         models.MedicationCategory `json:"category" validate:"required,oneof=simple c1 c5 antibiotic glp1 a_b"`
+	ControlList      *string                   `json:"controlList,omitempty"`
+	IsPrescribable   *bool                     `json:"isPrescribable,omitempty"`
+}
+
+// CurateSubstance godoc
+// @Summary Confere a categoria de uma substância
+// @Description Aplica a decisão do médico a TODAS as apresentações da substância e tira-as da
+// @Description fila. Confirmar o que o sistema deduziu e corrigir são a mesma operação — as
+// @Description duas carimbam a curadoria, que é o que impede o reimport mensal de desfazer.
+// @Tags MedicationDefinitions
+// @Accept json
+// @Produce json
+// @Param request body CurateSubstanceRequest true "Decisão"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /medication-definitions/curate-substance [post]
+func (h *MedicationDefinitionHandler) CurateSubstance(c *fiber.Ctx) error {
+	var req CurateSubstanceRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid request body",
+			Message: err.Error(),
+		})
+	}
+	if req.ActiveIngredient == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "activeIngredient é obrigatório",
+			Message: "a curadoria vale para todas as apresentações de uma substância",
+		})
+	}
+	if !validCategories[req.Category] {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "categoria inválida",
+			Message: "use simple, c1, c5, antibiotic, glp1 ou a_b",
+		})
+	}
+
+	updated, err := h.service.CurateSubstance(
+		req.ActiveIngredient, req.Category, req.ControlList, req.IsPrescribable,
+		middleware.GetUserID(c),
+	)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Error:   "internal server error",
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{"updated": updated, "activeIngredient": req.ActiveIngredient})
+}
+
 // GetByID godoc
 // @Summary Get medication definition by ID
 // @Description Get a single medication definition

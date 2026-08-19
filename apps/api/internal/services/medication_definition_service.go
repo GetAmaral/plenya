@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
+	"github.com/plenya/api/internal/cmed"
 	"github.com/plenya/api/internal/models"
 )
 
@@ -123,6 +124,117 @@ SELECT * FROM medication_definitions
 		return nil, err
 	}
 	return medications, nil
+}
+
+// ReviewQueueItem é uma SUBSTÂNCIA pendente de conferência, não uma apresentação. O import
+// marca ~5,9 mil apresentações como needs_review, mas elas se resumem a ~1.078 substâncias —
+// conferir por substância é a única forma de a fila ter fim.
+type ReviewQueueItem struct {
+	ActiveIngredient string                    `json:"activeIngredient"`
+	Category         models.MedicationCategory `json:"category"`
+	CategorySource   string                    `json:"categorySource"`
+	Stripe           *string                   `json:"stripe,omitempty"`
+	TherapeuticClass *string                   `json:"therapeuticClass,omitempty"`
+	Presentations    int                       `json:"presentations"`
+	SampleProducts   string                    `json:"sampleProducts"`
+	UsedByPatients   bool                      `json:"usedByPatients"`
+}
+
+// ReviewQueue devolve as substâncias que o import não conseguiu classificar com segurança,
+// na ordem em que vale a pena conferir:
+//
+//  1. o que os pacientes JÁ usam ou já receberam (é o que vai ser prescrito de novo);
+//  2. o risco de SUBESTIMAR controle — 'simple' vindo de palpite é o caso perigoso, porque a
+//     CMED não publicou tarja nenhuma e o sistema assumiu receita simples;
+//  3. presença no mercado (mais apresentações = mais chance de aparecer numa receita).
+//
+// Tarja preta ('a_b') fica no fim: já sai do receituário, então errar ali não gera receita
+// indevida.
+func (s *MedicationDefinitionService) ReviewQueue(limit, offset int) ([]ReviewQueueItem, int64, error) {
+	if limit <= 0 || limit > 100 {
+		limit = 25
+	}
+
+	var total int64
+	if err := s.db.Raw(`
+		SELECT count(DISTINCT active_ingredient)
+		  FROM medication_definitions
+		 WHERE needs_review AND deleted_at IS NULL AND is_active`).Scan(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	var items []ReviewQueueItem
+	err := s.db.Raw(`
+WITH conhecidas AS (
+    SELECT DISTINCT lower(public.immutable_unaccent(active_ingredient)) AS ing
+      FROM medications_in_use WHERE deleted_at IS NULL AND active_ingredient IS NOT NULL
+     UNION
+    SELECT DISTINCT lower(public.immutable_unaccent(active_ingredient))
+      FROM prescription_medications WHERE deleted_at IS NULL
+)
+SELECT m.active_ingredient,
+       min(m.category::text)        AS category,
+       min(m.category_source)       AS category_source,
+       min(m.stripe)                AS stripe,
+       min(m.therapeutic_class)     AS therapeutic_class,
+       count(*)                     AS presentations,
+       string_agg(DISTINCT m.common_name, ', ' ORDER BY m.common_name) AS sample_products,
+       bool_or(c.ing IS NOT NULL)   AS used_by_patients
+  FROM medication_definitions m
+  LEFT JOIN conhecidas c ON c.ing = lower(public.immutable_unaccent(m.active_ingredient))
+ WHERE m.needs_review AND m.deleted_at IS NULL AND m.is_active
+ GROUP BY m.active_ingredient
+ ORDER BY bool_or(c.ing IS NOT NULL) DESC,
+          (min(m.category::text) = 'simple' AND min(m.category_source) = 'cmed_fallback') DESC,
+          (min(m.category::text) = 'a_b') ASC,
+          count(*) DESC,
+          m.active_ingredient
+ LIMIT ? OFFSET ?`, limit, offset).Scan(&items).Error
+	if err != nil {
+		return nil, 0, err
+	}
+	return items, total, nil
+}
+
+// CurateSubstance grava a decisão do médico para TODAS as apresentações de uma substância.
+// Confirmar a categoria deduzida e corrigi-la são a mesma operação: as duas tiram a linha da
+// fila e carimbam curated_at, que é o que impede o reimport mensal de desfazer a decisão.
+func (s *MedicationDefinitionService) CurateSubstance(
+	activeIngredient string,
+	category models.MedicationCategory,
+	controlList *string,
+	isPrescribable *bool,
+	curatedBy uuid.UUID,
+) (int64, error) {
+	if activeIngredient == "" {
+		return 0, errors.New("substância é obrigatória")
+	}
+
+	rules := cmed.RulesFor(category)
+	updates := map[string]any{
+		"category":                   category,
+		"category_source":            models.MedCategorySourceManual,
+		"needs_review":               false,
+		"curated_at":                 time.Now().UTC(),
+		"curated_by":                 curatedBy,
+		"control_list":               controlList,
+		"validity_days":              rules.ValidityDays,
+		"max_per_prescription":       rules.MaxPerPrescription,
+		"max_treatment_days":         rules.MaxTreatmentDays,
+		"requires_digital_signature": rules.RequiresDigitalSignature,
+		"requires_sncr":              rules.RequiresSNCR,
+		"updated_at":                 time.Now().UTC(),
+	}
+	if isPrescribable != nil {
+		updates["is_prescribable"] = *isPrescribable
+	}
+
+	res := s.db.Model(&models.MedicationDefinition{}).
+		Where("lower(public.immutable_unaccent(active_ingredient)) = lower(public.immutable_unaccent(?))", activeIngredient).
+		Where("deleted_at IS NULL").
+		Updates(updates)
+
+	return res.RowsAffected, res.Error
 }
 
 // GetByID busca uma definição por ID

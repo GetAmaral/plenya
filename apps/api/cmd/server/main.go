@@ -1019,6 +1019,10 @@ func setupRoutes(
 	medicationDefs.Get("/search", medicationDefHandler.Search)
 	// Segundo nível da busca: apresentações de uma combinação já escolhida.
 	medicationDefs.Get("/presentations", medicationDefHandler.ListPresentations)
+	// Conferência do catálogo importado: ato clínico (que categoria de receita a
+	// substância exige), por isso RequireClinician e não RequireAdmin.
+	medicationDefs.Get("/review-queue", middleware.RequireClinician(), medicationDefHandler.ReviewQueue)
+	medicationDefs.Post("/curate-substance", middleware.RequireClinician(), middleware.AuditLog(database.DB), medicationDefHandler.CurateSubstance)
 	medicationDefs.Get("/:id", medicationDefHandler.GetByID)
 
 	// Write routes (admin only)

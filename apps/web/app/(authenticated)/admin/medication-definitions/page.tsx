@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Plus, Pencil, Trash2 } from 'lucide-react'
+import { ClipboardCheck, Plus, Pencil, Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
@@ -99,6 +99,7 @@ export default function MedicationDefinitionsPage() {
       c5: 'destructive',
       antibiotic: 'secondary',
       glp1: 'default',
+      a_b: 'destructive',
     }
     return variants[category] || 'outline'
   }
@@ -106,12 +107,24 @@ export default function MedicationDefinitionsPage() {
   return (
     <div className="container mx-auto py-8">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle>Definições de Medicamentos</CardTitle>
-          <Button onClick={() => router.push('/admin/medication-definitions/new')}>
-            <Plus className="mr-2 h-4 w-4" />
-            Novo Medicamento
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            {/* A conferência é o que separa o catálogo importado de um catálogo confiável:
+                a lista da ANVISA não traz as listas da Portaria 344, e o que ela não permite
+                afirmar entra marcado. */}
+            <Button
+              variant="outline"
+              onClick={() => router.push('/admin/medication-definitions/revisao')}
+            >
+              <ClipboardCheck className="mr-2 h-4 w-4" />
+              Conferir catálogo
+            </Button>
+            <Button onClick={() => router.push('/admin/medication-definitions/new')}>
+              <Plus className="mr-2 h-4 w-4" />
+              Novo Medicamento
+            </Button>
+          </div>
         </CardHeader>
 
         <CardContent className="space-y-4">

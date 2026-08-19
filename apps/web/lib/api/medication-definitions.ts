@@ -31,6 +31,54 @@ export async function searchMedications(query: string, limit = 10): Promise<Medi
   return apiClient.get<MedicationDefinition[]>(`/api/v1/medication-definitions/search?${qs}`)
 }
 
+/** Uma SUBSTÂNCIA pendente de conferência — não uma apresentação. */
+export interface ReviewQueueItem {
+  activeIngredient: string
+  category: 'simple' | 'c1' | 'c5' | 'antibiotic' | 'glp1' | 'a_b'
+  categorySource: 'manual' | 'cmed_derived' | 'cmed_fallback'
+  stripe?: string
+  therapeuticClass?: string
+  presentations: number
+  sampleProducts: string
+  usedByPatients: boolean
+}
+
+export interface ReviewQueueResponse {
+  items: ReviewQueueItem[]
+  total: number
+  limit: number
+  offset: number
+}
+
+/**
+ * Fila de conferência do catálogo importado da ANVISA: as substâncias que o import não
+ * conseguiu classificar com segurança, na ordem que vale a pena revisar.
+ */
+export async function getMedicationReviewQueue(params?: {
+  limit?: number
+  offset?: number
+}): Promise<ReviewQueueResponse> {
+  const qs = new URLSearchParams()
+  if (params?.limit != null) qs.set('limit', String(params.limit))
+  if (params?.offset != null) qs.set('offset', String(params.offset))
+  const suffix = qs.toString() ? `?${qs}` : ''
+  return apiClient.get<ReviewQueueResponse>(`/api/v1/medication-definitions/review-queue${suffix}`)
+}
+
+/**
+ * Grava a decisão do médico para TODAS as apresentações de uma substância. Confirmar o que o
+ * sistema deduziu e corrigir são a mesma chamada — as duas tiram a substância da fila e
+ * impedem o reimport mensal de desfazer.
+ */
+export async function curateMedicationSubstance(input: {
+  activeIngredient: string
+  category: ReviewQueueItem['category']
+  controlList?: string
+  isPrescribable?: boolean
+}): Promise<{ updated: number; activeIngredient: string }> {
+  return apiClient.post('/api/v1/medication-definitions/curate-substance', input)
+}
+
 /**
  * List all medication definitions. O endpoint devolve envelope { data, total, page, limit }.
  */

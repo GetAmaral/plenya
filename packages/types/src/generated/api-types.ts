@@ -13698,6 +13698,63 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/medication-definitions/curate-substance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Confere a categoria de uma substância
+         * @description Aplica a decisão do médico a TODAS as apresentações da substância e tira-as da
+         *     fila. Confirmar o que o sistema deduziu e corrigir são a mesma operação — as
+         *     duas carimbam a curadoria, que é o que impede o reimport mensal de desfazer.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Decisão */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["handlers.CurateSubstanceRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            [key: string]: unknown;
+                        };
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/medication-definitions/presentations": {
         parameters: {
             query?: never;
@@ -13744,6 +13801,54 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/medication-definitions/review-queue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Fila de conferência do catálogo
+         * @description Substâncias que o import da CMED não conseguiu classificar com segurança,
+         *     ordenadas pelo que vale a pena conferir primeiro: o que os pacientes já usam,
+         *     depois o risco de subestimar controle, depois presença no mercado.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Itens por página (default 25) */
+                    limit?: number;
+                    /** @description Deslocamento */
+                    offset?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            [key: string]: unknown;
+                        };
                     };
                 };
             };
@@ -16213,6 +16318,13 @@ export interface components {
             gender?: "male" | "female" | "other";
             name?: string;
             phone?: string;
+        };
+        "handlers.CurateSubstanceRequest": {
+            activeIngredient: string;
+            /** @enum {unknown} */
+            category: "simple" | "c1" | "c5" | "antibiotic" | "glp1" | "a_b";
+            controlList?: string;
+            isPrescribable?: boolean;
         };
         "handlers.Disable2FARequest": {
             password: string;
