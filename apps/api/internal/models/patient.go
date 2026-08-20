@@ -24,12 +24,12 @@ const (
 type SocialGender string
 
 const (
-	SocialGenderMale       SocialGender = "male"
-	SocialGenderFemale     SocialGender = "female"
-	SocialGenderNonBinary  SocialGender = "non_binary"
-	SocialGenderTransMale  SocialGender = "trans_male"
-	SocialGenderTransFemale SocialGender = "trans_female"
-	SocialGenderOther      SocialGender = "other"
+	SocialGenderMale           SocialGender = "male"
+	SocialGenderFemale         SocialGender = "female"
+	SocialGenderNonBinary      SocialGender = "non_binary"
+	SocialGenderTransMale      SocialGender = "trans_male"
+	SocialGenderTransFemale    SocialGender = "trans_female"
+	SocialGenderOther          SocialGender = "other"
 	SocialGenderPreferNotToSay SocialGender = "prefer_not_to_say"
 )
 
@@ -57,7 +57,6 @@ const (
 	MaritalStatusWidowed  MaritalStatus = "widowed"
 	MaritalStatusOther    MaritalStatus = "other"
 )
-
 
 // Patient representa um paciente no sistema
 // @Description Paciente com dados pessoais e médicos
@@ -254,8 +253,13 @@ func (p *Patient) CalculateAge() {
 	p.AgeText = fmt.Sprintf("%da%dm%dd", years, months, days)
 }
 
-// BeforeSave hook - criptografa o CPF e recalcula idade
+// BeforeSave hook - normaliza o nome, criptografa o CPF e recalcula idade
 func (p *Patient) BeforeSave(tx *gorm.DB) error {
+	// Nome no padrão "João da Silva", venha ele em caixa alta, em minúsculas ou misturado. Fica
+	// no hook, e não na tela, porque paciente entra por vários caminhos — recepção, portal,
+	// importação, lead do WhatsApp — e o padrão precisa valer para todos.
+	p.Name = NormalizePersonName(p.Name)
+
 	// Validar gender
 	validGenders := map[Gender]bool{
 		GenderMale:   true,

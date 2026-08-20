@@ -550,26 +550,38 @@ func labRequestFileName(req *models.LabRequest) string {
 		patient, date.Format("2006-01-02"), req.ID.String()[:8])
 }
 
-// compactName transforma "Luiz Gustavo José Carvalho" em "LuizGustavoJoséCarvalho": junta as
-// palavras em CamelCase e descarta o que não for letra/dígito, para o nome do arquivo não
+// compactName transforma "Luiz Gustavo José Carvalho" em "Luiz-Gustavo-José-Carvalho": une as
+// partes do nome com hífen e descarta o que não for letra/dígito, para o nome do arquivo não
 // depender de espaço nem de pontuação.
+//
+// O hífen entrou no lugar do CamelCase porque "LuizGustavoJoséCarvalho" só se lê com esforço, e
+// esse nome vai parar no WhatsApp e na pasta de downloads de quem recebe.
 func compactName(name string) string {
-	var b strings.Builder
-	upperNext := true
+	var partes []string
+	var atual strings.Builder
+	fecha := func() {
+		if atual.Len() > 0 {
+			partes = append(partes, atual.String())
+			atual.Reset()
+		}
+	}
+	primeiraDaParte := true
 	for _, r := range name {
 		switch {
 		case unicode.IsLetter(r) || unicode.IsDigit(r):
-			if upperNext {
-				b.WriteRune(unicode.ToUpper(r))
-				upperNext = false
+			if primeiraDaParte {
+				atual.WriteRune(unicode.ToUpper(r))
+				primeiraDaParte = false
 			} else {
-				b.WriteRune(r)
+				atual.WriteRune(r)
 			}
 		default:
-			upperNext = true
+			fecha()
+			primeiraDaParte = true
 		}
 	}
-	return b.String()
+	fecha()
+	return strings.Join(partes, "-")
 }
 
 // asciiFallback tira acentos e qualquer caractere fora do ASCII imprimível — é o nome que

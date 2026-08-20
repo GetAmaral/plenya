@@ -19,7 +19,7 @@ func TestLabRequestFileName(t *testing.T) {
 	}
 
 	got := labRequestFileName(req)
-	want := "LuizGustavoJoséCarvalho_PedidoExame_2026-08-19_01a016a2.pdf"
+	want := "Luiz-Gustavo-José-Carvalho_PedidoExame_2026-08-19_01a016a2.pdf"
 	if got != want {
 		t.Fatalf("labRequestFileName = %q, esperado %q", got, want)
 	}
@@ -37,9 +37,9 @@ func TestLabRequestFileName_SemPaciente(t *testing.T) {
 
 func TestCompactName(t *testing.T) {
 	cases := map[string]string{
-		"maria da silva":     "MariaDaSilva",
-		"  ana  clara  ":     "AnaClara",
-		"José-Maria D'Ávila": "JoséMariaDÁvila",
+		"maria da silva":     "Maria-Da-Silva",
+		"  ana  clara  ":     "Ana-Clara",
+		"José-Maria D'Ávila": "José-Maria-D-Ávila",
 		"":                   "",
 	}
 	for in, want := range cases {
@@ -51,7 +51,7 @@ func TestCompactName(t *testing.T) {
 
 // filename= não aceita acento; o nome acentuado vai no filename*=UTF-8.
 func TestAsciiFallback(t *testing.T) {
-	if got := asciiFallback("LuizGustavoJoséCarvalho_PedidoExame_2026-08-19_01a016a2.pdf"); got != "LuizGustavoJoseCarvalho_PedidoExame_2026-08-19_01a016a2.pdf" {
+	if got := asciiFallback("Luiz-Gustavo-José-Carvalho_PedidoExame_2026-08-19_01a016a2.pdf"); got != "Luiz-Gustavo-Jose-Carvalho_PedidoExame_2026-08-19_01a016a2.pdf" {
 		t.Fatalf("asciiFallback não removeu o acento: %q", got)
 	}
 	if got := asciiFallback("氏名"); got != "pedido-exame.pdf" {
