@@ -775,7 +775,9 @@ func setupRoutes(
 	// (modo arquivo = mídia inline; modo link = template documento_disponivel).
 	clinicalDocRoles := middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse)
 	patients.Get("/:id/clinical-documents", clinicalDocRoles, clinicalDocumentHandler.ListDocuments)
-	patients.Get("/:id/clinical-documents/whatsapp-window", clinicalDocRoles, clinicalDocumentHandler.WhatsAppWindow)
+	// "channels": por onde dá para mandar documento a este paciente. Passou a responder
+	// também por e-mail, então o nome deixou de ser só a janela do WhatsApp.
+	patients.Get("/:id/clinical-documents/channels", clinicalDocRoles, clinicalDocumentHandler.DocumentChannels)
 	patients.Post("/:id/clinical-documents/send-whatsapp", clinicalDocRoles, clinicalDocumentHandler.SendWhatsApp)
 	// Envio por e-mail: ato explícito, igual ao de WhatsApp. Assinar não manda nada.
 	// (o grupo /patients já aplica AuditLog)

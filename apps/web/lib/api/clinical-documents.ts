@@ -17,8 +17,16 @@ export type ClinicalDocType =
 
 export type SendMode = 'file' | 'link';
 
-export interface WhatsAppWindowState {
+/**
+ * Por onde dá para mandar documento a este paciente, e em que condição.
+ *
+ * É o que faz o botão nascer desabilitado com o motivo, em vez de o médico clicar e tomar erro:
+ * sem telefone não há WhatsApp, sem e-mail não há e-mail, e a janela de 24h decide se o WhatsApp
+ * vai como arquivo ou como link.
+ */
+export interface DocumentChannelsState {
   hasPhone: boolean;
+  hasEmail: boolean;
   windowOpen: boolean;
   lastInboundAt?: string;
 }
@@ -32,15 +40,15 @@ export interface ClinicalDocItem {
   signed: boolean;
 }
 
-/** Estado da janela de 24h do paciente — os cartões decidem quais botões mostrar. */
-export function useWhatsAppWindow(patientId?: string) {
+/** Canais disponíveis do paciente — os botões de envio decidem estado e motivo por aqui. */
+export function useDocumentChannels(patientId?: string) {
   return useQuery({
-    queryKey: ['wa-window', patientId],
+    queryKey: ['document-channels', patientId],
     enabled: !!patientId,
     staleTime: 60_000,
     queryFn: () =>
-      apiClient.get<WhatsAppWindowState>(
-        `/api/v1/patients/${patientId}/clinical-documents/whatsapp-window`,
+      apiClient.get<DocumentChannelsState>(
+        `/api/v1/patients/${patientId}/clinical-documents/channels`,
       ),
   });
 }

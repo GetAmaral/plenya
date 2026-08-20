@@ -15,7 +15,12 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { Loader2, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useSendClinicalDocEmail, type ClinicalDocType } from '@/lib/api/clinical-documents';
+import { BotaoEnvioTooltip } from '@/components/clinical/botao-envio-tooltip';
+import {
+  useDocumentChannels,
+  useSendClinicalDocEmail,
+  type ClinicalDocType,
+} from '@/lib/api/clinical-documents';
 
 interface Props {
   patientId: string;
@@ -26,8 +31,12 @@ interface Props {
 }
 
 export function SendDocumentEmailButton({ patientId, docType, docId, disabled }: Props) {
+  const { data: canais } = useDocumentChannels(patientId);
   const send = useSendClinicalDocEmail(patientId);
   const [busy, setBusy] = useState(false);
+  // Enquanto os canais não chegam, o botão fica habilitado: desabilitar por dado ausente que ainda
+  // está carregando faria o botão piscar de desligado para ligado a cada abertura da tela.
+  const semEmail = canais != null && !canais.hasEmail;
 
   async function enviar() {
     setBusy(true);
@@ -49,9 +58,22 @@ export function SendDocumentEmailButton({ patientId, docType, docId, disabled }:
   }
 
   return (
-    <Button variant="outline" size="sm" onClick={enviar} disabled={disabled || busy}>
-      {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mail className="mr-2 h-4 w-4" />}
-      E-mail
-    </Button>
+    <BotaoEnvioTooltip
+      motivo={semEmail ? 'Cadastre o e-mail do paciente para ativar o envio por e-mail' : undefined}
+    >
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={enviar}
+        disabled={disabled || busy || semEmail}
+      >
+        {busy ? (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Mail className="mr-2 h-4 w-4" />
+        )}
+        E-mail
+      </Button>
+    </BotaoEnvioTooltip>
   );
 }

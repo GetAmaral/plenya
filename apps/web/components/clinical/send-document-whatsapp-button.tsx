@@ -18,8 +18,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { BotaoEnvioTooltip } from '@/components/clinical/botao-envio-tooltip';
 import {
-  useWhatsAppWindow,
+  useDocumentChannels,
   useSendClinicalDocWhatsApp,
   type ClinicalDocType,
   type SendMode,
@@ -34,11 +35,14 @@ interface Props {
 }
 
 export function SendDocumentWhatsAppButton({ patientId, docType, docId, disabled }: Props) {
-  const { data: win } = useWhatsAppWindow(patientId);
+  const { data: win } = useDocumentChannels(patientId);
   const send = useSendClinicalDocWhatsApp(patientId);
   const [pending, setPending] = useState<SendMode | null>(null);
   const busy = pending !== null;
   const noPhone = win != null && !win.hasPhone;
+  const motivoDesabilitado = noPhone
+    ? 'Cadastre o telefone do paciente para ativar o envio por WhatsApp'
+    : undefined;
 
   async function doSend(mode: SendMode) {
     setPending(mode);
@@ -81,15 +85,17 @@ export function SendDocumentWhatsAppButton({ patientId, docType, docId, disabled
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={disabled || busy || noPhone}
-            title={noPhone ? 'Paciente sem telefone' : 'Enviar por WhatsApp'}
-          >
-            {icon}
-            WhatsApp
-          </Button>
+          <BotaoEnvioTooltip motivo={motivoDesabilitado}>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={disabled || busy || noPhone}
+              title={noPhone ? undefined : 'Enviar por WhatsApp'}
+            >
+              {icon}
+              WhatsApp
+            </Button>
+          </BotaoEnvioTooltip>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={() => doSend('file')} disabled={busy}>
@@ -107,15 +113,17 @@ export function SendDocumentWhatsAppButton({ patientId, docType, docId, disabled
 
   // Janela fechada (ou ainda desconhecida) → só link.
   return (
-    <Button
-      variant="outline"
-      size="sm"
-      disabled={disabled || busy || noPhone}
-      onClick={() => doSend('link')}
-      title={noPhone ? 'Paciente sem telefone' : 'Enviar link por WhatsApp (fora da janela de 24h)'}
-    >
-      {icon}
-      WhatsApp
-    </Button>
+    <BotaoEnvioTooltip motivo={motivoDesabilitado}>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={disabled || busy || noPhone}
+        onClick={() => doSend('link')}
+        title={noPhone ? undefined : 'Enviar link por WhatsApp (fora da janela de 24h)'}
+      >
+        {icon}
+        WhatsApp
+      </Button>
+    </BotaoEnvioTooltip>
   );
 }

@@ -212,20 +212,29 @@ func (s *ClinicalDocumentService) patientFirstName(patientID uuid.UUID) string {
 	return p.Name
 }
 
-// WhatsAppWindowState — estado da janela de 24h do paciente, p/ os cartões decidirem os botões.
-type WhatsAppWindowState struct {
+// DocumentChannelsState — por onde dá para mandar documento a este paciente, e em que condição.
+//
+// Serve para o botão nascer desabilitado com o motivo, em vez de o médico clicar e tomar um erro:
+// sem telefone não há WhatsApp, sem e-mail não há e-mail, e a janela de 24h decide se o WhatsApp
+// vai como arquivo ou como link.
+type DocumentChannelsState struct {
 	HasPhone      bool       `json:"hasPhone"`
+	HasEmail      bool       `json:"hasEmail"`
 	WindowOpen    bool       `json:"windowOpen"`
 	LastInboundAt *time.Time `json:"lastInboundAt,omitempty"`
 }
 
-// WhatsAppWindow calcula se o paciente respondeu nas últimas 24h (janela aberta p/ session message).
-func (s *ClinicalDocumentService) WhatsAppWindow(patientID uuid.UUID) (*WhatsAppWindowState, error) {
+// DocumentChannels diz quais canais estão disponíveis e se a janela de 24h do WhatsApp está aberta
+// (janela aberta permite mandar o arquivo; fechada, só o link por template).
+func (s *ClinicalDocumentService) DocumentChannels(patientID uuid.UUID) (*DocumentChannelsState, error) {
 	var p models.Patient
-	if err := s.db.Select("id", "phone").First(&p, "id = ?", patientID).Error; err != nil {
+	if err := s.db.Select("id", "phone", "email").First(&p, "id = ?", patientID).Error; err != nil {
 		return nil, errClinicalNotFound(err)
 	}
-	st := &WhatsAppWindowState{HasPhone: p.Phone != nil && *p.Phone != ""}
+	st := &DocumentChannelsState{
+		HasPhone: p.Phone != nil && strings.TrimSpace(*p.Phone) != "",
+		HasEmail: p.Email != nil && strings.TrimSpace(*p.Email) != "",
+	}
 
 	var last models.LeadActivity
 	err := s.db.

@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/dialog';
 import {
   useClinicalDocuments,
-  useWhatsAppWindow,
+  useDocumentChannels,
   useSendClinicalDocWhatsApp,
   type ClinicalDocItem,
   type ClinicalDocType,
@@ -40,7 +40,7 @@ interface Props {
 
 export function AttachEmrDocumentDialog({ patientId, open, onOpenChange }: Props) {
   const { data: docs, isLoading } = useClinicalDocuments(patientId, open);
-  const { data: win } = useWhatsAppWindow(patientId);
+  const { data: win } = useDocumentChannels(patientId);
   const send = useSendClinicalDocWhatsApp(patientId);
   const [pendingId, setPendingId] = useState<string | null>(null);
 

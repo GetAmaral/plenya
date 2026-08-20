@@ -187,13 +187,16 @@ func sendDocError(c *fiber.Ctx, err error) error {
 	}
 }
 
-// WhatsAppWindow: GET /patients/:id/clinical-documents/whatsapp-window
-func (h *ClinicalDocumentHandler) WhatsAppWindow(c *fiber.Ctx) error {
+// DocumentChannels: GET /patients/:id/clinical-documents/channels
+//
+// Diz por onde dá para mandar documento a este paciente. O botão nasce desabilitado com o motivo
+// em vez de o médico clicar e tomar um erro.
+func (h *ClinicalDocumentHandler) DocumentChannels(c *fiber.Ctx) error {
 	patientID, err := uuid.Parse(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "patient id inválido"})
 	}
-	st, err := h.svc.WhatsAppWindow(patientID)
+	st, err := h.svc.DocumentChannels(patientID)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: err.Error()})
 	}
