@@ -318,6 +318,8 @@ func setupRoutes(
 	userService := services.NewUserService(database.DB)
 	profileService := services.NewProfileService(database.DB)
 	medicationDefinitionService := services.NewMedicationDefinitionService(database.DB)
+	magistralComponentService := services.NewMagistralComponentService(database.DB)
+	magistralTemplateService := services.NewMagistralTemplateService(database.DB)
 
 	// Digital prescription services (Phase 4)
 	// Assinatura em nuvem (e-CPF em nuvem / PSC) — gated off por default (ICP_CLOUD_ENABLED).
@@ -397,6 +399,8 @@ func setupRoutes(
 	profileHandler := handlers.NewProfileHandler(profileService)
 	certificateHandler := handlers.NewCertificateHandler(database.DB, certificateService)
 	medicationDefHandler := handlers.NewMedicationDefinitionHandler(medicationDefinitionService)
+	magistralHandler := handlers.NewMagistralComponentHandler(magistralComponentService)
+	magistralTemplateHandler := handlers.NewMagistralTemplateHandler(magistralTemplateService)
 	enrichmentPrepHandler := handlers.NewScoreEnrichmentPreparationHandler(database.DB)
 	// M10 — Turnstile CAPTCHA pra rota pública /leads. Em dev (Secret vazio),
 	// validação é pulada com warning (não quebra fluxo local).
@@ -1029,6 +1033,39 @@ func setupRoutes(
 	medicationDefs.Post("/", middleware.RequireAdmin(), middleware.AuditLog(database.DB), medicationDefHandler.Create)
 	medicationDefs.Put("/:id", middleware.RequireAdmin(), middleware.AuditLog(database.DB), medicationDefHandler.Update)
 	medicationDefs.Delete("/:id", middleware.RequireAdmin(), middleware.AuditLog(database.DB), medicationDefHandler.Delete)
+
+	// Catálogo magistral: componentes, incompatibilidades curadas e a checagem de fórmula
+	// (compatibilidade + tamanho de cápsula) usada pela tela de manipulado.
+	magistral := v1.Group("/magistral-components")
+	magistral.Use(middleware.Auth(cfg))
+	magistral.Use(middleware.RequireAnyStaff())
+
+	magistral.Get("/search", magistralHandler.Search)
+	magistral.Post("/check", magistralHandler.Check)
+	magistral.Get("/incompatibilities", magistralHandler.ListIncompatibilities)
+	// Curadoria é ato clínico (faixa de dose, incompatibilidade), por isso RequireClinician.
+	magistral.Post("/default-dose", middleware.RequireClinician(), middleware.AuditLog(database.DB), magistralHandler.SaveDefaultDose)
+	magistral.Post("/incompatibilities", middleware.RequireClinician(), middleware.AuditLog(database.DB), magistralHandler.CreateIncompatibility)
+	magistral.Delete("/incompatibilities/:id", middleware.RequireClinician(), middleware.AuditLog(database.DB), magistralHandler.DeleteIncompatibility)
+	magistral.Post("/", middleware.RequireClinician(), middleware.AuditLog(database.DB), magistralHandler.Create)
+	magistral.Get("/:id", magistralHandler.Get)
+	magistral.Get("/:id/evidence", magistralHandler.ListEvidence)
+	magistral.Post("/:id/confirm", middleware.RequireClinician(), middleware.AuditLog(database.DB), magistralHandler.ConfirmEvidence)
+	magistral.Post("/evidence/:id/pin", middleware.RequireClinician(), middleware.AuditLog(database.DB), magistralHandler.PinEvidence)
+	magistral.Put("/:id", middleware.RequireClinician(), middleware.AuditLog(database.DB), magistralHandler.Update)
+
+	// Fórmulas-base (templates) e sugestão de dose. A sugestão é endpoint SEPARADO da criação de
+	// receita: quem prescreve recebe um número com a base escrita, não dose calculada por tabela.
+	magistralTemplates := v1.Group("/magistral-templates")
+	magistralTemplates.Use(middleware.Auth(cfg))
+	magistralTemplates.Use(middleware.RequireAnyStaff())
+
+	magistralTemplates.Get("/", magistralTemplateHandler.List)
+	magistralTemplates.Get("/:id", magistralTemplateHandler.Get)
+	magistralTemplates.Get("/:id/suggest", magistralTemplateHandler.Suggest)
+	magistralTemplates.Post("/", middleware.RequireClinician(), middleware.AuditLog(database.DB), magistralTemplateHandler.Create)
+	magistralTemplates.Put("/:id", middleware.RequireClinician(), middleware.AuditLog(database.DB), magistralTemplateHandler.Update)
+	magistralTemplates.Delete("/:id", middleware.RequireClinician(), middleware.AuditLog(database.DB), magistralTemplateHandler.Delete)
 
 	// Lab Results routes (protegidas).
 	// C2 — bloqueia patient role. Pacientes usam /patient/me/lab-batches.

@@ -197,6 +197,7 @@ func (h *PrescriptionHandler) List(c *fiber.Ctx) error {
 // @Success 200 {object} dto.PrescriptionResponse
 // @Failure 400 {object} dto.ErrorResponse
 // @Failure 404 {object} dto.ErrorResponse
+// @Failure 409 {object} dto.ErrorResponse "receita assinada não pode ser alterada"
 // @Failure 500 {object} dto.ErrorResponse
 // @Router /prescriptions/{id} [put]
 func (h *PrescriptionHandler) Update(c *fiber.Ctx) error {
@@ -240,6 +241,12 @@ func (h *PrescriptionHandler) Update(c *fiber.Ctx) error {
 				Message: "you do not have permission to update this prescription",
 			})
 		}
+		if errors.Is(err, services.ErrPrescriptionSigned) {
+			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+				Error:   "prescription already signed",
+				Message: "receita assinada não pode ser alterada; duplique e emita uma nova",
+			})
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
 			Error:   "internal server error",
 			Message: err.Error(),
@@ -249,7 +256,20 @@ func (h *PrescriptionHandler) Update(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
-// Delete deleta uma prescrição
+// Delete godoc
+// @Summary Delete prescription draft
+// @Description Soft-deletes a prescription. Signed prescriptions are refused (409).
+// @Tags Prescriptions
+// @Produce json
+// @Param id path string true "Prescription UUID"
+// @Security BearerAuth
+// @Success 204 "No Content"
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 403 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Failure 409 {object} dto.ErrorResponse "receita assinada não pode ser excluída"
+// @Failure 500 {object} dto.ErrorResponse
+// @Router /prescriptions/{id} [delete]
 func (h *PrescriptionHandler) Delete(c *fiber.Ctx) error {
 	prescriptionID, err := uuid.Parse(c.Params("id"))
 	if err != nil {
@@ -274,6 +294,12 @@ func (h *PrescriptionHandler) Delete(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusForbidden).JSON(dto.ErrorResponse{
 				Error:   "unauthorized",
 				Message: "you do not have permission to delete this prescription",
+			})
+		}
+		if errors.Is(err, services.ErrPrescriptionSigned) {
+			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+				Error:   "prescription already signed",
+				Message: "receita assinada não pode ser excluída; use o status cancelada",
 			})
 		}
 		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{

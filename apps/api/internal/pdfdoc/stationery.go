@@ -116,6 +116,26 @@ html,body{ background:#fff; }
 .medpos{ font-size:12.5px; color:var(--petrol); margin-top:4px; }
 .medqty{ font-size:11.5px; color:var(--ink2); margin-top:2px; }
 .medinstr{ font-size:11.5px; color:var(--ink2); margin-top:2px; font-style:italic; }
+/* ---- Receituário magistral (manipulado). Cada .formula é um bloco atômico de paginação, por
+   isso o número de componentes é limitado na validação: um bloco maior que a página não é
+   quebrado pelo paginador, ele transborda em silêncio. */
+.formula{ padding:10px 0 4px; border-top:1px solid rgba(6,59,79,.08); }
+.formula:first-child{ border-top:none; padding-top:2px; }
+.fhead{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+.fname{ font-size:13.5px; font-weight:600; color:var(--petrol); }
+.fform{ color:var(--ink2); font-weight:600; }
+.fuse{ flex:0 0 auto; font-size:9.5px; letter-spacing:1px; text-transform:uppercase; font-weight:700; color:var(--gold); border:1px solid rgba(179,134,69,.5); border-radius:3px; padding:2px 7px; white-space:nowrap; }
+.comp{ display:flex; align-items:baseline; gap:6px; margin-top:5px; font-size:12.8px; color:var(--petrol); }
+.compname{ flex:0 1 auto; }
+.compnote{ color:var(--ink2); font-size:10.8px; font-style:italic; }
+/* "(do elemento)" vai colado na quantidade e em peso, porque muda o que a farmácia pesa. */
+.compelem{ font-size:10.5px; font-weight:600; }
+.dots{ flex:1 1 auto; border-bottom:1px dotted rgba(6,59,79,.35); transform:translateY(-3px); min-width:14px; }
+.compqty{ flex:0 0 auto; font-weight:600; white-space:nowrap; }
+.fveh{ display:flex; align-items:baseline; gap:6px; margin-top:5px; font-size:12.8px; color:var(--ink2); }
+.fdisp{ margin-top:8px; font-size:12.8px; color:var(--petrol); font-weight:600; }
+.fpos{ margin-top:4px; font-size:12.5px; color:var(--petrol); }
+.finstr{ margin-top:2px; font-size:11.5px; color:var(--ink2); font-style:italic; }
 .validity{ margin-top:14px; font-size:12px; color:var(--ink2); }
 .validity b{ color:var(--petrol); font-weight:700; }
 .docbody{ margin-top:20px; font-size:13.5px; line-height:1.75; color:var(--petrol); max-width:170mm; text-align:justify; }

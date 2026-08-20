@@ -1,0 +1,93 @@
+-- Indicações das substâncias que o RAG do consultório NÃO cobre.
+--
+-- O enriquecimento pelo RAG (cmd/magistral-enrich) deu indicação para 72 das 95 substâncias, com
+-- trecho de aula guardado ao lado. As 23 restantes ficaram sem — ou porque são de uso
+-- farmacotécnico (mentol, cânfora, timol, fenol, resorcina, talco, maltodextrina), ou porque o
+-- material da pós não as discute. Estas vêm de pesquisa externa e entram como `suggested`: o
+-- médico confere na tela de curadoria e o status vira `confirmed`.
+--
+-- Fontes: Tua Saúde, Nutritotal, Manuais MSD, informativos técnicos de insumo (Florien, Infinity,
+-- Farmacam), Revista de Ciências Farmacêuticas Básica e Aplicada (Cimicifuga/Vitex),
+-- Formulário Fitoterápico (Vitex agnus-castus), páginas de farmácias magistrais.
+
+UPDATE public.magistral_components AS c SET
+    indications = v.indications,
+    dose_reference = COALESCE(c.dose_reference, v.dose_reference),
+    evidence_status = CASE WHEN c.evidence_status = 'confirmed' THEN 'confirmed' ELSE 'suggested' END,
+    last_review = now()
+FROM (VALUES
+    ('Ácido málico',
+     'Intermediário do ciclo de Krebs, usado como sal do magnésio (dimalato) por participar da produção de energia celular. Associado a quadros de fadiga e dor muscular.',
+     NULL),
+    ('Amora',
+     'Fonte de flavonoides e antocianinas com ação antioxidante, usada em sintomas do climatério, sobretudo fogachos, e como coadjuvante no controle lipídico.',
+     NULL),
+    ('Cimicifuga racemosa',
+     'Fitoterápico de uso consagrado nos sintomas vasomotores do climatério, em especial fogachos e sudorese.',
+     NULL),
+    ('Vitex agnus-castus',
+     'Fitoterápico com ação sobre a regulação hormonal feminina, usado em tensão pré-menstrual e irregularidade do ciclo.',
+     NULL),
+    ('Yam mexicano',
+     'Fonte de diosgenina, sapogenina esteroidal precursora na síntese de esteroides, usada em queixas do climatério, dismenorreia e tensão pré-menstrual. A conversão endógena da diosgenina em progesterona é pequena, o que limita o que se pode esperar dela.',
+     NULL),
+    ('Isoflavona',
+     'Fitoestrógeno da soja usado nos sintomas do climatério, principalmente fogachos.',
+     '40 a 150 mg/dia, podendo ser fracionada em duas tomadas a critério médico.'),
+    ('Valeriana',
+     'Fitoterápico usado em insônia e ansiedade, geralmente à noite e associado a outros calmantes.',
+     NULL),
+    ('Passiflora',
+     'Fitoterápico ansiolítico leve, usado em ansiedade e como coadjuvante do sono em associações.',
+     NULL),
+    ('FOS',
+     'Fibra prebiótica não digerida no intestino delgado que serve de substrato para a microbiota do cólon; a fermentação gera ácidos graxos de cadeia curta, entre eles o butirato, ligado à saúde da mucosa.',
+     NULL),
+    ('Inulina',
+     'Fibra prebiótica de comportamento semelhante ao FOS: chega íntegra ao cólon, alimenta bactérias benéficas e gera butirato na fermentação.',
+     NULL),
+    ('XOS',
+     'Xilo-oligossacarídeo, prebiótico eficaz em quantidades menores que FOS e inulina, usado em suporte de microbiota.',
+     NULL),
+    ('MSM',
+     'Enxofre orgânico usado em dor e rigidez articular (osteoartrite), recuperação muscular e suporte de tecido conjuntivo, pele, unhas e cabelo. Descrito com efeito anti-inflamatório por inibição de citocinas e aumento de glutationa.',
+     NULL),
+    ('Silício orgânico',
+     'Forma biodisponível do silício, usada em pele, cabelos e unhas por favorecer a síntese de colágeno, elastina e ácido hialurônico; também citada em saúde óssea.',
+     NULL),
+    ('Sulfato de condroitina',
+     'Usado em osteoartrite e dor articular, em geral associado à glicosamina.',
+     NULL),
+    ('Licopeno',
+     'Carotenoide antioxidante do tomate, usado em saúde cardiovascular, próstata e fotoproteção da pele.',
+     NULL),
+    ('Magnésio taurato',
+     'Magnésio ligado à taurina, com perfil voltado à saúde cardiovascular, incluindo regulação da pressão arterial.',
+     NULL),
+    ('Cloreto de magnésio',
+     'Sal de magnésio de reposição, também citado em constipação. Higroscópico: em cápsula gelatinosa pede excipiente adsorvente ou cápsula vegetal.',
+     NULL),
+    -- Farmacotécnicos: a "indicação" aqui é o papel na fórmula, não uma indicação clínica.
+    ('Mentol',
+     'Uso farmacotécnico e tópico em associações. Forma mistura eutética com cânfora, timol, fenol e resorcina: juntas liquefazem na trituração, o que se contorna com pó adsorvente.',
+     NULL),
+    ('Cânfora',
+     'Uso farmacotécnico e tópico em associações. Forma mistura eutética com mentol e timol.',
+     NULL),
+    ('Timol',
+     'Uso farmacotécnico e tópico. Forma mistura eutética com mentol e cânfora.',
+     NULL),
+    ('Fenol',
+     'Uso farmacotécnico e tópico. Forma mistura eutética com mentol.',
+     NULL),
+    ('Resorcina',
+     'Uso farmacotécnico e tópico (dermatologia). Forma mistura eutética com mentol.',
+     NULL),
+    ('Talco',
+     'Deslizante e adsorvente da manipulação. Adsorve cianocobalamina, o que desaconselha o uso em fórmula que a contenha.',
+     NULL),
+    ('Maltodextrina',
+     'Diluente de sachês e cápsulas. Densidade aparente publicada de 0,70 g/mL, usada no cálculo volumétrico.',
+     NULL)
+) AS v(name, indications, dose_reference)
+WHERE lower(c.name) = lower(v.name);

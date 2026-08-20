@@ -64,6 +64,22 @@ export function formatDateOnly(
   return dfFormat(cal, pattern, { locale: ptBR, ...fmtOptions });
 }
 
+/**
+ * Diz se uma data PURA (sem hora) já passou, comparando pelo calendário.
+ *
+ * `new Date("2026-09-18") < new Date()` compara meia-noite UTC com o agora local: em BRT a data
+ * "vence" às 21h do dia anterior. Era o que fazia a receita aparecer com selo "Expirado" ao lado
+ * da coluna Validade mostrando o dia seguinte.
+ */
+export function isPastDateOnly(value: DateInput): boolean {
+  const d = toDate(value);
+  if (!d) return false;
+  const alvo = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+  const hoje = new Date();
+  const hojeCal = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+  return alvo < hojeCal;
+}
+
 /** Atalho data + hora (dd/MM/yyyy HH:mm). */
 export function formatDateTime(
   value: DateInput,

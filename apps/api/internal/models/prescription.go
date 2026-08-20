@@ -35,6 +35,11 @@ type Prescription struct {
 	// @required
 	DoctorID uuid.UUID `gorm:"type:uuid;not null;index" json:"doctorId" validate:"required"`
 
+	// Tipo da receita: industrializado (`commercial`) ou manipulado (`compounded`).
+	// Imutável depois de criada — os dois modos preenchem tabelas filhas diferentes.
+	// @enum commercial,compounded
+	Type PrescriptionType `gorm:"type:varchar(12);not null;default:'commercial'" json:"type"`
+
 	// Instruções gerais da prescrição (aplicam-se a todos os medicamentos)
 	// @example Tomar durante as refeições
 	GeneralInstructions *string `gorm:"type:text" json:"generalInstructions,omitempty"`
@@ -114,6 +119,7 @@ type Prescription struct {
 	Patient     Patient                  `gorm:"foreignKey:PatientID;constraint:OnDelete:CASCADE" json:"patient,omitempty"`
 	Doctor      User                     `gorm:"foreignKey:DoctorID;constraint:OnDelete:RESTRICT" json:"doctor,omitempty"`
 	Medications []PrescriptionMedication `gorm:"foreignKey:PrescriptionID;constraint:OnDelete:CASCADE" json:"medications,omitempty"`
+	Formulas    []PrescriptionFormula    `gorm:"foreignKey:PrescriptionID;constraint:OnDelete:CASCADE" json:"formulas,omitempty"`
 }
 
 // TableName especifica o nome da tabela

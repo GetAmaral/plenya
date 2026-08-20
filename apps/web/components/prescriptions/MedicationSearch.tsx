@@ -21,6 +21,12 @@ import type { MedicationDefinition } from '@/lib/api/medication-definitions'
 
 interface MedicationSearchProps {
   value?: MedicationDefinition
+  /**
+   * Rótulo do item já escolhido. As telas de prescrição não guardam o objeto do catálogo, só
+   * o nome no formulário — sem isto o combobox mostrava "Buscar medicamento..." para sempre,
+   * como se nada tivesse sido selecionado.
+   */
+  valueLabel?: string
   onSelect: (medication: MedicationDefinition) => void
   placeholder?: string
 }
@@ -28,6 +34,7 @@ interface MedicationSearchProps {
 export function MedicationSearch({
   value,
   onSelect,
+  valueLabel,
   placeholder = 'Buscar medicamento...',
 }: MedicationSearchProps) {
   const [open, setOpen] = useState(false)
@@ -67,10 +74,10 @@ export function MedicationSearch({
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {value ? (
+          {value || valueLabel ? (
             <div className="flex items-center gap-2 truncate">
-              <span className="truncate">{value.commonName}</span>
-              <CategoryBadge category={value.category} />
+              <span className="truncate">{value?.commonName ?? valueLabel}</span>
+              {value && <CategoryBadge category={value.category} />}
             </div>
           ) : (
             <span className="text-muted-foreground">{placeholder}</span>

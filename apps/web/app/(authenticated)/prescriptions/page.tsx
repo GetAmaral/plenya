@@ -2,11 +2,13 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useQuery } from '@tanstack/react-query'
-import { formatDate } from '@/lib/format-date'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { formatDate, formatDateOnly, isPastDateOnly } from '@/lib/format-date'
 import {
   Plus,
   FileText,
+  FlaskConical,
   Download,
   Edit,
   Copy,
@@ -37,17 +39,28 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
 import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient'
 import { SelectedPatientHeader } from '@/components/patients/SelectedPatientHeader'
 import { SendDocumentWhatsAppButton } from '@/components/clinical/send-document-whatsapp-button'
-import { listPrescriptions } from '@/lib/api/prescriptions'
+import { deletePrescription, listPrescriptions, openPrescriptionPdf } from '@/lib/api/prescriptions'
 import type { Prescription, PrescriptionStatus } from '@/lib/api/prescriptions'
 
 export default function PrescriptionsPage() {
   const router = useRouter()
   const { selectedPatient, isLoading: loadingPatient } = useRequireSelectedPatient()
-  const [statusFilter, setStatusFilter] = useState<PrescriptionStatus | 'all'>('all')
+  const [statusFilter, setStatusFilter] = useState<PrescriptionStatus | 'all' | 'used'>('all')
 
   // Query prescriptions
   const { data, isLoading, refetch } = useQuery({
@@ -55,7 +68,9 @@ export default function PrescriptionsPage() {
     queryFn: () =>
       listPrescriptions({
         patientId: selectedPatient?.id,
-        status: statusFilter === 'all' ? undefined : statusFilter,
+        // 'used' não é status no banco: dispensação é a flag isUsed. Mandar 'used' para a API
+        // devolvia lista vazia com a tela de "nenhuma prescrição".
+        status: statusFilter === 'all' || statusFilter === 'used' ? undefined : statusFilter,
         limit: 100,
       }),
     enabled: !!selectedPatient?.id,
@@ -72,7 +87,8 @@ export default function PrescriptionsPage() {
     )
   }
 
-  const prescriptions = data || []
+  // "Usados" é dispensação, não status: filtra aqui, com o que a API já devolveu.
+  const prescriptions = (data || []).filter((p) => statusFilter !== 'used' || p.isUsed)
   const hasSignedPrescriptions = prescriptions.some((p) => p.signedPdfPath)
 
   return (
@@ -86,10 +102,16 @@ export default function PrescriptionsPage() {
             {prescriptions.length} prescrição(ões) encontrada(s)
           </p>
         </div>
-        <Button onClick={() => router.push('/prescriptions/new')}>
-          <Plus className="mr-2 h-4 w-4" />
-          Nova Prescrição
-        </Button>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Button variant="outline" onClick={() => router.push('/prescriptions/new?tipo=manipulado')}>
+            <FlaskConical className="mr-2 h-4 w-4" />
+            Manipulado
+          </Button>
+          <Button onClick={() => router.push('/prescriptions/new')}>
+            <Plus className="mr-2 h-4 w-4" />
+            Nova prescrição
+          </Button>
+        </div>
       </div>
 
       {/* Info Alert */}
@@ -151,7 +173,7 @@ export default function PrescriptionsPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Medicamentos</TableHead>
+                <TableHead>Itens</TableHead>
                 <TableHead>Categorias</TableHead>
                 <TableHead>Data</TableHead>
                 <TableHead>Validade</TableHead>
@@ -162,25 +184,48 @@ export default function PrescriptionsPage() {
             </TableHeader>
             <TableBody>
               {prescriptions.map((prescription) => {
-                const medicationCount = prescription.medications?.length || 0
+                // Manipulado e industrializado convivem na mesma lista: a coluna mostra o que a
+                // receita tem de fato, senão toda receita magistral apareceria como "0 medicamentos".
+                const isCompounded = prescription.type === 'compounded'
+                const itemCount = isCompounded
+                  ? prescription.formulas?.length || 0
+                  : prescription.medications?.length || 0
+                const itemLabel = isCompounded
+                  ? itemCount === 1
+                    ? 'fórmula'
+                    : 'fórmulas'
+                  : itemCount === 1
+                    ? 'medicamento'
+                    : 'medicamentos'
+                const itemNames = isCompounded
+                  ? (prescription.formulas ?? []).map((f, i) => f.name || `Fórmula ${i + 1}`)
+                  : (prescription.medications ?? []).map((m) => m.medicationName)
                 const uniqueCategories = Array.from(
-                  new Set(prescription.medications?.map((m) => m.category) || [])
+                  new Set(
+                    isCompounded
+                      ? (prescription.formulas ?? []).map((f) => f.highestCategory)
+                      : (prescription.medications ?? []).map((m) => m.category)
+                  )
                 )
 
                 return (
                   <TableRow key={prescription.id}>
                     {/* Medications */}
                     <TableCell>
-                      <div className="font-medium">
-                        {medicationCount} {medicationCount === 1 ? 'medicamento' : 'medicamentos'}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-medium">
+                          {itemCount} {itemLabel}
+                        </span>
+                        {isCompounded && (
+                          <Badge variant="outline" className="bg-gold-50 text-xs text-gold-600">
+                            Manipulado
+                          </Badge>
+                        )}
                       </div>
-                      {prescription.medications && prescription.medications.length > 0 && (
-                        <div className="text-sm text-muted-foreground mt-1">
-                          {prescription.medications
-                            .slice(0, 2)
-                            .map((m) => m.medicationName)
-                            .join(', ')}
-                          {prescription.medications.length > 2 && '...'}
+                      {itemNames.length > 0 && (
+                        <div className="mt-1 text-sm text-muted-foreground">
+                          {itemNames.slice(0, 2).join(', ')}
+                          {itemNames.length > 2 && '...'}
                         </div>
                       )}
                     </TableCell>
@@ -201,7 +246,8 @@ export default function PrescriptionsPage() {
 
                     {/* Valid Until */}
                     <TableCell>
-                      {formatDate(prescription.validUntil, 'dd/MM/yyyy')}
+                      {/* DATE pura: formatDate mostraria o dia anterior em BRT. */}
+                      {formatDateOnly(prescription.validUntil)}
                     </TableCell>
 
                     {/* Status */}
@@ -274,7 +320,7 @@ function StatusBadge({
   isUsed: boolean
   validUntil: string
 }) {
-  const isExpired = new Date(validUntil) < new Date()
+  const isExpired = isPastDateOnly(validUntil)
 
   if (isUsed) {
     return (
@@ -323,6 +369,18 @@ function PrescriptionActions({
   const isSigned = !!prescription.signedPdfPath
   const canEdit = !isSigned
 
+  const remove = useMutation({
+    mutationFn: () => deletePrescription(prescription.id),
+    onSuccess: () => {
+      toast.success('Rascunho excluído')
+      onRefetch()
+    },
+    onError: (error: any) =>
+      toast.error('Erro ao excluir', {
+        description: error.response?.data?.error || error.message,
+      }),
+  })
+
   return (
     <div className="flex items-center justify-end gap-2">
       {/* View/Details */}
@@ -334,12 +392,18 @@ function PrescriptionActions({
         <Eye className="h-4 w-4" />
       </Button>
 
-      {/* Download PDF (if signed) */}
-      {isSigned && prescription.signedPdfPath && (
+      {/* Download do PDF — pelo endpoint autenticado. O caminho em signedPdfPath aponta para o
+          /uploads estático, que deixou de ser servido no hardening: abrir direto dava 404. */}
+      {isSigned && (
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => window.open(prescription.signedPdfPath!, '_blank')}
+          title="Baixar PDF"
+          onClick={() =>
+            openPrescriptionPdf(prescription.id).catch((e) =>
+              toast.error(e?.message ?? 'Falha ao baixar o PDF')
+            )
+          }
         >
           <Download className="h-4 w-4" />
         </Button>
@@ -376,11 +440,32 @@ function PrescriptionActions({
         </Button>
       )}
 
-      {/* Delete (only if not signed) */}
+      {/* Excluir rascunho. O botão existia sem onClick nenhum: clicar não fazia nada. */}
       {canEdit && (
-        <Button variant="ghost" size="sm" className="text-destructive">
-          <Trash2 className="h-4 w-4" />
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="ghost" size="sm" className="text-destructive" title="Excluir rascunho">
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Excluir este rascunho?</AlertDialogTitle>
+              <AlertDialogDescription>
+                O rascunho será removido da lista. Receita assinada nunca é excluída.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => remove.mutate()}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                Excluir
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       )}
     </div>
   )

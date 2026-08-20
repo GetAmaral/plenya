@@ -190,13 +190,27 @@ export type MedicationResponse = WithRequired<
   | 'id' | 'medicationName' | 'activeIngredient' | 'category' | 'concentration'
   | 'dosage' | 'frequency' | 'route' | 'duration' | 'quantity'
 >
+/** Fórmula magistral (receita de manipulado). */
+export type FormulaComponentResponse = WithRequired<
+  Schemas['dto.FormulaComponentResponse'],
+  'id' | 'substance' | 'quantity' | 'unit' | 'category'
+>
+export type FormulaResponse = Refine<
+  WithRequired<
+    Schemas['dto.FormulaResponse'],
+    | 'id' | 'pharmaceuticalForm' | 'usageType' | 'quantityToDispense'
+    | 'quantityUnit' | 'posology' | 'highestCategory'
+  >,
+  { components: FormulaComponentResponse[] }
+>
 export type Prescription = Refine<
   WithRequired<
     Schemas['dto.PrescriptionResponse'],
     | 'id' | 'patientId' | 'doctorId' | 'status' | 'prescriptionDate'
-    | 'validUntil' | 'isUsed' | 'createdAt' | 'updatedAt'
+    | 'validUntil' | 'isUsed' | 'createdAt' | 'updatedAt' | 'type'
   >,
-  { medications: MedicationResponse[] }
+  // o backend sempre devolve as duas listas (vazias quando não se aplicam ao tipo)
+  { medications: MedicationResponse[]; formulas: FormulaResponse[] }
 >
 
 /** Template de pedido de exames (resposta da API). */

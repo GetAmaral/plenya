@@ -13243,6 +13243,754 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/magistral-components": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create magistral component */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: components["requestBodies"]["dto.MagistralComponentRequest"];
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralComponent"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-components/check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Check magistral formula
+         * @description Avisos de compatibilidade/palatabilidade e cálculo de tamanho de cápsula. Avisa, não bloqueia.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Fórmula */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["dto.MagistralCheckRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.MagistralCheckResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-components/default-dose": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Save default dose for a substance
+         * @description Curadoria oportunista: guarda a dose que o médico acabou de prescrever como padrão da substância
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Substância e dose */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["dto.MagistralDefaultDoseRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralComponent"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-components/evidence/{id}/pin": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Pin or unpin an evidence excerpt */
+        post: {
+            parameters: {
+                query?: {
+                    /** @description true para fixar, false para soltar */
+                    pinned?: boolean;
+                };
+                header?: never;
+                path: {
+                    /** @description Evidence UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-components/incompatibilities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List curated incompatibilities */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralIncompatibility"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create curated incompatibility */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Par */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["dto.MagistralIncompatibilityRequest"];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralIncompatibility"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-components/incompatibilities/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete curated incompatibility */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Incompatibility UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-components/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search magistral components
+         * @description Busca componentes do catálogo magistral por nome ou sinônimo (mín. 2 caracteres)
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Termo de busca */
+                    q: string;
+                    /** @description Limite */
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralComponent"][];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-components/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get magistral component */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Component UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralComponent"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        /** Update magistral component */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Component UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: components["requestBodies"]["dto.MagistralComponentRequest"];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralComponent"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-components/{id}/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Confirm the RAG-extracted content of a component
+         * @description Aceite do médico: o que veio do RAG deixa de ser sugestão e passa a conferido.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Component UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-components/{id}/evidence": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List RAG evidence for a component
+         * @description Trechos de aulas/artigos ligados ao componente. Material de leitura; nenhum cálculo usa isto.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Component UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralComponentArticle"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List magistral formula templates
+         * @description Fórmulas-base ativas. `q` busca por nome ou indicação.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Busca por nome ou indicação */
+                    q?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralFormulaTemplate"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create a formula template */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: components["requestBodies"]["dto.FormulaTemplateRequest"];
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralFormulaTemplate"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-templates/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a formula template */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Template UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralFormulaTemplate"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        /** Update a formula template */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Template UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: components["requestBodies"]["dto.FormulaTemplateRequest"];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["models.MagistralFormulaTemplate"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        /** Delete a formula template */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Template UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/magistral-templates/{id}/suggest": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Suggest doses for a patient
+         * @description Aplica as regras da fórmula-base ao paciente e devolve SUGESTÕES com a base escrita. Não escreve na receita.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Patient UUID */
+                    patientId: string;
+                };
+                header?: never;
+                path: {
+                    /** @description Template UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.DoseSuggestionResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/me/2fa": {
         parameters: {
             query?: never;
@@ -14813,6 +15561,15 @@ export interface paths {
                         "application/json": components["schemas"]["dto.ErrorResponse"];
                     };
                 };
+                /** @description receita assinada não pode ser alterada */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
                 /** @description Internal Server Error */
                 500: {
                     headers: {
@@ -14825,7 +15582,76 @@ export interface paths {
             };
         };
         post?: never;
-        delete?: never;
+        /**
+         * Delete prescription draft
+         * @description Soft-deletes a prescription. Signed prescriptions are refused (409).
+         */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Prescription UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description receita assinada não pode ser excluída */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
         options?: never;
         head?: never;
         patch?: never;
@@ -15788,11 +16614,19 @@ export interface components {
             weight?: number;
         };
         "dto.CreatePrescriptionRequest": {
+            /** @description Fórmulas magistrais (receita compounded). */
+            formulas?: components["schemas"]["dto.FormulaRequest"][];
             generalInstructions?: string;
-            medications: components["schemas"]["dto.MedicationRequest"][];
+            /** @description Medicamentos industrializados (receita commercial). */
+            medications?: components["schemas"]["dto.MedicationRequest"][];
             patientId: string;
             /** @description formato: RFC3339 */
             prescriptionDate: string;
+            /**
+             * @description Tipo da receita. Ausente = commercial (todo cliente antigo continua funcionando).
+             * @enum {unknown}
+             */
+            type?: "commercial" | "compounded";
         };
         "dto.CreateUserRequest": {
             /** @description Formato: 123.456.789-00 ou sem formatação */
@@ -15802,6 +16636,66 @@ export interface components {
             /** @description bcrypt max 72 bytes */
             password: string;
             roles: string[];
+        };
+        "dto.DoseBandRequest": {
+            dose: number;
+            label?: string;
+            lowerBound?: number;
+            upperBound?: number;
+        };
+        "dto.DoseBandView": {
+            active?: boolean;
+            dose?: number;
+            label?: string;
+            lowerBound?: number;
+            upperBound?: number;
+        };
+        "dto.DoseRuleRequest": {
+            /** @description Conduta por faixa do exame — como a clínica de fato dosa vitamina D, ferritina e B12. */
+            bands?: components["schemas"]["dto.DoseBandRequest"][];
+            doseIfFalse?: number;
+            doseIfTrue?: number;
+            fixedDose?: number;
+            /** @enum {unknown} */
+            kind: "fixed" | "per_kg" | "lab_threshold" | "lab_band";
+            /** @description O exame é o `code` de lab_test_definitions, escolhido na tela. */
+            labCode?: string;
+            /** @enum {string} */
+            labOperator?: "lt" | "lte" | "gt" | "gte";
+            labThreshold?: number;
+            /** @description Unidade em que o limiar/faixa foi escrito. Resultado em outra unidade não vira sugestão. */
+            labUnit?: string;
+            maxDataAgeDays?: number;
+            maxDose: number;
+            minDose: number;
+            note?: string;
+            perKg?: number;
+            /** @description Passo prático de arredondamento da dose sugerida (100 UI, 50 mg). */
+            roundTo?: number;
+        };
+        "dto.DoseSuggestionItem": {
+            /** @description A escada de faixas da regra, com a do paciente marcada. */
+            bands?: components["schemas"]["dto.DoseBandView"][];
+            baseDose?: number;
+            basis?: string;
+            clamped?: boolean;
+            /** @description Última dose que o médico ASSINOU desta substância nesta fórmula-base. */
+            lastPrescribed?: number;
+            reason?: string;
+            substance?: string;
+            suggested?: number;
+            templateComponentId?: string;
+            unit?: string;
+        };
+        "dto.DoseSuggestionResponse": {
+            /** @description Tomadas por dia lidas da posologia da fórmula-base. As regras são escritas em dose diária. */
+            dosesPerDay?: number;
+            items?: components["schemas"]["dto.DoseSuggestionItem"][];
+            templateId?: string;
+            templateName?: string;
+            weightDate?: string;
+            weightKg?: number;
+            weightSource?: string;
         };
         "dto.EnrichmentPreparationStatsResponse": {
             /**
@@ -15824,6 +16718,105 @@ export interface components {
             };
             error?: string;
             message?: string;
+        };
+        "dto.FormulaComponentRequest": {
+            /** @description A dose escrita é do elemento (ou ativo puro), não do insumo. */
+            asElemental?: boolean;
+            /**
+             * @description a_b (tarja preta) entra na lista: a migration 00080 permite a categoria no catálogo e a
+             *     tela preenche a partir dele; sem isto, escolher a substância dava 400 no salvar.
+             * @enum {unknown}
+             */
+            category: "simple" | "c1" | "c5" | "antibiotic" | "glp1" | "a_b";
+            magistralComponentId?: string;
+            medicationDefinitionId?: string;
+            note?: string;
+            quantity: number;
+            substance: string;
+            /**
+             * @description O que o motor de regras sugeriu, quando houve sugestão. Gravado AO LADO da dose prescrita:
+             *     é o que permite saber depois quando o médico discordou da sugestão.
+             */
+            suggestedQuantity?: number;
+            unit: string;
+        };
+        "dto.FormulaComponentResponse": {
+            asElemental?: boolean;
+            category?: components["schemas"]["models.MedicationCategory"];
+            id?: string;
+            magistralComponentId?: string;
+            medicationDefinitionId?: string;
+            note?: string;
+            quantity?: number;
+            substance?: string;
+            suggestedQuantity?: number;
+            unit?: string;
+        };
+        "dto.FormulaRequest": {
+            /**
+             * @description Teto de 20 componentes por fórmula: acima disso o bloco não cabe numa página do
+             *     receituário e o paginador do PDF não quebra bloco (transbordaria em silêncio).
+             */
+            components: components["schemas"]["dto.FormulaComponentRequest"][];
+            duration?: number;
+            instructions?: string;
+            name?: string;
+            pharmaceuticalForm: string;
+            posology: string;
+            quantityInWords?: string;
+            quantityToDispense: number;
+            quantityUnit: string;
+            route?: string;
+            templateId?: string;
+            /** @enum {unknown} */
+            usageType: "internal" | "external";
+            vehicle?: string;
+        };
+        "dto.FormulaResponse": {
+            components?: components["schemas"]["dto.FormulaComponentResponse"][];
+            duration?: number;
+            highestCategory?: components["schemas"]["models.MedicationCategory"];
+            id?: string;
+            instructions?: string;
+            name?: string;
+            pharmaceuticalForm?: string;
+            posology?: string;
+            quantityInWords?: string;
+            quantityToDispense?: number;
+            quantityUnit?: string;
+            route?: string;
+            templateId?: string;
+            usageType?: components["schemas"]["models.FormulaUsage"];
+            vehicle?: string;
+        };
+        "dto.FormulaTemplateComponentRequest": {
+            /** @description A dose da base é do elemento, não do insumo (fator de correção). */
+            asElemental?: boolean;
+            /** @enum {unknown} */
+            category?: "simple" | "c1" | "c5" | "antibiotic" | "glp1";
+            magistralComponentId?: string;
+            note?: string;
+            quantity: number;
+            rule?: components["schemas"]["dto.DoseRuleRequest"];
+            substance: string;
+            unit: string;
+        };
+        "dto.FormulaTemplateRequest": {
+            components: components["schemas"]["dto.FormulaTemplateComponentRequest"][];
+            duration?: number;
+            indication?: string;
+            indicationBullets?: string;
+            instructions?: string;
+            name: string;
+            notes?: string;
+            pharmaceuticalForm: string;
+            posology?: string;
+            quantityToDispense?: number;
+            quantityUnit?: string;
+            route?: string;
+            /** @enum {unknown} */
+            usageType?: "internal" | "external";
+            vehicle?: string;
         };
         "dto.GoogleOAuthRequest": {
             idToken: string;
@@ -15948,11 +16941,125 @@ export interface components {
              */
             rememberDevice?: boolean;
         };
+        "dto.MagistralAlertResponse": {
+            kind?: string;
+            level?: string;
+            message?: string;
+            substances?: string[];
+        };
+        "dto.MagistralCheckComponent": {
+            /** @description A dose escrita é do elemento (ou do ativo puro), não do insumo. */
+            asElemental?: boolean;
+            magistralComponentId?: string;
+            quantity?: number;
+            substance: string;
+            unit?: string;
+        };
+        "dto.MagistralCheckRequest": {
+            components: components["schemas"]["dto.MagistralCheckComponent"][];
+            /** @description Override explícito das tomadas por dia. 0 = deduzir da posologia. */
+            dosesPerDay?: number;
+            pharmaceuticalForm: string;
+            /**
+             * @description Posologia da fórmula, de onde sai o número de tomadas por dia. A conta é do backend: a
+             *     mesma regra escrita duas vezes diverge com o tempo.
+             */
+            posology?: string;
+            /** @description Veículo/base da fórmula. É contra ele que rodam as regras de incompatibilidade de base. */
+            vehicle?: string;
+        };
+        "dto.MagistralCheckResponse": {
+            alerts?: components["schemas"]["dto.MagistralAlertResponse"][];
+            capsule?: unknown;
+            components?: components["schemas"]["dto.MagistralComponentMatch"][];
+        };
+        "dto.MagistralComponentMatch": {
+            correctionNote?: string;
+            /** @description Categoria de receita que a substância carrega, para a tela preencher o componente. */
+            defaultCategory?: string;
+            defaultUnit?: string;
+            doseBullets?: string;
+            doseReference?: string;
+            /** @description Conversão elemento ↔ insumo, quando o insumo é diluído ou quelado. */
+            elementalPercent?: number;
+            /** @description suggested = veio do RAG e ainda não foi conferido. A tela precisa dizer isso. */
+            evidenceStatus?: string;
+            hasDensity?: boolean;
+            hasDose?: boolean;
+            id?: string;
+            indicationBullets?: string;
+            /**
+             * @description Indicação e posologia de referência do catálogo (curadas ou extraídas do material), para o
+             *     médico ver enquanto monta a fórmula sem precisar abrir outra tela.
+             */
+            indications?: string;
+            known?: boolean;
+            preferenceNote?: string;
+            /** @description Forma que o prescritor usa no lugar desta. */
+            preferredName?: string;
+            rawMaterialMg?: number;
+            /** @description Restrição de finalidade ou exigência regulatória. */
+            regulatoryNote?: string;
+            substance?: string;
+            usualDose?: number;
+        };
+        "dto.MagistralComponentRequest": {
+            bitterness?: number;
+            brand?: string;
+            /** @description Densidade aparente (g/mL) — sem ela a calculadora de cápsula não opina. */
+            bulkDensity?: number;
+            cas?: string;
+            correctionNote?: string;
+            dcbCode?: string;
+            defaultUnit?: string;
+            densitySource?: string;
+            doseBullets?: string;
+            doseReference?: string;
+            elementalPercent?: number;
+            eutecticFormer?: boolean;
+            hygroscopic?: boolean;
+            indicationBullets?: string;
+            indications?: string;
+            maxDose?: number;
+            minDose?: number;
+            name: string;
+            notes?: string;
+            oxidationSensitive?: boolean;
+            oxidizing?: boolean;
+            photosensitive?: boolean;
+            sachetOk?: boolean;
+            source?: string;
+            synonyms?: string;
+            usualDose?: number;
+        };
+        "dto.MagistralDefaultDoseRequest": {
+            dose: number;
+            substance: string;
+            unit: string;
+        };
+        "dto.MagistralIncompatibilityRequest": {
+            componentAId: string;
+            componentBId: string;
+            mechanism: string;
+            note?: string;
+            /** @enum {string} */
+            severity: "info" | "warn" | "avoid";
+            source?: string;
+        };
         "dto.MedicationRequest": {
-            activeIngredient: string;
-            /** @enum {unknown} */
-            category: "simple" | "c1" | "c5" | "antibiotic" | "glp1";
-            concentration: string;
+            /**
+             * @description Princípio ativo e concentração são OPCIONAIS: a tela deixou de exigi-los (o service cai
+             *     para o nome comercial quando vêm vazios) e a validação aqui continuava recusando, com 400
+             *     e sem erro de campo na tela — o médico só via "validation failed".
+             */
+            activeIngredient?: string;
+            /**
+             * @description a_b (tarja preta) entra na lista: a migration 00080 permite a categoria no catálogo e a
+             *     tela preenche a partir dele; sem isto, escolher a substância dava 400 no salvar.
+             * @enum {unknown}
+             */
+            category: "simple" | "c1" | "c5" | "antibiotic" | "glp1" | "a_b";
+            concentration?: string;
             dosage: string;
             duration: number;
             frequency: string;
@@ -15960,7 +17067,11 @@ export interface components {
             medicationDefinitionId?: string;
             medicationName: string;
             quantity: number;
-            quantityInWords: string;
+            /**
+             * @description Extenso só é exigido em controlado, e é o service que confere isso. Aqui era "required" e
+             *     derrubava toda receita cuja posologia não dá para calcular quantidade ("se necessário").
+             */
+            quantityInWords?: string;
             route: string;
         };
         "dto.MedicationResponse": {
@@ -16074,6 +17185,7 @@ export interface components {
             createdAt?: string;
             dispensedAt?: string;
             doctorId?: string;
+            formulas?: components["schemas"]["dto.FormulaResponse"][];
             generalInstructions?: string;
             id?: string;
             isUsed?: boolean;
@@ -16089,6 +17201,7 @@ export interface components {
             sncrNumber?: string;
             sncrStatus?: string;
             status?: components["schemas"]["models.PrescriptionStatus"];
+            type?: components["schemas"]["models.PrescriptionType"];
             updatedAt?: string;
             validUntil?: string;
         };
@@ -16205,6 +17318,7 @@ export interface components {
             weight?: number;
         };
         "dto.UpdatePrescriptionRequest": {
+            formulas?: components["schemas"]["dto.FormulaRequest"][];
             generalInstructions?: string;
             medications?: components["schemas"]["dto.MedicationRequest"][];
             /** @enum {unknown} */
@@ -16973,9 +18087,15 @@ export interface components {
             userId?: string;
         };
         /** @enum {string} */
+        "models.DoseRuleKind": "fixed" | "per_kg" | "lab_threshold" | "lab_band";
+        /** @enum {string} */
         "models.EvaluationStatus": "evaluated" | "not_applicable" | "no_data_available";
         /** @enum {string} */
+        "models.FormulaUsage": "internal" | "external";
+        /** @enum {string} */
         "models.Gender": "male" | "female" | "other";
+        /** @enum {string} */
+        "models.IncompatibilitySeverity": "info" | "warn" | "avoid";
         /** @description Pedido de exames laboratoriais para um paciente */
         "models.LabRequest": {
             /**
@@ -17549,6 +18669,250 @@ export interface components {
         "models.LeadSource": "light_claim" | "contact_form" | "whatsapp_inbound" | "email_inbound" | "newsletter" | "manual";
         /** @enum {string} */
         "models.LeadStatus": "new" | "contacted" | "qualified" | "converted" | "lost" | "unsubscribed";
+        /** @description Componente do catálogo magistral */
+        "models.MagistralComponent": {
+            /**
+             * @description AssayInterference — como a substância atrapalha exame laboratorial, e o que fazer antes da
+             *     coleta. Importa duas vezes aqui: a receita sai deste sistema e o exame que ela corrompe
+             *     volta para ele, alimentando as regras de dose dinâmica.
+             */
+            assayInterference?: string;
+            /**
+             * @description Dose diária a partir da qual a interferência é descrita. Nulo com texto preenchido
+             *     significa que interfere em qualquer dose.
+             */
+            assayInterferenceDose?: number;
+            /** @description 0 sem amargor · 1 leve · 2 marcante · 3 intolerável em sachê. NULL = não avaliado. */
+            bitterness?: number;
+            /** @description Marca do insumo, quando o que se prescreve é a marca (CavaQ10, Morosil, Exsynutriment). */
+            brand?: string;
+            /** @description Densidade aparente (g/mL). NULL = a calculadora de cápsula não opina. */
+            bulkDensity?: number;
+            cas?: string;
+            correctionNote?: string;
+            createdAt?: string;
+            dcbCode?: string;
+            /**
+             * @description DefaultCategory — a categoria de receita que a substância carrega. Sem isto, digitar
+             *     "testosterona" numa fórmula magistral emitia receita simples por default, quando a
+             *     Portaria 344/98 pede Controle Especial em duas vias.
+             */
+            defaultCategory?: components["schemas"]["models.MedicationCategory"];
+            /** @description Unidade em que a substância costuma ser prescrita */
+            defaultUnit?: string;
+            /**
+             * @description De onde veio a densidade: 'medida' (publicada para a substância), 'classe' (aproximação
+             *     pela classe do pó) ou o nome da ficha técnica. A tela precisa distinguir estimativa de
+             *     medida — o cálculo é o mesmo, a confiança não.
+             */
+            densitySource?: string;
+            /**
+             * @description DoseBasis diz se a faixa acima é do DIA ou de UMA tomada. Sem isto o painel comparava a
+             *     dose de uma cápsula contra faixa diária numas substâncias e contra faixa por tomada em
+             *     outras — a mesma coluna significando duas coisas.
+             */
+            doseBasis?: string;
+            doseBullets?: string;
+            /**
+             * @description Posologia em texto, com a origem embutida ("aula X da pós", "formulário magistral").
+             *     Complementa a faixa numérica, que não cabe posologia ("1x ao dia, com a refeição").
+             */
+            doseReference?: string;
+            /**
+             * @description Percentual de elemento (ou de ativo) no insumo: bisglicinato de magnésio 30%,
+             *     selenometionina 1%. É o que permite converter dose do ELEMENTO em massa do INSUMO — e é a
+             *     massa do insumo que ocupa a cápsula.
+             */
+            elementalPercent?: number;
+            enrichedAt?: string;
+            eutecticFormer?: boolean;
+            /**
+             * @description pending (nunca enriquecido) · suggested (veio do RAG/pesquisa, aguarda conferência) ·
+             *     confirmed (o médico conferiu). Curadoria manual carimba confirmed.
+             */
+            evidenceStatus?: string;
+            hygroscopic?: boolean;
+            id?: string;
+            /** @description Quantas unidades do Anexo IV valem uma unidade desta substância. */
+            in28Factor?: number;
+            /**
+             * @description Nutriente correspondente no Anexo IV da IN 28. Várias substâncias apontam para o mesmo de
+             *     propósito: é assim que P5P e vitamina B6 na mesma fórmula SOMAM antes de comparar com o
+             *     teto, que foi exatamente o erro achado no formulário das parceiras.
+             */
+            in28Nutrient?: string;
+            /**
+             * @description Os mesmos dois campos em TÓPICOS, uma linha por item. É o que a tela mostra por default;
+             *     o texto corrido fica a um clique, para conferência. Texto puro, não jsonb: o campo é
+             *     editado à mão num textarea e não há por que repetir a cicatriz da migration 00060.
+             */
+            indicationBullets?: string;
+            /**
+             * @description Para que serve, em prosa clínica curta. É o que faz a busca responder "o que eu uso para
+             *     sono?" em vez de exigir que se saiba o nome da substância de antemão.
+             */
+            indications?: string;
+            isActive?: boolean;
+            lastReview?: string;
+            maxDose?: number;
+            minDose?: number;
+            /**
+             * @description Nome da substância (DCB quando existir)
+             *     @example Melatonina
+             */
+            name: string;
+            notes?: string;
+            oxidationSensitive?: boolean;
+            oxidizing?: boolean;
+            photosensitive?: boolean;
+            preferenceNote?: string;
+            preferredAlternative?: components["schemas"]["models.MagistralComponent"];
+            /**
+             * @description Forma que o prescritor usa no lugar desta. A tela sugere a troca em vez de depender da
+             *     memória de quem prescreve.
+             */
+            preferredAlternativeId?: string;
+            /** @description RegulatoryNote — restrição de finalidade ou exigência que acompanha a substância. */
+            regulatoryNote?: string;
+            reviewedBy?: string;
+            sachetOk?: boolean;
+            source?: string;
+            /** @description Sinônimos separados por vírgula (busca) */
+            synonyms?: string;
+            updatedAt?: string;
+            /** @description Quantas vezes já foi prescrita — ordena a busca pelo repertório real do prescritor. */
+            usageCount?: number;
+            /** @description Faixa de dose por unidade aviada. NULL = sem sugestão. */
+            usualDose?: number;
+        };
+        /** @description Evidência (artigo/aula do RAG) ligada a um componente magistral */
+        "models.MagistralComponentArticle": {
+            article?: components["schemas"]["models.Article"];
+            articleId?: string;
+            chunkIndex?: number;
+            componentId?: string;
+            createdAt?: string;
+            embeddingId?: string;
+            excerpt?: string;
+            id?: string;
+            /** @description Fixado pelo médico. A sugestão automática nasce não-fixada. */
+            pinned?: boolean;
+            pinnedBy?: string;
+            similarity?: number;
+            updatedAt?: string;
+        };
+        /** @description Fórmula magistral base (template) reutilizável */
+        "models.MagistralFormulaTemplate": {
+            components?: components["schemas"]["models.MagistralFormulaTemplateComponent"][];
+            createdAt?: string;
+            createdBy?: string;
+            duration?: number;
+            id?: string;
+            /**
+             * @description Para que serve esta fórmula — em texto e em tópicos, mesma dupla do catálogo de
+             *     substâncias: o tópico é para decidir, o texto é para conferir.
+             */
+            indication?: string;
+            indicationBullets?: string;
+            instructions?: string;
+            isActive?: boolean;
+            lastReview?: string;
+            /** @description Nome de uso ("Fórmula do sono") */
+            name: string;
+            notes?: string;
+            pharmaceuticalForm: string;
+            posology?: string;
+            quantityToDispense?: number;
+            quantityUnit?: string;
+            reviewedBy?: string;
+            route?: string;
+            updatedAt?: string;
+            /** @description Quantas receitas nasceram desta base — ordena a lista pelo repertório real. */
+            usageCount?: number;
+            usageType?: components["schemas"]["models.FormulaUsage"];
+            vehicle?: string;
+        };
+        "models.MagistralFormulaTemplateComponent": {
+            /** @description A dose da base é do elemento, não do insumo (ver fator de correção). */
+            asElemental?: boolean;
+            category?: components["schemas"]["models.MedicationCategory"];
+            createdAt?: string;
+            displayOrder?: number;
+            id?: string;
+            magistralComponentId?: string;
+            note?: string;
+            quantity: number;
+            rule?: components["schemas"]["models.MagistralFormulaTemplateRule"];
+            substance: string;
+            templateId?: string;
+            unit: string;
+            updatedAt?: string;
+        };
+        "models.MagistralFormulaTemplateRule": {
+            bands?: components["schemas"]["models.MagistralFormulaTemplateRuleBand"][];
+            createdAt?: string;
+            doseIfFalse?: number;
+            doseIfTrue?: number;
+            /** @description fixed */
+            fixedDose?: number;
+            id?: string;
+            kind?: components["schemas"]["models.DoseRuleKind"];
+            /**
+             * @description lab_threshold — o exame é uma referência ao catálogo (lab_test_definitions.code),
+             *     escolhida na tela. Nenhum código clínico entra hardcoded no Go.
+             */
+            labCode?: string;
+            labOperator?: string;
+            labThreshold?: number;
+            /**
+             * @description A unidade em que o limiar (ou a faixa) foi escrito. Resultado gravado em OUTRA unidade
+             *     não vira sugestão: 31% dos resultados numéricos do banco estão numa unidade diferente da
+             *     definição do exame, incluindo cortisol em nmol/L sobre definição em µg/dL.
+             */
+            labUnit?: string;
+            /**
+             * @description Dado mais velho que isto não sugere nada. Dose calculada sobre peso de três anos atrás é
+             *     risco, não conveniência.
+             */
+            maxDataAgeDays?: number;
+            maxDose: number;
+            minDose: number;
+            note?: string;
+            /** @description per_kg */
+            perKg?: number;
+            /** @description Passo prático de arredondamento: 1.234,5678 mg não se manipula. NULL = não arredonda. */
+            roundTo?: number;
+            templateComponentId?: string;
+            updatedAt?: string;
+        };
+        "models.MagistralFormulaTemplateRuleBand": {
+            createdAt?: string;
+            displayOrder?: number;
+            dose: number;
+            id?: string;
+            /** @description Como a faixa aparece na frase que o médico lê: "deficiência grave", "insuficiência". */
+            label?: string;
+            lowerBound?: number;
+            ruleId?: string;
+            updatedAt?: string;
+            upperBound?: number;
+        };
+        /** @description Incompatibilidade entre dois componentes magistrais */
+        "models.MagistralIncompatibility": {
+            componentA?: components["schemas"]["models.MagistralComponent"];
+            componentAId: string;
+            componentB?: components["schemas"]["models.MagistralComponent"];
+            componentBId: string;
+            createdAt?: string;
+            id?: string;
+            lastReview?: string;
+            mechanism?: string;
+            note?: string;
+            reviewedBy?: string;
+            severity?: components["schemas"]["models.IncompatibilitySeverity"];
+            source?: string;
+            updatedAt?: string;
+        };
         /** @enum {string} */
         "models.MaritalStatus": "single" | "married" | "divorced" | "widowed" | "other";
         /** @enum {string} */
@@ -18289,6 +19653,8 @@ export interface components {
         };
         /** @enum {string} */
         "models.PrescriptionStatus": "active" | "completed" | "cancelled" | "expired";
+        /** @enum {string} */
+        "models.PrescriptionType": "commercial" | "compounded";
         /** @enum {string} */
         "models.ProcessingJobStatus": "pending" | "processing" | "completed" | "failed";
         /** @enum {string} */
@@ -19371,6 +20737,18 @@ export interface components {
     responses: never;
     parameters: never;
     requestBodies: {
+        /** @description Fórmula-base */
+        "dto.FormulaTemplateRequest": {
+            content: {
+                "application/json": components["schemas"]["dto.FormulaTemplateRequest"];
+            };
+        };
+        /** @description Component */
+        "dto.MagistralComponentRequest": {
+            content: {
+                "application/json": components["schemas"]["dto.MagistralComponentRequest"];
+            };
+        };
         /** @description Item ID */
         "services.AssignItemToPillarDTO": {
             content: {

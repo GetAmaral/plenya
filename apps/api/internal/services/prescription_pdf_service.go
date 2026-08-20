@@ -1,18 +1,17 @@
 package services
 
 import (
-	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
-	gofpdf "codeberg.org/go-pdf/fpdf"
 	"github.com/google/uuid"
-	"github.com/skip2/go-qrcode"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"github.com/plenya/api/internal/models"
 )
@@ -64,6 +63,8 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 	// 1. Buscar prescrição com relações
 	var prescription models.Prescription
 	if err := s.db.Preload("Patient").Preload("Doctor").Preload("Medications").
+		Preload("Formulas", func(db *gorm.DB) *gorm.DB { return db.Order("display_order") }).
+		Preload("Formulas.Components", func(db *gorm.DB) *gorm.DB { return db.Order("display_order") }).
 		First(&prescription, prescriptionID).Error; err != nil {
 		return "", err
 	}
@@ -72,10 +73,13 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 	if prescription.Doctor.CRM == nil {
 		return "", fmt.Errorf("médico sem CRM cadastrado")
 	}
-	if prescription.Patient.CPF == nil || *prescription.Patient.CPF == "" {
-		return "", fmt.Errorf("paciente sem CPF")
+	// CPF do paciente NÃO é exigido: a recepção cadastra paciente só pelo nome, e a receita
+	// identifica o paciente pelo nome (o CPF entra mascarado quando existe). Exigir CPF aqui
+	// derrubava a emissão de receita de paciente novo, sem que a lei peça isso.
+	if strings.TrimSpace(prescription.Patient.Name) == "" {
+		return "", fmt.Errorf("paciente sem nome")
 	}
-	if len(prescription.Medications) == 0 {
+	if len(prescription.Medications) == 0 && len(prescription.Formulas) == 0 {
 		return "", fmt.Errorf("prescrição sem medicamentos")
 	}
 
@@ -133,7 +137,7 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 		PatientID:  prescription.PatientID,
 		Bytes:      finalPDF,
 		Filename:   fmt.Sprintf("receita_%s.pdf", prescriptionID),
-		Title:      "Receita médica - " + now.Format("02/01/2006"),
+		Title:      documentTitleFor(&prescription) + " - " + now.Format("02/01/2006"),
 		Type:       models.DocumentTypePrescription,
 		Source:     models.DocumentSourceStaffUpload,
 		UploadedBy: &uploadedBy,
@@ -153,12 +157,21 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 	} else {
 		prescription.CertificateSerial = nil
 	}
-	// Modo manual não tem validação digital por QR.
-	if mode != "digital" {
+	// A URL de validação que foi impressa no QR fica gravada junto: o campo tinha ficado só com
+	// escrita de nil desde que o PDF passou a montar o QR sozinho, e ficava permanentemente nulo
+	// na resposta da API enquanto o papel trazia o código.
+	if mode == "digital" {
+		url := fmt.Sprintf("https://app.plenyasaude.com.br/prescriptions/validate/%s", prescription.ID)
+		prescription.QRCodeData = &url
+	} else {
+		// Modo manual não tem validação digital por QR.
 		prescription.QRCodeData = nil
 	}
 
-	if err := s.db.Save(&prescription).Error; err != nil {
+	// Omit das associações: `prescription` veio com Patient, Doctor e Medications carregados, e
+	// Save por default faz upsert dos filhos — gravaria de volta paciente e usuário a cada
+	// assinatura. Aqui só interessam os metadados da assinatura.
+	if err := s.db.Omit(clause.Associations).Save(&prescription).Error; err != nil {
 		return "", fmt.Errorf("erro ao atualizar prescrição: %v", err)
 	}
 
@@ -198,228 +211,29 @@ func (s *PrescriptionPDFService) ReadSignedPDF(p *models.Prescription) ([]byte, 
 	return os.ReadFile(*p.SignedPDFPath)
 }
 
-// prescriptionHasControlled indica se há medicamento de controle especial (C1/C5).
+// documentTitleFor — o paciente vê este título no portal e no WhatsApp; manipulado e
+// industrializado chegam misturados na mesma lista de documentos.
+func documentTitleFor(p *models.Prescription) string {
+	if p.Type == models.PrescriptionCompounded {
+		return "Receita de manipulado"
+	}
+	return "Receita médica"
+}
+
+// prescriptionHasControlled indica se a receita tem item de controle especial. É o ÚNICO ponto
+// que decide modo manual e rótulo de Controle Especial, nos dois tipos de receita.
 func prescriptionHasControlled(prescription *models.Prescription) bool {
 	for _, med := range prescription.Medications {
-		if med.Category == models.MedCategoryC1 || med.Category == models.MedCategoryC5 {
+		if models.IsControlled(med.Category) {
+			return true
+		}
+	}
+	for _, f := range prescription.Formulas {
+		if models.IsControlled(f.HighestCategory) {
 			return true
 		}
 	}
 	return false
-}
-
-// generatePDFContent gera o conteúdo do PDF. Quando manual=true, monta a receita para
-// impressão/assinatura à mão (bloco de assinatura+carimbo, sem QR/selo digital).
-func (s *PrescriptionPDFService) generatePDFContent(
-	prescription *models.Prescription,
-	manual bool,
-) ([]byte, error) {
-	hasControlled := prescriptionHasControlled(prescription)
-
-	// Create PDF (A4 portrait)
-	pdf := gofpdf.New("P", "mm", "A4", "")
-	pdf.SetAuthor("Plenya EMR - Prescrição", true)
-	pdf.SetCreator("Plenya EMR", true)
-	pdf.SetTitle("Receita Médica", true)
-
-	// Load fonts
-	regularFont, err := os.ReadFile("/usr/share/fonts/opensans/OpenSans-Regular.ttf")
-	if err != nil {
-		return nil, err
-	}
-	boldFont, err := os.ReadFile("/usr/share/fonts/opensans/OpenSans-Bold.ttf")
-	if err != nil {
-		return nil, err
-	}
-
-	pdf.AddUTF8FontFromBytes("OpenSans", "", regularFont)
-	pdf.AddUTF8FontFromBytes("OpenSans", "B", boldFont)
-	pdf.SetFont("OpenSans", "", 10)
-
-	pdf.AddPage()
-
-	// Add letterhead background
-	pdf.ImageOptions(
-		"/app/PlenyaA4-150dpi.png",
-		0, 0, 210, 297,
-		false,
-		gofpdf.ImageOptions{ImageType: "PNG"},
-		0, "",
-	)
-
-	y := 50.0
-
-	// === HEADER ===
-	title := "PRESCRIÇÃO MÉDICA DIGITAL"
-	if manual {
-		if hasControlled {
-			title = "RECEITA DE CONTROLE ESPECIAL"
-		} else {
-			title = "RECEITA MÉDICA"
-		}
-	}
-	pdf.SetFont("OpenSans", "B", 16)
-	pdf.SetXY(20, y)
-	pdf.Cell(170, 10, title)
-	y += 15
-
-	// Datas
-	pdf.SetFont("OpenSans", "", 10)
-	pdf.SetXY(20, y)
-	pdf.Cell(85, 6, fmt.Sprintf("Emissão: %s", prescription.PrescriptionDate.Format("02/01/2006")))
-	pdf.SetXY(105, y)
-	pdf.Cell(85, 6, fmt.Sprintf("Validade: %s", prescription.ValidUntil.Format("02/01/2006")))
-	y += 12
-
-	// === DADOS DO MÉDICO ===
-	pdf.SetFont("OpenSans", "B", 11)
-	pdf.SetXY(20, y)
-	pdf.Cell(170, 6, "MÉDICO PRESCRITOR")
-	y += 6
-
-	pdf.SetFont("OpenSans", "", 10)
-	doctorInfo := prescription.Doctor.Name + "\n"
-	doctorInfo += fmt.Sprintf("CRM-%s %s", *prescription.Doctor.CRMUF, *prescription.Doctor.CRM)
-
-	if prescription.Doctor.Specialty != nil {
-		doctorInfo += fmt.Sprintf(" - %s", *prescription.Doctor.Specialty)
-	}
-	if prescription.Doctor.ProfessionalAddress != nil {
-		doctorInfo += "\n" + *prescription.Doctor.ProfessionalAddress
-	}
-	if prescription.Doctor.ProfessionalPhone != nil {
-		doctorInfo += "\nTel: " + *prescription.Doctor.ProfessionalPhone
-	}
-
-	pdf.SetXY(20, y)
-	pdf.MultiCell(170, 5, doctorInfo, "", "", false)
-	y += 25
-
-	// === DADOS DO PACIENTE ===
-	pdf.SetFont("OpenSans", "B", 11)
-	pdf.SetXY(20, y)
-	pdf.Cell(170, 6, "PACIENTE")
-	y += 6
-
-	pdf.SetFont("OpenSans", "", 10)
-	patientInfo := prescription.Patient.Name + "\n"
-	if prescription.Patient.CPF != nil && *prescription.Patient.CPF != "" {
-		cpfFormatted := formatCPF(*prescription.Patient.CPF)
-		patientInfo += fmt.Sprintf("CPF: %s", cpfFormatted)
-	}
-
-	if prescription.Patient.Address != nil {
-		patientInfo += "\n" + *prescription.Patient.Address
-	}
-
-	pdf.SetXY(20, y)
-	pdf.MultiCell(170, 5, patientInfo, "", "", false)
-	y += 20
-
-	// === MEDICAMENTOS PRESCRITOS ===
-	pdf.SetFont("OpenSans", "B", 11)
-	pdf.SetXY(20, y)
-	pdf.Cell(170, 6, "MEDICAMENTOS PRESCRITOS")
-	y += 8
-
-	for i, med := range prescription.Medications {
-		pdf.SetFont("OpenSans", "B", 10)
-		pdf.SetXY(20, y)
-		pdf.Cell(170, 6, fmt.Sprintf("%d. %s", i+1, med.MedicationName))
-		y += 6
-
-		pdf.SetFont("OpenSans", "", 10)
-		medicationInfo := fmt.Sprintf("   Princípio ativo: %s", med.ActiveIngredient) + "\n"
-		medicationInfo += fmt.Sprintf("   Concentração: %s", med.Concentration) + "\n"
-		medicationInfo += fmt.Sprintf("   Quantidade: %d (%s)", med.Quantity, med.QuantityInWords) + "\n"
-		medicationInfo += fmt.Sprintf("   Posologia: %s %s", med.Dosage, med.Frequency) + "\n"
-		medicationInfo += fmt.Sprintf("   Via: %s", med.Route) + "\n"
-		medicationInfo += fmt.Sprintf("   Duração: %d dias", med.Duration)
-
-		if med.Instructions != nil && *med.Instructions != "" {
-			medicationInfo += "\n   Instruções específicas: " + *med.Instructions
-		}
-
-		pdf.SetXY(20, y)
-		pdf.MultiCell(170, 5, medicationInfo, "", "", false)
-		y += 40
-	}
-
-	// Instruções gerais (se houver)
-	if prescription.GeneralInstructions != nil && *prescription.GeneralInstructions != "" {
-		pdf.SetFont("OpenSans", "B", 10)
-		pdf.SetXY(20, y)
-		pdf.Cell(170, 6, "Instruções Gerais:")
-		y += 6
-		pdf.SetFont("OpenSans", "", 10)
-		pdf.SetXY(20, y)
-		pdf.MultiCell(170, 5, *prescription.GeneralInstructions, "", "", false)
-		y += 15
-	}
-
-	if manual {
-		s.addManualSignatureBlock(pdf, y, hasControlled)
-	} else {
-		s.addDigitalSignatureBlock(pdf, prescription, y)
-	}
-
-	// Gerar bytes do PDF
-	var buf bytes.Buffer
-	if err := pdf.Output(&buf); err != nil {
-		return nil, err
-	}
-
-	return buf.Bytes(), nil
-}
-
-// addManualSignatureBlock — receita para impressão: linha de assinatura + carimbo.
-// Para controlados, acrescenta a nota de dispensação física (Portaria SVS/MS 344/98).
-func (s *PrescriptionPDFService) addManualSignatureBlock(pdf *gofpdf.Fpdf, y float64, hasControlled bool) {
-	if y > 245 {
-		y = 245
-	}
-	y += 16
-	pdf.Line(60, y, 150, y)
-	pdf.SetFont("OpenSans", "", 9)
-	pdf.SetXY(25, y+2)
-	pdf.Cell(120, 5, "Assinatura e Carimbo do Médico")
-	y += 10
-
-	pdf.SetFont("OpenSans", "", 7)
-	pdf.SetTextColor(60, 60, 60)
-	pdf.SetXY(20, y)
-	pdf.Cell(170, 3, "Receita para impressão, assinatura e carimbo do médico. Sem assinatura digital.")
-	if hasControlled {
-		y += 3
-		pdf.SetXY(20, y)
-		pdf.MultiCell(170, 3,
-			"Medicamento sujeito a controle especial (Portaria SVS/MS 344/98): dispensação mediante "+
-				"receituário/Notificação de Receita em via física, conforme a regulamentação vigente.",
-			"", "", false)
-	}
-	pdf.SetTextColor(0, 0, 0)
-}
-
-// addDigitalSignatureBlock — QR de validação + selo "assinado digitalmente" (modo digital).
-func (s *PrescriptionPDFService) addDigitalSignatureBlock(pdf *gofpdf.Fpdf, prescription *models.Prescription, y float64) {
-	qrCodeData := fmt.Sprintf("https://plenya.com.br/prescriptions/validate/%s", prescription.ID)
-	qrCode, _ := qrcode.Encode(qrCodeData, qrcode.Medium, 256)
-
-	qrPath := fmt.Sprintf("/tmp/qr_%s.png", prescription.ID)
-	os.WriteFile(qrPath, qrCode, 0644)
-	defer os.Remove(qrPath)
-
-	pdf.Image(qrPath, 20, y, 40, 40, false, "", 0, "")
-
-	pdf.SetFont("OpenSans", "", 9)
-	pdf.SetXY(65, y)
-	qrText := "Validar prescrição:\n" + qrCodeData + "\n\n"
-	qrText += "Documento assinado digitalmente com certificado ICP-Brasil (PAdES).\n"
-	qrText += "Verificar assinatura: https://validar.iti.gov.br"
-	pdf.MultiCell(125, 4, qrText, "", "", false)
-
-	// Persistido pelo Save final em GenerateSignedPrescriptionPDF.
-	prescription.QRCodeData = &qrCodeData
 }
 
 // formatCPF já definido em certificate_service.go (função compartilhada no package)
